@@ -10,9 +10,26 @@ import org.geogebra.common.move.ggtapi.models.Material;
  */
 public interface ExamControllerDelegate {
 
-	void requestClearApps();
-	void requestClearClipboard();
-	void requestSetActiveMaterial(Material material);
-	SuiteSubApp getCurrentSubApp();
-	void requestSwitchSubApp(SuiteSubApp subApp);
+	/**
+	 * Clear (reset) all subapps other than the currently active one.
+	 */
+	void examClearOtherApps();
+
+	/**
+	 * Clear the clipboard.
+	 */
+	void examClearClipboard();
+
+	/**
+	 * Perform the equivalent of File / New.
+	 */
+	void examCreateNewFile();
+
+	/**
+	 * Set the material as the active material in the current subapp.
+	 * @param material
+	 */
+	void examSetActiveMaterial(Material material);
+	SuiteSubApp examGetCurrentSubApp();
+	void examSwitchSubApp(SuiteSubApp subApp);
 }

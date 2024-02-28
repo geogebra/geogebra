@@ -181,12 +181,12 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 		assertNotNull(examController.getStartDate()); // started
 		assertNotNull(examController.getFinishDate()); // ended
+		assertNotNull(examController.getExamSummary(app.getLocalization()));
 		assertEquals(ExamState.FINISHED, examController.getState());
 		assertEquals(Arrays.asList(
 				ExamState.PREPARING,
 				ExamState.ACTIVE,
 				ExamState.FINISHED), examStates);
-		assertNull(activeMaterial);
 	}
 
 	@Test
@@ -277,27 +277,32 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	// -- ExamControllerDelegate --
 
 	@Override
-	public void requestClearApps() {
+	public void examClearOtherApps() {
 		didRequestClearApps = true;
 	}
 
-	public void requestClearClipboard() {
+	public void examClearClipboard() {
 		didRequestClearClipboard = true;
 	}
 
-	public SuiteSubApp getCurrentSubApp() {
+	@Override
+	public void examCreateNewFile() {
+		activeMaterial = null;
+	}
+
+	@Override
+	public void examSetActiveMaterial(Material material) {
+		activeMaterial = material;
+	}
+
+	public SuiteSubApp examGetCurrentSubApp() {
 		return currentSubApp;
 	}
 
-	public void requestSwitchSubApp(SuiteSubApp subApp) {
+	public void examSwitchSubApp(SuiteSubApp subApp) {
 		didRequestSwitchToSubApp = subApp;
 		if (!subApp.equals(currentSubApp)) {
 			switchApp(subApp);
 		}
-	}
-
-	@Override
-	public void requestSetActiveMaterial(Material material) {
-		activeMaterial = material;
 	}
 }

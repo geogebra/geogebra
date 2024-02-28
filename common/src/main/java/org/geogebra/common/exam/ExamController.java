@@ -8,6 +8,7 @@ import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -224,6 +225,24 @@ public final class ExamController implements PropertiesRegistryListener {
 	}
 
 	/**
+	 * @return true if cheating events have been recorded during the exam, or false otherwise.
+	 */
+	public boolean isCheating() {
+		return !cheatingEvents.isEmpty();
+	}
+
+	/**
+	 * @return  A summary of the exam if the exam is in the {@link ExamState#FINISHED} state,
+	 * or null otherwise.
+	 */
+	public ExamSummary getExamSummary(Localization localization) {
+		if (state != ExamState.FINISHED) {
+			return null;
+		}
+		return new ExamSummary(examType, isCheating(), localization); // TODO fill out
+	}
+
+	/**
 	 * Get ready for a new exam.
 	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#IDLE IDLE}
 	 * state.
@@ -255,9 +274,9 @@ public final class ExamController implements PropertiesRegistryListener {
 		Material material = tempStorage.newMaterial();
 
 		if (delegate != null) {
-			delegate.requestClearApps();
-			delegate.requestClearClipboard();
-			delegate.requestSetActiveMaterial(material);
+			delegate.examClearOtherApps();
+			delegate.examClearClipboard();
+			delegate.examSetActiveMaterial(material);
 		}
 
 		cheatingEvents = new CheatingEvents();
@@ -290,9 +309,9 @@ public final class ExamController implements PropertiesRegistryListener {
 		revertRestrictions(activeDependencies);
 		tempStorage.clearTempMaterials();
 		if (delegate != null) {
-			delegate.requestClearApps();
-			delegate.requestClearClipboard();
-//			delegate.requestSetActiveMaterial(); ?? create new empty material?
+			delegate.examClearOtherApps();
+			delegate.examClearClipboard();
+			delegate.examCreateNewFile();
 		}
 		startDate = finishDate = null;
 		setState(ExamState.IDLE);
@@ -319,8 +338,8 @@ public final class ExamController implements PropertiesRegistryListener {
 			return; // log/throw?
 		}
 		if (delegate != null) {
-			if (newRestrictions.getDisabledSubApps().contains(delegate.getCurrentSubApp())) {
-				delegate.requestSwitchSubApp(newRestrictions.getDefaultSubApp());
+			if (newRestrictions.getDisabledSubApps().contains(delegate.examGetCurrentSubApp())) {
+				delegate.examSwitchSubApp(newRestrictions.getDefaultSubApp());
 			}
 		}
 		examRestrictions = newRestrictions;
