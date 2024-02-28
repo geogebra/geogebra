@@ -590,6 +590,7 @@ public class EditorTypingTest {
 
 	@Test
 	public void gammaShouldBeRecognizedAsFunction() {
+		checker.add(Unicode.Gamma + "(x)=gamma(x)");
 		checker.type(Unicode.Gamma + "(1+y)").checkGGBMath(Unicode.Gamma + "(1 + y)");
 	}
 
