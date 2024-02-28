@@ -63,7 +63,7 @@ public class CmdFit extends CommandProcessor {
 				algo.getFitNL().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getFitNL() };
 				return ret;
-			} 
+			}
 			throw argErr(c, arg[1]);
 		}
 

@@ -14,11 +14,6 @@ public class EventAcumulator implements EventListener {
 		evts.add(evt.type + " " + (evt.argument == null ? evt.targets : evt.argument));
 	}
 
-	@Override
-	public void reset() {
-		// not needed
-	}
-
 	public ArrayList<String> getEvents() {
 		return evts;
 	}

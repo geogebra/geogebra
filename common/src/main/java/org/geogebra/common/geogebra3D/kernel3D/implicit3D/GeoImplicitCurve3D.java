@@ -277,7 +277,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 						view.getYmax(),
 						view.getZmin(),
 						view.getZmax(),
-						view.getYscale(), 
+						view.getYscale(),
 						view.getZscale()
 				};
 			case PLANE_XY:

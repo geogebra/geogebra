@@ -18,7 +18,7 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.gui.menubar.OptionsMenu;
+import org.geogebra.common.gui.menubar.RoundingOptions;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -69,7 +69,7 @@ public class FunctionInspectorModel {
 	private EuclidianView activeEV;
 	private IFunctionInspectorListener listener;
 	protected final Localization loc;
-	private OptionsMenu optionsMenu;
+	private final RoundingOptions roundingOptions;
 
 	public enum Colors {
 		GEO, GEO2, EVEN_ROW, GRID
@@ -176,7 +176,7 @@ public class FunctionInspectorModel {
 
 		this.app = app;
 		loc = app.getLocalization();
-		optionsMenu = new OptionsMenu(loc);
+		roundingOptions = new RoundingOptions(loc);
 		kernel = app.getKernel();
 		this.listener = listener;
 		cons = kernel.getConstruction();
@@ -1208,11 +1208,11 @@ public class FunctionInspectorModel {
 	 */
 	public void applyDecimalPlaces(int index) {
 		if (index < 8) { // decimal places
-			printDecimals = optionsMenu.roundingMenuLookup(index);
+			printDecimals = roundingOptions.roundingMenuLookup(index);
 			printFigures = -1;
 		} else { // significant figures
 			printDecimals = -1;
-			printFigures = optionsMenu.roundingMenuLookup(index);
+			printFigures = roundingOptions.roundingMenuLookup(index);
 		}
 		listener.changedNumberFormat();
 	}

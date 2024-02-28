@@ -43,6 +43,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.UndoRedoTester;
+import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.ErrorAccumulator;
 import org.hamcrest.CoreMatchers;
@@ -1263,6 +1264,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		slider.setValue(10);
 		assertThat(symbolic.getTwinGeo().toString(StringTemplate.defaultTemplate),
 				equalTo("1 / 2 x² + 10"));
+		kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(slider, "9",
+				new EvalInfo(false), false, null, TestErrorHandler.INSTANCE);
+		assertThat(symbolic.getTwinGeo().toString(StringTemplate.defaultTemplate),
+				equalTo("1 / 2 x² + 9"));
 	}
 
 	@Test
@@ -1931,7 +1936,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testSolutionsString() {
 		GeoSymbolic solutions = add("Solutions(x^2=5)");
 		assertThat(AlgebraItem.getLatexString(solutions, null, false),
-				equalTo("l1\\, = \\,\\left\\{-\\sqrt{5}, \\sqrt{5}\\right\\}"));
+				equalTo("l1\\, = \\,\\left\\{-\\sqrt{5},\\;\\sqrt{5}\\right\\}"));
 	}
 
 	@Test
@@ -2231,5 +2236,29 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		for (GeoElement geo: parametric) {
 			assertThat(geo.getLabelSimple(), startsWith(LabelManager.HIDDEN_PREFIX));
 		}
+	}
+
+	@Test
+	public void maxCommandShouldHaveSymbolicToggle() {
+		t("f(x) = x^2 * 0.6^x + 4", "(3 / 5)^(x) * x^(2) + 4");
+		t("A = Max(f, 0, 10)", "(-2 / ln(3 / 5), (4 * (3 / 5)^(-2 / ln(3 / 5)) + "
+				+ "4 * (ln(3 / 5))^(2)) / (ln(3 / 5))^(2))");
+		GeoSymbolic maxCommand = getSymbolic("A");
+		assertTrue(AlgebraItem.isSymbolicDiffers(maxCommand));
+	}
+
+	@Test
+	public void minCommandShouldHaveSymbolicToggle() {
+		t("f(x) = x^2 * 0.6^x + 4", "(3 / 5)^(x) * x^(2) + 4");
+		t("A = Min(f, 0, 5)", "(0, 4)");
+		GeoSymbolic minCommand = getSymbolic("A");
+		assertTrue(AlgebraItem.isSymbolicDiffers(minCommand));
+	}
+
+	@Test
+	@Issue("APPS-5344")
+	public void mistypedParametricShouldFail() {
+		t("X=(1,2,3)+r(1,2,3)", "?");
+		t("X=(1,2)+s(1,2)", "(s(1, 2) + 1, 2)");
 	}
 }

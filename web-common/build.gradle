@@ -35,7 +35,7 @@ dependencies {
             "org.gwtproject:gwt-dev:$gwtCompilerVersion"
 
     annotationProcessor project(":gwtutil"),
-        'org.gwtproject.resources:gwt-resources-processor:HEAD-SNAPSHOT'
+        'org.treblereel.gwt.gwtproject.resources:gwt-resources-processor:202402231'
 }
 apply from: "../gradle-scripts/webjars.gradle"
 compileJava.dependsOn('extractJs')

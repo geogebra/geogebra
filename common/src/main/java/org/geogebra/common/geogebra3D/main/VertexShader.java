@@ -8,7 +8,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
  */
 public class VertexShader {
 
-	final private static String vertexHeaderDesktop = 
+	final private static String vertexHeaderDesktop =
 			  "#if __VERSION__ >= 130 "
 			+ "// GLSL 130+ uses in and out\n"
 			+ "  #define attribute in // instead of attribute and varying \n"
@@ -20,17 +20,17 @@ public class VertexShader {
 			+ "#endif\n";
 
 	final private static String inUniform =
-			"\n" 
+			"\n"
 			+ "uniform mat4 matrix;\n"
 			+ "uniform vec3 lightPosition;\n"
 			+ "uniform vec4 eyePosition;\n"
 			+ "uniform vec2 ambiantDiffuse;\n"
-			+ "uniform int enableLight;\n" 
+			+ "uniform int enableLight;\n"
 			+ "uniform int culling;\n"
-			+ "uniform vec4 color;\n" 
+			+ "uniform vec4 color;\n"
 			+ "uniform vec3 normal;\n"
 			+ "uniform int labelRendering;\n"
-			+ "uniform vec3 labelOrigin;\n" 
+			+ "uniform vec3 labelOrigin;\n"
 			+ "uniform int layer;\n"
 			+ "uniform int opaqueSurfaces;\n";
 
@@ -48,10 +48,10 @@ public class VertexShader {
 			+ "    }\n"
 			+ "    lightReflect = normalize(reflect(lightPosition, n));\n"
 			+ "    varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;\n"
-			+ "    varying_Color.a = c.a;\n" 
+			+ "    varying_Color.a = c.a;\n"
 			+ "  }else{ //no light\n"
 			+ "    lightReflect = vec3(0.0,0.0,0.0);\n"
-			+ "    varying_Color = c;\n" 
+			+ "    varying_Color = c;\n"
 			+ "  }\n";
 	
 	final private static String depthToColorString =
@@ -78,9 +78,9 @@ public class VertexShader {
 
 					+ "\n"
 					+ "const vec4 FAR_FAR_AWAY = vec4(0.0, 0.0, 2.0, 1.0); // z max is 1\n"
-					+ "\nvoid main(void)\n" 
+					+ "\nvoid main(void)\n"
 					+ "{\n"
-					+ "  vec4 c;\n" 
+					+ "  vec4 c;\n"
 					+ "  int att_layer = 0;\n"
 
 					+ "\n"
@@ -89,24 +89,24 @@ public class VertexShader {
 					+ "    att_layer = int(c.a / "
 					  + Renderer.LAYER_FACTOR_FOR_CODING + ".0);\n"
 					+ "    c.a = c.a - " + Renderer.LAYER_FACTOR_FOR_CODING
-					  + ".0 * float(att_layer);\n" 
+					  + ".0 * float(att_layer);\n"
 					+ "    att_layer = att_layer"
-					  + Renderer.LAYER_MIN_STRING_WITH_OP 
+					  + Renderer.LAYER_MIN_STRING_WITH_OP
 					  + ";\n"
 					+ "  }else{ // use per-object-color\n"
-					+ "    c = color;\n" 
+					+ "    c = color;\n"
 					+ "  }\n"
 
 					+ "\n"
 					+ "  // discard when alpha < 0 (actually will be discarded in\n"
 					+ "  // fragment shader)\n"
 					+ "  if (opaqueSurfaces == 1 && c.a < 0.99) {\n"
-					+ "    c.a = -1.0;\n" 
-					+ "  }\n" 
+					+ "    c.a = -1.0;\n"
+					+ "  }\n"
 					+ "  if (c.a < 0.0) {\n"
 					+ "    varying_Color = c;\n"
 					+ "    gl_Position = FAR_FAR_AWAY; // allows early Z test\n"
-					+ "    return;\n" 
+					+ "    return;\n"
 					+ "  }\n"
 					
 					+ "\n"
@@ -117,16 +117,16 @@ public class VertexShader {
 					+ "  float fLayer = float(layer + att_layer);\n"
 					+ "  vec3 n;\n"
 					+ "  if (normal.x > 1.5){ // then use per-vertex normal\n"
-					+ "    n = attribute_Normal;\n" 
+					+ "    n = attribute_Normal;\n"
 					+ "  }else{\n"
-					+ "    n = normal;\n" 
+					+ "    n = normal;\n"
 					+ "  }\n"
 					+ "  float normalScreenZ = 0.0;\n"
 					+ "  if (n.x > -1.5){ // otherwise there is no normal\n"
 					+ "    vec4 normalScreen = matrix * vec4(n, 0.0);\n"
 					+ "    normalScreen.w = 0.0;\n"
 					+ "    normalScreen = normalize(normalScreen);\n"
-					+ "    normalScreenZ = normalScreen.z;\n" 
+					+ "    normalScreenZ = normalScreen.z;\n"
 					+ "  }\n"
 					+ "  // shift z position to avoid z-fighting\n"
 					+ "  // use layer value\n"
@@ -138,7 +138,7 @@ public class VertexShader {
 
 					+ "\n"
 					+ "  if (labelRendering == 1){ // use special origin for labels\n"
-					+ "    realWorldCoords = labelOrigin;\n" 
+					+ "    realWorldCoords = labelOrigin;\n"
 					+ "  }else{\n"
 					+ "    realWorldCoords = attribute_Position;\n"
 					+ "  }\n"
@@ -149,7 +149,7 @@ public class VertexShader {
 							: light)
 
 					+ "\n"
-					+ "  coordTexture = attribute_Texture;\n" 
+					+ "  coordTexture = attribute_Texture;\n"
 					+ "}";
 
 	/**

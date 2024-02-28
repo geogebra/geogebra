@@ -81,11 +81,12 @@ public class FunctionParser {
 	 *            list of nodes that may be either fns or multiplications
 	 * @param giacParsing
 	 *            whether this is for Giac
+	 * @param nestedCommands number of commands/functions this one is nested in
 	 * @return function node
 	 */
 	public ExpressionNode makeFunctionNode(String cimage, MyList myList,
 			ArrayList<ExpressionNode> undecided, boolean giacParsing, boolean geoGebraCASParsing,
-			boolean topLevelExpression) {
+			boolean topLevelExpression, int nestedCommands) {
 		String funcName = cimage.substring(0, cimage.length() - 1);
 		ExpressionNode en;
 		if (giacParsing) {
@@ -164,20 +165,19 @@ public class FunctionParser {
 			}
 			Localization loc = kernel.getLocalization();
 			if (!inputBoxParsing || "If".equals(loc.getReverseCommand(funcName))) {
-				if (topLevelExpression && !isCommand(funcName)
+				if (!isCommand(funcName)
 						&& !forceCommand && funcName.length() == 1
+						&& nestedCommands < 1
 						&& kernel.getAlgebraProcessor().enableStructures()) {
-					if (myList.size() == 2) {
-						ExpressionNode ret = new ExpressionNode(kernel, new MyVecNode(kernel,
-								myList.getListElement(0), myList.getListElement(1)));
-						ret.setLabel(funcName);
-						return ret;
-					} else if (myList.size() == 3) {
-						ExpressionNode ret = new ExpressionNode(kernel, new MyVec3DNode(kernel,
-								myList.getListElement(0), myList.getListElement(1),
-								myList.getListElement(2)));
-						ret.setLabel(funcName);
-						return ret;
+					if (topLevelExpression) {
+						ExpressionNode point = asPoint(myList, funcName);
+						if (point != null) {
+							return point;
+						}
+					} if (kernel.getSymbolicMode() == SymbolicMode.NONE
+							&& !geoGebraCASParsing && myList.size() == 1) {
+						return new ExpressionNode(kernel, new Variable(kernel, funcName),
+								Operation.MULTIPLY,	myList.getListElement(0));
 					}
 				}
 
@@ -266,6 +266,22 @@ public class FunctionParser {
 		// a(b) becomes a*b because a is not a function, no list, and no curve
 		// e.g. a(1+x) = a*(1+x) when a is a number
 		return multiplication(geoExp, undecided, myList, funcName);
+	}
+
+	private ExpressionNode asPoint(MyList myList, String funcName) {
+		if (myList.size() == 2) {
+			ExpressionNode ret = new ExpressionNode(kernel, new MyVecNode(kernel,
+					myList.getListElement(0), myList.getListElement(1)));
+			ret.setLabel(funcName);
+			return ret;
+		} else if (myList.size() == 3) {
+			ExpressionNode ret = new ExpressionNode(kernel, new MyVec3DNode(kernel,
+					myList.getListElement(0), myList.getListElement(1),
+					myList.getListElement(2)));
+			ret.setLabel(funcName);
+			return ret;
+		}
+		return null;
 	}
 
 	private static Operation getOperationFor(GeoSymbolic symbolic) {

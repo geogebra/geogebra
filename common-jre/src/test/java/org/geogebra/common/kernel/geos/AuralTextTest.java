@@ -83,9 +83,9 @@ public class AuralTextTest {
 	public void numberCaptionAural() {
 		add("vec=Slider(-5,5)");
 		add("SetCaption(vec,\"Vector v = %v\")");
-		aural("vec", "Slider Vector v  equals  0", "start animation", "increase",
+		aural("vec", "Vector v  equals  0", "start animation", "increase",
 				"decrease", "edit");
-		assertEquals("Slider Vector v  equals  0",
+		assertEquals("Vector v  equals  0",
 				((GeoNumeric) get("vec")).getAuralText());
 	}
 
@@ -172,6 +172,10 @@ public class AuralTextTest {
 		aural("LaTeX(\"\\overrightarrow{p}j\")", "pj", "edit");
 		aural("LaTeX(\"\\widehat{p}\")", "p with \u0302", "edit");
 		aural("LaTeX(\"\\underline{p}j\")", "pj", "edit");
+		aural("LaTeX(x-y)", "x minus y", "edit");
+		aural("LaTeX(\"x-y\")", "x minus y", "edit");
+		aural("LaTeX(\"\\text{x-y}\")", "x\u2010y", "edit");
+		aural("LaTeX((-1,2))", "open parenthesis  minus 1 comma  2 close parenthesis", "edit");
 	}
 
 	@Test

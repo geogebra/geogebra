@@ -85,6 +85,6 @@ public final class WarningErrorHandler implements ErrorLogger {
 
 	@Override
 	public void log(Throwable e) {
-		Log.trace(e.getMessage());
+		Log.trace(e);
 	}
 }

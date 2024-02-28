@@ -15,8 +15,8 @@ package org.geogebra.common.kernel.geos;
 import java.util.TreeMap;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
@@ -44,7 +44,7 @@ public interface CasEvaluableFunction
 	 * 
 	 */
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
-			boolean symbolic, MyArbitraryConstant arbconst);
+			boolean symbolic, ArbitraryConstantRegistry arbconst);
 
 	/**
 	 * @param tpl
