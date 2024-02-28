@@ -12,11 +12,19 @@ public class ToolboxController {
 	private final AppW appW;
 	private final ToolboxMow toolbox;
 
+	/**
+	 * Controller
+	 * @param appW - application
+	 * @param toolbox - toolbox
+	 */
 	public ToolboxController(AppW appW, ToolboxMow toolbox) {
 		this.appW = appW;
 		this.toolbox = toolbox;
 	}
 
+	/**
+	 * @return turn spotlight on handler
+	 */
 	public Runnable getSpotlightOnHandler() {
 		return () -> {
 			DockPanelW dp = (DockPanelW) appW.getGuiManager().getLayout().getDockManager()
@@ -52,10 +60,13 @@ public class ToolboxController {
 		});
 	}
 
+	/**
+	 * @return show ruler type popup handler
+	 */
 	public Runnable getRulerOnHandler() {
 		return () -> {
 			RulerPopup rulerPopup = new RulerPopup(appW);
-			rulerPopup.showAtPoint(100,100);
+			rulerPopup.showAtPoint(100, 100);
 		};
 	}
 }

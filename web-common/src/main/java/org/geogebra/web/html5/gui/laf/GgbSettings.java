@@ -79,4 +79,9 @@ public class GgbSettings implements VendorSettings {
 	public boolean isH5PEnabled() {
 		return false;
 	}
+
+	@Override
+	public boolean hasBothProtractor() {
+		return true;
+	}
 }

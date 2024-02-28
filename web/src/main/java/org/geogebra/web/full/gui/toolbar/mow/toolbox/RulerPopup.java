@@ -13,6 +13,10 @@ import org.geogebra.web.resources.SVGResource;
 
 public class RulerPopup extends GPopupMenuW {
 
+	/**
+	 * Constructor
+	 * @param app - application
+	 */
 	public RulerPopup(AppW app) {
 		super(app);
 		buildGui();
@@ -22,8 +26,10 @@ public class RulerPopup extends GPopupMenuW {
 		addItem(ToolbarSvgResources.INSTANCE.mode_ruler(),
 				getApp().getLocalization().getMenu("Ruler"), MODE_RULER);
 
-		addItem(ToolbarSvgResources.INSTANCE.mode_protractor(),
-				getApp().getLocalization().getMenu("Protractor"), MODE_PROTRACTOR);
+		if (getApp().getVendorSettings().hasBothProtractor()) {
+			addItem(ToolbarSvgResources.INSTANCE.mode_protractor(),
+					getApp().getLocalization().getMenu("Protractor"), MODE_PROTRACTOR);
+		}
 
 		addItem(ToolbarSvgResources.INSTANCE.mode_protractor(),
 				getApp().getLocalization().getMenu("Triangle Protractor"),
@@ -38,6 +44,4 @@ public class RulerPopup extends GPopupMenuW {
 		});
 		addItem(item);
 	}
-
-
 }

@@ -77,7 +77,7 @@ public class ToolboxMow extends FlowPanel {
 
 	private void addRulerButton() {
 		String ariaLabel = appW.getToolName(MODE_RULER) + ". " + appW.getToolHelp(MODE_RULER);
-		rulerBtn = addToggleButton(ToolbarSvgResources.INSTANCE.mode_ruler(), ariaLabel, ariaLabel,
+		rulerBtn = addToggleButton(ToolbarSvgResources.INSTANCE.mode_ruler(), ariaLabel, "Ruler",
 				"selectModeButton" + MODE_RULER, controller.getRulerOnHandler(), () -> {});
 	}
 

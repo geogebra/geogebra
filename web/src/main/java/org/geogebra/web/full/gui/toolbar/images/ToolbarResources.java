@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.toolbar.images;
 
-import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 @SuppressWarnings("javadoc")

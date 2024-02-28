@@ -133,6 +133,7 @@ public class IconButton extends StandardButton {
 	}
 
 	public void updateImgAndTxt(SVGResource image, String txt) {
+		this.image = image;
 		setIcon(image);
 		AriaHelper.setTitle(this, txt);
 	}
