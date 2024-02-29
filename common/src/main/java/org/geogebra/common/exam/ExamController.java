@@ -239,7 +239,7 @@ public final class ExamController implements PropertiesRegistryListener {
 		if (state != ExamState.FINISHED) {
 			return null;
 		}
-		return new ExamSummary(examType, isCheating(), localization); // TODO fill out
+		return new ExamSummary(examType, startDate, finishDate, cheatingEvents, localization);
 	}
 
 	/**

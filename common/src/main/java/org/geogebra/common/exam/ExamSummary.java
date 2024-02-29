@@ -1,47 +1,80 @@
 package org.geogebra.common.exam;
 
+import java.util.Date;
+
+import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.exam.event.CheatingEvent;
+import org.geogebra.common.main.exam.event.CheatingEvents;
+import org.geogebra.common.util.TimeFormatAdapter;
 
-public class ExamSummary {
+public final class ExamSummary {
 
-	public ExamSummary(ExamRegion examType, boolean cheated, Localization localization) {
-//		title = localization.getMenu("exam_menu_entry") + (cheated ? localization.getMenu("exam_alert") : localization.getMenu("OK"));
-//		examFinishedInfoLabel.text = localization.getMenu("exam_log_show_screen_to_teacher")
-//		examDurationView.hintText = localization.getMenu("Duration")
-//		examDurationView.labelText = exam.getElapsedTimeLocalized()
-//		examStartDateView.hintText = localization.getMenu("exam_start_date")
-//		examStartDateView.labelText = useDummyValuesForTesting ? "Exam start date" : exam.getDate()
-//		examStartTimeView.hintText = localization.getMenu("exam_start_time")
-//		examStartTimeView.labelText = useDummyValuesForTesting ? "Exam start time" : exam.getStartTime()
-//		examEndTimeView.hintText = localization.getMenu("exam_end_time")
-//		examEndTimeView.labelText = useDummyValuesForTesting ? "Exam end time" : exam.getEndTime()
-//		examActivityView.hintText = localization.getMenu("exam_activity")
-//		examActivityView.label.numberOfLines = 0
-//		examActivityView.labelText = exam.getActivityLog(withBoolean: isFinalLog) // contains cheating events
+	public final boolean cheated;
+	public final String title;
+	public final String finishedInfoText;
+	public final String startDateHintText;
+	public final String startDateLabelText;
+	public final String startTimeHintText;
+	public final String startTimeLabelText;
+	public final String endTimeHintText;
+	public final String endTimeLabelText;
+	public final String durationHintText;
+	public final String durationLabelText;
+	public final String activityHintText;
+	public final String activityLabelText;
+	private final TimeFormatAdapter timeFormatter = FormatFactory.getPrototype().getTimeFormat();
+
+	private static String formatDate(Date date, Localization localization) {
+		// copied over from ExamEnvironment
+		return CmdGetTime.buildLocalizedDate("\\j \\F \\Y", date, localization);
 	}
 
-//	    case EXAM_MODE:
-//			return localization.getMenu("exam_menu_entry");
-//		case OK:
-//			return localization.getMenu("OK");
-//		case ALERT:
-//			return localization.getMenu("exam_alert");
-//		case SHOW_TO_TEACHER:
-//			return localization.getMenu("exam_log_show_screen_to_teacher");
-//		case DATE:
-//			return localization.getMenu("exam_start_date");
-//		case START_TIME:
-//			return localization.getMenu("exam_start_time");
-//		case END_TIME:
-//			return localization.getMenu("exam_end_time");
-//		case ACTIVITY:
-//			return localization.getMenu("exam_activity");
-//		case EXAM_STARTED:
-//			return localization.getMenu("exam_started");
-//		case EXAM_ENDED:
-//			return localization.getMenu("exam_ended");
-//		case EXIT:
-//			return localization.getMenu("Exit");
-//		case DURATION:
-//			return localization.getMenu("Duration");
+	private static String formatTime(Date date, Localization localization) {
+		// copied over from ExamEnvironment
+		return CmdGetTime.buildLocalizedDate("\\H:\\i:\\s", date, localization);
+	}
+
+	public ExamSummary(ExamRegion examType, Date startDate, Date endDate,
+			CheatingEvents cheatingEvents, Localization localization) {
+		this.cheated = !cheatingEvents.isEmpty();
+		title = localization.getMenu("exam_menu_entry") + (cheated ? localization.getMenu("exam_alert") : localization.getMenu("OK"));
+		finishedInfoText = localization.getMenu("exam_log_show_screen_to_teacher");
+		durationHintText = localization.getMenu("Duration");
+		durationLabelText = timeFormatter.format(localization.getLanguageTag(), endDate.getTime() - startDate.getTime());
+		startDateHintText = localization.getMenu("exam_start_date");
+		startDateLabelText = formatDate(startDate, localization);
+		startTimeHintText = localization.getMenu("exam_start_time");
+		startTimeLabelText = formatTime(startDate, localization);
+		endTimeHintText = localization.getMenu("exam_end_time");
+		endTimeLabelText = formatTime(endDate, localization);
+		activityHintText = localization.getMenu("exam_activity");
+		activityLabelText = getActivityLog(startDate, endDate, cheatingEvents, localization);
+	}
+
+	private String getActivityLog(Date startDate, Date endDate,
+			CheatingEvents cheatingEvents, Localization localization) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(localization.getMenu("exam_start_date") + ": " +
+				formatDate(startDate, localization) + "\n");
+		sb.append(localization.getMenu("exam_start_time") + ": " +
+				formatTime(startDate, localization) + "\n");
+		sb.append(localization.getMenu("exam_end_time") + ": " +
+				formatTime(endDate, localization) + "\n");
+
+		sb.append(localization.getMenu("exam_activity") + ":\n");
+		sb.append("0:00").append(' ')
+				.append(localization.getMenu("exam_started") + "\n");
+		for (CheatingEvent cheatingEvent : cheatingEvents.getEvents()) {
+			sb.append(formatTime(cheatingEvent.getDate(), localization));
+			sb.append(' ');
+			sb.append(cheatingEvent.getAction().toString(localization));
+			sb.append("\n");
+		}
+		sb.append(formatTime(endDate, localization)).append(' ')
+				.append(localization.getMenu("exam_ended")).append("\n");
+
+		return sb.toString();
+	}
 }
