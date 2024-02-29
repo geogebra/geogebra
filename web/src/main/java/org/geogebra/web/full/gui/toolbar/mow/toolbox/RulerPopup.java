@@ -41,9 +41,14 @@ public class RulerPopup extends GPopupMenuW {
 
 	private void addItem(SVGResource image, String text, int mode) {
 		AriaMenuItem item = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
-				image.getSafeUri().asString(), text), true, () -> {
+				image.getSafeUri().asString(), text), true, () -> {});
+		item.setScheduledCommand(() -> {
+			rulerButton.removeRuler();
 			activeRulerMode = mode;
-			rulerButton.updateImgAndTxt(image, mode, getApp());
+			rulerButton.updateImgAndTxt(image.withFill(getApp().getDarkColor().toString()),
+					mode, getApp());
+			rulerButton.handleRuler();
+			item.addStyleName("selected");
 		});
 		addItem(item);
 	}
