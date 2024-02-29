@@ -1515,9 +1515,8 @@ public class EuclidianSettings extends AbstractSettings {
 		} else if (backgroundType == BackgroundType.POLAR) {
 			gridType = EuclidianView.GRID_POLAR;
 			setShowGridSetting(true);
-		} else if (backgroundType != BackgroundType.NONE) {
-			setShowGridSetting(false);
 		}
+
 		settingChanged();
 	}
 
