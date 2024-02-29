@@ -69,7 +69,8 @@ public class IconButton extends StandardButton {
 				} else {
 					onHandler.run();
 				}
-				setActive(!isActive(), appW.getVendorSettings().getDarkColor());
+				setActive(!isActive(),
+						appW.getGeoGebraElement().getDarkColor(appW.getFrameElement()));
 			}
 		});
 	}
@@ -118,10 +119,10 @@ public class IconButton extends StandardButton {
 	/**
 	 * @param isActive - whether is on or off
 	 */
-	public void setActive(boolean isActive, GColor selectionColor) {
+	public void setActive(boolean isActive, String selectionColor) {
 		AriaHelper.setPressedState(this, isActive);
 		Dom.toggleClass(this, "active", isActive);
-		setIcon(image.withFill(isActive ? selectionColor.toString() : GColor.BLACK.toString()));
+		setIcon(image.withFill(isActive ? selectionColor : GColor.BLACK.toString()));
 	}
 
 	public boolean isActive() {

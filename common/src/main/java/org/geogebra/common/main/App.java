@@ -4937,15 +4937,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Returns the dark color of the app.
-	 *
-	 * @return dark color
-	 */
-	public GColor getDarkColor() {
-		return GColor.PURPLE_A700;
-	}
-
-	/**
 	 * @return FpsProfiler instance.
 	 */
 	public FpsProfiler getFpsProfiler() {
