@@ -41,7 +41,10 @@
  * version.
  * 
  */
+
 package com.himamis.retex.renderer.web.graphics;
+
+import java.util.ArrayList;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.Font;
@@ -87,6 +90,9 @@ public class Graphics2DW implements Graphics2DInterface {
 		return ((HTMLElement) DomGlobal.document.createElement("div")).style;
 	}
 
+	/**
+	 * @param context 2D context
+	 */
 	public Graphics2DW(CanvasRenderingContext2D context) {
 		this.context = JLMContextHelper.as(context);
 		this.context.initTransform();
@@ -293,6 +299,10 @@ public class Graphics2DW implements Graphics2DInterface {
 		drawText(string, x, y);
 	}
 
+	public void cancelCallbacks() {
+		charDrawingRequests.forEach(f -> f.cancel());
+	}
+
 	private static class FontDrawContext {
 		private Graphics2DW graphics;
 		private String text;
@@ -336,7 +346,7 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	}
 
-	private int charDrawingRequests = 0;
+	private ArrayList<FontLoadCallback> charDrawingRequests = new ArrayList<>();
 
 	public void drawText(String text, int x, int y) {
 		if (!font.isLoaded()) {
@@ -356,23 +366,32 @@ public class Graphics2DW implements Graphics2DInterface {
 			// waiting to be executed. If there aren't any, drawing has
 			// finished.
 
-			charDrawingRequests += 1;
-			font.addFontLoadedCallback(new FontLoadCallback() {
+			FontLoadCallback callback = new FontLoadCallback() {
+				private boolean canceled;
 
 				@Override
 				public void onFontLoaded(AsyncLoadedFont font) {
-					fdc.doDraw();
-					charDrawingRequests -= 1;
+					if (!canceled) {
+						fdc.doDraw();
+					}
+					charDrawingRequests.remove(this);
 					maybeNotifyDrawingFinishedCallback(true);
 				}
 
 				@Override
 				public void onFontError(AsyncLoadedFont font) {
 					FactoryProvider.debugS("Error loading font " + font);
-					charDrawingRequests -= 1;
+					charDrawingRequests.remove(this);
 					maybeNotifyDrawingFinishedCallback(true);
 				}
-			});
+
+				@Override
+				public void cancel() {
+					canceled = true;
+				}
+			};
+			charDrawingRequests.add(callback);
+			font.addFontLoadedCallback(callback);
 
 		} else {
 			fillTextInternal(text, x, y);
@@ -391,7 +410,7 @@ public class Graphics2DW implements Graphics2DInterface {
 	}
 
 	private boolean hasUnprocessedCharDrawingRequests() {
-		return charDrawingRequests > 0;
+		return !charDrawingRequests.isEmpty();
 	}
 
 	private void notifyDrawingFinishedCallback(boolean async) {

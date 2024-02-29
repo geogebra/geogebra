@@ -464,7 +464,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public final DrawEquation getDrawEquation() {
 		if (drawEquation == null) {
-			drawEquation = new DrawEquationW();
+			drawEquation = new DrawEquationW(this::getPixelRatio);
 		}
 
 		return drawEquation;

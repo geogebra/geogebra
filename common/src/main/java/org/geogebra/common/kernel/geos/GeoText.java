@@ -1512,7 +1512,7 @@ public class GeoText extends GeoElement
 	 */
 	public String getAuralTextLaTeX() {
 		kernel.getApplication().getDrawEquation()
-				.checkFirstCall(kernel.getApplication());
+				.checkFirstCall();
 		// TeXAtomSerializer makes formula human-readable.
 		TeXFormula tf = getTeXFormula();
 		SerializationAdapter adapter = ScreenReader.getSerializationAdapter(app);
