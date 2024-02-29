@@ -4,10 +4,12 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PROTRACTOR;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRIANGLE_PROTRACTOR;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -37,6 +39,8 @@ public class RulerPopup extends GPopupMenuW {
 		addItem(ToolbarSvgResources.INSTANCE.mode_protractor(),
 				getApp().getLocalization().getMenu("Triangle Protractor"),
 				MODE_TRIANGLE_PROTRACTOR);
+
+		popupMenu.selectItem(0);
 	}
 
 	private void addItem(SVGResource image, String text, int mode) {
@@ -45,15 +49,30 @@ public class RulerPopup extends GPopupMenuW {
 		item.setScheduledCommand(() -> {
 			rulerButton.removeRuler();
 			activeRulerMode = mode;
-			rulerButton.updateImgAndTxt(image.withFill(getApp().getDarkColor().toString()),
-					mode, getApp());
+			GColor fillColor = rulerButton.isActive() ? getApp().getDarkColor() : GColor.BLACK;
+			rulerButton.updateImgAndTxt(image.withFill(fillColor.toString()), mode, getApp());
 			rulerButton.handleRuler();
-			item.addStyleName("selected");
+			setHighlight(item);
 		});
 		addItem(item);
 	}
 
+	private void setHighlight(AriaMenuItem highlighted) {
+		popupMenu.unselect();
+		popupMenu.selectItem(highlighted);
+	}
+
 	public int getActiveRulerType() {
 		return activeRulerMode;
+	}
+
+	/**
+	 * show popup with selection depending on button active state
+	 * @param left - left position
+	 * @param top - top position
+	 */
+	public void showPopup(int left, int top) {
+		Dom.toggleClass(popupMenu.getSelectedItem(), "selectedItem", rulerButton.isActive());
+ 		showAtPoint(left, top);
 	}
 }

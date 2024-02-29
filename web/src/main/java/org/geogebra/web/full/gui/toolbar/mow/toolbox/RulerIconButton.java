@@ -12,6 +12,14 @@ public class RulerIconButton extends IconButton {
 	private RulerPopup rulerPopup;
 	private AppW appW;
 
+	/**
+	 * Constructor
+	 * @param appW - application
+	 * @param icon - image
+	 * @param ariaLabel - label
+	 * @param dataTitle - title
+	 * @param dataTest - ui test id
+	 */
 	public RulerIconButton(AppW appW, SVGResource icon, String ariaLabel, String dataTitle,
 			String dataTest) {
 		super(appW.getLocalization(), icon, ariaLabel, dataTitle, dataTest, null);
@@ -27,10 +35,9 @@ public class RulerIconButton extends IconButton {
 		if (rulerPopup == null) {
 			rulerPopup = new RulerPopup(appW, this);
 		}
-		if (isActive()) {
-			rulerPopup.showAtPoint(getAbsoluteLeft() + getOffsetWidth() + 8,
-					(int) (getAbsoluteTop() - appW.getAbsTop()));
-		}
+
+		rulerPopup.showPopup(getAbsoluteLeft() + getOffsetWidth() + 8, // padding of button
+				(int) (getAbsoluteTop() - appW.getAbsTop()));
 	}
 
 	/**
