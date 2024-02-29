@@ -11,6 +11,7 @@ dependencies {
             'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202402231:sources',
         "org.gwtproject:gwt-user:$gwtCompilerVersion",
         "org.gwtproject:gwt-dev:$gwtCompilerVersion",
+        "org.gwtproject.http:gwt-http:1.0.0-RC3",
             project(':common')
     api 'org.gwtproject.core:gwt-core:1.0.0-RC2'
     api group: 'com.google.elemental2', name: 'elemental2-core', version: '1.2.1'
