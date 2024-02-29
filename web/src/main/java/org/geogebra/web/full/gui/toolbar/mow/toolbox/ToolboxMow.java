@@ -63,6 +63,9 @@ public class ToolboxMow extends FlowPanel {
 		add(divider);
 	}
 
+	/**
+	 * switch spotlight button off
+	 */
 	public void switchSpotlightOff() {
 		spotlightBtn.setActive(false,
 				appW.getGeoGebraElement().getDarkColor(appW.getFrameElement()));
