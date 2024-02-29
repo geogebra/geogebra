@@ -30,6 +30,7 @@ public interface ExamControllerDelegate {
 	 * @param material
 	 */
 	void examSetActiveMaterial(Material material);
+	Material examGetActiveMaterial();
 	SuiteSubApp examGetCurrentSubApp();
 	void examSwitchSubApp(SuiteSubApp subApp);
 }

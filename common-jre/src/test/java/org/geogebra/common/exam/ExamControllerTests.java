@@ -294,7 +294,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	public Material examGetActiveMaterial() {
 		return activeMaterial;
 	}
-	
+
 	@Override
 	public void examSetActiveMaterial(Material material) {
 		activeMaterial = material;

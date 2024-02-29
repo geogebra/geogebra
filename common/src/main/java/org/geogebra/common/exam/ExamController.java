@@ -8,6 +8,7 @@ import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
+import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.main.exam.event.CheatingEvents;
@@ -235,11 +236,12 @@ public final class ExamController implements PropertiesRegistryListener {
 	 * @return  A summary of the exam if the exam is in the {@link ExamState#FINISHED} state,
 	 * or null otherwise.
 	 */
-	public ExamSummary getExamSummary(Localization localization) {
+	public ExamSummary getExamSummary(AppConfig appConfig, Localization localization) {
 		if (state != ExamState.FINISHED) {
 			return null;
 		}
-		return new ExamSummary(examType, startDate, finishDate, cheatingEvents, localization);
+		return new ExamSummary(examType, startDate, finishDate, cheatingEvents,
+				appConfig, localization);
 	}
 
 	/**
@@ -274,8 +276,8 @@ public final class ExamController implements PropertiesRegistryListener {
 		Material material = tempStorage.newMaterial();
 
 		if (delegate != null) {
-			delegate.examClearOtherApps();
 			delegate.examClearClipboard();
+			delegate.examClearOtherApps();
 			delegate.examSetActiveMaterial(material);
 		}
 
@@ -340,6 +342,9 @@ public final class ExamController implements PropertiesRegistryListener {
 		if (delegate != null) {
 			if (newRestrictions.getDisabledSubApps().contains(delegate.examGetCurrentSubApp())) {
 				delegate.examSwitchSubApp(newRestrictions.getDefaultSubApp());
+				if (delegate.examGetActiveMaterial() == null) {
+					delegate.examSetActiveMaterial(tempStorage.newMaterial());
+				}
 			}
 		}
 		examRestrictions = newRestrictions;

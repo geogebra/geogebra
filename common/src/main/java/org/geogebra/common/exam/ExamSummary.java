@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.commands.CmdGetTime;
+import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.main.exam.event.CheatingEvents;
@@ -12,6 +13,7 @@ import org.geogebra.common.util.TimeFormatAdapter;
 public final class ExamSummary {
 
 	public final boolean cheated;
+	public final String examName;
 	public final String title;
 	public final String finishedInfoText;
 	public final String startDateHintText;
@@ -37,8 +39,9 @@ public final class ExamSummary {
 	}
 
 	public ExamSummary(ExamRegion examType, Date startDate, Date endDate,
-			CheatingEvents cheatingEvents, Localization localization) {
+			CheatingEvents cheatingEvents, AppConfig appConfig, Localization localization) {
 		this.cheated = !cheatingEvents.isEmpty();
+		examName = examType.getDisplayName(localization, appConfig);
 		title = localization.getMenu("exam_menu_entry") + (cheated ? localization.getMenu("exam_alert") : localization.getMenu("OK"));
 		finishedInfoText = localization.getMenu("exam_log_show_screen_to_teacher");
 		durationHintText = localization.getMenu("Duration");
