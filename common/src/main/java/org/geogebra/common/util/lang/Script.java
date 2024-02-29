@@ -66,8 +66,8 @@ public enum Script {
 		this(iso15924, null, Direction.LEFT_TO_RIGHT);
 	}
 
-	Script(String iso15924, String testChar) {
-		this(iso15924, testChar, Direction.LEFT_TO_RIGHT);
+	Script(String iso15924, String testString) {
+		this(iso15924, testString, Direction.LEFT_TO_RIGHT);
 	}
 
 	Script(String iso15924, String testString, Direction dir) {
