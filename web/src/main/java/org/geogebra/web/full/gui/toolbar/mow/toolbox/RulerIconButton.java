@@ -25,7 +25,7 @@ public class RulerIconButton extends IconButton {
 		super(appW.getLocalization(), icon, ariaLabel, dataTitle, dataTest, null);
 		this.appW = appW;
 		addFastClickHandler((event) -> {
-			setActive(!isActive(), appW.getDarkColor());
+			setActive(!isActive(), appW.getGeoGebraElement().getDarkColor(appW.getFrameElement()));
 			showRulerTypePopup();
 			handleRuler();
 		});

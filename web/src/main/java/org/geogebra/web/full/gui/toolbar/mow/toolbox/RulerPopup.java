@@ -49,8 +49,10 @@ public class RulerPopup extends GPopupMenuW {
 		item.setScheduledCommand(() -> {
 			rulerButton.removeRuler();
 			activeRulerMode = mode;
-			GColor fillColor = rulerButton.isActive() ? getApp().getDarkColor() : GColor.BLACK;
-			rulerButton.updateImgAndTxt(image.withFill(fillColor.toString()), mode, getApp());
+			String fillColor = rulerButton.isActive() ?
+					getApp().getGeoGebraElement().getDarkColor(getApp().getFrameElement())
+					: GColor.BLACK.toString();
+			rulerButton.updateImgAndTxt(image.withFill(fillColor), mode, getApp());
 			rulerButton.handleRuler();
 			setHighlight(item);
 		});
