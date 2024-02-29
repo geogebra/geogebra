@@ -303,4 +303,8 @@ class EditorChecker {
 		state.setSelectionEnd(state.getRootComponent().getArgument(to));
 		return this;
 	}
+
+	public void add(String input) {
+		app.getKernel().getAlgebraProcessor().processAlgebraCommand(input, false);
+	}
 }
