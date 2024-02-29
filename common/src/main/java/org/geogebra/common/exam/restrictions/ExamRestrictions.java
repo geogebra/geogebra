@@ -2,6 +2,8 @@ package org.geogebra.common.exam.restrictions;
 
 import java.util.Set;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
@@ -82,7 +84,7 @@ public class ExamRestrictions {
 	 * @return The list of disabled (not allowed) subapps during exam, or `null` if there
 	 * is no restriction on the available subapps.
 	 */
-	public final Set<SuiteSubApp> getDisabledSubApps() {
+	public final @CheckForNull Set<SuiteSubApp> getDisabledSubApps() {
 		return disabledSubApps;
 	}
 
@@ -90,7 +92,7 @@ public class ExamRestrictions {
 	 * @return The default subapp to switch to if a disabled subapp is active at the time
 	 * the exam starts, or `null` if there is no default.
 	 */
-	public final SuiteSubApp getDefaultSubApp() {
+	public final @CheckForNull SuiteSubApp getDefaultSubApp() {
 		return defaultSubApp;
 	}
 
@@ -123,10 +125,12 @@ public class ExamRestrictions {
 				}
 			}
 		}
-		for (String frozenProperty : frozenProperties) {
-			Property property = propertiesRegistry.lookup(frozenProperty, context);
-			if (property != null) {
-				freeze(property);
+		if (frozenProperties != null) {
+			for (String frozenProperty : frozenProperties) {
+				Property property = propertiesRegistry.lookup(frozenProperty, context);
+				if (property != null) {
+					freeze(property);
+				}
 			}
 		}
 	}
@@ -158,10 +162,12 @@ public class ExamRestrictions {
 				}
 			}
 		}
-		for (String frozenProperty : frozenProperties) {
-			Property property = propertiesRegistry.lookup(frozenProperty, context);
-			if (property != null) {
-				unfreeze(property);
+		if (frozenProperties != null) {
+			for (String frozenProperty : frozenProperties) {
+				Property property = propertiesRegistry.lookup(frozenProperty, context);
+				if (property != null) {
+					unfreeze(property);
+				}
 			}
 		}
 	}
@@ -172,7 +178,7 @@ public class ExamRestrictions {
 	 * @param property A property that just got registered.
 	 */
 	public void propertyRegistered(Property property) {
-		if (frozenProperties.contains(property.getRawName())) {
+		if (frozenProperties != null && frozenProperties.contains(property.getRawName())) {
 			freeze(property);
 		}
 	}
@@ -182,7 +188,7 @@ public class ExamRestrictions {
 	 * @param property
 	 */
 	public void propertyUnregistered(Property property) {
-		if (frozenProperties.contains(property.getRawName())) {
+		if (frozenProperties != null && frozenProperties.contains(property.getRawName())) {
 			unfreeze(property);
 		}
 	}

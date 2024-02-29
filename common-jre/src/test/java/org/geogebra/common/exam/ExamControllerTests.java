@@ -172,6 +172,14 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		}
 	}
 
+	// start exam without calling prepare() first (e.g., in crash recovery)
+	@Test
+	public void testStartExamWithoutPrepare() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+		examController.startExam(ExamRegion.VLAANDEREN);
+		assertEquals(ExamState.ACTIVE, examController.getState());
+	}
+
 	@Test
 	public void testFinishExam() {
 		setInitialApp(SuiteSubApp.GRAPHING);

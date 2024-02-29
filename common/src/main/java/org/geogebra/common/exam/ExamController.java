@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.CheckForNull;
+
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -203,14 +206,14 @@ public final class ExamController implements PropertiesRegistryListener {
 	/**
 	 * @return The exam start date, if an exam is currently active, or null otherwise.
 	 */
-	public Date getStartDate() {
+	public @CheckForNull Date getStartDate() {
 		return startDate;
 	}
 
 	/**
 	 * @return The exam end date, if the exam has been stopped, or null otherwise.
 	 */
-	public Date getFinishDate() {
+	public @CheckForNull Date getFinishDate() {
 		return finishDate;
 	}
 
@@ -236,7 +239,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	 * @return  A summary of the exam if the exam is in the {@link ExamState#FINISHED} state,
 	 * or null otherwise.
 	 */
-	public ExamSummary getExamSummary(AppConfig appConfig, Localization localization) {
+	public @CheckForNull ExamSummary getExamSummary(AppConfig appConfig, Localization localization) {
 		if (state != ExamState.FINISHED) {
 			return null;
 		}
@@ -246,6 +249,9 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	/**
 	 * Get ready for a new exam.
+	 *
+	 * Note: This step is optional (can be skipped during crash recovery, for example).
+	 *
 	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#IDLE IDLE}
 	 * state.
 	 */
@@ -258,13 +264,25 @@ public final class ExamController implements PropertiesRegistryListener {
 	}
 
 	/**
+	 * Cancel the exam.
+	 *
+	 * If the exam is currently in the {@link ExamState#PREPARING} state, this will change the state
+	 * back to {@link ExamState#IDLE}. Otherwise, this method will have no effect.
+	 */
+	public void cancelExam() {
+		if (state == ExamState.PREPARING) {
+			setState(ExamState.IDLE);
+		}
+	}
+
+	/**
 	 * Starts the exam.
-	 * @throws IllegalStateException if the exam controller is not in the
-	 * {@link ExamState#PREPARING PREPARING} state.
+	 * @throws IllegalStateException if the exam controller is not in either the
+	 * {@link ExamState#IDLE} or {@link ExamState#PREPARING PREPARING} state.
 	 */
 	public void startExam(ExamRegion examType) {
-		if (state != ExamState.PREPARING) {
-			throw new IllegalStateException("expected to be in PREPARING state, but is " + state);
+		if (state != ExamState.IDLE && state != ExamState.PREPARING) {
+			throw new IllegalStateException("expected to be in IDLE or PREPARING state, but is " + state);
 		}
 		if (activeDependencies == null) {
 			throw new IllegalStateException("no active context; call setActiveContext() before attempting to start the exam");
@@ -316,6 +334,7 @@ public final class ExamController implements PropertiesRegistryListener {
 			delegate.examCreateNewFile();
 		}
 		startDate = finishDate = null;
+		examType = null;
 		setState(ExamState.IDLE);
 	}
 
@@ -340,7 +359,10 @@ public final class ExamController implements PropertiesRegistryListener {
 			return; // log/throw?
 		}
 		if (delegate != null) {
-			if (newRestrictions.getDisabledSubApps().contains(delegate.examGetCurrentSubApp())) {
+			SuiteSubApp currentSubApp = delegate.examGetCurrentSubApp();
+			if (currentSubApp == null ||
+					(newRestrictions.getDisabledSubApps() != null &&
+							newRestrictions.getDisabledSubApps().contains(currentSubApp))) {
 				delegate.examSwitchSubApp(newRestrictions.getDefaultSubApp());
 				if (delegate.examGetActiveMaterial() == null) {
 					delegate.examSetActiveMaterial(tempStorage.newMaterial());
