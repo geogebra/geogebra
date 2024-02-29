@@ -235,7 +235,7 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 	public void testPointMoved() {
 		GeoPoint point = add("A=(1, 1)");
 		point.movePoint(new Coords(1, 1, 0), null);
-		assertEquals("Point A  moved to  open parenthesis 2 comma 2 close parenthesis ",
+		assertEquals("Point A  moved to  open parenthesis 2 comma  2 close parenthesis ",
 				point.getAuralTextForMove());
 	}
 
@@ -244,7 +244,7 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 		GeoPoint point = add("A=(1, 1)");
 		point.setCaption("$%v\\%$");
 		point.movePoint(new Coords(1, 1, 0), null);
-		assertEquals(" open parenthesis 2 comma 2 close parenthesis % ",
+		assertEquals(" open parenthesis 2 comma  2 close parenthesis % ",
 				point.getAuralTextForMove());
 	}
 
