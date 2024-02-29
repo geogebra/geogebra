@@ -181,7 +181,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 		assertNotNull(examController.getStartDate()); // started
 		assertNotNull(examController.getFinishDate()); // ended
-		assertNotNull(examController.getExamSummary(app.getLocalization()));
+		assertNotNull(examController.getExamSummary(app.getConfig(), app.getLocalization()));
 		assertEquals(ExamState.FINISHED, examController.getState());
 		assertEquals(Arrays.asList(
 				ExamState.PREPARING,
@@ -290,6 +290,11 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		activeMaterial = null;
 	}
 
+	@Override
+	public Material examGetActiveMaterial() {
+		return activeMaterial;
+	}
+	
 	@Override
 	public void examSetActiveMaterial(Material material) {
 		activeMaterial = material;
