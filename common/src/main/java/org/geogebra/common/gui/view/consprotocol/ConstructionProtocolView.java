@@ -1232,11 +1232,11 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		for (int i = 0; i < n; i++) {
 			GeoCasCell cell = table.getGeoCasCell(i);
 
-			String input = cell.getInput(StringTemplate.casPrintTemplate);
+			String input = cell.getLocalizedInput();
 			sb.append("<tr>\n");
 
 			sb.append("<td>");
-			sb.append("#" + (i + 1));
+			sb.append("#").append(i + 1);
 			sb.append("</td>\n");
 			sb.append("<td>");
 			appendHTML(sb, input);
