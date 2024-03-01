@@ -5,18 +5,15 @@ import java.util.Set;
 /**
  * A contiguous range of cells in a {@link Spreadsheet}.
  *
- * @Note: toRow/toCol may be less than fromRow/fromCol, respectively.
- * If toRow is less than fromRow, the selection handle is on the upper
- * edge of the selection rectangle, and on the lower edge otherwise.
- * Similarly, if toCol is less than fromCol, the selection handle is on
- * the left edge of the selection rangle, and on the right edge otherwise.
+ * @apiNote this class is immutable
  */
 // TODO testing: Since this contains a lot of tricky logic, this should be directly unit-tested
-//  (not just indirectly via SpreadsheetController) - see also my comment on SpreadsheetSelectionController.
+//  (not just indirectly via SpreadsheetController)
+//  - see also my comment on SpreadsheetSelectionController.
 //
 // TODO: remove all public method modifiers (the class itself is package private, so members cannot
 //  be more visible than the class)
-final class Selection implements Cloneable {
+final class Selection {
 
 	private final TabularRange range;
 	private final SelectionType type;
@@ -32,6 +29,16 @@ final class Selection implements Cloneable {
 		} else {
 			this.type = SelectionType.CELLS;
 		}
+	}
+
+	/**
+	 * @param rowIndex Row Index
+	 * @param columnIndex Column Index
+	 * @return A single cell with given index
+	 */
+	public static Selection getSingleCellSelection(int rowIndex, int columnIndex) {
+		return new Selection(TabularRange.range(
+				rowIndex, rowIndex, columnIndex, columnIndex));
 	}
 
 	boolean isEmpty() {
@@ -175,17 +182,6 @@ final class Selection implements Cloneable {
 	}
 
 	/**
-	 * @param rowIndex Row Index
-	 * @param columnIndex Column Index
-	 * @return A single cell with given index
-	 */
-	// TODO this static method should go to the top of the class, not intermixed between member functions
-	public static Selection getSingleCellSelection(int rowIndex, int columnIndex) {
-		return new Selection(TabularRange.range(
-				rowIndex, rowIndex, columnIndex, columnIndex));
-	}
-
-	/**
 	 * If a Selection needs to be extended with another then the resulting Selection's
 	 * SelectionType might change
 	 * <li>If both Selections share the same SelectionType, nothing changes</li>
@@ -218,7 +214,11 @@ final class Selection implements Cloneable {
 		return SelectionType.COLUMNS.equals(type);
 	}
 
-	// TODO This type has to implement equals() in a sensible way, probably like so:
+	@Override
+	public int hashCode() {
+		return 31 * type.hashCode() + range.hashCode();
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Selection)) {
@@ -228,8 +228,4 @@ final class Selection implements Cloneable {
 		return type == other.type && range.equals(other.range);
 	}
 
-	@Override
-	public Selection clone() {
-		return new Selection(range);
-	}
 }

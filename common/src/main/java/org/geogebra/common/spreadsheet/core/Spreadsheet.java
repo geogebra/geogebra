@@ -177,11 +177,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.handleKeyPressed(keyCode, key, modifiers);
 	}
 
-	// TODO check where this is needed / why this is here (don't expose internals)
-//	public SpreadsheetController getController() {
-//        return controller;
-//	}
-
 	@Override
 	public void tabularDataDidChange(int row, int column) {
 		renderer.invalidate(row, column);
@@ -215,15 +210,15 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.moveRight(false);
 	}
 
-	public void selectRow(int row, boolean extend, boolean add) {
+	void selectRow(int row, boolean extend, boolean add) {
 		controller.selectRow(row, extend, add);
 	}
 
-	public void selectColumn(int column, boolean extend, boolean add) {
+	void selectColumn(int column, boolean extend, boolean add) {
 		controller.selectColumn(column, extend, add);
 	}
 
-	public void selectCell(int row, int column, boolean extend, boolean add) {
+	void selectCell(int row, int column, boolean extend, boolean add) {
 		controller.selectCell(row, column, extend, add);
 	}
 

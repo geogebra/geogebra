@@ -1,4 +1,4 @@
-package org.geogebra.common.spreadsheet;
+package org.geogebra.common.spreadsheet.core;
 
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.equalTo;

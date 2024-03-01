@@ -1,6 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.annotation.CheckForNull;
 
@@ -137,7 +138,8 @@ public final class TabularRange {
 	}
 
 	/**
-	 * // TODO use the right types: don't use a (geometric) Point data type to represent row/column pairs
+	 * // TODO use the right types: don't use a (geometric) Point data type to represent
+	 * row/column pairs
 	 * @param location point (column, row)
 	 * @return whether given point is part of this range
 	 */
@@ -347,17 +349,11 @@ public final class TabularRange {
 		return ret;
 	}
 
-	/**
-	 * @param other other range
-	 * @return whether both ranges cover the same part of spreadsheet, ignoring their direction
-	 */
-	// TODO There is an API for equality in Java: Object.equals(), see below
-//	public boolean isEqualCells(TabularRange other) {
-//		return minColumn == other.minColumn && maxColumn == other.maxColumn
-//				&& minRow == other.minRow && maxRow == other.maxRow;
-//	}
+	@Override
+	public int hashCode() {
+		return Arrays.hashCode(new int[]{minColumn, minRow, maxColumn, maxRow});
+	}
 
-	// TODO This type has to implement equals() in a sensible way, probably like so:
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof TabularRange)) {

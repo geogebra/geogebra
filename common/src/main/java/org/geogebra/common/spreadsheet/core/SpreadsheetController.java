@@ -17,9 +17,9 @@ import com.himamis.retex.editor.share.util.JavaKeyCodes;
 /**
  * A container for tabular data, with support for selecting parts of the data.
  *
- * @Note: This type is not designed to be thread-safe.
+ * @apiNote This type is not designed to be thread-safe.
  */
-public final class SpreadsheetController implements TabularSelection {
+public final class SpreadsheetController {
 
 	private final ContextMenuItems contextMenuItems;
 	private final SpreadsheetSelectionController selectionController
@@ -72,17 +72,24 @@ public final class SpreadsheetController implements TabularSelection {
 
 	// - TabularSelection
 
-	@Override
 	public void clearSelection() {
 		selectionController.clearSelection();
 	}
 
-	@Override
+	/**
+	 * @param row row index
+	 * @param extend whether to extend selection (SHIFT)
+	 * @param addSelection whether to add a separate selection (CTRL)
+	 */
 	public void selectRow(int row, boolean extend, boolean addSelection) {
 		selectionController.selectRow(row, extend, addSelection);
 	}
 
-	@Override
+	/**
+	 * @param column column index
+	 * @param extend whether to extend selection (SHIFT)
+	 * @param addSelection whether to add a separate selection (CTRL)
+	 */
 	public void selectColumn(int column, boolean extend, boolean addSelection) {
 		selectionController.selectColumn(column, extend, addSelection);
 	}
@@ -92,13 +99,14 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @param extend Whether we want to extend the current selection (SHIFT)
 	 * @param addSelection Whether we want to add the selection to the current selection (CTRL)
 	 */
-	@Override
 	public void select(TabularRange selection, boolean extend, boolean addSelection) {
-		return selectionController.select(new Selection(selection),
+		selectionController.select(new Selection(selection),
 				extend, addSelection);
 	}
 
-	@Override
+	/**
+	 * Select all cells
+	 */
 	public void selectAll() {
 		// TODO I think the selectionController should know the number of rows/columns,
 		//  so I'd add a field and setter (call when the data shape changes)
@@ -170,7 +178,6 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @param x x-coordinate relative to viewport
 	 * @param y y-coordinate relative to viewport
 	 * @param modifiers event modifiers
-	 * @return whether the event caused changes in spreadsheet requiring repaint
 	 */
 	// TODO I think all coordinates (everywhere in spreadsheet) should be floats
 	public void handlePointerDown(int x, int y, Modifiers modifiers) {
@@ -305,7 +312,6 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @param keyCode Key Code
 	 * @param key unicode value
 	 * @param modifiers Modifiers
-	 * @return Whether the event caused changes in the spreadsheet requiring repaint
 	 */
 	public void handleKeyPressed(int keyCode, String key, Modifiers modifiers) {
 		boolean cellSelectionChanged = false;
@@ -408,7 +414,6 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @param x event x-coordinate in pixels
 	 * @param y event y-coordinate in pixels
 	 * @param modifiers alt/ctrl/shift
-	 * @return whether something changed and repaint is needed
 	 */
 	public void handlePointerMove(int x, int y, Modifiers modifiers) {
 		switch (dragAction.cursor) {

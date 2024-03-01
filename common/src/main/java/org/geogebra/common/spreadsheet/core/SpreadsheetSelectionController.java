@@ -2,15 +2,14 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
 
 // TODO testing: This class contains a lot of tricky logic, so it should be directly unit-tested
 //  (not just indirectly via SpreadsheetController).
 //  If you follow my advice to <a href="https://docs.google.com/presentation/d/1HAcW_FE7oP60l3cmR7FR89CDKX67PuSxg3Jjsvtv02c/edit#slide=id.g15d630f14f3_0_0">go bottom-up"</a>,
-//  to design and test building blocks in isolation, and then assemble larger systems from well-tested
-//  building blocks, you cannot fall into this trap.
+//  to design and test building blocks in isolation, and then assemble larger systems
+//  from well-tested  building blocks, you cannot fall into this trap.
 //
 // TODO design: The API is unsymmetric with respect to the boolean return values of some selection-modifying
 //  methods. Either we have _all of them_ return a boolean that indicates whether the selection changed, or
@@ -55,13 +54,12 @@ final class SpreadsheetSelectionController {
 	 * (potentially selection-modifying) operations.
 	 */
 	List<Selection> selections() {
-		return selections.stream().map(Selection::clone).collect(Collectors.toList());
+		return new ArrayList<>(selections);
 	}
 
 	/**
 	 * Clears the list of selection and adds a single element to it
 	 * @param selection Selection
-	 * @return whether selection changed
 	 */
 	// TODO naming: setSelection (singular; it takes one selection, and the result is also one selection)
 	public void setSelection(Selection selection) {
@@ -143,18 +141,6 @@ final class SpreadsheetSelectionController {
 			select(lastSelection.getBottom(numberOfRows, extendSelection),
 					extendSelection, false);
 		}
-	}
-
-	void enter() {
-		// stub
-	}
-
-	void cancel() {
-		// stub
-	}
-
-	void addSelectionListener(SpreadsheetSelectionListener listener) {
-		// stub
 	}
 
 	/**
