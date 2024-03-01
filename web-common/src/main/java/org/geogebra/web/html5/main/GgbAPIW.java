@@ -245,10 +245,10 @@ public class GgbAPIW extends GgbAPI {
 		if (value) {
 			str = geo.toValueString(StringTemplate.latexTemplate);
 		} else if (geo instanceof  GeoCasCell) {
-			str = ((GeoCasCell) geo).getLaTeXInput(StringTemplate.latexTemplate);
+			str = ((GeoCasCell) geo).getLaTeXInput();
 			if (str == null) {
 				// regexp should be good enough in most cases, avoids dependency on ReTeX
-				str = ((GeoCasCell) geo).getInput(StringTemplate.defaultTemplate)
+				str = ((GeoCasCell) geo).getLocalizedInput()
 						.replaceAll("([{}$])", "\\\\$1");
 			}
 		} else {

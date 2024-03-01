@@ -77,14 +77,14 @@ public class GeoSymbolicVectorTest extends BaseSymbolicTest {
 		add("l2 = {3,4,5}");
 		GeoSymbolic list = add("L3 = (l1, l2)");
 		assertThat(list.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
-				equalTo("\\left\\{\\left(1, 3 \\right), "
-						+ "\\left(2, 4 \\right), "
-						+ "\\left(\\pi , 5 \\right)\\right\\}"));
+				equalTo("\\left\\{\\left(1,\\;3 \\right),\\;"
+						+ "\\left(2,\\;4 \\right),\\;"
+						+ "\\left(\\pi ,\\;5 \\right)\\right\\}"));
 		list.setSymbolicMode(false, false);
 		assertThat(list.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
-				equalTo("\\left\\{\\left(1, 3 \\right), "
-						+ "\\left(2, 4 \\right), "
-						+ "\\left(3.1415926536, 5 \\right)\\right\\}"));
+				equalTo("\\left\\{\\left(1,\\;3 \\right),\\;"
+						+ "\\left(2,\\;4 \\right),\\;"
+						+ "\\left(3.1415926536,\\;5 \\right)\\right\\}"));
 	}
 
 	@Test
@@ -93,14 +93,14 @@ public class GeoSymbolicVectorTest extends BaseSymbolicTest {
 		add("l2 = {3,4,5}");
 		GeoSymbolic list = add("l3 = (l1, l2)");
 		assertThat(list.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
-				equalTo("\\left\\{\\left(1, 3 \\right), "
-						+ "\\left(2, 4 \\right), "
-						+ "\\left(\\pi , 5 \\right)\\right\\}"));
+				equalTo("\\left\\{\\left(1,\\;3 \\right),\\;"
+						+ "\\left(2,\\;4 \\right),\\;"
+						+ "\\left(\\pi ,\\;5 \\right)\\right\\}"));
 		list.setSymbolicMode(false, false);
 		assertThat(list.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
-				equalTo("\\left\\{\\left(1, 3 \\right), "
-						+ "\\left(2, 4 \\right), "
-						+ "\\left(3.1415926536, 5 \\right)\\right\\}"));
+				equalTo("\\left\\{\\left(1,\\;3 \\right),\\;"
+						+ "\\left(2,\\;4 \\right),\\;"
+						+ "\\left(3.1415926536,\\;5 \\right)\\right\\}"));
 	}
 
 	@Test

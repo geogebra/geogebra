@@ -252,4 +252,21 @@ public class EditorPointTest {
 				.checkRaw("MathSequence[FnAPPLY[MathSequence[a, b], MathSequence[]]]");
 
 	}
+
+	@Test
+	public void testCursorCanExitFromEmptyPointInAV() {
+		checker.convertFormulaForAV(emptyPoint3D)
+				.right(2)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.right(3)
+				.checkCursorIsAtRoot();
+	}
+
+	@Test
+	public void testCursorCanGoBackToEmptyPointInAV() {
+		checker.convertFormulaForAV(emptyPoint3D)
+				.right(3)
+				.left(1)
+				.checkPlaceholders("_,_,|");
+	}
 }

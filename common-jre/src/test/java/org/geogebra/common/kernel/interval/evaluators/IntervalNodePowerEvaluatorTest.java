@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.interval.evaluators;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.PRECISION;
 import static org.geogebra.common.kernel.interval.IntervalConstants.aroundZero;
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
@@ -139,8 +140,14 @@ public class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void evaluateXPowerOfZero()  {
+	public void evaluateZerothPowerOfX()  {
 		shouldBeOne("x^0");
+	}
+
+	@Test
+	public void evaluateXthPowerOfZero()  {
+		assertTrue("0^x should be undefined around 0",
+				valueOnInterval("0^x", -PRECISION, PRECISION).isUndefined());
 	}
 
 	@Test

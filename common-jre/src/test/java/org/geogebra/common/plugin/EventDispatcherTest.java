@@ -98,11 +98,6 @@ public class EventDispatcherTest extends BaseUnitTest implements EventListener {
 		}
 	}
 
-	@Override
-	public void reset() {
-
-	}
-
 	private void verifyClientListenersNotified(EventType eventType) {
 		Event event = new Event(eventType);
 		eventDispatcher.dispatchEvent(event);

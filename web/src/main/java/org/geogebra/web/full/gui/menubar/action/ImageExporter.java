@@ -22,8 +22,6 @@ class ImageExporter {
 	}
 
 	void export(String url) {
-		app.getSelectionManager().clearSelectedGeos();
-
 		String name = app.getExportTitle() + "." + extension;
 
 		app.getFileManager().exportImage(url, name, extension);
