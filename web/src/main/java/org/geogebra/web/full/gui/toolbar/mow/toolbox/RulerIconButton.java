@@ -9,6 +9,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 public class RulerIconButton extends IconButton {
+	private final static int TOOLBOX_PADDING = 8;
 	private RulerPopup rulerPopup;
 	private AppW appW;
 
@@ -36,7 +37,7 @@ public class RulerIconButton extends IconButton {
 			rulerPopup = new RulerPopup(appW, this);
 		}
 
-		rulerPopup.showPopup(getAbsoluteLeft() + getOffsetWidth() + 8, // padding of button
+		rulerPopup.showPopup(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
 				(int) (getAbsoluteTop() - appW.getAbsTop()));
 	}
 

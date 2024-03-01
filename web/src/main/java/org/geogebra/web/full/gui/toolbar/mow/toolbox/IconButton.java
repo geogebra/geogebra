@@ -142,7 +142,9 @@ public class IconButton extends StandardButton {
 	public void updateImgAndTxt(SVGResource image, int mode, AppW appW) {
 		this.image = image;
 		setIcon(image);
-		setAltText(appW.getToolName(mode) + ". " + appW.getToolHelp(mode));
+		String toolName = appW.getToolName(mode);
+		setAltText(toolName + ". " + appW.getToolHelp(mode));
+		AriaHelper.setDataTitle(this, toolName);
 		TestHarness.setAttr(this, "selectModeButton" + mode);
 	}
 }

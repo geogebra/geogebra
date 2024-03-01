@@ -738,9 +738,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 				return;
 			}
-			if (newMode == EuclidianConstants.MODE_RULER
-					|| newMode == EuclidianConstants.MODE_PROTRACTOR
-					|| newMode == EuclidianConstants.MODE_TRIANGLE_PROTRACTOR) {
+			if (isRulerMode(newMode)) {
 				app.setMode(mode, ModeSetter.DOCK_PANEL);
 				return;
 			}
@@ -774,6 +772,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		kernel.notifyRepaint();
+	}
+
+	private boolean isRulerMode(int newMode) {
+		return newMode == EuclidianConstants.MODE_RULER
+				|| newMode == EuclidianConstants.MODE_PROTRACTOR
+				|| newMode == EuclidianConstants.MODE_TRIANGLE_PROTRACTOR;
 	}
 
 	/**
