@@ -2256,6 +2256,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	@Issue("APPS-5454")
+	public void shouldUseFunctionVariables() {
+		GeoSymbolic jd = add("f(x)=floor(x)");
+		assertThat(jd.getFunctionVariables().length, equalTo(1));
+		assertThat(jd.getVarString(StringTemplate.defaultTemplate), equalTo("x"));
+	}
+
+	@Test
 	@Issue("APPS-5344")
 	public void mistypedParametricShouldFail() {
 		t("X=(1,2,3)+r(1,2,3)", "?");
