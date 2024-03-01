@@ -408,7 +408,7 @@ public class ScreenReader {
 		try {
 			double indexVal = MyDouble.parseDouble(loc, index);
 			if (DoubleUtil.isInteger(indexVal)) {
-				index = loc.getOrdinalNumber((int) indexVal);
+				index = loc.getLanguage().getOrdinalNumber((int) indexVal);
 			}
 		} catch (MyError e) {
 			Log.trace("Not a number");
