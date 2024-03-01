@@ -4,6 +4,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.main.settings.StyleSettings;
 import org.geogebra.common.util.StringUtil;
@@ -11,6 +12,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.main.AppW;
+
+import jsinterop.base.JsPropertyMap;
 
 /**
  * File loader for Web
@@ -26,28 +29,29 @@ public class LoadFilePresenter {
 	 *            app
 	 */
 	public void onPageLoad(final AppletParameters view, final AppW app) {
-		ArchiveLoader vv = app.getArchiveLoader();
+		ArchiveLoader loader = app.getArchiveLoader();
 		String base64String;
 		String filename;
+		String jsonString;
 		app.checkScaleContainer();
 		boolean fileOpened = true;
 		app.setAllowSymbolTables(view.getDataParamAllowSymbolTable());
 		app.setErrorDialogsActive(view.getDataParamErrorDialogsActive());
 
-		if (!"".equals(filename = view.getDataParamJSON())) {
-			processJSON(filename, vv);
+		if (!"".equals(jsonString = view.getDataParamJSON())) {
+			processJSON(jsonString, loader);
 		} else if (!""
 				.equals(base64String = view.getDataParamBase64String())) {
-			vv.processBase64String(base64String);
+			loader.processBase64String(base64String);
 		} else if (!"".equals(filename = view.getDataParamFileName())) {
-			vv.processFileName(filename);
+			loader.processFileName(filename);
 		} else if (!"".equals(view.getDataParamTubeID())) {
 			app.openMaterial(view.getDataParamTubeID(),
 					err -> {
+						double status = MyError.Errors.NotAuthorized
+								.getKey().equals(err) ? 401 : 404;
 						openEmptyApp(app, view);
-						app.getToolTipManager()
-								.showBottomMessage(app.getLocalization()
-										.getError(err), app);
+						loader.handleError(JsPropertyMap.of("status", status), err);
 					});
 		} else {
 			fileOpened = false;
