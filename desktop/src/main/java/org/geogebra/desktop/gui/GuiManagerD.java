@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -2188,7 +2189,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	// See http://stackoverflow.com/questions/6198894/java-encode-url for an
 	// explanation
-	private static URL getEscapedUrl(String url0) throws Exception {
+	private static URL getEscapedUrl(String url0) throws URISyntaxException, MalformedURLException {
 		String url;
 		if (url0.startsWith("www")) {
 			url = "http://" + url0;
@@ -2409,7 +2410,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			showURLinBrowser(helpURL);
 		} catch (MyError e) {
 			getApp().showError(e);
-		} catch (Exception e) {
+		} catch (RuntimeException | URISyntaxException | MalformedURLException e) {
 			Log.debug("openHelp error: " + e + " " + e.getMessage()
 					+ " " + page + " " + type);
 			getApp().showGenericError(e);
@@ -2421,7 +2422,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		try {
 			URL url = getEscapedUrl(strURL);
 			showURLinBrowser(url);
-		} catch (Exception e) {
+		} catch (RuntimeException | MalformedURLException | URISyntaxException e) {
 			Log.debug(e);
 		}
 	}
