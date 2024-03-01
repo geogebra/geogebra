@@ -106,7 +106,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 			int finalRow = row;
 			ComponentCheckbox cb = new ComponentCheckbox(loc, true, "" + (row + 1),
 					ignore -> onDataClick(finalRow));
-			dataTable.getTable().setWidget(row + 1, 0, cb); 
+			dataTable.getTable().setWidget(row + 1, 0, cb);
 
 			dataTable.setValueAt(
 					dataArray.get(row).toDefinedValueString(
@@ -174,7 +174,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 	 * @param index
 	 *            clicked item index
 	 */
-	public void onDataClick(int index) { 
+	public void onDataClick(int index) {
 		selectionList[index] = !selectionList[index];
 		statController.updateSelectedDataList(index,
 				selectionList[index]);

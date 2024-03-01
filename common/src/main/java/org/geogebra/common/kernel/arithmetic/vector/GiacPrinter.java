@@ -5,13 +5,11 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
-import org.geogebra.common.kernel.printing.printer.Printer;
 import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 
-class GiacPrinter implements Printer {
+class GiacPrinter {
 
-    @Override
-    public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
+    public static String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
 			PrintableVector vector) {
         StringBuilder sb = new StringBuilder();
         sb.append(getHead(vector));
@@ -22,7 +20,7 @@ class GiacPrinter implements Printer {
         return sb.toString();
     }
 
-    private String getHead(PrintableVector vector) {
+    private static String getHead(PrintableVector vector) {
         if (vector.isCASVector()) {
             return "ggbvect[";
         } else if (GeoSymbolic.isWrappedList(vector.getX())
@@ -33,7 +31,7 @@ class GiacPrinter implements Printer {
         }
     }
 
-    private char getTail(PrintableVector vector) {
+    private static char getTail(PrintableVector vector) {
         return vector.isCASVector() ? ']' : ')';
     }
 

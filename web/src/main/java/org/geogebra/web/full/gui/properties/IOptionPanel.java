@@ -7,7 +7,7 @@ import org.gwtproject.user.client.ui.Widget;
 public interface IOptionPanel extends SetLabels {
 	Object updatePanel(Object[] geos);
 
-	Widget getWidget(); 
+	Widget getWidget();
 
 	OptionsModel getModel();
 }

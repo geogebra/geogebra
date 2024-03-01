@@ -46,7 +46,6 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.MacroKernel;
 import org.geogebra.common.kernel.PathRegionHandling;
 import org.geogebra.common.kernel.SetRandomValue;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -2593,7 +2592,7 @@ public class MyXMLHandler implements DocHandler {
 			macro = new Macro(kernel, myCmdName);
 			macro.setToolName(toolName);
 			macro.setCopyCaptionsAndVisibility(copyCaptions);
-			macro.setToolHelp(toolHelp); 
+			macro.setToolHelp(toolHelp);
 			macro.setIconFileName(iconFile);
 			String strShowInToolBar = attrs.get("showInToolBar");
 			boolean showTool = strShowInToolBar == null || parseBoolean(strShowInToolBar);
@@ -2745,7 +2744,7 @@ public class MyXMLHandler implements DocHandler {
 				// sometimes saved files contain one empty cell pair, see #2469
 				// attachment
 				if (cons.getCasCell(0) == null && geoCasCell
-						.getInput(StringTemplate.defaultTemplate).equals("")) {
+						.getLocalizedInput().equals("")) {
 					return;
 				}
 				cons.addToConstructionList(geoCasCell, true);

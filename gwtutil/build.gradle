@@ -7,10 +7,11 @@ plugins {
 project.setDescription('Developer tools required to compile web platforms')
 
 dependencies {
-    api 'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202306201',
-            'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202306201:sources',
+    api 'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202402231',
+            'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202402231:sources',
         "org.gwtproject:gwt-user:$gwtCompilerVersion",
         "org.gwtproject:gwt-dev:$gwtCompilerVersion",
+        "org.gwtproject.http:gwt-http:1.0.0-RC3",
             project(':common')
     api 'org.gwtproject.core:gwt-core:1.0.0-RC2'
     api group: 'com.google.elemental2', name: 'elemental2-core', version: '1.2.1'
@@ -19,8 +20,8 @@ dependencies {
     api group: 'com.google.elemental2', name: 'elemental2-media', version: '1.2.1'
     api group: 'com.google.elemental2', name: 'elemental2-webgl', version: '1.2.1'
 
-    api group: 'org.gwtproject.resources', name: 'gwt-resources-api', version: 'HEAD-SNAPSHOT'
-    api group: 'org.gwtproject.resources', name: 'gwt-resources-processor', version: 'HEAD-SNAPSHOT'
+    api 'org.treblereel.gwt.gwtproject.resources:gwt-resources-api:202402231'
+    api 'org.treblereel.gwt.gwtproject.resources:gwt-resources-processor:202402231'
     api 'org.gwtproject.timer:gwt-timer:1.0.0-RC1'
 
 // https://mvnrepository.com/artifact/com.google.auto.service/auto-service

@@ -8,11 +8,11 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.cas.UsesCAS;
@@ -31,7 +31,7 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 		UsesCAS {
 
 	private final GeoFunction f; // input
-	private final MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+	private final ArbitraryConstantRegistry arbconst = new ArbitraryConstantRegistry(this);
 	private final boolean checkLimitsSymbolically;
 	private static final double NUMERIC_LIMIT_CHECK_PRECISION = Kernel.MAX_PRECISION;
 

@@ -93,6 +93,7 @@ public class Parser implements ParserInterface {
     private FunctionParser functionParser;
     private final ArrayList<ExpressionNode> undecided = new ArrayList<ExpressionNode >();
     private boolean highPrecisionParsing;
+    private int nestedCommands = 0;
 
     public Parser(Kernel kernel) {
         this ( new StringProvider("") ); // dummy stream for parser initing
@@ -132,6 +133,7 @@ public class Parser implements ParserInterface {
 		externalCASParsing = false;
 		giacParsing = false;
 		highPrecisionParsing = true;
+		nestedCommands = 0;
 		functionParser.setInputBoxParsing(false);
 		enableStructures = kernel.getAlgebraProcessor().enableStructures();
 		undecided.clear();
@@ -217,6 +219,7 @@ public class Parser implements ParserInterface {
     public ExpressionNode parseCmdExpression(String parseString)
     throws ParseException {
         myReInit(parseString );
+        nestedCommands = 1;
         ExpressionNode ret = expressionOrEquation().wrap();
         processUndecided();
         return ret;
@@ -477,9 +480,9 @@ TOKEN : {
 /**
  * for GeoGebra input field
  * validexpression =
- *                  labellist() = command() |           // e.g. {A,B} = Intersect[c, g]
+ *                  labellist() = functionOrCommand() |           // e.g. {A,B} = Intersect[c, g]
  *                      <LABEL> : parametric() |        // e.g. X = (3,2) + t (2,1)
- *                      <LABEL> = expressionn()      // arithmetic expression of floats, vectors and vars
+ *                      <LABEL> = expression()      // arithmetic expression of floats, vectors and vars
  *                      <LABEL> : equation()        // equation in x an y
              <LABEL>(x) = function()   // function in x, e.g. f(x) = 3x^3 - sqrt(x)
  */
@@ -629,35 +632,6 @@ Token casVar():
   {
     return t;
   }
-}
-
-
-/**
- * command =     <LABEL> [ argument (, argument)* ]
- */
-ValidExpression command():
-{
-    Command c;
-    Token t;
-    String cmdName;
-    ValidExpression en;
-}
-{
-  (
-       (t = <FUNCTION_LABEL>) // includes (
-      { cmdName = t.image.substring(0,t.image.length()-1);
-        c = new Command(kernel, cmdName, true, !externalCASParsing );    }
-      (   ( en = expressionOrEquation()  { c.addArgument( en.wrap() ); } )?
-          ( <COMMA> en = expressionOrEquation() { c.addArgument( en.wrap() ); } )*
-      (")"|"]") )
-      { if (giacParsing)
-      {
-        ExpressionNode res = CommandDispatcherGiac.processCommand(cmdName,c,kernel);
-        if (res != null)
-          return res;
-      }
-      return c; }
-  )
 }
 
 
@@ -1415,11 +1389,7 @@ ExpressionValue enelement():
 |
     // cos, sin, tan, ...
     LOOKAHEAD(2147483647)
-    ev = numberFunction()
-|
-  // command
-  LOOKAHEAD(2147483647)
-    ev = command()
+    ev = functionOrCommand()
 |
     // number or vector variable
      LOOKAHEAD(2147483647)
@@ -1748,8 +1718,9 @@ ExpressionValue myDouble():
 
 /**
  * mathematical Function (cos, sin, tan, ...)
+ * or command (Midpoint, Line, ...)
  */
-ExpressionNode numberFunction():
+ExpressionNode functionOrCommand():
 {
     ValidExpression en;
     MyList myList;
@@ -1811,23 +1782,29 @@ ExpressionNode numberFunction():
         ret = new ExpressionNode(kernel, randNum, Operation.RANDOM, null);
     }
 |
-    c = <FUNCTION_LABEL> en = expressionOrEquation()
-    {
+    c = <FUNCTION_LABEL> {
         myList = new MyList(kernel, true);
-        myList.addListElement(en);
+        nestedCommands++;
     }
-    (
-    	<COMMA> en = expressionOrEquation()
+     (en = expressionOrEquation()
         {
             myList.addListElement(en);
         }
-    )*
+        (
+            <COMMA> en = expressionOrEquation()
+            {
+                myList.addListElement(en);
+            }
+        )*
+    )?
     (closing = ")" | closing = "]")
     {
-		// note: the last character of FUNCTION_LABEL is a "("
+        nestedCommands--;
+        boolean topLevel = c.beginColumn == 1
+                && (closing.next == null || closing.next.kind == EOF || closing.next.kind == POLAR_SEPARATOR);
+        // note: the last character of FUNCTION_LABEL is a "("
         ret = functionParser.makeFunctionNode(c.image, myList, undecided, giacParsing,
-        	geoGebraCASParsing, c.beginColumn == 1
-        		&& (closing.next == null || closing.next.kind == EOF || closing.next.kind == POLAR_SEPARATOR));
+            geoGebraCASParsing, topLevel, nestedCommands);
     })
     {return ret;}
 }

@@ -153,23 +153,26 @@ public class IntervalAlgebra {
 	/**
 	 * Power of an interval where power is also an interval
 	 * that must be a singleton, ie [n, n]
-	 * @param other interval power.
+	 * @param base power base
+	 * @param exponent interval power.
 	 * @return this as result.
 	 */
-	Interval pow(Interval interval, Interval other) {
-		if (other.isZero()) {
-			return one();
+	Interval pow(Interval base, Interval exponent) {
+		if (exponent.isZero()) {
+			// x^0 should be 1 for x around 0, 0^x should be 0 for small x
+			return base.isZero() && base.isExactSingleton() && !exponent.isExactSingleton()
+					? undefined() : one();
 		}
 
-		if (interval.isZeroWithDelta(IntervalConstants.PRECISION / 2)) {
-			return other.isPositive() ? zero() : undefined();
+		if (base.isZeroWithDelta(IntervalConstants.PRECISION / 2)) {
+			return exponent.isPositive() ? zero() : undefined();
 		}
 
-		if (!other.isSingleton()) {
-			return powerOfInterval(interval, other);
+		if (!exponent.isSingleton()) {
+			return powerOfInterval(base, exponent);
 		}
 
-		return pow(interval, other.getLow());
+		return pow(base, exponent.getLow());
 	}
 
 	private Interval powerOfInterval(Interval interval, Interval other) {

@@ -44,7 +44,7 @@ public class CmdArea extends CommandProcessor {
 			// area of polygon = polygon variable
 			else if (arg[0].isGeoPolygon()) {
 
-				AlgoAreaPolygon algo = new AlgoAreaPolygon(cons, 
+				AlgoAreaPolygon algo = new AlgoAreaPolygon(cons,
 						(GeoPolygon) arg[0]);
 				algo.getArea().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getArea() };

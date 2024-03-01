@@ -345,6 +345,15 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 	}
 
+	/**
+	 * Update the list of geos with default TempSet.
+	 *
+	 * @param list geos to update.
+	 */
+	public static void updateCascade(List<GeoElement> list) {
+		updateCascade(list, getTempSet(), true);
+	}
+
 	private void initWith(@Nonnull App app) {
 		appConfig = app.getConfig();
 		graphicsadapter = app.newGeoElementGraphicsAdapter();
@@ -6889,8 +6898,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public void addAuralName(ScreenReaderBuilder sb) {
-		addAuralType(sb);
 		if (!addAuralCaption(sb)) {
+			addAuralType(sb);
 			addAuralLabel(sb);
 			addAuralValue(sb);
 		}

@@ -131,7 +131,8 @@ public class ScriptInputModel extends OptionsModel {
 		boolean isSingleGeo = getGeosLength() == 1;
 		switch(type){
 		case LOAD_PAGE:
-			return app.getScriptManager().isJsEnabled();
+			return app.getScriptManager().isJsEnabled()
+					&& !app.getEventDispatcher().isDisabled(ScriptType.JAVASCRIPT);
 		case CLICK:
 			return isSingleGeo && getGeo().canHaveClickScript();
 		case UPDATE:

@@ -1578,7 +1578,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 			return;
 		}
-		sb.append('(');
+		sb.append(tpl.leftBracket());
 		sb.append(kernel.format(x, tpl));
 		String separatorWithSpace = getValueSeparatorWithSpace(kernel, tpl);
 
@@ -1588,7 +1588,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		sb.append(separatorWithSpace);
 		sb.append(kernel.format(z, tpl));
 
-		sb.append(')');
+		sb.append(tpl.rightBracket());
 	}
 
 	/**
@@ -2064,6 +2064,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		}
 
 		return null;
+	}
+
+	@Override
+	public Coords getCoordsInD2IfInPlaneInRealCoords(CoordSys coordSys) {
+		return getCoordsInD2IfInPlane(coordSys);
 	}
 
 	@Override
@@ -2902,13 +2907,14 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
 		if (!geoPoint.addAuralCaption(sb)) {
 			geoPoint.addAuralLabel(sb);
+		} else {
+			return sb.toString();
 		}
-
 		ScreenReaderBuilder sbWithValue = new ScreenReaderBuilder(loc);
 		sbWithValue.appendDegreeIfNeeded(geoPoint,
 				ScreenReader.convertToReadable(geoPoint.getValueForInputBar(),
 						geoPoint.getKernel().getApplication()));
-		return loc.getPlain("PointAMovedToB",
+		return loc.getPlainDefault("PointAMovedToB", "Point %0 moved to %1",
 				sb.toString(),
 				sbWithValue.toString());
 

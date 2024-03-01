@@ -14,13 +14,13 @@ import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -129,7 +129,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	@Override
 	public String evaluateGeoGebraCAS(ValidExpression casInput,
-			MyArbitraryConstant arbconst, StringTemplate tpl, GeoCasCell cell,
+			ArbitraryConstantRegistry arbconst, StringTemplate tpl, GeoCasCell cell,
 			Kernel kernel) throws CASException {
 		if (!app.getSettings().getCasSettings().isEnabled()
 				&& getCurrentCAS() != null) {
@@ -175,7 +175,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	@Override
 	final public String evaluateGeoGebraCAS(String exp,
-			MyArbitraryConstant arbconst, StringTemplate tpl, Kernel kernel)
+			ArbitraryConstantRegistry arbconst, StringTemplate tpl, Kernel kernel)
 			throws CASException {
 		try {
 			ValidExpression inVE = casParser.parseGeoGebraCASInput(exp, null);
