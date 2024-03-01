@@ -204,16 +204,27 @@ class EditorChecker {
 	}
 
 	public EditorChecker convertFormula(String input) {
+		return convertFormulaAndProtect(input, true);
+	}
+
+	private EditorChecker convertFormulaAndProtect(String input, boolean protect) {
 		try {
 			MathFormulaConverter converter =
 					new MathFormulaConverter(mathField.getMetaModel());
 			mathField.getInternal().setFormula(converter.buildFormula(input));
-			mathField.getInternal().getFormula().getRootComponent().setProtected();
+			if (protect) {
+				mathField.getInternal().getFormula().getRootComponent().setProtected();
+			}
+
 			mathField.getInternal().setLockedCaretPath();
 		} catch (com.himamis.retex.editor.share.io.latex.ParseException e) {
 			throw new RuntimeException(e);
 		}
 		return this;
+	}
+
+	public EditorChecker convertFormulaForAV(String input) {
+		return convertFormulaAndProtect(input, false);
 	}
 
 	public EditorChecker matrixFromParser(String input) {
@@ -295,6 +306,17 @@ class EditorChecker {
 	 */
 	public void checkCursorNotInScript() {
 		assertFalse(mathField.getInternal().getEditorState().isInScript());
+	}
+
+	/**
+	 * Asserts if the cursor is at the root component directly.
+	 *
+	 * For example ('|' is the cursor) let's take a point (1, 2) in math field.
+	 * Then '(1, |2)' is false, but '(1,2)|' or '|(1,2)' are true.
+	 */
+	public void checkCursorIsAtRoot() {
+		EditorState editorState = mathField.getInternal().getEditorState();
+		assertEquals(editorState.getCurrentField(), editorState.getRootComponent());
 	}
 
 	public EditorChecker select(int from, int to) {
