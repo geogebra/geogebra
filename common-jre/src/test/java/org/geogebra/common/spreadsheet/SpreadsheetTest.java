@@ -38,7 +38,6 @@ public class SpreadsheetTest extends BaseUnitTest {
 	private final int rowHeader = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 	private Spreadsheet spreadsheet;
 	private TestTabularData tabularData;
-	private SpreadsheetController controller;
 	private Rectangle viewport;
 
 	@Before
@@ -50,8 +49,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.setWidthForColumns(40, 0, 5);
 		viewport = new Rectangle(0, 100, 0, 120);
 		spreadsheet.setViewport(viewport);
-		controller = spreadsheet.getController();
-		controller.setViewportAdjustmentHandler(new ViewportAdjustmentHandler() {
+		spreadsheet.setViewportAdjustmentHandler(new ViewportAdjustmentHandler() {
 			@Override
 			public void setScrollPosition(int x, int y) {
 				viewport = viewport.translatedBy(x, y);
@@ -96,10 +94,10 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.draw(graphics);
 		// initially we have 3 columns
 		assertThat(graphics.toString(), startsWith("col0,col1,col2,1"));
-		spreadsheet.getController().selectColumn(1, false, false);
-		spreadsheet.getController().selectColumn(2, true, false);
-		spreadsheet.getController().selectColumn(3, true, false);
-		spreadsheet.getController().selectColumn(4, true, false);
+		spreadsheet.selectColumn(1, false, false);
+		spreadsheet.selectColumn(2, true, false);
+		spreadsheet.selectColumn(3, true, false);
+		spreadsheet.selectColumn(4, true, false);
 		spreadsheet.handlePointerDown(rowHeader + 80, 5, Modifiers.NONE);
 		spreadsheet.handlePointerMove(rowHeader + 50, 5, Modifiers.NONE);
 		spreadsheet.handlePointerUp(rowHeader + 50, 5, Modifiers.NONE);
@@ -147,10 +145,10 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.draw(graphics);
 		// initially we have 5 rows
 		assertThat(graphics.toString(), endsWith(",5"));
-		spreadsheet.getController().selectRow(1, false, false);
-		spreadsheet.getController().selectRow(2, true, false);
-		spreadsheet.getController().selectRow(3, true, false);
-		spreadsheet.getController().selectRow(4, true, false);
+		spreadsheet.selectRow(1, false, false);
+		spreadsheet.selectRow(2, true, false);
+		spreadsheet.selectRow(3, true, false);
+		spreadsheet.selectRow(4, true, false);
 		spreadsheet.handlePointerDown(15, colHeader + 20, Modifiers.NONE);
 		spreadsheet.handlePointerMove(15, colHeader + 45, Modifiers.NONE);
 		spreadsheet.handlePointerUp(15, colHeader + 45, Modifiers.NONE);

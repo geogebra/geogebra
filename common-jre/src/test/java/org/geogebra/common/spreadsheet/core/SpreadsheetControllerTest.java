@@ -17,6 +17,7 @@ public class SpreadsheetControllerTest {
     private final int cellHeight = TableLayout.DEFAUL_CELL_HEIGHT;
     private final int rowHeaderCellWidth = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 
+
     // TODO testing: I think it's better/safer to create a new instance of the system under test
     // *for each test case*. This way, you cannot run into test interdependencies (a situation where
     // one test depends on the final state of another test).

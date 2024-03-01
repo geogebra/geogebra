@@ -5,7 +5,7 @@ final class CopyPasteCutTabularDataImpl<T>
 	private final TabularData<T> tabularData;
 	private final ClipboardInterface clipboard;
 	private final TabularDataPasteInterface<T> paste;
-	private final TabularDataFormatter tabularDataFormatter;
+	private final TabularDataFormatter<T> tabularDataFormatter;
 	private TabularClipboard<T> internalClipboard;
 
 	/**

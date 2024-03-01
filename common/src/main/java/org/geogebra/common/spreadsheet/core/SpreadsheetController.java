@@ -37,7 +37,6 @@ public final class SpreadsheetController implements TabularSelection {
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
-	 * @param viewport Visible area
 	 */
 	public SpreadsheetController(TabularData<?> tabularData) {
 		this.tabularData = tabularData;
@@ -54,7 +53,7 @@ public final class SpreadsheetController implements TabularSelection {
 	private CopyPasteCutTabularData getCopyPasteCut() {
 		return controlsDelegate != null
 				? new CopyPasteCutTabularDataImpl<>(tabularData, controlsDelegate.getClipboard())
-				: null;q
+				: null;
 	}
 
 	TableLayout getLayout() {

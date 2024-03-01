@@ -26,7 +26,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param rendererFactory converts custom data type to rendable objects
 	 */
 	public Spreadsheet(TabularData<?> tabularData, CellRenderableFactory rendererFactory) {
-		controller = new SpreadsheetController(tabularData, null);
+		controller = new SpreadsheetController(tabularData);
 		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
 				controller.getStyle());
 		setViewport(new Rectangle(0, 0, 0, 0));
@@ -210,4 +210,25 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	public boolean isEditorActive() {
 		return controller.isEditorActive();
 	}
+
+	public void moveToNextCell() {
+		controller.moveRight(false);
+	}
+
+	public void selectRow(int row, boolean extend, boolean add) {
+		controller.selectRow(row, extend, add);
+	}
+
+	public void selectColumn(int column, boolean extend, boolean add) {
+		controller.selectColumn(column, extend, add);
+	}
+
+	public void selectCell(int row, int column, boolean extend, boolean add) {
+		controller.selectCell(row, column, extend, add);
+	}
+
+	public void setViewportAdjustmentHandler(ViewportAdjustmentHandler mockForScrollable) {
+		controller.setViewportAdjustmentHandler(mockForScrollable);
+	}
+
 }
