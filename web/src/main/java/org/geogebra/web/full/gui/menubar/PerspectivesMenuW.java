@@ -7,7 +7,7 @@ import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ResourcePrototype;
@@ -61,7 +61,7 @@ public class PerspectivesMenuW extends Submenu {
 		if (perspective == null) {
 			return;
 		}
-		addItem(MainMenu.getMenuBarHtmlClassic(ImgResourceHelper.safeURI(icon),
+		addItem(MainMenu.getMenuBarHtmlClassic(NoDragImage.safeURI(icon),
 				app.getLocalization()
 						.getMenu(perspective.getId())),
 				true,

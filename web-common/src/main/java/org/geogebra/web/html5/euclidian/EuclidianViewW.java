@@ -55,8 +55,8 @@ import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.Dom;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.SafeGeoImageFactory;
@@ -1381,7 +1381,7 @@ public class EuclidianViewW extends EuclidianView implements
 	private void createSVGBackgroundIfNeeded() {
 		SVGResource res = getSVGRulingResource();
 		if (res != null) {
-			String uri = ImgResourceHelper.safeURI(res);
+			String uri = NoDragImage.safeURI(res);
 			if (!uri.equals(svgBackgroundUri)) {
 				HTMLImageElement img = Dom.createImage();
 				img.src = uri;
