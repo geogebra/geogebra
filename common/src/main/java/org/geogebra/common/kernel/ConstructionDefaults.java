@@ -1005,14 +1005,14 @@ public class ConstructionDefaults implements SettingListener {
 				break;
 
 			case LABEL_VISIBLE_ALWAYS_OFF:
-				// we want sliders and angles to be labeled always
-				geo.setLabelVisible(geo.isGeoNumeric()
+				// we want sliders, angles, and checkboxes to be labeled always
+				geo.setLabelVisible(geo.isGeoBoolean() || geo.isGeoNumeric()
 						&& (geo.isGeoAngle() || geo.isIndependent()));
 				break;
 
 			case LABEL_VISIBLE_POINTS_ONLY:
-				// we want sliders and angles to be labeled always
-				geo.setLabelVisible(geo.isGeoPoint() || geo.isGeoNumeric());
+				// we want sliders, angles, and checkboxes to be labeled always
+				geo.setLabelVisible(geo.isGeoPoint() || geo.isGeoNumeric() || geo.isGeoBoolean());
 				break;
 
 			case LABEL_VISIBLE_USE_DEFAULTS:
