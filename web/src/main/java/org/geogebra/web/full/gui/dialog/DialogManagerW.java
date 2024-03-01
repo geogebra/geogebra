@@ -481,7 +481,9 @@ public class DialogManagerW extends DialogManager
 
 	@Override
 	public void showSaveDialog() {
-		getSaveDialog(app.isWhiteboardActive()).show();
+		if (saveDialog == null || !saveDialog.isShowing()) {
+			getSaveDialog(app.isWhiteboardActive()).show();
+		}
 	}
 
 	@Override
