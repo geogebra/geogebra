@@ -76,6 +76,20 @@ public class InputController {
 		this.allowAbs = allowAbs;
 	}
 
+	static private String getLetter(MathComponent component)
+			throws Exception {
+		if (!(component instanceof MathCharacter)) {
+			throw new Exception("Math component is not a character");
+		}
+
+		MathCharacter mathCharacter = (MathCharacter) component;
+		if (!mathCharacter.isCharacter() || !mathCharacter.isLetter()) {
+			throw new Exception("Math component is not a character");
+		}
+
+		return mathCharacter.getUnicodeString();
+	}
+
 	/**
 	 * Insert array.
 	 *
@@ -1006,6 +1020,47 @@ public class InputController {
 		for (int i = 0; i < lengthAfterCursor; i++) {
 			seq.delArgument(editorState.getCurrentOffset());
 		}
+	}
+
+	/**
+	 * set ret to characters (no digit) around cursor
+	 *
+	 * @param editorState
+	 *            current state
+	 * @param ret
+	 *            builder for the word
+	 * @return word length before cursor
+	 */
+	public static int getWordAroundCursor(EditorState editorState,
+			StringBuilder ret) {
+		int pos = editorState.getCurrentOffset();
+		MathSequence seq = editorState.getCurrentField();
+
+		StringBuilder before = new StringBuilder();
+		int i;
+		for (i = pos - 1; i >= 0; i--) {
+			try {
+				before.append(getLetter(seq.getArgument(i)));
+			} catch (Exception e) {
+				break;
+			}
+		}
+		int lengthBefore = pos - i - 1;
+
+		StringBuilder after = new StringBuilder();
+		for (i = pos; i < seq.size(); i++) {
+			try {
+				after.append(getLetter(seq.getArgument(i)));
+			} catch (Exception e) {
+				break;
+			}
+		}
+		before.reverse();
+		ret.append(before);
+		ret.append(after);
+
+		return lengthBefore;
+
 	}
 
 	/**
