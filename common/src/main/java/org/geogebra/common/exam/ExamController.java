@@ -95,7 +95,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	private final Set<ExamListener> listeners = new HashSet<ExamListener>();
 	private final TempStorage tempStorage = new TempStorage();
 	private CheatingEvents cheatingEvents = new CheatingEvents();
-	private final TimeFormatAdapter timeFormatter = FormatFactory.getPrototype().getTimeFormat();
+	private TimeFormatAdapter timeFormatter;
 
 	// TODO filter for apps with no CAS
 //	private final CommandFilter noCASFilter = CommandFilterFactory.createNoCasCommandFilter();
@@ -242,6 +242,9 @@ public final class ExamController implements PropertiesRegistryListener {
 		if (startDate == null) {
 			return null;
 		}
+		if (timeFormatter == null) {
+			timeFormatter = FormatFactory.getPrototype().getTimeFormat();
+		}
 		return timeFormatter.format(localization.getLanguageTag(), System.currentTimeMillis() - startDate.getTime());
 	}
 
@@ -257,8 +260,11 @@ public final class ExamController implements PropertiesRegistryListener {
 	 * or null otherwise.
 	 */
 	public @CheckForNull ExamSummary getExamSummary(AppConfig appConfig, Localization localization) {
-		if (state != ExamState.FINISHED) {
+		if (state == ExamState.IDLE || state == ExamState.PREPARING) {
 			return null;
+		}
+		if (timeFormatter == null) {
+			timeFormatter = FormatFactory.getPrototype().getTimeFormat();
 		}
 		return new ExamSummary(examType, startDate, finishDate, cheatingEvents,
 				appConfig, timeFormatter, localization);
