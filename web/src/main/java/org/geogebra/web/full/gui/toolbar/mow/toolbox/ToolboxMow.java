@@ -1,13 +1,8 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
-import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.main.App;
-import org.geogebra.common.plugin.Event;
-import org.geogebra.common.plugin.EventListener;
-import org.geogebra.common.plugin.EventType;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
+
 import org.geogebra.web.full.css.ToolbarSvgResources;
-import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -18,6 +13,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
 public class ToolboxMow extends FlowPanel {
 	private final AppW appW;
 	private ToolboxDecorator decorator;
+	private ToolboxController controller;
 	private IconButton spotlightBtn;
 
 	/**
@@ -27,6 +23,7 @@ public class ToolboxMow extends FlowPanel {
 	public ToolboxMow(AppW appW) {
 		this.appW = appW;
 		decorator = new ToolboxDecorator(this);
+		controller = new ToolboxController(appW, this);
 		RootPanel.get().add(this);
 		buildGui();
 	}
@@ -34,43 +31,14 @@ public class ToolboxMow extends FlowPanel {
 	private void buildGui() {
 		decorator.positionLeft();
 
-		spotlightBtn = addToggleButton(ZoomPanelResources.INSTANCE.target(), "Spotlight.Tool",
-				"Spotlight.Tool", "spotlightTool", () -> {
-					DockPanelW dp = (DockPanelW) appW.getGuiManager().getLayout().getDockManager()
-							.getPanel(App.VIEW_EUCLIDIAN);
-					dp.getComponent().addStyleName("graphicsWithSpotlight");
-					appW.getActiveEuclidianView().getEuclidianController().spotlightOn();
-					initSpotlightOff();
-					appW.hideMenu();
-				}, () -> {});
+		addSpotlightButton();
 
 		addDivider();
+
+		addRulerButton();
+
 		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(), "move mode", "moveBtn",
 				() -> appW.setMoveMode());
-	}
-
-	private void initSpotlightOff() {
-		appW.getEventDispatcher().addEventListener(new EventListener() {
-			@Override
-			public void sendEvent(Event evt) {
-				if (evt.getType() == EventType.REMOVE
-						&& evt.getTarget() != null && evt.getTarget().isSpotlight()
-				) {
-					EuclidianView view = appW.getActiveEuclidianView();
-					DockPanelW dp = (DockPanelW) appW.getGuiManager().getLayout().getDockManager()
-							.getPanel(App.VIEW_EUCLIDIAN);
-					dp.getComponent().removeStyleName("graphicsWithSpotlight");
-					view.clearSpotlight();
-					spotlightBtn.setActive(false, GColor.BLACK.toString());
-					appW.getEventDispatcher().removeEventListener(this);
-				}
-			}
-
-			@Override
-			public void reset() {
-				// not needed
-			}
-		});
 	}
 
 	private void addPressButton(SVGResource image, String ariaLabel, String dataTest,
@@ -88,24 +56,32 @@ public class ToolboxMow extends FlowPanel {
 		return iconButton;
 	}
 
-	/*private void addCategoryButton(SVGResource image, List<Integer> tools) {
-		StandardButton categoryBtn = new StandardButton(image, null, 24, 24);
-		categoryBtn.addStyleName("actionButton");
-		categoryBtn.addFastClickHandler((event)
-				-> {
-			CategoryPopup popup = new CategoryPopup(appW, tools);
-			popup.show(categoryBtn.getElement().getAbsoluteRight() + 16,
-					categoryBtn.getElement().getAbsoluteTop()
-							- categoryBtn.getElement().getClientHeight() - 16);
-		});
-
-		add(categoryBtn);
-	}*/
-
 	private void addDivider() {
 		SimplePanel divider = new SimplePanel();
 		divider.setStyleName("divider");
 
 		add(divider);
+	}
+
+	/**
+	 * switch spotlight button off
+	 */
+	public void switchSpotlightOff() {
+		spotlightBtn.setActive(false,
+				appW.getGeoGebraElement().getDarkColor(appW.getFrameElement()));
+	}
+
+	private void addSpotlightButton() {
+		spotlightBtn = addToggleButton(ZoomPanelResources.INSTANCE.target(), "Spotlight.Tool",
+				"Spotlight.Tool", "spotlightTool",
+				controller.getSpotlightOnHandler(), () -> {});
+	}
+
+	private void addRulerButton() {
+		String ariaLabel = appW.getToolName(MODE_RULER) + ". " + appW.getToolHelp(MODE_RULER);
+		RulerIconButton rulerBtn = new RulerIconButton(appW,
+				ToolbarSvgResources.INSTANCE.mode_ruler(), ariaLabel, "Ruler",
+				"selectModeButton" + MODE_RULER);
+		add(rulerBtn);
 	}
 }

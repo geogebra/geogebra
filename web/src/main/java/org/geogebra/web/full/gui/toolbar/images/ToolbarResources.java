@@ -296,4 +296,6 @@ public interface ToolbarResources {
 	ResourcePrototype mode_ruler();
 
 	ResourcePrototype mode_protractor();
+
+	ResourcePrototype mode_triangle_protractor();
 }

@@ -16,9 +16,7 @@ public class AriaHelper {
 	 * @param title - title
 	 */
 	public static void setTitle(UIObject ui, String title) {
-		if (!NavigatorUtil.isMobile()) {
-			ui.getElement().setAttribute("data-title", title);
-		}
+		setDataTitle(ui, title);
 		ui.getElement().removeAttribute("title");
 		ui.getElement().setAttribute("aria-label", title);
 	}
@@ -127,5 +125,15 @@ public class AriaHelper {
 	 */
 	public static void setDraggable(UIObject uiObject, boolean draggable) {
 		uiObject.getElement().setAttribute("draggable", String.valueOf(draggable));
+	}
+
+	/**
+	 * @param uiObject - element
+	 * @param title - title
+	 */
+	public static void setDataTitle(UIObject uiObject, String title) {
+		if (!NavigatorUtil.isMobile()) {
+			uiObject.getElement().setAttribute("data-title", title);
+		}
 	}
 }

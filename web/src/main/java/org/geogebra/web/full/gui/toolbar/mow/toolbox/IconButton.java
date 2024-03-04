@@ -125,11 +125,26 @@ public class IconButton extends StandardButton {
 		setIcon(image.withFill(isActive ? selectionColor : GColor.BLACK.toString()));
 	}
 
-	private boolean isActive() {
+	public boolean isActive() {
 		return getElement().hasClassName("active");
 	}
 
 	private boolean isDisabled() {
 		return getElement().hasClassName("disabled");
+	}
+
+	/**
+	 * Updates the image and the aria attributes
+	 * @param image - image
+	 * @param mode - tool mode
+	 * @param appW - application
+	 */
+	public void updateImgAndTxt(SVGResource image, int mode, AppW appW) {
+		this.image = image;
+		setIcon(image);
+		String toolName = appW.getToolName(mode);
+		setAltText(toolName + ". " + appW.getToolHelp(mode));
+		AriaHelper.setDataTitle(this, toolName);
+		TestHarness.setAttr(this, "selectModeButton" + mode);
 	}
 }
