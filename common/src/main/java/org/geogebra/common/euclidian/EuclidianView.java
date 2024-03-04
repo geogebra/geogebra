@@ -2265,8 +2265,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 					&& (d.hit(x, y, app.getCapturingThreshold(type)) || d.hitLabel(x, y))) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible() && geo.isSelectionAllowed(this)) {
-					focusTextField((GeoInputBox) geo);
-					((DrawInputBox) d).setWidgetVisible(true);
+					focusTextField((GeoInputBox) geo, getEuclidianController().getMouseLoc());
 					return true;
 				}
 
@@ -6194,10 +6193,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @param inputBox
-	 *            input box
+	 * @param inputBox input box
 	 */
 	public void focusTextField(GeoInputBox inputBox) {
+		focusTextField(inputBox, null);
+	}
+
+	/**
+	 * Focus the editor, move caret to given position and select text around the caret
+	 * (caret ignored for non-symbolic input boxes).
+	 * @param inputBox input box
+	 * @param caretPos cursor position with respect to the view
+	 */
+	public void focusTextField(GeoInputBox inputBox, GPoint caretPos) {
 		DrawableND d = getDrawableFor(inputBox);
 		if (d != null) {
 			app.getAccessibilityManager().cancelReadCollectedAltTexts();
@@ -6205,9 +6213,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			DrawInputBox drawInputBox = (DrawInputBox) d;
 			ScreenReader.debug(inputBox.getAuralText() + " [editable]");
 			if (inputBox.isSymbolicMode()) {
-				drawInputBox.attachMathField(null);
+				drawInputBox.attachMathField(caretPos);
 			} else if (viewTextField != null) {
 				viewTextField.focusTo(drawInputBox);
+				drawInputBox.setWidgetVisible(true);
 			}
 		}
 	}
@@ -6232,7 +6241,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void refreshTextfieldFocus(GeoInputBox inputBox) {
 		focusTextField(inputBox);
 		if (!inputBox.isSymbolicMode()) {
-			viewTextField.getTextField().getDrawTextField().setWidgetVisible(true);
 			getTextField().setSelection(0, getTextField().getText().length());
 		}
 	}

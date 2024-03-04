@@ -1578,7 +1578,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 			return;
 		}
-		sb.append('(');
+		sb.append(tpl.leftBracket());
 		sb.append(kernel.format(x, tpl));
 		String separatorWithSpace = getValueSeparatorWithSpace(kernel, tpl);
 
@@ -1588,7 +1588,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		sb.append(separatorWithSpace);
 		sb.append(kernel.format(z, tpl));
 
-		sb.append(')');
+		sb.append(tpl.rightBracket());
 	}
 
 	/**

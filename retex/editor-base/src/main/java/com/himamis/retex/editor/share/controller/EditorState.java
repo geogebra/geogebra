@@ -575,11 +575,12 @@ public class EditorState {
 	}
 
 	/**
-	 * @return Whether the current field is inside a mixed number or not
+	 * @return Whether fractions inside this function are disallowed
 	 */
-	public boolean isInMixedNumber() {
+	public boolean isPreventingNestedFractions() {
 		MathContainer parent = currentField.getParent();
-		return parent != null && parent.hasTag(Tag.MIXED_NUMBER);
+		return parent instanceof MathFunction
+				&& ((MathFunction) parent).isPreventingNestedFractions();
 	}
 
 	/**

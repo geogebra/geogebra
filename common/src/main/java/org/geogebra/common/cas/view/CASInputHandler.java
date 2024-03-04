@@ -91,7 +91,7 @@ public class CASInputHandler {
 		String selRowInput = cellEditor.getInput();
 
 		// needed for GGB-517
-		if (cellValue.getInput(StringTemplate.defaultTemplate).equals("")) {
+		if (cellValue.getLocalizedInput().equals("")) {
 			cellValue.setInput(selRowInput);
 		}
 
@@ -205,7 +205,7 @@ public class CASInputHandler {
 					sb.append(inputStrForNSolve);
 
 					// sb.append("]");
-					if (!cellValue.getInput(StringTemplate.defaultTemplate)
+					if (!cellValue.getLocalizedInput()
 							.equals(sb.toString())) {
 						cellValue.setNSolveCmdNeeded(true);
 						cellValue.setInput(sb.toString());
@@ -354,7 +354,7 @@ public class CASInputHandler {
 			// otherwise set the evaluation text to input
 		} else {
 			cellValue.setProcessingInformation(prefix,
-					cellValue.getInput(StringTemplate.defaultTemplate),
+					cellValue.getLocalizedInput(),
 					postfix);
 		}
 		if (isBasicTool) {
@@ -402,7 +402,7 @@ public class CASInputHandler {
 		boolean isEquList = false;
 		StringBuilder sb = new StringBuilder();
 		// sb.append("NSolve[");
-		sb.append(cellValue.getInput(StringTemplate.defaultTemplate));
+		sb.append(cellValue.getLocalizedInput());
 
 		ExpressionValue expandValidExp = null;
 		// case input is a cell

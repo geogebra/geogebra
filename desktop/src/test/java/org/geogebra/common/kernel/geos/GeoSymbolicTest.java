@@ -1936,7 +1936,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testSolutionsString() {
 		GeoSymbolic solutions = add("Solutions(x^2=5)");
 		assertThat(AlgebraItem.getLatexString(solutions, null, false),
-				equalTo("l1\\, = \\,\\left\\{-\\sqrt{5}, \\sqrt{5}\\right\\}"));
+				equalTo("l1\\, = \\,\\left\\{-\\sqrt{5},\\;\\sqrt{5}\\right\\}"));
 	}
 
 	@Test
@@ -2253,6 +2253,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("A = Min(f, 0, 5)", "(0, 4)");
 		GeoSymbolic minCommand = getSymbolic("A");
 		assertTrue(AlgebraItem.isSymbolicDiffers(minCommand));
+	}
+
+	@Test
+	@Issue("APPS-5454")
+	public void shouldUseFunctionVariables() {
+		GeoSymbolic jd = add("f(x)=floor(x)");
+		assertThat(jd.getFunctionVariables().length, equalTo(1));
+		assertThat(jd.getVarString(StringTemplate.defaultTemplate), equalTo("x"));
 	}
 
 	@Test

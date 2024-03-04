@@ -74,7 +74,10 @@ public class TableSymbols {
 			" cosIntegral(x) ",
 			" expIntegral(x) ",
 			" random() ",
-			" zeta(x) ", };
+			" zeta(x) ",
+			" Dirac(x) ",
+			" Heaviside(x) ",
+	};
 
 	// spaces either side (for multiply when inserted into the input bar)
 	private final static String[][] FUNCTIONS_GROUPED = {
@@ -97,7 +100,7 @@ public class TableSymbols {
 			{ " beta(a, b) ", " beta(a, b, x) ", " betaRegularized(a, b, x) " },
 			{ " erf(x) " },
 			{ " sinIntegral(x) ", " cosIntegral(x) ", " expIntegral(x) " },
-			{ " zeta(x) " }, };
+			{ " zeta(x) ", " Dirac(x) ", " Heaviside(x) " }, };
 
 	public final static String[] ANALYSIS = {
 			"\u2211", // N-ARY SUMMATION
@@ -572,6 +575,18 @@ public class TableSymbols {
 	public static String[] getTranslatedFunctions(App app) {
 		ParserFunctions parserFunctions = app.getParserFunctions();
 		Localization loc = app.getLocalization();
+		return getTranslatedFunctions(loc, parserFunctions);
+	}
+
+	/**
+	 * convert eg sin(x) into sen(x)
+	 *
+	 * @param loc localization
+	 * @param parserFunctions collection of functions available to parser
+	 * @return translated names eg sin(x) -> sen(x)
+	 */
+	public static String[] getTranslatedFunctions(Localization loc,
+			ParserFunctions parserFunctions) {
 		ArrayList<String> functions = new ArrayList<>();
 		for (String function: FUNCTIONS) {
 			String[] strs = function.split("\\(", 2);

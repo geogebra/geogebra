@@ -1977,8 +1977,13 @@ public enum Operation {
 		expand[1] = new ExpressionNode(kernel, expandLeft[1], minusOp, expandRight[1]);
 	}
 
+	/**
+	 * @return whether this function expects only one argument
+	 */
 	public boolean isUnary() {
-		return this == NO_OPERATION || isSimpleFunction(this);
+		return this == NO_OPERATION || isSimpleFunction(this)
+				|| this == ALT || this == ARG || this == CONJUGATE
+				|| this == REAL || this == IMAGINARY;
 	}
 
 	/**
@@ -2026,6 +2031,12 @@ public enum Operation {
 		case GAMMA:
 		case DIRAC:
 		case HEAVISIDE:
+		case FLOOR:
+		case CEIL:
+		case ROUND:
+		case FACTORIAL:
+		case SGN:
+		case FRACTIONAL_PART:
 			return true;
 		}
 		return false;

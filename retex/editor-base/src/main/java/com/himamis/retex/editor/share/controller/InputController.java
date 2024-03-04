@@ -335,13 +335,10 @@ public class InputController {
 		}
 		boolean builtin = tag != null;
 		// add sequences
-		for (int i = offset; i < function.size(); i++) {
-			MathSequence field = new MathSequence();
-			function.setArgument(i, field);
-		}
+		initArguments(function, offset);
 
 		// pass characters for fraction, factorial, and mixed number only
-		if (tag == Tag.FRAC || tag == Tag.MIXED_NUMBER) {
+		if (tag == Tag.FRAC) {
 			if (hasSelection) {
 				ArrayList<MathComponent> removed = cut(currentField,
 						currentOffset, -1, editorState, function, true);
@@ -388,6 +385,13 @@ public class InputController {
 			editorState.setCurrentOffset(editorState.getCurrentField().size());
 		} else {
 			editorState.incCurrentOffset();
+		}
+	}
+
+	private void initArguments(MathFunction function, int offset) {
+		for (int i = offset; i < function.size(); i++) {
+			MathSequence field = new MathSequence();
+			function.setArgument(i, field);
 		}
 	}
 
@@ -877,7 +881,6 @@ public class InputController {
 		return function.getName() == Tag.DEF_INT || function.getName() == Tag.SUM_EQ
 				|| function.getName() == Tag.PROD_EQ || function.getName() == Tag.LIM_EQ
 				|| function.getName() == Tag.ATOMIC_POST || function.getName() == Tag.ATOMIC_PRE
-				|| function.getName() == Tag.MIXED_NUMBER
 				|| function.getName() == Tag.RECURRING_DECIMAL;
 	}
 
@@ -1207,12 +1210,12 @@ public class InputController {
 				newScript(editorState, Tag.SUBSCRIPT);
 				handled = true;
 			} else if (ch == '/' || ch == '\u00f7') {
-				if (!editorState.isInMixedNumber()) {
+				if (!editorState.isPreventingNestedFractions()) {
 					newFunction(editorState, "frac", false, null);
 				}
 				handled = true;
 			} else if (ch == Unicode.INVISIBLE_PLUS) {
-				newFunction(editorState, "mixedNumber", false, null);
+				// skip, handled as fraction
 				handled = true;
 			} else if (ch == Unicode.SQUARE_ROOT) {
 				newFunction(editorState, "sqrt", false, null);
@@ -1411,6 +1414,23 @@ public class InputController {
 			return mathField.getInternal().onTab(shiftDown);
 		}
 		return true;
+	}
+
+	/**
+	 * Add mixed number, move to numerator if integer part present
+	 * @param state current state
+	 */
+	public void mixedNumber(EditorState state) {
+		MetaFunction meta = metaModel.getGeneral(Tag.FRAC);
+		MathFunction function = new MathFunction(meta);
+		function.setPreventingNestedFractions(true);
+		initArguments(function, 0);
+		MathComponent prev = state.getCurrentField().getArgument(state.getCurrentOffset() - 1);
+		state.getCurrentField().addArgument(state.getCurrentOffset(), function);
+		if (prev instanceof MathCharacter && ((MathCharacter) prev).isDigit()) {
+			state.setCurrentField(function.getArgument(0));
+			state.setCurrentOffset(0);
+		}
 	}
 
 	public static class FunctionPower {

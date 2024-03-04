@@ -48,7 +48,7 @@ task extractJs() {
 }
 
 dependencies {
-    def multiplayerVersion = "1.0.202311302207"
+    def multiplayerVersion = "1.0.202402291312"
     implementation project(path: ':carota-web'),
         project(':web-dev'),
         project(':web-common'),
@@ -73,7 +73,7 @@ dependencies {
         "org.gwtproject:gwt-user:$gwtCompilerVersion"
 
     annotationProcessor project(":gwtutil"),
-            'org.gwtproject.resources:gwt-resources-processor:HEAD-SNAPSHOT'
+            'org.treblereel.gwt.gwtproject.resources:gwt-resources-processor:202402231'
 }
 
 def devModule = project.findProperty("gmodule") ?: 'org.geogebra.web.SuperWeb'

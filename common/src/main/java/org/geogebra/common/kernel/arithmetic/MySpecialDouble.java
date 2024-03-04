@@ -159,7 +159,7 @@ public class MySpecialDouble extends MyDouble {
 					return strToString.replace("%", "\\%");
 				}
 
-				return strToString;
+				return tpl.fixMinus(strToString);
 			}
 
 			// if we are printing result of numeric and user didn't force us to
@@ -175,7 +175,7 @@ public class MySpecialDouble extends MyDouble {
 				}
 
 				// keep original string
-				return strToString;
+				return tpl.fixMinus(strToString);
 			}
 			// format double value using kernel settings
 			return super.toString(tpl);
