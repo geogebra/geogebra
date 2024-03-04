@@ -36,8 +36,8 @@ public class RulerPopup extends GPopupMenuW {
 					getApp().getLocalization().getMenu("Protractor"), MODE_PROTRACTOR);
 		}
 
-		addItem(ToolbarSvgResources.INSTANCE.mode_protractor(),
-				getApp().getLocalization().getMenu("Triangle Protractor"),
+		addItem(ToolbarSvgResources.INSTANCE.mode_triangle_protractor(),
+				getApp().getLocalization().getMenu("TriangleProtractor"),
 				MODE_TRIANGLE_PROTRACTOR);
 
 		popupMenu.selectItem(0);
