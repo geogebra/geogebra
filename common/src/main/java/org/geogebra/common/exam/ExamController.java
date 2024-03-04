@@ -9,6 +9,7 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
+import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.main.AppConfig;
@@ -20,6 +21,7 @@ import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.util.TimeFormatAdapter;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -93,6 +95,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	private final Set<ExamListener> listeners = new HashSet<ExamListener>();
 	private final TempStorage tempStorage = new TempStorage();
 	private CheatingEvents cheatingEvents = new CheatingEvents();
+	private final TimeFormatAdapter timeFormatter = FormatFactory.getPrototype().getTimeFormat();
 
 	// TODO filter for apps with no CAS
 //	private final CommandFilter noCASFilter = CommandFilterFactory.createNoCasCommandFilter();
@@ -203,6 +206,13 @@ public final class ExamController implements PropertiesRegistryListener {
 		notifyListeners(newState);
 	}
 
+	public @CheckForNull String getExamName(AppConfig appConfig, Localization localization) {
+		if (examType == null) {
+			return null;
+		}
+		return examType.getDisplayName(localization, appConfig);
+	}
+
 	/**
 	 * @return The exam start date, if an exam is currently active, or null otherwise.
 	 */
@@ -228,6 +238,13 @@ public final class ExamController implements PropertiesRegistryListener {
 		return (untilDate.getTime() - startDate.getTime()) * 1000.0;
 	}
 
+	public @CheckForNull String getDurationFormatted(Localization localization) {
+		if (startDate == null) {
+			return null;
+		}
+		return timeFormatter.format(localization.getLanguageTag(), System.currentTimeMillis() - startDate.getTime());
+	}
+
 	/**
 	 * @return true if cheating events have been recorded during the exam, or false otherwise.
 	 */
@@ -244,7 +261,7 @@ public final class ExamController implements PropertiesRegistryListener {
 			return null;
 		}
 		return new ExamSummary(examType, startDate, finishDate, cheatingEvents,
-				appConfig, localization);
+				appConfig, timeFormatter, localization);
 	}
 
 	/**

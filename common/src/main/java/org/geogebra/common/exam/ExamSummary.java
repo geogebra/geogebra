@@ -2,7 +2,6 @@ package org.geogebra.common.exam;
 
 import java.util.Date;
 
-import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
@@ -26,7 +25,6 @@ public final class ExamSummary {
 	public final String durationLabelText;
 	public final String activityHintText;
 	public final String activityLabelText;
-	private final TimeFormatAdapter timeFormatter = FormatFactory.getPrototype().getTimeFormat();
 
 	private static String formatDate(Date date, Localization localization) {
 		// copied over from ExamEnvironment
@@ -39,7 +37,8 @@ public final class ExamSummary {
 	}
 
 	public ExamSummary(ExamRegion examType, Date startDate, Date endDate,
-			CheatingEvents cheatingEvents, AppConfig appConfig, Localization localization) {
+			CheatingEvents cheatingEvents, AppConfig appConfig, TimeFormatAdapter timeFormatter,
+			Localization localization) {
 		this.cheated = !cheatingEvents.isEmpty();
 		examName = examType.getDisplayName(localization, appConfig);
 		title = localization.getMenu("exam_menu_entry") + (cheated ? localization.getMenu("exam_alert") : localization.getMenu("OK"));
@@ -79,5 +78,63 @@ public final class ExamSummary {
 				.append(localization.getMenu("exam_ended")).append("\n");
 
 		return sb.toString();
+	}
+
+	// Getters (for Objective-C)
+
+	public boolean getCheated() {
+		return cheated;
+	}
+
+	public String getExamName() {
+		return examName;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public String getFinishedInfoText() {
+		return finishedInfoText;
+	}
+
+	public String getStartDateHintText() {
+		return startDateHintText;
+	}
+
+	public String getStartDateLabelText() {
+		return startDateLabelText;
+	}
+
+	public String getStartTimeHintText() {
+		return startTimeHintText;
+	}
+
+	public String getStartTimeLabelText() {
+		return startTimeLabelText;
+	}
+
+	public String getEndTimeHintText() {
+		return endTimeHintText;
+	}
+
+	public String getEndTimeLabelText() {
+		return endTimeLabelText;
+	}
+
+	public String getDurationHintText() {
+		return durationHintText;
+	}
+
+	public String getDurationLabelText() {
+		return durationLabelText;
+	}
+
+	public String getActivityHintText() {
+		return activityHintText;
+	}
+
+	public String getActivityLabelText() {
+		return activityLabelText;
 	}
 }
