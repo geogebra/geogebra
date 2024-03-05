@@ -463,7 +463,9 @@ public class CellFormat implements CellFormatInterface {
 	 * @return cell format
 	 */
 	public Object getCellFormat(TabularRange cr, int formatType) {
-
+		if (cr == null) {
+			return null;
+		}
 		// Get the format in the upper left cell
 		Object format = getCellFormat(cr.getMinColumn(), cr.getMinRow(),
 				formatType);

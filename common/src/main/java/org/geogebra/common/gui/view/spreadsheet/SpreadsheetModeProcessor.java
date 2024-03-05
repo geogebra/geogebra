@@ -189,8 +189,9 @@ public class SpreadsheetModeProcessor {
 
 		table.setTableMode(MyTable.TABLE_MODE_STANDARD);
 
-		if (createAutoFunctionCell(targetCell,
-				table.getSelectedRanges().get(0))) {
+		TabularRange firstSelection = table.getFirstSelection();
+		if (firstSelection != null && createAutoFunctionCell(targetCell,
+				firstSelection)) {
 			// select the new geo
 			app.setMoveMode();
 			GPoint coords = targetCell.getSpreadsheetCoords();
@@ -222,7 +223,8 @@ public class SpreadsheetModeProcessor {
 	 */
 	public void updateAutoFunction() {
 
-		if (targetCell == null || CellRangeUtil.isEmpty(table.getSelectedRanges().get(0), app)
+		TabularRange selection = table.getFirstSelection();
+		if (targetCell == null || CellRangeUtil.isEmpty(selection, app)
 				|| table.getTableMode() != MyTable.TABLE_MODE_AUTOFUNCTION) {
 			app.setMoveMode();
 			return;
@@ -230,7 +232,7 @@ public class SpreadsheetModeProcessor {
 
 		// Get a string representation of the seleced range (e.g. A1:B3)
 		String cellRangeString = table.getCellRangeProcessor()
-				.getCellRangeString(table.getSelectedRanges().get(0));
+				.getCellRangeString(selection);
 
 		// Build a String expression for the autofunction
 		String cmd = null;
@@ -249,7 +251,7 @@ public class SpreadsheetModeProcessor {
 		String expr = cmd + "[" + cellRangeString + "]";
 
 		// Evaluate the autofunction and put the result in targetCell
-		if (!table.getSelectedRanges().get(0).contains(targetCell.getSpreadsheetCoords())) {
+		if (!selection.contains(targetCell.getSpreadsheetCoords())) {
 			((GeoNumeric) targetCell).setValue(
 					kernel.getAlgebraProcessor().evaluateToDouble(expr));
 		} else {

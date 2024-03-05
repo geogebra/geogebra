@@ -2,6 +2,8 @@ package org.geogebra.common.gui.view.spreadsheet;
 
 import java.util.ArrayList;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 
@@ -28,4 +30,7 @@ public interface MyTable extends MyTableInterface {
 
 	public int getTableMode();
 
+	default @CheckForNull TabularRange getFirstSelection() {
+		return getSelectedRanges().isEmpty() ? null : getSelectedRanges().get(0);
+	}
 }

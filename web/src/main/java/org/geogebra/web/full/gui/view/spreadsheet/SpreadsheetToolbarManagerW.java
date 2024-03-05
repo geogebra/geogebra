@@ -49,7 +49,7 @@ public class SpreadsheetToolbarManagerW {
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
 			//if(!app.getSelectedGeos().isEmpty() && prevMode == mode){
-			if (!CellRangeUtil.isEmpty(table.getSelectedRanges().get(0), app)) {
+			if (!CellRangeUtil.isEmpty(table.getFirstSelection(), app)) {
 				openDialog(CreateObjectModel.TYPE_LIST, "CreateList");
 			}
 			break;

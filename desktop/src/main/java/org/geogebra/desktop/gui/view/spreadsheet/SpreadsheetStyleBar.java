@@ -307,7 +307,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener, Set
 	public void updateStyleBar() {
 		allowActionPerformed = false;
 
-		TabularRange range = table.getSelectedRanges().get(0);
+		TabularRange range = table.getFirstSelection();
 
 		// update font style buttons
 		Integer fontStyle = (Integer) formatHandler.getCellFormat(range,

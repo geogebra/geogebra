@@ -39,7 +39,7 @@ public class SpreadsheetToolbarManager {
 		switch (mode) {
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
-			if (!CellRangeUtil.isEmpty(table.getSelectedRanges().get(0), app)) {
+			if (!CellRangeUtil.isEmpty(table.getFirstSelection(), app)) {
 				id = new CreateObjectDialog(app, view,
 						CreateObjectModel.TYPE_LIST);
 				id.setVisible(true);

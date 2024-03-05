@@ -588,18 +588,10 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	 *            whether to show grid
 	 */
 	public void setShowGrid(boolean showGrid) {
-		if (showGrid) {
-			table.getGrid().getElement().removeClassName("off");
-		} else {
-			table.getGrid().getElement().addClassName("off");
-		}
+		table.getGrid().setStyleName("off", !showGrid);
 		if (this.isVisibleStyleBar()) {
 			getSpreadsheetStyleBar().updateStyleBar();
 		}
-	}
-
-	public boolean getAllowToolTips() {
-		return settings().allowToolTips();
 	}
 
 	public boolean getShowFormulaBar() {

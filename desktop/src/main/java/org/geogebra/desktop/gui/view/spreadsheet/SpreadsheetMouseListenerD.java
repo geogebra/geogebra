@@ -516,7 +516,7 @@ public class SpreadsheetMouseListenerD
 
 			// save the selected cell position so it can be re-selected if
 			// needed
-			TabularRange oldSelection = table.getSelectedRanges().get(0);
+			TabularRange oldSelection = table.getFirstSelection();
 
 			if (mouseCell == null) { // user has dragged outside the table, to
 										// left or above

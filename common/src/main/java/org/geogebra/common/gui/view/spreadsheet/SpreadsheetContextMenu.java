@@ -86,10 +86,14 @@ public class SpreadsheetContextMenu<T> {
 		this.loc = app.getLocalization();
 		cp = table.getCellRangeProcessor();
 
-		column1 = table.getSelectedRanges().get(0).getMinColumn();
-		column2 = table.getSelectedRanges().get(0).getMaxColumn();
-		row1 = table.getSelectedRanges().get(0).getMinRow();
-		row2 = table.getSelectedRanges().get(0).getMaxRow();
+		TabularRange firstSelection = table.getFirstSelection();
+		if (firstSelection == null) {
+			return;
+		}
+		column1 = firstSelection.getMinColumn();
+		column2 = firstSelection.getMaxColumn();
+		row1 = firstSelection.getMinRow();
+		row2 = firstSelection.getMaxRow();
 		selectionType = table.getSelectionType();
 		selectedRanges = table.getSelectedRanges();
 		geos = app.getSelectionManager().getSelectedGeos();

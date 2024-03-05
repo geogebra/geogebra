@@ -217,7 +217,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		btnTraceDialog.setToolTipText(
 				app.getLocalization().getMenuTooltip("TraceToSpreadsheet"));
 		btnTraceDialog.addActionListener(
-				e -> showTraceDialog(null, table.getSelectedRanges().get(0)));
+				e -> showTraceDialog(null, table.getFirstSelection()));
 
 		upperLeftCorner.setLayout(new BorderLayout());
 		upperLeftCorner.add(btnTraceDialog, BorderLayout.WEST);

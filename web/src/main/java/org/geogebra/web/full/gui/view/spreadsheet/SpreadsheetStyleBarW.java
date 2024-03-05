@@ -230,7 +230,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 
 		allowActionPerformed = false;
 
-		TabularRange range = table.getSelectedRanges().get(0);
+		TabularRange range = table.getFirstSelection();
 
 		// update font style buttons
 		Integer fontStyle = (Integer) formatHandler.getCellFormat(range,
