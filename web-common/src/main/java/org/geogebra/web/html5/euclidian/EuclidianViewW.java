@@ -1500,9 +1500,7 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public GeoImage addMeasurementTool(int mode, String fileName) {
 		GeoImage tool = new GeoImage(getKernel().getConstruction());
-		SVGResource toolSVG =
-				mode == EuclidianConstants.MODE_RULER ? GuiResourcesSimple.INSTANCE.ruler()
-						: GuiResourcesSimple.INSTANCE.protractor();
+		SVGResource toolSVG = getMeasurementToolSVG(mode);
 		tool.setMeasurementTool(true);
 		SafeGeoImageFactory factory = new SafeGeoImageFactory(appW, tool);
 		String path = ImageManagerW.getMD5FileName(fileName, toolSVG.getSafeUri().asString());
@@ -1510,7 +1508,20 @@ public class EuclidianViewW extends EuclidianView implements
 		return tool;
 	}
 
-	@Override
+	private static SVGResource getMeasurementToolSVG(int mode) {
+		switch (mode) {
+		case EuclidianConstants.MODE_RULER:
+			return GuiResourcesSimple.INSTANCE.ruler();
+		case EuclidianConstants.MODE_PROTRACTOR:
+			return GuiResourcesSimple.INSTANCE.protractor();
+		case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
+			return GuiResourcesSimple.INSTANCE.triangle_protractor();
+		}
+
+		return null;
+	}
+
+		@Override
 	public void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {
 		kernel.getConstruction().removeFromConstructionList(tool);
 		tool.setSize(width, height);
