@@ -204,8 +204,7 @@ public class Construction {
 	private ArrayList<Group> groups;
 
 	private LayerManager layerManager;
-	private GeoImage ruler;
-	private GeoImage protractor;
+	private MeasurementController measurementTools;
 
 	/**
 	 * Creates a new Construction.
@@ -254,6 +253,7 @@ public class Construction {
 		geoTable = new HashMap<>(200);
 		initGeoTables();
 		groups = new ArrayList<>();
+		measurementTools = new MeasurementController(kernel);
 	}
 
 	/**
@@ -334,19 +334,11 @@ public class Construction {
 	}
 
 	public GeoImage getRuler() {
-		return this.ruler;
+		return measurementTools.getActiveToolImage();
 	}
 
 	public GeoImage getProtractor() {
-		return this.protractor;
-	}
-
-	public void setRuler(GeoImage ruler) {
-		this.ruler = ruler;
-	}
-
-	public void setProtractor(GeoImage protractor) {
-		this.protractor = protractor;
+		return measurementTools.getActiveToolImage();
 	}
 
 	public Map<Integer, GeoNumeric> getArbitraryConstants() {
@@ -359,6 +351,19 @@ public class Construction {
 
 	public Map<Integer, GeoNumeric> getArbitraryComplexNumbers() {
 		return complexNumbersM;
+	}
+
+	public void clearMeasurementTools() {
+		measurementTools.clear();
+	}
+
+	public void toggleMeasurementTool(int newMode, String fileName) {
+		measurementTools.toggleActiveTool(newMode, fileName);
+	}
+
+	public GeoImage getMeasureToolImage(MeasurementToolId toolId) {
+		measurementTools.selectTool(toolId);
+		return measurementTools.getActiveToolImage();
 	}
 
 	/**
@@ -3040,8 +3045,7 @@ public class Construction {
 		spreadsheetTraces = false;
 		supressLabelCreation = false;
 
-		ruler = null;
-		protractor = null;
+		measurementTools.clear();
 
 		groups.clear();
 	}
