@@ -2,9 +2,11 @@ package org.geogebra.desktop.headless;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.jre.headless.AppDI;
 import org.geogebra.common.jre.io.MyXMLioJre;
 import org.geogebra.common.jre.util.Base64;
@@ -21,11 +23,12 @@ public class GFileHandler {
 	 * @param isMacroFile
 	 *            macro?
 	 * @return whether successfully loaded
-	 * @throws Exception
+	 * @throws XMLParseException
 	 *             for invalid XML; MyErrors are ignored
+	 * @throws IOException if stream is invalid
 	 */
 	public static boolean loadXML(App app, InputStream is, boolean isMacroFile)
-			throws Exception {
+			throws XMLParseException, IOException {
 		try {
 			if (!isMacroFile) {
 				app.setMoveMode();

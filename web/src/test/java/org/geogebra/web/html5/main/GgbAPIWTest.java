@@ -17,6 +17,7 @@ import org.geogebra.web.full.gui.toolbarpanel.ToolsTab;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.TableTab;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.util.FocusUtil;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.junit.Assert;
@@ -25,7 +26,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.stubbing.Answer;
 
+import com.google.gwtmockito.WithClassesToStub;
+
 @RunWith(GgbMockitoTestRunner.class)
+@WithClassesToStub(FocusUtil.class)
 public class GgbAPIWTest {
 
 	private GgbAPIW api;

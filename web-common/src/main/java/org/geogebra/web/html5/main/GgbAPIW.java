@@ -72,6 +72,7 @@ import jsinterop.base.JsPropertyMap;
  */
 public class GgbAPIW extends GgbAPI {
 	private MathEditorAPI editor;
+	private JsPropertyMap<?> fileLoadingError;
 
 	/**
 	 * @param app
@@ -1337,5 +1338,13 @@ public class GgbAPIW extends GgbAPI {
 	public void showAllObjects() {
 		app.setViewShowAllObjects();
 
+	}
+
+	public void setFileLoadingError(JsPropertyMap<?> error) {
+		this.fileLoadingError = error;
+	}
+
+	public Object getFileLoadingError() {
+		return this.fileLoadingError;
 	}
 }

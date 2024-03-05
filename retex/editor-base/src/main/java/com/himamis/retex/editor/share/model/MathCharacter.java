@@ -192,4 +192,8 @@ public class MathCharacter extends MathComponent {
 	public boolean isLetter() {
 		return com.himamis.retex.editor.share.input.Character.isLetter(meta.getUnicode());
 	}
+
+	public boolean isDigit() {
+		return Character.isDigit(meta.getUnicode());
+	}
 }
