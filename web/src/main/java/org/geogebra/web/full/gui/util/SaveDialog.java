@@ -27,15 +27,12 @@ public class SaveDialog extends SaveFileDialog {
 	 * base dialog constructor
 	 * @param app - see {@link AppW}
 	 * @param dialogData - contains trans keys for title and buttons
-	 *
+	 * @param addTemplateCheckBox whether template checkbox should be visible
 	 */
-	public SaveDialog(AppW app, DialogData dialogData, boolean addTempCheckBox) {
+	public SaveDialog(AppW app, DialogData dialogData, boolean addTemplateCheckBox) {
 		super(app, dialogData, false);
-		if (addTempCheckBox) {
-			addStyleName("templateSave");
-		} else {
-			templateCheckbox.setVisible(false);
-		}
+		buildTemplateCheckbox(addTemplateCheckBox);
+		buildLocationDropDown();
 
 		if (app.getGoogleDriveOperation() != null) {
 			app.getGoogleDriveOperation().initGoogleDriveApi();
@@ -45,7 +42,7 @@ public class SaveDialog extends SaveFileDialog {
 			if (templateCheckbox.isSelected()) {
 				setSaveType(Material.MaterialType.ggsTemplate);
 				app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggs);
-			} else if (addTempCheckBox) {
+			} else if (addTemplateCheckBox) {
 				setSaveType(Material.MaterialType.ggs);
 				app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
 			}
@@ -54,15 +51,11 @@ public class SaveDialog extends SaveFileDialog {
 		});
 	}
 
-	@Override
-	public void buildContent() {
-		super.buildContent();
-
+	private void buildTemplateCheckbox(boolean visible) {
 		templateCheckbox = new ComponentCheckbox(app.getLocalization(), false,
 				"saveTemplate");
 		getContentPanel().add(templateCheckbox);
-
-		buildLocationDropDown();
+		templateCheckbox.setVisible(visible);
 	}
 
 	private void buildLocationDropDown() {
