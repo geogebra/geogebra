@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.web.full.gui.util.AdvancedFocusPanel;
@@ -20,12 +20,13 @@ public class SpreadsheetStyleBarWTest {
 	@Test
 	public void updateForSetGrid() {
 		AppletParameters params = new AppletParameters("geometry")
-				.setAttribute("perspective" , "GS");
+				.setAttribute("perspective" , "GS")
+				.setAttribute("allowStyleBar" , "true");
 		AppW app = AppMocker.mockApplet(params);
 		SpreadsheetViewW spreadsheetView =
 				(SpreadsheetViewW) app.getGuiManager().getSpreadsheetView();
 		spreadsheetView.setShowGrid(true);
 		// what we're really asserting is that the stylebar update didn't cause a crash
-		assertThat(spreadsheetView.isVisibleStyleBar(), equalTo(true));
+		assertThat(spreadsheetView.getSpreadsheetStyleBar(), notNullValue());
 	}
 }
