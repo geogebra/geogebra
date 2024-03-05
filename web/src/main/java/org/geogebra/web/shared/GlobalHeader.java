@@ -2,6 +2,8 @@ package org.geogebra.web.shared;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.gui.AccessibilityGroup;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.undo.UndoRedoButtonsController;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -15,6 +17,7 @@ import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.view.button.ActionButton;
 import org.geogebra.web.shared.view.button.DisappearingActionButton;
@@ -66,6 +69,7 @@ public class GlobalHeader implements EventRenderable {
 		if (signIn == null) {
 			return;
 		}
+		//new FocusableWidget(AccessibilityGroup.SIGN_IN, null, signIn).attachTo(app);
 		Dom.addEventListener(signIn.getElement(), "click", (e) -> {
 			appW.getSignInController().login();
 			e.stopPropagation();
@@ -97,15 +101,16 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	/**
-	 * @param callback
-	 *            click callback
+	 * @param callback - click callback
+	 * @param app - application
 	 */
-	public void initShareButton(final AsyncOperation<Widget> callback) {
-		final RootPanel rp = getShareButton();
-		if (rp != null && !shareButtonInitialized) {
+	public void initShareButton(final AsyncOperation<Widget> callback, AppW app) {
+		final RootPanel shareBtn = getShareButton();
+		if (shareBtn != null && !shareButtonInitialized) {
 			shareButtonInitialized = true;
-			Dom.addEventListener(rp.getElement(), "click", (e) -> {
-				callback.callback(rp);
+			new FocusableWidget(AccessibilityGroup.SHARE, null, shareBtn).attachTo(app);
+			Dom.addEventListener(shareBtn.getElement(), "click", (e) -> {
+				callback.callback(shareBtn);
 				e.stopPropagation();
 				e.preventDefault();
 			});
@@ -116,9 +121,10 @@ public class GlobalHeader implements EventRenderable {
 	 * Initialize assignment button
 	 * @param onClick click handler
 	 */
-	public void initAssignButton(final Runnable onClick) {
+	public void initAssignButton(final Runnable onClick, AppW app) {
 		final RootPanel assignButton = getAssignButton();
 		if (assignButton != null && !assignButtonInitialized) {
+			new FocusableWidget(AccessibilityGroup.ASSIGN, null, assignButton).attachTo(app);
 			assignButtonInitialized = true;
 			Dom.addEventListener(assignButton.getElement(), "click", (e) -> {
 				onClick.run();
