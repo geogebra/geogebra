@@ -171,6 +171,8 @@ public class CmdSetValue extends CmdScripting {
 				((GeoList) arg0).setSelectedIndex(selectIdx);
 				arg0.updateRepaint();
 			}
+		} else if (shouldCopyOnlyValuesForLists(arg0, arg1)) {
+			setValueForLists((GeoList) arg0, (GeoList) arg1);
 		} else if (arg0.isIndependent() || arg0.isMoveable()) {
 			setValueIndependent(arg0, arg1);
 		} else if (arg0.getParentAlgorithm() instanceof SetRandomValue) {
@@ -188,6 +190,24 @@ public class CmdSetValue extends CmdScripting {
 			geoInputBox.updateLinkedGeo(textString);
 		}
 		resetInputboxes(arg0);
+	}
+
+	private static boolean shouldCopyOnlyValuesForLists(GeoElement arg0, GeoElement arg1) {
+		if (!arg0.isGeoList() || !arg1.isGeoList()) {
+			return false;
+		}
+		GeoClass elementType = ((GeoList) arg1).getElementType();
+		return elementType == GeoClass.POLYGON || elementType == GeoClass.SEGMENT;
+	}
+
+	private static void setValueForLists(GeoList arg0, GeoList arg1) {
+		arg0.clear();
+		arg1.elements().forEach(element -> arg0.add(element.copy()));
+		arg0.copyAttributesFromOtherList(arg1);
+		if (arg1.isChildOf(arg0)) {
+			arg0.resetDefinition();
+		}
+		arg0.updateRepaint();
 	}
 
 	private static void setValueIndependent(GeoElement arg0, GeoElement arg1) {

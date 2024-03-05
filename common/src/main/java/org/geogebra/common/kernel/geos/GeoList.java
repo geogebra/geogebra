@@ -220,6 +220,14 @@ public class GeoList extends GeoElement
 		return elementType;
 	}
 
+	/**
+	 * Sets the element type for this list
+	 * @param elementType GeoClass
+	 */
+	public void setElementType(GeoClass elementType) {
+		this.elementType = elementType;
+	}
+
 	@Override
 	public GeoList copy() {
 		return new GeoList(this);
@@ -263,11 +271,18 @@ public class GeoList extends GeoElement
 			// copy geoList
 			copyListElements(l);
 		}
+		copyAttributesFromOtherList(l);
+	}
 
-		isDefined = l.isDefined;
-		elementType = l.elementType;
-		if (l.isElementTypeXMLNeeded()) {
-			typeStringForXML = l.typeStringForXML;
+	/**
+	 * Copies vital attributes from another list to this list
+	 * @param other GeoList
+	 */
+	public void copyAttributesFromOtherList(GeoList other) {
+		isDefined = other.isDefined;
+		elementType = other.elementType;
+		if (other.isElementTypeXMLNeeded()) {
+			typeStringForXML = other.typeStringForXML;
 		}
 	}
 
