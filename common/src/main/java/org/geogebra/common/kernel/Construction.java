@@ -357,8 +357,8 @@ public class Construction {
 		measurementTools.clear();
 	}
 
-	public void toggleMeasurementTool(int newMode, String fileName) {
-		measurementTools.toggleActiveTool(newMode, fileName);
+	public void toggleMeasurementTool(int newMode) {
+		measurementTools.toggleActiveTool(newMode);
 	}
 
 	public GeoImage getMeasureToolImage(MeasurementToolId toolId) {

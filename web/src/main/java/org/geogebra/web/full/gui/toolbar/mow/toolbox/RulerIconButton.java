@@ -12,7 +12,7 @@ public class RulerIconButton extends IconButton {
 	private final static int TOOLBOX_PADDING = 8;
 	private final Construction cons;
 	private RulerPopup rulerPopup;
-	private AppW appW;
+	private final AppW appW;
 
 	/**
 	 * Constructor
