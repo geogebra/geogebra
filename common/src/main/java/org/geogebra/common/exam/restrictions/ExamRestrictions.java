@@ -3,6 +3,8 @@ package org.geogebra.common.exam.restrictions;
 import java.util.Set;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamRegion;
@@ -34,6 +36,10 @@ public class ExamRestrictions {
 
 	public static ExamRestrictions forExamType(ExamRegion examType) {
 		switch (examType) {
+		case NIEDERSACHSEN:
+			return new NiedersachsenExamRestrictions();
+		case BAYERN_CAS:
+			return new BayernCasExamRestrictions();
 		case VLAANDEREN:
 			return new VlaanderenExamRestrictions();
 		default:
@@ -48,12 +54,12 @@ public class ExamRestrictions {
 	private final Set<CommandFilter> commandFilters;
 	private final Set<CommandArgumentFilter> commandArgumentFilters;
 	// independent of exam region
-	private final ExamCommandArgumentFilter examCommandArgumentFilter = new ExamCommandArgumentFilter();
+	private final ExamCommandArgumentFilter examCommandArgumentFilter =
+			new ExamCommandArgumentFilter();
 	private final Set<String> frozenProperties;
 
 	/**
 	 * Prevent instantiation, except by subclasses.
-	 *
 	 * @param examType The exam type.
 	 * @param disabledSubApps The set of disabled subapps for this exam type.
 	 * @param defaultSubApp The subapp to activate at the start of an exam,
@@ -62,13 +68,13 @@ public class ExamRestrictions {
 	 * @param commandFilters An optional command filter to apply during exams.
 	 * @param commandArgumentFilters An optional command argument filter to apply during exams.
 	 */
-	protected ExamRestrictions(ExamRegion examType,
-							   Set<SuiteSubApp> disabledSubApps,
-							   SuiteSubApp defaultSubApp,
-							   Set<ExpressionFilter> expressionFilters,
-							   Set<CommandFilter> commandFilters,
-							   Set<CommandArgumentFilter> commandArgumentFilters,
-							   Set<String> frozenProperties) {
+	protected ExamRestrictions(@Nonnull ExamRegion examType,
+			@Nullable Set<SuiteSubApp> disabledSubApps,
+			@Nullable SuiteSubApp defaultSubApp,
+			@Nullable Set<ExpressionFilter> expressionFilters,
+			@Nullable Set<CommandFilter> commandFilters,
+			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
+			@Nullable Set<String> frozenProperties) {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps;
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
@@ -78,7 +84,9 @@ public class ExamRestrictions {
 		this.frozenProperties = frozenProperties;
 	}
 
-	public final ExamRegion getExamType() { return examType; }
+	public final @Nonnull ExamRegion getExamType() {
+		return examType;
+	}
 
 	/**
 	 * @return The list of disabled (not allowed) subapps during exam, or `null` if there
@@ -92,7 +100,7 @@ public class ExamRestrictions {
 	 * @return The default subapp to switch to if a disabled subapp is active at the time
 	 * the exam starts, or `null` if there is no default.
 	 */
-	public final @CheckForNull SuiteSubApp getDefaultSubApp() {
+	public final @Nonnull SuiteSubApp getDefaultSubApp() {
 		return defaultSubApp;
 	}
 
@@ -101,11 +109,11 @@ public class ExamRestrictions {
 	 *
 	 * TODO add more arguments if necessary
 	 */
-	public void apply(CommandDispatcher commandDispatcher,
-			AlgebraProcessor algebraProcessor,
-			PropertiesRegistry propertiesRegistry,
-			Object context) {
-		if  (commandDispatcher != null) {
+	public void apply(@Nullable CommandDispatcher commandDispatcher,
+			@Nullable AlgebraProcessor algebraProcessor,
+			@Nullable PropertiesRegistry propertiesRegistry,
+			@Nullable Object context) {
+		if (commandDispatcher != null) {
 			if (commandFilters != null) {
 				for (CommandFilter commandFilter : commandFilters) {
 					commandDispatcher.addCommandFilter(commandFilter);
@@ -138,10 +146,10 @@ public class ExamRestrictions {
 	/**
 	 * Revert the changes from {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object)}.
 	 */
-	public void revert(CommandDispatcher commandDispatcher,
-			AlgebraProcessor algebraProcessor,
-			PropertiesRegistry propertiesRegistry,
-			Object context) {
+	public void revert(@Nullable CommandDispatcher commandDispatcher,
+			@Nullable AlgebraProcessor algebraProcessor,
+			@Nullable PropertiesRegistry propertiesRegistry,
+			@Nullable Object context) {
 		if (commandDispatcher != null) {
 			if (commandFilters != null) {
 				for (CommandFilter commandFilter : commandFilters) {
@@ -174,10 +182,9 @@ public class ExamRestrictions {
 
 	/**
 	 * Handles lazy property instantiation/registration.
-	 *
 	 * @param property A property that just got registered.
 	 */
-	public void propertyRegistered(Property property) {
+	public void propertyRegistered(@Nonnull Property property) {
 		if (frozenProperties != null && frozenProperties.contains(property.getRawName())) {
 			freeze(property);
 		}
@@ -187,7 +194,7 @@ public class ExamRestrictions {
 	 * Unfreezes a property
 	 * @param property
 	 */
-	public void propertyUnregistered(Property property) {
+	public void propertyUnregistered(@Nonnull Property property) {
 		if (frozenProperties != null && frozenProperties.contains(property.getRawName())) {
 			unfreeze(property);
 		}
@@ -196,10 +203,9 @@ public class ExamRestrictions {
 	/**
 	 * "Freeze" a property (i.e. prevent changing the value, or triggering the action)
 	 * at the start of the exam.
-	 *
 	 * @param property A property.
 	 */
-	protected void freeze(Property property) {
+	protected void freeze(@Nonnull Property property) {
 		property.setFrozen(true);
 		if (property instanceof ValuedProperty) {
 			freezeValue((ValuedProperty) property);
@@ -208,10 +214,9 @@ public class ExamRestrictions {
 
 	/**
 	 * "Unfreeze" a property at the end of the exam.
-	 *
 	 * @param property A property.
 	 */
-	protected void unfreeze(Property property) {
+	protected void unfreeze(@Nonnull Property property) {
 		property.setFrozen(false);
 		if (property instanceof ValuedProperty) {
 			freezeValue((ValuedProperty) property);
@@ -220,18 +225,16 @@ public class ExamRestrictions {
 
 	/**
 	 * Override to freeze the value of a property to some fixed value.
-	 *
 	 * @param property A property whose value should be fixed during an exam.
 	 */
-	protected void freezeValue(ValuedProperty property) {
+	protected void freezeValue(@Nonnull ValuedProperty property) {
 	}
 
 	/**
 	 * Override to unfreeze the value of a property.
-	 *
 	 * @param property A property should be fixed during an exam.
 	 */
-	protected  void unfreezeValue(ValuedProperty property) {
+	protected void unfreezeValue(@Nonnull  ValuedProperty property) {
 	}
 
 	public boolean isSelectionAllowed(GeoElementND geoND) {

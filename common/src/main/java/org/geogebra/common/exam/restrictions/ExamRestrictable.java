@@ -1,5 +1,7 @@
 package org.geogebra.common.exam.restrictions;
 
+import javax.annotation.Nonnull;
+
 /**
  * Apply custom restrictions during exams.
  */
@@ -10,12 +12,12 @@ public interface ExamRestrictable {
 	 *
 	 * @param examRestrictions The restrictions for the current exam.
 	 */
-	void applyRestrictions(ExamRestrictions examRestrictions);
+	void applyRestrictions(@Nonnull ExamRestrictions examRestrictions);
 
 	/**
 	 * Reverse the side effects of {@link #applyRestrictions(ExamRestrictions)}.
 	 *
 	 * @param examRestrictions The restrictions for the current exam.
 	 */
-	void revertRestrictions(ExamRestrictions examRestrictions);
+	void revertRestrictions(@Nonnull ExamRestrictions examRestrictions);
 }

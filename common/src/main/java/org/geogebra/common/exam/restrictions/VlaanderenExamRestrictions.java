@@ -19,7 +19,6 @@ import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 
 final class VlaanderenExamRestrictions extends ExamRestrictions {
 
-	// note: these are just random examples of restrictions
 	VlaanderenExamRestrictions() {
 		super(ExamRegion.VLAANDEREN,
 				Set.of(SuiteSubApp.CAS),
@@ -27,9 +26,10 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 				VlaanderenExamRestrictions.createExpressionFilters(),
 				VlaanderenExamRestrictions.createCommandFilters(),
 				null,
-				Set.of("AngleUnit"));
+				null);
 	}
 
+	// TODO use correct set of commands
 	// replaces exam-related method in CommandFilterFactory
 	private static Set<CommandFilter> createCommandFilters() {
 		NameCommandFilter nameFilter = new NameCommandFilter(true,
@@ -40,6 +40,7 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 		return Set.of(new EnglishCommandFilter(nameFilter));
 	}
 
+	// TODO use correct set of expressions
 	private static Set<ExpressionFilter> createExpressionFilters() {
 		return Set.of(
 				new OperationExpressionFilter(Operation.OR, Operation.AND),

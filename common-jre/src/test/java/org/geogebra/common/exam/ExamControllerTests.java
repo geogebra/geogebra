@@ -256,11 +256,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertNull(evaluate("true || false"));
 
 		// property restrictions
-		AngleUnitProperty angleUnit = (AngleUnitProperty) propertiesRegistry.lookup("AngleUnit");
-		assertTrue(angleUnit.isFrozen());
-		Integer angleUnitValue = angleUnit.getValue();
-		angleUnit.setValue(angleUnitValue + 1);
-		assertEquals(angleUnitValue, angleUnit.getValue());
 
 		examController.finishExam();
 		assertFalse(commandDispatcher.isAllowedByNameFilter(Commands.Derivative));

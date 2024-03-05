@@ -26,7 +26,7 @@ import org.geogebra.common.util.TimeFormatAdapter;
 import com.google.j2objc.annotations.Weak;
 
 /**
- * A controller for coordinating exam mode.
+ * A controller for coordinating the core aspects of exam mode.
  * <p/>
  * <h3>Responsibilities</h3>
  * Here's the list of responsibilites of this controller:
@@ -43,6 +43,8 @@ import com.google.j2objc.annotations.Weak;
  * <h3>NOT Responsibilities</h3>
  * Conversely, here's what's not in the responsibility of this controller:
  * <ul>
+ *     <li><b>UI</b>: Each client platform will need to implement UI or permissions flows
+ *     separately and independently.</li>
  *     <li><b>Clipboard</b>: The delegate is asked to clear the clipboard at the appropriate
  *     points. Why? Because I didn't want to introduce a clipboard abstraction (type) just for this
  *     single action.
@@ -51,7 +53,7 @@ import com.google.j2objc.annotations.Weak;
  *     platforms.
  * </ul>
  *
- *  @implNote This class is not designed to be thread-safe.
+ *  @implNote This class is not designed to be thread-safe (use from the main thread only).
  */
 public final class ExamController implements PropertiesRegistryListener {
 
@@ -62,17 +64,13 @@ public final class ExamController implements PropertiesRegistryListener {
 		final CommandDispatcher commandDispatcher;
 		@NonOwning
 		final AlgebraProcessor algebraProcessor;
-		@NonOwning
-		final Set<ExamRestrictable> restrictables;
 
 		ContextDependencies(Object context,
 				CommandDispatcher commandDispatcher,
-				AlgebraProcessor algebraProcessor,
-				Set<ExamRestrictable> restrictables) {
+				AlgebraProcessor algebraProcessor) {
 			this.context = context;
 			this.commandDispatcher = commandDispatcher;
 			this.algebraProcessor = algebraProcessor;
-			this.restrictables = restrictables;
 		}
 	}
 
@@ -138,16 +136,14 @@ public final class ExamController implements PropertiesRegistryListener {
 			AlgebraProcessor algebraProcessor) {
 		// revert restrictions for current dependencies, if exam is active
 		if (examRestrictions != null && activeDependencies != null) {
-			revertRestrictions(activeDependencies);
-			restrictables = new HashSet<>();
+			revertRestrictionsOnContextDependencies(activeDependencies);
 		}
 		activeDependencies = new ContextDependencies(context,
 				commandDispatcher,
-				algebraProcessor,
-				restrictables);
+				algebraProcessor);
 		// apply restrictions to new dependencies, if exam is active
 		if (examRestrictions != null) {
-			applyRestrictions(examType, activeDependencies);
+			applyRestrictionsOnContextDependencies(activeDependencies);
 		}
 	}
 
@@ -204,6 +200,13 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 		state = newState;
 		notifyListeners(newState);
+	}
+
+	/**
+	 * @return The ExamRegion if an exam is currently active, or null otherwise.
+	 */
+	public @CheckForNull ExamRegion getExamType() {
+		return examType;
 	}
 
 	public @CheckForNull String getExamName(AppConfig appConfig, Localization localization) {
@@ -311,16 +314,16 @@ public final class ExamController implements PropertiesRegistryListener {
 			throw new IllegalStateException("no active context; call setActiveContext() before attempting to start the exam");
 		}
 		this.examType = examType;
-		applyRestrictions(examType, activeDependencies);
-
-		tempStorage.clearTempMaterials();
-		Material material = tempStorage.newMaterial();
+		examRestrictions = ExamRestrictions.forExamType(examType);
+		applyRestrictionsOnContextDependencies(activeDependencies);
+		applyRestrictionsOnRestrictables();
 
 		if (delegate != null) {
 			delegate.examClearClipboard();
 			delegate.examClearOtherApps();
-			delegate.examSetActiveMaterial(material);
 		}
+		tempStorage.clearTempMaterials();
+		createNewTempMaterial();
 
 		cheatingEvents = new CheatingEvents();
 		startDate = new Date();
@@ -349,7 +352,8 @@ public final class ExamController implements PropertiesRegistryListener {
 		if (state != ExamState.FINISHED) {
 			throw new IllegalStateException("expected to be in FINISHED state, but is " + state);
 		}
-		revertRestrictions(activeDependencies);
+		revertRestrictionsOnRestrictables();
+		revertRestrictionsOnContextDependencies(activeDependencies);
 		tempStorage.clearTempMaterials();
 		if (delegate != null) {
 			delegate.examClearOtherApps();
@@ -375,37 +379,32 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 	}
 
-	private void applyRestrictions(ExamRegion examType, ContextDependencies dependencies) {
+	private void applyRestrictionsOnContextDependencies(ContextDependencies dependencies) {
 		// TODO app.resetCommandDict() (register as ExamRestrictable?)
-		ExamRestrictions newRestrictions = ExamRestrictions.forExamType(examType);
-		if (newRestrictions == null) {
+		if (examRestrictions == null) {
 			return; // log/throw?
 		}
 		if (delegate != null) {
 			SuiteSubApp currentSubApp = delegate.examGetCurrentSubApp();
 			if (currentSubApp == null ||
-					(newRestrictions.getDisabledSubApps() != null &&
-							newRestrictions.getDisabledSubApps().contains(currentSubApp))) {
-				delegate.examSwitchSubApp(newRestrictions.getDefaultSubApp());
+					(examRestrictions.getDisabledSubApps() != null &&
+							examRestrictions.getDisabledSubApps().contains(currentSubApp))) {
+				delegate.examSwitchSubApp(examRestrictions.getDefaultSubApp());
 				if (delegate.examGetActiveMaterial() == null) {
 					delegate.examSetActiveMaterial(tempStorage.newMaterial());
 				}
 			}
 		}
-		examRestrictions = newRestrictions;
 		if (dependencies != null) {
 			examRestrictions.apply(dependencies.commandDispatcher,
 					dependencies.algebraProcessor,
 					propertiesRegistry,
 					dependencies.context);
-			for (ExamRestrictable restrictable : dependencies.restrictables) {
-				restrictable.applyRestrictions(examRestrictions);
-			}
 			// TODO suppress syntax in CommandErrorMessageBuilder (register as ExamRestrictable?)
 		}
 	}
 
-	private void revertRestrictions(ContextDependencies dependencies) {
+	private void revertRestrictionsOnContextDependencies(ContextDependencies dependencies) {
 		if (examRestrictions == null) {
 			return;
 		}
@@ -414,15 +413,31 @@ public final class ExamController implements PropertiesRegistryListener {
 					dependencies.algebraProcessor,
 					propertiesRegistry,
 					dependencies.context);
-			for (ExamRestrictable restrictable : dependencies.restrictables) {
-				restrictable.revertRestrictions(examRestrictions);
-			}
 			// TODO enable syntax in CommandErrorMessageBuilder (register as ExamRestrictable?)
 		}
 	}
 
-	public TempStorage getTempStorage() {
+	private void applyRestrictionsOnRestrictables() {
+		for (ExamRestrictable restrictable : restrictables) {
+			restrictable.applyRestrictions(examRestrictions);
+		}
+	}
+
+	private void revertRestrictionsOnRestrictables() {
+		for (ExamRestrictable restrictable : restrictables) {
+			restrictable.revertRestrictions(examRestrictions);
+		}
+	}
+
+	private TempStorage getTempStorage() {
 		return tempStorage;
+	}
+
+	public void createNewTempMaterial() {
+		Material material = tempStorage.newMaterial();
+		if (delegate != null) {
+			delegate.examSetActiveMaterial(material);
+		}
 	}
 
 	// PropertiesRegistryListener
