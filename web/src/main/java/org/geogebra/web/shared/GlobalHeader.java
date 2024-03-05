@@ -46,7 +46,7 @@ public class GlobalHeader implements EventRenderable {
 	public static final GlobalHeader INSTANCE = new GlobalHeader();
 
 	private ProfileAvatar profilePanel;
-	private RootPanel signIn;
+	private Element signIn;
 	private MenuToggleButton menuBtn;
 	private AppW app;
 	private Label timer;
@@ -64,14 +64,14 @@ public class GlobalHeader implements EventRenderable {
 	 */
 	public void addSignIn(final AppW appW) {
 		this.app = appW;
-		signIn = RootPanel.get("signInButton");
+		signIn = RootPanel.get("signInTextID").getElement().getParentElement();
 		if (signIn == null) {
 			return;
 		}
 
-		//registerSignInButtonsAsFocusable();
+		registerSignInButtonsAsFocusable();
 
-		Dom.addEventListener(signIn.getElement(), "click", (e) -> {
+		Dom.addEventListener(signIn, "click", (e) -> {
 			appW.getSignInController().login();
 			e.stopPropagation();
 			e.preventDefault();
@@ -98,18 +98,18 @@ public class GlobalHeader implements EventRenderable {
 			if (profilePanel == null) {
 				profilePanel = new ProfileAvatar(app);
 			}
-			signIn.setVisible(false);
+			signIn.addClassName("hidden");
 			profilePanel.setVisible(true);
 			profilePanel.update(((LoginEvent) event).getUser());
 			DivElement profile = DOM.createDiv().cast();
 			profile.setId("profileId");
-			signIn.getElement().getParentElement().appendChild(profile);
+			signIn.getParentElement().appendChild(profile);
 
 			RootPanel.get("profileId").add(profilePanel);
 		}
 		if (event instanceof LogOutEvent) {
 			profilePanel.setVisible(false);
-			signIn.setVisible(true);
+			signIn.removeClassName("hidden");
 		}
 	}
 
@@ -412,6 +412,7 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	public void initLogo(AppW app) {
+		//Element logo = Dom.querySelector("#logoID");
 		//final RootPanel logo = RootPanel.get("logoID");
 		//registerFocusable(app, AccessibilityGroup.GEOGEBRA_LOGO, logo);
 	}
