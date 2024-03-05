@@ -12,8 +12,11 @@ public enum MeasurementToolId {
 	private final int mode;
 
 	MeasurementToolId(int mode) {
-
 		this.mode = mode;
+	}
+
+	public int getMode() {
+		return mode;
 	}
 
 	public static MeasurementToolId byMode(int mode) {

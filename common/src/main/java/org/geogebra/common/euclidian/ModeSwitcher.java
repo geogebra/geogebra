@@ -58,12 +58,11 @@ public class ModeSwitcher {
 			break;
 
 		case EuclidianConstants.MODE_RULER:
-			cons.toggleMeasurementTool(newMode, "Ruler.svg");
+		case EuclidianConstants.MODE_PROTRACTOR:
+		case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
+			cons.toggleMeasurementTool(newMode);
 			break;
 
-		case EuclidianConstants.MODE_PROTRACTOR:
-			cons.toggleMeasurementTool(newMode, "Protactor.svg");
-			break;
 
 		default:
 			break;

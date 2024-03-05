@@ -1,19 +1,22 @@
 package org.geogebra.common.kernel;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.util.debug.Log;
 
 public class MeasurementController {
 	private final Kernel kernel;
 	private Map<MeasurementToolId, MeasurementTool> tools = new HashMap<>();
-	private MeasurementToolId selectedToolId;
+	private MeasurementToolId selectedToolId = MeasurementToolId.NONE;
 	private boolean toolActive = false;
 
 	public MeasurementController(Kernel kernel) {
 		this.kernel = kernel;
+		addTool(MeasurementToolId.RULER, "Ruler.svg");
+		addTool(MeasurementToolId.PROTRACTOR, "Protactor.svg");
+		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtactor.svg");
 	}
 
 	public GeoImage getActiveToolImage() {
@@ -29,37 +32,50 @@ public class MeasurementController {
 	}
 
 
-	public void toggleActiveTool(int mode, String fileName) {
-		MeasurementTool tool = activeTool();
-		if (tool != null) {
-			unselect(tool);
+	public void toggleActiveTool(int mode) {
+		if (isToolSelected(mode)) {
+			unselect();
 		} else {
-			select(mode, fileName);
+			MeasurementToolId id = MeasurementToolId.byMode(mode);
+			if (tools.containsKey(id)) {
+				selectTool(id);
+				refreshTool(id);
+			}
 		}
 	}
 
-	private void unselect(MeasurementTool tool) {
-		tool.remove();
-		selectedToolId = MeasurementToolId.NONE;
+	private boolean isToolSelected(int mode) {
+		return MeasurementToolId.byMode(mode) == selectedToolId;
 	}
 
-	private void select(int mode, String fileName) {
-		selectedToolId = MeasurementToolId.byMode(mode) ;
-		setTool(selectedToolId,
-				kernel.getApplication().getActiveEuclidianView()
-						.addMeasurementTool(mode, fileName));
-	}
-
-	public void setTool(MeasurementToolId toolId, GeoImage image) {
-		tools.put(toolId, new MeasurementTool(image));
-	}
-
-	public void clear() {
+	void unselect() {
 		MeasurementTool tool = activeTool();
 		if (tool != null) {
 			tool.remove();
 		}
-		tools.clear();
+		selectedToolId = MeasurementToolId.NONE;
+	}
+
+	private void refreshTool(MeasurementToolId id) {
+		MeasurementTool tool = activeTool();
+
+		if (tool == null) {
+			Log.error("No such tool: " + tool);
+		}
+		tool.refresh(kernel.getApplication().getActiveEuclidianView());
+	}
+
+	private void addTool(MeasurementToolId id, String fileName) {
+		add(new MeasurementTool(id, fileName));
+		selectTool(id);
+	}
+
+	void add(MeasurementTool tool) {
+		tools.put(tool.getId(), tool);
+	}
+
+	public void clear() {
+		unselect();
 	}
 
 	public void selectTool(MeasurementToolId toolId) {
