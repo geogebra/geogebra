@@ -356,11 +356,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 		if (changed) {
 			gridDistances = dists;
-			if (dists == null) {
-				setAutomaticGridDistance(true, false);
-			} else {
-				setAutomaticGridDistance(false, false);
-			}
+			setAutomaticGridDistance(dists == null, false);
 			settingChanged();
 		}
 	}
@@ -518,7 +514,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * @return whether settings changed
 	 */
 	public boolean setAxisLabel(int axis, String axisLabel, boolean fireSettingsChanged) {
-		boolean changed = false;
+		boolean changed;
 		if (StringUtil.empty(axisLabel)) {
 			changed = axesLabels[axis] != null;
 			axesLabels[axis] = null;
@@ -1521,7 +1517,7 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	private boolean isGridType(BackgroundType type) {
-		return type == BackgroundType.ISOMETRIC	|| type == BackgroundType.POLAR;
+		return type == BackgroundType.ISOMETRIC || type == BackgroundType.POLAR;
 	}
 
 	/**
