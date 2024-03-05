@@ -757,8 +757,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (archiveContent.containsKey(GgbFile.STRUCTURE_JSON)) {
 			getAppletParameters().setAttribute("appName", "notes");
 			getAppletFrame().initPageControlPanel(this);
-			getKernel().getConstruction().setProtractor(null);
-			getKernel().getConstruction().setRuler(null);
+			getKernel().getConstruction().clearMeasurementTools();
 			getAppletFrame().setNotesMode(getMode());
 			if (getPageController() != null) {
 				getPageController().loadSlides(archiveContent);
