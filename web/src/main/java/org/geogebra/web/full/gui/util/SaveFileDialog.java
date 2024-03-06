@@ -12,6 +12,7 @@ import org.geogebra.web.shared.DialogUtil;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 import com.himamis.retex.editor.web.MathFieldW;
@@ -98,9 +99,11 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 			}
 		});
 		titleField.getTextComponent().addKeyUpHandler(event -> {
+			NativeEvent nativeEvent = event.getNativeEvent();
 			// we started handling Ctrl+S in graphics view but then focus moved to this dialog
 			// make sure the keyup event doesn't clear selection
-			if (MathFieldW.checkCode(event.getNativeEvent(), "KeyS")) {
+			if (MathFieldW.checkCode(nativeEvent, "KeyS")
+				&& (nativeEvent.getCtrlKey() || nativeEvent.getMetaKey())) {
 				setTitle();
 			}
 		});
