@@ -43,11 +43,6 @@ public final class MeasurementTool {
 		image = addFunct.apply(id.getMode(), fileName);
 	}
 
-	public boolean isProtactor() {
-		return id == MeasurementToolId.PROTRACTOR
-				|| id == MeasurementToolId.TRIANGLE_PROTRACTOR;
-	}
-
 	public GPoint2D getRotationCenter(EuclidianView view) {
 		List<GPoint2D> points = getProtractorPoints(view);
 		if (points == null || points.size() < 3) {
@@ -63,7 +58,7 @@ public final class MeasurementTool {
 	}
 
 	private List<GPoint2D> getProtractorPoints(EuclidianView view) {
-		if (!isProtactor()) {
+		if (id.isProtactor()) {
 			return null;
 		}
 
