@@ -934,6 +934,8 @@ public final class EuclidianConstants {
 			return "Ruler";
 		case EuclidianConstants.MODE_PROTRACTOR:
 			return "Protractor";
+		case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
+			return "TriangleProtractor";
 		default:
 			Log.error("Unknown mode " + mode);
 			return "";
