@@ -245,17 +245,16 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 
+		examController.setExamRestrictionsForTesting(new TestExamRestrictions(ExamRegion.VLAANDEREN));
 		examController.startExam(ExamRegion.VLAANDEREN);
 
 		// command restrictions
 		assertFalse(commandDispatcher.isAllowedByNameFilter(Commands.Derivative));
-
 		// TODO commandArgumentFilters
-
 		// expression restrictions
 		assertNull(evaluate("true || false"));
-
 		// property restrictions
+		assertTrue(propertiesRegistry.lookup("AngleUnit", app).isFrozen());
 
 		examController.finishExam();
 		assertFalse(commandDispatcher.isAllowedByNameFilter(Commands.Derivative));

@@ -19,7 +19,7 @@ public class DefaultPropertiesRegistry implements PropertiesRegistry {
 
 	/**
 	 * @implNote Unfortunately, we cannot use `java.lang.ref.WeakReference`, because it's not
-	 * supported by <a href="https://www.gwtproject.org/doc/latest/RefJreEmulation.html></a>GWT JRE emulation</a>.
+	 * supported by <a href="https://www.gwtproject.org/doc/latest/RefJreEmulation.html">GWT's JRE emulation</a>.
 	 *
 	 * @param listener A listener.
 	 */

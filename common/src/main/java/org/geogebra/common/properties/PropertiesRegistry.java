@@ -7,6 +7,10 @@ public interface PropertiesRegistry {
 	/**
 	 * Add a listener.
 	 *
+	 * @implNote Even though the argument is marked {@link NonOwning}, the PropertiesRegistry
+	 * will hold a strong reference onto the listener, because we cannot use weak references
+	 * (not supported by <a href="https://www.gwtproject.org/doc/latest/RefJreEmulation.html">GWT's JRE emulation</a>).
+	 *
 	 * @param listener A listener.
 	 */
 	void addListener(@NonOwning PropertiesRegistryListener listener);

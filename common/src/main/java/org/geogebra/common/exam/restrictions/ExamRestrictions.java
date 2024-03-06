@@ -20,10 +20,15 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.ValuedProperty;
 
 /**
- * Represents restrictions that apply during an exam. Restrictions for the
- * different exam types are represented as subclasses of this class.
+ * Represents restrictions that apply during exams.
  * <p/>
- * All the different kinds of restrictions go in here:
+ * Restrictions that are specific to the different exam types are represented as subclasses
+ * of this class.
+ * Restrictions that apply to all exam types should be implemented in this class
+ * (in {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object)}).
+ * <p/>
+ * Any restrictions to be applied during exams should be implemented in here (so that
+ * everything is one place):
  * <ul>
  * <li>disabled subapps,</li>
  * <li>restricted commands,</li>
@@ -36,10 +41,12 @@ public class ExamRestrictions {
 
 	public static ExamRestrictions forExamType(ExamRegion examType) {
 		switch (examType) {
-		case NIEDERSACHSEN:
-			return new NiedersachsenExamRestrictions();
 		case BAYERN_CAS:
 			return new BayernCasExamRestrictions();
+//		case MMS:
+//			return new MmsExamRestrictions();
+		case NIEDERSACHSEN:
+			return new NiedersachsenExamRestrictions();
 		case VLAANDEREN:
 			return new VlaanderenExamRestrictions();
 		default:
@@ -53,8 +60,8 @@ public class ExamRestrictions {
 	private final Set<ExpressionFilter> expressionFilters;
 	private final Set<CommandFilter> commandFilters;
 	private final Set<CommandArgumentFilter> commandArgumentFilters;
-	// independent of exam region
-	private final ExamCommandArgumentFilter examCommandArgumentFilter =
+	// filter independent of exam region
+	private final CommandArgumentFilter examCommandArgumentFilter =
 			new ExamCommandArgumentFilter();
 	private final Set<String> frozenProperties;
 
@@ -84,12 +91,8 @@ public class ExamRestrictions {
 		this.frozenProperties = frozenProperties;
 	}
 
-	public final @Nonnull ExamRegion getExamType() {
-		return examType;
-	}
-
 	/**
-	 * @return The list of disabled (not allowed) subapps during exam, or `null` if there
+	 * @return The list of disabled (i.e., not allowed) subapps during exams, or `null` if there
 	 * is no restriction on the available subapps.
 	 */
 	public final @CheckForNull Set<SuiteSubApp> getDisabledSubApps() {
@@ -97,7 +100,7 @@ public class ExamRestrictions {
 	}
 
 	/**
-	 * @return The default subapp to switch to if a disabled subapp is active at the time
+	 * @return The default subapp to switch to if a disabled subapp is active when
 	 * the exam starts, or `null` if there is no default.
 	 */
 	public final @Nonnull SuiteSubApp getDefaultSubApp() {
@@ -105,9 +108,7 @@ public class ExamRestrictions {
 	}
 
 	/**
-	 * Apply the restrictions.
-	 *
-	 * TODO add more arguments if necessary
+	 * Apply the exam restrictions.
 	 */
 	public void apply(@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
@@ -237,6 +238,8 @@ public class ExamRestrictions {
 	protected void unfreezeValue(@Nonnull  ValuedProperty property) {
 	}
 
+	// TODO unclear how to implement
+	// see https://git.geogebra.org/ggb/geogebra/-/issues/8#function-graphs-new
 	public boolean isSelectionAllowed(GeoElementND geoND) {
 		return true;
 	}

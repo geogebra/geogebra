@@ -105,7 +105,14 @@ public final class ExamController implements PropertiesRegistryListener {
 	 */
 	public ExamController(PropertiesRegistry propertiesRegistry) {
 		this.propertiesRegistry = propertiesRegistry;
-		propertiesRegistry.addListener(this); // TODO make sure weak references are used
+		propertiesRegistry.addListener(this);
+	}
+
+	/**
+	 * Unregister the exam controller as a listener from the properties registry.
+	 */
+	public void unregisterFromPropertiesRegistry() {
+		propertiesRegistry.removeListener(this);
 	}
 
 	/**
@@ -231,16 +238,10 @@ public final class ExamController implements PropertiesRegistryListener {
 	}
 
 	/**
-	 * @return The current exam duration in seconds. If the exam is currently active
+	 * @param localization A localization.
+	 * @return The formatted duration since the start of the exam, if an exam is currently
+	 * active, or null otherwise.
 	 */
-	public Double getDuration() {
-		if (startDate == null) {
-			return 0.0;
-		}
-		Date untilDate = state == ExamState.ACTIVE ? new Date() : finishDate;
-		return (untilDate.getTime() - startDate.getTime()) * 1000.0;
-	}
-
 	public @CheckForNull String getDurationFormatted(Localization localization) {
 		if (startDate == null) {
 			return null;
@@ -314,7 +315,9 @@ public final class ExamController implements PropertiesRegistryListener {
 			throw new IllegalStateException("no active context; call setActiveContext() before attempting to start the exam");
 		}
 		this.examType = examType;
-		examRestrictions = ExamRestrictions.forExamType(examType);
+		if (examRestrictions == null) {
+			examRestrictions = ExamRestrictions.forExamType(examType);
+		}
 		applyRestrictionsOnContextDependencies(activeDependencies);
 		applyRestrictionsOnRestrictables();
 
@@ -362,6 +365,7 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 		startDate = finishDate = null;
 		examType = null;
+		examRestrictions = null;
 		setState(ExamState.IDLE);
 	}
 
@@ -451,5 +455,11 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	@Override
 	public void propertyUnregistered(Property property, Object context) {
+	}
+
+	// Test support API
+
+	void setExamRestrictionsForTesting(ExamRestrictions examRestrictions) {
+		this.examRestrictions = examRestrictions;
 	}
 }

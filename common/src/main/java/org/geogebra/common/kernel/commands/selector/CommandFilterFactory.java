@@ -70,7 +70,7 @@ public final class CommandFilterFactory {
 	/**
 	 * @return filter for Bayern CAS exam
 	 */
-	@Deprecated // move to org.geogebra.common.exam.restrictions.ExamRestrictions?
+	@Deprecated // replaced by BayernCasExamRestrictions
 	public static CommandFilter createBayernCasFilter() {
 		NameCommandFilter nameFilter = new NameCommandFilter(true);
 		nameFilter.addCommands(Commands.Plane);
@@ -86,6 +86,7 @@ public final class CommandFilterFactory {
 	/**
 	 * @return filter for IQB MMS exam
 	 */
+	@Deprecated // replaced by MmsExamRestrictions
 	public static CommandFilter createMmsFilter() {
 		NameCommandFilter nameFilter = new NameCommandFilter(true);
 		nameFilter.addCommands(Commands.Axes, Commands.Focus,
@@ -135,6 +136,7 @@ public final class CommandFilterFactory {
 	/**
 	 * @return filter for Vlaanderen exam
 	 */
+	@Deprecated // replaced by VlaanderenExamRestrictions
 	public static CommandFilter createVlaanderenFilter() {
 		NameCommandFilter nameFilter = new NameCommandFilter(true);
 		nameFilter.addCommands(Commands.Derivative, Commands.NDerivative, Commands.Integral,
