@@ -15,8 +15,8 @@ public class MeasurementController {
 	public MeasurementController(Kernel kernel) {
 		this.kernel = kernel;
 		addTool(MeasurementToolId.RULER, "Ruler.svg");
-		addTool(MeasurementToolId.PROTRACTOR, "Protactor.svg");
-		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtactor.svg");
+		addTool(MeasurementToolId.PROTRACTOR, "Protactor.svg", 1 - (278.86 / 296));
+		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtactor.svg", 0.0);
 	}
 
 	public GeoImage getActiveToolImage() {
@@ -67,7 +67,11 @@ public class MeasurementController {
 	}
 
 	private void addTool(MeasurementToolId id, String fileName) {
-		add(new MeasurementTool(id, fileName));
+		addTool(id, fileName, null);
+	}
+
+	private void addTool(MeasurementToolId id, String fileName, Double percent) {
+		add(new MeasurementTool(id, fileName, percent));
 		selectTool(id);
 	}
 
