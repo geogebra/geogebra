@@ -22,7 +22,6 @@ import org.geogebra.web.shared.view.button.ActionButton;
 import org.geogebra.web.shared.view.button.DisappearingActionButton;
 import org.gwtproject.animation.client.AnimationScheduler;
 import org.gwtproject.animation.client.AnimationScheduler.AnimationCallback;
-import org.gwtproject.dom.client.DivElement;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Display;
@@ -97,24 +96,34 @@ public class GlobalHeader implements EventRenderable {
 				&& ((LoginEvent) event).isSuccessful()) {
 			if (profilePanel == null) {
 				profilePanel = new ProfileAvatar(app);
-				registerFocusable(app, AccessibilityGroup.AVATAR, profilePanel);
 			}
-			updateSigninVisibility(true);
+			updateSignInnVisibility(true);
 			profilePanel.setVisible(true);
 			profilePanel.update(((LoginEvent) event).getUser());
-			DivElement profile = DOM.createDiv().cast();
+
+			Element profile = Dom.createDefaultButton();
 			profile.setId("profileId");
 			signIn.getParentElement().appendChild(profile);
 
-			RootPanel.get("profileId").add(profilePanel);
+			getProfileRootPanel().add(profilePanel);
+			registerFocusable(app, AccessibilityGroup.AVATAR, getProfileRootPanel());
+			Dom.addEventListener(profile, "click", (e) -> {
+				profilePanel.togglePopup();
+				e.stopPropagation();
+				e.preventDefault();
+			});
 		}
 		if (event instanceof LogOutEvent) {
 			profilePanel.setVisible(false);
-			updateSigninVisibility(false);
+			updateSignInnVisibility(false);
 		}
 	}
 
-	private void updateSigninVisibility(boolean hide) {
+	private RootPanel getProfileRootPanel() {
+		return RootPanel.get("profileId");
+	}
+
+	private void updateSignInnVisibility(boolean hide) {
 		if (hide) {
 			signIn.addClassName("hidden");
 			getSignInText().addStyleName("hideButton");

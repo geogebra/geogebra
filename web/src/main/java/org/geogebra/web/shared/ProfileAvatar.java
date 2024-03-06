@@ -1,6 +1,5 @@
 package org.geogebra.web.shared;
 
-import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
@@ -9,7 +8,6 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.Dom;
-import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.gwtproject.event.dom.client.ClickEvent;
@@ -144,6 +142,8 @@ public class ProfileAvatar extends FlowPanel {
 			profilePanel.hide();
 		} else {
 			profilePanel.getPopupPanel().showRelativeTo(this);
+			profilePanel.getPopupMenu().selectItem(0);
+
 		}
 		Dom.toggleClass(this, "selected", profilePanel.getPopupPanel().isShowing());
 	}
