@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.draw.DrawImageResizable;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.MeasurementTool;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -64,8 +65,13 @@ public class RotateBoundingBox {
 	}
 
 	private List<GPoint2D> getProtractorPoints() {
+		MeasurementTool tool = construction.getActiveMeasurementTool();
+		if (tool == null || !tool.isProtactor()) {
+			return null;
+		}
+
 		DrawImageResizable drawable =
-				(DrawImageResizable) ec.getView().getDrawableFor(construction.getProtractor());
+				(DrawImageResizable) ec.getView().getDrawableFor(tool.getImage());
 		return drawable != null ? drawable.toPoints() : null;
 	}
 
@@ -123,7 +129,10 @@ public class RotateBoundingBox {
 
 	private boolean isProtractorSelected() {
 		ArrayList<GeoElement> selectedGeos = ec.selection.getSelectedGeos();
-		return !selectedGeos.isEmpty() && selectedGeos.get(0) == construction.getProtractor();
+		MeasurementTool tool = construction.getActiveMeasurementTool();
+
+		return !selectedGeos.isEmpty() && selectedGeos.get(0) == tool.getImage()
+				&& tool.isProtactor();
 	}
 
 	void setView(EuclidianView view) {

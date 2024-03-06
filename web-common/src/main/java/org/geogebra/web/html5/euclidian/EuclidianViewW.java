@@ -1498,13 +1498,13 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public GeoImage addMeasurementTool(int mode, String fileName) {
-		GeoImage tool = new GeoImage(getKernel().getConstruction());
+		GeoImage toolImage = new GeoImage(getKernel().getConstruction());
 		SVGResource toolSVG = getMeasurementToolSVG(mode);
-		tool.setMeasurementTool(true);
-		SafeGeoImageFactory factory = new SafeGeoImageFactory(appW, tool);
+		toolImage.setMeasurementTool(true);
+		SafeGeoImageFactory factory = new SafeGeoImageFactory(appW, toolImage);
 		String path = ImageManagerW.getMD5FileName(fileName, toolSVG.getSafeUri().asString());
-		tool = factory.createInternalFile(path, toolSVG.getSafeUri().asString());
-		return tool;
+		toolImage = factory.createInternalFile(path, toolSVG.getSafeUri().asString());
+		return toolImage;
 	}
 
 	private static SVGResource getMeasurementToolSVG(int mode) {

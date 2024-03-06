@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel;
 
-import org.geogebra.common.euclidian.EuclidianView;
+import java.util.function.BiFunction;
+
 import org.geogebra.common.kernel.geos.GeoImage;
 
 public final class MeasurementTool {
@@ -28,7 +29,12 @@ public final class MeasurementTool {
 		return id;
 	}
 
-	public void refresh(EuclidianView view) {
-		image = view.addMeasurementTool(id.getMode(), fileName);
+	public void refresh(BiFunction<Integer, String, GeoImage> addFunct) {
+		image = addFunct.apply(id.getMode(), fileName);
+	}
+
+	public boolean isProtactor() {
+		return id == MeasurementToolId.PROTRACTOR
+				|| id == MeasurementToolId.TRIANGLE_PROTRACTOR;
 	}
 }

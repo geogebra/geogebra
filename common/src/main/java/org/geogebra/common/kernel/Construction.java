@@ -341,6 +341,9 @@ public class Construction {
 		return measurementTools.getActiveToolImage();
 	}
 
+	public MeasurementTool getActiveMeasurementTool() {
+		return measurementTools.activeTool();
+	}
 	public Map<Integer, GeoNumeric> getArbitraryConstants() {
 		return constsM;
 	}
