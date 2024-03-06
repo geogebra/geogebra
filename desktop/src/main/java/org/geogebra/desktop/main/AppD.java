@@ -2101,7 +2101,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		getLocalization().updateLanguageFlags(loc.getLocale().getLanguage());
-
+		if (guiManager != null) {
+			guiManager.updateFonts();
+		}
 	}
 
 	/**
