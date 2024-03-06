@@ -27,7 +27,7 @@ public class MeasurementController {
 		return selectedToolId != MeasurementToolId.NONE;
 	}
 
-	private MeasurementTool activeTool() {
+	MeasurementTool activeTool() {
 		return tools.get(selectedToolId);
 	}
 
@@ -62,7 +62,8 @@ public class MeasurementController {
 		if (tool == null) {
 			Log.error("No such tool: " + tool);
 		}
-		tool.refresh(kernel.getApplication().getActiveEuclidianView());
+
+		tool.refresh(kernel.getApplication().getActiveEuclidianView()::addMeasurementTool);
 	}
 
 	private void addTool(MeasurementToolId id, String fileName) {
