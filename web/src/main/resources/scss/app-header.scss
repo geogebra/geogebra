@@ -116,6 +116,13 @@
     border-radius: 2px;
     cursor: pointer;
 }
+
+.GeoGebraHeader #profileId:focus {
+	.imageHolder {
+		background: neutral(200);
+	}
+}
+
 .GeoGebraHeader .profilePanel {
     margin: 8px;
 }

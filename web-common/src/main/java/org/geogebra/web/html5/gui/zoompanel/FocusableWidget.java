@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui.zoompanel;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.MayHaveFocus;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -38,18 +39,37 @@ public class FocusableWidget implements MayHaveFocus {
 	@Override
 	public boolean focusIfVisible(boolean reverse) {
 		Widget btn = btns[0];
+		boolean b1 = btn.isVisible();
+		boolean b2 = btn.isAttached();
+		boolean b3 =!"true".equals(btn.getElement().getAttribute("aria-hidden"));
+		boolean b4 =!btn.getElement().hasClassName("hideButton");
+		boolean b5 =!btn.getElement().getStyle().getVisibility().equals("hidden");
+		boolean b6 = isParentVisible(btn);
+		Log.debug("TRY TO FOCUS: " + btn.getStyleName());
+
 		if (btn.isVisible() && btn.isAttached()
 				&& !"true".equals(btn.getElement().getAttribute("aria-hidden"))
-				&& !btn.getElement().hasClassName("hideButton")) {
+				&& !btn.getElement().hasClassName("hideButton")
+				&& !btn.getElement().getStyle().getVisibility().equals("hidden")
+				&& isParentVisible(btn)) {
 			if (reverse) {
 				focus(btns[btns.length - 1]);
 			} else {
 				focus(btn);
 			}
+			Log.debug("FOCUS DONE: " + btn.getStyleName());
 			return true;
 		}
 
 		return false;
+	}
+
+	private boolean isParentVisible(Widget btn) {
+		if (btn.getParent() == null) {
+			return true;
+		} else {
+			return !btn.getParent().getElement().getStyle().getVisibility().equals("hidden");
+		}
 	}
 
 	protected void focus(Widget btn) {

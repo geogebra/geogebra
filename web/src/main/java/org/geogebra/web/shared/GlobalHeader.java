@@ -97,8 +97,9 @@ public class GlobalHeader implements EventRenderable {
 				&& ((LoginEvent) event).isSuccessful()) {
 			if (profilePanel == null) {
 				profilePanel = new ProfileAvatar(app);
+				registerFocusable(app, AccessibilityGroup.AVATAR, profilePanel);
 			}
-			signIn.addClassName("hidden");
+			updateSigninVisibility(true);
 			profilePanel.setVisible(true);
 			profilePanel.update(((LoginEvent) event).getUser());
 			DivElement profile = DOM.createDiv().cast();
@@ -109,8 +110,28 @@ public class GlobalHeader implements EventRenderable {
 		}
 		if (event instanceof LogOutEvent) {
 			profilePanel.setVisible(false);
-			signIn.removeClassName("hidden");
+			updateSigninVisibility(false);
 		}
+	}
+
+	private void updateSigninVisibility(boolean hide) {
+		if (hide) {
+			signIn.addClassName("hidden");
+			getSignInText().addStyleName("hideButton");
+			getSignInIcon().addStyleName("hideButton");
+		} else {
+			signIn.removeClassName("hidden");
+			getSignInText().removeStyleName("hideButton");
+			getSignInIcon().removeStyleName("hideButton");
+		}
+	}
+
+	private RootPanel getSignInText() {
+		return RootPanel.get("signInTextID");
+	}
+
+	private RootPanel getSignInIcon() {
+		return RootPanel.get("signInIconID");
 	}
 
 	/**
