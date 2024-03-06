@@ -1,7 +1,5 @@
 package org.geogebra.common.euclidian;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.kernel.Construction;
@@ -92,14 +90,6 @@ public class RotateBoundingBox {
 		double x = bounds.getMinX() + bounds.getWidth() / 2;
 		double y = bounds.getMinY()  + bounds.getHeight() / 2;
 		return new GPoint2D(x, y);
-	}
-
-	private boolean isProtractorSelected() {
-		ArrayList<GeoElement> selectedGeos = ec.selection.getSelectedGeos();
-		MeasurementTool tool = construction.getActiveMeasurementTool();
-
-		return !selectedGeos.isEmpty() && selectedGeos.get(0) == tool.getImage()
-				&& tool.isProtactor();
 	}
 
 	void setView(EuclidianView view) {
