@@ -1,7 +1,9 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
 
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.main.AppW;
@@ -37,8 +39,11 @@ public class ToolboxMow extends FlowPanel {
 
 		addRulerButton();
 
-		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(), "move mode", "moveBtn",
+		addPressButton(ToolbarSvgResources.INSTANCE.mode_select_32(), "move mode", "moveBtn",
 				() -> appW.setMoveMode());
+
+		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(), "pen mode", "penBtn",
+				() -> appW.setMode(MODE_PEN, ModeSetter.TOOLBAR));
 	}
 
 	private void addPressButton(SVGResource image, String ariaLabel, String dataTest,
