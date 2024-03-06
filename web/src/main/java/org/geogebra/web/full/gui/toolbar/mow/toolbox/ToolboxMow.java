@@ -1,7 +1,9 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
 
+import org.geogebra.common.kernel.ModeSetter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +45,9 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		addRulerButton();
 
 		addMoveModeButton();
+
+		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(), "pen mode", "penBtn",
+				() -> appW.setMode(MODE_PEN, ModeSetter.TOOLBAR));
 	}
 
 	private IconButton addPressButton(SVGResource image, String ariaLabel, String dataTest,
