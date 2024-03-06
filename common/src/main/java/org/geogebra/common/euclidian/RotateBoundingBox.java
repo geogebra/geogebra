@@ -1,11 +1,9 @@
 package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
-import org.geogebra.common.euclidian.draw.DrawImageResizable;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MeasurementTool;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -19,7 +17,6 @@ import org.geogebra.common.util.MyMath;
  * Class to handle rotating of objects
  */
 public class RotateBoundingBox {
-	private static final double PROTRACTOR_CENTER_IN_PERCENT = 1 - (278.86 / 296);
 	private final Construction construction;
 	private final EuclidianController ec;
 	private EuclidianView view;
@@ -35,8 +32,9 @@ public class RotateBoundingBox {
 		}
 
 		GPoint2D eventPoint = clampToView(eventX, eventY);
-		GPoint2D center = isProtractorSelected()
-				? calculateProtractorRotationCenter()
+		MeasurementTool tool = construction.getActiveMeasurementTool();
+		GPoint2D center = tool != null && tool.hasRotationCenter()
+				? tool.getRotationCenter(view)
 				: calculateRotationCenter(bounds);
 		ensureRotationCenter(center);
 		NumberValue rotationAngle = calculateAngle(center, eventPoint);
@@ -48,37 +46,6 @@ public class RotateBoundingBox {
 			return true;
 		}
 		return false;
-	}
-
-	private GPoint2D calculateProtractorRotationCenter() {
-		List<GPoint2D> points = getProtractorPoints();
-		if (points == null || points.size() < 3) {
-			return new GPoint2D(0, 0);
-		}
-
-		GPoint2D p0 = points.get(0);
-		GPoint2D p1 = points.get(1);
-		GPoint2D p2 = points.get(2);
-
-		return new GPoint2D(getRotatedCoord(p0.x, p1.x, p2.x),
-				getRotatedCoord(p0.y, p1.y, p2.y));
-	}
-
-	private List<GPoint2D> getProtractorPoints() {
-		MeasurementTool tool = construction.getActiveMeasurementTool();
-		if (tool == null || !tool.isProtactor()) {
-			return null;
-		}
-
-		DrawImageResizable drawable =
-				(DrawImageResizable) ec.getView().getDrawableFor(tool.getImage());
-		return drawable != null ? drawable.toPoints() : null;
-	}
-
-	private double getRotatedCoord(double v0, double v1, double v2) {
-		return ((v0 + v1) / 2) * PROTRACTOR_CENTER_IN_PERCENT
-				+ ((2 * v2 + v1 - v0) / 2)
-				* (1 - PROTRACTOR_CENTER_IN_PERCENT);
 	}
 
 	private void rotateSelectedGeos(NumberValue angle) {
