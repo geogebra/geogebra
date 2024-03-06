@@ -161,7 +161,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
-import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.PenToolsSettings;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
@@ -10950,9 +10950,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @return delete square size in px
 	 */
 	public int getDeleteToolSize() {
-		EuclidianSettings settings = this.view.getSettings();
+		PenToolsSettings settings = app.getSettings().getPenTools();
 		if (settings != null) {
-			return this.view.getSettings().getDeleteToolSize();
+			return settings.getDeleteToolSize();
 		}
 
 		return EuclidianConstants.DEFAULT_ERASER_SIZE;
