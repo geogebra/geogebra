@@ -220,14 +220,6 @@ public class GeoList extends GeoElement
 		return elementType;
 	}
 
-	/**
-	 * Sets the element type for this list
-	 * @param elementType GeoClass
-	 */
-	public void setElementType(GeoClass elementType) {
-		this.elementType = elementType;
-	}
-
 	@Override
 	public GeoList copy() {
 		return new GeoList(this);
