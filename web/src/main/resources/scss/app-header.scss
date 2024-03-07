@@ -377,6 +377,14 @@ svg.icon.left {
     margin: 8px;
 }
 
+.GeoGebraFrame #logoID:hover {
+	cursor: pointer
+}
+
+.GeoGebraFrame .logoLink:focus {
+    background-color: neutral(200);
+}
+
 .compact.GeoGebraFrame .headerLogo,
 .smallScreen.GeoGebraFrame.scientificHeader .headerLogo {
     margin: 0px ;

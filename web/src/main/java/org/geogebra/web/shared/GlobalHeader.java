@@ -34,6 +34,7 @@ import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.core.Function;
+import elemental2.dom.DomGlobal;
 
 /**
  * Singleton representing external header bar of unbundled apps.
@@ -327,7 +328,7 @@ public class GlobalHeader implements EventRenderable {
 		exam.setId("examId");
 		getButtonElement().getParentElement().appendChild(exam);
 		// The link should be disabled in all exam-capable apps since APPS-3289, but make sure
-		Dom.querySelector("#headerID a").setAttribute("href", "#");
+		Dom.querySelector("#logoID").setAttribute("href", "#");
 		RootPanel examId = RootPanel.get("examId");
 		examId.addStyleName("examPanel");
 
@@ -418,7 +419,7 @@ public class GlobalHeader implements EventRenderable {
 	 * @return whether there is a header in DOM
 	 */
 	public static boolean isInDOM() {
-		return RootPanel.get("headerID") != null;
+		return RootPanel.get("logoID") != null;
 	}
 
 	/**
@@ -442,9 +443,14 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	public void initLogo(AppW app) {
-		//Element logo = Dom.querySelector("#logoID");
-		//final RootPanel logo = RootPanel.get("logoID");
-		//registerFocusable(app, AccessibilityGroup.GEOGEBRA_LOGO, logo);
+		RootPanel logo = RootPanel.get("logoID");
+		registerFocusable(app, AccessibilityGroup.GEOGEBRA_LOGO, logo);
+		Dom.addEventListener(logo.getElement(), "click", (e) -> {
+			e.stopPropagation();
+			e.preventDefault();
+			String link = logo.getElement().getAttribute("href");
+			DomGlobal.window.open(link, "_self");
+		});
 	}
 
 	private void registerFocusable(AppW app, AccessibilityGroup group, Widget widget) {
