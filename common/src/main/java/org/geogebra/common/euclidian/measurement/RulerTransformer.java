@@ -1,4 +1,4 @@
-package org.geogebra.common.euclidian.modes;
+package org.geogebra.common.euclidian.measurement;
 
 import java.util.List;
 

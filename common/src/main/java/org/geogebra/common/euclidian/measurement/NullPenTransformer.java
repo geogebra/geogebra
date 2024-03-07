@@ -1,10 +1,9 @@
-package org.geogebra.common.kernel;
+package org.geogebra.common.euclidian.measurement;
 
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.modes.PenTransformer;
 
 public class NullPenTransformer implements PenTransformer {
 	@Override

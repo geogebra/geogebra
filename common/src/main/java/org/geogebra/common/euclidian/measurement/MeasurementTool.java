@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel;
+package org.geogebra.common.euclidian.measurement;
 
 import java.util.List;
 import java.util.function.BiFunction;
@@ -6,7 +6,7 @@ import java.util.function.BiFunction;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawImageResizable;
-import org.geogebra.common.euclidian.modes.PenTransformer;
+import org.geogebra.common.kernel.MeasurementToolId;
 import org.geogebra.common.kernel.geos.GeoImage;
 
 public final class MeasurementTool {

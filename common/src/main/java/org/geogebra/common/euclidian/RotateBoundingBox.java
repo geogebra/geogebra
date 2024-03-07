@@ -2,8 +2,8 @@ package org.geogebra.common.euclidian;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.measurement.MeasurementTool;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.MeasurementTool;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
