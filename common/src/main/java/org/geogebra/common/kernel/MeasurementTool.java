@@ -58,7 +58,7 @@ public final class MeasurementTool {
 	}
 
 	private List<GPoint2D> getProtractorPoints(EuclidianView view) {
-		if (id.isProtactor()) {
+		if (!id.isProtactor()) {
 			return null;
 		}
 
