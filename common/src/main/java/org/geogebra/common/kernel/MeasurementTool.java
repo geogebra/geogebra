@@ -6,22 +6,28 @@ import java.util.function.BiFunction;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawImageResizable;
+import org.geogebra.common.euclidian.modes.PenTransformer;
 import org.geogebra.common.kernel.geos.GeoImage;
 
 public final class MeasurementTool {
 	private final Double centerInPercent;
+	private final PenTransformer transformer;
 	private GeoImage image;
 	private final MeasurementToolId id;
 	private final String fileName;
 
-	public MeasurementTool(MeasurementToolId id, String fileName) {
-		this(id, fileName, null);
+
+	public MeasurementTool(MeasurementToolId id, String fileName,
+			PenTransformer transformer) {
+		this(id, fileName, null, transformer);
 	}
 
-	public MeasurementTool(MeasurementToolId id, String fileName, Double percent) {
+	public MeasurementTool(MeasurementToolId id, String fileName, Double percent,
+			PenTransformer transformer) {
 		this.id = id;
 		this.fileName = fileName;
 		this.centerInPercent = percent;
+		this.transformer = transformer;
 	}
 
 	public GeoImage getImage() {
@@ -75,5 +81,9 @@ public final class MeasurementTool {
 
 	public boolean hasRotationCenter() {
 		return centerInPercent != null;
+	}
+
+	public PenTransformer getTransformer() {
+		return transformer;
 	}
 }

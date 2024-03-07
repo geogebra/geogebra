@@ -369,6 +369,10 @@ public class Construction {
 		return measurementTools.getActiveToolImage();
 	}
 
+	public MeasurementController getMeasurementController() {
+		return measurementTools;
+	}
+
 	/**
 	 * Construction constants (xAxis, yAxis, ...)
 	 *

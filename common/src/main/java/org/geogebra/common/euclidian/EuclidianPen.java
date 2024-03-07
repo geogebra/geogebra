@@ -8,8 +8,8 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.modes.PenTransformer;
-import org.geogebra.common.euclidian.modes.RulerTransformer;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.MeasurementController;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -74,7 +74,6 @@ public class EuclidianPen implements GTimerListener {
 
 	private final GTimer timer;
 	private final PenPreviewLine penPreviewLine;
-	private final PenTransformer penTransformer;
 	protected final ArrayList<GPoint> previewPoints = new ArrayList<>();
 
 	/************************************************
@@ -89,7 +88,6 @@ public class EuclidianPen implements GTimerListener {
 		this.view = view;
 		this.app = app;
 		this.penPreviewLine = view.newPenPreview();
-		this.penTransformer = new RulerTransformer(view, previewPoints);
 		timer = app.newTimer(this, 1500);
 
 		@WeakOuter PenStrokeAdapter line = new PenStrokeAdapter(app);
@@ -236,14 +234,19 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	public void addPointPenMode(AbstractEvent e) {
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
-		penTransformer.reset();
-		if (penTransformer.isActive() && previewPoints.size() > 1) {
-			penTransformer.updatePreview(newPoint);
-			penPoints.clear();
-			penPoints.addAll(previewPoints);
-		} else {
-			previewPoints.add(newPoint);
-			addPointPenMode(newPoint);
+		MeasurementController mc = app.getKernel().getConstruction()
+				.getMeasurementController();
+		if (mc.hasSelectedTool()) {
+			PenTransformer transformer = mc.getTransformer();
+			transformer.reset(view, previewPoints);
+			if (transformer.isActive() && previewPoints.size() > 1) {
+				transformer.updatePreview(newPoint);
+				penPoints.clear();
+				penPoints.addAll(previewPoints);
+			} else {
+				previewPoints.add(newPoint);
+				addPointPenMode(newPoint);
+			}
 		}
 		view.repaintView();
 	}

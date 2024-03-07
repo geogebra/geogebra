@@ -1,6 +1,6 @@
 package org.geogebra.common.euclidian.modes;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -8,24 +8,15 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.matrix.Coords;
 
-public class RulerTransformer implements PenTransformer {
+public final class RulerTransformer implements PenTransformer {
 	private static final double SNAP_THRESHOLD = 24;
 	private GeoPoint corner1;
 	private GeoPoint corner2;
-	private final EuclidianView view;
-	private final ArrayList<GPoint> previewPoints;
+	private EuclidianView view;
+	private List<GPoint> previewPoints;
 	private boolean rulerTop;
 	private GPoint initialProjection;
 
-	/**
-	 * @param view view
-	 * @param previewPoints pen preview points
-	 */
-	public RulerTransformer(EuclidianView view,
-			ArrayList<GPoint> previewPoints) {
-		this.view = view;
-		this.previewPoints = previewPoints;
-	}
 
 	/**
 	 * Should be only called after reset
@@ -41,7 +32,9 @@ public class RulerTransformer implements PenTransformer {
 	 * Reset internal state after a preview point is added
 	 */
 	@Override
-	public void reset() {
+	public void reset(EuclidianView view, List<GPoint> previewPoints) {
+		this.view = view;
+		this.previewPoints = previewPoints;
 		GeoImage ruler = view.getKernel().getConstruction().getRuler();
 		if (ruler == null || previewPoints.isEmpty()) {
 			initialProjection = null;

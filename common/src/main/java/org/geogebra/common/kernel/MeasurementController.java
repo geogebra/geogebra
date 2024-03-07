@@ -3,6 +3,8 @@ package org.geogebra.common.kernel;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.geogebra.common.euclidian.modes.PenTransformer;
+import org.geogebra.common.euclidian.modes.RulerTransformer;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.util.debug.Log;
 
@@ -14,9 +16,11 @@ public class MeasurementController {
 
 	public MeasurementController(Kernel kernel) {
 		this.kernel = kernel;
-		addTool(MeasurementToolId.RULER, "Ruler.svg");
-		addTool(MeasurementToolId.PROTRACTOR, "Protactor.svg", 1 - (278.86 / 296));
-		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtactor.svg", 0.0);
+		addTool(MeasurementToolId.RULER, "Ruler.svg", new RulerTransformer());
+		addTool(MeasurementToolId.PROTRACTOR, "Protactor.svg", 1 - (278.86 / 296),
+				new NullPenTransformer());
+		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtactor.svg", 0.0,
+				new NullPenTransformer());
 	}
 
 	public GeoImage getActiveToolImage() {
@@ -66,12 +70,14 @@ public class MeasurementController {
 		tool.refresh(kernel.getApplication().getActiveEuclidianView()::addMeasurementTool);
 	}
 
-	private void addTool(MeasurementToolId id, String fileName) {
-		addTool(id, fileName, null);
+	private void addTool(MeasurementToolId id, String fileName,
+			PenTransformer transformer) {
+		addTool(id, fileName, null, transformer);
 	}
 
-	private void addTool(MeasurementToolId id, String fileName, Double percent) {
-		add(new MeasurementTool(id, fileName, percent));
+	private void addTool(MeasurementToolId id, String fileName, Double percent,
+			PenTransformer transformer) {
+		add(new MeasurementTool(id, fileName, percent, transformer));
 		selectTool(id);
 	}
 
@@ -85,5 +91,9 @@ public class MeasurementController {
 
 	public void selectTool(MeasurementToolId toolId) {
 		this.selectedToolId = toolId;
+	}
+
+	public PenTransformer getTransformer() {
+		return activeTool().getTransformer();
 	}
 }
