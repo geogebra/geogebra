@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
@@ -118,7 +119,12 @@ public class Command extends ValidExpression
 		 * other languages to use English names for different commands
 		 */
 
-		if (translateName && !kernel.isUsingInternalCommandNames()) {
+		if (!translateName || kernel.getCommandLookupStrategy() == CommandLookupStrategy.XML) {
+			this.name = name;
+		} else if (kernel.getCommandLookupStrategy() == CommandLookupStrategy.SCRIPT) {
+			String normalized = Commands.lookupInternal(name);
+			this.name = normalized == null ? name : normalized;
+		} else {
 			// translate command name to internal name
 			this.name = app.getReverseCommand(name);
 			// in CAS functions get parsed as commands as well and we want to
@@ -126,8 +132,6 @@ public class Command extends ValidExpression
 			if (this.name == null) {
 				this.name = name;
 			}
-		} else {
-			this.name = name;
 		}
 	}
 
