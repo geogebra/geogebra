@@ -92,10 +92,10 @@ public class RulerIconButton extends IconButton {
 	}
 
 	@Override
-	public void updateLabelAndDataTitle(AppW appW, String ariaLabel, String dataTitle) {
-		super.updateLabelAndDataTitle(appW, ariaLabel, dataTitle);
+	public void setLabels() {
+		super.setLabels();
 		if (rulerPopup != null) {
-			rulerPopup.updateGui();
+			rulerPopup.setLabels();
 		}
 	}
 }

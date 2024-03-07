@@ -95,8 +95,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 
 	@Override
 	public void setLabels() {
-		spotlightButton.updateLabelAndDataTitle(appW, "Spotlight.Tool", "Spotlight.Tool");
-		rulerButton.updateLabelAndDataTitle(appW, "Ruler. Ruler.Help", "Ruler");
-		moveModeButton.updateLabelAndDataTitle(appW, "move mode", "move mode");
+		spotlightButton.setLabels();
+		rulerButton.setLabels();
+		moveModeButton.setLabels();
 	}
 }
