@@ -15,13 +15,15 @@ import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.Widget;
 
+import elemental2.dom.CanvasRenderingContext2D;
+
 /**
  * Split pane which is used to separate two DockPanels.
  * 
  * @author Florian Sonner, adapted by G.Sturr for web
  */
 public class DockSplitPaneW extends ZoomSplitLayoutPanel
-		implements DockComponent {
+		implements DockComponent, PaintToCanvas {
 
 	private Widget leftComponent;
 	private Widget rightComponent;
@@ -532,6 +534,31 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	public void setComponentOrder(DockPanelW left, DockPanelW right) {
 		leftComponent = left;
 		rightComponent = right;
+	}
+
+	@Override
+	public void paintToCanvas(CanvasRenderingContext2D context2d,
+			ViewCounter counter, int x, int y) {
+		if (leftComponent != null) {
+			if (counter != null) {
+				counter.increment();
+			}
+			((PaintToCanvas) leftComponent).paintToCanvas(context2d, counter, x, y);
+		}
+		if (rightComponent != null) {
+			if (counter != null) {
+				counter.increment();
+			}
+			int dx = orientation == SwingConstants.HORIZONTAL_SPLIT && leftComponent != null
+					? leftComponent.getOffsetWidth() + getSplitterSize() : 0;
+			int dy = orientation == SwingConstants.VERTICAL_SPLIT && leftComponent != null
+					? leftComponent.getOffsetHeight() + getSplitterSize() : 0;
+			((PaintToCanvas) rightComponent)
+					.paintToCanvas(context2d, counter, x + dx, y + dy);
+		}
+		if (counter != null) {
+			counter.decrement();
+		}
 	}
 
 	public Widget getChild(int direction) {

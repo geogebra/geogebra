@@ -5,7 +5,7 @@ plugins {
     id 'java'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '5.2.5'
+    id 'com.github.spotbugs' version '6.0.8'
     id 'de.aaschmid.cpd' version '3.3'
     id 'io.miret.etienne.sass' version '1.5.0'
     id 'org.docstr.gwt' version '1.1.30'
@@ -48,7 +48,7 @@ task extractJs() {
 }
 
 dependencies {
-    def multiplayerVersion = "1.0.202311302207"
+    def multiplayerVersion = "1.0.202402291312"
     implementation project(path: ':carota-web'),
         project(':web-dev'),
         project(':web-common'),
@@ -73,7 +73,7 @@ dependencies {
         "org.gwtproject:gwt-user:$gwtCompilerVersion"
 
     annotationProcessor project(":gwtutil"),
-            'org.gwtproject.resources:gwt-resources-processor:HEAD-SNAPSHOT'
+            'org.treblereel.gwt.gwtproject.resources:gwt-resources-processor:202402231'
 }
 
 def devModule = project.findProperty("gmodule") ?: 'org.geogebra.web.SuperWeb'
@@ -196,7 +196,7 @@ tasks.withType(org.docstr.gradle.plugins.gwt.AbstractGwtActionTask) {
 }
 
 
-def outputs = ['web', 'web3d', 'webSimple', 'solver', 'tablet3d','tabletWin']
+def outputs = ['web', 'web3d', 'webSimple', 'tablet3d','tabletWin']
 
 task cleanWar(type: Delete) {
     doLast {
@@ -261,20 +261,6 @@ task copyHandlebars(dependsOn: 'compileSass') {
             def templatePath =  "${handlebarsDir}/${app.id}-template.handlebars"
             file(templatePath).text = handlebars(replaceHtml(app, false, false, true))
         }
-        String solver = solverHtml()
-        def solverPath = "${handlebarsDir}/solver-template.handlebars"
-        file(solverPath).text = handlebars(solver)
-    }
-}
-
-task createSolverHtml(dependsOn: 'compileSass') {
-    doLast {
-        String solver = solverHtml()
-        // for localhost and autotest
-        file("war/solver.html").text = solver
-            .replace("<!--APP NAME-->", "Math Solver")
-            .replace("<!--SIGN IN-->", "Sign In")
-            .replace("<!--LANGUAGE LINKS-->", "<script>codebase=\"./\"</script>")
     }
 }
 
@@ -301,7 +287,7 @@ task prepareS3Upload(dependsOn: ['compileGwt', 'copyHtml']) {
     }
 }
 
-task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml', 'createSolverHtml']) {
+task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml']) {
     description 'Copies/updates the GWT production compilation directory (web3d, ...) to the war directory.'
     from compileGwt
     into warDirRel
@@ -340,7 +326,7 @@ class ReadableDev extends org.docstr.gradle.plugins.gwt.GwtDev {
     }
 }
 
-task run(type: ReadableDev, dependsOn: ['jar', 'copyDevHtml', 'createSolverHtml']) {
+task run(type: ReadableDev, dependsOn: ['jar', 'copyDevHtml']) {
     war = file(warDirRel)
     maxHeapSize = '4096m'
     logLevel = 'TRACE'

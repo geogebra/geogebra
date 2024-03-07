@@ -70,11 +70,8 @@ public class AlgebraItem {
 			GeoSymbolic symbolic = (GeoSymbolic) geo;
 			if (symbolic.shouldWrapInNumeric()) {
 				return true;
-			}
-			if (SymbolicUtil.isSolve(symbolic)) {
+			} else if (SymbolicUtil.isSolve(symbolic)) {
 				return SymbolicUtil.isSymbolicSolveDiffers(symbolic);
-			} else if (!(symbolic.getTwinGeo() instanceof HasSymbolicMode)) {
-				return false;
 			}
 		}
 

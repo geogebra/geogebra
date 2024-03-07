@@ -250,7 +250,7 @@
 			margin-bottom: 7px; // 8 - border
 			border-radius: 0px;
 			border: none;
-			border-bottom: 1px solid colors.$black-42;
+			border-bottom: 1px solid neutral(500);
 
 			input[type="text"] {
 				border: none !important;
@@ -278,21 +278,21 @@
 		&.focusState:not(.error), &.focusState:not(.error):hover {
 
 			.inputLabel {
-				color: colors.$teal-default;
+				color: purple(600);
 			}
 			.AutoCompleteTextFieldW {
-				border-bottom-color: colors.$teal-default;
+				border-bottom-color: purple(600);
 			}
 		}
 
 		&.hoverState:not(.error) {
 
 			.inputLabel {
-				color: colors.$black-87;
+				color: neutral(900);
 			}
 
 			.AutoCompleteTextFieldW {
-				border-bottom: 2px solid colors.$black-87;
+				border-bottom: 2px solid neutral(900);
 			}
 		}
 	}
@@ -362,7 +362,7 @@
 		}
 
 		.selectedDropDownElement, .selectedDropDownElement:hover {
-			background: colors.$black-12;
+			background: neutral(300);
 		}
 
 		&.show {
@@ -926,7 +926,7 @@
 		cursor: pointer;
 		display: inline-flex;
 		box-sizing: border-box;
-		border-bottom: 1px solid colors.$black-42;
+		border-bottom: 1px solid neutral(500);
 
 		.optionLabelHolder {
 			.label {

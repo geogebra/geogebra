@@ -249,6 +249,15 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public Coords getCoordsInD2IfInPlane(CoordSys coordSys);
 
 	/**
+	 * Same as {@link #getCoordsInD2IfInPlane(CoordSys)}, but forces usage of real coordinates
+	 * if necessary
+	 * @param coordSys Coord system
+	 * @return the coords of the point in 2D (projected on coord sys) or null if
+	 *         not included in coord sys
+	 */
+	public Coords getCoordsInD2IfInPlaneInRealCoords(CoordSys coordSys);
+
+	/**
 	 * @return path on which this point lies
 	 */
 	public Path getPath();

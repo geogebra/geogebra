@@ -46,7 +46,7 @@ public class FormatCollada extends Format {
 		}
 		if (materials == null) {
 			materials = new HashMap<>();
-		} 
+		}
 		if (labels == null) {
 			labels = new HashMap<>();
 		}

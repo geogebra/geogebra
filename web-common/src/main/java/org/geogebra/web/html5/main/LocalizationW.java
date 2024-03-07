@@ -302,7 +302,7 @@ public final class LocalizationW extends Localization {
 				}
 				if (storedTranslation != null
 						&& Js.isTruthy(storedTranslation.get(lang0))) {
-					GeoGebraGlobal.__GGB__keysVar = Js.uncheckedCast(JsPropertyMap.of());
+					GeoGebraGlobal.__GGB__keysVar = JsPropertyMap.of();
 					GeoGebraGlobal.__GGB__keysVar.set(lang0,
 							Js.uncheckedCast(storedTranslation.get(lang0)));
 					return true;

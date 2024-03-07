@@ -658,12 +658,14 @@ public class AlgebraProcessor {
 				} else {
 					n.setForceFunction();
 				}
-			} else if (preventTypeChange || isForceSurfaceCartesian(newValue, geo)) {
+			} else if (geo.isGeoSurfaceCartesian() && preventTypeChange) {
 				n.setForceSurfaceCartesian();
 			} else if (geo instanceof GeoFunctionNVar) {
 				if (((GeoFunctionNVar) geo).isForceInequality()) {
 					n.setForceInequality();
 				}
+			} else if (geo.isGeoAngle() && preventTypeChange) {
+				n.setForceAngle();
 			}
 		}
 		if (newValue.unwrap() instanceof Equation) {
@@ -679,11 +681,6 @@ public class AlgebraProcessor {
 				((Equation) newValue.unwrap()).setForceQuadric();
 			}
 		}
-	}
-
-	private static boolean isForceSurfaceCartesian(ValidExpression newValue, GeoElementND geo) {
-		return geo.isGeoSurfaceCartesian()
-				&& !(newValue.wrap().getLeft() instanceof Function);
 	}
 
 	private void updateLabelIfSymbolic(ValidExpression expression, EvalInfo info) {
@@ -2037,10 +2034,10 @@ public class AlgebraProcessor {
 	 * @param ve expression
 	 * @return resulting elements
 	 * @throws MyError when expression is invalid
-	 * @throws Exception e.g. circular definition
+	 * @throws CircularDefinitionException for circular definition
 	 */
 	public GeoElement[] processValidExpressionSilent(ValidExpression ve)
-			throws MyError, Exception {
+			throws MyError, CircularDefinitionException {
 		boolean oldSuppressLabel = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		try {
@@ -3208,10 +3205,10 @@ public class AlgebraProcessor {
 		} else if (eval instanceof Vector3DValue) {
 			return processPointVector3D(n, eval);
 		} else if (eval instanceof TextValue) {
-			return processText(n, eval);
+			return processText(n, eval, info);
 		} else if (eval instanceof MyList) {
 			return processList(n, (MyList) eval, info);
-		} else if (eval instanceof EquationValue) {
+		} else if (eval instanceof EquationValue && !n.unwrap().isGeoElement()) {
 			Equation eq = ((EquationValue) eval).getEquation();
 			eq.setFunctionDependent(true);
 			eq.setLabel(n.getLabel());
@@ -3400,7 +3397,7 @@ public class AlgebraProcessor {
 	}
 
 	private GeoElement[] processText(ExpressionNode n,
-			ExpressionValue evaluate) {
+			ExpressionValue evaluate, EvalInfo info) {
 		GeoElement ret;
 		String label = n.getLabel();
 
@@ -3412,7 +3409,9 @@ public class AlgebraProcessor {
 		} else {
 			ret = dependentText(n);
 		}
-		ret.setLabel(label);
+		if (info.isLabelOutput()) {
+			ret.setLabel(label);
+		}
 		return array(ret);
 	}
 

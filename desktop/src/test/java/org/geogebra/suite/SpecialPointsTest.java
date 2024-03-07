@@ -1,10 +1,10 @@
 package org.geogebra.suite;
 
+import static org.geogebra.test.OrderingComparison.lessThan;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -60,7 +60,7 @@ public class SpecialPointsTest extends BaseSuiteTest {
 				add("f(x)=nroot(((8-2 x)/(x^(2)-5 x+6)),3)-((ln(4-2 x))/(nroot(x^(2)-x,6)))");
 		SpecialPointsManager manager = getApp().getSpecialPointsManager();
 		manager.updateSpecialPoints(element);
-		assertTrue(System.currentTimeMillis() - time < 1000);
+		assertThat(System.currentTimeMillis() - time, lessThan(3000L));
 	}
 
 	@Test

@@ -5,17 +5,17 @@ import org.geogebra.common.util.AsyncOperation;
 
 public class ErrorAccumulator implements ErrorLogger {
 	String errors = "";
+	String errorsSinceReset = "";
 
 	@Override
 	public void showError(String msg) {
 		errors += msg;
-
+		errorsSinceReset += msg;
 	}
 
 	@Override
 	public void showCommandError(String command, String message) {
-		errors += message;
-
+		showError(message);
 	}
 
 	@Override
@@ -33,12 +33,15 @@ public class ErrorAccumulator implements ErrorLogger {
 
 	@Override
 	public void resetError() {
-		// TODO Auto-generated method stub
-
+		errorsSinceReset = "";
 	}
 
 	public String getErrors() {
 		return errors;
+	}
+
+	public String getErrorsSinceReset() {
+		return errorsSinceReset;
 	}
 
 	@Override

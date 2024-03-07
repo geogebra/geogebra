@@ -522,7 +522,7 @@ public class CellRangeProcessor {
 	 * @return GeoList
 	 */
 	public GeoList createPointGeoList(ArrayList<CellRange> rangeList,
-			boolean byValue, boolean leftToRight, 
+			boolean byValue, boolean leftToRight,
 			boolean doStoreUndo, boolean doCreateFreePoints) {
 
 		// get the orientation and dimensions of the list

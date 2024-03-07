@@ -67,7 +67,7 @@ public class PropertiesViewW extends PropertiesView
 		this.wrappedPanel = app.isUnbundledOrWhiteboard()
 				? new PersistablePanel() : new FlowPanel();
 		app.setPropertiesView(this);
-		app.setWaitCursor();   
+		app.setWaitCursor();
 
 		optionType = ot;
 		initGUI();

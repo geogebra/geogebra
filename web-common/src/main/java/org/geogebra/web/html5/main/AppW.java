@@ -50,7 +50,6 @@ import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
@@ -76,8 +75,10 @@ import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
+import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.GTimer;
@@ -130,7 +131,6 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenState;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
-import org.geogebra.web.html5.io.ConstructionException;
 import org.geogebra.web.html5.io.MyXMLioW;
 import org.geogebra.web.html5.kernel.GeoElementGraphicsAdapterW;
 import org.geogebra.web.html5.kernel.UndoManagerW;
@@ -551,6 +551,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return new ScriptManagerW(this, new DefaultExportedApi());
 	}
 
+	@Override
+	protected EventDispatcher newEventDispatcher() {
+		EventDispatcher dispatcher = new EventDispatcher(this);
+		if (getAppletParameters().getDisableJavaScript()) {
+			dispatcher.disableScriptType(ScriptType.JAVASCRIPT);
+		}
+		return dispatcher;
+	}
+
 	// ================================================
 	// native JS
 	// ================================================
@@ -744,7 +753,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	private void loadFile(GgbFile archiveContent, final boolean asSlide)
-			throws Exception {
+			throws XMLParseException {
 		if (archiveContent.containsKey(GgbFile.STRUCTURE_JSON)) {
 			getAppletParameters().setAttribute("appName", "notes");
 			getAppletFrame().initPageControlPanel(this);
@@ -767,7 +776,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		// Construction (required)
 		if (def.isInvalid()) {
-			throw new ConstructionException(
+			throw new XMLParseException(
 					"File is corrupt: No GeoGebra data found");
 		}
 
@@ -2949,14 +2958,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public GTimer newTimer(GTimerListener listener, int delay) {
 		return new GTimerW(listener, delay);
-	}
-
-	@Override
-	public void readLater(GeoNumeric geo) {
-		if (!kernel.getConstruction().isFileLoading()
-				&& (!appletParameters.preventFocus() || !geo.isAnimating())) {
-			getAccessibilityManager().readSliderUpdate(geo);
-		}
 	}
 
 	/**

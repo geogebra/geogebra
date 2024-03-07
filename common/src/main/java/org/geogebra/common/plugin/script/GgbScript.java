@@ -40,11 +40,13 @@ public class GgbScript extends Script {
 	@Override
 	public boolean run(Event evt) throws ScriptError {
 		String scriptText;
+
 		if (text == null) {
 			return true;
 		}
-		scriptText = script2LocalizedScript(app, text);
-		scriptText = substitutePlaceholders(scriptText, evt);
+		boolean wasAppUsingInternalCommandNames = app.getKernel().isUsingInternalCommandNames();
+		app.getKernel().setUseInternalCommandNames(true);
+		scriptText = substitutePlaceholders(text, evt);
 		String[] lines = scriptText.split("\n");
 		boolean success = true;
 		for (int i = 0; i < lines.length; i++) {
@@ -62,6 +64,7 @@ public class GgbScript extends Script {
 				// error handler should actually catch it
 			}
 		}
+		app.getKernel().setUseInternalCommandNames(wasAppUsingInternalCommandNames);
 		return success;
 	}
 

@@ -759,4 +759,12 @@ public class AppletParameters {
 	public double getBorderRadius() {
 		return getIntDataParam("borderRadius", 0);
 	}
+
+	/**
+	 * @return the if scripting in JavaScript is enabled (default: true)
+	 */
+	public boolean getDisableJavaScript() {
+		return getBoolDataParam("disableJavaScript", false);
+	}
+
 }

@@ -2,7 +2,6 @@ package org.geogebra.desktop.main;
 
 import static org.junit.Assert.assertEquals;
 
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.desktop.headless.AppDNoGui;
@@ -91,7 +90,7 @@ public class APITest {
 
 	private String casInput(int i) {
 		return app.getKernel().getConstruction()
-				.getCasCell(i).getInput(StringTemplate.defaultTemplate);
+				.getCasCell(i).getLocalizedInput();
 	}
 
 }

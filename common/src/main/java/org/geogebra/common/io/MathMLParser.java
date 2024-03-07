@@ -884,7 +884,7 @@ public class MathMLParser {
 	 *            builder to which we append the string
 	 * @param appendSpace
 	 *            whether space shoud be appended after the block content
-	 * @throws Exception
+	 * @throws XMLParseException
 	 *             if an error occurs while parsing
 	 */
 	void parseBlock(String startTag, StringBuilder result, boolean appendSpace)
@@ -1229,7 +1229,7 @@ public class MathMLParser {
 	 * @param s
 	 *            the string to parse
 	 * @return the Latex representation of the given string
-	 * @throws Exception
+	 * @throws XMLParseException
 	 *             if HTML wrapped entities were expected but not found
 	 */
 	String parseBlockContent(String s) throws XMLParseException {
