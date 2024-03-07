@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.euclidian.modes.PenTransformer;
 import org.geogebra.common.euclidian.modes.RulerTransformer;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
@@ -73,7 +74,7 @@ public class EuclidianPen implements GTimerListener {
 
 	private final GTimer timer;
 	private final PenPreviewLine penPreviewLine;
-	private final RulerTransformer rulerTransformer;
+	private final PenTransformer penTransformer;
 	protected final ArrayList<GPoint> previewPoints = new ArrayList<>();
 
 	/************************************************
@@ -88,7 +89,7 @@ public class EuclidianPen implements GTimerListener {
 		this.view = view;
 		this.app = app;
 		this.penPreviewLine = view.newPenPreview();
-		this.rulerTransformer = new RulerTransformer(view, previewPoints);
+		this.penTransformer = new RulerTransformer(view, previewPoints);
 		timer = app.newTimer(this, 1500);
 
 		@WeakOuter PenStrokeAdapter line = new PenStrokeAdapter(app);
@@ -235,9 +236,9 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	public void addPointPenMode(AbstractEvent e) {
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
-		rulerTransformer.reset();
-		if (rulerTransformer.isActive() && previewPoints.size() > 1) {
-			rulerTransformer.updatePreview(newPoint);
+		penTransformer.reset();
+		if (penTransformer.isActive() && previewPoints.size() > 1) {
+			penTransformer.updatePreview(newPoint);
 			penPoints.clear();
 			penPoints.addAll(previewPoints);
 		} else {

@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
 
 import org.geogebra.common.kernel.ModeSetter;
 import java.util.ArrayList;
