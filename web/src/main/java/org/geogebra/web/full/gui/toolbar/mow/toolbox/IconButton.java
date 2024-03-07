@@ -148,6 +148,12 @@ public class IconButton extends StandardButton {
 		TestHarness.setAttr(this, "selectModeButton" + mode);
 	}
 
+	/**
+	 * Updates the aria label and the data title for this Icon Button (e.g. when language changes)
+	 * @param appW Application
+	 * @param ariaLabel aria label
+	 * @param dataTitle data title
+	 */
 	public void updateLabelAndDataTitle(AppW appW, String ariaLabel, String dataTitle) {
 		AriaHelper.setLabel(this, appW.getLocalization().getMenu(ariaLabel));
 		AriaHelper.setDataTitle(this, appW.getLocalization().getMenu(dataTitle));
