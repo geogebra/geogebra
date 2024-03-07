@@ -147,4 +147,9 @@ public class IconButton extends StandardButton {
 		AriaHelper.setDataTitle(this, toolName);
 		TestHarness.setAttr(this, "selectModeButton" + mode);
 	}
+
+	public void updateLabelAndDataTitle(AppW appW, String ariaLabel, String dataTitle) {
+		AriaHelper.setLabel(this, appW.getLocalization().getMenu(ariaLabel));
+		AriaHelper.setDataTitle(this, appW.getLocalization().getMenu(dataTitle));
+	}
 }

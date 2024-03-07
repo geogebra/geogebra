@@ -77,4 +77,12 @@ public class RulerPopup extends GPopupMenuW {
 		Dom.toggleClass(popupMenu.getSelectedItem(), "selectedItem", rulerButton.isActive());
 		showAtPoint(left, top);
 	}
+
+	/**
+	 * Rebuilds the GUI for the RulerPopup whenever the language changes
+	 */
+	public void updateGui() {
+		clearItems();
+		buildGui();
+	}
 }

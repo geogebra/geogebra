@@ -149,7 +149,7 @@ public class NotesLayout implements SetLabels {
 	@Override
 	public void setLabels() {
 		if (toolbar != null) {
-			// TODO toolbar.setLabels();
+			toolbar.setLabels();
 		}
 		pageControlButton
 				.setTitle(appW.getLocalization().getMenu("PageControl"));
