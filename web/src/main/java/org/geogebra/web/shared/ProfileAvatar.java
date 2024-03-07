@@ -142,8 +142,6 @@ public class ProfileAvatar extends FlowPanel {
 			profilePanel.hide();
 		} else {
 			profilePanel.getPopupPanel().showRelativeTo(this);
-			profilePanel.getPopupMenu().selectItem(0);
-
 		}
 		Dom.toggleClass(this, "selected", profilePanel.getPopupPanel().isShowing());
 	}
