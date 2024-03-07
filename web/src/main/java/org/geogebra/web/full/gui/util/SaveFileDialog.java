@@ -7,11 +7,15 @@ import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.shared.DialogUtil;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.core.client.Scheduler;
+import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
+
+import com.himamis.retex.editor.web.MathFieldW;
 
 import elemental2.core.JsDate;
 import elemental2.dom.DomGlobal;
@@ -94,9 +98,19 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 				}
 			}
 		});
-		titleField.getTextComponent().addKeyUpHandler(event ->
-				setPosBtnDisabled(titleField.getText().isEmpty()));
-		((AppW) app).getGlobalHandlers().addEventListener(DomGlobal.window, "unload",
+		titleField.getTextComponent().addKeyUpHandler(event -> {
+			NativeEvent nativeEvent = event.getNativeEvent();
+			// we started handling Ctrl+S in graphics view but then focus moved to this dialog
+			// make sure the keyup event doesn't clear selection
+			if (MathFieldW.checkCode(nativeEvent, "KeyS")
+				&& (nativeEvent.getCtrlKey() || nativeEvent.getMetaKey())) {
+				setTitle();
+			}
+		});
+		GlobalHandlerRegistry globalHandlers = ((AppW) app).getGlobalHandlers();
+		globalHandlers.addEventListener(titleField.getTextComponent().getInputElement(), "input",
+				ignore -> setPosBtnDisabled(titleField.getText().isEmpty()));
+		globalHandlers.addEventListener(DomGlobal.window, "unload",
 				event -> app.getSaveController().cancel());
 	}
 
