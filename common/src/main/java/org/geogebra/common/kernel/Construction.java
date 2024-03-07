@@ -19,6 +19,8 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.LayerManager;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.euclidian.measurement.MeasurementController;
+import org.geogebra.common.euclidian.measurement.MeasurementTool;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.algos.AlgoDistancePoints;

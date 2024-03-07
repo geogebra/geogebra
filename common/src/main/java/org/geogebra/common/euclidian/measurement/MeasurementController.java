@@ -1,10 +1,10 @@
-package org.geogebra.common.kernel;
+package org.geogebra.common.euclidian.measurement;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.geogebra.common.euclidian.modes.PenTransformer;
-import org.geogebra.common.euclidian.modes.RulerTransformer;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.MeasurementToolId;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.util.debug.Log;
 
@@ -31,7 +31,7 @@ public class MeasurementController {
 		return selectedToolId != MeasurementToolId.NONE;
 	}
 
-	MeasurementTool activeTool() {
+	public MeasurementTool activeTool() {
 		return tools.get(selectedToolId);
 	}
 

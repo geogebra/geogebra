@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel;
+package org.geogebra.common.euclidian.measurement;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -7,6 +7,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.MeasurementToolId;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +33,7 @@ public class MeasureControllerTest extends BaseUnitTest {
 
 	private MeasurementTool newTool(MeasurementToolId id) {
 		return new MeasurementTool(id, id.toString(),
-				0, transformer);
+				0.0, new NullPenTransformer());
 	}
 
 	@Test
