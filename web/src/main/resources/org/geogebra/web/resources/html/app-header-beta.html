@@ -9,6 +9,10 @@ window.addEventListener("load", function() {
 	if (!showHeader) {
 		document.getElementById("logoID").parentElement.parentElement.style.display = "none";
 	}
+	var offline = document.getElementById("logoID").getAttribute("href") == "#";
+	if (offline) {
+	    document.getElementById("logoID").classList.add("hideButton");
+	}
 
 window.ggbHeaderResize = function(event) {
 	var elAppPicker = document.getElementById("suiteAppPicker");

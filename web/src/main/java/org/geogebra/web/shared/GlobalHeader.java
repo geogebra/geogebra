@@ -328,7 +328,9 @@ public class GlobalHeader implements EventRenderable {
 		exam.setId("examId");
 		getButtonElement().getParentElement().appendChild(exam);
 		// The link should be disabled in all exam-capable apps since APPS-3289, but make sure
-		Dom.querySelector("#logoID").setAttribute("href", "#");
+		Element logo = Dom.querySelector("#logoID");
+		logo.setAttribute("href", "#");
+		logo.addClassName("hideButton");
 		RootPanel examId = RootPanel.get("examId");
 		examId.addStyleName("examPanel");
 
