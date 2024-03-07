@@ -29,8 +29,8 @@ public class MeasureControllerTest extends BaseUnitTest {
 	}
 
 	private MeasurementTool newTool(MeasurementToolId id) {
-		return new MeasurementTool(id, id.toString()
-		);
+		return new MeasurementTool(id, id.toString(),
+				0, transformer);
 	}
 
 	@Test
