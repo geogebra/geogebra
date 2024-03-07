@@ -444,6 +444,10 @@ public class GlobalHeader implements EventRenderable {
 		this.menuBtn = menuBtn;
 	}
 
+	/**
+	 * initialize logo
+	 * @param app - application
+	 */
 	public void initLogo(AppW app) {
 		RootPanel logo = RootPanel.get("logoID");
 		registerFocusable(app, AccessibilityGroup.GEOGEBRA_LOGO, logo);
