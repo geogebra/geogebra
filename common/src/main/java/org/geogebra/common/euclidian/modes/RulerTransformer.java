@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.matrix.Coords;
 
-public class RulerTransformer {
+public class RulerTransformer implements PenTransformer {
 	private static final double SNAP_THRESHOLD = 24;
 	private GeoPoint corner1;
 	private GeoPoint corner2;
@@ -31,6 +31,7 @@ public class RulerTransformer {
 	 * Should be only called after reset
 	 * @return whether ruler snapping is active
 	 */
+	@Override
 	public boolean isActive() {
 		return initialProjection != null
 				&& initialProjection.distance(previewPoints.get(0)) < SNAP_THRESHOLD;
@@ -39,6 +40,7 @@ public class RulerTransformer {
 	/**
 	 * Reset internal state after a preview point is added
 	 */
+	@Override
 	public void reset() {
 		GeoImage ruler = view.getKernel().getConstruction().getRuler();
 		if (ruler == null || previewPoints.isEmpty()) {
@@ -52,6 +54,7 @@ public class RulerTransformer {
 	 * Update preview points to stick to ruler. Assumes that isActive() is true.
 	 * @param newPoint newly added point
 	 */
+	@Override
 	public void updatePreview(GPoint newPoint) {
 		previewPoints.set(0, initialProjection);
 		previewPoints.set(previewPoints.size() - 1,
