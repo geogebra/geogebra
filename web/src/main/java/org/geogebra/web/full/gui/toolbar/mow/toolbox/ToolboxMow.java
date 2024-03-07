@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
 
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.web.full.css.ToolbarSvgResources;
@@ -40,7 +41,7 @@ public class ToolboxMow extends FlowPanel {
 		addRulerButton();
 
 		addPressButton(ToolbarSvgResources.INSTANCE.mode_select_32(), "move mode", "moveBtn",
-				() -> appW.setMoveMode());
+				() -> appW.setMode(MODE_SELECT_MOW));
 
 		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(), "pen mode", "penBtn",
 				() -> appW.setMode(MODE_PEN, ModeSetter.TOOLBAR));
