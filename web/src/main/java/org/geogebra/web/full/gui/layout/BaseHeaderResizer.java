@@ -16,12 +16,15 @@ public class BaseHeaderResizer implements HeaderResizer {
 	@Override
 	public void resizeHeader() {
 		Element header = Dom.querySelector(".GeoGebraHeader");
+		Element shareButton = Dom.querySelector("#shareButton");
 		if (header != null) {
 			boolean smallScreen = frame.shouldHaveSmallScreenLayout();
 			if (smallScreen) {
 				header.addClassName("compact");
+				shareButton.addClassName("hideButton");
 			} else {
 				header.removeClassName("compact");
+				shareButton.removeClassName("hideButton");
 			}
 			frame.updateArticleHeight();
 		}
