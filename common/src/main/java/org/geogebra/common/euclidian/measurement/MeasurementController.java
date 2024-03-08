@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.MeasurementToolId;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.util.debug.Log;
 
@@ -20,7 +19,7 @@ public class MeasurementController {
 		addTool(MeasurementToolId.PROTRACTOR, "Protactor.svg", 1 - (278.86 / 296),
 				new NullPenTransformer());
 		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtactor.svg", 0.0,
-				new NullPenTransformer());
+				new TriangleProtractorTransformer());
 	}
 
 	public GeoImage getActiveToolImage() {

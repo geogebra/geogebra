@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel;
+package org.geogebra.common.euclidian.measurement;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PROTRACTOR;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;

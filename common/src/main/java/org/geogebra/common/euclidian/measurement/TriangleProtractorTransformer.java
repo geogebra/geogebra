@@ -1,47 +1,45 @@
 package org.geogebra.common.euclidian.measurement;
 
+
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.matrix.Coords;
 
-public final class RulerTransformer implements PenTransformer {
-	private GeoPoint corner1;
-	private GeoPoint corner2;
+public class TriangleProtractorTransformer
+		implements PenTransformer {
+
 	private EuclidianView view;
 	private List<GPoint> previewPoints;
 	private boolean rulerTop;
 	private GPoint initialProjection;
+	private Construction cons;
+	private GeoPoint corner2;
+	private GeoPoint corner1;
 
-
-	/**
-	 * Should be only called after reset
-	 * @return whether ruler snapping is active
-	 */
 	@Override
 	public boolean isActive() {
 		return initialProjection != null
 				&& initialProjection.distance(previewPoints.get(0)) < snapTreshold();
 	}
 
-	/**
-	 * Reset internal state after a preview point is added
-	 */
 	@Override
 	public void reset(EuclidianView view, List<GPoint> previewPoints) {
 		this.view = view;
 		this.previewPoints = previewPoints;
-		GeoImage ruler = view.getKernel().getConstruction().getRuler();
+		cons = view.getKernel().getConstruction();
+		GeoImage ruler = cons.getRuler();
 		if (ruler == null || previewPoints.isEmpty()) {
 			initialProjection = null;
 		} else if (previewPoints.size() == 1) {
 			updateInitialProjection(previewPoints.get(0));
 		}
-	}
 
+	}
 	/**
 	 * Update preview points to stick to ruler. Assumes that isActive() is true.
 	 * @param newPoint newly added point
@@ -68,7 +66,7 @@ public final class RulerTransformer implements PenTransformer {
 	}
 
 	private boolean onBottomEdge(GPoint bottom) {
-		GeoImage ruler = view.getKernel().getConstruction().getRuler();
+		GeoImage ruler = cons.getRuler();
 		double x1 = view.toScreenCoordXd(ruler.getStartPoints()[0].getInhomX());
 		double x2 = view.toScreenCoordXd(ruler.getStartPoints()[1].getInhomX());
 		double y1 = view.toScreenCoordYd(ruler.getStartPoints()[0].getInhomY());
@@ -105,6 +103,7 @@ public final class RulerTransformer implements PenTransformer {
 		double transformedY = view.toScreenCoordYd(intersect.getY() / intersect.getZ())
 				+ yn * thickness;
 		return new GPoint((int) Math.round(transformedX), (int) Math.round(transformedY));
+
 	}
 
 }

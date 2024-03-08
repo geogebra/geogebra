@@ -9,7 +9,6 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.MeasurementToolId;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.junit.Before;
 import org.junit.Test;

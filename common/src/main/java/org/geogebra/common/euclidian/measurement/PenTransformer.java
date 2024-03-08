@@ -11,4 +11,8 @@ public interface PenTransformer {
 	void reset(EuclidianView view, List<GPoint> previewPoints);
 
 	void updatePreview(GPoint newPoint);
+
+	default int snapTreshold() {
+		return 24;
+	}
 }
