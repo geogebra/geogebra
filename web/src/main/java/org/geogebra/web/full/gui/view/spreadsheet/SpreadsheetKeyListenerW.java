@@ -9,6 +9,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyDownEvent;
@@ -581,10 +582,12 @@ public class SpreadsheetKeyListenerW
 
 	@Override
 	public void onPaste(String text) {
-		boolean storeUndo = table.paste(text);
-		view.rowHeaderRevalidate();
-		if (storeUndo) {
-			app.storeUndoInfo();
+		if (!CopyPasteW.pasteIfEncoded(app, text)) {
+			boolean storeUndo = table.paste(text);
+			view.rowHeaderRevalidate();
+			if (storeUndo) {
+				app.storeUndoInfo();
+			}
 		}
 	}
 
