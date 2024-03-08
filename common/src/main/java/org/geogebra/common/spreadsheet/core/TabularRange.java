@@ -115,7 +115,7 @@ public class TabularRange {
 	 * @return whether this contains a single cell
 	 */
 	public boolean isSingleCell() {
-		return (maxColumn == minColumn) && (maxRow == minRow);
+		return (maxColumn == minColumn) && (maxRow == minRow) && minRow != -1 && minColumn != -1;
 	}
 
 	/**

@@ -189,4 +189,9 @@ final class SpreadsheetSelectionController {
 	public @CheckForNull Selection getLastSelection() {
 		return selections.isEmpty() ? null : selections.get(selections.size() - 1);
 	}
+
+	public boolean isOnlySelected(int row, int column) {
+		return selections.size() == 1 && selections.get(0).getRange().isSingleCell()
+				&& isSelected(row, column);
+	}
 }
