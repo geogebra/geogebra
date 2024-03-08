@@ -2,6 +2,9 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.html5.css.ZoomPanelResources;
@@ -16,8 +19,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	private ToolboxDecorator decorator;
 	private ToolboxController controller;
 	private IconButton spotlightButton;
-	private RulerIconButton rulerButton;
-	private IconButton moveModeButton;
+	private final List<SetLabels> buttons = new ArrayList<>();
 
 	/**
 	 * MOW toolbox
@@ -78,25 +80,26 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		spotlightButton = addToggleButton(ZoomPanelResources.INSTANCE.target(), "Spotlight.Tool",
 				"Spotlight.Tool", "spotlightTool",
 				controller.getSpotlightOnHandler(), () -> {});
+		buttons.add(spotlightButton);
 	}
 
 	private void addRulerButton() {
 		String ariaLabel = appW.getToolName(MODE_RULER) + ". " + appW.getToolHelp(MODE_RULER);
-		rulerButton = new RulerIconButton(appW,
+		RulerIconButton rulerButton = new RulerIconButton(appW,
 				ToolbarSvgResources.INSTANCE.mode_ruler(), ariaLabel, "Ruler",
 				"selectModeButton" + MODE_RULER);
 		add(rulerButton);
+		buttons.add(rulerButton);
 	}
 
 	private void addMoveModeButton() {
-		moveModeButton = addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(),
+		IconButton moveModeButton = addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(),
 				"move mode", "moveBtn", appW::setMoveMode);
+		buttons.add(moveModeButton);
 	}
 
 	@Override
 	public void setLabels() {
-		spotlightButton.setLabels();
-		rulerButton.setLabels();
-		moveModeButton.setLabels();
+		buttons.forEach(SetLabels::setLabels);
 	}
 }

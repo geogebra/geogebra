@@ -15,8 +15,8 @@ import org.geogebra.web.resources.SVGResource;
 public class IconButton extends StandardButton implements SetLabels {
 	private static final int DEFAULT_BUTTON_WIDTH = 24;
 	private SVGResource image;
-	private String defaultAriaLabel;
-	private String defaultDataTitle;
+	private String ariaLabelTransKey;
+	private String dataTitleTransKey;
 	private final Localization localization;
 
 	/**
@@ -52,7 +52,7 @@ public class IconButton extends StandardButton implements SetLabels {
 		addStyleName("iconButton");
 		image = icon;
 		AriaHelper.setLabel(this, loc.getMenu(ariaLabel));
-		defaultAriaLabel = ariaLabel;
+		ariaLabelTransKey = ariaLabel;
 		localization = loc;
 	}
 
@@ -68,7 +68,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	public IconButton(AppW appW, SVGResource icon, String ariaLabel, String dataTitle,
 			Runnable onHandler, Runnable offHandler) {
 		this(appW.getLocalization(), icon, ariaLabel);
-		defaultDataTitle = dataTitle;
+		dataTitleTransKey = dataTitle;
 		AriaHelper.setTitle(this, appW.getLocalization().getMenu(dataTitle));
 		addFastClickHandler(event -> {
 			if (!isDisabled()) {
@@ -111,7 +111,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	public IconButton(Localization loc, SVGResource icon, String ariaLabel, String dataTitle,
 			String dataTest, Runnable onHandler) {
 		this(loc, icon, ariaLabel, onHandler);
-		defaultDataTitle = dataTitle;
+		dataTitleTransKey = dataTitle;
 		AriaHelper.setTitle(this, loc.getMenu(dataTitle));
 		TestHarness.setAttr(this, dataTest);
 	}
@@ -162,7 +162,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	 */
 	@Override
 	public void setLabels() {
-		AriaHelper.setLabel(this, localization.getMenu(defaultAriaLabel));
-		AriaHelper.setDataTitle(this, localization.getMenu(defaultDataTitle));
+		AriaHelper.setLabel(this, localization.getMenu(ariaLabelTransKey));
+		AriaHelper.setDataTitle(this, localization.getMenu(dataTitleTransKey));
 	}
 }
