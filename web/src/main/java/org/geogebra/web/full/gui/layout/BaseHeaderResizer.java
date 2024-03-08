@@ -16,17 +16,32 @@ public class BaseHeaderResizer implements HeaderResizer {
 	@Override
 	public void resizeHeader() {
 		Element header = Dom.querySelector(".GeoGebraHeader");
-		Element shareButton = Dom.querySelector("#shareButton");
 		if (header != null) {
 			boolean smallScreen = frame.shouldHaveSmallScreenLayout();
 			if (smallScreen) {
 				header.addClassName("compact");
-				shareButton.addClassName("hideButton");
 			} else {
 				header.removeClassName("compact");
-				shareButton.removeClassName("hideButton");
 			}
+			updateHeaderButtonVisibility(smallScreen);
 			frame.updateArticleHeight();
+		}
+	}
+
+	private void updateHeaderButtonVisibility(boolean smallScreen) {
+		updateButtonVisibility(smallScreen, "#shareButton");
+		updateButtonVisibility(smallScreen, "#signInTextID");
+		updateButtonVisibility(!smallScreen, "#signInIconID");
+	}
+
+	private void updateButtonVisibility(boolean smallScreen, String buttonID) {
+		Element button = Dom.querySelector(buttonID);
+		if (button != null) {
+			if (smallScreen) {
+				button.addClassName("hideButton");
+			} else {
+				button.removeClassName("hideButton");
+			}
 		}
 	}
 

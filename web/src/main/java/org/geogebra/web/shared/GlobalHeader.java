@@ -1,5 +1,8 @@
 package org.geogebra.web.shared;
 
+import static org.geogebra.common.gui.AccessibilityGroup.SIGN_IN_ICON;
+import static org.geogebra.common.gui.AccessibilityGroup.SIGN_IN_TEXT;
+
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.gui.AccessibilityGroup;
@@ -80,14 +83,14 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	private void registerSignInButtonsAsFocusable() {
-		registerSignInButton("signInTextID");
-		registerSignInButton("signInIconID");
+		registerSignInButton("signInTextID", SIGN_IN_TEXT);
+		registerSignInButton("signInIconID", SIGN_IN_ICON);
 	}
 
-	private void registerSignInButton(String id) {
+	private void registerSignInButton(String id, AccessibilityGroup group) {
 		final RootPanel signInButton = RootPanel.get(id);
 		if (signInButton != null) {
-			registerFocusable(app, AccessibilityGroup.SIGN_IN, signInButton);
+			registerFocusable(app, group, signInButton);
 		}
 	}
 
