@@ -2,8 +2,8 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MOVE;
 
+import org.geogebra.common.euclidian.measurement.MeasurementToolId;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.MeasurementToolId;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
