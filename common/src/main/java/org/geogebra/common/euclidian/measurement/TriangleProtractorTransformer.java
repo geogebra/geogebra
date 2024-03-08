@@ -13,13 +13,24 @@ import org.geogebra.common.kernel.matrix.Coords;
 public class TriangleProtractorTransformer
 		implements PenTransformer {
 
+	private GeoPoint corner1;
+	private GeoPoint corner2;
+	private GeoPoint corner3;
+	private GeoPoint corner4;
+
+	private enum SIDES {
+		HYPO,
+		LEG_A,
+		LEG_B
+	}
+
 	private EuclidianView view;
 	private List<GPoint> previewPoints;
-	private boolean rulerTop;
+	private SIDES side;
 	private GPoint initialProjection;
 	private Construction cons;
-	private GeoPoint corner2;
-	private GeoPoint corner1;
+	private GeoPoint endPoint1;
+	private GeoPoint endPoint2;
 
 	@Override
 	public boolean isActive() {
@@ -48,20 +59,24 @@ public class TriangleProtractorTransformer
 	public void updatePreview(GPoint newPoint) {
 		previewPoints.set(0, initialProjection);
 		previewPoints.set(previewPoints.size() - 1,
-				getProjection(newPoint, rulerTop));
+				getProjection(newPoint, side));
 	}
 
 	private void updateInitialProjection(GPoint p) {
-		GPoint top = getProjection(p, true);
-		GPoint bottom = getProjection(p, false);
-		if (!onBottomEdge(bottom)) {
+		GPoint pA = getProjection(p, SIDES.LEG_A);
+		GPoint pB = getProjection(p, SIDES.LEG_B);
+		GPoint pHypo = getProjection(p, SIDES.HYPO);
+		if (!onBottomEdge(pHypo)) {
 			initialProjection = null;
-		} else if (p.distance(top) > p.distance(bottom)) {
-			rulerTop = false;
-			initialProjection =  bottom;
+		} else if (p.distance(pA) > p.distance(pHypo) && p.distance(pB) > p.distance(pHypo)) {
+			side = SIDES.HYPO;
+			initialProjection = pHypo;
+		} else if (p.distance(pA) < p.distance(pB)) {
+			side = SIDES.LEG_A;
+			initialProjection = pA;
 		} else {
-			rulerTop = true;
-			initialProjection = top;
+			side = SIDES.LEG_B;
+			initialProjection = pB;
 		}
 	}
 
@@ -78,19 +93,14 @@ public class TriangleProtractorTransformer
 		}
 	}
 
-	private GPoint getProjection(GPoint p, boolean top) {
+	private GPoint getProjection(GPoint p, SIDES side) {
 		GeoImage ruler = view.getKernel().getConstruction().getRuler();
-		if (corner2 == null) {
-			corner2 = new GeoPoint(view.getKernel().getConstruction(), true);
-			corner1 = new GeoPoint(view.getKernel().getConstruction(), true);
-		}
-		ruler.calculateCornerPoint(corner2, top ? 3 : 1);
-		ruler.calculateCornerPoint(corner1, top ? 4 : 2);
+		calculateEndPoinds(side, ruler);
 
-		double x = corner2.getInhomY() - corner1.getInhomY();
-		double y = corner1.getInhomX() - corner2.getInhomX();
-		double z = corner2.getInhomX() * corner1.getInhomY()
-				- corner2.getInhomY() * corner1.getInhomX();
+		double x = endPoint1.getInhomY() - endPoint2.getInhomY();
+		double y = endPoint2.getInhomX() - endPoint1.getInhomX();
+		double z = endPoint1.getInhomX() * endPoint2.getInhomY()
+				- endPoint1.getInhomY() * endPoint2.getInhomX();
 		Coords line = new Coords(x, y, z);
 		Coords normal = new Coords(y, -x, -y * view.toRealWorldCoordX(p.getX())
 				+ x * view.toRealWorldCoordY(p.getY()));
@@ -104,6 +114,45 @@ public class TriangleProtractorTransformer
 				+ yn * thickness;
 		return new GPoint((int) Math.round(transformedX), (int) Math.round(transformedY));
 
+	}
+
+	private void calculateEndPoinds(SIDES side, GeoImage image) {
+		ensureCorners();
+
+		image.calculateCornerPoint(corner1, 1);
+		image.calculateCornerPoint(corner2, 2);
+		image.calculateCornerPoint(corner3, 3);
+		image.calculateCornerPoint(corner4, 4);
+
+		switch (side) {
+		case HYPO:
+			endPoint1 = corner1;
+			endPoint2 = corner2;
+			break;
+		case LEG_A:
+			endPoint1.x = (corner3.x + corner4.x) / 2;
+			endPoint1.y = (corner3.y + corner4.y) / 2;
+			endPoint1.z = 1;
+			endPoint2 = corner1;
+			break;
+		case LEG_B:
+			endPoint1.x = (corner3.x + corner4.x) / 2;
+			endPoint1.y = (corner3.y + corner4.y) / 2;
+			endPoint1.z = 1;
+			endPoint2 = corner2;
+			break;
+		}
+	}
+
+	private void ensureCorners() {
+		if (endPoint1 == null) {
+			endPoint1 = new GeoPoint(view.getKernel().getConstruction(), true);
+			endPoint2 = new GeoPoint(view.getKernel().getConstruction(), true);
+			corner1 = new GeoPoint(view.getKernel().getConstruction(), true);
+			corner2 = new GeoPoint(view.getKernel().getConstruction(), true);
+			corner3 = new GeoPoint(view.getKernel().getConstruction(), true);
+			corner4 = new GeoPoint(view.getKernel().getConstruction(), true);
+		}
 	}
 
 }
