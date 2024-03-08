@@ -295,7 +295,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * GeoNumeric
 	 **/
 
-	private CommandLookupStrategy useInternalCommandNames = CommandLookupStrategy.USER;
+	private CommandLookupStrategy commandLookupStrategy = CommandLookupStrategy.USER;
 
 	private boolean notifyConstructionProtocolViewAboutAddRemoveActive = true;
 
@@ -2513,7 +2513,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return a strategy for looking up commands by name.
 	 */
 	public CommandLookupStrategy getCommandLookupStrategy() {
-		return useInternalCommandNames;
+		return commandLookupStrategy;
 	}
 
 	/**
@@ -2523,7 +2523,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            how to resolve localized/internal commands
 	 */
 	public void setCommandLookupStrategy(CommandLookupStrategy strategy) {
-		useInternalCommandNames = strategy;
+		commandLookupStrategy = strategy;
 	}
 
 	/**
