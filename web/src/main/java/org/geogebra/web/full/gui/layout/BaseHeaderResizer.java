@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.layout;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.dom.client.Element;
 
 public class BaseHeaderResizer implements HeaderResizer {
@@ -23,25 +24,8 @@ public class BaseHeaderResizer implements HeaderResizer {
 			} else {
 				header.removeClassName("compact");
 			}
-			updateHeaderButtonVisibility(smallScreen);
+			GlobalHeader.INSTANCE.updateHeaderButtonVisibility(smallScreen);
 			frame.updateArticleHeight();
-		}
-	}
-
-	private void updateHeaderButtonVisibility(boolean smallScreen) {
-		updateButtonVisibility(smallScreen, "#shareButton");
-		updateButtonVisibility(smallScreen, "#signInTextID");
-		updateButtonVisibility(!smallScreen, "#signInIconID");
-	}
-
-	private void updateButtonVisibility(boolean smallScreen, String buttonID) {
-		Element button = Dom.querySelector(buttonID);
-		if (button != null) {
-			if (smallScreen) {
-				button.addClassName("hideButton");
-			} else {
-				button.removeClassName("hideButton");
-			}
 		}
 	}
 

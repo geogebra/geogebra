@@ -109,7 +109,9 @@ public class GlobalHeader implements EventRenderable {
 			profile.setId("profileId");
 			signIn.getParentElement().appendChild(profile);
 
+			getProfileRootPanel().clear();
 			getProfileRootPanel().add(profilePanel);
+			getProfileRootPanel().getElement().removeClassName("hideButton");
 			registerFocusable(app, AccessibilityGroup.AVATAR, getProfileRootPanel());
 			Dom.addEventListener(profile, "click", (e) -> {
 				profilePanel.togglePopup();
@@ -119,24 +121,51 @@ public class GlobalHeader implements EventRenderable {
 		}
 		if (event instanceof LogOutEvent) {
 			profilePanel.setVisible(false);
+			getProfileRootPanel().getElement().addClassName("hideButton");
 			updateSignInnVisibility(false);
 		}
+	}
+
+	private void updateSignInnVisibility(boolean isLoggedIn) {
+		if (isLoggedIn) {
+			signIn.addClassName("hidden");
+		} else {
+			signIn.removeClassName("hidden");
+		}
+		updateHeaderButtonVisibility(isHeaderCompact());
 	}
 
 	private RootPanel getProfileRootPanel() {
 		return RootPanel.get("profileId");
 	}
 
-	private void updateSignInnVisibility(boolean hide) {
-		if (hide) {
-			signIn.addClassName("hidden");
-			getSignInText().addStyleName("hideButton");
-			getSignInIcon().addStyleName("hideButton");
-		} else {
-			signIn.removeClassName("hidden");
-			getSignInText().removeStyleName("hideButton");
-			getSignInIcon().removeStyleName("hideButton");
+	public void updateHeaderButtonVisibility(boolean smallScreen) {
+		updateButtonVisibility(smallScreen, "#shareButton");
+
+		boolean isLoggedIn = app.getLoginOperation().isLoggedIn();
+		updateButtonVisibility(smallScreen || isLoggedIn, "#signInTextID");
+		updateButtonVisibility(!smallScreen || isLoggedIn, "#signInIconID");
+	}
+
+	/**
+	 * update button visibility in header
+	 * @param hide - whether it should be hidden or not
+	 * @param buttonID - button id
+	 */
+	private void updateButtonVisibility(boolean hide, String buttonID) {
+		Element button = Dom.querySelector(buttonID);
+		if (button != null) {
+			if (hide) {
+				button.addClassName("hideButton");
+			} else {
+				button.removeClassName("hideButton");
+			}
 		}
+	}
+
+	private boolean isHeaderCompact() {
+		Element header = Dom.querySelector(".GeoGebraHeader");
+		return header != null && header.getClassName().contains("compact");
 	}
 
 	private RootPanel getSignInText() {
