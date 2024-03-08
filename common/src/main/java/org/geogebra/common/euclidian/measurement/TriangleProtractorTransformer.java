@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian.measurement;
 
-
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
@@ -18,7 +17,7 @@ public class TriangleProtractorTransformer
 	private GeoPoint corner3;
 	private GeoPoint corner4;
 
-	private enum SIDES {
+	private enum Sides {
 		HYPO,
 		LEG_A,
 		LEG_B
@@ -26,7 +25,7 @@ public class TriangleProtractorTransformer
 
 	private EuclidianView view;
 	private List<GPoint> previewPoints;
-	private SIDES side;
+	private Sides side;
 	private GPoint initialProjection;
 	private Construction cons;
 	private GeoPoint endPoint1;
@@ -49,8 +48,8 @@ public class TriangleProtractorTransformer
 		} else if (previewPoints.size() == 1) {
 			updateInitialProjection(previewPoints.get(0));
 		}
-
 	}
+
 	/**
 	 * Update preview points to stick to ruler. Assumes that isActive() is true.
 	 * @param newPoint newly added point
@@ -63,19 +62,19 @@ public class TriangleProtractorTransformer
 	}
 
 	private void updateInitialProjection(GPoint p) {
-		GPoint pA = getProjection(p, SIDES.LEG_A);
-		GPoint pB = getProjection(p, SIDES.LEG_B);
-		GPoint pHypo = getProjection(p, SIDES.HYPO);
+		GPoint pA = getProjection(p, Sides.LEG_A);
+		GPoint pB = getProjection(p, Sides.LEG_B);
+		GPoint pHypo = getProjection(p, Sides.HYPO);
 		if (!onBottomEdge(pHypo)) {
 			initialProjection = null;
 		} else if (p.distance(pA) > p.distance(pHypo) && p.distance(pB) > p.distance(pHypo)) {
-			side = SIDES.HYPO;
+			side = Sides.HYPO;
 			initialProjection = pHypo;
 		} else if (p.distance(pA) < p.distance(pB)) {
-			side = SIDES.LEG_A;
+			side = Sides.LEG_A;
 			initialProjection = pA;
 		} else {
-			side = SIDES.LEG_B;
+			side = Sides.LEG_B;
 			initialProjection = pB;
 		}
 	}
@@ -93,10 +92,11 @@ public class TriangleProtractorTransformer
 		}
 	}
 
-	private GPoint getProjection(GPoint p, SIDES side) {
+	private GPoint getProjection(GPoint p, Sides side) {
 		GeoImage ruler = view.getKernel().getConstruction().getRuler();
 		calculateEndPoinds(side, ruler);
-
+		endPoint1.updateCoords();
+		endPoint2.updateCoords();
 		double x = endPoint1.getInhomY() - endPoint2.getInhomY();
 		double y = endPoint2.getInhomX() - endPoint1.getInhomX();
 		double z = endPoint1.getInhomX() * endPoint2.getInhomY()
@@ -113,10 +113,9 @@ public class TriangleProtractorTransformer
 		double transformedY = view.toScreenCoordYd(intersect.getY() / intersect.getZ())
 				+ yn * thickness;
 		return new GPoint((int) Math.round(transformedX), (int) Math.round(transformedY));
-
 	}
 
-	private void calculateEndPoinds(SIDES side, GeoImage image) {
+	private void calculateEndPoinds(Sides side, GeoImage image) {
 		ensureCorners();
 
 		image.calculateCornerPoint(corner1, 1);
@@ -126,20 +125,20 @@ public class TriangleProtractorTransformer
 
 		switch (side) {
 		case HYPO:
-			endPoint1 = corner1;
-			endPoint2 = corner2;
+			endPoint1.set(corner1);
+			endPoint2.set(corner2);
 			break;
 		case LEG_A:
 			endPoint1.x = (corner3.x + corner4.x) / 2;
 			endPoint1.y = (corner3.y + corner4.y) / 2;
 			endPoint1.z = 1;
-			endPoint2 = corner1;
+			endPoint2.set(corner1);
 			break;
 		case LEG_B:
 			endPoint1.x = (corner3.x + corner4.x) / 2;
 			endPoint1.y = (corner3.y + corner4.y) / 2;
 			endPoint1.z = 1;
-			endPoint2 = corner2;
+			endPoint2.set(corner2);
 			break;
 		}
 	}
