@@ -50,6 +50,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		IconButton iconButton = new IconButton(appW.getLocalization(), image, ariaLabel, ariaLabel,
 				dataTest, onHandler);
 		add(iconButton);
+		buttons.add(iconButton);
 		return iconButton;
 	}
 
@@ -58,6 +59,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		IconButton iconButton = new IconButton(appW, image, ariaLabel, dataTitle,
 				dataTest, onHandler, offHandler);
 		add(iconButton);
+		buttons.add(iconButton);
 		return iconButton;
 	}
 
@@ -80,7 +82,6 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		spotlightButton = addToggleButton(ZoomPanelResources.INSTANCE.target(), "Spotlight.Tool",
 				"Spotlight.Tool", "spotlightTool",
 				controller.getSpotlightOnHandler(), () -> {});
-		buttons.add(spotlightButton);
 	}
 
 	private void addRulerButton() {
@@ -93,9 +94,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addMoveModeButton() {
-		IconButton moveModeButton = addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(),
+		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(),
 				"move mode", "moveBtn", appW::setMoveMode);
-		buttons.add(moveModeButton);
 	}
 
 	@Override
