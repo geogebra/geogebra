@@ -5,6 +5,7 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRIANGLE_PROTRACTOR;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -13,7 +14,7 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
-public class RulerPopup extends GPopupMenuW {
+public class RulerPopup extends GPopupMenuW implements SetLabels {
 	private RulerIconButton rulerButton;
 	private int activeRulerMode = MODE_RULER;
 
@@ -76,5 +77,14 @@ public class RulerPopup extends GPopupMenuW {
 	public void showPopup(int left, int top) {
 		Dom.toggleClass(popupMenu.getSelectedItem(), "selectedItem", rulerButton.isActive());
 		showAtPoint(left, top);
+	}
+
+	/**
+	 * Rebuilds the GUI (e.g. language changes)
+	 */
+	@Override
+	public void setLabels() {
+		clearItems();
+		buildGui();
 	}
 }

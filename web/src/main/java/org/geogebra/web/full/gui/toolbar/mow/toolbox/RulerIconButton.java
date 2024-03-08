@@ -90,4 +90,12 @@ public class RulerIconButton extends IconButton {
 		}
 		clearRuler();
 	}
+
+	@Override
+	public void setLabels() {
+		super.setLabels();
+		if (rulerPopup != null) {
+			rulerPopup.setLabels();
+		}
+	}
 }

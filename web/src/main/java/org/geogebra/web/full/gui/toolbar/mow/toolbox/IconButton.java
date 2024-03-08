@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
@@ -11,9 +12,12 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 
-public class IconButton extends StandardButton {
+public class IconButton extends StandardButton implements SetLabels {
 	private static final int DEFAULT_BUTTON_WIDTH = 24;
 	private SVGResource image;
+	private String ariaLabelTransKey;
+	private String dataTitleTransKey;
+	private final Localization localization;
 
 	/**
 	 * Constructor
@@ -24,6 +28,7 @@ public class IconButton extends StandardButton {
 		super(GGWToolBar.getImageURLNotMacro(ToolbarSvgResources.INSTANCE, mode, appW),
 				appW.getToolName(mode), DEFAULT_BUTTON_WIDTH);
 		addStyleName("iconButton");
+		localization = appW.getLocalization();
 	}
 
 	/**
@@ -47,6 +52,8 @@ public class IconButton extends StandardButton {
 		addStyleName("iconButton");
 		image = icon;
 		AriaHelper.setLabel(this, loc.getMenu(ariaLabel));
+		ariaLabelTransKey = ariaLabel;
+		localization = loc;
 	}
 
 	/**
@@ -61,6 +68,7 @@ public class IconButton extends StandardButton {
 	public IconButton(AppW appW, SVGResource icon, String ariaLabel, String dataTitle,
 			Runnable onHandler, Runnable offHandler) {
 		this(appW.getLocalization(), icon, ariaLabel);
+		dataTitleTransKey = dataTitle;
 		AriaHelper.setTitle(this, appW.getLocalization().getMenu(dataTitle));
 		addFastClickHandler(event -> {
 			if (!isDisabled()) {
@@ -103,6 +111,7 @@ public class IconButton extends StandardButton {
 	public IconButton(Localization loc, SVGResource icon, String ariaLabel, String dataTitle,
 			String dataTest, Runnable onHandler) {
 		this(loc, icon, ariaLabel, onHandler);
+		dataTitleTransKey = dataTitle;
 		AriaHelper.setTitle(this, loc.getMenu(dataTitle));
 		TestHarness.setAttr(this, dataTest);
 	}
@@ -146,5 +155,14 @@ public class IconButton extends StandardButton {
 		setAltText(toolName + ". " + appW.getToolHelp(mode));
 		AriaHelper.setDataTitle(this, toolName);
 		TestHarness.setAttr(this, "selectModeButton" + mode);
+	}
+
+	/**
+	 * Updates the aria label and the data title for this Icon Button (e.g. when language changes)
+	 */
+	@Override
+	public void setLabels() {
+		AriaHelper.setLabel(this, localization.getMenu(ariaLabelTransKey));
+		AriaHelper.setDataTitle(this, localization.getMenu(dataTitleTransKey));
 	}
 }
