@@ -102,7 +102,7 @@ public final class SpreadsheetController implements TabularSelection {
 	 */
 	@Override
 	public boolean select(TabularRange selection, boolean extend, boolean addSelection) {
-		return selectionController.select(new Selection(SelectionType.CELLS, selection),
+		return selectionController.select(new Selection(selection),
 				extend, addSelection);
 	}
 
@@ -211,10 +211,13 @@ public final class SpreadsheetController implements TabularSelection {
 			selectionController.clearSelection();
 			changed = true;
 		}
-		if (column < 0) { // Select row
+		if (row == -1 && column == -1) { // Select all
+			selectAll();
+			changed = true;
+		} else if (column == -1) { // Select row
 			selectRow(row, modifiers.shift, modifiers.ctrl);
 			changed = true;
-		} else if (row < 0) { // Select column
+		} else if (row == -1) { // Select column
 			selectColumn(column, modifiers.shift, modifiers.ctrl);
 			changed = true;
 		} else { // Select cell
@@ -258,13 +261,13 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @param modifiers event modifiers
 	 */
 	public void handlePointerUp(int x, int y, Modifiers modifiers) {
-		List<Selection> sel = getSelections();
+		List<Selection> selections = getSelections();
 		switch (dragAction.activeCursor) {
 		case RESIZE_X:
 			if (isSelected(-1, dragAction.column)) {
 				double width = layout.getWidthForColumnResize(dragAction.column,
 						x + viewport.getMinX());
-				for (Selection selection : sel) {
+				for (Selection selection : selections) {
 					if (selection.getType() == SelectionType.COLUMNS) {
 						layout.setWidthForColumns(width, selection.getRange().getMinColumn(),
 								selection.getRange().getMaxColumn());
@@ -276,7 +279,7 @@ public final class SpreadsheetController implements TabularSelection {
 			if (isSelected(dragAction.row, -1)) {
 				double height = layout.getHeightForRowResize(dragAction.row,
 						y + viewport.getMinY());
-				for (Selection selection : sel) {
+				for (Selection selection : selections) {
 					if (selection.getType() == SelectionType.ROWS) {
 						layout.setHeightForRows(height, selection.getRange().getMinRow(),
 								selection.getRange().getMaxRow());
@@ -453,9 +456,7 @@ public final class SpreadsheetController implements TabularSelection {
 
 			TabularRange range =
 					new TabularRange(dragAction.row, dragAction.column, row, column);
-			SelectionType type = getDragSelectionType();
-			return selectionController.select(new Selection(type,
-							range), false, addSelection);
+			return selectionController.select(new Selection(range), false, addSelection);
 
 		}
 		return false;

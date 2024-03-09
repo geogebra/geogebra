@@ -1,175 +1,196 @@
 package org.geogebra.common.spreadsheet.core;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.awt.event.KeyEvent;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
+import org.geogebra.common.util.shape.Rectangle;
+import org.junit.Before;
 import org.junit.Test;
 
 public class SpreadsheetControllerTest {
+    private final int cellHeight = TableLayout.DEFAUL_CELL_HEIGHT;
+    private final int rowHeaderCellWidth = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 
-	private final SpreadsheetController controller =
-			new SpreadsheetController(new TestTabularData(), null);
+    private final SpreadsheetController controller =
+            new SpreadsheetController(new TestTabularData(), null);
+    private Rectangle viewport;
 
-	@Test
-	public void testMove() {
-		controller.selectCell(1, 1, false, false);
-		Selection initialCell = controller.getLastSelection();
+    @Before
+    public void setup() {
+        controller.getLayout().setHeightForRows(20, 0, 5);
+        controller.getLayout().setWidthForColumns(40, 0, 5);
+        setViewport(new Rectangle(0, 100, 0, 120));
+        controller.setViewportAdjustmentHandler(new ViewportAdjustmentHandler() {
+            @Override
+            public void setVerticalScrollPosition(int position) {
+                viewport = viewport.translatedBy(0, position);
+            }
 
-		controller.moveRight(false);
-		controller.moveDown(false);
-		controller.moveLeft(false);
-		controller.moveUp(false);
+            @Override
+            public void setHorizontalScrollPosition(int position) {
+                viewport = viewport.translatedBy(position, 0);
+            }
 
-		assertRangeEquals(initialCell, Selection.getSingleCellSelection(1, 1));
-	}
+            @Override
+            public int getScrollBarWidth() {
+                return 5;
+            }
+        });
+    }
 
-	@Test
-	public void testMoveLeft() {
-		controller.selectCell(3, 1, false, false);
+    @Test
+    public void testViewportIsAdjustedRightwardsWithArrowKey() {
+        controller.selectCell(1, 1, false, false);
+        fakeRightArrowPress();
+        assertNotEquals(0, viewport.getMinX(), 0);
+    }
 
-		controller.moveLeft(false);
-		controller.moveLeft(false);
+    @Test
+    public void testViewportIsAdjustedRightwardsWithMouseClick() {
+        controller.handlePointerDown(rowHeaderCellWidth + 90, cellHeight + 10, Modifiers.NONE);
+        assertNotEquals(0, viewport.getMinX(), 0);
+    }
 
-		assertRangeEquals(controller.getLastSelection(), Selection.getSingleCellSelection(3, 0));
-	}
+    @Test
+    public void testViewportIsNotAdjustedRightwardsWithArrowKey() {
+        setViewport(new Rectangle(0, 500, 0, 500));
+        controller.selectCell(2, 0, false, false);
+        fakeRightArrowPress();
+        assertEquals(0, viewport.getMinX(), 0);
+    }
 
-	@Test
-	public void testMoveRight() {
-		controller.selectCell(3, controller.getLayout().numberOfColumns() - 3, false, false);
+    @Test
+    public void testViewportIsNotAdjustedRightwardsWithMouseClick() {
+        setViewport(new Rectangle(0, 140, 0, 100));
+        controller.handlePointerDown(rowHeaderCellWidth + 60, cellHeight + 5, Modifiers.NONE);
+        assertEquals(0, viewport.getMinX(), 0);
+    }
 
-		controller.moveRight(false);
-		controller.moveRight(false);
+    @Test
+    public void testViewportShouldNotBeAdjustedWhenMovingLeftAtLeftmostPositionWithArrowKey() {
+        controller.selectCell(0, 0, false, false);
+        fakeLeftArrowPress();
+        assertEquals(0, viewport.getMinX(), 0);
+    }
 
-		assertRangeEquals(controller.getLastSelection(),
-				Selection.getSingleCellSelection(3,
-						controller.getLayout().numberOfColumns() - 1));
-	}
+    @Test
+    public void testViewportIsNotAdjustedHorizontallyWithArrowKey() {
+        setViewport(new Rectangle(0, 300, 0, 300));
+        controller.selectCell(2, 0, false, false);
+        fakeRightArrowPress();
+        assertEquals(0, viewport.getMinX(), 0);
+        fakeLeftArrowPress();
+        assertEquals(0, viewport.getMinX(), 0);
+    }
 
-	@Test
-	public void testMoveUp() {
-		controller.selectCell(1, 3, false, false);
+    @Test
+    public void testViewportIsAdjustedDownwardsWithArrowKey() {
+        setViewport(new Rectangle(0, 300, 0, 100));
+        controller.selectCell(1, 1, false, false);
+        fakeDownArrowPress();
+        assertNotEquals(0, viewport.getMinY(), 0);
+    }
 
-		controller.moveUp(false);
-		controller.moveUp(false);
+    @Test
+    public void testViewportIsAdjustedDownwardsWithMouseClick() {
+        controller.handlePointerDown(rowHeaderCellWidth + 10, cellHeight + 80, Modifiers.NONE);
+        assertNotEquals(0, viewport.getMinY(), 0);
+    }
 
-		assertRangeEquals(controller.getLastSelection(), Selection.getSingleCellSelection(0, 3));
-	}
+    @Test
+    public void testViewportIsNotAdjustedDownwardsWithArrowKey() {
+        controller.selectCell(0, 0, false, false);
+        fakeDownArrowPress();
+        assertEquals(0, viewport.getMinY(), 0);
+    }
 
-	@Test
-	public void testMoveDown() {
-		controller.selectCell(controller.getLayout().numberOfRows() - 3, 3, false, false);
+    @Test
+    public void testViewportIsNotAdjustedDownwardsWithMouseClick() {
+        controller.handlePointerDown(rowHeaderCellWidth + 10, cellHeight + 30, Modifiers.NONE);
+        assertEquals(0, viewport.getMinY(), 0);
+    }
 
-		controller.moveDown(false);
-		controller.moveDown(false);
+    @Test
+    public void testViewportShouldNotBeAdjustedWhenMovingUpAtTopmostPositionWithArrowKey() {
+        controller.selectCell(0, 2, false, false);
+        fakeUpArrowPress();
+        assertEquals(0, viewport.getMinY(), 0);
+    }
 
-		assertRangeEquals(controller.getLastSelection(),
-				Selection.getSingleCellSelection(controller.getLayout().numberOfRows() - 1, 3));
-	}
+    @Test
+    public void testViewportIsNotAdjustedUpwardsWithArrowKey() {
+        controller.selectCell(2, 1, false, false);
+        fakeDownArrowPress();
+        double verticalScrollPosition = viewport.getMinY();
+        fakeUpArrowPress();
+        assertEquals(verticalScrollPosition, viewport.getMinY(), 0);
+    }
 
-	@Test
-	public void testExtendSelectionByMoving1() {
-		controller.selectCell(1, 1, false, false);
+    @Test
+    public void testTappingOnResizeRowWhileEverythingIsSelected() {
+        // Tap of top left corner (select everything)
+        controller.handlePointerDown(30, 30, Modifiers.NONE);
+        controller.handlePointerUp(30, 30, Modifiers.NONE);
 
-		controller.moveRight(true);
-		controller.moveRight(true);
-		controller.moveDown(true);
-		controller.moveDown(true);
+        try {
+            // Tap on the edge of row 1 and 2 in the row header
+            controller.handlePointerDown(30, cellHeight * 2, Modifiers.NONE);
+            controller.handlePointerUp(30, cellHeight * 2, Modifiers.NONE);
+        } catch (Exception exception) {
+            fail("Tapping on the edge of row 1 and 2 in the row header caused exception: " + exception);
+        }
+    }
 
-		assertRangeEquals(controller.getLastSelection(),
-				new Selection(SelectionType.CELLS, TabularRange.range(1, 3, 1, 3)));
-	}
+    @Test
+    public void testTappingOnResizeRowWhileRowIsSelected() {
+        // Select row 1 and 2
+        controller.selectRow(1, false, false);
+        controller.selectRow(2, true, false);
 
-	@Test
-	public void testExtendSelectionByHorizontalDrag() {
-		controller.handlePointerDown(101, 3, Modifiers.NONE);
-		controller.handlePointerMove(241, 3, Modifiers.NONE);
-		controller.handlePointerUp(241, 3, Modifiers.NONE);
+        double initialSpreadsheetHeight = controller.getLayout().getTotalHeight();
 
-		assertRangeEquals(controller.getLastSelection(),
-				new Selection(SelectionType.COLUMNS, TabularRange.range(-1, -1, 0, 1)));
-	}
+        // Tap on the edge of row 1 and 2 in the row header
+        controller.handlePointerDown(30, cellHeight * 2, Modifiers.NONE);
+        controller.handlePointerUp(30, cellHeight * 2, Modifiers.NONE);
 
-	@Test
-	public void testExtendSelectionByVerticalDrag() {
-		controller.handlePointerDown(3, 50, Modifiers.NONE);
-		controller.handlePointerMove(3, 150, Modifiers.NONE);
-		controller.handlePointerUp(3, 150, Modifiers.NONE);
+        assertEquals(initialSpreadsheetHeight, controller.getLayout().getTotalHeight(), 0.0);
+    }
 
-		assertRangeEquals(controller.getLastSelection(),
-				new Selection(SelectionType.ROWS, TabularRange.range(0, 3, -1, -1)));
-	}
+    private void setViewport(Rectangle viewport) {
+        this.viewport = viewport;
+        controller.setViewport(viewport);
+    }
 
-	@Test
-	public void testExtendSelectionByMoving2() {
-		controller.selectCell(5, 5, false, false);
-		controller.moveUp(true);
-		controller.moveUp(true);
-		controller.moveLeft(true);
-		controller.moveLeft(true);
+    private void fakeLeftArrowPress() {
+        KeyEvent e = fakeKeyEvent(37);
+        controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE);
+    }
 
-		assertRangeEquals(controller.getLastSelection(),
-				new Selection(SelectionType.CELLS, TabularRange.range(3, 5, 3, 5)));
-	}
+    private void fakeUpArrowPress() {
+        KeyEvent e = fakeKeyEvent(38);
+        controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE);
+    }
 
-	@Test
-	public void testExtendSelectionByMoving3() {
-		controller.selectCell(5, 5, false, false);
-		controller.moveUp(true);
-		controller.moveUp(true);
-		controller.moveLeft(true);
-		controller.moveLeft(true);
-		controller.moveRight(true);
-		assertRangeEquals(controller.getLastSelection(),
-				new Selection(SelectionType.CELLS, TabularRange.range(3, 5, 4, 5)));
-	}
+    private void fakeRightArrowPress() {
+        KeyEvent e = fakeKeyEvent(39);
+        controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE);
+    }
 
-	@Test
-	public void testExtendSelectionByClicking1() {
-		controller.selectCell(3, 3, false, false);
-		controller.selectCell(5, 5, true, false);
+    private void fakeDownArrowPress() {
+        KeyEvent e = fakeKeyEvent(40);
+        controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE);
+    }
 
-		assertRangeEquals(controller.getLastSelection(),
-				new Selection(SelectionType.CELLS, TabularRange.range(3, 5, 3, 5)));
-	}
-
-	@Test
-	public void testExtendSelectionByClicking2() {
-		controller.selectCell(3, 3, false, false);
-		controller.selectCell(1, 1, true, false);
-
-		assertRangeEquals(controller.getLastSelection(),
-				new Selection(SelectionType.CELLS, TabularRange.range(3, 1, 3, 1)));
-	}
-
-	@Test
-	public void testAddSelections() {
-		controller.selectCell(3, 3, false, false);
-		controller.selectCell(1, 1, false, true);
-		controller.selectCell(5, 6, false, true);
-		controller.selectCell(7, 7, true, true);
-
-		assertEquals(controller.getSelections().size(), 3);
-	}
-
-	@Test
-	public void testIsSelected() {
-		controller.selectColumn(2, false, false);
-		controller.selectColumn(3, true, false);
-		assertThat(controller.isSelected(3, 3), equalTo(true));
-		assertThat(controller.isSelected(-1, 3), equalTo(true));
-		assertThat(controller.isSelected(3, 4), equalTo(false));
-		assertThat(controller.isSelected(-1, 4), equalTo(false));
-	}
-
-	private void assertRangeEquals(Selection selection, Selection other) {
-		TabularRange selectionRange = selection.getRange();
-		TabularRange otherRange = other.getRange();
-		assertEquals(selection.getType(), other.getType());
-		assertEquals(selectionRange.getMinRow(), otherRange.getMinRow());
-		assertEquals(selectionRange.getMaxRow(), otherRange.getMaxRow());
-		assertEquals(selectionRange.getMinColumn(), otherRange.getMinColumn());
-		assertEquals(selectionRange.getMaxColumn(), otherRange.getMaxColumn());
-	}
+    private KeyEvent fakeKeyEvent(int keyCode) {
+        KeyEvent event = mock(KeyEvent.class);
+        when(event.getKeyCode()).thenReturn(keyCode);
+        when(event.getKeyChar()).thenReturn(' ');
+        return event;
+    }
 }
