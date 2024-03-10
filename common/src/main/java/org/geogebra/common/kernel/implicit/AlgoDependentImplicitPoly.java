@@ -147,6 +147,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	protected void replaceGeoElement(GeoElementND newElem) {
 		String label = geoElement.getLabelSimple();
 		newElem.setVisualStyle(geoElement.toGeoElement());
+		newElem.setLayer(geoElement.getLayer());
 		geoElement.doRemove();
 		newElem.setDefinition(geoElement.getDefinition());
 		geoElement = newElem;

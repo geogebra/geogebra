@@ -1991,7 +1991,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 
 	private static double[] getEquationOfConic(double startX, double startY, double endX,
 			double endY) {
-		if (Double.isNaN(startX) || Double.isNaN(startY) || Double.isNaN(endX) 
+		if (Double.isNaN(startX) || Double.isNaN(startY) || Double.isNaN(endX)
 				|| Double.isNaN(endY)) {
 			return null;
 		}

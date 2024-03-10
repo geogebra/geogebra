@@ -155,13 +155,12 @@ import org.geogebra.common.kernel.statistics.CmdFitLineY;
 import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
-import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.PenToolsSettings;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
@@ -10950,9 +10949,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @return delete square size in px
 	 */
 	public int getDeleteToolSize() {
-		EuclidianSettings settings = this.view.getSettings();
+		PenToolsSettings settings = app.getSettings().getPenTools();
 		if (settings != null) {
-			return this.view.getSettings().getDeleteToolSize();
+			return settings.getDeleteToolSize();
 		}
 
 		return EuclidianConstants.DEFAULT_ERASER_SIZE;
@@ -11405,17 +11404,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public final void setDefaultEventType(PointerEventType pointerEventType,
 			boolean down) {
-		if (app.has(Feature.MOW_PEN_EVENTS)) {
-			if (pointerEventType == PointerEventType.PEN
-					&& pointerEventType != defaultEventType
-					&& app.getMode() == EuclidianConstants.MODE_MOVE) {
-				app.setMode(EuclidianConstants.MODE_PEN, ModeSetter.DOCK_PANEL);
-			}
-			if (down && app.getMode() == EuclidianConstants.MODE_PEN
-					&& pointerEventType != PointerEventType.PEN
-					&& PointerEventType.PEN == defaultEventType) {
-				setTempMode(EuclidianConstants.MODE_MOVE);
-			}
+		if (pointerEventType == PointerEventType.PEN
+				&& pointerEventType != defaultEventType
+				&& app.getMode() == EuclidianConstants.MODE_MOVE) {
+			app.setMode(EuclidianConstants.MODE_PEN, ModeSetter.DOCK_PANEL);
+		}
+		if (down && app.getMode() == EuclidianConstants.MODE_PEN
+				&& pointerEventType != PointerEventType.PEN
+				&& PointerEventType.PEN == defaultEventType) {
+			setTempMode(EuclidianConstants.MODE_MOVE);
 		}
 		this.defaultEventType = pointerEventType;
 	}

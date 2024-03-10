@@ -54,9 +54,9 @@ import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.TextInputDialog;
+import org.geogebra.common.gui.dialog.handler.TextBuilder;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.gui.util.TableSymbolsLaTeX;
@@ -65,9 +65,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MyError;
@@ -1113,11 +1111,9 @@ public class TextInputDialogD extends InputDialogD
 			boolean createText = editGeo == null;
 			handler.resetError();
 			if (createText) {
-				kernel.getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionHandling(inputValue,
-								false, handler, true, getCallback(callback));
+				new TextBuilder(app, startPoint, rw, isLaTeX)
+						.createText(inputValue, handler, callback);
 				return;
-
 			}
 
 			// change existing text
@@ -1163,97 +1159,6 @@ public class TextInputDialogD extends InputDialogD
 		app.setMoveMode();
 	}
 
-	protected AsyncOperation<GeoElementND[]> getCallback(
-			final AsyncOperation<Boolean> callback) {
-		return ret -> {
-			if (ret != null && ret[0] instanceof GeoText) {
-				Kernel kernel = ret[0].getKernel();
-				GeoText t = (GeoText) ret[0];
-				t.setLaTeX(isLaTeX, true);
-
-				// make sure for new LaTeX texts we get nice "x"s
-				if (isLaTeX) {
-					t.setSerifFont(true);
-				}
-
-				EuclidianViewInterfaceCommon activeView = kernel
-						.getApplication().getActiveEuclidianView();
-
-				if (startPoint.isLabelSet()) {
-					t.checkVisibleIn3DViewNeeded();
-					try {
-						t.setStartPoint(startPoint);
-					} catch (Exception e) {
-						// circular def: ignore
-					}
-				} else {
-
-					// changed to RealWorld
-					// not absolute
-					// startpoint contains mouse coords
-					// t.setAbsoluteScreenLoc(euclidianView.toScreenCoordX(startPoint.inhomX),
-					// euclidianView.toScreenCoordY(startPoint.inhomY));
-					// t.setAbsoluteScreenLocActive(true);
-					if (rw) {
-						Coords coords = startPoint.getInhomCoordsInD3();
-						t.setRealWorldLoc(
-								activeView.toRealWorldCoordX(coords.getX()),
-								activeView
-										.toRealWorldCoordY(coords.getY()));
-						t.setAbsoluteScreenLocActive(false);
-					} else {
-						Coords coords = startPoint.getInhomCoordsInD3();
-						t.setAbsoluteScreenLoc((int) coords.getX(),
-								(int) coords.getY());
-						t.setAbsoluteScreenLocActive(true);
-
-					}
-
-					// when not a point clicked, show text only in active
-					// view
-					if (activeView.isEuclidianView3D()) {
-						// we need to add it to 3D view since by default
-						// it may not
-						kernel.getApplication().addToViews3D(t);
-						app.removeFromEuclidianView(t);
-						t.setVisibleInViewForPlane(false);
-						kernel.getApplication().removeFromViewsForPlane(t);
-					} else if (activeView.isDefault2D()) {
-						if (kernel.getApplication()
-								.isEuclidianView3Dinited()) {
-							kernel.getApplication().removeFromViews3D(t);
-						} else {
-							t.removeViews3D();
-						}
-						t.setVisibleInViewForPlane(false);
-						kernel.getApplication().removeFromViewsForPlane(t);
-					} else { // view for plane
-						app.removeFromEuclidianView(t);
-						if (kernel.getApplication()
-								.isEuclidianView3Dinited()) {
-							kernel.getApplication().removeFromViews3D(t);
-						} else {
-							t.removeViews3D();
-						}
-						t.setVisibleInViewForPlane(true);
-						kernel.getApplication().addToViewsForPlane(t);
-					}
-				}
-
-				// make sure (only) the output of the text tool is selected
-				activeView.getEuclidianController()
-						.memorizeJustCreatedGeos(ret);
-
-				t.updateRepaint();
-				app.storeUndoInfo();
-				callback.callback(true);
-				return;
-			}
-			callback.callback(false);
-			return;
-
-		};
-	}
 
 	@Override
 	public void handleDialogVisibilityChange(boolean isVisible) {

@@ -1835,7 +1835,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private void setDelSize(int s) {
-		ev.getSettings().setDeleteToolSize(EuclidianSettings.DELETE_SIZES[s]);
+		app.getSettings().getPenTools().setDeleteToolSize(EuclidianSettings.DELETE_SIZES[s]);
 		for (int i = 0; i < 3; i++) {
 			btnDeleteSizes[i].setSelected(i == s);
 			btnDeleteSizes[i].setEnabled(i != s);

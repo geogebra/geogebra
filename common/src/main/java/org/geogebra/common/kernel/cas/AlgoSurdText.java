@@ -2546,49 +2546,10 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			return bestIndex1;
 		}
 
-		/*
-		 * 
-		 * void computeLinear(double num) {
-		 * 
-		 * }
-		 * 
-		 * void testZero(double num) {
-		 * 
-		 * }
-		 */
 		public void setCoeffBound(int b) {
 			coeffBound = b;
 		}
-		/*
-		 * public int getCoeffBound() { return coeffBound; }
-		 * 
-		 * public void setConsts(int n, String[] listOfNames, double[]
-		 * listOfValues) {
-		 * 
-		 * if (listOfNames.length < n || listOfValues.length !=
-		 * listOfNames.length) { Log.debug("error: size does not match");
-		 * return; } numOfConsts = n; constStrings = listOfNames.clone();
-		 * constValues = listOfValues.clone(); }
-		 */
-		/**
-		 * By default, it is just an identity function. User can change the
-		 * call() method according to the underlying function and the type T of
-		 * the argument. Requirements: the function should be an invertible one,
-		 * and the type of the values should also be T.
-		 * 
-		 * @author lightest
-		 *
-		 * @param <T>
-		 */
-		/*
-		 * public class FunctionForFit<T> implements Callable {
-		 * 
-		 * private T arg; public FunctionForFit(T arg) { this.arg = arg; }
-		 * 
-		 * public T call() throws Exception { return arg; }
-		 * 
-		 * }
-		 */
+
 	}
 
 }

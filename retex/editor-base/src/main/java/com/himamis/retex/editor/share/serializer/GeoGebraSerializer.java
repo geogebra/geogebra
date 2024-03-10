@@ -100,24 +100,6 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			serialize(mathFunction.getArgument(1), stringBuilder);
 			stringBuilder.append("))");
 			break;
-		case MIXED_NUMBER:
-			boolean isNegative = mathFunction.getArgument(0).getArgument(0) != null
-					&& mathFunction.getArgument(0).getArgument(0).toString().equals("-");
-			if (isNegative) {
-				stringBuilder.append("-");
-			}
-			stringBuilder.append("(");
-			serialize(mathFunction.getArgument(0), stringBuilder);
-			if (isNegative) {
-				stringBuilder.deleteCharAt(stringBuilder.lastIndexOf("-"));
-			}
-			stringBuilder.append(Unicode.INVISIBLE_PLUS);
-			stringBuilder.append("(");
-			serialize(mathFunction.getArgument(1), stringBuilder);
-			stringBuilder.append(")/(");
-			serialize(mathFunction.getArgument(2), stringBuilder);
-			stringBuilder.append("))");
-			break;
 		case RECURRING_DECIMAL:
 			int i = stringBuilder.length() + 1;
 			serialize(mathFunction.getArgument(0), stringBuilder);

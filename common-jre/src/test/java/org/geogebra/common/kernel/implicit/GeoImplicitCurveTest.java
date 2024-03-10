@@ -38,4 +38,14 @@ public class GeoImplicitCurveTest extends BaseUnitTest {
 		GeoImplicitCurve nonPoly = add("0=sqrt(x)+y^4");
 		assertThat(nonPoly.isLaTeXDrawableGeo(), equalTo(true));
 	}
+
+	@Test
+	public void variableDegreeShouldNotChangeLayer() {
+		add("a=1");
+		add("c:x^a+y=1");
+		add("SetLayer(a,2)");
+		assertThat(lookup("c").getLayer(), equalTo(0));
+		add("SetValue(a,3)");
+		assertThat(lookup("c").getLayer(), equalTo(0));
+	}
 }

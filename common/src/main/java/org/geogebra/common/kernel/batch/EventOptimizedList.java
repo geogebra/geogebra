@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 class EventOptimizedList {
 
 	private static final Set<String> SINGLE = new HashSet<>(
-			Arrays.asList("update", "updateAuxiliaryObject", 
+			Arrays.asList("update", "updateAuxiliaryObject",
 			"updateHighlight", "rename", "repaintView"));
 
 	private final LinkedList<Event> events;

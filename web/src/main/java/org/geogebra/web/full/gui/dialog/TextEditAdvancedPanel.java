@@ -279,7 +279,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 
 	}
 
-	private void addLaTeXTable(String[] tableSymbols, 
+	private void addLaTeXTable(String[] tableSymbols,
 	        int rowSize, boolean addSeparator) {
 
 		final SymbolTableW symTable = newSymbolTable(tableSymbols, true,
@@ -304,7 +304,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 			int rowSize, final AsyncOperation<String> onChange,
 			GColor[] colors) {
 
-		final SymbolTableW symTable = new SymbolTableW(table, 
+		final SymbolTableW symTable = new SymbolTableW(table,
 				isLatexSymbol, rowSize, app, colors);
 
 		symTable.addClickHandler(event -> {

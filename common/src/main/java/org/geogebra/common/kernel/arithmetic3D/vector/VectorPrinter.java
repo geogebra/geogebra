@@ -12,7 +12,7 @@ class VectorPrinter implements Printer {
     private Printer latexPrinter;
 
     VectorPrinter() {
-        defaultPrinter = new DefaultVectorPrinter();
+        defaultPrinter = new CartesianPrinter3D(null);
         editPrinter = new EditVectorPrinter();
         latexPrinter = new LatexVectorPrinter();
     }

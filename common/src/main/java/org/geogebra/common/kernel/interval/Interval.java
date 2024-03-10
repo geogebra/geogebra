@@ -5,6 +5,7 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 
 import java.util.Objects;
 
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.interval.operators.RMath;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -738,5 +739,9 @@ public class Interval {
 
 	public void setDefaultPrecision() {
 		precision = PRECISION;
+	}
+
+	public boolean isExactSingleton() {
+		return MyDouble.exactEqual(low,  high);
 	}
 }

@@ -247,5 +247,6 @@ public class ParserFunctionsFactory {
 		}
 		pf.addTranslatable("nroot", 2, ParserFunctions.NROOT_SUFFIX, Operation.NROOT);
 		pf.addTranslatable("nPr", 2, "( <n>, <r> )", Operation.NPR);
+		pf.addTranslatable("npr", 2, "( <n>, <r> )", Operation.NPR);
 	}
 }

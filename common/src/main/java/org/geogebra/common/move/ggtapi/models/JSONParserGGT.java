@@ -82,7 +82,11 @@ public class JSONParserGGT {
 		material.setVisibility(getString(obj, "visibility"));
 		material.setMultiuser(getBoolean(obj, "multiuser", false)); // MOW
 		material.setSharedWithGroup(getBoolean(obj, "shared_with_group", false)); // MOW
-		material.setFileName(getString(obj, "fileUrl"));
+		String fileUrl = getString(obj, "fileUrl");
+		if (fileUrl.isEmpty()) {
+			fileUrl = getString(obj, "url");
+		}
+		material.setFileName(fileUrl);
 
 		material.setSharingKey(sharingKey);
 		material.setURL(getString(obj, "url"));

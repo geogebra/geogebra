@@ -10,6 +10,7 @@ public class ExportImage extends DefaultMenuAction<Void> {
 
 	@Override
 	public void execute(Void item, AppWFull app) {
+		app.getSelectionManager().clearSelectedGeos();
 		app.getActiveEuclidianView().getEuclidianController().widgetsToBackground();
 		app.getDialogManager().showExportImageDialog(null);
 	}

@@ -67,16 +67,6 @@ public class TriangleDt {
 		halfplane = true;
 		// _id = _counter++;
 	}
-	/*
-	 * protected void finalize() throws Throwable{ super.finalize(); _counter--;
-	 * }
-	 */
-
-	/**
-	 * remove all pointers (for debug)
-	 */
-	// public void clear() {
-	// this.abnext = null; this.bcnext=null; this.canext=null;}
 
 	/**
 	 * @return true iff this triangle is actually a half plane.

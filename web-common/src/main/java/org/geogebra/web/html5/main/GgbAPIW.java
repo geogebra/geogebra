@@ -72,6 +72,7 @@ import jsinterop.base.JsPropertyMap;
  */
 public class GgbAPIW extends GgbAPI {
 	private MathEditorAPI editor;
+	private JsPropertyMap<?> fileLoadingError;
 
 	/**
 	 * @param app
@@ -245,10 +246,10 @@ public class GgbAPIW extends GgbAPI {
 		if (value) {
 			str = geo.toValueString(StringTemplate.latexTemplate);
 		} else if (geo instanceof  GeoCasCell) {
-			str = ((GeoCasCell) geo).getLaTeXInput(StringTemplate.latexTemplate);
+			str = ((GeoCasCell) geo).getLaTeXInput();
 			if (str == null) {
 				// regexp should be good enough in most cases, avoids dependency on ReTeX
-				str = ((GeoCasCell) geo).getInput(StringTemplate.defaultTemplate)
+				str = ((GeoCasCell) geo).getLocalizedInput()
 						.replaceAll("([{}$])", "\\\\$1");
 			}
 		} else {
@@ -1337,5 +1338,13 @@ public class GgbAPIW extends GgbAPI {
 	public void showAllObjects() {
 		app.setViewShowAllObjects();
 
+	}
+
+	public void setFileLoadingError(JsPropertyMap<?> error) {
+		this.fileLoadingError = error;
+	}
+
+	public Object getFileLoadingError() {
+		return this.fileLoadingError;
 	}
 }

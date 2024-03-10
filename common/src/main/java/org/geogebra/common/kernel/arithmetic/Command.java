@@ -21,7 +21,9 @@ package org.geogebra.common.kernel.arithmetic;
 import static org.geogebra.common.kernel.arithmetic.ExpressionNode.getLabelOrDefinition;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.geogebra.common.kernel.Kernel;
@@ -53,6 +55,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class Command extends ValidExpression
 		implements ReplaceChildrenByValues, GetItem, HasArguments {
 
+	private static final String DEFAULT_FUNCTION_VAR_NAME = "x";
 	// list of arguments
 	private final ArrayList<ExpressionNode> args = new ArrayList<>();
 	private String name; // internal command name (in English)
@@ -322,9 +325,10 @@ public class Command extends ValidExpression
 	 * Side effect: replace f -> f(v) in the first argument
 	 */
 	private String getIntegralVar(StringTemplate tpl) {
-		Set<GeoElement> vars = getArgument(0)
-				.getVariables(SymbolicMode.NONE);
-		String var = "x";
+		ExpressionNode argument = getArgument(0);
+		SymbolicMode symbolicMode = kernel.getSymbolicMode();
+		Set<GeoElement> vars = argument.getVariables(symbolicMode);
+		String var = getFunctionVarName(argument, vars);
 		if (vars != null && !vars.isEmpty()) {
 			for (GeoElement geo : vars) {
 				// get function from construction
@@ -338,12 +342,41 @@ public class Command extends ValidExpression
 				// make sure that we get from set the variable and not
 				// the function, needed for TRAC-5364
 				if (geo instanceof GeoDummyVariable && geoFunc == null
-						&& geoCASCell == null) {
+						&& geoCASCell == null && SymbolicMode.NONE.equals(symbolicMode)) {
 					var = geo.toString(tpl);
 				}
 			}
 		}
 		return var;
+	}
+
+	private String getFunctionVarName(ExpressionNode node, Set<GeoElement> vars) {
+		if (node.containsFreeFunctionVariable(DEFAULT_FUNCTION_VAR_NAME)) {
+			return DEFAULT_FUNCTION_VAR_NAME;
+		}
+		ExpressionNodeCollector<String> collector =
+				new ExpressionNodeCollector<>(node);
+
+		List<String> integralVarNames = collector
+				.filter(v -> v instanceof FunctionVariable)
+				.mapTo(t -> ((FunctionVariable) (t.unwrap())).getSetVarString());
+
+		if (vars != null) {
+			List<String> dummyVarNames = getDummyVarNames(vars);
+			integralVarNames.addAll(dummyVarNames);
+		}
+		Collections.sort(integralVarNames);
+		return integralVarNames.size() > 0 ? integralVarNames.get(0) : DEFAULT_FUNCTION_VAR_NAME;
+	}
+
+	private static List<String> getDummyVarNames(Set<GeoElement> vars) {
+		final ArrayList<String> list = new ArrayList<>();
+		for (GeoElement var: vars) {
+			if (var instanceof GeoDummyVariable) {
+				list.add(((GeoDummyVariable) var).getVarName());
+			}
+		}
+		return list;
 	}
 
 	private void replaceFunctionNode(GeoElement geo, GeoElement geoFunc) {
