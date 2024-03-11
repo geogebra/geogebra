@@ -92,6 +92,13 @@ public class ExamRestrictions {
 	}
 
 	/**
+	 * @return The exam type.
+	 */
+	public final @Nonnull ExamRegion getExamType() {
+		return examType;
+	}
+
+	/**
 	 * @return The list of disabled (i.e., not allowed) subapps during exams, or `null` if there
 	 * is no restriction on the available subapps.
 	 */

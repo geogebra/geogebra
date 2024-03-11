@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
 import org.geogebra.common.kernel.commands.selector.NameCommandFilter;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.ValuedProperty;
-import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 
 final class TestExamRestrictions extends ExamRestrictions {
 
@@ -46,22 +45,11 @@ final class TestExamRestrictions extends ExamRestrictions {
 
 	@Override
 	protected void freezeValue(ValuedProperty property) {
-		if (property instanceof AngleUnitProperty) {
-		}
+		// tested in AbstractPropertyTests/AbstractValuedPropertyTests
 	}
 
 	@Override
 	protected void unfreezeValue(ValuedProperty property) {
-		if (property instanceof AngleUnitProperty) {
-		}
+		// tested in AbstractPropertyTests/AbstractValuedPropertyTests
 	}
-
-//	@Override
-//	public boolean isSelectionAllowed(GeoElementND geoND) {
-//		if (geoND.isFunctionOrEquationFromUser()) {
-//			return false;
-//		}
-//		return true;
-//	}
-
 }

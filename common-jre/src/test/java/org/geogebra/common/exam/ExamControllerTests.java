@@ -107,7 +107,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		case GEOMETRY:
 			return new AppConfigGeometry(GeoGebraConstants.SUITE_APPCODE);
 		case SCIENTIFIC:
-//			switchApp(new AppConfigScientific(GeoGebraConstants.SUITE_APPCODE)); // ?
 			break;
 		case G3D:
 			return new AppConfigGraphing3D(GeoGebraConstants.SUITE_APPCODE);
@@ -166,7 +165,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.prepareExam();
 		try {
 			examController.startExam(ExamRegion.GENERIC);
-			fail("starting exam without calling setActiveContext() should throw an IllegalStateException");
+			fail("starting exam without calling setActiveContext() should throw"
+					+ " IllegalStateException");
 		} catch (IllegalStateException e) {
 			// expected
 		}
@@ -245,7 +245,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 
-		examController.setExamRestrictionsForTesting(new TestExamRestrictions(ExamRegion.VLAANDEREN));
+		examController.setExamRestrictionsForTesting(
+				new TestExamRestrictions(ExamRegion.VLAANDEREN));
 		examController.startExam(ExamRegion.VLAANDEREN);
 
 		// command restrictions
@@ -302,10 +303,12 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		activeMaterial = material;
 	}
 
+	@Override
 	public SuiteSubApp examGetCurrentSubApp() {
 		return currentSubApp;
 	}
 
+	@Override
 	public void examSwitchSubApp(SuiteSubApp subApp) {
 		didRequestSwitchToSubApp = subApp;
 		if (!subApp.equals(currentSubApp)) {

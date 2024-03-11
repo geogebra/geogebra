@@ -48,6 +48,9 @@ public class AbstractValuedPropertyTests extends BaseUnitTest {
 		assertTrue(property.isFrozen());
 		property.setValue(3);
 		assertEquals(2, property.getValue());
+		property.unfreezeValue();
+		property.setValue(3);
+		assertEquals(3, property.getValue());
 	}
 
 	private static class DummyAbstractValuedProperty extends AbstractValuedProperty {

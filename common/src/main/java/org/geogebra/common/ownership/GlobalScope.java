@@ -22,11 +22,11 @@ import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
  */
 public final class GlobalScope {
 
-	private static PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
+	private static PropertiesRegistry propertiesRegistry;
 
 	private static ExamController examController;
 
-	public static PropertiesRegistry getPropertiesRegistry() {
+	public static @CheckForNull PropertiesRegistry getPropertiesRegistry() {
 		return propertiesRegistry;
 	}
 
@@ -34,10 +34,12 @@ public final class GlobalScope {
 		return examController;
 	}
 
-	public static void createExamController() {
-		if (examController == null) {
-			examController = new ExamController(propertiesRegistry);
-		}
+	/**
+	 * Initialize all objects which should not be lazy-instantiated.
+	 */
+	public static void initialize() {
+		propertiesRegistry = new DefaultPropertiesRegistry();
+		examController = new ExamController(propertiesRegistry);
 	}
 
 	/**
