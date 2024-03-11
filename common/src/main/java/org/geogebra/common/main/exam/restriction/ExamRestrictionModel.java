@@ -1,6 +1,5 @@
 package org.geogebra.common.main.exam.restriction;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

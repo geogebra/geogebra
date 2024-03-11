@@ -39,6 +39,7 @@ import org.geogebra.common.properties.ValuedProperty;
  */
 public class ExamRestrictions {
 
+	private final ExamRegion examType;
 	private final Set<SuiteSubApp> disabledSubApps;
 	private final SuiteSubApp defaultSubApp;
 	private final Set<ExpressionFilter> expressionFilters;
@@ -63,7 +64,7 @@ public class ExamRestrictions {
 			return new GenericExamRestrictions();
 		}
 	}
-	
+
 	/**
 	 * Prevent instantiation, except by subclasses.
 	 * @param examType The exam type.
@@ -81,6 +82,7 @@ public class ExamRestrictions {
 			@Nullable Set<CommandFilter> commandFilters,
 			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
 			@Nullable Set<String> frozenProperties) {
+		this.examType = examType;
 		this.disabledSubApps = disabledSubApps;
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
 		this.expressionFilters = expressionFilters;
@@ -227,6 +229,7 @@ public class ExamRestrictions {
 	 * @param property A property whose value should be fixed during an exam.
 	 */
 	protected void freezeValue(@Nonnull ValuedProperty property) {
+		// override
 	}
 
 	/**
@@ -234,6 +237,7 @@ public class ExamRestrictions {
 	 * @param property A property should be fixed during an exam.
 	 */
 	protected void unfreezeValue(@Nonnull  ValuedProperty property) {
+		// override
 	}
 
 	// TODO unclear how to implement

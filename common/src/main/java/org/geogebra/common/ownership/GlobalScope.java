@@ -1,5 +1,7 @@
 package org.geogebra.common.ownership;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
@@ -20,18 +22,27 @@ import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
  */
 public final class GlobalScope {
 
-	public static final PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
+	private static PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
 
-	public static ExamController examController;
+	private static ExamController examController;
+
+	public static PropertiesRegistry getPropertiesRegistry() {
+		return propertiesRegistry;
+	}
+
+	public static @CheckForNull ExamController getExamController() {
+		return examController;
+	}
+
+	public static void createExamController() {
+		if (examController == null) {
+			examController = new ExamController(propertiesRegistry);
+		}
+	}
 
 	/**
 	 * Prevent instantiation.
 	 */
 	private GlobalScope() { }
 	
-	public static void createExamController() {
-		if (examController == null) {
-			examController = new ExamController(propertiesRegistry);
-		}
-	}
 }
