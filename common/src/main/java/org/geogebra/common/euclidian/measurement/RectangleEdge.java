@@ -4,13 +4,13 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
-public final class SimpleRulerEdge implements RulerEdge {
+public final class RectangleEdge implements RulerEdge {
 	private final int cornerIndex1;
 	private final int cornerIndex2;
 	private GeoPoint corner1 = null;
 	private GeoPoint corner2 = null;
 
-	public SimpleRulerEdge(int cornerIndex1, int cornerIndex2) {
+	public RectangleEdge(int cornerIndex1, int cornerIndex2) {
 		this.cornerIndex1 = cornerIndex1;
 		this.cornerIndex2 = cornerIndex2;
 	}

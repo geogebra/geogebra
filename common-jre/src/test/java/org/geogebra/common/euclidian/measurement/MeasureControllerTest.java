@@ -32,7 +32,7 @@ public class MeasureControllerTest extends BaseUnitTest {
 
 	private MeasurementTool newTool(MeasurementToolId id) {
 		return new MeasurementTool(id, id.toString(),
-				0.0, new NullPenTransformer());
+				0.0);
 	}
 
 	@Test
