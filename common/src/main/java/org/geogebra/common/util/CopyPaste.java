@@ -1,7 +1,6 @@
 package org.geogebra.common.util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -344,23 +343,24 @@ public abstract class CopyPaste {
 
 		ArrayList<ConstructionElement> ret = new ArrayList<>();
 
-		GeoElement geo, geo2;
+		GeoElement geo;
 		TreeSet<GeoElement> ts;
-		Iterator<GeoElement> it;
+
 		for (int i = 0; i < geos.size(); i++) {
 			geo = (GeoElement) geos.get(i);
 			if (geo instanceof GeoEmbed && geo.getParentAlgorithm() instanceof AlgoTableToChart) {
 				continue;
 			}
 			ts = geo.getAllPredecessors();
-			it = ts.iterator();
-			while (it.hasNext()) {
-				geo2 = it.next();
+			for (GeoElement geo2 : ts) {
 				if (!ret.contains(geo2) && !geos.contains(geo2)
 						&& geo2.getConstruction().isConstantElement(
-								geo2) == Construction.Constants.NOT) {
+						geo2) == Construction.Constants.NOT) {
 					ret.add(geo2);
 				}
+			}
+			if (geo.getParentAlgorithm() != null) {
+				ret.add(geo.getParentAlgorithm());
 			}
 		}
 		geos.addAll(ret);
