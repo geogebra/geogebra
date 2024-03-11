@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian.measurement;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.kernel.Kernel;
@@ -15,11 +16,15 @@ public class MeasurementController {
 
 	public MeasurementController(Kernel kernel) {
 		this.kernel = kernel;
-		addTool(MeasurementToolId.RULER, "Ruler.svg", new RulerTransformer());
+		addTool(MeasurementToolId.RULER, "Ruler.svg", new RulerTransformer(
+				List.of(new SimpleRulerEdge(1, 2),
+						new SimpleRulerEdge(3, 4))
+		));
+
 		addTool(MeasurementToolId.PROTRACTOR, "Protactor.svg", 1 - (278.86 / 296),
 				new NullPenTransformer());
-		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtactor.svg", 0.0,
-				new TriangleProtractorTransformer());
+//		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtactor.svg", 0.0,
+//				new TriangleProtractorTransformer());
 	}
 
 	public GeoImage getActiveToolImage() {
