@@ -171,7 +171,7 @@ public class CmdSetValue extends CmdScripting {
 				((GeoList) target).setSelectedIndex(selectIdx);
 				target.updateRepaint();
 			}
-		} else if (shouldCopyOnlyValuesForLists(target, from)) {
+		} else if (target.isGeoList() && from.isGeoList()) {
 			setValueForLists((GeoList) target, (GeoList) from);
 		} else if (target.isIndependent() || target.isMoveable()) {
 			setValueIndependent(target, from);
@@ -190,18 +190,6 @@ public class CmdSetValue extends CmdScripting {
 			geoInputBox.updateLinkedGeo(textString);
 		}
 		resetInputboxes(target);
-	}
-
-	private static boolean shouldCopyOnlyValuesForLists(GeoElement target, GeoElement from) {
-		if (!target.isGeoList() || !from.isGeoList()) {
-			return false;
-		}
-		GeoClass elementType = ((GeoList) from).getElementType();
-		return elementType == GeoClass.SEGMENT || elementType == GeoClass.SEGMENT3D
-				|| elementType == GeoClass.CONICPART || elementType == GeoClass.CONICSECTION
-				|| elementType == GeoClass.RAY || elementType == GeoClass.RAY3D
-				|| elementType == GeoClass.POLYGON || elementType == GeoClass.POLYLINE
-				|| elementType == GeoClass.POLYLINE3D || elementType == GeoClass.TURTLE;
 	}
 
 	private static void setValueForLists(GeoList target, GeoList from) {
