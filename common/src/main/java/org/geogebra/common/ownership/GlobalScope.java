@@ -20,7 +20,7 @@ import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
  */
 public final class GlobalScope {
 
-	public static PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
+	public static final PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
 
 	public static ExamController examController;
 

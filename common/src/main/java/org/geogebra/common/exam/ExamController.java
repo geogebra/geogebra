@@ -57,23 +57,6 @@ import com.google.j2objc.annotations.Weak;
  */
 public final class ExamController implements PropertiesRegistryListener {
 
-	private static class ContextDependencies {
-		@NonOwning
-		final Object context;
-		@NonOwning
-		final CommandDispatcher commandDispatcher;
-		@NonOwning
-		final AlgebraProcessor algebraProcessor;
-
-		ContextDependencies(Object context,
-				CommandDispatcher commandDispatcher,
-				AlgebraProcessor algebraProcessor) {
-			this.context = context;
-			this.commandDispatcher = commandDispatcher;
-			this.algebraProcessor = algebraProcessor;
-		}
-	}
-
 	@Weak
 	@NonOwning
 	public ExamControllerDelegate delegate;
@@ -81,7 +64,6 @@ public final class ExamController implements PropertiesRegistryListener {
 	@NonOwning
 	private PropertiesRegistry propertiesRegistry;
 
-	private Set<ContextDependencies> dependencies = new HashSet<>();
 	private Set<ExamRestrictable> restrictables = new HashSet<>();
 	private ContextDependencies activeDependencies;
 
@@ -390,9 +372,9 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 		if (delegate != null) {
 			SuiteSubApp currentSubApp = delegate.examGetCurrentSubApp();
+			Set<SuiteSubApp> disabledSubApps = examRestrictions.getDisabledSubApps();
 			if (currentSubApp == null ||
-					(examRestrictions.getDisabledSubApps() != null &&
-							examRestrictions.getDisabledSubApps().contains(currentSubApp))) {
+					(disabledSubApps != null && disabledSubApps.contains(currentSubApp))) {
 				delegate.examSwitchSubApp(examRestrictions.getDefaultSubApp());
 				if (delegate.examGetActiveMaterial() == null) {
 					delegate.examSetActiveMaterial(tempStorage.newMaterial());
@@ -461,5 +443,22 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	void setExamRestrictionsForTesting(ExamRestrictions examRestrictions) {
 		this.examRestrictions = examRestrictions;
+	}
+
+	private static class ContextDependencies {
+		@NonOwning
+		final Object context;
+		@NonOwning
+		final CommandDispatcher commandDispatcher;
+		@NonOwning
+		final AlgebraProcessor algebraProcessor;
+
+		ContextDependencies(Object context,
+				CommandDispatcher commandDispatcher,
+				AlgebraProcessor algebraProcessor) {
+			this.context = context;
+			this.commandDispatcher = commandDispatcher;
+			this.algebraProcessor = algebraProcessor;
+		}
 	}
 }
