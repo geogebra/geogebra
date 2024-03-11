@@ -139,4 +139,9 @@ public interface TableValues extends View, StatisticsView {
 	TableValuesProcessor getProcessor();
 
 	void addAndShow(GeoElement geo);
+
+	/**
+	 * @return Whether all columns other than x are undefined.
+	 */
+	boolean hasNoDefinedFunctions();
 }
