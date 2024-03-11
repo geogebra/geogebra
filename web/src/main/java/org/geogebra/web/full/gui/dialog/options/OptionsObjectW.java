@@ -684,9 +684,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	}
 
 	private void updateJsEnabled() {
-		app.getScriptManager().setJsEnabled(!app.isMebis()
-				|| app.getLoginOperation().isTeacherLoggedIn());
-
+		boolean jsEnabled = !app.isMebis()
+				|| app.getLoginOperation().isTeacherLoggedIn();
+		app.getScriptManager().setJsEnabled(jsEnabled);
 	}
 
 	AppW getAppW() {

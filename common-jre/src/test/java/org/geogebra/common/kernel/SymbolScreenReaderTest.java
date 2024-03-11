@@ -68,7 +68,7 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 	@Test
 	public void testSliderDegreesPlural() {
 		GeoNumeric slider = addSlider("α = 10°");
-		shouldRead(slider, readSlider("alpha equals 10 degrees"));
+		shouldRead(slider, readSlider("Slider alpha equals 10 degrees"));
 	}
 
 	private GeoNumeric addSlider(String definition) {
@@ -81,20 +81,20 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 	@Test
 	public void testSliderDegreeSingle() {
 		GeoNumeric slider = addSlider("α = 1°");
-		shouldRead(slider, readSlider("alpha equals 1 degree"));
+		shouldRead(slider, readSlider("Slider alpha equals 1 degree"));
 		slider.setValue(0);
-		shouldRead(slider, readSliderUpOnly("alpha equals 0 degree"));
+		shouldRead(slider, readSliderUpOnly("Slider alpha equals 0 degree"));
 	}
 
 	private String readSlider(String slider) {
-		return "Slider " + slider
+		return slider
 				+ " Press space to start animation Press up arrow to increase the value"
 				+ " Press down arrow to decrease the value"
 				+ " Press enter to edit Press tab to select controls";
 	}
 
 	private String readSliderUpOnly(String slider) {
-		return "Slider " + slider
+		return slider
 				+ " Press space to start animation"
 				+ " Press up arrow to increase the value"
 				+ " Press enter to edit Press tab to select controls";
@@ -235,16 +235,16 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 	public void testPointMoved() {
 		GeoPoint point = add("A=(1, 1)");
 		point.movePoint(new Coords(1, 1, 0), null);
-		assertEquals("Point A  moved to  open parenthesis 2 comma  2 close parenthesis ",
+		assertEquals("Point A  moved to  open parenthesis 2 comma 2 close parenthesis ",
 				point.getAuralTextForMove());
 	}
 
 	@Test
 	public void testPointMovedWithCaption() {
 		GeoPoint point = add("A=(1, 1)");
-		point.setCaption("$%v%$");
+		point.setCaption("$%v\\%$");
 		point.movePoint(new Coords(1, 1, 0), null);
-		assertEquals("Point  moved to  open parenthesis 2 comma  2 close parenthesis ",
+		assertEquals(" open parenthesis 2 comma  2 close parenthesis % ",
 				point.getAuralTextForMove());
 	}
 
@@ -254,7 +254,7 @@ public class SymbolScreenReaderTest extends BaseUnitTest {
 		GeoPoint endPosition = add("(2; 30°)");
 		point.movePoint(null, endPosition.getCoords());
 		assertEquals("Point A  moved to  open parenthesis 2 semicolon  30 degrees"
-						+ "  close parenthesis ", point.getAuralTextForMove());
+						+ " close parenthesis ", point.getAuralTextForMove());
 	}
 
 	@Test

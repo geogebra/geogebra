@@ -9,7 +9,6 @@ import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.dialog.image.UploadImagePanel;
 import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -87,8 +86,7 @@ public class ToolNameIconPanelW extends FlowPanel {
 
 		FlowPanel iconPanel = new FlowPanel();
 		iconPanel.addStyleName("iconPanel");
-		icon = new NoDragImage(ImgResourceHelper
-				.safeURI(ToolbarSvgResourcesSync.INSTANCE.mode_tool_32()),
+		icon = new NoDragImage(NoDragImage.safeURI(ToolbarSvgResourcesSync.INSTANCE.mode_tool_32()),
 				32);
 		StandardButton labelIcon = new StandardButton(loc.getMenu("Icon") + " ...");
 		labelIcon.addFastClickHandler(event -> {
@@ -176,8 +174,7 @@ public class ToolNameIconPanelW extends FlowPanel {
 					});
 		} else {
 			iconFileName = null;
-			updateWithIcon(ImgResourceHelper.safeURI(
-					ToolbarSvgResourcesSync.INSTANCE.mode_tool_32()));
+			updateWithIcon(NoDragImage.safeURI(ToolbarSvgResourcesSync.INSTANCE.mode_tool_32()));
 		}
 	}
 

@@ -10,6 +10,25 @@ class SphericalPrinter implements Printer {
     @Override
     public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
 			PrintableVector vector) {
+		if (tpl.getStringType().isGiac()) {
+			return "point(("
+					+ expressionPrinter.print(vector.getX(), tpl)
+					+ ")*cos("
+					+ expressionPrinter.print(vector.getY(), tpl)
+					+ ")*cos("
+					+ expressionPrinter.print(vector.getZ(), tpl)
+					+ "),("
+					+ expressionPrinter.print(vector.getX(), tpl)
+					+ ")*sin("
+					+ expressionPrinter.print(vector.getY(), tpl)
+					+ ")*cos("
+					+ expressionPrinter.print(vector.getZ(), tpl)
+					+ "),("
+					+ expressionPrinter.print(vector.getX(), tpl)
+					+ ")*sin("
+					+ expressionPrinter.print(vector.getZ(), tpl)
+					+ "))";
+		}
         return tpl.leftBracket()
                 + expressionPrinter.print(vector.getX(), tpl)
                 + "; "

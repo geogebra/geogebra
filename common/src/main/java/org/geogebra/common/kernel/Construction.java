@@ -26,11 +26,11 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.algos.ConstructionElement;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -151,7 +151,7 @@ public class Construction {
 	private TreeSet<GeoElement> geoSetLabelOrder;
 	private TreeSet<GeoElement> geoSetWithCasCells;
 	// table of arbitraryConstants with casTable row key
-	private HashMap<Integer, MyArbitraryConstant> arbitraryConsTable = new HashMap<>();
+	private HashMap<Integer, ArbitraryConstantRegistry> arbitraryConsTable = new HashMap<>();
 
 	// list of random numbers or lists
 	private TreeSet<GeoElement> randomElements;
@@ -438,7 +438,7 @@ public class Construction {
 	/**
 	 * @return table of arbitraryConstants from CAS with assigmentVar key
 	 */
-	public HashMap<Integer, MyArbitraryConstant> getArbitraryConsTable() {
+	public HashMap<Integer, ArbitraryConstantRegistry> getArbitraryConsTable() {
 		return arbitraryConsTable;
 	}
 
@@ -447,7 +447,7 @@ public class Construction {
 	 *            - table of arbitraryConstants from CAS with assigmentVar key
 	 */
 	public void setArbitraryConsTable(
-			HashMap<Integer, MyArbitraryConstant> arbitraryConsTable) {
+			HashMap<Integer, ArbitraryConstantRegistry> arbitraryConsTable) {
 		this.arbitraryConsTable = arbitraryConsTable;
 	}
 
@@ -771,7 +771,7 @@ public class Construction {
 				// get current cell
 				GeoCasCell currCell = (GeoCasCell) ceList.get(i);
 				// we found the equation
-				if (currCell.getInput(StringTemplate.defaultTemplate)
+				if (currCell.getLocalizedInput()
 						.startsWith(label + "=")
 						&& ((ExpressionNode) currCell.getInputVE())
 								.getLeft() instanceof Equation) {
@@ -2353,7 +2353,7 @@ public class Construction {
 	 */
 	public GeoNumeric lookupConstantLabel(String label) {
 		if (!getArbitraryConsTable().isEmpty()) {
-			for (MyArbitraryConstant arbConst : getArbitraryConsTable()
+			for (ArbitraryConstantRegistry arbConst : getArbitraryConsTable()
 					.values()) {
 				ArrayList<GeoNumeric> constList = arbConst.getConstList();
 				if (constList != null && !constList.isEmpty()) {

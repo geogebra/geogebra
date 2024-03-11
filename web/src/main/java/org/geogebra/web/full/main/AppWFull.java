@@ -1995,7 +1995,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void onMenuClosed() {
 		menuShowing = false;
 		updateMenuBtnStatus(false);
-		getAccessibilityManager().focusNext();
+		getAccessibilityManager().focusFirstElement();
 	}
 
 	private void updateMenuBtnStatus(boolean expanded) {

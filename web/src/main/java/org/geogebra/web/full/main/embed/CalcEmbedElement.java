@@ -11,6 +11,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.undo.UndoInfoStoredListener;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.main.EmbedManagerW;
@@ -82,8 +83,12 @@ public class CalcEmbedElement extends EmbedElement {
 	}
 
 	@Override
-	public void setJsEnabled(boolean jsEnabled) {
+	public void setJsEnabled(boolean jsEnabled, boolean runningEnabled) {
+
 		frame.getApp().getScriptManager().setJsEnabled(jsEnabled);
+
+		frame.getApp().getEventDispatcher().disableScriptType(ScriptType.JAVASCRIPT);
+
 		GuiManagerW guiManager = frame.getApp().getGuiManager();
 		if (guiManager != null) {
 			guiManager.updatePropertiesView();

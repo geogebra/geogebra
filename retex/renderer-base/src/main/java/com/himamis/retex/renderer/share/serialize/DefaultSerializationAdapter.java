@@ -36,6 +36,9 @@ public class DefaultSerializationAdapter implements SerializationAdapter {
 		if ('\u00b7' == character) {
 			return "\u00d7";
 		}
+		if ('-' == character) {
+			return "\u2212";
+		}
 		return String.valueOf(character);
 	}
 

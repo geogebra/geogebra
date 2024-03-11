@@ -1151,9 +1151,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public EventDispatcher getEventDispatcher() {
 		if (eventDispatcher == null) {
-			eventDispatcher = new EventDispatcher(this);
+			eventDispatcher = newEventDispatcher();
 		}
 		return eventDispatcher;
+	}
+
+	protected EventDispatcher newEventDispatcher() {
+		return new EventDispatcher(this);
 	}
 
 	/**
@@ -3699,15 +3703,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// **********************************************************************
 
 		// **********************************************************************
-		// MOW START
-		// note: please use prefix MOW
-		// *********************************************************
-		// **********************************************************************
-		// distinguishing between pen and touch
-		case MOW_PEN_EVENTS:
-			return false;
-
-		// **********************************************************************
 		// MOW END
 		// *********************************************************
 		// **********************************************************************
@@ -4124,14 +4119,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public double getExportScale() {
 		return this.exportScale;
-	}
-
-	/**
-	 * @param geo
-	 *            slider to be read by screen reader
-	 */
-	public void readLater(GeoNumeric geo) {
-		// implemented in AppW
 	}
 
 	/**

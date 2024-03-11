@@ -386,7 +386,7 @@ public class CASTableControllerW extends CASTableCellController implements
 			selCellValue = view.getConsoleTable().getGeoCasCell(
 				        editingRow - 1);
 				editor.setInput(selCellValue
-				        .getInput(StringTemplate.defaultTemplate));
+				        .getLocalizedInput());
 			return true;
 		}
 		return false;

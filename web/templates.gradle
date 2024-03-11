@@ -108,10 +108,3 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
             .replace("<!--APPSTORE BANNER-->", appStoreBanner)
             .replace("\r\n", "\n") // generate the same on Win and Unix
 }
-
-ext.solverHtml = { ->
-    def header = partials(template("app-header-beta.html"), null);
-    template("solver-template.html")
-            .replace("<!--HEADER-->", header)
-            .replace("<!--SPLASH STYLE-->", file("war/css/app-header.css").text)
-}

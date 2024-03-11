@@ -6,7 +6,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.gui.inputfield.DynamicTextProcessor;
-import org.geogebra.common.gui.menubar.OptionsMenu;
+import org.geogebra.common.gui.menubar.RoundingOptions;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
@@ -29,7 +29,7 @@ public class TextOptionsModel extends OptionsModel {
 	private Localization loc;
 	private DynamicTextProcessor dTProcessor;
 	private GeoText editGeo;
-	private OptionsMenu optionsMenu;
+	private RoundingOptions roundingOptions;
 
 	public interface ITextOptionsListener extends PropertyListener {
 
@@ -56,7 +56,7 @@ public class TextOptionsModel extends OptionsModel {
 		loc = app.getLocalization();
 		dTProcessor = new DynamicTextProcessor(app);
 		editGeo = null;
-		optionsMenu = new OptionsMenu(loc);
+		roundingOptions = new RoundingOptions(loc);
 	}
 
 	@Override
@@ -116,15 +116,15 @@ public class TextOptionsModel extends OptionsModel {
 			int selItem = -1;
 
 			int decimals = geo0.getPrintDecimals();
-			if (decimals > 0 && decimals < optionsMenu.decimalsLookupLength()
+			if (decimals > 0 && decimals < roundingOptions.decimalsLookupLength()
 					&& !geo0.useSignificantFigures()) {
-				selItem = optionsMenu.decimalsLookup(decimals);
+				selItem = roundingOptions.decimalsLookup(decimals);
 			}
 
 			int figures = geo0.getPrintFigures();
-			if (figures > 0 && figures < optionsMenu.figuresLookupLength()
+			if (figures > 0 && figures < roundingOptions.figuresLookupLength()
 					&& geo0.useSignificantFigures()) {
-				selItem = optionsMenu.figuresLookup(figures);
+				selItem = roundingOptions.figuresLookup(figures);
 			}
 
 			listener.selectDecimalPlaces(selItem);
@@ -219,10 +219,10 @@ public class TextOptionsModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			TextProperties text = getTextPropertiesAt(i);
 			if (decimals < 8) { // decimal places
-				text.setPrintDecimals(optionsMenu.roundingMenuLookup(decimals),
+				text.setPrintDecimals(roundingOptions.roundingMenuLookup(decimals),
 						true);
 			} else { // significant figures
-				text.setPrintFigures(optionsMenu.roundingMenuLookup(decimals),
+				text.setPrintFigures(roundingOptions.roundingMenuLookup(decimals),
 						true);
 			}
 			text.updateRepaint();

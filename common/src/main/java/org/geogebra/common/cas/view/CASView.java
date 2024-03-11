@@ -9,7 +9,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -118,7 +118,7 @@ public abstract class CASView implements Editing, SetLabels {
 	 */
 	public String getRowInputValue(int n) {
 		return getConsoleTable().getGeoCasCell(n)
-				.getInput(StringTemplate.defaultTemplate);
+				.getLocalizedInput();
 	}
 
 	/**
@@ -555,7 +555,7 @@ public abstract class CASView implements Editing, SetLabels {
 	public String getCellInput(int i) {
 		GeoCasCell casCell = getConsoleTable().getGeoCasCell(i);
 		if (casCell != null) {
-			return casCell.getInput(StringTemplate.xmlTemplate);
+			return casCell.getInternalInput();
 		}
 		return null;
 	}
@@ -588,7 +588,7 @@ public abstract class CASView implements Editing, SetLabels {
 			Integer max = Collections.max(kernel.getConstruction()
 					.getArbitraryConsTable().keySet());
 			for (int key = max; key >= row; key--) {
-				MyArbitraryConstant myArbConst = kernel
+				ArbitraryConstantRegistry myArbConst = kernel
 						.getConstruction()
 						.getArbitraryConsTable().get(key);
 				if (myArbConst != null

@@ -2333,9 +2333,11 @@ public class CommandsTest {
 	public void cmdLaTeX() {
 		t("FormulaText[ Polygon[(1,1),(2,1/2),4] ]", "1.25");
 		t("FormulaText[ Polygon[(1,1),(2,1/2),4], false ]",
-				"Polygon\\left(\\left(1, 1 \\right), \\left(2, \\frac{1}{2} \\right), 4 \\right)");
+				"Polygon\\left(\\left(1,\\;1 \\right), "
+						+ "\\left(2,\\;\\frac{1}{2} \\right), 4 \\right)");
 		t("FormulaText[ Polygon[(1,1),(2,1/2),4], false, false ]",
-				"Polygon\\left(\\left(1, 1 \\right), \\left(2, \\frac{1}{2} \\right), 4 \\right)");
+				"Polygon\\left(\\left(1,\\;1 \\right), \\left(2,\\;"
+						+ "\\frac{1}{2} \\right), 4 \\right)");
 	}
 
 	@Test
@@ -3981,11 +3983,11 @@ public class CommandsTest {
 				"((u * cos(v)), (2 * u), (u * (-sin(v))))");
 
 		t("g3=Surface[(u,v,u),u,-1,1,v,1,3]", "(u, v, u)");
-		Assert.assertEquals("\\left(u, v, u \\right)",
+		Assert.assertEquals("\\left(u,\\;v,\\;u \\right)",
 				get("g3").toLaTeXString(false, StringTemplate.latexTemplate));
 
 		t("g2=Surface[(u,v),u,-1,1,v,1,3]", "(u, v)");
-		Assert.assertEquals("\\left(u, v \\right)",
+		Assert.assertEquals("\\left(u,\\;v \\right)",
 				get("g2").toLaTeXString(false, StringTemplate.latexTemplate));
 	}
 

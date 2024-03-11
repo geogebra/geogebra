@@ -285,7 +285,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 
 	}
 
-	private String getImplicitPoly() throws Throwable {
+	private String getImplicitPoly() {
 		/*
 		 * First we create a virtual locus point on the path object. This is
 		 * done with AlgoPointOnPath. Then we retrieve the corresponding

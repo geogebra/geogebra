@@ -57,7 +57,7 @@ public class CASTableCellW extends VerticalPanel {
 		inputPanel.addStyleName("CAS_inputPanel");
 		if (casCell != null) {
 			inputPanel
-			        .setText(casCell.getInput(StringTemplate.defaultTemplate));
+			        .setText(casCell.getLocalizedInput());
 			inputPanel.setLaTeX(getLaTeXInputFromCell());
 		}
 		inputWrapper = new FlowPanel();
@@ -104,11 +104,11 @@ public class CASTableCellW extends VerticalPanel {
 	}
 
 	private String getLaTeXInputFromCell() {
-		String ret = casCell.getLaTeXInput(StringTemplate.latexTemplate);
+		String ret = casCell.getLaTeXInput();
 		if (ret == null) {
 			try {
 				MathFormula mf = new Parser(new MetaModel())
-						.parse(casCell.getInput(StringTemplate.defaultTemplate));
+						.parse(casCell.getLocalizedInput());
 				return new TeXSerializer().serialize(mf);
 			} catch (ParseException e) {
 				Log.debug("Cannot parse cas call input");

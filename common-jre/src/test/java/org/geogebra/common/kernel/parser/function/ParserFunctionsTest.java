@@ -3,11 +3,20 @@ package org.geogebra.common.kernel.parser.function;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
+import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.test.LocalizationCommonUTF;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -61,17 +70,17 @@ public class ParserFunctionsTest {
 		assertThat(completions, not(hasItem("cos( <x> )")));
 
 		completions = parserFunctions.getCompletions("Si");
-		Assert.assertEquals(completions.size(), 0);
+		assertEquals(completions.size(), 0);
 	}
 
 	@Test
 	public void testGetInternal() {
 		Localization loc = Mockito.mock(Localization.class);
 		Mockito.when(loc.getFunction(Mockito.anyString())).then(AdditionalAnswers.returnsFirstArg());
-		Assert.assertEquals(parserFunctions.getInternal(loc, "sin"), "sin");
-		Assert.assertEquals(parserFunctions.getInternal(loc, "cos"), "cos");
+		assertEquals(parserFunctions.getInternal(loc, "sin"), "sin");
+		assertEquals(parserFunctions.getInternal(loc, "cos"), "cos");
 		Assert.assertNull(parserFunctions.getInternal(loc, "NO-SUCH-FUNCTION"));
-		Assert.assertEquals(parserFunctions.getInternal(loc, "nroot"), "nroot");
+		assertEquals(parserFunctions.getInternal(loc, "nroot"), "nroot");
 	}
 
 	@Test
@@ -86,11 +95,11 @@ public class ParserFunctionsTest {
 	@Test
 	public void testReverseTrig() {
 		parserFunctions.setInverseTrig(true);
-		Assert.assertEquals(parserFunctions.get("arcsin", 1), Operation.ARCSIND);
-		Assert.assertEquals(parserFunctions.get("arccos", 1), Operation.ARCCOSD);
+		assertEquals(parserFunctions.get("arcsin", 1), Operation.ARCSIND);
+		assertEquals(parserFunctions.get("arccos", 1), Operation.ARCCOSD);
 		parserFunctions.setInverseTrig(false);
-		Assert.assertEquals(parserFunctions.get("arcsin", 1), Operation.ARCSIN);
-		Assert.assertEquals(parserFunctions.get("arccos", 1), Operation.ARCCOS);
+		assertEquals(parserFunctions.get("arcsin", 1), Operation.ARCSIN);
+		assertEquals(parserFunctions.get("arccos", 1), Operation.ARCCOS);
 	}
 
 	@Test
@@ -100,5 +109,23 @@ public class ParserFunctionsTest {
 		Mockito.verify(loc).getFunction("sin", false);
 		Mockito.verify(loc).getFunction("sin", false);
 		Mockito.verify(loc).getFunction("nroot", true);
+	}
+
+	@Test
+	@Issue("APPS-5454")
+	public void testUnaryFlagConsistent() {
+		Localization loc = new LocalizationCommonUTF(3);
+		Set<Operation> fromHelp = Arrays.stream(TableSymbols
+						.getTranslatedFunctions(loc, parserFunctions))
+				.map(s -> s.split("\\(")[0].trim())
+				.map(s -> parserFunctions.get(s, 1))
+				.filter(Objects::nonNull)
+				.collect(Collectors.toCollection(TreeSet::new));
+		Set<Operation> fromEnum = Arrays.stream(Operation.values())
+				.filter(Operation::isUnary)
+				.collect(Collectors.toCollection(TreeSet::new));
+		fromEnum.remove(Operation.NO_OPERATION);
+		fromEnum.remove(Operation.FACTORIAL);
+		assertEquals(fromHelp, fromEnum);
 	}
 }

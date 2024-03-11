@@ -15,10 +15,10 @@ package org.geogebra.common.kernel.cas;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -41,7 +41,7 @@ public class AlgoDerivative extends AlgoCasBase {
 
 	// true -> non-CAS version (faster, used by eg AlgoTangentXXX)
 	private boolean fast = false;
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+	private ArbitraryConstantRegistry arbconst = new ArbitraryConstantRegistry(this);
 
 	/**
 	 * @param cons
@@ -256,7 +256,7 @@ public class AlgoDerivative extends AlgoCasBase {
 				char firstCh = orderStr.charAt(0);
 				if (firstCh >= '0' && firstCh <= '9') {
 					// numeric, convert 3 -> 3rd (in current locale)
-					orderStr = getLoc()
+					orderStr = getLoc().getLanguage()
 							.getOrdinalNumber((int) order.getDouble());
 				} else {
 					// symbolic, convert n -> nth (in current locale)
