@@ -41,6 +41,7 @@
  * version.
  * 
  */
+
 package com.himamis.retex.renderer.web.font.opentype;
 
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 
 	public OpentypeFont(String name, int style, int size) {
 		super(name, style, size);
-		fontLoadCallbacks = new ArrayList<FontLoadCallback>();
+		fontLoadCallbacks = new ArrayList<>();
 	}
 
 	@Override

@@ -1058,7 +1058,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public void evalLaTeX(String input, int mode) {
-		app.getDrawEquation().checkFirstCall(app);
+		app.getDrawEquation().checkFirstCall();
 		TeXFormula tf = new TeXFormula(input);
 		// TeXParser tp = new TeXParser(input, tf);
 		// tp.parse();

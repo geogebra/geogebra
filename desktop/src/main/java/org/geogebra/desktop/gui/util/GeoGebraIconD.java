@@ -38,7 +38,6 @@ import com.himamis.retex.renderer.desktop.graphics.ColorD;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 
-
 /**
  * Creates various ImageIcons for use in lists and tables.
  * 
@@ -509,7 +508,7 @@ public class GeoGebraIconD {
 	 */
 	public static ImageIcon createLatexIcon(AppD app, String latex, Font font,
 			Color fgColor, Color bgColor) {
-		app.getDrawEquation().checkFirstCall(app);
+		app.getDrawEquation().checkFirstCall();
 		return new ImageIcon((BufferedImage) TeXFormula.createBufferedImage(
 				latex, TeXConstants.STYLE_DISPLAY, font.getSize() + 3,
 				ColorD.get(fgColor), ColorD.get(bgColor)));

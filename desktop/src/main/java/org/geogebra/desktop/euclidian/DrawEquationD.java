@@ -42,7 +42,7 @@ public class DrawEquationD extends DrawEquation {
 	}
 
 	@Override
-	public void checkFirstCall(App app) {
+	public void checkFirstCall() {
 
 		ensureJLMFactoryExists();
 
@@ -134,8 +134,8 @@ public class DrawEquationD extends DrawEquation {
 				ColorD.get(bgColor), true, null, null);
 
 		// Now use this size and draw again to get the final image
-		image = new BufferedImage((int) (d.getWidth() * getPixelRatio()), (int) (d.getHeight() * getPixelRatio()),
-				BufferedImage.TYPE_INT_ARGB);
+		image = new BufferedImage((int) (d.getWidth() * getPixelRatio()),
+				(int) (d.getHeight() * getPixelRatio()), BufferedImage.TYPE_INT_ARGB);
 		g2image = image.createGraphics();
 		g2image.setBackground(bgColor);
 		g2image.scale(getPixelRatio(), getPixelRatio());
