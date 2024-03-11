@@ -9,13 +9,16 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.matrix.Coords;
 
 public final class RulerTransformer implements PenTransformer {
-	private GeoPoint corner1;
-	private GeoPoint corner2;
 	private EuclidianView view;
 	private List<GPoint> previewPoints;
 	private boolean rulerTop;
 	private GPoint initialProjection;
+	private List<RulerEdge> edges;
+	private RulerEdge activeEdge;
 
+	public RulerTransformer(List<RulerEdge> edges) {
+		this.edges = edges;
+	}
 
 	/**
 	 * Should be only called after reset
@@ -48,22 +51,31 @@ public final class RulerTransformer implements PenTransformer {
 	 */
 	@Override
 	public void updatePreview(GPoint newPoint) {
+		if (activeEdge == null) {
+			return;
+		}
+
 		previewPoints.set(0, initialProjection);
 		previewPoints.set(previewPoints.size() - 1,
-				getProjection(newPoint, rulerTop));
+				getProjection(newPoint, activeEdge));
 	}
 
 	private void updateInitialProjection(GPoint p) {
-		GPoint top = getProjection(p, true);
-		GPoint bottom = getProjection(p, false);
-		if (!onBottomEdge(bottom)) {
+		activeEdge = null;
+		if (!onBottomEdge(p)) {
 			initialProjection = null;
-		} else if (p.distance(top) > p.distance(bottom)) {
-			rulerTop = false;
-			initialProjection =  bottom;
-		} else {
-			rulerTop = true;
-			initialProjection = top;
+			return;
+		}
+
+		double oldDistance = Double.MAX_VALUE;
+		for (RulerEdge edge: edges) {
+			GPoint projection = getProjection(p, edge);
+			double distance = p.distance(projection);
+			if (distance < oldDistance) {
+				initialProjection = projection;
+				oldDistance = distance;
+				activeEdge = edge;
+			}
 		}
 	}
 
@@ -80,14 +92,11 @@ public final class RulerTransformer implements PenTransformer {
 		}
 	}
 
-	private GPoint getProjection(GPoint p, boolean top) {
+	private GPoint getProjection(GPoint p, RulerEdge edge) {
 		GeoImage ruler = view.getKernel().getConstruction().getRuler();
-		if (corner2 == null) {
-			corner2 = new GeoPoint(view.getKernel().getConstruction(), true);
-			corner1 = new GeoPoint(view.getKernel().getConstruction(), true);
-		}
-		ruler.calculateCornerPoint(corner2, top ? 3 : 1);
-		ruler.calculateCornerPoint(corner1, top ? 4 : 2);
+		edge.update(ruler);
+		GeoPoint corner1 = edge.corner2();
+		GeoPoint corner2 = edge.corner1();
 
 		double x = corner2.getInhomY() - corner1.getInhomY();
 		double y = corner1.getInhomX() - corner2.getInhomX();

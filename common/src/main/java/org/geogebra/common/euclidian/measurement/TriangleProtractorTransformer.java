@@ -33,22 +33,12 @@ public class TriangleProtractorTransformer
 
 	@Override
 	public boolean isActive() {
-		return initialProjection != null
-				&& initialProjection.distance(previewPoints.get(0)) < snapTreshold();
+		return false;
 	}
 
 	@Override
 	public void reset(EuclidianView view, List<GPoint> previewPoints) {
-		this.view = view;
-		this.previewPoints = previewPoints;
-		cons = view.getKernel().getConstruction();
-		GeoImage ruler = cons.getRuler();
-		if (ruler == null || previewPoints.isEmpty()) {
-			initialProjection = null;
-		} else if (previewPoints.size() == 1) {
-			updateInitialProjection(previewPoints.get(0));
 		}
-	}
 
 	/**
 	 * Update preview points to stick to ruler. Assumes that isActive() is true.
