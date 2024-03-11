@@ -23,8 +23,12 @@ public class MeasurementController {
 
 		addTool(MeasurementToolId.PROTRACTOR, "Protactor.svg", 1 - (278.86 / 296),
 				new NullPenTransformer());
-//		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtactor.svg", 0.0,
-//				new TriangleProtractorTransformer());
+		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtactor.svg", 0.0,
+				new RulerTransformer(List.of(
+						new SimpleRulerEdge(1, 2),
+						new LegEdge(LegEdge.Legs.A),
+						new LegEdge(LegEdge.Legs.B)
+						)));
 	}
 
 	public GeoImage getActiveToolImage() {

@@ -95,8 +95,8 @@ public final class RulerTransformer implements PenTransformer {
 	private GPoint getProjection(GPoint p, RulerEdge edge) {
 		GeoImage ruler = view.getKernel().getConstruction().getRuler();
 		edge.update(ruler);
-		GeoPoint corner1 = edge.corner2();
-		GeoPoint corner2 = edge.corner1();
+		GeoPoint corner1 = edge.endpoint2();
+		GeoPoint corner2 = edge.endpoint1();
 
 		double x = corner2.getInhomY() - corner1.getInhomY();
 		double y = corner1.getInhomX() - corner2.getInhomX();
