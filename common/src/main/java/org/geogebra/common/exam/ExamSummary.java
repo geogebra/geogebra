@@ -63,18 +63,18 @@ public final class ExamSummary {
 	private String getActivityLog(Date startDate, Date finishDate,
 			CheatingEvents cheatingEvents, Localization localization) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(localization.getMenu("exam_start_date") + ": " +
-				formatDate(startDate, localization) + "\n");
-		sb.append(localization.getMenu("exam_start_time") + ": " +
-				formatTime(startDate, localization) + "\n");
+		sb.append(localization.getMenu("exam_start_date")).append(": ")
+				.append(formatDate(startDate, localization)).append("\n");
+		sb.append(localization.getMenu("exam_start_time")).append(": ")
+				.append(formatTime(startDate, localization)).append("\n");
 		if (finishDate != null) {
-			sb.append(localization.getMenu("exam_end_time") + ": " +
-					formatTime(finishDate, localization) + "\n");
+			sb.append(localization.getMenu("exam_end_time")).append(": ")
+					.append(formatTime(finishDate, localization)).append("\n");
 		}
 
-		sb.append(localization.getMenu("exam_activity") + ":\n");
+		sb.append(localization.getMenu("exam_activity")).append(":\n");
 		sb.append("0:00").append(' ')
-				.append(localization.getMenu("exam_started") + "\n");
+				.append(localization.getMenu("exam_started")).append("\n");
 		for (CheatingEvent cheatingEvent : cheatingEvents.getEvents()) {
 			sb.append(formatTime(cheatingEvent.getDate(), localization));
 			sb.append(' ');

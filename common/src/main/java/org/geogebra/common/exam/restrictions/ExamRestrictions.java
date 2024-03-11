@@ -39,6 +39,16 @@ import org.geogebra.common.properties.ValuedProperty;
  */
 public class ExamRestrictions {
 
+	private final Set<SuiteSubApp> disabledSubApps;
+	private final SuiteSubApp defaultSubApp;
+	private final Set<ExpressionFilter> expressionFilters;
+	private final Set<CommandFilter> commandFilters;
+	private final Set<CommandArgumentFilter> commandArgumentFilters;
+	// filter independent of exam region
+	private final CommandArgumentFilter examCommandArgumentFilter =
+			new ExamCommandArgumentFilter();
+	private final Set<String> frozenProperties;
+
 	public static ExamRestrictions forExamType(ExamRegion examType) {
 		switch (examType) {
 		case BAYERN_CAS:
@@ -53,18 +63,7 @@ public class ExamRestrictions {
 			return new GenericExamRestrictions();
 		}
 	}
-
-	private final ExamRegion examType;
-	private final Set<SuiteSubApp> disabledSubApps;
-	private final SuiteSubApp defaultSubApp;
-	private final Set<ExpressionFilter> expressionFilters;
-	private final Set<CommandFilter> commandFilters;
-	private final Set<CommandArgumentFilter> commandArgumentFilters;
-	// filter independent of exam region
-	private final CommandArgumentFilter examCommandArgumentFilter =
-			new ExamCommandArgumentFilter();
-	private final Set<String> frozenProperties;
-
+	
 	/**
 	 * Prevent instantiation, except by subclasses.
 	 * @param examType The exam type.
@@ -82,7 +81,6 @@ public class ExamRestrictions {
 			@Nullable Set<CommandFilter> commandFilters,
 			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
 			@Nullable Set<String> frozenProperties) {
-		this.examType = examType;
 		this.disabledSubApps = disabledSubApps;
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
 		this.expressionFilters = expressionFilters;

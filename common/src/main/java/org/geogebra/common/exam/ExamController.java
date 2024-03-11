@@ -72,7 +72,7 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	private ExamState state = ExamState.IDLE;
 	private Date startDate, finishDate;
-	private final Set<ExamListener> listeners = new HashSet<ExamListener>();
+	private final Set<ExamListener> listeners = new HashSet<>();
 	private final TempStorage tempStorage = new TempStorage();
 	private CheatingEvents cheatingEvents = new CheatingEvents();
 	private TimeFormatAdapter timeFormatter;
@@ -415,10 +415,6 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 	}
 
-	private TempStorage getTempStorage() {
-		return tempStorage;
-	}
-
 	public void createNewTempMaterial() {
 		Material material = tempStorage.newMaterial();
 		if (delegate != null) {
@@ -437,6 +433,7 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	@Override
 	public void propertyUnregistered(Property property, Object context) {
+		// ignore?
 	}
 
 	// Test support API
