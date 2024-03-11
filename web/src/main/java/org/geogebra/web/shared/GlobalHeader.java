@@ -139,6 +139,10 @@ public class GlobalHeader implements EventRenderable {
 		return RootPanel.get("profileId");
 	}
 
+	/**
+	 * updating header button visibility on header resize or login
+	 * @param smallScreen - whether is small screen or not
+	 */
 	public void updateHeaderButtonVisibility(boolean smallScreen) {
 		updateButtonVisibility(smallScreen, "#shareButton");
 
@@ -166,14 +170,6 @@ public class GlobalHeader implements EventRenderable {
 	private boolean isHeaderCompact() {
 		Element header = Dom.querySelector(".GeoGebraHeader");
 		return header != null && header.getClassName().contains("compact");
-	}
-
-	private RootPanel getSignInText() {
-		return RootPanel.get("signInTextID");
-	}
-
-	private RootPanel getSignInIcon() {
-		return RootPanel.get("signInIconID");
 	}
 
 	/**
