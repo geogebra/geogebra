@@ -25,6 +25,7 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.kernel.CircularDefinitionException;
+import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -225,8 +226,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		// this is new in GeoGebra 4.2 and it will stop some files working
 		// but causes problems if the files are opened and edited
 		// and in the web project
-		boolean oldVal = kernel.isUsingInternalCommandNames();
-		kernel.setUseInternalCommandNames(true);
+		CommandLookupStrategy oldVal = kernel.getCommandLookupStrategy();
+		kernel.setCommandLookupStrategy(CommandLookupStrategy.XML);
 
 		StringBuilder ret = new StringBuilder();
 
@@ -245,7 +246,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				}
 			}
 		} finally {
-			kernel.setUseInternalCommandNames(oldVal);
+			kernel.setCommandLookupStrategy(oldVal);
 		}
 
 		if (ret.length() == 0) {

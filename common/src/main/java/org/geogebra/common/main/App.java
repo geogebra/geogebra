@@ -65,6 +65,7 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.kernel.AnimationManager;
+import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -881,7 +882,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public String getReverseCommand(String command) {
 		// don't init command table on file loading
-		if (kernel.isUsingInternalCommandNames()) {
+		if (kernel.getCommandLookupStrategy() != CommandLookupStrategy.USER) {
 			try {
 				Commands.valueOf(command);
 				return command;
