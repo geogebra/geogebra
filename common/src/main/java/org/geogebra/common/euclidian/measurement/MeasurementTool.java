@@ -16,17 +16,20 @@ public final class MeasurementTool {
 	private final String fileName;
 
 
-	public MeasurementTool(MeasurementToolId id, String fileName,
-			PenTransformer transformer) {
-		this(id, fileName, null, transformer);
+	public MeasurementTool(MeasurementToolId id, String fileName) {
+		this(id, fileName, null);
 	}
 
-	public MeasurementTool(MeasurementToolId id, String fileName, Double percent,
-			PenTransformer transformer) {
+	public MeasurementTool(MeasurementToolId id, String fileName, Double percent) {
 		this.id = id;
 		this.fileName = fileName;
 		this.centerInPercent = percent;
-		this.transformer = transformer;
+		this.transformer = createTransformer();
+	}
+
+	private PenTransformer createTransformer() {
+		List<RulerEdge> edges = id.getEdges();
+		return edges != null ? new RulerTransformer(edges) :  new NullPenTransformer();
 	}
 
 	public GeoImage getImage() {

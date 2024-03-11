@@ -1,7 +1,6 @@
 package org.geogebra.common.euclidian.measurement;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.kernel.Kernel;
@@ -16,23 +15,24 @@ public class MeasurementController {
 
 	public MeasurementController(Kernel kernel) {
 		this.kernel = kernel;
-		addTool(MeasurementToolId.RULER, "Ruler.svg", new RulerTransformer(
-				List.of(new SimpleRulerEdge(1, 2),
-						new SimpleRulerEdge(3, 4))
-		));
+		addTool(MeasurementToolId.RULER, "Ruler.svg", null);
+		addTool(MeasurementToolId.PROTRACTOR, "Protactor.svg", 1 - (278.86 / 296));
+		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtactor.svg", 0.0);
+	}
 
-		addTool(MeasurementToolId.PROTRACTOR, "Protactor.svg", 1 - (278.86 / 296),
-				new NullPenTransformer());
-		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtactor.svg", 0.0,
-				new RulerTransformer(List.of(
-						new SimpleRulerEdge(1, 2),
-						new LegEdge(LegEdge.Legs.A),
-						new LegEdge(LegEdge.Legs.B)
-						)));
+	private void addTool(MeasurementToolId id, String fileName, Double percent) {
+		add(new MeasurementTool(id, fileName, percent));
+		selectTool(id);
+	}
+
+	void add(MeasurementTool tool) {
+		tools.put(tool.getId(), tool);
 	}
 
 	public GeoImage getActiveToolImage() {
-		return hasSelectedTool() ? activeTool().getImage() : null;
+		return hasSelectedTool()
+				? activeTool().getImage()
+				: null;
 	}
 
 	public boolean hasSelectedTool() {
@@ -42,7 +42,6 @@ public class MeasurementController {
 	public MeasurementTool activeTool() {
 		return tools.get(selectedToolId);
 	}
-
 
 	public void toggleActiveTool(int mode) {
 		if (isToolSelected(mode)) {
@@ -76,21 +75,6 @@ public class MeasurementController {
 		}
 
 		tool.refresh(kernel.getApplication().getActiveEuclidianView()::addMeasurementTool);
-	}
-
-	private void addTool(MeasurementToolId id, String fileName,
-			PenTransformer transformer) {
-		addTool(id, fileName, null, transformer);
-	}
-
-	private void addTool(MeasurementToolId id, String fileName, Double percent,
-			PenTransformer transformer) {
-		add(new MeasurementTool(id, fileName, percent, transformer));
-		selectTool(id);
-	}
-
-	void add(MeasurementTool tool) {
-		tools.put(tool.getId(), tool);
 	}
 
 	public void clear() {
