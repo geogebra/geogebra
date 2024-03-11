@@ -439,10 +439,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	public AlgebraProcessor getAlgebraProcessor() {
 		if (algProcessor == null) {
 			algProcessor = newAlgebraProcessor(this);
-
-			// TODO remove - only temporary for testing
-//			ExpressionFilter expressionFilter = new RadianExpressionFilter();
-//			algProcessor.addExpressionFilter(expressionFilter);
 		}
 		return algProcessor;
 	}

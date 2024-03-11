@@ -58,16 +58,12 @@ public interface ValuedProperty<V> extends Property {
 	/**
 	 * Remembers the current value, and forces the value of this property to fixedValue.
 	 *
-	 * This method should be called in conjunction with {@link #freeze()}.
-	 *
-	 * @param fixedValue
+	 * @param fixedValue The fixed value.
 	 */
 	void freezeValue(V fixedValue);
 
 	/**
 	 * Restores the value remembered by {@link #freezeValue(Object)}.
-	 *
-	 * This method should be called in conjunction with {@link #unfreeze()}.
 	 */
 	void unfreezeValue();
 }

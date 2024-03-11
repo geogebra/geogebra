@@ -34,13 +34,23 @@ public interface ExamControllerDelegate {
 
 	/**
 	 * Set the material as the active material in the current subapp.
-	 * @param material
+	 * @param material A material.
 	 */
 	void examSetActiveMaterial(@Nullable Material material);
 
+	/**
+	 * @return The current active material, or null.
+	 */
 	@CheckForNull Material examGetActiveMaterial();
 
+	/**
+	 * @return The current sub-app, or null (in case the app switcher is shown in the mobile apps).
+	 */
 	@CheckForNull SuiteSubApp examGetCurrentSubApp();
 
+	/**
+	 * Activate the given sub-app.
+	 * @param subApp The sub-app to switch to.
+	 */
 	void examSwitchSubApp(@Nonnull SuiteSubApp subApp);
 }

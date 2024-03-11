@@ -19,8 +19,10 @@ public class AngleUnitProperty extends AbstractNamedEnumeratedProperty<Integer> 
 	 * Constructs an angle unit property.
 	 * @param kernel kernel
 	 * @param localization localization
+	 * @param propertiesRegistry a properties registry.
 	 */
-	public AngleUnitProperty(Kernel kernel, Localization localization, PropertiesRegistry propertiesRegistry) {
+	public AngleUnitProperty(Kernel kernel, Localization localization,
+			PropertiesRegistry propertiesRegistry) {
 		super(localization, "AngleUnit", propertiesRegistry);
 		this.kernel = kernel;
 		setValues(Kernel.ANGLE_DEGREE, Kernel.ANGLE_RADIANT, Kernel.ANGLE_DEGREES_MINUTES_SECONDS);

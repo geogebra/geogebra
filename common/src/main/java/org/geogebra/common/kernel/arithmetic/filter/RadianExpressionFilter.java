@@ -12,8 +12,8 @@ public class RadianExpressionFilter implements ExpressionFilter {
                 .inspect(expressionValue -> {
                     if (expressionValue instanceof MySpecialDouble) {
                         MySpecialDouble doubleVal = (MySpecialDouble) expressionValue;
-                        return doubleVal.isAngle() &&
-                                doubleVal.toString(StringTemplate.defaultTemplate)
+                        return doubleVal.isAngle()
+                                && doubleVal.toString(StringTemplate.defaultTemplate)
                                         .equalsIgnoreCase("rad");
                     }
                     return false;

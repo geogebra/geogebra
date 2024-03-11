@@ -18,7 +18,8 @@ public class AbstractValuedPropertyTests extends BaseUnitTest {
 
 	@Test
 	public void testValueChangeNotification() {
-		DummyAbstractValuedProperty property = new DummyAbstractValuedProperty(getLocalization(), "Dummy");
+		DummyAbstractValuedProperty property =
+				new DummyAbstractValuedProperty(getLocalization(), "Dummy");
 		List<Object> observedValues = new ArrayList<>();
 		property.addValueObserver(new PropertyValueObserver() {
 			@Override
@@ -42,7 +43,8 @@ public class AbstractValuedPropertyTests extends BaseUnitTest {
 
 	@Test
 	public void testFreezing() {
-		DummyAbstractValuedProperty property = new DummyAbstractValuedProperty(getLocalization(), "Dummy");
+		DummyAbstractValuedProperty property =
+				new DummyAbstractValuedProperty(getLocalization(), "Dummy");
 		property.setValue(1);
 		property.freezeValue(2);
 		assertTrue(property.isFrozen());

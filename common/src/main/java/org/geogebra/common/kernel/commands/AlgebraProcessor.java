@@ -254,12 +254,20 @@ public class AlgebraProcessor {
 		return cmdDispatcher.isCommandAvailable(cmd);
 	}
 
+	/**
+	 * Add an expression filter (used for dynamically filtering valid expressions).
+	 * @param filter An expression filter.
+	 */
 	public void addExpressionFilter(ExpressionFilter filter) {
 		if (filter != null) {
 			expressionFilters.add(filter);
 		}
 	}
 
+	/**
+	 * Remove an expression filter.
+	 * @param filter
+	 */
 	public void removeExpressionFilter(ExpressionFilter filter) {
 		if (filter != null) {
 			expressionFilters.remove(filter);

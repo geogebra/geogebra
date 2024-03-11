@@ -71,7 +71,8 @@ public final class ExamController implements PropertiesRegistryListener {
 	private ExamRestrictions examRestrictions;
 
 	private ExamState state = ExamState.IDLE;
-	private Date startDate, finishDate;
+	private Date startDate;
+	private Date finishDate;
 	private final Set<ExamListener> listeners = new HashSet<>();
 	private final TempStorage tempStorage = new TempStorage();
 	private CheatingEvents cheatingEvents = new CheatingEvents();
@@ -198,6 +199,12 @@ public final class ExamController implements PropertiesRegistryListener {
 		return examType;
 	}
 
+	/**
+	 * @param appConfig The current app config.
+	 * @param localization The localization.
+	 * @return The current exam's display name (see
+	 * {@link ExamRegion#getDisplayName(Localization, AppConfig)}.
+	 */
 	public @CheckForNull String getExamName(AppConfig appConfig, Localization localization) {
 		if (examType == null) {
 			return null;
@@ -231,7 +238,8 @@ public final class ExamController implements PropertiesRegistryListener {
 		if (timeFormatter == null) {
 			timeFormatter = FormatFactory.getPrototype().getTimeFormat();
 		}
-		return timeFormatter.format(localization.getLanguageTag(), System.currentTimeMillis() - startDate.getTime());
+		return timeFormatter.format(localization.getLanguageTag(),
+				System.currentTimeMillis() - startDate.getTime());
 	}
 
 	/**
@@ -291,10 +299,12 @@ public final class ExamController implements PropertiesRegistryListener {
 	 */
 	public void startExam(ExamRegion examType) {
 		if (state != ExamState.IDLE && state != ExamState.PREPARING) {
-			throw new IllegalStateException("expected to be in IDLE or PREPARING state, but is " + state);
+			throw new IllegalStateException("expected to be in IDLE or PREPARING state, "
+					+ "but is " + state);
 		}
 		if (activeDependencies == null) {
-			throw new IllegalStateException("no active context; call setActiveContext() before attempting to start the exam");
+			throw new IllegalStateException("no active context; "
+					+ "call setActiveContext() before attempting to start the exam");
 		}
 		this.examType = examType;
 		if (examRestrictions == null) {
@@ -373,8 +383,8 @@ public final class ExamController implements PropertiesRegistryListener {
 		if (delegate != null) {
 			SuiteSubApp currentSubApp = delegate.examGetCurrentSubApp();
 			Set<SuiteSubApp> disabledSubApps = examRestrictions.getDisabledSubApps();
-			if (currentSubApp == null ||
-					(disabledSubApps != null && disabledSubApps.contains(currentSubApp))) {
+			if (currentSubApp == null
+					|| (disabledSubApps != null && disabledSubApps.contains(currentSubApp))) {
 				delegate.examSwitchSubApp(examRestrictions.getDefaultSubApp());
 				if (delegate.examGetActiveMaterial() == null) {
 					delegate.examSetActiveMaterial(tempStorage.newMaterial());
@@ -415,6 +425,10 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 	}
 
+	/**
+	 * Creates a new temporary material. Also calls the delegate's
+	 * {@link ExamControllerDelegate#examSetActiveMaterial(Material)} method.
+	 */
 	public void createNewTempMaterial() {
 		Material material = tempStorage.newMaterial();
 		if (delegate != null) {

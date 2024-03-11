@@ -20,7 +20,8 @@ public class OperationExpressionFilter implements ExpressionFilter {
 
 	@Override
 	public boolean isAllowed(ValidExpression expression) {
-		boolean containsFilteredOperations = expression.inspect(expressionValue -> isFilteredOperation(expressionValue));
+		boolean containsFilteredOperations =
+				expression.inspect(expressionValue -> isFilteredOperation(expressionValue));
 		return !containsFilteredOperations;
 	}
 }

@@ -200,7 +200,7 @@ public class ExamRestrictions {
 
 	/**
 	 * Unfreezes a property
-	 * @param property
+	 * @param property A property that just got unregistered.
 	 */
 	public void propertyUnregistered(@Nonnull Property property) {
 		if (frozenProperties != null && frozenProperties.contains(property.getRawName())) {

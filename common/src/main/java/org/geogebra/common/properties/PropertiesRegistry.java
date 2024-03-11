@@ -73,6 +73,8 @@ public interface PropertiesRegistry {
 	/**
 	 * Same as {@link #lookup(String)}, but using the provided context instead of the
 	 * current context.
+	 * @return The property with the given name in the given context, or null if no such
+	 * property could be found.
 	 */
 	Property lookup(String rawName, Object context);
 }

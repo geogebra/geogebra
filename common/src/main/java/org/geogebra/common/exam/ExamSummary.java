@@ -2,6 +2,9 @@ package org.geogebra.common.exam;
 
 import java.util.Date;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
@@ -9,6 +12,9 @@ import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.util.TimeFormatAdapter;
 
+/**
+ * Provides information for the exam details UI (during exams) or exam summary UI (after finishing).
+ */
 public final class ExamSummary {
 
 	private boolean isExamFinished;
@@ -37,9 +43,23 @@ public final class ExamSummary {
 		return CmdGetTime.buildLocalizedDate("\\H:\\i:\\s", date, localization);
 	}
 
-	public ExamSummary(ExamRegion examType, Date startDate, Date finishDate,
-			CheatingEvents cheatingEvents, AppConfig appConfig, TimeFormatAdapter timeFormatter,
-			Localization localization) {
+	/**
+	 * Creates a new exam summary.
+	 * @param examType The exam type.
+	 * @param startDate The exam start date.
+	 * @param finishDate The exam finish date. May be null if the exam is still ongoing.
+	 * @param cheatingEvents A list of cheating events recorded during the exam.
+	 * @param appConfig The app config (needed for the exam display name).
+	 * @param timeFormatter A {@link TimeFormatAdapter} for formatting durations.
+	 * @param localization A localization.
+	 */
+	public ExamSummary(@Nonnull ExamRegion examType,
+			@Nonnull Date startDate,
+			@Nullable Date finishDate,
+			@Nonnull CheatingEvents cheatingEvents,
+			@Nonnull AppConfig appConfig,
+			@Nonnull  TimeFormatAdapter timeFormatter,
+			@Nonnull  Localization localization) {
 		isExamFinished = finishDate != null;
 		cheated = !cheatingEvents.isEmpty();
 		examName = examType.getDisplayName(localization, appConfig);
@@ -88,62 +108,107 @@ public final class ExamSummary {
 		return sb.toString();
 	}
 
+	/**
+	 * @return true if the exam is finished, false if ongoing.
+	 */
 	public boolean isExamFinished() {
 		return isExamFinished;
 	}
 
+	/**
+	 * @return true if cheating events have been recorded.
+	 */
 	public boolean getCheated() {
 		return cheated;
 	}
 
+	/**
+	 * @return The exam name (see {@link ExamRegion#getDisplayName(Localization, AppConfig)}).
+	 */
 	public String getExamName() {
 		return examName;
 	}
 
+	/**
+	 * @return The dialog title.
+	 */
 	public String getTitle() {
 		return title;
 	}
 
+	/**
+	 * @return The "show this to your teacher.." text.
+	 */
 	public String getFinishedInfoText() {
 		return finishedInfoText;
 	}
 
+	/**
+	 * @return Hint text for the exam start date label.
+	 */
 	public String getStartDateHintText() {
 		return startDateHintText;
 	}
 
+	/**
+	 * @return Value for the exam start date label.
+	 */
 	public String getStartDateLabelText() {
 		return startDateLabelText;
 	}
 
+	/**
+	 * @return Hint text for the exam start time label.
+	 */
 	public String getStartTimeHintText() {
 		return startTimeHintText;
 	}
 
+	/**
+	 * @return Value for the exam start time label.
+	 */
 	public String getStartTimeLabelText() {
 		return startTimeLabelText;
 	}
 
+	/**
+	 * @return Hint text for the exam end time label.
+	 */
 	public String getEndTimeHintText() {
 		return endTimeHintText;
 	}
 
+	/**
+	 * @return Value for the exam end time label.
+	 */
 	public String getEndTimeLabelText() {
 		return endTimeLabelText;
 	}
 
+	/**
+	 * @return Hint text for the exam duration label.
+	 */
 	public String getDurationHintText() {
 		return durationHintText;
 	}
 
+	/**
+	 * @return Value for the exam duration label.
+	 */
 	public String getDurationLabelText() {
 		return durationLabelText;
 	}
 
+	/**
+	 * @return Hint text for the activities (cheating events) label.
+	 */
 	public String getActivityHintText() {
 		return activityHintText;
 	}
 
+	/**
+	 * @return Value for the activities (cheating events) label.
+	 */
 	public String getActivityLabelText() {
 		return activityLabelText;
 	}

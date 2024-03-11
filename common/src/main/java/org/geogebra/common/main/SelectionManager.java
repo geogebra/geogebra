@@ -1418,11 +1418,13 @@ public class SelectionManager implements ExamRestrictable {
 		this.examRestrictions = null;
 	}
 
+	/**
+	 * TODO not sure if this makes sense to suppress selection of certain elements during exams
+	 * @param geoND
+	 * @return True if selecting the geo is allowed.
+	 */
 	public boolean isSelectionAllowed(GeoElementND geoND) {
 		if (geoND == null) {
-			return false;
-		}
-		if (geoND.isFunctionOrEquationFromUser()) {
 			return false;
 		}
 		if (examRestrictions != null) {

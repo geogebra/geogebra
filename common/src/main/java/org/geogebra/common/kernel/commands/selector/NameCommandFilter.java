@@ -26,6 +26,12 @@ public class NameCommandFilter implements CommandFilter {
 		this.inverse = inverse;
     }
 
+	/**
+	 * Create a new command filter.
+	 *
+	 * @param inverse Pass true to invert the selection.
+	 * @param commands The list of allowed commands.
+	 */
 	public NameCommandFilter(boolean inverse, Commands... commands) {
 		this.inverse = inverse;
 		allowedCommands = Set.of(commands);

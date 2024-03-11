@@ -15,7 +15,8 @@ import org.geogebra.common.properties.impl.general.GlobalLanguageProperty;
 import org.junit.Before;
 import org.junit.Test;
 
-public class DefaultPropertiesRegistryTests extends BaseUnitTest implements PropertiesRegistryListener {
+public class DefaultPropertiesRegistryTests extends BaseUnitTest
+		implements PropertiesRegistryListener {
 
 	private DefaultPropertiesRegistry propertiesRegistry;
 	private List<Property> registeredProperties;
@@ -59,7 +60,8 @@ public class DefaultPropertiesRegistryTests extends BaseUnitTest implements Prop
 
 	@Test
 	public void testPropertiesRegistryListener() {
-		GlobalLanguageProperty languageProperty = new GlobalLanguageProperty(getLocalization(), propertiesRegistry);
+		GlobalLanguageProperty languageProperty =
+				new GlobalLanguageProperty(getLocalization(), propertiesRegistry);
 		assertEquals(registeredProperties.get(0), languageProperty);
 		assertEquals(registeredPropertyContexts.get(0), null);
 	}
