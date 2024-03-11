@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.geogebra.common.gui.menu.Action;
-import org.geogebra.web.full.gui.menubar.MenuAction;
+import org.geogebra.common.gui.view.algebra.contextmenu.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
@@ -13,7 +13,7 @@ import org.geogebra.web.full.main.AppWFull;
 class DefaultMenuActionHandler implements MenuActionHandler {
 
 	private AppWFull app;
-	private Map<Action, MenuAction<Void>> actionMap = new HashMap<>();
+	private Map<Action, MenuAction<AppWFull>> actionMap = new HashMap<>();
 
 	/**
 	 * Create a DefaultMenuActionHandler
@@ -25,10 +25,10 @@ class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void executeMenuAction(Action action) {
-		actionMap.get(action).execute(null, app);
+		actionMap.get(action).execute(app);
 	}
 
-	void setMenuAction(Action action, MenuAction<Void> menuAction) {
+	void setMenuAction(Action action, MenuAction<AppWFull> menuAction) {
 		actionMap.put(action, menuAction);
 	}
 }

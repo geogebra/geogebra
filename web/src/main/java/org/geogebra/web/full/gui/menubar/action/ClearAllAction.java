@@ -9,7 +9,7 @@ import org.geogebra.web.html5.main.AppW;
 /**
  * Clears construction.
  */
-public class ClearAllAction extends DefaultMenuAction<Void> implements AsyncOperation<Boolean> {
+public class ClearAllAction extends DefaultMenuAction<AppWFull> implements AsyncOperation<Boolean> {
 
 	private boolean askForSave;
 	private AppW app;
@@ -22,7 +22,7 @@ public class ClearAllAction extends DefaultMenuAction<Void> implements AsyncOper
 	}
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		this.app = app;
 		if (askForSave) {
 			BrowserStorage.SESSION.setItem("saveAction", "clearAll");

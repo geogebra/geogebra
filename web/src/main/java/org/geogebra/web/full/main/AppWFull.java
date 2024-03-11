@@ -770,7 +770,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public final void examWelcome() {
 		if (isExam() && getExam().getStart() < 0) {
 			if (isUnbundled()) {
-				new StartExamAction(this).execute(null, this);
+				new StartExamAction().execute(this);
 			} else {
 				resetViewsEnabled();
 				String negativeKey = isLockedExam()

@@ -7,10 +7,10 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Shows exam log.
  */
-public class ShowExamLogAction extends DefaultMenuAction<Void> {
+public class ShowExamLogAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		new ExamLogAndExitDialog(app, true, null).show();
 	}
 }

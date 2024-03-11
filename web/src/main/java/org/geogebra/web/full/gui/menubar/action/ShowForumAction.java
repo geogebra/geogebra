@@ -9,10 +9,10 @@ import elemental2.dom.DomGlobal;
 /**
  * Opens the forum.
  */
-public class ShowForumAction extends DefaultMenuAction<Void> {
+public class ShowForumAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		DomGlobal.window.open(GeoGebraConstants.FORUM_URL, "_blank", "");
 	}
 }
