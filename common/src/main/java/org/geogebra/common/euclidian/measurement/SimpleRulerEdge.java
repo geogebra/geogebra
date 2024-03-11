@@ -1,11 +1,10 @@
 package org.geogebra.common.euclidian.measurement;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
-public class SimpleRulerEdge implements RulerEdge {
+public final class SimpleRulerEdge implements RulerEdge {
 	private final int cornerIndex1;
 	private final int cornerIndex2;
 	private GeoPoint corner1 = null;
@@ -17,17 +16,12 @@ public class SimpleRulerEdge implements RulerEdge {
 	}
 
 	@Override
-	public boolean accept(GPoint p, GPoint projection) {
-		return false;
-	}
-
-	@Override
-	public GeoPoint corner1() {
+	public GeoPoint endpoint1() {
 		return corner1;
 	}
 
 	@Override
-	public GeoPoint corner2() {
+	public GeoPoint endpoint2() {
 		return corner2;
 	}
 
