@@ -84,7 +84,7 @@ public abstract class Submenu extends GMenuBar {
 	 *            menu item action
 	 * @return reference to menu item
 	 */
-	public AriaMenuItem addItem(final MenuItem<Void> menuItem) {
+	public AriaMenuItem addItem(final MenuItem<AppWFull> menuItem) {
 		return addItem(
 				MainMenu.getMenuBarHtml(menuItem.getImage(),
 				menuItem.getTitle(getApp().getLocalization())), true,
@@ -92,7 +92,7 @@ public abstract class Submenu extends GMenuBar {
 
 					@Override
 					public void doExecute() {
-						menuItem.getAction().execute(null, (AppWFull) getApp());
+						menuItem.executeAction((AppWFull) getApp());
 					}
 				});
 	}

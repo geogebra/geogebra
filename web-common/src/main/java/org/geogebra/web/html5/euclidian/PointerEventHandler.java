@@ -32,6 +32,7 @@ public class PointerEventHandler {
 	private @CheckForNull PointerState first;
 	private @CheckForNull PointerState second;
 	private @CheckForNull PointerState third;
+	private double lastOutId;
 
 	/**
 	 * Mutable representation of pointer events
@@ -121,7 +122,10 @@ public class PointerEventHandler {
 		third = null;
 	}
 
-	private void onPointerMove(NativePointerEvent e) {
+	private void onPointerMove(NativePointerEvent e, Element element) {
+		if (isPenStrokeInterrupted(e)) {
+			onPointerDown(e, element);
+		}
 		if (first != null && second != null) {
 			if (second.id == e.getPointerId()) {
 				second.x = e.getOffsetX() / off.getZoomLevel();
@@ -139,6 +143,16 @@ public class PointerEventHandler {
 			e.preventDefault();
 		}
 		checkMoveLongTouch();
+	}
+
+	/*
+	 * If type is "pen", move can only happen if the pen is touching the surface.
+	 * In case we lost all pointers and we're getting pen movement,
+	 * we assume that the last "pointerout" event was a glitch (happens on iPad).
+	 */
+	private boolean isPenStrokeInterrupted(NativePointerEvent event) {
+		return first == null && second == null && third == null
+				&& lastOutId == event.getPointerId() && "pen".equals(event.getPointerType());
 	}
 
 	private boolean match(PointerState pointerState, NativePointerEvent event) {
@@ -197,6 +211,7 @@ public class PointerEventHandler {
 	}
 
 	private void onPointerOut(NativePointerEvent event) {
+		lastOutId = event.getPointerId();
 		resetPointer(event);
 		setPointerType(event.getPointerType(), false);
 	}
@@ -221,7 +236,7 @@ public class PointerEventHandler {
 		reset();
 		// treat as global to avoid memory leak
 		globalHandlers.addEventListener(element, "pointermove",
-				evt -> onPointerMove(Js.uncheckedCast(evt)));
+				evt -> onPointerMove(Js.uncheckedCast(evt), element));
 
 		globalHandlers.addEventListener(element, "pointerdown",
 				evt -> onPointerDown(Js.uncheckedCast(evt), element));

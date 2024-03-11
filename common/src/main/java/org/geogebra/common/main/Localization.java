@@ -932,13 +932,7 @@ public abstract class Localization extends LocalizationI {
 		if (ret != null) {
 			return ret;
 		}
-		// if that fails check internal commands
-		for (Commands c : Commands.values()) {
-			if (StringUtil.toLowerCaseUS(c.name()).equals(key)) {
-				return Commands.englishToInternal(c).name();
-			}
-		}
-		return null;
+		return Commands.lookupInternal(key);
 	}
 
 	/**

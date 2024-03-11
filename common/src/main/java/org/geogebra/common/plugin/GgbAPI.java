@@ -25,6 +25,7 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.kernel.CircularDefinitionException;
+import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -225,8 +226,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		// this is new in GeoGebra 4.2 and it will stop some files working
 		// but causes problems if the files are opened and edited
 		// and in the web project
-		boolean oldVal = kernel.isUsingInternalCommandNames();
-		kernel.setUseInternalCommandNames(true);
+		CommandLookupStrategy oldVal = kernel.getCommandLookupStrategy();
+		kernel.setCommandLookupStrategy(CommandLookupStrategy.XML);
 
 		StringBuilder ret = new StringBuilder();
 
@@ -245,7 +246,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				}
 			}
 		} finally {
-			kernel.setUseInternalCommandNames(oldVal);
+			kernel.setCommandLookupStrategy(oldVal);
 		}
 
 		if (ret.length() == 0) {
@@ -1058,7 +1059,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public void evalLaTeX(String input, int mode) {
-		app.getDrawEquation().checkFirstCall(app);
+		app.getDrawEquation().checkFirstCall();
 		TeXFormula tf = new TeXFormula(input);
 		// TeXParser tp = new TeXParser(input, tf);
 		// tp.parse();
@@ -1465,14 +1466,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	final public void setPenColor(int red, int green, int blue) {
-		app.getActiveEuclidianView().getEuclidianController().getPen().defaultPenLine
-				.setObjColor(GColor.newColor(red, green, blue));
+		app.getActiveEuclidianView().getEuclidianController().getPen()
+				.setPenColor(GColor.newColor(red, green, blue));
 	}
 
 	@Override
 	final public void setPenSize(int size) {
-		app.getActiveEuclidianView().getEuclidianController().getPen().defaultPenLine
-				.setLineThickness(size);
+		app.getActiveEuclidianView().getEuclidianController().getPen()
+				.setPenSize(size);
 	}
 
 	@Override

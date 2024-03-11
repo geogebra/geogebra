@@ -49,6 +49,7 @@ public class Settings {
 	private LabelSettings labelSettings;
 
 	private StyleSettings styleSettings;
+	private PenToolsSettings penToolsSettings;
 
 	/**
 	 * Initialize settings using the constructors of the setting container
@@ -143,6 +144,7 @@ public class Settings {
 
 		tableSettings = new TableSettings();
 		styleSettings = new StyleSettings();
+		penToolsSettings = new PenToolsSettings();
 
 		for (Resetable setting : resetableSettings) {
 			setting.resetDefaults();
@@ -409,5 +411,9 @@ public class Settings {
 	void setAlgebraSettings(AlgebraSettings algebraSettings) {
 		this.algebraSettings = algebraSettings;
 		resetableSettings.add(algebraSettings);
+	}
+
+	public PenToolsSettings getPenTools() {
+		return penToolsSettings;
 	}
 }

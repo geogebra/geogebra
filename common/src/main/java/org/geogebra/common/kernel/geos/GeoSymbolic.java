@@ -1137,8 +1137,9 @@ public class GeoSymbolic extends GeoElement
 	public String getFormulaString(StringTemplate tpl,
 			boolean substituteNumbers) {
 		if (substituteNumbers && tpl.isLatex()) {
-			if (value != null && value.wrap().isTopLevelCommand("If")) {
-				FunctionVariable fv = getFunctionVariables()[0];
+			if (value != null && value.wrap().isTopLevelCommand("If")
+					&& !fVars.isEmpty()) {
+				FunctionVariable fv = fVars.get(0);
 				ArrayList<ExpressionNode> cases = new ArrayList<>();
 				ArrayList<Bounds> conditions = new ArrayList<>();
 				ExpressionNode[] arguments = ((Command) value.unwrap()).getArguments();

@@ -100,7 +100,7 @@ public class ScreenReaderBuilder {
 
 	private TeXAtomSerializer getTexAtomSerializer(App app) {
 		if (texAtomSerializer == null) {
-			app.getDrawEquation().checkFirstCall(app);
+			app.getDrawEquation().checkFirstCall();
 			texAtomSerializer = new TeXAtomSerializer(ScreenReader.getSerializationAdapter(app));
 		}
 		return texAtomSerializer;

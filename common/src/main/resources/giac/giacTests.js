@@ -283,6 +283,7 @@ var __giac = [
 { cat:"Solutions", cmd:"Solutions[x^2 = 4x,x]", result:"{0,4}" },
 { cat:"Solutions", cmd:"Solutions[y^2 = 4y,y]", result:"{0,4}" },
 { cat:"Solutions", cmd:"Solutions[{4x-y=1,x+y=3},{x,y}]", result:"{{4 / 5, 11 / 5}}" },
+{ cat: "Solutions", cmd:"Solutions(3^x=3^x/(9-x),x)", result:"{8}"},
 { cat:"Solve", cmd:"Solve[x^2=4x]", result:"{x=0, x=4}" },
 { cat:"Solve", cmd:"Solve[{4x-y=1,x+y=3},{x,y}]", result:"{{x = 4 / 5, y = 11 / 5}}" },
 { cat:"SolveIneq", cmd:"Solve[x^2<9]", result:"{-3 < x < 3}", notes:"currently gives {(x>-3)\u2227(x<3)} which is OK, should be improved if possible" },

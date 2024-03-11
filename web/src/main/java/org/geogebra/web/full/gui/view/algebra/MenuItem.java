@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import org.geogebra.common.gui.view.algebra.contextmenu.MenuAction;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.gui.menubar.MenuAction;
 import org.geogebra.web.resources.SVGResource;
 
 /**
@@ -14,6 +14,7 @@ import org.geogebra.web.resources.SVGResource;
 public class MenuItem<T> {
 
 	private final String title;
+	private final Runnable actionCallback;
 	private SVGResource image;
 	private final MenuAction<T> action;
 
@@ -27,6 +28,7 @@ public class MenuItem<T> {
 		this.title = title;
 		this.image = image;
 		this.action = action;
+		this.actionCallback = null;
 	}
 
 	/**
@@ -34,10 +36,16 @@ public class MenuItem<T> {
 	 * 
 	 * @param title
 	 *            translation key
+	 * @param actionCallback runs after the action is executed
 	 */
-	public MenuItem(String title, MenuAction<T> action) {
+	public MenuItem(String title, MenuAction<T> action, Runnable actionCallback) {
 		this.title = title;
 		this.action = action;
+		this.actionCallback = actionCallback;
+	}
+
+	public MenuItem(String title, MenuAction<T> action) {
+		this(title, action, null);
 	}
 
 	/**
@@ -64,9 +72,21 @@ public class MenuItem<T> {
 	}
 
 	/**
-	 * @return action
+	 * Run this item's action
+	 * @param element parameter of the action
 	 */
-	public MenuAction<T> getAction() {
-		return action;
+	public void executeAction(T element) {
+		action.execute(element);
+		if (actionCallback != null) {
+			actionCallback.run();
+		}
+	}
+
+	/**
+	 * @param element object
+	 * @return whether this item should be shown for given element
+	 */
+	public boolean isAvailable(T element) {
+		return action.isAvailable(element);
 	}
 }

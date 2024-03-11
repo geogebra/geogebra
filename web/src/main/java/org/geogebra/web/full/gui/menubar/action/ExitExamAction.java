@@ -21,7 +21,7 @@ import org.gwtproject.canvas.client.Canvas;
 /**
  * Exits exam mode.
  */
-public class ExitExamAction extends DefaultMenuAction<Void> {
+public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 	/**
 	 * Canvas line height
 	 */
@@ -32,7 +32,7 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	private AppWFull app;
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		this.app = app;
 		showExamExitDialog();
 	}
