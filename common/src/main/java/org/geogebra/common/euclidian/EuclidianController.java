@@ -9662,6 +9662,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return topHit;
 	}
 
+	/**
+	 * Sets the last mow hit to null
+	 */
+	public void resetLastMowHit() {
+		this.lastMowHit = null;
+	}
+
 	private void handleMowSelectionRelease() {
 		if (view.getHits().isEmpty()) {
 			clearSelections();
