@@ -65,24 +65,16 @@ public class MeasurementController {
 	 * @param mode of the measurement tool
 	 */
 	public void toggleActiveTool(int mode) {
-		if (isToolSelected(mode)) {
+		MeasurementToolId toolId = MeasurementToolId.byMode(mode);
+		if (toolId == selectedToolId) {
 			unselect();
 		} else {
-			MeasurementToolId id = MeasurementToolId.byMode(mode);
+			MeasurementToolId id = toolId;
 			if (tools.containsKey(id)) {
 				selectTool(id);
 				refreshTool();
 			}
 		}
-	}
-
-	/**
-	 *
-	 * @param mode to check
-	 * @return if the measurement tool that belongs to the given mode is selected.
-	 */
-	private boolean isToolSelected(int mode) {
-		return MeasurementToolId.byMode(mode) == selectedToolId;
 	}
 
 	/**

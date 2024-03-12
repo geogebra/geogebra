@@ -4,6 +4,7 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PROTRACTOR;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRIANGLE_PROTRACTOR;
 
+import java.util.Collections;
 import java.util.List;
 
 public enum MeasurementToolId {
@@ -15,18 +16,18 @@ public enum MeasurementToolId {
 	/**
 	 * Ordinal ruler with two edges
 	 */
-	RULER(MODE_RULER, new RectangleEdge(1, 2), new RectangleEdge(3, 4)),
+	RULER(MODE_RULER, List.of(new RectangleEdge(1, 2), new RectangleEdge(3, 4))),
 
 	/**
 	 * Ordinal protractor
 	 */
-	PROTRACTOR(MODE_PROTRACTOR, true, null),
+	PROTRACTOR(MODE_PROTRACTOR, true, Collections.emptyList()),
 
 	/**
 	 * Right triangle shaped protactor with three edges: hypo and two legs.
 	 */
-	TRIANGLE_PROTRACTOR(MODE_TRIANGLE_PROTRACTOR, true, new RectangleEdge(1, 2),
-			new LegEdge(Legs.A), new LegEdge(Legs.B));
+	TRIANGLE_PROTRACTOR(MODE_TRIANGLE_PROTRACTOR, true, List.of(new RectangleEdge(1, 2),
+			new LegEdge(Legs.A), new LegEdge(Legs.B)));
 
 	private final int mode;
 	private final boolean protactor;
@@ -36,14 +37,14 @@ public enum MeasurementToolId {
 		this(mode, false, null);
 	}
 
-	MeasurementToolId(int mode, MeasurementToolEdge... edges) {
+	MeasurementToolId(int mode, List<MeasurementToolEdge> edges) {
 		this(mode, false, edges);
 	}
 
-	MeasurementToolId(int mode, boolean protactor, MeasurementToolEdge... edges) {
+	MeasurementToolId(int mode, boolean protactor, List<MeasurementToolEdge> edges) {
 		this.mode = mode;
 		this.protactor = protactor;
-		this.edges = edges != null ? List.of(edges) : null;
+		this.edges = edges;
 	}
 
 	public int getMode() {

@@ -31,8 +31,9 @@ public class MeasureControllerTest extends BaseUnitTest {
 	}
 
 	private MeasurementTool newTool(MeasurementToolId id) {
-		return new MeasurementTool(id, id.toString(),
-				0.0);
+		GeoImage image = new GeoImage(kernel.getConstruction());
+		image.setLabel(id.toString());
+		return new MeasurementTool(id, image);
 	}
 
 	@Test
