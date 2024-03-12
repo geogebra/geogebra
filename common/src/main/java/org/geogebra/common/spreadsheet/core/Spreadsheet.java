@@ -54,7 +54,13 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		drawCells(graphics, viewport);
 		for (TabularRange range: visibleSelections) {
 			renderer.drawSelectionBorder(range, graphics,
-					viewport, controller.getLayout());
+					viewport, controller.getLayout(), false);
+		}
+		if (!visibleSelections.isEmpty()) {
+			TabularRange range = visibleSelections.get(visibleSelections.size() - 1);
+			TabularRange firstCell = new TabularRange(range.getFromRow(), range.getFromColumn());
+			renderer.drawSelectionBorder(firstCell, graphics,
+					viewport, controller.getLayout(), true);
 		}
 		GPoint2D draggingDot = controller.getDraggingDot();
 		if (draggingDot != null) {
