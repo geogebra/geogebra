@@ -118,7 +118,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	 * communicated to the exam controller by calling this method.
 	 *
 	 * This method needs to be called before an exam starts, and also when the active context
-	 * changes during an exam, so what we can revert the restrictions on the current dependencies,
+	 * changes during an exam, so what we can remove the restrictions on the current dependencies,
 	 * and apply the restrictions on the new dependencies.
 	 */
 	public void setActiveContext(Object context,
@@ -126,14 +126,14 @@ public final class ExamController implements PropertiesRegistryListener {
 			AlgebraProcessor algebraProcessor) {
 		// revert restrictions for current dependencies, if exam is active
 		if (examRestrictions != null && activeDependencies != null) {
-			revertRestrictionsOnContextDependencies(activeDependencies);
+			removeRestrictionsFromContextDependencies(activeDependencies);
 		}
 		activeDependencies = new ContextDependencies(context,
 				commandDispatcher,
 				algebraProcessor);
 		// apply restrictions to new dependencies, if exam is active
 		if (examRestrictions != null) {
-			applyRestrictionsOnContextDependencies(activeDependencies);
+			applyRestrictionsToContextDependencies(activeDependencies);
 		}
 	}
 
@@ -310,8 +310,8 @@ public final class ExamController implements PropertiesRegistryListener {
 		if (examRestrictions == null) {
 			examRestrictions = ExamRestrictions.forExamType(examType);
 		}
-		applyRestrictionsOnContextDependencies(activeDependencies);
-		applyRestrictionsOnRestrictables();
+		applyRestrictionsToContextDependencies(activeDependencies);
+		applyRestrictionsToRestrictables();
 
 		if (delegate != null) {
 			delegate.examClearClipboard();
@@ -347,8 +347,8 @@ public final class ExamController implements PropertiesRegistryListener {
 		if (state != ExamState.FINISHED) {
 			throw new IllegalStateException("expected to be in FINISHED state, but is " + state);
 		}
-		revertRestrictionsOnRestrictables();
-		revertRestrictionsOnContextDependencies(activeDependencies);
+		removeRestrictionsFromRestrictables();
+		removeRestrictionsFromContextDependencies(activeDependencies);
 		tempStorage.clearTempMaterials();
 		if (delegate != null) {
 			delegate.examClearOtherApps();
@@ -375,7 +375,7 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 	}
 
-	private void applyRestrictionsOnContextDependencies(ContextDependencies dependencies) {
+	private void applyRestrictionsToContextDependencies(ContextDependencies dependencies) {
 		// TODO app.resetCommandDict() (register as ExamRestrictable?)
 		if (examRestrictions == null) {
 			return; // log/throw?
@@ -400,12 +400,12 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 	}
 
-	private void revertRestrictionsOnContextDependencies(ContextDependencies dependencies) {
+	private void removeRestrictionsFromContextDependencies(ContextDependencies dependencies) {
 		if (examRestrictions == null) {
 			return;
 		}
 		if (dependencies != null) {
-			examRestrictions.revert(dependencies.commandDispatcher,
+			examRestrictions.remove(dependencies.commandDispatcher,
 					dependencies.algebraProcessor,
 					propertiesRegistry,
 					dependencies.context);
@@ -413,15 +413,15 @@ public final class ExamController implements PropertiesRegistryListener {
 		}
 	}
 
-	private void applyRestrictionsOnRestrictables() {
+	private void applyRestrictionsToRestrictables() {
 		for (ExamRestrictable restrictable : restrictables) {
 			restrictable.applyRestrictions(examRestrictions);
 		}
 	}
 
-	private void revertRestrictionsOnRestrictables() {
+	private void removeRestrictionsFromRestrictables() {
 		for (ExamRestrictable restrictable : restrictables) {
-			restrictable.revertRestrictions(examRestrictions);
+			restrictable.removeRestrictions(examRestrictions);
 		}
 	}
 

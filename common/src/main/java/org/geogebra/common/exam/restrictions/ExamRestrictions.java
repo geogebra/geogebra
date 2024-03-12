@@ -156,9 +156,10 @@ public class ExamRestrictions {
 	}
 
 	/**
-	 * Revert the changes from {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object)}.
+	 * Remove the exam restrictions (i.e., undo the changes from
+	 * {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object)}).
 	 */
-	public void revert(@Nullable CommandDispatcher commandDispatcher,
+	public void remove(@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
 			@Nullable Object context) {

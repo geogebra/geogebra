@@ -15,9 +15,9 @@ public interface ExamRestrictable {
 	void applyRestrictions(@Nonnull ExamRestrictions examRestrictions);
 
 	/**
-	 * Reverse the side effects of {@link #applyRestrictions(ExamRestrictions)}.
+	 * Reverse the effects of {@link #applyRestrictions(ExamRestrictions)}.
 	 *
 	 * @param examRestrictions The restrictions for the current exam.
 	 */
-	void revertRestrictions(@Nonnull ExamRestrictions examRestrictions);
+	void removeRestrictions(@Nonnull ExamRestrictions examRestrictions);
 }

@@ -1414,7 +1414,7 @@ public class SelectionManager implements ExamRestrictable {
 	}
 
 	@Override
-	public void revertRestrictions(ExamRestrictions examRestrictions) {
+	public void removeRestrictions(ExamRestrictions examRestrictions) {
 		this.examRestrictions = null;
 	}
 
