@@ -172,7 +172,11 @@ public class CmdSetValue extends CmdScripting {
 				target.updateRepaint();
 			}
 		} else if (target.isGeoList() && from.isGeoList()) {
-			setValueForLists((GeoList) target, (GeoList) from);
+			if (target.getParentAlgorithm() instanceof SetRandomValue) {
+				setRandomValue(target, from);
+			} else {
+				setValueForLists((GeoList) target, (GeoList) from);
+			}
 		} else if (target.isIndependent() || target.isMoveable()) {
 			setValueIndependent(target, from);
 		} else if (target.getParentAlgorithm() instanceof SetRandomValue) {
