@@ -4,11 +4,11 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
 
-import org.geogebra.common.kernel.ModeSetter;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.main.AppW;
@@ -100,8 +100,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addMoveModeButton() {
-		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(),
-				"move mode", "moveBtn", appW::setMoveMode);
+		addPressButton(ToolbarSvgResources.INSTANCE.mode_select_32(),
+				"move mode", "moveBtn", ()->appW.setMode(MODE_SELECT_MOW));
 	}
 
 	@Override

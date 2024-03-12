@@ -8,15 +8,22 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.matrix.Coords;
 
-public final class RulerTransformer implements PenTransformer {
+/**
+ * Class to transform (or "sitck") the pen to the currently active measuremet tool (ruler or
+ * one of the protractors
+ */
+public final class MeasurementToolTransformer implements PenTransformer {
 	private EuclidianView view;
 	private List<GPoint> previewPoints;
-	private boolean rulerTop;
 	private GPoint initialProjection;
-	private List<RulerEdge> edges;
-	private RulerEdge activeEdge;
+	private List<MeasurementToolEdge> edges;
+	private MeasurementToolEdge activeEdge;
 
-	public RulerTransformer(List<RulerEdge> edges) {
+	/**
+	 *
+	 * @param edges of the measurement tool.
+	 */
+	public MeasurementToolTransformer(List<MeasurementToolEdge> edges) {
 		this.edges = edges;
 	}
 
@@ -68,7 +75,7 @@ public final class RulerTransformer implements PenTransformer {
 		}
 
 		double oldDistance = Double.MAX_VALUE;
-		for (RulerEdge edge: edges) {
+		for (MeasurementToolEdge edge: edges) {
 			GPoint projection = getProjection(p, edge);
 			double distance = p.distance(projection);
 			if (distance < oldDistance) {
@@ -92,7 +99,7 @@ public final class RulerTransformer implements PenTransformer {
 		}
 	}
 
-	private GPoint getProjection(GPoint p, RulerEdge edge) {
+	private GPoint getProjection(GPoint p, MeasurementToolEdge edge) {
 		GeoImage ruler = view.getKernel().getConstruction().getRuler();
 		edge.update(ruler);
 		GeoPoint corner1 = edge.endpoint2();
@@ -115,5 +122,4 @@ public final class RulerTransformer implements PenTransformer {
 				+ yn * thickness;
 		return new GPoint((int) Math.round(transformedX), (int) Math.round(transformedY));
 	}
-
 }

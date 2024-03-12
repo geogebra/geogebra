@@ -8,6 +8,9 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawImageResizable;
 import org.geogebra.common.kernel.geos.GeoImage;
 
+/**
+ * Class to represent a measurement tool, like rulers or different types of protractors.
+ */
 public final class MeasurementTool {
 	private final Double centerInPercent;
 	private final PenTransformer transformer;
@@ -15,11 +18,13 @@ public final class MeasurementTool {
 	private final MeasurementToolId id;
 	private final String fileName;
 
-
-	public MeasurementTool(MeasurementToolId id, String fileName) {
-		this(id, fileName, null);
-	}
-
+	/**
+	 *
+	 * @param id of the tool.
+	 * @param fileName of the tool image.
+	 * @param percent the y-position of the rotation point given by percent of the image height
+	 * (x-position is centered)
+	 */
 	public MeasurementTool(MeasurementToolId id, String fileName, Double percent) {
 		this.id = id;
 		this.fileName = fileName;
@@ -28,14 +33,21 @@ public final class MeasurementTool {
 	}
 
 	private PenTransformer createTransformer() {
-		List<RulerEdge> edges = id.getEdges();
-		return edges != null ? new RulerTransformer(edges) :  new NullPenTransformer();
+		List<MeasurementToolEdge> edges = id.getEdges();
+		return edges != null ? new MeasurementToolTransformer(edges) :  new NullPenTransformer();
 	}
 
+	/**
+	 *
+	 * @return the image of the measurement tool.
+	 */
 	public GeoImage getImage() {
 		return image;
 	}
 
+	/**
+	 * Removes the image of the tool from Construction.
+	 */
 	public void remove() {
 		if (image == null) {
 			return;
@@ -43,14 +55,23 @@ public final class MeasurementTool {
 		image.remove();
 	}
 
+	/**
+	 *
+	 * @return the id of the measurement tool.
+	 */
 	public MeasurementToolId getId() {
 		return id;
 	}
 
-	public void refresh(BiFunction<Integer, String, GeoImage> addFunct) {
+	void refresh(BiFunction<Integer, String, GeoImage> addFunct) {
 		image = addFunct.apply(id.getMode(), fileName);
 	}
 
+	/**
+	 * Calculates and gives back the rotation center of the tool.
+	 * @param view {@link EuclidianView}
+	 * @return the rotation center of the measurement tool.
+	 */
 	public GPoint2D getRotationCenter(EuclidianView view) {
 		List<GPoint2D> points = getProtractorPoints(view);
 		if (points == null || points.size() < 3) {
@@ -81,10 +102,18 @@ public final class MeasurementTool {
 				* (1 - centerInPercent);
 	}
 
+	/**
+	 *
+	 * @return if the tool has its own center (different from the default of images)
+	 */
 	public boolean hasRotationCenter() {
 		return centerInPercent != null;
 	}
 
+	/**
+	 *
+	 * @return {@link PenTransformer}
+	 */
 	public PenTransformer getTransformer() {
 		return transformer;
 	}

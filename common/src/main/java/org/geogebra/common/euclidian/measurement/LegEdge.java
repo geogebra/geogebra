@@ -1,32 +1,25 @@
 package org.geogebra.common.euclidian.measurement;
 
-import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
-public class LegEdge implements RulerEdge {
+/**
+ * Represents the leg edges of a right triangle.
+ */
+public final class LegEdge implements MeasurementToolEdge {
 	private GeoPoint endpoint1;
 	private GeoPoint endpoint2;
-	private GeoPoint corner0;
+
+	// GeoImage corners 3 and 4.
 	private GeoPoint corner3;
 	private GeoPoint corner4;
-	enum Legs {
-		A(1),
-		B(2);
-
-		Legs(int index) {
-			this.index = index;
-		}
-
-		private int index;
-
-		public int index() {
-			return index;
-		}
-	}
-
 	private Legs leg;
 
+	/**
+	 *
+	 * @param leg to specify which leg it is.
+	 */
 	public LegEdge(Legs leg) {
 		this.leg = leg;
 	}
@@ -43,7 +36,7 @@ public class LegEdge implements RulerEdge {
 
 	@Override
 	public void update(GeoImage image) {
-		ensureCorners(image.getApp().getActiveEuclidianView());
+		ensureCorners(image.getKernel().getConstruction());
 		image.calculateCornerPoint(corner3, 3);
 		image.calculateCornerPoint(corner4, 4);
 		endpoint1.x = (corner3.x + corner4.x) / 2;
@@ -54,14 +47,12 @@ public class LegEdge implements RulerEdge {
 		endpoint2.updateCoords();
 	}
 
-	private void ensureCorners(EuclidianView view) {
+	private void ensureCorners(Construction cons) {
 		if (endpoint1 == null) {
-			endpoint1 = new GeoPoint(view.getKernel().getConstruction(), true);
-			endpoint2 = new GeoPoint(view.getKernel().getConstruction(), true);
-			corner0 = new GeoPoint(view.getKernel().getConstruction(), true);
-			corner3 = new GeoPoint(view.getKernel().getConstruction(), true);
-			corner4 = new GeoPoint(view.getKernel().getConstruction(), true);
+			endpoint1 = new GeoPoint(cons, true);
+			endpoint2 = new GeoPoint(cons, true);
+			corner3 = new GeoPoint(cons, true);
+			corner4 = new GeoPoint(cons, true);
 		}
 	}
-
 }

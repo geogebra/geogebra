@@ -347,6 +347,7 @@ public class Construction {
 	public MeasurementTool getActiveMeasurementTool() {
 		return measurementTools.activeTool();
 	}
+
 	public Map<Integer, GeoNumeric> getArbitraryConstants() {
 		return constsM;
 	}
@@ -367,6 +368,12 @@ public class Construction {
 		measurementTools.toggleActiveTool(newMode);
 	}
 
+	/**
+	 * Selects the measurement tool of the given id and retrieves its image.
+	 *
+	 * @param toolId of the measurement tool.
+	 * @return the image of the selected measurement tool
+	 */
 	public GeoImage getMeasureToolImage(MeasurementToolId toolId) {
 		measurementTools.selectTool(toolId);
 		return measurementTools.getActiveToolImage();

@@ -7,25 +7,40 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRIANGLE_PRO
 import java.util.List;
 
 public enum MeasurementToolId {
+	/**
+	 * No tool
+	 */
 	NONE(-1),
+
+	/**
+	 * Ordinal ruler with two edges
+	 */
 	RULER(MODE_RULER, new RectangleEdge(1, 2), new RectangleEdge(3, 4)),
+
+	/**
+	 * Ordinal protractor
+	 */
 	PROTRACTOR(MODE_PROTRACTOR, true, null),
+
+	/**
+	 * Right triangle shaped protactor with three edges: hypo and two legs.
+	 */
 	TRIANGLE_PROTRACTOR(MODE_TRIANGLE_PROTRACTOR, true, new RectangleEdge(1, 2),
-			new LegEdge(LegEdge.Legs.A), new LegEdge(LegEdge.Legs.B));
+			new LegEdge(Legs.A), new LegEdge(Legs.B));
 
 	private final int mode;
 	private final boolean protactor;
-	private final List<RulerEdge> edges;
+	private final List<MeasurementToolEdge> edges;
 
 	MeasurementToolId(int mode) {
 		this(mode, false, null);
 	}
 
-	MeasurementToolId(int mode, RulerEdge... edges) {
+	MeasurementToolId(int mode, MeasurementToolEdge... edges) {
 		this(mode, false, edges);
 	}
 
-	MeasurementToolId(int mode, boolean protactor, RulerEdge... edges) {
+	MeasurementToolId(int mode, boolean protactor, MeasurementToolEdge... edges) {
 		this.mode = mode;
 		this.protactor = protactor;
 		this.edges = edges != null ? List.of(edges) : null;
@@ -39,7 +54,7 @@ public enum MeasurementToolId {
 		return protactor;
 	}
 
-	public List<RulerEdge> getEdges() {
+	public List<MeasurementToolEdge> getEdges() {
 		return edges;
 	}
 
