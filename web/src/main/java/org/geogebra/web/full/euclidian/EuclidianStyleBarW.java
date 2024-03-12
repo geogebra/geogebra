@@ -63,6 +63,7 @@ import org.geogebra.web.full.gui.color.BorderTextPopup;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.full.gui.color.FillingStyleButton;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.IconButton;
 import org.geogebra.web.full.gui.util.BorderStylePopup;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.PointStylePopup;
@@ -124,12 +125,13 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private PopupMenuButtonW btnHorizontalAlignment;
 	private PopupMenuButtonW btnVerticalAlignment;
 
-	private ToggleButton btnFixPosition;
+	private IconButton btnFixPosition;
 	private ToggleButton btnFixObject;
 
 	private ToggleButton[] toggleBtnList;
 	private final ToggleButton[] btnDeleteSizes = new ToggleButton[3];
 	private PopupMenuButtonW[] popupBtnList;
+	private IconButton[] iconBtnList;
 
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
 	private final Localization loc;
@@ -397,6 +399,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		addButtons();
 		popupBtnList = newPopupBtnList();
 		toggleBtnList = newToggleBtnList();
+		iconBtnList = newIconBtnList();
 	}
 
 	protected void setActionCommands() {
@@ -669,8 +672,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	protected ToggleButton[] newToggleBtnList() {
 		return new ToggleButton[] { getAxesOrGridToggleButton(), btnBold,
-				btnItalic, btnUnderline, btnFixPosition, btnFixObject, btnDeleteSizes[0],
+				btnItalic, btnUnderline,/* btnFixPosition, */btnFixObject, btnDeleteSizes[0],
 				btnDeleteSizes[1], btnDeleteSizes[2], btnCrop };
+	}
+
+	protected IconButton[] newIconBtnList() {
+		return new IconButton[] { btnFixPosition};
 	}
 
 	protected PopupMenuButtonW[] newPopupBtnList() {
@@ -1183,7 +1190,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private void createFixPositionBtn() {
-		btnFixPosition = new ToggleButton(
+		btnFixPosition = new IconButton(app.getLocalization(),
+				MaterialDesignResources.INSTANCE.pin_black(),
+				"AbsoluteScreenLocation", "AbsoluteScreenLocation", "",
+				() -> fireActionPerformed(btnFixPosition));
+
+		/*btnFixPosition = new ToggleButton(
 				MaterialDesignResources.INSTANCE.pin_black()) {
 
 			@Override
@@ -1198,7 +1210,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				}
 			}
 		};
-		btnFixPosition.addFastClickHandler(this);
+		btnFixPosition.addFastClickHandler(this);*/
 	}
 
 	private void createFixObjectBtn() {
@@ -1435,6 +1447,19 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 	}
 
+	public void fireActionPerformed(IconButton source) {
+		needUndo = false;
+
+		ArrayList<GeoElement> targetGeos = selection.getGeos();
+
+		processSource(source, targetGeos);
+
+		if (needUndo) {
+			app.storeUndoInfo();
+			needUndo = false;
+		}
+	}
+
 	private static boolean checkGeoText(List<GeoElement> geos) {
 		return checkGeos(geos, geo -> geo instanceof TextStyle);
 	}
@@ -1600,7 +1625,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					mode, btnLabelStyle.getSelectedIndex());
 		} else if (source == btnFixPosition) {
 			needUndo = EuclidianStyleBarStatic.applyFixPosition(targetGeos,
-					btnFixPosition.isSelected(), ev) != null;
+					btnFixPosition.isActive(), ev) != null;
 		} else if (source == btnFixObject) {
 			needUndo = EuclidianStyleBarStatic.applyFixObject(targetGeos,
 					btnFixObject.isSelected(), ev) != null;
