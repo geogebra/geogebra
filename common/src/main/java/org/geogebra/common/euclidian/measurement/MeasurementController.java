@@ -14,7 +14,6 @@ public class MeasurementController {
 	private final Kernel kernel;
 	private Map<MeasurementToolId, MeasurementTool> tools = new HashMap<>();
 	private MeasurementToolId selectedToolId = MeasurementToolId.NONE;
-	private boolean toolActive = false;
 
 	/**
 	 *
@@ -73,7 +72,7 @@ public class MeasurementController {
 			MeasurementToolId id = MeasurementToolId.byMode(mode);
 			if (tools.containsKey(id)) {
 				selectTool(id);
-				refreshTool(id);
+				refreshTool();
 			}
 		}
 	}
@@ -98,7 +97,7 @@ public class MeasurementController {
 		selectedToolId = MeasurementToolId.NONE;
 	}
 
-	private void refreshTool(MeasurementToolId id) {
+	private void refreshTool() {
 		MeasurementTool tool = activeTool();
 
 		if (tool == null) {

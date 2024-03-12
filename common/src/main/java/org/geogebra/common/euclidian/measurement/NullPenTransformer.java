@@ -5,6 +5,9 @@ import java.util.List;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 
+/**
+ * No pen transformer.
+ */
 public class NullPenTransformer implements PenTransformer {
 	@Override
 	public boolean isActive() {
@@ -13,11 +16,11 @@ public class NullPenTransformer implements PenTransformer {
 
 	@Override
 	public void reset(EuclidianView view, List<GPoint> previewPoints) {
-
+	   	// stub
 	}
 
 	@Override
 	public void updatePreview(GPoint newPoint) {
-
+		// stub
 	}
 }
