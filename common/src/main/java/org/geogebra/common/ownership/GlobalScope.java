@@ -37,7 +37,7 @@ public final class GlobalScope {
 	/**
 	 * Initialize all objects which should not be lazy-instantiated.
 	 */
-	public static void initialize() {
+	public static void setup() {
 		propertiesRegistry = new DefaultPropertiesRegistry();
 		examController = new ExamController(propertiesRegistry);
 	}
