@@ -53,13 +53,8 @@ public class SpreadsheetTest extends BaseUnitTest {
 		controller = spreadsheet.getController();
 		controller.setViewportAdjustmentHandler(new ViewportAdjustmentHandler() {
 			@Override
-			public void setVerticalScrollPosition(int position) {
-				viewport = viewport.translatedBy(0, position);
-			}
-
-			@Override
-			public void setHorizontalScrollPosition(int position) {
-				viewport = viewport.translatedBy(position, 0);
+			public void setScrollPosition(int x, int y) {
+				viewport = viewport.translatedBy(x, y);
 			}
 
 			@Override

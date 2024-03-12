@@ -194,8 +194,7 @@ public final class SpreadsheetController implements TabularSelection {
 
 		boolean changed = false;
 		if (viewportAdjuster != null) {
-			changed = viewportAdjuster.adjustViewportHorizontallyIfNeeded(column, viewport)
-					| viewportAdjuster.adjustViewportVerticallyIfNeeded(row, viewport);
+			changed = viewportAdjuster.adjustViewportIfNeeded(row, column, viewport);
 		}
 
 		if (modifiers.rightButton && controlsDelegate != null) {
@@ -346,8 +345,7 @@ public final class SpreadsheetController implements TabularSelection {
 			}
 		}
 		if (cellSelectionChanged) {
-			adjustViewportHorizontallyIfNeeded();
-			adjustViewportVerticallyIfNeeded();
+			adjustViewportIfNeeded();
 			return true;
 		}
 		return false;
@@ -390,24 +388,15 @@ public final class SpreadsheetController implements TabularSelection {
 	}
 
 	/**
-	 * Adjusts the viewport horizontally if the selected cell or column is not fully visible
+	 * Adjusts the viewport if the selected cell or column is not fully visible
 	 */
-	private void adjustViewportHorizontallyIfNeeded() {
+	private void adjustViewportIfNeeded() {
 		Selection lastSelection = getLastSelection();
 		if (lastSelection != null && viewportAdjuster != null) {
-			viewportAdjuster.adjustViewportHorizontallyIfNeeded(
-					lastSelection.getRange().getToColumn(), viewport);
-		}
-	}
-
-	/**
-	 * Adjusts the viewport vertically if the selected cell or row is not fully visible
-	 */
-	private void adjustViewportVerticallyIfNeeded() {
-		Selection lastSelection = getLastSelection();
-		if (lastSelection != null && viewportAdjuster != null) {
-			viewportAdjuster.adjustViewportVerticallyIfNeeded(
-					lastSelection.getRange().getToRow(), viewport);
+			viewportAdjuster.adjustViewportIfNeeded(
+					lastSelection.getRange().getToRow(),
+					lastSelection.getRange().getToColumn(),
+					viewport);
 		}
 	}
 
