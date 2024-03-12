@@ -1420,7 +1420,7 @@ public class SelectionManager implements ExamRestrictable {
 
 	/**
 	 * TODO not sure if this makes sense to suppress selection of certain elements during exams
-	 * @param geoND
+	 * @param geoND A geo.
 	 * @return True if selecting the geo is allowed.
 	 */
 	public boolean isSelectionAllowed(GeoElementND geoND) {

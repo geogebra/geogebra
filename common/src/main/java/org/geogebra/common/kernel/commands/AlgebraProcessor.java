@@ -266,7 +266,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * Remove an expression filter.
-	 * @param filter
+	 * @param filter An expression filter.
 	 */
 	public void removeExpressionFilter(ExpressionFilter filter) {
 		if (filter != null) {
@@ -3790,10 +3790,6 @@ public class AlgebraProcessor {
 	 * @param commandFilter
 	 *            only the commands that are allowed by the CommandFilter
 	 *            will be added to the command table
-	 * TODO replace calls like
-	 * kernel.getAlgebraProcessor()
-	 * 					.addCommandFilter(CommandFilterFactory.createNoCasCommandFilter());
-	 * with a call to kernel.getAlgebraProcessor().disableCAS()
 	 */
 	public void addCommandFilter(CommandFilter commandFilter) {
 		cmdDispatcher.addCommandFilter(commandFilter);

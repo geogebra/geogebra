@@ -50,12 +50,16 @@ public class ExamRestrictions {
 			new ExamCommandArgumentFilter();
 	private final Set<String> frozenProperties;
 
+	/**
+	 * Factory for ExamRestrictions.
+	 * @param examType The exam type.
+	 * @return An ExamRestrictions subclass that contains all the restrictions for
+	 * the given exam type.
+	 */
 	public static ExamRestrictions forExamType(ExamRegion examType) {
 		switch (examType) {
 		case BAYERN_CAS:
 			return new BayernCasExamRestrictions();
-//		case MMS:
-//			return new MmsExamRestrictions();
 		case NIEDERSACHSEN:
 			return new NiedersachsenExamRestrictions();
 		case VLAANDEREN:

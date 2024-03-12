@@ -6,7 +6,8 @@ import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.aliases.ActionableIconProperty;
 import org.geogebra.common.properties.impl.AbstractActionableProperty;
 
-public class StandardViewAction extends AbstractActionableProperty implements ActionableIconProperty {
+public class StandardViewAction extends AbstractActionableProperty
+		implements ActionableIconProperty {
 
 	final EuclidianView euclidianView;
 
@@ -29,6 +30,4 @@ public class StandardViewAction extends AbstractActionableProperty implements Ac
 	public PropertyResource getIcon() {
 		return PropertyResource.ICON_STANDARD_VIEW;
 	}
-
-
 }

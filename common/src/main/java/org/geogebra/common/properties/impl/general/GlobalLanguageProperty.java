@@ -1,5 +1,8 @@
 package org.geogebra.common.properties.impl.general;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
@@ -9,8 +12,13 @@ public class GlobalLanguageProperty extends AbstractNamedEnumeratedProperty<Stri
 
 	private String value;
 
-	public GlobalLanguageProperty(Localization localization,
-			PropertiesRegistry propertiesRegistry) {
+	/**
+	 * Create a new instance.
+	 * @param localization The localization.
+	 * @param propertiesRegistry A properties registry to register this property with (optional).
+	 */
+	public GlobalLanguageProperty(@Nonnull Localization localization,
+			@Nullable PropertiesRegistry propertiesRegistry) {
 		super(localization, "Language", null);
 		if (propertiesRegistry != null) {
 			propertiesRegistry.register(this, null); // register in global context

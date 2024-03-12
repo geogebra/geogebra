@@ -45,6 +45,6 @@ public final class GlobalScope {
 	/**
 	 * Prevent instantiation.
 	 */
-	private GlobalScope() { }
-	
+	private GlobalScope() {
+	}
 }

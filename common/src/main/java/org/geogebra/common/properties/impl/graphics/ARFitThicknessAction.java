@@ -6,7 +6,8 @@ import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.aliases.ActionableIconProperty;
 import org.geogebra.common.properties.impl.AbstractActionableProperty;
 
-public class ARFitThicknessAction extends AbstractActionableProperty implements ActionableIconProperty {
+public class ARFitThicknessAction extends AbstractActionableProperty
+		implements ActionableIconProperty {
 
 	final EuclidianView3D euclidianView;
 
