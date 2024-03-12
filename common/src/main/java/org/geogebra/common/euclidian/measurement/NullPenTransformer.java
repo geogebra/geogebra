@@ -16,11 +16,11 @@ public class NullPenTransformer implements PenTransformer {
 
 	@Override
 	public void reset(EuclidianView view, List<GPoint> previewPoints) {
-	   	// stub
+	    // stub
 	}
 
 	@Override
 	public void updatePreview(GPoint newPoint) {
-		// stub
+	    // stub
 	}
 }

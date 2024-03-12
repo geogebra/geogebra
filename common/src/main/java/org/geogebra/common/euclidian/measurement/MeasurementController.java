@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to handle the various measurement tools.
@@ -99,11 +98,6 @@ public class MeasurementController {
 
 	private void refreshTool() {
 		MeasurementTool tool = activeTool();
-
-		if (tool == null) {
-			Log.error("No such tool: " + tool);
-		}
-
 		tool.refresh(kernel.getApplication().getActiveEuclidianView()::addMeasurementTool);
 	}
 

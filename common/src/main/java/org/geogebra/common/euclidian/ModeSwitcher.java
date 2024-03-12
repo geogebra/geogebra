@@ -63,7 +63,6 @@ public class ModeSwitcher {
 			cons.toggleMeasurementTool(newMode);
 			break;
 
-
 		default:
 			break;
 		}

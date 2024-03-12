@@ -101,7 +101,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 
 	private void addMoveModeButton() {
 		addPressButton(ToolbarSvgResources.INSTANCE.mode_select_32(),
-				"move mode", "moveBtn", ()->appW.setMode(MODE_SELECT_MOW));
+				"move mode", "moveBtn", () -> appW.setMode(MODE_SELECT_MOW));
 	}
 
 	@Override

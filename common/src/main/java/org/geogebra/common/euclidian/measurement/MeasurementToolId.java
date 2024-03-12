@@ -58,6 +58,12 @@ public enum MeasurementToolId {
 		return edges;
 	}
 
+	/**
+	 * Returns the id by mode
+	 *
+	 * @param mode to search
+	 * @return the id with the given mode
+	 */
 	public static MeasurementToolId byMode(int mode) {
 		for (MeasurementToolId type: values()) {
 			if (type.mode == mode) {
@@ -67,6 +73,12 @@ public enum MeasurementToolId {
 		return NONE;
 	}
 
+	/**
+	 * Returns the id by order
+	 *
+	 * @param order to search
+	 * @return the id with the given order
+	 */
 	public static MeasurementToolId byOrder(int order) {
 		for (MeasurementToolId type: values()) {
 			if (type.ordinal() == order) {
