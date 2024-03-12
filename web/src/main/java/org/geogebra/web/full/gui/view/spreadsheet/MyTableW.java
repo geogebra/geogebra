@@ -26,6 +26,7 @@ import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.spreadsheet.core.SelectionType;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.CellFormatInterface;
@@ -169,7 +170,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	// there should be place left for the textfield
 	protected int minimumRowHeight = SpreadsheetSettings.TABLE_CELL_HEIGHT + 4;
 
-	private HashMap<GPoint, GeoElement> oneClickEditMap = new HashMap<>();
+	private HashMap<SpreadsheetCoords, GeoElement> oneClickEditMap = new HashMap<>();
 	private boolean allowEditing = false;
 
 	private SpreadsheetModeProcessor spredsheetModeProcessor;
@@ -310,7 +311,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * @return Collection of cells that contain geos that can be edited with one
 	 *         click, e.g. booleans, buttons, lists
 	 */
-	public HashMap<GPoint, GeoElement> getOneClickEditMap() {
+	public HashMap<SpreadsheetCoords, GeoElement> getOneClickEditMap() {
 		return oneClickEditMap;
 	}
 
@@ -318,7 +319,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * @param oneClickEditMap
 	 *            fast editable geos, see {@link #getOneClickEditMap()}
 	 */
-	public void setOneClickEditMap(HashMap<GPoint, GeoElement> oneClickEditMap) {
+	public void setOneClickEditMap(HashMap<SpreadsheetCoords, GeoElement> oneClickEditMap) {
 		this.oneClickEditMap = oneClickEditMap;
 	}
 
@@ -641,7 +642,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * @return element type
 	 */
 	public GeoClass getCellEditorType(int row, int column) {
-		GPoint p = new GPoint(column, row);
+		SpreadsheetCoords p = new SpreadsheetCoords(row, column);
 		if (view.allowSpecialEditor() && oneClickEditMap.containsKey(p)
 				&& kernel.getAlgebraStyleSpreadsheet() == Kernel.ALGEBRA_STYLE_VALUE) {
 			switch (oneClickEditMap.get(p).getGeoClassType()) {
@@ -814,8 +815,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * @param point
 	 *            y coordinate is row, x coordinate is column
 	 */
-	public void changeSelection(GPoint point, boolean extend) {
-		changeSelection(point.getY(), point.getX(), extend);
+	public void changeSelection(SpreadsheetCoords point, boolean extend) {
+		changeSelection(point.row, point.column, extend);
 	}
 
 	@Override
@@ -1268,7 +1269,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 *
 	 * @return spreadsheet coordinates from pixel
 	 */
-	public GPoint getIndexFromPixel(int x, int y) {
+	public SpreadsheetCoords getIndexFromPixel(int x, int y) {
 		return getIndexFromPixel(x, y, 0);
 	}
 
@@ -1278,7 +1279,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * 
 	 * @return spreadsheet coordinates from pixel
 	 */
-	public GPoint getIndexFromPixel(int x, int y, int diff) {
+	public SpreadsheetCoords getIndexFromPixel(int x, int y, int diff) {
 		if (x < 0 || y < 0) {
 			return null;
 		}
@@ -1286,29 +1287,29 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		int columnFrom = 0;
 		int rowFrom = 0;
 
-		int indexX = -1;
-		int indexY = -1;
+		int column = -1;
+		int row = -1;
 		for (int i = columnFrom; i < getColumnCount(); ++i) {
 			GPoint point = getPixel(i, rowFrom, false, false);
 			if (x + diff < point.getX()) {
-				indexX = i;
+				column = i;
 				break;
 			}
 		}
-		if (indexX == -1) {
+		if (column == -1) {
 			return null;
 		}
 		for (int i = rowFrom; i < getRowCount(); ++i) {
 			GPoint point = getPixel(columnFrom, i, false, false);
 			if (y + diff < point.getY()) {
-				indexY = i;
+				row = i;
 				break;
 			}
 		}
-		if (indexY == -1) {
+		if (row == -1) {
 			return null;
 		}
-		return new GPoint(indexX, indexY);
+		return new SpreadsheetCoords(row, column);
 	}
 
 	/**
@@ -1377,8 +1378,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 *            x column, y row
 	 * @return true on success
 	 */
-	public boolean editCellAt(GPoint point) {
-		return editCellAt(point.getY(), point.getX());
+	public boolean editCellAt(SpreadsheetCoords point) {
+		return editCellAt(point.row, point.column);
 	}
 
 	/**
@@ -1505,7 +1506,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		// allow use of special editors for e.g. buttons, lists
 		if (view.allowSpecialEditor()
-		        && oneClickEditMap.containsKey(new GPoint(column, row))) {
+		        && oneClickEditMap.containsKey(new SpreadsheetCoords(row, column))) {
 			return true;
 		}
 

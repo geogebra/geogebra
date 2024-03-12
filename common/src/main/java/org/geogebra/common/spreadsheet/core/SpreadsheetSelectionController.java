@@ -200,12 +200,11 @@ final class SpreadsheetSelectionController {
 		return !selections.isEmpty();
 	}
 
-	// TODO naming: What's the meaning of "last selection"?
-	// TODO reduce visibility if possible (from public)
 	/**
-	 * @return Last Selection if present, null otherwise
+	 * In case there are multiple selections (ctrl+click), returns the one that was created last.
+	 * @return Last selection if present, null otherwise
 	 */
-	public @CheckForNull Selection getLastSelection() {
+	@CheckForNull Selection getLastSelection() {
 		return selections.isEmpty() ? null : selections.get(selections.size() - 1);
 	}
 

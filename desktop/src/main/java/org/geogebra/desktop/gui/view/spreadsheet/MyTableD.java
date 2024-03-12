@@ -51,6 +51,7 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.spreadsheet.core.SelectionType;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.spreadsheet.style.CellFormatInterface;
 import org.geogebra.common.util.debug.Log;
@@ -174,7 +175,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	// Collection of cells that contain geos that can be edited with one click,
 	// e.g. booleans, buttons, lists
-	protected HashMap<GPoint, GeoElement> oneClickEditMap = new HashMap<>();
+	protected HashMap<SpreadsheetCoords, GeoElement> oneClickEditMap = new HashMap<>();
 
 	public boolean isOverDnDRegion() {
 		return isOverDnDRegion;
@@ -185,12 +186,12 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return selectedRanges;
 	}
 
-	public HashMap<GPoint, GeoElement> getOneClickEditMap() {
+	public HashMap<SpreadsheetCoords, GeoElement> getOneClickEditMap() {
 		return oneClickEditMap;
 	}
 
 	public void setOneClickEditMap(
-			HashMap<GPoint, GeoElement> oneClickEditMap) {
+			HashMap<SpreadsheetCoords, GeoElement> oneClickEditMap) {
 		this.oneClickEditMap = oneClickEditMap;
 	}
 
@@ -449,7 +450,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	@Override
 	public TableCellEditor getCellEditor(int row, int column) {
 
-		GPoint p = new GPoint(column, row);
+		SpreadsheetCoords p = new SpreadsheetCoords(row, column);
 		if (view.allowSpecialEditor() && oneClickEditMap.containsKey(p)
 				&& kernel
 						.getAlgebraStyleSpreadsheet() == Kernel.ALGEBRA_STYLE_VALUE) {
@@ -749,9 +750,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			return setSelection(-1, -1, -1, -1);
 		}
 
-		GPoint newCell = GeoElementSpreadsheet.spreadsheetIndices(cellName);
-		if (newCell.x != -1 && newCell.y != -1) {
-			return setSelection(newCell.x, newCell.y);
+		SpreadsheetCoords newCell = GeoElementSpreadsheet.spreadsheetIndices(cellName);
+		if (newCell.column != -1 && newCell.row != -1) {
+			return setSelection(newCell.column, newCell.row);
 		}
 		return false;
 	}
@@ -973,7 +974,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * @return Point(columnIndex, rowIndex), cell indices for the given pixel
 	 * location
 	 */
-	public GPoint getIndexFromPixel(int x, int y) {
+	public SpreadsheetCoords getIndexFromPixel(int x, int y) {
 		if (x < 0 || y < 0) {
 			return null;
 		}
@@ -999,7 +1000,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		if (indexY == -1) {
 			return null;
 		}
-		return new GPoint(indexX, indexY);
+		return new SpreadsheetCoords(indexX, indexY);
 	}
 
 	/**
@@ -1349,7 +1350,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// allow use of special editors for e.g. buttons, lists
 		if (view.allowSpecialEditor()
-				&& oneClickEditMap.containsKey(new GPoint(column, row))) {
+				&& oneClickEditMap.containsKey(new SpreadsheetCoords(row, column))) {
 			return true;
 		}
 

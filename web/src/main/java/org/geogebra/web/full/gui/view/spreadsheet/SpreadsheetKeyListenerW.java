@@ -7,6 +7,7 @@ import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.gwtproject.core.client.Scheduler;
@@ -193,9 +194,9 @@ public class SpreadsheetKeyListenerW
 			int pixelx = table.getPixel(pos.x, pos.y, true).getX();
 			int pixely = view.getFocusPanel().getAbsoluteTop()
 			        + view.getFocusPanel().getOffsetHeight();
-			GPoint gip = table.getIndexFromPixel(pixelx, pixely);
+			SpreadsheetCoords gip = table.getIndexFromPixel(pixelx, pixely);
 			if (gip != null) {
-				table.changeSelection(gip.getY(), pos.x, false);
+				table.changeSelection(gip.row, pos.x, false);
 			} else {
 				table.changeSelection(model.getRowCount() - 1, pos.x, false);
 			}
@@ -206,9 +207,9 @@ public class SpreadsheetKeyListenerW
 
 			int pixx = table.getPixel(pos.x, pos.y, true).getX();
 			int pixy = view.getFocusPanel().getAbsoluteTop();
-			GPoint gi = table.getIndexFromPixel(pixx, pixy);
+			SpreadsheetCoords gi = table.getIndexFromPixel(pixx, pixy);
 			if (gi != null) {
-				table.changeSelection(gi.getY(), pos.x, false);
+				table.changeSelection(gi.row, pos.x, false);
 				// stop cell being erased before moving
 			} else {
 				table.changeSelection(0, pos.x, false);

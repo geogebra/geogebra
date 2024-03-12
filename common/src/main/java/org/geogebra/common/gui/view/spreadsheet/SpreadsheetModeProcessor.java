@@ -1,12 +1,12 @@
 package org.geogebra.common.gui.view.spreadsheet;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 
@@ -194,8 +194,8 @@ public class SpreadsheetModeProcessor {
 				firstSelection)) {
 			// select the new geo
 			app.setMoveMode();
-			GPoint coords = targetCell.getSpreadsheetCoords();
-			table.changeSelection(coords.y, coords.x, false);
+			SpreadsheetCoords coords = targetCell.getSpreadsheetCoords();
+			table.changeSelection(coords.row, coords.column, false);
 			table.repaint();
 		}
 	}

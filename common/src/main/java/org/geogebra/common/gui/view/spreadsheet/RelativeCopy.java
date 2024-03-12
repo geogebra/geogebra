@@ -34,6 +34,7 @@ import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -364,15 +365,15 @@ public class RelativeCopy {
 			while (iterator.hasNext()) {
 				GeoElement geo = iterator.next();
 				if (geo != null) {
-					GPoint p = geo.getSpreadsheetCoords();
+					SpreadsheetCoords p = geo.getSpreadsheetCoords();
 
-					GeoElement vOld = getValue(app, p.x, dy1 + iy);
+					GeoElement vOld = getValue(app, p.column, dy1 + iy);
 					if (vOld != null && vOld.isProtected(EventType.UPDATE)) {
 						continue;
 					}
 
 					doCopyNoStoringUndoInfo0(geo,
-							getValue(app, p.x, dy1 + iy), 0, y - sy);
+							getValue(app, p.column, dy1 + iy), 0, y - sy);
 				}
 			}
 		}
@@ -419,15 +420,15 @@ public class RelativeCopy {
 				GeoElement geo = iterator.next();
 
 				if (geo != null) {
-					GPoint p = geo.getSpreadsheetCoords();
+					SpreadsheetCoords p = geo.getSpreadsheetCoords();
 
-					GeoElement vOld = getValue(app, dx1 + ix, p.y);
+					GeoElement vOld = getValue(app, dx1 + ix, p.row);
 					if (vOld != null && vOld.isProtected(EventType.UPDATE)) {
 						continue;
 					}
 
 					doCopyNoStoringUndoInfo0(geo,
-							getValue(app, dx1 + ix, p.y), x - sx, 0);
+							getValue(app, dx1 + ix, p.row), x - sx, 0);
 				}
 			}
 		}
@@ -570,8 +571,8 @@ public class RelativeCopy {
 			row0 = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 		} else if (value.getSpreadsheetCoords() != null) {
 			// the cell has been deleted but still exists in clipboard memory
-			column0 = value.getSpreadsheetCoords().x;
-			row0 = value.getSpreadsheetCoords().y;
+			column0 = value.getSpreadsheetCoords().column;
+			row0 = value.getSpreadsheetCoords().row;
 		}
 
 		// create the new cell geo

@@ -3,7 +3,6 @@ package org.geogebra.common.gui.view.spreadsheet;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -30,6 +29,7 @@ import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.spreadsheet.core.Direction;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.CellFormatInterface;
@@ -852,11 +852,11 @@ public class CellRangeProcessor {
 			list = new ArrayList<>();
 		}
 
-		ArrayList<GPoint> cellList = new ArrayList<>();
+		ArrayList<SpreadsheetCoords> cellList = new ArrayList<>();
 
 		// temporary fix for catching duplicate cells caused by ctrl-seelct
 		// will not be needed when sorting of cells by row/column is done
-		HashSet<GPoint> usedCells = new HashSet<>();
+		HashSet<SpreadsheetCoords> usedCells = new HashSet<>();
 
 		try {
 
@@ -868,9 +868,9 @@ public class CellRangeProcessor {
 
 			// iterate through the cells and add their contents to the
 			// expression string
-			for (GPoint cell : cellList) {
+			for (SpreadsheetCoords cell : cellList) {
 				if (!usedCells.contains(cell)) {
-					GeoElement geo = RelativeCopy.getValue(app, cell.x, cell.y);
+					GeoElement geo = RelativeCopy.getValue(app, cell.column, cell.row);
 					if (geo != null && (geoTypeFilter == null
 							|| geo.getGeoClassType() == geoTypeFilter)) {
 						if (copyByValue) {

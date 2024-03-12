@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import javax.annotation.CheckForNull;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
 
 /**
@@ -42,14 +41,14 @@ public final class TabularRange {
 	/**
 	 * @param anchorRow anchor row
 	 * @param anchorColumn anchor column
-	 * @param row2 end row // TODO naming: provide meaningful name
-	 * @param col2 end column
+	 * @param endRow end row
+	 * @param endCol end column
 	 */
-	public TabularRange(int anchorRow, int anchorColumn, int row2, int col2) {
-		minColumn = Math.min(anchorColumn, col2);
-		maxColumn = Math.max(anchorColumn, col2);
-		minRow = Math.min(anchorRow, row2);
-		maxRow = Math.max(anchorRow, row2);
+	public TabularRange(int anchorRow, int anchorColumn, int endRow, int endCol) {
+		minColumn = Math.min(anchorColumn, endCol);
+		maxColumn = Math.max(anchorColumn, endCol);
+		minRow = Math.min(anchorRow, endRow);
+		maxRow = Math.max(anchorRow, endRow);
 
 		this.anchorColumn = anchorColumn;
 		this.anchorRow = anchorRow;
@@ -138,16 +137,15 @@ public final class TabularRange {
 	}
 
 	/**
-	 * // TODO use the right types: don't use a (geometric) Point data type to represent
 	 * row/column pairs
 	 * @param location point (column, row)
 	 * @return whether given point is part of this range
 	 */
-	public boolean contains(GPoint location) {
+	public boolean contains(SpreadsheetCoords location) {
 		if (location != null
-				&& location.x < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP
-				&& location.y < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP) {
-			return contains(location.y, location.x);
+				&& location.column < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP
+				&& location.row < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP) {
+			return contains(location.row, location.column);
 		}
 		return false;
 	}
@@ -177,19 +175,19 @@ public final class TabularRange {
 	 * @return list of all coords in the range
 	 */
 	// TODO visibility: does this really have to be public?
-	public ArrayList<GPoint> toCellList(boolean scanByColumn) {
+	public ArrayList<SpreadsheetCoords> toCellList(boolean scanByColumn) {
 
-		ArrayList<GPoint> list = new ArrayList<>();
+		ArrayList<SpreadsheetCoords> list = new ArrayList<>();
 		if (scanByColumn) {
 			for (int col = minColumn; col <= maxColumn; ++col) {
 				for (int row = minRow; row <= maxRow; ++row) {
-					list.add(new GPoint(col, row));
+					list.add(new SpreadsheetCoords(row, col));
 				}
 			}
 		} else {
 			for (int row = minRow; row <= maxRow; ++row) {
 				for (int col = minColumn; col <= maxColumn; ++col) {
-					list.add(new GPoint(col, row));
+					list.add(new SpreadsheetCoords(row, col));
 				}
 			}
 		}
