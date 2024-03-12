@@ -204,7 +204,7 @@ public final class SpreadsheetController implements TabularSelection {
 			controlsDelegate.showContextMenu(contextMenuItems.get(row, column), coords);
 			resetDragAction();
 		}
-		if (row >= 0 && column >= 0 && selectionController.isOnlySelected(row, column)) {
+		if (row >= 0 && column >= 0 && selectionController.isOnlyCellSelected(row, column)) {
 			return showCellEditor(row, column);
 		}
 		if (!modifiers.ctrl && !modifiers.shift && selectionController.hasSelection()) {
