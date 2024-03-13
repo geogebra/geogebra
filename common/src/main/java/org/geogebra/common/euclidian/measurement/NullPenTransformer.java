@@ -9,6 +9,16 @@ import org.geogebra.common.euclidian.EuclidianView;
  * No pen transformer.
  */
 public class NullPenTransformer implements PenTransformer {
+
+	private static NullPenTransformer istance;
+
+	public static PenTransformer get() {
+		if (istance == null) {
+			istance = new NullPenTransformer();
+		}
+		return istance;
+	}
+
 	@Override
 	public boolean isActive() {
 		return false;

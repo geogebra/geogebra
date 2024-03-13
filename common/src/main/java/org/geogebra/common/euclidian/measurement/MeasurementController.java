@@ -113,6 +113,7 @@ public class MeasurementController {
 	 * @return the pen transformer of the active measurement tool.
 	 */
 	public PenTransformer getTransformer() {
-		return activeTool().getTransformer();
+		MeasurementTool tool = activeTool();
+		return tool != null ? tool.getTransformer() : NullPenTransformer.get();
 	}
 }

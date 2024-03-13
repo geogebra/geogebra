@@ -18,6 +18,11 @@ public final class MeasurementTool {
 	private final MeasurementToolId id;
 	private final String fileName;
 
+	/**
+	 *
+	 * @param id of the tool.
+	 * @param image of the tool.
+	 */
 	public MeasurementTool(MeasurementToolId id, GeoImage image) {
 		this(id, "", 0.0);
 		this.image = image;
