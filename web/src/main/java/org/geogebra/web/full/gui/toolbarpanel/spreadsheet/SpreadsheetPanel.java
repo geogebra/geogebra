@@ -209,7 +209,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 			@Override
 			public void setScrollPosition(int x, int y) {
-				scrollOverlay.setVerticalScrollPosition(x);
+				scrollOverlay.setHorizontalScrollPosition(x);
 				scrollOverlay.setVerticalScrollPosition(y);
 			}
 
