@@ -14,6 +14,7 @@ import java.util.List;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -261,6 +262,16 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertFalse(commandDispatcher.isAllowedByNameFilter(Commands.Derivative));
 		examController.exitExam();
 		assertTrue(commandDispatcher.isAllowedByNameFilter(Commands.Derivative));
+	}
+
+	@Test
+	public void testSwitchToRestrictedSubApp() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+		examController.prepareExam();
+
+		examController.setExamRestrictionsForTesting(
+				ExamRestrictions.forExamType(ExamRegion.BAYERN_CAS)); // only allows CAS app
+		examController.startExam(ExamRegion.BAYERN_CAS);
 	}
 
 	@Test

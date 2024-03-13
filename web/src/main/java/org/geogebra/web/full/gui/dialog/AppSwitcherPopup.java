@@ -129,6 +129,7 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 		restrictionModel = model;
 	}
 
+	@Deprecated // app switching in exams is now handled by ExamController
 	@Override
 	public void applyExamRestrictions() {
 		updateGUI();

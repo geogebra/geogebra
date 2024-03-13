@@ -10,7 +10,7 @@ public enum SuiteSubApp {
 	PROBABILITY(PROBABILITY_APPCODE),
 	SCIENTIFIC(SCIENTIFIC_APPCODE);
 
-	final String appCode;
+	public final String appCode;
 
 	SuiteSubApp(String appCode) {
 		this.appCode = appCode;

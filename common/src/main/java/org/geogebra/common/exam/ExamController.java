@@ -3,6 +3,7 @@ package org.geogebra.common.exam;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
 
@@ -197,6 +198,40 @@ public final class ExamController implements PropertiesRegistryListener {
 	 */
 	public @CheckForNull ExamRegion getExamType() {
 		return examType;
+	}
+
+	/**
+	 * @return The set of disabled (restricted) sub-apps, or null if there are no
+	 * restrictions on sub-apps currently.
+	 */
+	public @CheckForNull Set<SuiteSubApp> getDisabledSubApps() {
+		return !isIdle() && examRestrictions != null ? examRestrictions.getDisabledSubApps() : null;
+	}
+
+	/**
+	 * @return The set of disabled (restricted) sub-app codes, or null if there are no
+	 * restrictions on sub-apps currently.
+	 */
+	public @CheckForNull Set<String> getDisabledSubAppCodes() {
+		Set<SuiteSubApp> disabledSubApps = getDisabledSubApps();
+		if (disabledSubApps == null) {
+			return null;
+		}
+		return disabledSubApps.stream().map(subApp -> subApp.appCode).collect(Collectors.toSet());
+	}
+
+	/**
+	 * @param appCode A sub-app code (e.g.
+	 * {@link org.geogebra.common.GeoGebraConstants#GRAPHING_APPCODE}).
+	 * @return True if the sub-app corresponding to appCode is currently disabled, false otherwise.
+	 */
+	public boolean isDisabledSubApp(String appCode) {
+		Set<SuiteSubApp> disabledSubApps = getDisabledSubApps();
+		if (disabledSubApps == null) {
+			return false;
+		}
+		return disabledSubApps.stream()
+				.anyMatch(subApp -> subApp.appCode.equalsIgnoreCase(appCode));
 	}
 
 	/**

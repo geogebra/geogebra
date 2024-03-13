@@ -1021,13 +1021,13 @@ public abstract class CommandDispatcher implements Restrictable {
 		return isAllowedByNameFilter(Commands.Solve);
 	}
 
-	@Deprecated
+	@Deprecated // restrictions on the CommandDispatcher are now handled by ExamController
 	@Override
 	public boolean isExamRestrictionModelAccepted(ExamRestrictionModel model) {
 		return model.getCommandFilter() != null;
 	}
 
-	@Deprecated
+	@Deprecated // restrictions on the CommandDispatcher are now handled by ExamController
 	@Override
 	public void setExamRestrictionModel(ExamRestrictionModel model) {
 		if (model == null) {
