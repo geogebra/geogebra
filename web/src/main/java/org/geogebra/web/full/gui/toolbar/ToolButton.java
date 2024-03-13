@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.toolbar;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.gui.util.HasResource;
@@ -84,8 +84,9 @@ public class ToolButton extends StandardButton {
 	}
 
 	private boolean isAdditionalToolSelected() {
-		Construction cons = appW.getKernel().getConstruction();
-		return (mode == EuclidianConstants.MODE_RULER && cons.getRuler() != null)
-				|| (mode == EuclidianConstants.MODE_PROTRACTOR && cons.getProtractor() != null);
+		EuclidianController ec =
+				appW.getActiveEuclidianView().getEuclidianController();
+		return (mode == EuclidianConstants.MODE_RULER && ec.getRuler() != null)
+				|| (mode == EuclidianConstants.MODE_PROTRACTOR && ec.getProtractor() != null);
 	}
 }

@@ -23,17 +23,21 @@ public class MeasureControllerTest extends BaseUnitTest {
 	public void setUp() {
 		kernel = getKernel();
 		cons = kernel.getConstruction();
-		controller = new MeasurementController(kernel);
+		controller = new MeasurementController(kernel, this::createToolImage);
 		ruler = newTool(MeasurementToolId.RULER);
 		controller.add(ruler);
 		controller.add(newTool(MeasurementToolId.PROTRACTOR));
 		controller.add(newTool(MeasurementToolId.TRIANGLE_PROTRACTOR));
 	}
 
+	private GeoImage createToolImage(int mode, String fileName) {
+		return null;
+	}
+
 	private MeasurementTool newTool(MeasurementToolId id) {
 		GeoImage image = new GeoImage(kernel.getConstruction());
 		image.setLabel(id.toString());
-		return new MeasurementTool(id, image);
+		return new MeasurementTool(id, "", 0.0, this::createToolImage);
 	}
 
 	@Test

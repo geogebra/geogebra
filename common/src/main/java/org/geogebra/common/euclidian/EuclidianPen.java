@@ -234,7 +234,7 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	public void addPointPenMode(AbstractEvent e) {
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
-		MeasurementController mc = app.getKernel().getConstruction()
+		MeasurementController mc = app.getActiveEuclidianView().getEuclidianController()
 				.getMeasurementController();
 		PenTransformer transformer = mc.getTransformer();
 		transformer.reset(view, previewPoints);

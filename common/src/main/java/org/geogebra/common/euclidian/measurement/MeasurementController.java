@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
  */
 public class MeasurementController {
 	private final Kernel kernel;
+	private final CreateToolImage toolImageF;
 	private Map<MeasurementToolId, MeasurementTool> tools = new HashMap<>();
 	private MeasurementToolId selectedToolId = MeasurementToolId.NONE;
 
@@ -18,15 +19,16 @@ public class MeasurementController {
 	 *
 	 * @param kernel {@link Kernel}
 	 */
-	public MeasurementController(Kernel kernel) {
+	public MeasurementController(Kernel kernel, CreateToolImage toolImageF) {
 		this.kernel = kernel;
+		this.toolImageF = toolImageF;
 		addTool(MeasurementToolId.RULER, "Ruler.svg", null);
 		addTool(MeasurementToolId.PROTRACTOR, "Protactor.svg", 1 - (278.86 / 296));
 		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtactor.svg", 0.0);
 	}
 
 	private void addTool(MeasurementToolId id, String fileName, Double percent) {
-		add(new MeasurementTool(id, fileName, percent));
+		add(new MeasurementTool(id, fileName, percent, toolImageF));
 		selectTool(id);
 	}
 
@@ -90,7 +92,7 @@ public class MeasurementController {
 
 	private void refreshTool() {
 		MeasurementTool tool = activeTool();
-		tool.refresh(kernel.getApplication().getActiveEuclidianView()::addMeasurementTool);
+		tool.refresh();
 	}
 
 	/**

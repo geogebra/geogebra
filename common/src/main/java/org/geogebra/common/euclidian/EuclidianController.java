@@ -44,6 +44,9 @@ import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.euclidian.measurement.MeasurementController;
+import org.geogebra.common.euclidian.measurement.MeasurementTool;
+import org.geogebra.common.euclidian.measurement.MeasurementToolId;
 import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
 import org.geogebra.common.euclidian.modes.ModeMacro;
 import org.geogebra.common.euclidian.modes.ModeShape;
@@ -482,6 +485,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		ADD
 	}
 
+	private MeasurementController measurementTools;
+
 	/**
 	 * @param app
 	 *            application
@@ -493,6 +498,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		this.priorityComparator = app.getGeoPriorityComparator();
 		spotlightController = new SpotlightController(app);
 		createCompanions();
+		measurementTools = new MeasurementController(kernel, this::createMeasurementToolImage);
+	}
+
+	protected GeoImage createMeasurementToolImage(int mode, String fileName) {
+		return null;
 	}
 
 	protected static void removeAxes(ArrayList<GeoElement> geos) {
@@ -12299,4 +12309,41 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected App getApp() {
 		return app;
 	}
+
+	public GeoImage getRuler() {
+		return measurementTools.getActiveToolImage();
+	}
+
+	public GeoImage getProtractor() {
+		return measurementTools.getActiveToolImage();
+	}
+
+	public MeasurementTool getActiveMeasurementTool() {
+		return measurementTools.activeTool();
+	}
+
+	public void clearMeasurementTools() {
+		measurementTools.clear();
+	}
+
+	public void toggleMeasurementTool(int newMode) {
+		measurementTools.toggleActiveTool(newMode);
+	}
+
+	/**
+	 * Selects the measurement tool of the given id and retrieves its image.
+	 *
+	 * @param toolId of the measurement tool.
+	 * @return the image of the selected measurement tool
+	 */
+	public GeoImage getMeasureToolImage(MeasurementToolId toolId) {
+		measurementTools.selectTool(toolId);
+		return measurementTools.getActiveToolImage();
+	}
+
+	public MeasurementController getMeasurementController() {
+		return measurementTools;
+	}
+
+
 }

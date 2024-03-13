@@ -60,8 +60,7 @@ public class ModeSwitcher {
 		case EuclidianConstants.MODE_RULER:
 		case EuclidianConstants.MODE_PROTRACTOR:
 		case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
-			cons.toggleMeasurementTool(newMode);
-			break;
+			app.getActiveEuclidianView().getEuclidianController().toggleMeasurementTool(newMode);			break;
 
 		default:
 			break;

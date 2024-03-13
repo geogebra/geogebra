@@ -30,7 +30,7 @@ public class RotateBoundingBox {
 		}
 
 		GPoint2D eventPoint = clampToView(eventX, eventY);
-		MeasurementTool tool = construction.getActiveMeasurementTool();
+		MeasurementTool tool = ec.getActiveMeasurementTool();
 		GPoint2D center = tool != null && tool.hasRotationCenter()
 				? tool.getRotationCenter(view)
 				: calculateRotationCenter(bounds);

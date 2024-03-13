@@ -14,7 +14,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianPen;
@@ -60,10 +59,8 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
-import org.geogebra.web.html5.main.SafeGeoImageFactory;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
-import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.canvas.client.Canvas;
@@ -1498,30 +1495,6 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public GeoImage addMeasurementTool(int mode, String fileName) {
-		GeoImage toolImage = new GeoImage(getKernel().getConstruction());
-		toolImage.setMeasurementTool(true);
-		SVGResource toolSVG = getMeasurementToolSVG(mode);
-		SafeGeoImageFactory factory = new SafeGeoImageFactory(appW, toolImage);
-		String path = ImageManagerW.getMD5FileName(fileName, toolSVG.getSafeUri().asString());
-		factory.createInternalFile(path, toolSVG.getSafeUri().asString());
-		return toolImage;
-	}
-
-	private static SVGResource getMeasurementToolSVG(int mode) {
-		switch (mode) {
-		case EuclidianConstants.MODE_RULER:
-			return GuiResourcesSimple.INSTANCE.ruler();
-		case EuclidianConstants.MODE_PROTRACTOR:
-			return GuiResourcesSimple.INSTANCE.protractor();
-		case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
-			return GuiResourcesSimple.INSTANCE.triangle_protractor();
-		}
-
-		return null;
-	}
-
-		@Override
 	public void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {
 		kernel.getConstruction().removeFromConstructionList(tool);
 		tool.setSize(width, height);

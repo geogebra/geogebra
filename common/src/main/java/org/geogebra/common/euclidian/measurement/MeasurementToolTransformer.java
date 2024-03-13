@@ -44,7 +44,7 @@ public final class MeasurementToolTransformer implements PenTransformer {
 	public void reset(EuclidianView view, List<GPoint> previewPoints) {
 		this.view = view;
 		this.previewPoints = previewPoints;
-		GeoImage ruler = view.getKernel().getConstruction().getRuler();
+		GeoImage ruler = view.getEuclidianController().getRuler();
 		if (ruler == null || previewPoints.isEmpty()) {
 			initialProjection = null;
 		} else if (previewPoints.size() == 1) {
@@ -87,11 +87,11 @@ public final class MeasurementToolTransformer implements PenTransformer {
 	}
 
 	private boolean onBottomEdge(GPoint bottom) {
-		GeoImage ruler = view.getKernel().getConstruction().getRuler();
-		double x1 = view.toScreenCoordXd(ruler.getStartPoints()[0].getInhomX());
-		double x2 = view.toScreenCoordXd(ruler.getStartPoints()[1].getInhomX());
-		double y1 = view.toScreenCoordYd(ruler.getStartPoints()[0].getInhomY());
-		double y2 = view.toScreenCoordYd(ruler.getStartPoints()[1].getInhomY());
+		GeoImage toolImage = getToolImage();
+		double x1 = view.toScreenCoordXd(toolImage.getStartPoints()[0].getInhomX());
+		double x2 = view.toScreenCoordXd(toolImage.getStartPoints()[1].getInhomX());
+		double y1 = view.toScreenCoordYd(toolImage.getStartPoints()[0].getInhomY());
+		double y2 = view.toScreenCoordYd(toolImage.getStartPoints()[1].getInhomY());
 		if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) {
 			return (x1 - bottom.x) * (x2 - bottom.x) <= 0;
 		} else {
@@ -99,9 +99,13 @@ public final class MeasurementToolTransformer implements PenTransformer {
 		}
 	}
 
+	private GeoImage getToolImage() {
+		return view.getEuclidianController().getRuler();
+	}
+
 	private GPoint getProjection(GPoint p, MeasurementToolEdge edge) {
-		GeoImage ruler = view.getKernel().getConstruction().getRuler();
-		edge.update(ruler);
+		GeoImage toolImage = getToolImage();
+		edge.update(toolImage);
 		GeoPoint corner1 = edge.endpoint2();
 		GeoPoint corner2 = edge.endpoint1();
 

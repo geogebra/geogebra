@@ -1,7 +1,6 @@
 package org.geogebra.common.euclidian.measurement;
 
 import java.util.List;
-import java.util.function.BiFunction;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -18,15 +17,7 @@ public final class MeasurementTool {
 	private final MeasurementToolId id;
 	private final String fileName;
 
-	/**
-	 *
-	 * @param id of the tool.
-	 * @param image of the tool.
-	 */
-	public MeasurementTool(MeasurementToolId id, GeoImage image) {
-		this(id, "", 0.0);
-		this.image = image;
-	}
+	private CreateToolImage toolImageF;
 
 	/**
 	 *
@@ -35,11 +26,12 @@ public final class MeasurementTool {
 	 * @param percent the y-position of the rotation point given by percent of the image height
 	 * (x-position is centered)
 	 */
-	public MeasurementTool(MeasurementToolId id, String fileName, Double percent) {
+	public MeasurementTool(MeasurementToolId id, String fileName, Double percent, CreateToolImage toolImageF) {
 		this.id = id;
 		this.fileName = fileName;
 		this.centerInPercent = percent;
 		this.transformer = createTransformer();
+		this.toolImageF = toolImageF;
 	}
 
 	private PenTransformer createTransformer() {
@@ -73,8 +65,8 @@ public final class MeasurementTool {
 		return id;
 	}
 
-	void refresh(BiFunction<Integer, String, GeoImage> addFunct) {
-		image = addFunct.apply(id.getMode(), fileName);
+	void refresh() {
+		image = toolImageF.create(id.getMode(), fileName);
 	}
 
 	/**

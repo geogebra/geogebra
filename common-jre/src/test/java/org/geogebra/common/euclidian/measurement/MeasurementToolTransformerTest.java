@@ -18,7 +18,7 @@ public class MeasurementToolTransformerTest extends BaseUnitTest {
 	@Before
 	public void setUp() {
 		view = getApp().getActiveEuclidianView();
-		mc = getApp().getKernel().getConstruction().getMeasurementController();
+		mc = view.getEuclidianController().getMeasurementController();
 	}
 
 	@Test
