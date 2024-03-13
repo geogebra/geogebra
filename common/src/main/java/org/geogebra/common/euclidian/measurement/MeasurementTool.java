@@ -26,18 +26,16 @@ public final class MeasurementTool {
 	 * @param percent the y-position of the rotation point given by percent of the image height
 	 * (x-position is centered)
 	 */
-	public MeasurementTool(MeasurementToolId id, String fileName, Double percent, CreateToolImage toolImageF) {
+	public MeasurementTool(MeasurementToolId id, String fileName,
+			Double percent, CreateToolImage toolImageF,
+			PenTransformer transformer) {
 		this.id = id;
 		this.fileName = fileName;
 		this.centerInPercent = percent;
-		this.transformer = createTransformer();
+		this.transformer = transformer;
 		this.toolImageF = toolImageF;
 	}
 
-	private PenTransformer createTransformer() {
-		List<MeasurementToolEdge> edges = id.getEdges();
-		return edges != null ? new MeasurementToolTransformer(edges) :  new NullPenTransformer();
-	}
 
 	/**
 	 *

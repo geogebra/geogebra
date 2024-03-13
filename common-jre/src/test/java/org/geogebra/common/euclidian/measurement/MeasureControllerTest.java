@@ -37,7 +37,7 @@ public class MeasureControllerTest extends BaseUnitTest {
 	}
 
 	private MeasurementTool newTool(MeasurementToolId id) {
-		MeasurementTool tool = new MeasurementTool(id, "", 0.0, this::createToolImage);
+		MeasurementTool tool = new MeasurementTool(controller, id, "", 0.0, this::createToolImage);
 		tool.refresh();
 		return tool;
 	}

@@ -45,8 +45,6 @@ import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.measurement.MeasurementController;
-import org.geogebra.common.euclidian.measurement.MeasurementTool;
-import org.geogebra.common.euclidian.measurement.MeasurementToolId;
 import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
 import org.geogebra.common.euclidian.modes.ModeMacro;
 import org.geogebra.common.euclidian.modes.ModeShape;
@@ -12310,16 +12308,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return app;
 	}
 
-	public GeoImage getRuler() {
-		return measurementTools.getActiveToolImage();
-	}
-
-	public GeoImage getProtractor() {
-		return measurementTools.getActiveToolImage();
-	}
-
-	public MeasurementTool getActiveMeasurementTool() {
-		return measurementTools.activeTool();
+	public GPoint2D getActiveMeasurementToolCenter(GRectangle2D bounds) {
+		return measurementTools.activeToolCenter(view, bounds);
 	}
 
 	public void clearMeasurementTools() {
@@ -12330,20 +12320,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		measurementTools.toggleActiveTool(newMode);
 	}
 
-	/**
-	 * Selects the measurement tool of the given id and retrieves its image.
-	 *
-	 * @param toolId of the measurement tool.
-	 * @return the image of the selected measurement tool
-	 */
-	public GeoImage getMeasureToolImage(MeasurementToolId toolId) {
-		measurementTools.selectTool(toolId);
-		return measurementTools.getActiveToolImage();
-	}
-
 	public MeasurementController getMeasurementController() {
 		return measurementTools;
 	}
-
 
 }

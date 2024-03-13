@@ -8,7 +8,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.measurement.MeasurementController;
-import org.geogebra.common.euclidian.measurement.PenTransformer;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
@@ -236,10 +235,7 @@ public class EuclidianPen implements GTimerListener {
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
 		MeasurementController mc = app.getActiveEuclidianView().getEuclidianController()
 				.getMeasurementController();
-		PenTransformer transformer = mc.getTransformer();
-		transformer.reset(view, previewPoints);
-		if (transformer.isActive() && previewPoints.size() > 1) {
-			transformer.updatePreview(newPoint);
+		if (mc.applyTransformer(view, newPoint, previewPoints)) {
 			penPoints.clear();
 			penPoints.addAll(previewPoints);
 		} else {

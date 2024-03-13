@@ -18,12 +18,18 @@ public final class MeasurementToolTransformer implements PenTransformer {
 	private GPoint initialProjection;
 	private List<MeasurementToolEdge> edges;
 	private MeasurementToolEdge activeEdge;
+	private MeasurementController mc;
+
+	public MeasurementToolTransformer(MeasurementController mc) {
+		this.mc = mc;
+	}
 
 	/**
 	 *
 	 * @param edges of the measurement tool.
 	 */
-	public MeasurementToolTransformer(List<MeasurementToolEdge> edges) {
+	public MeasurementToolTransformer(MeasurementController mc, List<MeasurementToolEdge> edges) {
+		this(mc);
 		this.edges = edges;
 	}
 
@@ -44,8 +50,8 @@ public final class MeasurementToolTransformer implements PenTransformer {
 	public void reset(EuclidianView view, List<GPoint> previewPoints) {
 		this.view = view;
 		this.previewPoints = previewPoints;
-		GeoImage ruler = view.getEuclidianController().getRuler();
-		if (ruler == null || previewPoints.isEmpty()) {
+		GeoImage toolImage = mc.getActiveToolImage();
+		if (toolImage == null || previewPoints.isEmpty()) {
 			initialProjection = null;
 		} else if (previewPoints.size() == 1) {
 			updateInitialProjection(previewPoints.get(0));
@@ -87,7 +93,7 @@ public final class MeasurementToolTransformer implements PenTransformer {
 	}
 
 	private boolean onBottomEdge(GPoint bottom) {
-		GeoImage toolImage = getToolImage();
+		GeoImage toolImage = mc.getActiveToolImage();
 		double x1 = view.toScreenCoordXd(toolImage.getStartPoints()[0].getInhomX());
 		double x2 = view.toScreenCoordXd(toolImage.getStartPoints()[1].getInhomX());
 		double y1 = view.toScreenCoordYd(toolImage.getStartPoints()[0].getInhomY());
@@ -99,12 +105,8 @@ public final class MeasurementToolTransformer implements PenTransformer {
 		}
 	}
 
-	private GeoImage getToolImage() {
-		return view.getEuclidianController().getRuler();
-	}
-
 	private GPoint getProjection(GPoint p, MeasurementToolEdge edge) {
-		GeoImage toolImage = getToolImage();
+		GeoImage toolImage = mc.getActiveToolImage();
 		edge.update(toolImage);
 		GeoPoint corner1 = edge.endpoint2();
 		GeoPoint corner2 = edge.endpoint1();

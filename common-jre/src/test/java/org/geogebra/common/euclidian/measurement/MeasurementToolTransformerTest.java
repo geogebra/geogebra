@@ -29,7 +29,7 @@ public class MeasurementToolTransformerTest extends BaseUnitTest {
 
 	}
 
-	private static MeasurementToolTransformer createTransformer(MeasurementToolId id) {
-		return new MeasurementToolTransformer(id.getEdges());
+	private MeasurementToolTransformer createTransformer(MeasurementToolId id) {
+		return new MeasurementToolTransformer(mc, id.getEdges());
 	}
 }

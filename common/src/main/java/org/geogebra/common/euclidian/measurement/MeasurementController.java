@@ -1,8 +1,13 @@
 package org.geogebra.common.euclidian.measurement;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoImage;
 
@@ -28,8 +33,15 @@ public class MeasurementController {
 	}
 
 	private void addTool(MeasurementToolId id, String fileName, Double percent) {
-		add(new MeasurementTool(id, fileName, percent, toolImageF));
+		add(new MeasurementTool(id, fileName, percent, toolImageF, createTransformer(id)));
 		selectTool(id);
+	}
+
+
+	private PenTransformer createTransformer(MeasurementToolId id) {
+		List<MeasurementToolEdge> edges = id.getEdges();
+		return edges != null ? new MeasurementToolTransformer(this, edges) :
+				NullPenTransformer.get();
 	}
 
 	void add(MeasurementTool tool) {
@@ -110,12 +122,41 @@ public class MeasurementController {
 		this.selectedToolId = toolId;
 	}
 
-	/**
-	 *
-	 * @return the pen transformer of the active measurement tool.
-	 */
-	public PenTransformer getTransformer() {
+	public boolean applyTransformer(EuclidianView view, GPoint newPoint,
+			List<GPoint> previewPoints) {
+		PenTransformer transformer = getTransformer();
+		transformer.reset(view, previewPoints);
+		if (transformer.isActive() && previewPoints.size() > 1) {
+			transformer.updatePreview(newPoint);
+			return true;
+		}
+		return false;
+	}
+
+	private PenTransformer getTransformer() {
 		MeasurementTool tool = activeTool();
 		return tool != null ? tool.getTransformer() : NullPenTransformer.get();
+	}
+
+	public GPoint2D activeToolCenter(EuclidianView view, GRectangle2D bounds) {
+		MeasurementTool tool = activeTool();
+		return tool != null && tool.hasRotationCenter()
+				? tool.getRotationCenter(view)
+				: calculateRotationCenter(bounds);
+	}
+
+	private GPoint2D calculateRotationCenter(GRectangle2D bounds) {
+		double x = bounds.getMinX() + bounds.getWidth() / 2;
+		double y = bounds.getMinY()  + bounds.getHeight() / 2;
+		return new GPoint2D(x, y);
+	}
+
+	public GeoImage getToolImage(MeasurementToolId toolId) {
+		selectTool(toolId);
+		return getActiveToolImage();
+	}
+
+	public boolean hasActiveToolImage() {
+		return getActiveToolImage() != null;
 	}
 }
