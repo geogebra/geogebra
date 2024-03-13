@@ -23,7 +23,7 @@ public class SpreadsheetControllerTest {
 
     @Before
     public void setup() {
-        controller.getLayout().setHeightForRows(20, 0, 5);
+        controller.getLayout().setHeightForRows(cellHeight, 0, 5);
         controller.getLayout().setWidthForColumns(40, 0, 5);
         setViewport(new Rectangle(0, 100, 0, 120));
         controller.setViewportAdjustmentHandler(new ViewportAdjustmentHandler() {
@@ -120,6 +120,7 @@ public class SpreadsheetControllerTest {
 
     @Test
     public void testViewportIsNotAdjustedUpwardsWithArrowKey() {
+        setViewport(new Rectangle(0, 120, 0, 200));
         controller.selectCell(2, 1, false, false);
         fakeDownArrowPress();
         double verticalScrollPosition = viewport.getMinY();
@@ -138,7 +139,8 @@ public class SpreadsheetControllerTest {
             controller.handlePointerDown(30, cellHeight * 2, Modifiers.NONE);
             controller.handlePointerUp(30, cellHeight * 2, Modifiers.NONE);
         } catch (Exception exception) {
-            fail("Tapping on the edge of row 1 and 2 in the row header caused exception: " + exception);
+            fail("Tapping on the edge of row 1 and 2 in the row header caused exception: "
+                    + exception);
         }
     }
 

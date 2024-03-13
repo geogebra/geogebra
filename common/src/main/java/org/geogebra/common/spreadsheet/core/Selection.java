@@ -2,7 +2,6 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A contiguous range of cells in a {@link Spreadsheet}.

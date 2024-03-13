@@ -451,16 +451,6 @@ public final class SpreadsheetController implements TabularSelection {
 		return false;
 	}
 
-	private SelectionType getDragSelectionType() {
-		if (dragAction.column < 0) {
-			return SelectionType.ROWS;
-		}
-		if (dragAction.row < 0) {
-			return SelectionType.COLUMNS;
-		}
-		return SelectionType.CELLS;
-	}
-
 	private TabularRange intersectWithDataRange(Selection selection) {
 		return selection.getRange().restrictTo(tabularData.numberOfRows(),
 				tabularData.numberOfColumns());

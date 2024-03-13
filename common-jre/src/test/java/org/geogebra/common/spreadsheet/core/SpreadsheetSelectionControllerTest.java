@@ -2,7 +2,10 @@ package org.geogebra.common.spreadsheet.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import javax.annotation.Nullable;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.junit.Test;
@@ -36,7 +39,8 @@ public class SpreadsheetSelectionControllerTest {
 		selectionController.moveLeft(false);
 		selectionController.moveLeft(false);
 
-		assertRangeEquals(selectionController.getLastSelection(), Selection.getSingleCellSelection(3, 0));
+		assertRangeEquals(selectionController.getLastSelection(),
+				Selection.getSingleCellSelection(3, 0));
 	}
 
 	@Test
@@ -57,7 +61,8 @@ public class SpreadsheetSelectionControllerTest {
 		selectionController.moveUp(false);
 		selectionController.moveUp(false);
 
-		assertRangeEquals(selectionController.getLastSelection(), Selection.getSingleCellSelection(0, 3));
+		assertRangeEquals(selectionController.getLastSelection(),
+				Selection.getSingleCellSelection(0, 3));
 	}
 
 	@Test
@@ -166,7 +171,8 @@ public class SpreadsheetSelectionControllerTest {
 		assertFalse(selectionController.isSelected(-1, 4));
 	}
 
-	private void assertRangeEquals(Selection selection, Selection other) {
+	private void assertRangeEquals(@Nullable Selection selection, Selection other) {
+		assertNotNull("Selection should not be null", selection);
 		TabularRange selectionRange = selection.getRange();
 		TabularRange otherRange = other.getRange();
 		assertEquals(selection.getType(), other.getType());
