@@ -131,7 +131,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 *            euclidian view
 	 */
 	public EuclidianPenFreehand(App app, EuclidianView view) {
-		super(app, view);
+		super(app, view, null);
 		for (int i = 0; i < recos.length; i++) {
 			recos[i] = new RecoSegment();
 		}

@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
 
+import org.geogebra.common.euclidian.measurement.MeasurementController;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
@@ -11,13 +12,16 @@ public class ModeSwitcher {
 
 	private final App app;
 	private final Construction cons;
+	private final MeasurementController mc;
 
 	/**
 	 * @param app application
+	 * @param mc
 	 */
-	public ModeSwitcher(App app) {
+	public ModeSwitcher(App app, MeasurementController mc) {
 		this.app = app;
 		cons = app.getKernel().getConstruction();
+		this.mc = mc;
 	}
 
 	/**
@@ -60,7 +64,8 @@ public class ModeSwitcher {
 		case EuclidianConstants.MODE_RULER:
 		case EuclidianConstants.MODE_PROTRACTOR:
 		case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
-			app.getActiveEuclidianView().getEuclidianController().toggleMeasurementTool(newMode);			break;
+			mc.toggleActiveTool(newMode);
+			break;
 
 		default:
 			break;

@@ -45,6 +45,7 @@ import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.measurement.MeasurementController;
+import org.geogebra.common.euclidian.measurement.MeasurementToolId;
 import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
 import org.geogebra.common.euclidian.modes.ModeMacro;
 import org.geogebra.common.euclidian.modes.ModeShape;
@@ -463,6 +464,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		spotlightController.clear();
 	}
 
+
 	/**
 	 * state for selection tool over press/release
 	 */
@@ -483,7 +485,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		ADD
 	}
 
-	private MeasurementController measurementTools;
+	private MeasurementController measurementController;
 
 	/**
 	 * @param app
@@ -496,7 +498,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		this.priorityComparator = app.getGeoPriorityComparator();
 		spotlightController = new SpotlightController(app);
 		createCompanions();
-		measurementTools = new MeasurementController(kernel, this::createMeasurementToolImage);
+		measurementController = new MeasurementController(kernel, this::createMeasurementToolImage);
 	}
 
 	protected GeoImage createMeasurementToolImage(int mode, String fileName) {
@@ -729,7 +731,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (ms == ModeSetter.TOOLBAR) {
 			if (app.getGuiManager() != null) {
-				new ModeSwitcher(app).switchMode(newMode);
+				new ModeSwitcher(app, measurementController).switchMode(newMode);
 			}
 
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
@@ -7474,7 +7476,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// bounds exist
 			if (bounds != null) {
 				if (rotateBoundingBox == null) {
-					rotateBoundingBox = new RotateBoundingBox(this);
+					rotateBoundingBox = new RotateBoundingBox(this, measurementController);
 					rotateBoundingBox.setView(view);
 				}
 
@@ -10670,7 +10672,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_PEN:
 		case EuclidianConstants.MODE_HIGHLIGHTER:
 			if (pen == null || pen.isFreehand()) {
-				pen = new EuclidianPen(app, view);
+				pen = new EuclidianPen(app, view, measurementController);
 			}
 			break;
 
@@ -10944,7 +10946,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public EuclidianPen getPen() {
 		if (pen == null) {
-			pen = new EuclidianPen(app, view);
+			pen = new EuclidianPen(app, view, measurementController);
 		}
 		return pen;
 	}
@@ -12308,20 +12310,22 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return app;
 	}
 
-	public GPoint2D getActiveMeasurementToolCenter(GRectangle2D bounds) {
-		return measurementTools.activeToolCenter(view, bounds);
-	}
-
 	public void clearMeasurementTools() {
-		measurementTools.clear();
+		measurementController.clear();
 	}
 
-	public void toggleMeasurementTool(int newMode) {
-		measurementTools.toggleActiveTool(newMode);
+
+	public void removeMeasurementTool(MeasurementToolId toolId) {
+		GeoImage toolImage = measurementController.getToolImage(toolId);
+		if (toolImage != null) {
+			toolImage.remove();
+		}
+		measurementController.clear();
 	}
 
-	public MeasurementController getMeasurementController() {
-		return measurementTools;
+	public boolean isMeasurementToolSelected() {
+		boolean hasActiveToolImage = measurementController.hasActiveToolImage();
+		return (mode == EuclidianConstants.MODE_RULER && hasActiveToolImage)
+				|| (mode == EuclidianConstants.MODE_PROTRACTOR && hasActiveToolImage);
 	}
-
 }

@@ -3,16 +3,13 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MOVE;
 
 import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.euclidian.measurement.MeasurementController;
 import org.geogebra.common.euclidian.measurement.MeasurementToolId;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 public class RulerIconButton extends IconButton {
 	private final static int TOOLBOX_PADDING = 8;
 	private final EuclidianController ec;
-	private final MeasurementController mc;
 	private RulerPopup rulerPopup;
 	private final AppW appW;
 
@@ -34,7 +31,6 @@ public class RulerIconButton extends IconButton {
 			showRulerTypePopup();
 			handleRuler();
 		});
-		mc = ec.getMeasurementController();
 	}
 
 	private void showRulerTypePopup() {
@@ -57,29 +53,13 @@ public class RulerIconButton extends IconButton {
 			appW.setMode(MODE_MOVE);
 		}
 	}
-	
-	private GeoImage getActiveRuler() {
-		int rulerType = rulerPopup.getActiveRulerType();
-		MeasurementToolId toolId = MeasurementToolId.byOrder(rulerType);
-		if (toolId != MeasurementToolId.NONE) {
-			return mc.getToolImage(toolId);
-		}
-		return null;
-	}
-	
-	private void clearRuler() {
-		mc.clear();
-	}
+
 
 	/**
 	 * remove ruler from construction
 	 */
 	public void removeRuler() {
-		GeoImage ruler = getActiveRuler();
-		if (ruler != null) {
-			ruler.remove();
-		}
-		clearRuler();
+		ec.removeMeasurementTool(MeasurementToolId.byMode(rulerPopup.getActiveRulerType()));
 	}
 
 	@Override

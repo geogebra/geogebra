@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.measurement.MeasurementController;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -16,12 +17,16 @@ import org.geogebra.common.util.MyMath;
 public class RotateBoundingBox {
 	private final Construction construction;
 	private final EuclidianController ec;
+	private final MeasurementController mc;
 	private EuclidianView view;
 
-	RotateBoundingBox(EuclidianController euclidianController) {
+	public RotateBoundingBox(EuclidianController euclidianController,
+			MeasurementController mc) {
 		this.ec = euclidianController;
+		this.mc = mc;
 		construction = ec.getKernel().getConstruction();
 	}
+
 
 	boolean rotate(GRectangle2D bounds, double eventX, double eventY) {
 		if (ec.lastMouseLoc == null) {
@@ -29,7 +34,7 @@ public class RotateBoundingBox {
 		}
 
 		GPoint2D eventPoint = clampToView(eventX, eventY);
-		GPoint2D center = ec.getActiveMeasurementToolCenter(bounds);
+		GPoint2D center = mc.getActiveToolCenter(view, bounds);
 		ensureRotationCenter(center);
 		NumberValue rotationAngle = calculateAngle(center, eventPoint);
 

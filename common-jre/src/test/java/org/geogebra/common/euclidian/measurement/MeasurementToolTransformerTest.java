@@ -7,6 +7,7 @@ import java.util.List;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +19,11 @@ public class MeasurementToolTransformerTest extends BaseUnitTest {
 	@Before
 	public void setUp() {
 		view = getApp().getActiveEuclidianView();
-		mc = view.getEuclidianController().getMeasurementController();
+		mc = new MeasurementController(getKernel(), this::createToolImage) ;
+	}
+
+	private GeoImage createToolImage(int mode, String fileName) {
+		return null;
 	}
 
 	@Test

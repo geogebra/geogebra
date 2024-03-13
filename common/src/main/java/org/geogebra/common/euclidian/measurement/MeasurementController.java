@@ -138,7 +138,7 @@ public class MeasurementController {
 		return tool != null ? tool.getTransformer() : NullPenTransformer.get();
 	}
 
-	public GPoint2D activeToolCenter(EuclidianView view, GRectangle2D bounds) {
+	public GPoint2D getActiveToolCenter(EuclidianView view, GRectangle2D bounds) {
 		MeasurementTool tool = activeTool();
 		return tool != null && tool.hasRotationCenter()
 				? tool.getRotationCenter(view)

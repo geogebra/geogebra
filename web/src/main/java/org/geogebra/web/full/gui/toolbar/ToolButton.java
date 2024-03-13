@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.toolbar;
 
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.gui.util.HasResource;
@@ -29,6 +28,7 @@ public class ToolButton extends StandardButton {
 		this.mode = mode;
 		this.appW = app;
 		this.selectedColor = app.getGeoGebraElement().getPrimaryColor(app.getFrameElement());
+
 		setStyleName("toolButton");
 		setAccessible();
 		setSelected(false); // update icon
@@ -76,16 +76,12 @@ public class ToolButton extends StandardButton {
 	 * @param appMode current mode of the app
 	 */
 	public void updateSelected(int appMode) {
-		boolean selected = (mode == appMode) || isAdditionalToolSelected();
+
+		boolean selected = (mode == appMode) || appW.getActiveEuclidianView()
+				.getEuclidianController().isMeasurementToolSelected();
 		getElement().setAttribute("selected",
 				String.valueOf(selected));
 		setSelected(selected);
 	}
 
-	private boolean isAdditionalToolSelected() {
-		boolean hasActiveToolImage = appW.getActiveEuclidianView().getEuclidianController().getMeasurementController()
-				.hasActiveToolImage();
-		return (mode == EuclidianConstants.MODE_RULER && hasActiveToolImage)
-				|| (mode == EuclidianConstants.MODE_PROTRACTOR && hasActiveToolImage);
-	}
 }
