@@ -44,8 +44,9 @@ public final class MeasurementToolTransformer implements PenTransformer {
 	public void reset(EuclidianView view, List<GPoint> previewPoints) {
 		this.view = view;
 		this.previewPoints = previewPoints;
-		GeoImage ruler = view.getEuclidianController().getRuler();
-		if (ruler == null || previewPoints.isEmpty()) {
+		GeoImage toolImage = view.getEuclidianController().getMeasurementController()
+				.getActiveToolImage();
+		if (toolImage == null || previewPoints.isEmpty()) {
 			initialProjection = null;
 		} else if (previewPoints.size() == 1) {
 			updateInitialProjection(previewPoints.get(0));
@@ -100,7 +101,7 @@ public final class MeasurementToolTransformer implements PenTransformer {
 	}
 
 	private GeoImage getToolImage() {
-		return view.getEuclidianController().getRuler();
+		return view.getEuclidianController().getMeasurementController().getActiveToolImage();
 	}
 
 	private GPoint getProjection(GPoint p, MeasurementToolEdge edge) {
