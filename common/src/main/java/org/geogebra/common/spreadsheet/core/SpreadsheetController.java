@@ -102,7 +102,7 @@ public final class SpreadsheetController implements TabularSelection {
 	 */
 	@Override
 	public boolean select(TabularRange selection, boolean extend, boolean addSelection) {
-		return selectionController.select(new Selection(SelectionType.CELLS, selection),
+		return selectionController.select(new Selection(selection),
 				extend, addSelection);
 	}
 
@@ -194,8 +194,7 @@ public final class SpreadsheetController implements TabularSelection {
 
 		boolean changed = false;
 		if (viewportAdjuster != null) {
-			changed = viewportAdjuster.adjustViewportHorizontallyIfNeeded(column, viewport)
-					| viewportAdjuster.adjustViewportVerticallyIfNeeded(row, viewport);
+			changed = viewportAdjuster.adjustViewportIfNeeded(row, column, viewport);
 		}
 
 		if (modifiers.rightButton && controlsDelegate != null) {
@@ -211,10 +210,13 @@ public final class SpreadsheetController implements TabularSelection {
 			selectionController.clearSelection();
 			changed = true;
 		}
-		if (column < 0) { // Select row
+		if (row == -1 && column == -1) { // Select all
+			selectAll();
+			changed = true;
+		} else if (column == -1) { // Select row
 			selectRow(row, modifiers.shift, modifiers.ctrl);
 			changed = true;
-		} else if (row < 0) { // Select column
+		} else if (row == -1) { // Select column
 			selectColumn(column, modifiers.shift, modifiers.ctrl);
 			changed = true;
 		} else { // Select cell
@@ -258,13 +260,13 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @param modifiers event modifiers
 	 */
 	public void handlePointerUp(int x, int y, Modifiers modifiers) {
-		List<Selection> sel = getSelections();
+		List<Selection> selections = getSelections();
 		switch (dragAction.activeCursor) {
 		case RESIZE_X:
 			if (isSelected(-1, dragAction.column)) {
 				double width = layout.getWidthForColumnResize(dragAction.column,
 						x + viewport.getMinX());
-				for (Selection selection : sel) {
+				for (Selection selection : selections) {
 					if (selection.getType() == SelectionType.COLUMNS) {
 						layout.setWidthForColumns(width, selection.getRange().getMinColumn(),
 								selection.getRange().getMaxColumn());
@@ -276,7 +278,7 @@ public final class SpreadsheetController implements TabularSelection {
 			if (isSelected(dragAction.row, -1)) {
 				double height = layout.getHeightForRowResize(dragAction.row,
 						y + viewport.getMinY());
-				for (Selection selection : sel) {
+				for (Selection selection : selections) {
 					if (selection.getType() == SelectionType.ROWS) {
 						layout.setHeightForRows(height, selection.getRange().getMinRow(),
 								selection.getRange().getMaxRow());
@@ -343,8 +345,7 @@ public final class SpreadsheetController implements TabularSelection {
 			}
 		}
 		if (cellSelectionChanged) {
-			adjustViewportHorizontallyIfNeeded();
-			adjustViewportVerticallyIfNeeded();
+			adjustViewportIfNeeded();
 			return true;
 		}
 		return false;
@@ -387,24 +388,15 @@ public final class SpreadsheetController implements TabularSelection {
 	}
 
 	/**
-	 * Adjusts the viewport horizontally if the selected cell or column is not fully visible
+	 * Adjusts the viewport if the selected cell or column is not fully visible
 	 */
-	private void adjustViewportHorizontallyIfNeeded() {
+	private void adjustViewportIfNeeded() {
 		Selection lastSelection = getLastSelection();
 		if (lastSelection != null && viewportAdjuster != null) {
-			viewportAdjuster.adjustViewportHorizontallyIfNeeded(
-					lastSelection.getRange().getToColumn(), viewport);
-		}
-	}
-
-	/**
-	 * Adjusts the viewport vertically if the selected cell or row is not fully visible
-	 */
-	private void adjustViewportVerticallyIfNeeded() {
-		Selection lastSelection = getLastSelection();
-		if (lastSelection != null && viewportAdjuster != null) {
-			viewportAdjuster.adjustViewportVerticallyIfNeeded(
-					lastSelection.getRange().getToRow(), viewport);
+			viewportAdjuster.adjustViewportIfNeeded(
+					lastSelection.getRange().getToRow(),
+					lastSelection.getRange().getToColumn(),
+					viewport);
 		}
 	}
 
@@ -453,22 +445,10 @@ public final class SpreadsheetController implements TabularSelection {
 
 			TabularRange range =
 					new TabularRange(dragAction.row, dragAction.column, row, column);
-			SelectionType type = getDragSelectionType();
-			return selectionController.select(new Selection(type,
-							range), false, addSelection);
+			return selectionController.select(new Selection(range), false, addSelection);
 
 		}
 		return false;
-	}
-
-	private SelectionType getDragSelectionType() {
-		if (dragAction.column < 0) {
-			return SelectionType.ROWS;
-		}
-		if (dragAction.row < 0) {
-			return SelectionType.COLUMNS;
-		}
-		return SelectionType.CELLS;
 	}
 
 	private TabularRange intersectWithDataRange(Selection selection) {

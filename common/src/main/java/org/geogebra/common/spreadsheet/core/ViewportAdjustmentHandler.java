@@ -2,9 +2,7 @@ package org.geogebra.common.spreadsheet.core;
 
 public interface ViewportAdjustmentHandler {
 
-	void setVerticalScrollPosition(int position);
-
-	void setHorizontalScrollPosition(int position);
+	void setScrollPosition(int x, int y);
 
 	/**
 	 * Retrieves the width of the scrollbar used for dragging content with the left mouse button

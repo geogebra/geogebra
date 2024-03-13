@@ -23,44 +23,34 @@ public class ViewportAdjuster {
 	}
 
 	/**
+	 * @param row Column index
 	 * @param column Row index
 	 * @param viewport Viewport
 	 * @return True if the viewport was adjusted horizontally, false else
 	 */
-	public boolean adjustViewportHorizontallyIfNeeded(int column, Rectangle viewport) {
-		double scrollAmount = 0;
+	public boolean adjustViewportIfNeeded(int row, int column, Rectangle viewport) {
+		double scrollAmountX = 0;
 		if (shouldAdjustViewportHorizontallyRightwards(column, viewport)) {
-			scrollAmount = Math.ceil(layout.getX(column + 1) - viewport.getMinX()
+			scrollAmountX = Math.ceil(layout.getX(column + 1) - viewport.getMinX()
 					+ layout.getRowHeaderWidth() - viewport.getWidth()
 					+ viewportAdjustmentHandler.getScrollBarWidth() + SCROLL_INCREMENT);
 		} else if (shouldAdjustViewportHorizontallyLeftwards(column, viewport)) {
-			scrollAmount = -Math.floor(viewport.getMinX() - layout.getX(column));
+			scrollAmountX = -Math.floor(viewport.getMinX() - layout.getX(column));
 		}
-		if (scrollAmount != 0) {
-			viewportAdjustmentHandler.setHorizontalScrollPosition(
-					(int) (viewport.getMinX() + scrollAmount));
-			return true;
-		}
-		return false;
-	}
 
-	/**
-	 * @param row Row index
-	 * @param viewport Viewport
-	 * @return True if the viewport was adjusted vertically, false else
-	 */
-	public boolean adjustViewportVerticallyIfNeeded(int row, Rectangle viewport) {
-		double scrollAmount = 0;
+		double scrollAmountY = 0;
 		if (shouldAdjustViewportVerticallyDownwards(row, viewport)) {
-			scrollAmount = Math.ceil(layout.getY(row + 1) - viewport.getMinY()
+			scrollAmountY = Math.ceil(layout.getY(row + 1) - viewport.getMinY()
 					+ layout.getColumnHeaderHeight() - viewport.getHeight()
 					+ viewportAdjustmentHandler.getScrollBarWidth() + SCROLL_INCREMENT);
 		} else if (shouldAdjustViewportVerticallyUpwards(row, viewport)) {
-			scrollAmount = -Math.floor(viewport.getMinY() - layout.getY(row));
+			scrollAmountY = -Math.floor(viewport.getMinY() - layout.getY(row));
 		}
-		if (scrollAmount != 0) {
-			viewportAdjustmentHandler.setVerticalScrollPosition(
-					(int) (viewport.getMinY() + scrollAmount));
+
+		if (scrollAmountX != 0 || scrollAmountY != 0) {
+			viewportAdjustmentHandler.setScrollPosition(
+					(int) (viewport.getMinX() + scrollAmountX),
+					(int) (viewport.getMinY() + scrollAmountY));
 			return true;
 		}
 		return false;

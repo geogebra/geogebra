@@ -97,7 +97,7 @@ public final class ContextMenuItemsTest {
 	@Test
 	public void testDeleteSelectedCells() {
 		TabularRange range = new TabularRange(6, 2, 8, 4);
-		selectionController.select(new Selection(SelectionType.CELLS, range), false, true);
+		selectionController.select(new Selection(range), false, true);
 		runItemAt(2, 4, DELETE);
 		checkRangeIsDeleted(range);
 	}
@@ -141,7 +141,7 @@ public final class ContextMenuItemsTest {
 	}
 
 	private void selectRows(int fromRow, int toRow) {
-		selectionController.select(new Selection(SelectionType.ROWS,
+		selectionController.select(new Selection(
 				new TabularRange(fromRow, HEADER_INDEX, toRow, HEADER_INDEX
 		)), false, false);
 	}
@@ -180,7 +180,7 @@ public final class ContextMenuItemsTest {
 	}
 
 	private void selectColumns(int fromColumn, int toColumn) {
-		selectionController.select(new Selection(SelectionType.COLUMNS,
+		selectionController.select(new Selection(
 				new TabularRange(HEADER_INDEX, fromColumn, HEADER_INDEX, toColumn)),
 				false, false);
 	}
@@ -244,7 +244,7 @@ public final class ContextMenuItemsTest {
 	}
 
 	private void selectCells(int fromRow, int fromColumn, int toRow, int toColumn) {
-		selectionController.select(new Selection(SelectionType.COLUMNS,
+		selectionController.select(new Selection(
 						new TabularRange(fromRow, fromColumn, toRow, toColumn)),
 				false, false);
 	}

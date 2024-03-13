@@ -206,14 +206,11 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 	private ViewportAdjustmentHandler createScrollable() {
 		return new ViewportAdjustmentHandler() {
-			@Override
-			public void setVerticalScrollPosition(int position) {
-				scrollOverlay.setVerticalScrollPosition(position);
-			}
 
 			@Override
-			public void setHorizontalScrollPosition(int position) {
-				scrollOverlay.setHorizontalScrollPosition(position);
+			public void setScrollPosition(int x, int y) {
+				scrollOverlay.setVerticalScrollPosition(x);
+				scrollOverlay.setVerticalScrollPosition(y);
 			}
 
 			@Override
