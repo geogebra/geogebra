@@ -415,8 +415,8 @@ public class ArbitraryConstIntegrationTest {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		GeoElementND[] f = ap.processAlgebraCommand("F:SolveODE(-1-y^2, (1,2))", false);
 		assertArrayEquals(new String[]{"F"}, app.getGgbApi().getAllObjectNames());
-		assertThat(f[0], hasValue("tan(0π - x + tan"
-				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(2) + 1)"));
+		assertThat(f[0], hasValue("tan(tan"
+				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(2) + 0π - x + 1)"));
 	}
 
 	@Test
