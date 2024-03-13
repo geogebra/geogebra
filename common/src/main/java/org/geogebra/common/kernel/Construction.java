@@ -19,9 +19,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.LayerManager;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.euclidian.measurement.MeasurementController;
-import org.geogebra.common.euclidian.measurement.MeasurementTool;
-import org.geogebra.common.euclidian.measurement.MeasurementToolId;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.algos.AlgoDistancePoints;
@@ -41,7 +38,6 @@ import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -207,7 +203,7 @@ public class Construction {
 	private ArrayList<Group> groups;
 
 	private LayerManager layerManager;
-	private MeasurementController measurementTools;
+
 
 	/**
 	 * Creates a new Construction.
@@ -256,7 +252,6 @@ public class Construction {
 		geoTable = new HashMap<>(200);
 		initGeoTables();
 		groups = new ArrayList<>();
-		measurementTools = new MeasurementController(kernel);
 	}
 
 	/**
@@ -336,17 +331,6 @@ public class Construction {
 		consDefaults = companion.newConstructionDefaults();
 	}
 
-	public GeoImage getRuler() {
-		return measurementTools.getActiveToolImage();
-	}
-
-	public GeoImage getProtractor() {
-		return measurementTools.getActiveToolImage();
-	}
-
-	public MeasurementTool getActiveMeasurementTool() {
-		return measurementTools.activeTool();
-	}
 
 	public Map<Integer, GeoNumeric> getArbitraryConstants() {
 		return constsM;
@@ -358,29 +342,6 @@ public class Construction {
 
 	public Map<Integer, GeoNumeric> getArbitraryComplexNumbers() {
 		return complexNumbersM;
-	}
-
-	public void clearMeasurementTools() {
-		measurementTools.clear();
-	}
-
-	public void toggleMeasurementTool(int newMode) {
-		measurementTools.toggleActiveTool(newMode);
-	}
-
-	/**
-	 * Selects the measurement tool of the given id and retrieves its image.
-	 *
-	 * @param toolId of the measurement tool.
-	 * @return the image of the selected measurement tool
-	 */
-	public GeoImage getMeasureToolImage(MeasurementToolId toolId) {
-		measurementTools.selectTool(toolId);
-		return measurementTools.getActiveToolImage();
-	}
-
-	public MeasurementController getMeasurementController() {
-		return measurementTools;
 	}
 
 	/**
@@ -3062,7 +3023,7 @@ public class Construction {
 		spreadsheetTraces = false;
 		supressLabelCreation = false;
 
-		measurementTools.clear();
+// TODO		measurementTools.clear();
 
 		groups.clear();
 	}

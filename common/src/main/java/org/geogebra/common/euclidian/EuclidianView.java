@@ -6659,14 +6659,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	/**
-	 * adds ruler or protractor image to canvas
-	 * @return geoImage containing ruler or protractor
-	 */
-	public GeoImage addMeasurementTool(int mode, String fileName) {
-		return null;
-	}
-
 	public void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {
 		// do nothing
 	}

@@ -15,25 +15,31 @@ import org.junit.Test;
 
 public class MeasureControllerTest extends BaseUnitTest {
 	private MeasurementController controller;
-	private Kernel kernel;
 	private MeasurementTool ruler;
 	private Construction cons;
 
 	@Before
 	public void setUp() {
-		kernel = getKernel();
+		Kernel kernel = getKernel();
 		cons = kernel.getConstruction();
-		controller = new MeasurementController(kernel);
+		controller = new MeasurementController(kernel, this::createToolImage);
 		ruler = newTool(MeasurementToolId.RULER);
+		ruler.refresh();
 		controller.add(ruler);
 		controller.add(newTool(MeasurementToolId.PROTRACTOR));
 		controller.add(newTool(MeasurementToolId.TRIANGLE_PROTRACTOR));
 	}
 
+	private GeoImage createToolImage(int mode, String fileName) {
+		GeoImage image = new GeoImage(cons);
+		image.setLabel(MeasurementToolId.byMode(mode).toString());
+		return image;
+	}
+
 	private MeasurementTool newTool(MeasurementToolId id) {
-		GeoImage image = new GeoImage(kernel.getConstruction());
-		image.setLabel(id.toString());
-		return new MeasurementTool(id, image);
+		MeasurementTool tool = new MeasurementTool(id, "", 0.0, this::createToolImage);
+		tool.refresh();
+		return tool;
 	}
 
 	@Test

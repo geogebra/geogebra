@@ -2,15 +2,15 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MOVE;
 
+import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.measurement.MeasurementToolId;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 public class RulerIconButton extends IconButton {
 	private final static int TOOLBOX_PADDING = 8;
-	private final Construction cons;
+	private final EuclidianController ec;
 	private RulerPopup rulerPopup;
 	private final AppW appW;
 
@@ -26,7 +26,7 @@ public class RulerIconButton extends IconButton {
 			String dataTest) {
 		super(appW.getLocalization(), icon, ariaLabel, dataTitle, dataTest, null);
 		this.appW = appW;
-		cons = appW.getKernel().getConstruction();
+		ec = appW.getActiveEuclidianView().getEuclidianController();
 		addFastClickHandler((event) -> {
 			setActive(!isActive(), appW.getGeoGebraElement().getDarkColor(appW.getFrameElement()));
 			showRulerTypePopup();
@@ -59,13 +59,13 @@ public class RulerIconButton extends IconButton {
 		int rulerType = rulerPopup.getActiveRulerType();
 		MeasurementToolId toolId = MeasurementToolId.byOrder(rulerType);
 		if (toolId != MeasurementToolId.NONE) {
-			return cons.getMeasureToolImage(toolId);
+			return ec.getMeasureToolImage(toolId);
 		}
 		return null;
 	}
 	
 	private void clearRuler() {
-		cons.clearMeasurementTools();
+		ec.clearMeasurementTools();
 	}
 
 	/**

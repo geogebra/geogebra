@@ -8,12 +8,14 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.euclidian.measurement.CreateToolImage;
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -36,6 +38,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		IsEuclidianController, DropHandler {
 
 	private MouseTouchGestureControllerW mtg;
+	private CreateToolImage toolImageW;
 
 	@Override
 	protected void showSpecialPointPopup(
@@ -296,5 +299,12 @@ public class EuclidianControllerW extends EuclidianController implements
 		return mtg;
 	}
 
+	@Override
+	protected GeoImage createMeasurementToolImage(int mode, String fileName) {
+		if (toolImageW == null) {
+			toolImageW = new CreateToolImageW((AppW) app);
+		}
+		return toolImageW.create(mode, fileName);
+	}
 }
 
