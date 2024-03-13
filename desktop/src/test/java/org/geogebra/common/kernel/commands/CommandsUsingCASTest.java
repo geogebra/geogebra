@@ -20,6 +20,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.test.TestErrorHandler;
+import org.geogebra.test.annotation.Issue;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -538,5 +539,18 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	public void useApproxBoundsForDefiniteIntegral() {
 		t("a=1", "1");
 		t("Integral[sin(x) / (1 + a² - 2a cos(x)), 0, pi]", "NaN");
+	}
+
+	/**
+	 * Before the Giac syntax for the SolveODE command (SolveODEPoint.2) was changed,
+	 * the result of this expression was '?'. Furthermore, the old syntax led to crashes within
+	 * the browser.
+	 */
+	@Test
+	@Issue("APPS-5465")
+	public void testCmdSolveODE2() {
+		t("SolveODE((x / y) - x y, (1.71, -2))", "(((-3 * sqrt(1 / 9)) * "
+				+ "ℯ^(29241 / 10000)) * sqrt((3 * ℯ^(x^(2)) / ℯ^(29241 / 10000)) + "
+				+ "(ℯ^(x^(2)))^(2) / (ℯ^(29241 / 10000))^(2)) / ℯ^(x^(2)))");
 	}
 }
