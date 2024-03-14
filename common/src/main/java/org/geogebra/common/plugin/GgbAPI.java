@@ -60,7 +60,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -1693,7 +1692,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		if ("exam".equals(code)) {
-			GlobalScope.getExamController().prepareExam();
+			app.setNewExam();
+			app.examWelcome();
 			return;
 		}
 		
@@ -1731,8 +1731,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			}
 			return;
 		}
-		boolean isExam = !GlobalScope.getExamController().isIdle();
-		String allToolsNoMacros = ToolBar.getAllToolsNoMacros(app.isHTML5Applet(), isExam,
+		String allToolsNoMacros = ToolBar.getAllToolsNoMacros(app.isHTML5Applet(), app.isExam(),
 				app);
 		Perspective ps = PerspectiveDecoder.decode(code, kernel.getParser(),
 				allToolsNoMacros, app.getLayout());
