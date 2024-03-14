@@ -10,9 +10,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.spreadsheet.core.CellRenderableFactory;
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
-import org.geogebra.common.spreadsheet.core.SpreadsheetController;
 import org.geogebra.common.spreadsheet.core.TableLayout;
-import org.geogebra.common.spreadsheet.core.ViewportAdjustmentHandler;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.spreadsheet.style.CellFormat;
@@ -28,8 +26,6 @@ public class SpreadsheetTest extends BaseUnitTest {
 	private final int rowHeader = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 	private Spreadsheet spreadsheet;
 	private TestTabularData tabularData;
-	private SpreadsheetController controller;
-	private Rectangle viewport;
 
 	@Before
 	public void setupSpreadsheet() {
@@ -38,20 +34,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 				new TestCellRenderableFactory(), null);
 		spreadsheet.setHeightForRows(20, 0, 5);
 		spreadsheet.setWidthForColumns(40, 0, 5);
-		viewport = new Rectangle(0, 100, 0, 120);
-		spreadsheet.setViewport(viewport);
-		controller = spreadsheet.getController();
-		controller.setViewportAdjustmentHandler(new ViewportAdjustmentHandler() {
-			@Override
-			public void setScrollPosition(int x, int y) {
-				viewport = viewport.translatedBy(x, y);
-			}
-
-			@Override
-			public int getScrollBarWidth() {
-				return 5;
-			}
-		});
+		spreadsheet.setViewport(new Rectangle(0, 100, 0, 120));
 	}
 
 	@Test
