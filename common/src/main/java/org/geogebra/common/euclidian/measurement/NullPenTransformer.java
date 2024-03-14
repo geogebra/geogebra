@@ -12,6 +12,10 @@ public class NullPenTransformer implements PenTransformer {
 
 	private static NullPenTransformer istance;
 
+	/**
+	 *
+	 * @return the null transformer.
+	 */
 	public static PenTransformer get() {
 		if (istance == null) {
 			istance = new NullPenTransformer();

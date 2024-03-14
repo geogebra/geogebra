@@ -20,13 +20,17 @@ public class RotateBoundingBox {
 	private final MeasurementController mc;
 	private EuclidianView view;
 
+	/**
+	 *
+	 * @param euclidianController {@link EuclidianController}
+	 * @param mc {@link MeasurementController}
+	 */
 	public RotateBoundingBox(EuclidianController euclidianController,
 			MeasurementController mc) {
 		this.ec = euclidianController;
 		this.mc = mc;
 		construction = ec.getKernel().getConstruction();
 	}
-
 
 	boolean rotate(GRectangle2D bounds, double eventX, double eventY) {
 		if (ec.lastMouseLoc == null) {
@@ -86,7 +90,6 @@ public class RotateBoundingBox {
 						- Math.atan2(-(ec.lastMouseLoc.getY() - center.y),
 						ec.lastMouseLoc.getX() - center.x));
 	}
-
 
 	void setView(EuclidianView view) {
 		this.view = view;

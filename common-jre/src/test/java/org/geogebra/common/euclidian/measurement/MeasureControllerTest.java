@@ -22,7 +22,7 @@ public class MeasureControllerTest extends BaseUnitTest {
 	public void setUp() {
 		Kernel kernel = getKernel();
 		cons = kernel.getConstruction();
-		controller = new MeasurementController(kernel, this::createToolImage);
+		controller = new MeasurementController(this::createToolImage);
 		ruler = newTool(MeasurementToolId.RULER);
 		ruler.refresh();
 		controller.add(ruler);
@@ -59,7 +59,7 @@ public class MeasureControllerTest extends BaseUnitTest {
 		String name = id.toString();
 		GeoImage toolImage = controller.getActiveToolImage();
 		assertEquals(name, toolImage.getLabelSimple());
-		assertTrue(name + " is not in construction",
+		assertTrue(name + " should be in construction",
 				cons.isInConstructionList(toolImage));
 	}
 

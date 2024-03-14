@@ -93,7 +93,8 @@ public class EuclidianPen implements GTimerListener {
 	 *            application
 	 * @param view
 	 *            view
-	 * @param measurementTools
+	 * @param mc
+	 *            {@link MeasurementController}
 	 */
 	public EuclidianPen(App app, EuclidianView view, MeasurementController mc) {
 		this.view = view;

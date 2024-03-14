@@ -69,9 +69,7 @@ import com.himamis.retex.editor.share.input.Character;
 
 /**
  * Manages construction elements
- * 
  * @author Markus
- * 
  */
 public class Construction {
 	private ConstructionCompanion companion;
@@ -84,10 +82,9 @@ public class Construction {
 
 	/**
 	 * used to keep track if file is 3D or just 2D
-	 * 
+	 *
 	 * cleared in Construction.newConstructionDefaults() (after default geos are
 	 * loaded)
-	 * 
 	 */
 	private TreeSet<GeoClass> usedGeos = new TreeSet<>();
 
@@ -204,12 +201,9 @@ public class Construction {
 
 	private LayerManager layerManager;
 
-
 	/**
 	 * Creates a new Construction.
-	 * 
-	 * @param k
-	 *            Kernel
+	 * @param k Kernel
 	 */
 	public Construction(Kernel k) {
 		this(k, null);
@@ -217,11 +211,8 @@ public class Construction {
 
 	/**
 	 * Creates a new Construction.
-	 * 
-	 * @param k
-	 *            Kernel
-	 * @param parentConstruction
-	 *            parent construction (used for macro constructions)
+	 * @param k Kernel
+	 * @param parentConstruction parent construction (used for macro constructions)
 	 */
 	protected Construction(Kernel k, Construction parentConstruction) {
 		kernel = k;
@@ -256,7 +247,6 @@ public class Construction {
 
 	/**
 	 * Returns the point (0,0)
-	 * 
 	 * @return point (0,0)
 	 */
 	public final GeoPoint getOrigin() {
@@ -275,8 +265,7 @@ public class Construction {
 	}
 
 	/**
-	 * @param selfGeo
-	 *            new value of "self" variable
+	 * @param selfGeo new value of "self" variable
 	 */
 	public void setSelfGeo(GeoElement selfGeo) {
 		this.selfGeoStack.add(selfGeo);
@@ -298,7 +287,6 @@ public class Construction {
 
 	/**
 	 * Returns x-axis
-	 * 
 	 * @return x-axis
 	 */
 	final public GeoAxis getXAxis() {
@@ -307,7 +295,6 @@ public class Construction {
 
 	/**
 	 * Returns y-axis
-	 * 
 	 * @return y-axis
 	 */
 	final public GeoAxis getYAxis() {
@@ -346,7 +333,6 @@ public class Construction {
 
 	/**
 	 * Construction constants (xAxis, yAxis, ...)
-	 *
 	 */
 	public enum Constants {
 		/**
@@ -376,9 +362,7 @@ public class Construction {
 	}
 
 	/**
-	 * 
-	 * @param geo
-	 *            geo
+	 * @param geo geo
 	 * @return which constant geo (xAxis, yAxis, ...)
 	 */
 	final public Constants isConstantElement(GeoElement geo) {
@@ -411,7 +395,6 @@ public class Construction {
 
 	/**
 	 * Returns the construction default object of this construction.
-	 * 
 	 * @return construction default object of this construction.
 	 */
 	final public ConstructionDefaults getConstructionDefaults() {
@@ -426,8 +409,7 @@ public class Construction {
 	}
 
 	/**
-	 * @param arbitraryConsTable
-	 *            - table of arbitraryConstants from CAS with assigmentVar key
+	 * @param arbitraryConsTable - table of arbitraryConstants from CAS with assigmentVar key
 	 */
 	public void setArbitraryConsTable(
 			HashMap<Integer, ArbitraryConstantRegistry> arbitraryConsTable) {
@@ -436,7 +418,6 @@ public class Construction {
 
 	/**
 	 * Returns construction's author
-	 * 
 	 * @return construction's author
 	 */
 	public String getAuthor() {
@@ -445,7 +426,6 @@ public class Construction {
 
 	/**
 	 * Returns construction's date
-	 * 
 	 * @return construction's date
 	 */
 	public String getDate() {
@@ -454,7 +434,6 @@ public class Construction {
 
 	/**
 	 * Returns construction's title
-	 * 
 	 * @return construction's title
 	 */
 	public String getTitle() {
@@ -463,9 +442,7 @@ public class Construction {
 
 	/**
 	 * Sets construction's author
-	 * 
-	 * @param string
-	 *            new author
+	 * @param string new author
 	 */
 	public void setAuthor(String string) {
 		author = string;
@@ -473,9 +450,7 @@ public class Construction {
 
 	/**
 	 * Sets construction's date
-	 * 
-	 * @param string
-	 *            new date
+	 * @param string new date
 	 */
 	public void setDate(String string) {
 		date = string;
@@ -483,9 +458,7 @@ public class Construction {
 
 	/**
 	 * Sets construction's title
-	 * 
-	 * @param string
-	 *            new title
+	 * @param string new title
 	 */
 	public void setTitle(String string) {
 		title = string;
@@ -493,9 +466,7 @@ public class Construction {
 
 	/**
 	 * Returns part of worksheet text
-	 * 
-	 * @param i
-	 *            0 for first part, 1 for second part
+	 * @param i 0 for first part, 1 for second part
 	 * @return given part of worksheet text
 	 */
 	public String getWorksheetText(int i) {
@@ -504,11 +475,8 @@ public class Construction {
 
 	/**
 	 * Sets part of worksheet text
-	 * 
-	 * @param i
-	 *            0 for first part, 1 for second part
-	 * @param text
-	 *            new text for that part
+	 * @param i 0 for first part, 1 for second part
+	 * @param text new text for that part
 	 */
 	public void setWorksheetText(String text, int i) {
 		worksheetText[i] = text;
@@ -516,7 +484,6 @@ public class Construction {
 
 	/**
 	 * TODO: make private again
-	 * 
 	 * @return true if at least one text is nonempty
 	 */
 	protected boolean worksheetTextDefined() {
@@ -530,7 +497,6 @@ public class Construction {
 
 	/**
 	 * Returns current kernel
-	 * 
 	 * @return current kernel
 	 */
 	public Kernel getKernel() {
@@ -539,9 +505,7 @@ public class Construction {
 
 	/**
 	 * If this is set to true new construction elements won't get labels.
-	 * 
-	 * @param flag
-	 *            true iff labelcreation should be supressed
+	 * @param flag true iff labelcreation should be supressed
 	 */
 	public void setSuppressLabelCreation(boolean flag) {
 		supressLabelCreation = flag;
@@ -549,7 +513,6 @@ public class Construction {
 
 	/**
 	 * Returns true iff new construction elements won't get labels.
-	 * 
 	 * @return true iff new construction elements won't get labels.
 	 */
 	public boolean isSuppressLabelsActive() {
@@ -558,7 +521,6 @@ public class Construction {
 
 	/**
 	 * Returns current application
-	 * 
 	 * @return current application
 	 */
 	public App getApplication() {
@@ -567,7 +529,6 @@ public class Construction {
 
 	/**
 	 * Tests if this construction has no elements.
-	 * 
 	 * @return true if this construction has no GeoElements; false otherwise.
 	 */
 	public boolean isEmpty() {
@@ -576,7 +537,6 @@ public class Construction {
 
 	/**
 	 * Returns the total number of construction steps.
-	 * 
 	 * @return Total number of construction steps.
 	 */
 	public int steps() {
@@ -585,7 +545,6 @@ public class Construction {
 
 	/**
 	 * Returns the last GeoElement object in the construction list.
-	 * 
 	 * @return the last GeoElement object in the construction list.
 	 */
 	public GeoElement getLastGeoElement() {
@@ -597,7 +556,6 @@ public class Construction {
 
 	/**
 	 * Returns the last Cas Evaluable GeoElement object in the construction list.
-	 *
 	 * @return the last Cas Evaluable GeoElement object in the construction list.
 	 */
 	public GeoElement getLastCasEvaluableGeoElement() {
@@ -615,7 +573,7 @@ public class Construction {
 	 * Returns the n-th GeoCasCell object (free or dependent) in the
 	 * construction list. This is the GeoCasCell in the n-th row of the CAS
 	 * view.
-	 * 
+	 *
 	 * @param row
 	 *            number starting at 0
 	 * @return cas cell or null if there are less cas cells in the construction
@@ -659,7 +617,7 @@ public class Construction {
 	/***
 	 * Returns the last GeoCasCell object (free or dependent) in the
 	 * construction list.
-	 * 
+	 *
 	 * @return last cas cell
 	 */
 	public GeoCasCell getLastCasCell() {
@@ -678,10 +636,10 @@ public class Construction {
 	 * Adds the given GeoCasCell object to the construction list so that it
 	 * becomes the n-th GeoCasCell in the list. Other cas cells are shifted
 	 * right.
-	 * 
+	 *
 	 * @param casCell
 	 *            CAS cell to be added to construction list
-	 * 
+	 *
 	 * @param n
 	 *            number starting at 0
 	 */
@@ -699,11 +657,8 @@ public class Construction {
 	/**
 	 * Adds a geo to the list of local variables using the specified local
 	 * variable name .
-	 * 
-	 * @param varname
-	 *            local variable name
-	 * @param geo
-	 *            local variable object
+	 * @param varname local variable name
+	 * @param geo local variable object
 	 */
 	final public void addLocalVariable(String varname, GeoElement geo) {
 		if (localVariableTable == null) {
@@ -716,9 +671,7 @@ public class Construction {
 	/**
 	 * Removes local variable of given name. Note that the underlying GeoElement
 	 * object gets back its previous label as a side effect.
-	 * 
-	 * @param varname
-	 *            name of variable to be removed
+	 * @param varname name of variable to be removed
 	 */
 	final public void removeLocalVariable(String varname) {
 		if (localVariableTable != null) {
@@ -731,9 +684,7 @@ public class Construction {
 
 	/**
 	 * Looks for geo with given label, doesn't work for e.g. A$1
-	 * 
-	 * @param label
-	 *            Label to be looked up
+	 * @param label Label to be looked up
 	 * @return Geo with given label
 	 */
 	public GeoElement geoTableVarLookup(String label) {
@@ -743,9 +694,7 @@ public class Construction {
 
 	/**
 	 * Looks for equation with given label
-	 * 
-	 * @param label
-	 *            - label of the searched geo
+	 * @param label - label of the searched geo
 	 * @return returns the equation defined by label in CAS
 	 */
 	public ValidExpression geoCeListLookup(String label) {
@@ -757,7 +706,7 @@ public class Construction {
 				if (currCell.getLocalizedInput()
 						.startsWith(label + "=")
 						&& ((ExpressionNode) currCell.getInputVE())
-								.getLeft() instanceof Equation) {
+						.getLeft() instanceof Equation) {
 					// return the equation
 					return (ValidExpression) ((ExpressionNode) currCell
 							.getInputVE()).getLeft();
@@ -769,9 +718,7 @@ public class Construction {
 
 	/**
 	 * Sets how steps in the construction protocol are handled.
-	 * 
-	 * @param flag
-	 *            true iff construction protocol should show only breakpoints
+	 * @param flag true iff construction protocol should show only breakpoints
 	 */
 	public void setShowOnlyBreakpoints(boolean flag) {
 		showOnlyBreakpoints = flag;
@@ -779,7 +726,6 @@ public class Construction {
 
 	/**
 	 * True iff construction protocol should show only breakpoints
-	 * 
 	 * @return true iff construction protocol should show only breakpoints
 	 */
 	final public boolean showOnlyBreakpoints() {
@@ -787,8 +733,7 @@ public class Construction {
 	}
 
 	/**
-	 * @param pos
-	 *            position
+	 * @param pos position
 	 */
 	private void updateConstructionIndex(int pos) {
 		if (pos < 0) {
@@ -802,10 +747,9 @@ public class Construction {
 
 	/**
 	 * Updates all algos
-	 * 
+	 * @return true iff there were any algos that wanted update
 	 * @author Michael Borcherds
 	 * @version 2008-05-15
-	 * @return true iff there were any algos that wanted update
 	 */
 	private final boolean updateAllConstructionProtocolAlgorithms() {
 		// update all algorithms
@@ -839,11 +783,8 @@ public class Construction {
 	/**
 	 * Adds the given Construction Element to this Construction at position
 	 * index
-	 * 
-	 * @param ce
-	 *            element to be added
-	 * @param index
-	 *            index
+	 * @param ce element to be added
+	 * @param index index
 	 */
 	public void addToConstructionList(ConstructionElement ce, int index) {
 		++step;
@@ -888,11 +829,8 @@ public class Construction {
 
 	/**
 	 * Moves object at position from to position to in this construction.
-	 * 
-	 * @param fromIndex
-	 *            index of element to be moved
-	 * @param toIndex
-	 *            target index of this element
+	 * @param fromIndex index of element to be moved
+	 * @param toIndex target index of this element
 	 * @return whether construction list was changed or not.
 	 */
 	public boolean moveInConstructionList(int fromIndex, int toIndex) {
@@ -934,11 +872,8 @@ public class Construction {
 	/**
 	 * Adds the given Construction Element to this Construction at position
 	 * getStep() + 1.
-	 * 
-	 * @param ce
-	 *            Construction element to be added
-	 * @param checkContains
-	 *            : true to first check if ce is already in list
+	 * @param ce Construction element to be added
+	 * @param checkContains : true to first check if ce is already in list
 	 */
 	public void addToConstructionList(ConstructionElement ce,
 			boolean checkContains) {
@@ -955,9 +890,7 @@ public class Construction {
 	/**
 	 * Removes the given Construction Element from this Construction and updates
 	 * step if necessary (i.e. if ce.getConstructionIndex() <= getStep()).
-	 * 
-	 * @param ce
-	 *            ConstuctionElement to be removed
+	 * @param ce ConstuctionElement to be removed
 	 */
 	public void removeFromConstructionList(ConstructionElement ce) {
 
@@ -998,9 +931,7 @@ public class Construction {
 
 	/**
 	 * Adds the given algorithm to this construction's algorithm list
-	 * 
-	 * @param algo
-	 *            to be added
+	 * @param algo to be added
 	 * @see #updateConstruction(boolean)
 	 */
 	public void addToAlgorithmList(AlgoElement algo) {
@@ -1009,7 +940,6 @@ public class Construction {
 
 	/**
 	 * The list of algo elements.
-	 * 
 	 * @return list of algos
 	 */
 	public ArrayList<AlgoElement> getAlgoList() {
@@ -1018,9 +948,7 @@ public class Construction {
 
 	/**
 	 * Removes the given algorithm from this construction's algorithm list
-	 * 
-	 * @param algo
-	 *            algo to be removed
+	 * @param algo algo to be removed
 	 */
 	public void removeFromAlgorithmList(AlgoElement algo) {
 		algoList.remove(algo);
@@ -1029,12 +957,8 @@ public class Construction {
 	/**
 	 * Moves geo to given position toIndex in this construction. Note: if ce (or
 	 * its parent algorithm) is not in the construction list nothing is done.
-	 * 
-	 * @param geo
-	 *            element to bemoved
-	 * @param toIndex
-	 *            new index
-	 * 
+	 * @param geo element to bemoved
+	 * @param toIndex new index
 	 * @return whether construction list was changed or not.
 	 */
 	public boolean moveInConstructionList(GeoElement geo, int toIndex) {
@@ -1050,9 +974,7 @@ public class Construction {
 	/**
 	 * Returns true iff geo is independent and in the construction list or geo
 	 * is dependent and its parent algorithm is in the construction list.
-	 * 
-	 * @param geo
-	 *            GeoElement to be looked for
+	 * @param geo GeoElement to be looked for
 	 * @return true iff geo or its parent algo are in construction list
 	 */
 	public boolean isInConstructionList(GeoElement geo) {
@@ -1078,9 +1000,7 @@ public class Construction {
 	/**
 	 * Registers an algorithm that wants to be notified when
 	 * setEuclidianViewBounds() is called.
-	 * 
-	 * @param elem
-	 *            construction element to be registered
+	 * @param elem construction element to be registered
 	 */
 	public final void registerEuclidianViewCE(EuclidianViewCE elem) {
 		if (!euclidianViewCE.contains(elem)) {
@@ -1095,9 +1015,7 @@ public class Construction {
 	/**
 	 * Unregisters an algorithm that wants to be notified when
 	 * setEuclidianViewBounds() is called.
-	 * 
-	 * @param elem
-	 *            construction element to be unregistered
+	 * @param elem construction element to be unregistered
 	 */
 	public final void unregisterEuclidianViewCE(EuclidianViewCE elem) {
 		euclidianViewCE.remove(elem);
@@ -1113,10 +1031,7 @@ public class Construction {
 	 * Calls euclidianViewUpdate on all registered euclidian view construction
 	 * elements Those elements which return true, will also get an update of
 	 * their dependent objects.
-	 * 
-	 * @param type
-	 *            changed property
-	 * 
+	 * @param type changed property
 	 * @return true iff there were any elements to update
 	 */
 	public boolean notifyEuclidianViewCE(EVProperty type) {
@@ -1124,7 +1039,7 @@ public class Construction {
 		ArrayList<EuclidianViewCE> toUpdate = type == EVProperty.SIZE
 				? this.corner5Algos
 				: (type == EVProperty.ROTATION ? this.corner11Algos
-						: this.euclidianViewCE);
+				: this.euclidianViewCE);
 		if (toUpdate == null || toUpdate.size() == 0) {
 			return false;
 		}
@@ -1162,9 +1077,8 @@ public class Construction {
 	/**
 	 * Returns true iff there are any euclidian view construction elements in
 	 * this construction
-	 * 
 	 * @return true iff there are any euclidian view construction elements in
-	 *         this construction
+	 * this construction
 	 */
 	public boolean hasEuclidianViewCE() {
 		return euclidianViewCE.size() > 0;
@@ -1206,9 +1120,7 @@ public class Construction {
 
 	/**
 	 * Adds a number to the set of random numbers of this construction.
-	 * 
-	 * @param num
-	 *            Element to be added
+	 * @param num Element to be added
 	 */
 	public void addRandomGeo(GeoElement num) {
 		if (randomElements == null) {
@@ -1220,9 +1132,7 @@ public class Construction {
 
 	/**
 	 * Removes a number from the set of random numbers of this construction.
-	 * 
-	 * @param num
-	 *            Element to be removed
+	 * @param num Element to be removed
 	 */
 	public void removeRandomGeo(GeoElement num) {
 		if (randomElements != null) {
@@ -1233,9 +1143,7 @@ public class Construction {
 
 	/**
 	 * Updates all objects in this construction.
-	 * 
-	 * @param randomize
-	 *            whether to also update random algos
+	 * @param randomize whether to also update random algos
 	 */
 	final public void updateConstruction(boolean randomize) {
 		// collect notifyUpdate calls using xAxis as dummy geo
@@ -1315,7 +1223,7 @@ public class Construction {
 				ConstructionElement ce = ceList.get(i);
 				if ((ce.isGeoElement() && ((GeoElement) ce).isGeoCasCell())
 						|| ((ce instanceof AlgoElement)
-								&& ce instanceof AlgoCasCellInterface)) {
+						&& ce instanceof AlgoCasCellInterface)) {
 					ce.update();
 				}
 			}
@@ -1326,11 +1234,8 @@ public class Construction {
 
 	/**
 	 * Returns this construction in XML format. GeoGebra File Format.
-	 * 
-	 * @param sb
-	 *            StringBuilder to which the XML is appended
-	 * @param getListenersToo
-	 *            whether to include JS listener names
+	 * @param sb StringBuilder to which the XML is appended
+	 * @param getListenersToo whether to include JS listener names
 	 */
 	public void getConstructionXML(StringBuilder sb, boolean getListenersToo) {
 
@@ -1372,11 +1277,8 @@ public class Construction {
 	/**
 	 * Appends minimal version of the construction XML to given string builder.
 	 * Only elements/commands are preserved, the rest is ignored.
-	 * 
-	 * @param sb
-	 *            String builder
-	 * @param getListenersToo
-	 *            whether to includ JS listener names
+	 * @param sb String builder
+	 * @param getListenersToo whether to includ JS listener names
 	 */
 	public void getConstructionElementsXML(StringBuilder sb,
 			boolean getListenersToo) {
@@ -1392,11 +1294,8 @@ public class Construction {
 	/**
 	 * Appends minimal version of the construction XML to given string builder.
 	 * OGP version. Only elements/commands are preserved, the rest is ignored.
-	 * 
-	 * @param sb
-	 *            String builder
-	 * @param statement
-	 *            The statement to prove
+	 * @param sb String builder
+	 * @param statement The statement to prove
 	 */
 	public void getConstructionElementsXML_OGP(StringBuilder sb,
 			GeoElement statement) {
@@ -1421,10 +1320,8 @@ public class Construction {
 
 	/**
 	 * Returns the ConstructionElement for the given construction index.
-	 * 
+	 * @param index Construction index of element to look for
 	 * @return the ConstructionElement for the given construction index.
-	 * @param index
-	 *            Construction index of element to look for
 	 */
 	public ConstructionElement getConstructionElement(int index) {
 		if (index < 0 || index >= ceList.size()) {
@@ -1434,7 +1331,6 @@ public class Construction {
 	}
 
 	/**
-	 * 
 	 * @return first geo if exists
 	 */
 	public GeoElement getFirstGeo() {
@@ -1458,7 +1354,6 @@ public class Construction {
 	/**
 	 * Returns a set with all labeled GeoElement objects of this construction in
 	 * construction order.
-	 * 
 	 * @return set with all labeled geos in construction order.
 	 */
 	final public TreeSet<GeoElement> getGeoSetConstructionOrder() {
@@ -1468,7 +1363,6 @@ public class Construction {
 	/**
 	 * Returns a set with all labeled GeoElement and all GeoCasCell objects of
 	 * this construction in construction order.
-	 * 
 	 * @return set with all labeled geos and CAS cells in construction order.
 	 */
 	final public TreeSet<GeoElement> getGeoSetWithCasCellsConstructionOrder() {
@@ -1478,7 +1372,6 @@ public class Construction {
 	/**
 	 * Returns a set with all labeled GeoElement objects of this construction in
 	 * alphabetical order of their labels.
-	 * 
 	 * @return set with all labeled geos in alphabetical order.
 	 */
 	final public TreeSet<GeoElement> getGeoSetLabelOrder() {
@@ -1489,7 +1382,6 @@ public class Construction {
 	 * Starts to collect all redefinition calls for the current construction.
 	 * This is used to improve performance of many redefines in the spreadsheet
 	 * caused by e.g. relative copy.
-	 * 
 	 * @see #processCollectedRedefineCalls()
 	 */
 	public void startCollectingRedefineCalls() {
@@ -1502,7 +1394,6 @@ public class Construction {
 
 	/**
 	 * Stops collecting redefine calls.
-	 * 
 	 * @see #processCollectedRedefineCalls()
 	 */
 	public void stopCollectingRedefineCalls() {
@@ -1515,13 +1406,9 @@ public class Construction {
 	/**
 	 * Replaces oldGeo by newGeo in the current construction. This may change
 	 * the logic of the construction and is a very powerful operation
-	 * 
-	 * @param oldGeo
-	 *            Geo to be replaced.
-	 * @param newGeo
-	 *            Geo to be used instead.
-	 * @throws CircularDefinitionException
-	 *             i.e. for circular definition
+	 * @param oldGeo Geo to be replaced.
+	 * @param newGeo Geo to be used instead.
+	 * @throws CircularDefinitionException i.e. for circular definition
 	 * @throws XMLParseException if replacement creates invalid XML
 	 */
 	public void replace(GeoElement oldGeo, GeoElement newGeo)
@@ -1532,15 +1419,10 @@ public class Construction {
 	/**
 	 * Replaces oldGeo by newGeo in the current construction. This may change
 	 * the logic of the construction and is a very powerful operation
-	 * 
-	 * @param oldGeo
-	 *            Geo to be replaced.
-	 * @param newGeo
-	 *            Geo to be used instead.
-	 * @param info
-	 *            EvalInfo (can be null)
-	 * @throws CircularDefinitionException
-	 *             i.e. for circular definition
+	 * @param oldGeo Geo to be replaced.
+	 * @param newGeo Geo to be used instead.
+	 * @param info EvalInfo (can be null)
+	 * @throws CircularDefinitionException i.e. for circular definition
 	 * @throws XMLParseException if replacement causes invalid XML
 	 */
 	public void replace(GeoElement oldGeo, GeoElement newGeo, EvalInfo info)
@@ -1716,7 +1598,6 @@ public class Construction {
 	}
 
 	/**
-	 * 
 	 * @return true if is getting XML for replace
 	 */
 	public boolean isGettingXMLForReplace() {
@@ -1724,10 +1605,9 @@ public class Construction {
 	}
 
 	/**
-	 * 
 	 * @return true if construction is removing an old geo to replace it (used
-	 *         to prevent closing of object properties when replacing a single
-	 *         geo)
+	 * to prevent closing of object properties when replacing a single
+	 * geo)
 	 */
 	public boolean isRemovingGeoToReplaceIt() {
 		return isRemovingGeoToReplaceIt;
@@ -1735,9 +1615,8 @@ public class Construction {
 
 	/**
 	 * Processes all collected redefine calls as a batch to improve performance.
-	 * 
-	 * @see #startCollectingRedefineCalls()
 	 * @throws XMLParseException if replacement produces invalid XML
+	 * @see #startCollectingRedefineCalls()
 	 */
 	public void processCollectedRedefineCalls() throws XMLParseException {
 		collectRedefineCalls = false;
@@ -1775,11 +1654,8 @@ public class Construction {
 	 * Changes the given casCell taking care of necessary redefinitions. This
 	 * may change the logic of the construction and is a very powerful
 	 * operation.
-	 * 
-	 * @param casCell
-	 *            casCell to be changed
-	 * @throws XMLParseException
-	 *             in case of malformed XML
+	 * @param casCell casCell to be changed
+	 * @throws XMLParseException in case of malformed XML
 	 */
 	public void changeCasCell(GeoCasCell casCell) throws XMLParseException {
 		setUpdateConstructionRunning(true);
@@ -1798,13 +1674,9 @@ public class Construction {
 
 	/**
 	 * Replaces oldGeo by newGeo in consXML.
-	 * 
-	 * @param consXML
-	 *            string builder
-	 * @param oldGeo
-	 *            old element
-	 * @param newGeo
-	 *            replacement
+	 * @param consXML string builder
+	 * @param oldGeo old element
+	 * @param newGeo replacement
 	 */
 	protected void doReplaceInXML(StringBuilder consXML, GeoElement oldGeo,
 			GeoElement newGeo) {
@@ -1919,10 +1791,8 @@ public class Construction {
 	 * Sets construction step position. Objects 0 to step in the construction
 	 * list will be visible in the views, objects step+1 to the end will be
 	 * hidden.
-	 * 
-	 * @param s
-	 *            : step number from range -1 ... steps()-1 where -1 shows an
-	 *            empty construction.
+	 * @param s : step number from range -1 ... steps()-1 where -1 shows an
+	 * empty construction.
 	 */
 	public void setStep(int s) {
 		// Log.debug("setStep"+step+" "+s);
@@ -1962,7 +1832,6 @@ public class Construction {
 
 	/**
 	 * Returns current construction step position.
-	 * 
 	 * @return current construction step position.
 	 */
 	public int getStep() {
@@ -1972,11 +1841,10 @@ public class Construction {
 	/*
 	 * GeoElementTable Management
 	 */
+
 	/**
 	 * Adds given GeoElement to a table where (label, object) pairs are stored.
-	 * 
-	 * @param geo
-	 *            GeoElement to be added, must be labeled
+	 * @param geo GeoElement to be added, must be labeled
 	 * @see #removeLabel(GeoElement)
 	 * @see #lookupLabel(String)
 	 */
@@ -1992,9 +1860,7 @@ public class Construction {
 	/**
 	 * Removes given GeoElement from a table where (label, object) pairs are
 	 * stored.
-	 * 
-	 * @param geo
-	 *            GeoElement to be removed
+	 * @param geo GeoElement to be removed
 	 * @see #putLabel(GeoElement)
 	 */
 	public void removeLabel(GeoElement geo) {
@@ -2022,7 +1888,6 @@ public class Construction {
 
 	/**
 	 * Compares geos by labels (if set)
-	 *
 	 */
 	protected static class LabelComparator implements Comparator<GeoElement> {
 		@Override
@@ -2038,9 +1903,7 @@ public class Construction {
 	/**
 	 * Returns a set with all labeled GeoElement objects of a specific type in
 	 * alphabetical order of their labels.
-	 * 
-	 * @param geoClassType
-	 *            use {@link GeoClass} constants
+	 * @param geoClassType use {@link GeoClass} constants
 	 * @return Set of elements of given type.
 	 */
 	final public TreeSet<GeoElement> getGeoSetLabelOrder(
@@ -2079,11 +1942,8 @@ public class Construction {
 	/**
 	 * Adds given GeoCasCell to a table where (label, object) pairs of CAS view
 	 * variables are stored.
-	 * 
-	 * @param geoCasCell
-	 *            GeoElement to be added, must have assignment variable
-	 * @param label
-	 *            label for CAS cell
+	 * @param geoCasCell GeoElement to be added, must have assignment variable
+	 * @param label label for CAS cell
 	 * @see #removeCasCellLabel(String)
 	 * @see #lookupCasCellLabel(String)
 	 */
@@ -2101,9 +1961,7 @@ public class Construction {
 	/**
 	 * Removes given GeoCasCell from the CAS variable table and from the
 	 * underlying CAS.
-	 * 
-	 * @param variable
-	 *            to be removed
+	 * @param variable to be removed
 	 * @see #putCasCellLabel(GeoCasCell, String)
 	 */
 
@@ -2116,9 +1974,7 @@ public class Construction {
 	/**
 	 * Returns a GeoElement for the given label. Note: only geos with
 	 * construction index 0 to step are available.
-	 * 
-	 * @param label
-	 *            label to be looked for
+	 * @param label label to be looked for
 	 * @return may return null
 	 */
 	public GeoElement lookupLabel(String label) {
@@ -2128,9 +1984,7 @@ public class Construction {
 	/**
 	 * Returns a GeoCasCell for the given label. Note: only objects with
 	 * construction index 0 to step are available.
-	 * 
-	 * @param label
-	 *            to be looked for
+	 * @param label to be looked for
 	 * @return may return null
 	 */
 	public GeoCasCell lookupCasCellLabel(String label) {
@@ -2152,13 +2006,10 @@ public class Construction {
 
 	/**
 	 * Returns GeoCasCell referenced by given row label.
-	 * 
-	 * @param label
-	 *            row reference label, e.g. $5 for 5th row or $ for previous row
+	 * @param label row reference label, e.g. $5 for 5th row or $ for previous row
 	 * @return referenced row or null
-	 * @throws CASException
-	 *             thrown if one or more row references are invalid (like $x or
-	 *             if the number is higher than the number of rows)
+	 * @throws CASException thrown if one or more row references are invalid (like $x or
+	 * if the number is higher than the number of rows)
 	 */
 	public GeoCasCell lookupCasRowReference(String label) throws CASException {
 		if (!label
@@ -2191,12 +2042,9 @@ public class Construction {
 	/**
 	 * Returns a GeoElement for the given label. Note: only geos with
 	 * construction index 0 to step are available.
-	 * 
-	 * @param label
-	 *            to be looked for
-	 * @param allowAutoCreate
-	 *            : true = allow automatic creation of missing labels (e.g. for
-	 *            spreadsheet)
+	 * @param label to be looked for
+	 * @param allowAutoCreate : true = allow automatic creation of missing labels (e.g. for
+	 * spreadsheet)
 	 * @return may return null
 	 */
 	protected GeoElement lookupLabel(String label, boolean allowAutoCreate) {
@@ -2329,9 +2177,7 @@ public class Construction {
 
 	/**
 	 * Search for constant with given label
-	 * 
-	 * @param label
-	 *            - label of constant
+	 * @param label - label of constant
 	 * @return constant(GeoNumeric) from arbitraryConsTable with label
 	 */
 	public GeoNumeric lookupConstantLabel(String label) {
@@ -2366,9 +2212,7 @@ public class Construction {
 	/**
 	 * Returns true if label is not occupied by any GeoElement including
 	 * GeoCasCells.
-	 * 
-	 * @param label
-	 *            label to be checked
+	 * @param label label to be checked
 	 * @return true iff label is not occupied by any GeoElement.
 	 */
 	public boolean isFreeLabel(String label) {
@@ -2377,14 +2221,10 @@ public class Construction {
 
 	/**
 	 * Returns true if label is not occupied by any GeoElement.
-	 * 
-	 * @param label
-	 *            label to be checked
-	 * @param includeCASvariables
-	 *            whether GeoCasCell labels should be checked too
-	 * @param includeDummies
-	 *            when true, this method also checks that label is not used for
-	 *            a CAS dummy
+	 * @param label label to be checked
+	 * @param includeCASvariables whether GeoCasCell labels should be checked too
+	 * @param includeDummies when true, this method also checks that label is not used for
+	 * a CAS dummy
 	 * @return true iff label is not occupied by any GeoElement.
 	 */
 	public boolean isFreeLabel(String label, boolean includeCASvariables,
@@ -2429,7 +2269,6 @@ public class Construction {
 	/**
 	 * Moves all predecessors of newGeo (i.e. all objects that newGeo depends
 	 * upon) to the left of oldGeo in the construction list.
-	 *
 	 * @return true if construction order has changed
 	 */
 	private boolean updateConstructionOrder(GeoElement oldGeo, GeoElement newGeo) {
@@ -2475,10 +2314,7 @@ public class Construction {
 	/**
 	 * Makes sure that geoCasCell comes after all its predecessors in the
 	 * construction list.
-	 * 
-	 * @param casCell
-	 *            CAS cell
-	 * 
+	 * @param casCell CAS cell
 	 * @return whether construction list order was changed
 	 */
 	protected boolean updateConstructionOrder(GeoCasCell casCell) {
@@ -2545,11 +2381,10 @@ public class Construction {
 	// 1) remove all brothers and sisters of oldGeo
 	// 2) move all predecessors of newGeo to the left of oldGeo in construction
 	// list
+
 	/**
-	 * @param oldGeo
-	 *            old element
-	 * @param newGeo
-	 *            replacement
+	 * @param oldGeo old element
+	 * @param newGeo replacement
 	 */
 	protected void prepareReplace(GeoElement oldGeo, GeoElement newGeo) {
 		AlgoElement oldGeoAlgo = oldGeo.getParentAlgorithm();
@@ -2592,9 +2427,7 @@ public class Construction {
 	/**
 	 * Adds the given GeoCasCell to a set with all labeled GeoElements and CAS
 	 * cells needed for notifyAll().
-	 * 
-	 * @param geoCasCell
-	 *            CAS cell to be added
+	 * @param geoCasCell CAS cell to be added
 	 */
 	public void addToGeoSetWithCasCells(GeoCasCell geoCasCell) {
 		geoSetWithCasCells.add(geoCasCell);
@@ -2603,9 +2436,7 @@ public class Construction {
 	/**
 	 * Removes the given GeoCasCell from a set with all labeled GeoElements and
 	 * CAS cells needed for notifyAll().
-	 * 
-	 * @param geoCasCell
-	 *            CAS cell to be removed
+	 * @param geoCasCell CAS cell to be removed
 	 */
 	public void removeFromGeoSetWithCasCells(GeoCasCell geoCasCell) {
 		geoSetWithCasCells.remove(geoCasCell);
@@ -2614,12 +2445,9 @@ public class Construction {
 	/**
 	 * Creates a new GeoElement for the spreadsheet of same type as
 	 * neighbourCell.
-	 * 
+	 * @param neighbourCell another geo of the desired type
+	 * @param label Label for the new geo
 	 * @return new GeoElement of desired type
-	 * @param neighbourCell
-	 *            another geo of the desired type
-	 * @param label
-	 *            Label for the new geo
 	 */
 	final public GeoElement createSpreadsheetGeoElement(
 			GeoElement neighbourCell, String label) {
@@ -2714,9 +2542,7 @@ public class Construction {
 	 * Automatically creates a GeoElement object for a certain label that is not
 	 * yet used in the geoTable of this construction. This is done for e.g.
 	 * point i = (0,1), number e = Math.E, empty spreadsheet cells
-	 * 
-	 * @param labelNew
-	 *            label for new element, may not be null
+	 * @param labelNew label for new element, may not be null
 	 * @return created element
 	 */
 	protected GeoElement autoCreateGeoElement(String labelNew) {
@@ -2822,17 +2648,15 @@ public class Construction {
 	}
 
 	/**
-	 * @param b
-	 *            flag to ignore new types (for creating default geos)
+	 * @param b flag to ignore new types (for creating default geos)
 	 */
 	public void setIgnoringNewTypes(boolean b) {
 		this.ignoringNewTypes = b;
 	}
 
 	/**
-	 * @param c
-	 *            used class of element (needed to decide about 2D
-	 *            compatibility)
+	 * @param c used class of element (needed to decide about 2D
+	 * compatibility)
 	 */
 	public void addUsedType(GeoClass c) {
 		if (this.ignoringNewTypes) {
@@ -2879,7 +2703,6 @@ public class Construction {
 	 * order of their type strings and labels (e.g. Line g, Line h, Point A,
 	 * Point B, ...). Note: the returned TreeSet is a copy of the current
 	 * situation and is not updated by the construction later on.
-	 * 
 	 * @return Set of all labeld GeoElements orted by name and description
 	 */
 	final public TreeSet<GeoElement> getGeoSetNameDescriptionOrder() {
@@ -2899,7 +2722,6 @@ public class Construction {
 
 	/**
 	 * Returns extremum finder
-	 * 
 	 * @return extremum finder
 	 */
 	public ExtremumFinderI getExtremumFinder() {
@@ -2912,7 +2734,6 @@ public class Construction {
 
 	/**
 	 * Stores current state of construction.
-	 * 
 	 * @see UndoManager#storeUndoInfo()
 	 */
 	public void storeUndoInfo() {
@@ -2921,9 +2742,7 @@ public class Construction {
 
 	/**
 	 * Restores undo info
-	 * 
 	 * @return success
-	 * 
 	 * @see UndoManager#restoreCurrentUndoInfo()
 	 */
 	public boolean restoreCurrentUndoInfo() {
@@ -2940,7 +2759,6 @@ public class Construction {
 
 	/**
 	 * Returns true iff undo is possible
-	 * 
 	 * @return true iff undo is possible
 	 */
 	public boolean undoPossible() {
@@ -2952,7 +2770,6 @@ public class Construction {
 
 	/**
 	 * Returns true iff redo is possible
-	 * 
 	 * @return true iff redo is possible
 	 */
 	public boolean redoPossible() {
@@ -2964,9 +2781,7 @@ public class Construction {
 
 	/**
 	 * Add a macro to list of used macros
-	 * 
-	 * @param macro
-	 *            Macro to be added
+	 * @param macro Macro to be added
 	 */
 	public final void addUsedMacro(Macro macro) {
 		if (usedMacros == null) {
@@ -2977,7 +2792,6 @@ public class Construction {
 
 	/**
 	 * Returns list of macros used in this construction
-	 * 
 	 * @return list of macros used in this construction
 	 */
 	public ArrayList<Macro> getUsedMacros() {
@@ -3022,18 +2836,13 @@ public class Construction {
 		usedMacros = null;
 		spreadsheetTraces = false;
 		supressLabelCreation = false;
-
-// TODO		measurementTools.clear();
-
+// TODO	measurementTools.clear();
 		groups.clear();
 	}
 
 	/**
 	 * Returns undo xml string of this construction.
-	 * 
-	 * @param getListenersToo
-	 *            whether to include JS listeners
-	 * 
+	 * @param getListenersToo whether to include JS listeners
 	 * @return StringBuilder with xml of this construction.
 	 */
 	public StringBuilder getCurrentUndoXML(boolean getListenersToo) {
@@ -3043,7 +2852,6 @@ public class Construction {
 	/**
 	 * Each construction has its own IO because of strong coupling between
 	 * those.
-	 * 
 	 * @return MyXMLio for this construction
 	 */
 	public MyXMLio getXMLio() {
@@ -3105,9 +2913,7 @@ public class Construction {
 
 	/**
 	 * process xml to create construction
-	 * 
-	 * @param xml
-	 *            XML builder
+	 * @param xml XML builder
 	 */
 	public void processXML(StringBuilder xml) {
 		try {
@@ -3119,13 +2925,9 @@ public class Construction {
 
 	/**
 	 * Processes XML
-	 *
-	 * @param strXML
-	 *            XML string
-	 * @param isGGTOrDefaults
-	 *            whether to treat the XML as defaults
-	 * @param info
-	 *            EvalInfo (can be null)
+	 * @param strXML XML string
+	 * @param isGGTOrDefaults whether to treat the XML as defaults
+	 * @param info EvalInfo (can be null)
 	 * @throws XMLParseException when XML is not valid
 	 */
 	final public synchronized void processXML(String strXML,
@@ -3143,7 +2945,6 @@ public class Construction {
 
 	/**
 	 * Returns the UndoManager (for Copy & Paste)
-	 * 
 	 * @return UndoManager
 	 */
 	public UndoManager getUndoManager() {
@@ -3160,9 +2961,7 @@ public class Construction {
 	/**
 	 * used by commands Element[] and Cell[] as they need to know their output
 	 * type in advance
-	 * 
-	 * @param type
-	 *            type generated by getXMLTypeString()
+	 * @param type type generated by getXMLTypeString()
 	 */
 	public void setOutputGeo(String type) {
 		if (type == null) {
@@ -3175,7 +2974,6 @@ public class Construction {
 	/**
 	 * used by commands Element[] and Cell[] as they need to know their output
 	 * type in advance default: return new GeoNumeric(this)
-	 * 
 	 * @return output of command currently parsed from XML
 	 */
 	public GeoElement getOutputGeo() {
@@ -3185,9 +2983,7 @@ public class Construction {
 	/**
 	 * Registers function variable that should be recognized in If and Function
 	 * commands
-	 * 
-	 * @param fv
-	 *            local function variable
+	 * @param fv local function variable
 	 */
 	public void registerFunctionVariable(String fv) {
 		if (fv == null) {
@@ -3202,9 +2998,7 @@ public class Construction {
 	}
 
 	/**
-	 * 
-	 * @param s
-	 *            variable name
+	 * @param s variable name
 	 * @return whether s is among registered function variables
 	 */
 	public boolean isRegisteredFunctionVariable(String s) {
@@ -3214,9 +3008,7 @@ public class Construction {
 	/**
 	 * Let construction know about file being loaded. When this is true, user
 	 * defined objects called sin, cos, ... are accepted
-	 * 
-	 * @param b
-	 *            true if file is loading
+	 * @param b true if file is loading
 	 */
 	public void setFileLoading(boolean b) {
 		fileLoading = b;
@@ -3230,8 +3022,7 @@ public class Construction {
 	}
 
 	/**
-	 * @param b
-	 *            true if cas cell is updated
+	 * @param b true if cas cell is updated
 	 */
 	public void setCasCellUpdate(boolean b) {
 		casCellUpdate = b;
@@ -3246,7 +3037,7 @@ public class Construction {
 
 	/**
 	 * @return whether we need to create a new arbitrary constant and it's not
-	 *         read from xml
+	 * read from xml
 	 */
 	public boolean isNotXmlLoading() {
 		return notXmlLoading;
@@ -3254,10 +3045,8 @@ public class Construction {
 
 	/**
 	 * it is called0 in MyArbitraryConstant
-	 * 
-	 * @param b
-	 *            - false if constant is created by xml reading, true if
-	 *            constant is created by MyArbitraryConstant
+	 * @param b - false if constant is created by xml reading, true if
+	 * constant is created by MyArbitraryConstant
 	 */
 	public void setNotXmlLoading(boolean b) {
 		this.notXmlLoading = b;
@@ -3283,34 +3072,32 @@ public class Construction {
 	 * TODO place this JavaDoc to the correct spot Build a set with all
 	 * algorithms of this construction (in topological order). The method
 	 * updateAll() of this set can be used to update the whole construction.
-	 * 
+	 *
 	 * public AlgorithmSet buildOveralAlgorithmSet() { // 1) get all independent
 	 * GeoElements in construction and update them // 2) build one overall
 	 * updateSet from all updateSets of (1)
-	 * 
+	 *
 	 * // 1) get all independent geos in construction LinkedHashSet indGeos =
 	 * new LinkedHashSet(); int size = ceList.size(); for (int i = 0; i < size;
 	 * ++i) { ConstructionElement ce = (ConstructionElement) ceList.get(i); if
 	 * (ce.isIndependent()) indGeos.add(ce); else {
 	 * indGeos.addAll(ce.getAllIndependentPredecessors()); } }
-	 * 
+	 *
 	 * // 2) build one overall updateSet AlgorithmSet algoSet = new
 	 * AlgorithmSet(); Iterator it = indGeos.iterator(); while (it.hasNext()) {
 	 * GeoElement geo = (GeoElement) it.next();
-	 * 
+	 *
 	 * // update this geo only geo.update();
-	 * 
+	 *
 	 * // get its update set and add it to the overall updateSet
 	 * algoSet.addAll(geo.getAlgoUpdateSet()); }
-	 * 
+	 *
 	 * return algoSet; }
 	 */
 
 	/**
 	 * Updates all algos in the set. Guards against double updates if location is involved.
-	 * 
-	 * @param algoSet
-	 *            algo set
+	 * @param algoSet algo set
 	 */
 	public void updateAllAlgosInSet(@Nonnull AlgorithmSet algoSet) {
 		this.algoSetCurrentlyUpdated = algoSet;
@@ -3319,17 +3106,15 @@ public class Construction {
 	}
 
 	/**
-	 * 
 	 * @return the algo set currently updated by
-	 *         GeoElement.updateDependentObjects()
+	 * GeoElement.updateDependentObjects()
 	 */
 	public AlgorithmSet getAlgoSetCurrentlyUpdated() {
 		return algoSetCurrentlyUpdated;
 	}
 
 	/**
-	 * @param b
-	 *            new value of update construction flag
+	 * @param b new value of update construction flag
 	 */
 	public void setUpdateConstructionRunning(boolean b) {
 		updateConstructionRunning = b;
@@ -3368,8 +3153,7 @@ public class Construction {
 	}
 
 	/**
-	 * @param allow
-	 *            whether unbounded angles are allowed
+	 * @param allow whether unbounded angles are allowed
 	 */
 	public void setAllowUnboundedAngles(boolean allow) {
 		this.allowUnboundedAngles = allow;
@@ -3430,9 +3214,7 @@ public class Construction {
 	}
 
 	/**
-	 * 
-	 * @param algo
-	 *            algo dependent on view pixel size
+	 * @param algo algo dependent on view pixel size
 	 */
 	public void registerCorner5(EuclidianViewCE algo) {
 		if (this.corner5Algos == null) {
@@ -3442,9 +3224,7 @@ public class Construction {
 	}
 
 	/**
-	 * 
-	 * @param algo
-	 *            algo dependent on rotation of 3D view
+	 * @param algo algo dependent on rotation of 3D view
 	 */
 	public void registerCorner11(EuclidianViewCE algo) {
 		if (this.corner11Algos == null) {
@@ -3467,8 +3247,7 @@ public class Construction {
 	}
 
 	/**
-	 * @param geo
-	 *            element using LaTeX
+	 * @param geo element using LaTeX
 	 */
 	public void addLaTeXGeo(GeoElement geo) {
 		if (latexGeos == null) {
@@ -3494,10 +3273,8 @@ public class Construction {
 	}
 
 	/**
-	 * @param A
-	 *            - start point of segment
-	 * @param B
-	 *            - end point of segment
+	 * @param A - start point of segment
+	 * @param B - end point of segment
 	 * @return segment defined by A and B
 	 */
 	public GeoSegment getSegmentFromAlgoList(GeoPoint A, GeoPoint B) {
@@ -3509,7 +3286,7 @@ public class Construction {
 					if ((curr.getInput(0).equals(A)
 							&& curr.getInput(1).equals(B))
 							|| (curr.getInput(0).equals(B)
-									&& curr.getInput(1).equals(A))) {
+							&& curr.getInput(1).equals(A))) {
 						return ((AlgoJoinPointsSegment) curr).getSegment();
 					}
 				}
@@ -3561,10 +3338,8 @@ public class Construction {
 	}
 
 	/**
-	 * @param ce1
-	 *            construction element
-	 * @param check
-	 *            filter
+	 * @param ce1 construction element
+	 * @param check filter
 	 * @return previous element in construction order that fits the filter
 	 */
 	public GeoElementND getPrevious(GeoElementND ce1, Inspecting check) {
@@ -3583,10 +3358,8 @@ public class Construction {
 	}
 
 	/**
-	 * @param ce1
-	 *            construction element
-	 * @param check
-	 *            filter
+	 * @param ce1 construction element
+	 * @param check filter
 	 * @return next element in construction order that fits the filter
 	 */
 	public GeoElementND getNext(GeoElementND ce1, Inspecting check) {
@@ -3610,7 +3383,6 @@ public class Construction {
 
 	/**
 	 * Initializes and returns the LabelManager instance
-	 * 
 	 * @return the LabelManager instance
 	 */
 	public LabelManager getLabelManager() {
@@ -3706,8 +3478,7 @@ public class Construction {
 	}
 
 	/**
-	 * @param object
-	 *            label of object
+	 * @param object label of object
 	 * @return array of labels of objects in the same group as the given object
 	 */
 	public String[] getObjectsOfItsGroup(String object) {
@@ -3739,8 +3510,7 @@ public class Construction {
 	}
 
 	/**
-	 * @param geo
-	 *            construction element
+	 * @param geo construction element
 	 * @return whether object has unlabeled predecessors
 	 */
 	public boolean hasUnlabeledPredecessors(GeoElement geo) {

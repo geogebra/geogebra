@@ -49,16 +49,16 @@ public class RulerIconButton extends IconButton {
 		if (isActive()) {
 			appW.setMode(rulerPopup.getActiveRulerType());
 		} else {
-			removeRuler();
+			removeTool();
 			appW.setMode(MODE_MOVE);
 		}
 	}
 
 
 	/**
-	 * remove ruler from construction
+	 * remove measurement tool from construction
 	 */
-	public void removeRuler() {
+	public void removeTool() {
 		ec.removeMeasurementTool(MeasurementToolId.byMode(rulerPopup.getActiveRulerType()));
 	}
 

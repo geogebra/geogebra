@@ -438,6 +438,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private final GeoPriorityComparator priorityComparator;
 	private RotateBoundingBox rotateBoundingBox;
+	private MeasurementController measurementController;
 
 	/**
 	 * Clears the zoomer animation listeners.
@@ -464,7 +465,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		spotlightController.clear();
 	}
 
-
 	/**
 	 * state for selection tool over press/release
 	 */
@@ -485,8 +485,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		ADD
 	}
 
-	private MeasurementController measurementController;
-
 	/**
 	 * @param app
 	 *            application
@@ -498,7 +496,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		this.priorityComparator = app.getGeoPriorityComparator();
 		spotlightController = new SpotlightController(app);
 		createCompanions();
-		measurementController = new MeasurementController(kernel, this::createMeasurementToolImage);
+		measurementController = new MeasurementController(this::createMeasurementToolImage);
 	}
 
 	protected GeoImage createMeasurementToolImage(int mode, String fileName) {
@@ -12310,19 +12308,25 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return app;
 	}
 
+	/**
+	 * Clears all measurement tools.
+	 */
 	public void clearMeasurementTools() {
 		measurementController.clear();
 	}
 
-
+	/**
+	 * Removes measuremet tool from construction.
+	 * @param toolId to remove.
+	 */
 	public void removeMeasurementTool(MeasurementToolId toolId) {
-		GeoImage toolImage = measurementController.getToolImage(toolId);
-		if (toolImage != null) {
-			toolImage.remove();
-		}
-		measurementController.clear();
+		measurementController.removeTool(toolId);
 	}
 
+	/**
+	 *
+	 * @return if a ruler or one of the protractors are selected.
+	 */
 	public boolean isMeasurementToolSelected() {
 		boolean hasActiveToolImage = measurementController.hasActiveToolImage();
 		return (mode == EuclidianConstants.MODE_RULER && hasActiveToolImage)

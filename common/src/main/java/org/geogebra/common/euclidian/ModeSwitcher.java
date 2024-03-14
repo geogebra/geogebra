@@ -16,7 +16,7 @@ public class ModeSwitcher {
 
 	/**
 	 * @param app application
-	 * @param mc
+	 * @param mc {@link MeasurementController}
 	 */
 	public ModeSwitcher(App app, MeasurementController mc) {
 		this.app = app;

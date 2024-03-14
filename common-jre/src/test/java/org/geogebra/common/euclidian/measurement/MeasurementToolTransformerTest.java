@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian.measurement;
 
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRIANGLE_PROTRACTOR;
 import static org.geogebra.common.euclidian.measurement.MeasurementToolId.RULER;
 
 import java.util.List;
@@ -19,11 +21,17 @@ public class MeasurementToolTransformerTest extends BaseUnitTest {
 	@Before
 	public void setUp() {
 		view = getApp().getActiveEuclidianView();
-		mc = new MeasurementController(getKernel(), this::createToolImage) ;
+		mc = new MeasurementController(this::createToolImage) ;
 	}
 
 	private GeoImage createToolImage(int mode, String fileName) {
-		return null;
+		GeoImage image = new GeoImage(getKernel().getConstruction());
+		if (mode == MODE_RULER) {
+			image.setSize(400, 40);
+		} else if (mode == MODE_TRIANGLE_PROTRACTOR) {
+			image.setSize(200, 200);
+		}
+		return image;
 	}
 
 	@Test

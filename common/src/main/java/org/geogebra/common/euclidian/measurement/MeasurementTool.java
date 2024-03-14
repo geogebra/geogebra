@@ -36,7 +36,6 @@ public final class MeasurementTool {
 		this.toolImageF = toolImageF;
 	}
 
-
 	/**
 	 *
 	 * @return the image of the measurement tool.
