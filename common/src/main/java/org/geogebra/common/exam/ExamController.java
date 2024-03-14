@@ -80,7 +80,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	private TimeFormatAdapter timeFormatter;
 
 	// TODO filter for apps with no CAS
-//	private final CommandFilter noCASFilter = CommandFilterFactory.createNoCasCommandFilter();
+	// private final CommandFilter noCASFilter = CommandFilterFactory.createNoCasCommandFilter();
 
 	/**
 	 * Creates a new ExamController. The ExamController will register itself as a listener

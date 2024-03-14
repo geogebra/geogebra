@@ -63,8 +63,8 @@ public final class ExamSummary {
 		isExamFinished = finishDate != null;
 		cheated = !cheatingEvents.isEmpty();
 		examName = examType.getDisplayName(localization, appConfig);
-		title = localization.getMenu("exam_menu_entry") + ": " + (cheated ?
-				localization.getMenu("exam_alert") : localization.getMenu("OK"));
+		title = localization.getMenu("exam_menu_entry") + ": " + (cheated
+				? localization.getMenu("exam_alert") : localization.getMenu("OK"));
 		finishedInfoText = localization.getMenu("exam_log_show_screen_to_teacher");
 		durationHintText = localization.getMenu("Duration");
 		if (finishDate != null) {
