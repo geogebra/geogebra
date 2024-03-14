@@ -3,6 +3,8 @@ package org.geogebra.common.kernel.commands;
 import static com.himamis.retex.editor.share.util.Unicode.INFINITY;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
 
@@ -549,10 +551,11 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	@Test
 	@Issue("APPS-5465")
 	public void testCmdSolveODE2() {
-		t("SolveODE((x / y) - x y, (1.71, -2))", "(((-3 * sqrt(1 / 9)) * "
-				+ "ℯ^(29241 / 10000)) * sqrt((3 * ℯ^(x^(2)) / ℯ^(29241 / 10000)) + "
-				+ "(ℯ^(x^(2)))^(2) / (ℯ^(29241 / 10000))^(2)) / ℯ^(x^(2)))",
-				"(((-3 * sqrt(1 / 9)) * sqrt((ℯ^(x^(2)))^(2) / (ℯ^(29241 / 10000))^(2) + (3 * "
-						+ "ℯ^(x^(2)) / ℯ^(29241 / 10000)))) * ℯ^(29241 / 10000) / ℯ^(x^(2)))");
+		t("SolveODE((x / y) - x y, (1.71, -2))", anyOf(equalTo(
+				"(((-3 * sqrt(1 / 9)) * ℯ^(29241 / 10000)) * sqrt((3 * ℯ^(x^(2)) / ℯ^(29241 /"
+						+ " 10000)) + (ℯ^(x^(2)))^(2) / (ℯ^(29241 / 10000))^(2)) / ℯ^(x^(2)))"),
+				equalTo("(((-3 * sqrt(1 / 9)) * sqrt((ℯ^(x^(2)))^(2) / (ℯ^(29241 / 10000))^(2)"
+						+ " + (3 * ℯ^(x^(2)) / ℯ^(29241 / 10000))))"
+						+ " * ℯ^(29241 / 10000) / ℯ^(x^(2)))")));
 	}
 }
