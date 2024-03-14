@@ -28,7 +28,7 @@ public abstract class AuthenticationModel {
 
 	public static final String CSRF_TOKEN_KEY_NAME = "X-CSRF-TOKEN";
 
-	private boolean stayLoggedOut;
+	private boolean preventLoginPrompt;
 	private boolean loginStarted;
 
 	private String csrfToken = "";
@@ -106,7 +106,7 @@ public abstract class AuthenticationModel {
 	 * (localStorage, etc).
 	 */
 	private void onLoginSuccess(GeoGebraTubeUser user, String json) {
-		this.stayLoggedOut = false;
+		this.preventLoginPrompt = false;
 		// Remember the logged in user
 		this.loggedInUser = user;
 		storeLastUser(json);
@@ -129,7 +129,7 @@ public abstract class AuthenticationModel {
 	 * from GGT error happened, cleanup, etc
 	 */
 	private void onLoginError() {
-		this.stayLoggedOut = false;
+		this.preventLoginPrompt = false;
 		if (getLoginToken() != null) {
 			clearLoginToken();
 		}
@@ -218,15 +218,18 @@ public abstract class AuthenticationModel {
 	 * User closed login explicitly, save a flag not to ask again.
 	 */
 	public void stayLoggedOut() {
-		this.stayLoggedOut = true;
 		this.loginStarted = false;
+	}
+
+	public void preventLoginPrompt() {
+		this.preventLoginPrompt = true;
 	}
 
 	/**
 	 * @return false if user closed login explicitly
 	 */
 	public boolean mayLogIn() {
-		return !stayLoggedOut;
+		return !preventLoginPrompt;
 	}
 
 	/**

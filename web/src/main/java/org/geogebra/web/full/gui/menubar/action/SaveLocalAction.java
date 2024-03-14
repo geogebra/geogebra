@@ -10,7 +10,7 @@ import org.geogebra.web.full.main.AppWFull;
 public class SaveLocalAction extends DefaultMenuAction<AppWFull> {
 	@Override
 	public void execute(AppWFull app) {
-		app.getSaveController().showLocalSaveDialog();
+		app.getSaveController().showLocalSaveDialog(() -> {});
 	}
 
 }

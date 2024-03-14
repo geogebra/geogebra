@@ -158,11 +158,6 @@ public class GLookAndFeel implements GLookAndFeelI {
 	}
 
 	@Override
-	public boolean supportsLocalSave() {
-		return false;
-	}
-
-	@Override
 	public boolean examSupported() {
 		return false;
 	}

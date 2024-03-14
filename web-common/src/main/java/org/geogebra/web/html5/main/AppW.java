@@ -69,7 +69,6 @@ import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.operations.NetworkOperation;
@@ -1021,13 +1020,18 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getGoogleDriveOperation() != null) {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
-
+		resetFileHandle();
 		resetUI();
 		resetUrl();
 		if (isExam()) {
 			Material material = getExam().getTempStorage().newMaterial();
 			setActiveMaterial(material);
 		}
+		setSaved();
+	}
+
+	protected void resetFileHandle() {
+		// only with full UI
 	}
 
 	private void resetPages() {
@@ -1271,9 +1275,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return whether file is valid
 	 */
 	public boolean openFile(File fileToHandle) {
-		if (getLAF().supportsLocalSave()) {
-			getFileManager().setFileProvider(Provider.LOCAL);
-		}
 		resetPerspectiveParam();
 		resetUrl();
 		return doOpenFile(fileToHandle);
