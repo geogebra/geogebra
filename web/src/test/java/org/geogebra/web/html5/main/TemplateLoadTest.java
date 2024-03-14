@@ -3,7 +3,9 @@ package org.geogebra.web.html5.main;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianPen;
+import org.geogebra.common.main.settings.PenToolsSettings;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
@@ -20,7 +22,7 @@ import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 @WithClassesToStub({JLMContext2d.class, RootPanel.class})
 public class TemplateLoadTest {
 	private static AppWFull app;
-	private static EuclidianSettings settings;
+	private static PenToolsSettings settings;
 
 	@Before
 	public void init() {
@@ -54,7 +56,7 @@ public class TemplateLoadTest {
 				+ "<scripting blocked=\"false\" disabled=\"false\"/>\n"
 				+ "<construction title=\"templateTest\" author=\"\" date=\"\">\n</construction>\n"
 				+ "</geogebra>", false);
-		settings = app.getActiveEuclidianView().getSettings();
+		settings = app.getSettings().getPenTools();
 	}
 
 	@Test
@@ -64,18 +66,29 @@ public class TemplateLoadTest {
 
 	@Test
 	public void testLoadTemplatePenColor() {
-		assertEquals(settings.getLastSelectedPenColor(), GColor.newColor(204, 0, 153));
+		GColor penColor = GColor.newColor(204, 0, 153);
+		assertEquals(penColor, settings.getLastSelectedPenColor());
+		getPen().updateMode();
+		assertEquals(penColor, getPen().getPenColor());
 	}
 
 	@Test
 	public void testLoadTemplateHighlighterThickness() {
-		assertEquals(settings.getLastHighlighterThinckness(), 1);
+		assertEquals(1, settings.getLastHighlighterThickness());
 	}
 
 	@Test
 	public void testLoadTemplateHighlighterColor() {
-		assertEquals(settings.getLastSelectedHighlighterColor(),
-				GColor.newColor(219, 97, 20));
+		GColor highlighterColor = GColor.newColor(219, 97, 20);
+		assertEquals(highlighterColor, settings.getLastSelectedHighlighterColor());
+		app.setMode(EuclidianConstants.MODE_HIGHLIGHTER);
+		getPen().updateMode();
+		assertEquals(highlighterColor, getPen().getPenColor());
+	}
+
+	private EuclidianPen getPen() {
+		return app.getActiveEuclidianView()
+				.getEuclidianController().getPen();
 	}
 
 	@Test

@@ -70,7 +70,6 @@ import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Pagination;
-import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.plugin.Event;
@@ -130,7 +129,6 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenState;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
-import org.geogebra.web.html5.io.ConstructionException;
 import org.geogebra.web.html5.io.MyXMLioW;
 import org.geogebra.web.html5.kernel.GeoElementGraphicsAdapterW;
 import org.geogebra.web.html5.kernel.UndoManagerW;
@@ -463,7 +461,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public final DrawEquation getDrawEquation() {
 		if (drawEquation == null) {
-			drawEquation = new DrawEquationW();
+			drawEquation = new DrawEquationW(this::getPixelRatio);
 		}
 
 		return drawEquation;
@@ -753,7 +751,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	private void loadFile(GgbFile archiveContent, final boolean asSlide)
-			throws Exception {
+			throws XMLParseException {
 		if (archiveContent.containsKey(GgbFile.STRUCTURE_JSON)) {
 			getAppletParameters().setAttribute("appName", "notes");
 			getAppletFrame().initPageControlPanel(this);
@@ -776,7 +774,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		// Construction (required)
 		if (def.isInvalid()) {
-			throw new ConstructionException(
+			throw new XMLParseException(
 					"File is corrupt: No GeoGebra data found");
 		}
 
@@ -1586,28 +1584,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		clientInfo.setAppName(getConfig().getAppCode());
 		clientInfo.setAssign(getShareController().isAssign());
 		return clientInfo;
-	}
-
-	/**
-	 * Initializes the user authentication
-	 *  @param op
-	 *            login operation
-	 *
-	 */
-	public void initSignInEventFlow(LogInOperation op) {
-		// Initialize the signIn operation
-		loginOperation = op;
-		if (getNetworkOperation().isOnline()) {
-			if (getLAF() != null && getLAF().supportsGoogleDrive()) {
-				initGoogleDriveEventFlow();
-			}
-			if (!StringUtil.empty(appletParameters.getDataParamTubeID())
-					|| appletParameters.getDataParamEnableFileFeatures()) {
-				loginOperation.performTokenLogin();
-			}
-		} else {
-			loginOperation.startOffline();
-		}
 	}
 
 	/**

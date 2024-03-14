@@ -775,14 +775,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.progressBar {
 			margin-left: auto;
 			margin-right: auto;
-			background: colors.$mow_light;
-			height: 4px;
 			max-width: 300px;
 			width: 80%;
 
-			div {
-				background: colors.$mow_dark;
-				height: 100%;
+			.indicator {
+				transition: none;
 			}
 		}
 	}
@@ -2049,6 +2046,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.textEditPopup {
 		box-shadow: none;
+	}
+
+	.overwriteDialog {
+		.dialogContent .gwt-Label {
+			margin-bottom: 8px;
+			line-height: 24px;
+		}
 	}
 
 	.assignOption {

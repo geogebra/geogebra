@@ -62,12 +62,7 @@ public class LoginOperationW extends LogInOperation {
 
 	/**
 	 * Handles message from login frame
-	 * <ul>
-	 * <li>logintoken: we got token from Tube backend
-	 * <li>logincookie: user initiated login, uses cookies rather than tokens
-	 * (MOW)
-	 * <li>loginpassive: passive login, uses cookies
-	 * </ul>
+	 * {action:"logintoken", msg:token}
 	 */
 	private void iniNativeEvents(AppW app) {
 		app.getGlobalHandlers().addEventListener(DomGlobal.window,
@@ -85,10 +80,6 @@ public class LoginOperationW extends LogInOperation {
 									if ("logintoken".equals(action)) {
 										Log.debug("Login token sent via message");
 										performTokenLogin((String) dataObject.get("msg"), false);
-									}
-									if ("logincookie".equals(action)
-										|| "loginpassive".equals(action)) {
-										processCookie("loginpassive".equals(action));
 									}
 								} catch (Throwable err) {
 									Log.debug("error occured while logging: \n"
@@ -134,11 +125,6 @@ public class LoginOperationW extends LogInOperation {
 		return super.getLoginURL(languageTag);
 	}
 
-	private void processCookie(boolean passive) {
-		Log.debug("COOKIE LOGIN");
-		doPerformTokenLogin(new GeoGebraTubeUser(""), passive);
-	}
-
 	@Override
 	public void showLoginDialog() {
 		app.getSignInController().login();
@@ -168,5 +154,9 @@ public class LoginOperationW extends LogInOperation {
 	@Override
 	protected boolean isExternalLoginAllowed() {
 		return app.getLAF() == null || app.getLAF().isExternalLoginAllowed();
+	}
+
+	public boolean loadUserFromSession() {
+		return ((AuthenticationModelW) getModel()).loadUserFromSession(getGeoGebraTubeAPI());
 	}
 }

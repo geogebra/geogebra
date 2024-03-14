@@ -8,10 +8,10 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Opens save dialog.
  */
-public class SaveAction extends DefaultMenuAction<Void> {
+public class SaveAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		if (isLoggedOut(app)) {
 			app.getActivity().markSaveOpen();
 		}

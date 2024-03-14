@@ -5,7 +5,9 @@ import java.util.Locale;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GgbAPIW;
 import org.geogebra.web.html5.main.GgbFile;
 
 import elemental2.core.ArrayBuffer;
@@ -78,7 +80,15 @@ public class ArchiveLoader {
 	 */
 	public void processBase64String(String base64String) {
 		String suffix = base64String.substring(base64String.indexOf(',') + 1).trim();
-		Uint8Array binaryData = Base64.base64ToBytes(suffix);
+		Uint8Array binaryData;
+		try {
+			binaryData = Base64.base64ToBytes(suffix);
+		} catch (RuntimeException ex) {
+			app.afterLoadFileAppOrNot(false);
+			handleError(JsPropertyMap.of("statusText", "Invalid Base64"),
+					"LoadFileFailed");
+			return;
+		}
 		DomGlobal.setTimeout(ignore -> populateArchiveContent(binaryData), 0);
 	}
 
@@ -149,9 +159,9 @@ public class ArchiveLoader {
 			XMLHttpRequest.OnerrorFn onError = (e) -> {
 				Log.error(request.statusText + ":" + request.statusText);
 				app.afterLoadFileAppOrNot(false);
-				app.getToolTipManager().showBottomMessage(
-						app.getLocalization().getError("FileLoadingError"),
-						app);
+				handleError(JsPropertyMap.of("status", request.status, "statusText",
+								request.statusText),
+						Browser.isGeoGebraOrg() ? "FileLoadingError" : "LoadFileFailed");
 				return null;
 			};
 
@@ -168,6 +178,20 @@ public class ArchiveLoader {
 			request.onerror = onError;
 			request.send();
 		}
+	}
+
+	/**
+	 * @param errorDetails {status, statusText}
+	 * @param errorKey translation key for error category
+	 */
+	public void handleError(JsPropertyMap<?> errorDetails, String errorKey) {
+		GgbAPIW ggbApi = app.getGgbApi();
+		ggbApi.setPerspective("G");
+		ggbApi.setFileLoadingError(errorDetails);
+		app.getSettings().getEuclidian(1).setShowAxes(false);
+		app.getSettings().getEuclidian(1).showGrid(false);
+		app.getToolTipManager().showBottomMessage(
+				app.getLocalization().getError(errorKey), app);
 	}
 
 	/**

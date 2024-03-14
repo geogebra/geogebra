@@ -1,0 +1,2 @@
+mock-maker-inline
+/* Enable new mockito engine to allow mocking final classes */

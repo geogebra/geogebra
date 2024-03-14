@@ -9,7 +9,7 @@ import elemental2.dom.DomGlobal;
 /**
  * Shows license.
  */
-public class ShowLicenseAction extends DefaultMenuAction<Void> {
+public class ShowLicenseAction extends DefaultMenuAction<AppWFull> {
 
 	/**
 	 * Settings for version/about window
@@ -19,7 +19,7 @@ public class ShowLicenseAction extends DefaultMenuAction<Void> {
 			+ "menubar=no,status=no,copyhistory=no";
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		if (app.isMebis()) {
 			app.getFileManager()
 					.open(app.getVendorSettings().getLicenseURL() + "&version="

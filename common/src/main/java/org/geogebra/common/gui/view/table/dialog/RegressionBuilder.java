@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.gui.view.table.RegressionSpecification;
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -66,7 +67,7 @@ public class RegressionBuilder {
 			stats.add(new StatisticGroup(loc.getMenu("CoefficientOfDetermination"),
 					lhs + " = " + rSquareRow));
 			addCorrelationCoefficient(stats, points, regression);
-		} catch (Exception e) {
+		} catch (RuntimeException | CircularDefinitionException e) {
 			Log.error(e);
 		}
 		return stats;
@@ -87,7 +88,7 @@ public class RegressionBuilder {
 				String lhs = Stat.PMCC.getLHS(kernel.getLocalization(), varName);
 				String formula = lhs + " = " + r.toValueString(StringTemplate.defaultTemplate);
 				stats.add(new StatisticGroup(false, heading, formula));
-			} catch (Exception e) {
+			} catch (RuntimeException | CircularDefinitionException e) {
 				Log.debug(e);
 			}
 		}

@@ -754,14 +754,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (mode == this.mode && mode != EuclidianConstants.MODE_IMAGE) {
 			return;
 		}
+		boolean shouldClearSelectedGeos = shouldClearSelectedGeos(mode);
 		this.mode = mode;
 		initCursor();
 		getEuclidianController().clearJustCreatedGeos();
 		getEuclidianController().setMode(mode, m);
-		if (clearRectangle(mode)) {
+		if (shouldClearRectangle(mode)) {
 			setSelectionRectangle(null);
 			if (hasDynamicStyleBar()) {
 				dynamicStyleBar.setVisible(false);
+			}
+			if (shouldClearSelectedGeos) {
+				getEuclidianController().clearSelections();
 			}
 		}
 		setStyleBarMode(mode);
@@ -775,26 +779,33 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * whether to clear selection rectangle when mode selected
+	 * @return True if selection rectangle should be cleared when a certain mode is being
+	 * selected, false else
 	 */
-	final private static boolean clearRectangle(int mode) {
+	final private static boolean shouldClearRectangle(int mode) {
 		switch (mode) {
-		// case EuclidianConstants.MODE_PENCIL:
-		case EuclidianConstants.MODE_PEN:
-			return true; // changed
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-			return false;
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-			return false;
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			return false;
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			return false;
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
 			return false;
 		default:
 			return true;
 		}
+	}
+
+	/**
+	 * When switching from{@link EuclidianConstants#MODE_SELECT} to
+	 * {@link EuclidianConstants#MODE_MOVE} the selected geos (and their bounding boxes)
+	 * should be cleared
+	 * @param newMode New Mode which is being set
+	 * @return True if the bounding boxes and selected geos should be cleared, false else
+	 */
+	final private boolean shouldClearSelectedGeos(int newMode) {
+		return (this.mode == EuclidianConstants.MODE_SELECT_MOW
+				|| this.mode == EuclidianConstants.MODE_SELECT)
+				&& newMode == EuclidianConstants.MODE_MOVE;
 	}
 
 	/**
@@ -2850,7 +2861,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
 		case EuclidianConstants.MODE_PEN:
-			// case EuclidianConstants.MODE_PENCIL:
 			return true;
 
 		default:
@@ -4746,30 +4756,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 
 			if (app.getSaveController().savedAsTemplate()) {
-				// size of pen
-				sbxml.append("\t<penSize val=\"");
-				sbxml.append(settings.getLastPenThickness());
-				sbxml.append("\"/>\n");
-
-				// color of pen
-				sbxml.append("\t<penColor");
-				XMLBuilder.appendRGB(sbxml, settings.getLastSelectedPenColor());
-				sbxml.append("/>\n");
-
-				// size of highlighter
-				sbxml.append("\t<highlighterSize val=\"");
-				sbxml.append(settings.getLastHighlighterThinckness());
-				sbxml.append("\"/>\n");
-
-				// highlighter of pen
-				sbxml.append("\t<highlighterColor");
-				XMLBuilder.appendRGB(sbxml, settings.getLastSelectedHighlighterColor());
-				sbxml.append("/>\n");
-
-				// size of eraser
-				sbxml.append("\t<eraserSize val=\"");
-				sbxml.append(settings.getDeleteToolSize());
-				sbxml.append("\"/>\n");
+				app.getSettings().getPenTools().getXML(sbxml);
 
 				sbxml.append("\t<language val=\"");
 				sbxml.append(app.getLocalization().getLanguageTag());

@@ -84,15 +84,12 @@ public class ScriptManagerW extends ScriptManager {
 
 	@Override
 	public void ggbOnInit() {
-		if (app.getEventDispatcher().isDisabled(ScriptType.JAVASCRIPT)) {
-			return;
-		}
-
 		try {
 			tryTabletOnInit();
 			boolean standardJS = app.getKernel().getLibraryJavaScript()
 					.equals(Kernel.defaultLibraryJavaScript);
-			if (!standardJS && !app.useBrowserForJavaScript()) {
+			if (!standardJS && !app.useBrowserForJavaScript()
+					&& !app.getEventDispatcher().isDisabled(ScriptType.JAVASCRIPT)) {
 				app.evalJavaScript(app, app.getKernel().getLibraryJavaScript(),
 						null);
 			}

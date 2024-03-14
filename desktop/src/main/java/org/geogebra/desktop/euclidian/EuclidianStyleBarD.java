@@ -1557,7 +1557,7 @@ public class EuclidianStyleBarD extends JToolBar
 	}
 
 	private void setDelSize(int s) {
-		ev.getSettings().setDeleteToolSize(EuclidianSettings.DELETE_SIZES[s]);
+		app.getSettings().getPenTools().setDeleteToolSize(EuclidianSettings.DELETE_SIZES[s]);
 		for (int i = 0; i < 3; i++) {
 			btnDeleteSize[i].setSelected(i == s);
 			btnDeleteSize[i].setEnabled(i != s);

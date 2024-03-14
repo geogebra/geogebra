@@ -479,8 +479,8 @@ public class TeXSerializer extends SerializerAdapter {
 					&& !isMixedNumber) {
 				i -= 6; // Expecting a space preceding the fraction
 				continue;
-			} else if (stringBuilder.charAt(i) >= '0' && stringBuilder.charAt(i) <= '9') {
-				isMixedNumber = true; // Only allow digits 0 - 9 here
+			} else if (Character.isDigit(stringBuilder.charAt(i))) {
+				isMixedNumber = true; // Only allow digits here
 			} else if (isMixedNumber
 					&& " +-*/(}{".contains(Character.toString(stringBuilder.charAt(i)))) {
 				return i + 1;

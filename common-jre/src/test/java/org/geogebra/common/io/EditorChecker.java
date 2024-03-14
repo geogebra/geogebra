@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.SyntaxAdapterImpl;
@@ -63,13 +63,13 @@ class EditorChecker {
 		String exp = GeoGebraSerializer.serialize(rootComponent);
 
 		try {
-			ExpressionNode en = parse(exp);
+			ValidExpression en = parse(exp);
 			assertEquals(output, en.toString(StringTemplate.defaultTemplate));
 		} catch (ParseException e) {
 			Log.debug(e);
-			assertEquals(output, "Exception: " + e);
+			assertEquals(output, "Exception for " + exp + ":" + e);
 		}
-
+		fromParser("");
 	}
 
 	public EditorChecker checkPlaceholders(String expected) {
@@ -204,16 +204,27 @@ class EditorChecker {
 	}
 
 	public EditorChecker convertFormula(String input) {
+		return convertFormulaAndProtect(input, true);
+	}
+
+	private EditorChecker convertFormulaAndProtect(String input, boolean protect) {
 		try {
 			MathFormulaConverter converter =
 					new MathFormulaConverter(mathField.getMetaModel());
 			mathField.getInternal().setFormula(converter.buildFormula(input));
-			mathField.getInternal().getFormula().getRootComponent().setProtected();
+			if (protect) {
+				mathField.getInternal().getFormula().getRootComponent().setProtected();
+			}
+
 			mathField.getInternal().setLockedCaretPath();
 		} catch (com.himamis.retex.editor.share.io.latex.ParseException e) {
 			throw new RuntimeException(e);
 		}
 		return this;
+	}
+
+	public EditorChecker convertFormulaForAV(String input) {
+		return convertFormulaAndProtect(input, false);
 	}
 
 	public EditorChecker matrixFromParser(String input) {
@@ -259,8 +270,8 @@ class EditorChecker {
 		new EditorChecker(app).insert(input).checkAsciiMath(output);
 	}
 
-	public ExpressionNode parse(String exp) throws ParseException {
-		return app.getKernel().getParser().parseExpression(exp);
+	public ValidExpression parse(String exp) throws ParseException {
+		return app.getKernel().getParser().parseGeoGebraExpression(exp);
 	}
 
 	public void setFormatConverter(SyntaxAdapterImpl formatConverter) {
@@ -295,6 +306,17 @@ class EditorChecker {
 	 */
 	public void checkCursorNotInScript() {
 		assertFalse(mathField.getInternal().getEditorState().isInScript());
+	}
+
+	/**
+	 * Asserts if the cursor is at the root component directly.
+	 *
+	 * For example ('|' is the cursor) let's take a point (1, 2) in math field.
+	 * Then '(1, |2)' is false, but '(1,2)|' or '|(1,2)' are true.
+	 */
+	public void checkCursorIsAtRoot() {
+		EditorState editorState = mathField.getInternal().getEditorState();
+		assertEquals(editorState.getCurrentField(), editorState.getRootComponent());
 	}
 
 	public EditorChecker select(int from, int to) {

@@ -164,7 +164,7 @@ public class CmdGetTime extends CommandProcessor {
 			break;
 		case 'S':
 			String ordinal = loc == null ? ""
-					: (loc.getOrdinalNumber(date) + "");
+					: (loc.getLanguage().getOrdinalNumber(date) + "");
 			ordinal = ordinal.replaceFirst(String.valueOf(date), "");
 			sb.append(ordinal);
 			break;
