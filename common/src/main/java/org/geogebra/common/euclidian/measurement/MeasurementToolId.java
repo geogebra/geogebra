@@ -11,7 +11,7 @@ public enum MeasurementToolId {
 	/**
 	 * No tool
 	 */
-	NONE(-1),
+	NONE(-1, Collections.emptyList()),
 
 	/**
 	 * Ordinal ruler with two edges
@@ -21,7 +21,7 @@ public enum MeasurementToolId {
 	/**
 	 * Ordinal protractor
 	 */
-	PROTRACTOR(MODE_PROTRACTOR, true, Collections.emptyList()),
+	PROTRACTOR(MODE_PROTRACTOR, true, List.of(new RectangleEdge(1, 2))),
 
 	/**
 	 * Right triangle shaped protactor with three edges: hypo and two legs.
@@ -32,10 +32,6 @@ public enum MeasurementToolId {
 	private final int mode;
 	private final boolean protactor;
 	private final List<MeasurementToolEdge> edges;
-
-	MeasurementToolId(int mode) {
-		this(mode, false, null);
-	}
 
 	MeasurementToolId(int mode, List<MeasurementToolEdge> edges) {
 		this(mode, false, edges);
