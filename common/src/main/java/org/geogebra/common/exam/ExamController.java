@@ -461,6 +461,14 @@ public final class ExamController implements PropertiesRegistryListener {
 	}
 
 	/**
+	 * Unfortunately we need to expose this, some (iOS) client code currently requires this.
+	 * @return The temporary material storage for exams.
+	 */
+	public TempStorage getTempStorage() {
+		return tempStorage;
+	}
+
+	/**
 	 * Creates a new temporary material. Also calls the delegate's
 	 * {@link ExamControllerDelegate#examSetActiveMaterial(Material)} method.
 	 */
@@ -469,6 +477,14 @@ public final class ExamController implements PropertiesRegistryListener {
 		if (delegate != null) {
 			delegate.examSetActiveMaterial(material);
 		}
+	}
+
+	/**
+	 * Saves the material in temp storage.
+	 * @param material An exam material.
+	 */
+	public void saveTempMaterial(Material material) {
+		tempStorage.saveTempMaterial(material);
 	}
 
 	// PropertiesRegistryListener
