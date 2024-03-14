@@ -18,6 +18,11 @@ public class ColorChooserPanel extends FlowPanel {
 	private FlowPanel activeButton;
 	private final AppW appW;
 
+	/**
+	 * constructor
+	 * @param appW - application
+	 * @param callback - callback for setting the color for object
+	 */
 	public ColorChooserPanel(AppW appW, Consumer<GColor> callback) {
 		super();
 		addStyleName("colorPalette");
@@ -33,7 +38,7 @@ public class ColorChooserPanel extends FlowPanel {
 		}
 
 		addCustomColorButton();
- 	}
+	}
 
 	 private void addColorButton(GColor color) {
 		FlowPanel colorButton = new FlowPanel();

@@ -100,7 +100,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(),
 				"move mode", "moveBtn", () -> {
 						GPopupPanel popup = new GPopupPanel(appW.getAppletFrame(), appW);
-						popup.add(new ColorChooserPanel(appW,(color)
+						popup.add(new ColorChooserPanel(appW, (color)
 								-> getPenGeo().setPenColor(color)));
 						popup.showRelativeTo(this);
 		});
