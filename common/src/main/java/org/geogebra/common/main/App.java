@@ -4166,6 +4166,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return StringTemplate.screenReaderAscii;
 	}
 
+	@Deprecated // restrictions are handled by ExamController
 	public void clearRestrictions() {
 		restrictions.disable();
 	}
@@ -4603,7 +4604,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public ToolCollectionFactory createToolCollectionFactory() {
 		String toolbarDefinition = getGuiManager().getToolbarDefinition();
-		if (toolbarDefinition == null || isExam()
+		boolean isExamActive = GlobalScope.getExamController().isExamActive();
+		if (toolbarDefinition == null || isExamActive
 				|| ToolBar.isDefaultToolbar(toolbarDefinition)) {
 			return createDefaultToolCollectionFactory();
 		} else {
@@ -5082,6 +5084,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *
 	 * @param commandDispatcher command dispatcher
 	 */
+	@Deprecated
 	public void onCommandDispatcherSet(CommandDispatcher commandDispatcher) {
 		// TODO exam
 		ExamEnvironment examEnvironment = getExam();
