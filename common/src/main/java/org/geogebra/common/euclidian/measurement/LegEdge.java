@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 public final class LegEdge implements MeasurementToolEdge {
 	private GeoPoint endpoint1;
 	private GeoPoint endpoint2;
+	private GeoPoint endpoints[];
 
 	// GeoImage corners 3 and 4.
 	private GeoPoint corner3;
@@ -26,12 +27,12 @@ public final class LegEdge implements MeasurementToolEdge {
 
 	@Override
 	public GeoPoint endpoint1() {
-		return endpoint1;
+		return endpoints[0];
 	}
 
 	@Override
 	public GeoPoint endpoint2() {
-		return endpoint2;
+		return endpoints[1];
 	}
 
 	@Override
@@ -39,18 +40,20 @@ public final class LegEdge implements MeasurementToolEdge {
 		ensureCorners(image.getKernel().getConstruction());
 		image.calculateCornerPoint(corner3, 3);
 		image.calculateCornerPoint(corner4, 4);
-		endpoint1.x = (corner3.x + corner4.x) / 2;
-		endpoint1.y = (corner3.y + corner4.y) / 2;
-		endpoint1.z = 1;
-		image.calculateCornerPoint(endpoint2, leg.index());
-		endpoint1.updateCoords();
-		endpoint2.updateCoords();
+		int i = leg.index() - 1;
+		endpoints[i].x = (corner3.x + corner4.x) / 2;
+		endpoints[i].y = (corner3.y + corner4.y) / 2;
+		endpoints[i].z = 1;
+		image.calculateCornerPoint(endpoints[1 - i], leg.index());
+		endpoints[0].updateCoords();
+		endpoints[1].updateCoords();
 	}
 
 	private void ensureCorners(Construction cons) {
-		if (endpoint1 == null) {
-			endpoint1 = new GeoPoint(cons, true);
-			endpoint2 = new GeoPoint(cons, true);
+		if (endpoints == null) {
+			endpoints = new GeoPoint[2];
+			endpoints[0] = new GeoPoint(cons, true);
+			endpoints[1] = new GeoPoint(cons, true);
 			corner3 = new GeoPoint(cons, true);
 			corner4 = new GeoPoint(cons, true);
 		}
