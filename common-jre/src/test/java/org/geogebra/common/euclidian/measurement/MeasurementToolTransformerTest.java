@@ -38,7 +38,7 @@ public class MeasurementToolTransformerTest extends BaseUnitTest {
 	public void testRuler() {
 		mc.selectTool(RULER);
 		MeasurementToolTransformer transformer = createTransformer(RULER);
-		transformer.reset(view, List.of(new GPoint(0,0)));
+		transformer.reset(view, List.of(new GPoint(0, 0)));
 
 	}
 

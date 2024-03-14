@@ -14,18 +14,22 @@ public class CreateToolImageW implements CreateToolImage {
 	private final AppW app;
 	private final Construction cons;
 
+	/**
+	 *
+	 * @param app {@link AppW}
+	 */
 	public CreateToolImageW(AppW app) {
 		this.app = app;
 		cons = app.getKernel().getConstruction();
 	}
 
 	@Override
-	public GeoImage create(int mode, String fileName) {
+	public GeoImage create(int mode, String internalName) {
 		GeoImage toolImage = new GeoImage(cons);
 		toolImage.setMeasurementTool(true);
 		SVGResource toolSVG = getMeasurementToolSVG(mode);
 		SafeGeoImageFactory factory = new SafeGeoImageFactory(app, toolImage);
-		String path = ImageManagerW.getMD5FileName(fileName, toolSVG.getSafeUri().asString());
+		String path = ImageManagerW.getMD5FileName(internalName, toolSVG.getSafeUri().asString());
 		factory.createInternalFile(path, toolSVG.getSafeUri().asString());
 		return toolImage;
 

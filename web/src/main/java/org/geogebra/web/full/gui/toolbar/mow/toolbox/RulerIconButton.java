@@ -54,7 +54,6 @@ public class RulerIconButton extends IconButton {
 		}
 	}
 
-
 	/**
 	 * remove measurement tool from construction
 	 */

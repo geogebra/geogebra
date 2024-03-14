@@ -318,7 +318,6 @@ public class Construction {
 		consDefaults = companion.newConstructionDefaults();
 	}
 
-
 	public Map<Integer, GeoNumeric> getArbitraryConstants() {
 		return constsM;
 	}
@@ -2836,7 +2835,6 @@ public class Construction {
 		usedMacros = null;
 		spreadsheetTraces = false;
 		supressLabelCreation = false;
-// TODO	measurementTools.clear();
 		groups.clear();
 	}
 

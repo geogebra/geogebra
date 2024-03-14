@@ -8,9 +8,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
  * Represents the leg edges of a right triangle.
  */
 public final class LegEdge implements MeasurementToolEdge {
-	private GeoPoint endpoint1;
-	private GeoPoint endpoint2;
-	private GeoPoint endpoints[];
+	private GeoPoint[] endpoints;
 
 	// GeoImage corners 3 and 4.
 	private GeoPoint corner3;
