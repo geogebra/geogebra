@@ -3,6 +3,9 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
+import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
 
 public class ContextMenuItems {
@@ -10,18 +13,26 @@ public class ContextMenuItems {
 	private final TabularData tabularData;
 	private final CopyPasteCutTabularData copyPasteCut;
 	private final SpreadsheetSelectionController selectionController;
+	private final TableLayout layout;
+	private @CheckForNull UndoManager undoManager;
 
 	/**
 	 * @param tabularData {@link TabularData}
 	 * @param selectionController {@link SpreadsheetSelectionController}
 	 * @param copyPasteCut {@link CopyPasteCutTabularData}
+	 * @param layout {@link TableLayout}
 	 */
 	public ContextMenuItems(TabularData tabularData,
 			SpreadsheetSelectionController selectionController,
-			CopyPasteCutTabularData copyPasteCut) {
+			CopyPasteCutTabularData copyPasteCut, TableLayout layout) {
 		this.selectionController = selectionController;
 		this.tabularData = tabularData;
 		this.copyPasteCut = copyPasteCut;
+		this.layout = layout;
+	}
+
+	public void setUndoManager(UndoManager undoManager) {
+		this.undoManager = undoManager;
 	}
 
 	/**
@@ -56,13 +67,13 @@ public class ContextMenuItems {
 				new ContextMenuItem(Identifier.PASTE, () -> pasteCells(row, column)),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.INSERT_ROW_ABOVE,
-						() -> tabularData.insertRowAt(row)),
+						() -> insertRowAt(row, true)),
 				new ContextMenuItem(Identifier.INSERT_ROW_BELOW,
-						() -> tabularData.insertRowAt(row + 1)),
+						() -> insertRowAt(row + 1, false)),
 				new ContextMenuItem(Identifier.INSERT_COLUMN_LEFT,
-						() -> tabularData.insertColumnAt(column)),
+						() -> insertColumnAt(column, true)),
 				new ContextMenuItem(Identifier.INSERT_COLUMN_RIGHT,
-						() -> tabularData.insertColumnAt(column + 1)),
+						() -> insertColumnAt(column + 1, false)),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.DELETE_ROW, () -> deleteRowAt(row)),
 				new ContextMenuItem(Identifier.DELETE_COLUMN,
@@ -127,9 +138,9 @@ public class ContextMenuItems {
 				new ContextMenuItem(Identifier.PASTE, () -> {}),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.INSERT_ROW_ABOVE,
-						() -> tabularData.insertRowAt(row)),
+						() -> insertRowAt(row, true)),
 				new ContextMenuItem(Identifier.INSERT_ROW_BELOW,
-						() -> tabularData.insertRowAt(row + 1)),
+						() -> insertRowAt(row + 1, false)),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.DELETE_ROW, () -> deleteRowAt(row))
 		);
@@ -138,18 +149,21 @@ public class ContextMenuItems {
 	private void deleteRowAt(int row) {
 		List<Selection> selections = selectionController.selections();
 		if (selections.isEmpty()) {
-			tabularData.deleteRowAt(row);
+			deleteRowAt(row, row);
 		} else {
-			selections.stream().filter(selection -> selection.isRowOnly())
-					.forEach(selection -> deleteRowAt(selection.getRange().getFromRow(),
-							selection.getRange().getToRow()));
-			}
+			selections.stream().forEach(selection -> deleteRowAt(
+					selection.getRange().getFromRow(), selection.getRange().getToRow()));
 		}
+	}
 
 	private void deleteRowAt(int fromRow, int toRow) {
 		for (int row = fromRow; row < toRow + 1; row++) {
 			tabularData.deleteRowAt(fromRow);
 		}
+		if (layout != null) {
+			resizeRemainingRows(toRow);
+		}
+		storeUndoInfo();
 	}
 
 	private List<ContextMenuItem> columnItems(int column) {
@@ -159,9 +173,9 @@ public class ContextMenuItems {
 				new ContextMenuItem(Identifier.PASTE, () -> {}),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.INSERT_COLUMN_LEFT,
-						() -> tabularData.insertColumnAt(column)),
+						() -> insertColumnAt(column, true)),
 				new ContextMenuItem(Identifier.INSERT_COLUMN_RIGHT,
-						() -> tabularData.insertColumnAt(column + 1)),
+						() -> insertColumnAt(column + 1, false)),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.DELETE_COLUMN,
 						() -> deleteColumnAt(column))
@@ -171,17 +185,85 @@ public class ContextMenuItems {
 	private void deleteColumnAt(int column) {
 		List<Selection> selections = selectionController.selections();
 		if (selections.isEmpty()) {
-			tabularData.deleteColumnAt(column);
+			deleteColumnAt(column, column);
 		} else {
-			selections.stream().filter(selection -> selection.isColumnOnly())
-					.forEach(selection -> deleteColumnAt(selection.getRange().getFromColumn(),
-							selection.getRange().getToColumn()));
+			selections.stream().forEach(selection -> deleteColumnAt(
+					selection.getRange().getFromColumn(), selection.getRange().getToColumn()));
 			}
 		}
 
 	private void deleteColumnAt(int fromColumn, int toColumn) {
 		for (int column = fromColumn; column < toColumn + 1; column++) {
 			tabularData.deleteColumnAt(fromColumn);
+		}
+		if (layout != null) {
+			resizeRemainingColumns(toColumn);
+		}
+		storeUndoInfo();
+	}
+
+	/**
+	 * Inserts a column at a given index
+	 * @param column Index of where to insert the column
+	 * @param left Whether the column is being inserted left of the currently selected column
+	 */
+	private void insertColumnAt(int column, boolean left) {
+		tabularData.insertColumnAt(column);
+		Selection lastSelection = selectionController.getLastSelection();
+		if (lastSelection != null && layout != null) {
+			int columnIndex = left ? column + 1 : column;
+			layout.setWidthForColumns(layout.getWidth(lastSelection.getRange().getFromColumn()),
+					columnIndex, columnIndex);
+		}
+		storeUndoInfo();
+	}
+
+	/**
+	 * Inserts a row at a given index
+	 * @param row Index of where to insert the row
+	 * @param above Whether the row is being inserted above the currently selected row
+	 */
+	private void insertRowAt(int row, boolean above) {
+		tabularData.insertRowAt(row);
+		Selection lastSelection = selectionController.getLastSelection();
+		if (lastSelection != null && layout != null) {
+			int rowIndex = above ? row + 1 : row;
+			layout.setHeightForRows(layout.getHeight(lastSelection.getRange().getFromRow()),
+					rowIndex, rowIndex);
+		}
+		storeUndoInfo();
+	}
+
+	/**
+	 * After a row has been deleted, the reamining rows (i.e. the ones succeeding the deleted row)
+	 * need to be resized. In this scenario, row 10 applies the hieght of row 11, row 11 applies
+	 * the height of row 12, etc.
+	 * @param resizeFrom Index of where to start resizing the remaining rows
+	 */
+	private void resizeRemainingRows(int resizeFrom) {
+		int numberOfRows = tabularData.numberOfRows();
+		for (int row = resizeFrom; row < numberOfRows - 1; row++) {
+			layout.setHeightForRows(layout.getHeight(row + 1), row, row);
+		}
+		layout.setHeightForRows(layout.DEFAUL_CELL_HEIGHT, numberOfRows - 1, numberOfRows - 1);
+	}
+
+	/**
+	 * Same as {@link #resizeRemainingRows(int)}, but for columns
+	 * @param resizeFrom Index of where to start resizing the remaining columns
+	 */
+	private void resizeRemainingColumns(int resizeFrom) {
+		int numberOfColumns = tabularData.numberOfColumns();
+		for (int column = resizeFrom; column < numberOfColumns - 1; column++) {
+			layout.setWidthForColumns(layout.getWidth(column + 1), column, column);
+		}
+		layout.setWidthForColumns(layout.DEFAULT_CELL_WIDTH,
+				numberOfColumns - 1, numberOfColumns - 1);
+	}
+
+	private void storeUndoInfo() {
+		if (undoManager != null) {
+			undoManager.storeUndoInfo();
 		}
 	}
 }

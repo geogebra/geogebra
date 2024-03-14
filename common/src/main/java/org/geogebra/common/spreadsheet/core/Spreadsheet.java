@@ -5,6 +5,7 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 
@@ -24,13 +25,16 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	/**
 	 * @param tabularData data source
 	 * @param rendererFactory converts custom data type to rendable objects
+	 * @param undoManager {@link UndoManager}
 	 */
-	public Spreadsheet(TabularData<?> tabularData, CellRenderableFactory rendererFactory) {
+	public Spreadsheet(TabularData<?> tabularData,
+			CellRenderableFactory rendererFactory, UndoManager undoManager) {
 		controller = new SpreadsheetController(tabularData, null);
 		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
 				controller.getStyle());
 		setViewport(new Rectangle(0, 0, 0, 0));
 		tabularData.addChangeListener(this);
+		controller.getContextMenuItems().setUndoManager(undoManager);
 	}
 
 	// layout

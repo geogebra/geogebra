@@ -47,7 +47,7 @@ public final class SpreadsheetController implements TabularSelection {
 				tabularData.numberOfColumns(), TableLayout.DEFAUL_CELL_HEIGHT,
 				TableLayout.DEFAULT_CELL_WIDTH);
 		contextMenuItems = new ContextMenuItems(tabularData, selectionController,
-				getCopyPasteCut());
+				getCopyPasteCut(), layout);
 	}
 
 	private void initViewport(Rectangle viewport) {
@@ -70,6 +70,10 @@ public final class SpreadsheetController implements TabularSelection {
 
 	SpreadsheetStyle getStyle() {
 		return style;
+	}
+
+	ContextMenuItems getContextMenuItems() {
+		return contextMenuItems;
 	}
 
 	// - TabularData
@@ -153,7 +157,8 @@ public final class SpreadsheetController implements TabularSelection {
 	 * Process the editor input, update corresponding cell and hide the editor
 	 */
 	public void saveContentAndHideCellEditor() {
-		if (controlsDelegate != null && controlsDelegate.getCellEditor() != null) {
+		if (controlsDelegate != null && controlsDelegate.getCellEditor() != null
+				&& isEditorActive()) {
 			controlsDelegate.getCellEditor().onEnter();
 			controlsDelegate.getCellEditor().hide();
 		}
