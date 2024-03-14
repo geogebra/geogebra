@@ -125,13 +125,6 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					.add(LayoutUtilW.panelRow(lblLanguage, languageDropDown));
 		}
 
-		private void storeLanguage(String lang) {
-			if (app.getLoginOperation() != null) {
-				app.getLoginOperation().setUserLanguage(lang);
-			}
-			app.getLAF().storeLanguage(lang);
-		}
-
 		private void addRestoreSettingsBtn() {
 			restoreSettingsBtn = new StandardButton(
 					app.getLocalization().getMenu("RestoreSettings"));
