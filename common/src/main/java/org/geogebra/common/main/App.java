@@ -4605,8 +4605,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public ToolCollectionFactory createToolCollectionFactory() {
 		String toolbarDefinition = getGuiManager().getToolbarDefinition();
-		boolean isExamActive = GlobalScope.getExamController().isExamActive();
-		if (toolbarDefinition == null || isExamActive
+		if (toolbarDefinition == null || isExam()
 				|| ToolBar.isDefaultToolbar(toolbarDefinition)) {
 			return createDefaultToolCollectionFactory();
 		} else {

@@ -3,7 +3,6 @@ package org.geogebra.common.properties.impl.general;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.util.lang.Language;
@@ -60,6 +59,6 @@ public class LanguageProperty extends AbstractNamedEnumeratedProperty<String> {
 
     @Override
     public boolean isEnabled() {
-        return !GlobalScope.getExamController().isExamActive();
+        return !(app.isExam() && app.isExamStarted());
     }
 }
