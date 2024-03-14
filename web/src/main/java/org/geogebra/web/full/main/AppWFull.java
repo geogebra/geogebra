@@ -953,6 +953,30 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	/**
+	 * Initializes the user authentication
+	 *  @param op
+	 *            login operation
+	 *
+	 */
+	public void initSignInEventFlow(LoginOperationW op) {
+		// Initialize the signIn operation
+		loginOperation = op;
+		if (getNetworkOperation().isOnline()) {
+			if (getLAF() != null && getLAF().supportsGoogleDrive()) {
+				initGoogleDriveEventFlow();
+			}
+			if (!StringUtil.empty(appletParameters.getDataParamTubeID())
+					|| appletParameters.getDataParamEnableFileFeatures()) {
+				if (!op.loadUserFromSession()) {
+					loginOperation.performTokenLogin();
+				}
+			}
+		} else {
+			loginOperation.startOffline();
+		}
+	}
+
+	/**
 	 * @param onError error handler
 	 * @param caller temporary login listener, to be removed after opening
 	 */

@@ -1,14 +1,18 @@
 package org.geogebra.web.shared.ggtapi.models;
 
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
+import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.gwtutil.Cookies;
+import org.geogebra.web.html5.MebisGlobal;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 
 import elemental2.dom.DomGlobal;
+import jsinterop.base.Js;
 
 /**
  * @author gabor
@@ -19,7 +23,7 @@ public class AuthenticationModelW extends AuthenticationModel  {
 	private static final String GGB_LAST_USER = "last_user";
 	/** token storage */
 	private String authToken = null;
-	private AppW app;
+	private final AppW app;
 	private boolean inited = false;
 
 	/**
@@ -77,12 +81,26 @@ public class AuthenticationModelW extends AuthenticationModel  {
 
 	@Override
 	protected void storeLastUser(String username) {
-		BrowserStorage.LOCAL.setItem(GGB_LAST_USER, username);
+		// TODO remove method completely in APPS-5495
+		BrowserStorage.LOCAL.removeItem(GGB_LAST_USER);
 	}
 
 	@Override
 	public String loadLastUser() {
 		return BrowserStorage.LOCAL.getItem(GGB_LAST_USER);
+	}
+
+	/**
+	 * @param api responsible for mapping JSON -> user object
+	 * @return whether user data was loaded
+	 */
+	public boolean loadUserFromSession(BackendAPI api) {
+		String sessionUser = BrowserStorage.SESSION.getItem(GGB_LAST_USER);
+		if (sessionUser != null) {
+			loadUserFromString(sessionUser, api);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -96,5 +114,21 @@ public class AuthenticationModelW extends AuthenticationModel  {
 	@Override
 	public String getCookie(String cookieName) {
 		return Cookies.getCookie(cookieName);
+	}
+
+	@Override
+	public void refreshToken(HttpRequest request, Runnable afterRefresh) {
+		if (app.isMebis()) {
+			MebisGlobal.refreshToken(token -> {
+				if (Js.isTruthy(token)) {
+					request.setAuth(token);
+					// just update the token, no need to fire event
+					authToken = token;
+				}
+				afterRefresh.run();
+			});
+		} else {
+			afterRefresh.run();
+		}
 	}
 }
