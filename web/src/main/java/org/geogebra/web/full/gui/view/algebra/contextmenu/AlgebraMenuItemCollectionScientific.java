@@ -19,7 +19,9 @@ public class AlgebraMenuItemCollectionScientific
 	 *            algebra view
 	 */
 	public AlgebraMenuItemCollectionScientific(AlgebraViewW av) {
-		addLabelingActions();
-		addItems(new DuplicateInputItem(av), new DuplicateOutputItem(av), new DeleteItem());
+		Runnable storeUndoInfo = av.getApp()::storeUndoInfo;
+		addLabelingActions(storeUndoInfo);
+		addItems(new DuplicateInputItem(av), new DuplicateOutputItem(av),
+				new DeleteItem(storeUndoInfo));
 	}
 }

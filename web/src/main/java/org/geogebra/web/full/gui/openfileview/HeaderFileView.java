@@ -5,8 +5,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 
-import elemental2.dom.File;
-
 public abstract class HeaderFileView implements BrowseViewI {
 	public abstract AnimatingPanel getPanel();
 
@@ -42,11 +40,6 @@ public abstract class HeaderFileView implements BrowseViewI {
 
 	@Override
 	public void closeAndSave(AsyncOperation<Boolean> callback) {
-		// not used
-	}
-
-	@Override
-	public void openFile(File fileToHandle) {
 		// not used
 	}
 }

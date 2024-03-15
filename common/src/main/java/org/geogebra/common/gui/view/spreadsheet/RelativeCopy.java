@@ -7,6 +7,7 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.CircularDefinitionException;
+import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
@@ -69,7 +70,7 @@ public class RelativeCopy {
 
 	/**
 	 * Performs spreadsheet drag-copy operation.
-	 * 
+	 *
 	 * @param sx1
 	 *            source minimum column
 	 * @param sy1
@@ -302,7 +303,7 @@ public class RelativeCopy {
 
 	/**
 	 * Tests if a cell range can be used as the source for a pattern drag-copy.
-	 * 
+	 *
 	 * @param range
 	 *            cell range
 	 * @return whether all geos are acceptable
@@ -328,7 +329,7 @@ public class RelativeCopy {
 	/**
 	 * Performs a vertical spreadsheet drag-copy. Cells are copied vertically
 	 * row by row using a single given row as the copy source.
-	 * 
+	 *
 	 * @param x1
 	 *            minimum column of the drag-copy region
 	 * @param x2
@@ -381,7 +382,7 @@ public class RelativeCopy {
 	 * Performs a horizontal spreadsheet drag-copy. Cells are copied
 	 * horizontally column by column using a single given column as the copy
 	 * source.
-	 * 
+	 *
 	 * @param y1
 	 *            minimum row of the drag-copy region
 	 * @param y2
@@ -534,11 +535,11 @@ public class RelativeCopy {
 				freeImage = true;
 			}
 		}
-		boolean oldFlag = kernel.isUsingInternalCommandNames();
-		kernel.setUseInternalCommandNames(true);
+		CommandLookupStrategy oldLookupStrategy = kernel.getCommandLookupStrategy();
+		kernel.setCommandLookupStrategy(CommandLookupStrategy.XML);
 		// FIXME maybe try-catch this?
 		ValidExpression exp = kernel.getParser().parseGeoGebraExpression(text);
-		kernel.setUseInternalCommandNames(oldFlag);
+		kernel.setCommandLookupStrategy(oldLookupStrategy);
 
 		updateCellReferences(exp, dx, dy);
 
@@ -777,7 +778,7 @@ public class RelativeCopy {
 
 	/**
 	 * Returns array of GeoElements that depend on given GeoElement geo
-	 * 
+	 *
 	 * @param geo
 	 *            spreadsheet cell
 	 * @return predecessors or empty array
@@ -794,7 +795,7 @@ public class RelativeCopy {
 	 * Returns 2D array, GeoElement[columns][rows], containing GeoElements found
 	 * in the cell range with upper left corner (column1, row1) and lower right
 	 * corner (column2, row2).
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param column1
@@ -821,7 +822,7 @@ public class RelativeCopy {
 
 	/**
 	 * Returns the GeoElement for the cell with the given column and row values.
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param point
@@ -834,7 +835,7 @@ public class RelativeCopy {
 
 	/**
 	 * Returns the GeoElement for the cell with the given column and row values.
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param column
@@ -1079,7 +1080,7 @@ public class RelativeCopy {
 	/**
 	 * Prepares a spreadsheet cell editor string for processing in the kernel
 	 * and returns either (1) a new GeoElement for the cell or (2) null.
-	 * 
+	 *
 	 * @param inputText
 	 *            string representation of the new GeoElement
 	 * @param oldValue
@@ -1140,28 +1141,22 @@ public class RelativeCopy {
 			// else if the target cell is empty, try to create a new GeoElement
 			// for this cell
 		}
-		boolean oldFlag = kernel.isUsingInternalCommandNames();
+		CommandLookupStrategy oldLookupStrategy = kernel.getCommandLookupStrategy();
 		try {
 			// this will be a new geo
-			kernel.setUseInternalCommandNames(internal);
+			kernel.setCommandLookupStrategy(CommandLookupStrategy.XML);
 			if (oldValue == null) {
 				GeoElementND ret = prepareNewValue(kernel, name, text);
-				kernel.setUseInternalCommandNames(oldFlag);
+				kernel.setCommandLookupStrategy(oldLookupStrategy);
 				return ret;
 			}
 			updateOldValue(oldValue, name, text,
-					new AsyncOperation<GeoElementND>() {
-
-						@Override
-						public void callback(GeoElementND obj) {
-							redefinedElement = obj;
-						}
-					});
-			kernel.setUseInternalCommandNames(oldFlag);
+					obj -> redefinedElement = obj);
+			kernel.setCommandLookupStrategy(oldLookupStrategy);
 			return redefinedElement;
 
 		} catch (Throwable t) {
-			kernel.setUseInternalCommandNames(oldFlag);
+			kernel.setCommandLookupStrategy(oldLookupStrategy);
 			return prepareNewValue(kernel, name, "");
 		}
 	}

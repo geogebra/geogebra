@@ -46,6 +46,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		this.formula = formula;
 		this.mathFieldEditor = new MathFieldEditor(app, new FormulaMathFieldListener());
 		mathFieldEditor.getMathField().setUseSimpleScripts(false);
+		mathFieldEditor.getMathField().setFocus(false);
 		if (formula.getContent() != null) {
 			mathFieldEditor.setText(formula.getContent());
 		}

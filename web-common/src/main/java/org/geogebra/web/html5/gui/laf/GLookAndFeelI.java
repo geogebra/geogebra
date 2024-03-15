@@ -31,8 +31,6 @@ public interface GLookAndFeelI {
 
 	boolean exportSupported();
 
-	boolean supportsLocalSave();
-
 	boolean isEmbedded();
 
 	boolean examSupported();

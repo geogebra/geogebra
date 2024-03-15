@@ -29,7 +29,7 @@ public class DrawEquationStub extends DrawEquation {
 	}
 
 	@Override
-	public void checkFirstCall(App app) {
+	public void checkFirstCall() {
 		// unused
 	}
 

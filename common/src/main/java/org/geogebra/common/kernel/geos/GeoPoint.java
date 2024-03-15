@@ -1691,13 +1691,13 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			StringBuilder sbBuildValueString) {
 		switch (toStringMode) {
 		case Kernel.COORD_POLAR:
-			sbBuildValueString.append('(');
+			sbBuildValueString.append(tpl.leftBracket());
 			sbBuildValueString.append(kernel.format(MyMath.length(x, y), tpl));
-			sbBuildValueString.append(";");
+			sbBuildValueString.append(tpl.polarSeparator());
 			tpl.appendOptionalSpace(sbBuildValueString);
 			sbBuildValueString
 					.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
-			sbBuildValueString.append(')');
+			sbBuildValueString.append(tpl.rightBracket());
 			break;
 
 		case Kernel.COORD_COMPLEX:
@@ -2912,12 +2912,10 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		}
 		ScreenReaderBuilder sbWithValue = new ScreenReaderBuilder(loc);
 		sbWithValue.appendDegreeIfNeeded(geoPoint,
-				ScreenReader.convertToReadable(geoPoint.getValueForInputBar(),
-						geoPoint.getKernel().getApplication()));
+				geoPoint.toValueString(geoPoint.getApp().getScreenReaderTemplate()));
 		return loc.getPlainDefault("PointAMovedToB", "Point %0 moved to %1",
 				sb.toString(),
 				sbWithValue.toString());
-
 	}
 
 	@Override

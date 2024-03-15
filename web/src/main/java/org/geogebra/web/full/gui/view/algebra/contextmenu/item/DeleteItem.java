@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.view.algebra.contextmenu.item;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.MenuItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.action.DeleteAction;
 
@@ -13,9 +12,8 @@ public class DeleteItem extends MenuItem<GeoElement> {
 	/**
 	 * New delete action
 	 */
-	public DeleteItem() {
+	public DeleteItem(Runnable actionCallback) {
 		super("Delete",
-				MaterialDesignResources.INSTANCE.delete_black(),
-				new DeleteAction());
+				new DeleteAction(), actionCallback);
 	}
 }

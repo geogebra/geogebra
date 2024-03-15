@@ -65,6 +65,7 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.kernel.AnimationManager;
+import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -881,7 +882,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public String getReverseCommand(String command) {
 		// don't init command table on file loading
-		if (kernel.isUsingInternalCommandNames()) {
+		if (kernel.getCommandLookupStrategy() != CommandLookupStrategy.USER) {
 			try {
 				Commands.valueOf(command);
 				return command;
@@ -2200,7 +2201,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Changes current mode to move mode
+	 * Changes current mode to move mode if whiteboard is not active
 	 */
 	public void setMoveMode() {
 		setMoveMode(ModeSetter.TOOLBAR);
@@ -2210,7 +2211,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Changes current mode to move mode
 	 */
 	public void setMoveMode(ModeSetter m) {
-		setMode(EuclidianConstants.MODE_MOVE, m);
+		if (!isWhiteboardActive()) {
+			setMode(EuclidianConstants.MODE_MOVE, m);
+		} else {
+			setMode(EuclidianConstants.MODE_SELECT_MOW, m);
+		}
 	}
 
 	/**
@@ -3701,15 +3706,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// MOBILE END
 		// *********************************************************
 		// **********************************************************************
-
-		// **********************************************************************
-		// MOW START
-		// note: please use prefix MOW
-		// *********************************************************
-		// **********************************************************************
-		// distinguishing between pen and touch
-		case MOW_PEN_EVENTS:
-			return false;
 
 		// **********************************************************************
 		// MOW END

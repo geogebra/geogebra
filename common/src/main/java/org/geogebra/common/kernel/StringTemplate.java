@@ -1444,6 +1444,17 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return right() + "]";
 	}
 
+	/**
+	 * @return semicolon
+	 */
+	public String polarSeparator() {
+		if (stringType.equals(StringType.SCREEN_READER_ASCII)) {
+			return ScreenReader.getPolarSeparator();
+		}
+
+		return ";";
+	}
+
 	private String right() {
 		if (stringType.equals(StringType.LATEX)) {
 			return " \\right";

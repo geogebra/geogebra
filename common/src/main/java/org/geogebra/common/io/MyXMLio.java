@@ -20,6 +20,7 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.io.file.ZipFile;
+import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -118,7 +119,7 @@ public abstract class MyXMLio {
 	/**
 	 * Returns XML representation of all settings and construction needed for
 	 * undo.
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param getListenersToo
@@ -225,7 +226,7 @@ public abstract class MyXMLio {
 	/**
 	 * Appends the &lt;geogebra> tag to given builder, including XSD link and
 	 * construction ID
-	 * 
+	 *
 	 * @param sb
 	 *            builder
 	 * @param isMacro
@@ -282,7 +283,7 @@ public abstract class MyXMLio {
 
 	/**
 	 * Appends &lt;?xml ... ?> header to given builder
-	 * 
+	 *
 	 * @param sb
 	 *            builder
 	 */
@@ -313,7 +314,7 @@ public abstract class MyXMLio {
 	/**
 	 * Returns XML representation of given macros and/or exercise in the kernel,
 	 * including header.
-	 * 
+	 *
 	 * @param macros
 	 *            list of macros
 	 * @return XML representation of given macros in the kernel.
@@ -331,7 +332,7 @@ public abstract class MyXMLio {
 
 	/**
 	 * Returns XML representation of all settings WITHOUT construction.
-	 * 
+	 *
 	 * @return XML representation of all settings WITHOUT construction.
 	 */
 	public String getPreferencesXML() {
@@ -393,9 +394,9 @@ public abstract class MyXMLio {
 			boolean isGGTOrDefaults, boolean mayZoom, boolean settingsBatch,
 			boolean randomize) throws XMLParseException, IOException {
 		boolean oldVal = kernel.isNotifyViewsActive();
-		boolean oldVal2 = kernel.isUsingInternalCommandNames();
+		CommandLookupStrategy oldVal2 = kernel.getCommandLookupStrategy();
 		kernel.setLoadingMode(true);
-		kernel.setUseInternalCommandNames(true);
+		kernel.setCommandLookupStrategy(CommandLookupStrategy.XML);
 
 		if (!isGGTOrDefaults && mayZoom) {
 			kernel.setNotifyViewsActive(false);
@@ -416,7 +417,7 @@ public abstract class MyXMLio {
 			}
 		} finally {
 			kernel.setLoadingMode(false);
-			kernel.setUseInternalCommandNames(oldVal2);
+			kernel.setCommandLookupStrategy(oldVal2);
 			if (!isGGTOrDefaults && mayZoom) {
 				kernel.updateConstruction(randomize, 1);
 				cons.updateCasCellTwinVisibility();
