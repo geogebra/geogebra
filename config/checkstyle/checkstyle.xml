@@ -46,6 +46,12 @@
         <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://|@|Regex"/>
     </module>
     <module name="TreeWalker">
+        <module name="Regexp">
+            <property name="format" value="\S[\t ]+$"/>
+            <property name="illegalPattern" value="true"/>
+            <property name="ignoreComments" value="true"/>
+            <property name="message" value="Line may not end with whitespace"/>
+        </module>
         <module name="OneTopLevelClass"/>
         <module name="OuterTypeFilename"/>
         <module name="IllegalTokenText">
