@@ -94,8 +94,7 @@ public class CASStylebarW extends StyleBarW implements FastClickHandler,
 				setVisible(geosOK);
 
 				if (geosOK) {
-					GeoElement geo = geos.get(0)
-					        .getGeoElementForPropertiesDialog();
+					GeoElement geo = geos.get(0).getGeoElementForPropertiesDialog();
 					GColor geoColor = ((GeoCasCell) geo).getFontColor();
 					updateColorTable();
 
@@ -121,8 +120,7 @@ public class CASStylebarW extends StyleBarW implements FastClickHandler,
 				boolean geosOK = checkGeoText(geos);
 				setVisible(geosOK);
 				if (geosOK) {
-					GeoElement geo = geos.get(0)
-					        .getGeoElementForPropertiesDialog();
+					GeoElement geo = geos.get(0).getGeoElementForPropertiesDialog();
 					int style = ((TextProperties) geo).getFontStyle();
 					btnBold.setSelected(style == GFont.BOLD
 							|| style == (GFont.BOLD + GFont.ITALIC));
@@ -139,8 +137,7 @@ public class CASStylebarW extends StyleBarW implements FastClickHandler,
 				boolean geosOK = checkGeoText(geos);
 				setVisible(geosOK);
 				if (geosOK) {
-					GeoElement geo = geos.get(0)
-					        .getGeoElementForPropertiesDialog();
+					GeoElement geo = geos.get(0).getGeoElementForPropertiesDialog();
 					int style = ((GeoCasCell) geo).getGeoText().getFontStyle();
 					btnItalic.setSelected(style == GFont.ITALIC
 							|| style == (GFont.BOLD + GFont.ITALIC));
@@ -217,7 +214,7 @@ public class CASStylebarW extends StyleBarW implements FastClickHandler,
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof GeoCasCell
-			        && ((GeoCasCell) geo).getGeoText().getFontStyle() != fontStyle) {
+					&& ((GeoCasCell) geo).getGeoText().getFontStyle() != fontStyle) {
 				((GeoCasCell) geo).getGeoText().setFontStyle(fontStyle);
 				geo.updateRepaint();
 				needUndo = true;

@@ -1397,7 +1397,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * using min and max values for both axes in real world values.
 	 */
 	final public void setRealWorldCoordSystemVisible(double xmin2, double xmax2,
-											  double ymin2, double ymax2, boolean visible) {
+			double ymin2, double ymax2, boolean visible) {
 		double calcXscale = (visible ? getVisibleWidth() : getWidth()) / (xmax2 - xmin2);
 		double calcYscale = (visible ? getVisibleHeight() : getHeight()) / (ymax2 - ymin2);
 

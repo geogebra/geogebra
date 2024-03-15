@@ -147,7 +147,7 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 
 	@Override
 	public void disposePreview() {
-	    removePreviewFromGL();
+		removePreviewFromGL();
 		super.disposePreview();
 	}
 

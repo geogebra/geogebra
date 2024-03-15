@@ -181,8 +181,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 	}
 
 	private void setToolTips() {
-		treeModeButton.setTitle(app.getLocalization().getPlainTooltip(
-		        "SortBy"));
+		treeModeButton.setTitle(app.getLocalization().getPlainTooltip("SortBy"));
 		descriptionButton.setTitle(app.getLocalization().getMenu(
 				"AlgebraDescriptions"));
 	}

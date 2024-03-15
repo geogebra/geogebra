@@ -286,8 +286,7 @@ public class ImageManagerW extends ImageManager {
 	 * @return URL of error image
 	 */
 	public String getErrorURL() {
-		return GuiResourcesSimple.INSTANCE.questionMark().getSafeUri()
-		        .asString();
+		return GuiResourcesSimple.INSTANCE.questionMark().getSafeUri().asString();
 	}
 
 	/**

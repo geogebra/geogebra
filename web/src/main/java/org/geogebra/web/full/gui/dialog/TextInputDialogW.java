@@ -250,10 +250,8 @@ public class TextInputDialogW extends ComponentDialog implements TextInputDialog
 			// probably this branch will run (rows > 1)
 			if (NavigatorUtil.isFirefox()) {
 				// Code that works in Firefox but not in IE and Chrome
-				editor.getTextArea().getElement()
-				        .blur();
-				editor.getTextArea().getElement()
-				        .focus();
+				editor.getTextArea().getElement().blur();
+				editor.getTextArea().getElement().focus();
 			} else {
 				// Code that works in Chrome but not in Firefox
 				editor.getTextArea().setFocus(false);

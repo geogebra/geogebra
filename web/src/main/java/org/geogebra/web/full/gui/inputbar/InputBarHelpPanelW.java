@@ -100,7 +100,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 
 		HorizontalPanel detailTitlePanel = new HorizontalPanel();
 		detailTitlePanel
-		        .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+				.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		detailTitlePanel.add(lblSyntax);
 		detailTitlePanel.add(pnlButton);
 		detailTitlePanel.addStyleName("inputHelp-detailPanelTitle");
@@ -168,12 +168,12 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 			app.getGuiManager().openHelp("InputBar");
 
 		} else if (getSelectedCommand().equals(
-		        app.getLocalization().getMenu("MathematicalFunctions"))) {
+				app.getLocalization().getMenu("MathematicalFunctions"))) {
 			app.getGuiManager().openHelp(App.WIKI_OPERATORS);
 
 		} else {
 			app.getGuiManager()
-			        .openCommandHelp(getSelectedCommand());
+					.openCommandHelp(getSelectedCommand());
 		}
 	}
 
@@ -189,11 +189,11 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 	 */
 	public String getSelectedCommand() {
 		if (indexTree == null || indexTree.getSelectedItem() == null
-		        || indexTree.getSelectedItem().getChildCount() > 0) {
+				|| indexTree.getSelectedItem().getChildCount() > 0) {
 			return null;
 		}
 		return indexTree.getSelectedItem().getWidget().getElement()
-		        .getInnerText();
+				.getInnerText();
 	}
 
 	@Override
@@ -252,7 +252,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 
 		InputHelpTreeItem itmAllCommands = new InputHelpTreeItem();
 		itmAllCommands.setWidget(new TreeItemButton(app.getLocalization()
-		        .getMenu("AllCommands"), itmAllCommands, false));
+				.getMenu("AllCommands"), itmAllCommands, false));
 
 		addCmdNames(itmAllCommands, getAllCommandsTreeSet());
 		indexTree.addItem(itmAllCommands);
@@ -288,7 +288,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 	private class TreeItemButton extends InlineLabel {
 
 		public TreeItemButton(String text, final TreeItem item,
-		        final boolean isLeaf) {
+				final boolean isLeaf) {
 			super(text);
 			addStyleName("inputHelp-treeItem");
 
@@ -364,7 +364,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 		lblSyntax.setText(getSelectedCommand());
 		ArrayList<Widget> rows;
 		if (getSelectedCommand().equals(
-		        app.getLocalization().getMenu("MathematicalFunctions"))) {
+				app.getLocalization().getMenu("MathematicalFunctions"))) {
 			rows = functionTableHTML();
 			
 			syntaxPanel.removeStyleName("inputHelp-cmdSyntax");

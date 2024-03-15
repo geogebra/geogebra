@@ -812,13 +812,12 @@ public class Coords implements AnimatableValue<Coords> {
 		return norm;
 	}
 
-    /**
-     *
-     * @return norm about x,y,z only
-     */
+	/**
+	 * @return norm about x,y,z only
+	 */
 	public double calcNorm3() {
-	    return Math.sqrt(this.dotproduct3(this));
-    }
+		return Math.sqrt(this.dotproduct3(this));
+	}
 
 	/**
 	 * calc the square norm

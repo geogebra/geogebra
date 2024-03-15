@@ -136,7 +136,7 @@ public abstract class Drawable3DCurves extends Drawable3D {
 
 	@Override
 	public void disposePreview() {
-	    removePreviewFromGL();
+		removePreviewFromGL();
 		super.disposePreview();
 	}
 

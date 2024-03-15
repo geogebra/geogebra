@@ -59,11 +59,11 @@ public class DrawLocus3D extends Drawable3DCurves {
 		brush.setLength(1f);
 
 		try {
-            CurvePlotterUtils.draw(brush, getLocus().getPoints(), transformCoordSys);
-            setGeometryIndex(brush.end());
-        } catch (Exception e) {
-		    setGeometryIndex(-1);
-        }
+			CurvePlotterUtils.draw(brush, getLocus().getPoints(), transformCoordSys);
+			setGeometryIndex(brush.end());
+		} catch (Exception e) {
+			setGeometryIndex(-1);
+		}
 
 		endPacking();
 

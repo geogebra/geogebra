@@ -792,7 +792,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	@Override
 	public void selectAxesStyle(int index) {
-	    basicTab.selectAxesStyle(index);
+		basicTab.selectAxesStyle(index);
 	}
 
 	@Override

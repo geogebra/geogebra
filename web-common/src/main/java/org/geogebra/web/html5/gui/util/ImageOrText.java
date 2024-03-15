@@ -173,43 +173,42 @@ public class ImageOrText {
 			button.getElement().getStyle()
 					.setBackgroundColor(GColor.getColorString(bgColor));
 		}
-	    
-    }
+	}
 
 	/**
 	 * @return the url
 	 */
-    public String getUrl() {
-	    return url;
-    }
+	public String getUrl() {
+		return url;
+	}
 
 	/**
 	 * @param url the url to set
 	 */
-    public void setUrl(String url) {
-	    this.url = url;
-    }
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	/**
 	 * @param bgColor the bgColor to set
 	 */
-    public void setBgColor(GColor bgColor) {
-	    this.bgColor = bgColor;
-    }
+	public void setBgColor(GColor bgColor) {
+		this.bgColor = bgColor;
+	}
 
 	/**
 	 * @param fgColor the fgColor to set
 	 */
-    public void setFgColor(GColor fgColor) {
-	    this.fgColor = fgColor;
-    }
+	public void setFgColor(GColor fgColor) {
+		this.fgColor = fgColor;
+	}
 
 	/**
 	 * @param text the text to set
 	 */
-    public void setText(String text) {
-	    this.text = text;
-    }
+	public void setText(String text) {
+		this.text = text;
+	}
 
 	/**
 	 * @return text

@@ -167,7 +167,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 	private Object[] getGeoObjectList(GeoText editGeo) {
 
 		TreeSet<GeoElement> ts = app.getKernel().getConstruction()
-		        .getGeoSetLabelOrder();
+				.getGeoSetLabelOrder();
 		ArrayList<String> list = new ArrayList<>();
 		ArrayList<GColor> colors = new ArrayList<>();
 
@@ -210,10 +210,10 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 		String[][] map = TableSymbols.basicSymbolsMap(loc);
 
 		addTable(TableSymbols.basicSymbols(loc, map), false,
-		        defaultRowSize, false);
+				defaultRowSize, false);
 		addTable(TableSymbols.OPERATORS, false, defaultRowSize, true);
 		addTable(TableSymbols.greekLettersPlusVariants(), false,
-		        defaultRowSize, true);
+				defaultRowSize, true);
 		addTable(TableSymbols.ANALYSIS, false, defaultRowSize, true);
 		addTable(TableSymbols.SETS, false, defaultRowSize, true);
 		addTable(TableSymbols.LOGICAL, false, defaultRowSize, true);
@@ -228,8 +228,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 	}
 
 	private void addTable(String[] tableSymbols, final boolean isLatex,
-			int rowSize,
-	        boolean addSeparator) {
+			int rowSize, boolean addSeparator) {
 
 		final SymbolTableW symTable = newSymbolTable(tableSymbols, isLatex,
 				rowSize, s -> editPanel.insertTextString(s, isLatex), null);
@@ -255,17 +254,15 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 
 		addLaTeXTable(
 				TableSymbolsLaTeX.roots_fractions, /* "RootsAndFractions", */
-		        defaultRowSize, false);
+				defaultRowSize, false);
 		addLaTeXTable(TableSymbolsLaTeX.sums, /* "SumsAndIntegrals", */
-		        defaultRowSize, true);
-		addLaTeXTable(TableSymbolsLaTeX.accents,
-				/* "Accents", */ defaultRowSize,
-		        true);
+				defaultRowSize, true);
+		addLaTeXTable(TableSymbolsLaTeX.accents, /* "Accents", */
+				defaultRowSize, true);
 		addLaTeXTable(TableSymbolsLaTeX.accentsExtended, /* "AccentsExt", */
-		        defaultRowSize, true);
+				defaultRowSize, true);
 		addLaTeXTable(TableSymbolsLaTeX.brackets,
-				/* "Brackets", */ defaultRowSize,
-		        true);
+				/* "Brackets", */ defaultRowSize, true);
 		// addLaTeXTable(TableSymbolsLaTeX.matrices, "Matrices", defaultRowSize,
 		// true);
 		// addLaTeXTable(TableSymbolsLaTeX.mathfrak(), "FrakturLetters",
@@ -280,7 +277,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 	}
 
 	private void addLaTeXTable(String[] tableSymbols,
-	        int rowSize, boolean addSeparator) {
+			int rowSize, boolean addSeparator) {
 
 		final SymbolTableW symTable = newSymbolTable(tableSymbols, true,
 				rowSize, s -> {

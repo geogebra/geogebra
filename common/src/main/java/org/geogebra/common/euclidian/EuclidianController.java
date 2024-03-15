@@ -12252,16 +12252,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	public long getLastMousePressedTime() {
-	    return lastMousePressedTime;
-    }
+		return lastMousePressedTime;
+	}
 
-    public void setLastMousePressedTime(long time) {
+	public void setLastMousePressedTime(long time) {
         lastMousePressedTime = time;
     }
 
-    public long getElapsedTimeFromLastMousePressed() {
-        return System.currentTimeMillis() - lastMousePressedTime;
-    }
+	public long getElapsedTimeFromLastMousePressed() {
+		return System.currentTimeMillis() - lastMousePressedTime;
+	}
 
 	/**
 	 * Resets the state after pinch zooming is finished and both fingers are released

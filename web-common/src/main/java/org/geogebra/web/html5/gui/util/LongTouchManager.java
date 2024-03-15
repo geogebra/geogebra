@@ -62,8 +62,7 @@ public final class LongTouchManager {
 	 * @param delayMillis
 	 *            delay value
 	 */
-	public void scheduleTimer(LongTouchHandler handler, int x, int y,
-	        int delayMillis) {
+	public void scheduleTimer(LongTouchHandler handler, int x, int y, int delayMillis) {
 		if (timer == null) {
 			timer = new LongTouchTimer();
 		}
@@ -98,7 +97,7 @@ public final class LongTouchManager {
 	 *            much
 	 */
 	public void rescheduleTimerIfRunning(LongTouchHandler handler, int x,
-	        int y, boolean shouldCancel) {
+			int y, boolean shouldCancel) {
 		if (timer == null) {
 			return;
 		}

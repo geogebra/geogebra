@@ -291,7 +291,7 @@ public class RelativeCopy {
 			throw new RuntimeException(
 					"Error from RelativeCopy.doCopy:\r\n" + msg);
 		} catch (XMLParseException | CircularDefinitionException | ParseException
-				 | RuntimeException ex) {
+				| RuntimeException ex) {
 			Log.debug(ex);
 			return false;
 		} finally {

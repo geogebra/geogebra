@@ -1706,10 +1706,10 @@ public abstract class Renderer {
 	 */
 	public void setBackgroundColor() {
 		XRManagerInterface<?> arManager = getXRManager();
-	    if (arManager != null) {
-            arManager.setBackgroundColor();
-        }
-    }
+		if (arManager != null) {
+			arManager.setBackgroundColor();
+		}
+	}
 
 	/**
 	 * set background style
@@ -1719,9 +1719,9 @@ public abstract class Renderer {
 	 */
 	public void setBackgroundStyle(BackgroundStyle backgroundStyle) {
 		XRManagerInterface<?> arManager = getXRManager();
-        if (arManager != null) {
-            arManager.setBackgroundStyle(backgroundStyle);
-        }
+		if (arManager != null) {
+			arManager.setBackgroundStyle(backgroundStyle);
+		}
 	}
 
 	/**
@@ -1729,22 +1729,22 @@ public abstract class Renderer {
 	 */
 	public BackgroundStyle getBackgroundStyle() {
 		XRManagerInterface<?> arManager = getXRManager();
-        if (arManager != null) {
-            return arManager.getBackgroundStyle();
-        }
+		if (arManager != null) {
+			return arManager.getBackgroundStyle();
+		}
 		return BackgroundStyle.NONE;
 	}
 
-    /**
-     * set z-value for first floor hit in AR
-     * @param z altitude
-     */
-    public void setARFloorZ(double z) {
+	/**
+	 * set z-value for first floor hit in AR
+	 * @param z altitude
+	 */
+	public void setARFloorZ(double z) {
 		XRManagerInterface<?> arManager = getXRManager();
 		if (arManager != null) {
-            arManager.setFirstFloor(z);
+			arManager.setFirstFloor(z);
 		}
-    }
+	}
 
 	/**
 	 * sets the clip planes

@@ -117,7 +117,7 @@ public class DataAnalysisStyleBarW extends StyleBarW {
 	}
 
 	@Override
-    public void setOpen(boolean showStyleBar) {
-	    // nothing to do here
-    }
+	public void setOpen(boolean showStyleBar) {
+		// nothing to do here
+	}
 }

@@ -33,11 +33,11 @@ public class InputDialogConeTwoPointsRadiusW extends InputDialogRadiusW {
 	 *            kernel
 	 */
 	public InputDialogConeTwoPointsRadiusW(AppW app, DialogData data,
-            InputHandler handler, GeoPointND a, GeoPointND b, Kernel kernel) {
-	    super(app, data, handler, kernel);
-	    this.a = a;
-	    this.b = b;
-    }
+			InputHandler handler, GeoPointND a, GeoPointND b, Kernel kernel) {
+		super(app, data, handler, kernel);
+		this.a = a;
+		this.b = b;
+	}
 
 	@Override
 	protected GeoElement createOutput(GeoNumberValue num) {

@@ -146,7 +146,7 @@ public class KeyBoardButtonBase extends SimplePanel implements MouseOutHandler {
 			this.label.setText(caption.substring(0, index));
 			Element sup = Document.get().createElement("sup");
 			sup.appendChild(Document.get().createTextNode(
-			        caption.substring(index + 1)));
+					caption.substring(index + 1)));
 			sup.getStyle().setFontSize(14, Unit.PX);
 			sup.getStyle().setFontStyle(FontStyle.NORMAL);
 			this.label.getElement().appendChild(sup);
@@ -156,7 +156,7 @@ public class KeyBoardButtonBase extends SimplePanel implements MouseOutHandler {
 			this.label.setText(caption.substring(0, index));
 			Element sub = Document.get().createElement("sub");
 			sub.appendChild(Document.get().createTextNode(
-			        caption.substring(index + 1)));
+					caption.substring(index + 1)));
 			sub.getStyle().setFontSize(14, Unit.PX);
 			sub.getStyle().setFontStyle(FontStyle.NORMAL);
 			this.label.getElement().appendChild(sub);
