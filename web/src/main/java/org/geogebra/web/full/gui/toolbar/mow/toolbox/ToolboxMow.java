@@ -1,11 +1,15 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.main.AppW;
@@ -36,13 +40,15 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	private void buildGui() {
 		decorator.positionLeft();
 
-		addSpotlightButton();
+		addMoveModeButton();
+		addPenModeButton();
+		// add upload
+		// add link
 
 		addDivider();
 
 		addRulerButton();
-
-		addMoveModeButton();
+		addSpotlightButton();
 	}
 
 	private IconButton addPressButton(SVGResource image, String ariaLabel, String dataTest,
@@ -85,17 +91,31 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addRulerButton() {
-		String ariaLabel = appW.getToolName(MODE_RULER) + ". " + appW.getToolHelp(MODE_RULER);
 		RulerIconButton rulerButton = new RulerIconButton(appW,
-				ToolbarSvgResources.INSTANCE.mode_ruler(), ariaLabel, "Ruler",
+				ToolbarSvgResources.INSTANCE.mode_ruler(), getToolAriaLabel(MODE_RULER), "Ruler",
 				"selectModeButton" + MODE_RULER);
 		add(rulerButton);
 		buttons.add(rulerButton);
 	}
 
 	private void addMoveModeButton() {
+		addToggleButton(MaterialDesignResources.INSTANCE.mouse_cursor(),
+				getToolAriaLabel(MODE_SELECT_MOW), getToolDataTitle(MODE_SELECT_MOW), "",
+				() -> appW.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL),
+				null);
+	}
+
+	private void addPenModeButton() {
 		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(),
-				"move mode", "moveBtn", appW::setMoveMode);
+				"pen mode", "penBtn", appW::setMoveMode);
+	}
+
+	private String getToolAriaLabel(int mode) {
+		return appW.getToolName(mode) + ". " + appW.getToolHelp(mode);
+	}
+
+	private String getToolDataTitle(int mode) {
+		return appW.getToolName(mode);
 	}
 
 	@Override
