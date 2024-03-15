@@ -6681,9 +6681,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-	    if (!algebraOutputFilter.isAllowed(this)) {
-	        return DescriptionMode.DEFINITION;
-        }
+		if (!algebraOutputFilter.isAllowed(this)) {
+			return DescriptionMode.DEFINITION;
+		}
 		String def0 = getDefinition(StringTemplate.defaultTemplate);
 		if ((isGeoPoint() || isGeoVector())
 				&& kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN

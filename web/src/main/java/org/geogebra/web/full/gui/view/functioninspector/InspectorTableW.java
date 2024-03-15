@@ -160,12 +160,12 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	}
 	
 	public GridModel getModel() {
-	    return model;
-    }
+		return model;
+	}
 
 	public void setModel(GridModel model) {
-	    this.model = model;
-    }
+		this.model = model;
+	}
 
 	@Override
 	public void addRow(List<DataCell> row) {
@@ -175,7 +175,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 			setCellWidget(numRows, col, "inspectorTableData", cell);
 			col++;
 		}
-    }
+	}
 
 	@Override
 	public void setHeaders(String[] headers) {
@@ -184,14 +184,14 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 			updateHeader(col, title);
 			col++;
 		}
-    }
+	}
 
 	/**
 	 * @return selected row index
 	 */
 	public int getSelectedRow() {
-	    return selectedRow;
-    }
+		return selectedRow;
+	}
 
 	/**
 	 * @param idx
@@ -200,14 +200,14 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	public void setSelectedRow(int idx) {
 		RowFormatter rf = getRowFormatter();
 		clearSelectedRowStyle();
-	    this.selectedRow = idx + 1; // 0 is the header
+		this.selectedRow = idx + 1; // 0 is the header
 		rf.setStyleName(selectedRow, "selected");
-    }
+	}
 
 	@Override
 	public void removeLastCell(int row) {
-	    removeCell(row, model.getColumnCount());
-    }
+		removeCell(row, model.getColumnCount());
+	}
 
 	@Override
 	public void removeLastRow() {

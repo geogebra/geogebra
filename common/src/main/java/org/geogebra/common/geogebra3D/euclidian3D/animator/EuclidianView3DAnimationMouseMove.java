@@ -144,12 +144,12 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 	}
 
 	private void setTranslationFromMouseMove() {
-	    translation.setX(mouseMoveDX);
-	    translation.setY(-mouseMoveDY);
-	    translation.setZ(0);
-	    translation.setW(0);
-        view3D.toSceneCoords3D(translation);
-    }
+		translation.setX(mouseMoveDX);
+		translation.setY(-mouseMoveDY);
+		translation.setZ(0);
+		translation.setW(0);
+		view3D.toSceneCoords3D(translation);
+	}
 
 	@Override
 	protected boolean animationAllowed() {

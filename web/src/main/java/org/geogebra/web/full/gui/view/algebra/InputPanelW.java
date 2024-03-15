@@ -20,8 +20,7 @@ public class InputPanelW extends FlowPanel {
 	 * @param autoComplete
 	 *            whether to allow autocomplete
 	 */
-	public InputPanelW(App app, int columns,
-	        boolean autoComplete) {
+	public InputPanelW(App app, int columns, boolean autoComplete) {
 		super();
 		addStyleName("InputPanel");
 

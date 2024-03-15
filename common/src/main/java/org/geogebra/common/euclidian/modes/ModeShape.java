@@ -307,7 +307,7 @@ public class ModeShape {
 			GeoPoint[] points = getRealPointsOfLine(event);
 			AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(
 					view.getKernel().getConstruction(),
-					 points[0], points[1]);
+					points[0], points[1]);
 			GeoSegment segment = algo.getSegment();
 			segment.setLabelVisible(false);
 			segment.setLabel(null);
@@ -340,7 +340,7 @@ public class ModeShape {
 				} else {
 					pointListFreePoly
 							.add(new GPoint(event.getX(), event.getY()));
-				 }
+				}
 			}
 			updateFreeFormPolygon(event, false);
 			// close with double click

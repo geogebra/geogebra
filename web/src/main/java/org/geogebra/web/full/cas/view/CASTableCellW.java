@@ -56,8 +56,7 @@ public class CASTableCellW extends VerticalPanel {
 				: new InputPanelLabel();
 		inputPanel.addStyleName("CAS_inputPanel");
 		if (casCell != null) {
-			inputPanel
-			        .setText(casCell.getLocalizedInput());
+			inputPanel.setText(casCell.getLocalizedInput());
 			inputPanel.setLaTeX(getLaTeXInputFromCell());
 		}
 		inputWrapper = new FlowPanel();

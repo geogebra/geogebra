@@ -59,7 +59,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		getBtnPointStyle().setEuclidian3D(true);
 
 		btnRotateView = new RotateViewPopup(
-		        this, MaterialDesignResources.INSTANCE.rotateViewPlay(),
+				this, MaterialDesignResources.INSTANCE.rotateViewPlay(),
 				MaterialDesignResources.INSTANCE.rotateViewPause());
 		btnRotateView.addPopupHandler(this);
 
@@ -185,7 +185,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		Localization loc = app.getLocalization();
 		btnRotateView
-		        .setTitle(loc.getPlainTooltip("stylebar.RotateView"));
+				.setTitle(loc.getPlainTooltip("stylebar.RotateView"));
 		btnViewProjection.setTitle(loc
 				.getPlainTooltip("stylebar.ViewProjection"));
 	}
@@ -236,8 +236,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	@Override
 	protected void setAxesAndGridToolTips(Localization loc) {
 		btnShowGrid3D.setTitle(loc.getPlainTooltip("stylebar.Grid"));
-		btnShowAxesAndPlane
-		        .setTitle(loc.getPlainTooltip("stylebar.Axes"));
+		btnShowAxesAndPlane.setTitle(loc.getPlainTooltip("stylebar.Axes"));
 	}
 
 	@Override

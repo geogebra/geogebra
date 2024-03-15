@@ -108,8 +108,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		} else {
 			deltaSum = 0;
 			ec.wrapMouseWheelMoved(x, y, delta,
-					shiftOrMeta,
-			        event.altKey);
+					shiftOrMeta, event.altKey);
 		}
 		if (ec.allowMouseWheel(shiftOrMeta)) {
 			event.preventDefault();
@@ -126,8 +125,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 * @param startCapture
 	 *            whether to start capturing
 	 */
-	public void onMouseMoveNow(PointerEvent event, long time,
-	        boolean startCapture) {
+	public void onMouseMoveNow(PointerEvent event, long time, boolean startCapture) {
 		if (!dragModeMustBeSelected) {
 			ec.wrapMouseMoved(event);
 		} else {

@@ -207,7 +207,7 @@ public final class LocalizationW extends Localization {
 		}
 
 		if ((key.length() == 5)
-		        && StringUtil.toLowerCaseUS(key).startsWith("gray")) {
+				&& StringUtil.toLowerCaseUS(key).startsWith("gray")) {
 
 			return StringUtil.getGrayString(key.charAt(4), this);
 		}

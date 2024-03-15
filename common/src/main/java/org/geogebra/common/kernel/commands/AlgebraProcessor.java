@@ -433,9 +433,9 @@ public class AlgebraProcessor {
 	 *            receives changed geo
 	 */
 	public void changeGeoElement(final GeoElementND geo, String newValue,
-								 boolean redefineIndependent, boolean storeUndoInfo,
-								 boolean withSliders, ErrorHandler handler,
-								 AsyncOperation<GeoElementND> callback) {
+			boolean redefineIndependent, boolean storeUndoInfo,
+			boolean withSliders, ErrorHandler handler,
+			AsyncOperation<GeoElementND> callback) {
 		EvalInfo info =
 				new EvalInfo(!cons.isSuppressLabelsActive(), redefineIndependent)
 						.withSymbolicMode(app.getKernel().getSymbolicMode())

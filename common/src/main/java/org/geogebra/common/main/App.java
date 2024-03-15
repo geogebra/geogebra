@@ -2522,7 +2522,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return font
 	 */
 	public GFont getFontCanDisplay(String testString, boolean serif,
-	                               int fontStyle, int fontSize) {
+			int fontStyle, int fontSize) {
 		FontCreator fontCreator = getFontCreator();
 		if (serif) {
 			return fontCreator.newSerifFont(testString, fontStyle, fontSize);

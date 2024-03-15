@@ -27,8 +27,8 @@ public class GGWCommandLine extends Composite implements RequiresResize {
 	 *            application
 	 */
 	public void attachApp(App app) {
-	    algebraInput.init((AppW) app);
-    }
+		algebraInput.init((AppW) app);
+	}
 
 	@Override
 	public void onResize() {

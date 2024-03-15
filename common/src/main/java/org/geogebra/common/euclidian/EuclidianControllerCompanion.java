@@ -209,7 +209,7 @@ public class EuclidianControllerCompanion {
 				// line and function
 				GeoFunctionable f = (GeoFunctionable) b;
 				if (f.isPolynomialFunction(false)) {
-					 ec.getAlgoDispatcher()
+					ec.getAlgoDispatcher()
 							.intersectPolynomialLineSingle(null, f, (GeoLine) a,
 									ec.xRW, ec.yRW);
 				}

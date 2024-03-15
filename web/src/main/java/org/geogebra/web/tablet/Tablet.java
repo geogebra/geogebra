@@ -24,8 +24,7 @@ public class Tablet implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		if (RootPanel.getBodyElement().getAttribute("data-param-laf") != null
-		        && !"".equals(RootPanel.getBodyElement().getAttribute(
-		                "data-param-laf"))) {
+				&& !"".equals(RootPanel.getBodyElement().getAttribute("data-param-laf"))) {
 			// loading touch, ignore.
 			return;
 		}
