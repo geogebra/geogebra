@@ -5,9 +5,12 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.euclidian.EuclidianPen;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.ToolbarSvgResources;
+import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.html5.css.ZoomPanelResources;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -95,11 +98,21 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 
 	private void addMoveModeButton() {
 		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(),
-				"move mode", "moveBtn", appW::setMoveMode);
+				"move mode", "moveBtn", () -> {
+						GPopupPanel popup = new GPopupPanel(appW.getAppletFrame(), appW);
+						popup.add(new ColorChooserPanel(appW, (color)
+								-> getPen().setPenColor(color)));
+						popup.showRelativeTo(this);
+		});
 	}
 
 	@Override
 	public void setLabels() {
 		buttons.forEach(SetLabels::setLabels);
+	}
+
+	private EuclidianPen getPen() {
+		return appW.getActiveEuclidianView().getEuclidianController()
+				.getPen();
 	}
 }

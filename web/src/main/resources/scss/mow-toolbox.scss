@@ -22,4 +22,66 @@
 			background-color: neutral(300);
 		}
 	}
+
+	.colorPalette {
+		width: 180px;
+		height: 72px;
+
+		.colorButton {
+			display: inline-flex;
+			width: 36px;
+			height: 36px;
+			background: white;
+			border-radius: 50%;
+			cursor: pointer;
+
+			.colorBg, .imageHolder {
+				width: 32px;
+				height: 32px;
+				margin: 2px;
+				border-radius: 50%;
+			}
+
+			.checkmark, .plus {
+				visibility: hidden;
+				position: absolute;
+				padding: 9px
+			}
+
+			&.selected {
+				.checkmark {
+					visibility: visible;
+				}
+			}
+
+			&.white .colorBg {
+				border: 1px solid neutral(400);
+				box-sizing: border-box;
+			}
+
+			&:hover {
+				background: neutral(200);
+			}
+		}
+
+		.colorButton.customColor {
+			.imageHolder {
+				border: 1px dashed neutral(400);
+				box-sizing: border-box;
+			}
+
+			.plus {
+				visibility: visible;
+				opacity: 0.54;
+			}
+
+			&:hover {
+				background: white;
+
+				.imageHolder {
+					background: neutral(200);
+				}
+			}
+		}
+	}
 }
