@@ -22,7 +22,7 @@ dependencies{
     files(file("build/generated/sources/annotationProcessor/java/main/"))
 
     annotationProcessor project(":gwtutil"),
-            'org.treblereel.gwt.gwtproject.resources:gwt-resources-processor:202402231'
+            'org.treblereel.gwt.gwtproject.resources:gwt-resources-processor:202403181'
 }
 
 compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(processResources)
