@@ -493,7 +493,7 @@ public class FunctionInspectorW extends FunctionInspector {
 				GuiResources.INSTANCE.menu_icon_tools());
 		btnOptions.setFixedIcon(icon);
 		btnOptions.setSelectedIndex(-1);
-		btnOptions.addPopupHandler(actionButton -> {
+		btnOptions.addPopupHandler(index -> {
 			doCopyToSpreadsheet();
 			btnOptions.setSelectedIndex(-1);
 		});

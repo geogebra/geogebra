@@ -90,7 +90,7 @@ public abstract class OptionsModel {
 	public void storeUndoInfo() {
 		if (app != null) {
 			app.getKernel().getConstruction().getUndoManager()
-					.storeUndoInfo(false);
+					.storeUndoInfo();
 		}
 	}
 

@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.util;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -8,7 +7,6 @@ import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
-import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
@@ -53,11 +51,8 @@ public class PopupMenuButtonW extends StandardButton
 	private boolean isIniting = true;
 	private ImageOrText fixedIcon;
 	private boolean isFixedIcon = false;
-	private StyleBarW2 changeEventHandler;
-	/**
-	 * line style map
-	 */
-	protected HashMap<Integer, Integer> lineStyleMap;
+	private SliderEventHandler changeEventHandler;
+
 	/**
 	 * panel for slider
 	 */
@@ -78,7 +73,7 @@ public class PopupMenuButtonW extends StandardButton
 	 */
 	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode) {
-		this(app, data, rows, columns, mode, true, false, null);
+		this(app, data, rows, columns, mode, true, false);
 	}
 
 	/**
@@ -93,19 +88,16 @@ public class PopupMenuButtonW extends StandardButton
 	 * @param mode
 	 *            {@link SelectionTableW}
 	 * @param hasTable
-	 *            {@code boolean}
+	 *            whether popup has table
 	 * @param hasSlider
-	 *            {@code boolean}
-	 * @param lineStyleMap0
-	 *            maps item index to line style
+	 *            whether popup has slider
 	 */
 	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
-			boolean hasSlider, HashMap<Integer, Integer> lineStyleMap0) {
+			boolean hasSlider) {
 		super(24);
 		this.app = app;
 		this.hasTable = hasTable;
-		this.lineStyleMap = lineStyleMap0;
 
 		createPopup();
 		// merge mousedown + touchstart
@@ -125,7 +117,7 @@ public class PopupMenuButtonW extends StandardButton
 
 		// create slider
 		if (hasSlider) {
-			getMySlider();
+			initSlider();
 		}
 		isIniting = false;
 	}
@@ -215,18 +207,6 @@ public class PopupMenuButtonW extends StandardButton
 	}
 
 	/**
-	 * Show or hide item at given position
-	 * 
-	 * @param col
-	 *            item column
-	 * @param show
-	 *            visibility flag
-	 */
-	protected void showTableItem(int col, boolean show) {
-		myTable.getWidget(0, col).setVisible(show);
-	}
-
-	/**
 	 * @param popupMenuHandler
 	 *            {@link PopupMenuHandler}
 	 */
@@ -263,7 +243,7 @@ public class PopupMenuButtonW extends StandardButton
 	 */
 	public void handlePopupActionEvent() {
 		if (popupHandler != null) {
-			popupHandler.fireActionPerformed(this);
+			popupHandler.fireActionPerformed(getSelectedIndex());
 		} else {
 			Log.debug("PopupMenubutton has null popupHandler");
 		}
@@ -338,23 +318,9 @@ public class PopupMenuButtonW extends StandardButton
 			setSliderValue(mySlider.getValue());
 		}
 		if (changeEventHandler != null) {
-			changeEventHandler.fireActionPerformed(this);
+			changeEventHandler.onSliderInput();
 		} else {
-			if (app.isUnbundledOrWhiteboard()) {
-				// needed checking if stylebar exists: don't create EV stylebar
-				if (app.getActiveEuclidianView().hasStyleBar()) {
-					((EuclidianStyleBarW) app.getActiveEuclidianView()
-							.getStyleBar()).fireActionPerformed(this);
-				}
-				if (app.getActiveEuclidianView().hasDynamicStyleBar()) {
-					((EuclidianStyleBarW) app.getActiveEuclidianView()
-							.getDynamicStyleBar()).fireActionPerformed(this);
-				}
-
-			} else {
-				((EuclidianStyleBarW) app.getActiveEuclidianView()
-						.getStyleBar()).fireActionPerformed(this);
-			}
+			Log.debug("Change handler not set");
 		}
 		fireActionPerformed();
 		updateGUI();
@@ -367,13 +333,7 @@ public class PopupMenuButtonW extends StandardButton
 		// implemented in subclass
 	}
 
-	/**
-	 * @return {@link Slider}
-	 */
-	public Slider getMySlider() {
-		if (mySlider == null) {
-			initSlider();
-		}
+	public Slider getSlider() {
 		return mySlider;
 	}
 
@@ -382,10 +342,9 @@ public class PopupMenuButtonW extends StandardButton
 	 *            true if slider should be shown
 	 */
 	public void showSlider(boolean show) {
-		Slider slider = getMySlider();
-		slider.setVisible(show);
+		mySlider.setVisible(show);
 		sliderLabel.setVisible(show);
-		Widget parent = slider.getParent();
+		Widget parent = mySlider.getParent();
 		if (parent != null) {
 			parent.setStyleName("showSlider", show);
 			parent.setStyleName("hideSlider", !show);
@@ -397,7 +356,9 @@ public class PopupMenuButtonW extends StandardButton
 		mySlider.setTickSpacing(5);
 		mySlider.addValueChangeHandler(evt -> {
 			onSliderInput();
-			app.storeUndoInfo();
+			if (changeEventHandler != null) {
+				changeEventHandler.onValueChange();
+			}
 		});
 
 		mySlider.addInputHandler(this);
@@ -511,7 +472,7 @@ public class PopupMenuButtonW extends StandardButton
 	 * @param handler
 	 *            change handler
 	 */
-	public void setChangeEventHandler(StyleBarW2 handler) {
+	public void setChangeEventHandler(SliderEventHandler handler) {
 		this.changeEventHandler = handler;
 	}
 }

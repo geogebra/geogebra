@@ -4755,9 +4755,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				sbxml.append("/>\n");
 			}
 
-			if (app.getSaveController().savedAsTemplate()) {
+			if (app.getSaveController() != null && app.getSaveController().savedAsTemplate()) {
 				app.getSettings().getPenTools().getXML(sbxml);
-
 				sbxml.append("\t<language val=\"");
 				sbxml.append(app.getLocalization().getLanguageTag());
 				sbxml.append("\"/>\n");

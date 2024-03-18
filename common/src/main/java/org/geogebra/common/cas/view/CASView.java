@@ -351,19 +351,20 @@ public abstract class CASView implements Editing, SetLabels {
 		getApp().getCommandDictionaryCAS(); // #5456 make sure we have the right
 											// dict
 		// before evaluating
-		getInputHandler().processCurrentRow(ggbcmd, focus);
+		StringBuilder oldXML = getApp().getKernel().getConstruction().getCurrentUndoXML(false);
+		getInputHandler().processCurrentRow(ggbcmd, focus, oldXML.toString());
 		getApp().storeUndoInfo();
 	}
 
 	/**
 	 * Processes given row.
 	 * 
-	 * @see CASInputHandler#processRowThenEdit(int, boolean)
+	 * @see CASInputHandler#processRowThenEdit(int, boolean, String)
 	 * @param row
 	 *            row index
 	 */
-	public void processRowThenEdit(int row) {
-		getInputHandler().processRowThenEdit(row, true);
+	public void processRowThenEdit(int row, String oldXML) {
+		getInputHandler().processRowThenEdit(row, true, oldXML);
 	}
 
 	/**

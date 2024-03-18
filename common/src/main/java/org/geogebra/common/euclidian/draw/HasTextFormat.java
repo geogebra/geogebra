@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 
@@ -65,4 +66,6 @@ public interface HasTextFormat {
 	HorizontalAlignment getHorizontalAlignment();
 
 	void setHorizontalAlignment(HorizontalAlignment alignment);
+
+	GeoInline getInline();
 }

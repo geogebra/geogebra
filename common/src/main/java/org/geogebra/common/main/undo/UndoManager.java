@@ -1,17 +1,20 @@
 package org.geogebra.common.main.undo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.media.VideoManager;
+import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 
@@ -41,6 +44,7 @@ public abstract class UndoManager {
 	private List<UndoInfoStoredListener> undoInfoStoredListeners;
 	private ArrayList<UndoPossibleListener> mListener = new ArrayList<>();
 	private final List<ActionExecutor> executors = new ArrayList<>();
+	private boolean allowCheckpoints = true;
 
 	/**
 	 * @param cons
@@ -71,7 +75,7 @@ public abstract class UndoManager {
 				state = cmd;
 				break;
 			}
-			if ((cmd.getAction() == EventType.PASTE_PAGE)
+			if ((cmd.getAction() == ActionType.PASTE_PAGE)
 					&& cmd.getArgs().length > 1
 					&& cmd.getArgs()[1].equals(slideID)) {
 				state = cmd;
@@ -98,8 +102,8 @@ public abstract class UndoManager {
 		while (iterator.hasPrevious()) {
 			UndoCommand cmd = iterator.previous();
 			steps++;
-			if ((cmd.getAction() == EventType.ADD_PAGE
-					|| cmd.getAction() == EventType.PASTE_PAGE)
+			if ((cmd.getAction() == ActionType.ADD_PAGE
+					|| cmd.getAction() == ActionType.PASTE_PAGE)
 					&& cmd.getArgs().length > 1
 					&& cmd.getArgs()[1].equals(slideID)) {
 
@@ -122,7 +126,7 @@ public abstract class UndoManager {
 	 *            action type
 	 * @param args event arguments
 	 */
-	public void executeAction(EventType action, String... args) {
+	public void executeAction(ActionType action, String... args) {
 		for (ActionExecutor executor: executors) {
 			if (executor.executeAction(action, args)) {
 				return;
@@ -186,13 +190,6 @@ public abstract class UndoManager {
 	}
 
 	/**
-	 * Store undo info
-	 */
-	public void storeUndoInfo() {
-		storeUndoInfo(false);
-	}
-
-	/**
 	 * Reloads construction state at current position of undo list (this is
 	 * needed for "cancel" actions).
 	 */
@@ -201,7 +198,7 @@ public abstract class UndoManager {
 		if (iterator != null) {
 			loadUndoInfo(iterator.previous().getAppState(), null);
 			iterator.next();
-			onStoreUndo();
+			updateUndoActions();
 		}
 		app.getSelectionManager().recallSelectedGeosNames(app.getKernel());
 	}
@@ -224,6 +221,9 @@ public abstract class UndoManager {
 		if (!app.isUndoActive()) {
 			return false;
 		}
+		if (!allowCheckpoints && iterator.hasPrevious()) {
+			return undoInfoList.get(iterator.previousIndex()).getAction() != null;
+		}
 		return iterator.nextIndex() > 1;
 	}
 
@@ -236,26 +236,23 @@ public abstract class UndoManager {
 		if (!app.isUndoActive()) {
 			return false;
 		}
+		if (!allowCheckpoints && iterator.hasNext()) {
+			return undoInfoList.get(iterator.nextIndex()).getAction() != null;
+		}
 		return iterator.hasNext();
 	}
 
 	/**
 	 * @param currentUndoXML
 	 *            construction XML
-	 * @param refresh
-	 *            whether to reload afterwards
 	 */
-	public abstract void storeUndoInfo(StringBuilder currentUndoXML,
-			boolean refresh);
+	public abstract void storeUndoInfo(StringBuilder currentUndoXML);
 
 	/**
 	 * Stores undo info
-	 *
-	 * @param refresh
-	 *            true to restore current
 	 */
-	final public void storeUndoInfo(final boolean refresh) {
-		storeUndoInfo(construction.getCurrentUndoXML(true), refresh);
+	final public void storeUndoInfo() {
+		storeUndoInfo(construction.getCurrentUndoXML(true));
 		storeUndoInfoNeededForProperties = false;
 	}
 
@@ -281,7 +278,7 @@ public abstract class UndoManager {
 	public AppState extractFromCommand(UndoCommand cmd) {
 		if (cmd == null) {
 			return null;
-		} else if (cmd.getAction() == EventType.PASTE_PAGE) {
+		} else if (cmd.getAction() == ActionType.PASTE_PAGE) {
 			return extractStateFromFile(cmd.getArgs()[2]);
 		} else {
 			return cmd.getAppState();
@@ -347,7 +344,7 @@ public abstract class UndoManager {
 		}
 		EmbedManager manager = app.getEmbedManager();
 		if (manager != null) {
-			manager.executeAction(EventType.EMBEDDED_PRUNE_STATE_LIST);
+			manager.executeAction(ActionType.EMBEDDED_PRUNE_STATE_LIST);
 		}
 		// debugStates();
 	}
@@ -404,8 +401,9 @@ public abstract class UndoManager {
 	 * @param args
 	 *            action arguments
 	 */
-	public void storeAction(EventType action, String... args) {
-		storeActionWithSlideId(action, null, args);
+	public void storeAction(ActionType action, String[] args, ActionType undoAction,
+			String... undoArgs) {
+		storeActionWithSlideId(null, action, args, undoAction, undoArgs);
 	}
 
 	/**
@@ -413,8 +411,13 @@ public abstract class UndoManager {
 	 * @param slideID slide ID
 	 * @param args action arguments
 	 */
-	public void storeActionWithSlideId(EventType action, String slideID, String[] args) {
-		iterator.add(new UndoCommand(action, slideID, args));
+	public void storeActionWithSlideId(String slideID, ActionType action,  String[] args,
+			ActionType undoAction, String[] undoArgs) {
+		storeAndNotify(new UndoCommand(slideID, action, args, undoAction, undoArgs));
+	}
+
+	protected void storeAndNotify(UndoCommand command) {
+		iterator.add(command);
 		this.pruneStateList();
 		onStoreUndo();
 	}
@@ -444,20 +447,36 @@ public abstract class UndoManager {
 	}
 
 	/**
-	 * Helper method to store undo info about a just created geo.
+	 * Like {@link #storeAddGeo(List)}, but for single geo
+	 * @param arg GeoElement just added
+	 */
+	public void storeAddGeo(GeoElement arg) {
+		storeAddGeo(Collections.singletonList(arg));
+	}
+
+	/**
+	 * Helper method to store undo info about a just created geos.
 	 * Please make sure to call it after the styles of the geo
 	 * are correctly initialized.
 	 * @param arg GeoElement just added
 	 */
-	public void storeAddGeo(GeoElement arg) {
+	public void storeAddGeo(List<GeoElement> arg) {
+		Stream<String> stream = arg.stream().map(this::getXMLOf);
+		String[] labels = arg.stream().map(GeoElement::getLabelSimple).toArray(String[]::new);
+		buildAction(ActionType.ADD, stream.toArray(String[]::new))
+				.withUndo(ActionType.REMOVE, labels)
+				.withLabels(labels)
+				.storeAndNotifyUnsaved();
+	}
+
+	private String getXMLOf(GeoElement arg) {
 		String xml;
 		if (arg.getParentAlgorithm() != null) {
 			xml = arg.getParentAlgorithm().getXML();
 		} else {
 			xml = arg.getXML();
 		}
-
-		storeUndoableAction(EventType.ADD, arg.getLabelSimple(), xml);
+		return xml;
 	}
 
 	/**
@@ -465,26 +484,22 @@ public abstract class UndoManager {
 	 * @param type action type
 	 * @param args arguments
 	 */
-	public void storeUndoableAction(EventType type, String... args) {
+	public void storeUndoableAction(ActionType action, String[] args, ActionType type,
+			String... undoArgs) {
+		buildAction(action, args).withUndo(type, undoArgs).storeAndNotifyUnsaved();
+	}
+
+	public UndoCommandBuilder buildAction(ActionType action, String... args) {
+		return new UndoCommandBuilder(this, app.getSlideID(), action, args);
+	}
+
+	protected void notifyUnsaved() {
 		app.setUnsaved();
-		storeActionWithSlideId(type, app.getSlideID(), args);
 		app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO));
 	}
 
 	public void addActionExecutor(ActionExecutor executor) {
 		executors.add(executor);
-	}
-
-	/**
-	 * @param action action type
-	 * @param args action arguments
-	 */
-	public void undoAction(EventType action, String[] args) {
-		for (ActionExecutor executor: executors) {
-			if (executor.undoAction(action, args)) {
-				return;
-			}
-		}
 	}
 
 	/**
@@ -583,6 +598,32 @@ public abstract class UndoManager {
 		for (UndoPossibleListener listener : mListener) {
 			listener.undoPossible(undoPossible());
 			listener.redoPossible(redoPossible());
+		}
+	}
+	
+	public void setAllowCheckpoints(boolean val) {
+		this.allowCheckpoints = val;
+	}
+
+	/**
+	 * Remove all actions specific to an object with given label
+	 * @param label object label
+	 */
+	public void removeActionsWithLabel(String label) {
+		int updatedIndex = iterator.previousIndex();
+		boolean removed = false;
+		for (int i = undoInfoList.size() - 1; i > 0; i--) {
+			if (undoInfoList.get(i).hasLabel(label)) {
+				if (i <= iterator.previousIndex()) {
+					updatedIndex--;
+				}
+				undoInfoList.remove(i);
+				removed = true;
+			}
+		}
+		if (removed) {
+			iterator = undoInfoList.listIterator(updatedIndex + 1);
+			updateUndoActions();
 		}
 	}
 }

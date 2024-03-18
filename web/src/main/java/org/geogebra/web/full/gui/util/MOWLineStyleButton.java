@@ -27,7 +27,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	 *            GGB app.
 	 */
 	public MOWLineStyleButton(AppW app) {
-		super(app, 5, true);
+		super(app);
 		// Rearranging content.
 		VerticalPanel panel = ((ButtonPopupMenu) getMyPopup()).getPanel();
 		panel.clear();
@@ -46,7 +46,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 
 	@Override
 	public void update(List<GeoElement> geos) {
-		updatePanel(geos.toArray());
+		super.update(geos);
 		updatePreview();
 	}
 
@@ -72,7 +72,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 		titleLabel = new Label();
 		titleLabel.addStyleName("thicknessLabel");
 		sliderPanel.insert(titleLabel, 0);
-		getMySlider().setWidth("140px");
+		getSlider().setWidth("140px");
 		setLabels();
 	}
 

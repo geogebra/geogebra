@@ -47,10 +47,8 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 		update(null);
 
 		createColorBtn();
-		btnColor.setChangeEventHandler(this);
 		createLineStyleBtn();
 		createPointStyleBtn(-1);
-		btnPointStyle.setChangeEventHandler(this);
 
 		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
 			@Override
@@ -117,11 +115,10 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 						.indexOf(selectedMode));
 			});
 	
-			treeModeButton.addPopupHandler(actionButton -> {
+			treeModeButton.addPopupHandler(index -> {
 				// called if a object of the popup is clicked
-				int i = treeModeButton.getSelectedIndex();
 				app.getSettings().getAlgebra()
-						.setTreeMode(supportedModes.get(i));
+						.setTreeMode(supportedModes.get(index));
 				app.closePopups();
 			});
 		}
@@ -145,12 +142,10 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 							AlgebraSettings.indexOfStyleMode(selectedMode));
 			});
 
-			descriptionButton.addPopupHandler(actionButton -> {
+			descriptionButton.addPopupHandler(index -> {
 				// called if a object of the popup is clicked
-				int i = descriptionButton.getSelectedIndex();
-
 				app.getKernel().setAlgebraStyle(
-							AlgebraSettings.getStyleModeAt(i));
+							AlgebraSettings.getStyleModeAt(index));
 
 				if (app.getGuiManager().hasPropertiesView()) {
 					app.getGuiManager().getPropertiesView().repaintView();
@@ -205,20 +200,11 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 	}
 
 	@Override
-	public void fireActionPerformed(PopupMenuButtonW source) {
-		needUndo = false;
-
+	protected ArrayList<GeoElement> getTargetGeos() {
 		ArrayList<GeoElement> targetGeos = new ArrayList<>();
-
 		if (selectedEntry != null) {
 			targetGeos.add(selectedEntry);
 		}
-
-		processSource(source, targetGeos);
-
-		if (needUndo) {
-			app.storeUndoInfo();
-			needUndo = false;
-		}
+		return targetGeos;
 	}
 }

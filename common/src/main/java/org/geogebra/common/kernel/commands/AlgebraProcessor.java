@@ -298,7 +298,7 @@ public class AlgebraProcessor {
 	 * @throws MyError
 	 *             e.g. on syntax error
 	 */
-	final public void processCasCell(GeoCasCell casCell, boolean isLastRow)
+	final public void processCasCell(GeoCasCell casCell, boolean isLastRow, String oldXML)
 			throws MyError {
 		// check for CircularDefinition
 		if (casCell.isCircularDefinition()) {
@@ -362,7 +362,7 @@ public class AlgebraProcessor {
 				// update construction order and
 				// rebuild construction using XML
 				app.getEventDispatcher().disableListeners();
-				cons.changeCasCell(casCell);
+				cons.changeCasCell(casCell, oldXML);
 				app.getEventDispatcher().enableListeners();
 				app.getEventDispatcher().notifyListenersUpdateCascade(casCell);
 				// the changeCasCell command computes the output
@@ -1189,12 +1189,13 @@ public class AlgebraProcessor {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().getCasView().cancelEditItem();
 		}
+		StringBuilder oldXML = cons.getCurrentUndoXML(false);
 		GeoCasCell cell = cons.getCasCell(row);
 		if (cell == null) {
 			cell = new GeoCasCell(cons);
 		}
 		cell.setInput(rhs);
-		processCasCell(cell, false);
+		processCasCell(cell, false, oldXML.toString());
 		return cell;
 	}
 
@@ -2181,13 +2182,14 @@ public class AlgebraProcessor {
 						if (cell != null) {
 							// this is a ValidExpression since we don't get
 							// GeoElements from parsing
+							StringBuilder oldXML = cons.getCurrentUndoXML(false);
 							ValidExpression vexp = (ValidExpression) ve
 									.unwrap();
 							cell.setAssignmentType(AssignmentType.DEFAULT);
 							cell.setInput(vexp.toAssignmentString(
 									StringTemplate.defaultTemplate,
 									cell.getAssignmentType()));
-							processCasCell(cell, false);
+							processCasCell(cell, false, oldXML.toString());
 						} else {
 							cons.replace(replaceable, newGeo, info);
 						}
