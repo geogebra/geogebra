@@ -17,18 +17,18 @@ import org.geogebra.common.util.MyMath;
 public class RotateBoundingBox {
 	private final Construction construction;
 	private final EuclidianController ec;
-	private final MeasurementController mc;
+	private final MeasurementController measurementController;
 	private EuclidianView view;
 
 	/**
 	 *
 	 * @param euclidianController {@link EuclidianController}
-	 * @param mc {@link MeasurementController}
+	 * @param measurementController {@link MeasurementController}
 	 */
 	public RotateBoundingBox(EuclidianController euclidianController,
-			MeasurementController mc) {
+			MeasurementController measurementController) {
 		this.ec = euclidianController;
-		this.mc = mc;
+		this.measurementController = measurementController;
 		construction = ec.getKernel().getConstruction();
 	}
 
@@ -38,7 +38,7 @@ public class RotateBoundingBox {
 		}
 
 		GPoint2D eventPoint = clampToView(eventX, eventY);
-		GPoint2D center = mc.getActiveToolCenter(view, bounds);
+		GPoint2D center = measurementController.getActiveToolCenter(view, bounds);
 		ensureRotationCenter(center);
 		NumberValue rotationAngle = calculateAngle(center, eventPoint);
 

@@ -1,12 +1,14 @@
 package org.geogebra.common.euclidian.measurement;
 
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PROTRACTOR;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRIANGLE_PROTRACTOR;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -32,7 +34,7 @@ public class MeasureControllerTest extends BaseUnitTest {
 
 	private GeoImage createToolImage(int mode, String fileName) {
 		GeoImage image = new GeoImage(cons);
-		image.setLabel(MeasurementToolId.byMode(mode).toString());
+		image.setLabel(controller.getToolName(mode));
 		return image;
 	}
 
@@ -51,12 +53,12 @@ public class MeasureControllerTest extends BaseUnitTest {
 
 	@Test
 	public void testSelectRuler() {
-		assertToolSelected(MeasurementToolId.RULER);
+		assertToolSelected(MODE_RULER);
 	}
 
-	private void assertToolSelected(MeasurementToolId id) {
-		controller.selectTool(id);
-		String name = id.toString();
+	private void assertToolSelected(int mode) {
+		controller.selectTool(mode);
+		String name = controller.getToolName(mode);
 		GeoImage toolImage = controller.getActiveToolImage();
 		assertEquals(name, toolImage.getLabelSimple());
 		assertTrue(name + " should be in construction",
@@ -65,24 +67,24 @@ public class MeasureControllerTest extends BaseUnitTest {
 
 	@Test
 	public void testSelectProtractor() {
-		assertToolSelected(MeasurementToolId.PROTRACTOR);
+		assertToolSelected(MODE_PROTRACTOR);
 	}
 
 	@Test
 	public void testSelectTriangleProtractor() {
-		assertToolSelected(MeasurementToolId.TRIANGLE_PROTRACTOR);
+		assertToolSelected(MODE_TRIANGLE_PROTRACTOR);
 	}
 
 	@Test
 	public void testToggleRulerOnOff() {
-		controller.selectTool(MeasurementToolId.RULER);
-		controller.toggleActiveTool(EuclidianConstants.MODE_RULER);
+		controller.selectTool(MODE_RULER);
+		controller.toggleActiveTool(MODE_RULER);
 		assertNull(controller.getActiveToolImage());
 	}
 
 	@Test
 	public void testUnselectRuler() {
-		controller.selectTool(MeasurementToolId.RULER);
+		controller.selectTool(MODE_RULER);
 		controller.unselect();
 		assertFalse("Ruler is in construction", cons.isInConstructionList(ruler.getImage()));
 	}

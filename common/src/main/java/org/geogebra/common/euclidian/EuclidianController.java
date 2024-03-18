@@ -45,7 +45,6 @@ import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.measurement.MeasurementController;
-import org.geogebra.common.euclidian.measurement.MeasurementToolId;
 import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
 import org.geogebra.common.euclidian.modes.ModeMacro;
 import org.geogebra.common.euclidian.modes.ModeShape;
@@ -12312,24 +12311,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * Clears all measurement tools.
 	 */
 	public void clearMeasurementTools() {
-		measurementController.clear();
+		measurementController.unselect();
 	}
 
 	/**
-	 * Removes measuremet tool from construction.
-	 * @param toolId to remove.
+	 * Removes measurement tool from construction.
+	 * @param mode of tool to remove.
 	 */
-	public void removeMeasurementTool(MeasurementToolId toolId) {
-		measurementController.removeTool(toolId);
-	}
-
-	/**
-	 *
-	 * @return if a ruler or one of the protractors are selected.
-	 */
-	public boolean isMeasurementToolSelected() {
-		boolean hasActiveToolImage = measurementController.hasActiveToolImage();
-		return (mode == EuclidianConstants.MODE_RULER && hasActiveToolImage)
-				|| (mode == EuclidianConstants.MODE_PROTRACTOR && hasActiveToolImage);
+	public void removeMeasurementTool(Integer mode) {
+		measurementController.removeTool(mode);
 	}
 }

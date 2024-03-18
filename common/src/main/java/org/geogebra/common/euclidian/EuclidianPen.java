@@ -72,7 +72,7 @@ public class EuclidianPen implements GTimerListener {
 	protected boolean deleteInitialPoint = false;
 
 	private final GTimer timer;
-	private final MeasurementController mc;
+	private final MeasurementController measurementController;
 	private final PenPreviewLine penPreviewLine;
 	protected final ArrayList<GPoint> previewPoints = new ArrayList<>();
 
@@ -82,26 +82,15 @@ public class EuclidianPen implements GTimerListener {
 	 *            application
 	 * @param view
 	 *            view
-	 */
-	public EuclidianPen(App app, EuclidianView view) {
-		this(app, view, null);
-	}
-
-	/************************************************
-	 * Construct EuclidianPen
-	 *  @param app
-	 *            application
-	 * @param view
-	 *            view
-	 * @param mc
+	 * @param measurementController
 	 *            {@link MeasurementController}
 	 */
-	public EuclidianPen(App app, EuclidianView view, MeasurementController mc) {
+	public EuclidianPen(App app, EuclidianView view, MeasurementController measurementController) {
 		this.view = view;
 		this.app = app;
 		this.penPreviewLine = view.newPenPreview();
 		timer = app.newTimer(this, 1500);
-		this.mc = mc;
+		this.measurementController = measurementController;
 
 		@WeakOuter PenStrokeAdapter line = new PenStrokeAdapter(app);
 		defaultPenLine = line;
@@ -247,7 +236,8 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	public void addPointPenMode(AbstractEvent e) {
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
-		if (mc != null && mc.applyTransformer(view, newPoint, previewPoints)) {
+		if (measurementController != null
+				&& measurementController.applyTransformer(view, newPoint, previewPoints)) {
 			penPoints.clear();
 			penPoints.addAll(previewPoints);
 		} else {

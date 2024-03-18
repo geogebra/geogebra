@@ -18,18 +18,19 @@ public final class MeasurementToolTransformer implements PenTransformer {
 	private GPoint initialProjection;
 	private List<MeasurementToolEdge> edges;
 	private MeasurementToolEdge activeEdge;
-	private MeasurementController mc;
+	private MeasurementController measurementController;
 
-	public MeasurementToolTransformer(MeasurementController mc) {
-		this.mc = mc;
+	public MeasurementToolTransformer(MeasurementController measurementController) {
+		this.measurementController = measurementController;
 	}
 
 	/**
 	 *
 	 * @param edges of the measurement tool.
 	 */
-	public MeasurementToolTransformer(MeasurementController mc, List<MeasurementToolEdge> edges) {
-		this(mc);
+	public MeasurementToolTransformer(MeasurementController measurementController,
+			List<MeasurementToolEdge> edges) {
+		this(measurementController);
 		this.edges = edges;
 	}
 
@@ -50,7 +51,7 @@ public final class MeasurementToolTransformer implements PenTransformer {
 	public void reset(EuclidianView view, List<GPoint> previewPoints) {
 		this.view = view;
 		this.previewPoints = previewPoints;
-		GeoImage toolImage = mc.getActiveToolImage();
+		GeoImage toolImage = measurementController.getActiveToolImage();
 		if (toolImage == null || previewPoints.isEmpty()) {
 			initialProjection = null;
 		} else if (previewPoints.size() == 1) {
@@ -93,7 +94,7 @@ public final class MeasurementToolTransformer implements PenTransformer {
 	}
 
 	private boolean onBottomEdge(GPoint bottom) {
-		GeoImage toolImage = mc.getActiveToolImage();
+		GeoImage toolImage = measurementController.getActiveToolImage();
 		double x1 = view.toScreenCoordXd(toolImage.getStartPoints()[0].getInhomX());
 		double x2 = view.toScreenCoordXd(toolImage.getStartPoints()[1].getInhomX());
 		double y1 = view.toScreenCoordYd(toolImage.getStartPoints()[0].getInhomY());
@@ -106,7 +107,7 @@ public final class MeasurementToolTransformer implements PenTransformer {
 	}
 
 	private GPoint getProjection(GPoint p, MeasurementToolEdge edge) {
-		GeoImage toolImage = mc.getActiveToolImage();
+		GeoImage toolImage = measurementController.getActiveToolImage();
 		edge.update(toolImage);
 		GeoPoint corner1 = edge.endpoint2();
 		GeoPoint corner2 = edge.endpoint1();

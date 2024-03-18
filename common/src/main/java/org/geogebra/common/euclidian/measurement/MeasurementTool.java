@@ -17,7 +17,7 @@ public final class MeasurementTool {
 	private final MeasurementToolId id;
 	private final String fileName;
 
-	private CreateToolImage toolImageF;
+	private CreateToolImage toolImageFactory;
 
 	/**
 	 *
@@ -27,13 +27,13 @@ public final class MeasurementTool {
 	 * (x-position is centered)
 	 */
 	public MeasurementTool(MeasurementToolId id, String fileName,
-			Double percent, CreateToolImage toolImageF,
+			Double percent, CreateToolImage toolImageFactory,
 			PenTransformer transformer) {
 		this.id = id;
 		this.fileName = fileName;
 		this.centerInPercent = percent;
 		this.transformer = transformer;
-		this.toolImageF = toolImageF;
+		this.toolImageFactory = toolImageFactory;
 	}
 
 	/**
@@ -63,7 +63,7 @@ public final class MeasurementTool {
 	}
 
 	void refresh() {
-		image = toolImageF.create(id.getMode(), fileName);
+		image = toolImageFactory.create(id.getMode(), fileName);
 	}
 
 	/**
@@ -86,7 +86,7 @@ public final class MeasurementTool {
 	}
 
 	private List<GPoint2D> getProtractorPoints(EuclidianView view) {
-		if (!id.isProtactor()) {
+		if (!id.isProtractor()) {
 			return null;
 		}
 
@@ -103,17 +103,18 @@ public final class MeasurementTool {
 
 	/**
 	 *
-	 * @return if the tool has its own center (different from the default of images)
-	 */
-	public boolean hasRotationCenter() {
-		return centerInPercent != null;
-	}
-
-	/**
-	 *
 	 * @return {@link PenTransformer}
 	 */
 	public PenTransformer getTransformer() {
 		return transformer;
+	}
+
+	@Override
+	public String toString() {
+		return id.toString();
+	}
+
+	boolean hasRotationCenter() {
+		return centerInPercent != null;
 	}
 }

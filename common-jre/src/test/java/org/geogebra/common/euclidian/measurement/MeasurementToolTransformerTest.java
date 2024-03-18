@@ -21,7 +21,7 @@ import org.junit.Test;
 public class MeasurementToolTransformerTest extends BaseUnitTest {
 
 	private EuclidianView view;
-	private MeasurementController mc;
+	private MeasurementController measurementController;
 
 	@Override
 	public AppCommon createAppCommon() {
@@ -31,7 +31,7 @@ public class MeasurementToolTransformerTest extends BaseUnitTest {
 	@Before
 	public void setUp() {
 		view = getApp().getActiveEuclidianView();
-		mc = new MeasurementController(this::createToolImage) ;
+		measurementController = new MeasurementController(this::createToolImage) ;
 	}
 
 	private GeoImage createToolImage(int mode, String fileName) {
@@ -59,12 +59,12 @@ public class MeasurementToolTransformerTest extends BaseUnitTest {
 	@Ignore
 	@Test
 	public void testRuler() {
-		mc.toggleActiveTool(MODE_RULER);
+		measurementController.toggleActiveTool(MODE_RULER);
 		GPoint point = new GPoint(200, 285);
 		List<GPoint> penPoints = new ArrayList<>();
 		List<GPoint> previewPoints = new ArrayList<>();
 		previewPoints.add(new GPoint(145, 200));
-		mc.applyTransformer(view, new GPoint(155, 285), previewPoints);
+		measurementController.applyTransformer(view, new GPoint(155, 285), previewPoints);
 		assertEquals(2, previewPoints.size());
 	}
 

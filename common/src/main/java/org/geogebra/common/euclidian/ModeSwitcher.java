@@ -12,16 +12,16 @@ public class ModeSwitcher {
 
 	private final App app;
 	private final Construction cons;
-	private final MeasurementController mc;
+	private final MeasurementController measurementController;
 
 	/**
 	 * @param app application
-	 * @param mc {@link MeasurementController}
+	 * @param measurementController {@link MeasurementController}
 	 */
-	public ModeSwitcher(App app, MeasurementController mc) {
+	public ModeSwitcher(App app, MeasurementController measurementController) {
 		this.app = app;
 		cons = app.getKernel().getConstruction();
-		this.mc = mc;
+		this.measurementController = measurementController;
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class ModeSwitcher {
 		case EuclidianConstants.MODE_RULER:
 		case EuclidianConstants.MODE_PROTRACTOR:
 		case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
-			mc.toggleActiveTool(newMode);
+			measurementController.toggleActiveTool(newMode);
 			break;
 
 		default:

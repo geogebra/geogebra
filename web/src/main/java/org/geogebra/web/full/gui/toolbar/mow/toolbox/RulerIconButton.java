@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MOVE;
 
 import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.euclidian.measurement.MeasurementToolId;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -58,7 +57,7 @@ public class RulerIconButton extends IconButton {
 	 * remove measurement tool from construction
 	 */
 	public void removeTool() {
-		ec.removeMeasurementTool(MeasurementToolId.byMode(rulerPopup.getActiveRulerType()));
+		ec.removeMeasurementTool(rulerPopup.getActiveRulerType());
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.toolbar;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.gui.util.HasResource;
@@ -77,11 +78,18 @@ public class ToolButton extends StandardButton {
 	 */
 	public void updateSelected(int appMode) {
 
-		boolean selected = (mode == appMode) || appW.getActiveEuclidianView()
-				.getEuclidianController().isMeasurementToolSelected();
+		boolean selected = (mode == appMode) || isMeasurementToolSelected();
 		getElement().setAttribute("selected",
 				String.valueOf(selected));
 		setSelected(selected);
 	}
 
+	/**
+	 *
+	 * @return if a ruler or one of the protractors are selected.
+	 */
+	private boolean isMeasurementToolSelected() {
+		return (mode == EuclidianConstants.MODE_RULER
+				|| mode == EuclidianConstants.MODE_PROTRACTOR);
+	}
 }

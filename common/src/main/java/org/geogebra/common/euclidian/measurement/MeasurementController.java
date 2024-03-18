@@ -14,24 +14,24 @@ import org.geogebra.common.kernel.geos.GeoImage;
  * Class to handle the various measurement tools.
  */
 public final class MeasurementController {
-	private final CreateToolImage toolImageF;
-	private final Map<MeasurementToolId, MeasurementTool> tools = new HashMap<>();
-	private MeasurementToolId selectedToolId = MeasurementToolId.NONE;
+	private final CreateToolImage toolImageFactory;
+	private final Map<Integer, MeasurementTool> tools = new HashMap<>();
+	private Integer selectedMode = null;
 
 	/**
 	 *
-	 * @param toolImageF interface to create the image of the tool.
+	 * @param toolImageFactory interface to create the image of the tool.
 	 */
-	public MeasurementController(CreateToolImage toolImageF) {
-		this.toolImageF = toolImageF;
+	public MeasurementController(CreateToolImage toolImageFactory) {
+		this.toolImageFactory = toolImageFactory;
 		addTool(MeasurementToolId.RULER, "Ruler.svg", null);
-		addTool(MeasurementToolId.PROTRACTOR, "Protactor.svg", 1 - (278.86 / 296));
-		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtactor.svg", 0.0);
+		addTool(MeasurementToolId.PROTRACTOR, "Protractor.svg", 1 - (278.86 / 296));
+		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtractor.svg", 0.0);
 	}
 
 	private void addTool(MeasurementToolId id, String fileName, Double percent) {
-		add(new MeasurementTool(id, fileName, percent, toolImageF, createTransformer(id)));
-		selectTool(id);
+		add(new MeasurementTool(id, fileName, percent, toolImageFactory, createTransformer(id)));
+		selectTool(id.getMode());
 	}
 
 	private PenTransformer createTransformer(MeasurementToolId id) {
@@ -41,7 +41,7 @@ public final class MeasurementController {
 	}
 
 	void add(MeasurementTool tool) {
-		tools.put(tool.getId(), tool);
+		tools.put(tool.getId().getMode(), tool);
 	}
 
 	/**
@@ -59,7 +59,7 @@ public final class MeasurementController {
 	 * @return if there is a selected measurement tool.
 	 */
 	public boolean hasSelectedTool() {
-		return selectedToolId != MeasurementToolId.NONE;
+		return selectedMode != null;
 	}
 
 	/**
@@ -67,21 +67,19 @@ public final class MeasurementController {
 	 * @return the currently active measurement tool if any.
 	 */
 	public MeasurementTool activeTool() {
-		return tools.get(selectedToolId);
+		return tools.get(selectedMode);
 	}
 
 	/**
 	 * Shows/hides the the measurement tool specified by the mode.
 	 * @param mode of the measurement tool
 	 */
-	public void toggleActiveTool(int mode) {
-		MeasurementToolId toolId = MeasurementToolId.byMode(mode);
-		if (toolId == selectedToolId) {
+	public void toggleActiveTool(Integer mode) {
+		if (mode == selectedMode) {
 			unselect();
 		} else {
-			MeasurementToolId id = toolId;
-			if (tools.containsKey(id)) {
-				selectTool(id);
+			if (tools.containsKey(mode)) {
+				selectTool(mode);
 				refreshTool();
 			}
 		}
@@ -90,12 +88,12 @@ public final class MeasurementController {
 	/**
 	 * Hides the active measurement tool.
 	 */
-	void unselect() {
+	public void unselect() {
 		MeasurementTool tool = activeTool();
 		if (tool != null) {
 			tool.remove();
 		}
-		selectedToolId = MeasurementToolId.NONE;
+		selectTool(null);
 	}
 
 	private void refreshTool() {
@@ -104,18 +102,11 @@ public final class MeasurementController {
 	}
 
 	/**
-	 * ??? Clears all the measurement tools previously added
-	 */
-	public void clear() {
-		unselect();
-	}
-
-	/**
 	 * Selects the measurement tool given by its id.
-	 * @param toolId to select.
+	 * @param mode of tool to select.
 	 */
-	public void selectTool(MeasurementToolId toolId) {
-		this.selectedToolId = toolId;
+	public void selectTool(Integer mode) {
+		this.selectedMode = mode;
 	}
 
 	/**
@@ -170,15 +161,20 @@ public final class MeasurementController {
 	}
 
 	/**
-	 * Removes tool specified by toolId.
-	 * @param toolId to remove
+	 * Removes tool specified by mode.
+	 * @param mode of tool to remove
 	 */
-	public void removeTool(MeasurementToolId toolId) {
-		selectTool(toolId);
-		GeoImage toolImage = getActiveToolImage();
+	public void removeTool(Integer mode) {
+		MeasurementTool tool = tools.get(mode);
+		GeoImage toolImage = tool != null ? tool.getImage() : null;
 		if (toolImage != null) {
 			toolImage.remove();
 		}
-		clear();
+		unselect();
+	}
+
+	String getToolName(int mode) {
+		MeasurementTool tool = tools.get(mode);
+		return tool != null ? tool.toString() : "";
 	}
 }
