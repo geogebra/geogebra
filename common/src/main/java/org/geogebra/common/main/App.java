@@ -5159,5 +5159,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	@Override
 	public void removeRestrictions(@Nonnull ExamRestrictions examRestrictions) {
+		// probably nothing to do here
 	}
 }
