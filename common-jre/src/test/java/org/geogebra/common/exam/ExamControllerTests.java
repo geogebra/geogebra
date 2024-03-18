@@ -148,7 +148,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.startExam(ExamRegion.VLAANDEREN);
+		examController.startExam(ExamRegion.VLAANDEREN, null);
 
 		assertNotNull(examController.getStartDate()); // started
 		assertNull(examController.getFinishDate()); // not yet ended
@@ -165,7 +165,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	public void testStartExamWithoutActiveContext() {
 		examController.prepareExam();
 		try {
-			examController.startExam(ExamRegion.GENERIC);
+			examController.startExam(ExamRegion.GENERIC, null);
 			fail("starting exam without calling setActiveContext() should throw"
 					+ " IllegalStateException");
 		} catch (IllegalStateException e) {
@@ -177,7 +177,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	@Test
 	public void testStartExamWithoutPrepare() {
 		setInitialApp(SuiteSubApp.GRAPHING);
-		examController.startExam(ExamRegion.VLAANDEREN);
+		examController.startExam(ExamRegion.VLAANDEREN, null);
 		assertEquals(ExamState.ACTIVE, examController.getState());
 	}
 
@@ -185,7 +185,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	public void testFinishExam() {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.startExam(ExamRegion.VLAANDEREN);
+		examController.startExam(ExamRegion.VLAANDEREN, null);
 		examController.finishExam();
 
 		assertNotNull(examController.getStartDate()); // started
@@ -202,7 +202,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	public void testExitExam() {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.startExam(ExamRegion.VLAANDEREN);
+		examController.startExam(ExamRegion.VLAANDEREN, null);
 		examController.finishExam();
 		didRequestClearApps = false;
 		didRequestClearClipboard = false;
@@ -229,7 +229,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	public void testRestrictedSubApp() {
 		setInitialApp(SuiteSubApp.CAS);
 		examController.prepareExam();
-		examController.startExam(ExamRegion.VLAANDEREN); // doesn't allow CAS
+		examController.startExam(ExamRegion.VLAANDEREN, null); // doesn't allow CAS
 		assertEquals(SuiteSubApp.GRAPHING, didRequestSwitchToSubApp);
 	}
 
@@ -237,7 +237,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	public void testNonRestrictedSubApp() {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.startExam(ExamRegion.VLAANDEREN);
+		examController.startExam(ExamRegion.VLAANDEREN, null);
 		assertNull(didRequestSwitchToSubApp);
 	}
 
@@ -248,10 +248,10 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 		examController.setExamRestrictionsForTesting(
 				new TestExamRestrictions(ExamRegion.VLAANDEREN));
-		examController.startExam(ExamRegion.VLAANDEREN);
+		examController.startExam(ExamRegion.VLAANDEREN, null);
 
 		// command restrictions
-		assertFalse(commandDispatcher.isAllowedByNameFilter(Commands.Derivative));
+		assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
 		// TODO commandArgumentFilters
 		// expression restrictions
 		assertNull(evaluate("true || false"));
@@ -259,9 +259,9 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertTrue(propertiesRegistry.lookup("AngleUnit", app).isFrozen());
 
 		examController.finishExam();
-		assertFalse(commandDispatcher.isAllowedByNameFilter(Commands.Derivative));
+		assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
 		examController.exitExam();
-		assertTrue(commandDispatcher.isAllowedByNameFilter(Commands.Derivative));
+		assertTrue(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
 	}
 
 	@Test
@@ -271,24 +271,29 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 		examController.setExamRestrictionsForTesting(
 				ExamRestrictions.forExamType(ExamRegion.BAYERN_CAS)); // only allows CAS app
-		examController.startExam(ExamRegion.BAYERN_CAS);
+		examController.startExam(ExamRegion.BAYERN_CAS, null);
 	}
 
 	@Test
 	public void testRestrictionsWhenSwitchingApps() {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.startExam(ExamRegion.VLAANDEREN);
-		assertFalse(commandDispatcher.isAllowedByNameFilter(Commands.Derivative));
+		examController.startExam(ExamRegion.VLAANDEREN, null);
+		assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
 
 		switchApp(SuiteSubApp.GEOMETRY);
 		// restrictions should be reverted on the previous (Graphing app) command dispatcher...
-		assertTrue(previousCommandDispatcher.isAllowedByNameFilter(Commands.Derivative));
+		assertTrue(previousCommandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
 		// ...and applied to the new (Geometry app) command dispatcher
-		assertFalse(commandDispatcher.isAllowedByNameFilter(Commands.Derivative));
+		assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
 	}
 
 	// -- ExamControllerDelegate --
+
+	@Override
+	public void examClearCurrentApp() {
+		activeMaterial = null;
+	}
 
 	@Override
 	public void examClearOtherApps() {
@@ -297,11 +302,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 	public void examClearClipboard() {
 		didRequestClearClipboard = true;
-	}
-
-	@Override
-	public void examCreateNewFile() {
-		activeMaterial = null;
 	}
 
 	@Override

@@ -4,6 +4,9 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 
+/**
+ * An {@link ExpressionFilter} based on the use of radian in expressions.
+ */
 public class RadianExpressionFilter implements ExpressionFilter {
 
     @Override

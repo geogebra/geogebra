@@ -31,7 +31,7 @@ abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> 
 
 	@Override
 	public String getRawName() {
-		return getFirstProperty().getRawName(); // TODO :thinking_face:
+		return getFirstProperty().getRawName();
 	}
 
 	protected T getFirstProperty() {

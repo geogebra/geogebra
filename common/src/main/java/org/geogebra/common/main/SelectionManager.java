@@ -968,8 +968,6 @@ public class SelectionManager implements ExamRestrictable {
 	 *
 	 * @param updatePropertiesView
 	 *            whether to update properties view
-	 *
-	 * TODO rename to
 	 */
 	public void updateSelection(boolean updatePropertiesView) {
 		for (UpdateSelection listener : listeners) {

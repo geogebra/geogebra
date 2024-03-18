@@ -66,6 +66,21 @@ public class DefaultPropertiesRegistryTests extends BaseUnitTest
 		assertEquals(registeredPropertyContexts.get(0), null);
 	}
 
+	@Test
+	public void testRelease() {
+		Property angleUnitProperty1 = new AngleUnitProperty(getKernel(), getLocalization(), null);
+		Object context1 = new Object();
+		Property angleUnitProperty2 = new AngleUnitProperty(getKernel(), getLocalization(), null);
+		Object context2 = new Object();
+
+		propertiesRegistry.register(angleUnitProperty1, context1);
+		propertiesRegistry.register(angleUnitProperty2, context2);
+		propertiesRegistry.releaseProperties(context1);
+
+		assertNull(propertiesRegistry.lookup("AngleUnit", context1));
+		assertEquals(angleUnitProperty2, propertiesRegistry.lookup("AngleUnit", context2));
+	}
+
 	// PropertiesRegistryListener
 
 	@Override

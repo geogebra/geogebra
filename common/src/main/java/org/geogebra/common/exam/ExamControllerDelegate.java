@@ -12,10 +12,15 @@ import org.geogebra.common.move.ggtapi.models.Material;
  * the {@link ExamController} itself (either because it's platform-specific behaviour,
  * or is functionality outside the responsibility of the ExamController).
  *
- * @implNote The `exam` prefix is intended to clearly identify the functions (in the implementing
+ * @apiNote The `exam` prefix is intended to clearly identify the functions (in the implementing
  * class) as being tied to exam mode.
  */
 public interface ExamControllerDelegate {
+
+	/**
+	 * Clear the current apps' content (i.e., perform the equivalent of File / New).
+	 */
+	void examClearCurrentApp();
 
 	/**
 	 * Clear (reset) all subapps other than the currently active one.
@@ -28,12 +33,8 @@ public interface ExamControllerDelegate {
 	void examClearClipboard();
 
 	/**
-	 * Perform the equivalent of File / New. The intent here is to clear the current apps' content.
-	 */
-	void examCreateNewFile();
-
-	/**
 	 * Set the material as the active material in the current subapp.
+	 *
 	 * @param material A material.
 	 */
 	void examSetActiveMaterial(@Nullable Material material);
@@ -44,12 +45,13 @@ public interface ExamControllerDelegate {
 	@CheckForNull Material examGetActiveMaterial();
 
 	/**
-	 * @return The current sub-app, or null (in case the app switcher is shown in the mobile apps).
+	 * @return The current sub-app, or null in case the app switcher is currently shown.
 	 */
 	@CheckForNull SuiteSubApp examGetCurrentSubApp();
 
 	/**
 	 * Activate the given sub-app.
+	 *
 	 * @param subApp The sub-app to switch to.
 	 */
 	void examSwitchSubApp(@Nonnull SuiteSubApp subApp);

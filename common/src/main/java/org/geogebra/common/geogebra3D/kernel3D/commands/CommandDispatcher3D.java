@@ -39,7 +39,7 @@ public abstract class CommandDispatcher3D extends CommandDispatcher {
 		String cmdName = c.getName();
 		try {
 			Commands command = Commands.valueOf(cmdName);
-			if (!isAllowedByNameFilter(command)) {
+			if (!isAllowedByCommandFilters(command)) {
 				Log.info("The command is not allowed by the command filter");
 				return null;
 			}

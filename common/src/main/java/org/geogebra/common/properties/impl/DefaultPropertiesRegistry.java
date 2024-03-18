@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
@@ -73,6 +75,19 @@ public class DefaultPropertiesRegistry implements PropertiesRegistry {
 	@Override
 	public Property lookup(String rawName, Object context) {
 		return properties.get(new Key(rawName, context));
+	}
+
+	@Override
+	public void releaseProperties(@Nullable Object context) {
+		List<Key> keysToRemove = new ArrayList<>();
+		for (Key key : properties.keySet()) {
+			if (key.context == context) {
+				keysToRemove.add(key);
+			}
+		}
+		for (Key key : keysToRemove) {
+			properties.remove(key);
+		}
 	}
 
 	private static final class Key {
