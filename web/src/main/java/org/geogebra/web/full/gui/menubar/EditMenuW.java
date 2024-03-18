@@ -45,7 +45,7 @@ public class EditMenuW extends Submenu {
 		 */
 		int layer = selection.getSelectedLayer();
 		boolean justCreated = !(getApp().getActiveEuclidianView()
-		        .getEuclidianController().getJustCreatedGeos().isEmpty());
+				.getEuclidianController().getJustCreatedGeos().isEmpty());
 		boolean haveSelection = !selection.getSelectedGeos().isEmpty();
 		clearItems();
 		if (getApp().getUndoRedoMode() == UndoRedoMode.GUI) {
@@ -75,11 +75,11 @@ public class EditMenuW extends Submenu {
 						loc.getMenu("InvertSelection")), true,
 						new MenuCommand(getApp()) {
 
-				        @Override
-				        public void doExecute() {
-					        selection.invertSelection();
-				        }
-			        });
+							@Override
+							public void doExecute() {
+								selection.invertSelection();
+							}
+						});
 			}
 			if (layer != -1) {
 				addShowHideItem();

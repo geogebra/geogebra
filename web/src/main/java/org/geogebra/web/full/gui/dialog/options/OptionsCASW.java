@@ -71,9 +71,9 @@ public class OptionsCASW implements OptionPanelW {
     }
 
 	@Override
-    public void onResize(int height, int width) {
-	    // TODO Auto-generated method stub
-    }
+	public void onResize(int height, int width) {
+		// TODO Auto-generated method stub
+	}
 
 	@Override
 	public MultiRowsTabPanel getTabPanel() {

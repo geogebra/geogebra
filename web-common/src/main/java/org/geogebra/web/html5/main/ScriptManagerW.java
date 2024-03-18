@@ -111,7 +111,7 @@ public class ScriptManagerW extends ScriptManager {
 
 		GeoGebraFrameW appletFrame = ((AppW) app).getAppletFrame();
 		if (appletFrame != null
-		        && appletFrame.getOnLoadCallback() != null
+				&& appletFrame.getOnLoadCallback() != null
 				&& !appletFrame.appletOnLoadCalled()) {
 			JsEval.callNativeFunction(
 					appletFrame.getOnLoadCallback(), exportedApi);

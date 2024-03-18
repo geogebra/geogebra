@@ -543,7 +543,7 @@ public class CellRangeProcessor {
 	 * @return GeoList
 	 */
 	public GeoList createPointGeoList(ArrayList<TabularRange> rangeList,
-			boolean byValue, boolean leftToRight, 
+			boolean byValue, boolean leftToRight,
 			boolean doStoreUndo, boolean doCreateFreePoints) {
 
 		// get the orientation and dimensions of the list

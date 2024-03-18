@@ -40,45 +40,30 @@ import org.geogebra.desktop.io.MyXMLioD;
  */
 public class UndoManagerD extends UndoManager {
 
-	private boolean sync;
-
 	/**
 	 * Creates a new UndowManager for the given Construction.
 	 * 
 	 * @param cons
 	 *            construction
-	 * @param sync
-	 *            whether to save undo synchronously
 	 */
-	public UndoManagerD(Construction cons, boolean sync) {
+	public UndoManagerD(Construction cons) {
 		super(cons);
-		this.sync = sync;
 	}
 
 	private void execute(Runnable undoSaveAction) {
-		if (sync) {
-			undoSaveAction.run();
-		} else {
-			new Thread(undoSaveAction).start();
-		}
+		new Thread(undoSaveAction).start();
 	}
 
 	/**
 	 * Adds construction state to undo info list.
 	 */
 	@Override
-	public void storeUndoInfo(final StringBuilder currentUndoXML,
-			final boolean refresh) {
+	public void storeUndoInfo(final StringBuilder currentUndoXML) {
 
 		// force create event dispatcher before we go to thread
 		app.getEventDispatcher();
 
-		Runnable storeUndoAction = () -> {
-			doStoreUndoInfo(currentUndoXML);
-			if (refresh) {
-				restoreCurrentUndoInfo();
-			}
-		};
+		Runnable storeUndoAction = () -> doStoreUndoInfo(currentUndoXML);
 		execute(storeUndoAction);
 	}
 

@@ -457,8 +457,8 @@ public class DrawLabel3D {
 		this.xOffset = xOffset1;
 		this.yOffset = yOffset1;
 		this.zOffset = zOffset1;
-	    updateDrawPositionAxes(tickSize);
-    }
+		updateDrawPositionAxes(tickSize);
+	}
 
 	/**
 	 * update position for axes numbers
@@ -535,16 +535,16 @@ public class DrawLabel3D {
 		}
 
 		if (view.isXRDrawing()) {
-		    if (positionMatrix == null) {
-                positionMatrix = new CoordMatrix4x4();
-            }
-            positionMatrix.set(renderer.getUndoRotationMatrixAR());
-            Coords origin = positionMatrix.getOrigin();
-            origin.setX(drawX);
-            origin.setY(drawY);
-            origin.setZ(drawZ);
-            renderer.getRendererImpl().setMatrixView(positionMatrix);
-        }
+			if (positionMatrix == null) {
+				positionMatrix = new CoordMatrix4x4();
+			}
+			positionMatrix.set(renderer.getUndoRotationMatrixAR());
+			Coords origin = positionMatrix.getOrigin();
+			origin.setX(drawX);
+			origin.setY(drawY);
+			origin.setZ(drawZ);
+			renderer.getRendererImpl().setMatrixView(positionMatrix);
+		}
 
 		renderer.getRendererImpl().setLabelOrigin(labelOrigin);
 		renderer.getRendererImpl().setLabelLocation(

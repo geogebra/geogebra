@@ -34,13 +34,13 @@ import jsinterop.base.Js;
 public class PageListPanel
 		extends PersistablePanel implements SetLabels, CardListInterface {
 
-	private AppWFull app;
-	private GeoGebraFrameFull frame;
-	private EuclidianDockPanelW dockPanel;
+	private final AppWFull app;
+	private final GeoGebraFrameFull frame;
+	private final EuclidianDockPanelW dockPanel;
 	private ScrollPanel scrollPanel;
 	private PersistablePanel contentPanel;
 	private StandardButton plusButton;
-	private PageListController pageController;
+	private final PageListController pageController;
 	private boolean isTouch = false;
 
 	@Nonnull
@@ -110,9 +110,7 @@ public class PageListPanel
 	 */
 	public void loadNewPage(boolean selected, String id) {
 		int index = addNewPreviewCard(selected, id);
-		pageController.loadNewPage(index);
-		app.getUndoManager().storeAction(EventType.ADD_PAGE, index + "",
-						pageController.getSlide(index).getID());
+		pageController.loadNewPageStoreUndo(index);
 	}
 
 	public void loadNewPage(boolean selected) {
@@ -224,26 +222,7 @@ public class PageListPanel
 		// remove preview card
 		contentPanel.remove(index);
 		// remove associated ggb file
-		String id = pageController.getSlide(index).getID();
-		if (index == 0 && pageController.getSlideCount() == 1) {
-			app.getUndoManager().storeActionWithSlideId(
-					EventType.CLEAR_PAGE, id, new String[]{id});
-			pageController.loadNewPage(0);
-		} else {
-			pageController.removeSlide(index);
-			app.getUndoManager()
-					.storeActionWithSlideId(EventType.REMOVE_PAGE, id, new String[]{index + "", id,
-							pageController.getSlideCount() + ""});
-			updateIndexes(index);
-			// load new slide
-			if (index == pageController.getSlideCount()) {
-				// last slide was deleted
-				pageController.loadPage(index - 1);
-			} else {
-				// otherwise
-				pageController.loadPage(index);
-			}
-		}
+		pageController.removePage(index);
 		update();
 	}
 
@@ -253,7 +232,8 @@ public class PageListPanel
 	 * @param index
 	 *            of card that should be updated
 	 */
-	private void updateIndexes(int index) {
+	@Override
+	public void updateIndexes(int index) {
 		// update only slides after deleted slide
 		for (int i = index; i < contentPanel.getWidgetCount(); i++) {
 			PagePreviewCard card = (PagePreviewCard) contentPanel.getWidget(i);

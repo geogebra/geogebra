@@ -243,7 +243,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		boolean handled = handleGeneralKeys(kc,
 				event.isShiftKeyDown(),
 				isControlKeyDown(event.getNativeEvent()),
-		        event.isAltKeyDown(), false, true);
+				event.isAltKeyDown(), false, true);
 		if (handled) {
 			event.preventDefault();
 		}
@@ -318,7 +318,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		}
 
 		if (app.getGuiManager() != null
-		        && app.getGuiManager().noMenusOpen()) {
+				&& app.getGuiManager().noMenusOpen()) {
 			if (app.showAlgebraInput()) {
 				AlgebraInput algebraInput = ((GuiManagerInterfaceW) app.getGuiManager())
 						.getAlgebraInput();

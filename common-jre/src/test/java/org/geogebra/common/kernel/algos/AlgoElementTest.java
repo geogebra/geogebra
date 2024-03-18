@@ -2,6 +2,9 @@ package org.geogebra.common.kernel.algos;
 
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.fail;
+
+import java.util.List;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
@@ -10,6 +13,12 @@ import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.MoveGeos;
+import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.plugin.script.GgbScript;
+import org.geogebra.test.annotation.Issue;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 
@@ -64,6 +73,37 @@ public class AlgoElementTest extends BaseUnitTest {
 				"\\int\\limits_{a}^{b}s - r\\,\\mathrm{d}r"));
 		assertThat(add("Integral(t-x,a,b)"), hasLaTeXDefinition(
 				"\\int\\limits_{a}^{b}t - x\\,\\mathrm{d}x"));
+	}
+
+	@Test
+	@Issue("APPS-5423")
+	public void testAlgoDependentPointShouldNotUpdateEndlessly() {
+		GeoPoint p = add("(1, 1)");
+		AlgoDependentPoint algo = new AlgoDependentPoint(p.getConstruction(),
+				p.getDefinition(), false);
+		p.getLocateableList().add(new GeoNumeric(getKernel().getConstruction(),
+				0));
+		p.getLocateableList().get(0).getAlgoUpdateSet().add(algo);
+		algo.setOutput(new GeoElement[]{p});
+
+		try {
+			algo.update();
+		} catch (StackOverflowError e) {
+			fail("This StackOverflowError should not be possible!");
+		}
+	}
+
+	@Test
+	@Issue("APPS-5423")
+	public void testUnlabeledRandomGeosCanBeUpdatedMultipleTimesWithinAlgoUpdate() {
+		GeoPoint pointA = add("A = (1, 1)");
+		add("B = (2, 2)");
+		GeoElement poly = add("Polygon(A, B, 4)");
+		poly.setUpdateScript(new GgbScript(getApp(),
+				"SetValue(A, (1,1))\nSetValue(B, (2, 2))"));
+		MoveGeos.moveObjects(List.of(pointA), new Coords(1, 1),
+				null, null, getApp().getActiveEuclidianView());
+		assertThat(poly, hasValue("2"));
 	}
 
 	private TypeSafeMatcher<GeoElement> hasLaTeXDefinition(String def) {

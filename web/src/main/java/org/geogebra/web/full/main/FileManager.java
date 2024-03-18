@@ -49,8 +49,7 @@ public abstract class FileManager extends MaterialsManager {
 	 * @param cb
 	 *            callback
 	 */
-	public abstract void saveFile(String base64, long modified,
-	        final SaveCallback cb);
+	public abstract void saveFile(String base64, long modified, final SaveCallback cb);
 
 	/**
 	 * Overwritten for phone
@@ -93,10 +92,10 @@ public abstract class FileManager extends MaterialsManager {
 		mat.setBase64(base64);
 		mat.setTitle(app.getKernel().getConstruction().getTitle());
 		mat.setDescription(app.getKernel().getConstruction()
-		        .getWorksheetText(0));
+				.getWorksheetText(0));
 		mat.setThumbnailBase64(((EuclidianViewWInterface) app
-		        .getActiveEuclidianView())
-		        .getCanvasBase64WithTypeString());
+				.getActiveEuclidianView())
+				.getCanvasBase64WithTypeString());
 		if (app.getLoginOperation() != null) {
 			UserPublic user = new UserPublic(app.getLoginOperation().getModel().getUserId(),
 					app.getLoginOperation().getUserName());

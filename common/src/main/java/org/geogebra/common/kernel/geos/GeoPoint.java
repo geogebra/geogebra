@@ -1307,7 +1307,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		return (cC.getZ() - cA.getZ()) / ABz;
 	}
 
-	 /***********************************************************
+	/*
 	 * MOVEMENTS
 	 ***********************************************************/
 

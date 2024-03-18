@@ -6,7 +6,6 @@ import java.util.List;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -15,12 +14,11 @@ import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
 
 public class PointStylePopup extends PopupMenuButtonW
-		implements IComboListener, SetLabels {
+		implements SetLabels {
 
 	private static final int DEFAULT_SIZE = 4;
 	static final HashMap<Integer, Integer> pointStyleMap = new HashMap<>();
 	int mode;
-	private PointStyleModel model;
 	private boolean euclidian3D;
 
 	/**
@@ -29,13 +27,11 @@ public class PointStylePopup extends PopupMenuButtonW
 	 * @param mode
 	 *            mode
 	 * @param hasSlider
-	 *            whether to include size slider
-	 * @param model
-	 *            model
-	 * @return point stylle popup
+	 *            whether slider for size should be used
+	 * @return point style popup
 	 */
-	public static PointStylePopup create(AppW app, int mode, boolean hasSlider,
-			PointStyleModel model) {
+	public static PointStylePopup create(AppW app, int mode,
+			boolean hasSlider) {
 		
 		pointStyleMap.clear();
 		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
@@ -51,24 +47,9 @@ public class PointStylePopup extends PopupMenuButtonW
 
 		PointStylePopup popup = new PointStylePopup(app, pointStyleIcons, 2,
 				SelectionTable.MODE_ICON, true,
-				hasSlider, model);
+				hasSlider);
 		popup.mode = mode;
 		return popup;
-	}
-
-	/**
-	 * @param app
-	 *            application
-	 * @param mode
-	 *            mode
-	 * @param model
-	 *            model
-	 * @return point stylle popup
-	 */
-	public static PointStylePopup create(AppW app, int mode,
-			PointStyleModel model) {
-		return new PointStylePopup(app, null, 1,
-				SelectionTable.MODE_ICON, false, true, model);
 	}
 
 	/**
@@ -84,46 +65,29 @@ public class PointStylePopup extends PopupMenuButtonW
 	 *            whether table is used
 	 * @param hasSlider
 	 *            whether size slider is used
-	 * @param model
-	 *            options model
 	 */
-	public PointStylePopup(AppW app, ImageOrText[] data, Integer rows,
-			SelectionTable tableMode, boolean hasTable, boolean hasSlider,
-			PointStyleModel model) {
-		super(app, data, rows, -1, tableMode, hasTable, hasSlider, null);
+	public PointStylePopup(AppW app, ImageOrText[] data, Integer rows, SelectionTable tableMode,
+			boolean hasTable, boolean hasSlider) {
+		super(app, data, rows, -1, tableMode, hasTable, hasSlider);
 		getMyPopup().addStyleName("pointSizeSlider");
-		this.model = model;
 		euclidian3D = false;
-	}
-
-	public void setModel(PointStyleModel model) {
-		this.model = model;
 	}
 
 	@Override
 	public void update(List<GeoElement> geos) {
-		updatePanel(geos.toArray());
-	}
-
-	@Override
-	public Object updatePanel(Object[] geos) {
-		model.setGeos(geos);
-		
-		if (!model.hasGeos()) {
+		if (geos.isEmpty()) {
 			this.setVisible(false);
-			return null;
+			return;
 		}
 		
-		boolean geosOK = model.checkGeos();
-		
+		boolean geosOK = geos.stream().allMatch(PointStyleModel::match);
+
 		this.setVisible(geosOK);
 
 		if (geosOK) {
 			getMyTable().setVisible(!euclidian3D);
 
-			model.updateProperties();
-
-			PointProperties geo0 = (PointProperties) model.getGeoAt(0);
+			PointProperties geo0 = (PointProperties) geos.get(0);
 			if (hasSlider()) {
 				setSliderValue(geo0.getPointSize());
 			}
@@ -133,13 +97,11 @@ public class PointStylePopup extends PopupMenuButtonW
 
 			this.setKeepVisible(EuclidianConstants.isMoveOrSelectionMode(mode));
 		}
-		return this;
 	}
 
 	@Override
 	public void handlePopupActionEvent() {
 		super.handlePopupActionEvent();
-		model.applyChanges(getSelectedIndex());
 	}
 
 	@Override
@@ -158,27 +120,8 @@ public class PointStylePopup extends PopupMenuButtonW
 		return val == -1 ? DEFAULT_SIZE : val;
 	}
 
-	@Override
-	public void setSelectedIndex(int index) {
-		super.setSelectedIndex(index);
-	}
-
-	@Override
-	public void addItem(String item) {
-	    // TODO Auto-generated method stub
-	}
-
-	public boolean isEuclidian3D() {
-		return euclidian3D;
-	}
-
 	public void setEuclidian3D(boolean euclidian3d) {
 		euclidian3D = euclidian3d;
-	}
-
-	@Override
-	public void clearItems() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
