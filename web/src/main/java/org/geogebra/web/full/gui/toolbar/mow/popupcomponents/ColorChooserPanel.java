@@ -41,32 +41,31 @@ public class ColorChooserPanel extends FlowPanel {
 	}
 
 	 private void addColorButton(GColor color) {
-		FlowPanel colorButton = new FlowPanel();
+		FlowPanel colorButton = new FlowPanel("button");
 		colorButton.addStyleName("colorButton");
 		if (GColor.WHITE.equals(color)) {
 			colorButton.addStyleName("white");
 		}
 
-		 SimplePanel colorHolder = new SimplePanel();
-		 colorHolder.addStyleName("colorBg");
-		 colorHolder.getElement().getStyle().setBackgroundColor(color.toString());
+		SimplePanel colorHolder = new SimplePanel();
+		colorHolder.addStyleName("colorBg");
+		colorHolder.getElement().getStyle().setBackgroundColor(color.toString());
 
-		 NoDragImage checkmark = new NoDragImage(
-				 MaterialDesignResources.INSTANCE.check_border(), 18);
-		 checkmark.addStyleName("checkmark");
+		NoDragImage checkmark = new NoDragImage(
+				MaterialDesignResources.INSTANCE.check_border(), 18);
+		checkmark.addStyleName("checkmark");
 
 		colorButton.add(colorHolder);
 		colorButton.add(checkmark);
 
-		 Dom.addEventListener(colorButton.getElement(), "click", (event) -> {
-			updateColor(colorButton, color);
-		 });
+		Dom.addEventListener(colorButton.getElement(), "click", (event) ->
+				updateColor(colorButton, color));
 
-		 add(colorButton);
+		add(colorButton);
 	 }
 
 	 private void addCustomColorButton() {
-		FlowPanel customColorButton = new FlowPanel();
+		FlowPanel customColorButton = new FlowPanel("button");
 		customColorButton.addStyleName("colorButton customColor");
 
 		SimplePanel imageHolder = new SimplePanel();
@@ -115,24 +114,24 @@ public class ColorChooserPanel extends FlowPanel {
 	 }
 
 	 private void updateActiveColorButton(FlowPanel newActiveButton, GColor newActiveColor) {
-		 if (activeButton != null) {
-			 activeButton.removeStyleName("selected");
-		 }
+		if (activeButton != null) {
+			activeButton.removeStyleName("selected");
+		}
 		activeButton = newActiveButton;
-		 if (activeButton != null) {
-			 activeButton.addStyleName("selected");
-		 }
-		 activeColor = newActiveColor;
+		if (activeButton != null) {
+			activeButton.addStyleName("selected");
+		}
+		activeColor = newActiveColor;
 	 }
 
 	 private void runCallback(GColor color) {
-		 if (callback != null) {
-			 callback.accept(color);
-		 }
+		if (callback != null) {
+			callback.accept(color);
+		}
 	 }
 
 	 private void updateColor(FlowPanel colorButton, GColor color) {
-		 updateActiveColorButton(colorButton, color);
-		 runCallback(color);
-	 }
+		updateActiveColorButton(colorButton, color);
+		runCallback(color);
+	}
 }

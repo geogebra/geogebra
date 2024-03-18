@@ -101,7 +101,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 				"move mode", "moveBtn", () -> {
 						GPopupPanel popup = new GPopupPanel(appW.getAppletFrame(), appW);
 						popup.add(new ColorChooserPanel(appW, (color)
-								-> getPenGeo().setPenColor(color)));
+								-> getPen().setPenColor(color)));
 						popup.showRelativeTo(this);
 		});
 	}
@@ -111,7 +111,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		buttons.forEach(SetLabels::setLabels);
 	}
 
-	private EuclidianPen getPenGeo() {
+	private EuclidianPen getPen() {
 		return appW.getActiveEuclidianView().getEuclidianController()
 				.getPen();
 	}
