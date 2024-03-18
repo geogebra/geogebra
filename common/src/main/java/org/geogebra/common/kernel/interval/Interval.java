@@ -353,7 +353,7 @@ public class Interval {
 	 * @return this as result
 	 */
 	public Interval halfOpenRight(double a, double b) {
-		 set(a, RMath.prev(b));
+		set(a, RMath.prev(b));
 		return this;
 	}
 

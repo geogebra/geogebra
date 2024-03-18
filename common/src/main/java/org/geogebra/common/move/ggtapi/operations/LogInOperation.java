@@ -93,6 +93,14 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	}
 
 	/**
+	 * Notify views about failed login and prevent more logins in this session
+	 */
+	public void loginCanceled() {
+		getModel().preventLoginPrompt();
+		stayLoggedOut();
+	}
+
+	/**
 	 * Performs the API call to authorize the token.
 	 * 
 	 * @param user

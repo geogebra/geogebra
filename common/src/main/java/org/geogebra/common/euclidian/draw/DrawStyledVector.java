@@ -48,7 +48,7 @@ public class DrawStyledVector {
 			visibility.setVisible(false);
 		} else {
 			line = vectorShape.clipLine(view.getWidth(), view.getHeight());
-		 }
+		}
 	}
 
 	private boolean checkOffScreen(DrawVectorModel model) {

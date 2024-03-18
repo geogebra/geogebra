@@ -64,7 +64,7 @@ public class ResourcesInjector {
 		}
 
 		NodeList<Element> scripts = DomGlobal.document
-		        .querySelectorAll("script[src$=\"cache.js\"]");
+				.querySelectorAll("script[src$=\"cache.js\"]");
 		for (int i = 0; i < scripts.getLength(); i++) {
 			scripts.getAt(i).remove();
 		}

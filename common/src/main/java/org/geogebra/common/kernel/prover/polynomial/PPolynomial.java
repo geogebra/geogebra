@@ -905,7 +905,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		
 		ret += "),dp;" // ring definition in Singular, using revgradlex
 			+ "ideal " + idealVariable + "="
-		 	+ polys + ";"; // ideal definition in Singular
+			+ polys + ";"; // ideal definition in Singular
 
 		ret += substCommand;
 

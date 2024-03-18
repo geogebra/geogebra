@@ -79,7 +79,7 @@ import org.geogebra.common.plugin.GeoClass;
  * <code>
    final public GeoNew3D New3D(String label, ???) { <br> &nbsp;&nbsp;
      AlgoNew3D algo = new AlgoNew3D(cons, label, ???); <br> &nbsp;&nbsp;
-	 return algo.getGeo(); <br> 
+     return algo.getGeo(); <br>
    }
    </code></li>
  * </ul>

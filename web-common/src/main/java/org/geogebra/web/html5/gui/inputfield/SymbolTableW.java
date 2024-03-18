@@ -91,7 +91,7 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 		}
 
 		int cellIndex = rowLength * clickCell.getRowIndex()
-		        + clickCell.getCellIndex();
+				+ clickCell.getCellIndex();
 
 		setSelectedCellIndex(cellIndex);
 	}

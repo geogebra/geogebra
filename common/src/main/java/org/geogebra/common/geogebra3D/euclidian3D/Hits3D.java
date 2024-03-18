@@ -188,22 +188,21 @@ public class Hits3D extends Hits {
 	 *            type of picking
 	 */
 	public void addDrawable3D(Drawable3D d, PickingType type) {
+		if (d.hasRelevantPickingValues()) {
+			if (type == PickingType.LABEL) {
+				if (!d.getGeoElement().isGeoText()) {
+					hitsLabels.add(d);
+				}
+			} else { // remember last type for picking
+				d.setPickingType(type);
+			}
 
-	    if (d.hasRelevantPickingValues()) {
-            if (type == PickingType.LABEL) {
-                if (!d.getGeoElement().isGeoText()) {
-                    hitsLabels.add(d);
-                }
-            } else { // remember last type for picking
-                d.setPickingType(type);
-            }
-
-            if (d.getPickOrder() < Drawable3D.DRAW_PICK_ORDER_MAX) {
-                hitSet[d.getPickOrder()].add(d);
-            } else {
-                hitsOthers.add(d);
-            }
-        }
+			if (d.getPickOrder() < Drawable3D.DRAW_PICK_ORDER_MAX) {
+				hitSet[d.getPickOrder()].add(d);
+			} else {
+				hitsOthers.add(d);
+			}
+		}
 	}
 
 	/**

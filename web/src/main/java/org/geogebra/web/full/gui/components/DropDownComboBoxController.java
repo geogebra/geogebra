@@ -101,7 +101,7 @@ public class DropDownComboBoxController implements SetLabels {
 		setupDropDownMenu(dropDownElementsList);
 	}
 
-	 void setSelectedOption(int idx) {
+	void setSelectedOption(int idx) {
 		highlightSelectedElement(dropDown.getSelectedIndex(), false);
 		highlightSelectedElement(idx, true);
 		dropDown.setSelectedIndex(idx);

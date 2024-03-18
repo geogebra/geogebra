@@ -109,8 +109,7 @@ public class CASViewW extends CASView implements PrintableW {
 		if (subDialog != null && subDialog.getDialog().isShowing()) {
 			return;
 		}
-		CASSubDialogW d = new CASSubDialogW(this, prefix, evalText, postfix,
-		        selRow);
+		CASSubDialogW d = new CASSubDialogW(this, prefix, evalText, postfix, selRow);
 		d.getDialog().show();
 		subDialog = d;
 	}

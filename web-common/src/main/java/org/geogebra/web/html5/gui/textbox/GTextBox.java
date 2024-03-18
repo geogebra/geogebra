@@ -64,8 +64,8 @@ public class GTextBox extends TextBox
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == 0) {
 					NativeEvent nativeEvent = Document.get().createKeyUpEvent(
-					        isControlKeyDown, isAltKeyDown, isShiftKeyDown,
-					        isMetaKeyDown, keyCode);
+							isControlKeyDown, isAltKeyDown, isShiftKeyDown,
+							isMetaKeyDown, keyCode);
 					event.setNativeEvent(nativeEvent);
 
 				}

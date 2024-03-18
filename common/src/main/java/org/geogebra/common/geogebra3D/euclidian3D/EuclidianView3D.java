@@ -1640,14 +1640,14 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	@Override
-    final public void reset() {
-	    reset(false);
-    }
+	final public void reset() {
+		reset(false);
+	}
 
-    /**
-     * reset view
-     * @param clearClippingEnlargement if we want to clear clipping cube enlargement
-     */
+	/**
+	 * reset view
+	 * @param clearClippingEnlargement if we want to clear clipping cube enlargement
+	 */
 	public void reset(boolean clearClippingEnlargement) {
 		resetAllDrawables(clearClippingEnlargement);
 		setViewChanged();
@@ -1909,8 +1909,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	@Override
-	public void setAnimatedCoordSystem(double x0, double y0, int steps,
-									   boolean storeUndo) {
+	public void setAnimatedCoordSystem(double x0, double y0, int steps, boolean storeUndo) {
 		setAnimatedCoordSystem(steps);
 	}
 
@@ -2053,16 +2052,16 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void setHits(GPoint p, PointerEventType type) {
-	    if (isXREnabled() && ((EuclidianController3D) euclidianController)
-                .isCurrentModeForCreatingPoint()) {
-            renderer.setHits(p, getCapturingThreshold(PointerEventType.MOUSE));
-        } else {
-            renderer.setHits(p, getCapturingThreshold(type));
-            if (type == PointerEventType.TOUCH
-                    && hitsEmptyOrOnlyContainsXOYPlane()) {
-                renderer.setHits(p, getCapturingThreshold(type) * 3);
-            }
-        }
+		if (isXREnabled() && ((EuclidianController3D) euclidianController)
+				.isCurrentModeForCreatingPoint()) {
+			renderer.setHits(p, getCapturingThreshold(PointerEventType.MOUSE));
+		} else {
+			renderer.setHits(p, getCapturingThreshold(type));
+			if (type == PointerEventType.TOUCH
+					&& hitsEmptyOrOnlyContainsXOYPlane()) {
+				renderer.setHits(p, getCapturingThreshold(type) * 3);
+			}
+		}
 
 		hasMouse = true;
 		updateCursor3D();
@@ -2399,26 +2398,26 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	private void flipCursorNormal() {
-	    if (isXREnabled()) {
-	        getHittingDirection(tmpCoordsLength4);
-            if (cursorNormal.dotproduct3(tmpCoordsLength4) > 0) {
-                cursorNormal.mulInside(-1);
-            }
-        } else {
-            Coords direction = getViewDirection();
-            if (direction != null && cursorNormal.dotproduct3(direction) > 0) {
-                cursorNormal.mulInside(-1);
-            }
-        }
-    }
+		if (isXREnabled()) {
+			getHittingDirection(tmpCoordsLength4);
+			if (cursorNormal.dotproduct3(tmpCoordsLength4) > 0) {
+				cursorNormal.mulInside(-1);
+			}
+		} else {
+			Coords direction = getViewDirection();
+			if (direction != null && cursorNormal.dotproduct3(direction) > 0) {
+				cursorNormal.mulInside(-1);
+			}
+		}
+	}
 
 	/**
 	 * update cursor3D matrix
 	 */
 	public void updateMatrixForCursor3D() {
-	    if (isXREnabled() && !isXRDrawing()) {
-	        return;
-        }
+		if (isXREnabled() && !isXRDrawing()) {
+			return;
+		}
 		double t;
 		if (getEuclidianController()
 				.getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
@@ -5054,35 +5053,35 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	private boolean isAtLeastOneAxisVisible() {
-	    for (int i = 0; i < 3; i++) {
-	        if (axisDrawable[i].isVisible()) {
-	            return true;
-            }
-        }
-	    return false;
-    }
+		for (int i = 0; i < 3; i++) {
+			if (axisDrawable[i].isVisible()) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	private void setARFloorZ(double z) {
-	    arFloorZ = z;
-        getRenderer().setARFloorZ(z);
-        arZZeroAtStart = getZZero();
-    }
+		arFloorZ = z;
+		getRenderer().setARFloorZ(z);
+		arZZeroAtStart = getZZero();
+	}
 
 	/**
 	 * 
 	 * @return shift used for AR floor
 	 */
-    public double getARFloorShift() {
-        return arZZeroAtStart - getZZero();
-    }
+	public double getARFloorShift() {
+		return arZZeroAtStart - getZZero();
+	}
 
-    /**
-     *
-     * @return z value which stands on the floor (AR)
-     */
-    public double getARMinZ() {
-        return arFloorZ + getARFloorShift();
-    }
+	/**
+	 *
+	 * @return z value which stands on the floor (AR)
+	 */
+	public double getARMinZ() {
+		return arFloorZ + getARFloorShift();
+	}
 
 	/**
 	 * @return whether XR is active

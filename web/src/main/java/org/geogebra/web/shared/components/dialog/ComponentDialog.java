@@ -39,7 +39,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	 * @param hasScrim - background should be greyed out
 	 */
 	public ComponentDialog(AppW app, DialogData dialogData, boolean autoHide,
-						   boolean hasScrim) {
+			boolean hasScrim) {
 		super(autoHide, app.getAppletFrame(), app);
 		this.dialogData = dialogData;
 		setGlassEnabled(hasScrim);

@@ -1354,7 +1354,7 @@ public class GeoImage extends GeoElement implements
 		double angle = -getAngle();
 
 		getStartPoint().setCoords(getStartPoints()[2].x + rwHeight * Math.sin(angle),
-				 getStartPoints()[2].y - rwHeight * Math.cos(angle), 1);
+				getStartPoints()[2].y - rwHeight * Math.cos(angle), 1);
 		getStartPoints()[1].setCoords(getStartPoints()[0].x + rwWidth * Math.cos(angle),
 				getStartPoints()[0].y + rwWidth * Math.sin(angle), 1);
 	}

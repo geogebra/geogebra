@@ -90,6 +90,7 @@ public final class WindowReference implements EventRenderable {
 				if (instance != null && instance.closed()) {
 					if (loginOperation != null) {
 						loginOperation.stayLoggedOut();
+						loginOperation.loginCanceled();
 					}
 					cleanWindowReferences();
 				} else {

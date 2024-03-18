@@ -28,7 +28,7 @@ public class EditorTextField extends GTextBox implements KeyUpHandler {
 		String fontFamily = font.getFontFamily();
 
 		getStyleElement().setAttribute("style",
-		        "font-family:" + fontFamily + "; font-size:" + fontSize + "pt");
+				"font-family:" + fontFamily + "; font-size:" + fontSize + "pt");
 	}
 
 	protected void updateTarget() {
