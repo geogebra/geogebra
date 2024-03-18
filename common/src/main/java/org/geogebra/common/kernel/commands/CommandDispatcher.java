@@ -199,12 +199,13 @@ public abstract class CommandDispatcher implements Restrictable {
 	}
 
 	/**
-	 * @param command
-	 *            command
-	 * @return whether selector accepts it
-	 *  TODO rename to isAllowedByCommandFilter? (maybe find a better name)
+	 * Checks a command against the current set of command filters (which may change, e.g.
+	 * during an exam).
+	 *
+	 * @param command A command.
+	 * @return false if any of the current command filters rejects this command, true otherwise.
 	 */
-	public boolean isAllowedByNameFilter(Commands command) {
+	public boolean isAllowedByCommandFilters(Commands command) {
 		for (CommandFilter filter : commandFilters) {
 			if (!filter.isCommandAllowed(command)) {
 				return false;
@@ -213,7 +214,7 @@ public abstract class CommandDispatcher implements Restrictable {
 		return true;
 	}
 
-	private void checkAllowedByArgumentFilter(Command command,
+	private void checkIsAllowedByCommandArgumentFilters(Command command,
 			CommandProcessor commandProcessor) throws MyError {
 		for (CommandArgumentFilter filter : commandArgumentFilters) {
 			filter.checkAllowed(command, commandProcessor);
@@ -221,7 +222,7 @@ public abstract class CommandDispatcher implements Restrictable {
 	}
 
 	private GeoElement[] process(@CheckForNull CommandProcessor cmdProc, Command c, EvalInfo info) {
-		checkAllowedByArgumentFilter(c, cmdProc);
+		checkIsAllowedByCommandArgumentFilters(c, cmdProc);
 		// switch on macro mode to avoid labeling of output if desired
 		// Solve[{e^-(x*x/2)=1,x>0},x]
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
@@ -324,7 +325,7 @@ public abstract class CommandDispatcher implements Restrictable {
 		String cmdName = c.getName();
 		try {
 			Commands command = Commands.valueOf(cmdName);
-			if (!isAllowedByNameFilter(command)) {
+			if (!isAllowedByCommandFilters(command)) {
 				Log.info("The command is not allowed by the command filter");
 				return null;
 			}
@@ -1018,7 +1019,7 @@ public abstract class CommandDispatcher implements Restrictable {
 	 * @return whether CAS commands are allowed
 	 */
 	public boolean isCASAllowed() {
-		return isAllowedByNameFilter(Commands.Solve);
+		return isAllowedByCommandFilters(Commands.Solve);
 	}
 
 	@Deprecated // restrictions on the CommandDispatcher are now handled by ExamController

@@ -6,6 +6,7 @@ public interface PropertiesRegistryListener {
 
 	/**
 	 * Called when a property has been registered in a context.
+	 *
 	 * @param property The property.
 	 * @param context The context (may be null).
 	 */
@@ -13,6 +14,7 @@ public interface PropertiesRegistryListener {
 
 	/**
 	 * Called when a property has been unregistered from a context.
+	 *
 	 * @param property The property.
 	 * @param context The context (may be null).
 	 */

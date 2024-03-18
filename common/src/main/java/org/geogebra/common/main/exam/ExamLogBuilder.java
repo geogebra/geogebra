@@ -4,7 +4,7 @@ package org.geogebra.common.main.exam;
  * Builds formatted exam log; default implementation is just a wrapper for
  * StringBuilder
  */
-@Deprecated // no need to bundle a set of (internal) helper methods as a separate class
+@Deprecated // use ExamSummary instead
 public class ExamLogBuilder {
 	private StringBuilder sb = new StringBuilder();
 

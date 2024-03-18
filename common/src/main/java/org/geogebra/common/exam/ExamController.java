@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
@@ -13,6 +15,8 @@ import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.TempStorage;
@@ -37,8 +41,9 @@ import com.google.j2objc.annotations.Weak;
  *     listeners).
  *     <li><b>Start/end date</b>: Setting the exam start and end date, and providing date and
  *     time formatting for these.
- *     <li><b>Restrictions</b>: Applying restrictions on the {@link CommandDispatcher} at the
- *     start of an exam, and reverting those restrictions when the exam ends.
+ *     <li><b>Restrictions</b>: Applying restrictions on certain components (e.g.,  the
+ *     {@link CommandDispatcher}) at the start of an exam, and reverting those restrictions
+ *     when the exam ends.
  *     <li><b>Events</b>: Collect relevant events (e.g., cheating attempts).
  * </ul>
  * <h3>NOT Responsibilities</h3>
@@ -54,7 +59,7 @@ import com.google.j2objc.annotations.Weak;
  *     platforms.
  * </ul>
  *
- *  @implNote This class is not designed to be thread-safe (use from the main thread only).
+ *  @implNote This class is not designed to be thread-safe.
  */
 public final class ExamController implements PropertiesRegistryListener {
 
@@ -70,6 +75,7 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	private ExamRegion examType;
 	private ExamRestrictions examRestrictions;
+	private ExamOptions options;
 
 	private ExamState state = ExamState.IDLE;
 	private Date startDate;
@@ -79,15 +85,14 @@ public final class ExamController implements PropertiesRegistryListener {
 	private CheatingEvents cheatingEvents = new CheatingEvents();
 	private TimeFormatAdapter timeFormatter;
 
-	// TODO filter for apps with no CAS
-	// private final CommandFilter noCASFilter = CommandFilterFactory.createNoCasCommandFilter();
+	private final CommandFilter noCASFilter = CommandFilterFactory.createNoCasCommandFilter();
 
 	/**
-	 * Creates a new ExamController. The ExamController will register itself as a listener
-	 * on the properties registry.
+	 * Creates a new ExamController.
 	 * @param propertiesRegistry The properties registry.
+	 * @implNote The ExamController will register itself as a listener on the properties registry.
 	 */
-	public ExamController(PropertiesRegistry propertiesRegistry) {
+	public ExamController(@Nonnull PropertiesRegistry propertiesRegistry) {
 		this.propertiesRegistry = propertiesRegistry;
 		propertiesRegistry.addListener(this);
 	}
@@ -111,21 +116,21 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	/**
 	 * Set the active context and associated dependencies.
-	 *
+	 * <p/>
 	 * The context can be <i>any object</i>, but it should correspond to or identify the current
 	 * app, or, in Suite, the currently active sub-app (Graphing, Geometry, etc). The only
-	 * requirement here is that when any of the dependencies (currently, the command dispatcher and
+	 * requirement here is that when any of the dependencies (e.g., the command dispatcher or
 	 * algebra processor) change, this should also mean a change in current context and be
 	 * communicated to the exam controller by calling this method.
-	 *
+	 * <p/>
 	 * This method needs to be called before an exam starts, and also when the active context
 	 * changes during an exam, so what we can remove the restrictions on the current dependencies,
 	 * and apply the restrictions on the new dependencies.
 	 */
-	public void setActiveContext(Object context,
-			CommandDispatcher commandDispatcher,
-			AlgebraProcessor algebraProcessor) {
-		// revert restrictions for current dependencies, if exam is active
+	public void setActiveContext(@Nonnull Object context,
+			@Nonnull CommandDispatcher commandDispatcher,
+			@Nonnull AlgebraProcessor algebraProcessor) {
+		// remove restrictions for current dependencies, if exam is active
 		if (examRestrictions != null && activeDependencies != null) {
 			removeRestrictionsFromContextDependencies(activeDependencies);
 		}
@@ -141,12 +146,11 @@ public final class ExamController implements PropertiesRegistryListener {
 	/**
 	 * Register an object that may need to apply additional restrictions/customization
 	 * for certain types of exams.
-	 *
 	 * @param restrictable An object that may need to perform additional customization
 	 * when an exam is started.
 	 */
-	public void registerRestrictable(ExamRestrictable restrictable) {
-		restrictables.add(restrictable); // this may be shared with activeDependencies, if non-null
+	public void registerRestrictable(@Nonnull ExamRestrictable restrictable) {
+		restrictables.add(restrictable);
 		if (examRestrictions != null) {
 			restrictable.applyRestrictions(examRestrictions);
 		}
@@ -155,25 +159,25 @@ public final class ExamController implements PropertiesRegistryListener {
 	/**
 	 * Adds an {@link ExamListener}.
 	 * @param listener The listener to add.
-	 * Trying to add a listener that is already registered will have no effect.
+	 * @apiNote Trying to add a listener that is already registered will have no effect.
 	 */
-	public void addListener(@NonOwning ExamListener listener) {
+	public void addListener(@NonOwning @Nonnull ExamListener listener) {
 		listeners.add(listener);
 	}
 
 	/**
-	 * Removes an `ExamListener`.
+	 * Removes an {@link ExamListener}.
 	 * @param listener The listener to remove.
-	 * Trying to remove a listener that is not registered will have no effect.
+	 * @apiNote Trying to remove a listener that is not registered will have no effect.
 	 */
-	public void removeListener(ExamListener listener) {
+	public void removeListener(@Nonnull ExamListener listener) {
 		listeners.remove(listener);
 	}
 
 	/**
 	 * @return The current exam state.
 	 * <p/>
-	 * Also observable through {@link ExamListener#examStateChanged(ExamState) examStateChanged()}.
+	 * Observable through {@link ExamListener#examStateChanged(ExamState) examStateChanged()}.
 	 */
 	public ExamState getState() {
 		return state;
@@ -181,9 +185,8 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	/**
 	 * Changes state and notifies listeners about the state change.
-	 *
-	 * Note: If newState is equal to the current state, nothing happens.
 	 * @param newState The new state to change to.
+	 * @apiNote If newState is equal to the current state, nothing happens.
 	 */
 	private void setState(ExamState newState) {
 		if (newState == state) {
@@ -201,14 +204,19 @@ public final class ExamController implements PropertiesRegistryListener {
 	}
 
 	/**
+	 * Get the list of disabled subapps, if any.
 	 * @return The set of disabled (restricted) sub-apps, or null if there are no
 	 * restrictions on sub-apps currently.
 	 */
 	public @CheckForNull Set<SuiteSubApp> getDisabledSubApps() {
-		return !isIdle() && examRestrictions != null ? examRestrictions.getDisabledSubApps() : null;
+		if (isIdle()) {
+			return null;
+		}
+		return examRestrictions.getDisabledSubApps();
 	}
 
 	/**
+	 * Get the list of disabled subapps, if any.
 	 * @return The set of disabled (restricted) sub-app codes, or null if there are no
 	 * restrictions on sub-apps currently.
 	 */
@@ -221,6 +229,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	}
 
 	/**
+	 * Check for disabled subapps.
 	 * @param appCode A sub-app code (e.g.
 	 * {@link org.geogebra.common.GeoGebraConstants#GRAPHING_APPCODE}).
 	 * @return True if the sub-app corresponding to appCode is currently disabled, false otherwise.
@@ -235,6 +244,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	}
 
 	/**
+	 * Get the exam display name.
 	 * @param appConfig The current app config.
 	 * @param localization The localization.
 	 * @return The current exam's display name (see
@@ -285,10 +295,11 @@ public final class ExamController implements PropertiesRegistryListener {
 	}
 
 	/**
-	 * @return  A summary of the exam if the exam is in the {@link ExamState#FINISHED} state,
-	 * or null otherwise.
+	 * @return A summary of the exam if the exam is in the {@link ExamState#ACTIVE} or
+	 * {@link ExamState#FINISHED} state, or null otherwise.
 	 */
-	public @CheckForNull ExamSummary getExamSummary(AppConfig appConfig, Localization localization) {
+	public @CheckForNull ExamSummary getExamSummary(AppConfig appConfig,
+			Localization localization) {
 		if (state == ExamState.IDLE || state == ExamState.PREPARING) {
 			return null;
 		}
@@ -303,7 +314,6 @@ public final class ExamController implements PropertiesRegistryListener {
 	 * Get ready for a new exam.
 	 *
 	 * Note: This step is optional (can be skipped during crash recovery, for example).
-	 *
 	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#IDLE IDLE}
 	 * state.
 	 */
@@ -328,11 +338,18 @@ public final class ExamController implements PropertiesRegistryListener {
 	}
 
 	/**
-	 * Starts the exam.
+	 * Start the exam.
+	 *
 	 * @throws IllegalStateException if the exam controller is not in either the
 	 * {@link ExamState#IDLE} or {@link ExamState#PREPARING PREPARING} state.
+	 *
+	 * @apiNote Make sure to call {@link #setActiveContext(Object, CommandDispatcher, AlgebraProcessor)}
+	 * before attempting to start an exam.
+	 *
+	 * @param examType The exam type.
+	 * @param options Additional options (optional).
 	 */
-	public void startExam(ExamRegion examType) {
+	public void startExam(@Nonnull ExamRegion examType, @Nullable ExamOptions options) {
 		if (state != ExamState.IDLE && state != ExamState.PREPARING) {
 			throw new IllegalStateException("expected to be in IDLE or PREPARING state, "
 					+ "but is " + state);
@@ -342,6 +359,7 @@ public final class ExamController implements PropertiesRegistryListener {
 					+ "call setActiveContext() before attempting to start the exam");
 		}
 		this.examType = examType;
+		this.options = options;
 		if (examRestrictions == null) {
 			examRestrictions = ExamRestrictions.forExamType(examType);
 		}
@@ -357,11 +375,11 @@ public final class ExamController implements PropertiesRegistryListener {
 
 		cheatingEvents = new CheatingEvents();
 		startDate = new Date();
-		setState(ExamState.ACTIVE); // TODO suppress syntax in CommandErrorMessageBuilder
+		setState(ExamState.ACTIVE);
 	}
 
 	/**
-	 * Finishes the current exam.
+	 * Finish the current exam.
 	 * @throws IllegalStateException if the exam controller is not in the {@link ExamState#ACTIVE ACTIVE}
 	 * state.
 	 */
@@ -374,7 +392,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	}
 
 	/**
-	 * Exits the exam.
+	 * Exit the finished exam.
 	 * @throws IllegalStateException if the exam controller is not in the
 	 * {@link ExamState#FINISHED FINISHED} state.
 	 */
@@ -386,9 +404,9 @@ public final class ExamController implements PropertiesRegistryListener {
 		removeRestrictionsFromContextDependencies(activeDependencies);
 		tempStorage.clearTempMaterials();
 		if (delegate != null) {
-			delegate.examClearOtherApps();
 			delegate.examClearClipboard();
-			delegate.examCreateNewFile();
+			delegate.examClearOtherApps();
+			delegate.examClearCurrentApp();
 		}
 		startDate = finishDate = null;
 		examType = null;
@@ -396,10 +414,16 @@ public final class ExamController implements PropertiesRegistryListener {
 		setState(ExamState.IDLE);
 	}
 
+	/**
+	 * @return true if the exam is in the {@link ExamState#ACTIVE} state.
+	 */
 	public boolean isExamActive() {
 		return state == ExamState.ACTIVE;
 	}
 
+	/**
+	 * @return true if the exam is in the {@link ExamState#IDLE} state.
+	 */
 	public boolean isIdle() {
 		return state == ExamState.IDLE;
 	}
@@ -411,7 +435,6 @@ public final class ExamController implements PropertiesRegistryListener {
 	}
 
 	private void applyRestrictionsToContextDependencies(ContextDependencies dependencies) {
-		// TODO app.resetCommandDict() (register as ExamRestrictable?)
 		if (examRestrictions == null) {
 			return; // log/throw?
 		}
@@ -431,7 +454,9 @@ public final class ExamController implements PropertiesRegistryListener {
 					dependencies.algebraProcessor,
 					propertiesRegistry,
 					dependencies.context);
-			// TODO suppress syntax in CommandErrorMessageBuilder (register as ExamRestrictable?)
+			if (options != null && !options.casEnabled) {
+				dependencies.commandDispatcher.addCommandFilter(noCASFilter);
+			}
 		}
 	}
 
@@ -444,7 +469,9 @@ public final class ExamController implements PropertiesRegistryListener {
 					dependencies.algebraProcessor,
 					propertiesRegistry,
 					dependencies.context);
-			// TODO enable syntax in CommandErrorMessageBuilder (register as ExamRestrictable?)
+			if (options != null && !options.casEnabled) {
+				dependencies.commandDispatcher.removeCommandFilter(noCASFilter);
+			}
 		}
 	}
 
@@ -461,7 +488,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	}
 
 	/**
-	 * Unfortunately we need to expose this, some (iOS) client code currently requires this.
+	 * Unfortunately we need to expose this - some (iOS) client code currently needs access.
 	 * @return The temporary material storage for exams.
 	 */
 	public TempStorage getTempStorage() {
@@ -509,15 +536,18 @@ public final class ExamController implements PropertiesRegistryListener {
 
 	private static class ContextDependencies {
 		@NonOwning
+		@Nonnull
 		final Object context;
 		@NonOwning
+		@Nonnull
 		final CommandDispatcher commandDispatcher;
 		@NonOwning
+		@Nonnull
 		final AlgebraProcessor algebraProcessor;
 
-		ContextDependencies(Object context,
-				CommandDispatcher commandDispatcher,
-				AlgebraProcessor algebraProcessor) {
+		ContextDependencies(@Nonnull Object context,
+				@Nonnull CommandDispatcher commandDispatcher,
+				@Nonnull AlgebraProcessor algebraProcessor) {
 			this.context = context;
 			this.commandDispatcher = commandDispatcher;
 			this.algebraProcessor = algebraProcessor;

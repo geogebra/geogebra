@@ -12,6 +12,7 @@ import java.util.Vector;
 import java.util.function.Predicate;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
@@ -38,6 +39,8 @@ import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.exam.ExamRegion;
+import org.geogebra.common.exam.restrictions.ExamRestrictable;
+import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
@@ -120,7 +123,6 @@ import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
-import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventDispatcher;
@@ -146,7 +148,9 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Represents an application window, gives access to views and system stuff
  */
-public abstract class App implements UpdateSelection, AppInterface, EuclidianHost, ExamProvider {
+public abstract class App implements UpdateSelection, AppInterface, EuclidianHost,
+		ExamRestrictable, ExamProvider {
+
 	/** Url for wiki article about functions */
 	public static final String WIKI_OPERATORS = "Predefined Functions and Operators";
 	/** Url for main page of manual */
@@ -673,7 +677,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// available, otherwise untranslated)
 		for (String cmd : cas.getAvailableCommandNames()) {
 			try {
-				if (!commandDispatcher.isAllowedByNameFilter(Commands.valueOf(cmd))) {
+				if (!commandDispatcher.isAllowedByCommandFilters(Commands.valueOf(cmd))) {
 					continue;
 				}
 			} catch (Exception e) {
@@ -788,7 +792,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				.getTranslateCommandTable();
 
 		for (Commands comm : Commands.values()) {
-			if (!cf.isAllowedByNameFilter(comm)) {
+			if (!cf.isAllowedByCommandFilters(comm)) {
 				continue;
 			}
 
@@ -5086,7 +5090,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	@Deprecated
 	public void onCommandDispatcherSet(CommandDispatcher commandDispatcher) {
-		// TODO exam
 		ExamEnvironment examEnvironment = getExam();
 		if (examEnvironment != null) {
 			examEnvironment.setCommandDispatcher(commandDispatcher);
@@ -5139,5 +5142,22 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	@Override
 	public MyImage getInternalImageAdapter(String filename, int width, int height) {
 		return null;
+	}
+
+	// ExamRestrictable
+
+	/**
+	 * Note: Client code adopting the new exam handling needs to register the current instance
+	 * as an {@link ExamRestrictable} with the {@link org.geogebra.common.exam.ExamController}.
+	 *
+	 * @param examRestrictions The restrictions for the current exam.
+	 */
+	@Override
+	public void applyRestrictions(@Nonnull ExamRestrictions examRestrictions) {
+		resetCommandDict();
+	}
+
+	@Override
+	public void removeRestrictions(@Nonnull ExamRestrictions examRestrictions) {
 	}
 }

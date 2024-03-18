@@ -6,6 +6,9 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.plugin.Operation;
 
+/**
+ * An {@link ExpressionFilter} based on operations used in expressions.
+ */
 public class OperationExpressionFilter implements ExpressionFilter {
 
 	private final Set<Operation> filteredOperations;

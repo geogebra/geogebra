@@ -44,7 +44,8 @@ public final class ExamSummary {
 	}
 
 	/**
-	 * Creates a new exam summary.
+	 * Create a new exam summary.
+	 *
 	 * @param examType The exam type.
 	 * @param startDate The exam start date.
 	 * @param finishDate The exam finish date. May be null if the exam is still ongoing.

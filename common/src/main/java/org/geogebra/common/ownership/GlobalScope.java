@@ -9,8 +9,8 @@ import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 /**
  * A container for objects with global lifetime, i.e., objects that may live from
  * host app launch until host app termination.
- *
- * Note: By "host app", we mean the iOS/Android/Web app that hosts the GeoGebra code.
+ * <p/>
+ * <i>Note: By "host app", we mean the iOS/Android/Web app that hosts the GeoGebra code.</i>
  * <p/>
  * This container serves as a home for objects with global lifetime that don't have a
  * direct owner (i.e., no "parent"). Try to put as few objects as possible in here.
@@ -35,7 +35,7 @@ public final class GlobalScope {
 	}
 
 	/**
-	 * Initialize all objects which should not be lazy-instantiated.
+	 * Create objects that should not be lazy-instantiated.
 	 */
 	public static void setup() {
 		propertiesRegistry = new DefaultPropertiesRegistry();

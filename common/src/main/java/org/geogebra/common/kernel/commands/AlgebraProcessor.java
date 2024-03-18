@@ -951,7 +951,6 @@ public class AlgebraProcessor {
 			final ErrorHandler handler,
 			final AsyncOperation<GeoElementND[]> callback0,
 			final EvalInfo info) {
-		// Alternative 1 to disabling certain expressions (see Alternative 2)
 		if (!isExpressionAllowed(ve)) {
 			return null;
 		}
@@ -1197,12 +1196,7 @@ public class AlgebraProcessor {
 	 */
 	public ValidExpression getValidExpressionNoExceptionHandling(
 			final String cmd) throws ParseException {
-		ValidExpression expression = parser.parseGeoGebraExpression(cmd);
-		// Alternative 2 to disabling certain expressions (see Alternative 1)
-		if (!isExpressionAllowed(expression)) {
-			return null;
-		}
-		return expression;
+		return parser.parseGeoGebraExpression(cmd);
 	}
 
 	/**
@@ -3839,7 +3833,7 @@ public class AlgebraProcessor {
 		if (cmd == null) {
 			return syntax.getCommandSyntax(cmdInt, dim);
 		}
-		if (!this.cmdDispatcher.isAllowedByNameFilter(cmd)) {
+		if (!this.cmdDispatcher.isAllowedByCommandFilters(cmd)) {
 			return null;
 		}
 		// IntegralBetween gives all syntaxes. Typing Integral or NIntegral

@@ -52,8 +52,9 @@ public class ExamRestrictions {
 
 	/**
 	 * Factory for ExamRestrictions.
+	 *
 	 * @param examType The exam type.
-	 * @return An ExamRestrictions subclass that contains all the restrictions for
+	 * @return An {@link ExamRestrictions} subclass that contains all the restrictions for
 	 * the given exam type.
 	 */
 	public static ExamRestrictions forExamType(ExamRegion examType) {
@@ -71,11 +72,15 @@ public class ExamRestrictions {
 
 	/**
 	 * Prevent instantiation, except by subclasses.
+	 *
 	 * @param examType The exam type.
-	 * @param disabledSubApps The set of disabled subapps for this exam type.
-	 * @param defaultSubApp The subapp to activate at the start of an exam,
-	 * if the current subapp is in the list of restricted subapps.
-	 * @param expressionFilters An optional set of expression filters (e.g., ||) to apply during exams.
+	 * @param disabledSubApps An optional set of disabled subapps for this exam type. Passing in
+	 * null is equivalent to passing in an empty set.
+	 * @param defaultSubApp An optional subapp to activate at the start of an exam, if the
+	 * current subapp is in the list of restricted subapps. If null, Graphing will be used as the
+	 * default subapp.
+	 * @param expressionFilters An optional set of expression filters (e.g., ||) to apply during
+	 * exams.
 	 * @param commandFilters An optional command filter to apply during exams.
 	 * @param commandArgumentFilters An optional command argument filter to apply during exams.
 	 */
@@ -87,12 +92,18 @@ public class ExamRestrictions {
 			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
 			@Nullable Set<String> frozenProperties) {
 		this.examType = examType;
-		this.disabledSubApps = disabledSubApps;
+		this.disabledSubApps = disabledSubApps != null && disabledSubApps.isEmpty()
+				? null : disabledSubApps;
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
-		this.expressionFilters = expressionFilters;
-		this.commandFilters = commandFilters;
-		this.commandArgumentFilters = commandArgumentFilters;
-		this.frozenProperties = frozenProperties;
+		this.expressionFilters = expressionFilters != null && expressionFilters.isEmpty()
+				? null : expressionFilters;
+		this.commandFilters = commandFilters != null && commandFilters.isEmpty()
+				? null : commandFilters;
+		this.commandArgumentFilters = commandArgumentFilters != null
+				&& commandArgumentFilters.isEmpty()
+				? null : commandArgumentFilters;
+		this.frozenProperties = frozenProperties != null && frozenProperties.isEmpty()
+				? null : frozenProperties;
 	}
 
 	/**
@@ -103,8 +114,8 @@ public class ExamRestrictions {
 	}
 
 	/**
-	 * @return The list of disabled (i.e., not allowed) subapps during exams, or `null` if there
-	 * is no restriction on the available subapps.
+	 * @return The list of disabled (i.e., not allowed) subapps during exams, or null
+	 * if there is no restriction on the available subapps.
 	 */
 	public final @CheckForNull Set<SuiteSubApp> getDisabledSubApps() {
 		return disabledSubApps;
@@ -112,7 +123,7 @@ public class ExamRestrictions {
 
 	/**
 	 * @return The default subapp to switch to if a disabled subapp is active when
-	 * the exam starts, or `null` if there is no default.
+	 * the exam starts.
 	 */
 	public final @Nonnull SuiteSubApp getDefaultSubApp() {
 		return defaultSubApp;
@@ -145,7 +156,7 @@ public class ExamRestrictions {
 				}
 			}
 		}
-		if (frozenProperties != null) {
+		if (frozenProperties != null && propertiesRegistry != null) {
 			for (String frozenProperty : frozenProperties) {
 				Property property = propertiesRegistry.lookup(frozenProperty, context);
 				if (property != null) {
@@ -183,7 +194,7 @@ public class ExamRestrictions {
 				}
 			}
 		}
-		if (frozenProperties != null) {
+		if (frozenProperties != null && propertiesRegistry != null) {
 			for (String frozenProperty : frozenProperties) {
 				Property property = propertiesRegistry.lookup(frozenProperty, context);
 				if (property != null) {
@@ -194,7 +205,8 @@ public class ExamRestrictions {
 	}
 
 	/**
-	 * Handles lazy property instantiation/registration.
+	 * Handles freezing properties on lazy property instantiation/registration.
+	 *
 	 * @param property A property that just got registered.
 	 */
 	public void propertyRegistered(@Nonnull Property property) {
@@ -204,7 +216,8 @@ public class ExamRestrictions {
 	}
 
 	/**
-	 * Unfreezes a property
+	 * Handles unfreezing any frozen properties on deregistration.
+	 *
 	 * @param property A property that just got unregistered.
 	 */
 	public void propertyUnregistered(@Nonnull Property property) {
@@ -216,6 +229,7 @@ public class ExamRestrictions {
 	/**
 	 * "Freeze" a property (i.e. prevent changing the value, or triggering the action)
 	 * at the start of the exam.
+	 *
 	 * @param property A property.
 	 */
 	protected void freeze(@Nonnull Property property) {
@@ -227,6 +241,7 @@ public class ExamRestrictions {
 
 	/**
 	 * "Unfreeze" a property at the end of the exam.
+	 *
 	 * @param property A property.
 	 */
 	protected void unfreeze(@Nonnull Property property) {
@@ -238,6 +253,7 @@ public class ExamRestrictions {
 
 	/**
 	 * Override to freeze the value of a property to some fixed value.
+	 *
 	 * @param property A property whose value should be fixed during an exam.
 	 */
 	protected void freezeValue(@Nonnull ValuedProperty property) {
@@ -246,9 +262,10 @@ public class ExamRestrictions {
 
 	/**
 	 * Override to unfreeze the value of a property.
+	 *
 	 * @param property A property should be fixed during an exam.
 	 */
-	protected void unfreezeValue(@Nonnull  ValuedProperty property) {
+	protected void unfreezeValue(@Nonnull ValuedProperty property) {
 		// override
 	}
 
