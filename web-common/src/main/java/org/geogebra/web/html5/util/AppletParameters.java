@@ -8,6 +8,7 @@ import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.bridge.AttributeProvider;
 import org.geogebra.web.html5.bridge.MapAttributeProvider;
 
@@ -765,10 +766,17 @@ public class AppletParameters {
 	}
 
 	/**
-	 * @return the if scripting in JavaScript is enabled (default: true)
+	 * @return if scripting in JavaScript is disabled (default: false)
 	 */
 	public boolean getDisableJavaScript() {
 		return getBoolDataParam("disableJavaScript", false);
 	}
 
+	/**
+	 * @return whether to run JS in QuickJS sandbox
+	 */
+	public boolean getParamSandbox() {
+		return getBoolDataParam("sandboxJavaScript",
+				getDataParamApp() || Browser.isGeoGebraOrg());
+	}
 }
