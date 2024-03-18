@@ -102,7 +102,7 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
             .replace("<!--SPLASH STYLE-->", splashStyle)
             .replace("<!--PRELOADED CSS-->", inlinedCss)
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
-            .replace("<!--ICON-->", vendor == "Mebis" ? "/static/tafel.ico" : "https://www.geogebra.org/apps/icons/${appID}.ico")
+            .replace("<!--ICON-->", vendor == "Mebis" ? "/public/assets/tafel.ico" : "https://www.geogebra.org/apps/icons/${appID}.ico")
             .replace("<!--APP ID-->", appID)
             .replace("<!--APP TRANSKEY-->", appTransKey)
             .replace("<!--APPSTORE BANNER-->", appStoreBanner)
