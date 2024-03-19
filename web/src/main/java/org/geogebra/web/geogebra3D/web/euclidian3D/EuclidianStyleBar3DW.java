@@ -2,6 +2,7 @@ package org.geogebra.web.geogebra3D.web.euclidian3D;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianStyleBarStatic3D;
@@ -18,7 +19,6 @@ import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.resources.SVGResource;
-import org.gwtproject.user.client.ui.Widget;
 
 /**
  * style bar for 3D view
@@ -61,7 +61,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		btnRotateView = new RotateViewPopup(
 				this, MaterialDesignResources.INSTANCE.rotateViewPlay(),
 				MaterialDesignResources.INSTANCE.rotateViewPause());
-		btnRotateView.addPopupHandler(this);
 
 		ImageOrText[] projectionIcons = ImageOrText.convert(
 				new SVGResource[] {
@@ -72,7 +71,14 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		btnViewProjection = new ProjectionPopup(app, projectionIcons);
 		btnViewProjection.setSelectedIndex(((EuclidianSettings3D) ev
 				.getSettings()).getProjection());
-		btnViewProjection.addPopupHandler(this);
+		setPopupHandlerWithUndoPoint(btnViewProjection, this::updateProjection);
+	}
+
+	private boolean updateProjection(ArrayList<GeoElement> ignored) {
+		int si = btnViewProjection.getSelectedIndex();
+		getView().getSettings().setProjection(si);
+		getView().repaint();
+		return true;
 	}
 
 	@Override
@@ -88,7 +94,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		btnChangeView = new ProjectionPopup(app, directionIcons);
 		btnChangeView.setFixedIcon(new ImageOrText(MaterialDesignResources.INSTANCE.home_black(),
 				24));
-		btnChangeView.addPopupHandler(this);
+		setPopupHandlerWithUndoPoint(btnChangeView, this::processChangeView);
 	}
 
 	@Override
@@ -96,14 +102,8 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		return btnShowGrid3D != null && btnShowGrid3D.isVisible();
 	}
 
-	@Override
-	protected boolean processSourceForAxesAndGrid(Object source) {
-		if (source.equals(btnShowAxesAndPlane)) {
-			btnShowAxesAndPlane.setEVFromIndex();
-			return true;
-		}
-
-		return false;
+	protected boolean processAxesPlane(Object source) {
+		return btnShowAxesAndPlane.setEVFromIndex();
 	}
 
 	@Override
@@ -143,12 +143,12 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		btnShowAxesAndPlane = new AxesAndPlanePopup(app, axesAndPlaneIcons,
 				getView());
-		btnShowAxesAndPlane.addPopupHandler(this);
+		setPopupHandlerWithUndoPoint(btnShowAxesAndPlane, this::processAxesPlane);
 
 		btnShowGrid3D = new ToggleButtonWforEV(
 				MaterialDesignResources.INSTANCE.grid_black(), this);
 		btnShowGrid3D.setSelected(ev.getShowGrid());
-		btnShowGrid3D.addFastClickHandler(this);
+		addFastClickHandler(btnShowGrid3D, geos -> EuclidianStyleBarStatic.processGrid(getView()));
 	}
 
 	@Override
@@ -228,12 +228,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	}
 
 	@Override
-	protected void setActionCommands() {
-		setActionCommand(btnShowGrid3D, "showGrid");
-		setActionCommand(btnPointCapture, "pointCapture");
-	}
-
-	@Override
 	protected void setAxesAndGridToolTips(Localization loc) {
 		btnShowGrid3D.setTitle(loc.getPlainTooltip("stylebar.Grid"));
 		btnShowAxesAndPlane.setTitle(loc.getPlainTooltip("stylebar.Axes"));
@@ -243,17 +237,5 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	protected void updateAxesAndGridGUI() {
 		btnShowGrid3D.setSelected(ev.getShowGrid());
 		btnShowAxesAndPlane.setIndexFromEV();
-	}
-
-	@Override
-	protected boolean processSource(Widget source,
-			ArrayList<GeoElement> targetGeos) {
-		if (source.equals(btnViewProjection)) {
-			int si = btnViewProjection.getSelectedIndex();
-			getView().getSettings().setProjection(si);
-			getView().repaint();
-			return true;
-		}
-		return super.processSource(source, targetGeos);
 	}
 }

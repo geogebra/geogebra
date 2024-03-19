@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.PenToolsSettings;
-import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -366,11 +366,10 @@ public class EuclidianPen implements GTimerListener {
 		String label = lastAlgo.getOutput(0).getLabelSimple();
 
 		if (oldXML == null) {
-			app.getUndoManager().storeUndoableAction(EventType.ADD, label,
-					lastAlgo.getXML());
+			app.getUndoManager().storeAddGeo(lastAlgo.getOutput(0));
 		} else {
-			app.getUndoManager().storeUndoableAction(EventType.UPDATE, label,
-					oldXML, lastAlgo.getXML());
+			app.getUndoManager().buildAction(ActionType.UPDATE, lastAlgo.getXML())
+					.withUndo(ActionType.UPDATE, oldXML).withLabels(label).storeAndNotifyUnsaved();
 		}
 	}
 

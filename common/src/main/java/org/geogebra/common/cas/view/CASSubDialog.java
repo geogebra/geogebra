@@ -239,6 +239,7 @@ public abstract class CASSubDialog {
 
 		try {
 			GeoCasCell currCell = table.getGeoCasCell(editRow);
+			StringBuilder oldXML = currCell.getConstruction().getCurrentUndoXML(false);
 			currCell.setProcessingInformation(prefix, subCmd, postfix);
 			currCell.setEvalCommand("Substitute");
 			currCell.setEvalComment(substComment.toString());
@@ -246,7 +247,7 @@ public abstract class CASSubDialog {
 			// make sure pure substitute is not evaluated
 			currCell.setKeepInputUsed(keepInput);
 
-			getCASView().processRowThenEdit(editRow);
+			getCASView().processRowThenEdit(editRow, oldXML.toString());
 			// table.startEditingRow(editRow + 1);
 			return true;
 		} catch (Throwable e) {

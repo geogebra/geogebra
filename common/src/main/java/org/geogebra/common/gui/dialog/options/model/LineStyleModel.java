@@ -1,5 +1,8 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -11,8 +14,13 @@ public class LineStyleModel extends OptionsModel {
 	private boolean lineStyleHiddenEnabled;
 	private boolean lineOpacityEnabled;
 
-	private static Integer[] lineStyleArray = null;
+	private static List<Integer> lineStyleArray = null;
 	private ILineStyleListener listener;
+
+	public static Integer indexOfLineType(int type) {
+		initStyleArray();
+		return lineStyleArray.indexOf(type);
+	}
 
 	public interface ILineStyleListener extends PropertyListener {
 		void setThicknessSliderValue(int value);
@@ -47,31 +55,21 @@ public class LineStyleModel extends OptionsModel {
 		super(app);
 	}
 
-	private static final Integer[] getLineTypes() {
-		Integer[] ret = {
-				Integer.valueOf(EuclidianStyleConstants.LINE_TYPE_FULL),
-				Integer.valueOf(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG),
-				Integer.valueOf(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT),
-				Integer.valueOf(EuclidianStyleConstants.LINE_TYPE_DOTTED),
-				Integer.valueOf(
-						EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED)
-				/*
-				 * Integer.valueOf(EuclidianStyleConstants.LINE_TYPE_POINTWISE)
-				 */ };
-		return ret;
+	private static List<Integer> getLineTypes() {
+		return Arrays.asList(
+				EuclidianStyleConstants.LINE_TYPE_FULL,
+				EuclidianStyleConstants.LINE_TYPE_DASHED_LONG,
+				EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT,
+				EuclidianStyleConstants.LINE_TYPE_DOTTED,
+				EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED);
 	}
 
-	public static final Integer getStyleAt(int i) {
+	public static int getStyleCount() {
 		initStyleArray();
-		return lineStyleArray[i];
+		return lineStyleArray.size();
 	}
 
-	public static final Integer getStyleCount() {
-		initStyleArray();
-		return lineStyleArray.length;
-	}
-
-	private int maxMinimumThickness() {
+	public int maxMinimumThickness() {
 
 		if (!hasGeos()) {
 			return 1;
@@ -176,7 +174,7 @@ public class LineStyleModel extends OptionsModel {
 	}
 
 	public void applyLineTypeFromIndex(int index) {
-		applyLineType(lineStyleArray[index]);
+		applyLineType(lineStyleArray.get(index));
 	}
 
 	@Override

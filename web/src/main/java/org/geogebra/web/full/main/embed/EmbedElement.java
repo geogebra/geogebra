@@ -1,7 +1,7 @@
 package org.geogebra.web.full.main.embed;
 
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.ActionType;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.util.ImageManagerW;
@@ -79,7 +79,7 @@ public class EmbedElement {
 	 * @param action
 	 *            action type
 	 */
-	public void executeAction(EventType action) {
+	public void executeAction(ActionType action) {
 		// only for GGB and GM
 	}
 

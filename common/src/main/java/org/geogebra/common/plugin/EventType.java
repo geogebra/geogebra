@@ -139,8 +139,7 @@ public enum EventType {
 	EDITOR_STOP("editorStop"),
 	/** Undoable event happened in external object */
 	EMBEDDED_STORE_UNDO("embeddedStoreUndo"),
-	/** Prune state list in external object */
-	EMBEDDED_PRUNE_STATE_LIST("embeddedPruneStateList"),
+
 	/** Embed finished loading **/
 	EMBED_LOADED("embedLoaded"),
 	/** Algebra Panel selected */
@@ -224,7 +223,9 @@ public enum EventType {
 	/**
 	 * View properties changed, such as background color or axes settings
 	 */
-	VIEW_PROPERTIES_CHANGED("viewPropertiesChanged"), LOAD_PAGE("loadPage");
+	VIEW_PROPERTIES_CHANGED("viewPropertiesChanged"), LOAD_PAGE("loadPage"),
+	/** Spotlight hidden */
+	HIDE_SPOTLIGHT("hideSpotlight");
 
 	private String eventName;
 

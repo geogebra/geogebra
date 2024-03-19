@@ -458,6 +458,17 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
+	public void undoMoving() {
+		getApp().setUndoActive(true);
+		add("A = (1, -1)");
+		dragStart(50, 50);
+		dragEnd(100, 150);
+		checkContent("A = (2, -3)");
+		getApp().getKernel().undo();
+		checkContent("A = (1, -1)");
+	}
+
+	@Test
 	public void moveTranslateOutput() {
 		Stream.of("(0,0)", "(1,0)", "(1,1)", "(0,1)").forEach(this::add);
 		add("quad=Polygon(A,B,C,D)");

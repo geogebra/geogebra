@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -20,6 +21,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -418,6 +420,8 @@ public class EuclidianStyleBarStatic {
 	}
 
 	/**
+	 * @param app application
+	 * @param geos selected (or default) geos
 	 * @param lineStyleIndex
 	 *            line style index
 	 * @param lineSize
@@ -428,7 +432,12 @@ public class EuclidianStyleBarStatic {
 				List<GeoElement> geos) {
 		int lineStyle = EuclidianView.getLineType(lineStyleIndex);
 		boolean needUndo = false;
-		for (GeoElement geo : splitStrokes(geos, app)) {
+
+		List<GeoElement> splitStrokes = splitStrokes(geos, app);
+		UpdateStrokeStyleStore stylingHelper = new UpdateStrokeStyleStore(splitStrokes,
+				app.getUndoManager());
+
+		for (GeoElement geo : splitStrokes) {
 			boolean thicknessChanged = geo.getLineThickness() != lineSize;
 			if (geo.getLineType() != lineStyle
 					|| thicknessChanged) {
@@ -438,6 +447,12 @@ public class EuclidianStyleBarStatic {
 				needUndo = needUndo || !thicknessChanged;
 			}
 		}
+
+		if (needUndo) {
+			stylingHelper.addUpdatedStrokes(splitStrokes);
+			stylingHelper.storeStrokeStyleUpdateUndo();
+		}
+
 		return needUndo;
 	}
 
@@ -479,6 +494,8 @@ public class EuclidianStyleBarStatic {
 	}
 
 	/**
+	 * @param app application
+	 * @param geos selected (or default) geos
 	 * @param color
 	 *            color
 	 * @param alpha
@@ -487,7 +504,14 @@ public class EuclidianStyleBarStatic {
 	 */
 	public static boolean applyColor(GColor color, double alpha, App app, List<GeoElement> geos) {
 		boolean needUndo = false;
-		for (GeoElement geo : splitStrokes(geos, app)) {
+
+		List<GeoElement> splitStrokes = new ArrayList(splitStrokes(geos, app));
+		splitStrokes = splitStrokes.stream().filter(geo -> !(geo instanceof GeoInlineText))
+				.collect(Collectors.toList()); //Handled by InlineTextFormatter
+		UpdateStrokeStyleStore strokeStyleHelper = new UpdateStrokeStyleStore(splitStrokes,
+				app.getUndoManager());
+
+		for (GeoElement geo : splitStrokes) {
 			boolean alphaChanged = false;
 			// apply object color to all other geos except images
 			// (includes texts since MOW-441)
@@ -507,6 +531,10 @@ public class EuclidianStyleBarStatic {
 		}
 		if (!geos.isEmpty()) {
 			geos.get(0).getKernel().notifyRepaint();
+		}
+		if (needUndo) {
+			strokeStyleHelper.addUpdatedStrokes(splitStrokes);
+			strokeStyleHelper.storeStrokeStyleUpdateUndo();
 		}
 		return needUndo;
 	}
@@ -609,59 +637,57 @@ public class EuclidianStyleBarStatic {
 	}
 
 	/**
-	 * process the action performed
-	 * @param actionCommand - showGrid, showAxes, standardView, pointCapture
-	 * @param targetGeos - elements
-	 * @param ev - view
-	 * @return success
+	 * Set point capturing
+	 * @param ev euclidian view
+	 * @return whether undo needed
 	 */
-	// if all cases will be processed here, instead of
-	// EuclidianStyleBar.processSource, the return value will be unnecessary
-	public static boolean processSourceCommon(String actionCommand,
-			ArrayList<GeoElement> targetGeos, EuclidianViewInterfaceCommon ev) {
+	public static boolean processPointCapture(EuclidianViewInterfaceCommon ev) {
+		int mode = ev.getStyleBar().getPointCaptureSelectedIndex();
+
+		if (mode == 3 || mode == 0) {
+			mode = 3 - mode; // swap 0 and 3
+		}
+		ev.setPointCapturing(mode);
+
+		// update other EV stylebars since this is a global property
+		ev.getApplication().updateStyleBars();
+		return false;
+	}
+
+	/**
+	 * Toggle grid visibility
+	 * @param ev euclidian view
+	 * @return whether undo needed
+	 */
+	public static boolean processGrid(EuclidianViewInterfaceCommon ev) {
 		App app = ev.getApplication();
-		boolean changed = false;
-		if ("showAxes".equals(actionCommand)) {
-			EuclidianSettings evs = app.getSettings().getEuclidianForView(ev,
-					app);
-			if (evs != null) {
-				changed = evs.setShowAxes(!evs.getShowAxis(0));
-			} else {
-				changed = ev.setShowAxes(!ev.getShowXaxis(), true);
-			}
-			ev.repaint();
-		} else if ("showGrid".equals(actionCommand)) {
-			EuclidianSettings evs = app.getSettings().getEuclidianForView(ev,
-					app);
-			if (evs != null) {
-				changed = evs.showGrid(!evs.getShowGrid());
-			} else {
-				changed = ev.showGrid(!ev.getShowGrid());
-			}
-			ev.repaint();
-		} else if ("standardView".equals(actionCommand)) {
-			// no parameters, always do this
-			// app.setStandardView();
-			ev.setStandardView(true);
-		} else if ("pointCapture".equals(actionCommand)) {
-			int mode = ev.getStyleBar().getPointCaptureSelectedIndex();
-
-			if (mode == 3 || mode == 0) {
-				mode = 3 - mode; // swap 0 and 3
-			}
-			ev.setPointCapturing(mode);
-
-			// update other EV stylebars since this is a global property
-			app.updateStyleBars();
-		}
-
-		if (changed) {
-			app.storeUndoInfo();
+		EuclidianSettings evs = app.getSettings().getEuclidianForView(ev, app);
+		boolean changed;
+		if (evs != null) {
+			changed = evs.showGrid(!evs.getShowGrid());
 		} else {
-			return false;
+			changed = ev.showGrid(!ev.getShowGrid());
 		}
+		ev.repaint();
+		return changed;
+	}
 
-		return true;
+	/**
+	 * Toggle axes visibility
+	 * @param ev view
+	 * @return whether undo needed
+	 */
+	public static boolean processAxes(EuclidianViewInterfaceCommon ev) {
+		boolean changed;
+		App app = ev.getApplication();
+		EuclidianSettings evs = app.getSettings().getEuclidianForView(ev, app);
+		if (evs != null) {
+			changed = evs.setShowAxes(!evs.getShowAxis(0));
+		} else {
+			changed = ev.setShowAxes(!ev.getShowXaxis(), true);
+		}
+		ev.repaint();
+		return changed;
 	}
 
 	/**

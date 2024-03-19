@@ -716,11 +716,11 @@ public class OptionsTab extends FlowPanel {
 			mainPanel.setStyleName("optionsPanel");
 			titleLabel = new Label("-");
 			mainPanel.add(titleLabel);
-			btnPointStyle = PointStylePopup.create(app, -1, false, model);
-			if (btnPointStyle != null) {
-				btnPointStyle.setKeepVisible(false);
-				mainPanel.add(btnPointStyle);
-			}
+			btnPointStyle = PointStylePopup.create(app, -1, false);
+			btnPointStyle.addPopupHandler(model::applyChanges);
+			btnPointStyle.setKeepVisible(false);
+			mainPanel.add(btnPointStyle);
+
 			setWidget(mainPanel);
 		}
 
@@ -806,10 +806,9 @@ public class OptionsTab extends FlowPanel {
 			stylePanel.setStyleName("optionsPanel");
 			popupLabel = new Label();
 			stylePanel.add(popupLabel);
-			btnLineStyle = LineStylePopup.create(app, false);
+			btnLineStyle = LineStylePopup.create(app);
 			// slider.setSnapToTicks(true);
-			btnLineStyle.addPopupHandler(actionButton -> model.applyLineTypeFromIndex(btnLineStyle
-					.getSelectedIndex()));
+			btnLineStyle.addPopupHandler(model::applyLineTypeFromIndex);
 			btnLineStyle.setKeepVisible(false);
 			mainPanel.add(btnLineStyle);
 

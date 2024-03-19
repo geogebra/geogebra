@@ -2,6 +2,7 @@ package org.geogebra.web.full.cas.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -16,30 +17,25 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
-import org.geogebra.web.full.gui.util.PopupMenuHandler;
 import org.geogebra.web.full.gui.util.StyleBarW;
-import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
-import org.gwtproject.user.client.ui.Widget;
 
 /**
  * StyleBar for CASview
  */
-public class CASStylebarW extends StyleBarW implements FastClickHandler,
-        PopupMenuHandler {
+public class CASStylebarW extends StyleBarW {
 	ToggleButton btnUseAsText;
 	ToggleButton btnBold;
 	ToggleButton btnItalic;
 	private ColorPopupMenuButton btnTextColor;
 
-	private boolean needUndo = false;
-	private ArrayList<GeoElement> selectedRows;
-	private CASViewW casView;
+	private final ArrayList<GeoElement> selectedRows;
+	private final CASViewW casView;
 	private PopupMenuButtonW[] popupBtnList;
 	private ToggleButton[] toggleBtnList;
-	private Localization loc;
+	private final Localization loc;
 
 	/**
 	 * @param view
@@ -82,7 +78,7 @@ public class CASStylebarW extends StyleBarW implements FastClickHandler,
 				btnUseAsText.setSelected(checkGeoText(geos));
 			}
 		};
-		btnUseAsText.addFastClickHandler(this);
+		addFastClickHandler(btnUseAsText, this::applyUseAsTextKeepEditing);
 		btnUseAsText.addStyleName("btnUseAsText");
 
 		btnTextColor = new ColorPopupMenuButton(app,
@@ -111,7 +107,7 @@ public class CASStylebarW extends StyleBarW implements FastClickHandler,
 			}
 		};
 		btnTextColor.setEnableTable(true);
-		btnTextColor.addPopupHandler(this);
+		btnTextColor.addPopupHandler(this::applyTextColor);
 
 		btnBold = new ToggleButton(MaterialDesignResources.INSTANCE.text_bold_black()) {
 
@@ -127,7 +123,7 @@ public class CASStylebarW extends StyleBarW implements FastClickHandler,
 				}
 			}
 		};
-		btnBold.addFastClickHandler(this);
+		addFastClickHandler(btnBold, this::applyFontStyle);
 		btnBold.addStyleName("btnBold");
 
 		btnItalic = new ToggleButton(MaterialDesignResources.INSTANCE.text_italic_black()) {
@@ -144,7 +140,7 @@ public class CASStylebarW extends StyleBarW implements FastClickHandler,
 				}
 			}
 		};
-		btnItalic.addFastClickHandler(this);
+		addFastClickHandler(btnItalic, this::applyFontStyle);
 		btnItalic.addStyleName("btnItalic");
 	}
 
@@ -177,33 +173,17 @@ public class CASStylebarW extends StyleBarW implements FastClickHandler,
 		// nothing to do here
 	}
 
-	@Override
-	public void onClick(Widget source) {
-		needUndo = false;
-		processSource(source, selectedRows);
-
-		if (needUndo) {
-			app.storeUndoInfo();
-			needUndo = false;
-		}
-	}
-
-	private void processSource(Object source, ArrayList<GeoElement> targetGeos) {
-		if (source == btnBold) {
-			applyFontStyle(targetGeos);
-		} else if (source == btnItalic) {
-			applyFontStyle(targetGeos);
-		} else if (source == btnUseAsText) {
-			int i = casView.getConsoleTable().getEditingRow();
-			applyUseAsText(targetGeos);
-			if (i > 0) {
-				casView.getConsoleTable().startEditingRow(i);
+	private void addFastClickHandler(ToggleButton source, Supplier<Boolean> action) {
+		source.addFastClickHandler(w -> {
+			boolean needUndo = action.get();
+			updateStyleBar();
+			if (needUndo) {
+				app.storeUndoInfo();
 			}
-		}
-		updateStyleBar();
+		});
 	}
 
-	private void applyFontStyle(ArrayList<GeoElement> geos) {
+	private boolean applyFontStyle() {
 		int fontStyle = 0;
 		if (btnBold.isSelected()) {
 			fontStyle += 1;
@@ -211,8 +191,8 @@ public class CASStylebarW extends StyleBarW implements FastClickHandler,
 		if (btnItalic.isSelected()) {
 			fontStyle += 2;
 		}
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
+		boolean needUndo = false;
+		for (GeoElement geo : selectedRows) {
 			if (geo instanceof GeoCasCell
 					&& ((GeoCasCell) geo).getGeoText().getFontStyle() != fontStyle) {
 				((GeoCasCell) geo).getGeoText().setFontStyle(fontStyle);
@@ -220,6 +200,7 @@ public class CASStylebarW extends StyleBarW implements FastClickHandler,
 				needUndo = true;
 			}
 		}
+		return needUndo;
 	}
 
 	/**
@@ -264,10 +245,9 @@ public class CASStylebarW extends StyleBarW implements FastClickHandler,
 		return new PopupMenuButtonW[] { btnTextColor };
 	}
 
-	private void applyTextColor(ArrayList<GeoElement> geos) {
-
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
+	private void applyTextColor() {
+		boolean needUndo = false;
+		for (GeoElement geo : selectedRows) {
 			if (geo instanceof GeoCasCell) {
 				GColor color = btnTextColor.getSelectedColor();
 				if (color == null) {
@@ -283,26 +263,36 @@ public class CASStylebarW extends StyleBarW implements FastClickHandler,
 				needUndo = true;
 			}
 		}
+		if (needUndo) {
+			app.storeUndoInfo();
+		}
 	}
 
-	private void applyUseAsText(ArrayList<GeoElement> geos) {
+	private boolean applyUseAsTextKeepEditing() {
+		int editingRow = casView.getConsoleTable().getEditingRow();
+		boolean ret = applyUseAsText(selectedRows);
+		if (editingRow > 0) {
+			casView.getConsoleTable().startEditingRow(editingRow);
+		}
+		return ret;
+	}
+
+	private boolean applyUseAsText(ArrayList<GeoElement> geos) {
 		casView.getConsoleTable().stopEditing();
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
+		boolean needUndo = false;
+		for (GeoElement geo : geos) {
 			if (geo instanceof GeoCasCell) {
 				((GeoCasCell) geo).setUseAsText(btnUseAsText.isSelected());
 				geo.updateRepaint();
 				needUndo = true;
 			}
 		}
+		return needUndo;
 	}
 
-	@Override
-	public void fireActionPerformed(PopupMenuButtonW actionButton) {
-		if (actionButton == btnTextColor) {
-			if (btnTextColor.getSelectedIndex() >= 0) {
-				applyTextColor(selectedRows);
-			}
+	private void applyTextColor(int index) {
+		if (index >= 0) {
+			applyTextColor();
 		}
 	}
 
