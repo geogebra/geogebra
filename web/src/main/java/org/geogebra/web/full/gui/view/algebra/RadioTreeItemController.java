@@ -586,6 +586,9 @@ public class RadioTreeItemController implements ClickHandler,
 	}
 
 	boolean handleAVItem(MouseEvent<?> evt) {
+		if (!EuclidianConstants.isMoveOrSelectionMode(app.getMode())) {
+			app.setMoveMode();
+		}
 		return handleAVItem(evt.getClientX(), evt.getClientY(),
 				evt.getNativeButton() == NativeEvent.BUTTON_RIGHT);
 	}
