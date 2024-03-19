@@ -5,6 +5,7 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 
 import java.util.Objects;
 
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.interval.operators.RMath;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -352,7 +353,7 @@ public class Interval {
 	 * @return this as result
 	 */
 	public Interval halfOpenRight(double a, double b) {
-		 set(a, RMath.prev(b));
+		set(a, RMath.prev(b));
 		return this;
 	}
 
@@ -738,5 +739,9 @@ public class Interval {
 
 	public void setDefaultPrecision() {
 		precision = PRECISION;
+	}
+
+	public boolean isExactSingleton() {
+		return MyDouble.exactEqual(low,  high);
 	}
 }

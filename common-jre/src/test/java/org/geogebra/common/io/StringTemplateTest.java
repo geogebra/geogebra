@@ -72,12 +72,14 @@ public class StringTemplateTest {
 	@Test
 	public void testLaTeX() {
 		tex("Mean(1,2)", "mean\\left(1, 2 \\right)");
-		tex("Mean({1,2})", "mean\\left(\\left\\{1, 2\\right\\} \\right)");
+		tex("Mean({1,2})", "mean\\left(\\left\\{1,\\;2\\right\\} \\right)");
 		tex("6*(4+3)", "6 \\; \\left(4 + 3 \\right)");
 		tex("69%", "69\\%");
 		tex("4*20%", "4 \\cdot 20\\%");
 		tex("13.37%", "13.37\\%");
 		tex("13*3.7%", "13 \\cdot 3.7\\%");
+		tex("(1,2)", "\\left(1,\\;2 \\right)");
+		tex("(1,2,3)", "\\left(1,\\;2,\\;3 \\right)");
 	}
 
 	@Test

@@ -19,6 +19,16 @@ public class BaseWidgetFactory {
 	}
 
 	/**
+	 * @param styleName - style name to add to the panel
+	 * @return flow panel
+	 */
+	public FlowPanel newPanel(String styleName) {
+		FlowPanel panel = new FlowPanel();
+		panel.addStyleName(styleName);
+		return panel;
+	}
+
+	/**
 	 * @return button, to be mocked
 	 */
 	public Button newButton() {

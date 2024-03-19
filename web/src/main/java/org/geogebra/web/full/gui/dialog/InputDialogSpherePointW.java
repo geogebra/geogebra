@@ -28,13 +28,13 @@ public class InputDialogSpherePointW extends InputDialogRadiusW {
 	 *            kernel
 	 */
 	public InputDialogSpherePointW(AppW app, DialogData data,
-            InputHandler handler, GeoPointND center, Kernel kernel) {
-	    super(app, data, handler, kernel);
-	    this.geoPoint = center;
-    }
+			InputHandler handler, GeoPointND center, Kernel kernel) {
+		super(app, data, handler, kernel);
+		this.geoPoint = center;
+	}
 
 	@Override
 	protected GeoElement createOutput(GeoNumberValue num) {
 		return kernel.getManager3D().sphere(null, geoPoint, num);
-    }
+	}
 }

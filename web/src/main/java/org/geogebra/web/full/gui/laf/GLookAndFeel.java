@@ -42,8 +42,8 @@ public class GLookAndFeel implements GLookAndFeelI {
 
 	@Override
 	public boolean undoRedoSupported() {
-	    return true;
-    }
+		return true;
+	}
 
 	@Override
 	public boolean isSmart() {
@@ -104,28 +104,28 @@ public class GLookAndFeel implements GLookAndFeelI {
 	 */
 	@Override
 	public String getType() {
-	    return "web";
-    }
+		return "web";
+	}
 
 	@Override
 	public boolean copyToClipboardSupported() {
-	    return true;
-    }
+		return true;
+	}
 
 	@Override
 	public String getLoginListener() {
-	    return null;
-    }
+		return null;
+	}
 
 	@Override
 	public boolean isEmbedded() {
-	    return false;
-    }
+		return false;
+	}
 
 	@Override
 	public SignInControllerI getSignInController(App app) {
 		return new SignInController(app, 0, null);
-    }
+	}
 
 	@Override
 	public String getClientId() {
@@ -143,23 +143,18 @@ public class GLookAndFeel implements GLookAndFeelI {
 	}
 
 	@Override
-    public boolean autosaveSupported() {
-	    return true;
-    }
-
-	@Override
-    public boolean exportSupported() {
-	    return true;
-    }
-
-	@Override
-	public boolean supportsGoogleDrive() {
+	public boolean autosaveSupported() {
 		return true;
 	}
 
 	@Override
-	public boolean supportsLocalSave() {
-		return false;
+	public boolean exportSupported() {
+		return true;
+	}
+
+	@Override
+	public boolean supportsGoogleDrive() {
+		return true;
 	}
 
 	@Override

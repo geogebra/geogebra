@@ -31,12 +31,12 @@ import org.geogebra.common.kernel.algos.AlgoPointVector;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DependentAlgo;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.ArithmeticFactory;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
@@ -295,7 +295,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * GeoNumeric
 	 **/
 
-	private boolean useInternalCommandNames = false;
+	private CommandLookupStrategy commandLookupStrategy = CommandLookupStrategy.USER;
 
 	private boolean notifyConstructionProtocolViewAboutAddRemoveActive = true;
 
@@ -414,7 +414,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Creates kernel and initializes number formats and CAS prefix
-	 * 
+	 *
 	 * @param factory
 	 *            factory for new elements
 	 */
@@ -485,7 +485,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * active Thread to exit from these blocks... as there is only one lock
 	 * object and these methods probably do not call other synchronized code
 	 * blocks, it probably does not cause any problem
-	 * 
+	 *
 	 * @return Object unique to the Application instance
 	 */
 	public Object getConcurrentModificationLock() {
@@ -494,7 +494,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * sets the 3D manager
-	 * 
+	 *
 	 * @param manager
 	 *            3d interface manager
 	 */
@@ -503,7 +503,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return default plane (null for 2D implementation, xOy plane for 3D)
 	 */
 	public GeoPlaneND getDefaultPlane() {
@@ -526,7 +526,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * creates a new MyXMLHandler (used for 3D)
-	 * 
+	 *
 	 * @param cons1
 	 *            construction used in MyXMLHandler constructor
 	 * @return a new MyXMLHandler
@@ -537,7 +537,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * creates a new MyXMLHandler (used for 3D)
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param cons1
@@ -587,10 +587,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * creates the Evaluator for ExpressionNode
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel to be used for new expression
-	 * 
+	 *
 	 * @return the Evaluator for ExpressionNode
 	 */
 	public ExpressionNodeEvaluator newExpressionNodeEvaluator(Kernel kernel) {
@@ -600,7 +600,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * return the Evaluator for ExpressionNode
-	 * 
+	 *
 	 * @return the Evaluator for ExpressionNode
 	 */
 	public ExpressionNodeEvaluator getExpressionNodeEvaluator() {
@@ -611,7 +611,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param precision
 	 *            max absolute value of difference
 	 * @return a double comparator which says doubles are equal if their diff is
@@ -642,7 +642,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * If the data-param-showAnimationButton parameter for applet is false, be
 	 * sure not to show the animation button. In this case the value of
 	 * showAnimationButton is false, otherwise true.
-	 * 
+	 *
 	 * @param showAB
 	 *            animation button parameter
 	 */
@@ -724,7 +724,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Returns the ConstructionElement for the given GeoElement. If geo is
 	 * independent geo itself is returned. If geo is dependent it's parent
 	 * algorithm is returned.
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 * @return geo or parent algo
@@ -739,7 +739,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Returns the Construction object of this kernel.
-	 * 
+	 *
 	 * @return construction
 	 */
 	public Construction getConstruction() {
@@ -748,7 +748,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Returns the ConstructionElement for the given construction index.
-	 * 
+	 *
 	 * @param index
 	 *            construction index
 	 * @return corresponding element
@@ -758,7 +758,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return first geo if exists
 	 */
 	public GeoElement getFirstGeo() {
@@ -828,7 +828,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param breakpoint
 	 *            breakpoint number
 	 * @return actual construction step for breakpoint
@@ -858,7 +858,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return number of breakpoints
 	 */
 	public int getBreakpointSteps() {
@@ -936,7 +936,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Move object at position from to position to in current construction.
-	 * 
+	 *
 	 * @param from
 	 *            original position
 	 * @param to
@@ -956,7 +956,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return whether scripts should be put into XML or not
 	 */
 	public boolean getSaveScriptsToXML() {
@@ -980,7 +980,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * States whether the continuity heuristic is active.
-	 * 
+	 *
 	 * @return whether continuous mode is on
 	 */
 	final public boolean isContinuous() {
@@ -990,7 +990,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * Turns the continuity heuristic on or off. Note: the macro kernel always
 	 * turns continuity off.
-	 * 
+	 *
 	 * @param continuous
 	 *            true if continuous
 	 */
@@ -1001,7 +1001,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * States whether path/region parameters are used. Also test if point is
 	 * defined (if not, use parameters).
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 * @return true if given point should use path/region parameter
@@ -1013,7 +1013,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Turns the using of path/region parameters on or off.
-	 * 
+	 *
 	 * @param flag
 	 *            new flag for using path/region parameters
 	 */
@@ -1024,7 +1024,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	// loading mode: true when a ggb file is being loaded. Devised for backward
 	// compatibility.
 	/**
-	 * 
+	 *
 	 * @param b
 	 *            true to indicate that file is being loaded
 	 */
@@ -1284,7 +1284,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * Converts the double into a fraction based on the current kernel rounding
 	 * precision.
-	 * 
+	 *
 	 * @param x
 	 *            input number to be rationalized
 	 * @return numerator and denominator
@@ -1303,7 +1303,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * Formats the value of x using the currently set NumberFormat or
 	 * ScientificFormat.
-	 * 
+	 *
 	 * @param number
 	 *            number
 	 * @param tpl
@@ -1421,9 +1421,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * Formats the value of x using the currently set NumberFormat or
 	 * ScientificFormat.
-	 * 
+	 *
 	 * converts to localised digits if appropriate
-	 * 
+	 *
 	 * @param x
 	 *            number
 	 * @param tpl
@@ -1437,13 +1437,12 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (app.getLocalization().getZero() != '0') {
 			ret = internationalizeDigits(ret, tpl);
 		}
-
-		return ret;
+		return tpl.fixMinus(ret);
 	}
 
 	/**
 	 * swaps the digits in num to the current locale's
-	 * 
+	 *
 	 * @param num
 	 *            english number
 	 * @param tpl
@@ -1508,7 +1507,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * calls formatPiERaw() and converts to localised digits if appropriate
-	 * 
+	 *
 	 * @param x
 	 *            number
 	 * @param numF
@@ -1530,7 +1529,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * copy array a to array b
-	 * 
+	 *
 	 * @param a
 	 *            input array
 	 * @param b
@@ -1544,7 +1543,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Computes c[] = a[] / b
-	 * 
+	 *
 	 * @param a
 	 *            array of dividends
 	 * @param b
@@ -1560,7 +1559,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * greatest common divisor
-	 * 
+	 *
 	 * @param m
 	 *            firs number
 	 * @param n
@@ -1585,7 +1584,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * Compute greatest common divisor of given doubles. Note: all double values
 	 * are cast to long.
-	 * 
+	 *
 	 * @param numbers
 	 *            array of numbers
 	 * @return GCD of given numbers
@@ -1602,7 +1601,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Round a double to the given scale e.g. roundToScale(5.32, 1) = 5.0,
 	 * roundToScale(5.32, 0.5) = 5.5, roundToScale(5.32, 0.25) = 5.25,
 	 * roundToScale(5.32, 0.1) = 5.3
-	 * 
+	 *
 	 * @param x
 	 *            number
 	 * @param scale
@@ -1638,7 +1637,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Builds lhs of lhs = 0
-	 * 
+	 *
 	 * @param numbers
 	 *            coefficients
 	 * @param vars
@@ -1668,7 +1667,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * append +/- constant
-	 * 
+	 *
 	 * @param sb
 	 *            string builder to append to
 	 * @param coeff
@@ -1758,7 +1757,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param val
 	 *            value
 	 * @param tpl
@@ -1779,7 +1778,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * form: y^2 = f(x) (coeff of y = 0)
-	 * 
+	 *
 	 * @param numbers
 	 *            coefficients
 	 * @param vars
@@ -1860,7 +1859,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * y = a (x + h)^2 + k
-	 * 
+	 *
 	 * @param numbers
 	 *            coefficients
 	 * @param vars
@@ -1904,7 +1903,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * 4p(y-k) = (x-h)^2
-	 * 
+	 *
 	 * @param numbers
 	 *            coefficients
 	 * @param vars
@@ -1964,7 +1963,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * append "two coeffs" expression
-	 * 
+	 *
 	 * @param plusMinusX
 	 *            says if we want "+-" before x coeffs
 	 * @param x
@@ -2020,7 +2019,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Appends one of "0", "x", "y", "x + y"
-	 * 
+	 *
 	 * @param x
 	 *            first coefficient
 	 * @param y
@@ -2175,7 +2174,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Returns formated angle (in degrees if necessary)
-	 * 
+	 *
 	 * @param phi
 	 *            angle in radians
 	 * @param tpl
@@ -2338,7 +2337,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * return all points of the current construction
-	 * 
+	 *
 	 * @return points in construction
 	 */
 	public TreeSet<GeoElement> getPointSet() {
@@ -2416,7 +2415,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if in degrees mode
 	 */
 	final public boolean degreesMode() {
@@ -2427,7 +2426,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Returns whether the variable name "z" may be used. Note that the 3D
 	 * kernel does not allow this as it uses "z" in plane equations like 3x + 2y
 	 * + z = 5.
-	 * 
+	 *
 	 * @return whether z may be used as a variable name
 	 */
 	public boolean isZvarAllowed() {
@@ -2463,7 +2462,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Switch to significant figures and set precision.
-	 * 
+	 *
 	 * @param figures
 	 *            significant figures for format();
 	 */
@@ -2477,7 +2476,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * Switch to fixed decimals and set precision.
-	 * 
+	 *
 	 * @param decimals
 	 *            print decimals for format()
 	 */
@@ -2509,24 +2508,22 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * Returns whether the parser should read internal command names and not
-	 * translate them.
-	 * 
-	 * @return true if internal command names should be read
+	 * See {@link CommandLookupStrategy}.
+	 *
+	 * @return a strategy for looking up commands by name.
 	 */
-	public boolean isUsingInternalCommandNames() {
-		return useInternalCommandNames;
+	public CommandLookupStrategy getCommandLookupStrategy() {
+		return commandLookupStrategy;
 	}
 
 	/**
-	 * Sets whether the parser should read internal command names and not
-	 * translate them.
-	 * 
-	 * @param b
-	 *            true if internal command names should be read
+	 * Sets how the parser should interpret command names.
+	 *
+	 * @param strategy
+	 *            how to resolve localized/internal commands
 	 */
-	public void setUseInternalCommandNames(boolean b) {
-		useInternalCommandNames = b;
+	public void setCommandLookupStrategy(CommandLookupStrategy strategy) {
+		commandLookupStrategy = strategy;
 	}
 
 	/**
@@ -2618,7 +2615,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *             on CAS error
 	 */
 	public String evaluateGeoGebraCAS(String casString,
-			MyArbitraryConstant arbconst) throws Throwable {
+			ArbitraryConstantRegistry arbconst) throws Throwable {
 		return evaluateGeoGebraCAS(casString, arbconst,
 				StringTemplate.numericNoLocal);
 	}
@@ -2638,7 +2635,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *             on CAS error
 	 */
 	final public String evaluateGeoGebraCAS(String exp,
-			MyArbitraryConstant arbconst, StringTemplate tpl)
+			ArbitraryConstantRegistry arbconst, StringTemplate tpl)
 			throws CASException {
 		return evaluateGeoGebraCAS(exp, false, arbconst, tpl);
 	}
@@ -2658,7 +2655,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *             on CAS error
 	 */
 	final public String evaluateCachedGeoGebraCAS(String exp,
-			MyArbitraryConstant arbconst) throws CASException {
+			ArbitraryConstantRegistry arbconst) throws CASException {
 		return evaluateGeoGebraCAS(exp, true, arbconst,
 				StringTemplate.numericNoLocal);
 	}
@@ -2674,7 +2671,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *             when CAS failed
 	 */
 	private String evaluateGeoGebraCAS(String exp, boolean useCaching,
-			MyArbitraryConstant arbconst, StringTemplate tpl)
+			ArbitraryConstantRegistry arbconst, StringTemplate tpl)
 			throws CASException {
 		String result = null;
 		if (useCaching && hasCasCache()) {
@@ -4143,15 +4140,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * Restore state from last undo point.
-	 */
-	public void restoreCurrentUndoInfo() {
-		if (undoActive) {
-			cons.restoreCurrentUndoInfo();
-		}
-	}
-
-	/**
 	 * Initialize undo manager if possible.
 	 */
 	public void initUndoInfo() {
@@ -4205,7 +4193,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (cons != null) {
 			storeStateForModeStarting();
 			// reuse cons.getCurrentUndoXML(true)
-			cons.getUndoManager().storeUndoInfo(false);
+			cons.getUndoManager().storeUndoInfo();
 		}
 	}
 

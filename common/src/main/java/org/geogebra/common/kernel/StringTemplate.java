@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.export.MathmlTemplate;
 import org.geogebra.common.factories.FormatFactory;
@@ -18,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
+import org.geogebra.common.main.settings.GeneralSettings;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
@@ -1167,41 +1170,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 			} else if ((left.evaluatesToNumber(false)
 					|| left instanceof NumberValue)
 					&& right.evaluatesTo3DVector()) {
-				// Log.debug(left.getClass()+" "+right.getClass());
-				// eg 10 + (1,2,3)
-				sb.append("((");
-				sb.append(rightStr);
-				sb.append(")[0]+");
-				sb.append(leftStr);
-				sb.append(",(");
-				sb.append(rightStr);
-				sb.append(")[1]+");
-				sb.append(leftStr);
-				sb.append(",(");
-				sb.append(rightStr);
-				sb.append(")[2]+");
-				sb.append(leftStr);
-				sb.append(')');
+				vector3DNumberOperation(rightStr, leftStr, '+', sb);
 
 				// don't use isNumberValue() as that leads to an evaluate()
 			} else if (left.evaluatesTo3DVector()
 					&& (right.evaluatesToNumber(false)
 							|| right instanceof NumberValue)) {
-				// Log.debug(left.getClass()+" "+right.getClass());
-				// eg (1,2,3) + 10
-				sb.append("((");
-				sb.append(leftStr);
-				sb.append(")[0]+");
-				sb.append(rightStr);
-				sb.append(",(");
-				sb.append(leftStr);
-				sb.append(")[1]+");
-				sb.append(rightStr);
-				sb.append(",(");
-				sb.append(leftStr);
-				sb.append(")[2]+");
-				sb.append(rightStr);
-				sb.append(')');
+				vector3DNumberOperation(leftStr, rightStr, '+', sb);
 
 			} else if (left.evaluatesToVectorNotPoint()
 					&& right.evaluatesToVectorNotPoint()) {
@@ -1374,6 +1349,23 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	}
 
+	private void vector3DNumberOperation(String vectorStr, String numberStr,
+			char operation, StringBuilder sb) {
+		sb.append("(xcoord(");
+		sb.append(vectorStr);
+		sb.append(")").append(operation);
+		sb.append(numberStr);
+		sb.append(",ycoord(");
+		sb.append(vectorStr);
+		sb.append(")").append(operation);
+		sb.append(numberStr);
+		sb.append(",zcoord(");
+		sb.append(vectorStr);
+		sb.append(")").append(operation);
+		sb.append(numberStr);
+		sb.append(')');
+	}
+
 	/**
 	 * @param leftStr Left subtree as string
 	 * @param rightStr Right subtree as string
@@ -1409,6 +1401,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public void getMinus(StringBuilder sb, Localization loc) {
 		if (stringType == StringType.SCREEN_READER_ASCII) {
 			sb.append(ScreenReader.getMinus(loc));
+		} else if (stringType == StringType.SCREEN_READER_UNICODE) {
+			sb.append(" ").append(Unicode.MINUS).append(" ");
 		} else {
 			appendOptionalSpace(sb);
 			sb.append("-");
@@ -1451,47 +1445,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Used for French and Hungarian open intervals (StepByStep)
-	 *
-	 * @return left ]
+	 * @return semicolon
 	 */
-	public String invertedLeftSquareBracket() {
-		return left() + "]";
-	}
-
-	/**
-	 * Used for French and Hungarian open intervals (StepByStep)
-	 *
-	 * @return right [
-	 */
-	public String invertedRightSquareBracket() {
-		return right() + "[";
-	}
-
-	/**
-	 * Used for Czech closed intervals (StepByStep)
-	 *
-	 * @return left <
-	 */
-	public String leftAngleBracket() {
-		if (stringType.equals(StringType.LATEX)) {
-			return " \\left \\langle";
+	public String polarSeparator() {
+		if (stringType.equals(StringType.SCREEN_READER_ASCII)) {
+			return ScreenReader.getPolarSeparator();
 		}
 
-		return "\u3008";
-	}
-
-	/**
-	 * Used for Czech closed intervals (StepByStep)
-	 *
-	 * @return right >
-	 */
-	public String rightAngleBracket() {
-		if (stringType.equals(StringType.LATEX)) {
-			return " \\right \\rangle";
-		}
-
-		return "\u3009";
+		return ";";
 	}
 
 	private String right() {
@@ -1595,19 +1556,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					|| left instanceof NumberValue)
 					&& right.evaluatesTo3DVector()) {
 				// eg 10 - (1,2,3)
-				sb.append("(");
-				sb.append(leftStr);
-				sb.append("-(");
-				sb.append(rightStr);
-				sb.append(")[0],");
-				sb.append(leftStr);
-				sb.append("-(");
-				sb.append(rightStr);
-				sb.append(")[1],");
-				sb.append(leftStr);
-				sb.append("-(");
-				sb.append(rightStr);
-				sb.append(")[2])");
+				vector3DNumberOperation(rightStr, leftStr, '-', sb);
 
 				// don't use isNumberValue(), isListValue as those lead to an
 				// evaluate()
@@ -1615,19 +1564,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					&& (right.evaluatesToNumber(false)
 							|| right instanceof NumberValue)) {
 				// eg (1,2,3) - 10
-				sb.append("((");
-				sb.append(leftStr);
-				sb.append(")[0]-(");
-				sb.append(rightStr);
-				sb.append("),(");
-				sb.append(leftStr);
-				sb.append(")[1]-(");
-				sb.append(rightStr);
-				sb.append("),(");
-				sb.append(leftStr);
-				sb.append(")[2]-(");
-				sb.append(rightStr);
-				sb.append("))");
+				vector3DNumberOperation(leftStr, rightStr, '-', sb);
 
 			} else if (left.evaluatesToVectorNotPoint()
 					&& right.evaluatesToVectorNotPoint()) {
@@ -3700,7 +3637,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append(ScreenReader.getComma());
 		} else {
 			sb.append(localization.getComma());
-			appendOptionalSpace(sb);
+			if (isLatex()) {
+				sb.append("\\;");
+			} else {
+				appendOptionalSpace(sb);
+			}
 		}
 	}
 
@@ -3755,5 +3696,30 @@ public class StringTemplate implements ExpressionNodeConstants {
 		StringTemplate copy = copy();
 		copy.printFormPI = piString;
 		return copy;
+	}
+
+	/**
+	 * @param strToString formatted number
+	 * @return number with - replaced for current string template
+	 */
+	public String fixMinus(String strToString) {
+		if (stringType == ExpressionNodeConstants.StringType.SCREEN_READER_UNICODE) {
+			return strToString.replace("-", String.valueOf(Unicode.MINUS));
+		}
+		return strToString;
+	}
+
+	/**
+	 * @param settings settings defining coordinate style
+	 * @return delimiter for cartesian coordinates
+	 */
+	public String getCartesianDelimiter(@CheckForNull GeneralSettings settings) {
+		if (isLatex()) {
+			return ",\\;";
+		}
+		String delimiter = settings != null
+				&& settings.getCoordFormat() == Kernel.COORD_STYLE_AUSTRIAN
+				? (getOptionalSpace() + getPointCoordBar()) : ",";
+		return delimiter + getOptionalSpace();
 	}
 }

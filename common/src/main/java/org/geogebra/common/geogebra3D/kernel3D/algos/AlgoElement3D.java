@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
       //other outputs <br> &nbsp;&nbsp;
       //eventually remember the inputs in special members <br> &nbsp;&nbsp;
       setInputOutput(new GeoElement[] {... inputs}, new GeoElement[] {... outputs}); <br> 
-	}
+    }
     </code></li>
  * <li>Create a constructor with a label :
  * <p>
@@ -55,21 +55,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * <li>Create a <code>getGeo()</code> method for each output you want the kernel
  * be able to catch</li>
  * </ul>
- * 
- * <h3>See</h3>
- * <ul>
- * <li>algo2command.properties file in geogebra.kernel to create a key for
- * AlgoNew3D :
- * <p>
- * <code> 
-	     AlgoNew3D=New3D
-	     </code></li>
- * </ul>
- * 
- * 
- * 
- * @author ggb3D
- *
  */
 abstract public class AlgoElement3D extends AlgoElement {
 

@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -44,6 +45,7 @@ import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -980,6 +982,9 @@ public class ConstructionDefaults implements SettingListener {
 			if (geo instanceof GeoInputBox) {
 				geo.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
 			}
+			if (geo instanceof GeoInlineText) {
+				((GeoInlineText) geo).setVerticalAlignment(VerticalAlignment.TOP);
+			}
 
 			if (!isReset) {
 				// set to the highest used layer
@@ -1005,14 +1010,14 @@ public class ConstructionDefaults implements SettingListener {
 				break;
 
 			case LABEL_VISIBLE_ALWAYS_OFF:
-				// we want sliders and angles to be labeled always
-				geo.setLabelVisible(geo.isGeoNumeric()
+				// we want sliders, angles, and checkboxes to be labeled always
+				geo.setLabelVisible(geo.isGeoBoolean() || geo.isGeoNumeric()
 						&& (geo.isGeoAngle() || geo.isIndependent()));
 				break;
 
 			case LABEL_VISIBLE_POINTS_ONLY:
-				// we want sliders and angles to be labeled always
-				geo.setLabelVisible(geo.isGeoPoint() || geo.isGeoNumeric());
+				// we want sliders, angles, and checkboxes to be labeled always
+				geo.setLabelVisible(geo.isGeoPoint() || geo.isGeoNumeric() || geo.isGeoBoolean());
 				break;
 
 			case LABEL_VISIBLE_USE_DEFAULTS:

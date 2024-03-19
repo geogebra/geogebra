@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -134,8 +135,8 @@ public class PolygonFactory {
 
 		p[1].setLabel(null);
 
-		boolean oldVal = kernel.isUsingInternalCommandNames();
-		kernel.setUseInternalCommandNames(true);
+		CommandLookupStrategy oldVal = kernel.getCommandLookupStrategy();
+		kernel.setCommandLookupStrategy(CommandLookupStrategy.XML);
 
 		String sb;
 
@@ -153,7 +154,7 @@ public class PolygonFactory {
 			p[i].setLabel(null);
 		}
 
-		kernel.setUseInternalCommandNames(oldVal);
+		kernel.setCommandLookupStrategy(oldVal);
 
 		AlgoPolygon algo = new AlgoPolygon(cons, labels, p);
 		GeoElement[] ret = { algo.getOutput(0) };
@@ -215,8 +216,8 @@ public class PolygonFactory {
 		// https://www.geogebra.org/forum/viewtopic.php?f=13&p=82764#p82764
 		double aLength = Math.sqrt(a.inner(a));
 
-		boolean oldVal = kernel.isUsingInternalCommandNames();
-		kernel.setUseInternalCommandNames(true);
+		CommandLookupStrategy oldVal = kernel.getCommandLookupStrategy();
+		kernel.setCommandLookupStrategy(CommandLookupStrategy.XML);
 
 		a.makeUnitVector();
 		b.makeUnitVector();
@@ -265,7 +266,7 @@ public class PolygonFactory {
 			}
 		}
 
-		kernel.setUseInternalCommandNames(oldVal);
+		kernel.setCommandLookupStrategy(oldVal);
 
 		points[0].update();
 

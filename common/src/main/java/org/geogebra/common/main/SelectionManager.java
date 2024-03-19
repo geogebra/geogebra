@@ -47,7 +47,6 @@ import org.geogebra.common.kernel.kernelND.GeoQuadric3DLimitedInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
-import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 
@@ -326,7 +325,7 @@ public class SelectionManager {
 
 	private void dispatchSelected(GeoElement geo) {
 		kernel.getApplication().getEventDispatcher()
-				.dispatchEvent(new Event(EventType.SELECT, geo, ""));
+				.dispatchEvent(EventType.SELECT, geo, "");
 	}
 
 	private void dispatchDeselected(GeoElement geo) {

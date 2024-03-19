@@ -72,6 +72,7 @@ import jsinterop.base.JsPropertyMap;
  */
 public class GgbAPIW extends GgbAPI {
 	private MathEditorAPI editor;
+	private JsPropertyMap<?> fileLoadingError;
 
 	/**
 	 * @param app
@@ -245,10 +246,10 @@ public class GgbAPIW extends GgbAPI {
 		if (value) {
 			str = geo.toValueString(StringTemplate.latexTemplate);
 		} else if (geo instanceof  GeoCasCell) {
-			str = ((GeoCasCell) geo).getLaTeXInput(StringTemplate.latexTemplate);
+			str = ((GeoCasCell) geo).getLaTeXInput();
 			if (str == null) {
 				// regexp should be good enough in most cases, avoids dependency on ReTeX
-				str = ((GeoCasCell) geo).getInput(StringTemplate.defaultTemplate)
+				str = ((GeoCasCell) geo).getLocalizedInput()
 						.replaceAll("([{}$])", "\\\\$1");
 			}
 		} else {
@@ -647,6 +648,25 @@ public class GgbAPIW extends GgbAPI {
 	public String getZippedBase64Sync(GgbFile arch) {
 		JsPropertyMap<Object> fflatePrepared = prepareFileForFFlate(arch);
 		return Base64.bytesToBase64(FFlate.get().zipSync(fflatePrepared));
+	}
+
+	/**
+	 * Like getBase64, but only construction, no images
+	 * @return compressed XML
+	 */
+	public String zipXML(String plain) {
+		JsArray<Uint8Array> entry = new JsArray<>();
+		entry.push(FFlate.get().strToU8(plain));
+		return Base64.bytesToBase64(FFlate.get().zipSync(
+				JsPropertyMap.of("geogebra.xml", entry)));
+	}
+
+	private String unzipXML(String xml) {
+		if (StringUtil.empty(xml)) {
+			return xml;
+		}
+		JsPropertyMap<Uint8Array> archive = FFlate.get().unzipSync(Base64.base64ToBytes(xml));
+		return FFlate.get().strFromU8(archive.get("geogebra.xml"));
 	}
 
 	/**
@@ -1225,8 +1245,10 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public PageContent getPageContent(String pageId) {
 		PageListControllerInterface pageController = ((AppW) app).getPageController();
-		return pageController != null ? pageController.getPageContent(pageId)
+		PageContent ret = pageController != null ? pageController.getPageContent(pageId)
 				: PageContent.of(getXML(), getAllObjectNames(), null, null, 0);
+		ret.xml = zipXML(ret.xml);
+		return ret;
 	}
 
 	/**
@@ -1324,10 +1346,11 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void setPageContent(String pageId, PageContent content) {
 		PageListControllerInterface pc = ((AppW) app).getPageController();
+		content.xml = unzipXML(content.xml);
 		if (pc != null) {
 			pc.setPageContent(pageId, content);
 		} else if (!StringUtil.empty(content.xml)) {
-			setXML(content.xml);
+			super.setXML(content.xml);
 		}
 	}
 
@@ -1337,5 +1360,13 @@ public class GgbAPIW extends GgbAPI {
 	public void showAllObjects() {
 		app.setViewShowAllObjects();
 
+	}
+
+	public void setFileLoadingError(JsPropertyMap<?> error) {
+		this.fileLoadingError = error;
+	}
+
+	public Object getFileLoadingError() {
+		return this.fileLoadingError;
 	}
 }

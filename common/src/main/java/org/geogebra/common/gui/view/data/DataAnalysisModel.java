@@ -13,8 +13,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.DataAnalysisSettings;
-import org.geogebra.common.plugin.Event;
-import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 
@@ -126,17 +124,9 @@ public class DataAnalysisModel {
 		setIniting(false);
 		// full file contains elements needed for initialization,
 		// undo XML does not => refresh needed
-		app.getEventDispatcher().addEventListener(new EventListener() {
-			@Override
-			public void sendEvent(Event evt) {
-				if (evt.getType() == EventType.UNDO || evt.getType() == EventType.REDO) {
-					getController().updateDataAnalysisView();
-				}
-			}
-
-			@Override
-			public void reset() {
-				// not needed
+		app.getEventDispatcher().addEventListener(evt -> {
+			if (evt.getType() == EventType.UNDO || evt.getType() == EventType.REDO) {
+				getController().updateDataAnalysisView();
 			}
 		});
 	}

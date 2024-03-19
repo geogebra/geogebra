@@ -75,7 +75,7 @@ public enum TargetType {
 	POINT_ALREADY_NO_ARROW {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d, Target target) {
-		    // avoid z-fighting
+			// avoid z-fighting
 			renderer.getRendererImpl()
 					.setLayer(view3d.getCursor3D().getLayer() + 1);
 			doDrawTarget(renderer, target);

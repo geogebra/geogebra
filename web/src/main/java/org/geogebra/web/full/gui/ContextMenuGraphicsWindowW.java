@@ -325,7 +325,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 
 	private void addAxesRatioItems(RadioButtonMenuBarW menu) {
 		double scaleRatio = app.getActiveEuclidianView()
-		        .getScaleRatio();
+				.getScaleRatio();
 		String[] items = new String[axesRatios.length + 2];
 		double[] options = new double[axesRatios.length + 2];
 		boolean separatorAdded = false;
@@ -352,8 +352,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 		}
 		int selPos = 0;
 		while ((selPos < options.length)
-		        && !DoubleUtil.isEqual(options[selPos],
-		                scaleRatio)) {
+				&& !DoubleUtil.isEqual(options[selPos], scaleRatio)) {
 			selPos++;
 		}
 		menu.addRadioButtonMenuItems(this::zoomYaxis, items, options, selPos);

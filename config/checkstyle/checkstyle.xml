@@ -23,7 +23,7 @@
     <!-- Checks for whitespace                               -->
     <!-- See http://checkstyle.sf.net/config_whitespace.html -->
     <module name="BeforeExecutionExclusionFileFilter">
-        <property name="fileNamePattern" value="kitfox|freehep|jfugue|mp3transform|BeautifyJS|Lexer|org.geogebra.common.(kernel.(barycentric|prover|parser|stepbystep)|util.clipper|cas.(giac|singular)|gui.(dialog.options))|org.apache|org.mozilla|edu.uci.ics|com.google|com.github|com.himamis.retex.editor.share.io.latex|org.geogebra.web.html5.main.DefaultExportedApi|org.geogebra.web.full.main.activity.EvaluatorExportedApi" />
+        <property name="fileNamePattern" value="kitfox|freehep|jfugue|mp3transform|BeautifyJS|Lexer|org.geogebra.common.(kernel.(barycentric|prover|parser)|util.clipper|cas.(giac|singular)|gui.(dialog.options))|org.apache|org.mozilla|edu.uci.ics|com.google|com.github|com.himamis.retex.editor.share.io.latex|org.geogebra.web.html5.main.DefaultExportedApi|org.geogebra.web.full.main.activity.EvaluatorExportedApi" />
     </module>
     <module name="RegexpMultiline">
         <property name="format" value="\n\s*\n\s*\n"/>
@@ -46,6 +46,12 @@
         <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://|@|Regex"/>
     </module>
     <module name="TreeWalker">
+        <module name="Regexp">
+            <property name="format" value="\S[\t ]+$"/>
+            <property name="illegalPattern" value="true"/>
+            <property name="ignoreComments" value="true"/>
+            <property name="message" value="Line may not end with whitespace"/>
+        </module>
         <module name="OneTopLevelClass"/>
         <module name="OuterTypeFilename"/>
         <module name="IllegalTokenText">
@@ -115,7 +121,7 @@
         </module>
         <module name="MissingJavadocMethod">
             <property name="minLineCount" value="1"/>
-            <property name="allowedAnnotations" value="Override, Test, Before"/>
+            <property name="allowedAnnotations" value="Override, Test, Before, After"/>
         </module>
         <module name="JavadocMethod">
             <property name="scope" value="public"/>

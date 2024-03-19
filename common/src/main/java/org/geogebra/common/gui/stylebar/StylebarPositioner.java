@@ -139,7 +139,7 @@ public class StylebarPositioner {
 
 		double left;
 		if (functionOrLine) {
-		    left = euclidianView.getEuclidianController().getMouseLoc().x + MARGIN;
+			left = euclidianView.getEuclidianController().getMouseLoc().x + MARGIN;
 		} else {
 			if (isPoint) {
 				left = center

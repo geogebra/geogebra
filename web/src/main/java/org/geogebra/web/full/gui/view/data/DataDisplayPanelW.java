@@ -666,13 +666,13 @@ public class DataDisplayPanelW extends FlowPanel implements
 	}
 
 	public void resize(boolean update) {
-	    resize(getOffsetWidth(), getOffsetHeight(), update);
-    }
+		resize(getOffsetWidth(), getOffsetHeight(), update);
+	}
 
 	@Override
 	public void resize() {
-	    resize(true);
-    }
+		resize(true);
+	}
 
 	@Override
 	public void onResize() {

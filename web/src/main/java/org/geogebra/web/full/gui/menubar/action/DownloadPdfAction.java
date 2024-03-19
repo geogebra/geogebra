@@ -1,26 +1,18 @@
 package org.geogebra.web.full.gui.menubar.action;
 
-import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
  * Exports PDF.
  */
-public class DownloadPdfAction extends DefaultMenuAction<Void> {
+public class DownloadPdfAction extends DownloadImageAction {
 
-	private ImageExporter imageExporter;
-
-	/**
-	 * @param app app
-	 */
 	public DownloadPdfAction(AppWFull app) {
-		imageExporter = new ImageExporter(app, "pdf");
+		super(app, "pdf");
 	}
 
 	@Override
-	public void execute(Void item, AppWFull app) {
-		app.getGgbApi().exportPDF(1, null, (pdf) -> {
-			imageExporter.export(pdf);
-		}, null);
+	protected void export(AppWFull app) {
+		app.getGgbApi().exportPDF(1, null, (pdf) -> exportImage(pdf), null);
 	}
 }

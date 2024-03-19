@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -110,8 +111,10 @@ public class ImageManagerW extends ImageManager {
 	public String applyImage(String fileName0, String fileData, Kernel kernel) {
 		String fileName = ImageManagerW.getMD5FileName(fileName0, fileData);
 
-		addExternalImage(fileName, fileData);
-		triggerSingleImageLoading(fileName, kernel);
+		if (!externalImageSrcs.containsKey(fileName)) {
+			addExternalImage(fileName, fileData);
+			triggerSingleImageLoading(fileName, kernel);
+		}
 
 		return fileName;
 	}
@@ -202,8 +205,20 @@ public class ImageManagerW extends ImageManager {
 	 */
 	public void triggerSingleImageLoading(String imageFileName, Kernel kernel) {
 		HTMLImageElement img = getExternalImage(imageFileName, true);
-		img.addEventListener("load", (event) -> kernel.updateConstruction());
+		img.addEventListener("load", (event) ->
+				updateCascadeImages(kernel.getConstruction()));
 		img.src = externalImageSrcs.get(imageFileName).createUrl();
+	}
+
+	private void updateCascadeImages(Construction cons) {
+		HashMap<String, GeoElement> table = cons.getGeoTable();
+		if (table == null || table.isEmpty()) {
+			return;
+		}
+		List<GeoElement> list = table.values().stream()
+				.filter(t -> t.isGeoImage() || t.getFillType() == FillType.IMAGE)
+				.collect(Collectors.toList());
+		GeoElement.updateCascade(list);
 	}
 
 	/**
@@ -271,8 +286,7 @@ public class ImageManagerW extends ImageManager {
 	 * @return URL of error image
 	 */
 	public String getErrorURL() {
-		return GuiResourcesSimple.INSTANCE.questionMark().getSafeUri()
-		        .asString();
+		return GuiResourcesSimple.INSTANCE.questionMark().getSafeUri().asString();
 	}
 
 	/**

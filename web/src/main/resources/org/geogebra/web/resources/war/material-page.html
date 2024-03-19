@@ -1,0 +1,28 @@
+<html>
+<head>
+    <style>
+        .preview {
+          transform: none !important;
+        }
+    </style>
+</head>
+<body>
+<script src=./web3d/web3d.nocache.js></script>
+<div class="scaleContainer" style="width:800px;">
+    <div id="target" class="preview">
+        <div id="applet" data-param-tubeid="bvqnaans"
+             data-param-showLogging="true"
+             data-param-scaleContainerClass="scaleContainer"
+             data-param-width="1800" data-param-height="800"></div>
+    </div>
+</div>
+<script>
+    function renderGGBElementReady() {
+      const div = document.getElementById("applet");
+      renderGGBElement(div, () => {
+        document.getElementById("target").classList.remove("preview");
+      });
+    }
+</script>
+</body>
+</html>

@@ -303,12 +303,12 @@ public class DrawPoint3D extends Drawable3DCurves
 
 	@Override
 	public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
-	    if (dontExtend) {
-            Coords c = ((GeoPointND) getGeoElement()).getInhomCoordsInD3();
-            enlargeBounds(min, max, c, c);
-        } else {
-            enlargeBounds(min, max, boundsMin, boundsMax);
-        }
+		if (dontExtend) {
+			Coords c = ((GeoPointND) getGeoElement()).getInhomCoordsInD3();
+			enlargeBounds(min, max, c, c);
+		} else {
+			enlargeBounds(min, max, boundsMin, boundsMax);
+		}
 	}
 
 	@Override

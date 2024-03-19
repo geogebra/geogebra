@@ -133,7 +133,7 @@ public class Ggb2giac {
 				+ ","
 				+ "{}"
 				+ ")"
-			+	 ")"
+			+ ")"
 		+ "][-1]";
 
 
@@ -330,12 +330,11 @@ public class Ggb2giac {
 				"[[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=unquote(ifactor(ggbfacans)); else ggbfacans:=ggbfactor(lncollect(ggbfacans),x, 0, 1); fi],ggbfacans][2]");
 		p("Factor.2",
 				"[[ggbfacans:=%0],[ggbfacans:=ggbfactor(ggbfacans,ggb_is_variable(%1),0,1)],ggbfacans][2]");
-
+		String iFactor = "[[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans);"
+				+ " else L:=lvar(cZeros(ggbfacans)); ggbfacans:=when(size(L)>0, regroup(factor(ggbfacans,L)), ggbfactor(ggbfacans,%v,1,1)); fi],ggbfacans][2]";
 		// factor over irrationals
-		p("IFactor.1",
-				"[[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=ggbfactor(ggbfacans,x,1,1); fi],ggbfacans][2]");
-		p("IFactor.2",
-				"[[ggbfacans:=%0],[ggbfacans:=ggbfactor(ggbfacans,ggb_is_variable(%1),1,1)],ggbfacans][2]");
+		p("IFactor.1", iFactor.replace("%v", "x"));
+		p("IFactor.2", iFactor.replace("%v", "ggb_is_variable(%1)"));
 
 		// convert {x-1,1,x+1,1} to {{x-1,1},{x+1,1}}
 		p("Factors.1",
@@ -1074,7 +1073,6 @@ public class Ggb2giac {
 		p("InverseNormal.3", "normald_icdf(%0,%1,%2)");
 		p("Normal.4",
 				"[[[ggbnormarg0:=%0],[ggbnormarg1:=%1],[ggbnormarg2:=%2]],if %3==true then normald_cdf(ggbnormarg0,ggbnormarg1,ggbnormarg2) else (1/sqrt(2*pi*((ggbnormarg1)^2))) * exp(-((ggbnormarg2-(ggbnormarg0))^2)/(2*((ggbnormarg1)^2))) fi][1]");
-		p("nPr.2", "perm(%0,%1)");
 
 		// #4124/TRAC-3835 wrap input in evalf
 		// #4124/evalf removed,changed to %%0 to use new "numeric"
@@ -1270,7 +1268,7 @@ public class Ggb2giac {
 
 		p("ExpSimplify.1", "lncollect(%0)");
 
-		 p("Solutions.1",
+		p("Solutions.1",
 				"ggbsort(normal(solve(%0,when(type(%0)==DOM_LIST,lname(%0),when(contains(lname(%0),x),x,lname(%0)[0])),'!=')))");
 		p("Solutions.2", "ggbsort(normal(solve(%0,%1,'!=')))");
 

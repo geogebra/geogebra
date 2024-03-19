@@ -228,10 +228,10 @@ public class ConstructionProtocolNavigationW
 	private class AutomaticPlayer {
 		Timer timer;
 
-	      /**
-         * Creates a new player to step through the construction
-         * automatically.
-         */
+		/**
+		 * Creates a new player to step through the construction
+		 * automatically.
+		 */
 		public AutomaticPlayer() {
 			timer = new Timer() {
 

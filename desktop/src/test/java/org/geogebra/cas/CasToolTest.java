@@ -12,9 +12,9 @@ public class CasToolTest extends BaseCASIntegrationTest {
 	public void checkNsolveExpansion() {
 		CASViewNoGui view = new CASViewNoGui(getApp(), "Sum(T/2^n,n,3,10)=1500000", "$1");
 		CASInputHandler cih = new CASInputHandler(view);
-		cih.processCurrentRow("NSolve", false);
+		cih.processCurrentRow("NSolve", false, null);
 		view.getConsoleTable().setSelected(1);
-		cih.processCurrentRow("Evaluate", false);
+		cih.processCurrentRow("Evaluate", false, null);
 		assertEquals("{T = 1204705882353 / 200000}", getValue("$2"));
 	}
 
@@ -24,15 +24,15 @@ public class CasToolTest extends BaseCASIntegrationTest {
 		CASInputHandler cih = new CASInputHandler(view);
 
 		view.getConsoleTable().setSelected(0);
-		cih.processCurrentRow("Evaluate", false);
+		cih.processCurrentRow("Evaluate", false, null);
 		assertEquals("x^(2) + 1", getValue("$1"));
 
 		view.getConsoleTable().setSelected(1);
-		cih.processCurrentRow("Derivative", false);
+		cih.processCurrentRow("Derivative", false, null);
 		assertEquals("2 * x", getValue("$2"));
 
 		view.getConsoleTable().setSelected(2);
-		cih.processCurrentRow("NSolve", false);
+		cih.processCurrentRow("NSolve", false, null);
 		assertEquals("{x = 0}", getValue("$3"));
 	}
 

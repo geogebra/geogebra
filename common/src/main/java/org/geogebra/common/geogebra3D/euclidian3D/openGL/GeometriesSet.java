@@ -216,13 +216,13 @@ public class GeometriesSet extends ArrayList<Geometry> {
 		}
 	}
 
-    /**
-     *
-     * @return true if this set use packing
-     */
+	/**
+	 *
+	 * @return true if this set use packing
+	 */
 	public boolean usePacking() {
-	    return false;
-    }
+		return false;
+	}
 
 	/**
 	 * remove GL buffers

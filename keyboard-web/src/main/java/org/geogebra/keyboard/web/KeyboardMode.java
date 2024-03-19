@@ -18,8 +18,8 @@ public enum KeyboardMode {
 	 * special characters.
 	 */
 	SPECIAL_CHARS(ExpressionNodeConstants.strPERPENDICULAR
-	        + ExpressionNodeConstants.strAND + "%");
-	private String internalName;
+			+ ExpressionNodeConstants.strAND + "%");
+	private final String internalName;
 
 	KeyboardMode(String internalName) {
 		this.internalName = internalName;

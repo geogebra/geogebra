@@ -6,10 +6,10 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Exports ggb or ggs format.
  */
-public class DownloadDefaultFormatAction extends DefaultMenuAction<Void> {
+public class DownloadDefaultFormatAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
-	public void execute(Void item, AppWFull app) {
-		app.getGuiManager().exportGGB(false);
+	public void execute(AppWFull app) {
+		app.getGuiManager().exportGGB();
 	}
 }

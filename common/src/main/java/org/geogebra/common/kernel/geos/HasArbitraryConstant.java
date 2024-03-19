@@ -1,13 +1,13 @@
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 
 /**
  * These elements use arbitrary constants.
  */
 public interface HasArbitraryConstant {
 
-	MyArbitraryConstant getArbitraryConstant();
+	ArbitraryConstantRegistry getArbitraryConstant();
 
-	void setArbitraryConstant(MyArbitraryConstant constant);
+	void setArbitraryConstant(ArbitraryConstantRegistry constant);
 }

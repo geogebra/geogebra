@@ -2,9 +2,7 @@ package org.geogebra.common.kernel.printing.printer.vector;
 
 import java.util.Map;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
 import org.geogebra.common.kernel.printing.printer.expression.DefaultExpressionPrinter;
@@ -46,7 +44,7 @@ public class VectorNodeStringifier {
     }
 
     public String toString(StringTemplate tpl) {
-        return getPrinterFor(tpl).print(tpl, defaultExpressionPrinter, vector);
+        return activePrinter.print(tpl, defaultExpressionPrinter, vector);
     }
 
     public String toString(StringTemplate tpl, VectorPrintingMode mode) {
@@ -54,19 +52,7 @@ public class VectorNodeStringifier {
     }
 
     public String toValueString(StringTemplate tpl) {
-        return getPrinterFor(tpl).print(tpl, valueExpressionPrinter, vector);
-    }
-
-    private Printer getPrinterFor(StringTemplate tpl) {
-        if (tpl.getStringType() == ExpressionNodeConstants.StringType.GIAC) {
-            int coordinateSystem = vector.getCoordinateSystem();
-            return coordinateSystem == Kernel.COORD_POLAR
-                    || coordinateSystem == Kernel.COORD_SPHERICAL
-                    ? printerMap.get(VectorPrintingMode.GiacPolar)
-                    : printerMap.get(VectorPrintingMode.Giac);
-        } else {
-            return activePrinter;
-        }
+        return activePrinter.print(tpl, valueExpressionPrinter, vector);
     }
 
     public void setPrintingMode(VectorPrintingMode printingMode) {

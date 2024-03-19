@@ -22,7 +22,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
-import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.properties.FillType;
@@ -36,7 +35,7 @@ import org.geogebra.common.util.StringUtil;
  * 
  * @author Michael
  */
-public class GeoButton extends GeoElement implements TextProperties, Locateable,
+public class GeoButton extends GeoElement implements TextProperties,
 		AbsoluteScreenLocateable {
 
 	private GeoPointND startPoint;

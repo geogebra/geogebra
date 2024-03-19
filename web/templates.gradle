@@ -102,16 +102,9 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
             .replace("<!--SPLASH STYLE-->", splashStyle)
             .replace("<!--PRELOADED CSS-->", inlinedCss)
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
-            .replace("<!--ICON-->", vendor == "Mebis" ? "/static/tafel.ico" : "https://www.geogebra.org/apps/icons/${appID}.ico")
+            .replace("<!--ICON-->", vendor == "Mebis" ? "/public/assets/tafel.ico" : "https://www.geogebra.org/apps/icons/${appID}.ico")
             .replace("<!--APP ID-->", appID)
             .replace("<!--APP TRANSKEY-->", appTransKey)
             .replace("<!--APPSTORE BANNER-->", appStoreBanner)
             .replace("\r\n", "\n") // generate the same on Win and Unix
-}
-
-ext.solverHtml = { ->
-    def header = partials(template("app-header-beta.html"), null);
-    template("solver-template.html")
-            .replace("<!--HEADER-->", header)
-            .replace("<!--SPLASH STYLE-->", file("war/css/app-header.css").text)
 }

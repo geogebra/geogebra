@@ -7,10 +7,10 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Opens file in Mebis Tafel.
  */
-public class OpenFileActionMebis extends DefaultMenuAction<Void> {
+public class OpenFileActionMebis extends DefaultMenuAction<AppWFull> {
 
 	@Override
-	public void execute(Void item, final AppWFull app) {
+	public void execute(final AppWFull app) {
 		if (isLoggedOut(app)) {
 			app.getActivity().markSearchOpen();
 			// no listening for login needed, will get redirected

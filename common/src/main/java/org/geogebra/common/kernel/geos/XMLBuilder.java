@@ -130,7 +130,8 @@ public class XMLBuilder {
 			sb.append("\t<layer val=\"");
 			sb.append(geo.getLayer());
 			sb.append("\"/>\n");
-			if (geo.getOrdering() >= 0) {
+
+			if (!Double.isNaN(geo.getOrdering())) {
 				sb.append("\t<ordering val=\"");
 				sb.append(geo.getOrdering());
 				sb.append("\"/>\n");

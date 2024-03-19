@@ -237,9 +237,11 @@ public class CommandDispatcherGiac {
 		ceiling(Operation.CEIL),
 		/** rand(n) gives random integer from [0,n-1] */
 		rand(Operation.NO_OPERATION),
+		/** internal point representation */
+		pnt(Operation.NO_OPERATION),
 
 		;
-		private Operation op;
+		private final Operation op;
 
 		private GiacCommands(Operation op) {
 			this.op = op;
@@ -666,6 +668,7 @@ public class CommandDispatcherGiac {
 			case integrate: // eg Integral[exp(x^3)]
 			case bounded_function: // eg Limit[cos(x),infinity]
 			case rand: // eg RandomBetween[0, undefined variable]
+			case pnt:
 				ret = new ExpressionNode(kernel, Double.NaN);
 				break;
 

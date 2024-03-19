@@ -129,7 +129,7 @@ public abstract class DrawEquation implements DrawEquationI {
 		// if we're exporting, we want to draw it full resolution
 		if (app.isExporting() || !useCache) {
 			TeXIcon icon = createIcon(text, fgColor, font, style, maxWidth,
-					lineSpace, app);
+					lineSpace);
 
 			HasForegroundColor fg = new HasForegroundColor() {
 
@@ -149,7 +149,7 @@ public abstract class DrawEquation implements DrawEquationI {
 		Image im = null;
 		try {
 			final int[] ret = new int[2];
-			checkFirstCall(app);
+			checkFirstCall();
 			im = getCachedDimensions(text, geo, fgColor, font, style, ret);
 
 			width = ret[0];
@@ -159,7 +159,7 @@ public abstract class DrawEquation implements DrawEquationI {
 		} catch (final Exception e) {
 			Log.debug(e);
 			// Write error message to Graphics View
-			checkFirstCall(app);
+			checkFirstCall();
 
 			try {
 				final TeXFormula formula = TeXFormula
@@ -218,13 +218,22 @@ public abstract class DrawEquation implements DrawEquationI {
 	 *            width for aligned multirow
 	 * @param lineSpace
 	 *            space between lines
-	 * @param app
-	 *            application
 	 * @return rendered LaTeX
 	 */
 	public TeXIcon createIcon(String text, Color fgColor, GFont font, int style,
-			Integer maxWidth, Double lineSpace, App app) {
-		checkFirstCall(app);
+			Integer maxWidth, Double lineSpace) {
+		return createIcon(text, fgColor, font.getSize() + 3, style);
+	}
+
+	/**
+	 * @param text text
+	 * @param fgColor text color
+	 * @param fontSize font size in LaTeX font (should be GGB font size + 3)
+	 * @param style latex font style
+	 * @return icon
+	 */
+	public TeXIcon createIcon(String text, Color fgColor, int fontSize, int style) {
+		checkFirstCall();
 		TeXFormula formula;
 		TeXIcon icon;
 
@@ -233,7 +242,7 @@ public abstract class DrawEquation implements DrawEquationI {
 
 			// if (maxWidth == null) {
 			icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-					font.getSize() + 3, style, fgColor);
+					fontSize, style, fgColor);
 			// } else {
 			// icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 			// font.getSize() + 3, TeXLength.Unit.CM,
@@ -248,7 +257,7 @@ public abstract class DrawEquation implements DrawEquationI {
 
 			formula = TeXFormula.getPartialTeXFormula("?");
 			icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-					font.getSize() + 3, style, fgColor);
+					fontSize, style, fgColor);
 
 			// formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 15,
 			// TeXLength.Unit.CM, 4f, TeXConstants.Align.LEFT,
@@ -265,7 +274,7 @@ public abstract class DrawEquation implements DrawEquationI {
 				formula = TeXFormula.getPartialTeXFormula(text);
 
 				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, style, fgColor);
+						fontSize, style, fgColor);
 			} catch (Exception e2) {
 				// e2.printStackTrace();
 				Log.debug("LaTeX parse exception2: " + e2.getMessage() + "\n"
@@ -273,7 +282,7 @@ public abstract class DrawEquation implements DrawEquationI {
 				formula = TeXFormula
 						.getPartialTeXFormula("?");
 				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, style, fgColor);
+						fontSize, style, fgColor);
 			}
 		}
 		icon.setInsets(new Insets(1, 1, 1, 1));
@@ -300,7 +309,7 @@ public abstract class DrawEquation implements DrawEquationI {
 			final GFont font, final boolean serif, final Integer maxWidth,
 			final Double lineSpace) {
 
-		checkFirstCall(app);
+		checkFirstCall();
 		GColor fgColor = GColor.BLACK;
 		int style = font.getLaTeXStyle(serif);
 

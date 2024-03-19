@@ -298,7 +298,7 @@ public class AlgebraProcessor {
 	 * @throws MyError
 	 *             e.g. on syntax error
 	 */
-	final public void processCasCell(GeoCasCell casCell, boolean isLastRow)
+	final public void processCasCell(GeoCasCell casCell, boolean isLastRow, String oldXML)
 			throws MyError {
 		// check for CircularDefinition
 		if (casCell.isCircularDefinition()) {
@@ -362,7 +362,7 @@ public class AlgebraProcessor {
 				// update construction order and
 				// rebuild construction using XML
 				app.getEventDispatcher().disableListeners();
-				cons.changeCasCell(casCell);
+				cons.changeCasCell(casCell, oldXML);
 				app.getEventDispatcher().enableListeners();
 				app.getEventDispatcher().notifyListenersUpdateCascade(casCell);
 				// the changeCasCell command computes the output
@@ -433,9 +433,9 @@ public class AlgebraProcessor {
 	 *            receives changed geo
 	 */
 	public void changeGeoElement(final GeoElementND geo, String newValue,
-								 boolean redefineIndependent, boolean storeUndoInfo,
-								 boolean withSliders, ErrorHandler handler,
-								 AsyncOperation<GeoElementND> callback) {
+			boolean redefineIndependent, boolean storeUndoInfo,
+			boolean withSliders, ErrorHandler handler,
+			AsyncOperation<GeoElementND> callback) {
 		EvalInfo info =
 				new EvalInfo(!cons.isSuppressLabelsActive(), redefineIndependent)
 						.withSymbolicMode(app.getKernel().getSymbolicMode())
@@ -1189,12 +1189,13 @@ public class AlgebraProcessor {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().getCasView().cancelEditItem();
 		}
+		StringBuilder oldXML = cons.getCurrentUndoXML(false);
 		GeoCasCell cell = cons.getCasCell(row);
 		if (cell == null) {
 			cell = new GeoCasCell(cons);
 		}
 		cell.setInput(rhs);
-		processCasCell(cell, false);
+		processCasCell(cell, false, oldXML.toString());
 		return cell;
 	}
 
@@ -2034,10 +2035,10 @@ public class AlgebraProcessor {
 	 * @param ve expression
 	 * @return resulting elements
 	 * @throws MyError when expression is invalid
-	 * @throws Exception e.g. circular definition
+	 * @throws CircularDefinitionException for circular definition
 	 */
 	public GeoElement[] processValidExpressionSilent(ValidExpression ve)
-			throws MyError, Exception {
+			throws MyError, CircularDefinitionException {
 		boolean oldSuppressLabel = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		try {
@@ -2181,13 +2182,14 @@ public class AlgebraProcessor {
 						if (cell != null) {
 							// this is a ValidExpression since we don't get
 							// GeoElements from parsing
+							StringBuilder oldXML = cons.getCurrentUndoXML(false);
 							ValidExpression vexp = (ValidExpression) ve
 									.unwrap();
 							cell.setAssignmentType(AssignmentType.DEFAULT);
 							cell.setInput(vexp.toAssignmentString(
 									StringTemplate.defaultTemplate,
 									cell.getAssignmentType()));
-							processCasCell(cell, false);
+							processCasCell(cell, false, oldXML.toString());
 						} else {
 							cons.replace(replaceable, newGeo, info);
 						}
@@ -3205,10 +3207,10 @@ public class AlgebraProcessor {
 		} else if (eval instanceof Vector3DValue) {
 			return processPointVector3D(n, eval);
 		} else if (eval instanceof TextValue) {
-			return processText(n, eval);
+			return processText(n, eval, info);
 		} else if (eval instanceof MyList) {
 			return processList(n, (MyList) eval, info);
-		} else if (eval instanceof EquationValue) {
+		} else if (eval instanceof EquationValue && !n.unwrap().isGeoElement()) {
 			Equation eq = ((EquationValue) eval).getEquation();
 			eq.setFunctionDependent(true);
 			eq.setLabel(n.getLabel());
@@ -3397,7 +3399,7 @@ public class AlgebraProcessor {
 	}
 
 	private GeoElement[] processText(ExpressionNode n,
-			ExpressionValue evaluate) {
+			ExpressionValue evaluate, EvalInfo info) {
 		GeoElement ret;
 		String label = n.getLabel();
 
@@ -3409,7 +3411,9 @@ public class AlgebraProcessor {
 		} else {
 			ret = dependentText(n);
 		}
-		ret.setLabel(label);
+		if (info.isLabelOutput()) {
+			ret.setLabel(label);
+		}
 		return array(ret);
 	}
 

@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianPen;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.PenToolsSettings;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
@@ -63,6 +63,7 @@ public class PenSubMenu extends SubMenuPanel {
 		addStyleName("penSubMenu");
 		// needed for slider mouse events
 		ClickStartHandler.initDefaults(this, false, true);
+		app.getSettings().getPenTools().addListener(s -> setMode(app.getMode()));
 	}
 
 	/**
@@ -86,6 +87,7 @@ public class PenSubMenu extends SubMenuPanel {
 				if (!colorsEnabled) {
 					return;
 				}
+				getPenGeo().setPenColor(colorData.getGColor());
 				setSelectedColor(colorData.getGColor());
 			}
 		});
@@ -163,17 +165,10 @@ public class PenSubMenu extends SubMenuPanel {
 	 */
 	void sliderValueChanged(double value) {
 		if (colorsEnabled) {
-			getPenGeo().setLineThickness((int) value);
-			if (app.getActiveEuclidianView()
-					.getMode() == EuclidianConstants.MODE_PEN) {
-				getSettings().setLastPenThickness((int) value);
-			} else if (app.getActiveEuclidianView()
-					.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
-				getSettings().setLastHighlighterThinckness((int) value);
-			}
+			getPenGeo().setPenSize((int) value);
 			updatePreview();
 		} else {
-			app.getActiveEuclidianView().getSettings().setDeleteToolSize((int) value);
+			app.getSettings().getPenTools().setDeleteToolSize((int) value);
 		}
 		closeFloatingMenus();
 	}
@@ -185,14 +180,12 @@ public class PenSubMenu extends SubMenuPanel {
 		createColorPanel();
 	}
 
-	private void updatePenStyleAndUI(GColor lastColor, int lastThickness,
-			int opacity) {
+	private void updatePenStyleAndUI(int lastThickness) {
 		setColorsEnabled(true);
-		selectColor(lastColor);
+
 		setSliderRange(true);
 		slider.setValue((double) lastThickness);
-		getPenGeo().setLineThickness(lastThickness);
-		getPenGeo().setLineOpacity(opacity);
+		getPenGeo().updateMode();
 		disableSlider(false);
 		preview.setVisible(true);
 		updatePreview();
@@ -201,7 +194,7 @@ public class PenSubMenu extends SubMenuPanel {
 	private void doSelectEraser() {
 		setColorsEnabled(false);
 		setSliderRange(false);
-		int delSize = app.getActiveEuclidianView().getSettings()
+		int delSize = getSettings()
 				.getDeleteToolSize();
 		slider.setValue((double) delSize);
 		disableSlider(false);
@@ -219,58 +212,26 @@ public class PenSubMenu extends SubMenuPanel {
 	 *            color to select
 	 */
 	public void setSelectedColor(GColor selectedColor) {
-		if (selectedColor == null) {
-			return;
-		}
-
-		for (Map.Entry<MOWToolbarColor, Label> colorBtnPair : colorMap.entrySet()) {
-			if (colorBtnPair.getKey().getGColor().equals(selectedColor)) {
-				getPenGeo().setObjColor(colorBtnPair.getKey().getGColor());
-				if (colorsEnabled) {
-					colorBtnPair.getValue().addStyleName("mowColorButton-selected");
-					if (app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
-						getPenGeo().setLineOpacity(
-								EuclidianConstants.DEFAULT_HIGHLIGHTER_OPACITY);
-						getSettings().setLastSelectedHighlighterColor(colorBtnPair.getKey()
-								.getGColor());
-					} else {
-						getSettings().setLastSelectedPenColor(colorBtnPair.getKey().getGColor());
-					}
-				}
-			} else {
-				colorBtnPair.getValue().removeStyleName("mowColorButton-selected");
-			}
-		}
+		updateButtons(selectedColor);
 		updatePreview();
 	}
 
-	// remember and set a color that was picked from color chooser
-	private void selectColor(GColor color) {
-		getPenGeo().setObjColor(color);
-		updatePreview();
+	private void updateButtons(GColor selectedColor) {
+		for (Map.Entry<MOWToolbarColor, Label> colorBtnPair : colorMap.entrySet()) {
+			disableButton(colorBtnPair.getValue(), !colorsEnabled);
+			colorBtnPair.getValue().setStyleName("mowColorButton-selected",
+					colorsEnabled && colorBtnPair.getKey().getGColor().equals(selectedColor));
+		}
 	}
 
 	private void setColorsEnabled(boolean enable) {
-		for (Map.Entry<MOWToolbarColor, Label> colorBtnPair : colorMap.entrySet()) {
-			disableButton(colorBtnPair.getValue(), !enable);
-			if (enable) {
-				if (app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
-					if (colorBtnPair.getKey().getGColor() == getSettings()
-							.getLastSelectedHighlighterColor()) {
-						colorBtnPair.getValue().addStyleName("mowColorButton-selected");
-					}
-				} else if (app.getMode() == EuclidianConstants.MODE_PEN) {
-					if (colorBtnPair.getKey().getGColor() == getSettings()
-							.getLastSelectedPenColor()) {
-						colorBtnPair.getValue().addStyleName("mowColorButton-selected");
-					}
-				}
-			} else {
-				colorBtnPair.getValue().removeStyleName("mowColorButton-selected");
-			}
-		}
-		disableButton(btnCustomColor, !enable);
+		GColor active = app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER
+				? getSettings().getLastSelectedHighlighterColor()
+				: getSettings()
+				.getLastSelectedPenColor();
 		colorsEnabled = enable;
+		updateButtons(active);
+		disableButton(btnCustomColor, !enable);
 	}
 
 	private void disableButton(Widget label, boolean b) {
@@ -278,13 +239,13 @@ public class PenSubMenu extends SubMenuPanel {
 		AriaHelper.setHidden(label, b);
 	}
 
-	private GeoElement getPenGeo() {
+	private EuclidianPen getPenGeo() {
 		return app.getActiveEuclidianView().getEuclidianController()
-				.getPen().defaultPenLine;
+				.getPen();
 	}
 
-	private EuclidianSettings getSettings() {
-		return app.getActiveEuclidianView().getSettings();
+	private PenToolsSettings getSettings() {
+		return app.getSettings().getPenTools();
 	}
 
 	@Override
@@ -299,12 +260,9 @@ public class PenSubMenu extends SubMenuPanel {
 		} else if (mode == EuclidianConstants.MODE_PEN
 			|| mode == EuclidianConstants.MODE_HIGHLIGHTER) {
 			boolean isPen = mode == EuclidianConstants.MODE_PEN;
-			GColor lastColor = isPen ? getSettings().getLastSelectedPenColor()
-					: getSettings().getLastSelectedHighlighterColor();
 			int lastThickness = isPen ? getSettings().getLastPenThickness()
-					: getSettings().getLastHighlighterThinckness();
-			int opacity = isPen ? 255 : EuclidianConstants.DEFAULT_HIGHLIGHTER_OPACITY;
-			updatePenStyleAndUI(lastColor, lastThickness, opacity);
+					: getSettings().getLastHighlighterThickness();
+			updatePenStyleAndUI(lastThickness);
 		}
 	}
 
@@ -329,9 +287,9 @@ public class PenSubMenu extends SubMenuPanel {
 	 */
 	public void openColorDialog() {
 		if (colorsEnabled) {
-			final GeoElement penGeo = getPenGeo();
+			final EuclidianPen penGeo = getPenGeo();
 			DialogManagerW dm = (DialogManagerW) (app.getDialogManager());
-			GColor originalColor = penGeo.getObjectColor();
+			GColor originalColor = penGeo.getPenColor();
 			dm.showColorChooserDialog(originalColor, new ColorChangeHandler() {
 				@Override
 				public void onForegroundSelected() {
@@ -340,14 +298,8 @@ public class PenSubMenu extends SubMenuPanel {
 
 				@Override
 				public void onColorChange(GColor color) {
-					penGeo.setObjColor(color);
-					getSettings().setLastSelectedHighlighterColor(color);
-					penGeo.setLineOpacity(
-							app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER
-									? EuclidianConstants.DEFAULT_HIGHLIGHTER_OPACITY
-									: 255);
-					setSelectedColor(null);
-					getPreview().update();
+					penGeo.setPenColor(color);
+					setSelectedColor(color);
 				}
 
 				@Override
@@ -370,17 +322,6 @@ public class PenSubMenu extends SubMenuPanel {
 					// do nothing
 				}
 			});
-		}
-	}
-
-	/**
-	 * reset size of pen (for pen and highlighter)
-	 */
-	public void resetPen() {
-		getSettings().setLastPenThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
-		getSettings().setLastHighlighterThinckness(EuclidianConstants.DEFAULT_HIGHLIGHTER_SIZE);
-		if (app.getMode() == EuclidianConstants.MODE_PEN) {
-			slider.setValue((double) getSettings().getLastPenThickness());
 		}
 	}
 
