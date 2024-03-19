@@ -3,13 +3,14 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MOVE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PROTRACTOR;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
+import static org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxMow.TOOLBOX_PADDING;
 
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 public class RulerIconButton extends IconButton {
-	private final static int TOOLBOX_PADDING = 8;
 	private RulerPopup rulerPopup;
 	private AppW appW;
 

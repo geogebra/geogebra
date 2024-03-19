@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui.toolbar.mow.toolbox;
+package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
