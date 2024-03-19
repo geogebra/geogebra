@@ -42,8 +42,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 
 		addMoveModeButton();
 		addPenModeButton();
-		// add upload
-		// add link
+		addUploadButton();
+		addLinkButton();
 
 		addDivider();
 
@@ -96,6 +96,16 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 				"selectModeButton" + MODE_RULER);
 		add(rulerButton);
 		buttons.add(rulerButton);
+	}
+
+	private void addUploadButton() {
+		addToggleButton(MaterialDesignResources.INSTANCE.upload(), "Upload", "Upload",
+				"", () -> {}, () -> {});
+	}
+
+	private void addLinkButton() {
+		addToggleButton(MaterialDesignResources.INSTANCE.resource_card_shared(), "Link", "Link",
+				"", () -> {}, () -> {});
 	}
 
 	private void addMoveModeButton() {
