@@ -48,7 +48,7 @@ public class RulerPopup extends GPopupMenuW implements SetLabels {
 		AriaMenuItem item = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
 				image.getSafeUri().asString(), text), true, () -> {});
 		item.setScheduledCommand(() -> {
-			rulerButton.removeRuler();
+			rulerButton.removeTool();
 			activeRulerMode = mode;
 			String fillColor = rulerButton.isActive()
 					? getApp().getGeoGebraElement().getDarkColor(getApp().getFrameElement())

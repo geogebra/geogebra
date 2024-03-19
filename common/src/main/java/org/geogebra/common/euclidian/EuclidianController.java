@@ -44,6 +44,7 @@ import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.euclidian.measurement.MeasurementController;
 import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
 import org.geogebra.common.euclidian.modes.ModeMacro;
 import org.geogebra.common.euclidian.modes.ModeShape;
@@ -436,6 +437,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private final GeoPriorityComparator priorityComparator;
 	private RotateBoundingBox rotateBoundingBox;
+	private final MeasurementController measurementController;
 
 	/**
 	 * Clears the zoomer animation listeners.
@@ -493,6 +495,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		this.priorityComparator = app.getGeoPriorityComparator();
 		spotlightController = new SpotlightController(app);
 		createCompanions();
+		measurementController = new MeasurementController(this::createMeasurementToolImage);
+	}
+
+	protected GeoImage createMeasurementToolImage(int mode, String fileName) {
+		return null;
 	}
 
 	protected static void removeAxes(ArrayList<GeoElement> geos) {
@@ -721,7 +728,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (ms == ModeSetter.TOOLBAR) {
 			if (app.getGuiManager() != null) {
-				new ModeSwitcher(app).switchMode(newMode);
+				new ModeSwitcher(app, measurementController).switchMode(newMode);
 			}
 
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
@@ -7466,7 +7473,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// bounds exist
 			if (bounds != null) {
 				if (rotateBoundingBox == null) {
-					rotateBoundingBox = new RotateBoundingBox(this);
+					rotateBoundingBox = new RotateBoundingBox(this, measurementController);
 					rotateBoundingBox.setView(view);
 				}
 
@@ -10662,7 +10669,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_PEN:
 		case EuclidianConstants.MODE_HIGHLIGHTER:
 			if (pen == null || pen.isFreehand()) {
-				pen = new EuclidianPen(app, view);
+				pen = new EuclidianPen(app, view, measurementController);
 			}
 			break;
 
@@ -10936,7 +10943,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public EuclidianPen getPen() {
 		if (pen == null) {
-			pen = new EuclidianPen(app, view);
+			pen = new EuclidianPen(app, view, measurementController);
 		}
 		return pen;
 	}
@@ -12298,5 +12305,20 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected App getApp() {
 		return app;
+	}
+
+	/**
+	 * Clears all measurement tools.
+	 */
+	public void clearMeasurementTools() {
+		measurementController.unselect();
+	}
+
+	/**
+	 * Removes measurement tool from construction.
+	 * @param mode of tool to remove.
+	 */
+	public void removeMeasurementTool(Integer mode) {
+		measurementController.removeTool(mode);
 	}
 }

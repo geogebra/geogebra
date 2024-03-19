@@ -1,12 +1,15 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianPen;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.html5.css.ZoomPanelResources;
@@ -46,6 +49,15 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		addRulerButton();
 
 		addMoveModeButton();
+
+		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(),
+				"pen mode", "penBtn", () -> {
+			appW.setMode(MODE_PEN, ModeSetter.TOOLBAR);
+			GPopupPanel popup = new GPopupPanel(appW.getAppletFrame(), appW);
+			popup.add(new ColorChooserPanel(appW, (color)
+					-> getPen().setPenColor(color)));
+			popup.showRelativeTo(this);
+		});
 	}
 
 	private IconButton addPressButton(SVGResource image, String ariaLabel, String dataTest,
@@ -97,13 +109,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addMoveModeButton() {
-		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(),
-				"move mode", "moveBtn", () -> {
-						GPopupPanel popup = new GPopupPanel(appW.getAppletFrame(), appW);
-						popup.add(new ColorChooserPanel(appW, (color)
-								-> getPen().setPenColor(color)));
-						popup.showRelativeTo(this);
-		});
+		addPressButton(ToolbarSvgResources.INSTANCE.mode_select_32(),
+				"move mode", "moveBtn", () -> appW.setMode(MODE_SELECT_MOW));
 	}
 
 	@Override
