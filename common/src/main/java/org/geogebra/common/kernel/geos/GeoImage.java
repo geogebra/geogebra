@@ -1421,8 +1421,10 @@ public class GeoImage extends GeoElement implements
 		if (isMeasurementTool) {
 			if (getImageFileName().contains("Ruler.svg")) {
 				app.getActiveEuclidianView().setMeasurementTool(this, 1472, 72, 72);
-			}
-			if (getImageFileName().contains("Protractor.svg")) {
+			} else if (getImageFileName().contains("TriangleProtractor.svg")) {
+				int middle = (app.getActiveEuclidianView().getWidth() - 906) / 2;
+				app.getActiveEuclidianView().setMeasurementTool(this, 906, 445, middle);
+			} else if (getImageFileName().contains("Protractor.svg")) {
 				int middle = (app.getActiveEuclidianView().getWidth() - 558) / 2;
 				app.getActiveEuclidianView().setMeasurementTool(this, 558, 296, middle);
 			}
