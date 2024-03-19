@@ -9,14 +9,14 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 public interface MeasurementToolEdge {
 
 	/**
-	 * @return the first endpoind of the edge.
+	 * @return the first endpoint of the edge.
 	 */
-	GeoPoint endpoint1();
+	GeoPoint getEndpoint1();
 
 	/**
-	 * @return the second endpoind of the edge.
+	 * @return the second endpoint of the edge.
 	 */
-	GeoPoint endpoint2();
+	GeoPoint getEndpoint2();
 
 	/**
 	 * Update the edge endpoints based on the tool's image (and current position, rotation).

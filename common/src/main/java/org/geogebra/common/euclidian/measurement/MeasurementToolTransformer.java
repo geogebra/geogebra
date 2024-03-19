@@ -18,7 +18,7 @@ public final class MeasurementToolTransformer implements PenTransformer {
 	private GPoint initialProjection;
 	private List<MeasurementToolEdge> edges;
 	private MeasurementToolEdge activeEdge;
-	private MeasurementController measurementController;
+	private final MeasurementController measurementController;
 
 	public MeasurementToolTransformer(MeasurementController measurementController) {
 		this.measurementController = measurementController;
@@ -41,7 +41,7 @@ public final class MeasurementToolTransformer implements PenTransformer {
 	@Override
 	public boolean isActive() {
 		return initialProjection != null
-				&& initialProjection.distance(previewPoints.get(0)) < snapTreshold();
+				&& initialProjection.distance(previewPoints.get(0)) < snapThreshold();
 	}
 
 	/**
@@ -95,10 +95,10 @@ public final class MeasurementToolTransformer implements PenTransformer {
 
 	private boolean onBottomEdge(GPoint bottom) {
 		GeoImage toolImage = measurementController.getActiveToolImage();
-		double x1 = view.toScreenCoordXd(toolImage.getStartPoints()[0].getInhomX());
-		double x2 = view.toScreenCoordXd(toolImage.getStartPoints()[1].getInhomX());
-		double y1 = view.toScreenCoordYd(toolImage.getStartPoints()[0].getInhomY());
-		double y2 = view.toScreenCoordYd(toolImage.getStartPoints()[1].getInhomY());
+		double x1 = view.toScreenCoordXd(toolImage.getStartPoint(0).getInhomX());
+		double x2 = view.toScreenCoordXd(toolImage.getStartPoint(1).getInhomX());
+		double y1 = view.toScreenCoordYd(toolImage.getStartPoint(0).getInhomY());
+		double y2 = view.toScreenCoordYd(toolImage.getStartPoint(1).getInhomY());
 		if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) {
 			return (x1 - bottom.x) * (x2 - bottom.x) <= 0;
 		} else {
@@ -106,11 +106,12 @@ public final class MeasurementToolTransformer implements PenTransformer {
 		}
 	}
 
+	@SuppressWarnings("SuspiciousNameCombination")
 	private GPoint getProjection(GPoint p, MeasurementToolEdge edge) {
 		GeoImage toolImage = measurementController.getActiveToolImage();
 		edge.update(toolImage);
-		GeoPoint corner1 = edge.endpoint2();
-		GeoPoint corner2 = edge.endpoint1();
+		GeoPoint corner1 = edge.getEndpoint2();
+		GeoPoint corner2 = edge.getEndpoint1();
 
 		double x = corner2.getInhomY() - corner1.getInhomY();
 		double y = corner1.getInhomX() - corner2.getInhomX();

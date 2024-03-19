@@ -437,7 +437,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private final GeoPriorityComparator priorityComparator;
 	private RotateBoundingBox rotateBoundingBox;
-	private MeasurementController measurementController;
+	private final MeasurementController measurementController;
 
 	/**
 	 * Clears the zoomer animation listeners.

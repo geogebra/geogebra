@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * Represents an edge based on one of the image's edge given by two of their corners.
- * For image cornes, see {@link GeoImage}.
+ * For image corners, see {@link GeoImage}.
  */
 public final class RectangleEdge implements MeasurementToolEdge {
 	private final int cornerIndex1;
@@ -25,12 +25,12 @@ public final class RectangleEdge implements MeasurementToolEdge {
 	}
 
 	@Override
-	public GeoPoint endpoint1() {
+	public GeoPoint getEndpoint1() {
 		return corner1;
 	}
 
 	@Override
-	public GeoPoint endpoint2() {
+	public GeoPoint getEndpoint2() {
 		return corner2;
 	}
 

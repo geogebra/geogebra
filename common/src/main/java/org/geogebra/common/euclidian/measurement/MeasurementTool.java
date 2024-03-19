@@ -17,7 +17,7 @@ public final class MeasurementTool {
 	private final MeasurementToolId id;
 	private final String fileName;
 
-	private CreateToolImage toolImageFactory;
+	private final CreateToolImage toolImageFactory;
 
 	/**
 	 *

@@ -13,23 +13,23 @@ public final class LegEdge implements MeasurementToolEdge {
 	// GeoImage corners 3 and 4.
 	private GeoPoint corner3;
 	private GeoPoint corner4;
-	private Legs leg;
+	private final int cornerIndex;
 
 	/**
 	 *
-	 * @param leg to specify which leg it is.
+	 * @param cornerIndex to specify which corner this connects to the opposite side's midpoint.
 	 */
-	public LegEdge(Legs leg) {
-		this.leg = leg;
+	public LegEdge(int cornerIndex) {
+		this.cornerIndex = cornerIndex;
 	}
 
 	@Override
-	public GeoPoint endpoint1() {
+	public GeoPoint getEndpoint1() {
 		return endpoints[0];
 	}
 
 	@Override
-	public GeoPoint endpoint2() {
+	public GeoPoint getEndpoint2() {
 		return endpoints[1];
 	}
 
@@ -38,11 +38,11 @@ public final class LegEdge implements MeasurementToolEdge {
 		ensureCorners(image.getKernel().getConstruction());
 		image.calculateCornerPoint(corner3, 3);
 		image.calculateCornerPoint(corner4, 4);
-		int i = leg.index() - 1;
+		int i = cornerIndex - 1;
 		endpoints[i].x = (corner3.x + corner4.x) / 2;
 		endpoints[i].y = (corner3.y + corner4.y) / 2;
 		endpoints[i].z = 1;
-		image.calculateCornerPoint(endpoints[1 - i], leg.index());
+		image.calculateCornerPoint(endpoints[1 - i], cornerIndex);
 		endpoints[0].updateCoords();
 		endpoints[1].updateCoords();
 	}

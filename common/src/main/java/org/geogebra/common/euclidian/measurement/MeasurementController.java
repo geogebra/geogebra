@@ -16,7 +16,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 public final class MeasurementController {
 	private final CreateToolImage toolImageFactory;
 	private final Map<Integer, MeasurementTool> tools = new HashMap<>();
-	private Integer selectedMode = null;
+	private int selectedMode = -1;
 
 	/**
 	 *
@@ -59,7 +59,7 @@ public final class MeasurementController {
 	 * @return if there is a selected measurement tool.
 	 */
 	public boolean hasSelectedTool() {
-		return selectedMode != null;
+		return selectedMode > 0;
 	}
 
 	/**
@@ -74,7 +74,7 @@ public final class MeasurementController {
 	 * Shows/hides the the measurement tool specified by the mode.
 	 * @param mode of the measurement tool
 	 */
-	public void toggleActiveTool(Integer mode) {
+	public void toggleActiveTool(int mode) {
 		if (mode == selectedMode) {
 			unselect();
 		} else {
@@ -93,7 +93,7 @@ public final class MeasurementController {
 		if (tool != null) {
 			tool.remove();
 		}
-		selectTool(null);
+		selectTool(-1);
 	}
 
 	private void refreshTool() {
@@ -105,7 +105,7 @@ public final class MeasurementController {
 	 * Selects the measurement tool given by its id.
 	 * @param mode of tool to select.
 	 */
-	public void selectTool(Integer mode) {
+	public void selectTool(int mode) {
 		this.selectedMode = mode;
 	}
 

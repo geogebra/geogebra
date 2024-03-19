@@ -89,7 +89,7 @@ public class ToolButton extends StandardButton {
 	 * @return if a ruler or one of the protractors are selected.
 	 */
 	private boolean isMeasurementToolSelected() {
-		return (mode == EuclidianConstants.MODE_RULER
-				|| mode == EuclidianConstants.MODE_PROTRACTOR);
+		return mode == EuclidianConstants.MODE_RULER
+				|| mode == EuclidianConstants.MODE_PROTRACTOR;
 	}
 }

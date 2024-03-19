@@ -12,7 +12,7 @@ public interface PenTransformer {
 
 	void updatePreview(GPoint newPoint);
 
-	default int snapTreshold() {
+	default int snapThreshold() {
 		return 24;
 	}
 }
