@@ -1,18 +1,18 @@
 package org.geogebra.web.full.gui.menubar.action;
 
-import org.geogebra.web.full.gui.menubar.MenuAction;
+import org.geogebra.common.gui.view.algebra.contextmenu.MenuAction;
 import org.geogebra.web.full.gui.util.ExamSaveDialog;
 import org.geogebra.web.full.main.AppWFull;
 
-public class SaveExamAction implements MenuAction<Void> {
+public class SaveExamAction implements MenuAction<AppWFull> {
 
 	@Override
-	public boolean isAvailable(Void item) {
+	public boolean isAvailable(AppWFull item) {
 		return true;
 	}
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		showExamSaveDialog(app);
 	}
 

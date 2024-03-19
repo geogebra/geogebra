@@ -219,6 +219,6 @@ public class PropertiesStyleBarW extends
 	 * @return stylebar panel
 	 */
 	public FlowPanel getWrappedPanel() {
-	    return wrappedPanel;
-    }
+		return wrappedPanel;
+	}
 }

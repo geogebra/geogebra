@@ -75,7 +75,7 @@ public class AppWapplet3D extends AppWFull {
 		if (this.euclidianView3D == null) {
 			euclidianController3D = App3DW.newEuclidianController3DW(kernel);
 			euclidianView3D = App3DW.newEuclidianView3DW(euclidianController3D,
-			        getSettings().getEuclidian(3));
+					getSettings().getEuclidian(3));
 		}
 		return euclidianView3D;
 	}
@@ -100,8 +100,7 @@ public class AppWapplet3D extends AppWFull {
 		super.recalculateEnvironments();
 
 		if (this.isEuclidianView3Dinited()) {
-			getEuclidianView3D().getEuclidianController()
-			        .calculateEnvironment();
+			getEuclidianView3D().getEuclidianController().calculateEnvironment();
 		}
 
 		((App3DCompanionW) companion).recalculateEnvironments();
@@ -119,9 +118,8 @@ public class AppWapplet3D extends AppWFull {
 	@Override
 	public void updateViewSizes() {
 		super.updateViewSizes();
-		if (((GuiManager3DW) getGuiManager()).getEuclidian3DPanel() != null) {
-			((GuiManager3DW) getGuiManager()).getEuclidian3DPanel()
-			        .deferredOnResize();
+		if (getGuiManager().getEuclidian3DPanel() != null) {
+			getGuiManager().getEuclidian3DPanel().deferredOnResize();
 		}
 		((App3DCompanionW) companion).updateViewSizes();
 	}
@@ -150,7 +148,7 @@ public class AppWapplet3D extends AppWFull {
 	@Override
 	public EuclidianViewW newEuclidianView(EuclidianPanelWAbstract evPanel,
 			EuclidianController ec, boolean[] evShowAxes, boolean evShowGrid,
-	        int id, EuclidianSettings evSettings) {
+			int id, EuclidianSettings evSettings) {
 		return new EuclidianViewFor3DW(evPanel, ec, id, evSettings);
 	}
 
@@ -208,8 +206,7 @@ public class AppWapplet3D extends AppWFull {
 		}
 
 		// save euclidian views for plane settings
-		((App3DCompanion) companion).addCompleteUserInterfaceXMLForPlane(sb,
-		        asPreference);
+		((App3DCompanion) companion).addCompleteUserInterfaceXMLForPlane(sb, asPreference);
 
 		return sb.toString();
 	}

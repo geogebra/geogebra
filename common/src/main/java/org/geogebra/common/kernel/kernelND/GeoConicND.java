@@ -183,7 +183,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            toStroingMode, one of EQUATION_* constants
 	 */
 	public GeoConicND(Construction c, int dimension, boolean isIntersection,
-					  int stringMode) {
+			int stringMode) {
 		super(c, dimension, isIntersection);
 		setToStringMode(stringMode);
 	}

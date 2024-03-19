@@ -87,6 +87,7 @@ import com.himamis.retex.editor.share.syntax.SyntaxTooltipUpdater;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
+import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 
 /**
  * main -> marblePanel content controls
@@ -126,6 +127,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected ItemControls controls;
 
 	protected Canvas canvas;
+	private Graphics2DW canvasGraphics;
 
 	String commandError;
 
@@ -379,7 +381,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private void definitionFromTeX(String text) {
 		definitionPanel.clear();
 
-		canvas = latexToCanvas(text);
+		latexToCanvas(text);
 		if (canvas != null) {
 			canvas.addStyleName("canvasDef");
 			definitionPanel.add(canvas);
@@ -528,8 +530,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 						StringTemplate.latexTemplate);
 			}
 
-			canvas = DrawEquationW.paintOnCanvas(geo, text, canvas,
-					getFontSize());
+			latexToCanvas(text);
 			content.clear();
 			content.add(canvas);
 		} else {
@@ -662,16 +663,19 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 	}
 
-	private Canvas latexToCanvas(String text) {
-		return DrawEquationW.paintOnCanvas(geo, text, canvas, getFontSize());
+	private void latexToCanvas(String text) {
+		if (canvasGraphics != null) {
+			canvasGraphics.cancelCallbacks();
+		}
+		canvas = DrawEquationW.makeCleanCanvas(canvas);
+		canvasGraphics = ((DrawEquationW) app.getDrawEquation()).paintOnCleanCanvas(text, canvas,
+				getFontSize(), GColor.BLACK, DrawEquationW.needsSerif(geo));
 	}
 
 	private void updateLaTeX(String text) {
 		if (!isAlgebraStyleDefAndValue()) {
 			content.clear();
-			canvas = DrawEquationW.paintOnCanvas(geo, text, canvas,
-					getFontSize());
-
+			latexToCanvas(text);
 			content.add(canvas);
 		}
 	}

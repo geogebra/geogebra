@@ -45,7 +45,7 @@ public class AppWsimple extends AppW {
 		this.useFullGui = false;
 
 		Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
-		        + GeoGebraConstants.BUILD_DATE);
+				+ GeoGebraConstants.BUILD_DATE);
 		initCommonObjects();
 		initing = true;
 

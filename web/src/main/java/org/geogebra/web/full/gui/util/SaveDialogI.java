@@ -12,6 +12,8 @@ public interface SaveDialogI {
 
 	void hide();
 
+	boolean isShowing();
+
 	/**
 	 * Update the UI to say "discard" rather than "cancel"
 	 */

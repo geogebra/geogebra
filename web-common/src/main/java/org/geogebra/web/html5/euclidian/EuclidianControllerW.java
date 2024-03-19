@@ -141,7 +141,7 @@ public class EuclidianControllerW extends EuclidianController implements
 			if (!hits.isEmpty()) {
 				GeoElement hit = hits.get(0);
 				if (hit != null && !hit.isGeoButton() && !hit.isGeoInputBox()
-				        && !hit.isGeoBoolean()) {
+						&& !hit.isGeoBoolean()) {
 					GeoElement geo = chooseGeo(hits, true);
 					if (geo != null) {
 						runScriptsIfNeeded(geo);
@@ -216,12 +216,12 @@ public class EuclidianControllerW extends EuclidianController implements
 		}
 		ArrayList<String> list = new ArrayList<>();
 		list.add(geo.isLabelSet() ? geo.getLabelSimple() : "\""
-		        + geo.getLaTeXAlgebraDescription(true,
-		                StringTemplate.latexTemplate) + "\"");
+				+ geo.getLaTeXAlgebraDescription(true,
+						StringTemplate.latexTemplate) + "\"");
 		String text = EuclidianView.getDraggedLabels(list);
 
 		GeoElementND[] ret = app.getKernel().getAlgebraProcessor()
-		        .processAlgebraCommand(text, true);
+				.processAlgebraCommand(text, true);
 
 		if (ret != null && ret[0] instanceof TextValue) {
 			GeoText geo0 = (GeoText) ret[0];

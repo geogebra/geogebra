@@ -431,11 +431,11 @@ public class DrawAxis3D extends DrawLine3D {
 	 * update axis position for ticks and labels
 	 */
 	public void updateDrawPositionAxes() {
-	    updateDecorations();
+		updateDecorations();
 		int tickSize = ((GeoAxisND) getGeoElement()).getTickSize();
 		for (DrawLabel3D currentLabel : labels.values()) {
 			currentLabel.updateDrawPositionAxes(numbersXOffset, numbersYOffset, numbersZOffset,
-                    tickSize);
+					tickSize);
 		}
 		label.updateDrawPositionAxes(-numbersXOffset, -numbersYOffset, -numbersZOffset, tickSize);
 	}

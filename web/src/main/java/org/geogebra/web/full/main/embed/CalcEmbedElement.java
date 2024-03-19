@@ -10,7 +10,7 @@ import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.undo.UndoInfoStoredListener;
 import org.geogebra.common.main.undo.UndoManager;
-import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
@@ -57,7 +57,7 @@ public class CalcEmbedElement extends EmbedElement {
 	}
 
 	@Override
-	public void executeAction(EventType action) {
+	public void executeAction(ActionType action) {
 		undoRedoGlue.executeAction(action);
 	}
 
@@ -178,9 +178,9 @@ public class CalcEmbedElement extends EmbedElement {
 
 	private static class UndoRedoGlue implements UndoInfoStoredListener {
 
-		private int embedId;
-		private UndoManager embeddedUndoManager;
-		private EmbedManagerW embedManager;
+		private final int embedId;
+		private final UndoManager embeddedUndoManager;
+		private final EmbedManagerW embedManager;
 
 		private UndoRedoGlue(int embedId, UndoManager embeddedUndoManager,
 				EmbedManagerW embedManager) {
@@ -195,12 +195,12 @@ public class CalcEmbedElement extends EmbedElement {
 			embedManager.createUndoAction(embedId);
 		}
 
-		protected void executeAction(EventType action) {
-			if (EventType.UNDO.equals(action)) {
+		protected void executeAction(ActionType action) {
+			if (ActionType.UNDO.equals(action)) {
 				undo();
-			} else if (EventType.REDO.equals(action)) {
+			} else if (ActionType.REDO.equals(action)) {
 				redo();
-			} else if (EventType.EMBEDDED_PRUNE_STATE_LIST.equals(action)) {
+			} else if (ActionType.EMBEDDED_PRUNE_STATE_LIST.equals(action)) {
 				pruneStateList();
 			}
 		}

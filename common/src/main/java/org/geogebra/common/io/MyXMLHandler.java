@@ -216,6 +216,7 @@ public class MyXMLHandler implements DocHandler {
 	private HashMap<EuclidianSettings, String> ztick = new HashMap<>();
 	private HashMap<EuclidianSettings, String> ymax = new HashMap<>();
 	private String xValuesLabel;
+	private String xValuesCaption;
 	private ArrayList<String> entries;
 	private String subAppCode;
 
@@ -260,6 +261,7 @@ public class MyXMLHandler implements DocHandler {
 		ytick.clear();
 		ztick.clear();
 		xValuesLabel = null;
+		xValuesCaption = null;
 	}
 
 	private void initKernelVars() {
@@ -682,11 +684,14 @@ public class MyXMLHandler implements DocHandler {
 		String valuesString = attrs.get("xValues");
 		if (valuesString != null) {
 			xValuesLabel = valuesString;
+			xValuesCaption = attrs.get("xCaption");
+			ts.setValueListCaption(xValuesCaption);
 		} else {
 			ts.setValueList(null);
 			ts.setValuesMin(getNumber(attrs.get("min")).getDouble());
 			ts.setValuesMax(getNumber(attrs.get("max")).getDouble());
 			ts.setValuesStep(getNumber(attrs.get("step")).getDouble());
+			ts.setValueListCaption("x");
 		}
 	}
 
@@ -3082,7 +3087,9 @@ public class MyXMLHandler implements DocHandler {
 	private void processXValuesList() {
 		GeoElement geoElement = kernel.lookupLabel(xValuesLabel);
 		if (geoElement != null) {
-			app.getSettings().getTable().setValueList((GeoList) geoElement);
+			TableSettings tableSettings = app.getSettings().getTable();
+			tableSettings.setValueList((GeoList) geoElement);
+			tableSettings.setValueListCaption(xValuesCaption);
 		}
 	}
 

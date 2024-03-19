@@ -54,7 +54,7 @@ class DecimalPart {
 		return Objects.hash(value, length);
 	}
 
-	 int value() {
+	int value() {
 		return value != null ? value : 0;
 	}
 

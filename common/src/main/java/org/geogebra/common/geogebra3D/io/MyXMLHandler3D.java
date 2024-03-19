@@ -80,7 +80,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			ok = handleAxis(evSet, attrs);
 			break;
 		case "axesColored":
-		    ok = handleColoredAxes((EuclidianSettings3D) evSet, attrs);
+			ok = handleColoredAxes((EuclidianSettings3D) evSet, attrs);
 			break;
 		case "bgColor":
 			ok = handleBgColor(evSet, attrs);

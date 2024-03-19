@@ -457,61 +457,21 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent.materialRename {
 		max-width: 448px;
 
-		.AutoCompleteTextFieldW {
-					margin: 8px 16px 16px 0px;
-					display: inline-block;
-					width: 100%;
+		.dialogContent .AutoCompleteTextFieldW {
+			margin-bottom: 16px;
+			display: inline-block;
+			width: 100%;
+		}
+
+		.mowInputPanelContent {
+
+			&.hoverState, &.focusState, &.focusState:hover {
+
+				.AutoCompleteTextFieldW {
+					margin-bottom: 15px;
 				}
-
-				.mowInputPanelContent {
-					&.emptyState {
-						.inputLabel {
-							color: neutral(700);
-							font-size: 75%;
-						}
-
-						.AutoCompleteTextFieldW {
-							border-bottom: 1px solid colors.$black-42;
-
-							.TextField {
-								border: none;
-								box-shadow: none;
-								padding: 0px;
-								margin-bottom: 8px;
-								margin-top: 0px;
-								font-size: 100%;
-								color: neutral(900);
-								&::placeholder {
-									color: neutral(700);
-								}
-							}
-						}
-					}
-
-					&.hoverState {
-						.inputLabel {
-							color: colors.$black-87;
-						}
-
-						.AutoCompleteTextFieldW {
-							border-bottom: 2px solid colors.$black-87;
-							margin: 8px 16px 15px 0px;
-						}
-					}
-
-					&.focusState, &.focusState:hover {
-						@extend .emptyState;
-						.inputLabel {
-							opacity: 0.87;
-							color: colors.$mow_dark;
-						}
-
-						.AutoCompleteTextFieldW {
-							border-bottom: 2px solid colors.$mow_dark;
-							margin: 8px 16px 15px 0px;
-						}
-					}
-				}
+			}
+		}
 	}
 
 	.mediaDialog {
@@ -523,102 +483,98 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 		}
 
-		&.Video, &.Audio {
+		&.Video, &.Audio, &.Web {
 			max-width: 448px;
 		}
+	}
 
-		&.Web {
-			max-width: 448px;
+	.dialogContent .mowInputPanelContent {
+		.AutoCompleteTextFieldW {
+			margin: 8px 0 8px 0;
 		}
 
-		.mowInputPanelContent {
+		&.emptyState {
+			.inputLabel {
+				color: neutral(700);
+				font-size: 75%;
+			}
+
 			.AutoCompleteTextFieldW {
-				margin: 8px 16px 8px 0px;
-			}
-
-			&.emptyState {
-				.inputLabel {
-					color: neutral(700);
-					font-size: 75%;
-				}
-
-				.AutoCompleteTextFieldW {
-					border-bottom: 1px solid colors.$black-42;
-					.TextField {
-						border: none;
-						box-shadow: none;
-						padding: 0px;
-						margin-bottom: 8px;
-						margin-top: 0px;
-						font-size: 100%;
-						color: neutral(900);
-						&::placeholder {
-							color: neutral(700);
-						}
-					}
-				}
-
-				.errorLabel {
-					opacity: 0;
-				}
-
-				.msgLabel {
-					margin-top: 0;
-					font-size: 75%;
-					min-height: 20px;
-					line-height: 20px;
-					max-width: math.div(25em * 4, 3);
-				}
-
-				&.hoverState {
-					.inputLabel {
-						color: colors.$black-87;
-					}
-
-					.AutoCompleteTextFieldW {
-						border-bottom: 2px solid colors.$black-87;
-					}
-
-					.errorLabel {
-						line-height: 19px;
-						min-height: 19px;
+				border-bottom: 1px solid colors.$black-42;
+				.TextField {
+					border: none;
+					box-shadow: none;
+					padding: 0px;
+					margin-bottom: 8px;
+					margin-top: 0px;
+					font-size: 100%;
+					color: neutral(900);
+					&::placeholder {
+						color: neutral(700);
 					}
 				}
 			}
 
-			&.errorState, &.errorState:hover {
-				@extend .emptyState;
-				.inputLabel {
-					color: colors.$red-A400-87;
-				}
-
-				.AutoCompleteTextFieldW {
-					border-bottom: 2px solid colors.$red;
-				}
-
-				.errorLabel {
-					line-height: 19px;
-					min-height: 19px;
-					color: colors.$red-A400-87;
-					opacity: 1;
-				}
+			.errorLabel {
+				opacity: 0;
 			}
 
-			&.focusState, &.focusState:hover {
-				@extend .emptyState;
+			.msgLabel {
+				margin-top: 0;
+				font-size: 75%;
+				min-height: 20px;
+				line-height: 20px;
+				max-width: math.div(25em * 4, 3);
+			}
+
+			&.hoverState {
 				.inputLabel {
-					opacity: 0.87;
-					color: colors.$mow_dark;
+					color: colors.$black-87;
 				}
 
 				.AutoCompleteTextFieldW {
-					border-bottom: 2px solid colors.$mow_dark;
+					border-bottom: 2px solid colors.$black-87;
 				}
 
 				.errorLabel {
 					line-height: 19px;
 					min-height: 19px;
 				}
+			}
+		}
+
+		&.errorState, &.errorState:hover {
+			@extend .emptyState;
+			.inputLabel {
+				color: colors.$red-A400-87;
+			}
+
+			.AutoCompleteTextFieldW {
+				border-bottom: 2px solid colors.$red;
+			}
+
+			.errorLabel {
+				line-height: 19px;
+				min-height: 19px;
+				color: colors.$red-A400-87;
+				opacity: 1;
+			}
+		}
+
+		&.focusState, &.focusState:hover {
+			@extend .emptyState;
+			.inputLabel {
+				opacity: 0.87;
+				color: colors.$mow_dark;
+			}
+
+			.AutoCompleteTextFieldW {
+				border-bottom: 2px solid colors.$mow_dark;
+			}
+
+			.errorLabel {
+				line-height: 19px;
+				min-height: 19px;
 			}
 		}
 	}
@@ -634,7 +590,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-   .dialogComponent.exportImgDialog {
+	.dialogComponent.exportImgDialog {
 		max-width: unset;
 		max-height: unset;
 		height: unset;
@@ -819,14 +775,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.progressBar {
 			margin-left: auto;
 			margin-right: auto;
-			background: colors.$mow_light;
-			height: 4px;
 			max-width: 300px;
 			width: 80%;
 
-			div {
-				background: colors.$mow_dark;
-				height: 100%;
+			.indicator {
+				transition: none;
 			}
 		}
 	}
@@ -1073,27 +1026,48 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.saveDialogMow {
-		@extend .mediaDialog;
+	.saveDialog {
 
 		max-width: 448px;
 
 		.mowInputPanelContent {
 				.AutoCompleteTextFieldW {
-					margin: 8px 16px 16px 0px !important;
+					margin-bottom: 16px;
 				}
 		}
 
 		.mowInputPanelContent.hoverState,
 			.mowInputPanelContent.focusState {
 				.AutoCompleteTextFieldW {
-					margin: 8px 16px 15px 0px !important;
+					margin-bottom: 15px;
 				}
 		}
 
 		.checkboxPanel {
 			margin-top: 4px;
 			margin-bottom: 20px;
+		}
+
+		.locationHolder {
+			display: flex;
+
+			.imageHolder {
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+				background-color: neutral(200);
+				margin: auto 12px auto 0;
+
+				img {
+					width: 20px;
+					height: 20px;
+					padding: 10px;
+				}
+			}
+
+			.dropDown {
+				width: 100%;
+			}
 		}
 	}
 
@@ -2072,6 +2046,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.textEditPopup {
 		box-shadow: none;
+	}
+
+	.overwriteDialog {
+		.dialogContent .gwt-Label {
+			margin-bottom: 8px;
+			line-height: 24px;
+		}
 	}
 
 	.assignOption {

@@ -264,8 +264,8 @@ public class LayoutW extends Layout {
 	 * @return application
 	 */
 	public AppW getApplication() {
-	    return app;
-    }
+		return app;
+	}
 
 	/**
 	 * @return The management class for the docking behavior.

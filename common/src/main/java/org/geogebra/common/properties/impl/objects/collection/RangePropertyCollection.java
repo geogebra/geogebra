@@ -29,4 +29,5 @@ public class RangePropertyCollection<T extends RangeProperty<V>, V extends Numbe
 	public V getMax() {
 		return getFirstProperty().getMax();
 	}
+
 }

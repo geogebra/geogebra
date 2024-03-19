@@ -24,12 +24,11 @@ public class BgColorPopup extends ColorPopupMenuButton implements SetLabels {
 	/**
 	 * @param app          {@link AppW}
 	 * @param colorSetType {@code int}
-	 * @param hasSlider    {@code boolean}
 	 * @param selection selected geos
 	 */
-	public BgColorPopup(AppW app, int colorSetType, boolean hasSlider,
+	public BgColorPopup(AppW app, int colorSetType,
 			EuclidianStyleBarSelection selection) {
-		super(app, colorSetType, hasSlider);
+		super(app, colorSetType, false);
 		localization = app.getLocalization();
 		this.selection = selection;
 		buildGUI();

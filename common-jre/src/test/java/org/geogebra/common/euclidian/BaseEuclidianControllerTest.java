@@ -3,6 +3,8 @@ package org.geogebra.common.euclidian;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
+
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -15,7 +17,14 @@ import org.geogebra.test.TestEvent;
 import org.junit.Before;
 
 public class BaseEuclidianControllerTest extends BaseUnitTest {
+
 	private EuclidianController ec;
+
+	@Before
+	public void clear() {
+		ec = getApp().getActiveEuclidianView().getEuclidianController();
+		reset();
+	}
 
 	@Override
 	public AppCommon createAppCommon() {
@@ -26,7 +35,7 @@ public class BaseEuclidianControllerTest extends BaseUnitTest {
 	 * Setup the app
 	 */
 	@Before
-	public void setupController() {
+	public void setupEV() {
 		ec = getApp().getActiveEuclidianView().getEuclidianController();
 		reset();
 	}
@@ -86,6 +95,11 @@ public class BaseEuclidianControllerTest extends BaseUnitTest {
 		ec.wrapMouseDragged(evt, true);
 		ec.wrapMouseDragged(evt, true);
 		ec.wrapMouseReleased(evt);
+	}
+
+	protected void drag(int x, int y) {
+		TestEvent evt = new TestEvent(x, y, null, false);
+		ec.wrapMouseDragged(evt, true);
 	}
 
 	protected void dragEnd(int x, int y) {
@@ -160,6 +174,11 @@ public class BaseEuclidianControllerTest extends BaseUnitTest {
 			}
 		}
 		assertEquals(desc.length, i);
+	}
+
+	protected void checkContentLabels(String... labels) {
+		assertEquals(Arrays.asList(labels),
+				Arrays.asList(getApp().getGgbApi().getAllObjectNames()));
 	}
 
 	protected GeoImage createImage() {

@@ -6,10 +6,10 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Shows the print preview.
  */
-public class ShowPrintPreviewAction extends DefaultMenuAction<Void> {
+public class ShowPrintPreviewAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		app.getDialogManager().showPrintPreview();
 	}
 }

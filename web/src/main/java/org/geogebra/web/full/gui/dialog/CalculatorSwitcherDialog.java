@@ -71,7 +71,7 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 		AppDescription description = AppDescription.get(subAppCode) ;
 		String appNameKey = description.getNameKey();
 		StandardButton button =  new StandardButton(72, description.getIcon(),
-				 app.getLocalization().getMenu(appNameKey));
+				app.getLocalization().getMenu(appNameKey));
 		button.setStyleName("calcBtn");
 		if (subAppCode.equals(app.getConfig().getSubAppCode())) {
 			button.addStyleName("selected");

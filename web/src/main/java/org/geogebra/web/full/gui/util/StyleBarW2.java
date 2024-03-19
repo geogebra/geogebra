@@ -2,13 +2,13 @@ package org.geogebra.web.full.gui.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
-import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.main.undo.UpdateStyleActionStore;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.euclidian.EuclidianLineStylePopup;
@@ -29,19 +30,17 @@ import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.html5.main.AppW;
-import org.gwtproject.user.client.ui.Widget;
 
 /**
  * a version of StyleBarW that also includes the buttons for color, line style
  * and point style and (parts of) their handling.
  */
-public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
+public abstract class StyleBarW2 extends StyleBarW {
 
 	protected ColorPopupMenuButton btnColor;
 	protected EuclidianLineStylePopup btnLineStyle;
 	protected PointStylePopup btnPointStyle;
 
-	protected boolean needUndo = false;
 	protected final InlineTextFormatter inlineFormatter;
 	public int mode = -1;
 
@@ -59,26 +58,46 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	protected void createLineStyleBtn() {
 		btnLineStyle = app.isWhiteboardActive()
 				? new MOWLineStyleButton(app)
-				: new EuclidianLineStylePopup(app, 5, true);
-		btnLineStyle.getMySlider().setMinimum(1);
-		btnLineStyle.getMySlider()
+				: new EuclidianLineStylePopup(app);
+		btnLineStyle.getSlider().setMinimum(1);
+		btnLineStyle.getSlider()
 				.setMaximum(app.isWhiteboardActive()
 						? 2 * EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE : 13);
-		btnLineStyle.getMySlider().setTickSpacing(1);
-		btnLineStyle.addPopupHandler(this);
+		btnLineStyle.getSlider().setTickSpacing(1);
+		setPopupHandlerWithUndoStrokeAction(btnLineStyle, this::processLineStyle);
+	}
+
+	protected void setPopupHandlerWithUndoAction(PopupMenuButtonW popupBtn,
+			Function<ArrayList<GeoElement>, Boolean> action) {
+		popupBtn.addPopupHandler(w -> processSelectionWithUndoAction(action));
+		// no undo in slider handler
+		UndoableSliderHandler ush = new UndoableSliderHandler(action, this);
+		popupBtn.setChangeEventHandler(ush);
+	}
+
+	protected void setPopupHandlerWithUndoStrokeAction(PopupMenuButtonW popupBtn,
+			Function<ArrayList<GeoElement>, Boolean> action) {
+		popupBtn.addPopupHandler(w -> action.apply(getTargetGeos()));
+		// no undo in slider handler
+		UndoableSliderHandler ush = new UndoableSliderHandler(action, this);
+		popupBtn.setChangeEventHandler(ush);
+	}
+
+	protected void setPopupHandlerWithUndoPoint(PopupMenuButtonW popupBtn,
+			Function<ArrayList<GeoElement>, Boolean> action) {
+		popupBtn.addPopupHandler(w -> processSelectionWithUndo(action));
 	}
 
 	protected void createPointStyleBtn(int mode) {
 		btnPointStyle = app.isWhiteboardActive()
 				? MOWPointStyleButton.create(app)
-				: PointStylePopup.create(app, mode, true,
-						new PointStyleModel(app));
+				: PointStylePopup.create(app, mode, true);
 
-		btnPointStyle.getMySlider().setMinimum(1);
-		btnPointStyle.getMySlider().setMaximum(9);
-		btnPointStyle.getMySlider().setTickSpacing(1);
+		btnPointStyle.getSlider().setMinimum(1);
+		btnPointStyle.getSlider().setMaximum(9);
+		btnPointStyle.getSlider().setTickSpacing(1);
 
-		btnPointStyle.addPopupHandler(this);
+		setPopupHandlerWithUndoAction(btnPointStyle, this::processPointStyle);
 	}
 
 	/**
@@ -95,45 +114,36 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		}
 	}
 
-	/**
-	 * process the action performed
-	 * 
-	 * @param source
-	 *            event source
-	 * @param targetGeos
-	 *            selected objects
-	 * @return processed successfully
-	 */
-	protected boolean processSource(Widget source,
-			ArrayList<GeoElement> targetGeos) {
-		if (source == btnColor) {
-			GColor color = btnColor.getSelectedColor();
-			if (color == null && !(targetGeos.get(0) instanceof GeoImage)) {
-				openColorChooser(targetGeos, false);
-			} else {
-				double alpha = btnColor.getSliderValue() / 100.0;
-				needUndo = EuclidianStyleBarStatic.applyColor(color,
-						alpha, app, targetGeos);
-			}
-		} else if (source == btnLineStyle) {
-			if (btnLineStyle.getSelectedValue() != null) {
-				int selectedIndex = btnLineStyle.getSelectedIndex();
-				int lineSize = btnLineStyle.getSliderValue();
-				btnLineStyle.setSelectedIndex(selectedIndex);
-				needUndo = EuclidianStyleBarStatic.applyLineStyle(selectedIndex,
-						lineSize, app, targetGeos);
-			}
-		} else if (source == btnPointStyle) {
-			if (btnPointStyle.getSelectedValue() != null) {
-				int pointStyleSelIndex = btnPointStyle.getSelectedIndex();
-				int pointSize = btnPointStyle.getSliderValue();
-				needUndo = EuclidianStyleBarStatic.applyPointStyle(targetGeos,
-						pointStyleSelIndex, pointSize);
-			}
-		} else {
-			return false;
+	private boolean processPointStyle(ArrayList<GeoElement> targetGeos) {
+		if (btnPointStyle.getSelectedValue() != null) {
+			int pointStyleSelIndex = btnPointStyle.getSelectedIndex();
+			int pointSize = btnPointStyle.getSliderValue();
+			return EuclidianStyleBarStatic.applyPointStyle(targetGeos,
+					pointStyleSelIndex, pointSize);
 		}
-		return true;
+		return false;
+	}
+
+	private boolean processLineStyle(ArrayList<GeoElement> targetGeos) {
+		if (btnLineStyle.getSelectedValue() != null) {
+			int selectedIndex = btnLineStyle.getSelectedIndex();
+			int lineSize = btnLineStyle.getSliderValue();
+			btnLineStyle.setSelectedIndex(selectedIndex);
+			return EuclidianStyleBarStatic.applyLineStyle(selectedIndex, lineSize, app, targetGeos);
+		}
+		return false;
+	}
+
+	private boolean processColor(ArrayList<GeoElement> targetGeos) {
+		GColor color = btnColor.getSelectedColor();
+		if (color == null && !(targetGeos.get(0) instanceof GeoImage)) {
+			openColorChooser(targetGeos, false);
+		} else {
+			double alpha = btnColor.getSliderValue() / 100.0;
+			return EuclidianStyleBarStatic.applyColor(color,
+					alpha, app, targetGeos);
+		}
+		return false;
 	}
 
 	protected void openPropertiesForColor(boolean background) {
@@ -209,19 +219,38 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	}
 
 	/**
-	 * @param actionButton
-	 *            runs programatically the action performed event.
+	 * Process selected geos and create undo checkpoint if necessary
+	 * @param action action to be executed on geos
 	 */
-	@Override
-	public abstract void fireActionPerformed(PopupMenuButtonW actionButton);
+	public void processSelectionWithUndo(Function<ArrayList<GeoElement>, Boolean> action) {
+		UpdateStyleActionStore store = new UpdateStyleActionStore(getTargetGeos());
+		boolean needUndo = action.apply(getTargetGeos()) && store.needUndo();
+		if (needUndo) {
+			store.storeUndo();
+		}
+	}
+
+	/**
+	 * Process selected geos and create undoable action if necessary
+	 * @param action action to be executed on geos
+	 */
+	public void processSelectionWithUndoAction(Function<ArrayList<GeoElement>, Boolean> action) {
+		UpdateStyleActionStore store = new UpdateStyleActionStore(getTargetGeos());
+		boolean needUndo = action.apply(getTargetGeos()) && store.needUndo();
+		if (needUndo) {
+			store.storeUndo();
+		}
+	}
+
+	protected abstract ArrayList<GeoElement> getTargetGeos();
 
 	protected boolean applyColor(ArrayList<GeoElement> targetGeos, GColor color,
 			double alpha) {
 		boolean ret = EuclidianStyleBarStatic.applyColor(color,
 				alpha, app, targetGeos);
 		String htmlColor = StringUtil.toHtmlColor(color);
-		return inlineFormatter.formatInlineText(targetGeos, "color", htmlColor)
-				|| ret;
+		inlineFormatter.formatInlineText(targetGeos, "color", htmlColor);
+		return ret;
 	}
 
 	protected void createColorBtn() {
@@ -330,7 +359,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 				onColorClicked();
 			}
 		};
-		btnColor.addPopupHandler(this);
+		setPopupHandlerWithUndoStrokeAction(btnColor, this::processColor);
 	}
 
 	public boolean hasTextColor(GeoElement geoElement) {

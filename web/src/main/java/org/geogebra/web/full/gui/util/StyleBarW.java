@@ -48,10 +48,10 @@ public abstract class StyleBarW extends HorizontalPanel implements
 	 *            {@code int}
 	 */
 	public StyleBarW(AppW app, int viewID) {
-	    this.app = app;
-	    this.viewID = viewID;
-	    this.app.addViewsChangedListener(this);
-    }
+		this.app = app;
+		this.viewID = viewID;
+		this.app.addViewsChangedListener(this);
+	}
 
 	/**
 	 * @param showStyleBar

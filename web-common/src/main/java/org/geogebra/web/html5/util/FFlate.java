@@ -29,6 +29,8 @@ public class FFlate {
 
 	public native Uint8Array zipSync(JsPropertyMap<Object> fflatePrepared);
 
+	public native JsPropertyMap<Uint8Array> unzipSync(Uint8Array uint8Array);
+
 	public native void zip(JsPropertyMap<Object> fflatePrepared, ZipCallback callback);
 
 	public native void unzip(Object bytes, UnzipCallback callback);

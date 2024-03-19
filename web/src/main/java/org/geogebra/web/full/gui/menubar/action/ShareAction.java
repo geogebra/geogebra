@@ -8,10 +8,10 @@ import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 /**
  * Shares the material.
  */
-public class ShareAction extends DefaultMenuAction<Void> {
+public class ShareAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		ShareControllerW shareController = (ShareControllerW) app.getShareController();
 		if (GeoGebraJSNativeBridge.get() != null) {
 			shareController.getBase64();

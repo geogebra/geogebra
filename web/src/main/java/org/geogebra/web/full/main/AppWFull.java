@@ -122,6 +122,7 @@ import org.geogebra.web.full.gui.menubar.action.StartExamAction;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.full.gui.toolbarpanel.tableview.dataimport.CsvImportHandler;
 import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
@@ -174,6 +175,7 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Overflow;
 import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.timer.client.Timer;
+import org.gwtproject.user.client.Command;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.HorizontalPanel;
 import org.gwtproject.user.client.ui.RootPanel;
@@ -249,6 +251,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private InputBoxType inputBoxType;
 	private List<String> functionVars = new ArrayList<>();
 	private OpenSearch search;
+	private CsvImportHandler csvImportHandler;
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -770,7 +773,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public final void examWelcome() {
 		if (isExam() && getExam().getStart() < 0) {
 			if (isUnbundled()) {
-				new StartExamAction(this).execute(null, this);
+				new StartExamAction().execute(this);
 			} else {
 				resetViewsEnabled();
 				String negativeKey = isLockedExam()
@@ -946,6 +949,30 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void ensureLoginOperation() {
 		if (getLoginOperation() == null) {
 			this.initSignInEventFlow(new LoginOperationW(this));
+		}
+	}
+
+	/**
+	 * Initializes the user authentication
+	 *  @param op
+	 *            login operation
+	 *
+	 */
+	public void initSignInEventFlow(LoginOperationW op) {
+		// Initialize the signIn operation
+		loginOperation = op;
+		if (getNetworkOperation().isOnline()) {
+			if (getLAF() != null && getLAF().supportsGoogleDrive()) {
+				initGoogleDriveEventFlow();
+			}
+			if (!StringUtil.empty(appletParameters.getDataParamTubeID())
+					|| appletParameters.getDataParamEnableFileFeatures()) {
+				if (!op.loadUserFromSession()) {
+					loginOperation.performTokenLogin();
+				}
+			}
+		} else {
+			loginOperation.startOffline();
 		}
 	}
 
@@ -2470,6 +2497,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		return material != null;
 	}
 
+	@Override
+	protected void resetFileHandle() {
+		if (fm != null) {
+			fm.resetFileHandle();
+		}
+	}
+
 	private void storeCurrentUndoHistory() {
 		UndoManager undoManager = kernel.getConstruction().getUndoManager();
 		undoManager.undoHistoryTo(undoHistory);
@@ -2531,5 +2565,19 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public void clearSubAppCons() {
 		constructionJson.clear();
+	}
+
+	/**
+	 * @return csv import handler
+	 */
+	public CsvImportHandler getCsvImportHandler() {
+		if (csvImportHandler == null) {
+			csvImportHandler = new CsvImportHandler(this);
+		}
+		return csvImportHandler;
+	}
+
+	public Command getCsvHandler() {
+		return getCsvImportHandler().getCsvHandler();
 	}
 }

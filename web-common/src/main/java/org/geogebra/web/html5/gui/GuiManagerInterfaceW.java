@@ -21,8 +21,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
-	void showPopupMenu(ArrayList<GeoElement> geos, Widget invoker,
-	        int x, int y);
+	void showPopupMenu(ArrayList<GeoElement> geos, Widget invoker, int x, int y);
 
 	void setFocusedPanel(int evID, boolean updatePropertiesView);
 
@@ -84,7 +83,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	void recalculateEnvironments();
 
-	void exportGGB(boolean showDialog);
+	void exportGGB();
 
 	void listenToLogin(Runnable onSuccess);
 

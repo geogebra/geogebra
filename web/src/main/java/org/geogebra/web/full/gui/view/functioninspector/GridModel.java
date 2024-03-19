@@ -54,13 +54,13 @@ public class GridModel {
 		}
 
 		public boolean isEditable() {
-	        return editable;
-        }
+			return editable;
+		}
 
 		public void setEditable(boolean editable) {
-	        this.editable = editable;
-        }
-		
+			this.editable = editable;
+		}
+
 		@Override
 		public String toString() {
 			String result = "";

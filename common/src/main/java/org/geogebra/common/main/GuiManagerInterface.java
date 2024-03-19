@@ -72,8 +72,7 @@ public interface GuiManagerInterface extends SettingListener {
 
 	boolean save();
 
-	void setFocusedPanel(AbstractEvent event,
-						 boolean updatePropertiesView);
+	void setFocusedPanel(AbstractEvent event, boolean updatePropertiesView);
 
 	void loadImage(GeoPoint loc, Object object, boolean altDown,
 				   EuclidianView view);

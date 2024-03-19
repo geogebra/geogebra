@@ -96,7 +96,7 @@ public class CASTableW extends Grid implements CASTable {
 		view.updateAfterInsertArbConstTable(rows);
 		CASTableCellW cellWidget = new CASTableCellW(casCell, app);
 		Widget rowHeader = new RowHeaderWidget(this, n + 1, casCell,
-		        (AppW) getApplication());
+				(AppW) getApplication());
 
 		addOutputListener(cellWidget);
 
@@ -423,7 +423,7 @@ public class CASTableW extends Grid implements CASTable {
 		}
 
 		int row = TableRowElement.as(td.getParentElement())
-		        .getSectionRowIndex();
+				.getSectionRowIndex();
 		int column = TableCellElement.as(td).getCellIndex();
 		Widget widget = getWidget(row, column);
 		if (!(widget instanceof CASTableCellW)) {

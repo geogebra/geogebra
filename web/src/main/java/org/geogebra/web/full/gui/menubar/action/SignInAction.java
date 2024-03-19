@@ -7,10 +7,10 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Opens sign in window.
  */
-public class SignInAction extends DefaultMenuAction<Void> {
+public class SignInAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		if (!app.getNetworkOperation().isOnline()) {
 			return;
 		}
