@@ -150,7 +150,7 @@ public final class TableLayout {
 		// TODO
 	}
 
-	void setWidthForColumns(double width, int minColumn, int maxColumn) {
+	public void setWidthForColumns(double width, int minColumn, int maxColumn) {
 		for (int column = minColumn; column <= maxColumn; column++) {
 			columnWidths[column] = width;
 		}
@@ -160,7 +160,7 @@ public final class TableLayout {
 		}
 	}
 
-	void setHeightForRows(double height, int minRow, int maxRow) {
+	public void setHeightForRows(double height, int minRow, int maxRow) {
 		for (int row = minRow; row <= maxRow; row++) {
 			rowHeights[row] = height;
 		}
@@ -227,5 +227,40 @@ public final class TableLayout {
 
 	public double getHeightForRowResize(int row, double y) {
 		return Math.max(MIN_CELL_SIZE, y - cumulativeHeights[row] - columnHeaderHeight);
+	}
+
+	/**
+	 * Resets all rows and columns to their default sizes
+	 */
+	public void resetCellSizes() {
+		setWidthForColumns(DEFAULT_CELL_WIDTH, 0, columnWidths.length - 1);
+		setHeightForRows(DEFAUL_CELL_HEIGHT, 0, rowHeights.length - 1);
+	}
+
+	/**
+	 * Appends an XML representation of this layout to the passed StringBuilder
+	 * @param sb StringBuilder
+	 */
+	public void getXML(StringBuilder sb) {
+		sb.append("<spreadsheetLayout>\n");
+		for (int i = 0; i < columnWidths.length; i++) {
+			if (columnWidths[i] != DEFAULT_CELL_WIDTH) {
+				sb.append("\t<column index=\"");
+				sb.append(i);
+				sb.append("\" width=\"");
+				sb.append(columnWidths[i]);
+				sb.append("\"/>\n");
+			}
+		}
+		for (int i = 0; i < rowHeights.length; i++) {
+			if (rowHeights[i] != DEFAUL_CELL_HEIGHT) {
+				sb.append("\t<row index=\"");
+				sb.append(i);
+				sb.append("\" height=\"");
+				sb.append(rowHeights[i]);
+				sb.append("\"/>\n");
+			}
+		}
+		sb.append("</spreadsheetLayout>\n");
 	}
 }

@@ -20,7 +20,7 @@ public class SpreadsheetCellEditorTest {
 	@Before
 	public void setupEditor() {
 		data = new TestTabularData();
-		controller = new SpreadsheetController(data, null);
+		controller = new SpreadsheetController(data, null, null);
 		editor = new TestSpreadsheetCellEditor();
 		controller.setControlsDelegate(new SpreadsheetControlsDelegate() {
 			@Override

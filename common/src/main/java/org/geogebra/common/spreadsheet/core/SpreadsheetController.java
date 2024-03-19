@@ -7,6 +7,7 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.StringUtil;
@@ -33,12 +34,15 @@ public final class SpreadsheetController implements TabularSelection {
 	private DragAction dragAction;
 	private Rectangle viewport;
 	private @CheckForNull ViewportAdjuster viewportAdjuster;
+	private final @CheckForNull UndoManager undoManager;
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
 	 * @param viewport Visible area
+	 * @param undoManager {@link UndoManager}
 	 */
-	public SpreadsheetController(TabularData<?> tabularData, Rectangle viewport) {
+	public SpreadsheetController(TabularData<?> tabularData, Rectangle viewport,
+			UndoManager undoManager) {
 		this.tabularData = tabularData;
 		initViewport(viewport);
 		resetDragAction();
@@ -48,6 +52,7 @@ public final class SpreadsheetController implements TabularSelection {
 				TableLayout.DEFAULT_CELL_WIDTH);
 		contextMenuItems = new ContextMenuItems(tabularData, selectionController,
 				getCopyPasteCut(), layout);
+		this.undoManager = undoManager;
 	}
 
 	private void initViewport(Rectangle viewport) {
@@ -278,6 +283,7 @@ public final class SpreadsheetController implements TabularSelection {
 					}
 				}
 			}
+			storeUndoInfo();
 			break;
 		case RESIZE_Y:
 			if (isSelected(dragAction.row, -1)) {
@@ -290,6 +296,7 @@ public final class SpreadsheetController implements TabularSelection {
 					}
 				}
 			}
+			storeUndoInfo();
 			break;
 		case DEFAULT:
 		default:
@@ -501,5 +508,11 @@ public final class SpreadsheetController implements TabularSelection {
 	 */
 	public boolean isEditorActive() {
 		return controlsDelegate != null && controlsDelegate.getCellEditor().isVisible();
+	}
+
+	private void storeUndoInfo() {
+		if (undoManager != null) {
+			undoManager.storeUndoInfo();
+		}
 	}
 }

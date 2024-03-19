@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.spreadsheet.core.TableLayout;
 import org.geogebra.common.util.AsyncOperation;
 
 /**
@@ -116,6 +117,10 @@ public interface GuiManagerInterface extends SettingListener {
 	boolean hasCasView();
 
 	SpreadsheetViewInterface getSpreadsheetView();
+
+	void setSpreadsheetLayoutForSuite(TableLayout layout);
+
+	TableLayout getSpreadsheetLayoutForSuite();
 
 	View getProbabilityCalculator();
 
