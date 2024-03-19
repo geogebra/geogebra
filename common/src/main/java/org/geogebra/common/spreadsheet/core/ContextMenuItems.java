@@ -67,13 +67,13 @@ public class ContextMenuItems {
 				new ContextMenuItem(Identifier.PASTE, () -> pasteCells(row, column)),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.INSERT_ROW_ABOVE,
-						() -> insertRowAt(row, true)),
+						() -> insertRowAt(row, false)),
 				new ContextMenuItem(Identifier.INSERT_ROW_BELOW,
-						() -> insertRowAt(row + 1, false)),
+						() -> insertRowAt(row + 1, true)),
 				new ContextMenuItem(Identifier.INSERT_COLUMN_LEFT,
-						() -> insertColumnAt(column, true)),
+						() -> insertColumnAt(column, false)),
 				new ContextMenuItem(Identifier.INSERT_COLUMN_RIGHT,
-						() -> insertColumnAt(column + 1, false)),
+						() -> insertColumnAt(column + 1, true)),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.DELETE_ROW, () -> deleteRowAt(row)),
 				new ContextMenuItem(Identifier.DELETE_COLUMN,
@@ -138,9 +138,9 @@ public class ContextMenuItems {
 				new ContextMenuItem(Identifier.PASTE, () -> {}),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.INSERT_ROW_ABOVE,
-						() -> insertRowAt(row, true)),
+						() -> insertRowAt(row, false)),
 				new ContextMenuItem(Identifier.INSERT_ROW_BELOW,
-						() -> insertRowAt(row + 1, false)),
+						() -> insertRowAt(row + 1, true)),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.DELETE_ROW, () -> deleteRowAt(row))
 		);
@@ -161,7 +161,7 @@ public class ContextMenuItems {
 			tabularData.deleteRowAt(fromRow);
 		}
 		if (layout != null) {
-			resizeRemainingRows(toRow);
+			resizeRemainingRowsAscending(toRow);
 		}
 		storeUndoInfo();
 	}
@@ -173,9 +173,9 @@ public class ContextMenuItems {
 				new ContextMenuItem(Identifier.PASTE, () -> {}),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.INSERT_COLUMN_LEFT,
-						() -> insertColumnAt(column, true)),
+						() -> insertColumnAt(column, false)),
 				new ContextMenuItem(Identifier.INSERT_COLUMN_RIGHT,
-						() -> insertColumnAt(column + 1, false)),
+						() -> insertColumnAt(column + 1, true)),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.DELETE_COLUMN,
 						() -> deleteColumnAt(column))
@@ -197,7 +197,7 @@ public class ContextMenuItems {
 			tabularData.deleteColumnAt(fromColumn);
 		}
 		if (layout != null) {
-			resizeRemainingColumns(toColumn);
+			resizeRemainingColumnsAscending(toColumn);
 		}
 		storeUndoInfo();
 	}
@@ -205,15 +205,17 @@ public class ContextMenuItems {
 	/**
 	 * Inserts a column at a given index
 	 * @param column Index of where to insert the column
-	 * @param left Whether the column is being inserted left of the currently selected column
+	 * @param right Whether the column is being inserted right of the currently selected column
 	 */
-	private void insertColumnAt(int column, boolean left) {
+	private void insertColumnAt(int column, boolean right) {
 		tabularData.insertColumnAt(column);
 		Selection lastSelection = selectionController.getLastSelection();
-		if (lastSelection != null && layout != null) {
-			int columnIndex = left ? column + 1 : column;
-			layout.setWidthForColumns(layout.getWidth(lastSelection.getRange().getFromColumn()),
-					columnIndex, columnIndex);
+		if (right && lastSelection != null) {
+			selectionController.setSelections(lastSelection.getRight(
+					tabularData.numberOfColumns(), false));
+		}
+		if (layout != null) {
+			resizeRemainingColumnsDescending(right ? column - 1 : column);
 		}
 		storeUndoInfo();
 	}
@@ -221,15 +223,17 @@ public class ContextMenuItems {
 	/**
 	 * Inserts a row at a given index
 	 * @param row Index of where to insert the row
-	 * @param above Whether the row is being inserted above the currently selected row
+	 * @param below Whether the row is being inserted below the currently selected row
 	 */
-	private void insertRowAt(int row, boolean above) {
+	private void insertRowAt(int row, boolean below) {
 		tabularData.insertRowAt(row);
 		Selection lastSelection = selectionController.getLastSelection();
-		if (lastSelection != null && layout != null) {
-			int rowIndex = above ? row + 1 : row;
-			layout.setHeightForRows(layout.getHeight(lastSelection.getRange().getFromRow()),
-					rowIndex, rowIndex);
+		if (below && lastSelection != null) {
+			selectionController.setSelections(lastSelection.getBottom(
+					tabularData.numberOfRows(), false));
+		}
+		if (layout != null) {
+			resizeRemainingRowsDescending(below ? row - 1 : row);
 		}
 		storeUndoInfo();
 	}
@@ -240,7 +244,7 @@ public class ContextMenuItems {
 	 * the height of row 12, etc.
 	 * @param resizeFrom Index of where to start resizing the remaining rows
 	 */
-	private void resizeRemainingRows(int resizeFrom) {
+	private void resizeRemainingRowsAscending(int resizeFrom) {
 		int numberOfRows = tabularData.numberOfRows();
 		for (int row = resizeFrom; row < numberOfRows - 1; row++) {
 			layout.setHeightForRows(layout.getHeight(row + 1), row, row);
@@ -249,16 +253,38 @@ public class ContextMenuItems {
 	}
 
 	/**
-	 * Same as {@link #resizeRemainingRows(int)}, but for columns
+	 * Same as {@link #resizeRemainingRowsAscending(int)}, but for columns
 	 * @param resizeFrom Index of where to start resizing the remaining columns
 	 */
-	private void resizeRemainingColumns(int resizeFrom) {
+	private void resizeRemainingColumnsAscending(int resizeFrom) {
 		int numberOfColumns = tabularData.numberOfColumns();
 		for (int column = resizeFrom; column < numberOfColumns - 1; column++) {
 			layout.setWidthForColumns(layout.getWidth(column + 1), column, column);
 		}
 		layout.setWidthForColumns(layout.DEFAULT_CELL_WIDTH,
 				numberOfColumns - 1, numberOfColumns - 1);
+	}
+
+	/**
+	 * After a row has been inserted, row 100 applies the size of row 99, row 99 applies the size
+	 * of row 98, and so on. This is basically the direct counterpart to the operation that is
+	 * performed when a row gets deleted.
+	 * @param resizeUntil Until which row index the resizing should be performed
+	 */
+	private void resizeRemainingRowsDescending(int resizeUntil) {
+		for (int row = tabularData.numberOfRows() - 1; row > resizeUntil; row--) {
+			layout.setHeightForRows(layout.getHeight(row - 1), row, row);
+		}
+	}
+
+	/**
+	 * Same as {@link #resizeRemainingRowsDescending(int)}, but for columns
+	 * @param resizeUntil Until which column index the resizing should be performed
+	 */
+	private void resizeRemainingColumnsDescending(int resizeUntil) {
+		for (int column = tabularData.numberOfColumns() - 1; column > resizeUntil; column--) {
+			layout.setWidthForColumns(layout.getWidth(column - 1), column, column);
+		}
 	}
 
 	private void storeUndoInfo() {
