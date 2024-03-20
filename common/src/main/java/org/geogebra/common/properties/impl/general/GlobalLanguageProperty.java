@@ -15,14 +15,13 @@ public class GlobalLanguageProperty extends AbstractNamedEnumeratedProperty<Stri
 	/**
 	 * Create a new instance.
 	 * @param localization The localization.
-	 * @param propertiesRegistry A properties registry to register this property with (optional).
 	 */
-	public GlobalLanguageProperty(@Nonnull Localization localization,
-			@Nullable PropertiesRegistry propertiesRegistry) {
-		super(localization, "Language", null);
-		if (propertiesRegistry != null) {
-			propertiesRegistry.register(this, null); // register in global context
-		}
+	public GlobalLanguageProperty(@Nonnull Localization localization) {
+		super(localization, "Language");
+		// TODO register with PropertiesRegistry on the call site
+//		if (propertiesRegistry != null) {
+//			propertiesRegistry.register(this, null); // register in global context
+//		}
 		setupValues(localization);
 	}
 

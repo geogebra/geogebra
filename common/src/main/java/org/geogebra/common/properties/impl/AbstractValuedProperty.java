@@ -28,19 +28,6 @@ public abstract class AbstractValuedProperty<S> extends AbstractProperty
 		super(localization, name);
 	}
 
-	/**
-	 * Constructs a new property.
-	 *
-	 * @param localization Used for localizing the property's name.
-	 * @param name The property's name.
-	 * @param propertiesRegistry A {@link PropertiesRegistry} (may be null). If a registry is
-	 * passed in, the newly created property will register itself with the registry.
-	 */
-	public AbstractValuedProperty(Localization localization, String name,
-			PropertiesRegistry propertiesRegistry) {
-		super(localization, name, propertiesRegistry);
-	}
-
 	@Override
 	public void addValueObserver(PropertyValueObserver observer) {
 		observers.add(observer);

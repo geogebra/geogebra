@@ -32,14 +32,14 @@ public class DefaultPropertiesRegistryTests extends BaseUnitTest
 
 	@Test
 	public void testRegister() {
-		Property angleUnitProperty = new AngleUnitProperty(getKernel(), getLocalization(), null);
+		Property angleUnitProperty = new AngleUnitProperty(getKernel(), getLocalization());
 		propertiesRegistry.register(angleUnitProperty);
 		assertNotNull(propertiesRegistry.lookup(angleUnitProperty.getRawName()));
 	}
 
 	@Test
 	public void testUnregister() {
-		Property angleUnitProperty = new AngleUnitProperty(getKernel(), getLocalization(), null);
+		Property angleUnitProperty = new AngleUnitProperty(getKernel(), getLocalization());
 		propertiesRegistry.register(angleUnitProperty);
 		propertiesRegistry.unregister(angleUnitProperty);
 		assertNull(propertiesRegistry.lookup(angleUnitProperty.getRawName()));
@@ -47,9 +47,9 @@ public class DefaultPropertiesRegistryTests extends BaseUnitTest
 
 	@Test
 	public void testRegisterInDifferentContexts() {
-		Property angleUnitProperty1 = new AngleUnitProperty(getKernel(), getLocalization(), null);
+		Property angleUnitProperty1 = new AngleUnitProperty(getKernel(), getLocalization());
 		Object context1 = new Object();
-		Property angleUnitProperty2 = new AngleUnitProperty(getKernel(), getLocalization(), null);
+		Property angleUnitProperty2 = new AngleUnitProperty(getKernel(), getLocalization());
 		Object context2 = new Object();
 
 		propertiesRegistry.register(angleUnitProperty1, context1);
@@ -60,17 +60,17 @@ public class DefaultPropertiesRegistryTests extends BaseUnitTest
 
 	@Test
 	public void testPropertiesRegistryListener() {
-		GlobalLanguageProperty languageProperty =
-				new GlobalLanguageProperty(getLocalization(), propertiesRegistry);
+		GlobalLanguageProperty languageProperty = new GlobalLanguageProperty(getLocalization());
+		propertiesRegistry.register(languageProperty);
 		assertEquals(registeredProperties.get(0), languageProperty);
 		assertEquals(registeredPropertyContexts.get(0), null);
 	}
 
 	@Test
 	public void testRelease() {
-		Property angleUnitProperty1 = new AngleUnitProperty(getKernel(), getLocalization(), null);
+		Property angleUnitProperty1 = new AngleUnitProperty(getKernel(), getLocalization());
 		Object context1 = new Object();
-		Property angleUnitProperty2 = new AngleUnitProperty(getKernel(), getLocalization(), null);
+		Property angleUnitProperty2 = new AngleUnitProperty(getKernel(), getLocalization());
 		Object context2 = new Object();
 
 		propertiesRegistry.register(angleUnitProperty1, context1);

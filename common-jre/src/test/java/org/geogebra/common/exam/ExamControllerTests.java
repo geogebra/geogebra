@@ -79,8 +79,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		app = AppCommonFactory.create(createConfig(subApp));
 		algebraProcessor = app.getKernel().getAlgebraProcessor();
 		commandDispatcher = algebraProcessor.getCommandDispatcher();
-		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization(),
-				propertiesRegistry), app);
+		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization()),
+				app);
 		examController.setActiveContext(app, commandDispatcher, algebraProcessor);
 	}
 
@@ -94,8 +94,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		app = AppCommonFactory.create(createConfig(subApp));
 		algebraProcessor = app.getKernel().getAlgebraProcessor();
 		commandDispatcher = algebraProcessor.getCommandDispatcher();
-		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization(),
-				propertiesRegistry), app);
+		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization()),
+				app);
 		examController.setActiveContext(app, commandDispatcher, algebraProcessor);
 	}
 

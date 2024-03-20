@@ -26,9 +26,8 @@ public class LanguageProperty extends AbstractNamedEnumeratedProperty<String> {
      * @param app          app
      * @param localization localization
      */
-    public LanguageProperty(App app, Localization localization,
-            PropertiesRegistry propertiesRegistry) {
-        super(localization, "Language", propertiesRegistry);
+    public LanguageProperty(App app, Localization localization) {
+        super(localization, "Language");
         this.app = app;
         setupValues(app, localization);
     }
