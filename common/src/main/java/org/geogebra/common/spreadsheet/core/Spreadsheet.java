@@ -2,6 +2,8 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
@@ -25,17 +27,20 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	/**
 	 * @param tabularData data source
 	 * @param rendererFactory converts custom data type to rendable objects
-	 * @param app {@link App}
+	 * @param app {@link App} - Might be null for tests
 	 */
 	public Spreadsheet(TabularData<?> tabularData,
-			CellRenderableFactory rendererFactory, App app) {
-		controller = new SpreadsheetController(tabularData, null, app.getUndoManager());
+			CellRenderableFactory rendererFactory, @CheckForNull App app) {
+		controller = new SpreadsheetController(tabularData, null);
 		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
 				controller.getStyle());
 		setViewport(new Rectangle(0, 0, 0, 0));
 		tabularData.addChangeListener(this);
-		controller.getContextMenuItems().setUndoManager(app.getUndoManager());
-		app.getGuiManager().setSpreadsheetLayoutForSuite(controller.getLayout());
+		if (app != null) {
+			controller.getContextMenuItems().setUndoManager(app.getUndoManager());
+			controller.setUndoManager(app.getUndoManager());
+			app.getGuiManager().setSpreadsheetLayoutForSuite(controller.getLayout());
+		}
 	}
 
 	// layout

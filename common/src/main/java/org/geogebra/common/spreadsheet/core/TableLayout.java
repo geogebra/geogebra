@@ -150,6 +150,12 @@ public final class TableLayout {
 		// TODO
 	}
 
+	/**
+	 * Sets the width for a range of columns
+	 * @param width double
+	 * @param minColumn Index from where to start setting the width
+	 * @param maxColumn Index of where to stop setting the width
+	 */
 	public void setWidthForColumns(double width, int minColumn, int maxColumn) {
 		for (int column = minColumn; column <= maxColumn; column++) {
 			columnWidths[column] = width;
@@ -160,6 +166,12 @@ public final class TableLayout {
 		}
 	}
 
+	/**
+	 * Sets the height for a range of rows
+	 * @param height double
+	 * @param minRow Index from where to start setting the height
+	 * @param maxRow Index of where to stop setting the width
+	 */
 	public void setHeightForRows(double height, int minRow, int maxRow) {
 		for (int row = minRow; row <= maxRow; row++) {
 			rowHeights[row] = height;
@@ -242,7 +254,7 @@ public final class TableLayout {
 	 * @param sb StringBuilder
 	 */
 	public void getXML(StringBuilder sb) {
-		sb.append("<spreadsheetLayout>\n");
+		sb.append("<spreadsheetLayoutSuite>\n");
 		for (int i = 0; i < columnWidths.length; i++) {
 			if (columnWidths[i] != DEFAULT_CELL_WIDTH) {
 				sb.append("\t<column index=\"");
@@ -261,6 +273,6 @@ public final class TableLayout {
 				sb.append("\"/>\n");
 			}
 		}
-		sb.append("</spreadsheetLayout>\n");
+		sb.append("</spreadsheetLayoutSuite>\n");
 	}
 }

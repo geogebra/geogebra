@@ -22,7 +22,7 @@ public class SpreadsheetControllerTest {
     private final int rowHeaderCellWidth = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 
     private final SpreadsheetController controller =
-            new SpreadsheetController(new TestTabularData(), null, null);
+            new SpreadsheetController(new TestTabularData(), null);
     private Rectangle viewport;
 
     @Before

@@ -34,15 +34,13 @@ public final class SpreadsheetController implements TabularSelection {
 	private DragAction dragAction;
 	private Rectangle viewport;
 	private @CheckForNull ViewportAdjuster viewportAdjuster;
-	private final @CheckForNull UndoManager undoManager;
+	private @CheckForNull UndoManager undoManager;
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
 	 * @param viewport Visible area
-	 * @param undoManager {@link UndoManager}
 	 */
-	public SpreadsheetController(TabularData<?> tabularData, Rectangle viewport,
-			UndoManager undoManager) {
+	public SpreadsheetController(TabularData<?> tabularData, Rectangle viewport) {
 		this.tabularData = tabularData;
 		initViewport(viewport);
 		resetDragAction();
@@ -52,7 +50,6 @@ public final class SpreadsheetController implements TabularSelection {
 				TableLayout.DEFAULT_CELL_WIDTH);
 		contextMenuItems = new ContextMenuItems(tabularData, selectionController,
 				getCopyPasteCut(), layout);
-		this.undoManager = undoManager;
 	}
 
 	private void initViewport(Rectangle viewport) {
@@ -179,6 +176,10 @@ public final class SpreadsheetController implements TabularSelection {
 
 	public void setViewport(Rectangle viewport) {
 		this.viewport = viewport;
+	}
+
+	public void setUndoManager(UndoManager undoManager) {
+		this.undoManager = undoManager;
 	}
 
 	/**

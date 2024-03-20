@@ -510,7 +510,7 @@ public class MyXMLHandler implements DocHandler {
 			break;
 
 		case MODE_SPREADSHEET_LAYOUT_SUITE:
-			if ("spreadsheetLayout".equals(eName)) {
+			if ("spreadsheetLayoutSuite".equals(eName)) {
 				mode = MODE_GEOGEBRA;
 			}
 			break;
@@ -643,7 +643,7 @@ public class MyXMLHandler implements DocHandler {
 		case "tableview":
 			setTableParameters(attrs);
 			break;
-		case "spreadsheetLayout":
+		case "spreadsheetLayoutSuite":
 			if (app.getGuiManager().getSpreadsheetLayoutForSuite() != null) {
 				app.getGuiManager().getSpreadsheetLayoutForSuite().resetCellSizes();
 			}
@@ -934,11 +934,11 @@ public class MyXMLHandler implements DocHandler {
 			ok = handleSpreadsheetLayoutColumnForSuite(attrs);
 			break;
 		default:
-			Log.error("unknown tag in <spreadsheetLayout>: " + eName);
+			Log.error("unknown tag in <spreadsheetLayoutSuite>: " + eName);
 		}
 
 		if (!ok) {
-			Log.error("error in <spreadsheetLayout>: " + eName);
+			Log.error("error in <spreadsheetLayoutSuite>: " + eName);
 		}
 	}
 
