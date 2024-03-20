@@ -143,6 +143,7 @@ public class GeoList extends GeoElement
 	private int tableColumn = -1;
 	private boolean pointsVisible = true;
 	private GeoPointND startPoint;
+	private boolean copyElementsInternal = true;
 
 	/**
 	 * Creates new GeoList, size defaults to 20
@@ -270,7 +271,7 @@ public class GeoList extends GeoElement
 	 * Copies vital attributes from another list to this list
 	 * @param other GeoList
 	 */
-	public void copyAttributesFromOtherList(GeoList other) {
+	private void copyAttributesFromOtherList(GeoList other) {
 		isDefined = other.isDefined;
 		elementType = other.elementType;
 		if (other.isElementTypeXMLNeeded()) {
@@ -312,16 +313,21 @@ public class GeoList extends GeoElement
 
 			// could not use cached element -> get copy element
 			if (thisElement == null) {
-				thisElement = getCopyForList(otherElement);
+				thisElement = getCopyForList(otherElement, otherList.copyElementsInternal);
 			}
 			// set list element
 			add(thisElement);
 		}
 	}
 
-	private GeoElement getCopyForList(final GeoElement geo) {
+	private GeoElement getCopyForList(final GeoElement geo, boolean copyInternal) {
 		// create a copy of geo
-		final GeoElement ret = geo.copyInternal(cons);
+		final GeoElement ret;
+		if (copyInternal) {
+			ret = geo.copyInternal(cons);
+		} else {
+			ret = geo.copy();
+		}
 		ret.setParentAlgorithm(getParentAlgorithm());
 		if (geo.getDefinition() != null
 				&& !geo.getDefinition().inspect(Inspecting.dynamicGeosFinder)) {
@@ -3379,6 +3385,13 @@ public class GeoList extends GeoElement
 		return wasDefinedWithCurlyBrackets;
 	}
 
+	/**
+	 * @param flag If set to true, copying elements from this list should use the
+	 * {@link GeoElement#copyInternal(Construction)} method, {@link GeoElement#copy()} otherwise
+	 */
+	public void shouldCopyElementsInternal(boolean flag) {
+		this.copyElementsInternal = flag;
+	}
 	/**
 	 * @return new array with elements
 	 */
