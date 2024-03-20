@@ -1,10 +1,8 @@
 package org.geogebra.common.properties.impl.general;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.util.lang.Language;
 

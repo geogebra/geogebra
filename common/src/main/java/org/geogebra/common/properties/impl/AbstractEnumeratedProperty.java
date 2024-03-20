@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.EnumeratedProperty;
-import org.geogebra.common.properties.PropertiesRegistry;
 
 /**
  * Base class for enumerated properties. When overriding this class, make sure to call

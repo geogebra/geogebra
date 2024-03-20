@@ -1,9 +1,6 @@
 package org.geogebra.common.properties.impl;
 
-import javax.annotation.Nullable;
-
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.Property;
 
 /**

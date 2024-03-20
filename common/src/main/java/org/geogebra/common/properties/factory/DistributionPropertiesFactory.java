@@ -1,9 +1,7 @@
 package org.geogebra.common.properties.factory;
 
 import static org.geogebra.common.properties.factory.PropertiesRegistration.registerProperties;
-import static org.geogebra.common.properties.factory.PropertiesRegistration.registerProperty;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

@@ -2,7 +2,6 @@ package org.geogebra.common.properties.impl.general;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 
 import com.google.j2objc.annotations.Weak;

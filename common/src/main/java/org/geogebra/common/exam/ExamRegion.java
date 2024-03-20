@@ -6,11 +6,6 @@ import static org.geogebra.common.GeoGebraConstants.GEOMETRY_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.PROBABILITY_APPCODE;
 
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.AppConfig;

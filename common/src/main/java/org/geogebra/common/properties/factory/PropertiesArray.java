@@ -21,6 +21,10 @@ public class PropertiesArray {
 		this.properties = properties;
 	}
 
+	/**
+	 * @param name The name of the array.
+	 * @param properties The list of properties.
+	 */
 	public PropertiesArray(String name, List<Property> properties) {
 		this.name = name;
 		this.properties = properties.toArray(new Property[0]);

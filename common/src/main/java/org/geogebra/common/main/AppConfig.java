@@ -167,7 +167,7 @@ public interface AppConfig extends Serializable {
 	/**
 	 * @return new command filter for the app.
 	 */
-	@Nonnull
+	@CheckForNull
 	CommandFilter createCommandFilter();
 
 	/**

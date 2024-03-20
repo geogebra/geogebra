@@ -14,8 +14,6 @@ import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.properties.PropertiesRegistry;
-import org.geogebra.common.properties.Property;
-import org.geogebra.common.properties.PropertyCollection;
 import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
 import org.geogebra.common.properties.impl.algebra.ShowAuxiliaryProperty;
 import org.geogebra.common.properties.impl.algebra.SortByProperty;
