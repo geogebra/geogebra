@@ -153,18 +153,6 @@ public enum ExamRegion {
 		return null;
 	}
 
-	/**
-	 * @param appCode app code for API (suite/graphing/classic/...)
-	 * @return list of supported mode IDs
-	 */
-	@Deprecated // move into web code and make as private as possible
-	public static String getSupportedModes(String appCode) {
-		return Stream.concat(Stream.of(appCode, CHOOSE), Arrays.stream(ExamRegion.values())
-					.filter(r -> r != ExamRegion.GENERIC)
-					.map(r -> r.name().toLowerCase(Locale.ROOT)))
-					.collect(Collectors.joining(", "));
-	}
-
 	public abstract String getDisplayName(Localization loc, AppConfig config);
 
 	public abstract String getShortDisplayName(Localization loc, AppConfig config);
