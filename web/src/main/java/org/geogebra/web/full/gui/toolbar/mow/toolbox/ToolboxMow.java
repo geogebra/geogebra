@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.geogebra.common.euclidian.EuclidianPen;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -58,9 +57,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		decorator.positionLeft();
 
 		addMoveModeButton();
-		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(),
-				"pen mode", "penBtn", () -> {
-				});
+		addPenModeButton();
 		addUploadButton();
 		addLinkButton();
 
@@ -149,7 +146,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 
 	private void addPenModeButton() {
 		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(),
-				"pen mode", "penBtn", appW::setMoveMode);
+				"pen mode", "penBtn", () -> appW.setMode(MODE_PEN));
 	}
 
 	private String getToolAriaLabel(int mode) {
@@ -163,11 +160,6 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	@Override
 	public void setLabels() {
 		buttons.forEach(SetLabels::setLabels);
-	}
-
-	private EuclidianPen getPen() {
-		return appW.getActiveEuclidianView().getEuclidianController()
-				.getPen();
 	}
 
 	private void deselectButtons() {
