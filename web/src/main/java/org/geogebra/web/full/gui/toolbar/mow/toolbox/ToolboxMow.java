@@ -1,17 +1,29 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_AUDIO;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_CAMERA;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_EXTENSION;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_H5P;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_IMAGE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PDF;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_VIDEO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
+import org.geogebra.common.euclidian.EuclidianPen;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResources;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithPopup;
 import org.geogebra.web.html5.css.ZoomPanelResources;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -27,8 +39,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	private final List<IconButton> buttons = new ArrayList<>();
 	private final static List<Integer> uploadCategory = Arrays.asList(MODE_IMAGE, MODE_CAMERA,
 			MODE_PDF);
-	private final static List<Integer> linkCategory = Arrays.asList(MODE_EXTENSION, MODE_VIDEO,
-			MODE_AUDIO, MODE_H5P);
+	private final static List<Integer> linkCategory = new LinkedList<>(Arrays.asList(
+			MODE_EXTENSION, MODE_VIDEO, MODE_AUDIO));
 
 	/**
 	 * MOW toolbox
@@ -48,11 +60,6 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		addMoveModeButton();
 		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(),
 				"pen mode", "penBtn", () -> {
-					appW.setMode(MODE_PEN, ModeSetter.TOOLBAR);
-					GPopupPanel popup = new GPopupPanel(appW.getAppletFrame(), appW);
-					popup.add(new ColorChooserPanel(appW, (color)
-							-> getPen().setPenColor(color)));
-					popup.showRelativeTo(this);
 				});
 		addUploadButton();
 		addLinkButton();
@@ -124,6 +131,9 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addLinkButton() {
+		if (appW.getVendorSettings().isH5PEnabled()) {
+			linkCategory.add(MODE_H5P);
+		}
 		addToggleButtonWithPopup(MaterialDesignResources.INSTANCE.resource_card_shared(), "Link",
 				linkCategory);
 	}
@@ -133,7 +143,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 				getToolAriaLabel(MODE_SELECT_MOW), getToolDataTitle(MODE_SELECT_MOW), "",
 				() -> {
 			deselectButtons();
-			appW.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
+			appW.setMode(MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
 			}, null);
 	}
 
