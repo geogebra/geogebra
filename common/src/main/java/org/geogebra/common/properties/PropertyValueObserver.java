@@ -18,7 +18,7 @@ public interface PropertyValueObserver<V> {
      *
      * @param property property
      */
-    void onBeginSetValue(ValuedProperty<V> property);
+    default void onBeginSetValue(ValuedProperty<V> property) { }
 
     /**
      * Called when the property value ends changing.
@@ -26,5 +26,5 @@ public interface PropertyValueObserver<V> {
      *
      * @param property property
      */
-    void onEndSetValue(ValuedProperty<V> property);
+    default void onEndSetValue(ValuedProperty<V> property) { }
 }
