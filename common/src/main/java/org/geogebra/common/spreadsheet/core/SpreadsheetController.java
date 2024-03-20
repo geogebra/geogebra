@@ -197,7 +197,7 @@ public final class SpreadsheetController implements TabularSelection {
 			changed = viewportAdjuster.adjustViewportIfNeeded(row, column, viewport);
 		}
 
-		if (modifiers.rightButton && controlsDelegate != null) {
+		if (modifiers.secondaryButton && controlsDelegate != null) {
 			selectionController.clearSelection();
 			GPoint coords = new GPoint(x, y);
 			controlsDelegate.showContextMenu(contextMenuItems.get(row, column), coords);
@@ -206,7 +206,7 @@ public final class SpreadsheetController implements TabularSelection {
 		if (row >= 0 && column >= 0 && selectionController.isOnlyCellSelected(row, column)) {
 			return showCellEditor(row, column);
 		}
-		if (!modifiers.ctrl && !modifiers.shift && selectionController.hasSelection()) {
+		if (!modifiers.ctrlOrCmd && !modifiers.shift && selectionController.hasSelection()) {
 			selectionController.clearSelection();
 			changed = true;
 		}
@@ -214,14 +214,14 @@ public final class SpreadsheetController implements TabularSelection {
 			selectAll();
 			changed = true;
 		} else if (column == -1) { // Select row
-			selectRow(row, modifiers.shift, modifiers.ctrl);
+			selectRow(row, modifiers.shift, modifiers.ctrlOrCmd);
 			changed = true;
 		} else if (row == -1) { // Select column
-			selectColumn(column, modifiers.shift, modifiers.ctrl);
+			selectColumn(column, modifiers.shift, modifiers.ctrlOrCmd);
 			changed = true;
 		} else { // Select cell
 			changed = select(TabularRange.range(row, row, column, column),
-					modifiers.shift, modifiers.ctrl) || changed;
+					modifiers.shift, modifiers.ctrlOrCmd) || changed;
 		}
 		return changed;
 	}
@@ -288,7 +288,7 @@ public final class SpreadsheetController implements TabularSelection {
 			break;
 		case DEFAULT:
 		default:
-			extendSelectionByDrag(x, y, modifiers.ctrl);
+			extendSelectionByDrag(x, y, modifiers.ctrlOrCmd);
 		// TODO implement formula propagation with DRAG_DOT
 		}
 		resetDragAction();
@@ -327,7 +327,7 @@ public final class SpreadsheetController implements TabularSelection {
 				cellSelectionChanged = true;
 				break;
 			case JavaKeyCodes.VK_A:
-				if (modifiers.ctrl) {
+				if (modifiers.ctrlOrCmd) {
 					selectionController.selectAll(layout.numberOfRows(), layout.numberOfColumns());
 					return true;
 				}
@@ -336,7 +336,7 @@ public final class SpreadsheetController implements TabularSelection {
 				return true;
 			default:
 				SpreadsheetControlsDelegate controls = controlsDelegate;
-				if (!modifiers.ctrl && !modifiers.alt && !StringUtil.empty(key)
+				if (!modifiers.ctrlOrCmd && !modifiers.alt && !StringUtil.empty(key)
 					&& controls != null) {
 					showCellEditorAtSelection();
 					controls.getCellEditor().setContent(key);
@@ -426,7 +426,7 @@ public final class SpreadsheetController implements TabularSelection {
 			return true;
 		default:
 		case DEFAULT:
-			return extendSelectionByDrag(x, y, modifiers.ctrl);
+			return extendSelectionByDrag(x, y, modifiers.ctrlOrCmd);
 		}
 	}
 

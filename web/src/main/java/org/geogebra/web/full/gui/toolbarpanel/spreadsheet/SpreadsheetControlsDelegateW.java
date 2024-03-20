@@ -29,8 +29,8 @@ import com.google.gwt.core.client.Scheduler;
 public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate {
 
 	private final SpreadsheetCellEditorW editor;
-	private GPopupMenuW contextMenu;
-	private Localization loc;
+	private final GPopupMenuW contextMenu;
+	private final Localization loc;
 
 	private static class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
 		private final MathFieldEditor mathField;
@@ -137,9 +137,9 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 				if (image != null) {
 					menuItem = new AriaMenuItem(MainMenu.getMenuBarHtml(image, itemText),
-							true, () -> item.performAction());
+							true, item::performAction);
 				} else {
-					menuItem = new AriaMenuItem(itemText, true, () -> item.performAction());
+					menuItem = new AriaMenuItem(itemText, true, item::performAction);
 				}
 				contextMenu.addItem(menuItem);
 			}
