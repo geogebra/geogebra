@@ -20,9 +20,9 @@ public class PlotPanelEuclidianControllerW extends EuclidianControllerW {
 	 * @param kernel Kernel
 	 */
 	public PlotPanelEuclidianControllerW(Kernel kernel) {
-	    super(kernel);
-    }
-	
+		super(kernel);
+	}
+
 	@Override
 	public void showDrawingPadPopup(GPoint mouse) {
 		// do nothing
@@ -30,7 +30,7 @@ public class PlotPanelEuclidianControllerW extends EuclidianControllerW {
 	
 	@Override
 	public void wrapMouseWheelMoved(int x, int y, double delta,
-	        boolean shiftOrMeta, boolean alt) {
+			boolean shiftOrMeta, boolean alt) {
 		//scolling disabled
 	}
 
@@ -39,5 +39,5 @@ public class PlotPanelEuclidianControllerW extends EuclidianControllerW {
 			Hits hits) {
 		// kill menu in plot panel
 	}
-		
+
 }

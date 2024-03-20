@@ -17,7 +17,7 @@ public class TableCell {
 	 */
 	public TableCell(String content, boolean hasError) {
 		main = Dom.createDiv("content");
-		main.innerHTML = content;
+		main.textContent = content;
 		errorHTML = hasError ? Dom.createDiv("errorStyle").outerHTML : "";
 	}
 

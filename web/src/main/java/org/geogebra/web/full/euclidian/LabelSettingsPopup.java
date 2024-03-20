@@ -58,7 +58,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	 *            - application
 	 */
 	public LabelSettingsPopup(AppW app) {
-		super(app, null, -1, -1, null, false, false, null);
+		super(app, null, -1, -1, null, false, false);
 		this.app = app;
 		loc = app.getLocalization();
 		this.setIcon(

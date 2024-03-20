@@ -187,6 +187,8 @@ public class NotesLayout implements SetLabels {
 	 * update style of undo+redo buttons
 	 */
 	public void updateUndoRedoActions() {
+		appW.getKernel().getConstruction().getUndoManager().setAllowCheckpoints(
+		appW.getAppletParameters().getParamAllowUndoCheckpoints());
 		if (appW.getKernel().undoPossible()) {
 			btnUndo.addStyleName("buttonActive");
 			btnUndo.removeStyleName("buttonInactive");

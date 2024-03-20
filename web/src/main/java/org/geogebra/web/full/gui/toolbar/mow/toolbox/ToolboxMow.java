@@ -1,27 +1,17 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_AUDIO;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_CAMERA;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_EXTENSION;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_H5P;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_IMAGE;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PDF;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_VIDEO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResources;
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithPopup;
 import org.geogebra.web.html5.css.ZoomPanelResources;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -56,7 +46,14 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		decorator.positionLeft();
 
 		addMoveModeButton();
-		addPenModeButton();
+		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(),
+				"pen mode", "penBtn", () -> {
+					appW.setMode(MODE_PEN, ModeSetter.TOOLBAR);
+					GPopupPanel popup = new GPopupPanel(appW.getAppletFrame(), appW);
+					popup.add(new ColorChooserPanel(appW, (color)
+							-> getPen().setPenColor(color)));
+					popup.showRelativeTo(this);
+				});
 		addUploadButton();
 		addLinkButton();
 
@@ -156,6 +153,11 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	@Override
 	public void setLabels() {
 		buttons.forEach(SetLabels::setLabels);
+	}
+
+	private EuclidianPen getPen() {
+		return appW.getActiveEuclidianView().getEuclidianController()
+				.getPen();
 	}
 
 	private void deselectButtons() {

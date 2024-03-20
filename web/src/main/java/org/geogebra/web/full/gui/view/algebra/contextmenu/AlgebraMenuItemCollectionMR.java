@@ -19,6 +19,8 @@ public class AlgebraMenuItemCollectionMR extends MenuItemCollection<GeoElement> 
 	 *            algebra view
 	 */
 	public AlgebraMenuItemCollectionMR(AlgebraViewW av) {
-		addItems(new DuplicateInputItem(av), new DuplicateOutputItem(av), new DeleteItem());
+		Runnable storeUndo = av.getApp()::storeUndoInfo;
+		addItems(new DuplicateInputItem(av), new DuplicateOutputItem(av),
+				new DeleteItem(storeUndo));
 	}
 }

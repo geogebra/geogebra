@@ -65,6 +65,7 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.kernel.AnimationManager;
+import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -115,7 +116,10 @@ import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
+import org.geogebra.common.main.undo.DefaultDeletionExecutor;
+import org.geogebra.common.main.undo.DeletionExecutor;
 import org.geogebra.common.main.undo.UndoManager;
+import org.geogebra.common.main.undo.UndoableDeletionExecutor;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
@@ -881,7 +885,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public String getReverseCommand(String command) {
 		// don't init command table on file loading
-		if (kernel.isUsingInternalCommandNames()) {
+		if (kernel.getCommandLookupStrategy() != CommandLookupStrategy.USER) {
 			try {
 				Commands.valueOf(command);
 				return command;
@@ -1236,23 +1240,27 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			ArrayList<GeoElement> geos2 = new ArrayList<>(getActiveEuclidianView()
 					.getEuclidianController().getJustCreatedGeos());
 			geos2.addAll(selection.getSelectedGeos());
-			for (GeoElement geo : geos2) {
-				if (filter.test(geo)) {
-					boolean isChartEmbed = geo.getParentAlgorithm() instanceof AlgoTableToChart;
-					if (isCut && !isChartEmbed && geo.getParentAlgorithm() != null) {
-						for (GeoElement ge : geo.getParentAlgorithm().input) {
-							ge.removeOrSetUndefinedIfHasFixedDescendent();
+			DeletionExecutor recorder = isWhiteboardActive() ? new UndoableDeletionExecutor()
+					: new DefaultDeletionExecutor();
+			geos2.stream().filter(filter).forEach(geo -> {
+				boolean isChartEmbed = geo.getParentAlgorithm() instanceof AlgoTableToChart;
+				if (isCut && !isChartEmbed && geo.getParentAlgorithm() != null) {
+					for (GeoElement ancestor : geo.getParentAlgorithm().input) {
+						if (ancestor.isLabelSet()) {
+							recorder.delete(ancestor);
 						}
 					}
-					geo.removeOrSetUndefinedIfHasFixedDescendent();
 				}
-			}
+				recorder.delete(geo);
+			});
 
 			getActiveEuclidianView().getEuclidianController()
 					.clearJustCreatedGeos();
 			getActiveEuclidianView().getEuclidianController()
 					.clearSelectionAndRectangle();
-			storeUndoInfoAndStateForModeStarting();
+			if (recorder.storeUndoAction(kernel)) {
+				setUnsaved();
+			}
 		}
 	}
 
@@ -2200,7 +2208,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Changes current mode to move mode
+	 * Changes current mode to move mode if whiteboard is not active
 	 */
 	public void setMoveMode() {
 		setMoveMode(ModeSetter.TOOLBAR);
@@ -2210,7 +2218,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Changes current mode to move mode
 	 */
 	public void setMoveMode(ModeSetter m) {
-		setMode(EuclidianConstants.MODE_MOVE, m);
+		if (!isWhiteboardActive()) {
+			setMode(EuclidianConstants.MODE_MOVE, m);
+		} else {
+			setMode(EuclidianConstants.MODE_SELECT_MOW, m);
+		}
 	}
 
 	/**
@@ -2517,7 +2529,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return font
 	 */
 	public GFont getFontCanDisplay(String testString, boolean serif,
-	                               int fontStyle, int fontSize) {
+			int fontStyle, int fontSize) {
 		FontCreator fontCreator = getFontCreator();
 		if (serif) {
 			return fontCreator.newSerifFont(testString, fontStyle, fontSize);

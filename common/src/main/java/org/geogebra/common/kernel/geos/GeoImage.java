@@ -13,6 +13,9 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
@@ -25,6 +28,7 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -436,6 +440,14 @@ public class GeoImage extends GeoElement implements
 	 */
 	public GeoPoint[] getStartPoints() {
 		return corners;
+	}
+
+	/**
+	 * @return List of corner points that are not null, defined, and labeled
+	 */
+	public List<GeoPoint> getDefinedAndLabeledStartPoints() {
+		return Arrays.stream(corners).filter(point -> point != null
+				&& point.isDefined() && point.isLabelSet()).collect(Collectors.toList());
 	}
 
 	/**
@@ -1220,9 +1232,10 @@ public class GeoImage extends GeoElement implements
 		if (corners[idx] == null || corners[idx].hasChildren()) {
 			return;
 		}
+		if (Inspecting.dynamicGeosFinder.check(corners[idx])) {
+			corners[idx].remove();
+		}
 		setCorner(null, idx);
-		corners[idx].remove();
-		kernel.notifyRemove(corners[idx]);
 		corners[idx] = null;
 	}
 
@@ -1354,7 +1367,7 @@ public class GeoImage extends GeoElement implements
 		double angle = -getAngle();
 
 		getStartPoint().setCoords(getStartPoints()[2].x + rwHeight * Math.sin(angle),
-				 getStartPoints()[2].y - rwHeight * Math.cos(angle), 1);
+				getStartPoints()[2].y - rwHeight * Math.cos(angle), 1);
 		getStartPoints()[1].setCoords(getStartPoints()[0].x + rwWidth * Math.cos(angle),
 				getStartPoints()[0].y + rwWidth * Math.sin(angle), 1);
 	}
@@ -1421,8 +1434,10 @@ public class GeoImage extends GeoElement implements
 		if (isMeasurementTool) {
 			if (getImageFileName().contains("Ruler.svg")) {
 				app.getActiveEuclidianView().setMeasurementTool(this, 1472, 72, 72);
-			}
-			if (getImageFileName().contains("Protractor.svg")) {
+			} else if (getImageFileName().contains("TriangleProtractor.svg")) {
+				int middle = (app.getActiveEuclidianView().getWidth() - 906) / 2;
+				app.getActiveEuclidianView().setMeasurementTool(this, 906, 445, middle);
+			} else if (getImageFileName().contains("Protractor.svg")) {
 				int middle = (app.getActiveEuclidianView().getWidth() - 558) / 2;
 				app.getActiveEuclidianView().setMeasurementTool(this, 558, 296, middle);
 			}

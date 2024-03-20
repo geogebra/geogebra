@@ -83,7 +83,7 @@ public class OptionsMenuController {
 		String[] lstr = { "Labeling.automatic", "Labeling.on", "Labeling.off",
 				"Labeling.pointsOnly" };
 		menuLabeling.addRadioButtonMenuItems(this::processLabeling, lstr,
-				 0, true);
+				0, true);
 
 		addMenuItem(menu, "Labeling", menuLabeling);
 

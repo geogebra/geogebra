@@ -767,23 +767,23 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 		// 2D coords styles
 		case Kernel.COORD_POLAR:
-			action = () -> cartesianCoordsCmd();
+			action = () -> setCoordStyle(Kernel.COORD_CARTESIAN);
 			addAction(action, loc.getMenu("CartesianCoords"));
 			break;
 
 		case Kernel.COORD_CARTESIAN:
-			action = () -> polarCoorsCmd();
+			action = () -> setCoordStyle(Kernel.COORD_POLAR);
 			addAction(action, loc.getMenu("PolarCoords"));
 			break;
 
 		// 3D coords styles
 		case Kernel.COORD_SPHERICAL:
-			action = () -> cartesianCoords3dCmd();
+			action = () -> setCoordStyle(Kernel.COORD_CARTESIAN_3D);
 			addAction(action, loc.getMenu("CartesianCoords"));
 			break;
 
 		case Kernel.COORD_CARTESIAN_3D:
-			action = () -> sphericalCoordsCmd();
+			action = () -> setCoordStyle(Kernel.COORD_SPHERICAL);
 			addAction(action, loc.getMenu("Spherical"));
 			break;
 		}

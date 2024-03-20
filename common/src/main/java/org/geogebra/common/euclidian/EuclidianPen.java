@@ -7,7 +7,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.euclidian.modes.RulerTransformer;
+import org.geogebra.common.euclidian.measurement.MeasurementController;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.PenToolsSettings;
-import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -72,24 +72,25 @@ public class EuclidianPen implements GTimerListener {
 	protected boolean deleteInitialPoint = false;
 
 	private final GTimer timer;
+	private final MeasurementController measurementController;
 	private final PenPreviewLine penPreviewLine;
-	private final RulerTransformer rulerTransformer;
 	protected final ArrayList<GPoint> previewPoints = new ArrayList<>();
 
 	/************************************************
 	 * Construct EuclidianPen
-	 *
-	 * @param app
+	 *  @param app
 	 *            application
 	 * @param view
 	 *            view
+	 * @param measurementController
+	 *            {@link MeasurementController}
 	 */
-	public EuclidianPen(App app, EuclidianView view) {
+	public EuclidianPen(App app, EuclidianView view, MeasurementController measurementController) {
 		this.view = view;
 		this.app = app;
 		this.penPreviewLine = view.newPenPreview();
-		this.rulerTransformer = new RulerTransformer(view, previewPoints);
 		timer = app.newTimer(this, 1500);
+		this.measurementController = measurementController;
 
 		@WeakOuter PenStrokeAdapter line = new PenStrokeAdapter(app);
 		defaultPenLine = line;
@@ -235,15 +236,15 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	public void addPointPenMode(AbstractEvent e) {
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
-		rulerTransformer.reset();
-		if (rulerTransformer.isActive() && previewPoints.size() > 1) {
-			rulerTransformer.updatePreview(newPoint);
+		if (measurementController != null
+				&& measurementController.applyTransformer(view, newPoint, previewPoints)) {
 			penPoints.clear();
 			penPoints.addAll(previewPoints);
 		} else {
 			previewPoints.add(newPoint);
 			addPointPenMode(newPoint);
 		}
+
 		view.repaintView();
 	}
 
@@ -341,7 +342,7 @@ public class EuclidianPen implements GTimerListener {
 	 *
 	 */
 	public void handleMouseReleasedForPenMode(boolean right, int x, int y,
-												 boolean isPinchZooming) {
+			boolean isPinchZooming) {
 		if (right || penPoints.isEmpty()) {
 			return;
 		}
@@ -366,11 +367,10 @@ public class EuclidianPen implements GTimerListener {
 		String label = lastAlgo.getOutput(0).getLabelSimple();
 
 		if (oldXML == null) {
-			app.getUndoManager().storeUndoableAction(EventType.ADD, label,
-					lastAlgo.getXML());
+			app.getUndoManager().storeAddGeo(lastAlgo.getOutput(0));
 		} else {
-			app.getUndoManager().storeUndoableAction(EventType.UPDATE, label,
-					oldXML, lastAlgo.getXML());
+			app.getUndoManager().buildAction(ActionType.UPDATE, lastAlgo.getXML())
+					.withUndo(ActionType.UPDATE, oldXML).withLabels(label).storeAndNotifyUnsaved();
 		}
 	}
 

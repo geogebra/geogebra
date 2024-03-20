@@ -33,8 +33,7 @@ public class LaTeXTextRenderer implements TextRenderer {
 
 	@Override
 	public void drawText(GeoInputBox geo, GGraphics2D graphics,
-						 GFont font, String text,
-						 double xPos, double yPos) {
+			GFont font, String text, double xPos, double yPos) {
 		int textLeft = (int) Math.round(xPos) + settings.getFixMargin();
 
 		GFont font1 = getFont(font, settings.getRendererFontSize());

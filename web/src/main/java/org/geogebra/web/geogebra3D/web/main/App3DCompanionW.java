@@ -38,16 +38,16 @@ public class App3DCompanionW extends App3DCompanion {
 
 	@Override
 	protected EuclidianViewForPlaneCompanion createEuclidianViewForPlane(
-	        ViewCreator plane, EuclidianSettings evSettings,
-	        boolean panelSettings) {
+			ViewCreator plane, EuclidianSettings evSettings,
+			boolean panelSettings) {
 
 		// create dock panel
 		panel = new EuclidianDockPanelForPlaneW(app, incViewID());
 
 		panel.loadComponent();
 		EuclidianViewForPlaneW view = new EuclidianViewForPlaneW(panel,
-		        new EuclidianControllerForPlaneW(app.getKernel()), plane,
-		        evSettings, panel.getViewId());
+				new EuclidianControllerForPlaneW(app.getKernel()), plane,
+				evSettings, panel.getViewId());
 		panel.setView(view);
 
 		((LayoutW) app.getGuiManager().getLayout()).registerPanel(panel);
@@ -57,9 +57,7 @@ public class App3DCompanionW extends App3DCompanion {
 			panel.setVisible(true);
 			// panel.toggleStyleBar();
 
-			((LayoutW) app.getGuiManager().getLayout()).getDockManager().show(
-			        panel);
-
+			((LayoutW) app.getGuiManager().getLayout()).getDockManager().show(panel);
 		}
 
 		return view.getCompanion();
@@ -84,7 +82,7 @@ public class App3DCompanionW extends App3DCompanion {
 		}
 
 		DockPanel[] panels = ((DockManagerW) app.getGuiManager().getLayout()
-		        .getDockManager()).getPanels();
+				.getDockManager()).getPanels();
 		for (int i = 0; i < panels.length; i++) {
 			if (panels[i] instanceof EuclidianDockPanelForPlaneW) {
 				panelForPlaneList.add((EuclidianDockPanelForPlaneW) panels[i]);
@@ -99,8 +97,7 @@ public class App3DCompanionW extends App3DCompanion {
 		for (EuclidianDockPanelForPlaneW p : panelForPlaneList) {
 			EuclidianViewForPlaneW view = p.getView();
 			GeoElement geo = app.getKernel().lookupLabel(
-			        ((GeoElement) view.getCompanion().getPlane())
-			                .getLabelSimple());
+					view.getCompanion().getPlane().getLabelSimple());
 			if (geo != null && (geo instanceof ViewCreator)) {
 				ViewCreator plane = (ViewCreator) geo;
 				view.getCompanion().setPlane(plane);
@@ -133,8 +130,7 @@ public class App3DCompanionW extends App3DCompanion {
 			return;
 		}
 		for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList) {
-			((EuclidianViewForPlaneW) vfpc.getView()).getDockPanel()
-			        .deferredOnResize();
+			((EuclidianViewForPlaneW) vfpc.getView()).getDockPanel().deferredOnResize();
 		}
 	}
 

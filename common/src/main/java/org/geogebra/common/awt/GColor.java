@@ -668,8 +668,10 @@ public final class GColor implements GPaint {
 		return (int) Math.min(255, 256 * v);
 	}
 
-	/** Helper method that converts hue to rgb
-	 @return color */
+	/**
+	 * Helper method that converts hue to rgb
+	 * @return color
+	 */
 	private static double hueToRgb(double p, double q, double t) {
 		double tt = t;
 		if (tt < 0f) {

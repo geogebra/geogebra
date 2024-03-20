@@ -199,7 +199,7 @@ public class ButtonFactory {
 	 * @return button
 	 */
 	public WeightedButton createCustomButton(String resource, String action) {
-	    return createCustomButton(resource, action, Background.FUNCTIONAL);
+		return createCustomButton(resource, action, Background.FUNCTIONAL);
 	}
 
     /**

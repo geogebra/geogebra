@@ -6,9 +6,13 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.util.Collections;
+
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.test.EventAcumulator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -78,6 +82,17 @@ public class EventDispatcherTest extends BaseUnitTest implements EventListener {
 		prepareBatchingTest();
 		add("Net(prism, 1)");
 		assertEquals(objectsAdded, 40);
+	}
+
+	@Test
+	public void shouldNotNotifyAboutSpotlightUpdates() {
+		EuclidianController ec = getApp().getActiveEuclidianView().getEuclidianController();
+		EventAcumulator acc = new EventAcumulator();
+		eventDispatcher.addEventListener(acc);
+		ec.spotlightOn();
+		ec.getSpotlight().notifyUpdate();
+		ec.spotlightOff();
+		assertEquals(Collections.singletonList("HIDE_SPOTLIGHT null"), acc.getEvents());
 	}
 
 	private void prepareBatchingTest() {

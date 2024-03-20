@@ -171,6 +171,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_check_white_24px.svg")
 	SVGResource check_white();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/check_border.svg")
+	SVGResource check_border();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_expand_more_black_24px.svg")
 	SVGResource expand_black();
 
@@ -703,4 +706,7 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/visibility_black_24dp.svg")
 	SVGResource visibility();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dataImport/upload_file_black_24dp.svg")
+	SVGResource upload_file();
 }

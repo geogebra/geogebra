@@ -9,10 +9,10 @@ import org.geogebra.web.html5.util.AppletParameters;
 /**
  * Shows search view.
  */
-public class ShowSearchView extends DefaultMenuAction<Void> {
+public class ShowSearchView extends DefaultMenuAction<AppWFull> {
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		showBrowser(app, (HeaderFileView) app.getGuiManager().getBrowseView(null));
 		AppletParameters articleElement = app.getAppletParameters();
 		if (articleElement.getDataParamPerspective().startsWith("search:")) {

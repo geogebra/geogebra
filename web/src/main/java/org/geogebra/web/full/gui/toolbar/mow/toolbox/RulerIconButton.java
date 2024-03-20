@@ -3,16 +3,16 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MOVE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PROTRACTOR;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
-import static org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxMow.TOOLBOX_PADDING;
 
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 public class RulerIconButton extends IconButton {
+	private final static int TOOLBOX_PADDING = 8;
+	private final EuclidianController ec;
 	private RulerPopup rulerPopup;
-	private AppW appW;
+	private final AppW appW;
 
 	/**
 	 * Constructor
@@ -26,6 +26,7 @@ public class RulerIconButton extends IconButton {
 			String dataTest) {
 		super(appW.getLocalization(), icon, ariaLabel, dataTitle, dataTest, null);
 		this.appW = appW;
+		ec = appW.getActiveEuclidianView().getEuclidianController();
 		addFastClickHandler((event) -> {
 			setActive(!isActive(), appW.getGeoGebraElement().getDarkColor(appW.getFrameElement()));
 			showRulerTypePopup();
@@ -49,47 +50,16 @@ public class RulerIconButton extends IconButton {
 		if (isActive()) {
 			appW.setMode(rulerPopup.getActiveRulerType());
 		} else {
-			removeRuler();
+			removeTool();
 			appW.setMode(MODE_MOVE);
-		}
-	}
-	
-	private GeoImage getActiveRuler() {
-		GeoImage ruler;
-		switch (rulerPopup.getActiveRulerType()) {
-		default:
-		case MODE_RULER:
-			ruler = appW.getKernel().getConstruction().getRuler();
-			break;
-		case MODE_PROTRACTOR:
-			ruler = appW.getKernel().getConstruction().getProtractor();
-			break;
-		}
-		
-		return ruler;
-	}
-	
-	private void clearRuler() {
-		switch (rulerPopup.getActiveRulerType()) {
-		default:
-		case MODE_RULER:
-			appW.getKernel().getConstruction().setRuler(null);
-			break;
-		case MODE_PROTRACTOR:
-			appW.getKernel().getConstruction().setProtractor(null);
-			break;
 		}
 	}
 
 	/**
-	 * remove ruler from construction
+	 * remove measurement tool from construction
 	 */
-	public void removeRuler() {
-		GeoImage ruler = getActiveRuler();
-		if (ruler != null) {
-			getActiveRuler().remove();
-		}
-		clearRuler();
+	public void removeTool() {
+		ec.removeMeasurementTool(rulerPopup.getActiveRulerType());
 	}
 
 	@Override

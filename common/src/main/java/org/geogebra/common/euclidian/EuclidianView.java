@@ -754,14 +754,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (mode == this.mode && mode != EuclidianConstants.MODE_IMAGE) {
 			return;
 		}
+		boolean shouldClearSelectedGeos = shouldClearSelectedGeos(mode);
 		this.mode = mode;
 		initCursor();
 		getEuclidianController().clearJustCreatedGeos();
 		getEuclidianController().setMode(mode, m);
-		if (clearRectangle(mode)) {
+		if (shouldClearRectangle(mode)) {
 			setSelectionRectangle(null);
 			if (hasDynamicStyleBar()) {
 				dynamicStyleBar.setVisible(false);
+			}
+			if (shouldClearSelectedGeos) {
+				getEuclidianController().clearSelections();
 			}
 		}
 		setStyleBarMode(mode);
@@ -775,26 +779,33 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * whether to clear selection rectangle when mode selected
+	 * @return True if selection rectangle should be cleared when a certain mode is being
+	 * selected, false else
 	 */
-	final private static boolean clearRectangle(int mode) {
+	final private static boolean shouldClearRectangle(int mode) {
 		switch (mode) {
-		// case EuclidianConstants.MODE_PENCIL:
-		case EuclidianConstants.MODE_PEN:
-			return true; // changed
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-			return false;
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-			return false;
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			return false;
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			return false;
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
 			return false;
 		default:
 			return true;
 		}
+	}
+
+	/**
+	 * When switching from{@link EuclidianConstants#MODE_SELECT} to
+	 * {@link EuclidianConstants#MODE_MOVE} the selected geos (and their bounding boxes)
+	 * should be cleared
+	 * @param newMode New Mode which is being set
+	 * @return True if the bounding boxes and selected geos should be cleared, false else
+	 */
+	final private boolean shouldClearSelectedGeos(int newMode) {
+		return (this.mode == EuclidianConstants.MODE_SELECT_MOW
+				|| this.mode == EuclidianConstants.MODE_SELECT)
+				&& newMode == EuclidianConstants.MODE_MOVE;
 	}
 
 	/**
@@ -1386,7 +1397,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * using min and max values for both axes in real world values.
 	 */
 	final public void setRealWorldCoordSystemVisible(double xmin2, double xmax2,
-											  double ymin2, double ymax2, boolean visible) {
+			double ymin2, double ymax2, boolean visible) {
 		double calcXscale = (visible ? getVisibleWidth() : getWidth()) / (xmax2 - xmin2);
 		double calcYscale = (visible ? getVisibleHeight() : getHeight()) / (ymax2 - ymin2);
 
@@ -2850,7 +2861,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
 		case EuclidianConstants.MODE_PEN:
-			// case EuclidianConstants.MODE_PENCIL:
 			return true;
 
 		default:
@@ -4745,9 +4755,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				sbxml.append("/>\n");
 			}
 
-			if (app.getSaveController().savedAsTemplate()) {
+			if (app.getSaveController() != null && app.getSaveController().savedAsTemplate()) {
 				app.getSettings().getPenTools().getXML(sbxml);
-
 				sbxml.append("\t<language val=\"");
 				sbxml.append(app.getLocalization().getLanguageTag());
 				sbxml.append("\"/>\n");
@@ -6657,14 +6666,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			coordSystemInfo.setXAxisZoom(false);
 			euclidianController.notifyZoomerStopped();
 		}
-	}
-
-	/**
-	 * adds ruler or protractor image to canvas
-	 * @return geoImage containing ruler or protractor
-	 */
-	public GeoImage addMeasurementTool(int mode, String fileName) {
-		return null;
 	}
 
 	public void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {

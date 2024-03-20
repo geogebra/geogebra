@@ -126,8 +126,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		modelInterval.removeAll();
 		modelInterval.setHeaders(getModel().getIntervalColumnNames());
 		for (int i = 0; i < property.size(); i++) {
-			modelInterval
-			        .addAsRow(Arrays.asList(property.get(i), value.get(i)));
+			modelInterval.addAsRow(Arrays.asList(property.get(i), value.get(i)));
 		}
 	}
 
@@ -326,8 +325,8 @@ public class FunctionInspectorW extends FunctionInspector {
 		tableXY.setBlurHandler(event -> changeXYStart());
 	}
 
-    private void createStep() {
-	    lblStep = new Label();
+	private void createStep() {
+		lblStep = new Label();
 		InputPanelW stepPanel = new InputPanelW(app, -1, false);
 		fldStep = stepPanel.getTextComponent();
 
@@ -340,7 +339,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		fldStep.addBlurHandler(event -> doTextFieldActionPerformed(fldStep));
 
 		fldStep.setWidthInEm(6);
-    }
+	}
 
 	void changeXYStart() {
 		Double value = tableXY.getDoubleEdited();
@@ -409,8 +408,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 			// allow input such as sqrt(2)
 			NumberValue nv;
-			nv = getKernel().getAlgebraProcessor().evaluateToNumeric(inputText,
-			        false);
+			nv = getKernel().getAlgebraProcessor().evaluateToNumeric(inputText, false);
 			double value = nv.getDouble();
 
 			if (source == fldStep) {
@@ -437,8 +435,8 @@ public class FunctionInspectorW extends FunctionInspector {
 	protected void updatePointsTab() {
 		Log.debug("UPDATE POINTS TAB");
 		getModel().updatePoints(btnTangent.isSelected(),
-		        btnOscCircle.isSelected(), btnXYSegments.isSelected(),
-		        btnTable.isSelected());
+				btnOscCircle.isSelected(), btnXYSegments.isSelected(),
+				btnTable.isSelected());
 	}
 
 	@Override
@@ -495,7 +493,7 @@ public class FunctionInspectorW extends FunctionInspector {
 				GuiResources.INSTANCE.menu_icon_tools());
 		btnOptions.setFixedIcon(icon);
 		btnOptions.setSelectedIndex(-1);
-		btnOptions.addPopupHandler(actionButton -> {
+		btnOptions.addPopupHandler(index -> {
 			doCopyToSpreadsheet();
 			btnOptions.setSelectedIndex(-1);
 		});
@@ -507,7 +505,7 @@ public class FunctionInspectorW extends FunctionInspector {
 			getModel().copyIntervalsToSpreadsheet(2, 9); // modelInterval.getColumnCount(),
 		} else {
 			getModel().copyPointsToSpreadsheet(modelXY.getColumnCount(),
-			        modelXY.getRowCount());
+					modelXY.getRowCount());
 		}
 	}
 
@@ -540,9 +538,8 @@ public class FunctionInspectorW extends FunctionInspector {
 		btnRemoveColumn.setTitle(loc.getPlainTooltip("fncInspector.removeColumn"));
 
 		btnOptions.getMyTable().updateText(
-				new ImageOrText[] { new ImageOrText(
-						app.getLocalization()
-		                .getMenu("CopyToSpreadsheet")) });
+				new ImageOrText[] { new ImageOrText(app.getLocalization()
+						.getMenu("CopyToSpreadsheet")) });
 
 		modelInterval.setHeaders(getModel().getIntervalColumnNames());
 	}
@@ -550,11 +547,11 @@ public class FunctionInspectorW extends FunctionInspector {
 	void onResize() {
 		if (mainPanel.getOffsetHeight() != 0) {
 			tabPanel.setHeight(mainPanel.getOffsetHeight()
-			        - HEADER_PADDING + "px");
+					- HEADER_PADDING + "px");
 			intervalTab.setWidth(mainPanel.getOffsetWidth() - PADDING_RIGHT
-			        + "px");
+					+ "px");
 			pointsTab.setWidth(mainPanel.getOffsetWidth()
-			        - PADDING_RIGHT + "px");
+					- PADDING_RIGHT + "px");
 		}
 	}
 }

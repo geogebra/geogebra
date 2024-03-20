@@ -8,12 +8,15 @@ import org.geogebra.common.jre.util.ScientificFormat;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.settings.config.AppConfigGraphing;
+import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.junit.Test;
 
 public class ModeDeleteTest extends BaseEuclidianControllerTest {
 
 	@Test
-	public void eraserTest() throws InterruptedException {
+	public void eraserTest() {
 		setMode(EuclidianConstants.MODE_ERASER);
 		add("stroke = PenStroke((2,-4),(2,-2),(4,-2),(4,-4))");
 		click(140, 90);
@@ -42,6 +45,9 @@ public class ModeDeleteTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void eraserTestStraight() {
+		getApp().setUndoActive(true);
+		getApp().setConfig(new AppConfigNotes());
+		getConstruction().getUndoManager().setAllowCheckpoints(false);
 		setMode(EuclidianConstants.MODE_ERASER);
 		// delete the middle
 		add("stroke = PenStroke((2,-2),(3,-2),(4,-2))");
@@ -61,6 +67,75 @@ public class ModeDeleteTest extends BaseEuclidianControllerTest {
 		assertEquals("PenStroke[(2.2000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
 						+ " (4.0000E0,-2.0000E0), (?,?)]",
 				getDefinition());
+		getKernel().undo();
+		assertEquals("PenStroke[(2.0000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
+						+ " (4.0000E0,-2.0000E0), (?,?)]",
+				getDefinition());
+	}
+
+	@Test
+	public void eraserTestLongDragGraphing() {
+		eraserTestLongDrag(new AppConfigGraphing());
+	}
+
+	@Test
+	public void eraserTestLongDragNotes() {
+		eraserTestLongDrag(new AppConfigNotes());
+	}
+
+	private void eraserTestLongDrag(AppConfig config) {
+		getApp().setUndoActive(true);
+		getApp().setConfig(config);
+		getConstruction().getUndoManager().setAllowCheckpoints(false);
+		setMode(EuclidianConstants.MODE_ERASER);
+		// delete the start
+		add("stroke = PenStroke((2,-2),(3,-2),(4,-2))");
+		dragLinear(95, 95, 130, 105);
+		assertEquals("PenStroke[(2.8000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
+						+ " (4.0000E0,-2.0000E0), (?,?)]",
+				getDefinition());
+		getKernel().undo();
+		assertEquals("PenStroke[(2.0000E0,-2.0000E0), (3.0000E0,-2.0000E0),"
+						+ " (4.0000E0,-2.0000E0), (?,?)]",
+				getDefinition());
+	}
+
+	@Test
+	public void eraseMultipleTestGraphing() {
+		eraseMultipleTest(new AppConfigGraphing());
+	}
+
+	@Test
+	public void eraseMultipleTestNotes() {
+		eraseMultipleTest(new AppConfigNotes());
+	}
+
+	private void eraseMultipleTest(AppConfig config) {
+		getApp().setUndoActive(true);
+		getApp().setConfig(config);
+		setMode(EuclidianConstants.MODE_ERASER);
+		add("A=(2,-2)");
+		add("B=(4,-2)");
+		add("C=(2,-4)");
+		add("D=(4,-4)");
+		getApp().storeUndoInfo();
+		dragLinear(50, 200, 250, 200);
+		checkContentLabels("A", "B");
+		dragLinear(51, 100, 251, 100);
+		checkContentLabels();
+		getKernel().undo();
+		checkContentLabels("A", "B");
+		getKernel().undo();
+		checkContentLabels("A", "B", "C", "D");
+	}
+
+	private void dragLinear(int x1, int y1, int x2, int y2) {
+		dragStart(x1, y1);
+		int steps = 20;
+		for (int i = 0; i < 20; i++) {
+			drag(x1 + (i * (x2 - x1)) / steps, y1 + (i * (y2 - y1)) / steps);
+		}
+		dragEnd(x2, y2);
 	}
 
 	@Test

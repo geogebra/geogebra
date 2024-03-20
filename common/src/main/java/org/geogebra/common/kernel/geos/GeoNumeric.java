@@ -153,25 +153,15 @@ public class GeoNumeric extends GeoElement
 	private @CheckForNull GeoPointND startPoint;
 
 	/**
-	 * Creates new GeoNumeric
+	 * Creates a new GeoNumeric.
 	 * 
-	 * @param c
-	 *            Construction
-	 */
-	public GeoNumeric(Construction c) {
-		this(c, true);
-	}
-
-	/**
-	 * Creates new numeric
-	 * 
-	 * @param c
+	 * @param construction
 	 *            construction
 	 * @param setDefaults
-	 *            true to set from defaults
+	 *            true to set construction defaults
 	 */
-	public GeoNumeric(Construction c, boolean setDefaults) {
-		super(c);
+	public GeoNumeric(Construction construction, boolean setDefaults) {
+		super(construction);
 
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
@@ -185,6 +175,42 @@ public class GeoNumeric extends GeoElement
 		// setAnimationStep(DEFAULT_SLIDER_INCREMENT);
 	}
 
+	/**
+	 * Creates a new GeoNumeric.
+	 *
+	 * Note: This will set construction defaults.
+	 *
+	 * @param construction
+	 *            Construction
+	 */
+	public GeoNumeric(Construction construction) {
+		this(construction, true);
+	}
+
+	/**
+	 * Creates a new GeoNumeric.
+	 *
+	 * Note: This will set construction defaults.
+	 *
+	 * @param construction Construction
+	 * @param value Numeric value
+	 */
+	public GeoNumeric(Construction construction, double value) {
+		this(construction, value, true);
+	}
+
+	/**
+	 * Creates a new GeoNumeric.
+	 *
+	 * @param construction Construction
+	 * @param value Numeric value
+	 * @param setDefaults If true, set contruction defaults
+	 */
+	public GeoNumeric(Construction construction, double value, boolean setDefaults) {
+		this(construction, setDefaults);
+		this.value = value;
+	}
+
 	@Override
 	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_SLIDER;
@@ -193,20 +219,6 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.NUMERIC;
-	}
-
-	/**
-	 * Creates new number
-	 * 
-	 * @param c
-	 *            Cons
-	 * @param x
-	 *            Number value
-	 */
-	public GeoNumeric(Construction c, double x) {
-		this(c);
-
-		value = x;
 	}
 
 	@Override

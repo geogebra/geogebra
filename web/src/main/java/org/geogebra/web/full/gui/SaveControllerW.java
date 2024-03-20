@@ -121,7 +121,7 @@ public class SaveControllerW implements SaveController {
 	}
 
 	@Override
-	public void showLocalSaveDialog() {
+	public void showLocalSaveDialog(Runnable afterSave) {
 		if (!FileSystemAPI.isSupported()) {
 			app.getFileManager().export(app);
 			return;
@@ -130,7 +130,7 @@ public class SaveControllerW implements SaveController {
 		JsPropertyMap<Object> options = localSaveOptions.asPropertyMap();
 
 		FileSystemAPI.showSaveFilePicker(options).then(handle -> {
-			((FileManager) app.getFileManager()).saveAs(handle);
+			((FileManager) app.getFileManager()).saveAs(handle, afterSave);
 			return null;
 		});
 	}
@@ -177,7 +177,7 @@ public class SaveControllerW implements SaveController {
 		if (app.isOffline()) {
 			app.getToolTipManager().showBottomMessage(loc
 					.getMenu("phone_loading_materials_offline"), app);
-			showLocalSaveDialog();
+			showLocalSaveDialog(() -> {});
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
 			uploadToDrive();
 		} else if (app.getLoginOperation().isLoggedIn()) {
@@ -432,7 +432,6 @@ public class SaveControllerW implements SaveController {
 				if (exception.getMessage().contains("auth")) {
 					getAppW().getLoginOperation().performTokenLogin();
 				}
-				getAppW().getGuiManager().exportGGB(true);
 				saveLocalIfNeeded(
 						SaveControllerW.getCurrentTimestamp(getAppW()),
 						SaveState.ERROR);

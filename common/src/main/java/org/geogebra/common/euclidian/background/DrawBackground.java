@@ -153,7 +153,7 @@ public class DrawBackground {
 	}
 
 	private void doDrawHorizontalLines(GGraphics2D g2, boolean subgrid, double xStart, double xEnd,
-									   double yStart, double yEnd) {
+			double yStart, double yEnd) {
 		// draw main grid
 		g2.setColor(subgrid ? settings.getBgSubLineColor()
 				: settings.getBgRulerColor());
@@ -189,7 +189,7 @@ public class DrawBackground {
 	}
 
 	private void doDrawVerticalLines(GGraphics2D g2, boolean subgrid, double xStart, double xEnd,
-									 double yStart, double height) {
+			double yStart, double height) {
 		// draw main grid
 		g2.setColor(subgrid ? settings.getBgSubLineColor()
 				: settings.getBgRulerColor());

@@ -7,10 +7,10 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Exports STL.
  */
-public class DownloadStlAction extends DefaultMenuAction<Void> {
+public class DownloadStlAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		app.setExport3D(new FormatSTL());
 	}
 }

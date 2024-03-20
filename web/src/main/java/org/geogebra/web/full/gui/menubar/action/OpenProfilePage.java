@@ -9,10 +9,10 @@ import elemental2.dom.DomGlobal;
 /**
  * Opens profile page.
  */
-public class OpenProfilePage extends DefaultMenuAction<Void> {
+public class OpenProfilePage extends DefaultMenuAction<AppWFull> {
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		DomGlobal.window.open(getProfileLink(app), "_blank", "");
 	}
 
