@@ -2469,7 +2469,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getGuiManager().getUnbundledToolbar().removeToolsTab();
 		getGuiManager().getLayout().applyPerspective(perspective);
 		kernel.initUndoInfo();
-		CommandFilter commandFilter = getConfig().getCommandFilter();
+		commandFilter = getConfig().getCommandFilter();
 		if (commandFilter != null) {
 			kernel.getAlgebraProcessor().getCommandDispatcher().addCommandFilter(commandFilter);
 		}

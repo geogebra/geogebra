@@ -114,7 +114,7 @@ public class OptionsAlgebraW
 		private void rebuildAngleUnit() {
 			if (app.getConfig().isAngleUnitSettingEnabled() && angleUnitRow == null) {
 				NamedEnumeratedProperty<?> angleProperty = new AngleUnitProperty(app.getKernel(),
-						app.getLocalization(), null);
+						app.getLocalization());
 				angleUnit = new CompDropDown(app, angleProperty);
 				String labelText = getApp().getLocalization().getMenu("AngleUnit") + ":";
 				lblAngleUnit = new FormLabel(labelText).setFor(angleUnit);
