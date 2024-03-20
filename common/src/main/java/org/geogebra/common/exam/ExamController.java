@@ -24,8 +24,6 @@ import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.properties.PropertiesRegistry;
-import org.geogebra.common.properties.PropertiesRegistryListener;
-import org.geogebra.common.properties.Property;
 import org.geogebra.common.util.TimeFormatAdapter;
 
 import com.google.j2objc.annotations.Weak;
