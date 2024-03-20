@@ -51,9 +51,9 @@ final class CMSS10 extends FontInfo {
 
 		setMetrics(180, 267, 444, 194);
 
-		setMetrics(181, 500, 694);
+		setMetrics(181, 400, 694);
 
-		setMetrics(182, 500, 694);
+		setMetrics(182, 300, 694);
 
 		setMetrics(183, 500, 632);
 
