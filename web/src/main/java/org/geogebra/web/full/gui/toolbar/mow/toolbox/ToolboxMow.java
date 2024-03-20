@@ -19,7 +19,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResources;
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.CategoryPopup;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithPopup;
 import org.geogebra.web.html5.css.ZoomPanelResources;
@@ -35,7 +34,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	private ToolboxDecorator decorator;
 	private ToolboxController controller;
 	private IconButton spotlightButton;
-	private final List<SetLabels> buttons = new ArrayList<>();
+	private final List<IconButton> buttons = new ArrayList<>();
 	private final static List<Integer> uploadCategory = Arrays.asList(MODE_IMAGE, MODE_CAMERA,
 			MODE_PDF);
 	private final static List<Integer> linkCategory = Arrays.asList(MODE_EXTENSION, MODE_VIDEO,
@@ -87,7 +86,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 
 	private IconButton addToggleButtonWithPopup(SVGResource image, String ariaLabel,
 			List<Integer> tools) {
-		IconButton iconButton = new IconButtonWithPopup(appW, image, ariaLabel, tools);
+		IconButton iconButton = new IconButtonWithPopup(appW, image, ariaLabel, tools,
+				() -> deselectButtons());
 		add(iconButton);
 		buttons.add(iconButton);
 		return iconButton;
@@ -104,8 +104,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	 * switch spotlight button off
 	 */
 	public void switchSpotlightOff() {
-		spotlightButton.setActive(false,
-				appW.getGeoGebraElement().getDarkColor(appW.getFrameElement()));
+		spotlightButton.deactivate();
 	}
 
 	private void addSpotlightButton() {
@@ -135,8 +134,10 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	private void addMoveModeButton() {
 		addToggleButton(MaterialDesignResources.INSTANCE.mouse_cursor(),
 				getToolAriaLabel(MODE_SELECT_MOW), getToolDataTitle(MODE_SELECT_MOW), "",
-				() -> appW.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL),
-				null);
+				() -> {
+			deselectButtons();
+			appW.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
+			}, null);
 	}
 
 	private void addPenModeButton() {
@@ -155,5 +156,9 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	@Override
 	public void setLabels() {
 		buttons.forEach(SetLabels::setLabels);
+	}
+
+	private void deselectButtons() {
+		buttons.forEach(IconButton::deactivate);
 	}
 }
