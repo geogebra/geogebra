@@ -3392,6 +3392,7 @@ public class GeoList extends GeoElement
 	public void shouldCopyElementsInternal(boolean flag) {
 		this.copyElementsInternal = flag;
 	}
+
 	/**
 	 * @return new array with elements
 	 */
