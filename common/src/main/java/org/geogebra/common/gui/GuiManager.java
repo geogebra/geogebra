@@ -203,7 +203,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * @param sb {@link StringBuilder}
 	 */
 	public void getSpreadsheetLayoutForSuiteXML(StringBuilder sb) {
-		// Overridden in GuiManagerw
+		// Overridden in GuiManagerW
 	}
 
 	@Override

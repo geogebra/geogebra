@@ -1,5 +1,9 @@
 package org.geogebra.common.spreadsheet.core;
 
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE_COLUMN;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE_ROW;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_BELOW;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
@@ -157,6 +161,49 @@ public class SpreadsheetControllerTest {
         controller.handlePointerUp(30, cellHeight * 2, Modifiers.NONE);
 
         assertEquals(initialSpreadsheetHeight, controller.getLayout().getTotalHeight(), 0.0);
+    }
+
+    @Test
+    public void testInsertingColumnAppliesCorrectWidth() {
+        runContextItemAt(1, 1, DELETE_COLUMN);
+        controller.getLayout().setWidthForColumns(150, 1, 1);
+        runContextItemAt(1, 1, ContextMenuItem.Identifier.INSERT_COLUMN_RIGHT);
+        assertEquals("The inserted column should apply the width of the previously selected one!",
+                150, controller.getLayout().getWidth(2), 0);
+    }
+
+    @Test
+    public void testInsertingRowAppliesCorrectHeight() {
+        runContextItemAt(1, 1, DELETE_ROW);
+        controller.getLayout().setHeightForRows(80, 2, 2);
+        runContextItemAt(2, 2, INSERT_ROW_BELOW);
+        assertEquals("The inserted row should apply the width of the previously selected one!",
+                80, controller.getLayout().getHeight(3), 0);
+    }
+
+    @Test
+    public void testDeletingColumnResizesColumnWidth() {
+        controller.getLayout().setWidthForColumns(150, 2, 2);
+        controller.getLayout().setWidthForColumns(200, 3, 3);
+        runContextItemAt(2, 2, DELETE_COLUMN);
+        assertEquals("After deleting the 3rd column, it should change its width!",
+                200, controller.getLayout().getWidth(2), 0);
+    }
+
+    @Test
+    public void testDeletingRowResizesRowHeight() {
+        controller.getLayout().setHeightForRows(80, 1, 1);
+        controller.getLayout().setHeightForRows(120, 2, 2);
+        runContextItemAt(1, 1, DELETE_ROW);
+        assertEquals("After deleting the 2nd row, it should change its height!",
+                120, controller.getLayout().getHeight(1), 0);
+    }
+
+    private void runContextItemAt(int row, int column, Identifier identifier) {
+        controller.getContextMenuItems().get(row, column).stream()
+                .filter(item -> item.getIdentifier() == identifier)
+                .findFirst().ifPresentOrElse(ContextMenuItem::performAction,
+                        () -> fail("There was a problem performing this action!"));
     }
 
     private void setViewport(Rectangle viewport) {

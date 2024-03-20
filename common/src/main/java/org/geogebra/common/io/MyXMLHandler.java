@@ -928,10 +928,10 @@ public class MyXMLHandler implements DocHandler {
 
 		switch (eName) {
 		case "row":
-			ok = handleSpreadsheetLayoutRow(attrs);
+			ok = handleSpreadsheetLayoutRowForSuite(attrs);
 			break;
 		case "column":
-			ok = handleSpreadsheetLayoutColumn(attrs);
+			ok = handleSpreadsheetLayoutColumnForSuite(attrs);
 			break;
 		default:
 			Log.error("unknown tag in <spreadsheetLayout>: " + eName);
@@ -1413,7 +1413,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleSpreadsheetLayoutRow(LinkedHashMap<String, String> attrs) {
+	private boolean handleSpreadsheetLayoutRowForSuite(LinkedHashMap<String, String> attrs) {
 		TableLayout layout = app.getGuiManager().getSpreadsheetLayoutForSuite();
 		try {
 			int rowIndex = Integer.parseInt(attrs.get("index"));
@@ -1425,7 +1425,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleSpreadsheetLayoutColumn(LinkedHashMap<String, String> attrs) {
+	private boolean handleSpreadsheetLayoutColumnForSuite(LinkedHashMap<String, String> attrs) {
 		TableLayout layout = app.getGuiManager().getSpreadsheetLayoutForSuite();
 		try {
 			int columnIndex = Integer.parseInt(attrs.get("index"));

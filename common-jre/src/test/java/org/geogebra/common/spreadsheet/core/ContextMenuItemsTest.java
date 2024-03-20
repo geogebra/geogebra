@@ -14,6 +14,7 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PA
 import static org.geogebra.common.spreadsheet.core.ContextMenuItems.HEADER_INDEX;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
@@ -333,6 +334,46 @@ public final class ContextMenuItemsTest {
 		shoudStayDefault(14, 2);
 		shoudStayDefault(14, 3);
 		shoudStayDefault(14, 4);
+	}
+
+	@Test
+	public void testInsertingColumnRightwardShouldChangeSelection() {
+		selectCells(0, 1, 0, 1);
+		runItemAt(0, 1, INSERT_COLUMN_RIGHT);
+		assertTrue("The current selection should move when a column is inserted to the right!",
+				selectionController.getLastSelection().contains(0, 2));
+		assertTrue("There should be no more than 1 cell selected!",
+				selectionController.isOnlyCellSelected(0, 2));
+	}
+
+	@Test
+	public void testInsertingColumnLeftwardShouldNotChangeSelection() {
+		selectCells(1, 2, 1, 2);
+		runItemAt(1, 2, INSERT_COLUMN_LEFT);
+		assertTrue("The current selection should stay when a column is inserted to the left!",
+				selectionController.getLastSelection().contains(1, 2));
+		assertTrue("There should be no more than 1 cell selected!",
+				selectionController.isOnlyCellSelected(1, 2));
+	}
+
+	@Test
+	public void testInsertingRowBelowShouldChangeSelection() {
+		selectCells(1, 1, 1, 1);
+		runItemAt(1, 1, INSERT_ROW_BELOW);
+		assertTrue("The current selection should move when a row is inserted below!",
+				selectionController.getLastSelection().contains(2, 1));
+		assertTrue("There should be no more than 1 cell selected!",
+				selectionController.isOnlyCellSelected(2, 1));
+	}
+
+	@Test
+	public void testInsertingRowAboveShouldNotChangeSelection() {
+		selectCells(2, 2, 2, 2);
+		runItemAt(2, 2, INSERT_ROW_ABOVE);
+		assertTrue("The current selection should stay when a row is inserted above!",
+				selectionController.getLastSelection().contains(2, 2));
+		assertTrue("There should be no more than 1 cell selected!",
+				selectionController.isOnlyCellSelected(2, 2));
 	}
 
 	private void shoudStayDefault(int row, int column) {
