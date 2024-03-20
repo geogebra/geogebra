@@ -477,8 +477,8 @@ public final class CharMapping {
 		putForm('\u0163', "\\c{t}");
 		putForm('\u0164', "\\v{T}");
 		putForm('\u0165', "\\tcaron");
-		putForm('\u0166', "\\TStroke");
-		putForm('\u0167', "\\tStroke");
+		putForm('\u0166', "\\Tstroke");
+		putForm('\u0167', "\\tstroke");
 		putForm('\u0168', "\\~U");
 		putForm('\u0169', "\\~u");
 		putForm('\u016A', "\\=U");
