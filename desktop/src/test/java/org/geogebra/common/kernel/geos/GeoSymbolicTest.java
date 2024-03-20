@@ -873,7 +873,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		f.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		f.setLineThickness(8);
 		f.setLineOpacity(42);
-		app.setXML(app.getXML(), true);
+		reload();
 
 		GeoSymbolic fReloaded = getSymbolic("f");
 		assertEquals(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT,
@@ -2275,5 +2275,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void mistypedParametricShouldFail() {
 		t("X=(1,2,3)+r(1,2,3)", "?");
 		t("X=(1,2)+s(1,2)", "(s(1, 2) + 1, 2)");
+	}
+
+	@Test
+	@Issue("APPS-5477")
+	public void parametricLinesShouldReload() {
+		add("f: X=(2,3,4)+r (2,2,2)");
+		t("f(3)", "(8, 9, 10)");
+		reload();
+		t("f(3)", "(8, 9, 10)");
 	}
 }
