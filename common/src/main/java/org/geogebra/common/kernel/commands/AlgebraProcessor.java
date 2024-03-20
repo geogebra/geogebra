@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -3787,7 +3789,7 @@ public class AlgebraProcessor {
 	 *            only the commands that are allowed by the CommandFilter
 	 *            will be added to the command table
 	 */
-	public void addCommandFilter(CommandFilter commandFilter) {
+	public void addCommandFilter(@Nonnull CommandFilter commandFilter) {
 		cmdDispatcher.addCommandFilter(commandFilter);
 	}
 

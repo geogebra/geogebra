@@ -49,6 +49,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoInline;
@@ -2431,8 +2432,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void switchToSubapp(String subAppCode) {
 		BrowserStorage.LOCAL.setItem(BrowserStorage.LAST_USED_SUB_APP, subAppCode);
 		getDialogManager().hideCalcChooser();
-		getKernel().getAlgebraProcessor().getCmdDispatcher()
-				.removeCommandFilter(getConfig().getCommandFilter());
+		CommandFilter commandFilter = getConfig().getCommandFilter();
+		if (commandFilter != null) {
+			getKernel().getAlgebraProcessor().getCmdDispatcher().removeCommandFilter(commandFilter);
+		}
 		storeCurrentUndoHistory();
 		storeCurrentMaterial();
 		activity = new SuiteActivity(subAppCode, !getSettings().getCasSettings().isEnabled());
@@ -2450,8 +2453,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getGuiManager().getUnbundledToolbar().removeToolsTab();
 		getGuiManager().getLayout().applyPerspective(perspective);
 		kernel.initUndoInfo();
-		kernel.getAlgebraProcessor().getCommandDispatcher()
-				.addCommandFilter(getConfig().getCommandFilter());
+		CommandFilter commandFilter = getConfig().getCommandFilter();
+		if (commandFilter != null) {
+			kernel.getAlgebraProcessor().getCommandDispatcher().addCommandFilter(commandFilter);
+		}
 		resetCommandDict();
 		if (restoreMaterial(subAppCode)) {
 			registerOpenFileListener(() -> {

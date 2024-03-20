@@ -620,7 +620,9 @@ public class ExamEnvironment {
 	 * sets the exam command filter for the duration of the exam mode.
 	 */
 	private void enableExamCommandFilter() {
-		commandDispatcher.addCommandArgumentFilter(examCommandFilter);
+		if (examCommandFilter != null) {
+			commandDispatcher.addCommandArgumentFilter(examCommandFilter);
+		}
 	}
 
 	/**
@@ -648,7 +650,9 @@ public class ExamEnvironment {
 	 * the CommandDispatcher
 	 */
 	private void disableExamCommandFilter() {
-		commandDispatcher.removeCommandArgumentFilter(examCommandFilter);
+		if (examCommandFilter != null) {
+			commandDispatcher.removeCommandArgumentFilter(examCommandFilter);
+		}
 	}
 
 	/**

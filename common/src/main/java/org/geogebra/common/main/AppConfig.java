@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
@@ -160,16 +161,19 @@ public interface AppConfig extends Serializable {
 	/**
 	 * @return the Command filter for the app.
 	 */
+	@CheckForNull
 	CommandFilter getCommandFilter();
 
 	/**
 	 * @return new command filter for the app.
 	 */
+	@Nonnull
 	CommandFilter createCommandFilter();
 
 	/**
 	 * @return the Command Argument filter for the app.
 	 */
+	@CheckForNull
 	CommandArgumentFilter getCommandArgumentFilter();
 
 	/**

@@ -180,7 +180,9 @@ public class ExamRestrictions {
 					commandDispatcher.removeCommandFilter(commandFilter);
 				}
 			}
-			commandDispatcher.removeCommandArgumentFilter(examCommandArgumentFilter);
+			if (examCommandArgumentFilter != null) {
+				commandDispatcher.removeCommandArgumentFilter(examCommandArgumentFilter);
+			}
 			if (commandArgumentFilters != null) {
 				for (CommandArgumentFilter commandArgumentFilter : commandArgumentFilters) {
 					commandDispatcher.removeCommandArgumentFilter(commandArgumentFilter);
