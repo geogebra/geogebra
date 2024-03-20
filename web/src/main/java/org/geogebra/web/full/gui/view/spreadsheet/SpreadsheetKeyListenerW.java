@@ -542,9 +542,9 @@ public class SpreadsheetKeyListenerW
 		// we could call preventDefault unconditionally (paste OK)
 		if (!e.isControlKeyDown()) {
 			e.preventDefault();
-		} else if (e.getCharCode() != 86 && e.getCharCode() != 118 && // "V"
-				e.getCharCode() != 67 && e.getCharCode() != 99 && // "C"
-				e.getCharCode() != 88 && e.getCharCode() != 120) { // "X"
+		} else if (e.getCharCode() != 86 && e.getCharCode() != 118 // "V"
+				&& e.getCharCode() != 67 && e.getCharCode() != 99 // "C"
+				&& e.getCharCode() != 88 && e.getCharCode() != 120) { // "X"
 			e.preventDefault();
 		}
 
