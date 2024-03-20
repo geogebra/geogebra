@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,9 +62,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 		examController = new ExamController(propertiesRegistry);
 		examController.setDelegate(this);
-		examController.addListener(newState -> {
-			examStates.add(newState);
-		});
+		examController.addListener(newState -> examStates.add(newState));
 		examStates.clear();
 		didRequestClearApps = false;
 		didRequestClearClipboard = false;
@@ -143,9 +141,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 	@Test
 	public void testStartExam() {
-		List<ExamState> listenerStates = new ArrayList<>();
-		examController.addListener(newState -> listenerStates.add(newState));
-
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.startExam(ExamRegion.VLAANDEREN, null);
@@ -154,7 +149,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertNull(examController.getFinishDate()); // not yet ended
 		assertEquals(ExamState.ACTIVE, examController.getState());
 		assertEquals(Arrays.asList(ExamState.PREPARING, ExamState.ACTIVE), examStates);
-		assertEquals(examStates, listenerStates);
 		assertTrue(didRequestClearApps);
 		assertTrue(didRequestClearClipboard);
 		assertNull(didRequestSwitchToSubApp);
@@ -164,13 +158,9 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	@Test
 	public void testStartExamWithoutActiveContext() {
 		examController.prepareExam();
-		try {
-			examController.startExam(ExamRegion.GENERIC, null);
-			fail("starting exam without calling setActiveContext() should throw"
-					+ " IllegalStateException");
-		} catch (IllegalStateException e) {
-			// expected
-		}
+		assertThrows("starting exam without calling setActiveContext() should throw",
+				IllegalStateException.class,
+				() -> examController.startExam(ExamRegion.GENERIC, null));
 	}
 
 	// start exam without calling prepare() first (e.g., in crash recovery)
@@ -272,6 +262,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.setExamRestrictionsForTesting(
 				ExamRestrictions.forExamType(ExamRegion.BAYERN_CAS)); // only allows CAS app
 		examController.startExam(ExamRegion.BAYERN_CAS, null);
+		assertEquals(SuiteSubApp.CAS, didRequestSwitchToSubApp);
 	}
 
 	@Test

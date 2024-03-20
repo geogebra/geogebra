@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.properties.PropertiesRegistry;
+import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.ValuedProperty;
 
@@ -37,7 +38,7 @@ import org.geogebra.common.properties.ValuedProperty;
  * <li>etc.</li>
  * </ul>
  */
-public class ExamRestrictions {
+public class ExamRestrictions implements PropertiesRegistryListener {
 
 	private final ExamRegion examType;
 	private final Set<SuiteSubApp> disabledSubApps;
@@ -52,7 +53,6 @@ public class ExamRestrictions {
 
 	/**
 	 * Factory for ExamRestrictions.
-	 *
 	 * @param examType The exam type.
 	 * @return An {@link ExamRestrictions} subclass that contains all the restrictions for
 	 * the given exam type.
@@ -72,7 +72,6 @@ public class ExamRestrictions {
 
 	/**
 	 * Prevent instantiation, except by subclasses.
-	 *
 	 * @param examType The exam type.
 	 * @param disabledSubApps An optional set of disabled subapps for this exam type. Passing in
 	 * null is equivalent to passing in an empty set.
@@ -92,18 +91,13 @@ public class ExamRestrictions {
 			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
 			@Nullable Set<String> frozenProperties) {
 		this.examType = examType;
-		this.disabledSubApps = disabledSubApps != null && disabledSubApps.isEmpty()
-				? null : disabledSubApps;
+		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
-		this.expressionFilters = expressionFilters != null && expressionFilters.isEmpty()
-				? null : expressionFilters;
-		this.commandFilters = commandFilters != null && commandFilters.isEmpty()
-				? null : commandFilters;
+		this.expressionFilters = expressionFilters != null ? expressionFilters : Set.of();
+		this.commandFilters = commandFilters != null ? commandFilters : Set.of();
 		this.commandArgumentFilters = commandArgumentFilters != null
-				&& commandArgumentFilters.isEmpty()
-				? null : commandArgumentFilters;
-		this.frozenProperties = frozenProperties != null && frozenProperties.isEmpty()
-				? null : frozenProperties;
+				? commandArgumentFilters : Set.of();
+		this.frozenProperties = frozenProperties != null ? frozenProperties : Set.of();
 	}
 
 	/**
@@ -114,10 +108,10 @@ public class ExamRestrictions {
 	}
 
 	/**
-	 * @return The list of disabled (i.e., not allowed) subapps during exams, or null
+	 * @return The list of disabled (i.e., not allowed) subapps during exams, or an empty set
 	 * if there is no restriction on the available subapps.
 	 */
-	public final @CheckForNull Set<SuiteSubApp> getDisabledSubApps() {
+	public final @Nonnull Set<SuiteSubApp> getDisabledSubApps() {
 		return disabledSubApps;
 	}
 
@@ -137,26 +131,20 @@ public class ExamRestrictions {
 			@Nullable PropertiesRegistry propertiesRegistry,
 			@Nullable Object context) {
 		if (commandDispatcher != null) {
-			if (commandFilters != null) {
-				for (CommandFilter commandFilter : commandFilters) {
-					commandDispatcher.addCommandFilter(commandFilter);
-				}
+			for (CommandFilter commandFilter : commandFilters) {
+				commandDispatcher.addCommandFilter(commandFilter);
 			}
 			commandDispatcher.addCommandArgumentFilter(examCommandArgumentFilter);
-			if (commandArgumentFilters != null) {
-				for (CommandArgumentFilter commandArgumentFilter : commandArgumentFilters) {
-					commandDispatcher.addCommandArgumentFilter(commandArgumentFilter);
-				}
+			for (CommandArgumentFilter commandArgumentFilter : commandArgumentFilters) {
+				commandDispatcher.addCommandArgumentFilter(commandArgumentFilter);
 			}
 		}
 		if (algebraProcessor != null) {
-			if (expressionFilters != null) {
-				for (ExpressionFilter expressionFilter : expressionFilters) {
-					algebraProcessor.addExpressionFilter(expressionFilter);
-				}
+			for (ExpressionFilter expressionFilter : expressionFilters) {
+				algebraProcessor.addExpressionFilter(expressionFilter);
 			}
 		}
-		if (frozenProperties != null && propertiesRegistry != null) {
+		if (propertiesRegistry != null) {
 			for (String frozenProperty : frozenProperties) {
 				Property property = propertiesRegistry.lookup(frozenProperty, context);
 				if (property != null) {
@@ -175,28 +163,20 @@ public class ExamRestrictions {
 			@Nullable PropertiesRegistry propertiesRegistry,
 			@Nullable Object context) {
 		if (commandDispatcher != null) {
-			if (commandFilters != null) {
-				for (CommandFilter commandFilter : commandFilters) {
-					commandDispatcher.removeCommandFilter(commandFilter);
-				}
+			for (CommandFilter commandFilter : commandFilters) {
+				commandDispatcher.removeCommandFilter(commandFilter);
 			}
-			if (examCommandArgumentFilter != null) {
-				commandDispatcher.removeCommandArgumentFilter(examCommandArgumentFilter);
-			}
-			if (commandArgumentFilters != null) {
-				for (CommandArgumentFilter commandArgumentFilter : commandArgumentFilters) {
-					commandDispatcher.removeCommandArgumentFilter(commandArgumentFilter);
-				}
+			commandDispatcher.removeCommandArgumentFilter(examCommandArgumentFilter);
+			for (CommandArgumentFilter commandArgumentFilter : commandArgumentFilters) {
+				commandDispatcher.removeCommandArgumentFilter(commandArgumentFilter);
 			}
 		}
 		if (algebraProcessor != null) {
-			if (expressionFilters != null) {
-				for (ExpressionFilter expressionFilter : expressionFilters) {
-					algebraProcessor.removeExpressionFilter(expressionFilter);
-				}
+			for (ExpressionFilter expressionFilter : expressionFilters) {
+				algebraProcessor.removeExpressionFilter(expressionFilter);
 			}
 		}
-		if (frozenProperties != null && propertiesRegistry != null) {
+		if (propertiesRegistry != null) {
 			for (String frozenProperty : frozenProperties) {
 				Property property = propertiesRegistry.lookup(frozenProperty, context);
 				if (property != null) {
@@ -207,31 +187,8 @@ public class ExamRestrictions {
 	}
 
 	/**
-	 * Handles freezing properties on lazy property instantiation/registration.
-	 *
-	 * @param property A property that just got registered.
-	 */
-	public void propertyRegistered(@Nonnull Property property) {
-		if (frozenProperties != null && frozenProperties.contains(property.getRawName())) {
-			freeze(property);
-		}
-	}
-
-	/**
-	 * Handles unfreezing any frozen properties on deregistration.
-	 *
-	 * @param property A property that just got unregistered.
-	 */
-	public void propertyUnregistered(@Nonnull Property property) {
-		if (frozenProperties != null && frozenProperties.contains(property.getRawName())) {
-			unfreeze(property);
-		}
-	}
-
-	/**
 	 * "Freeze" a property (i.e. prevent changing the value, or triggering the action)
 	 * at the start of the exam.
-	 *
 	 * @param property A property.
 	 */
 	protected void freeze(@Nonnull Property property) {
@@ -243,7 +200,6 @@ public class ExamRestrictions {
 
 	/**
 	 * "Unfreeze" a property at the end of the exam.
-	 *
 	 * @param property A property.
 	 */
 	protected void unfreeze(@Nonnull Property property) {
@@ -255,7 +211,6 @@ public class ExamRestrictions {
 
 	/**
 	 * Override to freeze the value of a property to some fixed value.
-	 *
 	 * @param property A property whose value should be fixed during an exam.
 	 */
 	protected void freezeValue(@Nonnull ValuedProperty property) {
@@ -264,7 +219,6 @@ public class ExamRestrictions {
 
 	/**
 	 * Override to unfreeze the value of a property.
-	 *
 	 * @param property A property should be fixed during an exam.
 	 */
 	protected void unfreezeValue(@Nonnull ValuedProperty property) {
@@ -275,5 +229,29 @@ public class ExamRestrictions {
 	// see https://git.geogebra.org/ggb/geogebra/-/issues/8#function-graphs-new
 	public boolean isSelectionAllowed(GeoElementND geoND) {
 		return true;
+	}
+
+	// PropertiesRegistryListener
+
+	/**
+	 * Handles freezing properties on lazy property instantiation/registration.
+	 * @param property A property that just got registered.
+	 */
+	@Override
+	public void propertyRegistered(@Nonnull Property property, Object context) {
+		if (frozenProperties.contains(property.getRawName())) {
+			freeze(property);
+		}
+	}
+
+	/**
+	 * Handles unfreezing any frozen properties on deregistration.
+	 * @param property A property that just got unregistered.
+	 */
+	@Override
+	public void propertyUnregistered(@Nonnull Property property, Object context) {
+		if (frozenProperties.contains(property.getRawName())) {
+			unfreeze(property);
+		}
 	}
 }

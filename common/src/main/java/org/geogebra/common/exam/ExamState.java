@@ -16,5 +16,5 @@ public enum ExamState {
 
 	/** The exam has ended and is in the wrap-up phase (e.g., the app is showing the exam
 	 * summary dialog). */
-	FINISHED;
+	FINISHED
 }

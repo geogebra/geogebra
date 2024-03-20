@@ -1,7 +1,6 @@
 package org.geogebra.common.properties.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class DefaultPropertiesRegistryTests extends BaseUnitTest
 	public void testRegister() {
 		Property angleUnitProperty = new AngleUnitProperty(getKernel(), getLocalization());
 		propertiesRegistry.register(angleUnitProperty);
-		assertNotNull(propertiesRegistry.lookup(angleUnitProperty.getRawName()));
+		assertEquals(angleUnitProperty, propertiesRegistry.lookup(angleUnitProperty.getRawName()));
 	}
 
 	@Test
@@ -62,8 +61,8 @@ public class DefaultPropertiesRegistryTests extends BaseUnitTest
 	public void testPropertiesRegistryListener() {
 		GlobalLanguageProperty languageProperty = new GlobalLanguageProperty(getLocalization());
 		propertiesRegistry.register(languageProperty);
-		assertEquals(registeredProperties.get(0), languageProperty);
-		assertEquals(registeredPropertyContexts.get(0), null);
+		assertEquals(languageProperty, registeredProperties.get(0));
+		assertNull(registeredPropertyContexts.get(0));
 	}
 
 	@Test
