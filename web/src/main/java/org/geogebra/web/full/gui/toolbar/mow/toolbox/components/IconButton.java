@@ -134,6 +134,9 @@ public class IconButton extends StandardButton implements SetLabels {
 		setIcon(image.withFill(isActive ? selectionColor : GColor.BLACK.toString()));
 	}
 
+	/**
+	 * Remove active state
+	 */
 	public void deactivate() {
 		AriaHelper.setPressedState(this, false);
 		Dom.toggleClass(this, "active", false);

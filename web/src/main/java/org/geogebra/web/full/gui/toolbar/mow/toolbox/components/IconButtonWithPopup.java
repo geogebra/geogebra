@@ -12,6 +12,14 @@ public class IconButtonWithPopup extends IconButton {
 	private final AppW appW;
 	private final List<Integer> tools;
 
+	/**
+	 * Constructor
+	 * @param appW - application
+	 * @param icon - image
+	 * @param ariaLabel - aria label
+	 * @param tools - list of tools showing in the popup
+	 * @param deselectButtons - deselect button callback
+	 */
 	public IconButtonWithPopup(AppW appW, SVGResource icon, String ariaLabel,
 			List<Integer> tools, Runnable deselectButtons) {
 		super(appW, icon, ariaLabel, ariaLabel, "", () -> {}, null);
