@@ -17,7 +17,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
@@ -140,13 +139,13 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 				getToolAriaLabel(MODE_SELECT_MOW), getToolDataTitle(MODE_SELECT_MOW), "",
 				() -> {
 			deselectButtons();
-			appW.setMode(MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
+			appW.setMode(MODE_SELECT_MOW);
 			}, null);
 	}
 
 	private void addPenModeButton() {
-		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(),
-				"pen mode", "penBtn", () -> appW.setMode(MODE_PEN));
+		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(), getToolDataTitle(MODE_PEN),
+				getToolDataTitle(MODE_PEN), () -> appW.setMode(MODE_PEN));
 	}
 
 	private String getToolAriaLabel(int mode) {
