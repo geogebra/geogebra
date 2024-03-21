@@ -250,10 +250,10 @@ public final class TableLayout {
 	}
 
 	/**
-	 * Appends an XML representation of this layout to the passed StringBuilder
-	 * @param sb StringBuilder
+	 * @return XML representation of this layout
 	 */
-	public void getXML(StringBuilder sb) {
+	public String getXML() {
+		StringBuilder sb = new StringBuilder();
 		sb.append("<spreadsheetLayoutSuite>\n");
 		for (int i = 0; i < columnWidths.length; i++) {
 			if (columnWidths[i] != DEFAULT_CELL_WIDTH) {
@@ -274,5 +274,6 @@ public final class TableLayout {
 			}
 		}
 		sb.append("</spreadsheetLayoutSuite>\n");
+		return sb.toString();
 	}
 }

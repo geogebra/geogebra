@@ -1429,9 +1429,9 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void getSpreadsheetLayoutForSuiteXML(StringBuilder sb) {
+	public void getSpreadsheetLayoutXML(StringBuilder sb) {
 		if (spreadsheetLayout != null) {
-			spreadsheetLayout.getXML(sb);
+			sb.append(spreadsheetLayout.getXML());
 		} else {
 			sb.append("<spreadsheetLayoutSuite>\n</spreadsheetLayoutSuite>\n");
 		}
