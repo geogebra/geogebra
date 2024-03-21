@@ -8,13 +8,18 @@ import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.NOTES_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
+import static org.geogebra.common.exam.ExamRegion.CHOOSE;
 import static org.geogebra.common.gui.Layout.findDockPanelData;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -49,6 +54,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoInline;
@@ -321,7 +327,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				afterLocalizationLoaded(this::examWelcome);
 			} else {
 				String appCode = appletParameters.getDataParamAppName();
-				String supportedModes = isSuite() ? ExamRegion.getSupportedModes(appCode) : appCode;
+				String supportedModes = isSuite() ? getSupportedExamModes(appCode) : appCode;
 				showErrorDialog("Invalid exam mode: "
 						+ appletParameters.getParamExamMode()
 						+ "\n Supported exam modes: " + supportedModes);
@@ -331,12 +337,23 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	/**
+	 * @param appCode app code for API (suite/graphing/classic/...)
+	 * @return list of supported mode IDs
+	 */
+	private String getSupportedExamModes(String appCode) {
+		return Stream.concat(Stream.of(appCode, CHOOSE), Arrays.stream(ExamRegion.values())
+						.filter(r -> r != ExamRegion.GENERIC)
+						.map(r -> r.name().toLowerCase(Locale.ROOT)))
+				.collect(Collectors.joining(", "));
+	}
+
+	/**
 	 * @return exam region forced by examMode and appName parameters
 	 */
 	public ExamRegion getForcedExamRegion() {
 		String paramExamMode = appletParameters.getParamExamMode();
 		if (paramExamMode.equals(appletParameters.getDataParamAppName())
-			|| paramExamMode.equals(ExamRegion.CHOOSE)) {
+			|| paramExamMode.equals(CHOOSE)) {
 			return ExamRegion.GENERIC;
 		}
 		if (isSuite()) {
@@ -2431,8 +2448,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void switchToSubapp(String subAppCode) {
 		BrowserStorage.LOCAL.setItem(BrowserStorage.LAST_USED_SUB_APP, subAppCode);
 		getDialogManager().hideCalcChooser();
-		getKernel().getAlgebraProcessor().getCmdDispatcher()
-				.removeCommandFilter(getConfig().getCommandFilter());
+		CommandFilter commandFilter = getConfig().getCommandFilter();
+		if (commandFilter != null) {
+			getKernel().getAlgebraProcessor().getCmdDispatcher().removeCommandFilter(commandFilter);
+		}
 		storeCurrentUndoHistory();
 		storeCurrentMaterial();
 		activity = new SuiteActivity(subAppCode, !getSettings().getCasSettings().isEnabled());
@@ -2450,8 +2469,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getGuiManager().getUnbundledToolbar().removeToolsTab();
 		getGuiManager().getLayout().applyPerspective(perspective);
 		kernel.initUndoInfo();
-		kernel.getAlgebraProcessor().getCommandDispatcher()
-				.addCommandFilter(getConfig().getCommandFilter());
+		commandFilter = getConfig().getCommandFilter();
+		if (commandFilter != null) {
+			kernel.getAlgebraProcessor().getCommandDispatcher().addCommandFilter(commandFilter);
+		}
 		resetCommandDict();
 		if (restoreMaterial(subAppCode)) {
 			registerOpenFileListener(() -> {

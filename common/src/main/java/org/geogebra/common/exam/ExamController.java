@@ -24,8 +24,6 @@ import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.properties.PropertiesRegistry;
-import org.geogebra.common.properties.PropertiesRegistryListener;
-import org.geogebra.common.properties.Property;
 import org.geogebra.common.util.TimeFormatAdapter;
 
 import com.google.j2objc.annotations.Weak;
@@ -61,7 +59,7 @@ import com.google.j2objc.annotations.Weak;
  *
  *  @implNote This class is not designed to be thread-safe.
  */
-public final class ExamController implements PropertiesRegistryListener {
+public final class ExamController {
 
 	@Weak
 	@NonOwning
@@ -94,14 +92,6 @@ public final class ExamController implements PropertiesRegistryListener {
 	 */
 	public ExamController(@Nonnull PropertiesRegistry propertiesRegistry) {
 		this.propertiesRegistry = propertiesRegistry;
-		propertiesRegistry.addListener(this);
-	}
-
-	/**
-	 * Unregister the exam controller as a listener from the properties registry.
-	 */
-	public void unregisterFromPropertiesRegistry() {
-		propertiesRegistry.removeListener(this);
 	}
 
 	/**
@@ -251,10 +241,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	 * {@link ExamRegion#getDisplayName(Localization, AppConfig)}.
 	 */
 	public @CheckForNull String getExamName(AppConfig appConfig, Localization localization) {
-		if (examType == null) {
-			return null;
-		}
-		return examType.getDisplayName(localization, appConfig);
+		return examType == null ? null : examType.getDisplayName(localization, appConfig);
 	}
 
 	/**
@@ -363,6 +350,7 @@ public final class ExamController implements PropertiesRegistryListener {
 		if (examRestrictions == null) {
 			examRestrictions = ExamRestrictions.forExamType(examType);
 		}
+		propertiesRegistry.addListener(examRestrictions);
 		applyRestrictionsToContextDependencies(activeDependencies);
 		applyRestrictionsToRestrictables();
 
@@ -400,6 +388,7 @@ public final class ExamController implements PropertiesRegistryListener {
 		if (state != ExamState.FINISHED) {
 			throw new IllegalStateException("expected to be in FINISHED state, but is " + state);
 		}
+		propertiesRegistry.removeListener(examRestrictions);
 		removeRestrictionsFromRestrictables();
 		removeRestrictionsFromContextDependencies(activeDependencies);
 		tempStorage.clearTempMaterials();
@@ -491,6 +480,7 @@ public final class ExamController implements PropertiesRegistryListener {
 	 * Unfortunately we need to expose this - some (iOS) client code currently needs access.
 	 * @return The temporary material storage for exams.
 	 */
+	@Deprecated // don't use this (see doc)
 	public TempStorage getTempStorage() {
 		return tempStorage;
 	}
@@ -512,20 +502,6 @@ public final class ExamController implements PropertiesRegistryListener {
 	 */
 	public void saveTempMaterial(Material material) {
 		tempStorage.saveTempMaterial(material);
-	}
-
-	// PropertiesRegistryListener
-
-	@Override
-	public void propertyRegistered(Property property, Object context) {
-		if (examRestrictions != null) {
-			examRestrictions.propertyRegistered(property);
-		}
-	}
-
-	@Override
-	public void propertyUnregistered(Property property, Object context) {
-		// ignore?
 	}
 
 	// Test support API

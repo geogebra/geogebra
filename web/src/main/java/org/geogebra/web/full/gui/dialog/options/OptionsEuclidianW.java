@@ -309,18 +309,19 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private void initGridStylePanel() {
 
 			// line style
-			btnGridStyle = LineStylePopup.create(app, false);
+			btnGridStyle = LineStylePopup.create(app);
 			
 			lblGridStyle = new Label();
 			addOnlyFor2D(lblGridStyle);
 			lblGridStyle.setStyleName("panelTitle");
-			btnGridStyle.addPopupHandler(actionButton -> {
-				int style = EuclidianView.getLineType(btnGridStyle.getSelectedIndex());
+			btnGridStyle.addPopupHandler(index -> {
+				int style = EuclidianView.getLineType(index);
 				if (gridOptions) {
 					model.applyGridStyle(style);
 				} else {
 					model.applyRulerStyle(style);
 				}
+				app.storeUndoInfo();
 			});
 			btnGridStyle.setKeepVisible(false);
 

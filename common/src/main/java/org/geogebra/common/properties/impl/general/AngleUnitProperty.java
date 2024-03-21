@@ -2,7 +2,6 @@ package org.geogebra.common.properties.impl.general;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 
 import com.google.j2objc.annotations.Weak;
@@ -19,11 +18,9 @@ public class AngleUnitProperty extends AbstractNamedEnumeratedProperty<Integer> 
 	 * Constructs an angle unit property.
 	 * @param kernel kernel
 	 * @param localization localization
-	 * @param propertiesRegistry a properties registry.
 	 */
-	public AngleUnitProperty(Kernel kernel, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
-		super(localization, "AngleUnit", propertiesRegistry);
+	public AngleUnitProperty(Kernel kernel, Localization localization) {
+		super(localization, "AngleUnit");
 		this.kernel = kernel;
 		setValues(Kernel.ANGLE_DEGREE, Kernel.ANGLE_RADIANT, Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
 		setValueNames("Degree", "Radiant", "DegreesMinutesSeconds");

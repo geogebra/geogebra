@@ -102,6 +102,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	protected AlgebraProcessor algebraprocessor = null;
 	/** application */
 	protected App app = null;
+	private static final StringTemplate nonLocalizedTemplate = StringTemplate
+			.printDecimals(ExpressionNodeConstants.StringType.GEOGEBRA, 13, false);
+
+	static {
+		nonLocalizedTemplate.setLocalizeCmds(false);
+	}
 
 	/**
 	 * Returns reference to Construction
@@ -937,6 +943,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		geo.remove();
 		kernel.notifyRepaint();
+		kernel.getConstruction().getUndoManager().removeActionsWithLabel(objName);
 	}
 
 	@Override
@@ -1019,9 +1026,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo.isGeoCasCell()) {
 			return ((GeoCasCell) geo).getOutput(StringTemplate.numericDefault);
 		}
-		StringTemplate template =
-				localized ? StringTemplate.defaultTemplate : StringTemplate.noLocalDefault;
-
+		StringTemplate template = getOutputTemplate(localized);
 		return geo.getAlgebraDescriptionPublic(template);
 	}
 
@@ -1040,9 +1045,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null) {
 			return "";
 		}
-		return geo.getDefinitionDescription(
-				localize ? StringTemplate.defaultTemplate
-						: StringTemplate.noLocalDefault);
+		return geo.getDefinitionDescription(getOutputTemplate(localize));
 	}
 
 	/**
@@ -1106,12 +1109,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return "";
 		}
 		if (geo instanceof GeoCasCell) {
-			return geo.getDefinitionDescription(
-					localize ? StringTemplate.defaultTemplate
-							: StringTemplate.noLocalDefault);
+			return geo.getDefinitionDescription(getOutputTemplate(localize));
 		}
-		return geo.getDefinition(localize ? StringTemplate.defaultTemplate
-				: StringTemplate.noLocalDefault);
+		return geo.getDefinition(getOutputTemplate(localize));
+	}
+
+	private StringTemplate getOutputTemplate(boolean localize) {
+		return localize ? StringTemplate.defaultTemplate
+				: nonLocalizedTemplate;
 	}
 
 	@Override

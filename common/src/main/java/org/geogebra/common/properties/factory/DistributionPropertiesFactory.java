@@ -1,6 +1,7 @@
 package org.geogebra.common.properties.factory;
 
-import java.util.ArrayList;
+import static org.geogebra.common.properties.factory.PropertiesRegistration.registerProperties;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,11 +37,11 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 			PropertiesRegistry propertiesRegistry) {
 		ensureLabelsExist(localization);
 
-		ArrayList<Property> properties = new ArrayList<>(Arrays.asList(
+		List<Property> properties = Arrays.asList(
 				new DistributionTypeProperty(localization, probabilityCalculatorView),
 				new IsCumulativeProperty(localization, probabilityCalculatorView),
 				new IntervalProperty(localization, probabilityCalculatorView)
-		));
+		);
 
 		ProbabilityCalculatorSettings.Dist distribution =
 				probabilityCalculatorView.getSelectedDist();
@@ -56,11 +57,10 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 			properties.add(property);
 		}
 		properties.add(new ProbabilityResultProperty(app.getKernel().getAlgebraProcessor(),
-				(PropertyResultPanel) probabilityCalculatorView.getResultPanel()));
+						(PropertyResultPanel) probabilityCalculatorView.getResultPanel()));
 
 		PropertiesArray array = new PropertiesArray(localization.getMenu("Distribution"),
-				properties.toArray(new Property[]{})
-		);
+				registerProperties(propertiesRegistry, properties));
 		return Arrays.asList(array);
 	}
 

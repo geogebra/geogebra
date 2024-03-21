@@ -1,8 +1,9 @@
 package org.geogebra.common.main.undo;
 
+import java.util.List;
 import java.util.Objects;
 
-import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.ActionType;
 
 /**
  * Item of undo list; can be either a checkpoint or undoable action
@@ -11,9 +12,12 @@ import org.geogebra.common.plugin.EventType;
  */
 public class UndoCommand {
 
+	public List<String> labels;
 	private AppState appState;
-	private EventType action;
+	private ActionType action;
 	private String[] args;
+	ActionType undoAction;
+	String[] undoArgs;
 	private String slideID;
 
 	/**
@@ -33,6 +37,8 @@ public class UndoCommand {
 		this.action = command.action;
 		this.args = command.args;
 		this.slideID = command.slideID;
+		this.undoArgs = command.undoArgs;
+		this.undoAction = command.undoAction;
 	}
 
 	/**
@@ -53,10 +59,13 @@ public class UndoCommand {
 	 * @param args
 	 *            action arguments
 	 */
-	public UndoCommand(EventType action, String slideId, String[] args) {
+	public UndoCommand(String slideId, ActionType action, String[] args,
+			ActionType undoAction, String[] undoArgs) {
 		this.action = action;
 		this.args = args;
 		this.slideID = slideId;
+		this.undoAction = undoAction;
+		this.undoArgs = undoArgs;
 	}
 
 	/**
@@ -92,7 +101,7 @@ public class UndoCommand {
 	}
 
 	private void withCurrentSlide(final UndoManager undoManager, Runnable runnable) {
-		if (action == EventType.ADD || action == EventType.UPDATE) {
+		if (action == ActionType.ADD || action == ActionType.UPDATE) {
 			undoManager.runAfterSlideLoaded(slideID, runnable);
 		} else {
 			runnable.run();
@@ -102,7 +111,7 @@ public class UndoCommand {
 	/**
 	 * @return action
 	 */
-	public EventType getAction() {
+	public ActionType getAction() {
 		return action;
 	}
 
@@ -127,10 +136,11 @@ public class UndoCommand {
 	public void undo(final UndoManager undoManager) {
 		if (getAction() != null) {
 			withCurrentSlide(undoManager, () -> {
-				undoManager.undoAction(action, args);
+				undoManager.executeAction(undoAction, undoArgs);
+
 				//TODO: maybe these actions should also take care of reloading
 				// the correct information without replay?
-				if (action == EventType.CLEAR_PAGE || action == EventType.REMOVE_PAGE) {
+				if (action == ActionType.CLEAR_PAGE || action == ActionType.REMOVE_PAGE) {
 					undoManager.replayActions(slideID, this);
 				}
 			});
@@ -153,8 +163,8 @@ public class UndoCommand {
 	 *            undo manager
 	 */
 	public void loadStateAfter(UndoManager mgr) {
-		if (action == EventType.ADD_PAGE) {
-			mgr.executeAction(EventType.CLEAR_PAGE, args[1]);
+		if (action == ActionType.ADD_PAGE) {
+			mgr.executeAction(ActionType.CLEAR_PAGE, args[1]);
 		}
 	}
 
@@ -170,5 +180,9 @@ public class UndoCommand {
 			return false;
 		}
 		return Objects.equals(slideID, other.slideID);
+	}
+
+	public boolean hasLabel(String label) {
+		return labels != null && labels.contains(label);
 	}
 }

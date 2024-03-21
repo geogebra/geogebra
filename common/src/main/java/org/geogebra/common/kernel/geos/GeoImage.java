@@ -13,6 +13,9 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
@@ -25,6 +28,7 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -436,6 +440,14 @@ public class GeoImage extends GeoElement implements
 	 */
 	public GeoPoint[] getStartPoints() {
 		return corners;
+	}
+
+	/**
+	 * @return List of corner points that are not null, defined, and labeled
+	 */
+	public List<GeoPoint> getDefinedAndLabeledStartPoints() {
+		return Arrays.stream(corners).filter(point -> point != null
+				&& point.isDefined() && point.isLabelSet()).collect(Collectors.toList());
 	}
 
 	/**
@@ -1220,9 +1232,10 @@ public class GeoImage extends GeoElement implements
 		if (corners[idx] == null || corners[idx].hasChildren()) {
 			return;
 		}
+		if (Inspecting.dynamicGeosFinder.check(corners[idx])) {
+			corners[idx].remove();
+		}
 		setCorner(null, idx);
-		corners[idx].remove();
-		kernel.notifyRemove(corners[idx]);
 		corners[idx] = null;
 	}
 

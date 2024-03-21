@@ -73,7 +73,7 @@ dependencies {
         "org.gwtproject:gwt-user:$gwtCompilerVersion"
 
     annotationProcessor project(":gwtutil"),
-            'org.treblereel.gwt.gwtproject.resources:gwt-resources-processor:202402231'
+            'org.treblereel.gwt.gwtproject.resources:gwt-resources-processor:202403181'
 }
 
 def devModule = project.findProperty("gmodule") ?: 'org.geogebra.web.SuperWeb'

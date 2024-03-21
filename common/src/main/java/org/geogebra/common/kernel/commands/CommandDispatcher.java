@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -155,8 +156,14 @@ public abstract class CommandDispatcher implements Restrictable {
 		cons = kernel.getConstruction();
 		this.kernel = kernel;
 		app = kernel.getApplication();
-		addCommandFilter(app.getConfig().getCommandFilter());
-		addCommandArgumentFilter(app.getConfig().getCommandArgumentFilter());
+		CommandFilter commandFilter = app.getConfig().getCommandFilter();
+		if (commandFilter != null) {
+			addCommandFilter(commandFilter);
+		}
+		CommandArgumentFilter commandArgumentFilter = app.getConfig().getCommandArgumentFilter();
+		if (commandArgumentFilter != null) {
+			addCommandArgumentFilter(commandArgumentFilter);
+		}
 	}
 
 	/**
@@ -973,10 +980,8 @@ public abstract class CommandDispatcher implements Restrictable {
 	 *            to add. only the commands that are allowed by all
 	 *            commandFilters will be added to the command table
 	 */
-	public void addCommandFilter(CommandFilter filter) {
-		if (filter != null) {
-			commandFilters.add(filter);
-		}
+	public void addCommandFilter(@Nonnull CommandFilter filter) {
+		commandFilters.add(filter);
 	}
 
 	/**
@@ -985,10 +990,8 @@ public abstract class CommandDispatcher implements Restrictable {
 	 * @param filter
 	 *            to remove.
 	 */
-	public void removeCommandFilter(CommandFilter filter) {
-		if (filter != null) {
-			commandFilters.remove(filter);
-		}
+	public void removeCommandFilter(@Nonnull CommandFilter filter) {
+		commandFilters.remove(filter);
 	}
 
 	/**
@@ -997,10 +1000,8 @@ public abstract class CommandDispatcher implements Restrictable {
 	 * @param filter
 	 *            to add.
 	 */
-	public void addCommandArgumentFilter(CommandArgumentFilter filter) {
-		if (filter != null) {
-			commandArgumentFilters.add(filter);
-		}
+	public void addCommandArgumentFilter(@Nonnull CommandArgumentFilter filter) {
+		commandArgumentFilters.add(filter);
 	}
 
 	/**
@@ -1009,10 +1010,8 @@ public abstract class CommandDispatcher implements Restrictable {
 	 * @param filter
 	 *            to remove.
 	 */
-	public void removeCommandArgumentFilter(CommandArgumentFilter filter) {
-		if (filter != null) {
-			commandArgumentFilters.remove(filter);
-		}
+	public void removeCommandArgumentFilter(@Nonnull CommandArgumentFilter filter) {
+		commandArgumentFilters.remove(filter);
 	}
 
 	/**
@@ -1032,11 +1031,15 @@ public abstract class CommandDispatcher implements Restrictable {
 	@Override
 	public void setExamRestrictionModel(ExamRestrictionModel model) {
 		if (model == null) {
-			removeCommandFilter(examFilter);
+			if (examFilter != null) {
+				removeCommandFilter(examFilter);
+			}
 			examFilter = null;
 		} else {
 			examFilter = model.getCommandFilter();
-			addCommandFilter(model.getCommandFilter());
+			if (examFilter != null) {
+				addCommandFilter(examFilter);
+			}
 		}
 	}
 

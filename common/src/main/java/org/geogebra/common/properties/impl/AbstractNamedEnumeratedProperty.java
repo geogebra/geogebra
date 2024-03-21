@@ -2,7 +2,6 @@ package org.geogebra.common.properties.impl;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
-import org.geogebra.common.properties.PropertiesRegistry;
 
 /**
  * Base class for enumerated properties whose values have names associated with them.
@@ -22,11 +21,6 @@ public abstract class AbstractNamedEnumeratedProperty<V> extends AbstractEnumera
 	 */
 	public AbstractNamedEnumeratedProperty(Localization localization, String name) {
 		super(localization, name);
-	}
-
-	public AbstractNamedEnumeratedProperty(Localization localization, String name,
-			PropertiesRegistry propertiesRegistry) {
-		super(localization, name, propertiesRegistry);
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.factory;
 
+import static org.geogebra.common.properties.factory.PropertiesRegistration.registerProperties;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -22,13 +24,14 @@ public class CasPropertiesFactory extends DefaultPropertiesFactory {
 		String name = localization.getMenu("General");
 		Settings settings = app.getSettings();
 		return new PropertiesArray(name,
-				new RoundingIndexProperty(app, localization),
-				new LabelingProperty(localization, settings.getLabelSettings()),
-				new CoordinatesProperty(kernel, localization),
-				new FontSizeProperty(
-						localization,
-						settings.getFontSettings(),
-						app.getSettingsUpdater().getFontSettingsUpdater()),
-				new LanguageProperty(app, localization, propertiesRegistry));
+				registerProperties(propertiesRegistry,
+						new RoundingIndexProperty(app, localization),
+						new LabelingProperty(localization, settings.getLabelSettings()),
+						new CoordinatesProperty(kernel, localization),
+						new FontSizeProperty(
+								localization,
+								settings.getFontSettings(),
+								app.getSettingsUpdater().getFontSettingsUpdater()),
+						new LanguageProperty(app, localization)));
 	}
 }

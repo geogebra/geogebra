@@ -178,8 +178,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	// selection rectangle colors
 	private static final GColor selRectBorder = GColor.newColor(200, 200, 230);
 	private static final GColor selRectFill = GColor.newColor(200, 200, 230, 50);
-	private static final GColor selRectBorderMebis = GColor.newColor(154, 218, 236);
-	private static final GColor selRectFillMebis = GColor.newColor(0, 168, 213, 12);
+	private static final GColor selRectBorderMebis = GColor.newColorRGB(0xC19FCB);
+	private static final GColor selRectFillMebis = GColor.newColor(193, 159, 203, 30);
 
 	// deletion square design
 	protected static final GColor colDeletionSquare = GColor
@@ -4755,9 +4755,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				sbxml.append("/>\n");
 			}
 
-			if (app.getSaveController().savedAsTemplate()) {
+			if (app.getSaveController() != null && app.getSaveController().savedAsTemplate()) {
 				app.getSettings().getPenTools().getXML(sbxml);
-
 				sbxml.append("\t<language val=\"");
 				sbxml.append(app.getLocalization().getLanguageTag());
 				sbxml.append("\"/>\n");

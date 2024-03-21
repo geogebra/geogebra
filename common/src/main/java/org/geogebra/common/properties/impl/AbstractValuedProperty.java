@@ -5,7 +5,6 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertyValueObserver;
 import org.geogebra.common.properties.ValuedProperty;
 
@@ -26,19 +25,6 @@ public abstract class AbstractValuedProperty<S> extends AbstractProperty
 	 */
 	public AbstractValuedProperty(Localization localization, String name) {
 		super(localization, name);
-	}
-
-	/**
-	 * Constructs a new property.
-	 *
-	 * @param localization Used for localizing the property's name.
-	 * @param name The property's name.
-	 * @param propertiesRegistry A {@link PropertiesRegistry} (may be null). If a registry is
-	 * passed in, the newly created property will register itself with the registry.
-	 */
-	public AbstractValuedProperty(Localization localization, String name,
-			PropertiesRegistry propertiesRegistry) {
-		super(localization, name, propertiesRegistry);
 	}
 
 	@Override

@@ -6,11 +6,6 @@ import static org.geogebra.common.GeoGebraConstants.GEOMETRY_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.PROBABILITY_APPCODE;
 
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.AppConfig;
@@ -151,18 +146,6 @@ public enum ExamRegion {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * @param appCode app code for API (suite/graphing/classic/...)
-	 * @return list of supported mode IDs
-	 */
-	@Deprecated // move into web code and make as private as possible
-	public static String getSupportedModes(String appCode) {
-		return Stream.concat(Stream.of(appCode, CHOOSE), Arrays.stream(ExamRegion.values())
-					.filter(r -> r != ExamRegion.GENERIC)
-					.map(r -> r.name().toLowerCase(Locale.ROOT)))
-					.collect(Collectors.joining(", "));
 	}
 
 	public abstract String getDisplayName(Localization loc, AppConfig config);

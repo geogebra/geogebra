@@ -1,9 +1,6 @@
 package org.geogebra.common.properties.impl;
 
-import javax.annotation.Nullable;
-
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.Property;
 
 /**
@@ -24,23 +21,7 @@ public abstract class AbstractProperty implements Property {
 		this.localization = localization;
 		this.name = name;
 	}
-
-	/**
-	 * Constructs a new property.
-	 *
-	 * @param localization Used for localizing the property's name.
-	 * @param name The property's name.
-	 * @param propertiesRegistry A {@link PropertiesRegistry} (may be null). If a registry is
-	 * passed in, the newly created property will register itself with the registry.
-	 */
-	public AbstractProperty(Localization localization, String name,
-			@Nullable PropertiesRegistry propertiesRegistry) {
-		this(localization, name);
-		if (propertiesRegistry != null) {
-			propertiesRegistry.register(this);
-		}
-	}
-
+	
 	@Override
 	public String getName() {
 		return localization.getMenu(name);
