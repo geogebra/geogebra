@@ -2,7 +2,6 @@ package org.geogebra.common.exam.restrictions;
 
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
