@@ -3,46 +3,38 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 import static org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxMow.TOOLBOX_PADDING;
 
 import java.util.List;
+import java.util.function.Consumer;
 
-import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.full.css.ToolbarSvgResources;
+import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 public class IconButtonWithPopup extends IconButton {
 	private final AppW appW;
-	private final List<Integer> tools;
+	private CategoryPopup categoryPopup;
 
-	/**
-	 * Constructor
-	 * @param appW - application
-	 * @param icon - image
-	 * @param ariaLabel - aria label
-	 * @param tools - list of tools showing in the popup
-	 * @param deselectButtons - deselect button callback
-	 */
-	public IconButtonWithPopup(AppW appW, SVGResource icon, String ariaLabel,
-			List<Integer> tools, Runnable deselectButtons) {
-		super(appW, icon, ariaLabel, ariaLabel, "", () -> {}, null);
+	public IconButtonWithPopup(AppW appW, SVGResource icon, String ariaLabel, List<Integer> tools) {
+		super(appW, icon, ariaLabel, ariaLabel, () -> {}, null);
 		this.appW = appW;
-		this.tools = tools;
+		addFastClickHandler(source -> {
+			if (categoryPopup == null) {
+				categoryPopup = new CategoryPopup(appW, tools, getUpdateButtonCallback());
+			}
 
-		AriaHelper.setAriaHasPopup(this);
-		addFastClickHandler((event) -> {
-			deselectButtons.run();
-			initPopupAndShow();
-			setActive(true, appW.getGeoGebraElement().getDarkColor(appW.getFrameElement()));
+			categoryPopup.show();
+			categoryPopup.setPopupPosition(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
+					(int) (getAbsoluteTop() - appW.getAbsTop()));
 		});
 	}
 
-	private void initPopupAndShow() {
-		CategoryPopup iconButtonPopup = new CategoryPopup(appW, tools);
-		iconButtonPopup.show(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
-				(int) (getAbsoluteTop() - appW.getAbsTop()));
-		AriaHelper.setAriaExpanded(this, true);
-
-		iconButtonPopup.getPopupPanel().addCloseHandler(e -> {
+	private Consumer<Integer> getUpdateButtonCallback() {
+		return mode -> {
+			ResourcePrototype image = GGWToolBar.getImageURLNotMacro(ToolbarSvgResources.INSTANCE,
+					mode, appW);
+			updateImgAndTxt((SVGResource) image, mode, appW);
 			deactivate();
-			AriaHelper.setAriaExpanded(this, false);
-		});
+		};
 	}
 }

@@ -5,6 +5,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxMow;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -25,10 +26,10 @@ public class IconButton extends StandardButton implements SetLabels {
 	 * @param appW - application
 	 */
 	public IconButton(int mode, AppW appW) {
-		super(GGWToolBar.getImageURLNotMacro(ToolbarSvgResources.INSTANCE, mode, appW),
-				appW.getToolName(mode), DEFAULT_BUTTON_WIDTH);
+		this(appW.getLocalization(), (SVGResource) GGWToolBar.getImageURLNotMacro(
+				ToolbarSvgResources.INSTANCE, mode, appW), ToolboxMow.getToolAriaLabel(mode));
+		AriaHelper.setDataTitle(this, ToolboxMow.getToolDataTitle(mode));
 		addStyleName("iconButton");
-		localization = appW.getLocalization();
 	}
 
 	/**

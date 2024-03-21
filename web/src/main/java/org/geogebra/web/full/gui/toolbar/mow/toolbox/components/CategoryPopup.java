@@ -1,50 +1,58 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_RECTANGLE;
+
 import java.util.List;
+import java.util.function.Consumer;
 
-import org.geogebra.web.full.css.ToolbarSvgResources;
-import org.geogebra.web.full.gui.app.GGWToolBar;
-import org.geogebra.web.full.gui.menubar.MainMenu;
-import org.geogebra.web.full.javax.swing.GPopupMenuW;
-import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Widget;
 
-public class CategoryPopup extends GPopupMenuW {
+public class CategoryPopup extends GPopupPanel {
+	private Consumer<Integer> updateParentCallback;
+	private IconButton lastSelectedButton;
+	private FlowPanel contentPanel;
 
-	/**
-	 * Menu popup for MOW toolbox
-	 * @param appW - application
-	 * @param tools - list of tools
-	 */
-	public CategoryPopup(AppW appW, List<Integer> tools) {
-		super(appW);
-		buildGui(tools);
+	public CategoryPopup(AppW app, List<Integer> tools, Consumer<Integer> updateParentCallback) {
+		super(app.getAppletFrame(), app);
+		this.updateParentCallback = updateParentCallback;
+
+		addStyleName("categoryPopup");
+		buildBaseGui(tools);
 	}
 
-	private void buildGui(List<Integer> tools) {
+	public void addContent(Widget widget) {
+		contentPanel.add(widget);
+	}
+
+	private void buildBaseGui(List<Integer> tools) {
+		contentPanel = new FlowPanel();
 		for (Integer mode : tools) {
-			addItem(mode);
+			IconButton button = new IconButton(mode, (AppW) app);
+			if (MODE_SHAPE_RECTANGLE == mode) {
+				app.setMode(mode);
+				updateButtonSelection(button);
+			}
+			button.addFastClickHandler(source -> {
+				app.setMode(mode);
+				updateParentCallback.accept(mode);
+				updateButtonSelection(button);
+				hide();
+			});
+			contentPanel.add(button);
 		}
+		add(contentPanel);
 	}
 
-	private void addItem(int mode) {
-		SVGResource image = (SVGResource) GGWToolBar.getImageURLNotMacro(
-				ToolbarSvgResources.INSTANCE, mode, getApp());
-		String text = getApp().getToolName(mode);
+	private void updateButtonSelection(IconButton newSelectedButton) {
+		if (lastSelectedButton != null) {
+			lastSelectedButton.deactivate();
+		}
 
-		AriaMenuItem item = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
-				image.getSafeUri().asString(), text), true, () ->
-				getApp().setMode(mode));
-		addItem(item);
-	}
-
-	/**
-	 * show popup at position
-	 * @param left - left position
-	 * @param top - top position
-	 */
-	public void show(int left, int top) {
-		showAtPoint(left, top);
+		lastSelectedButton = newSelectedButton;
+		lastSelectedButton.setActive(true,
+				((AppW) app).getGeoGebraElement().getDarkColor(((AppW) app).getFrameElement()));
 	}
 }

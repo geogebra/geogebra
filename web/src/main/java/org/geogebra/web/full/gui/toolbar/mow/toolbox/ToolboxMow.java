@@ -5,10 +5,19 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_CAMERA;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_EXTENSION;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_H5P;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_IMAGE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MASK;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PDF;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_CIRCLE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_ELLIPSE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_FREEFORM;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_LINE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_PENTAGON;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_RECTANGLE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_SQUARE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_TRIANGLE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_VIDEO;
 
 import java.util.ArrayList;
@@ -20,6 +29,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithMenu;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithPopup;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.main.AppW;
@@ -30,7 +40,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
 
 public class ToolboxMow extends FlowPanel implements SetLabels {
 	public final static int TOOLBOX_PADDING = 8;
-	private final AppW appW;
+	private static AppW appW;
 	private ToolboxDecorator decorator;
 	private ToolboxController controller;
 	private IconButton spotlightButton;
@@ -39,6 +49,9 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 			MODE_PDF);
 	private final static List<Integer> linkCategory = new LinkedList<>(Arrays.asList(
 			MODE_EXTENSION, MODE_VIDEO, MODE_AUDIO));
+	private final static List<Integer> shapeCategory = Arrays.asList(MODE_SHAPE_RECTANGLE,
+			MODE_SHAPE_SQUARE , MODE_SHAPE_TRIANGLE , MODE_SHAPE_CIRCLE , MODE_SHAPE_ELLIPSE,
+			MODE_SHAPE_PENTAGON, MODE_SHAPE_LINE, MODE_SHAPE_FREEFORM, MODE_MASK);
 
 	/**
 	 * MOW toolbox
@@ -57,6 +70,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 
 		addMoveModeButton();
 		addPenModeButton();
+		addShapeButton();
 		addUploadButton();
 		addLinkButton();
 
@@ -84,10 +98,18 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		return iconButton;
 	}
 
+	private IconButton addToggleButtonWithMenuPopup(SVGResource image, String ariaLabel,
+			List<Integer> tools) {
+		IconButton iconButton = new IconButtonWithMenu(appW, image, ariaLabel, tools,
+				() -> deselectButtons());
+		add(iconButton);
+		buttons.add(iconButton);
+		return iconButton;
+	}
+
 	private IconButton addToggleButtonWithPopup(SVGResource image, String ariaLabel,
 			List<Integer> tools) {
-		IconButton iconButton = new IconButtonWithPopup(appW, image, ariaLabel, tools,
-				() -> deselectButtons());
+		IconButton iconButton = new IconButtonWithPopup(appW, image, ariaLabel, tools);
 		add(iconButton);
 		buttons.add(iconButton);
 		return iconButton;
@@ -122,7 +144,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addUploadButton() {
-		addToggleButtonWithPopup(MaterialDesignResources.INSTANCE.upload(), "Upload",
+		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.upload(), "Upload",
 				uploadCategory);
 	}
 
@@ -130,7 +152,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		if (appW.getVendorSettings().isH5PEnabled()) {
 			linkCategory.add(MODE_H5P);
 		}
-		addToggleButtonWithPopup(MaterialDesignResources.INSTANCE.resource_card_shared(), "Link",
+		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.resource_card_shared(), "Link",
 				linkCategory);
 	}
 
@@ -145,14 +167,19 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 
 	private void addPenModeButton() {
 		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(), getToolDataTitle(MODE_PEN),
-				getToolDataTitle(MODE_PEN), () -> appW.setMode(MODE_PEN));
+				ToolboxMow.getToolDataTitle(MODE_PEN), () -> appW.setMode(MODE_PEN));
 	}
 
-	private String getToolAriaLabel(int mode) {
+	private void addShapeButton() {
+		addToggleButtonWithPopup(MaterialDesignResources.INSTANCE.shapes(), "Shape",
+				shapeCategory);
+	}
+
+	public static String getToolAriaLabel(int mode) {
 		return appW.getToolName(mode) + ". " + appW.getToolHelp(mode);
 	}
 
-	private String getToolDataTitle(int mode) {
+	public static String getToolDataTitle(int mode) {
 		return appW.getToolName(mode);
 	}
 
