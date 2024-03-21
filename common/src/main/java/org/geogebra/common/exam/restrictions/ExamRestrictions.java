@@ -2,7 +2,6 @@ package org.geogebra.common.exam.restrictions;
 
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -43,6 +42,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final ExamRegion examType;
 	private final Set<SuiteSubApp> disabledSubApps;
 	private final SuiteSubApp defaultSubApp;
+	private final Set<ExamFeatureRestriction> featureRestrictions;
 	private final Set<ExpressionFilter> expressionFilters;
 	private final Set<CommandFilter> commandFilters;
 	private final Set<CommandArgumentFilter> commandArgumentFilters;
@@ -78,14 +78,17 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * @param defaultSubApp An optional subapp to activate at the start of an exam, if the
 	 * current subapp is in the list of restricted subapps. If null, Graphing will be used as the
 	 * default subapp.
+	 * @param featureRestrictions An optional set of features to disable during the exam.
 	 * @param expressionFilters An optional set of expression filters (e.g., ||) to apply during
 	 * exams.
 	 * @param commandFilters An optional command filter to apply during exams.
 	 * @param commandArgumentFilters An optional command argument filter to apply during exams.
+	 * @param frozenProperties An optional set of properties to freeze during the exam.
 	 */
 	protected ExamRestrictions(@Nonnull ExamRegion examType,
 			@Nullable Set<SuiteSubApp> disabledSubApps,
 			@Nullable SuiteSubApp defaultSubApp,
+			@Nullable Set<ExamFeatureRestriction> featureRestrictions,
 			@Nullable Set<ExpressionFilter> expressionFilters,
 			@Nullable Set<CommandFilter> commandFilters,
 			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
@@ -93,6 +96,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
+		this.featureRestrictions = featureRestrictions != null ? featureRestrictions : Set.of();
 		this.expressionFilters = expressionFilters != null ? expressionFilters : Set.of();
 		this.commandFilters = commandFilters != null ? commandFilters : Set.of();
 		this.commandArgumentFilters = commandArgumentFilters != null
@@ -121,6 +125,14 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 */
 	public final @Nonnull SuiteSubApp getDefaultSubApp() {
 		return defaultSubApp;
+	}
+
+	/**
+	 * @return The set of disabled features during exam, or an empty set if there's no
+	 * restrictions on available features in the apps.
+	 */
+	public final @Nonnull Set<ExamFeatureRestriction> getFeatureRestrictions() {
+		return featureRestrictions;
 	}
 
 	/**

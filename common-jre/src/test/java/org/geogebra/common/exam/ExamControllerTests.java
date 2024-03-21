@@ -14,6 +14,7 @@ import java.util.List;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -240,6 +241,9 @@ public class ExamControllerTests implements ExamControllerDelegate {
 				new TestExamRestrictions(ExamRegion.VLAANDEREN));
 		examController.startExam(ExamRegion.VLAANDEREN, null);
 
+		// feature restrictions
+		assertTrue(examController
+				.isFeatureRestricted(ExamFeatureRestriction.DATA_TABLE_REGRESSION));
 		// command restrictions
 		assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
 		// TODO commandArgumentFilters

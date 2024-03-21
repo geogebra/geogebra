@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.factories.FormatFactory;
@@ -199,10 +200,7 @@ public final class ExamController {
 	 * restrictions on sub-apps currently.
 	 */
 	public @CheckForNull Set<SuiteSubApp> getDisabledSubApps() {
-		if (isIdle()) {
-			return null;
-		}
-		return examRestrictions.getDisabledSubApps();
+		return examRestrictions != null ? examRestrictions.getDisabledSubApps() : null;
 	}
 
 	/**
@@ -231,6 +229,17 @@ public final class ExamController {
 		}
 		return disabledSubApps.stream()
 				.anyMatch(subApp -> subApp.appCode.equalsIgnoreCase(appCode));
+	}
+
+	/**
+	 * Check for disabled features.
+	 * @param featureRestriction A feature restriction.
+	 * @return True if the exam is currently active and the feature is restricted, false
+	 * otherwise.
+	 */
+	public boolean isFeatureRestricted(ExamFeatureRestriction featureRestriction) {
+		return examRestrictions != null
+				? examRestrictions.getFeatureRestrictions().contains(featureRestriction) : false;
 	}
 
 	/**
