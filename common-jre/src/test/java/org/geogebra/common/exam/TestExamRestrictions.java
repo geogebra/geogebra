@@ -3,6 +3,7 @@ package org.geogebra.common.exam;
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
@@ -21,6 +22,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 		super(examType,
 				Set.of(SuiteSubApp.CAS),
 				SuiteSubApp.GRAPHING,
+				Set.of(ExamFeatureRestriction.DATA_TABLE_REGRESSION),
 				TestExamRestrictions.createExpressionFilters(),
 				TestExamRestrictions.createCommandFilters(),
 				null,

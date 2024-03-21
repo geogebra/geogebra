@@ -17,6 +17,7 @@ final class BayernCasExamRestrictions extends ExamRestrictions {
 						SuiteSubApp.PROBABILITY),
 				SuiteSubApp.CAS,
 				null,
+				null,
 				BayernCasExamRestrictions.createCommandFilters(),
 				null,
 				null);

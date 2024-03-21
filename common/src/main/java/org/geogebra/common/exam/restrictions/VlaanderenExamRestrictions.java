@@ -16,6 +16,7 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 				Set.of(SuiteSubApp.CAS),
 				SuiteSubApp.GRAPHING,
 				null,
+				null,
 				VlaanderenExamRestrictions.createCommandFilters(),
 				null,
 				null);
