@@ -136,4 +136,19 @@ public class AriaHelper {
 			uiObject.getElement().setAttribute("data-title", title);
 		}
 	}
+
+	/**
+	 * @param uiObject - element
+	 */
+	public static void setAriaHasPopup(UIObject uiObject) {
+		uiObject.getElement().setAttribute("aria-haspopup", "true");
+	}
+
+	/**
+	 * @param uiObject - element
+	 * @param expanded - true or false
+	 */
+	public static void setAriaExpanded(UIObject uiObject, boolean expanded) {
+		uiObject.getElement().setAttribute("aria-expanded", String.valueOf(expanded));
+	}
 }

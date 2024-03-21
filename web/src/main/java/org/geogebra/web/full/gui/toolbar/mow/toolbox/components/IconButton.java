@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui.toolbar.mow.toolbox;
+package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
@@ -132,6 +132,15 @@ public class IconButton extends StandardButton implements SetLabels {
 		AriaHelper.setPressedState(this, isActive);
 		Dom.toggleClass(this, "active", isActive);
 		setIcon(image.withFill(isActive ? selectionColor : GColor.BLACK.toString()));
+	}
+
+	/**
+	 * Remove active state
+	 */
+	public void deactivate() {
+		AriaHelper.setPressedState(this, false);
+		Dom.toggleClass(this, "active", false);
+		setIcon(image.withFill(GColor.BLACK.toString()));
 	}
 
 	public boolean isActive() {

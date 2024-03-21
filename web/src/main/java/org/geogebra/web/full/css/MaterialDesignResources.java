@@ -409,6 +409,13 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/move_white.svg")
 	SVGResource mode_move();
+	
+	// Notes Toolbox
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/mouse_cursor.svg")
+	SVGResource mouse_cursor();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/tool_shapes.svg")
+	SVGResource shapes();
 
 	// Burger Menu resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/menu_whiteBorder.svg")
