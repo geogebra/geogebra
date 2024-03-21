@@ -26,26 +26,11 @@ public class ViewportAdjuster {
 	 * @param row Column index
 	 * @param column Row index
 	 * @param viewport Viewport
-	 * @return True if the viewport was adjusted horizontally, false else
+	 * @return True if the viewport was adjusted, false else
 	 */
 	public boolean adjustViewportIfNeeded(int row, int column, Rectangle viewport) {
-		double scrollAmountX = 0;
-		if (shouldAdjustViewportHorizontallyRightwards(column, viewport)) {
-			scrollAmountX = Math.ceil(layout.getX(column + 1) - viewport.getMinX()
-					+ layout.getRowHeaderWidth() - viewport.getWidth()
-					+ viewportAdjustmentHandler.getScrollBarWidth() + SCROLL_INCREMENT);
-		} else if (shouldAdjustViewportHorizontallyLeftwards(column, viewport)) {
-			scrollAmountX = -Math.floor(viewport.getMinX() - layout.getX(column));
-		}
-
-		double scrollAmountY = 0;
-		if (shouldAdjustViewportVerticallyDownwards(row, viewport)) {
-			scrollAmountY = Math.ceil(layout.getY(row + 1) - viewport.getMinY()
-					+ layout.getColumnHeaderHeight() - viewport.getHeight()
-					+ viewportAdjustmentHandler.getScrollBarWidth() + SCROLL_INCREMENT);
-		} else if (shouldAdjustViewportVerticallyUpwards(row, viewport)) {
-			scrollAmountY = -Math.floor(viewport.getMinY() - layout.getY(row));
-		}
+		double scrollAmountX = getScrollAmountX(row, column, viewport);
+		double scrollAmountY = getScrollAmountY(row, column, viewport);
 
 		if (scrollAmountX != 0 || scrollAmountY != 0) {
 			viewportAdjustmentHandler.setScrollPosition(
@@ -54,6 +39,34 @@ public class ViewportAdjuster {
 			return true;
 		}
 		return false;
+	}
+
+	private double getScrollAmountX(int row, int column, Rectangle viewport) {
+		double scrollAmountX = 0;
+		if (shouldAdjustViewportHorizontallyRightwards(column, viewport)) {
+			scrollAmountX = Math.ceil(layout.getX(column + 1) - viewport.getMinX()
+					+ layout.getRowHeaderWidth() - viewport.getWidth()
+					+ viewportAdjustmentHandler.getScrollBarWidth() + SCROLL_INCREMENT);
+		} else if (shouldAdjustViewportHorizontallyLeftwards(column, viewport)) {
+			scrollAmountX = -Math.floor(viewport.getMinX() - layout.getX(column));
+		} else if (isRightmostColumn(column)) {
+			scrollAmountX = layout.getX(column);
+		}
+		return scrollAmountX;
+	}
+
+	private double getScrollAmountY(int row, int column, Rectangle viewport) {
+		double scrollAmountY = 0;
+		if (shouldAdjustViewportVerticallyDownwards(row, viewport)) {
+			scrollAmountY = Math.ceil(layout.getY(row + 1) - viewport.getMinY()
+					+ layout.getColumnHeaderHeight() - viewport.getHeight()
+					+ viewportAdjustmentHandler.getScrollBarWidth() + SCROLL_INCREMENT);
+		} else if (shouldAdjustViewportVerticallyUpwards(row, viewport)) {
+			scrollAmountY = -Math.floor(viewport.getMinY() - layout.getY(row));
+		} else if (isLowermostRow(row)) {
+			scrollAmountY = layout.getY(row);
+		}
+		return scrollAmountY;
 	}
 
 	private boolean shouldAdjustViewportHorizontallyRightwards(int column, Rectangle viewport) {
@@ -96,5 +109,13 @@ public class ViewportAdjuster {
 	private boolean cellIsHigherThanViewport(int row, Rectangle viewport) {
 		return isValidRowIndex(row)
 				&& layout.getHeight(row) + layout.getColumnHeaderHeight() > viewport.getHeight();
+	}
+
+	private boolean isRightmostColumn(int column) {
+		return column + 1 == layout.numberOfColumns();
+	}
+
+	private boolean isLowermostRow(int row) {
+		return row + 1 == layout.numberOfRows();
 	}
 }
