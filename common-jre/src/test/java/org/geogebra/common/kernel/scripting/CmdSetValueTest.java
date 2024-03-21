@@ -129,4 +129,14 @@ public class CmdSetValueTest extends BaseUnitTest {
 		assertThat(list, hasValue("{1}"));
 		assertThat(list.get(0), hasProperty("type", GeoElement::getGeoClassType, GeoClass.NUMERIC));
 	}
+
+	@Test
+	@Issue("APPS-5441")
+	public void setValueFromListToListShouldCopyCorrectXMLValuesForGeoBooleans() {
+		add("l1 = {true, false}");
+		add("l2 = {true, true}");
+		add("SetValue(l1, l2)");
+		String s = getApp().getXML();
+		assertThat(s, containsString("<expression label=\"l1\" exp=\"{true, true}\"/>"));
+	}
 }
