@@ -534,9 +534,9 @@ public class SpreadsheetKeyListenerW
 		// because those are needed for cut/copy/paste in Safari and FireFox
 		if (!e.isControlKeyDown() && !e.isMetaKeyDown()) {
 			e.preventDefault();
-		} else if (e.getCharCode() != 86 && e.getCharCode() != 118 && // "V"
-				e.getCharCode() != 67 && e.getCharCode() != 99 && // "C"
-				e.getCharCode() != 88 && e.getCharCode() != 120) { // "X"
+		} else if (e.getCharCode() != 86 && e.getCharCode() != 118 // "V"
+				&& e.getCharCode() != 67 && e.getCharCode() != 99 // "C"
+				&& e.getCharCode() != 88 && e.getCharCode() != 120) { // "X"
 			e.preventDefault();
 		}
 

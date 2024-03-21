@@ -30,6 +30,9 @@ public interface GeoGebraConstants {
 		PROBABILITY,
 		CLASSIC;
 
+		/**
+		 * @return translatable name of this app type
+		 */
 		public String getTransKey() {
 			switch (this) {
 			case GRAPHING:
