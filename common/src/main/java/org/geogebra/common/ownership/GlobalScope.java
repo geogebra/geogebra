@@ -1,7 +1,5 @@
 package org.geogebra.common.ownership;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
@@ -14,33 +12,15 @@ import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
  * <p/>
  * This container serves as a home for objects with global lifetime that don't have a
  * direct owner (i.e., no "parent"). Try to put as few objects as possible in here.
- * <p/>
- * Objects owned by this container are not necessarily <i>created</i> in here - they may be
- * created in different places (e.g., depending on the client platform), and ownership then
- * transferred here. This is a design decision you need to make if you plan to add a new
- * object in here.
  */
 public final class GlobalScope {
 
-	private static PropertiesRegistry propertiesRegistry;
+	// Note: source order is initialization order!
+	// https://stackoverflow.com/questions/4446088/java-in-what-order-are-static-final-fields-initialized
 
-	private static ExamController examController;
+	public static final PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
 
-	public static @CheckForNull PropertiesRegistry getPropertiesRegistry() {
-		return propertiesRegistry;
-	}
-
-	public static @CheckForNull ExamController getExamController() {
-		return examController;
-	}
-
-	/**
-	 * Create objects that should not be lazy-instantiated.
-	 */
-	public static void setup() {
-		propertiesRegistry = new DefaultPropertiesRegistry();
-		examController = new ExamController(propertiesRegistry);
-	}
+	public static final ExamController examController = new ExamController(propertiesRegistry);
 
 	/**
 	 * Prevent instantiation.

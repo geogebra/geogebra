@@ -119,7 +119,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			NamedEnumeratedProperty<?> languageProperty = new LanguageProperty(app,
 					app.getLocalization());
 			languageProperty.addValueObserver(this);
-			//GlobalScope.getPropertiesRegistry().register(languageProperty);
+			//GlobalScope.propertiesRegistry.register(languageProperty);
 			languageDropDown = new CompDropDown(app, languageProperty);
 			lblLanguage = new FormLabel(
 					app.getLocalization().getMenu("Language") + ":")
