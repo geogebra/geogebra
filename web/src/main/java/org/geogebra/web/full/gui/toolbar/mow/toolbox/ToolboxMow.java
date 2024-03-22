@@ -40,7 +40,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
 
 public class ToolboxMow extends FlowPanel implements SetLabels {
 	public final static int TOOLBOX_PADDING = 8;
-	private static AppW appW;
+	private static AppW appW = null;
 	private ToolboxDecorator decorator;
 	private ToolboxController controller;
 	private IconButton spotlightButton;
@@ -152,8 +152,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		if (appW.getVendorSettings().isH5PEnabled()) {
 			linkCategory.add(MODE_H5P);
 		}
-		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.resource_card_shared(), "Link",
-				linkCategory);
+		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.resource_card_shared(),
+				"Link", linkCategory);
 	}
 
 	private void addMoveModeButton() {

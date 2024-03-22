@@ -15,8 +15,15 @@ public class CategoryPopup extends GPopupPanel {
 	private IconButton lastSelectedButton;
 	private FlowPanel contentPanel;
 
+	/**
+	 * Constructor
+	 * @param app - application
+	 * @param tools - list of tools
+	 * @param updateParentCallback - callback to update anchor
+	 */
 	public CategoryPopup(AppW app, List<Integer> tools, Consumer<Integer> updateParentCallback) {
 		super(app.getAppletFrame(), app);
+		setAutoHideEnabled(true);
 		this.updateParentCallback = updateParentCallback;
 
 		addStyleName("categoryPopup");
