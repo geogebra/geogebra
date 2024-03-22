@@ -4172,6 +4172,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return e.isControlDown();
 	}
 
+	/**
+	 * Split selected strokes (if any) and deletes selected objects.
+	 */
 	public void splitAndDeleteSelectedObjects() {
 		getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 		deleteSelectedObjects(false);
