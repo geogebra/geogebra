@@ -27,7 +27,7 @@ public class RulerIconButton extends IconButton {
 		this.appW = appW;
 		ec = appW.getActiveEuclidianView().getEuclidianController();
 		addFastClickHandler((event) -> {
-			setActive(!isActive(), appW.getGeoGebraElement().getDarkColor(appW.getFrameElement()));
+			setActive(!isActive());
 			showRulerTypePopup();
 			handleRuler();
 		});

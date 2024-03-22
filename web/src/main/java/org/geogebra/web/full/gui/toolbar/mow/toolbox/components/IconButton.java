@@ -20,6 +20,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	private String dataTitleTransKey;
 	private Integer mode = -1;
 	private final Localization localization;
+	private String selectionColor;
 
 	/**
 	 * Constructor
@@ -30,6 +31,7 @@ public class IconButton extends StandardButton implements SetLabels {
 		this(appW.getLocalization(), (SVGResource) GGWToolBar.getImageURLNotMacro(
 				ToolbarSvgResources.INSTANCE, mode, appW), ToolboxMow.getToolAriaLabel(mode));
 		this.mode = mode;
+		selectionColor = getSelectionColor(appW);
 		AriaHelper.setDataTitle(this, ToolboxMow.getToolDataTitle(mode));
 		addStyleName("iconButton");
 	}
@@ -72,6 +74,7 @@ public class IconButton extends StandardButton implements SetLabels {
 			Runnable onHandler, Runnable offHandler) {
 		this(appW.getLocalization(), icon, ariaLabel);
 		dataTitleTransKey = dataTitle;
+		selectionColor = getSelectionColor(appW);
 		AriaHelper.setTitle(this, appW.getLocalization().getMenu(dataTitle));
 		addFastClickHandler(event -> {
 			if (!isDisabled()) {
@@ -80,8 +83,7 @@ public class IconButton extends StandardButton implements SetLabels {
 				} else {
 					onHandler.run();
 				}
-				setActive(!isActive(),
-						appW.getGeoGebraElement().getDarkColor(appW.getFrameElement()));
+				setActive(!isActive());
 			}
 		});
 	}
@@ -131,7 +133,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	/**
 	 * @param isActive - whether is on or off
 	 */
-	public void setActive(boolean isActive, String selectionColor) {
+	public void setActive(boolean isActive) {
 		AriaHelper.setPressedState(this, isActive);
 		Dom.toggleClass(this, "active", isActive);
 		setIcon(image.withFill(isActive ? selectionColor : GColor.BLACK.toString()));
@@ -161,7 +163,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	 * @param appW - application
 	 */
 	public void updateImgAndTxt(SVGResource image, int mode, AppW appW) {
-		this.image = image;
+		this.image = isActive() ? image.withFill(selectionColor) : image;
 		setIcon(image);
 		String toolName = appW.getToolName(mode);
 		setAltText(toolName + ". " + appW.getToolHelp(mode));
@@ -174,11 +176,24 @@ public class IconButton extends StandardButton implements SetLabels {
 	 */
 	@Override
 	public void setLabels() {
-		AriaHelper.setLabel(this, localization.getMenu(ariaLabelTransKey));
-		AriaHelper.setDataTitle(this, localization.getMenu(dataTitleTransKey));
+		String ariaLabel;
+		String dataTitle;
+		if (mode > -1) {
+			ariaLabel = ToolboxMow.getToolAriaLabel(mode);
+			dataTitle = ToolboxMow.getToolDataTitle(mode);
+		} else {
+			ariaLabel = localization.getMenu(ariaLabelTransKey);
+			dataTitle = localization.getMenu(dataTitleTransKey);
+		}
+		AriaHelper.setLabel(this, ariaLabel);
+		AriaHelper.setDataTitle(this, dataTitle);
 	}
 
 	public Integer getMode() {
 		return mode;
+	}
+
+	private String getSelectionColor(AppW appW) {
+		return appW.getGeoGebraElement().getDarkColor(appW.getFrameElement());
 	}
 }

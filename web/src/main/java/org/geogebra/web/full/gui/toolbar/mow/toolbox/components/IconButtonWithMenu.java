@@ -30,7 +30,7 @@ public class IconButtonWithMenu extends IconButton {
 		addFastClickHandler((event) -> {
 			deselectButtons.run();
 			initPopupAndShow();
-			setActive(true, appW.getGeoGebraElement().getDarkColor(appW.getFrameElement()));
+			setActive(true);
 		});
 	}
 

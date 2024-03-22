@@ -669,6 +669,9 @@ public class ModeShape {
 		return res;
 	}
 
+	/**
+	 * Switch back to select mode after shape created
+	 */
 	public void runShapeCreatedCallback() {
 		if (shapeCreatedCallback != null) {
 			shapeCreatedCallback.run();

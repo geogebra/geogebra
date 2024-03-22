@@ -10,7 +10,6 @@ import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
-import org.gwtproject.resources.client.ResourcePrototype;
 
 public class IconButtonWithPopup extends IconButton {
 	private final AppW appW;
@@ -32,7 +31,7 @@ public class IconButtonWithPopup extends IconButton {
 
 		addFastClickHandler(source -> {
 			deselectButtons.run();
-			setActive(true, appW.getGeoGebraElement().getDarkColor(appW.getFrameElement()));
+			setActive(true);
 
 			if (categoryPopup == null) {
 				categoryPopup = new CategoryPopup(appW, tools, getUpdateButtonCallback());
@@ -50,9 +49,18 @@ public class IconButtonWithPopup extends IconButton {
 
 	private Consumer<Integer> getUpdateButtonCallback() {
 		return mode -> {
-			ResourcePrototype image = GGWToolBar.getImageURLNotMacro(ToolbarSvgResources.INSTANCE,
-					mode, appW);
-			updateImgAndTxt((SVGResource) image, mode, appW);
+			SVGResource image =  (SVGResource) GGWToolBar.getImageURLNotMacro(
+					ToolbarSvgResources.INSTANCE, mode, appW);
+			updateImgAndTxt(image, mode, appW);
+			setActive(true);
 		};
+	}
+
+	@Override
+	public void setLabels() {
+		super.setLabels();
+		if (categoryPopup != null) {
+			categoryPopup.setLabels();
+		}
 	}
 }

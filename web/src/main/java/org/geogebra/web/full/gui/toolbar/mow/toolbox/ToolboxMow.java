@@ -203,8 +203,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void setSelectMode() {
-		selectButton.setActive(true,
-				appW.getGeoGebraElement().getDarkColor(appW.getFrameElement()));
+		selectButton.setActive(true);
 		appW.setMode(MODE_SELECT_MOW);
 	}
 }
