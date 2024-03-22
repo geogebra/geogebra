@@ -7,6 +7,7 @@ import java.util.TreeSet;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.ParseException;
@@ -34,7 +35,7 @@ public abstract class CopyPasteCut {
 	/**
 	 * Stores copied cell geo values as a tab-delimited string.
 	 */
-	private StringBuilder cellBufferStr;
+	private String cellBufferStr;
 
 	/**
 	 * Stores copied cell geos as GeoElement[columns][rows]
@@ -134,7 +135,7 @@ public abstract class CopyPasteCut {
 		copy(column1, row1, column2, row2, false);
 		// null out the external buffer so that paste will not do a relative
 		// copy
-		setCellBufferStr(null);
+		resetCellBuffer();
 		return delete(column1, row1, column2, row2);
 	}
 
@@ -623,6 +624,67 @@ public abstract class CopyPasteCut {
 	}
 
 	/**
+	 * Get a rectangular area of the spreadsheet as tab separated values.
+	 * The value is also stored into the buffer.
+	 * @param column1 left column
+	 * @param row1 top row
+	 * @param column2 right column
+	 * @param row2 bottom row
+	 * @return spreadsheet data in TSV format
+	 */
+	public String copyStringToBuffer(int column1, int row1, int column2, int row2) {
+		String copyString = copyString(column1, row1, column2, row2);
+		cellBufferStr = copyString;
+		return copyString;
+	}
+
+	/**
+	 * Just copying the selection as string text format
+	 *
+	 * @return selection content as tab separated string
+	 */
+	public String copyString(int column1, int row1, int column2, int row2) {
+		StringBuilder cellBufferStrLoc = new StringBuilder();
+		for (int row = row1; row <= row2; ++row) {
+			for (int column = column1; column <= column2; ++column) {
+				GeoElement value = RelativeCopy.getValue(app, column, row);
+				if (value != null) {
+					String valueString = value
+							.toValueString(StringTemplate.maxPrecision);
+
+					valueString = removeTrailingZeros(valueString);
+
+					cellBufferStrLoc.append(valueString);
+				}
+				if (column != column2) {
+					cellBufferStrLoc.append('\t');
+				}
+			}
+			if (row != row2) {
+				cellBufferStrLoc.append('\n');
+			}
+		}
+		return cellBufferStrLoc.toString();
+	}
+
+	private String removeTrailingZeros(String valueString) {
+		int indx = valueString
+				.indexOf(app.getKernel().getLocalization().getDecimalPoint());
+		if (indx > -1) {
+			int end = valueString.length() - 1;
+			// only in this case, we should remove trailing zeroes!
+			while (valueString.charAt(end) == '0') {
+				end--;
+			}
+			if (end == indx) {
+				end--;
+			}
+			return valueString.substring(0, end + 1);
+		}
+		return valueString;
+	}
+
+	/**
 	 * used to sort Records based on the id (which is the construction index)
 	 * 
 	 * @return comparator
@@ -645,16 +707,15 @@ public abstract class CopyPasteCut {
 	/**
 	 * @return copied cell geo values as a tab-delimited string.
 	 */
-	protected StringBuilder getCellBufferStr() {
-		return cellBufferStr;
+	protected boolean isCellBuffer(String content) {
+		return content.equals(cellBufferStr);
 	}
 
 	/**
-	 * @param cellBufferStr
-	 *            copied cell geo values as a tab-delimited string.
+	 * Reset cell buffer to null
 	 */
-	protected void setCellBufferStr(StringBuilder cellBufferStr) {
-		this.cellBufferStr = cellBufferStr;
+	protected void resetCellBuffer() {
+		this.cellBufferStr = null;
 	}
 
 	protected GeoElement[][] getCellBufferGeo() {

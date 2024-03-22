@@ -115,10 +115,10 @@ public class ClipLine {
 			ret[0].setLocation(x1, y1);
 			ret[1].setLocation(x2, y2);
 			return ret;
-		} else if ((mask & (H_CENTER | LEFT)) == 0 || // everything's right
-				(mask & (H_CENTER | RIGHT)) == 0 || // everything's left
-				(mask & (V_CENTER | BELOW)) == 0 || // everything's above
-				(mask & (V_CENTER | ABOVE)) == 0) { // everything's below
+		} else if ((mask & (H_CENTER | LEFT)) == 0 // everything's right
+				|| (mask & (H_CENTER | RIGHT)) == 0 // everything's left
+				|| (mask & (V_CENTER | BELOW)) == 0 // everything's above
+				|| (mask & (V_CENTER | ABOVE)) == 0) { // everything's below
 			// nothing to do
 			return null;
 		} else {

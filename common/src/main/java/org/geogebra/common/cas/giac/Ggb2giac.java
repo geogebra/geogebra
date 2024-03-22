@@ -67,12 +67,14 @@ public class Ggb2giac {
 		p("Binomial.2", binomCommand);
 		p("BinomialCoefficient.2", binomCommand);
 
+		String binom3Command = "[[[ggbbinarg0:=%0],[ggbbinarg1:=%1],[ggbbinarg2:=%2],"
+				// round ggbbinarg0 only if number
+				// (to be consistent with the Algebra View version)
+				+ "[ggbbinarg00:=when(type(ggbbinarg0)==DOM_RAT||type(ggbbinarg0)==DOM_FLOAT,round(ggbbinarg0),ggbbinarg0)]],"
+				+ "when(type(ggbbinarg2)==DOM_LIST,sum(seq(binomial(ggbbinarg00,ggbbinarg2[j],ggbbinarg1),j,0,length(ggbbinarg2)-1)),undef)][1]";
+
 		p("BinomialDist.3",
-				"[[[ggbbinarg0:=%0],[ggbbinarg1:=%1],[ggbbinarg2:=%2],"
-						// round ggbbinarg0 only if number
-						// (to be consistent with the Algebra View version)
-						+ "[ggbbinarg00:=when(type(ggbbinarg0)==DOM_RAT||type(ggbbinarg0)==DOM_FLOAT,round(ggbbinarg0),ggbbinarg0)]],"
-						+ "when(type(ggbbinarg2)==DOM_LIST,sum(seq(binomial(ggbbinarg00,ggbbinarg2[j],ggbbinarg1),j,0,length(ggbbinarg2)-1)),undef)][1]");
+				"simplify(" + binom3Command + ")");
 
 		p("BinomialDist.4",
 				"[[[ggbbinarg0:=%0],[ggbbinarg1:=%1],[ggbbinarg2:=%2],"

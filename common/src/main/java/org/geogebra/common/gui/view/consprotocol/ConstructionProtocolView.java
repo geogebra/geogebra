@@ -254,9 +254,9 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			int prevIndex;
 
 			index1 = (rowNumber < 0) ? -1
-					: /* data. */getConstructionIndex(rowNumber);
-			prevIndex = (rowNumber < 1) ? -1 : /* data. */
-					getConstructionIndex(rowNumber - 1);
+					: getConstructionIndex(rowNumber);
+			prevIndex = (rowNumber < 1) ? -1
+					: getConstructionIndex(rowNumber - 1);
 
 			// TODO: This logic could be merged with the HTML export logic.
 			int m;

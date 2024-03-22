@@ -114,8 +114,8 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 		matY = new Array2DRowRealMatrix(datasize, 1);
 		matP = new Array2DRowRealMatrix(functionsize, 1); // Solution parameters
 
-		if (!pointlist.isDefined() || // Lot of things can go wrong...
-				!functionlist.isDefined() || (functionsize > datasize)) {
+		if (!pointlist.isDefined() // Lot of things can go wrong...
+				|| !functionlist.isDefined() || (functionsize > datasize)) {
 			// Perhaps a max restriction of functions and data?
 			// Even if noone would try 500 datapoints and 100 functions...
 			fitfunction.setUndefined();
