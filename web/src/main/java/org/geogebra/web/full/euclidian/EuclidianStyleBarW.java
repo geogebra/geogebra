@@ -562,8 +562,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		ClickStartHandler.init(btnDelete, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
-				app.deleteSelectedObjects(false);
+				app.splitAndDeleteSelectedObjects();
 			}
 		});
 		add(btnDelete);
