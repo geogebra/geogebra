@@ -1804,6 +1804,14 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdBetaDist() {
+		prob("BetaDist", "2,1",
+				"If(0 < x < 1, (x^(2 - 1) (1 - x)^(1 - 1)) / beta(2, 1), 0)",
+				"If(0 < x < 1, betaRegularized(2, 1, x), If(x "
+						+ Unicode.LESS_EQUAL + " 0, 0, 1))");
+	}
+
+	@Test
 	public void cmdGCD() {
 		t("GCD[ {1,2,3,4,5} ]", "1");
 		t("GCD[ 42, 42 ]", "42");
@@ -2134,6 +2142,11 @@ public class CommandsTest {
 	@Test
 	public void cmdInverseGamma() {
 		tRound("InverseGamma[ 3, 5, 0.5 ]", "13.3703");
+	}
+
+	@Test
+	public void cmdInverseBeta() {
+		tRound("InverseBeta[ 3, 5, 0.5 ]", "0.36412");
 	}
 
 	@Test

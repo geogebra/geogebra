@@ -1928,24 +1928,6 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
-	 * @param v2
-	 *            input
-	 * @return result of gamma(this, v2)
-	 */
-	public ExpressionNode gammaIncomplete(ExpressionValue v2) {
-		return new ExpressionNode(kernel, this, Operation.GAMMA_INCOMPLETE, v2);
-	}
-
-	/**
-	 * @param v2
-	 *            input
-	 * @return result of beta(this, v2)
-	 */
-	public ExpressionNode beta(ExpressionValue v2) {
-		return new ExpressionNode(kernel, this, Operation.BETA, v2);
-	}
-
-	/**
 	 * @return result of exp(this)
 	 */
 	public ExpressionNode exp() {
@@ -3136,14 +3118,27 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * Apply given binary operation on this node and additional argument
 	 * 
-	 * @param operation2
+	 * @param op
 	 *            operation
 	 * @param arg
 	 *            second argument
-	 * @return expression node opertion2this,arg)
+	 * @return expression node  this [op] arg
 	 */
-	public ExpressionNode apply(Operation operation2, ExpressionValue arg) {
-		return new ExpressionNode(kernel, this, operation2, arg);
+	public ExpressionNode apply(Operation op, ExpressionValue arg) {
+		return new ExpressionNode(kernel, this, op, arg);
+	}
+
+	/**
+	 * Apply given binary operation in reverse on this node and additional argument
+	 *
+	 * @param op
+	 *            operation
+	 * @param arg
+	 *            second argument
+	 * @return expression node  this [op] arg
+	 */
+	public ExpressionNode applyReverse(Operation op, ExpressionValue arg) {
+		return new ExpressionNode(kernel, arg, op, this);
 	}
 
 	/**

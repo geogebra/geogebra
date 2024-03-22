@@ -25,13 +25,12 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoInverseLogNormal extends AlgoDistribution {
 
-	@SuppressWarnings("javadoc")
-	public AlgoInverseLogNormal(Construction cons, String label,
-			GeoNumberValue a, GeoNumberValue b, GeoNumberValue c) {
-		super(cons, label, a, b, c, null);
-	}
-
-	@SuppressWarnings("javadoc")
+	/**
+	 * @param cons construction
+	 * @param a first parameter
+	 * @param b second parameter
+	 * @param c random variable value
+	 */
 	public AlgoInverseLogNormal(Construction cons, GeoNumberValue a,
 			GeoNumberValue b, GeoNumberValue c) {
 		super(cons, a, b, c, null);
