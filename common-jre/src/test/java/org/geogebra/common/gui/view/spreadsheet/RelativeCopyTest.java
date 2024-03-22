@@ -49,6 +49,7 @@ public class RelativeCopyTest extends BaseUnitTest {
 		assertThat(prepareAddingValue("DiLaTe(c, 2)"), hasValue("x\u00B2 + y\u00B2 = 4"));
 		assertThat(prepareAddingValue("diLaTE(c, 2)"), hasValue("x\u00B2 + y\u00B2 = 4"));
 	}
+
 	private GeoElementND prepareAddingValue(String inputText) {
 		return new RelativeCopy(getKernel(),
 				TestErrorHandler.INSTANCE).prepareAddingValueToTableNoStoringUndoInfo(
