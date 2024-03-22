@@ -2790,6 +2790,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * Returns name of tool with help
+	 * @param mode - number
+	 * @return name + help of tool
+	 */
+	public String getToolAriaLabel(int mode) {
+		return getToolName(mode) + ". " + getToolHelp(mode);
+	}
+
+	/**
 	 * Returns the tool help text for the given tool.
 	 *
 	 * @param mode

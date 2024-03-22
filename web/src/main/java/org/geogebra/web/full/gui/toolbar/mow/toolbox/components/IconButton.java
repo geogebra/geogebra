@@ -5,7 +5,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxMow;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -20,6 +19,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	private String dataTitleTransKey;
 	private Integer mode = -1;
 	private final Localization localization;
+	private AppW appW;
 	private String selectionColor;
 
 	/**
@@ -29,10 +29,11 @@ public class IconButton extends StandardButton implements SetLabels {
 	 */
 	public IconButton(int mode, AppW appW) {
 		this(appW.getLocalization(), (SVGResource) GGWToolBar.getImageURLNotMacro(
-				ToolbarSvgResources.INSTANCE, mode, appW), ToolboxMow.getToolAriaLabel(mode));
+				ToolbarSvgResources.INSTANCE, mode, appW), appW.getToolAriaLabel(mode));
 		this.mode = mode;
+		this.appW = appW;
 		selectionColor = getSelectionColor(appW);
-		AriaHelper.setDataTitle(this, ToolboxMow.getToolDataTitle(mode));
+		AriaHelper.setDataTitle(this, appW.getToolName(mode));
 		addStyleName("iconButton");
 	}
 
@@ -165,9 +166,8 @@ public class IconButton extends StandardButton implements SetLabels {
 	public void updateImgAndTxt(SVGResource image, int mode, AppW appW) {
 		this.image = isActive() ? image.withFill(selectionColor) : image;
 		setIcon(image);
-		String toolName = appW.getToolName(mode);
-		setAltText(toolName + ". " + appW.getToolHelp(mode));
-		AriaHelper.setDataTitle(this, toolName);
+		setAltText(appW.getToolAriaLabel(mode));
+		AriaHelper.setDataTitle(this, appW.getToolName(mode));
 		TestHarness.setAttr(this, "selectModeButton" + mode);
 	}
 
@@ -179,8 +179,8 @@ public class IconButton extends StandardButton implements SetLabels {
 		String ariaLabel;
 		String dataTitle;
 		if (mode > -1) {
-			ariaLabel = ToolboxMow.getToolAriaLabel(mode);
-			dataTitle = ToolboxMow.getToolDataTitle(mode);
+			ariaLabel = appW.getToolAriaLabel(mode);
+			dataTitle = appW.getToolName(mode);
 		} else {
 			ariaLabel = localization.getMenu(ariaLabelTransKey);
 			dataTitle = localization.getMenu(dataTitleTransKey);

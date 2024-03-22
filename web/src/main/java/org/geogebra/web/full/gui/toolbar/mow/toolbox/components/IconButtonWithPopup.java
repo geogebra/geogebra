@@ -33,18 +33,22 @@ public class IconButtonWithPopup extends IconButton {
 			deselectButtons.run();
 			setActive(true);
 
-			if (categoryPopup == null) {
-				categoryPopup = new CategoryPopup(appW, tools, getUpdateButtonCallback());
-			}
-
+			initAndShowPopup(tools);
 			AriaHelper.setAriaExpanded(this, true);
 			appW.setMode(categoryPopup.getLastSelectedMode());
-			categoryPopup.show();
-			categoryPopup.setPopupPosition(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
-					(int) (getAbsoluteTop() - appW.getAbsTop()));
 
 			categoryPopup.addCloseHandler((event) -> AriaHelper.setAriaExpanded(this, false));
 		});
+	}
+
+	private void initAndShowPopup(List<Integer> tools) {
+		if (categoryPopup == null) {
+			categoryPopup = new CategoryPopup(appW, tools, getUpdateButtonCallback());
+		}
+
+		categoryPopup.show();
+		categoryPopup.setPopupPosition(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
+				(int) (getAbsoluteTop() - appW.getAbsTop()));
 	}
 
 	private Consumer<Integer> getUpdateButtonCallback() {

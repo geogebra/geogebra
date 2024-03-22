@@ -11,11 +11,11 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Widget;
 
 public class CategoryPopup extends GPopupPanel implements SetLabels {
-	private Consumer<Integer> updateParentCallback;
+	private final Consumer<Integer> updateParentCallback;
 	private IconButton lastSelectedButton;
 	private FlowPanel contentPanel;
-	private List<IconButton> buttons = new ArrayList<>();
-	private Integer defaultTool;
+	private final List<IconButton> buttons = new ArrayList<>();
+	private final Integer defaultTool;
 
 	/**
 	 * Constructor
@@ -40,21 +40,27 @@ public class CategoryPopup extends GPopupPanel implements SetLabels {
 	private void buildBaseGui(List<Integer> tools) {
 		contentPanel = new FlowPanel();
 		for (Integer mode : tools) {
-			IconButton button = new IconButton(mode, (AppW) app);
-			if (defaultTool == mode) {
+			IconButton button = createButton(mode);
+			if (defaultTool.equals(mode)) {
 				app.setMode(mode);
 				updateButtonSelection(button);
 			}
-			buttons.add(button);
-			button.addFastClickHandler(source -> {
-				app.setMode(mode);
-				updateParentCallback.accept(mode);
-				updateButtonSelection(button);
-				hide();
-			});
+
 			contentPanel.add(button);
 		}
 		add(contentPanel);
+	}
+
+	private IconButton createButton(Integer mode) {
+		IconButton button = new IconButton(mode, (AppW) app);
+		button.addFastClickHandler(source -> {
+			app.setMode(mode);
+			updateParentCallback.accept(mode);
+			updateButtonSelection(button);
+			hide();
+		});
+		buttons.add(button);
+		return button;
 	}
 
 	private void updateButtonSelection(IconButton newSelectedButton) {

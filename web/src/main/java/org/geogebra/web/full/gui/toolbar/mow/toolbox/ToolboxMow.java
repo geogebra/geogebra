@@ -40,9 +40,9 @@ import org.gwtproject.user.client.ui.SimplePanel;
 
 public class ToolboxMow extends FlowPanel implements SetLabels {
 	public final static int TOOLBOX_PADDING = 8;
-	private static AppW appW = null;
-	private ToolboxDecorator decorator;
-	private ToolboxController controller;
+	private final AppW appW;
+	private final ToolboxDecorator decorator;
+	private final ToolboxController controller;
 	private IconButton spotlightButton;
 	private IconButton selectButton;
 	private final List<IconButton> buttons = new ArrayList<>();
@@ -114,7 +114,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	private IconButtonWithPopup addToggleButtonWithPopup(SVGResource image, String ariaLabel,
 			List<Integer> tools) {
 		IconButtonWithPopup iconButton = new IconButtonWithPopup(appW, image, ariaLabel, tools,
-				() -> deselectButtons());
+				this::deselectButtons);
 		add(iconButton);
 		buttons.add(iconButton);
 		return iconButton;
@@ -142,8 +142,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 
 	private void addRulerButton() {
 		RulerIconButton rulerButton = new RulerIconButton(appW,
-				ToolbarSvgResources.INSTANCE.mode_ruler(), getToolAriaLabel(MODE_RULER), "Ruler",
-				"selectModeButton" + MODE_RULER);
+				ToolbarSvgResources.INSTANCE.mode_ruler(), appW.getToolAriaLabel(MODE_RULER),
+				"Ruler", "selectModeButton" + MODE_RULER);
 		add(rulerButton);
 		buttons.add(rulerButton);
 	}
@@ -163,7 +163,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 
 	private void addSelectModeButton() {
 		selectButton = addToggleButton(MaterialDesignResources.INSTANCE.mouse_cursor(),
-				getToolAriaLabel(MODE_SELECT_MOW), getToolDataTitle(MODE_SELECT_MOW), "",
+				appW.getToolName(MODE_SELECT_MOW), appW.getToolName(MODE_SELECT_MOW), "",
 				() -> {
 			deselectButtons();
 			appW.setMode(MODE_SELECT_MOW);
@@ -171,8 +171,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addPenModeButton() {
-		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(), getToolDataTitle(MODE_PEN),
-				ToolboxMow.getToolDataTitle(MODE_PEN), () -> appW.setMode(MODE_PEN));
+		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(), appW.getToolName(MODE_PEN),
+				appW.getToolName(MODE_PEN), () -> appW.setMode(MODE_PEN));
 	}
 
 	private void addShapeButton() {
@@ -183,14 +183,6 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 					shapeCategoryButton.deactivate();
 					setSelectMode();
 				});
-	}
-
-	public static String getToolAriaLabel(int mode) {
-		return appW.getToolName(mode) + ". " + appW.getToolHelp(mode);
-	}
-
-	public static String getToolDataTitle(int mode) {
-		return appW.getToolName(mode);
 	}
 
 	@Override
