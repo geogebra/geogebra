@@ -18,6 +18,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	private SVGResource image;
 	private String ariaLabelTransKey;
 	private String dataTitleTransKey;
+	private Integer mode = -1;
 	private final Localization localization;
 
 	/**
@@ -28,6 +29,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	public IconButton(int mode, AppW appW) {
 		this(appW.getLocalization(), (SVGResource) GGWToolBar.getImageURLNotMacro(
 				ToolbarSvgResources.INSTANCE, mode, appW), ToolboxMow.getToolAriaLabel(mode));
+		this.mode = mode;
 		AriaHelper.setDataTitle(this, ToolboxMow.getToolDataTitle(mode));
 		addStyleName("iconButton");
 	}
@@ -174,5 +176,9 @@ public class IconButton extends StandardButton implements SetLabels {
 	public void setLabels() {
 		AriaHelper.setLabel(this, localization.getMenu(ariaLabelTransKey));
 		AriaHelper.setDataTitle(this, localization.getMenu(dataTitleTransKey));
+	}
+
+	public Integer getMode() {
+		return mode;
 	}
 }

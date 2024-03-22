@@ -22,26 +22,29 @@ public class IconButtonWithPopup extends IconButton {
 	 * @param icon - image
 	 * @param ariaLabel - aria label
 	 * @param tools - list of tools
+	 * @param deselectButtons - deselect button callback
 	 */
-	public IconButtonWithPopup(AppW appW, SVGResource icon, String ariaLabel, List<Integer> tools) {
+	public IconButtonWithPopup(AppW appW, SVGResource icon, String ariaLabel, List<Integer> tools,
+			Runnable deselectButtons) {
 		super(appW, icon, ariaLabel, ariaLabel, () -> {}, null);
 		this.appW = appW;
 		AriaHelper.setAriaHasPopup(this);
 
 		addFastClickHandler(source -> {
+			deselectButtons.run();
+			setActive(true, appW.getGeoGebraElement().getDarkColor(appW.getFrameElement()));
+
 			if (categoryPopup == null) {
 				categoryPopup = new CategoryPopup(appW, tools, getUpdateButtonCallback());
 			}
 
 			AriaHelper.setAriaExpanded(this, true);
+			appW.setMode(categoryPopup.getLastSelectedMode());
 			categoryPopup.show();
 			categoryPopup.setPopupPosition(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
 					(int) (getAbsoluteTop() - appW.getAbsTop()));
 
-			categoryPopup.addCloseHandler((event) -> {
-				deactivate();
-				AriaHelper.setAriaExpanded(this, false);
-			});
+			categoryPopup.addCloseHandler((event) -> AriaHelper.setAriaExpanded(this, false));
 		});
 	}
 
@@ -50,7 +53,6 @@ public class IconButtonWithPopup extends IconButton {
 			ResourcePrototype image = GGWToolBar.getImageURLNotMacro(ToolbarSvgResources.INSTANCE,
 					mode, appW);
 			updateImgAndTxt((SVGResource) image, mode, appW);
-			deactivate();
 		};
 	}
 }

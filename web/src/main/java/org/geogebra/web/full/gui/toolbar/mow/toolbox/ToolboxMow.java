@@ -44,6 +44,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	private ToolboxDecorator decorator;
 	private ToolboxController controller;
 	private IconButton spotlightButton;
+	private IconButton selectButton;
 	private final List<IconButton> buttons = new ArrayList<>();
 	private final static List<Integer> uploadCategory = Arrays.asList(MODE_IMAGE, MODE_CAMERA,
 			MODE_PDF);
@@ -68,7 +69,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	private void buildGui() {
 		decorator.positionLeft();
 
-		addMoveModeButton();
+		addSelectModeButton();
 		addPenModeButton();
 		addShapeButton();
 		addUploadButton();
@@ -101,15 +102,19 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	private IconButton addToggleButtonWithMenuPopup(SVGResource image, String ariaLabel,
 			List<Integer> tools) {
 		IconButton iconButton = new IconButtonWithMenu(appW, image, ariaLabel, tools,
-				() -> deselectButtons());
+				() -> {
+			deselectButtons();
+			appW.setMode(MODE_SELECT_MOW);
+				});
 		add(iconButton);
 		buttons.add(iconButton);
 		return iconButton;
 	}
 
-	private IconButton addToggleButtonWithPopup(SVGResource image, String ariaLabel,
+	private IconButtonWithPopup addToggleButtonWithPopup(SVGResource image, String ariaLabel,
 			List<Integer> tools) {
-		IconButton iconButton = new IconButtonWithPopup(appW, image, ariaLabel, tools);
+		IconButtonWithPopup iconButton = new IconButtonWithPopup(appW, image, ariaLabel, tools,
+				() -> deselectButtons());
 		add(iconButton);
 		buttons.add(iconButton);
 		return iconButton;
@@ -156,8 +161,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 				"Link", linkCategory);
 	}
 
-	private void addMoveModeButton() {
-		addToggleButton(MaterialDesignResources.INSTANCE.mouse_cursor(),
+	private void addSelectModeButton() {
+		selectButton = addToggleButton(MaterialDesignResources.INSTANCE.mouse_cursor(),
 				getToolAriaLabel(MODE_SELECT_MOW), getToolDataTitle(MODE_SELECT_MOW), "",
 				() -> {
 			deselectButtons();
@@ -171,8 +176,13 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addShapeButton() {
-		addToggleButtonWithPopup(MaterialDesignResources.INSTANCE.shapes(), "Shape",
-				shapeCategory);
+		IconButtonWithPopup shapeCategoryButton = addToggleButtonWithPopup(
+				MaterialDesignResources.INSTANCE.shapes(), "Shape", shapeCategory);
+		appW.getActiveEuclidianView().getEuclidianController().getShapeMode()
+				.setShapeCreatedCallback(() -> {
+					shapeCategoryButton.deactivate();
+					setSelectMode();
+				});
 	}
 
 	public static String getToolAriaLabel(int mode) {
@@ -190,5 +200,11 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 
 	private void deselectButtons() {
 		buttons.forEach(IconButton::deactivate);
+	}
+
+	private void setSelectMode() {
+		selectButton.setActive(true,
+				appW.getGeoGebraElement().getDarkColor(appW.getFrameElement()));
+		appW.setMode(MODE_SELECT_MOW);
 	}
 }

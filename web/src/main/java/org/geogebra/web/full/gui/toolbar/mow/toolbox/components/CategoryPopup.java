@@ -38,7 +38,7 @@ public class CategoryPopup extends GPopupPanel {
 		contentPanel = new FlowPanel();
 		for (Integer mode : tools) {
 			IconButton button = new IconButton(mode, (AppW) app);
-			if (MODE_SHAPE_RECTANGLE == mode) {
+			if (tools.get(0) == mode) {
 				app.setMode(mode);
 				updateButtonSelection(button);
 			}
@@ -61,5 +61,9 @@ public class CategoryPopup extends GPopupPanel {
 		lastSelectedButton = newSelectedButton;
 		lastSelectedButton.setActive(true,
 				((AppW) app).getGeoGebraElement().getDarkColor(((AppW) app).getFrameElement()));
+	}
+
+	public Integer getLastSelectedMode() {
+		return lastSelectedButton == null ? -1 : lastSelectedButton.getMode();
 	}
 }
