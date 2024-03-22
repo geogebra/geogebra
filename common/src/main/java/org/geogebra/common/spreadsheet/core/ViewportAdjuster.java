@@ -29,8 +29,8 @@ public class ViewportAdjuster {
 	 * @return True if the viewport was adjusted, false else
 	 */
 	public boolean adjustViewportIfNeeded(int row, int column, Rectangle viewport) {
-		double scrollAmountX = getScrollAmountX(row, column, viewport);
-		double scrollAmountY = getScrollAmountY(row, column, viewport);
+		double scrollAmountX = getScrollAmountX(column, viewport);
+		double scrollAmountY = getScrollAmountY(row, viewport);
 
 		if (scrollAmountX != 0 || scrollAmountY != 0) {
 			viewportAdjustmentHandler.setScrollPosition(
@@ -41,7 +41,7 @@ public class ViewportAdjuster {
 		return false;
 	}
 
-	private double getScrollAmountX(int row, int column, Rectangle viewport) {
+	private double getScrollAmountX(int column, Rectangle viewport) {
 		double scrollAmountX = 0;
 		if (shouldAdjustViewportHorizontallyRightwards(column, viewport)) {
 			scrollAmountX = Math.ceil(layout.getX(column + 1) - viewport.getMinX()
@@ -55,7 +55,7 @@ public class ViewportAdjuster {
 		return scrollAmountX;
 	}
 
-	private double getScrollAmountY(int row, int column, Rectangle viewport) {
+	private double getScrollAmountY(int row, Rectangle viewport) {
 		double scrollAmountY = 0;
 		if (shouldAdjustViewportVerticallyDownwards(row, viewport)) {
 			scrollAmountY = Math.ceil(layout.getY(row + 1) - viewport.getMinY()
