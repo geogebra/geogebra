@@ -90,7 +90,7 @@ task dist(type: Copy, dependsOn: cleanDist) {
 
 task zipDist(type: Zip, dependsOn: dist) {
 	from 'dist/jlatexmath'
-	destinationDir file('dist/')
+	destinationDirectory = file('dist/')
 }
 
 def deleteDir(dir) {

@@ -58,7 +58,7 @@ gradle.projectsEvaluated {
         def projs = configurations.implementation.getAllDependencies().withType(ProjectDependency).collect{it.getDependencyProject()}
         projs.each {
             additionalSourceDirs files(it.sourceSets.main.java.srcDirs)
-            additionalClassDirs files(files(it.sourceSets.main['java'].outputDir).collect({
+            additionalClassDirs files(files(it.sourceSets.main['java'].destinationDirectory).collect({
                 File f -> fileTree(dir: f, exclude: ['org/apache/**','edu/**','org/geogebra/common/kernel/barycentric/**'])
             }))
         }
