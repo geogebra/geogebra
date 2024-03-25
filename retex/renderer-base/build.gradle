@@ -20,7 +20,7 @@ dependencies {
 }
 
 task jarSources(type: Jar, dependsOn: classes) {
-    archiveClassifier = 'sources'
+	classifier = 'sources'
     from sourceSets.main.allSource 
 }
 

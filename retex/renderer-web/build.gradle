@@ -57,7 +57,7 @@ task run(type: org.docstr.gradle.plugins.gwt.GwtDev, dependsOn: ['jar']) {
 }
 
 task jarAll(type: Jar) {
-	archiveClassifier = 'all'
+	classifier = 'all'
 	from project.sourceSets.main.java
 	from project.sourceSets.main.output
 	from project(':renderer-base').sourceSets.main.java
@@ -65,7 +65,7 @@ task jarAll(type: Jar) {
 }
 
 task jarSources(type: Jar, dependsOn: classes) {
-	archiveClassifier = 'sources'
+	classifier = 'sources'
     from sourceSets.main.allSource 
 }
 
