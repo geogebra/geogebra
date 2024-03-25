@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.measurement.MeasurementController;
@@ -38,7 +40,7 @@ public class RotateBoundingBox {
 		}
 
 		GPoint2D eventPoint = clampToView(eventX, eventY);
-		GPoint2D center = measurementController.getActiveToolCenter(view, bounds);
+		GPoint2D center = calculateRotationCenter(bounds);
 		ensureRotationCenter(center);
 		NumberValue rotationAngle = calculateAngle(center, eventPoint);
 
@@ -50,6 +52,21 @@ public class RotateBoundingBox {
 		}
 		return false;
 	}
+
+	private GPoint2D calculateRotationCenter(GRectangle2D bounds) {
+		ArrayList<GeoElement> selectedGeos = ec.selection.getSelectedGeos();
+		GeoElement selectedGeo = selectedGeos.isEmpty() ? null : selectedGeos.get(0);
+		GPoint2D activeToolCenter =
+				measurementController.getActiveToolCenter(selectedGeo, view);
+		if (activeToolCenter != null) {
+			return activeToolCenter;
+		}
+
+		double x = bounds.getMinX() + bounds.getWidth() / 2;
+		double y = bounds.getMinY()  + bounds.getHeight() / 2;
+		return new GPoint2D(x, y);
+	}
+
 
 	private void rotateSelectedGeos(NumberValue angle) {
 		for (GeoElement geo : ec.selection.getSelectedGeos()) {
