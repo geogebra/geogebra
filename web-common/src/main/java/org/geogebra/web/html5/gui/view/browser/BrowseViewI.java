@@ -13,9 +13,9 @@ public interface BrowseViewI {
 
 	void close();
 
-	void displaySearchResults(final String query);
+	void displaySearchResults(String query);
 
-	void refreshMaterial(final Material material, final boolean isLocal);
+	void refreshMaterial(Material material, boolean isLocal);
 
 	void setLabels();
 
