@@ -81,7 +81,7 @@ configurations {
     testArtifacts.extendsFrom testCompile
 }
 task testJar(type: Jar) {
-    classifier "test"
+    archiveClassifier "test"
     from sourceSets.test.output
 }
 artifacts {
