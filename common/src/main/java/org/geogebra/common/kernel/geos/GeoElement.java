@@ -4154,6 +4154,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			boolean includeLHS) {
 
 		final String algebraDesc = geo.getAlgebraDescription(tpl);
+		if (algebraDesc == null) {
+			return null;
+		}
 		final StringBuilder sb = new StringBuilder();
 
 		if (geo.isGeoList()
