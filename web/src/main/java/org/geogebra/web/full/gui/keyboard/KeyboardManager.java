@@ -40,6 +40,8 @@ import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.RootPanel;
 
+import elemental2.dom.HTMLCollection;
+
 /**
  * Handles creating, showing and updating the keyboard
  */
@@ -155,7 +157,10 @@ public class KeyboardManager
 	 */
 	public void addKeyboard(Panel appFrame) {
 		ensureKeyboardsExist();
-		if (!shouldDetach()) {
+		elemental2.dom.Element keyboardParent = getDetachedParent();
+		if (keyboardParent != null) {
+			keyboardParent.appendChild(keyboard.getElement().cast());
+		} else if (!shouldDetach()) {
 			appFrame.add(keyboard);
 		} else {
 			if (keyboardRoot == null) {
@@ -164,6 +169,13 @@ public class KeyboardManager
 			keyboardRoot.add(keyboard);
 		}
 		updateStyle();
+	}
+
+	private elemental2.dom.Element getDetachedParent() {
+		String parentSelector = app.getAppletParameters().getDetachedKeyboardParent();
+		HTMLCollection<elemental2.dom.Element> elements =
+				Dom.getElementsByClassName(parentSelector);
+		return "".equals(parentSelector) || elements.length == 0 ? null : elements.item(0);
 	}
 
 	private RootPanel createKeyboardRoot() {
