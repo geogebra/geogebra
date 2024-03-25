@@ -1,11 +1,14 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_AUDIO;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_CALCULATOR;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_CAMERA;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_EXTENSION;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_GRASPABLE_MATH;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_H5P;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_IMAGE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MASK;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MIND_MAP;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PDF;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
@@ -18,6 +21,7 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_PENTAG
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_RECTANGLE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_SQUARE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_TRIANGLE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TABLE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_VIDEO;
 
 import java.util.ArrayList;
@@ -31,6 +35,7 @@ import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithMenu;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithPopup;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -53,6 +58,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	private final static List<Integer> shapeCategory = Arrays.asList(MODE_SHAPE_RECTANGLE,
 			MODE_SHAPE_SQUARE , MODE_SHAPE_TRIANGLE , MODE_SHAPE_CIRCLE , MODE_SHAPE_ELLIPSE,
 			MODE_SHAPE_PENTAGON, MODE_SHAPE_LINE, MODE_SHAPE_FREEFORM, MODE_MASK);
+	private final static List<Integer> appsCategory = new LinkedList<>(Arrays.asList(
+			MODE_CALCULATOR, MODE_MIND_MAP, MODE_TABLE));
 
 	/**
 	 * MOW toolbox
@@ -74,6 +81,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		addShapeButton();
 		addUploadButton();
 		addLinkButton();
+		addAppsButton();
 
 		addDivider();
 
@@ -100,12 +108,12 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private IconButton addToggleButtonWithMenuPopup(SVGResource image, String ariaLabel,
-			List<Integer> tools) {
+			List<Integer> tools, Runnable onMenuClose) {
 		IconButton iconButton = new IconButtonWithMenu(appW, image, ariaLabel, tools,
 				() -> {
 			deselectButtons();
 			appW.setMode(MODE_SELECT_MOW);
-				});
+				}, onMenuClose);
 		add(iconButton);
 		buttons.add(iconButton);
 		return iconButton;
@@ -150,7 +158,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 
 	private void addUploadButton() {
 		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.upload(), "Upload",
-				uploadCategory);
+				uploadCategory, null);
 	}
 
 	private void addLinkButton() {
@@ -158,7 +166,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 			linkCategory.add(MODE_H5P);
 		}
 		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.resource_card_shared(),
-				"Link", linkCategory);
+				"Link", linkCategory, null);
 	}
 
 	private void addSelectModeButton() {
@@ -183,6 +191,14 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 					shapeCategoryButton.deactivate();
 					setSelectMode();
 				});
+	}
+
+	private void addAppsButton() {
+		if (Browser.isGraspableMathEnabled()) {
+			appsCategory.add(MODE_GRASPABLE_MATH);
+		}
+		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.apps(), "Tools.More",
+				appsCategory, () -> selectButton.setActive(true));
 	}
 
 	@Override

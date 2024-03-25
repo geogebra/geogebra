@@ -11,6 +11,7 @@
 		padding: 8px;
 		box-shadow: 0px 2px 24px -1px #85848A24;
 		background-color: white;
+		z-index: z-index.$z-mow-toolbar;
 
 		&.leftAligned {
 			left: 16px;
