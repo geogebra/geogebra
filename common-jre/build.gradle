@@ -66,14 +66,9 @@ gradle.projectsEvaluated {
 }
 
 jacocoTestReport {
-   afterEvaluate {
-       getClassDirectories().setFrom( files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ['org/mozilla/**'])
-        }))
-    }
     reports {
-        xml.enabled true
-        html.enabled false
+        xml.required = true
+        html.required = false
     }
 }
 
@@ -81,7 +76,7 @@ configurations {
     testArtifacts.extendsFrom testCompile
 }
 task testJar(type: Jar) {
-    classifier "test"
+    archiveClassifier = "test"
     from sourceSets.test.output
 }
 artifacts {

@@ -43,6 +43,7 @@ android {
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
     }
+    namespace 'com.himamis.retex.editor.android'
 
     compileOptions {
         coreLibraryDesugaringEnabled true

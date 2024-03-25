@@ -35,8 +35,10 @@ dependencies {
 }
 
 android {
-    compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion rootProject.buildToolsVersion
+    namespace "com.himamis.retex.renderer.android"
+
+    compileSdk = rootProject.compileSdkVersion
+    buildToolsVersion = rootProject.buildToolsVersion
 
     compileOptions {
         coreLibraryDesugaringEnabled true
