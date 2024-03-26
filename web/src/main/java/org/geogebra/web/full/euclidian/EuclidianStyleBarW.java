@@ -762,7 +762,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnShowAxes = new ToggleButtonWforEV(
 				MaterialDesignResources.INSTANCE.axes_black(), this);
 		btnShowAxes.setSelected(ev.getShowXaxis());
-		addFastClickHandler(btnShowAxes, geos -> EuclidianStyleBarStatic.processAxes(getView()));
+		addFastClickHandlerWithUndoPoint(btnShowAxes,
+				geos -> EuclidianStyleBarStatic.processAxes(getView()));
 
 		// ========================================
 		// show grid button
@@ -844,7 +845,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		};
 
 		btnSegmentStartStyle.setIcon(segmentStartStyleIcons[0]);
-		setPopupHandlerWithUndoPoint(btnSegmentStartStyle, this::handleSegmentStart);
+		setPopupHandlerWithUndoAction(btnSegmentStartStyle, this::handleSegmentStart);
 		btnSegmentStartStyle.setKeepVisible(false);
 	}
 
@@ -880,7 +881,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		};
 
 		btnSegmentEndStyle.setIcon(segmentEndStyleIcons[0]);
-		setPopupHandlerWithUndoPoint(btnSegmentEndStyle, this::handleSegmentEnd);
+		setPopupHandlerWithUndoAction(btnSegmentEndStyle, this::handleSegmentEnd);
 		btnSegmentEndStyle.setKeepVisible(false);
 	}
 
@@ -952,7 +953,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		ImageOrText icon = new ImageOrText(
 				MaterialDesignResources.INSTANCE.stylingbar_angle_interval(), 24);
 		btnAngleInterval.setFixedIcon(icon);
-		setPopupHandlerWithUndoPoint(btnAngleInterval, this::handleAngleInterval);
+		setPopupHandlerWithUndoAction(btnAngleInterval, this::handleAngleInterval);
 		btnAngleInterval.setKeepVisible(false);
 	}
 
@@ -1092,7 +1093,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 		btnBgColor.setEnableTable(true);
 		btnBgColor.setKeepVisible(!app.isUnbundledOrWhiteboard());
-		setPopupHandlerWithUndoPoint(btnBgColor, this::handleBackgroundColor);
+		setPopupHandlerWithUndoAction(btnBgColor, this::handleBackgroundColor);
 	}
 
 	private boolean handleBackgroundColor(ArrayList<GeoElement> targetGeos) {
@@ -1128,7 +1129,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnBorderText.setFixedIcon(new ImageOrText(
 				MaterialDesignResources.INSTANCE.color_border(), 24));
 		btnBorderText.setEnableTable(true);
-		setPopupHandlerWithUndoPoint(btnBorderText, this::handleBorderText);
+		setPopupHandlerWithUndoAction(btnBorderText, this::handleBorderText);
 	}
 
 	private boolean handleBorderText(ArrayList<GeoElement> targetGeos) {
@@ -1157,7 +1158,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnTextBgColor.setFixedIcon(new ImageOrText(
 				MaterialDesignResources.INSTANCE.color_black(), 24));
 		btnTextBgColor.setEnableTable(true);
-		setPopupHandlerWithUndoPoint(btnTextBgColor, this::handleTextBackground);
+		setPopupHandlerWithUndoAction(btnTextBgColor, this::handleTextBackground);
 	}
 
 	private boolean handleTextBackground(ArrayList<GeoElement> targetGeos) {
@@ -1207,7 +1208,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		};
 		btnTextColor.setEnableTable(true);
 		btnTextColor.addStyleName("btnTextColor");
-		setPopupHandlerWithUndoPoint(btnTextColor, this::handleTextColor);
+		setPopupHandlerWithUndoAction(btnTextColor, this::handleTextColor);
 	}
 
 	private boolean handleTextColor(ArrayList<GeoElement> targetGeos) {
@@ -1234,16 +1235,21 @@ public class EuclidianStyleBarW extends StyleBarW2
 				}
 		};
 		btnBold.addStyleName("btnBold");
-		addFastClickHandler(btnBold, this::handleBold);
+		addFastClickHandlerWithUndoAction(btnBold, this::handleBold);
 	}
 
 	private boolean handleBold(ArrayList<GeoElement> targetGeos) {
 		return applyFontStyle(targetGeos, GFont.BOLD, btnBold.isSelected());
 	}
 
-	protected void addFastClickHandler(ToggleButton btn,
+	protected void addFastClickHandlerWithUndoPoint(ToggleButton btn,
 			Function<ArrayList<GeoElement>, Boolean> action) {
 		btn.addFastClickHandler(ignore -> processSelectionWithUndo(action));
+	}
+
+	protected void addFastClickHandlerWithUndoAction(ToggleButton btn,
+			Function<ArrayList<GeoElement>, Boolean> action) {
+		btn.addFastClickHandler(ignore -> processSelectionWithUndoAction(action));
 	}
 
 	private void updateFontToggle(ToggleButton btn, int mask, List<GeoElement> geos) {
@@ -1271,7 +1277,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				}
 			}
 		};
-		addFastClickHandler(btnFixPosition, this::handleFixPosition);
+		addFastClickHandlerWithUndoAction(btnFixPosition, this::handleFixPosition);
 	}
 
 	private boolean handleFixPosition(ArrayList<GeoElement> targetGeos) {
@@ -1298,7 +1304,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				}
 			}
 		};
-		addFastClickHandler(btnFixObject, this::handleFixObject);
+		addFastClickHandlerWithUndoAction(btnFixObject, this::handleFixObject);
 	}
 
 	private boolean handleFixObject(ArrayList<GeoElement> targetGeos) {
@@ -1317,7 +1323,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				}
 		};
 		btnItalic.addStyleName("btnItalic");
-		addFastClickHandler(btnItalic, this::handleItalic);
+		addFastClickHandlerWithUndoAction(btnItalic, this::handleItalic);
 	}
 
 	private boolean handleItalic(ArrayList<GeoElement> targetGeos) {
@@ -1334,7 +1340,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		};
 
 		btnUnderline.addStyleName("btnUnderline");
-		addFastClickHandler(btnUnderline, this::handleUnderline);
+		addFastClickHandlerWithUndoAction(btnUnderline, this::handleUnderline);
 	}
 
 	private boolean handleUnderline(ArrayList<GeoElement> targetGeos) {
@@ -1374,7 +1380,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				}
 			}
 		};
-		setPopupHandlerWithUndoPoint(btnBorderStyle, this::handleBorderStyle);
+		setPopupHandlerWithUndoAction(btnBorderStyle, this::handleBorderStyle);
 		btnBorderStyle.getBorderThicknessPopup().addPopupHandler(this);
 		btnBorderStyle.setKeepVisible(false);
 		btnBorderStyle.setIcon(new ImageOrText(
@@ -1479,7 +1485,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private void handleVerticalAlignment(ArrayList<GeoElement> targetGeos) {
 		VerticalAlignment alignment
 				= VerticalAlignment.values()[btnVerticalAlignment.getSelectedIndex()];
-		UpdateStyleActionStore store = new UpdateStyleActionStore(targetGeos);
+		UpdateStyleActionStore store = new UpdateStyleActionStore(targetGeos, app.getUndoManager());
 		inlineFormatter.formatInlineText(targetGeos, (formatter) -> {
 			if (alignment != null && !alignment.equals(formatter.getVerticalAlignment())) {
 				formatter.setVerticalAlignment(alignment);
@@ -1516,7 +1522,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				}
 			}
 		};
-		setPopupHandlerWithUndoPoint(btnTextSize, this::handleTextSize);
+		setPopupHandlerWithUndoAction(btnTextSize, this::handleTextSize);
 		btnTextSize.setKeepVisible(false);
 		btnTextSize.setFixedIcon(new ImageOrText(
 						MaterialDesignResources.INSTANCE.text_size_black(), 24));
