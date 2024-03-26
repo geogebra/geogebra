@@ -51,7 +51,7 @@ final class CMSS10 extends FontInfo {
 
 		setMetrics(180, 267, 444, 194);
 
-		setMetrics(181, 400, 694);
+		setMetrics(181, 300, 694);
 
 		setMetrics(182, 300, 694);
 
@@ -59,9 +59,9 @@ final class CMSS10 extends FontInfo {
 
 		setMetrics(184, 500, 694);
 
-		setMetrics(185, 500, 609);
+		setMetrics(185, 400, 609);
 
-		setMetrics(186, 667, 694);
+		setMetrics(186, 467, 694);
 
 		setMetrics(187, 444, 0, 170);
 
@@ -227,7 +227,7 @@ final class CMSS10 extends FontInfo {
 		setMetrics(93, 289, 750, 250);
 		setNextLarger(Configuration.getFonts().cmex10, 164);
 
-		setMetrics(94, 500, 694);
+		setMetrics(94, 400, 694);
 
 		setMetrics(95, 278, 679);
 
@@ -307,7 +307,7 @@ final class CMSS10 extends FontInfo {
 
 		setMetrics(126, 500, 677);
 
-		setMetrics(196, 500, 679);
+		setMetrics(196, 340, 679); // umlaut
 
 		setMetrics(197, 278, 48, 212);
 
