@@ -20,16 +20,17 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.LayerManager;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.algos.AlgoDistancePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.algos.ConstructionElement;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -150,7 +151,7 @@ public class Construction {
 	private TreeSet<GeoElement> geoSetLabelOrder;
 	private TreeSet<GeoElement> geoSetWithCasCells;
 	// table of arbitraryConstants with casTable row key
-	private HashMap<Integer, MyArbitraryConstant> arbitraryConsTable = new HashMap<>();
+	private HashMap<Integer, ArbitraryConstantRegistry> arbitraryConsTable = new HashMap<>();
 
 	// list of random numbers or lists
 	private TreeSet<GeoElement> randomElements;
@@ -437,7 +438,7 @@ public class Construction {
 	/**
 	 * @return table of arbitraryConstants from CAS with assigmentVar key
 	 */
-	public HashMap<Integer, MyArbitraryConstant> getArbitraryConsTable() {
+	public HashMap<Integer, ArbitraryConstantRegistry> getArbitraryConsTable() {
 		return arbitraryConsTable;
 	}
 
@@ -446,7 +447,7 @@ public class Construction {
 	 *            - table of arbitraryConstants from CAS with assigmentVar key
 	 */
 	public void setArbitraryConsTable(
-			HashMap<Integer, MyArbitraryConstant> arbitraryConsTable) {
+			HashMap<Integer, ArbitraryConstantRegistry> arbitraryConsTable) {
 		this.arbitraryConsTable = arbitraryConsTable;
 	}
 
@@ -770,7 +771,7 @@ public class Construction {
 				// get current cell
 				GeoCasCell currCell = (GeoCasCell) ceList.get(i);
 				// we found the equation
-				if (currCell.getInput(StringTemplate.defaultTemplate)
+				if (currCell.getLocalizedInput()
 						.startsWith(label + "=")
 						&& ((ExpressionNode) currCell.getInputVE())
 								.getLeft() instanceof Equation) {
@@ -1536,11 +1537,12 @@ public class Construction {
 	 *            Geo to be replaced.
 	 * @param newGeo
 	 *            Geo to be used instead.
-	 * @throws Exception
+	 * @throws CircularDefinitionException
 	 *             i.e. for circular definition
+	 * @throws XMLParseException if replacement creates invalid XML
 	 */
 	public void replace(GeoElement oldGeo, GeoElement newGeo)
-			throws Exception {
+			throws CircularDefinitionException, XMLParseException {
 		replace(oldGeo, newGeo, null);
 	}
 
@@ -1554,11 +1556,12 @@ public class Construction {
 	 *            Geo to be used instead.
 	 * @param info
 	 *            EvalInfo (can be null)
-	 * @throws Exception
+	 * @throws CircularDefinitionException
 	 *             i.e. for circular definition
+	 * @throws XMLParseException if replacement causes invalid XML
 	 */
 	public void replace(GeoElement oldGeo, GeoElement newGeo, EvalInfo info)
-			throws Exception {
+			throws CircularDefinitionException, XMLParseException {
 		if (oldGeo == null || newGeo == null || oldGeo == newGeo) {
 			return;
 		}
@@ -1658,8 +1661,6 @@ public class Construction {
 				return;
 
 			} else {
-
-				restoreCurrentUndoInfo();
 				throw new CircularDefinitionException();
 			}
 		}
@@ -1694,11 +1695,16 @@ public class Construction {
 
 		// 3) replace oldGeo by newGeo in XML
 		String oldXML = consXML.toString();
-		doReplaceInXML(consXML, oldGeo, newGeo);
+		boolean canReplace = doReplaceInXML(consXML, oldGeo, newGeo);
 		// moveDependencies(oldGeo,newGeo);
 
 		// 4) build new construction
-		buildConstructionWithGlobalListeners(consXML, oldXML, info);
+		if (canReplace) {
+			buildConstructionWithGlobalListeners(consXML, oldXML, info);
+		} else {
+			throw new MyError(getApplication().getLocalization(),
+					Errors.ReplaceFailed);
+		}
 		if (moveMode) {
 			GeoElement selGeo = kernel.lookupLabel(oldSelection);
 			selection.addSelectedGeo(selGeo, false, true);
@@ -1721,7 +1727,7 @@ public class Construction {
 
 	private void buildConstructionWithGlobalListeners(
 			StringBuilder consXML, String oldXML,
-			EvalInfo info) throws Exception {
+			EvalInfo info) throws XMLParseException {
 
 		ScriptManager scriptManager = kernel.getApplication().getScriptManager();
 		scriptManager.keepListenersOnReset();
@@ -1751,10 +1757,9 @@ public class Construction {
 	 * Processes all collected redefine calls as a batch to improve performance.
 	 * 
 	 * @see #startCollectingRedefineCalls()
-	 * @throws Exception
-	 *             i.e. for circular definition
+	 * @throws XMLParseException if replacement produces invalid XML
 	 */
-	public void processCollectedRedefineCalls() throws Exception {
+	public void processCollectedRedefineCalls() throws XMLParseException {
 		collectRedefineCalls = false;
 
 		if (redefineMap == null || redefineMap.size() == 0) {
@@ -1765,25 +1770,28 @@ public class Construction {
 		StringBuilder consXML = getCurrentUndoXML(false);
 		String oldXML = consXML.toString();
 		// replace all oldGeo -> newGeo pairs in XML
-		Iterator<Entry<GeoElement, GeoElement>> it = redefineMap.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<GeoElement, GeoElement> entry = it.next();
+		boolean canReplace = true;
+		for (Entry<GeoElement, GeoElement> entry : redefineMap.entrySet()) {
 			GeoElement oldGeo = entry.getKey();
 			GeoElement newGeo = entry.getValue();
 
 			// 3) replace oldGeo by newGeo in XML
-			doReplaceInXML(consXML, oldGeo, newGeo);
+			canReplace = canReplace && doReplaceInXML(consXML, oldGeo, newGeo);
 		}
 
 		try {
 			// 4) build new construction for all changes at once
-			buildConstructionWithGlobalListeners(consXML, oldXML, null);
-		} catch (Exception e) {
+			if (canReplace) {
+				buildConstructionWithGlobalListeners(consXML, oldXML, null);
+			} else {
+				throw new MyError(getApplication().getLocalization(),
+						Errors.ReplaceFailed);
+			}
+		} catch (XMLParseException | RuntimeException e) {
 			throw e;
 		} finally {
 			stopCollectingRedefineCalls();
 			consXML.setLength(0);
-			consXML = null;
 		}
 	}
 
@@ -1794,10 +1802,10 @@ public class Construction {
 	 * 
 	 * @param casCell
 	 *            casCell to be changed
-	 * @throws Exception
+	 * @throws XMLParseException
 	 *             in case of malformed XML
 	 */
-	public void changeCasCell(GeoCasCell casCell) throws Exception {
+	public void changeCasCell(GeoCasCell casCell, String oldXML) throws XMLParseException {
 		setUpdateConstructionRunning(true);
 		// move all predecessors of casCell to the left of casCell in
 		// construction list
@@ -1808,7 +1816,7 @@ public class Construction {
 
 		// build new construction to make sure all ceIDs are correct after the
 		// redefine
-		buildConstruction(consXML, null);
+		buildConstruction(consXML, oldXML, new EvalInfo(true, true, false));
 		setUpdateConstructionRunning(false);
 	}
 
@@ -1822,7 +1830,7 @@ public class Construction {
 	 * @param newGeo
 	 *            replacement
 	 */
-	protected void doReplaceInXML(StringBuilder consXML, GeoElement oldGeo,
+	protected boolean doReplaceInXML(StringBuilder consXML, GeoElement oldGeo,
 			GeoElement newGeo) {
 		String oldXML, newXML; // a = old string, b = new string
 
@@ -1886,10 +1894,9 @@ public class Construction {
 		// replace Strings: oldXML by newXML in consXML
 		int pos = consXML.indexOf(oldXML);
 		if (pos < 0) {
-			restoreCurrentUndoInfo();
 			Log.debug("replace failed: oldXML string not found:\n" + oldXML);
-			throw new MyError(getApplication().getLocalization(),
-					Errors.ReplaceFailed);
+			// Application.debug("consXML=\n" + consXML);
+			return false;
 		}
 
 		// get inputs position in consXML: we want to put new geo after that
@@ -1918,6 +1925,7 @@ public class Construction {
 			consXML.insert(inputEndPos, newXML);
 			consXML.replace(pos, pos + oldXML.length(), "");
 		}
+		return true;
 	}
 
 	private static void copyStyleForRedefine(GeoElement oldGeo,
@@ -1925,7 +1933,7 @@ public class Construction {
 		newGeo.setAllVisualProperties(oldGeo, false);
 		newGeo.setViewFlags(oldGeo.getViewSet());
 		newGeo.setScripting(oldGeo);
-		if (newGeo.getGeoClassType() != oldGeo.getGeoClassType() 
+		if (newGeo.getGeoClassType() != oldGeo.getGeoClassType()
 				&& newGeo.isFunctionOrEquationFromUser()) {
 			newGeo.setFixed(true);
 		}
@@ -2352,7 +2360,7 @@ public class Construction {
 	 */
 	public GeoNumeric lookupConstantLabel(String label) {
 		if (!getArbitraryConsTable().isEmpty()) {
-			for (MyArbitraryConstant arbConst : getArbitraryConsTable()
+			for (ArbitraryConstantRegistry arbConst : getArbitraryConsTable()
 					.values()) {
 				ArrayList<GeoNumeric> constList = arbConst.getConstList();
 				if (constList != null && !constList.isEmpty()) {
@@ -2694,7 +2702,7 @@ public class Construction {
 			pref = prefix.substring(0, pos);
 		}
 		// TRAC-3519 avoid invalid labels like "Vertex(poly1')_1"
-		if (!LabelManager.isValidLabel(pref, kernel, null) 
+		if (!LabelManager.isValidLabel(pref, kernel, null)
 				&& !pref.equals(LabelManager.HIDDEN_PREFIX)) {
 			pref = "a";
 		}
@@ -2936,25 +2944,6 @@ public class Construction {
 	}
 
 	/**
-	 * Restores undo info
-	 * 
-	 * @return success
-	 * 
-	 * @see UndoManager#restoreCurrentUndoInfo()
-	 */
-	public boolean restoreCurrentUndoInfo() {
-		// undo unavailable in applets
-		// if (getApplication().isApplet()) return;
-		collectRedefineCalls = false;
-
-		if (undoManager != null && undoManager.getHistorySize() >= 0) {
-			undoManager.restoreCurrentUndoInfo();
-			return true;
-		}
-		return false;
-	}
-
-	/**
 	 * Returns true iff undo is possible
 	 * 
 	 * @return true iff undo is possible
@@ -3081,42 +3070,28 @@ public class Construction {
 	/**
 	 * Tries to build the new construction from the given XML string.
 	 */
-	private void buildConstruction(StringBuilder consXML, String oldXML)
-			throws Exception {
-		buildConstruction(consXML, oldXML, null);
-	}
-
-	/**
-	 * Tries to build the new construction from the given XML string.
-	 */
 	private void buildConstruction(StringBuilder consXML, String oldXML,
-			EvalInfo info) throws Exception {
+			EvalInfo info) throws XMLParseException {
 		// try to process the new construction
 		try {
 			processXML(consXML.toString(), false, info);
 			kernel.notifyReset();
 			// Update construction is done during parsing XML
 			// kernel.updateConstruction();
-		} catch (Exception e) {
-			restoreAfterRedefine(oldXML);
+		} catch (Exception | MyError e) {
+			restoreAfterRedefine(oldXML, info);
 			throw e;
-		} catch (MyError err) {
-			restoreAfterRedefine(oldXML);
-			throw err;
 		}
 		if (kernel.getConstruction().getXMLio().hasErrors()) {
-			restoreAfterRedefine(oldXML);
+			restoreAfterRedefine(oldXML, info);
 			throw new MyError(getApplication().getLocalization(),
 					Errors.ReplaceFailed);
 		}
 	}
 
-	private void restoreAfterRedefine(String oldXML) throws Exception {
-		if (restoreCurrentUndoInfo()) {
-			return;
-		}
+	private void restoreAfterRedefine(String oldXML, EvalInfo info) throws XMLParseException {
 		if (oldXML != null) {
-			buildConstruction(new StringBuilder(oldXML), null);
+			buildConstruction(new StringBuilder(oldXML), null, info);
 		}
 	}
 
@@ -3143,11 +3118,10 @@ public class Construction {
 	 *            whether to treat the XML as defaults
 	 * @param info
 	 *            EvalInfo (can be null)
-	 * @throws Exception
-	 *             on trouble with parsing or running commands
+	 * @throws XMLParseException when XML is not valid
 	 */
 	final public synchronized void processXML(String strXML,
-			boolean isGGTOrDefaults, EvalInfo info) throws Exception {
+			boolean isGGTOrDefaults, EvalInfo info) throws XMLParseException {
 
 		boolean randomize = info != null && info.updateRandom();
 

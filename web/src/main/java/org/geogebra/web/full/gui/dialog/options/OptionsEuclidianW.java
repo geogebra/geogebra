@@ -267,7 +267,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			ncbGridTickAnglePanel.add(gridLabel3);
 			ncbGridTickAnglePanel.add(cbGridTickAngle);
 		
-			FlowPanel tickPanel = LayoutUtilW.panelRow(cbGridManualTick, ncbGridTickXPanel, 
+			FlowPanel tickPanel = LayoutUtilW.panelRow(cbGridManualTick, ncbGridTickXPanel,
 					ncbGridTickYPanel, ncbGridTickAnglePanel);
 			mainPanel.add(tickPanel);
 			
@@ -309,18 +309,19 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private void initGridStylePanel() {
 
 			// line style
-			btnGridStyle = LineStylePopup.create(app, false);
+			btnGridStyle = LineStylePopup.create(app);
 			
 			lblGridStyle = new Label();
 			addOnlyFor2D(lblGridStyle);
 			lblGridStyle.setStyleName("panelTitle");
-			btnGridStyle.addPopupHandler(actionButton -> {
-				int style = EuclidianView.getLineType(btnGridStyle.getSelectedIndex());
+			btnGridStyle.addPopupHandler(index -> {
+				int style = EuclidianView.getLineType(index);
 				if (gridOptions) {
 					model.applyGridStyle(style);
 				} else {
 					model.applyRulerStyle(style);
 				}
+				app.storeUndoInfo();
 			});
 			btnGridStyle.setKeepVisible(false);
 
@@ -730,7 +731,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 	
 	protected AutoCompleteTextFieldW getTextField() {
-		InputPanelW input = new InputPanelW(null, app, 1, -1, true);
+		InputPanelW input = new InputPanelW(null, app, true);
 		AutoCompleteTextFieldW tf = input.getTextComponent();
 		tf.setStyleName("numberInput");
 		return tf;
@@ -792,7 +793,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	@Override
 	public void selectAxesStyle(int index) {
-	    basicTab.selectAxesStyle(index);
+		basicTab.selectAxesStyle(index);
 	}
 
 	@Override

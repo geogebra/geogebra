@@ -1,5 +1,7 @@
 package org.geogebra.web.html5;
 
+import org.geogebra.gwtutil.JsConsumer;
+
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
@@ -10,4 +12,5 @@ public class MebisGlobal {
 
 	public static native void nativeLogin();
 
+	public static native void refreshToken(JsConsumer<String> run);
 }

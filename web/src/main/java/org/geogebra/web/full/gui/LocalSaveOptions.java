@@ -5,7 +5,6 @@ import org.geogebra.common.util.MimeType;
 import org.geogebra.common.util.StringUtil;
 
 import elemental2.core.JsArray;
-import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 /**
@@ -48,10 +47,12 @@ public class LocalSaveOptions {
 	}
 
 	private JsArray<Object> getAcceptedMimeTypes() {
-		JsPropertyMap<String> mimeTypes = Js.uncheckedCast(JsPropertyMap.of());
+		JsPropertyMap<String> mimeTypes = JsPropertyMap.of();
 		mimeTypes.set(mimeType.type(), mimeType.dotExtension());
-		JsPropertyMap<String> types = Js.uncheckedCast(JsPropertyMap.of());
-		types.set("accept", Js.uncheckedCast(mimeTypes));
+		JsPropertyMap<Object> types = JsPropertyMap.of();
+		types.set("description", mimeType.getDescription(app.getLocalization()));
+		types.set("accept", mimeTypes);
 		return JsArray.of(types);
 	}
+
 }

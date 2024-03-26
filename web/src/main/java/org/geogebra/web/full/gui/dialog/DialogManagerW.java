@@ -44,10 +44,9 @@ import org.geogebra.web.full.gui.dialog.image.WebcamInputDialog;
 import org.geogebra.web.full.gui.dialog.template.TemplateChooser;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.util.ColorChooserW;
-import org.geogebra.web.full.gui.util.DoYouWantToSaveChangesDialog;
+import org.geogebra.web.full.gui.util.SaveDialog;
 import org.geogebra.web.full.gui.util.SaveDialogI;
-import org.geogebra.web.full.gui.util.SaveDialogMow;
-import org.geogebra.web.full.gui.util.SaveDialogW;
+import org.geogebra.web.full.gui.util.SaveUnsavedChangesDialog;
 import org.geogebra.web.full.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.full.gui.view.functioninspector.FunctionInspectorW;
 import org.geogebra.web.full.main.AppWFull;
@@ -445,35 +444,27 @@ public class DialogManagerW extends DialogManager
 	 * @return {@link SaveDialogI}
 	 */
 	public SaveDialogI getSaveDialog(boolean addTempCheckBox) {
-		if (app.isMebis()) {
-			DialogData data = new DialogData("Save",
-					"Cancel", "Save");
-			saveDialog = new SaveDialogMow((AppW) app, data, addTempCheckBox);
-		} else if (saveDialog == null || isSuite()) {
-			DialogData data = getSaveDialogData();
-			saveDialog = new SaveDialogW((AppW) app, data);
-		}
-		// set default saveType
+		DialogData data = getSaveDialogData();
+		saveDialog = new SaveDialog((AppW) app, data, addTempCheckBox);
 		saveDialog.setSaveType(
 				app.isWhiteboardActive() ? MaterialType.ggs : MaterialType.ggb);
+
 		return saveDialog;
 	}
 
 	/**
-	 * @return the "do you want to save" dialog
+	 * @return The "do you want to save" dialog, 
+	 *     which does not have the input panel visible when offline
 	 */
 	public SaveDialogI getSaveCheckDialog() {
-		if (!app.isMebis() && ((AppW) app).getFileManager().isOnlineSavingPreferred()) {
-			return getSaveDialog(false);
-		}
 		DialogData data = new DialogData("DoYouWantToSaveYourChanges",
 					"Discard", "Save");
 
-		return new DoYouWantToSaveChangesDialog((AppW) app, data, true);
+		return new SaveUnsavedChangesDialog((AppW) app, data, true);
 	}
 
 	public DialogData getSaveDialogData() {
-		return new DialogData(getSaveDialogTitle(), "DontSave", "Save");
+		return new DialogData(getSaveDialogTitle(), "Cancel", "Save");
 	}
 
 	private String getSaveDialogTitle() {
@@ -488,12 +479,11 @@ public class DialogManagerW extends DialogManager
 		return app.getConfig().getAppCode().equals(GeoGebraConstants.SUITE_APPCODE);
 	}
 
-	/**
-	 * shows the {@link SaveDialogW} centered on the screen
-	 */
 	@Override
 	public void showSaveDialog() {
-		getSaveDialog(true).show();
+		if (saveDialog == null || !saveDialog.isShowing()) {
+			getSaveDialog(app.isWhiteboardActive()).show();
+		}
 	}
 
 	@Override
@@ -628,7 +618,7 @@ public class DialogManagerW extends DialogManager
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint,
 			boolean rw) {
 		return new TextInputDialogW((AppW) app, app.getLocalization().getMenu("Text"),
-				text, startPoint, rw, 30, 6,
+				text, startPoint, rw,
 				app.getMode() == EuclidianConstants.MODE_TEXT);
 	}
 

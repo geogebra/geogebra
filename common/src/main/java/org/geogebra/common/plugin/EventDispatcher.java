@@ -2,7 +2,11 @@ package org.geogebra.common.plugin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.kernel.ClientView;
 import org.geogebra.common.kernel.ModeSetter;
@@ -33,8 +37,10 @@ public class EventDispatcher implements ClientView {
 
 	@Weak
 	private App app;
-	private ArrayList<EventListener> listeners = new ArrayList<>();
+	private final ArrayList<EventListener> listeners = new ArrayList<>();
 	protected boolean listenersEnabled = true;
+
+	private final Set<ScriptType> disabledScriptTypes = new HashSet<>();
 
 	/**
 	 * @param app
@@ -95,6 +101,24 @@ public class EventDispatcher implements ClientView {
 		}
 	}
 
+	/**
+	 * Disable specified script type to run.
+	 *
+	 * @param scriptType to disable.
+	 */
+	public void disableScriptType(ScriptType scriptType) {
+		disabledScriptTypes.add(scriptType);
+	}
+
+	/**
+	 *
+	 * @param scriptType to check.
+	 * @return if scriptType is allowed to run.
+	 */
+	public boolean isDisabled(ScriptType scriptType) {
+		return disabledScriptTypes.contains(scriptType);
+	}
+
 	public void disableListeners() {
 		listenersEnabled = false;
 	}
@@ -114,7 +138,7 @@ public class EventDispatcher implements ClientView {
 	 *            an extra argument
 	 */
 	public void dispatchEvent(EventType evtType, GeoElement geo, String arg) {
-		if (!geo.isLabelSet()) {
+		if (shouldNotDispatchFor(geo)) {
 			return;
 		}
 		dispatchEvent(new Event(evtType, geo, arg));
@@ -129,10 +153,14 @@ public class EventDispatcher implements ClientView {
 	 *            the target of the event
 	 */
 	public void dispatchEvent(EventType evtType, GeoElement geo) {
-		if ((null != geo) && !geo.isLabelSet() && !geo.isGeoCasCell()) {
+		if ((null != geo) && shouldNotDispatchFor(geo)) {
 			return;
 		}
 		dispatchEvent(new Event(evtType, geo));
+	}
+
+	private boolean shouldNotDispatchFor(GeoElement geo) {
+		return !geo.isLabelSet() && !geo.isGeoCasCell() || geo.isSpotlight();
 	}
 
 	/**
@@ -336,6 +364,14 @@ public class EventDispatcher implements ClientView {
 				dispatchEvent(new Event(EventType.UPDATE, el));
 			}
 		}
+	}
+
+	/**
+	 * @return list of available script types
+	 */
+	public List<ScriptType> availableTypes() {
+		return Arrays.stream(ScriptType.values())
+				.filter(t -> !disabledScriptTypes.contains(t)).collect(Collectors.toList());
 	}
 
 }

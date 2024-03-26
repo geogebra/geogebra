@@ -92,7 +92,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		FlowPanel panel = new FlowPanel();
 		panel.add(fillTypePanel);
 
-		unicodePanel = new InputPanelW(null, app, 1, -1, true);
+		unicodePanel = new InputPanelW(null, app,   true);
 		// buildInsertUnicodeButton();
 		unicodePanel.setVisible(false);
 		tfInsertUnicode = unicodePanel.getTextComponent();
@@ -285,7 +285,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 				int idx = getSelectedIndex();
 				SVGResource resource = iconList.get(idx);
 				if (resource != null) {
-					applyImage(resource + ".svg", resource.getSafeUri()
+					applyImage(resource.getName() + ".svg", resource.getSafeUri()
 							.asString());
 					Log.debug("Applying " + resource.getName() + " at index "
 							+ idx);

@@ -59,7 +59,7 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 			if (arg[0].isRealValuedFunction()) {
 				GeoElement[] ret = {
 						integral(((GeoFunctionable) arg[0]).getGeoFunction(),
-								 null, info) };
+								null, info) };
 				ret[0].setLabel(c.getLabel());
 				return ret;
 			}

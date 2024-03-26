@@ -4,6 +4,7 @@ import static org.junit.Assert.fail;
 
 import java.util.function.Function;
 
+import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
@@ -22,6 +23,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.After;
 import org.junit.Before;
 
 /**
@@ -39,15 +41,22 @@ public class BaseUnitTest {
 	private static TypeSafeMatcher<GeoElementND> isDefined;
 
     /**
-     * Setup test class before every test.
+     * Set up test class before every test.
      */
     @Before
-	public final void setup() {
+	public void setup() {
 		app = createAppCommon();
         kernel = app.getKernel();
         construction = kernel.getConstruction();
         elementFactory = new GeoElementFactory(this);
     }
+
+	/**
+	 * Clean up after every test.
+	 */
+	@After
+	public void teardown() {
+	}
 
 	/**
 	 * @return app instance for 2D testing
@@ -280,5 +289,9 @@ public class BaseUnitTest {
 	protected void activateUndo() {
 		app.setUndoRedoMode(UndoRedoMode.GUI);
 		app.setUndoActive(true);
+	}
+
+	protected Drawable getDrawable(GeoElementND geo) {
+		return (Drawable) app.getActiveEuclidianView().getDrawableFor(geo);
 	}
 }

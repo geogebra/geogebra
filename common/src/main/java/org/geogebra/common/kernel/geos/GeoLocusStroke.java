@@ -627,7 +627,7 @@ public class GeoLocusStroke extends GeoLocus
 	}
 
 	private static MyPoint getIntersectionPoint(double x1, double y1, double x2, double y2,
-										  double x3, double y3, double x4, double y4) {
+			double x3, double y3, double x4, double y4) {
 		MyPoint p = null;
 
 		double d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
@@ -650,14 +650,12 @@ public class GeoLocusStroke extends GeoLocus
 
 	// check if intersection point is on segment
 	private static boolean onSegment(double segStartX, double segStartY,
-									 double interPointX, double interPointY, double segEndX,
-									 double segEndY) {
+			double interPointX, double interPointY, double segEndX, double segEndY) {
 		return onSegmentCoord(segStartX, interPointX, segEndX)
 				&& onSegmentCoord(segStartY, interPointY, segEndY);
 	}
 
-	private static boolean onSegmentCoord(double segStart, double interPoint,
-										  double segEnd) {
+	private static boolean onSegmentCoord(double segStart, double interPoint, double segEnd) {
 		return (interPoint <= Math.max(segStart, segEnd)
 				&& interPoint >= Math.min(segStart, segEnd))
 				|| DoubleUtil.isEqual(segStart, segEnd);

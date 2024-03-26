@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.JsReference;
 import org.geogebra.common.plugin.ScriptManager;
+import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -87,7 +88,8 @@ public class ScriptManagerW extends ScriptManager {
 			tryTabletOnInit();
 			boolean standardJS = app.getKernel().getLibraryJavaScript()
 					.equals(Kernel.defaultLibraryJavaScript);
-			if (!standardJS && !app.useBrowserForJavaScript()) {
+			if (!standardJS && !app.useBrowserForJavaScript()
+					&& !app.getEventDispatcher().isDisabled(ScriptType.JAVASCRIPT)) {
 				app.evalJavaScript(app, app.getKernel().getLibraryJavaScript(),
 						null);
 			}
@@ -109,7 +111,7 @@ public class ScriptManagerW extends ScriptManager {
 
 		GeoGebraFrameW appletFrame = ((AppW) app).getAppletFrame();
 		if (appletFrame != null
-		        && appletFrame.getOnLoadCallback() != null
+				&& appletFrame.getOnLoadCallback() != null
 				&& !appletFrame.appletOnLoadCalled()) {
 			JsEval.callNativeFunction(
 					appletFrame.getOnLoadCallback(), exportedApi);

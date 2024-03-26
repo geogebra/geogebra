@@ -4,8 +4,10 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.LatexRendererSettings;
 import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.io.MathFieldCommon;
@@ -20,6 +22,7 @@ import org.geogebra.common.kernel.geos.SymbolicEditorCommon;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.test.TestErrorHandler;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.meta.MetaModel;
@@ -84,6 +87,27 @@ public class GgbScriptTest extends BaseUnitTest {
 		pt.runClickScripts(null);
 		assertThat(getApp().getKernel().getConstruction()
 				.getUndoManager().undoPossible(), equalTo(false));
+	}
+
+	@Test
+	@Issue("APPS-5357")
+	public void scriptShouldTranslateInterToIntersection() throws ScriptError {
+		getApp().setLocale(Locale.UK);
+		add("l1 = {1, 2}");
+		add("l2 = {2, 4}");
+		GgbScript listIntersection = makeScript("l3 = Intersection(l1, l2)");
+		getApp().setLocale(Locale.FRENCH);
+		listIntersection.run(new Event(EventType.CLICK));
+		assertThat(lookup("l3"), hasValue("{2}"));
+	}
+
+	@Test
+	public void scriptShouldLookupLowercase() throws ScriptError {
+		getApp().setLocale(Locale.UK);
+		add("f:x=y");
+		GgbScript listIntersection = makeScript("setcolor(f,1,0,0)");
+		listIntersection.run(new Event(EventType.CLICK));
+		assertThat(lookup("f").getObjectColor(), equalTo(GColor.RED));
 	}
 
 	private GgbScript makeScript(String... lines) {

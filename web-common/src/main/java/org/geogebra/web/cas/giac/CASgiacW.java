@@ -43,8 +43,7 @@ public class CASgiacW extends CASgiac {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CASgiacW(CASparser casParser,
-	        Kernel kernel) {
+	public CASgiacW(CASparser casParser, Kernel kernel) {
 		super(casParser);
 		this.kernel = kernel;
 

@@ -14,6 +14,7 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -23,6 +24,8 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry.ArbconstReplacer;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -40,8 +43,6 @@ import org.geogebra.common.kernel.arithmetic.GeoSurfaceReplacer;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.Inspecting.CommandFinder;
 import org.geogebra.common.kernel.arithmetic.Inspecting.IneqFinder;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant.ArbconstReplacer;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
@@ -145,7 +146,7 @@ public class GeoCasCell extends GeoElement
 	private boolean nSolveCmdNeeded = false;
 	// make sure we don't enter setAssignmentVar from itself
 	private boolean ignoreSetAssignment = false;
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+	private ArbitraryConstantRegistry arbconst = new ArbitraryConstantRegistry(this);
 
 	private ValidExpression expandedEvalVE;
 	private boolean pointList;
@@ -207,25 +208,23 @@ public class GeoCasCell extends GeoElement
 	}
 
 	/**
-	 * Returns the input of this row. Command names are localized when
-	 * kernel.isPrintLocalizedCommandNames() is true, otherwise internal command
-	 * names are used.
-	 * 
-	 * @param tpl
-	 *            string template
-	 * @return input string
+	 * @return the input of this row, using internal commands. Preserves input rounding.
 	 */
-	public String getInput(final StringTemplate tpl) {
-		if (tpl.isPrintLocalizedCommandNames()) {
-			// input with localized command names
-			if (currentLanguageTag == null
-					|| !currentLanguageTag.equals(getLoc().getLanguageTag())) {
-				updateLocalizedInput(tpl, input);
-			}
-			return localizedInput;
-		}
-		// input with internal command names
+	public String getInternalInput() {
 		return input;
+	}
+
+	/**
+	 * @return input localized into current language. Preserves input rounding.
+	 */
+	public String getLocalizedInput() {
+					// input with localized command names
+		if (currentLanguageTag == null
+				|| !currentLanguageTag.equals(getLoc().getLanguageTag())) {
+			updateLocalizedInput(input);
+		}
+		return localizedInput;
+
 	}
 
 	/**
@@ -675,7 +674,7 @@ public class GeoCasCell extends GeoElement
 		}
 
 		// for efficiency: input with localized command names
-		updateLocalizedInput(StringTemplate.defaultTemplate, input);
+		updateLocalizedInput(input);
 
 		// make sure computeOutput() knows that input has changed
 		firstComputeOutput = true;
@@ -687,11 +686,11 @@ public class GeoCasCell extends GeoElement
 		return true;
 	}
 
-	private void updateLocalizedInput(final StringTemplate tpl,
+	private void updateLocalizedInput(
 			final String input1) {
 		// for efficiency: localized input with local command names
 		currentLanguageTag = getLoc().getLanguageTag();
-		localizedInput = localizeInput(input1, tpl);
+		localizedInput = localizeInput(input1);
 	}
 
 	/**
@@ -741,7 +740,7 @@ public class GeoCasCell extends GeoElement
 				getAssignmentType());
 
 		// TODO this always translates input.
-		updateLocalizedInput(StringTemplate.defaultTemplate,
+		updateLocalizedInput(
 				getInputVE().toAssignmentString(StringTemplate.defaultTemplate,
 						getAssignmentType()));
 
@@ -1022,16 +1021,11 @@ public class GeoCasCell extends GeoElement
 	/**
 	 * Returns the input using command names in the current language.
 	 */
-	private String localizeInput(final String input1,
-			final StringTemplate tpl) {
-		// replace all internal command names in input by local command names
-		if (tpl.isPrintLocalizedCommandNames()) {
-			// internal commands -> local commands
-			return GgbScript.script2LocalizedScript(kernel.getApplication(),
-					input1);
-		}
-		// keep internal commands
-		return input1;
+	private String localizeInput(final String input1) {
+		// internal commands -> local commands
+		return GgbScript.script2LocalizedScript(kernel.getApplication(),
+				input1);
+
 	}
 
 	/**
@@ -1909,7 +1903,7 @@ public class GeoCasCell extends GeoElement
 						|| ((Function) this.getInputVE())
 								.getFunctionExpression().getTopLevelCommand()
 								.getName().equals("SolveODE"))) {
-			MyArbitraryConstant myArbConst = cons.getArbitraryConsTable()
+			ArbitraryConstantRegistry myArbConst = cons.getArbitraryConsTable()
 					.get(this.row);
 			if (this.arbconst.getConstList().isEmpty() && myArbConst != null) {
 				ArrayList<GeoNumeric> constList = myArbConst.getConstList();
@@ -2016,7 +2010,8 @@ public class GeoCasCell extends GeoElement
 							(DrawInformationAlgo) ((GeoElement) outputVE
 									.unwrap()).getDrawAlgorithm());
 				}
-			} catch (Exception e) {
+			} catch (XMLParseException | CircularDefinitionException
+					| RuntimeException e) {
 				Log.debug(e);
 			}
 		} else {
@@ -2104,13 +2099,14 @@ public class GeoCasCell extends GeoElement
 			// evaluate in GeoGebra
 			ExpressionNode copy = ve.deepCopy(kernel).wrap();
 			copy.setLabel(ve.getLabel());
+			for (FunctionVariable functionVar: this.getFunctionVariables()) {
+				cons.registerFunctionVariable(functionVar.getSetVarString());
+			}
 			GeoElement[] ggbEval = kernel.getAlgebraProcessor()
 					.doProcessValidExpression(copy,
 							new EvalInfo(false).withSimplifying(false));
 			if (ggbEval != null) {
-				if (ggbEval[0] instanceof GeoLine) {
-					((GeoLine) ggbEval[0]).setToUser();
-				}
+				updateTwinProperties(ggbEval[0]);
 				if (!allowFunction && (ggbEval[0] instanceof FunctionalNVar)
 						&& !wasFunction) {
 					return null;
@@ -2129,6 +2125,18 @@ public class GeoCasCell extends GeoElement
 			return null;
 		} finally {
 			kernel.setSilentMode(oldValue);
+			cons.registerFunctionVariable(null);
+		}
+	}
+
+	private void updateTwinProperties(GeoElement newTwin) {
+		if (newTwin instanceof GeoLine) {
+			((GeoLine) newTwin).setToUser();
+		} else if (newTwin instanceof GeoFunctionNVar && inputVE instanceof FunctionNVar) {
+			FunctionNVar function = ((GeoFunctionNVar) newTwin).getFunction();
+			if (function != null) {
+				function.sortFunctionVariables((FunctionNVar) inputVE);
+			}
 		}
 	}
 
@@ -2290,7 +2298,7 @@ public class GeoCasCell extends GeoElement
 
 				if (!cons.getArbitraryConsTable().isEmpty()) {
 					// get abritraryConstant for this cell from construction
-					MyArbitraryConstant myArbconst = cons
+					ArbitraryConstantRegistry myArbconst = cons
 							.getArbitraryConsTable().get(this.row);
 					// case we found an arbconst
 					if (myArbconst != null && arbconst.getPosition() == 0) {
@@ -3597,15 +3605,13 @@ public class GeoCasCell extends GeoElement
 	}
 
 	/**
-	 * @param tpl
-	 *            string template (might be MathQuill or JLM)
 	 * @return input in LaTeX form or null if only plain input present
 	 */
-	public @CheckForNull String getLaTeXInput(StringTemplate tpl) {
-
+	public @CheckForNull String getLaTeXInput() {
 		if (useAsText) {
 			return "\\text{" + this.commentText.getTextString() + "}";
 		}
+		StringTemplate tpl = StringTemplate.numericLatex;
 		return latexInput == null
 				? (inputVE == null ? null
 						: inputVE.toAssignmentString(tpl, getAssignmentType()))
@@ -3647,7 +3653,7 @@ public class GeoCasCell extends GeoElement
 	 * transforms evalComment into set of substitutions in case of Substitution
 	 * command
 	 * 
-	 * @return set of substitutions
+	 * @return list of substitutions
 	 */
 	private ArrayList<Vector<String>> getSubstListFromSubstComment(
 			String evalCommentStr) {

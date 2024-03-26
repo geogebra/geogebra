@@ -37,6 +37,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.kernel.Construction;
@@ -49,7 +50,6 @@ import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
@@ -69,14 +69,14 @@ import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.Pagination;
-import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
+import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.GTimer;
@@ -84,7 +84,6 @@ import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.profiler.FpsProfiler;
@@ -130,7 +129,6 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenState;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
-import org.geogebra.web.html5.io.ConstructionException;
 import org.geogebra.web.html5.io.MyXMLioW;
 import org.geogebra.web.html5.kernel.GeoElementGraphicsAdapterW;
 import org.geogebra.web.html5.kernel.UndoManagerW;
@@ -150,7 +148,6 @@ import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.UUIDW;
-import org.geogebra.web.html5.util.debug.AnalyticsW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.gwtproject.core.client.Scheduler;
@@ -296,9 +293,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					Browser.addMutationObserver(getParent(
 							getAppletParameters().getParamScaleContainerClass()),
 							this::checkScaleContainer));
-		}
-		if (getAppletParameters().getDataParamApp()) {
-			initializeAnalytics();
 		}
 	}
 
@@ -467,7 +461,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public final DrawEquation getDrawEquation() {
 		if (drawEquation == null) {
-			drawEquation = new DrawEquationW();
+			drawEquation = new DrawEquationW(this::getPixelRatio);
 		}
 
 		return drawEquation;
@@ -555,6 +549,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return new ScriptManagerW(this, new DefaultExportedApi());
 	}
 
+	@Override
+	protected EventDispatcher newEventDispatcher() {
+		EventDispatcher dispatcher = new EventDispatcher(this);
+		if (getAppletParameters().getDisableJavaScript()) {
+			dispatcher.disableScriptType(ScriptType.JAVASCRIPT);
+		}
+		return dispatcher;
+	}
+
 	// ================================================
 	// native JS
 	// ================================================
@@ -563,21 +566,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void callAppletJavaScript(String fun, String arg) {
 		Log.debug("calling function: " + fun + "(" + arg + ")");
 		JsEval.callNativeGlobalFunction(fun, arg);
-	}
-
-	@Override
-	public boolean loadXML(final String xml) throws Exception {
-		Runnable r = () -> {
-			try {
-				getXMLio().processXMLString(xml, true, false);
-			} catch (Exception e) {
-				Log.debug(e);
-			}
-		};
-
-		getAsyncManager().scheduleCallback(r);
-
-		return true;
 	}
 
 	@Override
@@ -763,7 +751,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	private void loadFile(GgbFile archiveContent, final boolean asSlide)
-			throws Exception {
+			throws XMLParseException {
 		if (archiveContent.containsKey(GgbFile.STRUCTURE_JSON)) {
 			getAppletParameters().setAttribute("appName", "notes");
 			getAppletFrame().initPageControlPanel(this);
@@ -786,7 +774,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		// Construction (required)
 		if (def.isInvalid()) {
-			throw new ConstructionException(
+			throw new XMLParseException(
 					"File is corrupt: No GeoGebra data found");
 		}
 
@@ -854,7 +842,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 						appletParameters.getDataParamBorder("#D3D3D3"));
 			}
 			afterLoadFileAppOrNot(asSlide);
-		} catch (Exception e) {
+		} catch (XMLParseException | RuntimeException e) {
 			Log.debug(e);
 		}
 	}
@@ -1032,13 +1020,18 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getGoogleDriveOperation() != null) {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
-
+		resetFileHandle();
 		resetUI();
 		resetUrl();
 		if (isExam()) {
 			Material material = getExam().getTempStorage().newMaterial();
 			setActiveMaterial(material);
 		}
+		setSaved();
+	}
+
+	protected void resetFileHandle() {
+		// only with full UI
 	}
 
 	private void resetPages() {
@@ -1282,9 +1275,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return whether file is valid
 	 */
 	public boolean openFile(File fileToHandle) {
-		if (getLAF().supportsLocalSave()) {
-			getFileManager().setFileProvider(Provider.LOCAL);
-		}
 		resetPerspectiveParam();
 		resetUrl();
 		return doOpenFile(fileToHandle);
@@ -1594,28 +1584,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		clientInfo.setAppName(getConfig().getAppCode());
 		clientInfo.setAssign(getShareController().isAssign());
 		return clientInfo;
-	}
-
-	/**
-	 * Initializes the user authentication
-	 *  @param op
-	 *            login operation
-	 *
-	 */
-	public void initSignInEventFlow(LogInOperation op) {
-		// Initialize the signIn operation
-		loginOperation = op;
-		if (getNetworkOperation().isOnline()) {
-			if (getLAF() != null && getLAF().supportsGoogleDrive()) {
-				initGoogleDriveEventFlow();
-			}
-			if (!StringUtil.empty(appletParameters.getDataParamTubeID())
-					|| appletParameters.getDataParamEnableFileFeatures()) {
-				loginOperation.performTokenLogin();
-			}
-		} else {
-			loginOperation.startOffline();
-		}
 	}
 
 	/**
@@ -2970,14 +2938,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return new GTimerW(listener, delay);
 	}
 
-	@Override
-	public void readLater(GeoNumeric geo) {
-		if (!kernel.getConstruction().isFileLoading()
-				&& (!appletParameters.preventFocus() || !geo.isAnimating())) {
-			getAccessibilityManager().readSliderUpdate(geo);
-		}
-	}
-
 	/**
 	 * @param sharingKey
 	 *            material sharing key
@@ -3556,14 +3516,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	public GlobalHandlerRegistry getGlobalHandlers() {
 		return dropHandlers;
-	}
-
-	private void initializeAnalytics() {
-		try {
-			Analytics.setInstance(new AnalyticsW());
-		} catch (Throwable e) {
-			Log.debug("Could not initialize analytics object." + e);
-		}
 	}
 
 	/**

@@ -21,14 +21,14 @@ public class RendererJogl {
 	static public final int GL_STREAM_DRAW = GL2ES2.GL_STREAM_DRAW;
 	
 	public GL getGL() {
-		return getGL2(); 
+		return getGL2();
 	}
 	
 	public GL2 getGL2() {
 		if (gLDrawable.getGL() == null) {
 			return null;
 		}
-		return gLDrawable.getGL().getGL2(); 
+		return gLDrawable.getGL().getGL2();
 	}
 
 	public void setGL(GLAutoDrawable gLDrawable) {
@@ -44,11 +44,11 @@ public class RendererJogl {
 	}
 
 	public final static IntBuffer newIntBuffer(int size) {
-		return GLBuffers.newDirectIntBuffer(size); 
+		return GLBuffers.newDirectIntBuffer(size);
 	}
 	
 	public final static ByteBuffer newByteBuffer(int size) {
-		return GLBuffers.newDirectByteBuffer(size); 
+		return GLBuffers.newDirectByteBuffer(size);
 	}
 
 	public interface GLlocal extends GL2 { }
@@ -59,7 +59,7 @@ public class RendererJogl {
 
 	final static public void initSingleton() {
 		try {
-			GLProfile.initSingleton(); 
+			GLProfile.initSingleton();
 		} catch (Exception e) {
 			// No GLProfile.initSingleton() working -- maybe not needed
 		}
@@ -113,7 +113,7 @@ public class RendererJogl {
 	
 	final public static String[] getGLInfos(GLAutoDrawable drawable) {
 		
-		GL gl = drawable.getGL(); 
+		GL gl = drawable.getGL();
 
 		GLCapabilitiesImmutable c = drawable.getChosenGLCapabilities();
 		

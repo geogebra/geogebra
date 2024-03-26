@@ -1,12 +1,14 @@
 package org.geogebra.common.kernel.commands;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -46,8 +48,8 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class RedefineTest extends BaseUnitTest {
 
-	private static AlgebraProcessor ap;
-	private static App app;
+	private AlgebraProcessor ap;
+	private App app;
 
 	/**
 	 * Initialize app & algebra processor.
@@ -63,12 +65,12 @@ public class RedefineTest extends BaseUnitTest {
 		return AppCommonFactory.create3D();
 	}
 
-	private static void t(String input, String expected) {
+	private void t(String input, String expected) {
 		AlgebraTestHelper.checkSyntaxSingle(input, new String[] { expected }, ap,
 				StringTemplate.xmlTemplate);
 	}
 
-	private static void tRound(String input, String expected) {
+	private void tRound(String input, String expected) {
 		AlgebraTestHelper.checkSyntaxSingle(input, new String[] { expected }, ap,
 				StringTemplate.editTemplate);
 	}
@@ -484,11 +486,11 @@ public class RedefineTest extends BaseUnitTest {
 
 	@Test
 	public void strokeRedefinitionsShouldBeSoft() {
-		GeoElement stroke = add("stroke1=PolyLine((1,1),(2,3),true)");
-		GeoLocusStroke redefined = add("stroke1=PolyLine((1,4),(2,5),true)");
+		GeoElement stroke = add("stroke1=PenStroke((1,1),(2,3))");
+		GeoLocusStroke redefined = add("stroke1=PenStroke((1,4),(2,5))");
 		assertEquals(stroke, redefined);
-		assertThat(redefined, hasValue("Polyline[(1.0000E0,4.0000E0), "
-				+ "(2.0000E0,5.0000E0), (NaN,NaN), true]"));
+		assertThat(redefined, hasValue("PenStroke[(1.0000E0,4.0000E0), "
+				+ "(2.0000E0,5.0000E0), (NaN,NaN)]"));
 	}
 
 	@Test
@@ -503,7 +505,7 @@ public class RedefineTest extends BaseUnitTest {
 
 	@Test
 	public void pointsOnLocusShouldReload() {
-		add("stroke1=PolyLine((0,0), (1,0), (2,0), true)");
+		add("stroke1=PenStroke((0,0), (1,0), (2,0))");
 		add("pts=Sequence(Point(stroke1, i), i, 0, 1, 0.5)");
 		// only testing that it reloads OK, actual values seem a bit off
 		assertThat(lookup("pts"), hasValue("{(0, 0), (1.5, 0), (?, ?)}"));
@@ -576,7 +578,7 @@ public class RedefineTest extends BaseUnitTest {
 	 * @return matcher for inequalities
 	 */
 	public static TypeSafeMatcher<GeoElementND> isForceInequality() {
-		return new TypeSafeMatcher<GeoElementND>() {
+		return new TypeSafeMatcher<>() {
 			@Override
 			protected boolean matchesSafely(GeoElementND item) {
 				return item instanceof GeoFunction && ((GeoFunction) item).isForceInequality();
@@ -640,13 +642,13 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void absPositionStaticTextShouldSurviveRedefine() throws CircularDefinitionException {
+	public void absPositionStaticTextShouldSurviveRedefine() {
 		GeoText text = add("text=\"foo\"");
 		text.setAbsoluteScreenLocActive(true);
 		text.setAbsoluteScreenLoc(200, 300);
 		add("text=a+\"foo\"");
 		GeoText modifiedText = (GeoText) lookup("text");
-		assertEquals(modifiedText.getStartPoint(), null);
+		assertThat(modifiedText.getStartPoint(), nullValue());
 		assertThat(modifiedText.getAbsoluteScreenLocX(), is(200));
 		assertThat(modifiedText.getAbsoluteScreenLocY(), is(300));
 	}
@@ -661,6 +663,17 @@ public class RedefineTest extends BaseUnitTest {
 		add("text=a+\"foo\"");
 		assertThat(((GeoText) lookup("text")).getStartPoint()
 				.getDefinition(StringTemplate.defaultTemplate), is("(a, 4)"));
+	}
+
+	@Test
+	public void conicShouldNotBeFixedAfterReload() {
+		Matcher<GeoElement> isFixed = hasProperty("fixed", GeoElement::isLocked, true);
+		add("c:x^2+y^2=1");
+		assertThat(lookup("c"), isFixed);
+		add("SetFixed(c,false)");
+		assertThat(lookup("c"), not(isFixed));
+		reload();
+		assertThat(lookup("c"), not(isFixed));
 	}
 
 	@Test
@@ -706,5 +719,15 @@ public class RedefineTest extends BaseUnitTest {
 		add("l={x}");
 		reload();
 		assertThat(lookup("b"), hasValue("false"));
+	}
+
+	@Test
+	public void simpleCopyShouldKeepType() {
+		add("A=(1,1)");
+		add("a:Line((0,0),A)");
+		GeoElement copy = add("b:a");
+		add("SetValue(A,(0,0))");
+		assertSame(lookup("b"), copy);
+		assertThat(copy, hasValue("?"));
 	}
 }

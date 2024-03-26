@@ -533,7 +533,7 @@ public class DataDisplayModel {
 				histogram.updateRepaint();
 			}
 
-		} catch (Exception e) {
+		} catch (RuntimeException | StatException e) {
 			daModel.getDaCtrl().setValidData(false);
 			listener.showInvalidDataDisplay();
 			Log.debug(e);
@@ -668,7 +668,7 @@ public class DataDisplayModel {
 			daModel.getController().updateRegressionPanel();
 			updatePlot(true);
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.debug(e);
 			app.setDefaultCursor();
 		}

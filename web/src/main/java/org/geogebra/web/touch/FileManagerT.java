@@ -4,8 +4,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.gwtutil.NavigatorUtil;
-import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.main.FileManager;
 import org.geogebra.web.html5.main.AppW;
 
@@ -45,27 +43,11 @@ public abstract class FileManagerT extends FileManager {
 		// TODO Auto-generated method stub
 	}
 
-	@Override
-	public void saveLoggedOut(App app1) {
-		if (!NavigatorUtil.isiOS()) {
-			((DialogManagerW) app1.getDialogManager()).showSaveDialog();
-		} else {
-			showOfflineErrorTooltip((AppW) app1);
-		}
-	}
-
 	/**
 	 * @param m {@link Material}
 	 */
 	protected void doOpenMaterial(Material m) {
 		super.openMaterial(m);
-	}
-	
-	/**
-	 * @param m {@link Material}
-	 */
-	protected void doUpload(Material m) {
-		super.upload(m);
 	}
 
 	@Override
@@ -82,11 +64,6 @@ public abstract class FileManagerT extends FileManager {
 		// TODO check if it really happened
 		appW.dispatchEvent(
 				new Event(EventType.EXPORT, null, "[\"" + extension + "\"]"));
-	}
-
-	@Override
-	public boolean hasBase64(Material material) {
-		return true;
 	}
 
 	@Override

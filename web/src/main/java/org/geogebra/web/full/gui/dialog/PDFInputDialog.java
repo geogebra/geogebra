@@ -7,6 +7,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.components.ComponentProgressBar;
 import org.geogebra.web.html5.css.PDFResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -26,7 +27,6 @@ import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FileUpload;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
-import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.DragEvent;
@@ -52,7 +52,7 @@ public class PDFInputDialog extends ComponentDialog
 	 * pdf.js wrapper
 	 */
 	PDFWrapper pdf;
-	private ProgressBar progressBar;
+	private ComponentProgressBar progressBar;
 
 	/** indicates if current page number text field is in focus */
 	private String previewSrc;
@@ -319,56 +319,9 @@ public class PDFInputDialog extends ComponentDialog
 		curPageNrField.setText(Integer.toString(pdf.getPageNumber()));
 	}
 
-	/**
-	 * Progress bar for loading pdf
-	 */
-	public class ProgressBar extends SimplePanel {
-
-		/**
-		 * Loaded part of the progress bar.
-		 */
-		SimplePanel loadedPart;
-
-		/**
-		 * Creates a new progress bar.
-		 */
-		public ProgressBar() {
-			addStyleName("progressBar");
-			loadedPart = new SimplePanel();
-			add(loadedPart);
-			loadedPart.setWidth("0%");
-		}
-
-		/**
-		 * After the pdf loaded, the progress bar should be finished quickly.
-		 *
-		 * @param result
-		 *            true if the loading of the pdf was successful
-		 */
-		public void finishLoading(boolean result) {
-			if (result) {
-				onPDFLoaded();
-			} else {
-				pdf = null;
-				setPosBtnDisabled(true);
-				buildErrorPanel();
-			}
-		}
-
-		/**
-		 * Sets the value of the progress bar for the given percent.
-		 * 
-		 * @param percent
-		 *            the new value of the progress bar
-		 */
-		public void setPercent(double percent) {
-			loadedPart.setWidth(percent + "%");
-		}
-	}
-
 	@Override
 	public void setProgressBarPercent(double percent) {
-		progressBar.setPercent(percent);
+		progressBar.setIndicatorWidth(percent);
 	}
 
 	/**
@@ -392,8 +345,7 @@ public class PDFInputDialog extends ComponentDialog
 		pdfContainerPanel.removeStyleName("withPdf");
 		imgTextPanel = new FlowPanel();
 		imgTextPanel.addStyleName("imgTextElement");
-		progressBar = new ProgressBar();
-		pdfContainerPanel.add(progressBar);
+		progressBar = new ComponentProgressBar();
 		Label loadText = new Label(app.getLocalization().getMenu("PdfLoadText"));
 		loadText.addStyleName("pdfDialogText");
 		loadText.addStyleName("loadText");
@@ -417,6 +369,12 @@ public class PDFInputDialog extends ComponentDialog
 
 	@Override
 	public void finishLoading(boolean result) {
-		progressBar.finishLoading(result);
+		if (result) {
+			onPDFLoaded();
+		} else {
+			pdf = null;
+			setPosBtnDisabled(true);
+			buildErrorPanel();
+		}
 	}
 }

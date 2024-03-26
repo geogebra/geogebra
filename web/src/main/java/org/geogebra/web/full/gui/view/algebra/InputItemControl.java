@@ -9,7 +9,7 @@ public interface InputItemControl {
 	/**
 	 * Shows/hides 3Dot menu by demand.
 	 */
-	void ensureInputMoreMenu(); 
+	void ensureInputMoreMenu();
 	
 	/**
 	 * Shows item control if exits

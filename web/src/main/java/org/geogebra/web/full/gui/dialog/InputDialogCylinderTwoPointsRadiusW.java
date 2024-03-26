@@ -31,15 +31,15 @@ public class InputDialogCylinderTwoPointsRadiusW extends InputDialogRadiusW {
 	 *            kernel
 	 */
 	public InputDialogCylinderTwoPointsRadiusW(AppW app, DialogData data,
-            InputHandler handler, GeoPointND a, GeoPointND b, Kernel kernel) {
-	    super(app, data, handler, kernel);
-	    this.a = a;
-	    this.b = b; 
-    }
+			InputHandler handler, GeoPointND a, GeoPointND b, Kernel kernel) {
+		super(app, data, handler, kernel);
+		this.a = a;
+		this.b = b;
+	}
 
 	@Override
 	protected GeoElement createOutput(GeoNumberValue num) {
 		return kernel.getManager3D().cylinderLimited(null, a, b, num)[0];
-    }
+	}
 
 }

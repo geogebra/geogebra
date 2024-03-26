@@ -765,7 +765,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void drawFaceToScreenAbove() {
-	    setNormalToNone();
+		setNormalToNone();
 		glUniform1i(labelRenderingLocation, 1);
 	}
 

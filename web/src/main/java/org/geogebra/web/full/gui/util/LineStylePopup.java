@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.util;
 
-import java.util.HashMap;
-
 import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.web.html5.gui.util.ImageOrText;
@@ -15,22 +13,10 @@ public class LineStylePopup extends PopupMenuButtonW  {
 	private static final int DEFAULT_SIZE = 2;
 
 	/**
-	 * @return line style map
-	 */
-	public static HashMap<Integer, Integer> createLineStyleMap() {
-		Integer styleCount = LineStyleModel.getStyleCount();
-		HashMap<Integer, Integer> lineStyleMap0 = new HashMap<>();
-		for (int i = 0; i < styleCount; i++) {
-			lineStyleMap0.put(LineStyleModel.getStyleAt(i), i);
-		}
-		return lineStyleMap0;
-	}
-
-	/**
 	 * @return array of line style icons
 	 */
 	public static ImageOrText[] getLineStyleIcons() {
-		Integer styleCount = LineStyleModel.getStyleCount();
+		int styleCount = LineStyleModel.getStyleCount();
 		ImageOrText[] lineStyleIcons0 = new ImageOrText[styleCount];
 		for (int i = 0; i < styleCount; i++) {
 			lineStyleIcons0[i] = GeoGebraIconW.createLineStyleIcon(i);
@@ -41,17 +27,12 @@ public class LineStylePopup extends PopupMenuButtonW  {
 	/**
 	 * @param app
 	 *            application
-	 * @param hasSlider
-	 *            true if has slider
 	 * @return line style popup
 	 */
-	public static LineStylePopup create(AppW app, boolean hasSlider) {
+	public static LineStylePopup create(AppW app) {
 		ImageOrText[] lineStyleIcons0 = getLineStyleIcons();
-		HashMap<Integer, Integer> lineStyleMap0 = createLineStyleMap();
-		LineStylePopup ret = new LineStylePopup(app, lineStyleIcons0, -1,
-				LineStyleModel.getStyleCount(), SelectionTable.MODE_ICON,
-				true, hasSlider, lineStyleMap0);
-		return ret;
+		return new LineStylePopup(app, lineStyleIcons0, -1,
+				LineStyleModel.getStyleCount(), SelectionTable.MODE_ICON);
 	}
 
 	/**
@@ -66,29 +47,19 @@ public class LineStylePopup extends PopupMenuButtonW  {
 	 * @param mode
 	 *            mode
 	 * @param hasTable
-	 *            true if has table
+	 *            true if popup has table
 	 * @param hasSlider
-	 *            true if has slider
-	 * @param lineStyleMap0
-	 *            map of line style
+	 *            rue if popup has slider
 	 */
 	public LineStylePopup(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode,
-			boolean hasTable, boolean hasSlider,
-			HashMap<Integer, Integer> lineStyleMap0) {
-		super(app, data, rows, columns, mode, hasTable, hasSlider,
-				lineStyleMap0);
+			boolean hasTable, boolean hasSlider) {
+		super(app, data, rows, columns, mode, hasTable, hasSlider);
 	}
 
-	/**
-	 * @return selected line type
-	 */
-	public int getSelectedLineType() {
-		if (lineStyleMap == null) {
-			lineStyleMap = createLineStyleMap();
-		}
-		int idx = getSelectedIndex() > 0 ? getSelectedIndex() : 0;
-		return getLineStyleMap().get(idx);
+	private LineStylePopup(AppW app, ImageOrText[] data, Integer rows,
+			Integer columns, SelectionTable mode) {
+		super(app, data, rows, columns, mode);
 	}
 
 	/**
@@ -96,11 +67,7 @@ public class LineStylePopup extends PopupMenuButtonW  {
 	 *            line type
 	 */
 	public void selectLineType(int type) {
-		setSelectedIndex(getLineStyleMap().get(type));
-	}
-
-	private HashMap<Integer, Integer> getLineStyleMap() {
-		return lineStyleMap;
+		setSelectedIndex(LineStyleModel.indexOfLineType(type));
 	}
 
 	@Override
@@ -111,7 +78,7 @@ public class LineStylePopup extends PopupMenuButtonW  {
 		return new ImageOrText();
 	}
 
-	@Override 
+	@Override
 	public int getSliderValue() {
 		int val = super.getSliderValue();
 		return val == -1 ? DEFAULT_SIZE : val;

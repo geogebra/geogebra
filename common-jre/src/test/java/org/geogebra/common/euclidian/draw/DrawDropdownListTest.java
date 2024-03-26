@@ -17,7 +17,7 @@ public class DrawDropdownListTest extends BaseUnitTest {
 		dropdown.setDrawAsComboBox(true);
 		dropdown.setEuclidianVisible(true);
 		dropdown.updateRepaint();
-		DrawableND drawableFor = getApp().getActiveEuclidianView().getDrawableFor(dropdown);
+		DrawableND drawableFor = getDrawable(dropdown);
 		assertNotNull(drawableFor);
 		DrawDropDownList dropDownList = (DrawDropDownList) drawableFor;
 		assertEquals(0, dropDownList.getOptionCount());
@@ -32,7 +32,7 @@ public class DrawDropdownListTest extends BaseUnitTest {
 		dropdown.setDrawAsComboBox(true);
 		dropdown.setEuclidianVisible(true);
 		dropdown.updateRepaint();
-		DrawableND drawableFor = getApp().getActiveEuclidianView().getDrawableFor(dropdown);
+		DrawableND drawableFor = getDrawable(dropdown);
 		assertNotNull(drawableFor);
 		DrawDropDownList dropDownList = (DrawDropDownList) drawableFor;
 		assertEquals(0, dropDownList.getOptionCount());

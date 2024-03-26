@@ -124,7 +124,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 		// check center difference
 		double centerDiff = MyMath.length(oldCenterX3D - centerX, oldCenterY3D
-		        - centerY);
+				- centerY);
 		if (centerDiff <= MouseTouchGestureController.MIN_MOVE) {
 			centerDiff = 0;
 		}

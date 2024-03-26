@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
+import org.geogebra.web.full.gui.util.SliderEventHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.resources.SVGResource;
 
@@ -16,8 +17,8 @@ import org.geogebra.web.resources.SVGResource;
 class RotateViewPopup extends PopupMenuButtonW {
 
 	private final EuclidianStyleBar3DW euclidianStyleBar3DW;
-	private ImageOrText pauseIcon;
-	private ImageOrText playIcon;
+	private final ImageOrText pauseIcon;
+	private final ImageOrText playIcon;
 
 	/**
 	 * @param euclidianStyleBar3DW
@@ -30,7 +31,19 @@ class RotateViewPopup extends PopupMenuButtonW {
 	public RotateViewPopup(EuclidianStyleBar3DW euclidianStyleBar3DW,
 			SVGResource playIcon, SVGResource pauseIcon) {
 		super(euclidianStyleBar3DW.app, null, -1, -1, SelectionTable.MODE_ICON,
-				false, true, null);
+				false, true);
+		setChangeEventHandler(new SliderEventHandler() {
+			@Override
+			public void onValueChange() {
+				setRotation();
+				app.storeUndoInfo();
+			}
+
+			@Override
+			public void onSliderInput() {
+				setRotation();
+			}
+		});
 		this.euclidianStyleBar3DW = euclidianStyleBar3DW;
 
 		this.playIcon = new ImageOrText(playIcon, 24);
@@ -38,15 +51,13 @@ class RotateViewPopup extends PopupMenuButtonW {
 
 		setIcon(this.playIcon);
 
-		getMySlider().setMinimum(-10);
-		getMySlider().setMaximum(10);
-		getMySlider().setTickSpacing(1);
+		getSlider().setMinimum(-10);
+		getSlider().setMaximum(10);
+		getSlider().setTickSpacing(1);
 		setSliderValue(5);
 	}
 
-	@Override
-	protected void fireActionPerformed() {
-
+	protected void setRotation() {
 		this.euclidianStyleBar3DW.getView().setRotContinueAnimation(0, getSliderValue() * 0.01);
 		if (getSliderValue() == 0) {
 			setIcon(playIcon);

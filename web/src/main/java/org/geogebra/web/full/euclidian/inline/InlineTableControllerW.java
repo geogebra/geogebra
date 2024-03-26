@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.properties.BorderType;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
@@ -88,6 +89,11 @@ public class InlineTableControllerW implements InlineTableController {
 			tableImpl.load(Global.JSON.parse(table.getContent()));
 			updateSizes();
 		}
+	}
+
+	@Override
+	public GeoInline getInline() {
+		return table;
 	}
 
 	@Override
@@ -175,7 +181,7 @@ public class InlineTableControllerW implements InlineTableController {
 	public void format(String key, Object val) {
 		tableImpl.setFormatting(key, val);
 		table.setContent(getContent());
-		table.updateVisualStyleRepaint(GProperty.COMBINED);
+		table.updateRepaint();
 		if ("font".equals(key)) {
 			FontLoader.loadFont(String.valueOf(val), getCallback());
 		}

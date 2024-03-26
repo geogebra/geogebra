@@ -178,8 +178,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	// selection rectangle colors
 	private static final GColor selRectBorder = GColor.newColor(200, 200, 230);
 	private static final GColor selRectFill = GColor.newColor(200, 200, 230, 50);
-	private static final GColor selRectBorderMebis = GColor.newColor(154, 218, 236);
-	private static final GColor selRectFillMebis = GColor.newColor(0, 168, 213, 12);
+	private static final GColor selRectBorderMebis = GColor.newColorRGB(0xC19FCB);
+	private static final GColor selRectFillMebis = GColor.newColor(193, 159, 203, 30);
 
 	// deletion square design
 	protected static final GColor colDeletionSquare = GColor
@@ -754,14 +754,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (mode == this.mode && mode != EuclidianConstants.MODE_IMAGE) {
 			return;
 		}
+		boolean shouldClearSelectedGeos = shouldClearSelectedGeos(mode);
 		this.mode = mode;
 		initCursor();
 		getEuclidianController().clearJustCreatedGeos();
 		getEuclidianController().setMode(mode, m);
-		if (clearRectangle(mode)) {
+		if (shouldClearRectangle(mode)) {
 			setSelectionRectangle(null);
 			if (hasDynamicStyleBar()) {
 				dynamicStyleBar.setVisible(false);
+			}
+			if (shouldClearSelectedGeos) {
+				getEuclidianController().clearSelections();
 			}
 		}
 		setStyleBarMode(mode);
@@ -775,26 +779,33 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * whether to clear selection rectangle when mode selected
+	 * @return True if selection rectangle should be cleared when a certain mode is being
+	 * selected, false else
 	 */
-	final private static boolean clearRectangle(int mode) {
+	final private static boolean shouldClearRectangle(int mode) {
 		switch (mode) {
-		// case EuclidianConstants.MODE_PENCIL:
-		case EuclidianConstants.MODE_PEN:
-			return true; // changed
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-			return false;
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-			return false;
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			return false;
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			return false;
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
 			return false;
 		default:
 			return true;
 		}
+	}
+
+	/**
+	 * When switching from{@link EuclidianConstants#MODE_SELECT} to
+	 * {@link EuclidianConstants#MODE_MOVE} the selected geos (and their bounding boxes)
+	 * should be cleared
+	 * @param newMode New Mode which is being set
+	 * @return True if the bounding boxes and selected geos should be cleared, false else
+	 */
+	final private boolean shouldClearSelectedGeos(int newMode) {
+		return (this.mode == EuclidianConstants.MODE_SELECT_MOW
+				|| this.mode == EuclidianConstants.MODE_SELECT)
+				&& newMode == EuclidianConstants.MODE_MOVE;
 	}
 
 	/**
@@ -1386,7 +1397,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * using min and max values for both axes in real world values.
 	 */
 	final public void setRealWorldCoordSystemVisible(double xmin2, double xmax2,
-											  double ymin2, double ymax2, boolean visible) {
+			double ymin2, double ymax2, boolean visible) {
 		double calcXscale = (visible ? getVisibleWidth() : getWidth()) / (xmax2 - xmin2);
 		double calcYscale = (visible ? getVisibleHeight() : getHeight()) / (ymax2 - ymin2);
 
@@ -2265,8 +2276,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 					&& (d.hit(x, y, app.getCapturingThreshold(type)) || d.hitLabel(x, y))) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible() && geo.isSelectionAllowed(this)) {
-					focusTextField((GeoInputBox) geo);
-					((DrawInputBox) d).setWidgetVisible(true);
+					focusTextField((GeoInputBox) geo, getEuclidianController().getMouseLoc());
 					return true;
 				}
 
@@ -2851,7 +2861,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
 		case EuclidianConstants.MODE_PEN:
-			// case EuclidianConstants.MODE_PENCIL:
 			return true;
 
 		default:
@@ -4746,32 +4755,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				sbxml.append("/>\n");
 			}
 
-			if (app.getSaveController().savedAsTemplate()) {
-				// size of pen
-				sbxml.append("\t<penSize val=\"");
-				sbxml.append(settings.getLastPenThickness());
-				sbxml.append("\"/>\n");
-
-				// color of pen
-				sbxml.append("\t<penColor");
-				XMLBuilder.appendRGB(sbxml, settings.getLastSelectedPenColor());
-				sbxml.append("/>\n");
-
-				// size of highlighter
-				sbxml.append("\t<highlighterSize val=\"");
-				sbxml.append(settings.getLastHighlighterThinckness());
-				sbxml.append("\"/>\n");
-
-				// highlighter of pen
-				sbxml.append("\t<highlighterColor");
-				XMLBuilder.appendRGB(sbxml, settings.getLastSelectedHighlighterColor());
-				sbxml.append("/>\n");
-
-				// size of eraser
-				sbxml.append("\t<eraserSize val=\"");
-				sbxml.append(settings.getDeleteToolSize());
-				sbxml.append("\"/>\n");
-
+			if (app.getSaveController() != null && app.getSaveController().savedAsTemplate()) {
+				app.getSettings().getPenTools().getXML(sbxml);
 				sbxml.append("\t<language val=\"");
 				sbxml.append(app.getLocalization().getLanguageTag());
 				sbxml.append("\"/>\n");
@@ -6194,10 +6179,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @param inputBox
-	 *            input box
+	 * @param inputBox input box
 	 */
 	public void focusTextField(GeoInputBox inputBox) {
+		focusTextField(inputBox, null);
+	}
+
+	/**
+	 * Focus the editor, move caret to given position and select text around the caret
+	 * (caret ignored for non-symbolic input boxes).
+	 * @param inputBox input box
+	 * @param caretPos cursor position with respect to the view
+	 */
+	public void focusTextField(GeoInputBox inputBox, GPoint caretPos) {
 		DrawableND d = getDrawableFor(inputBox);
 		if (d != null) {
 			app.getAccessibilityManager().cancelReadCollectedAltTexts();
@@ -6205,9 +6199,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			DrawInputBox drawInputBox = (DrawInputBox) d;
 			ScreenReader.debug(inputBox.getAuralText() + " [editable]");
 			if (inputBox.isSymbolicMode()) {
-				drawInputBox.attachMathField(null);
+				drawInputBox.attachMathField(caretPos);
 			} else if (viewTextField != null) {
 				viewTextField.focusTo(drawInputBox);
+				drawInputBox.setWidgetVisible(true);
 			}
 		}
 	}
@@ -6232,7 +6227,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void refreshTextfieldFocus(GeoInputBox inputBox) {
 		focusTextField(inputBox);
 		if (!inputBox.isSymbolicMode()) {
-			viewTextField.getTextField().getDrawTextField().setWidgetVisible(true);
 			getTextField().setSelection(0, getTextField().getText().length());
 		}
 	}

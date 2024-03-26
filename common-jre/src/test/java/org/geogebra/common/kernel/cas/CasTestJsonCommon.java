@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
@@ -101,7 +102,7 @@ public abstract class CasTestJsonCommon {
 		}
 	}
 
-	protected static void handleParsingError(Throwable e, String json) {
+	protected static void handleParsingError(Exception e, String json) {
 		String msg = e.getMessage();
 		String marker = "at character ";
 		int pos = msg.indexOf(marker);
@@ -149,8 +150,7 @@ public abstract class CasTestJsonCommon {
 
 	protected void runCases(ArrayList<CasTest> cases) {
 		Assert.assertNotEquals(0, cases.size());
-		StringBuilder[] failures = new StringBuilder[] { new StringBuilder(),
-				new StringBuilder() };
+		StringBuilder failures = new StringBuilder();
 		for (CasTest cmd : cases) {
 			Log.debug(cmd.input);
 			if (!StringUtil.empty(cmd.rounding)) {
@@ -160,16 +160,16 @@ public abstract class CasTestJsonCommon {
 			}
 			t(failures, cmd.input, cmd.output);
 		}
-		Assert.assertEquals(failures[0].toString(), failures[1].toString());
+		Assert.assertEquals("", failures.toString());
 	}
 
-	private static void t(StringBuilder[] failures, String input,
+	private static void t(StringBuilder failures, String input,
 			String expectedResult) {
 		String[] validResults = expectedResult.split("\\|OR\\|");
 		ta(failures, input, validResults, validResults);
 	}
 
-	private static void ta(StringBuilder[] failures,
+	private static void ta(StringBuilder failures,
 			String input, String[] expectedResult, String... validResults) {
 		String result;
 
@@ -218,13 +218,25 @@ public abstract class CasTestJsonCommon {
 			} catch (Throwable t) {
 				if (i == expectedResult.length - 1) {
 					Log.debug(t);
-					failures[0].append(expectedResult[0] == null ? "null"
-							: normalizeExpected(expectedResult[0]));
-					failures[0].append(" input: ").append(input).append('\n');
-					failures[1].append(result).append('\n');
+					String expected = expectedResult[0] == null ? "null"
+							: normalizeExpected(expectedResult[0]);
+					failures.append("\n  in: ").append(input)
+							.append("\n exp: ").append(expected)
+							.append("\n out: ").append(result)
+							.append("\n raw: ").append(toRaw(input)).append('\n');
 				}
 			}
 		}
+	}
+
+	private static String toRaw(String input) {
+		try {
+			return app.getKernel().getParser().parseGeoGebraCAS(input, null)
+					.toString(StringTemplate.giacTemplate);
+		} catch (ParseException e) {
+			Log.debug(e);
+		}
+		return "?";
 	}
 
 	private static String normalizeActual(String result) {
@@ -355,8 +367,13 @@ public abstract class CasTestJsonCommon {
 	}
 
 	@Test
-	public void testFactor() {
-		testCat("Factor");
+	public void testFactor1() {
+		testCat("Factor.1");
+	}
+
+	@Test
+	public void testFactor2() {
+		testCat("Factor.2");
 	}
 
 	@Test
@@ -391,8 +408,13 @@ public abstract class CasTestJsonCommon {
 	}
 
 	@Test
-	public void testCFactor() {
-		testCat("CFactor");
+	public void testCFactor1() {
+		testCat("CFactor.1");
+	}
+
+	@Test
+	public void testCFactor2() {
+		testCat("CFactor.2");
 	}
 
 	@Test
@@ -1220,13 +1242,23 @@ public abstract class CasTestJsonCommon {
 	}
 
 	@Test
-	public void testCIFactor() {
-		testCat("CIFactor");
+	public void testCIFactor1() {
+		testCat("CIFactor.1");
 	}
 
 	@Test
-	public void testIFactor() {
-		testCat("IFactor");
+	public void testCIFactor2() {
+		testCat("CIFactor.2");
+	}
+
+	@Test
+	public void testIFactor1() {
+		testCat("IFactor.1");
+	}
+
+	@Test
+	public void testIFactor2() {
+		testCat("IFactor.2");
 	}
 
 	@Test

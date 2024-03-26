@@ -47,6 +47,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.MyImageD;
+import org.geogebra.desktop.main.ScaledIcon;
 
 import com.himamis.retex.renderer.desktop.graphics.Base64;
 
@@ -590,16 +591,32 @@ public class ImageManagerD extends ImageManager {
 	 *
 	 * @param panel graphics configuration
 	 */
-	public void updatePixelRatio(GraphicsConfiguration panel) {
+	public boolean updatePixelRatio(GraphicsConfiguration panel) {
 		try {
 			double oldRatio = pixelRatio;
 			pixelRatio = panel.getDefaultTransform().getScaleX();
 			if (pixelRatio != oldRatio) {
 				iconTable.clear();
+				return true;
 			}
 		} catch (RuntimeException ex) {
 			Log.debug(ex);
 		}
+		return false;
+	}
+
+	/**
+	 * @param icon unscaled icon
+	 * @param maxSize maximum size in pixels (assuming width == height)
+	 * @return icon respecting pixel ratio
+	 */
+	public ScaledIcon getResponsiveScaledIcon(ImageIcon icon, int maxSize) {
+		int maxScaledSize = (int) (maxSize * getPixelRatio());
+		return new ScaledIcon(ImageManagerD.getScaledIcon(icon,
+				Math.min(icon.getIconWidth(), maxScaledSize),
+				Math.min(icon.getIconHeight(), maxScaledSize)),
+
+				getPixelRatio());
 	}
 
 	public static String fixSVG(String content) {

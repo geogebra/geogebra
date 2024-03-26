@@ -5,13 +5,14 @@ import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.cas.UsesCAS;
@@ -23,13 +24,16 @@ import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 		UsesCAS {
 
 	private final GeoFunction f; // input
-	private final MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+	private final ArbitraryConstantRegistry arbconst = new ArbitraryConstantRegistry(this);
+	private final boolean checkLimitsSymbolically;
+	private static final double NUMERIC_LIMIT_CHECK_PRECISION = Kernel.MAX_PRECISION;
 
 	/**
 	 * @param cons Construction
@@ -40,6 +44,7 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 		super(cons, labels, true);
 
 		this.f = f;
+		this.checkLimitsSymbolically = true;
 
 		setInputOutput();
 		compute();
@@ -50,12 +55,14 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 	 * @param f Function to evaluate for removable discontinuities
 	 * @param labels labels for output
 	 * @param setLabels whether to set labels
+	 * @param checkLimitsSymbolically Whether to check if limits are equal symbolically (no GIAC)
 	 */
 	public AlgoRemovableDiscontinuity(Construction cons, GeoFunction f, String[] labels,
-			boolean setLabels) {
+			boolean setLabels, boolean checkLimitsSymbolically) {
 		super(cons, labels, setLabels);
 
 		this.f = f;
+		this.checkLimitsSymbolically = checkLimitsSymbolically;
 
 		setInputOutput();
 		compute();
@@ -110,17 +117,23 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 	private void solveDivision(ExpressionValue exp, List<MyPoint> result) {
 		arbconst.startBlocking();
 		List<NumberValue> values = getValues(exp);
-		for (NumberValue value: values) {
+		for (NumberValue value : values) {
 			double x = value.getDouble();
-
-			double above = limit(x, 1);
-			double below = limit(x, -1);
-
-			add(x, above, result);
-			if (above != below) {
-				add(x, above, result);
+			if (checkLimitsSymbolically) {
+				add(x, limit(x, 0), result);
+			} else if (hasEqualLimit(x, NUMERIC_LIMIT_CHECK_PRECISION)) {
+				add(x, f.value(x + NUMERIC_LIMIT_CHECK_PRECISION), result);
 			}
 		}
+	}
+
+	/**
+	 * @param x Value of variable x
+	 * @param precision Precision to be used when comparing the above and below limit
+	 * @return True if the limits above and below are equal, false else
+	 */
+	private boolean hasEqualLimit(double x, double precision) {
+		return DoubleUtil.isEqual(f.value(x + precision), f.value(x - precision), precision);
 	}
 
 	private List<NumberValue> getValues(ExpressionValue exp) {
@@ -138,7 +151,7 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 	}
 
 	private void add(double x, double y, List<MyPoint> result) {
-		if (!Double.isInfinite(y)) {
+		if (!Double.isInfinite(y) && !Double.isNaN(y)) {
 			MyPoint point = new MyPoint(x, y);
 			result.add(point);
 		}
@@ -156,7 +169,7 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 					.getDouble();
 		} catch (Throwable e) {
 			Log.debug(e);
-			return 0;
+			return Double.NaN;
 		}
 	}
 

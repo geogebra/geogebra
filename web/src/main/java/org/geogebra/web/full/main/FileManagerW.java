@@ -8,8 +8,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
@@ -73,7 +71,7 @@ public class FileManagerW extends FileManager {
 			id = getApp().getLocalID();
 		}
 		String key = createKeyString(id, getApp().getKernel().getConstruction()
-		        .getTitle());
+				.getTitle());
 		updateViewerId(mat);
 		mat.setLocalID(id);
 		try {
@@ -118,29 +116,6 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	protected void getFiles(final MaterialFilter filter) {
-		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
-			return;
-		}
-
-		for (int i = 0; i < this.stockStore.getLength(); i++) {
-			final String key = this.stockStore.key(i);
-			if (key.startsWith(MaterialsManager.FILE_PREFIX)) {
-				Material mat = JSONParserGGT.parseMaterial(this.stockStore
-				        .getItem(key));
-				if (mat == null) {
-					mat = new Material(MaterialType.ggb);
-					mat.setTitle(getTitleFromKey(key));
-				}
-				if (filter.check(mat)
-						&& app.getLoginOperation().mayView(mat)) {
-					addMaterial(mat);
-				}
-			}
-		}
-	}
-
-	@Override
 	public boolean shouldKeep(int id) {
 		if (!getApp().has(Feature.LOCALSTORAGE_FILES)) {
 			return false;
@@ -177,7 +152,7 @@ public class FileManagerW extends FileManager {
 		mat.setTitle(newTitle);
 		this.stockStore.setItem(
 				MaterialsManager.createKeyString(newID, newTitle),
-		        mat.toJson().toString());
+				mat.toJson().toString());
 	}
 
 	@Override
@@ -252,15 +227,9 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public void saveLoggedOut(App app1) {
-		showOfflineErrorTooltip((AppW) app1);
-		((AppW) app1).getGuiManager().exportGGB(true);
-	}
-	
-	@Override
 	public void export(App app1) {
 		dialogEvent(app, "exportGGB");
-		((AppW) app1).getGuiManager().exportGGB(false);
+		((AppW) app1).getGuiManager().exportGGB();
 	}
 
 	@Override
@@ -269,8 +238,7 @@ public class FileManagerW extends FileManager {
 			return;
 		}
 		final Material oldMat = JSONParserGGT
-				.parseMaterial(this.stockStore
-		        .getItem(localID));
+				.parseMaterial(this.stockStore.getItem(localID));
 		mat.setBase64(oldMat.getBase64());
 		updateViewerId(mat);
 		try {
@@ -291,8 +259,7 @@ public class FileManagerW extends FileManager {
 		material.setSyncStamp(modified);
 		String key = localKey;
 		if (key == null) {
-			key = MaterialsManager.createKeyString(this.createID(),
-			        material.getTitle());
+			key = MaterialsManager.createKeyString(this.createID(), material.getTitle());
 		}
 		try {
 			this.stockStore.setItem(key, material.toJson().toString());
@@ -309,7 +276,7 @@ public class FileManagerW extends FileManager {
 		DialogData data = new DialogData(titleKey, "Cancel", "Export");
 		ComponentDialog dialog = new ComponentDialog(app, data, false, true);
 		ComponentInputField inputTextField = new ComponentInputField(app, "", "", "",
-				filename + "." + extension, -1, 1, "");
+				filename + "." + extension, -1, "");
 		dialog.addDialogContent(inputTextField);
 		dialog.setOnPositiveAction(() -> {
 			exportImage(url, inputTextField.getText(), extension2);
@@ -319,12 +286,6 @@ public class FileManagerW extends FileManager {
 		});
 		dialog.show();
 		dialogEvent(app, "exportPNG");
-	}
-
-	@Override
-	public boolean hasBase64(Material material) {
-		return material.getBase64() != null
-				&& material.getBase64().length() > 0;
 	}
 
 	@Override

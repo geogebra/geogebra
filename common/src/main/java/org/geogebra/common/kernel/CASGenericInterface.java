@@ -3,8 +3,8 @@ package org.geogebra.common.kernel;
 import java.math.BigInteger;
 import java.util.HashMap;
 
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
@@ -48,7 +48,7 @@ public interface CASGenericInterface extends SettingListener {
 	 *             if evaluation fails
 	 */
 	public abstract String evaluateGeoGebraCAS(ValidExpression casInput,
-			MyArbitraryConstant arbconst, StringTemplate tpl, GeoCasCell cell,
+			ArbitraryConstantRegistry arbconst, StringTemplate tpl, GeoCasCell cell,
 			Kernel kernel) throws CASException;
 
 	/**
@@ -89,7 +89,7 @@ public interface CASGenericInterface extends SettingListener {
 	 * @return evaluated input
 	 */
 	public ExpressionValue evaluateToExpression(
-			final ValidExpression inputExpression, MyArbitraryConstant arbconst,
+			final ValidExpression inputExpression, ArbitraryConstantRegistry arbconst,
 			Kernel kernel);
 
 	/**

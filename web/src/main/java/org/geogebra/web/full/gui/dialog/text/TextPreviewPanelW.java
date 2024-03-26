@@ -70,9 +70,8 @@ public class TextPreviewPanelW extends TextPreviewer {
 		boolean serif = previewGeo.isSerifFont();
 		
 		int size = (int) (previewGeo.getFontSizeMultiplier() * getApp()
-		        .getFontSize());
-		GFont textFont = getApp().getFontCommon(serif, previewGeo.getFontStyle(),
-		        size);
+				.getFontSize());
+		GFont textFont = getApp().getFontCommon(serif, previewGeo.getFontStyle(), size);
 
 		GRectangle rect = AwtFactory.getPrototype().newRectangle();
 		if (isLatex) {
@@ -131,8 +130,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 	private static class PreviewEuclidianView extends EuclidianViewW {
 
 		public PreviewEuclidianView(TextPreviewEuclidianViewPanelW panel,
-				EuclidianController ec, 
-		        int evno, EuclidianSettings settings) {
+				EuclidianController ec, int evno, EuclidianSettings settings) {
 			super(panel, ec, evno, settings);
 
 			// the show axis and show grid parameters currently do nothing, so

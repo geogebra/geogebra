@@ -42,4 +42,13 @@ public interface SerializationAdapter {
 		}
 		return base;
 	}
+
+	/**
+	 * Screen reader may need to handle symbols wrapped in ResizeAtom differently
+	 * @param baseString serialized content of the wrapper atom
+	 * @return baseString with optional prefix/suffix
+	 */
+	default String transformWrapper(String baseString) {
+		return baseString;
+	}
 }

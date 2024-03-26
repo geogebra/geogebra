@@ -144,9 +144,7 @@ public class ZoomPanelMow extends FlowPanel
 		appW.getEventDispatcher().addEventListener(new EventListener() {
 			@Override
 			public void sendEvent(Event evt) {
-				if (evt.getType() == EventType.REMOVE
-						&& evt.getTarget() != null && evt.getTarget().isSpotlight()
-				) {
+				if (evt.getType() == EventType.HIDE_SPOTLIGHT) {
 					EuclidianView view = appW.getActiveEuclidianView();
 					DockPanelW dp = (DockPanelW) appW.getGuiManager().getLayout().getDockManager()
 							.getPanel(App.VIEW_EUCLIDIAN);
@@ -155,11 +153,6 @@ public class ZoomPanelMow extends FlowPanel
 					spotlightOff.removeFromParent();
 					appW.getEventDispatcher().removeEventListener(this);
 				}
-			}
-
-			@Override
-			public void reset() {
-				// not needed
 			}
 		});
 		ClickStartHandler.init(spotlightOffBtn, new ClickStartHandler() {

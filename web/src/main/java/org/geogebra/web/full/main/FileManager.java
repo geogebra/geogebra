@@ -6,7 +6,6 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
-import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.UserPublic;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -50,17 +49,7 @@ public abstract class FileManager extends MaterialsManager {
 	 * @param cb
 	 *            callback
 	 */
-	public abstract void saveFile(String base64, long modified,
-	        final SaveCallback cb);
-
-	/**
-	 * loads every file of the device depending on the {@link MaterialFilter
-	 * filter} into the BrowseView.
-	 *
-	 * @param materialFilter
-	 *            filter
-	 */
-	protected abstract void getFiles(MaterialFilter materialFilter);
+	public abstract void saveFile(String base64, long modified, final SaveCallback cb);
 
 	/**
 	 * Overwritten for phone
@@ -103,10 +92,10 @@ public abstract class FileManager extends MaterialsManager {
 		mat.setBase64(base64);
 		mat.setTitle(app.getKernel().getConstruction().getTitle());
 		mat.setDescription(app.getKernel().getConstruction()
-		        .getWorksheetText(0));
+				.getWorksheetText(0));
 		mat.setThumbnailBase64(((EuclidianViewWInterface) app
-		        .getActiveEuclidianView())
-		        .getCanvasBase64WithTypeString());
+				.getActiveEuclidianView())
+				.getCanvasBase64WithTypeString());
 		if (app.getLoginOperation() != null) {
 			UserPublic user = new UserPublic(app.getLoginOperation().getModel().getUserId(),
 					app.getLoginOperation().getUserName());
@@ -119,23 +108,6 @@ public abstract class FileManager extends MaterialsManager {
 			mat.setURL(activeMaterial.getURL());
 		}
 		return mat;
-	}
-
-	/**
-	 * @param query
-	 *            String
-	 */
-	@Override
-	public void search(final String query) {
-		getFiles(MaterialFilter.getSearchFilter(query));
-	}
-
-	/**
-	 * adds the files from the current user to the {@link org.geogebra.web.full.gui.openfileview.OpenFileView}
-	 */
-	@Override
-	public void getUsersMaterials() {
-		getFiles(MaterialFilter.getAppNameFilter(app.getConfig().getAppCode()));
 	}
 
 	@Override
@@ -198,14 +170,14 @@ public abstract class FileManager extends MaterialsManager {
 
 	@Override
 	public final boolean save(App app1) {
-		if (this.saveCurrentLocalIfPossible(app)) {
+		if (this.saveCurrentLocalIfPossible(app, () -> {})) {
 			return true;
 		}
 		AppW appw = (AppW) app1;
 
 		if (!isOnlineSavingPreferred()) {
 			// not logged in and can't log in
-			app.getSaveController().showLocalSaveDialog();
+			app.getSaveController().showLocalSaveDialog(() -> {});
 		} else if (!appw.getLoginOperation().isLoggedIn()) {
 			// not logged in and possible to log in
 			appw.getGuiManager().listenToLogin(appw.getDialogManager()::showSaveDialog);
@@ -249,7 +221,7 @@ public abstract class FileManager extends MaterialsManager {
 	 * Shows error tooltip when saving online fails.
 	 * @param appw app
 	 */
-	protected void showOfflineErrorTooltip(AppW appw) {
+	public void showOfflineErrorTooltip(AppW appw) {
 		if (!appw.getNetworkOperation().isOnline()) {
 			app.getToolTipManager().showBottomMessage(appw
 					.getLocalization()
@@ -274,13 +246,15 @@ public abstract class FileManager extends MaterialsManager {
 	/**
 	 * Save file using a file handle
 	 * @param handle target handle
+	 * @param callback to run after file written
 	 */
-	public void saveAs(FileSystemFileHandle handle) {
+	public void saveAs(FileSystemFileHandle handle, Runnable callback) {
 		setFileHandle(handle);
 		handle.createWritable().then(stream -> {
 			app.getGgbApi().getZippedGgbAsync(true, blob -> {
 				stream.write(blob);
 				stream.close();
+				callback.run();
 				String msg = app.getLocalization().getMenu("SavedSuccessfully");
 				app.getToolTipManager().showBottomMessage(msg, app);
 			});
@@ -289,11 +263,15 @@ public abstract class FileManager extends MaterialsManager {
 	}
 
 	@Override
-	public boolean saveCurrentLocalIfPossible(App app) {
+	public boolean saveCurrentLocalIfPossible(App app, Runnable callback) {
 		if (fileHandle != null) {
-			saveAs(fileHandle);
+			saveAs(fileHandle, callback);
 			return true;
 		}
 		return false;
+	}
+
+	public void resetFileHandle() {
+		fileHandle = null;
 	}
 }

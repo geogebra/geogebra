@@ -35,6 +35,7 @@ import elemental2.core.Function;
 import elemental2.core.JsArray;
 import elemental2.dom.CanvasPattern;
 import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLImageElement;
 import elemental2.dom.ImageData;
 import jsinterop.base.Js;
@@ -193,11 +194,11 @@ public class GGraphics2DW implements GGraphics2DWI {
 				break;
 			case GPathIterator.SEG_CUBICTO:
 				context.bezierCurveTo(coords[0], coords[1], coords[2],
-				        coords[3], coords[4], coords[5]);
+						coords[3], coords[4], coords[5]);
 				break;
 			case GPathIterator.SEG_QUADTO:
 				context.quadraticCurveTo(coords[0], coords[1], coords[2],
-				        coords[3]);
+						coords[3]);
 				break;
 			case GPathIterator.SEG_CLOSE:
 				context.closePath();
@@ -334,9 +335,9 @@ public class GGraphics2DW implements GGraphics2DWI {
 			color = null;
 		} else if (paint instanceof GTexturePaintW) {
 			try { // bug in Firefox
-				 // https://groups.google.com/forum/#!msg/craftyjs/3qRwn_cW1gs/DdPTaCD81ikJ
-				 // NS_ERROR_NOT_AVAILABLE: Component is not available
-				 // https://bugzilla.mozilla.org/show_bug.cgi?id=574330
+				// https://groups.google.com/forum/#!msg/craftyjs/3qRwn_cW1gs/DdPTaCD81ikJ
+				// NS_ERROR_NOT_AVAILABLE: Component is not available
+				// https://bugzilla.mozilla.org/show_bug.cgi?id=574330
 				final GBufferedImageW bi = ((GTexturePaintW) paint).getImg();
 				CanvasPattern ptr;
 				if (bi.hasCanvas()) {
@@ -350,8 +351,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 					context.setFillStyle(ptr);
 					color = null;
 				} else if (bi.isLoaded()) {
-					ptr = context.createPattern(bi.getImageElement(),
-					        "repeat");
+					ptr = context.createPattern(bi.getImageElement(), "repeat");
 					context.setFillStyle(ptr);
 					color = null;
 				} else {
@@ -510,8 +510,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 				context.setFont(currentFont.getFullFontString());
 			} catch (Throwable t) {
 				setFontFailed = true;
-				Log.error("problem setting font: "
-				        + currentFont.getFullFontString());
+				Log.error("problem setting font: " + currentFont.getFullFontString());
 			}
 		}
 	}
@@ -537,7 +536,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 			return;
 		}
 		String colorStr = "rgba(" + color.getRed() + "," + color.getGreen()
-		        + "," + color.getBlue() + "," + (color.getAlpha() / 255d) + ")";
+				+ "," + color.getBlue() + "," + (color.getAlpha() / 255d) + ")";
 		context.setStrokeStyle(colorStr);
 		context.setFillStyle(colorStr);
 
@@ -666,8 +665,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 	@Override
 	public void setClip(int x, int y, int width, int height,
 			boolean saveContext) {
-		GShape sh = AwtFactory.getPrototype().newRectangle(x, y,
-		        width, height);
+		GShape sh = AwtFactory.getPrototype().newRectangle(x, y, width, height);
 		setClip(sh, saveContext);
 
 		/*
@@ -716,7 +714,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void drawRoundRect(int x, int y, int width, int height,
-	        int arcWidth, int arcHeight) {
+			int arcWidth, int arcHeight) {
 		// arcHeight ignored
 		roundRect(x, y, width, height, arcWidth / 2.0);
 		context.stroke();
@@ -764,7 +762,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void fillRoundRect(int x, int y, int width, int height,
-	        int arcWidth, int arcHeight) {
+			int arcWidth, int arcHeight) {
 		roundRect(x, y, width, height, arcHeight / 2d);
 		context.fill("evenodd");
 	}
@@ -892,6 +890,10 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	public void drawImage(HTMLImageElement img, int x, int y) {
 		context.drawImage(img, x, y);
+	}
+
+	public void drawImage(HTMLCanvasElement img, int x, int y, int width, int height) {
+		context.drawImage(img, x, y, width, height);
 	}
 
 	@Override

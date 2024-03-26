@@ -108,8 +108,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	private boolean firstCircle = true;
 	private GeoVec2D midpoint;
 	private GArc2D arc;
-	private GeneralPathClipped arcFiller;
-	private GeneralPathClipped gp;
+	private GeneralPathClipped arcCroppedToView;
 	private GRectangularShape circle;
 	private double mx;
 	private double my;
@@ -181,9 +180,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 		if (conic.isInverseFill()) {
 			GArea complement = AwtFactory.getPrototype()
 					.newArea(view.getBoundingPath());
-			if (arcFiller != null) {
-				complement = AwtFactory.getPrototype().newArea(arcFiller);
-			}
 			complement.subtract(area);
 			return complement;
 		}
@@ -608,9 +604,9 @@ public class DrawConic extends SetDrawable implements Previewable {
 		// BIG RADIUS: larger than screen diagonal
 		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's
 																// diagonal
+		boolean hasArcFiller = false;
 		if (radius < BIG_RADIUS && yradius < BIG_RADIUS) {
 			circle = ellipse;
-			arcFiller = null;
 			// calc screen coords of midpoint
 			Coords M;
 			if (isPreview) {
@@ -727,7 +723,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 				fillShape = circle = AwtFactory.getPrototype().newRectangle(-1, -1,
 						view.getWidth() + 2, view.getHeight() + 2);
 
-				arcFiller = null;
 				xLabel = -100;
 				yLabel = -100;
 				return;
@@ -737,7 +732,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 				// to ensure drawing ...
 				angSt = 0.0d;
 				angEnd = 2 * Math.PI;
-				arcFiller = null;
 				fullAngle = true;
 			}
 			// set arc
@@ -747,138 +741,78 @@ public class DrawConic extends SetDrawable implements Previewable {
 					GArc2D.OPEN);
 			// set general path for filling the arc to screen borders
 			if (conic.isFilled() && !fullAngle) {
-				if (gp == null) {
-					gp = new GeneralPathClipped(view);
+				if (arcCroppedToView == null) {
+					arcCroppedToView = new GeneralPathClipped(view);
 				}
-				gp.resetWithThickness(geo.getLineThickness());
+				arcCroppedToView.resetWithThickness(geo.getLineThickness());
 				GPoint2D sp = arc.getStartPoint();
-				GPoint2D ep = arc.getEndPoint();
-				if (!conic.isInverseFill()) {
-					getArcFillerGP(sp, ep, i);
-				} else {
-					getInverseArcFillerGP(sp, ep, i);
-				}
+				getArcFillerGP(sp, i);
 				// gp.
-				arcFiller = gp;
+				hasArcFiller = true;
 			}
 		}
-		fillShape = circle;
+		fillShape = hasArcFiller ? arcCroppedToView : circle;
 		// set label position
 		xLabel = (int) (mx - radius / 2.0);
 		yLabel = (int) (my - yradius * 0.85) + 20;
 	}
 
-	private void getArcFillerGP(GPoint2D sp, GPoint2D ep, int i) {
+	private void getArcFillerGP(GPoint2D sp, int i) {
 		switch (i) { // case number
 		case 0: // left top
-			gp.moveTo(0, 0);
-			gp.lineTo(sp.getX(), sp.getY());
-			gp.lineTo(ep.getX(), ep.getY());
+			arcCroppedToView.moveTo(0, 0);
+			arcCroppedToView.lineTo(sp.getX(), sp.getY());
+			arcCroppedToView.append(arc);
 			break;
 
 		case 1: // left middle
-			gp.moveTo(0, view.getHeight());
-			gp.lineTo(sp.getX(), sp.getY());
-			gp.lineTo(ep.getX(), ep.getY());
-			gp.lineTo(0, 0);
+			arcCroppedToView.moveTo(0, view.getHeight());
+			arcCroppedToView.lineTo(sp.getX(), sp.getY());
+			arcCroppedToView.append(arc);
+			arcCroppedToView.lineTo(0, 0);
 			break;
 
 		case 2: // left bottom
-			gp.moveTo(0, view.getHeight());
-			gp.lineTo(sp.getX(), sp.getY());
-			gp.lineTo(ep.getX(), ep.getY());
+			arcCroppedToView.moveTo(0, view.getHeight());
+			arcCroppedToView.lineTo(sp.getX(), sp.getY());
+			arcCroppedToView.append(arc);
 			break;
 
 		case 3: // middle bottom
-			gp.moveTo(view.getWidth(), view.getHeight());
-			gp.lineTo(sp.getX(), sp.getY());
-			gp.lineTo(ep.getX(), ep.getY());
-			gp.lineTo(0, view.getHeight());
+			arcCroppedToView.moveTo(view.getWidth(), view.getHeight());
+			arcCroppedToView.lineTo(sp.getX(), sp.getY());
+			arcCroppedToView.append(arc);
+			arcCroppedToView.lineTo(0, view.getHeight());
 			break;
 
 		case 4: // right bottom
-			gp.moveTo(view.getWidth(), view.getHeight());
-			gp.lineTo(sp.getX(), sp.getY());
-			gp.lineTo(ep.getX(), ep.getY());
+			arcCroppedToView.moveTo(view.getWidth(), view.getHeight());
+			arcCroppedToView.lineTo(sp.getX(), sp.getY());
+			arcCroppedToView.append(arc);
 			break;
 
 		case 5: // right middle
-			gp.moveTo(view.getWidth(), 0);
-			gp.lineTo(sp.getX(), sp.getY());
-			gp.lineTo(ep.getX(), ep.getY());
-			gp.lineTo(view.getWidth(), view.getHeight());
+			arcCroppedToView.moveTo(view.getWidth(), 0);
+			arcCroppedToView.lineTo(sp.getX(), sp.getY());
+			arcCroppedToView.append(arc);
+			arcCroppedToView.lineTo(view.getWidth(), view.getHeight());
 			break;
 
 		case 6: // right top
-			gp.moveTo(view.getWidth(), 0);
-			gp.lineTo(sp.getX(), sp.getY());
-			gp.lineTo(ep.getX(), ep.getY());
+			arcCroppedToView.moveTo(view.getWidth(), 0);
+			arcCroppedToView.lineTo(sp.getX(), sp.getY());
+			arcCroppedToView.append(arc);
 			break;
 
 		case 7: // top middle
-			gp.moveTo(0, 0);
-			gp.lineTo(sp.getX(), sp.getY());
-			gp.lineTo(ep.getX(), ep.getY());
-			gp.lineTo(view.getWidth(), 0);
+			arcCroppedToView.moveTo(0, 0);
+			arcCroppedToView.lineTo(sp.getX(), sp.getY());
+			arcCroppedToView.append(arc);
+			arcCroppedToView.lineTo(view.getWidth(), 0);
 			break;
 
 		default:
-			gp = null;
-		}
-	}
-
-	private void getInverseArcFillerGP(GPoint2D sp, GPoint2D ep, int i) {
-		switch (i) { // case number
-		case 0: // left top
-			gp.moveTo(view.getWidth(), view.getHeight());
-			gp.lineTo(view.getWidth(), 0);
-			gp.lineTo(ep.getX(), ep.getY());
-			gp.lineTo(sp.getX(), sp.getY());
-			gp.lineTo(sp.getX(), view.getHeight());
-			break;
-
-		case 1: // left middle
-			getArcFillerGP(ep, sp, 5);
-			break;
-
-		case 2: // left bottom
-			gp.moveTo(view.getWidth(), 0);
-			gp.lineTo(view.getWidth(), view.getHeight());
-			gp.lineTo(sp.getX(), sp.getY());
-			gp.lineTo(ep.getX(), ep.getY());
-			gp.lineTo(ep.getX(), 0);
-			break;
-
-		case 3: // middle bottom
-			this.getArcFillerGP(ep, sp, 7);
-			break;
-
-		case 4: // right bottom
-			gp.moveTo(0, 0);
-			gp.lineTo(0, view.getHeight());
-			gp.lineTo(ep.getX(), ep.getY());
-			gp.lineTo(sp.getX(), sp.getY());
-			gp.lineTo(sp.getX(), 0);
-			break;
-
-		case 5: // right middle
-			getArcFillerGP(ep, sp, 1);
-			break;
-
-		case 6: // right top
-			gp.moveTo(0, view.getHeight());
-			gp.lineTo(0, 0);
-			gp.lineTo(sp.getX(), sp.getY());
-			gp.lineTo(ep.getX(), ep.getY());
-			gp.lineTo(ep.getX(), view.getHeight());
-			break;
-
-		case 7: // top middle
-			this.getArcFillerGP(ep, sp, 3);
-			break;
-
-		default:
-			gp = null;
+			arcCroppedToView = null;
 		}
 	}
 
@@ -1366,13 +1300,13 @@ public class DrawConic extends SetDrawable implements Previewable {
 			if (isHighlighted()) {
 				g2.setStroke(selStroke);
 				g2.setColor(geo.getSelColor());
-				g2.draw(fillShape);
+				drawShape(g2);
 			}
 
 			g2.setStroke(objStroke);
 			g2.setColor(getObjectColor());
 			if (geo.getLineThickness() > 0) {
-				g2.draw(fillShape);
+				drawShape(g2);
 			}
 			if (labelVisible) {
 				g2.setFont(view.getFontConic());
@@ -1387,16 +1321,16 @@ public class DrawConic extends SetDrawable implements Previewable {
 		}
 	}
 
+	private void drawShape(GGraphics2D g2) {
+		g2.draw(fillShape == arcCroppedToView ? arc : fillShape);
+	}
+
 	private void fillEllipseParabola(GGraphics2D g2) {
 		if (conic.isInverseFill()) {
 			fill(g2, getShape());
 		} else {
 			fill(g2, fillShape); // fill using default/hatching/image as
 								// appropriate
-		}
-		if (arcFiller != null && !conic.isInverseFill()) {
-			fill(g2, arcFiller); // fill using default/hatching/image
-									// as appropriate
 		}
 	}
 
@@ -2057,7 +1991,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 
 	private static double[] getEquationOfConic(double startX, double startY, double endX,
 			double endY) {
-		if (Double.isNaN(startX) || Double.isNaN(startY) || Double.isNaN(endX) 
+		if (Double.isNaN(startX) || Double.isNaN(startY) || Double.isNaN(endX)
 				|| Double.isNaN(endY)) {
 			return null;
 		}

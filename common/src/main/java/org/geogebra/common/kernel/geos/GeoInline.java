@@ -174,11 +174,6 @@ public abstract class GeoInline extends GeoElement implements Translateable, Rot
 	protected void getStyleXML(StringBuilder sb) {
 		getXMLfixedTag(sb);
 		getXMLvisualTags(sb);
-
-		sb.append("\t<content val=\"");
-		StringUtil.encodeXML(sb, getContent());
-		sb.append("\"/>\n");
-
 		sb.append("\t<contentSize width=\"");
 		sb.append(contentWidth);
 		sb.append("\" height=\"");
@@ -186,6 +181,14 @@ public abstract class GeoInline extends GeoElement implements Translateable, Rot
 		sb.append("\"/>\n");
 
 		XMLBuilder.appendPosition(sb, this);
+	}
+
+	@Override
+	public void getXMLtags(StringBuilder sb) {
+		super.getXMLtags(sb);
+		sb.append("\t<content val=\"");
+		StringUtil.encodeXML(sb, getContent());
+		sb.append("\"/>\n");
 	}
 
 	/**

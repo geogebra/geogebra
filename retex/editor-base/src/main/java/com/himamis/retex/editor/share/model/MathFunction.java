@@ -45,9 +45,10 @@ import com.himamis.retex.editor.share.meta.Tag;
 public class MathFunction extends MathContainer {
 
 	private static final long serialVersionUID = 1L;
-	private MetaFunction meta;
-	private List<String> placeholders = new ArrayList<>();
+	private final MetaFunction meta;
+	private final List<String> placeholders = new ArrayList<>();
 	private String commandForSyntax;
+	private boolean preventNestedFractions;
 
 	/**
 	 * Use MathFormula.newFunction(...)
@@ -100,7 +101,7 @@ public class MathFunction extends MathContainer {
 	 */
 	@Override
 	public int getInitialIndex() {
-		if (getName() == Tag.FRAC || getName() == Tag.MIXED_NUMBER) {
+		if (getName() == Tag.FRAC) {
 			return getArgument(0).size() == 0 ? 0 : 1;
 		} else if (getName() == Tag.LOG) {
 			return 1;
@@ -185,5 +186,13 @@ public class MathFunction extends MathContainer {
 
 	public String getCommandForSyntax() {
 		return this.commandForSyntax;
+	}
+
+	public boolean isPreventingNestedFractions() {
+		return this.preventNestedFractions;
+	}
+	
+	public void setPreventingNestedFractions(boolean prevent) {
+		this.preventNestedFractions = prevent;
 	}
 }

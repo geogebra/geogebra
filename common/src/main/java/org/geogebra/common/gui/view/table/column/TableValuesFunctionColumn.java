@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.table.column;
 
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.util.DoubleUtil;
@@ -31,6 +32,6 @@ public class TableValuesFunctionColumn extends AbstractTableValuesColumn {
 
 	@Override
 	protected String getHeaderName() {
-		return evaluatable.getLabelSimple() + "(x)";
+		return evaluatable.getCaption(StringTemplate.defaultTemplate) + "(x)";
 	}
 }

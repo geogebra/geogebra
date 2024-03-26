@@ -60,7 +60,7 @@ public class CASInputHandler {
 	 * @param focus
 	 *            whether focus should stay in CAS
 	 */
-	public void processCurrentRow(String command, boolean focus) {
+	public void processCurrentRow(String command, boolean focus, String oldXML) {
 		String ggbcmd = command;
 		int selRow = consoleTable.getSelectedRow();
 		GeoCasCell cellValue = consoleTable.getGeoCasCell(selRow);
@@ -69,14 +69,14 @@ public class CASInputHandler {
 		}
 		// Text cells do not need the processing below
 		if (cellValue.isUseAsText()) {
-			processRowThenEdit(selRow, true);
+			processRowThenEdit(selRow, true, oldXML);
 			return;
 		}
 		// Multiple cells selected and solve button clicked
 		if (("Solve".equalsIgnoreCase(ggbcmd) || "NSolve"
 				.equalsIgnoreCase(ggbcmd))
 				&& (consoleTable.getSelectedRows().length > 1)) {
-			processMultipleRows(ggbcmd);
+			processMultipleRows(ggbcmd, oldXML);
 			return;
 		}
 		cellValue.setError(null);
@@ -91,7 +91,7 @@ public class CASInputHandler {
 		String selRowInput = cellEditor.getInput();
 
 		// needed for GGB-517
-		if (cellValue.getInput(StringTemplate.defaultTemplate).equals("")) {
+		if (cellValue.getLocalizedInput().equals("")) {
 			cellValue.setInput(selRowInput);
 		}
 
@@ -205,7 +205,7 @@ public class CASInputHandler {
 					sb.append(inputStrForNSolve);
 
 					// sb.append("]");
-					if (!cellValue.getInput(StringTemplate.defaultTemplate)
+					if (!cellValue.getLocalizedInput()
 							.equals(sb.toString())) {
 						cellValue.setNSolveCmdNeeded(true);
 						cellValue.setInput(sb.toString());
@@ -301,7 +301,7 @@ public class CASInputHandler {
 			cellValue.setError(ex.getKey());
 		}
 		// process given row and below, then start editing
-		processRowThenEdit(selRow, focus);
+		processRowThenEdit(selRow, focus, oldXML);
 	}
 
 	private String wrapPrevCell(int selRow, GeoCasCell cellValue) {
@@ -338,6 +338,7 @@ public class CASInputHandler {
 			int selRow, boolean isBasicTool) {
 		boolean isNumeric = "Numeric".equals(ggbcmd);
 		ValidExpression inVE = cellValue.getInputVE();
+		StringBuilder oldXML = cellValue.getConstruction().getCurrentUndoXML(false);
 		// if evaluation mode is Numeric, only the evaluation text is
 		// wrapped, input is left unchanged
 		if (isNumeric && inVE != null) {
@@ -354,7 +355,7 @@ public class CASInputHandler {
 			// otherwise set the evaluation text to input
 		} else {
 			cellValue.setProcessingInformation(prefix,
-					cellValue.getInput(StringTemplate.defaultTemplate),
+					cellValue.getLocalizedInput(),
 					postfix);
 		}
 		if (isBasicTool) {
@@ -362,7 +363,8 @@ public class CASInputHandler {
 		}
 		// evaluate assignment row
 		boolean needInsertRow = !isBasicTool;
-		boolean success = processRowThenEdit(selRow, !needInsertRow && focus);
+		boolean success = processRowThenEdit(selRow, !needInsertRow && focus,
+				oldXML.toString());
 
 		// insert a new row below with the assignment label and process
 		// it
@@ -392,7 +394,7 @@ public class CASInputHandler {
 			}
 			newRowValue.setInput(sb.toString());
 			casView.insertRow(newRowValue, true);
-			processCurrentRow(ggbcmd1, focus);
+			processCurrentRow(ggbcmd1, focus, oldXML.toString());
 		}
 
 	}
@@ -402,7 +404,7 @@ public class CASInputHandler {
 		boolean isEquList = false;
 		StringBuilder sb = new StringBuilder();
 		// sb.append("NSolve[");
-		sb.append(cellValue.getInput(StringTemplate.defaultTemplate));
+		sb.append(cellValue.getLocalizedInput());
 
 		ExpressionValue expandValidExp = null;
 		// case input is a cell
@@ -585,7 +587,7 @@ public class CASInputHandler {
 	 * @param ggbcmd
 	 *            is the given command (just Solve is supported)
 	 */
-	private void processMultipleRows(String ggbcmd) {
+	private void processMultipleRows(String ggbcmd, String oldXML) {
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		// get current row and input text
 		consoleTable.stopEditing();
@@ -788,7 +790,7 @@ public class CASInputHandler {
 		// cellValue.setEvalComment(paramString);
 
 		// process given row and below, then start editing
-		processRowThenEdit(currentRow, true);
+		processRowThenEdit(currentRow, true, oldXML);
 	}
 
 	/**
@@ -800,13 +802,13 @@ public class CASInputHandler {
 	 *            start editing
 	 * @return success
 	 */
-	public boolean processRowThenEdit(int selRow, boolean startEditing) {
+	public boolean processRowThenEdit(int selRow, boolean startEditing, String oldXML) {
 		GeoCasCell cellValue = consoleTable.getGeoCasCell(selRow);
 		boolean success;
 		boolean isLastRow = consoleTable.getRowCount() <= selRow + 1;
 		if (!cellValue.isError() && !cellValue.isUseAsText()) {
 			// evaluate output and update twin geo
-			kernel.getAlgebraProcessor().processCasCell(cellValue, isLastRow);
+			kernel.getAlgebraProcessor().processCasCell(cellValue, isLastRow, oldXML);
 		} else if (cellValue.isIndependent() && !cellValue.isUseAsText()) {
 			// make sure the cell is in construction list, so CAS cells have the
 			// right index, see #3241

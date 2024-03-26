@@ -5,8 +5,6 @@ import org.geogebra.web.html5.gui.laf.LoadSpinner;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.FileUpload;
-import org.gwtproject.user.client.ui.Image;
-import org.gwtproject.user.client.ui.VerticalPanel;
 
 import elemental2.dom.File;
 import elemental2.dom.FileList;
@@ -15,40 +13,9 @@ import elemental2.dom.HTMLInputElement;
 import jsinterop.base.Js;
 
 /**
- * panel for uploading images contains preview image
- *
+ * Factory for image upload buttons
  */
-public class UploadImagePanel extends VerticalPanel {
-	private String fileData;
-	private String fileName;
-
-	private final int previewHeight;
-	private final int previewWidth;
-
-	private FileUpload uploadImageBtn;
-	private Image previewImg;
-
-	private final UploadImageDialog dialog;
-
-	/**
-	 * @param uploadImageDialog
-	 *            dialog containing image upload panel
-	 * @param previewWidth
-	 *            width of preview image
-	 * @param previewHeight
-	 *            height of preview image
-	 */
-	public UploadImagePanel(AppW app, UploadImageDialog uploadImageDialog,
-			int previewWidth, int previewHeight) {
-		this.dialog = uploadImageDialog;
-		this.previewWidth = previewWidth;
-		this.previewHeight = previewHeight;
-	    initGUI(app);
-    }
-
-	private void initGUI(AppW app) {
-		add(uploadImageBtn = getUploadButton(app, this::fileSelected));
-	}
+public final class UploadImagePanel {
 
 	/**
 	 * @param callback
@@ -95,42 +62,4 @@ public class UploadImagePanel extends VerticalPanel {
 		return upload;
 	}
 
-	private void fileSelected(String fName, String fData) {
-		this.fileName = fName;
-		this.fileData = fData;
-		if (previewImg == null) {
-			try {
-				previewImg = new Image(fileData);
-				previewImg.setWidth(previewWidth + "px");
-				previewImg.setHeight(previewHeight + "px");
-				add(previewImg);
-			} catch (Throwable e) {
-				Log.debug("ImageProblem" + e.getMessage());
-			}
-		} else {
-			previewImg.setUrl(fileData);
-		}
-		dialog.imageAvailable();
-	}
-
-	/**
-	 * @return image data
-	 */
-	public String getImageDataURL() {
-		return fileData;
-	}
-	
-	/**
-	 * @return file name
-	 */
-	public String getFileName() {
-		return fileName;
-	}
-
-	/**
-	 * opens the file browser
-	 */
-	public void openFileBrowserDirectly() {
-		uploadImageBtn.click();
-	}
 }

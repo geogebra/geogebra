@@ -183,7 +183,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            toStroingMode, one of EQUATION_* constants
 	 */
 	public GeoConicND(Construction c, int dimension, boolean isIntersection,
-					  int stringMode) {
+			int stringMode) {
 		super(c, dimension, isIntersection);
 		setToStringMode(stringMode);
 	}
@@ -3532,13 +3532,17 @@ public abstract class GeoConicND extends GeoQuadricND
 	@Override
 	public boolean isInRegion(GeoPointND PI) {
 		Coords coords = PI.getCoordsInD2IfInPlane(getCoordSys());
+		return isInRegion(coords);
+	}
 
-		if (coords == null) { // point is not in plane containing the polygon
-			return false;
-		}
+	@Override
+	public boolean isInRegionInRealCoords(GeoPointND PI) {
+		Coords coords = PI.getCoordsInD2IfInPlaneInRealCoords(getCoordSys());
+		return isInRegion(coords);
+	}
 
-		return isInRegion(coords.getX(), coords.getY());
-
+	private boolean isInRegion(Coords coords) {
+		return coords != null && isInRegion(coords.getX(), coords.getY());
 	}
 
 	/**

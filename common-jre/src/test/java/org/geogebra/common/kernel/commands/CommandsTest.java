@@ -2333,9 +2333,11 @@ public class CommandsTest {
 	public void cmdLaTeX() {
 		t("FormulaText[ Polygon[(1,1),(2,1/2),4] ]", "1.25");
 		t("FormulaText[ Polygon[(1,1),(2,1/2),4], false ]",
-				"Polygon\\left(\\left(1, 1 \\right), \\left(2, \\frac{1}{2} \\right), 4 \\right)");
+				"Polygon\\left(\\left(1,\\;1 \\right), "
+						+ "\\left(2,\\;\\frac{1}{2} \\right), 4 \\right)");
 		t("FormulaText[ Polygon[(1,1),(2,1/2),4], false, false ]",
-				"Polygon\\left(\\left(1, 1 \\right), \\left(2, \\frac{1}{2} \\right), 4 \\right)");
+				"Polygon\\left(\\left(1,\\;1 \\right), \\left(2,\\;"
+						+ "\\frac{1}{2} \\right), 4 \\right)");
 	}
 
 	@Test
@@ -2911,6 +2913,12 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdPenStroke() {
+		t("PenStroke[(1,1),(2,2)]",
+				"PenStroke[(1.0000E0,1.0000E0), (2.0000E0,2.0000E0), (NaN,NaN)]");
+	}
+
+	@Test
 	public void cmdPercentile() {
 		t("Percentile[ {1,2,3,4,5}, 0.05 ]", "1");
 	}
@@ -3010,6 +3018,20 @@ public class CommandsTest {
 				"(8 * x^(3)) + (36 * x^(2)) + (54 * x) + 27");
 		t("Polynomial[ {(1,1),(-1,1),(0,0) } ]", "x^(2)");
 		t("Polynomial[ {(1,0),(-1,2),(0,0) } ]", "x^(2) - x");
+	}
+
+	@Test
+	public void cmdPolynomialMultiVariable() {
+		t("Polynomial[y^2+(x+y)^2]", "x^(2) + (2 * (x * y)) + (2 * y^(2))");
+		t("Polynomial[x+y-1]", "x + y - 1");
+		t("Polynomial[x-y+1]", "x - y + 1");
+		t("Polynomial[-y+1+x]", "x - y + 1");
+		t("Polynomial[-x+y-1]", "(-x) + y - 1");
+		t("Polynomial[x+y-z]", "?");
+		t("Polynomial[0x+0y-1]", "-1");
+		t("Polynomial(sin(x) + y)", "?");
+		t("Polynomial(x^2 y^2 + x^3 + x^2 y + y^3 + x*y + 1)",
+				"(x^(2) * y^(2)) + x^(3) + (x^(2) * y) + y^(3) + (x * y) + 1");
 	}
 
 	@Test
@@ -3961,11 +3983,11 @@ public class CommandsTest {
 				"((u * cos(v)), (2 * u), (u * (-sin(v))))");
 
 		t("g3=Surface[(u,v,u),u,-1,1,v,1,3]", "(u, v, u)");
-		Assert.assertEquals("\\left(u, v, u \\right)",
+		Assert.assertEquals("\\left(u,\\;v,\\;u \\right)",
 				get("g3").toLaTeXString(false, StringTemplate.latexTemplate));
 
 		t("g2=Surface[(u,v),u,-1,1,v,1,3]", "(u, v)");
-		Assert.assertEquals("\\left(u, v \\right)",
+		Assert.assertEquals("\\left(u,\\;v \\right)",
 				get("g2").toLaTeXString(false, StringTemplate.latexTemplate));
 	}
 

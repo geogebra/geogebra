@@ -73,19 +73,9 @@ ext.classicHtml = { app, prerelease, offline = false, inlineCss = false ->
             .replace("<!--SPLASH-->", splash)
             .replace("<!--SPLASH STYLE-->", '<style>' + template("splash-style.css") + '</style>')
             .replace("<!--PRELOADED CSS-->", inlinedCss)
-            .replace("<!--PIWIK PRO-->", template("partials/piwikpro.html"))
+            .replace("<!--MATOMO-->", template("partials/matomo.html"))
             .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/geogebra.ico")
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
-            .injectFirebaseTemplate(app.firebaseAppId, app.measurementId, offline)
-}
-
-String.metaClass.injectFirebaseTemplate = { firebaseAppId, measurementId, offline ->
-    if (firebaseAppId != "" && measurementId != "" && offline) {
-        return delegate.injectPartial("firebase")
-                .replace("<!--FIREBASE APP ID-->", firebaseAppId)
-                .replace("<!--MEASUREMENT ID-->", measurementId)
-    }
-    return delegate;
 }
 
 ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
@@ -101,30 +91,20 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
     def appStoreBanner = app.appStoreId ? "<meta name=\"apple-itunes-app\" " +
             "content=\"app-id=${app.appStoreId}\"><link rel=\"manifest\" href=\"https://www.geogebra.org/apps/manifest/${appID}.json\">" : ""
     def splashContent = template("${app.id}-splash.html")
-    def firebaseAppId = app.firebaseAppId ?: ""
-    def measurementId = app.measurementId ?: ""
-    def piwikpro = vendor == "Mebis" ? "" : template("partials/piwikpro.html")
     def splashStyle = "<style>" + file("war/css/app-header.css").text + "</style>"
     if (!inlineCss && vendor != "Mebis") {
        splashStyle = "<link rel=stylesheet href=\"css/app-header.css\"/>"
     }
+    def matomo = vendor == "Mebis" ? "" : template("partials/matomo.html")
     return replaceVendor(html, vendor, offline)
-            .replace("<!--PIWIK PRO-->", piwikpro)
+            .replace("<!--MATOMO-->", matomo)
             .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">$splashContent</div>")
             .replace("<!--SPLASH STYLE-->", splashStyle)
             .replace("<!--PRELOADED CSS-->", inlinedCss)
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
-            .replace("<!--ICON-->", vendor == "Mebis" ? "/static/tafel.ico" : "https://www.geogebra.org/apps/icons/${appID}.ico")
+            .replace("<!--ICON-->", vendor == "Mebis" ? "/public/assets/tafel.ico" : "https://www.geogebra.org/apps/icons/${appID}.ico")
             .replace("<!--APP ID-->", appID)
             .replace("<!--APP TRANSKEY-->", appTransKey)
             .replace("<!--APPSTORE BANNER-->", appStoreBanner)
-            .injectFirebaseTemplate(firebaseAppId, measurementId, offline)
             .replace("\r\n", "\n") // generate the same on Win and Unix
-}
-
-ext.solverHtml = { ->
-    def header = partials(template("app-header-beta.html"), null);
-    template("solver-template.html")
-            .replace("<!--HEADER-->", header)
-            .replace("<!--SPLASH STYLE-->", file("war/css/app-header.css").text)
 }

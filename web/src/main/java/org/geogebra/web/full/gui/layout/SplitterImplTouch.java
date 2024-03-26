@@ -97,6 +97,6 @@ public class SplitterImplTouch extends SplitterImpl {
 	
 	@Override
 	public Element getSplitterElement() {
-	    return mainDivElement;
+		return mainDivElement;
 	}
 }

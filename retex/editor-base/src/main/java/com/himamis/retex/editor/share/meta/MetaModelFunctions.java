@@ -89,11 +89,6 @@ class MetaModelFunctions {
 		}));
 
 		functions.add(
-				createFunction(Tag.MIXED_NUMBER, "", new MetaParameter[] {
-								MetaParameter.BASIC, createParameterDown(2), createParameterUp(1)
-						}));
-
-		functions.add(
 				createFunctionInsert(Tag.ATOMIC_PRE, "\\atomicpre", 0,
 						new MetaParameter[] {
 								createParameterUp(1), createParameterDown(0), MetaParameter.BASIC

@@ -225,12 +225,12 @@ public class StatGeo {
 	 * @param isFrequencyPolygon
 	 *            whether to create frequency polygon
 	 * @return histogram
-	 * @throws Exception
+	 * @throws StatException
 	 *             when grouping type is wrong
 	 */
 	public GeoElementND createHistogram(GeoList dataList,
 			StatPanelSettings settings, boolean isFrequencyPolygon)
-			throws Exception {
+			throws StatException {
 
 		AlgoElement al = null, algoHistogram = null;
 		histogramRight = !settings.isLeftRule();
@@ -299,7 +299,7 @@ public class StatGeo {
 			algoHistogram = new AlgoHistogram(cons, valueList,
 					(GeoList) dataList.get(1), histogramRight);
 		} else {
-			throw new Exception(
+			throw new StatException(
 					"unexpected groupType: " + settings.groupType());
 
 		}
@@ -465,11 +465,11 @@ public class StatGeo {
 	 * @param settings
 	 *            settings
 	 * @return bar chart
-	 * @throws Exception
+	 * @throws StatException
 	 *             when grouping mode is wrong
 	 */
 	public GeoElementND createBarChartText(GeoList dataList,
-			StatPanelSettings settings) throws Exception {
+			StatPanelSettings settings) throws StatException {
 
 		GeoElementND geo = null;
 		AlgoBarChart algoBarChart = null;
@@ -486,7 +486,7 @@ public class StatGeo {
 					(GeoList) dataList.get(1),
 					new GeoNumeric(cons, settings.getBarWidth()));
 		} else {
-			throw new Exception(
+			throw new StatException(
 					"unexpected groupType: " + settings.groupType());
 		}
 		removeFromConstructionList(algoBarChart);
@@ -507,11 +507,11 @@ public class StatGeo {
 	 * @param settings
 	 *            settings
 	 * @return bar chart
-	 * @throws Exception
+	 * @throws StatException
 	 *             when group mode is wrong
 	 */
 	public GeoElement createBarChartNumeric(GeoList dataList,
-			StatPanelSettings settings) throws Exception {
+			StatPanelSettings settings) throws StatException {
 
 		GeoElement geo = null;
 		AlgoBarChart algoBarChart = null;
@@ -542,7 +542,7 @@ public class StatGeo {
 			removeFromConstructionList(algoBarChart);
 			geo = algoBarChart.getOutput(0);
 		} else {
-			throw new Exception(
+			throw new StatException(
 					"unexpected groupType: " + settings.groupType());
 
 		}
@@ -579,11 +579,11 @@ public class StatGeo {
 	 * @param plotType
 	 *            plot type
 	 * @return frequency table
-	 * @throws Exception
+	 * @throws StatException
 	 *             for unsupported grouping
 	 */
 	public GeoElement createFrequencyTableGeo(GeoNumeric chart,
-			PlotType plotType) throws Exception {
+			PlotType plotType) throws StatException {
 
 		AlgoFrequencyTable al = null;
 		switch (plotType) {
@@ -594,7 +594,7 @@ public class StatGeo {
 			al = new AlgoFrequencyTable(cons, chart);
 			break;
 		default:
-			throw new Exception("unexpected plotType: " + plotType);
+			throw new StatException("unexpected plotType: " + plotType);
 		}
 
 		removeFromConstructionList(al);
@@ -644,11 +644,11 @@ public class StatGeo {
 	 * @param settings
 	 *            settings
 	 * @return box plot
-	 * @throws Exception
+	 * @throws StatException
 	 *             for unsupported grouping
 	 */
 	public GeoElement createBoxPlot(GeoList dataList,
-			StatPanelSettings settings) throws Exception {
+			StatPanelSettings settings) throws StatException {
 
 		GeoElement geo = null;
 		AlgoBoxPlot algoBoxPlot = null;
@@ -668,7 +668,7 @@ public class StatGeo {
 			removeFromConstructionList(algoBoxPlot);
 			geo = algoBoxPlot.getOutput(0);
 		} else {
-			throw new Exception(
+			throw new StatException(
 					"unexpected groupType: " + settings.groupType());
 		}
 
@@ -685,17 +685,17 @@ public class StatGeo {
 	 *            data
 	 * @param settings
 	 *            settings
-	 * @throws Exception
+	 * @throws StatException
 	 *             for unsupported grouping
 	 */
 	public void getBoxPlotSettings(GeoList dataList, StatPanelSettings settings)
-			throws Exception {
+			throws StatException {
 		if (settings.groupType() == GroupType.RAWDATA) {
 			getDataBounds(dataList);
 		} else if (settings.groupType() == GroupType.FREQUENCY) {
 			getDataBounds((GeoList) dataList.get(0));
 		} else {
-			throw new Exception(
+			throw new StatException(
 					"unexpected groupType: " + settings.groupType());
 		}
 

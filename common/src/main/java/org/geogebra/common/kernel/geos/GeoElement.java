@@ -326,7 +326,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private Group parentGroup;
 
-	private int ordering = -1;
+	private double ordering = Double.NaN;
 
 	private static Comparator<AlgoElement> algoComparator = (o1, o2) -> o1.compareTo(o2);
 
@@ -343,6 +343,15 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (app != null) {
 			initWith(app);
 		}
+	}
+
+	/**
+	 * Update the list of geos with default TempSet.
+	 *
+	 * @param list geos to update.
+	 */
+	public static void updateCascade(List<GeoElement> list) {
+		updateCascade(list, getTempSet(), true);
 	}
 
 	private void initWith(@Nonnull App app) {
@@ -1871,9 +1880,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return !isProtected(EventType.UPDATE)
 				&& app.letRedefine()
 				&& !(this instanceof TextValue) && isAlgebraViewEditable()
-				&& (isChangeable() || // redefine changeable (independent and
+				&& (isChangeable() // redefine changeable (independent and
 										// not fixed)
-						!isIndependent()); // redefine dependent object
+						|| !isIndependent()); // redefine dependent object
 	}
 
 	/**
@@ -1990,7 +1999,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private static boolean containsOnlyMoveableGeos(
 			final ArrayList<GeoElementND> geos) {
-		if ((geos == null) || (geos.size() == 0)) {
+		if (geos == null || geos.isEmpty()) {
 			return false;
 		}
 
@@ -4670,15 +4679,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	protected void getXMLfixedTag(final StringBuilder sb) {
 		// is object fixed
 		if (fixed && isFixable()) {
-			sb.append("\t<fixed val=\"");
-			sb.append(fixed);
-			sb.append("\"/>\n");
+			sb.append("\t<fixed val=\"true\"/>\n");
 		}
 		// is selection allowed
 		if (!selectionAllowed) {
-			sb.append("\t<selectionAllowed val=\"");
-			sb.append(selectionAllowed);
-			sb.append("\"/>\n");
+			sb.append("\t<selectionAllowed val=\"false\"/>\n");
 		}
 	}
 
@@ -6672,9 +6677,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-	    if (!algebraOutputFilter.isAllowed(this)) {
-	        return DescriptionMode.DEFINITION;
-        }
+		if (!algebraOutputFilter.isAllowed(this)) {
+			return DescriptionMode.DEFINITION;
+		}
 		String def0 = getDefinition(StringTemplate.defaultTemplate);
 		if ((isGeoPoint() || isGeoVector())
 				&& kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN
@@ -6889,8 +6894,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public void addAuralName(ScreenReaderBuilder sb) {
-		addAuralType(sb);
 		if (!addAuralCaption(sb)) {
+			addAuralType(sb);
 			addAuralLabel(sb);
 			addAuralValue(sb);
 		}
@@ -7033,8 +7038,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return whether to prefer implicit equation label
 	 */
 	public EquationType getEquationTypeForLabeling() {
-		if (definition == null
-				|| !(definition.unwrap() instanceof EquationValue)) {
+		if (definition == null || !(definition.unwrap() instanceof EquationValue)
+				|| isParametric()) {
 			return EquationType.NONE;
 		}
 		Equation eqn = (Equation) definition.unwrap();
@@ -7107,11 +7112,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return parentGroup;
 	}
 
-	public int getOrdering() {
+	public double getOrdering() {
 		return ordering;
 	}
 
-	public void setOrdering(int ordering) {
+	public void setOrdering(double ordering) {
 		this.ordering = ordering;
 	}
 
@@ -7181,5 +7186,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public boolean isRecurringDecimal() {
 		return false;
+	}
+
+	/**
+	 * @return True if this is a free input point, false else
+	 */
+	public boolean isFreeInputPoint() {
+		return isGeoPoint() && (isIndependent() || isMoveable());
 	}
 }

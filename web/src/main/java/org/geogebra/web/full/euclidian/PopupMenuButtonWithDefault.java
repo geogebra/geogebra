@@ -19,8 +19,7 @@ public class PopupMenuButtonWithDefault extends PopupMenuButtonW {
 	 *            icons
 	 */
 	public PopupMenuButtonWithDefault(AppW app, ImageOrText[] data) {
-		super(app, data, -1, data.length, SelectionTable.MODE_ICON, true, false,
-				null);
+		super(app, data, -1, data.length, SelectionTable.MODE_ICON);
 		defaultIcon = data.length > 1 ? data[1] : null;
 	}
 

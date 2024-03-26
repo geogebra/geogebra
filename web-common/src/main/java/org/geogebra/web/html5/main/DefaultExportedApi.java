@@ -105,6 +105,7 @@ public class DefaultExportedApi implements ExportedApi {
 
 	public void evalXML(String xmlString) {
 		getGgbAPI().evalXML(xmlString + "");
+		ggbAPI.getApplication().getActiveEuclidianView().invalidateDrawableList();
 	}
 
 	public void setDisplayStyle(String objName, String style) {
@@ -1113,6 +1114,9 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().showAllObjects();
 	}
 
+	public Object getFileLoadingError() {
+		return getGgbAPI().getFileLoadingError();
+	}
 	private GgbAPIW getGgbAPI() {
 		if (ggbAPI == null) {
 			throw new IllegalStateException("app was already removed");

@@ -34,7 +34,7 @@ public class FileLoadTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void edgesCreatedWhenLoadedFromOldFile() throws Exception {
+	public void edgesCreatedWhenLoadedFromOldFile() throws IOException, XMLParseException {
 		String xml = load("polygon-randomization.xml");
 		String macros = load("polygon-macros.xml");
 		getApp().setRandomSeed(7);

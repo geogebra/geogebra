@@ -57,7 +57,7 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 	double getXscale();
 
 	void setCoordSystem(double xZero, double yZero, double xscale,
-	        double newRatioY);
+			double newRatioY);
 
 	@Override
 	double getYscale();

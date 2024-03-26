@@ -9,7 +9,6 @@ import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.dialog.image.UploadImagePanel;
 import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -72,26 +71,22 @@ public class ToolNameIconPanelW extends FlowPanel {
 		int n = app.getKernel().getMacroNumber() + 1;
 
 		tfToolName = new ComponentInputField((AppW) app,
-				null, loc.getMenu("ToolName"), null, "", 28, 1
-		);
+				null, loc.getMenu("ToolName"), null, "", 28);
 		tfToolName.setInputText(loc.getMenu("Tool") + n);
 		addHandlers(tfToolName);
 
 		tfCmdName = new ComponentInputField((AppW) app,
-				null, loc.getMenu("CommandName"), null, "", 28, 1
-		);
+				null, loc.getMenu("CommandName"), null, "", 28);
 		tfCmdName.setInputText(tfToolName.getText());
 		addHandlers(tfCmdName);
 
 		tfToolHelp =  new ComponentInputField((AppW) app,
-				null, loc.getMenu("ToolHelp"), null, "", 28, 1
-		);
+				null, loc.getMenu("ToolHelp"), null, "", 28);
 		addHandlers(tfToolHelp);
 
 		FlowPanel iconPanel = new FlowPanel();
 		iconPanel.addStyleName("iconPanel");
-		icon = new NoDragImage(ImgResourceHelper
-				.safeURI(ToolbarSvgResourcesSync.INSTANCE.mode_tool_32()),
+		icon = new NoDragImage(NoDragImage.safeURI(ToolbarSvgResourcesSync.INSTANCE.mode_tool_32()),
 				32);
 		StandardButton labelIcon = new StandardButton(loc.getMenu("Icon") + " ...");
 		labelIcon.addFastClickHandler(event -> {
@@ -179,8 +174,7 @@ public class ToolNameIconPanelW extends FlowPanel {
 					});
 		} else {
 			iconFileName = null;
-			updateWithIcon(ImgResourceHelper.safeURI(
-					ToolbarSvgResourcesSync.INSTANCE.mode_tool_32()));
+			updateWithIcon(NoDragImage.safeURI(ToolbarSvgResourcesSync.INSTANCE.mode_tool_32()));
 		}
 	}
 

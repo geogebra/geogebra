@@ -43,7 +43,6 @@ import org.geogebra.desktop.factories.LoggingCASFactoryD;
 import org.geogebra.desktop.factories.UtilFactoryD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
-import org.geogebra.desktop.main.undo.UndoManagerD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.plugin.ScriptManagerD;
@@ -130,7 +129,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	public DrawEquation getDrawEquation() {
 		if (drawEquation == null) {
 			LaTeXFactory.setPrototypeIfNull(new LaTeXFactoryD());
-			drawEquation = new DrawEquationD();
+			drawEquation = new DrawEquationD(null);
 		}
 		return drawEquation;
 	}
@@ -181,11 +180,6 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	public MyImage getExternalImageAdapter(String filename, int width,
 			int height) {
 		return ImageManagerD.getExternalImage(filename);
-	}
-
-	@Override
-	public UndoManagerD getUndoManager(Construction cons) {
-		return new UndoManagerD(cons, true);
 	}
 
 	@Override

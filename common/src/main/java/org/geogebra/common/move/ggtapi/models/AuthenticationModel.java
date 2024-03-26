@@ -6,6 +6,7 @@ import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.HttpRequest;
 
 /**
  * Base class for login logout operations
@@ -27,7 +28,7 @@ public abstract class AuthenticationModel {
 
 	public static final String CSRF_TOKEN_KEY_NAME = "X-CSRF-TOKEN";
 
-	private boolean stayLoggedOut;
+	private boolean preventLoginPrompt;
 	private boolean loginStarted;
 
 	private String csrfToken = "";
@@ -40,7 +41,7 @@ public abstract class AuthenticationModel {
 		if (loginEvent.isSuccessful()) {
 			onLoginSuccess(loginEvent.getUser(), loginEvent.getJSON());
 		} else {
-			onLoginError(loginEvent.getUser());
+			onLoginError();
 		}
 	}
 
@@ -105,7 +106,7 @@ public abstract class AuthenticationModel {
 	 * (localStorage, etc).
 	 */
 	private void onLoginSuccess(GeoGebraTubeUser user, String json) {
-		this.stayLoggedOut = false;
+		this.preventLoginPrompt = false;
 		// Remember the logged in user
 		this.loggedInUser = user;
 		storeLastUser(json);
@@ -125,12 +126,11 @@ public abstract class AuthenticationModel {
 	protected abstract void storeLastUser(String s);
 
 	/**
-	 * @param user ggb tube user
 	 * from GGT error happened, cleanup, etc
 	 */
-	private void onLoginError(GeoGebraTubeUser user) {
-		this.stayLoggedOut = false;
-		if (getLoginToken() != null || user.isShibbolethAuth()) {
+	private void onLoginError() {
+		this.preventLoginPrompt = false;
+		if (getLoginToken() != null) {
 			clearLoginToken();
 		}
 	}
@@ -198,10 +198,14 @@ public abstract class AuthenticationModel {
 	 */
 	public void startOffline(BackendAPI api) {
 		if (this.loadLastUser() != null) {
-			GeoGebraTubeUser offline = new GeoGebraTubeUser(null);
-			if (api.parseUserDataFromResponse(offline, this.loadLastUser())) {
-				this.loggedInUser = offline;
-			}
+			loadUserFromString(loadLastUser(), api);
+		}
+	}
+
+	protected void loadUserFromString(String s, BackendAPI api) {
+		GeoGebraTubeUser offline = new GeoGebraTubeUser(null);
+		if (api.parseUserDataFromResponse(offline, s)) {
+			this.loggedInUser = offline;
 		}
 	}
 
@@ -214,15 +218,18 @@ public abstract class AuthenticationModel {
 	 * User closed login explicitly, save a flag not to ask again.
 	 */
 	public void stayLoggedOut() {
-		this.stayLoggedOut = true;
 		this.loginStarted = false;
+	}
+
+	public void preventLoginPrompt() {
+		this.preventLoginPrompt = true;
 	}
 
 	/**
 	 * @return false if user closed login explicitly
 	 */
 	public boolean mayLogIn() {
-		return !stayLoggedOut;
+		return !preventLoginPrompt;
 	}
 
 	/**
@@ -280,4 +287,13 @@ public abstract class AuthenticationModel {
 		resetTimer(sessionExpireTimer);
 		resetTimer(logOutTimer);
 	}
+
+	/**
+	 * @param request request to be authenticated
+	 * @param afterRefresh callback
+	 */
+	public void refreshToken(HttpRequest request, Runnable afterRefresh) {
+		afterRefresh.run();
+	}
+
 }

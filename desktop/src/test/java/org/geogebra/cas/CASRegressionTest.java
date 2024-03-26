@@ -93,13 +93,13 @@ public class CASRegressionTest extends BaseCASIntegrationTest {
 		CASInputHandler cih = new CASInputHandler(view);
 
 		view.getConsoleTable().setSelected(0);
-		cih.processCurrentRow("Evaluate", false);
+		cih.processCurrentRow("Evaluate", false, null);
 		assertEquals(GeoClass.SURFACECARTESIAN3D,
 				lookup("plane").getGeoClassType());
 		assertEquals("(p, q, p + q)",
 				lookup("plane").getValueForInputBar());
 		view.getConsoleTable().setInput(0, "plane(p,q):=(p,q-1,p+q)");
-		cih.processCurrentRow("Evaluate", false);
+		cih.processCurrentRow("Evaluate", false, null);
 		assertEquals("(p, q - 1, p + q)",
 				lookup("plane").getValueForInputBar());
 		assertArrayEquals(new String[]{"plane"}, getApp().getGgbApi().getAllObjectNames());

@@ -155,14 +155,14 @@ import org.geogebra.common.kernel.statistics.CmdFitLineY;
 import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
-import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.PenToolsSettings;
 import org.geogebra.common.media.VideoManager;
+import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -437,6 +437,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private final GeoPriorityComparator priorityComparator;
 	private RotateBoundingBox rotateBoundingBox;
+	private final UpdateActionStore storeUndo;
 
 	/**
 	 * Clears the zoomer animation listeners.
@@ -493,6 +494,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		this.localization = app.getLocalization();
 		this.priorityComparator = app.getGeoPriorityComparator();
 		spotlightController = new SpotlightController(app);
+		storeUndo = new UpdateActionStore(selection, app.getUndoManager());
 		createCompanions();
 	}
 
@@ -733,7 +735,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					app.setMode(EuclidianConstants.MODE_SELECT_MOW,
 							ModeSetter.DOCK_PANEL);
 				} else {
-					app.setMode(EuclidianConstants.MODE_SELECT,
+					app.setMode(EuclidianConstants.MODE_MOVE,
 							ModeSetter.DOCK_PANEL);
 				}
 				return;
@@ -3851,7 +3853,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (selGeos() > 1 && selPoints() == 0
-				&& getSelectedGeoList().get(0) instanceof GeoPointND) {
+				&& getSelectedGeoList().get(0) instanceof GeoPointND
+				&& view.getSelectionRectangle() == null) {
 			// If a point is selected as first geo, it is not added to
 			// selectedPoints, because the last point that is selected is used
 			// as rotation center.
@@ -5220,7 +5223,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_MEDIA_TEXT:
-			changedKernel = createInlineObject(selectionPreview, GeoInlineText::new);
+			createInlineObject(selectionPreview, GeoInlineText::new);
+			changedKernel = false;
 			break;
 
 		case EuclidianConstants.MODE_TABLE:
@@ -6017,7 +6021,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected void moveDependent() {
 		translationVec.setX(xRW - getStartPointX());
 		translationVec.setY(yRW - getStartPointY());
-		this.splitSelectedStrokes(true);
 		setStartPointLocation(xRW, yRW);
 
 		// we don't specify screen coords for translation as all objects are
@@ -6027,8 +6030,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			tmpCoordsL3 = new Coords(4);
 		}
 		view.getCompanion().getCoordsFromView(xRW, yRW, tmpCoordsL3);
-		MoveGeos.moveObjects(translateableGeos, translationVec, tmpCoordsL3,
-				null, view);
+		MoveGeos.moveObjects(translateableGeos, translationVec, tmpCoordsL3, null, view);
 		kernel.movedGeoSet(translateableGeos);
 	}
 
@@ -6058,10 +6060,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		tmpCoordsL3.setX(xRW);
 		tmpCoordsL3.setY(yRW);
 		tmpCoordsL3.setZ(0);
-		splitSelectedStrokes(true);
 		ArrayList<GeoElement> moveMultipleObjectsList = companion
 				.removeParentsOfView(getAppSelectedGeos());
-
 		MoveGeos.moveObjects(moveMultipleObjectsList, translationVec, tmpCoordsL3, null, view);
 	}
 
@@ -6724,35 +6724,47 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		// STANDARD case: get free input points of dependent movedGeoElement
 		if (!handleMovedElementDependentWithChangeableParent()
-				&& movedGeoElement.hasMoveableInputPoints(view)) {
-			// allow only moving of the following object types
-			if (movedGeoElement.isGeoLine() || movedGeoElement.isGeoPolygon()
-					|| movedGeoElement.isGeoCurveCartesian()
-					|| (movedGeoElement instanceof GeoPolyLine)
-					|| (movedGeoElement instanceof GeoPieChart)
-					|| movedGeoElement.isGeoConic()
-					|| movedGeoElement.isGeoImage()
-					|| movedGeoElement.isGeoList()
-					|| movedGeoElement.isGeoVector()
-					|| movedGeoElement instanceof GeoLocusStroke) {
-				if (translateableGeos == null) {
-					translateableGeos = new ArrayList<>();
-				} else {
-					translateableGeos.clear();
-				}
+				&& isElementAllowedToMove(movedGeoElement)) {
+			if (translateableGeos == null) {
+				translateableGeos = new ArrayList<>();
+			} else {
+				translateableGeos.clear();
+			}
 
-				if (movedGeoElement.isGeoList()
-						&& ((GeoList) movedGeoElement).getElementType() == GeoClass.POINT) {
-					translateableGeos.add(movedGeoElement);
-				} else {
-					addMovedGeoElementFreeInputPointsToTranslateableGeos();
-				}
+			if (movedGeoElement.hasMoveableInputPoints(view)) {
+				addMovedGeoElementFreeInputPointsToTranslateableGeos();
+			} else {
+				translateableGeos.add(movedGeoElement);
 			}
 		}
 
 		handleMovedElementDependentInitMode();
+	}
+
+	private void addMovedGeoElementFreeInputPointsToTranslateableGeos() {
+		ArrayList<GeoElementND> freeInputPoints = movedGeoElement
+				.getFreeInputPoints(view);
+		for (GeoElementND p : freeInputPoints) {
+			translateableGeos.add((GeoElement) p);
+		}
+	}
+
+	/**
+	 * @param geo GeoElement
+	 * @return True if the GeoElement is allowed to be moved, false else
+	 */
+	private boolean isElementAllowedToMove(GeoElement geo) {
+		return geo.isGeoLine()
+				|| geo.isGeoPolygon()
+				|| geo.isGeoCurveCartesian()
+				|| geo instanceof GeoPolyLine
+				|| geo instanceof GeoPieChart
+				|| geo.isGeoConic()
+				|| geo.isGeoImage()
+				|| geo.isGeoList()
+				|| geo.isGeoVector()
+				|| geo instanceof GeoLocusStroke;
 	}
 
 	private GeoElementND getTranslationVector(GeoPointND... pts) {
@@ -7268,14 +7280,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		setDragCursor();
 	}
 
-	private void addMovedGeoElementFreeInputPointsToTranslateableGeos() {
-		ArrayList<GeoElementND> freeInputPoints = movedGeoElement
-				.getFreeInputPoints(view);
-		for (GeoElementND p : freeInputPoints) {
-			translateableGeos.add((GeoElement) p);
-		}
-	}
-
 	private boolean tempRightClick() {
 		return temporaryMode && app.isRightClickEnabled();
 	}
@@ -7451,9 +7455,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				&& event.isRightClick()) {
 			return;
 		}
+
+		if (storeUndo.isEmpty()) {
+			splitSelectedStrokes(true);
+		}
+
+		storeUndo.storeSelection();
+
 		// handle rotation
 		if (view.getHitHandler() == EuclidianBoundingBoxHandler.ROTATION) {
-			splitSelectedStrokes(true);
 			GRectangle2D bounds = view.getBoundingBox().getRectangle();
 			// bounds exist
 			if (bounds != null) {
@@ -7641,7 +7651,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private void handleResizeMultiple(AbstractEvent event,
 			EuclidianBoundingBoxHandler handler) {
 		// if for some reason there was no state initialized
-		splitSelectedStrokes(true);
 		if (startBoundingBoxState == null) {
 			startBoundingBoxState = new BoundingBoxResizeState(
 					view.getBoundingBox().getRectangle(),
@@ -7716,16 +7725,20 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		boolean changed = false;
 		ArrayList<GeoElement> newSelection = new ArrayList<>();
 		ArrayList<GeoElement> oldSelection = new ArrayList<>(selection.getSelectedGeos());
+		ArrayList<GeoElement> splitStrokes = new ArrayList<>();
 		for (GeoElement geo : oldSelection) {
 			List<GeoElement> splitParts = geo.getPartialSelection(removeOriginal);
-			GeoElement replacement = splitParts.get(0);
-			newSelection.add(replacement);
-			if (replacement != geo) {
-				changed = true;
-				replaceTranslated(geo, replacement);
-				if (!removeOriginal && splitParts.size() > 1) {
-					for (GeoElement part : splitParts) {
-						splitPartsToRemove.add(part);
+			if (!splitParts.isEmpty()) {
+				GeoElement replacement = splitParts.get(0);
+				splitStrokes.addAll(splitParts);
+				newSelection.add(replacement);
+				if (replacement != geo) {
+					changed = true;
+					replaceTranslated(geo, replacement);
+					if (!removeOriginal && splitParts.size() > 1) {
+						for (GeoElement part : splitParts) {
+							splitPartsToRemove.add(part);
+						}
 					}
 				}
 			}
@@ -7735,8 +7748,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			updateBoundingBoxFromSelection(false);
 			showDynamicStylebar();
 			startBoundingBoxState = null;
+			storeUndoableStrokeSplit(oldSelection, splitStrokes);
 		}
 		return changed;
+	}
+
+	private void storeUndoableStrokeSplit(List<GeoElement> geos, List<GeoElement> splitParts) {
+		StrokeSplitHelper splitHelper = new StrokeSplitHelper(geos, splitParts);
+		app.getUndoManager().buildAction(ActionType.SPLIT_STROKE, splitHelper.toSplitActionArray())
+				.withUndo(ActionType.MERGE_STROKE, splitHelper.toMergeActionArray())
+				.storeAndNotifyUnsaved();
 	}
 
 	/**
@@ -9008,6 +9029,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		widgetsToBackground();
 		view.hideSymbolicEditor();
+		storeUndo.clear();
 
 		if (lastPointerRelease + EuclidianConstants.DOUBLE_CLICK_DELAY
 				> System.currentTimeMillis() && lastMouseUpLoc != null
@@ -9659,6 +9681,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return topHit;
 	}
 
+	/**
+	 * Sets the last mow hit to null
+	 */
+	public void resetLastMowHit() {
+		this.lastMowHit = null;
+	}
+
 	private void handleMowSelectionRelease() {
 		if (view.getHits().isEmpty()) {
 			clearSelections();
@@ -9825,13 +9854,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (!isDraggingOccuredBeyondThreshold()) {
 				showDynamicStylebar();
 			}
-			storeUndoInfo();
+			storeUndo();
 			setResizedShape(null);
+			decreaseTargets();
+			return;
 		} else if (isMultiResize) { // resize, multi selection
 			view.resetHitHandler();
-			storeUndoInfo();
+			storeUndo();
 			isMultiResize = false;
 			setBoundingBoxFromList(selection.getSelectedGeos());
+			decreaseTargets();
+			return;
 		}
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
@@ -9927,6 +9960,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		decreaseTargets();
+	}
+
+	private void storeUndo() {
+		if (storeUndo.storeUndo()) {
+			storeUndoInfo();
+		}
 	}
 
 	private boolean shouldShowDynamicStylebarAfterMouseRelease(boolean newSelection,
@@ -10041,7 +10080,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// ended deletion
 			view.setDeletionRectangle(null);
 			view.repaintView();
-			storeUndoInfo();
+			getDeleteMode().storeUndoAfterDrag();
 		}
 
 		// reset
@@ -10103,9 +10142,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			// check movedGeoElement.isLabelSet() to stop moving points
 			// in Probability Calculator triggering Undo
-			changedKernel = ((movedGeoElement != null)
+			boolean labeledGeoMoved = ((movedGeoElement != null)
 					&& movedGeoElement.isLabelSet()) && (moveMode != MOVE_NONE)
 					&& modeTriggersUndoOnDragGeo(mode);
+			if (labeledGeoMoved) {
+				if (storeUndo.storeUndo()) {
+					changedKernel = true;
+				}
+			}
 			resetMovedGeoElement();
 			rotGeoElement = null;
 
@@ -10946,9 +10990,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @return delete square size in px
 	 */
 	public int getDeleteToolSize() {
-		EuclidianSettings settings = this.view.getSettings();
+		PenToolsSettings settings = app.getSettings().getPenTools();
 		if (settings != null) {
-			return this.view.getSettings().getDeleteToolSize();
+			return settings.getDeleteToolSize();
 		}
 
 		return EuclidianConstants.DEFAULT_ERASER_SIZE;
@@ -11401,17 +11445,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public final void setDefaultEventType(PointerEventType pointerEventType,
 			boolean down) {
-		if (app.has(Feature.MOW_PEN_EVENTS)) {
-			if (pointerEventType == PointerEventType.PEN
-					&& pointerEventType != defaultEventType
-					&& app.getMode() == EuclidianConstants.MODE_MOVE) {
-				app.setMode(EuclidianConstants.MODE_PEN, ModeSetter.DOCK_PANEL);
-			}
-			if (down && app.getMode() == EuclidianConstants.MODE_PEN
-					&& pointerEventType != PointerEventType.PEN
-					&& PointerEventType.PEN == defaultEventType) {
-				setTempMode(EuclidianConstants.MODE_MOVE);
-			}
+		if (pointerEventType == PointerEventType.PEN
+				&& pointerEventType != defaultEventType
+				&& app.getMode() == EuclidianConstants.MODE_MOVE) {
+			app.setMode(EuclidianConstants.MODE_PEN, ModeSetter.DOCK_PANEL);
+		}
+		if (down && app.getMode() == EuclidianConstants.MODE_PEN
+				&& pointerEventType != PointerEventType.PEN
+				&& PointerEventType.PEN == defaultEventType) {
+			setTempMode(EuclidianConstants.MODE_MOVE);
 		}
 		this.defaultEventType = pointerEventType;
 	}
@@ -12196,7 +12238,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void setBoundingBoxFromList(List<GeoElement> geos) {
 		// do not update during rotation
-		if (view.getHitHandler() == EuclidianBoundingBoxHandler.ROTATION) {
+		if (view.getHitHandler() == EuclidianBoundingBoxHandler.ROTATION
+				&& view.getBoundingBox() != null) {
 			return;
 		}
 
@@ -12244,16 +12287,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	public long getLastMousePressedTime() {
-	    return lastMousePressedTime;
-    }
+		return lastMousePressedTime;
+	}
 
-    public void setLastMousePressedTime(long time) {
+	public void setLastMousePressedTime(long time) {
         lastMousePressedTime = time;
     }
 
-    public long getElapsedTimeFromLastMousePressed() {
-        return System.currentTimeMillis() - lastMousePressedTime;
-    }
+	public long getElapsedTimeFromLastMousePressed() {
+		return System.currentTimeMillis() - lastMousePressedTime;
+	}
 
 	/**
 	 * Resets the state after pinch zooming is finished and both fingers are released

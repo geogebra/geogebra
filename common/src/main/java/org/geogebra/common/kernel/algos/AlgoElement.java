@@ -19,9 +19,11 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -48,7 +50,6 @@ import org.geogebra.common.kernel.geos.GeoScriptAction;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -92,6 +93,10 @@ public abstract class AlgoElement extends ConstructionElement
 	protected StringBuilder sbAE = new StringBuilder();
 	/** flag stating whether remove() on this algo was already called */
 	protected boolean removed = false;
+	/**
+	 * flag stating whether updateDependentGeos() was already called on this algo
+	 */
+	private boolean updatedDependentGeos = false;
 
 	/**
 	 * Creates new algorithm
@@ -626,10 +631,6 @@ public abstract class AlgoElement extends ConstructionElement
 		return false;
 	}
 
-	// public static double startTime, endTime;
-	// public static double computeTime, updateTime;
-	// public static double counter;
-
 	@Override
 	@AutoreleasePool
 	public void update() {
@@ -639,20 +640,14 @@ public abstract class AlgoElement extends ConstructionElement
 
 		updateUnlabeledRandomGeos();
 
-		// counter++;
-		// startTime = System.currentTimeMillis();
-
-		// compute output from input
 		compute();
 
-		// endTime = System.currentTimeMillis();
-		// computeTime += (endTime - startTime);
-		// startTime = System.currentTimeMillis();
+		if (!updatedDependentGeos) {
+			updatedDependentGeos = true;
+			updateDependentGeos();
+		}
 
-		updateDependentGeos();
-
-		// endTime = System.currentTimeMillis();
-		// updateTime += (endTime - startTime );
+		updatedDependentGeos = false;
 	}
 
 	/**
@@ -755,6 +750,14 @@ public abstract class AlgoElement extends ConstructionElement
 	 */
 	final public GeoElement[] getInput() {
 		return input;
+	}
+
+	/**
+	 * @return List of input elements that are not null, defined, and labeled
+	 */
+	final public List<GeoElement> getDefinedAndLabeledInput() {
+		return Arrays.stream(input).filter(geo -> geo != null
+				&& geo.isDefined() && geo.isLabelSet()).collect(Collectors.toList());
 	}
 
 	/**
@@ -1180,10 +1183,8 @@ public abstract class AlgoElement extends ConstructionElement
 			if (!(this instanceof DependentAlgo)) {
 				boolean allIndependent = true;
 				for (int i = 0; i < input.length; i++) {
-					if (input[i].isGeoPoint()
-							&& (input[i].isIndependent()
-									|| input[i].isMoveable())) {
-						freeInputPoints.add((GeoPointND) input[i]);
+					if (input[i].isFreeInputPoint()) {
+						freeInputPoints.add(input[i]);
 						allIndependent &= input[i].isIndependent();
 					}
 				}

@@ -60,7 +60,7 @@ public class TransformA extends Matrix implements Transform {
 	}
 
 	public void shear(double sx, double sy) {
-		setSkew((float) sx, (float) sy); 
+		setSkew((float) sx, (float) sy);
 	}
 
 }

@@ -39,7 +39,7 @@ import org.gwtproject.user.client.ui.ScrollPanel;
  * Class to dynamically display plots and statistics in coordination with the
  * DataAnalysisView.
  */
-public class DataDisplayPanelW extends FlowPanel implements 
+public class DataDisplayPanelW extends FlowPanel implements
 		StatPanelInterfaceW, RequiresResize, IDataDisplayListener {
 	private static final int NUM_CLASSES_IDX = 0;
 	private static final int MANUAL_CLASSES_IDX = 1;
@@ -628,7 +628,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		int width = optionsPanel.isVisible() ? w - optionsPanel.getOffsetWidth() - PLOTPANEL_MARGIN
 				: w;
-		int height = (frequencyTable.isVisible() ? h - spFrequencyTable.getOffsetHeight() 
+		int height = (frequencyTable.isVisible() ? h - spFrequencyTable.getOffsetHeight()
 				: h) - lbDisplayType.getOffsetHeight() -  PLOTPANEL_MARGIN;
 
 		if (daModel.isRegressionMode()) {
@@ -666,18 +666,18 @@ public class DataDisplayPanelW extends FlowPanel implements
 	}
 
 	public void resize(boolean update) {
-	    resize(getOffsetWidth(), getOffsetHeight(), update);
-    }
+		resize(getOffsetWidth(), getOffsetHeight(), update);
+	}
 
 	@Override
 	public void resize() {
-	    resize(true);
-    }
+		resize(true);
+	}
 
 	@Override
 	public void onResize() {
-		resize(true);  
-    }
+		resize(true);
+	}
 
 	public void update() {
 		model.updatePlot(true);

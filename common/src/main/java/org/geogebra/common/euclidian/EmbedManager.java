@@ -1,6 +1,6 @@
 package org.geogebra.common.euclidian;
 
-import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.io.file.ZipFile;
@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.ActionType;
 
 /**
  * Updates, adds and removes embedded applets.
@@ -96,11 +96,11 @@ public interface EmbedManager {
 	void embed(Material material);
 
 	/**
-	 * @param drawEmbed
-	 *            applet drawble
-	 * @return preview image
+	 * @param drawEmbed applet drawble
+	 * @param width width in pixels
+	 * @param height height in pixels
 	 */
-	MyImage getPreview(DrawEmbed drawEmbed);
+	void drawPreview(GGraphics2D g2, DrawEmbed drawEmbed, int width, int height, double angle);
 
 	/**
 	 * Executes an action in all embedded elements.
@@ -108,7 +108,7 @@ public interface EmbedManager {
 	 * @param action
 	 *            event type
 	 */
-	void executeAction(EventType action);
+	void executeAction(ActionType action);
 
 	/**
 	 * Move embeds to chache so that they don't need rebuilding during undo
@@ -151,14 +151,6 @@ public interface EmbedManager {
 	 * @param content embed content as JSON
 	 */
 	void setContent(int embedID, String content);
-
-	/**
-	 * @param action
-	 *            action to be executed
-	 * @param id
-	 *            embed ID
-	 */
-	void embeddedAction(EventType action, String id);
 
 	void setContentSync(String label, String base64);
 

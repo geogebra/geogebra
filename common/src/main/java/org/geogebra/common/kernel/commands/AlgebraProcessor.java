@@ -298,7 +298,7 @@ public class AlgebraProcessor {
 	 * @throws MyError
 	 *             e.g. on syntax error
 	 */
-	final public void processCasCell(GeoCasCell casCell, boolean isLastRow)
+	final public void processCasCell(GeoCasCell casCell, boolean isLastRow, String oldXML)
 			throws MyError {
 		// check for CircularDefinition
 		if (casCell.isCircularDefinition()) {
@@ -362,7 +362,7 @@ public class AlgebraProcessor {
 				// update construction order and
 				// rebuild construction using XML
 				app.getEventDispatcher().disableListeners();
-				cons.changeCasCell(casCell);
+				cons.changeCasCell(casCell, oldXML);
 				app.getEventDispatcher().enableListeners();
 				app.getEventDispatcher().notifyListenersUpdateCascade(casCell);
 				// the changeCasCell command computes the output
@@ -433,9 +433,9 @@ public class AlgebraProcessor {
 	 *            receives changed geo
 	 */
 	public void changeGeoElement(final GeoElementND geo, String newValue,
-								 boolean redefineIndependent, boolean storeUndoInfo,
-								 boolean withSliders, ErrorHandler handler,
-								 AsyncOperation<GeoElementND> callback) {
+			boolean redefineIndependent, boolean storeUndoInfo,
+			boolean withSliders, ErrorHandler handler,
+			AsyncOperation<GeoElementND> callback) {
 		EvalInfo info =
 				new EvalInfo(!cons.isSuppressLabelsActive(), redefineIndependent)
 						.withSymbolicMode(app.getKernel().getSymbolicMode())
@@ -658,12 +658,14 @@ public class AlgebraProcessor {
 				} else {
 					n.setForceFunction();
 				}
-			} else if (preventTypeChange || isForceSurfaceCartesian(newValue, geo)) {
+			} else if (geo.isGeoSurfaceCartesian() && preventTypeChange) {
 				n.setForceSurfaceCartesian();
 			} else if (geo instanceof GeoFunctionNVar) {
 				if (((GeoFunctionNVar) geo).isForceInequality()) {
 					n.setForceInequality();
 				}
+			} else if (geo.isGeoAngle() && preventTypeChange) {
+				n.setForceAngle();
 			}
 		}
 		if (newValue.unwrap() instanceof Equation) {
@@ -679,11 +681,6 @@ public class AlgebraProcessor {
 				((Equation) newValue.unwrap()).setForceQuadric();
 			}
 		}
-	}
-
-	private static boolean isForceSurfaceCartesian(ValidExpression newValue, GeoElementND geo) {
-		return geo.isGeoSurfaceCartesian()
-				&& !(newValue.wrap().getLeft() instanceof Function);
 	}
 
 	private void updateLabelIfSymbolic(ValidExpression expression, EvalInfo info) {
@@ -1158,11 +1155,11 @@ public class AlgebraProcessor {
 	 * @param cmd
 	 *            command
 	 * @return valid expression
-	 * @throws Exception
-	 *             exception
+	 * @throws ParseException
+	 *             exception if syntax is invalid
 	 */
 	public ValidExpression getValidExpressionNoExceptionHandling(
-			final String cmd) throws Exception {
+			final String cmd) throws ParseException {
 		return parser.parseGeoGebraExpression(cmd);
 	}
 
@@ -1192,12 +1189,13 @@ public class AlgebraProcessor {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().getCasView().cancelEditItem();
 		}
+		StringBuilder oldXML = cons.getCurrentUndoXML(false);
 		GeoCasCell cell = cons.getCasCell(row);
 		if (cell == null) {
 			cell = new GeoCasCell(cons);
 		}
 		cell.setInput(rhs);
-		processCasCell(cell, false);
+		processCasCell(cell, false, oldXML.toString());
 		return cell;
 	}
 
@@ -1962,11 +1960,11 @@ public class AlgebraProcessor {
 	 * @return resulting elements
 	 * @throws MyError
 	 *             e.g. for wrong syntax
-	 * @throws Exception
-	 *             e.g. for circular definition
+	 * @throws CircularDefinitionException
+	 *             for circular definition
 	 */
 	public GeoElement[] processValidExpression(ValidExpression ve)
-			throws MyError, Exception {
+			throws MyError, CircularDefinitionException {
 		return processValidExpression(ve,
 				new EvalInfo(!cons.isSuppressLabelsActive(), true));
 	}
@@ -1980,12 +1978,12 @@ public class AlgebraProcessor {
 	 *            processing information
 	 * @throws MyError
 	 *             e.g. on wrong syntax
-	 * @throws Exception
-	 *             e.g. for circular definition
+	 * @throws CircularDefinitionException
+	 *             for circular definition
 	 * @return resulting geos
 	 */
 	public GeoElement[] processValidExpression(ValidExpression ve,
-			EvalInfo info) throws MyError, Exception {
+			EvalInfo info) throws MyError, CircularDefinitionException {
 		EvalInfo evalInfo = info;
 		ValidExpression expression = ve;
 		// check for existing labels
@@ -2037,10 +2035,10 @@ public class AlgebraProcessor {
 	 * @param ve expression
 	 * @return resulting elements
 	 * @throws MyError when expression is invalid
-	 * @throws Exception e.g. circular definition
+	 * @throws CircularDefinitionException for circular definition
 	 */
 	public GeoElement[] processValidExpressionSilent(ValidExpression ve)
-			throws MyError, Exception {
+			throws MyError, CircularDefinitionException {
 		boolean oldSuppressLabel = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		try {
@@ -2184,13 +2182,14 @@ public class AlgebraProcessor {
 						if (cell != null) {
 							// this is a ValidExpression since we don't get
 							// GeoElements from parsing
+							StringBuilder oldXML = cons.getCurrentUndoXML(false);
 							ValidExpression vexp = (ValidExpression) ve
 									.unwrap();
 							cell.setAssignmentType(AssignmentType.DEFAULT);
 							cell.setInput(vexp.toAssignmentString(
 									StringTemplate.defaultTemplate,
 									cell.getAssignmentType()));
-							processCasCell(cell, false);
+							processCasCell(cell, false, oldXML.toString());
 						} else {
 							cons.replace(replaceable, newGeo, info);
 						}
@@ -3208,10 +3207,10 @@ public class AlgebraProcessor {
 		} else if (eval instanceof Vector3DValue) {
 			return processPointVector3D(n, eval);
 		} else if (eval instanceof TextValue) {
-			return processText(n, eval);
+			return processText(n, eval, info);
 		} else if (eval instanceof MyList) {
 			return processList(n, (MyList) eval, info);
-		} else if (eval instanceof EquationValue) {
+		} else if (eval instanceof EquationValue && !n.unwrap().isGeoElement()) {
 			Equation eq = ((EquationValue) eval).getEquation();
 			eq.setFunctionDependent(true);
 			eq.setLabel(n.getLabel());
@@ -3400,7 +3399,7 @@ public class AlgebraProcessor {
 	}
 
 	private GeoElement[] processText(ExpressionNode n,
-			ExpressionValue evaluate) {
+			ExpressionValue evaluate, EvalInfo info) {
 		GeoElement ret;
 		String label = n.getLabel();
 
@@ -3412,7 +3411,9 @@ public class AlgebraProcessor {
 		} else {
 			ret = dependentText(n);
 		}
-		ret.setLabel(label);
+		if (info.isLabelOutput()) {
+			ret.setLabel(label);
+		}
 		return array(ret);
 	}
 

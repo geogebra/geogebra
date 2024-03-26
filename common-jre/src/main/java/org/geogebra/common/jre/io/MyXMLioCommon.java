@@ -14,10 +14,13 @@ public final class MyXMLioCommon extends MyXMLioJre {
 	}
 
 	@Override
-	protected void readZip(ZipInputStream zip, boolean isGGTfile)
-			throws Exception {
-		// TODO Auto-generated method stub
+	protected void loadSVG(String svg, String name) {
+		// not supported yet
+	}
 
+	@Override
+	protected void loadBitmap(ZipInputStream zip, String name) {
+		// not supported yet
 	}
 
 	@Override

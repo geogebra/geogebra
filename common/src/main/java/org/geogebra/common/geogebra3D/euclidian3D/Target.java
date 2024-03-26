@@ -439,21 +439,21 @@ public class Target {
 	}
 
 	private void setCentersGoal(GeoElement geo) {
-        setCentersGoal(geo == null ? GeoCursor3D.NO_SOURCE : geo.getID());
-    }
+		setCentersGoal(geo == null ? GeoCursor3D.NO_SOURCE : geo.getID());
+	}
 
-    private void setCentersGoal(long id) {
-	    setCentersGoal(id, GeoCursor3D.NO_SOURCE);
-    }
+	private void setCentersGoal(long id) {
+		setCentersGoal(id, GeoCursor3D.NO_SOURCE);
+	}
 
-    synchronized private void setCentersGoal(long geo1, long geo2) {
-        dotCenterGoal.geo1 = geo1;
-        dotCenterGoal.geo2 = geo2;
-        circleCenterGoal.geo1 = geo1;
-        circleCenterGoal.geo2 = geo2;
-        circleNormalGoal.geo1 = geo1;
-        circleNormalGoal.geo2 = geo2;
-    }
+	synchronized private void setCentersGoal(long geo1, long geo2) {
+		dotCenterGoal.geo1 = geo1;
+		dotCenterGoal.geo2 = geo2;
+		circleCenterGoal.geo1 = geo1;
+		circleCenterGoal.geo2 = geo2;
+		circleNormalGoal.geo1 = geo1;
+		circleNormalGoal.geo2 = geo2;
+	}
 
 	synchronized private void setAnimationsUndefined() {
 		animCircleCenter.setUndefined();

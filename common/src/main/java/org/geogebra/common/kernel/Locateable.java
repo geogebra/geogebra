@@ -65,7 +65,7 @@ public interface Locateable extends GeoElementND {
 	public void initStartPoint(GeoPointND p, int number);
 
 	/**
-	 * @return true iff the location is absolute
+	 * @return true if the location is absolute
 	 */
 	public boolean hasStaticLocation();
 

@@ -30,7 +30,7 @@ public class DrawEquationCommon extends DrawEquation {
 	}
 
 	@Override
-	public void checkFirstCall(App app) {
+	public void checkFirstCall() {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}

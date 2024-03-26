@@ -1169,7 +1169,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 			// load class list and probability list
 			loadDistributionLists(first, last, dist);
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.debug(e.getMessage());
 			return false;
 		}
@@ -1182,7 +1182,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	 * probabilities for the probability distribution bar charts
 	 */
 	private void loadDistributionLists(int first, int last,
-			IntegerDistribution dist) throws Exception {
+			IntegerDistribution dist) {
 		if (list1 == null) {
 			list1 = new GeoList(cons);
 		} else {

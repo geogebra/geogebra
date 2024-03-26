@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.implicit;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
@@ -28,5 +29,23 @@ public class GeoImplicitCurveTest extends BaseUnitTest {
 		t("Delete(pt)");
 		t("SetValue(rho,3)");
 		assertThat(add("Intersect(c,x=0)"), hasValue("(0, 1)"));
+	}
+
+	@Test
+	public void polynomialShouldShowAsPlainTextInAlgebraView() {
+		GeoImplicitCurve poly = add("0=x+y^4");
+		assertThat(poly.isLaTeXDrawableGeo(), equalTo(false));
+		GeoImplicitCurve nonPoly = add("0=sqrt(x)+y^4");
+		assertThat(nonPoly.isLaTeXDrawableGeo(), equalTo(true));
+	}
+
+	@Test
+	public void variableDegreeShouldNotChangeLayer() {
+		add("a=1");
+		add("c:x^a+y=1");
+		add("SetLayer(a,2)");
+		assertThat(lookup("c").getLayer(), equalTo(0));
+		add("SetValue(a,3)");
+		assertThat(lookup("c").getLayer(), equalTo(0));
 	}
 }
