@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -4129,10 +4130,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return string used to render a LaTeX form of the geo's algebra
 	 *         description.
 	 */
+	@CheckForNull
 	public final String getLaTeXAlgebraDescription(
 			final boolean substituteNumbers,
 			StringTemplate tpl) {
-
 		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl,
 				isAlgebraLabelVisible());
 	}
@@ -4149,6 +4150,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl, false);
 	}
 
+	@CheckForNull
 	private String getLaTeXAlgebraDescription(final GeoElement geo,
 			final boolean substituteNumbers, StringTemplate tpl,
 			boolean includeLHS) {
@@ -6287,6 +6289,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	}
 
+	@CheckForNull
 	@Override
 	public String toString(StringTemplate tpl) {
 		return label;
