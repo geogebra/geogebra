@@ -777,6 +777,7 @@ public class AppletParameters {
 	 *
 	 * @return the selector where the keyboard should be attached in DOM.
 	 */
-	public String getDetachedKeyboardParent() {return getStringDataParam("detachedKeyboardParent",
-			"");}
+	public String getDetachedKeyboardParent() {
+		return getStringDataParam("detachedKeyboardParent", "");
+	}
 }

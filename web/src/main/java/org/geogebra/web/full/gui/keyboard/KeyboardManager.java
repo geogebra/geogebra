@@ -40,7 +40,7 @@ import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.RootPanel;
 
-import elemental2.dom.HTMLCollection;
+import elemental2.dom.DomGlobal;
 
 /**
  * Handles creating, showing and updating the keyboard
@@ -172,10 +172,12 @@ public class KeyboardManager
 	}
 
 	private elemental2.dom.Element getDetachedParent() {
-		String parentSelector = app.getAppletParameters().getDetachedKeyboardParent();
-		HTMLCollection<elemental2.dom.Element> elements =
-				Dom.getElementsByClassName(parentSelector);
-		return "".equals(parentSelector) || elements.length == 0 ? null : elements.item(0);
+		if (hasNoKeyboardParent()) {
+			return null;
+		}
+
+		return DomGlobal.document.querySelector(
+				app.getAppletParameters().getDetachedKeyboardParent());
 	}
 
 	private RootPanel createKeyboardRoot() {
@@ -295,12 +297,16 @@ public class KeyboardManager
 	}
 
 	private boolean extraSpaceNeededForKeyboard() {
-		if (shouldDetach()) {
+		if (shouldDetach() && hasNoKeyboardParent()) {
 			double appletBottom = app.getFrameElement().getAbsoluteBottom();
 			return NavigatorUtil.getWindowHeight() - appletBottom < estimateKeyboardHeight();
 		}
 
 		return false;
+	}
+
+	private boolean hasNoKeyboardParent() {
+		return "".equals(app.getAppletParameters().getParamDetachKeyboard());
 	}
 
 	/**
