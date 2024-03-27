@@ -2812,8 +2812,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb = new StringBuilder();
 
 			// left wing
-			if ((leftStr.charAt(0) != '-') && // no unary
-					isSinglePowerArg(left) || left.isOperation(Operation.NROOT)
+			if ((leftStr.charAt(0) != '-')
+					&& isSinglePowerArg(left) || left.isOperation(Operation.NROOT)
 					|| left.isOperation(Operation.CBRT)) { // not +, -, *, /, ^,
 				// e^x
 

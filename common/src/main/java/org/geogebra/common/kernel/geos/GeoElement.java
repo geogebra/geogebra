@@ -1880,9 +1880,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return !isProtected(EventType.UPDATE)
 				&& app.letRedefine()
 				&& !(this instanceof TextValue) && isAlgebraViewEditable()
-				&& (isChangeable() || // redefine changeable (independent and
+				&& (isChangeable() // redefine changeable (independent and
 										// not fixed)
-						!isIndependent()); // redefine dependent object
+						|| !isIndependent()); // redefine dependent object
 	}
 
 	/**

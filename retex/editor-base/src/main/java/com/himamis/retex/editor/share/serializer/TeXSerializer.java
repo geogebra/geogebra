@@ -117,12 +117,12 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append(showPlaceholder ? PLACEHOLDER : PLACEHOLDER_INVISIBLE);
 		}
 		int lengthBefore = stringBuilder.length();
-		boolean addBraces = (sequence.hasChildren() || // {a^b_c}
-				sequence.size() > 1 || // {aa}
-				(sequence.size() == 1 && letterLength(sequence, 0) > 1) || // {\pi}
-				(sequence.size() == 0 && sequence != mCurrentField) || // {\triangleright}
-				(sequence.size() == 1 && sequence == mCurrentField)) && // {a|}
-				(stringBuilder.length() > 0 && stringBuilder
+		boolean addBraces = (sequence.hasChildren() // {a^b_c}
+				|| sequence.size() > 1 // {aa}
+				|| (sequence.size() == 1 && letterLength(sequence, 0) > 1) // {\pi}
+				|| (sequence.size() == 0 && sequence != mCurrentField) // {\triangleright}
+				|| (sequence.size() == 1 && sequence == mCurrentField)) // {a|}
+				&& (stringBuilder.length() > 0 && stringBuilder
 						.charAt(stringBuilder.length() - 1) != '{');
 		if (sequence == currentSelStart) {
 			stringBuilder.append(selection_start);
