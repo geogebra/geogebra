@@ -26,21 +26,19 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 	 * @param app Application
 	 * @param probCalc ProbabilityCalculator
 	 */
-	public ProbabilityTableW(App app,
-            ProbabilityCalculatorViewW probCalc) {
+	public ProbabilityTableW(App app, ProbabilityCalculatorViewW probCalc) {
 		super(app, probCalc);
-	   
-	   this.wrappedPanel = new FlowPanel();
-	   this.wrappedPanel.addStyleName("ProbabilityTableW");
-	   
+
+		this.wrappedPanel = new FlowPanel();
+		this.wrappedPanel.addStyleName("ProbabilityTableW");
+
 		statTable = new StatTableW();
-	   statTable.getTable().addClickHandler(this);
-	   
-	   wrappedPanel.add(statTable);
-	   
-	   //blank table
-	   setTable(null, null, 0, 10);
-    }
+		statTable.getTable().addClickHandler(this);
+		wrappedPanel.add(statTable);
+
+		//blank table
+		setTable(null, null, 0, 10);
+	}
 	
 	@Override
 	public void setTable(Dist distType, GeoNumberValue[] parms, int xMin, int xMax) {

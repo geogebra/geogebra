@@ -69,9 +69,7 @@ import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.Pagination;
-import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.plugin.Event;
@@ -463,7 +461,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public final DrawEquation getDrawEquation() {
 		if (drawEquation == null) {
-			drawEquation = new DrawEquationW();
+			drawEquation = new DrawEquationW(this::getPixelRatio);
 		}
 
 		return drawEquation;
@@ -1022,13 +1020,18 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getGoogleDriveOperation() != null) {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
-
+		resetFileHandle();
 		resetUI();
 		resetUrl();
 		if (isExam()) {
 			Material material = getExam().getTempStorage().newMaterial();
 			setActiveMaterial(material);
 		}
+		setSaved();
+	}
+
+	protected void resetFileHandle() {
+		// only with full UI
 	}
 
 	private void resetPages() {
@@ -1272,9 +1275,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return whether file is valid
 	 */
 	public boolean openFile(File fileToHandle) {
-		if (getLAF().supportsLocalSave()) {
-			getFileManager().setFileProvider(Provider.LOCAL);
-		}
 		resetPerspectiveParam();
 		resetUrl();
 		return doOpenFile(fileToHandle);
@@ -1584,28 +1584,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		clientInfo.setAppName(getConfig().getAppCode());
 		clientInfo.setAssign(getShareController().isAssign());
 		return clientInfo;
-	}
-
-	/**
-	 * Initializes the user authentication
-	 *  @param op
-	 *            login operation
-	 *
-	 */
-	public void initSignInEventFlow(LogInOperation op) {
-		// Initialize the signIn operation
-		loginOperation = op;
-		if (getNetworkOperation().isOnline()) {
-			if (getLAF() != null && getLAF().supportsGoogleDrive()) {
-				initGoogleDriveEventFlow();
-			}
-			if (!StringUtil.empty(appletParameters.getDataParamTubeID())
-					|| appletParameters.getDataParamEnableFileFeatures()) {
-				loginOperation.performTokenLogin();
-			}
-		} else {
-			loginOperation.startOffline();
-		}
 	}
 
 	/**

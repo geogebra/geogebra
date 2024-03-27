@@ -7,21 +7,19 @@ public class OptionsDefaultsW implements OptionPanelW {
 
 	@Override
 	public void updateGUI() {
-	    // TODO Auto-generated method stub
-	    
-    }
+		// TODO Auto-generated method stub
+	}
 
 	@Override
 	public Widget getWrappedPanel() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
-    public void onResize(int height, int width) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void onResize(int height, int width) {
+		// TODO Auto-generated method stub
+	}
 
 	@Override
 	public MultiRowsTabPanel getTabPanel() {

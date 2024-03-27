@@ -39,11 +39,12 @@
 	}
 
 	.AdvancedFocusPanelsTextarea {
-		/* all the tricks to hide this without font-size=0 or display=none which kill keyboard/paste. Transform needed for safari. */
+		/* all the tricks to hide this without font-size=0 or display=none which kill keyboard/paste.
+		Width needed for safari. */
 		position: absolute;
 		top: 0;
 		left: 0;
-		width: 1px;
+		width: 500px;
 		height: 1px;
 		z-index: z-index.$z-hidden;
 		clip: rect(1em 1em 1em 1em);
@@ -1028,22 +1029,6 @@
 
 	.TextInputDialog .gwt-ToggleButton {
 		padding-right: 6px;
-		cursor: pointer;
-	}
-
-	/*--------- saveDialog ---------------------------*/
-
-	.buttonPanel .visibility {
-		position: absolute;
-		left: 55px;
-		width: 131px;
-		top: 106px;
-	}
-
-	.cancelSaveButton {
-		position: absolute;
-		top: 10px;
-		right: 15px;
 		cursor: pointer;
 	}
 

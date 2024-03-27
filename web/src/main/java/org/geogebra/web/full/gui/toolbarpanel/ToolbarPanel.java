@@ -638,7 +638,7 @@ public class ToolbarPanel extends FlowPanel
 		if (dockParent != null) {
 			final Widget opposite = dockParent.getOpposite(dockPanel);
 			if (opposite == null) {
-				 return;
+				return;
 			}
 			AnimationCallback animCallback = null;
 			updateDraggerStyle();

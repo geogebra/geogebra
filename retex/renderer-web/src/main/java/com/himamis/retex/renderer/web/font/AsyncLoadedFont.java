@@ -41,16 +41,19 @@
  * version.
  * 
  */
+
 package com.himamis.retex.renderer.web.font;
 
 import com.himamis.retex.renderer.share.platform.font.Font;
 
 public interface AsyncLoadedFont extends Font {
 
-	public static interface FontLoadCallback {
+	interface FontLoadCallback {
 		void onFontLoaded(AsyncLoadedFont font);
 
 		void onFontError(AsyncLoadedFont font);
+
+		void cancel();
 	}
 
 	/**
@@ -61,7 +64,7 @@ public interface AsyncLoadedFont extends Font {
 	/**
 	 * Callback to be used when the font is loaded.
 	 * 
-	 * @param callback
+	 * @param callback loading callback
 	 */
 	void addFontLoadedCallback(FontLoadCallback callback);
 

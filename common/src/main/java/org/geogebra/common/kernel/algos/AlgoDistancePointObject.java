@@ -212,7 +212,7 @@ public class AlgoDistancePointObject extends AlgoElement
 	private static double getClosestDefined(Function function,
 			double x, double y, double direction) {
 		for (double offset = direction * 0.1; Math.abs(offset) < Kernel.INV_MAX_DOUBLE_PRECISION;
-			 offset *= 2) {
+				offset *= 2) {
 			if (!Double.isNaN(function.value(x + offset))) {
 				return fineTuneClosestDefined(function, x + offset / 2, x + offset, x, y);
 			}

@@ -2,9 +2,9 @@ package org.geogebra.web.full.gui.menubar.action;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.exam.ExamLogBuilder;
-import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
@@ -21,7 +21,7 @@ import org.gwtproject.canvas.client.Canvas;
 /**
  * Exits exam mode.
  */
-public class ExitExamAction extends DefaultMenuAction<Void> {
+public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 	/**
 	 * Canvas line height
 	 */
@@ -32,7 +32,7 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	private AppWFull app;
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		this.app = app;
 		showExamExitDialog();
 	}

@@ -67,7 +67,7 @@ public class LoadFilePresenter {
 		app.setShowAlgebraInput(showAlgebraInput, false);
 		app.setShowToolBar(showToolBar, view.getDataParamShowToolBarHelp(true));
 		app.getKernel().setShowAnimationButton(
-		        view.getDataParamShowAnimationButton());
+				view.getDataParamShowAnimationButton());
 		app.setCapturingThreshold(view.getDataParamCapturingThreshold());
 		if (!isApp) {
 			app.getAppletFrame().addStyleName("appletStyle");
@@ -99,7 +99,7 @@ public class LoadFilePresenter {
 		app.setUndoRedoMode(undoRedoMode);
 		app.setRightClickEnabled(view.getDataParamEnableRightClick());
 		app.setShiftDragZoomEnabled(view.getDataParamShiftDragZoomEnabled()
-		        || view.getDataParamApp());
+				|| view.getDataParamApp());
 		app.setShowResetIcon(view.getDataParamShowResetIcon());
 		app.setAllowStyleBar(view.getDataParamAllowStyleBar());
 

@@ -8,13 +8,18 @@ import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.NOTES_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
+import static org.geogebra.common.exam.ExamRegion.CHOOSE;
 import static org.geogebra.common.gui.Layout.findDockPanelData;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -30,6 +35,7 @@ import org.geogebra.common.euclidian.inline.InlineFormulaController;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
+import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
@@ -48,6 +54,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoInline;
@@ -63,7 +70,6 @@ import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
-import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.main.undo.UndoHistory;
@@ -122,6 +128,7 @@ import org.geogebra.web.full.gui.menubar.action.StartExamAction;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.full.gui.toolbarpanel.tableview.dataimport.CsvImportHandler;
 import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
@@ -174,6 +181,7 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.style.shared.Overflow;
 import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.timer.client.Timer;
+import org.gwtproject.user.client.Command;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.HorizontalPanel;
 import org.gwtproject.user.client.ui.RootPanel;
@@ -249,6 +257,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private InputBoxType inputBoxType;
 	private List<String> functionVars = new ArrayList<>();
 	private OpenSearch search;
+	private CsvImportHandler csvImportHandler;
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -318,7 +327,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				afterLocalizationLoaded(this::examWelcome);
 			} else {
 				String appCode = appletParameters.getDataParamAppName();
-				String supportedModes = isSuite() ? ExamRegion.getSupportedModes(appCode) : appCode;
+				String supportedModes = isSuite() ? getSupportedExamModes(appCode) : appCode;
 				showErrorDialog("Invalid exam mode: "
 						+ appletParameters.getParamExamMode()
 						+ "\n Supported exam modes: " + supportedModes);
@@ -328,12 +337,23 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	/**
+	 * @param appCode app code for API (suite/graphing/classic/...)
+	 * @return list of supported mode IDs
+	 */
+	private String getSupportedExamModes(String appCode) {
+		return Stream.concat(Stream.of(appCode, CHOOSE), Arrays.stream(ExamRegion.values())
+						.filter(r -> r != ExamRegion.GENERIC)
+						.map(r -> r.name().toLowerCase(Locale.ROOT)))
+				.collect(Collectors.joining(", "));
+	}
+
+	/**
 	 * @return exam region forced by examMode and appName parameters
 	 */
 	public ExamRegion getForcedExamRegion() {
 		String paramExamMode = appletParameters.getParamExamMode();
 		if (paramExamMode.equals(appletParameters.getDataParamAppName())
-			|| paramExamMode.equals(ExamRegion.CHOOSE)) {
+			|| paramExamMode.equals(CHOOSE)) {
 			return ExamRegion.GENERIC;
 		}
 		if (isSuite()) {
@@ -776,7 +796,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public final void examWelcome() {
 		if (isExam() && getExam().getStart() < 0) {
 			if (isUnbundled()) {
-				new StartExamAction(this).execute(null, this);
+				new StartExamAction().execute(this);
 			} else {
 				resetViewsEnabled();
 				String negativeKey = isLockedExam()
@@ -952,6 +972,30 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void ensureLoginOperation() {
 		if (getLoginOperation() == null) {
 			this.initSignInEventFlow(new LoginOperationW(this));
+		}
+	}
+
+	/**
+	 * Initializes the user authentication
+	 *  @param op
+	 *            login operation
+	 *
+	 */
+	public void initSignInEventFlow(LoginOperationW op) {
+		// Initialize the signIn operation
+		loginOperation = op;
+		if (getNetworkOperation().isOnline()) {
+			if (getLAF() != null && getLAF().supportsGoogleDrive()) {
+				initGoogleDriveEventFlow();
+			}
+			if (!StringUtil.empty(appletParameters.getDataParamTubeID())
+					|| appletParameters.getDataParamEnableFileFeatures()) {
+				if (!op.loadUserFromSession()) {
+					loginOperation.performTokenLogin();
+				}
+			}
+		} else {
+			loginOperation.startOffline();
 		}
 	}
 
@@ -2419,8 +2463,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void switchToSubapp(String subAppCode) {
 		BrowserStorage.LOCAL.setItem(BrowserStorage.LAST_USED_SUB_APP, subAppCode);
 		getDialogManager().hideCalcChooser();
-		getKernel().getAlgebraProcessor().getCmdDispatcher()
-				.removeCommandFilter(getConfig().getCommandFilter());
+		CommandFilter commandFilter = getConfig().getCommandFilter();
+		if (commandFilter != null) {
+			getKernel().getAlgebraProcessor().getCmdDispatcher().removeCommandFilter(commandFilter);
+		}
 		storeCurrentUndoHistory();
 		storeCurrentMaterial();
 		getGuiManager().closePropertiesView();
@@ -2496,6 +2542,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		return material != null;
 	}
 
+	@Override
+	protected void resetFileHandle() {
+		if (fm != null) {
+			fm.resetFileHandle();
+		}
+	}
+
 	private void storeCurrentUndoHistory() {
 		UndoManager undoManager = kernel.getConstruction().getUndoManager();
 		undoManager.undoHistoryTo(undoHistory);
@@ -2562,5 +2615,19 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public void clearSubAppCons() {
 		constructionJson.clear();
+	}
+
+	/**
+	 * @return csv import handler
+	 */
+	public CsvImportHandler getCsvImportHandler() {
+		if (csvImportHandler == null) {
+			csvImportHandler = new CsvImportHandler(this);
+		}
+		return csvImportHandler;
+	}
+
+	public Command getCsvHandler() {
+		return getCsvImportHandler().getCsvHandler();
 	}
 }

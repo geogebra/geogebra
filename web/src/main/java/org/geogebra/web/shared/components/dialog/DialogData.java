@@ -17,7 +17,7 @@ public class DialogData {
 	 * @param positiveBtnTransKey - positive button trans key
 	 */
 	public DialogData(String titleTransKey, String negativeBtnTransKey,
-					  String positiveBtnTransKey) {
+			String positiveBtnTransKey) {
 		setTitleTransKey(titleTransKey);
 		setButtonTransKeys(negativeBtnTransKey, positiveBtnTransKey);
 	}

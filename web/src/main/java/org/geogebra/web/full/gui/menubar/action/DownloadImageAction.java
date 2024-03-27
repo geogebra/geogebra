@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.menubar.action;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
-public abstract class DownloadImageAction extends DefaultMenuAction<Void> {
+public abstract class DownloadImageAction extends DefaultMenuAction<AppWFull> {
 
 	private final ImageExporter imageExporter;
 
@@ -12,7 +12,7 @@ public abstract class DownloadImageAction extends DefaultMenuAction<Void> {
 	}
 
 	@Override
-	public final void execute(Void item, AppWFull app) {
+	public final void execute(AppWFull app) {
 		app.getSelectionManager().clearSelectedGeos();
 		export(app);
 	}

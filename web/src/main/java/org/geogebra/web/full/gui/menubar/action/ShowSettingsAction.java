@@ -6,10 +6,10 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Shows settings.
  */
-public class ShowSettingsAction extends DefaultMenuAction<Void> {
+public class ShowSettingsAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
-	public void execute(Void item, AppWFull app) {
-		app.getCurrentActivity().showSettingsView(app);
+	public void execute(AppWFull app) {
+		app.getActivity().showSettingsView(app);
 	}
 }

@@ -6,10 +6,10 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Exports collada DAE.
  */
-public class DownloadColladaDaeAction extends DefaultMenuAction<Void> {
+public class DownloadColladaDaeAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
-	public void execute(Void item, AppWFull app) {
+	public void execute(AppWFull app) {
 		app.exportCollada(false);
 	}
 }

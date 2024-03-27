@@ -30,7 +30,7 @@ public final class Dom {
 	 * @return NodeList of elements found by className
 	 */
 	public static HTMLCollection<elemental2.dom.Element> getElementsByClassName(
-	        String className) {
+			String className) {
 		return DomGlobal.document.getElementsByClassName(className);
 	}
 

@@ -23,7 +23,7 @@ public enum AutoColor {
 			GeoGebraColorConstants.PURPLE_600,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY }),
 	/** surfaces */
-	SURFACES(new GColor[] { GColor.MOW_MEBIS_TEAL,
+	SURFACES(new GColor[] { GeoGebraColorConstants.MEBIS_ACCENT,
 			GColor.PURPLE_A400,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_PINK,
 			GeoGebraColorConstants.PURPLE_600,

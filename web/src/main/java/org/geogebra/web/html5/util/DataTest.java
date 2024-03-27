@@ -16,6 +16,7 @@ public enum DataTest {
 	ALGEBRA_ITEM_SLIDER_STEP("algebraItemSliderStep");
 
 	private final String name;
+
 	DataTest(String name) {
 		this.name = name;
 	}

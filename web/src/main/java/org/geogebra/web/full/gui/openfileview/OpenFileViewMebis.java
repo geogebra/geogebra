@@ -27,8 +27,6 @@ import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.ListBox;
 import org.gwtproject.user.client.ui.Widget;
 
-import elemental2.dom.File;
-
 /**
  * View for browsing materials
  */
@@ -53,8 +51,6 @@ public class OpenFileViewMebis extends HeaderFileView
 
 	private ResourceOrdering order = ResourceOrdering.modified;
 	private static final ResourceOrdering[] map = ResourceOrdering.values();
-
-	private int materialCount = 0;
 
 	/**
 	 * @param app
@@ -160,13 +156,7 @@ public class OpenFileViewMebis extends HeaderFileView
 		AsyncOperation<Boolean> newConstruction = active -> app.tryLoadTemplatesOnFileNew();
 		app.getAppletParameters().setAttribute("perspective", "");
 		app.getSaveController().showDialogIfNeeded(newConstruction, false);
-		closeAndResetFileAmount();
-	}
-
-	@Override
-	public void openFile(final File fileToHandle) {
-		app.openFile(fileToHandle);
-		closeAndResetFileAmount();
+		close();
 	}
 
 	private void setExtendedButtonStyle() {
@@ -324,7 +314,7 @@ public class OpenFileViewMebis extends HeaderFileView
 
 	@Override
 	public void closeAndSave(AsyncOperation<Boolean> callback) {
-		closeAndResetFileAmount();
+		close();
 		app.checkSaved(callback);
 	}
 
@@ -333,13 +323,12 @@ public class OpenFileViewMebis extends HeaderFileView
 		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
 			updateMaterials();
 			if (event instanceof LogOutEvent) {
-				closeAndResetFileAmount();
+				close();
 			}
 		}
 	}
 
 	private void initLoadingMoreFilesButton(Pagination meta) {
-		materialCount = meta.to;
 		if (meta.to < meta.total) {
 			loadMoreFilesPanel = new FlowPanel();
 			Label loadMoreFilesText = new Label();
@@ -348,13 +337,13 @@ public class OpenFileViewMebis extends HeaderFileView
 					.getPlainDefault("ShowXofYfiles.Mebis", "Showing %0 of %1 files",
 							String.valueOf(meta.to), String.valueOf(meta.total)));
 			loadMoreFilesPanel.add(loadMoreFilesText);
-			addLoadMoreFilesButton();
+			addLoadMoreFilesButton(meta.to);
 			loadMoreFilesPanel.setStyleName("loadMoreFilesPanel");
 			common.addMaterialOrLoadMoreFilesPanel(loadMoreFilesPanel);
 		}
 	}
 
-	private void addLoadMoreFilesButton() {
+	private void addLoadMoreFilesButton(int materialCount) {
 		StandardButton loadMoreFilesButton = new StandardButton(localize("loadMore.Mebis"));
 		loadMoreFilesButton.addFastClickHandler(source -> {
 			loadMoreFilesButton.setText(null);
@@ -368,11 +357,6 @@ public class OpenFileViewMebis extends HeaderFileView
 		});
 		loadMoreFilesButton.setStyleName("dialogContainedButton");
 		loadMoreFilesPanel.add(loadMoreFilesButton);
-	}
-
-	private void closeAndResetFileAmount() {
-		materialCount = 0;
-		close();
 	}
 
 	private void clearLoadingMoreFilesButton() {

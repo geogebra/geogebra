@@ -360,8 +360,8 @@ public class ShareDialogMow extends ComponentDialog
 			app.getCopyPaste().copyTextToSystemClipboard(linkBox.getText());
 			linkBox.focus();
 			((AppW) app).getToolTipManager()
-			    .showBottomMessage(((AppW) app).getLocalization()
-			    .getMenu("linkCopyClipboard"), (AppW) app);
+				.showBottomMessage(((AppW) app).getLocalization()
+				.getMenu("linkCopyClipboard"), (AppW) app);
 		}
 	}
 

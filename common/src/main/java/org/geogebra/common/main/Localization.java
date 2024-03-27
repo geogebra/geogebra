@@ -58,6 +58,7 @@ public abstract class Localization extends LocalizationI {
 	private int[] decimalPlacesOptions = { 0, 1, 2, 3, 4, 5, 10, 13, 15 };
 	private int[] significantFiguresOptions = {3, 5, 10, 15};
 
+	// TODO this doesn't really belong here; find a better owner (CommandProcessor?)
 	private final CommandErrorMessageBuilder commandErrorMessageBuilder;
 
 	/**
@@ -931,13 +932,7 @@ public abstract class Localization extends LocalizationI {
 		if (ret != null) {
 			return ret;
 		}
-		// if that fails check internal commands
-		for (Commands c : Commands.values()) {
-			if (StringUtil.toLowerCaseUS(c.name()).equals(key)) {
-				return Commands.englishToInternal(c).name();
-			}
-		}
-		return null;
+		return Commands.lookupInternal(key);
 	}
 
 	/**

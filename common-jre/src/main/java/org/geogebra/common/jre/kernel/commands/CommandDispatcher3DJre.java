@@ -16,7 +16,6 @@ public class CommandDispatcher3DJre extends CommandDispatcher3D {
 		if (commands3DDispatcher == null) {
 			commands3DDispatcher = new CommandDispatcherCommands3D();
 		}
-
 		return commands3DDispatcher;
 	}
 }

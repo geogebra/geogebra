@@ -155,7 +155,7 @@ public class GeoGebraColorConstants {
 	public static final GColor GEOGEBRA_ACCENT = GColor.newColor(101, 87, 210);
 
 	/** Accent color for mebis */
-	public static final GColor MEBIS_ACCENT = GColor.newColor(0, 168, 213);
+	public static final GColor MEBIS_ACCENT = rgb(0x975FA8);
 
 	/** MASK color */
 	public static final GColor MEBIS_MASK = GColor.newColor(0, 0x63, 0x7d);
@@ -164,6 +164,7 @@ public class GeoGebraColorConstants {
 	public static final GColor DEFAULT_BORDER = rgb(0x757575);
 
 	public static final GColor NEUTRAL_200 = rgb(0xF3F2F7);
+	public static final GColor NEUTRAL_300 = rgb(0xE6E6EB);
 	public static final GColor NEUTRAL_500 = rgb(0xB4B3BA);
 	public static final GColor NEUTRAL_700 = rgb(0x6E6D73);
 	public static final GColor NEUTRAL_900 = rgb(0x1C1C1F);

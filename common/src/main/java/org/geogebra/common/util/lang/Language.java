@@ -559,6 +559,10 @@ public enum Language {
 		return this.unicodeZero;
 	}
 
+	final public char getDecimalSeparator() {
+		return this.decimalSeparator;
+	}
+
 	/**
 	 * @return whether localized keyboard is supported
 	 */

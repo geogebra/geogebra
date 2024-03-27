@@ -23,6 +23,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.After;
 import org.junit.Before;
 
 /**
@@ -40,15 +41,22 @@ public class BaseUnitTest {
 	private static TypeSafeMatcher<GeoElementND> isDefined;
 
     /**
-     * Setup test class before every test.
+     * Set up test class before every test.
      */
     @Before
-	public final void setup() {
+	public void setup() {
 		app = createAppCommon();
         kernel = app.getKernel();
         construction = kernel.getConstruction();
         elementFactory = new GeoElementFactory(this);
     }
+
+	/**
+	 * Clean up after every test.
+	 */
+	@After
+	public void teardown() {
+	}
 
 	/**
 	 * @return app instance for 2D testing

@@ -27,7 +27,6 @@ import org.geogebra.common.util.debug.Log;
  */
 public class MaterialRestAPI implements BackendAPI {
 	private static final int SEARCH_COUNT = 30;
-	/** whether API is available */
 
 	/** whether availability check request was sent */
 	private boolean availabilityCheckDone = false;
@@ -92,6 +91,7 @@ public class MaterialRestAPI implements BackendAPI {
 			guser.setIdentifier("");
 			guser.setStudent(!"1".equals(user.getString("isTeacher")));
 			guser.setLanguage(user.optString("langUi"));
+			guser.setJWTToken(user.optString("jwtToken"));
 			ArrayList<GroupIdentifier> allGroups = new ArrayList<>();
 			addGroups(user, "allClasses", allGroups, GroupIdentifier.GroupCategory.CLASS);
 			addGroups(user, "allCourses", allGroups, GroupIdentifier.GroupCategory.COURSE);
@@ -401,8 +401,13 @@ public class MaterialRestAPI implements BackendAPI {
 		if (method == HttpMethod.GET) {
 			HttpRequest request = service.createRequest(model);
 			request.setContentTypeJson();
-			request.sendRequestPost(method.name(), baseURL + endpoint, json,
-					callback);
+			Runnable sendRequest = () -> request.sendRequestPost(
+					method.name(), baseURL + endpoint, json, callback);
+			if (model != null) {
+				model.refreshToken(request, sendRequest);
+			} else {
+				sendRequest.run();
+			}
 			return request;
 		} else {
 			return performWithAuthentication(method, endpoint, json, callback);
@@ -413,7 +418,7 @@ public class MaterialRestAPI implements BackendAPI {
 			String json, AjaxCallback callback) {
 		HttpRequest request = service.createRequest(model);
 		request.setContentTypeJson();
-		getAndAddCSRFToken(new AjaxCallback() {
+		model.refreshToken(request, () -> getAndAddCSRFToken(new AjaxCallback() {
 			@Override
 			public void onSuccess(String token) {
 				try {
@@ -429,7 +434,7 @@ public class MaterialRestAPI implements BackendAPI {
 			public void onError(String error) {
 				callback.onError(error);
 			}
-		});
+		}));
 		return request;
 	}
 

@@ -756,6 +756,10 @@ public class AppletParameters {
 		return getStringDataParam("multiplayerUrl", "");
 	}
 
+	public boolean getParamAllowUndoCheckpoints() {
+		return getBoolDataParam("allowUndoCheckpoints", true);
+	}
+
 	public double getBorderRadius() {
 		return getIntDataParam("borderRadius", 0);
 	}

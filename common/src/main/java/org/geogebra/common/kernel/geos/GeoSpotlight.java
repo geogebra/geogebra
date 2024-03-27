@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.plugin.EventType;
 
 /**
  * Geo representing spotlight
@@ -42,5 +43,11 @@ public class GeoSpotlight extends GeoConic {
 	@Override
 	public boolean isSpotlight() {
 		return true;
+	}
+
+	@Override
+	public void doRemove() {
+		super.doRemove();
+		getApp().getEventDispatcher().dispatchEvent(EventType.HIDE_SPOTLIGHT, null);
 	}
 }

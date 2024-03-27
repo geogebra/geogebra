@@ -59,7 +59,7 @@ public class SplashDialog extends SimplePanel {
 			style.setBackgroundColor("white");
 			if (showLogo) {
 				NoDragImage logo = new NoDragImage(GuiResourcesSimple.INSTANCE
-				        .ggb_logo_name(), 427 , 120);
+						.ggb_logo_name(), 427 , 120);
 				panel.add(logo);
 			}
 			LoadSpinner spinner = new LoadSpinner();

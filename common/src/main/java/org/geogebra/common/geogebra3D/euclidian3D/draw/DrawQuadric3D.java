@@ -446,10 +446,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			initDrawPlanes(quadric);
 			drawPlanes[0].updateForItSelf();
 			if (shouldBePackedForManager()) {
-			    if (drawPlanes[1] != null) {
-                    drawPlanes[1].setSurfaceIndexNotVisible();
-                    drawPlanes[1].setGeometryIndexNotVisible();
-                }
+				if (drawPlanes[1] != null) {
+					drawPlanes[1].setSurfaceIndexNotVisible();
+					drawPlanes[1].setGeometryIndexNotVisible();
+				}
 			}
 			hideSurface();
 			hideLineIfNotNull();

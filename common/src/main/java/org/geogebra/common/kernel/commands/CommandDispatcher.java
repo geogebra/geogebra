@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -33,24 +34,25 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
 import org.geogebra.common.main.exam.restriction.Restrictable;
+import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
 /**
  * Runs commands and handles string to command processor conversion.
- *
  */
 public abstract class CommandDispatcher implements Restrictable {
 
-	/** kernel **/
+	@NonOwning
 	@Weak
 	protected Kernel kernel;
+
+	@NonOwning
 	@Weak
 	private Construction cons;
-	/**
-	 * Application
-	 */
+
+	@NonOwning
 	@Weak
 	protected App app;
 
@@ -81,8 +83,8 @@ public abstract class CommandDispatcher implements Restrictable {
 
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
 	private MacroProcessor macroProc;
-	private List<CommandFilter> commandFilters;
-	private List<CommandArgumentFilter> commandArgumentFilters;
+	private List<CommandFilter> commandFilters = new ArrayList<>();
+	private List<CommandArgumentFilter> commandArgumentFilters = new ArrayList<>();
 
 	/** number of visible tables */
 	public static final int tableCount = 20;
@@ -154,10 +156,14 @@ public abstract class CommandDispatcher implements Restrictable {
 		cons = kernel.getConstruction();
 		this.kernel = kernel;
 		app = kernel.getApplication();
-		commandFilters = new ArrayList<>();
-		commandArgumentFilters = new ArrayList<>();
-		addCommandFilter(app.getConfig().getCommandFilter());
-		addCommandArgumentFilter(app.getConfig().getCommandArgumentFilter());
+		CommandFilter commandFilter = app.getConfig().getCommandFilter();
+		if (commandFilter != null) {
+			addCommandFilter(commandFilter);
+		}
+		CommandArgumentFilter commandArgumentFilter = app.getConfig().getCommandArgumentFilter();
+		if (commandArgumentFilter != null) {
+			addCommandArgumentFilter(commandArgumentFilter);
+		}
 	}
 
 	/**
@@ -200,19 +206,22 @@ public abstract class CommandDispatcher implements Restrictable {
 	}
 
 	/**
-	 * @param command
-	 *            command
-	 * @return whether selector accepts it
+	 * Checks a command against the current set of command filters (which may change, e.g.
+	 * during an exam).
+	 *
+	 * @param command A command.
+	 * @return false if any of the current command filters rejects this command, true otherwise.
 	 */
-	public boolean isAllowedByNameFilter(Commands command) {
-		boolean allowed = true;
+	public boolean isAllowedByCommandFilters(Commands command) {
 		for (CommandFilter filter : commandFilters) {
-			allowed = allowed && filter.isCommandAllowed(command);
+			if (!filter.isCommandAllowed(command)) {
+				return false;
+			}
 		}
-		return allowed;
+		return true;
 	}
 
-	private void checkAllowedByArgumentFilter(Command command,
+	private void checkIsAllowedByCommandArgumentFilters(Command command,
 			CommandProcessor commandProcessor) throws MyError {
 		for (CommandArgumentFilter filter : commandArgumentFilters) {
 			filter.checkAllowed(command, commandProcessor);
@@ -220,7 +229,7 @@ public abstract class CommandDispatcher implements Restrictable {
 	}
 
 	private GeoElement[] process(@CheckForNull CommandProcessor cmdProc, Command c, EvalInfo info) {
-		checkAllowedByArgumentFilter(c, cmdProc);
+		checkIsAllowedByCommandArgumentFilters(c, cmdProc);
 		// switch on macro mode to avoid labeling of output if desired
 		// Solve[{e^-(x*x/2)=1,x>0},x]
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
@@ -322,10 +331,8 @@ public abstract class CommandDispatcher implements Restrictable {
 	public CommandProcessor commandTableSwitch(Command c) {
 		String cmdName = c.getName();
 		try {
-
 			Commands command = Commands.valueOf(cmdName);
-
-			if (!isAllowedByNameFilter(command)) {
+			if (!isAllowedByCommandFilters(command)) {
 				Log.info("The command is not allowed by the command filter");
 				return null;
 			}
@@ -973,10 +980,8 @@ public abstract class CommandDispatcher implements Restrictable {
 	 *            to add. only the commands that are allowed by all
 	 *            commandFilters will be added to the command table
 	 */
-	public void addCommandFilter(CommandFilter filter) {
-		if (filter != null) {
-			commandFilters.add(filter);
-		}
+	public void addCommandFilter(@Nonnull CommandFilter filter) {
+		commandFilters.add(filter);
 	}
 
 	/**
@@ -985,7 +990,7 @@ public abstract class CommandDispatcher implements Restrictable {
 	 * @param filter
 	 *            to remove.
 	 */
-	public void removeCommandFilter(CommandFilter filter) {
+	public void removeCommandFilter(@Nonnull CommandFilter filter) {
 		commandFilters.remove(filter);
 	}
 
@@ -995,10 +1000,8 @@ public abstract class CommandDispatcher implements Restrictable {
 	 * @param filter
 	 *            to add.
 	 */
-	public void addCommandArgumentFilter(CommandArgumentFilter filter) {
-		if (filter != null) {
-			commandArgumentFilters.add(filter);
-		}
+	public void addCommandArgumentFilter(@Nonnull CommandArgumentFilter filter) {
+		commandArgumentFilters.add(filter);
 	}
 
 	/**
@@ -1007,7 +1010,7 @@ public abstract class CommandDispatcher implements Restrictable {
 	 * @param filter
 	 *            to remove.
 	 */
-	public void removeCommandArgumentFilter(CommandArgumentFilter filter) {
+	public void removeCommandArgumentFilter(@Nonnull CommandArgumentFilter filter) {
 		commandArgumentFilters.remove(filter);
 	}
 
@@ -1015,25 +1018,32 @@ public abstract class CommandDispatcher implements Restrictable {
 	 * @return whether CAS commands are allowed
 	 */
 	public boolean isCASAllowed() {
-		return isAllowedByNameFilter(Commands.Solve);
+		return isAllowedByCommandFilters(Commands.Solve);
 	}
 
+	@Deprecated // restrictions on the CommandDispatcher are now handled by ExamController
 	@Override
 	public boolean isExamRestrictionModelAccepted(ExamRestrictionModel model) {
 		return model.getCommandFilter() != null;
 	}
 
+	@Deprecated // restrictions on the CommandDispatcher are now handled by ExamController
 	@Override
 	public void setExamRestrictionModel(ExamRestrictionModel model) {
 		if (model == null) {
-			removeCommandFilter(examFilter);
+			if (examFilter != null) {
+				removeCommandFilter(examFilter);
+			}
 			examFilter = null;
 		} else {
 			examFilter = model.getCommandFilter();
-			addCommandFilter(model.getCommandFilter());
+			if (examFilter != null) {
+				addCommandFilter(examFilter);
+			}
 		}
 	}
 
+	@Deprecated
 	@Override
 	public void applyExamRestrictions() {
 		app.resetCommandDict();

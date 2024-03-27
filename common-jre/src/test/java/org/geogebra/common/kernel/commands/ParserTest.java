@@ -105,7 +105,7 @@ public class ParserTest {
 		shouldReparseAs(Unicode.PI_STRING + "8.1",
 				Unicode.PI_STRING + " * 8.1");
 		shouldReparseAs("2" + Unicode.PI_STRING + "8.1",
-				 unicode("2@pi * 8.1"));
+				unicode("2@pi * 8.1"));
 	}
 
 	@Test
@@ -154,7 +154,7 @@ public class ParserTest {
 	}
 
 	private static String reparse(App app, String string, StringTemplate tpl,
-								  boolean multipleUnassignedAllowed) {
+			boolean multipleUnassignedAllowed) {
 		String reparse1 = "";
 		try {
 			ValidExpression v1 = parseExpression(app, string);

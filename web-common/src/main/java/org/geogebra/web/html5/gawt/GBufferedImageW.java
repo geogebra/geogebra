@@ -126,11 +126,10 @@ public class GBufferedImageW implements GBufferedImage {
 			canv.setHeight(cv.getCanvasElement().getHeight() + "px");
 			JLMContext2d c2d = Js.uncheckedCast(canv.getContext2d());
 			JLMContext2d otherContext = Js.uncheckedCast(cv.getContext2d());
-			c2d.putImageData(
-			        otherContext.getImageData(0, 0,
-			                cv.getCoordinateSpaceWidth(),
-			                cv.getCoordinateSpaceHeight()), 0, 0);
-			// img = getImageElement();
+			ImageData imageData = otherContext.getImageData(0, 0,
+					cv.getCoordinateSpaceWidth(),
+					cv.getCoordinateSpaceHeight());
+			c2d.putImageData(imageData, 0, 0);
 		} else {
 			Log.debug("BufferedImage (gawt) called with null Canvas");
 		}
@@ -249,8 +248,7 @@ public class GBufferedImageW implements GBufferedImage {
 	 */
 	public ImageData getImageData() {
 		CanvasRenderingContext2D context2d = Js.uncheckedCast(getCanvas().getContext2d());
-		return context2d.getImageData(0, 0, getWidth(),
-		        getHeight());
+		return context2d.getImageData(0, 0, getWidth(), getHeight());
 	}
 
 	@Override

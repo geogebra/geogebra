@@ -326,7 +326,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			btn.addStyleName("toolbar_button");
 			setMode(mode);
 			int width = usedToolsPanelContent.getOffsetWidth()
-			        - DRAGABLE_TOOLS_PADDING;
+					- DRAGABLE_TOOLS_PADDING;
 			if (width > 0) {
 				setWidth(width + "px");
 			}
@@ -358,8 +358,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 					// dropping a branch into another
 					for (int i = 0; i < tool.treeItem.getChildCount(); i++) {
 						TreeItem leaf = tool.treeItem.getChild(i);
-						DraggableTool leafTool = (DraggableTool) leaf
-						        .getUserObject();
+						DraggableTool leafTool = (DraggableTool) leaf.getUserObject();
 						setupItem(treeItem.addItem(leafTool), leafTool);
 					}
 					tool.removeFromTree();
@@ -392,10 +391,9 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 					// dropping a branch into another
 					for (int i = 0; i < tool.treeItem.getChildCount(); i++) {
 						TreeItem leaf = tool.treeItem.getChild(i);
-						DraggableTool leafTool = (DraggableTool) leaf
-						        .getUserObject();
+						DraggableTool leafTool = (DraggableTool) leaf.getUserObject();
 						setupItem(treeItem.insertItem(idxBefore + i, leafTool),
-						        leafTool);
+								leafTool);
 					}
 					tool.removeFromTree();
 				}
@@ -770,12 +768,11 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 		oldToolbarString = null;
 		if (id == -1) {
-			oldToolbarString = app.getGuiManager()
-			        .getToolbarDefinition();
+			oldToolbarString = app.getGuiManager().getToolbarDefinition();
 			dockPanel = null;
 		} else {
 			dockPanel = ((GuiManagerW) app.getGuiManager()).getLayout()
-			        .getDockManager().getPanel(id);
+					.getDockManager().getPanel(id);
 			buildOldToolbarString();
 		}
 
@@ -791,7 +788,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 	private void updateAllTools() {
 		allTools = CustomizeToolbarModel.generateToolsVector(ToolBar
-		        .getAllTools(app));
+				.getAllTools(app));
 		allTools.add(EuclidianConstants.MODE_FREEHAND_FUNCTION);
 
 		allToolsPanelContent.clear();
@@ -862,7 +859,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			buildUsedTools(dockPanel.getDefaultToolbarString());
 		} else {
 			String toolbarStr = ((GuiManagerW) app.getGuiManager())
-			        .getDefaultToolbarString();
+					.getDefaultToolbarString();
 			setGeneralToolbar(toolbarStr);
 			buildUsedTools(toolbarStr);
 		}
@@ -909,34 +906,34 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	private void doResize() {
 		int w = (getOffsetWidth() / 2) - PANEL_GAP;
 		int h = (getOffsetHeight()) - getHeaderWidget().getOffsetHeight()
-		        - getFooterWidget().getOffsetHeight()
-		        - lblUsedTools.getOffsetHeight() - MARGIN_Y;
+				- getFooterWidget().getOffsetHeight()
+				- lblUsedTools.getOffsetHeight() - MARGIN_Y;
 
 		usedToolsPanelContent.setSize(w + "px", h + "px");
 		spAllTools.setSize(w + "px", h + "px");
 
 		allToolsPanelContent.getElement().setAttribute(
-		        "style",
-		        "min-height: " + (h - ALLTOOLS_SCROLLPANEL_PADDING)
-		                + "px; width: " + (w - ALLTOOLS_SCROLLPANEL_PADDING)
-		                + "px");
+				"style",
+				"min-height: " + (h - ALLTOOLS_SCROLLPANEL_PADDING)
+						+ "px; width: " + (w - ALLTOOLS_SCROLLPANEL_PADDING)
+						+ "px");
 
 		// elements of usedTools
 		for (int i = 0; i < toolTree.getItemCount(); i++) {
 			final TreeItem branch = toolTree.getItem(i);
 			((DraggableTool) (branch.getUserObject()))
-			        .setWidth((w - DRAGABLE_TOOLS_PADDING) + "px");
+					.setWidth((w - DRAGABLE_TOOLS_PADDING) + "px");
 			for (int j = 0; j < branch.getChildCount(); j++) {
 				((DraggableTool) branch.getChild(j).getUserObject())
-				        .setWidth((w - DRAGABLE_TOOLS_PADDING - DRAGABLE_TOOLS_CHILD_PADDING)
-				                + "px");
+						.setWidth((w - DRAGABLE_TOOLS_PADDING - DRAGABLE_TOOLS_CHILD_PADDING)
+								+ "px");
 			}
 		}
 
 		// elements of allTools
 		for (int k = 0; k < allToolsPanelContent.getWidgetCount(); k++) {
 			allToolsPanelContent.getWidget(k).setWidth(
-			        (w - DRAGABLE_TOOLS_PADDING) + "px");
+					(w - DRAGABLE_TOOLS_PADDING) + "px");
 		}
 
 	}

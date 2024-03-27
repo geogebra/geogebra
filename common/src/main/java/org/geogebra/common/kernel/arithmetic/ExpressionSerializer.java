@@ -362,8 +362,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				break;
 			case LIBRE_OFFICE:
 				sb.append("fact {");
-				if ((leftStr.charAt(0) != '-') && // no unary
-						left.isLeaf()) {
+				if ((leftStr.charAt(0) != '-') && left.isLeaf()) {
 					sb.append(leftStr);
 				} else {
 					sb.append('(');
@@ -374,8 +373,8 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				break;
 
 			default:
-				if (((leftStr.charAt(0) != '-') && // no unary
-						tpl.isSinglePowerArg(left) && !StringTemplate.isFraction(left))
+				if (((leftStr.charAt(0) != '-')
+						&& tpl.isSinglePowerArg(left) && !StringTemplate.isFraction(left))
 						&& !(left instanceof GeoSymbolicI && stringType == StringType.GIAC)
 						|| (ExpressionNode.opID(left) > Operation.POWER.ordinal()
 								&& ExpressionNode.opID(left) != Operation.FACTORIAL.ordinal())) {

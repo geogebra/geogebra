@@ -84,15 +84,12 @@ public class ScriptManagerW extends ScriptManager {
 
 	@Override
 	public void ggbOnInit() {
-		if (app.getEventDispatcher().isDisabled(ScriptType.JAVASCRIPT)) {
-			return;
-		}
-
 		try {
 			tryTabletOnInit();
 			boolean standardJS = app.getKernel().getLibraryJavaScript()
 					.equals(Kernel.defaultLibraryJavaScript);
-			if (!standardJS && !app.useBrowserForJavaScript()) {
+			if (!standardJS && !app.useBrowserForJavaScript()
+					&& !app.getEventDispatcher().isDisabled(ScriptType.JAVASCRIPT)) {
 				app.evalJavaScript(app, app.getKernel().getLibraryJavaScript(),
 						null);
 			}
@@ -114,7 +111,7 @@ public class ScriptManagerW extends ScriptManager {
 
 		GeoGebraFrameW appletFrame = ((AppW) app).getAppletFrame();
 		if (appletFrame != null
-		        && appletFrame.getOnLoadCallback() != null
+				&& appletFrame.getOnLoadCallback() != null
 				&& !appletFrame.appletOnLoadCalled()) {
 			JsEval.callNativeFunction(
 					appletFrame.getOnLoadCallback(), exportedApi);

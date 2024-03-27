@@ -27,6 +27,7 @@ import org.geogebra.common.main.undo.ActionExecutor;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptType;
@@ -543,11 +544,12 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	 *            embed ID
 	 */
 	public void createUndoAction(int id) {
-		app.getUndoManager().storeAction(EventType.EMBEDDED_STORE_UNDO,
-				String.valueOf(id));
+		String[] args = new String[]{String.valueOf(id)};
+		app.getUndoManager().storeUndoableAction(ActionType.REDO,
+				args, ActionType.UNDO, args);
 	}
 
-	private void executeAction(EventType action, int embedId) {
+	private void executeAction(ActionType action, int embedId) {
 		restoreEmbeds();
 		for (Entry<DrawWidget, EmbedElement> entry: widgets.entrySet()) {
 			if (entry.getKey().getEmbedID() == embedId) {
@@ -557,7 +559,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	@Override
-	public void executeAction(EventType action) {
+	public void executeAction(ActionType action) {
 		restoreEmbeds();
 		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
 			entry.getValue().executeAction(action);
@@ -648,25 +650,15 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	@Override
-	public boolean executeAction(EventType action, String[] args) {
-		if (action == EventType.EMBEDDED_STORE_UNDO) {
-			embeddedAction(EventType.REDO, args[0]);
+	public boolean executeAction(ActionType action, String[] args) {
+		if (action == ActionType.UNDO || action == ActionType.REDO) {
+			embeddedAction(action, args[0]);
 			return true;
 		}
 		return false;
 	}
 
-	@Override
-	public boolean undoAction(EventType action, String... args) {
-		if (action == EventType.EMBEDDED_STORE_UNDO) {
-			embeddedAction(EventType.UNDO, args[0]);
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public void embeddedAction(EventType action, String id) {
+	private void embeddedAction(ActionType action, String id) {
 		try {
 			int embedId = Integer.parseInt(id);
 			executeAction(action, embedId);

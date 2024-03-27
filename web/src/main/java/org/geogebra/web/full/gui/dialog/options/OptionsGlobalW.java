@@ -2,6 +2,8 @@ package org.geogebra.web.full.gui.dialog.options;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
+import org.geogebra.common.properties.PropertyValueObserver;
+import org.geogebra.common.properties.ValuedProperty;
 import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.properties.impl.general.LabelingProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
@@ -37,7 +39,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 	 * @author csilla
 	 *
 	 */
-	protected class GlobalTab extends FlowPanel implements SetLabels {
+	protected class GlobalTab extends FlowPanel implements SetLabels, PropertyValueObserver {
 		private FlowPanel optionsPanel;
 		private FormLabel lblRounding;
 		private CompDropDown roundingDropDown;
@@ -115,7 +117,9 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 
 		private void addLanguageItem() {
 			NamedEnumeratedProperty<?> languageProperty = new LanguageProperty(app,
-					app.getLocalization(), this::storeLanguage);
+					app.getLocalization());
+			languageProperty.addValueObserver(this);
+			//GlobalScope.propertiesRegistry.register(languageProperty);
 			languageDropDown = new CompDropDown(app, languageProperty);
 			lblLanguage = new FormLabel(
 					app.getLocalization().getMenu("Language") + ":")
@@ -231,6 +235,15 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					.setText(app.getLocalization().getMenu("Settings.Save"));
 			restoreSettingsBtn
 					.setText(app.getLocalization().getMenu("RestoreSettings"));
+		}
+
+		// PropertyValueObserver
+
+		@Override
+		public void onDidSetValue(ValuedProperty property) {
+			if (property instanceof LanguageProperty) {
+				storeLanguage(((LanguageProperty) property).getValue());
+			}
 		}
 	}
 

@@ -4,9 +4,9 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.aliases.ActionableIconProperty;
-import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.impl.AbstractActionableProperty;
 
-public class RestartARAction extends AbstractProperty implements ActionableIconProperty {
+public class RestartARAction extends AbstractActionableProperty implements ActionableIconProperty {
 
 	final EuclidianView3D euclidianView;
 
@@ -21,7 +21,7 @@ public class RestartARAction extends AbstractProperty implements ActionableIconP
 	}
 
 	@Override
-	public void performAction() {
+	protected void doPerformAction() {
 		euclidianView.getRenderer().setARShouldRestart();
 	}
 

@@ -2011,7 +2011,7 @@ public class GeoCasCell extends GeoElement
 									.unwrap()).getDrawAlgorithm());
 				}
 			} catch (XMLParseException | CircularDefinitionException
-					 | RuntimeException e) {
+					| RuntimeException e) {
 				Log.debug(e);
 			}
 		} else {

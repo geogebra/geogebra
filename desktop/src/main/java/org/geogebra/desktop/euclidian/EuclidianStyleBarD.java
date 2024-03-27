@@ -12,7 +12,6 @@ import java.util.List;
 
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JToolBar;
 
 import org.geogebra.common.awt.GColor;
@@ -379,24 +378,11 @@ public class EuclidianStyleBarD extends JToolBar
 		createBgColorButton();
 		createTextButtons();
 		createTableTextButtons();
-		setActionCommands();
 
 		addButtons();
 
 		popupBtnList = newPopupBtnList();
 		toggleBtnList = newToggleBtnList();
-
-		for (int i = 0; i < popupBtnList.length; i++) {
-			// popupBtnList[i].setStandardButton(true);
-		}
-
-	}
-
-	protected void setActionCommands() {
-		btnShowAxes.setActionCommand("showAxes");
-		btnShowGrid.setActionCommand("showGrid");
-		btnStandardView.setActionCommand("standardView");
-		btnPointCapture.setActionCommand("pointCapture");
 	}
 
 	/**
@@ -1460,19 +1446,20 @@ public class EuclidianStyleBarD extends JToolBar
 	 */
 	protected void processSource(Object source,
 			ArrayList<GeoElement> targetGeos) {
-
-		if ((source instanceof JButton)
-				&& (EuclidianStyleBarStatic.processSourceCommon(
-						((JButton) source).getActionCommand(), targetGeos, ev))) {
-			return;
+		if (source == btnShowAxes) {
+			needUndo = EuclidianStyleBarStatic.processAxes(ev);
+		} else if (source == btnShowGrid) {
+			needUndo = EuclidianStyleBarStatic.processGrid(ev);
+		} else if (source == btnStandardView) {
+			ev.setStandardView(true);
+		} else if (source == btnPointCapture) {
+			needUndo = EuclidianStyleBarStatic.processPointCapture(ev);
 		} else if (source == btnColor) {
 			GColor color = btnColor.getSelectedColor();
 			float alpha = btnColor.getSliderValue() / 100.0f;
 			needUndo = EuclidianStyleBarStatic.applyColor(color,
 					alpha, app, targetGeos);
-		}
-
-		else if (source == btnBgColor) {
+		} else if (source == btnBgColor) {
 			if (btnBgColor.getSelectedIndex() >= 0) {
 				GColor color = btnBgColor.getSelectedColor();
 				float alpha = btnBgColor.getSliderValue() / 100.0f;
@@ -1651,7 +1638,6 @@ public class EuclidianStyleBarD extends JToolBar
 		createBgColorButton();
 		createTextButtons();
 		createTableTextButtons();
-		setActionCommands();
 
 		addButtons();
 		setLabels();

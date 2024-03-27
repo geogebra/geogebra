@@ -65,11 +65,9 @@ public interface DrawEquationI {
 
 	/**
 	 * Initialize commands if this is the first run
-	 * 
-	 * @param app
-	 *            application
+	 *
 	 */
-	public abstract void checkFirstCall(App app);
+	void checkFirstCall();
 
 	/**
 	 * @param color

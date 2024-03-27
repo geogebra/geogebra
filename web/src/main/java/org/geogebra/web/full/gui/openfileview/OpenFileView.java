@@ -24,8 +24,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-import elemental2.dom.File;
-
 public class OpenFileView extends HeaderFileView
 		implements OpenFileListener, EventRenderable {
 
@@ -98,12 +96,6 @@ public class OpenFileView extends HeaderFileView
 	@Override
 	public boolean onOpenFile() {
 		return false;
-	}
-
-	@Override
-	public void openFile(final File fileToHandle) {
-		app.openFile(fileToHandle);
-		close();
 	}
 
 	@Override
