@@ -42,8 +42,10 @@ import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -5237,10 +5239,14 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	public void resetFiltersFromConfig() {
 		AppConfig config = app.getConfig();
-		getAlgebraProcessor().getCommandDispatcher()
-				.addCommandFilter(config.getCommandFilter());
+		CommandFilter commandFilter = config.getCommandFilter();
+		if (commandFilter != null) {
+			getAlgebraProcessor().getCommandDispatcher().addCommandFilter(commandFilter);
+		}
 		getAlgebraProcessor().setEnableStructures(config.isEnableStructures());
-		getExpressionNodeEvaluator()
-				.setOperationArgumentFilter(config.createOperationArgumentFilter());
+		OperationArgumentFilter operationArgumentFilter = config.createOperationArgumentFilter();
+		if (operationArgumentFilter != null) {
+			getExpressionNodeEvaluator().setOperationArgumentFilter(operationArgumentFilter);
+		}
 	}
 }
