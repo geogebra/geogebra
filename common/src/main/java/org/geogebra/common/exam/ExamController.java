@@ -238,8 +238,8 @@ public final class ExamController {
 	 * otherwise.
 	 */
 	public boolean isFeatureRestricted(ExamFeatureRestriction featureRestriction) {
-		return examRestrictions != null
-				? examRestrictions.getFeatureRestrictions().contains(featureRestriction) : false;
+		return examRestrictions != null && examRestrictions
+				.getFeatureRestrictions().contains(featureRestriction);
 	}
 
 	/**
