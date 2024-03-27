@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.RadianExpressionFilter;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
-import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.ValuedProperty;
 

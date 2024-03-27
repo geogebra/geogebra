@@ -6,8 +6,8 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
-import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
 
 final class VlaanderenExamRestrictions extends ExamRestrictions {
 
