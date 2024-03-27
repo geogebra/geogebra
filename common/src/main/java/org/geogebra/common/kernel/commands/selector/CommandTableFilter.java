@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.commands.Commands;
 /**
  * Filters commands by their table name.
  */
-public class TableCommandFilter implements CommandFilter {
+public class CommandTableFilter implements CommandFilter {
 
 	private Set<Integer> filteredTables;
 
@@ -18,7 +18,7 @@ public class TableCommandFilter implements CommandFilter {
 	 *
 	 * @param filteredTables the tables that have to be filtered
 	 */
-	public TableCommandFilter(Integer... filteredTables) {
+	public CommandTableFilter(Integer... filteredTables) {
 		this.filteredTables = new HashSet<>(Arrays.asList(filteredTables));
 	}
 

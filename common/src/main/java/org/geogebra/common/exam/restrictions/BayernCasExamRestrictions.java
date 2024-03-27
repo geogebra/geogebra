@@ -7,7 +7,7 @@ import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
-import org.geogebra.common.kernel.commands.selector.NameCommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 
 final class BayernCasExamRestrictions extends ExamRestrictions {
 
@@ -24,7 +24,7 @@ final class BayernCasExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
-		NameCommandFilter nameFilter = new NameCommandFilter(true);
+		CommandNameFilter nameFilter = new CommandNameFilter(true);
 		nameFilter.addCommands(Commands.Plane);
 		return Set.of(new EnglishCommandFilter(nameFilter));
 	}

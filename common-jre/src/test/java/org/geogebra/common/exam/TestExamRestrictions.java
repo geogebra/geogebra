@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.arithmetic.filter.RadianExpressionFilter;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
-import org.geogebra.common.kernel.commands.selector.NameCommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.ValuedProperty;
 
@@ -30,7 +30,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
-		NameCommandFilter nameFilter = new NameCommandFilter(true,
+		CommandNameFilter nameFilter = new CommandNameFilter(true,
 				Commands.Derivative, Commands.NDerivative, Commands.Integral,
 				Commands.IntegralSymbolic, Commands.IntegralBetween, Commands.NIntegral,
 				Commands.Solve, Commands.SolveQuartic, Commands.SolveODE, Commands.SolveCubic,
