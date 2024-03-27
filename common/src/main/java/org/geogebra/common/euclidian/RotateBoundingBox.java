@@ -67,7 +67,6 @@ public class RotateBoundingBox {
 		return new GPoint2D(x, y);
 	}
 
-
 	private void rotateSelectedGeos(NumberValue angle) {
 		for (GeoElement geo : ec.selection.getSelectedGeos()) {
 			if (isRotationAllowed(geo)) {

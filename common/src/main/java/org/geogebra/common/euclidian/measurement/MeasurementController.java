@@ -141,7 +141,7 @@ public final class MeasurementController {
 	 */
 	public GPoint2D getActiveToolCenter(GeoElement geo, EuclidianView view) {
 		MeasurementTool tool = activeTool();
-		if (tool == null || geo != tool.getImage() | !tool.hasRotationCenter()) {
+		if (tool == null || geo != tool.getImage() || !tool.hasRotationCenter()) {
 			return null;
 		}
 
