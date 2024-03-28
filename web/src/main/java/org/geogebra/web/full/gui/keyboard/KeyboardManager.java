@@ -51,7 +51,7 @@ public final class KeyboardManager
 	private String originalBodyPadding;
 	private final Style bodyStyle;
 	private KeyboardListener processing;
-	private final KeyboardAttachController attachController;
+	private final KeyboardDetachController detachController;
 
 	/**
 	 * Constructor
@@ -61,7 +61,7 @@ public final class KeyboardManager
 	public KeyboardManager(AppW appWFull) {
 		this.app = appWFull;
 		this.bodyStyle = RootPanel.getBodyElement().getStyle();
-		attachController = new KeyboardAttachController(app, shouldDetach());
+		detachController = new KeyboardDetachController(app, shouldDetach());
 	}
 
 	/**
@@ -154,10 +154,12 @@ public final class KeyboardManager
 	 */
 	public void addKeyboard(Panel appFrame) {
 		ensureKeyboardsExist();
-		if (attachController.isInFrame()) {
-			appFrame.add(keyboard);
+		if (detachController.isEnabled()) {
+			detachController.addAsDetached(keyboard);
+			app.addWindowResizeListener(this);
 		} else {
-			attachController.addAsDetached(keyboard, this);
+			appFrame.add(keyboard);
+
 		}
 		updateStyle();
 	}
@@ -167,7 +169,7 @@ public final class KeyboardManager
 	 * @return true if the keyboard is not attached to the frame.
 	 */
 	public boolean isKeyboardOutsideFrame() {
-		return !attachController.isInFrame();
+		return detachController.isEnabled();
 	}
 
 	@Override
@@ -232,8 +234,8 @@ public final class KeyboardManager
 
 	@Override
 	public void removeFromDom() {
-		if (attachController.hasKeyboardRoot()) {
-			attachController.removeFromDom();
+		if (detachController.hasKeyboardRoot()) {
+			detachController.removeFromDom();
 			keyboard = null;
 		}
 	}
@@ -265,7 +267,7 @@ public final class KeyboardManager
 	}
 
 	private boolean extraSpaceNeededForKeyboard() {
-		if (shouldDetach() && attachController.hasCustomParent()) {
+		if (shouldDetach() && detachController.hasCustomParent()) {
 			double appletBottom = app.getFrameElement().getAbsoluteBottom();
 			return NavigatorUtil.getWindowHeight() - appletBottom < estimateKeyboardHeight();
 		}

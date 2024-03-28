@@ -6,55 +6,38 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.RootPanel;
 
-class KeyboardAttachController {
+class KeyboardDetachController {
 
+	private final boolean enabled;
 	private final boolean hasCustomParent;
-	private final boolean detach;
 	private final String keyboardParentSelector;
 	private final AppW app;
 	private RootPanel keyboardRoot = null;
 
-	private enum DetachMode {
-		NO_DETACH,
-		ROOT,
-		CUSTOM_PARENT;
-
-	}
-
-	private final DetachMode detachMode;
-
-	public KeyboardAttachController(AppW app, boolean detach) {
+	public KeyboardDetachController(AppW app, boolean hasRootAsParent) {
 		this.app = app;
 		String detachKeyboardParent = app.getAppletParameters().getDetachKeyboardParent();
 		this.hasCustomParent = !detachKeyboardParent.trim().isEmpty();
 		this.keyboardParentSelector = hasCustomParent ? "#" + detachKeyboardParent : "";
-		this.detach = detach;
-		detachMode = calculateDetachMode();
+		this.enabled = hasCustomParent || hasRootAsParent;
 	}
 
-	private DetachMode calculateDetachMode() {
-		if (hasCustomParent) {
-			return DetachMode.CUSTOM_PARENT;
+	void addAsDetached(VirtualKeyboardGUI keyboard) {
+		if (!enabled || hasKeyboardRoot()) {
+			return;
 		}
-		if (!detach) {
-			return DetachMode.NO_DETACH;
-		}
-		return DetachMode.ROOT;
-	}
 
-	void addAsDetached(VirtualKeyboardGUI keyboard, RequiresResize requiresResize) {
-		if (!isInFrame()) {
-			createKeyboardRoot(keyboard, requiresResize);
-			if (hasCustomParent()) {
-				addToParent();
-			}
+		createKeyboardRoot();
+		keyboardRoot.add(keyboard);
+
+		if (hasCustomParent()) {
+			addRootToCustomParent();
 		}
 	}
 
-	private void addToParent() {
+	private void addRootToCustomParent() {
 		Element parent = Dom.querySelector(
 				keyboardParentSelector);
 		if (parent != null) {
@@ -64,20 +47,14 @@ class KeyboardAttachController {
 		}
 	}
 
-	private void createKeyboardRoot(VirtualKeyboardGUI keyboard,
-			RequiresResize requiresResize) {
-		if (keyboardRoot != null) {
-			return;
-		}
+	private void createKeyboardRoot() {
 		Element detachedKeyboardParent = DOM.createDiv();
 		detachedKeyboardParent.setClassName("GeoGebraFrame");
 		Element container = getAppletContainer();
 		container.appendChild(detachedKeyboardParent);
 		String keyboardParentId = app.getAppletId() + "keyboard";
 		detachedKeyboardParent.setId(keyboardParentId);
-		app.addWindowResizeListener(requiresResize);
 		keyboardRoot = RootPanel.get(keyboardParentId);
-		keyboardRoot.add(keyboard);
 	}
 
 	private Element getAppletContainer() {
@@ -102,10 +79,10 @@ class KeyboardAttachController {
 	}
 
 	boolean hasCustomParent() {
-		return detachMode == DetachMode.CUSTOM_PARENT;
+		return hasCustomParent;
 	}
 
-	boolean isInFrame() {
-		return detachMode == DetachMode.NO_DETACH;
+	public boolean isEnabled() {
+		return enabled;
 	}
 }
