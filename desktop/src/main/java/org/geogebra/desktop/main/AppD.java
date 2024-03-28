@@ -1402,9 +1402,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			end++;
 		}
 
-		return end == page.length() || end == begin ? // attribute value not
+		return end == page.length() || end == begin // attribute value not
 		// terminated or empty
-				null : page.substring(begin, end);
+				? null : page.substring(begin, end);
 	}
 
 	private static boolean isMarker(char[] markers, char character) {
@@ -2944,10 +2944,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			// update
 			if (!initing) {
 				initing = true;
-				success = GFileHandler.loadXML(this, fis, isMacroFile);
+				success = doLoadXML(fis, isMacroFile);
 				initing = false;
 			} else {
-				success = GFileHandler.loadXML(this, fis, isMacroFile);
+				success = doLoadXML(fis, isMacroFile);
 			}
 
 			if (success && !isMacroFile) {
@@ -2957,7 +2957,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return success;
 		} catch (Exception e) {
 			setCurrentFile(null);
-			e.printStackTrace();
+			Log.debug(e);
 			showError(Errors.LoadFileFailed, file.getName());
 			return false;
 		} finally {
@@ -2980,7 +2980,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	final public boolean loadXML(URL url, boolean isMacroFile) {
 
 		try {
-			boolean success = GFileHandler.loadXML(this, url.openStream(),
+			boolean success = doLoadXML(url.openStream(),
 					isMacroFile);
 
 			// don't clear JavaScript here -- we may have just read one from the
@@ -3005,9 +3005,20 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
+	private boolean doLoadXML(InputStream inputStream, boolean isMacroFile)
+			throws IOException, XMLParseException {
+		storeFrameCenter();
+		boolean ok = GFileHandler.loadXML(this, inputStream, isMacroFile);
+		if (ok) {
+			hideDockBarPopup();
+		}
+		return ok;
+	}
+
 	/**
 	 * loads an XML file as a String
 	 * @param xml construction XML
+	 * @return whether loading was successful
 	 */
 	public boolean loadXML(String xml) {
 		try {
@@ -3033,8 +3044,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
-	@Override
-	public void storeFrameCenter() {
+	private void storeFrameCenter() {
 		centerX = getWindowCenterX();
 		centerY = getWindowCenterY();
 	}

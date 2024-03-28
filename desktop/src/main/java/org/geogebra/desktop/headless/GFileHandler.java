@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.geogebra.common.io.XMLParseException;
-import org.geogebra.common.jre.headless.AppDI;
 import org.geogebra.common.jre.io.MyXMLioJre;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.main.App;
@@ -33,9 +32,6 @@ public class GFileHandler {
 			if (!isMacroFile) {
 				app.setMoveMode();
 			}
-
-			// store current location of the window
-			((AppDI) app).storeFrameCenter();
 
 			// make sure objects are displayed in the correct View
 			app.setActiveView(App.VIEW_EUCLIDIAN);
@@ -88,9 +84,6 @@ public class GFileHandler {
 
 			// command list may have changed due to macros
 			app.updateCommandDictionary();
-
-			((AppDI) app).hideDockBarPopup();
-
 			return true;
 		} catch (MyError err) {
 			app.resetCurrentFile();
