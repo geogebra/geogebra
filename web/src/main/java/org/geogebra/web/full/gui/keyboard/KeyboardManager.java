@@ -10,7 +10,6 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -34,9 +33,7 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
-import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.Style;
-import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.RootPanel;
@@ -49,21 +46,13 @@ public final class KeyboardManager
 
 	private static final int SWITCHER_HEIGHT = 42;
 	private final AppW app;
-	private RootPanel keyboardRoot;
 	private VirtualKeyboardGUI keyboard;
 
 	private String originalBodyPadding;
 	private final Style bodyStyle;
 	private KeyboardListener processing;
-	private AttachMode attachMode;
+	private final KeyboardAttachController attachController;
 
-
-	private enum AttachMode {
-		FRAME,
-		ROOT,
-		CUSTOM_PARENT;
-
-	}
 	/**
 	 * Constructor
 	 *
@@ -72,17 +61,7 @@ public final class KeyboardManager
 	public KeyboardManager(AppW appWFull) {
 		this.app = appWFull;
 		this.bodyStyle = RootPanel.getBodyElement().getStyle();
-		attachMode = calculateAttachMode();
-	}
-
-	private AttachMode calculateAttachMode() {
-		if (hasKeyboardParent()) {
-			return AttachMode.CUSTOM_PARENT;
-		}
-		if (!shouldDetach()) {
-			return AttachMode.FRAME;
-		}
-		return AttachMode.ROOT;
+		attachController = new KeyboardAttachController(app, shouldDetach());
 	}
 
 	/**
@@ -175,22 +154,7 @@ public final class KeyboardManager
 	 */
 	public void addKeyboard(Panel appFrame) {
 		ensureKeyboardsExist();
-
-		switch (attachMode) {
-		case FRAME:
-			appFrame.add(keyboard);
-			break;
-		case ROOT:
-			createKeyboardRoot();
-			keyboardRoot.add(keyboard);
-			break;
-		case CUSTOM_PARENT:
-			createKeyboardRoot();
-			attachKeyboardToDetachedParent();
-
-			break;
-		}
-
+		attachController.attach(appFrame, keyboard, this);
 		updateStyle();
 	}
 
@@ -199,42 +163,7 @@ public final class KeyboardManager
 	 * @return true if the keyboard is not attached to the frame.
 	 */
 	public boolean isKeyboardOutsideFrame() {
-		return attachMode != AttachMode.FRAME;
-	}
-
-	private void attachKeyboardToDetachedParent() {
-		String keyboardParentSelector = "#" + app.getAppletParameters().getDetachKeyboardParent();
-		Element parent = Dom.querySelector(
-				keyboardParentSelector);
-		if (parent != null) {
-			keyboardRoot.add(keyboard);
-			parent.appendChild(keyboardRoot.getElement());
-		} else {
-			Log.error("No such keyboard parent in HTML: #" + keyboardParentSelector);
-		}
-	}
-
-	private void createKeyboardRoot() {
-		if (keyboardRoot != null) {
-			return;
-		}
-		Element detachedKeyboardParent = DOM.createDiv();
-		detachedKeyboardParent.setClassName("GeoGebraFrame");
-		Element container = getAppletContainer();
-		container.appendChild(detachedKeyboardParent);
-		String keyboardParentId = app.getAppletId() + "keyboard";
-		detachedKeyboardParent.setId(keyboardParentId);
-		app.addWindowResizeListener(this);
-		keyboardRoot = RootPanel.get(keyboardParentId);
-	}
-
-	private Element getAppletContainer() {
-		Element scaler = app.getGeoGebraElement().getParentElement();
-		Element container = scaler == null ? null : scaler.getParentElement();
-		if (container == null) {
-			return RootPanel.getBodyElement();
-		}
-		return container;
+		return !attachController.isInFrame();
 	}
 
 	@Override
@@ -299,10 +228,8 @@ public final class KeyboardManager
 
 	@Override
 	public void removeFromDom() {
-		if (keyboardRoot != null) {
-			// both clear and remove to save memory
-			keyboardRoot.removeFromParent();
-			keyboardRoot.clear();
+		if (attachController.hasKeyboardRoot()) {
+			attachController.removeFromDom();
 			keyboard = null;
 		}
 	}
@@ -334,16 +261,12 @@ public final class KeyboardManager
 	}
 
 	private boolean extraSpaceNeededForKeyboard() {
-		if (shouldDetach() && attachMode != AttachMode.CUSTOM_PARENT) {
+		if (shouldDetach() && attachController.hasCustomParent()) {
 			double appletBottom = app.getFrameElement().getAbsoluteBottom();
 			return NavigatorUtil.getWindowHeight() - appletBottom < estimateKeyboardHeight();
 		}
 
 		return false;
-	}
-
-	private boolean hasKeyboardParent() {
-		return !app.getAppletParameters().getDetachKeyboardParent().trim().isEmpty();
 	}
 
 	/**
