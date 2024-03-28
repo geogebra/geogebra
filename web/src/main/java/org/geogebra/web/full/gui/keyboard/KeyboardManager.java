@@ -61,7 +61,10 @@ public final class KeyboardManager
 	public KeyboardManager(AppW appWFull) {
 		this.app = appWFull;
 		this.bodyStyle = RootPanel.getBodyElement().getStyle();
-		detachController = new KeyboardDetachController(app, shouldDetach());
+		detachController = new KeyboardDetachController(app.getAppletId(),
+				app.getAppletParameters().getDetachKeyboardParent(),
+				app.getGeoGebraElement().getParentElement(),
+				shouldDetach());
 	}
 
 	/**
@@ -234,8 +237,8 @@ public final class KeyboardManager
 
 	@Override
 	public void removeFromDom() {
-		if (detachController.hasKeyboardRoot()) {
-			detachController.removeFromDom();
+		if (detachController.isKeyboardRootExists()) {
+			detachController.removeKeyboardRootFromDom();
 			keyboard = null;
 		}
 	}

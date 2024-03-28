@@ -3,29 +3,29 @@ package org.geogebra.web.full.gui.keyboard;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.html5.gui.util.Dom;
-import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.RootPanel;
 
-class KeyboardDetachController {
+final class KeyboardDetachController {
 
 	private final boolean enabled;
 	private final boolean hasCustomParent;
 	private final String keyboardParentSelector;
-	private final AppW app;
+	private final Element scaler;
 	private RootPanel keyboardRoot = null;
+	private final String keyboardParentId;
 
-	public KeyboardDetachController(AppW app, boolean hasRootAsParent) {
-		this.app = app;
-		String detachKeyboardParent = app.getAppletParameters().getDetachKeyboardParent();
+	public KeyboardDetachController(String appletId, String detachKeyboardParent, Element scaler, boolean hasRootAsParent) {
 		this.hasCustomParent = !detachKeyboardParent.trim().isEmpty();
-		this.keyboardParentSelector = hasCustomParent ? "#" + detachKeyboardParent : "";
 		this.enabled = hasCustomParent || hasRootAsParent;
+		this.scaler = scaler;
+		this.keyboardParentSelector = hasCustomParent ? "#" + detachKeyboardParent : "";
+		keyboardParentId = appletId + "keyboard";
 	}
 
 	void addAsDetached(VirtualKeyboardGUI keyboard) {
-		if (!enabled || hasKeyboardRoot()) {
+		if (!enabled || isKeyboardRootExists()) {
 			return;
 		}
 
@@ -52,13 +52,11 @@ class KeyboardDetachController {
 		detachedKeyboardParent.setClassName("GeoGebraFrame");
 		Element container = getAppletContainer();
 		container.appendChild(detachedKeyboardParent);
-		String keyboardParentId = app.getAppletId() + "keyboard";
 		detachedKeyboardParent.setId(keyboardParentId);
 		keyboardRoot = RootPanel.get(keyboardParentId);
 	}
 
 	private Element getAppletContainer() {
-		Element scaler = app.getGeoGebraElement().getParentElement();
 		Element container = scaler == null ? null : scaler.getParentElement();
 		if (container == null) {
 			return RootPanel.getBodyElement();
@@ -66,7 +64,7 @@ class KeyboardDetachController {
 		return container;
 	}
 
-	void removeFromDom() {
+	void removeKeyboardRootFromDom() {
 		if (keyboardRoot != null) {
 			// both clear and remove to save memory
 			keyboardRoot.removeFromParent();
@@ -74,7 +72,7 @@ class KeyboardDetachController {
 		}
 	}
 
-	boolean hasKeyboardRoot() {
+	boolean isKeyboardRootExists() {
 		return keyboardRoot != null;
 	}
 
