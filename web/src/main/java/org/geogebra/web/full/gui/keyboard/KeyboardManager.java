@@ -154,7 +154,11 @@ public final class KeyboardManager
 	 */
 	public void addKeyboard(Panel appFrame) {
 		ensureKeyboardsExist();
-		attachController.attach(appFrame, keyboard, this);
+		if (attachController.isInFrame()) {
+			appFrame.add(keyboard);
+		} else {
+			attachController.addAsDetached(keyboard, this);
+		}
 		updateStyle();
 	}
 

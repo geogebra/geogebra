@@ -6,7 +6,6 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
-import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.RootPanel;
 
@@ -18,14 +17,14 @@ class KeyboardAttachController {
 	private final AppW app;
 	private RootPanel keyboardRoot = null;
 
-	private enum AttachMode {
-		FRAME,
+	private enum DetachMode {
+		NO_DETACH,
 		ROOT,
 		CUSTOM_PARENT;
 
 	}
 
-	private final AttachMode attachMode;
+	private final DetachMode detachMode;
 
 	public KeyboardAttachController(AppW app, boolean detach) {
 		this.app = app;
@@ -33,47 +32,40 @@ class KeyboardAttachController {
 		this.hasCustomParent = !detachKeyboardParent.trim().isEmpty();
 		this.keyboardParentSelector = hasCustomParent ? "#" + detachKeyboardParent : "";
 		this.detach = detach;
-		attachMode = calculateAttachMode();
+		detachMode = calculateDetachMode();
 	}
 
-	private AttachMode calculateAttachMode() {
+	private DetachMode calculateDetachMode() {
 		if (hasCustomParent) {
-			return AttachMode.CUSTOM_PARENT;
+			return DetachMode.CUSTOM_PARENT;
 		}
 		if (!detach) {
-			return AttachMode.FRAME;
+			return DetachMode.NO_DETACH;
 		}
-		return AttachMode.ROOT;
+		return DetachMode.ROOT;
 	}
 
-	void attach(Panel appFrame, VirtualKeyboardGUI keyboard, RequiresResize requiresResize) {
-		switch (attachMode) {
-		case FRAME:
-			appFrame.add(keyboard);
-			break;
-		case ROOT:
-			createKeyboardRoot(requiresResize);
-			keyboardRoot.add(keyboard);
-			break;
-		case CUSTOM_PARENT:
-			createKeyboardRoot(requiresResize);
-			attachKeyboardToDetachedParent(keyboard);
-			break;
+	void addAsDetached(VirtualKeyboardGUI keyboard, RequiresResize requiresResize) {
+		if (!isInFrame()) {
+			createKeyboardRoot(keyboard, requiresResize);
+			if (hasCustomParent()) {
+				addToParent();
+			}
 		}
 	}
 
-	private void attachKeyboardToDetachedParent(VirtualKeyboardGUI keyboard) {
+	private void addToParent() {
 		Element parent = Dom.querySelector(
 				keyboardParentSelector);
 		if (parent != null) {
-			keyboardRoot.add(keyboard);
 			parent.appendChild(keyboardRoot.getElement());
 		} else {
 			Log.error("No such keyboard parent in HTML: #" + keyboardParentSelector);
 		}
 	}
 
-	private void createKeyboardRoot(RequiresResize requiresResize) {
+	private void createKeyboardRoot(VirtualKeyboardGUI keyboard,
+			RequiresResize requiresResize) {
 		if (keyboardRoot != null) {
 			return;
 		}
@@ -85,6 +77,7 @@ class KeyboardAttachController {
 		detachedKeyboardParent.setId(keyboardParentId);
 		app.addWindowResizeListener(requiresResize);
 		keyboardRoot = RootPanel.get(keyboardParentId);
+		keyboardRoot.add(keyboard);
 	}
 
 	private Element getAppletContainer() {
@@ -109,10 +102,10 @@ class KeyboardAttachController {
 	}
 
 	boolean hasCustomParent() {
-		return attachMode == AttachMode.CUSTOM_PARENT;
+		return detachMode == DetachMode.CUSTOM_PARENT;
 	}
 
 	boolean isInFrame() {
-		return attachMode == AttachMode.FRAME;
+		return detachMode == DetachMode.NO_DETACH;
 	}
 }
