@@ -2605,7 +2605,7 @@ public class MyXMLHandler implements DocHandler {
 			macro.setShowInToolBar(showTool);
 			macro.setViewId(viewId);
 
-			MacroKernel macroKernel = kernel.newMacroKernel();
+			MacroKernel macroKernel = kernel.newMacroKernel(macro);
 			macroKernel.setContinuous(false);
 
 			// we have to change the construction object temporarily so
