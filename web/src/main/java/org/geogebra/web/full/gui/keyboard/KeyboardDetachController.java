@@ -18,12 +18,13 @@ final class KeyboardDetachController {
 	private final String keyboardParentId;
 	private Element customParent;
 
-	public KeyboardDetachController(String appletId, String detachKeyboardParent, Element scaler, boolean hasRootAsParent) {
-		this.hasCustomParent = !detachKeyboardParent.trim().isEmpty();
+	KeyboardDetachController(String appletId, String keyboardParentSelector,
+			Element scaler, boolean hasRootAsParent) {
+		keyboardParentId = appletId + "keyboard";
+		this.hasCustomParent = "".equals(keyboardParentSelector);
+		this.keyboardParentSelector = keyboardParentSelector;
 		this.enabled = hasCustomParent || hasRootAsParent;
 		this.scaler = scaler;
-		this.keyboardParentSelector = hasCustomParent ? "#" + detachKeyboardParent : "";
-		keyboardParentId = appletId + "keyboard";
 	}
 
 	void addAsDetached(VirtualKeyboardGUI keyboard) {
@@ -87,5 +88,8 @@ final class KeyboardDetachController {
 	}
 
 	public int getParentWidth() {
-		return hasCustomParent() ? customParent.getClientWidth(): NavigatorUtil.getWindowWidth();
-	}}
+		return hasCustomParent()
+				? customParent.getClientWidth()
+				: NavigatorUtil.getWindowWidth();
+	}
+}
