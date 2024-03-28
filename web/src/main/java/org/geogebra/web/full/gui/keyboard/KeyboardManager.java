@@ -44,7 +44,7 @@ import org.gwtproject.user.client.ui.RootPanel;
 /**
  * Handles creating, showing and updating the keyboard
  */
-public class KeyboardManager
+public final class KeyboardManager
 		implements RequiresResize, KeyboardManagerInterface {
 
 	private static final int SWITCHER_HEIGHT = 42;
@@ -57,6 +57,13 @@ public class KeyboardManager
 	private KeyboardListener processing;
 	private AttachMode attachMode;
 
+
+	private enum AttachMode {
+		FRAME,
+		ROOT,
+		CUSTOM_PARENT;
+
+	}
 	/**
 	 * Constructor
 	 *
@@ -65,13 +72,17 @@ public class KeyboardManager
 	public KeyboardManager(AppW appWFull) {
 		this.app = appWFull;
 		this.bodyStyle = RootPanel.getBodyElement().getStyle();
-		attachMode = getKeyboardAttachMode();
+		attachMode = calculateAttachMode();
 	}
 
-	enum AttachMode {
-		FRAME,
-		ROOT,
-		CUSTOM_PARENT
+	private AttachMode calculateAttachMode() {
+		if (hasKeyboardParent()) {
+			return AttachMode.CUSTOM_PARENT;
+		}
+		if (!shouldDetach()) {
+			return AttachMode.FRAME;
+		}
+		return AttachMode.ROOT;
 	}
 
 	/**
@@ -183,6 +194,14 @@ public class KeyboardManager
 		updateStyle();
 	}
 
+	/**
+	 *
+	 * @return true if the keyboard is not attached to the frame.
+	 */
+	public boolean isKeyboardOutsideFrame() {
+		return attachMode != AttachMode.FRAME;
+	}
+
 	private void attachKeyboardToDetachedParent() {
 		String keyboardParentSelector = "#" + app.getAppletParameters().getDetachKeyboardParent();
 		Element parent = Dom.querySelector(
@@ -262,16 +281,6 @@ public class KeyboardManager
 				keyboard.setProcessing(processing);
 			}
 		}
-	}
-
-	private AttachMode getKeyboardAttachMode() {
-		if (hasKeyboardParent()) {
-			return AttachMode.CUSTOM_PARENT;
-		}
-		if (!shouldDetach()) {
-			return AttachMode.FRAME;
-		}
-		return AttachMode.ROOT;
 	}
 
 	@Override
