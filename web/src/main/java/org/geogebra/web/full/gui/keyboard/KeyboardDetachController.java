@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.keyboard;
 
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.gwtproject.dom.client.Element;
@@ -15,6 +16,7 @@ final class KeyboardDetachController {
 	private final Element scaler;
 	private RootPanel keyboardRoot = null;
 	private final String keyboardParentId;
+	private Element customParent;
 
 	public KeyboardDetachController(String appletId, String detachKeyboardParent, Element scaler, boolean hasRootAsParent) {
 		this.hasCustomParent = !detachKeyboardParent.trim().isEmpty();
@@ -32,16 +34,16 @@ final class KeyboardDetachController {
 		createKeyboardRoot();
 		keyboardRoot.add(keyboard);
 
-		if (hasCustomParent()) {
+		if (hasCustomParent) {
 			addRootToCustomParent();
 		}
 	}
 
 	private void addRootToCustomParent() {
-		Element parent = Dom.querySelector(
+		customParent = Dom.querySelector(
 				keyboardParentSelector);
-		if (parent != null) {
-			parent.appendChild(keyboardRoot.getElement());
+		if (customParent != null) {
+			customParent.appendChild(keyboardRoot.getElement());
 		} else {
 			Log.error("No such keyboard parent in HTML: #" + keyboardParentSelector);
 		}
@@ -77,10 +79,13 @@ final class KeyboardDetachController {
 	}
 
 	boolean hasCustomParent() {
-		return hasCustomParent;
+		return customParent != null;
 	}
 
 	public boolean isEnabled() {
 		return enabled;
 	}
-}
+
+	public int getParentWidth() {
+		return hasCustomParent() ? customParent.getClientWidth(): NavigatorUtil.getWindowWidth();
+	}}

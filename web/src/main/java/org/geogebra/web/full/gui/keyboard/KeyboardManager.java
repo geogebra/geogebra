@@ -127,8 +127,8 @@ public final class KeyboardManager
 			}
 		}
 
-		return shouldDetach()
-				? NavigatorUtil.getWindowWidth()
+		return detachController.isEnabled()
+				? detachController.getParentWidth()
 				: appWidth;
 	}
 
