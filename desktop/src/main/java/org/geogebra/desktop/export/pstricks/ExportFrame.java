@@ -4,11 +4,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -27,8 +26,8 @@ import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.FileExtensions;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
 abstract public class ExportFrame extends JFrame implements ExportSettings {
@@ -217,7 +216,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 				FileOutputStream f = new FileOutputStream(currentFile);
 				BufferedOutputStream b = new BufferedOutputStream(f);
 				OutputStreamWriter osw = new OutputStreamWriter(b,
-						Charsets.getUtf8());
+						StandardCharsets.UTF_8);
 				StringBuilder sb = new StringBuilder(textarea.getText());
 				if (isLaTeX()) {
 					int id = sb.indexOf("\\usepackage{");
@@ -234,9 +233,8 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 				osw.close();
 				b.close();
 				f.close();
-			} catch (FileNotFoundException e1) {
-			} catch (UnsupportedEncodingException e2) {
-			} catch (IOException e3) {
+			} catch (IOException e2) {
+				Log.debug(e2);
 			}
 		});
 	}
@@ -369,45 +367,6 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 
 	protected abstract boolean isBeamer();
 
-	/*
-	 * class EncodingDialog extends JDialog implements ActionListener{ private
-	 * static final long serialVersionUID = 1L; private JComboBox menu; private
-	 * HashMap encode; private JLabel labelInputenc; private JLabel labelBabel;
-	 * private JButton button; private JTextArea zone; String encoding="";
-	 * EncodingDialog(ExportFrame ef){ super(ef,true);
-	 * setTitle(loc.getPlain("PGFExport.Encoding")); encode=new HashMap();
-	 * encode.put("ansinew","windows-1252"); encode.put("ascii","US-ASCII");
-	 * encode.put("cp1250","windows-1250"); encode.put("cp1252","windows-1252");
-	 * encode.put("cp1257","windows-1257"); encode.put("cp437","Cp437");
-	 * encode.put("cp850","Cp850"); encode.put("cp852","Cp852");
-	 * encode.put("cp858","Cp858"); encode.put("cp865","Cp865");
-	 * encode.put("latin1","ISO-8859-1"); encode.put("latin2","ISO-8859-2");
-	 * encode.put("latin3","ISO-8859-3"); encode.put("latin4","ISO-8859-4");
-	 * encode.put("latin5","ISO-8859-9"); encode.put("latin9","ISO-8859-15");
-	 * encode.put("latin10","ISO-8859-10"); encode.put("utf8","UTF-8" );
-	 * encode.put("macce","MacCentralEurope"); encode.put("applemac","");
-	 * encode.put("koi8-r","KOI8-R"); menu=new JComboBox();
-	 * 
-	 * button=new JButton("\u21B5"); button.addActionListener(this);
-	 * button.setActionCommand("button"); zone=new JTextArea();
-	 * 
-	 * java.util.Iterator it=encode.keySet().iterator(); while(it.hasNext()){
-	 * String key=it.next().toString(); menu.addItem(key); }
-	 * menu.addActionListener(this); menu.setActionCommand("combo");
-	 * setLayout(new BorderLayout()); add(menu,BorderLayout.NORTH);
-	 * add(button,app.borderEast()); add(zone,BorderLayout.CENTER);
-	 * setSize(200,300); setVisible(true); } public void
-	 * actionPerformed(ActionEvent e){ String cmd=e.getActionCommand(); if
-	 * ("button".equals(cmd)){
-	 * encoding=encode.get(menu.getSelectedItem().toString()).toString();
-	 * dispose(); } else if ("combo".equals(cmd)){ if (isLaTeX()){ StringBuilder
-	 * sb=new StringBuilder(); sb.append("\\usepackage[");
-	 * sb.append(encode.get(menu.getSelectedItem().toString()));
-	 * sb.append("]{inputenc}\n"); zone.setText(sb.toString()); } else if
-	 * (isConTeXt()){
-	 * 
-	 * } } } String getEncoding(){ return encoding; } }
-	 */
 	class ListenKey extends KeyAdapter {
 
 		@Override

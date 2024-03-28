@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -15,7 +16,6 @@ import javax.net.ssl.X509TrustManager;
 import javax.swing.SwingWorker;
 
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.debug.Log;
 
@@ -85,7 +85,7 @@ public class HttpRequestD extends HttpRequest {
 			if (post != null) {
 				huc.setDoOutput(true);
 				OutputStreamWriter osw = new OutputStreamWriter(
-						huc.getOutputStream(), Charsets.getUtf8());
+						huc.getOutputStream(), StandardCharsets.UTF_8);
 
 				osw.write(post);
 				osw.flush();
@@ -130,7 +130,7 @@ public class HttpRequestD extends HttpRequest {
 		try {
 			in = new BufferedReader(
 					new InputStreamReader(inputStream,
-							Charsets.getUtf8()));
+							StandardCharsets.UTF_8));
 			String s = in.readLine();
 			if (s == null) {
 				return null;
