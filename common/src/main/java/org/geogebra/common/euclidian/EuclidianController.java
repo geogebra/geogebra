@@ -617,6 +617,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return deleteMode;
 	}
 
+	/**
+	 * @return get shape mode controller
+	 */
 	ModeShape getShapeMode() {
 		if (shapeMode == null && view != null) {
 			shapeMode = new ModeShape(view);

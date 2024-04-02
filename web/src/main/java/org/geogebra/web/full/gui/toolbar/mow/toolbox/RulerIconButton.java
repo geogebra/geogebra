@@ -23,11 +23,11 @@ public class RulerIconButton extends IconButton {
 	 */
 	public RulerIconButton(AppW appW, SVGResource icon, String ariaLabel, String dataTitle,
 			String dataTest) {
-		super(appW.getLocalization(), icon, ariaLabel, dataTitle, dataTest, null);
+		super(appW, icon, ariaLabel, dataTitle, dataTest, null);
 		this.appW = appW;
 		ec = appW.getActiveEuclidianView().getEuclidianController();
 		addFastClickHandler((event) -> {
-			setActive(!isActive(), appW.getGeoGebraElement().getDarkColor(appW.getFrameElement()));
+			setActive(!isActive());
 			showRulerTypePopup();
 			handleRuler();
 		});

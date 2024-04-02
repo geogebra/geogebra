@@ -1,50 +1,83 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
-import org.geogebra.web.full.css.ToolbarSvgResources;
-import org.geogebra.web.full.gui.app.GGWToolBar;
-import org.geogebra.web.full.gui.menubar.MainMenu;
-import org.geogebra.web.full.javax.swing.GPopupMenuW;
-import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.common.gui.SetLabels;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Widget;
 
-public class CategoryPopup extends GPopupMenuW {
+public class CategoryPopup extends GPopupPanel implements SetLabels {
+	private final Consumer<Integer> updateParentCallback;
+	private IconButton lastSelectedButton;
+	private FlowPanel contentPanel;
+	private final List<IconButton> buttons = new ArrayList<>();
+	private final Integer defaultTool;
 
 	/**
-	 * Menu popup for MOW toolbox
-	 * @param appW - application
+	 * Constructor
+	 * @param app - application
 	 * @param tools - list of tools
+	 * @param updateParentCallback - callback to update anchor
 	 */
-	public CategoryPopup(AppW appW, List<Integer> tools) {
-		super(appW);
-		buildGui(tools);
+	public CategoryPopup(AppW app, List<Integer> tools, Consumer<Integer> updateParentCallback) {
+		super(app.getAppletFrame(), app);
+		setAutoHideEnabled(true);
+		this.updateParentCallback = updateParentCallback;
+		defaultTool = tools.get(0);
+
+		addStyleName("categoryPopup");
+		buildBaseGui(tools);
 	}
 
-	private void buildGui(List<Integer> tools) {
+	public void addContent(Widget widget) {
+		contentPanel.add(widget);
+	}
+
+	private void buildBaseGui(List<Integer> tools) {
+		contentPanel = new FlowPanel();
 		for (Integer mode : tools) {
-			addItem(mode);
+			IconButton button = createButton(mode);
+			if (defaultTool.equals(mode)) {
+				app.setMode(mode);
+				updateButtonSelection(button);
+			}
+
+			contentPanel.add(button);
 		}
+		add(contentPanel);
 	}
 
-	private void addItem(int mode) {
-		SVGResource image = (SVGResource) GGWToolBar.getImageURLNotMacro(
-				ToolbarSvgResources.INSTANCE, mode, getApp());
-		String text = getApp().getToolName(mode);
-
-		AriaMenuItem item = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
-				image.getSafeUri().asString(), text), true, () ->
-				getApp().setMode(mode));
-		addItem(item);
+	private IconButton createButton(Integer mode) {
+		IconButton button = new IconButton(mode, (AppW) app);
+		button.addFastClickHandler(source -> {
+			app.setMode(mode);
+			updateParentCallback.accept(mode);
+			updateButtonSelection(button);
+			hide();
+		});
+		buttons.add(button);
+		return button;
 	}
 
-	/**
-	 * show popup at position
-	 * @param left - left position
-	 * @param top - top position
-	 */
-	public void show(int left, int top) {
-		showAtPoint(left, top);
+	private void updateButtonSelection(IconButton newSelectedButton) {
+		if (lastSelectedButton != null) {
+			lastSelectedButton.deactivate();
+		}
+
+		lastSelectedButton = newSelectedButton;
+		lastSelectedButton.setActive(true);
+	}
+
+	public Integer getLastSelectedMode() {
+		return lastSelectedButton != null ? lastSelectedButton.getMode() : -1;
+	}
+
+	@Override
+	public void setLabels() {
+		buttons.forEach(SetLabels::setLabels);
 	}
 }

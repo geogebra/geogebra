@@ -17,7 +17,10 @@ public class IconButton extends StandardButton implements SetLabels {
 	private SVGResource image;
 	private String ariaLabelTransKey;
 	private String dataTitleTransKey;
+	private Integer mode = -1;
 	private final Localization localization;
+	private AppW appW;
+	private String selectionColor;
 
 	/**
 	 * Constructor
@@ -25,10 +28,13 @@ public class IconButton extends StandardButton implements SetLabels {
 	 * @param appW - application
 	 */
 	public IconButton(int mode, AppW appW) {
-		super(GGWToolBar.getImageURLNotMacro(ToolbarSvgResources.INSTANCE, mode, appW),
-				appW.getToolName(mode), DEFAULT_BUTTON_WIDTH);
+		this(appW.getLocalization(), (SVGResource) GGWToolBar.getImageURLNotMacro(
+				ToolbarSvgResources.INSTANCE, mode, appW), appW.getToolAriaLabel(mode));
+		this.mode = mode;
+		this.appW = appW;
+		selectionColor = getSelectionColor(appW);
+		AriaHelper.setDataTitle(this, appW.getToolName(mode));
 		addStyleName("iconButton");
-		localization = appW.getLocalization();
 	}
 
 	/**
@@ -43,6 +49,7 @@ public class IconButton extends StandardButton implements SetLabels {
 		addFastClickHandler(event -> {
 			if (!isDisabled() && onHandler != null) {
 				onHandler.run();
+				setActive(true);
 			}
 		});
 	}
@@ -69,6 +76,7 @@ public class IconButton extends StandardButton implements SetLabels {
 			Runnable onHandler, Runnable offHandler) {
 		this(appW.getLocalization(), icon, ariaLabel);
 		dataTitleTransKey = dataTitle;
+		selectionColor = getSelectionColor(appW);
 		AriaHelper.setTitle(this, appW.getLocalization().getMenu(dataTitle));
 		addFastClickHandler(event -> {
 			if (!isDisabled()) {
@@ -77,8 +85,7 @@ public class IconButton extends StandardButton implements SetLabels {
 				} else {
 					onHandler.run();
 				}
-				setActive(!isActive(),
-						appW.getGeoGebraElement().getDarkColor(appW.getFrameElement()));
+				setActive(!isActive());
 			}
 		});
 	}
@@ -101,19 +108,20 @@ public class IconButton extends StandardButton implements SetLabels {
 
 	/**
 	 * Constructor
-	 * @param loc - localization
+	 * @param appW - application
 	 * @param icon - image
 	 * @param ariaLabel - label
 	 * @param dataTitle - title
 	 * @param dataTest - test
 	 * @param onHandler - on press handler
 	 */
-	public IconButton(Localization loc, SVGResource icon, String ariaLabel, String dataTitle,
+	public IconButton(AppW appW, SVGResource icon, String ariaLabel, String dataTitle,
 			String dataTest, Runnable onHandler) {
-		this(loc, icon, ariaLabel, onHandler);
+		this(appW.getLocalization(), icon, ariaLabel, onHandler);
 		dataTitleTransKey = dataTitle;
-		AriaHelper.setTitle(this, loc.getMenu(dataTitle));
+		AriaHelper.setTitle(this, appW.getLocalization().getMenu(dataTitle));
 		TestHarness.setAttr(this, dataTest);
+		selectionColor = getSelectionColor(appW);
 	}
 
 	/**
@@ -128,7 +136,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	/**
 	 * @param isActive - whether is on or off
 	 */
-	public void setActive(boolean isActive, String selectionColor) {
+	public void setActive(boolean isActive) {
 		AriaHelper.setPressedState(this, isActive);
 		Dom.toggleClass(this, "active", isActive);
 		setIcon(image.withFill(isActive ? selectionColor : GColor.BLACK.toString()));
@@ -158,11 +166,10 @@ public class IconButton extends StandardButton implements SetLabels {
 	 * @param appW - application
 	 */
 	public void updateImgAndTxt(SVGResource image, int mode, AppW appW) {
-		this.image = image;
+		this.image = isActive() ? image.withFill(selectionColor) : image;
 		setIcon(image);
-		String toolName = appW.getToolName(mode);
-		setAltText(toolName + ". " + appW.getToolHelp(mode));
-		AriaHelper.setDataTitle(this, toolName);
+		setAltText(appW.getToolAriaLabel(mode));
+		AriaHelper.setDataTitle(this, appW.getToolName(mode));
 		TestHarness.setAttr(this, "selectModeButton" + mode);
 	}
 
@@ -171,7 +178,24 @@ public class IconButton extends StandardButton implements SetLabels {
 	 */
 	@Override
 	public void setLabels() {
-		AriaHelper.setLabel(this, localization.getMenu(ariaLabelTransKey));
-		AriaHelper.setDataTitle(this, localization.getMenu(dataTitleTransKey));
+		String ariaLabel;
+		String dataTitle;
+		if (mode > -1) {
+			ariaLabel = appW.getToolAriaLabel(mode);
+			dataTitle = appW.getToolName(mode);
+		} else {
+			ariaLabel = localization.getMenu(ariaLabelTransKey);
+			dataTitle = localization.getMenu(dataTitleTransKey);
+		}
+		AriaHelper.setLabel(this, ariaLabel);
+		AriaHelper.setDataTitle(this, dataTitle);
+	}
+
+	public Integer getMode() {
+		return mode;
+	}
+
+	private String getSelectionColor(AppW appW) {
+		return appW.getGeoGebraElement().getDarkColor(appW.getFrameElement());
 	}
 }
