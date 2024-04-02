@@ -83,8 +83,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 
 	private IconButton addPressButton(SVGResource image, String ariaLabel, String dataTest,
 			Runnable onHandler) {
-		IconButton iconButton = new IconButton(appW.getLocalization(), image, ariaLabel, ariaLabel,
-				dataTest, onHandler);
+		IconButton iconButton = new IconButton(appW, image, ariaLabel, ariaLabel, dataTest, 
+				onHandler);
 		add(iconButton);
 		buttons.add(iconButton);
 		return iconButton;

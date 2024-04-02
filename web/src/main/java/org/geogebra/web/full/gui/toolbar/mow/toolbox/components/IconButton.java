@@ -115,12 +115,13 @@ public class IconButton extends StandardButton implements SetLabels {
 	 * @param dataTest - test
 	 * @param onHandler - on press handler
 	 */
-	public IconButton(Localization loc, SVGResource icon, String ariaLabel, String dataTitle,
+	public IconButton(AppW appW, SVGResource icon, String ariaLabel, String dataTitle,
 			String dataTest, Runnable onHandler) {
-		this(loc, icon, ariaLabel, onHandler);
+		this(appW.getLocalization(), icon, ariaLabel, onHandler);
 		dataTitleTransKey = dataTitle;
-		AriaHelper.setTitle(this, loc.getMenu(dataTitle));
+		AriaHelper.setTitle(this, appW.getLocalization().getMenu(dataTitle));
 		TestHarness.setAttr(this, dataTest);
+		selectionColor = getSelectionColor(appW);
 	}
 
 	/**
