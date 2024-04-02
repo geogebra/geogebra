@@ -216,7 +216,7 @@ public class NotesLayout implements SetLabels {
 	 */
 	public void setMode(int mode) {
 		if (toolbar != null) {
-			// TODO toolbar.setMode(mode);
+			toolbar.setMode(mode);
 		}
 	}
 

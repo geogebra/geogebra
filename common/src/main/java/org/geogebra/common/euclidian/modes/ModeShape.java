@@ -61,7 +61,6 @@ public class ModeShape {
 	private final GGeneralPath polygon = AwtFactory.getPrototype()
 			.newGeneralPath();
 	private ArrayList<GPoint> pointListFreePoly = new ArrayList<>();
-	private Runnable shapeCreatedCallback;
 
 	/**
 	 * @param view
@@ -667,18 +666,5 @@ public class ModeShape {
 			angle += addAngle;
 		}
 		return res;
-	}
-
-	/**
-	 * Switch back to select mode after shape created
-	 */
-	public void runShapeCreatedCallback() {
-		if (shapeCreatedCallback != null) {
-			shapeCreatedCallback.run();
-		}
-	}
-
-	public void setShapeCreatedCallback(Runnable shapeCreatedCallback) {
-		this.shapeCreatedCallback = shapeCreatedCallback;
 	}
 }

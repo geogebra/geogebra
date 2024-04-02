@@ -102,10 +102,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	private IconButton addToggleButtonWithMenuPopup(SVGResource image, String ariaLabel,
 			List<Integer> tools) {
 		IconButton iconButton = new IconButtonWithMenu(appW, image, ariaLabel, tools,
-				() -> {
-			deselectButtons();
-			appW.setMode(MODE_SELECT_MOW);
-				});
+				() -> deselectButtons());
 		add(iconButton);
 		buttons.add(iconButton);
 		return iconButton;
@@ -162,12 +159,9 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addSelectModeButton() {
-		selectButton = addToggleButton(MaterialDesignResources.INSTANCE.mouse_cursor(),
-				appW.getToolName(MODE_SELECT_MOW), appW.getToolName(MODE_SELECT_MOW), "",
-				() -> {
-			deselectButtons();
-			appW.setMode(MODE_SELECT_MOW);
-			}, null);
+		selectButton = addPressButton(MaterialDesignResources.INSTANCE.mouse_cursor(),
+				appW.getToolName(MODE_SELECT_MOW), appW.getToolName(MODE_SELECT_MOW),
+				() -> appW.setMode(MODE_SELECT_MOW));
 	}
 
 	private void addPenModeButton() {
@@ -176,13 +170,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addShapeButton() {
-		IconButtonWithPopup shapeCategoryButton = addToggleButtonWithPopup(
-				MaterialDesignResources.INSTANCE.shapes(), "Shape", shapeCategory);
-		appW.getActiveEuclidianView().getEuclidianController().getShapeMode()
-				.setShapeCreatedCallback(() -> {
-					shapeCategoryButton.deactivate();
-					setSelectMode();
-				});
+		addToggleButtonWithPopup(MaterialDesignResources.INSTANCE.shapes(), "Shape",
+				shapeCategory);
 	}
 
 	@Override
@@ -194,8 +183,10 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		buttons.forEach(IconButton::deactivate);
 	}
 
-	private void setSelectMode() {
-		selectButton.setActive(true);
-		appW.setMode(MODE_SELECT_MOW);
+	public void setMode(int mode) {
+		if (MODE_SELECT_MOW == mode) {
+			deselectButtons();
+			selectButton.setActive(true);
+		}
 	}
 }

@@ -620,7 +620,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	/**
 	 * @return get shape mode controller
 	 */
-	public ModeShape getShapeMode() {
+	ModeShape getShapeMode() {
 		if (shapeMode == null && view != null) {
 			shapeMode = new ModeShape(view);
 		}
@@ -9889,7 +9889,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				return;
 			}
 
-			getShapeMode().runShapeCreatedCallback();
 			selectAndShowSelectionUI(geo);
 			app.getUndoManager().storeAddGeo(geo);
 			return;

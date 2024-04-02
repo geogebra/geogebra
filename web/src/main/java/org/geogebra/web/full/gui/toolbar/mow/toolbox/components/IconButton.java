@@ -49,6 +49,7 @@ public class IconButton extends StandardButton implements SetLabels {
 		addFastClickHandler(event -> {
 			if (!isDisabled() && onHandler != null) {
 				onHandler.run();
+				setActive(true);
 			}
 		});
 	}
