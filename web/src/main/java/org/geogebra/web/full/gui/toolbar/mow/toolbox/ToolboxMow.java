@@ -109,9 +109,9 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private IconButton addToggleButtonWithMenuPopup(SVGResource image, String ariaLabel,
-			List<Integer> tools, Runnable onClose) {
+			List<Integer> tools) {
 		IconButton iconButton = new IconButtonWithMenu(appW, image, ariaLabel, tools,
-				() -> deselectButtons(), onClose);
+				() -> deselectButtons());
 		add(iconButton);
 		buttons.add(iconButton);
 		return iconButton;
@@ -156,7 +156,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 
 	private void addUploadButton() {
 		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.upload(), "Upload",
-				uploadCategory, null);
+				uploadCategory);
 	}
 
 	private void addLinkButton() {
@@ -164,7 +164,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 			linkCategory.add(MODE_H5P);
 		}
 		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.resource_card_shared(),
-				"Link", linkCategory, null);
+				"Link", linkCategory);
 	}
 
 	private void addSelectModeButton() {
@@ -189,7 +189,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		}
 
 		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.apps(), "Tools.More",
-				appsCategory, null);
+				appsCategory);
 	}
 
 	@Override
