@@ -6,9 +6,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -101,7 +101,7 @@ public class Factory {
 
 			if (stream != null) {
 				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(stream, Charsets.getUtf8()));
+						new InputStreamReader(stream, StandardCharsets.UTF_8));
 				factory = reader.readLine();
 				reader.close();
 				if (factory != null && !factory.equals("")) {

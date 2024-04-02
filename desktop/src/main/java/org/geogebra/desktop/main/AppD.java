@@ -154,7 +154,6 @@ import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
@@ -1419,7 +1418,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private static String fetchPage(URL url) throws IOException {
 		try (BufferedReader reader = new BufferedReader(
 				new InputStreamReader(url.openStream(),
-						Charsets.getUtf8()))) {
+						StandardCharsets.UTF_8))) {
 			StringBuilder page = new StringBuilder();
 			String line;
 			while (null != (line = reader.readLine())) {
@@ -1856,7 +1855,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		try {
 			InputStream is = AppD.class.getResourceAsStream(s);
 			br = new BufferedReader(
-					new InputStreamReader(is, Charsets.getUtf8()));
+					new InputStreamReader(is, StandardCharsets.UTF_8));
 			String thisLine;
 			while ((thisLine = br.readLine()) != null) {
 				sb.append(thisLine);
@@ -4820,7 +4819,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			fileName.append("test.");
 			fileName.append(ext);
 			BufferedWriter objBufferedWriter = new BufferedWriter(
-					new OutputStreamWriter(new FileOutputStream(fileName.toString()), "UTF-8"));
+					new OutputStreamWriter(new FileOutputStream(fileName.toString()),
+							StandardCharsets.UTF_8));
 			Log.debug("Export to " + fileName);
 			objBufferedWriter.write(content);
 			objBufferedWriter.close();
@@ -4839,7 +4839,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		byte[] pngData;
 		try {
-			pngData = Base64.decode(base64image.getBytes(Charsets.getUtf8()));
+			pngData = Base64.decode(base64image.getBytes(StandardCharsets.UTF_8));
 			ByteArrayInputStream bis = new ByteArrayInputStream(pngData);
 			BufferedImage image = ImageIO.read(bis);
 			copyImageToClipboard(image);
@@ -4882,7 +4882,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		if (getMd5Encrypter() == null) {
 			return UUID.randomUUID().toString();
 		}
-		getMd5Encrypter().update(s.getBytes(Charsets.getUtf8()));
+		getMd5Encrypter().update(s.getBytes(StandardCharsets.UTF_8));
 		byte[] md5hash = md5EncrypterD.digest();
 		return StringUtil.convertToHex(md5hash);
 	}

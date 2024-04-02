@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -236,61 +237,50 @@ public class ConstructionProtocolExportDialogD extends Dialog
 	 */
 	private void exportHTML(boolean includePicture,
 			boolean includeAlgebraPicture, boolean useColors) {
-		File file;
 		prot.setUseColors(useColors);
-		file = app.getGuiManager().showSaveDialog(
+		final File file = app.getGuiManager().showSaveDialog(
 				FileExtensions.HTML, null,
 				app.getLocalization().getMenu("HTML"), true, false);
 
-		try {
 
-			BufferedImage img = null;
+		BufferedImage img = null;
 
-			if (includePicture) {
-				// picture of drawing pad
-				img = GBufferedImageD.getAwtBufferedImage(
-						app.getEuclidianView1().getExportImage(1d));
-			} else if (includeAlgebraPicture) {
-				// picture of drawing pad
-				img = getCenterPanelImage();
-			}
+		if (includePicture) {
+			// picture of drawing pad
+			img = GBufferedImageD.getAwtBufferedImage(
+					app.getEuclidianView1().getExportImage(1d));
+		} else if (includeAlgebraPicture) {
+			// picture of drawing pad
+			img = getCenterPanelImage();
+		}
 
-			String imgBase64 = GgbAPID.base64encode(img, 72);
-			String export = ConstructionProtocolView.getHTML(imgBase64,
-					app.getLocalization(), app.getKernel(), prot.getColumns(),
-					useColors);
+		String imgBase64 = GgbAPID.base64encode(img, 72);
+		String export = ConstructionProtocolView.getHTML(imgBase64,
+				app.getLocalization(), app.getKernel(), prot.getColumns(),
+				useColors);
 
-			Log.debug(export);
+		Log.debug(export);
 
-			BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(file), "UTF-8"));
+		try (BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream(file), StandardCharsets.UTF_8))) {
 			fw.write(export);
-			fw.close();
-
-			// This code is mostly copy-pasted from
-			// geogebra/export/WorksheetExportDialog.java.
-			// open browser
-			final File HTMLfile = file;
-			Thread runner = new Thread() {
-				@Override
-				public void run() {
-					try {
-						// open html file in browser
-						((GuiManagerD) app.getGuiManager())
-								.showURLinBrowser(HTMLfile.toURI().toURL());
-					} catch (Exception ex) {
-						app.showError(Errors.SaveFileFailed);
-						Log.debug(ex.toString());
-					}
-				}
-			};
-			runner.start();
-
 		} catch (IOException ex) {
 			app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.toString());
+			return;
 		}
 
+		Thread runner = new Thread(() -> {
+			try {
+				// open html file in browser
+				((GuiManagerD) app.getGuiManager())
+						.showURLinBrowser(file.toURI().toURL());
+			} catch (Exception ex) {
+				app.showError(Errors.SaveFileFailed);
+				Log.debug(ex.toString());
+			}
+		});
+		runner.start();
 	}
 
 	private BufferedImage getCenterPanelImage() {

@@ -30,6 +30,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
@@ -51,7 +52,6 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.algos.ChartStyle;
 import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -329,7 +329,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 			// zip stream
 			ZipOutputStream zip = new ZipOutputStream(os);
 			OutputStreamWriter osw = new OutputStreamWriter(zip,
-					Charsets.getUtf8());
+					StandardCharsets.UTF_8);
 
 			// write construction images
 			writeConstructionImages(kernel.getConstruction(), zip);
@@ -453,7 +453,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 		// zip stream
 		ZipOutputStream zip = new ZipOutputStream(os);
 		OutputStreamWriter osw = new OutputStreamWriter(zip,
-				Charsets.getUtf8());
+				StandardCharsets.UTF_8);
 
 		// write images
 		writeMacroImages(macrosWithImages, zip);
@@ -499,7 +499,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 					try {
 						zip.putNextEntry(new ZipEntry(filePath + fileName));
 						OutputStreamWriter osw = new OutputStreamWriter(zip,
-								Charsets.getUtf8());
+								StandardCharsets.UTF_8);
 						osw.write(image.getSVG());
 						osw.flush();
 						zip.closeEntry();
@@ -683,7 +683,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 		ZipOutputStream z = new ZipOutputStream(os);
 		z.putNextEntry(new ZipEntry(XML_FILE));
 		BufferedWriter w = new BufferedWriter(
-				new OutputStreamWriter(z, Charsets.getUtf8()));
+				new OutputStreamWriter(z, StandardCharsets.UTF_8));
 		for (int i = 0; i < xmlString.length(); i++) {
 			w.write(xmlString.charAt(i));
 		}
@@ -773,7 +773,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 		@Override
 		public Reader getReader() {
-			reader = new InputStreamReader(is, Charsets.getUtf8());
+			reader = new InputStreamReader(is, StandardCharsets.UTF_8);
 			return reader;
 		}
 
