@@ -4096,6 +4096,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            fallback text
 	 * @return LaTeX text
 	 */
+	@CheckForNull
 	public String getLaTeXAlgebraDescriptionWithFallback(
 			final boolean substituteNumbers, StringTemplate tpl,
 			boolean fallback) {
@@ -4145,6 +4146,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            template
 	 * @return LaTeX description without LHS
 	 */
+	@CheckForNull
 	public final String getLaTeXDescriptionRHS(final boolean substituteNumbers,
 			StringTemplate tpl) {
 		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl, false);
@@ -6289,7 +6291,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	}
 
-	@CheckForNull
 	@Override
 	public String toString(StringTemplate tpl) {
 		return label;
