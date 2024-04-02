@@ -15,13 +15,13 @@ final class KeyboardDetachController {
 	private final String keyboardParentSelector;
 	private final Element scaler;
 	private RootPanel keyboardRoot = null;
-	private final String keyboardParentId;
+	private final String keyboardRootId;
 	private Element customParent;
 
 	KeyboardDetachController(String appletId, String keyboardParentSelector,
 			Element scaler, boolean hasRootAsParent) {
-		keyboardParentId = appletId + "keyboard";
-		this.hasCustomParent = "".equals(keyboardParentSelector);
+		keyboardRootId = appletId + "keyboard";
+		this.hasCustomParent = !"".equals(keyboardParentSelector);
 		this.keyboardParentSelector = keyboardParentSelector;
 		this.enabled = hasCustomParent || hasRootAsParent;
 		this.scaler = scaler;
@@ -32,19 +32,26 @@ final class KeyboardDetachController {
 			return;
 		}
 
-		createKeyboardRoot();
-		keyboardRoot.add(keyboard);
-
 		if (hasCustomParent) {
-			addRootToCustomParent();
+			addRootToCustomParent(keyboard);
+		} else {
+			createKeyboardRoot();
+			keyboardRoot.add(keyboard);
 		}
 	}
 
-	private void addRootToCustomParent() {
+	private void addRootToCustomParent(VirtualKeyboardGUI keyboard) {
 		customParent = Dom.querySelector(
 				keyboardParentSelector);
+		Element detachedKeyboardParent = DOM.createDiv();
+		detachedKeyboardParent.setClassName("GeoGebraFrame");
+		Element container = getAppletContainer();
+		container.appendChild(detachedKeyboardParent);
 		if (customParent != null) {
-			customParent.appendChild(keyboardRoot.getElement());
+			detachedKeyboardParent.appendChild(keyboard.getElement());
+			detachedKeyboardParent.setId(keyboardRootId);
+			customParent.appendChild(detachedKeyboardParent);
+			keyboardRoot = RootPanel.get(keyboardRootId);
 		} else {
 			Log.error("No such keyboard parent in HTML: #" + keyboardParentSelector);
 		}
@@ -55,8 +62,8 @@ final class KeyboardDetachController {
 		detachedKeyboardParent.setClassName("GeoGebraFrame");
 		Element container = getAppletContainer();
 		container.appendChild(detachedKeyboardParent);
-		detachedKeyboardParent.setId(keyboardParentId);
-		keyboardRoot = RootPanel.get(keyboardParentId);
+		detachedKeyboardParent.setId(keyboardRootId);
+		keyboardRoot = RootPanel.get(keyboardRootId);
 	}
 
 	private Element getAppletContainer() {
