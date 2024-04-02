@@ -33,22 +33,19 @@ final class KeyboardDetachController {
 		}
 
 		if (hasCustomParent) {
-			addRootToCustomParent(keyboard);
+			createCustomKeyboardRoot();
 		} else {
-			createKeyboardRoot();
-			keyboardRoot.add(keyboard);
+			createAppletKeyboardRoot();
 		}
+		keyboardRoot.add(keyboard);
 	}
 
-	private void addRootToCustomParent(VirtualKeyboardGUI keyboard) {
+	private void createCustomKeyboardRoot() {
 		customParent = Dom.querySelector(
 				keyboardParentSelector);
 		Element detachedKeyboardParent = DOM.createDiv();
 		detachedKeyboardParent.setClassName("GeoGebraFrame");
-		Element container = getAppletContainer();
-		container.appendChild(detachedKeyboardParent);
 		if (customParent != null) {
-			detachedKeyboardParent.appendChild(keyboard.getElement());
 			detachedKeyboardParent.setId(keyboardRootId);
 			customParent.appendChild(detachedKeyboardParent);
 			keyboardRoot = RootPanel.get(keyboardRootId);
@@ -57,7 +54,7 @@ final class KeyboardDetachController {
 		}
 	}
 
-	private void createKeyboardRoot() {
+	private void createAppletKeyboardRoot() {
 		Element detachedKeyboardParent = DOM.createDiv();
 		detachedKeyboardParent.setClassName("GeoGebraFrame");
 		Element container = getAppletContainer();
