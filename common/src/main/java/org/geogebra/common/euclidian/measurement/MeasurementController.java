@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 
 /**
@@ -31,7 +31,6 @@ public final class MeasurementController {
 
 	private void addTool(MeasurementToolId id, String fileName, Double percent) {
 		add(new MeasurementTool(id, fileName, percent, toolImageFactory, createTransformer(id)));
-		selectTool(id.getMode());
 	}
 
 	private PenTransformer createTransformer(MeasurementToolId id) {
@@ -135,21 +134,18 @@ public final class MeasurementController {
 
 	/**
 	 *
+	 * @param geo to check if it is the active tool.
 	 * @param view {@link EuclidianView}
-	 * @param bounds of the tool image
+	 *
 	 * @return the rotation center of the active tool.
 	 */
-	public GPoint2D getActiveToolCenter(EuclidianView view, GRectangle2D bounds) {
+	public GPoint2D getActiveToolCenter(GeoElement geo, EuclidianView view) {
 		MeasurementTool tool = activeTool();
-		return tool != null && tool.hasRotationCenter()
-				? tool.getRotationCenter(view)
-				: calculateRotationCenter(bounds);
-	}
+		if (tool == null || geo != tool.getImage() || !tool.hasRotationCenter()) {
+			return null;
+		}
 
-	private GPoint2D calculateRotationCenter(GRectangle2D bounds) {
-		double x = bounds.getMinX() + bounds.getWidth() / 2;
-		double y = bounds.getMinY()  + bounds.getHeight() / 2;
-		return new GPoint2D(x, y);
+		return tool.getRotationCenter(view);
 	}
 
 	/**
