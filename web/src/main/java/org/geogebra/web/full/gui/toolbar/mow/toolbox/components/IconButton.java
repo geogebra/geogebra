@@ -108,7 +108,7 @@ public class IconButton extends StandardButton implements SetLabels {
 
 	/**
 	 * Constructor
-	 * @param loc - localization
+	 * @param appW - application
 	 * @param icon - image
 	 * @param ariaLabel - label
 	 * @param dataTitle - title

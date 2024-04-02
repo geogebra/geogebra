@@ -83,7 +83,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 
 	private IconButton addPressButton(SVGResource image, String ariaLabel, String dataTest,
 			Runnable onHandler) {
-		IconButton iconButton = new IconButton(appW, image, ariaLabel, ariaLabel, dataTest, 
+		IconButton iconButton = new IconButton(appW, image, ariaLabel, ariaLabel, dataTest,
 				onHandler);
 		add(iconButton);
 		buttons.add(iconButton);
@@ -183,6 +183,9 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		buttons.forEach(IconButton::deactivate);
 	}
 
+	/**
+	 * @param mode - tool mode
+	 */
 	public void setMode(int mode) {
 		if (MODE_SELECT_MOW == mode) {
 			deselectButtons();
