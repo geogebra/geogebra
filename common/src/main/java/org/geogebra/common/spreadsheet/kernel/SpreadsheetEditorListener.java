@@ -13,7 +13,6 @@ import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
-import com.himamis.retex.editor.share.util.Unicode;
 
 public final class SpreadsheetEditorListener implements MathFieldListener, UnhandledArrowListener {
 
@@ -23,6 +22,7 @@ public final class SpreadsheetEditorListener implements MathFieldListener, Unhan
 	private final int column;
 	private final SpreadsheetCellEditor editor;
 	private final Spreadsheet spreadsheet;
+	private final SpreadsheetCellProcessor processor;
 
 	/**
 	 * @param mathField math input
@@ -39,16 +39,14 @@ public final class SpreadsheetEditorListener implements MathFieldListener, Unhan
 		this.column = column;
 		this.editor = editor;
 		this.spreadsheet = spreadsheet;
+		processor = new SpreadsheetCellProcessor(
+				GeoElementSpreadsheet.getSpreadsheetCellName(column, row),
+				kernel.getAlgebraProcessor());
 	}
 
 	@Override
 	public void onEnter() {
-		if (!mathField.getText().isEmpty()) {
-			String cmd = GeoElementSpreadsheet.getSpreadsheetCellName(column, row)
-					+ Unicode.ASSIGN_STRING + mathField.getText();
-			kernel.getAlgebraProcessor().processAlgebraCommand(
-					cmd, true);
-		}
+		processor.process(mathField.getText());
 		editor.hide();
 	}
 
