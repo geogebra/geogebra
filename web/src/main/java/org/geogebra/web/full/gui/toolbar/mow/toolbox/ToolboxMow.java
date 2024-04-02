@@ -35,6 +35,7 @@ import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithMenu;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithPopup;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.ruler.RulerIconButton;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.main.AppW;
@@ -108,9 +109,9 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private IconButton addToggleButtonWithMenuPopup(SVGResource image, String ariaLabel,
-			List<Integer> tools) {
+			List<Integer> tools, Runnable onClose) {
 		IconButton iconButton = new IconButtonWithMenu(appW, image, ariaLabel, tools,
-				() -> deselectButtons());
+				() -> deselectButtons(), onClose);
 		add(iconButton);
 		buttons.add(iconButton);
 		return iconButton;
@@ -186,8 +187,9 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		if (Browser.isGraspableMathEnabled()) {
 			appsCategory.add(MODE_GRASPABLE_MATH);
 		}
+
 		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.apps(), "Tools.More",
-				appsCategory, () -> selectButton.setActive(true));
+				appsCategory, null);
 	}
 
 	@Override

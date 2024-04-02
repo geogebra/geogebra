@@ -1,10 +1,11 @@
-package org.geogebra.web.full.gui.toolbar.mow.toolbox;
+package org.geogebra.web.full.gui.toolbar.mow.toolbox.ruler;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MOVE;
 import static org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxMow.TOOLBOX_PADDING;
 
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.ruler.RulerPopup;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 

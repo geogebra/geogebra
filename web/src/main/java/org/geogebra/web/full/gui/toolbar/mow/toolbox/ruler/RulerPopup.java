@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui.toolbar.mow.toolbox;
+package org.geogebra.web.full.gui.toolbar.mow.toolbox.ruler;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PROTRACTOR;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
