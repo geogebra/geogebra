@@ -5,7 +5,6 @@ import static org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxMow.TOOLBOX_P
 
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.ruler.RulerPopup;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
