@@ -13,6 +13,12 @@ public class SpreadsheetCellProcessor {
 	private final String cellName;
 	private final StringBuilder sb;
 
+	/**
+	 *
+	 * @param cellName The name of the cell.
+	 * @param algebraProcessor {@link AlgebraProcessor}
+	 * @param errorHandler The error handler of the cell.
+	 */
 	public SpreadsheetCellProcessor(String cellName, AlgebraProcessor algebraProcessor,
 			ErrorHandler errorHandler) {
 		this.cellName = cellName;
@@ -21,6 +27,11 @@ public class SpreadsheetCellProcessor {
 		sb = new StringBuilder();
 	}
 
+	/**
+	 * Depending on input, processor makes text or evaluates input.
+	 *
+	 * @param input to process
+	 */
 	public void process(String input) {
 		try {
 			processInput(isCommand(input) ? buildCommandFrom(input) : buildTextFrom(input));
