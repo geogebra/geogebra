@@ -18,8 +18,6 @@ public final class SpreadsheetEditorListener implements MathFieldListener, Unhan
 
 	final MathFieldInternal mathField;
 	final Kernel kernel;
-	private final int row;
-	private final int column;
 	private final SpreadsheetCellEditor editor;
 	private final Spreadsheet spreadsheet;
 	private final SpreadsheetCellProcessor processor;
@@ -35,8 +33,6 @@ public final class SpreadsheetEditorListener implements MathFieldListener, Unhan
 			int row, int column, SpreadsheetCellEditor editor, Spreadsheet spreadsheet) {
 		this.mathField = mathField;
 		this.kernel = kernel;
-		this.row = row;
-		this.column = column;
 		this.editor = editor;
 		this.spreadsheet = spreadsheet;
 		processor = new SpreadsheetCellProcessor(
