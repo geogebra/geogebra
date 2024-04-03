@@ -7,27 +7,21 @@ import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
 
 public class ContextMenuItems {
 	static final int HEADER_INDEX = -1;
-	private final TabularData tabularData;
 	private final CopyPasteCutTabularData copyPasteCut;
 	private final SpreadsheetSelectionController selectionController;
-	private final TableLayout layout;
 	private final SpreadsheetController spreadsheetController;
 
 	/**
 	 * @param spreadsheetController {@link SpreadsheetController}
-	 * @param tabularData {@link TabularData}
 	 * @param selectionController {@link SpreadsheetSelectionController}
 	 * @param copyPasteCut {@link CopyPasteCutTabularData}
-	 * @param layout {@link TableLayout}
 	 */
-	public ContextMenuItems(SpreadsheetController spreadsheetController, TabularData tabularData,
+	public ContextMenuItems(SpreadsheetController spreadsheetController,
 			SpreadsheetSelectionController selectionController,
-			CopyPasteCutTabularData copyPasteCut, TableLayout layout) {
+			CopyPasteCutTabularData copyPasteCut) {
 		this.spreadsheetController = spreadsheetController;
 		this.selectionController = selectionController;
-		this.tabularData = tabularData;
 		this.copyPasteCut = copyPasteCut;
-		this.layout = layout;
 	}
 
 	/**

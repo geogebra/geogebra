@@ -47,8 +47,7 @@ public final class SpreadsheetController implements TabularSelection {
 		layout = new TableLayout(tabularData.numberOfRows(),
 				tabularData.numberOfColumns(), TableLayout.DEFAUL_CELL_HEIGHT,
 				TableLayout.DEFAULT_CELL_WIDTH);
-		contextMenuItems = new ContextMenuItems(this, tabularData, selectionController,
-				getCopyPasteCut(), layout);
+		contextMenuItems = new ContextMenuItems(this, selectionController, getCopyPasteCut());
 	}
 
 	private void initViewport(Rectangle viewport) {
@@ -507,6 +506,10 @@ public final class SpreadsheetController implements TabularSelection {
 		return null;
 	}
 
+	/**
+	 * Deletes a row at the given index
+	 * @param row Row index
+	 */
 	public void deleteRowAt(int row) {
 		List<Selection> selections = getSelections();
 		if (selections.isEmpty()) {
@@ -527,6 +530,10 @@ public final class SpreadsheetController implements TabularSelection {
 		storeUndoInfo();
 	}
 
+	/**
+	 * Deletes a column at the given index
+	 * @param column Column index
+	 */
 	public void deleteColumnAt(int column) {
 		List<Selection> selections = getSelections();
 		if (selections.isEmpty()) {
