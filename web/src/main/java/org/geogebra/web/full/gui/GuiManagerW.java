@@ -1431,8 +1431,6 @@ public class GuiManagerW extends GuiManager
 	public void getSpreadsheetLayoutXML(StringBuilder sb) {
 		if (spreadsheetLayout != null) {
 			sb.append(spreadsheetLayout.getXML());
-		} else {
-			sb.append("<spreadsheetLayoutSuite>\n</spreadsheetLayoutSuite>\n");
 		}
 	}
 

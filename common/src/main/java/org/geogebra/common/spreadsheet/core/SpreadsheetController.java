@@ -7,7 +7,6 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.StringUtil;
@@ -34,7 +33,7 @@ public final class SpreadsheetController implements TabularSelection {
 	private DragAction dragAction;
 	private Rectangle viewport;
 	private @CheckForNull ViewportAdjuster viewportAdjuster;
-	private @CheckForNull UndoManager undoManager;
+	private @CheckForNull UndoProvider undoProvider;
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
@@ -48,7 +47,7 @@ public final class SpreadsheetController implements TabularSelection {
 		layout = new TableLayout(tabularData.numberOfRows(),
 				tabularData.numberOfColumns(), TableLayout.DEFAUL_CELL_HEIGHT,
 				TableLayout.DEFAULT_CELL_WIDTH);
-		contextMenuItems = new ContextMenuItems(tabularData, selectionController,
+		contextMenuItems = new ContextMenuItems(this, tabularData, selectionController,
 				getCopyPasteCut(), layout);
 	}
 
@@ -74,6 +73,10 @@ public final class SpreadsheetController implements TabularSelection {
 		return style;
 	}
 
+	/**
+	 * Visible for tests
+	 * @return {@link ContextMenuItems}
+	 */
 	ContextMenuItems getContextMenuItems() {
 		return contextMenuItems;
 	}
@@ -178,8 +181,8 @@ public final class SpreadsheetController implements TabularSelection {
 		this.viewport = viewport;
 	}
 
-	public void setUndoManager(UndoManager undoManager) {
-		this.undoManager = undoManager;
+	public void setUndoProvider(UndoProvider undoProvider) {
+		this.undoProvider = undoProvider;
 	}
 
 	/**
@@ -504,6 +507,87 @@ public final class SpreadsheetController implements TabularSelection {
 		return null;
 	}
 
+	public void deleteRowAt(int row) {
+		List<Selection> selections = getSelections();
+		if (selections.isEmpty()) {
+			deleteRowAt(row, row);
+		} else {
+			selections.stream().forEach(selection -> deleteRowAt(
+					selection.getRange().getFromRow(), selection.getRange().getToRow()));
+		}
+	}
+
+	private void deleteRowAt(int fromRow, int toRow) {
+		for (int row = fromRow; row < toRow + 1; row++) {
+			tabularData.deleteRowAt(fromRow);
+		}
+		if (layout != null) {
+			layout.resizeRemainingRowsAscending(toRow, tabularData.numberOfRows());
+		}
+		storeUndoInfo();
+	}
+
+	public void deleteColumnAt(int column) {
+		List<Selection> selections = getSelections();
+		if (selections.isEmpty()) {
+			deleteColumnAt(column, column);
+		} else {
+			selections.stream().forEach(selection -> deleteColumnAt(
+					selection.getRange().getFromColumn(), selection.getRange().getToColumn()));
+		}
+	}
+
+	private void deleteColumnAt(int fromColumn, int toColumn) {
+		for (int column = fromColumn; column < toColumn + 1; column++) {
+			tabularData.deleteColumnAt(fromColumn);
+		}
+		if (layout != null) {
+			layout.resizeRemainingColumnsAscending(toColumn, tabularData.numberOfColumns());
+		}
+		storeUndoInfo();
+	}
+
+	/**
+	 * Inserts a column at a given index
+	 * @param column Index of where to insert the column
+	 * @param right Whether the column is being inserted right of the currently selected column
+	 */
+	public void insertColumnAt(int column, boolean right) {
+		tabularData.insertColumnAt(column);
+		Selection lastSelection = selectionController.getLastSelection();
+		if (right && lastSelection != null) {
+			selectionController.setSelections(lastSelection.getRight(
+					tabularData.numberOfColumns(), false));
+		}
+		if (layout != null) {
+			layout.resizeRemainingColumnsDescending(right ? column - 1 : column,
+					tabularData.numberOfColumns());
+		}
+		storeUndoInfo();
+	}
+
+	/**
+	 * Inserts a row at a given index
+	 * @param row Index of where to insert the row
+	 * @param below Whether the row is being inserted below the currently selected row
+	 */
+	public void insertRowAt(int row, boolean below) {
+		tabularData.insertRowAt(row);
+		Selection lastSelection = selectionController.getLastSelection();
+		if (below && lastSelection != null) {
+			selectionController.setSelections(lastSelection.getBottom(
+					tabularData.numberOfRows(), false));
+		}
+		if (layout != null) {
+			layout.resizeRemainingRowsDescending(below ? row - 1 : row, tabularData.numberOfRows());
+		}
+		storeUndoInfo();
+	}
+
+	public boolean isOnlyCellSelected(int row, int column) {
+		return selectionController.isOnlyCellSelected(row, column);
+	}
+
 	/**
 	 * @return whether editor is currently visible
 	 */
@@ -512,8 +596,8 @@ public final class SpreadsheetController implements TabularSelection {
 	}
 
 	private void storeUndoInfo() {
-		if (undoManager != null) {
-			undoManager.storeUndoInfo();
+		if (undoProvider != null) {
+			undoProvider.storeUndoInfo();
 		}
 	}
 }

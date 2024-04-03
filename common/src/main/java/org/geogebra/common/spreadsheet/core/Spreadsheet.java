@@ -37,8 +37,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		setViewport(new Rectangle(0, 0, 0, 0));
 		tabularData.addChangeListener(this);
 		if (app != null) {
-			controller.getContextMenuItems().setUndoManager(app.getUndoManager());
-			controller.setUndoManager(app.getUndoManager());
+			controller.setUndoProvider(app.getUndoManager());
 			app.getGuiManager().setSpreadsheetLayoutForSuite(controller.getLayout());
 		}
 	}

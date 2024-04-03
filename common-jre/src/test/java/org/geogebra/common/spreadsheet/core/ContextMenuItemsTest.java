@@ -14,7 +14,6 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PA
 import static org.geogebra.common.spreadsheet.core.ContextMenuItems.HEADER_INDEX;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
@@ -24,6 +23,7 @@ import java.util.stream.Collectors;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
+import org.geogebra.common.util.shape.Rectangle;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -32,6 +32,7 @@ public final class ContextMenuItemsTest {
 	private ContextMenuItems items;
 	private final SpreadsheetSelectionController selectionController =
 			new SpreadsheetSelectionController();
+	private SpreadsheetController controller;
 	private TabularData<String> data;
 	private TestClipboard clipboard;
 
@@ -42,7 +43,9 @@ public final class ContextMenuItemsTest {
 		clipboard = new TestClipboard();
 		CopyPasteCutTabularDataImpl<?> copyPasteCut =
 				new CopyPasteCutTabularDataImpl<>(data, clipboard);
-		items = new ContextMenuItems(data, selectionController, copyPasteCut, null);
+		controller = new SpreadsheetController(data, new Rectangle());
+		items = new ContextMenuItems(controller, data,
+				selectionController, copyPasteCut, null);
 	}
 
 	private void fillTestData() {
@@ -142,9 +145,7 @@ public final class ContextMenuItemsTest {
 	}
 
 	private void selectRows(int fromRow, int toRow) {
-		selectionController.select(new Selection(
-				new TabularRange(fromRow, HEADER_INDEX, toRow, HEADER_INDEX
-		)), false, false);
+		controller.select(new TabularRange(fromRow, -1, toRow, -1), false, false);
 	}
 
 	private void checkRowReplaced(int fromRow, int toRow) {
@@ -181,13 +182,12 @@ public final class ContextMenuItemsTest {
 	}
 
 	private void selectColumns(int fromColumn, int toColumn) {
-		selectionController.select(new Selection(
-				new TabularRange(HEADER_INDEX, fromColumn, HEADER_INDEX, toColumn)),
-				false, false);
+		controller.select(new TabularRange(-1, fromColumn, -1, toColumn), false, false);
 	}
 
 	@Test
 	public void testInsertRowAbove() {
+		runItemAt(3, HEADER_INDEX, DELETE_ROW);
 		runItemAt(5, HEADER_INDEX, INSERT_ROW_ABOVE);
 		checkNewRowAt(5);
 	}
@@ -204,12 +204,14 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testInsertRowBelow() {
+		runItemAt(4, HEADER_INDEX, DELETE_ROW);
 		runItemAt(5, HEADER_INDEX, INSERT_ROW_BELOW);
 		checkNewRowAt(6);
 	}
 
 	@Test
 	public void testInsertColumnLeft() {
+		runItemAt(HEADER_INDEX, 3, DELETE_COLUMN);
 		runItemAt(HEADER_INDEX, 5,  INSERT_COLUMN_LEFT);
 		checkNewColumnAt(5);
 	}
@@ -226,6 +228,7 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testInsertColumnRight() {
+		runItemAt(HEADER_INDEX, 4, DELETE_COLUMN);
 		runItemAt(HEADER_INDEX, 5,  INSERT_COLUMN_RIGHT);
 		checkNewColumnAt(6);
 	}
@@ -334,46 +337,6 @@ public final class ContextMenuItemsTest {
 		shoudStayDefault(14, 2);
 		shoudStayDefault(14, 3);
 		shoudStayDefault(14, 4);
-	}
-
-	@Test
-	public void testInsertingColumnRightwardShouldChangeSelection() {
-		selectCells(0, 1, 0, 1);
-		runItemAt(0, 1, INSERT_COLUMN_RIGHT);
-		assertTrue("The current selection should move when a column is inserted to the right!",
-				selectionController.getLastSelection().contains(0, 2));
-		assertTrue("There should be no more than 1 cell selected!",
-				selectionController.isOnlyCellSelected(0, 2));
-	}
-
-	@Test
-	public void testInsertingColumnLeftwardShouldNotChangeSelection() {
-		selectCells(1, 2, 1, 2);
-		runItemAt(1, 2, INSERT_COLUMN_LEFT);
-		assertTrue("The current selection should stay when a column is inserted to the left!",
-				selectionController.getLastSelection().contains(1, 2));
-		assertTrue("There should be no more than 1 cell selected!",
-				selectionController.isOnlyCellSelected(1, 2));
-	}
-
-	@Test
-	public void testInsertingRowBelowShouldChangeSelection() {
-		selectCells(1, 1, 1, 1);
-		runItemAt(1, 1, INSERT_ROW_BELOW);
-		assertTrue("The current selection should move when a row is inserted below!",
-				selectionController.getLastSelection().contains(2, 1));
-		assertTrue("There should be no more than 1 cell selected!",
-				selectionController.isOnlyCellSelected(2, 1));
-	}
-
-	@Test
-	public void testInsertingRowAboveShouldNotChangeSelection() {
-		selectCells(2, 2, 2, 2);
-		runItemAt(2, 2, INSERT_ROW_ABOVE);
-		assertTrue("The current selection should stay when a row is inserted above!",
-				selectionController.getLastSelection().contains(2, 2));
-		assertTrue("There should be no more than 1 cell selected!",
-				selectionController.isOnlyCellSelected(2, 2));
 	}
 
 	private void shoudStayDefault(int row, int column) {
