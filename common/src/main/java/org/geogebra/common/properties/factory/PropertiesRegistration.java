@@ -19,27 +19,31 @@ final class PropertiesRegistration {
 	}
 
 	static Property registerProperty(@Nullable PropertiesRegistry registry, Property property) {
-		if (property instanceof PropertyCollection<?>) {
-			PropertyCollection collection = (PropertyCollection) property;
-			registerProperties(registry, collection.getProperties());
-		}
 		if (registry != null) {
+			if (property instanceof PropertyCollection<?>) {
+				PropertyCollection collection = (PropertyCollection) property;
+				registerProperties(registry, collection.getProperties());
+			}
 			registry.register(property);
 		}
 		return property;
 	}
 
 	static Property[] registerProperties(@Nullable PropertiesRegistry registry, Property... properties) {
-		for (Property property : properties) {
-			registerProperty(registry, property);
+		if (registry != null) {
+			for (Property property : properties) {
+				registerProperty(registry, property);
+			}
 		}
 		return properties;
 	}
 
 	static List<Property> registerProperties(@Nullable PropertiesRegistry registry,
 			List<Property> properties) {
-		for (Property property : properties) {
-			registerProperty(registry, property);
+		if (registry != null) {
+			for (Property property : properties) {
+				registerProperty(registry, property);
+			}
 		}
 		return properties;
 	}
