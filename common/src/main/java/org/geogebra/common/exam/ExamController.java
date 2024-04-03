@@ -442,9 +442,9 @@ public final class ExamController {
 			if (currentSubApp == null
 					|| (disabledSubApps != null && disabledSubApps.contains(currentSubApp))) {
 				delegate.examSwitchSubApp(examRestrictions.getDefaultSubApp());
-				if (delegate.examGetActiveMaterial() == null) {
-					delegate.examSetActiveMaterial(tempStorage.newMaterial());
-				}
+			}
+			if (delegate.examGetActiveMaterial() == null) {
+				delegate.examSetActiveMaterial(tempStorage.newMaterial());
 			}
 		}
 		if (dependencies != null) {
