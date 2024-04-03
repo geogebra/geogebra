@@ -32,7 +32,7 @@ public class CommandFilterFactoryTest {
 			Commands.Tangent, Commands.TriangleCenter, Commands.TriangleCurve, Commands.Trilinear,
 			Commands.Vertex, Commands.Polynomial, Commands.TaylorPolynomial, Commands.Asymptote,
 			Commands.OsculatingCircle, Commands.CommonDenominator, Commands.CompleteSquare,
-			Commands.Div, Commands.Mod, Commands.Division
+			Commands.Div, Commands.Mod, Commands.Division, Commands.Tetrahedron, Commands.Surface
 	};
 	private CommandFilter filter;
 
