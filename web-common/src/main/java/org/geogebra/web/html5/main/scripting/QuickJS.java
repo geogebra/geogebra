@@ -49,17 +49,17 @@ public class QuickJS {
 
 		public native void setProp(QuickJSHandle target, String name, Object value);
 
+		public native QuickJSHandle newArray();
+
 		public native QuickJSHandle newObject();
 
 		public native QuickJSHandle newFunction(String name, MethodWrapper nativeFn);
 
-		public native Object getString(Object mainArg);
+		public native QuickJSHandle newNumber(Object rawResult);
 
 		public native QuickJSHandle newString(Object function);
 
 		public native void dispose();
-
-		public native QuickJSHandle newNumber(Object rawResult);
 
 		public native String typeof(Object rawResult);
 

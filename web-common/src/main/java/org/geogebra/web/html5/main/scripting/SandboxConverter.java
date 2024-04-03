@@ -47,7 +47,9 @@ final class SandboxConverter {
 			if (Js.isFalsy(rawResult)) {
 				return vm.getNull();
 			}
-			QuickJS.QuickJSHandle sandboxed = vm.newObject();
+
+			QuickJS.QuickJSHandle sandboxed = JsArray.isArray(rawResult)
+					? vm.newArray() : vm.newObject();
 			JsPropertyMap<Object> props = Js.asPropertyMap(rawResult);
 			if (maxDepth > 0) {
 				props.forEach(propName ->
