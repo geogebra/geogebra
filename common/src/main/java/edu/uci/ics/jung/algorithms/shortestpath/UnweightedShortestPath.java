@@ -100,8 +100,7 @@ public class UnweightedShortestPath<V, E>
 				for (E incomingEdge : mGraph.getInEdges(vertex)) {
 					for (V neighbor : mGraph
 							.getIncidentVertices(incomingEdge)) {
-						if (neighbor.equals(vertex))
-						 {
+						if (neighbor.equals(vertex)) {
 							continue;
 						// V neighbor = mGraph.getOpposite(vertex,
 						// incomingEdge);

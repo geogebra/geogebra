@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EmbedManager;
@@ -14,8 +15,10 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoInputBox;
+import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
@@ -71,7 +74,7 @@ public class InternalClipboard {
 
 		ArrayList<ConstructionElement> geostohide = CopyPaste.addPredecessorGeos(geoslocal);
 
-		geostohide.addAll(addAlgosDependentFromInside(geoslocal));
+		geostohide.addAll(addAlgosDependentFromInside(geoslocal, null));
 		// topological order to make sure client listener can process predecessor objects
 		// before child objects (e.g. for multiuser)
 		Collections.sort(geoslocal);
@@ -131,14 +134,18 @@ public class InternalClipboard {
 	 * copyToXML - Add the algos which belong to our selected geos Also
 	 * add the geos which might be side-effects of these algos
 	 * @param conels input and output
+	 * @param copiedMacros output set for collecting macros or null if macro collecting not needed
 	 * @return the possible side-effect geos
 	 */
-	private static ArrayList<ConstructionElement> addAlgosDependentFromInside(
-			ArrayList<ConstructionElement> conels) {
+	public static ArrayList<ConstructionElement> addAlgosDependentFromInside(
+			ArrayList<ConstructionElement> conels, Set<Macro> copiedMacros) {
 
 		ArrayList<ConstructionElement> ret = new ArrayList<>();
 
 		for (int i = conels.size() - 1; i >= 0; i--) {
+			if (!(conels.get(i) instanceof GeoElement)) {
+				continue;
+			}
 			GeoElement geo = (GeoElement) conels.get(i);
 
 			// also doing this here, which is not about the name of the method,
@@ -152,13 +159,14 @@ public class InternalClipboard {
 			}
 
 			ArrayList<AlgoElement> geoal = geo.getAlgorithmList();
-
 			for (AlgoElement ale : geoal) {
 				if (ale instanceof AlgoTableToChart) {
 					continue;
 				}
-				ArrayList<ConstructionElement> ac = new ArrayList<>();
-				ac.addAll(Arrays.asList(ale.getInput()));
+				if (ale instanceof AlgoMacro && copiedMacros != null) {
+					copiedMacros.add(((AlgoMacro) ale).getMacro());
+				}
+				List<ConstructionElement> ac = Arrays.asList(ale.getInput());
 
 				if (conels.containsAll(ac) && !conels.contains(ale)) {
 					conels.add(ale);
@@ -372,7 +380,7 @@ public class InternalClipboard {
 			euclidianController.showDynamicStylebar();
 		}
 
-		app.storeUndoInfo();
+		app.getKernel().getConstruction().getUndoManager().storeAddGeo(createdElements);
 	}
 
 	private static boolean groupedWithMindMap(GeoElement created) {

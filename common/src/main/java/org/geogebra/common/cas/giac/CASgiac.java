@@ -791,9 +791,8 @@ public abstract class CASgiac implements CASGenericInterface {
 	 *             Throws if the underlying CAS produces an error
 	 */
 	final public synchronized String toGeoGebraString(String giacString,
-													  ArbitraryConstantRegistry arbconst,
-													  final StringTemplate tpl,
-													  final Kernel kernel) throws CASException {
+			ArbitraryConstantRegistry arbconst,	final StringTemplate tpl,
+			final Kernel kernel) throws CASException {
 
 		ExpressionValue ve = replaceRoots(casParser.parseGiac(giacString),
 				arbconst, kernel);

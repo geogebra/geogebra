@@ -15,7 +15,7 @@ public class UndoHistory {
 	 * @param iteratorIndex current iterator.
 	 */
 	public UndoHistory(Collection<UndoCommand> commands,
-					   int iteratorIndex) {
+			int iteratorIndex) {
 		this.commands = commands;
 		this.iteratorIndex = iteratorIndex;
 	}

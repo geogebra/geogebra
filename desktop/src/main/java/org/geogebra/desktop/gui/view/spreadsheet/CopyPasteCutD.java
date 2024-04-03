@@ -13,8 +13,6 @@ import java.net.URL;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.Charsets;
@@ -40,36 +38,11 @@ public class CopyPasteCutD extends CopyPasteCut {
 		 * "changing decimal separator to: "+decimalSeparator); }
 		 */
 
-		// copy tab-delimited geo values into the external buffer
-		if (getCellBufferStr() == null) {
-			setCellBufferStr(new StringBuilder());
-		} else {
-			getCellBufferStr().setLength(0);
-		}
-		for (int row = row1; row <= row2; ++row) {
-			for (int column = column1; column <= column2; ++column) {
-				GeoElement value = RelativeCopy.getValue(app, column, row);
-				if (value != null) {
-					String valueStr = value
-							.toValueString(StringTemplate.maxPrecision);
-
-					getCellBufferStr().append(valueStr);
-
-				}
-				if (column != column2) {
-					getCellBufferStr().append('\t');
-				}
-			}
-			if (row != row2) {
-				getCellBufferStr().append('\n');
-			}
-		}
-
 		// store the tab-delimited values in the clipboard
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Clipboard clipboard = toolkit.getSystemClipboard();
 		StringSelection stringSelection = new StringSelection(
-				getCellBufferStr().toString());
+				copyStringToBuffer(column1, row1, column2, row2));
 		clipboard.setContents(stringSelection, null);
 
 		// store copies of the actual geos in the internal buffer
@@ -125,8 +98,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 		// test if the transfer string is the same as the internal cell copy
 		// string. If true, then we have a tab-delimited list of cell geos and
 		// can paste them with relative cell references
-		boolean doInternalPaste = getCellBufferStr() != null
-				&& transferString.equals(getCellBufferStr().toString());
+		boolean doInternalPaste = isCellBuffer(transferString);
 
 		if (doInternalPaste && getCellBufferGeo() != null) {
 

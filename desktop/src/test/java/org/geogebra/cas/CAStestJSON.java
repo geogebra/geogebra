@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.util.Locale;
 
 import org.geogebra.common.kernel.cas.CasTestJsonCommon;
+import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.AppD;
@@ -37,11 +38,11 @@ public class CAStestJSON extends CasTestJsonCommon {
 		String json = "";
 		try {
 			Log.debug("CAS: loading testcases");
-			json = readFileAsString(
-					"../common/src/main/resources/giac/giacTests.js");
+			json = readJsonFileAsString(
+			);
 			Log.debug("CAS: testcases parsed");
 			addTestcases(json);
-		} catch (Throwable e) {
+		} catch (JSONException | IOException e) {
 			handleParsingError(e, json);
 		}
 		checkMissingCategories();
@@ -73,8 +74,9 @@ public class CAStestJSON extends CasTestJsonCommon {
 		Assert.assertEquals("", sb.toString());
 	}
 
-	private static String readFileAsString(String filePath) throws IOException {
-		return skipComments(Files.readAllLines(Paths.get(filePath)));
+	private static String readJsonFileAsString() throws IOException {
+		return skipComments(Files.readAllLines(Paths.get(
+				"../common/src/main/resources/giac/giacTests.js")));
 	}
 
 }

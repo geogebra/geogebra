@@ -323,6 +323,10 @@ public class ScreenReader {
 		return " close brace ";
 	}
 
+	public static String getPolarSeparator() {
+		return " semicolon ";
+	}
+
 	/**
 	 * @param leftStr
 	 *            base

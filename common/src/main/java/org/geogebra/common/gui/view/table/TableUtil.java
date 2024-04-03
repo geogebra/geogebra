@@ -17,7 +17,7 @@ public final class TableUtil {
      */
     public static String getHeaderHtml(TableValuesModel model, int columnIndex) {
         String content = model.getHeaderAt(columnIndex);
-        String[] parts = splitByIndices(content);
+        String[] parts = splitByIndices(content == null ? "-" : content);
         return IntStream.range(0, parts.length)
                 .mapToObj(i -> i % 2 != 0 ? "<sub>" + parts[i] + "</sub>" : parts[i])
                 .collect(Collectors.joining());

@@ -33,8 +33,6 @@ public interface MaterialsManagerI {
 
 	boolean save(App app);
 
-	void saveLoggedOut(App app);
-
 	boolean shouldKeep(int i);
 
 	void getFromTube(int id, boolean fromAnotherDevice);
@@ -71,7 +69,7 @@ public interface MaterialsManagerI {
 	 */
 	void open(String url);
 
-	boolean saveCurrentLocalIfPossible(App app);
+	boolean saveCurrentLocalIfPossible(App app, Runnable callback);
 
 	boolean isOnlineSavingPreferred();
 }

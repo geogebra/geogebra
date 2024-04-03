@@ -25,6 +25,7 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.kernel.CircularDefinitionException;
+import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -101,6 +102,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	protected AlgebraProcessor algebraprocessor = null;
 	/** application */
 	protected App app = null;
+	private static final StringTemplate nonLocalizedTemplate = StringTemplate
+			.printDecimals(ExpressionNodeConstants.StringType.GEOGEBRA, 13, false);
+
+	static {
+		nonLocalizedTemplate.setLocalizeCmds(false);
+	}
 
 	/**
 	 * Returns reference to Construction
@@ -225,8 +232,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		// this is new in GeoGebra 4.2 and it will stop some files working
 		// but causes problems if the files are opened and edited
 		// and in the web project
-		boolean oldVal = kernel.isUsingInternalCommandNames();
-		kernel.setUseInternalCommandNames(true);
+		CommandLookupStrategy oldVal = kernel.getCommandLookupStrategy();
+		kernel.setCommandLookupStrategy(CommandLookupStrategy.XML);
 
 		StringBuilder ret = new StringBuilder();
 
@@ -245,7 +252,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				}
 			}
 		} finally {
-			kernel.setUseInternalCommandNames(oldVal);
+			kernel.setCommandLookupStrategy(oldVal);
 		}
 
 		if (ret.length() == 0) {
@@ -936,6 +943,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		geo.remove();
 		kernel.notifyRepaint();
+		kernel.getConstruction().getUndoManager().removeActionsWithLabel(objName);
 	}
 
 	@Override
@@ -1018,9 +1026,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo.isGeoCasCell()) {
 			return ((GeoCasCell) geo).getOutput(StringTemplate.numericDefault);
 		}
-		StringTemplate template =
-				localized ? StringTemplate.defaultTemplate : StringTemplate.noLocalDefault;
-
+		StringTemplate template = getOutputTemplate(localized);
 		return geo.getAlgebraDescriptionPublic(template);
 	}
 
@@ -1039,9 +1045,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null) {
 			return "";
 		}
-		return geo.getDefinitionDescription(
-				localize ? StringTemplate.defaultTemplate
-						: StringTemplate.noLocalDefault);
+		return geo.getDefinitionDescription(getOutputTemplate(localize));
 	}
 
 	/**
@@ -1058,7 +1062,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public void evalLaTeX(String input, int mode) {
-		app.getDrawEquation().checkFirstCall(app);
+		app.getDrawEquation().checkFirstCall();
 		TeXFormula tf = new TeXFormula(input);
 		// TeXParser tp = new TeXParser(input, tf);
 		// tp.parse();
@@ -1105,12 +1109,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return "";
 		}
 		if (geo instanceof GeoCasCell) {
-			return geo.getDefinitionDescription(
-					localize ? StringTemplate.defaultTemplate
-							: StringTemplate.noLocalDefault);
+			return geo.getDefinitionDescription(getOutputTemplate(localize));
 		}
-		return geo.getDefinition(localize ? StringTemplate.defaultTemplate
-				: StringTemplate.noLocalDefault);
+		return geo.getDefinition(getOutputTemplate(localize));
+	}
+
+	private StringTemplate getOutputTemplate(boolean localize) {
+		return localize ? StringTemplate.defaultTemplate
+				: nonLocalizedTemplate;
 	}
 
 	@Override
@@ -1465,14 +1471,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	final public void setPenColor(int red, int green, int blue) {
-		app.getActiveEuclidianView().getEuclidianController().getPen().defaultPenLine
-				.setObjColor(GColor.newColor(red, green, blue));
+		app.getActiveEuclidianView().getEuclidianController().getPen()
+				.setPenColor(GColor.newColor(red, green, blue));
 	}
 
 	@Override
 	final public void setPenSize(int size) {
-		app.getActiveEuclidianView().getEuclidianController().getPen().defaultPenLine
-				.setLineThickness(size);
+		app.getActiveEuclidianView().getEuclidianController().getPen()
+				.setPenSize(size);
 	}
 
 	@Override

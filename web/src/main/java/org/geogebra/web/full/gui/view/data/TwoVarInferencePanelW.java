@@ -258,39 +258,39 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 	@Override
 	public void setStatTable(int row, String[] rowNames, int length,
-            String[] columnNames) {
+			String[] columnNames) {
 		resultTable.setStatTable(1, null, columnNames.length, columnNames);
 	}
 
 	@Override
 	public void setFormattedValueAt(double value, int row, int col) {
-	    resultTable.setValueAt(daView.format(value), row, col);
-    }
+		resultTable.setValueAt(daView.format(value), row, col);
+	}
 
 	@Override
 	public GeoList getDataSelected() {
-	    return daView.getController().getDataSelected();
-    }
+		return daView.getController().getDataSelected();
+	}
 
 	@Override
 	public int getSelectedDataIndex(int idx) {
-	    return selectedDataIndex()[idx];
-    }
+		return selectedDataIndex()[idx];
+	}
 
 	@Override
 	public double[] getValueArray(GeoList list) {
-	    return daView.getController().getValueArray(list);
-    }
+		return daView.getController().getValueArray(list);
+	}
 
 	@Override
 	public void addAltHypItem(String name, String tail, double value) {
-	    lbAltHyp.addItem(name + " " + tail + " " + daView.format(value));
-    }
+		lbAltHyp.addItem(name + " " + tail + " " + daView.format(value));
+	}
 
 	@Override
 	public void selectAltHyp(int idx) {
-	   lbAltHyp.setSelectedIndex(idx);
-    }
+		lbAltHyp.setSelectedIndex(idx);
+	}
 
 	/**
 	 * @return whether "pooled" checkbox is visible

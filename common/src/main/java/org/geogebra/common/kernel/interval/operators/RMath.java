@@ -59,7 +59,7 @@ public class RMath {
 	 * @param m argument
 	 * @param n argument
 	 * @return the previous number of m * n
-	 0*/
+	 */
 	public static double mulLow(double m, double n) {
 		return prev(m * n);
 	}

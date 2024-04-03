@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.awt.GColor;
@@ -442,7 +443,7 @@ public class ConsElementXMLHandler {
 							: Kernel.COORD_CARTESIAN);
 		} else if (geo instanceof GeoPolyLine) {
 			geo.setVisibleInView3D(false);
-		} else if (geo instanceof GeoFunction) {
+		} else if (geo instanceof GeoFunction || geo instanceof EquationValue) {
 			geo.setFixed(false);
 		} else if (geo instanceof GeoAngle) {
 			((GeoAngle) geo).setEmphasizeRightAngle(true);
@@ -1856,7 +1857,7 @@ public class ConsElementXMLHandler {
 
 	private void handleOrdering(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setOrdering(Integer.parseInt(attrs.get("val")));
+			geo.setOrdering(Double.parseDouble(attrs.get("val")));
 		} catch (RuntimeException e) {
 			// no or incorrect ordering
 		}
@@ -2046,7 +2047,7 @@ public class ConsElementXMLHandler {
 		if (pendingLabel != null) {
 			geo.setLoadedLabel(pendingLabel);
 			pendingLabel = null;
-		} else {
+		} else if (startPointList.stream().noneMatch(pair -> pair.locateable == geo)) {
 			xmlHandler.kernel.notifyUpdateVisualStyle(geo, GProperty.COMBINED);
 		}
 	}
@@ -2503,13 +2504,15 @@ public class ConsElementXMLHandler {
 	private void processStartPointList() {
 		try {
 			AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
-
+			List<Locateable> changedLocateables = getLocateablesFromStartPointList();
 			for (LocateableExpPair pair : startPointList) {
 				GeoPointND P = pair.point != null ? pair.point
 						: algProc.evaluateToPoint(pair.exp,
 								ErrorHelper.silent(), true);
 				pair.locateable.setStartPoint(P, pair.number);
-
+			}
+			for (Locateable updated: changedLocateables) {
+				updated.updateVisualStyle(GProperty.COMBINED);
 			}
 		} catch (Exception e) {
 			startPointList.clear();
@@ -2517,6 +2520,18 @@ public class ConsElementXMLHandler {
 			addError("Invalid start point: " + e);
 		}
 		startPointList.clear();
+	}
+
+	private ArrayList<Locateable> getLocateablesFromStartPointList() {
+		ArrayList<Locateable> changedLocateables = new ArrayList<>(startPointList.size());
+		// use list instead of set to maintain order
+		for (LocateableExpPair pair: startPointList) {
+			if (changedLocateables.isEmpty()
+				|| changedLocateables.get(changedLocateables.size() - 1) != pair.locateable) {
+					changedLocateables.add(pair.locateable);
+			}
+		}
+		return changedLocateables;
 	}
 
 	private void processLinkedGeoList() {

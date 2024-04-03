@@ -16,8 +16,6 @@ public enum Feature {
 	/** GGB-334, TRAC-3401 */
 	ADJUST_WIDGETS,
 
-	MOW_PEN_EVENTS,
-
 	/** SolveQuartic in CAS GGB-1635 */
 	SOLVE_QUARTIC,
 

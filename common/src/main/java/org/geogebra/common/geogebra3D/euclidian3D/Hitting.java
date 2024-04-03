@@ -276,13 +276,13 @@ public class Hitting {
 		return vz;
 	}
 
-    /**
-     *
-     * @return true if discards positive hits
-     */
+	/**
+	 *
+	 * @return true if discards positive hits
+	 */
 	public boolean discardPositiveHits() {
-	    return view.isXREnabled();
-    }
+		return view.isXREnabled();
+	}
 
 	/**
 	 * @return direction of the ray

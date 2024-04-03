@@ -17,7 +17,7 @@ public class GeoElementMenuItemCollection
 	 * Add "Add label" / "Remove label" to a menu
 	 * 
 	 */
-	public void addLabelingActions() {
-		addItems(new RemoveLabelItem(), new AddLabelItem());
+	public void addLabelingActions(Runnable actionCallback) {
+		addItems(new RemoveLabelItem(actionCallback), new AddLabelItem(actionCallback));
 	}
 }

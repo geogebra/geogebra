@@ -38,8 +38,8 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 		@Override
 		public void onClick(ClickEvent event) {
-	        onDataClick(index);
-        }
+			onDataClick(index);
+		}
 	}
 
 	/*************************************************
@@ -215,7 +215,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 	@Override
 	public void onResize() {
-	    scrollPane.setHeight(getOffsetHeight() - lblHeader.getOffsetHeight() + "px");
-    }
+		scrollPane.setHeight(getOffsetHeight() - lblHeader.getOffsetHeight() + "px");
+	}
 
 }

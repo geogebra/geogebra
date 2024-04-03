@@ -80,6 +80,8 @@ public final class GeoGebraPreferencesW {
 			if (app.getTmpPerspective() != null) {
 				p = app.getTmpPerspective();
 			}
+		} else {
+			app.getSettings().resetNoFireEuclidianSettings();
 		}
 
 		readObjectDefaults(app, stockStore);

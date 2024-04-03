@@ -14,6 +14,7 @@ public class ContextMenuItem {
 		DIVIDER("");
 
 		public final String localizationKey;
+
 		Identifier(String localizationKey) {
 			this.localizationKey = localizationKey;
 		}

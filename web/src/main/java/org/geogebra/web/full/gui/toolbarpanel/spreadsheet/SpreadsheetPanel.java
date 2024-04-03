@@ -17,6 +17,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
+import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.dom.client.KeyDownEvent;
@@ -105,7 +106,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		scrollContent.addDomHandler(evt -> {
 			spreadsheet.handleKeyPressed(KeyCodes.translateGWTcode(
 					evt.getNativeKeyCode()).getJavaKeyCode(),
-					Js.asPropertyMap(evt.getNativeEvent()).getAsAny("key").asString(),
+					getKey(evt.getNativeEvent()),
 					getKeyboardModifiers(evt));
 			evt.stopPropagation(); // do not let global event handler interfere
 			evt.preventDefault(); // do not scroll the view
@@ -119,10 +120,14 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		});
 	}
 
+	private String getKey(NativeEvent nativeEvent) {
+		String key = Js.asPropertyMap(nativeEvent).getAsAny("key").asString();
+		return key.length() > 1  ? "" : key;
+	}
+
 	private SpreadsheetControlsDelegateW initDelegate() {
-		SpreadsheetControlsDelegateW delegate = new SpreadsheetControlsDelegateW(app,
+		return new SpreadsheetControlsDelegateW(app,
 				this, mathField, spreadsheet);
-		return delegate;
 	}
 
 	public void requestFocus() {
@@ -131,7 +136,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 	private Modifiers getKeyboardModifiers(KeyEvent<?> evt) {
 		return new Modifiers(evt.isAltKeyDown(),
-				evt.isControlKeyDown(), evt.isShiftKeyDown(), false);
+				NavigatorUtil.isMacOS() ? evt.isMetaKeyDown() : evt.isControlKeyDown(),
+				evt.isShiftKeyDown(), false);
 	}
 
 	private int getEventX(NativePointerEvent ptr) {
@@ -151,7 +157,9 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	}
 
 	private Modifiers getModifiers(NativePointerEvent ptr) {
-		return new Modifiers(ptr.getAltKey(), ptr.getCtrlKey(), ptr.getShiftKey(),
+		return new Modifiers(ptr.getAltKey(),
+				NavigatorUtil.isMacOS() ? ptr.getMetaKey() : ptr.getCtrlKey(),
+				ptr.getShiftKey(),
 				ptr.getButton() == 2 || (NavigatorUtil.isMacOS() && ptr.getCtrlKey()));
 	}
 

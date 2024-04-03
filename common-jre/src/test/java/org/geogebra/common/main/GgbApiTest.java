@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertArrayEquals;
@@ -389,6 +390,16 @@ public class GgbApiTest {
 		api.evalCommand("f(x) = If(x > 3, x, 3)");
 		assertThat(api.getValueString("f", true), is("f(x) = Si(x > 3, x, 3)"));
 		assertThat(api.getValueString("f", false), is("f(x) = If[x > 3, x, 3]"));
+	}
+
+	@Test
+	public void notLocalizedValueStringShouldHaveHighPrecision() {
+		api.evalCommand("A=(1/3,1/3)");
+		api.evalCommand("c=Circle(O,(2,2))");
+		assertThat(api.getValueString("A", false),
+				is("A = (0.3333333333333, 0.3333333333333)"));
+		assertThat(api.getValueString("A", true), is("A = (0.33, 0.33)"));
+		assertThat(api.getValueString("c", false), is(unicode("c: x^2 + y^2 = 8")));
 	}
 
 	@Test

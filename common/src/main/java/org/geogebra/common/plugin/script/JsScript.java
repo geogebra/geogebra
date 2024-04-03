@@ -29,7 +29,7 @@ public class JsScript extends Script {
 		boolean update = evt.type == EventType.UPDATE;
 		try {
 			if (app.isApplet() && app.useBrowserForJavaScript() && !update) {
-			    app.callAppletJavaScript("ggb" + label, evt.argument);
+				app.callAppletJavaScript("ggb" + label, evt.argument);
 			} else if (app.isHTML5Applet() && app.useBrowserForJavaScript()) {
 				String functionPrefix = update ? "ggbUpdate" : "ggb";
 				app.callAppletJavaScript(functionPrefix + label, evt.argument);

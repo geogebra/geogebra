@@ -1664,8 +1664,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		FileExtensions fileExtension = fileExtensions[0];
 
 		if (getApp().macsandbox) {
-			 // Mac OS X related code to work around JFileChooser problem on
-			 // sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
+			// Mac OS X related code to work around JFileChooser problem on
+			// sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
 			while (!done) {
 
 				NSSavePanel panel = new NSSavePanel();
@@ -1898,8 +1898,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			getApp().setWaitCursor();
 
 			if (getApp().macsandbox) {
-				 // Mac OS X related code to work around JFileChooser problem on
-				 // sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
+				// Mac OS X related code to work around JFileChooser problem on
+				// sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
 				FileDialog fd = new FileDialog(getApp().getFrame());
 				fd.setModal(true);
 				File currentPath;

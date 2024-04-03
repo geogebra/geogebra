@@ -3,7 +3,7 @@ plugins {
     id 'org.docstr.gwt' version '1.1.30'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '5.2.5'
+    id 'com.github.spotbugs' version '6.0.9'
 }
 
 description 'Web platform code which does not use the GWT Widgets library'
@@ -35,7 +35,7 @@ dependencies {
             "org.gwtproject:gwt-dev:$gwtCompilerVersion"
 
     annotationProcessor project(":gwtutil"),
-        'org.treblereel.gwt.gwtproject.resources:gwt-resources-processor:202402231'
+        'org.treblereel.gwt.gwtproject.resources:gwt-resources-processor:202403181'
 }
 apply from: "../gradle-scripts/webjars.gradle"
 compileJava.dependsOn('extractJs')

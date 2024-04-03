@@ -6,6 +6,7 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DE
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_BELOW;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -161,6 +162,33 @@ public class SpreadsheetControllerTest {
         controller.handlePointerUp(30, cellHeight * 2, Modifiers.NONE);
 
         assertEquals(initialSpreadsheetHeight, controller.getLayout().getTotalHeight(), 0.0);
+    }
+
+    @Test
+    public void testMovingLeftSelectsOnlySingleCell() {
+        controller.select(TabularRange.range(1, 1, 2, 1), false, false);
+        fakeLeftArrowPress();
+        assertTrue(controller.getLastSelection().contains(1, 1));
+    }
+
+    @Test
+    public void testMovingDownSelectsOnlySingleCell() {
+        controller.select(TabularRange.range(2, 3, 2, 3), false, false);
+        fakeDownArrowPress();
+        assertTrue(controller.getLastSelection().contains(3, 2));
+    }
+
+    @Test
+    public void testMovingRightAndDownSelectsMultipleCells() {
+        controller.select(TabularRange.range(1, 3, 1, 3), false, false);
+        KeyEvent rightArrow = fakeKeyEvent(39);
+        controller.handleKeyPressed(rightArrow.getKeyCode(), rightArrow.getKeyChar() + "",
+                new Modifiers(false, false, true, false));
+        KeyEvent downArrow = fakeKeyEvent(40);
+        controller.handleKeyPressed(downArrow.getKeyCode(), downArrow.getKeyChar() + "",
+                new Modifiers(false, false, true, false));
+        assertEquals(4, controller.getLastSelection().getRange().getToColumn());
+        assertEquals(4, controller.getLastSelection().getRange().getToRow());
     }
 
     @Test

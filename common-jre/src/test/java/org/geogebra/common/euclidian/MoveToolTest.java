@@ -348,6 +348,22 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
+	public void moveWithArrowsShouldNotChangeAnchoredText() {
+		GeoText text = add("t=Text(\"T\",(1, 2))");
+		moveObjectWithArrowKey(text, 1, -1);
+		assertThat(text.getStartPoint(), hasValue("(1, 2)"));
+	}
+
+	@Test
+	public void moveWithArrowsShouldChangeFreeText() {
+		GeoText text = add("t=Text(\"T\")");
+		add("SetCoords(t,3,5)");
+		assertThat(text.getStartPoint(), hasValue("(3, 5)"));
+		moveObjectWithArrowKey(text, 1, -1);
+		assertThat(text.getStartPoint(), hasValue("(4, 4)"));
+	}
+
+	@Test
 	public void moveWithArrowKeyShouldNotChangeTextWithDependentAbsolutePosition() {
 		add("posX = 100");
 		add("posY = 100");
@@ -439,6 +455,17 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 		furniture.setLabelVisible(true);
 		furniture.updateRepaint();
 		assertCanDrag(furniture, true); // right-click only; no left-dragging of dropdowns
+	}
+
+	@Test
+	public void undoMoving() {
+		getApp().setUndoActive(true);
+		add("A = (1, -1)");
+		dragStart(50, 50);
+		dragEnd(100, 150);
+		checkContent("A = (2, -3)");
+		getApp().getKernel().undo();
+		checkContent("A = (1, -1)");
 	}
 
 	@Test

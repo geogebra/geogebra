@@ -4,7 +4,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.item.ClearInputItem;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DeleteItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
@@ -19,11 +18,11 @@ import org.gwtproject.user.client.ui.Widget;
 public class ContextMenuAVItemMore implements SetLabels {
 
 	/** visible component */
-	protected GPopupMenuW wrappedPopup;
+	protected final GPopupMenuW wrappedPopup;
 	/** localization */
-	private Localization loc;
-	private AppWFull mApp;
-	private MenuItemCollection<GeoElement> actions;
+	private final Localization loc;
+	private final AppWFull mApp;
+	private final MenuItemCollection<GeoElement> actions;
 	private GeoElement geo;
 	private ClearInputItem clearInputAction;
 
@@ -39,7 +38,6 @@ public class ContextMenuAVItemMore implements SetLabels {
 		mApp = item.getApplication();
 		loc = mApp.getLocalization();
 		wrappedPopup = new GPopupMenuW(mApp);
-
 		this.actions = collection;
 		setGeo(item.geo);
 		if (item.isInputTreeItem()) {
@@ -58,14 +56,13 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 * Rebuild the UI
 	 */
 	public void buildGUI() {
+		wrappedPopup.clearItems();
 		if (geo == null) {
-			addAction(new DeleteItem());
+			addAction(clearInputAction);
 			return;
 		}
-
-		wrappedPopup.clearItems();
 		for (MenuItem<GeoElement> action : actions) {
-			if (action.getAction().isAvailable(geo)) {
+			if (action.isAvailable(geo)) {
 				addAction(action);
 			}
 		}
@@ -104,7 +101,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 *            action to be executed
 	 */
 	protected void select(final MenuItem<GeoElement> menuItem) {
-		menuItem.getAction().execute(geo, mApp);
+		menuItem.executeAction(geo);
 	}
 
 	@Override

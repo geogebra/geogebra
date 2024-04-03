@@ -11,7 +11,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
@@ -32,6 +31,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpreadsheetTraceManager;
+import org.geogebra.common.main.undo.UpdateStyleActionStore;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 
@@ -85,71 +85,21 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	/**
-	 * Switch to cartesian coordinates
+	 * Switch to given coordinate style
+	 * @param coordStyle one of the Kernel.COORD_* constants
 	 */
-	public void cartesianCoordsCmd() {
+	public void setCoordStyle(int coordStyle) {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
 			if (geo1 instanceof CoordStyle) {
 				CoordStyle point1 = (CoordStyle) geo1;
-				point1.setMode(Kernel.COORD_CARTESIAN);
+				point1.setMode(coordStyle);
 				geo1.updateRepaint();
 			}
 		}
-		app.getUndoManager().storeUndoInfo(true);
-	}
-
-	/**
-	 * Switch to polar coordinates
-	 */
-	public void polarCoorsCmd() {
-		ArrayList<GeoElement> geos2 = checkOneGeo();
-
-		for (int i = geos2.size() - 1; i >= 0; i--) {
-			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof CoordStyle) {
-				CoordStyle point1 = (CoordStyle) geo1;
-				point1.setMode(Kernel.COORD_POLAR);
-				geo1.updateRepaint();
-			}
-		}
-		app.getUndoManager().storeUndoInfo(true);
-	}
-
-	/**
-	 * Switch to 3D cartesian coordinates
-	 */
-	public void cartesianCoords3dCmd() {
-		ArrayList<GeoElement> geos2 = checkOneGeo();
-
-		for (int i = geos2.size() - 1; i >= 0; i--) {
-			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof CoordStyle) {
-				CoordStyle point1 = (CoordStyle) geo1;
-				point1.setMode(Kernel.COORD_CARTESIAN_3D);
-				geo1.updateRepaint();
-			}
-		}
-		app.getUndoManager().storeUndoInfo(true);
-	}
-
-	/**
-	 * Switch to spherical coordinates
-	 */
-	public void sphericalCoordsCmd() {
-		ArrayList<GeoElement> geos2 = checkOneGeo();
-
-		for (int i = geos2.size() - 1; i >= 0; i--) {
-			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof CoordStyle) {
-				CoordStyle point1 = (CoordStyle) geo1;
-				point1.setMode(Kernel.COORD_SPHERICAL);
-				geo1.updateRepaint();
-			}
-		}
-		app.getUndoManager().storeUndoInfo(true);
+		app.storeUndoInfo();
 	}
 
 	/**
@@ -386,15 +336,16 @@ public abstract class ContextMenuGeoElement {
 	 */
 	public void fixObjectCmd(boolean fixed) {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
+		UpdateStyleActionStore store = new UpdateStyleActionStore(geos2);
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
 			fixGeo(geo1, fixed);
-			geo1.updateRepaint();
+			geo1.updateVisualStyle(GProperty.COMBINED);
 		}
-
-		getGeo().updateVisualStyle(GProperty.COMBINED);
 		app.getKernel().notifyRepaint();
-		app.storeUndoInfo();
+		if (store.needUndo()) {
+			store.storeUndo();
+		}
 	}
 
 	private void fixGeo(GeoElement geo, boolean fixed) {

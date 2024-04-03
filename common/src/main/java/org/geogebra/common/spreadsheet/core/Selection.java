@@ -64,31 +64,35 @@ final class Selection {
 	 * @return Selection to the left of the selection calling this method if possible
 	 */
 	public Selection getLeft(boolean extendSelection) {
-		if (this.type == SelectionType.ROWS) {
-			return getSingleCellSelection(this.range.getToRow(), 0);
+		if (type == SelectionType.ROWS) {
+			return getSingleCellSelection(range.getFromRow(), 0);
+		} else if (!extendSelection) {
+			return getSingleCellSelection(range.getFromRow(),
+					Math.max(range.getFromColumn() - 1, 0));
 		}
 
-		int leftColumnIndex = Math.max(this.range.getToColumn() - 1, 0);
-		return new Selection(TabularRange.range(
-				extendSelection ? this.range.getFromRow() : this.range.getToRow(),
-				this.range.getToRow(), leftColumnIndex, leftColumnIndex));
+		int leftColumnIndex = Math.max(range.getToColumn() - 1, 0);
+		return new Selection(TabularRange.range(range.getFromRow(), range.getToRow(),
+				leftColumnIndex, leftColumnIndex));
 	}
 
 	/**
-	 * If Rows are selected then the last Column with a single cell is selected
+	 * If Rows are selected then the second leftmost Column with a single cell is selected
 	 * @param numberOfColumns Number of columns
 	 * @param extendSelection Whether we want to extend the current Selection
 	 * @return Selection to the right of the selection calling this method if possible
 	 */
 	public Selection getRight(int numberOfColumns, boolean extendSelection) {
-		if (this.type == SelectionType.ROWS) {
-			return getSingleCellSelection(this.range.getToRow(), numberOfColumns - 1);
+		if (type == SelectionType.ROWS) {
+			return getSingleCellSelection(range.getFromRow(), 1);
+		} else if (!extendSelection) {
+			return getSingleCellSelection(range.getFromRow(),
+					Math.min(range.getFromColumn() + 1, numberOfColumns - 1));
 		}
 
-		int rightColumnIndex = Math.min(this.range.getToColumn() + 1, numberOfColumns - 1);
-		return new Selection(TabularRange.range(
-				extendSelection ? this.range.getFromRow() : this.range.getToRow(),
-				this.range.getToRow(), rightColumnIndex, rightColumnIndex));
+		int rightColumnIndex = Math.min(range.getToColumn() + 1, numberOfColumns - 1);
+		return new Selection(TabularRange.range(range.getFromRow(), range.getToRow(),
+				rightColumnIndex, rightColumnIndex));
 	}
 
 	/**
@@ -97,33 +101,35 @@ final class Selection {
 	 * @return Selection on top of the selection calling this method if possible
 	 */
 	public Selection getTop(boolean extendSelection) {
-		if (this.type == SelectionType.COLUMNS) {
-			return getSingleCellSelection(0, this.range.getToColumn());
+		if (type == SelectionType.COLUMNS) {
+			return getSingleCellSelection(0, range.getFromColumn());
+		} else if (!extendSelection) {
+			return getSingleCellSelection(Math.max(range.getFromRow() - 1, 0),
+					range.getFromColumn());
 		}
 
 		int aboveRowIndex = Math.max(this.range.getToRow() - 1, 0);
-		return new Selection(TabularRange.range(
-				aboveRowIndex, aboveRowIndex,
-				extendSelection ? this.range.getFromColumn() : this.range.getToColumn(),
-				this.range.getToColumn()));
+		return new Selection(TabularRange.range(aboveRowIndex, aboveRowIndex,
+				range.getFromColumn(), range.getToColumn()));
 	}
 
 	/**
-	 * If Columns are selected then the last Row with a single cell is selected
+	 * If Columns are selected then the second topmost Row with a single cell is selected
 	 * @param numberOfRows Number of rows
 	 * @param extendSelection Whether we want to extend the current Selection
 	 * @return Selection underneath the selection calling this method if possible
 	 */
 	public Selection getBottom(int numberOfRows, boolean extendSelection) {
-		if (this.type == SelectionType.COLUMNS) {
-			return getSingleCellSelection(numberOfRows - 1, this.range.getToColumn());
+		if (type == SelectionType.COLUMNS) {
+			return getSingleCellSelection(1, range.getFromColumn());
+		} else if (!extendSelection) {
+			return getSingleCellSelection(Math.min(range.getFromRow() + 1, numberOfRows),
+					range.getFromColumn());
 		}
 
-		int underneathRowIndex = Math.min(this.range.getToRow() + 1, numberOfRows - 1);
-		return new Selection(TabularRange.range(
-				underneathRowIndex, underneathRowIndex,
-				extendSelection ? this.range.getFromColumn() : this.range.getToColumn(),
-				this.range.getToColumn()));
+		int underneathRowIndex = Math.min(range.getToRow() + 1, numberOfRows - 1);
+		return new Selection(TabularRange.range(underneathRowIndex, underneathRowIndex,
+				range.getFromColumn(), range.getToColumn()));
 	}
 
 	/**

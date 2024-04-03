@@ -1444,6 +1444,17 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return right() + "]";
 	}
 
+	/**
+	 * @return semicolon
+	 */
+	public String polarSeparator() {
+		if (stringType.equals(StringType.SCREEN_READER_ASCII)) {
+			return ScreenReader.getPolarSeparator();
+		}
+
+		return ";";
+	}
+
 	private String right() {
 		if (stringType.equals(StringType.LATEX)) {
 			return " \\right";
@@ -2801,8 +2812,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb = new StringBuilder();
 
 			// left wing
-			if ((leftStr.charAt(0) != '-') && // no unary
-					isSinglePowerArg(left) || left.isOperation(Operation.NROOT)
+			if ((leftStr.charAt(0) != '-')
+					&& isSinglePowerArg(left) || left.isOperation(Operation.NROOT)
 					|| left.isOperation(Operation.CBRT)) { // not +, -, *, /, ^,
 				// e^x
 

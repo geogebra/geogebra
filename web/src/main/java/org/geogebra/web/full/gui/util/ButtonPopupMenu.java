@@ -39,7 +39,7 @@ public class ButtonPopupMenu extends GPopupPanel implements HasKeyboardPopup {
 	}
 
 	public FocusPanel getFocusPanel() {
-	   return container;
-    }
+		return container;
+	}
 
 }

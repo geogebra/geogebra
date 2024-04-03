@@ -77,7 +77,7 @@ public class CopyPasteW extends CopyPaste {
 			final GeoFormula txt = new GeoFormula(app.getKernel().getConstruction(),
 					new GPoint2D(ev.toRealWorldCoordX(-defaultTextWidth), 0));
 			txt.setLabel(null);
-			app.getDrawEquation().checkFirstCall(app);
+			app.getDrawEquation().checkFirstCall();
 			String asciiFormula = new SyntaxAdapterImpl(app.getKernel()).convertMath(formula);
 			txt.setContent(asciiFormula);
 			center(txt, ev, app);

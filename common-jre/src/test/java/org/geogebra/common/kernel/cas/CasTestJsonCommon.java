@@ -102,7 +102,7 @@ public abstract class CasTestJsonCommon {
 		}
 	}
 
-	protected static void handleParsingError(Throwable e, String json) {
+	protected static void handleParsingError(Exception e, String json) {
 		String msg = e.getMessage();
 		String marker = "at character ";
 		int pos = msg.indexOf(marker);

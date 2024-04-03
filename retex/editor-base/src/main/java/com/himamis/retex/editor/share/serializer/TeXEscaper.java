@@ -2,7 +2,7 @@ package com.himamis.retex.editor.share.serializer;
 
 public final class TeXEscaper {
 
-	private static final String[] escapeableSymbols = { "%", "$", "#", "&", "{",
+	private static final String[] escapableSymbols = { "%", "$", "#", "&", "{",
 			"}", "_" };
 
 	private static final String[][] replaceableSymbols = { { "~", "^", "\\" },
@@ -13,6 +13,7 @@ public final class TeXEscaper {
 	}
 
 	/**
+	 * Escapes symbols that have special behavior in math mode
 	 * @param symbol symbol that might have a special meaning in LaTeX
 	 * @return the symbol escaped, so that it renders as expected
 	 */
@@ -23,8 +24,8 @@ public final class TeXEscaper {
 			}
 		}
 
-		for (String escapeableSymbol : escapeableSymbols) {
-			if (escapeableSymbol.equals(symbol)) {
+		for (String escapableSymbol : escapableSymbols) {
+			if (escapableSymbol.equals(symbol)) {
 				return "\\" + symbol;
 			}
 		}
@@ -33,13 +34,19 @@ public final class TeXEscaper {
 	}
 
 	/**
+	 * Like {@link #escapeSymbol(String)}, but also escapes text mode symbols.
 	 * @param str input string with special LaTeX characters
 	 * @return the escaped string
 	 */
-	public static String escapeString(String str) {
+	public static String escapeStringTextMode(String str) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < str.length(); i++) {
-			sb.append(escapeSymbol(String.valueOf(str.charAt(i))));
+			char c = str.charAt(i);
+			if (c == '-') {
+				sb.append("-{}");
+			} else {
+				sb.append(escapeSymbol(String.valueOf(c)));
+			}
 		}
 		return sb.toString();
 	}

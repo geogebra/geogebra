@@ -11,8 +11,7 @@ import org.geogebra.common.kernel.Kernel;
 public class CASFactoryW extends CASFactory {
 
 	@Override
-	public CASGenericInterface newGiac(CASparser p,
-	        Kernel kernel) {
+	public CASGenericInterface newGiac(CASparser p, Kernel kernel) {
 		return new CASgiacW(p, kernel);
 	}
 

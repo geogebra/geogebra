@@ -55,13 +55,13 @@ public class SolverSerializer extends SerializerAdapter {
 		MathSequence parent = function.getParent();
 		switch (functionName) {
 		case SUPERSCRIPT:
-			 if (parent != null && !sb.toString().isEmpty()) {
-				 placeOpeningBracketBeforeBase(function, sb, parent);
-				 sb.append(functionName.getFunction());
-				 serialize(function.getArgument(0), sb);
-				 sb.append(closingBracket);
-			 }
-			 break;
+			if (parent != null && !sb.toString().isEmpty()) {
+				placeOpeningBracketBeforeBase(function, sb, parent);
+				sb.append(functionName.getFunction());
+				serialize(function.getArgument(0), sb);
+				sb.append(closingBracket);
+			}
+			break;
 		case FRAC:
 			if (buildMixedNumber(sb, function)) {
 				break;

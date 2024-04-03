@@ -18,8 +18,8 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
-import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.main.settings.PenToolsSettings;
+import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -43,9 +43,9 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	protected EuclidianView view;
 
-	/** Polyline that conects stylebar to pen settings */
+	/** Polyline that connects stylebar to pen settings */
 	@WeakOuter
-	public final GeoPolyLine defaultPenLine;
+	private final PenStrokeAdapter defaultPenLine;
 
 	private AlgoLocusStroke lastAlgo = null;
 	/** points created by pen */
@@ -61,9 +61,6 @@ public class EuclidianPen implements GTimerListener {
 
 	private boolean startNewStroke = false;
 
-	private int penSize;
-	private int lineOpacity;
-
 	/**
 	 * start point of the gesture
 	 */
@@ -74,10 +71,7 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	protected boolean deleteInitialPoint = false;
 
-	private GTimer timer;
-
-	private int penLineStyle;
-	private GColor penColor = GColor.BLACK;
+	private final GTimer timer;
 	private final PenPreviewLine penPreviewLine;
 	private final RulerTransformer rulerTransformer;
 	protected final ArrayList<GPoint> previewPoints = new ArrayList<>();
@@ -97,69 +91,29 @@ public class EuclidianPen implements GTimerListener {
 		this.rulerTransformer = new RulerTransformer(view, previewPoints);
 		timer = app.newTimer(this, 1500);
 
-		@WeakOuter GeoPolyLine line = new GeoPolyLine(app.getKernel().getConstruction()) {
-			@Override
-			public void setObjColor(GColor color) {
-				super.setObjColor(color);
-				setPenColor(color);
-			}
-
-			@Override
-			public void setLineThickness(int th) {
-				super.setLineThickness(th);
-				setPenSize(th);
-			}
-
-			@Override
-			public void setLineType(int i) {
-				super.setLineType(i);
-				setPenLineStyle(i);
-			}
-
-			@Override
-			public void setLineOpacity(int lineOpacity) {
-				super.setLineOpacity(lineOpacity);
-				setPenOpacity(lineOpacity);
-			}
-		};
+		@WeakOuter PenStrokeAdapter line = new PenStrokeAdapter(app);
 		defaultPenLine = line;
-		setDefaults();
-		defaultPenLine.setLineThickness(penSize);
-		defaultPenLine.setLineOpacity(lineOpacity);
-		defaultPenLine.setObjColor(penColor);
-	}
-
-	// ===========================================
-	// Getters/Setters
-	// ===========================================
-
-	/**
-	 * Set default pen color, line style, thickness, eraser size
-	 */
-	public void setDefaults() {
-		penSize = EuclidianConstants.DEFAULT_PEN_SIZE;
-		penLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
-		penColor = GColor.BLACK;
-		lineOpacity = 85 * 255 / 100;
+		updateMode();
 	}
 
 	/**
 	 * @return pen size
 	 */
 	public int getPenSize() {
-		return penSize;
+		return defaultPenLine.getLineThickness();
 	}
 
 	/**
 	 * @param lineOpacity
 	 *            Opacity
 	 */
-	public void setPenOpacity(int lineOpacity) {
-		if (this.lineOpacity != lineOpacity) {
+	private void checkOpacityChange(int lineOpacity, GeoElement previous) {
+		if (view.getMode() == EuclidianConstants.MODE_PEN) {
+			app.getSettings().getPenTools().setLastPenOpacity(lineOpacity);
+		}
+		if (previous.getLineOpacity() != lineOpacity) {
 			startNewStroke = true;
 		}
-		this.lineOpacity = lineOpacity;
-		setPenColor(penColor.deriveWithAlpha(lineOpacity));
 	}
 
 	/**
@@ -167,35 +121,46 @@ public class EuclidianPen implements GTimerListener {
 	 *            pen size
 	 */
 	public void setPenSize(int penSize) {
-		if (this.penSize != penSize) {
+		defaultPenLine.setLineThickness(penSize);
+	}
+
+	private void checkPenSizeChanged(int penSize, GeoElement previous) {
+		if (view.getMode() == EuclidianConstants.MODE_PEN) {
+			app.getSettings().getPenTools().setLastPenThickness(penSize);
+		} else if (view.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
+			app.getSettings().getPenTools().setLastHighlighterThickness(penSize);
+		}
+		if (previous.getLineThickness() != penSize) {
 			startNewStroke = true;
 		}
-		this.penSize = penSize;
 	}
 
 	/**
 	 * @return pen line style
 	 */
 	public int getPenLineStyle() {
-		return penLineStyle;
+		return defaultPenLine.getLineType();
 	}
 
 	/**
 	 * @param penLineStyle
 	 *            pen line style
 	 */
-	public void setPenLineStyle(int penLineStyle) {
-		if (this.penLineStyle != penLineStyle) {
+	public void checkLineStyleChanged(int penLineStyle, GeoElement previous) {
+		if (previous.getLineType() != penLineStyle) {
 			startNewStroke = true;
 		}
-		this.penLineStyle = penLineStyle;
 	}
 
 	/**
 	 * @return pen color
 	 */
 	public GColor getPenColor() {
-		return penColor;
+		return defaultPenLine.getObjectColor();
+	}
+
+	public GColor getPenColorWithOpacity() {
+		return getPenColor().deriveWithAlpha(defaultPenLine.getLineOpacity());
 	}
 
 	/**
@@ -289,7 +254,7 @@ public class EuclidianPen implements GTimerListener {
 	 *            new point
 	 */
 	protected void addPointPenMode(GPoint newPoint) {
-		if (penPoints.size() == 0) {
+		if (penPoints.isEmpty()) {
 			if (initialPoint != null) {
 				// also add the coordinates of the initialPoint to the penPoints
 				Coords coords = initialPoint.getCoords();
@@ -376,8 +341,8 @@ public class EuclidianPen implements GTimerListener {
 	 *
 	 */
 	public void handleMouseReleasedForPenMode(boolean right, int x, int y,
-												 boolean isPinchZooming) {
-		if (right || penPoints.size() == 0) {
+			boolean isPinchZooming) {
+		if (right || penPoints.isEmpty()) {
 			return;
 		}
 
@@ -401,11 +366,10 @@ public class EuclidianPen implements GTimerListener {
 		String label = lastAlgo.getOutput(0).getLabelSimple();
 
 		if (oldXML == null) {
-			app.getUndoManager().storeUndoableAction(EventType.ADD, label,
-					lastAlgo.getXML());
+			app.getUndoManager().storeAddGeo(lastAlgo.getOutput(0));
 		} else {
-			app.getUndoManager().storeUndoableAction(EventType.UPDATE, label,
-					oldXML, lastAlgo.getXML());
+			app.getUndoManager().buildAction(ActionType.UPDATE, lastAlgo.getXML())
+					.withUndo(ActionType.UPDATE, oldXML).withLabels(label).storeAndNotifyUnsaved();
 		}
 	}
 
@@ -454,10 +418,10 @@ public class EuclidianPen implements GTimerListener {
 
 		GeoElement stroke = lastAlgo.getOutput(0);
 
-		stroke.setLineThickness(penSize * PEN_SIZE_FACTOR);
-		stroke.setLineType(penLineStyle);
-		stroke.setLineOpacity(lineOpacity);
-		stroke.setObjColor(penColor);
+		stroke.setLineThickness(getPenSize() * PEN_SIZE_FACTOR);
+		stroke.setLineType(getPenLineStyle());
+		stroke.setLineOpacity(defaultPenLine.getLineOpacity());
+		stroke.setObjColor(getPenColor());
 		stroke.updateVisualStyle(GProperty.COMBINED);
 		stroke.setVisibility(view.getViewID(), true);
 
@@ -471,10 +435,18 @@ public class EuclidianPen implements GTimerListener {
 	 *            pen color
 	 */
 	public void setPenColor(GColor penColor) {
-		if (!this.penColor.equals(penColor)) {
+		defaultPenLine.setObjColor(penColor);
+	}
+
+	private void checkPenColorChanged(GColor penColor, GeoElement previous) {
+		if (!previous.getObjectColor().equals(penColor)) {
 			startNewStroke = true;
 		}
-		this.penColor = penColor;
+		if (app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
+			app.getSettings().getPenTools().setLastSelectedHighlighterColor(penColor);
+		} else {
+			app.getSettings().getPenTools().setLastSelectedPenColor(penColor);
+		}
 	}
 
 	/**
@@ -510,7 +482,7 @@ public class EuclidianPen implements GTimerListener {
 		if (!previewPoints.isEmpty()) {
 			g2.setStroke(EuclidianStatic.getStroke(getPenSize(),
 					getPenLineStyle(), GBasicStroke.JOIN_ROUND));
-			g2.setColor(getPenColor());
+			g2.setColor(getPenColorWithOpacity());
 		}
 		repaintIfNeeded(g2);
 	}
@@ -522,6 +494,71 @@ public class EuclidianPen implements GTimerListener {
 	public void repaintIfNeeded(GGraphics2D g2) {
 		if (!previewPoints.isEmpty()) {
 			penPreviewLine.drawPolyline(previewPoints, g2);
+		}
+	}
+
+	/**
+	 * Update current pen style for active mode
+	 */
+	public void updateMode() {
+		int lineOpacity;
+		PenToolsSettings settings = app.getSettings().getPenTools();
+		if (view.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
+			lineOpacity = EuclidianConstants.DEFAULT_HIGHLIGHTER_OPACITY;
+			defaultPenLine.setObjColorNoFire(settings.getLastSelectedHighlighterColor());
+			defaultPenLine.setLineThicknessNoFire(settings.getLastHighlighterThickness());
+		} else {
+			lineOpacity = settings.getLastPenOpacity();
+			defaultPenLine.setObjColorNoFire(settings.getLastSelectedPenColor());
+			defaultPenLine.setLineThicknessNoFire(settings.getLastPenThickness());
+		}
+		defaultPenLine.setLineOpacityNoFire(lineOpacity);
+		startNewStroke = true;
+	}
+
+	public GeoElement getDefaultPenLine() {
+		return defaultPenLine;
+	}
+
+	private class PenStrokeAdapter extends GeoPolyLine {
+		public PenStrokeAdapter(App app) {
+			super(app.getKernel().getConstruction());
+		}
+
+		@Override
+		public void setObjColor(GColor color) {
+			checkPenColorChanged(color, this);
+			super.setObjColor(color);
+		}
+
+		private void setObjColorNoFire(GColor color) {
+			super.setObjColor(color);
+		}
+
+		@Override
+		public void setLineThickness(int thickness) {
+			checkPenSizeChanged(thickness, this);
+			super.setLineThickness(thickness);
+		}
+
+		private void setLineThicknessNoFire(int thickness) {
+			super.setLineThickness(thickness);
+		}
+
+		@Override
+		public void setLineType(int lineType) {
+			checkLineStyleChanged(lineType, this);
+			super.setLineType(lineType);
+		}
+
+		@Override
+		public void setLineOpacity(int lineOpacity) {
+			checkOpacityChange(lineOpacity, this);
+			super.setLineOpacity(lineOpacity);
+		}
+
+		private void setLineOpacityNoFire(int lineOpacity) {
+			super.setLineOpacity(lineOpacity);
 		}
 	}
 }

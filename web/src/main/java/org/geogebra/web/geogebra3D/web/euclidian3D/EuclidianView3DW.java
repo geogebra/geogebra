@@ -104,7 +104,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 		registerKeyHandlers(canvas);
 		registerMouseTouchGestureHandlers(euclidianViewPanel,
-		        (EuclidianController3DW) euclidiancontroller);
+				(EuclidianController3DW) euclidiancontroller);
 
 		EuclidianSettings es = this.app.getSettings().getEuclidian(3);
 		settingsChanged(es);
@@ -249,7 +249,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	@Override
 	public final boolean isShowing() {
 		return g2p != null && g2p.getCanvas() != null
-		        && g2p.getCanvas().isAttached() && g2p.getCanvas().isVisible();
+				&& g2p.getCanvas().isAttached() && g2p.getCanvas().isVisible();
 	}
 
 	@Override
@@ -462,8 +462,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public void exportPaintPre(GGraphics2D g2d, double scale,
-	        boolean transparency) {
+	public void exportPaintPre(GGraphics2D g2d, double scale, boolean transparency) {
 		// TODO Auto-generated method stub
 
 	}

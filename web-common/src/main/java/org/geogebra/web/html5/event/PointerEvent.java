@@ -147,12 +147,12 @@ public class PointerEvent extends AbstractEvent {
 	}
 
 	private static void setProperties(PointerEvent destination,
-	        MouseEvent<?> source) {
+			MouseEvent<?> source) {
 		destination.nativeEvent = source;
 		destination.alt = source.isAltKeyDown();
 		destination.control = source.isControlKeyDown();
 		destination.clickCount = "dblclick".equals(source.getNativeEvent()
-		        .getType()) ? 2 : 1;
+				.getType()) ? 2 : 1;
 		destination.meta = source.isMetaKeyDown();
 		destination.middle = source.getNativeButton() == NativeEvent.BUTTON_MIDDLE;
 		destination.right = source.getNativeButton() == NativeEvent.BUTTON_RIGHT;
@@ -171,7 +171,7 @@ public class PointerEvent extends AbstractEvent {
 	 */
 	public static PointerEvent wrapEvent(MouseEvent<?> event, HasOffsets off) {
 		PointerEvent evt = wrapEvent(event.getX(), event.getY(),
-		        off.getDefaultEventType(), off, off.getMouseEventPool());
+				off.getDefaultEventType(), off, off.getMouseEventPool());
 		setProperties(evt, event);
 		return evt;
 	}
@@ -190,7 +190,7 @@ public class PointerEvent extends AbstractEvent {
 		int clientX = event.getClientX();
 		int clientY = event.getClientY();
 		PointerEvent evt = wrapEvent(clientX, clientY,
-		        off.getDefaultEventType(), off, off.getMouseEventPool());
+				off.getDefaultEventType(), off, off.getMouseEventPool());
 		setProperties(evt, event);
 		return evt;
 	}
