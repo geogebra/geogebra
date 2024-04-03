@@ -130,6 +130,20 @@ public class SpreadsheetControllerTest {
     }
 
     @Test
+    public void testViewportIsAdjustedForRightmostColumnWithArrowKey() {
+        controller.selectCell(0, 99, false, false);
+        fakeRightArrowPress();
+        assertNotEquals(0, viewport.getMinX(), 0);
+    }
+
+    @Test
+    public void testViewportIsAdjustedForLowermostRowWithArrowKey() {
+        controller.selectCell(99, 0, false, false);
+        fakeDownArrowPress();
+        assertNotEquals(0, viewport.getMinY(), 0);
+    }
+
+    @Test
     public void testTappingOnResizeRowWhileEverythingIsSelected() {
         // Tap of top left corner (select everything)
         controller.handlePointerDown(30, 30, Modifiers.NONE);
