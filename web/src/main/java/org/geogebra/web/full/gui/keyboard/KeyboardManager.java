@@ -237,8 +237,7 @@ public final class KeyboardManager
 
 	@Override
 	public void removeFromDom() {
-		if (detachController.isKeyboardRootExists()) {
-			detachController.removeKeyboardRootFromDom();
+		if (detachController.removeKeyboardRootFromDom()) {
 			keyboard = null;
 		}
 	}
@@ -270,7 +269,7 @@ public final class KeyboardManager
 	}
 
 	private boolean extraSpaceNeededForKeyboard() {
-		if (shouldDetach() && detachController.hasCustomParent()) {
+		if (shouldDetach() && !detachController.hasCustomParent()) {
 			double appletBottom = app.getFrameElement().getAbsoluteBottom();
 			return NavigatorUtil.getWindowHeight() - appletBottom < estimateKeyboardHeight();
 		}

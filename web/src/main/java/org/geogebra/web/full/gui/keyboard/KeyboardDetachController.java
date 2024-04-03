@@ -28,36 +28,27 @@ final class KeyboardDetachController {
 	}
 
 	void addAsDetached(VirtualKeyboardGUI keyboard) {
-		if (!enabled || isKeyboardRootExists()) {
+		if (!enabled || keyboardRoot != null) {
 			return;
 		}
 
 		if (hasCustomParent) {
-			createCustomKeyboardRoot();
-		} else {
-			createAppletKeyboardRoot();
+			updateCustomParent();
 		}
+		createAppletKeyboardRoot(customParent == null ? getAppletContainer() : customParent);
 		keyboardRoot.add(keyboard);
 	}
 
-	private void createCustomKeyboardRoot() {
-		customParent = Dom.querySelector(
-				keyboardParentSelector);
-		Element detachedKeyboardParent = DOM.createDiv();
-		detachedKeyboardParent.setClassName("GeoGebraFrame");
-		if (customParent != null) {
-			detachedKeyboardParent.setId(keyboardRootId);
-			customParent.appendChild(detachedKeyboardParent);
-			keyboardRoot = RootPanel.get(keyboardRootId);
-		} else {
-			Log.error("No such keyboard parent in HTML: #" + keyboardParentSelector);
+	private void updateCustomParent() {
+		customParent = Dom.querySelector(keyboardParentSelector);
+		if (customParent == null) {
+			Log.error("No such keyboard parent in HTML: " + keyboardParentSelector);
 		}
 	}
 
-	private void createAppletKeyboardRoot() {
+	private void createAppletKeyboardRoot(Element container) {
 		Element detachedKeyboardParent = DOM.createDiv();
 		detachedKeyboardParent.setClassName("GeoGebraFrame");
-		Element container = getAppletContainer();
 		container.appendChild(detachedKeyboardParent);
 		detachedKeyboardParent.setId(keyboardRootId);
 		keyboardRoot = RootPanel.get(keyboardRootId);
@@ -71,20 +62,18 @@ final class KeyboardDetachController {
 		return container;
 	}
 
-	void removeKeyboardRootFromDom() {
+	boolean removeKeyboardRootFromDom() {
 		if (keyboardRoot != null) {
 			// both clear and remove to save memory
 			keyboardRoot.removeFromParent();
 			keyboardRoot.clear();
+			return true;
 		}
-	}
-
-	boolean isKeyboardRootExists() {
-		return keyboardRoot != null;
+		return false;
 	}
 
 	boolean hasCustomParent() {
-		return customParent != null;
+		return hasCustomParent;
 	}
 
 	public boolean isEnabled() {
@@ -92,7 +81,7 @@ final class KeyboardDetachController {
 	}
 
 	public int getParentWidth() {
-		return hasCustomParent()
+		return customParent != null
 				? customParent.getClientWidth()
 				: NavigatorUtil.getWindowWidth();
 	}
