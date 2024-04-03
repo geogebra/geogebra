@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian;
 
+import static org.geogebra.common.euclidian.EuclidianCursor.DEFAULT;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -5038,7 +5040,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (isDraggingOccuredBeyondThreshold() && (selection.selectedGeosSize() == 1)) {
 					selection.clearSelectedGeos();
 				}
-
 			}
 			break;
 
@@ -5243,11 +5244,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_TABLE:
+			setDragCursor();
 			// no undo: actual undo point created later (InlineTableControllerW::onEditorChanged)
 			createInlineObject(selectionPreview, GeoInlineTable::new);
 			break;
 
 		case EuclidianConstants.MODE_MIND_MAP:
+			setDragCursor();
 			changedKernel = createInlineObject(selectionPreview, new GeoInlineFactory() {
 				@Override
 				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
@@ -5263,6 +5266,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						mindMap.setBorderColor(GColor.MIND_MAP_PARENT_BORDER_COLOR);
 					}
 
+					view.setCursor(DEFAULT);
 					return mindMap;
 				}
 			});
@@ -6259,6 +6263,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			app.getEventDispatcher().lockTextElement(drawable.getGeoElement());
 		}
 
+		view.setCursor(DEFAULT);
 		return true;
 	}
 
@@ -6370,12 +6375,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (hits.isEmpty()) {
 			view.setToolTipText(null);
-			view.setCursor(EuclidianCursor.DEFAULT);
+			view.setCursor(DEFAULT);
 			if (event.isShiftDown()
 					|| mode == EuclidianConstants.MODE_TRANSLATEVIEW) {
 				setCursorForTranslateViewNoHit();
 			} else {
-				view.setCursor(EuclidianCursor.DEFAULT);
+				view.setCursor(DEFAULT);
 			}
 		} else {
 			if ((event.isShiftDown()
@@ -6444,7 +6449,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected void setCursorForTranslateViewNoHit() {
-		view.setCursor(EuclidianCursor.DEFAULT);
+		view.setCursor(DEFAULT);
 	}
 
 	/**
@@ -10434,7 +10439,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public void endOfWrapMouseReleased(Hits hits, boolean control, boolean alt,
 			PointerEventType type) {
 		if (!hits.isEmpty()) {
-			view.setCursor(EuclidianCursor.DEFAULT);
+			view.setCursor(DEFAULT);
 		} else {
 			setHitCursor();
 		}

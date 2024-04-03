@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
 import static org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxMow.TOOLBOX_PADDING;
 
 import java.util.List;
@@ -43,7 +42,6 @@ public class IconButtonWithMenu extends IconButton {
 
 		iconButtonPopup.getPopupPanel().addCloseHandler(e -> {
 			deactivate();
-			appW.setMode(MODE_SELECT_MOW);
 			AriaHelper.setAriaExpanded(this, false);
 		});
 	}
