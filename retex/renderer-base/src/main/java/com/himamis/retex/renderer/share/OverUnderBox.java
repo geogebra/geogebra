@@ -56,7 +56,7 @@ public class OverUnderBox extends Box {
 
 	// base, delimiter and script atom
 	private final Box base;
-	private final Box del;
+	private final Box delWrapper;
 	private final Box script;
 
 	// kern amount between the delimiter and the script
@@ -64,32 +64,36 @@ public class OverUnderBox extends Box {
 
 	// whether the delimiter should be drawn over (<-> under) the base atom
 	private final boolean over;
+	private final Box del;
 
 	/**
 	 * the parameter boxes must have an equal width!!
 	 * 
 	 * @param b
 	 *            base box to be drawn on the baseline
-	 * @param d
+	 * @param del
 	 *            delimiter box
+	 * @param delWrapper
+	 *            vertical box wrapping the delimiter
 	 * @param script
 	 *            subscript or superscript box
 	 * @param over
 	 *            true : draws delimiter and script box above the base box,
 	 *            false : under the base box
 	 */
-	public OverUnderBox(Box b, Box d, Box script, double kern, boolean over) {
+	public OverUnderBox(Box b, Box del, Box delWrapper, Box script, double kern, boolean over) {
 		base = b;
-		del = d;
+		this.del = del;
+		this.delWrapper = delWrapper;
 		this.script = script;
 		this.kern = kern;
 		this.over = over;
 
 		// calculate metrics of the box
 		width = b.getWidth();
-		height = b.height + (over ? d.getWidth() : 0) + (over && script != null
+		height = b.height + (over ? del.getWidth() : 0) + (over && script != null
 				? script.height + script.depth + kern : 0);
-		depth = b.depth + (over ? 0 : d.getWidth()) + (!over && script != null
+		depth = b.depth + (over ? 0 : del.getWidth()) + (!over && script != null
 				? script.height + script.depth + kern : 0);
 	}
 
@@ -98,15 +102,15 @@ public class OverUnderBox extends Box {
 		drawDebug(g2, x, y);
 		base.draw(g2, x, y);
 
-		double yVar = y - base.height - del.getWidth();
-		del.setDepth(del.getHeight() + del.getDepth());
-		del.setHeight(0);
+		double yVar = y - base.height - delWrapper.getWidth();
+		delWrapper.setDepth(delWrapper.getHeight() + delWrapper.getDepth());
+		delWrapper.setHeight(0);
+		double transX = x + (delWrapper.height + delWrapper.depth) - (del.height + del.depth) * 0.5;
 		if (over) { // draw delimiter and script above base box
-			double transX = x + (del.height + del.depth) * 0.75, transY = yVar;
 			g2.saveTransformation();
-			g2.translate(transX, transY);
+			g2.translate(transX, yVar);
 			g2.rotate(Math.PI / 2);
-			del.draw(g2, 0, 0);
+			delWrapper.draw(g2, 0, 0);
 			g2.restoreTransformation();
 
 			// draw superscript
@@ -117,14 +121,13 @@ public class OverUnderBox extends Box {
 
 		yVar = y + base.depth;
 		if (!over) { // draw delimiter and script under base box
-			double transX = x + (del.getHeight() + del.depth) * 0.75,
-					transY = yVar;
+			double transY = yVar;
 			g2.saveTransformation();
 			g2.translate(transX, transY);
 			g2.rotate(Math.PI / 2);
-			del.draw(g2, 0, 0);
+			delWrapper.draw(g2, 0, 0);
 			g2.restoreTransformation();
-			yVar += del.getWidth();
+			yVar += delWrapper.getWidth();
 
 			// draw subscript
 			if (script != null) {
@@ -142,7 +145,7 @@ public class OverUnderBox extends Box {
 	public void inspect(BoxConsumer handler, BoxPosition position) {
 		super.inspect(handler, position);
 		base.inspect(handler, position);
-		del.inspect(handler, position);
+		delWrapper.inspect(handler, position);
 		script.inspect(handler, position);
 	}
 }

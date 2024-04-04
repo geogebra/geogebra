@@ -148,7 +148,8 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		btnShowGrid3D = new ToggleButtonWforEV(
 				MaterialDesignResources.INSTANCE.grid_black(), this);
 		btnShowGrid3D.setSelected(ev.getShowGrid());
-		addFastClickHandler(btnShowGrid3D, geos -> EuclidianStyleBarStatic.processGrid(getView()));
+		addFastClickHandlerWithUndoPoint(btnShowGrid3D,
+				geos -> EuclidianStyleBarStatic.processGrid(getView()));
 	}
 
 	@Override

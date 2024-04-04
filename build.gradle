@@ -17,6 +17,12 @@ subprojects {
 		}
 	}
 
+	plugins.withType(CheckstylePlugin) {
+		checkstyle {
+			toolVersion = '10.3.3'
+		}
+	}
+
 	// add auto formatter to every project
 	task eclipseJdtPrepare(type: Copy) {
 		description 'Copies Eclipse jdt.core preference file.'
