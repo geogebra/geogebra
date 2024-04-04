@@ -1,9 +1,9 @@
 package com.himamis.retex.renderer.android.font;
 
+import android.graphics.Paint;
+
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
-
-import android.graphics.Paint;
 
 public class FontRenderContextA implements FontRenderContext {
 	

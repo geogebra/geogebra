@@ -2,8 +2,7 @@
 package org.freehep.graphicsio.font.truetype;
 
 import java.io.IOException;
-
-import org.geogebra.common.util.Charsets;
+import java.nio.charset.StandardCharsets;
 
 /**
  * OS/2 Table.
@@ -98,7 +97,7 @@ public class TTFOS_2Table extends TTFVersionTable {
 	}
 
 	public String getAchVendID() {
-		return new String(achVendID, Charsets.getUtf8());
+		return new String(achVendID, StandardCharsets.UTF_8);
 	}
 
 	@Override
