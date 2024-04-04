@@ -119,11 +119,7 @@ public class AlgoFunctionInvert extends AlgoElement implements UsesCAS {
 		}
 		Function tempFun = new Function(newRoot, x);
 		tempFun.initFunction();
-		g.setDefined(true);
-		g.setFunction(tempFun);
-		if (numeric) {
-			g.setSecret(this);
-		}
+		setResultFunction(tempFun);
 	}
 
 	private void computeOutputUsingCAS() {
@@ -136,14 +132,18 @@ public class AlgoFunctionInvert extends AlgoElement implements UsesCAS {
 			GeoElementND geo = kernel.getAlgebraProcessor().evaluateToGeoElement(result, false);
 			if (geo.isGeoFunction()) {
 				GeoFunction inverseFunction = (GeoFunction) geo;
-				g.setDefined(true);
-				g.setFunction(inverseFunction.getFunction());
-				if (numeric) {
-					g.setSecret(this);
-				}
+				setResultFunction(inverseFunction.getFunction());
 			}
 		} else {
 			g.setUndefined();
+		}
+	}
+
+	private void setResultFunction(Function function) {
+		g.setDefined(true);
+		g.setFunction(function);
+		if (numeric) {
+			g.setSecret(this);
 		}
 	}
 
