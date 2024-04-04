@@ -343,4 +343,6 @@ public interface AppConfig extends Serializable {
 	int getMainGraphicsViewId();
 
 	boolean hasOneVarStatistics();
+
+	boolean hasDataImport();
 }
