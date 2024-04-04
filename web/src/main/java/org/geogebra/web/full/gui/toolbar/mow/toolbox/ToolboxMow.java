@@ -10,7 +10,6 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_IMAGE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MASK;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MIND_MAP;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PDF;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_CIRCLE;
@@ -35,6 +34,7 @@ import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithMenu;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithPopup;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.pen.PenIconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ruler.RulerIconButton;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
@@ -174,8 +174,10 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addPenModeButton() {
-		addPressButton(ToolbarSvgResources.INSTANCE.mode_pen(), appW.getToolName(MODE_PEN),
-				appW.getToolName(MODE_PEN), () -> appW.setMode(MODE_PEN));
+		IconButton iconButton = new PenIconButton(appW, this::deselectButtons);
+		iconButton.setActive(true);
+		add(iconButton);
+		buttons.add(iconButton);
 	}
 
 	private void addShapeButton() {
