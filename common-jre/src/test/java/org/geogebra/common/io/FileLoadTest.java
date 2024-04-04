@@ -8,12 +8,15 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Macro;
 import org.junit.Test;
 
 public class FileLoadTest extends BaseUnitTest {
@@ -39,10 +42,32 @@ public class FileLoadTest extends BaseUnitTest {
 		String macros = load("polygon-macros.xml");
 		getApp().setRandomSeed(7);
 		getApp().getXMLio().processXMLString(macros, true, true);
+		String loaded = getLoadedMacros().collect(Collectors.joining(","));
+		assertEquals("VHCenter,VertHorCenter,PointToPixels", loaded);
 		getApp().setXML(xml, false);
+		assertEquals(8L, getLoadedMacros().count());
 		assertThat(lookup("SimMove"), hasValue("(11.3, 2.01)"));
 		add("RunClickScript(scriptResetApp)");
 		assertThat(lookup("SimMove"), hasValue("(11.4519, 1.4169)"));
+	}
+
+	@Test
+	public void testMacroResave() throws IOException, XMLParseException  {
+		String macros = load("polygon-macros.xml");
+		getApp().setRandomSeed(7);
+		getApp().getXMLio().processXMLString(macros, true, true);
+		String[] resaved = getApp().getAllMacrosXML().split("\n");
+		String[] macroLines = macros.split("\n");
+		// skip line 0, will mismatch because of version
+		for (int i = 2; i < macroLines.length; i++) {
+			System.out.println(macroLines[i].trim());
+			assertEquals(macroLines[i].trim(), resaved[i].trim());
+		}
+	}
+
+	private Stream<String> getLoadedMacros() {
+		return getKernel().getAllMacros().stream()
+				.filter(m -> !m.getMacroConstruction().isEmpty()).map(Macro::getCommandName);
 	}
 
 	private String load(String filename) throws IOException {

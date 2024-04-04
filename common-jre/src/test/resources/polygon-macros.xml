@@ -35,7 +35,7 @@
                 <pointStyle val="0"/>
                 <coords x="8.980000000000018" y="6.100000000000002" z="1"/>
             </element>
-            <expression label="xRight" exp="x(Corner3)" />
+            <expression label="xRight" exp="x(Corner3) "/>
             <element type="numeric" label="xRight">
                 <value val="8.980000000000018"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
@@ -51,37 +51,37 @@
                 <pointStyle val="0"/>
                 <coords x="-4.760000000000007" y="-4.099999999999998" z="1"/>
             </element>
-            <expression label="xLeft" exp="x(Corner1)" />
+            <expression label="xLeft" exp="x(Corner1) "/>
             <element type="numeric" label="xLeft">
                 <value val="-4.760000000000007"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="yTop" exp="y(Corner3)" />
+            <expression label="yTop" exp="y(Corner3) "/>
             <element type="numeric" label="yTop">
                 <value val="6.100000000000002"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="yBottom" exp="y(Corner1)" />
+            <expression label="yBottom" exp="y(Corner1) "/>
             <element type="numeric" label="yBottom">
                 <value val="-4.099999999999998"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="yCoord" exp="yTop - (y(InputPixels) / y(Corner5) * (yTop - yBottom))" />
+            <expression label="yCoord" exp="yTop - (y(InputPixels) / y(Corner5) * (yTop - yBottom)) "/>
             <element type="numeric" label="yCoord">
                 <value val="2.0842519685039393"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="xCoord" exp="(x(InputPixels) / x(Corner5) * (xRight - xLeft)) + xLeft" />
+            <expression label="xCoord" exp="(x(InputPixels) / x(Corner5) * (xRight - xLeft)) + xLeft "/>
             <element type="numeric" label="xCoord">
                 <value val="-2.7541605839416095"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="OutputPoint" exp="(xCoord, yCoord)" type="point" />
+            <expression label="OutputPoint" exp="(xCoord, yCoord)" type="point "/>
             <element type="point" label="OutputPoint">
                 <show object="true" label="true" ev="4"/>
                 <objColor r="68" g="68" b="68" alpha="0"/>
@@ -99,7 +99,7 @@
         <construction title="" author="" date="">
             <element type="numeric" label="boxWidth">
                 <value val="3.3600000000000003"/>
-                <symbolic val="true" />
+                <symbolic val="true "/>
                 <show object="true" label="true"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
@@ -109,7 +109,7 @@
             </element>
             <element type="numeric" label="boxHeight">
                 <value val="1.344"/>
-                <symbolic val="true" />
+                <symbolic val="true "/>
                 <show object="true" label="true"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
@@ -127,7 +127,7 @@
                 <pointStyle val="0"/>
                 <coords x="13.2825" y="9.7965" z="1"/>
             </element>
-            <expression label="PointText2" exp="PointText1 + (boxWidth, 0)" type="point" />
+            <expression label="PointText2" exp="PointText1 + (boxWidth, 0)" type="point "/>
             <element type="point" label="PointText2">
                 <show object="false" label="true" ev="4"/>
                 <objColor r="82" g="82" b="82" alpha="0"/>
@@ -137,7 +137,7 @@
                 <pointStyle val="0"/>
                 <coords x="16.642500000000002" y="9.7965" z="1"/>
             </element>
-            <expression label="PointText3" exp="PointText2 - (0, boxHeight)" type="point" />
+            <expression label="PointText3" exp="PointText2 - (0, boxHeight)" type="point "/>
             <element type="point" label="PointText3">
                 <show object="false" label="true" ev="4"/>
                 <objColor r="82" g="82" b="82" alpha="0"/>
@@ -147,7 +147,7 @@
                 <pointStyle val="0"/>
                 <coords x="16.642500000000002" y="8.4525" z="1"/>
             </element>
-            <expression label="PointText4" exp="PointText1 - (0, boxHeight)" type="point" />
+            <expression label="PointText4" exp="PointText1 - (0, boxHeight)" type="point "/>
             <element type="point" label="PointText4">
                 <show object="false" label="true" ev="4"/>
                 <objColor r="82" g="82" b="82" alpha="0"/>
@@ -171,7 +171,6 @@
             </element>
         </construction>
     </macro>
-
     <macro cmdName="closestFraction" toolName="closestFraction" toolHelp="closestFraction(decimal,listOfDenominators)" iconFile="" showInToolBar="true" copyCaptions="true" viewId="1">
         <macroInput a0="decimalPart" a1="dens"/>
         <macroOutput a0="roundedFrac"/>
@@ -193,9 +192,9 @@
                 <pointSize val="5"/>
                 <pointStyle val="0"/>
                 <angleStyle val="0"/>
-                <symbolic val="true" />
+                <symbolic val="true "/>
             </element>
-            <expression label="l1" exp="round((decimalPart * dens), 0) / dens" />
+            <expression label="l1" exp="round((decimalPart * dens), 0) / dens "/>
             <element type="list" label="l1">
                 <objColor r="0" g="100" b="0" alpha="0.10000000149011612"/>
                 <lineStyle thickness="5" type="0" typeHidden="1"/>
@@ -203,7 +202,7 @@
                 <pointStyle val="0"/>
                 <angleStyle val="0"/>
             </element>
-            <expression label="l2" exp="abs(l1 - decimalPart)" />
+            <expression label="l2" exp="abs(l1 - decimalPart) "/>
             <element type="list" label="l2">
                 <objColor r="0" g="100" b="0" alpha="0.10000000149011612"/>
                 <lineStyle thickness="5" type="0" typeHidden="1"/>
@@ -220,7 +219,7 @@
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="roundedFrac" exp="l1(e)" />
+            <expression label="roundedFrac" exp="l1(e) "/>
             <element type="numeric" label="roundedFrac">
                 <value val="0.7"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
@@ -278,20 +277,20 @@
                 <layer val="4"/>
                 <labelMode val="1"/>
             </element>
-            <expression label="REFcotRight" exp="cot(rightSideAngle)" />
+            <expression label="REFcotRight" exp="cot(rightSideAngle) "/>
             <element type="numeric" label="REFcotRight">
                 <value val="5.0000000000000115"/>
-                <symbolic val="true" />
+                <symbolic val="true "/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="REFtanAngle" exp="tan(rightSideAngle)" />
+            <expression label="REFtanAngle" exp="tan(rightSideAngle) "/>
             <element type="numeric" label="REFtanAngle">
                 <value val="0.19999999999999954"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="same" exp="REFcotRight ≟ REFtanAngle" />
+            <expression label="same" exp="REFcotRight ≟ REFtanAngle "/>
             <element type="boolean" label="same">
                 <value val="false"/>
                 <show object="false" label="true"/>
@@ -300,19 +299,19 @@
                 <labelMode val="0"/>
                 <checkbox fixed="true"/>
             </element>
-            <expression label="sinRight" exp="sin(rightSideAngle)" />
+            <expression label="sinRight" exp="sin(rightSideAngle) "/>
             <element type="numeric" label="sinRight">
                 <value val="-0.1961161351381836"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="cosRight" exp="cos(rightSideAngle)" />
+            <expression label="cosRight" exp="cos(rightSideAngle) "/>
             <element type="numeric" label="cosRight">
                 <value val="-0.9805806756909202"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="vertical" exp="x(s1A) ≟ x(s1B)" />
+            <expression label="vertical" exp="x(s1A) ≟ x(s1B) "/>
             <element type="boolean" label="vertical">
                 <value val="false"/>
                 <show object="false" label="true"/>
@@ -335,7 +334,7 @@
                 <eqnStyle style="implicit"/>
                 <coords x="-1" y="5" z="-97"/>
             </element>
-            <expression label="p" exp="p(x) = If[Defined[Invert[referenceLine(x)]], Invert[referenceLine(x)], 0]" />
+            <expression label="p" exp="p(x) = If[Defined[Invert[referenceLine(x)]], Invert[referenceLine(x)], 0] "/>
             <element type="function" label="p">
                 <show object="false" label="true" ev="4"/>
                 <objColor r="153" g="51" b="255" alpha="0"/>
@@ -362,20 +361,20 @@
                 <labelMode val="1"/>
                 <animation step="0.1" speed="1" type="0" playing="false"/>
             </element>
-            <expression label="yMove" exp="(REFtanAngle * width / 2) - height / 2" />
+            <expression label="yMove" exp="(REFtanAngle * width / 2) - height / 2 "/>
             <element type="numeric" label="yMove">
                 <value val="-0.6200000000000007"/>
-                <symbolic val="true" />
+                <symbolic val="true "/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="xMove" exp="(REFcotRight * height / 2) - width / 2" />
+            <expression label="xMove" exp="(REFcotRight * height / 2) - width / 2 "/>
             <element type="numeric" label="xMove">
                 <value val="3.1000000000000107"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="referencePoint" exp="s1B + (((-width)) / 2, height / 2) + ((cosRight * lengthS1 / 2), (sinRight * lengthS1 / 2))" type="point" />
+            <expression label="referencePoint" exp="s1B + (((-width)) / 2, height / 2) + ((cosRight * lengthS1 / 2), (sinRight * lengthS1 / 2))" type="point "/>
             <element type="point" label="referencePoint">
                 <show object="true" label="true" ev="4"/>
                 <objColor r="68" g="68" b="68" alpha="0"/>
@@ -397,7 +396,7 @@
                 <pointStyle val="0"/>
                 <coords x="9" y="18" z="1"/>
             </element>
-            <expression label="bottom" exp="referenceLine(x(opposite)) &lt; y(opposite)" />
+            <expression label="bottom" exp="referenceLine(x(opposite)) &lt; y(opposite) "/>
             <element type="boolean" label="bottom">
                 <value val="false"/>
                 <show object="false" label="true"/>
@@ -406,7 +405,7 @@
                 <labelMode val="0"/>
                 <checkbox fixed="true"/>
             </element>
-            <expression label="yMoveDownRight" exp="0 ≤ REFtanAngle &lt; 1 ∧ bottom" />
+            <expression label="yMoveDownRight" exp="0 ≤ REFtanAngle &lt; 1 ∧ bottom "/>
             <element type="boolean" label="yMoveDownRight">
                 <value val="false"/>
                 <show object="false" label="true"/>
@@ -415,7 +414,7 @@
                 <labelMode val="0"/>
                 <checkbox fixed="true"/>
             </element>
-            <expression label="yMoveDownLeft" exp="-1 ≤ REFtanAngle ≤ 0 ∧ bottom" />
+            <expression label="yMoveDownLeft" exp="-1 ≤ REFtanAngle ≤ 0 ∧ bottom "/>
             <element type="boolean" label="yMoveDownLeft">
                 <value val="false"/>
                 <show object="false" label="true"/>
@@ -424,7 +423,7 @@
                 <labelMode val="0"/>
                 <checkbox fixed="true"/>
             </element>
-            <expression label="top" exp="¬bottom" />
+            <expression label="top" exp="¬bottom "/>
             <element type="boolean" label="top">
                 <value val="true"/>
                 <show object="false" label="true"/>
@@ -433,13 +432,13 @@
                 <labelMode val="0"/>
                 <checkbox fixed="true"/>
             </element>
-            <expression label="ySame" exp="(If[same ∧ top, 0.5, same, -0.5] * height)" />
+            <expression label="ySame" exp="(If[same ∧ top, 0.5, same, -0.5] * height) "/>
             <element type="numeric" label="ySame">
                 <value val="NaN"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="yMoveUpLeft" exp="0 ≤ REFtanAngle &lt; 1 ∧ top" />
+            <expression label="yMoveUpLeft" exp="0 ≤ REFtanAngle &lt; 1 ∧ top "/>
             <element type="boolean" label="yMoveUpLeft">
                 <value val="true"/>
                 <show object="false" label="true"/>
@@ -448,7 +447,7 @@
                 <labelMode val="0"/>
                 <checkbox fixed="true"/>
             </element>
-            <expression label="yMoveUpRight" exp="-1 ≤ REFtanAngle &lt; 0 ∧ top" />
+            <expression label="yMoveUpRight" exp="-1 ≤ REFtanAngle &lt; 0 ∧ top "/>
             <element type="boolean" label="yMoveUpRight">
                 <value val="false"/>
                 <show object="false" label="true"/>
@@ -466,7 +465,7 @@
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="leftS1B" exp="x(opposite) &lt; x(s1B)" />
+            <expression label="leftS1B" exp="x(opposite) &lt; x(s1B) "/>
             <element type="boolean" label="leftS1B">
                 <value val="true"/>
                 <show object="false" label="true"/>
@@ -475,7 +474,7 @@
                 <labelMode val="0"/>
                 <checkbox fixed="true"/>
             </element>
-            <expression label="right_{1}" exp="vertical ∧ leftS1B" />
+            <expression label="right_{1}" exp="vertical ∧ leftS1B "/>
             <element type="boolean" label="right_{1}">
                 <value val="false"/>
                 <show object="false" label="true"/>
@@ -484,7 +483,7 @@
                 <labelMode val="0"/>
                 <checkbox fixed="true"/>
             </element>
-            <expression label="right" exp="p(y(opposite)) &gt; x(opposite) ∨ right_{1}" />
+            <expression label="right" exp="p(y(opposite)) &gt; x(opposite) ∨ right_{1} "/>
             <element type="boolean" label="right">
                 <value val="false"/>
                 <show object="false" label="true"/>
@@ -493,13 +492,13 @@
                 <labelMode val="0"/>
                 <checkbox fixed="true"/>
             </element>
-            <expression label="xSame" exp="(If[same ∧ (¬right), -0.5, same, 0.5] * width)" />
+            <expression label="xSame" exp="(If[same ∧ (¬right), -0.5, same, 0.5] * width) "/>
             <element type="numeric" label="xSame">
                 <value val="NaN"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="xMoveLeftBottom" exp="-1 ≤ REFcotRight &lt; 0 ∧ (¬right)" />
+            <expression label="xMoveLeftBottom" exp="-1 ≤ REFcotRight &lt; 0 ∧ (¬right) "/>
             <element type="boolean" label="xMoveLeftBottom">
                 <value val="false"/>
                 <show object="false" label="true"/>
@@ -508,7 +507,7 @@
                 <labelMode val="0"/>
                 <checkbox fixed="true"/>
             </element>
-            <expression label="xMoveLeftTop" exp="0 ≤ REFcotRight &lt; 1 ∧ (¬right)" />
+            <expression label="xMoveLeftTop" exp="0 ≤ REFcotRight &lt; 1 ∧ (¬right) "/>
             <element type="boolean" label="xMoveLeftTop">
                 <value val="false"/>
                 <show object="false" label="true"/>
@@ -517,7 +516,7 @@
                 <labelMode val="0"/>
                 <checkbox fixed="true"/>
             </element>
-            <expression label="xMoveRightBottom" exp="0 ≤ REFcotRight ≤ 1 ∧ right" />
+            <expression label="xMoveRightBottom" exp="0 ≤ REFcotRight ≤ 1 ∧ right "/>
             <element type="boolean" label="xMoveRightBottom">
                 <value val="false"/>
                 <show object="false" label="true"/>
@@ -526,7 +525,7 @@
                 <labelMode val="0"/>
                 <checkbox fixed="true"/>
             </element>
-            <expression label="xMoveRightTop" exp="-1 &lt; REFcotRight &lt; 0 ∧ right" />
+            <expression label="xMoveRightTop" exp="-1 &lt; REFcotRight &lt; 0 ∧ right "/>
             <element type="boolean" label="xMoveRightTop">
                 <value val="false"/>
                 <show object="false" label="true"/>
@@ -544,7 +543,7 @@
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="MovedXT2" exp="referencePoint + (xAdd2, yAdd2)" type="point" />
+            <expression label="MovedXT2" exp="referencePoint + (xAdd2, yAdd2)" type="point "/>
             <element type="point" label="MovedXT2">
                 <show object="true" label="true" ev="4"/>
                 <objColor r="68" g="68" b="68" alpha="0"/>
@@ -602,7 +601,7 @@
                 <pointStyle val="0"/>
                 <coords x="1.96" y="2.64" z="1"/>
             </element>
-            <expression label="Middle" exp="(A + B + C) / 3" type="point" />
+            <expression label="Middle" exp="(A + B + C) / 3" type="point "/>
             <element type="point" label="Middle">
                 <show object="false" label="true"/>
                 <objColor r="68" g="68" b="68" alpha="0"/>
@@ -672,7 +671,7 @@
                 <pointStyle val="0"/>
                 <coords x="3.0009072292945604" y="3.1062662969645642" z="1"/>
             </element>
-            <expression label="l3" exp="{H}" />
+            <expression label="l3" exp="{H} "/>
             <element type="list" label="l3">
                 <show object="false" label="true"/>
                 <objColor r="0" g="100" b="0" alpha="0"/>
@@ -873,7 +872,7 @@
                 <pointStyle val="10"/>
                 <coords x="17.23212136292765" y="-3.2042417354536177" z="1"/>
             </element>
-            <expression label="MidDEFFinal" exp="((Max[Zip[x(n), n, {answerTriangleD, answerTriangleE, SimMove}]] + Min[Zip[x(n), n, {answerTriangleD, answerTriangleE, SimMove}]]) / 2, (Max[Zip[y(n), n, {answerTriangleD, answerTriangleE, SimMove}]] + Min[Zip[y(n), n, {answerTriangleD, answerTriangleE, SimMove}]]) / 2)" type="point" />
+            <expression label="MidDEFFinal" exp="((Max[Zip[x(n), n, {answerTriangleD, answerTriangleE, SimMove}]] + Min[Zip[x(n), n, {answerTriangleD, answerTriangleE, SimMove}]]) / 2, (Max[Zip[y(n), n, {answerTriangleD, answerTriangleE, SimMove}]] + Min[Zip[y(n), n, {answerTriangleD, answerTriangleE, SimMove}]]) / 2)" type="point "/>
             <element type="point" label="MidDEFFinal">
                 <show object="false" label="true"/>
                 <objColor r="82" g="82" b="82" alpha="0"/>
@@ -919,7 +918,7 @@
                 <pointStyle val="0"/>
                 <coords x="6" y="2" z="1"/>
             </element>
-            <expression label="D" exp="((Max[Zip[x(n), n, {A, B, C}]] + Min[Zip[x(n), n, {A, B, C}]]) / 2, (Max[Zip[y(n), n, {A, B, C}]] + Min[Zip[y(n), n, {A, B, C}]]) / 2)" type="point" />
+            <expression label="D" exp="((Max[Zip[x(n), n, {A, B, C}]] + Min[Zip[x(n), n, {A, B, C}]]) / 2, (Max[Zip[y(n), n, {A, B, C}]] + Min[Zip[y(n), n, {A, B, C}]]) / 2)" type="point "/>
             <element type="point" label="D">
                 <show object="true" label="true"/>
                 <objColor r="68" g="68" b="68" alpha="0"/>
@@ -978,43 +977,43 @@
                 <pointStyle val="0"/>
                 <coords x="0.88" y="2.68" z="1"/>
             </element>
-            <expression label="xLeft" exp="x(Corner1)" />
+            <expression label="xLeft" exp="x(Corner1) "/>
             <element type="numeric" label="xLeft">
                 <value val="-5"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="xRight" exp="x(Corner3)" />
+            <expression label="xRight" exp="x(Corner3) "/>
             <element type="numeric" label="xRight">
                 <value val="16"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="yTop" exp="y(Corner3)" />
+            <expression label="yTop" exp="y(Corner3) "/>
             <element type="numeric" label="yTop">
                 <value val="6"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="yBottom" exp="y(Corner1)" />
+            <expression label="yBottom" exp="y(Corner1) "/>
             <element type="numeric" label="yBottom">
                 <value val="-5"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="yPixels" exp="(y(Corner5) * (yTop - y(InputPoint)) / (yTop - yBottom))" />
+            <expression label="yPixels" exp="(y(Corner5) * (yTop - y(InputPoint)) / (yTop - yBottom)) "/>
             <element type="numeric" label="yPixels">
                 <value val="60.36363636363637"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="xPixels" exp="(x(Corner5) * (x(InputPoint) - xLeft) / (xRight - xLeft))" />
+            <expression label="xPixels" exp="(x(Corner5) * (x(InputPoint) - xLeft) / (xRight - xLeft)) "/>
             <element type="numeric" label="xPixels">
                 <value val="83.99999999999999"/>
                 <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
                 <bgColor r="0" g="0" b="0" alpha="255"/>
             </element>
-            <expression label="OutputPixels" exp="(xPixels, yPixels)" type="point" />
+            <expression label="OutputPixels" exp="(xPixels, yPixels)" type="point "/>
             <element type="point" label="OutputPixels">
                 <show object="true" label="true" ev="4"/>
                 <objColor r="68" g="68" b="68" alpha="0"/>

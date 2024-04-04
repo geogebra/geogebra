@@ -15,11 +15,16 @@ package org.geogebra.common.kernel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.io.MyXMLHandler;
+import org.geogebra.common.io.ParsedXMLTag;
 import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.ConstructionElement;
@@ -58,6 +63,7 @@ public class Macro {
 	private final LinkedList<AlgoElement> usedByAlgos = new LinkedList<>();
 	private final Set<Macro> usedByMacros = new HashSet<>();
 	private boolean copyCaptions;
+	private List<ParsedXMLTag> parsedXMLTags;
 
 	/**
 	 * Creates a new macro using the given input and output GeoElements.
@@ -163,42 +169,68 @@ public class Macro {
 	 *            labels for output
 	 */
 	public void initMacro(Construction macroCons1, String[] inputLabels,
-			String[] outputLabels) {
+			String[] outputLabels, List<ParsedXMLTag> elements) {
 		this.macroCons = macroCons1;
 		this.macroKernel = macroCons.getKernel();
 		this.macroConsXML = new StringBuilder();
-		macroCons.getConstructionXML(macroConsXML, false);
+		this.parsedXMLTags = elements;
+		if (macroCons1.isEmpty()) {
+			buildXMLFromTags();
+		} else {
+			macroCons1.getConstructionXML(macroConsXML, false);
+		}
 		this.macroInputLabels = inputLabels;
 		this.macroOutputLabels = outputLabels;
-
+		macroInput = new GeoElement[macroInputLabels.length];
+		inputTypes = new TestGeo[macroInputLabels.length];
+		macroOutput = new GeoElement[macroOutputLabels.length];
 		initInputOutput();
-
-		// init inputTypes array
-		inputTypes = new TestGeo[macroInput.length];
-		for (int i = 0; i < macroInput.length; i++) {
-			inputTypes[i] = TestGeo.getSpecificTest(macroInput[i]);
-		}
 
 		// after initing we turn global variable lookup on again,
 		// so we can use for example functions with parameters in macros too.
 		// Such parameters are global variables
 		if (macroCons1 instanceof MacroConstruction) {
 			((MacroConstruction) macroCons1).setGlobalVariableLookup(true);
+		} else {
+			throw new IllegalStateException();
 		}
+	}
+
+	private void buildXMLFromTags() {
+		macroConsXML.append("<construction title=\"\" author=\"\" date=\"\">\n");
+		ParsedXMLTag last = null;
+		for (ParsedXMLTag element : parsedXMLTags) {
+			if (element.open) {
+				if (last != null) {
+					last.appendTo(macroConsXML);
+				}
+				last = element;
+			} else if (last != null && element.name.equals(last.name)) {
+				last.appendSelfClosing(macroConsXML);
+				last = null;
+			} else {
+				if (last != null) {
+					last.appendTo(macroConsXML);
+					last = null;
+				}
+				element.appendTo(macroConsXML);
+			}
+		}
+		macroConsXML.append("</construction>\n");
 	}
 
 	private void initInputOutput() {
 		// get the input and output geos from the macro construction
-		macroInput = new GeoElement[macroInputLabels.length];
-		macroOutput = new GeoElement[macroOutputLabels.length];
+		if (!macroCons.isEmpty()) {
+			for (int i = 0; i < macroInputLabels.length; i++) {
+				macroInput[i] = macroCons.lookupLabel(macroInputLabels[i]);
+				macroInput[i].setFixed(false);
+				inputTypes[i] = TestGeo.getSpecificTest(macroInput[i]);
+			}
 
-		for (int i = 0; i < macroInputLabels.length; i++) {
-			macroInput[i] = macroCons.lookupLabel(macroInputLabels[i]);
-			macroInput[i].setFixed(false);
-		}
-
-		for (int i = 0; i < macroOutputLabels.length; i++) {
-			macroOutput[i] = macroCons.lookupLabel(macroOutputLabels[i]);
+			for (int i = 0; i < macroOutputLabels.length; i++) {
+				macroOutput[i] = macroCons.lookupLabel(macroOutputLabels[i]);
+			}
 		}
 	}
 
@@ -353,7 +385,7 @@ public class Macro {
 				macroConsXML.toString());
 
 		// init macro
-		initMacro(macroCons2, inputLabels, outputLabels);
+		initMacro(macroCons2, inputLabels, outputLabels, new ArrayList<>());
 	}
 
 	/**
@@ -707,7 +739,7 @@ public class Macro {
 				sb.append(", ");
 			}
 			sb.append('<');
-			sb.append(macroInput[i].translatedTypeString());
+			sb.append(macroInput[i] == null ? "" : macroInput[i].translatedTypeString());
 			sb.append('>');
 		}
 		sb.append(" ]");
@@ -858,5 +890,45 @@ public class Macro {
 	 */
 	public void setViewId(Integer viewId) {
 		this.viewId = viewId;
+	}
+
+	/**
+	 * Make sure this macro is loaded
+	 * @throws XMLParseException when stored XML is invalid
+	 */
+	public void load() throws XMLParseException {
+		if (macroCons.isEmpty()) {
+			MyXMLHandler mh = new MyXMLHandler(macroKernel, macroCons);
+			mh.startElement("geogebra", new LinkedHashMap<>());
+			mh.startElement("construction", new LinkedHashMap<>());
+			for (ParsedXMLTag pe: parsedXMLTags) {
+				if (pe.open) {
+					mh.startElement(pe.name, pe.attributes);
+				} else {
+					mh.endElement(pe.name);
+				}
+			}
+			initInputOutput();
+		}
+	}
+
+	/**
+	 * String-based check for random commands and functions, may have false positives.
+	 * Checks all attributes since random could be part of e.g. dynamic color.
+	 * @return whether this contains random command or function
+	 */
+	public boolean isRandom() {
+		return parsedXMLTags.stream().anyMatch(this::isElementRandom);
+	}
+
+	private boolean isElementRandom(ParsedXMLTag el) {
+		if (el.attributes != null) {
+			for (String val: el.attributes.values()) {
+				if (val.toLowerCase(Locale.ROOT).matches(".*(random|shuffle|sample).*")) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }
