@@ -5,14 +5,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 import org.geogebra.common.io.XMLParseException;
-import org.geogebra.common.jre.headless.AppDI;
 import org.geogebra.common.jre.io.MyXMLioJre;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.util.Charsets;
 
 public class GFileHandler {
 	/**
@@ -34,9 +33,6 @@ public class GFileHandler {
 				app.setMoveMode();
 			}
 
-			// store current location of the window
-			((AppDI) app).storeFrameCenter();
-
 			// make sure objects are displayed in the correct View
 			app.setActiveView(App.VIEW_EUCLIDIAN);
 
@@ -48,7 +44,7 @@ public class GFileHandler {
 			if (bis.markSupported()) {
 				bis.mark(Integer.MAX_VALUE);
 				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(bis, Charsets.getUtf8()));
+						new InputStreamReader(bis, StandardCharsets.UTF_8));
 				String str = reader.readLine();
 
 				// check if .ggb file is actually a base64 file from 4.2 Chrome
@@ -88,9 +84,6 @@ public class GFileHandler {
 
 			// command list may have changed due to macros
 			app.updateCommandDictionary();
-
-			((AppDI) app).hideDockBarPopup();
-
 			return true;
 		} catch (MyError err) {
 			app.resetCurrentFile();

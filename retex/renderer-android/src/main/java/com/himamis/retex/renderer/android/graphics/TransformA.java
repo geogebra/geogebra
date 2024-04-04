@@ -1,8 +1,8 @@
 package com.himamis.retex.renderer.android.graphics;
 
-import com.himamis.retex.renderer.share.platform.graphics.Transform;
-
 import android.graphics.Matrix;
+
+import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
 public class TransformA extends Matrix implements Transform {
 
@@ -17,10 +17,6 @@ public class TransformA extends Matrix implements Transform {
 		set(matrix);
 	}
 	
-	public Object getNativeObject() {
-		return this;
-	}
-
 	public double getTranslateX() {
 		getValues(mValues);
 		return mValues[MTRANS_X];

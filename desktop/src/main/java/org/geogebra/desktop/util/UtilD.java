@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
 
 import javax.swing.JComponent;
@@ -37,7 +38,6 @@ import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
 
 import org.geogebra.common.jre.io.StreamUtil;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -161,9 +161,11 @@ public class UtilD {
 	 *            filename
 	 */
 	public static void writeStringToFile(String s, String filename) {
-		try (Writer out = new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream(filename), Charsets.getUtf8()))) {
-			out.write(s);
+		try {
+			try (Writer out = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(filename), StandardCharsets.UTF_8))) {
+				out.write(s);
+			}
 		} catch (Exception e) {
 			Log.error("problem writing file " + filename);
 			Log.debug(e);
@@ -181,9 +183,11 @@ public class UtilD {
 	 *            filename
 	 */
 	public static void writeStringToFile(String s, File file) {
-		try (Writer out = new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream(file), Charsets.getUtf8()))) {
-			out.write(s);
+		try {
+			try (Writer out = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(file), StandardCharsets.UTF_8))) {
+				out.write(s);
+			}
 		} catch (Exception e) {
 			Log.error("problem writing file " + file.getName());
 			Log.debug(e);
