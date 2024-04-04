@@ -16,7 +16,7 @@ public final class CommandFilterFactory {
 	 *         Calculator commands
 	 */
 	public static CommandFilter createSciCalcCommandFilter() {
-		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(
+		CommandNameFilter commandNameFilter = new CommandNameFilter(
 				false);
 		commandNameFilter.addCommands(Commands.Mean, Commands.mean, Commands.SD,
 				Commands.stdev, Commands.SampleSD, Commands.stdevp,
@@ -33,7 +33,7 @@ public final class CommandFilterFactory {
 	public static CommandFilter createGraphingCommandFilter() {
 		CommandFilter noCasCommandFilter = createNoCasCommandFilter();
 		CommandFilter tableFilter = new CommandTableFilter(CommandsConstants.TABLE_CONIC,
-				CommandsConstants.TABLE_TRANSFORMATION, CommandsConstants.TABLE_3D);
+				CommandsConstants.TABLE_TRANSFORMATION);
 		CommandFilter nameFilter = createGraphingNameFilter();
 		CommandFilter composite = new CompositeCommandFilter(noCasCommandFilter,
 				tableFilter, nameFilter);
@@ -41,7 +41,7 @@ public final class CommandFilterFactory {
 	}
 
 	private static CommandFilter createGraphingNameFilter() {
-		CommandNameFilterSet nameFilter = new CommandNameFilterSet(true);
+		CommandNameFilter nameFilter = new CommandNameFilter(true);
 		nameFilter.addCommands(Commands.OrthogonalVector,
 				Commands.UnitOrthogonalVector, Commands.UnitVector, Commands.Cross, Commands.Dot,
 				Commands.Mirror, Commands.AngularBisector, Commands.Angle,
@@ -67,7 +67,7 @@ public final class CommandFilterFactory {
 		return nameFilter;
 	}
 
-	private static void addBooleanCommands(CommandNameFilterSet nameFilter) {
+	private static void addBooleanCommands(CommandNameFilter nameFilter) {
 		nameFilter.addCommands(Commands.AreCollinear,
 				Commands.AreConcurrent, Commands.AreConcyclic, Commands.AreCongruent,
 				Commands.AreEqual, Commands.AreParallel, Commands.ArePerpendicular);
@@ -78,7 +78,7 @@ public final class CommandFilterFactory {
 	 */
 	@Deprecated // replaced by MmsExamRestrictions
 	public static CommandFilter createMmsFilter() {
-		CommandNameFilterSet nameFilter = new CommandNameFilterSet(true);
+		CommandNameFilter nameFilter = new CommandNameFilter(true);
 		nameFilter.addCommands(Commands.Axes, Commands.Focus,
 				Commands.DelauneyTriangulation, Commands.Difference,
 				Commands.Rotate, Commands.TriangleCenter,
@@ -128,7 +128,7 @@ public final class CommandFilterFactory {
 	 */
     @Deprecated // replaced by BayernCasExamRestrictions
 	public static CommandFilter createBayernCasFilter() {
-		CommandNameFilterSet nameFilter = new CommandNameFilterSet(true);
+		CommandNameFilter nameFilter = new CommandNameFilter(true);
 		nameFilter.addCommands(Commands.Plane);
 		return new EnglishCommandFilter(nameFilter);
 	}
@@ -138,7 +138,7 @@ public final class CommandFilterFactory {
 	 */
 	@Deprecated // replaced by VlaanderenExamRestrictions
 	public static CommandFilter createVlaanderenFilter() {
-		CommandNameFilterSet nameFilter = new CommandNameFilterSet(true);
+		CommandNameFilter nameFilter = new CommandNameFilter(true);
 		nameFilter.addCommands(Commands.Derivative, Commands.NDerivative, Commands.Integral,
 				Commands.IntegralSymbolic, Commands.IntegralBetween, Commands.NIntegral,
 				Commands.Solve, Commands.SolveQuartic, Commands.SolveODE, Commands.SolveCubic,
@@ -150,7 +150,7 @@ public final class CommandFilterFactory {
 	 * @return name filter for apps with no CAS
 	 */
 	public static CommandFilter createNoCasCommandFilter() {
-		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(true);
+		CommandNameFilter commandNameFilter = new CommandNameFilter(true);
 		commandNameFilter.addCommands(Commands.LocusEquation, Commands.Envelope,
 				Commands.Expand, Commands.Factor, Commands.Factors,
 				Commands.IFactor, Commands.CFactor, Commands.Simplify,
@@ -173,7 +173,7 @@ public final class CommandFilterFactory {
 	 * @return name filter for apps with CAS
 	 */
 	public static CommandFilter createCasCommandFilter() {
-		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(true);
+		CommandNameFilter commandNameFilter = new CommandNameFilter(true);
 		commandNameFilter.addCommands(
 				// CAS specific command
 				Commands.Delete, Commands.Poisson,
@@ -266,7 +266,7 @@ public final class CommandFilterFactory {
 	 * @return command filter for the 3D graphing app
 	 */
 	public static CommandFilter create3DGraphingCommandFilter() {
-		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(true);
+		CommandNameFilter commandNameFilter = new CommandNameFilter(true);
 		commandNameFilter.addCommands(Commands.PieChart);
 		return commandNameFilter;
 	}

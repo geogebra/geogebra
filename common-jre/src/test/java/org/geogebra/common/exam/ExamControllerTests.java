@@ -91,6 +91,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 		currentSubApp = subApp;
 		app = AppCommonFactory.create(createConfig(subApp));
+		activeMaterial = null;
 		algebraProcessor = app.getKernel().getAlgebraProcessor();
 		commandDispatcher = algebraProcessor.getCommandDispatcher();
 		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization()),
@@ -222,6 +223,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.prepareExam();
 		examController.startExam(ExamRegion.VLAANDEREN, null); // doesn't allow CAS
 		assertEquals(SuiteSubApp.GRAPHING, didRequestSwitchToSubApp);
+		assertNotNull(activeMaterial);
 	}
 
 	@Test
@@ -230,6 +232,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.prepareExam();
 		examController.startExam(ExamRegion.VLAANDEREN, null);
 		assertNull(didRequestSwitchToSubApp);
+		assertNotNull(activeMaterial);
 	}
 
 	@Test
@@ -267,6 +270,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 				ExamRestrictions.forExamType(ExamRegion.BAYERN_CAS)); // only allows CAS app
 		examController.startExam(ExamRegion.BAYERN_CAS, null);
 		assertEquals(SuiteSubApp.CAS, didRequestSwitchToSubApp);
+		assertNotNull(activeMaterial);
 	}
 
 	@Test
@@ -281,6 +285,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertTrue(previousCommandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
 		// ...and applied to the new (Geometry app) command dispatcher
 		assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
+		assertNotNull(activeMaterial);
 	}
 
 	// -- ExamControllerDelegate --
