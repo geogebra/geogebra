@@ -21,6 +21,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.AwtFactory;
@@ -53,6 +54,11 @@ public class GeoImage extends GeoElement implements
 	public final static int IMG_SIZE_THRESHOLD = 50;
 	/** name of the folder containing the image == md5 hash of the image */
 	public static final int MD5_FOLDER_LENGTH = 32;
+	public static final int PROTRACTOR_WIDTH = 558;
+	public static final int PROTRACTOR_HEIGHT = 296;
+	public static final int RULER_LEFT = 112;
+	private static final int TRIANGLE_PROTRACTOR_WIDTH = 906;
+	private static final int TRIANGLE_PROTRACTOR_HEIGHT = 445;
 
 	private GeoPoint[] corners; // corners of the image
 
@@ -1432,14 +1438,18 @@ public class GeoImage extends GeoElement implements
 	 */
 	public void setImagePropertiesIfNecessary() {
 		if (isMeasurementTool) {
-			if (getImageFileName().contains("Ruler.svg")) {
-				app.getActiveEuclidianView().setMeasurementTool(this, 1472, 72, 72);
-			} else if (getImageFileName().contains("TriangleProtractor.svg")) {
-				int middle = (app.getActiveEuclidianView().getWidth() - 906) / 2;
-				app.getActiveEuclidianView().setMeasurementTool(this, 906, 445, middle);
-			} else if (getImageFileName().contains("Protractor.svg")) {
-				int middle = (app.getActiveEuclidianView().getWidth() - 558) / 2;
-				app.getActiveEuclidianView().setMeasurementTool(this, 558, 296, middle);
+			EuclidianView view = app.getActiveEuclidianView();
+			String fileName = getImageFileName();
+			if (fileName.contains("Ruler.svg")) {
+				view.setMeasurementTool(this, RULER_LEFT);
+			} else if (fileName.contains("TriangleProtractor.svg")) {
+				int middle = (view.getWidth() - TRIANGLE_PROTRACTOR_WIDTH) / 2;
+				view.setMeasurementTool(this,
+						middle, TRIANGLE_PROTRACTOR_WIDTH, TRIANGLE_PROTRACTOR_HEIGHT);
+			} else if (fileName.contains("Protractor.svg")) {
+				int middle = (view.getWidth() - PROTRACTOR_WIDTH) / 2;
+				view.setMeasurementTool(this,
+						middle, PROTRACTOR_WIDTH, PROTRACTOR_HEIGHT);
 			}
 		}
 	}
