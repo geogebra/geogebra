@@ -1,5 +1,6 @@
 package org.geogebra.common.spreadsheet.kernel;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -27,6 +28,12 @@ public class SpreadsheetCellProcessorTest extends BaseUnitTest {
 	public void testTextInput() {
 		processor.process("(1, 1)");
 		assertTrue(lookup("A1").isGeoText());
+	}
+
+	@Test
+	public void testTextInputWithQuotes() {
+		processor.process("\"1+2\"");
+		assertThat(lookup("A1"), hasValue("1+2"));
 	}
 
 	@Test
