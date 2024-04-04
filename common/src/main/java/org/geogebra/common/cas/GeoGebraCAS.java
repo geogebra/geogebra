@@ -54,6 +54,7 @@ import com.google.j2objc.annotations.Weak;
  */
 public class GeoGebraCAS implements GeoGebraCasInterface {
 
+	public static final String SUM_VAR_PREFIX = "gsumvar";
 	@Weak
 	private App app;
 	private CASparser casParser;
@@ -382,7 +383,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		sbCASCommand.append(name);
 		sbCASCommand.append(".");
 
-		if (args.size() == 1 && "Point".equals(name)) {
+		if (args.size() == 4 && ("Sum".equals(name) || "Product".equals(name))) {
+			updateArgsAndSbForSum(args, sbCASCommand);
+		} else if (args.size() == 1 && "Point".equals(name)) {
 			updateArgsAndSbForPoint(args, sbCASCommand);
 		} else if (args.size() == 1 && "Area".equals(name)) {
 			updateArgsAndSbForArea(args, sbCASCommand, app.getKernel());
@@ -721,6 +724,21 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		return sbCASCommand.toString();
+	}
+
+	private void updateArgsAndSbForSum(ArrayList<ExpressionNode> args, StringBuilder sbCASCommand) {
+		ExpressionValue oldVar = args.get(1);
+		counter++;
+
+		String oldVarName = oldVar.toString(StringTemplate.xmlTemplate);
+
+		GeoDummyVariable sumvar =
+				new GeoDummyVariable(app.getKernel().getConstruction(), SUM_VAR_PREFIX + oldVarName);
+		args.set(1, sumvar.wrap());
+		ExpressionValue exp = args.get(0).deepCopy(app.getKernel()).traverse(
+				Traversing.VariableReplacer.getReplacer(oldVarName, sumvar, app.getKernel()));
+		args.set(0, exp.wrap());
+		sbCASCommand.append('4');
 	}
 
 	private String getVarargTranslation(StringBuilder builder, String name,
