@@ -19,6 +19,11 @@ public class PenIconButton extends IconButton {
 	private final AppW appW;
 	private PenCategoryPopup penPopup;
 
+	/**
+	 * Constructor
+	 * @param appW - application
+	 * @param deselectButtons - deselect other button callback
+	 */
 	public PenIconButton(AppW appW, Runnable deselectButtons) {
 		super(MODE_PEN, appW);
 		this.appW = appW;
@@ -56,7 +61,7 @@ public class PenIconButton extends IconButton {
 		};
 	}
 
-	private Integer getLastSelectedMode() {
+	private int getLastSelectedMode() {
 		return penPopup.getLastSelectedMode() == -1 ? MODE_PEN : penPopup.getLastSelectedMode();
 	}
 }

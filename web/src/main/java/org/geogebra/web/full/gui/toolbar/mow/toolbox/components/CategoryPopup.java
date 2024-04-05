@@ -88,7 +88,7 @@ public class CategoryPopup extends GPopupPanel implements SetLabels {
 		lastSelectedButton.setActive(true);
 	}
 
-	public Integer getLastSelectedMode() {
+	public int getLastSelectedMode() {
 		return lastSelectedButton != null ? lastSelectedButton.getMode() : -1;
 	}
 
