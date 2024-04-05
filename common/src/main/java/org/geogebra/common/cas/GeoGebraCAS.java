@@ -728,17 +728,23 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	private void updateArgsAndSbForSum(ArrayList<ExpressionNode> args, StringBuilder sbCASCommand) {
 		ExpressionValue oldVar = args.get(1);
-		counter++;
-
 		String oldVarName = oldVar.toString(StringTemplate.xmlTemplate);
 
-		GeoDummyVariable sumvar =
-				new GeoDummyVariable(app.getKernel().getConstruction(), SUM_VAR_PREFIX + oldVarName);
-		args.set(1, sumvar.wrap());
-		ExpressionValue exp = args.get(0).deepCopy(app.getKernel()).traverse(
-				Traversing.VariableReplacer.getReplacer(oldVarName, sumvar, app.getKernel()));
+		GeoDummyVariable sumVar = new GeoDummyVariable(app.getKernel().getConstruction(),
+				SUM_VAR_PREFIX + oldVarName);
+		args.set(1, sumVar.wrap());
+		Traversing.VariableReplacer sumVarReplacer =
+				Traversing.VariableReplacer.getReplacer(oldVarName, sumVar, app.getKernel());
+		ExpressionValue exp = args.get(0).deepCopy(app.getKernel())
+				.traverse(this::unwrapSymbolic)
+				.traverse(sumVarReplacer);
 		args.set(0, exp.wrap());
 		sbCASCommand.append('4');
+	}
+
+	private ExpressionValue unwrapSymbolic(ExpressionValue v) {
+		return v instanceof GeoSymbolic && ((GeoSymbolic) v).getDefinition() != null
+				? ((GeoSymbolic) v).getDefinition() : v;
 	}
 
 	private String getVarargTranslation(StringBuilder builder, String name,
