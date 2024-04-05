@@ -858,9 +858,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			args.set(0, value.wrap());
 			FunctionVariable[] functionVariables = f.getFunctionVariables();
 			args.add(functionVariables[0].wrap());
+			sbCASCommand.setLength(0);
+			sbCASCommand.append("Integral.2");
+		} else {
+			sbCASCommand.append("Integral.1");
 		}
-		sbCASCommand.setLength(0);
-		sbCASCommand.append("Integral.2");
+
 	}
 
 	private static ExpressionNode asPlane(ExpressionValue a1, Kernel kernel) {
