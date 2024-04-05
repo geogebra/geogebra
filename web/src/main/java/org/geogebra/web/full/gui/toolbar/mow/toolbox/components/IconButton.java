@@ -17,7 +17,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	private SVGResource image;
 	private String ariaLabelTransKey;
 	private String dataTitleTransKey;
-	private Integer mode = -1;
+	private int mode = -1;
 	private final Localization localization;
 	private AppW appW;
 	private String selectionColor;
@@ -191,7 +191,7 @@ public class IconButton extends StandardButton implements SetLabels {
 		AriaHelper.setDataTitle(this, dataTitle);
 	}
 
-	public Integer getMode() {
+	public int getMode() {
 		return mode;
 	}
 
