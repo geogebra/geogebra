@@ -853,12 +853,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	private static void updateArgsAndSbForIntegral(
 			ArrayList<ExpressionNode> args, StringBuilder sbCASCommand) {
 		ExpressionValue value = args.get(0).unwrap();
+		sbCASCommand.setLength(0);
 		if (value instanceof VarString) {
 			VarString f = (VarString) value;
 			args.set(0, value.wrap());
 			FunctionVariable[] functionVariables = f.getFunctionVariables();
 			args.add(functionVariables[0].wrap());
-			sbCASCommand.setLength(0);
 			sbCASCommand.append("Integral.2");
 		} else {
 			sbCASCommand.append("Integral.1");
