@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -21,6 +22,7 @@ import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -386,9 +388,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			updateArgsAndSbForPoint(args, sbCASCommand);
 		} else if (args.size() == 1 && "Area".equals(name)) {
 			updateArgsAndSbForArea(args, sbCASCommand, app.getKernel());
+		} else if (args.size() == 1 && "Integral".equals(name)) {
+			updateArgsAndSbForIntegral(args, sbCASCommand);
 		} else if (args.size() == 2 && "Intersect".equals(name)) {
 			updateArgsAndSbForIntersect(args, sbCASCommand);
 		}
+
 		// case solve with list of equations
 		else if ("Solve".equals(name) && args.size() == 2
 				&& args.get(0).unwrap() instanceof MyList && !varComplNeeded) {
@@ -843,6 +848,19 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 		sbCASCommand.setLength(0);
 		sbCASCommand.append("Intersect.2");
+	}
+
+	private static void updateArgsAndSbForIntegral(
+			ArrayList<ExpressionNode> args, StringBuilder sbCASCommand) {
+		ExpressionValue value = args.get(0).unwrap();
+		if (value instanceof VarString) {
+			VarString f = (VarString) value;
+			args.set(0, value.wrap());
+			FunctionVariable[] functionVariables = f.getFunctionVariables();
+			args.add(functionVariables[0].wrap());
+		}
+		sbCASCommand.setLength(0);
+		sbCASCommand.append("Integral.2");
 	}
 
 	private static ExpressionNode asPlane(ExpressionValue a1, Kernel kernel) {

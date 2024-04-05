@@ -2795,4 +2795,11 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("5+v", "(6,7,8)");
 		t("v+5", "(6,7,8)");
 	}
+
+	@Test
+	@Issue("APPS-5264")
+	public void testIntegral2() {
+		t("f(x):=b", "b");
+		t("Integral[f]", "b * x + c_{1}");
+	}
 }

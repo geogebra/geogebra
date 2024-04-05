@@ -2276,4 +2276,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("X=(1,2,3)+r(1,2,3)", "?");
 		t("X=(1,2)+s(1,2)", "(s(1, 2) + 1, 2)");
 	}
+
+	@Test
+	@Issue("APPS-5264")
+	public void testIntegral2() {
+		t("f(x)=b", "b");
+		t("Integral[f]", "b * x + c_{1}");
+	}
 }
