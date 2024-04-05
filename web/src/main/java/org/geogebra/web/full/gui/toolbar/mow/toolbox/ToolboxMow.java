@@ -198,7 +198,11 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void deselectButtons() {
-		buttons.forEach(IconButton::deactivate);
+		for (IconButton button : buttons) {
+			if (!(button instanceof RulerIconButton)) {
+				button.deactivate();
+			}
+		}
 	}
 
 	/**
