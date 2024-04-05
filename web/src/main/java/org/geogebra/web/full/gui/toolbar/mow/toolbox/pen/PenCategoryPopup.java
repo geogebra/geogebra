@@ -8,7 +8,6 @@ import org.geogebra.web.html5.main.AppW;
 
 public class PenCategoryPopup extends CategoryPopup {
 
-
 	/**
 	 * Constructor
 	 * @param app - application
@@ -17,7 +16,6 @@ public class PenCategoryPopup extends CategoryPopup {
 	 */
 	public PenCategoryPopup(AppW app, List<Integer> tools,
 			Consumer<Integer> updateParentCallback) {
-		super(app, tools, updateParentCallback);
-
+		super(app, tools, updateParentCallback, true);
 	}
 }

@@ -16,6 +16,26 @@ public class CategoryPopup extends GPopupPanel implements SetLabels {
 	private FlowPanel contentPanel;
 	private final List<IconButton> buttons = new ArrayList<>();
 	private final Integer defaultTool;
+	private boolean preventHide;
+
+	/**
+	 * Constructor
+	 * @param app - application
+	 * @param tools - list of tools
+	 * @param updateParentCallback - callback to update anchor
+	 * @param preventHide - whether it should close on tool selection or not
+	 */
+	public CategoryPopup(AppW app, List<Integer> tools, Consumer<Integer> updateParentCallback,
+			boolean preventHide) {
+		super(app.getAppletFrame(), app);
+		setAutoHideEnabled(true);
+		this.updateParentCallback = updateParentCallback;
+		this.preventHide = preventHide;
+		defaultTool = tools.get(0);
+
+		addStyleName("categoryPopup");
+		buildBaseGui(tools);
+	}
 
 	/**
 	 * Constructor
@@ -24,13 +44,7 @@ public class CategoryPopup extends GPopupPanel implements SetLabels {
 	 * @param updateParentCallback - callback to update anchor
 	 */
 	public CategoryPopup(AppW app, List<Integer> tools, Consumer<Integer> updateParentCallback) {
-		super(app.getAppletFrame(), app);
-		setAutoHideEnabled(true);
-		this.updateParentCallback = updateParentCallback;
-		defaultTool = tools.get(0);
-
-		addStyleName("categoryPopup");
-		buildBaseGui(tools);
+		this(app, tools, updateParentCallback, false);
 	}
 
 	public void addContent(Widget widget) {
@@ -57,7 +71,9 @@ public class CategoryPopup extends GPopupPanel implements SetLabels {
 			app.setMode(mode);
 			updateParentCallback.accept(mode);
 			updateButtonSelection(button);
-			hide();
+			if (!preventHide) {
+				hide();
+			}
 		});
 		buttons.add(button);
 		return button;
