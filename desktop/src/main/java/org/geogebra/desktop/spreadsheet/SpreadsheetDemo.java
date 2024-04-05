@@ -70,7 +70,7 @@ public class SpreadsheetDemo {
 			KernelTabularDataAdapter adapter = new KernelTabularDataAdapter(
 					appCommon.getSettings().getSpreadsheet());
 			Spreadsheet spreadsheet = new Spreadsheet(adapter,
-					new GeoElementCellRendererFactory(new AwtReTeXGraphicsBridgeD()));
+					new GeoElementCellRendererFactory(new AwtReTeXGraphicsBridgeD()), null);
 
 			FactoryProviderDesktop.setInstance(new FactoryProviderDesktop());
 			spreadsheet.setWidthForColumns(60, 0, 10);

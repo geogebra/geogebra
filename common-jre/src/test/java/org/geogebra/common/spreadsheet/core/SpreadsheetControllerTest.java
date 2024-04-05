@@ -1,5 +1,13 @@
 package org.geogebra.common.spreadsheet.core;
 
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE_COLUMN;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE_ROW;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_COLUMN_LEFT;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_COLUMN_RIGHT;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_ABOVE;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_BELOW;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItems.HEADER_INDEX;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
@@ -201,6 +209,93 @@ public class SpreadsheetControllerTest {
         assertEquals(4, controller.getLastSelection().getRange().getToRow());
     }
 
+    @Test
+    public void testInsertingColumnAppliesCorrectWidth() {
+        runContextItemAt(1, 1, DELETE_COLUMN);
+        controller.getLayout().setWidthForColumns(150, 1, 1);
+        runContextItemAt(1, 1, ContextMenuItem.Identifier.INSERT_COLUMN_RIGHT);
+        assertEquals("The inserted column should apply the width of the previously selected one!",
+                150, controller.getLayout().getWidth(2), 0);
+    }
+
+    @Test
+    public void testInsertingRowAppliesCorrectHeight() {
+        runContextItemAt(1, 1, DELETE_ROW);
+        controller.getLayout().setHeightForRows(80, 2, 2);
+        runContextItemAt(2, 2, INSERT_ROW_BELOW);
+        assertEquals("The inserted row should apply the width of the previously selected one!",
+                80, controller.getLayout().getHeight(3), 0);
+    }
+
+    @Test
+    public void testDeletingColumnResizesColumnWidth() {
+        controller.getLayout().setWidthForColumns(150, 2, 2);
+        controller.getLayout().setWidthForColumns(200, 3, 3);
+        runContextItemAt(2, 2, DELETE_COLUMN);
+        assertEquals("After deleting the 3rd column, it should change its width!",
+                200, controller.getLayout().getWidth(2), 0);
+    }
+
+    @Test
+    public void testInsertingColumnRightwardShouldChangeSelection() {
+        runContextItemAt(2, 2, DELETE_COLUMN);
+        selectCells(0, 1, 0, 1);
+        runContextItemAt(0, 1, INSERT_COLUMN_RIGHT);
+        assertTrue("The current selection should move when a column is inserted to the right!",
+                controller.getLastSelection().contains(0, 2));
+        assertTrue("There should be no more than 1 cell selected!",
+                controller.isOnlyCellSelected(0, 2));
+    }
+
+    @Test
+    public void testInsertingColumnLeftwardShouldNotChangeSelection() {
+        runContextItemAt(1, 1, DELETE_COLUMN);
+        selectCells(1, 2, 1, 2);
+        runContextItemAt(1, 2, INSERT_COLUMN_LEFT);
+        assertTrue("The current selection should stay when a column is inserted to the left!",
+                controller.getLastSelection().contains(1, 2));
+        assertTrue("There should be no more than 1 cell selected!",
+                controller.isOnlyCellSelected(1, 2));
+    }
+
+    @Test
+    public void testInsertingRowBelowShouldChangeSelection() {
+        runContextItemAt(2, 2, DELETE_ROW);
+        selectCells(1, 1, 1, 1);
+        runContextItemAt(1, 1, INSERT_ROW_BELOW);
+        assertTrue("The current selection should move when a row is inserted below!",
+                controller.getLastSelection().contains(2, 1));
+        assertTrue("There should be no more than 1 cell selected!",
+                controller.isOnlyCellSelected(2, 1));
+    }
+
+    @Test
+    public void testInsertingRowAboveShouldNotChangeSelection() {
+        runContextItemAt(2, 2, DELETE_ROW);
+        selectCells(2, 2, 2, 2);
+        runContextItemAt(2, 2, INSERT_ROW_ABOVE);
+        assertTrue("The current selection should stay when a row is inserted above!",
+                controller.getLastSelection().contains(2, 2));
+        assertTrue("There should be no more than 1 cell selected!",
+                controller.isOnlyCellSelected(2, 2));
+    }
+
+    @Test
+    public void testDeletingRowResizesRowHeight() {
+        controller.getLayout().setHeightForRows(80, 1, 1);
+        controller.getLayout().setHeightForRows(120, 2, 2);
+        runContextItemAt(1, 1, DELETE_ROW);
+        assertEquals("After deleting the 2nd row, it should change its height!",
+                120, controller.getLayout().getHeight(1), 0);
+    }
+
+    private void runContextItemAt(int row, int column, Identifier identifier) {
+        controller.getContextMenuItems().get(row, column).stream()
+                .filter(item -> item.getIdentifier() == identifier)
+                .findFirst().ifPresentOrElse(ContextMenuItem::performAction,
+                        () -> fail("There was a problem performing this action!"));
+    }
+
     private void setViewport(Rectangle viewport) {
         this.viewport = viewport;
         controller.setViewport(viewport);
@@ -231,5 +326,9 @@ public class SpreadsheetControllerTest {
         when(event.getKeyCode()).thenReturn(keyCode);
         when(event.getKeyChar()).thenReturn(' ');
         return event;
+    }
+
+    private void selectCells(int fromRow, int fromColumn, int toRow, int toColumn) {
+        controller.select(new TabularRange(fromRow, fromColumn, toRow, toColumn), false, false);
     }
 }

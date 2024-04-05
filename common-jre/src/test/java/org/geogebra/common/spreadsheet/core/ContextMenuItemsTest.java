@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
+import org.geogebra.common.util.shape.Rectangle;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -31,6 +32,7 @@ public final class ContextMenuItemsTest {
 	private ContextMenuItems items;
 	private final SpreadsheetSelectionController selectionController =
 			new SpreadsheetSelectionController();
+	private SpreadsheetController controller;
 	private TabularData<String> data;
 	private TestClipboard clipboard;
 
@@ -41,7 +43,8 @@ public final class ContextMenuItemsTest {
 		clipboard = new TestClipboard();
 		CopyPasteCutTabularDataImpl<?> copyPasteCut =
 				new CopyPasteCutTabularDataImpl<>(data, clipboard);
-		items = new ContextMenuItems(data, selectionController, copyPasteCut);
+		controller = new SpreadsheetController(data, new Rectangle());
+		items = new ContextMenuItems(controller, selectionController, copyPasteCut);
 	}
 
 	private void fillTestData() {
@@ -141,9 +144,7 @@ public final class ContextMenuItemsTest {
 	}
 
 	private void selectRows(int fromRow, int toRow) {
-		selectionController.select(new Selection(
-				new TabularRange(fromRow, HEADER_INDEX, toRow, HEADER_INDEX
-		)), false, false);
+		controller.select(new TabularRange(fromRow, -1, toRow, -1), false, false);
 	}
 
 	private void checkRowReplaced(int fromRow, int toRow) {
@@ -180,13 +181,12 @@ public final class ContextMenuItemsTest {
 	}
 
 	private void selectColumns(int fromColumn, int toColumn) {
-		selectionController.select(new Selection(
-				new TabularRange(HEADER_INDEX, fromColumn, HEADER_INDEX, toColumn)),
-				false, false);
+		controller.select(new TabularRange(-1, fromColumn, -1, toColumn), false, false);
 	}
 
 	@Test
 	public void testInsertRowAbove() {
+		runItemAt(3, HEADER_INDEX, DELETE_ROW);
 		runItemAt(5, HEADER_INDEX, INSERT_ROW_ABOVE);
 		checkNewRowAt(5);
 	}
@@ -203,12 +203,14 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testInsertRowBelow() {
+		runItemAt(4, HEADER_INDEX, DELETE_ROW);
 		runItemAt(5, HEADER_INDEX, INSERT_ROW_BELOW);
 		checkNewRowAt(6);
 	}
 
 	@Test
 	public void testInsertColumnLeft() {
+		runItemAt(HEADER_INDEX, 3, DELETE_COLUMN);
 		runItemAt(HEADER_INDEX, 5,  INSERT_COLUMN_LEFT);
 		checkNewColumnAt(5);
 	}
@@ -225,6 +227,7 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testInsertColumnRight() {
+		runItemAt(HEADER_INDEX, 4, DELETE_COLUMN);
 		runItemAt(HEADER_INDEX, 5,  INSERT_COLUMN_RIGHT);
 		checkNewColumnAt(6);
 	}

@@ -7,20 +7,20 @@ import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
 
 public class ContextMenuItems {
 	static final int HEADER_INDEX = -1;
-	private final TabularData tabularData;
 	private final CopyPasteCutTabularData copyPasteCut;
 	private final SpreadsheetSelectionController selectionController;
+	private final SpreadsheetController spreadsheetController;
 
 	/**
-	 * @param tabularData {@link TabularData}
+	 * @param spreadsheetController {@link SpreadsheetController}
 	 * @param selectionController {@link SpreadsheetSelectionController}
 	 * @param copyPasteCut {@link CopyPasteCutTabularData}
 	 */
-	public ContextMenuItems(TabularData tabularData,
+	public ContextMenuItems(SpreadsheetController spreadsheetController,
 			SpreadsheetSelectionController selectionController,
 			CopyPasteCutTabularData copyPasteCut) {
+		this.spreadsheetController = spreadsheetController;
 		this.selectionController = selectionController;
-		this.tabularData = tabularData;
 		this.copyPasteCut = copyPasteCut;
 	}
 
@@ -56,13 +56,13 @@ public class ContextMenuItems {
 				new ContextMenuItem(Identifier.PASTE, () -> pasteCells(row, column)),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.INSERT_ROW_ABOVE,
-						() -> tabularData.insertRowAt(row)),
+						() -> insertRowAt(row, false)),
 				new ContextMenuItem(Identifier.INSERT_ROW_BELOW,
-						() -> tabularData.insertRowAt(row + 1)),
+						() -> insertRowAt(row + 1, true)),
 				new ContextMenuItem(Identifier.INSERT_COLUMN_LEFT,
-						() -> tabularData.insertColumnAt(column)),
+						() -> insertColumnAt(column, false)),
 				new ContextMenuItem(Identifier.INSERT_COLUMN_RIGHT,
-						() -> tabularData.insertColumnAt(column + 1)),
+						() -> insertColumnAt(column + 1, true)),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.DELETE_ROW, () -> deleteRowAt(row)),
 				new ContextMenuItem(Identifier.DELETE_COLUMN,
@@ -127,29 +127,12 @@ public class ContextMenuItems {
 				new ContextMenuItem(Identifier.PASTE, () -> {}),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.INSERT_ROW_ABOVE,
-						() -> tabularData.insertRowAt(row)),
+						() -> insertRowAt(row, false)),
 				new ContextMenuItem(Identifier.INSERT_ROW_BELOW,
-						() -> tabularData.insertRowAt(row + 1)),
+						() -> insertRowAt(row + 1, true)),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.DELETE_ROW, () -> deleteRowAt(row))
 		);
-	}
-
-	private void deleteRowAt(int row) {
-		List<Selection> selections = selectionController.selections();
-		if (selections.isEmpty()) {
-			tabularData.deleteRowAt(row);
-		} else {
-			selections.stream().filter(selection -> selection.isRowOnly())
-					.forEach(selection -> deleteRowAt(selection.getRange().getFromRow(),
-							selection.getRange().getToRow()));
-			}
-		}
-
-	private void deleteRowAt(int fromRow, int toRow) {
-		for (int row = fromRow; row < toRow + 1; row++) {
-			tabularData.deleteRowAt(fromRow);
-		}
 	}
 
 	private List<ContextMenuItem> columnItems(int column) {
@@ -159,29 +142,28 @@ public class ContextMenuItems {
 				new ContextMenuItem(Identifier.PASTE, () -> {}),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.INSERT_COLUMN_LEFT,
-						() -> tabularData.insertColumnAt(column)),
+						() -> insertColumnAt(column, false)),
 				new ContextMenuItem(Identifier.INSERT_COLUMN_RIGHT,
-						() -> tabularData.insertColumnAt(column + 1)),
+						() -> insertColumnAt(column + 1, true)),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.DELETE_COLUMN,
 						() -> deleteColumnAt(column))
 				);
 	}
 
-	private void deleteColumnAt(int column) {
-		List<Selection> selections = selectionController.selections();
-		if (selections.isEmpty()) {
-			tabularData.deleteColumnAt(column);
-		} else {
-			selections.stream().filter(selection -> selection.isColumnOnly())
-					.forEach(selection -> deleteColumnAt(selection.getRange().getFromColumn(),
-							selection.getRange().getToColumn()));
-			}
-		}
+	private void deleteRowAt(int row) {
+		spreadsheetController.deleteRowAt(row);
+	}
 
-	private void deleteColumnAt(int fromColumn, int toColumn) {
-		for (int column = fromColumn; column < toColumn + 1; column++) {
-			tabularData.deleteColumnAt(fromColumn);
-		}
+	private void deleteColumnAt(int column) {
+		spreadsheetController.deleteColumnAt(column);
+	}
+
+	private void insertColumnAt(int column, boolean right) {
+		spreadsheetController.insertColumnAt(column, right);
+	}
+
+	private void insertRowAt(int row, boolean below) {
+		spreadsheetController.insertRowAt(row, below);
 	}
 }

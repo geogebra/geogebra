@@ -47,6 +47,10 @@ public final class SpreadsheetRenderer {
 			drawCellBorder(row, column, graphics);
 		}
 
+		if (content == null) {
+			return;
+		}
+
 		SelfRenderable renderable = renderableCache.computeIfAbsent(new GPoint(row, column),
 				ignore -> converter.getRenderable(content, style, row, column));
 		if (renderable != null) {

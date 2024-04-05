@@ -174,6 +174,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public void getViewsXML(StringBuilder sb, boolean asPreference) {
 		// save spreadsheetView settings
 		getSpreadsheetViewXML(sb, asPreference);
+		getSpreadsheetLayoutXML(sb);
 
 		// save ProbabilityCalculator settings
 		if (hasProbabilityCalculator()) {
@@ -194,6 +195,15 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 */
 	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
 		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * Appends an XML representation of the layout of the spreadsheet (suite)
+	 * to the passed StringBuilder
+	 * @param sb {@link StringBuilder}
+	 */
+	public void getSpreadsheetLayoutXML(StringBuilder sb) {
+		// Overridden in GuiManagerW
 	}
 
 	@Override

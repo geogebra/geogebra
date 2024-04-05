@@ -4,12 +4,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 
 /**
- * Class to handle insert/delete operations of TabularData that has geos
+ * Class to handle insert/delete operations of TabularData that has geos.
  * While geos in cells are labeled as cell position, column and row
- * operations has to rename the geos correspondingly.
+ * operations have to rename the geos correspondingly.
  *
- * For example if you have 100 rows, and you insert a row at 30, all geos bellow the 30. row has to
- * be renamed (A100 to A101, A99 to A100,...A31 to A32, A30 to A31, for each column)
+ * For example, if you have 100 rows, and you insert a row at 30, all geos above the 30th row have
+ * to be renamed (A100 to A101, A99 to A100,...A31 to A32, A30 to A31, for each column)
  * Same for inserting a column.
  *
  * Delete renames the opposite way.
@@ -26,7 +26,7 @@ public class KernelTabularDataProcessor {
 
 	/**
 	 *
-	 * @param startRow to insert under.
+	 * @param startRow to insert a new row above.
 	 * See class documentation above.
 	 */
 	void insertRowAt(int startRow) {

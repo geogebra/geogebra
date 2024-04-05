@@ -48,6 +48,7 @@ import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.spreadsheet.core.TableLayout;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -149,6 +150,7 @@ public class GuiManagerW extends GuiManager
 	private AlgebraControllerW algebraController;
 	private AlgebraViewW algebraView;
 	private SpreadsheetViewW spreadsheetView;
+	private TableLayout spreadsheetLayout;
 	private final ArrayList<EuclidianViewW> euclidianView2 = new ArrayList<>();
 	protected BrowseViewI browseGUI;
 	protected LayoutW layout;
@@ -573,6 +575,16 @@ public class GuiManagerW extends GuiManager
 		}
 
 		return spreadsheetView;
+	}
+
+	@Override
+	public void setSpreadsheetLayoutForSuite(TableLayout layout) {
+		this.spreadsheetLayout = layout;
+	}
+
+	@Override
+	public TableLayout getSpreadsheetLayoutForSuite() {
+		return spreadsheetLayout;
 	}
 
 	@Override
@@ -1412,6 +1424,13 @@ public class GuiManagerW extends GuiManager
 			final boolean asPreference) {
 		if (spreadsheetView != null) {
 			spreadsheetView.getXML(sb, asPreference);
+		}
+	}
+
+	@Override
+	public void getSpreadsheetLayoutXML(StringBuilder sb) {
+		if (spreadsheetLayout != null) {
+			sb.append(spreadsheetLayout.getXML());
 		}
 	}
 
