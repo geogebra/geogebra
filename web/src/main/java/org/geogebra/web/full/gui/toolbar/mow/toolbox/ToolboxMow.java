@@ -3,11 +3,13 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_AUDIO;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_CALCULATOR;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_CAMERA;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_EQUATION;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_EXTENSION;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_GRASPABLE_MATH;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_H5P;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_IMAGE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MASK;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MEDIA_TEXT;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MIND_MAP;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PDF;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
@@ -36,6 +38,7 @@ import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithMe
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithPopup;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.pen.PenIconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ruler.RulerIconButton;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.text.TextIconButton;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.main.AppW;
@@ -61,6 +64,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 			MODE_SHAPE_PENTAGON, MODE_SHAPE_LINE, MODE_SHAPE_FREEFORM, MODE_MASK);
 	private final static List<Integer> appsCategory = new LinkedList<>(Arrays.asList(
 			MODE_CALCULATOR, MODE_MIND_MAP, MODE_TABLE));
+	private final static List<Integer> textCategory = Arrays.asList(MODE_MEDIA_TEXT,
+			MODE_EQUATION);
 
 	/**
 	 * MOW toolbox
@@ -80,6 +85,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		addSelectModeButton();
 		addPenModeButton();
 		addShapeButton();
+		addTextButton();
 		addUploadButton();
 		addLinkButton();
 		addAppsButton();
@@ -152,6 +158,12 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 				"Ruler", "selectModeButton" + MODE_RULER);
 		add(rulerButton);
 		buttons.add(rulerButton);
+	}
+
+	private void addTextButton() {
+		TextIconButton textButton = new TextIconButton(appW, this::deselectButtons);
+		add(textButton);
+		buttons.add(textButton);
 	}
 
 	private void addUploadButton() {
