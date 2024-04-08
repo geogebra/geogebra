@@ -39,7 +39,7 @@ public abstract class AuthenticationModel {
 	public void onLogin(LoginEvent loginEvent) {
 		this.loginStarted = false;
 		if (loginEvent.isSuccessful()) {
-			onLoginSuccess(loginEvent.getUser(), loginEvent.getJSON());
+			onLoginSuccess(loginEvent.getUser());
 		} else {
 			onLoginError();
 		}
@@ -102,10 +102,8 @@ public abstract class AuthenticationModel {
 
 	/**
 	 * @param user ggb tube user
-	 * @param json from GGT Parses the response, and sets model dependent things
-	 * (localStorage, etc).
 	 */
-	private void onLoginSuccess(GeoGebraTubeUser user, String json) {
+	private void onLoginSuccess(GeoGebraTubeUser user) {
 		this.preventLoginPrompt = false;
 		// Remember the logged in user
 		this.loggedInUser = user;
