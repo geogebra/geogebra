@@ -4193,6 +4193,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * Split selected strokes (if any) and deletes selected objects.
+	 */
+	public void splitAndDeleteSelectedObjects() {
+		getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
+		deleteSelectedObjects(false);
+
+	}
+
+	/**
 	 * possible positions for the inputBar (respective inputBox)
 	 */
 	public enum InputPosition {

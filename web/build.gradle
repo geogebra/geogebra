@@ -48,7 +48,7 @@ task extractJs() {
 }
 
 dependencies {
-    def multiplayerVersion = "1.0.202403271141"
+    def multiplayerVersion = "1.0.202404020839"
     implementation project(path: ':carota-web'),
         project(':web-dev'),
         project(':web-common'),

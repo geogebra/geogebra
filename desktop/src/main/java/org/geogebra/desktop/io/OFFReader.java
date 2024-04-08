@@ -7,9 +7,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 import org.geogebra.common.geogebra3D.io.OFFHandler;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.opencsv.CSVException;
 
@@ -48,7 +48,7 @@ public class OFFReader {
 		try {
 			InputStream stream = new FileInputStream(file);
 			BufferedReader br = new BufferedReader(
-					new InputStreamReader(stream, Charsets.getUtf8()));
+					new InputStreamReader(stream, StandardCharsets.UTF_8));
 			parse(br, handler);
 
 			br.close();

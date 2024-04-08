@@ -12,13 +12,13 @@ import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.jre.headless.ApiDelegate;
 import org.geogebra.common.jre.headless.App3DCompanionHeadless;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.AppDI;
 import org.geogebra.common.jre.headless.EuclidianController3DNoGui;
 import org.geogebra.common.jre.headless.EuclidianView3DNoGui;
 import org.geogebra.common.jre.headless.GgbAPIHeadless;
-import org.geogebra.common.jre.headless.ApiDelegate;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.kernel.Construction;
@@ -81,10 +81,6 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	}
 
 	public void addExternalImage(String name, MyImageJre img) {
-		// TODO Auto-generated method stub
-	}
-
-	public void storeFrameCenter() {
 		// TODO Auto-generated method stub
 	}
 
@@ -164,16 +160,6 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	@Override
 	public GTimer newTimer(GTimerListener listener, int delay) {
 		return new GTimerD(listener, delay);
-	}
-
-	@Override
-	protected int getWindowWidth() {
-		return 800;
-	}
-
-	@Override
-	protected int getWindowHeight() {
-		return 600;
 	}
 
 	@Override
