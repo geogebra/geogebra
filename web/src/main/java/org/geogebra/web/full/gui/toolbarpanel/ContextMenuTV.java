@@ -259,7 +259,7 @@ public class ContextMenuTV {
 	}
 
 	private void addImportData() {
-		if (!app.isExamStarted()) {
+		if (!app.isExamStarted() && app.getConfig().hasDataImport()) {
 			addCommand(((AppWFull) app).getCsvHandler(), "ContextMenu.ImportData", "importData");
 		}
 	}
