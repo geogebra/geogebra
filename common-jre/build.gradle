@@ -3,7 +3,7 @@ plugins {
     id 'pmd'
     id 'checkstyle'
     id 'jacoco'
-    id 'com.github.spotbugs' version '6.0.9'
+    alias libs.plugins.spotbugs
 }
 
 description 'Common parts of GeoGebra that depends on JRE support.'
@@ -16,9 +16,7 @@ dependencies {
     // built from ef18cb9206; switch to upstream when https://github.com/mozilla/rhino/pull/1385 is released
     api "org.mozilla:rhino:1.7.15-SNAPSHOT"
     testImplementation project(':ggbjdk')
-    testImplementation "junit:junit:$junitVersion"
-    testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
-    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation libs.junit, libs.hamcrest, libs.mockito.core
 }
 
 sourceSets {
@@ -33,7 +31,7 @@ sourceSets {
 }
 
 if (hasProperty("eclipse")) {
-    eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
+    eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl' }
 }
 
 spotbugs {
@@ -55,11 +53,11 @@ gradle.projectsEvaluated {
     // include src from all dependent projects (compile dependency) in JaCoCo test report
     jacocoTestReport {
         // get all projects we have a (compile) dependency on
-        def projs = configurations.implementation.getAllDependencies().withType(ProjectDependency).collect{it.getDependencyProject()}
+        def projs = configurations.implementation.getAllDependencies().withType(ProjectDependency).collect { it.getDependencyProject() }
         projs.each {
             additionalSourceDirs files(it.sourceSets.main.java.srcDirs)
             additionalClassDirs files(files(it.sourceSets.main['java'].destinationDirectory).collect({
-                File f -> fileTree(dir: f, exclude: ['org/apache/**','edu/**','org/geogebra/common/kernel/barycentric/**'])
+                File f -> fileTree(dir: f, exclude: ['org/apache/**', 'edu/**', 'org/geogebra/common/kernel/barycentric/**'])
             }))
         }
     }

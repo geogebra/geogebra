@@ -4,7 +4,7 @@ plugins {
 
 description 'Java Native Interface to connect Giac and GeoGebra'
 
-import org.gradle.internal.os.OperatingSystem;
+import org.gradle.internal.os.OperatingSystem
 
 task unzipNatives() {
     description 'Unzips Giac native DLLs. Only Linux is fully supported right now.'

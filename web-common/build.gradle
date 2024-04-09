@@ -1,9 +1,9 @@
 plugins {
     id 'java-library'
-    id 'org.docstr.gwt' version '1.1.30'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '6.0.9'
+    alias libs.plugins.gwt
+    alias libs.plugins.spotbugs
 }
 
 description 'Web platform code which does not use the GWT Widgets library'
@@ -30,12 +30,12 @@ dependencies {
             files(file("build/generated/sources/annotationProcessor/java/main/")),
             files(file("build/generated/sources/webjars/java/main/")),
             'org.webjars.npm:fflate:0.8.0',
-            "fr.ujf-grenoble:giac-gwt:$javaGiacVersion",
-            "fr.ujf-grenoble:giac-gwt:$javaGiacVersion:sources",
-            "org.gwtproject:gwt-dev:$gwtCompilerVersion"
+            libs.giac.gwt,
+            variantOf(libs.giac.gwt) { classifier("sources") },
+            libs.gwt.dev
 
-    annotationProcessor project(":gwtutil"),
-        'org.treblereel.gwt.gwtproject.resources:gwt-resources-processor:202403181'
+
+    annotationProcessor project(":gwtutil"), libs.gwt.resources.processor
 }
 apply from: "../gradle-scripts/webjars.gradle"
 compileJava.dependsOn('extractJs')
@@ -61,7 +61,7 @@ pmd {
 }
 
 gwt {
-    gwtVersion = gwtCompilerVersion
+    gwtVersion = libs.versions.gwt.get()
 
     modules = ['org.geogebra.web.WebSimple']
     devModules = modules
@@ -87,7 +87,7 @@ gwt {
         if (project.hasProperty("gworkers")) {
             localWorkers = project.getProperty("gworkers")
         }
-        if (project.hasProperty("gdetailed")){
+        if (project.hasProperty("gdetailed")) {
             style = org.docstr.gradle.plugins.gwt.Style.DETAILED
         } else {
             disableClassMetadata = true

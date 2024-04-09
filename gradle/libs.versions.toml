@@ -1,0 +1,48 @@
+[versions]
+junit = "4.13.2"
+mockito = "5.11.0"
+hamcrest = "2.2"
+jogl = "2.5.0"
+javagiac = "70261"
+gwt = "2.11.0"
+gwtTreblereel = "202403181"
+elemental2 = "1.2.1"
+
+[libraries]
+j2objc-annotations = "com.google.j2objc:annotations:2.8"
+spotbugs-annotations = "com.github.spotbugs:spotbugs-annotations:4.8.3"
+findbugs-annotations = "com.google.code.findbugs:jsr305:3.0.2"
+javacc = "net.java.dev.javacc:javacc:7.0.13"
+echosvg = "io.sf.carte:echosvg-all:1.0.1"
+
+gwt-user = { module = "org.gwtproject:gwt-user", version.ref = "gwt" }
+gwt-dev = { module = "org.gwtproject:gwt-dev", version.ref = "gwt" }
+gwt-core = "org.gwtproject.core:gwt-core:1.0.0-RC2"
+gwt-dom = "org.gwtproject.dom:gwt-dom:1.0.0-RC2"
+gwt-timer = "org.gwtproject.timer:gwt-timer:1.0.0-RC1"
+gwt-mockito = "com.google.gwt.gwtmockito:gwtmockito:1.1.10-SNAPSHOT"
+gwt-widgets = { module = "org.treblereel.gwt.gwtproject.widgets:gwt-widgets", version.ref = "gwtTreblereel" }
+gwt-resources-api = { module = "org.treblereel.gwt.gwtproject.resources:gwt-resources-api", version.ref = "gwtTreblereel" }
+gwt-resources-processor = { module = "org.treblereel.gwt.gwtproject.resources:gwt-resources-processor", version.ref = "gwtTreblereel" }
+
+elemental2-core = { group = "com.google.elemental2", name = "elemental2-core", version.ref = "elemental2" }
+elemental2-dom = { group = "com.google.elemental2", name = "elemental2-dom", version.ref = "elemental2" }
+elemental2-webstorage = { group = "com.google.elemental2", name = "elemental2-webstorage", version.ref = "elemental2" }
+elemental2-media = { group = "com.google.elemental2", name = "elemental2-media", version.ref = "elemental2" }
+elemental2-webgl = { group = "com.google.elemental2", name = "elemental2-webgl", version.ref = "elemental2" }
+
+jogl = { module = "org.jogamp.jogl:jogl-all", version.ref = "jogl" }
+gluegen-rt = { module = "org.jogamp.gluegen:gluegen-rt", version.ref = "jogl" }
+giac-java = { module = "fr.ujf-grenoble:javagiac", version.ref = "javagiac" }
+giac-gwt = { module = "fr.ujf-grenoble:giac-gwt", version.ref = "javagiac" }
+
+junit = { module = "junit:junit", version.ref = "junit" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
+
+[plugins]
+spotbugs = "com.github.spotbugs:6.0.9"
+javacc = "org.javacc.javacc:3.0.2"
+gwt = "org.docstr.gwt:1.1.30"
+cpd = "de.aaschmid.cpd:3.3"
+sass = "io.miret.etienne.sass:1.5.0"
