@@ -16,7 +16,13 @@ import org.geogebra.web.resources.SVGResource;
 
 public class TextCategoryPopup extends GPopupMenuW implements SetLabels {
 	private IconButton textButton;
+	private int lastSelectedMode = -1;
 
+	/**
+	 * Constructor
+	 * @param app - application
+	 * @param textButton - text icon button
+	 */
 	public TextCategoryPopup(AppW app, IconButton textButton) {
 		super(app);
 		this.textButton = textButton;
@@ -38,20 +44,37 @@ public class TextCategoryPopup extends GPopupMenuW implements SetLabels {
 		AriaMenuItem item = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
 				image.getSafeUri().asString(), text), true, () -> {});
 		item.setScheduledCommand(() -> {
-			getApp().setMode(mode);
-			String fillColor = textButton.isActive()
-					? getApp().getGeoGebraElement().getDarkColor(getApp().getFrameElement())
-					: GColor.BLACK.toString();
-			textButton.updateImgAndTxt(image.withFill(fillColor), mode, getApp());
-			popupMenu.unselect();
-			popupMenu.selectItem(item);
+			updateMode(mode);
+			updateButton(image, mode);
+			updateSelection(item);
 		});
 		addItem(item);
+	}
+
+	private void updateMode(int mode) {
+		getApp().setMode(mode);
+		lastSelectedMode = mode;
+	}
+
+	private void updateButton(SVGResource image, int mode) {
+		String fillColor = textButton.isActive()
+				? getApp().getGeoGebraElement().getDarkColor(getApp().getFrameElement())
+				: GColor.BLACK.toString();
+		textButton.updateImgAndTxt(image.withFill(fillColor), mode, getApp());
+	}
+
+	private void updateSelection(AriaMenuItem item) {
+		popupMenu.unselect();
+		popupMenu.selectItem(item);
 	}
 
 	@Override
 	public void setLabels() {
 		clearItems();
 		buildGui();
+	}
+
+	public int getLastSelectedMode() {
+		return lastSelectedMode == -1 ? MODE_MEDIA_TEXT : lastSelectedMode;
 	}
 }

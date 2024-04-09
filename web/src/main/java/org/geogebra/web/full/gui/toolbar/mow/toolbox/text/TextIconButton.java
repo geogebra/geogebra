@@ -11,6 +11,11 @@ public class TextIconButton extends IconButton {
 	private AppW appW;
 	private TextCategoryPopup textCategoryPopup;
 
+	/**
+	 * Constructor
+	 * @param appW - application
+	 * @param deselectButtons - deselect buttons callback
+	 */
 	public TextIconButton(AppW appW, Runnable deselectButtons) {
 		super(appW, MaterialDesignResources.INSTANCE.texts(), "Text.Tool", "Text.Tool",
 				"", null);
@@ -21,6 +26,7 @@ public class TextIconButton extends IconButton {
 			deselectButtons.run();
 			initPopupAndShow();
 			setActive(true);
+			appW.setMode(textCategoryPopup.getLastSelectedMode());
 		});
 	}
 
@@ -29,11 +35,17 @@ public class TextIconButton extends IconButton {
 			textCategoryPopup = new TextCategoryPopup(appW, this);
 		}
 
-		textCategoryPopup.show(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
+		textCategoryPopup.showAtPoint(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
 				(int) (getAbsoluteTop() - appW.getAbsTop()));
 		AriaHelper.setAriaExpanded(this, true);
 
 		textCategoryPopup.getPopupPanel().addCloseHandler(e ->
 				AriaHelper.setAriaExpanded(this, false));
+	}
+
+	@Override
+	public void setLabels() {
+		super.setLabels();
+		textCategoryPopup.setLabels();
 	}
 }
