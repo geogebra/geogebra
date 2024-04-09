@@ -4,8 +4,7 @@ package org.freehep.graphicsio.font.truetype;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-
-import org.geogebra.common.util.Charsets;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Concrete implementation of the TrueType Font, read from a TTF File.
@@ -51,7 +50,7 @@ public class TTFFile extends TTFFont {
 			ttf.seek(12 + i * 16);
 			byte b[] = new byte[4];
 			ttf.readFully(b);
-			String tag = new String(b, Charsets.getUtf8());
+			String tag = new String(b, StandardCharsets.UTF_8);
 			int checksum = ttf.readInt();
 			int offset = ttf.readInt();
 			int len = ttf.readInt();

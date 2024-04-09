@@ -1,8 +1,8 @@
 package com.himamis.retex.renderer.android.geom;
 
-import com.himamis.retex.renderer.share.platform.geom.Point2D;
-
 import android.graphics.PointF;
+
+import com.himamis.retex.renderer.share.platform.geom.Point2D;
 
 public class Point2DA implements Point2D {
 	

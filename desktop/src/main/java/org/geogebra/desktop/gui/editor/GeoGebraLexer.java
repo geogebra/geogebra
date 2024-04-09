@@ -20,6 +20,7 @@ package org.geogebra.desktop.gui.editor;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -30,7 +31,6 @@ import javax.swing.text.Element;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -272,7 +272,7 @@ public final class GeoGebraLexer extends Lexer
 	 */
 	public GeoGebraLexer(java.io.InputStream in)
 			throws UnsupportedEncodingException {
-		this(new java.io.InputStreamReader(in, Charsets.getUtf8()));
+		this(new java.io.InputStreamReader(in, StandardCharsets.UTF_8));
 	}
 
 	/**

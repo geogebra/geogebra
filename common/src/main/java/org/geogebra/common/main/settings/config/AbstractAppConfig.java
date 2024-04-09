@@ -59,4 +59,8 @@ abstract class AbstractAppConfig implements AppConfig {
         return commandFilter;
     }
 
+    @Override
+    public boolean hasDataImport() {
+        return true;
+    }
 }

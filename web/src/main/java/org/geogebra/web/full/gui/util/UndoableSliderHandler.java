@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.function.Function;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.main.undo.UpdateStyleActionStore;
 
 public class UndoableSliderHandler
@@ -35,7 +36,9 @@ public class UndoableSliderHandler
 	@Override
 	public void onSliderInput() {
 		if (undoStore == null && !selection.getTargetGeos().isEmpty()) {
-			undoStore = new UpdateStyleActionStore(selection.getTargetGeos());
+			UndoManager undoManager = selection.getTargetGeos().get(0)
+					.getConstruction().getUndoManager();
+			undoStore = new UpdateStyleActionStore(selection.getTargetGeos(), undoManager);
 		}
 		parent.apply(selection.getTargetGeos());
 	}

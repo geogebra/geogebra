@@ -14,10 +14,6 @@ public class ColorA implements Color {
 		mColor = android.graphics.Color.argb(alpha, red, green, blue);
 	}
 
-	public Object getNativeObject() {
-		return Integer.valueOf(mColor);
-	}
-
 	public int getColor() {
 		return mColor;
 	}

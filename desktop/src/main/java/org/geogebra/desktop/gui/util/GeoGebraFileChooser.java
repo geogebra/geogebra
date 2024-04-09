@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
@@ -31,7 +32,6 @@ import javax.swing.ScrollPaneConstants;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.gui.MyImageD;
@@ -372,7 +372,7 @@ public class GeoGebraFileChooser extends JFileChooser
 
 			try {
 				reader = new BufferedReader(new InputStreamReader(
-						new FileInputStream(file), Charsets.getUtf8()));
+						new FileInputStream(file), StandardCharsets.UTF_8));
 				String text;
 				int lineCount = 0;
 				// read at most 20 lines
