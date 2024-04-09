@@ -35,6 +35,7 @@ jogl = { module = "org.jogamp.jogl:jogl-all", version.ref = "jogl" }
 gluegen-rt = { module = "org.jogamp.gluegen:gluegen-rt", version.ref = "jogl" }
 giac-java = { module = "fr.ujf-grenoble:javagiac", version.ref = "javagiac" }
 giac-gwt = { module = "fr.ujf-grenoble:giac-gwt", version.ref = "javagiac" }
+giac-android = { module = "org.geogebra:giac-android", version.ref = "javagiac" }
 
 junit = { module = "junit:junit", version.ref = "junit" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }

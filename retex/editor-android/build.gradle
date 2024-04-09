@@ -1,9 +1,7 @@
-buildscript {
-    dependencies {
-        classpath "com.android.tools.build:gradle:$rootProject.androidPluginVersion"
-    }
+plugins {
+    alias androidLibs.plugins.android.library
+    id 'maven-publish'
 }
-
 
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
@@ -31,19 +29,18 @@ publishing {
 }
 
 dependencies {
-	api project(':editor-base')
+    api project(':editor-base')
     implementation project(':renderer-android')
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
+    coreLibraryDesugaring androidLibs.desugarJdkLibs
 }
 
 android {
-	compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion rootProject.buildToolsVersion
+    namespace 'com.himamis.retex.editor.android'
+    compileSdk = androidLibs.versions.compileSdk.get().toInteger()
 
     defaultConfig {
-        minSdkVersion rootProject.minSdkVersion
+        minSdk = androidLibs.versions.minSdk.get().toInteger()
     }
-    namespace 'com.himamis.retex.editor.android'
 
     compileOptions {
         coreLibraryDesugaringEnabled true
