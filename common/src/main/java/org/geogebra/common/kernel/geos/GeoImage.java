@@ -57,8 +57,8 @@ public class GeoImage extends GeoElement implements
 	public static final int PROTRACTOR_WIDTH = 558;
 	public static final int PROTRACTOR_HEIGHT = 296;
 	public static final int RULER_LEFT = 112;
-	private static final int TRIANGLE_PROTRACTOR_WIDTH = 906;
-	private static final int TRIANGLE_PROTRACTOR_HEIGHT = 445;
+	private static final int TRIANGLE_PROTRACTOR_WIDTH = 879;
+	private static final int TRIANGLE_PROTRACTOR_HEIGHT = 440;
 
 	private GeoPoint[] corners; // corners of the image
 
