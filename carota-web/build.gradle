@@ -6,8 +6,8 @@ plugins {
 
 dependencies {
     api libs.elemental2.core, libs.elemental2.dom, libs.gwt.timer, libs.murok,
-            variantOf(libs.murok) { classifier("sources") }
-    project(':gwtutil')
+            variantOf(libs.murok) { classifier("sources") },
+            project(':gwtutil')
 }
 
 pmd {
