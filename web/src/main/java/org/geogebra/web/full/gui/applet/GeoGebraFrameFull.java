@@ -400,7 +400,7 @@ public class GeoGebraFrameFull
 	 */
 	private void onKeyboardAdded(final VirtualKeyboardGUI keyBoard) {
 		KeyboardManager keyboardManager = getApp().getKeyboardManager();
-		if (keyboardManager.shouldDetach()) {
+		if (keyboardManager.isKeyboardOutsideFrame()) {
 			keyboardHeight = 0;
 		} else {
 			keyboardHeight = keyboardManager
@@ -672,7 +672,7 @@ public class GeoGebraFrameFull
 	@Override
 	public void updateKeyboardHeight() {
 		KeyboardManager keyboardManager = getApp().getKeyboardManager();
-		if (isKeyboardShowing() && !keyboardManager.shouldDetach()) {
+		if (isKeyboardShowing() && !keyboardManager.isKeyboardOutsideFrame()) {
 			int newHeight = keyboardManager
 					.estimateKeyboardHeight();
 
