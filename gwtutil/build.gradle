@@ -18,9 +18,8 @@ dependencies {
     api libs.elemental2.webgl
 
     api libs.gwt.resources.api, libs.gwt.resources.processor, libs.gwt.timer
-
-// https://mvnrepository.com/artifact/com.google.auto.service/auto-service
-    implementation group: 'com.google.auto.service', name: 'auto-service', version: '1.1.1'
+    
+    implementation libs.autoService
 }
 
 pmd {

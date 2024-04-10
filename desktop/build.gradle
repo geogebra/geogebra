@@ -46,10 +46,7 @@ dependencies {
     implementation project(':editor-desktop')
     implementation project(':jogl2')
     implementation project(':giac-jni')
-    implementation 'netscape.javascript:jsobject:1',
-            'com.ogprover:OpenGeoProver:20120725',
-            'net.java.dev.jna:jna:5.14.0'
-    implementation libs.echosvg
+    implementation libs.jsObject, libs.openGeoProver, libs.jna, libs.echosvg
 
     implementation variantOf(libs.jogl) { classifier("natives-linux-amd64") },
             variantOf(libs.jogl) { classifier("natives-windows-amd64") },

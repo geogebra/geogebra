@@ -48,16 +48,15 @@ task extractJs() {
 }
 
 dependencies {
-    def multiplayerVersion = "1.0.202404020839"
     implementation project(path: ':carota-web'),
         project(':web-dev'),
         project(':web-common'),
         project(':editor-web'),
         project(':keyboard-web'),
-        'org.webjars.npm:pdfjs-dist:2.5.207',
-        "org.geogebra:multiplayer:$multiplayerVersion",
-        "org.geogebra:multiplayer:$multiplayerVersion:sources",
-        'com.google.j2objc:annotations:2.8:sources',
+        libs.pdfJs, libs.multiplayer,
+        variantOf(libs.multiplayer) {classifier("sources")},
+        variantOf(libs.j2objc.annotations) {classifier("sources")},
+
         files(project(':carota-web').sourceSets.main.allSource.srcDirs),
         files(project(':renderer-web').sourceSets.main.allSource.srcDirs),
         files(project(':gwtutil').sourceSets.main.allSource.srcDirs),
@@ -147,9 +146,9 @@ gwt {
         modules = ['org.geogebra.web.SuperWeb', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
           'org.geogebra.web.Tablet3D']
     }
-    
+
     devModules devModule
-    
+
     maxHeapSize = '2000M'
 
     jsInteropExports {
@@ -160,7 +159,7 @@ gwt {
         // Customize the GWT compiler here
         strict = true
         disableCastChecking = true
-      
+
         if (project.hasProperty("greport")) {
            compileReport = true
         }

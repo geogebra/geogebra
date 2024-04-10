@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id "com.github.spotbugs" version "5.1.0"
+    alias libs.plugins.spotbugs
 }
 
 group 'com.himamis.retex'
@@ -16,7 +16,7 @@ publishing {
 }
 
 dependencies {
-    implementation 'com.google.j2objc:annotations:2.8'
+    implementation libs.j2objc.annotations
 }
 
 task jarSources(type: Jar, dependsOn: classes) {

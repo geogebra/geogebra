@@ -29,7 +29,7 @@ dependencies {
             files(project(':web-dev').sourceSets.main.allSource.srcDirs),
             files(file("build/generated/sources/annotationProcessor/java/main/")),
             files(file("build/generated/sources/webjars/java/main/")),
-            'org.webjars.npm:fflate:0.8.0',
+            libs.fflate,
             libs.giac.gwt,
             variantOf(libs.giac.gwt) { classifier("sources") },
             libs.gwt.dev
