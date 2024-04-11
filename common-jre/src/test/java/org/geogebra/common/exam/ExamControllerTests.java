@@ -295,8 +295,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.startExam(ExamRegion.GENERIC, null);
-		GlobalScope.examController = examController;
 
+		GlobalScope.examController = examController;
 		LanguageProperty languageProperty = new LanguageProperty(app, app.getLocalization());
 		assertFalse(languageProperty.isEnabled()); // should be disabled during exam
 	}

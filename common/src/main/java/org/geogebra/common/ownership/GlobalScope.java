@@ -23,6 +23,7 @@ public final class GlobalScope {
 
 	public static final PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
 
+	// intentionally assignable (for testing)
 	public static ExamController examController = new ExamController(propertiesRegistry);
 
 	/**
