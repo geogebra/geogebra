@@ -33,6 +33,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
+import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -286,6 +287,16 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		// ...and applied to the new (Geometry app) command dispatcher
 		assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
 		assertNotNull(activeMaterial);
+	}
+
+	@Test
+	public void testLanguagePropertyDisabledDuringExam() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+		examController.prepareExam();
+		examController.startExam(ExamRegion.GENERIC, null);
+
+		LanguageProperty languageProperty = new LanguageProperty(app, app.getLocalization());
+		assertFalse(languageProperty.isEnabled()); // should be disabled during exam
 	}
 
 	// -- ExamControllerDelegate --
