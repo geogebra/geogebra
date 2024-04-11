@@ -46,6 +46,8 @@ public class TextIconButton extends IconButton {
 	@Override
 	public void setLabels() {
 		super.setLabels();
-		textCategoryPopup.setLabels();
+		if (textCategoryPopup != null) {
+			textCategoryPopup.setLabels();
+		}
 	}
 }
