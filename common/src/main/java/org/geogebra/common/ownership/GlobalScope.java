@@ -20,7 +20,7 @@ public final class GlobalScope {
 
 	public static final PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
 
-	public static final ExamController examController = new ExamController(propertiesRegistry);
+	public static ExamController examController = new ExamController(propertiesRegistry);
 
 	/**
 	 * Prevent instantiation.

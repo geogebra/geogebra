@@ -30,6 +30,7 @@ import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigProbability;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
@@ -294,6 +295,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.startExam(ExamRegion.GENERIC, null);
+		GlobalScope.examController = examController;
 
 		LanguageProperty languageProperty = new LanguageProperty(app, app.getLocalization());
 		assertFalse(languageProperty.isEnabled()); // should be disabled during exam
