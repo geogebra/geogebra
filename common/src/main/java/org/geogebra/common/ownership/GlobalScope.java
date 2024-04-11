@@ -4,6 +4,8 @@ import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * A container for objects with global lifetime, i.e., objects that may live from
  * host app launch until host app termination.
@@ -13,6 +15,7 @@ import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
  * This container serves as a home for objects with global lifetime that don't have a
  * direct owner (i.e., no "parent"). Try to put as few objects as possible in here.
  */
+@SuppressFBWarnings("MS_SHOULD_BE_FINAL")
 public final class GlobalScope {
 
 	// Note: source order is initialization order!
