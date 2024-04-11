@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.traversing.DegreeVariableChecker;
+import org.geogebra.common.kernel.arithmetic.traversing.RegisterUndefinedVariables;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -241,6 +242,10 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 			}
 		}
 		sb.append(definition);
+
+		definitionObject.inspect(RegisterUndefinedVariables.getInstance(
+				equations2.getKernel().getConstruction()
+		));
 		if (equations2.getKernel().degreesMode()) {
 			return definitionObject.inspect(DegreeVariableChecker
 					.getInstance());
