@@ -36,6 +36,7 @@ import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithMe
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithPopup;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.pen.PenIconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ruler.RulerIconButton;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.text.TextIconButton;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.main.AppW;
@@ -80,6 +81,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		addSelectModeButton();
 		addPenModeButton();
 		addShapeButton();
+		addTextButton();
 		addUploadButton();
 		addLinkButton();
 		addAppsButton();
@@ -152,6 +154,12 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 				"Ruler", "selectModeButton" + MODE_RULER);
 		add(rulerButton);
 		buttons.add(rulerButton);
+	}
+
+	private void addTextButton() {
+		TextIconButton textButton = new TextIconButton(appW, this::deselectButtons);
+		add(textButton);
+		buttons.add(textButton);
 	}
 
 	private void addUploadButton() {

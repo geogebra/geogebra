@@ -420,6 +420,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/add_box.svg")
 	SVGResource apps();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/text_fields.svg")
+	SVGResource texts();
+
 	// Burger Menu resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/menu_whiteBorder.svg")
 	SVGResource menu_black_whiteBorder();
