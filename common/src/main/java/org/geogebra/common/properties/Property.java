@@ -1,5 +1,7 @@
 package org.geogebra.common.properties;
 
+import javax.annotation.Nonnull;
+
 /**
  * A settings property of the GeoGebra App.
  */
@@ -17,6 +19,7 @@ public interface Property {
     /**
      * @return The raw, unlocalized name of the property.
      */
+    @Nonnull
     String getRawName();
 
     /**
