@@ -1256,8 +1256,7 @@ public abstract class GlobalKeyDispatcher {
 			}
 			// DELETE selected objects
 			if (!app.isApplet() || keyboardShortcutsEnabled()) {
-				app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
-				app.deleteSelectedObjects(false);
+				app.splitAndDeleteSelectedObjects();
 				return true;
 			}
 
@@ -1272,7 +1271,7 @@ public abstract class GlobalKeyDispatcher {
 			// for ctrl too
 			if (!isControlDown
 					&& (!app.isApplet() || keyboardShortcutsEnabled())) {
-				app.deleteSelectedObjects(false);
+				app.splitAndDeleteSelectedObjects();
 				return true;
 			}
 			break;
