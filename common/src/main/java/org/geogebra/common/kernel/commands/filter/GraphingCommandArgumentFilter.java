@@ -10,7 +10,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 public class GraphingCommandArgumentFilter extends BaseCommandArgumentFilter {
 
     public GraphingCommandArgumentFilter() {
-        super(Commands.Line, Commands.Length, Commands.Polyline, Commands.PolyLine);
+        super(Commands.Line, Commands.Length, Commands.Polyline, Commands.PolyLine,
+                Commands.Invert);
     }
 
     @Override
