@@ -2,6 +2,8 @@ package org.geogebra.web.full.gui.menubar;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.exam.ExamState;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.html5.main.AppW;
 
 /**

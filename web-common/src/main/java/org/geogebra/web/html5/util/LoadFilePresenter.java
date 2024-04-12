@@ -1,12 +1,14 @@
 package org.geogebra.web.html5.util;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.main.settings.StyleSettings;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
@@ -198,7 +200,8 @@ public class LoadFilePresenter {
 	private static Perspective getPerspective(AppW app, String perspective) {
 		Perspective pd = PerspectiveDecoder.decode(perspective,
 				app.getKernel().getParser(),
-				ToolBar.getAllToolsNoMacros(true, GlobalScope.examController.getState() != ExamState.IDLE, app),
+				ToolBar.getAllToolsNoMacros(true,
+						GlobalScope.examController.getState() != ExamState.IDLE, app),
 				app.getLayout());
 		if ("1".equals(perspective) || "2".equals(perspective)
 				|| "5".equals(perspective)) {

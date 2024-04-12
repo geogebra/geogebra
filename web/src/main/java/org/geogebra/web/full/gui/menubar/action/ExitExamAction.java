@@ -3,8 +3,10 @@ package org.geogebra.web.full.gui.menubar.action;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.exam.ExamRegion;
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.exam.ExamLogBuilder;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
@@ -130,7 +132,8 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 	 */
 	protected void exitAndResetExamOffline() {
 		app.getLAF().toggleFullscreen(false);
-		ExamRegion examRegion = GlobalScope.examController.getState() != ExamState.IDLE ? app.getExam().getExamRegion() : ExamRegion.GENERIC;
+		ExamRegion examRegion = GlobalScope.examController.getState() != ExamState.IDLE
+				? app.getExam().getExamRegion() : ExamRegion.GENERIC;
 		String title = examRegion.getDisplayName(app.getLocalization(), app.getConfig());
 		saveScreenshot(title, null);
 		app.endExam();

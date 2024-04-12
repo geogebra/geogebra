@@ -1,7 +1,9 @@
 package org.geogebra.web.full.gui.openfileview;
 
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
