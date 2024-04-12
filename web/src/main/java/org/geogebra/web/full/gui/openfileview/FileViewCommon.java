@@ -88,7 +88,7 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 			addSearchBar();
 			buildSingInPanel();
 		}
-		if (app.isExam()) {
+		if (GlobalScope.examController.getState() != ExamState.IDLE) {
 			addExamPanel();
 		}
 		this.setHeaderWidget(headerView);

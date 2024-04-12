@@ -336,7 +336,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		Dom.addEventListener(textField.getValueBox().getElement(), "contextmenu", (event) -> {
 			event.stopPropagation();
-			if  (app.isExam()) {
+			if  (GlobalScope.examController.getState() != ExamState.IDLE) {
 				event.preventDefault();
 			}
 		});

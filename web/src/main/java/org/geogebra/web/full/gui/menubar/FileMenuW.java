@@ -46,7 +46,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	}
 
 	private void initActions() {
-		if (getApp().isExam()) {
+		if (GlobalScope.examController.getState() != ExamState.IDLE) {
 			addItem(new ExitExamItem());
 			return;
 		}

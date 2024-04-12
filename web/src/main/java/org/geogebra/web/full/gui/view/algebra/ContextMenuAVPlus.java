@@ -54,7 +54,7 @@ public class ContextMenuAVPlus implements SetLabels {
 		addExpressionItem();
 		if (app.getActiveEuclidianView().getViewID() != App.VIEW_EUCLIDIAN3D) {
 			addTextItem();
-			if (!app.isExam() && app.getGuiManager().toolbarHasImageMode()) {
+			if (GlobalScope.examController.isIdle() && app.getGuiManager().toolbarHasImageMode()) {
 				addImageItem();
 			}
 		}

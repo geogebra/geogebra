@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.tools.ToolCreationDialogW;
 import org.geogebra.web.full.gui.dialog.tools.ToolManagerDialogW;
@@ -30,7 +31,7 @@ public class ToolsMenuW extends Submenu {
 	 */
 	protected void initActions() {
 		Localization loc = getApp().getLocalization();
-		if (!getApp().isExam()) {
+		if (GlobalScope.examController.isIdle()) {
 			addItem(MainMenu.getMenuBarHtml(
 					MaterialDesignResources.INSTANCE.tools_customize_black(),
 					loc.getMenu("Toolbar.Customize")), true,
@@ -57,7 +58,7 @@ public class ToolsMenuW extends Submenu {
 					}
 				});
 
-		if (!getApp().isExam()) {
+		if (GlobalScope.examController.isIdle()) {
 			addItem(MainMenu
 					.getMenuBarHtml(
 							MaterialDesignResources.INSTANCE.tools_black(),

@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.UndoRedoMode;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
@@ -147,7 +149,7 @@ public class GGWToolBar extends Composite
 
 		toolBarPanel.addStyleName("toolbarPanel");
 
-		if (app.isExam()) {
+		if (GlobalScope.examController.getState() != ExamState.IDLE) {
 			toolBarPanel.addStyleName("toolbarPanelExam");
 		}
 		toolBPanel.setStyleName("toolBPanel");
@@ -292,7 +294,7 @@ public class GGWToolBar extends Composite
 	 */
 	public void updateActionPanel() {
 		rightButtonPanel.clear();
-		boolean exam = app.isExam();
+		boolean exam = GlobalScope.examController.getState() != ExamState.IDLE;
 		setStyleName("examToolbar", exam);
 		if (exam) {
 			// We directly read the parameters to show the intention.
@@ -1063,7 +1065,7 @@ public class GGWToolBar extends Composite
 		if (app.showMenuBar()) {
 			extraButtons += 90;
 		}
-		if (app.isExam()) {
+		if (GlobalScope.examController.getState() != ExamState.IDLE) {
 			extraButtons += 95;
 			if (!app.getSettings().getEuclidian(-1).isEnabled()) {
 				extraButtons += 55;

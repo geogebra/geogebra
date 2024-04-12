@@ -110,7 +110,7 @@ public class ToolNameIconPanelW extends FlowPanel {
 
 		FlowPanel iconSelectShowPanel = new FlowPanel();
 		iconSelectShowPanel.addStyleName("iconSelectShowPanel");
-		if (!app.isExam()) {
+		if (GlobalScope.examController.isIdle()) {
 			iconSelectShowPanel.add(iconPanel);
 		}
 		iconSelectShowPanel.add(showTool);

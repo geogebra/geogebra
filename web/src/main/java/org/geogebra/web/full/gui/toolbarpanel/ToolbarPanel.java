@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.UndoRedoMode;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -324,7 +325,7 @@ public class ToolbarPanel extends FlowPanel
 		}
 		add(main);
 		hideDragger();
-		if (app.isExamStarted() && !app.getExam().isCheating()) {
+		if (GlobalScope.examController.isExamActive() && !app.getExam().isCheating()) {
 			if (app.isLockedExam()) {
 				setHeaderStyle("examLock");
 			} else {

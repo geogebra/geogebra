@@ -130,7 +130,7 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 	 */
 	protected void exitAndResetExamOffline() {
 		app.getLAF().toggleFullscreen(false);
-		ExamRegion examRegion = app.isExam() ? app.getExam().getExamRegion() : ExamRegion.GENERIC;
+		ExamRegion examRegion = GlobalScope.examController.getState() != ExamState.IDLE ? app.getExam().getExamRegion() : ExamRegion.GENERIC;
 		String title = examRegion.getDisplayName(app.getLocalization(), app.getConfig());
 		saveScreenshot(title, null);
 		app.endExam();

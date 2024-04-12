@@ -23,7 +23,7 @@ public class ClassicMenuItemProvider {
 	 * @param menus list of menus
 	 */
 	public void addMenus(ArrayList<Submenu> menus) {
-		boolean exam = app.isExam();
+		boolean exam = GlobalScope.examController.getState() != ExamState.IDLE;
 		if (app.enableFileFeatures() && !app.isLockedExam()) {
 			menus.add(new FileMenuW(app));
 		}

@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
@@ -39,7 +40,7 @@ public class PerspectivesMenuW extends Submenu {
 		addPerspective(2, pr.menu_icon_spreadsheet_transparent());
 		addPerspective(5, pr.menu_icon_probability_transparent());
 
-		if (!app.isExam()) {
+		if (GlobalScope.examController.isIdle()) {
 			if (app.getLAF().examSupported()) {
 				addItem(MainMenu.getMenuBarHtmlClassic(
 						GuiResources.INSTANCE.menu_icon_exam24().getSafeUri()
