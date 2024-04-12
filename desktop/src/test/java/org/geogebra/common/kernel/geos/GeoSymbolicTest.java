@@ -490,6 +490,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void sumShouldNotReplaceInput() {
+		GeoSymbolic sum = add("Sum(If(Mod(k,2)==0,k,0),k,0,10)");
+		assertEquals("a=Sum(If(Mod(k,2)" + Unicode.QUESTEQ + "0,k,0),k,0,10)",
+				sum.getDefinitionForEditor());
+	}
+
+	@Test
 	public void testProductCommand() {
 		t("Product(((k+2)/(k)),k,1,25)", "351");
 		t("Product(k^2,k,1,5)", "14400");
