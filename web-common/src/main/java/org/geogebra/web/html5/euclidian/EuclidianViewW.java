@@ -1511,13 +1511,27 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {
-		kernel.getConstruction().removeFromConstructionList(tool);
+	public void setMeasurementTool(GeoImage tool, int left, int width, int height) {
+		removeMeasurementTool(tool);
+		setToolLocation(tool, left, height);
 		tool.setSize(width, height);
+	}
+
+	private void removeMeasurementTool(GeoImage tool) {
+		kernel.getConstruction().removeFromConstructionList(tool);
+	}
+
+	private void setToolLocation(GeoImage tool, int left, double height) {
 		GPoint2D loc =
-				new GPoint2D(toRealWorldCoordX(posLeftCorner),
+				new GPoint2D(toRealWorldCoordX(left),
 						toRealWorldCoordY(getHeight() / 2. - height / 2.));
 		tool.setLocation(loc);
 		tool.update();
+	}
+
+	@Override
+	public void setMeasurementTool(GeoImage tool, int left) {
+		removeMeasurementTool(tool);
+		setToolLocation(tool, left, tool.getHeight());
 	}
 }
