@@ -28,16 +28,23 @@ public class RulerIconButton extends IconButton {
 		ec = appW.getActiveEuclidianView().getEuclidianController();
 		addFastClickHandler((event) -> {
 			setActive(!isActive());
-			showRulerTypePopup();
+			initRulerTypePopup();
+			if (!isActive()) {
+				rulerPopup.hide();
+			} else {
+				showRulerTypePopup();
+			}
 			handleRuler();
 		});
 	}
 
-	private void showRulerTypePopup() {
+	private void initRulerTypePopup() {
 		if (rulerPopup == null) {
 			rulerPopup = new RulerPopup(appW, this);
 		}
+	}
 
+	private void showRulerTypePopup() {
 		rulerPopup.showPopup(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
 				(int) (getAbsoluteTop() - appW.getAbsTop()));
 	}
