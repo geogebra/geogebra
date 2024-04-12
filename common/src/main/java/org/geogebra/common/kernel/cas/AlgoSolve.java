@@ -243,13 +243,17 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		}
 		sb.append(definition);
 
-		definitionObject.inspect(RegisterUndefinedVariables.getInstance(
-				equations2.getKernel().getConstruction()
-		));
-		if (equations2.getKernel().degreesMode()) {
-			return definitionObject.inspect(DegreeVariableChecker
-					.getInstance());
+		if (definitionObject != null)  {
+			definitionObject.inspect(RegisterUndefinedVariables.getInstance(
+					equations2.getKernel().getConstruction()
+			));
+
+			if (equations2.getKernel().degreesMode()) {
+				return definitionObject.inspect(DegreeVariableChecker
+						.getInstance());
+			}
 		}
+
 		return false;
 	}
 
