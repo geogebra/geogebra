@@ -2,8 +2,6 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.web.html5.event.PointerEvent;
-import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.gwtproject.event.dom.client.DoubleClickEvent;
 import org.gwtproject.event.dom.client.MouseDownEvent;
@@ -20,7 +18,7 @@ import org.gwtproject.user.client.ui.Widget;
  */
 public class SliderTreeItemRetexController extends LatexTreeItemController {
 
-	private SliderTreeItemRetex slider;
+	private final SliderTreeItemRetex slider;
 	private boolean hasUnsavedChanges;
 	private Timer debounce;
 	private Double targetValue;
@@ -45,12 +43,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController {
 
 	@Override
 	public void onMouseMove(MouseMoveEvent evt) {
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
-		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
-				ZeroOffset.INSTANCE);
-		onPointerMove(wrappedEvent);
+		CancelEventTimer.cancelMouseEvent();
 	}
 
 	@Override
@@ -68,8 +61,6 @@ public class SliderTreeItemRetexController extends LatexTreeItemController {
 
 	@Override
 	protected boolean handleAVItem(int x, int y, boolean rightClick) {
-
-		slider.setForceControls(true);
 		slider.expandSize(slider.getWidthForEdit());
 
 		boolean minHit = isWidgetHit(slider.getSlider().getWidget(0), x, y);
