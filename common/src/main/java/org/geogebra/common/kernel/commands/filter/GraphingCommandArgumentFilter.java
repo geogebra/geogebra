@@ -9,6 +9,9 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 public class GraphingCommandArgumentFilter extends BaseCommandArgumentFilter {
 
+    /**
+     * Default Constructor
+     */
     public GraphingCommandArgumentFilter() {
         super(Commands.Line, Commands.Length, Commands.Polyline, Commands.PolyLine,
                 Commands.Invert);
