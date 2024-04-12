@@ -52,7 +52,7 @@ public class SpreadsheetCellProcessor {
 	private String buildTextFrom(String input) {
 		addCellEquals();
 		sb.append("\"");
-		sb.append(input.replaceAll("\"",""));
+		sb.append(input.replaceAll("\"", ""));
 		sb.append("\"");
 		return sb.toString();
 	}
