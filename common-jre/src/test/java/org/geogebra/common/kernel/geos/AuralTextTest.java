@@ -239,6 +239,6 @@ public class AuralTextTest {
 		GeoText text = new GeoText(app.getKernel().getConstruction());
 		text.setLaTeX(true, false);
 		text.setTextString("\\text{Línea Uno}");
-		assertEquals("Li with ́nea Uno", text.getAuralText());
+		assertEquals("Línea Uno", text.getAuralText());
 	}
 }
