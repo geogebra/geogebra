@@ -131,7 +131,7 @@ public class TeXAtomSerializer {
 			if (accent == Symbols.VEC) {
 				return " vector " + content;
 			}
-			return content + serialize(accent);
+			return content + " with " + serialize(accent);
 		}
 		if (root instanceof TextCircledAtom) {
 			return "circled " + serialize(((TextCircledAtom) root).getTrueBase());
