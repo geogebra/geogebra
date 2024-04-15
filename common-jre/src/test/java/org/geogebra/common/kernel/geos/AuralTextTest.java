@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.script.GgbScript;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -230,5 +231,14 @@ public class AuralTextTest {
 		String[] sentences = aural.split("\\.");
 		assertThat(aural, endsWith("."));
 		assertThat(sentences[0], containsString(out[0]));
+	}
+
+	@Test
+	@Issue("APPS-5520")
+	public void auralAccentLetter() {
+		GeoText text = new GeoText(app.getKernel().getConstruction());
+		text.setLaTeX(true, false);
+		text.setTextString("\\text{Línea Uno}");
+		assertEquals("Li with ́nea Uno", text.getAuralText());
 	}
 }
