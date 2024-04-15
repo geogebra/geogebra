@@ -37,7 +37,7 @@ public class CommandFilterTest extends BaseUnitTest {
 			if (cmd0 == Commands.Integral || cmd0 == Commands.IntegralBetween
 					|| cmd0 == Commands.NIntegral
 					|| cmd0 == Commands.Factors
-					|| NoExceptionsTest.betaCommand(cmd0, app)
+					|| NoExceptionsTestCommon.betaCommand(cmd0, app)
 					|| AlgebraTestHelper.internalCAScommand(cmd0)) {
 				continue;
 			}

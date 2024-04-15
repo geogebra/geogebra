@@ -14,10 +14,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
@@ -33,122 +29,23 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.commands.AlgebraTestHelper;
-import org.geogebra.test.commands.CommandSignatures;
-import org.hamcrest.Matcher;
 import org.hamcrest.core.StringContains;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-@SuppressWarnings("javadoc")
-public class CommandsTest {
-	static AppCommon3D app;
-	static AlgebraProcessor ap;
-	static List<Integer> signature;
-	private static int syntaxes = -1000;
-
-	private static void tRound(String s, String... expected) {
-		t(s, StringTemplate.editTemplate, expected);
-	}
-
-	private static void t(String s, String... expected) {
-		testSyntax(s, AlgebraTestHelper.getMatchers(expected), app, ap,
-				StringTemplate.xmlTemplate);
-	}
-
-	private static void t(String s, StringTemplate tpl, String... expected) {
-		testSyntax(s, AlgebraTestHelper.getMatchers(expected), app, ap,
-				tpl);
-	}
-
-	private static void t(String s, Matcher<String> expected) {
-		testSyntax(s, Collections.singletonList(expected), app, ap,
-				StringTemplate.xmlTemplate);
-	}
-
-	protected static void testSyntax(String s, List<Matcher<String>> expected,
-			App app1, AlgebraProcessor proc, StringTemplate tpl) {
-		app1.getEuclidianView1().getEuclidianController().clearZoomerAnimationListeners();
-		if (syntaxes == -1000) {
-			Throwable t = new Throwable();
-			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);
-			try {
-				Commands.valueOf(cmdName);
-			} catch (Exception e) {
-				cmdName = t.getStackTrace()[3].getMethodName().substring(3);
-			}
-
-			signature = CommandSignatures.getSignature(cmdName, app1);
-			if (signature != null) {
-				syntaxes = signature.size();
-				AlgebraTestHelper.dummySyntaxesShouldFail(cmdName, signature,
-						app1);
-			}
-			Log.debug(cmdName);
-		}
-		syntaxes--;
-		AlgebraTestHelper.checkSyntaxSingle(s, expected, proc, tpl);
-	}
-
-	@Before
-	public void resetSyntaxes() {
-		resetSyntaxCounter();
-		app.getKernel().clearConstruction(true);
-		app.setActiveView(App.VIEW_EUCLIDIAN);
-		GeoImplicitCurve.setFastDrawThreshold(10000);
-	}
-
-	public static void resetSyntaxCounter() {
-		syntaxes = -1000;
-	}
-
-	@After
-	public void checkSyntaxes() {
-		checkSyntaxesStatic();
-	}
-
-	/**
-	 * Assert that there are no unchecked syntaxes left
-	 */
-	public static void checkSyntaxesStatic() {
-		Assert.assertTrue("unchecked syntaxes: " + syntaxes + signature,
-				syntaxes <= 0);
-	}
-
-	/**
-	 * Create the app
-	 */
-	@BeforeClass
-	public static void setupApp() {
-		app = AppCommonFactory.create3D();
-		ap = app.getKernel().getAlgebraProcessor();
-		app.setRandomSeed(42);
-	}
-
-	private static GeoElement get(String label) {
-		return app.getKernel().lookupLabel(label);
-	}
-
-	private static String deg(String string) {
-		return string + "*" + DEGREE_STRING;
-	}
+public class CommandsTest extends CommandsTestCommon {
 
 	@Test
 	public void testQuadricExpr() {
@@ -290,9 +187,9 @@ public class CommandsTest {
 		GeoElement geo = get("its") == null ? get("its_1") : get("its");
 		boolean symmetric = geo != null
 				&& !(geo.getParentAlgorithm() instanceof AlgoIntersectPolyLines
-						&& geo.getParentAlgorithm().getOutput(0)
-								.getGeoClassType() == geo.getParentAlgorithm()
-										.getOutput(1).getGeoClassType());
+				&& geo.getParentAlgorithm().getOutput(0)
+				.getGeoClassType() == geo.getParentAlgorithm()
+				.getOutput(1).getGeoClassType());
 		if (symmetric) {
 			tRound("Intersect(" + arg2 + "," + arg1 + ")", results);
 		}
@@ -339,7 +236,7 @@ public class CommandsTest {
 	}
 
 	@Test
-		public void intersectConicConic() {
+	public void intersectConicConic() {
 		tRound("{Intersect(x y + 6x -5y = 158, x y = 128)}",
 				"{(-8.12623, -15.75147), (13.12623, 9.75147)}");
 		tRound("{Intersect( 7y² + 2x + 14y = 3 , -6y² - 20x = 7 )}",
@@ -3108,7 +3005,7 @@ public class CommandsTest {
 	@Test
 	public void cmdRandom() {
 		t("RandomBetween[ ]", "0.30871945533265976"); // since RandomBetween is alias for Random and
-				// both Random() and random() should do the same
+		// both Random() and random() should do the same
 		t("RandomBetween[ 42, 50 ]", "47");
 		t("RandomBetween[ 42, 50, true ]", "44");
 		t("RandomBetween[ 1, 10, 3 ]", "{10, 4, 3}");

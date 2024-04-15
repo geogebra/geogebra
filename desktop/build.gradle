@@ -62,7 +62,7 @@ dependencies {
 
     testImplementation project(':keyboard-base')
     testImplementation project(':ggbjdk')
-    testImplementation project(path: ':common-jre', configuration: 'testArtifacts')
+    testImplementation testFixtures(project(':common-jre'))
     testImplementation libs.junit, libs.mockito.core, libs.hamcrest
 }
 
@@ -147,4 +147,13 @@ task e2eTest(type: Test) {
     description 'Run end-to-end tests'
     testClassesDirs = sourceSets.e2eTest.output.classesDirs
     classpath = sourceSets.e2eTest.runtimeClasspath
+}
+test {
+    testLogging {
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                println "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+            }
+        }
+    }
 }

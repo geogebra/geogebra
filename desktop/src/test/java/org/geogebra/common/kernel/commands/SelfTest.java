@@ -14,8 +14,8 @@ public class SelfTest {
 	public void selfTest() {
 		AppDNoGui app = new AppDNoGui(new LocalizationD(3), false);
 		Set<String> methodNames = new TreeSet<>();
-		Class<?>[] classes = new Class[] { NoExceptionsTest.class,
-				CommandsTest.class, CommandsUsingCASTest.class,
+		Class<?>[] classes = new Class[] { NoExceptionsTestCommon.class,
+				CommandsTestCommon.class, CommandsUsingCASTest.class,
 				ProveCommandTest.class };
 		for (Class<?> c : classes) {
 			Method[] mtds = c.getMethods();
@@ -32,7 +32,7 @@ public class SelfTest {
 							.getTable() != CommandsConstants.TABLE_ENGLISH
 					&& Commands.englishToInternal(a)
 							.getTable() != CommandsConstants.TABLE_CAS
-					&& !NoExceptionsTest.betaCommand(a, app)) {
+					&& !NoExceptionsTestCommon.betaCommand(a, app)) {
 				missing.append(a.getCommand());
 				missing.append("\n");
 			}

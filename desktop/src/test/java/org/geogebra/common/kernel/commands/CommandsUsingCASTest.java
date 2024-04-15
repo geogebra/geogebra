@@ -75,7 +75,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@Before
 	public void resetSyntaxes() {
-		CommandsTest.resetSyntaxCounter();
+		CommandsTestCommon.resetSyntaxCounter();
 		app.getKernel().clearConstruction(true);
 		app.getKernel().setPrintDecimals(2);
 		app.setActiveView(App.VIEW_EUCLIDIAN);
@@ -84,7 +84,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@After
 	public void checkSyntaxes() {
-		CommandsTest.checkSyntaxesStatic();
+		CommandsTestCommon.checkSyntaxesStatic();
 	}
 
 	@Test

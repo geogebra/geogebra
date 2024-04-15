@@ -21,7 +21,7 @@ public class SyntaxLocalizationTest {
 					.getSignature(cmd.name(), app);
 			int size = signature == null ? 0 : signature.size();
 			if (cmd.getTable() == CommandsConstants.TABLE_CAS
-					|| NoExceptionsTest.betaCommand(cmd, app)) {
+					|| NoExceptionsTestCommon.betaCommand(cmd, app)) {
 				continue;
 			}
 			if (cmd.getTable() == CommandsConstants.TABLE_ENGLISH) {
