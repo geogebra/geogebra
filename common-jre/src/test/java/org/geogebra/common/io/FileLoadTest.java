@@ -1,5 +1,6 @@
 package org.geogebra.common.io;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
@@ -17,6 +18,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.junit.Test;
 
 public class FileLoadTest extends BaseUnitTest {
@@ -63,6 +65,16 @@ public class FileLoadTest extends BaseUnitTest {
 			System.out.println(macroLines[i].trim());
 			assertEquals(macroLines[i].trim(), resaved[i].trim());
 		}
+	}
+
+	@Test
+	public void macroShouldNotAffectMainCons() throws IOException, XMLParseException {
+		String macros = load("org/geogebra/common/io/simpleMacro.xml");
+		getApp().getXMLio().processXMLString(macros, true, true);
+		GeoNumeric a = add("a=7");
+		assertThat(a.isEuclidianVisible(), equalTo(false));
+		add("Double(a)");
+		assertThat(a.isEuclidianVisible(), equalTo(false));
 	}
 
 	private Stream<String> getLoadedMacros() {

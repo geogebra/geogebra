@@ -185,14 +185,19 @@ public class Macro {
 		inputTypes = new TestGeo[macroInputLabels.length];
 		macroOutput = new GeoElement[macroOutputLabels.length];
 		initInputOutput();
+		initGlobalLookup();
+	}
 
-		// after initing we turn global variable lookup on again,
-		// so we can use for example functions with parameters in macros too.
-		// Such parameters are global variables
-		if (macroCons1 instanceof MacroConstruction) {
-			((MacroConstruction) macroCons1).setGlobalVariableLookup(true);
-		} else {
-			throw new IllegalStateException();
+	private void initGlobalLookup() {
+		if (!macroCons.isEmpty()) {
+			// after initialization, we turn global variable lookup on again,
+			// so we can use for example functions with parameters in macros too.
+			// Such parameters are global variables
+			if (macroCons instanceof MacroConstruction) {
+				((MacroConstruction) macroCons).setGlobalVariableLookup(true);
+			} else {
+				throw new IllegalStateException();
+			}
 		}
 	}
 
@@ -428,7 +433,7 @@ public class Macro {
 
 		// STANDARD case
 		// add algorithm
-		Long algoID = Long.valueOf(algo.getID());
+		Long algoID = algo.getID();
 		if (!usedAlgoIds.contains(algoID)) {
 			consElementSet.add(algo);
 		}
@@ -909,6 +914,10 @@ public class Macro {
 				}
 			}
 			initInputOutput();
+			// update construction resets the nearto relations in macro, so "outer
+			// world" won't affect it
+			macroCons.updateConstruction(true);
+			initGlobalLookup();
 		}
 	}
 

@@ -269,6 +269,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private void initKernelVars() {
+		this.macro = null;
 		this.kernel = origKernel;
 		this.parser = origParser;
 		this.cons = origKernel.getConstruction();
@@ -2641,9 +2642,6 @@ public class MyXMLHandler implements DocHandler {
 		macroConstructionElements = new ArrayList<>();
 		// ad the newly built macro to the kernel
 		origKernel.addMacro(macro);
-		// update construction resets the nearto relations in macro, so "outer
-		// world" won't affect it
-		cons.updateConstruction(true);
 		// set kernel and construction back to the original values
 		initKernelVars();
 	}
