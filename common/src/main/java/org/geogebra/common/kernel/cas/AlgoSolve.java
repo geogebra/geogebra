@@ -34,11 +34,12 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AlgoSolve extends AlgoElement implements UsesCAS {
 
-	private GeoList solutions;
-	private GeoElement equations;
-	private ArbitraryConstantRegistry arbconst = new ArbitraryConstantRegistry(this);
+	private final GeoList solutions;
+	private final GeoElement equations;
+	private final ArbitraryConstantRegistry arbconst = new ArbitraryConstantRegistry(this);
 	private Commands type;
-	private GeoElement hint;
+	private final GeoElement hint;
+	private final RegisterUndefinedVariables registerUndefinedVariables;
 
 	/**
 	 * @param c
@@ -57,6 +58,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		this.equations = eq;
 		this.hint = hint;
 		this.solutions = new GeoList(cons);
+		registerUndefinedVariables = new RegisterUndefinedVariables(cons);
 		setInputOutput();
 		compute();
 		if (type != Commands.PlotSolve) {
@@ -219,7 +221,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		return rhs;
 	}
 
-	private static boolean printCAS(GeoElement equations2, StringBuilder sb) {
+	private boolean printCAS(GeoElement equations2, StringBuilder sb) {
 
 		String definition;
 		ExpressionValue definitionObject = null;
@@ -244,9 +246,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		sb.append(definition);
 
 		if (definitionObject != null)  {
-			definitionObject.inspect(RegisterUndefinedVariables.getInstance(
-					equations2.getKernel().getConstruction()
-			));
+			definitionObject.inspect(registerUndefinedVariables);
 
 			if (equations2.getKernel().degreesMode()) {
 				return definitionObject.inspect(DegreeVariableChecker

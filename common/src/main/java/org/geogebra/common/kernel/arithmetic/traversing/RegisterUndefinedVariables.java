@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.arithmetic.variable.Variable;
  * see APPS-5507
  */
 public class RegisterUndefinedVariables implements Inspecting {
-	private static RegisterUndefinedVariables replacer = null;
 	private final Construction cons;
 
 	public RegisterUndefinedVariables(Construction cons) {
@@ -31,15 +30,5 @@ public class RegisterUndefinedVariables implements Inspecting {
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * @return checker (see class Javadoc)
-	 */
-	public static RegisterUndefinedVariables getInstance(Construction cons) {
-		if (replacer == null) {
-			replacer = new RegisterUndefinedVariables(cons);
-		}
-		return replacer;
 	}
 }
