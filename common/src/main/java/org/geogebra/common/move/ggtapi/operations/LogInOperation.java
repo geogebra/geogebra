@@ -191,13 +191,6 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	protected abstract String getURLClientInfo();
 
 	/**
-	 * Initialize for offline mode.
-	 */
-	public void startOffline() {
-		getModel().startOffline(getGeoGebraTubeAPI());
-	}
-
-	/**
 	 * @return whether login is possible
 	 */
 	public boolean mayLogIn() {
