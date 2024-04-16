@@ -36,9 +36,9 @@ public class CmdInversePoisson extends CommandProcessor {
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
 				AlgoInversePoisson algo = new AlgoInversePoisson(cons,
-						c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[0],
 						(GeoNumberValue) arg[1]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

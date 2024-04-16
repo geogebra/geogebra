@@ -41,7 +41,8 @@ public class AlgoBinomialDistList extends AlgoDistribution {
 	 */
 	public AlgoBinomialDistList(Construction cons, String label,
 			GeoNumberValue a, GeoNumberValue b, GeoList c) {
-		super(cons, label, a, b, c);
+		super(cons, a, b, c);
+		num.setLabel(label);
 	}
 
 	@Override

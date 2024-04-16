@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.plugin.Operation;
 
 /**
  * algorithm for FDistribution[0,1,x]
@@ -118,7 +119,7 @@ public class AlgoFDistributionDF extends AlgoElement
 					fvEn.multiply(d1).divide(fvEn.multiply(d1).plus(d2)));
 		} else {
 
-			ExpressionNode beta = halfd1.beta(halfd2);
+			ExpressionNode beta = halfd1.apply(Operation.BETA, halfd2);
 
 			ExpressionNode mult = d2En.power(halfd2);
 

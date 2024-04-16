@@ -7,11 +7,14 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 
 /**
- * InverseWeibull
+ * InverseChiSquared
  */
-public class CmdInverseWeibull extends CommandProcessor {
+public class CmdInverseRealDistribution1Param extends CommandProcessor {
+
+	private final ProbabilityCalculatorSettings.Dist command;
 
 	/**
 	 * Create new command processor
@@ -19,8 +22,10 @@ public class CmdInverseWeibull extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdInverseWeibull(Kernel kernel) {
+	public CmdInverseRealDistribution1Param(Kernel kernel,
+			ProbabilityCalculatorSettings.Dist command) {
 		super(kernel);
+		this.command = command;
 	}
 
 	@Override
@@ -30,30 +35,23 @@ public class CmdInverseWeibull extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 3:
+		case 2:
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
-				AlgoInverseWeibull algo = new AlgoInverseWeibull(cons,
-						c.getLabel(), (GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
-
+				AlgoInverseRealDistribution1Param algo = new AlgoInverseRealDistribution1Param(cons,
+						(GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[1], command);
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
-			} else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			} else {
-				throw argErr(c, arg[2]);
 			}
+			throw argErr(c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(c);
 		}
 	}
-
 }
