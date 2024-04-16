@@ -34,26 +34,6 @@ public class CheatingEvents {
     }
 
     /**
-     * Adds a screen on event.
-     */
-    public void addScreenOnEvent() {
-        if (!isScreenOn) {
-            addCheatingEvent(CheatingAction.SCREEN_ON);
-            isScreenOn = true;
-        }
-    }
-
-    /**
-     * Adds a screen off event.
-     */
-    public void addScreenOffEvent() {
-        if (isScreenOn) {
-            addCheatingEvent(CheatingAction.SCREEN_OFF);
-            isScreenOn = false;
-        }
-    }
-
-    /**
      * Adds a screen locked event.
      */
     public void addScreenLockedEvent() {
