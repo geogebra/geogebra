@@ -486,6 +486,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testSumCommand() {
 		t("Sum(m*(1/2)^(m),m,0,inf)", "2");
 		t("Sum(Sum(n*m*(1/2)^(n+m),n,0,inf),m,0,inf)", "4");
+		t("Sum(If(j^2<>j,1,0),j,1,5)", "4");
+	}
+
+	@Test
+	public void sumShouldNotReplaceInput() {
+		GeoSymbolic sum = add("Sum(If(Mod(k,2)==0,k,0),k,0,10)");
+		assertEquals("a=Sum(If(Mod(k,2)" + Unicode.QUESTEQ + "0,k,0),k,0,10)",
+				sum.getDefinitionForEditor());
 	}
 
 	@Test
