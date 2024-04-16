@@ -59,6 +59,6 @@ public class LanguageProperty extends AbstractNamedEnumeratedProperty<String> {
 
     @Override
     public boolean isEnabled() {
-        return !(GlobalScope.examController.isExamActive());
+        return !GlobalScope.examController.isExamActive();
     }
 }

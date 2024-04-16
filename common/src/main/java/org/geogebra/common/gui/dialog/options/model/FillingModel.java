@@ -98,7 +98,7 @@ public class FillingModel extends MultipleOptionsModel {
 	@Override
 	public List<String> getChoices(Localization loc) {
 		List<FillType> types = fillTypes;
-		if (GlobalScope.examController.getState() != ExamState.IDLE) {
+		if (GlobalScope.examController.isExamActive()) {
 			types = new ArrayList<>(fillTypes);
 			types.remove(FillType.IMAGE);
 		}
