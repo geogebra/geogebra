@@ -182,12 +182,27 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 			double[] roots = soln.curRoots;
 			if (roots != null) {
 				for (int j = 0; j < soln.curRealRoots; j++) {
-					result.add(roots[i]);
+					double root = roots[i];
+					if (isRootMatching(conditions, fv, root)) {
+						result.add(root);
+					}
 				}
 			}
 
 		}
 		Log.debug("result: " + result);
+	}
+
+	private boolean isRootMatching(MyList conditions, FunctionVariable fv, double root) {
+		for (int i = 0; i < conditions.size(); i++) {
+			ExpressionValue cond = conditions.getItem(i);
+			GeoFunction condFunction = cond.wrap().buildFunction(fv);
+			fv.set(root);
+			if (condFunction.evaluateBoolean(root)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 
