@@ -18,20 +18,30 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Algo for intersection of a line with a curve adapted from
@@ -42,23 +52,60 @@ import org.geogebra.common.util.DoubleUtil;
 public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 
 	private final GeoLine line; // input
+	private final AlgoDispatcher algoDispatcher;
 
+	private class Params {
+		private final Coords coeffs;
+		private ExpressionNode enx;
+		private ExpressionNode eny;
+		ExpressionNode xFun;
+		ExpressionNode yFun;
+		FunctionVariable functionVariable;
+
+		public Params(ExpressionNode xFun, ExpressionNode yFun, FunctionVariable functionVariable) {
+			this.xFun = xFun;
+			this.yFun = yFun;
+			this.functionVariable = functionVariable;
+			coeffs = line.getCoords();
+
+		}
+
+		public Params(ParametricCurve curve) {
+			this(curve.getFun(0).getExpression(),
+					curve.getFun(1).getExpression(),
+					curve.getFun(0).getFunctionVariable());
+		}
+
+		private void multiplyWithLine() {
+			if (DoubleUtil.isZero(coeffs.getZ())) {
+				enx = xFun.multiply(coeffs.getX());
+				eny = yFun.multiply(coeffs.getY());
+				enx = enx.plus(eny);
+			} else {
+				// Normalizing to (a/c)x + (b/c)y + 1 seems to work better
+				enx = xFun.multiply(coeffs.getX() / coeffs.getZ());
+				eny = yFun.multiply(coeffs.getY() / coeffs.getZ());
+				enx = enx.plus(eny).plus(1);
+			}
+
+
+		}
+	}
+
+	private ExpressionValue findExpressionValue;
 	/**
 	 * common constructor
-	 * 
-	 * @param c
-	 *            Construction
-	 * @param labels
-	 *            labels
-	 * @param l
-	 *            line
-	 * @param p
-	 *            curve
+	 * @param c Construction
+	 * @param labels labels
+	 * @param l line
+	 * @param p curve
+	 * @param algoDispatcher
 	 */
 	public AlgoIntersectLineCurve(Construction c, String[] labels, GeoLine l,
-			GeoCurveCartesianND p) {
+			GeoCurveCartesianND p, AlgoDispatcher algoDispatcher) {
 
 		super(c);
+		this.algoDispatcher = algoDispatcher;
 
 		outputPoints = createOutputPoints(false);
 
@@ -96,30 +143,63 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 
 	@Override
 	public void compute() {
+		Params params = new Params(curve);
 
-		Coords coeffs = line.getCoords();
+		params.multiplyWithLine();
 
-		ExpressionNode xFun = curve.getFun(0).getExpression();
-		ExpressionNode yFun = curve.getFun(1).getExpression();
-
-		FunctionVariable fv = curve.getFun(0).getFunctionVariable();
-
-		// substitute x = x(t), y=y(t) into
-		// ax + by + c
-		ExpressionNode enx, eny;
-
-		if (DoubleUtil.isZero(coeffs.getZ())) {
-			enx = xFun.multiply(coeffs.getX());
-			eny = yFun.multiply(coeffs.getY());
-			enx = enx.plus(eny);
+		if (curve.isSpline()) {
+			findSplineIntersection();
 		} else {
-			// Normalizing to (a/c)x + (b/c)y + 1 seems to work better
-			enx = xFun.multiply(coeffs.getX() / coeffs.getZ());
-			eny = yFun.multiply(coeffs.getY() / coeffs.getZ());
-			enx = enx.plus(eny).plus(1);
+			findIntersections(params.enx, params.functionVariable);
+		}
+	}
+
+	private void findSplineIntersection() {
+		findConditional(curve.getFun(0).getExpression());
+		if (findExpressionValue == null) {
+			return;
 		}
 
-		findIntersections(enx, fv);
+		FunctionVariable fv = curve.getFun(0).getFunctionVariable();
+		ExpressionNode node = findExpressionValue.wrap();
+
+		MyList conditions = (MyList) node.getLeft();
+		MyList polyCurves = (MyList) node.getRight();
+		List<Double> result = new ArrayList<>();
+
+		for (int i = 0; i < polyCurves.size(); i++) {
+			ExpressionValue curve1 = polyCurves.getItem(i);
+			Function function = new Function(kernel, curve1.wrap());
+			Params params = new Params(function.getExpression(),
+					function.getExpression(), fv);
+			params.multiplyWithLine();
+			GeoFunction function1 = params.enx.buildFunction(fv);
+			Solution soln = new Solution();
+
+			AlgoRootsPolynomial.calcRootsMultiple(function1.getFunction(),
+					0, soln, kernel.getEquationSolver());
+			soln.sortAndMakeUnique();
+			double[] roots = soln.curRoots;
+			if (roots != null) {
+				for (int j = 0; j < soln.curRealRoots; j++) {
+					result.add(roots[i]);
+				}
+			}
+
+		}
+		Log.debug("result: " + result);
+	}
+
+
+	private void findConditional(ExpressionNode enx) {
+		findExpressionValue = null;
+		enx.inspect(v -> {
+			if (v.isOperation(Operation.IF_LIST)) {
+				findExpressionValue = v;
+				return true;
+			}
+			return false;
+		});
 	}
 
 	@Override

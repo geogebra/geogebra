@@ -1810,8 +1810,9 @@ public class AlgoDispatcher {
 	 */
 	final public GeoElement[] intersectLineCurve(String[] labels, GeoLine g,
 			GeoCurveCartesian p) {
+
 		AlgoIntersectLineCurve algo = new AlgoIntersectLineCurve(cons, labels,
-				g, p);
+				g, p, this);
 		return algo.getOutput();
 	}
 
