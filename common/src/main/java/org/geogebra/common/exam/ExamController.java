@@ -188,6 +188,13 @@ public final class ExamController {
 	}
 
 	/**
+	 * @return The cheating events.
+	 */
+	public CheatingEvents getCheatingEvents() {
+		return cheatingEvents;
+	}
+
+	/**
 	 * @return The ExamRegion if an exam is currently active, or null otherwise.
 	 */
 	public @CheckForNull ExamRegion getExamType() {

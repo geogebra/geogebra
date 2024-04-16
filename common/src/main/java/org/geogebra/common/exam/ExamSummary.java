@@ -85,17 +85,7 @@ public final class ExamSummary {
 	private String getActivityLog(Date startDate, Date finishDate,
 			CheatingEvents cheatingEvents, Localization localization) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(localization.getMenu("exam_start_date")).append(": ")
-				.append(formatDate(startDate, localization)).append("\n");
-		sb.append(localization.getMenu("exam_start_time")).append(": ")
-				.append(formatTime(startDate, localization)).append("\n");
-		if (finishDate != null) {
-			sb.append(localization.getMenu("exam_end_time")).append(": ")
-					.append(formatTime(finishDate, localization)).append("\n");
-		}
-
-		sb.append(localization.getMenu("exam_activity")).append(":\n");
-		sb.append("0:00").append(' ')
+		sb.append(formatTime(startDate, localization)).append(' ')
 				.append(localization.getMenu("exam_started")).append("\n");
 		for (CheatingEvent cheatingEvent : cheatingEvents.getEvents()) {
 			sb.append(formatTime(cheatingEvent.getDate(), localization));
