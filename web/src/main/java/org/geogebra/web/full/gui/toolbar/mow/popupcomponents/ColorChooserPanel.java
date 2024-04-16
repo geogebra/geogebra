@@ -58,8 +58,11 @@ public class ColorChooserPanel extends FlowPanel {
 		colorButton.add(colorHolder);
 		colorButton.add(checkmark);
 
-		Dom.addEventListener(colorButton.getElement(), "click", (event) ->
-				updateColor(colorButton, color));
+		Dom.addEventListener(colorButton.getElement(), "click", (event) -> {
+				if (!isDisabled()) {
+			 updateColor(colorButton, color);
+		 }
+		 });
 
 		add(colorButton);
 	 }
@@ -133,5 +136,17 @@ public class ColorChooserPanel extends FlowPanel {
 	 private void updateColor(FlowPanel colorButton, GColor color) {
 		updateActiveColorButton(colorButton, color);
 		runCallback(color);
+	}
+
+	/**
+	 * disable/enable color chooser
+	 * @param disabled - whether is disabled or not
+	 */
+	public void setDisabled(boolean disabled) {
+		Dom.toggleClass(this, "disabled", disabled);
+	}
+
+	private boolean isDisabled() {
+		return getElement().hasClassName("disabled");
 	}
 }

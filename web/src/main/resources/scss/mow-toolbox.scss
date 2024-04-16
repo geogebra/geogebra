@@ -28,6 +28,13 @@
 		width: 180px;
 		height: 72px;
 
+		&.disabled {
+			.colorButton {
+				opacity: 0.36;
+				cursor: default;
+			}
+		}
+
 		.colorButton {
 			display: inline-flex;
 			width: 36px;
@@ -94,7 +101,7 @@
 	}
 
 	.gwt-PopupPanel.categoryPopup.penCategory {
-		width: 180px;
+		width: 192px;
 		padding: 16px 8px;
 
 		.toolsHolder {

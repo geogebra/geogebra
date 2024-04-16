@@ -58,6 +58,7 @@ public class PenIconButton extends IconButton {
 					ToolbarSvgResources.INSTANCE, mode, appW);
 			updateImgAndTxt(image, mode, appW);
 			setActive(true);
+			penPopup.disableColorChooser(mode == MODE_ERASER);
 		};
 	}
 

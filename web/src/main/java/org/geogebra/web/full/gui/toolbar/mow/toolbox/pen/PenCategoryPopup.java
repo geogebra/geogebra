@@ -37,12 +37,20 @@ public class PenCategoryPopup extends CategoryPopup {
 	private void buildGui() {
 		colorChooser = new ColorChooserPanel((AppW) getApplication(), (color) -> {
 			if (penButton.getMode() == MODE_PEN) {
-
+				controller.setLastPenColor(color);
 			} else if (penButton.getMode() == MODE_HIGHLIGHTER) {
-
+				controller.setLastHighlighterColor(color);
 			}
 			controller.updatePenColor(color);
 		});
 		addContent(colorChooser);
+	}
+
+	/**
+	 * disable or enable color palette
+	 * @param disable - true or false
+	 */
+	public void disableColorChooser(boolean disable) {
+		colorChooser.setDisabled(disable);
 	}
 }

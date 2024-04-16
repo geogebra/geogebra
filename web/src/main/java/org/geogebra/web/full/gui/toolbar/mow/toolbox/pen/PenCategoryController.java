@@ -21,4 +21,20 @@ public class PenCategoryController {
 	public void updatePenColor(GColor color) {
 		getPen().setPenColor(color);
 	}
+
+	public GColor getLastPenColor() {
+		return lastPenColor;
+	}
+
+	public void setLastPenColor(GColor lastPenColor) {
+		this.lastPenColor = lastPenColor;
+	}
+
+	public GColor getLastHighlighterColor() {
+		return lastHighlighterColor;
+	}
+
+	public void setLastHighlighterColor(GColor lastHighlighterColor) {
+		this.lastHighlighterColor = lastHighlighterColor;
+	}
 }
