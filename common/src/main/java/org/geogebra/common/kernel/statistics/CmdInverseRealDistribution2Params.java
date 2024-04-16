@@ -7,11 +7,14 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 
 /**
- * InverseFDistribution
+ * InverseGamma
  */
-public class CmdInverseFDistribution extends CommandProcessor {
+public class CmdInverseRealDistribution2Params extends CommandProcessor {
+
+	private final ProbabilityCalculatorSettings.Dist command;
 
 	/**
 	 * Create new command processor
@@ -19,8 +22,9 @@ public class CmdInverseFDistribution extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdInverseFDistribution(Kernel kernel) {
+	public CmdInverseRealDistribution2Params(Kernel kernel, ProbabilityCalculatorSettings.Dist c) {
 		super(kernel);
+		this.command = c;
 	}
 
 	@Override
@@ -36,10 +40,10 @@ public class CmdInverseFDistribution extends CommandProcessor {
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
-				AlgoInverseFDistribution algo = new AlgoInverseFDistribution(
-						cons, c.getLabel(), (GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
-
+				AlgoInverseRealDistribution2Params algo = new AlgoInverseRealDistribution2Params(
+						cons, (GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+						(GeoNumberValue) arg[2], command);
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

@@ -27,23 +27,6 @@ public class AlgoInversePascal extends AlgoDistribution {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label for output
-	 * @param a
-	 *            number of successes
-	 * @param b
-	 *            probability of success
-	 * @param c
-	 *            variable value
-	 */
-	public AlgoInversePascal(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c) {
-		super(cons, label, a, b, c, null);
-	}
-
-	/**
-	 * @param cons
-	 *            construction
 	 * @param a
 	 *            number of successes
 	 * @param b

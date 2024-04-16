@@ -26,11 +26,6 @@ import org.geogebra.common.util.debug.Log;
 
 public class AlgoPoisson extends AlgoDistribution {
 
-	public AlgoPoisson(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b, GeoBoolean isCumulative) {
-		super(cons, label, a, b, null, isCumulative);
-	}
-
 	public AlgoPoisson(Construction cons, GeoNumberValue a, GeoNumberValue b,
 			GeoBoolean isCumulative) {
 		super(cons, a, b, null, isCumulative);

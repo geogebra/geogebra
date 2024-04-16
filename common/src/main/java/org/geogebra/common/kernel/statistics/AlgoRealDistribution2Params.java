@@ -12,39 +12,40 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math3.distribution.NormalDistribution;
+import org.apache.commons.math3.distribution.RealDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 
 /**
  * 
  * @author Michael Borcherds
  */
 
-public class AlgoNormal extends AlgoDistribution {
+public class AlgoRealDistribution2Params extends AlgoDistribution {
+
+	private final ProbabilityCalculatorSettings.Dist dist;
 
 	/**
-	 * @param cons
-	 *            construction
-	 * @param a
-	 *            mean
-	 * @param b
-	 *            sd
-	 * @param c
-	 *            variable vaue
-	 * @param cumulative
-	 *            cumulative?
+	 * @param cons construction
+	 * @param a first parameter
+	 * @param b second parameter
+	 * @param c random variable value
+	 * @param cumulative flag for CDF
+	 * @param dist distribution
 	 */
-	public AlgoNormal(Construction cons, GeoNumberValue a, GeoNumberValue b,
-			GeoNumberValue c, GeoBoolean cumulative) {
-		super(cons, a, b, c, cumulative);
+	public AlgoRealDistribution2Params(Construction cons, GeoNumberValue a, GeoNumberValue b,
+			GeoNumberValue c, GeoBoolean cumulative, ProbabilityCalculatorSettings.Dist dist) {
+		super(cons, cumulative, a, b, c);
+		this.dist = dist;
+		compute();
 	}
 
 	@Override
 	public Commands getClassName() {
-		return Commands.Normal;
+		return dist.command;
 	}
 
 	@Override
@@ -55,9 +56,8 @@ public class AlgoNormal extends AlgoDistribution {
 			double param = a.getDouble();
 			double param2 = b.getDouble();
 			try {
-				NormalDistribution dist = getNormalDistribution(param, param2);
-				setFromRealDist(dist, c);
-
+				RealDistribution dist = getDist(this.dist, param, param2);
+				setFromRealDist(dist, c); // P(T <= val)
 			} catch (Exception e) {
 				num.setUndefined();
 			}

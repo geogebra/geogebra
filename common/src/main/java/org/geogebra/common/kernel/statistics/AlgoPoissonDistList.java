@@ -39,7 +39,8 @@ public class AlgoPoissonDistList extends AlgoDistribution {
 	 */
 	public AlgoPoissonDistList(Construction cons, String label,
 			GeoNumberValue a, GeoList b) {
-		super(cons, label, a, b);
+		super(cons, a, b);
+		num.setLabel(label);
 	}
 
 	@Override
