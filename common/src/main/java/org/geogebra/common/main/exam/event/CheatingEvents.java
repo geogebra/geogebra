@@ -8,9 +8,8 @@ import java.util.List;
  */
 public class CheatingEvents {
 
-    private List<CheatingEvent> events;
+    private final List<CheatingEvent> events;
 
-    private boolean isScreenOn = true;
     private boolean isScreenLocked = true;
     private boolean isOnWindow = true;
     private boolean isAirplaneModeEnabled = true;
