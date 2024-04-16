@@ -53,15 +53,20 @@ public class CategoryPopup extends GPopupPanel implements SetLabels {
 
 	private void buildBaseGui(List<Integer> tools) {
 		contentPanel = new FlowPanel();
+
+		FlowPanel toolsPanel = new FlowPanel();
+		toolsPanel.addStyleName("toolsHolder");
+
 		for (Integer mode : tools) {
 			IconButton button = createButton(mode);
 			if (defaultTool.equals(mode)) {
 				app.setMode(mode);
 				updateButtonSelection(button);
 			}
-
-			contentPanel.add(button);
+			toolsPanel.add(button);
 		}
+
+		contentPanel.add(toolsPanel);
 		add(contentPanel);
 	}
 

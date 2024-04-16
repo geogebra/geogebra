@@ -92,4 +92,23 @@
 		display:inline-flex;
 		padding: 8px;
 	}
+
+	.gwt-PopupPanel.categoryPopup.penCategory {
+		width: 180px;
+		padding: 16px 8px;
+
+		.toolsHolder {
+			padding: 0 8px;
+			margin-bottom: 16px;
+
+			.iconButton {
+				margin: 0 5px;
+			}
+		}
+
+		.colorPalette {
+			padding: 0 6px;
+			margin-bottom: 16px;
+		}
+	}
 }

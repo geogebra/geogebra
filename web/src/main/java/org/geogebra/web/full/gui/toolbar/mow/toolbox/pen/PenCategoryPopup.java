@@ -30,6 +30,7 @@ public class PenCategoryPopup extends CategoryPopup {
 		this.penButton = penButton;
 		controller = new PenCategoryController(app);
 
+		addStyleName("penCategory");
 		buildGui();
 	}
 
