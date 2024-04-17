@@ -40,7 +40,7 @@ dependencies {
 apply from: "../gradle-scripts/webjars.gradle"
 compileJava.dependsOn('extractJs')
 
-task extractJs() {
+tasks.register('extractJs') {
     doLast {
         extractWebjars()
     }

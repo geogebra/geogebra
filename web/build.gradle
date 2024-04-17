@@ -40,7 +40,7 @@ compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(
 apply from: "../gradle-scripts/webjars.gradle"
 compileJava.dependsOn('extractJs')
 
-task extractJs() {
+tasks.register('extractJs') {
     doLast {
         extractWebjars()
     }
@@ -123,7 +123,7 @@ compileSass {
     sourceMap = none
 }
 
-task watchSass (type: CompileSass) {
+tasks.register('watchSass', CompileSass) {
     outputDir = file("${projectDir}/war/css")
     sourceDir = file("${projectDir}/src/main/resources/scss")
     style = compressed
@@ -131,7 +131,7 @@ task watchSass (type: CompileSass) {
 
     // Watch sass files in sourceDir for changes
     // (Default is to not to watch, compile once and terminate)
-    watch ()
+    watch()
 }
 
 def warDirRel = 'war'
