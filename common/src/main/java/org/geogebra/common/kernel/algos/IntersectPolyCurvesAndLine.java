@@ -18,60 +18,90 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 public final class IntersectPolyCurvesAndLine {
 	private final Kernel kernel;
-	private final Coords coeffs;
-	private final FunctionVariable fv;
+	private final Coords coefficients;
+	private final FunctionVariable functionVariable;
 	private final MyList conditions;
-	private final MyList polyCurvesX;
-	private final MyList polyCurvesY;
-	private final List<PolyCurveParams> paramsList = new ArrayList<>();
-	private final List<Double> result = new ArrayList<>();
+	private final Spline spline;
+	private final Output output = new Output();
 
+	private static class Spline {
 
-	public IntersectPolyCurvesAndLine(GeoCurveCartesianND curve, Coords coeffs) {
+		private final MyList xCurves;
+		private final MyList yCurves;
+
+		public Spline(ExpressionValue xCurves, ExpressionValue yCurves) {
+			this.xCurves = (MyList) xCurves;
+			this.yCurves = (MyList) yCurves;
+		}
+
+		public int size() {
+			return xCurves.size();
+		}
+
+		public ExpressionNode getFunctionExpressionX(int idx) {
+			return xCurves.getItem(idx).wrap();
+		}
+
+		public ExpressionNode getFunctionExpressionY(int idx) {
+			return yCurves.getItem(idx).wrap();
+		}
+	}
+
+	private static class Output {
+		private final List<Double> roots = new ArrayList<>();
+		private final List<PolyCurveParams> params = new ArrayList<>();
+
+		public void add(double root, PolyCurveParams polyCurveParams) {
+			if (root == 0 || roots.contains(root)) {
+				return;
+			}
+
+			roots.add(root);
+			params.add(polyCurveParams);
+		}
+
+		private void updatePoint(FunctionVariable functionVariable,
+				AlgoElement.OutputHandler<GeoPointND> outputPoints) {
+			outputPoints.adjustOutputSize(roots.size());
+			for (int index = 0; index < roots.size(); index++) {
+				GeoPointND point = outputPoints.getElement(index);
+				functionVariable.set(roots.get(index));
+				ExpressionNode xFun1 = params.get(index).xFun;
+				ExpressionNode yFun1 = params.get(index).yFun;
+				point.setCoords(xFun1.evaluateDouble(), yFun1.evaluateDouble(), 1, 1.0);
+			}
+		}
+	}
+
+	public IntersectPolyCurvesAndLine(GeoCurveCartesianND curve, Coords coefficients) {
 		this.kernel = curve.kernel;
-		this.coeffs = coeffs;
+		this.coefficients = coefficients;
 
 		Function xFun = curve.getFun(0);
 		Function yFun = curve.getFun(1);
-		ExpressionNode node = xFun.getExpression();
+		ExpressionNode xFunExpression = xFun.getExpression();
 
-		fv = xFun.getFunctionVariable();
-		conditions = (MyList) node.getLeft();
-		polyCurvesX = (MyList) node.getRight();
-		polyCurvesY = (MyList) yFun.getExpression().getRight();
-
+		functionVariable = xFun.getFunctionVariable();
+		conditions = (MyList) xFunExpression.getLeft();
+		spline =
+				new Spline(xFunExpression.getRight(), yFun.getExpression().getRight());
 	}
 
 	public void compute(AlgoElement.OutputHandler<GeoPointND> outputPoints) {
-		result.clear();
-		paramsList.clear();
-
-		for (int i = 0; i < polyCurvesX.size(); i++) {
-			ExpressionValue curveX = polyCurvesX.getItem(i);
-			ExpressionValue curveY = polyCurvesY.getItem(i);
-			Function functionX = new Function(kernel, curveX.wrap());
-			Function functionY = new Function(kernel, curveY.wrap());
-			PolyCurveParams params = new PolyCurveParams(functionX.getExpression(),
-					functionY.getExpression(), fv, coeffs);
-			paramsList.add(params);
+		for (int i = 0; i < spline.size(); i++) {
+			PolyCurveParams params = new PolyCurveParams(
+					spline.getFunctionExpressionX(i),
+					spline.getFunctionExpressionY(i),
+					functionVariable, coefficients);
 			params.multiplyWithLine();
 			findRoots(params, i);
-
 		}
 
-		outputPoints.adjustOutputSize(getOutputSize());
-
-		if (!result.isEmpty()) {
-			updatePoint(outputPoints);
-		}
-	}
-
-	private int getOutputSize() {
-		return result.size();
+		output.updatePoint(functionVariable, outputPoints);
 	}
 
 	private void findRoots(PolyCurveParams params, int polyCurveIdx) {
-		GeoFunction function1 = params.buildFunctionX(fv);
+		GeoFunction function1 = params.buildFunctionX(functionVariable);
 		Solution solution = new Solution();
 
 		AlgoRootsPolynomial.calcRootsMultiple(function1.getFunction(),
@@ -80,42 +110,32 @@ public final class IntersectPolyCurvesAndLine {
 		solution.sortAndMakeUnique();
 
 		if (solution.curRoots != null) {
-			sortRoots(params, polyCurveIdx, solution);
+			collectRoots(params, polyCurveIdx, solution);
 		}
 	}
 
-	private void sortRoots(PolyCurveParams params, int polyCurveIdx, Solution solution) {
+	private void collectRoots(PolyCurveParams params, int polyCurveIdx, Solution solution) {
 		for (int j = 0; j < solution.curRealRoots; j++) {
 			double root = solution.curRoots[polyCurveIdx];
-			if (isRootMatching(conditions, fv, root)) {
-				if (root != 0 && !result.contains(root)) {
-					result.add(root);
-					paramsList.add(params);
-				}
+			if (isRootMatching(root)) {
+				output.add(root, params);
 			}
 		}
 	}
 
-	private void updatePoint(AlgoElement.OutputHandler<GeoPointND> outputPoints) {
-		for (int index = 0; index < getOutputSize(); index++) {
-			double paramVal = result.get(index);
-			GeoPointND point = outputPoints.getElement(index);
-			ExpressionNode xFun1 = paramsList.get(index).xFun;
-			ExpressionNode yFun1 = paramsList.get(index).yFun ;
-			fv.set(paramVal);
-			point.setCoords(xFun1.evaluateDouble(), yFun1.evaluateDouble(), 1, 1.0);
-		}
-	}
-
-	private boolean isRootMatching(MyList conditions, FunctionVariable fv, double root) {
+	private boolean isRootMatching(double root) {
 		for (int i = 0; i < conditions.size(); i++) {
-			ExpressionValue cond = conditions.getItem(i);
-			fv.set(root);
-			ExpressionValue val = cond.evaluate(StringTemplate.defaultTemplate);
-			if (((BooleanValue) val).getBoolean()) {
+			functionVariable.set(root);
+			if (isConditionalHoldsAt(i)) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	private boolean isConditionalHoldsAt(int idx) {
+		ExpressionValue cond = conditions.getItem(idx);
+		ExpressionValue val = cond.evaluate(StringTemplate.defaultTemplate);
+		return ((BooleanValue) val).getBoolean();
 	}
 }
