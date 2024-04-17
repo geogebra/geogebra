@@ -44,7 +44,7 @@ public final class SpreadsheetEditorListener implements MathFieldListener, Unhan
 	public void onEnter() {
 		processor.process(mathField.getText());
 		editor.hide();
-		spreadsheet.getController().moveDown(false);
+		spreadsheet.getController().onEnter();
 	}
 
 	@Override

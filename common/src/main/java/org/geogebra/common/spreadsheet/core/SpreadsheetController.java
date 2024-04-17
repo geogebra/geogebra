@@ -377,6 +377,14 @@ public final class SpreadsheetController implements TabularSelection {
 	}
 
 	/**
+	 * Move focus down and adjust viewport
+	 */
+	public void onEnter() {
+		moveDown(false);
+		adjustViewportIfNeeded();
+	}
+
+	/**
 	 * @param extendingCurrentSelection True if the current selection should expand, false else
 	 */
 	public void moveLeft(boolean extendingCurrentSelection) {
@@ -609,4 +617,5 @@ public final class SpreadsheetController implements TabularSelection {
 			undoProvider.storeUndoInfo();
 		}
 	}
+
 }
