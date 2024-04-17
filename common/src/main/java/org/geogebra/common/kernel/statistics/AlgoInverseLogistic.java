@@ -25,12 +25,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 public class AlgoInverseLogistic extends AlgoDistribution {
 
 	@SuppressWarnings("javadoc")
-	public AlgoInverseLogistic(Construction cons, String label,
-			GeoNumberValue a, GeoNumberValue b, GeoNumberValue c) {
-		super(cons, label, a, b, c, null);
-	}
-
-	@SuppressWarnings("javadoc")
 	public AlgoInverseLogistic(Construction cons, GeoNumberValue a,
 			GeoNumberValue b, GeoNumberValue c) {
 		super(cons, a, b, c, null);

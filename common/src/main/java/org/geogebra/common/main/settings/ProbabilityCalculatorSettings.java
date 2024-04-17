@@ -2,10 +2,12 @@ package org.geogebra.common.main.settings;
 
 //import geogebra.gui.view.probcalculator.ProbabilityManager;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
@@ -16,35 +18,61 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	/** distributions */
 	public enum Dist {
 		/** normal */
-		NORMAL,
+		NORMAL(Commands.Normal, Commands.InverseNormal),
 		/** student */
-		STUDENT,
+		STUDENT(Commands.TDistribution, Commands.InverseTDistribution),
 		/** chi squares */
-		CHISQUARE,
+		CHISQUARE(Commands.ChiSquared, Commands.InverseChiSquared),
 		/** f distribution */
-		F,
+		F(Commands.FDistribution, Commands.InverseFDistribution),
 		/** Cauchy */
-		CAUCHY,
+		CAUCHY(Commands.Cauchy, Commands.InverseCauchy),
 		/** exponential */
-		EXPONENTIAL,
+		EXPONENTIAL(Commands.Exponential, Commands.InverseExponential),
+		/** beta dist */
+		BETA(Commands.BetaDist, Commands.InverseBeta),
 		/** gamma dist */
-		GAMMA,
+		GAMMA(Commands.Gamma, Commands.InverseGamma),
 		/** weibull */
-		WEIBULL,
+		WEIBULL(Commands.Weibull, Commands.InverseWeibull),
 		/** logistic */
-		LOGISTIC,
+		LOGISTIC(Commands.Logistic, Commands.InverseLogistic),
 		/** log-normal */
-		LOGNORMAL,
-		/** erlang */
-		ERLANG,
+		LOGNORMAL(Commands.LogNormal, Commands.InverseLogNormal),
 		/** binomial */
-		BINOMIAL,
+		BINOMIAL(Commands.BinomialDist, Commands.InverseBinomial),
 		/** pascal */
-		PASCAL,
+		PASCAL(Commands.Pascal, Commands.InversePascal),
 		/** hypergeometric */
-		HYPERGEOMETRIC,
+		HYPERGEOMETRIC(Commands.HyperGeometric, Commands.InverseHyperGeometric),
 		/** poisson */
-		POISSON
+		POISSON(Commands.Poisson, Commands.InversePoisson);
+
+		public final Commands command;
+		public final Commands inverse;
+
+		Dist(Commands command, Commands inverse) {
+			this.command = command;
+			this.inverse = inverse;
+		}
+
+		/**
+		 * @param command inverse distribution command
+		 * @return corresponding distribution
+		 */
+		public static Dist forInverse(Commands command) {
+			return Arrays.stream(values())
+					.filter(s -> s.inverse == command).findFirst().orElse(null);
+		}
+
+		/**
+		 * @param command distribution command
+		 * @return corresponding distribution
+		 */
+		public static Dist forCommand(Commands command) {
+			return Arrays.stream(values())
+					.filter(s -> s.command == command).findFirst().orElse(null);
+		}
 	}
 
 	/** number of distributions */

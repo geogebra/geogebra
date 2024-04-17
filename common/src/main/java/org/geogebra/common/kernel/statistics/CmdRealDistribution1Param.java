@@ -7,14 +7,16 @@ import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 
 /**
- * Gamma Distribution
+ * Chi Squared Distribution
  */
-public class CmdGamma extends CommandProcessor {
+public class CmdRealDistribution1Param extends CommandProcessor {
+
+	private final ProbabilityCalculatorSettings.Dist command;
 
 	/**
 	 * Create new command processor
@@ -22,58 +24,54 @@ public class CmdGamma extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdGamma(Kernel kernel) {
+	public CmdRealDistribution1Param(Kernel kernel, ProbabilityCalculatorSettings.Dist command) {
 		super(kernel);
+		this.command = command;
 	}
 
 	@Override
 	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
+
 		GeoElement[] arg;
 
 		arg = resArgs(c);
 
-		GeoBoolean cumulative = null; // default for n=3 (false)
+		GeoBoolean cumulative = null; // default for n=2
 		switch (n) {
-		case 4:
-			if (arg[3].isGeoBoolean()) {
-				cumulative = (GeoBoolean) arg[3];
+		case 3:
+			if (arg[2].isGeoBoolean()) {
+				cumulative = (GeoBoolean) arg[2];
 			} else {
-				throw argErr(c, arg[3]);
+				throw argErr(c, arg[2]);
 			}
 
 			// fall through
-		case 3:
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				if (arg[2].isGeoFunction() && ((GeoFunction) arg[2])
+		case 2:
+			if (arg[0] instanceof GeoNumberValue) {
+				if (arg[1].isGeoFunction() && arg[1]
 						.toString(StringTemplate.defaultTemplate).equals("x")) {
 
-					AlgoGammaDF algo = new AlgoGammaDF(cons,
-							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+					AlgoDistributionDF algo = CmdRealDistribution2Params.getAlgoDF(command,
+							(GeoNumberValue) arg[0], null,
 							forceBoolean(cumulative, true));
 					algo.getResult().setLabel(c.getLabel());
 					return algo.getResult().asArray();
 
-				} else if (arg[2] instanceof GeoNumberValue) {
+				} else if (arg[1] instanceof GeoNumberValue) {
 
-					AlgoGamma algo = new AlgoGamma(cons,
+					AlgoRealDistribution1Param algo = new AlgoRealDistribution1Param(cons,
 							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-							(GeoNumberValue) arg[2], cumulative);
-
+							cumulative, command);
 					GeoElement[] ret = { algo.getResult() };
 					ret[0].setLabel(c.getLabel());
 					return ret;
 				} else {
-					throw argErr(c, arg[2]);
+					throw argErr(c, arg[1]);
 				}
 
-			} else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
 			}
+			throw argErr(c, arg[0]);
 
 		default:
 			throw argNumErr(c);

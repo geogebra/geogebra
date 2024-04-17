@@ -39,7 +39,7 @@ public abstract class AuthenticationModel {
 	public void onLogin(LoginEvent loginEvent) {
 		this.loginStarted = false;
 		if (loginEvent.isSuccessful()) {
-			onLoginSuccess(loginEvent.getUser(), loginEvent.getJSON());
+			onLoginSuccess(loginEvent.getUser());
 		} else {
 			onLoginError();
 		}
@@ -102,14 +102,11 @@ public abstract class AuthenticationModel {
 
 	/**
 	 * @param user ggb tube user
-	 * @param json from GGT Parses the response, and sets model dependent things
-	 * (localStorage, etc).
 	 */
-	private void onLoginSuccess(GeoGebraTubeUser user, String json) {
+	private void onLoginSuccess(GeoGebraTubeUser user) {
 		this.preventLoginPrompt = false;
 		// Remember the logged in user
 		this.loggedInUser = user;
-		storeLastUser(json);
 		// Store the token in the storage
 		if (!user.getLoginToken().equals(this.getLoginToken())) {
 			storeLoginToken(user.getLoginToken());
@@ -122,8 +119,6 @@ public abstract class AuthenticationModel {
 			sessionExpireTimer.start();
 		}
 	}
-
-	protected abstract void storeLastUser(String s);
 
 	/**
 	 * from GGT error happened, cleanup, etc
@@ -192,27 +187,12 @@ public abstract class AuthenticationModel {
 		return loggedInUser != null;
 	}
 
-	/**
-	 * Initialize for offline use (assume last user logged in).
-	 * @param api tube API
-	 */
-	public void startOffline(BackendAPI api) {
-		if (this.loadLastUser() != null) {
-			loadUserFromString(loadLastUser(), api);
-		}
-	}
-
 	protected void loadUserFromString(String s, BackendAPI api) {
 		GeoGebraTubeUser offline = new GeoGebraTubeUser(null);
 		if (api.parseUserDataFromResponse(offline, s)) {
 			this.loggedInUser = offline;
 		}
 	}
-
-	/**
-	 * @return last user from local storage
-	 */
-	public abstract String loadLastUser();
 
 	/**
 	 * User closed login explicitly, save a flag not to ask again.

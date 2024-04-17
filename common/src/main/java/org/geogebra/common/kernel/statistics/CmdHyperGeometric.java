@@ -87,10 +87,10 @@ public class CmdHyperGeometric extends CommandProcessor {
 					&& (ok[4] = arg[4].isGeoBoolean())) {
 
 				AlgoHyperGeometric algo = new AlgoHyperGeometric(cons,
-						c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3], (GeoBoolean) arg[4]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

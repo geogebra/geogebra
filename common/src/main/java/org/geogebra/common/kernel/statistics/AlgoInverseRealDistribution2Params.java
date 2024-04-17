@@ -12,54 +12,41 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math3.distribution.FDistribution;
+import org.apache.commons.math3.distribution.RealDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 
 /**
  * 
  * @author Michael Borcherds
  */
 
-public class AlgoInverseFDistribution extends AlgoDistribution {
+public class AlgoInverseRealDistribution2Params extends AlgoDistribution {
 
-	/**
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            label for output
-	 * @param a
-	 *            degrees of freedom (numerator)
-	 * @param b
-	 *            degrees of freedom (denominator)
-	 * @param c
-	 *            variable value
-	 */
-	public AlgoInverseFDistribution(Construction cons, String label,
-			GeoNumberValue a, GeoNumberValue b, GeoNumberValue c) {
-		super(cons, label, a, b, c, null);
-	}
+	private final ProbabilityCalculatorSettings.Dist command;
 
 	/**
 	 * @param cons
 	 *            construction
 	 * @param a
-	 *            degrees of freedom (numerator)
+	 *            alpha
 	 * @param b
-	 *            degrees of freedom (denominator)
+	 *            beta
 	 * @param c
 	 *            variable value
 	 */
-	public AlgoInverseFDistribution(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c) {
-		super(cons, a, b, c, null);
+	public AlgoInverseRealDistribution2Params(Construction cons, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c, ProbabilityCalculatorSettings.Dist command) {
+		super(cons, null, a, b, c);
+		this.command = command;
+		compute();
 	}
 
 	@Override
 	public Commands getClassName() {
-		return Commands.InverseFDistribution;
+		return command.inverse;
 	}
 
 	@Override
@@ -71,11 +58,11 @@ public class AlgoInverseFDistribution extends AlgoDistribution {
 			double param2 = b.getDouble();
 			double val = c.getDouble();
 			try {
-				FDistribution dist = getFDistribution(param, param2);
+				RealDistribution dist = getDist(command, param, param2);
 				num.setValue(dist.inverseCumulativeProbability(val)); // P(T <=
 																		// val)
+
 			} catch (Exception e) {
-				Log.debug(e);
 				num.setUndefined();
 			}
 		} else {

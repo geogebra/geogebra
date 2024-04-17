@@ -33,9 +33,7 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
-import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.Style;
-import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.RootPanel;
@@ -43,17 +41,17 @@ import org.gwtproject.user.client.ui.RootPanel;
 /**
  * Handles creating, showing and updating the keyboard
  */
-public class KeyboardManager
+public final class KeyboardManager
 		implements RequiresResize, KeyboardManagerInterface {
 
 	private static final int SWITCHER_HEIGHT = 42;
 	private final AppW app;
-	private RootPanel keyboardRoot;
 	private VirtualKeyboardGUI keyboard;
 
 	private String originalBodyPadding;
 	private final Style bodyStyle;
 	private KeyboardListener processing;
+	private final KeyboardDetachController detachController;
 
 	/**
 	 * Constructor
@@ -63,6 +61,10 @@ public class KeyboardManager
 	public KeyboardManager(AppW appWFull) {
 		this.app = appWFull;
 		this.bodyStyle = RootPanel.getBodyElement().getStyle();
+		detachController = new KeyboardDetachController(app.getAppletId(),
+				app.getAppletParameters().getDetachKeyboardParent(),
+				app.getGeoGebraElement().getParentElement(),
+				shouldDetach());
 	}
 
 	/**
@@ -125,8 +127,8 @@ public class KeyboardManager
 			}
 		}
 
-		return shouldDetach()
-				? NavigatorUtil.getWindowWidth()
+		return detachController.isEnabled()
+				? detachController.getParentWidth()
 				: appWidth;
 	}
 
@@ -155,35 +157,22 @@ public class KeyboardManager
 	 */
 	public void addKeyboard(Panel appFrame) {
 		ensureKeyboardsExist();
-		if (!shouldDetach()) {
-			appFrame.add(keyboard);
+		if (detachController.isEnabled()) {
+			detachController.addAsDetached(keyboard);
+			app.addWindowResizeListener(this);
 		} else {
-			if (keyboardRoot == null) {
-				keyboardRoot = createKeyboardRoot();
-			}
-			keyboardRoot.add(keyboard);
+			appFrame.add(keyboard);
+
 		}
 		updateStyle();
 	}
 
-	private RootPanel createKeyboardRoot() {
-		Element detachedKeyboardParent = DOM.createDiv();
-		detachedKeyboardParent.setClassName("GeoGebraFrame");
-		Element container = getAppletContainer();
-		container.appendChild(detachedKeyboardParent);
-		String keyboardParentId = app.getAppletId() + "keyboard";
-		detachedKeyboardParent.setId(keyboardParentId);
-		app.addWindowResizeListener(this);
-		return RootPanel.get(keyboardParentId);
-	}
-
-	private Element getAppletContainer() {
-		Element scaler = app.getGeoGebraElement().getParentElement();
-		Element container = scaler == null ? null : scaler.getParentElement();
-		if (container == null) {
-			return RootPanel.getBodyElement();
-		}
-		return container;
+	/**
+	 *
+	 * @return true if the keyboard is not attached to the frame.
+	 */
+	public boolean isKeyboardOutsideFrame() {
+		return detachController.isEnabled();
 	}
 
 	@Override
@@ -248,10 +237,7 @@ public class KeyboardManager
 
 	@Override
 	public void removeFromDom() {
-		if (keyboardRoot != null) {
-			// both clear and remove to save memory
-			keyboardRoot.removeFromParent();
-			keyboardRoot.clear();
+		if (detachController.removeKeyboardRootFromDom()) {
 			keyboard = null;
 		}
 	}
@@ -283,7 +269,7 @@ public class KeyboardManager
 	}
 
 	private boolean extraSpaceNeededForKeyboard() {
-		if (shouldDetach()) {
+		if (shouldDetach() && !detachController.hasCustomParent()) {
 			double appletBottom = app.getFrameElement().getAbsoluteBottom();
 			return NavigatorUtil.getWindowHeight() - appletBottom < estimateKeyboardHeight();
 		}

@@ -29,25 +29,6 @@ public class AlgoBinomialDist extends AlgoDistribution {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label
-	 * @param a
-	 *            number of trials
-	 * @param b
-	 *            probability of success
-	 * @param c
-	 *            value of random variable
-	 * @param isCumulative
-	 *            cumulative
-	 */
-	public AlgoBinomialDist(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c, GeoBoolean isCumulative) {
-		super(cons, label, a, b, c, isCumulative);
-	}
-
-	/**
-	 * @param cons
-	 *            construction
 	 * @param a
 	 *            number of trials
 	 * @param b

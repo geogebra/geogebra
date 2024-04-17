@@ -12,32 +12,21 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math3.distribution.TDistribution;
+import org.apache.commons.math3.distribution.RealDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 
 /**
  * 
  * @author Michael Borcherds
  */
 
-public class AlgoInverseTDistribution extends AlgoDistribution {
+public class AlgoRealDistribution1Param extends AlgoDistribution {
 
-	/**
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            label for output
-	 * @param a
-	 *            degrees of freedom
-	 * @param b
-	 *            variable value
-	 */
-	public AlgoInverseTDistribution(Construction cons, String label,
-			GeoNumberValue a, GeoNumberValue b) {
-		super(cons, label, a, b, null, null);
-	}
+	private final ProbabilityCalculatorSettings.Dist command;
 
 	/**
 	 * @param cons
@@ -47,14 +36,16 @@ public class AlgoInverseTDistribution extends AlgoDistribution {
 	 * @param b
 	 *            variable value
 	 */
-	public AlgoInverseTDistribution(Construction cons, GeoNumberValue a,
-			GeoNumberValue b) {
-		super(cons, a, b, null, null);
+	public AlgoRealDistribution1Param(Construction cons, GeoNumberValue a,
+			GeoNumberValue b, GeoBoolean cumulative, ProbabilityCalculatorSettings.Dist command) {
+		super(cons, cumulative, a, b, (GeoNumberValue) null);
+		this.command = command;
+		compute();
 	}
 
 	@Override
 	public Commands getClassName() {
-		return Commands.InverseTDistribution;
+		return Commands.ChiSquared;
 	}
 
 	@Override
@@ -62,11 +53,9 @@ public class AlgoInverseTDistribution extends AlgoDistribution {
 
 		if (input[0].isDefined() && input[1].isDefined()) {
 			double param = a.getDouble();
-			double val = b.getDouble();
 			try {
-				TDistribution t = getTDistribution(param);
-				num.setValue(t.inverseCumulativeProbability(val));
-
+				RealDistribution dist = getDist(command, param, 0);
+				setFromRealDist(dist, b); // P(T <= val)
 			} catch (Exception e) {
 				num.setUndefined();
 			}
