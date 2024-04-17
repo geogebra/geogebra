@@ -3,14 +3,14 @@ junit = "4.13.2"
 mockito = "5.11.0"
 hamcrest = "2.2"
 jogl = "2.5.0"
-javagiac = "70286"
+javagiac = "70294"
 gwt = "2.11.0"
 gwtTreblereel = "202403181"
 elemental2 = "1.2.1"
 murok = "1.0.202402201544"
 # built from ef18cb9206; switch to upstream when https://github.com/mozilla/rhino/pull/1385 is released
 mozilla-rhino = "1.7.15-SNAPSHOT"
-multiplayer = "1.0.202404020839"
+multiplayer = "1.0.202404120626"
 
 [libraries]
 j2objc-annotations = "com.google.j2objc:annotations:2.8"
