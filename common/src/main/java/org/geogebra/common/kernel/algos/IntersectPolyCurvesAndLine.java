@@ -126,7 +126,7 @@ public final class IntersectPolyCurvesAndLine {
 
 	private boolean isRootMatching(double root) {
 		functionVariable.set(root);
-		if (root > 0 && isConditionalHoldsAt(0)) {
+		if (root >= 0 && isConditionalHoldsAt(0)) {
 			return true;
 		}
 
@@ -136,7 +136,7 @@ public final class IntersectPolyCurvesAndLine {
 			}
 		}
 
-		return root < 1 && isConditionalHoldsAt(conditions.size() - 1);
+		return root <= 1 && isConditionalHoldsAt(conditions.size() - 1);
 	}
 
 	private boolean isConditionalHoldsAt(int idx) {
