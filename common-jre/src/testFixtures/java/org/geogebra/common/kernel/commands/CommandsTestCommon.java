@@ -2142,6 +2142,11 @@ public class CommandsTestCommon {
 	}
 
 	@Test
+	public void cmdInverseBeta() {
+		tRound("InverseBeta[ 3, 5, 0.5 ]", "0.36412");
+	}
+
+	@Test
 	public void cmdInverseHyperGeometric() {
 		t("InverseHyperGeometric(60, 10, 20, 0.5)", "3");
 	}
