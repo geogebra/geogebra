@@ -134,7 +134,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertNull(examController.getStartDate()); // not yet started
 		assertNull(examController.getFinishDate()); // not yet ended
 		assertEquals(ExamState.PREPARING, examController.getState());
-		assertEquals(Arrays.asList(ExamState.PREPARING), examStates);
+		assertEquals(List.of(ExamState.PREPARING), examStates);
 		assertFalse(didRequestClearApps);
 		assertFalse(didRequestClearClipboard);
 		assertNull(didRequestSwitchToSubApp);
@@ -291,12 +291,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	// -- ExamControllerDelegate --
 
 	@Override
-	public void examClearCurrentApp() {
+	public void examClearApps() {
 		activeMaterial = null;
-	}
-
-	@Override
-	public void examClearOtherApps() {
 		didRequestClearApps = true;
 	}
 

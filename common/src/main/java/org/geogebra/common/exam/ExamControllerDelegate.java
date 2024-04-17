@@ -18,14 +18,10 @@ import org.geogebra.common.move.ggtapi.models.Material;
 public interface ExamControllerDelegate {
 
 	/**
-	 * Clear the current apps' content (i.e., perform the equivalent of File / New).
+	 * Clear (reset) all subapps
 	 */
-	void examClearCurrentApp();
 
-	/**
-	 * Clear (reset) all subapps other than the currently active one.
-	 */
-	void examClearOtherApps();
+	void examClearApps();
 
 	/**
 	 * Clear the clipboard.
