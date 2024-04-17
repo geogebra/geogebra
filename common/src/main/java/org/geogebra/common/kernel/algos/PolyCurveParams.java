@@ -30,6 +30,7 @@ class PolyCurveParams {
 				curve.getFun(0).getFunctionVariable(), coeffs);
 	}
 
+
 	public void multiplyWithLine() {
 		if (DoubleUtil.isZero(coeffs.getZ())) {
 			enx = xFun.multiply(coeffs.getX());
