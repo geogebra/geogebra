@@ -81,7 +81,15 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 
 					// substitute parameter back into curve to get cartesian
 					// coords
-					updatePoint(point, paramVal, fv);
+
+					ExpressionNode xFun = curve.getFun(0).getExpression();
+					ExpressionNode yFun = curve.getFun(1).getExpression();
+					double z = 0;
+					fv.set(paramVal);
+					if (curve.getDimension() > 2) {
+						z = curve.getFun(2).getExpression().evaluateDouble();
+					}
+					point.setCoords(xFun.evaluateDouble(), yFun.evaluateDouble(), z, 1.0);
 
 					// test the intersection point
 					// this is needed for the intersection of Segments, Rays

@@ -25,6 +25,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -39,7 +40,6 @@ import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -155,23 +155,26 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 	}
 
 	private void findSplineIntersection() {
-		findConditional(curve.getFun(0).getExpression());
-		if (findExpressionValue == null) {
-			return;
-		}
+		Function xFun = curve.getFun(0);
+		Function yFun = curve.getFun(1);
+		ExpressionNode node = xFun.getExpression();
 
-		FunctionVariable fv = curve.getFun(0).getFunctionVariable();
-		ExpressionNode node = findExpressionValue.wrap();
+		FunctionVariable fv = xFun.getFunctionVariable();
 
 		MyList conditions = (MyList) node.getLeft();
 		MyList polyCurves = (MyList) node.getRight();
+		MyList polyCurvesY = (MyList) yFun.getExpression().getRight();
 		List<Double> result = new ArrayList<>();
+		List<Params> paramsList = new ArrayList<>();
 
 		for (int i = 0; i < polyCurves.size(); i++) {
-			ExpressionValue curve1 = polyCurves.getItem(i);
-			Function function = new Function(kernel, curve1.wrap());
-			Params params = new Params(function.getExpression(),
-					function.getExpression(), fv);
+			ExpressionValue curveX = polyCurves.getItem(i);
+			ExpressionValue curveY = polyCurvesY.getItem(i);
+			Function functionX = new Function(kernel, curveX.wrap());
+			Function functionY = new Function(kernel, curveY.wrap());
+			Params params = new Params(functionX.getExpression(),
+					functionY.getExpression(), fv);
+			paramsList.add(params);
 			params.multiplyWithLine();
 			GeoFunction function1 = params.enx.buildFunction(fv);
 			Solution soln = new Solution();
@@ -184,37 +187,51 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 				for (int j = 0; j < soln.curRealRoots; j++) {
 					double root = roots[i];
 					if (isRootMatching(conditions, fv, root)) {
-						result.add(root);
+						if (root != 0 && !result.contains(root)) {
+							result.add(root);
+							paramsList.add(params);
+						}
 					}
 				}
 			}
 
 		}
 		Log.debug("result: " + result);
+
+		int outputSize = result.size();
+		// update and/or create points
+		getOutputPoints().adjustOutputSize(outputSize);
+
+		// affect new computed points
+		if (!result.isEmpty()) {
+			for (int index = 0; index < outputSize; index++) {
+				double paramVal = result.get(index);
+				GeoPointND point = getOutputPoints().getElement(index);
+
+				ExpressionNode xFun1 = paramsList.get(index).xFun;
+				ExpressionNode yFun1 = paramsList.get(index).yFun ;
+				fv.set(paramVal);
+				point.setCoords(xFun1.evaluateDouble(), yFun1.evaluateDouble(), 1, 1.0);
+
+				// test the intersection point
+				// this is needed for the intersection of Segments, Rays
+				if (!inCoordSys(point)) {
+					point.setUndefined();
+				}
+			}
+		}
 	}
 
 	private boolean isRootMatching(MyList conditions, FunctionVariable fv, double root) {
 		for (int i = 0; i < conditions.size(); i++) {
 			ExpressionValue cond = conditions.getItem(i);
-			GeoFunction condFunction = cond.wrap().buildFunction(fv);
 			fv.set(root);
-			if (condFunction.evaluateBoolean(root)) {
+			ExpressionValue val = cond.evaluate(StringTemplate.defaultTemplate);
+			if (((BooleanValue) val).getBoolean()) {
 				return true;
 			}
 		}
 		return false;
-	}
-
-
-	private void findConditional(ExpressionNode enx) {
-		findExpressionValue = null;
-		enx.inspect(v -> {
-			if (v.isOperation(Operation.IF_LIST)) {
-				findExpressionValue = v;
-				return true;
-			}
-			return false;
-		});
 	}
 
 	@Override
