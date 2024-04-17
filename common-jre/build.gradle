@@ -34,10 +34,6 @@ sourceSets {
     }
 }
 
-if (hasProperty("eclipse")) {
-    eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl' }
-}
-
 spotbugs {
     ignoreFailures = true
     excludeFilter = file("../config/spotbugs.xml")

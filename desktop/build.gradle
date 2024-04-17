@@ -1,7 +1,6 @@
 plugins {
     alias libs.plugins.spotbugs
     id 'application'
-    id 'eclipse'
     id 'checkstyle'
 }
 
@@ -28,16 +27,6 @@ sourceSets {
 configurations {
     e2eTestImplementation.extendsFrom testImplementation
     e2eTestImplementation.extendsFrom testRuntime
-}
-
-eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl' }
-eclipse.classpath.file {
-    // Eclipse dependecies are based on projects, not source paths
-    whenMerged { classpath ->
-        classpath.entries.removeAll { entry ->
-            entry.kind == 'lib' && entry.path.matches(".*common-jre/build/.*/test")
-        }
-    }
 }
 
 dependencies {
@@ -98,19 +87,6 @@ spotbugs {
     ignoreFailures = true
     excludeFilter = file("../config/spotbugs.xml")
     jvmArgs = ['-Dfindbugs.sf.comment=true']
-}
-
-import org.gradle.plugins.ide.eclipse.model.AccessRule
-
-eclipse {
-    classpath {
-        file {
-            whenMerged { classpath ->
-                def jre = entries.find { it.path.contains 'org.eclipse.jdt.launching.JRE_CONTAINER' }
-                jre.accessRules.add(new AccessRule('accessible', 'com/**'))
-            }
-        }
-    }
 }
 
 checkstyle {

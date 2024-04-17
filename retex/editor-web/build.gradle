@@ -1,6 +1,5 @@
 plugins {
 	id 'java-library'
-	id 'eclipse'
 	id 'pmd'
 	id 'checkstyle'
 	alias libs.plugins.gwt
@@ -56,13 +55,6 @@ task jarAll(type: Jar) {
 task jarSources(type: Jar, dependsOn: classes) {
 	archiveClassifier = 'sources'
     from sourceSets.main.allSource 
-}
-
-// exclude from the eclipse classpath the java files in the resources dir
-eclipse.classpath.file { 
-	whenMerged { classpath ->
-		classpath.entries.find { entry -> entry.kind == 'src' && entry.path == 'src/main/resources' }.excludes = ['**/*.java']
-	}
 }
 
 task cleanDist(type: Delete) {

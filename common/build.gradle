@@ -6,7 +6,7 @@ plugins {
     alias libs.plugins.javacc
 }
 
-project.setDescription('Common parts of GeoGebra for various platforms')
+description 'Common parts of GeoGebra for various platforms'
 
 dependencies {
     javacc libs.javacc
@@ -34,9 +34,6 @@ sourceSets {
         }
     }
 }
-if (hasProperty("eclipse")) {
-    eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl' }
-}
 
 compileJavacc {
     arguments = [static: 'false', JAVA_TEMPLATE_TYPE: 'modern', LEGACY_EXCEPTION_HANDLING: 'false']
@@ -46,7 +43,7 @@ compileJava {
     options.encoding = 'UTF-8'
 }
 
-task cleanJavacc(type: Delete) {
+tasks.register('cleanJavacc', Delete) {
     description 'Cleans the javacc generated files.'
     delete compileJavacc
 }
@@ -54,7 +51,7 @@ task cleanJavacc(type: Delete) {
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 
-task versionBump() {
+tasks.register('versionBump') {
     doLast {
         def version = "undef"
         def constants = file('../common/src/main/java/org/geogebra/common/GeoGebraConstants.java')
