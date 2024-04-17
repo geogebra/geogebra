@@ -4,7 +4,7 @@ plugins {
     id 'checkstyle'
 }
 
-project.setDescription('Parts of GeoGebra related to desktop platforms')
+description 'Parts of GeoGebra related to desktop platforms'
 
 sourceSets {
     nonfree
@@ -55,7 +55,9 @@ dependencies {
     testImplementation libs.junit, libs.mockito.core, libs.hamcrest
 }
 
-mainClassName = "org.geogebra.desktop.GeoGebra3D"
+application {
+    mainClassName = "org.geogebra.desktop.GeoGebra3D"
+}
 
 run {
     // Copying JOGL related native JARs into the same directory where the non-native JAR takes place.
