@@ -4,7 +4,7 @@ plugins {
     id 'pmd'
 }
 
-project.setDescription('Developer tools required to compile web platforms')
+description 'Developer tools required to compile web platforms'
 
 dependencies {
     api libs.gwt.widgets,

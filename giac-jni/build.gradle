@@ -6,7 +6,7 @@ description 'Java Native Interface to connect Giac and GeoGebra'
 
 import org.gradle.internal.os.OperatingSystem
 
-task unzipNatives() {
+tasks.register('unzipNatives') {
     description 'Unzips Giac native DLLs. Only Linux is fully supported right now.'
     def nativesDir = file("build/libs/natives")
     outputs.dir nativesDir
@@ -34,7 +34,8 @@ task unzipNatives() {
     }
 }
 
-task testJni(dependsOn: ['unzipNatives', build], type: Exec) {
+tasks.register('testJni', Exec) {
+    dependsOn('unzipNatives', build)
     description 'Tests the JNI executable.'
     workingDir 'build/libs'
     commandLine 'java', '-cp', 'giac-jni.jar', '-Djava.library.path=natives', 'javagiac.minigiac'

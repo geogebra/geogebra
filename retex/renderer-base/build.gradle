@@ -19,7 +19,8 @@ dependencies {
     implementation libs.j2objc.annotations
 }
 
-task jarSources(type: Jar, dependsOn: classes) {
+tasks.register('jarSources', Jar) {
+    dependsOn classes
     archiveClassifier = 'sources'
     from sourceSets.main.allSource
 }

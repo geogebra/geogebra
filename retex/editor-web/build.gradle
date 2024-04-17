@@ -1,3 +1,5 @@
+import org.docstr.gradle.plugins.gwt.GwtDev
+
 plugins {
 	id 'java-library'
 	id 'pmd'
@@ -39,12 +41,13 @@ dependencies {
 
 }
 
-task run(type: org.docstr.gradle.plugins.gwt.GwtDev, dependsOn: ['jar']) {
+tasks.register('run', GwtDev) {
+	dependsOn 'jar'
 	war = file('war')
 	description 'Starts a codeserver, and a simple webserver for development'
 }
 
-task jarAll(type: Jar) {
+tasks.register('jarAll', Jar) {
 	archiveClassifier = 'all'
 	from project.sourceSets.main.java
 	from project.sourceSets.main.output
@@ -52,16 +55,18 @@ task jarAll(type: Jar) {
 	from project(':renderer-base').sourceSets.main.output
 }
 
-task jarSources(type: Jar, dependsOn: classes) {
+tasks.register('jarSources', Jar) {
+	dependsOn classes
 	archiveClassifier = 'sources'
-    from sourceSets.main.allSource 
+	from sourceSets.main.allSource
 }
 
-task cleanDist(type: Delete) {
+tasks.register('cleanDist', Delete) {
 	delete 'dist'
 }
 
-task dist(type: Copy, dependsOn: cleanDist) {
+tasks.register('dist', Copy) {
+	dependsOn cleanDist
 	from compileGwt
 	into 'dist'
 	doLast {
@@ -78,7 +83,8 @@ task dist(type: Copy, dependsOn: cleanDist) {
 	}
 }
 
-task zipDist(type: Zip, dependsOn: dist) {
+tasks.register('zipDist', Zip) {
+	dependsOn dist
 	from 'dist/jlatexmath'
 	destinationDirectory = file('dist/')
 }

@@ -70,7 +70,8 @@ tasks.register('cleanDist', Delete) {
     delete 'dist'
 }
 
-task dist(type: Copy, dependsOn: cleanDist) {
+tasks.register('dist', Copy) {
+    dependsOn cleanDist
     from compileGwt
     into 'dist'
     doLast {
@@ -87,7 +88,8 @@ task dist(type: Copy, dependsOn: cleanDist) {
     }
 }
 
-task zipDist(type: Zip, dependsOn: dist) {
+tasks.register('zipDist', Zip) {
+    dependsOn dist
     from 'dist/jlatexmath'
     destinationDirectory = file('dist/')
 }

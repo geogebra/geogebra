@@ -36,9 +36,9 @@ compileJava {
 	options.encoding = 'UTF-8'
 }
 
-task cleanJavacc(type: Delete) {
-	description 'Cleans the javacc generated files.'
-	delete compileJavacc
+tasks.register('cleanJavacc', Delete) {
+    description 'Cleans the javacc generated files.'
+    delete compileJavacc
 }
 
 pmd {
