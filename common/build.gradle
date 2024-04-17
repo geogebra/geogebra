@@ -62,15 +62,15 @@ tasks.register('versionBump') {
                 version = line.substring(matcher.start(1), matcher.end(1))
             }
         }
-        def parts = version.split("\\.").collect({ f -> Integer.parseInt(f) });
-        parts[2]++;
-        parts[3] = 0;
-        version = parts[0] + "." + parts[1] + "." + parts[2] + "." + parts[3];
-        String t = constants.getText();
-        DateFormat df = new SimpleDateFormat("dd MMMM Y", Locale.US);
-        t = t.replaceAll("BUILD_DATE.*", "BUILD_DATE = \"" + df.format(new Date()) + "\";");
-        t = t.replaceAll("final String VERSION_STRING.*", "final String VERSION_STRING = \"" + version + "\";");
-        constants.text = t;
+        def parts = version.split("\\.").collect({ f -> Integer.parseInt(f) })
+        parts[2]++
+        parts[3] = 0
+        version = parts[0] + "." + parts[1] + "." + parts[2] + "." + parts[3]
+        String t = constants.getText()
+        DateFormat df = new SimpleDateFormat("dd MMMM Y", Locale.US)
+        t = t.replaceAll("BUILD_DATE.*", "BUILD_DATE = \"" + df.format(new Date()) + "\";")
+        t = t.replaceAll("final String VERSION_STRING.*", "final String VERSION_STRING = \"" + version + "\";")
+        constants.text = t
         // version.txt for Jenkins build number
         file("build/").mkdirs()
         file("build/version.txt").text = version

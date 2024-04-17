@@ -79,12 +79,14 @@ run {
     }
 
 }
+
 test {
     systemProperty "ggb.prerelease", project.findProperty("prerelease") ?: "true";
 
     ignoreFailures = true
     outputs.upToDateWhen { false }
 }
+
 spotbugs {
     ignoreFailures = true
     excludeFilter = file("../config/spotbugs.xml")
@@ -104,7 +106,8 @@ jar {
     }
 }
 
-task debugJars(type: Zip, dependsOn: 'jar') {
+tasks.register('debugJars', Zip) {
+    dependsOn 'jar'
     description = 'Collect all jar files in a single archive. Fast: no proguard or code signing.'
     archiveBaseName = 'jars'
     destinationDirectory = file('build')
@@ -121,7 +124,7 @@ task debugJars(type: Zip, dependsOn: 'jar') {
 
 tasks['checkstyleMain'].setSource(files([]))
 
-task e2eTest(type: Test) {
+tasks.register('e2eTest', Test) {
     description 'Run end-to-end tests'
     testClassesDirs = sourceSets.e2eTest.output.classesDirs
     classpath = sourceSets.e2eTest.runtimeClasspath

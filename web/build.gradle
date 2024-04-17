@@ -151,7 +151,7 @@ gwt {
     maxHeapSize = '2000M'
 
     jsInteropExports {
-        shouldGenerate = true;
+        shouldGenerate = true
     }
 
     compiler {
