@@ -52,7 +52,7 @@ public final class IntersectPolyCurvesAndLine {
 		private final List<PolyCurveParams> params = new ArrayList<>();
 
 		public void add(double root, PolyCurveParams polyCurveParams) {
-			if (root == 0 || roots.contains(root)) {
+			if (roots.contains(root)) {
 				return;
 			}
 
@@ -94,13 +94,13 @@ public final class IntersectPolyCurvesAndLine {
 					spline.getFunctionExpressionY(i),
 					functionVariable, coefficients);
 			params.multiplyWithLine();
-			findRoots(params, i);
+			findRoots(params);
 		}
 
 		output.updatePoint(functionVariable, outputPoints);
 	}
 
-	private void findRoots(PolyCurveParams params, int polyCurveIdx) {
+	private void findRoots(PolyCurveParams params) {
 		GeoFunction function1 = params.buildFunctionX(functionVariable);
 		Solution solution = new Solution();
 
@@ -110,27 +110,33 @@ public final class IntersectPolyCurvesAndLine {
 		solution.sortAndMakeUnique();
 
 		if (solution.curRoots != null) {
-			collectRoots(params, polyCurveIdx, solution);
+			collectRoots(params, solution);
 		}
 	}
 
-	private void collectRoots(PolyCurveParams params, int polyCurveIdx, Solution solution) {
+	private void collectRoots(PolyCurveParams params, Solution solution) {
 		for (int j = 0; j < solution.curRealRoots; j++) {
-			double root = solution.curRoots[polyCurveIdx];
+			double root = solution.curRoots[j];
 			if (isRootMatching(root)) {
 				output.add(root, params);
+				return;
 			}
 		}
 	}
 
 	private boolean isRootMatching(double root) {
-		for (int i = 0; i < conditions.size(); i++) {
-			functionVariable.set(root);
-			if (isConditionalHoldsAt(i)) {
+		functionVariable.set(root);
+		if (root > 0 && isConditionalHoldsAt(0)) {
+			return true;
+		}
+
+		for (int i = 1;  i < conditions.size() - 1; i++) {
+			if (isConditionalHoldsAt(i) && !isConditionalHoldsAt(i -1)) {
 				return true;
 			}
 		}
-		return false;
+
+		return root < 1 && isConditionalHoldsAt(conditions.size() - 1);
 	}
 
 	private boolean isConditionalHoldsAt(int idx) {
