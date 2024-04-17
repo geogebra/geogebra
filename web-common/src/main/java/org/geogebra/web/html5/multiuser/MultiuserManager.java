@@ -84,6 +84,16 @@ public final class MultiuserManager implements EventListener {
 		}
 	}
 
+	/**
+	 * @param view view
+	 * @param graphics canvas to paint on
+	 */
+	public void paintInteractionBackgrounds(EuclidianView view, GGraphics2D graphics) {
+		for (User user : activeInteractions.values()) {
+			user.paintInteractionBackgrounds(view, graphics);
+		}
+	}
+
 	@Override
 	public void sendEvent(Event evt) {
 		if (evt.type == EventType.RENAME) {
