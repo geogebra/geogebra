@@ -3,8 +3,8 @@ plugins {
     id 'maven-publish'
     id 'pmd'
     id 'checkstyle'
-    id "com.github.spotbugs" version "5.2.5"
-    id 'org.javacc.javacc' version '3.0.0'
+    alias libs.plugins.spotbugs
+    alias libs.plugins.javacc
 }
 
 group 'com.himamis.retex'
@@ -19,10 +19,10 @@ publishing {
 }
 
 dependencies {
-	javacc 'net.java.dev.javacc:javacc:7.0.13'
+	javacc libs.javacc
 	api project(':renderer-base')
-    implementation 'com.google.j2objc:annotations:2.8'
-    testImplementation "junit:junit:$junitVersion"
+    implementation libs.j2objc.annotations
+    testImplementation libs.junit
 }
 
 sourceSets.main.java.srcDirs += [compileJavacc.outputDirectory, compileJavacc.inputDirectory]

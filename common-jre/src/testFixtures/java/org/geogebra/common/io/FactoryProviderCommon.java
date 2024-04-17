@@ -18,12 +18,14 @@ public class FactoryProviderCommon extends FactoryProvider {
 
 	@Override
 	protected FontFactory createFontFactory() {
-		return mock(FontFactory.class, withSettings().defaultAnswer(RETURNS_MOCKS));
+		return mock(FontFactory.class, withSettings().defaultAnswer(
+				RETURNS_MOCKS));
 	}
 
 	@Override
 	protected GraphicsFactory createGraphicsFactory() {
-		return mock(GraphicsFactory.class, withSettings().defaultAnswer(RETURNS_MOCKS));
+		return mock(GraphicsFactory.class, withSettings().defaultAnswer(
+				RETURNS_MOCKS));
 	}
 
 }

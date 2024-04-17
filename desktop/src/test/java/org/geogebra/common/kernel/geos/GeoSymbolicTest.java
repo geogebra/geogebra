@@ -24,7 +24,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
-import org.geogebra.common.gui.view.algebra.AlgebraItemTest;
 import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
@@ -2035,7 +2034,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	/**
-	 * like {@link AlgebraItemTest#testIsGeoFraction}, but for GeoSymbolic
+	 * like AlgebraItemTest:testIsGeoFraction, but for GeoSymbolic
 	 */
 	@Test
 	public void testIsGeoFraction() {

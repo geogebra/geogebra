@@ -617,7 +617,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	 *            other geo
 	 * @return true if geo depends on this object.
 	 */
-	public boolean isParentOf(final GeoElementND geo);
+	public boolean isParentOf(GeoElementND geo);
 
 	/**
 	 * removes this GeoElement and all its dependents
@@ -1345,7 +1345,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	 * @return all free parent points of this GeoElement.
 	 */
 	public ArrayList<GeoElementND> getFreeInputPoints(
-			final EuclidianViewInterfaceSlim view);
+			EuclidianViewInterfaceSlim view);
 
 	/**
 	 * Returns whether this object's class implements the interface
@@ -1448,7 +1448,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	 * 
 	 * @return true if state is changed
 	 */
-	public boolean setHighlighted(final boolean flag);
+	boolean setHighlighted(boolean flag);
 
 	/**
 	 * Also copy advanced settings of this object.
