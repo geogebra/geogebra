@@ -58,7 +58,7 @@ public abstract class TTFFont {
 
 	/**
 	 * Reads all tables. This method does not need to be called since the tables
-	 * are read on demand (<tt>getTable()</tt>. It might be useful to call it in
+	 * are read on demand ({@code getTable()}. It might be useful to call it in
 	 * order to print out all available information.
 	 */
 	public void readAll() throws IOException {

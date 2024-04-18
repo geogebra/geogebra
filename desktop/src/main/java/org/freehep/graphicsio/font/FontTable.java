@@ -92,7 +92,7 @@ public abstract class FontTable {
 	/**
 	 * Called whenever a specific font is used for the first time. Subclasses
 	 * may use this method to include the font instantly. This method may change
-	 * the value of the reference by calling <tt>e.setReference(String)</tt>
+	 * the value of the reference by calling {@code e.setReference(String)}
 	 * e.g. if it wants to substitute the font by a standard font that can be
 	 * addressed under a name different from the generated one.
 	 */
@@ -215,7 +215,7 @@ public abstract class FontTable {
 
 	/**
 	 * Returns a Collection view of all fonts. The elements of the collection
-	 * are <tt>Entrie</tt>s.
+	 * are {@code Entrie}s.
 	 */
 	public Collection getEntries() {
 		return table.values();

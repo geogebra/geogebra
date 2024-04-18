@@ -60,7 +60,6 @@ import org.geogebra.desktop.util.UtilD;
  *    The Api the plugin program can use.
  * </pre>
  * <ul>
- * <h4>Interface:</h4>
  * <li>GgbAPI(Application) //Application owns it
  * <li>getApplication()
  * <li>getKernel()
