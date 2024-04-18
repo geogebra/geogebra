@@ -94,15 +94,14 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 	@Override
 	public void compute() {
 		Coords coeffs = line.getCoords();
-		PolyCurveParams params = new PolyCurveParams(curve, coeffs);
-
-		params.multiplyWithLine();
 
 		if (curve.isSpline()) {
 			IntersectPolyCurvesAndLine polyCurvesAndLine =
 					new IntersectPolyCurvesAndLine(curve, coeffs);
 			polyCurvesAndLine.compute(getOutputPoints());
 		} else {
+			PolyCurveParams params = new PolyCurveParams(curve, coeffs);
+			params.multiplyWithLine();
 			findIntersections(params.getEnX(), params.functionVariable);
 		}
 	}

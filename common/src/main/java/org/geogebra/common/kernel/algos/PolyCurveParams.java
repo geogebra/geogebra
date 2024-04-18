@@ -14,6 +14,8 @@ class PolyCurveParams {
 	ExpressionNode xFun;
 	ExpressionNode yFun;
 	FunctionVariable functionVariable;
+	private double xNorm;
+	private double yNorm;
 
 	public PolyCurveParams(ExpressionNode xFun,
 			ExpressionNode yFun, FunctionVariable functionVariable, Coords coeffs) {
@@ -21,6 +23,10 @@ class PolyCurveParams {
 		this.yFun = yFun;
 		this.functionVariable = functionVariable;
 		this.coeffs = coeffs;
+		if (!DoubleUtil.isZero(coeffs.getZ())) {
+			xNorm = coeffs.getX() / coeffs.getZ();
+			yNorm = coeffs.getY() / coeffs.getZ();
+		}
 
 	}
 
@@ -38,8 +44,8 @@ class PolyCurveParams {
 			enx = enx.plus(eny);
 		} else {
 			// Normalizing to (a/c)x + (b/c)y + 1 seems to work better
-			enx = xFun.multiply(coeffs.getX() / coeffs.getZ());
-			eny = yFun.multiply(coeffs.getY() / coeffs.getZ());
+			enx = xFun.multiply(xNorm);
+			eny = yFun.multiply(yNorm);
 			enx = enx.plus(eny).plus(1);
 		}
 

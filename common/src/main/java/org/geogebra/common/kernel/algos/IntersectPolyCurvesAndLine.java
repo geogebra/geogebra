@@ -68,7 +68,7 @@ public final class IntersectPolyCurvesAndLine {
 				functionVariable.set(roots.get(index));
 				ExpressionNode xFun1 = params.get(index).xFun;
 				ExpressionNode yFun1 = params.get(index).yFun;
-				point.setCoords(xFun1.evaluateDouble(), yFun1.evaluateDouble(), 1, 1.0);
+				point.setCoords(xFun1.evaluateDouble(), yFun1.evaluateDouble(), 0, 1.0);
 			}
 		}
 	}
@@ -124,8 +124,9 @@ public final class IntersectPolyCurvesAndLine {
 			}
 		}
 
-		if (output.roots.isEmpty() && hasElseInIfList()) {
-			output.add(solution.curRoots[0], params);
+		double root = solution.curRoots[0];
+		if (output.roots.isEmpty() && hasElseInIfList() && root > 0 && root <= 1) {
+			output.add(root, params);
 		}
 	}
 
@@ -135,7 +136,7 @@ public final class IntersectPolyCurvesAndLine {
 
 	private boolean isRootMatching(double root, int i) {
 		functionVariable.set(root);
-		if (i == 0 && root >= 0 && isConditionalHoldsAt(i)) {
+		if (i == 0 && root > 0 && isConditionalHoldsAt(i)) {
 			return true;
 		}
 
