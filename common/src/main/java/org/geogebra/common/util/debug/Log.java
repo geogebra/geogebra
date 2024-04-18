@@ -59,8 +59,7 @@ public abstract class Log {
 		FILE,
 		/**
 		 * Sends logging to console. Messages <= ERROR will be written to
-		 * STDERR, others to STDOUT in desktop mode; sends log messages via
-		 * GWT.log to the Eclipse console in web development mode.
+		 * STDERR, others to STDOUT in desktop mode; in Web console.(log|info|warn|error) is used
 		 */
 		CONSOLE
 	}
