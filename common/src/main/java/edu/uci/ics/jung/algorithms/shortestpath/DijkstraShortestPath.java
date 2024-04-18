@@ -16,8 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.commons.collections15.Transformer;
+import java.util.function.Function;
 
 import edu.uci.ics.jung.graph.Graph;
 
@@ -56,7 +55,7 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 *            specifies whether the results are to be cached
 	 */
 	public DijkstraShortestPath(Graph<V, E> g,
-			Transformer<E, ? extends Number> nev, boolean cached) {
+			Function<E, ? extends Number> nev, boolean cached) {
 		super(g, nev, cached);
 	}
 
@@ -72,7 +71,7 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 *            the class responsible for returning weights for edges
 	 */
 	public DijkstraShortestPath(Graph<V, E> g,
-			Transformer<E, ? extends Number> nev) {
+			Function<E, ? extends Number> nev) {
 		super(g, nev);
 	}
 

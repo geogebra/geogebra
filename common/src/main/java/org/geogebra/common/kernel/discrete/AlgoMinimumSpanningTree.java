@@ -3,8 +3,8 @@ package org.geogebra.common.kernel.discrete;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.function.Function;
 
-import org.apache.commons.collections15.Transformer;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
@@ -28,7 +28,7 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 	/** number of edges */
 	protected int edgeCount;
 
-	private static Transformer<TreeLink, Double> wtTransformer = link -> link.weight;
+	private static Function<TreeLink, Double> wtTransformer = link -> link.weight;
 
 	/**
 	 * @param cons
