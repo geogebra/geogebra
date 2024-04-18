@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 
 public class StreamUtil {
@@ -30,7 +30,7 @@ public class StreamUtil {
 	 */
 	public static String loadIntoString(InputStream is) {
 		BufferedReader reader = new BufferedReader(
-				new InputStreamReader(is, Charsets.getUtf8()));
+				new InputStreamReader(is, StandardCharsets.UTF_8));
 		StringBuilder sb = new StringBuilder();
 
 		String line;

@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-     testImplementation "junit:junit:$junitVersion"
+     testImplementation libs.junit
 }
 
 pmd {

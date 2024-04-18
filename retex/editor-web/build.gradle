@@ -1,17 +1,17 @@
+import org.docstr.gradle.plugins.gwt.GwtDev
+
 plugins {
 	id 'java-library'
-	id 'eclipse'
 	id 'pmd'
 	id 'checkstyle'
-	id 'org.docstr.gwt' version '1.1.26'
+	alias libs.plugins.gwt
 }
 
 evaluationDependsOn ':renderer-web'
 evaluationDependsOn ':editor-base'
-ext.gwtCompilerVersion = project(':renderer-web').gwtCompilerVersion
 
 gwt {
-	gwtVersion gwtCompilerVersion
+	gwtVersion libs.versions.gwt.get()
 	maxHeapSize = '2000M'
 	// only compilable module
 	modules 'com.himamis.retex.editor.JLMEditorExportedLibrary'
@@ -35,43 +35,38 @@ dependencies {
 		files(project(':editor-base').sourceSets.main.allSource.srcDirs),
 		files(project(':renderer-web').sourceSets.main.allSource.srcDirs),
 		files(project(':gwtutil').sourceSets.main.allSource.srcDirs),
-		"org.gwtproject:gwt-dev:$gwtCompilerVersion",
-		"org.gwtproject:gwt-user:$gwtCompilerVersion"
-	testImplementation "org.gwtproject:gwt-user:$gwtCompilerVersion",
-			'org.gwtproject.dom:gwt-dom:1.0.0-RC2'
+			libs.gwt.dev, libs.gwt.user
+
+	testImplementation libs.gwt.user,libs.gwt.dom
 
 }
 
-task run(type: org.docstr.gradle.plugins.gwt.GwtDev, dependsOn: ['jar']) {
+tasks.register('run', GwtDev) {
+	dependsOn 'jar'
 	war = file('war')
 	description 'Starts a codeserver, and a simple webserver for development'
 }
 
-task jarAll(type: Jar) {
-	classifier = 'all'
+tasks.register('jarAll', Jar) {
+	archiveClassifier = 'all'
 	from project.sourceSets.main.java
 	from project.sourceSets.main.output
 	from project(':renderer-base').sourceSets.main.java
 	from project(':renderer-base').sourceSets.main.output
 }
 
-task jarSources(type: Jar, dependsOn: classes) {
-	classifier = 'sources'
-    from sourceSets.main.allSource 
+tasks.register('jarSources', Jar) {
+	dependsOn classes
+	archiveClassifier = 'sources'
+	from sourceSets.main.allSource
 }
 
-// exclude from the eclipse classpath the java files in the resources dir
-eclipse.classpath.file { 
-	whenMerged { classpath ->
-		classpath.entries.find { entry -> entry.kind == 'src' && entry.path == 'src/main/resources' }.excludes = ['**/*.java']
-	}
-}
-
-task cleanDist(type: Delete) {
+tasks.register('cleanDist', Delete) {
 	delete 'dist'
 }
 
-task dist(type: Copy, dependsOn: cleanDist) {
+tasks.register('dist', Copy) {
+	dependsOn cleanDist
 	from compileGwt
 	into 'dist'
 	doLast {
@@ -88,9 +83,10 @@ task dist(type: Copy, dependsOn: cleanDist) {
 	}
 }
 
-task zipDist(type: Zip, dependsOn: dist) {
+tasks.register('zipDist', Zip) {
+	dependsOn dist
 	from 'dist/jlatexmath'
-	destinationDir file('dist/')
+	destinationDirectory = file('dist/')
 }
 
 def deleteDir(dir) {

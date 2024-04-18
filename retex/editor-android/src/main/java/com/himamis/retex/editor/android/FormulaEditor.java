@@ -1,5 +1,17 @@
 package com.himamis.retex.editor.android;
 
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.text.InputType;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.inputmethod.BaseInputConnection;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethodManager;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,18 +44,6 @@ import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.text.InputType;
-import android.util.AttributeSet;
-import android.view.View;
-import android.view.inputmethod.BaseInputConnection;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputConnection;
-import android.view.inputmethod.InputMethodManager;
-
 @SuppressWarnings({"ClassWithTooManyFields", "ClassWithTooManyMethods", "OverlyComplexClass", "OverlyCoupledClass"})
 public class FormulaEditor extends View implements MathField {
 
@@ -65,7 +65,7 @@ public class FormulaEditor extends View implements MathField {
     private static final int ALIGN_LEFT = 0;
     private static final int ALIGN_RIGHT = 1;
 
-    public static MetaModel sMetaModel = new MetaModel();
+    public final static MetaModel sMetaModel = new MetaModel();
     protected MathFieldInternal mMathFieldInternal;
     protected float mScale;
     private TeXIcon mTeXIcon;

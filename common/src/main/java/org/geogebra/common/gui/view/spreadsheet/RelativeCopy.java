@@ -1144,7 +1144,9 @@ public class RelativeCopy {
 		CommandLookupStrategy oldLookupStrategy = kernel.getCommandLookupStrategy();
 		try {
 			// this will be a new geo
-			kernel.setCommandLookupStrategy(CommandLookupStrategy.XML);
+			kernel.setCommandLookupStrategy(internal
+					? CommandLookupStrategy.XML
+					: CommandLookupStrategy.USER);
 			if (oldValue == null) {
 				GeoElementND ret = prepareNewValue(kernel, name, text);
 				kernel.setCommandLookupStrategy(oldLookupStrategy);

@@ -23,15 +23,15 @@ public class DistributionTypeProperty extends AbstractGroupedEnumeratedProperty<
 		setValues(
 				// Continouus
 				Dist.NORMAL, Dist.STUDENT, Dist.CHISQUARE, Dist.F, Dist.EXPONENTIAL, Dist.CAUCHY,
-				Dist.WEIBULL, Dist.GAMMA, Dist.LOGNORMAL, Dist.LOGISTIC,
+				Dist.WEIBULL, Dist.GAMMA, Dist.BETA, Dist.LOGNORMAL, Dist.LOGISTIC,
 				// Discrete
 				Dist.BINOMIAL, Dist.PASCAL, Dist.POISSON, Dist.HYPERGEOMETRIC);
 		setValueNames(
 				// Continouus
 				"Distribution.Normal", "Distribution.StudentT", "Distribution.ChiSquare",
 				"Distribution.F", "Distribution.Exponential", "Distribution.Cauchy",
-				"Distribution.Weibull", "Distribution.Gamma", "Distribution.Lognormal",
-				"Distribution.Logistic",
+				"Distribution.Weibull", "Distribution.Gamma", "Distribution.Beta",
+				"Distribution.Lognormal", "Distribution.Logistic",
 				// Discrete
 				"Distribution.Binomial", "Distribution.Pascal", "Distribution.Poisson",
 				"Distribution.Hypergeometric");

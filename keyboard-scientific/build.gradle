@@ -7,7 +7,7 @@ plugins {
 dependencies {
     api project(':keyboard-base')
 
-    testImplementation "junit:junit:$junitVersion"
+    testImplementation libs.junit
 }
 
 pmd {

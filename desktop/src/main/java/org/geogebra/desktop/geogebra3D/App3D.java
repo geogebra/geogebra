@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
-import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianController3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
@@ -50,7 +49,6 @@ import org.geogebra.desktop.gui.app.GeoGebraFrame3D;
 import org.geogebra.desktop.gui.layout.DockManagerD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
-import org.geogebra.desktop.main.settings.updater.FontSettingsUpdaterD;
 import org.geogebra.desktop.util.FrameCollector;
 
 /**
@@ -454,9 +452,4 @@ public class App3D extends AppD {
 		return super.handleSpaceKey();
 	}
 
-	@Override
-	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
-		return new SettingsUpdaterBuilder(this)
-				.withFontSettingsUpdater(new FontSettingsUpdaterD(this));
-	}
 }

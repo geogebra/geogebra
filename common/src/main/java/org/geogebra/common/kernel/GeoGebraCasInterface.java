@@ -67,7 +67,7 @@ public interface GeoGebraCasInterface {
 	 * @return whether command is available
 	 */
 
-	public boolean isCommandAvailable(final Command cmd);
+	boolean isCommandAvailable(Command cmd);
 
 	/**
 	 * Expands the given Giac expression and tries to get its polynomial
@@ -82,8 +82,7 @@ public interface GeoGebraCasInterface {
 	 *            variable
 	 * @return list of strings representing the coefficients
 	 */
-	public String[] getPolynomialCoeffs(final String exp,
-			final String variable);
+	String[] getPolynomialCoeffs(String exp, String variable);
 
 	/**
 	 * Evaluates an expression in GeoGebraCAS syntax.
@@ -144,8 +143,8 @@ public interface GeoGebraCasInterface {
 	 *            symbolic mode
 	 * @return command formated for current CAS
 	 */
-	public String getCASCommand(final String name,
-			final ArrayList<ExpressionNode> args, final boolean symbolic,
+	String getCASCommand(String name,
+			ArrayList<ExpressionNode> args, boolean symbolic,
 			StringTemplate tpl, SymbolicMode mode);
 
 	/**

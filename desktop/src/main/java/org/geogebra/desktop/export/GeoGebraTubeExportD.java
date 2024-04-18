@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.main.AppD;
@@ -208,7 +207,7 @@ public class GeoGebraTubeExportD {
 				if (responseCode == HttpURLConnection.HTTP_OK) {
 					// get response and read it into a string buffer
 					input = new BufferedReader(new InputStreamReader(
-							urlConn.getInputStream(), Charsets.getUtf8()));
+							urlConn.getInputStream(), StandardCharsets.UTF_8));
 
 					StringBuffer output = new StringBuffer();
 
@@ -260,7 +259,7 @@ public class GeoGebraTubeExportD {
 
 					BufferedReader errors = new BufferedReader(
 							new InputStreamReader(urlConn.getErrorStream(),
-									Charsets.getUtf8()));
+									StandardCharsets.UTF_8));
 					StringBuffer errorBuffer = new StringBuffer();
 
 					String line;

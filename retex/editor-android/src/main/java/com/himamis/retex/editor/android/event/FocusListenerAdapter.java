@@ -1,8 +1,8 @@
 package com.himamis.retex.editor.android.event;
 
-import com.himamis.retex.editor.share.event.FocusListener;
-
 import android.view.View;
+
+import com.himamis.retex.editor.share.event.FocusListener;
 
 public class FocusListenerAdapter implements View.OnFocusChangeListener {
 

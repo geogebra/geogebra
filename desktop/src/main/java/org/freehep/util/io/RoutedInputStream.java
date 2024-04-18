@@ -3,11 +3,10 @@ package org.freehep.util.io;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import org.geogebra.common.util.Charsets;
 
 /**
  * The RoutedInputStream allows the user to add a listener for a certain
@@ -224,8 +223,8 @@ public class RoutedInputStream extends InputStream {
 	 *            listener to inform about the route
 	 */
 	public void addRoute(String start, String end, RouteListener listener) {
-		addRoute(start.getBytes(Charsets.getUtf8()),
-				(end == null) ? null : end.getBytes(Charsets.getUtf8()),
+		addRoute(start.getBytes(StandardCharsets.UTF_8),
+				(end == null) ? null : end.getBytes(StandardCharsets.UTF_8),
 				listener);
 	}
 
@@ -247,8 +246,8 @@ public class RoutedInputStream extends InputStream {
 	 */
 	public void addRoute(byte[] start, byte[] end, RouteListener listener) {
 		for (Iterator i = routes.keySet().iterator(); i.hasNext();) {
-			String key = new String((byte[]) i.next(), Charsets.getUtf8());
-			String name = new String(start, Charsets.getUtf8());
+			String key = new String((byte[]) i.next(), StandardCharsets.UTF_8);
+			String name = new String(start, StandardCharsets.UTF_8);
 			if (key.startsWith(name) || name.startsWith(key)) {
 				throw new IllegalArgumentException("Route '" + name
 						+ "' cannot be added since it overlaps with '" + key

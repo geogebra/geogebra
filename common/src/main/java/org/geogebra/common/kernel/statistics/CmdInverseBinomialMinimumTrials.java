@@ -33,19 +33,15 @@ public class CmdInverseBinomialMinimumTrials extends CommandProcessor {
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 				AlgoInverseBinomialMinimumTrials algo =
 						new AlgoInverseBinomialMinimumTrials(
-								c.getLabel(),
 								cons ,
 								(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 								(GeoNumberValue) arg[2]);
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
-			} else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
 			} else {
-				throw argErr(c, arg[2]);
+				throw argErr(c, getBadArg(ok, arg));
 			}
 
 		case 4:

@@ -3,6 +3,8 @@ package org.geogebra.common.main.undo;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.ActionType;
 
@@ -13,13 +15,14 @@ public class UpdateStyleActionStore {
 
 	/**
 	 * @param geosAsList selected geos
+	 * @param undoManager undo manager
 	 */
-	public UpdateStyleActionStore(List<GeoElement> geosAsList) {
+	public UpdateStyleActionStore(List<GeoElement> geosAsList, @Nonnull UndoManager undoManager) {
 		this.geos = geosAsList;
 		for (GeoElement geo: geosAsList) {
 			initialStyleXML.add(geo.getStyleXML());
 		}
-		this.undoManager = geosAsList.get(0).getConstruction().getUndoManager();
+		this.undoManager = undoManager;
 	}
 
 	/**

@@ -5,10 +5,8 @@ import org.geogebra.common.kernel.statistics.CmdANOVA;
 import org.geogebra.common.kernel.statistics.CmdBernoulli;
 import org.geogebra.common.kernel.statistics.CmdBinomialDist;
 import org.geogebra.common.kernel.statistics.CmdBoxPlot;
-import org.geogebra.common.kernel.statistics.CmdCauchy;
 import org.geogebra.common.kernel.statistics.CmdCell;
 import org.geogebra.common.kernel.statistics.CmdCellRange;
-import org.geogebra.common.kernel.statistics.CmdChiSquared;
 import org.geogebra.common.kernel.statistics.CmdChiSquaredTest;
 import org.geogebra.common.kernel.statistics.CmdClasses;
 import org.geogebra.common.kernel.statistics.CmdColumn;
@@ -17,8 +15,6 @@ import org.geogebra.common.kernel.statistics.CmdContingencyTable;
 import org.geogebra.common.kernel.statistics.CmdCovariance;
 import org.geogebra.common.kernel.statistics.CmdDotPlot;
 import org.geogebra.common.kernel.statistics.CmdErlang;
-import org.geogebra.common.kernel.statistics.CmdExponential;
-import org.geogebra.common.kernel.statistics.CmdFDistribution;
 import org.geogebra.common.kernel.statistics.CmdFillCells;
 import org.geogebra.common.kernel.statistics.CmdFillColumn;
 import org.geogebra.common.kernel.statistics.CmdFillRow;
@@ -36,7 +32,6 @@ import org.geogebra.common.kernel.statistics.CmdFitSin;
 import org.geogebra.common.kernel.statistics.CmdFrequency;
 import org.geogebra.common.kernel.statistics.CmdFrequencyPolygon;
 import org.geogebra.common.kernel.statistics.CmdFrequencyTable;
-import org.geogebra.common.kernel.statistics.CmdGamma;
 import org.geogebra.common.kernel.statistics.CmdGeometricMean;
 import org.geogebra.common.kernel.statistics.CmdHarmonicMean;
 import org.geogebra.common.kernel.statistics.CmdHistogram;
@@ -44,19 +39,13 @@ import org.geogebra.common.kernel.statistics.CmdHistogramRight;
 import org.geogebra.common.kernel.statistics.CmdHyperGeometric;
 import org.geogebra.common.kernel.statistics.CmdInverseBinomial;
 import org.geogebra.common.kernel.statistics.CmdInverseBinomialMinimumTrials;
-import org.geogebra.common.kernel.statistics.CmdInverseCauchy;
-import org.geogebra.common.kernel.statistics.CmdInverseChiSquared;
-import org.geogebra.common.kernel.statistics.CmdInverseExponential;
-import org.geogebra.common.kernel.statistics.CmdInverseFDistribution;
-import org.geogebra.common.kernel.statistics.CmdInverseGamma;
 import org.geogebra.common.kernel.statistics.CmdInverseHyperGeometric;
 import org.geogebra.common.kernel.statistics.CmdInverseLogNormal;
 import org.geogebra.common.kernel.statistics.CmdInverseLogistic;
-import org.geogebra.common.kernel.statistics.CmdInverseNormal;
 import org.geogebra.common.kernel.statistics.CmdInversePascal;
 import org.geogebra.common.kernel.statistics.CmdInversePoisson;
-import org.geogebra.common.kernel.statistics.CmdInverseTDistribution;
-import org.geogebra.common.kernel.statistics.CmdInverseWeibull;
+import org.geogebra.common.kernel.statistics.CmdInverseRealDistribution1Param;
+import org.geogebra.common.kernel.statistics.CmdInverseRealDistribution2Params;
 import org.geogebra.common.kernel.statistics.CmdInverseZipf;
 import org.geogebra.common.kernel.statistics.CmdLineGraph;
 import org.geogebra.common.kernel.statistics.CmdLogNormal;
@@ -67,7 +56,6 @@ import org.geogebra.common.kernel.statistics.CmdMeanX;
 import org.geogebra.common.kernel.statistics.CmdMeanY;
 import org.geogebra.common.kernel.statistics.CmdMedian;
 import org.geogebra.common.kernel.statistics.CmdMode;
-import org.geogebra.common.kernel.statistics.CmdNormal;
 import org.geogebra.common.kernel.statistics.CmdNormalQuantilePlot;
 import org.geogebra.common.kernel.statistics.CmdOrdinalRank;
 import org.geogebra.common.kernel.statistics.CmdPMCC;
@@ -85,6 +73,8 @@ import org.geogebra.common.kernel.statistics.CmdRandomNormal;
 import org.geogebra.common.kernel.statistics.CmdRandomPoisson;
 import org.geogebra.common.kernel.statistics.CmdRandomPolynomial;
 import org.geogebra.common.kernel.statistics.CmdRandomUniform;
+import org.geogebra.common.kernel.statistics.CmdRealDistribution1Param;
+import org.geogebra.common.kernel.statistics.CmdRealDistribution2Params;
 import org.geogebra.common.kernel.statistics.CmdResidualPlot;
 import org.geogebra.common.kernel.statistics.CmdRootMeanSquare;
 import org.geogebra.common.kernel.statistics.CmdRow;
@@ -108,7 +98,6 @@ import org.geogebra.common.kernel.statistics.CmdStemPlot;
 import org.geogebra.common.kernel.statistics.CmdStepGraph;
 import org.geogebra.common.kernel.statistics.CmdStickGraph;
 import org.geogebra.common.kernel.statistics.CmdSumSquaredErrors;
-import org.geogebra.common.kernel.statistics.CmdTDistribution;
 import org.geogebra.common.kernel.statistics.CmdTMean2Estimate;
 import org.geogebra.common.kernel.statistics.CmdTMeanEstimate;
 import org.geogebra.common.kernel.statistics.CmdTTest;
@@ -119,7 +108,6 @@ import org.geogebra.common.kernel.statistics.CmdTiedRank;
 import org.geogebra.common.kernel.statistics.CmdTriangular;
 import org.geogebra.common.kernel.statistics.CmdUniform;
 import org.geogebra.common.kernel.statistics.CmdVariance;
-import org.geogebra.common.kernel.statistics.CmdWeibull;
 import org.geogebra.common.kernel.statistics.CmdZMean2Estimate;
 import org.geogebra.common.kernel.statistics.CmdZMean2Test;
 import org.geogebra.common.kernel.statistics.CmdZMeanEstimate;
@@ -129,6 +117,7 @@ import org.geogebra.common.kernel.statistics.CmdZProportion2Test;
 import org.geogebra.common.kernel.statistics.CmdZProportionEstimate;
 import org.geogebra.common.kernel.statistics.CmdZProportionTest;
 import org.geogebra.common.kernel.statistics.CmdZipf;
+import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 
 /**
  * class to split off some CmdXXX classes into another jar (for faster applet
@@ -303,8 +292,6 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 			return new CmdRandomBinomial(kernel);
 		case RandomPoisson:
 			return new CmdRandomPoisson(kernel);
-		case Normal:
-			return new CmdNormal(kernel);
 		case LogNormal:
 			return new CmdLogNormal(kernel);
 		case InverseLogNormal:
@@ -313,8 +300,6 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 			return new CmdLogistic(kernel);
 		case InverseLogistic:
 			return new CmdInverseLogistic(kernel);
-		case InverseNormal:
-			return new CmdInverseNormal(kernel);
 		case BinomialDist:
 			return new CmdBinomialDist(kernel);
 		case Bernoulli:
@@ -323,30 +308,32 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 			return new CmdInverseBinomial(kernel);
 		case InverseBinomialMinimumTrials:
 			return new CmdInverseBinomialMinimumTrials(kernel);
-		case TDistribution:
-			return new CmdTDistribution(kernel);
-		case InverseTDistribution:
-			return new CmdInverseTDistribution(kernel);
-		case FDistribution:
-			return new CmdFDistribution(kernel);
-		case InverseFDistribution:
-			return new CmdInverseFDistribution(kernel);
+		case Normal:
 		case Gamma:
-			return new CmdGamma(kernel);
-		case InverseGamma:
-			return new CmdInverseGamma(kernel);
+		case BetaDist:
+		case FDistribution:
 		case Cauchy:
-			return new CmdCauchy(kernel);
+		case Weibull:
+			return new CmdRealDistribution2Params(kernel,
+					ProbabilityCalculatorSettings.Dist.forCommand(c));
+		case InverseNormal:
+		case InverseBeta:
+		case InverseGamma:
+		case InverseFDistribution:
 		case InverseCauchy:
-			return new CmdInverseCauchy(kernel);
-		case ChiSquared:
-			return new CmdChiSquared(kernel);
-		case InverseChiSquared:
-			return new CmdInverseChiSquared(kernel);
+		case InverseWeibull:
+			return new CmdInverseRealDistribution2Params(kernel,
+					ProbabilityCalculatorSettings.Dist.forInverse(c));
+		case TDistribution:
 		case Exponential:
-			return new CmdExponential(kernel);
+		case ChiSquared:
+			return new CmdRealDistribution1Param(kernel,
+					ProbabilityCalculatorSettings.Dist.forCommand(c));
 		case InverseExponential:
-			return new CmdInverseExponential(kernel);
+		case InverseChiSquared:
+		case InverseTDistribution:
+			return new CmdInverseRealDistribution1Param(kernel,
+					ProbabilityCalculatorSettings.Dist.forInverse(c));
 		case HyperGeometric:
 			return new CmdHyperGeometric(kernel);
 		case InverseHyperGeometric:
@@ -359,10 +346,6 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 			return new CmdPoisson(kernel);
 		case InversePoisson:
 			return new CmdInversePoisson(kernel);
-		case Weibull:
-			return new CmdWeibull(kernel);
-		case InverseWeibull:
-			return new CmdInverseWeibull(kernel);
 		case Zipf:
 			return new CmdZipf(kernel);
 		case InverseZipf:

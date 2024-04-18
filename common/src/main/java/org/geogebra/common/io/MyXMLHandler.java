@@ -3596,8 +3596,6 @@ public class MyXMLHandler implements DocHandler {
 						((ExpressionNode) ve).setForceInequality();
 					} else if ("surfacecartesian".equals(type)) {
 						((ExpressionNode) ve).setForceSurfaceCartesian();
-					} else if ("list".equals(type)) {
-						((ExpressionNode) ve).setForceList();
 					}
 				} else if (ve instanceof Equation) {
 					if ("line".equals(type)) {
@@ -3618,9 +3616,9 @@ public class MyXMLHandler implements DocHandler {
 					}
 				}
 			}
-			boolean isTableXValues = label != null && xValuesLabel != null
-					&& label.equals(xValuesLabel);
-			SymbolicMode mode = isTableXValues ? SymbolicMode.NONE : kernel.getSymbolicMode();
+			boolean forceNonSymbolic = (label != null &&  label.equals(xValuesLabel))
+					|| (type != null && !"symbolic".equals(type));
+			SymbolicMode mode = forceNonSymbolic ? SymbolicMode.NONE : kernel.getSymbolicMode();
 
 			GeoElementND[] result = getAlgProcessor()
 					.processValidExpression(ve,

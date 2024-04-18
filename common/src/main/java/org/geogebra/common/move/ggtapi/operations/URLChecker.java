@@ -10,7 +10,7 @@ public interface URLChecker {
 	 * @param url      URL
 	 * @param callback webpage status handler handler
 	 */
-	void check(final String url, final AsyncOperation<URLStatus> callback);
+	void check(String url, AsyncOperation<URLStatus> callback);
 
 	/**
 	 * @return whether X-Frame / CSP headers are read by this checker

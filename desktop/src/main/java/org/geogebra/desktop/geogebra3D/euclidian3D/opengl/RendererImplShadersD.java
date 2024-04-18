@@ -1,5 +1,7 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
+import java.nio.charset.StandardCharsets;
+
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
@@ -11,7 +13,6 @@ import org.geogebra.common.geogebra3D.main.FragmentShader;
 import org.geogebra.common.geogebra3D.main.VertexShader;
 import org.geogebra.common.jre.openGL.GLBufferIndicesJre;
 import org.geogebra.common.jre.openGL.GLBufferJre;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
@@ -107,7 +108,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 					logLength[0], (int[]) null, 0, log, 0);
 
 			Log.error("Error compiling the vertex shader: "
-					+ new String(log, Charsets.getUtf8()));
+					+ new String(log, StandardCharsets.UTF_8));
 			AppD.exit(1);
 		}
 
@@ -133,7 +134,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 					logLength[0], (int[]) null, 0, log, 0);
 
 			Log.error("Error compiling the fragment shader: "
-					+ new String(log, Charsets.getUtf8()));
+					+ new String(log, StandardCharsets.UTF_8));
 			AppD.exit(1);
 		}
 
