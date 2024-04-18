@@ -14,7 +14,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.apache.commons.collections15;
+package edu.uci.ics.jung.collections;
 
 import java.util.Collection;
 
@@ -33,7 +33,7 @@ import java.util.Collection;
  * This interface does not specify any behavior for
  * {@link Object#equals(Object)} and {@link Object#hashCode} methods. It is
  * therefore possible for a <code>Buffer</code> implementation to also also
- * implement {@link java.util.List}, {@link java.util.Set} or {@link Bag}.
+ * implement {@link java.util.List}, {@link java.util.Set}.
  *
  * @author Avalon
  * @author Berin Loritsch

@@ -29,8 +29,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.commons.collections15.Factory;
+import java.util.function.Supplier;
 
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.graph.util.Pair;
@@ -50,11 +49,11 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 	 * @param <E>
 	 *            the edge type for the graph factory
 	 */
-	public static <V, E> Factory<UndirectedGraph<V, E>> getFactory() {
-		return new Factory<UndirectedGraph<V, E>>() {
+	public static <V, E> Supplier<UndirectedGraph<V, E>> getFactory() {
+		return new Supplier<UndirectedGraph<V, E>>() {
 
 			@Override
-			public UndirectedGraph<V, E> create() {
+			public UndirectedGraph<V, E> get() {
 				return new UndirectedSparseMultigraph<V, E>();
 			}
 		};

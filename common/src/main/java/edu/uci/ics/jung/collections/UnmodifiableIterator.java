@@ -14,11 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.collections15.iterators;
+package edu.uci.ics.jung.collections;
 
 import java.util.Iterator;
-
-import org.apache.commons.collections15.Unmodifiable;
 
 /**
  * Decorates an iterator such that it cannot be modified.
@@ -31,7 +29,7 @@ import org.apache.commons.collections15.Unmodifiable;
  * @author Stephen Colebourne
  */
 public final class UnmodifiableIterator<E>
-		implements Iterator<E>, Unmodifiable {
+		implements Iterator<E> {
 
 	/** The iterator being decorated */
 	private final Iterator<E> iterator;
@@ -51,10 +49,10 @@ public final class UnmodifiableIterator<E>
 		if (iterator == null) {
 			throw new IllegalArgumentException("Iterator must not be null");
 		}
-		if (iterator instanceof Unmodifiable) {
+		if (iterator instanceof UnmodifiableIterator) {
 			return iterator;
 		}
-		return new UnmodifiableIterator<E>(iterator);
+		return new UnmodifiableIterator<>(iterator);
 	}
 
 	// -----------------------------------------------------------------------
