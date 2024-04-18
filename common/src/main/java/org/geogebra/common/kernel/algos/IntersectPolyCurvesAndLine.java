@@ -47,7 +47,7 @@ public final class IntersectPolyCurvesAndLine {
 		}
 	}
 
-	private static class Output {
+	private class Output {
 		private final List<Double> roots = new ArrayList<>();
 		private final List<PolyCurveParams> params = new ArrayList<>();
 
@@ -111,32 +111,41 @@ public final class IntersectPolyCurvesAndLine {
 
 		if (solution.curRoots != null) {
 			collectRoots(params, solution);
+
 		}
 	}
 
 	private void collectRoots(PolyCurveParams params, Solution solution) {
-		for (int j = 0; j < solution.curRealRoots; j++) {
-			double root = solution.curRoots[j];
-			if (isRootMatching(root)) {
+		for (int i = 0; i < solution.curRealRoots; i++) {
+			double root = solution.curRoots[i];
+			if (isRootMatching(root, i)) {
 				output.add(root, params);
-				return;
+				break;
 			}
+		}
+
+		if (output.roots.isEmpty() && hasElseInIfList()) {
+			output.add(solution.curRoots[0], params);
 		}
 	}
 
-	private boolean isRootMatching(double root) {
+	private boolean hasElseInIfList() {
+		return conditions.size() < spline.xCurves.size();
+	}
+
+	private boolean isRootMatching(double root, int i) {
 		functionVariable.set(root);
-		if (root >= 0 && isConditionalHoldsAt(0)) {
+		if (i == 0 && root >= 0 && isConditionalHoldsAt(i)) {
 			return true;
 		}
 
-		for (int i = 1;  i < conditions.size() - 1; i++) {
-			if (isConditionalHoldsAt(i) && !isConditionalHoldsAt(i -1)) {
+		if (i > 0 && i < conditions.size() - 1
+				&& isConditionalHoldsAt(i) && !isConditionalHoldsAt(i -1)) {
 				return true;
-			}
 		}
 
-		return root <= 1 && isConditionalHoldsAt(conditions.size() - 1);
+		return root <= 1 && i == conditions.size() - 1
+			&& isConditionalHoldsAt(i);
 	}
 
 	private boolean isConditionalHoldsAt(int idx) {
