@@ -123,7 +123,7 @@ final class Selection {
 		if (type == SelectionType.COLUMNS) {
 			return getSingleCellSelection(1, range.getFromColumn());
 		} else if (!extendSelection) {
-			return getSingleCellSelection(Math.min(range.getFromRow() + 1, numberOfRows),
+			return getSingleCellSelection(Math.min(range.getFromRow() + 1, numberOfRows - 1),
 					range.getFromColumn());
 		}
 
