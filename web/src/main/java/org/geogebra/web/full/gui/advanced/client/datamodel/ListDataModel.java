@@ -20,7 +20,7 @@ import java.util.Map;
 
 /**
  * This interface describes a list data model.
- * <p/>
+ * <p>
  * Each list data model should implement it. The interface provides several
  * methods for list items manipulation. Each list item is a pair of unique
  * <code>String</code> ID and an object to be displayed in the list.
@@ -42,8 +42,8 @@ public interface ListDataModel {
 
 	/**
 	 * This method adds a new item into the specified position.
-	 * <p/>
-	 * If the index < 0 it adds a new item into the 0 position. If the index >
+	 * <p>
+	 * If the index &lt; 0 it adds a new item into the 0 position. If the index &gt;
 	 * number of existing items it adds an item into the end of this list.
 	 *
 	 * @param index
@@ -120,8 +120,8 @@ public interface ListDataModel {
 
 	/**
 	 * This method sets a currently selected item specifying it by the index.
-	 * <p/>
-	 * If the index < 0 it deselects any item. If the index > then list size, it
+	 * <p>
+	 * If the index &lt; 0 it deselects any item. If the index &gt; then list size, it
 	 * selects the last item.
 	 *
 	 * @param index

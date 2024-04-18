@@ -13,7 +13,7 @@ import jsinterop.base.Js;
  * always specify a Base 10 Exponential(E). Standard formated numbers have the
  * number of digits specified by the significant digits (sigDig) parameter but
  * will not have a Base 10 Exponential(E) if the number of digits in the
- * mantissa <= maxWidth.
+ * mantissa &lt;= maxWidth.
  *
  * @author Paul Spence
  * @author Mark Donszelmann
@@ -93,7 +93,7 @@ public class ScientificFormat implements ScientificFormatAdapter {
 	 * and always specify a Base 10 Exponential(E). Standard formated numbers
 	 * have the number of digits specified by the significant digits (sigDig)
 	 * parameter but will not have a Base 10 Exponential(E) if the number of
-	 * digits in the mantissa <= maxWidth.
+	 * digits in the mantissa &lt;= maxWidth.
 	 * 
 	 * @param sciNote
 	 *            scientific notation flag

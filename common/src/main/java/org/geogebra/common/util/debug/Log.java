@@ -183,7 +183,7 @@ public abstract class Log {
 	}
 
 	/**
-	 * Prints a log message if the logLevel is set to <= level
+	 * Prints a log message if the logLevel is set to &lt;= level
 	 * 
 	 * @param level
 	 *            logging level

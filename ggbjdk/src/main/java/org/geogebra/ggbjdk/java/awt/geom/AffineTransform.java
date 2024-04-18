@@ -47,7 +47,7 @@ import org.geogebra.common.awt.GShape;
  *      [ y'] = [  m10  m11  m12  ] [ y ] = [ m10x + m11y + m12 ]
  *      [ 1 ]   [   0    0    1   ] [ 1 ]   [         1         ]
  * </pre>
- * <h3><a name="quadrantapproximation">Handling 90-Degree Rotations</a></h3>
+ * <h3>Handling 90-Degree Rotations</h3>
  * <p>
  * In some variations of the <code>rotate</code> methods in the
  * <code>AffineTransform</code> class, a double-precision argument
@@ -485,10 +485,7 @@ public class AffineTransform implements GAffineTransform {
      * @param Tx the <code>AffineTransform</code> object to copy
      * @since 1.2
      */
-    public AffineTransform(GAffineTransform Tx0) {
-    	
-    	AffineTransform Tx = (AffineTransform) Tx0;
-    	
+    public AffineTransform(AffineTransform Tx) {
         this.m00 = Tx.m00;
         this.m10 = Tx.m10;
         this.m01 = Tx.m01;
@@ -2135,16 +2132,14 @@ public class AffineTransform implements GAffineTransform {
     /**
      * Sets this transform to a copy of the transform in the specified
      * <code>AffineTransform</code> object.
-     * @param Tx the <code>AffineTransform</code> object from which to
+     * @param Tx0 the <code>AffineTransform</code> object from which to
      * copy the transform
      * @since 1.2
      */
     @Override
 	public void setTransform(GAffineTransform Tx0) {
-
-    	AffineTransform Tx = (AffineTransform) Tx0;
-    	
-    	this.m00 = Tx.m00;
+        AffineTransform Tx = (AffineTransform) Tx0;
+        this.m00 = Tx.m00;
         this.m10 = Tx.m10;
         this.m01 = Tx.m01;
         this.m11 = Tx.m11;
@@ -2195,7 +2190,7 @@ public class AffineTransform implements GAffineTransform {
      * <pre>
      *          [this] = [this] x [Tx]
      * </pre>
-     * @param Tx the <code>AffineTransform</code> object to be
+     * @param Tx0 the <code>AffineTransform</code> object to be
      * concatenated with this <code>AffineTransform</code> object.
      * @see #preConcatenate
      * @since 1.2
