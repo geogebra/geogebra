@@ -20,30 +20,58 @@ public final class IntersectPolyCurvesAndLine {
 	private final Kernel kernel;
 	private final Coords coefficients;
 	private final FunctionVariable functionVariable;
-	private final MyList conditions;
 	private final Spline spline;
 	private final Output output = new Output();
 
+	private static class Curve {
+		private final MyList conditions;
+		private final MyList values;
+
+		public Curve(ExpressionValue ifExpression) {
+			conditions = (MyList) ifExpression.wrap().getLeft();
+			values = (MyList) ifExpression.wrap().getRight();
+		}
+
+		boolean hasElse() {
+			return conditions.size() < values.size();
+		}
+	}
+
 	private static class Spline {
 
-		private final MyList xCurves;
-		private final MyList yCurves;
+		private final Curve curveX;
+		private final Curve curveY;
 
 		public Spline(ExpressionValue xCurves, ExpressionValue yCurves) {
-			this.xCurves = (MyList) xCurves;
-			this.yCurves = (MyList) yCurves;
+			curveX = new Curve(xCurves);
+			curveY = new Curve(yCurves);
 		}
 
 		public int size() {
-			return xCurves.size();
+			return curveX.conditions.size();
 		}
 
 		public ExpressionNode getFunctionExpressionX(int idx) {
-			return xCurves.getItem(idx).wrap();
+			return curveX.values.getItem(idx).wrap();
 		}
 
 		public ExpressionNode getFunctionExpressionY(int idx) {
-			return yCurves.getItem(idx).wrap();
+			return curveY.values.getItem(idx).wrap();
+		}
+
+		public ExpressionNode getCondition(int idx) {
+			return curveX.conditions.getItem(idx).wrap();
+		}
+
+		public boolean hasElse() {
+			return curveX.hasElse();
+		}
+
+
+		private boolean isTrueAt(int idx) {
+			ExpressionValue cond = getCondition(idx);
+			ExpressionValue val = cond.evaluate(StringTemplate.defaultTemplate);
+			return ((BooleanValue) val).getBoolean();
 		}
 	}
 
@@ -79,12 +107,9 @@ public final class IntersectPolyCurvesAndLine {
 
 		Function xFun = curve.getFun(0);
 		Function yFun = curve.getFun(1);
-		ExpressionNode xFunExpression = xFun.getExpression();
+		spline = new Spline(xFun.getExpression(), yFun.getExpression());
 
 		functionVariable = xFun.getFunctionVariable();
-		conditions = (MyList) xFunExpression.getLeft();
-		spline =
-				new Spline(xFunExpression.getRight(), yFun.getExpression().getRight());
 	}
 
 	public void compute(AlgoElement.OutputHandler<GeoPointND> outputPoints) {
@@ -125,33 +150,28 @@ public final class IntersectPolyCurvesAndLine {
 		}
 
 		double root = solution.curRoots[0];
-		if (output.roots.isEmpty() && hasElseInIfList() && root > 0 && root <= 1) {
+		if (output.roots.isEmpty() && spline.hasElse() && root > 0 && root <= 1) {
 			output.add(root, params);
 		}
 	}
 
-	private boolean hasElseInIfList() {
-		return conditions.size() < spline.xCurves.size();
-	}
 
 	private boolean isRootMatching(double root, int i) {
 		functionVariable.set(root);
-		if (i == 0 && root > 0 && isConditionalHoldsAt(i)) {
-			return true;
-		}
-
-		if (i > 0 && i < conditions.size() - 1
-				&& isConditionalHoldsAt(i) && !isConditionalHoldsAt(i -1)) {
+		if (i == 0 && root > 0) {
+			if (spline.isTrueAt(i)) {
 				return true;
+			}
 		}
 
-		return root <= 1 && i == conditions.size() - 1
-			&& isConditionalHoldsAt(i);
+		if (i > 0 && i < spline.size() - 1 && spline.isTrueAt(i)) {
+			if (!spline.isTrueAt(i - 1)) {
+				return true;
+			}
+		}
+
+		if (!(root <= 1) || i != spline.size() - 1) return false;
+		return spline.isTrueAt(i);
 	}
 
-	private boolean isConditionalHoldsAt(int idx) {
-		ExpressionValue cond = conditions.getItem(idx);
-		ExpressionValue val = cond.evaluate(StringTemplate.defaultTemplate);
-		return ((BooleanValue) val).getBoolean();
-	}
 }
