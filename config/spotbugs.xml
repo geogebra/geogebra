@@ -85,12 +85,6 @@
         </Or>
     </Match>
     <Match>
-        <Package name="~org\.mozilla.*" />
-    </Match>
-    <Match>
-        <Package name="~org\.apache.*" />
-    </Match>
-    <Match>
         <Package name="~edu\.uci.*" />
     </Match>
     <Match>
@@ -104,9 +98,6 @@
     </Match>
     <Match>
         <Package name="~org\.jfugue.*" />
-    </Match>
-    <Match>
-        <Package name="~com\.kitfox.*" />
     </Match>
 
 </FindBugsFilter>

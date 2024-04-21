@@ -15,6 +15,7 @@ dependencies {
     api libs.j2objc.annotations
     api libs.spotbugs.annotations
     api libs.findbugs.annotations
+    api libs.apache.math
 }
 
 sourceSets {
