@@ -9,7 +9,7 @@
     self = [super init];
     if (self) {
         NSString* bundlePath = [NSBundle geoGebraResourcesPath];
-        NSString* rendererBundlePath = [bundlePath stringByAppendingPathComponent:@"ReTeX/Renderer/Assets"];
+        NSString* rendererBundlePath = [bundlePath stringByAppendingPathComponent:@"Assets"];
         _bundle = [NSBundle bundleWithPath:rendererBundlePath];
     }
     return self;
