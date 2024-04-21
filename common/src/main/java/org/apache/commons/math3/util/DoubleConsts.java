@@ -1,4 +1,4 @@
-package org.geogebra.common.util;
+package org.apache.commons.math3.util;
 
 /*
  * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
