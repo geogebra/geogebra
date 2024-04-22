@@ -17,6 +17,7 @@ public class CategoryMenuPopup extends GPopupMenuW {
 	 * Menu popup for MOW toolbox
 	 * @param appW - application
 	 * @param tools - list of tools
+	 * @param iconButton - button
 	 */
 	public CategoryMenuPopup(AppW appW, List<Integer> tools, IconButtonWithMenu iconButton) {
 		super(appW);
