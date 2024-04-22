@@ -12,6 +12,7 @@ import org.geogebra.web.resources.SVGResource;
 public class IconButtonWithMenu extends IconButton {
 	private final AppW appW;
 	private final List<Integer> tools;
+	private boolean preventSelectMode = false;
 
 	/**
 	 * Constructor
@@ -36,7 +37,7 @@ public class IconButtonWithMenu extends IconButton {
 	}
 
 	private void initPopupAndShow() {
-		CategoryMenuPopup iconButtonPopup = new CategoryMenuPopup(appW, tools);
+		CategoryMenuPopup iconButtonPopup = new CategoryMenuPopup(appW, tools, this);
 		iconButtonPopup.show(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
 				(int) (getAbsoluteTop() - appW.getAbsTop()));
 		AriaHelper.setAriaExpanded(this, true);
@@ -44,7 +45,14 @@ public class IconButtonWithMenu extends IconButton {
 		iconButtonPopup.getPopupPanel().addCloseHandler(e -> {
 			deactivate();
 			AriaHelper.setAriaExpanded(this, false);
-			appW.setMode(MODE_SELECT_MOW);
+			if (!preventSelectMode) {
+				appW.setMode(MODE_SELECT_MOW);
+			}
+			preventSelectMode = false;
 		});
+	}
+
+	public void setPreventSelectMode(boolean preventSelectMode) {
+		this.preventSelectMode = preventSelectMode;
 	}
 }
