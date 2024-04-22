@@ -251,6 +251,26 @@ public class GgbApiTest {
 	}
 
 	@Test
+	public void setCoordsTest2D() {
+		api.evalCommand("A=(1,2)");
+		api.setCoords("A", 3, 4);
+		assertEquals("A = (3, 4)", api.getValueString("A"));
+	}
+
+	@Test
+	public void setCoordsTest3D() {
+		api.evalCommand("A=(1,2,3)");
+		api.setCoords("A", 3, 4, 5);
+		assertEquals("A = (3, 4, 5)", api.getValueString("A"));
+
+		api.evalCommand("stroke=PenStroke()");
+		api.setCoords("stroke", 1, 2, 3 , 4, Double.NaN, Double.NaN,
+				5, 6, 7, 8);
+		assertEquals("PenStroke[1.0000E0,2.0000E0,3.0000E0,4.0000E0,NaN,NaN,"
+				+ "5.0000E0,6.0000E0,7.0000E0,8.0000E0]", api.getCommandString("stroke"));
+	}
+
+	@Test
 	public void objectListenerShouldSurviveRedefine() {
 		MockScriptManager scriptManager = prepareScriptManager();
 
