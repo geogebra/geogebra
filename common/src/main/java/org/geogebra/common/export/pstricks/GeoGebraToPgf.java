@@ -2814,7 +2814,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			int grayscale = (red + green + blue) / 3;
 			GColor c = GColor.newColor(grayscale, grayscale, grayscale);
 			if (customColor.containsKey(c)) {
-				colorname = customColor.get(c).toString();
+				colorname = customColor.get(c);
 			} else {
 				if (c.equals(GColor.BLACK)) {
 					sb.append("black");
@@ -2861,7 +2861,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			}
 			String colorname = "";
 			if (customColor.containsKey(c0)) {
-				colorname = customColor.get(c0).toString();
+				colorname = customColor.get(c0);
 			} else {
 				int red = c0.getRed();
 				int green = c0.getGreen();

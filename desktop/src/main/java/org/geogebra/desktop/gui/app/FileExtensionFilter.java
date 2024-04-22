@@ -31,7 +31,7 @@ import org.geogebra.common.util.StringUtil;
  * image files:
  * <pre>
  * JFileChooser chooser = new JFileChooser(); MyFileFilter filter = new
- * MyFileFilter( new String{"gif", "jpg"}, "JPEG & GIF Images")
+ * MyFileFilter( new String{"gif", "jpg"}, "JPEG and GIF Images")
  * chooser.addChoosableFileFilter(filter); chooser.showOpenDialog(this);
  * </pre>
  */

@@ -5,7 +5,7 @@ import elemental2.media.AudioContext;
 import elemental2.media.AudioProcessingEvent;
 import elemental2.media.ScriptProcessorNode;
 
-public class WebAudioWrapper {
+public final class WebAudioWrapper {
 
 	private static WebAudioWrapper INSTANCE;
 

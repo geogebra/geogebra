@@ -89,15 +89,15 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 
 /**
- * main -> marblePanel content controls
+ * main -&gt; marblePanel content controls
  *
- * <p>content -> (definitionValuePanel | latexItem | canvas) ariaLabel
+ * <p>content -&gt; (definitionValuePanel | latexItem | canvas) ariaLabel
  *
- * <p>definitionValuePanel -> STRING | (definitionPanel outputPanel)
+ * <p>definitionValuePanel -&gt; STRING | (definitionPanel outputPanel)
  *
- * <p>outputPanel -> valuePanel
+ * <p>outputPanel -&gt; valuePanel
  *
- * <p>definitionPanel -> canvas | STRING
+ * <p>definitionPanel -&gt; canvas | STRING
  */
 public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		AutoCompleteW, RequiresResize, HasHelpButton, SetLabels, SyntaxTooltipUpdater,
@@ -205,7 +205,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	/**
-	 * context menu -> delete action
+	 * Handle context menu's delete action
 	 */
 	public void onClear() {
 		setText("");

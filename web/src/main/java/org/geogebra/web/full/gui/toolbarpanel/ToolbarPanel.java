@@ -1092,7 +1092,7 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	/**
-	 * @param style style to change color of header (teal -> ok, red -> cheating)
+	 * @param style style to change color of header (teal = ok, red = cheating)
 	 */
 	public void setHeaderStyle(String style) {
 		resetHeaderClasses();

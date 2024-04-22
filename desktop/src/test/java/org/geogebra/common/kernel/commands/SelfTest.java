@@ -6,6 +6,7 @@ import java.util.TreeSet;
 
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,9 +15,8 @@ public class SelfTest {
 	public void selfTest() {
 		AppDNoGui app = new AppDNoGui(new LocalizationD(3), false);
 		Set<String> methodNames = new TreeSet<>();
-		Class<?>[] classes = new Class[] { NoExceptionsTest.class,
-				CommandsTest.class, CommandsUsingCASTest.class,
-				ProveCommandTest.class };
+		Class<?>[] classes = new Class[]{CommandsTestCommon.class, CommandsUsingCASTest.class,
+				ProveCommandTest.class};
 		for (Class<?> c : classes) {
 			Method[] mtds = c.getMethods();
 			for (int i = 0; i < mtds.length; i++) {
@@ -32,7 +32,7 @@ public class SelfTest {
 							.getTable() != CommandsConstants.TABLE_ENGLISH
 					&& Commands.englishToInternal(a)
 							.getTable() != CommandsConstants.TABLE_CAS
-					&& !NoExceptionsTest.betaCommand(a, app)) {
+					&& !AlgebraTestHelper.betaCommand(a, app)) {
 				missing.append(a.getCommand());
 				missing.append("\n");
 			}

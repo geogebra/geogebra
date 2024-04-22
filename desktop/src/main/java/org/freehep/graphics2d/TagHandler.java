@@ -13,12 +13,12 @@ public class TagHandler {
 
 	/**
 	 * parses string and calls methods for every tag and every not recognized
-	 * entity The characters < and > have to be written as &lt; and &gt; while
-	 * the & is written as &amp;
+	 * entity The characters &lt; and &gt; have to be written as &amp;lt; and &amp;gt; while
+	 * the &amp; is written as &amp;amp;
 	 * 
-	 * The following three methods are called: defaultEntity(entity) for &amp;
-	 * &lt; &gt; &quot; &apos; entity(entity) for all other entities
-	 * openTag(tag) for all <tags> endTag(tag) for all </tags> text(text) for
+	 * The following three methods are called: defaultEntity(entity) for &amp;amp;
+	 * &amp;lt; &amp;gt; &amp;quot; &amp;apos; entity(entity) for all other entities
+	 * openTag(tag) for all &lt;tags&gt; endTag(tag) for all &lt;/tags&gt; text(text) for
 	 * all text
 	 * 
 	 * The startTag, endTag and text methods returns a string which is added to

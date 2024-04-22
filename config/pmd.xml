@@ -77,6 +77,7 @@
         <exclude name="UnnecessaryFullyQualifiedName"/>
         <exclude name="UseShortArrayInitializer"/>
         <exclude name="UnnecessaryCast"/>
+        <exclude name="EmptyControlStatement"/> <!-- handled by checkstyle -->
     </rule>
     <rule ref="category/java/design.xml">
         <exclude name="ImmutableField"/>
@@ -134,7 +135,6 @@
         <exclude name="UseLocaleWithCaseConversions"/>
         <exclude name="DataflowAnomalyAnalysis"/>
         <exclude name="AvoidLiteralsInIfCondition"/>
-        <exclude name="BeanMembersShouldSerialize"/>
         <exclude name="NullAssignment"/>
         <exclude name="EmptyIfStmt"/>
         <exclude name="AvoidDecimalLiteralsInBigDecimalConstructor"/>
@@ -143,6 +143,8 @@
         <exclude name="AssignmentInOperand"/>
         <exclude name="AvoidFieldNameMatchingMethodName"/>
         <exclude name="CloseResource"/>
+        <exclude name="NonSerializableClass"/>
+        <exclude name="TestClassWithoutTestCases"/>
     </rule>
     <rule ref="category/java/multithreading.xml">
         <exclude name="NonThreadSafeSingleton"/>

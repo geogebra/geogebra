@@ -82,10 +82,6 @@ import org.gwtproject.user.client.ui.Widget;
  * using the {@link #addSelectionHandler(SelectionHandler)} method.
  * </p>
  *
- * <p>
- * <img class='gallery' src='doc-files/SuggestBox.png'/>
- * </p>
- *
  * <h3>CSS Style Rules</h3>
  * <dl>
  * <dt>.gwt-SuggestBox</dt>

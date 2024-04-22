@@ -371,7 +371,7 @@ public abstract class Curve {
     /**
      * The rectangle intersection test counts the number of times
      * that the path crosses through the shadow that the rectangle
-     * projects to the right towards (x => +INFINITY).
+     * projects to the right towards (x =&gt; +INFINITY).
      *
      * During processing of the path it actually counts every time
      * the path crosses either or both of the top and bottom edges

@@ -1,10 +1,9 @@
 plugins {
-	id 'java-library'
+    id 'java-library'
 }
 
-project.setDescription('Parts of GeoGebra related to Java OpenGL')
+description 'Parts of GeoGebra related to Java OpenGL'
 
 dependencies {
-	api "org.jogamp.gluegen:gluegen-rt:$joglVersion"
-	api "org.jogamp.jogl:jogl-all:$joglVersion"
+    api libs.gluegen.rt, libs.jogl
 }

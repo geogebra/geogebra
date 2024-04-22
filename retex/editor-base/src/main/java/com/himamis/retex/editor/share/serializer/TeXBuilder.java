@@ -49,7 +49,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 /**
  * Directly convert MathComponents into atoms
  * 
- * @author Zbynek & Agoston
+ * @author Zbynek, Agoston
  *
  */
 public class TeXBuilder {

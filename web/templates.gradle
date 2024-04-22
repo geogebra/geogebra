@@ -13,7 +13,7 @@ def css = { directory, fileName ->
         }
     } else {
         String fileDir = "war/css/" + relPath
-        text = file(fileDir).text;
+        text = file(fileDir).text
     }
     return "<style id=\"ggbstyle_" + fileName + "\">" + text + "</style>\n";
 }

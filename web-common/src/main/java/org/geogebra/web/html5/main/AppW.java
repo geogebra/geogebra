@@ -1440,7 +1440,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Loads an image and puts it on the canvas (this happens on webcam input)
-	 * On drag&drop or insert from URL this would be called too, but that would
+	 * On drag &amp; drop or insert from URL this would be called too, but that would
 	 * set security exceptions
 	 *
 	 * @param url
@@ -1488,7 +1488,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * Loads an image and puts it on the canvas (this happens by drag & drop)
+	 * Loads an image and puts it on the canvas (this happens by drag &amp; drop)
 	 *
 	 * @param fileName
 	 *            - the file name of the image
