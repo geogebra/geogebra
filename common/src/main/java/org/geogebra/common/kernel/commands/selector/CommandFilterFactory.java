@@ -33,7 +33,8 @@ public final class CommandFilterFactory {
 	public static CommandFilter createGraphingCommandFilter() {
 		CommandFilter noCasCommandFilter = createNoCasCommandFilter();
 		CommandFilter tableFilter = new CommandTableFilter(CommandsConstants.TABLE_CONIC,
-				CommandsConstants.TABLE_TRANSFORMATION);
+				CommandsConstants.TABLE_TRANSFORMATION,
+				CommandsConstants.TABLE_3D);
 		CommandFilter nameFilter = createGraphingNameFilter();
 		CommandFilter composite = new CompositeCommandFilter(noCasCommandFilter,
 				tableFilter, nameFilter);

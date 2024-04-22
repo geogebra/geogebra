@@ -365,7 +365,7 @@ public final class ExamController {
 
 		if (delegate != null) {
 			delegate.examClearClipboard();
-			delegate.examClearOtherApps();
+			delegate.examClearApps();
 		}
 		tempStorage.clearTempMaterials();
 		createNewTempMaterial();
@@ -403,8 +403,7 @@ public final class ExamController {
 		tempStorage.clearTempMaterials();
 		if (delegate != null) {
 			delegate.examClearClipboard();
-			delegate.examClearOtherApps();
-			delegate.examClearCurrentApp();
+			delegate.examClearApps();
 		}
 		startDate = finishDate = null;
 		examType = null;
