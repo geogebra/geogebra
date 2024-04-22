@@ -1,7 +1,9 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
@@ -103,6 +105,15 @@ public class SliderTest extends BaseUnitTest {
 		GeoAngle slider = autocreateAngle();
 		assertThat(slider.getAngleStyle(), is(GeoAngle.AngleStyle.ANTICLOCKWISE));
 		assertThat(slider.getIntervalMax(), is(Kernel.PI_2));
+	}
+
+	@Test
+	public void autocreateSliderShouldWorkForSingleLetterCommands() {
+		GeoFunctionNVar f = add("f(x,y)=ax^2+bx+c(x+3)", info);
+		assertThat(((GeoNumeric) lookup("a")).isSlider(), equalTo(true));
+		assertThat(((GeoNumeric) lookup("b")).isSlider(), equalTo(true));
+		assertThat(((GeoNumeric) lookup("c")).isSlider(), equalTo(true));
+		assertThat(f, hasValue(unicode("1 x^2 + 1 x + 1 (x + 3)")));
 	}
 
 	private GeoAngle autocreateAngle() {

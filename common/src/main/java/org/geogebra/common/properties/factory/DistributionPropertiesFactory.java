@@ -1,6 +1,7 @@
 package org.geogebra.common.properties.factory;
 
-import java.util.ArrayList;
+import static org.geogebra.common.properties.factory.PropertiesRegistration.registerProperties;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,13 +11,13 @@ import org.geogebra.common.gui.view.probcalculator.PropertyResultPanel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
+import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty;
 import org.geogebra.common.properties.impl.distribution.IntervalProperty;
 import org.geogebra.common.properties.impl.distribution.IsCumulativeProperty;
 import org.geogebra.common.properties.impl.distribution.ParameterProperty;
 import org.geogebra.common.properties.impl.distribution.ProbabilityResultProperty;
-import org.geogebra.common.properties.impl.general.LanguageProperty;
 
 public class DistributionPropertiesFactory implements PropertiesFactory {
 
@@ -33,14 +34,14 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 
 	@Override
 	public List<PropertiesArray> createProperties(App app, Localization localization,
-			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
+			PropertiesRegistry propertiesRegistry) {
 		ensureLabelsExist(localization);
 
-		ArrayList<Property> properties = new ArrayList<>(Arrays.asList(
+		List<Property> properties = Arrays.asList(
 				new DistributionTypeProperty(localization, probabilityCalculatorView),
 				new IsCumulativeProperty(localization, probabilityCalculatorView),
 				new IntervalProperty(localization, probabilityCalculatorView)
-		));
+		);
 
 		ProbabilityCalculatorSettings.Dist distribution =
 				probabilityCalculatorView.getSelectedDist();
@@ -56,11 +57,10 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 			properties.add(property);
 		}
 		properties.add(new ProbabilityResultProperty(app.getKernel().getAlgebraProcessor(),
-				(PropertyResultPanel) probabilityCalculatorView.getResultPanel()));
+						(PropertyResultPanel) probabilityCalculatorView.getResultPanel()));
 
 		PropertiesArray array = new PropertiesArray(localization.getMenu("Distribution"),
-				properties.toArray(new Property[]{})
-		);
+				registerProperties(propertiesRegistry, properties));
 		return Arrays.asList(array);
 	}
 

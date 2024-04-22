@@ -242,12 +242,12 @@ public abstract class RendererImpl {
 		clearDepthBuffer();
 	}
 
-    /**
-     * next geometries have no normal
-     */
-    public void setNormalToNone() {
-	    // used only with shaders
-    }
+	/**
+	 * next geometries have no normal
+	 */
+	public void setNormalToNone() {
+		// used only with shaders
+	}
 
 	/**
 	 * set dash texture

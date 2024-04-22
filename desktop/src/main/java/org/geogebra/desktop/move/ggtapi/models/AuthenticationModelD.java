@@ -36,15 +36,4 @@ public class AuthenticationModelD extends AuthenticationModel {
 		storeLoginToken(TOKEN_NOT_AVAILABLE);
 	}
 
-	@Override
-	protected void storeLastUser(String s) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String loadLastUser() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

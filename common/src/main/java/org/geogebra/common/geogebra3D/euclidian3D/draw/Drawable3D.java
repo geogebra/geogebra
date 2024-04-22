@@ -55,7 +55,7 @@ import org.geogebra.common.util.DoubleUtil;
             super(a_view3d, a_new3D); <br> 
          }
          </code></li>
- * <li>Eclipse will add auto-generated methods :
+ * <li>Your IDE will add auto-generated methods :
  * <ul>
  * <li>getPickOrder() : for picking objects order ; use
  * {@link #DRAW_PICK_ORDER_MAX} first
@@ -2082,7 +2082,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 * 
 	 */
 	public void updateIntersectionCurveVisibility() {
-	    setGeometriesVisibility(intersectionCurveVisibility);
+		setGeometriesVisibility(intersectionCurveVisibility);
 	}
 
 	/**
@@ -2099,9 +2099,9 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 *            if curve is clipped
 	 */
 	final protected void setPackCurve(boolean clipped) {
-        getView3D().getRenderer().getGeometryManager().setPackCurve(
-                this, clipped);
-    }
+		getView3D().getRenderer().getGeometryManager().setPackCurve(
+				this, clipped);
+	}
 
 	/**
 	 * 
@@ -2141,7 +2141,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 * setup manager end packing
 	 */
 	protected void endPacking() {
-	    getView3D().getRenderer().getGeometryManager().endPacking();
+		getView3D().getRenderer().getGeometryManager().endPacking();
 	}
 
 	@Override

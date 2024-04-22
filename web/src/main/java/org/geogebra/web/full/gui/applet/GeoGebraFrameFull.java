@@ -6,13 +6,12 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.exam.restriction.ExamRegion;
-import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -61,7 +60,6 @@ import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.geogebra.web.shared.GlobalHeader;
-import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
@@ -73,9 +71,12 @@ import org.gwtproject.user.client.Event.NativePreviewHandler;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLCanvasElement;
+import jsinterop.base.Js;
+
 /**
  * Frame for applets with GUI
- *
  */
 public class GeoGebraFrameFull
 		extends GeoGebraFrameW implements NativePreviewHandler, FrameWithHeaderAndKeyboard {
@@ -398,7 +399,7 @@ public class GeoGebraFrameFull
 	 */
 	private void onKeyboardAdded(final VirtualKeyboardGUI keyBoard) {
 		KeyboardManager keyboardManager = getApp().getKeyboardManager();
-		if (keyboardManager.shouldDetach()) {
+		if (keyboardManager.isKeyboardOutsideFrame()) {
 			keyboardHeight = 0;
 		} else {
 			keyboardHeight = keyboardManager
@@ -670,7 +671,7 @@ public class GeoGebraFrameFull
 	@Override
 	public void updateKeyboardHeight() {
 		KeyboardManager keyboardManager = getApp().getKeyboardManager();
-		if (isKeyboardShowing() && !keyboardManager.shouldDetach()) {
+		if (isKeyboardShowing() && !keyboardManager.isKeyboardOutsideFrame()) {
 			int newHeight = keyboardManager
 					.estimateKeyboardHeight();
 
@@ -768,11 +769,7 @@ public class GeoGebraFrameFull
 		if (notesLayout.getToolbar() != null) {
 			add(notesLayout.getToolbar());
 		}
-		Material mat = app.getActiveMaterial();
-		boolean isMultiuserMat = mat != null && mat.isMultiuser();
-		if (app.getAppletParameters().getDataParamEnableUndoRedo()
-			&& (app.getAppletParameters().getParamMultiplayerUrl().isEmpty()
-			|| !isMultiuserMat)) {
+		if (app.getAppletParameters().getDataParamEnableUndoRedo()) {
 			add(notesLayout.getUndoRedoButtons());
 		}
 		setPageControlButtonVisible(app.isMultipleSlidesOpen()
@@ -819,12 +816,9 @@ public class GeoGebraFrameFull
 	 * @param add - add undo/redo when not multiuser, remove otherwise
 	 */
 	public void updateUndoRedoButtonVisibility(boolean add) {
+		app.getAppletParameters().setAttribute("allowUndoCheckpoints", String.valueOf(add));
 		if (notesLayout != null) {
-			if (add) {
-				add(notesLayout.getUndoRedoButtons());
-			} else {
-				remove(notesLayout.getUndoRedoButtons());
-			}
+			notesLayout.updateUndoRedoActions();
 		}
 	}
 
@@ -1057,9 +1051,10 @@ public class GeoGebraFrameFull
 			super.getScreenshotBase64(callback, scale);
 			return;
 		}
-		Canvas c = Canvas.createIfSupported();
+		HTMLCanvasElement canvas = Js.uncheckedCast(DomGlobal
+				.document.createElement("canvas"));
 		DockManager dockManager = app.getGuiManager().getLayout().getDockManager();
-		((DockManagerW) dockManager).paintPanels(c, callback, scale);
+		((DockManagerW) dockManager).paintPanels(canvas, callback, scale);
 	}
 
 	@Override

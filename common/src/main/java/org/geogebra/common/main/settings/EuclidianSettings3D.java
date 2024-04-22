@@ -397,12 +397,15 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	/**
 	 * @param flag
 	 *            whether to show xOy plate
+	 * @return whether flag changed
 	 */
-	public void setShowPlate(boolean flag) {
+	public boolean setShowPlate(boolean flag) {
 		if (showPlate != flag) {
 			showPlate = flag;
 			settingChanged();
+			return true;
 		}
+		return false;
 	}
 
 	public boolean getShowPlate() {

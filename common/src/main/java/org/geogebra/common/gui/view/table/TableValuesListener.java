@@ -78,4 +78,11 @@ public interface TableValuesListener {
 	 * @param model the model
 	 */
 	void notifyDatasetChanged(TableValuesModel model);
+
+	/**
+	 * Notifies listeners when data import has finished.
+	 */
+	default void notifyImportFinished(TableValuesModel model) {
+		// ignore
+	}
 }

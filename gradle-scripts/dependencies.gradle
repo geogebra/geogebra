@@ -30,7 +30,7 @@ allprojects {
 }
 
 
-ext.getGeogebraVersion = { root = ".."->
+ext.getGeogebraVersion = { root = ".." ->
     def version = "undef"
     file("$root/common/src/main/java/org/geogebra/common/GeoGebraConstants.java").eachLine { line ->
         def pattern = ~/ VERSION_STRING = "(.*)"/
@@ -41,12 +41,3 @@ ext.getGeogebraVersion = { root = ".."->
     }
     return version
 }
-
-ext.gwtCompilerVersion = '2.11.0'
-ext.gradleVersionGGB = "7.3.3"
-ext.joglVersion = '2.5.0'
-ext.junitVersion = '4.13.2'
-ext.mockitoVersion = '5.10.0'
-ext.hamcrestVersion = '2.2'
-ext.javaGiacVersion = '70226'
-ext.echosvgVersion = '1.0.1'

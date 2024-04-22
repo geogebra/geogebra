@@ -1,8 +1,11 @@
 package org.geogebra.web.full.gui.contextmenu;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.draw.HasTextFormat;
+import org.geogebra.common.kernel.geos.GeoInline;
+import org.geogebra.common.main.undo.UpdateContentActionStore;
 import org.geogebra.web.html5.gui.laf.FontFamily;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
@@ -20,7 +23,6 @@ public class FontSubMenu extends AriaMenuBar {
 
 	private final List<FontFamily> fonts;
 	private final List<HasTextFormat> formatters;
-	private final AppW app;
 	private AriaMenuItem highlighted;
 
 	/**
@@ -28,7 +30,6 @@ public class FontSubMenu extends AriaMenuBar {
 	 * @param formatters to format text.
 	 */
 	public FontSubMenu(AppW app, List<HasTextFormat> formatters) {
-		this.app = app;
 		this.fonts = app.getVendorSettings().getTextToolFonts();
 		this.formatters = formatters;
 		createItems();
@@ -38,7 +39,6 @@ public class FontSubMenu extends AriaMenuBar {
 		for (final FontFamily font : fonts) {
 			ScheduledCommand command = () -> {
 				setFontName(font.cssName());
-				app.storeUndoInfo();
 			};
 
 			AriaMenuItem item = new AriaMenuItem(font.displayName(), false, command);
@@ -47,8 +47,17 @@ public class FontSubMenu extends AriaMenuBar {
 	}
 
 	private void setFontName(String cssName) {
+		ArrayList<GeoInline> geosToStore = new ArrayList<>();
+		for (HasTextFormat formatter : formatters) {
+			geosToStore.add(formatter.getInline());
+		}
+
+		UpdateContentActionStore store = new UpdateContentActionStore(geosToStore);
 		for (HasTextFormat formatter : formatters) {
 			formatter.format("font", cssName);
+		}
+		if (store.needUndo()) {
+			store.storeUndo();
 		}
 	}
 

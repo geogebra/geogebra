@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -326,7 +327,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private Group parentGroup;
 
-	private int ordering = -1;
+	private double ordering = Double.NaN;
 
 	private static Comparator<AlgoElement> algoComparator = (o1, o2) -> o1.compareTo(o2);
 
@@ -343,6 +344,15 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (app != null) {
 			initWith(app);
 		}
+	}
+
+	/**
+	 * Update the list of geos with default TempSet.
+	 *
+	 * @param list geos to update.
+	 */
+	public static void updateCascade(List<GeoElement> list) {
+		updateCascade(list, getTempSet(), true);
 	}
 
 	private void initWith(@Nonnull App app) {
@@ -1871,9 +1881,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return !isProtected(EventType.UPDATE)
 				&& app.letRedefine()
 				&& !(this instanceof TextValue) && isAlgebraViewEditable()
-				&& (isChangeable() || // redefine changeable (independent and
+				&& (isChangeable() // redefine changeable (independent and
 										// not fixed)
-						!isIndependent()); // redefine dependent object
+						|| !isIndependent()); // redefine dependent object
 	}
 
 	/**
@@ -4086,6 +4096,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            fallback text
 	 * @return LaTeX text
 	 */
+	@CheckForNull
 	public String getLaTeXAlgebraDescriptionWithFallback(
 			final boolean substituteNumbers, StringTemplate tpl,
 			boolean fallback) {
@@ -4120,10 +4131,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return string used to render a LaTeX form of the geo's algebra
 	 *         description.
 	 */
+	@CheckForNull
 	public final String getLaTeXAlgebraDescription(
 			final boolean substituteNumbers,
 			StringTemplate tpl) {
-
 		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl,
 				isAlgebraLabelVisible());
 	}
@@ -4135,16 +4146,21 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            template
 	 * @return LaTeX description without LHS
 	 */
+	@CheckForNull
 	public final String getLaTeXDescriptionRHS(final boolean substituteNumbers,
 			StringTemplate tpl) {
 		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl, false);
 	}
 
+	@CheckForNull
 	private String getLaTeXAlgebraDescription(final GeoElement geo,
 			final boolean substituteNumbers, StringTemplate tpl,
 			boolean includeLHS) {
 
 		final String algebraDesc = geo.getAlgebraDescription(tpl);
+		if (algebraDesc == null) {
+			return null;
+		}
 		final StringBuilder sb = new StringBuilder();
 
 		if (geo.isGeoList()
@@ -4670,15 +4686,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	protected void getXMLfixedTag(final StringBuilder sb) {
 		// is object fixed
 		if (fixed && isFixable()) {
-			sb.append("\t<fixed val=\"");
-			sb.append(fixed);
-			sb.append("\"/>\n");
+			sb.append("\t<fixed val=\"true\"/>\n");
 		}
 		// is selection allowed
 		if (!selectionAllowed) {
-			sb.append("\t<selectionAllowed val=\"");
-			sb.append(selectionAllowed);
-			sb.append("\"/>\n");
+			sb.append("\t<selectionAllowed val=\"false\"/>\n");
 		}
 	}
 
@@ -6672,9 +6684,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-	    if (!algebraOutputFilter.isAllowed(this)) {
-	        return DescriptionMode.DEFINITION;
-        }
+		if (!algebraOutputFilter.isAllowed(this)) {
+			return DescriptionMode.DEFINITION;
+		}
 		String def0 = getDefinition(StringTemplate.defaultTemplate);
 		if ((isGeoPoint() || isGeoVector())
 				&& kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN
@@ -6889,8 +6901,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public void addAuralName(ScreenReaderBuilder sb) {
-		addAuralType(sb);
 		if (!addAuralCaption(sb)) {
+			addAuralType(sb);
 			addAuralLabel(sb);
 			addAuralValue(sb);
 		}
@@ -7107,11 +7119,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return parentGroup;
 	}
 
-	public int getOrdering() {
+	public double getOrdering() {
 		return ordering;
 	}
 
-	public void setOrdering(int ordering) {
+	public void setOrdering(double ordering) {
 		this.ordering = ordering;
 	}
 

@@ -10,10 +10,10 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "13 February 2024";
+	public static final String BUILD_DATE = "16 April 2024";
 	/** complete version string */
 
-	public static final String VERSION_STRING = "5.2.826.0";
+	public static final String VERSION_STRING = "5.2.838.0";
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
 
@@ -30,6 +30,9 @@ public interface GeoGebraConstants {
 		PROBABILITY,
 		CLASSIC;
 
+		/**
+		 * @return translatable name of this app type
+		 */
 		public String getTransKey() {
 			switch (this) {
 			case GRAPHING:

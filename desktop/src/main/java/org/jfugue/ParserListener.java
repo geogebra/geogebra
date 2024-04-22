@@ -92,7 +92,7 @@ public interface ParserListener extends EventListener {
 	/**
 	 * Called when the parser encounters a key signature event.
 	 * 
-	 * @param time
+	 * @param keySig
 	 *            the event that has been parsed
 	 * @see KeySignature
 	 */

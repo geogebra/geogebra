@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.HasExtendedAV;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -87,17 +86,18 @@ import com.himamis.retex.editor.share.syntax.SyntaxTooltipUpdater;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
+import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 
 /**
- * main -> marblePanel content controls
+ * main -&gt; marblePanel content controls
  *
- * content -> (definitionValuePanel | latexItem | canvas) ariaLabel
+ * <p>content -&gt; (definitionValuePanel | latexItem | canvas) ariaLabel
  *
- * definitionValuePanel -> STRING | (definitionPanel outputPanel)
+ * <p>definitionValuePanel -&gt; STRING | (definitionPanel outputPanel)
  *
- * outputPanel -> valuePanel
+ * <p>outputPanel -&gt; valuePanel
  *
- * definitionPanel -> canvas | STRING
+ * <p>definitionPanel -&gt; canvas | STRING
  */
 public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		AutoCompleteW, RequiresResize, HasHelpButton, SetLabels, SyntaxTooltipUpdater,
@@ -126,6 +126,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected ItemControls controls;
 
 	protected Canvas canvas;
+	private Graphics2DW canvasGraphics;
 
 	String commandError;
 
@@ -160,9 +161,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	String lastTeX;
 	private MathFieldW mf;
 	private boolean selectedItem = false;
-
-	// controls must appear on select or not
-	private boolean forceControls = false;
 
 	protected boolean first = false;
 	private String ariaPreview;
@@ -207,7 +205,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	/**
-	 * context menu -> delete action
+	 * Handle context menu's delete action
 	 */
 	public void onClear() {
 		setText("");
@@ -391,7 +389,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private void definitionFromTeX(String text) {
 		definitionPanel.clear();
 
-		canvas = latexToCanvas(text);
+		latexToCanvas(text);
 		if (canvas != null) {
 			canvas.addStyleName("canvasDef");
 			definitionPanel.add(canvas);
@@ -540,8 +538,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 						StringTemplate.latexTemplate);
 			}
 
-			canvas = DrawEquationW.paintOnCanvas(geo, text, canvas,
-					getFontSize());
+			latexToCanvas(text);
 			content.clear();
 			content.add(canvas);
 		} else {
@@ -674,16 +671,19 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 	}
 
-	private Canvas latexToCanvas(String text) {
-		return DrawEquationW.paintOnCanvas(geo, text, canvas, getFontSize());
+	private void latexToCanvas(String text) {
+		if (canvasGraphics != null) {
+			canvasGraphics.cancelCallbacks();
+		}
+		canvas = DrawEquationW.makeCleanCanvas(canvas);
+		canvasGraphics = ((DrawEquationW) app.getDrawEquation()).paintOnCleanCanvas(text, canvas,
+				getFontSize(), GColor.BLACK, DrawEquationW.needsSerif(geo));
 	}
 
 	private void updateLaTeX(String text) {
 		if (!isAlgebraStyleDefAndValue()) {
 			content.clear();
-			canvas = DrawEquationW.paintOnCanvas(geo, text, canvas,
-					getFontSize());
-
+			latexToCanvas(text);
 			content.add(canvas);
 		}
 	}
@@ -717,13 +717,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	protected int getFontSize() {
 		return app.getFontSize() + 1;
-	}
-
-	protected void updateColor(Widget w) {
-		if (geo != null) {
-			w.getElement().getStyle()
-					.setColor(GColor.getColorString(geo.getAlgebraColor()));
-		}
 	}
 
 	/**
@@ -1124,11 +1117,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		main.add(w);
 	}
 
-	protected boolean hasGeoExtendedAV() {
-		return (geo instanceof HasExtendedAV)
-				&& ((HasExtendedAV) geo).isShowingExtendedAV();
-	}
-
 	/**
 	 * Make this draggable. Works with mouse only.
 	 */
@@ -1176,10 +1164,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		updateButtonPanelPosition();
 	}
 
-	public boolean isItemSelected() {
-		return selectedItem;
-	}
-
 	/**
 	 * @param selected
 	 *            whether this ite is selected
@@ -1192,17 +1176,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (selectedItem == selected) {
 			return;
 		}
-
-		setForceControls(false);
-
 		selectedItem = selected;
-
-		if (selected) {
-			addStyleName("avSelectedRow");
-
-		} else {
-			removeStyleName("avSelectedRow");
-		}
+		setStyleName("avSelectedRow", selected);
 	}
 
 	@Override
@@ -1219,10 +1194,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	public static RadioTreeItem as(TreeItem item) {
 		return (RadioTreeItem) item;
-	}
-
-	public Element getScrollElement() {
-		return getWidget().getElement();
 	}
 
 	protected AlgebraPanelInterface getAlgebraDockPanel() {
@@ -1338,7 +1309,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * @return whether input text is empty
 	 */
 	protected boolean isEmpty() {
-		return "".equals(getText().trim());
+		return StringUtil.emptyTrim(getText());
 	}
 
 	protected void addDummyLabel() {
@@ -1441,14 +1412,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return true;
 	}
 
-	public boolean isForceControls() {
-		return forceControls;
-	}
-
-	public void setForceControls(boolean forceControls) {
-		this.forceControls = forceControls;
-	}
-
 	/**
 	 * @return whether this is a slider item
 	 */
@@ -1501,15 +1464,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return geo != null;
 	}
 
-	/**
-	 * hide control buttons
-	 */
-	public void hideControls() {
-		if (controls != null) {
-			controls.setVisible(false);
-		}
-	}
-
 	void adjustStyleBar() {
 		if (app.isUnbundled()) {
 			return;
@@ -1521,15 +1475,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (controls != null) {
 				controls.reposition();
 			}
-		}
-	}
-
-	/**
-	 * Show control buttons
-	 */
-	public void showControls() {
-		if (controls != null) {
-			controls.setVisible(true);
 		}
 	}
 
@@ -1587,7 +1532,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		if (!(latexItem == null || isInputTreeItem() || isSliderItem())) {
 			latexItem.getElement().getStyle().setProperty("minHeight",
-					getController().getEditHeigth() + "px");
+					getController().getEditHeight() + "px");
 		}
 		ensureCanvas();
 		appendCanvas();
@@ -1882,10 +1827,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 	}
 
-	protected void clearInput() {
-		setText("");
-	}
-
 	protected void updateGUIfocus(boolean blurtrue) {
 		if (geo == null) {
 			updateEditorFocus(blurtrue);
@@ -2101,10 +2042,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return geo == null ? main.getOffsetWidth() : getOffsetWidth();
 	}
 
-	public Element getContentElement() {
-		return content.getElement();
-	}
-
 	@Override
 	public void setUndefinedVariables(String vars) {
 		WarningErrorHandler.setUndefinedValiables(vars);
@@ -2116,14 +2053,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	public void onStopEdit() {
 		// for slider only
-	}
-
-	/**
-	 *
-	 * @return the tab index of the item.
-	 */
-	public int getTabIndex() {
-		return main.getElement().getTabIndex();
 	}
 
 	/**

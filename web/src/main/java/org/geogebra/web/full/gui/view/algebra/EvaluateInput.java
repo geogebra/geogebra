@@ -52,8 +52,7 @@ public class EvaluateInput {
 	 * @param forceSliders
 	 *          whether to override default creating sliders
 	 */
-	public void createGeoFromInput(final boolean keepFocus,
-								   boolean forceSliders) {
+	public void createGeoFromInput(final boolean keepFocus, boolean forceSliders) {
 		evaluate(keepFocus, forceSliders, evaluationCallback(keepFocus));
 	}
 
@@ -88,8 +87,8 @@ public class EvaluateInput {
 		return textInput ? "\"" + input + "\"" : input;
 	}
 
-	private void evaluate(final boolean keepFocus,
-						  boolean forceSliders, AsyncOperation<GeoElementND[]> cbEval) {
+	private void evaluate(final boolean keepFocus, boolean forceSliders,
+			AsyncOperation<GeoElementND[]> cbEval) {
 		String userInput = getUserInput();
 		String validInput = getValidInput(userInput);
 		String input = getInput(userInput, validInput);
@@ -122,6 +121,7 @@ public class EvaluateInput {
 				return;
 			}
 
+			// TODO none of all this logic should be implemented in here
 			if (!app.getConfig().hasAutomaticLabels()) {
 				new LabelHiderCallback().callback(geos);
 			}

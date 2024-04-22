@@ -590,7 +590,7 @@ public class AppletParameters {
 	}
 
 	/**
-	 * @return whether to allow scale > 1
+	 * @return whether to allow scale &gt; 1
 	 */
 	public boolean getParamAllowUpscale() {
 		return getBoolDataParam("allowUpscale", false);
@@ -756,7 +756,28 @@ public class AppletParameters {
 		return getStringDataParam("multiplayerUrl", "");
 	}
 
+	public boolean getParamAllowUndoCheckpoints() {
+		return getBoolDataParam("allowUndoCheckpoints", true);
+	}
+
 	public double getBorderRadius() {
 		return getIntDataParam("borderRadius", 0);
+	}
+
+	/**
+	 * @return the if scripting in JavaScript is enabled (default: true)
+	 */
+	public boolean getDisableJavaScript() {
+		return getBoolDataParam("disableJavaScript", false);
+	}
+
+	/**
+	 * When set, keyboard should be attached to the first element in DOM
+	 * that fits the selector.
+	 *
+	 * @return the selector where the keyboard should be attached in DOM.
+	 */
+	public String getDetachKeyboardParent() {
+		return getStringDataParam("detachedKeyboardParent", "");
 	}
 }

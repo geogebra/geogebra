@@ -95,9 +95,9 @@ public abstract class FunctionSound {
 	 * @param bitDepth
 	 *            depth 8 or 16
 	 */
-	public abstract void playFunction(final GeoFunction geoFunction,
-			final double min, final double max, final int sampleRate,
-			final int bitDepth);
+	public abstract void playFunction(GeoFunction geoFunction,
+			double min, double max, int sampleRate,
+			int bitDepth);
 
 	/**
 	 * @param geoFunction

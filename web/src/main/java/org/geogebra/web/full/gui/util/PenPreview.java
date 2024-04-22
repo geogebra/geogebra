@@ -31,7 +31,7 @@ public class PenPreview extends StylePreview {
 	 */
 	public void update() {
 		clear();
-		drawStylePreview(pen.getPenColor(), pen.getPenSize(),
+		drawStylePreview(pen.getPenColorWithOpacity(), pen.getPenSize(),
 				EuclidianStyleConstants.LINE_TYPE_FULL, 30);
 	}
 

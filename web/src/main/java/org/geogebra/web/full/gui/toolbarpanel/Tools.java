@@ -156,8 +156,6 @@ public class Tools extends FlowPanel implements SetLabels {
 				add(catPanel);
 			}
 		}
-
-		setMoveMode();
 	}
 
 	@Override

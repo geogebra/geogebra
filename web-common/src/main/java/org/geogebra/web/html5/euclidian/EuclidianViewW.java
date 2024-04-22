@@ -55,8 +55,9 @@ import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.Dom;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
+import org.geogebra.web.html5.gui.util.FocusUtil;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.SafeGeoImageFactory;
@@ -225,7 +226,7 @@ public class EuclidianViewW extends EuclidianView implements
 	public final void setBackground(GColor bgColor) {
 		if (bgColor != null) {
 			backgroundColor = GColor.newColor(bgColor.getRed(),
-			        bgColor.getGreen(), bgColor.getBlue(), bgColor.getAlpha());
+					bgColor.getGreen(), bgColor.getBlue(), bgColor.getAlpha());
 		}
 	}
 
@@ -348,7 +349,7 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public final boolean isShowing() {
 		return g2p != null && g2p.getCanvas() != null
-		        && g2p.getCanvas().isAttached() && g2p.getCanvas().isVisible();
+				&& g2p.getCanvas().isAttached() && g2p.getCanvas().isVisible();
 	}
 
 	/**
@@ -597,9 +598,9 @@ public class EuclidianViewW extends EuclidianView implements
 		try {
 			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
 			g2p.getElement().getParentElement().getStyle()
-			        .setWidth(width, Unit.PX);
+					.setWidth(width, Unit.PX);
 			g2p.getElement().getParentElement().getStyle()
-			        .setHeight(height, Unit.PX);
+					.setHeight(height, Unit.PX);
 			getEuclidianController().calculateEnvironment();
 		} catch (Exception exc) {
 			Log.debug("Problem with the parent element of the canvas");
@@ -705,7 +706,7 @@ public class EuclidianViewW extends EuclidianView implements
 		if (getViewID() != App.VIEW_TEXT_PREVIEW) {
 			registerKeyHandlers(canvas);
 			registerMouseTouchGestureHandlers(euclidianViewPanel,
-			        (EuclidianControllerW) euclidiancontroller);
+					(EuclidianControllerW) euclidiancontroller);
 		}
 
 		registerDragDropHandlers(euclidianViewPanel,
@@ -833,7 +834,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public boolean requestFocusInWindow() {
-		getCanvasElement().focus();
+		FocusUtil.focusNoScroll(getCanvasElement());
 		return true;
 	}
 
@@ -932,7 +933,7 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {
 		if (this.preferredSize != null
-		        && this.preferredSize.equals(preferredSize)) {
+				&& this.preferredSize.equals(preferredSize)) {
 			return;
 		}
 		this.evPanel.reset();
@@ -1381,7 +1382,7 @@ public class EuclidianViewW extends EuclidianView implements
 	private void createSVGBackgroundIfNeeded() {
 		SVGResource res = getSVGRulingResource();
 		if (res != null) {
-			String uri = ImgResourceHelper.safeURI(res);
+			String uri = NoDragImage.safeURI(res);
 			if (!uri.equals(svgBackgroundUri)) {
 				HTMLImageElement img = Dom.createImage();
 				img.src = uri;
@@ -1472,7 +1473,7 @@ public class EuclidianViewW extends EuclidianView implements
 		overlayGraphics.setCoordinateSpaceSize(getWidth(), getHeight());
 		overlayGraphics.setStroke(EuclidianStatic.getStroke(pen.getPenSize(),
 				pen.getPenLineStyle(), GBasicStroke.JOIN_ROUND));
-		overlayGraphics.setColor(pen.getPenColor());
+		overlayGraphics.setColor(pen.getPenColorWithOpacity());
 	}
 
 	@Override
@@ -1510,13 +1511,27 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {
-		kernel.getConstruction().removeFromConstructionList(tool);
+	public void setMeasurementTool(GeoImage tool, int left, int width, int height) {
+		removeMeasurementTool(tool);
+		setToolLocation(tool, left, height);
 		tool.setSize(width, height);
+	}
+
+	private void removeMeasurementTool(GeoImage tool) {
+		kernel.getConstruction().removeFromConstructionList(tool);
+	}
+
+	private void setToolLocation(GeoImage tool, int left, double height) {
 		GPoint2D loc =
-				new GPoint2D(toRealWorldCoordX(posLeftCorner),
+				new GPoint2D(toRealWorldCoordX(left),
 						toRealWorldCoordY(getHeight() / 2. - height / 2.));
 		tool.setLocation(loc);
 		tool.update();
+	}
+
+	@Override
+	public void setMeasurementTool(GeoImage tool, int left) {
+		removeMeasurementTool(tool);
+		setToolLocation(tool, left, tool.getHeight());
 	}
 }

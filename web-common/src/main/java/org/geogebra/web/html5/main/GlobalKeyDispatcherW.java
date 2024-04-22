@@ -86,7 +86,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	}
 
 	/**
-	 * setting left & right alt flags
+	 * setting left and right alt flags
 	 * @param ev event
 	 * @param down flag indicating if key was down or released
 	 */
@@ -167,7 +167,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					if (app.isApplet()) {
 						((AppW) GlobalKeyDispatcherW.this.app).moveFocusToLastWidget();
 					} else {
-						app.setMoveMode();
+						handleEscapeForNonApplets();
 					}
 					handled = true;
 				} else {
@@ -193,6 +193,13 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		app.getSelectionManager().clearSelectedGeos();
 		boolean force = !((GuiManagerInterfaceW) app.getGuiManager()).isAlgebraViewActive();
 		app.getAccessibilityManager().focusInput(true, force);
+	}
+
+	private void handleEscapeForNonApplets() {
+		app.setMoveMode();
+		app.getActiveEuclidianView().getEuclidianController().clearSelections();
+		app.getActiveEuclidianView().setSelectionRectangle(null);
+		app.getActiveEuclidianView().getEuclidianController().resetLastMowHit();
 	}
 
 	public EventListener getGlobalShortcutHandler() {
@@ -236,7 +243,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		boolean handled = handleGeneralKeys(kc,
 				event.isShiftKeyDown(),
 				isControlKeyDown(event.getNativeEvent()),
-		        event.isAltKeyDown(), false, true);
+				event.isAltKeyDown(), false, true);
 		if (handled) {
 			event.preventDefault();
 		}
@@ -311,7 +318,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		}
 
 		if (app.getGuiManager() != null
-		        && app.getGuiManager().noMenusOpen()) {
+				&& app.getGuiManager().noMenusOpen()) {
 			if (app.showAlgebraInput()) {
 				AlgebraInput algebraInput = ((GuiManagerInterfaceW) app.getGuiManager())
 						.getAlgebraInput();

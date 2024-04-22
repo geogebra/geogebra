@@ -33,6 +33,7 @@ public class AngleUnitProperty extends AbstractNamedEnumeratedProperty<Integer> 
 
 	@Override
 	protected void doSetValue(Integer value) {
+		// check back with registry if setting value is allowed? ugly :/
 		kernel.setAngleUnit(value);
 		kernel.updateConstruction(false);
 	}

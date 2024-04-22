@@ -34,10 +34,7 @@ public class RotateBoundingBox {
 		}
 
 		GPoint2D eventPoint = clampToView(eventX, eventY);
-		GPoint2D center = isProtractorSelected()
-				? calculateProtractorRotationCenter()
-				: calculateRotationCenter(bounds);
-		ensureRotationCenter(center);
+		GPoint2D center = updateRotationCenter(bounds);
 		NumberValue rotationAngle = calculateAngle(center, eventPoint);
 
 		if (ec.getResizedShape() != null || ec.isMultiResize) {
@@ -47,6 +44,14 @@ public class RotateBoundingBox {
 			return true;
 		}
 		return false;
+	}
+
+	GPoint2D updateRotationCenter(GRectangle2D bounds) {
+		GPoint2D center = isProtractorSelected()
+				? calculateProtractorRotationCenter()
+				: calculateRotationCenter(bounds);
+		ensureRotationCenter(center);
+		return center;
 	}
 
 	private GPoint2D calculateProtractorRotationCenter() {

@@ -134,13 +134,13 @@ public class ColorProvider {
 	}
 
 	private static RegExp createAssignmentRegExp(boolean isCasInput) {
-		return RegExp.compile("^" + WHITESPACE + LABEL_REGEX_STRING + // f -
+		return RegExp.compile("^" + WHITESPACE + LABEL_REGEX_STRING // f -
 																		// function
 																		// label
-				"(\\(" + WHITESPACE + "((" + LABEL_REGEX_STRING + WHITESPACE
+				+ "(\\(" + WHITESPACE + "((" + LABEL_REGEX_STRING + WHITESPACE
 				+ "," + WHITESPACE + ")*)" + LABEL_REGEX_STRING + WHITESPACE
-				+ "\\))" + // ( x1 , x2 , x3 , ... ) - function parameters
-				WHITESPACE + (!isCasInput ? "(\\:\\=|\\=)" : "(\\:\\=)")); // :=/=
+				+ "\\))" // ( x1 , x2 , x3 , ... ) - function parameters
+				+ WHITESPACE + (!isCasInput ? "(\\:\\=|\\=)" : "(\\:\\=)")); // :=/=
 																			// -
 																			// assignment
 																			// operator

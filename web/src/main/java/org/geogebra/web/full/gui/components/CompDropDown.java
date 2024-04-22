@@ -172,4 +172,11 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 		controller.setSelectedOption(dropdownIndex);
 		updateSelectionText();
 	}
+
+	/**
+	 * @return text of selected item
+	 */
+	public String getSelectedText() {
+		return controller.getSelectedText();
+	}
 }

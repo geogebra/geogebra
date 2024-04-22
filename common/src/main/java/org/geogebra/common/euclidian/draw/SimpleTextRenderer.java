@@ -33,9 +33,8 @@ public class SimpleTextRenderer implements TextRenderer {
 	}
 
 	@Override
-	public void drawText(GeoInputBox geo, GGraphics2D graphics,
-						 GFont font, String text,
-						 double xPos, double yPos) {
+	public void drawText(GeoInputBox geo, GGraphics2D graphics, GFont font, String text,
+			double xPos, double yPos) {
 		double textBottom = yPos + drawable.getTextBottom();
 		double boxContentWidth = drawable.getContentWidth();
 		String truncated = text.substring(0, getTruncIndex(text, graphics, boxContentWidth));
@@ -44,7 +43,7 @@ public class SimpleTextRenderer implements TextRenderer {
 	}
 
 	private static int getTextOffset(String text, GeoInputBox geoInputBox, App app,
-								 int boxWidth, GGraphics2D graphics2D) {
+			int boxWidth, GGraphics2D graphics2D) {
 		switch (geoInputBox.getAlignment()) {
 		case CENTER:
 			return (boxWidth - getTextWidth(app, graphics2D, text)) / 2;

@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.plugin.Geometry3DGetter;
 
 import com.google.j2objc.annotations.Weak;
@@ -22,6 +23,7 @@ import com.google.j2objc.annotations.Weak;
  */
 public class AppCompanion {
 	/** application */
+	@NonOwning
 	@Weak
 	protected App app;
 

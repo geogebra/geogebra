@@ -20,6 +20,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
@@ -106,6 +107,7 @@ public class ContextMenuTV {
 			}
 		});
 		addCommand(view::clearValues, "ClearColumn", "clear");
+		addImportData();
 		if (app.getConfig().hasOneVarStatistics()) {
 			wrappedPopup.addVerticalSeparator();
 			addOneVarStats("x");
@@ -254,6 +256,12 @@ public class ContextMenuTV {
 
 	private void addEdit(Command cmd) {
 		addCommand(cmd, "Edit", "edit");
+	}
+
+	private void addImportData() {
+		if (!app.isExamStarted() && app.getConfig().hasDataImport()) {
+			addCommand(((AppWFull) app).getCsvHandler(), "ContextMenu.ImportData", "importData");
+		}
 	}
 
 	/**

@@ -61,9 +61,9 @@ public class DockGlassPaneW extends AbsolutePanel
 
 		previewPanel = new SimplePanel();
 		previewPanel.getElement().getStyle()
-		        .setBorderWidth(BORDER_WIDTH, Unit.PX);
+			.setBorderWidth(BORDER_WIDTH, Unit.PX);
 		previewPanel.getElement().getStyle()
-		        .setBorderStyle(BorderStyle.SOLID);
+				.setBorderStyle(BorderStyle.SOLID);
 		previewPanel.getElement().getStyle().setBorderColor("gray");
 
 		previewPanel.setVisible(false);
@@ -147,9 +147,9 @@ public class DockGlassPaneW extends AbsolutePanel
 
 			// tmpRect = dockPanels[i].getBounds();
 			tmpRect = new Rectangle(dockPanels[i].getAbsoluteLeft(),
-			        dockPanels[i].getAbsoluteTop(),
-			        dockPanels[i].getOffsetWidth(),
-			        dockPanels[i].getOffsetHeight());
+					dockPanels[i].getAbsoluteTop(),
+					dockPanels[i].getOffsetWidth(),
+					dockPanels[i].getOffsetHeight());
 
 			dockPanelsList.add(dockPanels[i]);
 			bounds.add(tmpRect);
@@ -212,11 +212,11 @@ public class DockGlassPaneW extends AbsolutePanel
 		// Check if the mouse intersects with any DockPanel
 		for (int i = 0; i < dockPanelsBounds.length; ++i) {
 			if (mouseX >= dockPanelsBounds[i].getX()
-			        && mouseX <= dockPanelsBounds[i].getX()
-			                + dockPanelsBounds[i].getWidth()
-			        && mouseY >= dockPanelsBounds[i].getY()
-			        && mouseY <= dockPanelsBounds[i].getY()
-			                + dockPanelsBounds[i].getHeight()) {
+					&& mouseX <= dockPanelsBounds[i].getX()
+							+ dockPanelsBounds[i].getWidth()
+					&& mouseY >= dockPanelsBounds[i].getY()
+					&& mouseY <= dockPanelsBounds[i].getY()
+							+ dockPanelsBounds[i].getHeight()) {
 				update = true;
 				dndState.setTarget(dockPanels[i]);
 				break;
@@ -234,8 +234,7 @@ public class DockGlassPaneW extends AbsolutePanel
 			int relativeLeft = mouseX - x2;
 			int relativeTop = mouseY - y2;
 
-			int orientation = ((DockSplitPaneW) target.getParent())
-			        .getOrientation();
+			int orientation = ((DockSplitPaneW) target.getParent()).getOrientation();
 
 			double leftPercent = relativeLeft * 1.0 / target.getOffsetWidth();
 			double topPercent = relativeTop * 1.0 / target.getOffsetHeight();
@@ -251,8 +250,7 @@ public class DockGlassPaneW extends AbsolutePanel
 						dndState.setRegion(DnDState.LEFT_OUT);
 						setColorEnoughWidth(target);
 
-						DockSplitPaneW splitPane = (DockSplitPaneW) target
-						        .getParent();
+						DockSplitPaneW splitPane = (DockSplitPaneW) target.getParent();
 						x2 = (int) (splitPane.getAbsoluteLeft() / ae.getScaleX());
 						y2 = (int) (splitPane.getAbsoluteTop() / ae.getScaleY());
 
@@ -269,8 +267,7 @@ public class DockGlassPaneW extends AbsolutePanel
 						dndState.setRegion(DnDState.RIGHT_OUT);
 						setColorEnoughWidth(target);
 
-						DockSplitPaneW splitPane = (DockSplitPaneW) target
-						        .getParent();
+						DockSplitPaneW splitPane = (DockSplitPaneW) target.getParent();
 						x2 = (int) (splitPane.getAbsoluteLeft() / ae.getScaleX());
 						y2 = (int) (splitPane.getAbsoluteTop() / ae.getScaleY());
 
@@ -306,8 +303,7 @@ public class DockGlassPaneW extends AbsolutePanel
 						dndState.setRegion(DnDState.TOP_OUT);
 						setColorEnoughHeight(target);
 
-						DockSplitPaneW splitPane = (DockSplitPaneW) target
-						        .getParent();
+						DockSplitPaneW splitPane = (DockSplitPaneW) target.getParent();
 						x2 = (int) (splitPane.getAbsoluteLeft() / ae.getScaleX());
 						y2 = (int) (splitPane.getAbsoluteTop() / ae.getScaleY());
 						h *= maxDist / 2;
@@ -324,8 +320,7 @@ public class DockGlassPaneW extends AbsolutePanel
 						dndState.setRegion(DnDState.BOTTOM_OUT);
 						setColorEnoughHeight(target);
 
-						DockSplitPaneW splitPane = (DockSplitPaneW) target
-						        .getParent();
+						DockSplitPaneW splitPane = (DockSplitPaneW) target.getParent();
 						x2 = (int) (splitPane.getAbsoluteLeft() / ae.getScaleX());
 						y2 = (int) (splitPane.getAbsoluteTop() / ae.getScaleY());
 						y2 += h * (1 - maxDist / 2);

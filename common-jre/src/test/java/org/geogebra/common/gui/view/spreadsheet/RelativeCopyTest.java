@@ -7,6 +7,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.test.TestErrorHandler;
 import org.junit.Test;
 
@@ -39,5 +40,19 @@ public class RelativeCopyTest extends BaseUnitTest {
 		new RelativeCopy(getKernel(), TestErrorHandler.INSTANCE).doDragCopy(0, 0, 0, 0,
 				0, 1, 0, 1);
 		assertThat(lookup("A2"), hasValue("1"));
+	}
+
+	@Test
+	public void commandsShouldBeCaseInsensitiveCommandsInCells() {
+		add("c = Circle((0, 0), 1)");
+		assertThat(prepareAddingValue("Dilate(c, 2)"), hasValue("x\u00B2 + y\u00B2 = 4"));
+		assertThat(prepareAddingValue("DiLaTe(c, 2)"), hasValue("x\u00B2 + y\u00B2 = 4"));
+		assertThat(prepareAddingValue("diLaTE(c, 2)"), hasValue("x\u00B2 + y\u00B2 = 4"));
+	}
+
+	private GeoElementND prepareAddingValue(String inputText) {
+		return new RelativeCopy(getKernel(),
+				TestErrorHandler.INSTANCE).prepareAddingValueToTableNoStoringUndoInfo(
+				inputText, null, 1, 1, false);
 	}
 }

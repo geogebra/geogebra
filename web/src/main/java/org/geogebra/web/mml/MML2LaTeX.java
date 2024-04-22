@@ -9,7 +9,7 @@ import jsinterop.annotations.JsFunction;
 import jsinterop.base.Js;
 
 /**
- * Entry point for MML -> LaTeX converter, exports toLaTeX global function
+ * Entry point for MML to LaTeX converter, exports toLaTeX global function
  */
 public class MML2LaTeX implements EntryPoint {
 

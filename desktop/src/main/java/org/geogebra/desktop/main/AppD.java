@@ -154,7 +154,6 @@ import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
@@ -412,12 +411,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		useFullGui = true;
 
-		// don't want to redirect System.out and System.err when running as
-		// Applet
-		// or eg from Eclipse
 		getCodeBase(); // initialize runningFromJar
 
 		Log.debug("runningFromJar=" + runningFromJar);
+		// don't want to redirect System.out and System.err when running from IDE
 		if (runningFromJar) {
 			setUpLogging();
 		} else {
@@ -1402,9 +1399,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			end++;
 		}
 
-		return end == page.length() || end == begin ? // attribute value not
+		return end == page.length() || end == begin // attribute value not
 		// terminated or empty
-				null : page.substring(begin, end);
+				? null : page.substring(begin, end);
 	}
 
 	private static boolean isMarker(char[] markers, char character) {
@@ -1419,7 +1416,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private static String fetchPage(URL url) throws IOException {
 		try (BufferedReader reader = new BufferedReader(
 				new InputStreamReader(url.openStream(),
-						Charsets.getUtf8()))) {
+						StandardCharsets.UTF_8))) {
 			StringBuilder page = new StringBuilder();
 			String line;
 			while (null != (line = reader.readLine())) {
@@ -1856,7 +1853,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		try {
 			InputStream is = AppD.class.getResourceAsStream(s);
 			br = new BufferedReader(
-					new InputStreamReader(is, Charsets.getUtf8()));
+					new InputStreamReader(is, StandardCharsets.UTF_8));
 			String thisLine;
 			while ((thisLine = br.readLine()) != null) {
 				sb.append(thisLine);
@@ -2101,7 +2098,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		getLocalization().updateLanguageFlags(loc.getLocale().getLanguage());
-
+		if (guiManager != null) {
+			guiManager.updateFonts();
+		}
 	}
 
 	/**
@@ -2942,10 +2941,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			// update
 			if (!initing) {
 				initing = true;
-				success = GFileHandler.loadXML(this, fis, isMacroFile);
+				success = doLoadXML(fis, isMacroFile);
 				initing = false;
 			} else {
-				success = GFileHandler.loadXML(this, fis, isMacroFile);
+				success = doLoadXML(fis, isMacroFile);
 			}
 
 			if (success && !isMacroFile) {
@@ -2955,7 +2954,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return success;
 		} catch (Exception e) {
 			setCurrentFile(null);
-			e.printStackTrace();
+			Log.debug(e);
 			showError(Errors.LoadFileFailed, file.getName());
 			return false;
 		} finally {
@@ -2978,7 +2977,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	final public boolean loadXML(URL url, boolean isMacroFile) {
 
 		try {
-			boolean success = GFileHandler.loadXML(this, url.openStream(),
+			boolean success = doLoadXML(url.openStream(),
 					isMacroFile);
 
 			// don't clear JavaScript here -- we may have just read one from the
@@ -3003,9 +3002,20 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
+	private boolean doLoadXML(InputStream inputStream, boolean isMacroFile)
+			throws IOException, XMLParseException {
+		storeFrameCenter();
+		boolean ok = GFileHandler.loadXML(this, inputStream, isMacroFile);
+		if (ok) {
+			hideDockBarPopup();
+		}
+		return ok;
+	}
+
 	/**
 	 * loads an XML file as a String
 	 * @param xml construction XML
+	 * @return whether loading was successful
 	 */
 	public boolean loadXML(String xml) {
 		try {
@@ -3031,8 +3041,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
-	@Override
-	public void storeFrameCenter() {
+	private void storeFrameCenter() {
 		centerX = getWindowCenterX();
 		centerY = getWindowCenterY();
 	}
@@ -3878,7 +3887,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public UndoManagerD getUndoManager(Construction cons) {
-		return new UndoManagerD(cons, false);
+		return new UndoManagerD(cons);
 	}
 
 	@Override
@@ -4808,7 +4817,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			fileName.append("test.");
 			fileName.append(ext);
 			BufferedWriter objBufferedWriter = new BufferedWriter(
-					new OutputStreamWriter(new FileOutputStream(fileName.toString()), "UTF-8"));
+					new OutputStreamWriter(new FileOutputStream(fileName.toString()),
+							StandardCharsets.UTF_8));
 			Log.debug("Export to " + fileName);
 			objBufferedWriter.write(content);
 			objBufferedWriter.close();
@@ -4827,7 +4837,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		byte[] pngData;
 		try {
-			pngData = Base64.decode(base64image.getBytes(Charsets.getUtf8()));
+			pngData = Base64.decode(base64image.getBytes(StandardCharsets.UTF_8));
 			ByteArrayInputStream bis = new ByteArrayInputStream(pngData);
 			BufferedImage image = ImageIO.read(bis);
 			copyImageToClipboard(image);
@@ -4870,7 +4880,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		if (getMd5Encrypter() == null) {
 			return UUID.randomUUID().toString();
 		}
-		getMd5Encrypter().update(s.getBytes(Charsets.getUtf8()));
+		getMd5Encrypter().update(s.getBytes(StandardCharsets.UTF_8));
 		byte[] md5hash = md5EncrypterD.digest();
 		return StringUtil.convertToHex(md5hash);
 	}

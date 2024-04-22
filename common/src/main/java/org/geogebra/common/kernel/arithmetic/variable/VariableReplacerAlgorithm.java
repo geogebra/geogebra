@@ -209,7 +209,7 @@ public class VariableReplacerAlgorithm {
 	private static int getIndexOfArg(String logString) {
 		int indexOfClosingBracket = logString.indexOf('}');
 		if (indexOfClosingBracket != -1) {
-			 return indexOfClosingBracket + 1;
+			return indexOfClosingBracket + 1;
 		}
 
 		int indexOfUnderline = logString.indexOf('_');

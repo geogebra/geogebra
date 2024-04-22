@@ -37,8 +37,7 @@ public abstract class FileManager extends MaterialsManager {
 	}
 
 	@Override
-	public abstract void delete(final Material mat, boolean permanent,
-	        Runnable onSuccess);
+	public abstract void delete(Material mat, boolean permanent, Runnable onSuccess);
 
 	/**
 	 * 
@@ -49,8 +48,7 @@ public abstract class FileManager extends MaterialsManager {
 	 * @param cb
 	 *            callback
 	 */
-	public abstract void saveFile(String base64, long modified,
-	        final SaveCallback cb);
+	public abstract void saveFile(String base64, long modified, SaveCallback cb);
 
 	/**
 	 * Overwritten for phone
@@ -93,10 +91,10 @@ public abstract class FileManager extends MaterialsManager {
 		mat.setBase64(base64);
 		mat.setTitle(app.getKernel().getConstruction().getTitle());
 		mat.setDescription(app.getKernel().getConstruction()
-		        .getWorksheetText(0));
+				.getWorksheetText(0));
 		mat.setThumbnailBase64(((EuclidianViewWInterface) app
-		        .getActiveEuclidianView())
-		        .getCanvasBase64WithTypeString());
+				.getActiveEuclidianView())
+				.getCanvasBase64WithTypeString());
 		if (app.getLoginOperation() != null) {
 			UserPublic user = new UserPublic(app.getLoginOperation().getModel().getUserId(),
 					app.getLoginOperation().getUserName());
@@ -171,14 +169,14 @@ public abstract class FileManager extends MaterialsManager {
 
 	@Override
 	public final boolean save(App app1) {
-		if (this.saveCurrentLocalIfPossible(app)) {
+		if (this.saveCurrentLocalIfPossible(app, () -> {})) {
 			return true;
 		}
 		AppW appw = (AppW) app1;
 
 		if (!isOnlineSavingPreferred()) {
 			// not logged in and can't log in
-			app.getSaveController().showLocalSaveDialog();
+			app.getSaveController().showLocalSaveDialog(() -> {});
 		} else if (!appw.getLoginOperation().isLoggedIn()) {
 			// not logged in and possible to log in
 			appw.getGuiManager().listenToLogin(appw.getDialogManager()::showSaveDialog);
@@ -222,7 +220,7 @@ public abstract class FileManager extends MaterialsManager {
 	 * Shows error tooltip when saving online fails.
 	 * @param appw app
 	 */
-	protected void showOfflineErrorTooltip(AppW appw) {
+	public void showOfflineErrorTooltip(AppW appw) {
 		if (!appw.getNetworkOperation().isOnline()) {
 			app.getToolTipManager().showBottomMessage(appw
 					.getLocalization()
@@ -247,13 +245,15 @@ public abstract class FileManager extends MaterialsManager {
 	/**
 	 * Save file using a file handle
 	 * @param handle target handle
+	 * @param callback to run after file written
 	 */
-	public void saveAs(FileSystemFileHandle handle) {
+	public void saveAs(FileSystemFileHandle handle, Runnable callback) {
 		setFileHandle(handle);
 		handle.createWritable().then(stream -> {
 			app.getGgbApi().getZippedGgbAsync(true, blob -> {
 				stream.write(blob);
 				stream.close();
+				callback.run();
 				String msg = app.getLocalization().getMenu("SavedSuccessfully");
 				app.getToolTipManager().showBottomMessage(msg, app);
 			});
@@ -262,11 +262,15 @@ public abstract class FileManager extends MaterialsManager {
 	}
 
 	@Override
-	public boolean saveCurrentLocalIfPossible(App app) {
+	public boolean saveCurrentLocalIfPossible(App app, Runnable callback) {
 		if (fileHandle != null) {
-			saveAs(fileHandle);
+			saveAs(fileHandle, callback);
 			return true;
 		}
 		return false;
+	}
+
+	public void resetFileHandle() {
+		fileHandle = null;
 	}
 }

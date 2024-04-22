@@ -19,7 +19,7 @@ public class ComponentInfoErrorPanel extends FlowPanel {
 	 * @param buttonAction - handler for the button
 	 */
 	public ComponentInfoErrorPanel(Localization loc, InfoErrorData data,
-			 Runnable buttonAction) {
+			Runnable buttonAction) {
 		this.loc = loc;
 		addStyleName("infoErrorPanel");
 		buildGUI(data, buttonAction);

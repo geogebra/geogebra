@@ -36,7 +36,6 @@ public class GeoGebraServer {
 		try {
 			server = HttpServer.create(new InetSocketAddress(8000), 0);
 			// server.createContext("/v0.1/json", new ApiHandlerJSON()); TODO decide if we want this
-			server.createContext("/v0.1/steps", new StepsHandlerJSON(app.getKernel().getParser()));
 			server.start();
 		} catch (IOException e) {
 			Log.debug("Problem on server startup " + e);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -97,7 +98,7 @@ public class StatsBuilder {
 			GeoElementND resultY = algebraProcessor.processValidExpressionSilent(yCoordExpr)[0];
 			// use command strings, not algos, to make sure code splitting works in Web
 			return new GeoList[] {(GeoList) resultX, (GeoList) resultY};
-		} catch (Exception e) {
+		} catch (RuntimeException | CircularDefinitionException e) {
 			return new GeoList[] {
 					new GeoList(kernel.getConstruction()), new GeoList(kernel.getConstruction())};
 		}

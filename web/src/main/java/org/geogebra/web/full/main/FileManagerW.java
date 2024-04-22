@@ -25,7 +25,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
  * 
  * JSON including the base64 and metadata is stored under
  * "file_[local-id]_[title]" key. The id field inside JSON is for Tube id, is
- * not affected by local id. Local id can still be found inside title => we need
+ * not affected by local id. Local id can still be found inside title, hence we need
  * to extract title after we load file from LS.
  *
  */
@@ -71,7 +71,7 @@ public class FileManagerW extends FileManager {
 			id = getApp().getLocalID();
 		}
 		String key = createKeyString(id, getApp().getKernel().getConstruction()
-		        .getTitle());
+				.getTitle());
 		updateViewerId(mat);
 		mat.setLocalID(id);
 		try {
@@ -152,7 +152,7 @@ public class FileManagerW extends FileManager {
 		mat.setTitle(newTitle);
 		this.stockStore.setItem(
 				MaterialsManager.createKeyString(newID, newTitle),
-		        mat.toJson().toString());
+				mat.toJson().toString());
 	}
 
 	@Override
@@ -227,15 +227,9 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public void saveLoggedOut(App app1) {
-		showOfflineErrorTooltip((AppW) app1);
-		((AppW) app1).getGuiManager().exportGGB(true);
-	}
-	
-	@Override
 	public void export(App app1) {
 		dialogEvent(app, "exportGGB");
-		((AppW) app1).getGuiManager().exportGGB(false);
+		((AppW) app1).getGuiManager().exportGGB();
 	}
 
 	@Override
@@ -244,8 +238,7 @@ public class FileManagerW extends FileManager {
 			return;
 		}
 		final Material oldMat = JSONParserGGT
-				.parseMaterial(this.stockStore
-		        .getItem(localID));
+				.parseMaterial(this.stockStore.getItem(localID));
 		mat.setBase64(oldMat.getBase64());
 		updateViewerId(mat);
 		try {
@@ -266,8 +259,7 @@ public class FileManagerW extends FileManager {
 		material.setSyncStamp(modified);
 		String key = localKey;
 		if (key == null) {
-			key = MaterialsManager.createKeyString(this.createID(),
-			        material.getTitle());
+			key = MaterialsManager.createKeyString(this.createID(), material.getTitle());
 		}
 		try {
 			this.stockStore.setItem(key, material.toJson().toString());

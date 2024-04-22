@@ -13,11 +13,8 @@ public class VectorPrinterMapBuilder3D implements VectorPrinterMapBuilder {
     @Override
     public Map<VectorPrintingMode, Printer> build(GeneralSettings settings) {
         Map<VectorPrintingMode, Printer> map = new EnumMap<>(VectorPrintingMode.class);
-        map.put(VectorPrintingMode.Cartesian, new CartesianPrinter(settings));
-        map.put(VectorPrintingMode.CasLatex, new CasLatexPrinter());
+        map.put(VectorPrintingMode.Cartesian, new CartesianPrinter3D(settings));
         map.put(VectorPrintingMode.Polar, new SphericalPrinter());
-        map.put(VectorPrintingMode.Giac, new GiacPrinter());
-        map.put(VectorPrintingMode.GiacPolar, new GiacSphericalPrinter());
         map.put(VectorPrintingMode.Vector, new VectorPrinter());
         return map;
     }

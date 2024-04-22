@@ -99,13 +99,13 @@ public class OverUnderDelimiter extends Atom implements HasUnderOver {
 			b = new HorizontalBox(b, max, TeXConstants.Align.CENTER);
 		}
 
-		del = new VerticalBox(del, max, TeXConstants.Align.CENTER);
+		Box delWrap = new VerticalBox(del, max, TeXConstants.Align.CENTER);
 		if (scriptBox != null && max - scriptBox.getWidth() > TeXFormula.PREC) {
 			scriptBox = new HorizontalBox(scriptBox, max,
 					TeXConstants.Align.CENTER);
 		}
 
-		return new OverUnderBox(b, del, scriptBox,
+		return new OverUnderBox(b, del, delWrap, scriptBox,
 				kern.createBox(env).getHeight(), over);
 	}
 

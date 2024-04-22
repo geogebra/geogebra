@@ -105,6 +105,7 @@ public class CASDropTargetListener implements DropTargetListener {
 
 				// view.ensureOneEmptyRow();
 				GeoCasCell newcell = new GeoCasCell(cell.getConstruction());
+				final StringBuilder oldXML = cell.getConstruction().getCurrentUndoXML(false);
 				cell.getConstruction().addToConstructionList(newcell, false);
 				view.insertRow(newcell, false);
 
@@ -124,7 +125,7 @@ public class CASDropTargetListener implements DropTargetListener {
 							substitution.length() - 1);
 				}
 				newcell.setEvalComment(substitution);
-				view.processRowThenEdit(newcell.getRowNumber());
+				view.processRowThenEdit(newcell.getRowNumber(), oldXML.toString());
 
 				app.storeUndoInfo();
 				return;

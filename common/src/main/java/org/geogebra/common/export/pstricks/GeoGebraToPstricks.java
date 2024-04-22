@@ -1127,7 +1127,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			line.append(value);
 			line.append("}\n");
 			xrangemax += PRECISION_XRANGE_FUNCTION;
-			String s = line.toString();
+			String s;
 
 			// if is'n latex function draws the function as a set of lines
 			if (!isLatexFunction(
@@ -2140,13 +2140,13 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			int grayscale = (red + green + blue) / 3;
 			GColor gray = GColor.newColor(grayscale, grayscale, grayscale);
 			if (customColor.containsKey(c)) {
-				colorname = customColor.get(c).toString();
+				colorname = customColor.get(c);
 			} else {
 				colorname = createCustomColor(grayscale, grayscale, grayscale);
-				codeBeginDoc.append("\\newrgbcolor{" + colorname + "}{"
-						+ format(grayscale / 255d) + " "
-						+ format(grayscale / 255d) + " "
-						+ format(grayscale / 255d) + "}\n");
+				codeBeginDoc.append("\\newrgbcolor{").append(colorname).append("}{")
+						.append(format(grayscale / 255d)).append(" ")
+						.append(format(grayscale / 255d)).append(" ")
+						.append(format(grayscale / 255d)).append("}\n");
 				customColor.put(gray, colorname);
 			}
 			if (gray.equals(GColor.BLACK)) {
@@ -2190,15 +2190,15 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			} else {
 				String colorname = "";
 				if (customColor.containsKey(c)) {
-					colorname = customColor.get(c).toString();
+					colorname = customColor.get(c);
 				} else {
 					int red = c.getRed();
 					int green = c.getGreen();
 					int blue = c.getBlue();
 					colorname = createCustomColor(red, green, blue);
-					codeBeginDoc.append("\\newrgbcolor{" + colorname + "}{"
-							+ format(red / 255d) + " " + format(green / 255d)
-							+ " " + format(blue / 255d) + "}\n");
+					codeBeginDoc.append("\\newrgbcolor{").append(colorname).append("}{")
+							.append(format(red / 255d)).append(" ").append(format(green / 255d))
+							.append(" ").append(format(blue / 255d)).append("}\n");
 					customColor.put(c, colorname);
 				}
 				sb.append(colorname);

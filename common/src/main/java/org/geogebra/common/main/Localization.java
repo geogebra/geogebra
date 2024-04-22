@@ -33,8 +33,6 @@ public abstract class Localization extends LocalizationI {
 
 	// Giac works to 13 sig digits (for "double" calculations)
 	private final int dimension;
-
-	private StringBuilder sbOrdinal = new StringBuilder();
 	private boolean isAutoCompletePossible = true;
 	// For Persian and Arabic.
 	private boolean isMinusOnRight = false;
@@ -60,6 +58,7 @@ public abstract class Localization extends LocalizationI {
 	private int[] decimalPlacesOptions = { 0, 1, 2, 3, 4, 5, 10, 13, 15 };
 	private int[] significantFiguresOptions = {3, 5, 10, 15};
 
+	// TODO this doesn't really belong here; find a better owner (CommandProcessor?)
 	private final CommandErrorMessageBuilder commandErrorMessageBuilder;
 
 	/**
@@ -626,209 +625,6 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * given 1, return eg 1st, 1e, 1:e according to the language, see
-	 * <a href="http://en.wikipedia.org/wiki/Ordinal_indicator">ordinal indicator</a>
-	 *
-	 * @param n
-	 *            number
-	 * @return corresponding ordinal number
-	 */
-	public String getOrdinalNumber(int n) {
-		String lang = getLanguage().language;
-
-		if ("en".equals(lang)) {
-			return getOrdinalNumberEn(n);
-		}
-
-		// check here for languages where 1st = 1
-		if ("pt".equals(lang) || "ar".equals(lang) || "cy".equals(lang)
-				|| "fa".equals(lang) || "ja".equals(lang) || "ko".equals(lang)
-				|| "lt".equals(lang) || "mr".equals(lang) || "ms".equals(lang)
-				|| "nl".equals(lang) || "si".equals(lang) || "th".equals(lang)
-				|| "vi".equals(lang) || "zh".equals(lang)) {
-			return n + "";
-		}
-
-		if (sbOrdinal == null) {
-			sbOrdinal = new StringBuilder();
-		} else {
-			sbOrdinal.setLength(0);
-		}
-
-		// prefixes
-		if ("in".equals(lang)) {
-			sbOrdinal.append("ke-");
-		} else if ("iw".equals(lang)) {
-			// prefix and postfix for Hebrew
-			sbOrdinal.append("\u200f\u200e");
-		}
-
-		sbOrdinal.append(n);
-
-		if ("cs".equals(lang) || "da".equals(lang) || "et".equals(lang)
-				|| "eu".equals(lang) || "hr".equals(lang) || "hu".equals(lang)
-				|| "is".equals(lang) || "no".equals(lang) || "sk".equals(lang)
-				|| "sr".equals(lang) || "tr".equals(lang)) {
-			sbOrdinal.append('.');
-		} else if ("de".equals(lang)) {
-			sbOrdinal.append("th");
-		} else if ("fi".equals(lang)) {
-			sbOrdinal.append(":s");
-		} else if ("el".equals(lang)) {
-			sbOrdinal.append('\u03b7');
-		} else if ("ro".equals(lang) || "es".equals(lang) || "it".equals(lang)
-				|| "pt".equals(lang)) {
-			sbOrdinal.append(Unicode.FEMININE_ORDINAL_INDICATOR);
-		} else if ("bs".equals(lang) || "sl".equals(lang)) {
-			sbOrdinal.append("-ti");
-		} else if ("ca".equals(lang)) {
-
-			switch (n) {
-			// Catalan (masculine)
-			case 0:
-				break; // just "0", not "0e" etc
-			case 1:
-				sbOrdinal.append("r");
-				break;
-			case 2:
-				sbOrdinal.append("n");
-				break;
-			case 3:
-				sbOrdinal.append("r");
-				break;
-			case 4:
-				sbOrdinal.append("t");
-				break;
-			default:
-				sbOrdinal.append("e");
-				break;
-			}
-
-		} else if ("sq".equals(lang)) {
-			sbOrdinal.append("-te");
-		} else if ("gl".equals(lang)) {
-			sbOrdinal.append("ava");
-		} else if ("mk".equals(lang)) {
-			sbOrdinal.append("-\u0442\u0438");
-		} else if ("ka".equals(lang)) {
-			sbOrdinal.append("-\u10d4");
-		} else if ("iw".equals(lang)) {
-			sbOrdinal.append("\u200e\u200f");
-		} else if ("ru".equals(lang) || "uk".equals(lang)) {
-			sbOrdinal.append("-\u0433\u043e");
-		} else if ("fr".equals(lang)) {
-			if (n == 1) {
-				sbOrdinal.append("er"); // could also be "re" for feminine...
-			} else {
-				sbOrdinal.append("e"); // could also be "es" for plural...
-			}
-		} else if ("sv".equals(lang)) {
-			int unitsDigit = n % 10;
-			if ((unitsDigit == 1) || (unitsDigit == 2)) {
-				sbOrdinal.append(":a");
-			} else {
-				sbOrdinal.append(":e");
-			}
-		}
-
-		return sbOrdinal.toString();
-	}
-
-	/**
-	 * given 1, return eg 1st (English only), see
-	 * <a href=http://en.wikipedia.org/wiki/Ordinal_indicator>ordinal indicator</a>
-	 * 
-	 * @param n
-	 *            number
-	 * @return english ordinal number
-	 */
-	public String getOrdinalNumberEn(int n) {
-		/*
-		 * http://en.wikipedia.org/wiki/Names_of_numbers_in_English If the tens
-		 * digit of a number is 1, then write "th" after the number. For
-		 * example: 13th, 19th, 112th, 9,311th. If the tens digit is not equal
-		 * to 1, then use the following table: If the units digit is: 0 1 2 3 4
-		 * 5 6 7 8 9 write this after the number th st nd rd th th th th th th
-		 */
-
-		int tensDigit = (n / 10) % 10;
-
-		if (tensDigit == 1) {
-			return n + "th";
-		}
-
-		int unitsDigit = n % 10;
-
-		switch (unitsDigit) {
-		case 1:
-			return n + "st";
-		case 2:
-			return n + "nd";
-		case 3:
-			return n + "rd";
-		default:
-			return n + "th";
-		}
-
-	}
-
-	/**
-	 * Prime notation ()' vs Leibniz notation d/dx for derivatives
-	 * 
-	 * @return whether to use prime notation
-	 */
-	public boolean primeNotation() {
-		return !languageIs("en");
-	}
-
-	/**
-	 * @param closed
-	 *            closed intercal
-	 * @param template
-	 *            template
-	 * @return interval start bracket
-	 */
-	public String intervalStartBracket(boolean closed,
-			StringTemplate template) {
-		if (closed) {
-			if (languageIs("cs")) {
-				return template.leftAngleBracket();
-			}
-
-			return template.leftSquareBracket();
-		}
-
-		if (languageIs("hu") || languageIs("fr")) {
-			return template.invertedLeftSquareBracket();
-		}
-
-		return template.leftBracket();
-	}
-
-	/**
-	 * @param closed
-	 *            closed intercal
-	 * @param template
-	 *            template
-	 * @return interval end bracket
-	 */
-	public String intervalEndBracket(boolean closed, StringTemplate template) {
-		if (closed) {
-			if (languageIs("cs")) {
-				return template.rightAngleBracket();
-			}
-
-			return template.rightSquareBracket();
-		}
-
-		if (languageIs("hu") || languageIs("fr")) {
-			return template.invertedRightSquareBracket();
-		}
-
-		return template.rightBracket();
-	}
-
-	/**
 	 * @return rounding menu items
 	 */
 	public String[] getRoundingMenu() {
@@ -1136,13 +932,7 @@ public abstract class Localization extends LocalizationI {
 		if (ret != null) {
 			return ret;
 		}
-		// if that fails check internal commands
-		for (Commands c : Commands.values()) {
-			if (StringUtil.toLowerCaseUS(c.name()).equals(key)) {
-				return Commands.englishToInternal(c).name();
-			}
-		}
-		return null;
+		return Commands.lookupInternal(key);
 	}
 
 	/**

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.util.UUID;
@@ -21,13 +22,12 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.util.Base64;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
-import org.geogebra.desktop.gui.util.SVGImage;
 import org.geogebra.desktop.gui.util.JSVGImageBuilder;
+import org.geogebra.desktop.gui.util.SVGImage;
 import org.geogebra.desktop.main.AppD;
 
 public class MyImageD implements MyImageJre {
@@ -101,12 +101,14 @@ public class MyImageD implements MyImageJre {
 
 	private static MyImageD loadAsSvg(InputStream in, URL url) {
 		StringBuilder svgSb = new StringBuilder();
-		try (BufferedReader reader = new BufferedReader(
-				new InputStreamReader(in, Charsets.getUtf8()))) {
-			for (String line = reader
-					.readLine(); line != null; line = reader.readLine()) {
-				svgSb.append(line);
-				svgSb.append('\n');
+		try {
+			try (BufferedReader reader = new BufferedReader(
+					new InputStreamReader(in, StandardCharsets.UTF_8))) {
+				for (String line = reader
+						.readLine(); line != null; line = reader.readLine()) {
+					svgSb.append(line);
+					svgSb.append('\n');
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

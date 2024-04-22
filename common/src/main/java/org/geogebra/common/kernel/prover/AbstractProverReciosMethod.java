@@ -375,9 +375,9 @@ public abstract class AbstractProverReciosMethod {
 	 */
 
 	protected abstract ProofResult computeNd(
-			final HashSet<PVariable> freeVariables,
-			final HashMap<PVariable, BigInteger> values, final int deg,
-			final SymbolicParameters s, AlgebraicStatement as);
+			HashSet<PVariable> freeVariables,
+			HashMap<PVariable, BigInteger> values, int deg,
+			SymbolicParameters s, AlgebraicStatement as);
 
 	/**
 	 * Returns the elements which are fixed by Recio's method prover

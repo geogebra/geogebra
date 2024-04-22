@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 
@@ -66,8 +67,8 @@ public class DrawAudio extends DrawWidget {
 	private int duration;
 	private boolean sliderHighlighted = false;
 
-	private GColor playHoverColor = GColor.MOW_MEBIS_TEAL;
-	private GColor blobColor = GColor.MOW_MEBIS_TEAL;
+	private GColor playHoverColor = GeoGebraColorConstants.MEBIS_ACCENT;
+	private GColor blobColor = GeoGebraColorConstants.MEBIS_ACCENT;
 
 	/**
 	 * @param view

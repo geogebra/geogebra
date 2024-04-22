@@ -664,6 +664,10 @@ public enum Commands implements CommandsConstants,
 
 	InverseFDistribution(TABLE_PROBABILITY),
 
+	BetaDist(TABLE_PROBABILITY),
+
+	InverseBeta(TABLE_PROBABILITY),
+
 	Gamma(TABLE_PROBABILITY),
 
 	InverseGamma(TABLE_PROBABILITY),
@@ -1212,7 +1216,7 @@ public enum Commands implements CommandsConstants,
 
 	TrigCombine(TABLE_FUNCTION),
 
-	nPr(TABLE_PROBABILITY),
+	nPr(TABLE_ENGLISH),
 
 	CASLoaded(TABLE_GEOGEBRA),
 
@@ -1241,6 +1245,21 @@ public enum Commands implements CommandsConstants,
 
 	Commands(int table) {
 		this.table = table;
+	}
+
+	/**
+	 * Case-insensitive lookup of commands
+	 * @param key user-specified name
+	 * @return name with normalized capitalization, null if command not found
+	 */
+	public static String lookupInternal(String key) {
+		// if that fails check internal commands
+		for (Commands c : Commands.values()) {
+			if (c.name().equalsIgnoreCase(key)) {
+				return Commands.englishToInternal(c).name();
+			}
+		}
+		return null;
 	}
 
 	public int getTable() {

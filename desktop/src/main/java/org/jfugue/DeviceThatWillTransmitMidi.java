@@ -93,8 +93,6 @@ public class DeviceThatWillTransmitMidi {
 	 * 
 	 * This method will return a JFugue Pattern, which you can then manipulate
 	 * to your heart's content.
-	 * 
-	 * @return The Pattern representing the music played on the device
 	 */
 	public void startListening() {
 		this.transmitter.setReceiver(this.mrftd);

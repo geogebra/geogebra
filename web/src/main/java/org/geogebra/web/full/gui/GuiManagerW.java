@@ -61,7 +61,6 @@ import org.geogebra.web.full.euclidian.SymbolicEditorW;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
-import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
 import org.geogebra.web.full.gui.dialog.template.TemplateChooserController;
@@ -1769,7 +1768,7 @@ public class GuiManagerW extends GuiManager
 			return new OpenTemporaryFileView(app);
 		} else {
 			BrowserDevice.FileOpenButton fileOpenButton =
-					new BrowserDevice.FileOpenButton("containedButton");
+					new BrowserDevice.FileOpenButton("containedButton", app);
 			BrowseViewI openFileView;
 			if (app.isMebis()) {
 				openFileView = new OpenFileViewMebis(app, fileOpenButton);
@@ -1847,36 +1846,9 @@ public class GuiManagerW extends GuiManager
 
 	/**
 	 *
-	 * @param showDialog whether the download dialog should be shown or is it downloading directly
 	 */
 	@Override
-	public void exportGGB(boolean showDialog) {
-		final String extension = ((AppW) app).getFileExtension();
-		if (showDialog) {
-			DialogData data = new DialogData("Save", "Cancel", "Save");
-			ComponentDialog dialog = new ComponentDialog((AppW) app, data, false, true);
-			ComponentInputField inputTextField = new ComponentInputField((AppW) app,
-					"", "", "", getApp().getExportTitle() + extension, -1,
-					"");
-			dialog.addDialogContent(inputTextField);
-			dialog.setOnPositiveAction(() -> {
-				String filename = inputTextField.getText();
-				if (StringUtil.emptyTrim(filename)) {
-					filename = getApp().getExportTitle();
-				}
-
-				if (!filename.endsWith(extension)) {
-					filename += extension;
-				}
-				exportGgb(filename, extension);
-			});
-			dialog.show();
-		} else {
-			exportGGBDirectly();
-		}
-	}
-
-	private void exportGGBDirectly() {
+	public void exportGGB() {
 		String extension = ((AppW) app).getFileExtension();
 		String currentDate = DateTimeFormat.format(new JsDate())
 				+ extension;
@@ -1952,7 +1924,7 @@ public class GuiManagerW extends GuiManager
 			} else if (event instanceof StayLoggedOutEvent || (event instanceof LoginEvent
 					&& !((LoginEvent) event).isSuccessful())) {
 				runAfterLogin = null;
-				getApp().getFileManager().saveLoggedOut(getApp());
+				getApp().getFileManager().showOfflineErrorTooltip(getApp());
 			}
 		}
 	}
@@ -2277,8 +2249,9 @@ public class GuiManagerW extends GuiManager
 	public boolean toolbarHasImageMode() {
 		if (!app.showToolBar()) {
 			return false;
-		}
-		if (app.getConfig().getToolbarType().equals(AppType.CLASSIC)) {
+		} else if (getApp().isWhiteboardActive()) {
+			return true;
+		} else if (app.getConfig().getToolbarType().equals(AppType.CLASSIC)) {
 			Vector<ToolbarItem> toolbarItems =
 					ToolBar.parseToolbarString(app.getGuiManager().getToolbarDefinition());
 
@@ -2291,8 +2264,6 @@ public class GuiManagerW extends GuiManager
 					return true;
 				}
 			}
-		} else if (getApp().isWhiteboardActive()) {
-			return true;
 		} else {
 			ToolCollection toolCollection =
 					app.createToolCollectionFactory().createToolCollection();

@@ -160,16 +160,19 @@ public interface AppConfig extends Serializable {
 	/**
 	 * @return the Command filter for the app.
 	 */
+	@CheckForNull
 	CommandFilter getCommandFilter();
 
 	/**
 	 * @return new command filter for the app.
 	 */
+	@CheckForNull
 	CommandFilter createCommandFilter();
 
 	/**
 	 * @return the Command Argument filter for the app.
 	 */
+	@CheckForNull
 	CommandArgumentFilter getCommandArgumentFilter();
 
 	/**
@@ -223,6 +226,7 @@ public interface AppConfig extends Serializable {
 	 *
 	 * @return operation argument filter
 	 */
+	@CheckForNull
 	OperationArgumentFilter createOperationArgumentFilter();
 
 	/**
@@ -343,4 +347,6 @@ public interface AppConfig extends Serializable {
 	int getMainGraphicsViewId();
 
 	boolean hasOneVarStatistics();
+
+	boolean hasDataImport();
 }

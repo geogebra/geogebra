@@ -3,9 +3,9 @@ package org.geogebra.common.kernel;
 import java.util.ArrayList;
 import java.util.Set;
 
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -67,7 +67,7 @@ public interface GeoGebraCasInterface {
 	 * @return whether command is available
 	 */
 
-	public boolean isCommandAvailable(final Command cmd);
+	boolean isCommandAvailable(Command cmd);
 
 	/**
 	 * Expands the given Giac expression and tries to get its polynomial
@@ -82,8 +82,7 @@ public interface GeoGebraCasInterface {
 	 *            variable
 	 * @return list of strings representing the coefficients
 	 */
-	public String[] getPolynomialCoeffs(final String exp,
-			final String variable);
+	String[] getPolynomialCoeffs(String exp, String variable);
 
 	/**
 	 * Evaluates an expression in GeoGebraCAS syntax.
@@ -102,7 +101,7 @@ public interface GeoGebraCasInterface {
 	 *             Note: all other throwables are caught inside and converted to
 	 *             CASException
 	 */
-	public String evaluateGeoGebraCAS(String exp, MyArbitraryConstant arbConst,
+	public String evaluateGeoGebraCAS(String exp, ArbitraryConstantRegistry arbConst,
 			StringTemplate tpl, Kernel kernel) throws CASException;
 
 	/**
@@ -124,7 +123,7 @@ public interface GeoGebraCasInterface {
 	 *             if there is a timeout or the expression cannot be evaluated
 	 */
 	public String evaluateGeoGebraCAS(ValidExpression exp,
-			MyArbitraryConstant arbConst, StringTemplate tpl, GeoCasCell cell,
+			ArbitraryConstantRegistry arbConst, StringTemplate tpl, GeoCasCell cell,
 			Kernel kernel) throws CASException;
 
 	/**
@@ -144,8 +143,8 @@ public interface GeoGebraCasInterface {
 	 *            symbolic mode
 	 * @return command formated for current CAS
 	 */
-	public String getCASCommand(final String name,
-			final ArrayList<ExpressionNode> args, final boolean symbolic,
+	String getCASCommand(String name,
+			ArrayList<ExpressionNode> args, boolean symbolic,
 			StringTemplate tpl, SymbolicMode mode);
 
 	/**

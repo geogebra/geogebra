@@ -47,13 +47,13 @@ import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 /**
- * If no existent material -> show save dialog and ask for title to save
+ * If no existent material -&gt; show save dialog and ask for title to save
  * 
- * <p>If material existent -> always auto save before share
+ * <p>If material existent -&gt; always auto save before share
  * 
- * <p>Share with group -> material stays private (visibility)
+ * <p>Share with group -&gt; material stays private (visibility)
  * 
- * <p>Share by link -> material will be shared (visibility)
+ * <p>Share by link -&gt; material will be shared (visibility)
  * 
  * @author laszlo
  *

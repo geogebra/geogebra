@@ -36,8 +36,7 @@ public class AuxiliaryHeaderPanel extends FlowPanel {
 	 * @param gui
 	 *            header panel
 	 */
-	protected AuxiliaryHeaderPanel(final Localization loc,
-	        final MyHeaderPanel gui) {
+	protected AuxiliaryHeaderPanel(final Localization loc, final MyHeaderPanel gui) {
 		this.setStyleName("headerbar");
 		this.loc = loc;
 		this.gui = gui;
@@ -50,7 +49,6 @@ public class AuxiliaryHeaderPanel extends FlowPanel {
 		this.headerText = new Label("");
 		this.headerText.addStyleName("locationTitle");
 		this.add(this.headerText);
-
 	}
 
 	private void addBackPanel() {
@@ -67,7 +65,7 @@ public class AuxiliaryHeaderPanel extends FlowPanel {
 		SimplePanel ggbLogoPanel = new SimplePanel();
 		ggbLogoPanel.setStyleName("ggbLogoPanel");
 		NoDragImage image = new NoDragImage(GuiResources.INSTANCE.header_back()
-		        .getSafeUri().asString());
+				.getSafeUri().asString());
 		ggbLogoPanel.add(image);
 		this.backPanel.add(ggbLogoPanel);
 		this.add(this.backPanel);

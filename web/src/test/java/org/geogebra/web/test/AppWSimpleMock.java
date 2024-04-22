@@ -20,7 +20,7 @@ public class AppWSimpleMock extends AppWsimple {
 	 * @param undoActive if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
 	public AppWSimpleMock(AppletParameters article, GeoGebraFrameSimple frame,
-						  boolean undoActive) {
+			boolean undoActive) {
 		super(DomMocker.getGeoGebraElement(), article, frame, undoActive);
 	}
 

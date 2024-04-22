@@ -226,7 +226,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		return Commands.LocusEquation;
 	}
 
-	private String getImplicitPoly(boolean implicit) throws Throwable {
+	private String getImplicitPoly(boolean implicit) {
 		AlgebraicStatement as = ProverBotanasMethod
 				.translateConstructionAlgebraically(
 						implicit ? implicitLocus : locusPoint, movingPoint,

@@ -41,8 +41,8 @@ public class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 	 * @param app {@link AppW}
 	 */
 	public ConstructionProtocolViewT(AppW app) {
-	    super(app);
-    }
+		super(app);
+	}
 
 	@Override
 	protected void addDragDropHandlers() {

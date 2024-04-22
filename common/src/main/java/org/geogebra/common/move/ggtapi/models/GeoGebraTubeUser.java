@@ -22,9 +22,7 @@ public class GeoGebraTubeUser {
 	private String cookie;
 	private String image;
 	private String language;
-	private String gender;
 	private ArrayList<GroupIdentifier> groups;
-	private boolean shibbolethAuth;
 	private boolean student = false;
 	private String jwtToken;
 
@@ -118,23 +116,6 @@ public class GeoGebraTubeUser {
 	}
 
 	/**
-	 * @param gender
-	 *            {@code F} for female {@code M} for male {@code O} for not
-	 *            specified
-	 */
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
-	/**
-	 * @return gender of user
-	 * @see #setGender(String)
-	 */
-	public String getGender() {
-		return this.gender;
-	}
-
-	/**
 	 * @return The login identifier of this user
 	 */
 	public String getIdentifier() {
@@ -209,21 +190,6 @@ public class GeoGebraTubeUser {
 			return new ArrayList<>();
 		}
 		return groups;
-	}
-
-	/**
-	 * @return whether user was logged in with shibboleth
-	 */
-	public boolean isShibbolethAuth() {
-		return shibbolethAuth;
-	}
-
-	/**
-	 * @param shibbolethAuth
-	 *            whether user was logged in with shibboleth
-	 */
-	public void setShibbolethAuth(boolean shibbolethAuth) {
-		this.shibbolethAuth = shibbolethAuth;
 	}
 
 	public boolean isStudent() {

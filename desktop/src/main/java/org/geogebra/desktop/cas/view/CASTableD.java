@@ -35,7 +35,7 @@ import javax.swing.table.TableCellRenderer;
 
 import org.geogebra.common.cas.view.CASTable;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
@@ -521,7 +521,7 @@ public class CASTableD extends JTable implements CASTable {
 	}
 
 	/**
-	 * For each row >= start and < end, the height of a row is set to the
+	 * For each row &gt;= start and &lt; end, the height of a row is set to the
 	 * preferred height of the tallest cell in that row.
 	 * 
 	 * @param start
@@ -609,7 +609,7 @@ public class CASTableD extends JTable implements CASTable {
 	 *            row index (starting from 0) where cell is deleted
 	 */
 	private void updateAfterDeleteArbConstTable(int row) {
-		MyArbitraryConstant arbConst = kernel.getConstruction()
+		ArbitraryConstantRegistry arbConst = kernel.getConstruction()
 				.getArbitraryConsTable().remove(row);
 		if (arbConst != null) {
 			for (GeoNumeric geoNum : arbConst.getConstList()) {
@@ -623,7 +623,7 @@ public class CASTableD extends JTable implements CASTable {
 			Integer max = Collections.max(
 					kernel.getConstruction().getArbitraryConsTable().keySet());
 			for (int key = row + 1; key <= max; key++) {
-				MyArbitraryConstant myArbConst = kernel.getConstruction()
+				ArbitraryConstantRegistry myArbConst = kernel.getConstruction()
 						.getArbitraryConsTable().get(key);
 				if (myArbConst != null) {
 					kernel.getConstruction().getArbitraryConsTable()

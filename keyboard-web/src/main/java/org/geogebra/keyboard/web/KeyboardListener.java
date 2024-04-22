@@ -32,6 +32,7 @@ public interface KeyboardListener {
 	 * enter
 	 */
 	int ENTER = '\r'; // 13;
+
 	/**
 	 * Focus/Blur the text field
 	 * 

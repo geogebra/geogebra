@@ -254,9 +254,9 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			int prevIndex;
 
 			index1 = (rowNumber < 0) ? -1
-					: /* data. */getConstructionIndex(rowNumber);
-			prevIndex = (rowNumber < 1) ? -1 : /* data. */
-					getConstructionIndex(rowNumber - 1);
+					: getConstructionIndex(rowNumber);
+			prevIndex = (rowNumber < 1) ? -1
+					: getConstructionIndex(rowNumber - 1);
 
 			// TODO: This logic could be merged with the HTML export logic.
 			int m;
@@ -1232,11 +1232,11 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		for (int i = 0; i < n; i++) {
 			GeoCasCell cell = table.getGeoCasCell(i);
 
-			String input = cell.getInput(StringTemplate.casPrintTemplate);
+			String input = cell.getLocalizedInput();
 			sb.append("<tr>\n");
 
 			sb.append("<td>");
-			sb.append("#" + (i + 1));
+			sb.append("#").append(i + 1);
 			sb.append("</td>\n");
 			sb.append("<td>");
 			appendHTML(sb, input);

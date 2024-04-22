@@ -7,8 +7,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.LayerManager;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.plugin.Event;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.full.gui.ContextMenuFactory;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
@@ -52,9 +50,6 @@ public class OrderSubMenu extends AriaMenuBar {
 			ev.getEuclidianController().widgetsToBackground();
 			command.accept(geos);
 			ev.invalidateDrawableList();
-			app.dispatchEvent(new Event(EventType.ORDERING_CHANGE, null,
-					layerManager.getOrder()));
-			app.getKernel().storeUndoInfo();
 		};
 	}
 }

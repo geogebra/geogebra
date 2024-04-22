@@ -1090,15 +1090,15 @@ public interface Manager3DInterface {
 	/**
 	 * @return ellipse with foci A, B passing thorugh C
 	 */
-	public GeoConicND ellipseHyperbola3D(String label, GeoPointND A,
-			GeoPointND B, GeoPointND C, final int type);
+	GeoConicND ellipseHyperbola3D(String label, GeoPointND A,
+			GeoPointND B, GeoPointND C, int type);
 
 	/**
 	 * @return ellipse with foci A, B passing thorugh C, oriented
 	 */
-	public GeoConicND ellipseHyperbola3D(String label, GeoPointND A,
+	GeoConicND ellipseHyperbola3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C, GeoDirectionND orientation,
-			final int type);
+			int type);
 
 	/**
 	 * @return parabola with focus F and line l

@@ -219,7 +219,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	}
 
 	private void addStyleClickListener(final String propertyName, final int mask,
-									   final ToggleButton toggle) {
+			final ToggleButton toggle) {
 		toggle.addFastClickHandler(event -> {
 			boolean selected = toggle.isSelected();
 			saveEditorChanges();

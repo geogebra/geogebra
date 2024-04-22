@@ -24,27 +24,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  */
 
 public class AlgoHyperGeometric extends AlgoDistribution {
-	/**
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            label for output
-	 * @param a
-	 *            population size
-	 * @param b
-	 *            number of successes
-	 * @param c
-	 *            sample size
-	 * @param d
-	 *            variable value
-	 * @param isCumulative
-	 *            flag for cumulative function
-	 */
-	public AlgoHyperGeometric(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d,
-			GeoBoolean isCumulative) {
-		super(cons, label, a, b, c, d, isCumulative);
-	}
 
 	/**
 	 * @param cons

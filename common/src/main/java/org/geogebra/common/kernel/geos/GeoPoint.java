@@ -1307,7 +1307,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		return (cC.getZ() - cA.getZ()) / ABz;
 	}
 
-	 /***********************************************************
+	/*
 	 * MOVEMENTS
 	 ***********************************************************/
 
@@ -1578,7 +1578,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 			return;
 		}
-		sb.append('(');
+		sb.append(tpl.leftBracket());
 		sb.append(kernel.format(x, tpl));
 		String separatorWithSpace = getValueSeparatorWithSpace(kernel, tpl);
 
@@ -1588,7 +1588,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		sb.append(separatorWithSpace);
 		sb.append(kernel.format(z, tpl));
 
-		sb.append(')');
+		sb.append(tpl.rightBracket());
 	}
 
 	/**
@@ -1691,13 +1691,13 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			StringBuilder sbBuildValueString) {
 		switch (toStringMode) {
 		case Kernel.COORD_POLAR:
-			sbBuildValueString.append('(');
+			sbBuildValueString.append(tpl.leftBracket());
 			sbBuildValueString.append(kernel.format(MyMath.length(x, y), tpl));
-			sbBuildValueString.append(";");
+			sbBuildValueString.append(tpl.polarSeparator());
 			tpl.appendOptionalSpace(sbBuildValueString);
 			sbBuildValueString
 					.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
-			sbBuildValueString.append(')');
+			sbBuildValueString.append(tpl.rightBracket());
 			break;
 
 		case Kernel.COORD_COMPLEX:
@@ -2907,16 +2907,15 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
 		if (!geoPoint.addAuralCaption(sb)) {
 			geoPoint.addAuralLabel(sb);
+		} else {
+			return sb.toString();
 		}
-
 		ScreenReaderBuilder sbWithValue = new ScreenReaderBuilder(loc);
 		sbWithValue.appendDegreeIfNeeded(geoPoint,
-				ScreenReader.convertToReadable(geoPoint.getValueForInputBar(),
-						geoPoint.getKernel().getApplication()));
-		return loc.getPlain("PointAMovedToB",
+				geoPoint.toValueString(geoPoint.getApp().getScreenReaderTemplate()));
+		return loc.getPlainDefault("PointAMovedToB", "Point %0 moved to %1",
 				sb.toString(),
 				sbWithValue.toString());
-
 	}
 
 	@Override

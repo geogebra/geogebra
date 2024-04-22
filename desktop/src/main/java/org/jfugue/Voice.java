@@ -44,7 +44,7 @@ public final class Voice implements JFugueElement {
 	/**
 	 * Sets the value of the voice for this object.
 	 * 
-	 * @param tempo
+	 * @param voice
 	 *            the voice for this object
 	 */
 	public void setVoice(byte voice) {

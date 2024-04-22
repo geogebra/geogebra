@@ -116,7 +116,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 *            {@link Action}
 	 */
 	public KeyBoardButtonFunctionalBase(String caption, ButtonHandler handler,
-	        Action action) {
+			Action action) {
 		super(caption, caption, handler);
 		this.action = action;
 		addStyleName("colored");

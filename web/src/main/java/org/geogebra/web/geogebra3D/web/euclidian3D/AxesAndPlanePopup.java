@@ -53,14 +53,16 @@ public class AxesAndPlanePopup extends PopupMenuButtonWithDefault {
 
 	/**
 	 * set euclidian view from index
+	 * @return whether undoable change occurred
 	 */
-	public void setEVFromIndex() {
+	public boolean setEVFromIndex() {
 		int index = getSelectedIndex();
 		ev.getSettings().beginBatch();
-		ev.getSettings().setShowAxes(MyDouble.isOdd(index));
-		ev.getSettings().setShowPlate(index >= 2);
+		boolean changed = ev.getSettings().setShowAxes(MyDouble.isOdd(index));
+		changed = ev.getSettings().setShowPlate(index >= 2) || changed;
 		ev.getSettings().endBatch();
 		((EuclidianView3DW) ev).doRepaint();
+		return changed;
 	}
 
 	@Override

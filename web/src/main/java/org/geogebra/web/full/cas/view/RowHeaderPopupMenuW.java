@@ -104,16 +104,14 @@ public class RowHeaderPopupMenuW extends
 
 		switch (ac) {
 		case INSERT_ABOVE:
-			GeoCasCell casCell = new GeoCasCell(app.getKernel()
-			        .getConstruction());
+			GeoCasCell casCell = new GeoCasCell(app.getKernel().getConstruction());
 			app.getKernel().getConstruction().setNotXmlLoading(true);
 			table.insertRow(selRows[0], casCell, true);
 			app.getKernel().getConstruction().setNotXmlLoading(false);
 			undoNeeded = true;
 			break;
 		case INSERT_BELOW:
-			casCell = new GeoCasCell(app.getKernel()
-			        .getConstruction());
+			casCell = new GeoCasCell(app.getKernel().getConstruction());
 			app.getKernel().getConstruction().setNotXmlLoading(true);
 			table.insertRow(selRows[selRows.length - 1] + 1, casCell, true);
 			app.getKernel().getConstruction().setNotXmlLoading(false);

@@ -288,7 +288,7 @@ public class ComboBoxDataModel implements ListDataModel {
 
 	/**
 	 * This method calculates a valid index value taking into account the
-	 * following rule: if the index < 0, it returns 0; if the index > then
+	 * following rule: if the index &lt; 0, it returns 0; if the index &gt;
 	 * {@link #getItemIds()} size, it returns {@link #getItemIds()} size.
 	 *
 	 * @param invalidIndex

@@ -74,8 +74,8 @@ public interface SymbolicParametersAlgo {
 	 *             is thrown if it is not possible to obtain the exact
 	 *             coordinates
 	 */
-	public BigInteger[] getExactCoordinates(
-			final HashMap<PVariable, BigInteger> values)
+	BigInteger[] getExactCoordinates(
+			HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException;
 
 	/**

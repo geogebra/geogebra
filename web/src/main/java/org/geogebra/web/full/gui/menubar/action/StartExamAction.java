@@ -10,27 +10,18 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 /**
  * Starts exam.
  */
-public class StartExamAction extends DefaultMenuAction<Void> {
-
-	private AppWFull app;
-
-	/**
-	 * @param app app
-	 */
-	public StartExamAction(AppWFull app) {
-		this.app = app;
-	}
+public class StartExamAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
-	public void execute(Void item, AppWFull app) {
-		app.getSaveController().showDialogIfNeeded(createExamCallback(), false);
+	public void execute(AppWFull app) {
+		app.getSaveController().showDialogIfNeeded(createExamCallback(app), false);
 	}
 
 	/**
 	 * @return callback that shows the exam welcome message and prepares Exam
 	 * (goes fullscreen)
 	 */
-	private AsyncOperation<Boolean> createExamCallback() {
+	private AsyncOperation<Boolean> createExamCallback(AppWFull app) {
 		return startExam -> {
 			app.fileNew();
 			app.clearSubAppCons();

@@ -27,6 +27,7 @@ import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
+import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
@@ -305,6 +306,8 @@ public class ToolbarPanel extends FlowPanel
 		} else {
 			tabTools = null;
 		}
+		// reset tool even if toolbar not available (needed on app switch)
+		app.setMoveMode();
 
 		StickyProbabilityTable table = null;
 		if (app.getConfig().hasDistributionView()) {
@@ -637,7 +640,7 @@ public class ToolbarPanel extends FlowPanel
 		if (dockParent != null) {
 			final Widget opposite = dockParent.getOpposite(dockPanel);
 			if (opposite == null) {
-				 return;
+				return;
 			}
 			AnimationCallback animCallback = null;
 			updateDraggerStyle();
@@ -1089,7 +1092,7 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	/**
-	 * @param style style to change color of header (teal -> ok, red -> cheating)
+	 * @param style style to change color of header (teal = ok, red = cheating)
 	 */
 	public void setHeaderStyle(String style) {
 		resetHeaderClasses();
@@ -1379,17 +1382,16 @@ public class ToolbarPanel extends FlowPanel
 	/**
 	 * Paint this on canvas
 	 * @param context2d context
-	 * @param callback after painting is done
+	 * @param counter decrease after painting is done
 	 * @param left distance from left canvas edge
 	 * @param top distance from top canvas edge
 	 */
 	public void paintToCanvas(CanvasRenderingContext2D context2d,
-			Runnable callback, int left, int top) {
+			ViewCounter counter, int left, int top) {
 		navRail.paintToCanvas(context2d, left, top);
 		// if tool tabs is active, still paint algebra
 		ToolbarTab active = tabTable != null && tabTable.isActive() ? tabTable : tabAlgebra;
-		active.paintToCanvas(context2d, callback, left + 72, top);
-
+		active.paintToCanvas(context2d, counter, left + 72, top);
 	}
 
 	public void setAVIconNonSelect(boolean exam) {

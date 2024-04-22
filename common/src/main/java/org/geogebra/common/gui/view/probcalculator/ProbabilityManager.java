@@ -5,39 +5,26 @@ import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoBoolean;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.statistics.AlgoBinomialDist;
-import org.geogebra.common.kernel.statistics.AlgoCauchy;
-import org.geogebra.common.kernel.statistics.AlgoChiSquared;
 import org.geogebra.common.kernel.statistics.AlgoDistribution;
-import org.geogebra.common.kernel.statistics.AlgoExponential;
-import org.geogebra.common.kernel.statistics.AlgoFDistribution;
-import org.geogebra.common.kernel.statistics.AlgoGamma;
 import org.geogebra.common.kernel.statistics.AlgoHyperGeometric;
 import org.geogebra.common.kernel.statistics.AlgoInverseBinomial;
-import org.geogebra.common.kernel.statistics.AlgoInverseCauchy;
-import org.geogebra.common.kernel.statistics.AlgoInverseChiSquared;
-import org.geogebra.common.kernel.statistics.AlgoInverseExponential;
-import org.geogebra.common.kernel.statistics.AlgoInverseFDistribution;
-import org.geogebra.common.kernel.statistics.AlgoInverseGamma;
 import org.geogebra.common.kernel.statistics.AlgoInverseHyperGeometric;
 import org.geogebra.common.kernel.statistics.AlgoInverseLogNormal;
 import org.geogebra.common.kernel.statistics.AlgoInverseLogistic;
-import org.geogebra.common.kernel.statistics.AlgoInverseNormal;
 import org.geogebra.common.kernel.statistics.AlgoInversePascal;
 import org.geogebra.common.kernel.statistics.AlgoInversePoisson;
-import org.geogebra.common.kernel.statistics.AlgoInverseTDistribution;
-import org.geogebra.common.kernel.statistics.AlgoInverseWeibull;
+import org.geogebra.common.kernel.statistics.AlgoInverseRealDistribution1Param;
+import org.geogebra.common.kernel.statistics.AlgoInverseRealDistribution2Params;
 import org.geogebra.common.kernel.statistics.AlgoLogNormal;
 import org.geogebra.common.kernel.statistics.AlgoLogistic;
-import org.geogebra.common.kernel.statistics.AlgoNormal;
 import org.geogebra.common.kernel.statistics.AlgoPascal;
 import org.geogebra.common.kernel.statistics.AlgoPoisson;
-import org.geogebra.common.kernel.statistics.AlgoTDistribution;
-import org.geogebra.common.kernel.statistics.AlgoWeibull;
+import org.geogebra.common.kernel.statistics.AlgoRealDistribution1Param;
+import org.geogebra.common.kernel.statistics.AlgoRealDistribution2Params;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
@@ -58,9 +45,9 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class ProbabilityManager {
 
 	private final App app;
-	private ProbabilityCalculatorView probCalc;
+	private final ProbabilityCalculatorView probCalc;
 	private HashMap<Dist, String[]> distributionParameterTransKeys;
-	private String[] customValues = {
+	private final String[] customValues = {
 			"Median", "Scale", "Shape", "Population", "population", "Sample", "sample"
 	};
 
@@ -134,6 +121,10 @@ public class ProbabilityManager {
 			distributionParameterTransKeys.put(
 				ProbabilityCalculatorSettings.Dist.LOGNORMAL,
 				new String[]{"Mean.short", "StandardDeviation.short"}
+			);
+			distributionParameterTransKeys.put(
+					ProbabilityCalculatorSettings.Dist.BETA,
+					new String[]{Unicode.alpha + "", Unicode.beta + ""}
 			);
 			distributionParameterTransKeys.put(
 				ProbabilityCalculatorSettings.Dist.GAMMA,
@@ -245,7 +236,13 @@ public class ProbabilityManager {
 			// no nothing
 			break;
 		case NORMAL:
-			ret = new AlgoInverseNormal(cons, param1, param2, x);
+		case F:
+		case WEIBULL:
+		case GAMMA:
+		case BETA:
+		case CAUCHY:
+			ret = new AlgoInverseRealDistribution2Params(cons, param1, param2, x,
+					dist);
 			break;
 		case LOGNORMAL:
 			ret = new AlgoInverseLogNormal(cons, param1, param2, x);
@@ -254,25 +251,10 @@ public class ProbabilityManager {
 			ret = new AlgoInverseLogistic(cons, param1, param2, x);
 			break;
 		case STUDENT:
-			ret = new AlgoInverseTDistribution(cons, param1, x);
-			break;
 		case CHISQUARE:
-			ret = new AlgoInverseChiSquared(cons, param1, x);
-			break;
-		case F:
-			ret = new AlgoInverseFDistribution(cons, param1, param2, x);
-			break;
-		case CAUCHY:
-			ret = new AlgoInverseCauchy(cons, param1, param2, x);
-			break;
 		case EXPONENTIAL:
-			ret = new AlgoInverseExponential(cons, param1, x);
-			break;
-		case GAMMA:
-			ret = new AlgoInverseGamma(cons, param1, param2, x);
-			break;
-		case WEIBULL:
-			ret = new AlgoInverseWeibull(cons, param1, param2, x);
+			ret = new AlgoInverseRealDistribution1Param(cons, param1, x,
+					dist);
 			break;
 		case BINOMIAL:
 			ret = new AlgoInverseBinomial(cons, param1, param2, x);
@@ -326,28 +308,33 @@ public class ProbabilityManager {
 
 		switch (dist) {
 		case NORMAL:
-			ret = new AlgoNormal(cons, param1, param2, x, null);
+			ret = new AlgoRealDistribution2Params(cons, param1, param2, x, null,
+					dist);
 			break;
 		case STUDENT:
-			ret = new AlgoTDistribution(cons, param1, x, null);
+			ret = new AlgoRealDistribution1Param(cons, param1, x, null, dist);
 			break;
 		case CHISQUARE:
-			ret = new AlgoChiSquared(cons, param1, x, null);
+			ret = new AlgoRealDistribution1Param(cons, param1, x, null, dist);
 			break;
 		case F:
-			ret = new AlgoFDistribution(cons, param1, param2, x, null);
+			ret = new AlgoRealDistribution2Params(cons, param1, param2, x, null,
+					dist);
 			break;
 		case CAUCHY:
-			ret = new AlgoCauchy(cons, param1, param2, x, null);
+			ret = new AlgoRealDistribution2Params(cons, param1, param2, x, null, dist);
 			break;
 		case EXPONENTIAL:
-			ret = new AlgoExponential(cons, param1, x, null);
+			ret = new AlgoRealDistribution1Param(cons, param1, x, null, dist);
+			break;
+		case BETA:
+			ret = new AlgoRealDistribution2Params(cons, param1, param2, x, null, dist);
 			break;
 		case GAMMA:
-			ret = new AlgoGamma(cons, param1, param2, x, null);
+			ret = new AlgoRealDistribution2Params(cons, param1, param2, x, null, dist);
 			break;
 		case WEIBULL:
-			ret = new AlgoWeibull(cons, param1, param2, x, null);
+			ret = new AlgoRealDistribution2Params(cons, param1, param2, x, null, dist);
 			break;
 		case BINOMIAL:
 			ret = new AlgoBinomialDist(cons, param1, param2, x,
@@ -398,6 +385,7 @@ public class ProbabilityManager {
 	public static int getParmCount(Dist dist) {
 
 		switch (dist) {
+		case BETA:
 		case GAMMA:
 		case WEIBULL:
 		case LOGNORMAL:
@@ -455,6 +443,8 @@ public class ProbabilityManager {
 			return new double[] { 5, 2 }; // df1 = 5, df2 = 2
 		case EXPONENTIAL:
 			return new double[] { 1 }; // mean = 1
+		case BETA:
+			return new double[] { 2, 2 }; // alpha = 2, beta = 2
 		case GAMMA:
 			return new double[] { 3, 2 }; // alpha = 3, beta = 2
 		case CAUCHY:
@@ -499,7 +489,7 @@ public class ProbabilityManager {
 	 * @return plot width and height
 	 */
 	public double[] getPlotDimensions(Dist selectedDist, GeoNumberValue[] parms,
-			GeoElement densityCurve, boolean isCumulative) {
+			GeoFunction densityCurve, boolean isCumulative) {
 
 		double xMin = 0, xMax = 0, yMin = 0, yMax = 0;
 
@@ -515,14 +505,14 @@ public class ProbabilityManager {
 			xMin = mean - 5 * sigma;
 			xMax = mean + 5 * sigma;
 			yMin = 0;
-			yMax = ((GeoFunction) densityCurve).value(mean);
+			yMax = densityCurve.value(mean);
 			break;
 
 		case STUDENT:
 			xMin = -5;
 			xMax = 5;
 			yMin = 0;
-			yMax = ((GeoFunction) densityCurve).value(0);
+			yMax = densityCurve.value(0);
 			break;
 
 		case CHISQUARE:
@@ -532,26 +522,25 @@ public class ProbabilityManager {
 			yMin = 0;
 			if (k > 2) {
 				// mode occurs when x = k-2; add 0.1 to handle k near 2
-				yMax = ((GeoFunction) densityCurve).value(k - 2 + 0.1);
+				yMax = densityCurve.value(k - 2 + 0.1);
 			} else {
 				// mode occurs at x = 0, but we only use x near zero
-				yMax = ((GeoFunction) densityCurve).value(0.1);
+				yMax = densityCurve.value(0.1);
 			}
 			break;
 
 		case F:
 			v = parms[0].getDouble();
 			v2 = parms[1].getDouble();
-			mean = v2 > 2 ? v2 / (v2 - 2) : 1;
 			mode = ((v - 2) * v2) / (v * (v2 + 2));
 
 			xMin = 0;
 
-			xMax = getContXMax((GeoFunction) densityCurve, 1, .2, -1);
+			xMax = getContXMax(densityCurve, 1, .2, -1);
 
 			yMin = 0;
 			if (v > 2) {
-				yMax = ((GeoFunction) densityCurve).value(mode);
+				yMax = densityCurve.value(mode);
 			} else {
 				// yMax = 1.2 * ((GeoFunction) densityCurve).evaluate(0.01);
 				yMax = 2;
@@ -575,7 +564,7 @@ public class ProbabilityManager {
 			double lambda = parms[0].getDouble();
 			xMin = 0;
 			// xMax = 4 * (1 / lambda); // st dev = 1/lambda
-			xMax = getContXMax((GeoFunction) densityCurve, 1, .2, -1);
+			xMax = getContXMax(densityCurve, 1, .2, -1);
 			yMin = 0;
 			yMax = lambda;
 			break;
@@ -590,9 +579,22 @@ public class ProbabilityManager {
 			xMax = mean + 5 * sd;
 			yMin = 0;
 			if (alpha > 1) {
-				yMax = ((GeoFunction) densityCurve).value(mode);
+				yMax = densityCurve.value(mode);
 			} else {
-				yMax = ((GeoFunction) densityCurve).value(0);
+				yMax = densityCurve.value(0);
+			}
+			break;
+		case BETA:
+			xMin = 0;
+			xMax = 1;
+			yMin = 0;
+			alpha = parms[0].getDouble();
+			beta = parms[1].getDouble();
+			if (alpha > 1 && beta > 1) {
+				mode = (alpha - 1) / (alpha + beta - 2);
+				yMax = densityCurve.value(mode);
+			} else {
+				yMax = Math.max(densityCurve.value(0.01), densityCurve.value(0.99));
 			}
 			break;
 
@@ -606,7 +608,7 @@ public class ProbabilityManager {
 			// mode for shape >1
 			if (shape > 1) {
 				mode = scale * Math.pow(1 - 1 / shape, 1 / shape);
-				yMax = ((GeoFunction) densityCurve).value(mode);
+				yMax = densityCurve.value(mode);
 			} else {
 				yMax = 3.3;
 			}
@@ -629,7 +631,7 @@ public class ProbabilityManager {
 			xMax = mean + 5 * sigma;
 
 			yMin = 0;
-			yMax = ((GeoFunction) densityCurve).value(mode);
+			yMax = densityCurve.value(mode);
 			break;
 
 		case LOGISTIC:
@@ -639,7 +641,7 @@ public class ProbabilityManager {
 			xMin = mean - 5 * sd;
 			xMax = mean + 5 * sd;
 			yMin = 0;
-			yMax = ((GeoFunction) densityCurve).value(mean);
+			yMax = densityCurve.value(mean);
 			break;
 
 		case POISSON:
@@ -796,12 +798,17 @@ public class ProbabilityManager {
 			mean = 1 / lambda;
 			sigma = 1 / lambda;
 			break;
-
-		case GAMMA:
+		case BETA:
 			double alpha = parms[0].getDouble(); // (shape)
 			double beta = parms[1].getDouble(); // (scale)
-			mean = alpha * beta;
-			sigma = Math.sqrt(alpha) * beta;
+			mean = alpha / (alpha + beta);
+			sigma = Math.sqrt(alpha * beta / (alpha + beta + 1)) / (alpha + beta);
+			break;
+		case GAMMA:
+			shape = parms[0].getDouble();
+			scale = parms[1].getDouble();
+			mean = shape * scale;
+			sigma = Math.sqrt(shape) * scale;
 			break;
 
 		case WEIBULL:
@@ -873,8 +880,7 @@ public class ProbabilityManager {
 
 		}
 
-		Double[] d = { mean, sigma };
-		return d;
+		return new Double[]{ mean, sigma };
 	}
 
 	/**

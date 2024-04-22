@@ -3,8 +3,6 @@ package org.geogebra.web.full.gui.view.spreadsheet;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.util.CopyPasteW;
 
@@ -16,52 +14,6 @@ public class CopyPasteCutW extends CopyPasteCut {
 
 	public CopyPasteCutW(App app) {
 		super(app);
-	}
-
-	/**
-	 * Just copying the selection as string text format, independently!
-	 * 
-	 * @return selection content as tab separated string
-	 */
-	public String copyString(int column1, int row1, int column2, int row2) {
-		StringBuilder cellBufferStrLoc = new StringBuilder();
-		for (int row = row1; row <= row2; ++row) {
-			for (int column = column1; column <= column2; ++column) {
-				GeoElement value = RelativeCopy.getValue(app, column, row);
-				if (value != null) {
-					String valueString = value
-							.toValueString(StringTemplate.maxPrecision);
-
-					valueString = removeTrailingZeros(valueString);
-
-					cellBufferStrLoc.append(valueString);
-				}
-				if (column != column2) {
-					cellBufferStrLoc.append('\t');
-				}
-			}
-			if (row != row2) {
-				cellBufferStrLoc.append('\n');
-			}
-		}
-		return new String(cellBufferStrLoc);
-	}
-
-	private String removeTrailingZeros(String valueString) {
-		int indx = valueString
-				.indexOf(app.getKernel().getLocalization().getDecimalPoint());
-		if (indx > -1) {
-			int end = valueString.length() - 1;
-			// only in this case, we should remove trailing zeroes!
-			while (valueString.charAt(end) == '0') {
-				end--;
-			}
-			if (end == indx) {
-				end--;
-			}
-			return valueString.substring(0, end + 1);
-		}
-		return valueString;
 	}
 
 	@Override
@@ -99,29 +51,11 @@ public class CopyPasteCutW extends CopyPasteCut {
 		sourceRow1 = row1;
 
 		// copy tab-delimited geo values into the external buffer
-		if (getCellBufferStr() == null) {
-			setCellBufferStr(new StringBuilder());
-		} else {
-			getCellBufferStr().setLength(0);
-		}
-		for (int row = row1; row <= row2; ++row) {
-			for (int column = column1; column <= column2; ++column) {
-				GeoElement geo = RelativeCopy.getValue(app, column, row);
-				if (geo != null) {
-					getCellBufferStr().append(geo.toValueString(StringTemplate.defaultTemplate));
-				}
-				if (column != column2) {
-					getCellBufferStr().append('\t');
-				}
-			}
-			if (row != row2) {
-				getCellBufferStr().append('\n');
-			}
-		}
+		String tsv = copyStringToBuffer(column1, row1, column2, row2);
 
 		// a clipboard inside this application is better than nothing
 		if (!nat) {
-			app.getCopyPaste().copyTextToSystemClipboard(new String(getCellBufferStr()));
+			app.getCopyPaste().copyTextToSystemClipboard(tsv);
 			getTable().editCellAt(sourceColumn1, sourceRow1);
 		}
 
@@ -177,8 +111,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 		// string. If true, then we have a tab-delimited list of cell geos and
 		// can paste them with relative cell references
 
-		boolean doInternalPaste = getCellBufferStr() != null
-				&& contents.equals(getCellBufferStr().toString());
+		boolean doInternalPaste = isCellBuffer(contents);
 	
 		if (doInternalPaste && getCellBufferGeo() != null) {
 
@@ -210,7 +143,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 		copy(column1, row1, column2, row2, false, nat);
 		// null out the external buffer so that paste will not do a relative
 		// copy
-		setCellBufferStr(null);
+		resetCellBuffer();
 		return delete(column1, row1, column2, row2);
 	}
 }

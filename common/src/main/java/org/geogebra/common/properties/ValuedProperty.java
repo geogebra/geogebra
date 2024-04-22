@@ -54,4 +54,16 @@ public interface ValuedProperty<V> extends Property {
 	 * @param observer value observer
 	 */
 	void removeValueObserver(PropertyValueObserver observer);
+
+	/**
+	 * Remembers the current value, and forces the value of this property to fixedValue.
+	 *
+	 * @param fixedValue The fixed value.
+	 */
+	void freezeValue(V fixedValue);
+
+	/**
+	 * Restores the value remembered by {@link #freezeValue(Object)}.
+	 */
+	void unfreezeValue();
 }

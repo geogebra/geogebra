@@ -680,6 +680,15 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testComplexMatrixEdit() {
+		setupInput("m", "{{?, ?},{?, ?}}");
+		updateInput("{{i, 1},{i, 2}}");
+		assertEquals("\\begin{pmatrix} i & 1 \\\\ i & 2 \\end{pmatrix}",
+				inputBox.getText());
+		assertThat(inputBox.hasError(), equalTo(false));
+	}
+
+	@Test
 	public void testEmpty2DPointShouldNotRaiseError() {
 		add("A = (?, ?)");
 		GeoInputBox inputBox = add("InputBox(A)");
@@ -780,5 +789,11 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertEquals(Collections.singletonList("w"), inputBox.getFunctionVars());
 		updateInput("w-i");
 		t("f", "w - " + Unicode.IMAGINARY);
+	}
+
+	@Test
+	public void shouldEscapeText() {
+		setupInput("txt", "\"--^\\\"");
+		assertEquals(inputBox.getText(), "\\text{-{}-{}\\^{} \\backslash{}}");
 	}
 }

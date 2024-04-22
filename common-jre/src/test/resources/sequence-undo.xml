@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="utf-8"?>
+<geogebra format="5.0" version="5.2.815.0" app="classic" platform="d" id="7a9438cd-6bb2-4bf7-9733-820e39afa501"  xsi:noNamespaceSchemaLocation="http://www.geogebra.org/apps/xsd/ggb.xsd" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+ <gui>
+  <window width="1536" height="824" />
+  <perspectives>
+   <perspective id="tmp">
+    <panes>
+     <pane location="" divider="0.5514322916666666" orientation="1" />
+    </panes>
+    <views>
+     <view id="512" toolbar="0 | 1 501 5 19 , 67 | 2 15 45 18 , 7 37 | 514 3 9 , 13 44 , 47 | 16 51 | 551 550 11 ,  20 22 21 23 , 55 56 57 , 12 | 69 | 510 511 , 512 513 | 533 531 , 534 532 , 522 523 , 537 536 , 535 , 538 | 521 520 | 36 , 38 49 560 | 571 30 29 570 31 33 | 17 | 540 40 41 42 , 27 28 35 , 6 , 502" visible="false" inframe="false" stylebar="false" location="1,1,1" size="500" window="100,100,600,400" />
+     <view id="4" toolbar="0 || 2020 , 2021 , 2022 , 66 || 2001 , 2003 , 2002 , 2004 , 2005 || 2040 , 2041 , 2042 , 2044 , 2043" visible="false" inframe="false" stylebar="true" location="1,1" size="447" window="811,108,976,988" />
+     <view id="8" toolbar="1001 | 1002 | 1003  || 1005 | 1004 || 1006 | 1007 | 1010 || 1008 1009 || 66 68 || 6" visible="false" inframe="false" stylebar="false" location="1,3" size="300" window="100,100,600,400" />
+     <view id="1" visible="true" inframe="false" stylebar="false" location="1" size="670" window="100,100,600,400" />
+     <view id="2" visible="true" inframe="false" stylebar="true" location="3" size="847" tab="ALGEBRA" window="100,100,600,400" />
+     <view id="16" visible="false" inframe="false" stylebar="false" location="1" size="1312" window="50,50,500,500" />
+     <view id="32" visible="false" inframe="false" stylebar="true" location="1" size="150" window="50,50,500,500" />
+     <view id="64" toolbar="0" visible="false" inframe="false" stylebar="false" location="1" size="150" window="50,50,500,500" />
+     <view id="4097" visible="false" inframe="true" stylebar="true" location="1" size="516" window="25,195,1486,434" />
+     <view id="70" toolbar="0 || 2020 || 2021 || 2022" visible="false" inframe="false" stylebar="true" location="1" size="150" window="50,50,500,500" />
+    </views>
+    <toolbar show="true" items="0 39 73 62 | 1 501 67 , 5 19 , 72 75 76 | 2 15 45 , 18 65 , 7 37 | 4 3 8 9 , 13 44 , 58 , 47 | 16 51 64 , 70 | 10 34 53 11 , 24  20 22 , 21 23 | 55 56 57 , 12 | 36 46 , 38 49  50 , 71  14  68 | 30 29 54 32 31 33 | 25 17 26 60 52 61 | 40 41 42 , 27 28 35 , 6" position="1" help="false" />
+    <input show="true" cmd="true" top="algebra" />
+    <dockBar show="false" east="false" />
+   </perspective>
+  </perspectives>
+  <labelingStyle  val="0"/>
+ </gui>
+ <euclidianView>
+  <viewNumber viewNo="1"/>
+  <size  width="670" height="653"/>
+  <coordSystem xZero="384.5693284470893" yZero="269.51558162488186" scale="37.04888554231249" yscale="37.04888554231266"/>
+  <evSettings axes="true" grid="true" gridIsBold="false" pointCapturing="3" rightAngleStyle="1" checkboxSize="26" gridType="3"/>
+  <bgColor r="255" g="255" b="255"/>
+  <axesColor r="37" g="37" b="37"/>
+  <gridColor r="192" g="192" b="192"/>
+  <axis id="0" show="true" label="" unitLabel="" tickStyle="1" showNumbers="false"/>
+  <axis id="1" show="true" label="" unitLabel="" tickStyle="1" showNumbers="false"/>
+ </euclidianView>
+ <spreadsheetView>
+  <size  width="84" height="406"/>
+  <prefCellSize  width="137" height="27"/>
+  <spreadsheetColumn id="0" width="70"/>
+  <spreadsheetColumn id="1" width="70"/>
+  <spreadsheetColumn id="2" width="70"/>
+  <spreadsheetColumn id="3" width="70"/>
+  <spreadsheetColumn id="4" width="70"/>
+  <spreadsheetColumn id="5" width="70"/>
+  <spreadsheetColumn id="6" width="70"/>
+  <spreadsheetColumn id="7" width="70"/>
+  <spreadsheetColumn id="8" width="70"/>
+  <spreadsheetColumn id="9" width="70"/>
+  <layout  showFormulaBar="true" showGrid="true" showHScrollBar="true" showVScrollBar="true" showColumnHeader="true" showRowHeader="true" allowToolTips="true"/>
+ </spreadsheetView>
+ <algebraView>
+  <mode val="1"/>
+  <auxiliary show="true"/></algebraView>
+ <kernel>
+  <uses3D val="true"/>
+  <continuous val="false"/>
+  <usePathAndRegionParameters val="true"/>
+  <decimals val="2"/>
+  <angleUnit val="degree"/>
+  <algebraStyle val="0" spreadsheet="0"/>
+  <coordStyle val="0"/>
+ </kernel>
+ <tableview min="0.0" max="0.0" step="0.0"/>
+ <scripting blocked="false" disabled="false"/>
+ <construction title="marienbad" author="" date="">
+  <expression label="jeuinittest2" exp="{0, 2, 3, 2, 3, 5, 4, 7, 13}"/>
+  <element type="list" label="jeuinittest2">
+   <symbolic val="true" />
+  </element>
+  <element type="numeric" label="tour">
+   <value val="0.0"/>
+  </element>
+  <command name="Object" type="list">
+   <input a0="&quot;jeu_{&quot; + tour + &quot;}&quot;"/>
+   <output a0="jeu2"/>
+  </command>
+  <element type="list" label="jeu2">
+  </element>
+  <expression label="jeuinittest1" exp="{0, 2, 3, 2, 3, 0, 9, 13, 12}"/>
+  <element type="list" label="jeuinittest1">
+   <symbolic val="true" />
+  </element>
+  <expression label="coupEffectifNbChamp" exp="9"/>
+  <element type="numeric" label="coupEffectifNbChamp">
+   <value val="9.0"/>
+  </element>
+  <expression label="coupValidationEffectifExistantChamp" exp="coupEffectifNbChamp ∈ jeu2" />
+  <element type="boolean" label="coupValidationEffectifExistantChamp">
+   <value val="true"/>
+   <checkbox fixed="true"/>
+  </element>
+  <expression label="coupSaisieNbChamp" exp="2"/>
+  <element type="numeric" label="coupSaisieNbChamp">
+   <value val="2.0"/>
+  </element>
+  <expression label="coupValidationNonNulChamp" exp="coupSaisieNbChamp ≥ 1" />
+  <element type="boolean" label="coupValidationNonNulChamp">
+   <value val="true"/>
+   <checkbox fixed="true"/>
+  </element>
+  <expression label="coupValidationNonExcessifChamp" exp="coupSaisieNbChamp ≤ coupEffectifNbChamp" />
+  <element type="boolean" label="coupValidationNonExcessifChamp">
+   <value val="true"/>
+   <checkbox fixed="true"/>
+  </element>
+  <expression label="coupAffTxt" exp="&quot;2s9&quot;"/>
+  <element type="text" label="coupAffTxt">
+   <startPoint x="4.0356377387758275" y="-3.21333856703996" z="1.0"/>
+  </element>
+  <command name="If">
+   <input a0="¬IsInteger[IndexOf[&quot;s&quot;, coupAffTxt]]" a1="IndexOf[&quot;S&quot;, coupAffTxt]" a2="IndexOf[&quot;s&quot;, coupAffTxt]"/>
+   <output a0="posS"/>
+  </command>
+  <element type="numeric" label="posS">
+   <value val="2.0"/>
+  </element>
+  <command name="IsInteger">
+   <input a0="posS"/>
+   <output a0="coupValidationSyntaxeChamp"/>
+  </command>
+  <element type="boolean" label="coupValidationSyntaxeChamp">
+   <value val="true"/>
+   <checkbox fixed="true"/>
+  </element>
+  <element type="point" label="P">
+   <coords x="3.0" y="2.0" z="1.0"/>
+  </element>
+  <expression label="jeuinittest4" exp="{0, 2, 3, 2, 3, 3, 9, 13, 12}"/>
+  <element type="list" label="jeuinittest4">
+   <symbolic val="true" />
+  </element>
+  <expression label="jeuinittest5SeulNon1" exp="{0, 1, 0, 1, 1, 1, 3, 1, 1}"/>
+  <element type="list" label="jeuinittest5SeulNon1">
+   <symbolic val="true" />
+  </element>
+  <element type="numeric" label="configJeuTaille">
+   <value val="5.0"/>
+   <slider min="5" max="10" absoluteScreenLocation="true" width="60.0" x="23.0" y="35.0" fixed="false" horizontal="true" showAlgebra="true"/>
+  </element>
+  <element type="numeric" label="configJeuEcart">
+   <value val="1.0"/>
+   <slider min="1" max="3" absoluteScreenLocation="true" width="60.0" x="23.0" y="92.0" fixed="false" horizontal="true" showAlgebra="true"/>
+  </element>
+  <element type="numeric" label="configJeuDépart">
+   <value val="1.0"/>
+   <slider min="1" max="3" absoluteScreenLocation="true" width="60.0" x="23.0" y="149.0" fixed="false" horizontal="true" showAlgebra="true"/>
+  </element>
+  <element type="numeric" label="étageCurseurs">
+   <value val="6.0"/>
+   <slider min="1" max="Dimension[jeunonnul]" absoluteScreenLocation="true" width="200.0" x="517.0" y="431.0" fixed="false" horizontal="true" showAlgebra="true"/>
+   <condition showObject="¬l"/>
+  </element>
+  <element type="point" label="O">
+   <coords x="2.0" y="4.0" z="1.0"/>
+  </element>
+  <command name="Vector">
+   <input a0="(0, -1)"/>
+   <output a0="ud"/>
+  </command>
+  <element type="vector" label="ud">
+   <coordStyle style="cartesian"/>
+   <coords x="0.0" y="-1.0" z="0.0"/>
+  </element>
+  <command name="Vector">
+   <input a0="(0, -0.8)"/>
+   <output a0="ua"/>
+  </command>
+  <element type="vector" label="ua">
+   <coordStyle style="cartesian"/>
+   <coords x="0.0" y="-0.8" z="0.0"/>
+  </element>
+  <element type="boolean" label="a">
+   <value val="true"/>
+   <labelOffset x="934" y="30"/>
+   <checkbox fixed="true"/>
+   <ggbscript onUpdate="SetValue(b,¬b)"/>
+  </element>
+  <command name="If">
+   <input a0="Mod[tour, 2] &lt; 1" a1="&quot;Joueur 1&quot;" a2="&quot;Joueur 2&quot;"/>
+   <output a0="texte1"/>
+  </command>
+  <element type="text" label="texte1">
+   <startPoint x="0.0" y="0.0" z="1.0"/>
+  </element>
+  <element type="boolean" label="b">
+   <value val="false"/>
+   <labelOffset x="1106" y="30"/>
+   <checkbox fixed="true"/>
+   <ggbscript onUpdate="SetValue(a,¬a)"/>
+  </element>
+  <element type="boolean" label="c">
+   <value val="true"/>
+   <condition showObject="b"/>
+   <labelOffset x="1106" y="87"/>
+   <checkbox fixed="true"/>
+   <ggbscript onUpdate="SetValue(d,¬d)"/>
+  </element>
+  <element type="boolean" label="d">
+   <value val="false"/>
+   <condition showObject="b"/>
+   <labelOffset x="1448" y="162"/>
+   <checkbox fixed="true"/>
+   <ggbscript onUpdate="SetValue(c,¬c)"/>
+  </element>
+  <command name="If">
+   <input a0="Mod[tour, 2] &lt; 1 ∧ b ∧ (¬c) ∨ Mod[tour, 2] &gt; 0 ∧ c" a1="&quot;Ordi&quot;" a2="&quot;Joueur&quot;"/>
+   <output a0="texte2"/>
+  </command>
+  <element type="text" label="texte2">
+   <startPoint x="0.0" y="0.0" z="1.0"/>
+  </element>
+  <expression label="A" exp="P + Vector[(5, 0)]" type="point" />
+  <element type="point" label="A">
+   <coords x="8.0" y="2.0" z="1.0"/>
+  </element>
+  <command name="Text">
+   <input a0="texte1" a1="A"/>
+   <output a0="texte3"/>
+  </command>
+  <element type="text" label="texte3">
+   <condition showObject="a"/>
+   <startPoint x="8.0" y="2.0" z="1.0"/>
+  </element>
+  <command name="Text">
+   <input a0="texte2" a1="A"/>
+   <output a0="texte4"/>
+  </command>
+  <element type="text" label="texte4">
+   <condition showObject="b"/>
+   <startPoint x="8.0" y="2.0" z="1.0"/>
+  </element>
+  <command name="Textfield">
+   <input a0="coupAffTxt"/>
+   <output a0="ChampTexte1"/>
+  </command>
+  <element type="textfield" label="ChampTexte1">
+   <condition showObject="l"/>
+   <bgColor r="255" g="255" b="255" alpha="255"/>
+   <labelOffset x="711" y="216"/>
+   <fixed val="true"/>
+   <auxiliary val="true"/>
+   <ggbscript val="If(boolEtageSaisieModifieCoupAffChamp,ParseToNumber(coupEffectifNbChamp,coupEffectifTxtChamp))&#xd;&#xa;If(boolEtageSaisieModifieCoupAffChamp,ParseToNumber(coupSaisieNbChamp,coupSaisieTxtChamp))&#xd;&#xa;"/>
+   <startPoint exp="G"/>
+   <length val="4"/>
+  </element>
+  <command name="RemoveUndefined">
+   <input a0="Sequence[If[Element[jeu2, k] &gt; 0, Element[jeu2, k]], k, 1, Dimension[jeu2]]"/>
+   <output a0="jeunonnul"/>
+  </command>
+  <element type="list" label="jeunonnul">
+  </element>
+  <command name="Sequence">
+   <input a0="configJeuDépart + (k * configJeuEcart)" a1="k" a2="0" a3="configJeuTaille - 1"/>
+   <output a0="jeuinit" randomResult="{1, 2, 3, 4, 5}"/>
+  </command>
+  <element type="list" label="jeuinit">
+  </element>
+  <command name="Min">
+   <input a0="jeunonnul"/>
+   <output a0="coupSaisieNbMin"/>
+  </command>
+  <element type="numeric" label="coupSaisieNbMin">
+   <value val="2.0"/>
+  </element>
+  <expression label="jeuinittest3" exp="{0, 2, 3, 2, 3, 5, 5, 7, 12}"/>
+  <element type="list" label="jeuinittest3">
+   <symbolic val="true" />
+  </element>
+  <expression label="B" exp="P + Vector[(5, -1)]" type="point" />
+  <element type="point" label="B">
+   <coords x="8.0" y="1.0" z="1.0"/>
+  </element>
+  <expression label="F" exp="P + Vector[(0, -2)]" type="point" />
+  <element type="point" label="F">
+   <coords x="3.0" y="0.0" z="1.0"/>
+  </element>
+  <expression label="D" exp="P + Vector[(3, -3)]" type="point" />
+  <element type="point" label="D">
+   <coords x="6.0" y="-1.0" z="1.0"/>
+  </element>
+  <expression label="E" exp="P + Vector[(3, -4)]" type="point" />
+  <element type="point" label="E">
+   <coords x="6.0" y="-2.0" z="1.0"/>
+  </element>
+  <command name="Vector">
+   <input a0="O" a1="O + Vector[(1, 0)]"/>
+   <output a0="u"/>
+  </command>
+  <element type="vector" label="u">
+   <coordStyle style="cartesian"/>
+   <startPoint exp="O"/>
+   <coords x="1.0" y="0.0" z="0.0"/>
+  </element>
+  <command name="Vector">
+   <input a0="O" a1="O + Vector[(0, 1)]"/>
+   <output a0="v"/>
+  </command>
+  <element type="vector" label="v">
+   <coordStyle style="cartesian"/>
+   <startPoint exp="O"/>
+   <coords x="0.0" y="1.0" z="0.0"/>
+  </element>
+  <expression label="G" exp="P + Vector[(7, -2 + 0.1)]" type="point" />
+  <element type="point" label="G">
+   <coords x="10.0" y="0.10000000000000009" z="1.0"/>
+  </element>
+  <expression label="H" exp="P + Vector[(9, -2 + 0.1)]" type="point" />
+  <element type="point" label="H">
+   <coords x="12.0" y="0.10000000000000009" z="1.0"/>
+  </element>
+  <expression label="texte9" exp="&quot;\mbox{“1s&quot; + (LaTeX[coupSaisieNbMin]) + &quot;”: enlever 1 baguette parmi &quot; + (LaTeX[coupSaisieNbMin]) + &quot;.}&quot;" />
+  <element type="text" label="texte9">
+   <condition showObject="l ∧ (¬coupValidationChamp) ∧ coupValidationSyntaxeChamp"/>
+   <isLaTeX val="true"/>
+   <startPoint exp="F"/>
+  </element>
+  <expression label="C" exp="P + Vector[(5, -4)]" type="point" />
+  <element type="point" label="C">
+   <coords x="8.0" y="-2.0" z="1.0"/>
+  </element>
+  <expression label="txtImposs" exp="&quot;{\textcolor{orange}\mbox{Impossible! }}&quot;"/>
+  <element type="text" label="txtImposs">
+   <condition showObject="((¬coupValidationNonExcessifChamp) ∨ (¬coupValidationEffectifExistantChamp) ∨ (¬coupValidationNonNulChamp)) ∧ coupValidationSyntaxeChamp ∧ l"/>
+   <isLaTeX val="true"/>
+   <startPoint exp="D"/>
+  </element>
+  <expression label="txtImpossNbInexistantI" exp="&quot;{\textcolor{orange}\mbox{Aucun étage ne contient &quot; + (LaTeX[coupEffectifNbChamp]) + &quot; baguette&quot; + (LaTeX[If[coupEffectifNbChamp &gt; 1, &quot;s&quot;, &quot;&quot;]]) + &quot;.}}&quot;" />
+  <element type="text" label="txtImpossNbInexistantI">
+   <condition showObject="(¬coupValidationEffectifExistantChamp) ∧ coupValidationSyntaxeChamp ∧ l"/>
+   <isLaTeX val="true"/>
+   <startPoint exp="I"/>
+  </element>
+  <expression label="texte5" exp="&quot;{\textcolor{OliveGreen}\mbox{Enlever &quot; + (LaTeX[coupSaisieNbChamp]) + &quot; sur &quot; + (LaTeX[coupEffectifNbChamp]) + &quot;?\\&#xa;Clique “Joue!” pour exécuter...}}&quot;" />
+  <element type="text" label="texte5">
+   <condition showObject="coupValidationChamp ∧ l ∨ (¬l)"/>
+   <isLaTeX val="true"/>
+   <startPoint exp="D"/>
+  </element>
+  <element type="numeric" label="saisieCurseurs">
+   <value val="5.0"/>
+   <slider min="1" max="saisieCurseursMax" absoluteScreenLocation="true" width="200.0" x="819.0" y="431.0" fixed="false" horizontal="true" showAlgebra="true"/>
+   <condition showObject="(¬l) ∧ saisieCurseursMax &gt; 1"/>
+   <ggbscript onUpdate="&#xa;"/>
+  </element>
+  <expression label="I" exp="P + Vector[(5, -3)]" type="point" />
+  <element type="point" label="I">
+   <coords x="8.0" y="-1.0" z="1.0"/>
+  </element>
+  <command name="RemoveUndefined">
+   <input a0="Sequence[If[Element[jeu2, k] &gt; 0, k], k, 1, Dimension[jeu2]]"/>
+   <output a0="jeunonnulind"/>
+  </command>
+  <element type="list" label="jeunonnulind">
+  </element>
+  <expression label="txtImpossNul" exp="&quot;{\textcolor{orange}\mbox{On doit enlever au moins 1 baguette.}}&quot;"/>
+  <element type="text" label="txtImpossNul">
+   <condition showObject="(¬coupValidationNonNulChamp) ∧ coupValidationSyntaxeChamp ∧ l"/>
+   <isLaTeX val="true"/>
+   <startPoint exp="C"/>
+  </element>
+  <element type="button" label="Bouton1Reset">
+   <bgColor r="101" g="87" b="210" alpha="255"/>
+   <labelOffset x="566" y="26"/>
+   <fixed val="true"/>
+   <auxiliary val="true"/>
+   <ggbscript val="Execute(effacerJeux)&#xd;&#xa;SetValue(tour,0)&#xd;&#xa;Execute({&quot;jeu_{0}=jeuinittest1&quot;})&#xd;&#xa;&#xd;&#xa;"/>
+  </element>
+  <element type="boolean" label="boolEtageSaisieModifieCoupAffChamp">
+   <value val="true"/>
+   <checkbox fixed="true"/>
+  </element>
+  <expression label="coupValidationChamp" exp="coupValidationSyntaxeChamp ∧ coupValidationEffectifExistantChamp ∧ coupValidationNonExcessifChamp ∧ coupValidationNonNulChamp" />
+  <element type="boolean" label="coupValidationChamp">
+   <value val="true"/>
+   <checkbox fixed="true"/>
+  </element>
+  <element type="boolean" label="l">
+   <value val="true"/>
+   <labelOffset x="713" y="351"/>
+   <checkbox fixed="true"/>
+  </element>
+  <command name="Take">
+   <input a0="coupAffTxt" a1="posS + 1"/>
+   <output a0="coupEffectifTxtChamp"/>
+  </command>
+  <element type="text" label="coupEffectifTxtChamp">
+   <startPoint x="4.192526557848431" y="-1.6684590300625546" z="1.0"/>
+  </element>
+  <command name="Take">
+   <input a0="coupAffTxt" a1="1" a2="posS - 1"/>
+   <output a0="coupSaisieTxtChamp"/>
+  </command>
+  <element type="text" label="coupSaisieTxtChamp">
+   <startPoint x="4.192526557848431" y="-1.6684590300625546" z="1.0"/>
+  </element>
+  <expression label="coupSaisieNbCurseurs" exp="saisieCurseurs" />
+  <element type="numeric" label="coupSaisieNbCurseurs">
+   <value val="5.0"/>
+  </element>
+  <command name="Element" type="numeric">
+   <input a0="jeunonnul" a1="étageCurseurs"/>
+   <output a0="coupEffectifNbCurseurs"/>
+  </command>
+  <element type="numeric" label="coupEffectifNbCurseurs">
+   <value val="13.0"/>
+  </element>
+  <command name="If">
+   <input a0="l" a1="coupSaisieNbChamp" a2="coupSaisieNbCurseurs"/>
+   <output a0="coupSaisieNb"/>
+  </command>
+  <element type="numeric" label="coupSaisieNb">
+   <value val="2.0"/>
+  </element>
+  <command name="If">
+   <input a0="l" a1="coupEffectifNbChamp" a2="coupEffectifNbCurseurs"/>
+   <output a0="coupEffectifNb"/>
+  </command>
+  <element type="numeric" label="coupEffectifNb">
+   <value val="9.0"/>
+  </element>
+  <command name="Sequence">
+   <input a0="&quot;Delete(jeu_{&quot; + (k) + &quot;})&quot;" a1="k" a2="1" a3="tour"/>
+   <output a0="effacerJeux"/>
+  </command>
+  <element type="list" label="effacerJeux">
+   <listType val="text"/>
+  </element>
+  <command name="Sequence">
+   <input a0="Sequence[Segment[O + ((choix - 1) * ud) + (1 / 2 * Vector[(k - (1 + Element[jeu2, choix]) / 2, 0)]), O + ((choix - 1) * ud) + (1 / 2 * Vector[(k - (1 + Element[jeu2, choix]) / 2, 0)]) + ua], k, 1, Element[jeu2, choix]]" a1="choix" a2="1" a3="Dimension[jeu2]"/>
+   <output a0="l2" randomResult="{{}, {0.7999999999999998, 0.7999999999999998}, {0.8, 0.8, 0.8}, {0.8, 0.8}, {0.8, 0.8, 0.8}, {}, {0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998}, {0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998}, {0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998, 0.7999999999999998}}"/>
+  </command>
+  <element type="list" label="l2">
+  </element>
+  <command name="Sequence">
+   <input a0="If[k ≟ IndexOf[Element[jeunonnul, étageCurseurs], jeu2], coupEffectifNb - coupSaisieNb, Element[jeu2, k]]" a1="k" a2="1" a3="Dimension[jeu2]"/>
+   <output a0="jeusuivant"/>
+  </command>
+  <element type="list" label="jeusuivant">
+  </element>
+  <element type="button" label="Bouton2Joue">
+   <condition showObject="coupValidationChamp ∧ l ∨ (¬l)"/>
+   <bgColor r="101" g="87" b="210" alpha="255"/>
+   <labelOffset x="870" y="223"/>
+   <fixed val="true"/>
+   <auxiliary val="true"/>
+   <ggbscript val="SetValue(tour,tour+0)&#xd;&#xa;Execute({&quot;jeu_{&quot;+(CopyFreeObject(tour))+&quot;}=CopyFreeObject(jeusuivant)&quot;})&#xd;&#xa;Execute({&quot;coup_{&quot;+(CopyFreeObject(tour))+&quot;}=Text(&quot;+(coupSaisieNb)+&quot;s&quot;+(coupEffectifNb)+&quot;)&quot;})&#xd;&#xa;"/>
+   <startPoint exp="H"/>
+  </element>
+  <expression label="boolPlusQueDes1Sauf1Nb" exp="1 ≟ Dimension[RemoveUndefined[Sequence[If[Element[jeu2, k] &gt; 1, k], k, 1, Dimension[jeu2]]]]" />
+  <element type="boolean" label="boolPlusQueDes1Sauf1Nb">
+   <value val="false"/>
+   <checkbox fixed="true"/>
+  </element>
+  <command name="If">
+   <input a0="boolPlusQueDes1Sauf1Nb" a1="Dimension[RemoveUndefined[Sequence[If[Element[jeu2, k] ≟ 1, k], k, 1, Dimension[jeu2]]]]"/>
+   <output a0="eff1SiPlusQueDes1Sauf1Nb"/>
+  </command>
+  <element type="numeric" label="eff1SiPlusQueDes1Sauf1Nb">
+   <value val="NaN"/>
+  </element>
+  <command name="If">
+   <input a0="boolPlusQueDes1Sauf1Nb" a1="Element[RemoveUndefined[Sequence[If[Element[jeu2, k] &gt; 1, k], k, 1, Dimension[jeu2]]], 1]"/>
+   <output a0="indNbDuJeuSeulNon1"/>
+  </command>
+  <element type="numeric" label="indNbDuJeuSeulNon1">
+   <value val="NaN"/>
+  </element>
+  <command name="Max">
+   <input a0="jeu2"/>
+   <output a0="coupSaisieNbMax"/>
+  </command>
+  <element type="numeric" label="coupSaisieNbMax">
+   <value val="13.0"/>
+  </element>
+  <command name="Sequence">
+   <input a0="Text[Element[jeu2, k], O - (floor((coupSaisieNbMax + 3) / 2) * Vector[(1 / 2, 0)]) + ((k - 0.5) * ud)]" a1="k" a2="1" a3="Dimension[jeu2]"/>
+   <output a0="l4"/>
+  </command>
+  <element type="list" label="l4">
+  </element>
+  <expression label="txtImpossSyntaxErrorC" exp="&quot;{\textcolor{orange}\mbox{Erreur de syntaxe: &#xa;“1s&quot; + (LaTeX[Element[jeu2, coupSaisieNbMin]]) + &quot;” pour enlever 1 baguette parmi &quot; + (LaTeX[Element[jeu2, coupSaisieNbMin]]) + &quot;.}&quot;" />
+  <element type="text" label="txtImpossSyntaxErrorC">
+   <condition showObject="(¬coupValidationSyntaxeChamp) ∧ l"/>
+   <isLaTeX val="true"/>
+   <startPoint exp="D"/>
+  </element>
+  <command name="IndexOf">
+   <input a0="coupEffectifNbChamp" a1="jeunonnul"/>
+   <output a0="étageChamp"/>
+  </command>
+  <element type="numeric" label="étageChamp">
+   <value val="5.0"/>
+  </element>
+  <command name="If">
+   <input a0="l" a1="étageChamp" a2="étageCurseurs"/>
+   <output a0="étage"/>
+  </command>
+  <element type="numeric" label="étage">
+   <value val="5.0"/>
+  </element>
+  <command name="Sequence">
+   <input a0="Segment[O + ((Element[jeunonnulind, étage] - 1) * ud) + (1 / 2 * Vector[(k - (1 + Element[jeu2, Element[jeunonnulind, étage]]) / 2, 0)]), O + ((Element[jeunonnulind, étage] - 1) * ud) + (1 / 2 * Vector[(k - (1 + Element[jeu2, Element[jeunonnulind, étage]]) / 2, 0)]) + ua]" a1="k" a2="1" a3="coupSaisieNb"/>
+   <output a0="l1"/>
+  </command>
+  <element type="list" label="l1">
+  </element>
+  <expression label="g" exp="g(x) = x - 2^(floor(lg(x) / lg(2)))" type="function"/>
+  <element type="function" label="g">
+   <fixed val="true"/>
+  </element>
+  <expression label="dimjeu2" exp="floor(lg(Max[jeunonnul]) / lg(2)) + 1" />
+  <element type="numeric" label="dimjeu2">
+   <value val="4.0"/>
+  </element>
+  <command name="Sequence">
+   <input a0="IterationList[g, Element[jeunonnul, k], dimjeu2]" a1="k" a2="1" a3="Dimension[jeunonnul]"/>
+   <output a0="m1"/>
+  </command>
+  <element type="list" label="m1">
+  </element>
+  <expression label="jeuinittest5" exp="{0, 2, 3, 2, 3, 1, 8, 9, 4, 13, 16, 29, 31}"/>
+  <element type="list" label="jeuinittest5">
+   <symbolic val="true" />
+  </element>
+  <command name="Element" type="numeric">
+   <input a0="jeu2" a1="IndexOf[Element[jeunonnul, étageCurseurs], jeu2]"/>
+   <output a0="saisieCurseursMax"/>
+  </command>
+  <element type="numeric" label="saisieCurseursMax">
+   <value val="13.0"/>
+  </element>
+  <expression label="jeu_{0}" exp="jeuinittest1" />
+  <element type="list" label="jeu_{0}">
+  </element>
+  <command name="RandomElement">
+   <input a0="Sequence[Dimension[jeunonnul]]"/>
+   <output a0="ligtmp"/>
+  </command>
+  <element type="numeric" label="ligtmp">
+   <value val="5.0"/>
+   <symbolic val="true" />
+  </element>
+  <command name="Sequence">
+   <input a0="Element[m1, ligtmp, col] - Element[m1, ligtmp, col + 1]" a1="col" a2="1" a3="dimjeu2"/>
+   <output a0="m2ligtest"/>
+  </command>
+  <element type="list" label="m2ligtest">
+  </element>
+  <command name="Sequence">
+   <input a0="Sequence[Element[m1, lig, col] - Element[m1, lig, col + 1], col, 1, dimjeu2]" a1="lig" a2="1" a3="Dimension[jeunonnul]"/>
+   <output a0="m2" randomResult="{{{}, {}, {}, {}}, {{}, {}, {}, {}}, {{}, {}, {}, {}}, {{}, {}, {}, {}}, {{}, {}, {}, {}}, {{}, {}, {}, {}}, {{}, {}, {}, {}}}"/>
+  </command>
+  <element type="list" label="m2">
+  </element>
+  <command name="Sequence">
+   <input a0="Sequence[If[IndexOf[2^(var - 1), Element[m2, lig]] &gt; 0, 1, 0], var, dimjeu2, 1, -1]" a1="lig" a2="1" a3="Dimension[jeunonnul]"/>
+   <output a0="m3" randomResult="{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}"/>
+  </command>
+  <element type="list" label="m3">
+  </element>
+  <command name="Sequence">
+   <input a0="Mod[Sum[Sequence[Element[m3, lig, col], lig, 1, Dimension[jeunonnul]]], 2]" a1="col" a2="1" a3="dimjeu2"/>
+   <output a0="l3"/>
+  </command>
+  <element type="list" label="l3">
+  </element>
+  <command name="Sequence">
+   <input a0="Mod[Sum[Sequence[Element[m3, lig, col], lig, 1, Dimension[jeunonnul]]], 2]" a1="col" a2="1" a3="dimjeu2"/>
+   <output a0="ligclébin"/>
+  </command>
+  <element type="list" label="ligclébin">
+  </element>
+  <command name="Sequence">
+   <input a0="(Element[ligclébin, k] * 2^(dimjeu2 - k))" a1="k" a2="1" a3="dimjeu2"/>
+   <output a0="ligclédec" randomResult="{NaN, NaN, NaN, NaN}"/>
+  </command>
+  <element type="list" label="ligclédec">
+  </element>
+  <expression label="texte10" exp="&quot;tour=&quot; + (LaTeX[tour]) + &quot;\\&quot; + (LaTeX[Element[jeunonnul, étageCurseurs]]) + &quot;\\&quot; + (LaTeX[ligtmp]) + &quot;:&quot; + (LaTeX[m2ligtest]) + &quot;\\&quot; + (LaTeX[ligtmp]) + &quot;:&quot; + (LaTeX[Sequence[Element[m1, ligtmp, col] - Element[m1, ligtmp, col + 1], col, 1, dimjeu2]]) + &quot;\\&quot; + (LaTeX[Sequence[Sequence[Element[m1, lig, col] - Element[m1, lig, col + 1], col, 1, dimjeu2], lig, 1, Dimension[jeunonnul]]]) + &quot;&quot;" />
+  <element type="text" label="texte10">
+   <isLaTeX val="true"/>
+  </element>
+  <expression label="txtImpossNbExcessifC" exp="&quot;{\textcolor{orange}\mbox{On ne peut pas retirer &quot; + (LaTeX[coupSaisieNbChamp]) + &quot; baguette&quot; + (LaTeX[If[coupSaisieNbChamp &gt; 1, &quot;s&quot;, &quot;&quot;]]) + &quot; parmi &quot; + (LaTeX[coupEffectifNbChamp]) + &quot;.}}&quot;" />
+  <element type="text" label="txtImpossNbExcessifC">
+   <condition showObject="(¬coupValidationNonExcessifChamp) ∧ coupValidationSyntaxeChamp ∧ l"/>
+   <isLaTeX val="true"/>
+   <startPoint exp="C"/>
+  </element>
+ </construction>
+</geogebra>

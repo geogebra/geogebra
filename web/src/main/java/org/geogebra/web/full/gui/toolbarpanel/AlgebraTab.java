@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
+import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.view.algebra.AlgebraCanvasExporter;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
@@ -161,10 +162,12 @@ public class AlgebraTab extends ToolbarTab {
 
 	@Override
 	public void paintToCanvas(CanvasRenderingContext2D context2d,
-			Runnable callback, int left, int top) {
+			ViewCounter counter, int left, int top) {
 		AlgebraCanvasExporter exporter = new AlgebraCanvasExporter(aview, context2d,
 				getOffsetWidth());
 		exporter.paintToCanvas(left, top);
-		callback.run();
+		if (counter != null) {
+			counter.decrement();
+		}
 	}
 }

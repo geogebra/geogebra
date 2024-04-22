@@ -46,7 +46,6 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.MacroKernel;
 import org.geogebra.common.kernel.PathRegionHandling;
 import org.geogebra.common.kernel.SetRandomValue;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -78,6 +77,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DataAnalysisSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.PenToolsSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.main.settings.TableSettings;
@@ -216,6 +216,7 @@ public class MyXMLHandler implements DocHandler {
 	private HashMap<EuclidianSettings, String> ztick = new HashMap<>();
 	private HashMap<EuclidianSettings, String> ymax = new HashMap<>();
 	private String xValuesLabel;
+	private String xValuesCaption;
 	private ArrayList<String> entries;
 	private String subAppCode;
 
@@ -260,6 +261,7 @@ public class MyXMLHandler implements DocHandler {
 		ytick.clear();
 		ztick.clear();
 		xValuesLabel = null;
+		xValuesCaption = null;
 	}
 
 	private void initKernelVars() {
@@ -682,11 +684,14 @@ public class MyXMLHandler implements DocHandler {
 		String valuesString = attrs.get("xValues");
 		if (valuesString != null) {
 			xValuesLabel = valuesString;
+			xValuesCaption = attrs.get("xCaption");
+			ts.setValueListCaption(xValuesCaption);
 		} else {
 			ts.setValueList(null);
 			ts.setValuesMin(getNumber(attrs.get("min")).getDouble());
 			ts.setValuesMax(getNumber(attrs.get("max")).getDouble());
 			ts.setValuesStep(getNumber(attrs.get("step")).getDouble());
+			ts.setValueListCaption("x");
 		}
 	}
 
@@ -758,7 +763,7 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 
 		boolean ok = true;
-
+		PenToolsSettings penTools = app.getSettings().getPenTools();
 		switch (eName) {
 		case "axesColor":
 			ok = handleAxesColor(evSet, attrs);
@@ -776,7 +781,7 @@ public class MyXMLHandler implements DocHandler {
 			ok = handleEvSettings(evSet, attrs);
 			break;
 		case "eraserSize":
-			ok = handleEraserSize(evSet, attrs);
+			ok = handleEraserSize(penTools, attrs);
 			break;
 		case "grid":
 			ok = handleGrid(evSet, attrs);
@@ -785,10 +790,10 @@ public class MyXMLHandler implements DocHandler {
 			ok = handleGridColor(evSet, attrs);
 			break;
 		case "highlighterSize":
-			ok = handleHighlighterSize(evSet, attrs);
+			ok = handleHighlighterSize(penTools, attrs);
 			break;
 		case "highlighterColor":
-			ok = handleHighlighterColor(evSet, attrs);
+			ok = handleHighlighterColor(penTools, attrs);
 			break;
 		case "lineStyle":
 			ok = handleLineStyle(evSet, attrs);
@@ -800,10 +805,10 @@ public class MyXMLHandler implements DocHandler {
 			ok = handleLanguage(app, attrs);
 			break;
 		case "penSize":
-			ok = handlePenSize(evSet, attrs);
+			ok = handlePenSize(penTools, attrs);
 			break;
 		case "penColor":
-			ok = handlePenColor(evSet, attrs);
+			ok = handlePenColor(penTools, attrs);
 			break;
 		case "rulerColor":
 			ok = handleRulerColor(evSet, attrs);
@@ -1197,7 +1202,7 @@ public class MyXMLHandler implements DocHandler {
 
 			String del = attrs.get("deleteToolSize");
 			if (del != null) {
-				ev.setDeleteToolSize(Integer.parseInt(del));
+				app.getSettings().getPenTools().setDeleteToolSize(Integer.parseInt(del));
 			}
 
 			// v3.0: appearance of right angle
@@ -1423,44 +1428,44 @@ public class MyXMLHandler implements DocHandler {
 		return true;
 	}
 
-	private static boolean handleEraserSize(EuclidianSettings ev,
+	private static boolean handleEraserSize(PenToolsSettings penTools,
 			LinkedHashMap<String, String> attrs) {
 		int eraserSize = Integer.parseInt(attrs.get("val"));
-		ev.setDeleteToolSize(eraserSize);
+		penTools.setDeleteToolSize(eraserSize);
 		return true;
 	}
 
-	private static boolean handlePenSize(EuclidianSettings ev,
+	private static boolean handlePenSize(PenToolsSettings penTools,
 			LinkedHashMap<String, String> attrs) {
 		int penSize = Integer.parseInt(attrs.get("val"));
-		ev.setLastPenThickness(penSize);
+		penTools.setLastPenThickness(penSize);
 		return true;
 	}
 
-	private static boolean handlePenColor(EuclidianSettings ev,
+	private static boolean handlePenColor(PenToolsSettings penTools,
 			LinkedHashMap<String, String> attrs) {
 		GColor col = handleColorAttrs(attrs);
 		if (col == null) {
 			return false;
 		}
-		ev.setLastSelectedPenColor(col);
+		penTools.setLastSelectedPenColor(col);
 		return true;
 	}
 
-	private static boolean handleHighlighterSize(EuclidianSettings ev,
+	private static boolean handleHighlighterSize(PenToolsSettings penTools,
 			 LinkedHashMap<String, String> attrs) {
 		int highlighterSize = Integer.parseInt(attrs.get("val"));
-		ev.setLastHighlighterThinckness(highlighterSize);
+		penTools.setLastHighlighterThickness(highlighterSize);
 		return true;
 	}
 
-	private static boolean handleHighlighterColor(EuclidianSettings ev,
+	private static boolean handleHighlighterColor(PenToolsSettings penTools,
 			  LinkedHashMap<String, String> attrs) {
 		GColor col = handleColorAttrs(attrs);
 		if (col == null) {
 			return false;
 		}
-		ev.setLastSelectedHighlighterColor(col);
+		penTools.setLastSelectedHighlighterColor(col);
 		return true;
 	}
 
@@ -2745,7 +2750,7 @@ public class MyXMLHandler implements DocHandler {
 				// sometimes saved files contain one empty cell pair, see #2469
 				// attachment
 				if (cons.getCasCell(0) == null && geoCasCell
-						.getInput(StringTemplate.defaultTemplate).equals("")) {
+						.getLocalizedInput().equals("")) {
 					return;
 				}
 				cons.addToConstructionList(geoCasCell, true);
@@ -3096,7 +3101,9 @@ public class MyXMLHandler implements DocHandler {
 	private void processXValuesList() {
 		GeoElement geoElement = kernel.lookupLabel(xValuesLabel);
 		if (geoElement != null) {
-			app.getSettings().getTable().setValueList((GeoList) geoElement);
+			TableSettings tableSettings = app.getSettings().getTable();
+			tableSettings.setValueList((GeoList) geoElement);
+			tableSettings.setValueListCaption(xValuesCaption);
 		}
 	}
 
@@ -3527,8 +3534,6 @@ public class MyXMLHandler implements DocHandler {
 						((ExpressionNode) ve).setForceInequality();
 					} else if ("surfacecartesian".equals(type)) {
 						((ExpressionNode) ve).setForceSurfaceCartesian();
-					} else if ("list".equals(type)) {
-						((ExpressionNode) ve).setForceList();
 					}
 				} else if (ve instanceof Equation) {
 					if ("line".equals(type)) {
@@ -3549,9 +3554,9 @@ public class MyXMLHandler implements DocHandler {
 					}
 				}
 			}
-			boolean isTableXValues = label != null && xValuesLabel != null
-					&& label.equals(xValuesLabel);
-			SymbolicMode mode = isTableXValues ? SymbolicMode.NONE : kernel.getSymbolicMode();
+			boolean forceNonSymbolic = (label != null &&  label.equals(xValuesLabel))
+					|| (type != null && !"symbolic".equals(type));
+			SymbolicMode mode = forceNonSymbolic ? SymbolicMode.NONE : kernel.getSymbolicMode();
 
 			GeoElementND[] result = getAlgProcessor()
 					.processValidExpression(ve,

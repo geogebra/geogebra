@@ -150,7 +150,8 @@ public class Unicode {
 	// public static final char ACCENT_CIRCUMFLEX = '\u005e';
 	public static final char QUESTEQ = '\u225f';
 
-	final public static char FEMININE_ORDINAL_INDICATOR = '\u00aa';
+	final public static String SPANISH_ORDINAL_INDICATOR = ".\u00ba";
+	final public static char ITALIAN_ORDINAL_INDICATOR = '\u00ba';
 
 	// GREEK SMALL LETTER IOTA WITH TONOS
 	final public static char IMAGINARY = '\u03af';

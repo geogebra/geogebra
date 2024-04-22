@@ -12,13 +12,13 @@ import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.jre.headless.ApiDelegate;
 import org.geogebra.common.jre.headless.App3DCompanionHeadless;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.AppDI;
 import org.geogebra.common.jre.headless.EuclidianController3DNoGui;
 import org.geogebra.common.jre.headless.EuclidianView3DNoGui;
 import org.geogebra.common.jre.headless.GgbAPIHeadless;
-import org.geogebra.common.jre.headless.ApiDelegate;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.kernel.Construction;
@@ -43,7 +43,6 @@ import org.geogebra.desktop.factories.LoggingCASFactoryD;
 import org.geogebra.desktop.factories.UtilFactoryD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
-import org.geogebra.desktop.main.undo.UndoManagerD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.plugin.ScriptManagerD;
@@ -82,10 +81,6 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	}
 
 	public void addExternalImage(String name, MyImageJre img) {
-		// TODO Auto-generated method stub
-	}
-
-	public void storeFrameCenter() {
 		// TODO Auto-generated method stub
 	}
 
@@ -168,24 +163,9 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	}
 
 	@Override
-	protected int getWindowWidth() {
-		return 800;
-	}
-
-	@Override
-	protected int getWindowHeight() {
-		return 600;
-	}
-
-	@Override
 	public MyImage getExternalImageAdapter(String filename, int width,
 			int height) {
 		return ImageManagerD.getExternalImage(filename);
-	}
-
-	@Override
-	public UndoManagerD getUndoManager(Construction cons) {
-		return new UndoManagerD(cons, true);
 	}
 
 	@Override

@@ -48,6 +48,13 @@
 			background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpolygon points='0,0 2,5 0,10 5,8 10,10 8,5 10,0 5,2' fill='%23EEEEEE'/%3E%3C/svg%3E");
 		}
 
+		#keyboardParent {
+			position: absolute;
+			top: 1200px;
+			left: 200px;
+			width: 80%;
+		}
+
 		#resizer {
 			visibility: hidden;
 			position: absolute;
@@ -109,6 +116,7 @@
 			"enable3D": ["boolean", true],
 			"enableCAS": ["boolean", true],
 			"useBrowserForJS": ["boolean", true],
+			"disableJavaScript": "boolean",
 			"screenshotGenerator": "boolean",
 			"prerelease": "boolean",
 			"useLocalizedDigits": "boolean",
@@ -145,6 +153,7 @@
 			"fontSize": "text",
 			"keyboardType": ["select", "normal", "scientific", "notes", "solver"],
 			"detachKeyboard": ["select", "auto", "true", "false"],
+			"detachedKeyboardParent": "text",
 			"showKeyboardOnFocus": ["select", "", "auto", "true", "false"],
 			"textMode": "boolean",
 			"editorForegroundColor": "text",
@@ -376,5 +385,6 @@
 </div>
 <div id="glasspane"></div>
 <div id="status"></div>
+<div id="keyboardParent">Keyboard comes here</div>
 </body>
 </html>

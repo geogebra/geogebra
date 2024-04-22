@@ -80,8 +80,8 @@ public class AppCommon extends App {
 	private final HashMap<String, MyImageCommon> externalImages = new HashMap<>();
 
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory) {
-	    this(loc, awtFactory, new AppConfigDefault());
-    }
+		this(loc, awtFactory, new AppConfigDefault());
+	}
 
 	/**
 	 * Construct an AppCommon.
@@ -90,15 +90,16 @@ public class AppCommon extends App {
 	 *            localization
 	 * @param awtFactory
 	 *            AWT factory
+	 * @param appConfig config
 	 */
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory, AppConfig appConfig) {
 		super(Platform.ANDROID);
 		config = appConfig;
 		AwtFactory.setPrototypeIfNull(awtFactory);
-        initFactories();
+		initFactories();
 		initKernel();
 		localization = loc;
-        initLocalization();
+		initLocalization();
 		getLocalization().initTranslateCommand();
 		initSettings();
 		initEuclidianViews();
@@ -115,7 +116,7 @@ public class AppCommon extends App {
 				}
 			}
 		});
-    }
+	}
 
 	@Override
 	public DefaultSettings getDefaultSettings() {
@@ -739,6 +740,10 @@ public class AppCommon extends App {
 	@Override
 	public Layout getLayout() {
 		return layout;
+	}
+
+	public void setPrerelease() {
+		prerelease = true;
 	}
 
 	private static class LayoutHeadless extends Layout {

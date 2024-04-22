@@ -1,109 +1,101 @@
+import org.docstr.gradle.plugins.gwt.GwtDev
+
 plugins {
-	id 'java-library'
-	id 'eclipse'
-	id 'org.docstr.gwt' version '1.1.26'
+    id 'java-library'
+    alias libs.plugins.gwt
 }
 
-ext.gwtCompilerVersion = '2.11.0'
-
 gwt {
-	maxHeapSize = '2000M'
-	gwtVersion = gwtCompilerVersion
-	// only compilable module
-	modules 'com.himamis.retex.renderer.JLaTeXMathGWTExportedLibrary'
-	devModules 'com.himamis.retex.renderer.JLaTeXMathGWTDev'
-	compiler {
-		if (project.hasProperty("gdetailed")) {
-			style = org.docstr.gradle.plugins.gwt.Style.DETAILED
-		} else {
-			disableClassMetadata = true
-		}
-	}
-	jsInteropExports {
-		shouldGenerate = true;
-	}
+    maxHeapSize = '2000M'
+    gwtVersion = libs.versions.gwt.get()
+    // only compilable module
+    modules 'com.himamis.retex.renderer.JLaTeXMathGWTExportedLibrary'
+    devModules 'com.himamis.retex.renderer.JLaTeXMathGWTDev'
+    compiler {
+        if (project.hasProperty("gdetailed")) {
+            style = org.docstr.gradle.plugins.gwt.Style.DETAILED
+        } else {
+            disableClassMetadata = true
+        }
+    }
+    jsInteropExports {
+        shouldGenerate = true;
+    }
 }
 
 evaluationDependsOn ':renderer-base'
 evaluationDependsOn ':gwtutil'
 
 dependencies {
-	api project(':renderer-base'),
-			project(':gwtutil'),
-			files(project(':renderer-base').sourceSets.main.java.srcDirs),
-			files(project(':gwtutil').sourceSets.main.java.srcDirs),
-			files(project(':gwtutil').sourceSets.main.resources.srcDirs),
-			files(file("build/generated/sources/annotationProcessor/java/main/")),
-			"org.gwtproject:gwt-dev:$gwtCompilerVersion",
-			"org.gwtproject:gwt-user:$gwtCompilerVersion",
-			'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202306201',
-			'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202306201:sources',
-			'org.gwtproject.core:gwt-core:1.0.0-RC2'
-	testImplementation "com.google.gwt:gwt-user:$gwtCompilerVersion",
-			'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202306201',
-			'org.treblereel.gwt.gwtproject.widgets:gwt-widgets:202306201:sources'
+    api project(':renderer-base'),
+            project(':gwtutil'),
+            files(project(':renderer-base').sourceSets.main.java.srcDirs),
+            files(project(':gwtutil').sourceSets.main.java.srcDirs),
+            files(project(':gwtutil').sourceSets.main.resources.srcDirs),
+            files(file("build/generated/sources/annotationProcessor/java/main/")),
+            libs.gwt.core, libs.gwt.dev, libs.gwt.user, libs.gwt.widgets,
+            variantOf(libs.gwt.widgets) { classifier("sources") }
 
-	annotationProcessor project(":gwtutil"),
-			'org.gwtproject.resources:gwt-resources-processor:HEAD-SNAPSHOT'
+    testImplementation libs.gwt.user, libs.gwt.widgets,
+            variantOf(libs.gwt.widgets) { classifier("sources") }
+
+    annotationProcessor project(":gwtutil"), libs.gwt.resources.processor
 }
 
 compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(processResources)
 
-task run(type: org.docstr.gradle.plugins.gwt.GwtDev, dependsOn: ['jar']) {
-	war = file('war')
-	cacheDir = file('build/gwt/devModeCache')
-	maxHeapSize = '4096m'
-	description 'Starts a codeserver, and a simple webserver for development'
+tasks.register('run', GwtDev) {
+    dependsOn jar
+    war = file('war')
+    cacheDir = file('build/gwt/devModeCache')
+    maxHeapSize = '4096m'
+    description 'Starts a codeserver, and a simple webserver for development'
 }
 
-task jarAll(type: Jar) {
-	classifier = 'all'
-	from project.sourceSets.main.java
-	from project.sourceSets.main.output
-	from project(':renderer-base').sourceSets.main.java
-	from project(':renderer-base').sourceSets.main.output
+tasks.register('jarAll', Jar) {
+    archiveClassifier = 'all'
+    from project.sourceSets.main.java
+    from project.sourceSets.main.output
+    from project(':renderer-base').sourceSets.main.java
+    from project(':renderer-base').sourceSets.main.output
 }
 
-task jarSources(type: Jar, dependsOn: classes) {
-	classifier = 'sources'
-    from sourceSets.main.allSource 
+tasks.register('jarSources', Jar) {
+    dependsOn classes
+    archiveClassifier = 'sources'
+    from sourceSets.main.allSource
 }
 
-// exclude from the eclipse classpath the java files in the resources dir
-eclipse.classpath.file { 
-	whenMerged { classpath ->
-		classpath.entries.find { entry -> entry.kind == 'src' && entry.path == 'src/main/resources' }.excludes = ['**/*.java']
-	}
+tasks.register('cleanDist', Delete) {
+    delete 'dist'
 }
 
-task cleanDist(type: Delete) {
-	delete 'dist'
+tasks.register('dist', Copy) {
+    dependsOn cleanDist
+    from compileGwt
+    into 'dist'
+    doLast {
+        // rename library
+        File jsFile = file('dist/jlatexmath/jlatexmath.nocache.js')
+        File newFile = file('dist/jlatexmath/jlatexmath.js')
+        jsFile.renameTo(newFile)
+
+        // remove unneeded artifacts
+        File clearCacheGif = file('dist/jlatexmath/clear.cache.gif')
+        clearCacheGif.delete();
+        File webInfFolder = file('dist/WEB-INF')
+        deleteDir(webInfFolder)
+    }
 }
 
-task dist(type: Copy, dependsOn: cleanDist) {
-	from compileGwt
-	into 'dist'
-	doLast {
-		// rename library
-		File jsFile = file('dist/jlatexmath/jlatexmath.nocache.js')
-		File newFile = file('dist/jlatexmath/jlatexmath.js')
-		jsFile.renameTo(newFile)
-
-		// remove unneeded artifacts
-		File clearCacheGif = file('dist/jlatexmath/clear.cache.gif')
-		clearCacheGif.delete();
-		File webInfFolder = file('dist/WEB-INF')
-		deleteDir(webInfFolder)
-	}
-}
-
-task zipDist(type: Zip, dependsOn: dist) {
-	from 'dist/jlatexmath'
-	destinationDir file('dist/')
+tasks.register('zipDist', Zip) {
+    dependsOn dist
+    from 'dist/jlatexmath'
+    destinationDirectory = file('dist/')
 }
 
 def deleteDir(dir) {
-	if (dir.isDirectory()) {
+    if (dir.isDirectory()) {
         String[] children = dir.list();
         for (int i = 0; i < children.length; i++) {
             boolean success = deleteDir(new File(dir, children[i]));

@@ -81,6 +81,9 @@ public class SymbolicProcessor {
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Command && ev != root.unwrap()) {
+				if (!processor.isCommandAvailable((Command) ev)) {
+					return ev;
+				}
 				GeoSymbolic symbolic = processor.evalSymbolicNoLabel(ev, evalInfo);
 				ExpressionValue outputValue = symbolic.getValue().unwrap();
 				if (outputValue instanceof NumberValue
@@ -96,6 +99,10 @@ public class SymbolicProcessor {
 			}
 			return ev;
 		}
+	}
+
+	private boolean isCommandAvailable(Command command) {
+		return kernel.getGeoGebraCAS().isCommandAvailable(command);
 	}
 
 	/**
@@ -120,7 +127,7 @@ public class SymbolicProcessor {
 				cmd = (Command) replaced.unwrap();
 				Commands command = Commands.stringToCommand(cmd.getName());
 				boolean isAvailable = kernel.getGeoGebraCAS().isCommandAvailable(cmd);
-				if (command != null && !cmdDispatcher.isAllowedByNameFilter(command)
+				if (command != null && !cmdDispatcher.isAllowedByCommandFilters(command)
 					|| (command == null && isAvailable)) {
 					throw new MyError(kernel.getLocalization(), MyError.Errors.UnknownCommand);
 				}

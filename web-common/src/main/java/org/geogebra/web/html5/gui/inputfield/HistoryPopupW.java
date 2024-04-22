@@ -73,7 +73,7 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 
 		show();
 		setPopupPosition(textField.getAbsoluteLeft(),
-		        textField.getAbsoluteTop() - getOffsetHeight());
+				textField.getAbsoluteTop() - getOffsetHeight());
 
 		historyList.setSelectedIndex(list.size() - 1);
 
@@ -81,8 +81,7 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 		// e.g. due to bad formula string
 		historyList.setFocus(true);
 
-		textField.setText(historyList.getItemText(historyList
-		        .getSelectedIndex()));
+		textField.setText(historyList.getItemText(historyList.getSelectedIndex()));
 
 		historyList.setFocus(true);
 	}
@@ -96,8 +95,7 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 
 	@Override
 	public void onChange(ChangeEvent event) {
-		textField.setText(historyList.getItemText(historyList
-		        .getSelectedIndex()));
+		textField.setText(historyList.getItemText(historyList.getSelectedIndex()));
 	}
 
 	@Override

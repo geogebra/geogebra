@@ -1,7 +1,5 @@
 package org.apache.commons.math3.util;
 
-import org.geogebra.common.util.DoubleConsts;
-
 /*
  * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -58,26 +56,26 @@ public class GWTMath {
 		int exp = getExponent(d);
 
 		switch (exp) {
-		case DoubleConsts.MAX_EXPONENT + 1: // NaN or infinity
+		case Double.MAX_EXPONENT + 1: // NaN or infinity
 			return Math.abs(d);
 
-		case DoubleConsts.MIN_EXPONENT - 1: // zero or subnormal
+		case Double.MIN_EXPONENT - 1: // zero or subnormal
 			return Double.MIN_VALUE;
 
 		default:
-			assert exp <= DoubleConsts.MAX_EXPONENT
-					&& exp >= DoubleConsts.MIN_EXPONENT;
+			assert exp <= Double.MAX_EXPONENT
+					&& exp >= Double.MIN_EXPONENT;
 
 			// ulp(x) is usually 2^(SIGNIFICAND_WIDTH-1)*(2^ilogb(x))
 			exp = exp - (DoubleConsts.SIGNIFICAND_WIDTH - 1);
-			if (exp >= DoubleConsts.MIN_EXPONENT) {
+			if (exp >= Double.MIN_EXPONENT) {
 				return powerOfTwoD(exp);
 			} else {
 				// return a subnormal result; left shift integer
 				// representation of Double.MIN_VALUE appropriate
 				// number of positions
 				return Double.longBitsToDouble(
-						1L << (exp - (DoubleConsts.MIN_EXPONENT
+						1L << (exp - (Double.MIN_EXPONENT
 								- (DoubleConsts.SIGNIFICAND_WIDTH - 1))));
 			}
 		}
@@ -87,8 +85,8 @@ public class GWTMath {
 	 * Returns a floating-point power of two in the normal range.
 	 */
 	static double powerOfTwoD(int n) {
-		assert (n >= DoubleConsts.MIN_EXPONENT
-				&& n <= DoubleConsts.MAX_EXPONENT);
+		assert (n >= Double.MIN_EXPONENT
+				&& n <= Double.MAX_EXPONENT);
 		return Double.longBitsToDouble((((long) n
 				+ (long) DoubleConsts.EXP_BIAS) << (DoubleConsts.SIGNIFICAND_WIDTH
 						- 1))

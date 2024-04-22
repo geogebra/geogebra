@@ -49,7 +49,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 /**
  * Directly convert MathComponents into atoms
  * 
- * @author Zbynek & Agoston
+ * @author Zbynek, Agoston
  *
  */
 public class TeXBuilder {
@@ -452,11 +452,6 @@ public class TeXBuilder {
 			ScriptsAtom scriptsAtom = new ScriptsAtom(EmptyAtom.get(), arg1, arg2,
 					TeXConstants.Align.RIGHT);
 			return wrap(scriptsAtom, arg3);
-		case MIXED_NUMBER:
-			Atom whole = build(argument.getArgument(0));
-			Atom frac = new FractionAtom(build(argument.getArgument(1)),
-					build(argument.getArgument(2)));
-			return wrap(whole, frac);
 		case RECURRING_DECIMAL:
 			Atom overline = new OverlinedAtom(build(argument.getArgument(0)));
 			MathComponent next = argument.nextSibling();

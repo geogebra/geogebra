@@ -25,11 +25,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoPascal extends AlgoDistribution {
 
-	public AlgoPascal(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c, GeoBoolean isCumulative) {
-		super(cons, label, a, b, c, isCumulative);
-	}
-
 	public AlgoPascal(Construction cons, GeoNumberValue a, GeoNumberValue b,
 			GeoNumberValue c, GeoBoolean isCumulative) {
 		super(cons, a, b, c, isCumulative);
