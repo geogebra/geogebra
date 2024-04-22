@@ -10,6 +10,8 @@ import org.geogebra.common.util.shape.Rectangle;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
+
 public class SpreadsheetCellEditorTest {
 
 	private TestTabularData data;
@@ -55,5 +57,12 @@ public class SpreadsheetCellEditorTest {
 
 		controller.showCellEditor(1,  2);
 		assertEquals("bar", editor.getContent());
+	}
+
+	@Test
+	public void testTypingIntoCell() {
+		controller.selectCell(1, 1, false, false);
+		controller.handleKeyPressed(JavaKeyCodes.VK_A, "a", Modifiers.NONE);
+		assertEquals("a", editor.getContent());
 	}
 }
