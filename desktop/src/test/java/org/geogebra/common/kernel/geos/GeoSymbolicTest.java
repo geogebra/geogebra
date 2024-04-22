@@ -2299,4 +2299,15 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		reload();
 		t("f(3)", "(8, 9, 10)");
 	}
+
+	@Test
+	@Issue("APPS-5511")
+	public void parametricEquation() {
+		add("v:=(a,b)");
+		t("Solve(v=(1,2),{a,b})", "{{a = 1, b = 2}}");
+		t("s2:Solve(v=(1,2))", "{{a = 1, b = 2}}");
+		assertEquals("s2 = Solve(v = (1, 2))",
+				lookup("s2").getDefinitionForInputBar());
+	}
+
 }
