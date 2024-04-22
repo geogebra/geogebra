@@ -230,14 +230,13 @@ public class RendererCheckGLVersionD extends Renderer
 	 * 
 	 * openGL method called when the display is to be computed.
 	 * <p>
-	 * First, it calls {@link #doPick()} if a picking is to be done. Then, for
-	 * each {@link Drawable3D}, it calls:
+	 * For each {@link Drawable3D}, it calls:
 	 * <ul>
 	 * <li>{@link Drawable3D#drawHidden(Renderer)} to draw hidden
 	 * parts (dashed segments, lines, ...)</li>
 	 * <li>{@link Drawable3D#drawTransp(Renderer)} to draw
 	 * transparent objects (planes, spheres, ...)</li>
-	 * <li>{@link Drawable3D#drawSurfacesForHiding(Renderer)} to draw
+	 * <li>{@link Drawable3D#drawHiding(Renderer)} (Renderer)} to draw
 	 * in the z-buffer objects that hides others (planes, spheres, ...)</li>
 	 * <li>{@link Drawable3D#drawTransp(Renderer)} to re-draw
 	 * transparent objects for a better alpha-blending</li>

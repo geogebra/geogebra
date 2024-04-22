@@ -2,10 +2,8 @@ package edu.uci.ics.jung.algorithms.shortestpath;
 
 import java.util.Collection;
 import java.util.Set;
-
-import org.apache.commons.collections15.Factory;
-import org.apache.commons.collections15.Transformer;
-import org.apache.commons.collections15.functors.ConstantTransformer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import edu.uci.ics.jung.algorithms.cluster.WeakComponentClusterer;
 import edu.uci.ics.jung.algorithms.filters.FilterUtils;
@@ -28,8 +26,7 @@ public class MinimumSpanningForest2<V, E> {
 
 	protected Graph<V, E> graph;
 	protected Forest<V, E> forest;
-	protected Transformer<E, Double> weights = (Transformer<E, Double>) new ConstantTransformer<Double>(
-			1.0);
+	protected Function<E, Double> weights = ignore -> 1.0;
 
 	/**
 	 * create a Forest from the supplied Graph and supplied Factory, which is
@@ -45,10 +42,10 @@ public class MinimumSpanningForest2<V, E> {
 	 * @param weights
 	 */
 	public MinimumSpanningForest2(Graph<V, E> graph,
-			Factory<Forest<V, E>> factory,
-			Factory<? extends Graph<V, E>> treeFactory,
-			Transformer<E, Double> weights) {
-		this(graph, factory.create(), treeFactory, weights);
+			Supplier<Forest<V, E>> factory,
+			Supplier<? extends Graph<V, E>> treeFactory,
+			Function<E, Double> weights) {
+		this(graph, factory.get(), treeFactory, weights);
 	}
 
 	/**
@@ -66,8 +63,8 @@ public class MinimumSpanningForest2<V, E> {
 	 *            edge weights, may be null
 	 */
 	public MinimumSpanningForest2(Graph<V, E> graph, Forest<V, E> forest,
-			Factory<? extends Graph<V, E>> treeFactory,
-			Transformer<E, Double> weights) {
+			Supplier<? extends Graph<V, E>> treeFactory,
+			Function<E, Double> weights) {
 
 		if (forest.getVertexCount() != 0) {
 			throw new IllegalArgumentException("Supplied Forest must be empty");
@@ -79,14 +76,14 @@ public class MinimumSpanningForest2<V, E> {
 		}
 
 		WeakComponentClusterer<V, E> wcc = new WeakComponentClusterer<V, E>();
-		Set<Set<V>> component_vertices = wcc.transform(graph);
+		Set<Set<V>> component_vertices = wcc.apply(graph);
 		Collection<Graph<V, E>> components = FilterUtils
 				.createAllInducedSubgraphs(component_vertices, graph);
 
 		for (Graph<V, E> component : components) {
 			PrimMinimumSpanningTree<V, E> mst = new PrimMinimumSpanningTree<V, E>(
 					treeFactory, this.weights);
-			Graph<V, E> subTree = mst.transform(component);
+			Graph<V, E> subTree = mst.apply(component);
 			if (subTree instanceof Tree) {
 				TreeUtils.addSubTree(forest, (Tree<V, E>) subTree, null, null);
 			}

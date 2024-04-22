@@ -521,7 +521,7 @@ public class CASTableD extends JTable implements CASTable {
 	}
 
 	/**
-	 * For each row >= start and < end, the height of a row is set to the
+	 * For each row &gt;= start and &lt; end, the height of a row is set to the
 	 * preferred height of the tallest cell in that row.
 	 * 
 	 * @param start

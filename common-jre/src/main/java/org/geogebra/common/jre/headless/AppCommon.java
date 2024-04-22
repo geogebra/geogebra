@@ -90,6 +90,7 @@ public class AppCommon extends App {
 	 *            localization
 	 * @param awtFactory
 	 *            AWT factory
+	 * @param appConfig config
 	 */
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory, AppConfig appConfig) {
 		super(Platform.ANDROID);

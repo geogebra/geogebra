@@ -14,14 +14,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.apache.commons.collections15.buffer;
+package edu.uci.ics.jung.collections;
 
 import java.util.AbstractCollection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import org.apache.commons.collections15.Buffer;
-import org.apache.commons.collections15.BufferUnderflowException;
 
 /**
  * UnboundedFifoBuffer is a very efficient buffer implementation. According to
@@ -38,7 +35,7 @@ import org.apache.commons.collections15.BufferUnderflowException;
  * <p/>
  * Note that this implementation is not synchronized. The following can be used
  * to provide synchronized access to your <code>UnboundedFifoBuffer</code>:
- * 
+ *
  * <pre>
  * Buffer fifo = BufferUtils.synchronizedBuffer(new UnboundedFifoBuffer());
  * </pre>
@@ -75,7 +72,7 @@ public class UnboundedFifoBuffer<E> extends AbstractCollection<E>
 	 * Constructs an UnboundedFifoBuffer with the default number of elements. It
 	 * is exactly the same as performing the following:
 	 * <p/>
-	 * 
+	 *
 	 * <pre>
 	 * new UnboundedFifoBuffer(32);
 	 * </pre>

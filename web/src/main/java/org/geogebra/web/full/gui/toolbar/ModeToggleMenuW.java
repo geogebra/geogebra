@@ -94,7 +94,7 @@ public class ModeToggleMenuW extends ListItem
 	}
 
 	/**
-	 * Create & add UI elements
+	 * Create and add UI elements
 	 */
 	protected void buildGui() {
 		submenu = createToolbarSubmenu(app, order);

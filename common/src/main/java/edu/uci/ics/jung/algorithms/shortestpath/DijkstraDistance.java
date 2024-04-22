@@ -18,9 +18,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.commons.collections15.Transformer;
-import org.apache.commons.collections15.functors.ConstantTransformer;
+import java.util.function.Function;
 
 import edu.uci.ics.jung.algorithms.util.BasicMapEntry;
 import edu.uci.ics.jung.algorithms.util.MapBinaryHeap;
@@ -71,7 +69,7 @@ import edu.uci.ics.jung.graph.Hypergraph;
  */
 public class DijkstraDistance<V, E> implements Distance<V> {
 	protected Hypergraph<V, E> g;
-	protected Transformer<E, ? extends Number> nev;
+	protected Function<E, ? extends Number> nev;
 	protected Map<V, SourceData> sourceMap; // a map of source vertices to an
 											// instance of SourceData
 	protected boolean cached;
@@ -93,7 +91,7 @@ public class DijkstraDistance<V, E> implements Distance<V> {
 	 *            specifies whether the results are to be cached
 	 */
 	public DijkstraDistance(Hypergraph<V, E> g,
-			Transformer<E, ? extends Number> nev, boolean cached) {
+			Function<E, ? extends Number> nev, boolean cached) {
 		this.g = g;
 		this.nev = nev;
 		this.sourceMap = new HashMap<V, SourceData>();
@@ -114,7 +112,7 @@ public class DijkstraDistance<V, E> implements Distance<V> {
 	 *            the class responsible for returning weights for edges
 	 */
 	public DijkstraDistance(Hypergraph<V, E> g,
-			Transformer<E, ? extends Number> nev) {
+			Function<E, ? extends Number> nev) {
 		this(g, nev, true);
 	}
 
@@ -129,7 +127,7 @@ public class DijkstraDistance<V, E> implements Distance<V> {
 	 */
 	@SuppressWarnings("unchecked")
 	public DijkstraDistance(Graph<V, E> g) {
-		this(g, new ConstantTransformer(1), true);
+		this(g, ignore -> 1, true);
 	}
 
 	/**
@@ -145,7 +143,7 @@ public class DijkstraDistance<V, E> implements Distance<V> {
 	 */
 	@SuppressWarnings("unchecked")
 	public DijkstraDistance(Graph<V, E> g, boolean cached) {
-		this(g, new ConstantTransformer(1), cached);
+		this(g, ignore -> 1, cached);
 	}
 
 	/**
@@ -217,7 +215,7 @@ public class DijkstraDistance<V, E> implements Distance<V> {
 			for (E e : getEdgesToCheck(v)) {
 				for (V w : g.getIncidentVertices(e)) {
 					if (!sd.distances.containsKey(w)) {
-						double edge_weight = nev.transform(e).doubleValue();
+						double edge_weight = nev.apply(e).doubleValue();
 						if (edge_weight < 0) {
 							throw new IllegalArgumentException(
 									"Edges weights must be non-negative");

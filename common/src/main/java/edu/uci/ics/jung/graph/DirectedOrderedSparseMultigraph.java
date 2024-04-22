@@ -16,8 +16,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
-import org.apache.commons.collections15.Factory;
+import java.util.function.Supplier;
 
 import edu.uci.ics.jung.graph.util.Pair;
 
@@ -37,10 +36,10 @@ public class DirectedOrderedSparseMultigraph<V, E>
 	 * @param <E>
 	 *            the edge type for the graph factory
 	 */
-	public static <V, E> Factory<DirectedGraph<V, E>> getFactory() {
-		return new Factory<DirectedGraph<V, E>>() {
+	public static <V, E> Supplier<DirectedGraph<V, E>> getFactory() {
+		return new Supplier<DirectedGraph<V, E>>() {
 			@Override
-			public DirectedGraph<V, E> create() {
+			public DirectedGraph<V, E> get() {
 				return new DirectedOrderedSparseMultigraph<V, E>();
 			}
 		};

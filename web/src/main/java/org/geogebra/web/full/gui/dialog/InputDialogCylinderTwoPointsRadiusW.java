@@ -9,7 +9,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
 /**
- * Dialog for cylinder given by top & bottom centers.
+ * Dialog for cylinder given by top and bottom centers.
  */
 public class InputDialogCylinderTwoPointsRadiusW extends InputDialogRadiusW {
 
