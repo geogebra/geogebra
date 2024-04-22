@@ -32,6 +32,16 @@
 			.colorButton {
 				opacity: 0.36;
 				cursor: default;
+
+				&:hover {
+					background: none;
+				}
+			}
+
+			.colorButton.customColor:hover {
+				.imageHolder {
+					background: none;
+				}
 			}
 		}
 

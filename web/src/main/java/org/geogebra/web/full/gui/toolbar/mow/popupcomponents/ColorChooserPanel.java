@@ -1,5 +1,9 @@
 package org.geogebra.web.full.gui.toolbar.mow.popupcomponents;
 
+import static org.geogebra.common.awt.GColor.getColorStringNoAlpha;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GColor;
@@ -17,6 +21,7 @@ public class ColorChooserPanel extends FlowPanel {
 	private GColor activeColor;
 	private FlowPanel activeButton;
 	private final AppW appW;
+	private List<FlowPanel> colorButtons;
 
 	/**
 	 * constructor
@@ -32,6 +37,7 @@ public class ColorChooserPanel extends FlowPanel {
 	}
 
 	private void buildGUI() {
+		colorButtons = new ArrayList<>();
 		ColorValues[] colorValues = ColorValues.values();
 		for (ColorValues color : colorValues) {
 			addColorButton(color.getColor());
@@ -60,10 +66,11 @@ public class ColorChooserPanel extends FlowPanel {
 
 		Dom.addEventListener(colorButton.getElement(), "click", (event) -> {
 				if (!isDisabled()) {
-			 updateColor(colorButton, color);
-		 }
+			 		updateColor(colorButton, color);
+		 		}
 		 });
 
+		colorButtons.add(colorButton);
 		add(colorButton);
 	 }
 
@@ -72,46 +79,48 @@ public class ColorChooserPanel extends FlowPanel {
 		customColorButton.addStyleName("colorButton customColor");
 
 		SimplePanel imageHolder = new SimplePanel();
-		 imageHolder.addStyleName("imageHolder");
+		imageHolder.addStyleName("imageHolder");
 		NoDragImage plus = new NoDragImage(MaterialDesignResources.INSTANCE.add_black(), 18);
 		plus.addStyleName("plus");
 
 		customColorButton.add(imageHolder);
 		customColorButton.add(plus);
 
-		Dom.addEventListener(customColorButton.getElement(), "click", (event) ->
-				((DialogManagerW) appW.getDialogManager()).showColorChooserDialog(activeColor,
-				new ColorChangeHandler() {
-					@Override
-					public void onColorChange(GColor color) {
-						updateColor(null, color);
-					}
+		Dom.addEventListener(customColorButton.getElement(), "click", (event) -> {
+				if (!isDisabled()) {
+					((DialogManagerW) appW.getDialogManager()).showColorChooserDialog(activeColor,
+							new ColorChangeHandler() {
+								@Override
+								public void onColorChange(GColor color) {
+									updateColor(null, color);
+								}
 
-					@Override
-					public void onAlphaChange() {
-						// nothing to do here
-					}
+								@Override
+								public void onAlphaChange() {
+									// nothing to do here
+								}
 
-					@Override
-					public void onClearBackground() {
-						// nothing to do here
-					}
+								@Override
+								public void onClearBackground() {
+									// nothing to do here
+								}
 
-					@Override
-					public void onForegroundSelected() {
-						// nothing to do here
-					}
+								@Override
+								public void onForegroundSelected() {
+									// nothing to do here
+								}
 
-					@Override
-					public void onBackgroundSelected() {
-						// nothing to do here
-					}
+								@Override
+								public void onBackgroundSelected() {
+									// nothing to do here
+								}
 
-					@Override
-					public void onBarSelected() {
-						// nothing to do here
-					}
-				}));
+								@Override
+								public void onBarSelected() {
+									// nothing to do here
+								}
+							});
+				}});
 
 		add(customColorButton);
 	 }
@@ -146,7 +155,29 @@ public class ColorChooserPanel extends FlowPanel {
 		Dom.toggleClass(this, "disabled", disabled);
 	}
 
-	private boolean isDisabled() {
+	public boolean isDisabled() {
 		return getElement().hasClassName("disabled");
+	}
+
+	private FlowPanel getColorButton(GColor color) {
+		for (FlowPanel button : colorButtons) {
+			String bgColor = button.getElement().getStyle().getBackgroundColor();
+			if (bgColor.equals(getColorStringNoAlpha(color))) {
+				return button;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * update color palette selection
+	 * @param selectedColor - last selected color
+	 */
+	public void updateColorSelection(GColor selectedColor) {
+		FlowPanel buttonToSelect = getColorButton(selectedColor);
+		if (buttonToSelect != null) {
+			updateColor(buttonToSelect, selectedColor);
+		}
 	}
 }

@@ -47,6 +47,7 @@ public class PenIconButton extends IconButton {
 					MODE_ERASER), getUpdateButtonCallback(), this);
 		}
 
+		penPopup.update();
 		penPopup.show();
 		penPopup.setPopupPosition(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
 				(int) (getAbsoluteTop() - appW.getAbsTop()));
@@ -58,7 +59,7 @@ public class PenIconButton extends IconButton {
 					ToolbarSvgResources.INSTANCE, mode, appW);
 			updateImgAndTxt(image, mode, appW);
 			setActive(true);
-			penPopup.disableColorChooser(mode == MODE_ERASER);
+			penPopup.update();
 		};
 	}
 
