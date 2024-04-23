@@ -8,13 +8,13 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.matrix.Coords;
 
-public final class IntersectPolyCurvesAndLine {
+public final class IntersectLineSpline {
 	private final Coords coeffs;
 	private final Spline spline;
 	private final EquationSolver solver;
 
 
-	public IntersectPolyCurvesAndLine(Spline spline, Coords coeffs,	EquationSolver solver) {
+	public IntersectLineSpline(Spline spline, Coords coeffs,	EquationSolver solver) {
 		this.spline = spline;
 		this.coeffs = coeffs;
 		this.solver = solver;
@@ -23,7 +23,8 @@ public final class IntersectPolyCurvesAndLine {
 	public List<Double> compute() {
 		ArrayList<Double> roots = new ArrayList<>();
 		for (int i = 0; i < spline.size(); i++) {
-			ExpressionNode enx = spline.multiply(i, coeffs);
+			ExpressionNode enx = AlgoIntersectLineCurve.getMultiplyExpression(spline.getFuncX(i),
+					spline.getFuncY(i), coeffs);
 			GeoFunction functionX = enx.buildFunction(spline.getFunctionVariable());
 			Solution solution = solve(functionX);
 			if (solution.curRoots != null) {
@@ -51,4 +52,3 @@ public final class IntersectPolyCurvesAndLine {
 		return solution;
 	}
 }
-
