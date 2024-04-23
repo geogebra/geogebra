@@ -17,19 +17,6 @@ public final class IntersectPolyCurvesAndLine {
 	private final Spline spline;
 
 
-//	private void updatePoint(FunctionVariable functionVariable,
-//				AlgoElement.OutputHandler<GeoPointND> outputPoints) {
-//			outputPoints.adjustOutputSize(roots.size());
-//			for (int index = 0; index < roots.size(); index++) {
-//				GeoPointND point = outputPoints.getElement(index);
-//				functionVariable.set(roots.get(index));
-//				ExpressionNode xFun1 = params.get(index).xFun;
-//				ExpressionNode yFun1 = params.get(index).yFun;
-//				point.setCoords(xFun1.evaluateDouble(), yFun1.evaluateDouble(), 0, 1.0);
-//			}
-//		}
-//	}
-
 	public IntersectPolyCurvesAndLine(GeoCurveCartesianND curve, Coords coeffs) {
 		this.kernel = curve.kernel;
 		this.coeffs = coeffs;
@@ -39,34 +26,14 @@ public final class IntersectPolyCurvesAndLine {
 	public void compute(AlgoElement.OutputHandler<GeoPointND> outputPoints) {
 		ArrayList<Double> roots = new ArrayList<>();
 		for (int i = 0; i < spline.size(); i++) {
-			ExpressionNode xFun = spline.getFuncX(i);
-			ExpressionNode yFun = spline.getFuncY(i);
-			ExpressionNode enx, eny;
-			if (DoubleUtil.isZero(coeffs.getZ())) {
-				enx = xFun.multiply(coeffs.getX());
-				eny = yFun.multiply(coeffs.getY());
-				enx = enx.plus(eny);
-			} else {
-				// Normalizing to (a/c)x + (b/c)y + 1 seems to work better
-				enx = xFun.multiply(coeffs.getX() / coeffs.getZ());
-				eny = yFun.multiply(coeffs.getY() / coeffs.getZ());
-				enx = enx.plus(eny).plus(1);
-			}
-
-			GeoFunction fX = enx.buildFunction(spline.getFunctionVariable());
-			Solution solution = new Solution();
-
-			AlgoRootsPolynomial.calcRootsMultiple(fX.getFunction(),
-					0, solution, kernel.getEquationSolver());
-
-			solution.sortAndMakeUnique();
+			GeoFunction fX = getGeoFunction(i);
+			Solution solution = solveFx(fX);
 			if (solution.curRoots != null) {
 				for (int j = 0; j < solution.curRealRoots; j++) {
 					double root = solution.curRoots[j];
-					if (0 <= root && root <= 1 && !roots.contains(root)) {
+					if (spline.isInInterval(root, i) && !roots.contains(root)) {
 						roots.add(root);
 					}
-
 				}
 			}
 		}
@@ -77,6 +44,34 @@ public final class IntersectPolyCurvesAndLine {
 		} else {
 			updatePoints(outputPoints, roots);
 		}
+	}
+
+	private Solution solveFx(GeoFunction fX) {
+		Solution solution = new Solution();
+		AlgoRootsPolynomial.calcRootsMultiple(fX.getFunction(),
+				0, solution, kernel.getEquationSolver());
+
+		solution.sortAndMakeUnique();
+		return solution;
+	}
+
+	private GeoFunction getGeoFunction(int i) {
+		ExpressionNode xFun = spline.getFuncX(i);
+		ExpressionNode yFun = spline.getFuncY(i);
+		ExpressionNode enx, eny;
+		if (DoubleUtil.isZero(coeffs.getZ())) {
+			enx = xFun.multiply(coeffs.getX());
+			eny = yFun.multiply(coeffs.getY());
+			enx = enx.plus(eny);
+		} else {
+			// Normalizing to (a/c)x + (b/c)y + 1 seems to work better
+			enx = xFun.multiply(coeffs.getX() / coeffs.getZ());
+			eny = yFun.multiply(coeffs.getY() / coeffs.getZ());
+			enx = enx.plus(eny).plus(1);
+		}
+
+		GeoFunction fX = enx.buildFunction(spline.getFunctionVariable());
+		return fX;
 	}
 
 	private void updatePoints(AlgoElement.OutputHandler<GeoPointND> outputPoints,
@@ -100,20 +95,5 @@ public final class IntersectPolyCurvesAndLine {
 					.setCoords(p.x, p.y, 1);
 		}
 	}
-
-//	private void findRoots(PolyCurveParams params) {
-//		GeoFunction function1 = params.buildFunctionX(functionVariable);
-//		Solution solution = new Solution();
-//
-//		AlgoRootsPolynomial.calcRootsMultiple(function1.getFunction(),
-//				0, solution, kernel.getEquationSolver());
-//
-//		solution.sortAndMakeUnique();
-//
-//		if (solution.curRoots != null) {
-//			collectRoots(params, solution);
-//
-//		}
-//	}
 }
 
