@@ -24,6 +24,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.Commands;
@@ -97,10 +98,14 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 	@Override
 	public void compute() {
 		Coords coeffs = line.getCoords();
+		ExpressionNode fun1 = curve.getFun(0).getExpression();
+		ExpressionNode fun2 = curve.getFun(1).getExpression();
+		FunctionVariable functionVariable = curve.getFun(0).getFunctionVariable();
 
 		if (curve.isSpline()) {
+			Spline spline = new Spline(fun1, fun2, functionVariable);
 			IntersectPolyCurvesAndLine polyCurvesAndLine =
-					new IntersectPolyCurvesAndLine(curve, coeffs);
+					new IntersectPolyCurvesAndLine(spline, coeffs, kernel.getEquationSolver());
 			List<Double> roots = polyCurvesAndLine.compute();
 			if (roots.isEmpty()) {
 				outputPoints.adjustOutputSize(0);
