@@ -23,7 +23,7 @@ public final class IntersectPolyCurvesAndLine {
 		spline = new Spline(curve);
 	}
 
-	public void compute(AlgoElement.OutputHandler<GeoPointND> outputPoints) {
+	public ArrayList<Double> compute(AlgoElement.OutputHandler<GeoPointND> outputPoints) {
 		ArrayList<Double> roots = new ArrayList<>();
 		for (int i = 0; i < spline.size(); i++) {
 			ExpressionNode enx = spline.multiply(i, coeffs);
@@ -33,12 +33,7 @@ public final class IntersectPolyCurvesAndLine {
 				filterRoots(solution, i, roots);
 			}
 		}
-
-		if (roots.isEmpty()) {
-			outputPoints.adjustOutputSize(0);
-		} else {
-			updatePoints(outputPoints, roots);
-		}
+		return roots;
 	}
 
 	private void filterRoots(Solution solution, int i, ArrayList<Double> roots) {
@@ -75,6 +70,7 @@ public final class IntersectPolyCurvesAndLine {
 		}
 		outputPoints.adjustOutputSize(points.size());
 		for (int i = 0; i < points.size(); i++) {
+
 			GPoint2D p = points.get(i);
 			outputPoints.getElement(i)
 					.setCoords(p.x, p.y, 1);
