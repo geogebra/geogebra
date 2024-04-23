@@ -18,11 +18,14 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -98,11 +101,26 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 		if (curve.isSpline()) {
 			IntersectPolyCurvesAndLine polyCurvesAndLine =
 					new IntersectPolyCurvesAndLine(curve, coeffs);
-			polyCurvesAndLine.compute(getOutputPoints());
+			ArrayList<Double> roots = polyCurvesAndLine.compute(getOutputPoints());
+			if (roots.isEmpty()) {
+				outputPoints.adjustOutputSize(0);
+			} else {
+				updatePoints(roots);
+			}
+
 		} else {
 			PolyCurveParams params = new PolyCurveParams(curve, coeffs);
 			params.multiplyWithLine();
 			findIntersections(params.getEnX(), params.functionVariable);
+		}
+	}
+
+	private void updatePoints(ArrayList<Double> roots) {
+		outputPoints.adjustOutputSize(roots.size());
+		FunctionVariable fv = curve.getFun(0).getFunctionVariable();
+		for (int i = 0; i < roots.size(); i++) {
+			getCoordsBySubstitution(fv, roots.get(i),
+					outputPoints.getElement(i), curve);
 		}
 	}
 
