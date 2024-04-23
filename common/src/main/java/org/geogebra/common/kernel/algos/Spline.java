@@ -58,4 +58,20 @@ public class Spline {
 	public FunctionVariable getFunctionVariable() {
 		return functionVariable;
 	}
+
+	public boolean isInInterval(double root, int i) {
+		return satisfiesCondition(root, i) && !satisfiesCondition(root, i - 1);
+	}
+
+	private boolean satisfiesCondition(double root, int i) {
+		if (i < 0) {
+			return root < 0;
+		}
+		if (i >= conditions.size()) {
+			return root <= 1;
+		}
+		functionVariable.set(root);
+		ExpressionValue condition = conditions.getItem(i);
+		return condition.wrap().evaluateBoolean();
+	}
 }
