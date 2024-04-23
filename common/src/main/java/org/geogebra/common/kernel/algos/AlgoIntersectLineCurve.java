@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Algo for intersection of a line with a curve adapted from
@@ -98,34 +99,48 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 	@Override
 	public void compute() {
 		Coords coeffs = line.getCoords();
-		ExpressionNode fun1 = curve.getFun(0).getExpression();
-		ExpressionNode fun2 = curve.getFun(1).getExpression();
+		ExpressionNode xFun = curve.getFun(0).getExpression();
+		ExpressionNode yFun = curve.getFun(1).getExpression();
 		FunctionVariable functionVariable = curve.getFun(0).getFunctionVariable();
 
 		if (curve.isSpline()) {
-			Spline spline = new Spline(fun1, fun2, functionVariable);
-			IntersectPolyCurvesAndLine polyCurvesAndLine =
-					new IntersectPolyCurvesAndLine(spline, coeffs, kernel.getEquationSolver());
-			List<Double> roots = polyCurvesAndLine.compute();
-			if (roots.isEmpty()) {
-				outputPoints.adjustOutputSize(0);
-			} else {
-				updatePoints(roots);
-			}
-
+			Spline spline = new Spline(xFun, yFun, functionVariable);
+			findIntersectionWithSpline(spline, functionVariable, coeffs);
 		} else {
-			PolyCurveParams params = new PolyCurveParams(curve, coeffs);
-			params.multiplyWithLine();
-			findIntersections(params.getEnX(), params.functionVariable);
+			findIntersections(getMultiplyExpression(xFun, yFun, coeffs),
+					functionVariable);
 		}
 	}
 
-	private void updatePoints(List<Double> roots) {
+	static ExpressionNode getMultiplyExpression(ExpressionNode xFun,
+			ExpressionNode yFun, Coords coeffs) {
+		ExpressionNode enx, eny;
+		if (DoubleUtil.isZero(coeffs.getZ())) {
+			enx = xFun.multiply(coeffs.getX());
+			eny = yFun.multiply(coeffs.getY());
+			enx = enx.plus(eny);
+		} else {
+			// Normalizing to (a/c)x + (b/c)y + 1 seems to work better
+			enx = xFun.multiply(coeffs.getX() / coeffs.getZ());
+			eny = yFun.multiply(coeffs.getY() / coeffs.getZ());
+			enx = enx.plus(eny).plus(1);
+		}
+		return enx;
+	}
+
+	private void findIntersectionWithSpline(Spline spline,
+			FunctionVariable functionVariable, Coords coeffs) {
+		IntersectLineSpline lineSpline =
+				new IntersectLineSpline(spline, coeffs, kernel.getEquationSolver());
+
+		List<Double> roots = lineSpline.compute();
+
 		outputPoints.adjustOutputSize(roots.size());
-		FunctionVariable fv = curve.getFun(0).getFunctionVariable();
-		for (int i = 0; i < roots.size(); i++) {
-			getCoordsBySubstitution(fv, roots.get(i),
-					outputPoints.getElement(i), curve);
+		if (!roots.isEmpty()) {
+			for (int i = 0; i < roots.size(); i++) {
+				getCoordsBySubstitution(functionVariable, roots.get(i),
+						outputPoints.getElement(i), curve);
+			}
 		}
 	}
 

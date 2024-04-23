@@ -4,8 +4,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyList;
-import org.geogebra.common.kernel.matrix.Coords;
-import org.geogebra.common.util.DoubleUtil;
 
 public class Spline {
 	private final MyList conditions;
@@ -52,21 +50,4 @@ public class Spline {
 		return condition.wrap().evaluateBoolean();
 	}
 
-	public ExpressionNode multiply(int i, Coords coeffs) {
-		ExpressionNode xFun = getFuncX(i);
-		ExpressionNode yFun = getFuncY(i);
-		ExpressionNode enx, eny;
-		if (DoubleUtil.isZero(coeffs.getZ())) {
-			enx = xFun.multiply(coeffs.getX());
-			eny = yFun.multiply(coeffs.getY());
-			enx = enx.plus(eny);
-		} else {
-			// Normalizing to (a/c)x + (b/c)y + 1 seems to work better
-			enx = xFun.multiply(coeffs.getX() / coeffs.getZ());
-			eny = yFun.multiply(coeffs.getY() / coeffs.getZ());
-			enx = enx.plus(eny).plus(1);
-		}
-
-		return enx;
-	}
 }
