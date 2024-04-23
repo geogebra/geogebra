@@ -1,10 +1,11 @@
 package org.geogebra.common.kernel.algos;
 
+import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyList;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 
 public class Spline {
@@ -26,18 +27,30 @@ public class Spline {
 		return funcYs.size();
 	}
 
-	public GeoPoint set(GeoPoint p, double t) {
+	public GPoint2D get(double t) {
 		functionVariable.set(t);
+		GPoint2D p = new GPoint2D();
 		for (int i = 0; i < conditions.size(); i++) {
 			ExpressionValue condition = conditions.getItem(i);
 			if (condition.wrap().evaluateBoolean()) {
 				ExpressionValue xExp = funcXs.getItem(i);
 				ExpressionValue yExp = funcYs.getItem(i);
-				p.setCoords(xExp.evaluateDouble(), yExp.evaluateDouble(), 1);
+				p.setLocation(xExp.evaluateDouble(), yExp.evaluateDouble());
 				return p;
 			}
 		}
-		return p;
+		return null;
 	}
 
+	public ExpressionNode getFuncX(int idx) {
+		return funcXs.getItem(idx).wrap();
+	}
+
+	public ExpressionNode getFuncY(int idx) {
+		return funcYs.getItem(idx).wrap();
+	}
+
+	public FunctionVariable getFunctionVariable() {
+		return functionVariable;
+	}
 }
