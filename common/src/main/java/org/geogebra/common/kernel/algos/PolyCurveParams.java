@@ -48,8 +48,6 @@ class PolyCurveParams {
 			eny = yFun.multiply(yNorm);
 			enx = enx.plus(eny).plus(1);
 		}
-
-
 	}
 
 	public ExpressionNode getEnX() {

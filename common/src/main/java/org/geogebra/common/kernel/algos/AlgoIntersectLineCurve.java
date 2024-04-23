@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
@@ -101,7 +101,7 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 		if (curve.isSpline()) {
 			IntersectPolyCurvesAndLine polyCurvesAndLine =
 					new IntersectPolyCurvesAndLine(curve, coeffs);
-			ArrayList<Double> roots = polyCurvesAndLine.compute(getOutputPoints());
+			List<Double> roots = polyCurvesAndLine.compute();
 			if (roots.isEmpty()) {
 				outputPoints.adjustOutputSize(0);
 			} else {
@@ -115,7 +115,7 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 		}
 	}
 
-	private void updatePoints(ArrayList<Double> roots) {
+	private void updatePoints(List<Double> roots) {
 		outputPoints.adjustOutputSize(roots.size());
 		FunctionVariable fv = curve.getFun(0).getFunctionVariable();
 		for (int i = 0; i < roots.size(); i++) {
