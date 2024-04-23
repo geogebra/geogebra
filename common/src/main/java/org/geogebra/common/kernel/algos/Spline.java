@@ -1,12 +1,9 @@
 package org.geogebra.common.kernel.algos;
 
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyList;
-import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -16,37 +13,15 @@ public class Spline {
 	private final MyList funcYs;
 	private final FunctionVariable functionVariable;
 
-	public Spline(GeoCurveCartesianND curve) {
-		Function fun1 = curve.getFun(0);
-		Function fun2 = curve.getFun(1);
-		conditions = (MyList) fun1.getExpression().getLeft();
-		funcXs = (MyList) fun1.getExpression().getRight();
-		funcYs = (MyList) fun2.getExpression().getRight();
-		functionVariable = fun1.getFunctionVariable();
+	public Spline(ExpressionNode fun1, ExpressionNode fun2, FunctionVariable functionVariable) {
+		conditions = (MyList) fun1.getLeft();
+		funcXs = (MyList) fun1.getRight();
+		funcYs = (MyList) fun2.getRight();
+		this.functionVariable = functionVariable;
 	}
 
 	public int size() {
 		return funcYs.size();
-	}
-
-	public GPoint2D get(double t) {
-		functionVariable.set(t);
-		GPoint2D p = new GPoint2D();
-		for (int i = 0; i < conditions.size() - 1; i++) {
-			ExpressionValue condition = conditions.getItem(i);
-			if (condition.wrap().evaluateBoolean()) {
-				ExpressionValue xExp = funcXs.getItem(i);
-				ExpressionValue yExp = funcYs.getItem(i);
-				p.setLocation(xExp.evaluateDouble(), yExp.evaluateDouble());
-				return p;
-			}
-		}
-		ExpressionValue xExp = funcXs.getItem(conditions.size() - 1);
-		ExpressionValue yExp = funcYs.getItem(conditions.size() - 1);
-		p.setLocation(xExp.evaluateDouble(), yExp.evaluateDouble());
-		return p;
-
-//		return null;
 	}
 
 	public ExpressionNode getFuncX(int idx) {
