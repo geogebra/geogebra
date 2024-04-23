@@ -1812,7 +1812,7 @@ public class AlgoDispatcher {
 			GeoCurveCartesian p) {
 
 		AlgoIntersectLineCurve algo = new AlgoIntersectLineCurve(cons, labels,
-				g, p, this);
+				g, p);
 		return algo.getOutput();
 	}
 

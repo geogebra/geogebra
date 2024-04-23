@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -45,22 +44,18 @@ import org.geogebra.common.util.DoubleUtil;
 public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 
 	private final GeoLine line; // input
-	private final AlgoDispatcher algoDispatcher;
 
-	private ExpressionValue findExpressionValue;
 	/**
 	 * common constructor
 	 * @param c Construction
 	 * @param labels labels
 	 * @param l line
 	 * @param p curve
-	 * @param algoDispatcher
 	 */
 	public AlgoIntersectLineCurve(Construction c, String[] labels, GeoLine l,
-			GeoCurveCartesianND p, AlgoDispatcher algoDispatcher) {
+			GeoCurveCartesianND p) {
 
 		super(c);
-		this.algoDispatcher = algoDispatcher;
 
 		outputPoints = createOutputPoints(false);
 
