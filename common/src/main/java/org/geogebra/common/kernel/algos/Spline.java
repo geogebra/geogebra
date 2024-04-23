@@ -30,7 +30,7 @@ public class Spline {
 	public GPoint2D get(double t) {
 		functionVariable.set(t);
 		GPoint2D p = new GPoint2D();
-		for (int i = 0; i < conditions.size(); i++) {
+		for (int i = 0; i < conditions.size() - 1; i++) {
 			ExpressionValue condition = conditions.getItem(i);
 			if (condition.wrap().evaluateBoolean()) {
 				ExpressionValue xExp = funcXs.getItem(i);
@@ -39,7 +39,12 @@ public class Spline {
 				return p;
 			}
 		}
-		return null;
+		ExpressionValue xExp = funcXs.getItem(conditions.size() - 1);
+		ExpressionValue yExp = funcYs.getItem(conditions.size() - 1);
+		p.setLocation(xExp.evaluateDouble(), yExp.evaluateDouble());
+		return p;
+
+//		return null;
 	}
 
 	public ExpressionNode getFuncX(int idx) {

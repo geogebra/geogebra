@@ -37,6 +37,7 @@ public final class IntersectPolyCurvesAndLine {
 	}
 
 	public void compute(AlgoElement.OutputHandler<GeoPointND> outputPoints) {
+		ArrayList<Double> roots = new ArrayList<>();
 		for (int i = 0; i < spline.size(); i++) {
 			ExpressionNode xFun = spline.getFuncX(i);
 			ExpressionNode yFun = spline.getFuncY(i);
@@ -59,35 +60,38 @@ public final class IntersectPolyCurvesAndLine {
 					0, solution, kernel.getEquationSolver());
 
 			solution.sortAndMakeUnique();
-			ArrayList<Double> roots = new ArrayList<>();
 			if (solution.curRoots != null) {
 				for (int j = 0; j < solution.curRealRoots; j++) {
 					double root = solution.curRoots[j];
-					if (0 <= root && root <= 1) {
+					if (0 <= root && root <= 1 && !roots.contains(root)) {
 						roots.add(root);
 					}
 
 				}
 			}
+		}
 
-			if (roots.isEmpty()) {
-				outputPoints.adjustOutputSize(1);
-				outputPoints.getElement(0).setCoords(0,0, 1);
-			} else {
-				updatePoints(outputPoints, roots);
-			}
+		if (roots.isEmpty()) {
+			outputPoints.adjustOutputSize(1);
+			outputPoints.getElement(0).setCoords(0,0, 1);
+		} else {
+			updatePoints(outputPoints, roots);
 		}
 	}
 
 	private void updatePoints(AlgoElement.OutputHandler<GeoPointND> outputPoints,
 			ArrayList<Double> roots) {
 		ArrayList<GPoint2D> points = new ArrayList<>();
+		double x = Double.NaN;
 		for (int i = 0; i < roots.size(); i++) {
 			Double t = roots.get(i);
-			GPoint2D p = spline.get(t);
-			if (p != null) {
-				points.add(p);
+			if (!DoubleUtil.isEqual(t, x, 1E-4)) {
+				GPoint2D p = spline.get(t);
+				if (p != null) {
+					points.add(p);
+				}
 			}
+			x = t;
 		}
 		outputPoints.adjustOutputSize(points.size());
 		for (int i = 0; i < points.size(); i++) {
