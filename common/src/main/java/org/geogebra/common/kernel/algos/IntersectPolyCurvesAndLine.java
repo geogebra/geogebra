@@ -26,52 +26,37 @@ public final class IntersectPolyCurvesAndLine {
 	public void compute(AlgoElement.OutputHandler<GeoPointND> outputPoints) {
 		ArrayList<Double> roots = new ArrayList<>();
 		for (int i = 0; i < spline.size(); i++) {
-			GeoFunction fX = getGeoFunction(i);
-			Solution solution = solveFx(fX);
+			ExpressionNode enx = spline.multiply(i, coeffs);
+			GeoFunction functionX = enx.buildFunction(spline.getFunctionVariable());
+			Solution solution = solve(functionX);
 			if (solution.curRoots != null) {
-				for (int j = 0; j < solution.curRealRoots; j++) {
-					double root = solution.curRoots[j];
-					if (spline.isInInterval(root, i) && !roots.contains(root)) {
-						roots.add(root);
-					}
-				}
+				filterRoots(solution, i, roots);
 			}
 		}
 
 		if (roots.isEmpty()) {
-			outputPoints.adjustOutputSize(1);
-			outputPoints.getElement(0).setCoords(0,0, 1);
+			outputPoints.adjustOutputSize(0);
 		} else {
 			updatePoints(outputPoints, roots);
 		}
 	}
 
-	private Solution solveFx(GeoFunction fX) {
+	private void filterRoots(Solution solution, int i, ArrayList<Double> roots) {
+		for (int j = 0; j < solution.curRealRoots; j++) {
+			double root = solution.curRoots[j];
+			if (spline.isInInterval(root, i) && !roots.contains(root)) {
+				roots.add(root);
+			}
+		}
+	}
+
+	private Solution solve(GeoFunction fX) {
 		Solution solution = new Solution();
 		AlgoRootsPolynomial.calcRootsMultiple(fX.getFunction(),
 				0, solution, kernel.getEquationSolver());
 
 		solution.sortAndMakeUnique();
 		return solution;
-	}
-
-	private GeoFunction getGeoFunction(int i) {
-		ExpressionNode xFun = spline.getFuncX(i);
-		ExpressionNode yFun = spline.getFuncY(i);
-		ExpressionNode enx, eny;
-		if (DoubleUtil.isZero(coeffs.getZ())) {
-			enx = xFun.multiply(coeffs.getX());
-			eny = yFun.multiply(coeffs.getY());
-			enx = enx.plus(eny);
-		} else {
-			// Normalizing to (a/c)x + (b/c)y + 1 seems to work better
-			enx = xFun.multiply(coeffs.getX() / coeffs.getZ());
-			eny = yFun.multiply(coeffs.getY() / coeffs.getZ());
-			enx = enx.plus(eny).plus(1);
-		}
-
-		GeoFunction fX = enx.buildFunction(spline.getFunctionVariable());
-		return fX;
 	}
 
 	private void updatePoints(AlgoElement.OutputHandler<GeoPointND> outputPoints,
