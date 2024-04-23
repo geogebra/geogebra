@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Kernel;
@@ -23,7 +24,7 @@ public final class IntersectPolyCurvesAndLine {
 		spline = new Spline(curve);
 	}
 
-	public ArrayList<Double> compute(AlgoElement.OutputHandler<GeoPointND> outputPoints) {
+	public List<Double> compute() {
 		ArrayList<Double> roots = new ArrayList<>();
 		for (int i = 0; i < spline.size(); i++) {
 			ExpressionNode enx = spline.multiply(i, coeffs);
