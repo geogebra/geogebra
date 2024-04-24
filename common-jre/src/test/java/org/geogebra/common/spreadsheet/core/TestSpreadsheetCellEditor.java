@@ -24,6 +24,11 @@ public class TestSpreadsheetCellEditor
 	}
 
 	@Override
+	public void type(String text) {
+		setContent(text);
+	}
+
+	@Override
 	public void setAlign(int align) {
 		// not needed
 	}

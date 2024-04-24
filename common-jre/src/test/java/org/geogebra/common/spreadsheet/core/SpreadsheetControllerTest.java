@@ -7,20 +7,17 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.IN
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_COLUMN_RIGHT;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_ABOVE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_BELOW;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItems.HEADER_INDEX;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.awt.event.KeyEvent;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.util.shape.Rectangle;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 public class SpreadsheetControllerTest {
     private final int cellHeight = TableLayout.DEFAUL_CELL_HEIGHT;
@@ -199,11 +196,9 @@ public class SpreadsheetControllerTest {
     @Test
     public void testMovingRightAndDownSelectsMultipleCells() {
         controller.select(TabularRange.range(1, 3, 1, 3), false, false);
-        KeyEvent rightArrow = fakeKeyEvent(39);
-        controller.handleKeyPressed(rightArrow.getKeyCode(), rightArrow.getKeyChar() + "",
+        controller.handleKeyPressed(JavaKeyCodes.VK_RIGHT, "",
                 new Modifiers(false, false, true, false));
-        KeyEvent downArrow = fakeKeyEvent(40);
-        controller.handleKeyPressed(downArrow.getKeyCode(), downArrow.getKeyChar() + "",
+        controller.handleKeyPressed(JavaKeyCodes.VK_DOWN, "",
                 new Modifiers(false, false, true, false));
         assertEquals(4, controller.getLastSelection().getRange().getToColumn());
         assertEquals(4, controller.getLastSelection().getRange().getToRow());
@@ -302,30 +297,19 @@ public class SpreadsheetControllerTest {
     }
 
     private void fakeLeftArrowPress() {
-        KeyEvent e = fakeKeyEvent(37);
-        controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE);
+        controller.handleKeyPressed(37, "", Modifiers.NONE);
     }
 
     private void fakeUpArrowPress() {
-        KeyEvent e = fakeKeyEvent(38);
-        controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE);
+        controller.handleKeyPressed(38, "", Modifiers.NONE);
     }
 
     private void fakeRightArrowPress() {
-        KeyEvent e = fakeKeyEvent(39);
-        controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE);
+        controller.handleKeyPressed(39, "", Modifiers.NONE);
     }
 
     private void fakeDownArrowPress() {
-        KeyEvent e = fakeKeyEvent(40);
-        controller.handleKeyPressed(e.getKeyCode(), e.getKeyChar() + "", Modifiers.NONE);
-    }
-
-    private KeyEvent fakeKeyEvent(int keyCode) {
-        KeyEvent event = mock(KeyEvent.class);
-        when(event.getKeyCode()).thenReturn(keyCode);
-        when(event.getKeyChar()).thenReturn(' ');
-        return event;
+        controller.handleKeyPressed(40, "", Modifiers.NONE);
     }
 
     private void selectCells(int fromRow, int fromColumn, int toRow, int toColumn) {

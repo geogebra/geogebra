@@ -25,6 +25,7 @@ import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.dom.style.shared.Unit;
 
 import com.google.gwt.core.client.Scheduler;
+import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 
 public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate {
 
@@ -80,6 +81,11 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		@Override
 		public void setContent(Object content) {
 			mathField.getMathField().parse(new KernelDataSerializer().getStringForEditor(content));
+		}
+
+		@Override
+		public void type(String content) {
+			KeyboardInputAdapter.type(mathField.getMathField().getInternal(), content);
 		}
 
 		@Override

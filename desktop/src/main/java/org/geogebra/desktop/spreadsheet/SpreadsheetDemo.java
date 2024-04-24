@@ -54,6 +54,7 @@ import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.gui.spreadsheet.AwtReTeXGraphicsBridgeD;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
+import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 
 public class SpreadsheetDemo {
@@ -310,6 +311,11 @@ public class SpreadsheetDemo {
 			@Override
 			public void setContent(Object content) {
 				mathField.parse(new KernelDataSerializer().getStringForEditor(content));
+			}
+
+			@Override
+			public void type(String text) {
+				KeyboardInputAdapter.type(mathField.getInternal(), text);
 			}
 
 			@Override

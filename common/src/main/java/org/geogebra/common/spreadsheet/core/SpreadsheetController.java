@@ -348,16 +348,13 @@ public final class SpreadsheetController implements TabularSelection {
 					selectionController.selectAll(layout.numberOfRows(), layout.numberOfColumns());
 					return true;
 				}
+				startTyping(key, modifiers);
+				break;
 			case JavaKeyCodes.VK_ENTER:
 				showCellEditorAtSelection();
 				return true;
 			default:
-				SpreadsheetControlsDelegate controls = controlsDelegate;
-				if (!modifiers.ctrlOrCmd && !modifiers.alt && !StringUtil.empty(key)
-					&& controls != null) {
-					showCellEditorAtSelection();
-					controls.getCellEditor().setContent(key);
-				}
+				startTyping(key, modifiers);
 				return false;
 			}
 		}
@@ -366,6 +363,16 @@ public final class SpreadsheetController implements TabularSelection {
 			return true;
 		}
 		return false;
+	}
+
+	private void startTyping(String key, Modifiers modifiers) {
+		SpreadsheetControlsDelegate controls = controlsDelegate;
+		if (!modifiers.ctrlOrCmd && !modifiers.alt && !StringUtil.empty(key)
+				&& controls != null) {
+			showCellEditorAtSelection();
+			controls.getCellEditor().setContent("");
+			controls.getCellEditor().type(key);
+		}
 	}
 
 	private void showCellEditorAtSelection() {
