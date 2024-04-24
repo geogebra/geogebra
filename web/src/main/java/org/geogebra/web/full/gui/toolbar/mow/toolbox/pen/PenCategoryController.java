@@ -21,6 +21,7 @@ public class PenCategoryController {
 
 	public void updatePenColor(GColor color) {
 		getPen().setPenColor(color);
+		getPen().updateMode();
 	}
 
 	public GColor getLastPenColor() {
