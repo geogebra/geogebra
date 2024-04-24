@@ -11,17 +11,14 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 public class CategoryMenuPopup extends GPopupMenuW {
-	private final IconButtonWithMenu iconButton;
 
 	/**
 	 * Menu popup for MOW toolbox
 	 * @param appW - application
 	 * @param tools - list of tools
-	 * @param iconButton - button
 	 */
-	public CategoryMenuPopup(AppW appW, List<Integer> tools, IconButtonWithMenu iconButton) {
+	public CategoryMenuPopup(AppW appW, List<Integer> tools) {
 		super(appW);
-		this.iconButton = iconButton;
 		buildGui(tools);
 	}
 
@@ -36,10 +33,7 @@ public class CategoryMenuPopup extends GPopupMenuW {
 		String text = getTextForMode(mode);
 
 		AriaMenuItem item = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
-				image.getSafeUri().asString(), text), true, () -> {
-					getApp().setMode(mode);
-					iconButton.setPreventSelectMode(true);
-				});
+				image.getSafeUri().asString(), text), true, () -> getApp().setMode(mode));
 		addItem(item);
 	}
 
