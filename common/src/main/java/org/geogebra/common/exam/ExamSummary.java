@@ -1,6 +1,5 @@
 package org.geogebra.common.exam;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.annotation.Nonnull;
