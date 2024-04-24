@@ -44,7 +44,9 @@ public class IconButtonWithMenu extends IconButton {
 		iconButtonPopup.getPopupPanel().addCloseHandler(e -> {
 			deactivate();
 			AriaHelper.setAriaExpanded(this, false);
-			appW.setMode(MODE_SELECT_MOW);
+			if (e.isAutoClosed()) {
+				appW.setMode(MODE_SELECT_MOW);
+			}
 		});
 	}
 }

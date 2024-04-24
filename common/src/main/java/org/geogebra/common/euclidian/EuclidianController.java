@@ -10111,11 +10111,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			draggingOccured = false;
 			return;
 		}
+		view.invalidateCache();
 		// make sure we start the timer also for single point
 		if (penMode(mode)) {
 			getPen().handleMouseReleasedForPenMode(rightClick, x, y,
 					numOfTargets > 0);
-			view.invalidateCache();
+
 			draggingOccured = false;
 			return;
 		}

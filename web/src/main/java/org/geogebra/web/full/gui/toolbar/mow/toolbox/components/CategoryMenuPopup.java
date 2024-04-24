@@ -33,8 +33,7 @@ public class CategoryMenuPopup extends GPopupMenuW {
 		String text = getTextForMode(mode);
 
 		AriaMenuItem item = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
-				image.getSafeUri().asString(), text), true, () ->
-				getApp().setMode(mode));
+				image.getSafeUri().asString(), text), true, () -> getApp().setMode(mode));
 		addItem(item);
 	}
 
