@@ -45,7 +45,7 @@ public class IconButtonWithMenu extends IconButton {
 			deactivate();
 			AriaHelper.setAriaExpanded(this, false);
 			if (e.isAutoClosed()) {
-				appW.invokeLater(() -> appW.setMode(MODE_SELECT_MOW));
+				appW.setMode(MODE_SELECT_MOW);
 			}
 		});
 	}
