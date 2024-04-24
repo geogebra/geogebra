@@ -432,7 +432,7 @@ public final class GColor implements GPaint {
 	}
 
 	public static String getColorStringNoAlpha(GColor color) {
-		String ret = "rgb(" + color.getRed() + "," + color.getGreen() + ","
+		String ret = "rgb(" + color.getRed() + ", " + color.getGreen() + ", "
 				+ color.getBlue() + ")";
 
 		return ret;

@@ -35,9 +35,10 @@ public class PenCategoryPopup extends CategoryPopup {
 
 	private void buildGui() {
 		colorChooser = new ColorChooserPanel((AppW) getApplication(), (color) -> {
-			if (penButton.getMode() == MODE_PEN) {
+			int mode = getLastSelectedMode();
+			if (mode == MODE_PEN) {
 				controller.setLastPenColor(color);
-			} else if (penButton.getMode() == MODE_HIGHLIGHTER) {
+			} else if (mode == MODE_HIGHLIGHTER) {
 				controller.setLastHighlighterColor(color);
 			}
 			controller.updatePenColor(color);

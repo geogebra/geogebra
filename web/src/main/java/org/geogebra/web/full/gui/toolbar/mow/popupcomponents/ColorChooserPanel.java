@@ -160,9 +160,11 @@ public class ColorChooserPanel extends FlowPanel {
 	}
 
 	private FlowPanel getColorButton(GColor color) {
+		String selCol = getColorStringNoAlpha(color);
 		for (FlowPanel button : colorButtons) {
-			String bgColor = button.getElement().getStyle().getBackgroundColor();
-			if (bgColor.equals(getColorStringNoAlpha(color))) {
+			String bgColor = button.getElement().getFirstChildElement().getStyle()
+					.getBackgroundColor();
+			if (bgColor.equals(selCol)) {
 				return button;
 			}
 		}
