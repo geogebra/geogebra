@@ -56,4 +56,21 @@ public class AlgoIntersectCurveTest extends BaseUnitTest {
 		assertThat(lookup("A"), hasValue("(1.2, 3.26)"));
 
 	}
+
+	@Test
+	public void testSplineLineIntersectionAtEndPoint0() {
+		add("a = Spline({(1,5),(2,4),(1,3),(1,2)},3)");
+		add("f:y=5");
+		add("Intersect(a, f)");
+		assertThat(lookup("A"), hasValue("(1, 5)"));
+	}
+
+	@Test
+	public void testSplineLineIntersectionAtEndPoint1() {
+		add("a = Spline({(1,5),(2,4),(1,3),(1,2)},3)");
+		add("f:y=2");
+		add("Intersect(a, f)");
+		assertThat(lookup("A"), hasValue("(1, 2)"));
+	}
+
 }

@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.util.DoubleUtil;
 
 public final class IntersectLineSpline {
 	private final Coords coeffs;
@@ -45,6 +46,10 @@ public final class IntersectLineSpline {
 	private void filterRoots(Solution solution, int i, ArrayList<Double> roots) {
 		for (int j = 0; j < solution.curRealRoots; j++) {
 			double root = solution.curRoots[j];
+			if (DoubleUtil.isZero(root)) {
+				root = 0;
+			}
+
 			if (spline.isInInterval(root, i) && !roots.contains(root)) {
 				roots.add(root);
 			}
