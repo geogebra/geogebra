@@ -2310,4 +2310,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				lookup("s2").getDefinitionForInputBar());
 	}
 
+	@Test
+	@Issue({"APPS-1660", "APPS-5511"})
+	public void shouldReloadVectors() {
+		app.getGgbApi().evalXML("<expression label=\"v\" exp=\"(a, b)\" type=\"vector\"/>\n"
+				+ "<element type=\"symbolic\" label=\"v\"></element>");
+		assertThat(lookup("v"), hasValue("(a, b)"));
+	}
+
 }
