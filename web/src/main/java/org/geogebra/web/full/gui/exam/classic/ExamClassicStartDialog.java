@@ -39,7 +39,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		addStyleName("classicExamStartDialog");
 		buildGUI();
 		setOnPositiveAction(() -> startExam(app));
-		setOnNegativeAction(() -> cancelExam());
+		setOnNegativeAction(this::cancelExam);
 	}
 
 	private void buildGUI() {
@@ -55,12 +55,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 
 		if (!app.getSettings().getCasSettings().isEnabledSet()) {
 			ComponentCheckbox cas = new ComponentCheckbox(app.getLocalization(), true,
-					"Perspective.CAS", selected -> {
-				app.getExam().setCasEnabled(selected,
-						app.getSettings().getCasSettings());
-				app.getGuiManager().updateToolbarActions();
-			});
-			app.getExam().setCasEnabled(true, app.getSettings().getCasSettings());
+					"Perspective.CAS", selected -> app.getGuiManager().updateToolbarActions());
 			startPanel.add(cas);
 		}
 
@@ -82,8 +77,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 	 * Cancel button handler
 	 */
 	private void cancelExam() {
-		app.getExam().exit();
-		app.setExam(null);
+		GlobalScope.examController.cancelExam();
 		app.getLAF().toggleFullscreen(false);
 		app.fireViewsChangedEvent();
 		GuiManagerInterfaceW guiManager = app.getGuiManager();
@@ -114,7 +108,12 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		((LayoutW) app.getGuiManager().getLayout()).resetPerspectives(app);
 
 		app.getKernel().getAlgebraProcessor().reinitCommands();
-		app.startExam();
+		if (GlobalScope.examController.getExamType() != null) {
+			GlobalScope.examController.setActiveContext(app, app.getKernel().getAlgebraProcessor()
+					.getCommandDispatcher(), app.getKernel().getAlgebraProcessor());
+			GlobalScope.examController.prepareExam();
+			GlobalScope.examController.startExam(GlobalScope.examController.getExamType(), null);
+		}
 		app.fireViewsChangedEvent();
 		guiManager.updateToolbar();
 		guiManager.updateToolbarActions();

@@ -10,6 +10,7 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.main.exam.event.CheatingEvents;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.TimeFormatAdapter;
 
 /**
@@ -97,15 +98,21 @@ public final class ExamSummary {
 		sb.append(localization.getMenu("exam_activity")).append(":\n");
 		sb.append("0:00").append(' ')
 				.append(localization.getMenu("exam_started")).append("\n");
+		sb.append(getCheatingEventsLog(cheatingEvents, localization));
+		if (finishDate != null) {
+			sb.append(GlobalScope.examController.getTimestampFor(finishDate)).append(' ')
+					.append(localization.getMenu("exam_ended")).append("\n");
+		}
+		return sb.toString();
+	}
+
+	private String getCheatingEventsLog(CheatingEvents cheatingEvents, Localization localization) {
+		StringBuilder sb = new StringBuilder();
 		for (CheatingEvent cheatingEvent : cheatingEvents.getEvents()) {
-			sb.append(formatTime(cheatingEvent.getDate(), localization));
+			sb.append(GlobalScope.examController.getTimestampFor(cheatingEvent.getDate()));
 			sb.append(' ');
 			sb.append(cheatingEvent.getAction().toString(localization));
 			sb.append("\n");
-		}
-		if (finishDate != null) {
-			sb.append(formatTime(finishDate, localization)).append(' ')
-					.append(localization.getMenu("exam_ended")).append("\n");
 		}
 		return sb.toString();
 	}

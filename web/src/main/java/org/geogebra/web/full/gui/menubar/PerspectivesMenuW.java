@@ -71,7 +71,7 @@ public class PerspectivesMenuW extends Submenu {
 					@Override
 					public void doExecute() {
 						setPerspective(app, perspective);
-						if (!(app.isExam() && app.getExam().getStart() >= 0)) {
+						if (!GlobalScope.examController.isExamActive()) {
 							app.showStartTooltip(perspective);
 						}
 					}
@@ -84,8 +84,8 @@ public class PerspectivesMenuW extends Submenu {
 	 */
 	AsyncOperation<Boolean> getExamCallback() {
 		return active -> {
-			app.setNewExam();
-			app.examWelcome();
+			GlobalScope.examController.prepareExam();
+//			app.examWelcome();
 		};
 	}
 

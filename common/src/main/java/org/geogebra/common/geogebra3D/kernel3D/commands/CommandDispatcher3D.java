@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -31,7 +32,7 @@ public abstract class CommandDispatcher3D extends CommandDispatcher {
 	public CommandDispatcher3D(Kernel kernel) {
 		super(kernel);
 		commandDispatcher = kernel.getApplication().newCommandDispatcher(kernel);
-		kernel.getApplication().registerRestrictable(this);
+		GlobalScope.examController.registerRestrictable(app);
 	}
 
 	@Override

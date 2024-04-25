@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.util;
 
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.AppDescription;
 import org.geogebra.web.full.gui.dialog.AppSwitcherPopup;
@@ -54,7 +55,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 			setExpanded(true);
 			suitePopup.showPopup();
 		});
-		appW.registerRestrictable(suitePopup);
+		GlobalScope.examController.setDelegate(suitePopup);
 	}
 
 	private void setExpanded(boolean expanded) {

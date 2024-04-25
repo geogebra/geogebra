@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoTransformation;
 import org.geogebra.common.kernel.algos.ChartStyle;

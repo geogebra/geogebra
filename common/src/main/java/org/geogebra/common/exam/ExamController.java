@@ -513,6 +513,37 @@ public final class ExamController {
 		tempStorage.saveTempMaterial(material);
 	}
 
+	/**
+	 * @return {@link CheatingEvents}
+	 */
+	public CheatingEvents getCheatingEvents() {
+		return this.cheatingEvents;
+	}
+
+	/**
+	 * Format - x:yz
+	 * @param eventDate The Date of an event that occured during the exam
+	 * @return Timestamp of the event happened relative to the exam start date
+	 */
+	public String getTimestampFor(Date eventDate) {
+		if (startDate == null) {
+			return "0:00";
+		}
+
+		long timeDifference = eventDate.getTime() - startDate.getTime();
+		long totalSeconds = timeDifference / 1000;
+		long minutes = totalSeconds / 60;
+		long seconds = totalSeconds % 60;
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(minutes).append(":");
+		if (seconds < 10) {
+			sb.append("0");
+		}
+		sb.append(seconds);
+		return sb.toString();
+	}
+
 	// Test support API
 
 	void setExamRestrictionsForTesting(ExamRestrictions examRestrictions) {

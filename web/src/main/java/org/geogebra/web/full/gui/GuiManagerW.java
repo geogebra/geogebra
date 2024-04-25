@@ -2003,7 +2003,7 @@ public class GuiManagerW extends GuiManager
 	public static boolean mayForceKeyboard(AppW app) {
 		return !app.isStartedWithFile()
 				&& !app.getAppletParameters().preventFocus()
-				&& (app.getExam() == null || app.getExam().getStart() > 0);
+				&& GlobalScope.examController.isExamActive();
 	}
 
 	@Override

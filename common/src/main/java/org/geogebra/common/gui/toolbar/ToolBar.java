@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Vector;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;

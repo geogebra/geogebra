@@ -325,7 +325,7 @@ public class ToolbarPanel extends FlowPanel
 		}
 		add(main);
 		hideDragger();
-		if (GlobalScope.examController.isExamActive() && !app.getExam().isCheating()) {
+		if (GlobalScope.examController.isExamActive() && !GlobalScope.examController.isCheating()) {
 			if (app.isLockedExam()) {
 				setHeaderStyle("examLock");
 			} else {

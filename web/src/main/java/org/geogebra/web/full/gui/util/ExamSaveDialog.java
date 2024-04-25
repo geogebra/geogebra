@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
@@ -22,7 +23,7 @@ public class ExamSaveDialog {
 	 *  using either the positive or negative button
 	 */
 	public ExamSaveDialog(AppW app, Runnable onDialogClosed) {
-		tempStorage = app.getExam().getTempStorage();
+		tempStorage = GlobalScope.examController.getTempStorage();
 
 		initGui(app);
 		setActionHandlers(app, onDialogClosed);

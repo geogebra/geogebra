@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.gui.toolbar.ToolBar;

@@ -36,6 +36,7 @@ import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.exam.ExamRegion;
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
@@ -82,6 +83,7 @@ import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
@@ -109,7 +111,6 @@ import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.H5PReader;
 import org.geogebra.web.full.gui.dialog.RelationPaneW;
 import org.geogebra.web.full.gui.exam.ExamUtil;
-import org.geogebra.web.full.gui.exam.classic.ExamClassicStartDialog;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockGlassPaneW;
@@ -124,7 +125,6 @@ import org.geogebra.web.full.gui.menu.MenuViewController;
 import org.geogebra.web.full.gui.menu.MenuViewListener;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
-import org.geogebra.web.full.gui.menubar.action.StartExamAction;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
@@ -322,9 +322,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isLockedExam()) {
 			ExamRegion examMode = getForcedExamRegion();
 			if (examMode != null) {
-				setNewExam(examMode);
+				GlobalScope.examController.prepareExam();
 				appletParameters.setAttribute("perspective", "");
-				afterLocalizationLoaded(this::examWelcome);
 			} else {
 				String appCode = appletParameters.getDataParamAppName();
 				String supportedModes = isSuite() ? getSupportedExamModes(appCode) : appCode;
@@ -610,8 +609,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				// dp.getKeyboardListener().setFocus(true);
 				listener.ensureEditing();
 				listener.setFocus(true);
-				if (getAppletFrame().appNeedsKeyboard() && (getExam() == null
-						|| getExam().getStart() > 0)) {
+				if (getAppletFrame().appNeedsKeyboard() && (GlobalScope.examController.isIdle()
+						|| GlobalScope.examController.isExamActive())) {
 					getAppletFrame().showKeyBoard(true, listener, true);
 				}
 			}
@@ -779,25 +778,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					App.VIEW_ALGEBRA)).getStyleBar(false);
 			if (styleBar != null) {
 				styleBar.update(null);
-			}
-		}
-	}
-
-	/**
-	 * Popup exam welcome message
-	 */
-	@Override
-	public final void examWelcome() {
-		if (isExam() && getExam().getStart() < 0) {
-			if (isUnbundled()) {
-				new StartExamAction().execute(this);
-			} else {
-				resetViewsEnabled();
-				String negativeKey = isLockedExam()
-						? null : "Cancel";
-				DialogData data = new DialogData("exam_custom_header",
-						negativeKey, "exam_start_button");
-				new ExamClassicStartDialog(this, data).show();
 			}
 		}
 	}
@@ -1089,7 +1069,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		boolean smallScreen = NavigatorUtil.getWindowWidth() < MIN_SIZE_FOR_PICKER
 				|| NavigatorUtil.getWindowHeight() < MIN_SIZE_FOR_PICKER;
 		if (isUnbundledOrWhiteboard() || smallScreen
-				|| isAppletWithoutAppsPicker() || getExam() != null
+				|| isAppletWithoutAppsPicker() || !GlobalScope.examController.isIdle()
 				|| !StringUtil.empty(getAppletParameters().getDataParamPerspective())) {
 			return;
 		}
@@ -1337,7 +1317,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (hasMacroToRestore() || !getLAF().autosaveSupported()) {
 			return;
 		}
-		if (autosavedMaterial != null && !isStartedWithFile() && getExam() == null) {
+		if (autosavedMaterial != null && !isStartedWithFile()
+				&& GlobalScope.examController.isIdle()) {
 			afterLocalizationLoaded(() -> {
 				getDialogManager().showRecoverAutoSavedDialog(
 						this, autosavedMaterial);
@@ -2356,15 +2337,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				createGeoElementValueConverter());
 	}
 
-	@Override
-	public void startExam() {
-		super.startExam();
-		getExam().getTempStorage().clearTempMaterials();
-		Material material = getExam().getTempStorage().newMaterial();
-		setActiveMaterial(material);
-		// ensure fullscreen: we may have lost it when handling unsaved
-		// changes
+	public void startExam(ExamRegion region) {
 		getLAF().toggleFullscreen(true);
+		GlobalScope.examController.setActiveContext(this,
+				getKernel().getAlgebraProcessor().getCommandDispatcher(),
+				getKernel().getAlgebraProcessor());
+		GlobalScope.examController.prepareExam();
+		GlobalScope.examController.startExam(region, null);
 		if (guiManager != null) {
 			guiManager.resetBrowserGUI();
 			if (menuViewController != null) {
@@ -2383,7 +2362,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * Ends the exam mode, exits the exam view.
 	 */
 	public void endExam() {
-		setExam(null);
+		GlobalScope.examController.exitExam();
 		resetViewsEnabled();
 		getGuiManager().getLayout().resetPerspectives(this);
 		getLAF().addWindowClosingHandler(this);
@@ -2397,6 +2376,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		guiManager.resetBrowserGUI();
 		guiManager.updateUnbundledToolbarContent();
 		setActivePerspective(getGuiManager().getLayout().getDefaultPerspectives(0));
+		resetCommandDict();
 	}
 
 	@Override
@@ -2489,9 +2469,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getGuiManager().getLayout().getDockManager().adjustViews(true);
 		resetFullScreenBtn();
 		reinitAlgebraView();
-		if (isExam()) {
-			Material material = getExam().getTempStorage().newMaterial();
-			setActiveMaterial(material);
+		if (GlobalScope.examController.getState() != ExamState.IDLE) {
+			GlobalScope.examController.createNewTempMaterial();
 		}
 	}
 

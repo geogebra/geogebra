@@ -231,14 +231,14 @@ public class GGWToolBar extends Composite
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				if (app.getExam() != null) {
-					if (app.getExam().isCheating()) {
+				if (GlobalScope.examController.isExamActive()) {
+					if (GlobalScope.examController.isCheating()) {
 						ExamUtil.makeRed(getElement(), true);
 						makeTimerWhite(Js.uncheckedCast(getElement()));
 					}
 
-					timer.setText(app.getExam()
-							.timeToString(System.currentTimeMillis()));
+					timer.setText(GlobalScope.examController.getDurationFormatted(
+							app.getLocalization()));
 
 					AnimationScheduler.get().requestAnimationFrame(this);
 				}

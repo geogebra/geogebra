@@ -2,11 +2,13 @@ package org.geogebra.web.shared;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.main.undo.UndoRedoButtonsController;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.gwtutil.SafeExamBrowser;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -287,8 +289,10 @@ public class GlobalHeader implements EventRenderable {
 			String hash = security.configKey.substring(0, 8);
 			security.updateKeys((ignore) ->
 					addExamType("Safe Exam Browser (" + hash + ")"));
-		} else if (!app.getExam().isRestrictedGraphExam()) {
-			addExamType(app.getExam().getCalculatorNameForHeader());
+		} else if (GlobalScope.examController.getExamType() != ExamRegion.GENERIC
+				&& GlobalScope.examController.getExamType() != null) {
+			addExamType(GlobalScope.examController.getExamType().getDisplayName(
+					app.getLocalization(), app.getConfig()));
 		}
 
 		examId.add(timerImg);
@@ -298,16 +302,16 @@ public class GlobalHeader implements EventRenderable {
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				if (getApp().getExam() != null) {
-					if (getApp().getExam().isCheating()) {
+				if (GlobalScope.examController.isExamActive()) {
+					if (GlobalScope.examController.isCheating()) {
 						getApp().getGuiManager()
 								.setUnbundledHeaderStyle("examCheat");
 						if (examTypeHolder != null) {
 							examTypeHolder.addStyleName("cheat");
 						}
 					}
-					getTimer().setText(
-							getApp().getExam().getElapsedTimeLocalized());
+					getTimer().setText(GlobalScope.examController.getDurationFormatted(
+							app.getLocalization()));
 					AnimationScheduler.get().requestAnimationFrame(this);
 				}
 			}

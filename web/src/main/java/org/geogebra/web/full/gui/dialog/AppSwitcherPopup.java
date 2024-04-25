@@ -1,9 +1,17 @@
 package org.geogebra.web.full.gui.dialog;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.exam.ExamControllerDelegate;
+import org.geogebra.common.exam.restrictions.ExamRestrictable;
+import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
-import org.geogebra.common.main.exam.restriction.Restrictable;
+import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
 import org.geogebra.web.full.main.AppWFull;
@@ -17,11 +25,12 @@ import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
+public class AppSwitcherPopup extends GPopupPanel implements ExamRestrictable,
+		ExamControllerDelegate {
 
 	SuiteHeaderAppPicker appPickerButton;
 	private final static int X_COORDINATE_OFFSET = 8;
-	private ExamRestrictionModel restrictionModel;
+	private @CheckForNull ExamRestrictions examRestrictions;
 	private FlowPanel contentPanel;
 
 	/**
@@ -37,6 +46,7 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 		addAutoHidePartner(appPickerButton.getElement());
 		setGlassEnabled(false);
 		addStyleName("appPickerPopup");
+		GlobalScope.examController.registerRestrictable(this);
 		buildGUI();
 		app.registerAutoclosePopup(this);
 	}
@@ -75,7 +85,7 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 	}
 
 	private void addElement(final String subAppCode) {
-		if (hasRestrictions() && restrictionModel.isAppRestricted(subAppCode)) {
+		if (hasRestrictions() && examRestrictions.isDisabledSubApp(subAppCode)) {
 			return;
 		}
 
@@ -91,9 +101,7 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 		AriaHelper.setAttribute(label, "data-trans-key", key);
 		rowPanel.add(label);
 		rowPanel.setStyleName("appPickerRow");
-		rowPanel.addDomHandler(event -> {
-			switchToSubApp(subAppCode);
-		}, ClickEvent.getType());
+		rowPanel.addDomHandler(event -> switchToSubApp(subAppCode), ClickEvent.getType());
 		contentPanel.add(rowPanel);
 	}
 
@@ -108,7 +116,7 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 	}
 
 	private boolean hasRestrictions() {
-		return restrictionModel != null;
+		return examRestrictions != null;
 	}
 
 	private int getLeft() {
@@ -120,22 +128,89 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 	}
 
 	@Override
-	public boolean isExamRestrictionModelAccepted(ExamRestrictionModel model) {
-		return model.hasSubApps();
-	}
-
-	@Override
-	public void setExamRestrictionModel(ExamRestrictionModel model) {
-		restrictionModel = model;
-	}
-
-	@Deprecated // app switching in exams is now handled by ExamController
-	@Override
-	public void applyExamRestrictions() {
+	public void applyRestrictions(@Nonnull ExamRestrictions examRestrictions) {
+		this.examRestrictions = examRestrictions;
 		updateGUI();
-		if (restrictionModel != null
-				&& restrictionModel.isAppRestricted(app.getConfig().getSubAppCode())) {
-			switchToSubApp(restrictionModel.getDefaultAppCode());
+	}
+
+	@Override
+	public void removeRestrictions(@Nonnull ExamRestrictions examRestrictions) {
+		this.examRestrictions = null;
+		updateGUI();
+	}
+
+	@Override
+	public void examClearCurrentApp() {
+		app.fileNew();
+	}
+
+	@Override
+	public void examClearOtherApps() {
+		((AppWFull) app).clearSubAppCons();
+	}
+
+	@Override
+	public void examClearClipboard() {
+		app.getCopyPaste().clearClipboard();
+		app.getCopyPaste().copyTextToSystemClipboard("");
+	}
+
+	@Override
+	public void examSetActiveMaterial(@Nullable Material material) {
+		app.setActiveMaterial(material);
+	}
+
+	@CheckForNull
+	@Override
+	public Material examGetActiveMaterial() {
+		return app.getActiveMaterial();
+	}
+
+	@CheckForNull
+	@Override
+	public SuiteSubApp examGetCurrentSubApp() {
+		String subAppCode = app.getConfig().getSubAppCode();
+		if (subAppCode == null) {
+			return null;
+		}
+		switch (subAppCode) {
+		case GeoGebraConstants.CAS_APPCODE:
+			return SuiteSubApp.CAS;
+		case GeoGebraConstants.GEOMETRY_APPCODE:
+			return SuiteSubApp.GEOMETRY;
+		case GeoGebraConstants.GRAPHING_APPCODE:
+			return SuiteSubApp.GRAPHING;
+		case GeoGebraConstants.G3D_APPCODE:
+			return SuiteSubApp.G3D;
+		case GeoGebraConstants.PROBABILITY_APPCODE:
+			return SuiteSubApp.PROBABILITY;
+		case GeoGebraConstants.SCIENTIFIC_APPCODE:
+			return SuiteSubApp.SCIENTIFIC;
+		default:
+			return null;
+		}
+	}
+
+	@Override
+	public void examSwitchSubApp(@Nonnull SuiteSubApp subApp) {
+		switch (subApp) {
+		case CAS:
+			switchToSubApp(GeoGebraConstants.CAS_APPCODE);
+			return;
+		case GEOMETRY:
+			switchToSubApp(GeoGebraConstants.GEOMETRY_APPCODE);
+			return;
+		case GRAPHING:
+			switchToSubApp(GeoGebraConstants.GRAPHING_APPCODE);
+			return;
+		case G3D:
+			switchToSubApp(GeoGebraConstants.G3D_APPCODE);
+			return;
+		case PROBABILITY:
+			switchToSubApp(GeoGebraConstants.PROBABILITY_APPCODE);
+			return;
+		case SCIENTIFIC:
+			switchToSubApp(GeoGebraConstants.SCIENTIFIC_APPCODE);
 		}
 	}
 }

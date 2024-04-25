@@ -16,7 +16,6 @@ public class ExamRestrictionFactory {
 	public static RestrictExam create(ExamRegion examRegion) {
 		ExamRestrictionModel model = new ExamRestrictionModel();
 		if (examRegion != null) {
-			examRegion.setDefaultSubAppCode(model);
 			examRegion.applyRestrictions(model);
 		}
 		return new RestrictExamImpl(model);

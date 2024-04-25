@@ -72,6 +72,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.operations.NetworkOperation;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
@@ -1023,9 +1024,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		resetFileHandle();
 		resetUI();
 		resetUrl();
-		if (isExam()) {
-			Material material = getExam().getTempStorage().newMaterial();
-			setActiveMaterial(material);
+		if (GlobalScope.examController.isExamActive()) {
+			GlobalScope.examController.createNewTempMaterial();
 		}
 		setSaved();
 	}

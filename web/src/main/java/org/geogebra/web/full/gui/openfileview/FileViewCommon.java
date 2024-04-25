@@ -108,9 +108,9 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 		AnimationScheduler.get().requestAnimationFrame(new AnimationScheduler.AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				if (getApp().getExam() != null) {
+				if (!GlobalScope.examController.isIdle()) {
 					timer.setText(
-							getApp().getExam().getElapsedTimeLocalized());
+							GlobalScope.examController.getDurationFormatted(loc));
 					AnimationScheduler.get().requestAnimationFrame(this);
 				}
 			}
