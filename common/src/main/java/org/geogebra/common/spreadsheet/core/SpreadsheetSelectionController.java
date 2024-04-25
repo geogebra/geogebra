@@ -1,7 +1,12 @@
 package org.geogebra.common.spreadsheet.core;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.function.BiPredicate;
+import java.util.function.Function;
+import java.util.function.IntSupplier;
+import java.util.function.Predicate;
 
 import javax.annotation.CheckForNull;
 
@@ -12,7 +17,7 @@ final class SpreadsheetSelectionController {
 		// stub
 	}
 
-	 void clearSelection() {
+	 void clearSelections() {
 		selections.clear();
 	 }
 
@@ -35,7 +40,7 @@ final class SpreadsheetSelectionController {
 				&& selections.get(0).getRange().isEqualCells(selection.getRange())) {
 			return false;
 		}
-		this.selections.clear();
+		clearSelections();
 		this.selections.add(selection);
 		return true;
 	}
@@ -150,7 +155,7 @@ final class SpreadsheetSelectionController {
 				merged = mergeResult;
 			}
 		}
-		selections.clear();
+		clearSelections();
 		selections.addAll(independent);
 		selections.add(merged);
 		return true;
@@ -193,5 +198,41 @@ final class SpreadsheetSelectionController {
 	public boolean isOnlyCellSelected(int row, int column) {
 		return selections.size() == 1 && selections.get(0).getRange().isSingleCell()
 				&& isSelected(row, column);
+	}
+
+	/**
+	 * @param getIndex Function that accepts an instance of {@link Selection} and returns the
+	 * wanted index (e.g. minRow, maxRow)
+	 * @param
+	 * @return
+	 */
+	private int getIndexFor(Function<Selection, Integer> getIndex,
+			BiPredicate<Integer, Integer> swapIndex) {
+		if (selections.isEmpty()) {
+			return -1;
+		}
+		int index = getIndex.apply(selections.get(0));
+		for (Selection selection : selections) {
+			if (swapIndex.test(index, getIndex.apply(selection))) {
+				index = getIndex.apply(selection);
+			}
+		}
+		return index;
+	}
+
+	public int getUppermostRowIndex() {
+		return getIndexFor(s -> s.getRange().getMinRow(), (a, b) -> a < b);
+	}
+
+	public int getBottommostRowIndex() {
+		return getIndexFor(selection -> selection.getRange().getMaxRow(), (a, b) -> a > b);
+	}
+
+	public int getLeftmostColumnIndex() {
+		return getIndexFor(s -> s.getRange().getMinColumn(), (a, b) -> a < b);
+	}
+
+	public int getRightmostColumnIndex() {
+		return getIndexFor(s -> s.getRange().getMaxColumn(), (a, b) -> a > b);
 	}
 }

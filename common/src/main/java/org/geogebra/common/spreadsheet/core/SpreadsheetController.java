@@ -90,7 +90,7 @@ public final class SpreadsheetController implements TabularSelection {
 
 	@Override
 	public void clearSelection() {
-		selectionController.clearSelection();
+		selectionController.clearSelections();
 	}
 
 	@Override
@@ -213,16 +213,20 @@ public final class SpreadsheetController implements TabularSelection {
 		}
 
 		if (modifiers.secondaryButton && controlsDelegate != null) {
-			selectionController.clearSelection();
-			GPoint coords = new GPoint(x, y);
-			controlsDelegate.showContextMenu(contextMenuItems.get(row, column), coords);
-			resetDragAction();
+			if (isSelected(row, column)) {
+				showContextMenu(x, y, selectionController.getUppermostRowIndex(),
+						selectionController.getBottommostRowIndex(),
+						selectionController.getLeftmostColumnIndex(),
+						selectionController.getRightmostColumnIndex());
+				return false;
+			}
+			showContextMenu(x, y, row, row, column, column);
 		}
 		if (row >= 0 && column >= 0 && selectionController.isOnlyCellSelected(row, column)) {
 			return showCellEditor(row, column);
 		}
 		if (!modifiers.ctrlOrCmd && !modifiers.shift && selectionController.hasSelection()) {
-			selectionController.clearSelection();
+			selectionController.clearSelections();
 			changed = true;
 		}
 		if (row == -1 && column == -1) { // Select all
@@ -267,6 +271,12 @@ public final class SpreadsheetController implements TabularSelection {
 					layout.findColumn(x + viewport.getMinX()));
 		}
 		return layout.getResizeAction(x, y, viewport);
+	}
+
+	private void showContextMenu(int x, int y, int fromRow, int toRow, int fromCol, int toCol) {
+		controlsDelegate.showContextMenu(contextMenuItems.get(fromRow, toRow, fromCol, toCol),
+				new GPoint(x, y));
+		resetDragAction();
 	}
 
 	/**

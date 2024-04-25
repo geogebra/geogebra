@@ -25,20 +25,45 @@ public class ContextMenuItems {
 	}
 
 	/**
-	 * Gets the context menu items for the specific cell/row/column
+	 * Gets the context menu items for the specific <b>single</b> cell / row / column
 	 * @param row of the cell.
 	 * @param column of the cell.
 	 * @return map of the menu key and its action.
 	 */
 	public List<ContextMenuItem> get(int row, int column) {
-		if (row == HEADER_INDEX && column == HEADER_INDEX) {
-			return tableItems(row, column);
-		} else if (row == HEADER_INDEX) {
-			return columnItems(column);
-		} else if (column == HEADER_INDEX) {
-			return rowItems(row);
+		return get(row, row, column, column);
+	}
+
+	/**
+	 * Gets the context menu items for the specific <b>multiple</b> cells / rows / columns
+	 * @param fromRow Index of the uppermost row
+	 * @param toRow Index of the bottommost row
+	 * @param fromCol Index of the leftmost column
+	 * @param toCol Index of the rightmost column
+	 * @return map of the menu key and its action.
+	 */
+	public List<ContextMenuItem> get(int fromRow, int toRow, int fromCol, int toCol) {
+		if (allCellsSelectionClicked(fromRow, toRow, fromCol, toCol)) {
+			return tableItems(fromRow, fromCol);
+		} else if (onlyColumnsSelected(fromRow, toRow)) {
+			return columnItems(fromCol);
+		} else if (onlyRowsSelected(fromCol, toCol)) {
+			return rowItems(fromRow);
 		}
-		return cellItems(row, column);
+		return cellItems(fromRow, toRow, fromCol, toCol);
+	}
+
+	private boolean allCellsSelectionClicked(int fromRow, int toRow, int fromCol, int toCol) {
+		return fromRow == HEADER_INDEX && toRow == HEADER_INDEX
+				&& fromCol == HEADER_INDEX && toCol == HEADER_INDEX;
+	}
+
+	private boolean onlyColumnsSelected(int fromRow, int toRow) {
+		return fromRow == HEADER_INDEX && toRow == HEADER_INDEX;
+	}
+
+	private boolean onlyRowsSelected(int fromCol, int toCol) {
+		return fromCol == HEADER_INDEX && toCol == HEADER_INDEX;
 	}
 
 	private List<ContextMenuItem> tableItems(int row, int column) {
@@ -49,24 +74,24 @@ public class ContextMenuItems {
 		);
 	}
 
-	private List<ContextMenuItem> cellItems(int row, int column) {
+	private List<ContextMenuItem> cellItems(int fromRow, int toRow, int fromCol, int toCol) {
 		return Arrays.asList(
-				new ContextMenuItem(Identifier.CUT, () -> cutCells(row, column)),
-				new ContextMenuItem(Identifier.COPY, () -> copyCells(row, column)),
-				new ContextMenuItem(Identifier.PASTE, () -> pasteCells(row, column)),
+				new ContextMenuItem(Identifier.CUT, () -> cutCells(1, 1)),
+				new ContextMenuItem(Identifier.COPY, () -> copyCells(1, 1)),
+				new ContextMenuItem(Identifier.PASTE, () -> pasteCells(1, 1)),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.INSERT_ROW_ABOVE,
-						() -> insertRowAt(row, false)),
+						() -> insertRowAt(fromRow, false)),
 				new ContextMenuItem(Identifier.INSERT_ROW_BELOW,
-						() -> insertRowAt(row + 1, true)),
+						() -> insertRowAt(toRow + 1, true)),
 				new ContextMenuItem(Identifier.INSERT_COLUMN_LEFT,
-						() -> insertColumnAt(column, false)),
+						() -> insertColumnAt(fromCol, false)),
 				new ContextMenuItem(Identifier.INSERT_COLUMN_RIGHT,
-						() -> insertColumnAt(column + 1, true)),
+						() -> insertColumnAt(toCol + 1, true)),
 				new ContextMenuItem(Identifier.DIVIDER),
-				new ContextMenuItem(Identifier.DELETE_ROW, () -> deleteRowAt(row)),
+				new ContextMenuItem(Identifier.DELETE_ROW, () -> deleteRowAt(fromRow)),
 				new ContextMenuItem(Identifier.DELETE_COLUMN,
-						() -> deleteColumnAt(column))
+						() -> deleteColumnAt(fromCol))
 		);
 	}
 

@@ -284,7 +284,7 @@ public final class ContextMenuItemsTest {
 	public void testPasteCellSelection() {
 		selectCells(1, 1, 2, 2);
 		runItemAt(1, 1, COPY);
-		selectionController.clearSelection();
+		selectionController.clearSelections();
 		runItemAt(2, 4, PASTE);
 		assertEquals("cell11", data.contentAt(2, 4));
 		assertEquals("cell12", data.contentAt(2, 5));
