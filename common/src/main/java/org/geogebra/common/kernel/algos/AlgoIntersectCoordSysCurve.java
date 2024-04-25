@@ -94,7 +94,7 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 
 	}
 
-	public void getCoordsBySubstitution(FunctionVariable fv, double paramVal, GeoPointND point,
+	void getCoordsBySubstitution(FunctionVariable fv, double paramVal, GeoPointND point,
 			GeoCurveCartesianND curve1) {
 		ExpressionNode xFun = curve1.getFun(0).getExpression();
 		ExpressionNode yFun = curve1.getFun(1).getExpression();

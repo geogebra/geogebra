@@ -139,7 +139,6 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 		}
 	}
 
-
 	@Override
 	protected boolean inCoordSys(GeoPointND point) {
 		return line.isIntersectionPointIncident((GeoPoint) point,
@@ -153,5 +152,4 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 				line.getLabel(tpl),
 				curve.getLabel(tpl));
 	}
-
 }

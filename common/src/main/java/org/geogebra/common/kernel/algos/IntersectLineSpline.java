@@ -13,13 +13,21 @@ public final class IntersectLineSpline {
 	private final Spline spline;
 	private final EquationSolver solver;
 
-
-	public IntersectLineSpline(Spline spline, Coords coeffs,	EquationSolver solver) {
+	/**
+	 * @param spline the Spline.
+	 * @param coeffs the line coefficents.
+	 * @param solver the equation solver.
+	 */
+	public IntersectLineSpline(Spline spline, Coords coeffs, EquationSolver solver) {
 		this.spline = spline;
 		this.coeffs = coeffs;
 		this.solver = solver;
 	}
 
+	/**
+	 *
+	 * @return roots of the intersection
+	 */
 	public List<Double> compute() {
 		ArrayList<Double> roots = new ArrayList<>();
 		for (int i = 0; i < spline.size(); i++) {
