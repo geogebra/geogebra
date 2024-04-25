@@ -4,7 +4,6 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -70,7 +69,7 @@ class NavigationRail extends FlowPanel {
 		setTabIndexes();
 		lastOrientation = app.isPortrait();
 		setStyleName("header");
-		updateIcons(GlobalScope.examController.getState() != ExamState.IDLE);
+		updateIcons(!GlobalScope.examController.isIdle());
 	}
 
 	private void createCenter() {

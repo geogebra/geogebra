@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.openfileview;
 
-import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.ownership.GlobalScope;
@@ -90,7 +89,7 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 			addSearchBar();
 			buildSingInPanel();
 		}
-		if (GlobalScope.examController.getState() != ExamState.IDLE) {
+		if (!GlobalScope.examController.isIdle()) {
 			addExamPanel();
 		}
 		this.setHeaderWidget(headerView);

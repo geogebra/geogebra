@@ -36,7 +36,6 @@ import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.exam.ExamRegion;
-import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
@@ -2469,7 +2468,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getGuiManager().getLayout().getDockManager().adjustViews(true);
 		resetFullScreenBtn();
 		reinitAlgebraView();
-		if (GlobalScope.examController.getState() != ExamState.IDLE) {
+		if (!GlobalScope.examController.isIdle()) {
 			GlobalScope.examController.createNewTempMaterial();
 		}
 	}

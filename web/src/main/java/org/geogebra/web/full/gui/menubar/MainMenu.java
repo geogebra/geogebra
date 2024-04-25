@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.menubar;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -78,7 +77,7 @@ public class MainMenu extends FlowPanel
 	private void init() {
 		app.ensureLoginOperation();
 		this.app.getLoginOperation().getView().add(this);
-		final boolean exam = GlobalScope.examController.getState() != ExamState.IDLE;
+		final boolean exam = !GlobalScope.examController.isIdle();
 
 		this.menus = new ArrayList<>();
 		this.userMenu = new UserSubmenu(app);

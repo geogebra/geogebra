@@ -37,7 +37,6 @@ import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
@@ -4508,7 +4507,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public ToolCollectionFactory createToolCollectionFactory() {
 		String toolbarDefinition = getGuiManager().getToolbarDefinition();
-		if (toolbarDefinition == null || GlobalScope.examController.getState() != ExamState.IDLE
+		if (toolbarDefinition == null || !GlobalScope.examController.isIdle()
 				|| ToolBar.isDefaultToolbar(toolbarDefinition)) {
 			return createDefaultToolCollectionFactory();
 		} else {

@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.util;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -200,8 +199,7 @@ public class LoadFilePresenter {
 	private static Perspective getPerspective(AppW app, String perspective) {
 		Perspective pd = PerspectiveDecoder.decode(perspective,
 				app.getKernel().getParser(),
-				ToolBar.getAllToolsNoMacros(true,
-						GlobalScope.examController.getState() != ExamState.IDLE, app),
+				ToolBar.getAllToolsNoMacros(true, !GlobalScope.examController.isIdle(), app),
 				app.getLayout());
 		if ("1".equals(perspective) || "2".equals(perspective)
 				|| "5".equals(perspective)) {

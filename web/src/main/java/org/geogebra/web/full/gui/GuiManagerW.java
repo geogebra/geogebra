@@ -14,7 +14,6 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.GuiManager;
@@ -1019,7 +1018,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public boolean save() {
-		if (GlobalScope.examController.getState() != ExamState.IDLE) {
+		if (!GlobalScope.examController.isIdle()) {
 			SaveExamAction.showExamSaveDialog(getApp());
 		} else {
 			getApp().getFileManager().save(getApp());
@@ -1395,7 +1394,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void updateFrameSize() {
 		if (!getApp().getAppletParameters().getDataParamApp()
-			|| GlobalScope.examController.getState() != ExamState.IDLE) {
+			|| !GlobalScope.examController.isIdle()) {
 			return;
 		}
 		// get frame size from layout manager
@@ -1767,7 +1766,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	private BrowseViewI createBrowseView(AppWFull app) {
-		if (GlobalScope.examController.getState() != ExamState.IDLE) {
+		if (!GlobalScope.examController.isIdle()) {
 			return new OpenTemporaryFileView(app);
 		} else {
 			BrowserDevice.FileOpenButton fileOpenButton =

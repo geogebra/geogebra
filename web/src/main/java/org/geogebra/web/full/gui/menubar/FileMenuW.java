@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.menubar;
 
-import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -48,7 +47,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	}
 
 	private void initActions() {
-		if (GlobalScope.examController.getState() != ExamState.IDLE) {
+		if (!GlobalScope.examController.isIdle()) {
 			addItem(new ExitExamItem());
 			return;
 		}

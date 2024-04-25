@@ -14,7 +14,6 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
-import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
@@ -338,7 +337,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		Dom.addEventListener(textField.getValueBox().getElement(), "contextmenu", (event) -> {
 			event.stopPropagation();
-			if  (GlobalScope.examController.getState() != ExamState.IDLE) {
+			if  (!GlobalScope.examController.isIdle()) {
 				event.preventDefault();
 			}
 		});

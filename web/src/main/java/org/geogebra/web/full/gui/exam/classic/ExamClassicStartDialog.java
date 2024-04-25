@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.exam.classic;
 
-import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.ownership.GlobalScope;
@@ -138,13 +137,14 @@ public class ExamClassicStartDialog extends ComponentDialog {
 	public static void blockEscTab(AppW app) {
 		DomGlobal.document.body.addEventListener("keyup", evt -> {
 			KeyboardEvent e = (KeyboardEvent) evt;
-			if ("Escape".equals(e.code) && GlobalScope.examController.getState() != ExamState.IDLE) {
+			if ("Escape".equals(e.code) && !GlobalScope.examController.isIdle()) {
 				e.preventDefault();
 			}
 		});
 		DomGlobal.document.body.addEventListener("keydown", evt -> {
 			KeyboardEvent e = (KeyboardEvent) evt;
-			if (("Tab".equals(e.code) || "Escape".equals(e.code)) && GlobalScope.examController.getState() != ExamState.IDLE) {
+			if (("Tab".equals(e.code) || "Escape".equals(e.code))
+					&& !GlobalScope.examController.isIdle()) {
 				e.preventDefault();
 			}
 		});
