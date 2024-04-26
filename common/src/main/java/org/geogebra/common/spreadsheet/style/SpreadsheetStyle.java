@@ -22,7 +22,7 @@ public final class SpreadsheetStyle {
 	}
 
 	public GColor getTextColor() {
-		return GeoGebraColorConstants.NEUTRAL_700;
+		return GeoGebraColorConstants.NEUTRAL_900;
 	}
 
 	/**
