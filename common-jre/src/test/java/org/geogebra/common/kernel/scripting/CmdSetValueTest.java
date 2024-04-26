@@ -139,4 +139,23 @@ public class CmdSetValueTest extends BaseUnitTest {
 		String s = getApp().getXML();
 		assertThat(s, containsString("<expression label=\"l1\" exp=\"{true, true}\"/>"));
 	}
+
+	@Test
+	@Issue("APPS-5576")
+	public void setValueShouldNotChangeDependent() {
+		add("m={{1,2},{3,4}}");
+		GeoList row = add("row=m(1)");
+		add("SetValue(row,{4,5})");
+		assertThat(row, hasValue("{1, 2}"));
+		reload();
+		assertThat(lookup("row"), hasValue("{1, 2}"));
+	}
+
+	@Test
+	public void setValueShouldWorkForDescendantsOfSelf() {
+		getApp().setRandomSeed(42);
+		GeoList list = add("l={1,2,3,4}");
+		add("SetValue(l, Shuffle(l))");
+		assertThat(list, hasValue("{3, 4, 1, 2}"));
+	}
 }
