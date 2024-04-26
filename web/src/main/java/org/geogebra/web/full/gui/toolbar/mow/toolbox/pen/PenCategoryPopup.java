@@ -15,6 +15,7 @@ import org.geogebra.web.shared.components.ComponentSlider;
 public class PenCategoryPopup extends CategoryPopup {
 	private PenCategoryController controller;
 	private ColorChooserPanel colorChooser;
+	private ComponentSlider sliderComponent;
 
 	/**
 	 * Constructor
@@ -41,11 +42,12 @@ public class PenCategoryPopup extends CategoryPopup {
 				controller.setLastHighlighterColor(color);
 			}
 			controller.updatePenColor(color);
+			sliderComponent.updatePreview();
 		});
 		addContent(colorChooser);
 
-		ComponentSlider slider = new ComponentSlider((AppW) app);
-		addContent(slider);
+		sliderComponent = new ComponentSlider((AppW) app);
+		addContent(sliderComponent);
 	}
 
 	/**

@@ -1256,6 +1256,7 @@
     	height: 4px;
         background: var(--ggb-selection-color);
         border-radius: 5px;
+        cursor: pointer;
     }
 
     input[type=range].slider::-webkit-slider-thumb {

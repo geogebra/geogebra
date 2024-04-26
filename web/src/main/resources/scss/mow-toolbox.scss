@@ -133,11 +133,21 @@
 			display: flex;
 		}
 
-		.sliderComponent .slider {
-			margin: 0 8px;
-			width: calc(100% - 16px);
-			height: 36px;
-			padding: 0;
+		.sliderComponent {
+			.preview {
+				position: relative;
+				overflow: hidden;
+				margin: 8px;
+				left: 64px;
+				margin-right: 0px;
+			}
+
+			.slider {
+				margin: 0 8px;
+				width: calc(100% - 16px);
+				height: 36px;
+				padding: 0;
+			}
 		}
 	}
 }

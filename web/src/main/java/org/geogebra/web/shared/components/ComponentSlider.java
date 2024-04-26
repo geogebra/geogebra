@@ -9,6 +9,7 @@ import org.gwtproject.user.client.ui.Label;
 
 public class ComponentSlider extends FlowPanel {
 	private final AppW appW;
+	private PenPreview preview;
 
 	public ComponentSlider(AppW appW) {
 		this.appW = appW;
@@ -18,7 +19,8 @@ public class ComponentSlider extends FlowPanel {
 
 	private void buildGui() {
 		Label sliderLabel = BaseWidgetFactory.INSTANCE.newPrimaryText("Thickness", "sliderLabel");
-		PenPreview preview = new PenPreview(appW, 100, 5);
+		preview = new PenPreview(appW, 100, 5);
+		preview.addStyleName("preview");
 
 		FlowPanel labelPreviewHolder = new FlowPanel();
 		labelPreviewHolder.addStyleName("labelPreviewHolder");
@@ -33,5 +35,9 @@ public class ComponentSlider extends FlowPanel {
 		SliderW slider = new SliderW(0, 20);
 		slider.addStyleName("slider");
 		return slider;
+	}
+
+	public void updatePreview() {
+		preview.update();
 	}
 }
