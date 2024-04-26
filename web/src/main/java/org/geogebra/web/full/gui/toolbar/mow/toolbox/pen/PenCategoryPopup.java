@@ -10,6 +10,7 @@ import java.util.function.Consumer;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.CategoryPopup;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.ComponentSlider;
 
 public class PenCategoryPopup extends CategoryPopup {
 	private PenCategoryController controller;
@@ -44,6 +45,9 @@ public class PenCategoryPopup extends CategoryPopup {
 			controller.updatePenColor(color);
 		});
 		addContent(colorChooser);
+
+		ComponentSlider slider = new ComponentSlider((AppW) app);
+		addContent(slider);
 	}
 
 	/**

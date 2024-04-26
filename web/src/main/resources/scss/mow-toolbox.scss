@@ -113,6 +113,7 @@
 	.gwt-PopupPanel.categoryPopup.penCategory {
 		width: 192px;
 		padding: 16px 8px;
+		height: 200px;
 
 		.toolsHolder {
 			padding: 0 8px;
@@ -126,6 +127,10 @@
 		.colorPalette {
 			padding: 0 6px;
 			margin-bottom: 16px;
+		}
+
+		.labelPreviewHolder {
+			display: flex;
 		}
 	}
 }
