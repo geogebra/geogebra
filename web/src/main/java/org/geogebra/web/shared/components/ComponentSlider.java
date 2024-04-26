@@ -11,6 +11,10 @@ public class ComponentSlider extends FlowPanel {
 	private final AppW appW;
 	private PenPreview preview;
 
+	/**
+	 * constructor
+	 * @param appW - application
+	 */
 	public ComponentSlider(AppW appW) {
 		this.appW = appW;
 		addStyleName("sliderComponent");
@@ -37,6 +41,9 @@ public class ComponentSlider extends FlowPanel {
 		return slider;
 	}
 
+	/**
+	 * update preview
+	 */
 	public void updatePreview() {
 		preview.update();
 	}

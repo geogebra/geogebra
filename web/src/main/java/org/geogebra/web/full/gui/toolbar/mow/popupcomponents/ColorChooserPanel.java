@@ -65,10 +65,10 @@ public class ColorChooserPanel extends FlowPanel {
 		colorButton.add(checkmark);
 
 		Dom.addEventListener(colorButton.getElement(), "click", (event) -> {
-				if (!isDisabled()) {
-			 		updateColor(colorButton, color);
-		 		}
-		 });
+			if (!isDisabled()) {
+				updateColor(colorButton, color);
+			}
+		});
 
 		colorButtons.add(colorButton);
 		add(colorButton);
@@ -120,7 +120,8 @@ public class ColorChooserPanel extends FlowPanel {
 									// nothing to do here
 								}
 							});
-				}});
+				}
+		});
 
 		add(customColorButton);
 	 }

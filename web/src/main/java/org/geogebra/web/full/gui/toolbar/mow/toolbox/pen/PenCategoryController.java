@@ -19,6 +19,10 @@ public class PenCategoryController {
 				.getPen();
 	}
 
+	/**
+	 * update pen (color, thickness, opacity)
+	 * @param color - chosen color
+	 */
 	public void updatePenColor(GColor color) {
 		getPen().setPenColor(color);
 		getPen().updateMode();
