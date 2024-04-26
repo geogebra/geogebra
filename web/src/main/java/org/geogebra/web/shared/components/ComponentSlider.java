@@ -12,6 +12,7 @@ public class ComponentSlider extends FlowPanel {
 
 	public ComponentSlider(AppW appW) {
 		this.appW = appW;
+		addStyleName("sliderComponent");
 		buildGui();
 	}
 
@@ -30,7 +31,7 @@ public class ComponentSlider extends FlowPanel {
 
 	private SliderW buildSlider() {
 		SliderW slider = new SliderW(0, 20);
-		slider.addStyleName("sliderComponent");
+		slider.addStyleName("slider");
 		return slider;
 	}
 }

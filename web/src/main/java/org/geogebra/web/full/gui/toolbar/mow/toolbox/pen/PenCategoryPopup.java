@@ -15,7 +15,6 @@ import org.geogebra.web.shared.components.ComponentSlider;
 public class PenCategoryPopup extends CategoryPopup {
 	private PenCategoryController controller;
 	private ColorChooserPanel colorChooser;
-	private PenIconButton penButton;
 
 	/**
 	 * Constructor
@@ -24,10 +23,9 @@ public class PenCategoryPopup extends CategoryPopup {
 	 * @param updateParentCallback - callback to update anchor
 	 */
 	public PenCategoryPopup(AppW app, List<Integer> tools,
-			Consumer<Integer> updateParentCallback, PenIconButton penButton) {
+			Consumer<Integer> updateParentCallback) {
 		super(app, tools, updateParentCallback, true);
 
-		this.penButton = penButton;
 		controller = new PenCategoryController(app);
 
 		addStyleName("penCategory");

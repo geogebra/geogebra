@@ -44,7 +44,7 @@ public class PenIconButton extends IconButton {
 	private void initPopupAndShow() {
 		if (penPopup == null) {
 			penPopup = new PenCategoryPopup(appW, Arrays.asList(MODE_PEN, MODE_HIGHLIGHTER,
-					MODE_ERASER), getUpdateButtonCallback(), this);
+					MODE_ERASER), getUpdateButtonCallback());
 		}
 
 		penPopup.update();
