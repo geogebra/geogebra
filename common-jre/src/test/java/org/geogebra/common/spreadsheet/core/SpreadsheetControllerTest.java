@@ -288,7 +288,7 @@ public class SpreadsheetControllerTest {
     }
 
     @Test
-    public void testRightClickingMulticellSelectionShouldNotChangeSelection() {
+    public void testRightClickingMultiCellSelectionShouldNotChangeSelection() {
         selectCells(0, 0, 1, 1);
         controller.setControlsDelegate(getSpreadsheetControlsDelegate());
         controller.handlePointerDown(rowHeaderCellWidth + 10, cellHeight + 10,
@@ -303,6 +303,17 @@ public class SpreadsheetControllerTest {
                 .filter(item -> item.getIdentifier() == identifier)
                 .findFirst().ifPresentOrElse(ContextMenuItem::performAction,
                         () -> fail("There was a problem performing this action!"));
+    }
+
+    @Test
+    public void testRightClickingMultiRowAndColumnSelectionShouldChangeSelection() {
+        controller.selectRow(0, false, false);
+        controller.selectColumn(2, false, true);
+        controller.handlePointerDown(rowHeaderCellWidth + 10, cellHeight + 10,
+                new Modifiers(false, false, false, true));
+        assertEquals(1, controller.getSelections().size());
+        assertTrue(controller.getSelections().get(0).getRange().isEqualCells(
+                new TabularRange(0, 0, 0, 0)));
     }
 
     private void setViewport(Rectangle viewport) {

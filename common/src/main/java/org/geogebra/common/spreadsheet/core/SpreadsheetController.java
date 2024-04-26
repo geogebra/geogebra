@@ -1,5 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -213,11 +214,19 @@ public final class SpreadsheetController implements TabularSelection {
 		}
 
 		if (modifiers.secondaryButton && controlsDelegate != null) {
-			if (isSelected(row, column)) {
-				showContextMenu(x, y, selectionController.getUppermostRowIndex(),
-						selectionController.getBottommostRowIndex(),
-						selectionController.getLeftmostColumnIndex(),
-						selectionController.getRightmostColumnIndex());
+			if (isSelected(row, column) && shouldKeepSelectionForContextMenu()) {
+//				if (areAllCellsSelected()) {
+//					showContextMenu(x, y, -1, -1, -1, -1);
+//				} else {
+//					showContextMenu(x, y, selectionController.getUppermostSelectedRowIndex(),
+//							selectionController.getBottommostSelectedRowIndex(),
+//							selectionController.getLeftmostSelectedColumnIndex(),
+//							selectionController.getRightmostSelectedColumnIndex());
+//				}
+				showContextMenu(x, y, selectionController.getUppermostSelectedRowIndex(),
+						selectionController.getBottommostSelectedRowIndex(),
+						selectionController.getLeftmostSelectedColumnIndex(),
+						selectionController.getRightmostSelectedColumnIndex());
 				return false;
 			}
 			showContextMenu(x, y, row, row, column, column);
@@ -277,6 +286,19 @@ public final class SpreadsheetController implements TabularSelection {
 		controlsDelegate.showContextMenu(contextMenuItems.get(fromRow, toRow, fromCol, toCol),
 				new GPoint(x, y));
 		resetDragAction();
+	}
+
+	/**
+	 * If there are multiplce selections present, the current selection should stay as it was if
+	 * <li>Multiple Rows <b>only</b> are selected</li>
+	 * <li>Multiple Columns <b>only</b> are selected</li>
+	 * <li>Only single or multiple cells are selected (no whole rows / columns)</li>
+	 * <li>All cells are selected</li>
+	 * @return Whether the selection should be kept for showing the context menu
+	 */
+	private boolean shouldKeepSelectionForContextMenu() {
+		return areOnlyRowsSelected() || areOnlyColumnsSelected()
+				|| areOnlyCellsSelected() || areAllCellsSelected();
 	}
 
 	/**
@@ -534,51 +556,72 @@ public final class SpreadsheetController implements TabularSelection {
 	}
 
 	/**
-	 * Deletes a row at the given index
+	 * Deletes a row at the given index<br/>
+	 * <b>In case there are multiple selections present, deletes all rows where a cell
+	 * is selected</b>
 	 * @param row Row index
 	 */
 	public void deleteRowAt(int row) {
 		List<Selection> selections = getSelections();
-		if (selections.isEmpty()) {
-			deleteRowAt(row, row);
+		if (selections.isEmpty() || selectionController.isOnlyRowSelected(row)) {
+			deleteRowAndResizeRemainingRows(row);
 		} else {
-			selections.stream().forEach(selection -> deleteRowAt(
-					selection.getRange().getFromRow(), selection.getRange().getToRow()));
-		}
-	}
-
-	private void deleteRowAt(int fromRow, int toRow) {
-		for (int row = fromRow; row < toRow + 1; row++) {
-			tabularData.deleteRowAt(fromRow);
-		}
-		if (layout != null) {
-			layout.resizeRemainingRowsAscending(toRow, tabularData.numberOfRows());
+			deleteRowsForMultiCellSelection();
 		}
 		storeUndoInfo();
 	}
 
 	/**
-	 * Deletes a column at the given index
+	 * <b>Important note - only delete rows in a descending order (bottom to top)</b><br/>
+	 * Deletes a row at given index and resizes the remaining rows in ascending order
+	 * @param row Row index
+	 */
+	private void deleteRowAndResizeRemainingRows(int row) {
+		tabularData.deleteRowAt(row);
+		if (layout != null) {
+			layout.resizeRemainingRowsAscending(row, tabularData.numberOfRows());
+		}
+	}
+
+	private void deleteRowsForMultiCellSelection() {
+		List<Integer> allRowIndexes = selectionController.getAllRowIndexes();
+		allRowIndexes.sort(Collections.reverseOrder());
+		allRowIndexes.stream().forEach(rowIndex -> deleteRowAndResizeRemainingRows(rowIndex));
+	}
+
+	/**
+	 * Deletes a column at the given index<br/>
+	 * <b>In case there are multiple selections present, deletes all columns where a cell
+	 * is selected</b>
 	 * @param column Column index
 	 */
 	public void deleteColumnAt(int column) {
 		List<Selection> selections = getSelections();
-		if (selections.isEmpty()) {
-			deleteColumnAt(column, column);
+		if (selections.isEmpty() || selectionController.isOnlyColumnSelected(column)) {
+			deleteColumnAndResizeRemainingColumns(column);
 		} else {
-			selections.stream().forEach(selection -> deleteColumnAt(
-					selection.getRange().getFromColumn(), selection.getRange().getToColumn()));
+			deleteColumnsForMulticellSelection();
+		}
+		storeUndoInfo();
+	}
+
+	/**
+	 * <b>Important note - only delete columns in a descending order (right to left)</b><br/>
+	 * Deletes a column at given index and resizes the remaining columns in ascending order
+	 * @param column Column index
+	 */
+	private void deleteColumnAndResizeRemainingColumns(int column) {
+		tabularData.deleteColumnAt(column);
+		if (layout != null) {
+			layout.resizeRemainingColumnsAscending(column, tabularData.numberOfColumns());
 		}
 	}
 
-	private void deleteColumnAt(int fromColumn, int toColumn) {
-		for (int column = fromColumn; column < toColumn + 1; column++) {
-			tabularData.deleteColumnAt(fromColumn);
-		}
-		if (layout != null) {
-			layout.resizeRemainingColumnsAscending(toColumn, tabularData.numberOfColumns());
-		}
-		storeUndoInfo();
+	private void deleteColumnsForMulticellSelection() {
+		List<Integer> allColumnIndexes = selectionController.getAllColumnIndexes();
+		allColumnIndexes.sort(Collections.reverseOrder());
+		allColumnIndexes.stream().forEach(
+				columnIndex -> deleteColumnAndResizeRemainingColumns(columnIndex));
 	}
 
 	/**
@@ -618,8 +661,24 @@ public final class SpreadsheetController implements TabularSelection {
 		storeUndoInfo();
 	}
 
-	public boolean isOnlyCellSelected(int row, int column) {
+	boolean isOnlyCellSelected(int row, int column) {
 		return selectionController.isOnlyCellSelected(row, column);
+	}
+
+	boolean areAllCellsSelected() {
+		return selectionController.areAllCellsSelected();
+	}
+
+	private boolean areOnlyRowsSelected() {
+		return selectionController.areOnlyRowsSelected();
+	}
+
+	private boolean areOnlyColumnsSelected() {
+		return selectionController.areOnlyColumnsSelected();
+	}
+
+	private boolean areOnlyCellsSelected() {
+		return selectionController.areOnlyCellsSelected();
 	}
 
 	/**
