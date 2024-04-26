@@ -215,14 +215,6 @@ public final class SpreadsheetController implements TabularSelection {
 
 		if (modifiers.secondaryButton && controlsDelegate != null) {
 			if (isSelected(row, column) && shouldKeepSelectionForContextMenu()) {
-//				if (areAllCellsSelected()) {
-//					showContextMenu(x, y, -1, -1, -1, -1);
-//				} else {
-//					showContextMenu(x, y, selectionController.getUppermostSelectedRowIndex(),
-//							selectionController.getBottommostSelectedRowIndex(),
-//							selectionController.getLeftmostSelectedColumnIndex(),
-//							selectionController.getRightmostSelectedColumnIndex());
-//				}
 				showContextMenu(x, y, selectionController.getUppermostSelectedRowIndex(),
 						selectionController.getBottommostSelectedRowIndex(),
 						selectionController.getLeftmostSelectedColumnIndex(),
