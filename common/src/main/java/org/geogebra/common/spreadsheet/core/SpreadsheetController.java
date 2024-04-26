@@ -275,8 +275,10 @@ public final class SpreadsheetController implements TabularSelection {
 	}
 
 	private void showContextMenu(int x, int y, int fromRow, int toRow, int fromCol, int toCol) {
-		controlsDelegate.showContextMenu(contextMenuItems.get(fromRow, toRow, fromCol, toCol),
-				new GPoint(x, y));
+		if (controlsDelegate != null) {
+			controlsDelegate.showContextMenu(contextMenuItems.get(fromRow, toRow, fromCol, toCol),
+					new GPoint(x, y));
+		}
 		resetDragAction();
 	}
 

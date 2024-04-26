@@ -184,14 +184,14 @@ public class ContextMenuItems {
 
 	private void insertColumnAt(int column, boolean right) {
 		if (column == -1) {
-			column = 0;
+			spreadsheetController.insertColumnAt(0, right);
 		}
 		spreadsheetController.insertColumnAt(column, right);
 	}
 
 	private void insertRowAt(int row, boolean below) {
 		if (row == -1) {
-			row = 0;
+			spreadsheetController.insertRowAt(0, below);
 		}
 		spreadsheetController.insertRowAt(row, below);
 	}
