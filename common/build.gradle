@@ -1,8 +1,8 @@
 plugins {
     id 'java-library'
-    id 'pmd'
-    id 'checkstyle'
-    alias libs.plugins.spotbugs
+    id 'pmd-conventions'
+    id 'checkstyle-conventions'
+    id 'spotbugs-conventions'
     alias libs.plugins.javacc
 }
 
@@ -12,9 +12,9 @@ dependencies {
     javacc libs.javacc
     api project(':editor-base')
     api project(':renderer-base')
-    api libs.j2objc.annotations
     api libs.spotbugs.annotations
     api libs.findbugs.annotations
+    implementation libs.j2objc.annotations
 }
 
 sourceSets {
@@ -81,16 +81,4 @@ test {
     ignoreFailures = true
 }
 
-spotbugs {
-    ignoreFailures = true
-    excludeFilter = file("../config/spotbugs.xml")
-    jvmArgs = ['-Dfindbugs.sf.comment=true']
-}
-
 spotbugsMain.maxHeapSize = '1g'
-
-pmd {
-    ignoreFailures = true
-    ruleSets = []
-    ruleSetFiles = files("../config/pmd.xml")
-}

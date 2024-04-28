@@ -1,10 +1,10 @@
 plugins {
     id 'java-library'
     id 'java-test-fixtures'
-    id 'pmd'
-    id 'checkstyle'
+    id 'pmd-conventions'
+    id 'checkstyle-conventions'
     id 'jacoco'
-    alias libs.plugins.spotbugs
+    id 'spotbugs-conventions'
 }
 
 description 'Common parts of GeoGebra that depends on JRE support.'
@@ -50,19 +50,19 @@ test {
 }
 
 // http://stackoverflow.com/questions/20638039/gradle-and-jacoco-instrument-classes-from-a-separate-subproject
-gradle.projectsEvaluated {
-    // include src from all dependent projects (compile dependency) in JaCoCo test report
-    jacocoTestReport {
-        // get all projects we have a (compile) dependency on
-        def projs = configurations.implementation.getAllDependencies().withType(ProjectDependency).collect { it.getDependencyProject() }
-        projs.each {
-            additionalSourceDirs files(it.sourceSets.main.java.srcDirs)
-            additionalClassDirs files(files(it.sourceSets.main['java'].destinationDirectory).collect({
-                File f -> fileTree(dir: f, exclude: ['org/apache/**', 'edu/**', 'org/geogebra/common/kernel/barycentric/**'])
-            }))
-        }
-    }
-}
+//gradle.projectsEvaluated {
+//    // include src from all dependent projects (compile dependency) in JaCoCo test report
+//    jacocoTestReport {
+//        // get all projects we have a (compile) dependency on
+//        def projs = configurations.implementation.getAllDependencies().withType(ProjectDependency).collect { it.getDependencyProject() }
+//        projs.each {
+//            additionalSourceDirs files(it.sourceSets.main.java.srcDirs)
+//            additionalClassDirs files(files(it.sourceSets.main['java'].destinationDirectory).collect({
+//                File f -> fileTree(dir: f, exclude: ['org/apache/**', 'edu/**', 'org/geogebra/common/kernel/barycentric/**'])
+//            }))
+//        }
+//    }
+//}
 
 jacocoTestReport {
     reports {

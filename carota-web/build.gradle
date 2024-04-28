@@ -1,17 +1,13 @@
 plugins {
     id 'java-library'
-    id 'checkstyle'
-    id 'pmd'
+    id 'checkstyle-conventions'
+    id 'pmd-conventions'
 }
 
 dependencies {
-    api libs.elemental2.core, libs.elemental2.dom, libs.gwt.timer, libs.murok,
-            variantOf(libs.murok) { classifier("sources") },
-            project(':gwtutil')
-}
-
-pmd {
-    ignoreFailures = true
-    ruleSets = []
-    ruleSetFiles = files("../config/pmd.xml")
+    implementation libs.elemental2.core
+    implementation libs.elemental2.dom
+    implementation libs.gwt.timer
+    implementation libs.murok
+    implementation project(":gwtutil")
 }

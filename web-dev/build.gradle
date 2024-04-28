@@ -1,14 +1,14 @@
 plugins {
-	id 'java-library'
+    id 'java-library'
 }
 
 description 'Developer tools required to compile web platforms'
 
 dependencies {
-	api project(":gwtutil")
-	api files(project(':gwtutil').sourceSets.main.java.srcDirs)
+    implementation project(":common")
+    implementation project(":gwtutil")
 }
 
 javadoc {
-	options.addStringOption("sourcepath", "")
+    options.addStringOption("sourcepath", "")
 }

@@ -1,0 +1,7 @@
+pluginManager.apply(libs.plugins.spotbugs.get().getPluginId())
+
+spotbugs {
+    ignoreFailures = true
+    excludeFilter = file("../config/spotbugs.xml")
+    jvmArgs = ['-Dfindbugs.sf.comment=true']
+}

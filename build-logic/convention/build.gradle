@@ -1,0 +1,18 @@
+plugins {
+    id 'groovy-gradle-plugin'
+}
+
+def pluginDependency = (Provider<PluginDependency> pluginProvider) -> pluginProvider.map { plugin ->
+    ["group"  : plugin.pluginId,
+     "name"   : "${plugin.pluginId}.gradle.plugin",
+     "version": plugin.version.requiredVersion]
+}
+
+repositories {
+    gradlePluginPortal()
+}
+
+dependencies {
+    implementation pluginDependency(libs.plugins.gwt)
+    implementation pluginDependency(libs.plugins.spotbugs)
+}

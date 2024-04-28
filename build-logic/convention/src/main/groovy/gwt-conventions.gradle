@@ -1,0 +1,68 @@
+plugins {
+    id 'java'
+}
+
+pluginManager.apply(libs.plugins.gwt.get().getPluginId())
+
+def resolveDependencies(ConfigurationContainer configurations, List<String> names = ["implementation", "api"]) {
+    configurations.configureEach { configuration ->
+        if (names.contains(configuration.name)) {
+            configuration.dependencies.configureEach { dependency ->
+                if (dependency instanceof ProjectDependency) {
+                    if (dependency.dependencyProject.pluginManager.hasPlugin("java")) {
+                        def javaSources = dependency.dependencyProject.sourceSets.main.allSource.srcDirs
+                        def javaSourceFiles = project.files(javaSources)
+                        project.dependencies.add("gwt", javaSourceFiles)
+
+                        resolveDependencies(dependency.dependencyProject.configurations, ["api", "implementation"])
+                    }
+                } else if (dependency instanceof MinimalExternalModuleDependency) {
+                    def dependencyProvider = provider { dependency }
+                    def variant = project.dependencies.variantOf(dependencyProvider) { classifier("sources") }
+
+                    project.dependencies.add("gwt", variant)
+                } else if (dependency instanceof FileCollectionDependency) {
+                    project.dependencies.add("gwt", dependency)
+                }
+            }
+        }
+    }
+}
+
+beforeEvaluate {
+    resolveDependencies(configurations)
+}
+
+gwt {
+    gwtVersion = libs.versions.gwt.get()
+
+    maxHeapSize = '2000M'
+
+    jsInteropExports {
+        shouldGenerate = true
+    }
+
+    compiler {
+        // Customize the GWT compiler here
+        strict = true
+        disableCastChecking = true
+
+        if (project.hasProperty("greport")) {
+            compileReport = true
+        }
+        if (project.hasProperty("gdraft")) {
+            draftCompile = true
+        }
+        if (project.hasProperty("gworkers")) {
+            localWorkers = project.getProperty("gworkers")
+        }
+        if (project.hasProperty("gdetailed")) {
+            style = org.docstr.gradle.plugins.gwt.Style.DETAILED
+        } else {
+            disableClassMetadata = true
+        }
+        if (project.hasProperty("gsoyc")) {
+            soycDetailed = true
+        }
+    }
+}

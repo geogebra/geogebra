@@ -23,9 +23,6 @@ gwt {
     }
 }
 
-evaluationDependsOn ':renderer-base'
-evaluationDependsOn ':gwtutil'
-
 dependencies {
     api project(':renderer-base'),
             project(':gwtutil'),
@@ -39,7 +36,7 @@ dependencies {
     testImplementation libs.gwt.user, libs.gwt.widgets,
             variantOf(libs.gwt.widgets) { classifier("sources") }
 
-    annotationProcessor project(":gwtutil"), libs.gwt.resources.processor
+    annotationProcessor project(":gwt-generator"), libs.gwt.resources.processor
 }
 
 compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(processResources)

@@ -97,14 +97,14 @@ checkstyle {
     configFile file("../config/checkstyle/checkstyle.xml")
 }
 
-jar {
-    manifest {
-        attributes(
-                'Class-Path': configurations.runtimeClasspath.collect { it.getName() }.join(' '),
-                'Main-Class': 'org.geogebra.desktop.GeoGebra3D'
-        )
-    }
-}
+//jar {
+//    manifest {
+//        attributes(
+//                'Class-Path': configurations.runtimeClasspath.collect { it.getName() }.join(' '),
+//                'Main-Class': 'org.geogebra.desktop.GeoGebra3D'
+//        )
+//    }
+//}
 
 tasks.register('debugJars', Zip) {
     dependsOn 'jar'

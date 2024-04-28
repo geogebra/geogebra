@@ -1,0 +1,13 @@
+plugins {
+    id 'java-library'
+    id 'checkstyle-conventions'
+    id 'pmd-conventions'
+}
+
+description 'GWT Generators'
+
+dependencies {
+    implementation project(':common')
+    implementation libs.gwt.resources.api
+    implementation libs.gwt.resources.processor
+}

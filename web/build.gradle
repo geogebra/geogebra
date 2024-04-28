@@ -5,21 +5,16 @@ import org.docstr.gradle.plugins.gwt.AbstractGwtActionTask
 import org.docstr.gradle.plugins.gwt.GwtDev
 
 plugins {
-    id 'java'
-    id 'pmd'
-    id 'checkstyle'
-    alias libs.plugins.gwt
-    alias libs.plugins.spotbugs
+    id 'gwt-conventions'
+    id 'pmd-conventions'
+    id 'checkstyle-conventions'
+    id 'spotbugs-conventions'
+    id 'webjars-conventions'
     alias libs.plugins.cpd
     alias libs.plugins.sass
 }
 
 description 'Parts of GeoGebra related to web platforms'
-
-evaluationDependsOn(':web-common')
-evaluationDependsOn(':editor-web')
-evaluationDependsOn(':web-dev')
-evaluationDependsOn(':keyboard-web')
 
 sourceSets {
     nonfree
@@ -37,15 +32,6 @@ sourceSets {
 
 compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(processResources)
 
-apply from: "../gradle-scripts/webjars.gradle"
-compileJava.dependsOn('extractJs')
-
-tasks.register('extractJs') {
-    doLast {
-        extractWebjars()
-    }
-}
-
 dependencies {
     implementation project(':carota-web'),
         project(':web-dev'),
@@ -53,22 +39,11 @@ dependencies {
         project(':editor-web'),
         project(':keyboard-web'),
         libs.pdfJs, libs.multiplayer,
-        variantOf(libs.multiplayer) { classifier("sources") },
-        variantOf(libs.j2objc.annotations) { classifier("sources") },
-
-        files(project(':carota-web').sourceSets.main.allSource.srcDirs),
-        files(project(':renderer-web').sourceSets.main.allSource.srcDirs),
-        files(project(':gwtutil').sourceSets.main.allSource.srcDirs),
-        files(project(':web-dev').sourceSets.main.allSource.srcDirs),
-        files(project(':web-common').sourceSets.main.allSource.srcDirs),
-        files(project(':editor-web').sourceSets.main.allSource.srcDirs),
-        files(project(':keyboard-web').sourceSets.main.allSource.srcDirs),
-        files(file("build/generated/sources/annotationProcessor/java/main/")),
-        files(file("build/generated/sources/webjars/java/main/"))
+        files(file("build/generated/sources/annotationProcessor/java/main/"))
 
     testImplementation libs.junit, libs.gwt.user, libs.gwt.mockito
 
-    annotationProcessor project(":gwtutil"), libs.gwt.resources.processor
+    annotationProcessor project(":gwt-generator"), libs.gwt.resources.processor
 }
 
 def devModule = project.findProperty("gmodule") ?: 'org.geogebra.web.SuperWeb'
@@ -137,8 +112,6 @@ tasks.register('watchSass', CompileSass) {
 def warDirRel = 'war'
 
 gwt {
-    gwtVersion = libs.versions.gwt.get()
-
     if (project.hasProperty("gmodule")) {
         modules = project.getProperty("gmodule").split(",")
     } else {
@@ -147,37 +120,6 @@ gwt {
     }
 
     devModules devModule
-
-    maxHeapSize = '2000M'
-
-    jsInteropExports {
-        shouldGenerate = true
-    }
-
-    compiler {
-        // Customize the GWT compiler here
-        strict = true
-        disableCastChecking = true
-
-        if (project.hasProperty("greport")) {
-           compileReport = true
-        }
-        if (project.hasProperty("gdraft")) {
-            draftCompile = true
-        }
-        if (project.hasProperty("gworkers")) {
-            localWorkers = project.getProperty("gworkers")
-        }
-        if (project.hasProperty("gdetailed")){
-            style = org.docstr.gradle.plugins.gwt.Style.DETAILED
-        } else {
-            disableClassMetadata = true
-        }
-        if (project.hasProperty("gsoyc")) {
-            soycDetailed = true
-        }
-        // style = de.richsource.gradle.plugins.gwt.Style.PRETTY;    
-    }
 
     dev {
         bindAddress = project.findProperty("gbind") ?: 'localhost'
@@ -387,18 +329,6 @@ javadoc {
 test {
     ignoreFailures = true
     maxHeapSize = "1024m"
-}
-
-spotbugs {
-    ignoreFailures = true
-    excludeFilter = file("../config/spotbugs.xml")
-    jvmArgs = ['-Dfindbugs.sf.comment=true']
-}
-
-pmd {
-     ignoreFailures = true
-     ruleSets = []
-     ruleSetFiles = files("../config/pmd.xml")
 }
 
 cpd {

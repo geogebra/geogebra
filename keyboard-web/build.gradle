@@ -1,55 +1,34 @@
 plugins {
     id 'java-library'
-    id 'pmd'
-    id 'checkstyle'
-    alias libs.plugins.gwt
+    id 'pmd-conventions'
+    id 'checkstyle-conventions'
+    id 'gwt-conventions'
 }
 
-evaluationDependsOn(':keyboard-base')
-evaluationDependsOn(':keyboard-scientific')
-evaluationDependsOn(':common')
-evaluationDependsOn(':web-dev')
-
 dependencies{
-	api project(':keyboard-base'),
-	files(project(':keyboard-base').sourceSets.main.allSource.srcDirs),
-	project(':keyboard-scientific'),
-	files(project(':keyboard-scientific').sourceSets.main.allSource.srcDirs),
-	project(':common'), //needed for Unicode and Language
-	files(project(':common').sourceSets.main.allSource.srcDirs),
-	project(':web-dev'), //needed for Unicode and Language
-	files(project(':web-dev').sourceSets.main.allSource.srcDirs),
-    files(file("build/generated/sources/annotationProcessor/java/main/"))
+	api project(':keyboard-base')
+	api project(':keyboard-scientific')
+    api project(":gwtutil")
+    implementation project(':common') //needed for Unicode and Language
+    implementation project(':web-dev') //needed for Unicode and Language
+    implementation files(file("build/generated/sources/annotationProcessor/java/main/"))
+    implementation libs.gwt.widgets
 
-    annotationProcessor project(":gwtutil"), libs.gwt.resources.processor
+    annotationProcessor project(":gwt-generator"), libs.gwt.resources.processor
 }
 
 compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(processResources)
 
 def kbModule = 'org.geogebra.keyboard.KeyboardWeb'
-gwt {
-    gwtVersion = libs.versions.gwt.get()
 
+gwt {
     modules = [kbModule]
     
     devModules kbModule
-    
-    maxHeapSize = '2000M'
 
     compiler {
         // Customize the GWT compiler here
-        strict = true;
-        // enableClosureCompiler = true;        
-        disableCastChecking = true;        
         logLevel = 'INFO';
-        if (project.hasProperty("gdraft")) {
-            draftCompile = true
-        }
-        if (project.hasProperty("gdetailed")){
-            style = org.docstr.gradle.plugins.gwt.Style.DETAILED;
-        } else {
-            disableClassMetadata = true;
-        }
     }
 }
 
@@ -57,10 +36,4 @@ gwt {
 // http://discuss.gradle.org/t/javadoc-generation-failed-with-vaadin-dependency/2502/12
 javadoc {
     options.addStringOption("sourcepath", "")
-}
-
-pmd {
-     ignoreFailures = true
-     ruleSets = []
-     ruleSetFiles = files("../config/pmd.xml")
 }

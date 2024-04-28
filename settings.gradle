@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         maven { url 'https://repo.geogebra.net/releases' }
         gradlePluginPortal()
@@ -34,6 +35,7 @@ include 'keyboard-web'
 include 'carota-web'
 
 include 'gwtutil'
+include 'gwt-generator'
 
 rootProject.name = 'geogebra'
 rootProject.children.each { project ->

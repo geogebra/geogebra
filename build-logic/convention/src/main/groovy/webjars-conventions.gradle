@@ -1,0 +1,28 @@
+import java.nio.file.Paths
+
+def webjarsPath = layout.buildDirectory.file("generated/sources/webjars/java/main/")
+
+dependencies {
+    gwt files(webjarsPath)
+}
+
+tasks.register('extractJs') {
+    doLast {
+        configurations.runtimeClasspath.each { jarFile ->
+            // relative path: avoid problems when Dependabot branch configurationName is used as workspace
+            def jarPath = Paths.get(file(".").getAbsolutePath()).relativize(Paths.get("${jarFile}"))
+
+            if ("${jarPath}".contains("webjars.npm")) {
+                copy {
+                    from zipTree(jarFile).matching { include "**/*.js" }
+                    into webjarsPath
+                    eachFile {
+                        path = "${jarFile.name.replaceAll("-[0-9].*", "").replace("-", "_")}/${path.split('/')[5..-1].join('/')}"
+                    }
+                }
+            }
+        }
+    }
+}
+
+compileJava.dependsOn('extractJs')

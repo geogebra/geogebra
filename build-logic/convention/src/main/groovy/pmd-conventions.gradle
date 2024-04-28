@@ -1,0 +1,9 @@
+plugins {
+    id 'pmd'
+}
+
+pmd {
+    ignoreFailures = true
+    ruleSets = []
+    ruleSetFiles = rootProject.files("config/pmd.xml")
+}
