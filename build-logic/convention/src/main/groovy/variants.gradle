@@ -10,15 +10,15 @@ public class Variants {
         return dependencyHandler.variantOf(dependencyProvider) { classifier(classifierString) }
     }
 
-    public Provider<MinimalExternalModuleDependency> nativesLinuxAmd64(Provider<MinimalExternalModuleDependency> dependencyProvider) {
+    Provider<MinimalExternalModuleDependency> nativesLinuxAmd64(Provider<MinimalExternalModuleDependency> dependencyProvider) {
         return classifierVariant(dependencyProvider, "natives-linux-amd64")
     }
 
-    public Provider<MinimalExternalModuleDependency> nativesWindowsAmd64(Provider<MinimalExternalModuleDependency> dependencyProvider) {
+    Provider<MinimalExternalModuleDependency> nativesWindowsAmd64(Provider<MinimalExternalModuleDependency> dependencyProvider) {
         return classifierVariant(dependencyProvider, "natives-windows-amd64")
     }
 
-    public Provider<MinimalExternalModuleDependency> nativesMacOSXUniversal(Provider<MinimalExternalModuleDependency> dependencyProvider) {
+    Provider<MinimalExternalModuleDependency> nativesMacOSXUniversal(Provider<MinimalExternalModuleDependency> dependencyProvider) {
         return classifierVariant(dependencyProvider, "natives-macosx-universal")
     }
 }

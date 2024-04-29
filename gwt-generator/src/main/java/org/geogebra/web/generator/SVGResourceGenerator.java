@@ -54,6 +54,7 @@ public final class SVGResourceGenerator extends AbstractResourceGenerator {
 		}
 
 		URL resource = resources[0];
+
 		SourceWriter sw = new StringSourceWriter();
 
 		// Write the expression to create the subtype.
@@ -73,7 +74,6 @@ public final class SVGResourceGenerator extends AbstractResourceGenerator {
 			writeLongString(sw, toWrite);
 		} else {
 			sw.println("\"" + Generator.escape(toWrite) + "\"");
-			sw.println("\"" + "csa" + "\"");
 		}
 
 		sw.println(");");
