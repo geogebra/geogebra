@@ -2,7 +2,9 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
 import java.util.List;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.spreadsheet.core.ClipboardInterface;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem;
@@ -43,6 +45,8 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		public SpreadsheetCellEditorW(AppW app, SpreadsheetPanel parent, MathTextFieldW mathField,
 				Spreadsheet spreadsheet) {
 			this.mathField = mathField;
+			this.mathField.getMathField().setForegroundColor(
+					GColor.getColorString(GeoGebraColorConstants.NEUTRAL_900));
 			mathField.addStyleName("spreadsheetEditor");
 			this.parent = parent;
 			this.app = app;
