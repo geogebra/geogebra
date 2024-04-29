@@ -19,6 +19,8 @@ public class GraphingSyntaxFilter implements SyntaxFilter {
 			return lineSelector.select(syntaxArray, 0, 2);
 		} else if (Commands.Length.name().equals(commandName)) {
 			return lineSelector.select(syntaxArray, 0);
+		} else if (Commands.Invert.name().equals(commandName)) {
+			return lineSelector.select(syntaxArray, 0);
 		}
 		return syntax;
 	}
