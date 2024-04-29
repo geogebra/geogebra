@@ -1,8 +1,8 @@
 plugins {
     id 'java-library'
-    id 'pmd-conventions'
-    id 'checkstyle-conventions'
-    id 'gwt-conventions'
+    alias libs.plugins.geogebra.pmd
+    alias libs.plugins.geogebra.checkstyle
+    alias libs.plugins.geogebra.gwt
 }
 
 dependencies {

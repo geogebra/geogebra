@@ -1,10 +1,10 @@
 plugins {
     id 'java-library'
-    id 'pmd-conventions'
-    id 'checkstyle-conventions'
-    id 'gwt-conventions'
-    id 'spotbugs-conventions'
-    id 'webjars-conventions'
+    alias libs.plugins.geogebra.pmd
+    alias libs.plugins.geogebra.checkstyle
+    alias libs.plugins.geogebra.gwt
+    alias libs.plugins.geogebra.spotbugs
+    alias libs.plugins.geogebra.webjars
 }
 
 description 'Web platform code which does not use the GWT Widgets library'

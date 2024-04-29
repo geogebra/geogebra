@@ -1,9 +1,9 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'pmd-conventions'
-    id 'checkstyle-conventions'
-    id 'spotbugs-conventions'
+    alias libs.plugins.geogebra.pmd
+    alias libs.plugins.geogebra.checkstyle
+    alias libs.plugins.geogebra.spotbugs
     alias libs.plugins.javacc
 }
 

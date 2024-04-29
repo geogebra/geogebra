@@ -5,11 +5,11 @@ import org.docstr.gradle.plugins.gwt.AbstractGwtActionTask
 import org.docstr.gradle.plugins.gwt.GwtDev
 
 plugins {
-    id 'gwt-conventions'
-    id 'pmd-conventions'
-    id 'checkstyle-conventions'
-    id 'spotbugs-conventions'
-    id 'webjars-conventions'
+    alias libs.plugins.geogebra.gwt
+    alias libs.plugins.geogebra.pmd
+    alias libs.plugins.geogebra.checkstyle
+    alias libs.plugins.geogebra.spotbugs
+    alias libs.plugins.geogebra.webjars
     alias libs.plugins.cpd
     alias libs.plugins.sass
 }

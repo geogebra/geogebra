@@ -2,7 +2,7 @@ import org.docstr.gradle.plugins.gwt.GwtDev
 
 plugins {
     id 'java-library'
-    id 'gwt-conventions'
+    alias libs.plugins.geogebra.gwt
 }
 
 gwt {

@@ -1,10 +1,10 @@
 plugins {
     id 'java-library'
     id 'java-test-fixtures'
-    id 'pmd-conventions'
-    id 'checkstyle-conventions'
+    alias libs.plugins.geogebra.pmd
+    alias libs.plugins.geogebra.checkstyle
     id 'jacoco'
-    id 'spotbugs-conventions'
+    alias libs.plugins.geogebra.spotbugs
 }
 
 description 'Common parts of GeoGebra that depends on JRE support.'

@@ -1,8 +1,8 @@
 plugins {
     id 'application'
-    id 'checkstyle-conventions'
-    id 'spotbugs-conventions'
-    id 'variants'
+    alias libs.plugins.geogebra.checkstyle
+    alias libs.plugins.geogebra.spotbugs
+    alias libs.plugins.geogebra.variants
 }
 
 description 'Parts of GeoGebra related to desktop platforms'

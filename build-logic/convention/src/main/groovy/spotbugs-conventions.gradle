@@ -1,4 +1,6 @@
-pluginManager.apply(libs.plugins.spotbugs.get().getPluginId())
+plugins {
+    id 'com.github.spotbugs'
+}
 
 spotbugs {
     ignoreFailures = true

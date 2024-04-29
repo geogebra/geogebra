@@ -1,8 +1,7 @@
 plugins {
     id 'java'
+    id 'org.docstr.gwt'
 }
-
-pluginManager.apply(libs.plugins.gwt.get().getPluginId())
 
 def resolveDependencies(ConfigurationContainer configurations) {
     configurations.configureEach { configuration ->

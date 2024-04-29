@@ -1,6 +1,6 @@
 plugins {
     id 'java-library'
-    id 'spotbugs-conventions'
+    alias libs.plugins.geogebra.spotbugs
 }
 description 'Platform independent supplementary files for graphics support'
 
