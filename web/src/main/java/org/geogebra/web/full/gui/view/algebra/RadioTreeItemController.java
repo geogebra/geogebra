@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.gui.popup.autocompletion.InputSuggestions;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
@@ -575,7 +576,7 @@ public class RadioTreeItemController implements ClickHandler,
 
 	private void ensureMoveMode() {
 		if (!EuclidianConstants.isMoveOrSelectionMode(app.getMode())) {
-			app.setMoveMode();
+			app.setMoveMode(ModeSetter.DOCK_PANEL);
 		}
 	}
 
