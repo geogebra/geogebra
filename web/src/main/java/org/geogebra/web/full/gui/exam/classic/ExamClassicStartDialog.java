@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.exam.classic;
 
+import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.ownership.GlobalScope;
@@ -107,11 +108,12 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		((LayoutW) app.getGuiManager().getLayout()).resetPerspectives(app);
 
 		app.getKernel().getAlgebraProcessor().reinitCommands();
-		if (GlobalScope.examController.getExamType() != null) {
+		ExamRegion examType = GlobalScope.examController.getExamType();
+		if (examType != null) {
 			GlobalScope.examController.setActiveContext(app, app.getKernel().getAlgebraProcessor()
 					.getCommandDispatcher(), app.getKernel().getAlgebraProcessor());
 			GlobalScope.examController.prepareExam();
-			GlobalScope.examController.startExam(GlobalScope.examController.getExamType(), null);
+			GlobalScope.examController.startExam(examType, null);
 		}
 		app.fireViewsChangedEvent();
 		guiManager.updateToolbar();

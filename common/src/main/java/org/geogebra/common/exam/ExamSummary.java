@@ -22,6 +22,7 @@ public final class ExamSummary {
 	private boolean cheated;
 	private String examName;
 	private String title;
+	private Date startDate;
 	private String finishedInfoText;
 	private String startDateHintText;
 	private String startDateLabelText;
@@ -67,6 +68,7 @@ public final class ExamSummary {
 		examName = examType.getDisplayName(localization, appConfig);
 		title = localization.getMenu("exam_menu_entry") + ": " + (cheated
 				? localization.getMenu("exam_alert") : localization.getMenu("OK"));
+		this.startDate = startDate;
 		finishedInfoText = localization.getMenu("exam_log_show_screen_to_teacher");
 		durationHintText = localization.getMenu("Duration");
 		if (finishDate != null) {
@@ -100,7 +102,7 @@ public final class ExamSummary {
 				.append(localization.getMenu("exam_started")).append("\n");
 		sb.append(getCheatingEventsLog(cheatingEvents, localization));
 		if (finishDate != null) {
-			sb.append(GlobalScope.examController.getTimestampFor(finishDate)).append(' ')
+			sb.append(formatEventTime(finishDate)).append(' ')
 					.append(localization.getMenu("exam_ended")).append("\n");
 		}
 		return sb.toString();
@@ -109,11 +111,31 @@ public final class ExamSummary {
 	private String getCheatingEventsLog(CheatingEvents cheatingEvents, Localization localization) {
 		StringBuilder sb = new StringBuilder();
 		for (CheatingEvent cheatingEvent : cheatingEvents.getEvents()) {
-			sb.append(GlobalScope.examController.getTimestampFor(cheatingEvent.getDate()));
+			sb.append(formatEventTime(cheatingEvent.getDate()));
 			sb.append(' ');
 			sb.append(cheatingEvent.getAction().toString(localization));
 			sb.append("\n");
 		}
+		return sb.toString();
+	}
+
+	/**
+	 * Format - x:yz
+	 * @param eventDate The Date of an event that occured during the exam
+	 * @return Timestamp of the event happened relative to the exam start date
+	 */
+	public String formatEventTime(Date eventDate) {
+		long timeDifference = eventDate.getTime() - startDate.getTime();
+		long totalSeconds = timeDifference / 1000;
+		long minutes = totalSeconds / 60;
+		long seconds = totalSeconds % 60;
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(minutes).append(":");
+		if (seconds < 10) {
+			sb.append("0");
+		}
+		sb.append(seconds);
 		return sb.toString();
 	}
 

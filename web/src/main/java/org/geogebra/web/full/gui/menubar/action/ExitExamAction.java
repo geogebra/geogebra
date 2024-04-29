@@ -87,7 +87,7 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 			yOffset = addStartTimeToScreenshot(g2, examSummary, yOffset);
 			yOffset = addEndTimeToScreenshot(g2, examSummary, yOffset);
 			yOffset = addActivityToScreenshot(g2, yOffset);
-			yOffset = addLogTimesToScreenshot(g2, yOffset);
+			yOffset = addLogTimesToScreenshot(g2, examSummary, yOffset);
 		}
 
 		if (settings != null) {
@@ -133,10 +133,11 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 				null, yOffset);
 	}
 
-	private int addLogTimesToScreenshot(GGraphics2DW g2, int yOffset) {
-		yOffset = addStartLogTimeToScreenshot(g2, yOffset);
-		yOffset = addCheatingEventsLogTimesToScreenshot(g2, yOffset);
-		return addEndLogTimeToScreenshot(g2, yOffset);
+	private int addLogTimesToScreenshot(GGraphics2DW g2, ExamSummary examSummary, int yOffset) {
+		int yOffsetForCheatingLog = addStartLogTimeToScreenshot(g2, yOffset);
+		int yOffsetForEndLogTime = addCheatingEventsLogTimesToScreenshot(g2, examSummary,
+				yOffsetForCheatingLog);
+		return addEndLogTimeToScreenshot(g2, examSummary, yOffsetForEndLogTime);
 	}
 
 	private int addStartLogTimeToScreenshot(GGraphics2DW g2, int yOffset) {
@@ -145,24 +146,24 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 		return addLineToScreenshot(g2, sb.toString(), yOffset);
 	}
 
-	private int addCheatingEventsLogTimesToScreenshot(GGraphics2DW g2, int yOffset) {
+	private int addCheatingEventsLogTimesToScreenshot(GGraphics2DW g2,
+			ExamSummary examSummary, int yOffset) {
 		StringBuilder sb = new StringBuilder();
 		for (CheatingEvent event : GlobalScope.examController.getCheatingEvents().getEvents()) {
 			sb.setLength(0);
-			sb.append(GlobalScope.examController.getTimestampFor(event.getDate())).append(' ');
+			sb.append(examSummary.formatEventTime(event.getDate())).append(' ');
 			sb.append(event.getAction().toString(app.getLocalization()));
-			yOffset = addLineToScreenshot(g2, sb.toString(), yOffset);
+			return addLineToScreenshot(g2, sb.toString(), yOffset);
 		}
 		return yOffset;
 	}
 
-	private int addEndLogTimeToScreenshot(GGraphics2DW g2, int yOffset) {
+	private int addEndLogTimeToScreenshot(GGraphics2DW g2, ExamSummary examSummary, int yOffset) {
 		StringBuilder sb = new StringBuilder();
 		if (GlobalScope.examController.getFinishDate() == null) {
 			sb.append("0:00");
 		} else {
-			sb.append(GlobalScope.examController.getTimestampFor(
-					GlobalScope.examController.getFinishDate()));
+			sb.append(examSummary.formatEventTime(GlobalScope.examController.getFinishDate()));
 		}
 		sb.append(' ');
 		sb.append(app.getLocalization().getMenu("exam_ended"));
@@ -173,11 +174,11 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 		g2.setColor(GColor.GRAY);
 		g2.setFont(new GFontW("SansSerif", GFont.PLAIN, 12));
 		g2.drawString(name, PADDING, yOffset);
-		yOffset += LINE_HEIGHT;
+		int yOffsetForNextEntry = yOffset + LINE_HEIGHT;
 		if (!StringUtil.empty(value)) {
-			yOffset = addLineToScreenshot(g2, value, yOffset);
+			return addLineToScreenshot(g2, value, yOffsetForNextEntry);
 		}
-		return yOffset;
+		return yOffsetForNextEntry;
 	}
 
 	private int addLineToScreenshot(GGraphics2DW g2, String text, final int yOffset) {
@@ -195,7 +196,10 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 		ExamController examController = GlobalScope.examController;
 		ExamRegion examRegion = !examController.isIdle() && examController.getExamType() != null
 				? examController.getExamType() : ExamRegion.GENERIC;
-		String title = examRegion.getDisplayName(app.getLocalization(), app.getConfig());
+		String title = "";
+		if (examRegion != null) {
+			title = examRegion.getDisplayName(app.getLocalization(), app.getConfig());
+		}
 		saveScreenshot(title, null);
 		app.endExam();
 		app.fileNew();

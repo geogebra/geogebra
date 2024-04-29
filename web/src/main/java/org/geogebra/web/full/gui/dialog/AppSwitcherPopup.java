@@ -85,7 +85,7 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamRestrictable,
 	}
 
 	private void addElement(final String subAppCode) {
-		if (hasRestrictions() && examRestrictions.isDisabledSubApp(subAppCode)) {
+		if (examRestrictions != null && GlobalScope.examController.isDisabledSubApp(subAppCode)) {
 			return;
 		}
 
@@ -113,10 +113,6 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamRestrictable,
 		((AppWFull) app).switchToSubapp(subAppCode);
 		Analytics.logEvent(Analytics.Event.APP_SWITCHED, Analytics.Param.SUB_APP,
 				Analytics.Param.convertToSubAppParam(subAppCode));
-	}
-
-	private boolean hasRestrictions() {
-		return examRestrictions != null;
 	}
 
 	private int getLeft() {

@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.exam;
 
+import java.util.Date;
+
 import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.exam.ExamSummary;
 import org.geogebra.common.main.exam.event.CheatingEvent;
@@ -99,7 +101,10 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 		titlePanel.setStyleName("titlePanel");
 		ExamRegion examRegion = GlobalScope.examController.isExamActive()
 				? GlobalScope.examController.getExamType() : ExamRegion.GENERIC;
-		String calcStr = examRegion.getDisplayName(app.getLocalization(), app.getConfig());
+		String calcStr = "";
+		if (examRegion != null) {
+			calcStr = examRegion.getDisplayName(app.getLocalization(), app.getConfig());
+		}
 		Label calcType = new Label(calcStr);
 		calcType.setStyleName("calcType");
 		Label examTitle = new Label(ExamUtil.status((AppW) app));
@@ -136,7 +141,7 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 				addBlock("exam_end_time", examSummary.getEndTimeLabelText());
 			}
 			if (GlobalScope.examController.isCheating()) {
-				activityPanel = buildActivityPanel(isLogDialog);
+				activityPanel = buildActivityPanel(isLogDialog, examSummary);
 				Label activityLbl = new Label(app.getLocalization().getMenu("exam_activity"));
 				contentPanel.add(buildBlock(activityLbl, activityPanel));
 			}
@@ -149,16 +154,16 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 		contentPanel.add(buildBlock(label, time));
 	}
 
-	private FlowPanel buildActivityPanel(boolean isLogDialog) {
+	private FlowPanel buildActivityPanel(boolean isLogDialog, ExamSummary examSummary) {
 		activityPanel = new FlowPanel();
 		addActivity("0:00 " + app.getLocalization().getMenu("exam_started"));
 		for (CheatingEvent event : GlobalScope.examController.getCheatingEvents().getEvents()) {
-			addActivity(GlobalScope.examController.getTimestampFor(event.getDate()) + " "
+			addActivity(examSummary.formatEventTime(event.getDate()) + " "
 					+ event.getAction().toString(app.getLocalization()));
 		}
-		if (!isLogDialog) {
-			addActivity(GlobalScope.examController.getTimestampFor(
-					GlobalScope.examController.getFinishDate()) + ' '
+		Date examFinishDate = GlobalScope.examController.getFinishDate();
+		if (!isLogDialog && examFinishDate != null) {
+			addActivity(examSummary.formatEventTime(examFinishDate) + ' '
 					+ app.getLocalization().getMenu("exam_ended"));
 		}
 		return activityPanel;

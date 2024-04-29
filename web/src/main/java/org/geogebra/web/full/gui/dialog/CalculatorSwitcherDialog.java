@@ -69,7 +69,7 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 	}
 
 	private void buildAndAddCalcButton(String subAppCode, FlowPanel contentPanel) {
-		if (hasRestrictions() && examRestrictions.isDisabledSubApp(subAppCode)) {
+		if (examRestrictions != null && GlobalScope.examController.isDisabledSubApp(subAppCode)) {
 			return;
 		}
 		AppDescription description = AppDescription.get(subAppCode) ;
@@ -104,10 +104,6 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 			Dom.toggleClass(this, "smallScreen", app.getWidth() < 914);
 			super.centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
 		}
-	}
-
-	private boolean hasRestrictions() {
-		return this.examRestrictions != null;
 	}
 
 	@Override

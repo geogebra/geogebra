@@ -2336,6 +2336,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				createGeoElementValueConverter());
 	}
 
+	/**
+	 * Starts the exam mode
+	 * @param region {@link ExamRegion}
+	 */
 	public void startExam(ExamRegion region) {
 		getLAF().toggleFullscreen(true);
 		GlobalScope.examController.setActiveContext(this,

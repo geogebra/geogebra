@@ -222,7 +222,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 		int w = (int) Math.min(700, width);
 		sp.setPixelSize(w, height);
 	}
-	
+
 	/**
 	 * @param scale
 	 *            scale

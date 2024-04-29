@@ -120,15 +120,6 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	}
 
 	/**
-	 * @param subAppCode Sub-App code
-	 * @return True if the Sub-App corresponding to the subAppCode is disabled, false else
-	 */
-	public final boolean isDisabledSubApp(String subAppCode) {
-		return disabledSubApps.stream()
-				.anyMatch(subApp -> subApp.appCode.equalsIgnoreCase(subAppCode));
-	}
-
-	/**
 	 * @return The default subapp to switch to if a disabled subapp is active when
 	 * the exam starts.
 	 */

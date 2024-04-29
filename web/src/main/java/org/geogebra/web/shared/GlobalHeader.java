@@ -284,14 +284,14 @@ public class GlobalHeader implements EventRenderable {
 		RootPanel examId = RootPanel.get("examId");
 		examId.addStyleName("examPanel");
 
+		ExamRegion examType = GlobalScope.examController.getExamType();
 		if (SafeExamBrowser.get() != null && SafeExamBrowser.get().security != null) {
 			SafeExamBrowser.SebSecurity security = SafeExamBrowser.get().security;
 			String hash = security.configKey.substring(0, 8);
 			security.updateKeys((ignore) ->
 					addExamType("Safe Exam Browser (" + hash + ")"));
-		} else if (GlobalScope.examController.getExamType() != ExamRegion.GENERIC
-				&& GlobalScope.examController.getExamType() != null) {
-			addExamType(GlobalScope.examController.getExamType().getDisplayName(
+		} else if (examType != ExamRegion.GENERIC && examType != null) {
+			addExamType(examType.getDisplayName(
 					app.getLocalization(), app.getConfig()));
 		}
 
