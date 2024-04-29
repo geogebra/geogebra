@@ -11,12 +11,6 @@ subprojects {
 		}
 	}
 
-	plugins.withType(CheckstylePlugin).configureEach {
-		checkstyle {
-			toolVersion = '10.3.3'
-		}
-	}
-
 	afterEvaluate {
 		// forward command line properties to every test JVM
 		tasks.withType(Test.class).each { task ->
@@ -25,9 +19,6 @@ subprojects {
 					task.systemProperty prop.trim(), val
 				}
 			}
-		}
-		tasks.matching {it.class.name.contains('SpotBugs')}.each {
-			it.reports { xml.enabled = true }
 		}
 	}
 }

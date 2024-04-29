@@ -1,15 +1,9 @@
 plugins {
-     id 'java-library'
-     id 'pmd'
-     id 'checkstyle'
+    id 'java-library'
+    id 'pmd-conventions'
+    id 'checkstyle-conventions'
 }
 
 dependencies {
-     testImplementation libs.junit
-}
-
-pmd {
-     ignoreFailures = true
-     ruleSets = []
-     ruleSetFiles = files("../config/pmd.xml")
+    testImplementation libs.junit
 }

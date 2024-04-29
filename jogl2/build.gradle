@@ -5,5 +5,6 @@ plugins {
 description 'Parts of GeoGebra related to Java OpenGL'
 
 dependencies {
-    api libs.gluegen.rt, libs.jogl
+    api libs.gluegen.rt
+    api libs.jogl
 }

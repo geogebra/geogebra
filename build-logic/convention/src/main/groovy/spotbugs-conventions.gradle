@@ -2,6 +2,10 @@ pluginManager.apply(libs.plugins.spotbugs.get().getPluginId())
 
 spotbugs {
     ignoreFailures = true
-    excludeFilter = file("../config/spotbugs.xml")
+    excludeFilter = resources.text.fromUri(getClass().getResource("/spotbugs.xml").toURI()).asFile()
     jvmArgs = ['-Dfindbugs.sf.comment=true']
+}
+
+tasks.matching {it.class.name.contains('SpotBugs')}.each {
+    it.reports { xml.enabled = true }
 }

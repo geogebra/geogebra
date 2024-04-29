@@ -18,9 +18,14 @@ dependencies {
     implementation project(':editor-base')
 
     testImplementation project(':ggbjdk')
-    testImplementation libs.junit, libs.hamcrest, libs.mockito.core
+    testImplementation libs.junit
+    testImplementation libs.hamcrest
+    testImplementation libs.mockito.core
 
-    testFixturesImplementation project(':ggbjdk'), libs.junit, libs.hamcrest, libs.mockito.core
+    testFixturesImplementation project(':ggbjdk')
+    testFixturesImplementation libs.junit
+    testFixturesImplementation libs.hamcrest
+    testFixturesImplementation libs.mockito.core
 }
 
 sourceSets {
@@ -34,35 +39,24 @@ sourceSets {
     }
 }
 
-spotbugs {
-    ignoreFailures = true
-    excludeFilter = file("../config/spotbugs.xml")
-}
-
-pmd {
-    ignoreFailures = true
-    ruleSets = []
-    ruleSetFiles = files("../config/pmd.xml")
-}
-
 test {
     ignoreFailures = true
 }
 
 // http://stackoverflow.com/questions/20638039/gradle-and-jacoco-instrument-classes-from-a-separate-subproject
-//gradle.projectsEvaluated {
-//    // include src from all dependent projects (compile dependency) in JaCoCo test report
-//    jacocoTestReport {
-//        // get all projects we have a (compile) dependency on
-//        def projs = configurations.implementation.getAllDependencies().withType(ProjectDependency).collect { it.getDependencyProject() }
-//        projs.each {
-//            additionalSourceDirs files(it.sourceSets.main.java.srcDirs)
-//            additionalClassDirs files(files(it.sourceSets.main['java'].destinationDirectory).collect({
-//                File f -> fileTree(dir: f, exclude: ['org/apache/**', 'edu/**', 'org/geogebra/common/kernel/barycentric/**'])
-//            }))
-//        }
-//    }
-//}
+gradle.projectsEvaluated {
+    // include src from all dependent projects (compile dependency) in JaCoCo test report
+    jacocoTestReport {
+        // get all projects we have a (compile) dependency on
+        def projs = configurations.implementation.getAllDependencies().withType(ProjectDependency).collect { it.getDependencyProject() }
+        projs.each {
+            additionalSourceDirs files(it.sourceSets.main.java.srcDirs)
+            additionalClassDirs files(files(it.sourceSets.main['java'].destinationDirectory).collect({
+                File f -> fileTree(dir: f, exclude: ['org/apache/**', 'edu/**', 'org/geogebra/common/kernel/barycentric/**'])
+            }))
+        }
+    }
+}
 
 jacocoTestReport {
     reports {

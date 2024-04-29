@@ -17,7 +17,9 @@ dependencies {
     api project(':ggbjdk')
     api project(':web-dev')
     api files(file("build/generated/sources/annotationProcessor/java/main/"))
-    api libs.fflate, libs.giac.gwt, libs.gwt.dev
+    api libs.fflate
+    api libs.giac.gwt
+    api libs.gwt.dev
 
     annotationProcessor project(":gwt-generator")
     annotationProcessor libs.gwt.resources.processor

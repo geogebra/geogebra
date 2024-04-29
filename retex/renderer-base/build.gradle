@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    alias libs.plugins.spotbugs
+    id 'spotbugs-conventions'
 }
 
 group 'com.himamis.retex'
@@ -23,9 +23,4 @@ tasks.register('jarSources', Jar) {
     dependsOn classes
     archiveClassifier = 'sources'
     from sourceSets.main.allSource
-}
-
-spotbugs {
-	ignoreFailures = true
-	excludeFilter = file("../../config/spotbugs.xml")
 }

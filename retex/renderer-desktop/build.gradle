@@ -1,9 +1,9 @@
 plugins {
-	id 'java-library'
+    id 'java-library'
 }
 
 dependencies {
-	api project(':renderer-base')
-	testImplementation libs.junit
+    api project(':renderer-base')
+    testImplementation libs.junit
 }
 

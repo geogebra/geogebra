@@ -1,0 +1,26 @@
+public class Variants {
+
+    DependencyHandler dependencyHandler;
+
+    Variants(DependencyHandler dependencyHandler) {
+        this.dependencyHandler = dependencyHandler
+    }
+
+    def classifierVariant = { Provider<MinimalExternalModuleDependency> dependencyProvider, String classifierString ->
+        return dependencyHandler.variantOf(dependencyProvider) { classifier(classifierString) }
+    }
+
+    public Provider<MinimalExternalModuleDependency> nativesLinuxAmd64(Provider<MinimalExternalModuleDependency> dependencyProvider) {
+        return classifierVariant(dependencyProvider, "natives-linux-amd64")
+    }
+
+    public Provider<MinimalExternalModuleDependency> nativesWindowsAmd64(Provider<MinimalExternalModuleDependency> dependencyProvider) {
+        return classifierVariant(dependencyProvider, "natives-windows-amd64")
+    }
+
+    public Provider<MinimalExternalModuleDependency> nativesMacOSXUniversal(Provider<MinimalExternalModuleDependency> dependencyProvider) {
+        return classifierVariant(dependencyProvider, "natives-macosx-universal")
+    }
+}
+
+project.extensions.create("variants", Variants, project.dependencies)

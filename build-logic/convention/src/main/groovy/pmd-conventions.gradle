@@ -5,5 +5,5 @@ plugins {
 pmd {
     ignoreFailures = true
     ruleSets = []
-    ruleSetFiles = rootProject.files("config/pmd.xml")
+    ruleSetConfig = resources.text.fromString(org.geogebra.Resources.getString("/pmd.xml"))
 }

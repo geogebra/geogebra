@@ -1,7 +1,8 @@
 plugins {
-    alias libs.plugins.spotbugs
     id 'application'
-    id 'checkstyle'
+    id 'checkstyle-conventions'
+    id 'spotbugs-conventions'
+    id 'variants'
 }
 
 description 'Parts of GeoGebra related to desktop platforms'
@@ -35,24 +36,29 @@ dependencies {
     implementation project(':editor-desktop')
     implementation project(':jogl2')
     implementation project(':giac-jni')
-    implementation libs.jsObject, libs.openGeoProver, libs.jna, libs.echosvg
+    implementation libs.jsObject
+    implementation libs.openGeoProver
+    implementation libs.jna
+    implementation libs.echosvg
 
-    implementation variantOf(libs.jogl) { classifier("natives-linux-amd64") },
-            variantOf(libs.jogl) { classifier("natives-windows-amd64") },
-            variantOf(libs.jogl) { classifier("natives-macosx-universal") }
+    implementation variants.nativesLinuxAmd64(libs.jogl)
+    implementation variants.nativesWindowsAmd64(libs.jogl)
+    implementation variants.nativesMacOSXUniversal(libs.jogl)
 
-    runtimeOnly variantOf(libs.gluegen.rt) { classifier("natives-linux-amd64") },
-            variantOf(libs.gluegen.rt) { classifier("natives-windows-amd64") },
-            variantOf(libs.gluegen.rt) { classifier("natives-macosx-universal") }
+    runtimeOnly variants.nativesLinuxAmd64(libs.gluegen.rt)
+    runtimeOnly variants.nativesWindowsAmd64(libs.gluegen.rt)
+    runtimeOnly variants.nativesMacOSXUniversal(libs.gluegen.rt)
 
-    runtimeOnly variantOf(libs.giac.java) { classifier("natives-linux-amd64") },
-            variantOf(libs.giac.java) { classifier("natives-windows-amd64") },
-            variantOf(libs.giac.java) { classifier("natives-macosx-universal") }
+    runtimeOnly variants.nativesLinuxAmd64(libs.giac.java)
+    runtimeOnly variants.nativesWindowsAmd64(libs.giac.java)
+    runtimeOnly variants.nativesMacOSXUniversal(libs.giac.java)
 
     testImplementation project(':keyboard-base')
     testImplementation project(':ggbjdk')
     testImplementation testFixtures(project(':common-jre'))
-    testImplementation libs.junit, libs.mockito.core, libs.hamcrest
+    testImplementation libs.junit
+    testImplementation libs.mockito.core
+    testImplementation libs.hamcrest
 }
 
 application {
@@ -87,24 +93,14 @@ test {
     outputs.upToDateWhen { false }
 }
 
-spotbugs {
-    ignoreFailures = true
-    excludeFilter = file("../config/spotbugs.xml")
-    jvmArgs = ['-Dfindbugs.sf.comment=true']
+jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.runtimeClasspath.collect { it.getName() }.join(' '),
+                'Main-Class': 'org.geogebra.desktop.GeoGebra3D'
+        )
+    }
 }
-
-checkstyle {
-    configFile file("../config/checkstyle/checkstyle.xml")
-}
-
-//jar {
-//    manifest {
-//        attributes(
-//                'Class-Path': configurations.runtimeClasspath.collect { it.getName() }.join(' '),
-//                'Main-Class': 'org.geogebra.desktop.GeoGebra3D'
-//        )
-//    }
-//}
 
 tasks.register('debugJars', Zip) {
     dependsOn 'jar'

@@ -5,16 +5,18 @@ plugins {
     id 'gwt-conventions'
 }
 
-dependencies{
-	api project(':keyboard-base')
-	api project(':keyboard-scientific')
+dependencies {
+    api project(':keyboard-base')
+    api project(':keyboard-scientific')
     api project(":gwtutil")
+
     implementation project(':common') //needed for Unicode and Language
     implementation project(':web-dev') //needed for Unicode and Language
     implementation files(file("build/generated/sources/annotationProcessor/java/main/"))
     implementation libs.gwt.widgets
 
-    annotationProcessor project(":gwt-generator"), libs.gwt.resources.processor
+    annotationProcessor project(":gwt-generator")
+    annotationProcessor libs.gwt.resources.processor
 }
 
 compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(processResources)
@@ -23,7 +25,7 @@ def kbModule = 'org.geogebra.keyboard.KeyboardWeb'
 
 gwt {
     modules = [kbModule]
-    
+
     devModules kbModule
 
     compiler {

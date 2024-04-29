@@ -1,9 +1,9 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'pmd'
-    id 'checkstyle'
-    alias libs.plugins.spotbugs
+    id 'pmd-conventions'
+    id 'checkstyle-conventions'
+    id 'spotbugs-conventions'
     alias libs.plugins.javacc
 }
 
@@ -11,16 +11,16 @@ group 'com.himamis.retex'
 version '0.1'
 
 publishing {
-	publications {
-		library(MavenPublication) {
-			from components.java
-		}
-	}
+    publications {
+        library(MavenPublication) {
+            from components.java
+        }
+    }
 }
 
 dependencies {
-	javacc libs.javacc
-	api project(':renderer-base')
+    javacc libs.javacc
+    api project(':renderer-base')
     implementation libs.j2objc.annotations
     testImplementation libs.junit
 }
@@ -28,26 +28,18 @@ dependencies {
 sourceSets.main.java.srcDirs += [compileJavacc.outputDirectory, compileJavacc.inputDirectory]
 
 compileJavacc {
-	arguments = [static: 'false', grammar_encoding: 'UTF-8', unicode_input : 'true',  JAVA_TEMPLATE_TYPE: 'modern',
+    arguments = [static                   : 'false',
+                 grammar_encoding         : 'UTF-8',
+                 unicode_input            : 'true',
+                 JAVA_TEMPLATE_TYPE       : 'modern',
                  LEGACY_EXCEPTION_HANDLING: 'false']
 }
 
 compileJava {
-	options.encoding = 'UTF-8'
+    options.encoding = 'UTF-8'
 }
 
 tasks.register('cleanJavacc', Delete) {
     description 'Cleans the javacc generated files.'
     delete compileJavacc
-}
-
-pmd {
-     ignoreFailures = true
-     ruleSets = []
-     ruleSetFiles = files("../../config/pmd.xml")
-}
-
-spotbugs {
-    ignoreFailures = true
-    excludeFilter = file("../../config/spotbugs.xml")
 }

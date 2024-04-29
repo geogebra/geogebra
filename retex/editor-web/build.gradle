@@ -1,86 +1,87 @@
 import org.docstr.gradle.plugins.gwt.GwtDev
 
 plugins {
-	id 'java-library'
-	id 'pmd-conventions'
-	id 'checkstyle-conventions'
-	id 'gwt-conventions'
+    id 'java-library'
+    id 'pmd-conventions'
+    id 'checkstyle-conventions'
+    id 'gwt-conventions'
 }
 
 gwt {
-	gwtVersion libs.versions.gwt.get()
-	maxHeapSize = '2000M'
-	// only compilable module
-	modules 'com.himamis.retex.editor.JLMEditorExportedLibrary'
-	devModules 'com.himamis.retex.editor.JLMEditorGWTDev'
-	compiler {
-		logLevel = 'DEBUG'
-	}
+    gwtVersion libs.versions.gwt.get()
+    maxHeapSize = '2000M'
+    // only compilable module
+    modules 'com.himamis.retex.editor.JLMEditorExportedLibrary'
+    devModules 'com.himamis.retex.editor.JLMEditorGWTDev'
+    compiler {
+        logLevel = 'DEBUG'
+    }
 }
 
 dependencies {
-	implementation libs.j2objc.annotations
-	api project(':renderer-web'),
-		project(':editor-base'),
-		files(project(':editor-base').sourceSets.main.allSource.srcDirs),
-		files(project(':renderer-web').sourceSets.main.allSource.srcDirs),
-		files(project(':gwtutil').sourceSets.main.allSource.srcDirs),
-			libs.gwt.dev, libs.gwt.user
+    api project(':renderer-web')
+    api project(':editor-base')
+    api project(':gwtutil')
+    api libs.gwt.dev
+    api libs.gwt.user
 
-	testImplementation libs.gwt.user,libs.gwt.dom
+    implementation libs.j2objc.annotations
+
+    testImplementation libs.gwt.user
+    testImplementation libs.gwt.dom
 
 }
 
 tasks.register('run', GwtDev) {
-	dependsOn 'jar'
-	war = file('war')
-	description 'Starts a codeserver, and a simple webserver for development'
+    dependsOn 'jar'
+    war = file('war')
+    description 'Starts a codeserver, and a simple webserver for development'
 }
 
 tasks.register('jarAll', Jar) {
-	archiveClassifier = 'all'
-	from project.sourceSets.main.java
-	from project.sourceSets.main.output
-	from project(':renderer-base').sourceSets.main.java
-	from project(':renderer-base').sourceSets.main.output
+    archiveClassifier = 'all'
+    from project.sourceSets.main.java
+    from project.sourceSets.main.output
+    from project(':renderer-base').sourceSets.main.java
+    from project(':renderer-base').sourceSets.main.output
 }
 
 tasks.register('jarSources', Jar) {
-	dependsOn classes
-	archiveClassifier = 'sources'
-	from sourceSets.main.allSource
+    dependsOn classes
+    archiveClassifier = 'sources'
+    from sourceSets.main.allSource
 }
 
 tasks.register('cleanDist', Delete) {
-	delete 'dist'
+    delete 'dist'
 }
 
 tasks.register('dist', Copy) {
-	dependsOn cleanDist
-	from compileGwt
-	into 'dist'
-	doLast {
-		// rename library
-		File jsFile = file('dist/jlatexmath/jlatexmath.nocache.js')
-		File newFile = file('dist/jlatexmath/jlatexmath.js')
-		jsFile.renameTo(newFile)
+    dependsOn cleanDist
+    from compileGwt
+    into 'dist'
+    doLast {
+        // rename library
+        File jsFile = file('dist/jlatexmath/jlatexmath.nocache.js')
+        File newFile = file('dist/jlatexmath/jlatexmath.js')
+        jsFile.renameTo(newFile)
 
-		// remove unneeded artifacts
-		File clearCacheGif = file('dist/jlatexmath/clear.cache.gif')
-		clearCacheGif.delete();
-		File webInfFolder = file('dist/WEB-INF')
-		deleteDir(webInfFolder)
-	}
+        // remove unneeded artifacts
+        File clearCacheGif = file('dist/jlatexmath/clear.cache.gif')
+        clearCacheGif.delete();
+        File webInfFolder = file('dist/WEB-INF')
+        deleteDir(webInfFolder)
+    }
 }
 
 tasks.register('zipDist', Zip) {
-	dependsOn dist
-	from 'dist/jlatexmath'
-	destinationDirectory = file('dist/')
+    dependsOn dist
+    from 'dist/jlatexmath'
+    destinationDirectory = file('dist/')
 }
 
 def deleteDir(dir) {
-	if (dir.isDirectory()) {
+    if (dir.isDirectory()) {
         String[] children = dir.list();
         for (int i = 0; i < children.length; i++) {
             boolean success = deleteDir(new File(dir, children[i]));

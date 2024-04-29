@@ -1,6 +1,6 @@
 plugins {
     id 'java-library'
-    alias libs.plugins.spotbugs
+    id 'spotbugs-conventions'
 }
 description 'Platform independent supplementary files for graphics support'
 
@@ -8,10 +8,4 @@ dependencies {
     implementation project(':common')
     implementation libs.spotbugs.annotations
     implementation libs.j2objc.annotations
-}
-
-spotbugs {
-    ignoreFailures = true
-    excludeFilter = file("../config/spotbugs.xml")
-    jvmArgs = ['-Dfindbugs.sf.comment=true']
 }

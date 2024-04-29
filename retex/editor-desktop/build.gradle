@@ -1,13 +1,13 @@
 plugins {
-	id 'java-library'
-	id 'application'
+    id 'java-library'
+    id 'application'
 }
 
 dependencies {
-	api project(':renderer-desktop')
-	api project(':editor-base')
+    api project(':renderer-desktop')
+    api project(':editor-base')
 }
 
 application {
-	mainClassName = 'com.himamis.retex.editor.desktop.Test'
+    mainClassName = 'com.himamis.retex.editor.desktop.Test'
 }

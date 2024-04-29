@@ -2,39 +2,28 @@ import org.docstr.gradle.plugins.gwt.GwtDev
 
 plugins {
     id 'java-library'
-    alias libs.plugins.gwt
+    id 'gwt-conventions'
 }
 
 gwt {
     maxHeapSize = '2000M'
-    gwtVersion = libs.versions.gwt.get()
     // only compilable module
     modules 'com.himamis.retex.renderer.JLaTeXMathGWTExportedLibrary'
     devModules 'com.himamis.retex.renderer.JLaTeXMathGWTDev'
-    compiler {
-        if (project.hasProperty("gdetailed")) {
-            style = org.docstr.gradle.plugins.gwt.Style.DETAILED
-        } else {
-            disableClassMetadata = true
-        }
-    }
-    jsInteropExports {
-        shouldGenerate = true;
-    }
 }
 
 dependencies {
-    api project(':renderer-base'),
-            project(':gwtutil'),
-            files(project(':renderer-base').sourceSets.main.java.srcDirs),
-            files(project(':gwtutil').sourceSets.main.java.srcDirs),
-            files(project(':gwtutil').sourceSets.main.resources.srcDirs),
-            files(file("build/generated/sources/annotationProcessor/java/main/")),
-            libs.gwt.core, libs.gwt.dev, libs.gwt.user, libs.gwt.widgets,
-            variantOf(libs.gwt.widgets) { classifier("sources") }
+    api project(':renderer-base')
+    api project(':gwtutil')
+    api files(file("build/generated/sources/annotationProcessor/java/main/"))
 
-    testImplementation libs.gwt.user, libs.gwt.widgets,
-            variantOf(libs.gwt.widgets) { classifier("sources") }
+    api libs.gwt.core
+    api libs.gwt.dev
+    api libs.gwt.user
+    api libs.gwt.widgets
+
+    testImplementation libs.gwt.user
+    testImplementation libs.gwt.widgets
 
     annotationProcessor project(":gwt-generator"), libs.gwt.resources.processor
 }

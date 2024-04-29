@@ -4,5 +4,5 @@ plugins {
 
 checkstyle {
     toolVersion = '10.3.3'
-    configFile file("../config/checkstyle/checkstyle.xml")
+    config = resources.text.fromString(org.geogebra.Resources.getString("/checkstyle/checkstyle.xml"))
 }
