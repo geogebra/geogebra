@@ -113,6 +113,8 @@ public class ExamClassicStartDialog extends ComponentDialog {
 			GlobalScope.examController.setActiveContext(app, app.getKernel().getAlgebraProcessor()
 					.getCommandDispatcher(), app.getKernel().getAlgebraProcessor());
 			GlobalScope.examController.prepareExam();
+			GlobalScope.examController.registerRestrictable(
+					app.getKernel().getAlgebraProcessor().getCommandDispatcher());
 			GlobalScope.examController.startExam(examType, null);
 		}
 		app.fireViewsChangedEvent();

@@ -10,7 +10,6 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.main.exam.event.CheatingEvents;
-import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.TimeFormatAdapter;
 
 /**

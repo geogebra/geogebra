@@ -74,13 +74,13 @@ public class ExamUtil {
 	}
 
 	private void startCheating() {
-		if (!GlobalScope.examController.isIdle() && SecureBrowser.get() == null) {
+		if (GlobalScope.examController.isExamActive() && SecureBrowser.get() == null) {
 			GlobalScope.examController.getCheatingEvents().addWindowLeftEvent();
 		}
 	}
 
 	private void stopCheating() {
-		if (!GlobalScope.examController.isIdle()) {
+		if (GlobalScope.examController.isExamActive()) {
 			GlobalScope.examController.getCheatingEvents().addWindowEnteredEvent();
 		}
 	}

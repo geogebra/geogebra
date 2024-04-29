@@ -149,13 +149,14 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 	private int addCheatingEventsLogTimesToScreenshot(GGraphics2DW g2,
 			ExamSummary examSummary, int yOffset) {
 		StringBuilder sb = new StringBuilder();
+		int yOffsetForNextEntry = yOffset;
 		for (CheatingEvent event : GlobalScope.examController.getCheatingEvents().getEvents()) {
 			sb.setLength(0);
 			sb.append(examSummary.formatEventTime(event.getDate())).append(' ');
 			sb.append(event.getAction().toString(app.getLocalization()));
-			return addLineToScreenshot(g2, sb.toString(), yOffset);
+			yOffsetForNextEntry = addLineToScreenshot(g2, sb.toString(), yOffsetForNextEntry);
 		}
-		return yOffset;
+		return yOffsetForNextEntry;
 	}
 
 	private int addEndLogTimeToScreenshot(GGraphics2DW g2, ExamSummary examSummary, int yOffset) {

@@ -1,9 +1,5 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
-import javax.annotation.Nonnull;
-
-import org.geogebra.common.exam.restrictions.ExamRestrictable;
-import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.geogebra3D.kernel3D.scripting.CmdSetSpinSpeed;
 import org.geogebra.common.geogebra3D.kernel3D.scripting.CmdSetViewDirection;
 import org.geogebra.common.kernel.Kernel;
@@ -21,7 +17,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Mathieu
  *
  */
-public abstract class CommandDispatcher3D extends CommandDispatcher implements ExamRestrictable {
+public abstract class CommandDispatcher3D extends CommandDispatcher {
 
 	/** dispatcher for 3D commands */
 	protected static CommandDispatcherInterface commands3DDispatcher = null;
@@ -300,15 +296,5 @@ public abstract class CommandDispatcher3D extends CommandDispatcher implements E
 	@Override
 	public CommandDispatcherInterface getProverDispatcher() {
 		return commandDispatcher.getProverDispatcher();
-	}
-
-	@Override
-	public void applyRestrictions(@Nonnull ExamRestrictions examRestrictions) {
-		app.resetCommandDict();
-	}
-
-	@Override
-	public void removeRestrictions(@Nonnull ExamRestrictions examRestrictions) {
-		app.resetCommandDict();
 	}
 }
