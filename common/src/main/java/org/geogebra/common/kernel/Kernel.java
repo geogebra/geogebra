@@ -2685,7 +2685,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		// evaluate in GeoGebraCAS
 		result = getGeoGebraCAS().evaluateGeoGebraCAS(exp, arbconst, tpl, this);
 
-		if (useCaching) {
+		if (useCaching && getGeoGebraCAS().getCurrentCAS() != null
+				&& getGeoGebraCAS().getCurrentCAS().isLoaded()) {
 			getCasCache().put(exp, result);
 		}
 		return result;
@@ -4769,6 +4770,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			if (checker.isAlgoUsingCas(algo)) {
 				// eg Limit, LimitAbove, LimitBelow, SolveODE
 				// AlgoCasCellInterface: eg Solve[x^2]
+				clearAnonymousCasMaps(algo);
 				algo.compute();
 
 				if (algo.getOutput() != null) {
@@ -4777,8 +4779,16 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			}
 		}
 		cons.setUpdateConstructionRunning(true);
-		GeoElement.updateCascade(geosToUpdate, new TreeSet<AlgoElement>(), true);
+		GeoElement.updateCascade(geosToUpdate, new TreeSet<>(), true);
 		cons.setUpdateConstructionRunning(false);
+	}
+
+	private void clearAnonymousCasMaps(AlgoElement algo) {
+		for (GeoElement geo: algo.getInput()) {
+			if (!geo.isLabelSet() && geo instanceof CasEvaluableFunction) {
+				((CasEvaluableFunction) geo).clearCasEvalMap();
+			}
+		}
 	}
 
 	public GeoElement[] polygonND(String[] labels, GeoPointND[] P) {
