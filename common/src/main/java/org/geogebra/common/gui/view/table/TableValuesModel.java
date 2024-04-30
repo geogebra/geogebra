@@ -22,6 +22,18 @@ public interface TableValuesModel {
 	void unregisterListener(TableValuesListener listener);
 
 	/**
+	 * Find out whether this model is editable.
+	 * @return true if this model is editable (the default).
+	 */
+	boolean getIsEditable();
+
+	/**
+	 * Enable or disable editing for this model.
+	 * @param isEditable Pass false to disable editing (e.g., in SciCalc).
+	 */
+	void setIsEditable(boolean isEditable);
+
+	/**
 	 * Sets an element.
 	 * @param element element
 	 * @param column column

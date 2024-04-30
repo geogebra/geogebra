@@ -36,6 +36,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	/** The internal labels: x_{1}, y_{1}, y_{2}, ... */
 	private String[] columnLabels;
 
+	private boolean isEditable = true;
 	private final TableSettings settings;
 
 	private ModelEventCollector collector;
@@ -76,6 +77,16 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	@Override
 	public void unregisterListener(TableValuesListener listener) {
 		listeners.remove(listener);
+	}
+
+	@Override
+	public boolean getIsEditable() {
+		return isEditable;
+	}
+
+	@Override
+	public void setIsEditable(boolean isEditable) {
+		this.isEditable = isEditable;
 	}
 
 	@Override
