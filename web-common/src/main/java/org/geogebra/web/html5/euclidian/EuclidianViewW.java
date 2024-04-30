@@ -299,7 +299,9 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void drawObjects(GGraphics2D g2) {
-		MultiuserManager.INSTANCE.paintInteractionBackgrounds(this, g2p);
+		if (!app.isExporting()) {
+			MultiuserManager.INSTANCE.paintInteractionBackgrounds(this, g2);
+		}
 		super.drawObjects(g2);
 	}
 
