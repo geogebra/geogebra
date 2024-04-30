@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
 
@@ -918,8 +919,8 @@ public class GeoCasCell extends GeoElement
 						.add(fv.toString(StringTemplate.defaultTemplate));
 			}
 		}
-		HashSet<GeoElement> geoVars = ve.getVariables(SymbolicMode.NONE);
-		if (geoVars != null) {
+		Set<GeoElement> geoVars = ve.getVariables(SymbolicMode.NONE);
+		if (!geoVars.isEmpty()) {
 			for (GeoElement geo : geoVars) {
 				String var = geo.getLabel(StringTemplate.defaultTemplate);
 				if (isFunction && ((FunctionNVar) ve).isFunctionVariable(var)) {

@@ -20,7 +20,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.math3.util.Precision;
 import org.geogebra.common.kernel.Construction;
@@ -936,8 +936,8 @@ public class MyDouble extends ValidExpression
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
-		return null;
+	public void getVariables(Set<GeoElement> variables, SymbolicMode symbolicMode) {
+		// constant
 	}
 
 	@Override

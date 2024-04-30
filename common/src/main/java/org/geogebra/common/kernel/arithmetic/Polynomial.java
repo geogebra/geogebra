@@ -559,13 +559,9 @@ public class Polynomial implements HasDebugString {
 	}
 
 	private HashSet<GeoElement> getVariables(SymbolicMode mode) {
-		HashSet<GeoElement> temp, vars = new HashSet<>();
-		Iterator<Term> i = terms.iterator();
-		while (i.hasNext()) {
-			temp = i.next().getCoefficient().getVariables(mode);
-			if (temp != null) {
-				vars.addAll(temp);
-			}
+		HashSet<GeoElement> vars = new HashSet<>();
+		for (Term term : terms) {
+			term.getCoefficient().getVariables(vars, mode);
 		}
 		return vars;
 	}

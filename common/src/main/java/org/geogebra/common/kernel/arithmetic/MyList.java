@@ -19,7 +19,7 @@
 package org.geogebra.common.kernel.arithmetic;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Set;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -906,17 +906,10 @@ public class MyList extends ValidExpression
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
-		HashSet<GeoElement> varSet = new HashSet<>();
-		int size = listElements.size();
-		for (int i = 0; i < size; i++) {
-			HashSet<GeoElement> s = listElements.get(i).getVariables(mode);
-			if (s != null) {
-				varSet.addAll(s);
-			}
+	public void getVariables(Set<GeoElement> variables, SymbolicMode mode) {
+		for (ExpressionValue listElement : listElements) {
+			listElement.getVariables(variables, mode);
 		}
-
-		return varSet;
 	}
 
 	@Override

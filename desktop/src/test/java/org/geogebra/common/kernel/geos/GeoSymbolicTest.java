@@ -2311,6 +2311,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	@Issue("APPS-5511")
+	public void parametricEquationList() {
+		add("v:=(a,b)");
+		t("Solve({v=(1,2)},{a,b})", "{{a = 1, b = 2}}");
+	}
+
+	@Test
 	@Issue({"APPS-1660", "APPS-5511"})
 	public void shouldReloadVectors() {
 		app.getGgbApi().evalXML("<expression label=\"v\" exp=\"(a, b)\" type=\"vector\"/>\n"

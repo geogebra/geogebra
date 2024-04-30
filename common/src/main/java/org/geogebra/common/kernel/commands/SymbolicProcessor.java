@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -147,7 +146,7 @@ public class SymbolicProcessor {
 			Log.debug(e.getMessage());
 		}
 
-		HashSet<GeoElement> vars = replaced
+		Set<GeoElement> vars = replaced
 				.getVariables(SymbolicMode.SYMBOLIC_AV);
 		ArrayList<GeoElement> noDummyVars = new ArrayList<>();
 		if (vars != null) {

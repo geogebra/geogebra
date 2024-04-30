@@ -1,10 +1,11 @@
 package org.geogebra.common.kernel.optimization;
 
+import java.util.Set;
+
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -76,7 +77,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 	// / --- Properties --- ///
 	private Kernel kernel = null;
 	private int numberOfParameters = 0;
-	private Object[] gliders = null; // Pointers to gliders, need for new
+	private GeoElement[] gliders = null; // Pointers to gliders, need for new
 										// startvalues
 	private Function newf = null;
 	private double lastvalue = 0.0d;
@@ -142,7 +143,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 			double old = pars[i];
 			double deltaI = deltap;
 			if (gliders[i] instanceof GeoNumeric) {
-				double step = ((GeoNumeric) gliders[i]).getAnimationStep();
+				double step = gliders[i].getAnimationStep();
 				if (step > 1E-13) {
 					deltaI = Math.min(step * 0.01, deltap);
 				}
@@ -165,16 +166,16 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 		kernel = f.getKernel();
 		FunctionVariable fvar = f.getFunctionVariable();
 
-		java.util.HashSet<GeoElement> hash = f
+		Set<GeoElement> hash = f
 				.getVariables(SymbolicMode.NONE); // Get
 																		// a,b,c,...
 																// to array
-		if (hash == null) {
+		if (hash.isEmpty()) {
 			// throw (new Exception("No gliders/parameters in
 			// fit-function..."));
 			this.parametersOK = false;
 		} else {
-			gliders = hash.toArray();
+			gliders = hash.toArray(new GeoElement[0]);
 		} // if no gliders
 
 		numberOfParameters = gliders.length;
@@ -198,7 +199,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 
 		for (int i = 0; i < numberOfParameters; i++) {
 			enf = enf
-					.replace((ExpressionValue) gliders[i],
+					.replace(gliders[i],
 							mydoubles[i]
 									.evaluate(StringTemplate.defaultTemplate))
 					.wrap();

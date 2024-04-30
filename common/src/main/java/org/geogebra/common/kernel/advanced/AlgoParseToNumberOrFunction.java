@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.advanced;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -24,7 +25,7 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 	private final Commands cmd;
 	private final GeoList vars;
 	private GeoElement[] inputForUpdateSetPropagation;
-	private HashSet<GeoElement> referencedObjects;
+	private final Set<GeoElement> referencedObjects = new HashSet<>();
 
 	/**
 	 * @param cons construction
@@ -91,11 +92,11 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 	}
 
 	private void updateReferences(ExpressionNode definition) {
-		referencedObjects = null;
+		referencedObjects.clear();
 		if (definition != null) {
-			referencedObjects = definition.getVariables(SymbolicMode.NONE);
+			definition.getVariables(referencedObjects, SymbolicMode.NONE);
 		}
-		if (referencedObjects != null) {
+		if (!referencedObjects.isEmpty()) {
 			inputForUpdateSetPropagation = new GeoElement[referencedObjects.size() + 1];
 			inputForUpdateSetPropagation[0] = text;
 			int i = 1;
@@ -119,7 +120,7 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 
 	@Override
 	public GeoElement[] getInputForUpdateSetPropagation() {
-		if (referencedObjects == null || referencedObjects.isEmpty()) {
+		if (referencedObjects.isEmpty()) {
 			return input;
 		}
 		return inputForUpdateSetPropagation;
