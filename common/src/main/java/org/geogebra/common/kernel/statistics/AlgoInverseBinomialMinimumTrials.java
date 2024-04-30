@@ -14,16 +14,15 @@ public class AlgoInverseBinomialMinimumTrials extends AlgoDistribution {
 
 	/**
 	 *
-	 * @param label the label.
 	 * @param c {@link Construction}
 	 * @param cumulativePropability .
 	 * @param probability .
 	 * @param numberOfTrials .
 	 */
-	public AlgoInverseBinomialMinimumTrials(String label, Construction c,
+	public AlgoInverseBinomialMinimumTrials(Construction c,
 			GeoNumberValue cumulativePropability, GeoNumberValue probability,
 			GeoNumberValue numberOfTrials) {
-		super(c, label, cumulativePropability, probability, numberOfTrials, null);
+		super(c, cumulativePropability, probability, numberOfTrials, null);
 
 	}
 

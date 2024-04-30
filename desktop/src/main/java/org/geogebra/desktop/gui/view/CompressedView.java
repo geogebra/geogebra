@@ -30,7 +30,7 @@ public interface CompressedView extends View {
 	/**
 	 * e.g.:
 	 * 
-	 * @Override final public void repaint() { if (!repaintTimer.isRunning()) {
+	 * &#x40;Override final public void repaint() { if (!repaintTimer.isRunning()) {
 	 *           repaintNow(); }else{ repaintTimer.start(); } }
 	 */
 	public void repaint();

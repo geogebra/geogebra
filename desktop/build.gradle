@@ -1,11 +1,10 @@
 plugins {
-    id "com.github.spotbugs" version "6.0.9"
+    alias libs.plugins.spotbugs
     id 'application'
-    id 'eclipse'
     id 'checkstyle'
 }
 
- project.setDescription('Parts of GeoGebra related to desktop platforms')
+description 'Parts of GeoGebra related to desktop platforms'
 
 sourceSets {
     nonfree
@@ -30,89 +29,68 @@ configurations {
     e2eTestImplementation.extendsFrom testRuntime
 }
 
-eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
-eclipse.classpath.file {
-	// Eclipse dependecies are based on projects, not source paths
-	whenMerged { classpath ->
-		classpath.entries.removeAll { entry ->
-			entry.kind == 'lib' && entry.path.matches(".*common-jre/build/.*/test") 
-		}
-    }
-}
-
 dependencies {
     implementation project(':common')
     implementation project(':common-jre')
     implementation project(':editor-desktop')
     implementation project(':jogl2')
     implementation project(':giac-jni')
-    implementation 'netscape.javascript:jsobject:1',
-            'com.ogprover:OpenGeoProver:20120725',
-            'net.java.dev.jna:jna:5.14.0'
+    implementation libs.jsObject, libs.openGeoProver, libs.jna, libs.echosvg
 
-    implementation "org.jogamp.jogl:jogl-all:$joglVersion:natives-linux-amd64",
-        "org.jogamp.jogl:jogl-all:$joglVersion:natives-windows-amd64",
-        "org.jogamp.jogl:jogl-all:$joglVersion:natives-macosx-universal"
-    runtimeOnly "org.jogamp.gluegen:gluegen-rt:$joglVersion:natives-linux-amd64",
-        "org.jogamp.gluegen:gluegen-rt:$joglVersion:natives-windows-amd64",
-        "org.jogamp.gluegen:gluegen-rt:$joglVersion:natives-macosx-universal"
-    runtimeOnly "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-linux-amd64",
-        "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-amd64",
-        "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-macosx-universal"
+    implementation variantOf(libs.jogl) { classifier("natives-linux-amd64") },
+            variantOf(libs.jogl) { classifier("natives-windows-amd64") },
+            variantOf(libs.jogl) { classifier("natives-macosx-universal") }
+
+    runtimeOnly variantOf(libs.gluegen.rt) { classifier("natives-linux-amd64") },
+            variantOf(libs.gluegen.rt) { classifier("natives-windows-amd64") },
+            variantOf(libs.gluegen.rt) { classifier("natives-macosx-universal") }
+
+    runtimeOnly variantOf(libs.giac.java) { classifier("natives-linux-amd64") },
+            variantOf(libs.giac.java) { classifier("natives-windows-amd64") },
+            variantOf(libs.giac.java) { classifier("natives-macosx-universal") }
 
     testImplementation project(':keyboard-base')
-    testImplementation "junit:junit:$junitVersion"
-    testImplementation "org.mockito:mockito-core:$mockitoVersion"
-    testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
     testImplementation project(':ggbjdk')
-    testImplementation project(path: ':common-jre', configuration: 'testArtifacts')
-
-    implementation "io.sf.carte:echosvg-all:$echosvgVersion"
+    testImplementation testFixtures(project(':common-jre'))
+    testImplementation libs.junit, libs.mockito.core, libs.hamcrest
 }
 
-mainClassName = "org.geogebra.desktop.GeoGebra3D"
+application {
+    mainClassName = "org.geogebra.desktop.GeoGebra3D"
+}
 
 run {
     // Copying JOGL related native JARs into the same directory where the non-native JAR takes place.
-    // JOGL is simply dumb, it cannot work neither with java.library.path nor classpath or anything. Arrgh. 
+    // JOGL is simply dumb, it cannot work neither with java.library.path nor classpath or anything. Arrgh.
+    def joglVersion = libs.versions.jogl.get()
     def gluegen = project.configurations.runtimeClasspath.find { it.name == "gluegen-rt-${joglVersion}.jar" }
     def gluegen_natives = project.configurations.runtimeClasspath.findAll { it.name.startsWith("gluegen-rt-$joglVersion-natives") }
     def gluegen_dir = gluegen.getParent()
     for (i in gluegen_natives) {
         def gluegen_native_path = i.getPath()
-        ant.copy(file:"$gluegen_native_path", todir:"$gluegen_dir")
+        ant.copy(file: "$gluegen_native_path", todir: "$gluegen_dir")
     }
     def jogl = project.configurations.runtimeClasspath.find { it.name == "jogl-all-${joglVersion}.jar" }
     def jogl_natives = project.configurations.runtimeClasspath.findAll { it.name.startsWith("jogl-all-$joglVersion-natives") }
     def jogl_dir = jogl.getParent()
     for (i in jogl_natives) {
         def jogl_native_path = i.getPath()
-        ant.copy(file:"$jogl_native_path", todir:"$jogl_dir")
+        ant.copy(file: "$jogl_native_path", todir: "$jogl_dir")
     }
 
 }
+
 test {
     systemProperty "ggb.prerelease", project.findProperty("prerelease") ?: "true";
 
     ignoreFailures = true
     outputs.upToDateWhen { false }
 }
+
 spotbugs {
     ignoreFailures = true
     excludeFilter = file("../config/spotbugs.xml")
     jvmArgs = ['-Dfindbugs.sf.comment=true']
-}
-
-import org.gradle.plugins.ide.eclipse.model.AccessRule
-eclipse {
-    classpath {
-        file {
-            whenMerged { classpath ->
-                def jre = entries.find { it.path.contains 'org.eclipse.jdt.launching.JRE_CONTAINER' }
-                jre.accessRules.add(new AccessRule('accessible', 'com/**'))
-            }
-        }
-    }
 }
 
 checkstyle {
@@ -128,7 +106,8 @@ jar {
     }
 }
 
-task debugJars(type:Zip, dependsOn: 'jar') {
+tasks.register('debugJars', Zip) {
+    dependsOn 'jar'
     description = 'Collect all jar files in a single archive. Fast: no proguard or code signing.'
     archiveBaseName = 'jars'
     destinationDirectory = file('build')
@@ -145,7 +124,7 @@ task debugJars(type:Zip, dependsOn: 'jar') {
 
 tasks['checkstyleMain'].setSource(files([]))
 
-task e2eTest(type: Test) {
+tasks.register('e2eTest', Test) {
     description 'Run end-to-end tests'
     testClassesDirs = sourceSets.e2eTest.output.classesDirs
     classpath = sourceSets.e2eTest.runtimeClasspath

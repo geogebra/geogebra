@@ -15,7 +15,7 @@ import java.util.ListIterator;
 import org.freehep.graphicsio.ImageConstants;
 
 /**
- * Delay <tt>Paint</tt> objects (gradient/texture, not color) for writing
+ * Delay {@code Paint} objects (gradient/texture, not color) for writing
  * pattern/shading/function dictionaries to the pdf file when the pageStream is
  * complete.<br>
  * TODO: - reuse pattern dictionaries if possible - cyclic function not working
@@ -56,7 +56,7 @@ public class PDFPaintDelayQueue {
 
 	private AffineTransform pageMatrix;
 
-	/** Don't forget to call <tt>setPageMatrix()</tt>. */
+	/** Don't forget to call {@code setPageMatrix()}. */
 	public PDFPaintDelayQueue(PDFWriter pdf,
 			PDFImageDelayQueue imageDelayQueue) {
 		this.pdf = pdf;

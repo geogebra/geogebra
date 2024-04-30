@@ -4,6 +4,6 @@ plugins {
 
 dependencies {
 	api project(':renderer-base')
-	testImplementation 'junit:junit:4.13.2'
+	testImplementation libs.junit
 }
 

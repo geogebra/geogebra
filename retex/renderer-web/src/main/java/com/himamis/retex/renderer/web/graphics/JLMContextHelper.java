@@ -4,12 +4,11 @@ import jsinterop.base.Js;
 
 public class JLMContextHelper {
 
-
 	/**
 	 * Gets 2D context
 	 *
-	 * @param canvas
-	 *            canvas
+	 * @param context
+	 *            context
 	 * @return context
 	 */
 	public static JLMContext2d as(Object context) {

@@ -10,7 +10,10 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
+import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 public class CmdSetValueTest extends BaseUnitTest {
@@ -115,5 +118,44 @@ public class CmdSetValueTest extends BaseUnitTest {
 		pt2d = lookup("Q");
 		assertThat(pt3d, not(isDefined()));
 		assertThat(pt2d, not(isDefined()));
+	}
+
+	@Test
+	@Issue("APPS-5441")
+	public void setValueFromListToListShouldOnlyCopyValues() {
+		GeoList list = add("l1 = {1, 2, 3}");
+		add("l2 = {Polygon((0, 0), (2, 0), (1, 1))}");
+		add("SetValue(l1, l2)");
+		assertThat(list, hasValue("{1}"));
+		assertThat(list.get(0), hasProperty("type", GeoElement::getGeoClassType, GeoClass.NUMERIC));
+	}
+
+	@Test
+	@Issue("APPS-5441")
+	public void setValueFromListToListShouldCopyCorrectXMLValuesForGeoBooleans() {
+		add("l1 = {true, false}");
+		add("l2 = {true, true}");
+		add("SetValue(l1, l2)");
+		String s = getApp().getXML();
+		assertThat(s, containsString("<expression label=\"l1\" exp=\"{true, true}\"/>"));
+	}
+
+	@Test
+	@Issue("APPS-5576")
+	public void setValueShouldNotChangeDependent() {
+		add("m={{1,2},{3,4}}");
+		GeoList row = add("row=m(1)");
+		add("SetValue(row,{4,5})");
+		assertThat(row, hasValue("{1, 2}"));
+		reload();
+		assertThat(lookup("row"), hasValue("{1, 2}"));
+	}
+
+	@Test
+	public void setValueShouldWorkForDescendantsOfSelf() {
+		getApp().setRandomSeed(42);
+		GeoList list = add("l={1,2,3,4}");
+		add("SetValue(l, Shuffle(l))");
+		assertThat(list, hasValue("{3, 4, 1, 2}"));
 	}
 }

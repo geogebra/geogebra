@@ -469,7 +469,7 @@ public class TeXSerializer extends SerializerAdapter {
 	/**
 	 * Checks if the stringBuilder contains a mixed number e.g. 3 1/2 <br>
 	 * @param stringBuilder StringBuilder
-	 * @return Index >= 0 of where to put opening parentheses if there is a mixed number, -1 else
+	 * @return Index &gt;= 0 of where to put opening parentheses if there is a mixed number, -1 else
 	 */
 	@Override
 	public int isMixedNumber(StringBuilder stringBuilder) {

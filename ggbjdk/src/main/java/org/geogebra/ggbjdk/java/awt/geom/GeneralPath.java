@@ -33,12 +33,7 @@ import org.geogebra.common.awt.GGeneralPath;
  * (B&eacute;zier) curves.  It can contain multiple subpaths.
  * <p>
  * {@code GeneralPath} is a legacy final class which exactly
- * implements the behavior of its superclass {@link Path2D.Float}.
- * Together with {@link Path2D.Double}, the {@link Path2D} classes
- * provide full implementations of a general geometric path that
- * support all of the functionality of the {@link Shape} and
- * {@link PathIterator} interfaces with the ability to explicitly
- * select different levels of internal coordinate precision.
+ * implements the behavior of its superclass {@link Path2D.Double}.
  * <p>
  * Use {@code Path2D.Float} (or this legacy {@code GeneralPath}
  * subclass) when dealing with data that can be represented

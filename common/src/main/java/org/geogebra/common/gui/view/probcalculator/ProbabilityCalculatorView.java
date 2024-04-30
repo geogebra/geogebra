@@ -47,17 +47,11 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.statistics.AlgoCauchyDF;
-import org.geogebra.common.kernel.statistics.AlgoChiSquaredDF;
 import org.geogebra.common.kernel.statistics.AlgoDistributionDF;
-import org.geogebra.common.kernel.statistics.AlgoExponentialDF;
-import org.geogebra.common.kernel.statistics.AlgoFDistributionDF;
-import org.geogebra.common.kernel.statistics.AlgoGammaDF;
 import org.geogebra.common.kernel.statistics.AlgoLogNormalDF;
 import org.geogebra.common.kernel.statistics.AlgoLogisticDF;
 import org.geogebra.common.kernel.statistics.AlgoNormalDF;
-import org.geogebra.common.kernel.statistics.AlgoTDistributionDF;
-import org.geogebra.common.kernel.statistics.AlgoWeibullDF;
+import org.geogebra.common.kernel.statistics.CmdRealDistribution2Params;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
@@ -126,7 +120,7 @@ public abstract class ProbabilityCalculatorView
 	// GeoElements
 	protected ArrayList<GeoElementND> plotGeoList;
 	private final ProbabilityXAxis xAxis;
-	private GeoElement densityCurve;
+	private GeoFunction densityCurve;
 	private GeoElement integral;
 	private GeoElement discreteIntervalGraph;
 	private GeoElement normalOverlay;
@@ -474,7 +468,7 @@ public abstract class ProbabilityCalculatorView
 
 	private void createCumulativeSegments() {
 		// point on curve
-		GeoFunction f = (GeoFunction) densityCurve;
+		GeoFunction f = densityCurve;
 		ExpressionNode highPointX = new ExpressionNode(kernel,
 				xAxis.highPoint(), Operation.XCOORD, null);
 		ExpressionNode curveY = new ExpressionNode(kernel, f,
@@ -851,7 +845,7 @@ public abstract class ProbabilityCalculatorView
 		f.setValue(false);
 
 		AlgoIntegralDefinite algoIntegral = new AlgoIntegralDefinite(
-				cons, (GeoFunction) densityCurve, low, high, f);
+				cons, densityCurve, low, high, f);
 		cons.removeFromConstructionList(algoIntegral);
 
 		GeoElement output = algoIntegral.getOutput(0);
@@ -1594,7 +1588,14 @@ public abstract class ProbabilityCalculatorView
 				isValid = xLow >= 0;
 			}
 			break;
-
+		case BETA:
+			if (probMode != PROB_LEFT) {
+				isValid = xLow >= 0;
+			}
+			if (probMode != PROB_RIGHT) {
+				isValid &= xHigh <= 1;
+			}
+			break;
 		case F:
 			if (probMode != PROB_LEFT) {
 				isValid = xLow > 0;
@@ -1817,10 +1818,12 @@ public abstract class ProbabilityCalculatorView
 	private GeoFunction buildDensityCurveExpression(Dist type,
 			boolean cumulative) {
 
-		GeoNumberValue param1 = null, param2 = null;
+		GeoNumberValue param1, param2 = null;
 
 		if (parameters.length > 0) {
 			param1 = parameters[0];
+		} else {
+			return null;
 		}
 		if (parameters.length > 1) {
 			param2 = parameters[1];
@@ -1830,28 +1833,15 @@ public abstract class ProbabilityCalculatorView
 		GeoBoolean cumulativeGeo = new GeoBoolean(cons, cumulative);
 		switch (type) {
 		case NORMAL:
-			ret = new AlgoNormalDF(cons, param1, param2, cumulativeGeo);
-			break;
 		case STUDENT:
-			ret = new AlgoTDistributionDF(cons, param1, cumulativeGeo);
-			break;
 		case CHISQUARE:
-			ret = new AlgoChiSquaredDF(cons, param1, cumulativeGeo);
-			break;
 		case F:
-			ret = new AlgoFDistributionDF(cons, param1, param2, cumulativeGeo);
-			break;
 		case CAUCHY:
-			ret = new AlgoCauchyDF(cons, param1, param2, cumulativeGeo);
-			break;
 		case EXPONENTIAL:
-			ret = new AlgoExponentialDF(cons, param1, cumulativeGeo);
-			break;
+		case BETA:
 		case GAMMA:
-			ret = new AlgoGammaDF(cons, param1, param2, cumulativeGeo);
-			break;
 		case WEIBULL:
-			ret = new AlgoWeibullDF(cons, param1, param2, cumulativeGeo);
+			ret = CmdRealDistribution2Params.getAlgoDF(type, param1, param2, cumulativeGeo);
 			break;
 		case LOGNORMAL:
 			ret = new AlgoLogNormalDF(cons, param1, param2, cumulativeGeo);

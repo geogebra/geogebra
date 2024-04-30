@@ -6,7 +6,7 @@ import org.gwtproject.user.client.ui.ComplexPanel;
 import org.gwtproject.user.client.ui.Widget;
 
 /**
- * Wrapper for the &lt;UL&rt; tag
+ * Wrapper for the &lt;UL&gt; tag
  */
 public class UnorderedList extends ComplexPanel {
 

@@ -37,8 +37,7 @@ public abstract class FileManager extends MaterialsManager {
 	}
 
 	@Override
-	public abstract void delete(final Material mat, boolean permanent,
-	        Runnable onSuccess);
+	public abstract void delete(Material mat, boolean permanent, Runnable onSuccess);
 
 	/**
 	 * 
@@ -49,7 +48,7 @@ public abstract class FileManager extends MaterialsManager {
 	 * @param cb
 	 *            callback
 	 */
-	public abstract void saveFile(String base64, long modified, final SaveCallback cb);
+	public abstract void saveFile(String base64, long modified, SaveCallback cb);
 
 	/**
 	 * Overwritten for phone

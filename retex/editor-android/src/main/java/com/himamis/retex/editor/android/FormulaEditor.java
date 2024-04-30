@@ -65,7 +65,7 @@ public class FormulaEditor extends View implements MathField {
     private static final int ALIGN_LEFT = 0;
     private static final int ALIGN_RIGHT = 1;
 
-    public static MetaModel sMetaModel = new MetaModel();
+    public final static MetaModel sMetaModel = new MetaModel();
     protected MathFieldInternal mMathFieldInternal;
     protected float mScale;
     private TeXIcon mTeXIcon;

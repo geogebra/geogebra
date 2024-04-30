@@ -590,7 +590,7 @@ public class AppletParameters {
 	}
 
 	/**
-	 * @return whether to allow scale > 1
+	 * @return whether to allow scale &gt; 1
 	 */
 	public boolean getParamAllowUpscale() {
 		return getBoolDataParam("allowUpscale", false);
@@ -771,4 +771,13 @@ public class AppletParameters {
 		return getBoolDataParam("disableJavaScript", false);
 	}
 
+	/**
+	 * When set, keyboard should be attached to the first element in DOM
+	 * that fits the selector.
+	 *
+	 * @return the selector where the keyboard should be attached in DOM.
+	 */
+	public String getDetachKeyboardParent() {
+		return getStringDataParam("detachedKeyboardParent", "");
+	}
 }
