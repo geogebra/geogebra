@@ -10,6 +10,7 @@ import org.geogebra.web.full.gui.util.PenPreview;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
+import org.gwtproject.dom.style.shared.Visibility;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
@@ -58,6 +59,8 @@ public class ComponentSlider extends FlowPanel {
 	 */
 	public void update(int mode) {
 		lastSelectedMode = mode;
+		preview.getElement().getStyle().setVisibility(mode != MODE_ERASER
+				? Visibility.VISIBLE : Visibility.HIDDEN);
 		preview.update();
 		setSliderRange(mode != MODE_ERASER);
 		updateSliderValue(mode);
