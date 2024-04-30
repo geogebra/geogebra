@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.geogebra.pmd)
     alias(libs.plugins.geogebra.checkstyle)
     alias(libs.plugins.geogebra.spotbugs)
-    alias(libs.plugins.javacc)
+    alias(libs.plugins.geogebra.javacc)
 }
 
 group = "com.himamis.retex"
@@ -25,8 +25,6 @@ dependencies {
     testImplementation(libs.junit)
 }
 
-sourceSets.main.get().java.srcDirs(tasks.compileJavacc.get().outputDirectory, tasks.compileJavacc.get().inputDirectory)
-
 tasks.compileJavacc {
     arguments = mapOf(
             "static" to "false",
@@ -38,9 +36,4 @@ tasks.compileJavacc {
 }
 tasks.compileJava {
     options.encoding = "UTF-8"
-}
-
-tasks.register<Delete>("cleanJavacc") {
-    description = "Cleans the javacc generated files."
-    delete(tasks.compileJavacc)
 }

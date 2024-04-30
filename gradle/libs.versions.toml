@@ -57,9 +57,9 @@ hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 
 gwt-plugin = {module = "org.docstr:gwt-gradle-plugin", version = "1.1.30" }
 spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.0.9" }
+javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "3.0.2"}
 
 [plugins]
-javacc = "org.javacc.javacc:3.0.2"
 cpd = "de.aaschmid.cpd:3.3"
 sass = "io.miret.etienne.sass:1.5.0"
 
@@ -75,3 +75,4 @@ geogebra-javadoc-workaround = "javadoc-sourcepath-workaround:unspecified"
 geogebra-gwt-dist = "gwt-dist-conventions:unspecified"
 geogebra-java = "java-conventions:unspecified"
 geogebra-java-library = "java-library-conventions:unspecified"
+geogebra-javacc = "javacc-conventions:unspecified"
