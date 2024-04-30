@@ -5,6 +5,7 @@ import Desktop_variants_gradle.Variants.nativesWindowsAmd64
 plugins {
     application
     alias(libs.plugins.geogebra.java)
+    alias(libs.plugins.geogebra.checkstyle)
     alias(libs.plugins.geogebra.spotbugs)
     alias(libs.plugins.geogebra.variants)
     alias(libs.plugins.geogebra.sourcesets)
@@ -89,6 +90,10 @@ tasks {
             attributes["Class-Path"] = configurations.runtimeClasspath.get().joinToString(" ") { it.name }
             attributes["Main-Class"] = "org.geogebra.desktop.GeoGebra3D"
         }
+    }
+
+    checkstyleMain {
+        enabled = false
     }
 
     register<Zip>("debugJars") {
