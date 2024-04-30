@@ -1,5 +1,5 @@
 import com.github.spotbugs.snom.SpotBugsTask
-import org.geogebra.build.Resources
+import org.geogebra.gradle.Resources
 
 plugins {
     id("com.github.spotbugs")

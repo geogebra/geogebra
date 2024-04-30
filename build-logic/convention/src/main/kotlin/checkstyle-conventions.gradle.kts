@@ -1,4 +1,4 @@
-import org.geogebra.build.Resources
+import org.geogebra.gradle.Resources
 
 plugins {
     checkstyle
