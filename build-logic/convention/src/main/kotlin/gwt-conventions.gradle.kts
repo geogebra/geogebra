@@ -3,6 +3,19 @@ plugins {
     id("org.docstr.gwt")
 }
 
+logger.debug("GWT Conventions: Configuring project {}", name)
+
+configurations.configureEach {
+    if (arrayOf("implementation", "api").contains(name)) {
+        dependencies.configureEach {
+            if (this is ProjectDependency) {
+                logger.debug("GWT Conventions: Evaluation depends on {}", dependencyProject.name)
+                evaluationDependsOn(this.dependencyProject.path)
+            }
+        }
+    }
+}
+
 fun resolveDependencies(configurations: ConfigurationContainer) {
     configurations.configureEach {
         if (arrayOf("implementation", "api").contains(name)) {
@@ -18,7 +31,7 @@ fun resolveDependencies(configurations: ConfigurationContainer) {
                         logger.debug("GWT Conventions: Recursively adding dependencies from {}", dependencyProject.name)
                         resolveDependencies(dependencyProject.configurations)
                     } else {
-                        logger.debug("GWT Conventions: Dependency has no java plugin applied. {}", dependencyProject.name)
+                        logger.debug("GWT Conventions: Dependency has no java plugin applied {}", dependencyProject.name)
                     }
                 } else if (this is MinimalExternalModuleDependency) {
                     logger.debug("GWT Conventions: Adding sources dependency to external dependency {}", this)
@@ -37,8 +50,6 @@ fun resolveDependencies(configurations: ConfigurationContainer) {
         }
     }
 }
-
-logger.debug("GWT Conventions: Configuring project {}", name)
 
 resolveDependencies(configurations)
 
