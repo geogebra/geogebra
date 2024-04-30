@@ -113,8 +113,4 @@ tasks {
         testClassesDirs = e2eTest.output.classesDirs
         classpath = e2eTest.runtimeClasspath
     }
-
-    named<Checkstyle>("checkstyleMain") {
-        source = fileTree()
-    }
 }
