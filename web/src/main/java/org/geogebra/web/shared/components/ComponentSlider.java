@@ -83,11 +83,12 @@ public class ComponentSlider extends FlowPanel {
 		case MODE_ERASER:
 			sliderValue = settings.getDeleteToolSize();
 			break;
-		case MODE_PEN:
-			sliderValue = settings.getLastPenThickness();
-			break;
 		case MODE_HIGHLIGHTER:
 			sliderValue = settings.getLastHighlighterThickness();
+			break;
+		case MODE_PEN:
+		default:
+			sliderValue = settings.getLastPenThickness();
 			break;
 		}
 
