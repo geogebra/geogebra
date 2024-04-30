@@ -11,5 +11,7 @@ public interface ExamListener {
 	 * @param newState The new exam state.
 	 */
 	void examStateChanged(ExamState newState);
+
+	default void cheatingStarted() {}
 }
 

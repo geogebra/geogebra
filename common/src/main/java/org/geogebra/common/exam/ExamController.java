@@ -378,6 +378,12 @@ public final class ExamController {
 		createNewTempMaterial();
 
 		cheatingEvents = new CheatingEvents();
+		cheatingEvents.delegate = (cheatingAction) -> {
+			if (cheatingEvents.size() == 1) {
+				notifyListenersCheatingStarted();
+			}
+		};
+
 		startDate = new Date();
 		setState(ExamState.ACTIVE);
 	}
@@ -435,6 +441,12 @@ public final class ExamController {
 	private void notifyListeners(ExamState newState) {
 		for (ExamListener listener : listeners) {
 			listener.examStateChanged(newState);
+		}
+	}
+
+	private void notifyListenersCheatingStarted() {
+		for (ExamListener listener : listeners) {
+			listener.cheatingStarted();
 		}
 	}
 

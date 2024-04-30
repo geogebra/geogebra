@@ -8,6 +8,10 @@ import java.util.List;
  */
 public class CheatingEvents {
 
+    public interface Delegate {
+        void cheated(CheatingAction cheatingAction);
+    }
+
     private final List<CheatingEvent> events;
 
     private boolean isScreenLocked = true;
@@ -15,6 +19,8 @@ public class CheatingEvents {
     private boolean isAirplaneModeEnabled = true;
     private boolean isWifiEnabled;
     private boolean isBluetoothEnabled;
+
+    public Delegate delegate;
 
     public CheatingEvents() {
         events = new LinkedList<>();
@@ -133,6 +139,9 @@ public class CheatingEvents {
     }
 
     private void addCheatingEvent(CheatingAction action) {
+        if (delegate != null) {
+            delegate.cheated(action);
+        }
         events.add(new CheatingEvent(action, System.currentTimeMillis()));
     }
 }
