@@ -3,14 +3,6 @@ description 'GeoGebra'
 apply from: 'gradle-scripts/dependencies.gradle'
 
 subprojects {
-	apply plugin: 'java'
-
-	java {
-		toolchain {
-			languageVersion = JavaLanguageVersion.of(11)
-		}
-	}
-
 	afterEvaluate {
 		// forward command line properties to every test JVM
 		tasks.withType(Test.class).each { task ->

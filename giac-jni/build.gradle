@@ -1,5 +1,5 @@
 plugins {
-    id 'java-library'
+    alias libs.plugins.geogebra.java.library
 }
 
 description 'Java Native Interface to connect Giac and GeoGebra'

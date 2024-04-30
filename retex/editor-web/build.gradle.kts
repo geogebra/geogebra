@@ -2,7 +2,7 @@ import org.docstr.gradle.plugins.gwt.GwtDev
 import org.docstr.gradle.plugins.gwt.LogLevel
 
 plugins {
-    `java-library`
+    alias(libs.plugins.geogebra.java.library)
     alias(libs.plugins.geogebra.pmd)
     alias(libs.plugins.geogebra.checkstyle)
     alias(libs.plugins.geogebra.gwt)

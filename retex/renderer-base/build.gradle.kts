@@ -1,7 +1,7 @@
 plugins {
-    `java-library`
-    `maven-publish`
+    alias(libs.plugins.geogebra.java.library)
     alias(libs.plugins.geogebra.spotbugs)
+    `maven-publish`
 }
 
 group = "com.himamis.retex"

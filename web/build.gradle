@@ -5,6 +5,7 @@ import org.docstr.gradle.plugins.gwt.AbstractGwtActionTask
 import org.docstr.gradle.plugins.gwt.GwtDev
 
 plugins {
+    alias libs.plugins.geogebra.java
     alias libs.plugins.geogebra.gwt
     alias libs.plugins.geogebra.pmd
     alias libs.plugins.geogebra.checkstyle

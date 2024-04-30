@@ -4,6 +4,7 @@ import Desktop_variants_gradle.Variants.nativesWindowsAmd64
 
 plugins {
     application
+    alias(libs.plugins.geogebra.java)
     alias(libs.plugins.geogebra.checkstyle)
     alias(libs.plugins.geogebra.spotbugs)
     alias(libs.plugins.geogebra.variants)

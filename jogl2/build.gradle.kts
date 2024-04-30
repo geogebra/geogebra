@@ -1,5 +1,5 @@
 plugins {
-    `java-library`
+    alias(libs.plugins.geogebra.java.library)
 }
 
 description = "Parts of GeoGebra related to Java OpenGL"

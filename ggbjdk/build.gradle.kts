@@ -1,5 +1,5 @@
 plugins {
-    `java-library`
+    alias(libs.plugins.geogebra.java.library)
     alias(libs.plugins.geogebra.spotbugs)
 }
 description = "Platform independent supplementary files for graphics support"
