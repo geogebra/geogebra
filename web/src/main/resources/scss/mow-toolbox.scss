@@ -116,12 +116,10 @@
 		height: 206px;
 
 		.toolsHolder {
+			display: flex;
+			justify-content: space-between;
 			padding: 0 8px;
 			margin-bottom: 16px;
-
-			.iconButton {
-				margin: 0 5px;
-			}
 		}
 
 		.colorPalette {
@@ -134,12 +132,18 @@
 		}
 
 		.sliderComponent {
+			.optionsSlider {
+				display: inline;
+
+				.gwt-Label {
+					display: none;
+				}
+			}
+
 			.preview {
 				position: relative;
 				overflow: hidden;
-				margin: 8px;
 				left: 64px;
-				margin-right: 0px;
 			}
 
 			.slider {

@@ -42,7 +42,7 @@ public class PenCategoryPopup extends CategoryPopup {
 				controller.setLastHighlighterColor(color);
 			}
 			controller.updatePenColor(color);
-			sliderComponent.updatePreview();
+			sliderComponent.update(mode);
 		});
 		addContent(colorChooser);
 
@@ -61,5 +61,6 @@ public class PenCategoryPopup extends CategoryPopup {
 			colorChooser.updateColorSelection(controller.getLastHighlighterColor());
 		}
 		colorChooser.setDisabled(mode == MODE_ERASER);
+		sliderComponent.update(mode);
 	}
 }

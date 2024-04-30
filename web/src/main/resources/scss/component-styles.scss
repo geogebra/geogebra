@@ -1242,7 +1242,7 @@
 		.sliderLabel {
 			height: 20px;
 			line-height: 20px;
-			margin-left: 8px;
+			margin: 5px 8px;
 		}
 	}
 
@@ -1266,7 +1266,7 @@
     	background: var(--ggb-primary-color);
     	cursor: pointer;
     	-webkit-appearance: none;
-    	margin-top: -8px
+    	margin-top: -7px
     }
 
 	input[type=range].slider:hover::-webkit-slider-thumb {
