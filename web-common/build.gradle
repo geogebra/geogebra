@@ -36,3 +36,5 @@ gwt {
         logLevel = 'TRACE'
     }
 }
+
+println(gwt.compiler)

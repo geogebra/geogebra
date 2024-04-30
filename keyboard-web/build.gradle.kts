@@ -37,7 +37,5 @@ gwt {
     modules(module)
     devModules(module)
 
-    compiler.apply {
-        logLevel = LogLevel.INFO
-    }
+    logLevel = LogLevel.INFO
 }
