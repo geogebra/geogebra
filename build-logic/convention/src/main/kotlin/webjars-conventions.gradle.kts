@@ -1,5 +1,3 @@
-import java.nio.file.Paths
-
 plugins {
     java
     id("org.docstr.gwt")
@@ -13,22 +11,15 @@ dependencies {
 
 tasks.register("extractJs") {
     doLast {
-        configurations.runtimeClasspath.get().forEach {
-            val jarPath = Paths.get(file(".").absolutePath).relativize(Paths.get(it.toString()))
-            if (jarPath.toString().contains("webjars.npm")) {
+        configurations.runtimeClasspath.get().forEach { jarFile ->
+            if (jarFile.path.toString().contains("webjars.npm")) {
+                val normalizedName = jarFile.name.replace("-[0-9].*".toRegex(), "").replace("-", "_")
                 copy {
-                    from(zipTree(it).matching { include("**/*.js") })
+                    from(zipTree(jarFile).matching { include("**/*.js") })
                     into(webjarsPath)
                     eachFile {
-                        path = "${
-                            it.name
-                                    .replace("-[0-9].*".toRegex(), "")
-                                    .replace("-", "_")
-                        }/${
-                            path.split('/')
-                                    .slice(5 downTo -1)
-                                    .joinToString("/")
-                        }"
+                        val shortPath = path.split("/").drop(5).joinToString("/")
+                        path = "$normalizedName/$shortPath"
                     }
                 }
             }
