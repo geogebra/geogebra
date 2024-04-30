@@ -12,6 +12,7 @@ plugins {
     alias libs.plugins.geogebra.spotbugs
     alias libs.plugins.geogebra.webjars
     alias libs.plugins.geogebra.sourcesets
+    alias libs.plugins.geogebra.javadoc.workaround
     alias libs.plugins.cpd
     alias libs.plugins.sass
 }
@@ -310,12 +311,6 @@ tasks.register('minifyLibs') {
             exec { commandLine Os.isFamily(Os.FAMILY_WINDOWS) ? ['cmd', '/c'] + command : command }
         })
     }
-}
-
-// https://issues.gradle.org/browse/GRADLE-2778
-// http://discuss.gradle.org/t/javadoc-generation-failed-with-vaadin-dependency/2502/12
-javadoc {
-    options.addStringOption("sourcepath", "")
 }
 
 test {
