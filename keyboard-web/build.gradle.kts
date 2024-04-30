@@ -25,12 +25,6 @@ tasks.compileJava {
     options.sourcepath = files(tasks.processResources.get().destinationDir).builtBy(tasks.processResources)
 }
 
-// https://issues.gradle.org/browse/GRADLE-2778
-// http://discuss.gradle.org/t/javadoc-generation-failed-with-vaadin-dependency/2502/12
-tasks.javadoc {
-    (options as? StandardJavadocDocletOptions)?.addStringOption("sourcepath", "")
-}
-
 val module = "org.geogebra.keyboard.KeyboardWeb"
 
 gwt {
