@@ -8,7 +8,6 @@ plugins {
 }
 
 gwt {
-    gwtVersion libs.versions.gwt.get()
     maxHeapSize = '2000M'
     // only compilable module
     modules 'com.himamis.retex.editor.JLMEditorExportedLibrary'

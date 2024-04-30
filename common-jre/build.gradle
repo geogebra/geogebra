@@ -1,10 +1,11 @@
 plugins {
     id 'java-library'
     id 'java-test-fixtures'
+    id 'jacoco'
     alias libs.plugins.geogebra.pmd
     alias libs.plugins.geogebra.checkstyle
-    id 'jacoco'
     alias libs.plugins.geogebra.spotbugs
+    alias libs.plugins.geogebra.sourcesets
 }
 
 description 'Common parts of GeoGebra that depends on JRE support.'
@@ -26,17 +27,6 @@ dependencies {
     testFixturesImplementation libs.junit
     testFixturesImplementation libs.hamcrest
     testFixturesImplementation libs.mockito.core
-}
-
-sourceSets {
-    nonfree
-    main {
-        resources {
-            if (!project.hasProperty("usegpl")) {
-                srcDirs += nonfree.resources.srcDirs
-            }
-        }
-    }
 }
 
 test {

@@ -1,9 +1,0 @@
-plugins {
-    id 'pmd'
-}
-
-pmd {
-    ignoreFailures = true
-    ruleSets = []
-    ruleSetConfig = resources.text.fromString(org.geogebra.Resources.getString("/pmd.xml"))
-}

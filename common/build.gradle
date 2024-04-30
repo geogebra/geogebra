@@ -3,6 +3,7 @@ plugins {
     alias libs.plugins.geogebra.pmd
     alias libs.plugins.geogebra.checkstyle
     alias libs.plugins.geogebra.spotbugs
+    alias libs.plugins.geogebra.sourcesets
     alias libs.plugins.javacc
 }
 
@@ -18,19 +19,10 @@ dependencies {
 }
 
 sourceSets {
-    nonfree
-    gpl
     main {
         java {
             srcDir compileJavacc.outputDirectory
             srcDir compileJavacc.inputDirectory
-        }
-        resources {
-            if (project.hasProperty("usegpl")) {
-                srcDirs += gpl.resources.srcDirs
-            } else {
-                srcDirs += nonfree.resources.srcDirs
-            }
         }
     }
 }

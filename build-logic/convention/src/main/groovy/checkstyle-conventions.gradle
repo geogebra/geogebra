@@ -1,8 +1,0 @@
-plugins {
-    id 'checkstyle'
-}
-
-checkstyle {
-    toolVersion = '10.3.3'
-    config = resources.text.fromString(org.geogebra.Resources.getString("/checkstyle/checkstyle.xml"))
-}

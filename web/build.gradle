@@ -10,25 +10,12 @@ plugins {
     alias libs.plugins.geogebra.checkstyle
     alias libs.plugins.geogebra.spotbugs
     alias libs.plugins.geogebra.webjars
+    alias libs.plugins.geogebra.sourcesets
     alias libs.plugins.cpd
     alias libs.plugins.sass
 }
 
 description 'Parts of GeoGebra related to web platforms'
-
-sourceSets {
-    nonfree
-    gpl
-    main {
-        resources {
-            if (project.hasProperty("usegpl")) {
-                srcDirs += gpl.resources.srcDirs
-            } else {
-                srcDirs += nonfree.resources.srcDirs
-            }
-        }
-    }
-}
 
 compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(processResources)
 
