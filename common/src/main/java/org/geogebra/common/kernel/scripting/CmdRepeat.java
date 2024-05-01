@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoScriptAction;
 import org.geogebra.common.main.MyError;
 
 /**
- * Repeat[ &lt;Number>, &lt;Scripting Command>, &lt;Scripting Command>, ... ]
+ * Repeat[ &lt;Number&gt;, &lt;Scripting Command&gt;, &lt;Scripting Command&gt;, ... ]
  */
 public class CmdRepeat extends CmdScripting {
 

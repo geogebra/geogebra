@@ -558,13 +558,6 @@ public class GeoImage extends GeoElement implements
 				&& isPointerChangeable();
 	}
 
-	/**
-	 * Returns whether this image can be fixed.
-	 * 
-	 * public boolean isFixable() { return (hasAbsoluteScreenLocation ||
-	 * hasAbsoluteLocation) && isIndependent(); }
-	 */
-
 	@Override
 	public boolean isFillable() {
 		return true;

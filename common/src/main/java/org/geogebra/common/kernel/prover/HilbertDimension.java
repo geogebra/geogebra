@@ -62,8 +62,7 @@ public class HilbertDimension {
 		int dim = 0;
 
 		kernel = as.geoStatement.getKernel();
-		HashSet<HashSet<PVariable>> nextUseful,
-				/* lastUseful = new HashSet<>(), */ useful = new HashSet<>();
+		HashSet<HashSet<PVariable>> nextUseful, useful = new HashSet<>();
 		HashSet<PVariable> allVars = PPolynomial.getVars(as.getPolynomials());
 		// Remove substituted vars:
 		for (PVariable var : substitutions.keySet()) {

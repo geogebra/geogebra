@@ -9,7 +9,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * 
- * Vertex[ &lt;Conic section> ]
+ * Vertex[ &lt;Conic section&gt; ]
  * 
  * @author mathieu
  *

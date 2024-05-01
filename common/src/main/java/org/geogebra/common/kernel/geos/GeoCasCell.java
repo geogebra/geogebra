@@ -3003,7 +3003,7 @@ public class GeoCasCell extends GeoElement
 	}
 
 	/**
-	 * This might appear when we use KeepInput and display the result => we want
+	 * This might appear when we use KeepInput and display the result: we want
 	 * to show symbolic version
 	 */
 	@Override

@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 /**
- * Element with point style & point size (point or list)
+ * Element with point style and point size (point or list)
  */
 public interface PointProperties {
 	/**

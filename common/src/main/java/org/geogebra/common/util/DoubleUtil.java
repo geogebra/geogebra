@@ -236,7 +236,7 @@ public class DoubleUtil {
 	 *            tested number
 	 * @param y
 	 *            upper bound
-	 * @return x + standard precision > y
+	 * @return x + standard precision &gt; y
 	 */
 	final public static boolean isGreaterEqual(double x, double y) {
 		return (x + Kernel.STANDARD_PRECISION) > y;
@@ -356,8 +356,8 @@ public class DoubleUtil {
 
 	/**
 	 * 
-	 * checks root like 0.29999998880325357 1) Check if there's a hole at 0.3 ->
-	 * return NaN 2) Check if 0.3 is a better root -> return 0.3 3) otherwise return
+	 * checks root like 0.29999998880325357 1) Check if there's a hole at 0.3 -&gt;
+	 * return NaN 2) Check if 0.3 is a better root -&gt; return 0.3 3) otherwise return
 	 * root
 	 * 
 	 * @param root potential root (of f) to check
@@ -408,7 +408,7 @@ public class DoubleUtil {
 
 	/**
 	 * 
-	 * checks min value like 0.29999998880325357 Check if 0.3 is a better minimum ->
+	 * checks min value like 0.29999998880325357 Check if 0.3 is a better minimum -&gt;
 	 * return 0.3 otherwise return root
 	 * 
 	 * @param root potential max (of f) to check
@@ -433,7 +433,7 @@ public class DoubleUtil {
 
 	/**
 	 * 
-	 * checks max value like 0.29999998880325357 Check if 0.3 is a better maximum ->
+	 * checks max value like 0.29999998880325357 Check if 0.3 is a better maximum -&gt;
 	 * return 0.3 otherwise return root
 	 * 
 	 * @param root potential max (of f) to check
@@ -476,7 +476,7 @@ public class DoubleUtil {
     /**
      *
      * @param x number
-     * @return 10^n where x = v * 10^n with 1 <= v< 10
+     * @return 10^n where x = v * 10^n with 1 &lt;= v&lt; 10
      */
     final public static double getPowerOfTen(double x) {
         return Math.pow(10, (int) Math.floor(Math.log(x) / Math.log(10)));
@@ -496,9 +496,10 @@ public class DoubleUtil {
 
 	/**
 	 * Create a range of doubles from min to max with the given step
-	 * @param max >= min
-	 * @param step > 0
-	 * @return {min} if min >= max,
+	 * @param min minimum
+	 * @param max &gt;= min
+	 * @param step &gt; 0
+	 * @return {min} if min &gt;= max,
 	 *       {min, min + step, min + 2*step, ..., min + i*step, max}
 	 *       otherwise, where min + i*step is the greatest such number
 	 *       that is smaller than max

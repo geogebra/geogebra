@@ -744,7 +744,7 @@ public class CoordMatrix {
 	}
 
 	/**
-	 * this * m -> result
+	 * this * m -&gt; result
 	 * 
 	 * @param m
 	 *            matrix

@@ -14,10 +14,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.MyError;
 
 /**
- * 
- * Slider[&lt;Min>,&lt;Max>,&lt;Increment>,&lt;Speed>,&lt;Width>,&lt;Angle>,&lt;Horizontal>,&lt;
- * Animating>,&lt;Random>]
- * 
+ * Slider[&lt;Min&gt;,&lt;Max&gt;,&lt;Increment&gt;,&lt;Speed&gt;,&lt;Width&gt;,&lt;Angle&gt;,
+ * &lt;Horizontal&gt;,&lt;Animating&gt;,&lt;Random&gt;]
  */
 public class CmdSlider extends CommandProcessor {
 

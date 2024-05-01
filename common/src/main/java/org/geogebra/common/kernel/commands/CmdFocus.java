@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Focus[ &lt;GeoConic> ]
+ * Focus[ &lt;GeoConic&gt; ]
  */
 public class CmdFocus extends CommandProcessor {
 

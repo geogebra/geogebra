@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * LCM[ &lt;Number>, &lt;Number> ] LCM[list]
+ * LCM[ &lt;Number&gt;, &lt;Number&gt; ] LCM[list]
  * 
  * adapted from CmdMax by Michael Borcherds 2008-01-03
  */

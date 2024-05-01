@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.algos.AlgoAxesQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 
 /**
- * Axes[ &lt;GeoConic> ]
+ * Axes[ &lt;GeoConic&gt; ]
  */
 public class CmdAxes3D extends CmdAxes {
 

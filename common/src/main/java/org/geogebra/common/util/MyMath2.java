@@ -124,7 +124,7 @@ public class MyMath2 {
 
 	/**
 	 * Factorial function of x. If x is an integer value x! is returned,
-	 * otherwise gamma(x + 1) will be returned. For x < 0 Double.NaN is
+	 * otherwise gamma(x + 1) will be returned. For x &lt; 0 Double.NaN is
 	 * returned.
 	 * 
 	 * @param x

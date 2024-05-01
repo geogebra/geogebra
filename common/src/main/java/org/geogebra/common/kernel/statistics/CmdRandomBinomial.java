@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
- * RandomBinomial[ &lt;Number>, &lt;Number> ]
+ * RandomBinomial[ &lt;Number&gt;, &lt;Number&gt; ]
  */
 public class CmdRandomBinomial extends CmdTwoNumFunction {
 

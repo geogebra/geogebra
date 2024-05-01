@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.main.MyError;
 
 /**
- * Histogram[ &lt;List>, &lt;List> ]
+ * Histogram[ &lt;List&gt;, &lt;List&gt; ]
  */
 public class CmdFrequencyPolygon extends CommandProcessor {
 

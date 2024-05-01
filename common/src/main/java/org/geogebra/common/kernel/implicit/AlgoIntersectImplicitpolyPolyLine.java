@@ -366,7 +366,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	/**
 	 * getter of poly type
 	 * 
-	 * @return true->polygon, false->polyline
+	 * @return true for polygon, false for polyline
 	 */
 	public boolean isPolyclosed() {
 		return polyclosed;

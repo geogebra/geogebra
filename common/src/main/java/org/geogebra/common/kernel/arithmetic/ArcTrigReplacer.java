@@ -25,7 +25,7 @@ public class ArcTrigReplacer implements Traversing {
 	}
 
 	/**
-	 * Maps asin -> asind, acos -> acosd, uses input operation as fallback
+	 * Maps asin -&gt; asind, acos -&gt; acosd, uses input operation as fallback
 	 * @param op operation
 	 * @return inverse trig function that produces degrees or input operation
 	 */

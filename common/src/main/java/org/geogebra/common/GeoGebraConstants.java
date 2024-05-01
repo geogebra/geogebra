@@ -203,7 +203,7 @@ public interface GeoGebraConstants {
 	 */
 	public static final long PROVER_MIN_PRECISION = 10000;
 
-	/** CSS class name for GeoGebraWeb &article> tag */
+	/** CSS class name for GeoGebraWeb container tag */
 	public static final String GGM_CLASS_NAME = "geogebraweb";
 	/** mimetype of GGB files */
 	public static final String GGW_MIME_TYPE = "application/vnd.geogebra.file";

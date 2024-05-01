@@ -264,15 +264,14 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * Yields true if this vector and v are linear dependent This is done by
-	 * calculating the determinant of this vector an v: this = v <=> det(this,
-	 * v) = nullvector.
+	 * calculating the determinant of this vector and v:
+	 * this = const * v &lt;=&gt; det(this, v) = zero vector.
 	 * 
 	 * @param v
 	 *            other vector
 	 * @return true if this is linear dependent on v
 	 */
 	public boolean linDep(GeoVec2D v) {
-		// v = l* w <=> det(v, w) = o
 		return DoubleUtil.isZero(det(this, v));
 	}
 

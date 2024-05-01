@@ -17,8 +17,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.MyError;
 
 /**
- * Root[ &lt;GeoFunction> ] Root[ &lt;GeoFunction> , &lt;Number> ] Root[
- * &lt;GeoFunction> , &lt;Number> , &lt;Number> ]
+ * Root[ &lt;GeoFunction&gt; ] Root[ &lt;GeoFunction&gt; , &lt;Number&gt; ] Root[
+ * &lt;GeoFunction&gt; , &lt;Number&gt; , &lt;Number&gt; ]
  */
 public class CmdRoot extends CommandProcessor {
 

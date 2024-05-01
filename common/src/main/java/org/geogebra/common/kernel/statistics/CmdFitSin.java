@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * FitSin[&lt;List of points>]
+ * FitSin[&lt;List of Points&gt;]
  * 
  * @author Hans-Petter Ulven
  * @version 15.11.08

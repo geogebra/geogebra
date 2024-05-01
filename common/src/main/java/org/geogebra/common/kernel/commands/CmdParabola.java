@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Parabola[ &lt;GeoPoint>, &lt;GeoLine> ]
+ * Parabola[ &lt;GeoPoint&gt;, &lt;GeoLine&gt; ]
  */
 public class CmdParabola extends CommandProcessor {
 

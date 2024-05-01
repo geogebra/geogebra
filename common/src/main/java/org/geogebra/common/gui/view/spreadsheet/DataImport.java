@@ -177,8 +177,8 @@ public class DataImport {
 	}
 
 	/**
-	 * Returns an unformatted number string (e.g. "1,234,567" --> "1234567")
-	 * otherwise the comma is replaced with a . eg 1,234567 -> 1.234567
+	 * Returns an unformatted number string (e.g. "1,234,567" --&gt; "1234567")
+	 * otherwise the comma is replaced with a . eg 1,234567 -&gt; 1.234567
 	 * 
 	 * Note: 1,234 is ambiguous, convert to 1234
 	 * 

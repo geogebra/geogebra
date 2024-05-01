@@ -15,9 +15,9 @@ import org.geogebra.common.kernel.geos.Lineable2D;
 import org.geogebra.common.main.MyError;
 
 /**
- * Orthogonal[ &lt;GeoPoint>, &lt;GeoVector> ]
+ * Orthogonal[ &lt;GeoPoint&gt;, &lt;GeoVector&gt; ]
  * 
- * Orthogonal[ &lt;GeoPoint>, &lt;GeoLine> ]
+ * Orthogonal[ &lt;GeoPoint&gt;, &lt;GeoLine&gt; ]
  */
 public class CmdOrthogonalLine extends CommandProcessor {
 

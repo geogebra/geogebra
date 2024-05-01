@@ -304,7 +304,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 
 	/**
 	 * Sets the value of this angle. Every value is limited between 0 and 2pi.
-	 * Under some conditions a value > pi will be changed to (2pi - value).
+	 * Under some conditions a value &gt; pi will be changed to (2pi - value).
 	 * 
 	 * @see #setAngleStyle(int)
 	 */
@@ -370,11 +370,11 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	}
 
 	/**
-	 * Depending upon angleStyle, some values > pi will be changed to (2pi -
+	 * Depending upon angleStyle, some values &gt; pi will be changed to (2pi -
 	 * value). raw_value contains the original value.
 	 * 
 	 * @param allowReflexAngle
-	 *            If true, angle is allowed to be> 180 degrees
+	 *            If true, angle is allowed to be &gt; 180 degrees
 	 * 
 	 * @see #setValue(double)
 	 */
@@ -508,7 +508,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * Change the size of the arc in pixels,
 	 * 
 	 * @param i
-	 *            arc size, should be in <10,100>
+	 *            arc size, should be in [10,100]
 	 */
 	@Override
 	public void setArcSize(int i) {
