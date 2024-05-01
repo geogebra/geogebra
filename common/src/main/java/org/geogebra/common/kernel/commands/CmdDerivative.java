@@ -16,8 +16,8 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * Derivative[ &lt;GeoFunction> ] Derivative[ &lt;GeoFunctionNVar>, &lt;var> ]
- * Derivative[ &lt;GeoCurveCartesian> ]
+ * Derivative[ &lt;GeoFunction&gt; ] Derivative[ &lt;GeoFunctionNVar&gt;, &lt;var&gt; ]
+ * Derivative[ &lt;GeoCurveCartesian&gt; ]
  */
 public class CmdDerivative extends CommandProcessor {
 

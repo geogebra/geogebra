@@ -203,7 +203,7 @@ public abstract class MyXMLio {
 	}
 
 	/**
-	 * Appends the &lt;geogebra> tag and the &lt;subapp> tag (if the app is a subapp)
+	 * Appends the &lt;geogebra&gt; tag and the &lt;subapp&gt; tag (if the app is a subapp)
 	 * to the given builder, including XSD link and construction ID
 	 *
 	 * @param sb       builder
@@ -224,7 +224,7 @@ public abstract class MyXMLio {
 	}
 
 	/**
-	 * Appends the &lt;geogebra> tag to given builder, including XSD link and
+	 * Appends the &lt;geogebra&gt; tag to given builder, including XSD link and
 	 * construction ID
 	 *
 	 * @param sb
@@ -282,7 +282,7 @@ public abstract class MyXMLio {
 	}
 
 	/**
-	 * Appends &lt;?xml ... ?> header to given builder
+	 * Appends &lt;?xml ... ?&gt; header to given builder
 	 *
 	 * @param sb
 	 *            builder
@@ -498,7 +498,7 @@ public abstract class MyXMLio {
 
 	/**
 	 * @param perspectiveXML
-	 *            string with &lt;perspective> tag
+	 *            string with &lt;perspective&gt; tag
 	 */
 	public void parsePerspectiveXML(String perspectiveXML) {
 		try {

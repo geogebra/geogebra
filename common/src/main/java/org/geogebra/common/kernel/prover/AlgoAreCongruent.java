@@ -28,7 +28,7 @@ import org.geogebra.common.util.debug.Log;
  * Decides if two objects are congruent. Currently only just a few special cases
  * are implemented. The other cases return undefined at the moment.
  *
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  */
 public class AlgoAreCongruent extends AlgoElement
 		implements SymbolicParametersBotanaAlgoAre, SymbolicParametersAlgo {

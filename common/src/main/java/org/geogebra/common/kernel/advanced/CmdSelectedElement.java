@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * SelectedElement[ &lt;list> ]
+ * SelectedElement[ &lt;List&gt; ]
  */
 public class CmdSelectedElement extends CommandProcessor {
 

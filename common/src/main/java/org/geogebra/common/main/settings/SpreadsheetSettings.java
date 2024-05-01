@@ -486,7 +486,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @return whether row & column sizes are default
+	 * @return whether row and column sizes are default
 	 */
 	public boolean isRowColumnSizeDefaults() {
 		return preferredColumnWidth == TABLE_CELL_WIDTH

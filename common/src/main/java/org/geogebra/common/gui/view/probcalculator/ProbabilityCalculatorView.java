@@ -1462,9 +1462,9 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * Returns an interval probability for the currently selected distribution
-	 * and probability mode. If mode == PROB_INTERVAL then P(low <= X <= high)
-	 * is returned. If mode == PROB_LEFT then P(low <= X) is returned. If mode
-	 * == PROB_RIGHT then P(X <= high) is returned.
+	 * and probability mode. If mode == PROB_INTERVAL then P(low &lt;= X &lt;= high)
+	 * is returned. If mode == PROB_LEFT then P(low &lt;= X) is returned. If mode
+	 * == PROB_RIGHT then P(X &lt;= high) is returned.
 	 * @return probability of selected interval
 	 */
 	protected double intervalProbability() {
@@ -2176,7 +2176,7 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	/**
-	 * Sets > or >= on demand
+	 * Sets &gt; or &gt;= on demand
 	 * @param resultPanel to display.
 	 */
 	public void updateGreaterSign(ResultPanel resultPanel) {

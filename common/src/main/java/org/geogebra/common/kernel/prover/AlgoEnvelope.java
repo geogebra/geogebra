@@ -21,9 +21,9 @@ import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * @author Zoltan Kovacs <zoltan@geogebra.org> The Singular computations are
+ * @author Zoltan Kovacs The Singular computations are
  *         provided by Francisco Botana and the grobcov library by Antonio
- *         Montes & al. Based on Sergio's LocusEquation. Works out the equation
+ *         Montes &amp; al. Based on Sergio's LocusEquation. Works out the equation
  *         for a given envelope.
  */
 public class AlgoEnvelope extends AlgoElement implements UsesCAS {

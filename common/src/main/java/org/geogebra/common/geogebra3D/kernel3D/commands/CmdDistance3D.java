@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Distance[ &lt;GeoLineND>, &lt;GeoLineND> ]
+ * Distance[ &lt;GeoLineND&gt;, &lt;GeoLineND&gt; ]
  */
 public class CmdDistance3D extends CmdDistance {
 

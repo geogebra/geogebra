@@ -707,7 +707,7 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * 
-	 * @return CAS map command -> result
+	 * @return CAS map command -&gt; result
 	 */
 	protected MaxSizeHashMap<String, FunctionNVar> getCasEvalMap() {
 		if (casEvalMap == null) {
@@ -1421,7 +1421,7 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * @param map
-	 *            map from XML in the string -> string form
+	 *            map from XML in the string -&gt; string form
 	 */
 	public void updateCASEvalMap(TreeMap<String, String> map) {
 		if (map == null) {

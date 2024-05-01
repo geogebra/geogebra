@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Polar[ &lt;GeoPoint>, &lt;GeoConic> ]
+ * Polar[ &lt;GeoPoint&gt;, &lt;GeoConic&gt; ]
  */
 public class CmdPolar extends CommandProcessor {
 

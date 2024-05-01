@@ -73,7 +73,7 @@ public abstract class ContextMenuGeoElement {
 	 * @param geo
 	 *            geo
 	 * @param addHTMLtag
-	 *            whether to wrap in &lt;html&gt
+	 *            whether to wrap in &lt;html&gt;
 	 * @return description
 	 */
 	protected String getDescription(GeoElement geo, boolean addHTMLtag) {

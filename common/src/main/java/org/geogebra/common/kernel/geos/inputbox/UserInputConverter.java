@@ -7,13 +7,13 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Converts incomplete user input to a string that Algebra Processor can handle without error,
- * eg (,,) -> (?,?,?)
+ * eg (,,) -&gt; (?,?,?)
  */
 public class UserInputConverter {
 
 	/**
 	 * Converts incomplete but probably valid input of a point
-	 * to a processable text eg. (,) -> (?,?) or (1,) -> (1,?)
+	 * to a processable text eg. (,) -&gt; (?,?) or (1,) -&gt; (1,?)
 	 *
 	 * @param text incomplete input for points.
 	 * @return the completed input for AlgebraProcessor.
@@ -55,7 +55,7 @@ public class UserInputConverter {
 
 	/**
 	 * Converts incomplete but probably valid input of a matrix
-	 * to a processable text eg. {{,}, {,}} > {{?,?}, {?,?}}
+	 * to a processable text eg. {{,}, {,}} &gt; {{?,?}, {?,?}}
 	 *
 	 * @param text incomplete input for matrix.
 	 * @return the completed input for AlgebraProcessor.

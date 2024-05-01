@@ -32,10 +32,10 @@ public class SnapController {
 	/**
 	 * Describes the state of the controller. The transitions are:
 	 *
-	 * MAY_SNAP -> SNAPPED_VERTICAL MAY_SNAP -> SNAPPED_HORIZONTAL MAY_SNAP ->
+	 * MAY_SNAP -&gt; SNAPPED_VERTICAL MAY_SNAP -&gt; SNAPPED_HORIZONTAL MAY_SNAP -&gt;
 	 * FREE
 	 *
-	 * SNAPPED_VERTICAL -> FREE SNAPPED_HORIZONTAL -> FREE
+	 * SNAPPED_VERTICAL -&gt; FREE SNAPPED_HORIZONTAL -&gt; FREE
 	 */
 	private enum State {
 		MAY_SNAP, SNAPPED_VERTICAL, SNAPPED_HORIZONTAL, FREE

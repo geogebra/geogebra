@@ -143,8 +143,8 @@ public class AlgoDependentCasCell extends AlgoElement
 	}
 
 	/**
-	 * This might appear when we use KeepInput and display the result => we want
-	 * to show symbolic version
+	 * This might appear when we use KeepInput and display the result,
+	 * in that case we want to show the symbolic version
 	 */
 	@Override
 	final public String toString(StringTemplate tpl) {

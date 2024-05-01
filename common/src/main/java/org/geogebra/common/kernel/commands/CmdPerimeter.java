@@ -10,9 +10,9 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Perimeter[ &lt;GeoPolygon> ]
+ * Perimeter[ &lt;GeoPolygon&gt; ]
  * 
- * Perimeter[ &lt;Conic> ]
+ * Perimeter[ &lt;Conic&gt; ]
  */
 public class CmdPerimeter extends CommandProcessor {
 	/**

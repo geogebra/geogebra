@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * Shuffle[ &lt;List> ]
+ * Shuffle[ &lt;List&gt; ]
  */
 public class CmdShuffle extends CmdOneListFunction {
 	/**

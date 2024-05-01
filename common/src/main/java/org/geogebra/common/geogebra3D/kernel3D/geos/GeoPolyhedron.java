@@ -1898,7 +1898,7 @@ public class GeoPolyhedron extends GeoElement3D
 
 	/**
 	 * 
-	 * @return bottom face (for pyramid & prism)
+	 * @return bottom face (for pyramid and prism)
 	 */
 	public GeoPolygon getBottomFace() {
 		if (polygonsLinked.isEmpty()) {
