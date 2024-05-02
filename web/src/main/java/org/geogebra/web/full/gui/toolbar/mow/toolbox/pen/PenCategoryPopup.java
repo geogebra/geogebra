@@ -61,6 +61,7 @@ public class PenCategoryPopup extends CategoryPopup {
 			colorChooser.updateColorSelection(controller.getLastHighlighterColor());
 		}
 		colorChooser.setDisabled(mode == MODE_ERASER);
+		controller.getPen().updateMode();
 		sliderComponent.update(mode);
 	}
 }

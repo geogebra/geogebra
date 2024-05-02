@@ -14,7 +14,10 @@ public class PenCategoryController {
 		this.appW = appW;
 	}
 
-	private EuclidianPen getPen() {
+	/**
+	 * @return euclidian pen
+	 */
+	public EuclidianPen getPen() {
 		return appW.getActiveEuclidianView().getEuclidianController()
 				.getPen();
 	}

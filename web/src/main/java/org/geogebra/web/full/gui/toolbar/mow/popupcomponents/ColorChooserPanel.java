@@ -181,6 +181,11 @@ public class ColorChooserPanel extends FlowPanel {
 		FlowPanel buttonToSelect = getColorButton(selectedColor);
 		if (buttonToSelect != null) {
 			updateColor(buttonToSelect, selectedColor);
+		} else {
+			if (activeButton != null) {
+				activeButton.removeStyleName("selected");
+			}
+			runCallback(selectedColor);
 		}
 	}
 }

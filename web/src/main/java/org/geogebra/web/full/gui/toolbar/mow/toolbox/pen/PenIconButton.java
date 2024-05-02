@@ -35,8 +35,6 @@ public class PenIconButton extends IconButton {
 			setActive(true);
 
 			AriaHelper.setAriaExpanded(this, true);
-			appW.setMode(getLastSelectedMode());
-
 			penPopup.addCloseHandler((e) -> AriaHelper.setAriaExpanded(this, false));
 		});
 	}
@@ -47,6 +45,7 @@ public class PenIconButton extends IconButton {
 					MODE_ERASER), getUpdateButtonCallback());
 		}
 
+		appW.setMode(getLastSelectedMode());
 		penPopup.update();
 		penPopup.show();
 		penPopup.setPopupPosition(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
