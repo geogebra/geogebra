@@ -144,6 +144,22 @@ public final class SpreadsheetRenderer {
 		}
 	}
 
+	void drawSelectionBorderForDragPasteSelection(TabularRange selection, GGraphics2D graphics,
+			Rectangle viewport) {
+		Rectangle rect = layout.getBounds(selection, viewport);
+		if (rect != null) {
+			graphics.setStroke(gridStroke);
+			graphics.setColor(GColor.GRAY);
+			double minX = Math.max(rect.getMinX(), layout.getRowHeaderWidth());
+			double minY = Math.max(rect.getMinY(), layout.getColumnHeaderHeight());
+			double maxX = rect.getMaxX();
+			double maxY = rect.getMaxY();
+			if (minX < maxX && minY < maxY) {
+				drawRectangleWithStraightLines(graphics, minX, minY, maxX, maxY);
+			}
+		}
+	}
+
 	private static void drawRectangleWithStraightLines(GGraphics2D graphics,
 			double minX, double minY, double maxX, double maxY) {
 		graphics.drawStraightLine(minX, minY, maxX, minY);

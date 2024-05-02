@@ -27,8 +27,8 @@ public class ViewportAdjuster {
 	 * If the left edge of the cell is to the left of the viewport
 	 *  - if we already scrolled right (cell bigger than viewport), we cancel the scroll
 	 *  - otherwise scroll left
-	 * @param row Column index
-	 * @param column Row index
+	 * @param row Row index
+	 * @param column Column index
 	 * @param viewport Viewport
 	 * @return True if the viewport was adjusted, false else
 	 */

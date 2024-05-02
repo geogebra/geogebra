@@ -34,6 +34,7 @@ public final class SpreadsheetController implements TabularSelection {
 	private Rectangle viewport;
 	private @CheckForNull ViewportAdjuster viewportAdjuster;
 	private @CheckForNull UndoProvider undoProvider;
+	private @CheckForNull CellDragPasteHandler cellDragPasteHandler;
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
@@ -201,7 +202,14 @@ public final class SpreadsheetController implements TabularSelection {
 		if (modifiers.shift) {
 			setDragStartLocationFromSelection();
 		}
-		if (dragAction.activeCursor != MouseCursor.DEFAULT) {
+		switch (dragAction.activeCursor) {
+		case DRAG_DOT:
+			Selection lastSelection = getLastSelection();
+			if (lastSelection != null) {
+				cellDragPasteHandler = new CellDragPasteHandler(lastSelection);
+			}
+		case RESIZE_X:
+		case RESIZE_Y:
 			return true;
 		}
 		int column = findColumnOrHeader(x);
@@ -304,9 +312,10 @@ public final class SpreadsheetController implements TabularSelection {
 			storeUndoInfo();
 			break;
 		case DEFAULT:
-		default:
 			extendSelectionByDrag(x, y, modifiers.ctrlOrCmd);
-		// TODO implement formula propagation with DRAG_DOT
+		case DRAG_DOT:
+			cellDragPasteHandler = null;
+//			storeUndoInfo();
 		}
 		resetDragAction();
 	}
@@ -456,8 +465,15 @@ public final class SpreadsheetController implements TabularSelection {
 					y + viewport.getMinY());
 			layout.setHeightForRows(height, dragAction.row, dragAction.row);
 			return true;
+		case DRAG_DOT:
+			if (cellDragPasteHandler != null) {
+				int row = findRowOrHeader(y);
+				int column = findColumnOrHeader(x);
+				cellDragPasteHandler.setDestinationForPaste(row, column);
+				return true;
+			}
+			return false;
 		default:
-		case DEFAULT:
 			return extendSelectionByDrag(x, y, modifiers.ctrlOrCmd);
 		}
 	}
@@ -625,4 +641,10 @@ public final class SpreadsheetController implements TabularSelection {
 		}
 	}
 
+	public @CheckForNull TabularRange getDragPasteSelection() {
+		if (cellDragPasteHandler == null) {
+			return null;
+		}
+		return cellDragPasteHandler.getDestinationSelection();
+	}
 }

@@ -75,6 +75,10 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		if (draggingDot != null) {
 			renderer.drawDraggingDot(draggingDot, graphics);
 		}
+		TabularRange dragPasteSelection = controller.getDragPasteSelection();
+		if (dragPasteSelection != null) {
+			renderer.drawSelectionBorderForDragPasteSelection(dragPasteSelection, graphics, viewport);
+		}
 	}
 
 	void drawCells(GGraphics2D graphics, Rectangle viewport) {
