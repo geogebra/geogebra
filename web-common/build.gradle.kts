@@ -22,6 +22,7 @@ dependencies {
     api(libs.fflate)
     api(libs.giac.gwt)
     api(libs.gwt.dev)
+    api(libs.quickjs)
 
     annotationProcessor(project(":gwt-generator"))
     annotationProcessor(libs.gwt.resources.processor)

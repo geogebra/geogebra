@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -1216,13 +1217,16 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
-	public synchronized void setCoords(String objName, double x, double y,
-			double z) {
+	public synchronized void setCoords(String objName, double... coords) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) {
 			return;
 		}
-		CmdSetCoords.setCoords(geo, x, y, z);
+		if (geo instanceof GeoLocusStroke) {
+			((GeoLocusStroke) geo).setCoords(coords);
+		} else {
+			CmdSetCoords.setCoords(geo, coords[0], coords[1], coords[2]);
+		}
 	}
 
 	/**
