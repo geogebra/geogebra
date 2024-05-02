@@ -432,17 +432,6 @@ public final class GColor implements GPaint {
 	}
 
 	/**
-	 * @param color - color
-	 * @return rgb(r, g, b) string value of color
-	 */
-	public static String getColorStringNoAlpha(GColor color) {
-		String ret = "rgb(" + color.getRed() + ", " + color.getGreen() + ", "
-				+ color.getBlue() + ")";
-
-		return ret;
-	}
-
-	/**
 	 * @param colorStr HTML5 color string eg rgba(255,0,0,0.5)
 	 * @return GColor
 	 */

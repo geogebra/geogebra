@@ -1,9 +1,7 @@
 package org.geogebra.web.full.gui.toolbar.mow.popupcomponents;
 
-import static org.geogebra.common.awt.GColor.getColorStringNoAlpha;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GColor;
@@ -21,7 +19,7 @@ public class ColorChooserPanel extends FlowPanel {
 	private GColor activeColor;
 	private FlowPanel activeButton;
 	private final AppW appW;
-	private List<FlowPanel> colorButtons;
+	private Map<GColor, FlowPanel> colorButtons;
 
 	/**
 	 * constructor
@@ -37,7 +35,7 @@ public class ColorChooserPanel extends FlowPanel {
 	}
 
 	private void buildGUI() {
-		colorButtons = new ArrayList<>();
+		colorButtons = new HashMap<>();
 		ColorValues[] colorValues = ColorValues.values();
 		for (ColorValues color : colorValues) {
 			addColorButton(color.getColor());
@@ -65,12 +63,13 @@ public class ColorChooserPanel extends FlowPanel {
 		colorButton.add(checkmark);
 
 		Dom.addEventListener(colorButton.getElement(), "click", (event) -> {
-			if (!isDisabled()) {
-				updateColor(colorButton, color);
+			if (isDisabled()) {
+				return;
 			}
+			updateColor(colorButton, color);
 		});
 
-		colorButtons.add(colorButton);
+		colorButtons.put(color, colorButton);
 		add(colorButton);
 	 }
 
@@ -161,16 +160,7 @@ public class ColorChooserPanel extends FlowPanel {
 	}
 
 	private FlowPanel getColorButton(GColor color) {
-		String selCol = getColorStringNoAlpha(color);
-		for (FlowPanel button : colorButtons) {
-			String bgColor = button.getElement().getFirstChildElement().getStyle()
-					.getBackgroundColor();
-			if (bgColor.equals(selCol)) {
-				return button;
-			}
-		}
-
-		return null;
+		return colorButtons.get(color);
 	}
 
 	/**
