@@ -874,7 +874,7 @@ public class GeoImplicitSurface extends GeoElement3D
 		 * @param e
 		 *            the edge number as per the convention
 		 * @param pts
-		 *            an array of length >= 3
+		 *            an array of length at least 3
 		 */
 		public void pointOfIntersection(int e, double[] pts) {
 			int[] v = EDGES[e];

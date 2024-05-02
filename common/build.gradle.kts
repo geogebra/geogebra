@@ -17,6 +17,7 @@ dependencies {
     javacc(libs.javacc)
     api(project(":editor-base"))
     api(project(":renderer-base"))
+    api(libs.apache.math)
     api(libs.spotbugs.annotations)
     api(libs.findbugs.annotations)
     implementation(libs.j2objc.annotations)

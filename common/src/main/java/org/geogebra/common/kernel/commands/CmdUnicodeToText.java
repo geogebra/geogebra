@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * UnicodeToText[ &lt;List of numbers> ]
+ * UnicodeToText[ &lt;List of Numbers&gt; ]
  */
 public class CmdUnicodeToText extends CommandProcessor {
 	/**

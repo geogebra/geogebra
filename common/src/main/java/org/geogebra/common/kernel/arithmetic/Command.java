@@ -603,7 +603,9 @@ public class Command extends ValidExpression
 		if ("Vector".equals(name)) {
 			return ValueType.NONCOMPLEX2D;
 		}
-		if ("Evaluate".equals(name) && args.size() > 0) {
+		if (("Evaluate".equals(name) || "Numerator".equals(name)
+				|| "Denominator".equals(name) || "Simplify".equals(name))
+				&& !args.isEmpty()) {
 			return args.get(0).getValueType();
 		}
 		Command evaluationCopy = this;

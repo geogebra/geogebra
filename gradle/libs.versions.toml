@@ -10,9 +10,10 @@ elemental2 = "1.2.1"
 murok = "1.0.202402201544"
 # built from ef18cb9206; switch to upstream when https://github.com/mozilla/rhino/pull/1385 is released
 mozilla-rhino = "1.7.15-SNAPSHOT"
-multiplayer = "1.0.202404251124"
+multiplayer = "1.0.202404261259"
 
 [libraries]
+apache-math="org.apache:math-cross-platform:3.6.1"
 j2objc-annotations = "com.google.j2objc:annotations:2.8"
 spotbugs-annotations = "com.github.spotbugs:spotbugs-annotations:4.8.4"
 findbugs-annotations = "com.google.code.findbugs:jsr305:3.0.2"

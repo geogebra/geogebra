@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Histogram[ &lt;List>, &lt;List> ]
+ * Histogram[ &lt;List&gt;, &lt;List&gt; ]
  */
 public class CmdHistogram extends CommandProcessor {
 	private boolean right;

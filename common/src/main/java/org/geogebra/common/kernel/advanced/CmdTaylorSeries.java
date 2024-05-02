@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * TaylorSeries[ &lt;GeoFunction>, &lt;Number>, &lt;Number> ]
+ * TaylorSeries[ &lt;GeoFunction&gt;, &lt;Number&gt;, &lt;Number&gt; ]
  */
 public class CmdTaylorSeries extends CommandProcessor {
 

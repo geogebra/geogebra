@@ -217,7 +217,7 @@ public class Variable extends ValidExpression {
 	/**
 	 * @param name
 	 *            variable name
-	 * @return interpretation, eg axxx -> a*x*x
+	 * @return interpretation, eg axxx -&gt; a*x*x
 	 */
 	public ExpressionValue replacement(String name) {
 		return variableReplacerAlgorithm.replace(name);

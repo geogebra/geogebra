@@ -46,7 +46,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * <li>When the requested type is an int, other {@link Number} types will be
  * coerced using {@link Number#intValue() intValue}. Strings that can be coerced
  * using {@link Double#valueOf(String)} will be, and then cast to int.
- * <li><a name="lossy">When the requested type is a long, other {@link Number}
+ * <li><a id="lossy">When the requested type is a long, other {@link Number}
  * types will be coerced using {@link Number#longValue() longValue}. Strings
  * that can be coerced using {@link Double#valueOf(String)} will be, and then
  * cast to long. This two-step conversion is lossy for very large values. For

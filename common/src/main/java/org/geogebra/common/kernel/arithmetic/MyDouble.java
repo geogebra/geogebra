@@ -351,7 +351,7 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
-	 * Like Math.pow, but Infinity ^ 0 -> NaN
+	 * Like Math.pow, but Infinity ^ 0 -&gt; NaN
 	 * 
 	 * @param a
 	 *            base
@@ -967,7 +967,7 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
-	 * parse eg 3.45645% -> 3.45645/100
+	 * parse eg 3.45645% -&gt; 3.45645/100
 	 * 
 	 * @param app
 	 *            application for showing errors

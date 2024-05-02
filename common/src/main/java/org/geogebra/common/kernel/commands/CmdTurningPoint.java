@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.MyError;
 
 /**
- * InflectionPoint[ &lt;GeoFunction> ]
+ * InflectionPoint[ &lt;GeoFunction&gt; ]
  */
 public class CmdTurningPoint extends CommandProcessor {
 

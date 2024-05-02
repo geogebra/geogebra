@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * BarChart[ &lt;Number>, &lt;Number>, &lt;List> ]
+ * BarChart[ &lt;Number&gt;, &lt;Number&gt;, &lt;List&gt; ]
  */
 public class CmdBarChart extends CommandProcessor {
 

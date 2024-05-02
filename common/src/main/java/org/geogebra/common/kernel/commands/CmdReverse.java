@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * Reverse[ &lt;List> ] Michael Borcherds 2008-02-16
+ * Reverse[ &lt;List&gt; ] Michael Borcherds 2008-02-16
  */
 public class CmdReverse extends CmdOneListFunction {
 	/**

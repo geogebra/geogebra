@@ -19,8 +19,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * AlgoMaximize Command Maximize[ &lt;dependent variable>, &lt;independent
- * variable> ] which searches for the independent variable which gives the
+ * AlgoMaximize Command Maximize[ &lt;dependent variable&gt;, &lt;independent
+ * variable&gt; ] which searches for the independent variable which gives the
  * largest result for the dependent variable.
  * 
  * Extends abstract class AlgoOptimize

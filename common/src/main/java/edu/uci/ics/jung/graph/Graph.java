@@ -38,15 +38,15 @@ import edu.uci.ics.jung.graph.util.Pair;
  * <p>
  * Definitions (with respect to a given vertex <code>v</code>):
  * <ul>
- * <li/><b>incoming edge</b> of <code>v</code>: an edge that can be traversed
+ * <li><b>incoming edge</b> of <code>v</code>: an edge that can be traversed
  * from a neighbor of <code>v</code> to reach <code>v</code>
- * <li/><b>outgoing edge</b> of <code>v</code>: an edge that can be traversed
+ * <li><b>outgoing edge</b> of <code>v</code>: an edge that can be traversed
  * from <code>v</code> to reach some neighbor of <code>v</code>
- * <li/><b>predecessor</b> of <code>v</code>: a vertex at the other end of an
+ * <li><b>predecessor</b> of <code>v</code>: a vertex at the other end of an
  * incoming edge of <code>v</code>
- * <li/><b>successor</b> of <code>v</code>: a vertex at the other end of an
+ * <li><b>successor</b> of <code>v</code>: a vertex at the other end of an
  * outgoing edge of <code>v</code>
- * <li/>
+ * </li>
  * </ul>
  * 
  * @author Joshua O'Madadhain
@@ -240,7 +240,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	/**
 	 * Adds edge <code>e</code> to this graph such that it connects vertex
 	 * <code>v1</code> to <code>v2</code>. Equivalent to
-	 * <code>addEdge(e, new Pair<V>(v1, v2))</code>. If this graph does not
+	 * <code>addEdge(e, new Pair&lt;V&gt;(v1, v2))</code>. If this graph does not
 	 * contain <code>v1</code>, <code>v2</code>, or both, implementations may
 	 * choose to either silently add the vertices to the graph or throw an
 	 * <code>IllegalArgumentException</code>. If this graph assigns edge types
@@ -264,7 +264,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	/**
 	 * Adds edge <code>e</code> to this graph such that it connects vertex
 	 * <code>v1</code> to <code>v2</code>. Equivalent to
-	 * <code>addEdge(e, new Pair<V>(v1, v2))</code>. If this graph does not
+	 * <code>addEdge(e, new Pair&lt;V&gt;(v1, v2))</code>. If this graph does not
 	 * contain <code>v1</code>, <code>v2</code>, or both, implementations may
 	 * choose to either silently add the vertices to the graph or throw an
 	 * <code>IllegalArgumentException</code>. If <code>edgeType</code> is not
@@ -289,7 +289,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	boolean addEdge(E e, V v1, V v2, EdgeType edgeType);
 
 	/**
-	 * Returns the endpoints of <code>edge</code> as a <code>Pair<V></code>.
+	 * Returns the endpoints of <code>edge</code> as a <code>Pair&lt;V&gt;</code>.
 	 * 
 	 * @param edge
 	 *            the edge whose endpoints are to be returned

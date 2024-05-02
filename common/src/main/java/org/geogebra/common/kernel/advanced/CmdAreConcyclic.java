@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.prover.AlgoAreConcyclic;
 import org.geogebra.common.main.MyError;
 
 /**
- * AreConcyclic[&lt;Point>, &lt;Point>, &lt;Point> ]
+ * AreConcyclic[&lt;Point&gt;, &lt;Point&gt;, &lt;Point&gt; ]
  */
 public class CmdAreConcyclic extends CommandProcessor {
 

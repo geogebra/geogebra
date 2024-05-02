@@ -504,7 +504,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @param n
 	 *            order of derivative
 	 * @param fast
-	 *            true -> non-CAS derivative
+	 *            whether to use non-CAS derivative
 	 */
 	public void setDerivative(CasEvaluableFunction fd, int n, boolean fast) {
 		GeoFunction f = (GeoFunction) fd;
@@ -818,7 +818,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	/**
-	 * @return function description as f(x)=... for real and e.g. f:x>4 for bool
+	 * @return function description as f(x)=... for real and e.g. f:x&gt;4 for bool
 	 */
 	@Override
 	public String toString(StringTemplate tpl) {

@@ -6,12 +6,11 @@ import java.util.Collections;
 import org.geogebra.common.util.clipper.Point.DoublePoint;
 
 /**
- * A pure convenience class to avoid writing List<IntPoint> everywhere.
+ * A convenience class representing a list of {@code DoublePoint}.
  *
  * @author Tobias Mahlmann
  *
  */
-// public class Path extends ArrayList<LongPoint> {
 public class Path extends ArrayList<DoublePoint> {
 	/** random */
 	private static final long serialVersionUID = -7120161578077546673L;

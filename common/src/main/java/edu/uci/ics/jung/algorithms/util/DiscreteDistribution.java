@@ -83,11 +83,11 @@ public class DiscreteDistribution {
 	 * treated as vectors in <code>dist.length</code>-dimensional space. Given
 	 * the following definitions
 	 * <ul>
-	 * <li/><code>v</code> = the sum over all <code>i</code> of
+	 * <li><code>v</code> = the sum over all <code>i</code> of
 	 * <code>dist[i] * dist[i]</code>
-	 * <li/><code>w</code> = the sum over all <code>i</code> of
+	 * <li><code>w</code> = the sum over all <code>i</code> of
 	 * <code>reference[i] * reference[i]</code>
-	 * <li/><code>vw</code> = the sum over all <code>i</code> of
+	 * <li><code>vw</code> = the sum over all <code>i</code> of
 	 * <code>dist[i] * reference[i]</code>
 	 * </ul>
 	 * the value returned is defined as

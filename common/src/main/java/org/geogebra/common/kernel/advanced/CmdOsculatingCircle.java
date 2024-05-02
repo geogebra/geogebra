@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.MyError;
 
 /**
- * OsculatingCircle[&lt;Point>,&lt;Function>],OsculatingCircle[&lt;Point>,&lt;Curve>]
+ * OsculatingCircle[&lt;Point&gt;,&lt;Function&gt;],OsculatingCircle[&lt;Point&gt;,&lt;Curve&gt;]
  * 
  * @author Victor Franco Espino
  */

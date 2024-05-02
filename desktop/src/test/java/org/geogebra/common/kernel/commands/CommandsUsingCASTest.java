@@ -558,4 +558,11 @@ public class CommandsUsingCASTest extends AlgebraTest {
 						+ " + (3 * ℯ^(x^(2)) / ℯ^(29241 / 10000))))"
 						+ " * ℯ^(29241 / 10000) / ℯ^(x^(2)))")));
 	}
+
+	@Test
+	@Issue("APPS-5496")
+	public void testCmdInvert() {
+		t("Invert((x + 4) / (2x - 5))", "((5 * x) + 4) / ((2 * x) - 1)");
+		t("Invert(sqrt(x)/x)", "(1 / x)^(2)");
+	}
 }

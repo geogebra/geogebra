@@ -171,14 +171,12 @@ public class CmdSetValue extends CmdScripting {
 				((GeoList) target).setSelectedIndex(selectIdx);
 				target.updateRepaint();
 			}
-		} else if (target.isGeoList() && from.isGeoList()) {
-			if (target.getParentAlgorithm() instanceof SetRandomValue) {
-				setRandomValue(target, from);
-			} else {
-				setValueForLists((GeoList) target, (GeoList) from);
-			}
 		} else if (target.isIndependent() || target.isMoveable()) {
-			setValueIndependent(target, from);
+			if (target.isGeoList() && from.isGeoList()) {
+				setValueForLists((GeoList) target, (GeoList) from);
+			} else {
+				setValueIndependent(target, from);
+			}
 		} else if (target.getParentAlgorithm() instanceof SetRandomValue) {
 			setRandomValue(target, from);
 		} else if (target.getParentAlgorithm() instanceof DependentAlgo) {
@@ -197,6 +195,9 @@ public class CmdSetValue extends CmdScripting {
 	}
 
 	private static void setValueForLists(GeoList target, GeoList from) {
+		// copy() needed for eg
+		// rnd = {1,2,3,4}
+		// SetValue[rnd, Shuffle[rnd]]
 		target.set(from.copy(), false);
 		target.updateRepaint();
 	}
@@ -227,10 +228,7 @@ public class CmdSetValue extends CmdScripting {
 				}
 				fun.updateRepaint();
 			} else {
-				// copy() needed for eg
-				// rnd = {1,2,3,4}
-				// SetValue[rnd, Shuffle[rnd]]
-				target.set(from.isGeoList() ? from.copy() : from);
+				target.set(from);
 				if (from.isChildOf(target)) {
 					target.resetDefinition();
 				}

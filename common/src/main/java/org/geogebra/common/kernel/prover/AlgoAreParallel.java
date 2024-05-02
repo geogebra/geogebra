@@ -23,7 +23,7 @@ import org.geogebra.common.util.debug.Log;
  * work symbolically.
  * 
  * @author Simon Weitzhofer 27th of April 2012
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  */
 public class AlgoAreParallel extends AlgoElement
 		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {

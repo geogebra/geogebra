@@ -58,7 +58,7 @@ public abstract class Log {
 		 */
 		FILE,
 		/**
-		 * Sends logging to console. Messages <= ERROR will be written to
+		 * Sends logging to console. Messages at leve ERROR or higher will be written to
 		 * STDERR, others to STDOUT in desktop mode; in Web console.(log|info|warn|error) is used
 		 */
 		CONSOLE

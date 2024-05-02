@@ -1200,7 +1200,7 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
-	 * Returns axis label including &lt;b> and &lt;i>
+	 * Returns axis label including &lt;b&gt; and &lt;i&gt;
 	 * 
 	 * @param i
 	 *            index of axis (0 for x, 1 for y)

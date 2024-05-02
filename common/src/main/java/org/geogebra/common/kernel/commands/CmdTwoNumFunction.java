@@ -8,7 +8,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * abstract class for Commands with two numberical arguments eg Binomial[
- * &lt;Number>, &lt;Number> ]
+ * &lt;Number&gt;, &lt;Number&gt; ]
  * 
  * @author Michael Borcherds
  */

@@ -14,7 +14,7 @@ import org.geogebra.common.main.MyError;
 /**
  * Extends rotation for 3D objects.
  * 
- * Rotate[ &lt;GeoPoint>, &lt;NumberValue> ]
+ * Rotate[ &lt;GeoPoint&gt;, &lt;NumberValue&gt; ]
  * 
  * @author mathieu
  */

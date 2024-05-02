@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
- * ConstructionStep[] ConstructionStep[ &lt;Object> ]
+ * ConstructionStep[] ConstructionStep[ &lt;Object&gt; ]
  * 
  * @author Michael Borcherds
  * @version 2008-03-06

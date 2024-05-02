@@ -147,7 +147,7 @@ public class DrawConic3D extends Drawable3DCurves
 	 * 
 	 * @param x
 	 *            value
-	 * @return acosh(x) if x>=1; 0 otherwise
+	 * @return acosh(x) if x&gt;=1; 0 otherwise
 	 */
 	public static double acosh(double x) {
 		if (x <= 1) {

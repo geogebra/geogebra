@@ -90,7 +90,7 @@ public abstract class Assignment {
 	 * call checkAssignment() or checkExercise() prior to getFraction() if you
 	 * want to update the Result.
 	 * 
-	 * @return the fraction for the current state of the assignment <br />
+	 * @return the fraction for the current state of the assignment;
 	 *         if the user specified a fraction it will be returned otherwise 1
 	 *         for Result.CORRECT 0 else
 	 */
@@ -151,7 +151,7 @@ public abstract class Assignment {
 	/**
 	 * @param result
 	 *            the result for which the fraction should be returned
-	 * @return the fraction corresponding to the result<br />
+	 * @return the fraction corresponding to the result;
 	 *         if the user specified a fraction it will be returned otherwise 1
 	 *         for Result.CORRECT 0 else
 	 */
@@ -201,10 +201,10 @@ public abstract class Assignment {
 
 	/**
 	 * @return XML describing the Exercise. Will be empty if no changes to the
-	 *         Exercise were made (i.e. if isStandardExercise).<br />
+	 *         Exercise were made (i.e. if isStandardExercise).<p>
 	 *         Only Elements and Properties which are set or not standard will
 	 *         be included.
-	 * 
+	 *
 	 *         <pre>
 	 * {@code
 	 *  <assignment toolName="Tool2">

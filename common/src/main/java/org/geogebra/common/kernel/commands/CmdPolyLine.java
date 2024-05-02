@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Polyline[ &lt;GeoPoint>, ..., &lt;GeoPoint> ]
+ * Polyline[ &lt;GeoPoint&gt;, ..., &lt;GeoPoint&gt; ]
  */
 public class CmdPolyLine extends CommandProcessor {
 	/**

@@ -30,11 +30,10 @@ import org.geogebra.common.util.debug.Log;
  * 
  * Might be problems if callers are running in separate threads. Is this a
  * problem?
- * 
- * <ul>
  * <b>--- Interface: ---</b>
+ * <ul>
  * <li>RegressionMath(GeoList)
- * <li>det33(...), det44(...) determinants. (Faster than Gauss for n<5)
+ * <li>det33(...), det44(...) determinants. (Faster than Gauss for n&lt;5)
  * <li>but det55 removed to keep code size down (web)
  * <li>doLinReg(),doQuadReg(),doCubicReg(),doQuartRet()
  * <li>doExpReg(),doLogReg(),doPowReg()
@@ -133,7 +132,7 @@ public final class RegressionMath {
 	}
 
 	/**
-	 * Does the Polynom regression for degree > 4
+	 * Does the Polynom regression for degree &gt; 4
 	 * 
 	 * @param gl
 	 *            inut data

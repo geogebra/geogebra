@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * ToBase[&lt;base>, &lt;Number>]
+ * ToBase[&lt;base&gt;, &lt;Number&gt;]
  */
 public class CmdToBase extends CommandProcessor {
 

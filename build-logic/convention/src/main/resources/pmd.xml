@@ -7,12 +7,9 @@
     <description>
         This ruleset checks my code for bad stuff
     </description>
-    <exclude-pattern>.*/org/apache/.*</exclude-pattern>
     <exclude-pattern>.*/com/github/.*</exclude-pattern>
     <exclude-pattern>.*/com/google/.*</exclude-pattern>
-    <exclude-pattern>.*/com/kitfox/.*</exclude-pattern>
     <exclude-pattern>.*/edu/uci/.*</exclude-pattern>
-    <exclude-pattern>.*/org/mozilla/.*</exclude-pattern>
     <exclude-pattern>.*/org/jfugue/.*</exclude-pattern>
     <exclude-pattern>.*/org/freehep/.*</exclude-pattern>
     <exclude-pattern>.*/org/geogebra/common/kernel/parser/.*</exclude-pattern>

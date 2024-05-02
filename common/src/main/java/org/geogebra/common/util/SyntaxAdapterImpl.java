@@ -5,13 +5,8 @@ import org.geogebra.common.plugin.Operation;
 
 /**
  * Convert expressions from Presentation MathML / LaTeX to simple ggb syntax
- * when pasting into the editor eg \sqrt{\frac{x}{2}} -> sqrt(x/2)
- * 
- * <mrow><mi> x</mi><mo> +</mo><mrow><mi> 1</mi><mo>/</mo>
- * <mi> 2</mi></mrow></mrow> -> x+1/2
- * 
- * @author michael
- *
+ * Compared to parent class, this adds awareness of existing GeoGebra objects
+ * and built-in functions.
  */
 public class SyntaxAdapterImpl extends AbstractSyntaxAdapter {
 

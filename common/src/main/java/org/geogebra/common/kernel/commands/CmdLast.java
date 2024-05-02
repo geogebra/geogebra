@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * Last[ &lt;List>,n ]
+ * Last[ &lt;List&gt;,n ]
  * 
  * @author Michael Borcherds
  * @version 2008-03-04

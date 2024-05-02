@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Cube[ &lt;GeoPoint3D>, &lt;GeoPoint3D>, &lt;GeoDirectionND> ]
+ * Cube[ &lt;GeoPoint3D&gt;, &lt;GeoPoint3D&gt;, &lt;GeoDirectionND&gt; ]
  * 
  * or Icosahedron etc.
  */

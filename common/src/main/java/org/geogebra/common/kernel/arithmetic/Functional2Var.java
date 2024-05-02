@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.arithmetic;
 import org.geogebra.common.kernel.matrix.Coords;
 
 /**
- * interface for all classes that can be evaluated as (u,v) -> (x,y,z) surfaces
+ * interface for all classes that can be evaluated as (u,v) -&gt; (x,y,z) surfaces
  * 
  * TODO FunctionalNVar ?
  * 
@@ -40,7 +40,7 @@ public interface Functional2Var {
 	 * Returns the start parameter value
 	 * 
 	 * @param index
-	 *            of the parameter (0 -> u / 1 -> v)
+	 *            of the parameter (0 -&gt; u / 1 -&gt; v)
 	 * @return the start parameter value
 	 */
 	public double getMinParameter(int index);
@@ -49,7 +49,7 @@ public interface Functional2Var {
 	 * Returns the largest possible parameter value
 	 * 
 	 * @param index
-	 *            of the parameter (0 -> u / 1 -> v)
+	 *            of the parameter (0 -&gt; u / 1 -&gt; v)
 	 * @return the largest possible parameter value
 	 */
 	public double getMaxParameter(int index);

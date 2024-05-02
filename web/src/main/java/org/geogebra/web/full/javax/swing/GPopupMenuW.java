@@ -16,6 +16,7 @@ import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.menu.MenuHoverListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.ClickEvent;
@@ -569,6 +570,16 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	@Override
 	public void onItemHover() {
 		removeSubPopup();
+	}
+
+	/**
+	 * @param c element
+	 * @param x x-coordinate relative to element
+	 * @param y y-coordinate relative to element
+	 */
+	public void showAndFocus(Element c, int x, int y) {
+		show(c, x, y);
+		Scheduler.get().scheduleDeferred(popupMenu::focus);
 	}
 
 	private class PopupMenuBar extends GMenuBar {

@@ -17,11 +17,11 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Integral[ &lt;GeoFunction> ]
+ * Integral[ &lt;GeoFunction&gt; ]
  *
- * Integral[ &lt;GeoFunction>, &lt;Number a>, &lt;Number b> ]
+ * Integral[ &lt;GeoFunction&gt;, &lt;Number a&gt;, &lt;Number b&gt; ]
  *
- * Integral[ &lt;GeoFunction f>, &lt;GeoFunction g>, &lt;Number a>, &lt;Number b> ]
+ * Integral[ &lt;GeoFunction f&gt;, &lt;GeoFunction g&gt;, &lt;Number a&gt;, &lt;Number b&gt; ]
  */
 public class CmdIntegral extends CommandProcessor implements UsesCAS {
 

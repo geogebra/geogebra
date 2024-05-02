@@ -2136,7 +2136,7 @@ public class ConsElementXMLHandler {
 	}
 
 	/**
-	 * Handle start tag inside &lt;element>
+	 * Handle start tag inside &lt;element&gt;
 	 * 
 	 * @param eName
 	 *            element name

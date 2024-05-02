@@ -12,8 +12,8 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.graph.util.Pair;
 
 /**
- * An implementation of <code>Tree<V,E></code> that delegates to a specified
- * instance of <code>DirectedGraph<V,E></code>.
+ * An implementation of <code>Tree&lt;V,E&gt;</code> that delegates to a specified
+ * instance of <code>DirectedGraph&lt;V,E&gt;</code>.
  * 
  * @author Tom Nelson
  *
