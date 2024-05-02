@@ -8,10 +8,6 @@ import java.util.List;
  */
 public class CheatingEvents {
 
-    public interface Delegate {
-        void cheatingEventAdded(CheatingEvent cheatingEvent);
-    }
-
     private final List<CheatingEvent> events;
 
     private boolean isScreenLocked = true;
@@ -21,6 +17,10 @@ public class CheatingEvents {
     private boolean isBluetoothEnabled;
 
     public Delegate delegate;
+
+    public interface Delegate {
+        void cheatingEventAdded(CheatingEvent cheatingEvent);
+    }
 
     public CheatingEvents() {
         events = new LinkedList<>();

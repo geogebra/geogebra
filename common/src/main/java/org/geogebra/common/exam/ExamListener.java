@@ -12,6 +12,7 @@ public interface ExamListener {
 	 */
 	void examStateChanged(ExamState newState);
 
-	default void cheatingStarted() {}
+	default void cheatingStarted() {
+	}
 }
 
