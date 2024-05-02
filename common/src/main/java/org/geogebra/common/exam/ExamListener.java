@@ -12,7 +12,11 @@ public interface ExamListener {
 	 */
 	void examStateChanged(ExamState newState);
 
+	/**
+	 * The first cheating event occurred.
+	 */
 	default void cheatingStarted() {
+		// Do nothing by default
 	}
 }
 
