@@ -10,9 +10,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * AngularBisector[ &lt;GeoPoint>, &lt;GeoPoint>, &lt;GeoPoint> ]
+ * AngularBisector[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
  * 
- * AngularBisector[ &lt;GeoLine>, &lt;GeoLine> ]
+ * AngularBisector[ &lt;GeoLine&gt;, &lt;GeoLine&gt; ]
  */
 public class CmdAngularBisector extends CommandProcessor {
 

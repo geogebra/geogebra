@@ -783,13 +783,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		updateCoords();
 	}
 
-	/**
-	 * Returns true if this point's path is a circle or ellipse
-	 *
-	 * public boolean hasAnglePathParameter() { return (path != null) && (path
-	 * instanceof GeoConic) && (((GeoConic)path).isElliptic()); }
-	 */
-
 	@Override
 	final public boolean isInfinite() {
 		return isInfinite;

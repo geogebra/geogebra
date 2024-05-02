@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * SVD.Syntax=[ &lt;Matrix> ]
+ * SVD.Syntax=[ &lt;Matrix&gt; ]
  * 
  * @author csilla
  *

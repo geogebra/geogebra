@@ -945,7 +945,7 @@ public interface EuclidianViewInterfaceCommon
 	public boolean hasFocus();
 
 	/**
-	 * added so that we can easily show/hide axes in 2D & 3D
+	 * added so that we can easily show/hide axes in 2D and 3D
 	 * 
 	 * @param b
 	 *            flag to show axes

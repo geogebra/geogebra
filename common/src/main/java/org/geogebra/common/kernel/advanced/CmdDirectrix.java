@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
- * Directrix[ &lt;GeoConic> ]
+ * Directrix[ &lt;GeoConic&gt; ]
  */
 public class CmdDirectrix extends CommandProcessor {
 

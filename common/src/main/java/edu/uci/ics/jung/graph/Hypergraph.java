@@ -23,10 +23,10 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  * This interface permits, but does not enforce, any of the following common
  * variations of graphs:
  * <ul>
- * <li/>hyperedges (edges which connect a set of vertices of any size)
- * <li/>edges (these have have exactly two endpoints, which may or may not be
+ * <li>hyperedges (edges which connect a set of vertices of any size)
+ * <li>edges (these have have exactly two endpoints, which may or may not be
  * distinct)
- * <li/>self-loops (edges which connect exactly one vertex)
+ * <li>self-loops (edges which connect exactly one vertex)
  * <li>directed and undirected edges
  * <li>vertices and edges with attributes (for example, weighted edges)
  * <li>vertices and edges with different constraints or properties (for example,
@@ -40,12 +40,12 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  * <p>
  * <b>Notes</b>:
  * <ul>
- * <li/>The collections returned by <code>Hypergraph</code> instances should be
+ * <li>The collections returned by <code>Hypergraph</code> instances should be
  * treated in general as if read-only. While they are not contractually
  * guaranteed (or required) to be immutable, this interface does not define the
  * outcome if they are mutated. Mutations should be done via
  * <code>{add,remove}{Edge,Vertex}</code>, or in the constructor.
- * <li/>
+ * </li>
  * </ul>
  * 
  * @author Joshua O'Madadhain
@@ -153,15 +153,15 @@ public interface Hypergraph<V, E> {
 	 * may be returned. <code>findEdgeSet(v1, v2)</code> may be used to return
 	 * all such edges. Returns null if either of the following is true:
 	 * <ul>
-	 * <li/><code>v2</code> is not connected to <code>v1</code>
-	 * <li/>either <code>v1</code> or <code>v2</code> are not present in this
+	 * <li><code>v2</code> is not connected to <code>v1</code>
+	 * <li>either <code>v1</code> or <code>v2</code> are not present in this
 	 * graph
 	 * </ul>
 	 * <p>
 	 * <b>Note</b>: for purposes of this method, <code>v1</code> is only
 	 * considered to be connected to <code>v2</code> via a given <i>directed</i>
 	 * edge <code>e</code> if
-	 * <code>v1 == e.getSource() && v2 == e.getDest()</code> evaluates to
+	 * <code>v1 == e.getSource() &amp;&amp; v2 == e.getDest()</code> evaluates to
 	 * <code>true</code>. (<code>v1</code> and <code>v2</code> are connected by
 	 * an undirected edge <code>u</code> if <code>u</code> is incident to both
 	 * <code>v1</code> and <code>v2</code>.)
@@ -179,15 +179,15 @@ public interface Hypergraph<V, E> {
 	 * one edge connecting <code>v1</code> to <code>v2</code>), any of these
 	 * edges may be returned. <code>findEdgeSet(v1, v2)</code> may be used to
 	 * return all such edges. Returns null if <code>v2</code> is not connected
-	 * to <code>v1</code>. <br/>
-	 * Returns an empty collection if either <code>v1</code> or <code>v2</code>
+	 * to <code>v1</code>.
+	 * <p>Returns an empty collection if either <code>v1</code> or <code>v2</code>
 	 * are not present in this graph.
 	 * 
 	 * <p>
 	 * <b>Note</b>: for purposes of this method, <code>v1</code> is only
 	 * considered to be connected to <code>v2</code> via a given <i>directed</i>
 	 * edge <code>d</code> if
-	 * <code>v1 == d.getSource() && v2 == d.getDest()</code> evaluates to
+	 * <code>v1 == d.getSource() &amp;&amp; v2 == d.getDest()</code> evaluates to
 	 * <code>true</code>. (<code>v1</code> and <code>v2</code> are connected by
 	 * an undirected edge <code>u</code> if <code>u</code> is incident to both
 	 * <code>v1</code> and <code>v2</code>.)
@@ -216,12 +216,12 @@ public interface Hypergraph<V, E> {
 	 * Adds <code>edge</code> to this graph. Fails under the following
 	 * circumstances:
 	 * <ul>
-	 * <li/><code>edge</code> is already an element of the graph
-	 * <li/>either <code>edge</code> or <code>vertices</code> is
+	 * <li><code>edge</code> is already an element of the graph
+	 * <li>either <code>edge</code> or <code>vertices</code> is
 	 * <code>null</code>
-	 * <li/><code>vertices</code> has the wrong number of vertices for the graph
+	 * <li><code>vertices</code> has the wrong number of vertices for the graph
 	 * type
-	 * <li/><code>vertices</code> are already connected by another edge in this
+	 * <li><code>vertices</code> are already connected by another edge in this
 	 * graph, and this graph does not accept parallel edges
 	 * </ul>
 	 * 
@@ -241,14 +241,14 @@ public interface Hypergraph<V, E> {
 	 * Adds <code>edge</code> to this graph with type <code>edge_type</code>.
 	 * Fails under the following circumstances:
 	 * <ul>
-	 * <li/><code>edge</code> is already an element of the graph
-	 * <li/>either <code>edge</code> or <code>vertices</code> is
+	 * <li><code>edge</code> is already an element of the graph
+	 * <li>either <code>edge</code> or <code>vertices</code> is
 	 * <code>null</code>
-	 * <li/><code>vertices</code> has the wrong number of vertices for the graph
+	 * <li><code>vertices</code> has the wrong number of vertices for the graph
 	 * type
-	 * <li/><code>vertices</code> are already connected by another edge in this
+	 * <li><code>vertices</code> are already connected by another edge in this
 	 * graph, and this graph does not accept parallel edges
-	 * <li/><code>edge_type</code> is not legal for this graph
+	 * <li><code>edge_type</code> is not legal for this graph
 	 * </ul>
 	 * 
 	 * @param edge
@@ -275,8 +275,8 @@ public interface Hypergraph<V, E> {
 	 * <p>
 	 * Fails under the following circumstances:
 	 * <ul>
-	 * <li/><code>vertex</code> is not an element of this graph
-	 * <li/><code>vertex</code> is <code>null</code>
+	 * <li><code>vertex</code> is not an element of this graph
+	 * <li><code>vertex</code> is <code>null</code>
 	 * </ul>
 	 * 
 	 * @param vertex
@@ -327,7 +327,7 @@ public interface Hypergraph<V, E> {
 	 * Returns the number of edges incident to <code>vertex</code>. Special
 	 * cases of interest:
 	 * <ul>
-	 * <li/>Incident self-loops are counted once.
+	 * <li>Incident self-loops are counted once.
 	 * <li>If there is only one edge that connects this vertex to each of its
 	 * neighbors (and vice versa), then the value returned will also be equal to
 	 * the number of neighbors that this vertex has (that is, the output of

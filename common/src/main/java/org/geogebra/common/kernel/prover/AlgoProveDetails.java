@@ -41,7 +41,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Algo for the ProveDetails command.
  * 
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  */
 public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 

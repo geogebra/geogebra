@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * TiedRank[ &lt;List> ]
+ * TiedRank[ &lt;List&gt; ]
  */
 public class CmdTiedRank extends CmdOneListFunction {
 	/**

@@ -13,9 +13,9 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Midpoint[ &lt;GeoConic> ]
+ * Midpoint[ &lt;GeoConic&gt; ]
  * 
- * Midpoint[ &lt;GeoPoint>, &lt;GeoPoint> ]
+ * Midpoint[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
  */
 public class CmdMidpoint extends CommandProcessor {
 	/**

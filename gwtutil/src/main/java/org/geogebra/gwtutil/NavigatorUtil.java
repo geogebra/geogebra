@@ -36,7 +36,7 @@ public class NavigatorUtil {
 	/**
 	 * Check if browser is Safari on iOS
 	 *
-	 * check isiOS() && isSafari() if you want just iOS browser & not webview
+	 * check isiOS() &amp;&amp; isSafari() if you want just iOS browser and not webview
 	 *
 	 * (Note: returns true for Chrome on iOS as that's really an iOS Webview)
 	 *

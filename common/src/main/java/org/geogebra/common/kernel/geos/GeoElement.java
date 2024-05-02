@@ -6710,7 +6710,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * @return -1 if this is not part of packed output; 0 for pack header, >0
+	 * @return -1 if this is not part of packed output; 0 for pack header, &gt;0
 	 *         for packed items
 	 */
 	public int getPackedIndex() {

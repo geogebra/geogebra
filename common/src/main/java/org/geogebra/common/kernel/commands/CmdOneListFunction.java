@@ -15,7 +15,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * abstract class for Commands with one list argument eg Mean[ &lt;List> ]
+ * abstract class for Commands with one list argument eg Mean[ &lt;List&gt; ]
  *
  * if more than one argument, then they are put into a list
  *

@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * Voronoi[&lt;List of Points>]
+ * Voronoi[&lt;List of Points&gt;]
  * 
  * @author Michael
  */

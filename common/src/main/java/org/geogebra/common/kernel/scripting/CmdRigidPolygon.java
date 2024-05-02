@@ -12,9 +12,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * RigidPolygon[ &lt;GeoPoint>, ..., &lt;GeoPoint> ]
+ * RigidPolygon[ &lt;GeoPoint&gt;, ..., &lt;GeoPoint&gt; ]
  * 
- * CmdScripting -> disable preview (otherwise it doesn't work)
+ * Extends CmdScripting so that preview is disabled (otherwise it doesn't work)
  */
 public class CmdRigidPolygon extends CmdScripting {
 	/**

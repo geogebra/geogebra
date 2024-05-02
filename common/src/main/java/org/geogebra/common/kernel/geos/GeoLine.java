@@ -1193,7 +1193,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	/**
-	 * This path changed => change P to lie on this path
+	 * This path changed =&gt; change P to lie on this path
 	 * 
 	 * @param P
 	 *            coords of point on path

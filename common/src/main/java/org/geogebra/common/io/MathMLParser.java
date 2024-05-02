@@ -61,7 +61,7 @@ public class MathMLParser {
 	private static HashMap<String, String> latexMap;
 
 	/**
-	 * @return tag->geogebra syntax map
+	 * @return tag-&gt;geogebra syntax map
 	 */
 	static synchronized HashMap<String, String> getGeogebraMap() {
 
@@ -789,7 +789,7 @@ public class MathMLParser {
 	 * </pre>
 	 * 
 	 * can not be parsed.
-	 * </p>
+	 * <p>
 	 * Both notations of entities can be parsed: The plain MathML notation,
 	 * starting with an ampersand sign (e.g. '&amp;equals;'), or the
 	 * "HTML wrapped" notation startig with an entity for the ampersand sign

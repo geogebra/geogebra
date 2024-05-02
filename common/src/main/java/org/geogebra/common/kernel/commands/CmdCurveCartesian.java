@@ -13,8 +13,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Curve[ &lt;x-coord expression>, &lt;y-coord expression>, &lt;number-var>,
- * &lt;from>, &lt;to> ]
+ * Curve[ &lt;x-coord expression&gt;, &lt;y-coord expression&gt;, &lt;number-var&gt;,
+ * &lt;from&gt;, &lt;to&gt; ]
  */
 public class CmdCurveCartesian extends CommandProcessor {
 	/**

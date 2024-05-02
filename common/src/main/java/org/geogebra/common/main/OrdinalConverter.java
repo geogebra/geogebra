@@ -77,10 +77,10 @@ public class OrdinalConverter {
 	}
 
 	/**
-	 * <li>All numbers that end with 1 except those ending with 11 --> st</li>
-	 * <li>All numbers that end with 2 except those ending with 12 --> nd</li>
-	 * <li>All numbers that end with 3 except those ending with 13 --> rd</li>
-	 * <li>All others --> th</li>
+	 * <li>All numbers that end with 1 except those ending with 11 --&gt; st</li>
+	 * <li>All numbers that end with 2 except those ending with 12 --&gt; nd</li>
+	 * <li>All numbers that end with 3 except those ending with 13 --&gt; rd</li>
+	 * <li>All others --&gt; th</li>
 	 * @param number Integer
 	 * @return Corresponding ordinal number for the English language
 	 */
@@ -131,8 +131,8 @@ public class OrdinalConverter {
 	}
 
 	/**
-	 * <li>All numbers that end with 1 or 2, except those ending with 11 and 12 --> :a</li>
-	 * <li>All others --> :e</li>
+	 * <li>All numbers that end with 1 or 2, except those ending with 11 and 12 --&gt; :a</li>
+	 * <li>All others --&gt; :e</li>
 	 * @param number Integer
 	 * @return Corresponding ordinal number for the Swedish language
 	 */

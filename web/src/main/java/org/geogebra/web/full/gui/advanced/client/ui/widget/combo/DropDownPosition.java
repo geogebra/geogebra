@@ -17,10 +17,10 @@
 package org.geogebra.web.full.gui.advanced.client.ui.widget.combo;
 
 /**
- * This enum defines the drop down list position of the
+ * This enum defines the drop-down list position of the
  * {@link org.geogebra.web.full.gui.advanced.client.ui.widget.ComboBox} widget.
- * <p/>
- * The component uses it define how to display it. By default {@link #AUTO} is
+ * <p>
+ * The component uses it to define how to display it. By default {@link #AUTO} is
  * applied.
  *
  * @author <a href="mailto:sskladchikov@gmail.com">Sergey Skladchikov</a>

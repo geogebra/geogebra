@@ -681,7 +681,7 @@ public class GeoGebraColorConstants {
 	/**
 	 * initialize (once) only when needed
 	 * 
-	 * @return map HTML name => color
+	 * @return map HTML name =&gt; color
 	 */
 	public static final HashMap<String, GColor> htmlColorMap() {
 

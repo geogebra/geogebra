@@ -829,7 +829,7 @@ public class GgbAPIW extends GgbAPI {
 	 * Add external image to image manager. Allow passing SVGs as text
 	 * to be compatible with getFileJSON.
 	 * @param filename internal filename
-	 * @param urlOrSvgContent data URL or &lt;svg>content&lt;/svg>
+	 * @param urlOrSvgContent data URL or &lt;svg&gt;content&lt;/svg&gt;
 	 */
 	public void addImage(String filename, String urlOrSvgContent) {
 		ImageManagerW imageManager = ((AppW) app).getImageManager();

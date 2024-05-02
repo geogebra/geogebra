@@ -52,7 +52,7 @@ import org.geogebra.common.util.debug.Log;
  * <code>
    final public class GeoNew3D extends ??? {
    </code></li>
- * <li>Eclipse will add auto-generated methods ; modify it :
+ * <li>Your IDE will add auto-generated methods ; modify it :
  * <p>
  * <code>
     public GeoElement copy() {

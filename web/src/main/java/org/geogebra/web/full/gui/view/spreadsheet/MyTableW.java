@@ -1958,7 +1958,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	// this is temporary code while cleaning up
 	// ===========================================
 	/**
-	 * Copy & return string from selected cells
+	 * Copy and return string from selected cells
 	 * 
 	 * @return the content of selected cells
 	 */

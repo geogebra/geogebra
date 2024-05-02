@@ -37,8 +37,8 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * Algorithm to intersect two implicit polynomial equations<br />
- * output: GeoPoints if finitely many intersection points.
+ * Algorithm to intersect two implicit polynomial equations
+ * <p>output: GeoPoints if finitely many intersection points.</p>
  */
 public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 

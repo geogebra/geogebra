@@ -14,9 +14,8 @@ import java.util.Map;
 /**
  * An interface for specifying the behavior of graph/matrix operations for a
  * particular element type.
- * <P>
- * Graph/matrix multiplication requires the definition of two operations:
  * <p>
+ * Graph/matrix multiplication requires the definition of two operations:
  * <ol>
  * <li>Calculating an aggregate property of paths of length 2 between two
  * vertices v1 and v2 (analogous to element multiplication in matrix

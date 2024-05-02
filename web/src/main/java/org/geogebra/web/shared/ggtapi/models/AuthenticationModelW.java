@@ -80,7 +80,7 @@ public class AuthenticationModelW extends AuthenticationModel  {
 	}
 
 	/**
-	 * @param api responsible for mapping JSON -> user object
+	 * @param api responsible for mapping JSON to user object
 	 * @return whether user data was loaded
 	 */
 	public boolean loadUserFromSession(BackendAPI api) {

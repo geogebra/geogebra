@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.prover.AlgoAreEqual;
 import org.geogebra.common.main.MyError;
 
 /**
- * AreEqual[&lt;Object>, &lt;Object>]
+ * AreEqual[&lt;Object&gt;, &lt;Object&gt;]
  * 
  * @author Simon Weitzhofer 17th of may 2012
  *

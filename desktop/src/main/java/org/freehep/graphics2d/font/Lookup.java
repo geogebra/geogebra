@@ -86,7 +86,7 @@ public class Lookup {
 	 * Gives the requested encoding table Valid table names can be requested
 	 * with a call to
 	 * 
-	 * @see #getTableNames().
+	 * @see #getTableNames
 	 * 
 	 * @return requested encoding.
 	 */

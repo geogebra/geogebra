@@ -570,7 +570,7 @@ public class TableSymbols {
 	 * 
 	 * @param app
 	 *            app
-	 * @return translated names eg sin(x) -> sen(x)
+	 * @return translated names eg sin(x) -&gt; sen(x)
 	 */
 	public static String[] getTranslatedFunctions(App app) {
 		ParserFunctions parserFunctions = app.getParserFunctions();
@@ -583,7 +583,7 @@ public class TableSymbols {
 	 *
 	 * @param loc localization
 	 * @param parserFunctions collection of functions available to parser
-	 * @return translated names eg sin(x) -> sen(x)
+	 * @return translated names eg sin(x) -&gt; sen(x)
 	 */
 	public static String[] getTranslatedFunctions(Localization loc,
 			ParserFunctions parserFunctions) {
@@ -613,7 +613,7 @@ public class TableSymbols {
 	 * 
 	 * @param app
 	 *            app
-	 * @return translated names eg sin(x) -> sen(x)
+	 * @return translated names eg sin(x) -&gt; sen(x)
 	 */
 	public static String[][] getTranslatedFunctionsGrouped(App app) {
 		ParserFunctions parserFunctions = app.getParserFunctions();

@@ -25,7 +25,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
  * 
  * JSON including the base64 and metadata is stored under
  * "file_[local-id]_[title]" key. The id field inside JSON is for Tube id, is
- * not affected by local id. Local id can still be found inside title => we need
+ * not affected by local id. Local id can still be found inside title, hence we need
  * to extract title after we load file from LS.
  *
  */

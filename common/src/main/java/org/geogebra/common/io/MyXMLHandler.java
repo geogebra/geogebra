@@ -1612,13 +1612,13 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	/**
-	 * <axis id="0" label="x" unitLabel="x" showNumbers="true" tickDistance=
-	 * "2"/>
+	 * &lt;axis id="0" label="x" unitLabel="x" showNumbers="true" tickDistance=
+	 * "2"/&gt;
 	 * 
 	 * @param ev
 	 *            settings
 	 * @param attrs
-	 *            attributes of &lt;axis> tag
+	 *            attributes of &lt;axis&gt; tag
 	 * @return true iff succesful
 	 */
 	protected boolean handleAxis(EuclidianSettings ev,

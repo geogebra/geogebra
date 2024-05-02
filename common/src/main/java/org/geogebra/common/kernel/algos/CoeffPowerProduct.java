@@ -38,7 +38,7 @@ public final class CoeffPowerProduct {
 	/**
 	 * Creates a comparator for sorting CoeffProduct lists, such as
 	 *  - first by total degree descending,
-	 *  - then by degree in first variable descending x^2 > xy > y^2 > x > y > 1
+	 *  - then by degree in first variable descending x^2 &gt; xy &gt; y^2 &gt; x &gt; y &gt; 1
 	 *   (assuming in this example that var1=x and var2=y)
 	 *  - deals with two variables
 	 * @return a comparator for polynomial products with two variables.

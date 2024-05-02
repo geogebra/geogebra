@@ -871,7 +871,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * Creates a Singular program for creating a ring to work with several
 	 * polynomials, and returns if the equation system has a solution. Uses
 	 * the Groebner basis w.r.t. the revgradlex order.
-	 * @param substitutions HashMap with variables and values, e.g. {v1->0},{v2->1}
+	 * @param substitutions HashMap with variables and values, e.g. {v1-&gt;0},{v2-&gt;1}
 	 * @param polys polynomials, e.g. "v1+v2-3*v4-10"
 	 * @param fieldVars field variables (comma separated) 
 	 * @param ringVars ring variables (comma separated)

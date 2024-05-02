@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.prover.AlgoAreParallel;
 import org.geogebra.common.main.MyError;
 
 /**
- * AreParallel[&lt;Line>, &lt;Line>]
+ * AreParallel[&lt;Line&gt;, &lt;Line&gt;]
  * 
  * @author Simon Weitzhofer 3rd of may 2012
  *

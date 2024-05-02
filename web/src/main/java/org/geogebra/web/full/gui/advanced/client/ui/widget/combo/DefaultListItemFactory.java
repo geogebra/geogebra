@@ -24,11 +24,11 @@ import org.gwtproject.user.client.ui.Widget;
 
 /**
  * This factory tries to detect what should be returned by value type.
- * <p/>
+ * <p>
  * If the value is instance of <code>String</code>, <code>Number</code> or
  * <code>Date</code> it returns this value wrapped in appropriate widget.
- * Otherwise it returns <code>null</code>.
- * <p/>
+ * Returns <code>null</code> otherwise.
+ * <p>
  * If you want to use more complex objects you should develop your own factory.
  *
  * @author <a href="mailto:sskladchikov@gmail.com">Sergey Skladchikov</a>

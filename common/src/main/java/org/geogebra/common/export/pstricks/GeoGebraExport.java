@@ -837,7 +837,7 @@ public abstract class GeoGebraExport {
 	 * @param geo
 	 *            The inequality function
 	 * @param e
-	 *            If is inequality with one variable eg. x>3
+	 *            If is inequality with one variable eg. x&gt;3
 	 */
 
 	protected void drawGeoInequalities(GeoFunctionNVar geo, GeoElementND e) {

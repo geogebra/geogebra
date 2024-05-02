@@ -134,8 +134,8 @@ public class AuralTextTest {
 		aural("LaTeX(\"\\sqrt[3]{x}\")", "start cube root x end root", "edit");
 		aural("LaTeX(\"\\frac{x}{2}\")", "start fraction x over 2 end fraction", "edit");
 		aural("LaTeX(\"\\vec{x}\")", " vector x", "edit");
-		aural("LaTeX(\"\\ogonek{x}\")", "x with ogonek", "edit");
-		aural("LaTeX(\"\\cedilla{x}\")", "x with cedilla", "edit");
+		aural("LaTeX(\"\\ogonek{x}\")", "xogonek", "edit");
+		aural("LaTeX(\"\\cedilla{x}\")", "xcedilla", "edit");
 		aural("LaTeX(\"\\displaylines{x\\\\y}\")", "x y", "edit");
 		aural("LaTeX(\"\\overbrace{x}\")", "open brace  over x", "edit");
 		aural("LaTeX(\"\\fgcolor{red}{\\text{red text}}\")", "red text",
@@ -170,12 +170,13 @@ public class AuralTextTest {
 		aural("LaTeX(\"\\xleftrightarrow{p}j\")", "pj", "edit");
 		aural("LaTeX(\"\\underrightarrow{p}j\")", "pj", "edit");
 		aural("LaTeX(\"\\overrightarrow{p}j\")", "pj", "edit");
-		aural("LaTeX(\"\\widehat{p}\")", "p with \u0302", "edit");
+		aural("LaTeX(\"\\widehat{p}\")", "p̂", "edit");
 		aural("LaTeX(\"\\underline{p}j\")", "pj", "edit");
 		aural("LaTeX(x-y)", "x minus y", "edit");
 		aural("LaTeX(\"x-y\")", "x minus y", "edit");
 		aural("LaTeX(\"\\text{x-y}\")", "x\u2010y", "edit");
 		aural("LaTeX((-1,2))", "open parenthesis  minus 1 comma  2 close parenthesis", "edit");
+		aural("LaTeX(\"\\text{Línea Uno}\")", "Línea Uno", "edit");
 	}
 
 	@Test

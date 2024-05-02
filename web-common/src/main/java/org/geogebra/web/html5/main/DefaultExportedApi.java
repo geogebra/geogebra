@@ -414,11 +414,11 @@ public class DefaultExportedApi implements ExportedApi {
 		return getGgbAPI().getZcoord(objName + "");
 	}
 
-	public void setCoords(String objName, double x, double y, double z) {
-		if (JsEval.isUndefined(z)) {
-			getGgbAPI().setCoords(objName + "", x, y);
+	public void setCoords(String objName, double... coords) {
+		if (coords.length == 2) {
+			getGgbAPI().setCoords(objName + "", coords[0], coords[1]);
 		} else {
-			getGgbAPI().setCoords(objName + "", x, y, z);
+			getGgbAPI().setCoords(objName + "", coords);
 		}
 	}
 

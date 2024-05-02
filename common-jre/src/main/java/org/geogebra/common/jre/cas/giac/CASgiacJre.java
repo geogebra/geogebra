@@ -26,7 +26,7 @@ public abstract class CASgiacJre extends CASgiacB {
 
 	/**
 	 * synchronized needed in case CAS called from a thread eg Input Bar preview
-	 * eg sin(x)>0
+	 * eg sin(x)&gt;0
 	 */
     @Override
 	synchronized protected void callEvaluateFunction(Runnable evaluateFunction)
