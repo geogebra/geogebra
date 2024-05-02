@@ -29,12 +29,13 @@ dependencies {
             files(project(':web-dev').sourceSets.main.allSource.srcDirs),
             files(file("build/generated/sources/annotationProcessor/java/main/")),
             files(file("build/generated/sources/webjars/java/main/")),
+            libs.quickjs,
+            variantOf(libs.quickjs) {classifier("sources")},
             libs.fflate,
             libs.giac.gwt,
             variantOf(libs.giac.gwt) { classifier("sources") },
             variantOf(libs.apache.math) { classifier("sources") },
             libs.gwt.dev
-
 
     annotationProcessor project(":gwtutil"), libs.gwt.resources.processor
 }
