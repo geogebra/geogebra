@@ -6,9 +6,12 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Locale;
 
+import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.test.LocalizationCommonUTF;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class LocalizationTest {
@@ -55,6 +58,15 @@ public class LocalizationTest {
 		assertLookupReturnsLanguageTag("nb-NO-Cyrl", "nb");
 		assertLookupReturnsLanguageTag("zh", "zh-CN");
 		assertLookupReturnsLanguageTag("zh-HK", "zh-CN");
+	}
+
+	@Test
+	public void testReverseCommand() {
+		loc.setLocale(Locale.UK);
+		AppCommon app = new AppCommon(loc, new AwtFactoryCommon());
+		app.resetCommandDict();
+		Assert.assertNull(loc.getReverseCommand("x"));
+		assertEquals("Center", loc.getReverseCommand("Centre"));
 	}
 
 	private void assertLookupReturnsLanguageTag(String lookupTag, String expectedTag) {

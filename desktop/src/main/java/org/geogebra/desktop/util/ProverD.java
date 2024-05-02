@@ -45,7 +45,7 @@ public class ProverD extends Prover {
 		if (ProverSettings.get().proverTimeout == 0) {
 			// Do not create a thread if there is no timeout set:
 			decideStatement();
-			// This is especially useful for debugging in Eclipse.
+			// This is especially useful for debugging
 			return;
 		}
 		result = ProofResult.UNKNOWN;

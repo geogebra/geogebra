@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * Determinant[ &lt;List> ]
+ * Determinant[ &lt;List&gt; ]
  * 
  * @author Michael Borcherds
  */

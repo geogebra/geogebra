@@ -22,7 +22,7 @@ public class AsymptoteFrame extends ExportFrame {
 	/**
 	 * Initializes GUI.
 	 * 
-	 * @param ggb2asy ggb -> Asymptote converter
+	 * @param ggb2asy ggb to Asymptote converter
 	 */
 	public AsymptoteFrame(final GeoGebraExport ggb2asy) {
 		super(ggb2asy,

@@ -13,13 +13,13 @@ public class ColorFunctionModel extends OptionsModel {
 	private Kernel kernel;
 
 	public interface IColorFunctionListener extends PropertyListener {
-		void setRedText(final String text);
+		void setRedText(String text);
 
-		void setGreenText(final String text);
+		void setGreenText(String text);
 
-		void setBlueText(final String text);
+		void setBlueText(String text);
 
-		void setAlphaText(final String text);
+		void setAlphaText(String text);
 
 		void showAlpha(boolean value);
 

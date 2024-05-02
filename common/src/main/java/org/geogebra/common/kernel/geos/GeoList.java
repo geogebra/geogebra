@@ -237,20 +237,29 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public void set(final GeoElementND geo) {
-		reuseDefinition(geo);
-		if (geo.isGeoNumeric()) { // eg SetValue[list, 2]
+	public void set(final GeoElementND other) {
+		set(other, true);
+	}
+
+	/**
+	 * @param other {@link GeoElementND}
+	 * @param internalCopy Whether or not the list elements of the other geo should call
+	 * {@link GeoElement#copyInternal(Construction)} or {@link GeoElement#copy()}
+	 */
+	public void set(final GeoElementND other, boolean internalCopy) {
+		reuseDefinition(other);
+		if (other.isGeoNumeric()) { // eg SetValue[list, 2]
 			// 1 -> first element
-			setSelectedIndex(-1 + (int) ((GeoNumeric) geo).getDouble());
+			setSelectedIndex(-1 + (int) ((GeoNumeric) other).getDouble());
 			isDefined = true;
 
 			return;
 		}
-		if (!(geo instanceof GeoList)) {
+		if (!(other instanceof GeoList)) {
 			setUndefined();
 			return;
 		}
-		final GeoList l = (GeoList) geo;
+		final GeoList l = (GeoList) other;
 
 		if ((l.cons != cons) && isAlgoMacroOutput()) {
 			// MACRO CASE
@@ -261,13 +270,20 @@ public class GeoList extends GeoElement
 		} else {
 			// STANDARD CASE
 			// copy geoList
-			copyListElements(l);
+			copyListElements(l, internalCopy);
 		}
+		copyAttributesFromOtherList(l);
+	}
 
-		isDefined = l.isDefined;
-		elementType = l.elementType;
-		if (l.isElementTypeXMLNeeded()) {
-			typeStringForXML = l.typeStringForXML;
+	/**
+	 * Copies vital attributes from another list to this list
+	 * @param other GeoList
+	 */
+	private void copyAttributesFromOtherList(GeoList other) {
+		isDefined = other.isDefined;
+		elementType = other.elementType;
+		if (other.isElementTypeXMLNeeded()) {
+			typeStringForXML = other.typeStringForXML;
 		}
 	}
 
@@ -282,7 +298,7 @@ public class GeoList extends GeoElement
 		this.showAllProperties = showAllProperties;
 	}
 
-	private void copyListElements(final GeoList otherList) {
+	private void copyListElements(final GeoList otherList, boolean internalCopy) {
 		final int otherListSize = otherList.size();
 		ensureCapacity(otherListSize);
 		elements.clear();
@@ -305,16 +321,21 @@ public class GeoList extends GeoElement
 
 			// could not use cached element -> get copy element
 			if (thisElement == null) {
-				thisElement = getCopyForList(otherElement);
+				thisElement = getCopyForList(otherElement, internalCopy);
 			}
 			// set list element
 			add(thisElement);
 		}
 	}
 
-	private GeoElement getCopyForList(final GeoElement geo) {
+	private GeoElement getCopyForList(final GeoElement geo, boolean copyInternal) {
 		// create a copy of geo
-		final GeoElement ret = geo.copyInternal(cons);
+		final GeoElement ret;
+		if (copyInternal) {
+			ret = geo.copyInternal(cons);
+		} else {
+			ret = geo.copy();
+		}
 		ret.setParentAlgorithm(getParentAlgorithm());
 		if (geo.getDefinition() != null
 				&& !geo.getDefinition().inspect(Inspecting.dynamicGeosFinder)) {
@@ -2674,11 +2695,11 @@ public class GeoList extends GeoElement
 	}
 
 	/**
-	 * Depending upon angleStyle, some values > pi will be changed to (2pi -
+	 * Depending upon angleStyle, some values &gt; pi will be changed to (2pi -
 	 * value). raw_value contains the original value.
 	 *
 	 * @param allowReflexAngle
-	 *            If true, angle is allowed to be> 180 degrees
+	 *            If true, angle is allowed to be&gt; 180 degrees
 	 *
 	 */
 	@Override
@@ -2775,7 +2796,7 @@ public class GeoList extends GeoElement
 	 * Change the size of the arc in pixels,
 	 *
 	 * @param i
-	 *            arc size, should be in <10,100>
+	 *            arc size, should be in &lt;10,100&gt;
 	 */
 	@Override
 	public void setArcSize(int i) {

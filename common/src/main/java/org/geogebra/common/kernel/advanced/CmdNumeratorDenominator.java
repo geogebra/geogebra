@@ -13,9 +13,9 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Numerator[ &lt;Function> ]
+ * Numerator[ &lt;Function&gt; ]
  * 
- * Numerator[ &lt;Number> ]
+ * Numerator[ &lt;Number&gt; ]
  */
 public class CmdNumeratorDenominator extends CommandProcessor {
 

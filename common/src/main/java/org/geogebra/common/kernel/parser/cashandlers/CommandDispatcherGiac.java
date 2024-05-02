@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.parser.cashandlers;
 
+import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -14,6 +15,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.CmdIf;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -179,47 +181,47 @@ public class CommandDispatcherGiac {
 		 */
 		hyperplan(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		laplace(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		det(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		det_minor(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		ilaplace(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		invlaplace(Operation.NO_OPERATION),
 
-		/** returned by eg BinomialDist[72,1/7,n,true] -> error */
+		/** returned by eg BinomialDist[72,1/7,n,true] -&gt; NaN */
 		binomial_cdf(Operation.NO_OPERATION),
 
 		/** eg binomial_icdf(23,0.9285714285714,-9.999988812822E-013) */
 		binomial_icdf(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		fisher_cdf(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		normald_cdf(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		student_cdf(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		chisquare_cdf(Operation.NO_OPERATION),
 
 		/** polar coordinate */
 		ggb_ang(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		poly1(Operation.NO_OPERATION),
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		tran(Operation.NO_OPERATION),
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		jordan(Operation.NO_OPERATION),
 
 		/** fsolve, shouldn't get returned */
@@ -286,21 +288,14 @@ public class CommandDispatcherGiac {
 			switch (cmd) {
 
 			case sum:
-				ret = new ExpressionNode(kernel,
-						new MyNumberPair(kernel, args.getItem(0),
-								args.getItem(1)),
-						Operation.SUM, new MyNumberPair(kernel, args.getItem(2),
-								args.getItem(3)));
-
-				break;
 			case product:
 				ret = new ExpressionNode(kernel,
 						new MyNumberPair(kernel, args.getItem(0),
 								args.getItem(1)),
-						Operation.PRODUCT, new MyNumberPair(kernel, args.getItem(2),
-								args.getItem(3)));
-				break;
+						cmd.getOperation(), new MyNumberPair(kernel, args.getItem(2),
+								args.getItem(3))).traverse(CommandDispatcherGiac::removeSumPrefix);
 
+				break;
 			case piecewise:
 
 				if (args.getLength() < 3) {
@@ -706,6 +701,15 @@ public class CommandDispatcherGiac {
 
 		// exception, eg Derivative[f(x)+g(x)]
 		return null;
+	}
+
+	private static ExpressionValue removeSumPrefix(ExpressionValue expressionValue) {
+		if (expressionValue instanceof Variable) {
+			String oldName = expressionValue.toString(StringTemplate.xmlTemplate);
+			return new Variable(((Variable) expressionValue).getKernel(),
+					oldName.replace(GeoGebraCAS.SUM_VAR_PREFIX, ""));
+		}
+		return expressionValue;
 	}
 
 }

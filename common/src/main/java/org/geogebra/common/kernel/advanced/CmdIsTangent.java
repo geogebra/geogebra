@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.prover.AlgoIsTangent;
 import org.geogebra.common.main.MyError;
 
 /**
- * IsTangent[&lt;Line>, &lt;Conic>]
+ * IsTangent[&lt;Line&gt;, &lt;Conic&gt;]
  * 
  * @author Zoltan Kovacs
  *

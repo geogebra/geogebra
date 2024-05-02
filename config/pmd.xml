@@ -7,12 +7,9 @@
     <description>
         This ruleset checks my code for bad stuff
     </description>
-    <exclude-pattern>.*/org/apache/.*</exclude-pattern>
     <exclude-pattern>.*/com/github/.*</exclude-pattern>
     <exclude-pattern>.*/com/google/.*</exclude-pattern>
-    <exclude-pattern>.*/com/kitfox/.*</exclude-pattern>
     <exclude-pattern>.*/edu/uci/.*</exclude-pattern>
-    <exclude-pattern>.*/org/mozilla/.*</exclude-pattern>
     <exclude-pattern>.*/org/jfugue/.*</exclude-pattern>
     <exclude-pattern>.*/org/freehep/.*</exclude-pattern>
     <exclude-pattern>.*/org/geogebra/common/kernel/parser/.*</exclude-pattern>
@@ -77,6 +74,7 @@
         <exclude name="UnnecessaryFullyQualifiedName"/>
         <exclude name="UseShortArrayInitializer"/>
         <exclude name="UnnecessaryCast"/>
+        <exclude name="EmptyControlStatement"/> <!-- handled by checkstyle -->
     </rule>
     <rule ref="category/java/design.xml">
         <exclude name="ImmutableField"/>
@@ -134,7 +132,6 @@
         <exclude name="UseLocaleWithCaseConversions"/>
         <exclude name="DataflowAnomalyAnalysis"/>
         <exclude name="AvoidLiteralsInIfCondition"/>
-        <exclude name="BeanMembersShouldSerialize"/>
         <exclude name="NullAssignment"/>
         <exclude name="EmptyIfStmt"/>
         <exclude name="AvoidDecimalLiteralsInBigDecimalConstructor"/>
@@ -143,6 +140,8 @@
         <exclude name="AssignmentInOperand"/>
         <exclude name="AvoidFieldNameMatchingMethodName"/>
         <exclude name="CloseResource"/>
+        <exclude name="NonSerializableClass"/>
+        <exclude name="TestClassWithoutTestCases"/>
     </rule>
     <rule ref="category/java/multithreading.xml">
         <exclude name="NonThreadSafeSingleton"/>

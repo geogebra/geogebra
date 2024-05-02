@@ -13,7 +13,7 @@ import java.util.Map;
 import org.freehep.graphicsio.ImageConstants;
 
 /**
- * Delay <tt>Image</tt> objects for writing XObjects to the pdf file when the
+ * Delay {@code Image} objects for writing XObjects to the pdf file when the
  * pageStream is complete. Caches identical images to only write them once.
  * 
  * @author Simon Fischer

@@ -47,12 +47,12 @@ import org.freehep.graphicsio.font.FontUtilities;
 import org.freehep.util.UserProperties;
 
 /**
- * Implementation of <tt>VectorGraphics</tt> that writes the output to a PDF
- * file. Users of this class have to generate a <tt>PDFWriter</tt> and create an
+ * Implementation of {@code VectorGraphics} that writes the output to a PDF
+ * file. Users of this class have to generate a {@code PDFWriter} and create an
  * instance by invoking the factory method or the constructor. Document specific
  * settings like page size can then be made by the appropriate setter methods.
- * Before starting to draw, <tt>startExport()</tt> must be called. When drawing
- * is finished, call <tt>endExport()</tt>.
+ * Before starting to draw, {@code startExport()} must be called. When drawing
+ * is finished, call {@code endExport()}.
  * 
  * @author Simon Fischer
  * @author Mark Donszelmann

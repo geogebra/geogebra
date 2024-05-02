@@ -7,8 +7,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * 
- * CorrelationCoefficient[&lt;List of points>] CorrelationCoefficient[&lt;List
- * of numbers>, &lt;List of numbers> ]
+ * CorrelationCoefficient[&lt;List of Points&gt;] CorrelationCoefficient[&lt;List
+ * of numbers&gt;, &lt;List of Numbers&gt; ]
  *
  */
 public class CmdPMCC extends CmdOneOrTwoListsFunction {

@@ -759,6 +759,8 @@ public abstract class CommandDispatcher implements Restrictable {
 			case InverseExponential:
 			case InverseFDistribution:
 			case InverseGamma:
+			case InverseBeta:
+			case BetaDist:
 			case InverseHyperGeometric:
 			case InverseLogNormal:
 			case InverseLogistic:

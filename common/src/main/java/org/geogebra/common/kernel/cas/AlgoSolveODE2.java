@@ -38,8 +38,8 @@ public class AlgoSolveODE2 extends AlgoElement {
 	ArrayList<MyPoint> al;
 
 	/**
-	 * SolveODE[ &lt;b(x)>, &lt;c(x)>, &lt;f(x)>, &lt;Start x>, &lt;Start y>,
-	 * &lt;Start y'>, &lt;End x>, &lt;Step>]
+	 * SolveODE[ &lt;b(x)&gt;, &lt;c(x)&gt;, &lt;f(x)&gt;, &lt;Start x&gt;, &lt;Start y&gt;,
+	 * &lt;Start y'&gt;, &lt;End x&gt;, &lt;Step&gt;]
 	 * 
 	 * @param cons
 	 *            construction

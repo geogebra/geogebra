@@ -10,7 +10,7 @@ import edu.uci.ics.jung.graph.util.Pair;
 import edu.uci.ics.jung.graph.util.TreeUtils;
 
 /**
- * An implementation of <code>Forest<V,E></code> that delegates to a specified
+ * An implementation of <code>Forest&lt;V,E&gt;</code> that delegates to a specified
  * <code>DirectedGraph</code> instance.
  * 
  * @author Tom Nelson
@@ -198,7 +198,7 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 	}
 
 	/**
-	 * getter for the root of the tree returns null, as this tree has >1 roots
+	 * getter for the root of the tree returns null, as this tree has more than 1 roots
 	 * 
 	 * @return the root
 	 */

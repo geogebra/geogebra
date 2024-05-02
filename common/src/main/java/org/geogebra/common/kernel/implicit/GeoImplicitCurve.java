@@ -2208,10 +2208,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	/**
-	 * @param coeff
-	 *            coeefficients
-	 * @param kernel
-	 *            kernel
 	 * @param tpl0
 	 *            string template
 	 * @return string representation of polynomial with given coefficients

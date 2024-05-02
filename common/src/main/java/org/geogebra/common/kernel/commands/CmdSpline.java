@@ -15,7 +15,7 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * 
- * Spline [&lt;list of points>]
+ * Spline [&lt;List of Points&gt;]
  * 
  * @author Giuliano Bellucci
  * 

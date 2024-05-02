@@ -162,7 +162,7 @@ public class Player {
 	/**
 	 * Plays a pattern by setting up a Renderer and feeding the pattern to it.
 	 * 
-	 * @param pattern
+	 * @param rhythm
 	 *            the pattern to play
 	 * @see MidiRenderer
 	 */
@@ -401,8 +401,8 @@ public class Player {
 	 * parser.parse(sequence);
 	 * </pre>
 	 *
-	 * @param filename
-	 *            The name of the MIDI file
+	 * @param file
+	 *            The MIDI file
 	 * @return a Pattern containing the MusicString representing the MIDI music
 	 * @throws IOException
 	 *             If there is a problem opening the MIDI file

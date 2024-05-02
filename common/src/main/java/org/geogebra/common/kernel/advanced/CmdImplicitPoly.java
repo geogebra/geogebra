@@ -15,7 +15,7 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * 
- * ImplicitPoly[ &lt;Function> ]
+ * ImplicitPoly[ &lt;Function&gt; ]
  *
  */
 public class CmdImplicitPoly extends CommandProcessor {

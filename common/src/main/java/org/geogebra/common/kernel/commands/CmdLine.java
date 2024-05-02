@@ -9,11 +9,11 @@ import org.geogebra.common.kernel.geos.Lineable2D;
 import org.geogebra.common.main.MyError;
 
 /**
- * Line[ &lt;GeoPoint>, &lt;GeoPoint> ]
+ * Line[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
  * 
- * Line[ &lt;GeoPoint>, &lt;GeoVector> ]
+ * Line[ &lt;GeoPoint&gt;, &lt;GeoVector&gt; ]
  * 
- * Line[ &lt;GeoPoint>, &lt;GeoLine> ]
+ * Line[ &lt;GeoPoint&gt;, &lt;GeoLine&gt; ]
  */
 public class CmdLine extends CommandProcessor {
 	/**

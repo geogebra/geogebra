@@ -47,9 +47,11 @@ public final class PitchBend implements JFugueElement {
 
 	/**
 	 * Sets the value of the pitch bend for this object.
-	 * 
-	 * @param tempo
-	 *            the pitch bend for this object
+	 *
+	 * @param lsb
+	 *            the least significant byte for the pitch bend for this object
+	 * @param msb
+	 *            the most significant byte for the pitch bend for this object
 	 */
 	public void setPitchBend(byte lsb, byte msb) {
 		this.lsb = lsb;
@@ -67,8 +69,8 @@ public final class PitchBend implements JFugueElement {
 
 	/**
 	 * Returns the Music String representing this element and all of its
-	 * settings. For a PitchBend object, the Music String is <code>&</code>
-	 * <i>int</i> or <code>&</code><i>lsb,msb</i>
+	 * settings. For a PitchBend object, the Music String is <code>&amp;</code>
+	 * <i>int</i> or <code>&amp;</code><i>lsb,msb</i>
 	 * 
 	 * @return the Music String for this element
 	 */

@@ -411,12 +411,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		useFullGui = true;
 
-		// don't want to redirect System.out and System.err when running as
-		// Applet
-		// or eg from Eclipse
 		getCodeBase(); // initialize runningFromJar
 
 		Log.debug("runningFromJar=" + runningFromJar);
+		// don't want to redirect System.out and System.err when running from IDE
 		if (runningFromJar) {
 			setUpLogging();
 		} else {

@@ -11,9 +11,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Arc[ &lt;GeoConic>, &lt;Number>, &lt;Number> ]
+ * Arc[ &lt;GeoConic&gt;, &lt;Number&gt;, &lt;Number&gt; ]
  * 
- * Arc[ &lt;GeoConic>, &lt;GeoPoint>, &lt;GeoPoint> ]
+ * Arc[ &lt;GeoConic&gt;, &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
  */
 public class CmdArcSector extends CommandProcessor {
 

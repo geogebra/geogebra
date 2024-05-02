@@ -78,10 +78,10 @@ public class CmdPascal extends CommandProcessor {
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
 					&& (ok[3] = arg[3].isGeoBoolean())) {
 
-				AlgoPascal algo = new AlgoPascal(cons, c.getLabel(),
+				AlgoPascal algo = new AlgoPascal(cons,
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoNumberValue) arg[2], (GeoBoolean) arg[3]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

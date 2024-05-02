@@ -42,8 +42,9 @@ public class ToolButton extends StandardButton {
 	}
 
 	/**
+	 * Switch between default and tinted icon
 	 * @param selected
-	 *            true if tool is selected -> use teal img
+	 *            true if tool is selected
 	 */
 	public void setSelected(final boolean selected) {
 		GGWToolBar.getImageResource(mode, appW, selected ? getFillAdapter() : this);

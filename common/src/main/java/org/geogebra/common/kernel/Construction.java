@@ -127,7 +127,7 @@ public class Construction {
 	private final ArrayList<ConstructionElement> ceList;
 
 	// AlgoElement List (for objects of type AlgoElement)
-	private ArrayList<AlgoElement> algoList; // used in updateConstruction()
+	private final ArrayList<AlgoElement> algoList; // used in updateConstruction()
 
 	/** Table for (label, GeoElement) pairs, contains global variables */
 	protected HashMap<String, GeoElement> geoTable;
@@ -752,10 +752,8 @@ public class Construction {
 	 */
 	private final boolean updateAllConstructionProtocolAlgorithms() {
 		// update all algorithms
-		int size = algoList.size();
 		ArrayList<AlgoElement> updateAlgos = null;
-		for (int i = 0; i < size; ++i) {
-			AlgoElement algo = algoList.get(i);
+		for (AlgoElement algo : algoList) {
 			if (algo.wantsConstructionProtocolUpdate()) {
 				if (updateAlgos == null) {
 					updateAlgos = new ArrayList<>();
@@ -888,7 +886,7 @@ public class Construction {
 
 	/**
 	 * Removes the given Construction Element from this Construction and updates
-	 * step if necessary (i.e. if ce.getConstructionIndex() <= getStep()).
+	 * step if necessary (i.e. if ce.getConstructionIndex() &lt;= getStep()).
 	 * @param ce ConstuctionElement to be removed
 	 */
 	public void removeFromConstructionList(ConstructionElement ce) {
@@ -2918,7 +2916,7 @@ public class Construction {
 	}
 
 	/**
-	 * Returns the UndoManager (for Copy & Paste)
+	 * Returns the UndoManager (for Copy &amp; Paste)
 	 * @return UndoManager
 	 */
 	public UndoManager getUndoManager() {
@@ -3025,8 +3023,6 @@ public class Construction {
 	public void setNotXmlLoading(boolean b) {
 		this.notXmlLoading = b;
 	}
-
-	// update all indices >= pos
 
 	/**
 	 * @return whether updateConstruction is running
@@ -3252,17 +3248,13 @@ public class Construction {
 	 * @return segment defined by A and B
 	 */
 	public GeoSegment getSegmentFromAlgoList(GeoPoint A, GeoPoint B) {
-		if (!algoList.isEmpty()) {
-			Iterator<AlgoElement> it = algoList.iterator();
-			while (it.hasNext()) {
-				AlgoElement curr = it.next();
-				if (curr instanceof AlgoJoinPointsSegment) {
-					if ((curr.getInput(0).equals(A)
-							&& curr.getInput(1).equals(B))
-							|| (curr.getInput(0).equals(B)
-							&& curr.getInput(1).equals(A))) {
-						return ((AlgoJoinPointsSegment) curr).getSegment();
-					}
+		for (AlgoElement curr : algoList) {
+			if (curr instanceof AlgoJoinPointsSegment) {
+				if ((curr.getInput(0).equals(A)
+						&& curr.getInput(1).equals(B))
+						|| (curr.getInput(0).equals(B)
+						&& curr.getInput(1).equals(A))) {
+					return ((AlgoJoinPointsSegment) curr).getSegment();
 				}
 			}
 		}
@@ -3298,7 +3290,7 @@ public class Construction {
 	}
 
 	/**
-	 * @return map label => geo
+	 * @return map label =&gt; geo
 	 */
 	public HashMap<String, GeoElement> getGeoTable() {
 		return geoTable;

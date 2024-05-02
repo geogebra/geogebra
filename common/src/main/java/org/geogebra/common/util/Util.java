@@ -40,7 +40,7 @@ public final class Util {
 	}
 
 	/**
-	 * Removes &lt; > " * / ? | \ and replaces them with underscore (_)
+	 * Removes &lt; &gt; " * / ? | \ and replaces them with underscore (_)
 	 * 
 	 * @author Michael Borcherds
 	 * @param name
@@ -113,7 +113,7 @@ public final class Util {
 	/**
 	 * @param fn
 	 *            filename to check
-	 * @return filename with extension changed eg ".gif" -> ".png"
+	 * @return filename with extension changed eg ".gif" -&gt; ".png"
 	 */
 	public static String checkImageExtension(String fn) {
 

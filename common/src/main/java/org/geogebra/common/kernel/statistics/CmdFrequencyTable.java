@@ -12,14 +12,15 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * FrequencyTable[ &lt;List of Raw Data L> ] FrequencyTable[ &lt;Boolean
- * Cumulative C>, &lt;List of Raw Data L>] FrequencyTable[&lt;List of Class
- * Boundaries C>, &lt;List of Raw Data L> ] FrequencyTable[ &lt;Boolean
- * Cumulative>,&lt;List of Class Boundaries C>,&lt;List of Raw Data L>]
- * FrequencyTable[&lt;List of Class Boundaries>, &lt;List of Raw Data>, &lt;Use
- * Density> , &lt;Density Scale Factor> (optional) ] FrequencyTable[ &lt;Boolean
- * Cumulative>, &lt;List of Class Boundaries>, &lt;List of Raw Data>, &lt;Use
- * Density> , &lt;Density Scale Factor> (optional) ]
+ * FrequencyTable[ &lt;List of Raw Data L&gt; ]
+ * FrequencyTable[ &lt;Boolean Cumulative C&gt;, &lt;List of Raw Data L&gt;]
+ * FrequencyTable[&lt;List of Class Boundaries C&gt;, &lt;List of Raw Data L&gt; ]
+ * FrequencyTable[ &lt;Boolean Cumulative&gt;,&lt;List of Class Boundaries C&gt;,
+ *   &lt;List of Raw Data L&gt;]
+ * FrequencyTable[&lt;List of Class Boundaries&gt;, &lt;List of Raw Data&gt;, &lt;Use
+ * Density&gt; , &lt;Density Scale Factor&gt; (optional) ]
+ * FrequencyTable[ &lt;Boolean Cumulative&gt;, &lt;List of Class Boundaries&gt;,
+ *   &lt;List of Raw Data&gt;, &lt;Use Density&gt; , &lt;Density Scale Factor&gt; (optional) ]
  *
  */
 public class CmdFrequencyTable extends CommandProcessor {

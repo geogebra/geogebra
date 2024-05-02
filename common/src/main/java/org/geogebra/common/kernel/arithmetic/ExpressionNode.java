@@ -73,7 +73,6 @@ public class ExpressionNode extends ValidExpression
 	private boolean forceInequality = false;
 	private boolean forceSurface = false;
 	private boolean forceAngle = false;
-	private boolean forceList = false;
 
 	/** true if this holds text and the text is in LaTeX format */
 	public boolean holdsLaTeXtext = false;
@@ -1747,7 +1746,7 @@ public class ExpressionNode extends ValidExpression
 	 * @param op
 	 *            operation
 	 * @return whether this operation returns boolean and can be used in chain
-	 *         eg. x < y <=z
+	 *         eg. x &lt; y &lt;=z
 	 */
 	public static boolean chainedBooleanOp(Operation op) {
 		switch (op) {
@@ -1801,7 +1800,7 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * @param v2
 	 *            value to compare
-	 * @return result this < v2
+	 * @return result this &lt; v2
 	 */
 	public ExpressionNode lessThan(ExpressionValue v2) {
 		return new ExpressionNode(kernel, this, Operation.LESS, v2);
@@ -1810,7 +1809,7 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * @param d
 	 *            value to compare
-	 * @return result this < d
+	 * @return result this &lt; d
 	 */
 	public ExpressionNode lessThan(double d) {
 		return new ExpressionNode(kernel, this, Operation.LESS,
@@ -1820,7 +1819,7 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * @param d
 	 *            value to compare
-	 * @return result this <= d
+	 * @return result this &lt;= d
 	 */
 	public ExpressionNode lessThanEqual(double d) {
 		return new ExpressionNode(kernel, this, Operation.LESS_EQUAL,
@@ -1925,24 +1924,6 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public ExpressionNode gammaIncompleteReverseArgs(ExpressionValue v2) {
 		return new ExpressionNode(kernel, v2, Operation.GAMMA_INCOMPLETE, this);
-	}
-
-	/**
-	 * @param v2
-	 *            input
-	 * @return result of gamma(this, v2)
-	 */
-	public ExpressionNode gammaIncomplete(ExpressionValue v2) {
-		return new ExpressionNode(kernel, this, Operation.GAMMA_INCOMPLETE, v2);
-	}
-
-	/**
-	 * @param v2
-	 *            input
-	 * @return result of beta(this, v2)
-	 */
-	public ExpressionNode beta(ExpressionValue v2) {
-		return new ExpressionNode(kernel, this, Operation.BETA, v2);
 	}
 
 	/**
@@ -2301,7 +2282,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
-	 * @return negation of this expression (optimizes negation of >,<,=>,<=)
+	 * @return negation of this expression (optimizes negation of &gt;,&lt;,=&gt;,&lt;=)
 	 */
 	public ExpressionNode negation() {
 		if (Operation.AND_INTERVAL.equals(operation)) {
@@ -3136,14 +3117,27 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * Apply given binary operation on this node and additional argument
 	 * 
-	 * @param operation2
+	 * @param op
 	 *            operation
 	 * @param arg
 	 *            second argument
-	 * @return expression node opertion2this,arg)
+	 * @return expression node  this [op] arg
 	 */
-	public ExpressionNode apply(Operation operation2, ExpressionValue arg) {
-		return new ExpressionNode(kernel, this, operation2, arg);
+	public ExpressionNode apply(Operation op, ExpressionValue arg) {
+		return new ExpressionNode(kernel, this, op, arg);
+	}
+
+	/**
+	 * Apply given binary operation in reverse on this node and additional argument
+	 *
+	 * @param op
+	 *            operation
+	 * @param arg
+	 *            second argument
+	 * @return expression node  this [op] arg
+	 */
+	public ExpressionNode applyReverse(Operation op, ExpressionValue arg) {
+		return new ExpressionNode(kernel, arg, op, this);
 	}
 
 	/**
@@ -3231,9 +3225,9 @@ public class ExpressionNode extends ValidExpression
 
 	/**
 	 * @return variables that must be defined in order for the result to be
-	 *         defined eg. d+If[a>0,b,c] has unconditional variable d
-	 * 
-	 * 
+	 *         defined eg. d+If[a&gt;0,b,c] has unconditional variable d
+	 *
+	 *
 	 */
 	public HashSet<GeoElement> getUnconditionalVars() {
 		// TODO Auto-generated method stub
@@ -3677,14 +3671,6 @@ public class ExpressionNode extends ValidExpression
 
 	public boolean isForceAngle() {
 		return forceAngle;
-	}
-
-	public void setForceList() {
-		this.forceList = true;
-	}
-
-	public boolean isForceList() {
-		return forceList;
 	}
 
 	/**

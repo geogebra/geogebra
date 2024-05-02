@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Prism[ &lt;GeoPoint3D>, &lt;GeoPoint3D>, &lt;GeoPoint3D>, ... ]
+ * Prism[ &lt;GeoPoint3D&gt;, &lt;GeoPoint3D&gt;, &lt;GeoPoint3D&gt;, ... ]
  */
 public class CmdPrism extends CommandProcessor {
 	/**

@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Orthogonal[ &lt;GeoPoint3D>, &lt;GeoCoordSys> ]
+ * Orthogonal[ &lt;GeoPoint3D&gt;, &lt;GeoCoordSys&gt; ]
  */
 public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 	/**

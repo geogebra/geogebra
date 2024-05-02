@@ -701,7 +701,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 
 	/**
-	 * Set & update UI
+	 * Set and update UI
 	 * 
 	 * @param euclidianView1
 	 *            graphics view

@@ -56,7 +56,7 @@ public interface Traversing {
 	 *            value to process
 	 * @return processed value
 	 */
-	public ExpressionValue process(final ExpressionValue ev);
+	ExpressionValue process(ExpressionValue ev);
 
 	/**
 	 * Replaces one object by another

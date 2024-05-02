@@ -22,9 +22,9 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * Fit[&lt;List Points>,&lt;List of Functions>] (linear combination)
+ * Fit[&lt;List Points&gt;,&lt;List of Functions&gt;] (linear combination)
  * 
- * Fit[&lt;List Points>, &lt;Function>] (nonlinear with sliders as startvalues)
+ * Fit[&lt;List Points&gt;, &lt;Function&gt;] (nonlinear with sliders as startvalues)
  * 
  * @author Hans-Petter Ulven
  * @version 2011-03-15

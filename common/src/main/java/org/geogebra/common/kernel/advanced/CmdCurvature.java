@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Curvature[&lt;Point>,&lt;Curve>], Curvature[&lt;Point>,&lt;Function>]
+ * Curvature[&lt;Point&gt;,&lt;Curve&gt;], Curvature[&lt;Point&gt;,&lt;Function&gt;]
  * 
  * @author Victor Franco Espino
  */

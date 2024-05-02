@@ -6,7 +6,7 @@ import java.util.HashMap;
 import org.geogebra.common.awt.GColor;
 
 /**
- * Static methods for AWT &lt;-> multiplatform color conversion
+ * Static methods for AWT &lt;-&gt; multiplatform color conversion
  *
  */
 public class GColorD {

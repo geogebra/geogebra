@@ -40,7 +40,7 @@ public class Ggb2giac {
 	/**
 	 * @param app
 	 *            application,might be needed for featur
-	 * @return map signature => syntax
+	 * @return map signature =&gt; syntax
 	 */
 	public static Map<String, String> getMap(App app) {
 
@@ -1323,10 +1323,10 @@ public class Ggb2giac {
 		// quote() needed for GGB-2184
 		// Sum(If(Mod(k,2)==0,k,0),k,0,10)
 		p("Sum.4",
-				"expand(subst(sum(subst(quote(%0),{%1},{ggbsumvar@1}),ggbsumvar@1,%2,%3),ggbsumvar@1,%1))");
+				"expand(sum(quote(%0),%1,%2,%3))");
 
 		p("Product.4",
-				"expand(subst(product(subst(quote(%0),{%1},{ggbproductvar@1}),ggbproductvar@1,%2,%3),ggbproductvar@1,%1))");
+				"expand(product(quote(%0),%1,%2,%3))");
 
 		// svd = singular value decomposition
 		// svd(M)=[U,S,V]

@@ -170,7 +170,7 @@ public class ImageManagerD extends ImageManager {
 	}
 
 	/**
-	 * Adds an external image files & changes ".gif" extensions to ".png".
+	 * Adds an external image files and changes ".gif" extensions to ".png".
 	 * @param fileName0 filename
 	 * @param img image
 	 */

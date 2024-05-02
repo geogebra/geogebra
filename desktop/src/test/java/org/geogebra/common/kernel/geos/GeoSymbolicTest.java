@@ -24,7 +24,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
-import org.geogebra.common.gui.view.algebra.AlgebraItemTest;
 import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
@@ -486,6 +485,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testSumCommand() {
 		t("Sum(m*(1/2)^(m),m,0,inf)", "2");
 		t("Sum(Sum(n*m*(1/2)^(n+m),n,0,inf),m,0,inf)", "4");
+		t("Sum(If(j^2<>j,1,0),j,1,5)", "4");
+	}
+
+	@Test
+	public void sumShouldNotReplaceInput() {
+		GeoSymbolic sum = add("Sum(If(Mod(k,2)==0,k,0),k,0,10)");
+		assertEquals("a=Sum(If(Mod(k,2)" + Unicode.QUESTEQ + "0,k,0),k,0,10)",
+				sum.getDefinitionForEditor());
 	}
 
 	@Test
@@ -873,7 +880,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		f.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		f.setLineThickness(8);
 		f.setLineOpacity(42);
-		app.setXML(app.getXML(), true);
+		reload();
 
 		GeoSymbolic fReloaded = getSymbolic("f");
 		assertEquals(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT,
@@ -2027,7 +2034,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	/**
-	 * like {@link AlgebraItemTest#testIsGeoFraction}, but for GeoSymbolic
+	 * like AlgebraItemTest:testIsGeoFraction, but for GeoSymbolic
 	 */
 	@Test
 	public void testIsGeoFraction() {
@@ -2282,5 +2289,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testIntegral2() {
 		t("f(x)=b", "b");
 		t("Integral[f]", "b * x + c_{1}");
+	}
+
+	@Test
+	@Issue("APPS-5477")
+	public void parametricLinesShouldReload() {
+		add("f: X=(2,3,4)+r (2,2,2)");
+		t("f(3)", "(8, 9, 10)");
+		reload();
+		t("f(3)", "(8, 9, 10)");
 	}
 }

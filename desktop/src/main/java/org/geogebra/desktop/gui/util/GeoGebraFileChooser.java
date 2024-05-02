@@ -238,10 +238,10 @@ public class GeoGebraFileChooser extends JFileChooser
 	 * Component to preview image files in a file chooser.
 	 * 
 	 * This file is based on Hack #31 in
-	 * "Swing Hacks - Tips & Tools for Building Killer GUIs" by Joshua Marinacci
+	 * "Swing Hacks - Tips &amp; Tools for Building Killer GUIs" by Joshua Marinacci
 	 * and Chris Adamson.
 	 * 
-	 * Modified & commented by Florian Sonner for GeoGebraFileChooser
+	 * Modified and commented by Florian Sonner for GeoGebraFileChooser
 	 * 
 	 * @author Joshua Marinacci
 	 * @author Chris Adamson

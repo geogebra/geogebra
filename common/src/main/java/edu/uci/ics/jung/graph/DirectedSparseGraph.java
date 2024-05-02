@@ -17,8 +17,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-
-import org.apache.commons.collections15.Factory;
+import java.util.function.Supplier;
 
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.graph.util.Pair;
@@ -37,10 +36,10 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 	 * @param <E>
 	 *            the edge type for the graph factory
 	 */
-	public static final <V, E> Factory<DirectedGraph<V, E>> getFactory() {
-		return new Factory<DirectedGraph<V, E>>() {
+	public static final <V, E> Supplier<DirectedGraph<V, E>> getFactory() {
+		return new Supplier<DirectedGraph<V, E>>() {
 			@Override
-			public DirectedGraph<V, E> create() {
+			public DirectedGraph<V, E> get() {
 				return new DirectedSparseGraph<V, E>();
 			}
 		};

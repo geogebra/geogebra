@@ -93,7 +93,7 @@ public class MetaModel {
 	}
 
 	/**
-	 * Enable automatic substitutions (e.g. pi -> unicode pi)
+	 * Enable automatic substitutions (e.g. pi -&gt; unicode pi)
 	 */
 	public void enableSubstitutions() {
 		for (Greek letter: Greek.values()) {

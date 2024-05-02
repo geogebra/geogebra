@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * TriangleCenter[<Point>,<Point>,<Point>,<Index>]
+ * TriangleCenter[&lt;Point&gt;,&lt;Point&gt;,&lt;Point&gt;,&lt;Index&gt;]
  * 
  * @author Zbynek Konecny
  *
