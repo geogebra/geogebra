@@ -35,5 +35,9 @@ public enum EuclidianCursor {
 	/** Highlighter */
 	HIGHLIGHTER,
 	/** Rotation */
-	ROTATION
+	ROTATION,
+	/** Mindmap */
+	MINDMAP,
+	/** Table */
+	TABLE
 }

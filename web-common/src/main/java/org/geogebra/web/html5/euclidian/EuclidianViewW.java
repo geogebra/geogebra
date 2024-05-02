@@ -1001,6 +1001,14 @@ public class EuclidianViewW extends EuclidianView implements
 		setCursorClass("cursor_highlighter");
 	}
 
+	private void setMindmapCursor() {
+		setCursorClass("cursor_mindmap");
+	}
+
+	private void setTableCursor() {
+		setCursorClass("cursor_table");
+	}
+
 	private void setRotationCursor() {
 		setCursorClass("cursor_rotation");
 	}
@@ -1239,6 +1247,12 @@ public class EuclidianViewW extends EuclidianView implements
 			return;
 		case HIGHLIGHTER:
 			setHighlighterCursor();
+			return;
+		case MINDMAP:
+			setMindmapCursor();
+			return;
+		case TABLE:
+			setTableCursor();
 			return;
 		case ROTATION:
 			if (appW.isWhiteboardActive() && getEuclidianController()
