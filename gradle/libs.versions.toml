@@ -10,6 +10,7 @@ elemental2 = "1.2.1"
 murok = "1.0.202402201544"
 # built from ef18cb9206; switch to upstream when https://github.com/mozilla/rhino/pull/1385 is released
 mozilla-rhino = "1.7.15-SNAPSHOT"
+quickJs = '1.0.202403131629-SNAPSHOT'
 multiplayer = "1.0.202404261259"
 
 [libraries]
@@ -25,6 +26,7 @@ autoService = "com.google.auto.service:auto-service:1.1.1"
 pdfJs = "org.webjars.npm:pdfjs-dist:2.5.207"
 multiplayer = { module = "org.geogebra:multiplayer", version.ref = "multiplayer" }
 fflate = "org.webjars.npm:fflate:0.8.0"
+quickjs = {module = "org.quickjs:emscripten", version.ref = "quickJs"}
 
 jsObject = "netscape.javascript:jsobject:1"
 openGeoProver = "com.ogprover:OpenGeoProver:20120725"
