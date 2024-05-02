@@ -2,13 +2,11 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox.pen;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianPen;
-import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorValues;
+import org.geogebra.common.main.settings.PenToolsSettings;
 import org.geogebra.web.html5.main.AppW;
 
 public class PenCategoryController {
 	private final AppW appW;
-	private GColor lastPenColor = GColor.BLACK;
-	private GColor lastHighlighterColor = ColorValues.GREEN.getColor();
 
 	public PenCategoryController(AppW appW) {
 		this.appW = appW;
@@ -32,18 +30,22 @@ public class PenCategoryController {
 	}
 
 	public GColor getLastPenColor() {
-		return lastPenColor;
+		return getPenSettings().getLastSelectedPenColor();
 	}
 
 	public void setLastPenColor(GColor lastPenColor) {
-		this.lastPenColor = lastPenColor;
+		getPenSettings().setLastSelectedPenColor(lastPenColor);
 	}
 
 	public GColor getLastHighlighterColor() {
-		return lastHighlighterColor;
+		return getPenSettings().getLastSelectedHighlighterColor();
 	}
 
 	public void setLastHighlighterColor(GColor lastHighlighterColor) {
-		this.lastHighlighterColor = lastHighlighterColor;
+		getPenSettings().setLastSelectedHighlighterColor(lastHighlighterColor);
+	}
+
+	private PenToolsSettings getPenSettings() {
+		return appW.getSettings().getPenTools();
 	}
 }
