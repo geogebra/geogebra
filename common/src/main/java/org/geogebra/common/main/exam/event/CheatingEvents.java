@@ -9,7 +9,7 @@ import java.util.List;
 public class CheatingEvents {
 
     public interface Delegate {
-        void cheated(CheatingAction cheatingAction);
+        void cheatingEventAdded(CheatingEvent cheatingEvent);
     }
 
     private final List<CheatingEvent> events;
@@ -139,9 +139,10 @@ public class CheatingEvents {
     }
 
     private void addCheatingEvent(CheatingAction action) {
+        CheatingEvent cheatingEvent = new CheatingEvent(action, System.currentTimeMillis());
+        events.add(cheatingEvent);
         if (delegate != null) {
-            delegate.cheated(action);
+            delegate.cheatingEventAdded(cheatingEvent);
         }
-        events.add(new CheatingEvent(action, System.currentTimeMillis()));
     }
 }

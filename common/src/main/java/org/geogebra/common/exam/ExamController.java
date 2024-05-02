@@ -387,7 +387,7 @@ public final class ExamController {
 		createNewTempMaterial();
 
 		cheatingEvents = new CheatingEvents();
-		cheatingEvents.delegate = (cheatingAction) -> {
+		cheatingEvents.delegate = (cheatingEvent) -> {
 			if (cheatingEvents.size() == 1) {
 				notifyListenersCheatingStarted();
 			}
