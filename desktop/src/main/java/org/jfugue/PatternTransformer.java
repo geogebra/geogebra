@@ -31,10 +31,6 @@ package org.jfugue;
  *
  * This feature is covered in detail in The Complete Guide to JFugue.
  *
- * @see org.jfugue.extras.DiatonicIntervalPatternTransformer
- * @see org.jfugue.extras.DurationPatternTransformer
- * @see org.jfugue.extras.IntervalPatternTransformer
- * @see org.jfugue.extras.ReversePatternTransformer
  * @author David Koelle
  * @version 2.0
  */

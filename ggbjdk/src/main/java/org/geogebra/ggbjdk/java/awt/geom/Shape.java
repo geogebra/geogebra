@@ -35,7 +35,7 @@ import org.geogebra.common.awt.GShape;
 /**
  * The <code>Shape</code> interface provides definitions for objects
  * that represent some form of geometric shape.  The <code>Shape</code>
- * is described by a {@link PathIterator} object, which can express the
+ * is described by a {@link GPathIterator} object, which can express the
  * outline of the <code>Shape</code> as well as a rule for determining
  * how the outline divides the 2D plane into interior and exterior
  * points.  Each <code>Shape</code> object provides callbacks to get the
@@ -45,7 +45,7 @@ import org.geogebra.common.awt.GShape;
  * object that describes the trajectory path of the <code>Shape</code>
  * outline.
  * <p>
- * <a name="def_insideness"><b>Definition of insideness:</b></a>
+ * <b>Definition of insideness:</b>
  * A point is considered to lie inside a
  * <code>Shape</code> if and only if:
  * <ul>

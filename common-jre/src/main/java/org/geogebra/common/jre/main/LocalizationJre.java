@@ -120,7 +120,7 @@ public abstract class LocalizationJre extends Localization {
 	/**
 	 * @param key key name
 	 * @param locale locale
-	 * @return bundle for key & locale
+	 * @return bundle for key and locale
 	 */
 	abstract protected ResourceBundle createBundle(String key, Locale locale);
 

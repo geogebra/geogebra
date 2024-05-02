@@ -72,7 +72,7 @@ public class AsyncManager {
 	 * Ensure that all the specified modules are loaded before
 	 * any other code inside async callback is run
 	 * @param modules modules to preload
-	 *                   (null -> preload all specified in defaultPreload)
+	 *                   (null -&gt; preload all specified in defaultPreload)
 	 */
 	public void ensureModulesLoaded(String[] modules) {
 		final AsyncModule[] preload = modules == null ? defaultPreload

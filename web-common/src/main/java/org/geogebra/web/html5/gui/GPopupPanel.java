@@ -70,9 +70,6 @@ import jsinterop.base.Js;
  * {@link #setHeight(String)} will call these methods on the PopupPanel's
  * widget.
  * </p>
- * <p>
- * <img class='gallery' src='doc-files/PopupPanel.png'/>
- * </p>
  *
  * <p>
  * The PopupPanel can be optionally displayed with a "glass" element behind it,
@@ -82,7 +79,6 @@ import jsinterop.base.Js;
  * {@link #setGlassStyleName(String)}.
  * </p>
  *
- * </p>
  * <h3>CSS Style Rules</h3>
  * <dl>
  * <dt>.gwt-PopupPanel</dt>

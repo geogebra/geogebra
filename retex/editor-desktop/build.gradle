@@ -8,4 +8,6 @@ dependencies {
 	api project(':editor-base')
 }
 
-mainClassName = 'com.himamis.retex.editor.desktop.Test'
+application {
+	mainClassName = 'com.himamis.retex.editor.desktop.Test'
+}

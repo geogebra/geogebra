@@ -1030,7 +1030,7 @@ public final class Configuration {
 		add("thickapprox", TeXConstants.TYPE_RELATION, 116, fonts.msbm10,
 				'\ue306');
 		add("surdsign", TeXConstants.TYPE_ORDINARY, 112, fonts.cmsy10);
-		add("i", TeXConstants.TYPE_ORDINARY, 179, fonts.cmti10);
+		add("i", TeXConstants.TYPE_ORDINARY, 179, fonts.cmti10, '\u0069');
 		add("subsetplus", TeXConstants.TYPE_RELATION, 100, fonts.stmary10);
 		add("j", TeXConstants.TYPE_ORDINARY, 180, fonts.cmti10);
 		add("smallsetminus", TeXConstants.TYPE_BINARY_OPERATOR, 114,

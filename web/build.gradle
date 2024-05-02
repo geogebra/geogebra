@@ -1,14 +1,17 @@
+import de.aaschmid.gradle.plugins.cpd.Cpd
 import io.miret.etienne.gradle.sass.CompileSass
 import org.apache.tools.ant.taskdefs.condition.Os
+import org.docstr.gradle.plugins.gwt.AbstractGwtActionTask
+import org.docstr.gradle.plugins.gwt.GwtDev
 
 plugins {
     id 'java'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '6.0.9'
-    id 'de.aaschmid.cpd' version '3.3'
-    id 'io.miret.etienne.sass' version '1.5.0'
-    id 'org.docstr.gwt' version '1.1.30'
+    alias libs.plugins.gwt
+    alias libs.plugins.spotbugs
+    alias libs.plugins.cpd
+    alias libs.plugins.sass
 }
 
 description 'Parts of GeoGebra related to web platforms'
@@ -32,32 +35,27 @@ sourceSets {
     }
 }
 
-if(hasProperty("eclipse")){
-    eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
-}
-
 compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(processResources)
 
 apply from: "../gradle-scripts/webjars.gradle"
 compileJava.dependsOn('extractJs')
 
-task extractJs() {
+tasks.register('extractJs') {
     doLast {
         extractWebjars()
     }
 }
 
 dependencies {
-    def multiplayerVersion = "1.0.202404020839"
-    implementation project(path: ':carota-web'),
+    implementation project(':carota-web'),
         project(':web-dev'),
         project(':web-common'),
         project(':editor-web'),
         project(':keyboard-web'),
-        'org.webjars.npm:pdfjs-dist:2.5.207',
-        "org.geogebra:multiplayer:$multiplayerVersion",
-        "org.geogebra:multiplayer:$multiplayerVersion:sources",
-        'com.google.j2objc:annotations:2.8:sources',
+        libs.pdfJs, libs.multiplayer,
+        variantOf(libs.multiplayer) { classifier("sources") },
+        variantOf(libs.j2objc.annotations) { classifier("sources") },
+
         files(project(':carota-web').sourceSets.main.allSource.srcDirs),
         files(project(':renderer-web').sourceSets.main.allSource.srcDirs),
         files(project(':gwtutil').sourceSets.main.allSource.srcDirs),
@@ -68,12 +66,9 @@ dependencies {
         files(file("build/generated/sources/annotationProcessor/java/main/")),
         files(file("build/generated/sources/webjars/java/main/"))
 
-    testImplementation "junit:junit:$junitVersion",
-        'com.google.gwt.gwtmockito:gwtmockito:1.1.10-SNAPSHOT',
-        "org.gwtproject:gwt-user:$gwtCompilerVersion"
+    testImplementation libs.junit, libs.gwt.user, libs.gwt.mockito
 
-    annotationProcessor project(":gwtutil"),
-            'org.treblereel.gwt.gwtproject.resources:gwt-resources-processor:202403181'
+    annotationProcessor project(":gwtutil"), libs.gwt.resources.processor
 }
 
 def devModule = project.findProperty("gmodule") ?: 'org.geogebra.web.SuperWeb'
@@ -128,7 +123,7 @@ compileSass {
     sourceMap = none
 }
 
-task watchSass (type: CompileSass) {
+tasks.register('watchSass', CompileSass) {
     outputDir = file("${projectDir}/war/css")
     sourceDir = file("${projectDir}/src/main/resources/scss")
     style = compressed
@@ -136,13 +131,13 @@ task watchSass (type: CompileSass) {
 
     // Watch sass files in sourceDir for changes
     // (Default is to not to watch, compile once and terminate)
-    watch ()
+    watch()
 }
 
 def warDirRel = 'war'
 
 gwt {
-    gwtVersion = gwtCompilerVersion
+    gwtVersion = libs.versions.gwt.get()
 
     if (project.hasProperty("gmodule")) {
         modules = project.getProperty("gmodule").split(",")
@@ -150,20 +145,20 @@ gwt {
         modules = ['org.geogebra.web.SuperWeb', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
           'org.geogebra.web.Tablet3D']
     }
-    
+
     devModules devModule
-    
+
     maxHeapSize = '2000M'
 
     jsInteropExports {
-        shouldGenerate = true;
+        shouldGenerate = true
     }
 
     compiler {
         // Customize the GWT compiler here
         strict = true
         disableCastChecking = true
-      
+
         if (project.hasProperty("greport")) {
            compileReport = true
         }
@@ -190,7 +185,7 @@ gwt {
     }
 }
 
-tasks.withType(org.docstr.gradle.plugins.gwt.AbstractGwtActionTask) {
+tasks.withType(AbstractGwtActionTask).configureEach {
     jvmArgs '-Xss512M'
     useToolchain = true
 }
@@ -198,11 +193,11 @@ tasks.withType(org.docstr.gradle.plugins.gwt.AbstractGwtActionTask) {
 
 def outputs = ['web', 'web3d', 'webSimple', 'tablet3d','tabletWin']
 
-task cleanWar(type: Delete) {
+tasks.register('cleanWar', Delete) {
     doLast {
-      outputs.each { folder ->
-          delete warDirRel + "/$folder"
-      }
+        outputs.each { folder ->
+            delete warDirRel + "/$folder"
+        }
     }
 }
 
@@ -234,7 +229,8 @@ def createHtml = { inlineCss ->
     file("war/notes-murokdev.html").text = file("war/notes.html").text.replace('<!--LANGUAGE LINKS-->', '<script src="http://localhost:8080/murok.js"></script>');
 }
 
-task copyHtml(dependsOn: 'compileSass') {
+tasks.register('copyHtml') {
+    dependsOn 'compileSass'
     description 'Generate app.html, app-release.html, graphing.html and others'
     group 'application'
 
@@ -243,7 +239,8 @@ task copyHtml(dependsOn: 'compileSass') {
     }
 }
 
-task copyDevHtml(dependsOn: 'compileSass') {
+tasks.register('copyDevHtml') {
+    dependsOn 'compileSass'
     description 'Generate app.html, app-release.html, graphing.html and others without inlined css'
     group 'application'
 
@@ -252,19 +249,21 @@ task copyDevHtml(dependsOn: 'compileSass') {
     }
 }
 
-task copyHandlebars(dependsOn: 'compileSass') {
+tasks.register('copyHandlebars') {
+    dependsOn 'compileSass'
     doLast {
         def handlebarsDir = project.getProperty("handlebarsDir")
         appSpecs.each { app ->
             def replaceHtml = app.id == "classic" ? classicHtml : appHtml
 
-            def templatePath =  "${handlebarsDir}/${app.id}-template.handlebars"
+            def templatePath = "${handlebarsDir}/${app.id}-template.handlebars"
             file(templatePath).text = handlebars(replaceHtml(app, false, false, true))
         }
     }
 }
 
-task prepareS3Upload(dependsOn: ['compileGwt', 'copyHtml']) {
+tasks.register('prepareS3Upload') {
+    dependsOn('compileGwt', 'copyHtml')
     doLast {
         ["web3d", "webSimple", "editor"].each { module ->
             def dir = file("build/gwt/out/$module")
@@ -287,46 +286,48 @@ task prepareS3Upload(dependsOn: ['compileGwt', 'copyHtml']) {
     }
 }
 
-task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml']) {
+tasks.register('deployIntoWar', Copy) {
+    dependsOn('cleanWar', 'copyHtml')
     description 'Copies/updates the GWT production compilation directory (web3d, ...) to the war directory.'
     from compileGwt
     into warDirRel
 
-    into ("web3d") {
+    into("web3d") {
         from "$warDirRel/WEB-INF/deploy/web3d/symbolMaps"
     }
 
 }
 
-task mergeDeploy(){
-   description 'merge deploy.js and web3d.nocache.js'
-   mustRunAfter 'compileGwt'
-   doLast {
-      def firstFolder = {files -> files.listFiles() ? files.listFiles()[0].name : ""};
-      def web3dPermutation = firstFolder(file("./build/gwt/out/web3d/deferredjs"))
-      def webSimplePermutation = firstFolder(file("./build/gwt/out/webSimple/deferredjs"))
-      def templateJs = "src/main/resources/org/geogebra/web/resources/js/deployggb-template.js"
-      def deployText = file(templateJs).text.replace('%WEB3D_PERMUTATION%', web3dPermutation)
-                          .replace('%WEBSIMPLE_PERMUTATION%', webSimplePermutation)
-      def parentRoot = project(":common").getBuildDir().getAbsolutePath() + "/../../"
-      def currentVersion = getGeogebraVersion(parentRoot)
-      def localPath = project.findProperty("deployggbRoot") ?: './'
-      file(warDirRel + "/deployggb.js").text = deployText.replace('%MODULE_BASE%', localPath)
-      file(warDirRel + "/deployggb-latest.js").text = deployText.replace('%MODULE_BASE%','https://www.geogebra.org/apps/latest/')
-      file(warDirRel + "/deployggb-${currentVersion}.js").text = deployText.replace('%MODULE_BASE%',"https://www.geogebra.org/apps/${currentVersion}/")
-   }
+tasks.register('mergeDeploy') {
+    description 'merge deploy.js and web3d.nocache.js'
+    mustRunAfter 'compileGwt'
+    doLast {
+        def firstFolder = { files -> files.listFiles() ? files.listFiles()[0].name : "" };
+        def web3dPermutation = firstFolder(file("./build/gwt/out/web3d/deferredjs"))
+        def webSimplePermutation = firstFolder(file("./build/gwt/out/webSimple/deferredjs"))
+        def templateJs = "src/main/resources/org/geogebra/web/resources/js/deployggb-template.js"
+        def deployText = file(templateJs).text.replace('%WEB3D_PERMUTATION%', web3dPermutation)
+                .replace('%WEBSIMPLE_PERMUTATION%', webSimplePermutation)
+        def parentRoot = project(":common").getBuildDir().getAbsolutePath() + "/../../"
+        def currentVersion = getGeogebraVersion(parentRoot)
+        def localPath = project.findProperty("deployggbRoot") ?: './'
+        file(warDirRel + "/deployggb.js").text = deployText.replace('%MODULE_BASE%', localPath)
+        file(warDirRel + "/deployggb-latest.js").text = deployText.replace('%MODULE_BASE%', 'https://www.geogebra.org/apps/latest/')
+        file(warDirRel + "/deployggb-${currentVersion}.js").text = deployText.replace('%MODULE_BASE%', "https://www.geogebra.org/apps/${currentVersion}/")
+    }
 }
 
 def gwtGlobalCache = file('build/gwt/devModeCache')
 
-class ReadableDev extends org.docstr.gradle.plugins.gwt.GwtDev {
+class ReadableDev extends GwtDev {
     protected void addArgs() {
         super.addArgs();
         args("-style", "PRETTY");
     }
 }
 
-task run(type: ReadableDev, dependsOn: ['jar', 'copyDevHtml']) {
+tasks.register('run', ReadableDev) {
+    dependsOn('jar', 'copyDevHtml')
     war = file(warDirRel)
     maxHeapSize = '4096m'
     logLevel = 'TRACE'
@@ -340,8 +341,8 @@ task run(type: ReadableDev, dependsOn: ['jar', 'copyDevHtml']) {
         }
         gwtGlobalCache.mkdirs()
         ProcessBuilder pb = new ProcessBuilder(Os.isFamily(Os.FAMILY_WINDOWS)
-                        ? ['cmd', '/c', 'START', '/MIN', file('..\\gradlew.bat').absolutePath, 'watchSass']
-                        : [file('../gradlew').absolutePath, 'watchSass'])
+                ? ['cmd', '/c', 'START', '/MIN', file('..\\gradlew.bat').absolutePath, 'watchSass']
+                : [file('../gradlew').absolutePath, 'watchSass'])
         sassCompilation = pb.start()
     }
     doLast {
@@ -349,12 +350,13 @@ task run(type: ReadableDev, dependsOn: ['jar', 'copyDevHtml']) {
     }
 }
 
-task createDraftBundleZip (type: Zip, dependsOn: 'compileSass') {
+tasks.register('createDraftBundleZip', Zip) {
+    dependsOn 'compileSass'
     description 'Creates the Math Apps Bundle file.'
     destinationDirectory = file(warDirRel)
     archiveBaseName = "geogebra-bundle"
     from compileGwt {
-        include ("web3d/**")
+        include("web3d/**")
         into "GeoGebra/HTML5/5.0"
     }
     from("war/css") {
@@ -363,15 +365,15 @@ task createDraftBundleZip (type: Zip, dependsOn: 'compileSass') {
     }
 }
 
-task minifyLibs() {
+tasks.register('minifyLibs') {
     doLast {
         def libDir = "src/main/resources/org/geogebra/web/"
         def libDirCommon = "../web-common/$libDir"
         def libs = ["$libDirCommon/resources/js/rewrite_pHYs", "$libDir/pub/js/canvas2pdf", "$libDir/pub/js/whammy"]
-        libs.each({lib ->
+        libs.each({ lib ->
             def command = ['npx', 'terser', "${lib}.js", "-o", "${lib}.min.js",
-            '--compress', '--mangle', '--comments', '/license/']
-            exec { commandLine Os.isFamily(Os.FAMILY_WINDOWS) ? ['cmd', '/c'] + command : command}
+                           '--compress', '--mangle', '--comments', '/license/']
+            exec { commandLine Os.isFamily(Os.FAMILY_WINDOWS) ? ['cmd', '/c'] + command : command }
         })
     }
 }
@@ -404,7 +406,7 @@ cpd {
     minimumTokenCount = 100
 }
 
-tasks.withType(de.aaschmid.gradle.plugins.cpd.Cpd) {
+tasks.withType(Cpd).configureEach {
     exclude "**/*.html"
     exclude "**/*.jj"
     exclude "**/*.xml"

@@ -86,7 +86,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	}
 
 	/**
-	 * setting left & right alt flags
+	 * setting left and right alt flags
 	 * @param ev event
 	 * @param down flag indicating if key was down or released
 	 */

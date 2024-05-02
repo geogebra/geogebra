@@ -940,7 +940,7 @@ public abstract class Line2D implements Shape, GLine2D {
      * <code>Line2D</code> object do not affect any iterations of that
      * geometry that are already in process.
      * @param at the specified {@link AffineTransform}
-     * @return a {@link PathIterator} that defines the boundary of this
+     * @return a {@link GPathIterator} that defines the boundary of this
      *          <code>Line2D</code>.
      * @since 1.2
      */

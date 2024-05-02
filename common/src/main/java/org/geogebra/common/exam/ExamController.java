@@ -148,6 +148,15 @@ public final class ExamController {
 	}
 
 	/**
+	 * Unregister an `ExamRestrictable`.
+	 * @param restrictable An object that that was previously registered with
+	 * {@link #registerRestrictable(ExamRestrictable)}..
+	 */
+	public void unregisterRestrictable(@Nonnull ExamRestrictable restrictable) {
+		restrictables.remove(restrictable);
+	}
+
+	/**
 	 * Adds an {@link ExamListener}.
 	 * @param listener The listener to add.
 	 * @apiNote Trying to add a listener that is already registered will have no effect.

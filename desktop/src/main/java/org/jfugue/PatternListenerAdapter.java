@@ -35,7 +35,7 @@ public class PatternListenerAdapter implements PatternListener {
 	/**
 	 * Called when a new fragment has been added to a pattern
 	 * 
-	 * @param pattern
+	 * @param fragment
 	 *            the fragment that has been added
 	 */
 	@Override

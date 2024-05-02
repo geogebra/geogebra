@@ -76,10 +76,10 @@ public class CmdPoisson extends CommandProcessor {
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoBoolean())) {
 
-				AlgoPoisson algo = new AlgoPoisson(cons, c.getLabel(),
+				AlgoPoisson algo = new AlgoPoisson(cons,
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoBoolean) arg[2]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

@@ -104,6 +104,15 @@ public class DelayedCasLoadingTest {
 		assertThat(app.getKernel().lookupLabel("p"), hasValue("false"));
 	}
 
+	@Test
+	public void asymptoteOfAnonymousFnShouldUpdate() {
+		add("f(x)=x+1/x");
+		GeoElementND asymptotes = add("Asymptote(f(x))");
+		active = true;
+		app.getKernel().refreshCASCommands();
+		assertThat(asymptotes, hasValue("{y = x, x = 0}"));
+	}
+
 	private GeoElementND add(String s) {
 		return app.getKernel().getAlgebraProcessor().processAlgebraCommand(s, false)[0];
 	}

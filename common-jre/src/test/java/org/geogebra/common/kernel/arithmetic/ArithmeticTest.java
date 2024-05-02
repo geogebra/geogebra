@@ -585,6 +585,11 @@ public class ArithmeticTest extends BaseUnitTest {
 		t("gamma(infinity)", "NaN");
 	}
 
+	@Test
+	public void testInvalidImplicitCurve() {
+		t("x^3+y^3+z^3=1", "?");
+	}
+
 	private void assertAreEqual(String first, String second, Object areEqual) {
 		getKernel().clearConstruction(false);
 		add("f:" + first);

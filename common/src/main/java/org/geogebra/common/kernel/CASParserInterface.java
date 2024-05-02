@@ -36,7 +36,7 @@ public interface CASParserInterface {
 	 * @throws CASException
 	 *             something goes wrong
 	 */
-	ValidExpression parseGeoGebraCASInput(final String inValue,
+	ValidExpression parseGeoGebraCASInput(String inValue,
 			GeoSymbolicI cell) throws CASException;
 
 	/**
@@ -56,6 +56,6 @@ public interface CASParserInterface {
 	 *            internal name of command
 	 * @return localized name of command
 	 */
-	String getTranslatedCASCommand(final String string);
+	String getTranslatedCASCommand(String string);
 
 }

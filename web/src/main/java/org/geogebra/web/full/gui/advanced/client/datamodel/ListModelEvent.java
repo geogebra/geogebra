@@ -46,7 +46,7 @@ public class ListModelEvent {
 
 	/**
 	 * Creates an instance of this class.
-	 * <p/>
+	 * <p>
 	 * Mostly applicable for types like {@link #CLEAN} which don't require to
 	 * specify a concrete item.
 	 *
@@ -61,7 +61,7 @@ public class ListModelEvent {
 
 	/**
 	 * Creates an instance of this class.
-	 * <p/>
+	 * <p>
 	 * Mostly applicable for types like {@link #ADD_ITEM}, {@link #REMOVE_ITEM}
 	 * or {@link #SELECT_ITEM} which require to specify a concrete item.
 	 *
@@ -83,10 +83,10 @@ public class ListModelEvent {
 
 	/**
 	 * Creates an instance of this class.
-	 * <p/>
+	 * <p>
 	 * Mostly applicable for types like {@link #ADD_ITEM}, {@link #REMOVE_ITEM}
 	 * or {@link #SELECT_ITEM} which require to specify a concrete item.
-	 * <p/>
+	 * <p>
 	 * use this constructor if you want to notify listeners about bulk model
 	 * update.
 	 *
@@ -116,10 +116,10 @@ public class ListModelEvent {
 
 	/**
 	 * Gets a related item ID.
-	 * <p/>
+	 * <p>
 	 * Might be equal to <code>null</code> for those events which are not
 	 * related to a concrete item.
-	 * <p/>
+	 * <p>
 	 * If there are several affected items it gets an ID of the first one.
 	 *
 	 * @return an item ID.
@@ -131,10 +131,10 @@ public class ListModelEvent {
 
 	/**
 	 * Gets a related item index.
-	 * <p/>
+	 * <p>
 	 * Might be equal to <code>-1</code> for those events which are not related
 	 * to a concrete item.
-	 * <p/>
+	 * <p>
 	 * If there are several affected items it gets an ID of the first one.
 	 *
 	 * @return an item ID.
@@ -164,7 +164,7 @@ public class ListModelEvent {
 
 	/**
 	 * Event type class
-	 * <p/>
+	 * <p>
 	 * It's in use because older versions of GWT don't support enums.
 	 */
 	protected static class EventType {

@@ -240,7 +240,7 @@ public class JSONParserGGT {
 		if (value == null || "".equals(value)) {
 			return def;
 		}
-		return "0".equals(value) ? false : true;
+		return !"0".equals(value);
 	}
 
 	private static boolean getBoolean(JSONObject obj, String name, boolean def) {

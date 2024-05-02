@@ -90,6 +90,7 @@ public class AppCommon extends App {
 	 *            localization
 	 * @param awtFactory
 	 *            AWT factory
+	 * @param appConfig config
 	 */
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory, AppConfig appConfig) {
 		super(Platform.ANDROID);
@@ -739,6 +740,10 @@ public class AppCommon extends App {
 	@Override
 	public Layout getLayout() {
 		return layout;
+	}
+
+	public void setPrerelease() {
+		prerelease = true;
 	}
 
 	private static class LayoutHeadless extends Layout {

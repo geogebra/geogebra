@@ -211,7 +211,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @param format - export format
 	 * @param showDialog - true if export dialog should be shown, export directly otherwise
 	 */
-	public void setExport3D(final Format format, boolean showDialog);
+	void setExport3D(Format format, boolean showDialog);
 	
 	/**
 	 * zoom y & z axes ratio regarding x axis

@@ -41,7 +41,6 @@ import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CopyPasteW;
-import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.Command;
@@ -64,7 +63,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 */
 	protected Localization loc;
 	private LabelController labelController;
-	private ContextMenuFactory factory;
+	private final ContextMenuFactory factory;
 
 	/**
 	 * Creates new context menu
@@ -863,8 +862,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *            coord
 	 */
 	public void showScaled(Element c, int x, int y) {
-		wrappedPopup.show(c, x, y);
-		focusDeferred();
+		wrappedPopup.showAndFocus(c, x, y);
 	}
 
 	@Override
@@ -904,9 +902,5 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		initPopup(app.getActiveEuclidianView()
 				.getEuclidianController().getAppSelectedGeos());
 		addOtherItems();
-	}
-
-	private void focusDeferred() {
-		Scheduler.get().scheduleDeferred(() -> wrappedPopup.getPopupMenu().focus());
 	}
 }

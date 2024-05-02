@@ -809,7 +809,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * @param index
 	 *            index of the chosen command in the completions list
 	 * @param completions completions
-	 * @return false if completions list is null or index < 0 or index >
+	 * @return false if completions list is null or index &lt; 0 or index &gt;=
 	 *         completions.size()
 	 * @author Arnaud
 	 */

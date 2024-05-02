@@ -42,11 +42,6 @@ import org.gwtproject.user.client.ui.Widget;
  * <li>.gwt-SplitLayoutPanel .gwt-SplitLayoutPanel-VDragger { vertical dragger }
  * </li>
  * </ul>
- *
- * <p>
- * <h3>Example</h3>
- * {@example com.google.gwt.examples.SplitLayoutPanelExample}
- * </p>
  */
 public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
