@@ -18,6 +18,7 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
+import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
@@ -118,6 +119,9 @@ public class CommandsTestCommon {
 	@After
 	public void checkSyntaxes() {
 		checkSyntaxesStatic();
+		if (app.getKernel().getConstruction().getGeoSetLabelOrder().size() < 20) {
+			XmlTestUtil.checkCurrentXML(app);
+		}
 	}
 
 	/**
@@ -145,7 +149,6 @@ public class CommandsTestCommon {
 	protected static String deg(String string) {
 		return string + "*" + DEGREE_STRING;
 	}
-
 
 	@Test
 	public void testQuadricExpr() {
@@ -446,8 +449,10 @@ public class CommandsTestCommon {
 		t("pix", "(pi * x)");
 		t("sinx", "sin(x)");
 		t("sin x", "sin(x)");
-		t("f(" + Unicode.theta_STRING + ")=sin " + Unicode.theta_STRING, "sin(" + Unicode.theta_STRING + ")");
-		t("f(" + Unicode.theta_STRING + ")=sin" + Unicode.theta_STRING, "sin(" + Unicode.theta_STRING + ")");
+		t("f(" + Unicode.theta_STRING + ")=sin " + Unicode.theta_STRING,
+					"sin(" + Unicode.theta_STRING + ")");
+		t("f(" + Unicode.theta_STRING + ")=sin" + Unicode.theta_STRING,
+				"sin(" + Unicode.theta_STRING + ")");
 		t("f(t)=sin t", "sin(t)");
 		t("f(t)=sint", "sin(t)");
 		t("x" + Unicode.PI_STRING, "(x * pi)");
@@ -2924,8 +2929,9 @@ public class CommandsTestCommon {
 
 	@Test
 	public void cmdPenStroke() {
+		t("PenStroke()", "PenStroke[]");
 		t("PenStroke[(1,1),(2,2)]",
-				"PenStroke[(1.0000E0,1.0000E0), (2.0000E0,2.0000E0), (NaN,NaN)]");
+				"PenStroke[1.0000E0,1.0000E0,2.0000E0,2.0000E0,NaN,NaN]");
 	}
 
 	@Test
