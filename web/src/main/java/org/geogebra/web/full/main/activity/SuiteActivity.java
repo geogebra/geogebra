@@ -16,6 +16,7 @@ import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollect
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionCAS;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.GlobalHeader;
 
 /**
@@ -86,5 +87,11 @@ public class SuiteActivity extends BaseActivity {
 			return getSubapp().getHeaderResizer(frame);
 		}
 		return super.getHeaderResizer(frame);
+	}
+
+	@Override
+	public void start(AppW app) {
+		super.start(app);
+		getSubapp().initTableOfValues(app);
 	}
 }
