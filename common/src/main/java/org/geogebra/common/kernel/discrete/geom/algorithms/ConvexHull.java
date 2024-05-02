@@ -52,7 +52,7 @@ public final class ConvexHull {
 	 * 
 	 * @param points
 	 *            points
-	 * @return Returns the convex hull, assuming that each points[i] <= points[i
+	 * @return Returns the convex hull, assuming that each points[i] &lt;= points[i
 	 *         + 1].
 	 */
 	public static List<Point2D> makeHullPresorted(List<Point2D> points) {

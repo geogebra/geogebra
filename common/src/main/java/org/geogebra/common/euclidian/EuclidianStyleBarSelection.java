@@ -75,7 +75,7 @@ public class EuclidianStyleBarSelection {
 	}
 
 	/**
-	 * @return map mode -> default geo type
+	 * @return map mode -&gt; default geo type
 	 */
 	public HashMap<Integer, Integer> getDefaultMap() {
 		return defaultGeoMap;

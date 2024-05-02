@@ -11,7 +11,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * Conic[ &lt;List> ]
+ * Conic[ &lt;List&gt; ]
  * 
  * Conic[ five GeoPoints ]
  */

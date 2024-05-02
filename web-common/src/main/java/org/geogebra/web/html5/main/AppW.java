@@ -2525,15 +2525,21 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void evalJavaScript(App app, String script0, String arg) {
 		String script = script0;
-		ScriptManagerW.export("ggbApplet", ((ScriptManagerW) getScriptManager()).getApi());
+		Object exportedApi = ((ScriptManagerW) getScriptManager()).getApi();
 
 		// add eg arg="A"; to start
 		if (arg != null) {
 			script = "arg=\"" + arg + "\";" + script;
 		}
-		JsEval.evalScriptNative(script, getGgbApi());
-		if (getAppletId().startsWith(ScriptManagerW.ASSESSMENT_APP_PREFIX)) {
-			ScriptManagerW.export("ggbApplet", null);
+		if (appletParameters.getParamSandbox()) {
+			((ScriptManagerW) getScriptManager()).getSandbox()
+					.run(script);
+		} else {
+			ScriptManagerW.export("ggbApplet", exportedApi);
+			JsEval.evalScriptNative(script, getGgbApi());
+			if (getAppletId().startsWith(ScriptManagerW.ASSESSMENT_APP_PREFIX)) {
+				ScriptManagerW.export("ggbApplet", null);
+			}
 		}
 	}
 

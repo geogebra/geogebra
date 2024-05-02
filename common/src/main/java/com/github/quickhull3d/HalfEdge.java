@@ -213,30 +213,4 @@ class HalfEdge {
 		}
 		return -1;
 	}
-
-	// /**
-	// * Computes nrml . (del0 X del1), where del0 and del1
-	// * are the direction vectors along this halfEdge, and the
-	// * halfEdge he1.
-	// *
-	// * A product > 0 indicates a left turn WRT the normal
-	// */
-	// public double turnProduct (HalfEdge he1, Vector3d nrml)
-	// {
-	// Point3d pnt0 = tail().pnt;
-	// Point3d pnt1 = head().pnt;
-	// Point3d pnt2 = he1.head().pnt;
-
-	// double del0x = pnt1.x - pnt0.x;
-	// double del0y = pnt1.y - pnt0.y;
-	// double del0z = pnt1.z - pnt0.z;
-
-	// double del1x = pnt2.x - pnt1.x;
-	// double del1y = pnt2.y - pnt1.y;
-	// double del1z = pnt2.z - pnt1.z;
-
-	// return (nrml.x*(del0y*del1z - del0z*del1y) +
-	// nrml.y*(del0z*del1x - del0x*del1z) +
-	// nrml.z*(del0x*del1y - del0y*del1x));
-	// }
 }

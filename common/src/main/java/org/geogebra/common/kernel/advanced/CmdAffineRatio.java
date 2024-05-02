@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * AffineRatio[&lt;Point>, &lt;Point>, &lt;Point>]
+ * AffineRatio[&lt;Point&gt;, &lt;Point&gt;, &lt;Point&gt;]
  * 
  * @author Victor Franco Espino
  */

@@ -1364,7 +1364,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @param rt
 	 *            list of indices
 	 * @param skip
-	 *            0 to evaluate completely, >0 to skip last skip arguments
+	 *            0 to evaluate completely, &gt;0 to skip last skip arguments
 	 * @return list element
 	 */
 	public ExpressionValue handleElementOf(ExpressionValue lt,
@@ -1485,7 +1485,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 *
-	 * eg f(x)=x^2, x+1 instead of f(x) = x^2, x>1
+	 * eg f(x)=x^2, x+1 instead of f(x) = x^2, x&gt;1
 	 *
 	 * @return error for a,b where b is not a condition
 	 */

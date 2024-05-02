@@ -52,15 +52,15 @@ public enum ValueType {
 	 */
 	LIST,
 	/**
-	 * Function R^n -> R
+	 * Function R^n -&gt; R
 	 */
 	FUNCTION,
 	/**
-	 * Function R^n -> R^2
+	 * Function R^n -&gt; R^2
 	 */
 	PARAMETRIC2D,
 	/**
-	 * Function R^n -> R^3
+	 * Function R^n -&gt; R^3
 	 */
 	PARAMETRIC3D;
 
@@ -122,16 +122,13 @@ public enum ValueType {
 					|| rightType == ValueType.VECTOR3D)
 					&& (leftType == ValueType.NONCOMPLEX2D
 							|| leftType == ValueType.VECTOR3D)) {
-				// Log.debug(leftType + " " + rightType + " -> NUMBER");
 				return ValueType.NUMBER;
 			}
 			// number * vector
 			if (rightType == ValueType.NONCOMPLEX2D
 					|| rightType == ValueType.VECTOR3D) {
-				// Log.debug(leftType + " " + rightType + "-> " + rightType);
 				return rightType;
 			}
-			// Log.debug(leftType + " " + rightType + " -> " + leftType);
 			return leftType;
 		case DIVIDE:
 			if (right.evaluatesToList()) {

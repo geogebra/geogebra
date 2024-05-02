@@ -46,7 +46,7 @@ import org.geogebra.common.util.debug.Log;
  * and a from those points, with b as parameter, iterate to a good value for b,
  * and do the final nonlinear regression iteration with all three parameters.
  * 
- * Constraints: &lt;List of points> should have at least 3 points. The first and
+ * Constraints: &lt;List of Points&gt; should have at least 3 points. The first and
  * last datapoint should not be too far from the solution curve. Negative a,b
  * and c: Asymptotes: Quality of points get even more important, should not be
  * too close to either vertical or horisontal asymptotes, should have several

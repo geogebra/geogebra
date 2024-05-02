@@ -30,7 +30,7 @@ public interface Inspecting {
 	public boolean check(ExpressionValue v);
 
 	/**
-	 * Checks whether the expression contains operations <,<=, >, >=
+	 * Checks whether the expression contains operations &lt; ,&lt;=, &gt;, &gt;=
 	 *
 	 */
 	public enum IneqFinder implements Inspecting {

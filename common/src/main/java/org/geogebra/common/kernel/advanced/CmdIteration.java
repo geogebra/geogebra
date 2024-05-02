@@ -16,9 +16,9 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Iteration[ &lt;function>, &lt;start>, &lt;n> ]
- * 
- * Iteration[ &lt;function>, &lt;var_name>, &lt;var_value>, &lt;n> ]
+ * Iteration[ &lt;Function&gt;, &lt;start&gt;, &lt;n&gt; ]
+ *
+ * Iteration[ &lt;Function&gt;, &lt;var_name&gt;, &lt;var_value&gt;, &lt;n&gt; ]
  */
 public class CmdIteration extends CommandProcessor {
 

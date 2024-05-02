@@ -25,13 +25,13 @@ public class Metrics {
 	 * Returns a <code>Map</code> of vertices to their clustering coefficients.
 	 * The clustering coefficient cc(v) of a vertex v is defined as follows:
 	 * <ul>
-	 * <li/><code>degree(v) == {0,1}</code>: 0
-	 * <li/><code>degree(v) == n, n &gt;= 2</code>: given S, the set of
+	 * <li><code>degree(v) == {0,1}</code>: 0
+	 * <li><code>degree(v) == n, n &gt;= 2</code>: given S, the set of
 	 * neighbors of <code>v</code>: cc(v) = (the sum over all w in S of the
 	 * number of other elements of w that are neighbors of w) / ((|S| * (|S| -
 	 * 1) / 2). Less formally, the fraction of <code>v</code>'s neighbors that
 	 * are also neighbors of each other.
-	 * <p>
+	 * </ul>
 	 * <b>Note</b>: This algorithm treats its argument as an undirected graph;
 	 * edge direction is ignored.
 	 * 

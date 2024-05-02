@@ -9,14 +9,14 @@ import java.util.Set;
  * Implementation of iterable combinations of a set. Based on
  * http://stackoverflow.com/a/7631893. Usage:
  * 
- * Set<Integer> a = new HashSet<Integer>(); a.add(1); a.add(2); a.add(3);
+ * Set&lt;Integer&gt; a = new HashSet&lt;Integer&gt;(); a.add(1); a.add(2); a.add(3);
  * a.add(4);
  * 
  * Combinations b = new Combinations(a,2);
  * 
  * while (b.hasNext()) { Set c = (Set) b.next(); Log.debug(c); }
  * 
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  *
  * 
  * @param <T>

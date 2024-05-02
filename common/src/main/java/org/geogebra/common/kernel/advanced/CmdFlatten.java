@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * Flatten[ &lt;GeoList> ]
+ * Flatten[ &lt;GeoList&gt; ]
  */
 public class CmdFlatten extends CommandProcessor {
 

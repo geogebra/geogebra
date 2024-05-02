@@ -11,9 +11,9 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.MyError;
 
 /**
- * TrigExpand[&lt;Function>]
+ * TrigExpand[&lt;Function&gt;]
  * 
- * TrigExpand[&lt;Function>, &lt;Target Function>]
+ * TrigExpand[&lt;Function&gt;, &lt;Target Function&gt;]
  * 
  * @author Zbynek Konecny
  */

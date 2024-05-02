@@ -273,8 +273,7 @@ public class ContextMenuTV {
 	 *            y coordinate.
 	 */
 	public void show(Element source, int x, int y) {
-		wrappedPopup.show(source, x, y);
-		wrappedPopup.getPopupMenu().focusDeferred();
+		wrappedPopup.showAndFocus(source, x, y);
 	}
 
 	public void hide() {

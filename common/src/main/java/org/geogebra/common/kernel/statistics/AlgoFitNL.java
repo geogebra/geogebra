@@ -29,7 +29,7 @@ the Free Software Foundation.
 /**
  * 
  * AlgoFitNL: (NL=NonLinear Curvefit) A general curvefit: Fit[&lt;List of
- * Points>,&lt;Function>] Example: f(x)=a+b/(x-c) L={A,B,...} g(x)=Fit[L,f] will
+ * Points&gt;,&lt;Function&gt;] Example: f(x)=a+b/(x-c) L={A,B,...} g(x)=Fit[L,f] will
  * give a function g(x)=p1+p2/(x-p3) where p1, p2 and p3 are calculated to give
  * the least sum of squared errors.
  * 
@@ -152,12 +152,6 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 			} // for all datapoints
 
 			curvefitter.fit(prfunction, prfunction.getStartValues());
-
-			// DEBUG - to be removed:
-			// int iter = LMO.getIterations();
-			// if (iter > 200) {
-			// Log.debug("More than 200 iterations...");
-			// }
 
 			outputfunction.setFunction(prfunction.getFunction());
 			outputfunction.setDefined(true);

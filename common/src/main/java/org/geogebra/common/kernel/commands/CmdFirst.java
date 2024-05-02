@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * First[ &lt;List>, n ]
+ * First[ &lt;List&gt;, n ]
  * 
  * @author Michael Borcherds
  */

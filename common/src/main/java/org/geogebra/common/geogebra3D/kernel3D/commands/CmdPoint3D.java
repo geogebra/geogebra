@@ -16,7 +16,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Point[ &lt;Path (3D)> ] or Point[ &lt;Region (3D)> ] or CmdPoint
+ * Point[ &lt;Path (3D)&gt; ] or Point[ &lt;Region (3D)&gt; ] or CmdPoint
  */
 public class CmdPoint3D extends CmdPoint {
 	/**

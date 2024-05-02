@@ -30,7 +30,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Detects polynomial NDG conditions and turns into human readable form
  * 
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  * 
  */
 public class NDGDetector {

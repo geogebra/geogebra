@@ -13,7 +13,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 
 public class CompatibilityLayout {
 	/**
-	 * Backward compatibility for version < 3.03 where no layout component was
+	 * Backward compatibility for version &lt; 3.03 where no layout component was
 	 * used. Temporary storage for the split divider location of the split panes
 	 * #1/#2.
 	 */
@@ -21,16 +21,16 @@ public class CompatibilityLayout {
 	protected int sp2;
 
 	/**
-	 * If the split divider is horizontal. (version < 3.03)
+	 * If the split divider is horizontal. (version &lt; 3.03)
 	 */
 	protected boolean spHorizontal = true;
 
 	/**
-	 * If the algebra view is visible. (version < 3.03)
+	 * If the algebra view is visible. (version &lt; 3.03)
 	 */
 	protected boolean showAlgebra;
 	/**
-	 * If the spreadsheet view is visible. (version < 3.03)
+	 * If the spreadsheet view is visible. (version &lt; 3.03)
 	 */
 	protected boolean showSpreadsheet;
 
@@ -183,7 +183,7 @@ public class CompatibilityLayout {
 	}
 
 	/**
-	 * Kept for backward compatibility with version < 3.3
+	 * Kept for backward compatibility with version &lt; 3.3
 	 * 
 	 * @param attrs
 	 *            split attributes

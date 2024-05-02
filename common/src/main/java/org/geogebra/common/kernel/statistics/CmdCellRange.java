@@ -13,7 +13,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 
 /**
- * CellRange[ &lt;start cell>, &lt;end cell> ], e.g. CellRange[A1, B2]
+ * CellRange[ &lt;start cell&gt;, &lt;end cell&gt; ], e.g. CellRange[A1, B2]
  */
 public class CmdCellRange extends CommandProcessor {
 	/**

@@ -169,7 +169,7 @@ public class MediaURLParser {
 	/**
 	 * Transforms possible Mebis URL to a packed, standardized one. Result
 	 * contains an error code if original url is not a Mebis URL. format is:
-	 * https://mediathek.mebis.bayern.de/?doc=provideVideo&identifier=BY-00072140&type=video&#t=60,120
+	 * https://mediathek.mebis.bayern.de/?doc=provideVideo&amp;identifier=BY-00072140&amp;type=video&amp;#t=60,120
 	 * 
 	 * @param url
 	 *            to transform.

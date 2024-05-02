@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * PointList[ &lt;List> ]
+ * PointList[ &lt;List&gt; ]
  */
 public class CmdPointList extends CmdOneListFunction {
 

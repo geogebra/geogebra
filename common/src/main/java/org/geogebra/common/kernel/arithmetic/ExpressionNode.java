@@ -1746,7 +1746,7 @@ public class ExpressionNode extends ValidExpression
 	 * @param op
 	 *            operation
 	 * @return whether this operation returns boolean and can be used in chain
-	 *         eg. x < y <=z
+	 *         eg. x &lt; y &lt;=z
 	 */
 	public static boolean chainedBooleanOp(Operation op) {
 		switch (op) {
@@ -1800,7 +1800,7 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * @param v2
 	 *            value to compare
-	 * @return result this < v2
+	 * @return result this &lt; v2
 	 */
 	public ExpressionNode lessThan(ExpressionValue v2) {
 		return new ExpressionNode(kernel, this, Operation.LESS, v2);
@@ -1809,7 +1809,7 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * @param d
 	 *            value to compare
-	 * @return result this < d
+	 * @return result this &lt; d
 	 */
 	public ExpressionNode lessThan(double d) {
 		return new ExpressionNode(kernel, this, Operation.LESS,
@@ -1819,7 +1819,7 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * @param d
 	 *            value to compare
-	 * @return result this <= d
+	 * @return result this &lt;= d
 	 */
 	public ExpressionNode lessThanEqual(double d) {
 		return new ExpressionNode(kernel, this, Operation.LESS_EQUAL,
@@ -2282,7 +2282,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
-	 * @return negation of this expression (optimizes negation of >,<,=>,<=)
+	 * @return negation of this expression (optimizes negation of &gt;,&lt;,=&gt;,&lt;=)
 	 */
 	public ExpressionNode negation() {
 		if (Operation.AND_INTERVAL.equals(operation)) {
@@ -3225,9 +3225,9 @@ public class ExpressionNode extends ValidExpression
 
 	/**
 	 * @return variables that must be defined in order for the result to be
-	 *         defined eg. d+If[a>0,b,c] has unconditional variable d
-	 * 
-	 * 
+	 *         defined eg. d+If[a&gt;0,b,c] has unconditional variable d
+	 *
+	 *
 	 */
 	public HashSet<GeoElement> getUnconditionalVars() {
 		// TODO Auto-generated method stub

@@ -259,10 +259,9 @@ public class MyList extends ValidExpression
 	 *            operation
 	 * @param right
 	 *            true for [this] [operation] [value], false for [value]
-	 *            [operation>] [this]
+	 *            [operation] [this]
 	 * @param tpl
 	 *            string template in case we do string concatenation here
-	 * @author Markus Hohenwarter
 	 */
 	public void apply(Operation operation, ExpressionValue value,
 			boolean right, StringTemplate tpl) {
