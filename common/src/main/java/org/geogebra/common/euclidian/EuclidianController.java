@@ -15,6 +15,7 @@ package org.geogebra.common.euclidian;
 import static org.geogebra.common.euclidian.EuclidianCursor.DEFAULT;
 import static org.geogebra.common.euclidian.EuclidianCursor.MINDMAP;
 import static org.geogebra.common.euclidian.EuclidianCursor.TABLE;
+import static org.geogebra.common.euclidian.EuclidianCursor.TEXT;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -5241,6 +5242,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_MEDIA_TEXT:
+			view.setCursor(TEXT);
 			createInlineObject(selectionPreview, GeoInlineText::new);
 			changedKernel = false;
 			break;
@@ -5275,6 +5277,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_EQUATION:
+			view.setCursor(TEXT);
 			changedKernel = createInlineObject(selectionPreview,
 					(cons, location) -> new GeoFormula(cons, location));
 			break;

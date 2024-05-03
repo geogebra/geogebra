@@ -39,5 +39,7 @@ public enum EuclidianCursor {
 	/** Mindmap */
 	MINDMAP,
 	/** Table */
-	TABLE
+	TABLE,
+	/** Text */
+	TEXT
 }
