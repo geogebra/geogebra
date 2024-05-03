@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.toolbar.mow.popupcomponents;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GColor;
@@ -17,6 +19,7 @@ public class ColorChooserPanel extends FlowPanel {
 	private GColor activeColor;
 	private FlowPanel activeButton;
 	private final AppW appW;
+	private Map<GColor, FlowPanel> colorButtons;
 
 	/**
 	 * constructor
@@ -32,6 +35,7 @@ public class ColorChooserPanel extends FlowPanel {
 	}
 
 	private void buildGUI() {
+		colorButtons = new HashMap<>();
 		ColorValues[] colorValues = ColorValues.values();
 		for (ColorValues color : colorValues) {
 			addColorButton(color.getColor());
@@ -58,9 +62,14 @@ public class ColorChooserPanel extends FlowPanel {
 		colorButton.add(colorHolder);
 		colorButton.add(checkmark);
 
-		Dom.addEventListener(colorButton.getElement(), "click", (event) ->
-				updateColor(colorButton, color));
+		Dom.addEventListener(colorButton.getElement(), "click", (event) -> {
+			if (isDisabled()) {
+				return;
+			}
+			updateColor(colorButton, color);
+		});
 
+		colorButtons.put(color, colorButton);
 		add(colorButton);
 	 }
 
@@ -69,46 +78,49 @@ public class ColorChooserPanel extends FlowPanel {
 		customColorButton.addStyleName("colorButton customColor");
 
 		SimplePanel imageHolder = new SimplePanel();
-		 imageHolder.addStyleName("imageHolder");
+		imageHolder.addStyleName("imageHolder");
 		NoDragImage plus = new NoDragImage(MaterialDesignResources.INSTANCE.add_black(), 18);
 		plus.addStyleName("plus");
 
 		customColorButton.add(imageHolder);
 		customColorButton.add(plus);
 
-		Dom.addEventListener(customColorButton.getElement(), "click", (event) ->
-				((DialogManagerW) appW.getDialogManager()).showColorChooserDialog(activeColor,
-				new ColorChangeHandler() {
-					@Override
-					public void onColorChange(GColor color) {
-						updateColor(null, color);
-					}
+		Dom.addEventListener(customColorButton.getElement(), "click", (event) -> {
+				if (!isDisabled()) {
+					((DialogManagerW) appW.getDialogManager()).showColorChooserDialog(activeColor,
+							new ColorChangeHandler() {
+								@Override
+								public void onColorChange(GColor color) {
+									updateColor(null, color);
+								}
 
-					@Override
-					public void onAlphaChange() {
-						// nothing to do here
-					}
+								@Override
+								public void onAlphaChange() {
+									// nothing to do here
+								}
 
-					@Override
-					public void onClearBackground() {
-						// nothing to do here
-					}
+								@Override
+								public void onClearBackground() {
+									// nothing to do here
+								}
 
-					@Override
-					public void onForegroundSelected() {
-						// nothing to do here
-					}
+								@Override
+								public void onForegroundSelected() {
+									// nothing to do here
+								}
 
-					@Override
-					public void onBackgroundSelected() {
-						// nothing to do here
-					}
+								@Override
+								public void onBackgroundSelected() {
+									// nothing to do here
+								}
 
-					@Override
-					public void onBarSelected() {
-						// nothing to do here
-					}
-				}));
+								@Override
+								public void onBarSelected() {
+									// nothing to do here
+								}
+							});
+				}
+		});
 
 		add(customColorButton);
 	 }
@@ -133,5 +145,37 @@ public class ColorChooserPanel extends FlowPanel {
 	 private void updateColor(FlowPanel colorButton, GColor color) {
 		updateActiveColorButton(colorButton, color);
 		runCallback(color);
+	}
+
+	/**
+	 * disable/enable color chooser
+	 * @param disabled - whether is disabled or not
+	 */
+	public void setDisabled(boolean disabled) {
+		Dom.toggleClass(this, "disabled", disabled);
+	}
+
+	public boolean isDisabled() {
+		return getElement().hasClassName("disabled");
+	}
+
+	private FlowPanel getColorButton(GColor color) {
+		return colorButtons.get(color);
+	}
+
+	/**
+	 * update color palette selection
+	 * @param selectedColor - last selected color
+	 */
+	public void updateColorSelection(GColor selectedColor) {
+		FlowPanel buttonToSelect = getColorButton(selectedColor);
+		if (buttonToSelect != null) {
+			updateColor(buttonToSelect, selectedColor);
+		} else {
+			if (activeButton != null) {
+				activeButton.removeStyleName("selected");
+			}
+			runCallback(selectedColor);
+		}
 	}
 }
