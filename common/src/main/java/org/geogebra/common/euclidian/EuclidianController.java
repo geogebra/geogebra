@@ -12,7 +12,11 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian;
 
+import static org.geogebra.common.euclidian.EuclidianCursor.CROSSHAIR;
 import static org.geogebra.common.euclidian.EuclidianCursor.DEFAULT;
+import static org.geogebra.common.euclidian.EuclidianCursor.MINDMAP;
+import static org.geogebra.common.euclidian.EuclidianCursor.TABLE;
+import static org.geogebra.common.euclidian.EuclidianCursor.TEXT;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -5239,18 +5243,19 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_MEDIA_TEXT:
+			view.setCursor(TEXT);
 			createInlineObject(selectionPreview, GeoInlineText::new);
 			changedKernel = false;
 			break;
 
 		case EuclidianConstants.MODE_TABLE:
-			setDragCursor();
+			view.setCursor(TABLE);
 			// no undo: actual undo point created later (InlineTableControllerW::onEditorChanged)
 			createInlineObject(selectionPreview, GeoInlineTable::new);
 			break;
 
 		case EuclidianConstants.MODE_MIND_MAP:
-			setDragCursor();
+			view.setCursor(MINDMAP);
 			changedKernel = createInlineObject(selectionPreview, new GeoInlineFactory() {
 				@Override
 				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
@@ -5273,8 +5278,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_EQUATION:
+			view.setCursor(TEXT);
 			changedKernel = createInlineObject(selectionPreview,
 					(cons, location) -> new GeoFormula(cons, location));
+			break;
+		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
+		case EuclidianConstants.MODE_SHAPE_CIRCLE:
+		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
+		case EuclidianConstants.MODE_SHAPE_LINE:
+		case EuclidianConstants.MODE_SHAPE_PENTAGON:
+		case EuclidianConstants.MODE_SHAPE_SQUARE:
+		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
+			view.setCursor(CROSSHAIR);
 			break;
 
 		// new image
@@ -5383,7 +5398,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_PEN:
 		case EuclidianConstants.MODE_FREEHAND_SHAPE:
 		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
-			// MOW-75
 			view.setCursor(EuclidianCursor.PEN);
 			break;
 
@@ -5391,7 +5405,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			view.setCursor(EuclidianCursor.HIGHLIGHTER);
 			break;
 
-		// Michael Borcherds 2008-03-13
 		case EuclidianConstants.MODE_COMPASSES:
 			ret = compasses(hits, selectionPreview);
 			break;
