@@ -547,16 +547,16 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * @param y The Y coordinate of the center of the arc.
      * @param radius The radius of the arc.
      * @param angSt The starting angle of the arc in degrees.
-     * @param angExt The angular extent of the arc in degrees.
+     * @param angleExt The angular extent of the arc in degrees.
      * @param closure The closure type for the arc:
      * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
      * @since 1.2
      */
     @Override
 	public void setArcByCenter(double x, double y, double radius,
-                               double angSt, double angExt, int closure) {
+                               double angSt, double angleExt, int closure) {
         setArc(x - radius, y - radius, radius * 2.0, radius * 2.0,
-               angSt, angExt, closure);
+               angSt, angleExt, closure);
     }
 
     /**

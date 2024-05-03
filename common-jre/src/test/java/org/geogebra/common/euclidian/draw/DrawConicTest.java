@@ -28,36 +28,44 @@ public class DrawConicTest extends BaseUnitTest {
 	@Test
 	public void testBigArcDrawingTriangleFill() {
 		GeoConic circle = add("c=Circle((-50,-50),(-3,-3))");
-		assertEquals(Arrays.asList(SEG_MOVETO, SEG_LINETO, SEG_CUBICTO), getSegmentTypes(circle));
+		assertEquals(Arrays.asList(SEG_MOVETO, SEG_CUBICTO, SEG_LINETO), getSegmentTypes(circle));
 
 		circle = add("c=Circle((-50,50),(-3,3))");
-		assertEquals(Arrays.asList(SEG_MOVETO, SEG_LINETO, SEG_CUBICTO), getSegmentTypes(circle));
+		assertEquals(Arrays.asList(SEG_MOVETO, SEG_CUBICTO, SEG_LINETO), getSegmentTypes(circle));
 
 		circle = add("c=Circle((50,50),(3,3))");
-		assertEquals(Arrays.asList(SEG_MOVETO, SEG_LINETO, SEG_CUBICTO), getSegmentTypes(circle));
+		assertEquals(Arrays.asList(SEG_MOVETO, SEG_CUBICTO, SEG_LINETO), getSegmentTypes(circle));
 
 		circle = add("c=Circle((50,-50),(3,-3))");
-		assertEquals(Arrays.asList(SEG_MOVETO, SEG_LINETO, SEG_CUBICTO), getSegmentTypes(circle));
+		assertEquals(Arrays.asList(SEG_MOVETO, SEG_CUBICTO, SEG_LINETO), getSegmentTypes(circle));
 	}
 
 	@Test
 	public void testBigArcDrawingVerticalRectangleFill() {
 		GeoConic circle = add("c=Circle((-50,0),(0,0))");
-		assertEquals(Arrays.asList(SEG_MOVETO, SEG_LINETO, SEG_CUBICTO, SEG_LINETO),
+		assertEquals(Arrays.asList(SEG_MOVETO, SEG_CUBICTO, SEG_LINETO, SEG_LINETO),
 				getSegmentTypes(circle));
 				circle = add("c=Circle((50,0),(0,0))");
-		assertEquals(Arrays.asList(SEG_MOVETO, SEG_LINETO, SEG_CUBICTO, SEG_LINETO),
+		assertEquals(Arrays.asList(SEG_MOVETO, SEG_CUBICTO, SEG_LINETO, SEG_LINETO),
 				getSegmentTypes(circle));
 	}
 
 	@Test
 	public void testBigArcDrawingHorizontalRectangleFill() {
 		GeoConic circle = add("c=Circle((0,50),(0,0))");
-		assertEquals(Arrays.asList(SEG_MOVETO, SEG_LINETO, SEG_CUBICTO, SEG_LINETO),
+		assertEquals(Arrays.asList(SEG_MOVETO, SEG_CUBICTO, SEG_LINETO, SEG_LINETO),
 				getSegmentTypes(circle));
 		circle = add("c=Circle((0,-50),(0,0))");
-		assertEquals(Arrays.asList(SEG_MOVETO, SEG_LINETO, SEG_CUBICTO, SEG_LINETO),
+		assertEquals(Arrays.asList(SEG_MOVETO, SEG_CUBICTO, SEG_LINETO,  SEG_LINETO),
 				getSegmentTypes(circle));
+	}
+
+	@Test
+	public void testBigArcDrawingDiagonally() {
+		GeoConic ellipse = add("c=Ellipse((-50,-50),(50,50),(50.1,50.1))");
+		assertEquals(Arrays.asList(SEG_MOVETO, SEG_CUBICTO, SEG_LINETO, SEG_LINETO,
+						SEG_CUBICTO, SEG_LINETO),
+				getSegmentTypes(ellipse));
 	}
 
 	private List<Integer> getSegmentTypes(GeoConic circle) {

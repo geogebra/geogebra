@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.HasCoordinates;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -655,14 +656,25 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 	 *            precision
 	 * @return type of intersection
 	 */
-	public final static synchronized int intersectLineConic(GeoLine g,
+	public static synchronized int intersectLineConic(GeoLine g,
 			GeoConicND c, GeoPoint[] sol, double eps) {
-		double[] A = c.getFlatMatrix();
-
 		g.getnormalizedCoefficients(xyz, 2);
-		double x = xyz[0];
-		double y = xyz[1];
-		double z = xyz[2];
+		return intersectLineConic(xyz, c, eps, sol);
+	}
+
+	/**
+	 * @param g line coefficients
+	 * @param c conic
+	 * @param eps precision
+	 * @param sol output points
+	 * @return solution type
+	 */
+	public static synchronized int intersectLineConic(double[] g,
+				GeoConicND c, double eps, HasCoordinates... sol) {
+			double[] A = c.getFlatMatrix();
+		double x = g[0];
+		double y = g[1];
+		double z = g[2];
 
 		// get arbitrary point of line
 		double px, py;
@@ -733,7 +745,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		if (DoubleUtil.isEqual(dis, 0, delta)) {
 			double t1 = -d / u;
 			sol[0].setCoords(px + t1 * y, py - t1 * x, 1.0);
-			sol[1].setCoords(sol[0]);
+			sol[1].setCoords(sol[0].getX(), sol[0].getY(), sol[0].getZ());
 			return INTERSECTION_TANGENT_LINE;
 		}
 		// Sekante oder Passante
@@ -744,7 +756,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		if (c.type == GeoConicNDConstants.CONIC_DOUBLE_LINE) {
 			double t1 = -d / u;
 			sol[0].setCoords(px + t1 * y, py - t1 * x, 1.0);
-			sol[1].setCoords(sol[0]);
+			sol[1].setCoords(sol[0].getX(), sol[0].getY(), sol[0].getZ());
 			return INTERSECTION_SECANT_LINE;
 		}
 		if (dis > 0) {
