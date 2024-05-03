@@ -14,6 +14,8 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PA
 import static org.geogebra.common.spreadsheet.core.ContextMenuItems.HEADER_INDEX;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
@@ -128,6 +130,16 @@ public final class ContextMenuItemsTest {
 		} else {
 			fail("No such menu item at (" + row + ", " + column + "): " + id);
 		}
+	}
+
+	private Optional<ContextMenuItem> getItemAt(int row, int column, Identifier id) {
+		List<ContextMenuItem> contextMenuItems = items.get(row, column);
+		Optional<ContextMenuItem> item = contextMenuItems.stream()
+				.filter(t -> t.getIdentifier().equals(id)).findAny();
+		if (item.isPresent()) {
+			return item;
+		}
+		return item;
 	}
 
 	@Test
@@ -284,7 +296,7 @@ public final class ContextMenuItemsTest {
 	public void testPasteCellSelection() {
 		selectCells(1, 1, 2, 2);
 		runItemAt(1, 1, COPY);
-		selectionController.clearSelection();
+		selectionController.clearSelections();
 		runItemAt(2, 4, PASTE);
 		assertEquals("cell11", data.contentAt(2, 4));
 		assertEquals("cell12", data.contentAt(2, 5));
@@ -336,6 +348,29 @@ public final class ContextMenuItemsTest {
 		shoudStayDefault(14, 2);
 		shoudStayDefault(14, 3);
 		shoudStayDefault(14, 4);
+	}
+
+	@Test
+	public void testSelectingAllCellsDisablesDeletingColumn() {
+		controller.selectAll();
+		assertThrows("The DELETE_COLUMN item should not pop up if all cells are selected!",
+				AssertionError.class, () -> runItemAt(1, 1, DELETE_COLUMN));
+	}
+
+	@Test
+	public void testSelectingAllCellsDisablesDeletingRows() {
+		controller.selectAll();
+		assertThrows("The DELETE_ROW item should not pop up if all cells are selected!",
+				AssertionError.class, () -> runItemAt(1, 1, DELETE_ROW));
+	}
+
+	@Test
+	public void testClickingOnCellWithRowsAndColumnsSelectedEnablesInsertingRow() {
+		controller.selectRow(1, false, false);
+		controller.selectColumn(2, false, true);
+		List<ContextMenuItem> contextMenuItems = items.get(1, 2);
+		assertTrue(contextMenuItems.stream().anyMatch(
+				item -> item.getIdentifier() == INSERT_ROW_ABOVE));
 	}
 
 	private void shoudStayDefault(int row, int column) {

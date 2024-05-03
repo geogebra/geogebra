@@ -12,6 +12,9 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.List;
+
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.util.shape.Rectangle;
 import org.junit.Before;
@@ -284,11 +287,33 @@ public class SpreadsheetControllerTest {
                 120, controller.getLayout().getHeight(1), 0);
     }
 
+    @Test
+    public void testRightClickingMultiCellSelectionShouldNotChangeSelection() {
+        selectCells(0, 0, 1, 1);
+        controller.setControlsDelegate(getSpreadsheetControlsDelegate());
+        controller.handlePointerDown(rowHeaderCellWidth + 10, cellHeight + 10,
+                new Modifiers(false, false, false, true));
+        assertEquals(1, controller.getSelections().size());
+        assertTrue(controller.getSelections().get(0).getRange().isEqualCells(
+                new TabularRange(0, 0, 1, 1)));
+    }
+
     private void runContextItemAt(int row, int column, Identifier identifier) {
         controller.getContextMenuItems().get(row, column).stream()
                 .filter(item -> item.getIdentifier() == identifier)
                 .findFirst().ifPresentOrElse(ContextMenuItem::performAction,
                         () -> fail("There was a problem performing this action!"));
+    }
+
+    @Test
+    public void testRightClickingMultiRowAndColumnSelectionShouldChangeSelection() {
+        controller.selectRow(0, false, false);
+        controller.selectColumn(2, false, true);
+        controller.handlePointerDown(rowHeaderCellWidth + 10, cellHeight + 10,
+                new Modifiers(false, false, false, true));
+        assertEquals(1, controller.getSelections().size());
+        assertTrue(controller.getSelections().get(0).getRange().isEqualCells(
+                new TabularRange(0, 0, 0, 0)));
     }
 
     private void setViewport(Rectangle viewport) {
@@ -314,5 +339,29 @@ public class SpreadsheetControllerTest {
 
     private void selectCells(int fromRow, int fromColumn, int toRow, int toColumn) {
         controller.select(new TabularRange(fromRow, fromColumn, toRow, toColumn), false, false);
+    }
+
+    private SpreadsheetControlsDelegate getSpreadsheetControlsDelegate() {
+        return new SpreadsheetControlsDelegate() {
+            @Override
+            public SpreadsheetCellEditor getCellEditor() {
+                return new TestSpreadsheetCellEditor();
+            }
+
+            @Override
+            public void showContextMenu(List<ContextMenuItem> actions, GPoint coords) {
+                // Not needed
+            }
+
+            @Override
+            public void hideContextMenu() {
+                // Not needed
+            }
+
+            @Override
+            public ClipboardInterface getClipboard() {
+                return null;
+            }
+        };
     }
 }

@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
@@ -171,6 +173,160 @@ public class SpreadsheetSelectionControllerTest {
 		assertFalse(selectionController.isSelected(-1, 4));
 	}
 
+	@Test
+	public void testIsOnlyRowSelected1() {
+		selectionController.selectRow(1, false, false);
+		assertTrue(selectionController.isOnlyRowSelected(1));
+	}
+
+	@Test
+	public void testIsOnlyRowSelected2() {
+		selectionController.selectRow(1, false, false);
+		selectionController.selectRow(2, true, false);
+		assertFalse(selectionController.isOnlyRowSelected(1));
+	}
+
+	@Test
+	public void testIsOnlyRowSelected3() {
+		selectionController.selectRow(1, false, false);
+		selectionController.selectColumn(1, false, true);
+		assertFalse(selectionController.isOnlyRowSelected(1));
+	}
+
+	@Test
+	public void testIsOnlyColumnSelected1() {
+		selectionController.selectColumn(1, false, false);
+		assertTrue(selectionController.isOnlyColumnSelected(1));
+	}
+
+	@Test
+	public void testIsOnlyColumnSelected2() {
+		selectionController.selectColumn(1, false, false);
+		selectionController.selectColumn(2, false, true);
+		assertFalse(selectionController.isOnlyColumnSelected(2));
+	}
+
+	@Test
+	public void testIsOnlyColumnSelected3() {
+		selectionController.selectAll(numberOfRows, numberOfColumns);
+		assertFalse(selectionController.isOnlyColumnSelected(1));
+	}
+
+	@Test
+	public void testAllCellsSelected() {
+		selectionController.selectAll(numberOfRows, numberOfColumns);
+		assertTrue(selectionController.areAllCellsSelected());
+	}
+
+	@Test
+	public void testAreOnlyRowsSelected1() {
+		selectionController.select(new Selection(
+				TabularRange.range(0, 2, -1, -1)), false, false);
+		assertTrue(selectionController.areOnlyRowsSelected());
+	}
+
+	@Test
+	public void testAreOnlyRowsSelected2() {
+		selectionController.selectRow(1, false, false);
+		selectionController.selectColumn(1, false, true);
+		assertFalse(selectionController.areOnlyRowsSelected());
+	}
+
+	@Test
+	public void testAreOnlyColumnsSelected1() {
+		selectionController.select(new Selection(
+				TabularRange.range(-1, -1, 0, 2)), false, false);
+		assertTrue(selectionController.areOnlyColumnsSelected());
+	}
+
+	@Test
+	public void testAreOnlyColumnsSelected2() {
+		selectionController.selectColumn(1, false, false);
+		selectionController.selectCell(3, 3, false, true);
+		assertFalse(selectionController.areOnlyColumnsSelected());
+	}
+
+	@Test
+	public void testAreOnlyCellsSelected1() {
+		selectionController.select(new Selection(
+				TabularRange.range(0, 2, 1, 2)), false, false);
+		assertTrue(selectionController.areOnlyCellsSelected());
+	}
+
+	@Test
+	public void testAreOnlyCellsSelected2() {
+		selectionController.select(new Selection(
+				TabularRange.range(0, 1, 0, 2)), false, false);
+		selectionController.selectRow(4, false, true);
+		assertFalse(selectionController.areOnlyCellsSelected());
+	}
+
+	@Test
+	public void testGetAllRowIndexes1() {
+		selectionController.selectCell(1, 1, false, false);
+		selectionController.selectCell(5, 1, false, true);
+		selectionController.selectCell(2, 1, false, true);
+		List<Integer> rowIndexes = List.of(1, 2, 5);
+		List<Integer> getAllRowIndexes = selectionController.getAllRowIndexes();
+		assertTrue(assertListsAreEqual(rowIndexes, getAllRowIndexes));
+	}
+
+	@Test
+	public void testGetAllColumnIndexes() {
+		selectionController.selectCell(1, 3, false, false);
+		selectionController.selectCell(5, 18, false, true);
+		selectionController.selectCell(2, 2, false, true);
+		List<Integer> rowIndexes = List.of(2, 3, 18);
+		List<Integer> getAllColumnIndexes = selectionController.getAllColumnIndexes();
+		assertTrue(assertListsAreEqual(rowIndexes, getAllColumnIndexes));
+	}
+
+	@Test
+	public void testGetAllColumnIndexesContainsNoDuplicates() {
+		selectionController.selectCell(1, 3, false, false);
+		selectionController.selectCell(5, 18, false, true);
+		selectionController.selectCell(2, 3, false, true);
+		List<Integer> rowIndexes = List.of(3, 18);
+		List<Integer> getAllColumnIndexes = selectionController.getAllColumnIndexes();
+		assertTrue(assertListsAreEqual(rowIndexes, getAllColumnIndexes));
+	}
+
+	@Test
+	public void testGetUppermostRowIndex() {
+		selectionController.select(new Selection(
+				TabularRange.range(1, 2, 0, 2)), false, false);
+		selectionController.selectCell(3, 2, false, true);
+		selectionController.selectCell(2, 2, false, true);
+		assertEquals(1, selectionController.getUppermostSelectedRowIndex());
+	}
+
+	@Test
+	public void testGetBottommostRowIndex() {
+		selectionController.select(new Selection(
+				TabularRange.range(1, 2, 0, 2)), false, false);
+		selectionController.selectCell(4, 1, false, true);
+		selectionController.selectCell(3, 1, false, true);
+		assertEquals(4, selectionController.getBottommostSelectedRowIndex());
+	}
+
+	@Test
+	public void testGetLeftmostColumnIndex() {
+		selectionController.select(new Selection(
+				TabularRange.range(1, 2, 0, 2)), false, false);
+		selectionController.selectCell(2, 0, false, true);
+		selectionController.selectCell(2, 4, false, true);
+		assertEquals(0, selectionController.getLeftmostSelectedColumnIndex());
+	}
+
+	@Test
+	public void testGetRightmostColumnIndex() {
+		selectionController.select(new Selection(
+				TabularRange.range(1, 2, 0, 2)), false, false);
+		selectionController.selectCell(1, 3, false, true);
+		selectionController.selectCell(1, 0, false, true);
+		assertEquals(3, selectionController.getRightmostSelectedColumnIndex());
+	}
+
 	private void assertRangeEquals(@Nullable Selection selection, Selection other) {
 		assertNotNull("Selection should not be null", selection);
 		TabularRange selectionRange = selection.getRange();
@@ -180,5 +336,9 @@ public class SpreadsheetSelectionControllerTest {
 		assertEquals(selectionRange.getMaxRow(), otherRange.getMaxRow());
 		assertEquals(selectionRange.getMinColumn(), otherRange.getMinColumn());
 		assertEquals(selectionRange.getMaxColumn(), otherRange.getMaxColumn());
+	}
+
+	private boolean assertListsAreEqual(List<Integer> list1, List<Integer> list2) {
+		return list1.size() == list2.size() && list2.containsAll(list1);
 	}
 }
