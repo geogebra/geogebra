@@ -490,17 +490,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public TableLayout getSpreadsheetLayoutForSuite() {
-		// NOT NEEDED
-		return null;
-	}
-
-	@Override
-	public void setSpreadsheetLayoutForSuite(TableLayout layout) {
-		// STUB
-	}
-
-	@Override
 	public void getAlgebraViewXML(StringBuilder sb, boolean asPreference) {
 		if (algebraView != null) {
 			algebraView.getXML(sb, asPreference);

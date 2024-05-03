@@ -647,7 +647,8 @@ public class MyXMLHandler implements DocHandler {
 			setTableParameters(attrs);
 			break;
 		case "spreadsheetLayoutSuite":
-			if (app.getGuiManager().getSpreadsheetLayoutForSuite() != null) {
+			if (app.getGuiManager() != null
+					&& app.getGuiManager().getSpreadsheetLayoutForSuite() != null) {
 				app.getGuiManager().getSpreadsheetLayoutForSuite().resetCellSizes();
 			}
 			mode = MODE_SPREADSHEET_LAYOUT_SUITE;

@@ -44,6 +44,7 @@ import org.geogebra.common.main.InputKeyboardButton;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
+import org.geogebra.common.spreadsheet.core.TableLayout;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
@@ -61,6 +62,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	protected ProbabilityCalculatorView probCalculator;
 	protected TableValues tableValues;
 	protected TableValuesPoints tableValuesPoints;
+	private TableLayout spreadsheetLayout;
 
 	/**
 	 * Abstract constructor
@@ -180,7 +182,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * @param sb {@link StringBuilder}
 	 */
 	public void getSpreadsheetLayoutXML(StringBuilder sb) {
-		// Overridden in GuiManagerW
+		if (spreadsheetLayout != null) {
+			sb.append(spreadsheetLayout.getXML());
+		}
 	}
 
 	@Override
@@ -841,5 +845,15 @@ public abstract class GuiManager implements GuiManagerInterface {
 	@Override
 	public InputKeyboardButton getInputKeyboardButton() {
 		return null;
+	}
+
+	@Override
+	public void setSpreadsheetLayoutForSuite(TableLayout layout) {
+		this.spreadsheetLayout = layout;
+	}
+
+	@Override
+	public TableLayout getSpreadsheetLayoutForSuite() {
+		return spreadsheetLayout;
 	}
 }

@@ -150,7 +150,6 @@ public class GuiManagerW extends GuiManager
 	private AlgebraControllerW algebraController;
 	private AlgebraViewW algebraView;
 	private SpreadsheetViewW spreadsheetView;
-	private TableLayout spreadsheetLayout;
 	private final ArrayList<EuclidianViewW> euclidianView2 = new ArrayList<>();
 	protected BrowseViewI browseGUI;
 	protected LayoutW layout;
@@ -579,16 +578,6 @@ public class GuiManagerW extends GuiManager
 		}
 
 		return spreadsheetView;
-	}
-
-	@Override
-	public void setSpreadsheetLayoutForSuite(TableLayout layout) {
-		this.spreadsheetLayout = layout;
-	}
-
-	@Override
-	public TableLayout getSpreadsheetLayoutForSuite() {
-		return spreadsheetLayout;
 	}
 
 	@Override
@@ -1433,9 +1422,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void getSpreadsheetLayoutXML(StringBuilder sb) {
-		if (spreadsheetLayout != null) {
-			sb.append(spreadsheetLayout.getXML());
-		}
+
 	}
 
 	@Override
