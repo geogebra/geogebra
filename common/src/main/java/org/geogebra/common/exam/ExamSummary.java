@@ -119,9 +119,9 @@ public final class ExamSummary {
 	}
 
 	/**
-	 * Format - x:yz
+	 * Format: mm:ss
 	 * @param eventDate The Date of an event that occured during the exam
-	 * @return Timestamp of the event happened relative to the exam start date
+	 * @return A formatted timestamp of the event relative to the exam start date
 	 */
 	public String formatEventTime(Date eventDate) {
 		long timeDifference = eventDate.getTime() - startDate.getTime();

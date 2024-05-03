@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.exam;
 import java.util.ArrayList;
 
 import org.geogebra.common.exam.ExamRegion;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.main.AppWFull;
@@ -57,6 +58,7 @@ public class ExamStartDialog extends ComponentDialog {
 	@Override
 	public void onEscape() {
 		if (!((AppW) app).isLockedExam()) {
+			GlobalScope.examController.cancelExam();
 			hide();
 		}
 	}

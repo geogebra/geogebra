@@ -38,6 +38,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		this.app = app;
 		addStyleName("classicExamStartDialog");
 		buildGUI();
+		GlobalScope.examController.prepareExam();
 		setOnPositiveAction(() -> startExam(app));
 		setOnNegativeAction(this::cancelExam);
 	}
@@ -112,9 +113,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		if (examType != null) {
 			GlobalScope.examController.setActiveContext(app, app.getKernel().getAlgebraProcessor()
 					.getCommandDispatcher(), app.getKernel().getAlgebraProcessor());
-			GlobalScope.examController.prepareExam();
-			GlobalScope.examController.registerRestrictable(
-					app.getKernel().getAlgebraProcessor().getCommandDispatcher());
+			GlobalScope.examController.registerRestrictable(app);
 			GlobalScope.examController.startExam(examType, null);
 		}
 		app.fireViewsChangedEvent();

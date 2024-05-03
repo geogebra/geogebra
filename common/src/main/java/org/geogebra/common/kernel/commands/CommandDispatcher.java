@@ -19,8 +19,6 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.exam.restrictions.ExamRestrictable;
-import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -44,7 +42,7 @@ import com.google.j2objc.annotations.Weak;
 /**
  * Runs commands and handles string to command processor conversion.
  */
-public abstract class CommandDispatcher implements Restrictable, ExamRestrictable {
+public abstract class CommandDispatcher implements Restrictable {
 
 	@NonOwning
 	@Weak
@@ -1053,15 +1051,5 @@ public abstract class CommandDispatcher implements Restrictable, ExamRestrictabl
 	@Override
 	public void applyExamRestrictions() {
 		app.resetCommandDict();
-	}
-
-	@Override
-	public void applyRestrictions(@Nonnull ExamRestrictions examRestrictions) {
-		app.resetCommandDict();
-	}
-
-	@Override
-	public void removeRestrictions(@Nonnull ExamRestrictions examRestrictions) {
-		// Probably not needed
 	}
 }

@@ -221,10 +221,10 @@ public class GGWToolBar extends Composite
 
 	// timer for GeoGebraExam
 	private FlowPanel getTimer() {
-		final Label timer = new Label();
-		timer.getElement().setClassName("timer");
-		timer.getElement().setId("timer");
-		timer.getElement().setPropertyBoolean("started", false);
+		final Label timerLabel = new Label();
+		timerLabel.getElement().setClassName("timer");
+		timerLabel.getElement().setId("timer");
+		timerLabel.getElement().setPropertyBoolean("started", false);
 
 		// https://groups.google.com/forum/#!msg/google-web-toolkit/VrF3KD1iLh4/-y4hkIDt5BUJ
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
@@ -236,7 +236,7 @@ public class GGWToolBar extends Composite
 						makeTimerWhite(Js.uncheckedCast(getElement()));
 					}
 
-					timer.setText(GlobalScope.examController.getDurationFormatted(
+					timerLabel.setText(GlobalScope.examController.getDurationFormatted(
 							app.getLocalization()));
 
 					AnimationScheduler.get().requestAnimationFrame(this);
@@ -248,7 +248,7 @@ public class GGWToolBar extends Composite
 		new ExamUtil(app).addVisibilityAndBlurHandlers();
 
 		FlowPanel fp = new FlowPanel();
-		fp.add(timer);
+		fp.add(timerLabel);
 		Image info = new Image(
 				GuiResourcesSimple.INSTANCE.dialog_info().getSafeUri().asString());
 		info.setStyleName("examInfo");

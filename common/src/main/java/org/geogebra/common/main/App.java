@@ -3988,7 +3988,99 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public boolean showAutoCreatedSlidersInEV() {
 		return true;
 	}
-	
+
+	@Deprecated // use ExamController instead
+	@Override // from deprecated ExamProvider
+	public ExamEnvironment getExam() {
+		return exam;
+	}
+
+	@Deprecated // use ExamController instead
+	public boolean isExam() {
+		return getExam() != null;
+	}
+
+	@Deprecated // use ExamController instead
+	public boolean isExamStarted() {
+		return isExam() && getExam().isStarted();
+	}
+
+	@Deprecated // use ExamController instead
+	public void setExam(ExamEnvironment exam) {
+		this.exam = exam;
+	}
+
+	@Deprecated // use ExamController instead
+	public void setNewExam() {
+		setNewExam(ExamRegion.GENERIC);
+	}
+
+	/**
+	 * Initializes a new ExamEnvironment instance.
+	 */
+	@Deprecated // use ExamController instead
+	public void setNewExam(ExamRegion region) {
+		ExamEnvironment examEnvironment = newExamEnvironment();
+		examEnvironment.setExamRegion(region);
+		initRestrictions(region);
+		examEnvironment.setRestrictionModel(restrictions.getModel());
+		setExam(examEnvironment);
+		examEnvironment.setConfig(getConfig());
+		CommandDispatcher commandDispatcher =
+				getKernel().getAlgebraProcessor().getCommandDispatcher();
+		examEnvironment.setCommandDispatcher(commandDispatcher);
+		examEnvironment.setCopyPaste(getCopyPaste());
+	}
+
+	@Deprecated // use ExamController instead
+	protected ExamEnvironment newExamEnvironment() {
+		return new ExamEnvironment(getLocalization());
+	}
+
+	@Deprecated // use ExamController instead
+	private void initRestrictions(ExamRegion region) {
+		RestrictExam oldRestrictions = restrictions;
+		restrictions = ExamRestrictionFactory.create(region);
+		if (oldRestrictions != null) {
+			oldRestrictions.getRestrictables().forEach(restrictions::register);
+		}
+	}
+
+	/**
+	 * Register a component to be restriced during exam
+	 *
+	 * @param restrictable the component to restrict.
+	 */
+	@Deprecated // use ExamController instead
+	public void registerRestrictable(Restrictable restrictable) {
+		if (restrictions == null) {
+			ExamEnvironment exam = getExam();
+			ExamRegion region = exam != null && exam.isStarted() ? exam.getExamRegion() : null;
+			restrictions = ExamRestrictionFactory.create(region);
+		}
+		restrictions.register(restrictable);
+	}
+
+	/**
+	 * Start exam with current timestamp.
+	 */
+	@Deprecated // use ExamController instead
+	public void startExam() {
+		getExam().prepareExamForStarting();
+		getExam().setStart((new Date()).getTime());
+		restrictions.enable();
+	}
+
+	/**
+	 * If an exam is active, re-enable any exam restrictions.
+	 */
+	@Deprecated // use ExamController instead
+	public void reEnableExamRestrictions() {
+		if (getExam() != null && isExamStarted() && restrictions != null) {
+			restrictions.enable();
+		}
+	}
+
 	/**
 	 * Show exam welcome message.
 	 */
@@ -4085,6 +4177,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public StringTemplate getScreenReaderTemplate() {
 		return StringTemplate.screenReaderAscii;
+	}
+
+	@Deprecated // restrictions are handled by ExamController
+	public void clearRestrictions() {
+		restrictions.disable();
 	}
 
 	/**
@@ -4994,6 +5091,20 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// nothing here
 	}
 
+	/**
+	 * Updates the objects that depend on the command dispatcher.
+	 *
+	 * @param commandDispatcher command dispatcher
+	 */
+	@Deprecated
+	public void onCommandDispatcherSet(CommandDispatcher commandDispatcher) {
+		ExamEnvironment examEnvironment = getExam();
+		if (examEnvironment != null) {
+			examEnvironment.setCommandDispatcher(commandDispatcher);
+			examEnvironment.setCopyPaste(getCopyPaste());
+		}
+	}
+
 	@Override
 	public void setXML(String xml, boolean clearAll) {
 		if (xml == null) {
@@ -5039,117 +5150,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	@Override
 	public MyImage getInternalImageAdapter(String filename, int width, int height) {
 		return null;
-	}
-
-	@Deprecated // use ExamController instead
-	@Override // from deprecated ExamProvider
-	public ExamEnvironment getExam() {
-		return exam;
-	}
-
-	@Deprecated // use ExamController instead
-	public boolean isExam() {
-		return getExam() != null;
-	}
-
-	@Deprecated // use ExamController instead
-	public boolean isExamStarted() {
-		return isExam() && getExam().isStarted();
-	}
-
-	@Deprecated // use ExamController instead
-	public void setExam(ExamEnvironment exam) {
-		this.exam = exam;
-	}
-
-	@Deprecated // use ExamController instead
-	public void setNewExam() {
-		setNewExam(ExamRegion.GENERIC);
-	}
-
-	/**
-	 * Initializes a new ExamEnvironment instance.
-	 */
-	@Deprecated // use ExamController instead
-	public void setNewExam(ExamRegion region) {
-		ExamEnvironment examEnvironment = newExamEnvironment();
-		examEnvironment.setExamRegion(region);
-		initRestrictions(region);
-		examEnvironment.setRestrictionModel(restrictions.getModel());
-		setExam(examEnvironment);
-		examEnvironment.setConfig(getConfig());
-		CommandDispatcher commandDispatcher =
-				getKernel().getAlgebraProcessor().getCommandDispatcher();
-		examEnvironment.setCommandDispatcher(commandDispatcher);
-		examEnvironment.setCopyPaste(getCopyPaste());
-	}
-
-	@Deprecated // use ExamController instead
-	protected ExamEnvironment newExamEnvironment() {
-		return new ExamEnvironment(getLocalization());
-	}
-
-	@Deprecated // use ExamController instead
-	private void initRestrictions(ExamRegion region) {
-		RestrictExam oldRestrictions = restrictions;
-		restrictions = ExamRestrictionFactory.create(region);
-		if (oldRestrictions != null) {
-			oldRestrictions.getRestrictables().forEach(restrictions::register);
-		}
-	}
-
-	/**
-	 * Register a component to be restriced during exam
-	 *
-	 * @param restrictable the component to restrict.
-	 */
-	@Deprecated // use ExamController instead
-	public void registerRestrictable(Restrictable restrictable) {
-		if (restrictions == null) {
-			ExamEnvironment exam = getExam();
-			ExamRegion region = exam != null && exam.isStarted() ? exam.getExamRegion() : null;
-			restrictions = ExamRestrictionFactory.create(region);
-		}
-		restrictions.register(restrictable);
-	}
-
-	/**
-	 * Start exam with current timestamp.
-	 */
-	@Deprecated // use ExamController instead
-	public void startExam() {
-		getExam().prepareExamForStarting();
-		getExam().setStart((new Date()).getTime());
-		restrictions.enable();
-	}
-
-	/**
-	 * If an exam is active, re-enable any exam restrictions.
-	 */
-	@Deprecated // use ExamController instead
-	public void reEnableExamRestrictions() {
-		if (getExam() != null && isExamStarted() && restrictions != null) {
-			restrictions.enable();
-		}
-	}
-
-	@Deprecated // restrictions are handled by ExamController
-	public void clearRestrictions() {
-		restrictions.disable();
-	}
-
-	/**
-	 * Updates the objects that depend on the command dispatcher.
-	 *
-	 * @param commandDispatcher command dispatcher
-	 */
-	@Deprecated
-	public void onCommandDispatcherSet(CommandDispatcher commandDispatcher) {
-		ExamEnvironment examEnvironment = getExam();
-		if (examEnvironment != null) {
-			examEnvironment.setCommandDispatcher(commandDispatcher);
-			examEnvironment.setCopyPaste(getCopyPaste());
-		}
 	}
 
 	// ExamRestrictable

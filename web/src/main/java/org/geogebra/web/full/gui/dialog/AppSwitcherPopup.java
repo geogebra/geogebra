@@ -7,8 +7,8 @@ import javax.annotation.Nullable;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamControllerDelegate;
-import org.geogebra.common.exam.restrictions.ExamRestrictable;
-import org.geogebra.common.exam.restrictions.ExamRestrictions;
+import org.geogebra.common.exam.ExamListener;
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.GlobalScope;
@@ -25,12 +25,11 @@ import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class AppSwitcherPopup extends GPopupPanel implements ExamRestrictable,
+public class AppSwitcherPopup extends GPopupPanel implements ExamListener,
 		ExamControllerDelegate {
 
 	SuiteHeaderAppPicker appPickerButton;
 	private final static int X_COORDINATE_OFFSET = 8;
-	private @CheckForNull ExamRestrictions examRestrictions;
 	private FlowPanel contentPanel;
 
 	/**
@@ -46,7 +45,7 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamRestrictable,
 		addAutoHidePartner(appPickerButton.getElement());
 		setGlassEnabled(false);
 		addStyleName("appPickerPopup");
-		GlobalScope.examController.registerRestrictable(this);
+		GlobalScope.examController.addListener(this);
 		buildGUI();
 		app.registerAutoclosePopup(this);
 	}
@@ -85,7 +84,8 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamRestrictable,
 	}
 
 	private void addElement(final String subAppCode) {
-		if (examRestrictions != null && GlobalScope.examController.isDisabledSubApp(subAppCode)) {
+		if (GlobalScope.examController.isExamActive()
+				&& GlobalScope.examController.isDisabledSubApp(subAppCode)) {
 			return;
 		}
 
@@ -124,15 +124,10 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamRestrictable,
 	}
 
 	@Override
-	public void applyRestrictions(@Nonnull ExamRestrictions examRestrictions) {
-		this.examRestrictions = examRestrictions;
-		updateGUI();
-	}
-
-	@Override
-	public void removeRestrictions(@Nonnull ExamRestrictions examRestrictions) {
-		this.examRestrictions = null;
-		updateGUI();
+	public void examStateChanged(ExamState newState) {
+		if (newState == ExamState.ACTIVE || newState == ExamState.IDLE) {
+			updateGUI();
+		}
 	}
 
 	@Override

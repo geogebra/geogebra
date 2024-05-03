@@ -1,11 +1,8 @@
 package org.geogebra.web.full.gui.dialog;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.exam.restrictions.ExamRestrictable;
-import org.geogebra.common.exam.restrictions.ExamRestrictions;
+import org.geogebra.common.exam.ExamListener;
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.full.main.AppWFull;
@@ -22,9 +19,8 @@ import org.gwtproject.user.client.ui.RequiresResize;
  * Calculator chooser for suite
  */
 public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable,
-		RequiresResize, ExamRestrictable {
+		RequiresResize, ExamListener {
 	private FlowPanel contentPanel;
-	private @CheckForNull ExamRestrictions examRestrictions;
 
 	/**
 	 * constructor
@@ -36,7 +32,7 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 		addStyleName("calcChooser");
 		Dom.toggleClass(this, "smallScreen", app.getWidth() < 914);
 		app.registerPopup(this);
-		GlobalScope.examController.registerRestrictable(this);
+		GlobalScope.examController.addListener(this);
 		buildGUI();
 		app.addWindowResizeListener(this);
 	}
@@ -69,7 +65,8 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 	}
 
 	private void buildAndAddCalcButton(String subAppCode, FlowPanel contentPanel) {
-		if (examRestrictions != null && GlobalScope.examController.isDisabledSubApp(subAppCode)) {
+		if (GlobalScope.examController.isExamActive()
+				&& GlobalScope.examController.isDisabledSubApp(subAppCode)) {
 			return;
 		}
 		AppDescription description = AppDescription.get(subAppCode) ;
@@ -107,14 +104,9 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 	}
 
 	@Override
-	public void applyRestrictions(@Nonnull ExamRestrictions examRestrictions) {
-		this.examRestrictions = examRestrictions;
-		buildGUI();
-	}
-
-	@Override
-	public void removeRestrictions(@Nonnull ExamRestrictions examRestrictions) {
-		this.examRestrictions = null;
-		buildGUI();
+	public void examStateChanged(ExamState newState) {
+		if (newState == ExamState.ACTIVE || newState == ExamState.IDLE) {
+			buildGUI();
+		}
 	}
 }

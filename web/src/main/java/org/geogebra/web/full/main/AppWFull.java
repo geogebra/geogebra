@@ -2345,9 +2345,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		GlobalScope.examController.setActiveContext(this,
 				getKernel().getAlgebraProcessor().getCommandDispatcher(),
 				getKernel().getAlgebraProcessor());
-		GlobalScope.examController.prepareExam();
-		GlobalScope.examController.registerRestrictable(
-				getKernel().getAlgebraProcessor().getCommandDispatcher());
+		GlobalScope.examController.registerRestrictable(this);
 		GlobalScope.examController.startExam(region, null);
 		if (guiManager != null) {
 			guiManager.resetBrowserGUI();
