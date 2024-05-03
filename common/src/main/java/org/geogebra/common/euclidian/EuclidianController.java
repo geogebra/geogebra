@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian;
 
+import static org.geogebra.common.euclidian.EuclidianCursor.CROSSHAIR;
 import static org.geogebra.common.euclidian.EuclidianCursor.DEFAULT;
 import static org.geogebra.common.euclidian.EuclidianCursor.MINDMAP;
 import static org.geogebra.common.euclidian.EuclidianCursor.TABLE;
@@ -5280,6 +5281,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			view.setCursor(TEXT);
 			changedKernel = createInlineObject(selectionPreview,
 					(cons, location) -> new GeoFormula(cons, location));
+			break;
+		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
+		case EuclidianConstants.MODE_SHAPE_CIRCLE:
+		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
+		case EuclidianConstants.MODE_SHAPE_LINE:
+		case EuclidianConstants.MODE_SHAPE_PENTAGON:
+		case EuclidianConstants.MODE_SHAPE_SQUARE:
+		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
+			view.setCursor(CROSSHAIR);
 			break;
 
 		// new image

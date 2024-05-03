@@ -28,6 +28,8 @@ public enum EuclidianCursor {
 	RESIZE_EW,
 	/** ns resize */
 	RESIZE_NS,
+	/** Crosshair */
+	CROSSHAIR,
 	/** Eraser */
 	ERASER,
 	/** Pen */

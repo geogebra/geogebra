@@ -1013,6 +1013,10 @@ public class EuclidianViewW extends EuclidianView implements
 		setCursorClass("cursor_text");
 	}
 
+	private void setCrosshairCursor() {
+		setCursorClass("cursor_crosshair");
+	}
+
 	private void setRotationCursor() {
 		setCursorClass("cursor_rotation");
 	}
@@ -1260,6 +1264,9 @@ public class EuclidianViewW extends EuclidianView implements
 			return;
 		case TEXT:
 			setTextCursor();
+			return;
+		case CROSSHAIR:
+			setCrosshairCursor();
 			return;
 		case ROTATION:
 			if (appW.isWhiteboardActive() && getEuclidianController()
