@@ -22,16 +22,18 @@ public interface TableValuesModel {
 	void unregisterListener(TableValuesListener listener);
 
 	/**
-	 * Find out whether this model is editable.
-	 * @return true if this model is editable (the default).
+	 * @return true if this model allows users to add columns (by entering values) to the right
+	 * of existing columns Defaults to true.
 	 */
-	boolean getIsEditable();
+	boolean getAllowsAddingColumns();
 
 	/**
-	 * Enable or disable editing for this model.
-	 * @param isEditable Pass false to disable editing (e.g., in SciCalc).
+	 * Enable or disable whether users can add columns (by entering values) to the right of
+	 * existing columns.
+	 * @param allowsAddingColumns Pass false to prevent new columns from being added
+	 *                               (e.g., in SciCalc).
 	 */
-	void setIsEditable(boolean isEditable);
+	void setAllowsAddingColumns(boolean allowsAddingColumns);
 
 	/**
 	 * Sets an element.
