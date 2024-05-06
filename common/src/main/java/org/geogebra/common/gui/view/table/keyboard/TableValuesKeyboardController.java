@@ -6,7 +6,7 @@ import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.geogebra.common.ownership.NonOwning;
+//import org.geogebra.common.ownership.NonOwning;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -19,7 +19,7 @@ public final class TableValuesKeyboardController {
 		ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ARROW_DOWN, RETURN;
 	}
 
-	@NonOwning
+//	@NonOwning
 	@Weak
 	public TableValuesKeyboardControllerDelegate delegate;
 
