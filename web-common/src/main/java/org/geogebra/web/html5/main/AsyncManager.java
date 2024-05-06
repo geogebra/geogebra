@@ -61,7 +61,7 @@ public class AsyncManager {
 			cmdDispatcher.getStatsDispatcher();
 			cmdDispatcher.getProverDispatcher();
 			cmdDispatcher.getCASDispatcher();
-			cmdDispatcher.get3DDispatcher();
+			cmdDispatcher.getSpatialDispatcher();
 		} catch (CommandNotLoadedError e) {
 			ensureModulesLoaded(null);
 			throw e;
@@ -109,7 +109,7 @@ public class AsyncManager {
 				cmdDispatcher.getCASDispatcher();
 				break;
 			case SPATIAL:
-				cmdDispatcher.get3DDispatcher();
+				cmdDispatcher.getSpatialDispatcher();
 				break;
 			case GIAC:
 				app.getKernel().getGeoGebraCAS().initCurrentCAS();

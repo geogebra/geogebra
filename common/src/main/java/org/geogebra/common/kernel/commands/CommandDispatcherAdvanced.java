@@ -94,6 +94,7 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 		case Factors:
 			return new CmdFactors(kernel);
 		case IntersectPath:
+		case IntersectionPaths: // deprecated
 		case IntersectRegion: // deprecated
 			return new CmdIntersectPath(kernel);
 

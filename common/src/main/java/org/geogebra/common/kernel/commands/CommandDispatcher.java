@@ -77,7 +77,7 @@ public abstract class CommandDispatcher implements Restrictable {
 	/** disptcher for prover commands */
 	protected static CommandDispatcherInterface proverDispatcher = null;
 
-	private CommandDispatcherBasic basicDispatcher = null;
+	protected CommandDispatcherBasic basicDispatcher = null;
 
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
 	private MacroProcessor macroProc;
@@ -403,7 +403,8 @@ public abstract class CommandDispatcher implements Restrictable {
 
 			// advanced
 			case IntersectPath:
-			case IntersectRegion:
+			case IntersectionPaths: // deprecated
+			case IntersectRegion: // deprecated
 			case IsVertexForm:
 			case Difference:
 
@@ -901,6 +902,40 @@ public abstract class CommandDispatcher implements Restrictable {
 			case PreviousPrime:
 			case CompleteSquare:
 				return getCASDispatcher().dispatch(command, kernel);
+			case Plane:
+			case PerpendicularPlane:
+			case OrthogonalPlane:
+			case PlaneBisector:
+			case Prism:
+			case Pyramid:
+			case Tetrahedron:
+			case Cube:
+			case Octahedron:
+			case Dodecahedron:
+			case Icosahedron:
+			case Polyhedron:
+			case Net:
+			case Sphere:
+			case Cone:
+			case InfiniteCone:
+			case ConeInfinite:
+			case Cylinder:
+			case InfiniteCylinder:
+			case CylinderInfinite:
+			case Side:
+			case QuadricSide:
+			case Bottom:
+			case Top:
+			case Ends:
+			case Volume:
+			case Height:
+			case SetSpinSpeed:
+			case SetViewDirection:
+			case ClosestPointRegion:
+			case CornerThreeD:
+			case IntersectConic:
+			case IntersectCircle:
+				return getSpatialDispatcher().dispatch(command, kernel);
 			default:
 				Log.error("missing case in CommandDispatcher " + cmdName);
 				return null;
@@ -930,7 +965,7 @@ public abstract class CommandDispatcher implements Restrictable {
 	public abstract CommandDispatcherInterface getProverDispatcher();
 
 	/** @return dispatcher for 3D commands */
-	public CommandDispatcherInterface get3DDispatcher() {
+	public CommandDispatcherInterface getSpatialDispatcher() {
 		return null;
 	}
 

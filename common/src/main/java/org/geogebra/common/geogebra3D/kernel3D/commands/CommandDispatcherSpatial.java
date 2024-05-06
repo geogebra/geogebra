@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
+import org.geogebra.common.geogebra3D.kernel3D.scripting.CmdSetSpinSpeed;
+import org.geogebra.common.geogebra3D.kernel3D.scripting.CmdSetViewDirection;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
 import org.geogebra.common.kernel.commands.CommandProcessor;
@@ -10,7 +12,7 @@ import org.geogebra.common.kernel.commands.Commands;
  * loading)
  *
  */
-public class CommandDispatcherCommands3D implements CommandDispatcherInterface {
+public class CommandDispatcherSpatial implements CommandDispatcherInterface {
 	@Override
 	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 
@@ -75,7 +77,22 @@ public class CommandDispatcherCommands3D implements CommandDispatcherInterface {
 				return new CmdTop(kernel);
 			case Ends:
 				return new CmdEnds(kernel);
+			case Volume:
+				return new CmdVolume(kernel);
+			case Height:
+				return new CmdHeight(kernel);
+			case SetViewDirection:
+				return new CmdSetViewDirection(kernel);
 
+			case SetSpinSpeed:
+				return new CmdSetSpinSpeed(kernel);
+			case ClosestPointRegion:
+				return new CmdClosestPointRegion(kernel);
+			case IntersectCircle:
+			case IntersectConic:
+				return new CmdIntersectConic(kernel);
+			case CornerThreeD:
+				return new CmdVertexForce3D(kernel);
 			default:
 				break;
 		}

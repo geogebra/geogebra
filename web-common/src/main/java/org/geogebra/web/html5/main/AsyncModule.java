@@ -2,7 +2,7 @@ package org.geogebra.web.html5.main;
 
 import java.util.Locale;
 
-import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
+import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcherSpatial;
 import org.geogebra.common.kernel.commands.CommandDispatcherAdvanced;
 import org.geogebra.common.kernel.commands.CommandDispatcherCAS;
 import org.geogebra.common.kernel.commands.CommandDispatcherDiscrete;
@@ -27,7 +27,7 @@ public enum AsyncModule {
 
 	CAS(RunAsyncCode.runAsyncCode(CommandDispatcherCAS.class)),
 
-	SPATIAL(RunAsyncCode.runAsyncCode(CommandDispatcher3D.class)),
+	SPATIAL(RunAsyncCode.runAsyncCode(CommandDispatcherSpatial.class)),
 
 	PROVER(RunAsyncCode.runAsyncCode(Prover.class)),
 
