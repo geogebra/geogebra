@@ -913,7 +913,7 @@ public class ProbabilityManager {
 	}
 
 	/**
-	 * If isCumulative = true, returns P(X <= value) for the given distribution
+	 * If isCumulative = true, returns P(X &lt;= value) for the given distribution
 	 * If isCumulative = false, returns P(X = value) for the given distribution
 	 *
 	 * @param value
@@ -935,9 +935,9 @@ public class ProbabilityManager {
 
 	/**
 	 * Returns an interval probability for the given distribution and
-	 * probability mode. If mode == PROB_INTERVAL then P(low <= X <= high) is
-	 * returned. If mode == PROB_LEFT then P(low <= X) is returned. If mode ==
-	 * PROB_RIGHT then P(X <= high) is returned.
+	 * probability mode. If mode == PROB_INTERVAL then P(low &lt;= X &lt;= high) is
+	 * returned. If mode == PROB_LEFT then P(low &lt;= X) is returned. If mode ==
+	 * PROB_RIGHT then P(X &lt;= high) is returned.
 	 *
 	 * @param low
 	 *            interval start

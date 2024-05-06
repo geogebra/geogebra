@@ -183,13 +183,6 @@ public class XMLBuilder {
 			sb.append(geo.getKernel().getApplication().getTraceXML(geo));
 		}
 
-		/*
-		 * --- old version // trace to spreadsheet on or off if (isGeoPoint()) {
-		 * GeoPoint2 p = (GeoPoint2) this; if (p.getSpreadsheetTrace()) {
-		 * sb.append("\t<spreadsheetTrace val=\"true\"/>\n"); } }
-		 */
-		// END G.Sturr
-
 		// decoration type
 		if (geo.getDecorationType() != GeoElementND.DECORATION_NONE) {
 			sb.append("\t<decoration type=\"");
@@ -322,7 +315,7 @@ public class XMLBuilder {
 	}
 
 	/**
-	 * Add the &lt;dimension> tag
+	 * Add the &lt;dimension&gt; tag
 	 * 
 	 * @param sb
 	 *            XML builder

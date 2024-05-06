@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.main.MyError;
 
 /**
- * FirstAxisLength[ &lt;GeoConic> ]
+ * FirstAxisLength[ &lt;GeoConic&gt; ]
  */
 public class CmdAxisLength extends CommandProcessor {
 

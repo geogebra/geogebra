@@ -851,7 +851,7 @@ public class CASInputHandler {
 	 * @param delimiter
 	 *            the delimiter to look for
 	 * @param noParentheses
-	 *            if true no parentheses will be added in every case<br/>
+	 *            if true no parentheses will be added in every case<br>
 	 *            if false parentheses will be added around replaced references
 	 *            except the replacement is just a positive number, a variable
 	 *            or the whole term (given by parameter str) was nothing but the

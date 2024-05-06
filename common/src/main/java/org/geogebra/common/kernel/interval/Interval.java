@@ -316,7 +316,7 @@ public class Interval {
 	}
 
 	/**
-	 * [a, b] -> (a, b]
+	 * [a, b] -&gt; (a, b]
 	 * @return this as result
 	 */
 	public Interval halfOpenLeft() {
@@ -325,7 +325,7 @@ public class Interval {
 	}
 
 	/**
-	 * [a, b] -> (a, b]
+	 * [a, b] -&gt; (a, b]
 	 *
 	 * @param a low limit
 	 * @param b high limit
@@ -337,7 +337,7 @@ public class Interval {
 	}
 
 	/**
-	 * [a, b] -> [a, b)
+	 * [a, b] -&gt; [a, b)
 	 * @return this as result
 	 */
 	public Interval halfOpenRight() {
@@ -346,7 +346,7 @@ public class Interval {
 	}
 
 	/**
-	 * [a, b] -> [a, b)
+	 * [a, b] -&gt; [a, b)
 	 *
 	 * @param a low limit
 	 * @param b high limit
@@ -587,7 +587,7 @@ public class Interval {
 	 *
 	 * @param other interval to check
 	 * @return true if the bounds of the intervals has the same sign
-	 * respectively, ie low (or high) < 0 then other.low (or other.high)< 0 or reverse.
+	 * respectively, ie low (or high) &lt; 0 then other.low (or other.high)&lt; 0 or reverse.
 	 */
 	public boolean isSignEquals(Interval other) {
 		return DoubleUtil.isEqual(Math.abs(low), other.low)
@@ -612,7 +612,7 @@ public class Interval {
 
 	/**
 	 *
-	 * @return if both bounds are >= 0.
+	 * @return if both bounds are &gt;= 0.
 	 */
 	public boolean isNatural() {
 		return !isUndefined() && low > 0;
@@ -628,7 +628,7 @@ public class Interval {
 
 	/**
 	 *
-	 * @return if low and high is negative, or low < 0 and high is 0.
+	 * @return if low and high is negative, or low &lt; 0 and high is 0.
 	 */
 	public boolean isNegativeWithZero() {
 		return high <= 0;

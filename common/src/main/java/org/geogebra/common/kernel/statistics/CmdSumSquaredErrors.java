@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * SumSquaredError[&lt;List of Points>,&lt;Funtion>]
+ * SumSquaredError[&lt;List of Points&gt;,&lt;Funtion&gt;]
  * 
  * @author Hans-Petter Ulven
  * @version 2010-02-21

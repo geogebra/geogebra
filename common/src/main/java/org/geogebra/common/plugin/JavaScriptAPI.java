@@ -669,7 +669,7 @@ public interface JavaScriptAPI {
 	 */
 	void setCoords(String objName, double x, double y);
 
-	void setCoords(String objName, double x, double y, double z);
+	void setCoords(String objName, double... coords);
 
 	/**
 	 * Returns the double value of the object with the given name. Note: returns

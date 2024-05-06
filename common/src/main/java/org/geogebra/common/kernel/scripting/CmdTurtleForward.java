@@ -8,7 +8,7 @@ import org.geogebra.common.main.MyError;
 /**
  * Move turtle forward
  * 
- * TurtleForward[ &lt;Turtle>, &lt;distance> ]
+ * TurtleForward[ &lt;Turtle&gt;, &lt;distance&gt; ]
  * 
  * @author arno
  */

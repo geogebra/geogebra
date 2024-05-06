@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * FitPow[&lt;List of points>]
+ * FitPow[&lt;List of Points&gt;]
  * 
  * @author Hans-Petter Ulven
  * @version 07.04.08

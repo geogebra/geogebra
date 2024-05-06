@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.MyError;
 
 /**
- * CompleteSquare[ &lt;Polynomial> ]
+ * CompleteSquare[ &lt;Polynomial&gt; ]
  * 
  * @author Zbynek
  * 

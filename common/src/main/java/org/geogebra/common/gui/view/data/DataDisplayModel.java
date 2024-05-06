@@ -133,7 +133,7 @@ public class DataDisplayModel {
 		/**
 		 * @param loc
 		 *            localization
-		 * @return translated key for the current locale eg "StemPlot" ->
+		 * @return translated key for the current locale eg "StemPlot" -&gt;
 		 *         "Stem and Leaf Diagram" in en_GB
 		 */
 		public String getTranslatedKey(Localization loc) {

@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Axes[ &lt;GeoConic> ]
+ * Axes[ &lt;GeoConic&gt; ]
  */
 public class CmdAxes extends CommandProcessor {
 

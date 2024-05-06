@@ -400,7 +400,7 @@ public class CSVParser {
 	}
 
 	/**
-	 * precondition: sb.length() > 0
+	 * precondition: sb not empty
 	 *
 	 * @param sb
 	 *            A sequence of characters to examine

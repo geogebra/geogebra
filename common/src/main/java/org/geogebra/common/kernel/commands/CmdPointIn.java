@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
- * PointIn[ &lt;Region> ]
+ * PointIn[ &lt;Region&gt; ]
  * 
  * @version 2010-05-17
  */

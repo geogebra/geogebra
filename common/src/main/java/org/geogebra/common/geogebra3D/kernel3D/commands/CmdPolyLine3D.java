@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * Polyline[ &lt;GeoPoint3D>, &lt;GeoPoint3D>, ... ] or CmdPolyline
+ * Polyline[ &lt;GeoPoint3D&gt;, &lt;GeoPoint3D&gt;, ... ] or CmdPolyline
  */
 public class CmdPolyLine3D extends CmdPolyLine {
 	/**

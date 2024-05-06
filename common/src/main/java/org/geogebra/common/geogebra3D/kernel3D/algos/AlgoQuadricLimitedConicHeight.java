@@ -212,7 +212,7 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 	}
 
 	/**
-	 * Notify kernel about side & top update.
+	 * Notify kernel about side and top update.
 	 */
 	public void notifyUpdateOutputOther() {
 		getKernel().notifyUpdate(side);

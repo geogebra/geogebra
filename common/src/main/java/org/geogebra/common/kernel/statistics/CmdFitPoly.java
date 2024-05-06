@@ -25,7 +25,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * FitPoly[&lt;List of points>,&lt;degree>]
+ * FitPoly[&lt;List of Points&gt;,&lt;degree&gt;]
  * 
  * @author Hans-Petter Ulven
  * @version 06.04.08

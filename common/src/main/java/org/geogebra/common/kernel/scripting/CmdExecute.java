@@ -13,7 +13,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * Execute[&lt;list of commands>]
+ * Execute[&lt;list of commands&gt;]
  */
 public class CmdExecute extends CmdScripting {
 

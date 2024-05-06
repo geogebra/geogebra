@@ -42,7 +42,7 @@ public interface Region extends GeoElementND {
 
 	/**
 	 * Per default, this method will just call {@link #isInRegion(GeoPointND)}
-	 * <br/>
+	 * <p>
 	 * If overridden, this method makes sure that real coordinates are used
 	 * @param P Point
 	 * @return True if the given point lies inside this Region

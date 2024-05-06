@@ -2695,11 +2695,11 @@ public class GeoList extends GeoElement
 	}
 
 	/**
-	 * Depending upon angleStyle, some values > pi will be changed to (2pi -
+	 * Depending upon angleStyle, some values &gt; pi will be changed to (2pi -
 	 * value). raw_value contains the original value.
 	 *
 	 * @param allowReflexAngle
-	 *            If true, angle is allowed to be> 180 degrees
+	 *            If true, angle is allowed to be&gt; 180 degrees
 	 *
 	 */
 	@Override
@@ -2796,7 +2796,7 @@ public class GeoList extends GeoElement
 	 * Change the size of the arc in pixels,
 	 *
 	 * @param i
-	 *            arc size, should be in <10,100>
+	 *            arc size, should be in &lt;10,100&gt;
 	 */
 	@Override
 	public void setArcSize(int i) {

@@ -30,8 +30,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * <h3>FitRealFunction</h3>
  * 
  * <pre>
- *   Class with FitRealFunction which will be used when Fit[&lt;list>,&lt;function>] does
- *   nonlinear curve-fitting on a copy of &lt;function> where gliders a,b,c,...
+ *   Class with FitRealFunction which will be used when Fit[&lt;List&gt;,&lt;Function&gt;] does
+ *   nonlinear curve-fitting on a copy of &lt;Function&gt; where gliders a,b,c,...
  *   are used as parameters.
  *   
  *   Implements:
