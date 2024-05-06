@@ -1,6 +1,9 @@
 package org.geogebra.web.html5.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
@@ -779,5 +782,14 @@ public class AppletParameters {
 	 */
 	public String getDetachKeyboardParent() {
 		return getStringDataParam("detachedKeyboardParent", "");
+	}
+
+	/**
+	 * List of disabled categories in ToolboxMow
+	 * @return the data-param-customToolbox (default: empty list)
+	 */
+	public ArrayList<String> getDataParamCustomToolbox() {
+		return Arrays.stream(getStringDataParam("customToolbox", "").split(",")).collect(
+				Collectors.toCollection(ArrayList::new));
 	}
 }
