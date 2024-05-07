@@ -8,9 +8,6 @@ import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  * Toolbar for mow
- * 
- * @author csilla
- *
  */
 public class ToolbarMow extends FlowPanel
 		implements  SetLabels {
@@ -182,7 +179,6 @@ public class ToolbarMow extends FlowPanel
 
 		setOpen(!isOpen());
 		addStyleName("toolbarMow");
-		notesLayout.updateFloatingButtonsPosition();
 	}
 
 	/**

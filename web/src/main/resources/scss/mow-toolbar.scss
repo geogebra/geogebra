@@ -9,22 +9,6 @@
 
 	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
 
-	.showMowSubmenu {
-		transition: $mowsubmenu-transition;
-	}
-
-	.hideMowSubmenu {
-		transition: $mowsubmenu-transition;
-	}
-
-	.showMowSubmenu.narrowscreen {
-		bottom: $toolbarPanelHeight !important;
-	}
-
-	.hideMowSubmenu.narrowscreen {
-		bottom: $toolbarHeight !important;
-	}
-
 	.toolbarMow {
 		will-change: transform;
 		bottom: 212px;
