@@ -20,11 +20,10 @@ import org.geogebra.common.kernel.cas.CmdTrigCombine;
 import org.geogebra.common.kernel.cas.CmdTrigExpand;
 
 /**
- * class to split off some CmdXXX classes into another jar (for faster applet
- * loading)
- *
+ * Factory for CAS commands.
+ * @see {@link CommandProcessorFactory}
  */
-public class CommandDispatcherCAS implements CommandDispatcherInterface {
+public class CASCommandProcessorFactory implements CommandProcessorFactory {
 	@Override
 	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 		switch (c) {

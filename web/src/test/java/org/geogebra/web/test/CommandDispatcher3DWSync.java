@@ -1,21 +1,24 @@
 package org.geogebra.web.test;
 
-import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcherBasic3D;
-import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcherSpatial;
+import org.geogebra.common.geogebra3D.kernel3D.commands.BasicCommandProcessorFactory3D;
+import org.geogebra.common.geogebra3D.kernel3D.commands.SpatialCommandProcessorFactory;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.commands.CommandDispatcherBasic;
-import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
+import org.geogebra.common.kernel.commands.BasicCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.CommandProcessorFactory;
 
+/**
+ * Adds 3D support to {@link CommandDispatcherWSync}.
+ */
 public class CommandDispatcher3DWSync extends CommandDispatcherWSync {
 	public CommandDispatcher3DWSync(Kernel kernel) {
 		super(kernel);
 	}
 
-	public CommandDispatcherInterface getSpatialDispatcher() {
-		return new CommandDispatcherSpatial();
+	public CommandProcessorFactory getSpatialDispatcher() {
+		return new SpatialCommandProcessorFactory();
 	}
 
-	public CommandDispatcherBasic getBasicDispatcher() {
-		return new CommandDispatcherBasic3D();
+	public BasicCommandProcessorFactory getBasicDispatcher() {
+		return new BasicCommandProcessorFactory3D();
 	}
 }

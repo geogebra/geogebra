@@ -120,11 +120,10 @@ import org.geogebra.common.kernel.statistics.CmdZipf;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 
 /**
- * class to split off some CmdXXX classes into another jar (for faster applet
- * loading)
- *
+ * Factory for statistical commands.
+ * @see {@link CommandProcessorFactory}
  */
-public class CommandDispatcherStats implements CommandDispatcherInterface {
+public class StatsCommandProcessorFactory implements CommandProcessorFactory {
 	@Override
 	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 		switch (c) {

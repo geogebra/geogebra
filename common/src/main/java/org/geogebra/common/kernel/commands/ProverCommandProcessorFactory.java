@@ -15,9 +15,10 @@ import org.geogebra.common.kernel.advanced.CmdProve;
 import org.geogebra.common.kernel.advanced.CmdProveDetails;
 
 /**
- * Dispatcher for prover commands
+ * Factory for prover commands.
+ * @see {@link CommandProcessorFactory}
  */
-public class CommandDispatcherProver implements CommandDispatcherInterface {
+public class ProverCommandProcessorFactory implements CommandProcessorFactory {
 
     @Override
     public CommandProcessor dispatch(Commands c, Kernel kernel) {

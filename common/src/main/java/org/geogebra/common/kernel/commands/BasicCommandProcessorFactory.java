@@ -5,11 +5,12 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.plugin.Operation;
 
 /**
- * class to split off some CmdXXX classes into another jar (for faster applet
- * loading)
- *
+ * Factory for the most commonly used command processors.
+ * This is the only {@link CommandProcessorFactory} that can be
+ * directly instantiated in common and does not require aynchronously
+ * loading a module in web.
  */
-public class CommandDispatcherBasic implements CommandDispatcherInterface {
+public class BasicCommandProcessorFactory implements CommandProcessorFactory {
 	@Override
 	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 		switch (c) {

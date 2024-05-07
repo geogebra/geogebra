@@ -80,11 +80,12 @@ import org.geogebra.common.kernel.advanced.CmdZip;
 import org.geogebra.common.main.Feature;
 
 /**
- * class to split off some CmdXXX classes into another jar (for faster applet
- * loading)
- *
+ * Factory for command processors that are not used very often
+ * (so they can be loaded asynchronously) but do not fit
+ * any specific category (stats, CAS, discrete).
+ * @see {@link CommandProcessorFactory}
  */
-public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
+public class AdvancedCommandProcessorFactory implements CommandProcessorFactory {
 
 	@Override
 	public CommandProcessor dispatch(Commands c, Kernel kernel) {

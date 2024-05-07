@@ -65,19 +65,19 @@ public abstract class CommandDispatcher implements Restrictable {
 	/** Similar to cmdTable, but for CAS */
 
 	/** dispatcher for discrete math */
-	protected static CommandDispatcherInterface discreteDispatcher = null;
+	protected static CommandProcessorFactory discreteDispatcher = null;
 	/** dispatcher for scripting commands */
-	protected static CommandDispatcherInterface scriptingDispatcher = null;
+	protected static CommandProcessorFactory scriptingDispatcher = null;
 	/** dispatcher for CAS commands */
-	protected static CommandDispatcherInterface casDispatcher = null;
+	protected static CommandProcessorFactory casDispatcher = null;
 	/** dispatcher for advanced commands */
-	protected static CommandDispatcherInterface advancedDispatcher = null;
+	protected static CommandProcessorFactory advancedDispatcher = null;
 	/** dispatcher for stats commands */
-	protected static CommandDispatcherInterface statsDispatcher = null;
+	protected static CommandProcessorFactory statsDispatcher = null;
 	/** disptcher for prover commands */
-	protected static CommandDispatcherInterface proverDispatcher = null;
+	protected static CommandProcessorFactory proverDispatcher = null;
 
-	protected CommandDispatcherBasic basicDispatcher = null;
+	protected BasicCommandProcessorFactory basicDispatcher = null;
 
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
 	private MacroProcessor macroProc;
@@ -947,34 +947,34 @@ public abstract class CommandDispatcher implements Restrictable {
 	}
 
 	/** @return dispatcher for stats commands */
-	public abstract CommandDispatcherInterface getStatsDispatcher();
+	public abstract CommandProcessorFactory getStatsDispatcher();
 
 	/** @return dispatcher for discrete math */
-	public abstract CommandDispatcherInterface getDiscreteDispatcher();
+	public abstract CommandProcessorFactory getDiscreteDispatcher();
 
 	/** @return dispatcher for CAS commands */
-	public abstract CommandDispatcherInterface getCASDispatcher();
+	public abstract CommandProcessorFactory getCASDispatcher();
 
 	/** @return dispatcher for scripting commands */
-	public abstract CommandDispatcherInterface getScriptingDispatcher();
+	public abstract CommandProcessorFactory getScriptingDispatcher();
 
 	/** @return dispatcher for advanced commands */
-	public abstract CommandDispatcherInterface getAdvancedDispatcher();
+	public abstract CommandProcessorFactory getAdvancedDispatcher();
 
 	/** @return dispatcher for prover commands */
-	public abstract CommandDispatcherInterface getProverDispatcher();
+	public abstract CommandProcessorFactory getProverDispatcher();
 
 	/** @return dispatcher for 3D commands */
-	public CommandDispatcherInterface getSpatialDispatcher() {
+	public CommandProcessorFactory getSpatialDispatcher() {
 		return null;
 	}
 
 	/**
 	 * @return dispatcher for basic commands
 	 */
-	protected CommandDispatcherBasic getBasicDispatcher() {
+	protected BasicCommandProcessorFactory getBasicDispatcher() {
 		if (basicDispatcher == null) {
-			basicDispatcher = new CommandDispatcherBasic();
+			basicDispatcher = new BasicCommandProcessorFactory();
 		}
 		return basicDispatcher;
 	}

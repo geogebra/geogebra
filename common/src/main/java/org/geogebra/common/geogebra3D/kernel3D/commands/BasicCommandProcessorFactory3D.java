@@ -1,12 +1,16 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.commands.CommandDispatcherBasic;
+import org.geogebra.common.kernel.commands.BasicCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
-public class CommandDispatcherBasic3D extends CommandDispatcherBasic {
+/**
+ * Provides 3D overrides for commands produced by
+ * {@link BasicCommandProcessorFactory}.
+ */
+public class BasicCommandProcessorFactory3D extends BasicCommandProcessorFactory {
 
 	@Override
 	public CommandProcessor dispatch(Commands command, Kernel kernel) {
