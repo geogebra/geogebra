@@ -5,9 +5,7 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxMow;
 import org.geogebra.web.full.main.AppWFull;
@@ -16,16 +14,11 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.PersistablePanel;
-import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.dom.client.TouchStartEvent;
 import org.gwtproject.user.client.ui.Widget;
 
 public class NotesLayout implements SetLabels {
-	private final static int MAX_TOOLBAR_WIDTH = 600;
-	private final static int FLOATING_BTNS_WIDTH = 48;
-	private final static int FLOATING_BTNS_MARGIN_RIGHT = 16;
 	private final AppW appW;
-	//private final @CheckForNull ToolbarMow toolbar;
 	private final @CheckForNull ToolboxMow toolbar;
 	private StandardButton pageControlButton;
 	private @CheckForNull PageListPanel pageControlPanel;
@@ -58,7 +51,6 @@ public class NotesLayout implements SetLabels {
 		pageControlButton.addBitlessDomHandler(event -> setTouchStyleForCards(),
 				TouchStartEvent.getType());
 		pageControlButton.addFastClickHandler(this::openPagePanel);
-		updateFloatingButtonsPosition();
 	}
 
 	/**
@@ -66,29 +58,6 @@ public class NotesLayout implements SetLabels {
 	 */
 	protected void setTouchStyleForCards() {
 		getPageControlPanel().setIsTouch();
-	}
-
-	private void movePageControlButtonDown() {
-		pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
-		pageControlButton.removeStyleName("narrowscreen");
-	}
-
-	private void moveZoomPanelDown() {
-		getDockPanel().moveZoomPanelToBottom();
-	}
-
-	private EuclidianDockPanelW getDockPanel() {
-		return (EuclidianDockPanelW) appW
-				.getGuiManager()
-				.getLayout()
-				.getDockManager()
-				.getPanel(App.VIEW_EUCLIDIAN);
-	}
-
-	private boolean isEnoughSpaceForFloatingButtonBesideToolbar() {
-		int spaceNeededForFloatingButton = (FLOATING_BTNS_WIDTH + FLOATING_BTNS_MARGIN_RIGHT) * 2;
-		int toolbarWithFloatingButtonWidth = MAX_TOOLBAR_WIDTH + spaceNeededForFloatingButton;
-		return appW.getWidth() > toolbarWithFloatingButtonWidth;
 	}
 
 	/**
@@ -109,16 +78,6 @@ public class NotesLayout implements SetLabels {
 		}
 		Dom.toggleClass(pageControlButton, "showMowFloatingButton",
 				"hideMowFloatingButton", doShow);
-	}
-
-	/**
-	 * updates position of pageControlButton and zoomPanel
-	 */
-	public void updateFloatingButtonsPosition() {
-		if (isEnoughSpaceForFloatingButtonBesideToolbar()) {
-			moveZoomPanelDown();
-			movePageControlButtonDown();
-		}
 	}
 
 	/**
