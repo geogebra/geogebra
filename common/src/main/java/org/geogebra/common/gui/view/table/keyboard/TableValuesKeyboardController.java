@@ -14,226 +14,285 @@ import com.google.j2objc.annotations.Weak;
  * A controller for keyboard navigation in the "table of values" view.
  * <p>
  * This controller accepts key press events, figures out which cell to select in response (if any),
- * asks its delegate to focus the new cell if the selection changed, and possibly asks the
- * delegate to hide the keyboard.
+ * asks its delegate to focus the new cell if the selection actually changed, and possibly asks the
+ * delegate to commit any user input or hide the keyboard.
  * <p>
- * Initially, no cell is selected - clients need to call {@link #select(int, int, boolean)} with a
+ * Initially, no cell is selected - clients need to call {@link #select(int, int)} with a
  * valid row and column index (e.g., 0, 0) before keyboard events will result in a change in
  * selection.
- *
  * @apiNote All row and column indexes are 0-based.
+ * @apiNote This controller *requires* its delegate for correct operation. If the delegate is not
+ * set, no exception is thrown, but the controller will not do anything useful.
+ * @implNote Currently, the code assumes that the first column is the x ("values") column,
+ * and that it is always present (it may be empty, though).
  */
 public final class TableValuesKeyboardController {
 
-    public static enum Key {
-        ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ARROW_DOWN, RETURN;
-    }
+	public static enum Key {
+		ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ARROW_DOWN, RETURN;
+	}
 
-    //	@NonOwning
-    @Weak
-    public TableValuesKeyboardControllerDelegate delegate;
+	//	@NonOwning
+	@Weak
+	@Nonnull
+	public TableValuesKeyboardControllerDelegate delegate;
 
-    private final @Nonnull TableValues tableValuesView;
-    private final @Nonnull TableValuesModel tableValuesModel;
+	private final @Nonnull TableValues tableValuesView;
+	private final @Nonnull TableValuesModel tableValuesModel;
 
-    private int selectedRow = -1;
-    private int selectedColumn = -1;
-    private boolean addedTemporaryColumn = false;
-    private boolean addedTemporaryRow = false;
+	private int selectedRow = -1;
+	private int selectedColumn = -1;
+	private boolean addedPlaceholderColumn = false;
+	private boolean addedPlaceholderRow = false;
 
-    public TableValuesKeyboardController(@Nonnull TableValues tableValuesView) {
-        this.tableValuesView = tableValuesView;
-        this.tableValuesModel = tableValuesView.getTableValuesModel();
-    }
+	public TableValuesKeyboardController(@Nonnull TableValues tableValuesView) {
+		this.tableValuesView = tableValuesView;
+		this.tableValuesModel = tableValuesView.getTableValuesModel();
+	}
 
-    /**
-     * @return the selected column index, or -1 if no cell is selected.
-     */
-    public int getSelectedRow() {
-        return selectedRow;
-    }
+	/**
+	 * @return The selected column index, or -1 if no cell is selected.
+	 */
+	public int getSelectedRow() {
+		return selectedRow;
+	}
 
-    /**
-     * @return the selected row index, or -1 if no cell is selected.
-     */
-    public int getSelectedColumn() {
-        return selectedColumn;
-    }
+	/**
+	 * @return The selected row index, or -1 if no cell is selected.
+	 */
+	public int getSelectedColumn() {
+		return selectedColumn;
+	}
 
-    /**
-     * Selects a cell. If either row or column is outside the valid range, nothing will happen.
-     *
-     * @param row            the row index to select, or -1 to clear any selection.
-     * @param column         the column index to select, or -1 to clear any selection.
-     * @param notifyDelegate Pass true to notify the delegate in case the selection did change.
-     */
-    public void select(int row, int column, boolean notifyDelegate) {
-        if (row >= getMaxRowIndex(column) || column >= getMaxColumnIndex()) {
-            return;
-        }
-        boolean changed = selectedRow != row || selectedColumn != column;
-        selectedRow = row;
-        selectedColumn = column;
-        if (changed && notifyDelegate && delegate != null) {
-            delegate.focusCell(selectedRow, selectedColumn);
-        }
-    }
+	/**
+	 * @return The overall number of rows in the table, potentially including an additional
+	 * placeholder row for appending new data.
+	 *
+	 * @apiNote This is not the same as {@link TableValuesModel#getRowCount()}, because that
+	 * does not include the placeholder row.
+	 */
+	public int getTotalNrOfRows() {
+		return getMaxRowIndex(0);
+	}
 
-    /**
-     * Calls select(row, column, true).
-     * @param row
-     * @param column
-     */
-    public void select(int row, int column) {
-        select(row, column, true);
-    }
+	/**
+	 * @return The overall number of columns in the table, potentially including an additional
+	 * placeholder column for appending new data.
+	 *
+	 * @apiNote This is not the same as {@link TableValuesModel#getColumnCount()}, because that
+	 * does not include the placeholder column.
+	 */
+	public int getTotalNrOfColumns() {
+		return getMaxColumnIndex();
+	}
 
-    /**
-     * Clears (removes) any selection.
-     */
-    public void deselect(boolean notifyDelegate) {
-        select(-1, -1, notifyDelegate);
-    }
+	/**
+	 * Select a cell.
+	 * @param row the row index to select, or -1 to clear any selection.
+	 * @param column the column index to select, or -1 to clear any selection.
+	 * @param notifyDelegate Pass true to notify the delegate about the change in selection.
+	 * @apiNote The delegate will only be notified if the selection actually changed.
+	 */
+	public void select(int row, int column, boolean notifyDelegate) {
+		if (row >= getMaxRowIndex(column) || column >= getMaxColumnIndex()) {
+			return;
+		}
+		boolean changed = selectedRow != row || selectedColumn != column;
+		selectedRow = row;
+		selectedColumn = column;
+		if (changed && notifyDelegate && delegate != null) {
+			delegate.focusCell(selectedRow, selectedColumn);
+		}
+	}
 
-    public void keyPressed(Key key) {
-        if (selectedRow < 0 || selectedColumn < 0) {
-            return;
-        }
-        switch (key) {
-            case ARROW_LEFT:
-                handleArrowLeft();
-                break;
-            case ARROW_RIGHT:
-                handleArrowRight();
-                break;
-            case ARROW_UP:
-                handleArrowUp();
-                break;
-            case ARROW_DOWN:
-                handleArrowDown();
-                break;
-            case RETURN:
-                handleArrowDown();
-                break;
-        }
-    }
+	/**
+	 * Overload for <code>select(row, column, true)</code>.
+	 * @param row
+	 * @param column
+	 */
+	public void select(int row, int column) {
+		select(row, column, true);
+	}
 
-    private void handleArrowLeft() {
-        if (isFirstColumn(selectedColumn)) {
-            return;
-        }
-        commitPendingChanges();
-        select(selectedRow, findFirstFocusableColumnLeftOf(selectedColumn), true);
-    }
+	/**
+	 * Clear (remove) any selection.
+	 */
+	public void deselect() {
+		select(-1, -1);
+	}
 
-    private void handleArrowRight() {
-        int column = findFirstFocusableColumnRightOf(selectedColumn);
-        if (column == -1) {
-            if (tableValuesModel.getAllowsAddingColumns() && !addedTemporaryColumn) {
-                addedTemporaryColumn = true; // TODO when to reset?
-                column = getMaxColumnIndex() - 1;
-            } else {
-                commitPendingChanges();
-                hideKeyboard(); // TODO necessary?
-                return;
-            }
-        }
-        commitPendingChanges();
-        select(selectedRow, column, true);
-    }
+	/**
+	 * Handle a key event.
+	 *
+	 * If no cell is currently selected, this method will have no effect.
+	 * @param key the key that was pressed.
+	 * @apiNote This class requires its delegate for correct operation. If the delegate is not
+	 * set when {@link #keyPressed(Key)} is called, nothing will happen.
+	 */
+	public void keyPressed(Key key) {
+		if (selectedRow < 0 || selectedColumn < 0) {
+			return; // no selection, no keyboard navigation
+		}
+		if (delegate == null) {
+			return; // see apiNote
+		}
+		switch (key) {
+		case ARROW_LEFT:
+			handleArrowLeft();
+			break;
+		case ARROW_RIGHT:
+			handleArrowRight();
+			break;
+		case ARROW_UP:
+			handleArrowUp();
+			break;
+		case ARROW_DOWN:
+			handleArrowDown();
+			break;
+		case RETURN:
+			handleArrowDown();
+			break;
+		}
+	}
 
-    private void handleArrowUp() {
-        if (isFirstRow(selectedRow)) {
-            return;
-        }
-        commitPendingChanges();
-        select(selectedRow - 1, selectedColumn, true);
-    }
+	private void handleArrowLeft() {
+		if (addedPlaceholderColumn) {
+			if (!delegate.isCellEmpty(selectedRow, selectedColumn)) {
+				commitPendingChanges(); // arrow left in non-empty placeholder column
+			}
+		}
+		if (isFirstColumn(selectedColumn)) {
+			return;
+		}
+		commitPendingChanges();
+		addedPlaceholderColumn = false;
+		select(selectedRow, findFirstFocusableColumnLeftOf(selectedColumn));
+	}
 
-    private void handleArrowDown() {
-        if (isLastRow(selectedRow, selectedColumn)) {
-            if (isColumnEditable(selectedColumn) && !addedTemporaryRow) {
-                addedTemporaryRow = true;
-            } else {
-                commitPendingChanges();
-                hideKeyboard();
-                return;
-            }
-        }
-        commitPendingChanges();
-        select(selectedRow + 1, selectedColumn, true);
-    }
+	private void handleArrowRight() {
+		if (addedPlaceholderColumn) {
+			if (delegate.isCellEmpty(selectedRow, selectedColumn)) {
+				return; // arrow right in empty placeholder column
+			}
+			// arrow right in non-empty placeholder column
+			commitPendingChanges();
+			select(selectedRow, selectedColumn + 1);
+			return;
+		}
+		int column = findFirstFocusableColumnRightOf(selectedColumn);
+		if (column == -1) {
+			if (tableValuesModel.getAllowsAddingColumns() && !addedPlaceholderColumn) {
+				addedPlaceholderColumn = true;
+				column = getMaxColumnIndex() - 1;
+			} else {
+				return;
+			}
+		}
+		commitPendingChanges();
+		select(selectedRow, column);
+	}
 
-    private boolean isFirstRow(int row) {
-        return row == 0;
-    }
+	private void handleArrowUp() {
+		addedPlaceholderRow = false;
+		if (isFirstRow(selectedRow)) {
+			return;
+		}
+		commitPendingChanges();
+		select(selectedRow - 1, selectedColumn);
+	}
 
-    private boolean isLastRow(int row, int column) {
-        return row == getMaxRowIndex(column) - 1;
-    }
+	private void handleArrowDown() {
+		if (isLastRow(selectedRow, selectedColumn)) {
+			if (isColumnEditable(selectedColumn) && !addedPlaceholderRow) {
+				addedPlaceholderRow = true;
+			} else {
+				if (delegate.isCellEmpty(selectedRow, selectedColumn)) {
+					return; // arrow down in empty placeholder row or non-editable column
+				}
+			}
+		}
+		commitPendingChanges();
+		select(selectedRow + 1, selectedColumn);
+	}
 
-    private boolean isFirstColumn(int column) {
-        return column == 0;
-    }
+	private boolean isFirstRow(int row) {
+		return row == 0;
+	}
 
-    private boolean isLastColumn(int column) {
-        return column == getMaxColumnIndex() - 1;
-    }
+	private boolean isLastRow(int row, int column) {
+		return row == getMaxRowIndex(column) - 1;
+	}
 
-    private int findFirstFocusableColumnLeftOf(int column) {
-        for (int index = column - 1; index >= 0; index--) {
-            if (isColumnEditable(index)) {
-                return index;
-            }
-        }
-        return -1;
-    }
+	private boolean isFirstColumn(int column) {
+		return column == 0;
+	}
 
-    private int findFirstFocusableColumnRightOf(int column) {
-        for (int index = column + 1; index < getMaxColumnIndex(); index++) {
-            if (isColumnEditable(index)) {
-                return index;
-            }
-        }
-        return -1;
-    }
+	private boolean isLastColumn(int column) {
+		return column == getMaxColumnIndex() - 1;
+	}
 
-    private boolean isColumnEditable(int column) {
-        if (column < 0) {
-            return false;
-        }
-        GeoEvaluatable evaluatable = tableValuesView.getEvaluatable(column);
-        if (evaluatable == null) {
-            return false;
-        }
-        return !(evaluatable instanceof GeoFunctionable);
-    }
+	private int findFirstFocusableColumnLeftOf(int column) {
+		for (int index = column - 1; index >= 0; index--) {
+			if (isColumnEditable(index)) {
+				return index;
+			}
+		}
+		return -1;
+	}
 
-    // note: the returned end index is exclusive
-    private int getMaxRowIndex(int column) {
-        if (!isColumnEditable(column)) {
-            return tableValuesModel.getRowCount();
-        }
-        return tableValuesModel.getRowCount() + (addedTemporaryRow ? 1 : 0);
-    }
+	private int findFirstFocusableColumnRightOf(int column) {
+		for (int index = column + 1; index < getMaxColumnIndex(); index++) {
+			if (isColumnEditable(index)) {
+				return index;
+			}
+		}
+		return -1;
+	}
 
-    // note: the returned end index is exclusive
-    private int getMaxColumnIndex() {
-        return tableValuesModel.getColumnCount() + (addedTemporaryColumn ? 1 : 0);
-    }
+	// note: the returned end index is exclusive!
+	private int getMaxRowIndex(int column) {
+		if (!isColumnEditable(column)) {
+			return tableValuesModel.getRowCount();
+		}
+		return tableValuesModel.getRowCount() + (addedPlaceholderRow ? 1 : 0);
+	}
 
-    private void hideKeyboard() {
-        if (delegate != null) {
-            delegate.hideKeyboard();
-        }
-    }
+	// note: the returned end index is exclusive!
+	private int getMaxColumnIndex() {
+		return tableValuesModel.getColumnCount() + (addedPlaceholderColumn ? 1 : 0);
+	}
 
-    private void commitPendingChanges() {
-        if (selectedRow == -1 || selectedColumn == -1 || !isColumnEditable(selectedColumn)) {
-            return;
-        }
-        if (delegate != null) {
-            delegate.commitCell(selectedRow, selectedColumn);
-        }
-    }
+	private boolean isColumnEditable(int column) {
+		if (column < 0) {
+			return false;
+		}
+		GeoEvaluatable evaluatable = tableValuesView.getEvaluatable(column);
+		if (evaluatable == null) {
+			return false;
+		}
+		return !(evaluatable instanceof GeoFunctionable);
+	}
+
+	private void commitPendingChanges() {
+		if (selectedRow == -1 || selectedColumn == -1) {
+			return;
+		}
+		if (addedPlaceholderColumn || isColumnEditable(selectedColumn)) {
+			delegate.commitCell(selectedRow, selectedColumn);
+		}
+	}
+
+	private void hideKeyboard() {
+		delegate.hideKeyboard();
+	}
+
+	// Test support
+
+	public boolean isEditingPlaceholderColumn() {
+		return addedPlaceholderColumn && selectedColumn == getMaxColumnIndex() - 1;
+	}
+
+	public boolean isEditingPlaceholderRow() {
+		return addedPlaceholderRow && selectedRow == getMaxRowIndex(selectedColumn) - 1;
+	}
 }

@@ -1,5 +1,7 @@
 package org.geogebra.common.gui.view.table.keyboard;
 
+import java.util.Objects;
+
 final class CellIndex {
 
     final int row;
@@ -17,5 +19,15 @@ final class CellIndex {
         }
         CellIndex other = (CellIndex) obj;
         return row == other.row && column == other.column;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
+    }
+
+    @Override
+    public String toString() {
+        return "CellIndex{" + "row=" + row + ", column=" + column + '}';
     }
 }
