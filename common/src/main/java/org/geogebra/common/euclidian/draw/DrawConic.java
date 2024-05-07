@@ -163,6 +163,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	private GeoLine diameter;
 	private GPoint2D transformPoint;
 	private ArcClipper arcClipper;
+	private GAffineTransform conicTransform;
 
 	@Override
 	public GArea getShape() {
@@ -748,9 +749,9 @@ public class DrawConic extends SetDrawable implements Previewable {
 		return true;
 	}
 
-	private void setTransform(Coords M) {
+	protected void setTransform(Coords M) {
 		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(view.getCompanion().getTransform(conic, M, ev));
+		transform.concatenate(this.conicTransform = view.getCompanion().getTransform(conic, M, ev));
 	}
 
 	/**

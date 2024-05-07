@@ -659,19 +659,19 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 	public static synchronized int intersectLineConic(GeoLine g,
 			GeoConicND c, GeoPoint[] sol, double eps) {
 		g.getnormalizedCoefficients(xyz, 2);
-		return intersectLineConic(xyz, c, eps, sol);
+		return intersectLineConic(xyz, c.getFlatMatrix(), c.getType(),  eps, sol);
 	}
 
 	/**
 	 * @param g line coefficients
-	 * @param c conic
+	 * @param A conic matrix
+	 * @param type conic type
 	 * @param eps precision
 	 * @param sol output points
 	 * @return solution type
 	 */
 	public static synchronized int intersectLineConic(double[] g,
-				GeoConicND c, double eps, HasCoordinates... sol) {
-			double[] A = c.getFlatMatrix();
+				double[] A, int type, double eps, HasCoordinates... sol) {
 		double x = g[0];
 		double y = g[1];
 		double z = g[2];
@@ -701,7 +701,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		double SvY = A[3] * y - A[1] * x;
 		double u = y * SvX - x * SvY;
 		double d = px * SvX + py * SvY + A[4] * y - A[5] * x;
-		double w = c.evaluate(px, py);
+		double w = GeoConicND.evaluate(A, px, py);
 
 		// estimate err for delta; also avoid this too be too large
 		double delta = Math.min(Kernel.MIN_PRECISION,
@@ -753,7 +753,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		// Sekante
 
 		// Double line => one intersection point
-		if (c.type == GeoConicNDConstants.CONIC_DOUBLE_LINE) {
+		if (type == GeoConicNDConstants.CONIC_DOUBLE_LINE) {
 			double t1 = -d / u;
 			sol[0].setCoords(px + t1 * y, py - t1 * x, 1.0);
 			sol[1].setCoords(sol[0].getX(), sol[0].getY(), sol[0].getZ());

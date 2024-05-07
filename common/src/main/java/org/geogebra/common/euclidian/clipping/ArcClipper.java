@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.algos.AlgoIntersectLineConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasCoordinates;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.util.debug.Log;
 
 public class ArcClipper {
@@ -26,6 +27,8 @@ public class ArcClipper {
 	private final GArc2D arc;
 	private final GeneralPathClipped arcCroppedToView;
 	private final GeoConicND conic;
+	double[] conicCoeffsInViewCoords = new double[6];
+	GAffineTransform unitCircleToScreen = AwtFactory.getPrototype().newAffineTransform();
 
 	/**
 	 * @param view parent view
@@ -46,11 +49,18 @@ public class ArcClipper {
 	 * @return clipped path or empty if no intersections
 	 */
 	public Optional<GShape> clipArc(GAffineTransform transform) {
-		GAffineTransform unitCircleToScreen = AwtFactory.getPrototype().newAffineTransform();
-		unitCircleToScreen.concatenate(transform);
+		GAffineTransform viewTransfrom = AwtFactory.getPrototype().newAffineTransform();
+		viewTransfrom.setTransform(transform);
+		try {
+			viewTransfrom.concatenate(conic.getAffineTransform().createInverse());
+		} catch (Exception e) {
+			return Optional.empty();
+		}
+		unitCircleToScreen.setTransform(transform);
 		double[] halfAxes = conic.halfAxes;
 		unitCircleToScreen.scale(halfAxes[0], halfAxes[1]);
-		List<Double> angles = findIntersectionAngles(unitCircleToScreen, conic);
+		List<Double> angles = findIntersectionAngles(
+				conic, viewTransfrom, transform);
 		if (angles.isEmpty()) {
 			return Optional.empty();
 		} else {
@@ -72,15 +82,19 @@ public class ArcClipper {
 			if (idx == 0) {
 				arcCroppedToView.moveTo(startPoint.x, startPoint.y);
 				firstStartPoint = startPoint;
-			} else {
+			} else if (conic.isFilled()) {
 				drawCorners(startPoint, endPoint);
 				arcCroppedToView.lineTo(startPoint.x, startPoint.y);
+			} else {
+				arcCroppedToView.moveTo(startPoint.x, startPoint.y);
 			}
 			endPoint = unitCircleToScreen.transform(arc.getEndPoint(), null);
 			arcCroppedToView.append(conicArc);
 		}
-		drawCorners(firstStartPoint, endPoint);
-		arcCroppedToView.closePath();
+		if (conic.isFilled()) {
+			drawCorners(firstStartPoint, endPoint);
+			arcCroppedToView.closePath();
+		}
 	}
 
 	private void prepareClippedPath() {
@@ -101,17 +115,17 @@ public class ArcClipper {
 	private void lineToCorner(int corner) {
 		switch (corner) {
 		case 1:
-			arcCroppedToView.lineTo(-getMarginX(), view.getHeight() + getMarginX());
+			arcCroppedToView.lineTo(-getMargin(), view.getHeight() + getMargin());
 			return;
 		case 2:
-			arcCroppedToView.lineTo(view.getWidth() + getMarginX(),
-					view.getHeight() + getMarginX());
+			arcCroppedToView.lineTo(view.getWidth() + getMargin(),
+					view.getHeight() + getMargin());
 			return;
 		case 3:
-			arcCroppedToView.lineTo(view.getWidth() + getMarginX(), -getMarginX());
+			arcCroppedToView.lineTo(view.getWidth() + getMargin(), -getMargin());
 			return;
 		case 0:
-			arcCroppedToView.lineTo(-getMarginX(), -getMarginX());
+			arcCroppedToView.lineTo(-getMargin(), -getMargin());
 			return;
 		default:
 			Log.trace("Invalid corner");
@@ -119,56 +133,66 @@ public class ArcClipper {
 	}
 
 	private int getEdge(GPoint2D point) {
-		if (point.x < -getMarginX() + 1) {
+		if (point.x < -getMargin() + 1) {
 			return 1;
 		}
-		if (point.y > view.getHeight() + getMarginX() - 1) {
+		if (point.y > view.getHeight() + getMargin() - 1) {
 			return 2;
 		}
-		if (point.x > view.getWidth() + getMarginX() - 1) {
+		if (point.x > view.getWidth() + getMargin() - 1) {
 			return 3;
 		}
-		if (point.y < -getMarginX() + 1) {
+		if (point.y < -getMargin() + 1) {
 			return 4;
 		}
 		return 0;
 	}
 
-	private List<Double> findIntersectionAngles(GAffineTransform unitCircleToScreen,
-			GeoConicND conic) {
-		double dx = getMarginX()  * view.getInvXscale();
-		double dy = getMarginX()  * view.getInvYscale();
-		double[][] edges = new double[][]{{1, 0, -view.getXmin() + dx},
-				{1, 0, -view.getXmax() - dx},
-				{0, 1, -view.getYmin() + dy},
-				{0, 1, -view.getYmax() - dy}};
+	private List<Double> findIntersectionAngles(
+			GeoConicND conic, GAffineTransform viewTransform, GAffineTransform conicTransform) {
+		double dx = getMargin();
+		double[][] edges = new double[][]{{1, 0, dx},
+				{1, 0, -view.getWidth() - dx},
+				{0, 1,  dx},
+				{0, 1, -view.getHeight() - dx}};
 		IntersectionPoint pt1 = new IntersectionPoint();
 		IntersectionPoint pt2 = new IntersectionPoint();
 		ArrayList<Double> angles = new ArrayList<>();
 		GAffineTransform inverse;
 		try {
-			inverse = conic.getAffineTransform().createInverse();
+			inverse = conicTransform.createInverse();
 		} catch (Exception e) {
 			return Collections.emptyList();
 		}
+		double[] flatView = new double[]{
+				viewTransform.getScaleX(), viewTransform.getShearY(), 0,
+				viewTransform.getShearX(), viewTransform.getScaleY(), 0,
+				viewTransform.getTranslateX(), viewTransform.getTranslateY(), 1
+		};
+		CoordMatrix viewTrans = new CoordMatrix(3, 3, flatView).inverse();
 		for (double[] edge : edges) {
-			AlgoIntersectLineConic.intersectLineConic(edge, conic,
+			CoordMatrix rwMatrix = conic.getSymetricMatrix();
+
+			CoordMatrix viewMatrix = viewTrans.transposeCopy().mul(rwMatrix.mul(viewTrans));
+
+			viewMatrix.flattenTo(conicCoeffsInViewCoords);
+			AlgoIntersectLineConic.intersectLineConic(edge, conicCoeffsInViewCoords,
+					conic.getType(),
 					Kernel.STANDARD_PRECISION, pt1, pt2);
 			addAngle(pt1, angles, inverse, conic.halfAxes);
 			addAngle(pt2, angles, inverse, conic.halfAxes);
 		}
-
 		if (angles.size() >= 2) {
 			ArrayList<Double> onscreenAngles = new ArrayList<>();
 			angles.sort(Double::compare);
 			for (int idx = 1; idx < angles.size(); idx++) {
-				if (isArcOnScreen(angles.get(idx), angles.get(idx - 1), unitCircleToScreen)) {
+				if (isArcOnScreen(angles.get(idx), angles.get(idx - 1))) {
 					onscreenAngles.add(angles.get(idx - 1));
 					onscreenAngles.add(angles.get(idx));
 				}
 			}
 			if (isArcOnScreen(angles.get(angles.size() - 1),
-					angles.get(0) + 360, unitCircleToScreen)) {
+					angles.get(0) + 360)) {
 				onscreenAngles.add(angles.get(angles.size() - 1));
 				onscreenAngles.add(angles.get(0) + 360);
 			}
@@ -177,17 +201,17 @@ public class ArcClipper {
 		return angles.size() == 1 ? Collections.emptyList() : angles;
 	}
 
-	private double getMarginX() {
+	private double getMargin() {
 		return Math.max(2, geo.getLineThickness());
 	}
 
-	private boolean isArcOnScreen(double from, double to, GAffineTransform unitCircleToScreen) {
+	private boolean isArcOnScreen(double from, double to) {
 		GPoint2D out = new GPoint2D();
 		double middle = Math.toRadians(from + to) / 2;
 		unitCircleToScreen.transform(new GPoint2D(Math.cos(middle), -Math.sin(middle)),
 				out);
-		return -getMarginX() < out.x && out.x < view.getWidth() + getMarginX()
-				&& -getMarginX() < out.y && out.y < view.getHeight() + getMarginX();
+		return -getMargin() < out.x && out.x < view.getWidth() + getMargin()
+				&& -getMargin() < out.y && out.y < view.getHeight() + getMargin();
 	}
 
 	private void addAngle(IntersectionPoint pt1, ArrayList<Double> angles,
