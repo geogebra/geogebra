@@ -32,9 +32,8 @@ public final class TableValuesKeyboardController {
 		ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ARROW_DOWN, RETURN;
 	}
 
-	//	@NonOwning
+	//@NonOwning
 	@Weak
-	@Nonnull
 	public TableValuesKeyboardControllerDelegate delegate;
 
 	private final @Nonnull TableValues tableValuesView;
@@ -45,6 +44,11 @@ public final class TableValuesKeyboardController {
 	private boolean addedPlaceholderColumn = false;
 	private boolean addedPlaceholderRow = false;
 
+	/**
+	 * Create a new instance.
+	 *
+	 * @param tableValuesView The table of values view.
+	 */
 	public TableValuesKeyboardController(@Nonnull TableValues tableValuesView) {
 		this.tableValuesView = tableValuesView;
 		this.tableValuesModel = tableValuesView.getTableValuesModel();
@@ -88,6 +92,7 @@ public final class TableValuesKeyboardController {
 
 	/**
 	 * Select a cell.
+	 *
 	 * @param row the row index to select, or -1 to clear any selection.
 	 * @param column the column index to select, or -1 to clear any selection.
 	 * @param notifyDelegate Pass true to notify the delegate about the change in selection.
@@ -107,8 +112,9 @@ public final class TableValuesKeyboardController {
 
 	/**
 	 * Overload for <code>select(row, column, true)</code>.
-	 * @param row
-	 * @param column
+	 *
+	 * @param row the row index to select, or -1 to clear any selection.
+	 * @param column the column index to select, or -1 to clear any selection.
 	 */
 	public void select(int row, int column) {
 		select(row, column, true);

@@ -61,7 +61,7 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     // - adding columns allowed
 
     @Test
-    public void testValuesList_ArrowDownInEmptyPlaceholderRow() throws InvalidValuesException {
+    public void testValuesList_ArrowDownInEmptyPlaceholderRow() throws Exception {
         tableValuesView.setValues(0, 1, 1);
 
         // select (0, 0)
@@ -88,7 +88,7 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     }
 
     @Test
-    public void testValuesList_ArrowDownInNonEmptyPlaceholderRow() throws InvalidValuesException {
+    public void testValuesList_ArrowDownInNonEmptyPlaceholderRow() throws Exception {
         tableValuesView.setValues(0, 1, 1);
 
         // select (0, 0)
@@ -116,7 +116,7 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     }
 
     @Test
-    public void testValuesList_ArrowUpInEmptyPlaceholderRow() throws InvalidValuesException {
+    public void testValuesList_ArrowUpInEmptyPlaceholderRow() throws Exception {
         tableValuesView.setValues(0, 1, 1);
         assertEquals(2, tableValuesView.getTableValuesModel().getRowCount());
 
@@ -145,7 +145,7 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     }
 
     @Test
-    public void testValuesList_ArrowUpInNonEmptyPlaceholderRow() throws InvalidValuesException {
+    public void testValuesList_ArrowUpInNonEmptyPlaceholderRow() throws Exception {
         tableValuesView.setValues(0, 1, 1);
         assertEquals(2, tableValuesView.getTableValuesModel().getRowCount());
 
@@ -175,7 +175,7 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     }
 
     @Test
-    public void testValuesList_ArrowRightInEmptyPlaceholderColumn() throws InvalidValuesException {
+    public void testValuesList_ArrowRightInEmptyPlaceholderColumn() throws Exception {
         tableValuesView.setValues(0, 1, 1);
         assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
 
@@ -198,7 +198,7 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     }
 
     @Test
-    public void testValuesList_ArrowRightInNonEmptyPlaceholderColumn() throws InvalidValuesException {
+    public void testValuesList_ArrowRightInNonEmptyPlaceholderColumn() throws Exception {
         tableValuesView.setValues(0, 1, 1);
         assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
 
@@ -222,7 +222,7 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     }
 
     @Test
-    public void testValuesList_ArrowLeftInFirstColumn() throws InvalidValuesException {
+    public void testValuesList_ArrowLeftInFirstColumn() throws Exception {
         tableValuesView.setValues(0, 1, 1);
 
         // select (0, 0)
@@ -237,7 +237,7 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     }
 
     @Test
-    public void testValuesList_ArrowLeftInEmptyPlaceholderColumn() throws InvalidValuesException {
+    public void testValuesList_ArrowLeftInEmptyPlaceholderColumn() throws Exception {
         tableValuesView.setValues(0, 1, 1);
         assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
 
@@ -261,7 +261,7 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     }
 
     @Test
-    public void testValuesList_ArrowLeftInNonEmptyPlaceholderColumn() throws InvalidValuesException {
+    public void testValuesList_ArrowLeftInNonEmptyPlaceholderColumn() throws Exception {
         tableValuesView.setValues(0, 1, 1);
         assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
 
@@ -290,7 +290,7 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     // - adding columns allowed
 
     @Test
-    public void testFunctionColumn_ArrowDownInEmptyPlaceholderColumn() throws InvalidValuesException {
+    public void testFunctionColumn_ArrowDownInEmptyPlaceholderColumn() throws Exception {
         tableValuesView.setValues(-2, 2, 1);
         addFunction("f", "x");
         assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
@@ -322,7 +322,7 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     }
 
     @Test
-    public void testFunctionColumn_ArrowDownInNonEmptyPlaceholderColumn() throws InvalidValuesException {
+    public void testFunctionColumn_ArrowDownInNonEmptyPlaceholderColumn() throws Exception {
         tableValuesView.setValues(-2, 2, 1);
         addFunction("f", "x");
         assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
@@ -351,7 +351,7 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     // - adding columns not allowed
 
     @Test
-    public void testSciCalc_ArrowRight() throws InvalidValuesException {
+    public void testSciCalc_ArrowRight() throws Exception {
         ScientificDataTableController scientificDataTableController =
                 new ScientificDataTableController(getKernel());
         scientificDataTableController.setup(tableValuesView);
@@ -360,13 +360,14 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
         // select (0, 0)
         keyboardController.select(0, 0);
 
-        // arrow right -> selection should not change
+        // arrow right
+        // -> selection should not change
         keyboardController.keyPressed(TableValuesKeyboardController.Key.ARROW_RIGHT);
         assertEquals(new CellIndex(0, 0), focusedCell);
     }
 
     @Test
-    public void testSciCalc_ArrowDown() throws InvalidValuesException {
+    public void testSciCalc_ArrowDown() throws Exception {
         ScientificDataTableController scientificDataTableController =
                 new ScientificDataTableController(getKernel());
         scientificDataTableController.setup(tableValuesView);
@@ -376,14 +377,25 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
         keyboardController.select(0, 0);
 
         // arrow down 4 times
-        for (int i = 0; i < 4; i++){
+        // -> selection should be (4, 0)
+        for (int i = 0; i < 4; i++) {
             keyboardController.keyPressed(TableValuesKeyboardController.Key.ARROW_DOWN);
         }
         assertEquals(new CellIndex(4, 0), focusedCell);
 
-        // arrow down again -> editing placeholder row
+        // arrow down once more
+        // -> selection should be (5, 0) - editing placeholder row
         keyboardController.keyPressed(TableValuesKeyboardController.Key.ARROW_DOWN);
+        assertTrue(keyboardController.isEditingPlaceholderRow());
         assertEquals(new CellIndex(5, 0), focusedCell);
+
+        // return (=arrow down) in non-empty placeholder row
+        // -> new data inserted, editing new placeholder row
+        cellContent = "3";
+        keyboardController.keyPressed(TableValuesKeyboardController.Key.RETURN);
+        assertTrue(keyboardController.isEditingPlaceholderRow());
+        assertEquals(new CellIndex(5, 0), lastCommittedCell);
+        assertEquals(new CellIndex(6, 0), focusedCell);
     }
 
     // TableValuesKeyboardControllerDelegate
