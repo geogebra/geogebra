@@ -700,4 +700,9 @@ public class DrawSegment extends SetDrawable implements Previewable {
 	public GBasicStroke getObjStroke() {
 		return objStroke;
 	}
+
+	@Override
+	public void drawStroke(GGraphics2D g2) {
+		g2.draw(line);
+	}
 }

@@ -5,11 +5,12 @@ hamcrest = "2.2"
 jogl = "2.5.0"
 javagiac = "70294"
 gwt = "2.11.0"
-gwtTreblereel = "202403181"
+gwtTreblereel = "202404301"
 elemental2 = "1.2.1"
 murok = "1.0.202402201544"
 # built from ef18cb9206; switch to upstream when https://github.com/mozilla/rhino/pull/1385 is released
 mozilla-rhino = "1.7.15-SNAPSHOT"
+quickJs = '1.0.202403131629-SNAPSHOT'
 multiplayer = "1.0.202404261259"
 
 [libraries]
@@ -25,6 +26,7 @@ autoService = "com.google.auto.service:auto-service:1.1.1"
 pdfJs = "org.webjars.npm:pdfjs-dist:2.5.207"
 multiplayer = { module = "org.geogebra:multiplayer", version.ref = "multiplayer" }
 fflate = "org.webjars.npm:fflate:0.8.0"
+quickjs = {module = "org.quickjs:emscripten", version.ref = "quickJs"}
 
 jsObject = "netscape.javascript:jsobject:1"
 openGeoProver = "com.ogprover:OpenGeoProver:20120725"
@@ -56,9 +58,24 @@ junit = { module = "junit:junit", version.ref = "junit" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 
+gwt-plugin = {module = "org.docstr:gwt-gradle-plugin", version = "1.1.30" }
+spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.0.9" }
+javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "3.0.2"}
+
 [plugins]
-spotbugs = "com.github.spotbugs:6.0.9"
-javacc = "org.javacc.javacc:3.0.2"
-gwt = "org.docstr.gwt:1.1.30"
 cpd = "de.aaschmid.cpd:3.3"
 sass = "io.miret.etienne.sass:1.5.0"
+
+# Plugins defined by this project
+geogebra-gwt = "gwt-conventions:unspecified"
+geogebra-checkstyle = "checkstyle-conventions:unspecified"
+geogebra-spotbugs = "spotbugs-conventions:unspecified"
+geogebra-pmd = "pmd-conventions:unspecified"
+geogebra-variants = "desktop-variants:unspecified"
+geogebra-webjars = "webjars-conventions:unspecified"
+geogebra-sourcesets = "sourcesets-conventions:unspecified"
+geogebra-javadoc-workaround = "javadoc-sourcepath-workaround:unspecified"
+geogebra-gwt-dist = "gwt-dist-conventions:unspecified"
+geogebra-java = "java-conventions:unspecified"
+geogebra-java-library = "java-library-conventions:unspecified"
+geogebra-javacc = "javacc-conventions:unspecified"
