@@ -1,15 +1,15 @@
 package org.geogebra.web.html5.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.AdvancedCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.CASCommandProcessorFactory;
-import org.geogebra.common.kernel.commands.DiscreteCommandDispatcherFactory;
+import org.geogebra.common.kernel.commands.CommandDispatcher;
+import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.CommandProcessorFactory;
+import org.geogebra.common.kernel.commands.DiscreteCommandDispatcherFactory;
 import org.geogebra.common.kernel.commands.ProverCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.ScriptingCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.StatsCommandProcessorFactory;
-import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
@@ -56,7 +56,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 	}
 
 	@Override
-	public CommandProcessorFactory getScriptingDispatcher() {
+	public CommandProcessorFactory getScriptingCmdFactory() {
 		if (scriptingDispatcher == null) {
 			GWT.runAsync(ScriptingCommandProcessorFactory.class,
 					new RunAsyncCallback() {
@@ -81,7 +81,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 	}
 
 	@Override
-	public CommandProcessorFactory getAdvancedDispatcher() {
+	public CommandProcessorFactory getAdvancedCmdFactory() {
 		if (advancedDispatcher == null) {
 			GWT.runAsync(AdvancedCommandProcessorFactory.class,
 					new RunAsyncCallback() {
@@ -105,7 +105,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 	}
 
 	@Override
-	public CommandProcessorFactory getCASDispatcher() {
+	public CommandProcessorFactory getCASCmdFactory() {
 		if (casDispatcher == null) {
 			GWT.runAsync(CASCommandProcessorFactory.class, new RunAsyncCallback() {
 				@Override
@@ -151,7 +151,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 	}
 
 	@Override
-	public CommandProcessorFactory getProverDispatcher() {
+	public CommandProcessorFactory getProverCmdFactory() {
 		if (proverDispatcher == null) {
 			GWT.runAsync(Prover.class, new RunAsyncCallback() {
 				@Override

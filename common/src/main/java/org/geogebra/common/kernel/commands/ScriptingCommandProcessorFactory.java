@@ -64,12 +64,12 @@ import org.geogebra.common.kernel.scripting.CmdZoomOut;
 
 /**
  * Factory for scripting commands.
- * @see {@link CommandProcessorFactory}
+ * @see CommandProcessorFactory
  */
 public class ScriptingCommandProcessorFactory implements CommandProcessorFactory {
 	@Override
-	public CommandProcessor dispatch(Commands c, Kernel kernel) {
-		switch (c) {
+	public CommandProcessor getProcessor(Commands command, Kernel kernel) {
+		switch (command) {
 		// scripting
 		case RigidPolygon:
 			return new CmdRigidPolygon(kernel);

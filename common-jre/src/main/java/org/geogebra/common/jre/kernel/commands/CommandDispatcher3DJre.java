@@ -17,7 +17,7 @@ public class CommandDispatcher3DJre extends CommandDispatcherJre {
 	}
 
 	@Override
-	public CommandProcessorFactory getSpatialDispatcher() {
+	public CommandProcessorFactory getSpatialCmdFactory() {
 		if (commands3DDispatcher == null) {
 			commands3DDispatcher = new SpatialCommandProcessorFactory();
 		}

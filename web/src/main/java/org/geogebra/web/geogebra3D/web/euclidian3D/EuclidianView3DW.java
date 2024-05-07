@@ -97,7 +97,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	private void loadCommands() {
 		try {
-			getKernel().getAlgebraProcessor().getCommandDispatcher().getSpatialDispatcher();
+			getKernel().getAlgebraProcessor().getCommandDispatcher().getSpatialCmdFactory();
 		} catch (CommandNotLoadedError ignore) {
 			// loading
 		}

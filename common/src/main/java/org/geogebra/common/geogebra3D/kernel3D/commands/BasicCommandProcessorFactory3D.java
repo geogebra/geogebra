@@ -7,13 +7,14 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 /**
- * Provides 3D overrides for commands produced by
- * {@link BasicCommandProcessorFactory}.
+ * Provides 3D overrides for commands produced by {@link BasicCommandProcessorFactory}.
+ * Functionality from those overrides could be merged into their superclasses,
+ * making this factory redundant.
  */
 public class BasicCommandProcessorFactory3D extends BasicCommandProcessorFactory {
 
 	@Override
-	public CommandProcessor dispatch(Commands command, Kernel kernel) {
+	public CommandProcessor getProcessor(Commands command, Kernel kernel) {
 		switch (command) {
 		case Segment:
 			return new CmdSegment3D(kernel);
@@ -153,7 +154,7 @@ public class BasicCommandProcessorFactory3D extends BasicCommandProcessorFactory
 		case Length:
 			return new CmdLength3D(kernel);
 		default:
-			return super.dispatch(command, kernel);
+			return super.getProcessor(command, kernel);
 		}
 	}
 }

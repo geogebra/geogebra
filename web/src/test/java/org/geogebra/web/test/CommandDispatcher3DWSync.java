@@ -14,7 +14,7 @@ public class CommandDispatcher3DWSync extends CommandDispatcherWSync {
 		super(kernel);
 	}
 
-	public CommandProcessorFactory getSpatialDispatcher() {
+	public CommandProcessorFactory getSpatialCmdFactory() {
 		return new SpatialCommandProcessorFactory();
 	}
 

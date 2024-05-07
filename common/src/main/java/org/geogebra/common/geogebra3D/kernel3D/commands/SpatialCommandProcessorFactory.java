@@ -3,8 +3,8 @@ package org.geogebra.common.geogebra3D.kernel3D.commands;
 import org.geogebra.common.geogebra3D.kernel3D.scripting.CmdSetSpinSpeed;
 import org.geogebra.common.geogebra3D.kernel3D.scripting.CmdSetViewDirection;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.commands.CommandProcessorFactory;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.CommandProcessorFactory;
 import org.geogebra.common.kernel.commands.Commands;
 
 /**
@@ -12,13 +12,13 @@ import org.geogebra.common.kernel.commands.Commands;
  */
 public class SpatialCommandProcessorFactory implements CommandProcessorFactory {
 	@Override
-	public CommandProcessor dispatch(Commands c, Kernel kernel) {
+	public CommandProcessor getProcessor(Commands command, Kernel kernel) {
 
 		if (!kernel.getApplication().areCommands3DEnabled()) {
 			return null;
 		}
 
-		switch (c) {
+		switch (command) {
 			case Plane:
 				return new CmdPlane(kernel);
 			// English for scripting

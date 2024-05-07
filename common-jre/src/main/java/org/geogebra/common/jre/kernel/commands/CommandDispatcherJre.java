@@ -1,11 +1,11 @@
 package org.geogebra.common.jre.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.AdvancedCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.CASCommandProcessorFactory;
-import org.geogebra.common.kernel.commands.DiscreteCommandDispatcherFactory;
+import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.CommandProcessorFactory;
+import org.geogebra.common.kernel.commands.DiscreteCommandDispatcherFactory;
 import org.geogebra.common.kernel.commands.ProverCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.ScriptingCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.StatsCommandProcessorFactory;
@@ -37,7 +37,7 @@ public class CommandDispatcherJre extends CommandDispatcher {
 	}
 
 	@Override
-	public CommandProcessorFactory getCASDispatcher() {
+	public CommandProcessorFactory getCASCmdFactory() {
 		if (casDispatcher == null) {
 			casDispatcher = new CASCommandProcessorFactory();
 		}
@@ -45,7 +45,7 @@ public class CommandDispatcherJre extends CommandDispatcher {
 	}
 
 	@Override
-	public CommandProcessorFactory getScriptingDispatcher() {
+	public CommandProcessorFactory getScriptingCmdFactory() {
 		if (scriptingDispatcher == null) {
 			scriptingDispatcher = new ScriptingCommandProcessorFactory();
 		}
@@ -53,7 +53,7 @@ public class CommandDispatcherJre extends CommandDispatcher {
 	}
 
 	@Override
-	public CommandProcessorFactory getAdvancedDispatcher() {
+	public CommandProcessorFactory getAdvancedCmdFactory() {
 		if (advancedDispatcher == null) {
 			advancedDispatcher = new AdvancedCommandProcessorFactory();
 		}
@@ -61,7 +61,7 @@ public class CommandDispatcherJre extends CommandDispatcher {
 	}
 
 	@Override
-	public CommandProcessorFactory getProverDispatcher() {
+	public CommandProcessorFactory getProverCmdFactory() {
 		if (proverDispatcher == null) {
 			proverDispatcher = new ProverCommandProcessorFactory();
 		}

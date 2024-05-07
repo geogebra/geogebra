@@ -12,8 +12,8 @@ import org.geogebra.common.plugin.Operation;
  */
 public class BasicCommandProcessorFactory implements CommandProcessorFactory {
 	@Override
-	public CommandProcessor dispatch(Commands c, Kernel kernel) {
-		switch (c) {
+	public CommandProcessor getProcessor(Commands command, Kernel kernel) {
+		switch (command) {
 		// basic
 
 		case Tangent:

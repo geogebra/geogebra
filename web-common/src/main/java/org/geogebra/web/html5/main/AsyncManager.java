@@ -56,12 +56,12 @@ public class AsyncManager {
 			final CommandDispatcher cmdDispatcher = app.getKernel()
 				.getAlgebraProcessor().getCmdDispatcher();
 
-			cmdDispatcher.getScriptingDispatcher();
-			cmdDispatcher.getAdvancedDispatcher();
+			cmdDispatcher.getScriptingCmdFactory();
+			cmdDispatcher.getAdvancedCmdFactory();
 			cmdDispatcher.getStatsDispatcher();
-			cmdDispatcher.getProverDispatcher();
-			cmdDispatcher.getCASDispatcher();
-			cmdDispatcher.getSpatialDispatcher();
+			cmdDispatcher.getProverCmdFactory();
+			cmdDispatcher.getCASCmdFactory();
+			cmdDispatcher.getSpatialCmdFactory();
 		} catch (CommandNotLoadedError e) {
 			ensureModulesLoaded(null);
 			throw e;
@@ -94,22 +94,22 @@ public class AsyncManager {
 				cmdDispatcher.getDiscreteDispatcher();
 				break;
 			case SCRIPTING:
-				cmdDispatcher.getScriptingDispatcher();
+				cmdDispatcher.getScriptingCmdFactory();
 				break;
 			case ADVANCED:
-				cmdDispatcher.getAdvancedDispatcher();
+				cmdDispatcher.getAdvancedCmdFactory();
 				break;
 			case STATS:
 				cmdDispatcher.getStatsDispatcher();
 				break;
 			case PROVER:
-				cmdDispatcher.getProverDispatcher();
+				cmdDispatcher.getProverCmdFactory();
 				break;
 			case CAS:
-				cmdDispatcher.getCASDispatcher();
+				cmdDispatcher.getCASCmdFactory();
 				break;
 			case SPATIAL:
-				cmdDispatcher.getSpatialDispatcher();
+				cmdDispatcher.getSpatialCmdFactory();
 				break;
 			case GIAC:
 				app.getKernel().getGeoGebraCAS().initCurrentCAS();

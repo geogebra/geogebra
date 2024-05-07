@@ -16,12 +16,12 @@ import org.geogebra.common.kernel.discrete.CmdVoronoi;
 
 /**
  * Factory for discrete math commands.
- * @see {@link CommandProcessorFactory}
+ * @see CommandProcessorFactory
  */
 public class DiscreteCommandDispatcherFactory implements CommandProcessorFactory {
 	@Override
-	public CommandProcessor dispatch(Commands c, Kernel kernel) {
-		switch (c) {
+	public CommandProcessor getProcessor(Commands command, Kernel kernel) {
+		switch (command) {
 
 		case TriangleCenter:
 			return new CmdKimberling(kernel);

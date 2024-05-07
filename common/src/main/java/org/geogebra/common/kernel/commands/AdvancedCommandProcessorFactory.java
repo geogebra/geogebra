@@ -83,13 +83,13 @@ import org.geogebra.common.main.Feature;
  * Factory for command processors that are not used very often
  * (so they can be loaded asynchronously) but do not fit
  * any specific category (stats, CAS, discrete).
- * @see {@link CommandProcessorFactory}
+ * @see CommandProcessorFactory
  */
 public class AdvancedCommandProcessorFactory implements CommandProcessorFactory {
 
 	@Override
-	public CommandProcessor dispatch(Commands c, Kernel kernel) {
-		switch (c) {
+	public CommandProcessor getProcessor(Commands command, Kernel kernel) {
+		switch (command) {
 		// advanced
 
 		case Factors:
@@ -115,9 +115,9 @@ public class AdvancedCommandProcessorFactory implements CommandProcessorFactory 
 		case Directrix:
 			return new CmdDirectrix(kernel);
 		case Numerator:
-			return new CmdNumeratorDenominator(kernel, c);
+			return new CmdNumeratorDenominator(kernel, command);
 		case Denominator:
-			return new CmdNumeratorDenominator(kernel, c);
+			return new CmdNumeratorDenominator(kernel, command);
 		case ComplexRoot:
 			return new CmdComplexRoot(kernel);
 		case SlopeField:

@@ -16,12 +16,12 @@ import org.geogebra.common.kernel.Kernel;
 public interface CommandProcessorFactory {
 
 	/**
-	 * @param c
+	 * @param command
 	 *            Command
 	 * @param kernel
 	 *            Kernel
 	 * @return CommandProcessor
 	 */
-	public CommandProcessor dispatch(Commands c, Kernel kernel);
+	CommandProcessor getProcessor(Commands command, Kernel kernel);
 
 }

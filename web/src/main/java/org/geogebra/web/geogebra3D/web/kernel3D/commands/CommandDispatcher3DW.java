@@ -4,8 +4,8 @@ import org.geogebra.common.geogebra3D.kernel3D.commands.BasicCommandProcessorFac
 import org.geogebra.common.geogebra3D.kernel3D.commands.SpatialCommandProcessorFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.BasicCommandProcessorFactory;
-import org.geogebra.common.kernel.commands.CommandProcessorFactory;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
+import org.geogebra.common.kernel.commands.CommandProcessorFactory;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
 import org.geogebra.web.html5.main.AppW;
@@ -39,7 +39,7 @@ public class CommandDispatcher3DW extends CommandDispatcherW {
 	}
 
 	@Override
-	public CommandProcessorFactory getSpatialDispatcher() {
+	public CommandProcessorFactory getSpatialCmdFactory() {
 		if (commands3DDispatcher == null) {
 			GWT.runAsync(SpatialCommandProcessorFactory.class, new RunAsyncCallback() {
 				@Override

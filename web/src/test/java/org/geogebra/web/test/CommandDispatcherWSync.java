@@ -3,8 +3,8 @@ package org.geogebra.web.test;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.AdvancedCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.CASCommandProcessorFactory;
-import org.geogebra.common.kernel.commands.DiscreteCommandDispatcherFactory;
 import org.geogebra.common.kernel.commands.CommandProcessorFactory;
+import org.geogebra.common.kernel.commands.DiscreteCommandDispatcherFactory;
 import org.geogebra.common.kernel.commands.ProverCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.ScriptingCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.StatsCommandProcessorFactory;
@@ -32,22 +32,22 @@ class CommandDispatcherWSync extends CommandDispatcherW {
 	}
 
 	@Override
-	public CommandProcessorFactory getCASDispatcher() {
+	public CommandProcessorFactory getCASCmdFactory() {
 		return new CASCommandProcessorFactory();
 	}
 
 	@Override
-	public CommandProcessorFactory getScriptingDispatcher() {
+	public CommandProcessorFactory getScriptingCmdFactory() {
 		return new ScriptingCommandProcessorFactory();
 	}
 
 	@Override
-	public CommandProcessorFactory getAdvancedDispatcher() {
+	public CommandProcessorFactory getAdvancedCmdFactory() {
 		return new AdvancedCommandProcessorFactory();
 	}
 
 	@Override
-	public CommandProcessorFactory getProverDispatcher() {
+	public CommandProcessorFactory getProverCmdFactory() {
 		return new ProverCommandProcessorFactory();
 	}
 }
