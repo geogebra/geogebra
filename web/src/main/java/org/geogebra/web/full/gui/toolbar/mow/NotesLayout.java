@@ -19,7 +19,6 @@ import org.gwtproject.user.client.ui.Widget;
 
 public class NotesLayout implements SetLabels {
 	private final AppW appW;
-	//private final @CheckForNull ToolbarMow toolbar;
 	private final @CheckForNull ToolboxMow toolbar;
 	private StandardButton pageControlButton;
 	private @CheckForNull PageListPanel pageControlPanel;
