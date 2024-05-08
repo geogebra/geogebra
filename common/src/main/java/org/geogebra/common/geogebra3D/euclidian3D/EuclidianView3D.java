@@ -800,9 +800,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * return the matrix : screen coords -> scene coords.
+	 * return the matrix : screen coords -&gt; scene coords.
 	 *
-	 * @return the matrix : screen coords -> scene coords.
+	 * @return the matrix : screen coords -&gt; scene coords.
 	 */
 	@Override
 	final public CoordMatrix4x4 getToSceneMatrix() {
@@ -818,9 +818,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * return the matrix : scene coords -> screen coords.
+	 * return the matrix : scene coords -&gt; screen coords.
 	 *
-	 * @return the matrix : scene coords -> screen coords.
+	 * @return the matrix : scene coords -&gt; screen coords.
 	 */
 	final public CoordMatrix4x4 getToScreenMatrix() {
 		return mWithScale;
@@ -828,16 +828,16 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	/**
 	 *
-	 * @return the matrix : scene coords (already scaled) -> screen coords.
+	 * @return the matrix : scene coords (already scaled) -&gt; screen coords.
 	 */
 	final public CoordMatrix4x4 getToScreenMatrixForGL() {
 		return mWithoutScale;
 	}
 
 	/**
-	 * return the matrix undoing the rotation : scene coords -> screen coords.
+	 * return the matrix undoing the rotation : scene coords -&gt; screen coords.
 	 *
-	 * @return the matrix undoing the rotation : scene coords -> screen coords.
+	 * @return the matrix undoing the rotation : scene coords -&gt; screen coords.
 	 */
 	final public CoordMatrix4x4 getUndoRotationMatrix() {
 		return undoRotationMatrix;
@@ -1490,7 +1490,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	// ////////////////////////////////////////////////
 
 	/**
-	 * (x,y) 2D screen coords -> 3D physical coords
+	 * (x,y) 2D screen coords -&gt; 3D physical coords
 	 *
 	 * @param mouse
 	 *            pointer position
@@ -1545,7 +1545,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * p scene coords, (dx,dy) 2D mouse move -> 3D physical coords
+	 * p scene coords, (dx,dy) 2D mouse move -&gt; 3D physical coords
 	 *
 	 * @param p
 	 *            coords
@@ -4463,7 +4463,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * update bounds that enclose all objects
 	 *
 	 * @param includeXYAxesIfVisible
-	 *            if x & y axes should enlarge bounds
+	 *            if x and y axes should enlarge bounds
      * @param includeZAxisIfVisible
      *            if z axis should enlarge bounds
 	 * @param dontExtend

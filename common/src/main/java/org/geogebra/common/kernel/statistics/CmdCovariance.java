@@ -6,8 +6,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * Covariance[ &lt;list1>, <&lt;list2> ] Covariance[ &lt;List of Points> ]
- *
+ * Covariance[ &lt;list1&gt;, &lt;list2&gt; ]
+ * Covariance[ &lt;List of Points&gt; ]
  */
 public class CmdCovariance extends CmdOneOrTwoListsFunction {
 	/**

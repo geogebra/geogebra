@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
- * Name[ &lt;GeoElement> ]
+ * Name[ &lt;GeoElement&gt; ]
  */
 public class CmdName extends CommandProcessor {
 	/**

@@ -186,7 +186,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 	/**
 	 * Converts the given unicode string to an html string where special
-	 * characters are converted to <code>&#xxx;</code> sequences (xxx is the
+	 * characters are converted to <code>&amp;#xxx;</code> sequences (xxx is the
 	 * unicode value of the character)
 	 * 
 	 * @author Markus Hohenwarter
@@ -258,7 +258,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 	/**
 	 * Converts the given unicode string to a string where special characters
-	 * are converted to <code>&#encoding;</code> sequences . The resulting
+	 * are converted to <code>&amp;#encoding;</code> sequences . The resulting
 	 * string can be used in XML files.
 	 * 
 	 * @param str
@@ -273,7 +273,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 	/**
 	 * Converts the given unicode string to a string where special characters
-	 * are converted to <code>&#encoding;</code> sequences . The resulting
+	 * are converted to <code>&amp;#encoding;</code> sequences . The resulting
 	 * string can be used in XML files.
 	 * 
 	 * @param sb
@@ -497,7 +497,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 *            input string
 	 * @param n
 	 *            number of repetitions
-	 * @return a string with n instances of s eg string("hello",2) ->
+	 * @return a string with n instances of s eg string("hello",2) -&gt;
 	 *         "hellohello";
 	 */
 	public static String string(String s, int n) {
@@ -750,7 +750,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	/**
 	 * @param str
 	 *            String
-	 * @return true if str matches one of "!=", "<>", Unicode.NOTEQUAL
+	 * @return true if str matches one of "!=", "&lt;&gt;", Unicode.NOTEQUAL
 	 */
 	public static boolean isNotEqual(String str) {
 		return "!=".equals(str) || "<>".equals(str)
@@ -760,7 +760,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	/**
 	 * @param str
 	 *            String
-	 * @return true if str matches one of "<", ">", "!=", "<>", Unicode.NOTEQUAL
+	 * @return true if str matches one of "&lt;", "&gt;", "!=", "&lt;&gt;", Unicode.NOTEQUAL
 	 */
 	public static boolean isInequality(String str) {
 		return "<".equals(str) || ">".equals(str) || isNotEqual(str);
@@ -1724,7 +1724,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * @param text
 	 *            ASCII string
 	 * @return HTML lines wrapped in divs, empty lines encoded as
-	 *         &lt;div>&ltbr>&lt/div>
+	 *         &lt;div&gt;&lt;br&gt;&lt;/div&gt;
 	 */
 	public static String newlinesToHTML(String text) {
 		String[] lines = text.split("\n");
@@ -1754,7 +1754,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 *            StringBuilder
 	 * @param ch
 	 *            Unicode character to append (might be more than one char eg
-	 *            &#x1D5AA)
+	 *            0x1D5AA = \uD835\uDDAA)
 	 */
 	public static void appendUnicode(StringBuilder sb, int ch) {
 

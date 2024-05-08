@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 
 /**
- * RandomElement[ &lt;List> ]
+ * RandomElement[ &lt;List&gt; ]
  */
 public class CmdRandomElement extends CmdOneListFunction {
 

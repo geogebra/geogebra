@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * CrossRtio[&lt;Point>, &lt;Point>, &lt;Point>, &lt;Point>]
+ * CrossRtio[&lt;Point&gt;, &lt;Point&gt;, &lt;Point&gt;, &lt;Point&gt;]
  * 
  * @author Victor Franco Espino
  */

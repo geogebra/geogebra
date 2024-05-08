@@ -14,7 +14,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.main.MyError;
 
 /**
- * Asymptote[ &lt;GeoConic> ]
+ * Asymptote[ &lt;GeoConic&gt; ]
  */
 public class CmdAsymptote extends CommandProcessor implements UsesCAS {
 

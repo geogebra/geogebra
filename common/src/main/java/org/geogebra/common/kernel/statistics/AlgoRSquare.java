@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
- * Command: RSquare[&lt;list>,&lt;function>] Calculates coefficient of
+ * Command: RSquare[&lt;List&gt;,&lt;Function&gt;] Calculates coefficient of
  * determination, R^2, for a function f(x) fitted to the list.
  * 
  * @author G.Sturr

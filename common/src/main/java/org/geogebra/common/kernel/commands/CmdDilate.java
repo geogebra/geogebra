@@ -11,13 +11,13 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.MyError;
 
 /**
- * Dilate[ &lt;GeoPoint>, &lt;NumberValue>, &lt;GeoPoint> ]
+ * Dilate[ &lt;GeoPoint&gt;, &lt;NumberValue&gt;, &lt;GeoPoint&gt; ]
  * 
- * Dilate[ &lt;GeoLine>, &lt;NumberValue>, &lt;GeoPoint> ]
+ * Dilate[ &lt;GeoLine&gt;, &lt;NumberValue&gt;, &lt;GeoPoint&gt; ]
  * 
- * Dilate[ &lt;GeoConic>, &lt;NumberValue>, &lt;GeoPoint> ]
+ * Dilate[ &lt;GeoConic&gt;, &lt;NumberValue&gt;, &lt;GeoPoint&gt; ]
  * 
- * Dilate[ &lt;GeoPolygon>, &lt;NumberValue>, &lt;GeoPoint> ]
+ * Dilate[ &lt;GeoPolygon&gt;, &lt;NumberValue&gt;, &lt;GeoPoint&gt; ]
  */
 public class CmdDilate extends CommandProcessor {
 

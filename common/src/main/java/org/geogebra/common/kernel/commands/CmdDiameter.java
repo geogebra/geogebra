@@ -9,9 +9,9 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Diameter[ &lt;GeoVector>, &lt;GeoConic> ]
+ * Diameter[ &lt;GeoVector&gt;, &lt;GeoConic&gt; ]
  * 
- * Diameter[ &lt;GeoLine>, &lt;GeoConic> ]
+ * Diameter[ &lt;GeoLine&gt;, &lt;GeoConic&gt; ]
  */
 public class CmdDiameter extends CommandProcessor {
 

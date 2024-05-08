@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * DelauneyTriangulation[&lt;List ofPoints> ]
+ * DelauneyTriangulation[&lt;List ofPoints&gt; ]
  * 
  * @author Michael
  *

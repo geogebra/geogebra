@@ -10,7 +10,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * Normalize[ &lt;List> ]
+ * Normalize[ &lt;List&gt; ]
  * 
  * @author Oana Niculaescu
  */

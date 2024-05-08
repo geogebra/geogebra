@@ -181,47 +181,47 @@ public class CommandDispatcherGiac {
 		 */
 		hyperplan(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		laplace(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		det(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		det_minor(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		ilaplace(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		invlaplace(Operation.NO_OPERATION),
 
-		/** returned by eg BinomialDist[72,1/7,n,true] -> error */
+		/** returned by eg BinomialDist[72,1/7,n,true] -&gt; NaN */
 		binomial_cdf(Operation.NO_OPERATION),
 
 		/** eg binomial_icdf(23,0.9285714285714,-9.999988812822E-013) */
 		binomial_icdf(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		fisher_cdf(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		normald_cdf(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		student_cdf(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		chisquare_cdf(Operation.NO_OPERATION),
 
 		/** polar coordinate */
 		ggb_ang(Operation.NO_OPERATION),
 
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		poly1(Operation.NO_OPERATION),
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		tran(Operation.NO_OPERATION),
-		/** if returned from Giac -> error */
+		/** if returned from Giac -&gt; NaN */
 		jordan(Operation.NO_OPERATION),
 
 		/** fsolve, shouldn't get returned */

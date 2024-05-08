@@ -10,9 +10,9 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.MyError;
 
 /**
- * LineBisector[ &lt;GeoPoint>, &lt;GeoPoint> ]
+ * LineBisector[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
  * 
- * LineBisector[ &lt;GeoSegment> ]
+ * LineBisector[ &lt;GeoSegment&gt; ]
  */
 public class CmdLineBisector extends CommandProcessor {
 

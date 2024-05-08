@@ -1,0 +1,103 @@
+<FindBugsFilter>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+    <Match>
+        <Bug pattern="MS_EXPOSE_REP" />
+    </Match>
+    <Match>
+        <Bug pattern="SE_BAD_FIELD" />
+    </Match>
+    <Match>
+        <Bug pattern="SE_BAD_FIELD_STORE" />
+    </Match>
+    <Match>
+        <Bug pattern="SE_COMPARATOR_SHOULD_BE_SERIALIZABLE" />
+    </Match>
+    <Match>
+        <Bug pattern="CT_CONSTRUCTOR_THROW" />
+    </Match>
+    <Match>
+        <!-- we might want to replace these with getters. 128 cases -->
+        <Bug pattern="PA_PUBLIC_PRIMITIVE_ATTRIBUTE" />
+    </Match>
+    <Match>
+        <!-- name clashes with standard java classes: intentional for ggbjdk, not a big issue overall. 185 cases -->
+        <Bug pattern="PI_DO_NOT_REUSE_PUBLIC_IDENTIFIERS_CLASS_NAMES" />
+    </Match>
+    <Match>
+        <Bug pattern="PI_DO_NOT_REUSE_PUBLIC_IDENTIFIERS_FIELD_NAMES" />
+    </Match>
+    <Match>
+        <Class name="org.geogebra.web.html5.GeoGebraGlobal"/>
+        <Bug pattern="MS_CANNOT_BE_FINAL" />
+    </Match>
+    <Match>
+        <Class name="~.*(Resources|IconProvider).*Impl"/>
+        <Bug pattern="LI_LAZY_INIT_UPDATE_STATIC" />
+    </Match>
+    <Match>
+        <Package name="~(org.geogebra.common.kernel.(parser|prover.polynomial)|com.himamis.retex.editor.share.io.latex)" />
+        <Or>
+            <Bug pattern="DLS_DEAD_LOCAL_STORE" />
+            <Bug pattern="DM_DEFAULT_ENCODING" />
+            <Bug pattern="MS_OOI_PKGPROTECT" />
+            <Bug pattern="MS_PKGPROTECT" />
+            <Bug pattern="MS_SHOULD_BE_FINAL" />
+            <Bug pattern="NM_METHOD_NAMING_CONVENTION" />
+            <Bug pattern="SF_SWITCH_NO_DEFAULT" />
+            <Bug pattern="UCF_USELESS_CONTROL_FLOW" />
+            <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" />
+            <Bug pattern="UC_USELESS_VOID_METHOD"/>
+            <Bug pattern="URF_UNREAD_FIELD"/>
+        </Or>
+    </Match>
+    <Match>
+        <Package name="org.geogebra.desktop.gui.editor" />
+    </Match>
+    <Match>
+        <Class name="~org.geogebra.desktop.SplashWindow.*" />
+        <Or>
+            <Bug pattern="MWN_MISMATCHED_NOTIFY" />
+            <Bug pattern="NN_NAKED_NOTIFY" />
+            <Bug pattern="IS2_INCONSISTENT_SYNC" />
+        </Or>
+    </Match>
+    <Match>
+        <Class name="~org.geogebra.ggbjdk.(sun|java.awt).*" />
+        <Or>
+            <Bug pattern="SF_SWITCH_NO_DEFAULT" />
+            <Bug pattern="FE_FLOATING_POINT_EQUALITY"/>
+            <Bug pattern="IS2_INCONSISTENT_SYNC"/>
+        </Or>
+    </Match>
+    <Match>
+        <Class name="~org.geogebra.desktop.gui.util.OOMLConverter" />
+        <Bug pattern="DMI_HARDCODED_ABSOLUTE_FILENAME" />
+    </Match>
+    <Match>
+        <Or>
+            <Class name="~.*\.R\$.*"/>
+            <Class name="~.*\.Manifest\$.*"/>
+        </Or>
+    </Match>
+    <Match>
+        <Package name="~edu\.uci.*" />
+    </Match>
+    <Match>
+        <Package name="~com\.github.*" />
+    </Match>
+    <Match>
+        <Package name="~com\.google.*" />
+    </Match>
+    <Match>
+        <Package name="~org\.freehep.*" />
+    </Match>
+    <Match>
+        <Package name="~org\.jfugue.*" />
+    </Match>
+
+</FindBugsFilter>

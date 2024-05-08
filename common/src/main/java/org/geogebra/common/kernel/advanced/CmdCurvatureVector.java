@@ -17,8 +17,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * CurvatureVector[&lt;Point>,&lt;Curve>],
- * CurvatureVector[&lt;Point>,&lt;Function>]
+ * CurvatureVector[&lt;Point&gt;,&lt;Curve&gt;],
+ * CurvatureVector[&lt;Point&gt;,&lt;Function&gt;]
  * 
  * @author Victor Franco Espino
  */

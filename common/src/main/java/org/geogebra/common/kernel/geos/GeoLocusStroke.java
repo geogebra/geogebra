@@ -10,6 +10,7 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
@@ -26,6 +27,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.ScientificFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -108,7 +110,7 @@ public class GeoLocusStroke extends GeoLocus
 		for (MyPoint pt : getPoints()) {
 			if (pt.getSegmentType() != SegmentType.CONTROL) {
 				// also ignore third point added to simple segment
-				// to able to calc control points
+				// to be able to calc control points
 				if (!(last != null
 						&& last.getSegmentType() == pt.getSegmentType()
 						&& last.isEqual(pt))) {
@@ -280,14 +282,6 @@ public class GeoLocusStroke extends GeoLocus
 	 */
 	public StringBuilder getXMLPointBuilder() {
 		return xmlPoints;
-	}
-
-	/**
-	 * @param xmlPointBuilder
-	 *            builder fox XML representation of points
-	 */
-	public void setXMLPointBuilder(StringBuilder xmlPointBuilder) {
-		this.xmlPoints = xmlPointBuilder;
 	}
 
 	@Override
@@ -892,5 +886,46 @@ public class GeoLocusStroke extends GeoLocus
 
 	public void setSplitParentLabel(String string) {
 		this.splitParentLabel = string;
+	}
+
+	/**
+	 * Update coordinates of all points
+	 * @param coords flat array of coordinates x1, y1, x2, y2, ...
+	 */
+	public void setCoords(double[] coords) {
+		myPointList.clear();
+		for (int i = 0; i < coords.length - 1; i += 2) {
+			myPointList.add(new MyPoint(coords[i], coords[i + 1]));
+		}
+		updateRepaint();
+	}
+
+	@Override
+	public void getXMLtags(StringBuilder builder) {
+		builder.append("<strokeCoords val=\"");
+		if (xmlPoints == null) {
+			xmlPoints = new StringBuilder();
+			appendPoints(xmlPoints);
+		}
+		builder.append(xmlPoints).append("\" />\n");
+		super.getXMLtags(builder);
+	}
+
+	/**
+	 * Append point coordinates to a string builder, using simple formatter
+	 * @param sb builder
+	 */
+	public void appendPoints(final StringBuilder sb) {
+		final ScientificFormatAdapter formatter = FormatFactory.getPrototype()
+				.getFastScientificFormat(5);
+		processPointsWithoutControl(m -> {
+			sb.append(formatter.format(m.getX()));
+			sb.append(",");
+			sb.append(formatter.format(m.getY()));
+			sb.append(",");
+		});
+		if (!myPointList.isEmpty()) {
+			sb.delete(sb.length() - 1, sb.length());
+		}
 	}
 }

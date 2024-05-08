@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
  * to work symbolically.
  * 
  * @author Simon Weitzhofer 27th of April 2012
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  */
 public class AlgoAreConcyclic extends AlgoElement
 		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {

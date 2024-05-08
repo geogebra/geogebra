@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * Relation[ &lt;GeoElement>, &lt;GeoElement> ]
+ * Relation[ &lt;GeoElement&gt;, &lt;GeoElement&gt; ]
  */
 public class CmdRelation extends CmdScripting {
 

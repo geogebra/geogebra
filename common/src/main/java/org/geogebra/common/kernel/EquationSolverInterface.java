@@ -18,7 +18,7 @@ public interface EquationSolverInterface {
 	int solveQuartic(double[] equation, double[] roots, double eps);
 
 	/**
-	 * Computes all roots of a polynomial using Laguerre's method for degrees >
+	 * Computes all roots of a polynomial using Laguerre's method for degrees &gt;
 	 * 3. The roots are polished and only distinct roots are returned.
 	 * 
 	 * @param roots
@@ -30,7 +30,7 @@ public interface EquationSolverInterface {
 	int polynomialRoots(double[] roots, boolean multiple);
 
 	/**
-	 * Computes all roots of a polynomial using Laguerre's method for degrees >
+	 * Computes all roots of a polynomial using Laguerre's method for degrees &gt;
 	 * 3. The roots are polished and only distinct roots are returned.
 	 * 
 	 * @param real

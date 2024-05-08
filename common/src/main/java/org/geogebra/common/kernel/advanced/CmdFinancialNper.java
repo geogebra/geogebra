@@ -9,8 +9,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Periods[ &lt;Rate>, &lt;Payment>, &lt;Present Value>, &lt;Future Value
- * (optional)>, &lt;Type (optional)> ] Like the Excel NPer function
+ * Periods[ &lt;Rate&gt;, &lt;Payment&gt;, &lt;Present Value&gt;, &lt;Future Value
+ * (optional)&gt;, &lt;Type (optional)&gt; ] Like the Excel NPer function
  */
 public class CmdFinancialNper extends CommandProcessor {
 

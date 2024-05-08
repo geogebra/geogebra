@@ -8,7 +8,7 @@ import org.geogebra.common.main.MyError;
 /**
  * Turn a turtle clockwise
  * 
- * TurtleRight[ &lt;Turtle>, &lt;Angle in radians> ]
+ * TurtleRight[ &lt;Turtle&gt;, &lt;Angle in radians&gt; ]
  * 
  * @author arno
  */

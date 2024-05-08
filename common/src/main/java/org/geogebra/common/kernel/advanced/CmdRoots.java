@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * Roots[ &lt;GeoFunction>, &lt;Number> , &lt;Number> ] (Numerical version, more
+ * Roots[ &lt;GeoFunction&gt;, &lt;Number&gt; , &lt;Number&gt; ] (Numerical version, more
  * than one root.)
  */
 public class CmdRoots extends CommandProcessor {
