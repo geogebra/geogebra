@@ -28,6 +28,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResources;
@@ -50,8 +52,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	private final AppW appW;
 	private final ToolboxDecorator decorator;
 	private final ToolboxController controller;
-	private IconButton spotlightButton;
-	private IconButton selectButton;
+	private @CheckForNull IconButton spotlightButton;
+	private @CheckForNull IconButton selectButton;
 	private final List<IconButton> buttons = new ArrayList<>();
 	private final static List<Integer> uploadCategory = Arrays.asList(MODE_IMAGE, MODE_CAMERA,
 			MODE_PDF);
@@ -95,8 +97,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private boolean shouldAddDivider() {
-		return !appW.isToolboxCategoryDisabled(ToolboxCategory.SPOTLIGHT.getName())
-				|| !appW.isToolboxCategoryDisabled(ToolboxCategory.RULER.getName());
+		return appW.isToolboxCategoryEnabled(ToolboxCategory.SPOTLIGHT.getName())
+				|| appW.isToolboxCategoryEnabled(ToolboxCategory.RULER.getName());
 	}
 
 	private IconButton addPressButton(SVGResource image, String ariaLabel, String dataTest,
@@ -152,7 +154,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addSpotlightButton() {
-		if (appW.isToolboxCategoryDisabled(ToolboxCategory.SPOTLIGHT.getName())) {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.SPOTLIGHT.getName())) {
 			return;
 		}
 
@@ -162,7 +164,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addRulerButton() {
-		if (appW.isToolboxCategoryDisabled(ToolboxCategory.RULER.getName())) {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.RULER.getName())) {
 			return;
 		}
 
@@ -174,7 +176,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addTextButton() {
-		if (appW.isToolboxCategoryDisabled(ToolboxCategory.TEXT.getName())) {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.TEXT.getName())) {
 			return;
 		}
 
@@ -184,7 +186,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addUploadButton() {
-		if (appW.isToolboxCategoryDisabled(ToolboxCategory.UPLOAD.getName())) {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.UPLOAD.getName())) {
 			return;
 		}
 
@@ -193,7 +195,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addLinkButton() {
-		if (appW.isToolboxCategoryDisabled(ToolboxCategory.LINK.getName())) {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.LINK.getName())) {
 			return;
 		}
 
@@ -205,7 +207,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addSelectModeButton() {
-		if (appW.isToolboxCategoryDisabled(ToolboxCategory.SELECT.getName())) {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.SELECT.getName())) {
 			return;
 		}
 
@@ -215,7 +217,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addPenModeButton() {
-		if (appW.isToolboxCategoryDisabled(ToolboxCategory.PEN.getName())) {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.PEN.getName())) {
 			return;
 		}
 
@@ -226,7 +228,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addShapeButton() {
-		if (appW.isToolboxCategoryDisabled(ToolboxCategory.SHAPES.getName())) {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.SHAPES.getName())) {
 			return;
 		}
 
@@ -235,7 +237,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addAppsButton() {
-		if (appW.isToolboxCategoryDisabled(ToolboxCategory.MORE.getName())) {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.MORE.getName())) {
 			return;
 		}
 

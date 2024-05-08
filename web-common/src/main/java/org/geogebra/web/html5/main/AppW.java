@@ -3578,7 +3578,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return !StringUtil.empty(getAppletParameters().getParamExamMode());
 	}
 
-	public boolean isToolboxCategoryDisabled(String category) {
-		return getAppletParameters().getDataParamCustomToolbox().contains(category);
+	public boolean isToolboxCategoryEnabled(String category) {
+		return getAppletParameters().getDataParamCustomToolbox().contains(category)
+				|| getAppletParameters().getDataParamCustomToolbox().get(0).isEmpty();
 	}
 }
