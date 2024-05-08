@@ -62,22 +62,21 @@ public abstract class CommandDispatcher implements Restrictable {
 	 * terribly bad idea!
 	 **/
 	protected HashMap<String, CommandProcessor> cmdTable;
-	/** Similar to cmdTable, but for CAS */
 
-	/** dispatcher for discrete math */
-	protected static CommandProcessorFactory discreteDispatcher = null;
-	/** dispatcher for scripting commands */
-	protected static CommandProcessorFactory scriptingDispatcher = null;
-	/** dispatcher for CAS commands */
-	protected static CommandProcessorFactory casDispatcher = null;
-	/** dispatcher for advanced commands */
-	protected static CommandProcessorFactory advancedDispatcher = null;
-	/** dispatcher for stats commands */
-	protected static CommandProcessorFactory statsDispatcher = null;
-	/** disptcher for prover commands */
-	protected static CommandProcessorFactory proverDispatcher = null;
+	/** factory for discrete math command processors*/
+	protected static CommandProcessorFactory discreteFactory = null;
+	/** factory for scripting command processors */
+	protected static CommandProcessorFactory scriptingFactory = null;
+	/** factory for CAS command processors */
+	protected static CommandProcessorFactory casFactory = null;
+	/** factory for advanced command processors */
+	protected static CommandProcessorFactory advancedFactory = null;
+	/** factory for stats command processors */
+	protected static CommandProcessorFactory statsFactory = null;
+	/** factory for prover command processors */
+	protected static CommandProcessorFactory proverFactory = null;
 
-	protected BasicCommandProcessorFactory basicDispatcher = null;
+	protected CommandProcessorFactory basicFactory = null;
 
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
 	private MacroProcessor macroProc;
@@ -399,7 +398,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case RunUpdateScript:
 			case SetImage:
 				// case DensityPlot:
-				return getScriptingCmdFactory().getProcessor(command, kernel);
+				return getScriptingCommandProcessorFactory().getProcessor(command, kernel);
 
 			// advanced
 			case IntersectPath:
@@ -510,7 +509,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case FutureValue:
 			case PresentValue:
 			case SVD:
-				return getAdvancedCmdFactory().getProcessor(command, kernel);
+				return getAdvancedCommandProcessorFactory().getProcessor(command, kernel);
 
 			// prover
 			case Prove:
@@ -525,7 +524,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case IsTangent:
 			case LocusEquation:
 			case Envelope:
-				return getProverCmdFactory().getProcessor(command, kernel);
+				return getProverCommandProcessorFactory().getProcessor(command, kernel);
 
 			// basic
 
@@ -677,7 +676,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case Textfield:
 			case Normalize:
 			case ExportImage:
-				return getBasicDispatcher().getProcessor(command, kernel);
+				return getBasicCommandProcessorFactory().getProcessor(command, kernel);
 
 			case CFactor:
 			case CIFactor:
@@ -855,7 +854,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case BarChart:
 			case LineGraph:
 			case PieChart:
-				return getStatsDispatcher().getProcessor(command, kernel);
+				return getStatsCommandProcessorFactory().getProcessor(command, kernel);
 
 			case TriangleCenter:
 			case Barycenter:
@@ -869,7 +868,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case DelauneyTriangulation:
 			case TravelingSalesman:
 			case ShortestDistance:
-				return getDiscreteDispatcher().getProcessor(command, kernel);
+				return getDiscreteCommandProcessorFactory().getProcessor(command, kernel);
 			case NSolve:
 			case Solve:
 			case Solutions:
@@ -901,7 +900,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case NextPrime:
 			case PreviousPrime:
 			case CompleteSquare:
-				return getCASCmdFactory().getProcessor(command, kernel);
+				return getCASCommandProcessorFactory().getProcessor(command, kernel);
 			case Plane:
 			case PerpendicularPlane:
 			case OrthogonalPlane:
@@ -935,7 +934,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case CornerThreeD:
 			case IntersectConic:
 			case IntersectCircle:
-				return getSpatialCmdFactory().getProcessor(command, kernel);
+				return getSpatialCommandProcessorFactory().getProcessor(command, kernel);
 			default:
 				Log.error("missing case in CommandDispatcher " + cmdName);
 				return null;
@@ -946,37 +945,37 @@ public abstract class CommandDispatcher implements Restrictable {
 		return null;
 	}
 
-	/** @return dispatcher for stats commands */
-	public abstract CommandProcessorFactory getStatsDispatcher();
+	/** @return factory for stats command processors */
+	public abstract CommandProcessorFactory getStatsCommandProcessorFactory();
 
-	/** @return dispatcher for discrete math */
-	public abstract CommandProcessorFactory getDiscreteDispatcher();
+	/** @return factory for discrete math command processors */
+	public abstract CommandProcessorFactory getDiscreteCommandProcessorFactory();
 
-	/** @return dispatcher for CAS commands */
-	public abstract CommandProcessorFactory getCASCmdFactory();
+	/** @return factory for CAS command processors */
+	public abstract CommandProcessorFactory getCASCommandProcessorFactory();
 
-	/** @return dispatcher for scripting commands */
-	public abstract CommandProcessorFactory getScriptingCmdFactory();
+	/** @return factory for scripting command processors */
+	public abstract CommandProcessorFactory getScriptingCommandProcessorFactory();
 
-	/** @return dispatcher for advanced commands */
-	public abstract CommandProcessorFactory getAdvancedCmdFactory();
+	/** @return factory for advanced command processors */
+	public abstract CommandProcessorFactory getAdvancedCommandProcessorFactory();
 
-	/** @return dispatcher for prover commands */
-	public abstract CommandProcessorFactory getProverCmdFactory();
+	/** @return factory for prover command processors */
+	public abstract CommandProcessorFactory getProverCommandProcessorFactory();
 
-	/** @return dispatcher for 3D commands */
-	public CommandProcessorFactory getSpatialCmdFactory() {
+	/** @return factory for 3D command processors */
+	public CommandProcessorFactory getSpatialCommandProcessorFactory() {
 		return null;
 	}
 
 	/**
-	 * @return dispatcher for basic commands
+	 * @return factory for basic command processors
 	 */
-	protected BasicCommandProcessorFactory getBasicDispatcher() {
-		if (basicDispatcher == null) {
-			basicDispatcher = new BasicCommandProcessorFactory();
+	protected CommandProcessorFactory getBasicCommandProcessorFactory() {
+		if (basicFactory == null) {
+			basicFactory = new BasicCommandProcessorFactory();
 		}
-		return basicDispatcher;
+		return basicFactory;
 	}
 
 	/**

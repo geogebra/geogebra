@@ -3,7 +3,6 @@ package org.geogebra.web.geogebra3D.web.kernel3D.commands;
 import org.geogebra.common.geogebra3D.kernel3D.commands.BasicCommandProcessorFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.commands.SpatialCommandProcessorFactory;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.commands.BasicCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.CommandProcessorFactory;
 import org.geogebra.common.util.debug.Log;
@@ -20,7 +19,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
 public class CommandDispatcher3DW extends CommandDispatcherW {
 
 	/** dispatcher for 3D commands */
-	private static CommandProcessorFactory commands3DDispatcher = null;
+	private static CommandProcessorFactory spatialCommandProcessorFactory = null;
 
 	/**
 	 * @param kernel
@@ -31,16 +30,16 @@ public class CommandDispatcher3DW extends CommandDispatcherW {
 	}
 
 	@Override
-	public BasicCommandProcessorFactory getBasicDispatcher() {
-		if (basicDispatcher == null) {
-			basicDispatcher = new BasicCommandProcessorFactory3D();
+	public CommandProcessorFactory getBasicCommandProcessorFactory() {
+		if (basicFactory == null) {
+			basicFactory = new BasicCommandProcessorFactory3D();
 		}
-		return basicDispatcher;
+		return basicFactory;
 	}
 
 	@Override
-	public CommandProcessorFactory getSpatialCmdFactory() {
-		if (commands3DDispatcher == null) {
+	public CommandProcessorFactory getSpatialCommandProcessorFactory() {
+		if (spatialCommandProcessorFactory == null) {
 			GWT.runAsync(SpatialCommandProcessorFactory.class, new RunAsyncCallback() {
 				@Override
 				public void onFailure(Throwable reason) {
@@ -50,7 +49,7 @@ public class CommandDispatcher3DW extends CommandDispatcherW {
 				@Override
 				public void onSuccess() {
 					LoggerW.loaded("3D commands");
-					commands3DDispatcher = new SpatialCommandProcessorFactory();
+					spatialCommandProcessorFactory = new SpatialCommandProcessorFactory();
 					initCmdTable();
 					((AppW) app).commandsLoaded();
 				}
@@ -58,6 +57,6 @@ public class CommandDispatcher3DW extends CommandDispatcherW {
 			throw new CommandNotLoadedError("3D commands not loaded yet");
 		}
 
-		return commands3DDispatcher;
+		return spatialCommandProcessorFactory;
 	}
 }

@@ -4,7 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.AdvancedCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.CASCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.CommandProcessorFactory;
-import org.geogebra.common.kernel.commands.DiscreteCommandDispatcherFactory;
+import org.geogebra.common.kernel.commands.DiscreteCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.ProverCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.ScriptingCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.StatsCommandProcessorFactory;
@@ -22,32 +22,32 @@ class CommandDispatcherWSync extends CommandDispatcherW {
 	}
 
 	@Override
-	public CommandProcessorFactory getStatsDispatcher() {
+	public CommandProcessorFactory getStatsCommandProcessorFactory() {
 		return new StatsCommandProcessorFactory();
 	}
 
 	@Override
-	public CommandProcessorFactory getDiscreteDispatcher() {
-		return new DiscreteCommandDispatcherFactory();
+	public CommandProcessorFactory getDiscreteCommandProcessorFactory() {
+		return new DiscreteCommandProcessorFactory();
 	}
 
 	@Override
-	public CommandProcessorFactory getCASCmdFactory() {
+	public CommandProcessorFactory getCASCommandProcessorFactory() {
 		return new CASCommandProcessorFactory();
 	}
 
 	@Override
-	public CommandProcessorFactory getScriptingCmdFactory() {
+	public CommandProcessorFactory getScriptingCommandProcessorFactory() {
 		return new ScriptingCommandProcessorFactory();
 	}
 
 	@Override
-	public CommandProcessorFactory getAdvancedCmdFactory() {
+	public CommandProcessorFactory getAdvancedCommandProcessorFactory() {
 		return new AdvancedCommandProcessorFactory();
 	}
 
 	@Override
-	public CommandProcessorFactory getProverCmdFactory() {
+	public CommandProcessorFactory getProverCommandProcessorFactory() {
 		return new ProverCommandProcessorFactory();
 	}
 }

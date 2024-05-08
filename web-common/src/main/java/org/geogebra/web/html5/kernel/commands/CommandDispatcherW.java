@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.commands.CASCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.CommandProcessorFactory;
-import org.geogebra.common.kernel.commands.DiscreteCommandDispatcherFactory;
+import org.geogebra.common.kernel.commands.DiscreteCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.ProverCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.ScriptingCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.StatsCommandProcessorFactory;
@@ -32,9 +32,9 @@ public class CommandDispatcherW extends CommandDispatcher {
 	}
 
 	@Override
-	public CommandProcessorFactory getDiscreteDispatcher() {
-		if (discreteDispatcher == null) {
-			GWT.runAsync(DiscreteCommandDispatcherFactory.class,
+	public CommandProcessorFactory getDiscreteCommandProcessorFactory() {
+		if (discreteFactory == null) {
+			GWT.runAsync(DiscreteCommandProcessorFactory.class,
 					new RunAsyncCallback() {
 						@Override
 						public void onFailure(Throwable reason) {
@@ -44,7 +44,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 						@Override
 						public void onSuccess() {
 							LoggerW.loaded("discrete commands");
-							discreteDispatcher = new DiscreteCommandDispatcherFactory();
+							discreteFactory = new DiscreteCommandProcessorFactory();
 							initCmdTable();
 							((AppW) app).commandsLoaded();
 						}
@@ -52,12 +52,12 @@ public class CommandDispatcherW extends CommandDispatcher {
 			throw new CommandNotLoadedError("Discrete commands not loaded yet");
 		}
 
-		return discreteDispatcher;
+		return discreteFactory;
 	}
 
 	@Override
-	public CommandProcessorFactory getScriptingCmdFactory() {
-		if (scriptingDispatcher == null) {
+	public CommandProcessorFactory getScriptingCommandProcessorFactory() {
+		if (scriptingFactory == null) {
 			GWT.runAsync(ScriptingCommandProcessorFactory.class,
 					new RunAsyncCallback() {
 						@Override
@@ -68,7 +68,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 						@Override
 						public void onSuccess() {
 							LoggerW.loaded("scripting commands");
-							scriptingDispatcher = new ScriptingCommandProcessorFactory();
+							scriptingFactory = new ScriptingCommandProcessorFactory();
 							initCmdTable();
 							((AppW) app).commandsLoaded();
 						}
@@ -77,12 +77,12 @@ public class CommandDispatcherW extends CommandDispatcher {
 					"Scripting commands not loaded yet");
 		}
 
-		return scriptingDispatcher;
+		return scriptingFactory;
 	}
 
 	@Override
-	public CommandProcessorFactory getAdvancedCmdFactory() {
-		if (advancedDispatcher == null) {
+	public CommandProcessorFactory getAdvancedCommandProcessorFactory() {
+		if (advancedFactory == null) {
 			GWT.runAsync(AdvancedCommandProcessorFactory.class,
 					new RunAsyncCallback() {
 						@Override
@@ -93,7 +93,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 						@Override
 						public void onSuccess() {
 							LoggerW.loaded("advanced commands");
-							advancedDispatcher = new AdvancedCommandProcessorFactory();
+							advancedFactory = new AdvancedCommandProcessorFactory();
 							initCmdTable();
 							((AppW) app).commandsLoaded();
 						}
@@ -101,12 +101,12 @@ public class CommandDispatcherW extends CommandDispatcher {
 			throw new CommandNotLoadedError("Advanced commands not loaded yet");
 		}
 
-		return advancedDispatcher;
+		return advancedFactory;
 	}
 
 	@Override
-	public CommandProcessorFactory getCASCmdFactory() {
-		if (casDispatcher == null) {
+	public CommandProcessorFactory getCASCommandProcessorFactory() {
+		if (casFactory == null) {
 			GWT.runAsync(CASCommandProcessorFactory.class, new RunAsyncCallback() {
 				@Override
 				public void onFailure(Throwable reason) {
@@ -116,7 +116,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 				@Override
 				public void onSuccess() {
 					LoggerW.loaded("CAS commands");
-					casDispatcher = new CASCommandProcessorFactory();
+					casFactory = new CASCommandProcessorFactory();
 					initCmdTable();
 					((AppW) app).commandsLoaded();
 				}
@@ -124,12 +124,12 @@ public class CommandDispatcherW extends CommandDispatcher {
 			throw new CommandNotLoadedError("CAS commands not loaded yet");
 		}
 
-		return casDispatcher;
+		return casFactory;
 	}
 
 	@Override
-	public CommandProcessorFactory getStatsDispatcher() {
-		if (statsDispatcher == null) {
+	public CommandProcessorFactory getStatsCommandProcessorFactory() {
+		if (statsFactory == null) {
 			GWT.runAsync(StatsCommandProcessorFactory.class, new RunAsyncCallback() {
 				@Override
 				public void onFailure(Throwable reason) {
@@ -139,7 +139,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 				@Override
 				public void onSuccess() {
 					LoggerW.loaded("stats commands");
-					statsDispatcher = new StatsCommandProcessorFactory();
+					statsFactory = new StatsCommandProcessorFactory();
 					initCmdTable();
 					((AppW) app).commandsLoaded();
 				}
@@ -147,12 +147,12 @@ public class CommandDispatcherW extends CommandDispatcher {
 			throw new CommandNotLoadedError("Stats commands not loaded yet");
 		}
 
-		return statsDispatcher;
+		return statsFactory;
 	}
 
 	@Override
-	public CommandProcessorFactory getProverCmdFactory() {
-		if (proverDispatcher == null) {
+	public CommandProcessorFactory getProverCommandProcessorFactory() {
+		if (proverFactory == null) {
 			GWT.runAsync(Prover.class, new RunAsyncCallback() {
 				@Override
 				public void onFailure(Throwable reason) {
@@ -162,7 +162,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 				@Override
 				public void onSuccess() {
 					LoggerW.loaded("prover");
-					proverDispatcher = new ProverCommandProcessorFactory();
+					proverFactory = new ProverCommandProcessorFactory();
 					initCmdTable();
 					((AppW) app).commandsLoaded();
 				}
@@ -170,6 +170,6 @@ public class CommandDispatcherW extends CommandDispatcher {
 			throw new CommandNotLoadedError("Prover commands not loaded yet");
 		}
 
-		return proverDispatcher;
+		return proverFactory;
 	}
 }

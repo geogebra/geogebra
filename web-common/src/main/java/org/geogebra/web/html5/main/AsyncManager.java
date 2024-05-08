@@ -56,12 +56,12 @@ public class AsyncManager {
 			final CommandDispatcher cmdDispatcher = app.getKernel()
 				.getAlgebraProcessor().getCmdDispatcher();
 
-			cmdDispatcher.getScriptingCmdFactory();
-			cmdDispatcher.getAdvancedCmdFactory();
-			cmdDispatcher.getStatsDispatcher();
-			cmdDispatcher.getProverCmdFactory();
-			cmdDispatcher.getCASCmdFactory();
-			cmdDispatcher.getSpatialCmdFactory();
+			cmdDispatcher.getScriptingCommandProcessorFactory();
+			cmdDispatcher.getAdvancedCommandProcessorFactory();
+			cmdDispatcher.getStatsCommandProcessorFactory();
+			cmdDispatcher.getProverCommandProcessorFactory();
+			cmdDispatcher.getCASCommandProcessorFactory();
+			cmdDispatcher.getSpatialCommandProcessorFactory();
 		} catch (CommandNotLoadedError e) {
 			ensureModulesLoaded(null);
 			throw e;
@@ -91,25 +91,25 @@ public class AsyncManager {
 					.getAlgebraProcessor().getCmdDispatcher();
 			switch (module) {
 			case DISCRETE:
-				cmdDispatcher.getDiscreteDispatcher();
+				cmdDispatcher.getDiscreteCommandProcessorFactory();
 				break;
 			case SCRIPTING:
-				cmdDispatcher.getScriptingCmdFactory();
+				cmdDispatcher.getScriptingCommandProcessorFactory();
 				break;
 			case ADVANCED:
-				cmdDispatcher.getAdvancedCmdFactory();
+				cmdDispatcher.getAdvancedCommandProcessorFactory();
 				break;
 			case STATS:
-				cmdDispatcher.getStatsDispatcher();
+				cmdDispatcher.getStatsCommandProcessorFactory();
 				break;
 			case PROVER:
-				cmdDispatcher.getProverCmdFactory();
+				cmdDispatcher.getProverCommandProcessorFactory();
 				break;
 			case CAS:
-				cmdDispatcher.getCASCmdFactory();
+				cmdDispatcher.getCASCommandProcessorFactory();
 				break;
 			case SPATIAL:
-				cmdDispatcher.getSpatialCmdFactory();
+				cmdDispatcher.getSpatialCommandProcessorFactory();
 				break;
 			case GIAC:
 				app.getKernel().getGeoGebraCAS().initCurrentCAS();

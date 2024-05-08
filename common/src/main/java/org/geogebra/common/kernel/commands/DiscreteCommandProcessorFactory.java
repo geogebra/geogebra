@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.discrete.CmdVoronoi;
  * Factory for discrete math commands.
  * @see CommandProcessorFactory
  */
-public class DiscreteCommandDispatcherFactory implements CommandProcessorFactory {
+public class DiscreteCommandProcessorFactory implements CommandProcessorFactory {
 	@Override
 	public CommandProcessor getProcessor(Commands command, Kernel kernel) {
 		switch (command) {

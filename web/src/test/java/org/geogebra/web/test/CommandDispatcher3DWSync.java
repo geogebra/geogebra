@@ -3,7 +3,6 @@ package org.geogebra.web.test;
 import org.geogebra.common.geogebra3D.kernel3D.commands.BasicCommandProcessorFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.commands.SpatialCommandProcessorFactory;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.commands.BasicCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.CommandProcessorFactory;
 
 /**
@@ -14,11 +13,11 @@ public class CommandDispatcher3DWSync extends CommandDispatcherWSync {
 		super(kernel);
 	}
 
-	public CommandProcessorFactory getSpatialCmdFactory() {
+	public CommandProcessorFactory getSpatialCommandProcessorFactory() {
 		return new SpatialCommandProcessorFactory();
 	}
 
-	public BasicCommandProcessorFactory getBasicDispatcher() {
+	public CommandProcessorFactory getBasicCommandProcessorFactory() {
 		return new BasicCommandProcessorFactory3D();
 	}
 }

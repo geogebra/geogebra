@@ -61,13 +61,14 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 	public void compute() {
 		GeoElementND num;
 		AlgebraProcessor ap = kernel.getAlgebraProcessor();
+		String textToParse = text.getTextStringSafe();
 		if (cmd == Commands.ParseToNumber) {
-			num = ap.evaluateToNumeric(text.getTextString(), true);
+			num = ap.evaluateToNumeric(textToParse, true);
 			if (num != null) {
 				updateReferences(num.getDefinition());
 			}
 		} else if (vars == null) {
-			num = ap.evaluateToFunction(text.getTextString(), true);
+			num = ap.evaluateToFunction(textToParse, true);
 			if (num != null) {
 				if (!((GeoFunction) num).validate(false, false)) {
 					num.setUndefined();
@@ -77,7 +78,7 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 		} else {
 			vars.elements().filter(GeoElement::isGeoText).forEach(fVar ->
 					cons.registerFunctionVariable(((GeoText) fVar).getTextString()));
-			num = ap.evaluateToFunctionNVar(text.getTextString(),
+			num = ap.evaluateToFunctionNVar(textToParse,
 							true, false);
 			if (num != null) {
 				updateReferences(((GeoFunctionNVar) num).getFunctionExpression());
