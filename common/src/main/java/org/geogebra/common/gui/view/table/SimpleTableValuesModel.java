@@ -10,6 +10,7 @@ import org.geogebra.common.gui.view.table.column.TableValuesFunctionColumn;
 import org.geogebra.common.gui.view.table.column.TableValuesListColumn;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -80,13 +81,36 @@ final class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	@Override
-	public boolean getAllowsAddingColumns() {
+	public boolean allowsAddingColumns() {
 		return allowsAddingColumns;
 	}
 
 	@Override
 	public void setAllowsAddingColumns(boolean allowsAddingColumns) {
 		this.allowsAddingColumns = allowsAddingColumns;
+	}
+
+	@Override
+	public boolean hasEditableColumns() {
+		for (int column = 0; column < getColumnCount(); column++) {
+			if (isColumnEditable(column)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isColumnEditable(int index) {
+		if (index < 0 || index >= columns.size()) {
+			return false;
+		}
+		TableValuesColumn column = columns.get(index);
+		GeoEvaluatable evaluatable = column.getEvaluatable();
+		if (evaluatable == null) {
+			return false;
+		}
+		return !(evaluatable instanceof GeoFunctionable);
 	}
 
 	@Override

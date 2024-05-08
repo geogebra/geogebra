@@ -25,7 +25,7 @@ public interface TableValuesModel {
 	 * @return true if this model allows users to add columns (by entering values) to the right
 	 * of existing columns Defaults to true.
 	 */
-	boolean getAllowsAddingColumns();
+	boolean allowsAddingColumns();
 
 	/**
 	 * Enable or disable whether users can add columns (by entering values) to the right of
@@ -34,6 +34,17 @@ public interface TableValuesModel {
 	 *                               (e.g., in SciCalc).
 	 */
 	void setAllowsAddingColumns(boolean allowsAddingColumns);
+
+	/**
+	 * @return True if there are any editable columns in the table of values view.
+	 */
+	boolean hasEditableColumns();
+
+	/**
+	 * @param column The column index (0-based).
+	 * @return True if the given column is editable (i.e., it's not a function).
+	 */
+	boolean isColumnEditable(int column);
 
 	/**
 	 * Sets an element.

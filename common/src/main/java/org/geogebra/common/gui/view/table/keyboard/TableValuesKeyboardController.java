@@ -4,9 +4,6 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.gui.view.table.TableValuesModel;
-import org.geogebra.common.kernel.geos.GeoFunctionable;
-import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-//import org.geogebra.common.ownership.NonOwning;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -49,9 +46,11 @@ public final class TableValuesKeyboardController {
 	 *
 	 * @param tableValuesView The table of values view.
 	 */
-	public TableValuesKeyboardController(@Nonnull TableValues tableValuesView) {
+	public TableValuesKeyboardController(@Nonnull TableValues tableValuesView,
+			TableValuesKeyboardControllerDelegate delegate) {
 		this.tableValuesView = tableValuesView;
 		this.tableValuesModel = tableValuesView.getTableValuesModel();
+		this.delegate = delegate;
 	}
 
 	/**
@@ -69,25 +68,38 @@ public final class TableValuesKeyboardController {
 	}
 
 	/**
-	 * @return The overall number of rows in the table, potentially including an additional
-	 * placeholder row for appending new data.
+	 * @return The overall number of navigable rows in the table, including an additional
+	 * placeholder row for appending new data if the table values model has editable columns.
 	 *
 	 * @apiNote This is not the same as {@link TableValuesModel#getRowCount()}, because that
 	 * does not include the placeholder row.
 	 */
-	public int getTotalNrOfRows() {
-		return getMaxRowIndex(0);
+	public int getNrOfNavigableRows() {
+		return tableValuesModel.getRowCount()
+				+ (tableValuesModel.hasEditableColumns() ? 1 : 0);
 	}
 
 	/**
-	 * @return The overall number of columns in the table, potentially including an additional
-	 * placeholder column for appending new data.
+	 * @return The overall number of navigable columns in the table, including an additional
+	 * placeholder column for inputting new data if the table values model allows adding columns
+	 * (@see {@link TableValuesModel#allowsAddingColumns()}.
 	 *
 	 * @apiNote This is not the same as {@link TableValuesModel#getColumnCount()}, because that
 	 * does not include the placeholder column.
 	 */
-	public int getTotalNrOfColumns() {
-		return getMaxColumnIndex();
+	public int getNrOfNavigableColumns() {
+		return tableValuesModel.getColumnCount()
+				+ (tableValuesModel.allowsAddingColumns() ? 1 : 0);
+	}
+
+	/**
+	 * @param column column index
+	 * @return True if the column at index is editable
+	 * (@see {@link TableValuesModel#isColumnEditable(int)} or is a placeholder column.
+	 */
+	public boolean isColumnEditableOrPlaceholder(int column) {
+		return (addedPlaceholderColumn && column == tableValuesModel.getColumnCount())
+				|| tableValuesModel.isColumnEditable(column);
 	}
 
 	/**
@@ -103,9 +115,12 @@ public final class TableValuesKeyboardController {
 			return;
 		}
 		boolean changed = selectedRow != row || selectedColumn != column;
+		if (!changed) {
+			return;
+		}
 		selectedRow = row;
 		selectedColumn = column;
-		if (changed && notifyDelegate && delegate != null) {
+		if (notifyDelegate && delegate != null) {
 			delegate.focusCell(selectedRow, selectedColumn);
 		}
 	}
@@ -187,7 +202,7 @@ public final class TableValuesKeyboardController {
 		}
 		int column = findFirstFocusableColumnRightOf(selectedColumn);
 		if (column == -1) {
-			if (tableValuesModel.getAllowsAddingColumns() && !addedPlaceholderColumn) {
+			if (tableValuesModel.allowsAddingColumns() && !addedPlaceholderColumn) {
 				addedPlaceholderColumn = true;
 				column = getMaxColumnIndex() - 1;
 			} else {
@@ -209,7 +224,7 @@ public final class TableValuesKeyboardController {
 
 	private void handleArrowDown() {
 		if (isLastRow(selectedRow, selectedColumn)) {
-			if (isColumnEditable(selectedColumn) && !addedPlaceholderRow) {
+			if (tableValuesModel.isColumnEditable(selectedColumn) && !addedPlaceholderRow) {
 				addedPlaceholderRow = true;
 			} else {
 				if (delegate.isCellEmpty(selectedRow, selectedColumn)) {
@@ -239,7 +254,7 @@ public final class TableValuesKeyboardController {
 
 	private int findFirstFocusableColumnLeftOf(int column) {
 		for (int index = column - 1; index >= 0; index--) {
-			if (isColumnEditable(index)) {
+			if (tableValuesModel.isColumnEditable(index)) {
 				return index;
 			}
 		}
@@ -248,7 +263,7 @@ public final class TableValuesKeyboardController {
 
 	private int findFirstFocusableColumnRightOf(int column) {
 		for (int index = column + 1; index < getMaxColumnIndex(); index++) {
-			if (isColumnEditable(index)) {
+			if (tableValuesModel.isColumnEditable(index)) {
 				return index;
 			}
 		}
@@ -257,7 +272,7 @@ public final class TableValuesKeyboardController {
 
 	// note: the returned end index is exclusive!
 	private int getMaxRowIndex(int column) {
-		if (!isColumnEditable(column)) {
+		if (!tableValuesModel.isColumnEditable(column)) {
 			return tableValuesModel.getRowCount();
 		}
 		return tableValuesModel.getRowCount() + (addedPlaceholderRow ? 1 : 0);
@@ -268,22 +283,11 @@ public final class TableValuesKeyboardController {
 		return tableValuesModel.getColumnCount() + (addedPlaceholderColumn ? 1 : 0);
 	}
 
-	private boolean isColumnEditable(int column) {
-		if (column < 0) {
-			return false;
-		}
-		GeoEvaluatable evaluatable = tableValuesView.getEvaluatable(column);
-		if (evaluatable == null) {
-			return false;
-		}
-		return !(evaluatable instanceof GeoFunctionable);
-	}
-
 	private void commitPendingChanges() {
 		if (selectedRow == -1 || selectedColumn == -1) {
 			return;
 		}
-		if (addedPlaceholderColumn || isColumnEditable(selectedColumn)) {
+		if (addedPlaceholderColumn || tableValuesModel.isColumnEditable(selectedColumn)) {
 			delegate.commitCell(selectedRow, selectedColumn);
 		}
 	}

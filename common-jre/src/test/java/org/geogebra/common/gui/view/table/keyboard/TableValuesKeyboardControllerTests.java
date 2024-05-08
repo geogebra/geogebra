@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.dialog.handler.DefineFunctionHandler;
-import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.ScientificDataTableController;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.Kernel;
@@ -25,7 +24,7 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     private CellIndex focusedCell;
     private String cellContent;
     private CellIndex lastCommittedCell;
-    private boolean didRequestHideKeyboard;
+    private boolean didRequestHideKeyboard; // TODO
 
     @Override
     public void setup() {
@@ -35,11 +34,10 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
         tableValuesView = new TableValuesView(kernel);
         kernel.attach(tableValuesView);
 
-        keyboardController = new TableValuesKeyboardController(tableValuesView);
-        keyboardController.delegate = this;
+        keyboardController = new TableValuesKeyboardController(tableValuesView, this);
 
         focusedCell = null;
-        // reset to non-empty input by default, set to empty string to simulate empty cell
+        // reset to non-empty input by default, set to empty string to simulate an empty cell
         cellContent = "0";
         lastCommittedCell = null;
         didRequestHideKeyboard = false;
@@ -59,6 +57,13 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     // Scenario 1:
     // - just x ("values") column [0..1],
     // - adding columns allowed
+
+    @Test
+    public void testValuesList() throws Exception {
+        tableValuesView.setValues(0, 1, 1);
+        assertEquals(3, keyboardController.getNrOfNavigableRows());
+        assertEquals(2, keyboardController.getNrOfNavigableColumns());
+    }
 
     @Test
     public void testValuesList_ArrowDownInEmptyPlaceholderRow() throws Exception {
@@ -290,6 +295,14 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     // - adding columns allowed
 
     @Test
+    public void testFunctionColumn() throws Exception {
+        tableValuesView.setValues(-2, 2, 1);
+        addFunction("f", "x");
+        assertEquals(6, keyboardController.getNrOfNavigableRows());
+        assertEquals(3, keyboardController.getNrOfNavigableColumns());
+    }
+
+    @Test
     public void testFunctionColumn_ArrowDownInEmptyPlaceholderColumn() throws Exception {
         tableValuesView.setValues(-2, 2, 1);
         addFunction("f", "x");
@@ -351,7 +364,17 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     // - adding columns not allowed
 
     @Test
-    public void testSciCalc_ArrowRight() throws Exception {
+    public void testSciCalc() {
+        ScientificDataTableController scientificDataTableController =
+                new ScientificDataTableController(getKernel());
+        scientificDataTableController.setup(tableValuesView);
+        scientificDataTableController.defineFunctions("x", "x^2");
+        assertEquals(6, keyboardController.getNrOfNavigableRows());
+        assertEquals(3, keyboardController.getNrOfNavigableColumns());
+    }
+
+    @Test
+    public void testSciCalc_ArrowRight() {
         ScientificDataTableController scientificDataTableController =
                 new ScientificDataTableController(getKernel());
         scientificDataTableController.setup(tableValuesView);
@@ -367,7 +390,7 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     }
 
     @Test
-    public void testSciCalc_ArrowDown() throws Exception {
+    public void testSciCalc_ArrowDown() {
         ScientificDataTableController scientificDataTableController =
                 new ScientificDataTableController(getKernel());
         scientificDataTableController.setup(tableValuesView);
