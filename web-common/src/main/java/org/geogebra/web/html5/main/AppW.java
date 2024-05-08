@@ -3578,6 +3578,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return !StringUtil.empty(getAppletParameters().getParamExamMode());
 	}
 
+	/**
+	 * @param category - category name
+	 * @return check if category should be enabled based on customToolbox parameter
+	 */
 	public boolean isToolboxCategoryEnabled(String category) {
 		return getAppletParameters().getDataParamCustomToolbox().contains(category)
 				|| getAppletParameters().getDataParamCustomToolbox().get(0).isEmpty();
