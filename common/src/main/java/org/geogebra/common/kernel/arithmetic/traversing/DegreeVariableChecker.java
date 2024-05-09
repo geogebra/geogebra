@@ -18,6 +18,10 @@ public class DegreeVariableChecker implements Inspecting {
 	private static final int VARIABLE = 2;
 	private static final int ANGLE_UNIT = 1;
 
+	private DegreeVariableChecker() {
+		// singleton constructor
+	}
+
 	@Override
 	public boolean check(ExpressionValue ev) {
 		if (ev instanceof ExpressionNode) {
