@@ -34,6 +34,8 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	private final SpreadsheetCellEditorW editor;
 	private final GPopupMenuW contextMenu;
 	private final Localization loc;
+	private final static int CONTEXT_MENU_PADDING = 8;
+	private final static int MARGIN_FROM_SCREEN_EDGE = 16;
 
 	private static class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
 		private final MathFieldEditor mathField;
@@ -51,6 +53,10 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			this.parent = parent;
 			this.app = app;
 			this.spreadsheet = spreadsheet;
+		}
+
+		public SpreadsheetPanel getSpreadsheetPanel() {
+			return parent;
 		}
 
 		@Override
@@ -154,8 +160,54 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 				contextMenu.addItem(menuItem);
 			}
 		}
-		contextMenu.showAtPoint(coords.x, coords.y);
+
+		positionContextMenu(coords.x, coords.y);
 		contextMenu.getPopupMenu().selectItem(0);
+	}
+
+	private void positionContextMenu(int x, int y) {
+		int left = x + getAbsoluteSpreadsheetLeft() - getAbsoluteAppLeft();
+		int top = y + getAbsoluteSpreadsheetTop() - getAbsoluteAppTop();
+
+		contextMenu.showAtPoint(0, 0);
+
+		if (!popupFitsHorizontally(left)) {
+			left = (int) (contextMenu.getApp().getWidth() - contextMenu.getPopupMenu()
+					.getElement().getClientWidth() - MARGIN_FROM_SCREEN_EDGE);
+		}
+
+		if (!popupFitsVertically(top)) {
+			top = (int) (contextMenu.getApp().getHeight() - contextMenu.getPopupMenu().getElement()
+					.getClientHeight() - 2 * CONTEXT_MENU_PADDING - MARGIN_FROM_SCREEN_EDGE);
+		}
+
+		contextMenu.showAtPoint(left, top);
+	}
+
+	private boolean popupFitsHorizontally(int originalPopupLeft) {
+		return contextMenu.getApp().getWidth()
+				> originalPopupLeft + contextMenu.getPopupMenu().getElement().getOffsetWidth();
+	}
+
+	private boolean popupFitsVertically(int originalPopupTop) {
+		return contextMenu.getApp().getHeight()
+				> originalPopupTop + contextMenu.getPopupMenu().getElement().getOffsetHeight();
+	}
+
+	private int getAbsoluteAppLeft() {
+		return (int) contextMenu.getApp().getAbsLeft();
+	}
+
+	private int getAbsoluteSpreadsheetLeft() {
+		return editor.getSpreadsheetPanel().getAbsoluteLeft();
+	}
+
+	private int getAbsoluteAppTop() {
+		return (int) contextMenu.getApp().getAbsTop();
+	}
+
+	private int getAbsoluteSpreadsheetTop() {
+		return editor.getSpreadsheetPanel().getAbsoluteTop();
 	}
 
 	@Override
