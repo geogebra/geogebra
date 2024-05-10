@@ -66,6 +66,10 @@ public interface Traversing {
 		private ExpressionValue newObj;
 		private static Replacer replacerInstance = new Replacer();
 
+		private Replacer() {
+			// singleton constructor
+		}
+
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev == oldObj) {
@@ -100,6 +104,10 @@ public interface Traversing {
 		private ExpressionValue newObj;
 		private Kernel kernel;
 		private static CopyReplacer replacer = new CopyReplacer();
+
+		private CopyReplacer() {
+			// singleton constructor
+		}
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -138,6 +146,10 @@ public interface Traversing {
 		private Kernel kernel;
 		private boolean cas;
 		private static CommandReplacer replacer = new CommandReplacer();
+
+		private CommandReplacer() {
+			// singleton constructor
+		}
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -190,6 +202,10 @@ public interface Traversing {
 	public class DegreeReplacer implements Traversing {
 		private Kernel kernel;
 		private static DegreeReplacer replacer = new DegreeReplacer();
+
+		private DegreeReplacer() {
+			// singleton constructor
+		}
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -291,6 +307,10 @@ public interface Traversing {
 
 		private static final GgbVectRemover remover = new GgbVectRemover();
 
+		private GgbVectRemover() {
+			// singleton constructor
+		}
+
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Command) {
@@ -329,6 +349,10 @@ public interface Traversing {
 		private FunctionVariable fv;
 		private int replacements;
 		private static VariablePolyReplacer replacer = new VariablePolyReplacer();
+
+		private VariablePolyReplacer() {
+			// singleton constructor
+		}
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -371,6 +395,10 @@ public interface Traversing {
 		private boolean didReplacement;
 		private boolean replaceFVs;
 		private static GeoDummyReplacer replacer = new GeoDummyReplacer();
+
+		private GeoDummyReplacer() {
+			// singleton constructor
+		}
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -516,6 +544,10 @@ public interface Traversing {
 		private int replacements;
 		private Kernel kernel;
 		private static GeoNumericReplacer replacer = new GeoNumericReplacer();
+
+		private GeoNumericReplacer() {
+			// singleton constructor
+		}
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -952,6 +984,10 @@ public interface Traversing {
 		private static int MAX_ROOT = 99;
 		private static PowerRootReplacer replacer = new PowerRootReplacer();
 
+		private PowerRootReplacer()  {
+			// singleton constructor
+		}
+
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (!ev.isExpressionNode()) {
@@ -1055,6 +1091,10 @@ public interface Traversing {
 	public class PrefixRemover implements Traversing {
 		private static PrefixRemover collector = new PrefixRemover();
 
+		private PrefixRemover() {
+			// singleton constructor
+		}
+
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Variable) {
@@ -1083,6 +1123,10 @@ public interface Traversing {
 	public class CommandCollector implements Traversing {
 		private Set<Command> commands;
 		private static CommandCollector collector = new CommandCollector();
+
+		private CommandCollector() {
+			// singleton constructor
+		}
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -1113,6 +1157,10 @@ public interface Traversing {
 	public class GeoCollector implements Traversing {
 		private HashMap<GeoElement, Integer> commands;
 		private static GeoCollector collector = new GeoCollector();
+
+		private GeoCollector() {
+			// singleton constructor
+		}
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -1151,6 +1199,10 @@ public interface Traversing {
 	public class NonFunctionCollector implements Traversing {
 		private Set<String> commands;
 		private static NonFunctionCollector collector = new NonFunctionCollector();
+
+		private NonFunctionCollector() {
+			// singleton constructor
+		}
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -1204,6 +1256,10 @@ public interface Traversing {
 		private Set<String> commands;
 		private static DummyVariableCollector collector = new DummyVariableCollector();
 
+		private DummyVariableCollector() {
+			// singleton constructor
+		}
+
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof ExpressionNode) {
@@ -1256,6 +1312,10 @@ public interface Traversing {
 		private Set<String> labels;
 		private static GeoNumericLabelCollector collector = new GeoNumericLabelCollector();
 
+		private GeoNumericLabelCollector() {
+			// singleton constructor
+		}
+
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof ExpressionNode) {
@@ -1301,6 +1361,10 @@ public interface Traversing {
 	public class NonFunctionReplacer implements Traversing {
 		private Set<String> commands;
 		private static NonFunctionReplacer collector = new NonFunctionReplacer();
+
+		private NonFunctionReplacer() {
+			// singleton constructor
+		}
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -1373,6 +1437,10 @@ public interface Traversing {
 	public class FunctionCreator implements Traversing {
 		private static FunctionCreator creator = new FunctionCreator();
 
+		private FunctionCreator() {
+			// singleton constructor
+		}
+
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Equation) {
@@ -1405,6 +1473,10 @@ public interface Traversing {
 	public class CommandRemover implements Traversing {
 		private static CommandRemover remover = new CommandRemover();
 		private static String[] commands;
+
+		private CommandRemover() {
+			// singleton constructor
+		}
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {

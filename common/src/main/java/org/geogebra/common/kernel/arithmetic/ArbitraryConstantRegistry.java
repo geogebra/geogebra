@@ -372,6 +372,10 @@ public class ArbitraryConstantRegistry {
 		private ArbitraryConstantRegistry arbconst;
 		private static final ArbconstReplacer replacer = new ArbconstReplacer();
 
+		private ArbconstReplacer() {
+			// singleton constructor
+		}
+
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (!ev.isExpressionNode() || arbconst == null) {

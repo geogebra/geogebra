@@ -12,6 +12,10 @@ public class GeoSurfaceReplacer implements Traversing {
 
 	private static final GeoSurfaceReplacer replacer = new GeoSurfaceReplacer();
 
+	private GeoSurfaceReplacer() {
+		// singleton constructor
+	}
+
 	@Override
 	public ExpressionValue process(ExpressionValue ev) {
 		if (ev instanceof ExpressionNode) {
