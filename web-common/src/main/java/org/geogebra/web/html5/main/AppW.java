@@ -3583,4 +3583,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public boolean isLockedExam() {
 		return !StringUtil.empty(getAppletParameters().getParamExamMode());
 	}
+
+	/**
+	 * @param category - category name
+	 * @return check if category should be enabled based on customToolbox parameter
+	 */
+	public boolean isToolboxCategoryEnabled(String category) {
+		List tools = getAppletParameters().getDataParamCustomToolbox();
+		return tools.contains(category) || tools.isEmpty();
+	}
 }

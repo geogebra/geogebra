@@ -28,6 +28,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResources;
@@ -50,8 +52,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	private final AppW appW;
 	private final ToolboxDecorator decorator;
 	private final ToolboxController controller;
-	private IconButton spotlightButton;
-	private IconButton selectButton;
+	private @CheckForNull IconButton spotlightButton;
+	private @CheckForNull IconButton selectButton;
 	private final List<IconButton> buttons = new ArrayList<>();
 	private final static List<Integer> uploadCategory = Arrays.asList(MODE_IMAGE, MODE_CAMERA,
 			MODE_PDF);
@@ -86,10 +88,17 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		addLinkButton();
 		addAppsButton();
 
-		addDivider();
+		if (shouldAddDivider()) {
+			addDivider();
+		}
 
 		addRulerButton();
 		addSpotlightButton();
+	}
+
+	private boolean shouldAddDivider() {
+		return appW.isToolboxCategoryEnabled(ToolboxCategory.SPOTLIGHT.getName())
+				|| appW.isToolboxCategoryEnabled(ToolboxCategory.RULER.getName());
 	}
 
 	private IconButton addPressButton(SVGResource image, String ariaLabel, String dataTest,
@@ -139,16 +148,26 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	 * switch spotlight button off
 	 */
 	public void switchSpotlightOff() {
-		spotlightButton.deactivate();
+		if (spotlightButton != null) {
+			spotlightButton.deactivate();
+		}
 	}
 
 	private void addSpotlightButton() {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.SPOTLIGHT.getName())) {
+			return;
+		}
+
 		spotlightButton = addToggleButton(ZoomPanelResources.INSTANCE.target(), "Spotlight.Tool",
 				"Spotlight.Tool", "spotlightTool",
 				controller.getSpotlightOnHandler(), () -> {});
 	}
 
 	private void addRulerButton() {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.RULER.getName())) {
+			return;
+		}
+
 		RulerIconButton rulerButton = new RulerIconButton(appW,
 				ToolbarSvgResources.INSTANCE.mode_ruler(), appW.getToolAriaLabel(MODE_RULER),
 				"Ruler", "selectModeButton" + MODE_RULER);
@@ -157,17 +176,29 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addTextButton() {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.TEXT.getName())) {
+			return;
+		}
+
 		TextIconButton textButton = new TextIconButton(appW, this::deselectButtons);
 		add(textButton);
 		buttons.add(textButton);
 	}
 
 	private void addUploadButton() {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.UPLOAD.getName())) {
+			return;
+		}
+
 		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.upload(), "Upload",
 				uploadCategory);
 	}
 
 	private void addLinkButton() {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.LINK.getName())) {
+			return;
+		}
+
 		if (appW.getVendorSettings().isH5PEnabled()) {
 			linkCategory.add(MODE_H5P);
 		}
@@ -176,12 +207,20 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addSelectModeButton() {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.SELECT.getName())) {
+			return;
+		}
+
 		selectButton = addPressButton(MaterialDesignResources.INSTANCE.mouse_cursor(),
 				appW.getToolName(MODE_SELECT_MOW), appW.getToolName(MODE_SELECT_MOW),
 				() -> appW.setMode(MODE_SELECT_MOW));
 	}
 
 	private void addPenModeButton() {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.PEN.getName())) {
+			return;
+		}
+
 		IconButton iconButton = new PenIconButton(appW, this::deselectButtons);
 		iconButton.setActive(true);
 		add(iconButton);
@@ -189,11 +228,19 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	}
 
 	private void addShapeButton() {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.SHAPES.getName())) {
+			return;
+		}
+
 		addToggleButtonWithPopup(MaterialDesignResources.INSTANCE.shapes(), "Shape",
 				shapeCategory);
 	}
 
 	private void addAppsButton() {
+		if (!appW.isToolboxCategoryEnabled(ToolboxCategory.MORE.getName())) {
+			return;
+		}
+
 		if (Browser.isGraspableMathEnabled()) {
 			appsCategory.add(MODE_GRASPABLE_MATH);
 		}
@@ -221,7 +268,9 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	public void setMode(int mode) {
 		if (MODE_SELECT_MOW == mode) {
 			deselectButtons();
-			selectButton.setActive(true);
+			if (selectButton != null) {
+				selectButton.setActive(true);
+			}
 		}
 	}
 }
