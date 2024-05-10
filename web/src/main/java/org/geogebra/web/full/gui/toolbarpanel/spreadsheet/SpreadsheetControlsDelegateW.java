@@ -199,7 +199,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	}
 
 	private int getAbsoluteSpreadsheetLeft() {
-		return ((SpreadsheetCellEditorW) getCellEditor()).getSpreadsheetPanel().getAbsoluteLeft();
+		return editor.getSpreadsheetPanel().getAbsoluteLeft();
 	}
 
 	private int getAbsoluteAppTop() {
@@ -207,7 +207,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	}
 
 	private int getAbsoluteSpreadsheetTop() {
-		return ((SpreadsheetCellEditorW) getCellEditor()).getSpreadsheetPanel().getAbsoluteTop();
+		return editor.getSpreadsheetPanel().getAbsoluteTop();
 	}
 
 	@Override
