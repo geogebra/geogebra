@@ -53,6 +53,14 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			this.spreadsheet = spreadsheet;
 		}
 
+		public AppW getApp() {
+			return app;
+		}
+
+		public SpreadsheetPanel getSpreadsheetPanel() {
+			return parent;
+		}
+
 		@Override
 		public void setBounds(Rectangle editorBounds) {
 			mathField.attach(parent);
@@ -154,8 +162,26 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 				contextMenu.addItem(menuItem);
 			}
 		}
-		contextMenu.showAtPoint(coords.x, coords.y);
+		int x = coords.x + getAbsoluteSpreadsheetLeft() - getAbsoluteAppLeft();
+		int y = coords.y + getAbsoluteSpreadsheetTop() - getAbsoluteAppTop();
+		contextMenu.showAtPoint(x, y);
 		contextMenu.getPopupMenu().selectItem(0);
+	}
+
+	private int getAbsoluteAppLeft() {
+		return (int) ((SpreadsheetCellEditorW) getCellEditor()).getApp().getAbsLeft();
+	}
+
+	private int getAbsoluteSpreadsheetLeft() {
+		return ((SpreadsheetCellEditorW) getCellEditor()).getSpreadsheetPanel().getAbsoluteLeft();
+	}
+
+	private int getAbsoluteAppTop() {
+		return (int) ((SpreadsheetCellEditorW) getCellEditor()).getApp().getAbsTop();
+	}
+
+	private int getAbsoluteSpreadsheetTop() {
+		return ((SpreadsheetCellEditorW) getCellEditor()).getSpreadsheetPanel().getAbsoluteTop();
 	}
 
 	@Override
