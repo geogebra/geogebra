@@ -2,6 +2,7 @@ package org.geogebra.web.html5.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
@@ -788,8 +789,8 @@ public class AppletParameters {
 	 * List of disabled categories in ToolboxMow
 	 * @return the data-param-customToolbox (default: empty list)
 	 */
-	public ArrayList<String> getDataParamCustomToolbox() {
-		return Arrays.stream(getStringDataParam("customToolbox", "").split(",")).collect(
-				Collectors.toCollection(ArrayList::new));
+	public List<String> getDataParamCustomToolbox() {
+		return Arrays.stream(getStringDataParam("customToolbox", "").split(","))
+				.map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
 	}
 }
