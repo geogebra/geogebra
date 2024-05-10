@@ -169,7 +169,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		int left = x + getAbsoluteSpreadsheetLeft() - getAbsoluteAppLeft();
 		int top = y + getAbsoluteSpreadsheetTop() - getAbsoluteAppTop();
 
-		contextMenu.showAtPoint(0,0);
+		contextMenu.showAtPoint(0, 0);
 
 		if (!popupFitsHorizontally(left)) {
 			left = (int) (contextMenu.getApp().getWidth() - contextMenu.getPopupMenu()
