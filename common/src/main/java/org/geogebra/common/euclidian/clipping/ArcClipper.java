@@ -27,7 +27,9 @@ public class ArcClipper {
 	private final GArc2D arc;
 	private final GeneralPathClipped arcCroppedToView;
 	private final GeoConicND conic;
-	double[] conicCoeffsInViewCoords = new double[6];
+	// for 2D conics these are just the conic matrix entries, for 3D conics we transform the conic
+	// to pixel coords
+	double[] conicCoeffsForIntersect = new double[6];
 	GAffineTransform unitCircleToScreen = AwtFactory.getPrototype().newAffineTransform();
 
 	/**
@@ -160,7 +162,8 @@ public class ArcClipper {
 		ArrayList<Double> angles = new ArrayList<>();
 		GAffineTransform inverse;
 		try {
-			inverse = conicTransform.createInverse();
+			inverse = conic.isGeoElement3D() ? conicTransform.createInverse()
+					: conic.getAffineTransform().createInverse();
 		} catch (Exception e) {
 			return Collections.emptyList();
 		}
@@ -170,13 +173,19 @@ public class ArcClipper {
 				viewTransform.getTranslateX(), viewTransform.getTranslateY(), 1
 		};
 		CoordMatrix viewTrans = new CoordMatrix(3, 3, flatView).inverse();
+		int edgeCounter = 0;
 		for (double[] edge : edges) {
-			CoordMatrix rwMatrix = conic.getSymetricMatrix();
-
-			CoordMatrix viewMatrix = viewTrans.transposeCopy().mul(rwMatrix.mul(viewTrans));
-
-			viewMatrix.flattenTo(conicCoeffsInViewCoords);
-			AlgoIntersectLineConic.intersectLineConic(edge, conicCoeffsInViewCoords,
+			edgeCounter++;
+			if (conic.isGeoElement3D()) {
+				CoordMatrix rwMatrix = conic.getSymetricMatrix();
+				CoordMatrix viewMatrix = viewTrans.transposeCopy().mul(rwMatrix.mul(viewTrans));
+				viewMatrix.flattenTo(conicCoeffsForIntersect);
+			} else {
+				conicCoeffsForIntersect = conic.getFlatMatrix();
+				edge[2] = edgeCounter < 3 ? -view.toRealWorldCoordX(-edge[2])
+						: -view.toRealWorldCoordY(-edge[2]);
+			}
+			AlgoIntersectLineConic.intersectLineConic(edge, conicCoeffsForIntersect,
 					conic.getType(),
 					Kernel.STANDARD_PRECISION, pt1, pt2);
 			addAngle(pt1, angles, inverse, conic.halfAxes);

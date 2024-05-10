@@ -73,6 +73,18 @@ public class DrawConicTest extends BaseUnitTest {
 				getSegmentTypes(ellipse));
 	}
 
+	@Test
+	public void hugeZoomTest() {
+		double eps = 0.5e-8;
+		double xm = 1.9827119206636958;
+		double ym = 4.003436509728207;
+		getApp().getActiveEuclidianView().setRealWorldCoordSystem(
+				xm - eps, xm + eps, ym - eps, ym + eps);
+		GeoConic ellipse = add("c:2 x^(2)+3 y^(2)-2 x+6 y=76");
+		assertEquals(Arrays.asList(SEG_MOVETO, SEG_CUBICTO, SEG_LINETO, SEG_LINETO, SEG_CLOSE),
+				getSegmentTypes(ellipse));
+	}
+
 	private List<Integer> getSegmentTypes(GeoConic circle) {
 		DrawConic d = (DrawConic) getDrawable(circle);
 		ArrayList<Integer> types = new ArrayList<>();

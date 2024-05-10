@@ -818,8 +818,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 		}
 
 		// set transform for Graphics2D
-		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(view.getCompanion().getTransform(conic, M, ev));
+		setTransform(M);
 
 		// hyperbola is visible on screen
 		double step = Math.sqrt((x0 - a) / (x0 + a)) / (points - 1);
@@ -1003,13 +1002,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 			firstParabola = false;
 			parabola = AwtFactory.getPrototype().newGeneralPath();
 		}
-		GAffineTransform conicTransform = view.getCompanion()
-				.getTransform(conic, M, ev);
+		setTransform(M);
 		updateParabolaX0Y0(conicTransform);
-
-		// set transform
-		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(conicTransform);
 
 		// setCurve(P0, P1, P2)
 		// parabola.setCurve(x0, y0, -x0, 0.0, x0, -y0);
