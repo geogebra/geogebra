@@ -188,7 +188,7 @@ public final class TableValuesKeyboardController {
 
 	private void handleArrowLeft() {
 		if (addedPlaceholderColumn) {
-			if (!delegate.isCellEmpty(selectedRow, selectedColumn)) {
+			if (!isCellEmpty(selectedRow, selectedColumn)) {
 				commitPendingChanges(); // arrow left in non-empty placeholder column
 			}
 		}
@@ -202,7 +202,7 @@ public final class TableValuesKeyboardController {
 
 	private void handleArrowRight() {
 		if (addedPlaceholderColumn) {
-			if (delegate.isCellEmpty(selectedRow, selectedColumn)) {
+			if (isCellEmpty(selectedRow, selectedColumn)) {
 				return; // arrow right in empty placeholder column
 			}
 			// arrow right in non-empty placeholder column
@@ -237,7 +237,7 @@ public final class TableValuesKeyboardController {
 			if (tableValuesModel.isColumnEditable(selectedColumn) && !addedPlaceholderRow) {
 				addedPlaceholderRow = true;
 			} else {
-				if (delegate.isCellEmpty(selectedRow, selectedColumn)) {
+				if (isCellEmpty(selectedRow, selectedColumn)) {
 					return; // arrow down in empty placeholder row or non-editable column
 				}
 			}
@@ -293,22 +293,23 @@ public final class TableValuesKeyboardController {
 		return tableValuesModel.getColumnCount() + (addedPlaceholderColumn ? 1 : 0);
 	}
 
+	private boolean isCellEmpty(int row, int column) {
+		String cellContent = delegate.getCellEditorContent(row, column);
+		return cellContent == null || cellContent.trim().isEmpty();
+	}
+
 	private void commitPendingChanges() {
 		if (selectedRow == -1 || selectedColumn == -1) {
 			return;
 		}
 		if (addedPlaceholderColumn || tableValuesModel.isColumnEditable(selectedColumn)) {
-			String cellContent = delegate.commitCell(selectedRow, selectedColumn);
-
+			String cellContent = delegate.getCellEditorContent(selectedRow, selectedColumn);
+			if (cellContent == null) {
+				cellContent = "";
+			}
 			GeoEvaluatable evaluatable = tableValuesView.getEvaluatable(selectedColumn);
 			GeoList list = evaluatable instanceof GeoList ? (GeoList) evaluatable : null;
 			tableValuesView.getProcessor().processInput(cellContent, list, selectedRow);
-
-			if (selectedRow < tableValuesModel.getRowCount()
-					&& selectedColumn < tableValuesModel.getColumnCount()
-					&& tableValuesModel.getCellAt(selectedRow, selectedColumn).isErroneous()) {
-				// TODO notify delegate about invalid input
-			}
 		}
 		addedPlaceholderRow = false;
 		addedPlaceholderColumn = false;

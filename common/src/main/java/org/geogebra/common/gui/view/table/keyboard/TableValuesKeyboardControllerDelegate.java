@@ -1,5 +1,7 @@
 package org.geogebra.common.gui.view.table.keyboard;
 
+import javax.annotation.CheckForNull;
+
 /**
  * The companion delegate to the {@link TableValuesKeyboardController}.
  *
@@ -8,32 +10,22 @@ package org.geogebra.common.gui.view.table.keyboard;
 public interface TableValuesKeyboardControllerDelegate {
 
     /**
-     * Focus (i.e., select, scroll into view, and start editing) the given cell.
+     * Focus (i.e., mark as selected, potentially scroll into view, and start editing)
+     * the given cell.
      *
      * @param row row index.
      * @param column column index.
      */
     void focusCell(int row, int column);
 
-    // TODO mark cell as invalid input
-
     /**
-     * Query whether the given cell is empty or not.
-     *
      * @param row row index.
      * @param column column index.
-     * @return True if the given cell is empty.
+     * @return The current content of the editor for the given cell. May return null or an
+     * empty string if the cell is empty.
      */
-    boolean isCellEmpty(int row, int column);
-
-    /**
-     * End editing of the given cell, committing the returned value to the table model (if valid).
-     *
-     * @param row row index.
-     * @param column column index.
-     * @return The cell's content (which will be set on the model).
-     */
-    String commitCell(int row, int column);
+    @CheckForNull
+    String getCellEditorContent(int row, int column);
 
     /**
      * Hide the keyboard (if it is currently visible).

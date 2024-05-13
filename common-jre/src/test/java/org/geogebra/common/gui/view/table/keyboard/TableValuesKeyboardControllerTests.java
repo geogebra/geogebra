@@ -2,7 +2,6 @@ package org.geogebra.common.gui.view.table.keyboard;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
@@ -21,7 +20,6 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     private TableValuesKeyboardController keyboardController;
     private CellIndex focusedCell;
     private String cellContent;
-    private CellIndex lastCommittedCell;
     private boolean didRequestHideKeyboard; // TODO
 
     @Override
@@ -37,7 +35,6 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
         focusedCell = null;
         // reset to non-empty input by default, set to empty string to simulate an empty cell
         cellContent = "0";
-        lastCommittedCell = null;
         didRequestHideKeyboard = false;
     }
 
@@ -70,7 +67,6 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
         cellContent = "1";
         keyboardController.keyPressed(TableValuesKeyboardController.Key.RETURN);
         assertTrue(keyboardController.isEditingPlaceholderRow());
-        assertEquals(new CellIndex(0, 0), lastCommittedCell);
         assertEquals(new CellIndex(1, 0), focusedCell);
         assertEquals(1, tableValuesView.getTableValuesModel().getRowCount());
         assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
@@ -80,9 +76,28 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
         cellContent = "2";
         keyboardController.keyPressed(TableValuesKeyboardController.Key.RETURN);
         assertTrue(keyboardController.isEditingPlaceholderRow());
-        assertEquals(new CellIndex(1, 0), lastCommittedCell);
         assertEquals(new CellIndex(2, 0), focusedCell);
         assertEquals(2, tableValuesView.getTableValuesModel().getRowCount());
+    }
+
+    @Test
+    public void testEmptyTable_EnterDataInPlaceholderColumn() {
+        assertTrue(tableValuesView.isEmpty());
+
+        // select (0, 0) - editing placeholder row
+        keyboardController.select(0, 0);
+        keyboardController.keyPressed(TableValuesKeyboardController.Key.ARROW_RIGHT);
+        assertEquals(new CellIndex(0, 1), focusedCell);
+        assertTrue(keyboardController.isEditingPlaceholderColumn());
+
+        // return in non-empty placeholder row
+        // -> new data inserted in x column, editing new placeholder row
+        cellContent = "1";
+        keyboardController.keyPressed(TableValuesKeyboardController.Key.RETURN);
+        assertTrue(keyboardController.isEditingPlaceholderRow());
+        assertEquals(new CellIndex(1, 1), focusedCell);
+        assertEquals(1, tableValuesView.getTableValuesModel().getRowCount());
+        assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
     }
 
     // Scenario 1:
@@ -147,7 +162,6 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
         cellContent = "2";
         keyboardController.keyPressed(TableValuesKeyboardController.Key.ARROW_DOWN);
         assertTrue(keyboardController.isEditingPlaceholderRow());
-        assertEquals(new CellIndex(2, 0), lastCommittedCell);
         assertEquals(new CellIndex(3, 0), focusedCell);
     }
 
@@ -205,7 +219,6 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
         cellContent = "1";
         keyboardController.keyPressed(TableValuesKeyboardController.Key.ARROW_UP);
         assertFalse(keyboardController.isEditingPlaceholderRow());
-        assertEquals(new CellIndex(2, 0), lastCommittedCell);
         assertEquals(new CellIndex(1, 0), focusedCell);
         assertEquals(3, tableValuesView.getTableValuesModel().getRowCount());
     }
@@ -253,7 +266,6 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
         cellContent = "1";
         keyboardController.keyPressed(TableValuesKeyboardController.Key.ARROW_RIGHT);
         assertTrue(keyboardController.isEditingPlaceholderColumn());
-        assertEquals(new CellIndex(0, 1), lastCommittedCell);
         assertEquals(new CellIndex(0, 2), focusedCell);
     }
 
@@ -268,7 +280,6 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
         // arrow left
         // -> selection should not change
         keyboardController.keyPressed(TableValuesKeyboardController.Key.ARROW_LEFT);
-        assertNull(lastCommittedCell);
         assertEquals(new CellIndex(0, 0), focusedCell);
     }
 
@@ -448,7 +459,6 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
         cellContent = "3";
         keyboardController.keyPressed(TableValuesKeyboardController.Key.RETURN);
         assertTrue(keyboardController.isEditingPlaceholderRow());
-        assertEquals(new CellIndex(5, 0), lastCommittedCell);
         assertEquals(new CellIndex(6, 0), focusedCell);
     }
 
@@ -456,19 +466,11 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
 
     @Override
     public void focusCell(int row, int column) {
-        System.out.println("delegate -> focusCell(row: " + row + ", column: " + column + ")");
         focusedCell = row >= 0 && column >= 0 ? new CellIndex(row, column) : null;
     }
 
     @Override
-    public boolean isCellEmpty(int row, int column) {
-        return cellContent == null || cellContent.length() == 0;
-    }
-
-    @Override
-    public String commitCell(int row, int column) {
-        System.out.println("delegate -> commitCell(row: " + row + ", column: " + column + ")");
-        lastCommittedCell = row >= 0 && column >= 0 ? new CellIndex(row, column) : null;
+    public String getCellEditorContent(int row, int column) {
         return cellContent;
     }
 
