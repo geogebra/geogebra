@@ -111,9 +111,6 @@ public final class TableValuesKeyboardController {
 	 * @apiNote The delegate will only be notified if the selection actually changed.
 	 */
 	public void select(int row, int column, boolean notifyDelegate) {
-		if (row >= getMaxRowIndex(column) || column >= getMaxColumnIndex()) {
-			return;
-		}
 		boolean changed = selectedRow != row || selectedColumn != column;
 		if (!changed) {
 			return;
