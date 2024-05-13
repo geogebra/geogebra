@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
@@ -1275,6 +1276,9 @@ public interface Traversing {
 				if (isVariable(en.getLeft())) {
 					add(en.getLeft());
 				}
+			}
+			if (ev instanceof GeoSymbolic) {
+				((GeoSymbolic) ev).getValue().traverse(this);
 			}
 			return ev;
 		}

@@ -13,7 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Set;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -57,7 +57,7 @@ public class AlgoDependentFunction extends AlgoElement
 	private Function expandedFun;
 	private ExpressionNode expression;
 	private boolean expContainsFunctions; // expression contains functions
-	private HashSet<GeoElement> unconditionalInput;
+	private Set<GeoElement> unconditionalInput;
 	private boolean fast;
 
 	/**
@@ -128,7 +128,8 @@ public class AlgoDependentFunction extends AlgoElement
 	@Override
 	protected void setInputOutput() {
 		setInputFrom(fun.getExpression());
-		unconditionalInput = fun.getFunctionExpression().getUnconditionalVars();
+		unconditionalInput = fun.getFunctionExpression().isConditionalDeep()
+				? fun.getFunctionExpression().getUnconditionalVars(new HashSet<>()) : null;
 		setOnlyOutput(f);
 		setDependencies(); // done by AlgoElement
 	}
@@ -195,16 +196,15 @@ public class AlgoDependentFunction extends AlgoElement
 
 	private boolean inputDefined() {
 		if (this.unconditionalInput == null) {
-			for (int i = 0; i < input.length; i++) {
-				if (!input[i].isDefined()) {
+			for (GeoElement geoElement : input) {
+				if (!geoElement.isDefined()) {
 					return false;
 				}
 			}
 			return true;
 		}
-		Iterator<GeoElement> it = this.unconditionalInput.iterator();
-		while (it.hasNext()) {
-			if (!it.next().isDefined()) {
+		for (GeoElement geoElement : this.unconditionalInput) {
+			if (!geoElement.isDefined()) {
 				return false;
 			}
 		}
