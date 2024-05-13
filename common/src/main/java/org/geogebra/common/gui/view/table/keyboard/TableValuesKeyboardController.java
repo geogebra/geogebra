@@ -4,6 +4,8 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.gui.view.table.TableValuesModel;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -117,6 +119,17 @@ public final class TableValuesKeyboardController {
 		}
 		selectedRow = row;
 		selectedColumn = column;
+
+		if (row >= tableValuesModel.getRowCount()) {
+			if (tableValuesModel.isColumnEditable(selectedColumn) && !addedPlaceholderRow) {
+				addedPlaceholderRow = true;
+			}
+		} else if (column >= tableValuesModel.getColumnCount()) {
+			if (tableValuesModel.allowsAddingColumns() && !addedPlaceholderColumn) {
+				addedPlaceholderColumn = true;
+			}
+		}
+
 		if (notifyDelegate && delegate != null) {
 			delegate.focusCell(selectedRow, selectedColumn);
 		}
@@ -285,8 +298,20 @@ public final class TableValuesKeyboardController {
 			return;
 		}
 		if (addedPlaceholderColumn || tableValuesModel.isColumnEditable(selectedColumn)) {
-			delegate.commitCell(selectedRow, selectedColumn);
+			String cellContent = delegate.commitCell(selectedRow, selectedColumn);
+
+			GeoEvaluatable evaluatable = tableValuesView.getEvaluatable(selectedColumn);
+			GeoList list = evaluatable instanceof GeoList ? (GeoList) evaluatable : null;
+			tableValuesView.getProcessor().processInput(cellContent, list, selectedRow);
+
+			if (selectedRow < tableValuesModel.getRowCount()
+					&& selectedColumn < tableValuesModel.getColumnCount()
+					&& tableValuesModel.getCellAt(selectedRow, selectedColumn).isErroneous()) {
+				// TODO notify delegate about invalid input
+			}
 		}
+		addedPlaceholderRow = false;
+		addedPlaceholderColumn = false;
 	}
 
 	private void hideKeyboard() {

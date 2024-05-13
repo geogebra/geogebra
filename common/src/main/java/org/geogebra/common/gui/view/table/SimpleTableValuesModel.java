@@ -105,6 +105,10 @@ final class SimpleTableValuesModel implements TableValuesModel {
 		if (index < 0 || index >= columns.size()) {
 			return false;
 		}
+		if (index == 0) {
+			return true; // can we assume the list of x-values is always editable?
+		}
+
 		TableValuesColumn column = columns.get(index);
 		GeoEvaluatable evaluatable = column.getEvaluatable();
 		if (evaluatable == null) {

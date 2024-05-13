@@ -15,6 +15,8 @@ public interface TableValuesKeyboardControllerDelegate {
      */
     void focusCell(int row, int column);
 
+    // TODO mark cell as invalid input
+
     /**
      * Query whether the given cell is empty or not.
      *
@@ -25,13 +27,13 @@ public interface TableValuesKeyboardControllerDelegate {
     boolean isCellEmpty(int row, int column);
 
     /**
-     * Commit any pending changes in the given cell (this will involve calling
-     * tableValuesProcessor.processInput()).
+     * End editing of the given cell, committing the returned value to the table model (if valid).
      *
      * @param row row index.
      * @param column column index.
+     * @return The cell's content (which will be set on the model).
      */
-    void commitCell(int row, int column);
+    String commitCell(int row, int column);
 
     /**
      * Hide the keyboard (if it is currently visible).

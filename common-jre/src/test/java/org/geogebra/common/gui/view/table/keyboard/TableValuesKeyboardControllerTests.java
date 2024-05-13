@@ -11,9 +11,7 @@ import org.geogebra.common.gui.view.table.ScientificDataTableController;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.LabelManager;
-import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.junit.Test;
 
 public class TableValuesKeyboardControllerTests extends BaseUnitTest
@@ -52,6 +50,39 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
 
         DefineFunctionHandler handler = new DefineFunctionHandler(getKernel());
         handler.handle(definition, function);
+    }
+
+    // Scenario 0:
+    // - empty table
+    // - adding columns allowed
+
+    @Test
+    public void testEmptyTable_EnterDataInValuesList() {
+        assertTrue(tableValuesView.isEmpty());
+        
+        // select (0, 0) - editing placeholder row
+        keyboardController.select(0, 0);
+        assertEquals(new CellIndex(0, 0), focusedCell);
+        assertTrue(keyboardController.isEditingPlaceholderRow());
+
+        // return in non-empty placeholder row
+        // -> new data inserted in x column, editing new placeholder row
+        cellContent = "1";
+        keyboardController.keyPressed(TableValuesKeyboardController.Key.RETURN);
+        assertTrue(keyboardController.isEditingPlaceholderRow());
+        assertEquals(new CellIndex(0, 0), lastCommittedCell);
+        assertEquals(new CellIndex(1, 0), focusedCell);
+        assertEquals(1, tableValuesView.getTableValuesModel().getRowCount());
+        assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
+
+        // return in non-empty placeholder row
+        // -> new data inserted in x column, editing new placeholder row
+        cellContent = "2";
+        keyboardController.keyPressed(TableValuesKeyboardController.Key.RETURN);
+        assertTrue(keyboardController.isEditingPlaceholderRow());
+        assertEquals(new CellIndex(1, 0), lastCommittedCell);
+        assertEquals(new CellIndex(2, 0), focusedCell);
+        assertEquals(2, tableValuesView.getTableValuesModel().getRowCount());
     }
 
     // Scenario 1:
@@ -435,15 +466,10 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     }
 
     @Override
-    public void commitCell(int row, int column) {
+    public String commitCell(int row, int column) {
         System.out.println("delegate -> commitCell(row: " + row + ", column: " + column + ")");
-        if (cellContent == null) {
-            System.out.print("delegate -> cellContent is null!");
-        }
-        GeoEvaluatable evaluatable = tableValuesView.getEvaluatable(column);
-        GeoList list = evaluatable instanceof GeoList ? (GeoList) evaluatable : null;
-        tableValuesView.getProcessor().processInput(cellContent, list, row);
         lastCommittedCell = row >= 0 && column >= 0 ? new CellIndex(row, column) : null;
+        return cellContent;
     }
 
     @Override
