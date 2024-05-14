@@ -3,7 +3,7 @@ package org.geogebra.web.full.main;
 /**
  * Null Object implementation of header resizer.
  */
-public class NullHeaderResizer implements HeaderResizer {
+public final class NullHeaderResizer implements HeaderResizer {
 	private static NullHeaderResizer INSTANCE = null;
 
 	/**
