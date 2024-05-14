@@ -1,16 +1,21 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.util.function.BiConsumer;
+
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
- * A utility class designed to adjust the viewport if a cell, row, or column that is not fully
- * visible is clicked
+ * A utility class designed to adjust the spreadsheet's viewport if needed<br/>
+ * This can happen in two different scenarios:
+ * <li>A cell, row, or column that is not fully visible is clicked</li>
+ * <li>The paste selection is dragged to the top / right / bottom / left edge</li>
  */
 public class ViewportAdjuster {
 
 	private final TableLayout layout;
 	private final ViewportAdjustmentHandler viewportAdjustmentHandler;
 	private final static int SCROLL_INCREMENT = 2;
+	private final static int SCROLL_AMOUNT_FOR_PASTE_SELECTION = 7;
 
 	/**
 	 * @param layout TableLayout
@@ -45,6 +50,47 @@ public class ViewportAdjuster {
 		return false;
 	}
 
+	/**
+	 * Starts scrolling the view when the paste selection is at the top / right / bottom / left
+	 * edge of the viewport
+	 * @param x Horizontal pointer position
+	 * @param y Vertical pointer position
+	 * @param viewport Viewport
+	 * @param extendVertically True if the paste selection is extended vertically, false else
+	 * (horizontally)
+	 * @param callback Function used to update the destination of the paste selection
+	 */
+	public void scrollForPasteSelectionIfNeeded(int x, int y, Rectangle viewport,
+			boolean extendVertically, BiConsumer<Integer, Integer> callback) {
+		double viewportWidth = viewport.getWidth();
+		double viewportHeight = viewport.getHeight();
+		int scrollAmountX = 0;
+		int scrollAmountY = 0;
+
+		if (extendVertically) {
+			if (viewportHeight - y < viewportHeight / 10) {
+				scrollAmountY = SCROLL_AMOUNT_FOR_PASTE_SELECTION;
+			} else if (y < viewportHeight / 10) {
+				scrollAmountY = -SCROLL_AMOUNT_FOR_PASTE_SELECTION;
+			}
+		} else {
+			if (viewportWidth - x < viewportWidth / 10) {
+				scrollAmountX = SCROLL_AMOUNT_FOR_PASTE_SELECTION;
+			} else if (x < viewportWidth / 10) {
+				scrollAmountX = -SCROLL_AMOUNT_FOR_PASTE_SELECTION;
+			}
+		}
+
+		if (scrollAmountX == 0 && scrollAmountY == 0) {
+			return;
+		}
+
+		viewportAdjustmentHandler.setScrollPosition(
+				viewportAdjustmentHandler.getHorizontalScrollPosition() + scrollAmountX,
+				viewportAdjustmentHandler.getVerticalScrollPosition() + scrollAmountY);
+		callback.accept(x + scrollAmountX, y + scrollAmountY);
+	}
+
 	private double getScrollAmountX(int column, Rectangle viewport) {
 		double scrollAmountX = 0;
 		boolean scrolledRight = false;
@@ -74,6 +120,13 @@ public class ViewportAdjuster {
 			scrollAmountY = scrolledDown ? 0 : -Math.floor(viewport.getMinY() - layout.getY(row));
 		}
 		return scrollAmountY;
+	}
+
+	private boolean test(int column, Rectangle viewport) {
+		if (!isValidColumnIndex(column)) {
+			return false;
+		}
+		return layout.getX(column) - viewport.getMinX() - viewport.getWidth() < -50;
 	}
 
 	private boolean shouldAdjustViewportHorizontallyRightwards(int column, Rectangle viewport) {

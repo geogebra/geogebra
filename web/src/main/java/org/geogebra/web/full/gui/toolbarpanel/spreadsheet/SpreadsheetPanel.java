@@ -6,6 +6,7 @@ import org.geogebra.common.spreadsheet.core.ViewportAdjustmentHandler;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.util.MouseCursor;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -115,6 +116,9 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		DomGlobal.setInterval((ignore) -> {
 			repaint();
 		}, 200);
+		DomGlobal.setInterval((ignore) -> {
+			spreadsheet.getController().scrollForPasteSelectionIfNeeded();
+		}, 20);
 		scrollOverlay.addScrollHandler(event -> {
 			onScroll();
 		});
@@ -224,6 +228,16 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			@Override
 			public int getScrollBarWidth() {
 				return SpreadsheetPanel.this.getScrollBarWidth();
+			}
+
+			@Override
+			public int getHorizontalScrollPosition() {
+				return scrollOverlay.getHorizontalScrollPosition();
+			}
+
+			@Override
+			public int getVerticalScrollPosition() {
+				return scrollOverlay.getVerticalScrollPosition();
 			}
 		};
 	}

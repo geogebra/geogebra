@@ -75,11 +75,11 @@ public class TabularRange {
 	}
 
 	public boolean isColumn() {
-		return anchorRow == -1;
+		return anchorRow == -1 || minRow == -1;
 	}
 
 	public boolean isRow() {
-		return anchorColumn == -1;
+		return anchorColumn == -1 || minColumn == -1;
 	}
 
 	public int getWidth() {

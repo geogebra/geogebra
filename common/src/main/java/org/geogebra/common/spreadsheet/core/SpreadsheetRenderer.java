@@ -11,7 +11,9 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.spreadsheet.style.CellFormat;
@@ -32,6 +34,8 @@ public final class SpreadsheetRenderer {
 	private final List<SelfRenderable> rowHeaders = new ArrayList<>();
 	private final List<SelfRenderable> columnHeaders = new ArrayList<>();
 	private final static GBasicStroke gridStroke = AwtFactory.getPrototype().newBasicStroke(1);
+	private final static GBasicStroke dashedGridStroke = EuclidianStatic.getStroke(
+			gridStroke.getLineWidth(), EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 	private final static GBasicStroke borderStroke = AwtFactory.getPrototype().newBasicStroke(2);
 	private final SpreadsheetStyle style;
 
@@ -129,38 +133,27 @@ public final class SpreadsheetRenderer {
 	}
 
 	void drawSelectionBorder(TabularRange selection, GGraphics2D graphics,
-			Rectangle viewport, TableLayout layout, boolean thickOutline) {
+			Rectangle viewport, TableLayout layout, boolean thickOutline, boolean dashed) {
 		Rectangle rect = layout.getBounds(selection, viewport);
 		if (rect != null) {
-			graphics.setStroke(thickOutline ? borderStroke : gridStroke);
-			graphics.setColor(style.getSelectionBorder());
+			if (dashed) {
+				graphics.setStroke(dashedGridStroke);
+			} else {
+				graphics.setStroke(thickOutline ? borderStroke : gridStroke);
+			}
+			graphics.setColor(dashed ? style.getDashedSelectionBorderColor()
+					: style.getSelectionBorderColor());
 			double minX = Math.max(rect.getMinX(), layout.getRowHeaderWidth());
 			double minY = Math.max(rect.getMinY(), layout.getColumnHeaderHeight());
 			double maxX = rect.getMaxX();
 			double maxY = rect.getMaxY();
 			if (minX < maxX && minY < maxY) {
-				drawRectangleWithStraightLines(graphics, minX, minY, maxX, maxY);
+				drawRectangle(graphics, minX, minY, maxX, maxY);
 			}
 		}
 	}
 
-	void drawSelectionBorderForDragPasteSelection(TabularRange selection, GGraphics2D graphics,
-			Rectangle viewport) {
-		Rectangle rect = layout.getBounds(selection, viewport);
-		if (rect != null) {
-			graphics.setStroke(gridStroke);
-			graphics.setColor(GColor.GRAY);
-			double minX = Math.max(rect.getMinX(), layout.getRowHeaderWidth());
-			double minY = Math.max(rect.getMinY(), layout.getColumnHeaderHeight());
-			double maxX = rect.getMaxX();
-			double maxY = rect.getMaxY();
-			if (minX < maxX && minY < maxY) {
-				drawRectangleWithStraightLines(graphics, minX, minY, maxX, maxY);
-			}
-		}
-	}
-
-	private static void drawRectangleWithStraightLines(GGraphics2D graphics,
+	private void drawRectangle(GGraphics2D graphics,
 			double minX, double minY, double maxX, double maxY) {
 		graphics.drawStraightLine(minX, minY, maxX, minY);
 		graphics.drawStraightLine(minX, maxY, maxX, maxY);
@@ -210,12 +203,12 @@ public final class SpreadsheetRenderer {
 
 	void drawDraggingDot(GPoint2D dot, GGraphics2D graphics) {
 		int dotSize = 4;
-		graphics.setColor(style.getSelectionBorder());
+		graphics.setColor(style.getSelectionBorderColor());
 		graphics.fillRect((int) dot.getX() - dotSize, (int) dot.getY() - dotSize,
 				dotSize * 2, dotSize * 2);
 		graphics.setStroke(gridStroke);
 		graphics.setColor(GColor.WHITE);
-		drawRectangleWithStraightLines(graphics, dot.getX() - dotSize,
+		drawRectangle(graphics, dot.getX() - dotSize,
 				dot.getY() - dotSize, dot.getX() + dotSize, dot.getY() + dotSize);
 	}
 }

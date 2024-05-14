@@ -1,6 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
@@ -35,6 +36,8 @@ public final class SpreadsheetController implements TabularSelection {
 	private @CheckForNull ViewportAdjuster viewportAdjuster;
 	private @CheckForNull UndoProvider undoProvider;
 	private @CheckForNull CellDragPasteHandler cellDragPasteHandler;
+	private int lastPointerPositionX = -1;
+	private int lastPointerPositionY = -1;
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
@@ -205,8 +208,9 @@ public final class SpreadsheetController implements TabularSelection {
 		switch (dragAction.activeCursor) {
 		case DRAG_DOT:
 			Selection lastSelection = getLastSelection();
-			if (lastSelection != null) {
-				cellDragPasteHandler = new CellDragPasteHandler(lastSelection);
+			if (lastSelection != null && controlsDelegate != null) {
+				cellDragPasteHandler = new CellDragPasteHandler(
+						lastSelection.getRange(), tabularData, controlsDelegate.getCellEditor());
 			}
 		case RESIZE_X:
 		case RESIZE_Y:
@@ -287,37 +291,59 @@ public final class SpreadsheetController implements TabularSelection {
 		switch (dragAction.activeCursor) {
 		case RESIZE_X:
 			if (isSelected(-1, dragAction.column)) {
-				double width = layout.getWidthForColumnResize(dragAction.column,
-						x + viewport.getMinX());
-				for (Selection selection : selections) {
-					if (selection.getType() == SelectionType.COLUMNS) {
-						layout.setWidthForColumns(width, selection.getRange().getMinColumn(),
-								selection.getRange().getMaxColumn());
-					}
-				}
+				resizeAllSelectedColumns(x);
 			}
 			storeUndoInfo();
 			break;
 		case RESIZE_Y:
 			if (isSelected(dragAction.row, -1)) {
-				double height = layout.getHeightForRowResize(dragAction.row,
-						y + viewport.getMinY());
-				for (Selection selection : selections) {
-					if (selection.getType() == SelectionType.ROWS) {
-						layout.setHeightForRows(height, selection.getRange().getMinRow(),
-								selection.getRange().getMaxRow());
-					}
-				}
+				resizeAllSelectedRows(y);
 			}
 			storeUndoInfo();
 			break;
 		case DEFAULT:
 			extendSelectionByDrag(x, y, modifiers.ctrlOrCmd);
+			break;
 		case DRAG_DOT:
-			cellDragPasteHandler = null;
-//			storeUndoInfo();
+			pasteDragSelectionToDestination(x, y);
+			storeUndoInfo();
 		}
 		resetDragAction();
+	}
+
+	private void resizeAllSelectedColumns(int x) {
+		List<Selection> selections = getSelections();
+		double width = layout.getWidthForColumnResize(dragAction.column,
+				x + viewport.getMinX());
+		for (Selection selection : selections) {
+			if (selection.getType() == SelectionType.COLUMNS) {
+				layout.setWidthForColumns(width, selection.getRange().getMinColumn(),
+						selection.getRange().getMaxColumn());
+			}
+		}
+	}
+
+	private void resizeAllSelectedRows(int y) {
+		List<Selection> selections = getSelections();
+		double height = layout.getHeightForRowResize(dragAction.row,
+				y + viewport.getMinY());
+		for (Selection selection : selections) {
+			if (selection.getType() == SelectionType.ROWS) {
+				layout.setHeightForRows(height, selection.getRange().getMinRow(),
+						selection.getRange().getMaxRow());
+			}
+		}
+	}
+
+	private void pasteDragSelectionToDestination(int x, int y) {
+		Selection lastSelection = getLastSelection();
+		TabularRange destinationRange = cellDragPasteHandler.getDestinationRange();
+		if (lastSelection == null || destinationRange == null) {
+			return;
+		}
+		cellDragPasteHandler.pasteToDestination();
+		cellDragPasteHandler = null;
+		select(lastSelection.getRange().merge(destinationRange), false, true);
 	}
 
 	private void resetDragAction() {
@@ -396,7 +422,9 @@ public final class SpreadsheetController implements TabularSelection {
 	 * Move focus down and adjust viewport
 	 */
 	public void onEnter() {
-		moveDown(false);
+		if (cellDragPasteHandler == null) {
+			moveDown(false);
+		}
 		adjustViewportIfNeeded();
 	}
 
@@ -452,30 +480,44 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @return whether something changed and repaint is needed
 	 */
 	public boolean handlePointerMove(int x, int y, Modifiers modifiers) {
+		lastPointerPositionX = x;
+		lastPointerPositionY = y;
 		switch (dragAction.activeCursor) {
 		case RESIZE_X:
 			// only handle the dragged column here, the rest of selection on pointer up
 			// otherwise left border of dragged column could move, causing feedback loop
-			double width = layout.getWidthForColumnResize(dragAction.column,
-					x + viewport.getMinX());
-			layout.setWidthForColumns(width, dragAction.column, dragAction.column);
+			resizeColumn(x);
 			return true;
 		case RESIZE_Y:
-			double height = layout.getHeightForRowResize(dragAction.row,
-					y + viewport.getMinY());
-			layout.setHeightForRows(height, dragAction.row, dragAction.row);
+			resizeRow(y);
 			return true;
 		case DRAG_DOT:
 			if (cellDragPasteHandler != null) {
-				int row = findRowOrHeader(y);
-				int column = findColumnOrHeader(x);
-				cellDragPasteHandler.setDestinationForPaste(row, column);
+				setDestinationForDragPaste(x, y);
 				return true;
 			}
 			return false;
 		default:
 			return extendSelectionByDrag(x, y, modifiers.ctrlOrCmd);
 		}
+	}
+
+	private void setDestinationForDragPaste(int x, int y) {
+		int row = findRowOrHeader(y);
+		int column = findColumnOrHeader(x);
+		cellDragPasteHandler.setDestinationForPaste(row, column);
+	}
+
+	private void resizeColumn(int x) {
+		double width = layout.getWidthForColumnResize(dragAction.column,
+				x + viewport.getMinX());
+		layout.setWidthForColumns(width, dragAction.column, dragAction.column);
+	}
+
+	private void resizeRow(int y) {
+		double height = layout.getHeightForRowResize(dragAction.row,
+				y + viewport.getMinY());
+		layout.setHeightForRows(height, dragAction.row, dragAction.row);
 	}
 
 	/**
@@ -645,6 +687,15 @@ public final class SpreadsheetController implements TabularSelection {
 		if (cellDragPasteHandler == null) {
 			return null;
 		}
-		return cellDragPasteHandler.getDestinationSelection();
+		return cellDragPasteHandler.getDestinationRange();
+	}
+
+	public void scrollForPasteSelectionIfNeeded() {
+		if (cellDragPasteHandler != null && cellDragPasteHandler.getDestinationRange() != null) {
+			viewportAdjuster.scrollForPasteSelectionIfNeeded(
+					lastPointerPositionX, lastPointerPositionY, viewport,
+					cellDragPasteHandler.destinationShouldExtendVertically(
+							findRowOrHeader(lastPointerPositionY)), this::setDestinationForDragPaste);
+		}
 	}
 }

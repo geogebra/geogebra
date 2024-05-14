@@ -63,13 +63,13 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		drawCells(graphics, viewport);
 		for (TabularRange range: visibleSelections) {
 			renderer.drawSelectionBorder(range, graphics,
-					viewport, controller.getLayout(), false);
+					viewport, controller.getLayout(), false, false);
 		}
 		if (!visibleSelections.isEmpty()) {
 			TabularRange range = visibleSelections.get(visibleSelections.size() - 1);
 			TabularRange firstCell = new TabularRange(range.getFromRow(), range.getFromColumn());
 			renderer.drawSelectionBorder(firstCell, graphics,
-					viewport, controller.getLayout(), true);
+					viewport, controller.getLayout(), true, false);
 		}
 		GPoint2D draggingDot = controller.getDraggingDot();
 		if (draggingDot != null) {
@@ -77,7 +77,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		}
 		TabularRange dragPasteSelection = controller.getDragPasteSelection();
 		if (dragPasteSelection != null) {
-			renderer.drawSelectionBorderForDragPasteSelection(dragPasteSelection, graphics, viewport);
+			renderer.drawSelectionBorder(dragPasteSelection, graphics, viewport,
+					controller.getLayout(), false, true);
 		}
 	}
 

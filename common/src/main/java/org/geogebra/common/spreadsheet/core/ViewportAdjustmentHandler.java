@@ -9,4 +9,8 @@ public interface ViewportAdjustmentHandler {
 	 * @return The width of the scrollbar
 	 */
 	int getScrollBarWidth();
+
+	int getHorizontalScrollPosition();
+
+	int getVerticalScrollPosition();
 }

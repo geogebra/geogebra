@@ -42,6 +42,16 @@ public class SpreadsheetControllerTest {
             public int getScrollBarWidth() {
                 return 5;
             }
+
+            @Override
+            public int getHorizontalScrollPosition() {
+                return 0;
+            }
+
+            @Override
+            public int getVerticalScrollPosition() {
+                return 0;
+            }
         });
     }
 
