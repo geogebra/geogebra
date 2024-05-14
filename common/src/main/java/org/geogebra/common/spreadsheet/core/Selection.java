@@ -141,7 +141,7 @@ final class Selection {
 	public Selection getExtendedSelection(Selection newSelection) {
 		SelectionType selectionType = this.getSelectionTypeForExtension(newSelection);
 
-		if ((selectionType == SelectionType.CELLS && this.type != newSelection.type)
+		if ((selectionType != SelectionType.CELLS && this.type != newSelection.type)
 				|| selectionType == SelectionType.ALL) {
 			return new Selection(new TabularRange(
 					Math.min(this.range.getMinRow(), newSelection.range.getMinRow()),

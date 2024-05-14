@@ -116,8 +116,12 @@ public class CellDragPasteHandler {
 
 	private void pasteSingleCell(int sourceRow, int destinationRow,
 			int sourceColumn, int destinationColumn) {
+		Object content = tabularData.contentAt(sourceRow, sourceColumn);
+		if (content == null) {
+			return;
+		}
 		editor.setTargetCell(destinationRow, destinationColumn);
-		editor.setContent(tabularData.contentAt(sourceRow, sourceColumn));
+		editor.setContent(content);
 		editor.onEnter();
 	}
 

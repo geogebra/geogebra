@@ -1,7 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
@@ -343,7 +342,12 @@ public final class SpreadsheetController implements TabularSelection {
 		}
 		cellDragPasteHandler.pasteToDestination();
 		cellDragPasteHandler = null;
-		select(lastSelection.getRange().merge(destinationRange), false, true);
+		TabularRange mergedRange = lastSelection.getRange().merge(destinationRange);
+		if (mergedRange != null) {
+			select(mergedRange, false, true);
+		} else {
+			select(destinationRange, false, false);
+		}
 	}
 
 	private void resetDragAction() {
