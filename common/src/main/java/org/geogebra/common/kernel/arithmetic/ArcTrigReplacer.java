@@ -10,6 +10,10 @@ public class ArcTrigReplacer implements Traversing {
 
 	private static ArcTrigReplacer replacer = new ArcTrigReplacer();
 
+	private ArcTrigReplacer() {
+		// singleton constructo
+	}
+
 	@Override
 	public ExpressionValue process(ExpressionValue ev) {
 		if (ev instanceof ExpressionNode) {

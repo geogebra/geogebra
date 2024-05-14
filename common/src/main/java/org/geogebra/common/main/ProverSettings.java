@@ -52,6 +52,10 @@ public class ProverSettings {
 	 */
 	public boolean captionAlgebra = false;
 
+	private ProverSettings() {
+		// singleton constructor
+	}
+
 	/**
 	 * @return singleton instance
 	 */

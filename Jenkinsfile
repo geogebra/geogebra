@@ -65,7 +65,7 @@ pipeline {
                expression {return !isGiac}
             }
             steps {
-                sh "$gradleCmd test :common-jre:jacocoTestReport spotbugsMain checkStyleMain checkStyleTest -x renderer-base:spotbugsMain"
+                sh "$gradleCmd test :common-jre:jacocoTestReport spotbugsMain pmdMain checkStyleMain checkStyleTest -x renderer-base:spotbugsMain"
                 junit '**/build/test-results/test/*.xml'
                 recordIssues qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]], tools: [
                     spotBugs(pattern: '**/build/reports/spotbugs/*.xml', useRankAsPriority: true), 

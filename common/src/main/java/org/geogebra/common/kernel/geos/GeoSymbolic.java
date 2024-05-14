@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.SymbolicProcessor;
 import org.geogebra.common.kernel.geos.properties.DelegateProperties;
 import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -228,7 +229,9 @@ public class GeoSymbolic extends GeoElement
 				.traverse(FunctionExpander.newFunctionExpander(this));
 
 		Command casInput = getCasInput(fixMatrixInput(casInputArg));
-
+		if (casInput.getName().equals(Commands.Solve.name()) && casInput.getArgumentNumber() == 1) {
+			SymbolicProcessor.autoCompleteVariables(casInput);
+		}
 		String casResult = calculateCasResult(casInput);
 
 		casOutputString = casResult;

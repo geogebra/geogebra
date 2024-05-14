@@ -17,6 +17,10 @@ public class FunctionVarCollector implements Traversing {
 	private Set<String> variableNames;
 	private static FunctionVarCollector collector = new FunctionVarCollector();
 
+	private FunctionVarCollector() {
+		// singleton constructor
+	}
+
 	@Override
 	public ExpressionValue process(ExpressionValue ev) {
 		if (ev instanceof FunctionVariable) {
