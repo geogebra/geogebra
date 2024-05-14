@@ -33,6 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
 
 import org.geogebra.common.gui.dialog.ButtonDialogModel;
+import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.debug.Log;
@@ -100,8 +101,8 @@ public class ButtonDialogD extends Dialog
 
 		// create caption panel
 		JLabel captionLabel = new JLabel(loc.getMenu("Button.Caption") + ":");
-		InputPanelD ip = new InputPanelD(model.getInitString(), app, 1, 25,
-				true);
+		InputPanelD ip = new InputPanelD(model.getInitString(), app, 25,
+				true, false);
 		tfCaption = ip.getTextComponent();
 		if (tfCaption instanceof AutoCompleteTextFieldD) {
 			AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) tfCaption;
@@ -171,7 +172,7 @@ public class ButtonDialogD extends Dialog
 		// structure so it will need to be dealt with later
 
 		InputPanelD ip2 = new InputPanelD(model.getClickScript(), app, 10, 40,
-				false);
+				false, DialogType.GeoGebraEditor);
 		Dimension dim = ((GeoGebraEditorPane) ip2.getTextComponent())
 				.getPreferredSizeFromRowColumn(10, 40);
 		ip2.setPreferredSize(dim);
