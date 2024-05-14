@@ -3,7 +3,7 @@ package org.geogebra.common.main;
 /**
  * Prover settings (see AppD's handleHelpVersionArgs for details)
  */
-public class ProverSettings {
+public final class ProverSettings {
 
 	private static ProverSettings INSTANCE;
 	/**
