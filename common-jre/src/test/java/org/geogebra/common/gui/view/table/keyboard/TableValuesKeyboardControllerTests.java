@@ -20,6 +20,7 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     private TableValuesKeyboardController keyboardController;
     private CellIndex focusedCell;
     private String cellContent;
+    private boolean didReportInvalidCellContent;
     private boolean didRequestHideKeyboard; // TODO
 
     @Override
@@ -35,6 +36,7 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
         focusedCell = null;
         // reset to non-empty input by default, set to empty string to simulate an empty cell
         cellContent = "0";
+        didReportInvalidCellContent = false;
         didRequestHideKeyboard = false;
     }
 
@@ -108,6 +110,25 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
         // -> new data inserted in x column, editing new placeholder row
         cellContent = "1";
         keyboardController.keyPressed(TableValuesKeyboardController.Key.RETURN);
+        assertTrue(keyboardController.isEditingPlaceholderRow());
+        assertEquals(new CellIndex(1, 1), focusedCell);
+        assertEquals(1, tableValuesView.getTableValuesModel().getRowCount());
+        assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
+    }
+
+    @Test
+    public void testEmptyTable_EnterInvalidDataInPlaceholderColumn() {
+        // select (0, 1) - editing placeholder column
+        assertTrue(keyboardController.isColumnEditableOrPlaceholder(1));
+        keyboardController.select(0, 1);
+        assertEquals(new CellIndex(0, 1), focusedCell);
+        assertTrue(keyboardController.isEditingPlaceholderColumn());
+
+        // return in non-empty placeholder cell
+        // -> invalid data reported, editing new placeholder row
+        cellContent = "a";
+        keyboardController.keyPressed(TableValuesKeyboardController.Key.RETURN);
+        assertTrue(didReportInvalidCellContent);
         assertTrue(keyboardController.isEditingPlaceholderRow());
         assertEquals(new CellIndex(1, 1), focusedCell);
         assertEquals(1, tableValuesView.getTableValuesModel().getRowCount());
@@ -491,6 +512,7 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     @Override
     public void invalidCellContentDetected(int row, int column) {
         System.out.println("Invalid cell content at row " + row + ", column " + column);
+        didReportInvalidCellContent = true;
     }
 
     @Override
