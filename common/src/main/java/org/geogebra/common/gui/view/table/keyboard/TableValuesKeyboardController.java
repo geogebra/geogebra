@@ -329,6 +329,10 @@ public final class TableValuesKeyboardController {
 			GeoEvaluatable evaluatable = tableValuesView.getEvaluatable(selectedColumn);
 			GeoList list = evaluatable instanceof GeoList ? (GeoList) evaluatable : null;
 			tableValuesView.getProcessor().processInput(cellContent, list, selectedRow);
+
+			if (tableValuesModel.getCellAt(selectedRow, selectedColumn).isErroneous()) {
+				delegate.invalidCellContent(selectedRow, selectedColumn);
+			}
 		}
 		addedPlaceholderRow = false;
 		addedPlaceholderColumn = false;

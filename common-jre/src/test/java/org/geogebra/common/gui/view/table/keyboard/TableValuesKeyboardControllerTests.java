@@ -489,6 +489,11 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     }
 
     @Override
+    public void invalidCellContentDetected(int row, int column) {
+        System.out.println("Invalid cell content at row " + row + ", column " + column);
+    }
+
+    @Override
     public void hideKeyboard() {
         didRequestHideKeyboard = true;
     }

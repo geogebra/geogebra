@@ -19,6 +19,8 @@ public interface TableValuesKeyboardControllerDelegate {
     void focusCell(int row, int column);
 
     /**
+     * Get the contents of the editor of the given cell.
+     *
      * @param row row index.
      * @param column column index.
      * @return The current content of the editor for the given cell. May return null or an
@@ -26,6 +28,14 @@ public interface TableValuesKeyboardControllerDelegate {
      */
     @CheckForNull
     String getCellEditorContent(int row, int column);
+
+    /**
+     * Show a warning about invalid cell content.
+     *
+     * @param row The row index of the invalid cell.
+     * @param column The column index of the invalid cell.
+     */
+    void invalidCellContentDetected(int row, int column);
 
     /**
      * Hide the keyboard (if it is currently visible).
