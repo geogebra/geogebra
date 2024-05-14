@@ -84,9 +84,9 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     public void testEmptyTable_EnterDataInPlaceholderColumn() {
         assertTrue(tableValuesView.isEmpty());
 
-        // select (0, 0) - editing placeholder row
-        keyboardController.select(0, 0);
-        keyboardController.keyPressed(TableValuesKeyboardController.Key.ARROW_RIGHT);
+        // select (0, 1) - editing placeholder column
+        assertTrue(keyboardController.isColumnEditableOrPlaceholder(1));
+        keyboardController.select(0, 1);
         assertEquals(new CellIndex(0, 1), focusedCell);
         assertTrue(keyboardController.isEditingPlaceholderColumn());
 

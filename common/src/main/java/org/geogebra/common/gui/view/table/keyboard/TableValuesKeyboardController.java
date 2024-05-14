@@ -120,13 +120,13 @@ public final class TableValuesKeyboardController {
 		selectedRow = row;
 		selectedColumn = column;
 
-		if (row >= tableValuesModel.getRowCount()) {
-			if (tableValuesModel.isColumnEditable(selectedColumn) && !addedPlaceholderRow) {
-				addedPlaceholderRow = true;
-			}
-		} else if (column >= tableValuesModel.getColumnCount()) {
+		if (column >= tableValuesModel.getColumnCount()) {
 			if (tableValuesModel.allowsAddingColumns() && !addedPlaceholderColumn) {
 				addedPlaceholderColumn = true;
+			}
+		} else if (row >= tableValuesModel.getRowCount()) {
+			if (tableValuesModel.isColumnEditable(selectedColumn) && !addedPlaceholderRow) {
+				addedPlaceholderRow = true;
 			}
 		}
 
