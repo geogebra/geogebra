@@ -64,6 +64,10 @@ public final class SpreadsheetStyle {
 		return GeoGebraColorConstants.NEUTRAL_300;
 	}
 
+	public GColor geErrorGridColor() {
+		return GColor.ERROR_RED_BORDER;
+	}
+
 	public GColor getHeaderBackgroundColor() {
 		return GeoGebraColorConstants.NEUTRAL_200;
 	}

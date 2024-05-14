@@ -37,7 +37,7 @@ public final class SpreadsheetEditorListener implements MathFieldListener, Unhan
 		this.spreadsheet = spreadsheet;
 		processor = new SpreadsheetCellProcessor(
 				GeoElementSpreadsheet.getSpreadsheetCellName(column, row),
-				kernel.getAlgebraProcessor(), kernel.getApplication().getDefaultErrorHandler());
+				kernel.getAlgebraProcessor(), mathField);
 	}
 
 	@Override

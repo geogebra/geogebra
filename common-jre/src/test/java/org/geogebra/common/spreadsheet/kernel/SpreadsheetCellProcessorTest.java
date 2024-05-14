@@ -18,10 +18,8 @@ public class SpreadsheetCellProcessorTest extends BaseUnitTest {
 
 	@Before
 	public void setUp() {
-		ErrorHandler errorHandler = getApp().getDefaultErrorHandler();
 		processor =
-				new SpreadsheetCellProcessor("A1", getKernel().getAlgebraProcessor(),
-						errorHandler);
+				new SpreadsheetCellProcessor("A1", getKernel().getAlgebraProcessor(), null);
 	}
 
 	@Test

@@ -11,7 +11,9 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.spreadsheet.style.CellFormat;
@@ -60,6 +62,9 @@ public final class SpreadsheetRenderer {
 				graphics.fillRect((int) cellBorder.getMinX(), (int) cellBorder.getMinY(),
 						(int) cellBorder.getWidth(), (int) cellBorder.getHeight());
 			}
+			if (content instanceof GeoText && ((GeoText) content).getTextString().equals("ERROR")) {
+				drawErrorCellBorder(row, column, graphics);
+			}
 			graphics.setColor(style.getTextColor());
 			renderable.draw(graphics, cellBorder);
 		}
@@ -69,6 +74,23 @@ public final class SpreadsheetRenderer {
 		graphics.setStroke(borderStroke);
 		graphics.drawRect((int) layout.getX(column), (int) layout.getY(row),
 				(int) layout.getWidth(column), (int) layout.getHeight(row));
+	}
+
+	private void drawErrorCellBorder(int row, int column, GGraphics2D graphics) {
+		graphics.setColor(style.geErrorGridColor());
+		drawCellBorder(row, column, graphics);
+
+		int x1 = (int) layout.getX(column) + (int) layout.getWidth(column) - 10;
+		int y1 = (int) layout.getY(row);
+		int x2 = (int) layout.getX(column) + (int) layout.getWidth(column);
+		int y2 = (int) layout.getY(row);
+		int x3 = (int) layout.getX(column) + (int) layout.getWidth(column);
+		int y3 = (int) layout.getY(row) + 10;
+
+		GShape
+		graphics.drawLine(x1, y1, x2, y2);
+		graphics.drawLine(x2, y2, x3, y3);
+		graphics.drawLine(x3, y3, x1, y1);
 	}
 
 	void drawRowHeader(int row, GGraphics2D graphics, String name) {
