@@ -224,7 +224,6 @@ public final class TableValuesKeyboardController {
 	}
 
 	private void handleArrowUp() {
-		addedPlaceholderRow = false;
 		if (isFirstRow(selectedRow)) {
 			return;
 		}
@@ -233,7 +232,12 @@ public final class TableValuesKeyboardController {
 	}
 
 	private void handleArrowDown() {
-		if (isLastRow(selectedRow, selectedColumn)) {
+		if (isEditingPlaceholderColumn()) {
+			if (selectedRow == tableValuesModel.getRowCount()
+					&& isCellEmpty(selectedRow, selectedColumn)) {
+				return; // arrow down in empty placeholder cell in last row
+			}
+		} else if (isLastRow(selectedRow, selectedColumn)) {
 			if (tableValuesModel.isColumnEditable(selectedColumn) && !addedPlaceholderRow) {
 				addedPlaceholderRow = true;
 			} else {

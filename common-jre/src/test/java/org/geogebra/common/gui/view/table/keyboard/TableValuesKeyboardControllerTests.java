@@ -62,6 +62,13 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
         assertEquals(new CellIndex(0, 0), focusedCell);
         assertTrue(keyboardController.isEditingPlaceholderRow());
 
+        // arrow down in empty placeholder row
+        // -> selection should not change
+        cellContent = "";
+        keyboardController.keyPressed(TableValuesKeyboardController.Key.ARROW_DOWN);
+        assertTrue(keyboardController.isEditingPlaceholderRow());
+        assertEquals(new CellIndex(0, 0), focusedCell);
+
         // return in non-empty placeholder row
         // -> new data inserted in x column, editing new placeholder row
         cellContent = "1";
@@ -90,7 +97,14 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
         assertEquals(new CellIndex(0, 1), focusedCell);
         assertTrue(keyboardController.isEditingPlaceholderColumn());
 
-        // return in non-empty placeholder row
+        // arrow down in empty placeholder cell
+        // -> selection should not change
+        cellContent = "";
+        keyboardController.keyPressed(TableValuesKeyboardController.Key.ARROW_DOWN);
+        assertTrue(keyboardController.isEditingPlaceholderColumn());
+        assertEquals(new CellIndex(0, 1), focusedCell);
+
+        // return in non-empty placeholder cell
         // -> new data inserted in x column, editing new placeholder row
         cellContent = "1";
         keyboardController.keyPressed(TableValuesKeyboardController.Key.RETURN);
