@@ -10,7 +10,6 @@ public class CellDragPasteHandler {
 
 	private final TabularRange rangeToCopy;
 	private final TabularData<?> tabularData;
-	private final SpreadsheetCellEditor editor;
 	private int fromRow;
 	private int toRow;
 	private int fromColumn;
@@ -19,13 +18,10 @@ public class CellDragPasteHandler {
 	/**
 	 * @param rangeToCopy The original range that should be copied to adjacent cells
 	 * @param tabularData {@link TabularData}
-	 * @param editor {@link SpreadsheetCellEditor}
 	 */
-	public CellDragPasteHandler(TabularRange rangeToCopy, TabularData tabularData,
-			SpreadsheetCellEditor editor) {
+	public CellDragPasteHandler(TabularRange rangeToCopy, TabularData tabularData) {
 		this.rangeToCopy = rangeToCopy;
 		this.tabularData = tabularData;
-		this.editor = editor;
 		resetRowIndexes();
 		resetColumnIndexes();
 	}
@@ -89,6 +85,9 @@ public class CellDragPasteHandler {
 
 	private void pasteRightwardsOrDownwards() {
 		TabularRange destinationRange = getDestinationRange();
+		if (destinationRange == null) {
+			return;
+		}
 		int minOriginRow = getMinRowIndexFromOrigin();
 		int minOriginColumn = getMinColumnIndexFromOrigin();
 
@@ -102,6 +101,9 @@ public class CellDragPasteHandler {
 
 	private void pasteLeftwardsOrUpwards() {
 		TabularRange destinationRange = getDestinationRange();
+		if (destinationRange == null) {
+			return;
+		}
 		int maxOriginRow = getMaxRowIndexFromOrigin();
 		int maxOriginColumn = getMaxColumnIndexFromOrigin();
 
@@ -109,20 +111,13 @@ public class CellDragPasteHandler {
 			for (int column = 0; column < destinationRange.getWidth(); column++) {
 				pasteSingleCell(maxOriginRow - row, toRow - row,
 						maxOriginColumn - column, toColumn - column);
-
 			}
 		}
 	}
 
 	private void pasteSingleCell(int sourceRow, int destinationRow,
 			int sourceColumn, int destinationColumn) {
-		Object content = tabularData.contentAt(sourceRow, sourceColumn);
-		if (content == null) {
-			return;
-		}
-		editor.setTargetCell(destinationRow, destinationColumn);
-		editor.setContent(content);
-		editor.onEnter();
+		tabularData.copyPasteContent(sourceRow, destinationRow, sourceColumn, destinationColumn);
 	}
 
 	private int getMinRowIndexFromOrigin() {

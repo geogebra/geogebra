@@ -22,6 +22,8 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	// content
 	void setContent(int row, int column, Object content);
 
+	void copyPasteContent(int sourceRow, int targetRow, int sourceColumn, int targetColumn);
+
 	String getColumnName(int column);
 
 	default String getRowName(int row) {

@@ -122,13 +122,6 @@ public class ViewportAdjuster {
 		return scrollAmountY;
 	}
 
-	private boolean test(int column, Rectangle viewport) {
-		if (!isValidColumnIndex(column)) {
-			return false;
-		}
-		return layout.getX(column) - viewport.getMinX() - viewport.getWidth() < -50;
-	}
-
 	private boolean shouldAdjustViewportHorizontallyRightwards(int column, Rectangle viewport) {
 		if (!isValidColumnIndex(column)) {
 			return false;

@@ -76,7 +76,7 @@ public final class SpreadsheetStyle {
 		return GeoGebraColorConstants.PURPLE_600;
 	}
 
-	public GColor getDashedSelectionBorderColor(){
+	public GColor getDashedSelectionBorderColor() {
 		return GeoGebraColorConstants.NEUTRAL_700;
 	}
 

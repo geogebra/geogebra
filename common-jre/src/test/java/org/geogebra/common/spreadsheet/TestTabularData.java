@@ -75,6 +75,11 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
+	public void copyPasteContent(int sourceRow, int targetRow, int sourceColumn, int targetColumn) {
+		setContent(targetRow, targetColumn, contentAt(sourceRow, sourceColumn));
+	}
+
+	@Override
 	public String contentAt(int row, int column) {
 		return data.get(row).get(column);
 	}

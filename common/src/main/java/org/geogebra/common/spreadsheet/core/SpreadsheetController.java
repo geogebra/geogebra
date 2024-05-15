@@ -207,11 +207,13 @@ public final class SpreadsheetController implements TabularSelection {
 		switch (dragAction.activeCursor) {
 		case DRAG_DOT:
 			Selection lastSelection = getLastSelection();
-			if (lastSelection != null && controlsDelegate != null) {
+			if (lastSelection != null) {
 				cellDragPasteHandler = new CellDragPasteHandler(
-						lastSelection.getRange(), tabularData, controlsDelegate.getCellEditor());
+						lastSelection.getRange(), tabularData);
 			}
+			return true;
 		case RESIZE_X:
+			return true;
 		case RESIZE_Y:
 			return true;
 		}
@@ -286,7 +288,6 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @param modifiers event modifiers
 	 */
 	public void handlePointerUp(int x, int y, Modifiers modifiers) {
-		List<Selection> selections = getSelections();
 		switch (dragAction.activeCursor) {
 		case RESIZE_X:
 			if (isSelected(-1, dragAction.column)) {
@@ -304,7 +305,7 @@ public final class SpreadsheetController implements TabularSelection {
 			extendSelectionByDrag(x, y, modifiers.ctrlOrCmd);
 			break;
 		case DRAG_DOT:
-			pasteDragSelectionToDestination(x, y);
+			pasteDragSelectionToDestination();
 			storeUndoInfo();
 		}
 		resetDragAction();
@@ -334,7 +335,10 @@ public final class SpreadsheetController implements TabularSelection {
 		}
 	}
 
-	private void pasteDragSelectionToDestination(int x, int y) {
+	private void pasteDragSelectionToDestination() {
+		if (cellDragPasteHandler == null) {
+			return;
+		}
 		Selection lastSelection = getLastSelection();
 		TabularRange destinationRange = cellDragPasteHandler.getDestinationRange();
 		if (lastSelection == null || destinationRange == null) {
@@ -426,9 +430,7 @@ public final class SpreadsheetController implements TabularSelection {
 	 * Move focus down and adjust viewport
 	 */
 	public void onEnter() {
-		if (cellDragPasteHandler == null) {
-			moveDown(false);
-		}
+		moveDown(false);
 		adjustViewportIfNeeded();
 	}
 
@@ -509,7 +511,9 @@ public final class SpreadsheetController implements TabularSelection {
 	private void setDestinationForDragPaste(int x, int y) {
 		int row = findRowOrHeader(y);
 		int column = findColumnOrHeader(x);
-		cellDragPasteHandler.setDestinationForPaste(row, column);
+		if (cellDragPasteHandler != null) {
+			cellDragPasteHandler.setDestinationForPaste(row, column);
+		}
 	}
 
 	private void resizeColumn(int x) {
@@ -687,6 +691,9 @@ public final class SpreadsheetController implements TabularSelection {
 		}
 	}
 
+	/**
+	 * @return The {@link TabularRange} that indicates the destination for the drag paste
+	 */
 	public @CheckForNull TabularRange getDragPasteSelection() {
 		if (cellDragPasteHandler == null) {
 			return null;
@@ -694,12 +701,18 @@ public final class SpreadsheetController implements TabularSelection {
 		return cellDragPasteHandler.getDestinationRange();
 	}
 
+	/**
+	 * If the pointer is at the top / right / bottom / left corner while dragging a paste
+	 * selection, starts scrolling the viewport
+	 */
 	public void scrollForPasteSelectionIfNeeded() {
-		if (cellDragPasteHandler != null && cellDragPasteHandler.getDestinationRange() != null) {
+		if (cellDragPasteHandler != null && cellDragPasteHandler.getDestinationRange() != null
+				&& viewportAdjuster != null) {
 			viewportAdjuster.scrollForPasteSelectionIfNeeded(
 					lastPointerPositionX, lastPointerPositionY, viewport,
 					cellDragPasteHandler.destinationShouldExtendVertically(
-							findRowOrHeader(lastPointerPositionY)), this::setDestinationForDragPaste);
+							findRowOrHeader(lastPointerPositionY)),
+					this::setDestinationForDragPaste);
 		}
 	}
 }

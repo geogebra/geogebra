@@ -193,6 +193,27 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
+	public void copyPasteContent(int sourceRow, int targetRow, int sourceColumn, int targetColumn) {
+		GeoElement geoToCopy = contentAt(sourceRow, sourceColumn);
+		if (geoToCopy == null) {
+			return;
+		}
+		SpreadsheetCellProcessor cellProcessor = new SpreadsheetCellProcessor(
+				GeoElementSpreadsheet.getSpreadsheetCellName(targetColumn, targetRow),
+				geoToCopy.getKernel().getAlgebraProcessor(),
+				geoToCopy.getKernel().getApplication().getDefaultErrorHandler());
+		if (cellProcessor.containsDynamicReference(geoToCopy)) {
+			String definition = geoToCopy.getDefinitionForEditor();
+			cellProcessor.process(definition.substring(definition.indexOf('=')));
+			return;
+		}
+
+		GeoElement copy = geoToCopy.copy();
+		copy.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(targetColumn, targetRow));
+		copy.setDefinition(geoToCopy.getDefinition());
+	}
+
+	@Override
 	public GeoElement contentAt(int row, int column) {
 		return data.get(row) != null ? data.get(row).get(column) : null;
 	}
