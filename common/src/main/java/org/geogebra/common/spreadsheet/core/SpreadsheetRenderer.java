@@ -1,5 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.Map;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
@@ -63,7 +66,7 @@ public final class SpreadsheetRenderer {
 						(int) cellBorder.getWidth(), (int) cellBorder.getHeight());
 			}
 			if (content instanceof GeoText && ((GeoText) content).getTextString().equals("ERROR")) {
-				drawErrorCellBorder(row, column, graphics);
+				drawErrorCell(row, column, graphics);
 			}
 			graphics.setColor(style.getTextColor());
 			renderable.draw(graphics, cellBorder);
@@ -76,7 +79,7 @@ public final class SpreadsheetRenderer {
 				(int) layout.getWidth(column), (int) layout.getHeight(row));
 	}
 
-	private void drawErrorCellBorder(int row, int column, GGraphics2D graphics) {
+	private void drawErrorCell(int row, int column, GGraphics2D graphics) {
 		graphics.setColor(style.geErrorGridColor());
 		drawCellBorder(row, column, graphics);
 
@@ -87,10 +90,14 @@ public final class SpreadsheetRenderer {
 		int x3 = (int) layout.getX(column) + (int) layout.getWidth(column);
 		int y3 = (int) layout.getY(row) + 10;
 
-		GShape
-		graphics.drawLine(x1, y1, x2, y2);
-		graphics.drawLine(x2, y2, x3, y3);
-		graphics.drawLine(x3, y3, x1, y1);
+		GGeneralPath path = AwtFactory.getPrototype().newGeneralPath();
+		path.moveTo(x1, y1);
+		path.lineTo(x2, y2);
+		path.lineTo(x3, y3);
+		path.closePath();
+
+		graphics.draw(path);
+		graphics.fill(path);
 	}
 
 	void drawRowHeader(int row, GGraphics2D graphics, String name) {

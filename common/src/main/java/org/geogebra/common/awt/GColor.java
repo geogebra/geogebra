@@ -107,6 +107,7 @@ public final class GColor implements GPaint {
 	public static final GColor DEFAULT_AXES_COLOR = newColorRGB(0x252525);
 
 	public static final GColor DEFAULT_PURPLE = newColorRGB(0X6557D2);
+	public static final GColor SPREADSHEET_ERROR_BORDER = newColorRGB(0xB00020);
 
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer

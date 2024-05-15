@@ -85,7 +85,9 @@ public class SpreadsheetCellProcessor {
 
 	public void showError() {
 		GeoElement geo = algebraProcessor.getKernel().lookupLabel(cellName);
-		geo.remove();
+		if (geo != null) {
+			geo.remove();
+		}
 		processInput(buildError());
 	}
 }

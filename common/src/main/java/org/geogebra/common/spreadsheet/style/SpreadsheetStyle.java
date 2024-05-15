@@ -65,7 +65,7 @@ public final class SpreadsheetStyle {
 	}
 
 	public GColor geErrorGridColor() {
-		return GColor.ERROR_RED_BORDER;
+		return GColor.SPREADSHEET_ERROR_BORDER;
 	}
 
 	public GColor getHeaderBackgroundColor() {
