@@ -73,7 +73,6 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.media.GeoGebraURLParser;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.spreadsheet.core.TableLayout;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;

@@ -1416,6 +1416,8 @@ public class GuiManagerW extends GuiManager
 			final boolean asPreference) {
 		if (spreadsheetView != null) {
 			spreadsheetView.getXML(sb, asPreference);
+		} else {
+			super.getSpreadsheetViewXML(sb, asPreference);
 		}
 	}
 

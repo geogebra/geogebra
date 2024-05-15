@@ -9,4 +9,9 @@ public interface ViewportAdjustmentHandler {
 	 * @return The width of the scrollbar
 	 */
 	int getScrollBarWidth();
+
+	/**
+	 * Update size of the scrollable area.
+	 */
+	void updateScrollPanelSize();
 }

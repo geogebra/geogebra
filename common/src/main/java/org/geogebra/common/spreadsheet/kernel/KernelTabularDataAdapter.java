@@ -15,6 +15,8 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.spreadsheet.core.PersistenceListener;
+import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
 import org.geogebra.common.spreadsheet.core.TabularDataPasteGeos;
@@ -30,16 +32,26 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	private final List<TabularDataChangeListener> changeListeners = new ArrayList<>();
 	private final KernelTabularDataProcessor processor;
 	private final CellFormat cellFormat;
+	private final SpreadsheetSettings spreadsheetSettings;
 
 	/**
 	 * @param spreadsheetSettings spreadsheet settings
 	 */
 	public KernelTabularDataAdapter(SpreadsheetSettings spreadsheetSettings) {
 		this.cellFormat = new CellFormat(null);
+		this.spreadsheetSettings = spreadsheetSettings;
 		cellFormat.processXMLString(spreadsheetSettings.cellFormat());
-		spreadsheetSettings.addListener((settings) ->
-				cellFormat.processXMLString(spreadsheetSettings.cellFormat()));
+		spreadsheetSettings.addListener((settings) -> {
+				notifySizeChanged(spreadsheetSettings);
+				cellFormat.processXMLString(spreadsheetSettings.cellFormat());
+		});
 		this.processor = new KernelTabularDataProcessor(this);
+	}
+
+	private void notifySizeChanged(SpreadsheetDimensions spreadsheetDimensions) {
+		for (TabularDataChangeListener listener: changeListeners) {
+			listener.tabularDataSizeDidChange(spreadsheetDimensions);
+		}
 	}
 
 	@Override
@@ -153,31 +165,35 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public int numberOfRows() {
-		return 100;
+		return this.spreadsheetSettings.getRows();
 	}
 
 	@Override
 	public int numberOfColumns() {
-		return 26;
+		return this.spreadsheetSettings.getColumns();
 	}
 
 	@Override
 	public void insertRowAt(int row) {
+		spreadsheetSettings.setRowsNoFire(numberOfRows() + 1);
 		processor.insertRowAt(row);
 	}
 
 	@Override
 	public void deleteRowAt(int row) {
+		spreadsheetSettings.setRowsNoFire(numberOfRows() - 1);
 		processor.deleteRowAt(row);
 	}
 
 	@Override
 	public void insertColumnAt(int column) {
+		spreadsheetSettings.setColumnsNoFire(numberOfColumns() + 1);
 		processor.insertColumnAt(column);
 	}
 
 	@Override
 	public void deleteColumnAt(int column) {
+		spreadsheetSettings.setColumnsNoFire(numberOfColumns() - 1);
 		processor.deleteColumnAt(column);
 	}
 
@@ -220,5 +236,10 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	@Override
 	public int getAlignment(int row, int column) {
 		return cellFormat.getAlignment(column, row, contentAt(row, column) instanceof GeoText);
+	}
+
+	@Override
+	public void setPersistenceListener(PersistenceListener layout) {
+		spreadsheetSettings.setPersistenceListener(layout);
 	}
 }
