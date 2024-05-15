@@ -18,7 +18,7 @@ public class UpdateStrokeStyleStore extends StrokeHelper {
 
 	/**
 	 * Creates a new helper data structure that is used to stores the original states of the strokes
-	 * before updating the style (color, line thickness) & the updated strokes.
+	 * before updating the style (color, line thickness) and the updated strokes.
 	 * @param initialSplitStrokes reference to the children stroke created after splitting
 	 */
 	public UpdateStrokeStyleStore(List<GeoElement> initialSplitStrokes, UndoManager undoManager) {

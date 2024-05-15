@@ -82,6 +82,10 @@ public class GeoGebraPreferencesD {
 	private Preferences ggbPrefs;
 	private Preferences ggbPrefsSystem;
 
+	private static class GeoGebraPreferencesInstalled extends GeoGebraPreferencesD {
+
+	}
+
 	protected GeoGebraPreferencesD() {
 
 		try {
@@ -123,7 +127,7 @@ public class GeoGebraPreferencesD {
 	private static String PROPERTY_FILEPATH = null; // full path, null: no
 														// property file set
 
-	private static GeoGebraPreferencesD singleton;
+	private static GeoGebraPreferencesInstalled singleton;
 
 	/** Set in geogebra.gui.app.GeoGebraFrame before first call to getPref() */
 	public static void setPropertyFileName(String pfname) {
@@ -135,13 +139,11 @@ public class GeoGebraPreferencesD {
 	 * @return preferences singleton
 	 */
 	public synchronized static GeoGebraPreferencesD getPref() {
-		if (singleton == null) {
-			if (PROPERTY_FILEPATH != null) {
-				singleton = GeoGebraPortablePreferences.getPref();
-			}
+		if (PROPERTY_FILEPATH != null) {
+			return GeoGebraPortablePreferences.getPref();
 		}
 		if (singleton == null) {
-			singleton = new GeoGebraPreferencesD();
+			singleton = new GeoGebraPreferencesInstalled();
 		}
 		return singleton;
 	}
@@ -251,7 +253,7 @@ public class GeoGebraPreferencesD {
 						imgPath.getCanonicalPath());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -584,7 +586,7 @@ public class GeoGebraPreferencesD {
 				UtilD.delete(new File(WINDOWS_USERS_PREFS));
 				UtilD.delete(new File(WINDOWS_MACROS_PREFS));
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 		try {

@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * RectangleSum[ &lt;GeoFunction>, &lt;Number>, &lt;Number>, &lt;Number> ]
+ * RectangleSum[ &lt;GeoFunction&gt;, &lt;Number&gt;, &lt;Number&gt;, &lt;Number&gt; ]
  */
 public class CmdRectangleSum extends CommandProcessor {
 

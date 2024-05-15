@@ -6,6 +6,9 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashSet;
+import java.util.stream.Collectors;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -72,5 +75,17 @@ public class GeoFunctionTest extends BaseUnitTest {
 		GeoFunction g = add("g(t)=If(t<1,f(t)+1,7)");
 		assertThat(g, hasValue("If(t < 1, t² + 1, 7)"));
 		assertThat(g.getVarString(StringTemplate.defaultTemplate), equalTo("t"));
+	}
+
+	@Test
+	public void conditionalFunctionShouldBeDefined() {
+		add("a=1");
+		add("c=?");
+		add("d=1");
+		GeoFunction f = add("f(x)=d+If(x>a,3,c)");
+		t("f(5)", "4");
+		t("f(-5)", "NaN");
+		assertEquals("d", f.getFunctionExpression().getUnconditionalVars(new HashSet<>())
+				.stream().map(GeoElement::getLabelSimple).collect(Collectors.joining()));
 	}
 }

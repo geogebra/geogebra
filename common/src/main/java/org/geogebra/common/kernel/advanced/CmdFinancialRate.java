@@ -9,8 +9,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Rate[ &lt;Number of Periods>, &lt;Payment>, &lt;Present Value>, &lt;Future
- * Value (optional)>, &lt;Type (optional)> ] Like the Excel Rate function
+ * Rate[ &lt;Number of Periods&gt;, &lt;Payment&gt;, &lt;Present Value&gt;, &lt;Future
+ * Value (optional)&gt;, &lt;Type (optional)&gt; ] Like the Excel Rate function
  */
 public class CmdFinancialRate extends CommandProcessor {
 

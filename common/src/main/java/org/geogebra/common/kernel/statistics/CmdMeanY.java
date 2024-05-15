@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * MeanX[ &lt;Number of points> ]
+ * MeanX[ &lt;List of points&gt; ]
  */
 public class CmdMeanY extends CmdOneOrTwoListsFunction {
 	/**

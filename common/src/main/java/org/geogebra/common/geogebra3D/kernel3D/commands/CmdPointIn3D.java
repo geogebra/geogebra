@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.commands.CmdPointIn;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
- * PointIn[ &lt;Region> ]
+ * PointIn[ &lt;Region&gt; ]
  */
 public class CmdPointIn3D extends CmdPointIn {
 	/**

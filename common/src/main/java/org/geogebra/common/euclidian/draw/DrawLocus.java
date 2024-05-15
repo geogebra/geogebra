@@ -232,9 +232,8 @@ public class DrawLocus extends Drawable {
 		}
 	}
 
-	private void drawHighlighted(GGraphics2D g2) {
-		g2.setPaint(geo.getSelColor());
-		g2.setStroke(selStroke);
+	@Override
+	public void drawStroke(GGraphics2D g2) {
 		if (partialHitClip != null) {
 			g2.setClip(partialHitClip, true);
 			g2.draw(gp);
@@ -242,6 +241,12 @@ public class DrawLocus extends Drawable {
 		} else {
 			g2.draw(gp);
 		}
+	}
+
+	private void drawHighlighted(GGraphics2D g2) {
+		g2.setPaint(geo.getSelColor());
+		g2.setStroke(selStroke);
+		drawStroke(g2);
 	}
 
 	/**

@@ -5,104 +5,72 @@ import org.docstr.gradle.plugins.gwt.AbstractGwtActionTask
 import org.docstr.gradle.plugins.gwt.GwtDev
 
 plugins {
-    id 'java'
-    id 'pmd'
-    id 'checkstyle'
-    alias libs.plugins.gwt
-    alias libs.plugins.spotbugs
+    alias libs.plugins.geogebra.java
+    alias libs.plugins.geogebra.gwt
+    alias libs.plugins.geogebra.pmd
+    alias libs.plugins.geogebra.checkstyle
+    alias libs.plugins.geogebra.spotbugs
+    alias libs.plugins.geogebra.webjars
+    alias libs.plugins.geogebra.sourcesets
+    alias libs.plugins.geogebra.javadoc.workaround
     alias libs.plugins.cpd
     alias libs.plugins.sass
 }
 
 description 'Parts of GeoGebra related to web platforms'
 
-evaluationDependsOn(':web-common')
-evaluationDependsOn(':editor-web')
-evaluationDependsOn(':web-dev')
-evaluationDependsOn(':keyboard-web')
-
-sourceSets {
-    nonfree
-    gpl
-    main {
-        resources {
-            if (project.hasProperty("usegpl")) {
-                srcDirs += gpl.resources.srcDirs
-            } else {
-                srcDirs += nonfree.resources.srcDirs
-            }
-        }
-    }
-}
-
 compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(processResources)
 
-apply from: "../gradle-scripts/webjars.gradle"
-compileJava.dependsOn('extractJs')
-
-tasks.register('extractJs') {
-    doLast {
-        extractWebjars()
-    }
-}
-
 dependencies {
-    implementation project(':carota-web'),
-        project(':web-dev'),
-        project(':web-common'),
-        project(':editor-web'),
-        project(':keyboard-web'),
-        libs.pdfJs, libs.multiplayer,
-        variantOf(libs.multiplayer) { classifier("sources") },
-        variantOf(libs.j2objc.annotations) { classifier("sources") },
+    implementation project(':carota-web')
+    implementation project(':web-dev')
+    implementation project(':web-common')
+    implementation project(':editor-web')
+    implementation project(':keyboard-web')
+    implementation libs.pdfJs
+    implementation libs.multiplayer
+    implementation files(file("build/generated/sources/annotationProcessor/java/main/"))
 
-        files(project(':carota-web').sourceSets.main.allSource.srcDirs),
-        files(project(':renderer-web').sourceSets.main.allSource.srcDirs),
-        files(project(':gwtutil').sourceSets.main.allSource.srcDirs),
-        files(project(':web-dev').sourceSets.main.allSource.srcDirs),
-        files(project(':web-common').sourceSets.main.allSource.srcDirs),
-        files(project(':editor-web').sourceSets.main.allSource.srcDirs),
-        files(project(':keyboard-web').sourceSets.main.allSource.srcDirs),
-        files(file("build/generated/sources/annotationProcessor/java/main/")),
-        files(file("build/generated/sources/webjars/java/main/"))
+    testImplementation libs.junit
+    testImplementation libs.gwt.user
+    testImplementation libs.gwt.mockito
 
-    testImplementation libs.junit, libs.gwt.user, libs.gwt.mockito
-
-    annotationProcessor project(":gwtutil"), libs.gwt.resources.processor
+    annotationProcessor project(":gwt-generator")
+    annotationProcessor libs.gwt.resources.processor
 }
 
 def devModule = project.findProperty("gmodule") ?: 'org.geogebra.web.SuperWeb'
 
 ext.appSpecs = [
-    [id:'classic', title:'Classic', transKey:'Classic', exe:'GeoGebra', pkg:'GeoGebra_6.0',
-        releases: 'Releases', icon: 'ggb.ico', measurementId: 'G-8JGZQG6FHG',
-        firebaseAppId: '1:895270214636:web:3c05deeefcd1a96584fec9'],
-    [id:'graphing', title:'Graphing Calculator', transKey:'GraphingCalculator',
-        exe:'GeoGebraGraphing', pkg:'GeoGebra_Graphing', releases: 'Releases-graphing',
-        icon: 'Graphing.ico', appStoreId:'1146717204', measurementId: 'G-55K7P9GRQK',
-        firebaseAppId: '1:895270214636:web:db7055c9a67f1f1e84fec9'],
-    [id:'3d', title:'3D Graphing Calculator', transKey:'Graphing3D', appStoreId:'1445871976',
-        firebaseAppId: '1:895270214636:web:574d60209dda5f5384fec9',
-        measurementId: 'G-PMP3RB4M8S'],
-    [id:'cas', title:'CAS Calculator', transKey:'CASCalculator',
-        exe:'GeoGebraCAS', pkg:'GeoGebra_CAS',  releases: 'Releases-cas',
-        icon: 'CAS.ico', appStoreId:'1436278267', measurementId: 'G-N3Z7S82FZ6',
-        firebaseAppId: '1:895270214636:web:87b00b628121939d84fec9'],
-    [id:'scientific', title:'Scientific Calculator', transKey:'ScientificCalculator',
-        partials:["undo-redo"], appStoreId:'1412748754', measurementId: 'G-YJ1QVF1SFK',
-        firebaseAppId: '1:895270214636:web:540b533d4b47a7bb84fec9'],
-    [id:'geometry', title:'Geometry', transKey:'Geometry',
-        exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry', releases: 'Releases-geometry',
-        icon: 'Geometry.ico', appStoreId:'1232591335', measurementId: 'G-82GL4RTR4H',
-        firebaseAppId: '1:895270214636:web:6bf3d469e0d2b32584fec9'],
-    [id:'suite', title:'Calculator Suite', transKey:'CalculatorSuite',
+        [id           : 'classic', title: 'Classic', transKey: 'Classic', exe: 'GeoGebra', pkg: 'GeoGebra_6.0',
+         releases     : 'Releases', icon: 'ggb.ico', measurementId: 'G-8JGZQG6FHG',
+         firebaseAppId: '1:895270214636:web:3c05deeefcd1a96584fec9'],
+        [id           : 'graphing', title: 'Graphing Calculator', transKey: 'GraphingCalculator',
+         exe          : 'GeoGebraGraphing', pkg: 'GeoGebra_Graphing', releases: 'Releases-graphing',
+         icon         : 'Graphing.ico', appStoreId: '1146717204', measurementId: 'G-55K7P9GRQK',
+         firebaseAppId: '1:895270214636:web:db7055c9a67f1f1e84fec9'],
+        [id           : '3d', title: '3D Graphing Calculator', transKey: 'Graphing3D', appStoreId: '1445871976',
+         firebaseAppId: '1:895270214636:web:574d60209dda5f5384fec9',
+         measurementId: 'G-PMP3RB4M8S'],
+        [id           : 'cas', title: 'CAS Calculator', transKey: 'CASCalculator',
+         exe          : 'GeoGebraCAS', pkg: 'GeoGebra_CAS', releases: 'Releases-cas',
+         icon         : 'CAS.ico', appStoreId: '1436278267', measurementId: 'G-N3Z7S82FZ6',
+         firebaseAppId: '1:895270214636:web:87b00b628121939d84fec9'],
+        [id           : 'scientific', title: 'Scientific Calculator', transKey: 'ScientificCalculator',
+         partials     : ["undo-redo"], appStoreId: '1412748754', measurementId: 'G-YJ1QVF1SFK',
+         firebaseAppId: '1:895270214636:web:540b533d4b47a7bb84fec9'],
+        [id           : 'geometry', title: 'Geometry', transKey: 'Geometry',
+         exe          : 'GeoGebraGeometry', pkg: 'GeoGebra_Geometry', releases: 'Releases-geometry',
+         icon         : 'Geometry.ico', appStoreId: '1232591335', measurementId: 'G-82GL4RTR4H',
+         firebaseAppId: '1:895270214636:web:6bf3d469e0d2b32584fec9'],
+        [id           : 'suite', title: 'Calculator Suite', transKey: 'CalculatorSuite',
          firebaseAppId: '1:895270214636:web:7daf432883a8464084fec9', icon: 'ggb.ico',
          measurementId: 'G-FXVLXMD21Y', appStoreId: '1504416652',
-         pkg:'GeoGebra_Calculator', exe: 'GeoGebraCalculator', releases: 'Releases-suite'],
-    [id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes', pkg:'GeoGebra_Notes',
-         releases: 'Releases-notes', icon: 'notes.ico', measurementId: 'G-MWHBRQSXTL',
+         pkg          : 'GeoGebra_Calculator', exe: 'GeoGebraCalculator', releases: 'Releases-suite'],
+        [id           : 'notes', title: 'Notes', transKey: 'Notes', exe: 'GeoGebraNotes', pkg: 'GeoGebra_Notes',
+         releases     : 'Releases-notes', icon: 'notes.ico', measurementId: 'G-MWHBRQSXTL',
          firebaseAppId: '1:895270214636:web:aece5066924cacb084fec9'],
-    [id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel', pkg:'Mebis_Tafel',
+        [id  : 'notes-mebis', title: 'Tafel', transKey: 'Tafel', exe: 'MebisTafel', pkg: 'Mebis_Tafel',
          icon: 'notes.ico', vendor: "Mebis"]]
 
 compileSass {
@@ -137,47 +105,14 @@ tasks.register('watchSass', CompileSass) {
 def warDirRel = 'war'
 
 gwt {
-    gwtVersion = libs.versions.gwt.get()
-
     if (project.hasProperty("gmodule")) {
         modules = project.getProperty("gmodule").split(",")
     } else {
         modules = ['org.geogebra.web.SuperWeb', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
-          'org.geogebra.web.Tablet3D']
+                   'org.geogebra.web.Tablet3D']
     }
 
     devModules devModule
-
-    maxHeapSize = '2000M'
-
-    jsInteropExports {
-        shouldGenerate = true
-    }
-
-    compiler {
-        // Customize the GWT compiler here
-        strict = true
-        disableCastChecking = true
-
-        if (project.hasProperty("greport")) {
-           compileReport = true
-        }
-        if (project.hasProperty("gdraft")) {
-            draftCompile = true
-        }
-        if (project.hasProperty("gworkers")) {
-            localWorkers = project.getProperty("gworkers")
-        }
-        if (project.hasProperty("gdetailed")){
-            style = org.docstr.gradle.plugins.gwt.Style.DETAILED
-        } else {
-            disableClassMetadata = true
-        }
-        if (project.hasProperty("gsoyc")) {
-            soycDetailed = true
-        }
-        // style = de.richsource.gradle.plugins.gwt.Style.PRETTY;    
-    }
 
     dev {
         bindAddress = project.findProperty("gbind") ?: 'localhost'
@@ -191,7 +126,7 @@ tasks.withType(AbstractGwtActionTask).configureEach {
 }
 
 
-def outputs = ['web', 'web3d', 'webSimple', 'tablet3d','tabletWin']
+def outputs = ['web', 'web3d', 'webSimple', 'tablet3d', 'tabletWin']
 
 tasks.register('cleanWar', Delete) {
     doLast {
@@ -205,7 +140,7 @@ apply from: "templates.gradle"
 
 def createHtml = { inlineCss ->
     delete {
-        delete fileTree(dir:'war', include: "*.html")
+        delete fileTree(dir: 'war', include: "*.html")
     }
 
     copy {
@@ -378,27 +313,9 @@ tasks.register('minifyLibs') {
     }
 }
 
-// https://issues.gradle.org/browse/GRADLE-2778
-// http://discuss.gradle.org/t/javadoc-generation-failed-with-vaadin-dependency/2502/12
-javadoc {
-    options.addStringOption("sourcepath", "")
-}
-
 test {
     ignoreFailures = true
     maxHeapSize = "1024m"
-}
-
-spotbugs {
-    ignoreFailures = true
-    excludeFilter = file("../config/spotbugs.xml")
-    jvmArgs = ['-Dfindbugs.sf.comment=true']
-}
-
-pmd {
-     ignoreFailures = true
-     ruleSets = []
-     ruleSetFiles = files("../config/pmd.xml")
 }
 
 cpd {

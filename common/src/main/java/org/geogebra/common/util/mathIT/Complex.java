@@ -46,8 +46,7 @@ import org.geogebra.common.util.NumberFormatAdapter;
 /**
  * This class enables the creation of objects representing complex numbers, as
  * well the implementation of mathematical functions of complex numbers by
- * static methods. A complex number <i>z</i> &#8712;
- * <span style="font-size:large;">&#8450;</span> is uniquely determined by
+ * static methods. A complex number <i>z</i> is uniquely determined by
  * <i>z</i> = <i>x</i> + i<i>y</i>, where <i>x</i> and <i>y</i> are real numbers
  * and i = &#8730;-1. In the class <code>Complex</code>, a complex number
  * <i>z</i> is internally represented by a <code>double</code>-array of length
@@ -69,24 +68,24 @@ public class Complex {
 	 * {@link #pow(Complex)}.
 	 */
 	private static final double ACCURACY = 1e-10;
-	/** Constant 0 &#8712; <span style="font-size:large;">&#8450;</span>. */
+	/** Constant 0 &#8712; <span style="font-size:large;">\u2102</span>. */
 	private static final Complex ZERO = new Complex(0., 0.);
-	/** Constant 1 &#8712; <span style="font-size:large;">&#8450;</span>. */
+	/** Constant 1 &#8712; <span style="font-size:large;">\u2102</span>. */
 	private static final Complex ONE = new Complex(1., 0.);
-	/** Constant i &#8712; <span style="font-size:large;">&#8450;</span>. */
+	/** Constant i &#8712; <span style="font-size:large;">\u2102</span>. */
 	// private static final Complex I = new Complex(.0, 1.);
 	/**
-	 * Constant 0 &#8712; <span style="font-size:large;">&#8450;</span> in the
+	 * Constant 0 &#8712; <span style="font-size:large;">\u2102</span> in the
 	 * array representation.
 	 */
 	static final double[] ZERO_ = { 0., 0. };
 	/**
-	 * Constant 1 &#8712; <span style="font-size:large;">&#8450;</span> in the
+	 * Constant 1 &#8712; <span style="font-size:large;">\u2102</span> in the
 	 * array representation.
 	 */
 	static final double[] ONE_ = { 1., 0. };
 	/**
-	 * Constant i &#8712; <span style="font-size:large;">&#8450;</span> in the
+	 * Constant i &#8712; <span style="font-size:large;">\u2102</span> in the
 	 * array representation.
 	 */
 	static final double[] I_ = { .0, 1. };
@@ -144,7 +143,7 @@ public class Complex {
 
 	/**
 	 * Returns the absolute value, or complex modulus, |<i>z</i>| of <i>z</i>
-	 * &#8712; <span style="font-size:large;">&#8450;</span>. For <i>z</i> =
+	 * &#8712; <span style="font-size:large;">\u2102</span>. For <i>z</i> =
 	 * <i>x</i> + i<i>y</i> it is defined as |<i>z</i>| = &#8730;(<i>x</i>
 	 * <sup>2</sup> + <i>y</i><sup>2</sup>).
 	 * 
@@ -170,7 +169,7 @@ public class Complex {
 
 	/**
 	 * Returns the absolute value, or complex modulus, |<i>z</i>| of <i>z</i>
-	 * &#8712; <span style="font-size:large;">&#8450;</span> of the complex
+	 * &#8712; <span style="font-size:large;">\u2102</span> of the complex
 	 * number <i>z</i>. For <i>z</i> = <i>x</i> + i<i>y</i> it is defined as |
 	 * <i>z</i>| = &#8730;(<i>x</i><sup>2</sup> + <i>y</i><sup>2</sup>).
 	 * 
@@ -184,7 +183,7 @@ public class Complex {
 
 	/**
 	 * Returns the absolute value, or complex modulus, |<i>z</i>| of <i>z</i>
-	 * &#8712; <span style="font-size:large;">&#8450;</span> of this complex
+	 * &#8712; <span style="font-size:large;">\u2102</span> of this complex
 	 * number <i>z</i>. For <i>z</i> = <i>x</i> + i<i>y</i> it is defined as |
 	 * <i>z</i>| = &#8730;(<i>x</i><sup>2</sup> + <i>y</i><sup>2</sup>).
 	 * 
@@ -457,14 +456,14 @@ public class Complex {
 	 * For Re <i>z</i> &gt; 0, it is computed according to the method of
 	 * Lanczos. Otherwise, the following formula of Weierstrass is applied,
 	 * which holds for any <i>z</i> but converges more slowly.
-	 * <table style="margin:auto;" summary="">
+	 * <table style="margin:auto;"><caption></caption>
 	 * <tr>
 	 * <td>&#915;(<i>z</i>)</td>
-	 * <td align="center">&nbsp; = &nbsp;</td>
+	 * <td>&nbsp; = &nbsp;</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center">1</td>
+	 * <td>1</td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -472,30 +471,30 @@ public class Complex {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center"><i>z</i> e<sup><i>&#947;z</i></sup></td>
+	 * <td><i>z</i> e<sup><i>&#947;z</i></sup></td>
 	 * </tr>
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center" class="small">&#8734;</td>
+	 * <td class="small">&#8734;</td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center" style="font-size:xx-large;">&#928;</td>
+	 * <td style="font-size:xx-large;">&#928;</td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center" class="small"><i>n</i>=1</td>
+	 * <td class="small"><i>n</i>=1</td>
 	 * </tr>
 	 * </table>
 	 * </td>
-	 * <td align="center" style="font-size:xx-large;">[</td>
-	 * <td align="center" style="font-size:xx-large;">(</td>
+	 * <td style="font-size:xx-large;">[</td>
+	 * <td style="font-size:xx-large;">(</td>
 	 * <td>1 +</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center"><i>z</i></td>
+	 * <td><i>z</i></td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -503,14 +502,14 @@ public class Complex {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center"><i>n</i></td>
+	 * <td><i>n</i></td>
 	 * </tr>
 	 * </table>
 	 * </td>
-	 * <td align="center" style="font-size:xx-large;">)
+	 * <td style="font-size:xx-large;">)
 	 * <sup><span style="font-size:small;">-1</span></sup></td>
 	 * <td>e<sup><i>z/n</i></sup></td>
-	 * <td align="center" style="font-size:xx-large;">]</td>
+	 * <td style="font-size:xx-large;">]</td>
 	 * </tr>
 	 * </table>
 	 * It is approximated up to a relative error of 10<sup>6</sup> times the
@@ -583,14 +582,14 @@ public class Complex {
 	 * For Re <i>z</i> &gt; 0, it is computed according to the method of
 	 * Lanczos. Otherwise, the following formula of Weierstrass is applied,
 	 * which holds for any <i>z</i> but converges more slowly.
-	 * <table style="margin:auto;" summary="">
+	 * <table style="margin:auto;"><caption></caption>
 	 * <tr>
 	 * <td>&#915;(<i>z</i>)</td>
-	 * <td align="center">&nbsp; = &nbsp;</td>
+	 * <td>&nbsp; = &nbsp;</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center">1</td>
+	 * <td>1</td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -598,30 +597,30 @@ public class Complex {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center"><i>z</i> e<sup><i>&#947;z</i></sup></td>
+	 * <td><i>z</i> e<sup><i>&#947;z</i></sup></td>
 	 * </tr>
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center" class="small">&#8734;</td>
+	 * <td class="small">&#8734;</td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center" style="font-size:xx-large;">&#928;</td>
+	 * <td style="font-size:xx-large;">&#928;</td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center" class="small"><i>n</i>=1</td>
+	 * <td class="small"><i>n</i>=1</td>
 	 * </tr>
 	 * </table>
 	 * </td>
-	 * <td align="center" style="font-size:xx-large;">[</td>
-	 * <td align="center" style="font-size:xx-large;">(</td>
+	 * <td style="font-size:xx-large;">[</td>
+	 * <td style="font-size:xx-large;">(</td>
 	 * <td>1 +</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center"><i>z</i></td>
+	 * <td><i>z</i></td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -629,14 +628,14 @@ public class Complex {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center"><i>n</i></td>
+	 * <td><i>n</i></td>
 	 * </tr>
 	 * </table>
 	 * </td>
-	 * <td align="center" style="font-size:xx-large;">)
+	 * <td style="font-size:xx-large;">)
 	 * <sup><span style="font-size:small;">-1</span></sup></td>
 	 * <td>e<sup><i>z/n</i></sup></td>
-	 * <td align="center" style="font-size:xx-large;">]</td>
+	 * <td style="font-size:xx-large;">]</td>
 	 * </tr>
 	 * </table>
 	 * It is approximated up to a relative error of 10<sup>6</sup> times the
@@ -720,30 +719,30 @@ public class Complex {
 	 * Re <i>z</i> &gt; 0, it is computed according to the method of Lanczos.
 	 * Otherwise, the following formula is applied, which holds for any <i>z</i>
 	 * but converges more slowly.
-	 * <table style="margin:auto;" summary="">
+	 * <table style="margin:auto;"><caption></caption>
 	 * <tr>
 	 * <td>ln &#915;(<i>z</i>)</td>
-	 * <td align="center">&nbsp; = &nbsp;</td>
+	 * <td>&nbsp; = &nbsp;</td>
 	 * <td>- ln <i>z</i> - <i>&#947;z</i></td>
 	 * <td>+</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center" class="small">&#8734;</td>
+	 * <td class="small">&#8734;</td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center" style="font-size:xx-large;">&#931;</td>
+	 * <td style="font-size:xx-large;">&#931;</td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center" class="small"><i>n</i>=1</td>
+	 * <td class="small"><i>n</i>=1</td>
 	 * </tr>
 	 * </table>
 	 * </td>
-	 * <td align="center" style="font-size:xx-large;">[</td>
+	 * <td style="font-size:xx-large;">[</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center"><i>z</i></td>
+	 * <td><i>z</i></td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -751,17 +750,17 @@ public class Complex {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center"><i>n</i></td>
+	 * <td><i>n</i></td>
 	 * </tr>
 	 * </table>
 	 * </td>
 	 * <td>- ln</td>
-	 * <td align="center" style="font-size:xx-large;">(</td>
+	 * <td style="font-size:xx-large;">(</td>
 	 * <td>1 +</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center"><i>z</i></td>
+	 * <td><i>z</i></td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -769,12 +768,12 @@ public class Complex {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center"><i>n</i></td>
+	 * <td><i>n</i></td>
 	 * </tr>
 	 * </table>
 	 * </td>
-	 * <td align="center" style="font-size:xx-large;">)</td>
-	 * <td align="center" style="font-size:xx-large;">]</td>
+	 * <td style="font-size:xx-large;">)</td>
+	 * <td style="font-size:xx-large;">]</td>
 	 * </tr>
 	 * </table>
 	 * Here &#947; denotes the {@link MyDouble#EULER_GAMMA Euler-Mascheroni
@@ -845,30 +844,30 @@ public class Complex {
 	 * Re <i>z</i> &gt; 0, it is computed according to the method of Lanczos.
 	 * Otherwise, the following formula is applied, which holds for any <i>z</i>
 	 * but converges more slowly.
-	 * <table style="margin:auto;" summary="">
+	 * <table style="margin:auto;"><caption></caption>
 	 * <tr>
 	 * <td>ln &#915;(<i>z</i>)</td>
-	 * <td align="center">&nbsp; = &nbsp;</td>
+	 * <td>&nbsp; = &nbsp;</td>
 	 * <td>- ln <i>z</i> - <i>&#947;z</i></td>
 	 * <td>+</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center" class="small">&#8734;</td>
+	 * <td class="small">&#8734;</td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center" style="font-size:xx-large;">&#931;</td>
+	 * <td style="font-size:xx-large;">&#931;</td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center" class="small"><i>n</i>=1</td>
+	 * <td class="small"><i>n</i>=1</td>
 	 * </tr>
 	 * </table>
 	 * </td>
-	 * <td align="center" style="font-size:xx-large;">[</td>
+	 * <td style="font-size:xx-large;">[</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center"><i>z</i></td>
+	 * <td><i>z</i></td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -876,17 +875,17 @@ public class Complex {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center"><i>n</i></td>
+	 * <td><i>n</i></td>
 	 * </tr>
 	 * </table>
 	 * </td>
 	 * <td>- ln</td>
-	 * <td align="center" style="font-size:xx-large;">(</td>
+	 * <td style="font-size:xx-large;">(</td>
 	 * <td>1 +</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center"><i>z</i></td>
+	 * <td><i>z</i></td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -894,12 +893,12 @@ public class Complex {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center"><i>n</i></td>
+	 * <td><i>n</i></td>
 	 * </tr>
 	 * </table>
 	 * </td>
-	 * <td align="center" style="font-size:xx-large;">)</td>
-	 * <td align="center" style="font-size:xx-large;">]</td>
+	 * <td style="font-size:xx-large;">)</td>
+	 * <td style="font-size:xx-large;">]</td>
 	 * </tr>
 	 * </table>
 	 * Here &#947; denotes the {@link MyDouble#EULER_GAMMA Euler-Mascheroni
@@ -1047,7 +1046,7 @@ public class Complex {
 	 * 
 	 * @param other
 	 *            a complex number
-	 * @return the product <code>this</code>&#x2219;<i>z</i>
+	 * @return the product <code>this</code>\u2219<i>z</i>
 	 */
 	public Complex multiply(Complex other) {
 		return new Complex(multiply(new double[] { this.z[0], this.z[1] },

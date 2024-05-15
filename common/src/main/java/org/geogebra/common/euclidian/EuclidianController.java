@@ -1032,12 +1032,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return circles;
 	}
 
-	/***************************************************************************
+	/*
 	 * mode implementations
-	 * <p/>
+	 *
 	 * the following methods return true if a factory method of the kernel was
 	 * called
-	 **************************************************************************/
+	 */
 	protected boolean allowPointCreation() {
 		return (mode == EuclidianConstants.MODE_POINT)
 				|| (mode == EuclidianConstants.MODE_POINT_ON_OBJECT)
@@ -4037,12 +4037,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * COORD TRANSFORM SCREEN -> REAL WORLD
-	 * <p/>
-	 * real world coords -> screen coords ( xscale 0 xZero ) T = ( 0 -yscale
+	 * COORD TRANSFORM SCREEN -&gt; REAL WORLD
+	 * <p>
+	 * real world coords -&gt; screen coords ( xscale 0 xZero ) T = ( 0 -yscale
 	 * yZero ) ( 0 0 1 )
-	 * <p/>
-	 * screen coords -> real world coords ( 1/xscale 0 -xZero/xscale ) T^(-1) =
+	 * <p>
+	 * screen coords -&gt; real world coords ( 1/xscale 0 -xZero/xscale ) T^(-1) =
 	 * ( 0 -1/yscale yZero/yscale ) ( 0 0 1 )
 	 */
 	public void transformCoords() {
@@ -10924,7 +10924,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * Zoom around center.
 	 *
 	 * @param factor
-	 *            zoom factor (>1 for zoom in)
+	 *            zoom factor (&gt;1 for zoom in)
 	 * @param steps
 	 *            animation steps
 	 * @param px
@@ -11452,11 +11452,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public final void setDefaultEventType(PointerEventType pointerEventType,
 			boolean down) {
-		if (pointerEventType == PointerEventType.PEN
-				&& pointerEventType != defaultEventType
-				&& app.getMode() == EuclidianConstants.MODE_MOVE) {
-			app.setMode(EuclidianConstants.MODE_PEN, ModeSetter.DOCK_PANEL);
-		}
 		if (down && app.getMode() == EuclidianConstants.MODE_PEN
 				&& pointerEventType != PointerEventType.PEN
 				&& PointerEventType.PEN == defaultEventType) {

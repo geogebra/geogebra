@@ -8,9 +8,9 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.MyError;
 
 /**
- * Slope[ &lt;GeoLine> ]
+ * Slope[ &lt;GeoLine&gt; ]
  * 
- * Slope[ &lt;GeoFunction> ]
+ * Slope[ &lt;GeoFunction&gt; ]
  */
 public class CmdSlope extends CommandProcessor {
 

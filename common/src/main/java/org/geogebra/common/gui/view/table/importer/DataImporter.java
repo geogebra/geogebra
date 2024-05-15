@@ -110,18 +110,18 @@ public final class DataImporter {
 
 	/**
 	 * Imports CSV data into the {@link TableValuesView}.
-	 * <p/>
+	 * <p>
 	 * We mostly follow the format as described in
 	 * <a href="https://datatracker.ietf.org/doc/html/rfc4180">Comma-Separated Values (CSV)
 	 * Files</a>. However, in addition to the standard column separator ',' (comma), we also
 	 * support ';' (semicolon) and '\t' (tab) column separators automatically. Also, we
 	 * support both '\r\n\' (CRLF) and '\n' (LF) line breaks automatically.
-	 * <p/>
+	 * <p>
 	 * The decimal separator character must be provided by the user.
 	 * The CSV file must not contain thousands separators in decimal numbers. If thousands
 	 * separators are present in decimal numbers, parsing will either fail or produce
 	 * incorrect results.
-	 * <p/>
+	 * <p>
 	 * Import is a two-stage process:
 	 * <ul>
 	 * <li>In the first stage, the data is validated. The delegate will be notified about

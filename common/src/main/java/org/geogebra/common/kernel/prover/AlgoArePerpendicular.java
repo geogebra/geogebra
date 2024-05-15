@@ -23,7 +23,7 @@ import org.geogebra.common.util.debug.Log;
  * command to work symbolically.
  * 
  * @author Simon Weitzhofer 17th of May 2012
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  */
 public class AlgoArePerpendicular extends AlgoElement
 		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {

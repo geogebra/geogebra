@@ -438,7 +438,7 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	/**
-	 * @return function description as f(x,y)=... for real and e.g. f:x>4*y for
+	 * @return function description as f(x,y)=... for real and e.g. f:x&gt;4*y for
 	 *         bool
 	 */
 	@Override
@@ -953,7 +953,7 @@ public class GeoFunctionNVar extends GeoElement
 	 * 
 	 * @param xyzf
 	 *            x, y, z, f(x,y) values
-	 * @return true if z < f
+	 * @return true if z &lt; f
 	 */
 	public static boolean isLessZ(double[] xyzf) {
 		return xyzf[2] < xyzf[3];

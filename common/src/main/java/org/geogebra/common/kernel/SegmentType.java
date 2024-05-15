@@ -9,7 +9,7 @@ public enum SegmentType {
 	/** moveto */
 	MOVE_TO,
 	/**
-	 * curveto using aux point as intersection of tangents, assumes angle <=
+	 * curveto using aux point as intersection of tangents, assumes angle &lt;=
 	 * pi/2
 	 */
 	ARC_TO,

@@ -2136,7 +2136,7 @@ public class ConsElementXMLHandler {
 	}
 
 	/**
-	 * Handle start tag inside &lt;element>
+	 * Handle start tag inside &lt;element&gt;
 	 * 
 	 * @param eName
 	 *            element name
@@ -2386,6 +2386,9 @@ public class ConsElementXMLHandler {
 			case "startStyle":
 				handleSegmentStartStyle(attrs);
 				break;
+			case "strokeCoords":
+				handleStrokeCoords(attrs);
+				break;
 			case "showTrimmed":
 				handleShowTrimmed(attrs);
 				break;
@@ -2433,6 +2436,19 @@ public class ConsElementXMLHandler {
 			}
 		}
 
+	}
+
+	private void handleStrokeCoords(LinkedHashMap<String, String> attrs) {
+		String coords = attrs.get("val");
+		if (!StringUtil.empty(coords) && geo instanceof GeoLocusStroke) {
+			String[] coordsRaw = coords.split(",");
+			double[] coordValues = new double[coordsRaw.length];
+			for (int i = 0; i < coordsRaw.length; i++) {
+				coordValues[i] = Double.parseDouble(coordsRaw[i]);
+			}
+			((GeoLocusStroke) geo).setDefined(true);
+			((GeoLocusStroke) geo).setCoords(coordValues);
+		}
 	}
 
 	private void handleDynamicCaption(LinkedHashMap<String, String> attrs) {

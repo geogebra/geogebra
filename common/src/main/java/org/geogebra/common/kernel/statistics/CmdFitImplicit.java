@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * FitImplicit.Syntax=[ &lt;List of Points>, &lt;Order> ]
+ * FitImplicit.Syntax=[ &lt;List of Points&gt;, &lt;Order&gt; ]
  * 
  */
 public class CmdFitImplicit extends CommandProcessor {

@@ -14,7 +14,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * Class to plot x->f(x) functions and 2D/3D parametric curves
+ * Class to plot real functions f(x) and 2D/3D parametric curves
  *
  * @author mathieu
  *

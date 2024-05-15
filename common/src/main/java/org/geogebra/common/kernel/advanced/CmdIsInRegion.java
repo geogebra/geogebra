@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * IsInRegion[&lt;Point>,&lt;Region>]
+ * IsInRegion[&lt;Point&gt;,&lt;Region&gt;]
  */
 public class CmdIsInRegion extends CommandProcessor {
 

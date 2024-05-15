@@ -11,9 +11,9 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * TableText[&lt;Matrix>]
+ * TableText[&lt;Matrix&gt;]
  * 
- * TableText[&lt;Matrix>,&lt;Point>]
+ * TableText[&lt;Matrix&gt;,&lt;Point&gt;]
  */
 
 public class CmdTableText extends CommandProcessor {

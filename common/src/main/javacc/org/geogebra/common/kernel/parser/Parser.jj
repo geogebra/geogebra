@@ -481,10 +481,10 @@ TOKEN : {
  * for GeoGebra input field
  * validexpression =
  *                  labellist() = functionOrCommand() |           // e.g. {A,B} = Intersect[c, g]
- *                      <LABEL> : parametric() |        // e.g. X = (3,2) + t (2,1)
- *                      <LABEL> = expression()      // arithmetic expression of floats, vectors and vars
- *                      <LABEL> : equation()        // equation in x an y
-             <LABEL>(x) = function()   // function in x, e.g. f(x) = 3x^3 - sqrt(x)
+ *                      &lt;LABEL&gt; : parametric() |        // e.g. X = (3,2) + t (2,1)
+ *                      &lt;LABEL&gt; = expression()      // arithmetic expression of floats, vectors and vars
+ *                      &lt;LABEL&gt; : equation()        // equation in x an y
+             &lt;LABEL&gt;(x) = function()   // function in x, e.g. f(x) = 3x^3 - sqrt(x)
  */
 ValidExpression buildValidExpression() :
 {
@@ -609,7 +609,7 @@ private ValidExpression buildGiacExpression() :
 }
 
 /**
- * (<VARZ> | <LABEL> | <SPREADSHEET_LABEL>)
+ * (&lt;VARZ&gt; | &lt;LABEL&gt; | &lt;SPREADSHEET_LABEL&gt;)
  */
 Token label():
 {
@@ -621,7 +621,7 @@ Token label():
 }
 
 /**
- * (<VARX> | <VARY> | <VARZ> | <LABEL> | <SPREADSHEET_LABEL>)
+ * (&lt;VARX&gt; | &lt;VARY&gt; | &lt;VARZ&gt; | &lt;LABEL&gt; | &lt;SPREADSHEET_LABEL&gt;)
  */
 Token casVar():
 {
@@ -817,7 +817,7 @@ FunctionNVar casFunction(GeoSymbolicI cell):
 
 
 /**
- *  expression =  term <OR> term
+ *  expression =  term &lt;IMPLIES&gt; term
  */
 ExpressionNode expressionnode():
 {
@@ -871,7 +871,7 @@ ValidExpression expressionOrEquation():
 }
 
 /**
- * ANDterm =   COMPAREterm <AND> COMPAREterm
+ * ANDterm =   COMPAREterm &lt;AND&gt; COMPAREterm
  */
 ExpressionValue ANDterm():
 {
@@ -888,7 +888,7 @@ ExpressionValue ANDterm():
 }
 
 /**
- * XORterm =   ANDterm <OR> ANDterm
+ * XORterm =   ANDterm &lt;XOR&gt; ANDterm
  */
 ExpressionValue XORterm():
 {
@@ -905,7 +905,7 @@ ExpressionValue XORterm():
 }
 
 /**
- * ORterm =   XORterm <OR> XORterm
+ * ORterm =   XORterm &lt;OR&gt; XORterm
  */
 ExpressionValue ORterm():
 {
@@ -922,7 +922,7 @@ ExpressionValue ORterm():
 }
 
 /**
- * COMPAREterm =   listopnode ("==" | "<" | "<=" | ">" | ">=") listopnode
+ * COMPAREterm =   listopnode ("==" | "&lt;" | "&lt;=" | "&gt;" | "&gt;=") listopnode
  */
 ExpressionValue COMPAREterm():
 {
@@ -1299,8 +1299,8 @@ ExpressionValue enpower():
 }
 
 /**
- * factorial =  <NOTterm> |
- *              <NOTterm> !
+ * factorial =  &lt;NOTterm&gt; |
+ *              &lt;NOTterm&gt; !
  */
 ExpressionValue enfactorial():
 {
@@ -1343,8 +1343,8 @@ ExpressionValue ensqrt():
 }
 
 /**
- * NOTterm =  <NOT> <enelement> |
- *                 <enelement>
+ * NOTterm =  &lt;NOT&gt; &lt;enelement&gt; |
+ *                 &lt;enelement&gt;
  */
 ExpressionValue NOTterm():
 {
@@ -1367,8 +1367,8 @@ ExpressionValue NOTterm():
 }
 
 /**
- * element =    <variable>      |
- *              <float>         |
+ * element =    &lt;variable&gt;      |
+ *              &lt;float&gt;         |
  *              ( expression )
  */
 ExpressionValue enelement():
@@ -1854,10 +1854,10 @@ ExpressionValue tuple():
 
 /**
 * Expression in the form
-*   <LABEL> "(" <value> "|" <value> ")" 				-- austrian style 2d point (cartesian)
-*   <LABEL> "(" <value> "|" <value> "|" <value> ")"		-- austrian style 3d point (cartesian)
-*   <LABEL> "(" <value> ";" <value> ")" 				-- point with polar coordinates
-*   <LABEL> "(" <value> ";" <value> ";" <value> ")" 	-- point with spherical coordinates
+*   &lt;LABEL&gt; "(" &lt;value&gt; "|" &lt;value&gt; ")" 				-- austrian style 2d point (cartesian)
+*   &lt;LABEL&gt; "(" &lt;value&gt; "|" &lt;value&gt; "|" &lt;value&gt; ")"		-- austrian style 3d point (cartesian)
+*   &lt;LABEL&gt; "(" &lt;value&gt; ";" &lt;value&gt; ")" 				-- point with polar coordinates
+*   &lt;LABEL&gt; "(" &lt;value&gt; ";" &lt;value&gt; ";" &lt;value&gt; ")" 	-- point with spherical coordinates
 */
 ValidExpression vectorSpecial():
 {

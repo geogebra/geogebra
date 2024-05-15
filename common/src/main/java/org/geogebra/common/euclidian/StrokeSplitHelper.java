@@ -16,7 +16,7 @@ public class StrokeSplitHelper extends StrokeHelper {
 	List<String> splitStrokesXML;
 
 	/**
-	 * Creates a new helper data structure that stores the original stroke & the split
+	 * Creates a new helper data structure that stores the original stroke and the split
 	 * up parts.
 	 * @param initialStrokes parent stroke
 	 * @param splitParts children stroke created after selection

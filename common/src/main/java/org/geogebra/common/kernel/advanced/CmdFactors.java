@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Factors[ &lt;Function> ] Factors[ &lt;Number> ]
+ * Factors[ &lt;Function&gt; ] Factors[ &lt;Number&gt; ]
  */
 public class CmdFactors extends CommandProcessor {
 

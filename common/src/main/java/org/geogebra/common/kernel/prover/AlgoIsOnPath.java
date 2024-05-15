@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
  * check in compute()). Then embedding into the Prove/ProveDetails commands will
  * give symbolic functionality automatically.
  *
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  */
 public class AlgoIsOnPath extends AlgoElement
 		implements SymbolicParametersBotanaAlgoAre {
