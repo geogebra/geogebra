@@ -65,7 +65,8 @@ public final class SpreadsheetRenderer {
 				graphics.fillRect((int) cellBorder.getMinX(), (int) cellBorder.getMinY(),
 						(int) cellBorder.getWidth(), (int) cellBorder.getHeight());
 			}
-			if (content instanceof GeoText && ((GeoText) content).getTextString().equals("ERROR")) {
+			if (content instanceof GeoText && ((GeoText) content).getTextString() != null
+					&& ((GeoText) content).getTextString().equals("ERROR")) {
 				drawErrorCell(row, column, graphics);
 			}
 			graphics.setColor(style.getTextColor());

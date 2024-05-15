@@ -1,14 +1,11 @@
 package org.geogebra.common.spreadsheet.kernel;
 
-import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
-import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 
-public class SpreadsheerErrorHandler implements ErrorHandler {
+public class SpreadsheetErrorHandler implements ErrorHandler {
 	final SpreadsheetCellProcessor processor;
 	final MathFieldInternal mathField;
 
@@ -16,7 +13,7 @@ public class SpreadsheerErrorHandler implements ErrorHandler {
 	 * Constructor
 	 * @param mathField - text field
 	 */
-	public SpreadsheerErrorHandler(SpreadsheetCellProcessor processor, MathFieldInternal mathField) {
+	public SpreadsheetErrorHandler(SpreadsheetCellProcessor processor, MathFieldInternal mathField) {
 		this.processor = processor;
 		this.mathField = mathField;
 	}

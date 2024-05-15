@@ -7,9 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.debug.Log;
 
-import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class SpreadsheetCellProcessor {
 
@@ -19,16 +17,14 @@ public class SpreadsheetCellProcessor {
 	private final StringBuilder sb;
 
 	/**
-	 *
 	 * @param cellName The name of the cell.
 	 * @param algebraProcessor {@link AlgebraProcessor}
-	 * @param errorHandler The error handler of the cell.
 	 */
 	public SpreadsheetCellProcessor(String cellName, AlgebraProcessor algebraProcessor,
 			MathFieldInternal mathField) {
 		this.cellName = cellName;
 		this.algebraProcessor = algebraProcessor;
-		errorHandler = new SpreadsheerErrorHandler(this, mathField);
+		errorHandler = new SpreadsheetErrorHandler(this, mathField);
 		sb = new StringBuilder();
 	}
 
@@ -83,6 +79,9 @@ public class SpreadsheetCellProcessor {
 		return strBuilder.toString();
 	}
 
+	/**
+	 * show error in cell
+	 */
 	public void showError() {
 		GeoElement geo = algebraProcessor.getKernel().lookupLabel(cellName);
 		if (geo != null) {
