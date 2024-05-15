@@ -204,7 +204,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 				geoToCopy.getKernel().getApplication().getDefaultErrorHandler());
 		if (cellProcessor.containsDynamicReference(geoToCopy)) {
 			String definition = geoToCopy.getDefinitionForEditor();
-			cellProcessor.process(definition.substring(definition.indexOf('=')));
+			cellProcessor.process(definition.substring(definition.indexOf('=')), false);
 			return;
 		}
 

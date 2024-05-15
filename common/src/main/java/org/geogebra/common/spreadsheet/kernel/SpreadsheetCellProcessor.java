@@ -34,12 +34,21 @@ public class SpreadsheetCellProcessor {
 
 	/**
 	 * Depending on input, processor makes text or evaluates input.
-	 *
 	 * @param input to process
 	 */
 	public void process(String input) {
+		process(input, true);
+	}
+
+	/**
+	 * Depending on input, processor makes text or evaluates input
+	 * @param input to process
+	 * @param storeUndo Whether or not to store undo point
+	 */
+	public void process(String input, boolean storeUndo) {
 		try {
-			processInput(isCommand(input) ? buildCommandFrom(input) : buildTextFrom(input));
+			processInput(isCommand(input) ? buildCommandFrom(input) : buildTextFrom(input),
+					storeUndo);
 		} catch (Exception e) {
 			Log.debug("error " + e.getLocalizedMessage());
 		}
@@ -58,8 +67,8 @@ public class SpreadsheetCellProcessor {
 				possibleReference -> GeoElementSpreadsheet.isSpreadsheetLabel(possibleReference));
 	}
 
-	private void processInput(String command) {
-		algebraProcessor.processAlgebraCommandNoExceptionHandling(command, true,
+	private void processInput(String command, boolean storeUndo) {
+		algebraProcessor.processAlgebraCommandNoExceptionHandling(command, storeUndo,
 				errorHandler, false, null);
 	}
 
