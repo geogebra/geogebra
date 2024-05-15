@@ -1,6 +1,6 @@
 package org.geogebra.web.simple;
 
-import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
+import org.geogebra.common.geogebra3D.kernel3D.commands.SpatialCommandProcessorFactory;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -21,7 +21,7 @@ public class Stub3DFragment {
 		if (System.currentTimeMillis() > 1) {
 			return;
 		}
-		GWT.runAsync(CommandDispatcher3D.class, new RunAsyncCallback() {
+		GWT.runAsync(SpatialCommandProcessorFactory.class, new RunAsyncCallback() {
 
 			@Override
 			public void onFailure(Throwable reason) {
