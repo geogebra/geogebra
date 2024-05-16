@@ -25,8 +25,9 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_VIDEO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
 
@@ -57,13 +58,13 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	private final List<IconButton> buttons = new ArrayList<>();
 	private final static List<Integer> uploadCategory = Arrays.asList(MODE_IMAGE, MODE_CAMERA,
 			MODE_PDF);
-	private final static List<Integer> linkCategory = new LinkedList<>(Arrays.asList(
-			MODE_EXTENSION, MODE_VIDEO, MODE_AUDIO));
+	private final static List<Integer> linkCategory = Arrays.asList(
+			MODE_EXTENSION, MODE_VIDEO, MODE_AUDIO);
 	private final static List<Integer> shapeCategory = Arrays.asList(MODE_SHAPE_RECTANGLE,
 			MODE_SHAPE_SQUARE , MODE_SHAPE_TRIANGLE , MODE_SHAPE_CIRCLE , MODE_SHAPE_ELLIPSE,
 			MODE_SHAPE_PENTAGON, MODE_SHAPE_LINE, MODE_SHAPE_FREEFORM, MODE_MASK);
-	private final static List<Integer> appsCategory = new LinkedList<>(Arrays.asList(
-			MODE_CALCULATOR, MODE_MIND_MAP, MODE_TABLE));
+	private final static List<Integer> appsCategory = Arrays.asList(
+			MODE_CALCULATOR, MODE_MIND_MAP, MODE_TABLE);
 
 	/**
 	 * MOW toolbox
@@ -119,22 +120,20 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		return iconButton;
 	}
 
-	private IconButton addToggleButtonWithMenuPopup(SVGResource image, String ariaLabel,
+	private void addToggleButtonWithMenuPopup(SVGResource image, String ariaLabel,
 			List<Integer> tools) {
 		IconButton iconButton = new IconButtonWithMenu(appW, image, ariaLabel, tools,
-				() -> deselectButtons());
+				this::deselectButtons);
 		add(iconButton);
 		buttons.add(iconButton);
-		return iconButton;
 	}
 
-	private IconButtonWithPopup addToggleButtonWithPopup(SVGResource image, String ariaLabel,
+	private void addToggleButtonWithPopup(SVGResource image, String ariaLabel,
 			List<Integer> tools) {
 		IconButtonWithPopup iconButton = new IconButtonWithPopup(appW, image, ariaLabel, tools,
 				this::deselectButtons);
 		add(iconButton);
 		buttons.add(iconButton);
-		return iconButton;
 	}
 
 	private void addDivider() {
@@ -199,11 +198,14 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 			return;
 		}
 
-		if (appW.getVendorSettings().isH5PEnabled() && !linkCategory.contains(MODE_H5P)) {
-			linkCategory.add(MODE_H5P);
-		}
+		List<Integer> linkTools = appW.getVendorSettings().isH5PEnabled() ?
+				concat(linkCategory, MODE_H5P) : linkCategory;
 		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.resource_card_shared(),
-				"Link", linkCategory);
+				"Link", linkTools);
+	}
+
+	private List<Integer> concat(List<Integer> tools, int tool) {
+		return Stream.concat(tools.stream(), Stream.of(tool)).collect(Collectors.toList());
 	}
 
 	private void addSelectModeButton() {
@@ -241,12 +243,11 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 			return;
 		}
 
-		if (Browser.isGraspableMathEnabled() && !appsCategory.contains(MODE_GRASPABLE_MATH)) {
-			appsCategory.add(MODE_GRASPABLE_MATH);
-		}
+		List<Integer> appsTools = Browser.isGraspableMathEnabled()
+				? concat(appsCategory, MODE_GRASPABLE_MATH) : appsCategory;
 
 		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.apps(), "Tools.More",
-				appsCategory);
+				appsTools);
 	}
 
 	@Override
