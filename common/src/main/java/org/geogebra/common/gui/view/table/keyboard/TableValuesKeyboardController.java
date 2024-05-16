@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.table.keyboard;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.gui.view.table.TableValues;
+import org.geogebra.common.gui.view.table.TableValuesCell;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -149,7 +150,7 @@ public final class TableValuesKeyboardController {
 	}
 
 	/**
-	 * Eauivalent to <code>select(row, column, true)</code>.
+	 * Eauivalent to {@code select(row, column, true)}.
 	 * @param row the row index to select, or -1 to clear any selection.
 	 * @param column the column index to select, or -1 to clear any selection.
 	 */
@@ -160,7 +161,7 @@ public final class TableValuesKeyboardController {
 	/**
 	 * Clear (remove) any selection.
 	 *
-	 * Equivalent to <code>deselect(true)</code>.
+	 * Equivalent to {@code deselect(true)}.
 	 */
 	public void deselect() {
 		deselect(true);
@@ -172,7 +173,7 @@ public final class TableValuesKeyboardController {
 	 * Use this with a flag value of false to instruct the controller to clear any selection
 	 * without notifying the delegate (i.e., if the request is coming from the delegate itself).
 	 *
-	 * Equivalent to <code>select(-1, -1, notifyDelegate)</code>.
+	 * Equivalent to {@code select(-1, -1, notifyDelegate)}.
 	 */
 	public void deselect(boolean notifyDelegate) {
 		select(-1, -1, notifyDelegate);
@@ -334,17 +335,25 @@ public final class TableValuesKeyboardController {
 		}
 		if (addedPlaceholderColumn || tableValuesModel.isColumnEditable(selectedColumn)) {
 			String cellContent = delegate.getCellEditorContent(selectedRow, selectedColumn);
+			boolean cellContentChanged = true;
 			if (cellContent == null) {
 				cellContent = "";
 			}
-			GeoEvaluatable evaluatable = tableValuesView.getEvaluatable(selectedColumn);
-			GeoList list = evaluatable instanceof GeoList ? (GeoList) evaluatable : null;
-			tableValuesView.getProcessor().processInput(cellContent, list, selectedRow);
-
 			if (selectedRow < tableValuesModel.getRowCount()
-					&& selectedColumn < tableValuesModel.getColumnCount()
-					&& tableValuesModel.getCellAt(selectedRow, selectedColumn).isErroneous()) {
-				delegate.invalidCellContentDetected(selectedRow, selectedColumn);
+					&& selectedColumn < tableValuesModel.getColumnCount()) {
+				TableValuesCell cell = tableValuesModel.getCellAt(selectedRow, selectedColumn);
+				cellContentChanged = cellContent.compareTo(cell.getInput()) != 0;
+			}
+			if (cellContentChanged) {
+				GeoEvaluatable evaluatable = tableValuesView.getEvaluatable(selectedColumn);
+				GeoList list = evaluatable instanceof GeoList ? (GeoList) evaluatable : null;
+				tableValuesView.getProcessor().processInput(cellContent, list, selectedRow);
+
+				if (selectedRow < tableValuesModel.getRowCount()
+						&& selectedColumn < tableValuesModel.getColumnCount()
+						&& tableValuesModel.getCellAt(selectedRow, selectedColumn).isErroneous()) {
+					delegate.invalidCellContentDetected(selectedRow, selectedColumn);
+				}
 			}
 		}
 		addedPlaceholderRow = false;
