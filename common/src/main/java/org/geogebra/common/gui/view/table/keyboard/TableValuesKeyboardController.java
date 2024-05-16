@@ -214,7 +214,7 @@ public final class TableValuesKeyboardController {
 	}
 
 	private void handleArrowLeft() {
-		if (addedPlaceholderColumn) {
+		if (isEditingPlaceholderColumn()) {
 			if (!isCellEmpty(selectedRow, selectedColumn)) {
 				commitPendingChanges(); // arrow left in non-empty placeholder column
 			}
@@ -228,7 +228,7 @@ public final class TableValuesKeyboardController {
 	}
 
 	private void handleArrowRight() {
-		if (addedPlaceholderColumn) {
+		if (isEditingPlaceholderColumn()) {
 			if (isCellEmpty(selectedRow, selectedColumn)) {
 				return; // arrow right in empty placeholder column
 			}
@@ -333,7 +333,7 @@ public final class TableValuesKeyboardController {
 		if (selectedRow == -1 || selectedColumn == -1) {
 			return;
 		}
-		if (addedPlaceholderColumn || tableValuesModel.isColumnEditable(selectedColumn)) {
+		if (isEditingPlaceholderColumn() || tableValuesModel.isColumnEditable(selectedColumn)) {
 			String cellContent = delegate.getCellEditorContent(selectedRow, selectedColumn);
 			boolean cellContentChanged = true;
 			if (cellContent == null) {

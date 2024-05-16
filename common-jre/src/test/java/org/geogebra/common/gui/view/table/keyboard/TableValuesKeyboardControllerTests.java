@@ -130,6 +130,31 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
 	}
 
 	@Test
+	public void testEmptyTable_ArrowRightTapArrowRight() throws Exception {
+		cellContent = "";
+
+		// select (0, 0)
+		keyboardController.select(0, 0);
+		assertEquals(new CellIndex(0, 0), focusedCell);
+
+		// arrow right
+		// -> new selection should be (0, 1) - editing placeholder column
+		keyboardController.keyPressed(TableValuesKeyboardController.Key.ARROW_RIGHT);
+		assertTrue(keyboardController.isEditingPlaceholderColumn());
+		assertEquals(new CellIndex(0, 1), focusedCell);
+
+		// select (0, 0)
+		keyboardController.select(0, 0);
+		assertEquals(new CellIndex(0, 0), focusedCell);
+
+		// arrow right
+		// -> new selection should be (0, 1) - editing placeholder column
+		keyboardController.keyPressed(TableValuesKeyboardController.Key.ARROW_RIGHT);
+		assertTrue(keyboardController.isEditingPlaceholderColumn());
+		assertEquals(new CellIndex(0, 1), focusedCell);
+	}
+
+	@Test
 	public void testEmptyTable_EnterInvalidDataInPlaceholderColumn() {
 		// select (0, 1) - editing placeholder column
 		assertTrue(keyboardController.isColumnEditableOrPlaceholder(1));
