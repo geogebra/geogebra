@@ -43,7 +43,7 @@ class ScriptEditPanel extends OptionPanel {
 			final CommandDispatcher cmdDispatcher = app.getKernel()
 					.getAlgebraProcessor().getCmdDispatcher();
 			// preload scripting
-			cmdDispatcher.getScriptingDispatcher();
+			cmdDispatcher.getScriptingCommandProcessorFactory();
 		});
 
 		for (ScriptInputModel scriptModel : scriptModels) {

@@ -2391,6 +2391,26 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
+	public GeoElement lineToPlane(GeoElement geoElement) {
+		GeoLine line = (GeoLine) geoElement;
+		GeoPlane3D plane = new GeoPlane3D(cons, line.getX(), line.getY(), 0,
+				line.getZ());
+		if (line.getDefinition() != null) {
+			ExpressionValue eq = geoElement.getDefinition().unwrap();
+			if (eq instanceof Equation) {
+				plane.setDefinition(eq.wrap());
+			}
+		}
+		return plane;
+	}
+
+	@Override
+	public AlgoElement intersectFunctionNVarPlane(Construction cons,
+			GeoFunctionNVar function, GeoPlaneND plane) {
+		return new AlgoIntersectFunctionNVarPlane(cons, function, plane);
+	}
+
+	@Override
 	public GeoElement locus3D(String label, GeoPointND Q, GeoNumeric slider) {
 		return new AlgoLocusSlider3D(cons, label, Q, slider).getLocus();
 	}
