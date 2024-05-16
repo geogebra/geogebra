@@ -45,7 +45,7 @@ public class DropDownComboBoxController implements SetLabels {
 	private void init(AppW app, Widget anchor, Runnable onClose) {
 		createPopup(app, parent, anchor, onClose);
 		setElements(items);
-		setSelectedOption(0);
+		setSelectedOption(-1);
 	}
 
 	private void createPopup(final AppW app, Widget parent, Widget anchor,

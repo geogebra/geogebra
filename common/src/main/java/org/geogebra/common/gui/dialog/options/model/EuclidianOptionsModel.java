@@ -1,5 +1,8 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -15,6 +18,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -23,15 +27,12 @@ public class EuclidianOptionsModel {
 	public static final int X_AXIS = 0;
 	public static final int Y_AXIS = 1;
 	public static final int Z_AXIS = 2;
-	private App app;
+	private final App app;
 	private EuclidianView view;
-	private IEuclidianOptionsListener listener;
 
-	public EuclidianOptionsModel(App app, EuclidianView view,
-			IEuclidianOptionsListener listener) {
+	public EuclidianOptionsModel(App app, EuclidianView view) {
 		this.app = app;
 		this.view = view;
-		this.listener = listener;
 	}
 
 	public static int getAxesStyleLength() {
@@ -40,22 +41,6 @@ public class EuclidianOptionsModel {
 
 	public void setView(EuclidianView view) {
 		this.view = view;
-	}
-
-	public void applyBackgroundColor() {
-		if (view == app.getEuclidianView1()) {
-			app.getSettings().getEuclidian(1)
-					.setBackground(listener.getEuclidianBackground(1));
-		} else if (app.hasEuclidianView2EitherShowingOrNot(1)
-				&& app.getEuclidianView2(1) == view) {
-			app.getSettings().getEuclidian(2)
-					.setBackground(listener.getEuclidianBackground(2));
-		} else if (app.isEuclidianView3D(view)) {
-			app.getSettings().getEuclidian(3)
-					.setBackground(listener.getEuclidianBackground(3));
-		} else {
-			view.setBackground(view.getBackgroundCommon());
-		}
 	}
 
 	public void applyBackgroundColor(int viewIdx, GColor color) {
@@ -146,7 +131,7 @@ public class EuclidianOptionsModel {
 		view.setShowAxes(value, true);
 	}
 
-	public void applyBoldAxes(boolean isBold, boolean isVisible) {
+	public void applyBoldAxes(boolean isBold) {
 		EuclidianSettings settings = getSettings();
 		if (settings != null) {
 			settings.setBoldAxes(isBold);
@@ -245,18 +230,18 @@ public class EuclidianOptionsModel {
 		}
 	}
 
-	public void applyLockRatio(double value) {
+	public void applyLockRatio(double value, IBasicTab basicTab) {
 		view.getSettings().setLockedAxesRatio(value);
-		listener.enableAxesRatio(
+		basicTab.enableAxesRatio(
 				view.isZoomable() && !view.isLockedAxesRatio());
 	}
 
-	public void applyMinMax(String text, MinMaxType type) {
+	public void applyMinMax(String text, MinMaxType type, IBasicTab basicTab) {
 		NumberValue minMax = app.getKernel().getAlgebraProcessor()
 				.evaluateToNumeric(text, false);
 		// not parsed to number => return all
 		if (minMax == null) {
-			listener.setMinMaxText(
+			basicTab.setMinMaxText(
 					view.getXminObject().getLabel(StringTemplate.editTemplate),
 					view.getXmaxObject().getLabel(StringTemplate.editTemplate),
 					view.getYminObject().getLabel(StringTemplate.editTemplate),
@@ -319,7 +304,7 @@ public class EuclidianOptionsModel {
 
 			view.setXminObject(view.getXminObject());
 
-			listener.enableAxesRatio(
+			basicTab.enableAxesRatio(
 					(view.isZoomable() && !view.isLockedAxesRatio()));
 
 			view.updateBounds(true, true);
@@ -332,16 +317,16 @@ public class EuclidianOptionsModel {
 				loc.getMenu("Automatic"), loc.getMenu("Off") };
 	}
 
-	public void updateProperties() {
-		listener.updateAxes(view.getAxesColor(),
+	public void updateProperties(IBasicTab basicTab, IGridTab gridTab) {
+		basicTab.updateAxes(view.getAxesColor(),
 				view.getShowXaxis() && view.getShowYaxis(), view.areAxesBold());
 
-		listener.updateGrid(view.getGridColor(), view.getShowGrid(),
+		gridTab.updateGrid(view.getGridColor(), view.getShowGrid(),
 				view.getGridIsBold(), view.getGridType());
 
-		listener.updateBackgroundColor(getBackgroundColor());
+		basicTab.updateBackgroundColor(getBackgroundColor());
 		EuclidianSettings es = view.getSettings();
-		listener.updateRuler(es.getBackgroundType(), es.getBgRulerColor(),
+		gridTab.updateRuler(es.getBackgroundType(), es.getBgRulerColor(),
 				es.getRulerLineStyle(), es.isRulerBold());
 		int ind = view.getAllowToolTips();
 		int idx = -1;
@@ -354,14 +339,14 @@ public class EuclidianOptionsModel {
 			idx = 2;
 		}
 
-		listener.selectTooltipType(idx);
+		basicTab.selectTooltipType(idx);
 
-		listener.showMouseCoords(view.getAllowShowMouseCoords());
+		basicTab.showMouseCoords(view.getAllowShowMouseCoords());
 
-		listener.enableAxesRatio(
+		basicTab.enableAxesRatio(
 				view.isZoomable() && !view.isLockedAxesRatio());
-		listener.enableLock(view.isZoomable());
-		listener.updateBounds();
+		basicTab.enableLock(view.isZoomable());
+		basicTab.updateBounds();
 
 		// need style with bold removed for menu
 		for (int i = 0; i < EuclidianStyleConstants
@@ -369,54 +354,36 @@ public class EuclidianOptionsModel {
 			if (EuclidianView.getBoldAxes(false,
 					view.getAxesLineStyle()) == EuclidianStyleConstants
 							.getLineStyleOptions(i)) {
-				listener.selectAxesStyle(i);
+				basicTab.selectAxesStyle(i);
 				break;
 			}
 		}
 
-		listener.selectGridStyle(view.getGridLineStyle());
+		gridTab.selectGridStyle(view.getGridLineStyle());
 
-		listener.updateGridTicks(view.isAutomaticGridDistance(),
+		gridTab.updateGridTicks(view.isAutomaticGridDistance(),
 				view.getGridDistances(), view.getGridType());
 
 		// cons protocol panel
-		listener.updateConsProtocolPanel(
+		basicTab.updateConsProtocolPanel(
 				app.showConsProtNavigation(view.getViewID()));
 		int fontStyle = view.getSettings().getAxisFontStyle();
 		boolean serif = view.getSettings().getAxesLabelsSerif();
-		listener.updateAxisFontStyle(serif,
+		basicTab.updateAxisFontStyle(serif,
 				(fontStyle & GFont.BOLD) == GFont.BOLD,
 				(fontStyle & GFont.ITALIC) == GFont.ITALIC);
 	}
 
-	public void fillGridTypeCombo() {
-		String[] gridTypes = new String[4];
-		Localization loc = app.getLocalization();
-		gridTypes[EuclidianView.GRID_CARTESIAN] = loc
-				.getMenu("Grid.Major");
-		gridTypes[EuclidianView.GRID_ISOMETRIC] = loc.getMenu("Isometric");
-		gridTypes[EuclidianView.GRID_POLAR] = loc.getMenu("Polar");
-		gridTypes[EuclidianView.GRID_CARTESIAN_WITH_SUBGRID] = loc
-					.getMenu("Grid.MajorAndMinor");
-
-		for (String item : gridTypes) {
-			listener.addGridTypeItem(item);
-		}
-	}
-
-	public void fillAngleOptions() {
-		String[] angleOptions = { Unicode.PI_STRING + "/12",
+	public List<String> getAngleOptions() {
+		return Arrays.asList(Unicode.PI_STRING + "/12",
 				Unicode.PI_STRING + "/6", Unicode.PI_STRING + "/4",
-				Unicode.PI_STRING + "/3", Unicode.PI_STRING + "/2", };
-		for (String item : angleOptions) {
-			listener.addAngleOptionItem(item);
-		}
+				Unicode.PI_STRING + "/3", Unicode.PI_STRING + "/2");
 	}
 
 	public void applyGridTicks(String str, int idx) {
 		double value = Double.NaN;
 		final String text = str.trim();
-		if (!"".equals(text)) {
+		if (!StringUtil.empty(text)) {
 			value = app.getKernel().getAlgebraProcessor()
 					.evaluateToDouble(text);
 		}
@@ -549,47 +516,84 @@ public class EuclidianOptionsModel {
 		minX, maxX, minY, maxY, minZ, maxZ
 	}
 
-	public interface IEuclidianOptionsListener {
-
-		GColor getEuclidianBackground(int viewNumber);
-
-		void enableAxesRatio(boolean value);
-
-		void setMinMaxText(String minX, String maxX, String minY, String maxY, String minZ,
-				String maxZ);
-
-		void addGridTypeItem(String item);
-
+	public interface IBasicTab {
 		void updateAxes(GColor color, boolean isShown, boolean isBold);
-
 		void updateAxisFontStyle(boolean isSerif, boolean isBold,
 				boolean isItalic);
-
 		void updateBackgroundColor(GColor color);
-
-		void updateGrid(GColor color, boolean isShown, boolean isBold,
-				int gridType);
-
 		void selectTooltipType(int index);
-
-		void updateConsProtocolPanel(boolean isVisible);
-
-		void updateBounds();
-
-		void showMouseCoords(boolean value);
-
 		void selectAxesStyle(int index);
 
-		void updateGridTicks(boolean isAutoGrid, double[] gridTicks,
-				int gridType);
-
+		/**
+		 * Update construction protocol navigation settings.
+		 *
+		 * @param isVisible
+		 *            whether the checkboxes should be enabled
+		 */
+		void updateConsProtocolPanel(boolean isVisible);
+		void showMouseCoords(boolean value);
 		void enableLock(boolean zoomable);
 
+		/**
+		 * @param minX
+		 *            min x
+		 * @param maxX
+		 *            max x
+		 * @param minY
+		 *            min y
+		 * @param maxY
+		 *            max y
+		 * @param minZ
+		 *            min z
+		 * @param maxZ
+		 *            max z
+		 */
+		void setMinMaxText(String minX, String maxX, String minY, String maxY, String minZ,
+				String maxZ);
+		/**
+		 * Update xmin, xmax, ymin, ymax and scale inputs
+		 */
+		void updateBounds();
+
+		/**
+		 * @param value
+		 *            axes ratio
+		 */
+		void enableAxesRatio(boolean value);
+	}
+
+	public interface IGridTab {
+		/**
+		 * Update ruler properties.
+		 *
+		 * @param bgTypeIdx
+		 *            The background type.
+		 * @param color
+		 *            to set.
+		 * @param lineStyle
+		 *            The line style.
+		 * @param bold
+		 *            true if the lines should be bold.
+		 */
+		void updateRuler(BackgroundType bgTypeIdx, GColor color, int lineStyle, boolean bold);
+		void updateGrid(GColor color, boolean isShown, boolean isBold,
+				int gridType);
+		/**
+		 * @param style
+		 *            of grid lines
+		 */
 		void selectGridStyle(int style);
 
-		void addAngleOptionItem(String item);
-
-		void updateRuler(BackgroundType typeIdx, GColor color, int lineStyle, boolean bold);
+		/**
+		 * @param isAutoGrid
+		 *            true if auto
+		 * @param gridTicks
+		 *            grid ticks
+		 * @param gridType
+		 *            type of grid
+		 */
+		void updateGridTicks(boolean isAutoGrid, double[] gridTicks,
+				int gridType);
 	}
 
 	/**
