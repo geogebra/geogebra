@@ -23,7 +23,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 
 /**
- * Function[ &lt;GeoFunction>, &lt;NumberValue>, &lt;NumberValue> ]
+ * Function[ &lt;GeoFunction&gt;, &lt;NumberValue&gt;, &lt;NumberValue&gt; ]
  */
 public class CmdFunction extends CommandProcessor {
 	/**
@@ -223,7 +223,7 @@ public class CmdFunction extends CommandProcessor {
 	 * @param low lower bound
 	 * @param fv function variable
 	 * @param high upper bound
-	 * @return expression low <= fv <= high
+	 * @return expression low &lt;= fv &lt;= high
 	 */
 	public static ExpressionNode buildInterval(Kernel kernel, GeoNumberValue low,
 			FunctionVariable fv, GeoNumberValue high) {

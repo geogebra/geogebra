@@ -588,7 +588,7 @@ public class LayerManager {
 	}
 
 	/**
-	 * update the ordering value of a geoelement & update list and view accordingly
+	 * update the ordering value of a geoelement, then update list and view accordingly
 	 * - triggered when an undo/redo action happens
 	 * @param updatedGeo geo
 	 * @param ordering new ordering

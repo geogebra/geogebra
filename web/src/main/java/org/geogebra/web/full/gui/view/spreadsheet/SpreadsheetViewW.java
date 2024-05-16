@@ -205,7 +205,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// ===============================================================
 
 	/**
-	 * Attach to kernel & add all.
+	 * Attach to kernel and add all elements.
 	 */
 	public void attachView() {
 		kernel.notifyAddAll(this);

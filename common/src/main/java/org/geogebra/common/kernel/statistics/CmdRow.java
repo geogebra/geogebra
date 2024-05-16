@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.MyError;
 
 /**
- * Row[ &lt;GeoElement> ]
+ * Row[ &lt;GeoElement&gt; ]
  */
 public class CmdRow extends CommandProcessor {
 	/**

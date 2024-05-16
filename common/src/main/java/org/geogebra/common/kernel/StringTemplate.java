@@ -981,7 +981,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/**
 	 * Returns ExpressionNodeConstants.TMP_VARIABLE_PREFIX + label.
 	 *
-	 * important eg i -> ggbtmpvari, e -> ggbtmpvare so that they aren't
+	 * <p>important eg i -&gt; ggbtmpvari, e -&gt; ggbtmpvare so that they aren't
 	 * confused with the constants
 	 */
 	private static String addTempVariablePrefix(final String label) {
@@ -2639,12 +2639,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Serialize chained boolean operations, eg 2>x>1.
+	 * Serialize chained boolean operations, eg 2&gt;x&gt;1.
 	 *
 	 * @param left
-	 *            left expression eg 2>x
+	 *            left expression eg 2&gt;x
 	 * @param right
-	 *            right expression eg x>1
+	 *            right expression eg x&gt;1
 	 *
 	 * @param leftStr
 	 *            serialized left expression
@@ -2652,7 +2652,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 *            serialized right expression
 	 * @param valueForm
 	 *            whether to substitute variables
-	 * @return 2>x>1 with appropriate brackets
+	 * @return 2&gt;x&gt;1 with appropriate brackets
 	 *
 	 */
 	public String andIntervalString(ExpressionValue left, ExpressionValue right,
@@ -2812,8 +2812,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb = new StringBuilder();
 
 			// left wing
-			if ((leftStr.charAt(0) != '-') && // no unary
-					isSinglePowerArg(left) || left.isOperation(Operation.NROOT)
+			if ((leftStr.charAt(0) != '-')
+					&& isSinglePowerArg(left) || left.isOperation(Operation.NROOT)
 					|| left.isOperation(Operation.CBRT)) { // not +, -, *, /, ^,
 				// e^x
 

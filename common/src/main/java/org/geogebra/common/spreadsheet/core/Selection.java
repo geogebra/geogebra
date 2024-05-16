@@ -1,6 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
-import java.util.Set;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A contiguous range of cells in a {@link Spreadsheet}.
@@ -92,33 +93,34 @@ final class Selection {
 	//  But even after looking at the implementation for a while, I don't understand
 	//  what it does, so I can't suggest a better name...
 	public Selection getLeft(boolean extendSelection) {
-		if (this.type == SelectionType.ROWS) {
-			// extendSelection is ignored in this case - why? a comment would be nice
-			return getSingleCellSelection(this.range.getToRow(), 0);
+		if (type == SelectionType.ROWS) {
+			return getSingleCellSelection(range.getFromRow(), 0);
+		} else if (!extendSelection) {
+			return getSingleCellSelection(range.getFromRow(),
+					Math.max(range.getFromColumn() - 1, 0));
 		}
-		// maybe simply columnIndex? (it's not clear why "left")
-		int leftColumnIndex = Math.max(this.range.getToColumn() - 1, 0);
-		return new Selection(TabularRange.range(
-				extendSelection ? this.range.getFromRow() : this.range.getToRow(),
-				this.range.getToRow(), leftColumnIndex, leftColumnIndex));
+
+		int leftColumnIndex = Math.max(range.getToColumn() - 1, 0);
+		return new Selection(TabularRange.range(range.getFromRow(), range.getToRow(),
+				leftColumnIndex, leftColumnIndex));
 	}
 
 	/**
-	 * If Rows are selected then the last Column with a single cell is selected
-	 * // TODO documentation: leftmost above vs. last? And again, it's not clear what this means.
+	 * If Rows are selected then, returns the second cell from the left in the first selected row.
 	 * @param numberOfColumns Number of columns
 	 * @param extendSelection Whether we want to extend the current Selection
 	 * @return Selection to the right of the selection calling this method if possible
 	 */
 	public Selection getRight(int numberOfColumns, boolean extendSelection) {
-		if (this.type == SelectionType.ROWS) {
-			return getSingleCellSelection(this.range.getToRow(), numberOfColumns - 1);
+		if (type == SelectionType.ROWS) {
+			return getSingleCellSelection(range.getFromRow(), 1);
+		} else if (!extendSelection) {
+			return getSingleCellSelection(range.getFromRow(),
+					Math.min(range.getFromColumn() + 1, numberOfColumns - 1));
 		}
-		// maybe simply columnIndex?
-		int rightColumnIndex = Math.min(this.range.getToColumn() + 1, numberOfColumns - 1);
-		return new Selection(TabularRange.range(
-				extendSelection ? this.range.getFromRow() : this.range.getToRow(),
-				this.range.getToRow(), rightColumnIndex, rightColumnIndex));
+		int columnIndex = Math.min(range.getToColumn() + 1, numberOfColumns - 1);
+		return new Selection(TabularRange.range(range.getFromRow(), range.getToRow(),
+				columnIndex, columnIndex));
 	}
 
 	/**
@@ -127,33 +129,35 @@ final class Selection {
 	 * @return Selection on top of the selection calling this method if possible
 	 */
 	public Selection getTop(boolean extendSelection) {
-		if (this.type == SelectionType.COLUMNS) {
-			return getSingleCellSelection(0, this.range.getToColumn());
+		if (type == SelectionType.COLUMNS) {
+			return getSingleCellSelection(0, range.getFromColumn());
+		} else if (!extendSelection) {
+			return getSingleCellSelection(Math.max(range.getFromRow() - 1, 0),
+					range.getFromColumn());
 		}
 
 		int aboveRowIndex = Math.max(this.range.getToRow() - 1, 0);
-		return new Selection(TabularRange.range(
-				aboveRowIndex, aboveRowIndex,
-				extendSelection ? this.range.getFromColumn() : this.range.getToColumn(),
-				this.range.getToColumn()));
+		return new Selection(TabularRange.range(aboveRowIndex, aboveRowIndex,
+				range.getFromColumn(), range.getToColumn()));
 	}
 
 	/**
-	 * If Columns are selected then the last Row with a single cell is selected
+	 * If Columns are selected then the second topmost Row with a single cell is selected
 	 * @param numberOfRows Number of rows
 	 * @param extendSelection Whether we want to extend the current Selection
 	 * @return Selection underneath the selection calling this method if possible
 	 */
 	public Selection getBottom(int numberOfRows, boolean extendSelection) {
-		if (this.type == SelectionType.COLUMNS) {
-			return getSingleCellSelection(numberOfRows - 1, this.range.getToColumn());
+		if (type == SelectionType.COLUMNS) {
+			return getSingleCellSelection(1, range.getFromColumn());
+		} else if (!extendSelection) {
+			return getSingleCellSelection(Math.min(range.getFromRow() + 1, numberOfRows - 1),
+					range.getFromColumn());
 		}
 
-		int underneathRowIndex = Math.min(this.range.getToRow() + 1, numberOfRows - 1);
-		return new Selection(TabularRange.range(
-				underneathRowIndex, underneathRowIndex,
-				extendSelection ? this.range.getFromColumn() : this.range.getToColumn(),
-				this.range.getToColumn()));
+		int underneathRowIndex = Math.min(range.getToRow() + 1, numberOfRows - 1);
+		return new Selection(TabularRange.range(underneathRowIndex, underneathRowIndex,
+				range.getFromColumn(), range.getToColumn()));
 	}
 
 	/**
@@ -185,8 +189,7 @@ final class Selection {
 	 * If a Selection needs to be extended with another then the resulting Selection's
 	 * SelectionType might change
 	 * <li>If both Selections share the same SelectionType, nothing changes</li>
-	 * <li>If one of the Selections' SelectionType equals {@link SelectionType#ALL}, or if both
-	 * {@link SelectionType#ROWS} and {@link SelectionType#COLUMNS} occur, then the
+	 * <li>If one of the Selections' SelectionType equals {@link SelectionType#ALL}, then the
 	 * resulting Selection should hold {@link SelectionType#ALL}</li>
 	 * <li>Otherwise, the extended Selection is of type {@link SelectionType#CELLS}</li>
 	 * @param newSelection New Selection
@@ -194,17 +197,15 @@ final class Selection {
 	 */
 	// TODO naming: maybe `selectionTypeForExtendingWith(other)`
 	private SelectionType getSelectionTypeForExtension(Selection newSelection) {
-		if (type == newSelection.type) {
-			return type;
-		}
-		Set<SelectionType> selectionTypes = Set.of(type, newSelection.type);
-		if (selectionTypes.contains(SelectionType.ALL)
-				|| (selectionTypes.contains(SelectionType.COLUMNS)
-				&& selectionTypes.contains(SelectionType.ROWS))) {
+		List<SelectionType> selectionTypes = Arrays.asList(this.type, newSelection.type);
+		if (this.type == newSelection.type) {
+			return this.type;
+		} else if (selectionTypes.contains(SelectionType.ALL)) {
 			return SelectionType.ALL;
 		}
 		return SelectionType.CELLS;
 	}
+
 
 	public boolean isRowOnly() {
 		return SelectionType.ROWS.equals(type);

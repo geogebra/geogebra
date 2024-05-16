@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Text[ &lt;text> ]
+ * Text[ &lt;Text&gt; ]
  */
 public class CmdText extends CommandProcessor {
 	/**

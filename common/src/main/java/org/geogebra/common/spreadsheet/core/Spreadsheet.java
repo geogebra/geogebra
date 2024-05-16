@@ -2,9 +2,12 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 
@@ -24,13 +27,19 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	/**
 	 * @param tabularData data source
 	 * @param rendererFactory converts custom data type to rendable objects
+	 * @param app {@link App} - Might be null for tests
 	 */
-	public Spreadsheet(TabularData<?> tabularData, CellRenderableFactory rendererFactory) {
+	public Spreadsheet(TabularData<?> tabularData,
+			CellRenderableFactory rendererFactory, @CheckForNull App app) {
 		controller = new SpreadsheetController(tabularData);
 		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
 				controller.getStyle());
 		setViewport(new Rectangle(0, 0, 0, 0));
 		tabularData.addChangeListener(this);
+		if (app != null) {
+			controller.setUndoProvider(app.getUndoManager());
+			app.getGuiManager().setSpreadsheetLayoutForSuite(controller.getLayout());
+		}
 	}
 
 	// layout
@@ -226,4 +235,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.setViewportAdjustmentHandler(mockForScrollable);
 	}
 
+	public void onEnter() {
+		controller.onEnter();
+	}
 }

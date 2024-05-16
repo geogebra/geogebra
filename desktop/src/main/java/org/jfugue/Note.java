@@ -86,7 +86,7 @@ public final class Note implements JFugueElement {
 	 * 
 	 * @param value
 	 *            the numeric value of the note. C5 is 60.
-	 * @param duration
+	 * @param decimalDuration
 	 *            the duration of the note, as a decimal fraction of a whole
 	 *            note.
 	 */
@@ -118,7 +118,7 @@ public final class Note implements JFugueElement {
 	 * 
 	 * @param value
 	 *            the numeric value of the note. C5 is 60.
-	 * @param duration
+	 * @param decimalDuration
 	 *            the duration of the note.
 	 */
 	public Note(byte value, double decimalDuration, byte attackVelocity,
@@ -189,7 +189,7 @@ public final class Note implements JFugueElement {
 	/**
 	 * Sets the decimal fraction value for the duration.
 	 * 
-	 * @param number
+	 * @param duration
 	 *            the decimal fraction for the duration
 	 */
 	public void setDecimalDuration(double duration) {
@@ -208,7 +208,7 @@ public final class Note implements JFugueElement {
 	/**
 	 * Indicates whether this note has a tie to some future note.
 	 * 
-	 * @param tied
+	 * @param startOfTie
 	 *            true if the note is tied, false if not
 	 */
 	public void setStartOfTie(boolean startOfTie) {
@@ -227,7 +227,7 @@ public final class Note implements JFugueElement {
 	/**
 	 * Indicates whether this note is tied to some past note.
 	 * 
-	 * @param tied
+	 * @param endOfTie
 	 *            true if the note is tied, false if not
 	 */
 	public void setEndOfTie(boolean endOfTie) {
@@ -337,15 +337,15 @@ public final class Note implements JFugueElement {
 	 * Returns the Music String representing this element and all of its
 	 * settings. For a Note object, the Music String is a note, expressed as
 	 * either a letter, <code>note</code>, or a bracketed number,
-	 * <code>[<i>note-value</i>],
+	 * <code>[<i>note-value</i>]</code>,
 	 * and a duration, expressed as either a letter, <code>duration</code>, or a
 	 * slash followed by a numeric duration,
-	 * <code>/<i>decimal-duration</i></code><br />
-	 * If either the attack or decay velocity is set to a value besides the
+	 * <code>/<i>decimal-duration</i></code>
+	 * <p>If either the attack or decay velocity is set to a value besides the
 	 * default, <code>a<i>velocity</i></code> and/or
 	 * <code>d<i>velocity</i></code> will be added to the string. If this note
 	 * is to be played in sequence or in parallel to another note, a
-	 * <code>+</code> or <code>_</code> character will be added as appropriate.
+	 * <code>+</code> or <code>_</code> character will be added as appropriate.</p>
 	 * 
 	 * @return the Music String for this element
 	 */

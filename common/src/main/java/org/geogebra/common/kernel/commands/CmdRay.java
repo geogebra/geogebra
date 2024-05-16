@@ -10,9 +10,9 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Ray[ &lt;GeoPoint>, &lt;GeoPoint> ]
+ * Ray[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
  * 
- * Ray[ &lt;GeoPoint>, &lt;GeoVector> ]
+ * Ray[ &lt;GeoPoint&gt;, &lt;GeoVector&gt; ]
  */
 public class CmdRay extends CommandProcessor {
 	/**

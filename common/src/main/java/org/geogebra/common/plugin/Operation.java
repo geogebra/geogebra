@@ -1988,7 +1988,7 @@ public enum Operation {
 	/**
 	 * @param op
 	 *            operation
-	 * @return whether operation is a real->real function
+	 * @return whether operation is a real-&gt;real function
 	 */
 	public static boolean isSimpleFunction(Operation op) {
 		switch (op) {
@@ -2146,7 +2146,7 @@ public enum Operation {
 	}
 
 	/**
-	 * @return negation of this expression (optimizes negation of >,<,=>,<=)
+	 * @return negation of this expression (optimizes negation of &gt;,&lt;,&gt;=,&lt;=)
 	 */
 	public Operation negate() {
 		switch (this) {

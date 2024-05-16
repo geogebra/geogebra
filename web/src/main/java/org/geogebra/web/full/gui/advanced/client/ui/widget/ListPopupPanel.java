@@ -46,7 +46,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 /**
  * This widget displays a scrollable list of items.
- * <p/>
+ * <p>
  * Don't try to use it directly. It's just for the combo box widget.
  *
  * @author <a href="mailto:sskladchikov@gmail.com">Sergey Skladchikov</a>
@@ -132,8 +132,8 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 	}
 
 	/**
-	 * Gets a currently highlight row.
-	 * <p/>
+	 * Gets a currently highlighted row.
+	 * <p>
 	 * Note that it may not be equal to the selected row index in the model.
 	 *
 	 * @return a row number that is currently highlight.
@@ -153,8 +153,8 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 
 	/**
 	 * Gets an item by its index
-	 * <p/>
-	 * If index < 0 or index >= {@link #getItemCount()} it throws an exception.
+	 * <p>
+	 * If index &lt; 0 or index &gt;= {@link #getItemCount()} it throws an exception.
 	 *
 	 * @param index
 	 *            is an index of the item to get.
@@ -168,7 +168,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 
 	/**
 	 * Gets an item index if it's displayed in the drop down list.
-	 * <p/>
+	 * <p>
 	 * Otherwise returns <code>-1</code>.
 	 *
 	 * @param item
@@ -206,7 +206,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 
 	/**
 	 * Checks whether the specified item is visible in the scroll area.
-	 * <p/>
+	 * <p>
 	 * The result is <code>true</code> if whole item is visible.
 	 *
 	 * @param index
@@ -264,8 +264,8 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 
 	/**
 	 * Gets a number of visible rows.
-	 * <p/>
-	 * Values <= 0 interpreted as undefined.
+	 * <p>
+	 * Values &lt;= 0 interpreted as undefined.
 	 *
 	 * @return a visible rows to be displayed without scrolling.
 	 */
@@ -275,8 +275,8 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 
 	/**
 	 * Sets visible rows number.
-	 * <p/>
-	 * You can pass a value <= 0. It will mean that this parameter in undefined.
+	 * <p>
+	 * You can pass a value &lt;= 0. It will mean that this parameter in undefined.
 	 *
 	 * @param visibleRows
 	 *            is a number of rows to be displayed without scrolling.
@@ -290,7 +290,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 
 	/**
 	 * Sets an item index that must be displayed on top.
-	 * <p/>
+	 * <p>
 	 * If the item is outside the currently visible area the list will be
 	 * scrolled down to this item.
 	 *
@@ -323,7 +323,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 
 	/**
 	 * Sets applied position of the drop down list.
-	 * <p/>
+	 * <p>
 	 * Being set the drop down is immediately applied if the list is opened.
 	 *
 	 * @param dropDownPosition
@@ -424,10 +424,10 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 
 	/**
 	 * Enables or disables lazy rendering option.
-	 * <p/>
+	 * <p>
 	 * If this option is enabled the list displays only several items on lazily
 	 * reders other ones on scroll down.
-	 * <p/>
+	 * <p>
 	 * By default lazy rendering is disabled. Switch it on for really large
 	 * (over 500 items) lists only.
 	 *
@@ -459,7 +459,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 	/**
 	 * Fills the list of items starting from the current position and ending
 	 * with rendering limits
-	 * <p/>
+	 * <p>
 	 * See {2link #isRenderingLimitReached()} for additional details since it's
 	 * used in the body of this method.
 	 */
@@ -478,11 +478,11 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 
 	/**
 	 * This method checks whether the limit of displayed items reached.
-	 * <p/>
+	 * <p>
 	 * It takes into account different aspects including setting of the widget,
 	 * geometrical size of the drop down list and selected value that must be
 	 * displayed.
-	 * <p/>
+	 * <p>
 	 * This method optimally chooses a number of items to display.
 	 *
 	 * @param previouslyRenderedRows
@@ -695,7 +695,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 	/**
 	 * This scroll handler is invoked on any scrolling event caotured by the
 	 * items list.
-	 * <p/>
+	 * <p>
 	 * It check whether the scrolling position value is equal to the last item
 	 * position and tries to render the next page of data.
 	 */

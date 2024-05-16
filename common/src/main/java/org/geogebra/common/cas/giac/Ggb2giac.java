@@ -40,7 +40,7 @@ public class Ggb2giac {
 	/**
 	 * @param app
 	 *            application,might be needed for featur
-	 * @return map signature => syntax
+	 * @return map signature =&gt; syntax
 	 */
 	public static Map<String, String> getMap(App app) {
 
@@ -67,12 +67,14 @@ public class Ggb2giac {
 		p("Binomial.2", binomCommand);
 		p("BinomialCoefficient.2", binomCommand);
 
+		String binom3Command = "[[[ggbbinarg0:=%0],[ggbbinarg1:=%1],[ggbbinarg2:=%2],"
+				// round ggbbinarg0 only if number
+				// (to be consistent with the Algebra View version)
+				+ "[ggbbinarg00:=when(type(ggbbinarg0)==DOM_RAT||type(ggbbinarg0)==DOM_FLOAT,round(ggbbinarg0),ggbbinarg0)]],"
+				+ "when(type(ggbbinarg2)==DOM_LIST,sum(seq(binomial(ggbbinarg00,ggbbinarg2[j],ggbbinarg1),j,0,length(ggbbinarg2)-1)),undef)][1]";
+
 		p("BinomialDist.3",
-				"[[[ggbbinarg0:=%0],[ggbbinarg1:=%1],[ggbbinarg2:=%2],"
-						// round ggbbinarg0 only if number
-						// (to be consistent with the Algebra View version)
-						+ "[ggbbinarg00:=when(type(ggbbinarg0)==DOM_RAT||type(ggbbinarg0)==DOM_FLOAT,round(ggbbinarg0),ggbbinarg0)]],"
-						+ "when(type(ggbbinarg2)==DOM_LIST,sum(seq(binomial(ggbbinarg00,ggbbinarg2[j],ggbbinarg1),j,0,length(ggbbinarg2)-1)),undef)][1]");
+				"simplify(" + binom3Command + ")");
 
 		p("BinomialDist.4",
 				"[[[ggbbinarg0:=%0],[ggbbinarg1:=%1],[ggbbinarg2:=%2],"
@@ -1321,10 +1323,10 @@ public class Ggb2giac {
 		// quote() needed for GGB-2184
 		// Sum(If(Mod(k,2)==0,k,0),k,0,10)
 		p("Sum.4",
-				"expand(subst(sum(subst(quote(%0),{%1},{ggbsumvar@1}),ggbsumvar@1,%2,%3),ggbsumvar@1,%1))");
+				"expand(sum(quote(%0),%1,%2,%3))");
 
 		p("Product.4",
-				"expand(subst(product(subst(quote(%0),{%1},{ggbproductvar@1}),ggbproductvar@1,%2,%3),ggbproductvar@1,%1))");
+				"expand(product(quote(%0),%1,%2,%3))");
 
 		// svd = singular value decomposition
 		// svd(M)=[U,S,V]

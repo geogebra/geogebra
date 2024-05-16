@@ -4,25 +4,11 @@ import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.awt.event.KeyEvent;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.spreadsheet.StringCapturingGraphics;
 import org.geogebra.common.spreadsheet.TestTabularData;
-import org.geogebra.common.spreadsheet.core.CellRenderableFactory;
-import org.geogebra.common.spreadsheet.core.Modifiers;
-import org.geogebra.common.spreadsheet.core.Spreadsheet;
-import org.geogebra.common.spreadsheet.core.SpreadsheetController;
-import org.geogebra.common.spreadsheet.core.TableLayout;
-import org.geogebra.common.spreadsheet.core.ViewportAdjustmentHandler;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.spreadsheet.style.CellFormat;
@@ -44,7 +30,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 	public void setupSpreadsheet() {
 		tabularData = new TestTabularData();
 		spreadsheet = new Spreadsheet(tabularData,
-				new TestCellRenderableFactory());
+				new TestCellRenderableFactory(), null);
 		spreadsheet.setHeightForRows(20, 0, 5);
 		spreadsheet.setWidthForColumns(40, 0, 5);
 		viewport = new Rectangle(0, 100, 0, 120);

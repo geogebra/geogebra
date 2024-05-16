@@ -10,11 +10,11 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Circle[ &lt;GeoPoint>, &lt;GeoNumeric> ]
+ * Circle[ &lt;GeoPoint&gt;, &lt;GeoNumeric&gt; ]
  * 
- * Circle[ &lt;GeoPoint>, &lt;GeoPoint> ]
+ * Circle[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
  * 
- * Circle[ &lt;GeoPoint>, &lt;GeoPoint>, &lt;GeoPoint> ]
+ * Circle[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
  */
 public class CmdCircle extends CommandProcessor {
 	/**

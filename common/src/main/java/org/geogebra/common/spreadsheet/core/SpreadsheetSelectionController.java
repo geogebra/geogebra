@@ -2,6 +2,8 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiPredicate;
+import java.util.function.Function;
 
 import javax.annotation.CheckForNull;
 
@@ -29,7 +31,7 @@ final class SpreadsheetSelectionController {
 	private int numberOfRowHeaders = 1; // 0 if no row headers
 	private final List<Selection> selections = new ArrayList<>();
 
-	void clearSelection() {
+	 void clearSelections() {
 		selections.clear();
 	 }
 
@@ -42,8 +44,8 @@ final class SpreadsheetSelectionController {
 		// header. Also, the code would be easier to understand if the index calculation included the
 		// header row information, e.g.
 		setSelection(new Selection(
-				TabularRange.range(0, numberOfRows - 1 - numberOfColumnHeaders,
-						0, numberOfColumns - 1 - numberOfRowHeaders)));
+				TabularRange.range(-1, -1,
+						-1, -1)));
 	}
 
 	/**
@@ -61,7 +63,6 @@ final class SpreadsheetSelectionController {
 	 * Clears the list of selection and adds a single element to it
 	 * @param selection Selection
 	 */
-	// TODO naming: setSelection (singular; it takes one selection, and the result is also one selection)
 	public void setSelection(Selection selection) {
 		this.selections.clear();
 		this.selections.add(selection);
@@ -168,7 +169,7 @@ final class SpreadsheetSelectionController {
 				merged = mergeResult;
 			}
 		}
-		selections.clear();
+		clearSelections();
 		selections.addAll(independent);
 		selections.add(merged);
 	}
@@ -208,8 +209,153 @@ final class SpreadsheetSelectionController {
 		return selections.isEmpty() ? null : selections.get(selections.size() - 1);
 	}
 
+	/**
+	 * @param row Row index
+	 * @param column Column index
+	 * @return Whether there is only a single cell selected
+	 */
 	public boolean isOnlyCellSelected(int row, int column) {
 		return selections.size() == 1 && selections.get(0).getRange().isSingleCell()
 				&& isSelected(row, column);
+	}
+
+	/**
+	 * @param row Row index
+	 * @return Whether there is only a single row selected
+	 */
+	boolean isOnlyRowSelected(int row) {
+		return selections.size() == 1 && selections.get(0).getRange().isSingleRow()
+				&& isSelected(row, -1);
+	}
+
+	/**
+	 * @return Whether currently only rows are selected
+	 */
+	boolean areOnlyRowsSelected() {
+		return selections.stream().allMatch(selection -> selection.getRange().isRow());
+	}
+
+	/**
+	 * @param column Column Index
+	 * @return Whether there is only a single column selected
+	 */
+	boolean isOnlyColumnSelected(int column) {
+		return selections.size() == 1 && selections.get(0).getRange().isSingleColumn()
+				&& isSelected(-1, column);
+	}
+
+	/**
+	 * @return Whether currently only columns are selected
+	 */
+	boolean areOnlyColumnsSelected() {
+		return selections.stream().allMatch(selection -> selection.getRange().isColumn());
+	}
+
+	/**
+	 * @return True if only cells are selected (i.e. no <b>whole</b> rows or columns)
+	 */
+	boolean areOnlyCellsSelected() {
+		return selections.stream().allMatch(
+				selection -> !selection.getRange().isRow() && !selection.getRange().isColumn());
+	}
+
+	/**
+	 * @return Whether there is at least one selection that is of type {@link SelectionType#ALL}
+	 */
+	boolean areAllCellsSelected() {
+		return selections.size() > 0 && selections.stream().anyMatch(
+				selection -> selection.getType() == SelectionType.ALL);
+	}
+
+	/**
+	 * @return The row indexes of all selections without duplicates
+	 */
+	List<Integer> getAllRowIndexes() {
+		return getAllIndexesWithoutDuplicates(selection -> selection.getRange().getMinRow(),
+				selection -> selection.getRange().getMaxRow());
+	}
+
+	/**
+	 * @return The column indexes of all selections without duplicates
+	 */
+	List<Integer> getAllColumnIndexes() {
+		return getAllIndexesWithoutDuplicates(selection -> selection.getRange().getMinColumn(),
+				selection -> selection.getRange().getMaxColumn());
+	}
+
+	/**
+	 * @param getMinIndex Function that accepts an instance of {@link Selection} and returns
+	 * some wanted minimum index (e.g. {@link TabularRange#getMinRow()}
+	 * @param getMaxIndex Function that accepts an instance of {@link Selection} and returns
+	 * some wanted maximum index (e.g. {@link TabularRange#getMaxRow()}
+	 * @return All indexes from all current selections without duplicates
+	 */
+	List<Integer> getAllIndexesWithoutDuplicates(Function<Selection, Integer> getMinIndex,
+			Function<Selection, Integer> getMaxIndex) {
+		List<Integer> indexes = new ArrayList<>();
+		for (Selection selection : selections) {
+			int index = getMinIndex.apply(selection);
+			while (index <= getMaxIndex.apply(selection)) {
+				if (!indexes.contains(index)) {
+					indexes.add(index);
+				}
+				index++;
+			}
+		}
+		return indexes;
+	}
+
+	/**
+	 * @return The lowest row index from all current selections
+	 */
+	int getUppermostSelectedRowIndex() {
+		return getExtremeIndexFor(selection -> selection.getRange().getMinRow(),
+				(fromRowIndex, otherFromRowIndex) -> fromRowIndex > otherFromRowIndex);
+	}
+
+	/**
+	 * @return The highest row index from all current selections
+	 */
+	int getBottommostSelectedRowIndex() {
+		return getExtremeIndexFor(selection -> selection.getRange().getMaxRow(),
+				(toRowIndex, otherToRowIndex) -> toRowIndex < otherToRowIndex);
+	}
+
+	/**
+	 * @return The lowest column index from all current selections
+	 */
+	int getLeftmostSelectedColumnIndex() {
+		return getExtremeIndexFor(selection -> selection.getRange().getMinColumn(),
+				(fromColumnIndex, otherFromColumnIndex) -> fromColumnIndex > otherFromColumnIndex);
+	}
+
+	/**
+	 * @return The highest column index from all current selections
+	 */
+	int getRightmostSelectedColumnIndex() {
+		return getExtremeIndexFor(selection -> selection.getRange().getMaxColumn(),
+				(toColumnIndex, otherToColumnIndex) -> toColumnIndex < otherToColumnIndex);
+	}
+
+	/**
+	 * @param getIndex Function that accepts an instance of {@link Selection} and returns some
+	 * wanted index (e.g. {@link TabularRange#getMinRow()})
+	 * @param swapIndex Predicate that accepts two arguments of type Integer, where the first one
+	 * is the currently stored index that is to be returned - returns true if the index that is to
+	 * be returned should be swapped with the result of the getIndex Function, false else
+	 * @return Needed extreme index
+	 */
+	private int getExtremeIndexFor(Function<Selection, Integer> getIndex,
+			BiPredicate<Integer, Integer> swapIndex) {
+		if (selections.isEmpty()) {
+			return -1;
+		}
+		int index = getIndex.apply(selections.get(0));
+		for (Selection selection : selections) {
+			if (swapIndex.test(index, getIndex.apply(selection))) {
+				index = getIndex.apply(selection);
+			}
+		}
+		return index;
 	}
 }

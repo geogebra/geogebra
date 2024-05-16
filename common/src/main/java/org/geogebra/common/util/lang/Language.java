@@ -508,7 +508,7 @@ public enum Language {
 	}
 
 	/**
-	 * Robust string -> language conversion, supports both BCP47 tags and Java locales
+	 * Robust string to language conversion, supports both BCP47 tags and Java locales
 	 * @param langCode language code
 	 * @return closest language supported in the app
 	 */

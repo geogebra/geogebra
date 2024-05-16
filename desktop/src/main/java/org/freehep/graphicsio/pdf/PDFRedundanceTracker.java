@@ -68,12 +68,12 @@ public class PDFRedundanceTracker {
 	}
 
 	/**
-	 * Returns a reference that points to <tt>object</tt>. When this method is
+	 * Returns a reference that points to {@code object}. When this method is
 	 * called several times for the same object (according to its hash code) the
-	 * same reference is returned. When <tt>writeAll()</tt> is called the
-	 * writer's <tt>writeObject()</tt> method will be called once with
-	 * <tt>object</tt> as argument.<br>
-	 * The groupID is only used for <tt>getGroup()</tt>
+	 * same reference is returned. When {@code writeAll()} is called the
+	 * writer's {@code writeObject()} method will be called once with
+	 * {@code object} as argument.<br>
+	 * The groupID is only used for {@code getGroup()}
 	 */
 	public PDFRef getReference(Object object, Object groupID, Writer writer) {
 		Object o = objects.get(object);

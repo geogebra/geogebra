@@ -1959,12 +1959,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	// this is temporary code while cleaning up
 	// ===========================================
 	/**
-	 * Copy & return string from selected cells
+	 * Copy and return string from selected cells
 	 * 
 	 * @return the content of selected cells
 	 */
 	public String copyString() {
-		return ((CopyPasteCutW) copyPasteCut).copyString(getSelectedColumn(),
+		return copyPasteCut.copyString(getSelectedColumn(),
 				getSelectedRow(), getMaxSelectedColumn(), getMaxSelectedRow());
 	}
 
@@ -1991,16 +1991,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		((CopyPasteCutW) copyPasteCut).copy(getSelectedColumn(),
 				getSelectedRow(), getMaxSelectedColumn(), getMaxSelectedRow(),
 				altDown, nat);
-	}
-
-	/**
-	 * Paste (virtual) clipboard into spreadsheet
-	 * 
-	 * @return success
-	 */
-	public boolean paste() {
-		return copyPasteCut.paste(getSelectedColumn(), getSelectedRow(),
-				getMaxSelectedColumn(), getMaxSelectedRow());
 	}
 
 	/**

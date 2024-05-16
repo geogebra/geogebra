@@ -12,7 +12,12 @@ public final class KernelDataSerializer {
 		if (data instanceof String) {
 			return (String) data;
 		}
-		return data == null ? ""
-				: ((GeoElement) data).getRedefineString(true, false);
+		if (data == null) {
+			return "";
+		} else {
+			GeoElement geo = (GeoElement) data;
+			String redefineString = geo.getRedefineString(true, false);
+			return geo.isGeoText() ? redefineString : "=" + redefineString;
+		}
 	}
 }

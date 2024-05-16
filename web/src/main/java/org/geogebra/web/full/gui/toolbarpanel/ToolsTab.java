@@ -134,6 +134,7 @@ public class ToolsTab extends ToolbarTab {
 	public void updateContent() {
 		toolsPanel.removeFromParent();
 		toolsPanel = new Tools((AppW) app, this);
+		setMoveMode();
 		sp.clear();
 		sp.add(toolsPanel);
 		if (!isCustomToolbar) {

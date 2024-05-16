@@ -12,11 +12,15 @@ import org.geogebra.common.plugin.Operation;
  * Accepted values of f should be sin(x), sin(2 * x), but not sin(x * deg) or sin(1 / x).
  * See GGB-2183, APPS-3112, APPS-3452
  */
-public class DegreeVariableChecker implements Inspecting {
-	private static DegreeVariableChecker replacer = new DegreeVariableChecker();
+public final class DegreeVariableChecker implements Inspecting {
+	private static final DegreeVariableChecker replacer = new DegreeVariableChecker();
 	private static final int NONLINEAR = 4;
 	private static final int VARIABLE = 2;
 	private static final int ANGLE_UNIT = 1;
+
+	private DegreeVariableChecker() {
+		// singleton constructor
+	}
 
 	@Override
 	public boolean check(ExpressionValue ev) {

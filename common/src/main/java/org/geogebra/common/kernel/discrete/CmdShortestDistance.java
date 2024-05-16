@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * ShortestDistance[ &lt;List of Segments>, &lt;Start Point>, &lt;End Point>,
- * &lt;Boolean Weighted> ]
+ * ShortestDistance[ &lt;List of Segments&gt;, &lt;Start Point&gt;, &lt;End Point&gt;,
+ * &lt;Boolean Weighted&gt; ]
  * 
  * @author Michael Borcherds
  */

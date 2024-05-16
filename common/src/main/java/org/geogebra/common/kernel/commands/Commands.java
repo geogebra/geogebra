@@ -664,6 +664,10 @@ public enum Commands implements CommandsConstants,
 
 	InverseFDistribution(TABLE_PROBABILITY),
 
+	BetaDist(TABLE_PROBABILITY),
+
+	InverseBeta(TABLE_PROBABILITY),
+
 	Gamma(TABLE_PROBABILITY),
 
 	InverseGamma(TABLE_PROBABILITY),

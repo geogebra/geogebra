@@ -27,7 +27,7 @@ public interface CASGenericInterface extends SettingListener {
 	 *            the value that will be assigned to the label, e.g. "3"
 	 * @return String in CAS format.
 	 */
-	String translateAssignment(final String label, final String body);
+	String translateAssignment(String label, String body);
 
 	/**
 	 * Evaluates a valid expression and returns the resulting String in GeoGebra
@@ -47,7 +47,7 @@ public interface CASGenericInterface extends SettingListener {
 	 * @throws CASException
 	 *             if evaluation fails
 	 */
-	public abstract String evaluateGeoGebraCAS(ValidExpression casInput,
+	String evaluateGeoGebraCAS(ValidExpression casInput,
 			ArbitraryConstantRegistry arbconst, StringTemplate tpl, GeoCasCell cell,
 			Kernel kernel) throws CASException;
 
@@ -60,7 +60,7 @@ public interface CASGenericInterface extends SettingListener {
 	 * @throws Throwable
 	 *             if evaluation fails
 	 */
-	public abstract String evaluateRaw(final String exp) throws Throwable;
+	String evaluateRaw(String exp) throws Throwable;
 
 	/**
 	 * Appends list start marker to the builder (eg {)
@@ -88,8 +88,8 @@ public interface CASGenericInterface extends SettingListener {
 	 *            kernel
 	 * @return evaluated input
 	 */
-	public ExpressionValue evaluateToExpression(
-			final ValidExpression inputExpression, ArbitraryConstantRegistry arbconst,
+	ExpressionValue evaluateToExpression(
+			ValidExpression inputExpression, ArbitraryConstantRegistry arbconst,
 			Kernel kernel);
 
 	/**
@@ -108,7 +108,7 @@ public interface CASGenericInterface extends SettingListener {
 	 *            variables to eliminate (comma separated strings)
 	 * @return factors in the same form as Singular gives
 	 */
-	public String createEliminateFactorizedScript(String polys,
+	String createEliminateFactorizedScript(String polys,
 			String elimVars);
 
 	/**
@@ -126,7 +126,7 @@ public interface CASGenericInterface extends SettingListener {
 	 *            the size of a unit on the screen in pixels
 	 * @return the elimination ideal
 	 */
-	public String createEliminateScript(String polys, String elimVars,
+	String createEliminateScript(String polys, String elimVars,
 			boolean oneCurve, Long precision);
 
 	/**
@@ -145,7 +145,7 @@ public interface CASGenericInterface extends SettingListener {
 	 *            use coefficient form transcendent extension
 	 * @return the program code
 	 */
-	public String createGroebnerSolvableScript(
+	String createGroebnerSolvableScript(
 			HashMap<PVariable, BigInteger> substitutions, String polys,
 			String freeVars, String dependantVars, boolean transcext);
 

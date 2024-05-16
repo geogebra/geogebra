@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * FitLog[&lt;List of points>]
+ * FitLog[&lt;List of Points&gt;]
  * 
  * @author Hans-Petter Ulven
  * @version 12.04.08

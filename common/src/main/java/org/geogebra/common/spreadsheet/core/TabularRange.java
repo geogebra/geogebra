@@ -75,11 +75,11 @@ public final class TabularRange {
 	}
 
 	public boolean isColumn() {
-		return anchorRow == -1;
+		return anchorRow == -1 && anchorColumn != -1;
 	}
 
 	public boolean isRow() {
-		return anchorColumn == -1;
+		return anchorColumn == -1 && anchorRow != -1;
 	}
 
 	public int getWidth() {
@@ -116,6 +116,20 @@ public final class TabularRange {
 	 */
 	public boolean isSingleCell() {
 		return (maxColumn == minColumn) && (maxRow == minRow) && minRow != -1 && minColumn != -1;
+	}
+
+	/**
+	 * @return Whether this contains a single row
+	 */
+	public boolean isSingleRow() {
+		return minRow == maxRow && isRow();
+	}
+
+	/**
+	 * @return Whether this contains a single column
+	 */
+	public boolean isSingleColumn() {
+		return minColumn == maxColumn && isColumn();
 	}
 
 	/**

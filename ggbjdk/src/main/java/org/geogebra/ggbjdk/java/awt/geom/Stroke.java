@@ -25,9 +25,11 @@
 
 package org.geogebra.ggbjdk.java.awt.geom;
 
+import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
+
 /**
  * The <code>Stroke</code> interface allows a
- * {@link Graphics2D} object to obtain a {@link Shape} that is the
+ * graphics object to obtain a {@link Shape} that is the
  * decorated outline, or stylistic representation of the outline,
  * of the specified <code>Shape</code>.
  * Stroking a <code>Shape</code> is like tracing its outline with a
@@ -52,8 +54,7 @@ package org.geogebra.ggbjdk.java.awt.geom;
  * If a <code>Stroke</code> object is modified after it is set in
  * the <code>Graphics2D</code> context then the behavior
  * of subsequent rendering would be undefined.
- * @see BasicStroke
- * @see Graphics2D#setStroke
+ * @see DefaultBasicStroke
  */
 public interface Stroke {
     /**

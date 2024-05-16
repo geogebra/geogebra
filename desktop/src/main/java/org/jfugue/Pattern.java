@@ -30,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.HashMap;
@@ -68,7 +69,7 @@ public class Pattern {
 	/**
 	 * Instantiates a new pattern using the given music string
 	 * 
-	 * @param s
+	 * @param musicString
 	 *            the music string
 	 */
 	public Pattern(String musicString) {
@@ -122,7 +123,7 @@ public class Pattern {
 	/**
 	 * Sets the music string kept by this pattern.
 	 * 
-	 * @param s
+	 * @param musicString
 	 *            the music string
 	 */
 	public void setMusicString(String musicString) {
@@ -133,7 +134,7 @@ public class Pattern {
 	/**
 	 * Adds to the music string kept by this pattern.
 	 * 
-	 * @param s
+	 * @param appendString
 	 *            the music string to add
 	 */
 	private void appendMusicString(String appendString) {
@@ -210,7 +211,7 @@ public class Pattern {
 	/**
 	 * Adds a number of patterns sequentially
 	 * 
-	 * @param musicString
+	 * @param patterns
 	 *            the music string to add
 	 * @version 4.0
 	 */
@@ -223,7 +224,7 @@ public class Pattern {
 	/**
 	 * Adds a number of patterns sequentially
 	 * 
-	 * @param musicString
+	 * @param musicStrings
 	 *            the music string to add
 	 * @version 4.0
 	 */
@@ -434,12 +435,12 @@ public class Pattern {
 	/**
 	 * Saves the pattern as a text file
 	 * 
-	 * @param filename
+	 * @param file
 	 *            the filename to save under
 	 */
 	public void savePattern(File file) throws IOException {
 		BufferedWriter out = new BufferedWriter(
-				new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
+				new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
 		if ((getProperties().size() > 0) || (getTitle() != null)) {
 			out.write("#\n");
 			if (getTitle() != null) {
@@ -619,8 +620,8 @@ public class Pattern {
 	 *            the listener that is to be notified when new parts are added
 	 *            to the pattern
 	 */
-	public void addPatternListener(PatternListener l) {
-		listenerList.add(PatternListener.class, l);
+	public void addPatternListener(PatternListener listener) {
+		listenerList.add(PatternListener.class, listener);
 	}
 
 	/**
@@ -629,8 +630,8 @@ public class Pattern {
 	 * @param listener
 	 *            the listener to remove
 	 */
-	public void removePatternListener(PatternListener l) {
-		listenerList.remove(PatternListener.class, l);
+	public void removePatternListener(PatternListener listener) {
+		listenerList.remove(PatternListener.class, listener);
 	}
 
 	protected void clearPatternListeners() {

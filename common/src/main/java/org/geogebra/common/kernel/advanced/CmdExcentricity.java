@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.main.MyError;
 
 /**
- * LinearEccentricity[ &lt;GeoConic> ], Excentricity[ &lt;GeoConic> ]
+ * LinearEccentricity[ &lt;GeoConic&gt; ], Excentricity[ &lt;GeoConic&gt; ]
  */
 public class CmdExcentricity extends CommandProcessor {
 

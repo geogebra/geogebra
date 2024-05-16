@@ -32,7 +32,7 @@ class InputBoxRenderer {
 			String str = ((GeoText) linkedGeo).getTextStringSafe()
 					.replace("\n", GeoText.NEW_LINE);
 			if (inputBox.symbolicMode) {
-				return "\\text{" + TeXEscaper.escapeString(str) + "}";
+				return "\\text{" + TeXEscaper.escapeStringTextMode(str) + "}";
 			}
 			return str;
 		}

@@ -2,8 +2,8 @@ package org.geogebra.common.kernel.discrete;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Function;
 
-import org.apache.commons.collections15.Transformer;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.MyPoint;
@@ -84,9 +84,9 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 
 	// weighted Shortest Path
 	// use length of segments to weight
-	private Transformer<TreeLink, Double> wtTransformer = new Transformer<TreeLink, Double>() {
+	private Function<TreeLink, Double> wtTransformer = new Function<TreeLink, Double>() {
 		@Override
-		public Double transform(TreeLink link) {
+		public Double apply(TreeLink link) {
 			return link.weight;
 		}
 	};

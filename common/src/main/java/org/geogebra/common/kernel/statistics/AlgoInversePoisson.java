@@ -27,21 +27,6 @@ public class AlgoInversePoisson extends AlgoDistribution {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label for output
-	 * @param a
-	 *            mean
-	 * @param b
-	 *            variable value
-	 */
-	public AlgoInversePoisson(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b) {
-		super(cons, label, a, b, null, null);
-	}
-
-	/**
-	 * @param cons
-	 *            construction
 	 * @param a
 	 *            mean
 	 * @param b

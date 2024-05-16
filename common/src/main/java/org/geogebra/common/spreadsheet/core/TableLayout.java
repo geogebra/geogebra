@@ -150,7 +150,13 @@ public final class TableLayout {
 		// TODO
 	}
 
-	void setWidthForColumns(double width, int minColumn, int maxColumn) {
+	/**
+	 * Sets the width for a range of columns
+	 * @param width double
+	 * @param minColumn Index from where to start setting the width
+	 * @param maxColumn Index of where to stop setting the width
+	 */
+	public void setWidthForColumns(double width, int minColumn, int maxColumn) {
 		for (int column = minColumn; column <= maxColumn; column++) {
 			columnWidths[column] = width;
 		}
@@ -160,7 +166,13 @@ public final class TableLayout {
 		}
 	}
 
-	void setHeightForRows(double height, int minRow, int maxRow) {
+	/**
+	 * Sets the height for a range of rows
+	 * @param height double
+	 * @param minRow Index from where to start setting the height
+	 * @param maxRow Index of where to stop setting the width
+	 */
+	public void setHeightForRows(double height, int minRow, int maxRow) {
 		for (int row = minRow; row <= maxRow; row++) {
 			rowHeights[row] = height;
 		}
@@ -227,5 +239,92 @@ public final class TableLayout {
 
 	public double getHeightForRowResize(int row, double y) {
 		return Math.max(MIN_CELL_SIZE, y - cumulativeHeights[row] - columnHeaderHeight);
+	}
+
+	/**
+	 * Resets all rows and columns to their default sizes
+	 */
+	public void resetCellSizes() {
+		setWidthForColumns(DEFAULT_CELL_WIDTH, 0, columnWidths.length - 1);
+		setHeightForRows(DEFAUL_CELL_HEIGHT, 0, rowHeights.length - 1);
+	}
+
+	/**
+	 * After a row has been deleted, the reamining rows (i.e. the ones succeeding the deleted row)
+	 * need to be resized. In this scenario, row 10 applies the hieght of row 11, row 11 applies
+	 * the height of row 12, etc.
+	 * @param resizeFrom Index of where to start resizing the remaining rows
+	 * @param numberOfRows Number of rows
+	 */
+	public void resizeRemainingRowsAscending(int resizeFrom, int numberOfRows) {
+		for (int row = resizeFrom; row < numberOfRows - 1; row++) {
+			setHeightForRows(getHeight(row + 1), row, row);
+		}
+		setHeightForRows(DEFAUL_CELL_HEIGHT, numberOfRows - 1, numberOfRows - 1);
+	}
+
+	/**
+	 * Same as {@link #resizeRemainingRowsAscending(int, int)}, but for columns
+	 * @param resizeFrom Index of where to start resizing the remaining columns
+	 * @param numberOfColumns Number of columns
+	 */
+	public void resizeRemainingColumnsAscending(int resizeFrom, int numberOfColumns) {
+		for (int column = resizeFrom; column < numberOfColumns - 1; column++) {
+			setWidthForColumns(getWidth(column + 1), column, column);
+		}
+		setWidthForColumns(DEFAULT_CELL_WIDTH,
+				numberOfColumns - 1, numberOfColumns - 1);
+	}
+
+	/**
+	 * After a row has been inserted, row 100 applies the size of row 99, row 99 applies the size
+	 * of row 98, and so on. This is basically the direct counterpart to the operation that is
+	 * performed when a row gets deleted.
+	 * @param resizeUntil Until which row index the resizing should be performed
+	 * @param numberOfRows Number of rows
+	 */
+	public void resizeRemainingRowsDescending(int resizeUntil, int numberOfRows) {
+		for (int row = numberOfRows - 1; row > resizeUntil; row--) {
+			setHeightForRows(getHeight(row - 1), row, row);
+		}
+	}
+
+	/**
+	 * Same as {@link #resizeRemainingRowsDescending(int, int)}, but for columns
+	 * @param resizeUntil Until which column index the resizing should be performed
+	 * @param numberOfColumns Number of columns
+	 */
+	public void resizeRemainingColumnsDescending(int resizeUntil, int numberOfColumns) {
+		for (int column = numberOfColumns - 1; column > resizeUntil; column--) {
+			setWidthForColumns(getWidth(column - 1), column, column);
+		}
+	}
+
+	/**
+	 * @return XML representation of this layout
+	 */
+	public String getXML() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<spreadsheetLayoutSuite>\n");
+		for (int i = 0; i < columnWidths.length; i++) {
+			if (columnWidths[i] != DEFAULT_CELL_WIDTH) {
+				sb.append("\t<column index=\"");
+				sb.append(i);
+				sb.append("\" width=\"");
+				sb.append(columnWidths[i]);
+				sb.append("\"/>\n");
+			}
+		}
+		for (int i = 0; i < rowHeights.length; i++) {
+			if (rowHeights[i] != DEFAUL_CELL_HEIGHT) {
+				sb.append("\t<row index=\"");
+				sb.append(i);
+				sb.append("\" height=\"");
+				sb.append(rowHeights[i]);
+				sb.append("\"/>\n");
+			}
+		}
+		sb.append("</spreadsheetLayoutSuite>\n");
+		return sb.toString();
 	}
 }

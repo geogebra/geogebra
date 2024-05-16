@@ -57,7 +57,7 @@ public class AlgoTTest extends AlgoElement {
 	 * @param hypMean
 	 *            hypothesised mean
 	 * @param tail
-	 *            one of &lt;,>,=
+	 *            one of &lt;,&gt;,=
 	 */
 	public AlgoTTest(Construction cons, String label, GeoList geoList,
 			GeoNumeric hypMean, GeoText tail) {
@@ -87,7 +87,7 @@ public class AlgoTTest extends AlgoElement {
 	 * @param hypMean
 	 *            hypothesised mean
 	 * @param tail
-	 *            one of &lt;,>,=
+	 *            one of &lt;,&gt;,=
 	 */
 	public AlgoTTest(Construction cons, GeoNumeric mean, GeoNumeric sd,
 			GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
@@ -145,7 +145,7 @@ public class AlgoTTest extends AlgoElement {
 	/**
 	 * @param pValue p-value
 	 * @param testStatistic test statistic
-	 * @param tail tail string (one of &lt;, &gt; ,&lt;&gt )
+	 * @param tail tail string (one of &lt;, &gt; ,&lt;&gt; )
 	 * @return adjusted p-value
 	 */
 	public static double adjustedPValue(double pValue, double testStatistic, GeoText tail) {

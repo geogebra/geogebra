@@ -75,7 +75,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@Before
 	public void resetSyntaxes() {
-		CommandsTest.resetSyntaxCounter();
+		CommandsTestCommon.resetSyntaxCounter();
 		app.getKernel().clearConstruction(true);
 		app.getKernel().setPrintDecimals(2);
 		app.setActiveView(App.VIEW_EUCLIDIAN);
@@ -84,7 +84,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@After
 	public void checkSyntaxes() {
-		CommandsTest.checkSyntaxesStatic();
+		CommandsTestCommon.checkSyntaxesStatic();
 	}
 
 	@Test
@@ -557,5 +557,12 @@ public class CommandsUsingCASTest extends AlgebraTest {
 				equalTo("(((-3 * sqrt(1 / 9)) * sqrt((ℯ^(x^(2)))^(2) / (ℯ^(29241 / 10000))^(2)"
 						+ " + (3 * ℯ^(x^(2)) / ℯ^(29241 / 10000))))"
 						+ " * ℯ^(29241 / 10000) / ℯ^(x^(2)))")));
+	}
+
+	@Test
+	@Issue("APPS-5496")
+	public void testCmdInvert() {
+		t("Invert((x + 4) / (2x - 5))", "((5 * x) + 4) / ((2 * x) - 1)");
+		t("Invert(sqrt(x)/x)", "(1 / x)^(2)");
 	}
 }

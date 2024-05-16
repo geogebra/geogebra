@@ -44,34 +44,12 @@ import org.geogebra.common.main.InputKeyboardButton;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
+import org.geogebra.common.spreadsheet.core.TableLayout;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
 public abstract class GuiManager implements GuiManagerInterface {
-
-	/**
-	 * possible GeoGebraTube syntaxes
-	 * http://www.geogebratube.org/material/show/id/111
-	 * http://www.geogebratube.org/student/m111
-	 * http://www.geogebratube.org/student/cXX/m111/options
-	 * www.geogebratube.org/material/show/id/111
-	 * www.geogebratube.org/student/m111
-	 * www.geogebratube.org/student/cXX/m111/options
-	 * http://geogebratube.org/material/show/id/111
-	 * http://geogebratube.org/student/m111
-	 * http://geogebratube.org/student/cXX/m111/options http://ggbtu.be/m111
-	 * http://ggbtu.be/cXX/m111/options http://www.ggbtu.be/m111
-	 * http://www.ggbtu.be/cXX/options
-	 * 
-	 * in an iframe, src= http://www.geogebratube.org/material/iframe/id/111
-	 * http
-	 * ://www.geogebratube.org/material/iframe/id/111/param1/val1/param2/val2
-	 * /... http://ggbtu.be/e111 http://ggbtu.be/e111?param1=&param2=..
-	 * 
-	 * 
-	 * also can have ?mobile=true ?mobile=false on end
-	 */
 
 	@Weak
 	protected Kernel kernel;
@@ -84,6 +62,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	protected ProbabilityCalculatorView probCalculator;
 	protected TableValues tableValues;
 	protected TableValuesPoints tableValuesPoints;
+	private TableLayout spreadsheetLayout;
 
 	/**
 	 * Abstract constructor
@@ -174,6 +153,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public void getViewsXML(StringBuilder sb, boolean asPreference) {
 		// save spreadsheetView settings
 		getSpreadsheetViewXML(sb, asPreference);
+		getSpreadsheetLayoutXML(sb);
 
 		// save ProbabilityCalculator settings
 		if (hasProbabilityCalculator()) {
@@ -194,6 +174,17 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 */
 	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
 		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * Appends an XML representation of the layout of the spreadsheet (suite)
+	 * to the passed StringBuilder
+	 * @param sb {@link StringBuilder}
+	 */
+	public void getSpreadsheetLayoutXML(StringBuilder sb) {
+		if (spreadsheetLayout != null) {
+			sb.append(spreadsheetLayout.getXML());
+		}
 	}
 
 	@Override
@@ -854,5 +845,15 @@ public abstract class GuiManager implements GuiManagerInterface {
 	@Override
 	public InputKeyboardButton getInputKeyboardButton() {
 		return null;
+	}
+
+	@Override
+	public void setSpreadsheetLayoutForSuite(TableLayout layout) {
+		this.spreadsheetLayout = layout;
+	}
+
+	@Override
+	public TableLayout getSpreadsheetLayoutForSuite() {
+		return spreadsheetLayout;
 	}
 }

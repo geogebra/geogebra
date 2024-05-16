@@ -14,7 +14,7 @@ import org.geogebra.common.spreadsheet.core.SelectionType;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 
 /**
- * Delete[ &lt;GeoElement> ]
+ * Delete[ &lt;GeoElement&gt; ]
  */
 public class CmdDelete extends CmdScripting {
 

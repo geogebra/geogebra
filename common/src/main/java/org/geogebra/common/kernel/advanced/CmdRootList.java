@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * RootList[ &lt;List> ]
+ * RootList[ &lt;List&gt; ]
  */
 public class CmdRootList extends CmdOneListFunction {
 	/**

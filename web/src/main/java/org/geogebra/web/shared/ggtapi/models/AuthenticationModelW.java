@@ -79,19 +79,8 @@ public class AuthenticationModelW extends AuthenticationModel  {
 		app.getGgbApi().registerClientListener("loginListener");
 	}
 
-	@Override
-	protected void storeLastUser(String username) {
-		// TODO remove method completely in APPS-5495
-		BrowserStorage.LOCAL.removeItem(GGB_LAST_USER);
-	}
-
-	@Override
-	public String loadLastUser() {
-		return BrowserStorage.LOCAL.getItem(GGB_LAST_USER);
-	}
-
 	/**
-	 * @param api responsible for mapping JSON -> user object
+	 * @param api responsible for mapping JSON to user object
 	 * @return whether user data was loaded
 	 */
 	public boolean loadUserFromSession(BackendAPI api) {

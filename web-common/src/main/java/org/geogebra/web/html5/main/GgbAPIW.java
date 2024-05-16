@@ -651,6 +651,25 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
+	 * Like getBase64, but only construction, no images
+	 * @return compressed XML
+	 */
+	public String zipXML(String plain) {
+		JsArray<Uint8Array> entry = new JsArray<>();
+		entry.push(FFlate.get().strToU8(plain));
+		return Base64.bytesToBase64(FFlate.get().zipSync(
+				JsPropertyMap.of("geogebra.xml", entry)));
+	}
+
+	private String unzipXML(String xml) {
+		if (StringUtil.empty(xml)) {
+			return xml;
+		}
+		JsPropertyMap<Uint8Array> archive = FFlate.get().unzipSync(Base64.base64ToBytes(xml));
+		return FFlate.get().strFromU8(archive.get("geogebra.xml"));
+	}
+
+	/**
 	 * Asynchronously zip archive and convert it to base64 string
 	 * @param arch archive
 	 * @param clb callback for handling the resulting base64 string
@@ -810,7 +829,7 @@ public class GgbAPIW extends GgbAPI {
 	 * Add external image to image manager. Allow passing SVGs as text
 	 * to be compatible with getFileJSON.
 	 * @param filename internal filename
-	 * @param urlOrSvgContent data URL or &lt;svg>content&lt;/svg>
+	 * @param urlOrSvgContent data URL or &lt;svg&gt;content&lt;/svg&gt;
 	 */
 	public void addImage(String filename, String urlOrSvgContent) {
 		ImageManagerW imageManager = ((AppW) app).getImageManager();
@@ -1226,8 +1245,10 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public PageContent getPageContent(String pageId) {
 		PageListControllerInterface pageController = ((AppW) app).getPageController();
-		return pageController != null ? pageController.getPageContent(pageId)
+		PageContent ret = pageController != null ? pageController.getPageContent(pageId)
 				: PageContent.of(getXML(), getAllObjectNames(), null, null, 0);
+		ret.xml = zipXML(ret.xml);
+		return ret;
 	}
 
 	/**
@@ -1325,10 +1346,11 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void setPageContent(String pageId, PageContent content) {
 		PageListControllerInterface pc = ((AppW) app).getPageController();
+		content.xml = unzipXML(content.xml);
 		if (pc != null) {
 			pc.setPageContent(pageId, content);
 		} else if (!StringUtil.empty(content.xml)) {
-			setXML(content.xml);
+			super.setXML(content.xml);
 		}
 	}
 

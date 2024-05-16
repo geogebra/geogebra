@@ -1,5 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,7 @@ public final class SpreadsheetController {
 	private DragAction dragAction;
 	private Rectangle viewport = new Rectangle(0, 0, 0, 0);
 	private @CheckForNull ViewportAdjuster viewportAdjuster;
+	private @CheckForNull UndoProvider undoProvider;
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
@@ -45,8 +47,7 @@ public final class SpreadsheetController {
 		layout = new TableLayout(tabularData.numberOfRows(),
 				tabularData.numberOfColumns(), TableLayout.DEFAUL_CELL_HEIGHT,
 				TableLayout.DEFAULT_CELL_WIDTH);
-		contextMenuItems = new ContextMenuItems(tabularData, selectionController,
-				getCopyPasteCut());
+		contextMenuItems = new ContextMenuItems(this, selectionController, getCopyPasteCut());
 	}
 
 	// TODO move out of the way (further down), group with related methods if possible
@@ -64,6 +65,14 @@ public final class SpreadsheetController {
 		return style;
 	}
 
+	/**
+	 * Visible for tests
+	 * @return {@link ContextMenuItems}
+	 */
+	ContextMenuItems getContextMenuItems() {
+		return contextMenuItems;
+	}
+
 	// - TabularData
 
 	public Object contentAt(int row, int column) {
@@ -73,7 +82,7 @@ public final class SpreadsheetController {
 	// - TabularSelection
 
 	public void clearSelection() {
-		selectionController.clearSelection();
+		selectionController.clearSelections();
 	}
 
 	/**
@@ -156,9 +165,12 @@ public final class SpreadsheetController {
 	 * Process the editor input, update corresponding cell and hide the editor
 	 */
 	public void saveContentAndHideCellEditor() {
-		if (controlsDelegate != null && controlsDelegate.getCellEditor() != null) {
-			controlsDelegate.getCellEditor().onEnter();
-			controlsDelegate.getCellEditor().hide();
+		if (controlsDelegate != null) {
+			SpreadsheetCellEditor editor = controlsDelegate.getCellEditor();
+			if (editor != null && editor.isVisible()) {
+				editor.onEnter();
+				editor.hide();
+			}
 		}
 	}
 
@@ -172,6 +184,10 @@ public final class SpreadsheetController {
 
 	public void setViewport(Rectangle viewport) {
 		this.viewport = viewport;
+	}
+
+	public void setUndoProvider(UndoProvider undoProvider) {
+		this.undoProvider = undoProvider;
 	}
 
 	/**
@@ -203,13 +219,14 @@ public final class SpreadsheetController {
 		}
 
 		if (modifiers.secondaryButton && controlsDelegate != null) {
-			selectionController.clearSelection();
-			if (controlsDelegate != null) {
-				GPoint point = new GPoint(x, y);
-				controlsDelegate.showContextMenu(contextMenuItems.get(row, column), point);
+			if (isSelected(row, column) && shouldKeepSelectionForContextMenu()) {
+				showContextMenu(x, y, selectionController.getUppermostSelectedRowIndex(),
+						selectionController.getBottommostSelectedRowIndex(),
+						selectionController.getLeftmostSelectedColumnIndex(),
+						selectionController.getRightmostSelectedColumnIndex());
+				return;
 			}
-			resetDragAction();
-			return;
+			showContextMenu(x, y, row, row, column, column);
 		}
 
 		if (row >= 0 && column >= 0 && selectionController.isOnlyCellSelected(row, column)) {
@@ -217,7 +234,7 @@ public final class SpreadsheetController {
 			return;
 		}
 		if (!modifiers.ctrlOrCmd && !modifiers.shift && selectionController.hasSelection()) {
-			selectionController.clearSelection();
+			selectionController.clearSelections();
 		}
 
 		if (row == -1 && column == -1) { // Select all
@@ -243,6 +260,14 @@ public final class SpreadsheetController {
 				: layout.findColumn(x + viewport.getMinX());
 	}
 
+	private void showContextMenu(int x, int y, int fromRow, int toRow, int fromCol, int toCol) {
+		if (controlsDelegate != null) {
+			controlsDelegate.showContextMenu(contextMenuItems.get(fromRow, toRow, fromCol, toCol),
+					new GPoint(x, y));
+		}
+		resetDragAction();
+	}
+
 	private void setDragStartLocationFromSelection() {
 		Selection lastSelection = selectionController.getLastSelection();
 		if (lastSelection == null) {
@@ -262,7 +287,19 @@ public final class SpreadsheetController {
 		return layout.getResizeAction(x, y, viewport);
 	}
 
-	// TODO this should go next to handlePointerDown() (group related methods together)
+	/**
+	 * If there are multiplce selections present, the current selection should stay as it was if
+	 * <li>Multiple Rows <b>only</b> are selected</li>
+	 * <li>Multiple Columns <b>only</b> are selected</li>
+	 * <li>Only single or multiple cells are selected (no whole rows / columns)</li>
+	 * <li>All cells are selected</li>
+	 * @return Whether the selection should be kept for showing the context menu
+	 */
+	private boolean shouldKeepSelectionForContextMenu() {
+		return areOnlyRowsSelected() || areOnlyColumnsSelected()
+				|| areOnlyCellsSelected() || areAllCellsSelected();
+	}
+
 	/**
 	 * @param x x-coordinate relative to viewport
 	 * @param y y-coordinate relative to viewport
@@ -282,6 +319,7 @@ public final class SpreadsheetController {
 					}
 				}
 			}
+			storeUndoInfo();
 			break;
 		case RESIZE_Y:
 			if (isSelected(dragAction.row, -1)) {
@@ -294,6 +332,7 @@ public final class SpreadsheetController {
 					}
 				}
 			}
+			storeUndoInfo();
 			break;
 		case DEFAULT:
 		default:
@@ -339,21 +378,27 @@ public final class SpreadsheetController {
 					selectionController.selectAll(layout.numberOfRows(), layout.numberOfColumns());
 					return;
 				}
+				startTyping(key, modifiers);
+				break;
 			case JavaKeyCodes.VK_ENTER:
 				showCellEditorAtSelection();
 				return;
 			default:
-				SpreadsheetControlsDelegate controls = controlsDelegate;
-				if (!modifiers.ctrlOrCmd && !modifiers.alt && !StringUtil.empty(key)
-					&& controls != null) {
-					showCellEditorAtSelection();
-					controls.getCellEditor().setContent(key);
-				}
-				return;
+				startTyping(key, modifiers);
 			}
 		}
 		if (cellSelectionChanged) {
 			adjustViewportIfNeeded();
+		}
+	}
+
+	private void startTyping(String key, Modifiers modifiers) {
+		SpreadsheetControlsDelegate controls = controlsDelegate;
+		if (!modifiers.ctrlOrCmd && !modifiers.alt && !StringUtil.empty(key)
+				&& controls != null) {
+			showCellEditorAtSelection();
+			controls.getCellEditor().setContent("");
+			controls.getCellEditor().type(key);
 		}
 	}
 
@@ -363,6 +408,14 @@ public final class SpreadsheetController {
 		if (range != null) {
 			showCellEditor(range.getFromRow(), range.getFromColumn());
 		}
+	}
+
+	/**
+	 * Move focus down and adjust viewport
+	 */
+	public void onEnter() {
+		moveDown(false);
+		adjustViewportIfNeeded();
 	}
 
 	/**
@@ -495,9 +548,142 @@ public final class SpreadsheetController {
 	}
 
 	/**
+	 * Deletes a row at the given index<br/>
+	 * <b>In case there are multiple selections present, deletes all rows where a cell
+	 * is selected</b>
+	 * @param row Row index
+	 */
+	public void deleteRowAt(int row) {
+		List<Selection> selections = getSelections();
+		if (selections.isEmpty() || selectionController.isOnlyRowSelected(row)) {
+			deleteRowAndResizeRemainingRows(row);
+		} else {
+			deleteRowsForMultiCellSelection();
+		}
+		storeUndoInfo();
+	}
+
+	/**
+	 * <b>Important note - only delete rows in a descending order (bottom to top)</b><br/>
+	 * Deletes a row at given index and resizes the remaining rows in ascending order
+	 * @param row Row index
+	 */
+	private void deleteRowAndResizeRemainingRows(int row) {
+		tabularData.deleteRowAt(row);
+		if (layout != null) {
+			layout.resizeRemainingRowsAscending(row, tabularData.numberOfRows());
+		}
+	}
+
+	private void deleteRowsForMultiCellSelection() {
+		List<Integer> allRowIndexes = selectionController.getAllRowIndexes();
+		allRowIndexes.sort(Collections.reverseOrder());
+		allRowIndexes.stream().forEach(rowIndex -> deleteRowAndResizeRemainingRows(rowIndex));
+	}
+
+	/**
+	 * Deletes a column at the given index<br/>
+	 * <b>In case there are multiple selections present, deletes all columns where a cell
+	 * is selected</b>
+	 * @param column Column index
+	 */
+	public void deleteColumnAt(int column) {
+		List<Selection> selections = getSelections();
+		if (selections.isEmpty() || selectionController.isOnlyColumnSelected(column)) {
+			deleteColumnAndResizeRemainingColumns(column);
+		} else {
+			deleteColumnsForMulticellSelection();
+		}
+		storeUndoInfo();
+	}
+
+	/**
+	 * <b>Important note - only delete columns in a descending order (right to left)</b><br/>
+	 * Deletes a column at given index and resizes the remaining columns in ascending order
+	 * @param column Column index
+	 */
+	private void deleteColumnAndResizeRemainingColumns(int column) {
+		tabularData.deleteColumnAt(column);
+		if (layout != null) {
+			layout.resizeRemainingColumnsAscending(column, tabularData.numberOfColumns());
+		}
+	}
+
+	private void deleteColumnsForMulticellSelection() {
+		List<Integer> allColumnIndexes = selectionController.getAllColumnIndexes();
+		allColumnIndexes.sort(Collections.reverseOrder());
+		allColumnIndexes.stream().forEach(
+				columnIndex -> deleteColumnAndResizeRemainingColumns(columnIndex));
+	}
+
+	/**
+	 * Inserts a column at a given index
+	 * @param column Index of where to insert the column
+	 * @param right Whether the column is being inserted right of the currently selected column
+	 */
+	public void insertColumnAt(int column, boolean right) {
+		tabularData.insertColumnAt(column);
+		Selection lastSelection = selectionController.getLastSelection();
+		if (right && lastSelection != null) {
+			selectionController.setSelection(lastSelection.getRight(
+					tabularData.numberOfColumns(), false));
+		}
+		if (layout != null) {
+			layout.resizeRemainingColumnsDescending(right ? column - 1 : column,
+					tabularData.numberOfColumns());
+		}
+		storeUndoInfo();
+	}
+
+	/**
+	 * Inserts a row at a given index
+	 * @param row Index of where to insert the row
+	 * @param below Whether the row is being inserted below the currently selected row
+	 */
+	public void insertRowAt(int row, boolean below) {
+		tabularData.insertRowAt(row);
+		Selection lastSelection = selectionController.getLastSelection();
+		if (below && lastSelection != null) {
+			selectionController.setSelection(lastSelection.getBottom(
+					tabularData.numberOfRows(), false));
+		}
+		if (layout != null) {
+			layout.resizeRemainingRowsDescending(below ? row - 1 : row, tabularData.numberOfRows());
+		}
+		storeUndoInfo();
+	}
+
+	boolean isOnlyCellSelected(int row, int column) {
+		return selectionController.isOnlyCellSelected(row, column);
+	}
+
+	boolean areAllCellsSelected() {
+		return selectionController.areAllCellsSelected();
+	}
+
+	private boolean areOnlyRowsSelected() {
+		return selectionController.areOnlyRowsSelected();
+	}
+
+	private boolean areOnlyColumnsSelected() {
+		return selectionController.areOnlyColumnsSelected();
+	}
+
+	private boolean areOnlyCellsSelected() {
+		return selectionController.areOnlyCellsSelected();
+	}
+
+	/**
 	 * @return whether editor is currently visible
 	 */
 	public boolean isEditorActive() {
 		return controlsDelegate != null && controlsDelegate.getCellEditor().isVisible();
 	}
+
+	private void storeUndoInfo() {
+		if (undoProvider != null) {
+			undoProvider.storeUndoInfo();
+		}
+	}
+
 }

@@ -47,19 +47,19 @@ public class AlgebraTest {
 	}
 
 	protected void t(String s, String... expected) {
-		CommandsTest.testSyntax(s, AlgebraTestHelper.getMatchers(expected), app,
+		CommandsTestCommon.testSyntax(s, AlgebraTestHelper.getMatchers(expected), app,
 				ap,
 				StringTemplate.xmlTemplate);
 	}
 
 	protected void tRound(String s, String... expected) {
-		CommandsTest.testSyntax(s, AlgebraTestHelper.getMatchers(expected), app,
+		CommandsTestCommon.testSyntax(s, AlgebraTestHelper.getMatchers(expected), app,
 				ap,
 				StringTemplate.editTemplate);
 	}
 
 	protected void t(String s, Matcher<String> expected) {
-		CommandsTest.testSyntax(s, Collections.singletonList(expected), app, ap,
+		CommandsTestCommon.testSyntax(s, Collections.singletonList(expected), app, ap,
 				StringTemplate.xmlTemplate);
 	}
 }

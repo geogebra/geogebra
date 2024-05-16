@@ -6,15 +6,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.collections15.Factory;
+import java.util.function.Supplier;
 
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.graph.util.Pair;
 
 /**
- * An implementation of <code>Tree<V,E></code> that delegates to a specified
- * instance of <code>DirectedGraph<V,E></code>.
+ * An implementation of <code>Tree&lt;V,E&gt;</code> that delegates to a specified
+ * instance of <code>DirectedGraph&lt;V,E&gt;</code>.
  * 
  * @author Tom Nelson
  *
@@ -34,10 +33,10 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	 * @param <E>
 	 *            the edge type for the graph factory
 	 */
-	public static final <V, E> Factory<Tree<V, E>> getFactory() {
-		return new Factory<Tree<V, E>>() {
+	public static final <V, E> Supplier<Tree<V, E>> getFactory() {
+		return new Supplier<Tree<V, E>>() {
 			@Override
-			public Tree<V, E> create() {
+			public Tree<V, E> get() {
 				return new DelegateTree<V, E>(
 						new DirectedSparseMultigraph<V, E>());
 			}
@@ -60,8 +59,8 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	 * @param graphFactory
 	 *            must create a DirectedGraph to use as a delegate
 	 */
-	public DelegateTree(Factory<DirectedGraph<V, E>> graphFactory) {
-		super(graphFactory.create());
+	public DelegateTree(Supplier<DirectedGraph<V, E>> graphFactory) {
+		super(graphFactory.get());
 		this.vertex_depths = new HashMap<V, Integer>();
 	}
 

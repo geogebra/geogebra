@@ -37,9 +37,9 @@ public class CmdInversePascal extends CommandProcessor {
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
 				AlgoInversePascal algo = new AlgoInversePascal(cons,
-						c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

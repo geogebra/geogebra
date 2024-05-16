@@ -436,11 +436,6 @@ public class AlgoIntersectRegionPlanePolyhedron
 			polyhedronVertices.clear();
 		}
 
-		/*
-		 * if (originalEdges==null) originalEdges = new TreeMap<GeoElement,
-		 * TreeMap<GeoElement,Segment>>(); else originalEdges.clear();
-		 */
-
 		for (GeoPolygon polygon : polyhedron.getPolygons()) {
 			p = polygon;
 			setNewCoordsList();

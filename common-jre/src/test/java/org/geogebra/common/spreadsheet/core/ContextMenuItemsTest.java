@@ -14,6 +14,8 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PA
 import static org.geogebra.common.spreadsheet.core.ContextMenuItems.HEADER_INDEX;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
@@ -31,6 +33,7 @@ public final class ContextMenuItemsTest {
 	private ContextMenuItems items;
 	private final SpreadsheetSelectionController selectionController =
 			new SpreadsheetSelectionController();
+	private SpreadsheetController controller;
 	private TabularData<String> data;
 	private TestClipboard clipboard;
 
@@ -41,7 +44,8 @@ public final class ContextMenuItemsTest {
 		clipboard = new TestClipboard();
 		CopyPasteCutTabularDataImpl<?> copyPasteCut =
 				new CopyPasteCutTabularDataImpl<>(data, clipboard);
-		items = new ContextMenuItems(data, selectionController, copyPasteCut);
+		controller = new SpreadsheetController(data);
+		items = new ContextMenuItems(controller, selectionController, copyPasteCut);
 	}
 
 	private void fillTestData() {
@@ -127,6 +131,16 @@ public final class ContextMenuItemsTest {
 		}
 	}
 
+	private Optional<ContextMenuItem> getItemAt(int row, int column, Identifier id) {
+		List<ContextMenuItem> contextMenuItems = items.get(row, column);
+		Optional<ContextMenuItem> item = contextMenuItems.stream()
+				.filter(t -> t.getIdentifier().equals(id)).findAny();
+		if (item.isPresent()) {
+			return item;
+		}
+		return item;
+	}
+
 	@Test
 	public void testDeleteSingleRow() {
 		runItemAt(4, HEADER_INDEX, DELETE_ROW);
@@ -141,9 +155,7 @@ public final class ContextMenuItemsTest {
 	}
 
 	private void selectRows(int fromRow, int toRow) {
-		selectionController.select(new Selection(
-				new TabularRange(fromRow, HEADER_INDEX, toRow, HEADER_INDEX
-		)), false, false);
+		controller.select(new TabularRange(fromRow, -1, toRow, -1), false, false);
 	}
 
 	private void checkRowReplaced(int fromRow, int toRow) {
@@ -180,13 +192,12 @@ public final class ContextMenuItemsTest {
 	}
 
 	private void selectColumns(int fromColumn, int toColumn) {
-		selectionController.select(new Selection(
-				new TabularRange(HEADER_INDEX, fromColumn, HEADER_INDEX, toColumn)),
-				false, false);
+		controller.select(new TabularRange(-1, fromColumn, -1, toColumn), false, false);
 	}
 
 	@Test
 	public void testInsertRowAbove() {
+		runItemAt(3, HEADER_INDEX, DELETE_ROW);
 		runItemAt(5, HEADER_INDEX, INSERT_ROW_ABOVE);
 		checkNewRowAt(5);
 	}
@@ -203,12 +214,14 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testInsertRowBelow() {
+		runItemAt(4, HEADER_INDEX, DELETE_ROW);
 		runItemAt(5, HEADER_INDEX, INSERT_ROW_BELOW);
 		checkNewRowAt(6);
 	}
 
 	@Test
 	public void testInsertColumnLeft() {
+		runItemAt(HEADER_INDEX, 3, DELETE_COLUMN);
 		runItemAt(HEADER_INDEX, 5,  INSERT_COLUMN_LEFT);
 		checkNewColumnAt(5);
 	}
@@ -225,6 +238,7 @@ public final class ContextMenuItemsTest {
 
 	@Test
 	public void testInsertColumnRight() {
+		runItemAt(HEADER_INDEX, 4, DELETE_COLUMN);
 		runItemAt(HEADER_INDEX, 5,  INSERT_COLUMN_RIGHT);
 		checkNewColumnAt(6);
 	}
@@ -281,7 +295,7 @@ public final class ContextMenuItemsTest {
 	public void testPasteCellSelection() {
 		selectCells(1, 1, 2, 2);
 		runItemAt(1, 1, COPY);
-		selectionController.clearSelection();
+		selectionController.clearSelections();
 		runItemAt(2, 4, PASTE);
 		assertEquals("cell11", data.contentAt(2, 4));
 		assertEquals("cell12", data.contentAt(2, 5));
@@ -333,6 +347,29 @@ public final class ContextMenuItemsTest {
 		shoudStayDefault(14, 2);
 		shoudStayDefault(14, 3);
 		shoudStayDefault(14, 4);
+	}
+
+	@Test
+	public void testSelectingAllCellsDisablesDeletingColumn() {
+		controller.selectAll();
+		assertThrows("The DELETE_COLUMN item should not pop up if all cells are selected!",
+				AssertionError.class, () -> runItemAt(1, 1, DELETE_COLUMN));
+	}
+
+	@Test
+	public void testSelectingAllCellsDisablesDeletingRows() {
+		controller.selectAll();
+		assertThrows("The DELETE_ROW item should not pop up if all cells are selected!",
+				AssertionError.class, () -> runItemAt(1, 1, DELETE_ROW));
+	}
+
+	@Test
+	public void testClickingOnCellWithRowsAndColumnsSelectedEnablesInsertingRow() {
+		controller.selectRow(1, false, false);
+		controller.selectColumn(2, false, true);
+		List<ContextMenuItem> contextMenuItems = items.get(1, 2);
+		assertTrue(contextMenuItems.stream().anyMatch(
+				item -> item.getIdentifier() == INSERT_ROW_ABOVE));
 	}
 
 	private void shoudStayDefault(int row, int column) {

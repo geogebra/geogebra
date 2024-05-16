@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
@@ -31,7 +32,6 @@ import javax.swing.ScrollPaneConstants;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.gui.MyImageD;
@@ -238,10 +238,10 @@ public class GeoGebraFileChooser extends JFileChooser
 	 * Component to preview image files in a file chooser.
 	 * 
 	 * This file is based on Hack #31 in
-	 * "Swing Hacks - Tips & Tools for Building Killer GUIs" by Joshua Marinacci
+	 * "Swing Hacks - Tips &amp; Tools for Building Killer GUIs" by Joshua Marinacci
 	 * and Chris Adamson.
 	 * 
-	 * Modified & commented by Florian Sonner for GeoGebraFileChooser
+	 * Modified and commented by Florian Sonner for GeoGebraFileChooser
 	 * 
 	 * @author Joshua Marinacci
 	 * @author Chris Adamson
@@ -372,7 +372,7 @@ public class GeoGebraFileChooser extends JFileChooser
 
 			try {
 				reader = new BufferedReader(new InputStreamReader(
-						new FileInputStream(file), Charsets.getUtf8()));
+						new FileInputStream(file), StandardCharsets.UTF_8));
 				String text;
 				int lineCount = 0;
 				// read at most 20 lines

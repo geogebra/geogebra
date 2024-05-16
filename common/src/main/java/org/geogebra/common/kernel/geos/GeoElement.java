@@ -24,12 +24,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -1879,9 +1879,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return !isProtected(EventType.UPDATE)
 				&& app.letRedefine()
 				&& !(this instanceof TextValue) && isAlgebraViewEditable()
-				&& (isChangeable() || // redefine changeable (independent and
+				&& (isChangeable() // redefine changeable (independent and
 										// not fixed)
-						!isIndependent()); // redefine dependent object
+						|| !isIndependent()); // redefine dependent object
 	}
 
 	/**
@@ -3383,10 +3383,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * final flag, it will break the update mechanism.
 	 */
 	@Override
-	public final HashSet<GeoElement> getVariables(SymbolicMode mode) {
-		final HashSet<GeoElement> ret = new HashSet<>();
-		ret.add(this);
-		return ret;
+	public final void getVariables(Set<GeoElement> variables, SymbolicMode symbolicMode) {
+		variables.add(this);
 	}
 
 	/**
@@ -4094,6 +4092,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            fallback text
 	 * @return LaTeX text
 	 */
+	@CheckForNull
 	public String getLaTeXAlgebraDescriptionWithFallback(
 			final boolean substituteNumbers, StringTemplate tpl,
 			boolean fallback) {
@@ -4128,10 +4127,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return string used to render a LaTeX form of the geo's algebra
 	 *         description.
 	 */
+	@CheckForNull
 	public final String getLaTeXAlgebraDescription(
 			final boolean substituteNumbers,
 			StringTemplate tpl) {
-
 		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl,
 				isAlgebraLabelVisible());
 	}
@@ -4143,16 +4142,21 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            template
 	 * @return LaTeX description without LHS
 	 */
+	@CheckForNull
 	public final String getLaTeXDescriptionRHS(final boolean substituteNumbers,
 			StringTemplate tpl) {
 		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl, false);
 	}
 
+	@CheckForNull
 	private String getLaTeXAlgebraDescription(final GeoElement geo,
 			final boolean substituteNumbers, StringTemplate tpl,
 			boolean includeLHS) {
 
 		final String algebraDesc = geo.getAlgebraDescription(tpl);
+		if (algebraDesc == null) {
+			return null;
+		}
 		final StringBuilder sb = new StringBuilder();
 
 		if (geo.isGeoList()
@@ -6702,7 +6706,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * @return -1 if this is not part of packed output; 0 for pack header, >0
+	 * @return -1 if this is not part of packed output; 0 for pack header, &gt;0
 	 *         for packed items
 	 */
 	public int getPackedIndex() {

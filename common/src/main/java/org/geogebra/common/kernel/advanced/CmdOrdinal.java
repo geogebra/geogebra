@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Ordinal[ &lt;Number> ]
+ * Ordinal[ &lt;Number&gt; ]
  */
 public class CmdOrdinal extends CommandProcessor {
 	/**

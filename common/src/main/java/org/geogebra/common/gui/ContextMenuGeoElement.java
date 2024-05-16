@@ -73,7 +73,7 @@ public abstract class ContextMenuGeoElement {
 	 * @param geo
 	 *            geo
 	 * @param addHTMLtag
-	 *            whether to wrap in &lt;html&gt
+	 *            whether to wrap in &lt;html&gt;
 	 * @return description
 	 */
 	protected String getDescription(GeoElement geo, boolean addHTMLtag) {
@@ -336,7 +336,7 @@ public abstract class ContextMenuGeoElement {
 	 */
 	public void fixObjectCmd(boolean fixed) {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
-		UpdateStyleActionStore store = new UpdateStyleActionStore(geos2);
+		UpdateStyleActionStore store = new UpdateStyleActionStore(geos2, app.getUndoManager());
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
 			fixGeo(geo1, fixed);

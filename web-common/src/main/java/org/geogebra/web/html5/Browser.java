@@ -40,7 +40,8 @@ public class Browser {
 	 * Check if browser is Safari. Note: user agent string contains Safari also
 	 * in Chrome =&gt; use vendor instead
 	 *
-	 * check isiOS() && isSafari() if you want just iOS browser & not webview
+	 * check NavigatorUtil.isiOS() &amp;&amp; NavigatorUtil.isSafari() if you want just iOS browser
+	 * and not webview
 	 *
 	 * @return true if Safari browser
 	 */

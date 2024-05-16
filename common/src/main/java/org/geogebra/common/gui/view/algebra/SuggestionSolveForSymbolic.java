@@ -2,8 +2,8 @@ package org.geogebra.common.gui.view.algebra;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.kernel.algos.Algos;
@@ -132,7 +132,7 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 			return new String[0];
 		}
 
-		HashSet<GeoElement> varSet = ((GeoSymbolic) geo).getValue()
+		Set<GeoElement> varSet = ((GeoSymbolic) geo).getValue()
 				.getVariables(SymbolicMode.SYMBOLIC);
 		List<String> varStrings = new ArrayList<>();
 		if (varSet != null) {

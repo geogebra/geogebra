@@ -3,7 +3,7 @@ package org.geogebra.common.util.clipper;
 import java.util.ArrayList;
 
 /**
- * A pure convenience class to avoid writing List<Path> everywhere.
+ * A pure convenience class to avoid writing List&lt;Path&gt; everywhere.
  *
  * @author Tobias Mahlmann
  *

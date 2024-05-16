@@ -24,21 +24,21 @@ public class SliderModel extends OptionsModel {
 	private GColor lineColor;
 
 	public interface ISliderOptionsListener extends PropertyListener {
-		void setMinText(final String text);
+		void setMinText(String text);
 
-		void setMaxText(final String text);
+		void setMaxText(String text);
 
-		void setWidthText(final String text);
+		void setWidthText(String text);
 
-		void setBlobSizeText(final String text);
+		void setBlobSizeText(String text);
 
 		void setLineThicknessSizeText(String text);
 
-		void setBlobColor(final GColor color);
+		void setBlobColor(GColor color);
 
-		void setLineColor(final GColor color);
+		void setLineColor(GColor color);
 
-		void setWidthUnitText(final String text);
+		void setWidthUnitText(String text);
 
 		void selectFixed(boolean value);
 
