@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.table.keyboard;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
@@ -133,6 +134,15 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
         assertEquals(new CellIndex(1, 1), focusedCell);
         assertEquals(1, tableValuesView.getTableValuesModel().getRowCount());
         assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
+    }
+
+    @Test
+    public void testEmptyTable_Deselect() {
+        keyboardController.select(0, 0);
+        assertEquals(new CellIndex(0, 0), focusedCell);
+
+        keyboardController.deselect();
+        assertNull(focusedCell);
     }
 
     // Scenario 1:
@@ -502,6 +512,11 @@ public class TableValuesKeyboardControllerTests extends BaseUnitTest
     @Override
     public void focusCell(int row, int column) {
         focusedCell = row >= 0 && column >= 0 ? new CellIndex(row, column) : null;
+    }
+
+    @Override
+    public void unfocusCell(int row, int column) {
+        focusedCell = null;
     }
 
     @Override

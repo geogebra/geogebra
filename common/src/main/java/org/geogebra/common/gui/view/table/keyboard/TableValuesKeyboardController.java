@@ -26,7 +26,6 @@ import com.google.j2objc.annotations.Weak;
  * </p>
  * @apiNote This controller *requires* its delegate for correct operation. If the delegate is not
  * set, no exception is thrown, but the controller will not do anything useful.
- *
  * @implNote Currently, the code assumes that the first column is the x ("values") column,
  * and that it is always present (it may be empty, though).
  */
@@ -52,11 +51,9 @@ public final class TableValuesKeyboardController {
 
 	/**
 	 * Create a new instance.
-	 *
 	 * @param tableValuesView The table of values view.
 	 * @param delegate The delegate (can be null here, but must be supplied through
 	 * the public writable field before use).
-	 *
 	 */
 	public TableValuesKeyboardController(@Nonnull TableValues tableValuesView,
 			TableValuesKeyboardControllerDelegate delegate) {
@@ -83,7 +80,6 @@ public final class TableValuesKeyboardController {
 	 * @return The overall number of "navigable" (reachable) rows in the table, including an
 	 * additional placeholder row for appending new data if the table values model has editable
 	 * columns.
-	 *
 	 * @apiNote This is not the same as {@link TableValuesModel#getRowCount()}, because that
 	 * does not include the placeholder row.
 	 */
@@ -96,7 +92,6 @@ public final class TableValuesKeyboardController {
 	 * @return The overall number of "navigable" (reachable) columns in the table, including an
 	 * additional placeholder column for inputting new data if the table values model allows
 	 * adding columns (@see {@link TableValuesModel#allowsAddingColumns()}.
-	 *
 	 * @apiNote This is not the same as {@link TableValuesModel#getColumnCount()}, because that
 	 * does not include the placeholder column.
 	 */
@@ -119,7 +114,6 @@ public final class TableValuesKeyboardController {
 
 	/**
 	 * Select a cell.
-	 *
 	 * @param row the row index to select, or -1 to clear any selection.
 	 * @param column the column index to select, or -1 to clear any selection.
 	 * @param notifyDelegate Pass true to notify the delegate about a change in selection.
@@ -130,6 +124,8 @@ public final class TableValuesKeyboardController {
 		if (!changed) {
 			return;
 		}
+		int previouslySelectedRow = selectedRow;
+		int previouslySelectedColumn = selectedColumn;
 		selectedRow = row;
 		selectedColumn = column;
 
@@ -144,13 +140,16 @@ public final class TableValuesKeyboardController {
 		}
 
 		if (notifyDelegate && delegate != null) {
-			delegate.focusCell(selectedRow, selectedColumn);
+			if (selectedRow >= 0 && selectedColumn >= 0) {
+				delegate.focusCell(selectedRow, selectedColumn);
+			} else {
+				delegate.unfocusCell(previouslySelectedRow, previouslySelectedColumn);
+			}
 		}
 	}
 
 	/**
 	 * Eauivalent to <code>select(row, column, true)</code>.
-	 *
 	 * @param row the row index to select, or -1 to clear any selection.
 	 * @param column the column index to select, or -1 to clear any selection.
 	 */
@@ -161,10 +160,22 @@ public final class TableValuesKeyboardController {
 	/**
 	 * Clear (remove) any selection.
 	 *
-	 * Equivalent to <code>select(-1, -1, true)</code>.
+	 * Equivalent to <code>deselect(true)</code>.
 	 */
 	public void deselect() {
-		select(-1, -1, true);
+		deselect(true);
+	}
+
+	/**
+	 * Clear (remove) any selection.
+	 *
+	 * Use this with a flag value of false to instruct the controller to clear any selection
+	 * without notifying the delegate (i.e., if the request is coming from the delegate itself).
+	 *
+	 * Equivalent to <code>select(-1, -1, notifyDelegate)</code>.
+	 */
+	public void deselect(boolean notifyDelegate) {
+		select(-1, -1, notifyDelegate);
 	}
 
 	/**
