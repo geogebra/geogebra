@@ -94,7 +94,7 @@ public final class TableValuesKeyboardNavigationController {
 	 */
 	public int getNrOfNavigableRows() {
 		return tableValuesModel.getRowCount()
-				+ (tableValuesModel.hasEditableColumns() ? 1 : 0);
+				+ (!isReadonly && tableValuesModel.hasEditableColumns() ? 1 : 0);
 	}
 
 	/**
@@ -106,7 +106,7 @@ public final class TableValuesKeyboardNavigationController {
 	 */
 	public int getNrOfNavigableColumns() {
 		return tableValuesModel.getColumnCount()
-				+ (tableValuesModel.allowsAddingColumns() ? 1 : 0);
+				+ (!isReadonly && tableValuesModel.allowsAddingColumns() ? 1 : 0);
 	}
 
 	/**

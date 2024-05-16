@@ -559,7 +559,9 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 		keyboardController.setReadonly(true);
 		tableValuesView.setValues(0, 3, 1);
 
-		// select (0, 0)
+		assertEquals(1, keyboardController.getNrOfNavigableColumns());
+		assertEquals(4, keyboardController.getNrOfNavigableRows());
+
 		keyboardController.select(0, 0);
 		assertNull(focusedCell);
 	}
