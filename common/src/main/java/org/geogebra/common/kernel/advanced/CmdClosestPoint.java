@@ -39,7 +39,7 @@ public class CmdClosestPoint extends CommandProcessor {
 		case 2:
 			arg = resArgs(c);
 			if (!arg[0].isGeoElement3D() && !arg[1].isGeoElement3D()) {
-				return process2D(c, info, arg);
+				return process2D(c, arg);
 			}
 
 			if (arg[0].isPath() && arg[1].isGeoPoint()) {
@@ -80,7 +80,7 @@ public class CmdClosestPoint extends CommandProcessor {
 		}
 	}
 
-	private GeoElement[] process2D(Command c, EvalInfo info, GeoElement[] arg) {
+	private GeoElement[] process2D(Command c, GeoElement[] arg) {
 		// distance between two points
 		boolean[] ok = new boolean[2];
 		if ((ok[0] = (arg[0] instanceof Path))
@@ -110,7 +110,7 @@ public class CmdClosestPoint extends CommandProcessor {
 	}
 
 	/** Point anywhere on path with */
-	final private GeoPoint closestPoint(String label, Path path, GeoPointND p) {
+	private GeoPoint closestPoint(String label, Path path, GeoPointND p) {
 		AlgoClosestPoint algo = new AlgoClosestPoint(cons, path, p);
 		algo.getP().setLabel(label);
 		return (GeoPoint) algo.getP();
