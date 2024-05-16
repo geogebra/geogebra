@@ -6,10 +6,10 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EventType;
 
-public class SpreadsheetController {
-	private App app;
+public class SpreadsheetTableController {
+	private final App app;
 
-	public SpreadsheetController(App app) {
+	public SpreadsheetTableController(App app) {
 		this.app = app;
 	}
 
