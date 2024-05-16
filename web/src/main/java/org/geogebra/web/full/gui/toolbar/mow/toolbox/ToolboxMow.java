@@ -199,7 +199,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 			return;
 		}
 
-		if (appW.getVendorSettings().isH5PEnabled()) {
+		if (appW.getVendorSettings().isH5PEnabled() && !linkCategory.contains(MODE_H5P)) {
 			linkCategory.add(MODE_H5P);
 		}
 		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.resource_card_shared(),
@@ -241,7 +241,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 			return;
 		}
 
-		if (Browser.isGraspableMathEnabled()) {
+		if (Browser.isGraspableMathEnabled() && !appsCategory.contains(MODE_GRASPABLE_MATH)) {
 			appsCategory.add(MODE_GRASPABLE_MATH);
 		}
 
