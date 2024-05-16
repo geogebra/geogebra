@@ -3,6 +3,7 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
 
@@ -118,8 +119,8 @@ public final class SpreadsheetController {
 	}
 
 	// default visibility, same as Selection class
-	List<Selection> getSelections() {
-		return selectionController.selections();
+	Stream<Selection> getSelections() {
+		return selectionController.getSelections();
 	}
 
 	boolean isSelected(int row, int column) {
@@ -284,18 +285,18 @@ public final class SpreadsheetController {
 	 * @param modifiers event modifiers
 	 */
 	public void handlePointerUp(int x, int y, Modifiers modifiers) {
-		List<Selection> selections = getSelections();
+		Stream<Selection> selections = getSelections();
 		switch (dragAction.cursor) {
 		case RESIZE_X:
 			if (isSelected(-1, dragAction.startColumn)) {
 				double width = layout.getWidthForColumnResize(dragAction.startColumn,
 						x + viewport.getMinX());
-				for (Selection selection : selections) {
+				selections.forEach(selection -> {
 					if (selection.getType() == SelectionType.COLUMNS) {
 						layout.setWidthForColumns(width, selection.getRange().getMinColumn(),
 								selection.getRange().getMaxColumn());
 					}
-				}
+				});
 			}
 			storeUndoInfo();
 			break;
@@ -303,12 +304,12 @@ public final class SpreadsheetController {
 			if (isSelected(dragAction.startRow, -1)) {
 				double height = layout.getHeightForRowResize(dragAction.startRow,
 						y + viewport.getMinY());
-				for (Selection selection : selections) {
+				selections.forEach(selection -> {
 					if (selection.getType() == SelectionType.ROWS) {
 						layout.setHeightForRows(height, selection.getRange().getMinRow(),
 								selection.getRange().getMaxRow());
 					}
-				}
+				});
 			}
 			storeUndoInfo();
 			break;
@@ -470,7 +471,7 @@ public final class SpreadsheetController {
 	 * @return selections limited to data size
 	 */
 	public List<TabularRange> getVisibleSelections() {
-		return getSelections().stream().map(this::intersectWithDataRange)
+		return getSelections().map(this::intersectWithDataRange)
 				.collect(Collectors.toList());
 	}
 
@@ -495,7 +496,7 @@ public final class SpreadsheetController {
 	 * @return whether selection contains at least one cell in given column
 	 */
 	public boolean isSelectionIntersectingColumn(int column) {
-		return selectionController.selections().stream()
+		return selectionController.getSelections()
 				.anyMatch(sel -> sel.getRange().intersectsColumn(column));
 	}
 
@@ -504,7 +505,7 @@ public final class SpreadsheetController {
 	 * @return whether selection contains at least one cell in given row
 	 */
 	public boolean isSelectionIntersectingRow(int row) {
-		return selectionController.selections().stream()
+		return selectionController.getSelections()
 				.anyMatch(sel -> sel.getRange().intersectsRow(row));
 	}
 
@@ -532,8 +533,7 @@ public final class SpreadsheetController {
 	 * @param row Row index
 	 */
 	public void deleteRowAt(int row) {
-		List<Selection> selections = getSelections();
-		if (selections.isEmpty() || selectionController.isOnlyRowSelected(row)) {
+		if (!selectionController.hasSelection() || selectionController.isOnlyRowSelected(row)) {
 			deleteRowAndResizeRemainingRows(row);
 		} else {
 			deleteRowsForMultiCellSelection();
@@ -566,8 +566,8 @@ public final class SpreadsheetController {
 	 * @param column Column index
 	 */
 	public void deleteColumnAt(int column) {
-		List<Selection> selections = getSelections();
-		if (selections.isEmpty() || selectionController.isOnlyColumnSelected(column)) {
+		if (!selectionController.hasSelection()
+				|| selectionController.isOnlyColumnSelected(column)) {
 			deleteColumnAndResizeRemainingColumns(column);
 		} else {
 			deleteColumnsForMulticellSelection();

@@ -310,8 +310,8 @@ public class SpreadsheetControllerTest {
         controller.setControlsDelegate(getSpreadsheetControlsDelegate());
         controller.handlePointerDown(rowHeaderCellWidth + 10, cellHeight + 10,
                 new Modifiers(false, false, false, true));
-        assertEquals(1, controller.getSelections().size());
-		assertEquals(controller.getSelections().get(0).getRange(),
+        assertEquals(1, controller.getSelections().count());
+		assertEquals(controller.getSelections().findFirst().get().getRange(),
                 new TabularRange(0, 0, 1, 1));
     }
 
@@ -328,8 +328,8 @@ public class SpreadsheetControllerTest {
         controller.selectColumn(2, false, true);
         controller.handlePointerDown(rowHeaderCellWidth + 10, cellHeight + 10,
                 new Modifiers(false, false, false, true));
-        assertEquals(1, controller.getSelections().size());
-        assertEquals(controller.getSelections().get(0).getRange(),
+        assertEquals(1, controller.getSelections().count());
+        assertEquals(controller.getSelections().findFirst().get().getRange(),
                 new TabularRange(0, 0, 0, 0));
     }
 

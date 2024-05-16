@@ -85,10 +85,10 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		double offsetY = viewport.getMinY() - layout.getColumnHeaderHeight();
 		drawContentCells(graphics, portion, offsetX, offsetY);
 		renderer.drawHeaderBackgroundAndOutline(graphics, viewport);
-		for (Selection range: controller.getSelections()) {
-			renderer.drawSelectionHeader(range, graphics,
+		controller.getSelections().forEach(selection -> {
+			renderer.drawSelectionHeader(selection, graphics,
 					this.viewport, controller.getLayout());
-		}
+		});
 		graphics.translate(-offsetX, 0);
 		graphics.setColor(controller.getStyle().getGridColor());
 		for (int column = portion.fromColumn + 1; column <= portion.toColumn; column++) {

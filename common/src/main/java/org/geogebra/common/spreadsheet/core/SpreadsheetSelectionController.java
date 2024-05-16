@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
 
@@ -12,25 +13,18 @@ import javax.annotation.CheckForNull;
 //  If you follow my advice to <a href="https://docs.google.com/presentation/d/1HAcW_FE7oP60l3cmR7FR89CDKX67PuSxg3Jjsvtv02c/edit#slide=id.g15d630f14f3_0_0">go bottom-up"</a>,
 //  to design and test building blocks in isolation, and then assemble larger systems
 //  from well-tested  building blocks, you cannot fall into this trap.
-//
-// TODO design: The API is unsymmetric with respect to the boolean return values of some selection-modifying
-//  methods. Either we have _all of them_ return a boolean that indicates whether the selection changed, or
-//  none - we shouldn't have an arbitrary mix of both. I can imagine that this may be useful information (e.g.
-//  during mouse drags), so we should somehow provide this functionality. But I think it will be simpler
-//  to provide a "did the selection change" method instead of passing booleans and potentially having
-//  to OR them together in client code. I changed the implementation of the `selections()` method to
-//  return _a clone_ (snapshot) of the current selection state, so it can be compared later on to find
-//  out if the selection changed.
-//
-// TODO documentation: Even though this is an internal class, the selection model should be explained
-//  (why is there a _list_ of selections, negative indicies refer to headers, etc.).
+
 final class SpreadsheetSelectionController {
 
+	/**
+	 * Each selection in the list represents one (non-empty) rectangular area.
+	 * If nothing is selected, the list is empty.
+	 */
 	private final List<Selection> selections = new ArrayList<>();
 
-	 void clearSelections() {
+	void clearSelections() {
 		selections.clear();
-	 }
+	}
 
 	void selectAll() {
 		setSelection(new Selection(TabularRange.range(-1, -1,
@@ -38,14 +32,14 @@ final class SpreadsheetSelectionController {
 	}
 
 	/**
-	 * @return The current selections.
+	 * @return The current selections as Stream.
 	 *
 	 * @apiNote This method returns a copy of the internal state, so you can use it to snapshot
 	 * the current selection state, and compare that against the selection state after some
 	 * (potentially selection-modifying) operations.
 	 */
-	List<Selection> selections() {
-		return new ArrayList<>(selections);
+	Stream<Selection> getSelections() {
+		return selections.stream();
 	}
 
 	/**

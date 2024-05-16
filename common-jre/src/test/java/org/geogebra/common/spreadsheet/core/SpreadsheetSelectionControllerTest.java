@@ -160,7 +160,7 @@ public class SpreadsheetSelectionControllerTest {
 		selectionController.selectCell(5, 6, false, true);
 		selectionController.selectCell(7, 7, true, true);
 
-		assertEquals(3, selectionController.selections().size());
+		assertEquals(3, selectionController.getSelections().count());
 	}
 
 	@Test
