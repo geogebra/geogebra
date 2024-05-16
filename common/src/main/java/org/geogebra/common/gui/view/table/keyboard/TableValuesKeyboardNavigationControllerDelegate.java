@@ -3,10 +3,10 @@ package org.geogebra.common.gui.view.table.keyboard;
 import javax.annotation.CheckForNull;
 
 /**
- * The companion delegate to the {@link TableValuesKeyboardController}.
+ * The companion delegate to the {@link TableValuesKeyboardNavigationController}.
  * @apiNote All indexes are 0-based.
  */
-public interface TableValuesKeyboardControllerDelegate {
+public interface TableValuesKeyboardNavigationControllerDelegate {
 
 	/**
 	 * Focus (i.e., mark as selected, potentially scroll into view, and start editing)
@@ -18,8 +18,8 @@ public interface TableValuesKeyboardControllerDelegate {
 
 	/**
 	 * Unfocus (i.e., end editing, remove selection border) the given cell.
-	 * @param row The row index of the previously selected cell.
-	 * @param column The column index of the previously selected cell.
+	 * @param row The row index of the cell that should be unfocused.
+	 * @param column The column index of the cell that should be unfocused.
 	 */
 	void unfocusCell(int row, int column);
 

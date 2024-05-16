@@ -30,7 +30,7 @@ import com.google.j2objc.annotations.Weak;
  * @implNote Currently, the code assumes that the first column is the x ("values") column,
  * and that it is always present (it may be empty, though).
  */
-public final class TableValuesKeyboardController {
+public final class TableValuesKeyboardNavigationController {
 
 	public static enum Key {
 		ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ARROW_DOWN, RETURN;
@@ -38,7 +38,7 @@ public final class TableValuesKeyboardController {
 
 	//@NonOwning
 	@Weak
-	public TableValuesKeyboardControllerDelegate delegate;
+	public TableValuesKeyboardNavigationControllerDelegate delegate;
 
 	//@NonOwning
 	private final @Nonnull TableValues tableValuesView;
@@ -56,8 +56,8 @@ public final class TableValuesKeyboardController {
 	 * @param delegate The delegate (can be null here, but must be supplied through
 	 * the public writable field before use).
 	 */
-	public TableValuesKeyboardController(@Nonnull TableValues tableValuesView,
-			TableValuesKeyboardControllerDelegate delegate) {
+	public TableValuesKeyboardNavigationController(@Nonnull TableValues tableValuesView,
+			TableValuesKeyboardNavigationControllerDelegate delegate) {
 		this.tableValuesView = tableValuesView;
 		this.tableValuesModel = tableValuesView.getTableValuesModel();
 		this.delegate = delegate;
@@ -161,22 +161,10 @@ public final class TableValuesKeyboardController {
 	/**
 	 * Clear (remove) any selection.
 	 *
-	 * Equivalent to {@code deselect(true)}.
+	 * Equivalent to {@code select(-1, -1)}.
 	 */
 	public void deselect() {
-		deselect(true);
-	}
-
-	/**
-	 * Clear (remove) any selection.
-	 *
-	 * Use this with a flag value of false to instruct the controller to clear any selection
-	 * without notifying the delegate (i.e., if the request is coming from the delegate itself).
-	 *
-	 * Equivalent to {@code select(-1, -1, notifyDelegate)}.
-	 */
-	public void deselect(boolean notifyDelegate) {
-		select(-1, -1, notifyDelegate);
+		select(-1, -1);
 	}
 
 	/**

@@ -23,7 +23,7 @@ public interface TableValuesModel {
 
 	/**
 	 * @return true if this model allows users to add columns (by entering values) to the right
-	 * of existing columns Defaults to true.
+	 * of existing columns. Defaults to true.
 	 */
 	boolean allowsAddingColumns();
 
@@ -42,7 +42,7 @@ public interface TableValuesModel {
 
 	/**
 	 * @param column The column index (0-based).
-	 * @return True if the given column is editable (i.e., it's not a function).
+	 * @return True if the given column is editable (i.e., is not a function).
 	 */
 	boolean isColumnEditable(int column);
 
