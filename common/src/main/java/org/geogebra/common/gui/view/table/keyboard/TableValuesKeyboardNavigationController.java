@@ -45,6 +45,7 @@ public final class TableValuesKeyboardNavigationController {
 	//@NonOwning
 	private final @Nonnull TableValuesModel tableValuesModel;
 
+	private boolean isReadonly = false;
 	private int selectedRow = -1;
 	private int selectedColumn = -1;
 	private boolean addedPlaceholderColumn = false;
@@ -61,6 +62,13 @@ public final class TableValuesKeyboardNavigationController {
 		this.tableValuesView = tableValuesView;
 		this.tableValuesModel = tableValuesView.getTableValuesModel();
 		this.delegate = delegate;
+	}
+
+	/**
+	 * Prevent selection & navigation.
+	 */
+	public void setReadonly() {
+		isReadonly = true;
 	}
 
 	/**
@@ -121,6 +129,9 @@ public final class TableValuesKeyboardNavigationController {
 	 * @apiNote The delegate will only be notified if the selection actually changed.
 	 */
 	public void select(int row, int column, boolean notifyDelegate) {
+		if (isReadonly) {
+			return;
+		}
 		boolean changed = selectedRow != row || selectedColumn != column;
 		if (!changed) {
 			return;

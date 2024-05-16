@@ -60,7 +60,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 	// Scenario 0:
 	// - empty table
-	// - adding columns allowed
+	// - editing allowed, adding columns allowed
 
 	@Test
 	public void testEmptyTable_EnterDataInValuesList() {
@@ -184,7 +184,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 	// Scenario 1:
 	// - just x ("values") column [0..1],
-	// - adding columns allowed
+	// - editing allowed, adding columns allowed
 
 	@Test
 	public void testValuesList() throws Exception {
@@ -419,7 +419,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	// Scenario 2:
 	// - x ("values") column [-2..2],
 	// - f(x) column,
-	// - adding columns allowed
+	// - editing allowed, adding columns allowed
 
 	@Test
 	public void testFunctionColumn() throws Exception {
@@ -488,7 +488,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	// Scenario 3 (SciCalc):
 	// - x ("values") column,
 	// - f(x), g(x) columns,
-	// - adding columns not allowed
+	// - editing allowed, adding columns not allowed
 
 	@Test
 	public void testSciCalc() {
@@ -548,6 +548,20 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.RETURN);
 		assertTrue(keyboardController.isEditingPlaceholderRow());
 		assertEquals(new CellIndex(6, 0), focusedCell);
+	}
+
+	// Scenario 4:
+	// - just x ("values") column [0..3],
+	// - editing not allowed
+
+	@Test
+	public void testNonEditableValuesList() throws Exception {
+		keyboardController.setReadonly();
+		tableValuesView.setValues(0, 3, 1);
+
+		// select (0, 0)
+		keyboardController.select(0, 0);
+		assertNull(focusedCell);
 	}
 
 	// TableValuesKeyboardControllerDelegate
