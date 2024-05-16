@@ -198,8 +198,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 			return;
 		}
 
-		List<Integer> linkTools = appW.getVendorSettings().isH5PEnabled() ?
-				concat(linkCategory, MODE_H5P) : linkCategory;
+		List<Integer> linkTools = appW.getVendorSettings().isH5PEnabled()
+				? concat(linkCategory, MODE_H5P) : linkCategory;
 		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.resource_card_shared(),
 				"Link", linkTools);
 	}
