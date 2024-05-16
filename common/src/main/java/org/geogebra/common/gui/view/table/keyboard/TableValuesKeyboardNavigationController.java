@@ -67,8 +67,8 @@ public final class TableValuesKeyboardNavigationController {
 	/**
 	 * Prevent selection & navigation.
 	 */
-	public void setReadonly() {
-		isReadonly = true;
+	public void setReadonly(boolean readonly) {
+		isReadonly = readonly;
 	}
 
 	/**

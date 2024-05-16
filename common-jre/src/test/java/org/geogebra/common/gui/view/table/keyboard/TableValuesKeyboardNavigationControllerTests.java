@@ -556,7 +556,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 	@Test
 	public void testNonEditableValuesList() throws Exception {
-		keyboardController.setReadonly();
+		keyboardController.setReadonly(true);
 		tableValuesView.setValues(0, 3, 1);
 
 		// select (0, 0)
