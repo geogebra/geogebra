@@ -12,8 +12,6 @@ import java.util.List;
 //  (not just indirectly via SpreadsheetController)
 //  - see also my comment on SpreadsheetSelectionController.
 //
-// TODO: remove all public method modifiers (the class itself is package private, so members cannot
-//  be more visible than the class)
 final class Selection {
 
 	private final TabularRange range;
@@ -37,7 +35,7 @@ final class Selection {
 	 * @param columnIndex Column Index
 	 * @return A single cell with given index
 	 */
-	public static Selection getSingleCellSelection(int rowIndex, int columnIndex) {
+	static Selection getSingleCellSelection(int rowIndex, int columnIndex) {
 		return new Selection(TabularRange.range(
 				rowIndex, rowIndex, columnIndex, columnIndex));
 	}
@@ -55,7 +53,7 @@ final class Selection {
 	// TODO naming: `selection.merge(other)` sounds like it would modify either
 	//  this (the current selection) or other.
 	//  Maybe `selection.mergedWith(other)`?
-	public Selection merge(Selection other) {
+	Selection merge(Selection other) {
 		if (type != other.type) {
 			return null;
 		}
@@ -63,15 +61,15 @@ final class Selection {
 		return mergedRange == null ? null : new Selection(mergedRange);
 	}
 
-	public TabularRange getRange() {
+	TabularRange getRange() {
 		return range;
 	}
 
-	public SelectionType getType() {
+	SelectionType getType() {
 		return type;
 	}
 
-	public boolean contains(int row, int column) {
+	boolean contains(int row, int column) {
 		return range.contains(row, column);
 	}
 
@@ -92,7 +90,7 @@ final class Selection {
 	// TODO naming: It's not clear what `selection.getLeft()` could mean.
 	//  But even after looking at the implementation for a while, I don't understand
 	//  what it does, so I can't suggest a better name...
-	public Selection getLeft(boolean extendSelection) {
+	Selection getLeft(boolean extendSelection) {
 		if (type == SelectionType.ROWS) {
 			return getSingleCellSelection(range.getFromRow(), 0);
 		} else if (!extendSelection) {
@@ -111,7 +109,7 @@ final class Selection {
 	 * @param extendSelection Whether we want to extend the current Selection
 	 * @return Selection to the right of the selection calling this method if possible
 	 */
-	public Selection getRight(int numberOfColumns, boolean extendSelection) {
+	Selection getRight(int numberOfColumns, boolean extendSelection) {
 		if (type == SelectionType.ROWS) {
 			return getSingleCellSelection(range.getFromRow(), 1);
 		} else if (!extendSelection) {
@@ -128,7 +126,7 @@ final class Selection {
 	 * @param extendSelection Whether we want to extend the current Selection
 	 * @return Selection on top of the selection calling this method if possible
 	 */
-	public Selection getTop(boolean extendSelection) {
+	Selection getTop(boolean extendSelection) {
 		if (type == SelectionType.COLUMNS) {
 			return getSingleCellSelection(0, range.getFromColumn());
 		} else if (!extendSelection) {
@@ -147,7 +145,7 @@ final class Selection {
 	 * @param extendSelection Whether we want to extend the current Selection
 	 * @return Selection underneath the selection calling this method if possible
 	 */
-	public Selection getBottom(int numberOfRows, boolean extendSelection) {
+	Selection getBottom(int numberOfRows, boolean extendSelection) {
 		if (type == SelectionType.COLUMNS) {
 			return getSingleCellSelection(1, range.getFromColumn());
 		} else if (!extendSelection) {
@@ -166,10 +164,8 @@ final class Selection {
 	 * @param other new Selection
 	 * @return Resulting selection
 	 */
-	// TODO naming: The naming is very asymmetrical compared to `merge(selection)`.
-	//  Maybe `selection.extendedWith(other)`?
-	public Selection getExtendedSelection(Selection other) {
-		SelectionType selectionType = this.getSelectionTypeForExtension(other);
+	Selection getExtendedSelection(Selection other) {
+		SelectionType selectionType = this.getSelectionTypeForExtendingWith(other);
 
 		if ((selectionType == SelectionType.CELLS && this.type != other.type)
 				|| selectionType == SelectionType.ALL) {
@@ -196,7 +192,7 @@ final class Selection {
 	 * @return Resulting SelectionType
 	 */
 	// TODO naming: maybe `selectionTypeForExtendingWith(other)`
-	private SelectionType getSelectionTypeForExtension(Selection newSelection) {
+	private SelectionType getSelectionTypeForExtendingWith(Selection newSelection) {
 		List<SelectionType> selectionTypes = Arrays.asList(this.type, newSelection.type);
 		if (this.type == newSelection.type) {
 			return this.type;
@@ -204,15 +200,6 @@ final class Selection {
 			return SelectionType.ALL;
 		}
 		return SelectionType.CELLS;
-	}
-
-
-	public boolean isRowOnly() {
-		return SelectionType.ROWS.equals(type);
-	}
-
-	public boolean isColumnOnly() {
-		return SelectionType.COLUMNS.equals(type);
 	}
 
 	@Override

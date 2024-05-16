@@ -40,7 +40,7 @@ public class ContextMenuItems {
 	 * @param toRow Index of the bottommost row
 	 * @param fromCol Index of the leftmost column
 	 * @param toCol Index of the rightmost column
-	 * @return map of the menu key and its action.
+	 * @return list of the menu key and its action.
 	 */
 	public List<ContextMenuItem> get(int fromRow, int toRow, int fromCol, int toCol) {
 		if (shouldShowTableItems(fromRow, fromCol)) {

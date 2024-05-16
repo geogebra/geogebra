@@ -26,16 +26,12 @@ public class SpreadsheetControllerTest {
     private final int cellHeight = TableLayout.DEFAUL_CELL_HEIGHT;
     private final int rowHeaderCellWidth = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 
-
-    // TODO testing: I think it's better/safer to create a new instance of the system under test
-    // *for each test case*. This way, you cannot run into test interdependencies (a situation where
-    // one test depends on the final state of another test).
-    private final SpreadsheetController controller =
-            new SpreadsheetController(new TestTabularData());
+    private SpreadsheetController controller;
     private Rectangle viewport;
 
     @Before
     public void setup() {
+        controller = new SpreadsheetController(new TestTabularData());
         controller.getLayout().setHeightForRows(cellHeight, 0, 5);
         controller.getLayout().setWidthForColumns(40, 0, 5);
         setViewport(new Rectangle(0, 100, 0, 120));
@@ -59,7 +55,8 @@ public class SpreadsheetControllerTest {
         assertNotEquals(0, viewport.getMinX(), 0);
     }
 
-	// TODO testing: all the selection logic tests should go into a SpreadsheetSelectionControllerTests
+	// TODO testing: all the selection logic tests should go
+	// into SpreadsheetSelectionControllerTests
 	@Test
 	public void testMove() {
 		controller.selectCell(1, 1, false, false);
@@ -259,7 +256,7 @@ public class SpreadsheetControllerTest {
         runContextItemAt(2, 2, DELETE_COLUMN);
         selectCells(0, 1, 0, 1);
         runContextItemAt(0, 1, INSERT_COLUMN_RIGHT);
-        assertTrue("The current selection should move when a column is inserted to the right!",
+        assertTrue("The current selection should move when a column is inserted!",
                 controller.getLastSelection().contains(0, 2));
         assertTrue("There should be no more than 1 cell selected!",
                 controller.isOnlyCellSelected(0, 2));

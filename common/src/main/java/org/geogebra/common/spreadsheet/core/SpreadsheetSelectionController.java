@@ -26,25 +26,14 @@ import javax.annotation.CheckForNull;
 //  (why is there a _list_ of selections, negative indicies refer to headers, etc.).
 final class SpreadsheetSelectionController {
 
-	// we can make this configurable
-	private int numberOfColumnHeaders = 1; // 0 if no column headers
-	private int numberOfRowHeaders = 1; // 0 if no row headers
 	private final List<Selection> selections = new ArrayList<>();
 
 	 void clearSelections() {
 		selections.clear();
 	 }
 
-	void selectAll(int numberOfRows, int numberOfColumns) {
-		 // TODO The numberOfRows - 2 is really surprising.
-		//  If the idea is to exclude the header row, why not TabularRange.range(1, numberOfRows - 1, ...)?
-		//
-		//  Edit: After some digging, I found that header rows are represented by -1 indexes, so that
-		//  explains that. But this ignores the case that there may not be a row or column
-		// header. Also, the code would be easier to understand if the index calculation included the
-		// header row information, e.g.
-		setSelection(new Selection(
-				TabularRange.range(-1, -1,
+	void selectAll() {
+		setSelection(new Selection(TabularRange.range(-1, -1,
 						-1, -1)));
 	}
 
@@ -257,6 +246,11 @@ final class SpreadsheetSelectionController {
 	boolean areOnlyCellsSelected() {
 		return selections.stream().allMatch(
 				selection -> !selection.getRange().isRow() && !selection.getRange().isColumn());
+	}
+
+	boolean isSingleSelectionType() {
+		return areOnlyRowsSelected() || areOnlyColumnsSelected()
+				|| areOnlyCellsSelected() || areAllCellsSelected();
 	}
 
 	/**

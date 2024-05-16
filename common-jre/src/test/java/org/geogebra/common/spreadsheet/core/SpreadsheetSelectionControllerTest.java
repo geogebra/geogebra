@@ -208,13 +208,13 @@ public class SpreadsheetSelectionControllerTest {
 
 	@Test
 	public void testIsOnlyColumnSelected3() {
-		selectionController.selectAll(numberOfRows, numberOfColumns);
+		selectionController.selectAll();
 		assertFalse(selectionController.isOnlyColumnSelected(1));
 	}
 
 	@Test
 	public void testAllCellsSelected() {
-		selectionController.selectAll(numberOfRows, numberOfColumns);
+		selectionController.selectAll();
 		assertTrue(selectionController.areAllCellsSelected());
 	}
 

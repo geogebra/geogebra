@@ -32,7 +32,7 @@ public final class SpreadsheetController {
 	private final TableLayout layout;
 
 	private final SpreadsheetStyle style;
-	private DragAction dragAction;
+	private DragState dragAction;
 	private Rectangle viewport = new Rectangle(0, 0, 0, 0);
 	private @CheckForNull ViewportAdjuster viewportAdjuster;
 	private @CheckForNull UndoProvider undoProvider;
@@ -48,13 +48,6 @@ public final class SpreadsheetController {
 				tabularData.numberOfColumns(), TableLayout.DEFAUL_CELL_HEIGHT,
 				TableLayout.DEFAULT_CELL_WIDTH);
 		contextMenuItems = new ContextMenuItems(this, selectionController, getCopyPasteCut());
-	}
-
-	// TODO move out of the way (further down), group with related methods if possible
-	private CopyPasteCutTabularData getCopyPasteCut() {
-		return controlsDelegate != null
-				? new CopyPasteCutTabularDataImpl<>(tabularData, controlsDelegate.getClipboard())
-				: null;
 	}
 
 	TableLayout getLayout() {
@@ -117,9 +110,7 @@ public final class SpreadsheetController {
 	 * Select all cells
 	 */
 	public void selectAll() {
-		// TODO I think the selectionController should know the number of rows/columns,
-		//  so I'd add a field and setter (call when the data shape changes)
-		selectionController.selectAll(layout.numberOfRows(), layout.numberOfColumns());
+		selectionController.selectAll();
 	}
 
 	public void selectCell(int rowIndex, int columnIndex, boolean extend, boolean addSelection) {
@@ -147,10 +138,7 @@ public final class SpreadsheetController {
 		if (controlsDelegate == null) {
 			return false;
 		}
-		// TODO maybe this even warrants a method getEditorBounds(row, column)
-		Rectangle editorBounds = layout.getBounds(row, column)
-					.translatedBy(-viewport.getMinX() + layout.getRowHeaderWidth(),
-							-viewport.getMinY() + layout.getColumnHeaderHeight());
+		Rectangle editorBounds = getEditorBounds(row, column);
 		SpreadsheetCellEditor editor = controlsDelegate.getCellEditor();
 		editor.setBounds(editorBounds);
 
@@ -159,6 +147,12 @@ public final class SpreadsheetController {
 		editor.setTargetCell(row, column);
 		resetDragAction();
 		return true;
+	}
+
+	private Rectangle getEditorBounds(int row, int column) {
+		return layout.getBounds(row, column)
+				.translatedBy(-viewport.getMinX() + layout.getRowHeaderWidth(),
+						-viewport.getMinY() + layout.getColumnHeaderHeight());
 	}
 
 	/**
@@ -205,9 +199,7 @@ public final class SpreadsheetController {
 		if (modifiers.shift) {
 			setDragStartLocationFromSelection();
 		}
-		// TODO encapsulate this low-level check into a method with a meaningful name, maybe
-		// if (dragAction.isModifyingOperation())
-		if (dragAction.cursor != MouseCursor.DEFAULT) {
+		if (dragAction.isModifyingOperation()) {
 			return;
 		}
 		int column = findColumnOrHeader(x);
@@ -250,7 +242,6 @@ public final class SpreadsheetController {
 	}
 
 	private int findRowOrHeader(int y) {
-		// TODO fold this logic into TableLayout? (since it knows about column header heights anyway?)
 		return y < layout.getColumnHeaderHeight() ? -1
 				: layout.findRow(y + viewport.getMinY());
 	}
@@ -274,30 +265,17 @@ public final class SpreadsheetController {
 			return;
 		}
 		TabularRange lastRange = lastSelection.getRange();
-		dragAction = new DragAction(MouseCursor.DEFAULT,
+		dragAction = new DragState(MouseCursor.DEFAULT,
 				lastRange.getMinColumn(), lastRange.getMinRow());
 	}
 
-	DragAction getDragAction(int x, int y) {
+	DragState getDragAction(int x, int y) {
 		GPoint2D draggingDot = getDraggingDot();
 		if (draggingDot != null && draggingDot.distance(x, y) < 18) {
-			return new DragAction(MouseCursor.DRAG_DOT, layout.findRow(y + viewport.getMinY()),
+			return new DragState(MouseCursor.DRAG_DOT, layout.findRow(y + viewport.getMinY()),
 					layout.findColumn(x + viewport.getMinX()));
 		}
 		return layout.getResizeAction(x, y, viewport);
-	}
-
-	/**
-	 * If there are multiplce selections present, the current selection should stay as it was if
-	 * <li>Multiple Rows <b>only</b> are selected</li>
-	 * <li>Multiple Columns <b>only</b> are selected</li>
-	 * <li>Only single or multiple cells are selected (no whole rows / columns)</li>
-	 * <li>All cells are selected</li>
-	 * @return Whether the selection should be kept for showing the context menu
-	 */
-	private boolean shouldKeepSelectionForContextMenu() {
-		return areOnlyRowsSelected() || areOnlyColumnsSelected()
-				|| areOnlyCellsSelected() || areAllCellsSelected();
 	}
 
 	/**
@@ -309,8 +287,8 @@ public final class SpreadsheetController {
 		List<Selection> selections = getSelections();
 		switch (dragAction.cursor) {
 		case RESIZE_X:
-			if (isSelected(-1, dragAction.column)) {
-				double width = layout.getWidthForColumnResize(dragAction.column,
+			if (isSelected(-1, dragAction.startColumn)) {
+				double width = layout.getWidthForColumnResize(dragAction.startColumn,
 						x + viewport.getMinX());
 				for (Selection selection : selections) {
 					if (selection.getType() == SelectionType.COLUMNS) {
@@ -322,8 +300,8 @@ public final class SpreadsheetController {
 			storeUndoInfo();
 			break;
 		case RESIZE_Y:
-			if (isSelected(dragAction.row, -1)) {
-				double height = layout.getHeightForRowResize(dragAction.row,
+			if (isSelected(dragAction.startRow, -1)) {
+				double height = layout.getHeightForRowResize(dragAction.startRow,
 						y + viewport.getMinY());
 				for (Selection selection : selections) {
 					if (selection.getType() == SelectionType.ROWS) {
@@ -343,7 +321,7 @@ public final class SpreadsheetController {
 	}
 
 	private void resetDragAction() {
-		dragAction = new DragAction(MouseCursor.DEFAULT, -1, -1);
+		dragAction = new DragState(MouseCursor.DEFAULT, -1, -1);
 	}
 
 	/**
@@ -375,7 +353,7 @@ public final class SpreadsheetController {
 				break;
 			case JavaKeyCodes.VK_A:
 				if (modifiers.ctrlOrCmd) {
-					selectionController.selectAll(layout.numberOfRows(), layout.numberOfColumns());
+					selectionController.selectAll();
 					return;
 				}
 				startTyping(key, modifiers);
@@ -473,14 +451,14 @@ public final class SpreadsheetController {
 		case RESIZE_X:
 			// only handle the dragged column here, the rest of selection on pointer up
 			// otherwise left border of dragged column could move, causing feedback loop
-			double width = layout.getWidthForColumnResize(dragAction.column,
+			double width = layout.getWidthForColumnResize(dragAction.startColumn,
 					x + viewport.getMinX());
-			layout.setWidthForColumns(width, dragAction.column, dragAction.column);
+			layout.setWidthForColumns(width, dragAction.startColumn, dragAction.startColumn);
 			break;
 		case RESIZE_Y:
-			double height = layout.getHeightForRowResize(dragAction.row,
+			double height = layout.getHeightForRowResize(dragAction.startRow,
 					y + viewport.getMinY());
-			layout.setHeightForRows(height, dragAction.row, dragAction.row);
+			layout.setHeightForRows(height, dragAction.startRow, dragAction.startRow);
 			break;
 		default:
 		case DEFAULT:
@@ -497,12 +475,12 @@ public final class SpreadsheetController {
 	}
 
 	private void extendSelectionByDrag(int x, int y, boolean addSelection) {
-		if (dragAction.column >= 0 || dragAction.row >= 0) {
+		if (dragAction.startColumn >= 0 || dragAction.startRow >= 0) {
 			int row = findRowOrHeader(y);
 			int column = findColumnOrHeader(x);
 
 			TabularRange range =
-					new TabularRange(dragAction.row, dragAction.column, row, column);
+					new TabularRange(dragAction.startRow, dragAction.startColumn, row, column);
 			selectionController.select(new Selection(range), false, addSelection);
 		}
 	}
@@ -661,16 +639,22 @@ public final class SpreadsheetController {
 		return selectionController.areAllCellsSelected();
 	}
 
-	private boolean areOnlyRowsSelected() {
-		return selectionController.areOnlyRowsSelected();
+	/**
+	 * If there are multiple selections present, the current selection should stay as it was if
+	 * <li>Multiple Rows <b>only</b> are selected</li>
+	 * <li>Multiple Columns <b>only</b> are selected</li>
+	 * <li>Only single or multiple cells are selected (no whole rows / columns)</li>
+	 * <li>All cells are selected</li>
+	 * @return Whether the selection should be kept for showing the context menu
+	 */
+	private boolean shouldKeepSelectionForContextMenu() {
+		return selectionController.isSingleSelectionType();
 	}
 
-	private boolean areOnlyColumnsSelected() {
-		return selectionController.areOnlyColumnsSelected();
-	}
-
-	private boolean areOnlyCellsSelected() {
-		return selectionController.areOnlyCellsSelected();
+	private CopyPasteCutTabularData getCopyPasteCut() {
+		return controlsDelegate != null
+				? new CopyPasteCutTabularDataImpl<>(tabularData, controlsDelegate.getClipboard())
+				: null;
 	}
 
 	/**
