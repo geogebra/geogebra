@@ -7,6 +7,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.advanced.CmdIntersectPath;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdIntersect;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -249,7 +250,7 @@ public class CmdIntersect3D extends CmdIntersect {
 							c.getOutputSizes());
 				}
 
-				GeoElement ret = CmdIntersectPath3D.processPlaneSurface(kernel,
+				GeoElement ret = CmdIntersectPath.processPlaneSurface(kernel,
 						arg, ok, c.getLabel());
 				if (ret != null) {
 					return new GeoElement[] { ret };

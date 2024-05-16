@@ -40,8 +40,8 @@ import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
-import org.geogebra.common.gui.view.spreadsheet.SpreadsheetController;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetModeProcessor;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetTableController;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -170,7 +170,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	protected Cursor grabbingCursor;
 	protected Cursor grabCursor;
 
-	private SpreadsheetController controller;
+	private SpreadsheetTableController controller;
 
 	// Collection of cells that contain geos that can be edited with one click,
 	// e.g. booleans, buttons, lists
@@ -312,9 +312,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	}
 
-	private SpreadsheetController getEditorController() {
+	private SpreadsheetTableController getEditorController() {
 		if (controller == null) {
-			controller = new SpreadsheetController(app);
+			controller = new SpreadsheetTableController(app);
 		}
 		return controller;
 	}
