@@ -65,10 +65,7 @@ public final class SpreadsheetRenderer {
 				graphics.fillRect((int) cellBorder.getMinX(), (int) cellBorder.getMinY(),
 						(int) cellBorder.getWidth(), (int) cellBorder.getHeight());
 			}
-			if (content instanceof GeoText && ((GeoText) content).getTextString() != null
-					&& ((GeoText) content).getTextString().equals("ERROR")) {
-				drawErrorCell(row, column, graphics);
-			}
+
 			graphics.setColor(style.getTextColor());
 			renderable.draw(graphics, cellBorder);
 		}
@@ -80,16 +77,19 @@ public final class SpreadsheetRenderer {
 				(int) layout.getWidth(column), (int) layout.getHeight(row));
 	}
 
-	private void drawErrorCell(int row, int column, GGraphics2D graphics) {
+	public void drawErrorCell(int row, int column, GGraphics2D graphics,
+			double offsetX, double offsetY) {
 		graphics.setColor(style.geErrorGridColor());
-		drawCellBorder(row, column, graphics);
+		graphics.setStroke(borderStroke);
+		graphics.drawRect((int) (layout.getX(column) - offsetX), (int) (layout.getY(row) - offsetY),
+				(int) layout.getWidth(column), (int) layout.getHeight(row));
 
-		int x1 = (int) layout.getX(column) + (int) layout.getWidth(column) - 10;
-		int y1 = (int) layout.getY(row);
-		int x2 = (int) layout.getX(column) + (int) layout.getWidth(column);
-		int y2 = (int) layout.getY(row);
-		int x3 = (int) layout.getX(column) + (int) layout.getWidth(column);
-		int y3 = (int) layout.getY(row) + 10;
+		int x1 = (int) (layout.getX(column) - offsetX + layout.getWidth(column) - 10);
+		int y1 = (int) (layout.getY(row) - offsetY);
+		int x2 = (int) (layout.getX(column) -offsetX + (int) layout.getWidth(column));
+		int y2 = (int) (layout.getY(row) - offsetY);
+		int x3 = (int) (layout.getX(column) - offsetX + (int) layout.getWidth(column));
+		int y3 = (int) (layout.getY(row) - offsetY + 10);
 
 		GGeneralPath path = AwtFactory.getPrototype().newGeneralPath();
 		path.moveTo(x1, y1);

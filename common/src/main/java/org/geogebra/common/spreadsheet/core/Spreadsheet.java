@@ -7,6 +7,7 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
@@ -89,6 +90,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 			renderer.drawSelectionHeader(range, graphics,
 					this.viewport, controller.getLayout());
 		}
+
 		graphics.translate(-offsetX, 0);
 		graphics.setColor(controller.getStyle().getGridColor());
 		for (int column = portion.fromColumn + 1; column <= portion.toColumn; column++) {
@@ -113,6 +115,21 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		graphics.setColor(controller.getStyle().getHeaderBackgroundColor());
 		graphics.fillRect(0, 0, (int) layout.getRowHeaderWidth(),
 				(int) layout.getColumnHeaderHeight());
+
+		drawErrorCells(graphics, portion, offsetX, offsetY);
+	}
+
+	private void drawErrorCells(GGraphics2D graphics, TableLayout.Portion portion,
+			double offsetX, double offsetY) {
+		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
+			for (int row = portion.fromRow; row <= portion.toRow; row++) {
+				Object content = controller.contentAt(row, column);
+				if (content instanceof GeoText && ((GeoText) content).getTextString() != null
+						&& ((GeoText) content).getTextString().equals("ERROR")) {
+					renderer.drawErrorCell(row, column, graphics, offsetX, offsetY);
+				}
+			}
+		}
 	}
 
 	private void drawContentCells(GGraphics2D graphics, TableLayout.Portion portion,
