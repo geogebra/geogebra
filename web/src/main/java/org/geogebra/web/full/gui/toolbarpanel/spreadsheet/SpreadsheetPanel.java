@@ -65,7 +65,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		scrollOverlay = new ScrollPanel();
 		mathField = new MathTextFieldW(app);
 
-		spreadsheet.setControlsDelegate(initDelegate());
+		spreadsheet.setControlsDelegate(initDelegate(tabularData));
 
 		FlowPanel scrollContent = new FlowPanel();
 		scrollOverlay.setWidget(scrollContent);
@@ -125,9 +125,9 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		return key.length() > 1  ? "" : key;
 	}
 
-	private SpreadsheetControlsDelegateW initDelegate() {
+	private SpreadsheetControlsDelegateW initDelegate(KernelTabularDataAdapter tabularData) {
 		return new SpreadsheetControlsDelegateW(app,
-				this, mathField, spreadsheet);
+				this, mathField, spreadsheet, tabularData);
 	}
 
 	public void requestFocus() {

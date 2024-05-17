@@ -47,7 +47,7 @@ public final class SpreadsheetRenderer {
 		this.style = style;
 	}
 
-	void drawCell(int row, int column, GGraphics2D graphics, Object content) {
+	void drawCell(int row, int column, GGraphics2D graphics, Object content, boolean hasError) {
 		if (style.showBorder(row, column)) {
 			drawCellBorder(row, column, graphics);
 		}
@@ -66,8 +66,10 @@ public final class SpreadsheetRenderer {
 						(int) cellBorder.getWidth(), (int) cellBorder.getHeight());
 			}
 
-			graphics.setColor(style.getTextColor());
-			renderable.draw(graphics, cellBorder);
+			if (!hasError) {
+				graphics.setColor(style.getTextColor());
+				renderable.draw(graphics, cellBorder);
+			}
 		}
 	}
 
@@ -99,6 +101,11 @@ public final class SpreadsheetRenderer {
 
 		graphics.draw(path);
 		graphics.fill(path);
+
+		graphics.setColor(style.getTextColor());
+		graphics.setFont(graphics.getFont().deriveFont(GFont.ITALIC));
+		graphics.drawString("ERROR", (int) (layout.getX(column) - offsetX) + 10,
+				(int) (layout.getY(row) - offsetY) + 16 + 10);
 	}
 
 	void drawRowHeader(int row, GGraphics2D graphics, String name) {

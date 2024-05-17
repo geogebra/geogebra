@@ -7,21 +7,18 @@ import com.himamis.retex.editor.share.editor.MathFieldInternal;
 
 public class SpreadsheetErrorHandler implements ErrorHandler {
 	final SpreadsheetCellProcessor processor;
-	final MathFieldInternal mathField;
 
 	/**
 	 * Constructor
 	 * @param mathField - text field
 	 */
-	public SpreadsheetErrorHandler(SpreadsheetCellProcessor processor, MathFieldInternal mathField) {
+	public SpreadsheetErrorHandler(SpreadsheetCellProcessor processor) {
 		this.processor = processor;
-		this.mathField = mathField;
 	}
 
 	@Override
 	public void showError(String msg) {
-		mathField.setPlainText("ERROR");
-		processor.showError();
+		processor.markError();
 	}
 
 	@Override

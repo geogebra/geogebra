@@ -2,8 +2,12 @@ package org.geogebra.common.spreadsheet.kernel;
 
 import static com.himamis.retex.editor.share.util.Unicode.ASSIGN_STRING;
 
+import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.debug.Log;
 
@@ -12,6 +16,7 @@ import com.himamis.retex.editor.share.editor.MathFieldInternal;
 public class SpreadsheetCellProcessor {
 
 	private final AlgebraProcessor algebraProcessor;
+	private final SpreadsheetEditorListener listener;
 	private final ErrorHandler errorHandler;
 	private final String cellName;
 	private final StringBuilder sb;
@@ -21,10 +26,11 @@ public class SpreadsheetCellProcessor {
 	 * @param algebraProcessor {@link AlgebraProcessor}
 	 */
 	public SpreadsheetCellProcessor(String cellName, AlgebraProcessor algebraProcessor,
-			MathFieldInternal mathField) {
+			SpreadsheetEditorListener listener) {
 		this.cellName = cellName;
 		this.algebraProcessor = algebraProcessor;
-		errorHandler = new SpreadsheetErrorHandler(this, mathField);
+		this.listener = listener;
+		errorHandler = new SpreadsheetErrorHandler(this);
 		sb = new StringBuilder();
 	}
 
@@ -69,24 +75,13 @@ public class SpreadsheetCellProcessor {
 		return sb.toString();
 	}
 
-	private String buildError() {
-		StringBuilder strBuilder = new StringBuilder();
-		strBuilder.append(cellName);
-		strBuilder.append(ASSIGN_STRING);
-		strBuilder.append("\"");
-		strBuilder.append("ERROR");
-		strBuilder.append("\"");
-		return strBuilder.toString();
-	}
-
 	/**
-	 * show error in cell
+	 * mark error
 	 */
-	public void showError() {
-		GeoElement geo = algebraProcessor.getKernel().lookupLabel(cellName);
-		if (geo != null) {
-			geo.remove();
+	public void markError() {
+		GPoint pt = GeoElementSpreadsheet.spreadsheetIndices(cellName);
+		if (pt != null && pt.x != -1) {
+			listener.markError(pt.x, pt.y);
 		}
-		processInput(buildError());
 	}
 }

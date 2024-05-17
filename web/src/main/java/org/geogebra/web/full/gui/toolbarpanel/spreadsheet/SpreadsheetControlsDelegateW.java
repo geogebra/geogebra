@@ -12,6 +12,7 @@ import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetControlsDelegate;
 import org.geogebra.common.spreadsheet.kernel.KernelDataSerializer;
+import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.spreadsheet.kernel.SpreadsheetEditorListener;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.util.shape.Rectangle;
@@ -129,7 +130,8 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	 * @param spreadsheet - spreadsheet
 	 */
 	public SpreadsheetControlsDelegateW(AppW app, SpreadsheetPanel parent,
-			MathTextFieldW mathTextField, Spreadsheet spreadsheet) {
+			MathTextFieldW mathTextField, Spreadsheet spreadsheet,
+			KernelTabularDataAdapter tabularData) {
 		editor = new SpreadsheetCellEditorW(app, parent, mathTextField, spreadsheet);
 		contextMenu = new GPopupMenuW(app);
 		loc = app.getLocalization();

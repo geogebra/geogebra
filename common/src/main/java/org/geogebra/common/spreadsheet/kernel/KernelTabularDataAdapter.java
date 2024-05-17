@@ -27,6 +27,7 @@ import org.geogebra.common.spreadsheet.style.CellFormat;
  */
 public final class KernelTabularDataAdapter implements UpdateLocationView, TabularData<GeoElement> {
 	private final Map<Integer, Map<Integer, GeoElement>> data = new HashMap<>();
+	private final Map<Integer, Map<Integer, Boolean>> errorData = new HashMap<>();
 	private final List<TabularDataChangeListener> changeListeners = new ArrayList<>();
 	private final KernelTabularDataProcessor processor;
 	private final CellFormat cellFormat;
@@ -113,6 +114,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	@Override
 	public void clearView() {
 		data.clear();
+		errorData.clear();
 		changeListeners.forEach(listener -> listener.tabularDataDidChange(-1, -1));
 	}
 
@@ -187,10 +189,12 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 			GeoElement geo = (GeoElement) content;
 			geo.rename(GeoElementSpreadsheet.getSpreadsheetCellName(column, row));
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, geo);
+			markError(row, column, false);
 		} else {
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, null);
 		}
 	}
+
 
 	@Override
 	public GeoElement contentAt(int row, int column) {
@@ -220,5 +224,18 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	@Override
 	public int getAlignment(int row, int column) {
 		return cellFormat.getAlignment(column, row, contentAt(row, column) instanceof GeoText);
+	}
+
+	@Override
+	public void markError(int row, int column, boolean hasError) {
+		errorData.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, hasError);
+	}
+
+	@Override
+	public boolean hasError(int row, int column) {
+		if (errorData.get(row) == null || errorData.get(row).get(column) == null) {
+			return false;
+		}
+		return errorData.get(row).get(column);
 	}
 }

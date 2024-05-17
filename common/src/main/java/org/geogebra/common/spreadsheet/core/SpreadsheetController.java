@@ -688,4 +688,11 @@ public final class SpreadsheetController implements TabularSelection {
 		}
 	}
 
+	public void markError(int row, int column, boolean hasError) {
+		tabularData.markError(row, column, hasError);
+	}
+
+	public boolean hasError(int row, int column) {
+		return tabularData.hasError(row, column);
+	}
 }

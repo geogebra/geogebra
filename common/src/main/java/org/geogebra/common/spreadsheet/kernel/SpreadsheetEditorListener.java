@@ -37,7 +37,7 @@ public final class SpreadsheetEditorListener implements MathFieldListener, Unhan
 		this.spreadsheet = spreadsheet;
 		processor = new SpreadsheetCellProcessor(
 				GeoElementSpreadsheet.getSpreadsheetCellName(column, row),
-				kernel.getAlgebraProcessor(), mathField);
+				kernel.getAlgebraProcessor(), this);
 	}
 
 	@Override
@@ -80,5 +80,9 @@ public final class SpreadsheetEditorListener implements MathFieldListener, Unhan
 		if (keyCode == VK_DOWN) {
 			mathField.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_END));
 		}
+	}
+
+	public void markError(int row, int column) {
+		spreadsheet.getController().markError(row, column, true);
 	}
 }

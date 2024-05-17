@@ -124,8 +124,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
 			for (int row = portion.fromRow; row <= portion.toRow; row++) {
 				Object content = controller.contentAt(row, column);
-				if (content instanceof GeoText && ((GeoText) content).getTextString() != null
-						&& ((GeoText) content).getTextString().equals("ERROR")) {
+				if (controller.hasError(row, column)) {
 					renderer.drawErrorCell(row, column, graphics, offsetX, offsetY);
 				}
 			}
@@ -138,7 +137,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
 			for (int row = portion.fromRow; row <= portion.toRow; row++) {
 				renderer.drawCell(row, column, graphics,
-						controller.contentAt(row, column));
+						controller.contentAt(row, column), controller.hasError(row, column));
 			}
 		}
 		graphics.translate(offsetX, offsetY);
