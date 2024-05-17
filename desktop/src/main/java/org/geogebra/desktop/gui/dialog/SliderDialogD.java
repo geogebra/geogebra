@@ -135,7 +135,7 @@ public class SliderDialogD extends Dialog
 		radioPanel.add(rbInteger);
 
 		// label textfield
-		tfLabel = new InputPanelD(number.getDefaultLabel(), app, 1, 10, true);
+		tfLabel = new InputPanelD(number.getDefaultLabel(), app, 10, true, false);
 		tfLabel.getTextComponent().addKeyListener(this);
 		Border border = BorderFactory.createCompoundBorder(
 				BorderFactory.createTitledBorder(loc.getMenu("Name")),
