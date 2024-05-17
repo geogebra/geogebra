@@ -261,7 +261,7 @@ public final class SpreadsheetController implements TabularSelection {
 		if (lastSelection != null) {
 			TabularRange lastRange = lastSelection.getRange();
 			dragAction = new DragAction(MouseCursor.DEFAULT,
-					lastRange.getMinColumn(), lastRange.getMinRow());
+					lastRange.getMinRow(), lastRange.getMinColumn());
 		}
 	}
 
