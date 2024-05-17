@@ -130,8 +130,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	 * @param spreadsheet - spreadsheet
 	 */
 	public SpreadsheetControlsDelegateW(AppW app, SpreadsheetPanel parent,
-			MathTextFieldW mathTextField, Spreadsheet spreadsheet,
-			KernelTabularDataAdapter tabularData) {
+			MathTextFieldW mathTextField, Spreadsheet spreadsheet) {
 		editor = new SpreadsheetCellEditorW(app, parent, mathTextField, spreadsheet);
 		contextMenu = new GPopupMenuW(app);
 		loc = app.getLocalization();
