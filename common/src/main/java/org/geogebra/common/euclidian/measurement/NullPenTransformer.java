@@ -8,19 +8,23 @@ import org.geogebra.common.euclidian.EuclidianView;
 /**
  * No pen transformer.
  */
-public class NullPenTransformer implements PenTransformer {
+public final class NullPenTransformer implements PenTransformer {
 
-	private static NullPenTransformer istance;
+	private static NullPenTransformer instance;
+
+	private NullPenTransformer() {
+		// singleton constructor
+	}
 
 	/**
 	 *
 	 * @return the null transformer.
 	 */
 	public static PenTransformer get() {
-		if (istance == null) {
-			istance = new NullPenTransformer();
+		if (instance == null) {
+			instance = new NullPenTransformer();
 		}
-		return istance;
+		return instance;
 	}
 
 	@Override
@@ -30,11 +34,11 @@ public class NullPenTransformer implements PenTransformer {
 
 	@Override
 	public void reset(EuclidianView view, List<GPoint> previewPoints) {
-	    // stub
+		// stub
 	}
 
 	@Override
 	public void updatePreview(GPoint newPoint) {
-	    // stub
+		// stub
 	}
 }
