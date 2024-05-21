@@ -29,6 +29,9 @@
         <Bug pattern="PI_DO_NOT_REUSE_PUBLIC_IDENTIFIERS_CLASS_NAMES" />
     </Match>
     <Match>
+        <Bug pattern="SING_SINGLETON_GETTER_NOT_SYNCHRONIZED" />
+    </Match>
+    <Match>
         <Bug pattern="PI_DO_NOT_REUSE_PUBLIC_IDENTIFIERS_FIELD_NAMES" />
     </Match>
     <Match>

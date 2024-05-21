@@ -2299,4 +2299,30 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		reload();
 		t("f(3)", "(8, 9, 10)");
 	}
+
+	@Test
+	@Issue("APPS-5511")
+	public void parametricEquation() {
+		add("v:=(a,b)");
+		t("Solve(v=(1,2),{a,b})", "{{a = 1, b = 2}}");
+		t("s2:Solve(v=(1,2))", "{{a = 1, b = 2}}");
+		assertEquals("s2 = Solve(v = (1, 2))",
+				lookup("s2").getDefinitionForInputBar());
+	}
+
+	@Test
+	@Issue("APPS-5511")
+	public void parametricEquationList() {
+		add("v:=(a,b)");
+		t("Solve({v=(1,2)},{a,b})", "{{a = 1, b = 2}}");
+	}
+
+	@Test
+	@Issue({"APPS-1660", "APPS-5511"})
+	public void shouldReloadVectors() {
+		app.getGgbApi().evalXML("<expression label=\"v\" exp=\"(a, b)\" type=\"vector\"/>\n"
+				+ "<element type=\"symbolic\" label=\"v\"></element>");
+		assertThat(lookup("v"), hasValue("(a, b)"));
+	}
+
 }

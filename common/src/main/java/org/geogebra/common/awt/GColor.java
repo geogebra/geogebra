@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import org.geogebra.common.util.debug.Log;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author michael
  * 
@@ -702,6 +704,7 @@ public final class GColor implements GPaint {
 	 * @param pB - blue
 	 * @return float array, the HSL representation
 	 */
+	@SuppressFBWarnings("FE_FLOATING_POINT_EQUALITY")
 	public static float[] rgbToHsl(int pR, int pG, int pB) {
 		float r = pR / 255f;
 		float g = pG / 255f;

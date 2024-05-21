@@ -3541,7 +3541,7 @@ public class MyXMLHandler implements DocHandler {
 				}
 			}
 			boolean forceNonSymbolic = (label != null &&  label.equals(xValuesLabel))
-					|| (type != null && !"symbolic".equals(type));
+					|| (type != null && !"symbolic".equals(type) && !"vector".equals(type));
 			SymbolicMode mode = forceNonSymbolic ? SymbolicMode.NONE : kernel.getSymbolicMode();
 
 			GeoElementND[] result = getAlgProcessor()

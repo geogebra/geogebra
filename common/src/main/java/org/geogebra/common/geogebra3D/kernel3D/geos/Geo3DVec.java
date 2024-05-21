@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
-import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.math3.complex.Complex;
 import org.geogebra.common.kernel.Kernel;
@@ -444,8 +444,8 @@ final public class Geo3DVec extends ValidExpression
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables(SymbolicMode symbolicMode) {
-		return null;
+	public void getVariables(Set<GeoElement> variables, SymbolicMode symbolicMode) {
+		// constant
 	}
 
 	@Override

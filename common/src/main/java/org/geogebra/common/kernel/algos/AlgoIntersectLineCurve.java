@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import java.util.List;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -45,15 +47,10 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 
 	/**
 	 * common constructor
-	 * 
-	 * @param c
-	 *            Construction
-	 * @param labels
-	 *            labels
-	 * @param l
-	 *            line
-	 * @param p
-	 *            curve
+	 * @param c Construction
+	 * @param labels labels
+	 * @param l line
+	 * @param p curve
 	 */
 	public AlgoIntersectLineCurve(Construction c, String[] labels, GeoLine l,
 			GeoCurveCartesianND p) {
@@ -96,18 +93,23 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 
 	@Override
 	public void compute() {
-
 		Coords coeffs = line.getCoords();
-
 		ExpressionNode xFun = curve.getFun(0).getExpression();
 		ExpressionNode yFun = curve.getFun(1).getExpression();
+		FunctionVariable functionVariable = curve.getFun(0).getFunctionVariable();
 
-		FunctionVariable fv = curve.getFun(0).getFunctionVariable();
+		if (curve.isSpline()) {
+			Spline spline = new Spline(xFun, yFun, functionVariable);
+			findIntersectionWithSpline(spline, functionVariable, coeffs);
+		} else {
+			findIntersections(getMultiplyExpression(xFun, yFun, coeffs),
+					functionVariable);
+		}
+	}
 
-		// substitute x = x(t), y=y(t) into
-		// ax + by + c
+	static ExpressionNode getMultiplyExpression(ExpressionNode xFun,
+			ExpressionNode yFun, Coords coeffs) {
 		ExpressionNode enx, eny;
-
 		if (DoubleUtil.isZero(coeffs.getZ())) {
 			enx = xFun.multiply(coeffs.getX());
 			eny = yFun.multiply(coeffs.getY());
@@ -118,8 +120,23 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 			eny = yFun.multiply(coeffs.getY() / coeffs.getZ());
 			enx = enx.plus(eny).plus(1);
 		}
+		return enx;
+	}
 
-		findIntersections(enx, fv);
+	private void findIntersectionWithSpline(Spline spline,
+			FunctionVariable functionVariable, Coords coeffs) {
+		IntersectLineSpline lineSpline =
+				new IntersectLineSpline(spline, coeffs, kernel.getEquationSolver());
+
+		List<Double> roots = lineSpline.compute();
+
+		outputPoints.adjustOutputSize(roots.size());
+		if (!roots.isEmpty()) {
+			for (int i = 0; i < roots.size(); i++) {
+				getCoordsBySubstitution(functionVariable, roots.get(i),
+						outputPoints.getElement(i), curve);
+			}
+		}
 	}
 
 	@Override
@@ -135,5 +152,4 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 				line.getLabel(tpl),
 				curve.getLabel(tpl));
 	}
-
 }

@@ -31,7 +31,7 @@ import org.geogebra.desktop.factories.AwtFactoryD;
  * used by LineStylePanel for rendering a combobox with different line styles
  * (dashing)
  */
-public class DashListRenderer extends JPanel implements ListCellRenderer {
+public class DashListRenderer extends JPanel implements ListCellRenderer<Integer> {
 	/**
 	 * 
 	 */
@@ -58,7 +58,7 @@ public class DashListRenderer extends JPanel implements ListCellRenderer {
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value,
+	public Component getListCellRendererComponent(JList list, Integer value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 		if (isSelected) {
 			// setBackground(list.getSelectionBackground());
@@ -73,7 +73,7 @@ public class DashListRenderer extends JPanel implements ListCellRenderer {
 		}
 
 		// value is an Integer with the line type's int value
-		int type = ((Integer) value).intValue();
+		int type = value;
 		// get the dashpanel for this dashing type
 		dashStroke = dashStrokeMap.get(type);
 		return this;

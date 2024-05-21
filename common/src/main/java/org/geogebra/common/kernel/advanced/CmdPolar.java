@@ -1,8 +1,7 @@
 package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.algos.AlgoPolarLine;
-import org.geogebra.common.kernel.algos.AlgoPolarPoint;
+import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -36,18 +35,18 @@ public class CmdPolar extends CommandProcessor {
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
-
+			AlgoDispatcher algoDispatcher = kernel.getAlgoDispatcher();
 			// polar line to point relative to conic
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
-				GeoElement[] ret = { polarLine(c.getLabel(),
+				GeoElement[] ret = { algoDispatcher.polarLine(c.getLabel(),
 						(GeoPointND) arg[0], (GeoConicND) arg[1]) };
 				return ret;
 			}
 			// pole of a line relative to conic
 			if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
-				GeoElement[] ret = { polarPoint(c.getLabel(),
+				GeoElement[] ret = { algoDispatcher.polarPoint(c.getLabel(),
 						(GeoLineND) arg[0], (GeoConicND) arg[1]) };
 				return ret;
 			}
@@ -56,39 +55,6 @@ public class CmdPolar extends CommandProcessor {
 		default:
 			throw argNumErr(c);
 		}
-	}
-
-	/**
-	 * polar line to P relative to c
-	 * 
-	 * @param label
-	 *            output label
-	 * @param P
-	 *            point
-	 * @param c
-	 *            conic
-	 * @return polar
-	 */
-	protected GeoElement polarLine(String label, GeoPointND P, GeoConicND c) {
-		AlgoPolarLine algo = new AlgoPolarLine(cons, label, c, P);
-		return (GeoElement) algo.getLine();
-	}
-
-	/**
-	 * pole of line relative to c
-	 * 
-	 * @param label
-	 *            output label
-	 * @param line
-	 *            line
-	 * @param c
-	 *            conic
-	 * @return pole line
-	 */
-	protected GeoElement polarPoint(String label, GeoLineND line,
-			GeoConicND c) {
-		AlgoPolarPoint algo = new AlgoPolarPoint(cons, label, c, line);
-		return (GeoElement) algo.getPoint();
 	}
 
 }

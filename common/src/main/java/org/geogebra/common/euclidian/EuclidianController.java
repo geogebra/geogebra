@@ -11486,11 +11486,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public final void setDefaultEventType(PointerEventType pointerEventType,
 			boolean down) {
-		if (pointerEventType == PointerEventType.PEN
-				&& pointerEventType != defaultEventType
-				&& app.getMode() == EuclidianConstants.MODE_MOVE) {
-			app.setMode(EuclidianConstants.MODE_PEN, ModeSetter.DOCK_PANEL);
-		}
 		if (down && app.getMode() == EuclidianConstants.MODE_PEN
 				&& pointerEventType != PointerEventType.PEN
 				&& PointerEventType.PEN == defaultEventType) {

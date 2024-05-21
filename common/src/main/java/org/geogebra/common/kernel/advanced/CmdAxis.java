@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.advanced;
 
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
@@ -40,8 +39,8 @@ public class CmdAxis extends CommandProcessor {
 			// asymptotes to conic
 			if (arg[0].isGeoConic()) {
 
-				AlgoAxis algo = getAlgoAxisFirst(cons, c.getLabel(),
-						(GeoConicND) arg[0]);
+				AlgoAxis algo = kernel.getAlgoDispatcher().axis(c.getLabel(),
+						(GeoConicND) arg[0], axisId);
 
 				GeoElement[] ret = { algo.getAxis().toGeoElement() };
 				return ret;
@@ -51,20 +50,5 @@ public class CmdAxis extends CommandProcessor {
 		default:
 			throw argNumErr(c);
 		}
-	}
-
-	/**
-	 * @param cons1
-	 *            construction
-	 * @param label
-	 *            label
-	 * @param geoConicND
-	 *            conic
-	 * @return axis algo
-	 */
-	protected AlgoAxis getAlgoAxisFirst(Construction cons1, String label,
-			GeoConicND geoConicND) {
-
-		return new AlgoAxis(cons1, label, geoConicND, axisId);
 	}
 }

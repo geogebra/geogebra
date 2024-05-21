@@ -102,6 +102,10 @@ public interface Inspecting {
 		private static int dim;
 		private static UnplottableChecker checker = new UnplottableChecker();
 
+		private UnplottableChecker() {
+			// singleton constructor
+		}
+
 		@Override
 		public boolean check(ExpressionValue v) {
 			switch (type) {

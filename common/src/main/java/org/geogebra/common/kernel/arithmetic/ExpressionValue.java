@@ -19,6 +19,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.arithmetic;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -134,9 +135,20 @@ public interface ExpressionValue {
 	/**
 	 * @param mode
 	 *            symbolic mode
+	 * @param variables set of GeoElement variables
+	 */
+	void getVariables(Set<GeoElement> variables, SymbolicMode mode);
+
+	/**
+	 * @param mode
+	 *            symbolic mode
 	 * @return set of GeoElement variables
 	 */
-	public HashSet<GeoElement> getVariables(SymbolicMode mode);
+	default Set<GeoElement> getVariables(SymbolicMode mode) {
+		HashSet<GeoElement> vars = new HashSet<>();
+		getVariables(vars, mode);
+		return vars;
+	}
 
 	@Override
 	@Deprecated
