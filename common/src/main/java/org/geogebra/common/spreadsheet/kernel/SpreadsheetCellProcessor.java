@@ -81,7 +81,7 @@ public class SpreadsheetCellProcessor {
 	public void markError() {
 		GPoint pt = GeoElementSpreadsheet.spreadsheetIndices(cellName);
 		if (pt != null && pt.x != -1) {
-			listener.markError(pt.x, pt.y);
+			listener.markError(pt.y, pt.x);
 		}
 	}
 }
