@@ -40,8 +40,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 		keyboardController = new TableValuesKeyboardNavigationController(tableValuesView, this);
 
 		focusedCell = null;
-		// reset to non-empty input by default, set to empty string to simulate an empty cell
-		cellContent = "0";
+		cellContent = "";
 		didReportInvalidCellContent = false;
 		didReportModelChanged = false;
 		didRequestHideKeyboard = false;
@@ -56,6 +55,14 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 		DefineFunctionHandler handler = new DefineFunctionHandler(getKernel());
 		handler.handle(definition, function);
+	}
+
+	private String getFocusedCellContent() {
+		if (focusedCell == null) {
+			return null;
+		}
+		return tableValuesView.getTableValuesModel()
+				.getCellAt(focusedCell.row, focusedCell.column).getInput();
 	}
 
 	// Scenario 0:
@@ -101,14 +108,21 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	}
 
 	@Test
-	public void testEmptyTable_EnterDataInPlaceholderColumn() {
+	public void testEmptyTable_SelectPlaceholderColumn() {
 		assertTrue(tableValuesView.isEmpty());
 
 		// select (0, 1) - editing placeholder column
-		assertTrue(keyboardController.isColumnEditableOrPlaceholder(1));
+		assertTrue(keyboardController.isColumnEditable(1));
 		keyboardController.select(0, 1);
 		assertEquals(new CellIndex(0, 1), focusedCell);
 		assertTrue(keyboardController.isEditingPlaceholderColumn());
+	}
+
+	@Test
+	public void testEmptyTable_EnterDataInPlaceholderColumn() {
+		// select (0, 1) - editing placeholder column
+		keyboardController.select(0, 1);
+		assertEquals(new CellIndex(0, 1), focusedCell);
 
 		// arrow down in empty placeholder cell
 		// -> selection should not change
@@ -130,9 +144,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	}
 
 	@Test
-	public void testEmptyTable_ArrowRightTapArrowRight() throws Exception {
-		cellContent = "";
-
+	public void testEmptyTable_ArrowRightTapArrowRight() {
 		// select (0, 0)
 		keyboardController.select(0, 0);
 		assertEquals(new CellIndex(0, 0), focusedCell);
@@ -157,10 +169,8 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	@Test
 	public void testEmptyTable_EnterInvalidDataInPlaceholderColumn() {
 		// select (0, 1) - editing placeholder column
-		assertTrue(keyboardController.isColumnEditableOrPlaceholder(1));
 		keyboardController.select(0, 1);
 		assertEquals(new CellIndex(0, 1), focusedCell);
-		assertTrue(keyboardController.isEditingPlaceholderColumn());
 
 		// return in non-empty placeholder cell
 		// -> invalid data reported, editing new placeholder row
@@ -189,8 +199,8 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	@Test
 	public void testValuesList() throws Exception {
 		tableValuesView.setValues(0, 1, 1);
-		assertEquals(3, keyboardController.getNrOfNavigableRows());
-		assertEquals(2, keyboardController.getNrOfNavigableColumns());
+		assertEquals(3, keyboardController.getNavigableRowsCount());
+		assertEquals(2, keyboardController.getNavigableColumnsCount());
 	}
 
 	@Test
@@ -205,12 +215,14 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 		// arrow down
 		// -> new selection should be (1, 0)
+		cellContent = getFocusedCellContent();
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_DOWN);
 		assertEquals(new CellIndex(1, 0), focusedCell);
 		assertFalse(didReportModelChanged);
 
 		// arrow down
 		// -> new selection should be (2, 0) - editing placeholder row
+		cellContent = getFocusedCellContent();
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_DOWN);
 		assertTrue(keyboardController.isEditingPlaceholderRow());
 		assertEquals(new CellIndex(2, 0), focusedCell);
@@ -233,11 +245,13 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 		// arrow down
 		// -> new selection should be (1, 0)
+		cellContent = getFocusedCellContent();
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_DOWN);
 		assertEquals(new CellIndex(1, 0), focusedCell);
 
 		// arrow down
 		// -> new selection should be (2, 0) - editing placeholder row
+		cellContent = getFocusedCellContent();
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_DOWN);
 		assertTrue(keyboardController.isEditingPlaceholderRow());
 		assertEquals(new CellIndex(2, 0), focusedCell);
@@ -253,7 +267,6 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	@Test
 	public void testValuesList_ArrowUpInEmptyPlaceholderRow() throws Exception {
 		tableValuesView.setValues(0, 1, 1);
-		assertEquals(2, tableValuesView.getTableValuesModel().getRowCount());
 
 		// select (0, 0)
 		keyboardController.select(0, 0);
@@ -261,11 +274,13 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 		// arrow down
 		// -> new selection should be (1, 0)
+		cellContent = getFocusedCellContent();
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_DOWN);
 		assertEquals(new CellIndex(1, 0), focusedCell);
 
 		// arrow down
 		// -> new selection should be (2, 0) - editing placeholder row
+		cellContent = getFocusedCellContent();
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_DOWN);
 		assertTrue(keyboardController.isEditingPlaceholderRow());
 		assertEquals(new CellIndex(2, 0), focusedCell);
@@ -282,7 +297,6 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	@Test
 	public void testValuesList_ArrowUpInNonEmptyPlaceholderRow() throws Exception {
 		tableValuesView.setValues(0, 1, 1);
-		assertEquals(2, tableValuesView.getTableValuesModel().getRowCount());
 
 		// select (0, 0)
 		keyboardController.select(0, 0);
@@ -290,11 +304,13 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 		// arrow down
 		// -> new selection should be (1, 0)
+		cellContent = getFocusedCellContent();
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_DOWN);
 		assertEquals(new CellIndex(1, 0), focusedCell);
 
 		// arrow down
 		// -> new selection should be (2, 0) - editing placeholder row
+		cellContent = getFocusedCellContent();
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_DOWN);
 		assertTrue(keyboardController.isEditingPlaceholderRow());
 		assertEquals(new CellIndex(2, 0), focusedCell);
@@ -311,7 +327,6 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	@Test
 	public void testValuesList_ArrowRightInEmptyPlaceholderColumn() throws Exception {
 		tableValuesView.setValues(0, 1, 1);
-		assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
 
 		// select (0, 0)
 		keyboardController.select(0, 0);
@@ -319,6 +334,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 		// arrow right
 		// -> new selection should be (0, 1) - editing placeholder column
+		cellContent = getFocusedCellContent();
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
 		assertTrue(keyboardController.isEditingPlaceholderColumn());
 		assertEquals(new CellIndex(0, 1), focusedCell);
@@ -334,7 +350,6 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	@Test
 	public void testValuesList_ArrowRightInNonEmptyPlaceholderColumn() throws Exception {
 		tableValuesView.setValues(0, 1, 1);
-		assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
 
 		// select (0, 0)
 		keyboardController.select(0, 0);
@@ -342,6 +357,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 		// arrow right
 		// -> new selection should be (0, 1) - editing placeholder column
+		cellContent = getFocusedCellContent();
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
 		assertTrue(keyboardController.isEditingPlaceholderColumn());
 		assertEquals(new CellIndex(0, 1), focusedCell);
@@ -364,6 +380,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 		// arrow left
 		// -> selection should not change
+		cellContent = getFocusedCellContent();
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_LEFT);
 		assertEquals(new CellIndex(0, 0), focusedCell);
 	}
@@ -371,7 +388,6 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	@Test
 	public void testValuesList_ArrowLeftInEmptyPlaceholderColumn() throws Exception {
 		tableValuesView.setValues(0, 1, 1);
-		assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
 
 		// select (0, 0)
 		keyboardController.select(0, 0);
@@ -379,6 +395,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 		// arrow right
 		// -> new selection should be (0, 1) - editing placeholder column
+		cellContent = getFocusedCellContent();
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
 		assertTrue(keyboardController.isEditingPlaceholderColumn());
 		assertEquals(new CellIndex(0, 1), focusedCell);
@@ -395,7 +412,6 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	@Test
 	public void testValuesList_ArrowLeftInNonEmptyPlaceholderColumn() throws Exception {
 		tableValuesView.setValues(0, 1, 1);
-		assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
 
 		// select (0, 0)
 		keyboardController.select(0, 0);
@@ -403,6 +419,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 		// arrow right
 		// -> new selection should be (0, 1) - editing placeholder column
+		cellContent = getFocusedCellContent();
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
 		assertTrue(keyboardController.isEditingPlaceholderColumn());
 		assertEquals(new CellIndex(0, 1), focusedCell);
@@ -425,15 +442,14 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	public void testFunctionColumn() throws Exception {
 		tableValuesView.setValues(-2, 2, 1);
 		addFunction("f", "x");
-		assertEquals(6, keyboardController.getNrOfNavigableRows());
-		assertEquals(3, keyboardController.getNrOfNavigableColumns());
+		assertEquals(6, keyboardController.getNavigableRowsCount());
+		assertEquals(3, keyboardController.getNavigableColumnsCount());
 	}
 
 	@Test
 	public void testFunctionColumn_ArrowDownInEmptyPlaceholderColumn() throws Exception {
 		tableValuesView.setValues(-2, 2, 1);
 		addFunction("f", "x");
-		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
 
 		// select (0, 0)
 		keyboardController.select(0, 0);
@@ -441,6 +457,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 		// arrow right
 		// -> skip f(x) column, editing placeholder column
+		cellContent = getFocusedCellContent();
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
 		assertTrue(keyboardController.isEditingPlaceholderColumn());
 		assertEquals(new CellIndex(0, 2), focusedCell);
@@ -455,6 +472,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 		// arrow left
 		// -> back in x column, no new data
+		cellContent = "";
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_LEFT);
 		assertFalse(keyboardController.isEditingPlaceholderColumn());
 		assertEquals(new CellIndex(1, 0), focusedCell);
@@ -465,7 +483,6 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	public void testFunctionColumn_ArrowDownInNonEmptyPlaceholderColumn() throws Exception {
 		tableValuesView.setValues(-2, 2, 1);
 		addFunction("f", "x");
-		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
 
 		// select (0, 0)
 		keyboardController.select(0, 0);
@@ -473,12 +490,14 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 		// arrow right
 		// -> skip f(x) column, editing placeholder column
+		cellContent = getFocusedCellContent();
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
 		assertTrue(keyboardController.isEditingPlaceholderColumn());
 		assertEquals(new CellIndex(0, 2), focusedCell);
 
 		// arrow down in non-empty placeholder column
 		// -> insert data, move down in now no-longer-placeholder column
+		cellContent = "1";
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_DOWN);
 		assertFalse(keyboardController.isEditingPlaceholderColumn());
 		assertEquals(3, tableValuesView.getTableValuesModel().getColumnCount());
@@ -496,8 +515,8 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 				new ScientificDataTableController(getKernel());
 		scientificDataTableController.setup(tableValuesView);
 		scientificDataTableController.defineFunctions("x", "x^2");
-		assertEquals(6, keyboardController.getNrOfNavigableRows());
-		assertEquals(3, keyboardController.getNrOfNavigableColumns());
+		assertEquals(6, keyboardController.getNavigableRowsCount());
+		assertEquals(3, keyboardController.getNavigableColumnsCount());
 	}
 
 	@Test
@@ -512,6 +531,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 		// arrow right
 		// -> selection should not change
+		cellContent = getFocusedCellContent();
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
 		assertEquals(new CellIndex(0, 0), focusedCell);
 	}
@@ -530,7 +550,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 		// arrow down 4 times
 		// -> selection should be (4, 0)
 		for (int i = 0; i < 4; i++) {
-			cellContent = "" + (i - 2); // [-2...2]
+			cellContent = String.valueOf(i - 2); // [-2...2]
 			keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_DOWN);
 			assertFalse(didReportModelChanged);
 		}
@@ -538,6 +558,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 		// arrow down once more
 		// -> selection should be (5, 0) - editing placeholder row
+		cellContent = getFocusedCellContent();
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_DOWN);
 		assertTrue(keyboardController.isEditingPlaceholderRow());
 		assertEquals(new CellIndex(5, 0), focusedCell);
@@ -559,8 +580,8 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 		keyboardController.setReadonly(true);
 		tableValuesView.setValues(0, 3, 1);
 
-		assertEquals(1, keyboardController.getNrOfNavigableColumns());
-		assertEquals(4, keyboardController.getNrOfNavigableRows());
+		assertEquals(1, keyboardController.getNavigableColumnsCount());
+		assertEquals(4, keyboardController.getNavigableRowsCount());
 
 		keyboardController.select(0, 0);
 		assertNull(focusedCell);
@@ -585,7 +606,6 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 	@Override
 	public void invalidCellContentDetected(int row, int column) {
-		System.out.println("Invalid cell content at row " + row + ", column " + column);
 		didReportInvalidCellContent = true;
 	}
 
@@ -596,42 +616,51 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 	//  TableValuesListener
 
+	@Override
 	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
 		didReportModelChanged = true;
 	}
 
+	@Override
 	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
 		didReportModelChanged = true;
 	}
 
+	@Override
 	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		didReportModelChanged = true;
 	}
 
+	@Override
 	public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
 		didReportModelChanged = true;
 	}
 
+	@Override
 	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
 			int row) {
 		didReportModelChanged = true;
 	}
 
+	@Override
 	public void notifyRowsRemoved(TableValuesModel model, int firstRow, int lastRow) {
 		didReportModelChanged = true;
 	}
 
+	@Override
 	public void notifyRowsAdded(TableValuesModel model, int firstRow, int lastRow) {
 		didReportModelChanged = true;
 	}
 
+	@Override
 	public void notifyRowChanged(TableValuesModel model, int row) {
 		didReportModelChanged = true;
 	}
 
+	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
 		didReportModelChanged = true;
 	}

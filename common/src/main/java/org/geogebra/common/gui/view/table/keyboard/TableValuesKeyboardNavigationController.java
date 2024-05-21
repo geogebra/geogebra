@@ -32,7 +32,7 @@ import com.google.j2objc.annotations.Weak;
  */
 public final class TableValuesKeyboardNavigationController {
 
-	public static enum Key {
+	public enum Key {
 		ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ARROW_DOWN, RETURN;
 	}
 
@@ -41,9 +41,11 @@ public final class TableValuesKeyboardNavigationController {
 	public TableValuesKeyboardNavigationControllerDelegate delegate;
 
 	//@NonOwning
-	private final @Nonnull TableValues tableValuesView;
+	@Nonnull
+	private final TableValues tableValuesView;
 	//@NonOwning
-	private final @Nonnull TableValuesModel tableValuesModel;
+	@Nonnull
+	private final TableValuesModel tableValuesModel;
 
 	private boolean isReadonly = false;
 	private int selectedRow = -1;
@@ -92,7 +94,7 @@ public final class TableValuesKeyboardNavigationController {
 	 * @apiNote This is not the same as {@link TableValuesModel#getRowCount()}, because that
 	 * does not include the placeholder row.
 	 */
-	public int getNrOfNavigableRows() {
+	public int getNavigableRowsCount() {
 		return tableValuesModel.getRowCount()
 				+ (!isReadonly && tableValuesModel.hasEditableColumns() ? 1 : 0);
 	}
@@ -104,7 +106,7 @@ public final class TableValuesKeyboardNavigationController {
 	 * @apiNote This is not the same as {@link TableValuesModel#getColumnCount()}, because that
 	 * does not include the placeholder column.
 	 */
-	public int getNrOfNavigableColumns() {
+	public int getNavigableColumnsCount() {
 		return tableValuesModel.getColumnCount()
 				+ (!isReadonly && tableValuesModel.allowsAddingColumns() ? 1 : 0);
 	}
@@ -116,7 +118,7 @@ public final class TableValuesKeyboardNavigationController {
 	 * is also editable). This information can be used to display non-editable columns in a
 	 * different color in the UI, for example.
 	 */
-	public boolean isColumnEditableOrPlaceholder(int column) {
+	public boolean isColumnEditable(int column) {
 		return (addedPlaceholderColumn && column == tableValuesModel.getColumnCount())
 				|| tableValuesModel.isColumnEditable(column);
 	}
