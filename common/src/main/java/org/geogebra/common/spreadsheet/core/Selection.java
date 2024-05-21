@@ -73,31 +73,35 @@ final class Selection {
 		return range.contains(row, column);
 	}
 
-	// TODO documentation: This set of four methods (getLeft, etc) is very hard to understand
-	//  from the documentation, and even from the code.
-	//  I failed ot build a mental model even after looking at the code for a longer time.
-	//  We should explain what this is in more detail. Maybe by adding pictures (ASCII art),
-	//  or referencing Google sheets (e.g., a list of steps that a reader can perform to understand
-	//  what this does).
 	/**
-	 * If Rows are selected then the leftmost Column with a single cell is selected
-	 //  A picture would be very helpful. I wouldn't be able to fix a bug in here (can't build
-	 //  a mental model of this, even after looking at the code for a while).
-	 * @param extendSelection Whether we want to extend the current Selection
-	 * // TODO extendSelection is ignored in some cases
-	 * @return Selection to the left of the selection calling this method if possible
+	 * Takes the anchor cell of this selection and returns
+	 * - the cell to the left of it if possible
+	 * - the cell itself if it is in the first column
+	 * Examples: for rectangular range C2:D3 yields B2, for column selection C:D yields B1,
+	 * for row selection 2:3 yields A2
+	 * @return Selection to the left of this
 	 */
-	// TODO naming: It's not clear what `selection.getLeft()` could mean.
-	//  But even after looking at the implementation for a while, I don't understand
-	//  what it does, so I can't suggest a better name...
-	Selection getLeft(boolean extendSelection) {
+	Selection getLeftNeighborCell() {
 		if (type == SelectionType.ROWS) {
 			return getSingleCellSelection(range.getFromRow(), 0);
-		} else if (!extendSelection) {
-			return getSingleCellSelection(range.getFromRow(),
+		} else {
+			return getSingleCellSelection(Math.max(range.getFromRow(), 0),
 					Math.max(range.getFromColumn() - 1, 0));
 		}
+	}
 
+	/**
+	 * Range spanned by this selection's anchor cell and an end cell that was shifted to the left.
+	 * - for rectangular range C2:D3 that can be either B2:D3 (if anchor is in D)
+	 *   or C2:C2 (if anchor is in C)
+	 * - for column selection C:D yields either B:D or D:D
+	 * - for row selection 2:3 yields the selection unchanged
+	 * @return Selection extended to the left
+	 */
+	Selection getLeftExtension() {
+		if (type == SelectionType.ROWS) {
+			return this;
+		}
 		int leftColumnIndex = Math.max(range.getToColumn() - 1, 0);
 		return new Selection(TabularRange.range(range.getFromRow(), range.getToRow(),
 				leftColumnIndex, leftColumnIndex));

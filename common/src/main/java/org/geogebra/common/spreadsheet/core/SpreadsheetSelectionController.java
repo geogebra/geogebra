@@ -88,8 +88,8 @@ final class SpreadsheetSelectionController {
 	void moveLeft(boolean extendSelection) {
 		Selection lastSelection = getLastSelection();
 		if (lastSelection != null) {
-			// TODO the `getLeft()` name should be changed, see my comments in Selection
-			select(lastSelection.getLeft(extendSelection), extendSelection, false);
+			select(extendSelection ? lastSelection.getLeftExtension() : lastSelection.getLeftNeighborCell(),
+					extendSelection, false);
 		}
 	}
 
