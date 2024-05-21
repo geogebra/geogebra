@@ -10,7 +10,7 @@ import org.geogebra.common.util.shape.Rectangle;
  *
  * @Note: This type is not designed to be thread-safe.
  */
-public final class TableLayout {
+public final class TableLayout implements PersistenceListener {
 	public static final int DEFAULT_CELL_WIDTH = 120;
 	public static final int DEFAUL_CELL_HEIGHT = 36;
 	public static final int DEFAULT_ROW_HEADER_WIDTH = 52;
@@ -115,6 +115,65 @@ public final class TableLayout {
 	}
 
 	/**
+	 * Update number of columns, if columns are added they have 0 width
+	 * @param columns number of columns
+	 */
+	public void setNumberOfColumns(int columns) {
+		if (columns > columnWidths.length) {
+			columnWidths = Arrays.copyOf(columnWidths, columns);
+			cumulativeWidths = new double[columns + 1];
+			updateCumulativeWidths(0);
+		} else if (columns < columnWidths.length) {
+			columnWidths = Arrays.copyOf(columnWidths, columns);
+			cumulativeWidths = Arrays.copyOf(cumulativeWidths, columns + 1);
+		}
+	}
+
+	/**
+	 * Update number of rows, if rows are added they have 0 height
+	 * @param rows number of rows
+	 */
+	public void setNumberOfRows(int rows) {
+		if (rows > rowHeights.length) {
+			rowHeights = Arrays.copyOf(rowHeights, rows);
+			cumulativeHeights = new double[rows + 1];
+			updateCumulativeHeights(0);
+		} else if (rows < rowHeights.length) {
+			rowHeights = Arrays.copyOf(rowHeights, rows);
+			cumulativeHeights = Arrays.copyOf(cumulativeHeights, rows + 1);
+		}
+	}
+
+	@Override
+	public void persist(SpreadsheetDimensions dimensions) {
+		dimensions.getWidthMap().clear();
+		for (int i = 0; i < columnWidths.length; i++) {
+			if (columnWidths[i] != DEFAULT_CELL_WIDTH) {
+				dimensions.getWidthMap().put(i, (int) columnWidths[i]);
+			}
+		}
+		dimensions.getHeightMap().clear();
+		for (int i = 0; i < rowHeights.length; i++) {
+			if (rowHeights[i] != DEFAUL_CELL_HEIGHT) {
+				dimensions.getHeightMap().put(i, (int) rowHeights[i]);
+			}
+		}
+	}
+
+	void dimensionsDidChange(SpreadsheetDimensions dimensions) {
+		setNumberOfColumns(dimensions.getColumns());
+		setNumberOfRows(dimensions.getRows());
+		for (int i = 0; i < columnWidths.length; i++) {
+			columnWidths[i] = dimensions.getWidthMap().getOrDefault(i, DEFAULT_CELL_WIDTH);
+		}
+		for (int i = 0; i < rowHeights.length; i++) {
+			rowHeights[i] = dimensions.getHeightMap().getOrDefault(i, DEFAUL_CELL_HEIGHT);
+		}
+		updateCumulativeHeights(0);
+		updateCumulativeWidths(0);
+	}
+
+	/**
 	 * A (rectangular) portion of the table layout.
 	 */
 	static final class Portion {
@@ -161,6 +220,10 @@ public final class TableLayout {
 			columnWidths[column] = width;
 		}
 
+		updateCumulativeWidths(minColumn);
+	}
+
+	private void updateCumulativeWidths(int minColumn) {
 		for (int column = minColumn; column < columnWidths.length; column++) {
 			cumulativeWidths[column + 1] = cumulativeWidths[column] + columnWidths[column];
 		}
@@ -176,7 +239,10 @@ public final class TableLayout {
 		for (int row = minRow; row <= maxRow; row++) {
 			rowHeights[row] = height;
 		}
+		updateCumulativeHeights(minRow);
+	}
 
+	private void updateCumulativeHeights(int minRow) {
 		for (int row = minRow; row < rowHeights.length; row++) {
 			cumulativeHeights[row + 1] = cumulativeHeights[row] + rowHeights[row];
 		}
@@ -298,33 +364,5 @@ public final class TableLayout {
 		for (int column = numberOfColumns - 1; column > resizeUntil; column--) {
 			setWidthForColumns(getWidth(column - 1), column, column);
 		}
-	}
-
-	/**
-	 * @return XML representation of this layout
-	 */
-	public String getXML() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("<spreadsheetLayoutSuite>\n");
-		for (int i = 0; i < columnWidths.length; i++) {
-			if (columnWidths[i] != DEFAULT_CELL_WIDTH) {
-				sb.append("\t<column index=\"");
-				sb.append(i);
-				sb.append("\" width=\"");
-				sb.append(columnWidths[i]);
-				sb.append("\"/>\n");
-			}
-		}
-		for (int i = 0; i < rowHeights.length; i++) {
-			if (rowHeights[i] != DEFAUL_CELL_HEIGHT) {
-				sb.append("\t<row index=\"");
-				sb.append(i);
-				sb.append("\" height=\"");
-				sb.append(rowHeights[i]);
-				sb.append("\"/>\n");
-			}
-		}
-		sb.append("</spreadsheetLayoutSuite>\n");
-		return sb.toString();
 	}
 }

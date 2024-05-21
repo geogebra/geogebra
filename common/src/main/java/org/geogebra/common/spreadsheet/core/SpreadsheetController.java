@@ -61,7 +61,8 @@ public final class SpreadsheetController implements TabularSelection {
 
 	private CopyPasteCutTabularData getCopyPasteCut() {
 		return controlsDelegate != null
-				? new CopyPasteCutTabularDataImpl<>(tabularData, controlsDelegate.getClipboard())
+				? new CopyPasteCutTabularDataImpl<>(tabularData,
+				controlsDelegate.getClipboard(), layout)
 				: null;
 	}
 
@@ -314,7 +315,7 @@ public final class SpreadsheetController implements TabularSelection {
 					}
 				}
 			}
-			storeUndoInfo();
+			notifyDataDimensionsChanged();
 			break;
 		case RESIZE_Y:
 			if (isSelected(dragAction.row, -1)) {
@@ -327,7 +328,7 @@ public final class SpreadsheetController implements TabularSelection {
 					}
 				}
 			}
-			storeUndoInfo();
+			notifyDataDimensionsChanged();
 			break;
 		case DEFAULT:
 		default:
@@ -562,7 +563,8 @@ public final class SpreadsheetController implements TabularSelection {
 		} else {
 			deleteRowsForMultiCellSelection();
 		}
-		storeUndoInfo();
+		layout.setNumberOfRows(tabularData.numberOfRows());
+		notifyDataDimensionsChanged();
 	}
 
 	/**
@@ -596,7 +598,8 @@ public final class SpreadsheetController implements TabularSelection {
 		} else {
 			deleteColumnsForMulticellSelection();
 		}
-		storeUndoInfo();
+		layout.setNumberOfColumns(tabularData.numberOfColumns());
+		notifyDataDimensionsChanged();
 	}
 
 	/**
@@ -631,9 +634,18 @@ public final class SpreadsheetController implements TabularSelection {
 					tabularData.numberOfColumns(), false));
 		}
 		if (layout != null) {
+			layout.setNumberOfColumns(tabularData.numberOfColumns());
 			layout.resizeRemainingColumnsDescending(right ? column - 1 : column,
 					tabularData.numberOfColumns());
 		}
+		notifyDataDimensionsChanged();
+	}
+
+	private void notifyDataDimensionsChanged() {
+		if (viewportAdjuster != null) {
+			viewportAdjuster.updateScrollPaneSize();
+		}
+		adjustViewportIfNeeded();
 		storeUndoInfo();
 	}
 
@@ -650,9 +662,10 @@ public final class SpreadsheetController implements TabularSelection {
 					tabularData.numberOfRows(), false));
 		}
 		if (layout != null) {
+			layout.setNumberOfRows(tabularData.numberOfRows());
 			layout.resizeRemainingRowsDescending(below ? row - 1 : row, tabularData.numberOfRows());
 		}
-		storeUndoInfo();
+		notifyDataDimensionsChanged();
 	}
 
 	boolean isOnlyCellSelected(int row, int column) {
@@ -688,4 +701,10 @@ public final class SpreadsheetController implements TabularSelection {
 		}
 	}
 
+	void tabularDataSizeDidChange(SpreadsheetDimensions dimensions) {
+		getLayout().dimensionsDidChange(dimensions);
+		if (viewportAdjuster != null) {
+			viewportAdjuster.updateScrollPaneSize();
+		}
+	}
 }
