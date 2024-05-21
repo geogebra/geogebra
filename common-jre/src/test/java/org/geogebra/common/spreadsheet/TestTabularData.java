@@ -12,6 +12,7 @@ import org.geogebra.common.spreadsheet.style.CellFormat;
 public class TestTabularData implements TabularData<String> {
 
 	List<List<String>> data = new ArrayList<>();
+	List<List<Boolean>> errorData = new ArrayList<>();
 
 	/**
 	 * Simple tabular data (initial size 100 x 100).
@@ -19,7 +20,16 @@ public class TestTabularData implements TabularData<String> {
 	public TestTabularData() {
 		for (int i = 0; i < 100; i++) {
 			data.add(buildRow(100));
+			errorData.add(buildErrorRow(100));
 		}
+	}
+
+	private List<Boolean> buildErrorRow(int i) {
+		ArrayList<Boolean> errorDataRow = new ArrayList<>(100);
+		for (int j = 0; j < i; j++) {
+			errorDataRow.add(false);
+		}
+		return errorDataRow;
 	}
 
 	private List<String> buildRow(int i) {
@@ -102,5 +112,15 @@ public class TestTabularData implements TabularData<String> {
 	@Override
 	public int getAlignment(int row, int column) {
 		return CellFormat.ALIGN_RIGHT;
+	}
+
+	@Override
+	public void markError(int row, int column, boolean hasError) {
+		errorData.get(row).set(column, hasError);
+	}
+
+	@Override
+	public boolean hasError(int row, int column) {
+		return errorData.get(row).get(column);
 	}
 }
