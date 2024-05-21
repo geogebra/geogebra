@@ -5,6 +5,7 @@ import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.geogebra.common.awt.GBasicStroke;
@@ -17,6 +18,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.spreadsheet.style.CellFormat;
@@ -39,12 +41,14 @@ public final class SpreadsheetRenderer {
 	private final static GBasicStroke gridStroke = AwtFactory.getPrototype().newBasicStroke(1);
 	private final static GBasicStroke borderStroke = AwtFactory.getPrototype().newBasicStroke(2);
 	private final SpreadsheetStyle style;
+	private final Localization loc;
 
 	SpreadsheetRenderer(TableLayout layout, CellRenderableFactory converter,
-			SpreadsheetStyle style) {
+			SpreadsheetStyle style, Localization loc) {
 		this.converter = converter;
 		this.layout = layout;
 		this.style = style;
+		this.loc = loc;
 	}
 
 	void drawCell(int row, int column, GGraphics2D graphics, Object content, boolean hasError) {
@@ -104,7 +108,7 @@ public final class SpreadsheetRenderer {
 
 		graphics.setColor(style.getTextColor());
 		graphics.setFont(graphics.getFont().deriveFont(GFont.ITALIC));
-		graphics.drawString("ERROR", (int) (layout.getX(column) - offsetX) + 10,
+		graphics.drawString(loc.getError("Error").toUpperCase(Locale.ROOT), (int) (layout.getX(column) - offsetX) + 10,
 				(int) (layout.getY(row) - offsetY) + 16 + 10);
 	}
 

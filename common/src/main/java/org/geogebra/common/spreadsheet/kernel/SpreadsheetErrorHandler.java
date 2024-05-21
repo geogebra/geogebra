@@ -23,7 +23,7 @@ public class SpreadsheetErrorHandler implements ErrorHandler {
 
 	@Override
 	public void showCommandError(String command, String message) {
-
+		processor.markError();
 	}
 
 	@Override

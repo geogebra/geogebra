@@ -34,7 +34,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 			CellRenderableFactory rendererFactory, @CheckForNull App app) {
 		controller = new SpreadsheetController(tabularData, null);
 		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
-				controller.getStyle());
+				controller.getStyle(), app.getLocalization());
 		setViewport(new Rectangle(0, 0, 0, 0));
 		tabularData.addChangeListener(this);
 		if (app != null) {
