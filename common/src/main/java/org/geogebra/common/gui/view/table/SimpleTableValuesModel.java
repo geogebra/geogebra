@@ -106,7 +106,7 @@ final class SimpleTableValuesModel implements TableValuesModel {
 			return false;
 		}
 		if (index == 0) {
-			return true; // can we assume the list of x-values is always editable?
+			return true; // the list of x-values is always editable
 		}
 		if (index == columns.size()) {
 			return allowsAddingColumns;
