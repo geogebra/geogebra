@@ -49,7 +49,6 @@ import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 
 public class ToolboxMow extends FlowPanel implements SetLabels {
-	public final static int TOOLBOX_PADDING = 8;
 	private final AppW appW;
 	private final ToolboxDecorator decorator;
 	private final ToolboxController controller;

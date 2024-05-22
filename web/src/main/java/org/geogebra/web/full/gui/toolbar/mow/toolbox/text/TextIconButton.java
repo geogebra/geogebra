@@ -1,8 +1,7 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox.text;
 
-import static org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxMow.TOOLBOX_PADDING;
-
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
@@ -34,9 +33,8 @@ public class TextIconButton extends IconButton {
 		if (textCategoryPopup == null) {
 			textCategoryPopup = new TextCategoryPopup(appW, this);
 		}
-
-		textCategoryPopup.showAtPoint(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
-				(int) (getAbsoluteTop() - appW.getAbsTop()));
+		ToolboxPopupPositioner.showRelativeToToolbox(textCategoryPopup.getPopupPanel(),
+				this, appW);
 		AriaHelper.setAriaExpanded(this, true);
 
 		textCategoryPopup.getPopupPanel().addCloseHandler(e ->

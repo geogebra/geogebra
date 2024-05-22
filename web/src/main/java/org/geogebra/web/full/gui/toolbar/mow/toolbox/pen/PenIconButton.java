@@ -3,13 +3,13 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox.pen;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_ERASER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_HIGHLIGHTER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
-import static org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxMow.TOOLBOX_PADDING;
 
 import java.util.Arrays;
 import java.util.function.Consumer;
 
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
@@ -47,9 +47,7 @@ public class PenIconButton extends IconButton {
 
 		appW.setMode(getLastSelectedMode());
 		penPopup.update();
-		penPopup.show();
-		penPopup.setPopupPosition(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
-				(int) (getAbsoluteTop() - appW.getAbsTop()));
+		ToolboxPopupPositioner.showRelativeToToolbox(penPopup, this, appW);
 	}
 
 	private Consumer<Integer> getUpdateButtonCallback() {
