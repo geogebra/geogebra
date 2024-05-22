@@ -1,10 +1,10 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
-import static org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxMow.TOOLBOX_PADDING;
 
 import java.util.List;
 
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -37,9 +37,8 @@ public class IconButtonWithMenu extends IconButton {
 
 	private void initPopupAndShow() {
 		CategoryMenuPopup iconButtonPopup = new CategoryMenuPopup(appW, tools);
-		iconButtonPopup.showAtPoint(
-				(int) (getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING - appW.getAbsLeft()),
-				(int) (getAbsoluteTop() - appW.getAbsTop()));
+		ToolboxPopupPositioner.showRelativeToToolbox(iconButtonPopup.getPopupPanel(),
+				this, appW);
 		AriaHelper.setAriaExpanded(this, true);
 
 		iconButtonPopup.getPopupPanel().addCloseHandler(e -> {

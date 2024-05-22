@@ -1,12 +1,11 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 
-import static org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxMow.TOOLBOX_PADDING;
-
 import java.util.List;
 import java.util.function.Consumer;
 
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -45,11 +44,7 @@ public class IconButtonWithPopup extends IconButton {
 		if (categoryPopup == null) {
 			categoryPopup = new CategoryPopup(appW, tools, getUpdateButtonCallback());
 		}
-
-		categoryPopup.show();
-		categoryPopup.setPopupPosition(
-				(int) (getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING - appW.getAbsLeft()),
-				(int) (getAbsoluteTop() - appW.getAbsTop()));
+		ToolboxPopupPositioner.showRelativeToToolbox(categoryPopup, this, appW);
 	}
 
 	private Consumer<Integer> getUpdateButtonCallback() {
