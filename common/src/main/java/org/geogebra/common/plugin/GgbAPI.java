@@ -1698,7 +1698,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		if ("exam".equals(code)) {
-			GlobalScope.examController.prepareExam();
+			app.showExamWelcomeMessage();
 			return;
 		}
 		

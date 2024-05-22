@@ -1,16 +1,9 @@
 package org.geogebra.web.full.gui.dialog;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.exam.ExamControllerDelegate;
 import org.geogebra.common.exam.ExamListener;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.main.App;
-import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
@@ -25,8 +18,7 @@ import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class AppSwitcherPopup extends GPopupPanel implements ExamListener,
-		ExamControllerDelegate {
+public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 
 	SuiteHeaderAppPicker appPickerButton;
 	private final static int X_COORDINATE_OFFSET = 8;
@@ -130,78 +122,78 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamListener,
 		}
 	}
 
-	@Override
-	public void examClearCurrentApp() {
-		app.fileNew();
-	}
-
-	@Override
-	public void examClearOtherApps() {
-		((AppWFull) app).clearSubAppCons();
-	}
-
-	@Override
-	public void examClearClipboard() {
-		app.getCopyPaste().clearClipboard();
-		app.getCopyPaste().copyTextToSystemClipboard("");
-	}
-
-	@Override
-	public void examSetActiveMaterial(@Nullable Material material) {
-		app.setActiveMaterial(material);
-	}
-
-	@CheckForNull
-	@Override
-	public Material examGetActiveMaterial() {
-		return app.getActiveMaterial();
-	}
-
-	@CheckForNull
-	@Override
-	public SuiteSubApp examGetCurrentSubApp() {
-		String subAppCode = app.getConfig().getSubAppCode();
-		if (subAppCode == null) {
-			return null;
-		}
-		switch (subAppCode) {
-		case GeoGebraConstants.CAS_APPCODE:
-			return SuiteSubApp.CAS;
-		case GeoGebraConstants.GEOMETRY_APPCODE:
-			return SuiteSubApp.GEOMETRY;
-		case GeoGebraConstants.GRAPHING_APPCODE:
-			return SuiteSubApp.GRAPHING;
-		case GeoGebraConstants.G3D_APPCODE:
-			return SuiteSubApp.G3D;
-		case GeoGebraConstants.PROBABILITY_APPCODE:
-			return SuiteSubApp.PROBABILITY;
-		case GeoGebraConstants.SCIENTIFIC_APPCODE:
-			return SuiteSubApp.SCIENTIFIC;
-		default:
-			return null;
-		}
-	}
-
-	@Override
-	public void examSwitchSubApp(@Nonnull SuiteSubApp subApp) {
-		switch (subApp) {
-		case CAS:
-			switchToSubApp(GeoGebraConstants.CAS_APPCODE);
-			return;
-		case GEOMETRY:
-			switchToSubApp(GeoGebraConstants.GEOMETRY_APPCODE);
-			return;
-		case GRAPHING:
-			switchToSubApp(GeoGebraConstants.GRAPHING_APPCODE);
-			return;
-		case G3D:
-			switchToSubApp(GeoGebraConstants.G3D_APPCODE);
-			return;
-		case PROBABILITY:
-			switchToSubApp(GeoGebraConstants.PROBABILITY_APPCODE);
-			return;
-		case SCIENTIFIC:
-			switchToSubApp(GeoGebraConstants.SCIENTIFIC_APPCODE);
-		}
-	}
+//	@Override
+//	public void examClearCurrentApp() {
+//		app.fileNew();
+//	}
+//
+//	@Override
+//	public void examClearOtherApps() {
+//		((AppWFull) app).clearSubAppCons();
+//	}
+//
+//	@Override
+//	public void examClearClipboard() {
+//		app.getCopyPaste().clearClipboard();
+//		app.getCopyPaste().copyTextToSystemClipboard("");
+//	}
+//
+//	@Override
+//	public void examSetActiveMaterial(@Nullable Material material) {
+//		app.setActiveMaterial(material);
+//	}
+//
+//	@CheckForNull
+//	@Override
+//	public Material examGetActiveMaterial() {
+//		return app.getActiveMaterial();
+//	}
+//
+//	@CheckForNull
+//	@Override
+//	public SuiteSubApp examGetCurrentSubApp() {
+//		String subAppCode = app.getConfig().getSubAppCode();
+//		if (subAppCode == null) {
+//			return null;
+//		}
+//		switch (subAppCode) {
+//		case GeoGebraConstants.CAS_APPCODE:
+//			return SuiteSubApp.CAS;
+//		case GeoGebraConstants.GEOMETRY_APPCODE:
+//			return SuiteSubApp.GEOMETRY;
+//		case GeoGebraConstants.GRAPHING_APPCODE:
+//			return SuiteSubApp.GRAPHING;
+//		case GeoGebraConstants.G3D_APPCODE:
+//			return SuiteSubApp.G3D;
+//		case GeoGebraConstants.PROBABILITY_APPCODE:
+//			return SuiteSubApp.PROBABILITY;
+//		case GeoGebraConstants.SCIENTIFIC_APPCODE:
+//			return SuiteSubApp.SCIENTIFIC;
+//		default:
+//			return null;
+//		}
+//	}
+//
+//	@Override
+//	public void examSwitchSubApp(@Nonnull SuiteSubApp subApp) {
+//		switch (subApp) {
+//		case CAS:
+//			switchToSubApp(GeoGebraConstants.CAS_APPCODE);
+//			return;
+//		case GEOMETRY:
+//			switchToSubApp(GeoGebraConstants.GEOMETRY_APPCODE);
+//			return;
+//		case GRAPHING:
+//			switchToSubApp(GeoGebraConstants.GRAPHING_APPCODE);
+//			return;
+//		case G3D:
+//			switchToSubApp(GeoGebraConstants.G3D_APPCODE);
+//			return;
+//		case PROBABILITY:
+//			switchToSubApp(GeoGebraConstants.PROBABILITY_APPCODE);
+//			return;
+//		case SCIENTIFIC:
+//			switchToSubApp(GeoGebraConstants.SCIENTIFIC_APPCODE);
+//		}
+//	}
 }

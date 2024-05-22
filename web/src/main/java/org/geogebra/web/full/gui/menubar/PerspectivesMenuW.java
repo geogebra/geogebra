@@ -83,9 +83,7 @@ public class PerspectivesMenuW extends Submenu {
 	 *         (goes fullscreen)
 	 */
 	AsyncOperation<Boolean> getExamCallback() {
-		return active -> {
-			GlobalScope.examController.prepareExam();
-		};
+		return active -> app.showExamWelcomeMessage();
 	}
 
 	/**

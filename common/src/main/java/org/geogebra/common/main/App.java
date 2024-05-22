@@ -4090,6 +4090,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * Prepares the exam mode and shows the exam welcome message<br/>
+	 * Note: Only implemented within AppWFull, method still declared so it can also be accessed by
+	 * {@link org.geogebra.common.plugin.GgbAPI}
+	 */
+	public void showExamWelcomeMessage() {
+		// Not needed here
+	}
+
+	/**
 	 * @param lang
 	 *            locale description
 	 */

@@ -31,12 +31,12 @@ public class StartExamAction extends DefaultMenuAction<AppWFull> {
 			DialogData data = new DialogData("exam_menu_enter", cancel,
 					"exam_start_button");
 			ExamStartDialog examStartDialog = new ExamStartDialog(app, data);
-			GlobalScope.examController.prepareExam();
 			examStartDialog.setOnNegativeAction(() -> {
 				GlobalScope.examController.cancelExam();
 				app.getLAF().toggleFullscreen(false);
 			});
 			examStartDialog.setOnPositiveAction(() -> startExam(app, examStartDialog));
+			GlobalScope.examController.prepareExam();
 			examStartDialog.show();
 		};
 	}

@@ -122,7 +122,7 @@ public class PerspectivesPopup {
 						}
 					} else {
 						app.getLAF().toggleFullscreen(true);
-						GlobalScope.examController.prepareExam();
+						app.showExamWelcomeMessage();
 					}
 					wrappedPopup.hide();
 				});

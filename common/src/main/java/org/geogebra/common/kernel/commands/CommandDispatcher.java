@@ -1021,10 +1021,6 @@ public abstract class CommandDispatcher implements Restrictable {
 		return isAllowedByCommandFilters(Commands.Solve);
 	}
 
-	public boolean hasProcessor(Command command) {
-		return getProcessor(command) != null;
-	}
-
 	@Deprecated // restrictions on the CommandDispatcher are now handled by ExamController
 	@Override
 	public boolean isExamRestrictionModelAccepted(ExamRestrictionModel model) {
@@ -1051,5 +1047,9 @@ public abstract class CommandDispatcher implements Restrictable {
 	@Override
 	public void applyExamRestrictions() {
 		app.resetCommandDict();
+	}
+
+	public boolean hasProcessor(Command command) {
+		return getProcessor(command) != null;
 	}
 }

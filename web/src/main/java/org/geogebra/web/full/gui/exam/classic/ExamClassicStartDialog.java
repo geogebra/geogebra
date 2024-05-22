@@ -5,6 +5,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
+import org.geogebra.web.full.gui.exam.ExamControllerDelegateW;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.LayoutW;
@@ -109,13 +110,12 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		((LayoutW) app.getGuiManager().getLayout()).resetPerspectives(app);
 
 		app.getKernel().getAlgebraProcessor().reinitCommands();
-		ExamRegion examType = GlobalScope.examController.getExamType();
-		if (examType != null) {
-			GlobalScope.examController.setActiveContext(app, app.getKernel().getAlgebraProcessor()
-					.getCommandDispatcher(), app.getKernel().getAlgebraProcessor());
-			GlobalScope.examController.registerRestrictable(app);
-			GlobalScope.examController.startExam(examType, null);
-		}
+		GlobalScope.examController.setActiveContext(app, app.getKernel().getAlgebraProcessor()
+				.getCommandDispatcher(), app.getKernel().getAlgebraProcessor());
+		GlobalScope.examController.registerRestrictable(app);
+		GlobalScope.examController.setDelegate(new ExamControllerDelegateW(app));
+		GlobalScope.examController.startExam(ExamRegion.GENERIC, null);
+
 		app.fireViewsChangedEvent();
 		guiManager.updateToolbar();
 		guiManager.updateToolbarActions();
@@ -164,6 +164,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 	@Override
 	protected void onEscape() {
 		if (!app.isLockedExam()) {
+			GlobalScope.examController.cancelExam();
 			hide();
 		}
 	}

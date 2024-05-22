@@ -67,7 +67,6 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 	 */
 	protected void exitAndResetExam() {
 		app.getLAF().toggleFullscreen(false);
-		GlobalScope.examController.exitExam();
 		saveScreenshot(app.getLocalization().getMenu("exam_log_header")
 				+ " " + app.getVersionString(), null);
 		app.endExam();
