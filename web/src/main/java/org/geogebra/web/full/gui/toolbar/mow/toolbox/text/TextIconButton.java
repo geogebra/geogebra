@@ -35,7 +35,8 @@ public class TextIconButton extends IconButton {
 			textCategoryPopup = new TextCategoryPopup(appW, this);
 		}
 
-		textCategoryPopup.showAtPoint(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
+		textCategoryPopup.showAtPoint(
+				(int) (getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING - appW.getAbsLeft()),
 				(int) (getAbsoluteTop() - appW.getAbsTop()));
 		AriaHelper.setAriaExpanded(this, true);
 

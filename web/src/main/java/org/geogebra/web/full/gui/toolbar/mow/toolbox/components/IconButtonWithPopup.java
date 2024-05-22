@@ -47,7 +47,8 @@ public class IconButtonWithPopup extends IconButton {
 		}
 
 		categoryPopup.show();
-		categoryPopup.setPopupPosition(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
+		categoryPopup.setPopupPosition(
+				(int) (getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING - appW.getAbsLeft()),
 				(int) (getAbsoluteTop() - appW.getAbsTop()));
 	}
 

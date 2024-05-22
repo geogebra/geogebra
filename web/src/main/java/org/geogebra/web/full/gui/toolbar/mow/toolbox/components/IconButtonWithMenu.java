@@ -37,7 +37,8 @@ public class IconButtonWithMenu extends IconButton {
 
 	private void initPopupAndShow() {
 		CategoryMenuPopup iconButtonPopup = new CategoryMenuPopup(appW, tools);
-		iconButtonPopup.show(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
+		iconButtonPopup.showAtPoint(
+				(int) (getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING - appW.getAbsLeft()),
 				(int) (getAbsoluteTop() - appW.getAbsTop()));
 		AriaHelper.setAriaExpanded(this, true);
 

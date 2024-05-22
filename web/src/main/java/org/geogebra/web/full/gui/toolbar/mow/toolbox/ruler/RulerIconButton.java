@@ -45,7 +45,8 @@ public class RulerIconButton extends IconButton {
 	}
 
 	private void showRulerTypePopup() {
-		rulerPopup.showPopup(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
+		rulerPopup.showPopup(
+				(int) (getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING - appW.getAbsLeft()),
 				(int) (getAbsoluteTop() - appW.getAbsTop()));
 	}
 

@@ -48,7 +48,8 @@ public class PenIconButton extends IconButton {
 		appW.setMode(getLastSelectedMode());
 		penPopup.update();
 		penPopup.show();
-		penPopup.setPopupPosition(getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING,
+		penPopup.setPopupPosition(
+				(int) (getAbsoluteLeft() + getOffsetWidth() + TOOLBOX_PADDING - appW.getAbsLeft()),
 				(int) (getAbsoluteTop() - appW.getAbsTop()));
 	}
 
