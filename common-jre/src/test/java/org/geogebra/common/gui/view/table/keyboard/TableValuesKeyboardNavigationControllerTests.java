@@ -353,7 +353,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	}
 
 	@Test
-	public void testEmptyTable_PlaceholderColumnCreatedOnTapSelect() {
+	public void testEmptyTable_PlaceholderRowCreatedOnTapSelect() {
 		// select (0, 0)
 		keyboardController.select(0, 0);
 
@@ -379,7 +379,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	}
 
 	@Test
-	public void testEmptyTable_PlaceholderRowCreatedOnTapSelect() {
+	public void testEmptyTable_PlaceholderColumnCreatedOnTapSelect() {
 		// select (0, 0)
 		keyboardController.select(0, 0);
 
