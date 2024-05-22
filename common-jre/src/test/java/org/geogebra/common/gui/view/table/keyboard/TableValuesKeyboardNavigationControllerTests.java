@@ -26,7 +26,6 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	private String cellContent;
 	private boolean didReportInvalidCellContent;
 	private boolean didReportModelChanged;
-	private boolean didRequestHideKeyboard; // TODO
 
 	@Override
 	public void setup() {
@@ -43,7 +42,6 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 		cellContent = "";
 		didReportInvalidCellContent = false;
 		didReportModelChanged = false;
-		didRequestHideKeyboard = false;
 	}
 
 	private void addFunction(String label, String definition) {
@@ -871,11 +869,6 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	@Override
 	public void invalidCellContentDetected(int row, int column) {
 		didReportInvalidCellContent = true;
-	}
-
-	@Override
-	public void hideKeyboard() {
-		didRequestHideKeyboard = true;
 	}
 
 	//  TableValuesListener

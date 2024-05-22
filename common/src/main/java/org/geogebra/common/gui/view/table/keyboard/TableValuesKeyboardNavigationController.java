@@ -11,11 +11,11 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import com.google.j2objc.annotations.Weak;
 
 /**
- * A controller for keyboard navigation in the "table of values" view.
+ * A controller for keyboard and touch navigation in the "table of values" view.
  * <p>
- * This controller accepts key press events, figures out which cell to select in response (if any),
- * asks its delegate to focus the new cell if the selection actually changed, and possibly asks the
- * delegate to hide the keyboard.
+ * This controller accepts key press events, and figures out which cell to select in response,
+ * if any. Besides keyboard events, it also supports touch navigation (i.e., tapping on cells
+ * to change the selection) by means of {@link #select(int, int)}.
  * </p>
  * <p>
  * Initially, no cell is selected - clients need to call {@link #select(int, int)} with a
@@ -27,7 +27,7 @@ import com.google.j2objc.annotations.Weak;
  * </p>
  * @apiNote This controller *requires* its delegate for correct operation. If the delegate is not
  * set, no exception is thrown, but the controller will not do anything useful.
- * @implNote Currently, the code assumes that the first column is the x ("values") column,
+ * @implNote Currently, the code assumes that the first column is the "x" column,
  * and that it is always present (it may be empty, though).
  */
 public final class TableValuesKeyboardNavigationController {
@@ -367,10 +367,6 @@ public final class TableValuesKeyboardNavigationController {
 		}
 		addedPlaceholderRow = false;
 		addedPlaceholderColumn = false;
-	}
-
-	private void hideKeyboard() {
-		delegate.hideKeyboard();
 	}
 
 	// Test support

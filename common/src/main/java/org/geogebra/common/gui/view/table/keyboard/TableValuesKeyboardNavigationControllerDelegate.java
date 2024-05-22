@@ -55,11 +55,4 @@ public interface TableValuesKeyboardNavigationControllerDelegate {
 	 * @param column The column index of the invalid cell.
 	 */
 	void invalidCellContentDetected(int row, int column);
-
-	/**
-	 * Hide the keyboard (if it is currently visible).
-	 *
-	 * TODO find out in which scenarios the keyboard needs to be dismissed and implement
-	 */
-	void hideKeyboard();
 }
