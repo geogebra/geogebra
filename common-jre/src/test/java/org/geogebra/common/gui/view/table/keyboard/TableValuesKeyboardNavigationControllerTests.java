@@ -194,7 +194,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	}
 
 	@Test
-	public void testEmptyTable_DeleteLastColumn() {
+	public void testEmptyTable_DeleteLastColumnArrowLeft() {
 		// select (0, 0)
 		keyboardController.select(0, 0);
 
@@ -234,6 +234,51 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 		focusedCell = null;
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_LEFT);
 		assertEquals(new CellIndex(0, 0), focusedCell);
+		assertEquals(1, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
+	}
+
+	@Test
+	public void testEmptyTable_DeleteLastColumnArrowRight() {
+		// select (0, 0)
+		keyboardController.select(0, 0);
+
+		// arrow right in non-empty placeholder cell
+		// -> new data inserted in first column, editing new placeholder cell (0, 1)
+		cellContent = "1";
+		focusedCell = null;
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
+		assertEquals(new CellIndex(0, 1), focusedCell);
+		assertTrue(keyboardController.isEditingPlaceholderColumn());
+		assertEquals(1, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
+
+		// arrow right in non-empty placeholder cell
+		// -> new data inserted in second column, editing new placeholder cell (0, 2)
+		cellContent = "2";
+		focusedCell = null;
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
+		assertEquals(new CellIndex(0, 2), focusedCell);
+		assertTrue(keyboardController.isEditingPlaceholderColumn());
+		assertEquals(1, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
+
+		// arrow left in placeholder column
+		// -> new selection should be (0, 1)
+		cellContent = "";
+		focusedCell = null;
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_LEFT);
+		assertEquals(new CellIndex(0, 1), focusedCell);
+		assertFalse(keyboardController.isEditingPlaceholderColumn());
+		assertEquals(1, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
+
+		// delete cell content + arrow right
+		// -> delete second column, selection should stay at (0, 1)
+		cellContent = "";
+		focusedCell = null;
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
+		assertEquals(new CellIndex(0, 1), focusedCell);
 		assertEquals(1, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
 	}

@@ -151,10 +151,12 @@ public final class TableValuesKeyboardNavigationController {
 		if (column >= tableValuesModel.getColumnCount()) {
 			if (tableValuesModel.allowsAddingColumns() && !addedPlaceholderColumn) {
 				addedPlaceholderColumn = true;
+				selectedColumn = tableValuesModel.getColumnCount();
 			}
 		} else if (row >= tableValuesModel.getRowCount()) {
 			if (tableValuesModel.isColumnEditable(selectedColumn) && !addedPlaceholderRow) {
 				addedPlaceholderRow = true;
+				selectedRow = tableValuesModel.getRowCount();
 			}
 		}
 
