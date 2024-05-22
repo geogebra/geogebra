@@ -70,13 +70,10 @@ public class RulerPopup extends GPopupMenuW implements SetLabels {
 	}
 
 	/**
-	 * show popup with selection depending on button active state
-	 * @param left - left position
-	 * @param top - top position
+	 * Updates selection highlighting in the popup menu
 	 */
-	public void showPopup(int left, int top) {
+	public void updatePopupSelection() {
 		Dom.toggleClass(popupMenu.getSelectedItem(), "selectedItem", rulerButton.isActive());
-		showAtPoint(left, top);
 	}
 
 	/**
