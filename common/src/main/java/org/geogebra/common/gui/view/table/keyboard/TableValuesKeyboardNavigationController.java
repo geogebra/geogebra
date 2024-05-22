@@ -143,6 +143,8 @@ public final class TableValuesKeyboardNavigationController {
 			}
 			return;
 		}
+		commitPendingChanges();
+
 		int previouslySelectedRow = selectedRow;
 		int previouslySelectedColumn = selectedColumn;
 		selectedRow = row;
@@ -227,8 +229,6 @@ public final class TableValuesKeyboardNavigationController {
 			select(selectedRow, selectedColumn);
 			return;
 		}
-		commitPendingChanges();
-		addedPlaceholderColumn = false;
 		select(selectedRow, findFirstFocusableColumnLeftOf(selectedColumn));
 	}
 
@@ -239,7 +239,6 @@ public final class TableValuesKeyboardNavigationController {
 				return; // arrow right in empty placeholder column -> no change in selection
 			}
 			// arrow right in non-empty placeholder column
-			commitPendingChanges();
 			select(selectedRow, selectedColumn + 1);
 			return;
 		}
@@ -253,7 +252,6 @@ public final class TableValuesKeyboardNavigationController {
 				return;
 			}
 		}
-		commitPendingChanges();
 		select(selectedRow, nextColumn);
 	}
 
@@ -261,7 +259,6 @@ public final class TableValuesKeyboardNavigationController {
 		if (isFirstRow(selectedRow)) {
 			return;
 		}
-		commitPendingChanges();
 		select(selectedRow - 1, selectedColumn);
 	}
 

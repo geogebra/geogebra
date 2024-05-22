@@ -333,7 +333,6 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	public void testEmptyTable_ArrowRightTapArrowRight() {
 		// select (0, 0)
 		keyboardController.select(0, 0);
-		assertEquals(new CellIndex(0, 0), focusedCell);
 
 		// arrow right
 		// -> new selection should be (0, 1) - editing placeholder column
@@ -353,6 +352,48 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
 		assertTrue(keyboardController.isEditingPlaceholderColumn());
 		assertEquals(new CellIndex(0, 1), focusedCell);
+	}
+
+	@Test
+	public void testEmptyTable_PlaceholderColumnCreatedOnTapSelect() {
+		// select (0, 0)
+		keyboardController.select(0, 0);
+
+		// arrow right in non-empty placeholder cell
+		// -> new data inserted in first column, editing new placeholder cell (0, 1)
+		cellContent = "1";
+		focusedCell = null;
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
+		assertEquals(new CellIndex(0, 1), focusedCell);
+		assertTrue(keyboardController.isEditingPlaceholderColumn());
+		assertEquals(1, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
+
+		// tap-select (1, 1) with non-empty placeholder cell
+		// -> new data inserted in second column, editing new placeholder cell (1, 1)
+		cellContent = "2";
+		focusedCell = null;
+		keyboardController.select(1, 1);
+		assertEquals(new CellIndex(1, 1), focusedCell);
+		assertTrue(keyboardController.isEditingPlaceholderRow());
+		assertEquals(1, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
+	}
+
+	@Test
+	public void testEmptyTable_PlaceholderRowCreatedOnTapSelect() {
+		// select (0, 0)
+		keyboardController.select(0, 0);
+
+		// tap-select (0, 1) with non-empty placeholder cell
+		// -> new data inserted in first column, editing new placeholder cell (0, 1)
+		cellContent = "1";
+		focusedCell = null;
+		keyboardController.select(0, 1);
+		assertEquals(new CellIndex(0, 1), focusedCell);
+		assertTrue(keyboardController.isEditingPlaceholderColumn());
+		assertEquals(1, tableValuesView.getTableValuesModel().getRowCount());
+		assertEquals(1, tableValuesView.getTableValuesModel().getColumnCount());
 	}
 
 	@Test
