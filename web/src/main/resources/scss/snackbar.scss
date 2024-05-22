@@ -16,7 +16,7 @@
 		padding: 6px 8px 6px 16px;
 		z-index: z-index.$z-snackbar;
 		border-radius: 4px;
-		background-color: neutral(800);
+		background-color: neutral(700);
 		box-shadow: 0 3px 5px -1px colors.$black-20, 0 1px 18px 0 colors.$black-12, 0 6px 10px 0 colors.$black-14;
 		transition: opacity 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,-webkit-transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms;
 		transform: scale(.8);
