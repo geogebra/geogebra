@@ -13,8 +13,24 @@ public interface TableValuesKeyboardNavigationControllerDelegate {
 	 * the given cell.
 	 * @param row The row index.
 	 * @param column The column index.
+	 * @apiNote This method will only be called if the selection did actually change.
 	 */
 	void focusCell(int row, int column);
+
+	/**
+	 * Re-focus the current cell.
+	 * @param row The row index.
+	 * @param column The column index.
+	 * @apiNote As a counterpart to {@link #focusCell(int, int)}, this method will be called
+	 * if the selection did NOT change in response to some interaction.
+	 * In some interaction cases, the table view's data set may change (e.g., when deleting the
+	 * last row in the table), but the selection should stay on the same cell. In these cases, the
+	 * delegate needs to re-focus the same cell after reloading the data, and this method should
+	 * help with that. If clients handle re-focusing after a reload differently (e.g., by storing
+	 * the currently selected cell index and checking that information after a reload), then this
+	 * callback may be safely ignored.
+	 */
+	void refocusCell(int row, int column);
 
 	/**
 	 * Unfocus (i.e., end editing, remove selection border) the given cell.

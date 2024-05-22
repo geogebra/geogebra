@@ -136,6 +136,11 @@ public final class TableValuesKeyboardNavigationController {
 		}
 		boolean changed = selectedRow != row || selectedColumn != column;
 		if (!changed) {
+			if (notifyDelegate && delegate != null) {
+				// notify delegate so it can re-focus the selected cell after a
+				// potential reload (e.g., after receiving a datasetChanged event)
+				delegate.refocusCell(selectedRow, selectedColumn);
+			}
 			return;
 		}
 		int previouslySelectedRow = selectedRow;
@@ -215,12 +220,9 @@ public final class TableValuesKeyboardNavigationController {
 	}
 
 	private void handleArrowLeft() {
-		if (isEditingPlaceholderColumn()) {
-			if (!isCellEmpty(selectedRow, selectedColumn)) {
-				commitPendingChanges(); // arrow left in non-empty placeholder column
-			}
-		}
 		if (isFirstColumn(selectedColumn)) {
+			// arrow left in first column -> no change in selection
+			select(selectedRow, selectedColumn);
 			return;
 		}
 		commitPendingChanges();
@@ -231,24 +233,26 @@ public final class TableValuesKeyboardNavigationController {
 	private void handleArrowRight() {
 		if (isEditingPlaceholderColumn()) {
 			if (isCellEmpty(selectedRow, selectedColumn)) {
-				return; // arrow right in empty placeholder column
+				select(selectedRow, selectedColumn);
+				return; // arrow right in empty placeholder column -> no change in selection
 			}
 			// arrow right in non-empty placeholder column
 			commitPendingChanges();
 			select(selectedRow, selectedColumn + 1);
 			return;
 		}
-		int column = findFirstFocusableColumnRightOf(selectedColumn);
-		if (column == -1) {
+		int nextColumn = findFirstFocusableColumnRightOf(selectedColumn);
+		if (nextColumn == -1) {
 			if (tableValuesModel.allowsAddingColumns() && !addedPlaceholderColumn) {
 				addedPlaceholderColumn = true;
-				column = getMaxColumnIndex() - 1;
+				nextColumn = getMaxColumnIndex() - 1;
 			} else {
+				select(selectedRow, selectedColumn);
 				return;
 			}
 		}
 		commitPendingChanges();
-		select(selectedRow, column);
+		select(selectedRow, nextColumn);
 	}
 
 	private void handleArrowUp() {
@@ -260,22 +264,27 @@ public final class TableValuesKeyboardNavigationController {
 	}
 
 	private void handleArrowDown() {
+		int nextRow = selectedRow + 1;
 		if (isEditingPlaceholderColumn()) {
 			if (selectedRow == tableValuesModel.getRowCount()
 					&& isCellEmpty(selectedRow, selectedColumn)) {
-				return; // arrow down in empty placeholder cell in last row
+				// arrow down in empty cell in placeholder column in last row
+				// -> no change in selection
+				select(selectedRow, selectedColumn);
+				return;
 			}
-		} else if (isLastRow(selectedRow, selectedColumn)) {
-			if (tableValuesModel.isColumnEditable(selectedColumn) && !addedPlaceholderRow) {
-				addedPlaceholderRow = true;
-			} else {
-				if (isCellEmpty(selectedRow, selectedColumn)) {
-					return; // arrow down in empty placeholder row or non-editable column
-				}
-			}
+		} else if (addedPlaceholderRow && isCellEmpty(selectedRow, selectedColumn)) {
+			// arrow down in empty placeholder row
+			// -> no change in selection
+			select(selectedRow, selectedColumn);
+			return;
 		}
 		commitPendingChanges();
-		select(selectedRow + 1, selectedColumn);
+		if (nextRow > tableValuesModel.getRowCount()) {
+			nextRow = selectedRow; // last row was deleted, leave row index as is
+			addedPlaceholderRow = true; // we're in the placeholder row
+		}
+		select(nextRow, selectedColumn);
 	}
 
 	private boolean isFirstRow(int row) {
