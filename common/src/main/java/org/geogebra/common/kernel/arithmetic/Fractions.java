@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.arithmetic;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -95,7 +94,7 @@ public class Fractions {
 			((ExpressionNode) left1).getFraction(parts, expandPlus);
 			return true;
 		} else if (left1 instanceof GeoNumeric && ((GeoNumeric) left1).getDefinition() != null) {
-			((GeoElement) left1).getDefinition().getFraction(parts, expandPlus);
+			((GeoNumeric) left1).getFraction(parts, expandPlus);
 			return true;
 		} else if (left1.isRecurringDecimal()) {
 			RecurringDecimal.asFraction(parts, left1.wrap());

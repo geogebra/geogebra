@@ -643,7 +643,7 @@ public abstract class CopyPasteCut {
 	 */
 	public String copyString(int column1, int row1, int column2, int row2) {
 		StringBuilder cellBufferStrLoc = new StringBuilder();
-		StringTemplate preciseTemplate = StringTemplate.maxPrecision.deriveWithFractions(false);
+		StringTemplate preciseTemplate = StringTemplate.maxPrecision;
 		for (int row = row1; row <= row2; ++row) {
 			for (int column = column1; column <= column2; ++column) {
 				GeoElement value = RelativeCopy.getValue(app, column, row);
