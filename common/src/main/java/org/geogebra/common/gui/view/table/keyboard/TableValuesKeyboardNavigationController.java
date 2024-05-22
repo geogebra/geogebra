@@ -127,16 +127,15 @@ public final class TableValuesKeyboardNavigationController {
 	 * Select a cell.
 	 * @param row the row index to select, or -1 to clear any selection.
 	 * @param column the column index to select, or -1 to clear any selection.
-	 * @param notifyDelegate Pass true to notify the delegate about a change in selection.
 	 * @apiNote The delegate will only be notified if the selection actually changed.
 	 */
-	public void select(int row, int column, boolean notifyDelegate) {
+	public void select(int row, int column) {
 		if (isReadonly) {
 			return;
 		}
 		boolean changed = selectedRow != row || selectedColumn != column;
 		if (!changed) {
-			if (notifyDelegate && delegate != null) {
+			if (delegate != null) {
 				// notify delegate so it can re-focus the selected cell after a
 				// potential reload (e.g., after receiving a datasetChanged event)
 				delegate.refocusCell(selectedRow, selectedColumn);
@@ -162,7 +161,7 @@ public final class TableValuesKeyboardNavigationController {
 			}
 		}
 
-		if (notifyDelegate && delegate != null) {
+		if (delegate != null) {
 			if (selectedRow >= 0 && selectedColumn >= 0) {
 				delegate.focusCell(selectedRow, selectedColumn);
 			} else {
@@ -170,16 +169,7 @@ public final class TableValuesKeyboardNavigationController {
 			}
 		}
 	}
-
-	/**
-	 * Eauivalent to {@code select(row, column, true)}.
-	 * @param row the row index to select, or -1 to clear any selection.
-	 * @param column the column index to select, or -1 to clear any selection.
-	 */
-	public void select(int row, int column) {
-		select(row, column, true);
-	}
-
+	
 	/**
 	 * Clear (remove) any selection.
 	 *
