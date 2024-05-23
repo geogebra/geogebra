@@ -30,6 +30,7 @@ import org.geogebra.common.gui.dialog.options.model.ScriptInputModel;
 import org.geogebra.common.gui.dialog.options.model.ScriptInputModel.IScriptInputListener;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.plugin.ScriptType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.editor.GeoGebraEditorPane;
 import org.geogebra.desktop.gui.editor.JavaScriptBeautifier;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
@@ -99,18 +100,25 @@ public class ScriptInputDialog extends JPanel
 	}
 
 	private void processInput() {
-		ScriptType type = ScriptType.values()[languageSelector
-				.getSelectedIndex()];
+		ScriptType type = getScriptType();
 		model.processInput(inputPanel.getText(), type);
+	}
+
+	private ScriptType getScriptType() {
+		return ScriptType.values()[languageSelector
+				.getSelectedIndex()];
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
 			processInput();
+			GeoGebraEditorPane editor = (GeoGebraEditorPane) inputPanel
+					.getTextComponent();
+			editor.setEditorKit(getScriptType());
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue
-			ex.printStackTrace();
+			Log.debug(ex);
 		}
 	}
 
@@ -146,6 +154,7 @@ public class ScriptInputDialog extends JPanel
 	public void updateFonts() {
 		Font font = app.getPlainFont();
 		languageSelector.setFont(font);
+		inputPanel.updateFonts();
 	}
 
 	@Override
@@ -163,7 +172,7 @@ public class ScriptInputDialog extends JPanel
 		languageSelector.removeActionListener(this);
 		languageSelector.setSelectedIndex(type.ordinal());
 		languageSelector.addActionListener(this);
-		editor.setEditorKit(type.getXMLName());
+		editor.setEditorKit(type);
 		editor.getDocument().addDocumentListener(this);
 	}
 

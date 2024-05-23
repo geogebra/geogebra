@@ -15,14 +15,13 @@ import org.geogebra.common.kernel.discrete.CmdTravelingSalesman;
 import org.geogebra.common.kernel.discrete.CmdVoronoi;
 
 /**
- * class to split off some CmdXXX classes into another jar (for faster applet
- * loading)
- *
+ * Factory for discrete math commands.
+ * @see CommandProcessorFactory
  */
-public class CommandDispatcherDiscrete implements CommandDispatcherInterface {
+public class DiscreteCommandProcessorFactory implements CommandProcessorFactory {
 	@Override
-	public CommandProcessor dispatch(Commands c, Kernel kernel) {
-		switch (c) {
+	public CommandProcessor getProcessor(Commands command, Kernel kernel) {
+		switch (command) {
 
 		case TriangleCenter:
 			return new CmdKimberling(kernel);

@@ -129,8 +129,8 @@ public class AxisPanel extends FlowPanel
 		axisLabel = new FormLabel(loc.getMenu("AxisLabel") + ":")
 				.setFor(comboAxisLabel);
 
-		comboUnitLabel = new ComponentCombobox(app, "", Arrays.asList(Unicode.DEGREE_STRING + "",
-				Unicode.PI_STRING + "", "mm", "cm", "m", "km", Unicode.CURRENCY_DOLLAR + ""));
+		comboUnitLabel = new ComponentCombobox(app, "", Arrays.asList(Unicode.DEGREE_STRING,
+				Unicode.PI_STRING, "mm", "cm", "m", "km", Unicode.CURRENCY_DOLLAR + ""));
 		comboUnitLabel.addChangeHandler(() -> {
 				String text = comboUnitLabel.getSelectedText().trim();
 				model.applyUnitLabel(text);
@@ -188,7 +188,8 @@ public class AxisPanel extends FlowPanel
 			add(crossPanel);
 		}
 		add(cbAllowSelection);
-		updatePanel();
+		// no need to update panel,
+		// updateGui called right after addTabs in OptionsEuclidianW
 	}
 
 	private List<String> getLabelsList() {
@@ -241,10 +242,8 @@ public class AxisPanel extends FlowPanel
 
 		cbManualTicks.setSelected(!view.isAutomaticAxesNumberingDistance()[axis]);
 		ncbTickDist.setDisabled(!cbManualTicks.isSelected());
-
-		/*comboAxisLabel.setSelected(view.getAxesLabels(true)[axis]);
-		comboUnitLabel.se(view.getAxesUnitLabels()[axis]);*/
-		comboUnitLabel.setLabels();
+		comboAxisLabel.setValue(view.getAxesLabels(true)[axis]);
+		comboUnitLabel.setValue(view.getAxesUnitLabels()[axis]);
 
 		int type = view.getAxesTickStyles()[axis];
 		lbTickStyle.setSelectedIndex(type);

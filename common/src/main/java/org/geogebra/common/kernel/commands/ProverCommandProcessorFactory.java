@@ -15,13 +15,14 @@ import org.geogebra.common.kernel.advanced.CmdProve;
 import org.geogebra.common.kernel.advanced.CmdProveDetails;
 
 /**
- * Dispatcher for prover commands
+ * Factory for prover commands.
+ * @see CommandProcessorFactory
  */
-public class CommandDispatcherProver implements CommandDispatcherInterface {
+public class ProverCommandProcessorFactory implements CommandProcessorFactory {
 
     @Override
-    public CommandProcessor dispatch(Commands c, Kernel kernel) {
-        switch (c) {
+    public CommandProcessor getProcessor(Commands command, Kernel kernel) {
+        switch (command) {
         case Prove:
             return new CmdProve(kernel);
         case ProveDetails:

@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.impl.graphics.RightAngleProperty;
 import org.geogebra.common.properties.impl.graphics.TooltipProperty;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
@@ -25,7 +26,8 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class BasicTab extends OptionsEuclidianW.EuclidianTab {
+public class BasicTab extends OptionsEuclidianW.EuclidianTab implements
+		EuclidianOptionsModel.IBasicTab {
 
 	/**
 	 * 
@@ -37,7 +39,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	AutoCompleteTextFieldW tfAxesRatioX;
 	AutoCompleteTextFieldW tfAxesRatioY;
 	private Label axesRatioLabel;
-	private FlowPanel dimPanel;
 	ToggleButton tbLockRatio;
 
 	protected ComponentCheckbox cbShowAxes;
@@ -55,14 +56,13 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	private FormLabel rightAngleStyleLabel;
 	protected Label miscTitle;
 	private Label consProtocolTitle;
-	private FlowPanel consProtocolPanel;
 	ComponentCheckbox cbShowNavbar;
 	ComponentCheckbox cbNavPlay;
 	ComponentCheckbox cbOpenConsProtocol;
 	protected Label lblAxisLabelStyle;
-	protected ComponentCheckbox cbAxisLabelSerif;
-	protected ComponentCheckbox cbAxisLabelBold;
-	protected ComponentCheckbox cbAxisLabelItalic;
+	private ComponentCheckbox cbAxisLabelSerif;
+	private ComponentCheckbox cbAxisLabelBold;
+	private ComponentCheckbox cbAxisLabelItalic;
 	protected FlowPanel miscPanel;
 	private EuclidianOptionsModel model;
 	CompDropDown rightAngleStyleListBox;
@@ -87,19 +87,19 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		tf.addKeyHandler(e -> {
 			if (e.isEnterKey()) {
-				model.applyMinMax(tf.getText(), type);
+				model.applyMinMax(tf.getText(), type, this);
 				optionsEuclidianW.updateView();
 			}
 		});
 
 		tf.addBlurHandler(event -> {
-			model.applyMinMax(tf.getText(), type);
+			model.applyMinMax(tf.getText(), type, this);
 			optionsEuclidianW.updateView();
 		});
 	}
 
 	protected double parseDouble(String text) {
-		if (text == null || "".equals(text)) {
+		if (StringUtil.empty(text)) {
 			return Double.NaN;
 		}
 		return optionsEuclidianW.app.getKernel().getAlgebraProcessor()
@@ -107,7 +107,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	}
 
 	void applyAxesRatio() {
-		optionsEuclidianW.model.applyAxesRatio(
+		model.applyAxesRatio(
 				parseDouble(tfAxesRatioX.getText()),
 				parseDouble(tfAxesRatioY.getText()));
 		optionsEuclidianW.updateView();
@@ -144,7 +144,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		axesRatioLabel = new Label("");
 
-		dimPanel = new FlowPanel();
+		FlowPanel dimPanel = new FlowPanel();
 		add(dimTitle);
 		FlowPanel[] axisRangePanel = new FlowPanel[dimension * 2];
 		MinMaxType[] fields;
@@ -189,15 +189,11 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		tbLockRatio.addFastClickHandler(event -> {
 			if (tbLockRatio.isSelected()) {
 				model.applyLockRatio(parseDouble(tfAxesRatioX.getText())
-						/ parseDouble(tfAxesRatioY.getText()));
+						/ parseDouble(tfAxesRatioY.getText()), this);
 			} else {
-				model.applyLockRatio(-1);
+				model.applyLockRatio(-1, this);
 			}
 		});
-	}
-
-	protected int setDimension() {
-		return 4;
 	}
 
 	protected void indent(FlowPanel panel) {
@@ -322,13 +318,12 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	}
 
 	private void onBoldAxes(boolean selected) {
-		model.applyBoldAxes(selected,
-				cbShowAxes.isSelected());
+		model.applyBoldAxes(selected);
 		optionsEuclidianW.updateView();
 	}
 
 	protected void setShowAxes(Boolean value) {
-		optionsEuclidianW.model.showAxes(value);
+		model.showAxes(value);
 		optionsEuclidianW.xAxisTab.setShowAxis(value);
 		optionsEuclidianW.yAxisTab.setShowAxis(value);
 	}
@@ -337,6 +332,10 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		axesOptionsPanel.add(LayoutUtilW.panelRow(cbShowAxes, cbBoldAxes));
 		axesOptionsPanel.add(LayoutUtilW.panelRow(colorLabel, btAxesColor,
 				lineStyle, axesStylePopup));
+		addFontStyleRow();
+	}
+
+	protected void addFontStyleRow() {
 		axesOptionsPanel.add(LayoutUtilW.panelRow(lblAxisLabelStyle,
 				cbAxisLabelSerif, cbAxisLabelBold, cbAxisLabelItalic));
 	}
@@ -364,7 +363,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	private void addConsProtocolPanel() {
 		consProtocolTitle = new Label();
 		consProtocolTitle.setStyleName("panelTitle");
-		consProtocolPanel = new FlowPanel();
+		FlowPanel consProtocolPanel = new FlowPanel();
 
 		cbShowNavbar = new ComponentCheckbox(optionsEuclidianW.loc, false, "Show",
 				this::onShowNavBar);
@@ -422,7 +421,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 				.isEuclidianView3D(optionsEuclidianW.view)) {
 			viewIdx = 3;
 		}
-		optionsEuclidianW.model.applyBackgroundColor(viewIdx, color);
+		model.applyBackgroundColor(viewIdx, color);
 	}
 
 	protected void addMiscPanel() {
@@ -474,7 +473,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 								@Override
 								public void onColorChange(GColor color) {
 									applyBackgroundColor(color);
-									updateBackgroundColorButton(color);
+									updateBackgroundColor(color);
 								}
 
 								@Override
@@ -554,10 +553,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 				optionsEuclidianW.loc.getMenu("RightAngleStyle") + ":");
 	}
 
-	/**
-	 * @param value
-	 *            axes ratio
-	 */
+	@Override
 	public void enableAxesRatio(boolean value) {
 		tfAxesRatioX.getTextBox().setEnabled(value);
 		tfAxesRatioY.getTextBox().setEnabled(value);
@@ -584,20 +580,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		dimField[3].setText(maxY);
 	}
 
-	/**
-	 * @param minX
-	 *            min x
-	 * @param maxX
-	 *            max x
-	 * @param minY
-	 *            min y
-	 * @param maxY
-	 *            max y
-	 * @param minZ
-	 *            min z
-	 * @param maxZ
-	 *            max z
-	 */
+	@Override
 	public void setMinMaxText(String minX, String maxX, String minY,
 			String maxY, String minZ, String maxZ) {
 		dimField[0].setText(minX);
@@ -608,16 +591,10 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		dimField[5].setText(maxZ);
 	}
 
-	/**
-	 * Updates color, visible and bold checkboxes using current view settings.
-	 * 
-	 * @param color
-	 *            axes color override for axis color
-	 */
-	public final void updateAxes(GColor color) {
-		cbShowAxes.setSelected(optionsEuclidianW.view.getShowXaxis()
-				&& optionsEuclidianW.view.getShowYaxis());
-		cbBoldAxes.setSelected(optionsEuclidianW.view.areAxesBold());
+	@Override
+	public final void updateAxes(GColor color, boolean isShown, boolean isBold) {
+		cbShowAxes.setSelected(isShown);
+		cbBoldAxes.setSelected(isBold);
 		updateAxesColorButton(color);
 	}
 
@@ -631,22 +608,14 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		btAxesColor.setIcon(content);
 	}
 
-	/**
-	 * @param color
-	 *            background color
-	 */
-	public void updateBackgroundColorButton(GColor color) {
+	@Override
+	public void updateBackgroundColor(GColor color) {
 		ImageOrText content = new ImageOrText();
 		content.setBgColor(color);
 		btBackgroundColor.setIcon(content);
 	}
 
-	/**
-	 * Update construction protocol navigation settings.
-	 * 
-	 * @param isVisible
-	 *            whether the checkboxes should be enabled
-	 */
+	@Override
 	public void updateConsProtocolPanel(boolean isVisible) {
 		// cons protocol panel
 		cbShowNavbar.setSelected(isVisible);
@@ -654,14 +623,17 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		cbOpenConsProtocol.setDisabled(!isVisible);
 	}
 
+	@Override
 	public void showMouseCoords(boolean value) {
 		cbShowMouseCoords.setSelected(value);
 	}
 
+	@Override
 	public void selectAxesStyle(int index) {
 		axesStylePopup.setSelectedIndex(index);
 	}
 
+	@Override
 	public void enableLock(boolean value) {
 		tbLockRatio.setEnabled(value);
 	}
@@ -679,9 +651,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 						.getLabel(StringTemplate.editTemplate));
 	}
 
-	/**
-	 * Update xmin, xmax, ymin, ymax and scale inputs
-	 */
+	@Override
 	public void updateBounds() {
 		updateMinMax();
 
@@ -704,5 +674,18 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 	public OptionsEuclidianW getOptionsEuclidianW() {
 		return optionsEuclidianW;
+	}
+
+	@Override
+	public void selectTooltipType(int index) {
+		lbTooltips.setSelectedIndex(index);
+	}
+
+	@Override
+	public void updateAxisFontStyle(boolean serif, boolean isBold,
+			boolean isItalic) {
+		cbAxisLabelSerif.setSelected(serif);
+		cbAxisLabelBold.setSelected(isBold);
+		cbAxisLabelItalic.setSelected(isItalic);
 	}
 }

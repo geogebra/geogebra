@@ -3530,8 +3530,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public abstract CommandDispatcher newCommandDispatcher(Kernel cmdKernel);
 
-	public abstract CommandDispatcher newCommand3DDispatcher(Kernel cmdKernel);
-
 	/**
 	 * Whether the app is running just to create a screenshot, some
 	 * recomputations can be avoided in such case
