@@ -385,35 +385,38 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		String latex = null;
 		if (geo.isEmptySpreadsheetCell()) {
 			text = "";
-		} else if (geo.isIndependent()) {
-			if (geo.isLaTeXDrawableGeo()
-					&& (!geo.isGeoText() || ((GeoText) geo).isLaTeX())) {
-
-				latex = geo.getLaTeXdescription();
-			}
-			text = geo.toValueString(StringTemplate.defaultTemplate);
 		} else {
-			switch (kernel.getAlgebraStyleSpreadsheet()) {
-			default:
-			case Kernel.ALGEBRA_STYLE_VALUE:
+			StringTemplate template = StringTemplate.defaultTemplate.deriveWithFractions(false);
+			if (geo.isIndependent()) {
 				if (geo.isLaTeXDrawableGeo()
 						&& (!geo.isGeoText() || ((GeoText) geo).isLaTeX())) {
 
 					latex = geo.getLaTeXdescription();
 				}
-				text = geo.toValueString(StringTemplate.defaultTemplate);
-				break;
+				text = geo.toValueString(template);
+			} else {
+				switch (kernel.getAlgebraStyleSpreadsheet()) {
+				default:
+				case Kernel.ALGEBRA_STYLE_VALUE:
+					if (geo.isLaTeXDrawableGeo()
+							&& (!geo.isGeoText() || ((GeoText) geo).isLaTeX())) {
 
-			case Kernel.ALGEBRA_STYLE_DESCRIPTION:
-				text = geo
-				        .getDefinitionDescription(StringTemplate.defaultTemplate);
-				break;
+						latex = geo.getLaTeXdescription();
+					}
+					text = geo.toValueString(template);
+					break;
 
-			case Kernel.ALGEBRA_STYLE_DEFINITION:
-				text = geo
-				        .getDefinition(StringTemplate.defaultTemplate);
-				break;
+				case Kernel.ALGEBRA_STYLE_DESCRIPTION:
+					text = geo
+							.getDefinitionDescription(template);
+					break;
 
+				case Kernel.ALGEBRA_STYLE_DEFINITION:
+					text = geo
+							.getDefinition(template);
+					break;
+
+				}
 			}
 		}
 		
