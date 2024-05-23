@@ -54,6 +54,7 @@ import org.geogebra.web.full.gui.util.Resizer;
 import org.geogebra.web.full.gui.util.SyntaxAdapterImplWithPaste;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -1301,9 +1302,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	protected void addDummyLabel() {
 		if (dummyLabel == null) {
-			dummyLabel = new Label(
-					loc.getMenu("InputLabel") + Unicode.ELLIPSIS);
-			dummyLabel.addStyleName("avDummyLabel");
+			dummyLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(loc.getMenu("InputLabel")
+					+ Unicode.ELLIPSIS, "avDummyLabel");
 			ariaLabel = new Label();
 			ariaLabel.addStyleName("hidden");
 			content.add(ariaLabel);
