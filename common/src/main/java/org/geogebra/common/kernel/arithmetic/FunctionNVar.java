@@ -15,8 +15,8 @@ package org.geogebra.common.kernel.arithmetic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -542,8 +542,8 @@ public class FunctionNVar extends ValidExpression
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
-		return expression.getVariables(mode);
+	public void getVariables(Set<GeoElement> variables, SymbolicMode mode) {
+		expression.getVariables(variables, mode);
 	}
 
 	/**
@@ -707,7 +707,7 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * 
-	 * @return CAS map command -> result
+	 * @return CAS map command -&gt; result
 	 */
 	protected MaxSizeHashMap<String, FunctionNVar> getCasEvalMap() {
 		if (casEvalMap == null) {
@@ -1421,7 +1421,7 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * @param map
-	 *            map from XML in the string -> string form
+	 *            map from XML in the string -&gt; string form
 	 */
 	public void updateCASEvalMap(TreeMap<String, String> map) {
 		if (map == null) {

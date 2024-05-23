@@ -214,7 +214,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	void setExport3D(Format format, boolean showDialog);
 	
 	/**
-	 * zoom y & z axes ratio regarding x axis
+	 * zoom y &amp; z axes ratio regarding x axis
 	 * 
 	 * @param zoomFactorY
 	 *            y:x ratio
@@ -225,7 +225,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 
 	/**
 	 * Keeps the zoom, but makes sure the bound objects are free. This is necessary
-	 * in File->New because there might have been dynamic xmin bounds
+	 * in File &gt; New because there might have been dynamic xmin bounds
 	 */
 	public void resetXYMinMaxObjects();
 
@@ -285,9 +285,9 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	public void setCursor3DVisible(boolean flag);
 
 	/**
-	 * return the matrix : screen coords -> scene coords.
+	 * return the matrix : screen coords -&gt; scene coords.
 	 *
-	 * @return the matrix : screen coords -> scene coords.
+	 * @return the matrix : screen coords -&gt; scene coords.
 	 */
 	public CoordMatrix4x4 getToSceneMatrix();
 

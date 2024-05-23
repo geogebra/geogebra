@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * Min[ &lt;Number>, &lt;Number> ]
+ * Min[ &lt;Number&gt;, &lt;Number&gt; ]
  */
 public class CmdMinMax extends CommandProcessor {
 	private final boolean isMin;

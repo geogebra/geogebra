@@ -28,7 +28,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Algo for the Prove command.
  * 
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  */
 public class AlgoProve extends AlgoElement implements UsesCAS {
 

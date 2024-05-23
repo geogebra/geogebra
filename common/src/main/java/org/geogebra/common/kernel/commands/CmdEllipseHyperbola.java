@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Ellipse[ &lt;GeoPoint>, &lt;GeoPoint>, &lt;NumberValue> ]
+ * Ellipse[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt;, &lt;NumberValue&gt; ]
  */
 public class CmdEllipseHyperbola extends CommandProcessor {
 	/** ellipse or hyperbola, eg GeoConicNDConstants.CONIC_HYPERBOLA */

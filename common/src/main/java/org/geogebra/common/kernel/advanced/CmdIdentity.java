@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * Identity[&lt;number>]
+ * Identity[&lt;Number&gt;]
  */
 public class CmdIdentity extends CommandProcessor {
 

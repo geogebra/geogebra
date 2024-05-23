@@ -24,24 +24,24 @@ import java.util.NoSuchElementException;
  * UnboundedFifoBuffer is a very efficient buffer implementation. According to
  * performance testing, it exhibits a constant access time, but it also
  * outperforms ArrayList when used for the same purpose.
- * <p/>
+ * <p>
  * The removal order of an <code>UnboundedFifoBuffer</code> is based on the
  * insertion order; elements are removed in the same order in which they were
  * added. The iteration order is the same as the removal order.
- * <p/>
+ * <p>
  * The {@link #remove()} and {@link #get()} operations perform in constant time.
  * The {@link #add(Object)} operation performs in amortized constant time. All
  * other operations perform in linear time or worse.
- * <p/>
+ * <p>
  * Note that this implementation is not synchronized. The following can be used
  * to provide synchronized access to your <code>UnboundedFifoBuffer</code>:
  *
  * <pre>
  * Buffer fifo = BufferUtils.synchronizedBuffer(new UnboundedFifoBuffer());
  * </pre>
- * <p/>
+ * <p>
  * This buffer prevents null objects from being added.
- * <p/>
+ * <p>
  * This class is Serializable from Commons Collections 3.1.
  *
  * @author Avalon
@@ -71,7 +71,6 @@ public class UnboundedFifoBuffer<E> extends AbstractCollection<E>
 	/**
 	 * Constructs an UnboundedFifoBuffer with the default number of elements. It
 	 * is exactly the same as performing the following:
-	 * <p/>
 	 *
 	 * <pre>
 	 * new UnboundedFifoBuffer(32);

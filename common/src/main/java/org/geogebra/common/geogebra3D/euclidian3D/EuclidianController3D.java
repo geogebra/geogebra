@@ -145,7 +145,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected AbstractEvent mouseEvent = null;
 
 	/**
-	 * scale factor for changing angle of view : 2Pi <-> 360 pixels (so 1 pixel
+	 * scale factor for changing angle of view : 2Pi ~ 360 pixels (so 1 pixel
 	 * = 1degrees )
 	 */
 	static final public double ANGLE_TO_DEGREES = 2 * Math.PI / 360;
@@ -1319,7 +1319,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	/**
-	 * create plane containing polygon / 2 lines / line & point / 3 points
+	 * create plane containing polygon / 2 lines / line + point / 3 points
 	 * 
 	 * @param hits0
 	 *            hits

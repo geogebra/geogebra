@@ -38,6 +38,6 @@ public class GeoListForCellRange extends GeoList {
 
 	@Override
 	protected boolean isElementTypeXMLNeeded() {
-		return true;
+		return getTypeStringForXML() != null;
 	}
 }

@@ -40,7 +40,7 @@ import org.geogebra.common.util.NumberFormatAdapter;
  * work symbolically.
  * 
  * @author Simon Weitzhofer 17 May 2012
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  */
 public class AlgoAreEqual extends AlgoElement
 		implements SymbolicParametersBotanaAlgoAre {

@@ -51,7 +51,7 @@ import static org.geogebra.common.util.mathIT.Complex.subtract;
 
 /**
  * This class provides the Riemann zeta function &#950;(<i>s</i>) for any
- * complex number <i>s</i> &#8712; <span style="font-size:large;">&#8450;</span>
+ * complex number <i>s</i> &#8712; <span style="font-size:large;">\u2102</span>
  * and the Riemann-Siegel functions <i>Z</i> and &theta;.
  *
  * @author Andreas de Vries, GeoGebra
@@ -106,20 +106,20 @@ public final class Riemann {
 
 	/**
 	 * Returns the value &#967;(<i>s</i>) for a complex number <i>s</i> &#8712;
-	 * <span style="font-size:large;">&#8450;</span>, such that &#950;(<i>s</i>)
+	 * <span style="font-size:large;">\u2102</span>, such that &#950;(<i>s</i>)
 	 * = &#967;(<i>s</i>) &#950;(1 - <i>s</i>). It is defined as
-	 * <table style="margin:auto;" summary="">
+	 * <table style="margin:auto;"><caption></caption>
 	 * <tr>
 	 * <td>&#967;(<i>s</i>)</td>
-	 * <td align="center">&nbsp; = &nbsp;</td>
-	 * <td align="center">2<sup><i>s</i></sup> &pi;<sup><i>s</i> - 1</sup> sin(
+	 * <td>&nbsp; = &nbsp;</td>
+	 * <td>2<sup><i>s</i></sup> &pi;<sup><i>s</i> - 1</sup> sin(
 	 * <i>s</i> &pi;/2) &Gamma;(1 - <i>s</i>)</td>
-	 * <td align="center">&nbsp; = &nbsp;</td>
-	 * <td align="center">&#960;<sup><i>s</i> - 1/2</sup></td>
+	 * <td>&nbsp; = &nbsp;</td>
+	 * <td>&#960;<sup><i>s</i> - 1/2</sup></td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center">&#915;((1 - <i>s</i>)/2)</td>
+	 * <td>&#915;((1 - <i>s</i>)/2)</td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -127,7 +127,7 @@ public final class Riemann {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center">&#915;(<i>s</i>/2)</td>
+	 * <td>&#915;(<i>s</i>/2)</td>
 	 * </tr>
 	 * </table>
 	 * </td>
@@ -187,15 +187,15 @@ public final class Riemann {
 
 	/**
 	 * Riemann zeta function &#950;(<i>s</i>) for <i>s</i> &#8712;
-	 * <span style="font-size:large;">&#8450;</span>. It is computed by
-	 * <table style="margin:auto;" summary="">
+	 * <span style="font-size:large;">\u2102</span>. It is computed by
+	 * <table style="margin:auto;"><caption></caption>
 	 * <tr>
 	 * <td>&#950;(<i>s</i>)</td>
-	 * <td align="center">&nbsp; = &nbsp;</td>
+	 * <td>&nbsp; = &nbsp;</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center">1</td>
+	 * <td>1</td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -208,22 +208,22 @@ public final class Riemann {
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center" class="small">&#8734;</td>
+	 * <td class="small">&#8734;</td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center" style="font-size:xx-large;">&#931;</td>
+	 * <td style="font-size:xx-large;">&#931;</td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center" class="small"><i>n</i>=1</td>
+	 * <td class="small"><i>n</i>=1</td>
 	 * </tr>
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center">(-1)<sup><i>n</i> - 1</sup></td>
+	 * <td>(-1)<sup><i>n</i> - 1</sup></td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -231,7 +231,7 @@ public final class Riemann {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center"><i>n<sup>s</sup></i><sub>&nbsp;</sub></td>
+	 * <td><i>n<sup>s</sup></i><sub>&nbsp;</sub></td>
 	 * </tr>
 	 * </table>
 	 * </td>
@@ -243,11 +243,11 @@ public final class Riemann {
 	 * </tr>
 	 * <tr>
 	 * <td>&#950;(<i>s</i>)</td>
-	 * <td align="center">&nbsp; = &nbsp;</td>
+	 * <td>&nbsp; = &nbsp;</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center">1</td>
+	 * <td>1</td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -260,22 +260,22 @@ public final class Riemann {
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center" class="small">&#8734;</td>
+	 * <td class="small">&#8734;</td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center" style="font-size:xx-large;">&#931;</td>
+	 * <td style="font-size:xx-large;">&#931;</td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center" class="small"><i>n</i>=1</td>
+	 * <td class="small"><i>n</i>=1</td>
 	 * </tr>
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center">1</td>
+	 * <td>1</td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -288,25 +288,25 @@ public final class Riemann {
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center" class="small"><i>n</i></td>
+	 * <td class="small"><i>n</i></td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center" style="font-size:xx-large;">&#931;</td>
+	 * <td style="font-size:xx-large;">&#931;</td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center" class="small"><i>k</i>=0</td>
+	 * <td class="small"><i>k</i>=0</td>
 	 * </tr>
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center">(-1)<sup><i>k</i></sup></td>
+	 * <td>(-1)<sup><i>k</i></sup></td>
 	 * <td style="font-size:xx-large;">(</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
 	 * <td><i>n</i></td>
 	 * </tr>
@@ -316,7 +316,7 @@ public final class Riemann {
 	 * </table>
 	 * </td>
 	 * <td style="font-size:xx-large;">)</td>
-	 * <td align="center">(<i>k</i> + 1)<sup><i>-s</i></sup></td>
+	 * <td>(<i>k</i> + 1)<sup><i>-s</i></sup></td>
 	 * </table>
 	 * </td>
 	 * <td>&nbsp; &nbsp; &nbsp; otherwise.</td>
@@ -534,28 +534,28 @@ public final class Riemann {
 	/**
 	 * Riemann-Siegel Z-function <i>Z</i>(<i>t</i>). It is determined by the
 	 * formula
-	 * <table style="margin:auto;" summary="">
+	 * <table style="margin:auto;"><caption></caption>
 	 * <tr>
 	 * <td><i>Z</i>(<i>t</i>)</td>
-	 * <td align="center">&nbsp; = &nbsp;</td>
+	 * <td>&nbsp; = &nbsp;</td>
 	 * <td>2</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center" class="small"><i>m</i></td>
+	 * <td class="small"><i>m</i></td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center" style="font-size:xx-large;">&#931;</td>
+	 * <td style="font-size:xx-large;">&#931;</td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center" class="small"><i>n</i>=1</td>
+	 * <td class="small"><i>n</i>=1</td>
 	 * </tr>
 	 * </table>
 	 * </td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center">cos[&#952;(<i>t</i>) - <i>t</i> ln <i>n</i>]</td>
+	 * <td>cos[&#952;(<i>t</i>) - <i>t</i> ln <i>n</i>]</td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -563,7 +563,7 @@ public final class Riemann {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center">&#8730;<i>n</i></td>
+	 * <td>&#8730;<i>n</i></td>
 	 * </tr>
 	 * </table>
 	 * </td>
@@ -574,15 +574,15 @@ public final class Riemann {
 	 * <p>
 	 * where
 	 * </p>
-	 * <table style="margin:auto;" summary="">
+	 * <table style="margin:auto;"><caption></caption>
 	 * <tr>
 	 * <td><i>m</i> &nbsp; = &nbsp; <i>m</i>(<i>t</i>)</td>
-	 * <td align="center">&nbsp; = &nbsp;</td>
-	 * <td><span style="font-size:xx-large;">&#9123;</span></td>
+	 * <td>&nbsp; = &nbsp;</td>
+	 * <td><span style="font-size:xx-large;">\u23a3</span></td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center">|<i>t</i>|</td>
+	 * <td>|<i>t</i>|</td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -590,11 +590,11 @@ public final class Riemann {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center">2 &#960;</td>
+	 * <td>2 &#960;</td>
 	 * </tr>
 	 * </table>
 	 * </td>
-	 * <td><span style="font-size:xx-large;">&#9126;</span></td>
+	 * <td><span style="font-size:xx-large;">\u23a6</span></td>
 	 * </table>
 	 * <p>
 	 * and &theta; denotes the Riemann-Siegel {@link #theta(double) theta
@@ -643,14 +643,14 @@ public final class Riemann {
 	/**
 	 * Riemann-Siegel theta function. In this method the value theta(t) is
 	 * approximated using the Stirling series
-	 * <table style="margin:auto;" summary="">
+	 * <table style="margin:auto;"><caption></caption>
 	 * <tr>
 	 * <td><i>&#952;</i>(<i>t</i>)</td>
-	 * <td align="center">&nbsp; = &nbsp;</td>
+	 * <td>&nbsp; = &nbsp;</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center"><i>t</i></td>
+	 * <td><i>t</i></td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -658,15 +658,15 @@ public final class Riemann {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center">2</td>
+	 * <td>2</td>
 	 * </tr>
 	 * </table>
 	 * </td>
 	 * <td>ln</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center"><i>t</i></td>
+	 * <td><i>t</i></td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -674,15 +674,15 @@ public final class Riemann {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center">2 &#960;</td>
+	 * <td>2 &#960;</td>
 	 * </tr>
 	 * </table>
 	 * </td>
-	 * <td align="center">&nbsp; - &nbsp;</td>
+	 * <td>&nbsp; - &nbsp;</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center"><i>t</i></td>
+	 * <td><i>t</i></td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -690,15 +690,15 @@ public final class Riemann {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center">2</td>
+	 * <td>2</td>
 	 * </tr>
 	 * </table>
 	 * </td>
-	 * <td align="center">&nbsp; - &nbsp;</td>
+	 * <td>&nbsp; - &nbsp;</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center">&#960;</td>
+	 * <td>&#960;</td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -706,15 +706,15 @@ public final class Riemann {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center">8</td>
+	 * <td>8</td>
 	 * </tr>
 	 * </table>
 	 * </td>
-	 * <td align="center">&nbsp; + &nbsp;</td>
+	 * <td>&nbsp; + &nbsp;</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center">1</td>
+	 * <td>1</td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -722,15 +722,15 @@ public final class Riemann {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center">48<i>t</i></td>
+	 * <td>48<i>t</i></td>
 	 * </tr>
 	 * </table>
 	 * </td>
 	 * <td>+</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center">7</td>
+	 * <td>7</td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -738,16 +738,16 @@ public final class Riemann {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center">5760 <i>t</i><sup>3</sup></td>
+	 * <td>5760 <i>t</i><sup>3</sup></td>
 	 * </tr>
 	 * </table>
 	 * </td>
 	 * <td></td>
 	 * <td>+</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center">31</td>
+	 * <td>31</td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -755,15 +755,15 @@ public final class Riemann {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center">80640 <i>t</i><sup>5</sup></td>
+	 * <td>80640 <i>t</i><sup>5</sup></td>
 	 * </tr>
 	 * </table>
 	 * </td>
 	 * <td>+</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center">127</td>
+	 * <td>127</td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -771,7 +771,7 @@ public final class Riemann {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center">430080 <i>t</i><sup>7</sup></td>
+	 * <td>430080 <i>t</i><sup>7</sup></td>
 	 * </tr>
 	 * </table>
 	 * </td>
@@ -779,9 +779,9 @@ public final class Riemann {
 	 * <td>&nbsp; + <i>R</i>(<i>t</i>) &nbsp; &nbsp; with |<i>R</i>(<i>t</i>)|
 	 * &lt;</td>
 	 * <td>
-	 * <table summary="" border="0">
+	 * <table border=""><caption></caption>
 	 * <tr>
-	 * <td align="center">1</td>
+	 * <td>1</td>
 	 * </tr>
 	 * <tr>
 	 * <td style="height:1px;">
@@ -789,7 +789,7 @@ public final class Riemann {
 	 * </td>
 	 * </tr>
 	 * <tr>
-	 * <td align="center"><i>t</i><sup>9</sup></td>
+	 * <td><i>t</i><sup>9</sup></td>
 	 * </tr>
 	 * </table>
 	 * </td>

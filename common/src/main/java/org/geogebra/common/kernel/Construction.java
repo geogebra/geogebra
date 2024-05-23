@@ -969,7 +969,7 @@ public class Construction {
 
 	/**
 	 * Removes the given Construction Element from this Construction and updates
-	 * step if necessary (i.e. if ce.getConstructionIndex() <= getStep()).
+	 * step if necessary (i.e. if ce.getConstructionIndex() &lt;= getStep()).
 	 * 
 	 * @param ce
 	 *            ConstuctionElement to be removed
@@ -3132,7 +3132,7 @@ public class Construction {
 	}
 
 	/**
-	 * Returns the UndoManager (for Copy & Paste)
+	 * Returns the UndoManager (for Copy &amp; Paste)
 	 * 
 	 * @return UndoManager
 	 */
@@ -3252,8 +3252,6 @@ public class Construction {
 	public void setNotXmlLoading(boolean b) {
 		this.notXmlLoading = b;
 	}
-
-	// update all indices >= pos
 
 	/**
 	 * @return whether updateConstruction is running
@@ -3533,7 +3531,7 @@ public class Construction {
 	}
 
 	/**
-	 * @return map label => geo
+	 * @return map label =&gt; geo
 	 */
 	public HashMap<String, GeoElement> getGeoTable() {
 		return geoTable;

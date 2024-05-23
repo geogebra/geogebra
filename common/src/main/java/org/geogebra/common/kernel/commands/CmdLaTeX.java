@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * FormulaText[ &lt;GeoElement> ]
+ * FormulaText[ &lt;GeoElement&gt; ]
  */
 public class CmdLaTeX extends CommandProcessor {
 

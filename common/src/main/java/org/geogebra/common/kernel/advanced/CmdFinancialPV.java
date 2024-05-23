@@ -9,8 +9,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * PresentValue[ &lt;Rate>, &lt;Number of Periods>, &lt;Payment>, &lt;Future
- * Value (optional)>, &lt;Type (optional)> ] Like the Excel PV function
+ * PresentValue[ &lt;Rate&gt;, &lt;Number of Periods&gt;, &lt;Payment&gt;, &lt;Future
+ * Value (optional)&gt;, &lt;Type (optional)&gt; ] Like the Excel PV function
  */
 public class CmdFinancialPV extends CommandProcessor {
 

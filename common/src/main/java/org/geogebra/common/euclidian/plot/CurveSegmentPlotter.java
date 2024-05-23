@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
- * Class to plot x->f(x) functions and 2D/3D parametric curves
+ * Class to plot real function f(x) and 2D/3D parametric curves
  * 
  * @author mathieu
  *

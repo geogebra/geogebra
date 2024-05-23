@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
- * RandomUniform[ &lt;Number>, &lt;Number> ]
+ * RandomUniform[ &lt;Number&gt;, &lt;Number&gt; ]
  */
 public class CmdRandomUniform extends CmdTwoNumFunction {
 

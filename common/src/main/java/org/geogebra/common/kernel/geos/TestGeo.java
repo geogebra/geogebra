@@ -41,9 +41,6 @@ import org.geogebra.common.kernel.kernelND.Region3D;
  * 
  * For Macro inputs, objects are tested in order so we must have eg GEOVECTOR
  * then GEOVECTORND then MOVEABLE otherwise the test will not work see #2398
- * 
- * @author Zbynek & Arpad
- *
  */
 public enum TestGeo implements Predicate<Object> {
 

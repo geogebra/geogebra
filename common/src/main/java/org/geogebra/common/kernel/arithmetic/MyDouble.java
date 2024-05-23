@@ -20,7 +20,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.math3.util.Precision;
 import org.geogebra.common.kernel.Construction;
@@ -351,7 +351,7 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
-	 * Like Math.pow, but Infinity ^ 0 -> NaN
+	 * Like Math.pow, but Infinity ^ 0 -&gt; NaN
 	 * 
 	 * @param a
 	 *            base
@@ -936,8 +936,8 @@ public class MyDouble extends ValidExpression
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
-		return null;
+	public void getVariables(Set<GeoElement> variables, SymbolicMode symbolicMode) {
+		// constant
 	}
 
 	@Override
@@ -967,7 +967,7 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
-	 * parse eg 3.45645% -> 3.45645/100
+	 * parse eg 3.45645% -&gt; 3.45645/100
 	 * 
 	 * @param app
 	 *            application for showing errors

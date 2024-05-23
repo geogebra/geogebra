@@ -1091,9 +1091,9 @@ public class Manager3D implements Manager3DInterface {
 	// 3D CURVE (1 VAR)
 
 	/**
-	 * 3D Cartesian curve command: Curve[ &lt;expression x-coord>,
-	 * &lt;expression y-coord>, &lt;expression z-coord>, &lt;number-var>,
-	 * &lt;from>, &lt;to> ]
+	 * 3D Cartesian curve command: Curve[ &lt;expression x-coord&gt;,
+	 * &lt;expression y-coord&gt;, &lt;expression z-coord&gt;, &lt;number-var&gt;,
+	 * &lt;from&gt;, &lt;to&gt; ]
 	 */
 	@Override
 	final public GeoCurveCartesian3D curveCartesian3D(GeoNumberValue xcoord,

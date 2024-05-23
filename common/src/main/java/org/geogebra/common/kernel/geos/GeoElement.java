@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -3385,10 +3384,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * final flag, it will break the update mechanism.
 	 */
 	@Override
-	public final HashSet<GeoElement> getVariables(SymbolicMode mode) {
-		final HashSet<GeoElement> ret = new HashSet<>();
-		ret.add(this);
-		return ret;
+	public final void getVariables(Set<GeoElement> variables, SymbolicMode symbolicMode) {
+		variables.add(this);
 	}
 
 	/**
@@ -6710,7 +6707,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * @return -1 if this is not part of packed output; 0 for pack header, >0
+	 * @return -1 if this is not part of packed output; 0 for pack header, &gt;0
 	 *         for packed items
 	 */
 	public int getPackedIndex() {

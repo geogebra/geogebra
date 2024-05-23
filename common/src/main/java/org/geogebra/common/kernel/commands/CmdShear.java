@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.main.MyError;
 
 /**
- * Shear[&lt;Object>, &lt;Line>, &lt;Ratio>]
+ * Shear[&lt;Object&gt;, &lt;Line&gt;, &lt;Ratio&gt;]
  */
 public class CmdShear extends CommandProcessor {
 
