@@ -79,9 +79,9 @@ final class Selection {
 	 * - the cell itself if it is in the first column
 	 * Examples: for rectangular range C2:D3 yields B2, for column selection C:D yields B1,
 	 * for row selection 2:3 yields A2
-	 * @return Selection to the left of this
+	 * @return single cell to the left of this
 	 */
-	Selection getLeftNeighborCell() {
+	Selection getNextCellForMoveLeft() {
 		if (type == SelectionType.ROWS) {
 			return getSingleCellSelection(range.getFromRow(), 0);
 		} else {
@@ -93,8 +93,8 @@ final class Selection {
 	/**
 	 * Range spanned by this selection's anchor cell and an end cell that was shifted to the left.
 	 * - for rectangular range C2:D3 that can be either B2:D3 (if anchor is in D)
-	 *   or C2:C2 (if anchor is in C)
-	 * - for column selection C:D yields either B:D or D:D
+	 *   or C2:C3 (if anchor is in C)
+	 * - for column selection C:D yields either B:D or D:D, depending on anchor
 	 * - for row selection 2:3 yields the selection unchanged
 	 * @return Selection extended to the left
 	 */
@@ -108,17 +108,29 @@ final class Selection {
 	}
 
 	/**
-	 * If Rows are selected then, returns the second cell from the left in the first selected row.
-	 * @param numberOfColumns Number of columns
-	 * @param extendSelection Whether we want to extend the current Selection
-	 * @return Selection to the right of the selection calling this method if possible
+	 * Takes the anchor cell of this selection and returns
+	 * - the cell to the right of it if possible
+	 * - the cell itself if it is in the last column
+	 * @see #getNextCellForMoveLeft()
+	 * @return single cell to the right of this
 	 */
-	Selection getRight(int numberOfColumns, boolean extendSelection) {
+	Selection getNextCellForMoveRight(int numberOfColumns) {
 		if (type == SelectionType.ROWS) {
 			return getSingleCellSelection(range.getFromRow(), 1);
-		} else if (!extendSelection) {
-			return getSingleCellSelection(range.getFromRow(),
+		} else {
+			return getSingleCellSelection(Math.max(range.getFromRow(), 0),
 					Math.min(range.getFromColumn() + 1, numberOfColumns - 1));
+		}
+	}
+
+	/**
+	 * Range spanned by this selection's anchor cell and an end cell that was shifted to the right.
+	 * @see #getLeftExtension()
+	 * @return Selection extended to the left
+	 */
+	Selection getRightExtension(int numberOfColumns) {
+		if (type == SelectionType.ROWS) {
+			return this;
 		}
 		int columnIndex = Math.min(range.getToColumn() + 1, numberOfColumns - 1);
 		return new Selection(TabularRange.range(range.getFromRow(), range.getToRow(),
@@ -126,37 +138,64 @@ final class Selection {
 	}
 
 	/**
-	 * If Columns are selected then the topmost Row with a single cell is selected
-	 * @param extendSelection Whether we want to extend the current Selection
-	 * @return Selection on top of the selection calling this method if possible
+	 * Takes the anchor cell of this selection and returns
+	 * - the cell above of it if possible
+	 * - the cell itself if it is in the first row
+	 * Examples: for rectangular range C2:D3 yields C1, for column selection C:D yields C1,
+	 * for row selection 2:3 yields A1
+	 * @return single cell to the left of this
 	 */
-	Selection getTop(boolean extendSelection) {
+	Selection getNextCellForMoveUp() {
 		if (type == SelectionType.COLUMNS) {
 			return getSingleCellSelection(0, range.getFromColumn());
-		} else if (!extendSelection) {
+		} else {
 			return getSingleCellSelection(Math.max(range.getFromRow() - 1, 0),
-					range.getFromColumn());
+					Math.max(range.getFromColumn(), 0));
 		}
+	}
 
+	/**
+	 * Range spanned by this selection's anchor cell and an end cell that was shifted up.
+	 * - for rectangular range C2:D3 that can be either C1:D3 (if anchor is in 3)
+	 *   or C2:D2 (if anchor is in C)
+	 * - for column selection C:D yields the selection unchanged
+	 * - for row selection 2:3 yields either 1:3 or 2:2, depending on anchor
+	 * @return Selection extended to the top
+	 */
+	Selection getTopExtension() {
+		if (type == SelectionType.COLUMNS) {
+			return this;
+		}
 		int aboveRowIndex = Math.max(this.range.getToRow() - 1, 0);
 		return new Selection(TabularRange.range(aboveRowIndex, aboveRowIndex,
 				range.getFromColumn(), range.getToColumn()));
 	}
 
 	/**
-	 * If Columns are selected then the second topmost Row with a single cell is selected
-	 * @param numberOfRows Number of rows
-	 * @param extendSelection Whether we want to extend the current Selection
-	 * @return Selection underneath the selection calling this method if possible
+	 * Takes the anchor cell of this selection and returns
+	 * - the cell below if possible
+	 * - the cell itself if it is in the last row
+	 * @see #getNextCellForMoveUp()
+	 * @return single cell below of this
 	 */
-	Selection getBottom(int numberOfRows, boolean extendSelection) {
+	Selection getNextCellForMoveDown(int numberOfRows) {
 		if (type == SelectionType.COLUMNS) {
 			return getSingleCellSelection(1, range.getFromColumn());
-		} else if (!extendSelection) {
+		} else {
 			return getSingleCellSelection(Math.min(range.getFromRow() + 1, numberOfRows - 1),
-					range.getFromColumn());
+					Math.max(range.getFromColumn(), 0));
 		}
+	}
 
+	/**
+	 * Range spanned by this selection's anchor cell and an end cell that was shifted down.
+	 * @see #getTopExtension()
+	 * @return Selection extended to the bottom
+	 */
+	Selection getBottomExtension(int numberOfRows) {
+		if (type == SelectionType.COLUMNS) {
+			return this;
+		}
 		int underneathRowIndex = Math.min(range.getToRow() + 1, numberOfRows - 1);
 		return new Selection(TabularRange.range(underneathRowIndex, underneathRowIndex,
 				range.getFromColumn(), range.getToColumn()));
@@ -218,6 +257,11 @@ final class Selection {
 		}
 		Selection other = (Selection) obj;
 		return type == other.type && range.equals(other.range);
+	}
+
+	@Override
+	public String toString() {
+		return range.toString();
 	}
 
 }

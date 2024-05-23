@@ -603,8 +603,8 @@ public final class SpreadsheetController {
 		tabularData.insertColumnAt(column);
 		Selection lastSelection = selectionController.getLastSelection();
 		if (right && lastSelection != null) {
-			selectionController.setSelection(lastSelection.getRight(
-					tabularData.numberOfColumns(), false));
+			selectionController.setSelection(lastSelection.getNextCellForMoveRight(
+					tabularData.numberOfColumns()));
 		}
 		if (layout != null) {
 			layout.resizeRemainingColumnsDescending(right ? column - 1 : column,
@@ -622,8 +622,8 @@ public final class SpreadsheetController {
 		tabularData.insertRowAt(row);
 		Selection lastSelection = selectionController.getLastSelection();
 		if (below && lastSelection != null) {
-			selectionController.setSelection(lastSelection.getBottom(
-					tabularData.numberOfRows(), false));
+			selectionController.setSelection(lastSelection.getNextCellForMoveDown(
+					tabularData.numberOfRows()));
 		}
 		if (layout != null) {
 			layout.resizeRemainingRowsDescending(below ? row - 1 : row, tabularData.numberOfRows());

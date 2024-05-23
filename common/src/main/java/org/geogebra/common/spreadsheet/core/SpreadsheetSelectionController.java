@@ -88,7 +88,7 @@ final class SpreadsheetSelectionController {
 	void moveLeft(boolean extendSelection) {
 		Selection lastSelection = getLastSelection();
 		if (lastSelection != null) {
-			select(extendSelection ? lastSelection.getLeftExtension() : lastSelection.getLeftNeighborCell(),
+			select(extendSelection ? lastSelection.getLeftExtension() : lastSelection.getNextCellForMoveLeft(),
 					extendSelection, false);
 		}
 	}
@@ -100,7 +100,7 @@ final class SpreadsheetSelectionController {
 	void moveRight(boolean extendSelection, int numberOfColumns) {
 		Selection lastSelection = getLastSelection();
 		if (lastSelection != null) {
-			select(lastSelection.getRight(numberOfColumns, extendSelection),
+			select(extendSelection ? lastSelection.getRightExtension(numberOfColumns) : lastSelection.getNextCellForMoveRight(numberOfColumns),
 					extendSelection, false);
 		}
 	}
@@ -111,7 +111,7 @@ final class SpreadsheetSelectionController {
 	void moveUp(boolean extendSelection) {
 		Selection lastSelection = getLastSelection();
 		if (lastSelection != null) {
-			select(lastSelection.getTop(extendSelection), extendSelection, false);
+			select(extendSelection ? lastSelection.getTopExtension() : lastSelection.getNextCellForMoveUp(), extendSelection, false);
 		}
 	}
 
@@ -122,7 +122,7 @@ final class SpreadsheetSelectionController {
 	void moveDown(boolean extendSelection, int numberOfRows) {
 		Selection lastSelection = getLastSelection();
 		if (lastSelection != null) {
-			select(lastSelection.getBottom(numberOfRows, extendSelection),
+			select(extendSelection ? lastSelection.getBottomExtension(numberOfRows) : lastSelection.getNextCellForMoveDown(numberOfRows),
 					extendSelection, false);
 		}
 	}
