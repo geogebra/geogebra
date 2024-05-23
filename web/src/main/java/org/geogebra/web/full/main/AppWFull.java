@@ -2379,13 +2379,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @param region {@link ExamRegion}
 	 */
 	public void startExam(ExamRegion region) {
-		getLAF().toggleFullscreen(true);
 		GlobalScope.examController.setActiveContext(this,
 				getKernel().getAlgebraProcessor().getCommandDispatcher(),
 				getKernel().getAlgebraProcessor());
 		GlobalScope.examController.registerRestrictable(this);
 		GlobalScope.examController.setDelegate(new ExamControllerDelegateW(this));
 		GlobalScope.examController.startExam(region, null);
+		getLAF().toggleFullscreen(true);
 		if (guiManager != null) {
 			guiManager.resetBrowserGUI();
 			if (menuViewController != null) {
