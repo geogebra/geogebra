@@ -1,6 +1,10 @@
 package org.geogebra.common.spreadsheet.kernel;
 
+import java.util.Arrays;
+
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.debug.Log;
 
@@ -42,7 +46,15 @@ public class SpreadsheetCellProcessor {
 
 	private void processInput(String command) {
 		algebraProcessor.processAlgebraCommandNoExceptionHandling(command, true,
-				errorHandler, false, null);
+				errorHandler, false, this::setGeosEuclidianInvisibleAndAuxiliary);
+	}
+
+	private void setGeosEuclidianInvisibleAndAuxiliary(GeoElementND[] geos) {
+		Arrays.stream(geos).forEach(geo -> {
+			geo.setEuclidianVisible(false);
+			geo.setAuxiliaryObject(true);
+			geo.updateVisualStyle(GProperty.VISIBLE);
+		});
 	}
 
 	private static boolean isCommand(String input) {
