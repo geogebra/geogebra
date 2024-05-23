@@ -188,11 +188,6 @@ public class AppCommon extends App {
     }
 
     @Override
-	public CommandDispatcher newCommand3DDispatcher(Kernel cmdKernel) {
-        return null;
-    }
-
-    @Override
     public void invokeLater(Runnable runnable) {
 		runnable.run();
     }

@@ -48,7 +48,7 @@ public class CmdParseToNumber extends CommandProcessor {
 			if ((ok = arg[0].isGeoNumeric()) && arg[1].isGeoText()) {
 
 				GeoNumeric num = (GeoNumeric) arg[0];
-				String str = ((GeoText) arg[1]).getTextString();
+				String str = ((GeoText) arg[1]).getTextStringSafe();
 
 				try {
 					kernel.getAlgebraProcessor().evaluateToDouble(str, true,

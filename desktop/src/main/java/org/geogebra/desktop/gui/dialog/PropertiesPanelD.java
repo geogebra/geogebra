@@ -3211,10 +3211,10 @@ class ColorFunctionPanel extends JPanel
 		this.propPanel = propPanel;
 		model = new ColorFunctionModel(app, this);
 		// non auto complete input panel
-		InputPanelD inputPanelR = new InputPanelD(null, app, 1, -1, true);
-		InputPanelD inputPanelG = new InputPanelD(null, app, 1, -1, true);
-		InputPanelD inputPanelB = new InputPanelD(null, app, 1, -1, true);
-		InputPanelD inputPanelA = new InputPanelD(null, app, 1, -1, true);
+		InputPanelD inputPanelR = new InputPanelD(null, app, -1, true, false);
+		InputPanelD inputPanelG = new InputPanelD(null, app, -1, true, false);
+		InputPanelD inputPanelB = new InputPanelD(null, app, -1, true, false);
+		InputPanelD inputPanelA = new InputPanelD(null, app, -1, true, false);
 		tfRed = (AutoCompleteTextFieldD) inputPanelR.getTextComponent();
 		tfGreen = (AutoCompleteTextFieldD) inputPanelG.getTextComponent();
 		tfBlue = (AutoCompleteTextFieldD) inputPanelB.getTextComponent();

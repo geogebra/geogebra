@@ -58,7 +58,7 @@ public class CmdParseToFunction extends CommandProcessor {
 					}
 				}
 
-				String str = ((GeoText) arg[1]).getTextString();
+				String str = ((GeoText) arg[1]).getTextStringSafe();
 
 				try {
 					GeoElement parsed = arg[0].isGeoFunction()
@@ -70,8 +70,7 @@ public class CmdParseToFunction extends CommandProcessor {
 					fun.updateCascade();
 				} catch (Exception e) {
 					// eg ParseToFunction[f, "hello"]
-					fun.set(kernel.getAlgebraProcessor()
-							.evaluateToFunction("?", true));
+					fun.setUndefined();
 					fun.updateCascade();
 				}
 

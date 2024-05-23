@@ -120,14 +120,13 @@ import org.geogebra.common.kernel.statistics.CmdZipf;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 
 /**
- * class to split off some CmdXXX classes into another jar (for faster applet
- * loading)
- *
+ * Factory for statistical commands.
+ * @see CommandProcessorFactory
  */
-public class CommandDispatcherStats implements CommandDispatcherInterface {
+public class StatsCommandProcessorFactory implements CommandProcessorFactory {
 	@Override
-	public CommandProcessor dispatch(Commands c, Kernel kernel) {
-		switch (c) {
+	public CommandProcessor getProcessor(Commands command, Kernel kernel) {
+		switch (command) {
 		case RandomElement:
 			return new CmdRandomElement(kernel);
 		case RandomPolynomial:
@@ -315,7 +314,7 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 		case Cauchy:
 		case Weibull:
 			return new CmdRealDistribution2Params(kernel,
-					ProbabilityCalculatorSettings.Dist.forCommand(c));
+					ProbabilityCalculatorSettings.Dist.forCommand(command));
 		case InverseNormal:
 		case InverseBeta:
 		case InverseGamma:
@@ -323,17 +322,17 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 		case InverseCauchy:
 		case InverseWeibull:
 			return new CmdInverseRealDistribution2Params(kernel,
-					ProbabilityCalculatorSettings.Dist.forInverse(c));
+					ProbabilityCalculatorSettings.Dist.forInverse(command));
 		case TDistribution:
 		case Exponential:
 		case ChiSquared:
 			return new CmdRealDistribution1Param(kernel,
-					ProbabilityCalculatorSettings.Dist.forCommand(c));
+					ProbabilityCalculatorSettings.Dist.forCommand(command));
 		case InverseExponential:
 		case InverseChiSquared:
 		case InverseTDistribution:
 			return new CmdInverseRealDistribution1Param(kernel,
-					ProbabilityCalculatorSettings.Dist.forInverse(c));
+					ProbabilityCalculatorSettings.Dist.forInverse(command));
 		case HyperGeometric:
 			return new CmdHyperGeometric(kernel);
 		case InverseHyperGeometric:

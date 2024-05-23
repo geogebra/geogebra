@@ -69,14 +69,14 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 		// NAME PANEL
 
 		// non auto complete input panel
-		inputPanelName = new InputPanelD(null, app, 1, -1, true);
+		inputPanelName = new InputPanelD(null, app, -1, true, false);
 		tfName = (AutoCompleteTextFieldD) inputPanelName.getTextComponent();
 		tfName.setAutoComplete(false);
 		tfName.addActionListener(this);
 		tfName.addFocusListener(this);
 
 		// definition field: non auto complete input panel
-		inputPanelDef = new InputPanelD(null, app, 1, -1, true);
+		inputPanelDef = new InputPanelD(null, app, -1, true, false);
 		tfDefinition = (AutoCompleteTextFieldD) inputPanelDef
 				.getTextComponent();
 		tfDefinition.setAutoComplete(false);
@@ -84,7 +84,7 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 		tfDefinition.addFocusListener(this);
 
 		// caption field: non auto complete input panel
-		inputPanelCap = new InputPanelD(null, app, 1, -1, true);
+		inputPanelCap = new InputPanelD(null, app, -1, true, false);
 		tfCaption = (AutoCompleteTextFieldD) inputPanelCap.getTextComponent();
 		tfCaption.setAutoComplete(false);
 		tfCaption.addActionListener(this);

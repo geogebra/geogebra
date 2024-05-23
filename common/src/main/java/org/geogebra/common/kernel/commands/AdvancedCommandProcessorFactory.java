@@ -80,20 +80,22 @@ import org.geogebra.common.kernel.advanced.CmdZip;
 import org.geogebra.common.main.Feature;
 
 /**
- * class to split off some CmdXXX classes into another jar (for faster applet
- * loading)
- *
+ * Factory for command processors that are not used very often
+ * (so they can be loaded asynchronously) but do not fit
+ * any specific category (stats, CAS, discrete).
+ * @see CommandProcessorFactory
  */
-public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
+public class AdvancedCommandProcessorFactory implements CommandProcessorFactory {
 
 	@Override
-	public CommandProcessor dispatch(Commands c, Kernel kernel) {
-		switch (c) {
+	public CommandProcessor getProcessor(Commands command, Kernel kernel) {
+		switch (command) {
 		// advanced
 
 		case Factors:
 			return new CmdFactors(kernel);
 		case IntersectPath:
+		case IntersectionPaths: // deprecated
 		case IntersectRegion: // deprecated
 			return new CmdIntersectPath(kernel);
 
@@ -113,9 +115,9 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 		case Directrix:
 			return new CmdDirectrix(kernel);
 		case Numerator:
-			return new CmdNumeratorDenominator(kernel, c);
+			return new CmdNumeratorDenominator(kernel, command);
 		case Denominator:
-			return new CmdNumeratorDenominator(kernel, c);
+			return new CmdNumeratorDenominator(kernel, command);
 		case ComplexRoot:
 			return new CmdComplexRoot(kernel);
 		case SlopeField:

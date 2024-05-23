@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
+import org.geogebra.common.kernel.algos.AlgoSpline;
 import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -836,4 +837,11 @@ public abstract class GeoCurveCartesianND extends GeoElement
 		return geo.isGeoCurveCartesian() ? ExtendedBoolean.UNKNOWN : ExtendedBoolean.FALSE;
 	}
 
+	/**
+	 *
+	 * @return if curve was constructed as a spline.
+	 */
+	public boolean isSpline() {
+		return getParentAlgorithm() instanceof AlgoSpline;
+	}
 }

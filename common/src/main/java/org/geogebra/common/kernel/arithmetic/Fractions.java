@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.arithmetic;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -26,37 +25,41 @@ public class Fractions {
 	 */
 	protected static ExpressionValue getResolution(ExpressionNode expr,
 			Kernel kernel, boolean allowPi) {
-		ExpressionValue[] fraction = new ExpressionValue[2];
-		expr.getFraction(fraction, true);
-		if (fraction[0] != null && !expr.inspect(Fractions::isDecimal)) {
-			ExpressionValue ltVal = fraction[0].evaluate(StringTemplate.defaultTemplate);
-			double lt = ltVal.evaluateDouble();
+		if (!expr.inspect(Fractions::isDecimal)) {
+			ExpressionValue[] fraction = new ExpressionValue[2];
+			expr.getFraction(fraction, true);
+			if (fraction[0] != null) {
+				ExpressionValue ltVal = fraction[0].evaluate(StringTemplate.defaultTemplate);
+				double lt = ltVal.evaluateDouble();
 
-			boolean pi = false;
-			double piDiv = lt / Math.PI;
-			if (allowPi && DoubleUtil.isInteger(piDiv)
-					&& !DoubleUtil.isZero(piDiv) && lt < MAX_NUM_DENOMINATOR) {
-				lt = piDiv;
-				pi = true;
-			}
-			double rt = 1;
-			if (fraction[1] != null) {
-				rt = fraction[1].evaluateDouble();
-			} else if (!pi) {
-				// keep angle dimension
-				return ltVal.deepCopy(kernel).wrap();
-			}
-			if (DoubleUtil.isInteger(rt) && DoubleUtil.isInteger(lt) && !DoubleUtil.isZero(rt)
-					&& Math.abs(lt) < MAX_NUM_DENOMINATOR && Math.abs(rt) < MAX_NUM_DENOMINATOR) {
+				boolean pi = false;
+				double piDiv = lt / Math.PI;
+				if (allowPi && DoubleUtil.isInteger(piDiv)
+						&& !DoubleUtil.isZero(piDiv) && lt < MAX_NUM_DENOMINATOR) {
+					lt = piDiv;
+					pi = true;
+				}
+				double rt = 1;
+				if (fraction[1] != null) {
+					rt = fraction[1].evaluateDouble();
+				} else if (!pi) {
+					// keep angle dimension
+					return ltVal.deepCopy(kernel).wrap();
+				}
+				if (DoubleUtil.isInteger(rt) && DoubleUtil.isInteger(lt) && !DoubleUtil.isZero(rt)
+						&& Math.abs(lt) < MAX_NUM_DENOMINATOR
+						&& Math.abs(rt) < MAX_NUM_DENOMINATOR) {
 
-				double g = Math.abs(Kernel.gcd(Math.round(lt), Math.round(rt))) * Math.signum(rt);
-				lt = lt / g;
-				rt = rt / g;
-				return (pi ? multiplyPi(lt, kernel)
-						: new ExpressionNode(kernel, lt)).divide(rt);
+					double g =
+							Math.abs(Kernel.gcd(Math.round(lt), Math.round(rt))) * Math.signum(rt);
+					lt = lt / g;
+					rt = rt / g;
+					return (pi ? multiplyPi(lt, kernel)
+							: new ExpressionNode(kernel, lt)).divide(rt);
+				}
+				double ratio = lt / rt;
+				return numericResolve(pi, ratio, expr, kernel);
 			}
-			double ratio = lt / rt;
-			return numericResolve(pi, ratio, expr, kernel);
 		}
 		return expr.evaluate(StringTemplate.defaultTemplate).wrap();
 	}
@@ -91,7 +94,7 @@ public class Fractions {
 			((ExpressionNode) left1).getFraction(parts, expandPlus);
 			return true;
 		} else if (left1 instanceof GeoNumeric && ((GeoNumeric) left1).getDefinition() != null) {
-			((GeoElement) left1).getDefinition().getFraction(parts, expandPlus);
+			((GeoNumeric) left1).getFraction(parts, expandPlus);
 			return true;
 		} else if (left1.isRecurringDecimal()) {
 			RecurringDecimal.asFraction(parts, left1.wrap());

@@ -173,7 +173,7 @@ public class Kernel3D extends Kernel {
 	 */
 	@Override
 	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
-		return new AlgebraProcessor3D(kernel, app.newCommand3DDispatcher(kernel));
+		return new AlgebraProcessor3D(kernel, app.newCommandDispatcher(kernel));
 	}
 
 	/** return all points of the current construction */
