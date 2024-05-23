@@ -14,6 +14,7 @@ import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.main.scripting.Sandbox;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.JsRunnable;
 
@@ -30,6 +31,7 @@ public class ScriptManagerW extends ScriptManager {
 
 	public static final String ASSESSMENT_APP_PREFIX = "ggbAssess";
 	private final JsPropertyMap<Object> exportedApi;
+	private Sandbox sandbox;
 	private static boolean mayExportDefaultApplet = true;
 
 	/**
@@ -86,17 +88,20 @@ public class ScriptManagerW extends ScriptManager {
 	public void ggbOnInit() {
 		try {
 			tryTabletOnInit();
-			boolean standardJS = app.getKernel().getLibraryJavaScript()
+			String libraryJavaScript = app.getKernel().getLibraryJavaScript();
+			boolean standardJS = libraryJavaScript
 					.equals(Kernel.defaultLibraryJavaScript);
+			final String param = ((AppW) app).getAppletId();
 			if (!standardJS && !app.useBrowserForJavaScript()
 					&& !app.getEventDispatcher().isDisabled(ScriptType.JAVASCRIPT)) {
-				app.evalJavaScript(app, app.getKernel().getLibraryJavaScript(),
+				libraryJavaScript += "ggbOnInit(\"" + param + "\",ggbApplet)";
+				app.evalJavaScript(app, libraryJavaScript,
 						null);
 			}
 			if (!standardJS || app.useBrowserForJavaScript()) {
-				final String param = ((AppW) app).getAppletId();
-
-				ggbOnInit(param, exportedApi);
+				if (!((AppW) app).getAppletParameters().getParamSandbox()) {
+					ggbOnInit(param, exportedApi);
+				}
 			}
 		} catch (CommandNotLoadedError e) {
 			throw e;
@@ -128,14 +133,23 @@ public class ScriptManagerW extends ScriptManager {
 
 	@Override
 	protected void callListener(String listener, Object[] args) {
-		updateGlobalApplet();
-		JsEval.callNativeGlobalFunction(listener, args);
+		if (((AppW) app).getAppletParameters().getParamSandbox()) {
+			if (!getSandbox().callByName(listener, args)) {
+				Log.error("global listeners not supported in sandbox");
+			}
+		} else {
+			updateGlobalApplet();
+			JsEval.callNativeGlobalFunction(listener, args);
+		}
 	}
 
 	@Override
 	protected void callNativeListener(Object listener, Object[] args) {
-		updateGlobalApplet();
-		JsEval.callNativeFunction(listener, args);
+		if (!((AppW) app).getAppletParameters().getParamSandbox()
+				|| !getSandbox().call(listener, args)) {
+			updateGlobalApplet();
+			JsEval.callNativeFunction(listener, args);
+		}
 	}
 
 	@Override
@@ -148,7 +162,7 @@ public class ScriptManagerW extends ScriptManager {
 		// only the named parameters are documented. Maybe if
 		// you are reading this years in the future, you can remove them
 		JsArray<String> args = JsArray.of();
-		JsPropertyMap asMap = Js.asPropertyMap(args);
+		JsPropertyMap<Object> asMap = Js.asPropertyMap(args);
 		args.push(evt.type.getName());
 		asMap.set("type", evt.type.getName());
 
@@ -185,13 +199,19 @@ public class ScriptManagerW extends ScriptManager {
 	/**
 	 * @param jsMap js map object to be filled with data from Java map
 	 * @param map (String, Object) map to be converted to JavaScript,
-	 *            Object can be Integer, Double, String or String[],
+	 *            Object can be Integer, Double, String or String[] (used e.g. by mousedown hits).
 	 */
 	public static void addToJsObject(JsPropertyMap<Object> jsMap, Map<String, Object> map) {
 		for (Entry<String, Object> entry : map.entrySet()) {
 			Object object = entry.getValue();
 			if (object instanceof Integer) {
 				jsMap.set(entry.getKey(), unbox((Integer) object));
+			} if (object instanceof String[]) {
+				JsArray<String> clean = JsArray.of();
+				for (String s: (String[]) object) {
+					clean.push(s);
+				}
+				jsMap.set(entry.getKey(), clean);
 			} else {
 				jsMap.set(entry.getKey(), object);
 			}
@@ -236,5 +256,15 @@ public class ScriptManagerW extends ScriptManager {
 				&& Js.asPropertyMap(DomGlobal.window).has("ggbApplet")) {
 			export("ggbApplet", exportedApi);
 		}
+	}
+
+	/**
+	 * @return JavaScript sandbox
+	 */
+	public Sandbox getSandbox() {
+		if (sandbox == null) {
+			sandbox = new Sandbox(getApi());
+		}
+		return sandbox;
 	}
 }

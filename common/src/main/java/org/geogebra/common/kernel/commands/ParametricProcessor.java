@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
@@ -721,12 +721,10 @@ public class ParametricProcessor {
 			}
 			// check that variables in right branch are all independent to avoid
 			// circular definitions
-			HashSet<GeoElement> rightVars = en.getRight()
+			Set<GeoElement> rightVars = en.getRight()
 					.getVariables(SymbolicMode.NONE);
 			if (rightVars != null) {
-				Iterator<GeoElement> it = rightVars.iterator();
-				while (it.hasNext()) {
-					GeoElement var = it.next();
+				for (GeoElement var : rightVars) {
 					if (var.isChildOrEqual(coordNumeric)) {
 						return null;
 					}

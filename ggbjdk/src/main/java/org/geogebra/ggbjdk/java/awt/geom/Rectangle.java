@@ -41,7 +41,6 @@ import org.geogebra.common.awt.GRectangle2D;
  * that create a <code>Rectangle</code>, and the methods that can modify
  * one, do not prevent setting a negative value for width or height.
  * <p>
- * <a name="Empty">
  * A {@code Rectangle} whose width or height is exactly zero has location
  * along those axes with zero dimension, but is otherwise considered empty.
  * The {@link #isEmpty} method will return true for such a {@code Rectangle}.
@@ -49,10 +48,8 @@ import org.geogebra.common.awt.GRectangle2D;
  * a point or rectangle will always return false if either dimension is zero.
  * Methods which combine such a {@code Rectangle} with a point or rectangle
  * will include the location of the {@code Rectangle} on that axis in the
- * result as if the {@link #add(Point)} method were being called.
- * </a>
+ * result as if the {@link #add(GPoint)} method were being called.
  * <p>
- * <a name="NonExistant">
  * A {@code Rectangle} whose width or height is negative has neither
  * location nor dimension along those axes with negative dimensions.
  * Such a {@code Rectangle} is treated as non-existant along those axes.
@@ -63,7 +60,6 @@ import org.geogebra.common.awt.GRectangle2D;
  * will ignore the {@code Rectangle} entirely in generating the result.
  * If two {@code Rectangle} objects are combined and each has a negative
  * dimension, the result will have at least one negative dimension.
- * </a>
  * <p>
  * Methods which affect only the location of a {@code Rectangle} will
  * operate on its location regardless of whether or not it has a negative
@@ -125,7 +121,6 @@ public class Rectangle extends Rectangle2D implements GRectangle
      * The X coordinate of the upper-left corner of the <code>Rectangle</code>.
      *
      * @see #setLocation(int, int)
-     * @see #getLocation()
      * @since 1.0
      */
     public int x;
@@ -134,7 +129,6 @@ public class Rectangle extends Rectangle2D implements GRectangle
      * The Y coordinate of the upper-left corner of the <code>Rectangle</code>.
      *
      * @see #setLocation(int, int)
-     * @see #getLocation()
      * @since 1.0
      */
     public int y;
@@ -220,7 +214,7 @@ public class Rectangle extends Rectangle2D implements GRectangle
 
     /**
      * Constructs a new <code>Rectangle</code> whose upper-left corner is
-     * specified by the {@link Point} argument, and
+     * specified by the {@link GPoint} argument, and
      * whose width and height are specified by the
      * {@link Dimension} argument.
      * @param p a <code>Point</code> that is the upper-left corner of
@@ -478,8 +472,6 @@ public class Rectangle extends Rectangle2D implements GRectangle
      * <code>setLocation</code> method of <code>Component</code>.
      * @param x the X coordinate of the new location
      * @param y the Y coordinate of the new location
-     * @see       #getLocation
-     * @see       java.awt.Component#setLocation(int, int)
      * @since     1.1
      */
     @Override
@@ -1049,7 +1041,7 @@ public class Rectangle extends Rectangle2D implements GRectangle
      * to 0, the result along those axes with 0 dimensions will be
      * equivalent to the results obtained by adding the corresponding
      * origin coordinate to the result rectangle along that axis,
-     * similar to the operation of the {@link #add(Point)} method,
+     * similar to the operation of the {@link #add(GPoint)} method,
      * but contribute no further dimension beyond that.
      * <p>
      * If the resulting {@code Rectangle} would have a dimension
@@ -1320,7 +1312,6 @@ public class Rectangle extends Rectangle2D implements GRectangle
      * <code>setBounds</code> method of <code>Component</code>.
      * @param r the specified <code>Rectangle</code>
      * @see       #getBounds
-     * @see       gwt.awt.Component#setBounds(gwt.awt.Rectangle)
      * @since     1.1
      */
     @Override

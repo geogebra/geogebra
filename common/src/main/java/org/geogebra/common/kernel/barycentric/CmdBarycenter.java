@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * Barycenter[ &lt;List of points>, &lt; list of weights> ]
+ * Barycenter[ &lt;List of Points&gt;, &lt; list of weights&gt; ]
  * 
  * @author Darko
  *

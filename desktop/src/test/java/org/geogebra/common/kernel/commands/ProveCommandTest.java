@@ -25,7 +25,7 @@ public class ProveCommandTest {
 	}
 
 	private static void t(String s, String... expected) {
-		CommandsTest.testSyntax(s, AlgebraTestHelper.getMatchers(expected), app,
+		CommandsTestCommon.testSyntax(s, AlgebraTestHelper.getMatchers(expected), app,
 				proc, StringTemplate.defaultTemplate);
 	}
 

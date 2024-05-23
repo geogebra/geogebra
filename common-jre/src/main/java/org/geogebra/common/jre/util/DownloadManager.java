@@ -46,7 +46,7 @@ public class DownloadManager {
 			URLConnection srcConnection = src.openConnection();
 
 			if (srcConnection.getContentLength() == 0) {
-				// eg running from Eclipse
+				// eg running from IDE
 				Log.debug(src.getFile() + " not found");
 				return;
 			}

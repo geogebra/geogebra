@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * Transpose[ &lt;List> ]
+ * Transpose[ &lt;List&gt; ]
  * 
  * @author Michael Borcherds
  */

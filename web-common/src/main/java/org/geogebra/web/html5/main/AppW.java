@@ -1440,7 +1440,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Loads an image and puts it on the canvas (this happens on webcam input)
-	 * On drag&drop or insert from URL this would be called too, but that would
+	 * On drag &amp; drop or insert from URL this would be called too, but that would
 	 * set security exceptions
 	 *
 	 * @param url
@@ -1488,7 +1488,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * Loads an image and puts it on the canvas (this happens by drag & drop)
+	 * Loads an image and puts it on the canvas (this happens by drag &amp; drop)
 	 *
 	 * @param fileName
 	 *            - the file name of the image
@@ -2525,15 +2525,21 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void evalJavaScript(App app, String script0, String arg) {
 		String script = script0;
-		ScriptManagerW.export("ggbApplet", ((ScriptManagerW) getScriptManager()).getApi());
+		Object exportedApi = ((ScriptManagerW) getScriptManager()).getApi();
 
 		// add eg arg="A"; to start
 		if (arg != null) {
 			script = "arg=\"" + arg + "\";" + script;
 		}
-		JsEval.evalScriptNative(script, getGgbApi());
-		if (getAppletId().startsWith(ScriptManagerW.ASSESSMENT_APP_PREFIX)) {
-			ScriptManagerW.export("ggbApplet", null);
+		if (appletParameters.getParamSandbox()) {
+			((ScriptManagerW) getScriptManager()).getSandbox()
+					.run(script);
+		} else {
+			ScriptManagerW.export("ggbApplet", exportedApi);
+			JsEval.evalScriptNative(script, getGgbApi());
+			if (getAppletId().startsWith(ScriptManagerW.ASSESSMENT_APP_PREFIX)) {
+				ScriptManagerW.export("ggbApplet", null);
+			}
 		}
 	}
 

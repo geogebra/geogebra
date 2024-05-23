@@ -23,19 +23,19 @@ public class ObjectNameModel extends OptionsModel {
 	private LabelController labelController = null;
 
 	public interface IObjectNameListener extends PropertyListener {
-		void setNameText(final String text);
+		void setNameText(String text);
 
-		void setDefinitionText(final String text);
+		void setDefinitionText(String text);
 
-		void setCaptionText(final String text);
+		void setCaptionText(String text);
 
 		void updateGUI(boolean showDefinition, boolean showCaption);
 
 		void updateDefLabel();
 
-		void updateCaption(final String text);
+		void updateCaption(String text);
 
-		void updateName(final String text);
+		void updateName(String text);
 	}
 
 	public ObjectNameModel(App app, IObjectNameListener listener) {

@@ -12,14 +12,14 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Rotate[ &lt;GeoPoint>, &lt;NumberValue> ] Rotate[ &lt;GeoVector>,
- * &lt;NumberValue> ] Rotate[ &lt;GeoLine>, &lt;NumberValue> ] Rotate[
- * &lt;GeoConic>, &lt;NumberValue> ] Rotate[ &lt;GeoPolygon>, &lt;NumberValue> ]
+ * Rotate[ &lt;GeoPoint&gt;, &lt;NumberValue&gt; ] Rotate[ &lt;GeoVector&gt;,
+ * &lt;NumberValue&gt; ] Rotate[ &lt;GeoLine&gt;, &lt;NumberValue&gt; ] Rotate[
+ * &lt;GeoConic&gt;, &lt;NumberValue&gt; ] Rotate[ &lt;GeoPolygon&gt;, &lt;NumberValue&gt; ]
  * 
- * Rotate[ &lt;GeoPoint>, &lt;NumberValue>, &lt;GeoPoint> ] Rotate[
- * &lt;GeoLine>, &lt;NumberValue>, &lt;GeoPoint> ] Rotate[ &lt;GeoConic>,
- * &lt;NumberValue>, &lt;GeoPoint> ] Rotate[ &lt;GeoPolygon>, &lt;NumberValue>,
- * &lt;GeoPoint> ]
+ * Rotate[ &lt;GeoPoint&gt;, &lt;NumberValue&gt;, &lt;GeoPoint&gt; ] Rotate[
+ * &lt;GeoLine&gt;, &lt;NumberValue&gt;, &lt;GeoPoint&gt; ] Rotate[ &lt;GeoConic&gt;,
+ * &lt;NumberValue&gt;, &lt;GeoPoint&gt; ] Rotate[ &lt;GeoPolygon&gt;, &lt;NumberValue&gt;,
+ * &lt;GeoPoint&gt; ]
  */
 public class CmdRotate extends CommandProcessor {
 

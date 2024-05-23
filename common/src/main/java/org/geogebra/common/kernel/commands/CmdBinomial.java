@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
- * Binomial[ &lt;Number>, &lt;Number> ]
+ * Binomial[ &lt;Number&gt;, &lt;Number&gt; ]
  * 
  * @author Michael Borcherds
  */

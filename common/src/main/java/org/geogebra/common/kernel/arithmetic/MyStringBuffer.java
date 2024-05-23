@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
-import java.util.HashSet;
+import java.util.Set;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -104,8 +104,8 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
-		return null;
+	public void getVariables(Set<GeoElement> variables, SymbolicMode symbolicMode) {
+		// constant
 	}
 
 	@Override

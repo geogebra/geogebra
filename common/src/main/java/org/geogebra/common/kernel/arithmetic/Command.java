@@ -22,7 +22,6 @@ import static org.geogebra.common.kernel.arithmetic.ExpressionNode.getLabelOrDef
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -333,7 +332,7 @@ public class Command extends ValidExpression
 		SymbolicMode symbolicMode = kernel.getSymbolicMode();
 		Set<GeoElement> vars = argument.getVariables(symbolicMode);
 		String var = getFunctionVarName(argument, vars);
-		if (vars != null && !vars.isEmpty()) {
+		if (!vars.isEmpty()) {
 			for (GeoElement geo : vars) {
 				// get function from construction
 				String label = geo.getLabel(StringTemplate.defaultTemplate);
@@ -603,7 +602,9 @@ public class Command extends ValidExpression
 		if ("Vector".equals(name)) {
 			return ValueType.NONCOMPLEX2D;
 		}
-		if ("Evaluate".equals(name) && args.size() > 0) {
+		if (("Evaluate".equals(name) || "Numerator".equals(name)
+				|| "Denominator".equals(name) || "Simplify".equals(name))
+				&& !args.isEmpty()) {
 			return args.get(0).getValueType();
 		}
 		Command evaluationCopy = this;
@@ -687,15 +688,10 @@ public class Command extends ValidExpression
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
-		HashSet<GeoElement> set = new HashSet<>();
+	public void getVariables(Set<GeoElement> variables, SymbolicMode mode) {
 		for (ExpressionNode arg : args) {
-			Set<GeoElement> s = arg.getVariables(mode);
-			if (s != null) {
-				set.addAll(s);
-			}
+			arg.getVariables(variables, mode);
 		}
-		return set;
 	}
 
 	@Override

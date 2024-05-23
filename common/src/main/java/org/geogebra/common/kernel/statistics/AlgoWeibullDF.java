@@ -43,25 +43,6 @@ public class AlgoWeibullDF extends AlgoElement implements AlgoDistributionDF {
 	 * 
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
-	 * @param mean
-	 *            mean
-	 * @param sd
-	 *            standard deviation
-	 * @param cumulative
-	 *            cumulative?
-	 */
-	public AlgoWeibullDF(Construction cons, String label, GeoNumberValue mean,
-			GeoNumberValue sd, BooleanValue cumulative) {
-		this(cons, mean, sd, cumulative);
-		ret.setLabel(label);
-	}
-
-	/**
-	 * 
-	 * @param cons
-	 *            construction
 	 * @param k
 	 *            mean
 	 * @param l

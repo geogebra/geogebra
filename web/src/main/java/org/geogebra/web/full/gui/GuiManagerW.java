@@ -244,13 +244,17 @@ public class GuiManagerW extends GuiManager
 		if (geos == null || !getApp().letShowPopupMenu()) {
 			return;
 		}
-		if (getApp().getKernel().isAxis(geos.get(0))) {
+		if (!geos.isEmpty() && hasNoContextMenu(geos.get(0))) {
 			showDrawingPadPopup(invoker, p);
 		} else {
 			// clear highlighting and selections in views
 			getApp().getActiveEuclidianView().resetMode();
 			getPopupMenu(geos).showScaled(invoker, p.x, p.y);
 		}
+	}
+
+	private boolean hasNoContextMenu(GeoElement geoElement) {
+		return getApp().getKernel().isAxis(geoElement) || geoElement.isSpotlight();
 	}
 
 	@Override

@@ -254,7 +254,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	 * @param vertices
 	 *            vertices of the polygon
 	 * @param verticesLength
-	 *            vertices length (may <> vertices.length due to cache)
+	 *            vertices length (may not equal vertices.length due to cache)
 	 */
 	static final public void drawPolygon(Renderer renderer, GeoPolygon polygon,
 			Coords[] vertices, int verticesLength) {

@@ -456,7 +456,7 @@ public class CASInputHandler {
 			// case it is not
 			if ("0".equals(casResult) || "false".equals(casResult)) {
 				ValidExpression ve = cellValue.getEvalVE();
-				HashSet<GeoElement> vars = ve
+				Set<GeoElement> vars = ve
 						.getVariables(SymbolicMode.NONE);
 				if (!vars.isEmpty()) {
 					Iterator<GeoElement> it = vars.iterator();
@@ -531,7 +531,7 @@ public class CASInputHandler {
 	/**
 	 * @return the set with geoDummy names
 	 */
-	private static Set<String> getVariableStrSet(HashSet<GeoElement> vars) {
+	private static Set<String> getVariableStrSet(Set<GeoElement> vars) {
 		Set<String> varsStrSet = new HashSet<>();
 		if (!vars.isEmpty()) {
 			Iterator<GeoElement> it = vars.iterator();
@@ -657,7 +657,7 @@ public class CASInputHandler {
 
 					String casResult = cas.getCurrentCAS()
 							.evaluateRaw(inputStr.toString());
-					HashSet<GeoElement> cellVars = selCellValue.getInputVE()
+					Set<GeoElement> cellVars = selCellValue.getInputVE()
 							.getVariables(SymbolicMode.NONE);
 					Iterator<GeoElement> it = cellVars.iterator();
 					while (it.hasNext()) {
@@ -665,7 +665,7 @@ public class CASInputHandler {
 						// if input was geoCasCell
 						if (curr instanceof GeoCasCell) {
 							// we should use only the variables from output
-							HashSet<GeoElement> currCellVars = ((GeoCasCell) curr)
+							Set<GeoElement> currCellVars = ((GeoCasCell) curr)
 									.getValue()
 									.getVariables(SymbolicMode.NONE);
 							Iterator<GeoElement> currIt = currCellVars
@@ -851,7 +851,7 @@ public class CASInputHandler {
 	 * @param delimiter
 	 *            the delimiter to look for
 	 * @param noParentheses
-	 *            if true no parentheses will be added in every case<br/>
+	 *            if true no parentheses will be added in every case<br>
 	 *            if false parentheses will be added around replaced references
 	 *            except the replacement is just a positive number, a variable
 	 *            or the whole term (given by parameter str) was nothing but the

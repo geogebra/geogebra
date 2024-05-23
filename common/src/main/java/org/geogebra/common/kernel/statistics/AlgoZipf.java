@@ -25,9 +25,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoZipf extends AlgoDistribution {
 
-	public AlgoZipf(Construction cons, String label, GeoNumberValue a,
+	public AlgoZipf(Construction cons, GeoNumberValue a,
 			GeoNumberValue b, GeoNumberValue c, GeoBoolean isCumulative) {
-		super(cons, label, a, b, c, isCumulative);
+		super(cons, a, b, c, isCumulative);
 	}
 
 	@Override

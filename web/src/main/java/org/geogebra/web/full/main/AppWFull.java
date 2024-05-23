@@ -1005,8 +1005,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					loginOperation.performTokenLogin();
 				}
 			}
-		} else {
-			loginOperation.startOffline();
 		}
 	}
 

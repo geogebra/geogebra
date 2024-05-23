@@ -30,7 +30,7 @@ public interface Inspecting {
 	public boolean check(ExpressionValue v);
 
 	/**
-	 * Checks whether the expression contains operations <,<=, >, >=
+	 * Checks whether the expression contains operations &lt; ,&lt;=, &gt;, &gt;=
 	 *
 	 */
 	public enum IneqFinder implements Inspecting {
@@ -101,6 +101,10 @@ public interface Inspecting {
 		private static int type;
 		private static int dim;
 		private static UnplottableChecker checker = new UnplottableChecker();
+
+		private UnplottableChecker() {
+			// singleton constructor
+		}
 
 		@Override
 		public boolean check(ExpressionValue v) {

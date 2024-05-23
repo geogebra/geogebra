@@ -520,7 +520,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	 * left (=3) of the current container. - Insert the DockPanel at the bottom
 	 * (=2) of the current container.
 	 * 
-	 * Note that the program differs between the top & left and bottom & right
+	 * Note that the program differs between the top &amp; left and bottom &amp; right
 	 * position while the DockSplitPane just differs between a left and right
 	 * component and the orientation of the split pane.
 	 * 

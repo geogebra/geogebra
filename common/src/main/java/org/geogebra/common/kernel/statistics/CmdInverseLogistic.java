@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * InvarseNormal[ &lt;Number>, &lt;Number>,&lt;Number> ]
+ * InvarseNormal[ &lt;Number&gt;, &lt;Number&gt;,&lt;Number&gt; ]
  * 
  * adapted from CmdMax by Michael Borcherds 2008-01-20
  */
@@ -39,9 +39,9 @@ public class CmdInverseLogistic extends CommandProcessor {
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
 				AlgoInverseLogistic algo = new AlgoInverseLogistic(cons,
-						c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

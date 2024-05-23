@@ -21,7 +21,7 @@ public interface XRManagerInterface<T> {
     /** average distance for desk */
     final static public double DESK_DISTANCE_AVERAGE = 0.25;
 
-    /** 1 thickness in ggb >> THICKNESS_MIN_FACTOR;
+    /** 1 thickness in ggb &gt;&gt; THICKNESS_MIN_FACTOR;
      * this is for to get the visible thickness (on screen) quite the same as in regular 3D view */
     final static public float THICKNESS_MIN_FACTOR = 0.001f;
 

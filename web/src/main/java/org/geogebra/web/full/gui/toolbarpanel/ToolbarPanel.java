@@ -298,6 +298,8 @@ public class ToolbarPanel extends FlowPanel
 		} else {
 			tabTools = null;
 		}
+		// reset tool even if toolbar not available (needed on app switch)
+		app.setMoveMode();
 
 		StickyProbabilityTable table = null;
 		if (app.getConfig().hasDistributionView()) {
@@ -1082,7 +1084,7 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	/**
-	 * @param style style to change color of header (teal -> ok, red -> cheating)
+	 * @param style style to change color of header (teal = ok, red = cheating)
 	 */
 	public void setHeaderStyle(String style) {
 		resetHeaderClasses();

@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * SpanningTree[ &lt;List of Points> ]
+ * SpanningTree[ &lt;List of Points&gt; ]
  *
  */
 public class CmdMinimumSpanningTree extends CmdOneListFunction {

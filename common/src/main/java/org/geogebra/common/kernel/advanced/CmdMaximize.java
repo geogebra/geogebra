@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Maximize[ &lt;dependent variable>, &lt;independent variable> ]
+ * Maximize[ &lt;dependent variable&gt;, &lt;independent variable&gt; ]
  */
 public class CmdMaximize extends CommandProcessor {
 

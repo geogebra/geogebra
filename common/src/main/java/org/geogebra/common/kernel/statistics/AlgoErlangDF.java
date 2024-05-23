@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.plugin.Operation;
 
 /**
  * algorithm for FDistribution[0,1,x]
@@ -128,7 +129,7 @@ public class AlgoErlangDF extends AlgoElement {
 
 		if (cumulative != null && cumulative.getBoolean()) {
 
-			en = kEn.gammaIncomplete(fvEn.multiply(lEn))
+			en = kEn.apply(Operation.GAMMA_INCOMPLETE, fvEn.multiply(lEn))
 					.divide(kEn.subtract(1).factorial());
 
 			// old hack:

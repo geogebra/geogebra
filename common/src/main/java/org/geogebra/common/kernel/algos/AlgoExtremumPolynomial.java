@@ -33,7 +33,7 @@ public class AlgoExtremumPolynomial extends AlgoRootsPolynomial {
 	 * @param f
 	 *            function
 	 * @param labelEnabled
-	 *            whether to add this to cons & label outputs
+	 *            whether to add this to construction and label outputs
 	 */
 	public AlgoExtremumPolynomial(Construction cons, String[] labels,
 			GeoFunctionable f, boolean labelEnabled) {

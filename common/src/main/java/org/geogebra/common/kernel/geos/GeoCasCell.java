@@ -51,13 +51,13 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandRemover;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
-import org.geogebra.common.kernel.arithmetic.Traversing.DummyVariableCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.commands.SymbolicProcessor;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
@@ -919,8 +919,8 @@ public class GeoCasCell extends GeoElement
 						.add(fv.toString(StringTemplate.defaultTemplate));
 			}
 		}
-		HashSet<GeoElement> geoVars = ve.getVariables(SymbolicMode.NONE);
-		if (geoVars != null) {
+		Set<GeoElement> geoVars = ve.getVariables(SymbolicMode.NONE);
+		if (!geoVars.isEmpty()) {
 			for (GeoElement geo : geoVars) {
 				String var = geo.getLabel(StringTemplate.defaultTemplate);
 				if (isFunction && ((FunctionNVar) ve).isFunctionVariable(var)) {
@@ -2625,85 +2625,7 @@ public class GeoCasCell extends GeoElement
 		if (cmd.getArgumentNumber() == 0) {
 			return cmd.wrap();
 		}
-		ExpressionNode en = cmd.getArgument(0);
-		/*
-		 * Solve command has one argument which is an expression | equation |
-		 * list
-		 */
-		/*
-		 * We extract all the variables, order them, giving x y and z a priority
-		 */
-		/*
-		 * Return the first n of them, where n is the number of
-		 * equation/expression in the first parameter
-		 */
-		/* Ticket #3563 */
-		Set<String> set = new TreeSet<>(new Comparator<String>() {
-			@Override
-			public int compare(String o1, String o2) {
-				if (o1.equals(o2)) {
-					return 0;
-				}
-				if ("x".equals(o1)) {
-					return -1;
-				}
-				if ("x".equals(o2)) {
-					return 1;
-				}
-				if ("y".equals(o1)) {
-					return -1;
-				}
-				if ("y".equals(o2)) {
-					return 1;
-				}
-				if ("z".equals(o1)) {
-					return -1;
-				}
-				if ("z".equals(o2)) {
-					return 1;
-				}
-				return o1.compareTo(o2);
-			}
-		});
-		cmd.getArgument(0).traverse(DummyVariableCollector.getCollector(set));
-		int n = en.unwrap() instanceof MyList
-				? ((MyList) en.unwrap()).getLength() : 1;
-		// for equation (t,t) = (2s-1,3s+3)
-		// make sure that we allow the correct number of variables
-		// needed for #5332
-		if (en.unwrap() instanceof Equation) {
-			// 2DVector -> allow 2 variables
-			if (((Equation) en.unwrap()).getLHS()
-					.evaluatesToNonComplex2DVector()
-					&& ((Equation) en.unwrap()).getRHS()
-							.evaluatesToNonComplex2DVector()) {
-				n = 2;
-			}
-			// 3DVector -> allow 3 variables
-			if (((Equation) en.unwrap()).getLHS().evaluatesTo3DVector()
-					&& ((Equation) en.unwrap()).getRHS()
-							.evaluatesTo3DVector()) {
-				n = 3;
-			}
-		}
-
-		MyList variables = new MyList(kernel, n);
-		int i = 0;
-		Iterator<String> ite = set.iterator();
-		if (n == 1) {
-			if (ite.hasNext()) {
-				cmd.addArgument(new GeoDummyVariable(cons, ite.next()).wrap());
-			}
-		} else {
-			while (i < n && ite.hasNext()) {
-				variables
-						.addListElement(new GeoDummyVariable(cons, ite.next()));
-				i++;
-			}
-			if (variables.size() > 0) {
-				cmd.addArgument(variables.wrap());
-			}
-		}
+		SymbolicProcessor.autoCompleteVariables(cmd);
 		return cmd.wrap();
 	}
 
@@ -3003,7 +2925,7 @@ public class GeoCasCell extends GeoElement
 	}
 
 	/**
-	 * This might appear when we use KeepInput and display the result => we want
+	 * This might appear when we use KeepInput and display the result: we want
 	 * to show symbolic version
 	 */
 	@Override

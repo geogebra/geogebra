@@ -1550,13 +1550,13 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	/**
-	 * <axis id="0" label="x" unitLabel="x" showNumbers="true" tickDistance=
-	 * "2"/>
+	 * &lt;axis id="0" label="x" unitLabel="x" showNumbers="true" tickDistance=
+	 * "2"/&gt;
 	 * 
 	 * @param ev
 	 *            settings
 	 * @param attrs
-	 *            attributes of &lt;axis> tag
+	 *            attributes of &lt;axis&gt; tag
 	 * @return true iff succesful
 	 */
 	protected boolean handleAxis(EuclidianSettings ev,
@@ -3534,8 +3534,6 @@ public class MyXMLHandler implements DocHandler {
 						((ExpressionNode) ve).setForceInequality();
 					} else if ("surfacecartesian".equals(type)) {
 						((ExpressionNode) ve).setForceSurfaceCartesian();
-					} else if ("list".equals(type)) {
-						((ExpressionNode) ve).setForceList();
 					}
 				} else if (ve instanceof Equation) {
 					if ("line".equals(type)) {
@@ -3556,9 +3554,9 @@ public class MyXMLHandler implements DocHandler {
 					}
 				}
 			}
-			boolean isTableXValues = label != null && xValuesLabel != null
-					&& label.equals(xValuesLabel);
-			SymbolicMode mode = isTableXValues ? SymbolicMode.NONE : kernel.getSymbolicMode();
+			boolean forceNonSymbolic = (label != null &&  label.equals(xValuesLabel))
+					|| (type != null && !"symbolic".equals(type) && !"vector".equals(type));
+			SymbolicMode mode = forceNonSymbolic ? SymbolicMode.NONE : kernel.getSymbolicMode();
 
 			GeoElementND[] result = getAlgProcessor()
 					.processValidExpression(ve,

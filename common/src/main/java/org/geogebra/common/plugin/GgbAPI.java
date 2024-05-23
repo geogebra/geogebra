@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -76,8 +77,9 @@ import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
  * <pre>
  *    The Api the plugin program can use.
  * </pre>
- * <ul>
+ *
  * <h4>Interface:</h4>
+ * <ul>
  * <li>GgbAPI(Application) //Application owns it
  * <li>getApplication()
  * <li>getKernel()
@@ -1072,10 +1074,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * 
 	 * eg ggbApplet.evalMathML(
-	 * "<mrow><mi> x</mi><mo> +</mo><mrow><mi> 1</mi><mo>/</mo><mi> 2</mi></mrow></mrow>"
-	 * )
+	 *   "&lt;mrow&gt;&lt;mi&gt; x&lt;/mi&gt;&lt;mo&gt; +&lt;/mo&gt;&lt;mrow&gt;&lt;mi&gt;
+	 *   1&lt;/mi&gt;&lt;mo&gt;/&lt;/mo&gt;&lt;mi&gt; 2&lt;/mi&gt;&lt;/mrow&gt;&lt;/mrow&gt;")
 	 * 
 	 * @param input
 	 *            command as presentation mathml
@@ -1217,13 +1218,16 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
-	public synchronized void setCoords(String objName, double x, double y,
-			double z) {
+	public synchronized void setCoords(String objName, double... coords) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) {
 			return;
 		}
-		CmdSetCoords.setCoords(geo, x, y, z);
+		if (geo instanceof GeoLocusStroke) {
+			((GeoLocusStroke) geo).setCoords(coords);
+		} else {
+			CmdSetCoords.setCoords(geo, coords[0], coords[1], coords[2]);
+		}
 	}
 
 	/**
@@ -1244,7 +1248,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * Sets the double value of the object with the given name. For a boolean 0
-	 * -> false, any other value -> true Note: if the specified object is not a
+	 * -&gt; false, any other value -&gt; true Note: if the specified object is not a
 	 * number, nothing happens.
 	 */
 	@Override

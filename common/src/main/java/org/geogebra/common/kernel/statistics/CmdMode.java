@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * Mode[ &lt;List> ]
+ * Mode[ &lt;List&gt; ]
  */
 public class CmdMode extends CmdOneListFunction {
 	/**

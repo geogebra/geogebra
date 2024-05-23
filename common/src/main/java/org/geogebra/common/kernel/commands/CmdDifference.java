@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.main.MyError;
 
 /**
- * Difference[&lt;polygon>, &lt;polygon>]
+ * Difference[&lt;polygon&gt;, &lt;polygon&gt;]
  * 
  * @author thilina
  *

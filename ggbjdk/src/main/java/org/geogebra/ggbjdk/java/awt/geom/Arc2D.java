@@ -40,11 +40,8 @@ import org.geogebra.ggbjdk.java.awt.geom.utils.GWTMath;
  * start angle, angular extent (length of the arc), and a closure type
  * (<CODE>OPEN</CODE>, <CODE>CHORD</CODE>, or <CODE>PIE</CODE>).
  * <p>
- * <a name="inscribes">
  * The arc is a partial section of a full ellipse which
  * inscribes the framing rectangle of its parent {@link RectangularShape}.
- * </a>
- * <a name="angles">
  * The angles are specified relative to the non-square
  * framing rectangle such that 45 degrees always falls on the line from
  * the center of the ellipse to the upper right corner of the framing
@@ -52,7 +49,6 @@ import org.geogebra.ggbjdk.java.awt.geom.utils.GWTMath;
  * As a result, if the framing rectangle is noticeably longer along one
  * axis than the other, the angles to the start and end of the arc segment
  * will be skewed farther along the longer axis of the frame.
- * </a>
  * <p>
  * The actual storage representation of the coordinates is left to
  * the subclass.

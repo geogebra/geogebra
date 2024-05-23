@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * RemoveUndefined[ &lt;List> ]
+ * RemoveUndefined[ &lt;List&gt; ]
  * 
  * @author Michael Borcherds
  * @version 2008-03-06

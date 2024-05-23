@@ -17,7 +17,7 @@ import org.freehep.graphicsio.font.FontTable;
 /**
  * A table to remember which fonts were used while writing a pdf document.
  * Entries to resource dictionaries and embedding of fonts can be done when the
- * drawing is finished by calling <tt>addAll()</tt>.
+ * drawing is finished by calling {@code addAll()}.
  * 
  * @author Simon Fischer
  * @version $Id: PDFFontTable.java,v 1.4 2009-08-17 21:44:44 murkle Exp $

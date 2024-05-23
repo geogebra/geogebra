@@ -8,7 +8,7 @@ import org.geogebra.common.main.MyError;
 /**
  * Presses the pen down.
  * 
- * TurtleDown[ &lt;Turtle>]
+ * TurtleDown[ &lt;Turtle&gt;]
  * 
  * @author judit
  */

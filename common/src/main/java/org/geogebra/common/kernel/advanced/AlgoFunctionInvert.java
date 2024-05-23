@@ -18,16 +18,19 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
@@ -41,11 +44,12 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Michael Borcherds
  */
-public class AlgoFunctionInvert extends AlgoElement {
+public class AlgoFunctionInvert extends AlgoElement implements UsesCAS {
 
 	private GeoFunction f; // input
 	private GeoFunction g; // output
 	private boolean numeric;
+	private ArbitraryConstantRegistry arbconst = new ArbitraryConstantRegistry(this);
 
 	/**
 	 * @param cons
@@ -110,17 +114,37 @@ public class AlgoFunctionInvert extends AlgoElement {
 		ExpressionNode newRoot = invert(root, oldFV, x, kernel);
 
 		if (newRoot == null) { // root not invertible
-			g.setUndefined();
+			computeOutputUsingCAS();
 			return;
 		}
 		Function tempFun = new Function(newRoot, x);
 		tempFun.initFunction();
+		setResultFunction(tempFun);
+	}
+
+	private void computeOutputUsingCAS() {
+		StringBuilder casCommand = new StringBuilder("Invert(");
+		casCommand.append(f.toString(StringTemplate.defaultTemplate));
+		casCommand.append(")");
+		String result = kernel.evaluateCachedGeoGebraCAS(casCommand.toString(), arbconst);
+
+		if (result != null && !result.equals("?") && result.length() != 0) {
+			GeoElementND geo = kernel.getAlgebraProcessor().evaluateToGeoElement(result, false);
+			if (geo.isGeoFunction()) {
+				GeoFunction inverseFunction = (GeoFunction) geo;
+				setResultFunction(inverseFunction.getFunction());
+			}
+		} else {
+			g.setUndefined();
+		}
+	}
+
+	private void setResultFunction(Function function) {
 		g.setDefined(true);
-		g.setFunction(tempFun);
+		g.setFunction(function);
 		if (numeric) {
 			g.setSecret(this);
 		}
-
 	}
 
 	/**

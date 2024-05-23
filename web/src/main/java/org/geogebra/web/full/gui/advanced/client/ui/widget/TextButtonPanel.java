@@ -144,9 +144,9 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 
 	/**
 	 * This method gets a maximum length of the text box.
-	 * <p/>
+	 * <p>
 	 * It makes sence if you allow custom values entering.
-	 * <p/>
+	 * <p>
 	 * See also {@link #isCustomTextAllowed()} and
 	 * {@link #setCustomTextAllowed(boolean)}.
 	 *
@@ -158,9 +158,9 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 
 	/**
 	 * This method sets a maximum length of the text box.
-	 * <p/>
+	 * <p>
 	 * It makes sence if you allow custom values entering.
-	 * <p/>
+	 * <p>
 	 * See also {@link #isCustomTextAllowed()} and
 	 * {@link #setCustomTextAllowed(boolean)}.
 	 *

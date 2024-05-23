@@ -2797,7 +2797,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @return RW => EV transform; created (but not initialized) when null
+	 * @return RW =&gt; EV transform; created (but not initialized) when null
 	 */
 	public GAffineTransform getCoordTransform() {
 		if (coordTransform == null) {
@@ -2808,7 +2808,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * @param coordTransform
-	 *            RW => EV transform
+	 *            RW =&gt; EV transform
 	 */
 	protected void setCoordTransform(GAffineTransform coordTransform) {
 		this.coordTransform = coordTransform;
@@ -4821,7 +4821,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * Keeps the zoom, but makes sure the bound objects are free. This is
-	 * necessary in File->New because there might have been dynamic xmin bounds
+	 * necessary in File &gt; New because there might have been dynamic xmin bounds
 	 */
 	public void resetXYMinMaxObjects() {
 		if ((evNo == 1) || (evNo == 2)) {
@@ -5658,7 +5658,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * changes style bold <> not bold as necessary
+	 * Adjusts the bold bit in axes line style
 	 * 
 	 * @param bold
 	 *            true for bold axes
@@ -6676,8 +6676,26 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return null;
 	}
 
-	public void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {
-		// do nothing
+	/**
+	 * Adds a measurement tool with given size
+	 *
+	 * @param tool image of the tool
+	 * @param left coordinate of the tool
+	 * @param width of the tool
+	 * @param height of the tool
+	 */
+	public void setMeasurementTool(GeoImage tool, int left, int width, int height) {
+		// implemented in web.
+	}
+
+	/**
+	 * Adds a measurement tool with its own size
+	 *
+	 * @param tool image of the tool
+	 * @param left coordinate of the tool
+	 */
+	public void setMeasurementTool(GeoImage tool, int left) {
+		// implemented in web.
 	}
 
 	@Override

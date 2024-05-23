@@ -12,13 +12,13 @@ import org.freehep.graphics2d.font.CharTable;
  * Instances of this class write the information into documents (ps or pdf) that
  * is necessary in order to include or embed fonts. In order to guarantee a
  * time-invariant interface the main methods to implement by subclasses
- * <tt>includeFont</tt> takes no arguments. All necessary data should be
+ * {@code includeFont} takes no arguments. All necessary data should be
  * available by getter methods which can easily be added. <br>
  * The abstract methods are called in the following order:
  * <ul>
- * <li><tt>openIncludeFont</tt>
- * <li><tt>writeEncoding</tt>
- * <li><tt>closeIncludeFont</tt>
+ * <li>{@code openIncludeFont}
+ * <li>{@code writeEncoding}
+ * <li>{@code closeIncludeFont}
  * </ul>
  * 
  * @author Simon Fischer
@@ -32,7 +32,7 @@ public abstract class FontIncluder {
 
 	/**
 	 * Writes the given information about the font into the file. When this
-	 * method is called all <tt>getXXX()</tt> are guaranteed to return
+	 * method is called all {@code getXXX()} are guaranteed to return
 	 * reasonable values.
 	 */
 	protected abstract void openIncludeFont() throws IOException;
@@ -115,7 +115,7 @@ public abstract class FontIncluder {
 	 *            The font to include
 	 * @param name
 	 *            The name under which this font is addressed within the
-	 *            document (can be retrieved by <tt>getFontName()</tt>)
+	 *            document (can be retrieved by {@code getFontName()})
 	 */
 	public void includeFont(Font font, CharTable charTable, String name)
 			throws IOException {

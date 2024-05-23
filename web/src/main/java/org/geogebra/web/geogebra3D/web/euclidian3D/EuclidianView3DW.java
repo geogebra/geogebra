@@ -15,6 +15,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.DoubleUtil;
@@ -46,6 +47,8 @@ import org.gwtproject.event.dom.client.DomEvent;
 import org.gwtproject.event.dom.client.MouseDownEvent;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.Widget;
+
+import com.google.gwt.core.client.Scheduler;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLCanvasElement;
@@ -87,6 +90,17 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 		getRenderer().init();
 		initAriaDefaults();
+		if (ec.getApplication().showToolBar()) {
+			Scheduler.get().scheduleDeferred(this::loadCommands);
+		}
+	}
+
+	private void loadCommands() {
+		try {
+			getKernel().getAlgebraProcessor().getCommandDispatcher().get3DDispatcher();
+		} catch (CommandNotLoadedError ignore) {
+			// loading
+		}
 	}
 
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,

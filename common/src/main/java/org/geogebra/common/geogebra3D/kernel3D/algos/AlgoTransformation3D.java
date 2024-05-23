@@ -24,9 +24,9 @@ public class AlgoTransformation3D {
 	 * @param kernel
 	 *            kernel
 	 * @param geoFun
-	 *            x->f(x) function
+	 *            real function
 	 * @param curve
-	 *            t->(x,y,z) curve
+	 *            t-&gt;(x,y,z) curve
 	 */
 	static final public void toGeoCurveCartesian(Kernel kernel,
 			GeoFunction geoFun, GeoCurveCartesian3D curve) {

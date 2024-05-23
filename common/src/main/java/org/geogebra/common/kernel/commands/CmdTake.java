@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * Take[ &lt;List>,m,n ]
+ * Take[ &lt;List&gt;,m,n ]
  * 
  * @author Michael Borcherds
  */

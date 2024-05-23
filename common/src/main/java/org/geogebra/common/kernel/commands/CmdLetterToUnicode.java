@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * LetterToUnicode[&lt Letter>]
+ * LetterToUnicode[&lt; Letter&gt;]
  */
 public class CmdLetterToUnicode extends CommandProcessor {
 	/**

@@ -10,15 +10,15 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * ContingencyTable[ &lt;List of Text>, &lt;List of Text> ]
+ * ContingencyTable[ &lt;List of Text&gt;, &lt;List of Text&gt; ]
  * 
- * ContingencyTable[ &lt;List of Text>, &lt;List of Text>, &lt;Options> ]
+ * ContingencyTable[ &lt;List of Text&gt;, &lt;List of Text&gt;, &lt;Options&gt; ]
  * 
- * ContingencyTable[ &lt;List of Row Values>, &lt;List of Column Values>,
- * &lt;Frequency Table> ]
+ * ContingencyTable[ &lt;List of Row Values&gt;, &lt;List of Column Values&gt;,
+ * &lt;Frequency Table&gt; ]
  * 
- * ContingencyTable[ &lt;List of Row Values>, &lt;List of Column Values>,
- * &lt;Frequency Table>, &lt;Options> ]
+ * ContingencyTable[ &lt;List of Row Values&gt;, &lt;List of Column Values&gt;,
+ * &lt;Frequency Table&gt;, &lt;Options&gt; ]
  *
  */
 public class CmdContingencyTable extends CommandProcessor {

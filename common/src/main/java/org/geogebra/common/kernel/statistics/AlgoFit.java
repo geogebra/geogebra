@@ -27,8 +27,8 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * AlgoFit A general linear curvefit: Fit[&lt;List of Points>,&lt;List of
- * Functions>] Example: f(x)=1, g(x)=x, h(x)=e^x L={A,B,...} c(x)=Fit[L,{f,g,h}]
+ * AlgoFit A general linear curvefit: Fit[&lt;List of Points&gt;,&lt;List of
+ * Functions&gt;] Example: f(x)=1, g(x)=x, h(x)=e^x L={A,B,...} c(x)=Fit[L,{f,g,h}]
  * will give a least square curvefit: c(x)= a+b*x+c*e^x
  * 
  * Simple test procedure: Make points A,B, ... L={A,B,...} f(x)=1, g(x)=x,

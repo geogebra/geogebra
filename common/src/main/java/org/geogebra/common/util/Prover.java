@@ -160,7 +160,7 @@ public abstract class Prover {
 
 		/**
 		 * How human readable is this condition? The lower the better. This
-		 * number is always >= 0;
+		 * number is always &gt;= 0;
 		 */
 		double readability = 1.0;
 

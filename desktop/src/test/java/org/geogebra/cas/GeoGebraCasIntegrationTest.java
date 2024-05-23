@@ -598,8 +598,6 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				"{{1 + 2 * \u03af, 1 + \u03af}, {1 - 2 *  \u03af, 1 - \u03af}}");
 	}
 
-	/* CSolve */
-
 	/* One Equation and one Variable */
 
 	@Test
@@ -2794,5 +2792,12 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("V+5", "(6,7,8)");
 		t("5+v", "(6,7,8)");
 		t("v+5", "(6,7,8)");
+	}
+
+	@Test
+	@Issue("APPS-5264")
+	public void testIntegral2() {
+		t("f(x):=b", "b");
+		t("Integral[f]", "b * x + c_{1}");
 	}
 }

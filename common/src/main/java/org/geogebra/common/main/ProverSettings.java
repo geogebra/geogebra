@@ -3,7 +3,7 @@ package org.geogebra.common.main;
 /**
  * Prover settings (see AppD's handleHelpVersionArgs for details)
  */
-public class ProverSettings {
+public final class ProverSettings {
 
 	private static ProverSettings INSTANCE;
 	/**
@@ -51,6 +51,10 @@ public class ProverSettings {
 	 * Botana's method.
 	 */
 	public boolean captionAlgebra = false;
+
+	private ProverSettings() {
+		// singleton constructor
+	}
 
 	/**
 	 * @return singleton instance

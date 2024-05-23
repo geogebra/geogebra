@@ -18,11 +18,11 @@ import org.geogebra.common.main.MyError;
 /**
  * (2nd argument is the mirror)
  * 
- * Mirror[ &lt;Object>, &lt;GeoPoint> ]
+ * Mirror[ &lt;Object&gt;, &lt;GeoPoint&gt; ]
  * 
- * Mirror[ &lt;Object>, &lt;GeoLine> ]
+ * Mirror[ &lt;Object&gt;, &lt;GeoLine&gt; ]
  * 
- * Mirror[ &lt;Object>, &lt;GeoConic> ]
+ * Mirror[ &lt;Object&gt;, &lt;GeoConic&gt; ]
  */
 public class CmdMirror extends CommandProcessor {
 

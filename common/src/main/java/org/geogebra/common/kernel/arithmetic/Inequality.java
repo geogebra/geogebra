@@ -42,16 +42,16 @@ public class Inequality {
 		/** can be used e.g. by PointIn, but cannot be drawn */
 		INEQUALITY_INVALID,
 
-		/** x > f(y) */
+		/** x &gt; f(y) */
 		INEQUALITY_PARAMETRIC_X,
-		/** y > f(x) */
+		/** y &gt; f(x) */
 		INEQUALITY_PARAMETRIC_Y,
 
-		/** f(x,y) >0, f is linear */
+		/** f(x,y) &gt;0, f is linear */
 		INEQUALITY_LINEAR,
-		/** f(x,y) >0, f is quadratic */
+		/** f(x,y) &gt;0, f is quadratic */
 		INEQUALITY_CONIC,
-		/** f(x,y) >0, degree of f greater than 2 */
+		/** f(x,y) &gt;0, degree of f greater than 2 */
 		INEQUALITY_IMPLICIT,
 
 		/** inequality with one variable */

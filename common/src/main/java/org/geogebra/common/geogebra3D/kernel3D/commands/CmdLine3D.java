@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Line[ &lt;GeoPoint3D>, &lt;GeoPoint3D> ] or CmdLine
+ * Line[ &lt;GeoPoint3D&gt;, &lt;GeoPoint3D&gt; ] or CmdLine
  */
 public class CmdLine3D extends CmdLine {
 	/**

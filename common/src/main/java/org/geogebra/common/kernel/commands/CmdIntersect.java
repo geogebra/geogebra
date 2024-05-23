@@ -31,30 +31,30 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Intersect[ &lt;GeoLine>, &lt;GeoLine> ]
+ * Intersect[ &lt;GeoLine&gt;, &lt;GeoLine&gt; ]
  * 
- * Intersect[ &lt;GeoLine>, &lt;GeoPolygon> ]
+ * Intersect[ &lt;GeoLine&gt;, &lt;GeoPolygon&gt; ]
  * 
- * Intersect[ &lt;GeoPolyLine>, &lt;GeoPolyLine> ]
+ * Intersect[ &lt;GeoPolyLine&gt;, &lt;GeoPolyLine&gt; ]
  * 
- * Intersect[ &lt;GeoLine>, &lt;GeoConic> ]
+ * Intersect[ &lt;GeoLine&gt;, &lt;GeoConic&gt; ]
  * 
- * Intersect[ &lt;GeoConic>, &lt;GeoLine> ]
+ * Intersect[ &lt;GeoConic&gt;, &lt;GeoLine&gt; ]
  * 
- * Intersect[ &lt;GeoConic>, &lt;GeoConic> ]
+ * Intersect[ &lt;GeoConic&gt;, &lt;GeoConic&gt; ]
  * 
- * Intersect[ &lt;GeoFunction>, &lt;GeoFunction> ]
+ * Intersect[ &lt;GeoFunction&gt;, &lt;GeoFunction&gt; ]
  * 
- * Intersect[ &lt;GeoFunction>, &lt;GeoLine> ]
+ * Intersect[ &lt;GeoFunction&gt;, &lt;GeoLine&gt; ]
  * 
- * Intersect[ &lt;GeoImplicitPoly>, &lt;GeoImplicitPoly> ]
+ * Intersect[ &lt;GeoImplicitPoly&gt;, &lt;GeoImplicitPoly&gt; ]
  * 
- * Intersect[ &lt;GeoImplicitPoly>, &lt;GeoLine> ]
+ * Intersect[ &lt;GeoImplicitPoly&gt;, &lt;GeoLine&gt; ]
  * 
- * Intersect[ &lt;GeoImplicitPoly>, &lt;GeoFunction(Polynomial)> ]
+ * Intersect[ &lt;GeoImplicitPoly&gt;, &lt;GeoFunction(Polynomial)&gt; ]
  * 
- * Intersect[ &lt;GeoFunction>, &lt;GeoFunction>, &lt;NumberValue>,
- * &lt;NumberValue> ] Intersect[ &lt;Path>, &lt;Point> ]
+ * Intersect[ &lt;GeoFunction&gt;, &lt;GeoFunction&gt;, &lt;NumberValue&gt;,
+ * &lt;NumberValue&gt; ] Intersect[ &lt;Path&gt;, &lt;Point&gt; ]
  */
 public class CmdIntersect extends CommandProcessor {
 

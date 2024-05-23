@@ -88,10 +88,10 @@ public class CmdBinomialDist extends CommandProcessor {
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
 					&& (ok[3] = arg[3].isGeoBoolean())) {
 
-				AlgoBinomialDist algo = new AlgoBinomialDist(cons, c.getLabel(),
+				AlgoBinomialDist algo = new AlgoBinomialDist(cons,
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoNumberValue) arg[2], (GeoBoolean) arg[3]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
