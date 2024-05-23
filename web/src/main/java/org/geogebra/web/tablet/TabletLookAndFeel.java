@@ -35,31 +35,13 @@ public class TabletLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public boolean copyToClipboardSupported() {
-		return true;
-	}
-
-	@Override
 	public SignInController getSignInController(final App app) {
 		return new TabletSignInController(app);
 	}
 
 	@Override
-	public boolean exportSupported() {
-		return true;
-	}
-
-	@Override
 	public boolean supportsGoogleDrive() {
 		return false;
-	}
-
-	/**
-	 * @return style name for app frame
-	 */
-	@Override
-	public String getFrameStyleName() {
-		return "Tablet";
 	}
 
 	@Override
