@@ -23,6 +23,10 @@ class UndoItem {
 	}
 
 	public String content() {
+		if (geo.isPointOnPath() || geo.isPointInRegion()) {
+			return "SetValue[" + geo.getLabelSimple() + ","
+					+ geo.toValueString(StringTemplate.xmlTemplate) + "]";
+		}
 		return isXml ? geo.getStyleXML() : getDefinition();
 	}
 
