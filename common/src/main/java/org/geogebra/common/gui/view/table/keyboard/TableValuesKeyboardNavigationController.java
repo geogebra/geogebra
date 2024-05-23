@@ -114,20 +114,20 @@ public final class TableValuesKeyboardNavigationController {
 	/**
 	 * @param column column index
 	 * @return True if the column at index is editable
-	 * (@see {@link TableValuesModel#isColumnEditable(int)} or is a placeholder column (which
+	 * (see {@link TableValuesModel#isColumnEditable(int)}) or is a placeholder column (which
 	 * is also editable). This information can be used to display non-editable columns in a
 	 * different color in the UI, for example.
 	 */
 	public boolean isColumnEditable(int column) {
-		return (addedPlaceholderColumn && column == tableValuesModel.getColumnCount())
-				|| tableValuesModel.isColumnEditable(column);
+		return tableValuesModel.isColumnEditable(column)
+				|| (tableValuesModel.allowsAddingColumns()
+				&& column == tableValuesModel.getColumnCount());
 	}
-
+	
 	/**
 	 * Select a cell.
 	 * @param row the row index to select, or -1 to clear any selection.
 	 * @param column the column index to select, or -1 to clear any selection.
-	 * @apiNote The delegate will only be notified if the selection actually changed.
 	 */
 	public void select(int row, int column) {
 		if (isReadonly) {
@@ -155,7 +155,7 @@ public final class TableValuesKeyboardNavigationController {
 				selectedColumn = tableValuesModel.getColumnCount();
 			}
 		} else if (row >= tableValuesModel.getRowCount()) {
-			if (tableValuesModel.isColumnEditable(selectedColumn) && !addedPlaceholderRow) {
+			if (isColumnEditable(selectedColumn) && !addedPlaceholderRow) {
 				addedPlaceholderRow = true;
 				selectedRow = tableValuesModel.getRowCount();
 			}

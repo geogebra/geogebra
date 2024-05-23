@@ -102,14 +102,11 @@ final class SimpleTableValuesModel implements TableValuesModel {
 
 	@Override
 	public boolean isColumnEditable(int index) {
-		if (index < 0 || index > columns.size()) {
+		if (index < 0 || index >= columns.size()) {
 			return false;
 		}
 		if (index == 0) {
 			return true; // the list of x-values is always editable
-		}
-		if (index == columns.size()) {
-			return allowsAddingColumns;
 		}
 		TableValuesColumn column = columns.get(index);
 		GeoEvaluatable evaluatable = column.getEvaluatable();
