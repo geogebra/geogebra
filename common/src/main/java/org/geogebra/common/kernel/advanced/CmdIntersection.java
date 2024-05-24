@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * Intersection[ &lt;GeoList>, &lt;GeoList> ]
+ * Intersection[ &lt;GeoList&gt;, &lt;GeoList&gt; ]
  */
 public class CmdIntersection extends CommandProcessor {
 	/**

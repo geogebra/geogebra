@@ -42,8 +42,7 @@ import org.geogebra.ggbjdk.sun.awt.geom.Curve;
  * segment types and winding rules and it implements all of the basic hit
  * testing methods of the {@link Shape} interface.
  * <p>
- * Use {@link Path2D.Float} when dealing with data that can be represented and
- * used with floating point precision. Use {@link Path2D.Double} for data that
+ * Use {@link Path2D.Double} for data that
  * requires the accuracy or range of double precision.
  * <p>
  * {@code Path2D} provides exactly those facilities required for basic
@@ -944,9 +943,7 @@ public abstract class Path2D implements Shape {
      * maintains, but it may contain no more precision either.
      * If the tradeoff of precision vs. storage size in the result is
      * important then the convenience constructors in the
-     * {@link Path2D.Float#Path2D.Float(Shape, AffineTransform) Path2D.Float}
-     * and
-     * {@link Path2D.Double#Path2D.Double(Shape, AffineTransform) Path2D.Double}
+     * Path2D.Double(Shape, AffineTransform)
      * subclasses should be used to make the choice explicit.
      *
      * @param at the {@code AffineTransform} used to transform a
@@ -1123,7 +1120,7 @@ public abstract class Path2D implements Shape {
 	 * <p>
 	 * This method provides a basic facility for implementors of the
 	 * {@link Shape} interface to implement support for the
-	 * {@link Shape#contains(Rectangle2D)} method.
+	 * {@link Shape#contains(GRectangle2D)} method.
 	 * <p>
 	 * This method object may conservatively return false in cases where the
 	 * specified rectangular area intersects a segment of the path, but that
@@ -1277,7 +1274,7 @@ public abstract class Path2D implements Shape {
 	 * <p>
 	 * This method provides a basic facility for implementors of the
 	 * {@link Shape} interface to implement support for the
-	 * {@link Shape#intersects(Rectangle2D)} method.
+	 * {@link Shape#intersects(GRectangle2D)} method.
 	 * <p>
 	 * This method object may conservatively return true in cases where the
 	 * specified rectangular area intersects a segment of the path, but that

@@ -90,6 +90,7 @@ public class AppCommon extends App {
 	 *            localization
 	 * @param awtFactory
 	 *            AWT factory
+	 * @param appConfig config
 	 */
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory, AppConfig appConfig) {
 		super(Platform.ANDROID);
@@ -184,11 +185,6 @@ public class AppCommon extends App {
     @Override
     public CommandDispatcher newCommandDispatcher(Kernel cmdKernel) {
 		return new CommandDispatcherJre(cmdKernel);
-    }
-
-    @Override
-	public CommandDispatcher newCommand3DDispatcher(Kernel cmdKernel) {
-        return null;
     }
 
     @Override

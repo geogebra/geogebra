@@ -17,8 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.commons.collections15.Factory;
+import java.util.function.Supplier;
 
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.graph.util.Pair;
@@ -39,10 +38,10 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 	 * @param <E>
 	 *            the edge type for the graph factory
 	 */
-	public static <V, E> Factory<Graph<V, E>> getFactory() {
-		return new Factory<Graph<V, E>>() {
+	public static <V, E> Supplier<Graph<V, E>> getFactory() {
+		return new Supplier<Graph<V, E>>() {
 			@Override
-			public Graph<V, E> create() {
+			public Graph<V, E> get() {
 				return new SparseMultigraph<V, E>();
 			}
 		};

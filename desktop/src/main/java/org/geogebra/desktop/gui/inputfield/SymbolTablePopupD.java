@@ -214,8 +214,8 @@ public class SymbolTablePopupD {
 
 	/**
 	 * @param openUpwards
-	 *            true => popup opens sitting above the textfield, false =>
-	 *            popup opens below
+	 *            true = popup opens sitting above the text field,
+	 *            false = popup opens below
 	 */
 	public void setOpenUpwards(boolean openUpwards) {
 		this.openUpwards = openUpwards;

@@ -10,7 +10,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * Sort[ &lt;List> ]
+ * Sort[ &lt;List&gt; ]
  */
 public class CmdSort extends CommandProcessor {
 

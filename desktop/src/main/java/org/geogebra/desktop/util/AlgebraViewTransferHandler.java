@@ -32,8 +32,9 @@ public class AlgebraViewTransferHandler extends TransferHandler
 
 	private ArrayList<String> geoLabelList;
 
-	/****************************************
+	/**
 	 * Constructor
+	 * @param app application
 	 */
 	public AlgebraViewTransferHandler(AppD app) {
 		this.app = app;

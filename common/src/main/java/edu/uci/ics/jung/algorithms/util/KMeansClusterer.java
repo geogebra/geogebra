@@ -29,9 +29,9 @@ import java.util.Set;
  * <code>cluster</code> will terminate when either of the two following
  * conditions is true:
  * <ul>
- * <li/>the number of iterations is &gt; <code>max_iterations</code>
- * <li/>none of the centroids has moved as much as
- * <code>convergence_threshold</code> since the previous iteration
+ * <li>the number of iterations is &gt; <code>max_iterations</code></li>
+ * <li>none of the centroids has moved as much as
+ * <code>convergence_threshold</code> since the previous iteration</li>
  * </ul>
  * 
  * @author Joshua O'Madadhain

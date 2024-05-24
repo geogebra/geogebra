@@ -69,7 +69,7 @@ public final class MidiParser extends Parser {
 	 *
 	 * @param sequence
 	 *            the <code>Sequence</code> to parse
-	 * @throws Exception
+	 * @throws RuntimeException
 	 *             if there is an error parsing the pattern
 	 */
 	public void parse(Sequence sequence) {

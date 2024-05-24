@@ -3523,8 +3523,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public abstract CommandDispatcher newCommandDispatcher(Kernel cmdKernel);
 
-	public abstract CommandDispatcher newCommand3DDispatcher(Kernel cmdKernel);
-
 	/**
 	 * Whether the app is running just to create a screenshot, some
 	 * recomputations can be avoided in such case
@@ -3624,7 +3622,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Adds a macro from XML
 	 *
 	 * @param xml
-	 *            macro code (including &lt;macro> wrapper)
+	 *            macro code (including &lt;macro&gt; wrapper)
 	 * @return True if successful
 	 */
 	public boolean addMacroXML(String xml) {
@@ -4544,7 +4542,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * last commands selected from help (used in Android & iOS native)
+	 * last commands selected from help (used in Android and iOS native)
 	 *
 	 * @param commandName
 	 *            last command
@@ -4559,7 +4557,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @return last commands selected from help (used in Android & iOS native)
+	 * @return last commands selected from help (used in Android and iOS native)
 	 */
 	public ArrayList<String> getLastCommandsSelectedFromHelp() {
 		return mLastCommandsSelectedFromHelp;
@@ -5057,7 +5055,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * GeoPriorityComparators are used to decide the drawing
 	 * and selection orders of Geos
-	 * @return the default comparator (layer -> type -> construction order) in every
+	 * @return the default comparator (layer -&gt; type -&gt; construction order) in every
 	 * app except notes, where the geo's `ordering` is used
 	 */
 	public GeoPriorityComparator getGeoPriorityComparator() {

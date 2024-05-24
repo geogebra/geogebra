@@ -64,8 +64,6 @@ import org.geogebra.desktop.awt.GFontRenderContextD;
  * resizing pixel-based images, such as jpeg and png files.
  * <p>
  * Example usage:
- * <p>
- * 
  * <pre>
  * Graphics2D g = new EpsGraphics2D();
  * g.setColor(Color.black);

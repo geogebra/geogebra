@@ -58,7 +58,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 				app.getSettings().getSpreadsheet());
 		app.getKernel().notifyAddAll(tabularData);
 		spreadsheet = new Spreadsheet(tabularData, new GeoElementCellRendererFactory(
-				new AwtReTexGraphicsBridgeW()), app);
+				new AwtReTexGraphicsBridgeW()), app.getUndoManager());
 
 		app.getKernel().attach(tabularData);
 		add(spreadsheetWidget);
@@ -227,6 +227,11 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			@Override
 			public int getScrollBarWidth() {
 				return SpreadsheetPanel.this.getScrollBarWidth();
+			}
+
+			@Override
+			public void updateScrollPanelSize() {
+				updateTotalSize();
 			}
 
 			@Override

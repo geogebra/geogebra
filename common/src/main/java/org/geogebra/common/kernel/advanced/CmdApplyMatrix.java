@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * ApplyMatrix[&lt;Matrix>, &lt;Object>]
+ * ApplyMatrix[&lt;Matrix&gt;, &lt;Object&gt;]
  * 
  * @author Michael Borcherds
  */

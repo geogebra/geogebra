@@ -598,8 +598,6 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				"{{1 + 2 * \u03af, 1 + \u03af}, {1 - 2 *  \u03af, 1 - \u03af}}");
 	}
 
-	/* CSolve */
-
 	/* One Equation and one Variable */
 
 	@Test

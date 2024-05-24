@@ -174,7 +174,7 @@ public class AlgoZMeanTest extends AlgoElement {
 	/**
 	 * @param pValue p-value
 	 * @param testStatistic test statistic
-	 * @param tail tail string (one of &lt;, &gt; ,&lt;&gt )
+	 * @param tail tail string (one of &lt;, &gt; ,&lt;&gt; )
 	 * @return adjusted p-value
 	 */
 	public static double adjustPValue(double pValue, double testStatistic, GeoText tail) {

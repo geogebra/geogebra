@@ -12,7 +12,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
-import org.geogebra.common.gui.view.spreadsheet.SpreadsheetController;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetTableController;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -57,14 +57,14 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 
 	private boolean enableAutoComplete = false;
 
-	private SpreadsheetController controller;
+	private SpreadsheetTableController controller;
 
 	/**
 	 * @param kernel kernel
 	 * @param controller spreadsheet controller
 	 */
 	public MyCellEditorSpreadsheet(Kernel kernel,
-			SpreadsheetController controller) {
+			SpreadsheetTableController controller) {
 
 		super(new AutoCompleteTextFieldD(0, (AppD) kernel.getApplication(),
 				KeyNavigation.IGNORE));

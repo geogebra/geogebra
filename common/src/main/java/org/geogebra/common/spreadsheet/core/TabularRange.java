@@ -119,6 +119,20 @@ public class TabularRange {
 	}
 
 	/**
+	 * @return Whether this contains a single row
+	 */
+	public boolean isSingleRow() {
+		return minRow == maxRow && isRow();
+	}
+
+	/**
+	 * @return Whether this contains a single column
+	 */
+	public boolean isSingleColumn() {
+		return minColumn == maxColumn && isColumn();
+	}
+
+	/**
 	 * @return true if cell range is part of a row, but bigger than one cell
 	 */
 	public boolean isPartialRow() {

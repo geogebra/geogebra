@@ -297,6 +297,14 @@ public class EuclidianViewW extends EuclidianView implements
 		app.getFpsProfiler().notifyRepaint();
 	}
 
+	@Override
+	public void drawObjects(GGraphics2D g2) {
+		if (!app.isExporting()) {
+			MultiuserManager.INSTANCE.paintInteractionBackgrounds(this, g2);
+		}
+		super.drawObjects(g2);
+	}
+
 	/**
 	 * Gets the coordinate space width of the &lt;canvas&gt;.
 	 * 

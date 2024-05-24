@@ -196,7 +196,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	}
 
 	@Override
-	public CommandDispatcher newCommand3DDispatcher(Kernel cmdKernel) {
+	public CommandDispatcher newCommandDispatcher(Kernel cmdKernel) {
 		return new CommandDispatcher3DJre(cmdKernel);
 	}
 

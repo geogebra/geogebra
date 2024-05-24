@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.main.MyError;
 
 /**
- * InteriorAngles[ &lt;GeoPolygon> ]
+ * InteriorAngles[ &lt;GeoPolygon&gt; ]
  */
 public class CmdInteriorAngles extends CommandProcessor {
 

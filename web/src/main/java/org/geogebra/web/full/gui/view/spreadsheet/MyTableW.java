@@ -13,8 +13,8 @@ import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
-import org.geogebra.common.gui.view.spreadsheet.SpreadsheetController;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetModeProcessor;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetTableController;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -212,7 +212,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	private boolean isSelectAll = false;
 
-	private SpreadsheetController controller;
+	private SpreadsheetTableController controller;
 
 	/*******************************************************************
 	 * Construct table
@@ -1477,9 +1477,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return false;
 	}
 
-	private SpreadsheetController getEditorController() {
+	private SpreadsheetTableController getEditorController() {
 		if (controller == null) {
-			controller = new SpreadsheetController(app);
+			controller = new SpreadsheetTableController(app);
 		}
 		return controller;
 	}
@@ -1958,7 +1958,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	// this is temporary code while cleaning up
 	// ===========================================
 	/**
-	 * Copy & return string from selected cells
+	 * Copy and return string from selected cells
 	 * 
 	 * @return the content of selected cells
 	 */

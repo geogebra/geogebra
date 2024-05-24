@@ -169,8 +169,7 @@ final class Selection {
 	 * If a Selection needs to be extended with another then the resulting Selection's
 	 * SelectionType might change
 	 * <li>If both Selections share the same SelectionType, nothing changes</li>
-	 * <li>If one of the Selections' SelectionType equals {@link SelectionType#ALL}, or if both
-	 * {@link SelectionType#ROWS} and {@link SelectionType#COLUMNS} occur, then the
+	 * <li>If one of the Selections' SelectionType equals {@link SelectionType#ALL}, then the
 	 * resulting Selection should hold {@link SelectionType#ALL}</li>
 	 * <li>Otherwise, the extended Selection is of type {@link SelectionType#CELLS}</li>
 	 * @param newSelection New Selection
@@ -180,9 +179,7 @@ final class Selection {
 		List<SelectionType> selectionTypes = Arrays.asList(this.type, newSelection.type);
 		if (this.type == newSelection.type) {
 			return this.type;
-		} else if (selectionTypes.contains(SelectionType.ALL)
-				|| (selectionTypes.contains(SelectionType.COLUMNS)
-				&& selectionTypes.contains(SelectionType.ROWS))) {
+		} else if (selectionTypes.contains(SelectionType.ALL)) {
 			return SelectionType.ALL;
 		} else {
 			return SelectionType.CELLS;

@@ -31,7 +31,7 @@ import org.geogebra.common.awt.GPathIterator;
 
 /**
  * The <code>FlatteningPathIterator</code> class returns a flattened view of
- * another {@link PathIterator} object.  Other {@link java.awt.Shape Shape}
+ * another {@link GPathIterator} object.  Other {@link java.awt.Shape Shape}
  * classes can use this class to provide flattening behavior for their paths
  * without having to perform the interpolation calculations themselves.
  *
@@ -153,8 +153,8 @@ public class FlatteningPathIterator implements GPathIterator {
      * path.
      * @return the winding rule of the original unflattened path being
      * iterated over.
-     * @see PathIterator#WIND_EVEN_ODD
-     * @see PathIterator#WIND_NON_ZERO
+     * @see GPathIterator#WIND_EVEN_ODD
+     * @see GPathIterator#WIND_NON_ZERO
      */
     @Override
 	public int getWindingRule() {
@@ -344,9 +344,9 @@ public class FlatteningPathIterator implements GPathIterator {
      * @exception NoSuchElementException if there
      *          are no more elements in the flattening path to be
      *          returned.
-     * @see PathIterator#SEG_MOVETO
-     * @see PathIterator#SEG_LINETO
-     * @see PathIterator#SEG_CLOSE
+     * @see GPathIterator#SEG_MOVETO
+     * @see GPathIterator#SEG_LINETO
+     * @see GPathIterator#SEG_CLOSE
      */
     @Override
 	public int currentSegment(double[] coords) {

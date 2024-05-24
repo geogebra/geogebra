@@ -68,13 +68,13 @@ public final class MusicStringParser extends Parser {
 	 * spaces. It then determines the type of command based on the first
 	 * character of the token. If the parser does not recognize the first
 	 * character of the token, which is limited to the command letters (K, V, T,
-	 * I, L, X, #, $, @, &, +, *, |), the notes (A, B, C, D, E, F, G, R), and
+	 * I, L, X, #, $, @, &amp;, +, *, |), the notes (A, B, C, D, E, F, G, R), and
 	 * the open-bracket character ( [ ), then the token will be ignored.
 	 * </p>
 	 *
 	 * @param pattern
 	 *            the <code>Pattern</code> to parse
-	 * @throws Exception
+	 * @throws JFugueException
 	 *             if there is an error parsing the pattern
 	 */
 	public void parse(Pattern pattern) throws JFugueException {

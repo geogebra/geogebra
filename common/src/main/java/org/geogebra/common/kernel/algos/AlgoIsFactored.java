@@ -276,7 +276,7 @@ public class AlgoIsFactored extends AlgoElement {
 		boolean allInteger = true;
 		for (double c : coeffs) {
 			double cMultiplied = c * product;
-			if ((int) cMultiplied != cMultiplied) {
+			if (!DoubleUtil.isInteger(cMultiplied)) {
 				allInteger = false;
 				break;
 			}

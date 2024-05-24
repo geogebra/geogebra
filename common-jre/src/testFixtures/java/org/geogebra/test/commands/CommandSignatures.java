@@ -28,8 +28,8 @@ public class CommandSignatures {
 					signature.add(line.replace("x, y", "xy").split(",").length);
 				}
 			}
-			if ("Function".equals(cmdName) || "Random".equals(cmdName)
-					|| "DataFunction".equals(cmdName) || "Textfield".equals(cmdName)) {
+			if (Arrays.asList("Function", "Random", "PenStroke", "DataFunction", "Textfield")
+					.contains(cmdName)) {
 				signature.add(0);
 			}
 			return signature;

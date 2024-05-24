@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.prover.AlgoAreCollinear;
 import org.geogebra.common.main.MyError;
 
 /**
- * AreCollinear[&lt;Point>, &lt;Point>, &lt;Point> ]
+ * AreCollinear[&lt;Point&gt;, &lt;Point&gt;, &lt;Point&gt; ]
  */
 public class CmdAreCollinear extends CommandProcessor {
 

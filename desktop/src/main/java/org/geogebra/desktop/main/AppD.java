@@ -118,7 +118,6 @@ import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.io.OFFHandler;
-import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.XMLParseException;
@@ -129,7 +128,6 @@ import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.headless.AppDI;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
-import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.jre.main.TemplateHelper;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.Construction;
@@ -411,12 +409,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		useFullGui = true;
 
-		// don't want to redirect System.out and System.err when running as
-		// Applet
-		// or eg from Eclipse
 		getCodeBase(); // initialize runningFromJar
 
 		Log.debug("runningFromJar=" + runningFromJar);
+		// don't want to redirect System.out and System.err when running from IDE
 		if (runningFromJar) {
 			setUpLogging();
 		} else {
@@ -4266,11 +4262,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public CommandDispatcher newCommandDispatcher(Kernel kernel) {
-		return new CommandDispatcherJre(kernel);
-	}
-
-	@Override
-	public CommandDispatcher3D newCommand3DDispatcher(Kernel kernel) {
 		return new CommandDispatcher3DJre(kernel);
 	}
 

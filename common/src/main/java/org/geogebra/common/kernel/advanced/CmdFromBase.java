@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * ToBase[&lt;base>, &lt;Number>]
+ * ToBase[&lt;base&gt;, &lt;Number&gt;]
  */
 public class CmdFromBase extends CommandProcessor {
 

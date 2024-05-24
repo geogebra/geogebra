@@ -50,29 +50,6 @@ import com.google.j2objc.annotations.Weak;
 
 public abstract class GuiManager implements GuiManagerInterface {
 
-	/**
-	 * possible GeoGebraTube syntaxes
-	 * http://www.geogebratube.org/material/show/id/111
-	 * http://www.geogebratube.org/student/m111
-	 * http://www.geogebratube.org/student/cXX/m111/options
-	 * www.geogebratube.org/material/show/id/111
-	 * www.geogebratube.org/student/m111
-	 * www.geogebratube.org/student/cXX/m111/options
-	 * http://geogebratube.org/material/show/id/111
-	 * http://geogebratube.org/student/m111
-	 * http://geogebratube.org/student/cXX/m111/options http://ggbtu.be/m111
-	 * http://ggbtu.be/cXX/m111/options http://www.ggbtu.be/m111
-	 * http://www.ggbtu.be/cXX/options
-	 * 
-	 * in an iframe, src= http://www.geogebratube.org/material/iframe/id/111
-	 * http
-	 * ://www.geogebratube.org/material/iframe/id/111/param1/val1/param2/val2
-	 * /... http://ggbtu.be/e111 http://ggbtu.be/e111?param1=&param2=..
-	 * 
-	 * 
-	 * also can have ?mobile=true ?mobile=false on end
-	 */
-
 	@Weak
 	protected Kernel kernel;
 	@Weak
@@ -174,7 +151,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public void getViewsXML(StringBuilder sb, boolean asPreference) {
 		// save spreadsheetView settings
 		getSpreadsheetViewXML(sb, asPreference);
-		getSpreadsheetLayoutXML(sb);
 
 		// save ProbabilityCalculator settings
 		if (hasProbabilityCalculator()) {
@@ -194,16 +170,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 *            whether this is for preferences
 	 */
 	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * Appends an XML representation of the layout of the spreadsheet (suite)
-	 * to the passed StringBuilder
-	 * @param sb {@link StringBuilder}
-	 */
-	public void getSpreadsheetLayoutXML(StringBuilder sb) {
-		// Overridden in GuiManagerW
+		sb.append("<spreadsheetView>\n");
+		app.getSettings().getSpreadsheet().getSizeXML(sb);
+		app.getSettings().getSpreadsheet().getWidthsAndHeightsXML(sb);
+		sb.append("</spreadsheetView>\n");
 	}
 
 	@Override
@@ -865,4 +835,5 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public InputKeyboardButton getInputKeyboardButton() {
 		return null;
 	}
+
 }

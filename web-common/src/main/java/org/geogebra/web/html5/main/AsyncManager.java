@@ -56,12 +56,12 @@ public class AsyncManager {
 			final CommandDispatcher cmdDispatcher = app.getKernel()
 				.getAlgebraProcessor().getCmdDispatcher();
 
-			cmdDispatcher.getScriptingDispatcher();
-			cmdDispatcher.getAdvancedDispatcher();
-			cmdDispatcher.getStatsDispatcher();
-			cmdDispatcher.getProverDispatcher();
-			cmdDispatcher.getCASDispatcher();
-			cmdDispatcher.get3DDispatcher();
+			cmdDispatcher.getScriptingCommandProcessorFactory();
+			cmdDispatcher.getAdvancedCommandProcessorFactory();
+			cmdDispatcher.getStatsCommandProcessorFactory();
+			cmdDispatcher.getProverCommandProcessorFactory();
+			cmdDispatcher.getCASCommandProcessorFactory();
+			cmdDispatcher.getSpatialCommandProcessorFactory();
 		} catch (CommandNotLoadedError e) {
 			ensureModulesLoaded(null);
 			throw e;
@@ -72,7 +72,7 @@ public class AsyncManager {
 	 * Ensure that all the specified modules are loaded before
 	 * any other code inside async callback is run
 	 * @param modules modules to preload
-	 *                   (null -> preload all specified in defaultPreload)
+	 *                   (null -&gt; preload all specified in defaultPreload)
 	 */
 	public void ensureModulesLoaded(String[] modules) {
 		final AsyncModule[] preload = modules == null ? defaultPreload
@@ -91,25 +91,25 @@ public class AsyncManager {
 					.getAlgebraProcessor().getCmdDispatcher();
 			switch (module) {
 			case DISCRETE:
-				cmdDispatcher.getDiscreteDispatcher();
+				cmdDispatcher.getDiscreteCommandProcessorFactory();
 				break;
 			case SCRIPTING:
-				cmdDispatcher.getScriptingDispatcher();
+				cmdDispatcher.getScriptingCommandProcessorFactory();
 				break;
 			case ADVANCED:
-				cmdDispatcher.getAdvancedDispatcher();
+				cmdDispatcher.getAdvancedCommandProcessorFactory();
 				break;
 			case STATS:
-				cmdDispatcher.getStatsDispatcher();
+				cmdDispatcher.getStatsCommandProcessorFactory();
 				break;
 			case PROVER:
-				cmdDispatcher.getProverDispatcher();
+				cmdDispatcher.getProverCommandProcessorFactory();
 				break;
 			case CAS:
-				cmdDispatcher.getCASDispatcher();
+				cmdDispatcher.getCASCommandProcessorFactory();
 				break;
 			case SPATIAL:
-				cmdDispatcher.get3DDispatcher();
+				cmdDispatcher.getSpatialCommandProcessorFactory();
 				break;
 			case GIAC:
 				app.getKernel().getGeoGebraCAS().initCurrentCAS();

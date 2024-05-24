@@ -140,8 +140,8 @@ public class OptionsAdvancedD implements OptionPanelD,
 	/**
 	 * Initialize the user interface.
 	 * 
-	 * @remark updateGUI() will be called directly after this method
-	 * @remark Do not use translations here, the option dialog will take care of
+	 * <p>Remark: updateGUI() will be called directly after this method
+	 * <p>Remark: Do not use translations here, the option dialog will take care of
 	 *         calling setLabels()
 	 */
 	private void initGUI() {
@@ -429,7 +429,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 	/**
 	 * Update the user interface, ie change selected values.
 	 * 
-	 * @remark Do not call setLabels() here
+	 * <p>Remark: Do not call setLabels() here
 	 */
 	@Override
 	public void updateGUI() {

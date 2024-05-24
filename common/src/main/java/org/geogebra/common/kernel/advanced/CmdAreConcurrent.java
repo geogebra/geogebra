@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.prover.AlgoAreConcurrent;
 import org.geogebra.common.main.MyError;
 
 /**
- * AreConcurrent[ &lt;Line>, &lt;Line>, &lt;Line> ]
+ * AreConcurrent[ &lt;Line&gt;, &lt;Line&gt;, &lt;Line&gt; ]
  */
 public class CmdAreConcurrent extends CommandProcessor {
 

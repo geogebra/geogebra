@@ -6,14 +6,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle2D;
-import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableND;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawLocus;
 import org.geogebra.common.euclidian.draw.DrawSegment;
@@ -23,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.RectangleTransformable;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.timer.client.Timer;
 
@@ -71,19 +71,29 @@ class User {
 		selectedGeos.remove(label);
 	}
 
-	public void paintInteractionBoxes(EuclidianView view, GGraphics2D graphics) {
-		SelectionManager selection = view.getApplication().getSelectionManager();
+	public void paintInteractionBackgrounds(EuclidianView view, GGraphics2D graphics) {
+		List<GeoElement> geos = getHighlightedGeos(view);
+		if (geos.size() == 1) {
+			GeoElement geo = geos.get(0);
+			Drawable d = (Drawable) view.getDrawableFor(geo);
+			if (drawAsBackground(d)) {
+				d.updateIfNeeded();
+				GBasicStroke selStroke = EuclidianStatic.getStroke(geo
+								.getLineThickness() / 2.0
+								+ 4,
+						EuclidianStyleConstants.LINE_TYPE_FULL);
+				graphics.setStroke(selStroke);
+				graphics.setColor(color.deriveWithAlpha(geo.getLineOpacity()));
+				d.drawStroke(graphics);
+			}
+		}
+	}
 
-		Stream<String> startingStream = selectedGeos.isEmpty()
-				? updatedGeos.keySet().stream()
-				: selectedGeos.stream();
-		List<GeoElement> geos = startingStream
-				.map((label) -> view.getApplication().getKernel().lookupLabel(label))
-				.filter((geo) -> !selection.containsSelectedGeo(geo))
-				.collect(Collectors.toList());
+	public void paintInteractionBoxes(EuclidianView view, GGraphics2D graphics) {
+		List<GeoElement> geos = getHighlightedGeos(view);
 
 		graphics.setColor(color);
-		if (geos.size() == 0) {
+		if (geos.isEmpty()) {
 			tooltip.hide();
 		} else {
 			showTooltipBy((AppW) view.getApplication(), geos.get(0));
@@ -101,24 +111,7 @@ class User {
 						(int) transformableGeo.getHeight()
 				));
 				graphics.restoreTransform();
-			} else if (d instanceof DrawLocus || d instanceof DrawSegment) {
-				GBasicStroke current = AwtFactory.getPrototype()
-						.newBasicStroke(geo.getLineThickness() / 2d, GBasicStroke.CAP_ROUND,
-								GBasicStroke.JOIN_ROUND);
-				GBasicStroke outline = AwtFactory.getPrototype()
-						.newBasicStroke(geo.getLineThickness() / 2d + 4, GBasicStroke.CAP_ROUND,
-								GBasicStroke.JOIN_ROUND);
-				GShape gp = d instanceof DrawLocus
-						? ((DrawLocus) d).getPath()
-						: ((DrawSegment) d).getLine();
-
-				GArea area = AwtFactory.getPrototype()
-						.newArea(outline.createStrokedShape(gp, 1000));
-				area.subtract(AwtFactory.getPrototype()
-						.newArea(current.createStrokedShape(gp, 1000)));
-
-				graphics.fill(area);
-			} else if (d != null) {
+			} else if (d != null && !drawAsBackground(d)) {
 				GRectangle2D bounds = d.getBoundsForStylebarPosition();
 				if (bounds != null) {
 					graphics.draw(bounds);
@@ -127,6 +120,22 @@ class User {
 		} else if (geos.size() > 1) {
 			graphics.draw(view.getEuclidianController().calculateBounds(geos));
 		}
+	}
+
+	private boolean drawAsBackground(Drawable d) {
+		return d instanceof DrawLocus || d instanceof DrawSegment;
+	}
+
+	private List<GeoElement> getHighlightedGeos(EuclidianView view) {
+		SelectionManager selection = view.getApplication().getSelectionManager();
+
+		Stream<String> startingStream = selectedGeos.isEmpty()
+				? updatedGeos.keySet().stream()
+				: selectedGeos.stream();
+		return startingStream
+				.map((label) -> view.getApplication().getKernel().lookupLabel(label))
+				.filter((geo) -> !selection.containsSelectedGeo(geo))
+				.collect(Collectors.toList());
 	}
 
 	private void showTooltipBy(AppW app, GeoElement geo) {

@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Dimension[&lt;Object>]
+ * Dimension[&lt;Object&gt;]
  * 
  * @author zbynek
  *

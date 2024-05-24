@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * Remove[ &lt;List>, &lt;List&gt; ]
+ * Remove[ &lt;List&gt;, &lt;List&gt; ]
  * 
  * @author Michael Borcherds
  * @version 2008-03-06

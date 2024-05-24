@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
-import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.math3.complex.Complex;
 import org.geogebra.common.kernel.Kernel;
@@ -264,15 +264,14 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * Yields true if this vector and v are linear dependent This is done by
-	 * calculating the determinant of this vector an v: this = v <=> det(this,
-	 * v) = nullvector.
+	 * calculating the determinant of this vector and v:
+	 * this = const * v &lt;=&gt; det(this, v) = zero vector.
 	 * 
 	 * @param v
 	 *            other vector
 	 * @return true if this is linear dependent on v
 	 */
 	public boolean linDep(GeoVec2D v) {
-		// v = l* w <=> det(v, w) = o
 		return DoubleUtil.isZero(det(this, v));
 	}
 
@@ -1115,8 +1114,8 @@ final public class GeoVec2D extends ValidExpression
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables(SymbolicMode symbolicMode) {
-		return null;
+	public void getVariables(Set<GeoElement> variables, SymbolicMode symbolicMode) {
+		// constant
 	}
 
 	@Override

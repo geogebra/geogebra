@@ -72,7 +72,7 @@ public class Util {
 
 	/**
 	 * Adds a button to the row created by
-	 * {@link ButtonFactory#createInputButton(String, String)}.
+	 * {@link ButtonFactory#createInputButton(String, String, String)}.
 	 */
 	public static void addInputButton(RowImpl row, ButtonFactory buttonFactory,
 			String name, String input, String altText) {

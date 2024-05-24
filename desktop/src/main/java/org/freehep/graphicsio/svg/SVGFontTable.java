@@ -18,9 +18,9 @@ import org.freehep.graphicsio.font.FontTable;
 /**
  * A table to remember which glyphs were used while writing a svg file. Entries
  * are added by calling {@link #addGlyphs(String, java.awt.Font)}. The final SVG
- * tag for the <defs> section is generated using {@link #toString()}. Use
+ * tag for the &lt;defs&gt; section is generated using {@link #toString()}. Use
  * {@link #normalize(java.util.Map)} for referencing embedded glyphs in
- * <text> tags.
+ * &lt;text&gt; tags.
  *
  * @author Steffen Greiffenberg
  * @version $Id: SVGFontTable.java,v 1.6 2009-11-11 17:05:23 hohenwarter Exp $
@@ -31,15 +31,7 @@ public class SVGFontTable {
 	 * Stores fonts and a glyph-hashtable. The font key ist normalized using
 	 * {@link #untransform(java.awt.Font)}
 	 */
-	private Hashtable/* <Font, Hashtable<String, SVGGlyph> */ glyphs = new Hashtable/*
-																					 * <Font,
-																					 * Hashtable
-																					 * <
-																					 * String
-																					 * SVGGlyph
-																					 * >
-																					 * >
-																					 */();
+	private Hashtable <Font, Hashtable<String, SVGGlyph>> glyphs = new Hashtable<>();
 
 	/**
 	 * creates a glyph for the string character
@@ -120,10 +112,10 @@ public class SVGFontTable {
 	 * creates the font entry:
 	 * 
 	 * <PRE>
-	 * <font>
-	 * <glyph ... />
+	 * &lt;font&gt;
+	 * &lt;glyph ... /&gt;
 	 * ...
-	 * </font>
+	 * &lt;/font&gt;
 	 * </PRE>
 	 *
 	 * @return string representing the entry
@@ -236,7 +228,7 @@ public class SVGFontTable {
 
 	/**
 	 * creates a font based on the parameter. The size will be
-	 * {@link SVGGlyph.FONT_SIZE} and transformation will be removed. Example:
+	 * {@link SVGGlyph#FONT_SIZE} and transformation will be removed. Example:
 	 * <BR>
 	 * <code>java.awt.Font[family=SansSerif,name=SansSerif,style=plain,size=30]</code>
 	 * <BR>

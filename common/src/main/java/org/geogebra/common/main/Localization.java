@@ -529,13 +529,11 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * 
-	 * 
-	 * only letters, numbers and _ allowed in label names check for other
+	 * Only letters, numbers and _ allowed in label names check for other
 	 * characters in the properties, and remove them
 	 * 
 	 * @param key
-	 *            eg "poly" -> "Name.poly" -> poly -> poly1 as a label
+	 *            eg "polygon" -&gt; "Name.polygon" -&gt; poly
 	 * @param fallback
 	 *            if properties not loaded
 	 * @return "poly" (the suffix is added later)

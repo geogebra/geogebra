@@ -114,7 +114,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				+ "when(evalf(subst(r,x=xcoord(b))-ycoord(b))==0,r,undef))))])[-1])"),
 
 		/**
-		 * test if "=" or "%=" or ">" or ">=" - needed for eg
+		 * test if "=" or "%=" or "&gt;" or "&gt;=" - needed for eg
 		 * LeftSide({a,b}={1,2})
 		 */
 		GGB_IS_GREATER_OR_GREATER_THAN_OR_EQUALS("ggb_is_gt_or_ge_or_equals", "ggb_is_gt_or_ge_or_equals(a):=when(a=='>'||a=='>='||a==equal||a=='%=',true,false)"),
@@ -473,14 +473,10 @@ public abstract class CASgiac implements CASGenericInterface {
 	// eg {(ggbtmpvarx>(-sqrt(110)/5)) && ((sqrt(110)/5)>ggbtmpvarx)}
 	// eg {(ggbtmpvarx>=(-sqrt(110)/5)) && ((sqrt(110)/5)>=ggbtmpvarx)}
 	// eg (ggbtmpvarx>3) && (4>ggbtmpvarx)
-	// private final static RegExp inequality =
-	// RegExp.compile("(.*)\\((ggbtmpvar[^,}\\(\\)]+)>(=*)(.+)\\) &&
-	// \\((.+)>(=*)(ggbtmpvar[^,}\\(\\)]+)\\)(.*)");
-	// works only for variables in form [A-Za-z]+
 	/** expression with at most 3 levels of brackets */
 	public final static String expression = "(([^\\(\\)]|\\([^\\(\\)]+\\)|\\(([^\\(\\)]|\\([^\\(\\)]+\\))+\\))+)";
 	/**
-	 * inequality a >=? ex1 && ex1 >=? b where a,b are literals and ex1, ex2 are
+	 * inequality a &gt;=? ex1 &amp;&amp; ex2 &gt;=? b where a,b are literals and ex1, ex2 are
 	 * expressions with at most 3 brackets
 	 */
 	public final static RegExp inequality = RegExp
@@ -1276,11 +1272,11 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	/**
-	 * convert x>3 && x<7 into 3<x<7 convert 3>x into x<3 convert {3>x} into
-	 * {x<3} eg output from Solve[x (x-1)(x-2)(x-3)(x-4)(x-5) < 0]
+	 * convert x&gt;3 &amp;&amp; x&lt;7 into 3&lt;x&lt;7, convert 3&gt;x into x&lt;3,
+	 * convert {3&gt;x} into {x&lt;3} eg output from Solve[x (x-1)(x-2)(x-3)(x-4)(x-5) &lt; 0]
 	 * 
-	 * Giac's normal command converts inequalities to > or >= so we don't need
-	 * to check <, <=
+	 * Giac's normal command converts inequalities to &gt; or &gt;= so we don't need
+	 * to check &lt;, &lt;=
 	 * 
 	 * @param exp
 	 *            expression
@@ -1294,10 +1290,6 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		// swap 3>x into x<3
 		if (matcher != null && exp.startsWith(matcher.getGroup(1))) {
-			// Log.debug(matcher.getGroup(1));
-			// Log.debug(matcher.getGroup(2));
-			// Log.debug(matcher.getGroup(3));
-			// Log.debug(matcher.getGroup(4));
 			ret = matcher.getGroup(3) + "<" + matcher.getGroup(2)
 					+ matcher.getGroup(1);
 			Log.debug("giac output (with simple inequality converted): " + ret);

@@ -109,7 +109,7 @@ public class PathNormalizer {
 	}
 
 	/**
-	 * Function t: (-1, 1) -> (-inf, +inf)
+	 * Function t: (-1, 1) -&gt; (-inf, +inf)
 	 * 
 	 * @param t
 	 *            parameter from (-1,1)
@@ -120,7 +120,7 @@ public class PathNormalizer {
 	}
 
 	/**
-	 * Function z: (-inf, +inf) -> (-1, 1)
+	 * Function z: (-inf, +inf) -&gt; (-1, 1)
 	 * 
 	 * @param z
 	 *            arbitrary parameter

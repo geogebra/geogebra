@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic3D;
 
-import java.util.HashSet;
+import java.util.Set;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -232,20 +232,10 @@ public class MyVec3DNode extends ValidExpression
 
 	/** returns all GeoElement objects all coordinate subtrees */
 	@Override
-	public HashSet<GeoElement> getVariables(SymbolicMode symbolicMode) {
-		HashSet<GeoElement> temp, varset = x.getVariables(symbolicMode);
-		if (varset == null) {
-			varset = new HashSet<>();
-		}
-		temp = y.getVariables(symbolicMode);
-		if (temp != null) {
-			varset.addAll(temp);
-		}
-		temp = z.getVariables(symbolicMode);
-		if (temp != null) {
-			varset.addAll(temp);
-		}
-		return varset;
+	public void getVariables(Set<GeoElement> variables, SymbolicMode symbolicMode) {
+		x.getVariables(variables, symbolicMode);
+		y.getVariables(variables, symbolicMode);
+		z.getVariables(variables, symbolicMode);
 	}
 
 	/**
