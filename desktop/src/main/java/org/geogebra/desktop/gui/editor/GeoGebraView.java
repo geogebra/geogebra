@@ -22,6 +22,7 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.font.FontRenderContext;
+import java.awt.font.LineMetrics;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
@@ -34,6 +35,8 @@ import javax.swing.text.Position;
 import javax.swing.text.Segment;
 import javax.swing.text.Utilities;
 import javax.swing.text.WrappedPlainView;
+
+import org.geogebra.common.util.debug.Log;
 
 /**
  *
@@ -62,30 +65,19 @@ public class GeoGebraView extends WrappedPlainView {
 	 */
 	public static final int TABCHARACTER = 3;
 
-	/**
-	 * A tabulation can be rendered with nothing.
-	 */
-	public static final int TABNOTHING = 4;
-
 	private static final String DESKTOPHINTS = "awt.font.desktophints";
 
-	private ViewContext context;
-	private Lexer lexer;
-	private Document doc;
-	private Segment text = new Segment();
-	private boolean isTabViewable = true;
-	private boolean isWhiteViewable = true;
-	private boolean enable = true;
+	private final ViewContext context;
+	private final Lexer lexer;
+	private final Document doc;
+	private final Segment text = new Segment();
 
 	private int tabType;
-	private String tabCharacter = " ";
 
-	private final Rectangle rect = new Rectangle();
-	private Map desktopFontHints;
+	private Map<?, ?> desktopFontHints;
 	private boolean enableDesktopFontHints = true;
 
 	private int whiteHeight;
-	private int whiteWidth;
 
 	private boolean unselected = true;
 
@@ -107,33 +99,6 @@ public class GeoGebraView extends WrappedPlainView {
 		this.doc = getDocument();
 		lexer.setDocument(doc);
 		setTabRepresentation(TABVERTICAL);
-	}
-
-	/**
-	 * A tabulation can be drawn with a mark
-	 * 
-	 * @param b
-	 *            true if viewable or not
-	 */
-	public void setTabViewable(boolean b) {
-		isTabViewable = b;
-	}
-
-	/**
-	 * A white can be drawn with a mark
-	 * 
-	 * @param b
-	 *            true if viewable or not
-	 */
-	public void setWhiteViewable(boolean b) {
-		isWhiteViewable = b;
-	}
-
-	/**
-	 * @return the width of a white
-	 */
-	public int getWhiteWidth() {
-		return whiteWidth;
 	}
 
 	/**
@@ -165,30 +130,6 @@ public class GeoGebraView extends WrappedPlainView {
 	}
 
 	/**
-	 * A trick to easily determine the y-coordinate of a the line n
-	 * 
-	 * @param n
-	 *            the line number
-	 * @return the y-coordinate of the line
-	 */
-	public int getLineAllocation(int n) {
-		rect.setLocation(0, 4); // Why 4 ?? Because it works with 4 !
-		try {
-			childAllocation(n, rect);
-		} catch (ArrayIndexOutOfBoundsException e) {
-		}
-		return rect.y;
-	}
-
-	/**
-	 * Used when the font is changed in the pane
-	 */
-	public void reinitialize() {
-		desktopFontHints = null;
-		enableDesktopFontHints = true;
-	}
-
-	/**
 	 * Very important method since we draw the text in this method !!
 	 * 
 	 * @param g
@@ -206,27 +147,23 @@ public class GeoGebraView extends WrappedPlainView {
 	 *             if p0 and p1 are bad positions in the text
 	 */
 	@Override
-	protected int drawUnselectedText(Graphics g, int sx, int sy, int p0, int p1)
+	protected float drawUnselectedText(Graphics2D g, float sx, float sy, int p0, int p1)
 			throws BadLocationException {
-		if (!enable) {
-			return super.drawUnselectedText(g, sx, sy, p0, p1);
-		}
-
 		if (enableDesktopFontHints && desktopFontHints == null) {
 			/*
 			 * This hint is used to have antialiased fonts in the view in using
 			 * the same method (differents way to antialias with LCD screen) as
 			 * the desktop.
 			 */
-			desktopFontHints = (Map) Toolkit.getDefaultToolkit()
+			desktopFontHints = (Map<?, ?>) Toolkit.getDefaultToolkit()
 					.getDesktopProperty(DESKTOPHINTS);
-			calculateHeight(((Graphics2D) g).getFontRenderContext(),
+			calculateHeight(g.getFontRenderContext(),
 					context.tokenFont);
 			enableDesktopFontHints = desktopFontHints != null;
 		}
 
 		if (enableDesktopFontHints) {
-			((Graphics2D) g).addRenderingHints(desktopFontHints);
+			g.addRenderingHints(desktopFontHints);
 		}
 
 		g.setFont(context.tokenFont);
@@ -245,8 +182,8 @@ public class GeoGebraView extends WrappedPlainView {
 		int tok = -1;
 		int mark = p0;
 		int start = p0;
-		int x = sx;
-		int y = sy;
+		float x = sx;
+		float y = sy;
 		boolean isBroken = false;
 
 		int startL = line.getStartOffset();
@@ -262,6 +199,7 @@ public class GeoGebraView extends WrappedPlainView {
 				}
 				isBroken = true;
 			} catch (IOException e) {
+				Log.debug(e.getMessage());
 			}
 		}
 
@@ -277,6 +215,7 @@ public class GeoGebraView extends WrappedPlainView {
 					isBroken = false;
 				}
 			} catch (IOException e) {
+				Log.debug(e.getMessage());
 			}
 
 			start = lexer.start + lexer.yychar();
@@ -294,18 +233,18 @@ public class GeoGebraView extends WrappedPlainView {
 
 				doc.getText(mark, end - mark, text);
 
-				int w;
+				float w;
 
 				if ((context.tokenAttrib[tok] & 1) != 0) {
 					w = Utilities.getTabbedTextWidth(text, g.getFontMetrics(),
 							x, this, mark);
-					g.drawLine(x, y + 1, x + w, y + 1);
+					drawLine(g, x, y + 1, x + w, y + 1);
 				}
 
 				if ((context.tokenAttrib[tok] & 2) != 0) {
 					w = Utilities.getTabbedTextWidth(text, g.getFontMetrics(),
 							x, this, mark);
-					g.drawLine(x, y - whiteHeight, x + w, y - whiteHeight);
+					drawLine(g, x, y - whiteHeight, x + w, y - whiteHeight);
 				}
 
 				/*
@@ -319,26 +258,22 @@ public class GeoGebraView extends WrappedPlainView {
 
 				switch (tok) {
 				case LexerConstants.WHITE:
-					if (isWhiteViewable) {
-						w = Utilities.getTabbedTextWidth(text,
-								g.getFontMetrics(), x, this, mark);
-						g.drawLine(x + (w - 1) / 2, y - whiteHeight,
-								x + (w + 1) / 2, y - whiteHeight);
-					}
+					w = Utilities.getTabbedTextWidth(text,
+							g.getFontMetrics(), x, this, mark);
+					drawLine(g, x + (w - 1) / 2, y - whiteHeight,
+							x + (w + 1) / 2, y - whiteHeight);
 					break;
 				case LexerConstants.TAB:
-					if (isTabViewable) {
-						paintTab(text, x, y, g, mark);
-					}
+					paintTab(text, x, y, g, mark);
 					break;
 				case LexerConstants.UNKNOWN:
 					w = Utilities.getTabbedTextWidth(text, g.getFontMetrics(),
 							x, this, mark);
 					for (int i = 0; i < w; i += 4) {
-						g.drawLine(x + i, y + 2, x + i + 1, y + 2);
+						drawLine(g, x + i, y + 2, x + i + 1, y + 2);
 					}
 					for (int i = 2; i < w; i += 4) {
-						g.drawLine(x + i, y + 1, x + i + 1, y + 1);
+						drawLine(g, x + i, y + 1, x + i + 1, y + 1);
 					}
 					break;
 				default:
@@ -353,6 +288,10 @@ public class GeoGebraView extends WrappedPlainView {
 		}
 
 		return x;
+	}
+
+	private void drawLine(Graphics2D g, float x1, float y1, float x2, float y2) {
+		g.drawLine((int) x1, (int) y1, (int) x2, (int) y2);
 	}
 
 	/**
@@ -373,10 +312,10 @@ public class GeoGebraView extends WrappedPlainView {
 	 *             if p0 and p1 are bad positions in the text
 	 */
 	@Override
-	protected int drawSelectedText(Graphics g, int x, int y, int p0, int p1)
+	protected float drawSelectedText(Graphics2D g, float x, float y, int p0, int p1)
 			throws BadLocationException {
 		unselected = false;
-		int z = drawUnselectedText(g, x, y, p0, p1);
+		float z = drawUnselectedText(g, x, y, p0, p1);
 		unselected = true;
 		return z;
 	}
@@ -394,18 +333,6 @@ public class GeoGebraView extends WrappedPlainView {
 	}
 
 	/**
-	 * Used to represent a tabulation with the given character ('|' or '#'
-	 * or...)
-	 * 
-	 * @param rep
-	 *            the char representing a tab
-	 */
-	public void setTabRepresentation(char rep) {
-		setTabRepresentation(TABCHARACTER);
-		this.tabCharacter = Character.toString(rep);
-	}
-
-	/**
 	 * Method to paint a tabulation according to the setTabRepresentation.
 	 * 
 	 * @param text
@@ -419,18 +346,19 @@ public class GeoGebraView extends WrappedPlainView {
 	 * @param start
 	 *            the position in the document
 	 */
-	protected void paintTab(Segment text, int x, int y, Graphics g, int start) {
+	protected void paintTab(Segment text, float x, float y, Graphics2D g, int start) {
 		FontMetrics fm = g.getFontMetrics();
-		int w = Utilities.getTabbedTextWidth(text, fm, x, this, start);
+		float w = Utilities.getTabbedTextWidth(text, fm, x, this, start);
+		String tabCharacter = " ";
 		switch (tabType) {
 		case TABVERTICAL:
-			g.drawLine(x, y + 4, x, y + 4 - fm.getHeight());
+			drawLine(g, x, y + 4, x, y + 4 - fm.getHeight());
 			break;
 		case TABDOUBLECHEVRONS:
 			g.drawString("\u00BB", x, y);
 			break;
 		case TABHORIZONTAL:
-			g.drawLine(x, y - whiteHeight, x + w - 1, y - whiteHeight);
+			drawLine(g, x, y - whiteHeight, x + w - 1, y - whiteHeight);
 			break;
 		case TABCHARACTER:
 			g.drawString(tabCharacter, x, y);
@@ -440,7 +368,7 @@ public class GeoGebraView extends WrappedPlainView {
 	}
 
 	/**
-	 * Determinates the height of a '+' to have the vertical shift to draw a
+	 * Determines the height of a '+' to have the vertical shift to draw a
 	 * line which strokes the text or to draw the mark let by a white.
 	 * 
 	 * @param frc
@@ -452,8 +380,5 @@ public class GeoGebraView extends WrappedPlainView {
 		TextLayout layout = new TextLayout("+", f, frc);
 		Rectangle2D rectangle = layout.getBounds();
 		whiteHeight = (int) Math.round(-rectangle.getY() / 2);
-		layout = new TextLayout("w", f, frc);
-		rectangle = layout.getBounds();
-		whiteWidth = (int) Math.round(rectangle.getWidth());
 	}
 }

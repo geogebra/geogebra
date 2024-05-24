@@ -64,27 +64,26 @@ public abstract class CommandDispatcher implements Restrictable {
 	 * terribly bad idea!
 	 **/
 	protected HashMap<String, CommandProcessor> cmdTable;
-	/** Similar to cmdTable, but for CAS */
 
-	/** dispatcher for discrete math */
-	protected static CommandDispatcherInterface discreteDispatcher = null;
-	/** dispatcher for scripting commands */
-	protected static CommandDispatcherInterface scriptingDispatcher = null;
-	/** dispatcher for CAS commands */
-	protected static CommandDispatcherInterface casDispatcher = null;
-	/** dispatcher for advanced commands */
-	protected static CommandDispatcherInterface advancedDispatcher = null;
-	/** dispatcher for stats commands */
-	protected static CommandDispatcherInterface statsDispatcher = null;
-	/** disptcher for prover commands */
-	protected static CommandDispatcherInterface proverDispatcher = null;
+	/** factory for discrete math command processors*/
+	protected static CommandProcessorFactory discreteFactory = null;
+	/** factory for scripting command processors */
+	protected static CommandProcessorFactory scriptingFactory = null;
+	/** factory for CAS command processors */
+	protected static CommandProcessorFactory casFactory = null;
+	/** factory for advanced command processors */
+	protected static CommandProcessorFactory advancedFactory = null;
+	/** factory for stats command processors */
+	protected static CommandProcessorFactory statsFactory = null;
+	/** factory for prover command processors */
+	protected static CommandProcessorFactory proverFactory = null;
 
-	private CommandDispatcherBasic basicDispatcher = null;
+	protected CommandProcessorFactory basicFactory = null;
 
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
 	private MacroProcessor macroProc;
-	private List<CommandFilter> commandFilters = new ArrayList<>();
-	private List<CommandArgumentFilter> commandArgumentFilters = new ArrayList<>();
+	private final List<CommandFilter> commandFilters = new ArrayList<>();
+	private final List<CommandArgumentFilter> commandArgumentFilters = new ArrayList<>();
 
 	/** number of visible tables */
 	public static final int tableCount = 20;
@@ -406,11 +405,12 @@ public abstract class CommandDispatcher implements Restrictable {
 			case RunUpdateScript:
 			case SetImage:
 				// case DensityPlot:
-				return getScriptingDispatcher().dispatch(command, kernel);
+				return getScriptingCommandProcessorFactory().getProcessor(command, kernel);
 
 			// advanced
 			case IntersectPath:
-			case IntersectRegion:
+			case IntersectionPaths: // deprecated
+			case IntersectRegion: // deprecated
 			case IsVertexForm:
 			case Difference:
 
@@ -516,7 +516,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case FutureValue:
 			case PresentValue:
 			case SVD:
-				return getAdvancedDispatcher().dispatch(command, kernel);
+				return getAdvancedCommandProcessorFactory().getProcessor(command, kernel);
 
 			// prover
 			case Prove:
@@ -531,7 +531,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case IsTangent:
 			case LocusEquation:
 			case Envelope:
-				return getProverDispatcher().dispatch(command, kernel);
+				return getProverCommandProcessorFactory().getProcessor(command, kernel);
 
 			// basic
 
@@ -683,7 +683,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case Textfield:
 			case Normalize:
 			case ExportImage:
-				return getBasicDispatcher().dispatch(command, kernel);
+				return getBasicCommandProcessorFactory().getProcessor(command, kernel);
 
 			case CFactor:
 			case CIFactor:
@@ -861,7 +861,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case BarChart:
 			case LineGraph:
 			case PieChart:
-				return getStatsDispatcher().dispatch(command, kernel);
+				return getStatsCommandProcessorFactory().getProcessor(command, kernel);
 
 			case TriangleCenter:
 			case Barycenter:
@@ -875,7 +875,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case DelauneyTriangulation:
 			case TravelingSalesman:
 			case ShortestDistance:
-				return getDiscreteDispatcher().dispatch(command, kernel);
+				return getDiscreteCommandProcessorFactory().getProcessor(command, kernel);
 			case NSolve:
 			case Solve:
 			case Solutions:
@@ -907,7 +907,41 @@ public abstract class CommandDispatcher implements Restrictable {
 			case NextPrime:
 			case PreviousPrime:
 			case CompleteSquare:
-				return getCASDispatcher().dispatch(command, kernel);
+				return getCASCommandProcessorFactory().getProcessor(command, kernel);
+			case Plane:
+			case PerpendicularPlane:
+			case OrthogonalPlane:
+			case PlaneBisector:
+			case Prism:
+			case Pyramid:
+			case Tetrahedron:
+			case Cube:
+			case Octahedron:
+			case Dodecahedron:
+			case Icosahedron:
+			case Polyhedron:
+			case Net:
+			case Sphere:
+			case Cone:
+			case InfiniteCone:
+			case ConeInfinite:
+			case Cylinder:
+			case InfiniteCylinder:
+			case CylinderInfinite:
+			case Side:
+			case QuadricSide:
+			case Bottom:
+			case Top:
+			case Ends:
+			case Volume:
+			case Height:
+			case SetSpinSpeed:
+			case SetViewDirection:
+			case ClosestPointRegion:
+			case CornerThreeD:
+			case IntersectConic:
+			case IntersectCircle:
+				return getSpatialCommandProcessorFactory().getProcessor(command, kernel);
 			default:
 				Log.error("missing case in CommandDispatcher " + cmdName);
 				return null;
@@ -918,37 +952,37 @@ public abstract class CommandDispatcher implements Restrictable {
 		return null;
 	}
 
-	/** @return dispatcher for stats commands */
-	public abstract CommandDispatcherInterface getStatsDispatcher();
+	/** @return factory for stats command processors */
+	public abstract CommandProcessorFactory getStatsCommandProcessorFactory();
 
-	/** @return dispatcher for discrete math */
-	public abstract CommandDispatcherInterface getDiscreteDispatcher();
+	/** @return factory for discrete math command processors */
+	public abstract CommandProcessorFactory getDiscreteCommandProcessorFactory();
 
-	/** @return dispatcher for CAS commands */
-	public abstract CommandDispatcherInterface getCASDispatcher();
+	/** @return factory for CAS command processors */
+	public abstract CommandProcessorFactory getCASCommandProcessorFactory();
 
-	/** @return dispatcher for scripting commands */
-	public abstract CommandDispatcherInterface getScriptingDispatcher();
+	/** @return factory for scripting command processors */
+	public abstract CommandProcessorFactory getScriptingCommandProcessorFactory();
 
-	/** @return dispatcher for advanced commands */
-	public abstract CommandDispatcherInterface getAdvancedDispatcher();
+	/** @return factory for advanced command processors */
+	public abstract CommandProcessorFactory getAdvancedCommandProcessorFactory();
 
-	/** @return dispatcher for prover commands */
-	public abstract CommandDispatcherInterface getProverDispatcher();
+	/** @return factory for prover command processors */
+	public abstract CommandProcessorFactory getProverCommandProcessorFactory();
 
-	/** @return dispatcher for 3D commands */
-	public CommandDispatcherInterface get3DDispatcher() {
+	/** @return factory for 3D command processors */
+	public CommandProcessorFactory getSpatialCommandProcessorFactory() {
 		return null;
 	}
 
 	/**
-	 * @return dispatcher for basic commands
+	 * @return factory for basic command processors
 	 */
-	protected CommandDispatcherBasic getBasicDispatcher() {
-		if (basicDispatcher == null) {
-			basicDispatcher = new CommandDispatcherBasic();
+	protected CommandProcessorFactory getBasicCommandProcessorFactory() {
+		if (basicFactory == null) {
+			basicFactory = new BasicCommandProcessorFactory();
 		}
-		return basicDispatcher;
+		return basicFactory;
 	}
 
 	/**

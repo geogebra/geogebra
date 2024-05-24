@@ -180,6 +180,7 @@ public class DataImporterTests extends BaseUnitTest implements DataImporterDeleg
 		assertEquals(1.1, tableValuesView.getTableValuesModel().getValueAt(0, 1), 0.0);
 		assertEquals(2.2, tableValuesView.getTableValuesModel().getValueAt(1, 1), 0.0);
 		assertEquals(3.3, tableValuesView.getTableValuesModel().getValueAt(2, 1), 0.0);
+		assertEquals(1.23e+7, tableValuesView.getTableValuesModel().getValueAt(9, 1), 0.0);
 	}
 
 	@Test

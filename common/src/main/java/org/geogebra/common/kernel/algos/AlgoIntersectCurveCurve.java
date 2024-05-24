@@ -373,7 +373,16 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectCoordSysCurve
 				&& DoubleUtil.isGreaterEqual(curve.getMaxParameter(), p1)
 				&& DoubleUtil.isGreaterEqual(p2, curve2.getMinParameter())
 				&& DoubleUtil.isGreaterEqual(curve2.getMaxParameter(), p2)) {
-			updatePoint(point, p1, curve.getFun(0).getFunctionVariable());
+			FunctionVariable fv = curve.getFun(0).getFunctionVariable();
+
+			ExpressionNode xFun = curve.getFun(0).getExpression();
+			ExpressionNode yFun = curve.getFun(1).getExpression();
+			double z = 0;
+			fv.set(p1);
+			if (curve.getDimension() > 2) {
+				z = curve.getFun(2).getExpression().evaluateDouble();
+			}
+			point.setCoords(xFun.evaluateDouble(), yFun.evaluateDouble(), z, 1.0);
 			// for symbolic all 3 coords are checked by the CAS
 			if (numeric && !onCurve2(point, p2)) {
 				point.setUndefined();

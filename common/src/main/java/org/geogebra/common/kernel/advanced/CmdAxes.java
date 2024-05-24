@@ -1,13 +1,10 @@
 package org.geogebra.common.kernel.advanced;
 
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.algos.AlgoAxes;
 import org.geogebra.common.kernel.algos.AlgoAxesQuadricND;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.MyError;
@@ -38,9 +35,8 @@ public class CmdAxes extends CommandProcessor {
 
 			// asymptotes to conic/quadric
 			if (arg[0] instanceof GeoQuadricND) {
-
-				AlgoAxesQuadricND algo = axesConic(cons, c.getLabels(),
-						(GeoQuadricND) arg[0]);
+				AlgoAxesQuadricND algo = kernel.getAlgoDispatcher().axesConic((GeoQuadricND) arg[0],
+						c.getLabels());
 				return (GeoElement[]) algo.getAxes();
 
 			}
@@ -49,22 +45,5 @@ public class CmdAxes extends CommandProcessor {
 		default:
 			throw argNumErr(c);
 		}
-	}
-
-	/**
-	 * 
-	 * @param cons1
-	 *            construction
-	 * @param labels
-	 *            labels
-	 * @param c
-	 *            conic
-	 * @return axes algo
-	 */
-	protected AlgoAxesQuadricND axesConic(Construction cons1, String[] labels,
-			GeoQuadricND c) {
-
-		return new AlgoAxes(cons1, labels, (GeoConic) c);
-
 	}
 }

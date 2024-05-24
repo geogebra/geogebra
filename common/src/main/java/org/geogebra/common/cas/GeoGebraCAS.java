@@ -308,7 +308,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			MyList listOfEqus = (MyList) args.get(0).getLeft();
 			for (int i = 0; i < listOfEqus.size(); i++) {
 				// get variables of current equation
-				HashSet<GeoElement> varsInCurrEqu = listOfEqus.getListElement(i)
+				Set<GeoElement> varsInCurrEqu = listOfEqus.getListElement(i)
 						.getVariables(symbolicMode);
 				// add to set of vars form equations
 				for (GeoElement geo : varsInCurrEqu) {
@@ -343,7 +343,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				ValidExpression node = app.getKernel().getConstruction()
 						.geoCeListLookup(str);
 				// get variables of obtained equation
-				HashSet<GeoElement> varsFromEquOfCurrVars = node == null
+				Set<GeoElement> varsFromEquOfCurrVars = node == null
 						? new HashSet<>()
 						: node.getVariables(symbolicMode);
 				HashSet<String> stringVarsFromEquOfCurrVars = new HashSet<>(
@@ -450,7 +450,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				GeoDummyVariable var = (GeoDummyVariable) args.get(1).unwrap();
 				for (int k = 0; k < listOfEqus.size(); k++) {
 					// get current equation
-					HashSet<GeoElement> varsInEqu = listOfEqus.getListElement(k)
+					Set<GeoElement> varsInEqu = listOfEqus.getListElement(k)
 							.getVariables(symbolicMode);
 					Iterator<GeoElement> it = varsInEqu.iterator();
 					boolean contains = false;
@@ -961,7 +961,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				.getLeft() instanceof Equation) {
 			Equation equation = (Equation) ((ExpressionNode) listElement)
 					.getLeft();
-			HashSet<GeoElement> vars = equation
+			Set<GeoElement> vars = equation
 					.getVariables(mode);
 			equation.initEquation();
 			// assume can accept only equation in first degree and with one
@@ -1049,12 +1049,21 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			ExpressionValue expression, MyList listOfVariables) {
 		ValidExpression validExpression =
 				expression instanceof ValidExpression ? (ValidExpression) expression : null;
-		HashSet<GeoElement> variablesInExpression =
+
+		Set<GeoElement> variablesInExpression =
 				expression.getVariables(SymbolicMode.SYMBOLIC);
+		HashSet<GeoElement> expanded = new HashSet<>();
+		for (GeoElement geo: variablesInExpression) {
+			if (geo instanceof GeoSymbolic && geo.getDefinition() != null) {
+				geo.getDefinition().getVariables(expanded, SymbolicMode.SYMBOLIC);
+			} else {
+				expanded.add(geo);
+			}
+		}
 		for (int i = 0; i < listOfVariables.size(); i++) {
 			String labelOfVariableFromList = getLabel(listOfVariables.getListElement(i));
 			if (containsFunctionVariable(validExpression, labelOfVariableFromList)
-					|| containsVariable(variablesInExpression, labelOfVariableFromList)) {
+					|| containsVariable(expanded, labelOfVariableFromList)) {
 				return true;
 			}
 		}

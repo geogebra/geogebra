@@ -1,24 +1,24 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
+import org.geogebra.common.geogebra3D.kernel3D.scripting.CmdSetSpinSpeed;
+import org.geogebra.common.geogebra3D.kernel3D.scripting.CmdSetViewDirection;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.CommandProcessorFactory;
 import org.geogebra.common.kernel.commands.Commands;
 
 /**
- * class to split off some CmdXXX classes into another jar (for faster applet
- * loading)
- *
+ * Factory for command processors that are only relevant in 3D
  */
-public class CommandDispatcherCommands3D implements CommandDispatcherInterface {
+public class SpatialCommandProcessorFactory implements CommandProcessorFactory {
 	@Override
-	public CommandProcessor dispatch(Commands c, Kernel kernel) {
+	public CommandProcessor getProcessor(Commands command, Kernel kernel) {
 
 		if (!kernel.getApplication().areCommands3DEnabled()) {
 			return null;
 		}
 
-		switch (c) {
+		switch (command) {
 			case Plane:
 				return new CmdPlane(kernel);
 			// English for scripting
@@ -75,7 +75,22 @@ public class CommandDispatcherCommands3D implements CommandDispatcherInterface {
 				return new CmdTop(kernel);
 			case Ends:
 				return new CmdEnds(kernel);
+			case Volume:
+				return new CmdVolume(kernel);
+			case Height:
+				return new CmdHeight(kernel);
+			case SetViewDirection:
+				return new CmdSetViewDirection(kernel);
 
+			case SetSpinSpeed:
+				return new CmdSetSpinSpeed(kernel);
+			case ClosestPointRegion:
+				return new CmdClosestPointRegion(kernel);
+			case IntersectCircle:
+			case IntersectConic:
+				return new CmdIntersectConic(kernel);
+			case CornerThreeD:
+				return new CmdVertexForce3D(kernel);
 			default:
 				break;
 		}

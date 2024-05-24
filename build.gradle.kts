@@ -14,15 +14,3 @@ subprojects {
         }
     }
 }
-
-// https://gist.github.com/mashimom/891a55878eda510d316e
-if (JavaVersion.current().isJava8Compatible) {
-    allprojects {
-        tasks.withType<Javadoc>().configureEach {
-            (options as? StandardJavadocDocletOptions)?.apply {
-                addStringOption("Xdoclint:none", "-quiet")
-                addStringOption("tag", "example:X")
-            }
-        }
-    }
-}

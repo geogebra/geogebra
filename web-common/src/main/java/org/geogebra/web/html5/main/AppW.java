@@ -31,7 +31,6 @@ import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
-import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.HasLastItem;
@@ -1419,11 +1418,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public CommandDispatcherW newCommandDispatcher(Kernel cmdKernel) {
 		return new CommandDispatcherW(cmdKernel);
-	}
-
-	@Override
-	public CommandDispatcher3D newCommand3DDispatcher(Kernel cmdKernel) {
-		return null;
 	}
 
 	/**

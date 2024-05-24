@@ -1,15 +1,19 @@
 package org.geogebra.common.jre.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.commands.AdvancedCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.CASCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
-import org.geogebra.common.kernel.commands.CommandDispatcherAdvanced;
-import org.geogebra.common.kernel.commands.CommandDispatcherCAS;
-import org.geogebra.common.kernel.commands.CommandDispatcherDiscrete;
-import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
-import org.geogebra.common.kernel.commands.CommandDispatcherProver;
-import org.geogebra.common.kernel.commands.CommandDispatcherScripting;
-import org.geogebra.common.kernel.commands.CommandDispatcherStats;
+import org.geogebra.common.kernel.commands.CommandProcessorFactory;
+import org.geogebra.common.kernel.commands.DiscreteCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.ProverCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.ScriptingCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.StatsCommandProcessorFactory;
 
+/**
+ * Command dispatcher that creates command processors (via factories)
+ * synchronously. Does not support 3D specific commands.
+ */
 public class CommandDispatcherJre extends CommandDispatcher {
 
 	public CommandDispatcherJre(Kernel kernel) {
@@ -17,50 +21,50 @@ public class CommandDispatcherJre extends CommandDispatcher {
 	}
 
 	@Override
-	public CommandDispatcherInterface getStatsDispatcher() {
-		if (statsDispatcher == null) {
-			statsDispatcher = new CommandDispatcherStats();
+	public CommandProcessorFactory getStatsCommandProcessorFactory() {
+		if (statsFactory == null) {
+			statsFactory = new StatsCommandProcessorFactory();
 		}
-		return statsDispatcher;
+		return statsFactory;
 	}
 
 	@Override
-	public CommandDispatcherInterface getDiscreteDispatcher() {
-		if (discreteDispatcher == null) {
-			discreteDispatcher = new CommandDispatcherDiscrete();
+	public CommandProcessorFactory getDiscreteCommandProcessorFactory() {
+		if (discreteFactory == null) {
+			discreteFactory = new DiscreteCommandProcessorFactory();
 		}
-		return discreteDispatcher;
+		return discreteFactory;
 	}
 
 	@Override
-	public CommandDispatcherInterface getCASDispatcher() {
-		if (casDispatcher == null) {
-			casDispatcher = new CommandDispatcherCAS();
+	public CommandProcessorFactory getCASCommandProcessorFactory() {
+		if (casFactory == null) {
+			casFactory = new CASCommandProcessorFactory();
 		}
-		return casDispatcher;
+		return casFactory;
 	}
 
 	@Override
-	public CommandDispatcherInterface getScriptingDispatcher() {
-		if (scriptingDispatcher == null) {
-			scriptingDispatcher = new CommandDispatcherScripting();
+	public CommandProcessorFactory getScriptingCommandProcessorFactory() {
+		if (scriptingFactory == null) {
+			scriptingFactory = new ScriptingCommandProcessorFactory();
 		}
-		return scriptingDispatcher;
+		return scriptingFactory;
 	}
 
 	@Override
-	public CommandDispatcherInterface getAdvancedDispatcher() {
-		if (advancedDispatcher == null) {
-			advancedDispatcher = new CommandDispatcherAdvanced();
+	public CommandProcessorFactory getAdvancedCommandProcessorFactory() {
+		if (advancedFactory == null) {
+			advancedFactory = new AdvancedCommandProcessorFactory();
 		}
-		return advancedDispatcher;
+		return advancedFactory;
 	}
 
 	@Override
-	public CommandDispatcherInterface getProverDispatcher() {
-		if (proverDispatcher == null) {
-			proverDispatcher = new CommandDispatcherProver();
+	public CommandProcessorFactory getProverCommandProcessorFactory() {
+		if (proverFactory == null) {
+			proverFactory = new ProverCommandProcessorFactory();
 		}
-		return proverDispatcher;
+		return proverFactory;
 	}
 }

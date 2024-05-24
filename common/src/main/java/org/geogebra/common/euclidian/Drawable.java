@@ -1030,4 +1030,12 @@ public abstract class Drawable extends DrawableND {
 			view.drawTrace(this);
 		}
 	}
+
+	/**
+	 * Draw this to graphics if this is a stroke shape, do nothing otherwise
+	 * @param graphics target graphics
+	 */
+	public void drawStroke(GGraphics2D graphics) {
+		// implemented for segments and loci only
+	}
 }

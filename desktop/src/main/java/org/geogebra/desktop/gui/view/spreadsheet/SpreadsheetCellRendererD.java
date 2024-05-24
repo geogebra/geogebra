@@ -191,14 +191,15 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 		// ===============================================
 		String text = null;
 		if (!geo.isEmptySpreadsheetCell()) {
+			StringTemplate template = StringTemplate.defaultTemplate.deriveWithFractions(false);
 			if (geo.isIndependent()) {
-				text = geo.toValueString(StringTemplate.defaultTemplate);
+				text = geo.toValueString(template);
 			} else {
 
 				switch (kernel.getAlgebraStyleSpreadsheet()) {
 				default:
 				case Kernel.ALGEBRA_STYLE_VALUE:
-					text = geo.toValueString(StringTemplate.defaultTemplate);
+					text = geo.toValueString(template);
 					break;
 
 				case Kernel.ALGEBRA_STYLE_DESCRIPTION:
@@ -206,7 +207,7 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 					IndexHTMLBuilder
 							.convertIndicesToHTML(
 									geo.getDefinitionDescription(
-											StringTemplate.defaultTemplate),
+											template),
 									builder);
 					text = builder.toString();
 					break;
@@ -214,7 +215,7 @@ public class SpreadsheetCellRendererD extends DefaultTableCellRenderer {
 				case Kernel.ALGEBRA_STYLE_DEFINITION:
 					builder = new IndexHTMLBuilder(true);
 					IndexHTMLBuilder.convertIndicesToHTML(
-							geo.getDefinition(StringTemplate.defaultTemplate),
+							geo.getDefinition(template),
 							builder);
 					text = builder.toString();
 

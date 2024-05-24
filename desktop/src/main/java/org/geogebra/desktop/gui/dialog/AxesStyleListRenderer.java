@@ -23,7 +23,7 @@ import org.geogebra.desktop.factories.AwtFactoryD;
  */
 
 @SuppressWarnings("rawtypes")
-public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
+public class AxesStyleListRenderer extends JPanel implements ListCellRenderer<Integer> {
 	private static final long serialVersionUID = 1L;
 	/**
 	 * Number of values
@@ -50,12 +50,12 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value,
+	public Component getListCellRendererComponent(JList list, Integer value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 
 		// get the selected point style
 		style = value == null ? EuclidianStyleConstants.AXES_LINE_TYPE_FULL
-				: ((Integer) value).intValue();
+				: value;
 
 		if (isSelected) {
 			setBackground(Color.LIGHT_GRAY);

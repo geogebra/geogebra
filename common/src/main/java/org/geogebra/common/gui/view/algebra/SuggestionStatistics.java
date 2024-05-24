@@ -70,7 +70,7 @@ public class SuggestionStatistics extends Suggestion {
 
 	private static void ensureCommandsAreLoaded(AlgebraProcessor algebraProcessor) {
 		try {
-			algebraProcessor.getCommandDispatcher().getStatsDispatcher();
+			algebraProcessor.getCommandDispatcher().getStatsCommandProcessorFactory();
 		} catch (CommandNotLoadedError e) {
 			// ignore
 		}

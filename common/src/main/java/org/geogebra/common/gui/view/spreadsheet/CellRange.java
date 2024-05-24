@@ -265,7 +265,7 @@ final public class CellRange {
 
 	/**
 	 * @return a new cell range that holds the actual cell range, e.g.
-	 *         (-1,1,-1,4) ---> (0,1,100,4)
+	 *         (-1,1,-1,4) ---&gt; (0,1,100,4)
 	 */
 	public CellRange getActualRange() {
 
@@ -286,7 +286,7 @@ final public class CellRange {
 
 	/**
 	 * Sets the corners of a row or column to the actual cell range e.g.
-	 * (-1,1,-1,4) ---> (0,1,100,4)
+	 * (-1,1,-1,4) ---&gt; (0,1,100,4)
 	 */
 	public void setActualRange() {
 

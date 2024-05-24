@@ -63,14 +63,13 @@ import org.geogebra.common.kernel.scripting.CmdZoomIn;
 import org.geogebra.common.kernel.scripting.CmdZoomOut;
 
 /**
- * class to split off some CmdXXX classes into another jar (for faster applet
- * loading)
- *
+ * Factory for scripting commands.
+ * @see CommandProcessorFactory
  */
-public class CommandDispatcherScripting implements CommandDispatcherInterface {
+public class ScriptingCommandProcessorFactory implements CommandProcessorFactory {
 	@Override
-	public CommandProcessor dispatch(Commands c, Kernel kernel) {
-		switch (c) {
+	public CommandProcessor getProcessor(Commands command, Kernel kernel) {
+		switch (command) {
 		// scripting
 		case RigidPolygon:
 			return new CmdRigidPolygon(kernel);
