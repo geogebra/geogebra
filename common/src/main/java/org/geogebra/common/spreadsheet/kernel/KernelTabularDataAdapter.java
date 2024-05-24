@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.spreadsheet.core.CellReferenceHandler;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
 import org.geogebra.common.spreadsheet.core.TabularDataPasteGeos;
@@ -198,12 +199,15 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		if (geoToCopy == null) {
 			return;
 		}
-		SpreadsheetCellProcessor cellProcessor = new SpreadsheetCellProcessor(
-				GeoElementSpreadsheet.getSpreadsheetCellName(targetColumn, targetRow),
-				geoToCopy.getKernel().getAlgebraProcessor(),
-				geoToCopy.getKernel().getApplication().getDefaultErrorHandler());
-		if (cellProcessor.containsDynamicReference(geoToCopy)) {
-			String definition = geoToCopy.getDefinitionForEditor();
+
+		if (CellReferenceHandler.containsDynamicReference(geoToCopy.getDefinitionForEditor())) {
+			String definition = CellReferenceHandler.getDefinitionWithSubstitutedDynamicReferences(
+					geoToCopy.getDefinitionForEditor(), sourceRow, targetRow,
+					sourceColumn, targetColumn);
+			SpreadsheetCellProcessor cellProcessor = new SpreadsheetCellProcessor(
+					GeoElementSpreadsheet.getSpreadsheetCellName(targetColumn, targetRow),
+					geoToCopy.getKernel().getAlgebraProcessor(),
+					geoToCopy.getKernel().getApplication().getDefaultErrorHandler());
 			cellProcessor.process(definition.substring(definition.indexOf('=')), false);
 			return;
 		}
