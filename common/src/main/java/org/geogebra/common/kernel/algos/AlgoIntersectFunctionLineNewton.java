@@ -152,7 +152,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 		}
 
 		// eg Intersect((x ln(x + 1)) / (exp(2x) - 1), xAxis)
-		x = DoubleUtil.checkRoot(x, f);
+		x = DoubleUtil.checkRoot(x, diffFunction);
 
 		if (Double.isNaN(x)) {
 			rootPoint.setUndefined();
