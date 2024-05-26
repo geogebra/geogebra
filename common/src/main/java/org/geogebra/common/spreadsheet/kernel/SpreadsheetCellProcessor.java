@@ -54,7 +54,7 @@ public class SpreadsheetCellProcessor {
 	}
 
 	private void processInput(String command, boolean storeUndo) {
-		algebraProcessor.processAlgebraCommandNoExceptionHandling(command, true,
+		algebraProcessor.processAlgebraCommandNoExceptionHandling(command, storeUndo,
 				errorHandler, false, this::setGeosEuclidianInvisibleAndAuxiliary);
 	}
 
