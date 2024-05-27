@@ -349,7 +349,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	private void buildLocusMacroConstruction(
 			TreeSet<ConstructionElement> locusConsElements) {
 		// build macro construction
-		macroKernel = kernel.newMacroKernel();
+		macroKernel = kernel.newMacroKernel(null);
 		macroKernel.setGlobalVariableLookup(true);
 
 		// tell the macro construction about reserved names:
@@ -367,7 +367,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 		try {
 			// get XML for macro construction of P -> Q
-			String locusConsXML = Macro.buildMacroXML(kernel, locusConsElements)
+			String locusConsXML = Macro.buildMacroXML(locusConsElements)
 					.toString();
 			macroKernel.loadXML(locusConsXML);
 

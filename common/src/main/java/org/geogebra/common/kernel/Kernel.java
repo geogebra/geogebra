@@ -2945,7 +2945,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			this.ggbCAS.clearResult();
 		}
 		if (macroManager != null) {
-			macroManager.setAllMacrosUnused();
+			macroManager.setAllMacrosUnused(cons);
 		}
 
 		clearAnimations();
@@ -4677,8 +4677,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * @return new kernel for a macro
 	 */
-	public MacroKernel newMacroKernel() {
-		return new MacroKernel(this);
+	public MacroKernel newMacroKernel(Macro macro) {
+		return new MacroKernel(this, macro);
 	}
 
 	/**

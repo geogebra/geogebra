@@ -2,6 +2,7 @@ package org.geogebra.common.kernel;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 
 import java.util.Arrays;
 
@@ -55,6 +56,21 @@ public class MacroTest extends BaseUnitTest {
 		assertThat(sc, hasValue("(2 (5 u + 6 v), 3 (5 u + 6 v), 4 (5 u + 6 v))"));
 		getKernel().updateConstruction();
 		assertThat(sb, hasValue("(2 (2 u + 3 v), 3 (2 u + 3 v), 4 (2 u + 3 v))"));
+	}
+
+	@Test
+	public void isUsedFlagForNestedMacros() {
+		GeoElement a = add("a=1");
+		GeoElement b = add("b=2*a");
+		Macro dbl = createMacro(getApp(), "Double", b, a);
+		GeoElement c = add("c=2*Double(a)");
+		Macro quadruple = createMacro(getApp(), "Quadruple", c, a);
+		c.remove();
+		assertThat(dbl.isUsedBy(getConstruction()), equalTo(false));
+		assertThat(quadruple.isUsedBy(getConstruction()), equalTo(false));
+		add("Quadruple(7)");
+		assertThat(quadruple.isUsedBy(getConstruction()), equalTo(true));
+		assertThat(dbl.isUsedBy(getConstruction()), equalTo(true));
 	}
 
 	@Test
@@ -136,7 +152,7 @@ public class MacroTest extends BaseUnitTest {
 		assertThat(allXML, containsString("label=\"g\""));
 	}
 
-	private void createMacro(AppCommon app, String name, GeoElement output, GeoElement... input) {
+	private Macro createMacro(AppCommon app, String name, GeoElement output, GeoElement... input) {
 		ToolCreationDialogModel macroBuilder = new ToolCreationDialogModel(app,
 				() -> {/* no UI to update */});
 		Arrays.stream(input).forEach(macroBuilder::addToInput);
@@ -144,5 +160,6 @@ public class MacroTest extends BaseUnitTest {
 		macroBuilder.createTool();
 		macroBuilder.finish(app, name, name, input.length + " inputs expected",
 				false, null);
+		return getKernel().getMacro(name);
 	}
 }
