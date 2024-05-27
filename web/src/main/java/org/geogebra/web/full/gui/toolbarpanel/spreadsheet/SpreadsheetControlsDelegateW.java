@@ -90,8 +90,8 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		}
 
 		@Override
-		public void setContent(Object content) {
-			mathField.getMathField().parse(new KernelDataSerializer().getStringForEditor(content));
+		public void setContent(Object content, boolean hasError) {
+			mathField.getMathField().parse(new KernelDataSerializer().getStringForEditor(content, hasError));
 		}
 
 		@Override

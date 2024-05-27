@@ -8,7 +8,7 @@ public final class KernelDataSerializer {
 	 * @param data spreadsheet cell content
 	 * @return string representation for editor
 	 */
-	public String getStringForEditor(Object data) {
+	public String getStringForEditor(Object data, boolean hasError) {
 		if (data instanceof String) {
 			return (String) data;
 		}
@@ -17,7 +17,7 @@ public final class KernelDataSerializer {
 		} else {
 			GeoElement geo = (GeoElement) data;
 			String redefineString = geo.getRedefineString(true, false);
-			return geo.isGeoText() ? redefineString : "=" + redefineString;
+			return geo.isGeoText() && !hasError ? redefineString : "=" + redefineString;
 		}
 	}
 }

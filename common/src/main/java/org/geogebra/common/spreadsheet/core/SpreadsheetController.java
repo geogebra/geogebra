@@ -149,7 +149,7 @@ public final class SpreadsheetController implements TabularSelection {
 			SpreadsheetCellEditor editor = controlsDelegate.getCellEditor();
 			editor.setBounds(editorBounds);
 
-			editor.setContent(tabularData.contentAt(row, column));
+			editor.setContent(tabularData.contentAt(row, column), hasError(row, column));
 			editor.setAlign(tabularData.getAlignment(row, column));
 			editor.setTargetCell(row, column);
 			resetDragAction();
@@ -396,7 +396,7 @@ public final class SpreadsheetController implements TabularSelection {
 		if (!modifiers.ctrlOrCmd && !modifiers.alt && !StringUtil.empty(key)
 				&& controls != null) {
 			showCellEditorAtSelection();
-			controls.getCellEditor().setContent("");
+			controls.getCellEditor().setContent("", false);
 			controls.getCellEditor().type(key);
 		}
 	}

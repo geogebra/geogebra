@@ -10,8 +10,9 @@ public interface SpreadsheetCellEditor {
 
 	/**
 	 * @param content value of the cell being edited
+	 * @param hasError cell marked as error or not
 	 */
-	void setContent(Object content);
+	void setContent(Object content, boolean hasError);
 
 	/**
 	 * Add text to current input, handle as if typed by keyboard.
