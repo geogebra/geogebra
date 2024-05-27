@@ -533,6 +533,10 @@ public class EvalInfo {
 		return info;
 	}
 
+	/**
+	 * @param assignmentAllowed - whether to allow assignment
+	 * @return new eval info
+	 */
 	public EvalInfo withAssignments(boolean assignmentAllowed) {
 		EvalInfo info = copy();
 		info.allowAssignment = assignmentAllowed;
