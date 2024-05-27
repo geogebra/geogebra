@@ -334,10 +334,10 @@ public final class TableValuesKeyboardNavigationController {
 		}
 		if (isEditingPlaceholderColumn() || tableValuesModel.isColumnEditable(selectedColumn)) {
 			String cellContent = delegate.getCellEditorContent(selectedRow, selectedColumn);
-			boolean cellContentChanged = true;
 			if (cellContent == null) {
 				cellContent = "";
 			}
+			boolean cellContentChanged = cellContent.length() > 0;
 			if (selectedRow < tableValuesModel.getRowCount()
 					&& selectedColumn < tableValuesModel.getColumnCount()) {
 				TableValuesCell cell = tableValuesModel.getCellAt(selectedRow, selectedColumn);

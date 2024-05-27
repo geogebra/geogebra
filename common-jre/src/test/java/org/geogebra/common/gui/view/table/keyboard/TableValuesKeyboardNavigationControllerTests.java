@@ -26,6 +26,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	private String cellContent;
 	private boolean didReportInvalidCellContent;
 	private boolean didReportModelChanged;
+	private boolean traceEvents = false;
 
 	@Override
 	public void setup() {
@@ -42,6 +43,13 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 		cellContent = "";
 		didReportInvalidCellContent = false;
 		didReportModelChanged = false;
+		traceEvents = false;
+	}
+
+	private void trace(String msg) {
+		if (traceEvents) {
+			System.out.println(msg);
+		}
 	}
 
 	private void addFunction(String label, String definition) {
@@ -61,6 +69,40 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 		}
 		return tableValuesView.getTableValuesModel()
 				.getCellAt(focusedCell.row, focusedCell.column).getInput();
+	}
+
+	// Not an actual test - this is just a testbed to run a certain sequence of modifications,
+	// and see which listener events are created from it.
+	@Test
+	public void testTableValuesListenerEvents() {
+		traceEvents = true;
+
+		// select (0, 0)
+		keyboardController.select(0, 0);
+
+		// tap-select (0, 1) with non-empty placeholder cell
+		// -> new data inserted in first column, editing new placeholder cell (0, 1)
+		cellContent = "1";
+		focusedCell = null;
+		trace("select(0, 1)");
+		keyboardController.select(0, 1);
+		assertEquals(new CellIndex(0, 1), focusedCell);
+
+		// hit return with non-empty placeholder cell
+		// -> new data inserted in second column, editing new placeholder cell (1, 1)
+		cellContent = "2";
+		focusedCell = null;
+		trace("RETURN");
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.RETURN);
+		assertEquals(new CellIndex(1, 1), focusedCell);
+
+		// trace output:
+		// select(0, 1)
+		// notifyRowsAdded(0, 0) // no cellChanged(0, 0) here?
+		// RETURN
+		// notifyColumnAdded(1)
+		// notifyColumnChanged(1)
+		// notifyCellChanged(0, 1)
 	}
 
 	// Scenario 0:
@@ -876,49 +918,58 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
+		trace("notifyColumnRemoved(" + column + ")");
 		didReportModelChanged = true;
 	}
 
 	@Override
 	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
+		trace("notifyColumnChanged(" + column + ")");
 		didReportModelChanged = true;
 	}
 
 	@Override
 	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+		trace("notifyColumnAdded(" + column + ")");
 		didReportModelChanged = true;
 	}
 
 	@Override
 	public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
+		trace("notifyColumnHeaderChanged(" + column + ")");
 		didReportModelChanged = true;
 	}
 
 	@Override
 	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
 			int row) {
+		trace("notifyCellChanged(" + row + ", " + column + ")");
 		didReportModelChanged = true;
 	}
 
 	@Override
 	public void notifyRowsRemoved(TableValuesModel model, int firstRow, int lastRow) {
+		trace("notifyRowsRemoved(" + firstRow + ", " + lastRow + ")");
 		didReportModelChanged = true;
 	}
 
 	@Override
 	public void notifyRowsAdded(TableValuesModel model, int firstRow, int lastRow) {
+		trace("notifyRowsAdded(" + firstRow + ", " + lastRow + ")");
 		didReportModelChanged = true;
 	}
 
 	@Override
 	public void notifyRowChanged(TableValuesModel model, int row) {
+		trace("notifyRowChanged(" + row + ")");
 		didReportModelChanged = true;
 	}
 
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
+		trace("notifyDatasetChanged");
 		didReportModelChanged = true;
 	}
 }
