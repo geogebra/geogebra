@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.TransformDilate;
 import org.geogebra.common.kernel.TransformMirror;
 import org.geogebra.common.kernel.TransformRotate;
 import org.geogebra.common.kernel.TransformTranslate;
+import org.geogebra.common.kernel.advanced.AlgoAxis;
 import org.geogebra.common.kernel.advanced.AlgoCentroidPolygon;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -57,6 +58,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.MyError;
@@ -1810,6 +1812,7 @@ public class AlgoDispatcher {
 	 */
 	final public GeoElement[] intersectLineCurve(String[] labels, GeoLine g,
 			GeoCurveCartesian p) {
+
 		AlgoIntersectLineCurve algo = new AlgoIntersectLineCurve(cons, labels,
 				g, p);
 		return algo.getOutput();
@@ -3537,4 +3540,58 @@ public class AlgoDispatcher {
 		return (GeoElement) centroid;
 	}
 
+	/**
+	 * @param labels
+	 *            labels
+	 * @param c
+	 *            conic
+	 * @return axes algo
+	 */
+	public AlgoAxesQuadricND axesConic(GeoQuadricND c, String[] labels) {
+		return new AlgoAxes(cons, labels, (GeoConic) c);
+	}
+
+	/**
+	 * @param label
+	 *            label
+	 * @param conic
+	 *            conic
+	 * @return axis algo
+	 */
+	public AlgoAxis axis(String label, GeoConicND conic, int axisId) {
+		return new AlgoAxis(cons, label, conic, axisId);
+	}
+
+	/**
+	 * polar line to P relative to c
+	 *
+	 * @param label
+	 *            output label
+	 * @param P
+	 *            point
+	 * @param c
+	 *            conic
+	 * @return polar
+	 */
+	public GeoElement polarLine(String label, GeoPointND P, GeoConicND c) {
+		AlgoPolarLine algo = new AlgoPolarLine(cons, label, c, P);
+		return (GeoElement) algo.getLine();
+	}
+
+	/**
+	 * pole of line relative to c
+	 *
+	 * @param label
+	 *            output label
+	 * @param line
+	 *            line
+	 * @param c
+	 *            conic
+	 * @return pole line
+	 */
+	public GeoElement polarPoint(String label, GeoLineND line,
+			GeoConicND c) {
+		AlgoPolarPoint algo = new AlgoPolarPoint(cons, label, c, line);
+		return (GeoElement) algo.getPoint();
+	}
 }

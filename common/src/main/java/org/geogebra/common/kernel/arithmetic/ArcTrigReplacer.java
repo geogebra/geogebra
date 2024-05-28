@@ -6,9 +6,13 @@ import org.geogebra.common.plugin.Operation;
  * Replaces asin(0.5) with asind(0.5)
  *
  */
-public class ArcTrigReplacer implements Traversing {
+public final class ArcTrigReplacer implements Traversing {
 
 	private static ArcTrigReplacer replacer = new ArcTrigReplacer();
+
+	private ArcTrigReplacer() {
+		// singleton constructo
+	}
 
 	@Override
 	public ExpressionValue process(ExpressionValue ev) {

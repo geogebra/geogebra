@@ -20,29 +20,28 @@ import org.geogebra.common.kernel.cas.CmdTrigCombine;
 import org.geogebra.common.kernel.cas.CmdTrigExpand;
 
 /**
- * class to split off some CmdXXX classes into another jar (for faster applet
- * loading)
- *
+ * Factory for CAS commands.
+ * @see CommandProcessorFactory
  */
-public class CommandDispatcherCAS implements CommandDispatcherInterface {
+public class CASCommandProcessorFactory implements CommandProcessorFactory {
 	@Override
-	public CommandProcessor dispatch(Commands c, Kernel kernel) {
-		switch (c) {
+	public CommandProcessor getProcessor(Commands command, Kernel kernel) {
+		switch (command) {
 
 		// note: Integral(f,a,b) is allowed but not Integral(f)
 		case Integral:
 
 		case IntegralBetween:
 		case NIntegral:
-			return new CmdIntegral(kernel, c);
+			return new CmdIntegral(kernel, command);
 		case Derivative:
 		case NDerivative:
-			return new CmdDerivative(kernel, c);
+			return new CmdDerivative(kernel, command);
 		case TrigSimplify:
 		case Expand:
 		case Factor:
 		case IFactor:
-			return new CmdCASCommand1Arg(kernel, c);
+			return new CmdCASCommand1Arg(kernel, command);
 		case Simplify:
 			return new CmdSimplify(kernel);
 		case SurdText:
@@ -80,7 +79,7 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 		case NSolutions:
 		case Solutions:
 		case PlotSolve:
-			return new CmdSolve(kernel, c);
+			return new CmdSolve(kernel, command);
 		case CASLoaded:
 			return new CmdCASLoaded(kernel);
 		default:

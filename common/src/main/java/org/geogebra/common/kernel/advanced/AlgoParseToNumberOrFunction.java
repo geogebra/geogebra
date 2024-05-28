@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.advanced;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -24,7 +25,7 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 	private final Commands cmd;
 	private final GeoList vars;
 	private GeoElement[] inputForUpdateSetPropagation;
-	private HashSet<GeoElement> referencedObjects;
+	private final Set<GeoElement> referencedObjects = new HashSet<>();
 
 	/**
 	 * @param cons construction
@@ -61,13 +62,14 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 	public void compute() {
 		GeoElementND num;
 		AlgebraProcessor ap = kernel.getAlgebraProcessor();
+		String textToParse = text.getTextStringSafe();
 		if (cmd == Commands.ParseToNumber) {
-			num = ap.evaluateToNumeric(text.getTextString(), true);
+			num = ap.evaluateToNumeric(textToParse, true);
 			if (num != null) {
 				updateReferences(num.getDefinition());
 			}
 		} else if (vars == null) {
-			num = ap.evaluateToFunction(text.getTextString(), true);
+			num = ap.evaluateToFunction(textToParse, true);
 			if (num != null) {
 				if (!((GeoFunction) num).validate(false, false)) {
 					num.setUndefined();
@@ -77,7 +79,7 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 		} else {
 			vars.elements().filter(GeoElement::isGeoText).forEach(fVar ->
 					cons.registerFunctionVariable(((GeoText) fVar).getTextString()));
-			num = ap.evaluateToFunctionNVar(text.getTextString(),
+			num = ap.evaluateToFunctionNVar(textToParse,
 							true, false);
 			if (num != null) {
 				updateReferences(((GeoFunctionNVar) num).getFunctionExpression());
@@ -91,11 +93,11 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 	}
 
 	private void updateReferences(ExpressionNode definition) {
-		referencedObjects = null;
+		referencedObjects.clear();
 		if (definition != null) {
-			referencedObjects = definition.getVariables(SymbolicMode.NONE);
+			definition.getVariables(referencedObjects, SymbolicMode.NONE);
 		}
-		if (referencedObjects != null) {
+		if (!referencedObjects.isEmpty()) {
 			inputForUpdateSetPropagation = new GeoElement[referencedObjects.size() + 1];
 			inputForUpdateSetPropagation[0] = text;
 			int i = 1;
@@ -119,7 +121,7 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 
 	@Override
 	public GeoElement[] getInputForUpdateSetPropagation() {
-		if (referencedObjects == null || referencedObjects.isEmpty()) {
+		if (referencedObjects.isEmpty()) {
 			return input;
 		}
 		return inputForUpdateSetPropagation;

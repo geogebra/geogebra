@@ -12,6 +12,8 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.IN
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_BELOW;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PASTE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItems.HEADER_INDEX;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
@@ -43,9 +45,9 @@ public final class ContextMenuItemsTest {
 		data = new TestTabularData();
 		fillTestData();
 		clipboard = new TestClipboard();
-		CopyPasteCutTabularDataImpl<?> copyPasteCut =
-				new CopyPasteCutTabularDataImpl<>(data, clipboard);
 		controller = new SpreadsheetController(data, new Rectangle());
+		CopyPasteCutTabularDataImpl<?> copyPasteCut =
+				new CopyPasteCutTabularDataImpl<>(data, clipboard, controller.getLayout());
 		items = new ContextMenuItems(controller, selectionController, copyPasteCut);
 	}
 
@@ -199,8 +201,10 @@ public final class ContextMenuItemsTest {
 	@Test
 	public void testInsertRowAbove() {
 		runItemAt(3, HEADER_INDEX, DELETE_ROW);
+		assertThat(data.numberOfRows(), equalTo(99));
 		runItemAt(5, HEADER_INDEX, INSERT_ROW_ABOVE);
 		checkNewRowAt(5);
+		assertThat(data.numberOfRows(), equalTo(100));
 	}
 
 	private void checkNewRowAt(int row) {
@@ -216,15 +220,19 @@ public final class ContextMenuItemsTest {
 	@Test
 	public void testInsertRowBelow() {
 		runItemAt(4, HEADER_INDEX, DELETE_ROW);
+		assertThat(data.numberOfRows(), equalTo(99));
 		runItemAt(5, HEADER_INDEX, INSERT_ROW_BELOW);
 		checkNewRowAt(6);
+		assertThat(data.numberOfRows(), equalTo(100));
 	}
 
 	@Test
 	public void testInsertColumnLeft() {
 		runItemAt(HEADER_INDEX, 3, DELETE_COLUMN);
+		assertThat(data.numberOfColumns(), equalTo(99));
 		runItemAt(HEADER_INDEX, 5,  INSERT_COLUMN_LEFT);
 		checkNewColumnAt(5);
+		assertThat(data.numberOfColumns(), equalTo(100));
 	}
 
 	private void checkNewColumnAt(int column) {
@@ -240,8 +248,10 @@ public final class ContextMenuItemsTest {
 	@Test
 	public void testInsertColumnRight() {
 		runItemAt(HEADER_INDEX, 4, DELETE_COLUMN);
+		assertThat(data.numberOfColumns(), equalTo(99));
 		runItemAt(HEADER_INDEX, 5,  INSERT_COLUMN_RIGHT);
 		checkNewColumnAt(6);
+		assertThat(data.numberOfColumns(), equalTo(100));
 	}
 
 	@Test

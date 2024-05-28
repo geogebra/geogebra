@@ -1,5 +1,7 @@
 package org.geogebra.common.spreadsheet.kernel;
 
+import java.util.Arrays;
+
 import static com.himamis.retex.editor.share.util.Unicode.ASSIGN_STRING;
 
 import org.geogebra.common.awt.GPoint;
@@ -7,6 +9,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -53,7 +57,15 @@ public class SpreadsheetCellProcessor {
 
 	private void processInput(String command) {
 		algebraProcessor.processAlgebraCommandNoExceptionHandling(command, true,
-				errorHandler, false, null);
+				errorHandler, false, this::setGeosEuclidianInvisibleAndAuxiliary);
+	}
+
+	private void setGeosEuclidianInvisibleAndAuxiliary(GeoElementND[] geos) {
+		Arrays.stream(geos).forEach(geo -> {
+			geo.setEuclidianVisible(false);
+			geo.setAuxiliaryObject(true);
+			geo.updateVisualStyle(GProperty.VISIBLE);
+		});
 	}
 
 	private static boolean isCommand(String input) {

@@ -1,17 +1,19 @@
 package org.geogebra.web.test;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.commands.CommandDispatcherAdvanced;
-import org.geogebra.common.kernel.commands.CommandDispatcherCAS;
-import org.geogebra.common.kernel.commands.CommandDispatcherDiscrete;
-import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
-import org.geogebra.common.kernel.commands.CommandDispatcherProver;
-import org.geogebra.common.kernel.commands.CommandDispatcherScripting;
-import org.geogebra.common.kernel.commands.CommandDispatcherStats;
+import org.geogebra.common.kernel.commands.AdvancedCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.CASCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.CommandProcessorFactory;
+import org.geogebra.common.kernel.commands.DiscreteCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.ProverCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.ScriptingCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.StatsCommandProcessorFactory;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
 
 /**
- * Synchronized version of Command Dispatcher
+ * Synchronized version of Command Dispatcher.
+ * Functionally equivalent to the {@code common-jre} implementation which cannot be
+ * simply imported to web because of code splitting.
  */
 class CommandDispatcherWSync extends CommandDispatcherW {
 
@@ -20,32 +22,32 @@ class CommandDispatcherWSync extends CommandDispatcherW {
 	}
 
 	@Override
-	public CommandDispatcherInterface getStatsDispatcher() {
-		return new CommandDispatcherStats();
+	public CommandProcessorFactory getStatsCommandProcessorFactory() {
+		return new StatsCommandProcessorFactory();
 	}
 
 	@Override
-	public CommandDispatcherInterface getDiscreteDispatcher() {
-		return new CommandDispatcherDiscrete();
+	public CommandProcessorFactory getDiscreteCommandProcessorFactory() {
+		return new DiscreteCommandProcessorFactory();
 	}
 
 	@Override
-	public CommandDispatcherInterface getCASDispatcher() {
-		return new CommandDispatcherCAS();
+	public CommandProcessorFactory getCASCommandProcessorFactory() {
+		return new CASCommandProcessorFactory();
 	}
 
 	@Override
-	public CommandDispatcherInterface getScriptingDispatcher() {
-		return new CommandDispatcherScripting();
+	public CommandProcessorFactory getScriptingCommandProcessorFactory() {
+		return new ScriptingCommandProcessorFactory();
 	}
 
 	@Override
-	public CommandDispatcherInterface getAdvancedDispatcher() {
-		return new CommandDispatcherAdvanced();
+	public CommandProcessorFactory getAdvancedCommandProcessorFactory() {
+		return new AdvancedCommandProcessorFactory();
 	}
 
 	@Override
-	public CommandDispatcherInterface getProverDispatcher() {
-		return new CommandDispatcherProver();
+	public CommandProcessorFactory getProverCommandProcessorFactory() {
+		return new ProverCommandProcessorFactory();
 	}
 }

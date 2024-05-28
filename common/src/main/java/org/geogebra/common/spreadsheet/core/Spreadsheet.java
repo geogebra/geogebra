@@ -2,8 +2,6 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
@@ -28,19 +26,19 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	/**
 	 * @param tabularData data source
 	 * @param rendererFactory converts custom data type to rendable objects
-	 * @param app {@link App} - Might be null for tests
+	 * @param undoProvider undo provider, may be null
 	 */
 	public Spreadsheet(TabularData<?> tabularData,
-			CellRenderableFactory rendererFactory, @CheckForNull App app) {
+			CellRenderableFactory rendererFactory, UndoProvider undoProvider) {
 		controller = new SpreadsheetController(tabularData, null);
 		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
 				controller.getStyle(), app.getLocalization());
 		setViewport(new Rectangle(0, 0, 0, 0));
 		tabularData.addChangeListener(this);
-		if (app != null) {
-			controller.setUndoProvider(app.getUndoManager());
-			app.getGuiManager().setSpreadsheetLayoutForSuite(controller.getLayout());
+		if (undoProvider != null) {
+			controller.setUndoProvider(undoProvider);
 		}
+		tabularData.setPersistenceListener(controller.getLayout());
 	}
 
 	// layout
@@ -209,6 +207,11 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	@Override
 	public void tabularDataDidChange(int row, int column) {
 		renderer.invalidate(row, column);
+	}
+
+	@Override
+	public void tabularDataSizeDidChange(SpreadsheetDimensions dimensions) {
+		controller.tabularDataSizeDidChange(dimensions);
 	}
 
 	public void setWidthForColumns(double width, int minColumn, int maxColumn) {
