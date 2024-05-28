@@ -659,7 +659,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 			GeoConicND c, GeoPoint[] sol, double eps) {
 		double[] A = c.getFlatMatrix();
 
-		g.getnormalizedCoefficients(xyz, 2);
+		g.getnormalizedCoefficients(xyz, 2, 0.5);
 		double x = xyz[0];
 		double y = xyz[1];
 		double z = xyz[2];
