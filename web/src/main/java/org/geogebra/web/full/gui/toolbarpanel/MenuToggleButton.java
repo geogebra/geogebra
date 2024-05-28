@@ -66,13 +66,13 @@ public class MenuToggleButton extends ToggleButton
 	 */
 	public void addToGlobalHeader() {
 		removeFromParent();
-		RootPanel root = RootPanel.get("headerID");
-		Element dummy = Dom.querySelectorForElement(root.getElement(),
-				".menuBtn");
+		Element root = RootPanel.get("logoID").getElement().getParentElement();
+		Element dummy = Dom.querySelectorForElement(root, ".menuBtn");
 		if (dummy != null) {
 			dummy.removeFromParent();
 		}
-		root.insert(this, 0);
+		onAttach();
+		root.insertFirst(getElement());
 		GlobalHeader.INSTANCE.setMenuBtn(this);
 	}
 

@@ -194,11 +194,6 @@ public class GLookAndFeel implements GLookAndFeelI {
 	}
 
 	@Override
-	public String getFrameStyleName() {
-		return "GeoGebra";
-	}
-
-	@Override
 	public boolean isOfflineExamSupported() {
 		return false;
 	}

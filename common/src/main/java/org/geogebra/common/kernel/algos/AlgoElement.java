@@ -1521,7 +1521,7 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		// expression
-		sb.append(" />\n");
+		sb.append("/>\n");
 	}
 
 	// standard command has cmdname, output, input
