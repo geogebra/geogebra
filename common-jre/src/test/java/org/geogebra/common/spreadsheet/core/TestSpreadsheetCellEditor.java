@@ -19,13 +19,13 @@ public class TestSpreadsheetCellEditor
 	}
 
 	@Override
-	public void setContent(Object content) {
+	public void setContent(Object content, boolean hasError) {
 		this.content = content;
 	}
 
 	@Override
 	public void type(String text) {
-		setContent(text);
+		setContent(text, false);
 	}
 
 	@Override
