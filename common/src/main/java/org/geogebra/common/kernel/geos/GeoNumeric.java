@@ -2227,4 +2227,18 @@ public class GeoNumeric extends GeoElement
 		}
 		return (RecurringDecimal) getDefinition().unwrap();
 	}
+
+	/**
+	 * @param parts output array for [numerator,denominator]
+	 * @param expandPlus whether to expand + and - operations
+	 */
+	public void getFraction(ExpressionValue[] parts, boolean expandPlus) {
+		if (getDefinition() == null) {
+			parts[0] = getNumber();
+			parts[1] = null;
+			return;
+		}
+		getDefinition().isFraction(); // force fraction caching
+		getDefinition().getFraction(parts, expandPlus);
+	}
 }
