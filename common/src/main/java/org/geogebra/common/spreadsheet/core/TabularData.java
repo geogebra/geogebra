@@ -1,6 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
 import org.geogebra.common.gui.view.spreadsheet.HasTabularValues;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 
 /**
@@ -65,4 +66,6 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	default void setPersistenceListener(PersistenceListener layout) {
 		// not needed in tests
 	}
+
+	Localization getLocalization();
 }

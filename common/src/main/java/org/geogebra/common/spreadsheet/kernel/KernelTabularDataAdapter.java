@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.spreadsheet.core.PersistenceListener;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
@@ -34,13 +35,15 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	private final KernelTabularDataProcessor processor;
 	private final CellFormat cellFormat;
 	private final SpreadsheetSettings spreadsheetSettings;
+	private final Localization loc;
 
 	/**
 	 * @param spreadsheetSettings spreadsheet settings
 	 */
-	public KernelTabularDataAdapter(SpreadsheetSettings spreadsheetSettings) {
+	public KernelTabularDataAdapter(SpreadsheetSettings spreadsheetSettings, Localization loc) {
 		this.cellFormat = new CellFormat(null);
 		this.spreadsheetSettings = spreadsheetSettings;
+		this.loc = loc;
 		cellFormat.processXMLString(spreadsheetSettings.cellFormat());
 		spreadsheetSettings.addListener((settings) -> {
 				notifySizeChanged(spreadsheetSettings);
@@ -245,6 +248,11 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	@Override
 	public void setPersistenceListener(PersistenceListener layout) {
 		spreadsheetSettings.setPersistenceListener(layout);
+	}
+
+	@Override
+	public Localization getLocalization() {
+		return loc;
 	}
 
 	@Override

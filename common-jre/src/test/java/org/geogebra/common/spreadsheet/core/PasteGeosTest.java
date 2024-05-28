@@ -18,7 +18,7 @@ public class PasteGeosTest extends BaseUnitTest {
 	@Before
 	public void setUp() throws Exception {
 		KernelTabularDataAdapter tabularData = new KernelTabularDataAdapter(
-				new SpreadsheetSettings());
+				new SpreadsheetSettings(), null);
 		tabularData.setContent(1, 1, add("1"));
 		tabularData.setContent(1, 2, add("2"));
 		tabularData.setContent(2, 1, add("Text(\"foo\")"));

@@ -69,7 +69,7 @@ public class SpreadsheetDemo {
 			frame.setPreferredSize(preferredSize);
 			AppCommon appCommon = new AppCommon(new LocalizationCommon(3), new AwtFactoryD());
 			KernelTabularDataAdapter adapter = new KernelTabularDataAdapter(
-					appCommon.getSettings().getSpreadsheet());
+					appCommon.getSettings().getSpreadsheet(), appCommon.getLocalization());
 			Spreadsheet spreadsheet = new Spreadsheet(adapter,
 					new GeoElementCellRendererFactory(new AwtReTeXGraphicsBridgeD()), null);
 
@@ -309,8 +309,8 @@ public class SpreadsheetDemo {
 			}
 
 			@Override
-			public void setContent(Object content) {
-				mathField.parse(new KernelDataSerializer().getStringForEditor(content));
+			public void setContent(Object content, boolean hasError) {
+				mathField.parse(new KernelDataSerializer().getStringForEditor(content, hasError));
 			}
 
 			@Override

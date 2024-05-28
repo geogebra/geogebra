@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 
@@ -32,7 +33,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 			CellRenderableFactory rendererFactory, UndoProvider undoProvider) {
 		controller = new SpreadsheetController(tabularData, null);
 		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
-				controller.getStyle(), app.getLocalization());
+				controller.getStyle(), tabularData.getLocalization());
 		setViewport(new Rectangle(0, 0, 0, 0));
 		tabularData.addChangeListener(this);
 		if (undoProvider != null) {
