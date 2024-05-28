@@ -8,6 +8,7 @@ import org.geogebra.common.cas.giac.binding.CASGiacBinding;
 import org.geogebra.common.cas.giac.binding.Context;
 import org.geogebra.common.cas.giac.binding.Gen;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.debug.crashlytics.CrashlyticsLogger;
 
 /**
  * Giac connector using C++ or JNI binding
@@ -93,7 +94,7 @@ public abstract class CASgiacB extends CASgiac {
 	 */
 	protected void debug(String prefix, String giacString) {
 		Log.debug(prefix + giacString);
-
+		CrashlyticsLogger.log(prefix + giacString);
 	}
 
 	private void init(String exp, long timeoutMilliseconds) {
