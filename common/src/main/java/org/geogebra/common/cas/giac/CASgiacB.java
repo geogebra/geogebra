@@ -72,8 +72,11 @@ public abstract class CASgiacB extends CASgiac {
 		if (cachedResult != null && !cachedResult.isEmpty()) {
 			return cachedResult;
 		}
+		String casInput = "caseval(" + exp + ")";
 
-		Gen g = binding.createGen("caseval(" + exp + ")", context);
+		CrashlyticsLogger.log("Giac Input: " + casInput);
+
+		Gen g = binding.createGen(casInput, context);
 		g = g.eval(1, context);
 		String ret = g.print(context);
 
@@ -94,7 +97,6 @@ public abstract class CASgiacB extends CASgiac {
 	 */
 	protected void debug(String prefix, String giacString) {
 		Log.debug(prefix + giacString);
-		CrashlyticsLogger.log(prefix + giacString);
 	}
 
 	private void init(String exp, long timeoutMilliseconds) {
