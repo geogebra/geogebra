@@ -3,14 +3,11 @@ package org.geogebra.common.spreadsheet.kernel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
-
 public class SpreadsheetErrorHandler implements ErrorHandler {
 	final SpreadsheetCellProcessor processor;
 
 	/**
 	 * Constructor
-	 * @param mathField - text field
 	 */
 	public SpreadsheetErrorHandler(SpreadsheetCellProcessor processor) {
 		this.processor = processor;
@@ -38,6 +35,6 @@ public class SpreadsheetErrorHandler implements ErrorHandler {
 
 	@Override
 	public void resetError() {
-
+		// nothing to do here
 	}
 }

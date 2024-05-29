@@ -1,23 +1,18 @@
 package org.geogebra.common.spreadsheet.kernel;
 
-import java.util.Arrays;
-
 import static com.himamis.retex.editor.share.util.Unicode.ASSIGN_STRING;
+
+import java.util.Arrays;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GProperty;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.debug.Log;
-
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
 
 public class SpreadsheetCellProcessor {
 

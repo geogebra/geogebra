@@ -5,9 +5,6 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.main.App;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
 
@@ -122,7 +119,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 			double offsetX, double offsetY) {
 		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
 			for (int row = portion.fromRow; row <= portion.toRow; row++) {
-				Object content = controller.contentAt(row, column);
 				if (controller.hasError(row, column)) {
 					renderer.drawErrorCell(row, column, graphics, offsetX, offsetY);
 				}

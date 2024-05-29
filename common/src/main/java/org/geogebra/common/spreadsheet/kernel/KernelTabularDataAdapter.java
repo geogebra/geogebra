@@ -214,7 +214,6 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		}
 	}
 
-
 	@Override
 	public GeoElement contentAt(int row, int column) {
 		return data.get(row) != null ? data.get(row).get(column) : null;

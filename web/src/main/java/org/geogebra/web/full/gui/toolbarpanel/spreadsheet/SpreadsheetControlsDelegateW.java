@@ -12,7 +12,6 @@ import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetControlsDelegate;
 import org.geogebra.common.spreadsheet.kernel.KernelDataSerializer;
-import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.spreadsheet.kernel.SpreadsheetEditorListener;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.util.shape.Rectangle;
@@ -91,7 +90,8 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 		@Override
 		public void setContent(Object content, boolean hasError) {
-			mathField.getMathField().parse(new KernelDataSerializer().getStringForEditor(content, hasError));
+			mathField.getMathField().parse(new KernelDataSerializer().getStringForEditor(content,
+					hasError));
 		}
 
 		@Override

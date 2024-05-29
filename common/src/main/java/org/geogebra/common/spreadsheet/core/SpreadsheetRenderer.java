@@ -1,7 +1,5 @@
 package org.geogebra.common.spreadsheet.core;
 
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +13,7 @@ import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.awt.GShape;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
@@ -83,6 +79,14 @@ public final class SpreadsheetRenderer {
 				(int) layout.getWidth(column), (int) layout.getHeight(row));
 	}
 
+	/**
+	 * draw cell with error style
+	 * @param row - row
+	 * @param column - column
+	 * @param graphics - graphics
+	 * @param offsetX - x offset
+	 * @param offsetY - y offset
+	 */
 	public void drawErrorCell(int row, int column, GGraphics2D graphics,
 			double offsetX, double offsetY) {
 		graphics.setColor(style.geErrorGridColor());
@@ -92,7 +96,7 @@ public final class SpreadsheetRenderer {
 
 		int x1 = (int) (layout.getX(column) - offsetX + layout.getWidth(column) - 10);
 		int y1 = (int) (layout.getY(row) - offsetY);
-		int x2 = (int) (layout.getX(column) -offsetX + (int) layout.getWidth(column));
+		int x2 = (int) (layout.getX(column) - offsetX + (int) layout.getWidth(column));
 		int y2 = (int) (layout.getY(row) - offsetY);
 		int x3 = (int) (layout.getX(column) - offsetX + (int) layout.getWidth(column));
 		int y3 = (int) (layout.getY(row) - offsetY + 10);
@@ -108,7 +112,8 @@ public final class SpreadsheetRenderer {
 
 		graphics.setColor(style.getTextColor());
 		graphics.setFont(graphics.getFont().deriveFont(GFont.ITALIC));
-		graphics.drawString(loc.getError("Error").toUpperCase(Locale.ROOT), (int) (layout.getX(column) - offsetX) + 10,
+		graphics.drawString(loc.getError("Error").toUpperCase(Locale.ROOT),
+				(int) (layout.getX(column) - offsetX) + 10,
 				(int) (layout.getY(row) - offsetY) + 16 + 10);
 	}
 
