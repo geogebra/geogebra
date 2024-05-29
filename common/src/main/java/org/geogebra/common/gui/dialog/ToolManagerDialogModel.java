@@ -94,7 +94,7 @@ public class ToolManagerDialogModel {
 		deletedMacros.clear();
 		for (int i = 0; i < sel.size(); i++) {
 			Macro macro = sel.get(i);
-			if (!macro.isUsed()) {
+			if (!macro.isUsedBy(kernel.getConstruction())) {
 				// delete macro
 				changeToolBar = changeToolBar || macro.isShowInToolBar();
 				listener.removeMacroFromToolbar(kernel.getMacroID(macro)

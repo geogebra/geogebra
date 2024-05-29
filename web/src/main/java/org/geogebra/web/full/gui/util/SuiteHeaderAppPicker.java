@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.util;
 
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.AppDescription;
 import org.geogebra.web.full.gui.dialog.AppSwitcherPopup;
@@ -7,13 +8,13 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.RootPanel;
 
 public class SuiteHeaderAppPicker extends StandardButton {
-
 	private final AppW appW;
 	private AppSwitcherPopup suitePopup;
 
@@ -38,6 +39,8 @@ public class SuiteHeaderAppPicker extends StandardButton {
 		RootPanel appPickerPanel = RootPanel.get("suiteAppPicker");
 		if (appPickerPanel != null) {
 			SuiteHeaderAppPicker suiteHeaderAppPicker = new SuiteHeaderAppPicker(app);
+			new FocusableWidget(AccessibilityGroup.SUBAPP_CHOOSER, null,
+					suiteHeaderAppPicker).attachTo(app);
 			appPickerPanel.add(suiteHeaderAppPicker);
 			GlobalHeader.onResize();
 			return suiteHeaderAppPicker;

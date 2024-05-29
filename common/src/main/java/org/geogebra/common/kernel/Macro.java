@@ -13,15 +13,20 @@ the Free Software Foundation.
 package org.geogebra.common.kernel;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.io.MyXMLHandler;
+import org.geogebra.common.io.ParsedXMLTag;
 import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVector;
@@ -39,7 +44,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class Macro {
 
-	private Kernel kernel;
+	private final Kernel kernel;
 	private String cmdName = "";
 	private String toolName = "";
 	private String toolHelp = "";
@@ -55,8 +60,10 @@ public class Macro {
 	private String[] macroOutputLabels;
 	private TestGeo[] inputTypes;
 	private Integer viewId = null;
-	private LinkedList<AlgoElement> usingAlgos = new LinkedList<>();
+	private final LinkedList<AlgoElement> usedByAlgos = new LinkedList<>();
+	private final Set<Macro> usedByMacros = new HashSet<>();
 	private boolean copyCaptions;
+	private List<ParsedXMLTag> parsedXMLTags;
 
 	/**
 	 * Creates a new macro using the given input and output GeoElements.
@@ -162,42 +169,73 @@ public class Macro {
 	 *            labels for output
 	 */
 	public void initMacro(Construction macroCons1, String[] inputLabels,
-			String[] outputLabels) {
+			String[] outputLabels, List<ParsedXMLTag> elements) {
 		this.macroCons = macroCons1;
 		this.macroKernel = macroCons.getKernel();
 		this.macroConsXML = new StringBuilder();
-		macroCons.getConstructionXML(macroConsXML, false);
+		this.parsedXMLTags = elements;
+		if (macroCons1.isEmpty()) {
+			buildXMLFromTags();
+		} else {
+			macroCons1.getConstructionXML(macroConsXML, false);
+		}
 		this.macroInputLabels = inputLabels;
 		this.macroOutputLabels = outputLabels;
-
+		macroInput = new GeoElement[macroInputLabels.length];
+		inputTypes = new TestGeo[macroInputLabels.length];
+		macroOutput = new GeoElement[macroOutputLabels.length];
 		initInputOutput();
+		initGlobalLookup();
+	}
 
-		// init inputTypes array
-		inputTypes = new TestGeo[macroInput.length];
-		for (int i = 0; i < macroInput.length; i++) {
-			inputTypes[i] = TestGeo.getSpecificTest(macroInput[i]);
+	private void initGlobalLookup() {
+		if (!macroCons.isEmpty()) {
+			// after initialization, we turn global variable lookup on again,
+			// so we can use for example functions with parameters in macros too.
+			// Such parameters are global variables
+			if (macroCons instanceof MacroConstruction) {
+				((MacroConstruction) macroCons).setGlobalVariableLookup(true);
+			} else {
+				throw new IllegalStateException();
+			}
 		}
+	}
 
-		// after initing we turn global variable lookup on again,
-		// so we can use for example functions with parameters in macros too.
-		// Such parameters are global variables
-		if (macroCons1 instanceof MacroConstruction) {
-			((MacroConstruction) macroCons1).setGlobalVariableLookup(true);
+	private void buildXMLFromTags() {
+		macroConsXML.append("<construction title=\"\" author=\"\" date=\"\">\n");
+		ParsedXMLTag last = null;
+		for (ParsedXMLTag element : parsedXMLTags) {
+			if (element.open) {
+				if (last != null) {
+					last.appendTo(macroConsXML);
+				}
+				last = element;
+			} else if (last != null && element.name.equals(last.name)) {
+				last.appendSelfClosing(macroConsXML);
+				last = null;
+			} else {
+				if (last != null) {
+					last.appendTo(macroConsXML);
+					last = null;
+				}
+				element.appendTo(macroConsXML);
+			}
 		}
+		macroConsXML.append("</construction>\n");
 	}
 
 	private void initInputOutput() {
 		// get the input and output geos from the macro construction
-		macroInput = new GeoElement[macroInputLabels.length];
-		macroOutput = new GeoElement[macroOutputLabels.length];
+		if (!macroCons.isEmpty()) {
+			for (int i = 0; i < macroInputLabels.length; i++) {
+				macroInput[i] = macroCons.lookupLabel(macroInputLabels[i]);
+				macroInput[i].setFixed(false);
+				inputTypes[i] = TestGeo.getSpecificTest(macroInput[i]);
+			}
 
-		for (int i = 0; i < macroInputLabels.length; i++) {
-			macroInput[i] = macroCons.lookupLabel(macroInputLabels[i]);
-			macroInput[i].setFixed(false);
-		}
-
-		for (int i = 0; i < macroOutputLabels.length; i++) {
-			macroOutput[i] = macroCons.lookupLabel(macroOutputLabels[i]);
+			for (int i = 0; i < macroOutputLabels.length; i++) {
+				macroOutput[i] = macroCons.lookupLabel(macroOutputLabels[i]);
+			}
 		}
 	}
 
@@ -205,11 +243,11 @@ public class Macro {
 			throws MacroException, CircularDefinitionException {
 		// check that every output object depends on an input object
 		// and that all input objects are really needed
-		for (int i = 0; i < output.length; i++) {
+		for (GeoElement geoElement : output) {
 			boolean dependsOnInput = false;
 
-			for (int k = 0; k < input.length; k++) {
-				boolean dependencyFound = output[i].isChildOf(input[k]);
+			for (GeoElement inputElement : input) {
+				boolean dependencyFound = geoElement.isChildOf(inputElement);
 				if (dependencyFound) {
 					dependsOnInput = true;
 				}
@@ -218,7 +256,7 @@ public class Macro {
 			if (!dependsOnInput) {
 				throw new MacroException(kernel.getApplication().getLocalization()
 						.getError("Tool.OutputNotDependent") + ": "
-						+ output[i].getNameDescription());
+						+ geoElement.getNameDescription());
 			}
 		}
 
@@ -232,14 +270,14 @@ public class Macro {
 
 		// 1) create the set of all parents of this macro's output objects
 		TreeSet<GeoElement> outputParents = new TreeSet<>();
-		for (int i = 0; i < output.length; i++) {
-			output[i].addPredecessorsToSet(outputParents, false);
+		for (GeoElement outputElement : output) {
+			outputElement.addPredecessorsToSet(outputParents, false);
 
 			// note: Locateables (like Texts, Images, Vectors) may depend on
 			// points,
 			// these points must be part of the macro construction
-			if (output[i] instanceof Locateable) {
-				Locateable loc = (Locateable) output[i];
+			if (outputElement instanceof Locateable) {
+				Locateable loc = (Locateable) outputElement;
 				int pointCount = loc.getStartPointCount();
 				for (int k = 0; k < pointCount; k++) {
 					GeoElement point = (GeoElement) loc.getStartPoint(k);
@@ -254,9 +292,7 @@ public class Macro {
 		// 2) and 3) get intersection of inputChildren and outputParents
 		TreeSet<ConstructionElement> macroConsOrigElements = new TreeSet<>();
 		TreeSet<Long> usedAlgoIds = new TreeSet<>();
-		Iterator<GeoElement> it = outputParents.iterator();
-		while (it.hasNext()) {
-			GeoElement outputParent = it.next();
+		for (GeoElement outputParent : outputParents) {
 			if (outputParent.isLabelSet()) {
 				for (int i = 0; i < input.length; i++) {
 					if (outputParent.isChildOf(input[i])) {
@@ -289,7 +325,7 @@ public class Macro {
 			}
 			inputLabels[i] = input[i].getLabelSimple();
 
-			// add input element to macroConsOrigElements
+			// add input inputElement to macroConsOrigElements
 			// we handle some special cases for input types like segment,
 			// polygons, etc.
 			switch (input[i].getGeoClassType()) {
@@ -332,7 +368,6 @@ public class Macro {
 
 		// 5) create XML representation for macro-construction
 		macroConsXML = buildMacroXML(
-				input.length == 0 ? kernel : input[0].kernel,
 				macroConsOrigElements);
 
 		// if we used temp labels in step (4) remove them again
@@ -355,7 +390,7 @@ public class Macro {
 				macroConsXML.toString());
 
 		// init macro
-		initMacro(macroCons2, inputLabels, outputLabels);
+		initMacro(macroCons2, inputLabels, outputLabels, new ArrayList<>());
 	}
 
 	/**
@@ -398,7 +433,7 @@ public class Macro {
 
 		// STANDARD case
 		// add algorithm
-		Long algoID = Long.valueOf(algo.getID());
+		Long algoID = algo.getID();
 		if (!usedAlgoIds.contains(algoID)) {
 			consElementSet.add(algo);
 		}
@@ -406,9 +441,7 @@ public class Macro {
 
 		// add all output elements including geo
 		GeoElement[] algoOutput = algo.getOutput();
-		for (int i = 0; i < algoOutput.length; i++) {
-			consElementSet.add(algoOutput[i]);
-		}
+		consElementSet.addAll(Arrays.asList(algoOutput));
 
 	}
 
@@ -437,9 +470,9 @@ public class Macro {
 
 			// add all output elements including geo
 			GeoElement[] algoInput = algo.getInput();
-			for (int i = 0; i < algoInput.length; i++) {
-				if (algoInput[i].isLabelSet()) {
-					consElementSet.add(algoInput[i]);
+			for (GeoElement geoElement : algoInput) {
+				if (geoElement.isLabelSet()) {
+					consElementSet.add(geoElement);
 				}
 			}
 		}
@@ -447,14 +480,12 @@ public class Macro {
 
 	/**
 	 * Note: changes macroConsElements
-	 * 
-	 * @param kernel
-	 *            Kernel
+	 *
 	 * @param macroConsElements
 	 *            elements involved in macro (input, internal, output)
 	 * @return XML string of macro construction
 	 */
-	public static StringBuilder buildMacroXML(Kernel kernel,
+	public static StringBuilder buildMacroXML(
 			Set<ConstructionElement> macroConsElements) {
 
 		// get the XML for all macro construction elements
@@ -465,10 +496,7 @@ public class Macro {
 		macroConsXML
 				.append("<construction author=\"\" title=\"\" date=\"\">\n");
 
-		Iterator<ConstructionElement> it = macroConsElements.iterator();
-		while (it.hasNext()) {
-			ConstructionElement ce = it.next();
-
+		for (ConstructionElement ce : macroConsElements) {
 			if (ce.isGeoElement()) {
 				ce.getXML(false, macroConsXML);
 			} else if (ce.isAlgoElement()) {
@@ -494,7 +522,7 @@ public class Macro {
 	private Construction createMacroConstruction(String macroConstructionXML)
 			throws MacroException {
 		// build macro construction
-		MacroKernel mk = kernel.newMacroKernel();
+		MacroKernel mk = kernel.newMacroKernel(this);
 		mk.setContinuous(false);
 
 		// during initing we turn global variable lookup off, so we can be sure
@@ -522,8 +550,14 @@ public class Macro {
 	 * @param algoMacro
 	 *            macro algorithm
 	 */
-	public void registerAlgorithm(AlgoMacroInterface algoMacro) {
-		usingAlgos.add((AlgoElement) algoMacro);
+	public void registerAlgorithm(AlgoElement algoMacro) {
+		usedByAlgos.add(algoMacro);
+		if (algoMacro.getKernel() instanceof MacroKernel) {
+			Macro parentMacro = ((MacroKernel) algoMacro.getKernel()).getParentMacro();
+			if (parentMacro != null) {
+				usedByMacros.add(parentMacro);
+			}
+		}
 	}
 
 	/**
@@ -533,25 +567,27 @@ public class Macro {
 	 *            macro algorithm
 	 */
 	public void unregisterAlgorithm(AlgoElement algoMacro) {
-		usingAlgos.remove(algoMacro);
+		usedByAlgos.remove(algoMacro);
 	}
 
 	/**
-	 * Returns whether this macro is being used by algorithms in the current
-	 * construction.
-	 * 
-	 * @return true iff this macro is being used by algorithms in the current
+	 * Checks usages in given construction.
+	 *
+	 * @param construction top level construction or another macro
+	 * @return true iff this macro is being used by algorithms in given
 	 *         construction
 	 */
-	final public boolean isUsed() {
-		return usingAlgos.size() > 0;
+	final public boolean isUsedBy(Construction construction) {
+		return usedByAlgos.stream().anyMatch(algo -> algo.cons == construction)
+				|| usedByMacros.stream().anyMatch(parent -> parent.isUsedBy(construction));
 	}
 
 	/**
-	 * Removes links to all algos using this macro
+	 * Removes links to all algos in given construction that are using this macro
+	 * @param cons construction being cleared
 	 */
-	final public void setUnused() {
-		usingAlgos.clear();
+	final public void setUnusedBy(Construction cons) {
+		usedByAlgos.removeIf(algo -> algo.cons == cons);
 	}
 
 	/**
@@ -571,8 +607,7 @@ public class Macro {
 	 * @return tool help
 	 */
 	public String getToolHelp() {
-
-		if (toolHelp == null || "".equals(toolHelp)) {
+		if (StringUtil.empty(toolHelp)) {
 			return toString();
 		}
 		return toolHelp;
@@ -662,13 +697,13 @@ public class Macro {
 	}
 
 	/**
-	 * Sets tool name
+	 * Sets tool name; handles "null" as null to work around a saving bug
 	 * 
 	 * @param name
 	 *            new tool name
 	 */
 	public void setToolName(String name) {
-		if (name == null || "null".equals(name) || name.length() == 0) {
+		if (StringUtil.empty(name) || "null".equals(name)) {
 			this.toolName = cmdName;
 		} else {
 			this.toolName = name;
@@ -682,11 +717,7 @@ public class Macro {
 	 *            Icon filename, "" or null for empty
 	 */
 	public void setIconFileName(String name) {
-		if (name == null) {
-			this.iconFileName = "";
-		} else {
-			this.iconFileName = name;
-		}
+		this.iconFileName = name == null ? "" : name;
 	}
 
 	/**
@@ -713,7 +744,7 @@ public class Macro {
 				sb.append(", ");
 			}
 			sb.append('<');
-			sb.append(macroInput[i].translatedTypeString());
+			sb.append(macroInput[i] == null ? "" : macroInput[i].translatedTypeString());
 			sb.append('>');
 		}
 		sb.append(" ]");
@@ -774,7 +805,7 @@ public class Macro {
 
 		// macro construction XML
 		if (macroConsXML != null && macroConsXML.length() > 0) {
-			sb.append(macroConsXML.toString());
+			sb.append(macroConsXML);
 		} else {
 			macroCons.getConstructionXML(sb, false);
 		}
@@ -818,13 +849,10 @@ public class Macro {
 	 */
 	public ArrayList<GeoElement> getDependentGeos() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
-		Iterator<AlgoElement> curr = usingAlgos.iterator();
-		while (curr.hasNext()) {
-			AlgoElement algo = curr.next();
-
+		for (AlgoElement algo : usedByAlgos) {
 			// seek for the first visible geo
 			GeoElement geo = algo.getOutput(0);
-			while (!geo.isLabelSet() && geo.getAllChildren().size() > 0) {
+			while (!geo.isLabelSet() && !geo.getAllChildren().isEmpty()) {
 				geo = geo.getAllChildren().first();
 			}
 
@@ -867,5 +895,49 @@ public class Macro {
 	 */
 	public void setViewId(Integer viewId) {
 		this.viewId = viewId;
+	}
+
+	/**
+	 * Make sure this macro is loaded
+	 * @throws XMLParseException when stored XML is invalid
+	 */
+	public void load() throws XMLParseException {
+		if (macroCons.isEmpty()) {
+			MyXMLHandler mh = new MyXMLHandler(macroKernel, macroCons);
+			mh.startElement("geogebra", new LinkedHashMap<>());
+			mh.startElement("construction", new LinkedHashMap<>());
+			for (ParsedXMLTag pe: parsedXMLTags) {
+				if (pe.open) {
+					mh.startElement(pe.name, pe.attributes);
+				} else {
+					mh.endElement(pe.name);
+				}
+			}
+			initInputOutput();
+			// update construction resets the nearto relations in macro, so "outer
+			// world" won't affect it
+			macroCons.updateConstruction(true);
+			initGlobalLookup();
+		}
+	}
+
+	/**
+	 * String-based check for random commands and functions, may have false positives.
+	 * Checks all attributes since random could be part of e.g. dynamic color.
+	 * @return whether this contains random command or function
+	 */
+	public boolean isRandom() {
+		return parsedXMLTags.stream().anyMatch(this::isElementRandom);
+	}
+
+	private boolean isElementRandom(ParsedXMLTag el) {
+		if (el.attributes != null) {
+			for (String val: el.attributes.values()) {
+				if (val.toLowerCase(Locale.ROOT).matches(".*(random|shuffle|sample).*")) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

@@ -1549,9 +1549,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isWhiteboardActive()) {
 			frame.attachNotesUI(this);
 		}
-		GlobalHeader.INSTANCE.initAssignButton(() -> {
-			getShareController().assign();
-		});
+		GlobalHeader.INSTANCE.initLogo(this);
+		GlobalHeader.INSTANCE.initAssignButton(() -> getShareController().assign(), this);
 
 		// showAlgebraInput should come from data-param,
 		// this is just a 'second line of defense'

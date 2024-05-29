@@ -30,8 +30,9 @@ import org.geogebra.common.util.MaxSizeHashMap;
  */
 public class MacroKernel extends Kernel {
 
-	private Kernel parentKernel;
-	private MacroConstruction macroCons;
+	private final Kernel parentKernel;
+	private final MacroConstruction macroCons;
+	private final Macro parentMacro;
 
 	/**
 	 * Creates new kernel for macro
@@ -39,9 +40,10 @@ public class MacroKernel extends Kernel {
 	 * @param parentKernel
 	 *            kernel of construction in which we want to use this macro
 	 */
-	public MacroKernel(Kernel parentKernel) {
+	public MacroKernel(Kernel parentKernel, Macro parentMacro) {
 		super(parentKernel.getGeoFactory());
 		this.parentKernel = parentKernel;
+		this.parentMacro = parentMacro;
 
 		app = parentKernel.getApplication();
 		setUndoActive(false);
@@ -82,14 +84,6 @@ public class MacroKernel extends Kernel {
 		return k;
 	}
 
-	// public boolean isUseTempVariablePrefix() {
-	// return super.isUseTempVariablePrefix();
-	// }
-	//
-	// public void setUseTempVariablePrefix(boolean flag) {
-	// useTempVariablePrefix = flag;
-	// super.setUseTempVariablePrefix(flag);
-	// }
 	/**
 	 * @param label
 	 *            reserved label
@@ -255,4 +249,7 @@ public class MacroKernel extends Kernel {
 		return parentKernel.createConstructionCompanion(cons1);
 	}
 
+	public Macro getParentMacro() {
+		return parentMacro;
+	}
 }
