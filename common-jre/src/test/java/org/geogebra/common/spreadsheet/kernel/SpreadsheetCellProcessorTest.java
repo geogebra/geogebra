@@ -84,7 +84,7 @@ public class SpreadsheetCellProcessorTest extends BaseUnitTest {
 
 	private void assertSerializedAs(String value) {
 		assertEquals("The values do not match!", value,
-				serializer.getStringForEditor(lookup("A1")));
+				serializer.getStringForEditor(lookup("A1"), false));
 	}
 
 	private void assertIsAuxiliary() {

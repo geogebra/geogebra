@@ -3,6 +3,7 @@ package org.geogebra.common.spreadsheet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
 import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
@@ -122,5 +123,10 @@ public class TestTabularData implements TabularData<String> {
 	@Override
 	public boolean hasError(int row, int column) {
 		return errorData.get(row).get(column);
+	}
+
+	@Override
+	public Localization getLocalization() {
+		return null;
 	}
 }
