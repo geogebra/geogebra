@@ -29,9 +29,13 @@ public class PenIconButton extends IconButton {
 		this.appW = appW;
 
 		AriaHelper.setAriaHasPopup(this);
+		if (penPopup == null) {
+			penPopup = new PenCategoryPopup(appW, Arrays.asList(MODE_PEN, MODE_HIGHLIGHTER,
+					MODE_ERASER), getUpdateButtonCallback());
+		}
 		addFastClickHandler((event) -> {
 			deselectButtons.run();
-			initPopupAndShow();
+			showPopup();
 			setActive(true);
 
 			AriaHelper.setAriaExpanded(this, true);
@@ -39,12 +43,7 @@ public class PenIconButton extends IconButton {
 		});
 	}
 
-	private void initPopupAndShow() {
-		if (penPopup == null) {
-			penPopup = new PenCategoryPopup(appW, Arrays.asList(MODE_PEN, MODE_HIGHLIGHTER,
-					MODE_ERASER), getUpdateButtonCallback());
-		}
-
+	private void showPopup() {
 		appW.setMode(getLastSelectedMode());
 		penPopup.update();
 		ToolboxPopupPositioner.showRelativeToToolbox(penPopup, this, appW);
