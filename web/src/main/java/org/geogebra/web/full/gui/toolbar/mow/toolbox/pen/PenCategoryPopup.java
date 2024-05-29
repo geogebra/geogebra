@@ -7,12 +7,14 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.web.full.gui.toolbar.mow.popupcomponents.ColorChooserPanel;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.CategoryPopup;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.ComponentSlider;
 
-public class PenCategoryPopup extends CategoryPopup {
+public class PenCategoryPopup extends CategoryPopup implements SettingListener {
 	private PenCategoryController controller;
 	private ColorChooserPanel colorChooser;
 	private ComponentSlider sliderComponent;
@@ -27,7 +29,7 @@ public class PenCategoryPopup extends CategoryPopup {
 			Consumer<Integer> updateParentCallback) {
 		super(app, tools, updateParentCallback, true);
 
-		controller = new PenCategoryController(app);
+		controller = new PenCategoryController(app, this);
 
 		addStyleName("penCategory");
 		buildGui();
@@ -63,5 +65,10 @@ public class PenCategoryPopup extends CategoryPopup {
 		colorChooser.setDisabled(mode == MODE_ERASER);
 		controller.getPen().updateMode();
 		sliderComponent.update(mode);
+	}
+
+	@Override
+	public void settingsChanged(AbstractSettings settings) {
+		controller.getPen().updateMode();
 	}
 }

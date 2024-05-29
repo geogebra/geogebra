@@ -3,13 +3,20 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox.pen;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianPen;
 import org.geogebra.common.main.settings.PenToolsSettings;
+import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.web.html5.main.AppW;
 
 public class PenCategoryController {
 	private final AppW appW;
 
-	public PenCategoryController(AppW appW) {
+	/**
+	 * Constructor
+	 * @param appW - application
+	 * @param listener - settings listener
+	 */
+	public PenCategoryController(AppW appW, SettingListener listener) {
 		this.appW = appW;
+		getPenSettings().addListener(listener);
 	}
 
 	/**
