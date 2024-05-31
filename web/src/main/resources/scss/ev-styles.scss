@@ -347,11 +347,11 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				}
 			}
 
-			&.keyboardFocus:focus {
-				img {
-					opacity: 1;
-					outline: colors.$focus-black 5px auto;
-				}
+			&.keyboardFocus:focus-visible {
+				outline-color: var(--ggb-dark-color);
+				outline-width: 2px;
+				outline-style: solid;
+				outline-offset: 3px;
 			}
 		}
 		.zoomPanelBtnSmall img {

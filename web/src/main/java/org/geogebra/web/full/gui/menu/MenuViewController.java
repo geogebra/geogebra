@@ -257,6 +257,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		hideSubmenuAndMoveFocus();
 		if (floatingMenuView.isVisible()) {
 			menuView.selectItem(0);
+			menuView.getSelectedItem().getElement().focus();
 		}
 		setMenuTransition(menuView, floatingMenuView.isVisible());
 	}

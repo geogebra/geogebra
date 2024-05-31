@@ -513,6 +513,14 @@
 			color: neutral(700);
 			background-color: neutral(200);
 		}
+
+		&.keyboardFocus:focus-visible {
+			outline-color: var(--ggb-dark-color);
+            outline-width: 2px;
+            outline-style: solid;
+            outline-offset: 3px;
+            background: var(--ggb-light-color);
+		}
 	}
 
 	/** Material CONTAINED BUTTON used for dialogs positive action **/
@@ -520,6 +528,13 @@
 		@extend .materialContainedButton;
 
 		box-shadow: none;
+
+		&.keyboardFocus:focus-visible {
+			outline-color: var(--ggb-dark-color);
+            outline-width: 2px;
+            outline-style: solid;
+            outline-offset: 3px;
+		}
 	}
 
    .orDividerComponent {
