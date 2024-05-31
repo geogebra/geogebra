@@ -132,7 +132,7 @@ $menuWidth: 320px;
 			left: 0px;
 		}
 		&.transitionOut {
-		    overflow: hidden;
+			overflow: hidden;
 			transition-timing-function: $submenuTimingFunction;
 			transition-duration: $submenuTransitionDuration;
 			left: -100px;
@@ -145,7 +145,7 @@ $menuWidth: 320px;
 		width: 100%;
 		z-index: z-index.$z-main-menu-submenu;
 		&.transitionIn {
-		    overflow: auto;
+			overflow: auto;
 			transition-timing-function: $submenuTimingFunction;
 			transition-duration: $submenuTransitionDuration;
 			box-shadow: -2px 0px 20px 0px colors.$black-30;
