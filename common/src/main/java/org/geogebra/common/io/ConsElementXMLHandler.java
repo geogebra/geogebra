@@ -2839,7 +2839,7 @@ public class ConsElementXMLHandler {
 			}
 		}
 		if (!geosInGroup.isEmpty()) {
-			xmlHandler.kernel.getConstruction().createGroup(geosInGroup);
+			app.getKernel().getConstruction().createGroup(geosInGroup);
 		}
 	}
 }
