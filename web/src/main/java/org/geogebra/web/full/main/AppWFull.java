@@ -25,6 +25,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -255,7 +256,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private String autosavedMaterial = null;
 	private MaskWidgetList maskWidgets;
 	private SuiteHeaderAppPicker suiteAppPickerButton;
-	private final Map<String, Material> constructionJson = new HashMap<>();
+	private final Map<SuiteSubApp, Material> constructionJson = new HashMap<>();
 	private final HashMap<String, UndoHistory> undoHistory = new HashMap<>();
 	private InputBoxType inputBoxType;
 	private List<String> functionVars = new ArrayList<>();
@@ -429,15 +430,15 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @return Last used SubApp, only if it is saved in local storage and the app was not started
 	 * with a file, Graphing SubApp otherwise <br/>
 	 * If the app was started with a file, the activity should be updated from
-	 * {@link #updateAppCodeSuite(String, Perspective)} anyways
+	 * {@link #updateAppCodeSuite(SuiteSubApp, Perspective)} anyways
 	 */
-	public String getLastUsedSubApp() {
+	public SuiteSubApp getLastUsedSubApp() {
 		if (isLockedExam() || isStartedWithFile()) {
-			return GRAPHING_APPCODE;
+			return SuiteSubApp.GRAPHING;
 		}
 		String lastUsedSubApp = BrowserStorage.LOCAL.getItem(BrowserStorage.LAST_USED_SUB_APP);
 		return lastUsedSubApp != null && !lastUsedSubApp.isEmpty()
-				? lastUsedSubApp : GRAPHING_APPCODE;
+				? SuiteSubApp.forCode(lastUsedSubApp) : SuiteSubApp.GRAPHING;
 	}
 
 	/**
@@ -2179,9 +2180,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public void updateAppCodeSuite(String subApp, Perspective p) {
+	public void updateAppCodeSuite(SuiteSubApp subApp, Perspective p) {
 		if (SUITE_APPCODE.equals(getAppletParameters().getDataParamAppName())) {
-			String appCode = getConfig().getSubAppCode();
+			SuiteSubApp appCode = getConfig().getSubApp();
 			if (appCode != null && !appCode.equals(subApp)) {
 				this.activity = new SuiteActivity(subApp,
 						!getSettings().getCasSettings().isEnabled());
@@ -2434,8 +2435,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public void switchToSubapp(String subAppCode) {
-		BrowserStorage.LOCAL.setItem(BrowserStorage.LAST_USED_SUB_APP, subAppCode);
+	public void switchToSubapp(SuiteSubApp subApp) {
+		BrowserStorage.LOCAL.setItem(BrowserStorage.LAST_USED_SUB_APP, subApp.appCode);
 		getDialogManager().hideCalcChooser();
 		CommandFilter commandFilter = getConfig().getCommandFilter();
 		if (commandFilter != null) {
@@ -2443,7 +2444,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 		storeCurrentUndoHistory();
 		storeCurrentMaterial();
-		activity = new SuiteActivity(subAppCode, !getSettings().getCasSettings().isEnabled());
+		activity = new SuiteActivity(subApp, !getSettings().getCasSettings().isEnabled());
 		preloadAdvancedCommandsForSuiteCAS();
 		activity.start(this);
 		getKernel().removeAllMacros();
@@ -2451,7 +2452,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		resetToolbarPanel();
 		Perspective perspective = PerspectiveDecoder.getDefaultPerspective(
 				getConfig().getForcedPerspective(), getGuiManager().getLayout());
-		updateSidebarAndMenu(subAppCode);
+		updateSidebarAndMenu(subApp);
 		reinitSettings();
 		clearConstruction();
 		setTmpPerspective(null);
@@ -2464,9 +2465,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 		resetCommandDict();
 		if (suiteAppPickerButton != null) {
-			suiteAppPickerButton.setIconAndLabel(subAppCode);
+			suiteAppPickerButton.setIconAndLabel(subApp);
 		}
-		if (restoreMaterial(subAppCode)) {
+		if (restoreMaterial(subApp)) {
 			registerOpenFileListener(() -> {
 				afterMaterialRestored();
 				return true;
@@ -2474,7 +2475,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		} else {
 			afterMaterialRestored();
 		}
-		getEventDispatcher().dispatchEvent(new Event(EventType.SWITCH_CALC, null, subAppCode));
+		getEventDispatcher().dispatchEvent(new Event(EventType.SWITCH_CALC, null, subApp.appCode));
 	}
 
 	private void afterMaterialRestored() {
@@ -2492,11 +2493,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			material = new Material(Material.MaterialType.ggb);
 		}
 		material.setContent(getGgbApi().getFileJSON(false));
-		constructionJson.put(getConfig().getSubAppCode(), material);
+		constructionJson.put(getConfig().getSubApp(), material);
 		setActiveMaterial(null);
 	}
 
-	private boolean restoreMaterial(String subAppCode) {
+	private boolean restoreMaterial(SuiteSubApp subAppCode) {
 		Material material = constructionJson.get(subAppCode);
 		if (material != null) {
 			Object oldConstruction = material.getContent();
@@ -2533,9 +2534,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		undoManager.undoHistoryFrom(undoHistory);
 	}
 
-	private void updateSidebarAndMenu(String subAppCode) {
+	private void updateSidebarAndMenu(SuiteSubApp subAppCode) {
 		getKernel().setSymbolicMode(
-				GeoGebraConstants.CAS_APPCODE.equals(subAppCode)
+				SuiteSubApp.CAS.equals(subAppCode)
 						? SymbolicMode.SYMBOLIC_AV
 						: SymbolicMode.NONE);
 
@@ -2555,7 +2556,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @param subappCode
 	 *            - subapp code
 	 */
-	public void setSuiteHeaderButton(String subappCode) {
+	public void setSuiteHeaderButton(SuiteSubApp subappCode) {
 		if (suiteAppPickerButton != null) {
 			suiteAppPickerButton.setIconAndLabel(subappCode);
 			GlobalHeader.onResize();

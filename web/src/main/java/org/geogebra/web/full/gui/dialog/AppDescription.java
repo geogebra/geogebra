@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.dialog;
 
-import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ResourcePrototype;
@@ -19,22 +19,22 @@ public final class AppDescription {
 	 * @param code (sub)app code
 	 * @return image and translation key for the app
 	 */
-	public static AppDescription get(String code) {
+	public static AppDescription get(SuiteSubApp code) {
 		SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
 		switch (code) {
-		case GeoGebraConstants.G3D_APPCODE:
+		case G3D:
 			return new AppDescription(res.menu_icon_graphics3D_transparent(),
 					"GeoGebra3DGrapher.short");
-		case GeoGebraConstants.GEOMETRY_APPCODE:
+		case GEOMETRY:
 			return new AppDescription(res.menu_icon_geometry_transparent(),
 					"Geometry");
-		case GeoGebraConstants.CAS_APPCODE:
+		case CAS:
 			return new AppDescription(res.cas_white_bg(),
 					"CAS");
-		case GeoGebraConstants.PROBABILITY_APPCODE:
+		case PROBABILITY:
 			return new AppDescription(res.menu_icon_probability_transparent(),
 					"Probability");
-		case GeoGebraConstants.GRAPHING_APPCODE:
+		case GRAPHING:
 		default:
 			return new AppDescription(res.menu_icon_algebra_transparent(),
 					"GraphingCalculator.short");

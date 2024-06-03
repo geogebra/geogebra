@@ -2,6 +2,9 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.exam.ExamController;
+import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.exam.ExamListener;
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.full.main.AppWFull;
@@ -49,21 +52,22 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 	}
 
 	private void addButtons() {
-		buildAndAddCalcButton(GeoGebraConstants.GRAPHING_APPCODE, contentPanel);
+		buildAndAddCalcButton(SuiteSubApp.GRAPHING, contentPanel);
 		if (app.getSettings().getEuclidian(-1).isEnabled()) {
-			buildAndAddCalcButton(GeoGebraConstants.G3D_APPCODE, contentPanel);
+			buildAndAddCalcButton(SuiteSubApp.G3D, contentPanel);
 		}
-		buildAndAddCalcButton(GeoGebraConstants.GEOMETRY_APPCODE, contentPanel);
+		buildAndAddCalcButton(SuiteSubApp.GEOMETRY, contentPanel);
 		if (app.getSettings().getCasSettings().isEnabled()) {
-			buildAndAddCalcButton(GeoGebraConstants.CAS_APPCODE, contentPanel);
+			buildAndAddCalcButton(SuiteSubApp.CAS, contentPanel);
 		}
-		buildAndAddCalcButton(GeoGebraConstants.PROBABILITY_APPCODE, contentPanel);
+		buildAndAddCalcButton(SuiteSubApp.PROBABILITY, contentPanel);
 
 		add(contentPanel);
 	}
 
-	private void buildAndAddCalcButton(String subAppCode, FlowPanel contentPanel) {
-		if (examController.isExamActive() && examController.isDisabledSubApp(subAppCode)) {
+	private void buildAndAddCalcButton(SuiteSubApp subAppCode, FlowPanel contentPanel) {
+		if (examController.isExamActive()
+				&& examController.isDisabledSubApp(subAppCode)) {
 			return;
 		}
 		AppDescription description = AppDescription.get(subAppCode) ;
@@ -71,7 +75,7 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 		StandardButton button =  new StandardButton(72, description.getIcon(),
 				app.getLocalization().getMenu(appNameKey));
 		button.setStyleName("calcBtn");
-		if (subAppCode.equals(app.getConfig().getSubAppCode())) {
+		if (subAppCode.equals(app.getConfig().getSubApp())) {
 			button.addStyleName("selected");
 		}
 

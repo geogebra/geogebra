@@ -11,7 +11,7 @@ import org.geogebra.common.main.AppKeyboardType;
 public class AppConfigNotes extends AppConfigDefault {
 
 	public AppConfigNotes() {
-		super(GeoGebraConstants.NOTES_APPCODE, null);
+		super(GeoGebraConstants.NOTES_APPCODE);
 	}
 
 	@Override

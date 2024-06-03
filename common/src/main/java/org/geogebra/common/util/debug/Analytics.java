@@ -5,7 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.SuiteSubApp;
 
 /** Subclass this and set the instance to use it for logging analytics events. */
 public abstract class Analytics {
@@ -105,17 +105,17 @@ public abstract class Analytics {
 		 * @param subAppName sub app name
 		 * @return sub app parameter
 		 */
-		public static String convertToSubAppParam(String subAppName) {
+		public static String convertToSubAppParam(SuiteSubApp subAppName) {
 			switch (subAppName) {
-			case GeoGebraConstants.GEOMETRY_APPCODE:
+			case GEOMETRY:
 				return SUB_APP_GEOMETRY;
-			case GeoGebraConstants.CAS_APPCODE:
+			case CAS:
 				return SUB_APP_CAS;
-			case GeoGebraConstants.G3D_APPCODE:
+			case G3D:
 				return SUB_APP_3D;
-			case GeoGebraConstants.PROBABILITY_APPCODE:
+			case PROBABILITY:
 				return SUB_APP_PROBABILITY;
-			case GeoGebraConstants.GRAPHING_APPCODE:
+			case GRAPHING:
 			default:
 				return SUB_APP_GRAPHING;
 			}

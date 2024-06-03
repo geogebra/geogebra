@@ -74,6 +74,6 @@ public class ExamControllerDelegateW implements ExamControllerDelegate {
 		if (!app.isSuite()) {
 			return;
 		}
-		app.switchToSubapp(subApp.appCode);
+		app.switchToSubapp(subApp);
 	}
 }

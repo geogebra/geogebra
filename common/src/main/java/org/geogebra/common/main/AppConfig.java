@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.StringTemplate;
@@ -198,6 +199,13 @@ public interface AppConfig extends Serializable {
 	 */
 	@CheckForNull
 	String getSubAppCode();
+
+	/**
+	 * @return The sub-app code if exists.
+	 * E.g. in the Suite app the Graphing sub-app has "suite" app code and "graphing" sub-app code.
+	 */
+	@CheckForNull
+	SuiteSubApp getSubApp();
 
 	/**
 	 * @return creates a settings updater

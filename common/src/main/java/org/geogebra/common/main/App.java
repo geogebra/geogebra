@@ -16,6 +16,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
@@ -4173,7 +4174,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param subApp subapp code
 	 * @param p perspective
 	 */
-	public void updateAppCodeSuite(String subApp, Perspective p) {
+	public void updateAppCodeSuite(SuiteSubApp subApp, Perspective p) {
 		// only in Web
 	}
 

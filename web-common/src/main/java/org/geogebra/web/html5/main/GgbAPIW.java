@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
 
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -1337,7 +1338,7 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	public void switchCalculator(String appCode) {
-		((AppW) app).switchToSubapp(appCode);
+		((AppW) app).switchToSubapp(SuiteSubApp.forCode(appCode));
 	}
 
 	/**

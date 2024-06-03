@@ -3,6 +3,7 @@ package org.geogebra.common.main.settings.config;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
@@ -10,7 +11,7 @@ import org.geogebra.common.main.AppConfig;
 abstract class AbstractAppConfig implements AppConfig {
 
     private String appCode;
-    private String subAppCode;
+    private SuiteSubApp subAppCode;
     protected transient CommandFilter commandFilter;
 
     AbstractAppConfig(String appCode) {
@@ -19,7 +20,7 @@ abstract class AbstractAppConfig implements AppConfig {
 
     AbstractAppConfig(String appCode, String subAppCode) {
         this.appCode = appCode;
-        this.subAppCode = subAppCode;
+        this.subAppCode = SuiteSubApp.forCode(subAppCode);
     }
 
     @Override
@@ -30,6 +31,12 @@ abstract class AbstractAppConfig implements AppConfig {
     @CheckForNull
     @Override
     public String getSubAppCode() {
+        return subAppCode == null ? null : subAppCode.appCode;
+    }
+
+    @CheckForNull
+    @Override
+    public SuiteSubApp getSubApp() {
         return subAppCode;
     }
 

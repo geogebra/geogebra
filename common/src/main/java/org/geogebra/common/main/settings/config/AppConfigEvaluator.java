@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 public class AppConfigEvaluator extends AppConfigDefault {
 
 	public AppConfigEvaluator() {
-		super(GeoGebraConstants.EVALUATOR_APPCODE, null);
+		super(GeoGebraConstants.EVALUATOR_APPCODE);
 	}
 
 	@Override

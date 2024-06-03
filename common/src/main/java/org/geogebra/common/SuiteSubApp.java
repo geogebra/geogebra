@@ -2,6 +2,8 @@ package org.geogebra.common;
 
 import static org.geogebra.common.GeoGebraConstants.*;
 
+import java.util.Arrays;
+
 public enum SuiteSubApp {
 	GRAPHING(GRAPHING_APPCODE),
 	GEOMETRY(GEOMETRY_APPCODE),
@@ -14,5 +16,10 @@ public enum SuiteSubApp {
 
 	SuiteSubApp(String appCode) {
 		this.appCode = appCode;
+	}
+
+	public static SuiteSubApp forCode(String code) {
+		return Arrays.stream(values()).filter(subApp -> subApp.appCode.equals(code))
+				.findFirst().orElse(null);
 	}
 }

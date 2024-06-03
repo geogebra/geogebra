@@ -13,6 +13,7 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants.Platform;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -3522,7 +3523,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * clearing all construction, and resetting almost all the settings
 	 * @param appCode "graphing", "3d", "cas", "geometry" or "probability"
 	 */
-	public void switchToSubapp(String appCode) {
+	public void switchToSubapp(SuiteSubApp appCode) {
 		// only with UI
 	}
 

@@ -26,6 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.TreeMap;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
@@ -2538,7 +2539,7 @@ public class MyXMLHandler implements DocHandler {
 	private void handleConstruction(LinkedHashMap<String, String> attrs) {
 		try {
 			if (!(kernel instanceof MacroKernel)) {
-				app.updateAppCodeSuite(subAppCode, tmp_perspective);
+				app.updateAppCodeSuite(SuiteSubApp.forCode(subAppCode), tmp_perspective);
 			}
 			cons.setAllowUnboundedAngles(
 					DoubleUtil.isGreaterEqual(ggbFileFormat, 4.4));

@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.util;
 
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.AppDescription;
@@ -67,7 +68,7 @@ public class SuiteHeaderAppPicker extends StandardButton {
 	 * @param appCode
 	 *            - subapp code
 	 */
-	public void setIconAndLabel(String appCode) {
+	public void setIconAndLabel(SuiteSubApp appCode) {
 		AppDescription description = AppDescription.get(appCode);
 		NoDragImage btnImage = new NoDragImage(description.getIcon(), 24, 24);
 		btnImage.getElement().setTabIndex(-1);

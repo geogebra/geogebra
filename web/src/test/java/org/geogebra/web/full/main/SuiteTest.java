@@ -3,6 +3,7 @@ package org.geogebra.web.full.main;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.shared.GlobalHeader;
@@ -24,7 +25,7 @@ public class SuiteTest {
 		AppWFull app = AppMocker.mockApplet(new AppletParameters("suite"));
 		GlobalHeader.INSTANCE.setApp(app);
 		app.startExam(ExamType.GENERIC);
-		app.switchToSubapp("geometry");
+		app.switchToSubapp(SuiteSubApp.GEOMETRY);
 		GlobalScope.examController.finishExam();
 		app.endExam();
 		assertTrue(app.getSettings().getCasSettings().isEnabled());

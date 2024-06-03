@@ -239,12 +239,20 @@ public final class ExamController {
 	 * @return True if the sub-app corresponding to appCode is currently disabled, false otherwise.
 	 */
 	public boolean isDisabledSubApp(String appCode) {
+		return isDisabledSubApp(SuiteSubApp.forCode(appCode));
+	}
+
+	/**
+	 * Check for disabled subapps.
+	 * @param subApp A sub-app
+	 * @return True if the sub-app corresponding to appCode is currently disabled, false otherwise.
+	 */
+	public boolean isDisabledSubApp(SuiteSubApp subApp) {
 		Set<SuiteSubApp> disabledSubApps = getDisabledSubApps();
 		if (disabledSubApps == null) {
 			return false;
 		}
-		return disabledSubApps.stream()
-				.anyMatch(subApp -> subApp.appCode.equalsIgnoreCase(appCode));
+		return disabledSubApps.contains(subApp);
 	}
 
 	/**

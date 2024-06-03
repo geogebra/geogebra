@@ -40,8 +40,8 @@ public class AppConfigDefault extends AbstractAppConfig {
 		super(GeoGebraConstants.CLASSIC_APPCODE);
 	}
 
-	AppConfigDefault(String appCode, String subAppCode) {
-		super(appCode, subAppCode);
+	AppConfigDefault(String appCode) {
+		super(appCode, null);
 	}
 
 	@Override
