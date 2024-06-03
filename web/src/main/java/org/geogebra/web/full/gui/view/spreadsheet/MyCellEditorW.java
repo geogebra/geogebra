@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
-import org.geogebra.common.gui.view.spreadsheet.SpreadsheetController;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetTableController;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -45,7 +45,7 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	private boolean allowAutoEdit;
 
-	private SpreadsheetController controller;
+	private SpreadsheetTableController controller;
 	// keep track of when <tab> was first pressed
 	// so we can return to that column when <enter> pressed
 	private int tabReturnCol = -1;
@@ -67,7 +67,7 @@ public class MyCellEditorW implements BaseCellEditor {
 	 *            controller
 	 */
 	public MyCellEditorW(Kernel kernel,
-			SimplePanel editorPanel, SpreadsheetController controller) {
+			SimplePanel editorPanel, SpreadsheetTableController controller) {
 		this.controller = controller;
 		this.kernel = kernel;
 		app = (AppW) kernel.getApplication();

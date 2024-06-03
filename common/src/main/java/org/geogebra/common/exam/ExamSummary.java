@@ -44,6 +44,21 @@ public final class ExamSummary {
 		return CmdGetTime.buildLocalizedDate("\\H:\\i:\\s", date, localization);
 	}
 
+	public static String formatElapsedTime(Date startDate, Date endDate) {
+		long elapsedTime = endDate.getTime() - startDate.getTime();
+		long elapsedMinutes = elapsedTime / 1000 / 60;
+		long elapsedSeconds = elapsedTime / 1000 % 60;
+
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(elapsedMinutes).append(":");
+		if (elapsedSeconds < 10) {
+			stringBuilder.append("0");
+		}
+		stringBuilder.append(elapsedSeconds);
+
+		return stringBuilder.toString();
+	}
+
 	/**
 	 * Create a new exam summary.
 	 *
@@ -87,54 +102,18 @@ public final class ExamSummary {
 	private String getActivityLog(Date startDate, Date finishDate,
 			CheatingEvents cheatingEvents, Localization localization) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(localization.getMenu("exam_start_date")).append(": ")
-				.append(formatDate(startDate, localization)).append("\n");
-		sb.append(localization.getMenu("exam_start_time")).append(": ")
-				.append(formatTime(startDate, localization)).append("\n");
-		if (finishDate != null) {
-			sb.append(localization.getMenu("exam_end_time")).append(": ")
-					.append(formatTime(finishDate, localization)).append("\n");
-		}
-
-		sb.append(localization.getMenu("exam_activity")).append(":\n");
 		sb.append("0:00").append(' ')
 				.append(localization.getMenu("exam_started")).append("\n");
-		sb.append(getCheatingEventsLog(cheatingEvents, localization));
-		if (finishDate != null) {
-			sb.append(formatEventTime(finishDate)).append(' ')
-					.append(localization.getMenu("exam_ended")).append("\n");
-		}
-		return sb.toString();
-	}
-
-	private String getCheatingEventsLog(CheatingEvents cheatingEvents, Localization localization) {
-		StringBuilder sb = new StringBuilder();
 		for (CheatingEvent cheatingEvent : cheatingEvents.getEvents()) {
-			sb.append(formatEventTime(cheatingEvent.getDate()));
+			sb.append(formatElapsedTime(startDate, cheatingEvent.getDate()));
 			sb.append(' ');
 			sb.append(cheatingEvent.getAction().toString(localization));
 			sb.append("\n");
 		}
-		return sb.toString();
-	}
-
-	/**
-	 * Format: mm:ss
-	 * @param eventDate The Date of an event that occured during the exam
-	 * @return A formatted timestamp of the event relative to the exam start date
-	 */
-	public String formatEventTime(Date eventDate) {
-		long timeDifference = eventDate.getTime() - startDate.getTime();
-		long totalSeconds = timeDifference / 1000;
-		long minutes = totalSeconds / 60;
-		long seconds = totalSeconds % 60;
-
-		StringBuilder sb = new StringBuilder();
-		sb.append(minutes).append(":");
-		if (seconds < 10) {
-			sb.append("0");
+		if (finishDate != null) {
+			sb.append(formatElapsedTime(startDate, finishDate)).append(' ')
+					.append(localization.getMenu("exam_ended")).append("\n");
 		}
-		sb.append(seconds);
 		return sb.toString();
 	}
 

@@ -40,7 +40,6 @@ public class MatchingBlockManager {
 	private Document doc;
 	private GeoGebraEditorPane pane;
 	private MatchingBlockScanner scanner;
-	private Highlighter highlighter;
 	private MatchingBlockScanner.MatchingPositions smpos;
 	private Highlighter.HighlightPainter ocPainter;
 	private Object first;
@@ -61,15 +60,12 @@ public class MatchingBlockManager {
 	 *            the GeoGebraEditorPane associated with this Manager
 	 * @param lr
 	 *            if true the matching is from left to right
-	 * @param highlighter
-	 *            the highlighter to use
 	 */
 	public MatchingBlockManager(Document doc, GeoGebraEditorPane pane,
-			boolean lr, Highlighter highlighter) {
+			boolean lr) {
 		this.doc = doc;
 		this.pane = pane;
 		this.scanner = new MatchingBlockScanner(doc);
-		this.highlighter = highlighter;
 		this.lr = lr;
 	}
 
@@ -167,11 +163,11 @@ public class MatchingBlockManager {
 	 */
 	private void update() {
 		if (first != null) {
-			highlighter.removeHighlight(first);
+			pane.getHighlighter().removeHighlight(first);
 			first = null;
 		}
 		if (second != null) {
-			highlighter.removeHighlight(second);
+			pane.getHighlighter().removeHighlight(second);
 			second = null;
 		}
 	}
@@ -192,9 +188,9 @@ public class MatchingBlockManager {
 		if (mpos != this.smpos) {
 			this.smpos = mpos;
 			if (first != null) {
-				highlighter.removeHighlight(first);
+				pane.getHighlighter().removeHighlight(first);
 				if (second != null) {
-					highlighter.removeHighlight(second);
+					pane.getHighlighter().removeHighlight(second);
 				}
 			}
 			if (mpos != null && tok == GeoGebraLexerConstants.OPENCLOSE) {
@@ -219,24 +215,24 @@ public class MatchingBlockManager {
 			boolean inside, boolean included, Highlighter.HighlightPainter hp) {
 		try {
 			if (!inside) {
-				first = highlighter.addHighlight(mpos.firstB, mpos.firstE, hp);
-				second = highlighter.addHighlight(mpos.secondB, mpos.secondE,
+				first = pane.getHighlighter().addHighlight(mpos.firstB, mpos.firstE, hp);
+				second = pane.getHighlighter().addHighlight(mpos.secondB, mpos.secondE,
 						hp);
 			} else {
 				if (lr) {
 					if (included) {
-						first = highlighter.addHighlight(mpos.firstB,
+						first = pane.getHighlighter().addHighlight(mpos.firstB,
 								mpos.secondE, hp);
 					} else {
-						first = highlighter.addHighlight(mpos.firstE,
+						first = pane.getHighlighter().addHighlight(mpos.firstE,
 								mpos.secondB, hp);
 					}
 				} else {
 					if (included) {
-						first = highlighter.addHighlight(mpos.secondB,
+						first = pane.getHighlighter().addHighlight(mpos.secondB,
 								mpos.firstE, hp);
 					} else {
-						first = highlighter.addHighlight(mpos.secondE,
+						first = pane.getHighlighter().addHighlight(mpos.secondE,
 								mpos.firstB, hp);
 					}
 				}

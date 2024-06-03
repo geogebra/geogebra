@@ -1,10 +1,7 @@
 package org.geogebra.web.full.gui.exam;
 
-import java.util.Date;
-
 import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.exam.ExamSummary;
-import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -14,6 +11,7 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.dom.style.shared.WhiteSpace;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.ScrollPanel;
@@ -141,7 +139,7 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 				addBlock("exam_end_time", examSummary.getEndTimeLabelText());
 			}
 			if (GlobalScope.examController.isCheating()) {
-				activityPanel = buildActivityPanel(isLogDialog, examSummary);
+				activityPanel = buildActivityPanel(examSummary);
 				Label activityLbl = new Label(app.getLocalization().getMenu("exam_activity"));
 				contentPanel.add(buildBlock(activityLbl, activityPanel));
 			}
@@ -154,28 +152,13 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 		contentPanel.add(buildBlock(label, time));
 	}
 
-	private FlowPanel buildActivityPanel(boolean isLogDialog, ExamSummary examSummary) {
+	private FlowPanel buildActivityPanel(ExamSummary examSummary) {
 		activityPanel = new FlowPanel();
-		addActivity("0:00 " + app.getLocalization().getMenu("exam_started"));
-		for (CheatingEvent event : GlobalScope.examController.getCheatingEvents().getEvents()) {
-			addActivity(examSummary.formatEventTime(event.getDate()) + " "
-					+ event.getAction().toString(app.getLocalization()));
-		}
-		Date examFinishDate = GlobalScope.examController.getFinishDate();
-		if (!isLogDialog && examFinishDate != null) {
-			addActivity(examSummary.formatEventTime(examFinishDate) + ' '
-					+ app.getLocalization().getMenu("exam_ended"));
-		}
-		return activityPanel;
-	}
-
-	/**
-	 * @param text
-	 *            activity row
-	 */
-	protected void addActivity(String text) {
-		Label label = BaseWidgetFactory.INSTANCE.newPrimaryText(text, "textStyle");
+		Label label = BaseWidgetFactory.INSTANCE.newPrimaryText(
+				examSummary.getActivityLabelText(), "textStyle");
 		activityPanel.add(label);
+		label.getElement().getStyle().setWhiteSpace(WhiteSpace.PRE_LINE);
+		return activityPanel;
 	}
 
 	private static FlowPanel buildBlock(Widget caption, Widget text) {

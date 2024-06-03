@@ -2,12 +2,12 @@ package org.geogebra.web.html5.main;
 
 import java.util.Locale;
 
-import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
-import org.geogebra.common.kernel.commands.CommandDispatcherAdvanced;
-import org.geogebra.common.kernel.commands.CommandDispatcherCAS;
-import org.geogebra.common.kernel.commands.CommandDispatcherDiscrete;
-import org.geogebra.common.kernel.commands.CommandDispatcherScripting;
-import org.geogebra.common.kernel.commands.CommandDispatcherStats;
+import org.geogebra.common.geogebra3D.kernel3D.commands.SpatialCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.AdvancedCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.CASCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.DiscreteCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.ScriptingCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.StatsCommandProcessorFactory;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -21,19 +21,19 @@ import elemental2.dom.DomGlobal;
  * Enumeration of all modules (fragments) that can be prefetched
  */
 public enum AsyncModule {
-	STATS(RunAsyncCode.runAsyncCode(CommandDispatcherStats.class)),
+	STATS(RunAsyncCode.runAsyncCode(StatsCommandProcessorFactory.class)),
 
-	ADVANCED(RunAsyncCode.runAsyncCode(CommandDispatcherAdvanced.class)),
+	ADVANCED(RunAsyncCode.runAsyncCode(AdvancedCommandProcessorFactory.class)),
 
-	CAS(RunAsyncCode.runAsyncCode(CommandDispatcherCAS.class)),
+	CAS(RunAsyncCode.runAsyncCode(CASCommandProcessorFactory.class)),
 
-	SPATIAL(RunAsyncCode.runAsyncCode(CommandDispatcher3D.class)),
+	SPATIAL(RunAsyncCode.runAsyncCode(SpatialCommandProcessorFactory.class)),
 
 	PROVER(RunAsyncCode.runAsyncCode(Prover.class)),
 
-	SCRIPTING(RunAsyncCode.runAsyncCode(CommandDispatcherScripting.class)),
+	SCRIPTING(RunAsyncCode.runAsyncCode(ScriptingCommandProcessorFactory.class)),
 
-	DISCRETE(RunAsyncCode.runAsyncCode(CommandDispatcherDiscrete.class)),
+	DISCRETE(RunAsyncCode.runAsyncCode(DiscreteCommandProcessorFactory.class)),
 
 	GIAC(RunAsyncCode.runAsyncCode(CASgiacW.class));
 

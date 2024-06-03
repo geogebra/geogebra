@@ -33,7 +33,8 @@ public final class CommandFilterFactory {
 	public static CommandFilter createGraphingCommandFilter() {
 		CommandFilter noCasCommandFilter = createNoCasCommandFilter();
 		CommandFilter tableFilter = new CommandTableFilter(CommandsConstants.TABLE_CONIC,
-				CommandsConstants.TABLE_TRANSFORMATION, CommandsConstants.TABLE_3D);
+				CommandsConstants.TABLE_TRANSFORMATION,
+				CommandsConstants.TABLE_3D);
 		CommandFilter nameFilter = createGraphingNameFilter();
 		CommandFilter composite = new CompositeCommandFilter(noCasCommandFilter,
 				tableFilter, nameFilter);
@@ -65,16 +66,6 @@ public final class CommandFilterFactory {
 				Commands.Division, Commands.IsVertexForm);
 		addBooleanCommands(nameFilter);
 		return nameFilter;
-	}
-
-	/**
-	 * @return filter for Bayern CAS exam
-	 */
-	@Deprecated // replaced by BayernCasExamRestrictions
-	public static CommandFilter createBayernCasFilter() {
-		CommandNameFilter nameFilter = new CommandNameFilter(true);
-		nameFilter.addCommands(Commands.Plane);
-		return new EnglishCommandFilter(nameFilter);
 	}
 
 	private static void addBooleanCommands(CommandNameFilter nameFilter) {
@@ -130,6 +121,16 @@ public final class CommandFilterFactory {
 				Commands.PlaneBisector, Commands.Angle, Commands.Distance, Commands.Relation,
 				Commands.IsTangent, Commands.IsInRegion);
 		addBooleanCommands(nameFilter);
+		return new EnglishCommandFilter(nameFilter);
+	}
+
+	/**
+	 * @return filter for Bayern CAS exam
+	 */
+    @Deprecated // replaced by BayernCasExamRestrictions
+	public static CommandFilter createBayernCasFilter() {
+		CommandNameFilter nameFilter = new CommandNameFilter(true);
+		nameFilter.addCommands(Commands.Plane);
 		return new EnglishCommandFilter(nameFilter);
 	}
 

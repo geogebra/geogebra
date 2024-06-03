@@ -374,12 +374,18 @@ public final class ExamController {
 
 		if (delegate != null) {
 			delegate.examClearClipboard();
-			delegate.examClearOtherApps();
+			delegate.examClearApps();
 		}
 		tempStorage.clearTempMaterials();
 		createNewTempMaterial();
 
 		cheatingEvents = new CheatingEvents();
+		cheatingEvents.delegate = (cheatingEvent) -> {
+			if (cheatingEvents.size() == 1) {
+				notifyListenersCheatingStarted();
+			}
+		};
+
 		startDate = new Date();
 		setState(ExamState.ACTIVE);
 	}
@@ -412,8 +418,7 @@ public final class ExamController {
 		tempStorage.clearTempMaterials();
 		if (delegate != null) {
 			delegate.examClearClipboard();
-			delegate.examClearOtherApps();
-			delegate.examClearCurrentApp();
+			delegate.examClearApps();
 		}
 		startDate = finishDate = null;
 		examType = null;
@@ -438,6 +443,12 @@ public final class ExamController {
 	private void notifyListeners(ExamState newState) {
 		for (ExamListener listener : listeners) {
 			listener.examStateChanged(newState);
+		}
+	}
+
+	private void notifyListenersCheatingStarted() {
+		for (ExamListener listener : listeners) {
+			listener.cheatingStarted();
 		}
 	}
 

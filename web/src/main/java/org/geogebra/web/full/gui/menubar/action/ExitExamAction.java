@@ -5,7 +5,6 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.exam.ExamSummary;
-import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
@@ -133,41 +132,17 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 	}
 
 	private int addLogTimesToScreenshot(GGraphics2DW g2, ExamSummary examSummary, int yOffset) {
-		int yOffsetForCheatingLog = addStartLogTimeToScreenshot(g2, yOffset);
-		int yOffsetForEndLogTime = addCheatingEventsLogTimesToScreenshot(g2, examSummary,
-				yOffsetForCheatingLog);
-		return addEndLogTimeToScreenshot(g2, examSummary, yOffsetForEndLogTime);
-	}
-
-	private int addStartLogTimeToScreenshot(GGraphics2DW g2, int yOffset) {
-		StringBuilder sb = new StringBuilder("0:00 ");
-		sb.append(app.getLocalization().getMenu("exam_started"));
-		return addLineToScreenshot(g2, sb.toString(), yOffset);
+		return addCheatingEventsLogTimesToScreenshot(g2, examSummary,
+				yOffset);
 	}
 
 	private int addCheatingEventsLogTimesToScreenshot(GGraphics2DW g2,
 			ExamSummary examSummary, int yOffset) {
-		StringBuilder sb = new StringBuilder();
 		int yOffsetForNextEntry = yOffset;
-		for (CheatingEvent event : GlobalScope.examController.getCheatingEvents().getEvents()) {
-			sb.setLength(0);
-			sb.append(examSummary.formatEventTime(event.getDate())).append(' ');
-			sb.append(event.getAction().toString(app.getLocalization()));
-			yOffsetForNextEntry = addLineToScreenshot(g2, sb.toString(), yOffsetForNextEntry);
+		for (String line : examSummary.getActivityLabelText().split("\n")) {
+			yOffsetForNextEntry = addLineToScreenshot(g2, line, yOffsetForNextEntry);
 		}
 		return yOffsetForNextEntry;
-	}
-
-	private int addEndLogTimeToScreenshot(GGraphics2DW g2, ExamSummary examSummary, int yOffset) {
-		StringBuilder sb = new StringBuilder();
-		if (GlobalScope.examController.getFinishDate() == null) {
-			sb.append("0:00");
-		} else {
-			sb.append(examSummary.formatEventTime(GlobalScope.examController.getFinishDate()));
-		}
-		sb.append(' ');
-		sb.append(app.getLocalization().getMenu("exam_ended"));
-		return addLineToScreenshot(g2, sb.toString(), yOffset);
 	}
 
 	private int addFieldToScreenshot(GGraphics2DW g2, String name, String value, int yOffset) {

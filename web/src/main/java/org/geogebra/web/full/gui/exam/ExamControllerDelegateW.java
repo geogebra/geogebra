@@ -20,15 +20,11 @@ public class ExamControllerDelegateW implements ExamControllerDelegate {
 	}
 
 	@Override
-	public void examClearCurrentApp() {
-		app.fileNew();
-	}
-
-	@Override
-	public void examClearOtherApps() {
+	public void examClearApps() {
 		if (app instanceof AppWFull) {
 			((AppWFull) app).clearSubAppCons();
 		}
+		app.fileNew();
 	}
 
 	@Override
