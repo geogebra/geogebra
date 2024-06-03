@@ -251,13 +251,13 @@ public class AriaMenuBar extends FlowPanel {
 	}
 
 	private void keyboardSelectItem(AriaMenuItem item) {
-		selectedItem.getElement().blur();
+		if (selectedItem != null) {
+			selectedItem.getElement().blur();
+		}
 		unselect();
 		this.selectedItem = item;
-		if (item != null) {
-			if (item.isFocusable()) {
-				focus(item);
-			}
+		if (item != null && item.isFocusable()) {
+			focus(item);
 		}
 	}
 

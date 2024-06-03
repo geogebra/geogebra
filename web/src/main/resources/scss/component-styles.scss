@@ -5,6 +5,13 @@
 
 .GeoGebraFrame {
 
+	.floatingActionButton.keyboardFocus:focus-visible {
+		outline-color: var(--ggb-dark-color);
+		outline-width: 2px;
+		outline-style: solid;
+		outline-offset: 3px;
+	}
+
 	/* CHECKBOX COMPONENT */
 	@mixin checkboxBg($color) {
 		.background {
@@ -514,7 +521,7 @@
 			background-color: neutral(200);
 		}
 
-		&.keyboardFocus:focus-visible {
+		&:focus-visible {
 			outline-color: var(--ggb-dark-color);
 			outline-width: 2px;
 			outline-style: solid;
@@ -529,7 +536,7 @@
 
 		box-shadow: none;
 
-		&.keyboardFocus:focus-visible {
+		&:focus-visible {
 			outline-color: var(--ggb-dark-color);
 			outline-width: 2px;
 			outline-style: solid;

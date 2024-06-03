@@ -493,6 +493,7 @@ public class ToolbarPanel extends FlowPanel
 		moveBtn.setTitle(altText);
 		moveBtn.setAltText(altText);
 		moveBtn.setStyleName("moveFloatingBtn");
+		moveBtn.addStyleName("floatingActionButton");
 		if (tabTable != null) {
 			moveBtn.addStyleName("moveBtnMiddleTab");
 		}
