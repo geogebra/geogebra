@@ -115,6 +115,10 @@ public class MyDouble extends ValidExpression
 		this.val = val;
 	}
 
+	public void set(BigDecimal val) {
+		set(val.doubleValue());
+	}
+
 	@Override
 	public void resolveVariables(EvalInfo info) {
 		// do nothing
@@ -321,9 +325,15 @@ public class MyDouble extends ValidExpression
 			return;
 		}
 
-		BigDecimal numerator = a.toBigDecimal();
-		BigDecimal denominator = b.toBigDecimal();
-		c.set(numerator.divide(denominator, MathContext.DECIMAL128).doubleValue());
+		BigDecimal numerator = a.toDecimal();
+		if (numerator != null) {
+			BigDecimal denominator = b.toDecimal();
+			if (denominator != null) {
+				c.set(numerator.divide(denominator, MathContext.DECIMAL128));
+				return;
+			}
+		}
+		c.set(a.val / b.val);
 	}
 
 	private static boolean isImpreciseDiv(MyDouble a, MyDouble b) {

@@ -521,7 +521,7 @@ public class ArithmeticTest extends BaseUnitTest {
 		for (int i = 0; i < 999; i++) {
 			power.append("*a");
 		}
-		t(power.toString(), "2.719642216442848", StringTemplate.maxDecimals);
+		t(power.toString(), "2.71964221644285", StringTemplate.maxDecimals);
 	}
 
 	@Test
