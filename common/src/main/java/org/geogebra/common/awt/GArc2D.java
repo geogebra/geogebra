@@ -51,12 +51,12 @@ public interface GArc2D extends GRectangularShape {
 	 *            circle radius
 	 * @param angleStart
 	 *            start angle
-	 * @param angleEnd
+	 * @param angleExt
 	 *            end angle
 	 * @param type
 	 *            type (OPEN or PIE)
 	 */
 	public abstract void setArcByCenter(double centerX, double centerY,
-			double radius, double angleStart, double angleEnd, int type);
+			double radius, double angleStart, double angleExt, int type);
 
 }
