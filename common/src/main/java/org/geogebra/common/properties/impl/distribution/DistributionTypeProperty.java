@@ -35,7 +35,7 @@ public class DistributionTypeProperty extends AbstractGroupedEnumeratedProperty<
 				// Discrete
 				"Distribution.Binomial", "Distribution.Pascal", "Distribution.Poisson",
 				"Distribution.Hypergeometric");
-		setGroupDividerIndices(new int[]{10});
+		setGroupDividerIndices(new int[]{11});
 	}
 
 	@Override
