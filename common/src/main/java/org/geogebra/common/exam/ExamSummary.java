@@ -43,6 +43,21 @@ public final class ExamSummary {
 		return CmdGetTime.buildLocalizedDate("\\H:\\i:\\s", date, localization);
 	}
 
+	private static String formatElapsedTime(Date startDate, Date endDate) {
+		long elapsedTime = endDate.getTime() - startDate.getTime();
+		long elapsedMinutes = elapsedTime / 1000 / 60;
+		long elapsedSeconds = elapsedTime / 1000 % 60;
+
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(elapsedMinutes).append(":");
+		if (elapsedSeconds < 10) {
+			stringBuilder.append("0");
+		}
+		stringBuilder.append(elapsedSeconds);
+
+		return stringBuilder.toString();
+	}
+
 	/**
 	 * Create a new exam summary.
 	 *
@@ -85,26 +100,16 @@ public final class ExamSummary {
 	private String getActivityLog(Date startDate, Date finishDate,
 			CheatingEvents cheatingEvents, Localization localization) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(localization.getMenu("exam_start_date")).append(": ")
-				.append(formatDate(startDate, localization)).append("\n");
-		sb.append(localization.getMenu("exam_start_time")).append(": ")
-				.append(formatTime(startDate, localization)).append("\n");
-		if (finishDate != null) {
-			sb.append(localization.getMenu("exam_end_time")).append(": ")
-					.append(formatTime(finishDate, localization)).append("\n");
-		}
-
-		sb.append(localization.getMenu("exam_activity")).append(":\n");
 		sb.append("0:00").append(' ')
 				.append(localization.getMenu("exam_started")).append("\n");
 		for (CheatingEvent cheatingEvent : cheatingEvents.getEvents()) {
-			sb.append(formatTime(cheatingEvent.getDate(), localization));
+			sb.append(formatElapsedTime(startDate, cheatingEvent.getDate()));
 			sb.append(' ');
 			sb.append(cheatingEvent.getAction().toString(localization));
 			sb.append("\n");
 		}
 		if (finishDate != null) {
-			sb.append(formatTime(finishDate, localization)).append(' ')
+			sb.append(formatElapsedTime(startDate, finishDate)).append(' ')
 					.append(localization.getMenu("exam_ended")).append("\n");
 		}
 		return sb.toString();
