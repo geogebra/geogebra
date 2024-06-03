@@ -6,6 +6,7 @@ public final class KernelDataSerializer {
 
 	/**
 	 * @param data spreadsheet cell content
+	 * @param hasError cell has error
 	 * @return string representation for editor
 	 */
 	public String getStringForEditor(Object data, boolean hasError) {

@@ -38,6 +38,9 @@ public final class SpreadsheetRenderer {
 	private final static GBasicStroke borderStroke = AwtFactory.getPrototype().newBasicStroke(2);
 	private final SpreadsheetStyle style;
 	private final Localization loc;
+	private final static int ERROR_RECT_WIDTH = 10;
+	private final static int TEXT_PADDING = 10;
+	private final static int TEXT_HEIGHT = 16;
 
 	SpreadsheetRenderer(TableLayout layout, CellRenderableFactory converter,
 			SpreadsheetStyle style, Localization loc) {
@@ -91,20 +94,18 @@ public final class SpreadsheetRenderer {
 			double offsetX, double offsetY) {
 		graphics.setColor(style.geErrorGridColor());
 		graphics.setStroke(borderStroke);
-		graphics.drawRect((int) (layout.getX(column) - offsetX), (int) (layout.getY(row) - offsetY),
-				(int) layout.getWidth(column), (int) layout.getHeight(row));
+		int topLeftX = (int) (layout.getX(column) - offsetX);
+		int topLeftY = (int) (layout.getY(row) - offsetY);
+		graphics.drawRect(topLeftX, topLeftY, (int) layout.getWidth(column),
+				(int) layout.getHeight(row));
 
-		int x1 = (int) (layout.getX(column) - offsetX + layout.getWidth(column) - 10);
-		int y1 = (int) (layout.getY(row) - offsetY);
-		int x2 = (int) (layout.getX(column) - offsetX + (int) layout.getWidth(column));
-		int y2 = (int) (layout.getY(row) - offsetY);
-		int x3 = (int) (layout.getX(column) - offsetX + (int) layout.getWidth(column));
-		int y3 = (int) (layout.getY(row) - offsetY + 10);
+		int topRightX = (int) (layout.getX(column) - offsetX + layout.getWidth(column));
+		int topRightY = (int) (layout.getY(row) - offsetY);
 
 		GGeneralPath path = AwtFactory.getPrototype().newGeneralPath();
-		path.moveTo(x1, y1);
-		path.lineTo(x2, y2);
-		path.lineTo(x3, y3);
+		path.moveTo(topRightX - ERROR_RECT_WIDTH, topRightY);
+		path.lineTo(topRightX, topRightY);
+		path.lineTo(topRightX, topRightY + ERROR_RECT_WIDTH);
 		path.closePath();
 
 		graphics.draw(path);
@@ -113,8 +114,7 @@ public final class SpreadsheetRenderer {
 		graphics.setColor(style.getTextColor());
 		graphics.setFont(graphics.getFont().deriveFont(GFont.ITALIC));
 		graphics.drawString(loc.getError("Error").toUpperCase(Locale.ROOT),
-				(int) (layout.getX(column) - offsetX) + 10,
-				(int) (layout.getY(row) - offsetY) + 16 + 10);
+				topLeftX + TEXT_PADDING, topLeftY + TEXT_HEIGHT + TEXT_PADDING);
 	}
 
 	void drawRowHeader(int row, GGraphics2D graphics, String name) {
