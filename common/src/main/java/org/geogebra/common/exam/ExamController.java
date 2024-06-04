@@ -259,14 +259,14 @@ public final class ExamController {
 	}
 
 	/**
-	 * Get the exam display name.
+	 * Get the exam short display name.
 	 * @param appConfig The current app config.
 	 * @param localization The localization.
-	 * @return The current exam's display name (see
-	 * {@link ExamRegion#getDisplayName(Localization, AppConfig)}.
+	 * @return The current exam's short display name (see
+	 * {@link ExamRegion#getShortDisplayName(Localization, AppConfig)}.
 	 */
 	public @CheckForNull String getExamName(AppConfig appConfig, Localization localization) {
-		return examType == null ? null : examType.getDisplayName(localization, appConfig);
+		return examType == null ? null : examType.getShortDisplayName(localization, appConfig);
 	}
 
 	/**
