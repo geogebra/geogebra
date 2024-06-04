@@ -341,10 +341,6 @@ public class MyDouble extends ValidExpression
 				|| !Double.isFinite(a.val) || !Double.isFinite(b.val) || !a.isDefined();
 	}
 
-	private BigDecimal toBigDecimal() {
-		return new BigDecimal(val + "");
-	}
-
 	/**
 	 * c = pow(a,b)
 	 * 
