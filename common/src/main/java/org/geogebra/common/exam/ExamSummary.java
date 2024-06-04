@@ -21,7 +21,6 @@ public final class ExamSummary {
 	private boolean cheated;
 	private String examName;
 	private String title;
-	private Date startDate;
 	private String finishedInfoText;
 	private String startDateHintText;
 	private String startDateLabelText;
@@ -44,7 +43,7 @@ public final class ExamSummary {
 		return CmdGetTime.buildLocalizedDate("\\H:\\i:\\s", date, localization);
 	}
 
-	public static String formatElapsedTime(Date startDate, Date endDate) {
+	private static String formatElapsedTime(Date startDate, Date endDate) {
 		long elapsedTime = endDate.getTime() - startDate.getTime();
 		long elapsedMinutes = elapsedTime / 1000 / 60;
 		long elapsedSeconds = elapsedTime / 1000 % 60;
@@ -82,7 +81,6 @@ public final class ExamSummary {
 		examName = examType.getDisplayName(localization, appConfig);
 		title = localization.getMenu("exam_menu_entry") + ": " + (cheated
 				? localization.getMenu("exam_alert") : localization.getMenu("OK"));
-		this.startDate = startDate;
 		finishedInfoText = localization.getMenu("exam_log_show_screen_to_teacher");
 		durationHintText = localization.getMenu("Duration");
 		if (finishDate != null) {

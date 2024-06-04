@@ -74,24 +74,6 @@ public class ExamControllerDelegateW implements ExamControllerDelegate {
 		if (!app.isSuite()) {
 			return;
 		}
-		switch (subApp) {
-		case CAS:
-			app.switchToSubapp(GeoGebraConstants.CAS_APPCODE);
-			return;
-		case GEOMETRY:
-			app.switchToSubapp(GeoGebraConstants.GEOMETRY_APPCODE);
-			return;
-		case GRAPHING:
-			app.switchToSubapp(GeoGebraConstants.GRAPHING_APPCODE);
-			return;
-		case G3D:
-			app.switchToSubapp(GeoGebraConstants.G3D_APPCODE);
-			return;
-		case PROBABILITY:
-			app.switchToSubapp(GeoGebraConstants.PROBABILITY_APPCODE);
-			return;
-		case SCIENTIFIC:
-			app.switchToSubapp(GeoGebraConstants.SCIENTIFIC_APPCODE);
-		}
+		app.switchToSubapp(subApp.appCode);
 	}
 }
