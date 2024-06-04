@@ -28,6 +28,7 @@ public class ExamStartDialog extends ComponentDialog {
 		super(app, data, false, true);
 		addStyleName("examStartDialog");
 		buildContent();
+		setOnNegativeAction(GlobalScope.examController::cancelExam);
 	}
 
 	private void buildContent() {

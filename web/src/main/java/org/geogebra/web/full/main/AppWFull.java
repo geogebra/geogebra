@@ -784,25 +784,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 	}
 
-	/**
-	 * Popup exam welcome message
-	 */
-	@Override
-	public final void examWelcome() {
-		if (isExam() && getExam().getStart() < 0) {
-			if (isUnbundled()) {
-				new StartExamAction().execute(this);
-			} else {
-				resetViewsEnabled();
-				String negativeKey = isLockedExam()
-						? null : "Cancel";
-				DialogData data = new DialogData("exam_custom_header",
-						negativeKey, "exam_start_button");
-				new ExamClassicStartDialog(this, data).show();
-			}
-		}
-	}
-
 	@Override
 	public final void showExamWelcomeMessage() {
 		if (GlobalScope.examController.isIdle()) {
