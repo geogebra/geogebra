@@ -8,7 +8,6 @@ import static org.junit.Assert.assertTrue;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.DoubleUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -94,5 +93,14 @@ public class SpreadsheetCellProcessorTest extends BaseUnitTest {
 	private void assertIsEuclidianInvisible() {
 		assertFalse("The created element is visible within the EV!",
 				lookup("A1").isEuclidianVisible());
+	}
+
+	@Test
+	public void testErrorShouldBeTextWithOriginalInput() {
+		processor.process("=1+@");
+		GeoElement a1 = lookup("A1");
+		assertTrue(a1.isGeoText());
+		assertEquals(serializer.getStringForEditor(lookup("A1"), true),
+				"=1+@");
 	}
 }
