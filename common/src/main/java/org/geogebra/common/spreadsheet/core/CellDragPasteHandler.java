@@ -2,36 +2,57 @@ package org.geogebra.common.spreadsheet.core;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
+import org.geogebra.common.kernel.Kernel;
+
 /**
  * Utility class designed to handle dragging a selection in order to copy its content to adjacent
  * cells
  */
 public class CellDragPasteHandler {
 
-	private final TabularRange rangeToCopy;
+	private @CheckForNull TabularRange rangeToCopy;
 	private final TabularData<?> tabularData;
 	private int fromRow;
 	private int toRow;
 	private int fromColumn;
 	private int toColumn;
+	private final RelativeCopy relativeCopy;
 
 	/**
-	 * @param rangeToCopy The original range that should be copied to adjacent cells
 	 * @param tabularData {@link TabularData}
+	 * @param kernel {@link Kernel} - Needed for {@link RelativeCopy}
 	 */
-	public CellDragPasteHandler(TabularRange rangeToCopy, TabularData tabularData) {
-		this.rangeToCopy = rangeToCopy;
+	public CellDragPasteHandler(TabularData tabularData, Kernel kernel) {
 		this.tabularData = tabularData;
-		resetRowIndexes();
-		resetColumnIndexes();
+		this.relativeCopy = new RelativeCopy(kernel);
+	}
+
+	/**
+	 * Specifies the range that should be copied
+	 * @param rangeToCopy {@link TabularRange}
+	 */
+	public void setRangeToCopy(TabularRange rangeToCopy) {
+		this.rangeToCopy = rangeToCopy;
+		if (rangeToCopy != null) {
+			resetRowIndexes();
+			resetColumnIndexes();
+		}
+	}
+
+	/**
+	 * @return Whether a range that should be copied is set currently
+	 */
+	public boolean hasSelectedRange() {
+		return this.rangeToCopy != null;
 	}
 
 	/**
 	 * @return The selected range used to copy a selection to
 	 */
 	public @CheckForNull TabularRange getDestinationRange() {
-		if (destinationRowIsWithinOriginalSelection()
-				&& destinationColumnIsWithinOriginalSelection()) {
+		if (rangeToCopy == null || (destinationRowIsWithinOriginalSelection()
+				&& destinationColumnIsWithinOriginalSelection())) {
 			return null;
 		}
 		return TabularRange.range(fromRow, toRow, fromColumn, toColumn);
@@ -43,6 +64,9 @@ public class CellDragPasteHandler {
 	 * @param destinationColumn Column index
 	 */
 	public void setDestinationForPaste(int destinationRow, int destinationColumn) {
+		if (rangeToCopy == null) {
+			return;
+		}
 		if (rangeToCopy.contains(destinationRow, destinationColumn)) {
 			resetRowIndexes();
 			resetColumnIndexes();
@@ -62,11 +86,9 @@ public class CellDragPasteHandler {
 		if (getDestinationRange() == null) {
 			return;
 		}
-		if (destinationIsRightOrDown()) {
-			pasteRightwardsOrDownwards();
-		} else {
-			pasteLeftwardsOrUpwards();
-		}
+		relativeCopy.doDragCopy(getMinColumnIndexFromOrigin(), getMinRowIndexFromOrigin(),
+				getMaxColumnIndexFromOrigin(), getMaxRowIndexFromOrigin(),
+				fromColumn, fromRow, toColumn, toRow);
 	}
 
 	/**
@@ -83,44 +105,10 @@ public class CellDragPasteHandler {
 		return fromRow > getMaxRowIndexFromOrigin() || fromColumn > getMaxColumnIndexFromOrigin();
 	}
 
-	private void pasteRightwardsOrDownwards() {
-		TabularRange destinationRange = getDestinationRange();
-		if (destinationRange == null) {
-			return;
-		}
-		int minOriginRow = getMinRowIndexFromOrigin();
-		int minOriginColumn = getMinColumnIndexFromOrigin();
-
-		for (int row = 0; row < destinationRange.getHeight(); row++) {
-			for (int column = 0; column < destinationRange.getWidth(); column++) {
-				pasteSingleCell(minOriginRow + row, fromRow + row,
-						minOriginColumn + column, fromColumn + column);
-			}
-		}
-	}
-
-	private void pasteLeftwardsOrUpwards() {
-		TabularRange destinationRange = getDestinationRange();
-		if (destinationRange == null) {
-			return;
-		}
-		int maxOriginRow = getMaxRowIndexFromOrigin();
-		int maxOriginColumn = getMaxColumnIndexFromOrigin();
-
-		for (int row = 0; row < destinationRange.getHeight(); row++) {
-			for (int column = 0; column < destinationRange.getWidth(); column++) {
-				pasteSingleCell(maxOriginRow - row, toRow - row,
-						maxOriginColumn - column, toColumn - column);
-			}
-		}
-	}
-
-	private void pasteSingleCell(int sourceRow, int destinationRow,
-			int sourceColumn, int destinationColumn) {
-		tabularData.copyPasteContent(sourceRow, destinationRow, sourceColumn, destinationColumn);
-	}
-
 	private int getMinRowIndexFromOrigin() {
+		if (rangeToCopy == null) {
+			return -1;
+		}
 		if (rangeToCopy.isColumn()) {
 			return 0;
 		}
@@ -128,6 +116,9 @@ public class CellDragPasteHandler {
 	}
 
 	private int getMaxRowIndexFromOrigin() {
+		if (rangeToCopy == null) {
+			return -1;
+		}
 		if (rangeToCopy.isColumn()) {
 			return tabularData.numberOfRows() - 1;
 		}
@@ -135,6 +126,9 @@ public class CellDragPasteHandler {
 	}
 
 	private int getMinColumnIndexFromOrigin() {
+		if (rangeToCopy == null) {
+			return -1;
+		}
 		if (rangeToCopy.isRow()) {
 			return 0;
 		}
@@ -142,6 +136,9 @@ public class CellDragPasteHandler {
 	}
 
 	private int getMaxColumnIndexFromOrigin() {
+		if (rangeToCopy == null) {
+			return -1;
+		}
 		if (rangeToCopy.isRow()) {
 			return tabularData.numberOfColumns() - 1;
 		}
@@ -149,13 +146,9 @@ public class CellDragPasteHandler {
 	}
 
 	private void extendDestinationVertically(int destinationRow) {
-		if (destinationRow > getMaxRowIndexFromOrigin()) {
-			fromRow = getMaxRowIndexFromOrigin() + 1;
-			toRow = destinationRow;
-		} else if (destinationRow < getMinRowIndexFromOrigin()) {
-			fromRow = destinationRow;
-			toRow = getMinRowIndexFromOrigin() - 1;
-		}
+		boolean destinationIsUnderneath = destinationRow > getMaxRowIndexFromOrigin();
+		fromRow = destinationIsUnderneath ? getMaxRowIndexFromOrigin() + 1 : destinationRow;
+		toRow = destinationIsUnderneath ? destinationRow : getMinRowIndexFromOrigin() - 1;
 		resetColumnIndexes();
 	}
 
@@ -165,13 +158,9 @@ public class CellDragPasteHandler {
 	}
 
 	private void extendDestinationHorizontally(int destinationColumn) {
-		if (destinationColumn > getMaxColumnIndexFromOrigin()) {
-			fromColumn = getMaxColumnIndexFromOrigin() + 1;
-			toColumn = destinationColumn;
-		} else if (destinationColumn < getMinColumnIndexFromOrigin()) {
-			fromColumn = destinationColumn;
-			toColumn = getMinColumnIndexFromOrigin() - 1;
-		}
+		boolean destinationIsRight = destinationColumn > getMaxColumnIndexFromOrigin();
+		fromColumn = destinationIsRight ? getMaxColumnIndexFromOrigin() + 1 : destinationColumn;
+		toColumn = destinationIsRight ? destinationColumn : getMinColumnIndexFromOrigin() - 1;
 		resetRowIndexes();
 	}
 

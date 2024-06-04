@@ -16,13 +16,12 @@ public class SpreadsheetCellEditorTest {
 
 	private TestTabularData data;
 	private SpreadsheetController controller;
-	private final Rectangle viewport = new Rectangle(0, 0, 500, 500);
 	private TestSpreadsheetCellEditor editor;
 
 	@Before
 	public void setupEditor() {
 		data = new TestTabularData();
-		controller = new SpreadsheetController(data, null);
+		controller = new SpreadsheetController(data, null, null);
 		editor = new TestSpreadsheetCellEditor();
 		controller.setControlsDelegate(new SpreadsheetControlsDelegate() {
 			@Override

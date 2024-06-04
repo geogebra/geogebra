@@ -62,23 +62,15 @@ public class ViewportAdjuster {
 	 */
 	public void scrollForPasteSelectionIfNeeded(int x, int y, Rectangle viewport,
 			boolean extendVertically, BiConsumer<Integer, Integer> callback) {
-		double viewportWidth = viewport.getWidth();
-		double viewportHeight = viewport.getHeight();
+		int viewportWidth = (int) viewport.getWidth();
+		int viewportHeight = (int) viewport.getHeight();
 		int scrollAmountX = 0;
 		int scrollAmountY = 0;
 
 		if (extendVertically) {
-			if (viewportHeight - y < viewportHeight / 10) {
-				scrollAmountY = SCROLL_AMOUNT_FOR_PASTE_SELECTION;
-			} else if (y < viewportHeight / 10) {
-				scrollAmountY = -SCROLL_AMOUNT_FOR_PASTE_SELECTION;
-			}
+			scrollAmountY = getVerticalScrollAmountForDrag(viewportHeight, y);
 		} else {
-			if (viewportWidth - x < viewportWidth / 10) {
-				scrollAmountX = SCROLL_AMOUNT_FOR_PASTE_SELECTION;
-			} else if (x < viewportWidth / 10) {
-				scrollAmountX = -SCROLL_AMOUNT_FOR_PASTE_SELECTION;
-			}
+			scrollAmountX = getHorizontalScrollAmountForDrag(viewportWidth, x);
 		}
 
 		if (scrollAmountX == 0 && scrollAmountY == 0) {
@@ -86,8 +78,8 @@ public class ViewportAdjuster {
 		}
 
 		viewportAdjustmentHandler.setScrollPosition(
-				viewportAdjustmentHandler.getHorizontalScrollPosition() + scrollAmountX,
-				viewportAdjustmentHandler.getVerticalScrollPosition() + scrollAmountY);
+				(int) viewport.getMinX() + scrollAmountX,
+				(int) viewport.getMinY() + scrollAmountY);
 		callback.accept(x + scrollAmountX, y + scrollAmountY);
 	}
 
@@ -156,5 +148,23 @@ public class ViewportAdjuster {
 
 	public void updateScrollPaneSize() {
 		viewportAdjustmentHandler.updateScrollPanelSize();
+	}
+
+	private int getVerticalScrollAmountForDrag(int viewportHeight, int y) {
+		if (viewportHeight - y < viewportHeight / 10) {
+			return SCROLL_AMOUNT_FOR_PASTE_SELECTION;
+		} else if (y < viewportHeight / 10) {
+			return -SCROLL_AMOUNT_FOR_PASTE_SELECTION;
+		}
+		return 0;
+	}
+
+	private int getHorizontalScrollAmountForDrag(int viewportWidth, int x) {
+		if (viewportWidth - x < viewportWidth / 10) {
+			return SCROLL_AMOUNT_FOR_PASTE_SELECTION;
+		} else if (x < viewportWidth / 10) {
+			return -SCROLL_AMOUNT_FOR_PASTE_SELECTION;
+		}
+		return 0;
 	}
 }

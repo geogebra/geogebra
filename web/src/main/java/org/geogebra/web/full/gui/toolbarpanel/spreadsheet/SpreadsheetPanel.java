@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
+import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.ViewportAdjustmentHandler;
@@ -58,7 +59,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 				app.getSettings().getSpreadsheet());
 		app.getKernel().notifyAddAll(tabularData);
 		spreadsheet = new Spreadsheet(tabularData, new GeoElementCellRendererFactory(
-				new AwtReTexGraphicsBridgeW()), app.getUndoManager());
+				new AwtReTexGraphicsBridgeW()), app.getUndoManager(),
+				new CellDragPasteHandler(tabularData, app.getKernel()));
 
 		app.getKernel().attach(tabularData);
 		add(spreadsheetWidget);
@@ -232,16 +234,6 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			@Override
 			public void updateScrollPanelSize() {
 				updateTotalSize();
-			}
-
-			@Override
-			public int getHorizontalScrollPosition() {
-				return scrollOverlay.getHorizontalScrollPosition();
-			}
-
-			@Override
-			public int getVerticalScrollPosition() {
-				return scrollOverlay.getVerticalScrollPosition();
 			}
 		};
 	}

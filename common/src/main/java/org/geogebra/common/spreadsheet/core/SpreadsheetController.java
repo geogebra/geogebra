@@ -35,7 +35,7 @@ public final class SpreadsheetController implements TabularSelection {
 	private Rectangle viewport;
 	private @CheckForNull ViewportAdjuster viewportAdjuster;
 	private @CheckForNull UndoProvider undoProvider;
-	private @CheckForNull CellDragPasteHandler cellDragPasteHandler;
+	private CellDragPasteHandler cellDragPasteHandler;
 	private int lastPointerPositionX = -1;
 	private int lastPointerPositionY = -1;
 
@@ -43,9 +43,11 @@ public final class SpreadsheetController implements TabularSelection {
 	 * @param tabularData underlying data for the spreadsheet
 	 * @param viewport Visible area
 	 */
-	public SpreadsheetController(TabularData<?> tabularData, Rectangle viewport) {
+	public SpreadsheetController(TabularData<?> tabularData, Rectangle viewport,
+			CellDragPasteHandler cellDragPasteHandler) {
 		this.tabularData = tabularData;
 		initViewport(viewport);
+		this.cellDragPasteHandler = cellDragPasteHandler;
 		resetDragAction();
 		style = new SpreadsheetStyle(tabularData.getFormat());
 		layout = new TableLayout(tabularData.numberOfRows(),
@@ -210,8 +212,7 @@ public final class SpreadsheetController implements TabularSelection {
 		case DRAG_DOT:
 			Selection lastSelection = getLastSelection();
 			if (lastSelection != null) {
-				cellDragPasteHandler = new CellDragPasteHandler(
-						lastSelection.getRange(), tabularData);
+				cellDragPasteHandler.setRangeToCopy(lastSelection.getRange());
 			}
 			return true;
 		case RESIZE_X:
@@ -363,16 +364,13 @@ public final class SpreadsheetController implements TabularSelection {
 	}
 
 	private void pasteDragSelectionToDestination() {
-		if (cellDragPasteHandler == null) {
-			return;
-		}
 		Selection lastSelection = getLastSelection();
 		TabularRange destinationRange = cellDragPasteHandler.getDestinationRange();
 		if (lastSelection == null || destinationRange == null) {
 			return;
 		}
 		cellDragPasteHandler.pasteToDestination();
-		cellDragPasteHandler = null;
+		cellDragPasteHandler.setRangeToCopy(null);
 		TabularRange mergedRange = lastSelection.getRange().merge(destinationRange);
 		if (mergedRange != null) {
 			select(mergedRange, false, true);
@@ -525,7 +523,7 @@ public final class SpreadsheetController implements TabularSelection {
 			resizeRow(y);
 			return true;
 		case DRAG_DOT:
-			if (cellDragPasteHandler != null) {
+			if (cellDragPasteHandler.hasSelectedRange()) {
 				setDestinationForDragPaste(x, y);
 				return true;
 			}
@@ -538,9 +536,7 @@ public final class SpreadsheetController implements TabularSelection {
 	private void setDestinationForDragPaste(int x, int y) {
 		int row = findRowOrHeader(y);
 		int column = findColumnOrHeader(x);
-		if (cellDragPasteHandler != null) {
-			cellDragPasteHandler.setDestinationForPaste(row, column);
-		}
+		cellDragPasteHandler.setDestinationForPaste(row, column);
 	}
 
 	private void resizeColumn(int x) {

@@ -148,12 +148,12 @@ public final class SpreadsheetRenderer {
 			double maxX = rect.getMaxX();
 			double maxY = rect.getMaxY();
 			if (minX < maxX && minY < maxY) {
-				drawRectangle(graphics, minX, minY, maxX, maxY);
+				drawRectangleWithStraightLines(graphics, minX, minY, maxX, maxY);
 			}
 		}
 	}
 
-	private void drawRectangle(GGraphics2D graphics,
+	private void drawRectangleWithStraightLines(GGraphics2D graphics,
 			double minX, double minY, double maxX, double maxY) {
 		graphics.drawStraightLine(minX, minY, maxX, minY);
 		graphics.drawStraightLine(minX, maxY, maxX, maxY);
@@ -208,7 +208,7 @@ public final class SpreadsheetRenderer {
 				dotSize * 2, dotSize * 2);
 		graphics.setStroke(gridStroke);
 		graphics.setColor(GColor.WHITE);
-		drawRectangle(graphics, dot.getX() - dotSize,
+		drawRectangleWithStraightLines(graphics, dot.getX() - dotSize,
 				dot.getY() - dotSize, dot.getX() + dotSize, dot.getY() + dotSize);
 	}
 }

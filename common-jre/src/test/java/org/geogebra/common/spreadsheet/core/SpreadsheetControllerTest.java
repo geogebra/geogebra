@@ -27,7 +27,7 @@ public class SpreadsheetControllerTest {
     private final int rowHeaderCellWidth = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 
     private final SpreadsheetController controller =
-            new SpreadsheetController(new TestTabularData(), null);
+            new SpreadsheetController(new TestTabularData(), null, null);
     private Rectangle viewport;
 
     @Before
@@ -49,16 +49,6 @@ public class SpreadsheetControllerTest {
             @Override
             public void updateScrollPanelSize() {
                 // not needed
-            }
-
-            @Override
-            public int getHorizontalScrollPosition() {
-                return 0;
-            }
-
-            @Override
-            public int getVerticalScrollPosition() {
-                return 0;
             }
         });
     }
