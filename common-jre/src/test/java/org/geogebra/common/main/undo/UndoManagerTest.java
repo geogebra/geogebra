@@ -1,5 +1,6 @@
 package org.geogebra.common.main.undo;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -170,7 +171,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 		UpdateActionStore actionStore = new UpdateActionStore(getApp().getSelectionManager(),
 				getUndoManager());
 		GeoPoint pt = add("A=Point(xAxis)");
-		final GeoPoint dependent = add("A+(0,1)");
+		final GeoPoint dependent = add("B=A+(0,1)");
 		getApp().getSelectionManager().addSelectedGeo(pt);
 		actionStore.storeSelection();
 		pt.setCoords(3, 0, 1);
@@ -182,6 +183,7 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 		getUndoManager().redo();
 		assertThat(pt, hasValue("(3, 0)"));
 		assertThat(dependent, hasValue("(3, 1)"));
+		assertThat(String.join(",", getApp().getGgbApi().getAllObjectNames()), equalTo("A,B"));
 	}
 
 	@Test

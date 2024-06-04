@@ -3194,7 +3194,7 @@ public class AlgebraProcessor {
 
 			// complex number stored in XML as exp="3" so looks like a GeoNumeric
 			if (n.isForcedPoint()) {
-				return processPointVector(n, eval);
+				return processPointVector(n, eval, info);
 			}
 
 			if (n.isForceInequality()) {
@@ -3203,7 +3203,7 @@ public class AlgebraProcessor {
 
 			return processNumber(n, eval, info);
 		} else if (eval instanceof VectorValue) {
-			return processPointVector(n, eval);
+			return processPointVector(n, eval, info);
 		} else if (eval instanceof Vector3DValue) {
 			return processPointVector3D(n, eval);
 		} else if (eval instanceof TextValue) {
@@ -3463,7 +3463,7 @@ public class AlgebraProcessor {
 	}
 
 	private GeoElement[] processPointVector(ExpressionNode n,
-			ExpressionValue evaluate) {
+			ExpressionValue evaluate, EvalInfo info) {
 		String label = n.getLabel();
 		if (evaluate instanceof MyVecNode) {
 			// force vector for CAS vector GGB-1492
@@ -3494,7 +3494,6 @@ public class AlgebraProcessor {
 		// we want z = 3 + i to give a (complex) GeoPoint not a GeoVector
 		boolean complex = p.getToStringMode() == Kernel.COORD_COMPLEX;
 
-		GeoElement[] ret = new GeoElement[1];
 		boolean isIndependent = !n.inspect(Inspecting.dynamicGeosFinder);
 
 		// make point if complex parts are present, e.g. 3 + i
@@ -3524,24 +3523,22 @@ public class AlgebraProcessor {
 				vector = kernel.getAlgoDispatcher().point(x, y, complex);
 			}
 			vector.setDefinition(n);
-			vector.setLabel(label);
 		} else {
 			if (isVector) {
-				vector = dependentVector(label, n);
+				vector = dependentVector(n);
 			} else {
-				vector = dependentPoint(label, n, complex);
+				vector = dependentPoint(n, complex);
 			}
 		}
 		if (polar) {
 			vector.setMode(Kernel.COORD_POLAR);
-			vector.updateRepaint();
 		} else if (complex) {
 			vector.setMode(Kernel.COORD_COMPLEX);
-			vector.updateRepaint();
 		}
-		ret[0] = vector;
-
-		return ret;
+		if (info.isLabelOutput()) {
+			vector.setLabel(label);
+		}
+		return new GeoElement[]{vector};
 	}
 
 	/**
@@ -3605,20 +3602,17 @@ public class AlgebraProcessor {
 	 * Point dependent on arithmetic expression with variables, represented by a
 	 * tree. e.g. P = (4t, 2s)
 	 */
-	private GeoPoint dependentPoint(String label, ExpressionNode root,
+	private GeoPoint dependentPoint(ExpressionNode root,
 			boolean complex) {
-		AlgoDependentPoint algo = new AlgoDependentPoint(cons, label, root,
-				complex);
-		return algo.getPoint();
+		return new AlgoDependentPoint(cons, root, complex).getPoint();
 	}
 
 	/**
 	 * Vector dependent on arithmetic expression with variables, represented by
 	 * a tree. e.g. v = u + 3 w
 	 */
-	private GeoVector dependentVector(String label, ExpressionNode root) {
-		AlgoDependentVector algo = new AlgoDependentVector(cons, label, root);
-		return algo.getVector();
+	private GeoVector dependentVector(ExpressionNode root) {
+		return new AlgoDependentVector(cons, root).getVector();
 	}
 
 	/**
