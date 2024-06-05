@@ -2477,7 +2477,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			kernel.getAlgebraProcessor().getCommandDispatcher().addCommandFilter(commandFilter);
 		}
 		resetCommandDict();
-		suiteAppPickerButton.setIconAndLabel(subAppCode);
+		if (suiteAppPickerButton != null) {
+			suiteAppPickerButton.setIconAndLabel(subAppCode);
+		}
 		if (restoreMaterial(subAppCode)) {
 			registerOpenFileListener(() -> {
 				afterMaterialRestored();
