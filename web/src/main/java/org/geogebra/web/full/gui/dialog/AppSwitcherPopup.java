@@ -101,10 +101,9 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 
 	private void switchToSubApp(String subAppCode) {
 		hide();
-		appPickerButton.setIconAndLabel(subAppCode);
-		GlobalHeader.onResize();
 		app.hideMenu();
 		((AppWFull) app).switchToSubapp(subAppCode);
+		GlobalHeader.onResize();
 		Analytics.logEvent(Analytics.Event.APP_SWITCHED, Analytics.Param.SUB_APP,
 				Analytics.Param.convertToSubAppParam(subAppCode));
 	}
