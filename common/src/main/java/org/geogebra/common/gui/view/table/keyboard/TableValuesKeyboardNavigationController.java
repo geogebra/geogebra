@@ -7,6 +7,7 @@ import org.geogebra.common.gui.view.table.TableValuesCell;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.util.StringUtil;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -280,16 +281,8 @@ public final class TableValuesKeyboardNavigationController {
 		return row == 0;
 	}
 
-	private boolean isLastRow(int row, int column) {
-		return row == getMaxRowIndex(column) - 1;
-	}
-
 	private boolean isFirstColumn(int column) {
 		return column == 0;
-	}
-
-	private boolean isLastColumn(int column) {
-		return column == getMaxColumnIndex() - 1;
 	}
 
 	private int findFirstFocusableColumnLeftOf(int column) {
@@ -325,7 +318,7 @@ public final class TableValuesKeyboardNavigationController {
 
 	private boolean isCellEmpty(int row, int column) {
 		String cellContent = delegate.getCellEditorContent(row, column);
-		return cellContent == null || cellContent.trim().isEmpty();
+		return StringUtil.isTrimmedEmpty(cellContent);
 	}
 
 	private void commitPendingChanges() {
