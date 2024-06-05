@@ -1,6 +1,8 @@
 package org.geogebra.web.full.gui.dialog.options;
 
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.PropertyValueObserver;
 import org.geogebra.common.properties.ValuedProperty;
@@ -52,6 +54,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		private StandardButton saveSettingsBtn;
 		private StandardButton restoreSettingsBtn;
 		private FlowPanel saveRestoreRow;
+		private final ExamController examController = GlobalScope.examController;
 
 		/**
 		 * constructor
@@ -148,7 +151,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			});
 			saveRestoreRow = LayoutUtilW
 					.panelRow(saveSettingsBtn, restoreSettingsBtn);
-			saveRestoreRow.setVisible(!app.isExam());
+			saveRestoreRow.setVisible(examController.isIdle());
 			optionsPanel.add(saveRestoreRow);
 		}
 
@@ -168,7 +171,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			labelingDropDown.resetFromModel();
 			fontSizeDropDown.resetFromModel();
 			languageDropDown.resetFromModel();
-			saveRestoreRow.setVisible(!app.isExam());
+			saveRestoreRow.setVisible(examController.isIdle());
 		}
 
 		/**

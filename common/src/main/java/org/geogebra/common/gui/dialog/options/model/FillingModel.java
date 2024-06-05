@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.ownership.GlobalScope;
 
 public class FillingModel extends MultipleOptionsModel {
 
@@ -96,7 +97,7 @@ public class FillingModel extends MultipleOptionsModel {
 	@Override
 	public List<String> getChoices(Localization loc) {
 		List<FillType> types = fillTypes;
-		if (app.isExam()) {
+		if (GlobalScope.examController.isExamActive()) {
 			types = new ArrayList<>(fillTypes);
 			types.remove(FillType.IMAGE);
 		}

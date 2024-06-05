@@ -2,6 +2,7 @@ package org.geogebra.common.properties.factory;
 
 import static org.geogebra.common.properties.factory.PropertiesRegistration.registerProperties;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,11 +38,11 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 			PropertiesRegistry propertiesRegistry) {
 		ensureLabelsExist(localization);
 
-		List<Property> properties = Arrays.asList(
+		List<Property> properties = new ArrayList<>(Arrays.asList(
 				new DistributionTypeProperty(localization, probabilityCalculatorView),
 				new IsCumulativeProperty(localization, probabilityCalculatorView),
 				new IntervalProperty(localization, probabilityCalculatorView)
-		);
+		));
 
 		ProbabilityCalculatorSettings.Dist distribution =
 				probabilityCalculatorView.getSelectedDist();

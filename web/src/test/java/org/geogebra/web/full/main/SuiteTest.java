@@ -5,8 +5,10 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.test.AppMocker;
@@ -22,9 +24,9 @@ public class SuiteTest {
 	public void examMode() {
 		app = AppMocker.mockApplet(new AppletParameters("suite"));
 		GlobalHeader.INSTANCE.setApp(app);
-		app.setNewExam();
-		app.startExam();
+		app.startExam(ExamRegion.GENERIC);
 		app.switchToSubapp("geometry");
+		GlobalScope.examController.finishExam();
 		app.endExam();
 		assertTrue(app.getSettings().getCasSettings().isEnabled());
 	}

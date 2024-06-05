@@ -14,6 +14,8 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.exam.ExamController;
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.GuiManager;
@@ -46,6 +48,7 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
@@ -182,6 +185,7 @@ public class GuiManagerW extends GuiManager
 
 	private Runnable runAfterLogin;
 	private InputKeyboardButtonW inputKeyboardButton = null;
+	private static final ExamController examController = GlobalScope.examController;
 
 	/**
 	 *
@@ -1020,7 +1024,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public boolean save() {
-		if (getApp().isExam()) {
+		if (!examController.isIdle()) {
 			SaveExamAction.showExamSaveDialog(getApp());
 		} else {
 			getApp().getFileManager().save(getApp());
@@ -1079,7 +1083,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void openFile() {
-		if (!getApp().isExam()) {
+		if (examController.isIdle()) {
 			getApp().openSearch("");
 		}
 	}
@@ -1395,8 +1399,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void updateFrameSize() {
-		if (!getApp().getAppletParameters().getDataParamApp()
-			|| getApp().isExam()) {
+		if (!getApp().getAppletParameters().getDataParamApp() || !examController.isIdle()) {
 			return;
 		}
 		// get frame size from layout manager
@@ -1768,7 +1771,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	private BrowseViewI createBrowseView(AppWFull app) {
-		if (app.isExam()) {
+		if (!examController.isIdle()) {
 			return new OpenTemporaryFileView(app);
 		} else {
 			BrowserDevice.FileOpenButton fileOpenButton =
@@ -1993,7 +1996,6 @@ public class GuiManagerW extends GuiManager
 					geoImage);
 			s.callback(fn);
 		});
-
 	}
 
 	/**
@@ -2004,7 +2006,7 @@ public class GuiManagerW extends GuiManager
 	public static boolean mayForceKeyboard(AppW app) {
 		return !app.isStartedWithFile()
 				&& !app.getAppletParameters().preventFocus()
-				&& (app.getExam() == null || app.getExam().getStart() > 0);
+				&& examController.getState() != ExamState.PREPARING;
 	}
 
 	@Override

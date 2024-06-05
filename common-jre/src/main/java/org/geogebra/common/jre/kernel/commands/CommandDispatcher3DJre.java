@@ -20,7 +20,6 @@ public class CommandDispatcher3DJre extends CommandDispatcherJre {
 		if (spatialCommandProcessorFactory == null) {
 			spatialCommandProcessorFactory = new SpatialCommandProcessorFactory();
 		}
-
 		return spatialCommandProcessorFactory;
 	}
 

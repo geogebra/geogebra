@@ -148,6 +148,15 @@ public final class ExamController {
 	}
 
 	/**
+	 * Unregister an `ExamRestrictable`.
+	 * @param restrictable An object that that was previously registered with
+	 * {@link #registerRestrictable(ExamRestrictable)}..
+	 */
+	public void unregisterRestrictable(@Nonnull ExamRestrictable restrictable) {
+		restrictables.remove(restrictable);
+	}
+
+	/**
 	 * Adds an {@link ExamListener}.
 	 * @param listener The listener to add.
 	 * @apiNote Trying to add a listener that is already registered will have no effect.
@@ -185,6 +194,13 @@ public final class ExamController {
 		}
 		state = newState;
 		notifyListeners(newState);
+	}
+
+	/**
+	 * @return The cheating events.
+	 */
+	public CheatingEvents getCheatingEvents() {
+		return cheatingEvents;
 	}
 
 	/**
@@ -243,14 +259,14 @@ public final class ExamController {
 	}
 
 	/**
-	 * Get the exam display name.
+	 * Get the exam short display name.
 	 * @param appConfig The current app config.
 	 * @param localization The localization.
-	 * @return The current exam's display name (see
-	 * {@link ExamRegion#getDisplayName(Localization, AppConfig)}.
+	 * @return The current exam's short display name (see
+	 * {@link ExamRegion#getShortDisplayName(Localization, AppConfig)}.
 	 */
 	public @CheckForNull String getExamName(AppConfig appConfig, Localization localization) {
-		return examType == null ? null : examType.getDisplayName(localization, appConfig);
+		return examType == null ? null : examType.getShortDisplayName(localization, appConfig);
 	}
 
 	/**
@@ -270,14 +286,14 @@ public final class ExamController {
 	/**
 	 * @param localization A localization.
 	 * @return The formatted duration since the start of the exam, if an exam is currently
-	 * active, or null otherwise.
+	 * active, or zero (0:00) otherwise.
 	 */
-	public @CheckForNull String getDurationFormatted(Localization localization) {
-		if (startDate == null) {
-			return null;
-		}
+	public String getDurationFormatted(Localization localization) {
 		if (timeFormatter == null) {
 			timeFormatter = FormatFactory.getPrototype().getTimeFormat();
+		}
+		if (startDate == null) {
+			return timeFormatter.format(localization.getLanguageTag(), 0);
 		}
 		return timeFormatter.format(localization.getLanguageTag(),
 				System.currentTimeMillis() - startDate.getTime());
@@ -365,12 +381,18 @@ public final class ExamController {
 
 		if (delegate != null) {
 			delegate.examClearClipboard();
-			delegate.examClearOtherApps();
+			delegate.examClearApps();
 		}
 		tempStorage.clearTempMaterials();
 		createNewTempMaterial();
 
 		cheatingEvents = new CheatingEvents();
+		cheatingEvents.delegate = (cheatingEvent) -> {
+			if (cheatingEvents.size() == 1) {
+				notifyListenersCheatingStarted();
+			}
+		};
+
 		startDate = new Date();
 		setState(ExamState.ACTIVE);
 	}
@@ -403,8 +425,7 @@ public final class ExamController {
 		tempStorage.clearTempMaterials();
 		if (delegate != null) {
 			delegate.examClearClipboard();
-			delegate.examClearOtherApps();
-			delegate.examClearCurrentApp();
+			delegate.examClearApps();
 		}
 		startDate = finishDate = null;
 		examType = null;
@@ -429,6 +450,12 @@ public final class ExamController {
 	private void notifyListeners(ExamState newState) {
 		for (ExamListener listener : listeners) {
 			listener.examStateChanged(newState);
+		}
+	}
+
+	private void notifyListenersCheatingStarted() {
+		for (ExamListener listener : listeners) {
+			listener.cheatingStarted();
 		}
 	}
 

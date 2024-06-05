@@ -9,6 +9,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
 import org.geogebra.common.io.layout.Perspective;
@@ -18,6 +19,7 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.UndoRedoMode;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -94,6 +96,7 @@ public class ToolbarPanel extends FlowPanel
 	private @CheckForNull UndoRedoPanel undoRedoPanel;
 	private FlowPanel heading;
 	private DockPanelDecorator decorator;
+	private final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * @param app application
@@ -335,7 +338,7 @@ public class ToolbarPanel extends FlowPanel
 		}
 		add(main);
 		hideDragger();
-		if (app.isExamStarted() && !app.getExam().isCheating()) {
+		if (examController.isExamActive() && !examController.isCheating()) {
 			if (app.isLockedExam()) {
 				setHeaderStyle("examLock");
 			} else {

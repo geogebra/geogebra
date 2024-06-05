@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -116,13 +117,12 @@ public class PerspectivesPopup {
 				() -> {
 					if (perspective != null) {
 						PerspectivesMenuW.setPerspective(app, perspective);
-						if (!(app.isExam() && app.getExam().getStart() >= 0)) {
+						if (!GlobalScope.examController.isExamActive()) {
 							app.showStartTooltip(perspective);
 						}
 					} else {
 						app.getLAF().toggleFullscreen(true);
-						app.setNewExam();
-						app.examWelcome();
+						app.showExamWelcomeMessage();
 					}
 					wrappedPopup.hide();
 				});

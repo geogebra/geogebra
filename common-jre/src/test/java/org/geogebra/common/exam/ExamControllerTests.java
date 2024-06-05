@@ -30,9 +30,11 @@ import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigProbability;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
+import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -134,7 +136,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertNull(examController.getStartDate()); // not yet started
 		assertNull(examController.getFinishDate()); // not yet ended
 		assertEquals(ExamState.PREPARING, examController.getState());
-		assertEquals(Arrays.asList(ExamState.PREPARING), examStates);
+		assertEquals(List.of(ExamState.PREPARING), examStates);
 		assertFalse(didRequestClearApps);
 		assertFalse(didRequestClearClipboard);
 		assertNull(didRequestSwitchToSubApp);
@@ -288,15 +290,22 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertNotNull(activeMaterial);
 	}
 
+	@Test
+	public void testLanguagePropertyDisabledDuringExam() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+		examController.prepareExam();
+		examController.startExam(ExamRegion.GENERIC, null);
+
+		GlobalScope.examController = examController;
+		LanguageProperty languageProperty = new LanguageProperty(app, app.getLocalization());
+		assertFalse(languageProperty.isEnabled()); // should be disabled during exam
+	}
+
 	// -- ExamControllerDelegate --
 
 	@Override
-	public void examClearCurrentApp() {
+	public void examClearApps() {
 		activeMaterial = null;
-	}
-
-	@Override
-	public void examClearOtherApps() {
 		didRequestClearApps = true;
 	}
 

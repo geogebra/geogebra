@@ -18,6 +18,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandlerFactory;
@@ -139,7 +140,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		defaultDrawerMenuFactory = createDefaultMenuFactory(app, version);
 		examDrawerMenuFactory = new ExamDrawerMenuFactory(version, app.isSuite());
 		examDrawerMenuFactory.setCreatesExitExam(!app.isLockedExam());
-		if (!app.isExamStarted()) {
+		if (!GlobalScope.examController.isExamActive()) {
 			setDefaultMenu();
 		} else {
 			setExamMenu();

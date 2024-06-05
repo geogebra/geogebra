@@ -17,21 +17,21 @@ import org.geogebra.common.util.TimeFormatAdapter;
  */
 public final class ExamSummary {
 
-	private boolean isExamFinished;
-	private boolean cheated;
-	private String examName;
-	private String title;
-	private String finishedInfoText;
-	private String startDateHintText;
-	private String startDateLabelText;
-	private String startTimeHintText;
-	private String startTimeLabelText;
-	private String endTimeHintText;
+	private final boolean isExamFinished;
+	private final boolean cheated;
+	private final String examName;
+	private final String title;
+	private final String finishedInfoText;
+	private final String startDateHintText;
+	private final String startDateLabelText;
+	private final String startTimeHintText;
+	private final String startTimeLabelText;
+	private final String endTimeHintText;
 	private String endTimeLabelText = "";
-	private String durationHintText;
+	private final String durationHintText;
 	private String durationLabelText = "";
-	private String activityHintText;
-	public String activityLabelText;
+	private final String activityHintText;
+	private final String activityLabelText;
 
 	private static String formatDate(Date date, Localization localization) {
 		// copied over from ExamEnvironment
@@ -41,6 +41,21 @@ public final class ExamSummary {
 	private static String formatTime(Date date, Localization localization) {
 		// copied over from ExamEnvironment
 		return CmdGetTime.buildLocalizedDate("\\H:\\i:\\s", date, localization);
+	}
+
+	private static String formatElapsedTime(Date startDate, Date endDate) {
+		long elapsedTime = endDate.getTime() - startDate.getTime();
+		long elapsedMinutes = elapsedTime / 1000 / 60;
+		long elapsedSeconds = elapsedTime / 1000 % 60;
+
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(elapsedMinutes).append(":");
+		if (elapsedSeconds < 10) {
+			stringBuilder.append("0");
+		}
+		stringBuilder.append(elapsedSeconds);
+
+		return stringBuilder.toString();
 	}
 
 	/**
@@ -85,26 +100,16 @@ public final class ExamSummary {
 	private String getActivityLog(Date startDate, Date finishDate,
 			CheatingEvents cheatingEvents, Localization localization) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(localization.getMenu("exam_start_date")).append(": ")
-				.append(formatDate(startDate, localization)).append("\n");
-		sb.append(localization.getMenu("exam_start_time")).append(": ")
-				.append(formatTime(startDate, localization)).append("\n");
-		if (finishDate != null) {
-			sb.append(localization.getMenu("exam_end_time")).append(": ")
-					.append(formatTime(finishDate, localization)).append("\n");
-		}
-
-		sb.append(localization.getMenu("exam_activity")).append(":\n");
 		sb.append("0:00").append(' ')
 				.append(localization.getMenu("exam_started")).append("\n");
 		for (CheatingEvent cheatingEvent : cheatingEvents.getEvents()) {
-			sb.append(formatTime(cheatingEvent.getDate(), localization));
+			sb.append(formatElapsedTime(startDate, cheatingEvent.getDate()));
 			sb.append(' ');
 			sb.append(cheatingEvent.getAction().toString(localization));
 			sb.append("\n");
 		}
 		if (finishDate != null) {
-			sb.append(formatTime(finishDate, localization)).append(' ')
+			sb.append(formatElapsedTime(startDate, finishDate)).append(' ')
 					.append(localization.getMenu("exam_ended")).append("\n");
 		}
 		return sb.toString();

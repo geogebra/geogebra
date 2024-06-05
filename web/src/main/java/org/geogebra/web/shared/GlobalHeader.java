@@ -5,12 +5,15 @@ import static org.geogebra.common.gui.AccessibilityGroup.SIGN_IN_TEXT;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.exam.ExamController;
+import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.main.undo.UndoRedoButtonsController;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.gwtutil.SafeExamBrowser;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -61,6 +64,7 @@ public class GlobalHeader implements EventRenderable {
 	private ActionButton settingsButton;
 	private boolean assignButtonInitialized;
 	private @CheckForNull FlowPanel examTypeHolder;
+	private final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * Activate sign in button in external header
@@ -356,13 +360,15 @@ public class GlobalHeader implements EventRenderable {
 		RootPanel examId = RootPanel.get("examId");
 		examId.addStyleName("examPanel");
 
+		ExamRegion examType = examController.getExamType();
 		if (SafeExamBrowser.get() != null && SafeExamBrowser.get().security != null) {
 			SafeExamBrowser.SebSecurity security = SafeExamBrowser.get().security;
 			String hash = security.configKey.substring(0, 8);
 			security.updateKeys((ignore) ->
 					addExamType("Safe Exam Browser (" + hash + ")"));
-		} else if (!app.getExam().isRestrictedGraphExam()) {
-			addExamType(app.getExam().getCalculatorNameForHeader());
+		} else if (examType != ExamRegion.GENERIC && examType != null) {
+			addExamType(examType.getDisplayName(
+					app.getLocalization(), app.getConfig()));
 		}
 
 		examId.add(timerImg);
@@ -372,16 +378,15 @@ public class GlobalHeader implements EventRenderable {
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				if (getApp().getExam() != null) {
-					if (getApp().getExam().isCheating()) {
+				if (examController.isExamActive()) {
+					if (examController.isCheating()) {
 						getApp().getGuiManager()
 								.setUnbundledHeaderStyle("examCheat");
 						if (examTypeHolder != null) {
 							examTypeHolder.addStyleName("cheat");
 						}
 					}
-					getTimer().setText(
-							getApp().getExam().getElapsedTimeLocalized());
+					getTimer().setText(examController.getDurationFormatted(app.getLocalization()));
 					AnimationScheduler.get().requestAnimationFrame(this);
 				}
 			}

@@ -64,7 +64,7 @@ public class ProbabilityResultProperty implements Property {
 
 	@Override
 	public String getRawName() {
-		return null;
+		return "ProbabilityResult";
 	}
 
 	@Override
