@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.exam.classic;
 
+import org.geogebra.common.exam.ExamOptions;
 import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.Localization;
@@ -118,7 +119,8 @@ public class ExamClassicStartDialog extends ComponentDialog {
 				.getCommandDispatcher(), app.getKernel().getAlgebraProcessor());
 		GlobalScope.examController.registerRestrictable(app);
 		GlobalScope.examController.setDelegate(new ExamControllerDelegateW(app));
-		GlobalScope.examController.startExam(ExamRegion.GENERIC, null);
+		GlobalScope.examController.startExam(ExamRegion.GENERIC,
+				new ExamOptions(app.getSettings().getCasSettings().isEnabled()));
 
 		app.fireViewsChangedEvent();
 		guiManager.updateToolbar();

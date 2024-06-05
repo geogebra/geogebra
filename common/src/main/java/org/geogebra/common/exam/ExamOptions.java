@@ -7,7 +7,7 @@ public final class ExamOptions {
 
 	final boolean casEnabled;
 
-	ExamOptions(boolean casEnabled) {
+	public ExamOptions(boolean casEnabled) {
 		this.casEnabled = casEnabled;
 	}
 }
