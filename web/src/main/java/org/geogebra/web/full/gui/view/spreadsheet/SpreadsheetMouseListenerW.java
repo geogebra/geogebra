@@ -12,6 +12,7 @@ import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.spreadsheet.core.SelectionType;
 import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.regexp.shared.MatchResult;
@@ -387,6 +388,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	}
 
 	private boolean doDragCopy() {
+		long t = System.currentTimeMillis();
 		if (table.draggingToColumn == -1 || table.draggingToRow == -1) {
 			return false;
 		}
@@ -429,6 +431,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		        Math.min(y1, table.minSelectionRow),
 		        Math.max(x2, table.maxSelectionColumn),
 		        Math.max(y2, table.maxSelectionRow));
+		Log.debug("Time taken in ms: " + (System.currentTimeMillis() - t));
 		return succ;
 	}
 

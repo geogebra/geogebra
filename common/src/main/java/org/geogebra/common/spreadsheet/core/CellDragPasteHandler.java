@@ -3,7 +3,10 @@ package org.geogebra.common.spreadsheet.core;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Utility class designed to handle dragging a selection in order to copy its content to adjacent
@@ -86,9 +89,7 @@ public class CellDragPasteHandler {
 		if (getDestinationRange() == null) {
 			return;
 		}
-		relativeCopy.doDragCopy(getMinColumnIndexFromOrigin(), getMinRowIndexFromOrigin(),
-				getMaxColumnIndexFromOrigin(), getMaxRowIndexFromOrigin(),
-				fromColumn, fromRow, toColumn, toRow);
+		pasteToCorrectDirection();
 	}
 
 	/**
@@ -101,8 +102,103 @@ public class CellDragPasteHandler {
 				|| destinationRow > getMaxRowIndexFromOrigin();
 	}
 
+	private void pasteToCorrectDirection() {
+		if (destinationShouldExtendVertically(toRow)) {
+			if (destinationIsRightOrDown()) {
+				pasteDownwards(getDestinationRange(),
+						getMinRowIndexFromOrigin(), getMinColumnIndexFromOrigin());
+			} else {
+				pasteUpwards(getDestinationRange(),
+						getMaxRowIndexFromOrigin(), getMaxColumnIndexFromOrigin());
+			}
+		} else {
+			if (destinationIsRightOrDown()) {
+				pasteRightwards(getDestinationRange(),
+						getMinRowIndexFromOrigin(), getMinColumnIndexFromOrigin());
+			} else {
+				pasteLeftwards(getDestinationRange(),
+						getMaxRowIndexFromOrigin(), getMaxColumnIndexFromOrigin());
+			}
+		}
+	}
+
 	private boolean destinationIsRightOrDown() {
 		return fromRow > getMaxRowIndexFromOrigin() || fromColumn > getMaxColumnIndexFromOrigin();
+	}
+
+	private void pasteUpwards(TabularRange destinationRange,
+			int maxOriginRow, int maxOriginColumn) {
+		if (destinationRange == null) {
+			return;
+		}
+		int column = 0;
+		do {
+			for (int row = 0; row < destinationRange.getHeight(); row++) {
+				pasteSingleRowOrColumn(maxOriginRow - row, toRow - row,
+						maxOriginColumn - column, toColumn - column);
+			}
+			column++;
+		} while (column < destinationRange.getWidth());
+	}
+
+	private void pasteRightwards(TabularRange destinationRange,
+			int minOriginRow, int minOriginColumn) {
+		if (destinationRange == null) {
+			return;
+		}
+		int row = 0;
+		do {
+			for (int column = 0; column < destinationRange.getWidth(); column++) {
+				pasteSingleRowOrColumn(minOriginRow + row, fromRow + row,
+						minOriginColumn + column, fromColumn + column);
+			}
+			row++;
+		} while (row < destinationRange.getHeight());
+	}
+
+	private void pasteDownwards(TabularRange destinationRange,
+			int minOriginRow, int minOriginColumn) {
+		if (destinationRange == null) {
+			return;
+		}
+		int column = 0;
+		do {
+			for (int row = 0; row < destinationRange.getHeight(); row++) {
+				pasteSingleRowOrColumn(minOriginRow + row, fromRow + row,
+						minOriginColumn + column, fromColumn + column);
+			}
+			column++;
+		} while (column < destinationRange.getWidth());
+	}
+
+	private void pasteLeftwards(TabularRange destinationRange,
+			int maxOriginRow, int maxOriginColumn) {
+		if (destinationRange == null) {
+			return;
+		}
+		int row = 0;
+		do {
+			for (int column = 0; column < destinationRange.getWidth(); column++) {
+				pasteSingleRowOrColumn(maxOriginRow - row, toRow - row,
+						maxOriginColumn - column, toColumn - column);
+			}
+			row++;
+		} while (row < destinationRange.getHeight());
+	}
+
+	private void pasteSingleRowOrColumn(int sourceRow, int destinationRow,
+			int sourceColumn, int destinationColumn) {
+		try {
+			if (destinationShouldExtendVertically(toRow)) {
+				relativeCopy.doCopyVerticalNoStoringUndoInfo1(sourceColumn, sourceColumn,
+						sourceRow, destinationRow, destinationRow);
+			} else {
+				relativeCopy.doCopyHorizontalNoStoringUndoInfo1(sourceRow, sourceRow,
+						sourceColumn, destinationColumn, destinationColumn);
+			}
+		} catch (CircularDefinitionException | ParseException e) {
+			Log.error(e);
+		}
 	}
 
 	private int getMinRowIndexFromOrigin() {
