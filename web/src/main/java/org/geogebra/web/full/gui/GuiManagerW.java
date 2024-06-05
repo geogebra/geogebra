@@ -14,6 +14,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.GuiManager;
@@ -2006,7 +2007,7 @@ public class GuiManagerW extends GuiManager
 	public static boolean mayForceKeyboard(AppW app) {
 		return !app.isStartedWithFile()
 				&& !app.getAppletParameters().preventFocus()
-				&& GlobalScope.examController.isExamActive();
+				&& GlobalScope.examController.getState() != ExamState.PREPARING;
 	}
 
 	@Override

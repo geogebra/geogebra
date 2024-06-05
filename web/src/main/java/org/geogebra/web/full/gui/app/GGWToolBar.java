@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Macro;
@@ -230,7 +231,8 @@ public class GGWToolBar extends Composite
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				if (GlobalScope.examController.isExamActive()) {
+				if (GlobalScope.examController.isExamActive()
+						|| GlobalScope.examController.getState() == ExamState.PREPARING) {
 					if (GlobalScope.examController.isCheating()) {
 						ExamUtil.makeRed(getElement(), true);
 						makeTimerWhite(Js.uncheckedCast(getElement()));
@@ -300,8 +302,7 @@ public class GGWToolBar extends Composite
 			// It may be possible that 3D is not supported from technical
 			// reasons (e.g. the graphics card is problematic), but in such
 			// cases we don't want to show that here.
-			boolean supportsCAS = app.getKernel().getAlgebraProcessor()
-					.getCommandDispatcher().isCASAllowed();
+			boolean supportsCAS = app.getSettings().getCasSettings().isEnabled();
 			if (!supportsCAS) {
 				Label nocas = new Label("CAS");
 				nocas.getElement().getStyle()

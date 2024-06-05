@@ -37,9 +37,9 @@ public class ExamClassicStartDialog extends ComponentDialog {
 	public ExamClassicStartDialog(AppW app, DialogData data) {
 		super(app, data, false, true);
 		this.app = app;
+		GlobalScope.examController.prepareExam();
 		addStyleName("classicExamStartDialog");
 		buildGUI();
-		GlobalScope.examController.prepareExam();
 		setOnPositiveAction(() -> startExam(app));
 		setOnNegativeAction(this::cancelExam);
 	}
@@ -57,7 +57,11 @@ public class ExamClassicStartDialog extends ComponentDialog {
 
 		if (!app.getSettings().getCasSettings().isEnabledSet()) {
 			ComponentCheckbox cas = new ComponentCheckbox(app.getLocalization(), true,
-					"Perspective.CAS", selected -> app.getGuiManager().updateToolbarActions());
+					"Perspective.CAS", selected -> {
+				app.getSettings().getCasSettings().setEnabled(selected);
+				guiManager.updateToolbarActions();
+			});
+			app.getSettings().getCasSettings().setEnabled(true);
 			startPanel.add(cas);
 		}
 
