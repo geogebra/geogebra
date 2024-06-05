@@ -54,7 +54,6 @@ public class SuiteHeaderAppPicker extends StandardButton {
 			setExpanded(true);
 			suitePopup.showPopup();
 		});
-		appW.registerRestrictable(suitePopup);
 	}
 
 	private void setExpanded(boolean expanded) {

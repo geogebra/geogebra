@@ -8,6 +8,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolcategorization.ToolCategory;
 import org.geogebra.common.main.App;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.toolbar.ToolButton;
@@ -149,7 +150,7 @@ public class Tools extends FlowPanel implements SetLabels {
 
 		for (int i = 0; i < categories.size(); i++) {
 			ToolCategory category = categories.get(i);
-			if (!app.isExam() || category.isAllowedInExam()) {
+			if (GlobalScope.examController.isIdle() || category.isAllowedInExam()) {
 				CategoryPanel catPanel = new CategoryPanel(category,
 						parentTab.toolCollection.getTools(i));
 				categoryPanelList.add(catPanel);

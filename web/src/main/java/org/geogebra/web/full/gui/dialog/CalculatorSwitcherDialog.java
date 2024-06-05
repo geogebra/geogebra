@@ -1,8 +1,8 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
-import org.geogebra.common.main.exam.restriction.Restrictable;
+import org.geogebra.common.exam.ExamController;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -18,9 +18,9 @@ import org.gwtproject.user.client.ui.RequiresResize;
  * Calculator chooser for suite
  */
 public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable,
-		RequiresResize, Restrictable {
+		RequiresResize {
 	private FlowPanel contentPanel;
-	private ExamRestrictionModel restrictionModel;
+	private final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * constructor
@@ -32,7 +32,6 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 		addStyleName("calcChooser");
 		Dom.toggleClass(this, "smallScreen", app.getWidth() < 914);
 		app.registerPopup(this);
-		app.registerRestrictable(this);
 		buildGUI();
 		app.addWindowResizeListener(this);
 	}
@@ -65,7 +64,7 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 	}
 
 	private void buildAndAddCalcButton(String subAppCode, FlowPanel contentPanel) {
-		if (hasRestrictions() && restrictionModel.isAppRestricted(subAppCode)) {
+		if (examController.isExamActive() && examController.isDisabledSubApp(subAppCode)) {
 			return;
 		}
 		AppDescription description = AppDescription.get(subAppCode) ;
@@ -100,24 +99,5 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 			Dom.toggleClass(this, "smallScreen", app.getWidth() < 914);
 			super.centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
 		}
-	}
-
-	private boolean hasRestrictions() {
-		return restrictionModel != null;
-	}
-
-	@Override
-	public boolean isExamRestrictionModelAccepted(ExamRestrictionModel model) {
-		return model.hasSubApps();
-	}
-
-	@Override
-	public void setExamRestrictionModel(ExamRestrictionModel model) {
-		restrictionModel = model;
-	}
-
-	@Override
-	public void applyExamRestrictions() {
-		buildGUI();
 	}
 }

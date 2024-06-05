@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.dialog.tools;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.ImageResizer;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
@@ -110,7 +111,7 @@ public class ToolNameIconPanelW extends FlowPanel {
 
 		FlowPanel iconSelectShowPanel = new FlowPanel();
 		iconSelectShowPanel.addStyleName("iconSelectShowPanel");
-		if (!app.isExam()) {
+		if (GlobalScope.examController.isIdle()) {
 			iconSelectShowPanel.add(iconPanel);
 		}
 		iconSelectShowPanel.add(showTool);
