@@ -2,6 +2,7 @@ package org.geogebra.web.shared;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.main.undo.UndoRedoButtonsController;
 import org.geogebra.common.move.events.BaseEvent;
@@ -55,6 +56,7 @@ public class GlobalHeader implements EventRenderable {
 	private boolean shareButtonInitialized;
 	private boolean assignButtonInitialized;
 	private @CheckForNull FlowPanel examTypeHolder;
+	private final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * Activate sign in button in external header
@@ -284,7 +286,7 @@ public class GlobalHeader implements EventRenderable {
 		RootPanel examId = RootPanel.get("examId");
 		examId.addStyleName("examPanel");
 
-		ExamRegion examType = GlobalScope.examController.getExamType();
+		ExamRegion examType = examController.getExamType();
 		if (SafeExamBrowser.get() != null && SafeExamBrowser.get().security != null) {
 			SafeExamBrowser.SebSecurity security = SafeExamBrowser.get().security;
 			String hash = security.configKey.substring(0, 8);
@@ -302,16 +304,15 @@ public class GlobalHeader implements EventRenderable {
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				if (GlobalScope.examController.isExamActive()) {
-					if (GlobalScope.examController.isCheating()) {
+				if (examController.isExamActive()) {
+					if (examController.isCheating()) {
 						getApp().getGuiManager()
 								.setUnbundledHeaderStyle("examCheat");
 						if (examTypeHolder != null) {
 							examTypeHolder.addStyleName("cheat");
 						}
 					}
-					getTimer().setText(GlobalScope.examController.getDurationFormatted(
-							app.getLocalization()));
+					getTimer().setText(examController.getDurationFormatted(app.getLocalization()));
 					AnimationScheduler.get().requestAnimationFrame(this);
 				}
 			}

@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.menubar;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -57,6 +58,7 @@ public class MainMenu extends FlowPanel
 	final SignInMenu signInMenu;
 
 	private final ClassicMenuItemProvider actionProvider;
+	private final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * Constructs the menubar
@@ -77,7 +79,7 @@ public class MainMenu extends FlowPanel
 	private void init() {
 		app.ensureLoginOperation();
 		this.app.getLoginOperation().getView().add(this);
-		final boolean exam = !GlobalScope.examController.isIdle();
+		final boolean exam = !examController.isIdle();
 
 		this.menus = new ArrayList<>();
 		this.userMenu = new UserSubmenu(app);
@@ -144,7 +146,7 @@ public class MainMenu extends FlowPanel
 				int eventType = DOM.eventGetType(event);
 				Element target = DOM.eventGetTarget(event);
 				int index = findDividerIndex(target);
-				if (GlobalScope.examController.isIdle() && eventType == Event.ONMOUSEOUT) {
+				if (examController.isIdle() && eventType == Event.ONMOUSEOUT) {
 					if (index != getSelectedIndex()) {
 						getMenuAt(getSelectedIndex()).selectItem(null);
 					}

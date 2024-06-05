@@ -35,6 +35,7 @@ import org.geogebra.common.euclidian.inline.InlineFormulaController;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.factories.CASFactory;
@@ -261,6 +262,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private List<String> functionVars = new ArrayList<>();
 	private OpenSearch search;
 	private CsvImportHandler csvImportHandler;
+	private final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -613,7 +615,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				listener.ensureEditing();
 				listener.setFocus(true);
 				if (getAppletFrame().appNeedsKeyboard()
-						&& GlobalScope.examController.getState() != ExamState.PREPARING) {
+						&& examController.getState() != ExamState.PREPARING) {
 					getAppletFrame().showKeyBoard(true, listener, true);
 				}
 			}
@@ -787,7 +789,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void showExamWelcomeMessage() {
-		if (GlobalScope.examController.isIdle()) {
+		if (examController.isIdle()) {
 			if (isUnbundled()) {
 				new StartExamAction().execute(this);
 			} else {
@@ -1086,7 +1088,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		boolean smallScreen = NavigatorUtil.getWindowWidth() < MIN_SIZE_FOR_PICKER
 				|| NavigatorUtil.getWindowHeight() < MIN_SIZE_FOR_PICKER;
 		if (isUnbundledOrWhiteboard() || smallScreen
-				|| isAppletWithoutAppsPicker() || !GlobalScope.examController.isIdle()
+				|| isAppletWithoutAppsPicker() || !examController.isIdle()
 				|| !StringUtil.empty(getAppletParameters().getDataParamPerspective())) {
 			return;
 		}
@@ -1334,8 +1336,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (hasMacroToRestore() || !getLAF().autosaveSupported()) {
 			return;
 		}
-		if (autosavedMaterial != null && !isStartedWithFile()
-				&& GlobalScope.examController.isIdle()) {
+		if (autosavedMaterial != null && !isStartedWithFile() && examController.isIdle()) {
 			afterLocalizationLoaded(() -> {
 				getDialogManager().showRecoverAutoSavedDialog(
 						this, autosavedMaterial);
@@ -2359,12 +2360,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @param region {@link ExamRegion}
 	 */
 	public void startExam(ExamRegion region) {
-		GlobalScope.examController.setActiveContext(this,
+		examController.setActiveContext(this,
 				getKernel().getAlgebraProcessor().getCommandDispatcher(),
 				getKernel().getAlgebraProcessor());
-		GlobalScope.examController.registerRestrictable(this);
-		GlobalScope.examController.setDelegate(new ExamControllerDelegateW(this));
-		GlobalScope.examController.startExam(region, null);
+		examController.registerRestrictable(this);
+		examController.setDelegate(new ExamControllerDelegateW(this));
+		examController.startExam(region, null);
 		getLAF().toggleFullscreen(true);
 		if (guiManager != null) {
 			guiManager.resetBrowserGUI();
@@ -2384,7 +2385,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * Ends the exam mode, exits the exam view.
 	 */
 	public void endExam() {
-		GlobalScope.examController.exitExam();
+		examController.exitExam();
 		resetViewsEnabled();
 		getGuiManager().getLayout().resetPerspectives(this);
 		getLAF().addWindowClosingHandler(this);
@@ -2476,6 +2477,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			kernel.getAlgebraProcessor().getCommandDispatcher().addCommandFilter(commandFilter);
 		}
 		resetCommandDict();
+		suiteAppPickerButton.setIconAndLabel(subAppCode);
 		if (restoreMaterial(subAppCode)) {
 			registerOpenFileListener(() -> {
 				afterMaterialRestored();
@@ -2491,8 +2493,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getGuiManager().getLayout().getDockManager().adjustViews(true);
 		resetFullScreenBtn();
 		reinitAlgebraView();
-		if (!GlobalScope.examController.isIdle()) {
-			GlobalScope.examController.createNewTempMaterial();
+		if (!examController.isIdle()) {
+			examController.createNewTempMaterial();
 		}
 	}
 

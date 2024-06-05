@@ -9,6 +9,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
 import org.geogebra.common.io.layout.Perspective;
@@ -95,6 +96,7 @@ public class ToolbarPanel extends FlowPanel
 	private @CheckForNull UndoRedoPanel undoRedoPanel;
 	private FlowPanel heading;
 	private DockPanelDecorator decorator;
+	private final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * @param app application
@@ -327,7 +329,7 @@ public class ToolbarPanel extends FlowPanel
 		}
 		add(main);
 		hideDragger();
-		if (GlobalScope.examController.isExamActive() && !GlobalScope.examController.isCheating()) {
+		if (examController.isExamActive() && !examController.isCheating()) {
 			if (app.isLockedExam()) {
 				setHeaderStyle("examLock");
 			} else {

@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.exam.classic;
 
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamOptions;
 import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -30,6 +31,7 @@ import elemental2.dom.KeyboardEvent;
 public class ExamClassicStartDialog extends ComponentDialog {
 	private static boolean examStyle;
 	protected AppW app;
+	private static final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * @param app
@@ -38,7 +40,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 	public ExamClassicStartDialog(AppW app, DialogData data) {
 		super(app, data, false, true);
 		this.app = app;
-		GlobalScope.examController.prepareExam();
+		examController.prepareExam();
 		addStyleName("classicExamStartDialog");
 		buildGUI();
 		setOnPositiveAction(() -> startExam(app));
@@ -84,7 +86,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 	 * Cancel button handler
 	 */
 	private void cancelExam() {
-		GlobalScope.examController.cancelExam();
+		examController.cancelExam();
 		app.getLAF().toggleFullscreen(false);
 		app.fireViewsChangedEvent();
 		GuiManagerInterfaceW guiManager = app.getGuiManager();
@@ -115,11 +117,11 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		((LayoutW) app.getGuiManager().getLayout()).resetPerspectives(app);
 
 		app.getKernel().getAlgebraProcessor().reinitCommands();
-		GlobalScope.examController.setActiveContext(app, app.getKernel().getAlgebraProcessor()
+		examController.setActiveContext(app, app.getKernel().getAlgebraProcessor()
 				.getCommandDispatcher(), app.getKernel().getAlgebraProcessor());
-		GlobalScope.examController.registerRestrictable(app);
-		GlobalScope.examController.setDelegate(new ExamControllerDelegateW(app));
-		GlobalScope.examController.startExam(ExamRegion.GENERIC,
+		examController.registerRestrictable(app);
+		examController.setDelegate(new ExamControllerDelegateW(app));
+		examController.startExam(ExamRegion.GENERIC,
 				new ExamOptions(app.getSettings().getCasSettings().isEnabled()));
 
 		app.fireViewsChangedEvent();
@@ -146,14 +148,14 @@ public class ExamClassicStartDialog extends ComponentDialog {
 	public static void blockEscTab(AppW app) {
 		DomGlobal.document.body.addEventListener("keyup", evt -> {
 			KeyboardEvent e = (KeyboardEvent) evt;
-			if ("Escape".equals(e.code) && !GlobalScope.examController.isIdle()) {
+			if ("Escape".equals(e.code) && !examController.isIdle()) {
 				e.preventDefault();
 			}
 		});
 		DomGlobal.document.body.addEventListener("keydown", evt -> {
 			KeyboardEvent e = (KeyboardEvent) evt;
 			if (("Tab".equals(e.code) || "Escape".equals(e.code))
-					&& !GlobalScope.examController.isIdle()) {
+					&& !examController.isIdle()) {
 				e.preventDefault();
 			}
 		});
@@ -170,7 +172,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 	@Override
 	protected void onEscape() {
 		if (!app.isLockedExam()) {
-			GlobalScope.examController.cancelExam();
+			examController.cancelExam();
 			hide();
 		}
 	}

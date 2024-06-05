@@ -14,6 +14,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.TextRendererSettings;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.Editing;
@@ -184,6 +185,7 @@ public class GuiManagerW extends GuiManager
 
 	private Runnable runAfterLogin;
 	private InputKeyboardButtonW inputKeyboardButton = null;
+	private static final ExamController examController = GlobalScope.examController;
 
 	/**
 	 *
@@ -1023,7 +1025,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public boolean save() {
-		if (!GlobalScope.examController.isIdle()) {
+		if (!examController.isIdle()) {
 			SaveExamAction.showExamSaveDialog(getApp());
 		} else {
 			getApp().getFileManager().save(getApp());
@@ -1082,7 +1084,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void openFile() {
-		if (GlobalScope.examController.isIdle()) {
+		if (examController.isIdle()) {
 			getApp().openSearch("");
 		}
 	}
@@ -1398,8 +1400,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void updateFrameSize() {
-		if (!getApp().getAppletParameters().getDataParamApp()
-			|| !GlobalScope.examController.isIdle()) {
+		if (!getApp().getAppletParameters().getDataParamApp() || !examController.isIdle()) {
 			return;
 		}
 		// get frame size from layout manager
@@ -1771,7 +1772,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	private BrowseViewI createBrowseView(AppWFull app) {
-		if (!GlobalScope.examController.isIdle()) {
+		if (!examController.isIdle()) {
 			return new OpenTemporaryFileView(app);
 		} else {
 			BrowserDevice.FileOpenButton fileOpenButton =
@@ -1996,7 +1997,6 @@ public class GuiManagerW extends GuiManager
 					geoImage);
 			s.callback(fn);
 		});
-
 	}
 
 	/**
@@ -2007,7 +2007,7 @@ public class GuiManagerW extends GuiManager
 	public static boolean mayForceKeyboard(AppW app) {
 		return !app.isStartedWithFile()
 				&& !app.getAppletParameters().preventFocus()
-				&& GlobalScope.examController.getState() != ExamState.PREPARING;
+				&& examController.getState() != ExamState.PREPARING;
 	}
 
 	@Override

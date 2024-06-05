@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.exam;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.gwtutil.SecureBrowser;
@@ -20,6 +21,7 @@ public class ExamUtil {
 
 	private AppW app;
 	private static boolean examModeRunning = false;
+	private static final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * @param app
@@ -74,14 +76,14 @@ public class ExamUtil {
 	}
 
 	private void startCheating() {
-		if (GlobalScope.examController.isExamActive() && SecureBrowser.get() == null) {
-			GlobalScope.examController.getCheatingEvents().addWindowLeftEvent();
+		if (examController.isExamActive() && SecureBrowser.get() == null) {
+			examController.getCheatingEvents().addWindowLeftEvent();
 		}
 	}
 
 	private void stopCheating() {
-		if (GlobalScope.examController.isExamActive()) {
-			GlobalScope.examController.getCheatingEvents().addWindowEnteredEvent();
+		if (examController.isExamActive()) {
+			examController.getCheatingEvents().addWindowEnteredEvent();
 		}
 	}
 
@@ -130,7 +132,7 @@ public class ExamUtil {
 	 */
 	public static String status(AppW appW) {
 		return appW.getLocalization().getMenu("exam_menu_entry") + ": "
-				+ (GlobalScope.examController.isCheating()
+				+ (examController.isCheating()
 						? appW.getLocalization().getMenu("exam_alert")
 						: appW.getLocalization().getMenu("OK"));
 	}

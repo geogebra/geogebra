@@ -4,6 +4,7 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -49,6 +50,7 @@ class NavigationRail extends FlowPanel {
 	 */
 	final ToolbarPanel toolbarPanel;
 	private FocusableWidget focusableMenuButton;
+	private final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * @param toolbarPanel
@@ -69,7 +71,7 @@ class NavigationRail extends FlowPanel {
 		setTabIndexes();
 		lastOrientation = app.isPortrait();
 		setStyleName("header");
-		updateIcons(!GlobalScope.examController.isIdle());
+		updateIcons(!examController.isIdle());
 	}
 
 	private void createCenter() {
@@ -205,7 +207,7 @@ class NavigationRail extends FlowPanel {
 	}
 
 	protected void onClose(boolean snap, int time) {
-		updateIcons(null, GlobalScope.examController.isExamActive());
+		updateIcons(null, examController.isExamActive());
 		addCloseOrientationStyles();
 		toolbarPanel.setMoveMode();
 		toolbarPanel.close(snap, time);
@@ -252,7 +254,7 @@ class NavigationRail extends FlowPanel {
 		if (center == null) {
 			return;
 		}
-		updateIcons(tabId, GlobalScope.examController.isExamActive());
+		updateIcons(tabId, examController.isExamActive());
 		toolbarPanel.setSelectedTabId(tabId);
 	}
 

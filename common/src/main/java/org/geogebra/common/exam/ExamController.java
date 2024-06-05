@@ -288,7 +288,7 @@ public final class ExamController {
 	 * @return The formatted duration since the start of the exam, if an exam is currently
 	 * active, or zero (0:00) otherwise.
 	 */
-	public @CheckForNull String getDurationFormatted(Localization localization) {
+	public String getDurationFormatted(Localization localization) {
 		if (timeFormatter == null) {
 			timeFormatter = FormatFactory.getPrototype().getTimeFormat();
 		}

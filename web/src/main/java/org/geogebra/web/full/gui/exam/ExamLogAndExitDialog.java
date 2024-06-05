@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.exam;
 
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.exam.ExamSummary;
 import org.geogebra.common.ownership.GlobalScope;
@@ -25,6 +26,7 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 	private FlowPanel contentPanel;
 	private FlowPanel activityPanel;
 	private final Widget anchor;
+	private final ExamController examController = GlobalScope.examController;
 
 	public ExamLogAndExitDialog(AppW app, boolean isLogDialog,
 			Widget anchor) {
@@ -56,7 +58,7 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 
 		ScrollPanel scrollPanel = new ScrollPanel();
 		contentPanel = new FlowPanel();
-		contentPanel.setStyleName(GlobalScope.examController.isCheating() && isLogDialog
+		contentPanel.setStyleName(examController.isCheating() && isLogDialog
 				? "contentPanel cheating" : "contentPanel");
 		buildContent(isLogDialog);
 		scrollPanel.add(contentPanel);
@@ -65,7 +67,7 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 
 		FlowPanel dialog = new FlowPanel();
 		dialog.add(titlePanel);
-		if ((GlobalScope.examController.isCheating() && !isLogDialog)
+		if ((examController.isCheating() && !isLogDialog)
 				|| (isLogDialog && activityPanel != null
 				&& activityPanel.getWidgetCount() > 7)) {
 			scrollPanel.addStyleName("withDivider");
@@ -97,8 +99,7 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 	private FlowPanel buildTitlePanel() {
 		FlowPanel titlePanel = new FlowPanel();
 		titlePanel.setStyleName("titlePanel");
-		ExamRegion examRegion = GlobalScope.examController.isExamActive()
-				? GlobalScope.examController.getExamType() : ExamRegion.GENERIC;
+		ExamRegion examRegion = examController.getExamType();
 		String calcStr = "";
 		if (examRegion != null) {
 			calcStr = examRegion.getDisplayName(app.getLocalization(), app.getConfig());
@@ -108,7 +109,7 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 		Label examTitle = new Label(ExamUtil.status((AppW) app));
 		examTitle.setStyleName("examTitle");
 		titlePanel.add(calcType);
-		if (GlobalScope.examController.isCheating()) {
+		if (examController.isCheating()) {
 			titlePanel.addStyleName("cheating");
 			NoDragImage alertImg = new NoDragImage(
 					MaterialDesignResources.INSTANCE.exam_error(), 24);
@@ -123,7 +124,7 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 	}
 
 	private void buildContent(boolean isLogDialog) {
-		ExamSummary examSummary = GlobalScope.examController.getExamSummary(
+		ExamSummary examSummary = examController.getExamSummary(
 				app.getConfig(), app.getLocalization());
 
 		if (examSummary != null) {
@@ -138,7 +139,7 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 			if (!isLogDialog) {
 				addBlock("exam_end_time", examSummary.getEndTimeLabelText());
 			}
-			if (GlobalScope.examController.isCheating()) {
+			if (examController.isCheating()) {
 				activityPanel = buildActivityPanel(examSummary);
 				Label activityLbl = new Label(app.getLocalization().getMenu("exam_activity"));
 				contentPanel.add(buildBlock(activityLbl, activityPanel));

@@ -22,6 +22,7 @@ import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
 import org.geogebra.common.export.pstricks.GeoGebraToPgf;
@@ -255,6 +256,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private Widget lastFocusableWidget;
 	private FullScreenState fullscreenState;
 	private ToolTipManagerW toolTipManager;
+	private final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * @param geoGebraElement
@@ -1023,8 +1025,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		resetFileHandle();
 		resetUI();
 		resetUrl();
-		if (GlobalScope.examController.isExamActive()) {
-			GlobalScope.examController.createNewTempMaterial();
+		if (examController.isExamActive()) {
+			examController.createNewTempMaterial();
 		}
 		setSaved();
 	}

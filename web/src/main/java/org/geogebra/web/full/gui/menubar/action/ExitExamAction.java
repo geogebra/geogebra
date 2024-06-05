@@ -30,8 +30,8 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 	private static final double PADDING = 24;
 	private static final GColor EXAM_OK_COLOR = GColor.newColorRGB(0x3DA196);
 	private static final int SCREENSHOT_HEADER_HEIGHT = 78;
-
 	private AppWFull app;
+	private final ExamController examController = GlobalScope.examController;
 
 	@Override
 	public void execute(AppWFull app) {
@@ -54,7 +54,7 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 			}
 		};
 		exit.setOnPositiveAction(() -> {
-			GlobalScope.examController.finishExam();
+			examController.finishExam();
 			GlobalHeader.INSTANCE.resetAfterExam();
 			new ExamLogAndExitDialog(app, false, returnHandler, null, "Exit").show();
 		});
@@ -74,7 +74,7 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 	private void saveScreenshot(String title, StringBuilder settings) {
 		Canvas canvas = Canvas.createIfSupported();
 		final GGraphics2DW g2 = new GGraphics2DW(canvas);
-		ExamSummary examSummary = GlobalScope.examController.getExamSummary(
+		ExamSummary examSummary = examController.getExamSummary(
 				app.getConfig(), app.getLocalization());
 		int yOffset = LINE_HEIGHT + SCREENSHOT_HEADER_HEIGHT;
 
@@ -97,10 +97,10 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 
 	private void addHeaderToScreenshot(GGraphics2DW g2, Canvas canvas, String title) {
 		g2.setCoordinateSpaceSize(500,
-				GlobalScope.examController.getCheatingEvents().size() * LINE_HEIGHT + 350);
+				examController.getCheatingEvents().size() * LINE_HEIGHT + 350);
 		g2.setColor(GColor.WHITE);
 		g2.fillRect(0, 0, canvas.getCoordinateSpaceWidth(), canvas.getCoordinateSpaceHeight());
-		GColor color = GlobalScope.examController.isCheating() ? GColor.DARK_RED : EXAM_OK_COLOR;
+		GColor color = examController.isCheating() ? GColor.DARK_RED : EXAM_OK_COLOR;
 		g2.setPaint(color);
 		g2.fillRect(0, 0, 500, SCREENSHOT_HEADER_HEIGHT);
 		g2.setFont(new GFontW("SansSerif", GFont.PLAIN, 12));
@@ -168,9 +168,7 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 	 */
 	protected void exitAndResetExamOffline() {
 		app.getLAF().toggleFullscreen(false);
-		ExamController examController = GlobalScope.examController;
-		ExamRegion examRegion = !examController.isIdle() && examController.getExamType() != null
-				? examController.getExamType() : ExamRegion.GENERIC;
+		ExamRegion examRegion = !examController.isIdle() ? examController.getExamType() : null;
 		String title = "";
 		if (examRegion != null) {
 			title = examRegion.getDisplayName(app.getLocalization(), app.getConfig());

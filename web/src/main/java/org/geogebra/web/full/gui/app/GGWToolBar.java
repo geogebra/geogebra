@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -83,6 +84,7 @@ public class GGWToolBar extends Composite
 	/** undo button */
 	StandardButton undoButton;
 	private StandardButton redoButton;
+	private final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * Create a new GGWToolBar object
@@ -149,7 +151,7 @@ public class GGWToolBar extends Composite
 
 		toolBarPanel.addStyleName("toolbarPanel");
 
-		if (!GlobalScope.examController.isIdle()) {
+		if (!examController.isIdle()) {
 			toolBarPanel.addStyleName("toolbarPanelExam");
 		}
 		toolBPanel.setStyleName("toolBPanel");
@@ -231,16 +233,14 @@ public class GGWToolBar extends Composite
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				if (GlobalScope.examController.isExamActive()
-						|| GlobalScope.examController.getState() == ExamState.PREPARING) {
-					if (GlobalScope.examController.isCheating()) {
+				if (examController.isExamActive()
+						|| examController.getState() == ExamState.PREPARING) {
+					if (examController.isCheating()) {
 						ExamUtil.makeRed(getElement(), true);
 						makeTimerWhite(Js.uncheckedCast(getElement()));
 					}
 
-					timerLabel.setText(GlobalScope.examController.getDurationFormatted(
-							app.getLocalization()));
-
+					timerLabel.setText(examController.getDurationFormatted(app.getLocalization()));
 					AnimationScheduler.get().requestAnimationFrame(this);
 				}
 			}
@@ -295,7 +295,7 @@ public class GGWToolBar extends Composite
 	 */
 	public void updateActionPanel() {
 		rightButtonPanel.clear();
-		boolean exam = !GlobalScope.examController.isIdle();
+		boolean exam = !examController.isIdle();
 		setStyleName("examToolbar", exam);
 		if (exam) {
 			// We directly read the parameters to show the intention.
@@ -1065,7 +1065,7 @@ public class GGWToolBar extends Composite
 		if (app.showMenuBar()) {
 			extraButtons += 90;
 		}
-		if (!GlobalScope.examController.isIdle()) {
+		if (!examController.isIdle()) {
 			extraButtons += 95;
 			if (!app.getSettings().getEuclidian(-1).isEnabled()) {
 				extraButtons += 55;

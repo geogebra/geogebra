@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.exam;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
@@ -19,6 +20,7 @@ import org.gwtproject.user.client.ui.Label;
 public class ExamStartDialog extends ComponentDialog {
 
 	private ExamRegion selectedRegion = ExamRegion.GENERIC;
+	private final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * @param app application
@@ -28,7 +30,7 @@ public class ExamStartDialog extends ComponentDialog {
 		super(app, data, false, true);
 		addStyleName("examStartDialog");
 		buildContent();
-		setOnNegativeAction(GlobalScope.examController::cancelExam);
+		setOnNegativeAction(examController::cancelExam);
 	}
 
 	private void buildContent() {
@@ -59,7 +61,7 @@ public class ExamStartDialog extends ComponentDialog {
 	@Override
 	public void onEscape() {
 		if (!((AppW) app).isLockedExam()) {
-			GlobalScope.examController.cancelExam();
+			examController.cancelExam();
 			hide();
 		}
 	}
