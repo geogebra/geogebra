@@ -6,7 +6,7 @@ import static org.geogebra.common.gui.AccessibilityGroup.SIGN_IN_TEXT;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.exam.ExamController;
-import org.geogebra.common.exam.ExamRegion;
+import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.main.undo.UndoRedoButtonsController;
 import org.geogebra.common.move.events.BaseEvent;
@@ -360,13 +360,13 @@ public class GlobalHeader implements EventRenderable {
 		RootPanel examId = RootPanel.get("examId");
 		examId.addStyleName("examPanel");
 
-		ExamRegion examType = examController.getExamType();
+		ExamType examType = examController.getExamType();
 		if (SafeExamBrowser.get() != null && SafeExamBrowser.get().security != null) {
 			SafeExamBrowser.SebSecurity security = SafeExamBrowser.get().security;
 			String hash = security.configKey.substring(0, 8);
 			security.updateKeys((ignore) ->
 					addExamType("Safe Exam Browser (" + hash + ")"));
-		} else if (examType != ExamRegion.GENERIC && examType != null) {
+		} else if (examType != ExamType.GENERIC && examType != null) {
 			addExamType(examType.getDisplayName(
 					app.getLocalization(), app.getConfig()));
 		}

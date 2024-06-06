@@ -69,7 +69,7 @@ public final class ExamSummary {
 	 * @param timeFormatter A {@link TimeFormatAdapter} for formatting durations.
 	 * @param localization A localization.
 	 */
-	public ExamSummary(@Nonnull ExamRegion examType,
+	public ExamSummary(@Nonnull ExamType examType,
 			@Nonnull Date startDate,
 			@Nullable Date finishDate,
 			@Nonnull CheatingEvents cheatingEvents,
@@ -130,7 +130,7 @@ public final class ExamSummary {
 	}
 
 	/**
-	 * @return The exam name (see {@link ExamRegion#getDisplayName(Localization, AppConfig)}).
+	 * @return The exam name (see {@link ExamType#getDisplayName(Localization, AppConfig)}).
 	 */
 	public String getExamName() {
 		return examName;

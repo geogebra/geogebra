@@ -147,7 +147,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	public void testStartExam() {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.startExam(ExamRegion.VLAANDEREN, null);
+		examController.startExam(ExamType.VLAANDEREN, null);
 
 		assertNotNull(examController.getStartDate()); // started
 		assertNull(examController.getFinishDate()); // not yet ended
@@ -164,14 +164,14 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.prepareExam();
 		assertThrows("starting exam without calling setActiveContext() should throw",
 				IllegalStateException.class,
-				() -> examController.startExam(ExamRegion.GENERIC, null));
+				() -> examController.startExam(ExamType.GENERIC, null));
 	}
 
 	// start exam without calling prepare() first (e.g., in crash recovery)
 	@Test
 	public void testStartExamWithoutPrepare() {
 		setInitialApp(SuiteSubApp.GRAPHING);
-		examController.startExam(ExamRegion.VLAANDEREN, null);
+		examController.startExam(ExamType.VLAANDEREN, null);
 		assertEquals(ExamState.ACTIVE, examController.getState());
 	}
 
@@ -179,7 +179,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	public void testFinishExam() {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.startExam(ExamRegion.VLAANDEREN, null);
+		examController.startExam(ExamType.VLAANDEREN, null);
 		examController.finishExam();
 
 		assertNotNull(examController.getStartDate()); // started
@@ -196,7 +196,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	public void testExitExam() {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.startExam(ExamRegion.VLAANDEREN, null);
+		examController.startExam(ExamType.VLAANDEREN, null);
 		examController.finishExam();
 		didRequestClearApps = false;
 		didRequestClearClipboard = false;
@@ -223,7 +223,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	public void testRestrictedSubApp() {
 		setInitialApp(SuiteSubApp.CAS);
 		examController.prepareExam();
-		examController.startExam(ExamRegion.VLAANDEREN, null); // doesn't allow CAS
+		examController.startExam(ExamType.VLAANDEREN, null); // doesn't allow CAS
 		assertEquals(SuiteSubApp.GRAPHING, didRequestSwitchToSubApp);
 		assertNotNull(activeMaterial);
 	}
@@ -232,7 +232,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	public void testNonRestrictedSubApp() {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.startExam(ExamRegion.VLAANDEREN, null);
+		examController.startExam(ExamType.VLAANDEREN, null);
 		assertNull(didRequestSwitchToSubApp);
 		assertNotNull(activeMaterial);
 	}
@@ -243,8 +243,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.prepareExam();
 
 		examController.setExamRestrictionsForTesting(
-				new TestExamRestrictions(ExamRegion.VLAANDEREN));
-		examController.startExam(ExamRegion.VLAANDEREN, null);
+				new TestExamRestrictions(ExamType.VLAANDEREN));
+		examController.startExam(ExamType.VLAANDEREN, null);
 
 		// feature restrictions
 		assertTrue(examController
@@ -269,8 +269,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.prepareExam();
 
 		examController.setExamRestrictionsForTesting(
-				ExamRestrictions.forExamType(ExamRegion.BAYERN_CAS)); // only allows CAS app
-		examController.startExam(ExamRegion.BAYERN_CAS, null);
+				ExamRestrictions.forExamType(ExamType.BAYERN_CAS)); // only allows CAS app
+		examController.startExam(ExamType.BAYERN_CAS, null);
 		assertEquals(SuiteSubApp.CAS, didRequestSwitchToSubApp);
 		assertNotNull(activeMaterial);
 	}
@@ -279,7 +279,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	public void testRestrictionsWhenSwitchingApps() {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.startExam(ExamRegion.VLAANDEREN, null);
+		examController.startExam(ExamType.VLAANDEREN, null);
 		assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
 
 		switchApp(SuiteSubApp.GEOMETRY);
@@ -294,7 +294,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	public void testLanguagePropertyDisabledDuringExam() {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.startExam(ExamRegion.GENERIC, null);
+		examController.startExam(ExamType.GENERIC, null);
 
 		GlobalScope.examController = examController;
 		LanguageProperty languageProperty = new LanguageProperty(app, app.getLocalization());

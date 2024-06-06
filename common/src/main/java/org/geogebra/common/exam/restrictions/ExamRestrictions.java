@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.exam.ExamRegion;
+import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -39,7 +39,7 @@ import org.geogebra.common.properties.ValuedProperty;
  */
 public class ExamRestrictions implements PropertiesRegistryListener {
 
-	private final ExamRegion examType;
+	private final ExamType examType;
 	private final Set<SuiteSubApp> disabledSubApps;
 	private final SuiteSubApp defaultSubApp;
 	private final Set<ExamFeatureRestriction> featureRestrictions;
@@ -57,7 +57,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * @return An {@link ExamRestrictions} subclass that contains all the restrictions for
 	 * the given exam type.
 	 */
-	public static ExamRestrictions forExamType(ExamRegion examType) {
+	public static ExamRestrictions forExamType(ExamType examType) {
 		switch (examType) {
 		case BAYERN_CAS:
 			return new BayernCasExamRestrictions();
@@ -85,7 +85,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * @param commandArgumentFilters An optional command argument filter to apply during exams.
 	 * @param frozenProperties An optional set of properties to freeze during the exam.
 	 */
-	protected ExamRestrictions(@Nonnull ExamRegion examType,
+	protected ExamRestrictions(@Nonnull ExamType examType,
 			@Nullable Set<SuiteSubApp> disabledSubApps,
 			@Nullable SuiteSubApp defaultSubApp,
 			@Nullable Set<ExamFeatureRestriction> featureRestrictions,
@@ -107,7 +107,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	/**
 	 * @return The exam type.
 	 */
-	public final @Nonnull ExamRegion getExamType() {
+	public final @Nonnull ExamType getExamType() {
 		return examType;
 	}
 
