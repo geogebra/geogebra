@@ -1,13 +1,13 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
 public class ToolboxDecorator {
-	private final ToolboxMow toolboxMow;
+	private final NotesToolbox toolboxMow;
 
 	/**
 	 * constructor
 	 * @param toolbox - mow toolbox to decorate
 	 */
-	public ToolboxDecorator(ToolboxMow toolbox) {
+	public ToolboxDecorator(NotesToolbox toolbox) {
 		toolboxMow = toolbox;
 		toolboxMow.addStyleName("toolboxMow");
 	}

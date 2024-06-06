@@ -7,19 +7,22 @@ import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxMow;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.NotesToolbox;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.PersistablePanel;
+import org.geogebra.web.shared.mow.header.NotesTopbar;
 import org.gwtproject.event.dom.client.TouchStartEvent;
 import org.gwtproject.user.client.ui.Widget;
 
 public class NotesLayout implements SetLabels {
 	private final AppW appW;
-	private final @CheckForNull ToolboxMow toolbar;
+	private final @CheckForNull
+	NotesToolbox toolbar;
+	NotesTopbar topbar;
 	private StandardButton pageControlButton;
 	private @CheckForNull PageListPanel pageControlPanel;
 	/** panel containing undo and redo */
@@ -34,7 +37,8 @@ public class NotesLayout implements SetLabels {
 	 */
 	public NotesLayout(AppW appW) {
 		this.appW = appW;
-		this.toolbar = appW.showToolBar() ? new ToolboxMow(appW) : null;
+		this.toolbar = appW.showToolBar() ? new NotesToolbox(appW) : null;
+		topbar = new NotesTopbar(appW);
 		createUndoRedoButtons();
 		createPageControlButton();
 		setLabels();

@@ -48,7 +48,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 
-public class ToolboxMow extends FlowPanel implements SetLabels {
+public class NotesToolbox extends FlowPanel implements SetLabels {
 	private final AppW appW;
 	private final ToolboxDecorator decorator;
 	private final ToolboxController controller;
@@ -69,7 +69,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	 * MOW toolbox
 	 * @param appW - application
 	 */
-	public ToolboxMow(AppW appW) {
+	public NotesToolbox(AppW appW) {
 		this.appW = appW;
 		decorator = new ToolboxDecorator(this);
 		controller = new ToolboxController(appW, this);
