@@ -126,7 +126,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			if (el != null && el.hasClassName("errorStyle")) {
 				Label toast = new Label(app.getLocalization().getMenu("UseNumbersOnly"));
 				toast.addStyleName("errorToast");
-				toast.addStyleName(Shades.NEUTRAL_600.getName());
+				toast.addStyleName(Shades.NEUTRAL_700.getName());
 				toast.getElement().setId("errorToastID");
 				toast.getElement().getStyle().setLeft(el.getAbsoluteRight() + 8, Unit.PX);
 				toast.getElement().getStyle().setTop(el.getAbsoluteTop() - 66, Unit.PX);
