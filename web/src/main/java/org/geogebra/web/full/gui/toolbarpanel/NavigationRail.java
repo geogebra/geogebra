@@ -335,7 +335,7 @@ class NavigationRail extends FlowPanel {
 				app.toggleMenu();
 			}
 			FileMenuW.share(app, share);
-		});
+		}, app);
 	}
 
 	/**

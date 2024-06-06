@@ -41,8 +41,6 @@ public interface GLookAndFeelI {
 
 	void storeLanguage(String language);
 
-	String getFrameStyleName();
-
 	void toggleFullscreen(boolean b);
 
 	boolean isOfflineExamSupported();

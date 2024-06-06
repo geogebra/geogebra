@@ -1416,6 +1416,8 @@ public class GuiManagerW extends GuiManager
 			final boolean asPreference) {
 		if (spreadsheetView != null) {
 			spreadsheetView.getXML(sb, asPreference);
+		} else {
+			super.getSpreadsheetViewXML(sb, asPreference);
 		}
 	}
 
@@ -2204,7 +2206,7 @@ public class GuiManagerW extends GuiManager
 		GlobalHeader.INSTANCE.initShareButton(share -> {
 			getApp().hideMenu();
 			FileMenuW.share(getApp(), share);
-		});
+		}, (AppW) app);
 	}
 
 	@Override

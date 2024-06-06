@@ -5,7 +5,6 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -14,6 +13,7 @@ import javax.swing.text.JTextComponent;
 
 import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.common.gui.view.algebra.DialogType;
+import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.desktop.gui.DynamicTextInputPane;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.editor.GeoGebraEditorPane;
@@ -55,7 +55,19 @@ public class InputPanelD extends JPanel
 	 * @param autoComplete whether to allow autocomplete
 	 */
 	public InputPanelD(String initText, AppD app, int columns, boolean autoComplete) {
-		this(initText, app, 1, columns, true, null,
+		this(initText, app, columns, true, autoComplete);
+	}
+
+	/**
+	 * @param initText initial text
+	 * @param app application
+	 * @param columns columns
+	 * @param showSymbolPopupIcon show popup icon?
+	 * @param autoComplete whether to enable autocompletion
+	 */
+	public InputPanelD(String initText, AppD app, int columns, boolean showSymbolPopupIcon,
+			boolean autoComplete) {
+		this(initText, app, 1, columns, showSymbolPopupIcon,
 				DialogType.GeoGebraEditor);
 		AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) textComponent;
 		atf.setAutoComplete(autoComplete);
@@ -64,41 +76,14 @@ public class InputPanelD extends JPanel
 	/**
 	 * @param initText initial text
 	 * @param app application
-	 * @param columns columns
-	 */
-	public InputPanelD(String initText, AppD app, int rows, int columns,
-			boolean showSymbolPopupIcon) {
-		this(initText, app, rows, columns, showSymbolPopupIcon, null,
-				DialogType.GeoGebraEditor);
-		if (textComponent instanceof AutoCompleteTextFieldD) {
-			AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) textComponent;
-			atf.setAutoComplete(false);
-		}
-	}
-
-	/**
-	 * @param initText initial text
-	 * @param app application
-	 * @param columns columns
-	 */
-	public InputPanelD(String initText, AppD app, int rows, int columns,
-			boolean showSymbolPopupIcon, DialogType type) {
-		this(initText, app, rows, columns, showSymbolPopupIcon, null,
-				type);
-	}
-
-	/**
-	 * @param initText initial text
-	 * @param app application
 	 * @param rows rows
 	 * @param columns columns
 	 * @param showSymbolPopupIcon show popup icon?
-	 * @param keyListener keyboard listener
 	 * @param type dialog type
 	 */
 	public InputPanelD(String initText, AppD app, int rows, int columns,
 			boolean showSymbolPopupIcon,
-			KeyListener keyListener, DialogType type) {
+			DialogType type) {
 
 		this.app = app;
 		this.showSymbolPopup = showSymbolPopupIcon;
@@ -117,7 +102,7 @@ public class InputPanelD extends JPanel
 				break;
 			case GeoGebraEditor:
 				textComponent = new GeoGebraEditorPane(app, rows, columns);
-				((GeoGebraEditorPane) textComponent).setEditorKit("geogebra");
+				((GeoGebraEditorPane) textComponent).setEditorKit(ScriptType.GGBSCRIPT);
 				break;
 			}
 
@@ -131,10 +116,6 @@ public class InputPanelD extends JPanel
 
 		textComponent.addFocusListener(this);
 		textComponent.setFocusable(true);
-
-		if (keyListener != null) {
-			textComponent.addKeyListener(keyListener);
-		}
 
 		if (initText != null) {
 			textComponent.setText(initText);
@@ -258,4 +239,5 @@ public class InputPanelD extends JPanel
 		}
 		// tfPanel.setFont(font);
 	}
+
 }

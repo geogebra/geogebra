@@ -45,6 +45,11 @@ public class SpreadsheetControllerTest {
             public int getScrollBarWidth() {
                 return 5;
             }
+
+            @Override
+            public void updateScrollPanelSize() {
+                // not needed
+            }
         });
     }
 

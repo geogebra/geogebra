@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.TreeMap;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -82,7 +83,6 @@ import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.spreadsheet.core.TableLayout;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
@@ -221,6 +221,8 @@ public class MyXMLHandler implements DocHandler {
 	private String xValuesCaption;
 	private ArrayList<String> entries;
 	private String subAppCode;
+	private List<ParsedXMLTag> macroConstructionElements = new ArrayList<>();
+	private boolean randomMacros;
 
 	/**
 	 * Creates a new instance of MyXMLHandler
@@ -252,6 +254,7 @@ public class MyXMLHandler implements DocHandler {
 		mode = MODE_INVALID;
 		constMode = MODE_CONSTRUCTION;
 		hasGuiElement = false;
+		randomMacros = false;
 		compLayout = new CompatibilityLayout();
 		initKernelVars();
 
@@ -267,6 +270,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private void initKernelVars() {
+		this.macro = null;
 		this.kernel = origKernel;
 		this.parser = origParser;
 		this.cons = origKernel.getConstruction();
@@ -322,7 +326,10 @@ public class MyXMLHandler implements DocHandler {
 	@Override
 	final public void startElement(String eName,
 			LinkedHashMap<String, String> attrs) throws XMLParseException {
-
+		if (mode == MODE_CONSTRUCTION && origKernel != kernel) {
+			macroConstructionElements.add(new ParsedXMLTag(eName, attrs, true));
+			return;
+		}
 		if (kernel.userStopsLoading()) {
 			kernel.setUserStopsLoading(false);
 			throw new XMLParseException("User has cancelled loading");
@@ -339,10 +346,6 @@ public class MyXMLHandler implements DocHandler {
 
 		case MODE_EUCLIDIAN_VIEW3D:
 			startEuclidianView3DElement(eName, attrs);
-			break;
-
-		case MODE_SPREADSHEET_LAYOUT_SUITE:
-			startSpreadsheetLayoutForSuiteElement(eName, attrs);
 			break;
 
 		case MODE_SPREADSHEET_VIEW:
@@ -488,6 +491,10 @@ public class MyXMLHandler implements DocHandler {
 			// public void endElement(String namespaceURI, String sName, String
 			// qName)
 			throws XMLParseException {
+		if (mode == MODE_CONSTRUCTION && origKernel != kernel && !"construction".equals(eName)) {
+			macroConstructionElements.add(new ParsedXMLTag(eName, null, false));
+			return;
+		}
 		// String eName = qName;
 		switch (mode) {
 		default:
@@ -647,13 +654,11 @@ public class MyXMLHandler implements DocHandler {
 			setTableParameters(attrs);
 			break;
 		case "spreadsheetLayoutSuite":
-			if (app.getGuiManager() != null
-					&& app.getGuiManager().getSpreadsheetLayoutForSuite() != null) {
-				app.getGuiManager().getSpreadsheetLayoutForSuite().resetCellSizes();
-			}
 			mode = MODE_SPREADSHEET_LAYOUT_SUITE;
 			break;
 		case "spreadsheetView":
+			app.getSettings().getSpreadsheet().getHeightMap().clear();
+			app.getSettings().getSpreadsheet().getWidthMap().clear();
 			mode = MODE_SPREADSHEET_VIEW;
 			break;
 		case "scripting":
@@ -920,32 +925,15 @@ public class MyXMLHandler implements DocHandler {
 		case "spreadsheetCellFormat":
 			ok = handleSpreadsheetFormat(attrs);
 			break;
+		case "dimensions":
+			ok = handleSpreadsheetDimensions(attrs);
+			break;
 		default:
 			Log.error("unknown tag in <spreadsheetView>: " + eName);
 		}
 
 		if (!ok) {
 			Log.error("error in <spreadsheetView>: " + eName);
-		}
-	}
-
-	private void startSpreadsheetLayoutForSuiteElement(String eName,
-			LinkedHashMap<String, String> attrs) {
-		boolean ok = true;
-
-		switch (eName) {
-		case "row":
-			ok = handleSpreadsheetLayoutRowForSuite(attrs);
-			break;
-		case "column":
-			ok = handleSpreadsheetLayoutColumnForSuite(attrs);
-			break;
-		default:
-			Log.error("unknown tag in <spreadsheetLayoutSuite>: " + eName);
-		}
-
-		if (!ok) {
-			Log.error("error in <spreadsheetLayoutSuite>: " + eName);
 		}
 	}
 
@@ -1370,6 +1358,16 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
+	private boolean handleSpreadsheetDimensions(LinkedHashMap<String, String> attrs) {
+		try {
+			app.getSettings().getSpreadsheet().setDimensions(Integer.parseInt(attrs.get("rows")),
+					Integer.parseInt(attrs.get("columns")));
+			return true;
+		} catch (RuntimeException e) {
+			return false;
+		}
+	}
+
 	private boolean handleSpreadsheetLayout(
 			LinkedHashMap<String, String> attrs) {
 
@@ -1415,30 +1413,6 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleSpreadsheetLayoutRowForSuite(LinkedHashMap<String, String> attrs) {
-		TableLayout layout = app.getGuiManager().getSpreadsheetLayoutForSuite();
-		try {
-			int rowIndex = Integer.parseInt(attrs.get("index"));
-			int rowHeight = Integer.parseInt(attrs.get("height"));
-			layout.setHeightForRows(rowHeight, rowIndex, rowIndex);
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleSpreadsheetLayoutColumnForSuite(LinkedHashMap<String, String> attrs) {
-		TableLayout layout = app.getGuiManager().getSpreadsheetLayoutForSuite();
-		try {
-			int columnIndex = Integer.parseInt(attrs.get("index"));
-			int columnWidth = Integer.parseInt(attrs.get("width"));
-			layout.setWidthForColumns(columnWidth, columnIndex, columnIndex);
-			return true;
 		} catch (RuntimeException e) {
 			return false;
 		}
@@ -2668,7 +2642,7 @@ public class MyXMLHandler implements DocHandler {
 			macro.setShowInToolBar(showTool);
 			macro.setViewId(viewId);
 
-			MacroKernel macroKernel = kernel.newMacroKernel();
+			MacroKernel macroKernel = kernel.newMacroKernel(macro);
 			macroKernel.setContinuous(false);
 
 			// we have to change the construction object temporarily so
@@ -2683,14 +2657,16 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private void endMacro() {
+	private void endMacro() throws XMLParseException {
 		// cons now holds a reference to the macroConstruction
-		macro.initMacro(cons, macroInputLabels, macroOutputLabels);
+		macro.initMacro(cons, macroInputLabels, macroOutputLabels, macroConstructionElements);
+		randomMacros = randomMacros || macro.isRandom();
+		if (randomMacros) {
+			macro.load();
+		}
+		macroConstructionElements = new ArrayList<>();
 		// ad the newly built macro to the kernel
 		origKernel.addMacro(macro);
-		// update construction resets the nearto relations in macro, so "outer
-		// world" won't affect it
-		cons.updateConstruction(true);
 		// set kernel and construction back to the original values
 		initKernelVars();
 	}

@@ -20,6 +20,7 @@ public class KernelTabularDataProcessorTest extends BaseUnitTest {
 	private GeoElementND geo2;
 	private GeoElementND geo3;
 	private GeoElementND geo4;
+	private GeoElementND bottomRight;
 
 	@Before
 	public void setUp() throws Exception {
@@ -33,6 +34,8 @@ public class KernelTabularDataProcessorTest extends BaseUnitTest {
 		adapter.setContent(1, 0, geo3);
 		geo4 = add("Button()");
 		adapter.setContent(1, 1, geo4);
+		bottomRight = add("3");
+		adapter.setContent(99, 25, bottomRight);
 		processor = new KernelTabularDataProcessor(adapter);
 	}
 
@@ -45,6 +48,7 @@ public class KernelTabularDataProcessorTest extends BaseUnitTest {
 		contentShouldBe(1, 1, geo2, "B2");
 		contentShouldBe(2, 0, geo3, "A3");
 		contentShouldBe(2, 1, geo4, "B3");
+		contentShouldBe(100, 25, bottomRight, "Z101");
 	}
 
 	private void cellShouldBeEmpty(int row, int column) {
@@ -109,6 +113,7 @@ public class KernelTabularDataProcessorTest extends BaseUnitTest {
 		contentShouldBe(0, 2, geo2, "C1");
 		contentShouldBe(1, 1, geo3, "B2");
 		contentShouldBe(1, 2, geo4, "C2");
+		contentShouldBe(99, 26, bottomRight, "AA100");
 	}
 
 	@Test

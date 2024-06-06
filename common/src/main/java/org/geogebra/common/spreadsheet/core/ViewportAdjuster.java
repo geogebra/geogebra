@@ -110,4 +110,7 @@ public final class ViewportAdjuster {
 		return row >= 0 && row < layout.numberOfRows();
 	}
 
+	public void updateScrollPaneSize() {
+		viewportAdjustmentHandler.updateScrollPanelSize();
+	}
 }
