@@ -318,7 +318,7 @@ public final class TableValuesKeyboardNavigationController {
 
 	private boolean isCellEmpty(int row, int column) {
 		String cellContent = delegate.getCellEditorContent(row, column);
-		return StringUtil.isTrimmedEmpty(cellContent);
+		return cellContent == null || StringUtil.isTrimmedEmpty(cellContent);
 	}
 
 	private void commitPendingChanges() {
