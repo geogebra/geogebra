@@ -20,9 +20,8 @@ import org.gwtproject.user.client.ui.Widget;
 
 public class NotesLayout implements SetLabels {
 	private final AppW appW;
-	private final @CheckForNull
-	NotesToolbox toolbar;
-	NotesTopbar topbar;
+	private final @CheckForNull NotesToolbox toolbar;
+	private final @CheckForNull NotesTopbar topbar;
 	private StandardButton pageControlButton;
 	private @CheckForNull PageListPanel pageControlPanel;
 	/** panel containing undo and redo */
@@ -38,7 +37,7 @@ public class NotesLayout implements SetLabels {
 	public NotesLayout(AppW appW) {
 		this.appW = appW;
 		this.toolbar = appW.showToolBar() ? new NotesToolbox(appW) : null;
-		topbar = new NotesTopbar(appW);
+		topbar = new NotesTopbar();
 		createUndoRedoButtons();
 		createPageControlButton();
 		setLabels();
