@@ -665,8 +665,8 @@ public final class SpreadsheetController {
 
 	private CopyPasteCutTabularData getCopyPasteCut() {
 		return controlsDelegate != null
-				? new CopyPasteCutTabularDataImpl<>(tabularData, controlsDelegate.getClipboard())
-				: null;
+				? new CopyPasteCutTabularDataImpl<>(tabularData,
+				controlsDelegate.getClipboard(), layout) : null;
 	}
 
 	/**
