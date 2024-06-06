@@ -45,7 +45,6 @@ import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
-import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 
 public class NotesToolbox extends FlowPanel implements SetLabels {
@@ -73,7 +72,6 @@ public class NotesToolbox extends FlowPanel implements SetLabels {
 		this.appW = appW;
 		decorator = new ToolboxDecorator(this);
 		controller = new ToolboxController(appW, this);
-		RootPanel.get().add(this);
 		buildGui();
 	}
 
