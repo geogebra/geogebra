@@ -72,7 +72,7 @@ public final class ExamController {
 	private Set<ExamRestrictable> restrictables = new HashSet<>();
 	private ContextDependencies activeDependencies;
 
-	private ExamRegion examType;
+	private ExamType examType;
 	private ExamRestrictions examRestrictions;
 	private ExamOptions options;
 
@@ -204,9 +204,9 @@ public final class ExamController {
 	}
 
 	/**
-	 * @return The ExamRegion if an exam is currently active, or null otherwise.
+	 * @return The ExamType if an exam is currently active, or null otherwise.
 	 */
-	public @CheckForNull ExamRegion getExamType() {
+	public @CheckForNull ExamType getExamType() {
 		return examType;
 	}
 
@@ -263,7 +263,7 @@ public final class ExamController {
 	 * @param appConfig The current app config.
 	 * @param localization The localization.
 	 * @return The current exam's short display name (see
-	 * {@link ExamRegion#getShortDisplayName(Localization, AppConfig)}.
+	 * {@link ExamType#getShortDisplayName(Localization, AppConfig)}.
 	 */
 	public @CheckForNull String getExamName(AppConfig appConfig, Localization localization) {
 		return examType == null ? null : examType.getShortDisplayName(localization, appConfig);
@@ -361,7 +361,7 @@ public final class ExamController {
 	 * @param examType The exam type.
 	 * @param options Additional options (optional).
 	 */
-	public void startExam(@Nonnull ExamRegion examType, @Nullable ExamOptions options) {
+	public void startExam(@Nonnull ExamType examType, @Nullable ExamOptions options) {
 		if (state != ExamState.IDLE && state != ExamState.PREPARING) {
 			throw new IllegalStateException("expected to be in IDLE or PREPARING state, "
 					+ "but is " + state);

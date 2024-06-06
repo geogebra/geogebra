@@ -18,7 +18,7 @@ import org.geogebra.common.properties.ValuedProperty;
 
 final class TestExamRestrictions extends ExamRestrictions {
 
-	TestExamRestrictions(ExamRegion examType) {
+	TestExamRestrictions(ExamType examType) {
 		super(examType,
 				Set.of(SuiteSubApp.CAS),
 				SuiteSubApp.GRAPHING,

@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.annotation.CheckForNull;
 
-import org.geogebra.common.exam.ExamRegion;
+import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.commands.CmdGetTime;
@@ -62,7 +62,7 @@ public class ExamEnvironment {
 	private Boolean wasCasEnabled;
 
 	private TempStorage tempStorage;
-	private ExamRegion region = ExamRegion.GENERIC;
+	private ExamType region = ExamType.GENERIC;
 	private ExamRestrictionModel model;
 
 	/**
@@ -90,11 +90,11 @@ public class ExamEnvironment {
 		return copyPaste;
 	}
 
-	public void setExamRegion(ExamRegion region) {
+	public void setExamRegion(ExamType region) {
 		this.region = region;
 	}
 
-	public ExamRegion getExamRegion() {
+	public ExamType getExamRegion() {
 		return region;
 	}
 
@@ -494,7 +494,7 @@ public class ExamEnvironment {
 	 * @return wether we are in GENERIC(restricted graphing) exam mode
 	 */
 	public boolean isRestrictedGraphExam() {
-		return ExamRegion.GENERIC.getDisplayName(localization, appConfig).equals(getExamRegion()
+		return ExamType.GENERIC.getDisplayName(localization, appConfig).equals(getExamRegion()
 						.getDisplayName(localization, appConfig));
 	}
 

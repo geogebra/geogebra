@@ -12,8 +12,7 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
 
-// TODO rename to ExamType
-public enum ExamRegion {
+public enum ExamType {
 
 	GENERIC() {
 		@Override
@@ -139,8 +138,8 @@ public enum ExamRegion {
 	 * @param shortName exam name
 	 * @return exam region
 	 */
-	public static ExamRegion byName(String shortName) {
-		for (ExamRegion region: values()) {
+	public static ExamType byName(String shortName) {
+		for (ExamType region: values()) {
 			if (region.name().equalsIgnoreCase(shortName)) {
 				return region;
 			}

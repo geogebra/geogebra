@@ -8,7 +8,7 @@ import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.NOTES_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
-import static org.geogebra.common.exam.ExamRegion.CHOOSE;
+import static org.geogebra.common.exam.ExamType.CHOOSE;
 import static org.geogebra.common.gui.Layout.findDockPanelData;
 
 import java.util.ArrayList;
@@ -36,8 +36,8 @@ import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.exam.ExamController;
-import org.geogebra.common.exam.ExamRegion;
 import org.geogebra.common.exam.ExamState;
+import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
@@ -325,7 +325,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void checkExamPerspective() {
 		if (isLockedExam()) {
-			ExamRegion examMode = getForcedExamRegion();
+			ExamType examMode = getForcedExamType();
 			if (examMode != null) {
 				appletParameters.setAttribute("perspective", "");
 				afterLocalizationLoaded(this::showExamWelcomeMessage);
@@ -345,8 +345,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @return list of supported mode IDs
 	 */
 	private String getSupportedExamModes(String appCode) {
-		return Stream.concat(Stream.of(appCode, CHOOSE), Arrays.stream(ExamRegion.values())
-						.filter(r -> r != ExamRegion.GENERIC)
+		return Stream.concat(Stream.of(appCode, CHOOSE), Arrays.stream(ExamType.values())
+						.filter(r -> r != ExamType.GENERIC)
 						.map(r -> r.name().toLowerCase(Locale.ROOT)))
 				.collect(Collectors.joining(", "));
 	}
@@ -354,14 +354,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	/**
 	 * @return exam region forced by examMode and appName parameters
 	 */
-	public ExamRegion getForcedExamRegion() {
+	public ExamType getForcedExamType() {
 		String paramExamMode = appletParameters.getParamExamMode();
 		if (paramExamMode.equals(appletParameters.getDataParamAppName())
 			|| paramExamMode.equals(CHOOSE)) {
-			return ExamRegion.GENERIC;
+			return ExamType.GENERIC;
 		}
 		if (isSuite()) {
-			return ExamRegion.byName(paramExamMode);
+			return ExamType.byName(paramExamMode);
 		}
 		return null;
 	}
@@ -2357,9 +2357,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	/**
 	 * Starts the exam mode
-	 * @param region {@link ExamRegion}
+	 * @param region {@link ExamType}
 	 */
-	public void startExam(ExamRegion region) {
+	public void startExam(ExamType region) {
 		examController.setActiveContext(this,
 				getKernel().getAlgebraProcessor().getCommandDispatcher(),
 				getKernel().getAlgebraProcessor());
