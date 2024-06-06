@@ -20,6 +20,7 @@ import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
@@ -123,7 +124,8 @@ public class BaseUnitTest {
 	 */
 	protected <T extends GeoElementND> T add(String command) {
 		GeoElementND[] geoElements =
-				getAlgebraProcessor().processAlgebraCommand(command, false);
+				getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(command, false,
+						TestErrorHandler.INSTANCE, false, null);
 		return getFirstElement(geoElements);
 	}
 

@@ -58,6 +58,7 @@ public final class ScientificDataTableController {
 		} finally {
 			resetUndoInfo();
 		}
+		table.getTableValuesModel().setAllowsAddingColumns(false);
 	}
 
 	private GeoFunction createFunction(Construction construction, String unprefixedLabel) {

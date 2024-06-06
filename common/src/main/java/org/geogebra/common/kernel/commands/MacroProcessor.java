@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.commands;
 
-import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -43,11 +42,7 @@ public class MacroProcessor extends CommandProcessor {
 		// resolve command arguments
 		GeoElement[] arg = resArgs(c);
 		Macro macro = c.getMacro();
-		try {
-			macro.load();
-		} catch (XMLParseException ex) {
-			throw argErr(c, arg[0]);
-		}
+
 		TestGeo[] macroInputTypes = macro.getInputTypes();
 
 		// wrong number of arguments
@@ -82,7 +77,7 @@ public class MacroProcessor extends CommandProcessor {
 
 		// check whether the types of the arguments are ok for our macro
 		for (int i = 0; i < macroInputTypes.length; i++) {
-			if (macroInputTypes[i] == null || !macroInputTypes[i].check(arg[i])) {
+			if (!macroInputTypes[i].check(arg[i])) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(loc.getMenu("Macro"));
 				sb.append(" ");
