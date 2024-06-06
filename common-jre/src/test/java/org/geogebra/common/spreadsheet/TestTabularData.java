@@ -126,7 +126,7 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
-	public Localization getLocalization() {
-		return null;
+	public String getErrorString() {
+		return "";
 	}
 }
