@@ -167,7 +167,6 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.GlobalHeader;
-import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
@@ -178,6 +177,7 @@ import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.Command;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.HorizontalPanel;
+import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -2124,7 +2124,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void centerAndResizePopups() {
 		for (HasHide w : popups) {
-			if (w instanceof ComponentDialog) {
+			if (w instanceof RequiresResize) {
 					((GPopupPanel) w).centerAndResize(
 						this.getAppletFrame().getKeyboardHeight());
 			}
