@@ -28,7 +28,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 */
 	public Spreadsheet(TabularData<?> tabularData,
 			CellRenderableFactory rendererFactory, UndoProvider undoProvider) {
-		controller = new SpreadsheetController(tabularData, null);
+		controller = new SpreadsheetController(tabularData);
 		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
 				controller.getStyle());
 		setViewport(new Rectangle(0, 0, 0, 0));
