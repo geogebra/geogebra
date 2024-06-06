@@ -8,6 +8,7 @@ public final class SpreadsheetStyle {
 
 	private final CellFormat format;
 	private boolean showGrid = true;
+	public static final GColor SPREADSHEET_ERROR_BORDER = GColor.newColorRGB(0xB00020);
 
 	public SpreadsheetStyle(CellFormat format) {
 		this.format = format;
@@ -65,7 +66,7 @@ public final class SpreadsheetStyle {
 	}
 
 	public GColor geErrorGridColor() {
-		return GColor.SPREADSHEET_ERROR_BORDER;
+		return SPREADSHEET_ERROR_BORDER;
 	}
 
 	public GColor getHeaderBackgroundColor() {

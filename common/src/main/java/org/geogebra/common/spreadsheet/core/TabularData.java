@@ -67,5 +67,5 @@ public interface TabularData<T> extends HasTabularValues<T> {
 		// not needed in tests
 	}
 
-	Localization getLocalization();
+	String getErrorString();
 }

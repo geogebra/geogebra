@@ -3,6 +3,7 @@ package org.geogebra.common.spreadsheet.kernel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
@@ -250,8 +251,8 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public Localization getLocalization() {
-		return loc;
+	public String getErrorString() {
+		return loc.getError("Error").toUpperCase(Locale.ROOT);
 	}
 
 	@Override

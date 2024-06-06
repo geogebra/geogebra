@@ -1,5 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
+import static org.geogebra.common.spreadsheet.style.SpreadsheetStyle.SPREADSHEET_ERROR_BORDER;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,17 +39,17 @@ public final class SpreadsheetRenderer {
 	private final static GBasicStroke gridStroke = AwtFactory.getPrototype().newBasicStroke(1);
 	private final static GBasicStroke borderStroke = AwtFactory.getPrototype().newBasicStroke(2);
 	private final SpreadsheetStyle style;
-	private final Localization loc;
+	private final TabularData tabularData;
 	private final static int ERROR_RECT_WIDTH = 10;
 	private final static int TEXT_PADDING = 10;
 	private final static int TEXT_HEIGHT = 16;
 
 	SpreadsheetRenderer(TableLayout layout, CellRenderableFactory converter,
-			SpreadsheetStyle style, Localization loc) {
+			SpreadsheetStyle style, TabularData tabularData) {
 		this.converter = converter;
 		this.layout = layout;
 		this.style = style;
-		this.loc = loc;
+		this.tabularData = tabularData;
 	}
 
 	void drawCell(int row, int column, GGraphics2D graphics, Object content, boolean hasError) {
@@ -113,8 +115,8 @@ public final class SpreadsheetRenderer {
 
 		graphics.setColor(style.getTextColor());
 		graphics.setFont(graphics.getFont().deriveFont(GFont.ITALIC));
-		graphics.drawString(loc.getError("Error").toUpperCase(Locale.ROOT),
-				topLeftX + TEXT_PADDING, topLeftY + TEXT_HEIGHT + TEXT_PADDING);
+		graphics.drawString(tabularData.getErrorString(), topLeftX + TEXT_PADDING,
+				topLeftY + TEXT_HEIGHT + TEXT_PADDING);
 	}
 
 	void drawRowHeader(int row, GGraphics2D graphics, String name) {

@@ -88,10 +88,13 @@ public class SpreadsheetCellProcessor {
 
 	private String buildErrorFrom(String input) {
 		StringBuilder stringBuilder = new StringBuilder();
+		if (input.startsWith("=")) {
+			input = input.substring(1);
+		}
 		stringBuilder.append(cellName);
 		stringBuilder.append(ASSIGN_STRING);
 		stringBuilder.append("\"");
-		stringBuilder.append(input.replaceAll("=", ""));
+		stringBuilder.append(input);
 		stringBuilder.append("\"");
 		return stringBuilder.toString();
 	}
