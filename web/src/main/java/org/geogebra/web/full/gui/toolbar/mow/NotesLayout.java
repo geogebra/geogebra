@@ -186,4 +186,8 @@ public class NotesLayout implements SetLabels {
 	public Widget getToolbar() {
 		return toolbar;
 	}
+
+	public Widget getTopbar() {
+		return topbar;
+	}
 }

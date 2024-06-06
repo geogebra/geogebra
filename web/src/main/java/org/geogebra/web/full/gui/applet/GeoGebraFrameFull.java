@@ -767,6 +767,9 @@ public class GeoGebraFrameFull
 	 */
 	public void attachNotesUI(AppW app) {
 		NotesLayout notesLayout = getNotesLayoutSafe(app);
+		if (notesLayout.getTopbar() != null) {
+			add(notesLayout.getTopbar());
+		}
 		if (notesLayout.getToolbar() != null) {
 			add(notesLayout.getToolbar());
 		}

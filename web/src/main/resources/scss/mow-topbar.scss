@@ -1,0 +1,14 @@
+@use 'z-index';
+@use 'colorMap' as *;
+
+.GeoGebraFrame{
+	.topbar {
+		height: 48px;
+		width: 100%;
+		position: absolute;
+		top: 0;
+		background-color: white;
+		border-bottom: 1px solid neutral(300);
+		z-index: 60;
+	}
+}

@@ -9,15 +9,18 @@ import org.gwtproject.user.client.ui.RootPanel;
 public class NotesTopbar extends FlowPanel implements SetLabels {
 	private final AppW appW;
 
+	/**
+	 * constructor
+	 * @param appW - application
+	 */
 	public NotesTopbar(AppW appW) {
 		this.appW = appW;
 		addStyleName("topbar");
-		RootPanel.get().add((IsWidget) this);
 		buildGui();
 	}
 
 	private void buildGui() {
-
+		// to fill later
 	}
 
 	@Override
