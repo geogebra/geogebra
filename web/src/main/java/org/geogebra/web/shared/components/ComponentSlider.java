@@ -21,6 +21,7 @@ public class ComponentSlider extends FlowPanel {
 	private final AppW appW;
 	private PenPreview preview;
 	private SliderPanelW sliderPanel;
+	private Label sliderLabel;
 	private int lastSelectedMode = MODE_PEN;
 
 	/**
@@ -34,7 +35,8 @@ public class ComponentSlider extends FlowPanel {
 	}
 
 	private void buildGui() {
-		Label sliderLabel = BaseWidgetFactory.INSTANCE.newPrimaryText("Thickness", "sliderLabel");
+		sliderLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(
+				appW.getLocalization().getMenu("Thickness"), "sliderLabel");
 		preview = new PenPreview(appW, 30, 30);
 		preview.addStyleName("preview");
 
@@ -62,6 +64,10 @@ public class ComponentSlider extends FlowPanel {
 		preview.getElement().getStyle().setVisibility(mode != MODE_ERASER
 				? Visibility.VISIBLE : Visibility.HIDDEN);
 		preview.update();
+		if (sliderLabel != null) {
+			sliderLabel.setText(appW.getLocalization().getMenu(mode == MODE_ERASER ?
+					"Size" : "Thickness"));
+		}
 		setSliderRange(mode != MODE_ERASER);
 		updateSliderValue(mode);
 	}
