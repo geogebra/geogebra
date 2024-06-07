@@ -34,6 +34,11 @@
   	height: 80px;
 }
 
+.GeoGebraHeader.notesHeader {
+	box-shadow: none;
+	border-bottom: 1px solid neutral(300);
+}
+
 .GeoGebraHeader .signIn {
 	color: neutral(900);
 	padding: 4px 8px;
