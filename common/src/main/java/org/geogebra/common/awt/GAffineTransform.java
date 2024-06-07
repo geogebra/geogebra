@@ -18,7 +18,7 @@ public interface GAffineTransform {
 
 	public GShape createTransformedShape(GShape shape);
 
-	public GPoint2D transform(GPoint2D p, GPoint2D p2);
+	public GPoint2D transform(GPoint2D src, GPoint2D dest);
 
 	public void transform(double[] labelCoords, int i, double[] labelCoords2,
 			int j, int k);

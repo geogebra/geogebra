@@ -1132,12 +1132,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	@Override
 	final public void setMatrix(CoordMatrix m) {
 		setDefinition(null);
-		matrix[0] = m.get(1, 1);
-		matrix[1] = m.get(2, 2);
-		matrix[2] = m.get(3, 3);
-		matrix[3] = (m.get(1, 2) + m.get(2, 1)) / 2.0;
-		matrix[4] = (m.get(1, 3) + m.get(3, 1)) / 2.0;
-		matrix[5] = (m.get(2, 3) + m.get(3, 2)) / 2.0;
+		m.flattenTo(matrix);
 
 		classifyConic();
 	}
@@ -3262,7 +3257,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * evaluates (p.x, p.y, 1) . A . (p.x, p.y, 1)
 	 * 
 	 * @param pt
-	 *            inhomogenous coords of a point
+	 *            inhomogeneous coords of a point
 	 * @return 0 iff (p.x, p.y, 1) lies on conic
 	 */
 	public final double evaluate(GeoVec2D pt) {
@@ -3273,12 +3268,23 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * evaluates (x, y, 1) . A . (x, y, 1)
 	 * 
 	 * @param x
-	 *            inhomogenous x-coord of a point
+	 *            inhomogeneous x-coord of a point
 	 * @param y
-	 *            inhomogenous y-coord of a point
+	 *            inhomogeneous y-coord of a point
 	 * @return 0 iff (p.x, p.y, 1) lies on conic
 	 */
 	public final double evaluate(double x, double y) {
+		return evaluate(matrix, x, y);
+	}
+
+	/**
+	 * Evaluate (x,y,1)*M*(x,y,1)^T for given matrix M
+	 * @param matrix flat matrix
+	 * @param x value of x
+	 * @param y value of y
+	 * @return (x,y,1)*M*(x,y,1)^T
+	 */
+	public static double evaluate(double[] matrix, double x, double y) {
 		return matrix[2] + matrix[4] * x + matrix[5] * y
 				+ y * (matrix[5] + matrix[3] * x + matrix[1] * y)
 				+ x * (matrix[4] + matrix[0] * x + matrix[3] * y);
