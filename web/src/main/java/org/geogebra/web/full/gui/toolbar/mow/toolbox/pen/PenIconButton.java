@@ -62,4 +62,11 @@ public class PenIconButton extends IconButton {
 	private int getLastSelectedMode() {
 		return penPopup.getLastSelectedMode() == -1 ? MODE_PEN : penPopup.getLastSelectedMode();
 	}
+
+	@Override
+	public void setLabels() {
+		if (penPopup != null) {
+			penPopup.setLabels();
+		}
+	}
 }
