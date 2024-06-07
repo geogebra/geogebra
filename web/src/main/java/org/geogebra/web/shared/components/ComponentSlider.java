@@ -65,8 +65,8 @@ public class ComponentSlider extends FlowPanel {
 				? Visibility.VISIBLE : Visibility.HIDDEN);
 		preview.update();
 		if (sliderLabel != null) {
-			sliderLabel.setText(appW.getLocalization().getMenu(mode == MODE_ERASER ?
-					"Size" : "Thickness"));
+			sliderLabel.setText(appW.getLocalization().getMenu(mode == MODE_ERASER
+					? "Size" : "Thickness"));
 		}
 		setSliderRange(mode != MODE_ERASER);
 		updateSliderValue(mode);
