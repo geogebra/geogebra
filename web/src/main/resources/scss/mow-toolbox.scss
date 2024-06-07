@@ -129,6 +129,7 @@
 
 		.labelPreviewHolder {
 			display: flex;
+			justify-content: space-between;
 		}
 
 		.sliderComponent {
@@ -141,9 +142,8 @@
 			}
 
 			.preview {
-				position: relative;
 				overflow: hidden;
-				left: 64px;
+				margin-right: 8px;
 			}
 
 			.slider {
