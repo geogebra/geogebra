@@ -2790,6 +2790,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * Returns name of tool with help
+	 * @param mode - number
+	 * @return name + help of tool
+	 */
+	public String getToolAriaLabel(int mode) {
+		return getToolName(mode) + ". " + getToolHelp(mode);
+	}
+
+	/**
 	 * Returns the tool help text for the given tool.
 	 *
 	 * @param mode
@@ -5114,14 +5123,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public String getThreadId() {
 		return "[main thread]";
-	}
-
-	/**
-	 * opens/closes notes toolbar
-	 * @param open true if should open notes toolbar
-	 */
-	public void setNotesToolbarOpen(boolean open) {
-		// nothing to do here
 	}
 
 	public @CheckForNull Material getActiveMaterial() {

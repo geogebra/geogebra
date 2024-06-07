@@ -81,4 +81,9 @@ public interface VendorSettings {
 	 * @return whether inserting H5P content is enabled
 	 */
 	boolean isH5PEnabled();
+
+	/**
+	 * @return whether has both round and triangle shaped protractor
+	 */
+	boolean hasBothProtractor();
 }

@@ -87,4 +87,9 @@ public class MebisSettings implements VendorSettings {
 	public boolean isH5PEnabled() {
 		return true;
 	}
+
+	@Override
+	public boolean hasBothProtractor() {
+		return false;
+	}
 }
