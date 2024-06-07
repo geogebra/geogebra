@@ -23,11 +23,6 @@
 		opacity: 0;
 		display: flex;
 
-		&.mowPosition {
-			bottom: 220px;
-			left: 50%;
-		}
-
 		&.landscape {
 			// 72px (width of rail) + 8px padding
 			left: 80px;
