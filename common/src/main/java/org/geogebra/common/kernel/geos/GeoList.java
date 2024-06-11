@@ -46,7 +46,6 @@ import org.geogebra.common.kernel.algos.AlgoSemicircle;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.ListValue;
@@ -2364,11 +2363,6 @@ public class GeoList extends GeoElement
 	@Override
 	public boolean isFurniture() {
 		return drawAsComboBox();
-	}
-
-	@Override
-	public ExpressionValue getListElement(int i) {
-		return get(i);
 	}
 
 	/**

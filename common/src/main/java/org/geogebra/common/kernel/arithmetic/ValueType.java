@@ -223,7 +223,7 @@ public enum ValueType {
 			return right.getValueType();
 		case IF_LIST:
 			if (right instanceof ListValue && ((ListValue) right).size() > 0) {
-				return ((ListValue) right).getListElement(0).getValueType();
+				return ((ListValue) right).get(0).getValueType();
 			}
 			break;
 

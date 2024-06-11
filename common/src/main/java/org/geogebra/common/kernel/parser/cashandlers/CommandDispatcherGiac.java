@@ -368,9 +368,9 @@ public class CommandDispatcherGiac {
 					}
 
 					MyList list1 = (MyList) item0;
-					double a = list1.getListElement(0).evaluateDouble();
-					double b = list1.getListElement(1).evaluateDouble();
-					double c = list1.getListElement(2).evaluateDouble();
+					double a = list1.get(0).evaluateDouble();
+					double b = list1.get(1).evaluateDouble();
+					double c = list1.get(2).evaluateDouble();
 					double constant;
 
 					if (item1.isGeoElement()
@@ -387,9 +387,9 @@ public class CommandDispatcherGiac {
 
 						MyList list2 = (MyList) item1;
 
-						double d = list2.getListElement(0).evaluateDouble();
-						double e = list2.getListElement(1).evaluateDouble();
-						double f = list2.getListElement(2).evaluateDouble();
+						double d = list2.get(0).evaluateDouble();
+						double e = list2.get(1).evaluateDouble();
+						double f = list2.get(2).evaluateDouble();
 
 						if (f != 0) {
 							constant = f * c;

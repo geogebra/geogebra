@@ -322,7 +322,7 @@ public class Function extends FunctionNVar
 			MyList left = (MyList) expression.getRight();
 			for (int i = 0; i < left.size(); i++) {
 				left.setListElement(i, translateY(
-						left.getListElement(i).unwrap().wrap(), fVars, vy));
+						left.get(i).unwrap().wrap(), fVars, vy));
 			}
 
 			return expression;
