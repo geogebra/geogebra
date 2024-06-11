@@ -60,7 +60,7 @@ public final class SpreadsheetEditorListener implements MathFieldListener, Unhan
 
 	@Override
 	public boolean onEscape() {
-		mathField.setPlainText("");
+		mathField.parse("");
 		editor.hide();
 		return true;
 	}
