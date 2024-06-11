@@ -13,6 +13,7 @@ import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.shape.Rectangle;
+import org.geogebra.common.util.shape.Size;
 
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
@@ -33,7 +34,7 @@ public final class SpreadsheetController {
 	private final TableLayout layout;
 
 	private final SpreadsheetStyle style;
-	private DragState dragAction;
+	private DragState dragState;
 	private Rectangle viewport = new Rectangle(0, 0, 0, 0);
 	private @CheckForNull ViewportAdjuster viewportAdjuster;
 	private @CheckForNull UndoProvider undoProvider;
@@ -98,12 +99,12 @@ public final class SpreadsheetController {
 	}
 
 	/**
-	 * @param selection Selection that is to be selected
+	 * @param tabularRange Range that is to be selected
 	 * @param extend Whether we want to extend the current selection (SHIFT)
 	 * @param addSelection Whether we want to add the selection to the current selection (CTRL)
 	 */
-	public void select(TabularRange selection, boolean extend, boolean addSelection) {
-		selectionController.select(new Selection(selection),
+	public void select(TabularRange tabularRange, boolean extend, boolean addSelection) {
+		selectionController.select(new Selection(tabularRange),
 				extend, addSelection);
 	}
 
@@ -173,8 +174,8 @@ public final class SpreadsheetController {
 		this.controlsDelegate = controlsDelegate;
 	}
 
-	public void setViewportAdjustmentHandler(ViewportAdjustmentHandler viewportAdjustmentHandler) {
-		this.viewportAdjuster = new ViewportAdjuster(getLayout(), viewportAdjustmentHandler);
+	public void setViewportAdjustmentHandler(ViewportAdjusterDelegate viewportAdjusterDelegate) {
+		this.viewportAdjuster = new ViewportAdjuster(getLayout(), viewportAdjusterDelegate);
 	}
 
 	public void setViewport(Rectangle viewport) {
@@ -190,17 +191,17 @@ public final class SpreadsheetController {
 	 * @param y y-coordinate relative to viewport
 	 * @param modifiers event modifiers
 	 */
-	// TODO I think all coordinates (everywhere in spreadsheet) should be floats
+	// TODO change to double (APPS-5637)
 	public void handlePointerDown(int x, int y, Modifiers modifiers) {
 		saveContentAndHideCellEditor();
 		if (controlsDelegate != null) {
 			controlsDelegate.hideContextMenu();
 		}
-		dragAction = getDragAction(x, y);
+		dragState = getDragAction(x, y);
 		if (modifiers.shift) {
 			setDragStartLocationFromSelection();
 		}
-		if (dragAction.isModifyingOperation()) {
+		if (dragState.isModifyingOperation()) {
 			return;
 		}
 		int column = findColumnOrHeader(x);
@@ -266,7 +267,7 @@ public final class SpreadsheetController {
 			return;
 		}
 		TabularRange lastRange = lastSelection.getRange();
-		dragAction = new DragState(MouseCursor.DEFAULT,
+		dragState = new DragState(MouseCursor.DEFAULT,
 				lastRange.getMinRow(), lastRange.getMinColumn());
 	}
 
@@ -286,10 +287,10 @@ public final class SpreadsheetController {
 	 */
 	public void handlePointerUp(int x, int y, Modifiers modifiers) {
 		Stream<Selection> selections = getSelections();
-		switch (dragAction.cursor) {
+		switch (dragState.cursor) {
 		case RESIZE_X:
-			if (isSelected(-1, dragAction.startColumn)) {
-				double width = layout.getWidthForColumnResize(dragAction.startColumn,
+			if (isSelected(-1, dragState.startColumn)) {
+				double width = layout.getWidthForColumnResize(dragState.startColumn,
 						x + viewport.getMinX());
 				selections.forEach(selection -> {
 					if (selection.getType() == SelectionType.COLUMNS) {
@@ -301,8 +302,8 @@ public final class SpreadsheetController {
 			notifyDataDimensionsChanged();
 			break;
 		case RESIZE_Y:
-			if (isSelected(dragAction.startRow, -1)) {
-				double height = layout.getHeightForRowResize(dragAction.startRow,
+			if (isSelected(dragState.startRow, -1)) {
+				double height = layout.getHeightForRowResize(dragState.startRow,
 						y + viewport.getMinY());
 				selections.forEach(selection -> {
 					if (selection.getType() == SelectionType.ROWS) {
@@ -322,7 +323,7 @@ public final class SpreadsheetController {
 	}
 
 	private void resetDragAction() {
-		dragAction = new DragState(MouseCursor.DEFAULT, -1, -1);
+		dragState = new DragState(MouseCursor.DEFAULT, -1, -1);
 	}
 
 	/**
@@ -448,18 +449,18 @@ public final class SpreadsheetController {
 	 * @param modifiers alt/ctrl/shift
 	 */
 	public void handlePointerMove(int x, int y, Modifiers modifiers) {
-		switch (dragAction.cursor) {
+		switch (dragState.cursor) {
 		case RESIZE_X:
 			// only handle the dragged column here, the rest of selection on pointer up
 			// otherwise left border of dragged column could move, causing feedback loop
-			double width = layout.getWidthForColumnResize(dragAction.startColumn,
+			double width = layout.getWidthForColumnResize(dragState.startColumn,
 					x + viewport.getMinX());
-			layout.setWidthForColumns(width, dragAction.startColumn, dragAction.startColumn);
+			layout.setWidthForColumns(width, dragState.startColumn, dragState.startColumn);
 			break;
 		case RESIZE_Y:
-			double height = layout.getHeightForRowResize(dragAction.startRow,
+			double height = layout.getHeightForRowResize(dragState.startRow,
 					y + viewport.getMinY());
-			layout.setHeightForRows(height, dragAction.startRow, dragAction.startRow);
+			layout.setHeightForRows(height, dragState.startRow, dragState.startRow);
 			break;
 		default:
 		case DEFAULT:
@@ -476,12 +477,12 @@ public final class SpreadsheetController {
 	}
 
 	private void extendSelectionByDrag(int x, int y, boolean addSelection) {
-		if (dragAction.startColumn >= 0 || dragAction.startRow >= 0) {
+		if (dragState.startColumn >= 0 || dragState.startRow >= 0) {
 			int row = findRowOrHeader(y);
 			int column = findColumnOrHeader(x);
 
 			TabularRange range =
-					new TabularRange(dragAction.startRow, dragAction.startColumn, row, column);
+					new TabularRange(dragState.startRow, dragState.startColumn, row, column);
 			selectionController.select(new Selection(range), false, addSelection);
 		}
 	}
@@ -617,9 +618,7 @@ public final class SpreadsheetController {
 	}
 
 	private void notifyDataDimensionsChanged() {
-		if (viewportAdjuster != null) {
-			viewportAdjuster.updateScrollPaneSize();
-		}
+		notifyViewportAdjuster();
 		adjustViewportIfNeeded();
 		storeUndoInfo();
 	}
@@ -684,8 +683,13 @@ public final class SpreadsheetController {
 
 	void tabularDataSizeDidChange(SpreadsheetDimensions dimensions) {
 		getLayout().dimensionsDidChange(dimensions);
+		notifyViewportAdjuster();
+	}
+
+	private void notifyViewportAdjuster() {
 		if (viewportAdjuster != null) {
-			viewportAdjuster.updateScrollPaneSize();
+			viewportAdjuster.updateScrollPaneSize(new Size(layout.getTotalWidth(),
+					layout.getTotalHeight()));
 		}
 	}
 }

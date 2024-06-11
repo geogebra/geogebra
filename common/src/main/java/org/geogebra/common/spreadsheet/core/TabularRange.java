@@ -188,7 +188,6 @@ public final class TabularRange {
 	 *            whether to sort by column
 	 * @return list of all coords in the range
 	 */
-	// TODO visibility: does this really have to be public?
 	public ArrayList<SpreadsheetCoords> toCellList(boolean scanByColumn) {
 
 		ArrayList<SpreadsheetCoords> list = new ArrayList<>();
@@ -240,7 +239,6 @@ public final class TabularRange {
 	/**
 	 * @return list of single column ranges that cover this range
 	 */
-	// TODO visibility: does this really have to be public?
 	public ArrayList<TabularRange> toPartialColumnList() {
 		ArrayList<TabularRange> list = new ArrayList<>();
 
@@ -286,9 +284,7 @@ public final class TabularRange {
 	 * @param range other range
 	 * @return new range if this and the other range could be merged, null otherwise
 	 */
-	// TODO naming: Is there maybe a more specific name for this kind of merge operation?
-	//  ("merge" sounds very general -- I wouldn't have guessed what "merge" means here).
-	public @CheckForNull TabularRange merge(TabularRange range) {
+	public @CheckForNull TabularRange getRectangularUnion(TabularRange range) {
 		if (minColumn == range.minColumn && maxColumn == range.maxColumn) {
 			if ((range.minRow >= minRow && range.minRow <= maxRow + 1)
 					|| (minRow >= range.minRow && minRow <= range.maxRow + 1)) {

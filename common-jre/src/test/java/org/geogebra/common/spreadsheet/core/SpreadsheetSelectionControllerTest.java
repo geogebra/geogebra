@@ -24,14 +24,15 @@ public class SpreadsheetSelectionControllerTest {
 	@Test
 	public void testMove() {
 		selectionController.selectCell(1, 1, false, false);
-		Selection initialCell = selectionController.getLastSelection();
-
 		selectionController.moveRight(false, numberOfColumns);
 		selectionController.moveDown(false, numberOfRows);
+		assertRangeEquals(selectionController.getLastSelection(),
+				Selection.getSingleCellSelection(2, 2));
 		selectionController.moveLeft(false);
 		selectionController.moveUp(false);
 
-		assertRangeEquals(initialCell, Selection.getSingleCellSelection(1, 1));
+		assertRangeEquals(selectionController.getLastSelection(),
+				Selection.getSingleCellSelection(1, 1));
 	}
 
 	@Test

@@ -1,8 +1,10 @@
 package org.geogebra.common.spreadsheet.core;
 
-public interface ViewportAdjustmentHandler {
+import org.geogebra.common.util.shape.Size;
 
-	// TODO I think all UI positions/sizes/rects should be float-valued
+public interface ViewportAdjusterDelegate {
+
+	// TODO change to double (APPS-5637)
 	void setScrollPosition(int x, int y);
 
 	/**
@@ -13,6 +15,7 @@ public interface ViewportAdjustmentHandler {
 
 	/**
 	 * Update size of the scrollable area.
+	 * @param size total size of the scollable content
 	 */
-	void updateScrollPanelSize();
+	void updateScrollPanelSize(Size size);
 }

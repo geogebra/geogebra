@@ -8,12 +8,9 @@ import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
 
-// TODO testing: This class contains a lot of tricky logic, so it should be directly unit-tested
-//  (not just indirectly via SpreadsheetController).
-//  If you follow my advice to <a href="https://docs.google.com/presentation/d/1HAcW_FE7oP60l3cmR7FR89CDKX67PuSxg3Jjsvtv02c/edit#slide=id.g15d630f14f3_0_0">go bottom-up"</a>,
-//  to design and test building blocks in isolation, and then assemble larger systems
-//  from well-tested  building blocks, you cannot fall into this trap.
-
+/**
+ * Provides implementations for selection-related methods of {@link SpreadsheetController}
+ */
 final class SpreadsheetSelectionController {
 
 	/**
@@ -149,7 +146,7 @@ final class SpreadsheetSelectionController {
 		ArrayList<Selection> independent = new ArrayList<>();
 		Selection merged = selection;
 		for (Selection other: selections) {
-			Selection mergeResult = merged.merge(other);
+			Selection mergeResult = merged.getRectangularUnion(other);
 			if (mergeResult == null) {
 				independent.add(other);
 			} else {

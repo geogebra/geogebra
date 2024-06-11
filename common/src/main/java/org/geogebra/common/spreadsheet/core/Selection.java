@@ -3,15 +3,13 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 /**
  * A contiguous range of cells in a {@link Spreadsheet}.
  *
  * @apiNote this class is immutable
  */
-// TODO testing: Since this contains a lot of tricky logic, this should be directly unit-tested
-//  (not just indirectly via SpreadsheetController)
-//  - see also my comment on SpreadsheetSelectionController.
-//
 final class Selection {
 
 	private final TabularRange range;
@@ -45,20 +43,17 @@ final class Selection {
 	}
 
 	/**
-	 * // TODO documentation: Please add a method description. It's not clear what
-	 * //  "merge" exactly means here, and when this merge may return null.
+	 * Union of two selections if they are represent rectangles with one common edge,
+	 * null otherwise.
 	 * @param other other selection
 	 * @return bigger selection if this could be merged, null otherwise
 	 */
-	// TODO naming: `selection.merge(other)` sounds like it would modify either
-	//  this (the current selection) or other.
-	//  Maybe `selection.mergedWith(other)`?
-	Selection merge(Selection other) {
+	@CheckForNull Selection getRectangularUnion(Selection other) {
 		if (type != other.type) {
 			return null;
 		}
-		TabularRange mergedRange = range.merge(other.range);
-		return mergedRange == null ? null : new Selection(mergedRange);
+		TabularRange union = range.getRectangularUnion(other.range);
+		return union == null ? null : new Selection(union);
 	}
 
 	TabularRange getRange() {
@@ -125,6 +120,7 @@ final class Selection {
 
 	/**
 	 * Range spanned by this selection's anchor cell and an end cell that was shifted to the right.
+	 * Unlike the left extension needs to be aware of table size so that it doesn't exceed it.
 	 * @see #getLeftExtension()
 	 * @return Selection extended to the left
 	 */
@@ -189,6 +185,7 @@ final class Selection {
 
 	/**
 	 * Range spanned by this selection's anchor cell and an end cell that was shifted down.
+	 * Unlike the bottom extension needs to be aware of table size so that it doesn't exceed it.
 	 * @see #getTopExtension()
 	 * @return Selection extended to the bottom
 	 */
@@ -234,7 +231,6 @@ final class Selection {
 	 * @param newSelection New Selection
 	 * @return Resulting SelectionType
 	 */
-	// TODO naming: maybe `selectionTypeForExtendingWith(other)`
 	private SelectionType getSelectionTypeForExtendingWith(Selection newSelection) {
 		List<SelectionType> selectionTypes = Arrays.asList(this.type, newSelection.type);
 		if (this.type == newSelection.type) {

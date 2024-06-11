@@ -15,6 +15,7 @@ import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
+import org.geogebra.common.util.shape.Size;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,7 +36,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.setWidthForColumns(40, 0, 5);
 		viewport = new Rectangle(0, 100, 0, 120);
 		spreadsheet.setViewport(viewport);
-		spreadsheet.setViewportAdjustmentHandler(new ViewportAdjustmentHandler() {
+		spreadsheet.setViewportAdjustmentHandler(new ViewportAdjusterDelegate() {
 			@Override
 			public void setScrollPosition(int x, int y) {
 				viewport = viewport.translatedBy(x, y);
@@ -44,6 +45,11 @@ public class SpreadsheetTest extends BaseUnitTest {
 			@Override
 			public int getScrollBarWidth() {
 				return 5;
+			}
+
+			@Override
+			public void updateScrollPanelSize(Size size) {
+				// no UI to update
 			}
 		});
 	}

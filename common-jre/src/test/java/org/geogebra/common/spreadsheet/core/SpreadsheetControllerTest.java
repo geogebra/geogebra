@@ -17,6 +17,7 @@ import java.util.List;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.util.shape.Rectangle;
+import org.geogebra.common.util.shape.Size;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,7 +36,7 @@ public class SpreadsheetControllerTest {
         controller.getLayout().setHeightForRows(cellHeight, 0, 5);
         controller.getLayout().setWidthForColumns(40, 0, 5);
         setViewport(new Rectangle(0, 100, 0, 120));
-        controller.setViewportAdjustmentHandler(new ViewportAdjustmentHandler() {
+        controller.setViewportAdjustmentHandler(new ViewportAdjusterDelegate() {
             @Override
             public void setScrollPosition(int x, int y) {
                 viewport = viewport.translatedBy(x, y);
@@ -47,7 +48,7 @@ public class SpreadsheetControllerTest {
             }
 
             @Override
-            public void updateScrollPanelSize() {
+            public void updateScrollPanelSize(Size size) {
                 // not needed
             }
         });
@@ -59,23 +60,6 @@ public class SpreadsheetControllerTest {
         fakeRightArrowPress();
         assertNotEquals(0, viewport.getMinX(), 0);
     }
-
-	// TODO testing: all the selection logic tests should go
-	// into SpreadsheetSelectionControllerTests
-	@Test
-	public void testMove() {
-		controller.selectCell(1, 1, false, false);
-		Selection initialSelection = controller.getLastSelection();
-
-		// TODO It would be better to test a scenario where the start and end states are different.
-		// Otherwise this test would succeed even if moveXx didn't do anything at all.
-		controller.moveRight(false);
-		controller.moveDown(false);
-		controller.moveLeft(false);
-		controller.moveUp(false);
-
-		assertEquals(initialSelection, Selection.getSingleCellSelection(1, 1));
-	}
 
     @Test
     public void testViewportIsAdjustedRightwardsWithMouseClick() {
