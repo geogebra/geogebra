@@ -7,7 +7,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
-import org.gwtproject.user.client.ui.Widget;
 
 public class NotesTopbar extends FlowPanel implements SetLabels {
 	private final AppW appW;
