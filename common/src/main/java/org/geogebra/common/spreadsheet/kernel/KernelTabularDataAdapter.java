@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -16,6 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.spreadsheet.core.PersistenceListener;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
@@ -70,10 +70,10 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	private void removeByLabel(String labelSimple) {
-		GPoint pt = GeoElementSpreadsheet.spreadsheetIndices(labelSimple);
-		if (pt != null && pt.x != -1) {
-			setContent(pt.y, pt.x, null);
-			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.y, pt.x));
+		SpreadsheetCoords pt = GeoElementSpreadsheet.spreadsheetIndices(labelSimple);
+		if (pt != null && pt.column != -1) {
+			setContent(pt.row, pt.column, null);
+			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.row, pt.column));
 		}
 	}
 
@@ -85,10 +85,10 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public void update(GeoElement geo) {
-		GPoint pt = GeoElementSpreadsheet.spreadsheetIndices(geo.getLabelSimple());
-		if (pt.x != -1) {
-			setContent(pt.y, pt.x, geo);
-			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.y, pt.x));
+		SpreadsheetCoords pt = GeoElementSpreadsheet.spreadsheetIndices(geo.getLabelSimple());
+		if (pt.column != -1) {
+			setContent(pt.row, pt.column, geo);
+			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.row, pt.column));
 		}
 	}
 

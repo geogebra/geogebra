@@ -2,7 +2,6 @@ package org.geogebra.common.gui.view.data;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.data.DataItem.SourceType;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.kernel.Construction;
@@ -19,6 +18,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 
@@ -627,10 +627,10 @@ public class DataVariable {
 		}
 
 		// CASE 2: spreadsheet cell
-		GPoint location = geo.getSpreadsheetCoords();
+		SpreadsheetCoords location = geo.getSpreadsheetCoords();
 		boolean isCell = location != null
-				&& location.x < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP
-				&& location.y < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP;
+				&& location.column < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP
+				&& location.row < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP;
 
 		if (isCell) {
 			for (DataItem dataItem : itemList) {

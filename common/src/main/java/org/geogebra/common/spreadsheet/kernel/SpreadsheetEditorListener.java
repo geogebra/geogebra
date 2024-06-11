@@ -44,7 +44,7 @@ public final class SpreadsheetEditorListener implements MathFieldListener, Unhan
 	public void onEnter() {
 		processor.process(mathField.getText());
 		editor.hide();
-		spreadsheet.getController().onEnter();
+		spreadsheet.onEnter();
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public final class SpreadsheetEditorListener implements MathFieldListener, Unhan
 	@Override
 	public boolean onTab(boolean shiftDown) {
 		onEnter();
-		spreadsheet.getController().moveRight(false);
+		spreadsheet.tabPressed();
 		return true;
 	}
 

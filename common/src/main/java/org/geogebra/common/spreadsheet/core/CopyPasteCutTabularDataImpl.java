@@ -5,7 +5,7 @@ final class CopyPasteCutTabularDataImpl<T>
 	private final TabularData<T> tabularData;
 	private final ClipboardInterface clipboard;
 	private final TabularDataPasteInterface<T> paste;
-	private final TabularContent tabularContent;
+	private final TabularDataFormatter<T> tabularDataFormatter;
 	private final TableLayout layout;
 	private TabularClipboard<T> internalClipboard;
 
@@ -20,12 +20,12 @@ final class CopyPasteCutTabularDataImpl<T>
 		this.clipboard = clipboard;
 		this.layout = layout;
 		paste = tabularData.getPaste();
-		tabularContent = new TabularContent(tabularData);
+		tabularDataFormatter = new TabularDataFormatter(tabularData);
 	}
 
 	@Override
 	public void copy(TabularRange range) {
-		clipboard.setContent(tabularContent.toString(range));
+		clipboard.setContent(tabularDataFormatter.toString(range));
 	}
 
 	@Override
