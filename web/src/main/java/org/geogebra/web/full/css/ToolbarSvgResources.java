@@ -593,4 +593,8 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_protractor.svg")
 	SVGResource mode_protractor();
 
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_triangleprotractor.svg")
+	SVGResource mode_triangle_protractor();
+
 }

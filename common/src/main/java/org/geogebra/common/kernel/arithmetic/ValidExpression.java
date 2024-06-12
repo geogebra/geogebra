@@ -379,7 +379,7 @@ public abstract class ValidExpression
 				if (i > 0) {
 					sb.append(",");
 				}
-				sb.append(debugString(((MyList) s).getListElement(i)));
+				sb.append(debugString(((MyList) s).get(i)));
 			}
 			sb.append(')');
 			return sb.toString();

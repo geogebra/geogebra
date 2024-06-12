@@ -2,18 +2,11 @@ package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.main.App;
-import org.geogebra.common.plugin.Event;
-import org.geogebra.common.plugin.EventListener;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -23,16 +16,10 @@ import org.geogebra.web.html5.gui.zoompanel.ZoomController;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.user.client.ui.FlowPanel;
-import org.gwtproject.user.client.ui.SimplePanel;
 
-/**
- * @author csilla
- *
- */
 public class ZoomPanelMow extends FlowPanel
 		implements SetLabels, CoordSystemListener {
 	private final AppW appW;
-	private StandardButton spotlightOnBtn;
 	private StandardButton dragPadBtn;
 	private StandardButton zoomInBtn;
 	private StandardButton zoomOutBtn;
@@ -56,7 +43,6 @@ public class ZoomPanelMow extends FlowPanel
 	private void buildGui() {
 		addStyleName("mowZoomPanel");
 		addDragPadButton();
-		addSpotlightButton();
 		addZoomButtons();
 	}
 
@@ -106,64 +92,6 @@ public class ZoomPanelMow extends FlowPanel
 			}
 		});
 		add(dragPadBtn);
-	}
-
-	private void addSpotlightButton() {
-		spotlightOnBtn = new StandardButton(
-				ZoomPanelResources.INSTANCE.target(), null, 24);
-		spotlightOnBtn.setStyleName("zoomPanelBtn");
-		registerFocusable(spotlightOnBtn, AccessibilityGroup.ViewControlId.ZOOM_NOTES_SPOTLIGHT);
-		TestHarness.setAttr(spotlightOnBtn, "spotlightTool");
-
-		ClickStartHandler.init(spotlightOnBtn, new ClickStartHandler() {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				DockPanelW dp = (DockPanelW) appW.getGuiManager().getLayout().getDockManager()
-						.getPanel(App.VIEW_EUCLIDIAN);
-				dp.getComponent().addStyleName("graphicsWithSpotlight");
-				getEuclidianController().spotlightOn();
-				appW.getAppletFrame().add(ZoomPanelMow.this::initSpotlightOff);
-				appW.hideMenu();
-			}
-		});
-		add(spotlightOnBtn);
-	}
-
-	private EuclidianController getEuclidianController() {
-		return appW.getActiveEuclidianView().getEuclidianController();
-	}
-
-	private SimplePanel initSpotlightOff() {
-		SimplePanel spotlightOff = new SimplePanel();
-		spotlightOff.addStyleName("spotlightOffBtn");
-
-		StandardButton spotlightOffBtn = new StandardButton(
-				ZoomPanelResources.INSTANCE.target(), null, 24);
-		setButtonTitleAndAltText(spotlightOffBtn, "Spotlight.Tool");
-		spotlightOffBtn.addStyleName("zoomPanelBtn");
-		appW.getEventDispatcher().addEventListener(new EventListener() {
-			@Override
-			public void sendEvent(Event evt) {
-				if (evt.getType() == EventType.HIDE_SPOTLIGHT) {
-					EuclidianView view = appW.getActiveEuclidianView();
-					DockPanelW dp = (DockPanelW) appW.getGuiManager().getLayout().getDockManager()
-							.getPanel(App.VIEW_EUCLIDIAN);
-					dp.getComponent().removeStyleName("graphicsWithSpotlight");
-					view.clearSpotlight();
-					spotlightOff.removeFromParent();
-					appW.getEventDispatcher().removeEventListener(this);
-				}
-			}
-		});
-		ClickStartHandler.init(spotlightOffBtn, new ClickStartHandler() {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				getEuclidianController().spotlightOff();
-			}
-		});
-
-		spotlightOff.add(spotlightOffBtn);
-		return spotlightOff;
 	}
 
 	private void registerFocusable(StandardButton dragPadBtn,
@@ -246,7 +174,6 @@ public class ZoomPanelMow extends FlowPanel
 		setButtonTitleAndAltText(homeBtn, "StandardView");
 		setButtonTitleAndAltText(zoomOutBtn, "ZoomOut.Tool");
 		setButtonTitleAndAltText(zoomInBtn, "ZoomIn.Tool");
-		setButtonTitleAndAltText(spotlightOnBtn, "Spotlight.Tool");
 	}
 
 	private void setButtonTitleAndAltText(StandardButton btn, String string) {

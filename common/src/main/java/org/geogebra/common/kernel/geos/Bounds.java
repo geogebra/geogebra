@@ -449,17 +449,17 @@ public class Bounds {
 			Bounds currentCond = parentCond;
 			for (int i = 0; i < conds.size(); i++) {
 				conditions.add(currentCond
-						.addRestriction(conds.getListElement(i).wrap()));
+						.addRestriction(conds.get(i).wrap()));
 				if (exclusive) {
 					currentCond = currentCond.addRestriction(parentCond
-							.unfunction(conds.getListElement(i).wrap())
+							.unfunction(conds.get(i).wrap())
 							.negation());
 				}
 			}
 
 			MyList fns = (MyList) condRoot.getRight().unwrap();
 			for (int i = 0; i < fns.size(); i++) {
-				cases.add(fns.getListElement(i).wrap());
+				cases.add(fns.get(i).wrap());
 			}
 			if (fns.size() > conds.size()) {
 				conditions.add(parentCond);

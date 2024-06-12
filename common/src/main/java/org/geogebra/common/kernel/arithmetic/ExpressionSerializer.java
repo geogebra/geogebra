@@ -1705,7 +1705,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 							sb.append(',');
 						}
 						sb.append("(");
-						sb.append(list.getListElement(i).toString(tpl));
+						sb.append(list.get(i).toString(tpl));
 						sb.append(")-1");
 					}
 					sb.append("]");
@@ -1728,7 +1728,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 					for (int i = 0; (i < func.getVarNumber())
 							&& (i < ((MyList) right).size()); i++) {
 						en.replace(func.getFunctionVariables()[i],
-								((MyList) right).getListElement(i));
+								((MyList) right).get(i));
 					}
 					// add brackets, see TRAC-1287
 					if (!stringType.equals(StringType.LATEX)) {
@@ -2037,16 +2037,16 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				if (i > 0) {
 					sb.append(", ");
 				}
-				sb.append(valueForm ? cond.getListElement(i).toValueString(tpl)
-						: cond.getListElement(i).toString(tpl));
+				sb.append(valueForm ? cond.get(i).toValueString(tpl)
+						: cond.get(i).toString(tpl));
 				sb.append(", ");
-				sb.append(valueForm ? fn.getListElement(i).toValueString(tpl)
-						: fn.getListElement(i).toString(tpl));
+				sb.append(valueForm ? fn.get(i).toValueString(tpl)
+						: fn.get(i).toString(tpl));
 			}
 			if (fn.size() > cond.size()) {
 				sb.append(", ");
-				sb.append(valueForm ? fn.getListElement(fn.size() - 1).toValueString(tpl)
-						: fn.getListElement(fn.size() - 1).toString(tpl));
+				sb.append(valueForm ? fn.get(fn.size() - 1).toValueString(tpl)
+						: fn.get(fn.size() - 1).toString(tpl));
 			}
 
 			sb.append(stringType.isGiac() ? ")" : tpl.rightCommandBracket());

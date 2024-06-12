@@ -14,6 +14,10 @@ sourceSets {
     }
 }
 
+javacc {
+    dependentSourceSets = listOf(sourceSets.main.get())
+}
+
 tasks.register<Delete>("cleanJavacc") {
     description = "Cleans the javacc generated files."
     delete(tasks.compileJavacc)
