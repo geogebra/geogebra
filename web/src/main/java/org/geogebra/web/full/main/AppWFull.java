@@ -120,7 +120,6 @@ import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.full.gui.menubar.action.StartExamAction;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
-import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.dataimport.CsvImportHandler;
 import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
@@ -1954,13 +1953,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	protected void getLayoutXML(StringBuilder sb, boolean asPreference) {
 		super.getLayoutXML(sb, asPreference);
-
-		if (isWhiteboardActive()) {
-			sb.append("\t<notesToolbarOpen");
-			sb.append(" val=\"");
-			sb.append(getAppletFrame().isNotesToolbarOpen());
-			sb.append("\"/>\n");
-		}
 	}
 
 	@Override
@@ -2115,7 +2107,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void centerAndResizeViews() {
 		centerAndResizePopups();
 		resizePropertiesView();
-		updateFloatingButtonsPosition();
 		DockPanelW dp = getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA);
 		if (dp instanceof AlgebraDockPanelW) {
 			dp.onResize(); // to force branding visibility update
@@ -2136,13 +2127,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				&& isUnbundledOrWhiteboard()) {
 			((PropertiesViewW) getGuiManager().getPropertiesView()).resize(
 					getWidth(), getHeight() - frame.getKeyboardHeight());
-		}
-	}
-
-	private void updateFloatingButtonsPosition() {
-		NotesLayout notesLayout = frame.getNotesLayout();
-		if (notesLayout != null) {
-			notesLayout.updateFloatingButtonsPosition();
 		}
 	}
 
@@ -2545,11 +2529,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			suiteAppPickerButton.setIconAndLabel(subappCode);
 			GlobalHeader.onResize();
 		}
-	}
-
-	@Override
-	public void setNotesToolbarOpen(boolean open) {
-		getAppletFrame().setNotesToolbarOpen(open);
 	}
 
 	/**

@@ -107,16 +107,23 @@ public final class GeoGebraElement {
 	 * @param element ui element
 	 * @return primary color
 	 */
-
 	public String getPrimaryColor(Element element) {
 		return getComputedStyle(element).getPropertyValue("--ggb-primary-color");
 	}
 
 	/**
 	 *
+	 * @param element ui element
+	 * @return dark color
+	 */
+	public String getDarkColor(Element element) {
+		return getComputedStyle(element).getPropertyValue("--ggb-dark-color");
+	}
+
+	/**
+	 *
 	 * @return that the article element has (inherited) direction attribute
 	 */
-
 	public boolean isRTL() {
 		return "rtl".equals(getComputedStyle(el).direction);
     }

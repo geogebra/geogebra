@@ -1,4 +1,4 @@
-package org.geogebra.common.spreadsheet;
+package org.geogebra.common.spreadsheet.core;
 
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -7,16 +7,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.spreadsheet.core.CellRenderableFactory;
-import org.geogebra.common.spreadsheet.core.Modifiers;
-import org.geogebra.common.spreadsheet.core.Spreadsheet;
-import org.geogebra.common.spreadsheet.core.TableLayout;
+import org.geogebra.common.spreadsheet.StringCapturingGraphics;
+import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
+import org.geogebra.common.util.shape.Size;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,6 +25,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 	private final int rowHeader = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 	private Spreadsheet spreadsheet;
 	private TestTabularData tabularData;
+	private Rectangle viewport;
 
 	@Before
 	public void setupSpreadsheet() {
@@ -34,7 +34,24 @@ public class SpreadsheetTest extends BaseUnitTest {
 				new TestCellRenderableFactory(), null);
 		spreadsheet.setHeightForRows(20, 0, 5);
 		spreadsheet.setWidthForColumns(40, 0, 5);
-		spreadsheet.setViewport(new Rectangle(0, 100, 0, 120));
+		viewport = new Rectangle(0, 100, 0, 120);
+		spreadsheet.setViewport(viewport);
+		spreadsheet.setViewportAdjustmentHandler(new ViewportAdjusterDelegate() {
+			@Override
+			public void setScrollPosition(int x, int y) {
+				viewport = viewport.translatedBy(x, y);
+			}
+
+			@Override
+			public int getScrollBarWidth() {
+				return 5;
+			}
+
+			@Override
+			public void updateScrollPanelSize(Size size) {
+				// no UI to update
+			}
+		});
 	}
 
 	@Test
@@ -69,10 +86,10 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.draw(graphics);
 		// initially we have 3 columns
 		assertThat(graphics.toString(), startsWith("col0,col1,col2,1"));
-		spreadsheet.getController().selectColumn(1, false, false);
-		spreadsheet.getController().selectColumn(2, true, false);
-		spreadsheet.getController().selectColumn(3, true, false);
-		spreadsheet.getController().selectColumn(4, true, false);
+		spreadsheet.selectColumn(1, false, false);
+		spreadsheet.selectColumn(2, true, false);
+		spreadsheet.selectColumn(3, true, false);
+		spreadsheet.selectColumn(4, true, false);
 		spreadsheet.handlePointerDown(rowHeader + 80, 5, Modifiers.NONE);
 		spreadsheet.handlePointerMove(rowHeader + 50, 5, Modifiers.NONE);
 		spreadsheet.handlePointerUp(rowHeader + 50, 5, Modifiers.NONE);
@@ -120,10 +137,10 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.draw(graphics);
 		// initially we have 5 rows
 		assertThat(graphics.toString(), endsWith(",5"));
-		spreadsheet.getController().selectRow(1, false, false);
-		spreadsheet.getController().selectRow(2, true, false);
-		spreadsheet.getController().selectRow(3, true, false);
-		spreadsheet.getController().selectRow(4, true, false);
+		spreadsheet.selectRow(1, false, false);
+		spreadsheet.selectRow(2, true, false);
+		spreadsheet.selectRow(3, true, false);
+		spreadsheet.selectRow(4, true, false);
 		spreadsheet.handlePointerDown(15, colHeader + 20, Modifiers.NONE);
 		spreadsheet.handlePointerMove(15, colHeader + 45, Modifiers.NONE);
 		spreadsheet.handlePointerUp(15, colHeader + 45, Modifiers.NONE);

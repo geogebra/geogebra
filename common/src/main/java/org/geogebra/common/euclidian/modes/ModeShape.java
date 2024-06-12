@@ -27,8 +27,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * Mouse handlers for shape tools
- * 
- * @author csilla
  */
 public class ModeShape {
 

@@ -117,6 +117,7 @@ public class MySpecialDouble extends MyDouble {
 												// constant
 		scientificNotation = sd.scientificNotation;
 		setFromOutside = sd.setFromOutside;
+		bd = sd.bd;
 	}
 
 	@Override
@@ -209,6 +210,7 @@ public class MySpecialDouble extends MyDouble {
 	 * Set precise value
 	 * @param val value as BigDecimal
 	 */
+	@Override
 	public void set(BigDecimal val) {
 		super.set(val.doubleValue());
 		setFromOutside = true;
@@ -264,8 +266,8 @@ public class MySpecialDouble extends MyDouble {
 		if (!Double.isFinite(getDouble())) {
 			return null;
 		}
-		if (bd == null) {
-			if (isLetterConstant || setFromOutside) {
+		if (bd == null && !setFromOutside) {
+			if (isLetterConstant) {
 				bd = BigDecimal.valueOf(getDouble());
 			} else if (isPercentage()) {
 				bd = new BigDecimal(strToString.substring(0, strToString.length() - 1))

@@ -18,12 +18,12 @@ import java.awt.dnd.DropTargetListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.desktop.gui.view.algebra.AlgebraViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.AlgebraViewTransferHandler;
@@ -41,7 +41,7 @@ public class SpreadsheetViewDnD
 	private MyTableD table;
 
 	// current drag over cell
-	private GPoint currentCell = new GPoint(0, 0);
+	private SpreadsheetCoords currentCell = new SpreadsheetCoords(0, 0);
 
 	// flags
 	private boolean isTranspose = false;
@@ -192,15 +192,15 @@ public class SpreadsheetViewDnD
 	@Override
 	public void dragOver(DropTargetDragEvent dte) {
 
-		GPoint overCell = table.getIndexFromPixel(dte.getLocation().x,
+		SpreadsheetCoords overCell = table.getIndexFromPixel(dte.getLocation().x,
 				dte.getLocation().y);
 
 		// if mouse over a new cell then update currentCell and repaint the
 		// target cell border
 		if (!overCell.equals(currentCell)) {
 			currentCell = overCell;
-			table.setTargetcellFrame(table.getCellBlockRect(currentCell.x,
-					currentCell.y, currentCell.x, currentCell.y, true));
+			table.setTargetcellFrame(table.getCellBlockRect(currentCell.column,
+					currentCell.row, currentCell.column, currentCell.row, true));
 			table.repaint();
 		}
 
@@ -243,8 +243,8 @@ public class SpreadsheetViewDnD
 		else if (t.isDataFlavorSupported(DataFlavor.stringFlavor)
 				|| t.isDataFlavorSupported(HTMLflavor)) {
 
-			boolean success = table.copyPasteCut.paste(currentCell.x,
-					currentCell.y, currentCell.x, currentCell.y, t);
+			boolean success = table.copyPasteCut.paste(currentCell.column,
+					currentCell.row, currentCell.column, currentCell.row, t);
 			handleDropComplete(dte, success);
 			return;
 		}
@@ -379,13 +379,13 @@ public class SpreadsheetViewDnD
 			}
 
 			if (!isTranspose) {
-				table.copyPasteCut.pasteExternal(data, currentCell.x,
-						currentCell.y, currentCell.x + columnCount - 1,
-						currentCell.y + rowCount - 1);
+				table.copyPasteCut.pasteExternal(data, currentCell.column,
+						currentCell.row, currentCell.column + columnCount - 1,
+						currentCell.row + rowCount - 1);
 			} else {
-				table.copyPasteCut.pasteExternal(dataTranspose, currentCell.x,
-						currentCell.y, currentCell.x + rowCount - 1,
-						currentCell.y + columnCount - 1);
+				table.copyPasteCut.pasteExternal(dataTranspose, currentCell.column,
+						currentCell.row, currentCell.column + rowCount - 1,
+						currentCell.row + columnCount - 1);
 			}
 
 			return true;

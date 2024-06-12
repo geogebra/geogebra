@@ -16,9 +16,7 @@ public class AriaHelper {
 	 * @param title - title
 	 */
 	public static void setTitle(UIObject ui, String title) {
-		if (!NavigatorUtil.isMobile()) {
-			ui.getElement().setAttribute("data-title", title);
-		}
+		setDataTitle(ui, title);
 		ui.getElement().removeAttribute("title");
 		ui.getElement().setAttribute("aria-label", title);
 	}
@@ -103,5 +101,54 @@ public class AriaHelper {
 	 */
 	public static void setTabIndex(UIObject uiObject, int tabIndex) {
 		uiObject.getElement().setAttribute("tabindex", tabIndex + "");
+	}
+
+	/**
+	 * @param uiObject - element
+	 * @param pressed - true or false
+	 */
+	public static void setPressedState(UIObject uiObject, boolean pressed) {
+		uiObject.getElement().setAttribute("aria-pressed", String.valueOf(pressed));
+	}
+
+	/**
+	 * @param uiObject - element
+	 * @param disabled - true or false
+	 */
+	public static void setAriaDisabled(UIObject uiObject, boolean disabled) {
+		uiObject.getElement().setAttribute("aria-disabled", String.valueOf(disabled));
+	}
+
+	/**
+	 * @param uiObject - element
+	 * @param draggable - true or false
+	 */
+	public static void setDraggable(UIObject uiObject, boolean draggable) {
+		uiObject.getElement().setAttribute("draggable", String.valueOf(draggable));
+	}
+
+	/**
+	 * @param uiObject - element
+	 * @param title - title
+	 */
+	public static void setDataTitle(UIObject uiObject, String title) {
+		if (!NavigatorUtil.isMobile()) {
+			uiObject.getElement().setAttribute("data-title", title);
+		}
+	}
+
+	/**
+	 * @param uiObject - element
+	 */
+	public static void setAriaHasPopup(UIObject uiObject) {
+		uiObject.getElement().setAttribute("aria-haspopup", "true");
+	}
+
+	/**
+	 * @param uiObject - element
+	 * @param expanded - true or false
+	 */
+	public static void setAriaExpanded(UIObject uiObject, boolean expanded) {
+		uiObject.getElement().setAttribute("aria-expanded", String.valueOf(expanded));
 	}
 }

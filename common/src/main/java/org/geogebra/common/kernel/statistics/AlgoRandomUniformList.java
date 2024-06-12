@@ -134,7 +134,7 @@ public class AlgoRandomUniformList extends AlgoElement
 			int size = Math.min(list.size(), lv.size());
 			for (int i = 0; i < size; i++) {
 				((GeoNumeric) list.get(i)).setValue(Math.max(a.getDouble(),
-						Math.min(lv.getListElement(i).evaluateDouble(), b.getDouble())));
+						Math.min(lv.get(i).evaluateDouble(), b.getDouble())));
 			}
 			return true;
 		}

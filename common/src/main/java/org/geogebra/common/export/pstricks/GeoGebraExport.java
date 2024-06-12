@@ -1623,7 +1623,7 @@ public abstract class GeoGebraExport {
 				double[] paramValues = new double[exl.size() + 2];
 				paramValues[0] = 0;
 				for (int i = 0; i < exl.size(); i++) {
-					paramValues[i + 1] = exl.getListElement(i).wrap().getRight()
+					paramValues[i + 1] = exl.get(i).wrap().getRight()
 							.evaluateDouble();
 				}
 
@@ -1636,14 +1636,14 @@ public abstract class GeoGebraExport {
 				GeoCurveCartesian[] curves = new GeoCurveCartesian[exr.size()];
 				for (int i = 0; i < exr.size(); i++) {
 					curves[i] = new GeoCurveCartesian(this.construction);
-					curves[i].setFunctionX(asFunction(exr.getListElement(i)));
+					curves[i].setFunctionX(asFunction(exr.get(i)));
 				}
 
 				f = curve.getFunY();
 				exr = (ListValue) f.getFunctionExpression().getRight();
 
 				for (int i = 0; i < exr.size(); i++) {
-					curves[i].setFunctionY(asFunction(exr.getListElement(i)));
+					curves[i].setFunctionY(asFunction(exr.get(i)));
 					curves[i].setInterval(paramValues[i], paramValues[i + 1]);
 					curves[i].setAllVisualProperties((GeoElement) geo, false);
 				}

@@ -66,7 +66,7 @@ public final class SpreadsheetEditorListener implements MathFieldListener, Unhan
 	@Override
 	public boolean onTab(boolean shiftDown) {
 		onEnter();
-		spreadsheetController.moveRight(false);
+//		spreadsheetControlelr.tabPressed(); // TODO
 		return true;
 	}
 
