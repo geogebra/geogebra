@@ -58,7 +58,7 @@ public class CmdIf extends CommandProcessor {
 	public static ExpressionNode expandIf(Kernel kernelA, GetItem c) {
 		MyList conditions = new MyList(kernelA);
 		MyList alternatives = new MyList(kernelA);
-		int num = c.getLength();
+		int num = c.size();
 		if (num == 3) {
 			return new ExpressionNode(kernelA,
 					new MyNumberPair(kernelA, c.getItem(0), c.getItem(1)),
