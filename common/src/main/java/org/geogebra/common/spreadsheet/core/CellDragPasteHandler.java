@@ -276,7 +276,7 @@ public class CellDragPasteHandler {
 
 	private void pasteSingleColumn(int sourceMinRow, int sourceMaxRow, int sourceColumn,
 			int destinationMinColumn, int destinationMaxColumn)
-			throws CircularDefinitionException, ParseException{
+			throws CircularDefinitionException, ParseException {
 		relativeCopy.doCopyHorizontalNoStoringUndoInfo1(sourceMinRow, sourceMaxRow,
 				sourceColumn, destinationMinColumn, destinationMaxColumn);
 	}

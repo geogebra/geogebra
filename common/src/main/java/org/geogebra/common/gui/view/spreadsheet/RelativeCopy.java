@@ -190,6 +190,17 @@ public class RelativeCopy {
 		}
 	}
 
+	/**
+	 * Pastes a linear pattern upwards
+	 * @param sourceMinRow source minimum row
+	 * @param sourceMaxRow source maximum row
+	 * @param sourceMinCol source minimum column
+	 * @param sourceMaxCol source maximum column
+	 * @param destMinRow destination minimum row
+	 * @param destMaxRow destination maximum row
+	 * @throws CircularDefinitionException on circular reference
+	 * @throws ParseException on parse problem
+	 */
 	public void pasteLinearPatternUpwards(int sourceMinRow, int sourceMaxRow, int sourceMinCol,
 			int sourceMaxCol, int destMinRow, int destMaxRow)
 			throws CircularDefinitionException, ParseException {
@@ -224,6 +235,17 @@ public class RelativeCopy {
 		}
 	}
 
+	/**
+	 * Pastes a linear pattern downwards
+	 * @param sourceMinRow source minimum row
+	 * @param sourceMaxRow source maximum row
+	 * @param sourceMinCol source minimum column
+	 * @param sourceMaxCol source maximum column
+	 * @param destMinRow destination minimum row
+	 * @param destMaxRow destination maximum row
+	 * @throws CircularDefinitionException on circular reference
+	 * @throws ParseException on parse problem
+	 */
 	public void pasteLinearPatternDownwards(int sourceMinRow, int sourceMaxRow, int sourceMinCol,
 			int sourceMaxCol, int destMinRow, int destMaxRow)
 			throws CircularDefinitionException, ParseException {
@@ -258,6 +280,17 @@ public class RelativeCopy {
 		}
 	}
 
+	/**
+	 * Pastes a linear pattern leftwards
+	 * @param sourceMinRow source minimum row
+	 * @param sourceMaxRow source maximum row
+	 * @param sourceMinCol source minimum column
+	 * @param sourceMaxCol source maximum column
+	 * @param destMinCol destination minimum column
+	 * @param destMaxCol destination maximum column
+	 * @throws CircularDefinitionException on circular reference
+	 * @throws ParseException on parse problem
+	 */
 	public void pasteLinearPatternLeftwards(int sourceMinRow, int sourceMaxRow, int sourceMinCol,
 			int sourceMaxCol, int destMinCol, int destMaxCol)
 			throws CircularDefinitionException, ParseException {
@@ -292,6 +325,17 @@ public class RelativeCopy {
 		}
 	}
 
+	/**
+	 * Pastes a linear pattern leftwards
+	 * @param sourceMinRow source minimum row
+	 * @param sourceMaxRow source maximum row
+	 * @param sourceMinCol source minimum column
+	 * @param sourceMaxCol source maximum column
+	 * @param destMinCol destination minimum column
+	 * @param destMaxCol destination maximum column
+	 * @throws CircularDefinitionException on circular reference
+	 * @throws ParseException on parse problem
+	 */
 	public void pasteLinearPatternRightwards(int sourceMinRow, int sourceMaxRow, int sourceMinCol,
 			int sourceMaxCol, int destMinCol, int destMaxCol)
 			throws CircularDefinitionException, ParseException {
