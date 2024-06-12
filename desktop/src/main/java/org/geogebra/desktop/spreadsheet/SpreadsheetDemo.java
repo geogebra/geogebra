@@ -1,6 +1,5 @@
 package org.geogebra.desktop.spreadsheet;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -39,11 +38,13 @@ import org.geogebra.common.spreadsheet.core.ClipboardInterface;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem;
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCellDataSerializer;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetControlsDelegate;
+import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellDataSerializer;
+import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
-import org.geogebra.common.spreadsheet.kernel.SpreadsheetCellProcessor;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
@@ -157,7 +158,6 @@ public class SpreadsheetDemo {
 			editorBox.setBorder(new BevelBorder(BevelBorder.RAISED));
 			editorBox.add(mathField);
 			mathField.setBounds(0, 0, 200, 200);
-			mathField.requestViewFocus();
 			editorBox.setAlignmentX(0);
 			editorBox.setAlignmentY(0);
 
@@ -211,8 +211,8 @@ public class SpreadsheetDemo {
 
 			spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegate() {
 
-				final SpreadsheetCellEditor editor = new DesktopSpreadsheetCellEditor(frame,
-						app, this);
+				private final SpreadsheetCellEditor editor = new DesktopSpreadsheetCellEditor(frame,
+						app);
 
 				private ClipboardInterface clipboard = new ClipboardD();
 
@@ -277,13 +277,10 @@ public class SpreadsheetDemo {
 
 			private final JFrame frame;
 			private final AppCommon app;
-			private final SpreadsheetControlsDelegate controls;
 
-			DesktopSpreadsheetCellEditor(JFrame frame, AppCommon app,
-					SpreadsheetControlsDelegate controls) {
+			DesktopSpreadsheetCellEditor(JFrame frame, AppCommon app) {
 				this.frame = frame;
 				this.app = app;
-				this.controls = controls;
 			}
 
 			@Override
@@ -295,15 +292,14 @@ public class SpreadsheetDemo {
 						(int) editorBounds.getWidth(), (int) editorBounds.getHeight());
 				mathField.setBounds(0, 0,
 						(int) editorBounds.getWidth(), (int) editorBounds.getHeight());
-				editorBox.setBackground(Color.BLUE);
 				editorBox.setVisible(true);
-				frame.revalidate();
 				mathField.requestViewFocus();
 			}
 
 			@Override
 			public void hide() {
 				editorBox.setVisible(false);
+				repaint();
 			}
 
 			@Override
@@ -316,9 +312,15 @@ public class SpreadsheetDemo {
 			}
 
 			@Override
-			public @Nonnull SpreadsheetCellProcessor getCellProcessor() {
-				return new SpreadsheetCellProcessor(app.getKernel().getAlgebraProcessor(),
+			public @Nonnull DefaultSpreadsheetCellProcessor getCellProcessor() {
+				return new DefaultSpreadsheetCellProcessor(
+						app.getKernel().getAlgebraProcessor(),
 						app.getDefaultErrorHandler());
+			}
+
+			@Override
+			public @Nonnull SpreadsheetCellDataSerializer getCellDataSerializer() {
+				return new DefaultSpreadsheetCellDataSerializer();
 			}
 		}
 	}

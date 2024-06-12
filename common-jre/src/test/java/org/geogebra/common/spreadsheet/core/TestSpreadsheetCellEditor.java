@@ -2,7 +2,7 @@ package org.geogebra.common.spreadsheet.core;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.spreadsheet.kernel.SpreadsheetCellProcessor;
+import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellProcessor;
 import org.geogebra.common.util.shape.Rectangle;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -33,7 +33,7 @@ public class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 
 	@Nonnull
 	@Override
-	public SpreadsheetCellProcessor getCellProcessor() {
+	public DefaultSpreadsheetCellProcessor getCellProcessor() {
 		return null;
 	}
 }

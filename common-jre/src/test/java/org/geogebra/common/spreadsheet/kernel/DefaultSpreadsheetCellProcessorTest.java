@@ -13,15 +13,16 @@ import org.geogebra.common.util.DoubleUtil;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SpreadsheetCellProcessorTest extends BaseUnitTest {
-	private SpreadsheetCellProcessor processor;
-	private final KernelDataSerializer serializer = new KernelDataSerializer();
+public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
+	private DefaultSpreadsheetCellProcessor processor;
+	private final DefaultSpreadsheetCellDataSerializer
+			serializer = new DefaultSpreadsheetCellDataSerializer();
 
 	@Before
 	public void setUp() {
 		ErrorHandler errorHandler = getApp().getDefaultErrorHandler();
 		processor =
-				new SpreadsheetCellProcessor(getKernel().getAlgebraProcessor(),
+				new DefaultSpreadsheetCellProcessor(getKernel().getAlgebraProcessor(),
 						errorHandler);
 	}
 

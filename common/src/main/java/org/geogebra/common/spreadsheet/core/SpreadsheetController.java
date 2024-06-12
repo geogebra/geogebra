@@ -10,14 +10,9 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.spreadsheet.kernel.KernelDataSerializer;
-import org.geogebra.common.spreadsheet.kernel.SpreadsheetCellProcessor;
-import org.geogebra.common.spreadsheet.kernel.SpreadsheetEditorListener;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 
@@ -26,7 +21,7 @@ import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 /**
- * A container for tabular data, with support for selecting parts of the data.
+ * A container for tabular data, with support for selecting and editing the data.
  *
  * @apiNote This type is not designed to be thread-safe.
  */
@@ -85,7 +80,6 @@ public final class SpreadsheetController {
 
 	// - TabularSelection
 
-	@Override
 	public void clearSelection() {
 		selectionController.clearSelections();
 	}
@@ -95,7 +89,6 @@ public final class SpreadsheetController {
 	 * @param extend whether to extend selection (SHIFT)
 	 * @param addSelection whether to add a separate selection (CTRL)
 	 */
-	@Override
 	public void selectRow(int row, boolean extend, boolean addSelection) {
 		selectionController.selectRow(row, extend, addSelection);
 	}
@@ -105,7 +98,6 @@ public final class SpreadsheetController {
 	 * @param extend whether to extend selection (SHIFT)
 	 * @param addSelection whether to add a separate selection (CTRL)
 	 */
-	@Override
 	public void selectColumn(int column, boolean extend, boolean addSelection) {
 		selectionController.selectColumn(column, extend, addSelection);
 	}
@@ -115,7 +107,6 @@ public final class SpreadsheetController {
 	 * @param extend Whether we want to extend the current selection (SHIFT)
 	 * @param addSelection Whether we want to add the selection to the current selection (CTRL)
 	 */
-    @Override
 	public void select(TabularRange tabularRange, boolean extend, boolean addSelection) {
 		selectionController.select(new Selection(tabularRange),
 				extend, addSelection);
@@ -124,7 +115,6 @@ public final class SpreadsheetController {
 	/**
 	 * Select all cells
 	 */
-	@Override
 	public void selectAll() {
 		selectionController.selectAll();
 	}
@@ -166,7 +156,7 @@ public final class SpreadsheetController {
 	/**
 	 * Hides the cell editor if it is currently active.
 	 */
-	public void hideEditor() {
+	void hideEditor() {
 		if (isEditorActive()) {
 			editor.hide();
 		}
@@ -212,7 +202,9 @@ public final class SpreadsheetController {
 	 */
 	// TODO change to double (APPS-5637)
 	public void handlePointerDown(int x, int y, Modifiers modifiers) {
-		saveContentAndHideCellEditor();
+		if (isEditorActive()) {
+			saveContentAndHideCellEditor();
+		}
 		if (controlsDelegate != null) {
 			controlsDelegate.hideContextMenu();
 		}
@@ -411,37 +403,47 @@ public final class SpreadsheetController {
 	/**
 	 * Move focus down and adjust viewport
 	 */
-	public void onEnter() {
+	void onEnter() {
 		hideEditor();
 		moveDown(false);
 		adjustViewportIfNeeded();
 	}
 
+	void onTab() {
+		hideEditor();
+		moveRight(false);
+		adjustViewportIfNeeded();
+	}
+
+	void onEsc() {
+		hideEditor();
+	}
+
 	/**
 	 * @param extendingCurrentSelection True if the current selection should expand, false else
 	 */
-	public void moveLeft(boolean extendingCurrentSelection) {
+	void moveLeft(boolean extendingCurrentSelection) {
 		selectionController.moveLeft(extendingCurrentSelection);
 	}
 
 	/**
 	 * @param extendingCurrentSelection True if the current selection should expand, false else
 	 */
-	public void moveRight(boolean extendingCurrentSelection) {
+	void moveRight(boolean extendingCurrentSelection) {
 		selectionController.moveRight(extendingCurrentSelection, layout.numberOfColumns());
 	}
 
 	/**
 	 * @param extendingCurrentSelection True if the current selection should expand, false else
 	 */
-	public void moveUp(boolean extendingCurrentSelection) {
+	void moveUp(boolean extendingCurrentSelection) {
 		selectionController.moveUp(extendingCurrentSelection);
 	}
 
 	/**
 	 * @param extendingCurrentSelection True if the current selection should expand, false else
 	 */
-	public void moveDown(boolean extendingCurrentSelection) {
+	void moveDown(boolean extendingCurrentSelection) {
 		selectionController.moveDown(extendingCurrentSelection, layout.numberOfRows());
 	}
 
@@ -490,7 +492,7 @@ public final class SpreadsheetController {
 	/**
 	 * @return selections limited to data size
 	 */
-	public List<TabularRange> getVisibleSelections() {
+	List<TabularRange> getVisibleSelections() {
 		return getSelections().map(this::intersectWithDataRange)
 				.collect(Collectors.toList());
 	}
@@ -515,7 +517,7 @@ public final class SpreadsheetController {
 	 * @param column column index
 	 * @return whether selection contains at least one cell in given column
 	 */
-	public boolean isSelectionIntersectingColumn(int column) {
+	boolean isSelectionIntersectingColumn(int column) {
 		return selectionController.getSelections()
 				.anyMatch(sel -> sel.getRange().intersectsColumn(column));
 	}
@@ -524,7 +526,7 @@ public final class SpreadsheetController {
 	 * @param row row index
 	 * @return whether selection contains at least one cell in given row
 	 */
-	public boolean isSelectionIntersectingRow(int row) {
+	boolean isSelectionIntersectingRow(int row) {
 		return selectionController.getSelections()
 				.anyMatch(sel -> sel.getRange().intersectsRow(row));
 	}
@@ -552,7 +554,7 @@ public final class SpreadsheetController {
 	 * is selected</b>
 	 * @param row Row index
 	 */
-	public void deleteRowAt(int row) {
+	void deleteRowAt(int row) {
 		if (!selectionController.hasSelection() || selectionController.isOnlyRowSelected(row)) {
 			deleteRowAndResizeRemainingRows(row);
 		} else {
@@ -586,7 +588,7 @@ public final class SpreadsheetController {
 	 * is selected</b>
 	 * @param column Column index
 	 */
-	public void deleteColumnAt(int column) {
+	void deleteColumnAt(int column) {
 		if (!selectionController.hasSelection()
 				|| selectionController.isOnlyColumnSelected(column)) {
 			deleteColumnAndResizeRemainingColumns(column);
@@ -621,7 +623,7 @@ public final class SpreadsheetController {
 	 * @param column Index of where to insert the column
 	 * @param right Whether the column is being inserted right of the currently selected column
 	 */
-	public void insertColumnAt(int column, boolean right) {
+	void insertColumnAt(int column, boolean right) {
 		tabularData.insertColumnAt(column);
 		Selection lastSelection = selectionController.getLastSelection();
 		if (right && lastSelection != null) {
@@ -647,7 +649,7 @@ public final class SpreadsheetController {
 	 * @param row Index of where to insert the row
 	 * @param below Whether the row is being inserted below the currently selected row
 	 */
-	public void insertRowAt(int row, boolean below) {
+	void insertRowAt(int row, boolean below) {
 		tabularData.insertRowAt(row);
 		Selection lastSelection = selectionController.getLastSelection();
 		if (below && lastSelection != null) {
@@ -707,8 +709,8 @@ public final class SpreadsheetController {
 
 	private final class Editor {
 		private final @Nonnull SpreadsheetCellEditor cellEditor;
-		private SpreadsheetEditorListener listener;
-		int row, column; // TODO replace with SpreadsheetCoords https://git.geogebra.org/ggb/geogebra/-/merge_requests/7489/diffs#6eeaa076374c5498684bb7109318040c9b9657f3
+		private SpreadsheetCellEditorAdapter editorAdapter;
+		private int row, column;
 		boolean isVisible;
 
 		Editor(@Nonnull SpreadsheetCellEditor cellEditor) {
@@ -721,7 +723,13 @@ public final class SpreadsheetController {
 							-viewport.getMinY() + layout.getColumnHeaderHeight());
 			MathFieldInternal mathField = cellEditor.getMathField();
 			Object content = tabularData.contentAt(row, column);
-			mathField.parse(new KernelDataSerializer().getStringForEditor(content));
+			mathField.parse(cellEditor.getCellDataSerializer().getStringForEditor(content));
+
+			editorAdapter = new SpreadsheetCellEditorAdapter(mathField, row, column,
+					cellEditor.getCellProcessor(), SpreadsheetController.this);
+			mathField.setFieldListener(editorAdapter);
+			mathField.setUnhandledArrowListener(editorAdapter);
+
 			cellEditor.show(editorBounds, viewport, tabularData.getAlignment(row, column));
 			isVisible = true;
 		}
@@ -732,8 +740,7 @@ public final class SpreadsheetController {
 		}
 
 		void clearInput() {
-			// TODO is there a simpler way?
-			cellEditor.getMathField().parse(new KernelDataSerializer().getStringForEditor(""));
+			cellEditor.getMathField().parse("");
 		}
 
 		void type(String key) {
@@ -741,7 +748,7 @@ public final class SpreadsheetController {
 		}
 
 		void commit() {
-			// TODO
+			editorAdapter.commitInput();
 		}
 	}
 }

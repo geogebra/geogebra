@@ -3,7 +3,6 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.spreadsheet.kernel.SpreadsheetCellProcessor;
 
 /**
  * Shows and hides spreadsheet controls (editor, context menu)

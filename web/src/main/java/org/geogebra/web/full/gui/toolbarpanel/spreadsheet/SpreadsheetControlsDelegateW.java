@@ -10,9 +10,11 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.spreadsheet.core.ClipboardInterface;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCellDataSerializer;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetControlsDelegate;
-import org.geogebra.common.spreadsheet.kernel.SpreadsheetCellProcessor;
+import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellDataSerializer;
+import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -87,12 +89,18 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		}
 
 		@Override
-		public @Nonnull SpreadsheetCellProcessor getCellProcessor() {
-			return new SpreadsheetCellProcessor(app.getKernel().getAlgebraProcessor(),
+		public @Nonnull DefaultSpreadsheetCellProcessor getCellProcessor() {
+			return new DefaultSpreadsheetCellProcessor(app.getKernel().getAlgebraProcessor(),
 					app.getDefaultErrorHandler());
 		}
 
-//		@Override
+		@Nonnull
+		@Override
+		public SpreadsheetCellDataSerializer getCellDataSerializer() {
+			return new DefaultSpreadsheetCellDataSerializer();
+		}
+
+		//		@Override
 //		public void onEnter() {
 		// TODO wire this up
 //			if (listener != null) {
