@@ -86,7 +86,6 @@ public class CellDragPasteHandler {
 	 * Pastes the selected range to the chosen destination
 	 */
 	public void pasteToDestination() {
-		long t = System.currentTimeMillis();
 		if (getDestinationRange() == null || rangeToCopy == null) {
 			return;
 		}
@@ -98,7 +97,6 @@ public class CellDragPasteHandler {
 		} catch (CircularDefinitionException | ParseException | XMLParseException e) {
 			Log.error(e);
 		}
-		Log.debug("time ms: " + (System.currentTimeMillis() - t));
 	}
 
 	/**
