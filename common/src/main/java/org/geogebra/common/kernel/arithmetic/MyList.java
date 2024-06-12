@@ -1224,11 +1224,6 @@ public class MyList extends ValidExpression
 	}
 
 	@Override
-	public int getLength() {
-		return listElements.size();
-	}
-
-	@Override
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}

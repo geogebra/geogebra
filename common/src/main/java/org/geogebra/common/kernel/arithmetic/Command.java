@@ -812,7 +812,7 @@ public class Command extends ValidExpression
 	}
 
 	@Override
-	public int getLength() {
+	public int size() {
 		return getArgumentNumber();
 	}
 

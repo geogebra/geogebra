@@ -3362,16 +3362,18 @@ public class AlgebraProcessor {
 			cons.setSuppressLabelCreation(oldMacroMode);
 
 			// Create GeoList object
-			ret = kernel.getAlgoDispatcher().list(label, geoElements,
+			ret = kernel.getAlgoDispatcher().list(geoElements,
 					isIndependent);
 			if (info.isSymbolic()) {
 				((HasSymbolicMode) ret).initSymbolicMode();
 			}
 			if (!evalList.isDefined() || (isIndependent && ret.isUndefinedMatrix())) {
 				ret.setUndefined();
-				ret.updateRepaint();
 			}
 			ret.setDefinition(n);
+			if (info.isLabelOutput()) {
+				ret.setLabel(label);
+			}
 		}
 
 		// operations and variables are present

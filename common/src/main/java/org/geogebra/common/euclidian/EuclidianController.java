@@ -3985,7 +3985,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		GeoElement[] ret = { null };
 
 		if (!selPreview && (hits.size() > 1)) {
-			list = getAlgoDispatcher().list(null, hits, false);
+			list = getAlgoDispatcher().list(hits, false);
+			list.setLabel(null);
 			if (list != null) {
 				messageListCreated(list);
 				ret[0] = list;

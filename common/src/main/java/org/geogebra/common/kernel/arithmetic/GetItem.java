@@ -21,7 +21,7 @@ public interface GetItem extends ExpressionValue {
 	 * 
 	 * @return length
 	 */
-	public int getLength();
+	public int size();
 
 	/**
 	 * @return label of expected result

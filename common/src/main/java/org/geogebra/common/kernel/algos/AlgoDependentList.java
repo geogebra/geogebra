@@ -38,23 +38,6 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	private StringBuilder sb;
 
 	/**
-	 * Creates a new algorithm that takes a list of GeoElements to build a
-	 * Geolist with them.
-	 * 
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            label for new list
-	 * @param listItems
-	 *            list of GeoElement objects
-	 */
-	public AlgoDependentList(Construction cons, String label,
-			ArrayList<? extends GeoElementND> listItems) {
-		this(cons, listItems, false);
-		geoList.setLabel(label);
-	}
-
-	/**
 	 * Creates an unlabeled algorithm that takes a list of GeoElements to build
 	 * a Geolist with them.
 	 * 

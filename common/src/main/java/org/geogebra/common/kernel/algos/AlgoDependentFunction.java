@@ -409,7 +409,7 @@ public class AlgoDependentFunction extends AlgoElement
 
 		Kernel kernel0 = list.getKernel();
 
-		if (list.getLength() == 1
+		if (list.size() == 1
 				&& list.get(0).unwrap() instanceof GeoPointND) {
 			GeoPointND point = (GeoPointND) list.get(0).unwrap();
 			if (i == 0) {
@@ -424,7 +424,7 @@ public class AlgoDependentFunction extends AlgoElement
 			}
 		}
 
-		if (i >= list.getLength()) {
+		if (i >= list.size()) {
 			Log.error("problem in AlgoDependentFunction");
 			return null;
 		}

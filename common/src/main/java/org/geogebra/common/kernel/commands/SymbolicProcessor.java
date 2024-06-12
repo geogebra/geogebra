@@ -398,7 +398,7 @@ public class SymbolicProcessor {
 		});
 		cmd.getArgument(0).traverse(Traversing.DummyVariableCollector.getCollector(set));
 		int n = en.unwrap() instanceof MyList
-				? ((MyList) en.unwrap()).getLength() : 1;
+				? ((MyList) en.unwrap()).size() : 1;
 		// for equation (t,t) = (2s-1,3s+3)
 		// make sure that we allow the correct number of variables
 		// needed for TRAC-5440
