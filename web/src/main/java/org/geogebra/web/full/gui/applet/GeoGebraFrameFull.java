@@ -6,7 +6,6 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
@@ -16,7 +15,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.gwtutil.SecureBrowser;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
@@ -49,8 +47,6 @@ import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
-import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.JsEval;
 import org.geogebra.web.html5.util.AppletParameters;
@@ -746,22 +742,6 @@ public class GeoGebraFrameFull
 		}
 	}
 
-	private void attachMowMainMenu(final AppW app) {
-		StandardButton openMenuButton = new StandardButton(
-				MaterialDesignResources.INSTANCE.menu_black_whiteBorder(), null, 24);
-
-		openMenuButton.addFastClickHandler(source -> {
-			onMenuButtonPressed();
-			if (app.isWhiteboardActive()) {
-				deselectDragBtn();
-			}
-		});
-
-		openMenuButton.addStyleName("mowOpenMenuButton");
-		new FocusableWidget(AccessibilityGroup.MENU, null, openMenuButton).attachTo(app);
-		add(openMenuButton);
-	}
-
 	/**
 	 * Adds the notes toolbar and (if allowed) the undo panel and page control
 	 */
@@ -773,9 +753,6 @@ public class GeoGebraFrameFull
 		if (notesLayout.getToolbar() != null) {
 			add(notesLayout.getToolbar());
 		}
-		if (app.getAppletParameters().getDataParamEnableUndoRedo()) {
-			add(notesLayout.getUndoRedoButtons());
-		}
 		setPageControlButtonVisible(app.isMultipleSlidesOpen()
 				|| app.getAppletParameters().getParamShowSlides(), notesLayout);
 
@@ -784,7 +761,6 @@ public class GeoGebraFrameFull
 		} else if (!app.isApplet()
 				|| app.getAppletParameters().getDataParamShowMenuBar(false)) {
 			notesLayout.getUndoRedoButtons().addStyleName("undoRedoPositionMebis");
-			attachMowMainMenu(app);
 		}
 		app.getGuiManager().initShareActionInGlobalHeader();
 		initPageControlPanel(app);
@@ -903,20 +879,6 @@ public class GeoGebraFrameFull
 		final int eventType = DOM.eventGetType(event);
 		if (eventType == Event.ONMOUSEDOWN || eventType == Event.ONTOUCHSTART) {
 			closePopupsAndMaybeMenu(event);
-		}
-	}
-
-	/**
-	 * Actions performed when menu button is pressed
-	 */
-	private void onMenuButtonPressed() {
-		app.getActiveEuclidianView().getEuclidianController()
-				.widgetsToBackground();
-		app.hideKeyboard();
-		app.closePopups();
-		app.toggleMenu();
-		if (app.isWhiteboardActive()) {
-			pageListPanel.close();
 		}
 	}
 
