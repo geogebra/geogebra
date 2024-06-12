@@ -3981,17 +3981,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected final GeoElement[] createList(Hits hits, boolean selPreview) {
-		GeoList list;
-		GeoElement[] ret = { null };
-
 		if (!selPreview && (hits.size() > 1)) {
-			list = getAlgoDispatcher().list(hits, false);
+			GeoList list = getAlgoDispatcher().list(hits, false);
 			list.setLabel(null);
-			if (list != null) {
-				messageListCreated(list);
-				ret[0] = list;
-				return ret;
-			}
+			messageListCreated(list);
+			return list.asArray();
 		}
 
 		return null;
