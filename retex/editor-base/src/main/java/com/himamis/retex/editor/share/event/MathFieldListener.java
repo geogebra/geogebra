@@ -1,5 +1,6 @@
 package com.himamis.retex.editor.share.event;
 
+// TODO try to document this collection of random-ish methods
 public interface MathFieldListener {
 
 	void onEnter();

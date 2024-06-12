@@ -2,17 +2,17 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.spreadsheet.core.ClipboardInterface;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem;
-import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetControlsDelegate;
-import org.geogebra.common.spreadsheet.kernel.KernelDataSerializer;
-import org.geogebra.common.spreadsheet.kernel.SpreadsheetEditorListener;
+import org.geogebra.common.spreadsheet.kernel.SpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -27,7 +27,7 @@ import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.dom.style.shared.Unit;
 
 import com.google.gwt.core.client.Scheduler;
-import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
 
 public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate {
 
@@ -41,18 +41,14 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		private final MathFieldEditor mathField;
 		private final SpreadsheetPanel parent;
 		private final AppW app;
-		private SpreadsheetEditorListener listener;
-		private final Spreadsheet spreadsheet;
 
-		public SpreadsheetCellEditorW(AppW app, SpreadsheetPanel parent, MathTextFieldW mathField,
-				Spreadsheet spreadsheet) {
+		public SpreadsheetCellEditorW(AppW app, SpreadsheetPanel parent, MathTextFieldW mathField) {
 			this.mathField = mathField;
 			this.mathField.getMathField().setForegroundColor(
 					GColor.getColorString(GeoGebraColorConstants.NEUTRAL_900));
 			mathField.addStyleName("spreadsheetEditor");
 			this.parent = parent;
 			this.app = app;
-			this.spreadsheet = spreadsheet;
 		}
 
 		public SpreadsheetPanel getSpreadsheetPanel() {
@@ -60,58 +56,18 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		}
 
 		@Override
-		public void setBounds(Rectangle editorBounds) {
+		public void show(Rectangle editorBounds, Rectangle viewport, int textAlignment) {
 			mathField.attach(parent);
 			mathField.getStyle().setLeft(editorBounds.getMinX(), Unit.PX);
 			mathField.getStyle().setTop(editorBounds.getMinY(), Unit.PX);
 			mathField.getStyle().setWidth(editorBounds.getWidth(), Unit.PX);
 			mathField.getStyle().setProperty("minHeight", editorBounds.getHeight(), Unit.PX);
 			mathField.setRightMargin(8);
+			mathField.asWidget().getElement().getStyle().setTextAlign(
+					textAlignment == CellFormat.ALIGN_LEFT ? TextAlign.LEFT : TextAlign.RIGHT);
 			mathField.setVisible(true);
 			mathField.requestFocus();
 			Scheduler.get().scheduleDeferred(mathField::requestFocus);
-		}
-
-		@Override
-		public void setTargetCell(int row, int column) {
-			listener = new SpreadsheetEditorListener(mathField.getMathField().getInternal(),
-					app.getKernel(), row, column, this, spreadsheet);
-			mathField.getMathField().getInternal().setFieldListener(
-					listener);
-			mathField.setUnhandledArrowListener(listener);
-		}
-
-		@Override
-		public void onEnter() {
-			if (listener != null) {
-				listener.onEnter();
-			}
-		}
-
-		@Override
-		public void setContent(Object content) {
-			mathField.getMathField().parse(new KernelDataSerializer().getStringForEditor(content));
-		}
-
-		@Override
-		public void type(String content) {
-			KeyboardInputAdapter.type(mathField.getMathField().getInternal(), content);
-		}
-
-		@Override
-		public void setAlign(int align) {
-			mathField.asWidget().getElement().getStyle().setTextAlign(
-					align == CellFormat.ALIGN_LEFT ? TextAlign.LEFT : TextAlign.RIGHT);
-		}
-
-		@Override
-		public void scrollHorizontally() {
-			mathField.scrollHorizontally();
-		}
-
-		@Override
-		public boolean isVisible() {
-			return mathField.isVisible();
 		}
 
 		@Override
@@ -119,6 +75,30 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			mathField.setVisible(false);
 			parent.requestFocus();
 		}
+
+		@Override
+		public void scrollCursorVisible() {
+			mathField.scrollHorizontally();
+		}
+
+		@Override
+		public @Nonnull MathFieldInternal getMathField() {
+			return mathField.getMathField().getInternal();
+		}
+
+		@Override
+		public @Nonnull SpreadsheetCellProcessor getCellProcessor() {
+			return new SpreadsheetCellProcessor(app.getKernel().getAlgebraProcessor(),
+					app.getDefaultErrorHandler());
+		}
+
+//		@Override
+//		public void onEnter() {
+		// TODO wire this up
+//			if (listener != null) {
+//				listener.onEnter();
+//			}
+//		}
 	}
 
 	/**
@@ -126,11 +106,10 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	 * @param app - application
 	 * @param parent - parent panel
 	 * @param mathTextField - math text field
-	 * @param spreadsheet - spreadsheet
 	 */
 	public SpreadsheetControlsDelegateW(AppW app, SpreadsheetPanel parent,
-			MathTextFieldW mathTextField, Spreadsheet spreadsheet) {
-		editor = new SpreadsheetCellEditorW(app, parent, mathTextField, spreadsheet);
+			MathTextFieldW mathTextField) {
+		editor = new SpreadsheetCellEditorW(app, parent, mathTextField);
 		contextMenu = new GPopupMenuW(app);
 		loc = app.getLocalization();
 	}

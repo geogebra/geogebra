@@ -155,9 +155,16 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	}
 
 	/**
-	 * Scroll content horizontally if needed.
+	 * Prefer {@link  #scrollCursorVisible()} instead.
 	 */
 	public void scrollHorizontally() {
+		scrollCursorVisible();
+	}
+
+	/**
+	 * Scroll content horizontally if needed to bring cursor into view.
+	 */
+	public void scrollCursorVisible() {
 		mathField.scrollParentHorizontally(main);
 	}
 

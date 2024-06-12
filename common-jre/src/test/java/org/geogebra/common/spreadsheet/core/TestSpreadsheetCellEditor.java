@@ -1,59 +1,39 @@
 package org.geogebra.common.spreadsheet.core;
 
+import javax.annotation.Nonnull;
+
+import org.geogebra.common.spreadsheet.kernel.SpreadsheetCellProcessor;
 import org.geogebra.common.util.shape.Rectangle;
 
-public class TestSpreadsheetCellEditor
-		implements SpreadsheetCellEditor {
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
 
-	private Object content;
-	private boolean visible;
+public class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 
-	@Override
-	public void setBounds(Rectangle editorBounds) {
-		visible = true;
-	}
 
 	@Override
-	public void setTargetCell(int row, int column) {
-		// not needed
-	}
+	public void show(Rectangle editorBounds, Rectangle viewport, int textAlignment) {
 
-	@Override
-	public void setContent(Object content) {
-		this.content = content;
-	}
-
-	@Override
-	public void type(String text) {
-		setContent(text);
-	}
-
-	@Override
-	public void setAlign(int align) {
-		// not needed
-	}
-
-	@Override
-	public void scrollHorizontally() {
-		// not needed
-	}
-
-	@Override
-	public boolean isVisible() {
-		return visible;
 	}
 
 	@Override
 	public void hide() {
-		visible = false;
+
 	}
 
 	@Override
-	public void onEnter() {
-		// not needed
+	public void scrollCursorVisible() {
+
 	}
 
-	public Object getContent() {
-		return content;
+	@Nonnull
+	@Override
+	public MathFieldInternal getMathField() {
+		return null;
+	}
+
+	@Nonnull
+	@Override
+	public SpreadsheetCellProcessor getCellProcessor() {
+		return null;
 	}
 }

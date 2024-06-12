@@ -21,13 +21,13 @@ public class SpreadsheetCellProcessorTest extends BaseUnitTest {
 	public void setUp() {
 		ErrorHandler errorHandler = getApp().getDefaultErrorHandler();
 		processor =
-				new SpreadsheetCellProcessor("A1", getKernel().getAlgebraProcessor(),
+				new SpreadsheetCellProcessor(getKernel().getAlgebraProcessor(),
 						errorHandler);
 	}
 
 	@Test
 	public void testTextInput() {
-		processor.process("(1, 1)");
+		processor.process("(1, 1)", "A1");
 		assertTrue(lookup("A1").isGeoText());
 		assertIsAuxiliary();
 		assertIsEuclidianInvisible();
@@ -35,7 +35,7 @@ public class SpreadsheetCellProcessorTest extends BaseUnitTest {
 
 	@Test
 	public void testTextInputWithQuotes() {
-		processor.process("\"1+2\"");
+		processor.process("\"1+2\"", "A1");
 		assertThat(lookup("A1"), hasValue("1+2"));
 		assertIsAuxiliary();
 		assertIsEuclidianInvisible();
@@ -43,7 +43,7 @@ public class SpreadsheetCellProcessorTest extends BaseUnitTest {
 
 	@Test
 	public void testPointInput() {
-		processor.process("=(1, 1)");
+		processor.process("=(1, 1)", "A1");
 		assertTrue(lookup("A1").isGeoPoint());
 		assertIsAuxiliary();
 		assertIsEuclidianInvisible();
@@ -51,7 +51,7 @@ public class SpreadsheetCellProcessorTest extends BaseUnitTest {
 
 	@Test
 	public void testComputation() {
-		processor.process("=1 + 2");
+		processor.process("=1 + 2", "A1");
 		GeoElement a1 = lookup("A1");
 		assertTrue(a1.isGeoNumeric()
 				&& DoubleUtil.isEqual(((GeoNumeric) a1).getDouble(), 3.0));
@@ -62,7 +62,7 @@ public class SpreadsheetCellProcessorTest extends BaseUnitTest {
 
 	@Test
 	public void testSerializeText() {
-		processor.process("(1, 1)");
+		processor.process("(1, 1)", "A1");
 		assertSerializedAs("(1, 1)");
 		assertIsAuxiliary();
 		assertIsEuclidianInvisible();
@@ -70,7 +70,7 @@ public class SpreadsheetCellProcessorTest extends BaseUnitTest {
 
 	@Test
 	public void testSerializePoint() {
-		processor.process("=(1,1)");
+		processor.process("=(1,1)", "A1");
 		assertSerializedAs("=(1, 1)");
 		assertIsAuxiliary();
 		assertIsEuclidianInvisible();
@@ -78,7 +78,7 @@ public class SpreadsheetCellProcessorTest extends BaseUnitTest {
 
 	@Test
 	public void testSerializeComputation() {
-		processor.process("=1+ 2");
+		processor.process("=1+ 2", "A1");
 		assertSerializedAs("=1 + 2");
 		assertIsAuxiliary();
 		assertIsEuclidianInvisible();

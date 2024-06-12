@@ -5,14 +5,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.spreadsheet.kernel.KernelDataSerializer;
+import org.geogebra.common.spreadsheet.kernel.SpreadsheetCellProcessor;
+import org.geogebra.common.spreadsheet.kernel.SpreadsheetEditorListener;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.shape.Point;
 import org.geogebra.common.util.shape.Rectangle;
 
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 /**
@@ -28,6 +36,7 @@ public final class SpreadsheetController implements TabularSelection {
 	final private TabularData<?> tabularData;
 
 	private @CheckForNull SpreadsheetControlsDelegate controlsDelegate;
+	private Editor editor;
 	private final TableLayout layout;
 
 	private final SpreadsheetStyle style;
@@ -42,21 +51,13 @@ public final class SpreadsheetController implements TabularSelection {
 	 */
 	public SpreadsheetController(TabularData<?> tabularData, Rectangle viewport) {
 		this.tabularData = tabularData;
-		initViewport(viewport);
+		this.viewport = viewport != null ? viewport : new Rectangle(0, 0, 0, 0);
 		resetDragAction();
 		style = new SpreadsheetStyle(tabularData.getFormat());
 		layout = new TableLayout(tabularData.numberOfRows(),
 				tabularData.numberOfColumns(), TableLayout.DEFAUL_CELL_HEIGHT,
 				TableLayout.DEFAULT_CELL_WIDTH);
 		contextMenuItems = new ContextMenuItems(this, selectionController, getCopyPasteCut());
-	}
-
-	private void initViewport(Rectangle viewport) {
-		if (viewport == null) {
-			this.viewport = new Rectangle(0, 0, 0, 0);
-		} else {
-			this.viewport = viewport;
-		}
 	}
 
 	private CopyPasteCutTabularData getCopyPasteCut() {
@@ -142,33 +143,42 @@ public final class SpreadsheetController implements TabularSelection {
 		return tabularData.getRowName(column);
 	}
 
+	// Note: internal for testing (TODO check SpreadsheetCellEditorTest)
 	boolean showCellEditor(int row, int column) {
-		if (controlsDelegate != null) {
-			Rectangle editorBounds = layout.getBounds(row, column)
-					.translatedBy(-viewport.getMinX() + layout.getRowHeaderWidth(),
-							-viewport.getMinY() + layout.getColumnHeaderHeight());
-			SpreadsheetCellEditor editor = controlsDelegate.getCellEditor();
-			editor.setBounds(editorBounds);
-
-			editor.setContent(tabularData.contentAt(row, column));
-			editor.setAlign(tabularData.getAlignment(row, column));
-			editor.setTargetCell(row, column);
-			resetDragAction();
-			return true;
+		if (controlsDelegate == null) {
+			return false; // cell editor not shown
 		}
-		return false;
+		if (editor == null) {
+			editor = new Editor(controlsDelegate.getCellEditor());
+		}
+		editor.showAt(row, column);
+		resetDragAction();
+		return true;
+	}
+
+	/**
+	 * Hides the cell editor if it is currently active.
+	 */
+	public void hideEditor() {
+		if (isEditorActive()) {
+			editor.hide();
+		}
+	}
+
+	/**
+	 * @return true if the cell editor is currently visible.
+	 */
+	public boolean isEditorActive() {
+		return editor != null && editor.isVisible;
 	}
 
 	/**
 	 * Process the editor input, update corresponding cell and hide the editor
 	 */
 	public void saveContentAndHideCellEditor() {
-		if (controlsDelegate != null) {
-			SpreadsheetCellEditor editor = controlsDelegate.getCellEditor();
-			if (editor != null && editor.isVisible()) {
-				editor.onEnter();
-				editor.hide();
-			}
+		if (editor.isVisible) {
+			editor.commit();
+			editor.hide();
 		}
 	}
 
@@ -393,12 +403,11 @@ public final class SpreadsheetController implements TabularSelection {
 	}
 
 	private void startTyping(String key, Modifiers modifiers) {
-		SpreadsheetControlsDelegate controls = controlsDelegate;
 		if (!modifiers.ctrlOrCmd && !modifiers.alt && !StringUtil.empty(key)
-				&& controls != null) {
+				&& controlsDelegate != null) {
 			showCellEditorAtSelection();
-			controls.getCellEditor().setContent("");
-			controls.getCellEditor().type(key);
+			editor.clearInput();
+			editor.type(key);
 		}
 	}
 
@@ -414,6 +423,7 @@ public final class SpreadsheetController implements TabularSelection {
 	 * Move focus down and adjust viewport
 	 */
 	public void onEnter() {
+		hideEditor();
 		moveDown(false);
 		adjustViewportIfNeeded();
 	}
@@ -688,13 +698,6 @@ public final class SpreadsheetController implements TabularSelection {
 		return selectionController.areOnlyCellsSelected();
 	}
 
-	/**
-	 * @return whether editor is currently visible
-	 */
-	public boolean isEditorActive() {
-		return controlsDelegate != null && controlsDelegate.getCellEditor().isVisible();
-	}
-
 	private void storeUndoInfo() {
 		if (undoProvider != null) {
 			undoProvider.storeUndoInfo();
@@ -705,6 +708,46 @@ public final class SpreadsheetController implements TabularSelection {
 		getLayout().dimensionsDidChange(dimensions);
 		if (viewportAdjuster != null) {
 			viewportAdjuster.updateScrollPaneSize();
+		}
+	}
+
+	private final class Editor {
+		private final @Nonnull SpreadsheetCellEditor cellEditor;
+		private SpreadsheetEditorListener listener;
+		int row, column; // TODO replace with SpreadsheetCoords https://git.geogebra.org/ggb/geogebra/-/merge_requests/7489/diffs#6eeaa076374c5498684bb7109318040c9b9657f3
+		boolean isVisible;
+
+		Editor(@Nonnull SpreadsheetCellEditor cellEditor) {
+			this.cellEditor = cellEditor;
+		}
+
+		void showAt(int row, int column) {
+			Rectangle editorBounds = layout.getBounds(row, column)
+					.translatedBy(-viewport.getMinX() + layout.getRowHeaderWidth(),
+							-viewport.getMinY() + layout.getColumnHeaderHeight());
+			MathFieldInternal mathField = cellEditor.getMathField();
+			Object content = tabularData.contentAt(row, column);
+			mathField.parse(new KernelDataSerializer().getStringForEditor(content));
+			cellEditor.show(editorBounds, viewport, tabularData.getAlignment(row, column));
+			isVisible = true;
+		}
+
+		void hide() {
+			cellEditor.hide();
+			isVisible = false;
+		}
+
+		void clearInput() {
+			// TODO is there a simpler way?
+			cellEditor.getMathField().parse(new KernelDataSerializer().getStringForEditor(""));
+		}
+
+		void type(String key) {
+			KeyboardInputAdapter.type(cellEditor.getMathField(), key);
+		}
+
+		void commit() {
+			// TODO
 		}
 	}
 }

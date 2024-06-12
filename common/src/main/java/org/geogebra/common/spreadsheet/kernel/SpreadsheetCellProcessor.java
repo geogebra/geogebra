@@ -2,6 +2,9 @@ package org.geogebra.common.spreadsheet.kernel;
 
 import java.util.Arrays;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -10,25 +13,25 @@ import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
+/**
+ * Sends spreadsheet cell editor input towards the AlgebraProcessor.
+ *
+ * This is basically an adapter between the "Spreadsheet world" and the "Kernel world".
+ */
 public class SpreadsheetCellProcessor {
 
 	private final AlgebraProcessor algebraProcessor;
 	private final ErrorHandler errorHandler;
-	private final String cellName;
-	private final StringBuilder sb;
 
 	/**
-	 *
-	 * @param cellName The name of the cell.
+	 * Constructor.
 	 * @param algebraProcessor {@link AlgebraProcessor}
 	 * @param errorHandler The error handler of the cell.
 	 */
-	public SpreadsheetCellProcessor(String cellName, AlgebraProcessor algebraProcessor,
-			ErrorHandler errorHandler) {
-		this.cellName = cellName;
+	public SpreadsheetCellProcessor(@Nonnull AlgebraProcessor algebraProcessor,
+			@CheckForNull ErrorHandler errorHandler) {
 		this.algebraProcessor = algebraProcessor;
 		this.errorHandler = errorHandler;
-		sb = new StringBuilder();
 	}
 
 	/**
@@ -36,9 +39,10 @@ public class SpreadsheetCellProcessor {
 	 *
 	 * @param input to process
 	 */
-	public void process(String input) {
+	public void process(String input, String cellName) {
 		try {
-			processInput(isCommand(input) ? buildCommandFrom(input) : buildTextFrom(input));
+			processInput(isCommand(input) ?
+					buildCommandFrom(input, cellName) : buildTextFrom(input, cellName));
 		} catch (Exception e) {
 			Log.debug("error " + e.getLocalizedMessage());
 		}
@@ -61,21 +65,20 @@ public class SpreadsheetCellProcessor {
 		return input.startsWith("=");
 	}
 
-	private String buildTextFrom(String input) {
-		addCellEquals();
+	private String buildTextFrom(String input, String cellName) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(cellName);
+		sb.append(Unicode.ASSIGN_STRING);
 		sb.append("\"");
 		sb.append(input.replaceAll("\"", ""));
 		sb.append("\"");
 		return sb.toString();
 	}
 
-	private void addCellEquals() {
+	private String buildCommandFrom(String input, String cellName) {
+		StringBuilder sb = new StringBuilder();
 		sb.append(cellName);
 		sb.append(Unicode.ASSIGN_STRING);
-	}
-
-	private String buildCommandFrom(String input) {
-		addCellEquals();
 		sb.append(input.substring(1));
 		return sb.toString();
 	}
