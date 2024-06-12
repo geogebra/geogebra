@@ -71,26 +71,18 @@ public class RelativeCopy {
 	/**
 	 * Performs spreadsheet drag-copy operation.
 	 *
-	 * @param sx1
-	 *            source minimum column
-	 * @param sy1
-	 *            source minimum row
-	 * @param sx2
-	 *            source maximum column
-	 * @param sy2
-	 *            source maximum row
-	 * @param dx1
-	 *            destination minimum column
-	 * @param dy1
-	 *            destination minimum row
-	 * @param dx2
-	 *            destination maximum column
-	 * @param dy2
-	 *            destination maximum row
+	 * @param sourceMinCol source minimum column
+	 * @param sourceMinRow source minimum row
+	 * @param sourceMaxCol source maximum column
+	 * @param sourceMaxRow source maximum row
+	 * @param destMinCol destination minimum column
+	 * @param destMinRow destination minimum row
+	 * @param destMaxCol destination maximum column
+	 * @param destMaxRow destination maximum row
 	 * @return success
 	 */
-	public boolean doDragCopy(int sx1, int sy1, int sx2, int sy2, int dx1,
-			int dy1, int dx2, int dy2) {
+	public boolean doDragCopy(int sourceMinCol, int sourceMinRow, int sourceMaxCol,
+			int sourceMaxRow, int destMinCol, int destMinRow, int destMaxCol, int destMaxRow) {
 		// -|1|-
 		// 2|-|3
 		// -|4|-
@@ -104,90 +96,36 @@ public class RelativeCopy {
 			cons.startCollectingRedefineCalls();
 
 			boolean patternOK = isPatternSource(
-					new TabularRange(sy1, sx1, sy2, sx2), app);
+					new TabularRange(sourceMinRow, sourceMinCol, sourceMaxRow, sourceMaxCol), app);
 
 			// ==============================================
 			// vertical drag
 			// ==============================================
-			if ((sx1 == dx1) && (sx2 == dx2)) {
+			if ((sourceMinCol == destMinCol) && (sourceMaxCol == destMaxCol)) {
 
-				if (dy2 < sy1) { // 1 ----- drag up
-					if (((sy1 + 1) == sy2) && patternOK) {
+				if (destMaxRow < sourceMinRow) { // 1 ----- drag up
+					if (((sourceMinRow + 1) == sourceMaxRow) && patternOK) {
 						// two row source, so drag copy a linear pattern
-						for (int x = sx1; x <= sx2; ++x) {
-							GeoElement v1 = getValue(app, x, sy1);
-							GeoElement v2 = getValue(app, x, sy2);
-							if ((v1 == null) || (v2 == null)) {
-								continue;
-							}
-							for (int y = dy2; y >= dy1; --y) {
-
-								// quick solution: stop on fixed cell
-								// this may be improved later
-								GeoElement vOld = getValue(app, x, y);
-								if (vOld != null
-										&& vOld.isProtected(EventType.UPDATE)) {
-									break;
-								}
-
-								GeoElement v3 = getValue(app, x, y + 2);
-								GeoElement v4 = getValue(app, x, y + 1);
-								String vs1 = v3.isGeoFunction() ? "(x)" : "";
-								String vs2 = v4.isGeoFunction() ? "(x)" : "";
-								String d0 = GeoElementSpreadsheet
-										.getSpreadsheetCellName(x, y + 2) + vs1;
-								String d1 = GeoElementSpreadsheet
-										.getSpreadsheetCellName(x, y + 1) + vs2;
-								String text = "=CopyFreeObject[2*" + d1 + "-"
-										+ d0 + "]";
-								doCopyNoStoringUndoInfo1(text, v4, x, y);
-							}
-						}
+						pasteLinearPatternUpwards(sourceMinRow, sourceMaxRow, sourceMinCol,
+								sourceMaxCol, destMinRow, destMaxRow);
 					} else { // not two row source, so drag-copy the first row
 								// of the source
-						doCopyVerticalNoStoringUndoInfo1(sx1, sx2, sy1, dy1,
-								dy2);
+						doCopyVerticalNoStoringUndoInfo1(sourceMinCol, sourceMaxCol, sourceMinRow,
+								destMinRow, destMaxRow);
 					}
 					success = true;
 				}
 
-				else if (dy1 > sy2) { // 4 ---- drag down
-					if (((sy1 + 1) == sy2) && patternOK) {
+				else if (destMinRow > sourceMaxRow) { // 4 ---- drag down
+					if (((sourceMinRow + 1) == sourceMaxRow) && patternOK) {
 						// two row source, so drag copy a linear pattern
-						for (int x = sx1; x <= sx2; ++x) {
-							GeoElement v1 = getValue(app, x, sy1);
-							GeoElement v2 = getValue(app, x, sy2);
-							if ((v1 == null) || (v2 == null)) {
-								continue;
-							}
-							for (int y = dy1; y <= dy2; ++y) {
-
-								// quick solution: stop on fixed cell
-								// this may be improved later
-								GeoElement vOld = getValue(app, x, y);
-								if (vOld != null
-										&& vOld.isProtected(EventType.UPDATE)) {
-									break;
-								}
-
-								GeoElement v3 = getValue(app, x, y - 2);
-								GeoElement v4 = getValue(app, x, y - 1);
-								String vs1 = v3.isGeoFunction() ? "(x)" : "";
-								String vs2 = v4.isGeoFunction() ? "(x)" : "";
-								String d0 = GeoElementSpreadsheet
-										.getSpreadsheetCellName(x, y - 2) + vs1;
-								String d1 = GeoElementSpreadsheet
-										.getSpreadsheetCellName(x, y - 1) + vs2;
-								String text = "=CopyFreeObject[2*" + d1 + "-"
-										+ d0 + "]";
-								doCopyNoStoringUndoInfo1(text, v4, x, y);
-							}
-						}
+						pasteLinearPatternDownwards(sourceMinRow, sourceMaxRow, sourceMinCol,
+								sourceMaxCol, destMinRow, destMaxRow);
 					} else {
 						// not two row source, so drag-copy the last row of the
 						// source
-						doCopyVerticalNoStoringUndoInfo1(sx1, sx2, sy2, dy1,
-								dy2);
+						doCopyVerticalNoStoringUndoInfo1(sourceMinCol, sourceMaxCol, sourceMaxRow,
+								destMinRow, destMaxRow);
 					}
 					success = true;
 				}
@@ -196,83 +134,30 @@ public class RelativeCopy {
 			// ==============================================
 			// horizontal drag
 			// ==============================================
-			else if ((sy1 == dy1) && (sy2 == dy2)) {
-				if (dx2 < sx1) { // 2 ---- drag left
-					if (((sx1 + 1) == sx2) && patternOK) {
+			else if ((sourceMinRow == destMinRow) && (sourceMaxRow == destMaxRow)) {
+				if (destMaxCol < sourceMinCol) { // 2 ---- drag left
+					if (((sourceMinCol + 1) == sourceMaxCol) && patternOK) {
 						// two column source, so drag copy a linear pattern
-						for (int y = sy1; y <= sy2; ++y) {
-							GeoElement v1 = getValue(app, sx1, y);
-							GeoElement v2 = getValue(app, sx2, y);
-							if ((v1 == null) || (v2 == null)) {
-								continue;
-							}
-							for (int x = dx2; x >= dx1; --x) {
-
-								// quick solution: stop on fixed cell
-								// this may be improved later
-								GeoElement vOld = getValue(app, x, y);
-								if (vOld != null
-										&& vOld.isProtected(EventType.UPDATE)) {
-									break;
-								}
-
-								GeoElement v3 = getValue(app, x + 2, y);
-								GeoElement v4 = getValue(app, x + 1, y);
-								String vs1 = v3.isGeoFunction() ? "(x)" : "";
-								String vs2 = v4.isGeoFunction() ? "(x)" : "";
-								String d0 = GeoElementSpreadsheet
-										.getSpreadsheetCellName(x + 2, y) + vs1;
-								String d1 = GeoElementSpreadsheet
-										.getSpreadsheetCellName(x + 1, y) + vs2;
-								String text = "=CopyFreeObject[2*" + d1 + "-"
-										+ d0 + "]";
-								doCopyNoStoringUndoInfo1(text, v4, x, y);
-							}
-						}
+						pasteLinearPatternLeftwards(sourceMinRow, sourceMaxRow, sourceMinCol,
+								sourceMaxCol, destMinCol, destMaxCol);
 					} else {
 						// not two column source, so drag-copy the first column
 						// of the source
-						doCopyHorizontalNoStoringUndoInfo1(sy1, sy2, sx1, dx1,
-								dx2);
+						doCopyHorizontalNoStoringUndoInfo1(sourceMinRow, sourceMaxRow, sourceMinCol,
+								destMinCol, destMaxCol);
 					}
 					success = true;
-				} else if (dx1 > sx2) { // 4 --- drag right
-					if (((sx1 + 1) == sx2) && patternOK) {
+				} else if (destMinCol > sourceMaxCol) { // 4 --- drag right
+					if (((sourceMinCol + 1) == sourceMaxCol) && patternOK) {
 						// two column source, so drag copy a linear pattern
-						for (int y = sy1; y <= sy2; ++y) {
-							GeoElement v1 = getValue(app, sx1, y);
-							GeoElement v2 = getValue(app, sx2, y);
-							if ((v1 == null) || (v2 == null)) {
-								continue;
-							}
-							for (int x = dx1; x <= dx2; ++x) {
-
-								// quick solution: stop on fixed cell
-								// this may be improved later
-								GeoElement vOld = getValue(app, x, y);
-								if (vOld != null
-										&& vOld.isProtected(EventType.UPDATE)) {
-									break;
-								}
-
-								GeoElement v3 = getValue(app, x - 2, y);
-								GeoElement v4 = getValue(app, x - 1, y);
-								String vs1 = v3.isGeoFunction() ? "(x)" : "";
-								String vs2 = v4.isGeoFunction() ? "(x)" : "";
-								String d0 = GeoElementSpreadsheet
-										.getSpreadsheetCellName(x - 2, y) + vs1;
-								String d1 = GeoElementSpreadsheet
-										.getSpreadsheetCellName(x - 1, y) + vs2;
-								String text = "=CopyFreeObject[2*" + d1 + "-"
-										+ d0 + "]";
-								doCopyNoStoringUndoInfo1(text, v4, x, y);
-							}
-						}
+						pasteLinearPatternRightwards(sourceMinRow, sourceMaxRow, sourceMinCol,
+								sourceMaxCol, destMinCol, destMaxCol);
 					} else {
 						// not two column source, so drag-copy the last column
 						// of the source
-						doCopyHorizontalNoStoringUndoInfo1(sy1, sy2, sx2, dx1,
-								dx2);
+						doCopyHorizontalNoStoringUndoInfo1(sourceMinRow, sourceMaxRow, sourceMaxCol,
+								destMinCol,
+								destMaxCol);
 					}
 					success = true;
 				}
@@ -285,10 +170,14 @@ public class RelativeCopy {
 				return true;
 			}
 
-			String msg = "sx1 = " + sx1 + "\r\n" + "sy1 = " + sy1 + "\r\n"
-					+ "sx2 = " + sx2 + "\r\n" + "sy2 = " + sy2 + "\r\n"
-					+ "dx1 = " + dx1 + "\r\n" + "dy1 = " + dy1 + "\r\n"
-					+ "dx2 = " + dx2 + "\r\n" + "dy2 = " + dy2 + "\r\n";
+			String msg = "sourceMinCol = " + sourceMinCol + "\r\n"
+					+ "sourceMinRow = " + sourceMinRow + "\r\n"
+					+ "sourceMaxCol = " + sourceMaxCol + "\r\n"
+					+ "sourceMaxRow = " + sourceMaxRow + "\r\n"
+					+ "destMinCol = " + destMinCol + "\r\n"
+					+ "destMinRow = " + destMinRow + "\r\n"
+					+ "destMaxCol = " + destMaxCol + "\r\n"
+					+ "destMaxRow = " + destMaxRow + "\r\n";
 			throw new RuntimeException(
 					"Error from RelativeCopy.doCopy:\r\n" + msg);
 		} catch (XMLParseException | CircularDefinitionException | ParseException
@@ -301,6 +190,142 @@ public class RelativeCopy {
 		}
 	}
 
+	public void pasteLinearPatternUpwards(int sourceMinRow, int sourceMaxRow, int sourceMinCol,
+			int sourceMaxCol, int destMinRow, int destMaxRow)
+			throws CircularDefinitionException, ParseException {
+		for (int x = sourceMinCol; x <= sourceMaxCol; ++x) {
+			GeoElement v1 = getValue(app, x, sourceMinRow);
+			GeoElement v2 = getValue(app, x, sourceMaxRow);
+			if ((v1 == null) || (v2 == null)) {
+				continue;
+			}
+			for (int y = destMaxRow; y >= destMinRow; --y) {
+
+				// quick solution: stop on fixed cell
+				// this may be improved later
+				GeoElement vOld = getValue(app, x, y);
+				if (vOld != null
+						&& vOld.isProtected(EventType.UPDATE)) {
+					break;
+				}
+
+				GeoElement v3 = getValue(app, x, y + 2);
+				GeoElement v4 = getValue(app, x, y + 1);
+				String vs1 = v3.isGeoFunction() ? "(x)" : "";
+				String vs2 = v4.isGeoFunction() ? "(x)" : "";
+				String d0 = GeoElementSpreadsheet
+						.getSpreadsheetCellName(x, y + 2) + vs1;
+				String d1 = GeoElementSpreadsheet
+						.getSpreadsheetCellName(x, y + 1) + vs2;
+				String text = "=CopyFreeObject[2*" + d1 + "-"
+						+ d0 + "]";
+				doCopyNoStoringUndoInfo1(text, v4, x, y);
+			}
+		}
+	}
+
+	public void pasteLinearPatternDownwards(int sourceMinRow, int sourceMaxRow, int sourceMinCol,
+			int sourceMaxCol, int destMinRow, int destMaxRow)
+			throws CircularDefinitionException, ParseException {
+		for (int x = sourceMinCol; x <= sourceMaxCol; ++x) {
+			GeoElement v1 = getValue(app, x, sourceMinRow);
+			GeoElement v2 = getValue(app, x, sourceMaxRow);
+			if ((v1 == null) || (v2 == null)) {
+				continue;
+			}
+			for (int y = destMinRow; y <= destMaxRow; ++y) {
+
+				// quick solution: stop on fixed cell
+				// this may be improved later
+				GeoElement vOld = getValue(app, x, y);
+				if (vOld != null
+						&& vOld.isProtected(EventType.UPDATE)) {
+					break;
+				}
+
+				GeoElement v3 = getValue(app, x, y - 2);
+				GeoElement v4 = getValue(app, x, y - 1);
+				String vs1 = v3.isGeoFunction() ? "(x)" : "";
+				String vs2 = v4.isGeoFunction() ? "(x)" : "";
+				String d0 = GeoElementSpreadsheet
+						.getSpreadsheetCellName(x, y - 2) + vs1;
+				String d1 = GeoElementSpreadsheet
+						.getSpreadsheetCellName(x, y - 1) + vs2;
+				String text = "=CopyFreeObject[2*" + d1 + "-"
+						+ d0 + "]";
+				doCopyNoStoringUndoInfo1(text, v4, x, y);
+			}
+		}
+	}
+
+	public void pasteLinearPatternLeftwards(int sourceMinRow, int sourceMaxRow, int sourceMinCol,
+			int sourceMaxCol, int destMinCol, int destMaxCol)
+			throws CircularDefinitionException, ParseException {
+		for (int y = sourceMinRow; y <= sourceMaxRow; ++y) {
+			GeoElement v1 = getValue(app, sourceMinCol, y);
+			GeoElement v2 = getValue(app, sourceMaxCol, y);
+			if ((v1 == null) || (v2 == null)) {
+				continue;
+			}
+			for (int x = destMaxCol; x >= destMinCol; --x) {
+
+				// quick solution: stop on fixed cell
+				// this may be improved later
+				GeoElement vOld = getValue(app, x, y);
+				if (vOld != null
+						&& vOld.isProtected(EventType.UPDATE)) {
+					break;
+				}
+
+				GeoElement v3 = getValue(app, x + 2, y);
+				GeoElement v4 = getValue(app, x + 1, y);
+				String vs1 = v3.isGeoFunction() ? "(x)" : "";
+				String vs2 = v4.isGeoFunction() ? "(x)" : "";
+				String d0 = GeoElementSpreadsheet
+						.getSpreadsheetCellName(x + 2, y) + vs1;
+				String d1 = GeoElementSpreadsheet
+						.getSpreadsheetCellName(x + 1, y) + vs2;
+				String text = "=CopyFreeObject[2*" + d1 + "-"
+						+ d0 + "]";
+				doCopyNoStoringUndoInfo1(text, v4, x, y);
+			}
+		}
+	}
+
+	public void pasteLinearPatternRightwards(int sourceMinRow, int sourceMaxRow, int sourceMinCol,
+			int sourceMaxCol, int destMinCol, int destMaxCol)
+			throws CircularDefinitionException, ParseException {
+		for (int y = sourceMinRow; y <= sourceMaxRow; ++y) {
+			GeoElement v1 = getValue(app, sourceMinCol, y);
+			GeoElement v2 = getValue(app, sourceMaxCol, y);
+			if ((v1 == null) || (v2 == null)) {
+				continue;
+			}
+			for (int x = destMinCol; x <= destMaxCol; ++x) {
+
+				// quick solution: stop on fixed cell
+				// this may be improved later
+				GeoElement vOld = getValue(app, x, y);
+				if (vOld != null
+						&& vOld.isProtected(EventType.UPDATE)) {
+					break;
+				}
+
+				GeoElement v3 = getValue(app, x - 2, y);
+				GeoElement v4 = getValue(app, x - 1, y);
+				String vs1 = v3.isGeoFunction() ? "(x)" : "";
+				String vs2 = v4.isGeoFunction() ? "(x)" : "";
+				String d0 = GeoElementSpreadsheet
+						.getSpreadsheetCellName(x - 2, y) + vs1;
+				String d1 = GeoElementSpreadsheet
+						.getSpreadsheetCellName(x - 1, y) + vs2;
+				String text = "=CopyFreeObject[2*" + d1 + "-"
+						+ d0 + "]";
+				doCopyNoStoringUndoInfo1(text, v4, x, y);
+			}
+		}
+	}
+
 	/**
 	 * Tests if a cell range can be used as the source for a pattern drag-copy.
 	 *
@@ -308,7 +333,7 @@ public class RelativeCopy {
 	 *            cell range
 	 * @return whether all geos are acceptable
 	 */
-	private static boolean isPatternSource(TabularRange range, App app) {
+	public static boolean isPatternSource(TabularRange range, App app) {
 		// don't allow empty cells
 		if (CellRangeUtil.hasEmptyCells(range, app)) {
 			return false;

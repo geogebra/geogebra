@@ -145,6 +145,42 @@ public class CellDragPasteHandlerTest extends BaseUnitTest {
 		assertNull(cellDragPasteHandler.getDestinationRange());
 	}
 
+	@Test
+	public void testLinearPattern1() {
+		tabularData.setContent(1, 1, add("=12"));
+		tabularData.setContent(2, 1, add("=15"));
+		setRangeToCopy(1, 2, 1, 1);
+		pasteToDestination(6, 1);
+		assertCellContentEquals("18", 3, 1);
+		assertCellContentEquals("21", 4, 1);
+		assertCellContentEquals("24", 5, 1);
+		assertCellContentEquals("27", 6, 1);
+	}
+
+	@Test
+	public void testLinearPattern2() {
+		tabularData.setContent(2, 5, add("=4"));
+		tabularData.setContent(2, 4, add("=1"));
+		setRangeToCopy(2, 2, 4, 5);
+		pasteToDestination(2, 2);
+		assertCellContentEquals("-2", 2, 3);
+		assertCellContentEquals("-5", 2, 2);
+	}
+
+	@Test
+	public void testLinearPattern3() {
+		tabularData.setContent(4, 1, add("=1"));
+		tabularData.setContent(5, 1, add("=7"));
+		tabularData.setContent(4, 2, add("=3"));
+		tabularData.setContent(5, 2, add("=4"));
+		setRangeToCopy(4, 5, 1, 2);
+		pasteToDestination(2, 2);
+		assertCellContentEquals("-5", 3, 1);
+		assertCellContentEquals("-11", 2, 1);
+		assertCellContentEquals("2", 3, 2);
+		assertCellContentEquals("1", 2, 2);
+	}
+
 	private void setRangeToCopy(int fromRow, int toRow, int fromColumn, int toColumn) {
 		cellDragPasteHandler.setRangeToCopy(
 				TabularRange.range(fromRow, toRow, fromColumn, toColumn));
@@ -161,6 +197,11 @@ public class CellDragPasteHandlerTest extends BaseUnitTest {
 								+ "of cell (%d, %d)!", originRow, originColumn, destinationRow,
 						destinationColumn), getValueStringForCell(originRow, originColumn),
 				getValueStringForCell(destinationRow, destinationColumn));
+	}
+
+	private void assertCellContentEquals(String expected, int row, int column) {
+		assertEquals(String.format("The content of cell (%d, %d) is expected to be %s!",
+						row, column, expected), expected, getValueStringForCell(row, column));
 	}
 
 	private String getValueStringForCell(int row, int column) {

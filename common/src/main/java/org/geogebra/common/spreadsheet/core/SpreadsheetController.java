@@ -523,11 +523,8 @@ public final class SpreadsheetController implements TabularSelection {
 			resizeRow(y);
 			return true;
 		case DRAG_DOT:
-			if (cellDragPasteHandler.hasSelectedRange()) {
-				setDestinationForDragPaste(x, y);
-				return true;
-			}
-			return false;
+			setDestinationForDragPaste(x, y);
+			return true;
 		default:
 			return extendSelectionByDrag(x, y, modifiers.ctrlOrCmd);
 		}
