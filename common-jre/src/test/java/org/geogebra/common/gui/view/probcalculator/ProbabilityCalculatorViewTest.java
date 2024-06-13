@@ -2,12 +2,14 @@ package org.geogebra.common.gui.view.probcalculator;
 
 import static org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView.PROB_TWO_TAILED;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.core.Is.isA;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
+import org.geogebra.common.properties.impl.distribution.ParameterProperty;
 import org.junit.Test;
 
 public class ProbabilityCalculatorViewTest extends BaseUnitTest {
@@ -44,6 +46,16 @@ public class ProbabilityCalculatorViewTest extends BaseUnitTest {
 		assertThat(lookup("B"), hasValue("(2, 0)"));
 		assertThat(lookup("a").getParentAlgorithm(), isA(AlgoIntegralDefinite.class));
 		assertThat(lookup("b").getParentAlgorithm(), isA(AlgoIntegralDefinite.class));
+	}
+
+	@Test
+	public void noTypeCastForParameters() {
+		ProbabilityCalculatorView probCalc = new HeadlessProbabilityCalculatorView(getApp());
+		probCalc.setProbabilityCalculator(ProbabilityCalculatorSettings.Dist.NORMAL, null, false);
+		ParameterProperty prop = new ParameterProperty(getLocalization(),
+				getKernel().getAlgebraProcessor(), probCalc, 0, "");
+		prop.setValue("true");
+		assertThat(probCalc.getProbability(), closeTo(0.34, 0.01));
 	}
 
 }
