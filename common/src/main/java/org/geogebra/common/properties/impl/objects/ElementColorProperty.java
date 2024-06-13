@@ -55,7 +55,7 @@ public class ElementColorProperty extends AbstractEnumeratedProperty<GColor>
 		return new GColor[]{primColor[0], primColor[2], primColor[4],
 				primColor[8], primColor[10], primColor[12], GColor.BLACK,
 				GeoGebraColorConstants.GEOGEBRA_OBJECT_RED,
-				GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE, scolors[19],
+				GeoGebraColorConstants.GGB_ORANGE, scolors[19],
 				GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN, scolors[43],
 				GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE,
 				GeoGebraColorConstants.PURPLE_600, scolors[0],
