@@ -12,10 +12,10 @@ plugins {
 }
 
 description = "Parts of GeoGebra related to desktop platforms"
-
+val e2eTestImplementation = configurations.create("e2eTest")
 val e2eTest: SourceSet by sourceSets.creating {
-    compileClasspath += sourceSets.main.get().output + sourceSets.test.get().output
-    runtimeClasspath += sourceSets.main.get().output
+    compileClasspath += sourceSets.main.get().output + e2eTestImplementation
+    runtimeClasspath += sourceSets.main.get().output + e2eTestImplementation
 }
 
 dependencies {
@@ -47,6 +47,7 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
     testImplementation(libs.hamcrest)
+    e2eTestImplementation(testFixtures(project(":common-jre")))
 }
 
 application {
