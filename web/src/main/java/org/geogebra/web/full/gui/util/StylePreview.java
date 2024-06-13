@@ -18,7 +18,6 @@ import org.gwtproject.user.client.ui.Composite;
 public abstract class StylePreview extends Composite {
 	/** The value canvas next to the slider */
 	protected GGraphics2DWI g2;
-	private int marginX = 0;
 	private int marginY;
 
 	/**
@@ -33,6 +32,7 @@ public abstract class StylePreview extends Composite {
 		canvas.setCoordinateSpaceHeight(height);
 		initWidget(canvas);
 		g2 = new GGraphics2DW(canvas);
+		((GGraphics2DW) g2).setPixelSize(width, height);
 		setMarginY(height / 2 - 1);
 	}
 
@@ -41,18 +41,6 @@ public abstract class StylePreview extends Composite {
 	 */
 	public void clear() {
 		g2.clearAll();
-	}
-
-	public int getMarginX() {
-		return marginX;
-	}
-
-	public void setMarginX(int marginX) {
-		this.marginX = marginX;
-	}
-
-	public int getMarginY() {
-		return marginY;
 	}
 
 	public void setMarginY(int marginY) {
@@ -65,8 +53,8 @@ public abstract class StylePreview extends Composite {
 				style));
 		g2.setColor(color);
 		gp.reset();
-		gp.moveTo(marginX, marginY);
-		gp.lineTo(marginX + width, marginY);
+		gp.moveTo(0, marginY);
+		gp.lineTo(width, marginY);
 		g2.draw(gp);
 	}
 }
