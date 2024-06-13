@@ -74,7 +74,7 @@ public final class SpreadsheetController {
 
 	// - TabularData
 
-	public Object contentAt(int row, int column) {
+	Object contentAt(int row, int column) {
 		return tabularData.contentAt(row, column);
 	}
 
@@ -374,6 +374,11 @@ public final class SpreadsheetController {
 			case JavaKeyCodes.VK_ENTER:
 				showCellEditorAtSelection();
 				return;
+			case JavaKeyCodes.VK_DELETE:
+			case JavaKeyCodes.VK_BACK_SPACE:
+			case JavaKeyCodes.VK_CLEAR:
+				deleteSelectedCells();
+				break;
 			default:
 				startTyping(key, modifiers);
 			}
@@ -398,6 +403,10 @@ public final class SpreadsheetController {
 		if (range != null) {
 			showCellEditor(range.getFromRow(), range.getFromColumn());
 		}
+	}
+
+	private void deleteSelectedCells() {
+		// TODO
 	}
 
 	/**
@@ -709,7 +718,7 @@ public final class SpreadsheetController {
 
 	private final class Editor {
 		private final @Nonnull SpreadsheetCellEditor cellEditor;
-		private SpreadsheetCellEditorAdapter editorAdapter;
+		private @CheckForNull SpreadsheetMathFieldAdapter mathFieldAdapter;
 		boolean isVisible;
 
 		Editor(@Nonnull SpreadsheetCellEditor cellEditor) {
@@ -717,18 +726,19 @@ public final class SpreadsheetController {
 		}
 
 		void showAt(int row, int column) {
+			Object content = tabularData.contentAt(row, column);
+
+			MathFieldInternal mathField = cellEditor.getMathField();
+			mathField.parse(cellEditor.getCellDataSerializer().getStringForEditor(content));
+
+			mathFieldAdapter = new SpreadsheetMathFieldAdapter(mathField, row, column,
+					cellEditor.getCellProcessor(), SpreadsheetController.this);
+			mathField.setFieldListener(mathFieldAdapter);
+			mathField.setUnhandledArrowListener(mathFieldAdapter);
+
 			Rectangle editorBounds = layout.getBounds(row, column)
 					.translatedBy(-viewport.getMinX() + layout.getRowHeaderWidth(),
 							-viewport.getMinY() + layout.getColumnHeaderHeight());
-			MathFieldInternal mathField = cellEditor.getMathField();
-			Object content = tabularData.contentAt(row, column);
-			mathField.parse(cellEditor.getCellDataSerializer().getStringForEditor(content));
-
-			editorAdapter = new SpreadsheetCellEditorAdapter(mathField, row, column,
-					cellEditor.getCellProcessor(), SpreadsheetController.this);
-			mathField.setFieldListener(editorAdapter);
-			mathField.setUnhandledArrowListener(editorAdapter);
-
 			cellEditor.show(editorBounds, viewport, tabularData.getAlignment(row, column));
 			isVisible = true;
 		}
@@ -747,7 +757,7 @@ public final class SpreadsheetController {
 		}
 
 		void commit() {
-			editorAdapter.commitInput();
+			mathFieldAdapter.commitInput();
 		}
 	}
 }

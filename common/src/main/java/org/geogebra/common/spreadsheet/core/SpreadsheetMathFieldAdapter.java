@@ -14,7 +14,7 @@ import com.himamis.retex.editor.share.util.JavaKeyCodes;
 /**
  * Adapts between a MathFieldInternal, spreadsheet input processing, and the SpreadsheetController.
  */
-final class SpreadsheetCellEditorAdapter implements MathFieldListener, UnhandledArrowListener {
+final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledArrowListener {
 
 	private final MathFieldInternal mathField;
 	private final int row, column;
@@ -25,7 +25,7 @@ final class SpreadsheetCellEditorAdapter implements MathFieldListener, Unhandled
 	 * @param mathField math input
 	 *
 	 */
-	SpreadsheetCellEditorAdapter(@Nonnull MathFieldInternal mathField,
+	SpreadsheetMathFieldAdapter(@Nonnull MathFieldInternal mathField,
 			int row, int column,
 			@Nonnull SpreadsheetCellProcessor cellProcessor,
 			@Nonnull SpreadsheetController spreadsheetController) {
@@ -57,6 +57,7 @@ final class SpreadsheetCellEditorAdapter implements MathFieldListener, Unhandled
 		return true;
 	}
 
+	// TODO not called in SpreadsheetDemo?
 	@Override
 	public boolean onTab(boolean shiftDown) {
 		commitInput();
@@ -66,12 +67,12 @@ final class SpreadsheetCellEditorAdapter implements MathFieldListener, Unhandled
 
 	@Override
 	public void onKeyTyped(String key) {
-//		editor.scrollHorizontally();
+//		editor.scrollHorizontally(); // TODO scroll cursor into view
 	}
 
 	@Override
 	public boolean onArrowKeyPressed(int keyCode) {
-//		editor.scrollHorizontally();
+//		editor.scrollHorizontally(); // TODO scroll cursor into view
 		return false;
 	}
 

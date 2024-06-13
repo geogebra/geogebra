@@ -12,14 +12,21 @@ import com.himamis.retex.editor.share.meta.MetaModel;
 final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 
 	private final MathFieldCommon mathField = new MathFieldCommon(new MetaModel(), null);
+
 	private final SpreadsheetCellProcessor cellProcessor = new SpreadsheetCellProcessor() {
 		@Override
 		public void process(String input, int row, int column) {
-
+			tabularData.setContent(row, column, input);
 		}
 	};
 	private final SpreadsheetCellDataSerializer cellDataSerializer =
 			new DefaultSpreadsheetCellDataSerializer();
+
+	private final TabularData tabularData;
+
+	TestSpreadsheetCellEditor(TabularData tabularData) {
+		this.tabularData = tabularData;
+	}
 
 	@Override
 	public void show(Rectangle editorBounds, Rectangle viewport, int textAlignment) {

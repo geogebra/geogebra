@@ -9,7 +9,8 @@ import com.himamis.retex.editor.share.editor.MathFieldInternal;
 /**
  * An abstraction for spreadsheet cell editing.
  *
- * (This prevents dependencies on the platform-specifics of cell editors)
+ * (This prevents dependencies on the platform-specifics of cell editors in the spreadsheet.core
+ * package.)
  */
 public interface SpreadsheetCellEditor {
 

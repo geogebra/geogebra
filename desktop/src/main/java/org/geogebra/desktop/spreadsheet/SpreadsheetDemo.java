@@ -258,7 +258,8 @@ public class SpreadsheetDemo {
 		}
 
 		private Modifiers getModifiers(KeyEvent event) {
-			return new Modifiers(event.isAltDown(), event.isControlDown(),
+			return new Modifiers(event.isAltDown(),
+					event.isControlDown() || event.isMetaDown(), // looks like Meta == Cmd on Mac
 					event.isShiftDown(), false);
 		}
 
@@ -299,11 +300,13 @@ public class SpreadsheetDemo {
 			@Override
 			public void hide() {
 				editorBox.setVisible(false);
-				repaint();
+				requestFocus();
+				frame.getContentPane().repaint();
 			}
 
 			@Override
 			public void scrollCursorVisible() {
+				mathField.scrollHorizontally(editorBox.getWidth()); // TODO has no effect on desktop
 			}
 
 			@Override
