@@ -2325,4 +2325,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(lookup("v"), hasValue("(a, b)"));
 	}
 
+	@Test
+	public void twinShouldBeAnEquation() {
+		GeoSymbolic original = add("c:a=x+5");
+		GeoSymbolic copy = add("c");
+		assertThat(original.getTwinGeo(), nullValue());
+		assertThat(copy.getTwinGeo(), nullValue());
+		assertThat(original, hasValue("a = x + 5"));
+		assertThat(copy, hasValue("a = x + 5"));
+	}
+
 }

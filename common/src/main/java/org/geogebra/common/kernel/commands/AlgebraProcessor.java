@@ -2764,7 +2764,7 @@ public class AlgebraProcessor {
 			}
 		}
 
-		if (singleLeftVariable != null && equ.getLabel() == null) {
+		if (singleLeftVariable != null && equ.getLabel() == null && info.isAssignmentAllowed()) {
 			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
 			try {
 				return processValidExpression(equ.getRHS());
