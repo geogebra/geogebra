@@ -633,8 +633,22 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		cbBoldGrid.addActionListener(this);
 
 		cbGridType.removeActionListener(this);
-		cbGridType.setSelectedIndex(gridType);
+		cbGridType.setSelectedIndex(getItemIndexFromGridType(gridType));
 		cbGridType.addActionListener(this);
+	}
+
+	private int getItemIndexFromGridType(int gridType) {
+		switch (gridType) {
+		default:
+		case EuclidianView.GRID_CARTESIAN:
+			return 0;
+		case EuclidianView.GRID_CARTESIAN_WITH_SUBGRID:
+			return 1;
+		case EuclidianView.GRID_POLAR:
+			return 2;
+		case EuclidianView.GRID_ISOMETRIC:
+			return 3;
+		}
 	}
 
 	@Override
@@ -831,7 +845,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 			model.applyMouseCoords(cbShowMouseCoords.isSelected());
 
 		} else if (source == cbGridType) {
-			model.applyGridType(cbGridType.getSelectedIndex());
+			model.applyGridType(getGridTypeFromIndex());
 
 		} else if (source == cbAxesStyle) {
 
@@ -894,6 +908,20 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 		view.updateBackground();
 		updateGUI();
+	}
+
+	private int getGridTypeFromIndex() {
+		switch (cbGridType.getSelectedIndex()) {
+		default:
+		case 0:
+			return EuclidianView.GRID_CARTESIAN;
+		case 1:
+			return EuclidianView.GRID_CARTESIAN_WITH_SUBGRID;
+		case 2:
+			return EuclidianView.GRID_POLAR;
+		case 3:
+			return EuclidianView.GRID_ISOMETRIC;
+		}
 	}
 
 	private double parseDouble(String text) {
