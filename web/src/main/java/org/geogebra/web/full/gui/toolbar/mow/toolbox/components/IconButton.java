@@ -131,7 +131,8 @@ public class IconButton extends StandardButton implements SetLabels {
 	 * @param ariaLabel - aria label
 	 * @param clickHandler - click handler
 	 */
-	public IconButton(Localization loc, Runnable clickHandler, SVGResource image, String ariaLabel) {
+	public IconButton(Localization loc, Runnable clickHandler, SVGResource image,
+			String ariaLabel) {
 		this(loc, image, ariaLabel);
 		dataTitleTransKey = ariaLabel;
 		AriaHelper.setTitle(this, loc.getMenu(dataTitleTransKey));

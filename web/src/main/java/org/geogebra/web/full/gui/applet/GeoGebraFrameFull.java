@@ -794,7 +794,7 @@ public class GeoGebraFrameFull
 	public void updateUndoRedoButtonVisibility(boolean add) {
 		app.getAppletParameters().setAttribute("allowUndoCheckpoints", String.valueOf(add));
 		if (notesLayout != null) {
-			notesLayout.updateUndoRedoActions();
+			notesLayout.updateUndoRedoActions(app.getKernel());
 		}
 	}
 
@@ -885,7 +885,7 @@ public class GeoGebraFrameFull
 		if (notesLayout == null) {
 			return;
 		}
-		notesLayout.updateUndoRedoActions();
+		notesLayout.updateUndoRedoActions(app.getKernel());
 	}
 
 	/**

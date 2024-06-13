@@ -68,7 +68,8 @@ public class NotesTopbar extends FlowPanel implements SetLabels {
 		redoBtn.setDisabled(!kernel.redoPossible());
 	}
 
-	private IconButton addSmallPressButton(SVGResource image, String ariaLabel, Runnable clickHandler) {
+	private IconButton addSmallPressButton(SVGResource image, String ariaLabel,
+			Runnable clickHandler) {
 		IconButton button = new IconButton(loc, clickHandler, image, ariaLabel);
 		add(button);
 		buttons.add(button);
