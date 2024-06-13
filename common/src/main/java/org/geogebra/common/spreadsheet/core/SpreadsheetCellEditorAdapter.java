@@ -40,6 +40,10 @@ final class SpreadsheetCellEditorAdapter implements MathFieldListener, Unhandled
 		cellProcessor.process(mathField.getText(), row, column);
 	}
 
+	void discardInput() {
+		mathField.parse("");
+	}
+
 	@Override
 	public void onEnter() {
 		commitInput();
@@ -48,7 +52,7 @@ final class SpreadsheetCellEditorAdapter implements MathFieldListener, Unhandled
 
 	@Override
 	public boolean onEscape() {
-//		mathField.parse("");
+		discardInput();
 		spreadsheetController.onEsc();
 		return true;
 	}

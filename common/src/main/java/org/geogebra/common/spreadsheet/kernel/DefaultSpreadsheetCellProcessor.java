@@ -39,7 +39,9 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	/**
 	 * Depending on input, processor makes text or evaluates input.
 	 *
-	 * @param input to process
+	 * @param input The input to process.
+	 * @param row Identifies the cell to receive the input.
+	 * @param column Identifies the cell to receive the input.
 	 */
 	@Override
 	public void process(String input, int row, int column) {
@@ -47,6 +49,12 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 		process(input, cellName);
 	}
 
+	/**
+	 * Same as {@link #process(String, int, int)}, only with a cell name formed from a row/column
+	 * pair.
+	 * @param input The input to process.
+	 * @param cellName Identifies the cell to receive the input.
+	 */
 	public void process(String input, String cellName) {
 		try {
 			processInput(isCommand(input)

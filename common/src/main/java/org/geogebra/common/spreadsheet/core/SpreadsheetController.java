@@ -38,7 +38,7 @@ public final class SpreadsheetController {
 
 	private final SpreadsheetStyle style;
 	private DragState dragState;
-	private Rectangle viewport = new Rectangle(0, 0, 0, 0);
+	private Rectangle viewport;
 	private @CheckForNull ViewportAdjuster viewportAdjuster;
 	private @CheckForNull UndoProvider undoProvider;
 
@@ -47,7 +47,7 @@ public final class SpreadsheetController {
 	 */
 	public SpreadsheetController(TabularData<?> tabularData) {
 		this.tabularData = tabularData;
-		this.viewport = viewport != null ? viewport : new Rectangle(0, 0, 0, 0);
+		this.viewport = new Rectangle(0, 0, 0, 0);
 		resetDragAction();
 		style = new SpreadsheetStyle(tabularData.getFormat());
 		layout = new TableLayout(tabularData.numberOfRows(),
@@ -710,7 +710,6 @@ public final class SpreadsheetController {
 	private final class Editor {
 		private final @Nonnull SpreadsheetCellEditor cellEditor;
 		private SpreadsheetCellEditorAdapter editorAdapter;
-		private int row, column;
 		boolean isVisible;
 
 		Editor(@Nonnull SpreadsheetCellEditor cellEditor) {

@@ -99,14 +99,6 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		public SpreadsheetCellDataSerializer getCellDataSerializer() {
 			return new DefaultSpreadsheetCellDataSerializer();
 		}
-
-		//		@Override
-//		public void onEnter() {
-		// TODO wire this up
-//			if (listener != null) {
-//				listener.onEnter();
-//			}
-//		}
 	}
 
 	/**
