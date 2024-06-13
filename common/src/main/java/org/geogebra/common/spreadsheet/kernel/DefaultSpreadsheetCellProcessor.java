@@ -44,6 +44,10 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	@Override
 	public void process(String input, int row, int column) {
 		String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
+		process(input, cellName);
+	}
+
+	public void process(String input, String cellName) {
 		try {
 			processInput(isCommand(input)
 					? buildCommandFrom(input, cellName) : buildTextFrom(input, cellName));

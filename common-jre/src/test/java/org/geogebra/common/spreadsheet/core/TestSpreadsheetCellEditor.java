@@ -2,38 +2,52 @@ package org.geogebra.common.spreadsheet.core;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellProcessor;
+import org.geogebra.common.io.MathFieldCommon;
+import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellDataSerializer;
 import org.geogebra.common.util.shape.Rectangle;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.meta.MetaModel;
 
-public class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
+final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 
+	private final MathFieldCommon mathField = new MathFieldCommon(new MetaModel(), null);
+	private final SpreadsheetCellProcessor cellProcessor = new SpreadsheetCellProcessor() {
+		@Override
+		public void process(String input, int row, int column) {
+
+		}
+	};
+	private final SpreadsheetCellDataSerializer cellDataSerializer =
+			new DefaultSpreadsheetCellDataSerializer();
 
 	@Override
 	public void show(Rectangle editorBounds, Rectangle viewport, int textAlignment) {
-
 	}
 
 	@Override
 	public void hide() {
-
 	}
 
 	@Override
 	public void scrollCursorVisible() {
-
 	}
 
 	@Nonnull
 	@Override
 	public MathFieldInternal getMathField() {
-		return null;
+		return mathField.getInternal();
 	}
 
 	@Nonnull
 	@Override
-	public DefaultSpreadsheetCellProcessor getCellProcessor() {
-		return null;
+	public SpreadsheetCellProcessor getCellProcessor() {
+		return cellProcessor;
+	}
+
+	@Nonnull
+	@Override
+	public SpreadsheetCellDataSerializer getCellDataSerializer() {
+		return cellDataSerializer;
 	}
 }

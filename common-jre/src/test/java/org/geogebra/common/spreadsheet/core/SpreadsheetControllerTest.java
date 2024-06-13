@@ -15,26 +15,35 @@ import static org.junit.Assert.fail;
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class SpreadsheetControllerTest {
     private final int cellHeight = TableLayout.DEFAUL_CELL_HEIGHT;
+    private final int cellWidth = 40;
     private final int rowHeaderCellWidth = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 
     private SpreadsheetController controller;
     private Rectangle viewport;
 
+    @BeforeClass
+    public static void setupFactoryProvider() {
+        FactoryProvider.setInstance(new FactoryProviderCommon()); // required by MathField
+    }
+
     @Before
     public void setup() {
         controller = new SpreadsheetController(new TestTabularData());
         controller.getLayout().setHeightForRows(cellHeight, 0, 5);
-        controller.getLayout().setWidthForColumns(40, 0, 5);
+        controller.getLayout().setWidthForColumns(cellWidth, 0, 5);
         setViewport(new Rectangle(0, 100, 0, 120));
         controller.setViewportAdjustmentHandler(new ViewportAdjusterDelegate() {
             @Override
@@ -52,6 +61,7 @@ public class SpreadsheetControllerTest {
                 // not needed
             }
         });
+        controller.setControlsDelegate(getSpreadsheetControlsDelegate());
     }
 
     @Test
@@ -296,7 +306,6 @@ public class SpreadsheetControllerTest {
     @Test
     public void testRightClickingMultiCellSelectionShouldNotChangeSelection() {
         selectCells(0, 0, 1, 1);
-        controller.setControlsDelegate(getSpreadsheetControlsDelegate());
         controller.handlePointerDown(rowHeaderCellWidth + 10, cellHeight + 10,
                 new Modifiers(false, false, false, true));
         assertEquals(1, controller.getSelections().count());
@@ -322,6 +331,15 @@ public class SpreadsheetControllerTest {
                 new TabularRange(0, 0, 0, 0));
     }
 
+    // Cell editing
+
+    @Test
+    public void testActivateCellEditorByClickOnSelectedCell() {
+        controller.selectCell(0, 0, false, false);
+        simulateCellMouseClick(0, 0, 1);
+        assertTrue(controller.isEditorActive());
+    }
+
     private void setViewport(Rectangle viewport) {
         this.viewport = viewport;
         controller.setViewport(viewport);
@@ -341,6 +359,18 @@ public class SpreadsheetControllerTest {
 
     private void fakeDownArrowPress() {
         controller.handleKeyPressed(40, "", Modifiers.NONE);
+    }
+
+    private void simulateCellMouseClick(int row, int column, int nrClicks) {
+        TableLayout layout = controller.getLayout();
+        Rectangle cellBounds = layout.getBounds(row, column)
+                .translatedBy(layout.getRowHeaderWidth(), layout.getColumnHeaderHeight());
+        double midX = cellBounds.getMinX() + cellBounds.getWidth() / 2;
+        double midY = cellBounds.getMinY() + cellBounds.getWidth() / 2;
+        for (int click = 0; click < nrClicks; click++) {
+            controller.handlePointerDown((int) midX, (int) midY, Modifiers.NONE);
+            controller.handlePointerUp((int) midX, (int) midY, Modifiers.NONE);
+        }
     }
 
     private void selectCells(int fromRow, int fromColumn, int toRow, int toColumn) {
