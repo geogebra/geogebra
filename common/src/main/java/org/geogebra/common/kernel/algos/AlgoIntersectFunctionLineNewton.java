@@ -141,7 +141,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 		double x;
 		// check for vertical line a*x + c = 0: intersection at x=-c/a
 		if (DoubleUtil.isZero(line.y)) {
-			x = -line.z / line.x;
+			x = DoubleUtil.checkRoot(-line.z / line.x, f);
 		}
 		// standard case
 		else {
@@ -149,11 +149,9 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 			Function.difference(f.getFunction(), line,
 					diffFunction);
 			x = calcRoot(diffFunction, startPoint.inhomX);
+			// eg Intersect((x ln(x + 1)) / (exp(2x) - 1), xAxis)
+			x = DoubleUtil.checkRoot(x, diffFunction);
 		}
-
-		// eg Intersect((x ln(x + 1)) / (exp(2x) - 1), xAxis)
-		x = DoubleUtil.checkRoot(x, f);
-
 		if (Double.isNaN(x)) {
 			rootPoint.setUndefined();
 			return;
