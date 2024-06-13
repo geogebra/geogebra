@@ -115,9 +115,12 @@ public class NotesLayout implements SetLabels {
 
 	/**
 	 * update style of undo+redo buttons
+	 * @param kernel - kernel
 	 */
 	public void updateUndoRedoActions(Kernel kernel) {
-		topbar.updateUndoRedoActions(kernel);
+		if (kernel != null) {
+			topbar.updateUndoRedoActions(kernel);
+		}
 	}
 
 	/**

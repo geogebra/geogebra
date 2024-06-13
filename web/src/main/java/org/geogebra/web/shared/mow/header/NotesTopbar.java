@@ -60,6 +60,7 @@ public class NotesTopbar extends FlowPanel implements SetLabels {
 
 	/**
 	 * update style of undo+redo buttons
+	 * @param kernel - kernel
 	 */
 	public void updateUndoRedoActions(Kernel kernel) {
 		kernel.getConstruction().getUndoManager().setAllowCheckpoints(
