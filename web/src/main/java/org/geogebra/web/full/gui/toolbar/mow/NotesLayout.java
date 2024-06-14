@@ -85,7 +85,7 @@ public class NotesLayout implements SetLabels {
 
 		getPageControlPanel().open();
 		appW.getPageController().updatePreviewImage();
-		deselectDragButton();
+		topbar.deselectDragButton();
 	}
 
 	private PageListPanel getPageControlPanel() {
@@ -94,10 +94,6 @@ public class NotesLayout implements SetLabels {
 					.getPageControlPanel();
 		}
 		return pageControlPanel;
-	}
-
-	protected void deselectDragButton() {
-		(((AppWFull) appW).getAppletFrame()).deselectDragBtn();
 	}
 
 	@Override
