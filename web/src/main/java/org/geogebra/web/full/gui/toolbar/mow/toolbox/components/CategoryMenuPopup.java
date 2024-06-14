@@ -29,7 +29,8 @@ public class CategoryMenuPopup extends GPopupMenuW {
 	}
 
 	private void addItem(int mode) {
-		SVGResource image = getImageForMode(mode);
+		SVGResource image = GGWToolBar.getImageURLNotMacro(
+				ToolbarSvgResources.INSTANCE, mode, getApp());
 		String text = getTextForMode(mode);
 
 		AriaMenuItem item = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
@@ -44,15 +45,6 @@ public class CategoryMenuPopup extends GPopupMenuW {
 	 */
 	public void show(int left, int top) {
 		showAtPoint(left, top);
-	}
-
-	/**
-	 * @param mode - tool mode
-	 * @return image of tool
-	 */
-	public SVGResource getImageForMode(int mode) {
-		return (SVGResource) GGWToolBar.getImageURLNotMacro(
-				ToolbarSvgResources.INSTANCE, mode, getApp());
 	}
 
 	/**

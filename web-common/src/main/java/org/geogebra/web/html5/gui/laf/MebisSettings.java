@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 import org.geogebra.web.html5.gui.zoompanel.MebisFullscreenHandler;
 
@@ -89,7 +90,7 @@ public class MebisSettings implements VendorSettings {
 	}
 
 	@Override
-	public boolean hasBothProtractor() {
-		return false;
+	public boolean hasTriangleProtractor(Language language) {
+		return true;
 	}
 }

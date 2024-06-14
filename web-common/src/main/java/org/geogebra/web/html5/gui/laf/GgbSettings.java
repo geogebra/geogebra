@@ -7,6 +7,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 
 /**
@@ -76,7 +77,7 @@ public class GgbSettings implements VendorSettings {
 	}
 
 	@Override
-	public boolean hasBothProtractor() {
-		return true;
+	public boolean hasTriangleProtractor(Language language) {
+		return "de".equals(language.language);
 	}
 }

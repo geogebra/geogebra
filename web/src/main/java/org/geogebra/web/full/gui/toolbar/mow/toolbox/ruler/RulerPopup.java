@@ -7,6 +7,7 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRIANGLE_PRO
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.ToolbarSvgResources;
+import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
@@ -29,35 +30,40 @@ public class RulerPopup extends GPopupMenuW implements SetLabels {
 	}
 
 	private void buildGui() {
-		addItem(ToolbarSvgResources.INSTANCE.mode_ruler(),
-				getApp().getLocalization().getMenu("Ruler"), MODE_RULER);
+		addItem(getApp().getLocalization().getMenu("Ruler"), MODE_RULER);
 
-		if (getApp().getVendorSettings().hasBothProtractor()) {
-			addItem(ToolbarSvgResources.INSTANCE.mode_protractor(),
-					getApp().getLocalization().getMenu("Protractor"), MODE_PROTRACTOR);
+		if (!getApp().getVendorSettings().hasTriangleProtractor(
+				getApp().getLocalization().getLanguage())) {
+			addItem(getApp().getLocalization().getMenu("Protractor"), MODE_PROTRACTOR);
+		} else {
+			addItem(getApp().getLocalization().getMenu("TriangleProtractor"),
+					MODE_TRIANGLE_PROTRACTOR);
 		}
-
-		addItem(ToolbarSvgResources.INSTANCE.mode_triangle_protractor(),
-				getApp().getLocalization().getMenu("TriangleProtractor"),
-				MODE_TRIANGLE_PROTRACTOR);
-
-		popupMenu.selectItem(0);
+		popupMenu.selectItem(activeRulerMode == MODE_RULER ? 0 : 1);
 	}
 
-	private void addItem(SVGResource image, String text, int mode) {
+	private void addItem(String text, int mode) {
+		SVGResource image = GGWToolBar.getImageURLNotMacro(
+				ToolbarSvgResources.INSTANCE, mode, getApp());
 		AriaMenuItem item = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
 				image.getSafeUri().asString(), text), true, () -> {});
 		item.setScheduledCommand(() -> {
-			rulerButton.removeTool();
 			activeRulerMode = mode;
-			String fillColor = rulerButton.isActive()
-					? getApp().getGeoGebraElement().getDarkColor(getApp().getFrameElement())
-					: GColor.BLACK.toString();
-			rulerButton.updateImgAndTxt(image.withFill(fillColor), mode, getApp());
-			rulerButton.handleRuler();
+			updateRulerButton(mode);
 			setHighlight(item);
 		});
 		addItem(item);
+	}
+
+	private void updateRulerButton(int mode) {
+		GGWToolBar.getImageResource(mode, getApp(), image -> {
+			String fillColor = rulerButton.isActive()
+					? getApp().getGeoGebraElement().getDarkColor(getApp().getFrameElement())
+					: GColor.BLACK.toString();
+			rulerButton.removeTool();
+			rulerButton.updateImgAndTxt(((SVGResource) image).withFill(fillColor), mode, getApp());
+			rulerButton.handleRuler();
+		});
 	}
 
 	private void setHighlight(AriaMenuItem highlighted) {
@@ -82,6 +88,13 @@ public class RulerPopup extends GPopupMenuW implements SetLabels {
 	@Override
 	public void setLabels() {
 		clearItems();
+		boolean triangleSupported = getApp().getVendorSettings().hasTriangleProtractor(
+				getApp().getLocalization().getLanguage());
+		if (activeRulerMode == MODE_TRIANGLE_PROTRACTOR && !triangleSupported
+			|| activeRulerMode == MODE_PROTRACTOR && triangleSupported) {
+			activeRulerMode = triangleSupported ? MODE_TRIANGLE_PROTRACTOR : MODE_PROTRACTOR;
+			updateRulerButton(activeRulerMode);
+		}
 		buildGui();
 	}
 }
