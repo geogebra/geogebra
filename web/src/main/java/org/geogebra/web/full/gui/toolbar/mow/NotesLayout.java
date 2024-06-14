@@ -5,7 +5,6 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.NotesToolbox;
