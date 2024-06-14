@@ -1622,7 +1622,7 @@ public class GuiManagerW extends GuiManager
 			if (show) {
 				frame.attachNotesUI(getApp());
 			} else {
-				frame.detachNotesToolbarAndUndo(getApp());
+				frame.detachNotesToolbar(getApp());
 			}
 			return;
 		}

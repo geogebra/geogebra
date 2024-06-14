@@ -758,23 +758,19 @@ public class GeoGebraFrameFull
 
 		if (GlobalHeader.isInDOM() && !app.isApplet()) {
 			app.getGuiManager().menuToGlobalHeader();
-		} else if (!app.isApplet()
-				|| app.getAppletParameters().getDataParamShowMenuBar(false)) {
-			notesLayout.getUndoRedoButtons().addStyleName("undoRedoPositionMebis");
 		}
 		app.getGuiManager().initShareActionInGlobalHeader();
 		initPageControlPanel(app);
 	}
 
 	/**
-	 * Remove notes toolbar and undo panel
+	 * Remove notes toolbar
 	 */
-	public void detachNotesToolbarAndUndo(AppW app) {
+	public void detachNotesToolbar(AppW app) {
 		NotesLayout notesLayout = getNotesLayoutSafe(app);
 		if (notesLayout.getToolbar() != null) {
 			remove(notesLayout.getToolbar());
 		}
-		remove(notesLayout.getUndoRedoButtons());
 	}
 
 	/**
