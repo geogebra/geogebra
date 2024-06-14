@@ -15,7 +15,7 @@ public class TopbarController {
 	/**
 	 * Controller
 	 * @param appW - application
-	 * @param deselectDragBtn
+	 * @param deselectDragBtn - deselect drag button callback
 	 */
 	public TopbarController(AppW appW, Runnable deselectDragBtn) {
 		this.appW = appW;
@@ -49,21 +49,33 @@ public class TopbarController {
 		deselectDragBtn.run();
 	}
 
+	/**
+	 * on zoom in press
+	 */
 	public void onZoomIn() {
 		zoomController.onZoomInPressed();
 		deselectDragBtn.run();
 	}
 
+	/**
+	 * on zoom out press
+	 */
 	public void onZoomOut() {
 		zoomController.onZoomOutPressed();
 		deselectDragBtn.run();
 	}
 
+	/**
+	 * on home press
+	 */
 	public void onHome() {
 		zoomController.onHomePressed();
 		deselectDragBtn.run();
 	}
 
+	/**
+	 * on drag button press
+	 */
 	public void onDrag() {
 		appW.setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
 		appW.hideMenu();
@@ -73,6 +85,10 @@ public class TopbarController {
 		return appW;
 	}
 
+	/**
+	 * update home button state based on whether view is standard view
+	 * @param homeBtn - home button
+	 */
 	public void updateHomeButtonVisibility(IconButton homeBtn) {
 		if (view == null) {
 			return;
@@ -80,6 +96,8 @@ public class TopbarController {
 		if (view.isCoordSystemTranslatedByAnimation()) {
 			return;
 		}
-		homeBtn.setDisabled(view.isStandardView());
+		if (homeBtn != null) {
+			homeBtn.setDisabled(view.isStandardView());
+		}
 	}
 }

@@ -30,13 +30,13 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 	private IconButton redoBtn;
 	private IconButton homeBtn;
 	private IconButton dragBtn;
-	private final Runnable deselectDragBtn = (() -> {
+	private final Runnable deselectDragBtn = () -> {
 			if (dragBtn != null && controller.getApp().getMode()
 					== EuclidianConstants.MODE_TRANSLATEVIEW) {
 				dragBtn.setActive(false);
 				controller.getApp().setMode(EuclidianConstants.MODE_SELECT_MOW);
 			}
-		});
+		};
 
 	/**
 	 * constructor
