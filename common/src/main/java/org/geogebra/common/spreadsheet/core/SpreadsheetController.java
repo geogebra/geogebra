@@ -32,6 +32,7 @@ public final class SpreadsheetController {
 			= new SpreadsheetSelectionController();
 	final private TabularData<?> tabularData;
 
+	//@NonOwning
 	private @CheckForNull SpreadsheetControlsDelegate controlsDelegate;
 	private Editor editor;
 	private final TableLayout layout;
@@ -140,8 +141,7 @@ public final class SpreadsheetController {
 		return tabularData.getRowName(column);
 	}
 
-	// Note: internal for testing (TODO check SpreadsheetCellEditorTest)
-	boolean showCellEditor(int row, int column) {
+	private boolean showCellEditor(int row, int column) {
 		if (controlsDelegate == null) {
 			return false; // cell editor not shown
 		}
@@ -156,7 +156,7 @@ public final class SpreadsheetController {
 	/**
 	 * Hides the cell editor if it is currently active.
 	 */
-	void hideEditor() {
+	private void hideCellEditor() {
 		if (isEditorActive()) {
 			editor.hide();
 		}
@@ -169,10 +169,7 @@ public final class SpreadsheetController {
 		return editor != null && editor.isVisible;
 	}
 
-	/**
-	 * Process the editor input, update corresponding cell and hide the editor
-	 */
-	public void saveContentAndHideCellEditor() {
+	private void saveContentAndHideCellEditor() {
 		if (editor.isVisible) {
 			editor.commit();
 			editor.hide();
@@ -201,6 +198,7 @@ public final class SpreadsheetController {
 	 * @param modifiers event modifiers
 	 */
 	// TODO change to double (APPS-5637)
+	// TODO group all handlePointer methods together
 	public void handlePointerDown(int x, int y, Modifiers modifiers) {
 		if (isEditorActive()) {
 			saveContentAndHideCellEditor();
@@ -410,22 +408,30 @@ public final class SpreadsheetController {
 	}
 
 	/**
-	 * Move focus down and adjust viewport
+	 * Hides the cell editor if active, moves input focus down by one cell, and adjusts the
+	 * viewport if necessary.
 	 */
 	void onEnter() {
-		hideEditor();
+		hideCellEditor();
 		moveDown(false);
 		adjustViewportIfNeeded();
 	}
 
+	/**
+	 * Hides the cell editor if acgive, moves input focus right by one cell, and adjusts the
+	 * viewport if necessary.
+	 */
 	void onTab() {
-		hideEditor();
+		hideCellEditor();
 		moveRight(false);
 		adjustViewportIfNeeded();
 	}
 
+	/**
+	 * Hides the cell editor if active.
+	 */
 	void onEsc() {
-		hideEditor();
+		hideCellEditor();
 	}
 
 	/**

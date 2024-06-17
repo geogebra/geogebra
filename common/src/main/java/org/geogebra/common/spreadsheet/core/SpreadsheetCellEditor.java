@@ -18,9 +18,8 @@ public interface SpreadsheetCellEditor {
 	 * Show the spreadsheet cell editor.
 	 * @param editorBounds The editor (=cell) bounds in viewport-relative coordinates.
 	 * @param viewport The current visible viewport.
-	 * @param textAlignment The text alignment of the editor.
+	 * @param textAlignment The text alignment of the editor. (TODO introduce enum)
 	 */
-	// TODO introduce enum for alignment
 	void show(Rectangle editorBounds, Rectangle viewport, int textAlignment);
 
 	/**

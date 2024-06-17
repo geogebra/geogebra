@@ -10,10 +10,8 @@ import org.geogebra.common.awt.GPoint;
 public interface SpreadsheetControlsDelegate {
 
 	/**
-	 * @return A cell editor instance. Clients should return the same, cached instance on
-	 * successive calls if possible.
+	 * @return A cell editor instance.
 	 */
-	// TODO document when/how often this is called
 	SpreadsheetCellEditor getCellEditor();
 
 	void showContextMenu(List<ContextMenuItem> actions, GPoint coords);
