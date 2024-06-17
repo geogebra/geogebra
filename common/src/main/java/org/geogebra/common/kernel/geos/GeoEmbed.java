@@ -107,11 +107,6 @@ public class GeoEmbed extends GeoWidget {
 				view.getWidth() - TOOLBOX_WIDTH - MARGINS);
 		double height =
 				MyMath.clamp(DEFAULT_HEIGHT, EMBED_SIZE_THRESHOLD, view.getHeight() - MARGINS);
-		if (width  < height * DEFAULT_WIDTH / DEFAULT_HEIGHT) {
-			height = width * DEFAULT_HEIGHT / DEFAULT_WIDTH;
-		} else {
-			width = height * DEFAULT_WIDTH / DEFAULT_HEIGHT;
-		}
 		setContentWidth(width);
 		setContentHeight(height);
 		setSize(width, height);
