@@ -429,7 +429,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
      */
     private void simulateKeyPressInCellEditor(int keyCode) {
         MathFieldInternal mathField = cellEditor.getMathField();
-        KeyEvent keyEvent = new KeyEvent(keyCode, 0, (char)keyCode);
+        KeyEvent keyEvent = new KeyEvent(keyCode, 0, (char) keyCode);
         mathField.onKeyPressed(keyEvent);
         if ((keyCode >= JavaKeyCodes.VK_A && keyCode <= JavaKeyCodes.VK_Z)
             || (keyCode >= JavaKeyCodes.VK_0 && keyCode <= JavaKeyCodes.VK_9)) {

@@ -3,7 +3,8 @@ package org.geogebra.common.spreadsheet.core;
 /**
  * An abstraction for spreadsheet cell input processing.
  *
- * (This prevents direct dependencies on AlgebraProcessor and other classes from the kernel package.)
+ * (This prevents direct dependencies on AlgebraProcessor and other classes from the kernel
+ * package.)
  */
 public interface SpreadsheetCellProcessor {
 

@@ -57,7 +57,6 @@ final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledA
 		return true;
 	}
 
-	// TODO not called in SpreadsheetDemo?
 	@Override
 	public boolean onTab(boolean shiftDown) {
 		commitInput();
@@ -67,12 +66,12 @@ final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledA
 
 	@Override
 	public void onKeyTyped(String key) {
-//		editor.scrollHorizontally(); // TODO scroll cursor into view
+		// TODO scroll cursor into view?
 	}
 
 	@Override
 	public boolean onArrowKeyPressed(int keyCode) {
-//		editor.scrollHorizontally(); // TODO scroll cursor into view
+		// TODO scroll cursor into view?
 		return false;
 	}
 

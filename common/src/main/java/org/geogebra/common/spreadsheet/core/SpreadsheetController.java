@@ -763,7 +763,9 @@ public final class SpreadsheetController {
 		}
 
 		void commit() {
-			mathFieldAdapter.commitInput();
+			if (mathFieldAdapter != null) {
+				mathFieldAdapter.commitInput();
+			}
 		}
 	}
 }
