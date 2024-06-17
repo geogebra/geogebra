@@ -79,11 +79,6 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		}
 
 		@Override
-		public void scrollCursorVisible() {
-			mathField.scrollHorizontally();
-		}
-
-		@Override
 		public @Nonnull MathFieldInternal getMathField() {
 			return mathField.getMathField().getInternal();
 		}

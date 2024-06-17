@@ -29,27 +29,23 @@ public interface SpreadsheetCellEditor {
 	void hide();
 
 	/**
-	 * TODO implement if necessary here, or remove/replace
-	 * Scroll the cell editor if necessary to bring the cursor into view.
-	 */
-	void scrollCursorVisible();
-
-	/**
 	 * @return The underlying `MathFieldInternal` of the (platform-specific) cell editor.
 	 */
 	@Nonnull MathFieldInternal getMathField();
 
 	/**
 	 * @return A {@link SpreadsheetCellProcessor} (which basically abstracts the kernel code away
-	 * from the spreadsheet code). See {@link org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellProcessor}
-	 * for a default implementation.
+	 * from the spreadsheet code). You can simply return an instance of
+	 * {@link org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellProcessor} here, it
+	 * offers a default implementation.
 	 */
 	@Nonnull SpreadsheetCellProcessor getCellProcessor();
 
 	/**
-	 * @return A {@link SpreadsheetCellDataSerializer} (which basically abstracts the kernel code away
-	 * from the spreadsheet code). See {@link org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellDataSerializer}
-	 * for a default implementation.
+	 * @return A {@link SpreadsheetCellDataSerializer} (which basically abstracts the kernel code
+	 * away from the spreadsheet code). You can simply return an instance of
+	 * {@link org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellDataSerializer} here,
+	 * offers a default implementation.
 	 */
 	@Nonnull SpreadsheetCellDataSerializer getCellDataSerializer();
 }

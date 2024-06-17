@@ -36,10 +36,6 @@ final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 	public void hide() {
 	}
 
-	@Override
-	public void scrollCursorVisible() {
-	}
-
 	@Nonnull
 	@Override
 	public MathFieldInternal getMathField() {

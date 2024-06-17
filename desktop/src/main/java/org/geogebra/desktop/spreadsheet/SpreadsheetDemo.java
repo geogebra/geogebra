@@ -305,11 +305,6 @@ public class SpreadsheetDemo {
 			}
 
 			@Override
-			public void scrollCursorVisible() {
-				mathField.scrollHorizontally(editorBox.getWidth()); // TODO has no effect on desktop
-			}
-
-			@Override
 			public @Nonnull MathFieldInternal getMathField() {
 				return mathField.getInternal();
 			}
