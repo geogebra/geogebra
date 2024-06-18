@@ -45,6 +45,9 @@
 
 package com.himamis.retex.renderer.share;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class CharMapping {
 
 	public static final char APOSTROPHE = '\'';
@@ -81,6 +84,11 @@ public final class CharMapping {
 	public static final char SUBEQUAL = '\u208C';
 	public static final char SUBLPAR = '\u208D';
 	public static final char SUBRPAR = '\u208E';
+	private static final Map<String, Character> reverse = new HashMap<>();
+
+	public static Character getReverse(String s) {
+		return reverse.get(s);
+	}
 
 	public interface Mapping {
 
@@ -235,6 +243,7 @@ public final class CharMapping {
 
 	public void putForm(final char c, final String s) {
 		mapToSym[c] = new FormulaMapping(s);
+		reverse.put(s, c);
 	}
 
 	public void putForm(final char c, final String s, String text) {
@@ -359,7 +368,7 @@ public final class CharMapping {
 		putForm('\u00E2', "\\^a");
 		putForm('\u00E3', "\\~a");
 		putForm('\u00E4', "\\\"a");
-		putForm('\u00E5', "\\aa");
+		putForm('\u00E5', "\\r{a}");
 		putForm('\u00E7', "\\c{c}");
 		putForm('\u00E8', "\\`e");
 		putForm('\u00E9', "\\'e");

@@ -95,6 +95,14 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 		case "``":
 		case "''":
 			return "\"";
+		case "xxD":
+			return "\u0110";
+		case "xxd":
+			return "\u0111";
+		case "xxH":
+			return "\u0126";
+		case "xxh":
+			return "\u0127";
 		default: return toString;
 		}
 	}

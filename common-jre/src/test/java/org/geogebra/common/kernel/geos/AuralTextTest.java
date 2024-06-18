@@ -121,6 +121,12 @@ public class AuralTextTest {
 	}
 
 	@Test
+	public void textAuralStroke() {
+		aural("LaTeX(\"\\dstrok\\Dstrok\\hstrok\\Hstrok\\l\\L\")",
+				"\u0111\u0110\u0127\u0126\u0142\u0141", "edit");
+	}
+
+	@Test
 	public void textAural() {
 		aural("LaTeX(\"a\\geq b\\leq c\")", "a" + Unicode.GREATER_EQUAL + "b"
 				+ Unicode.LESS_EQUAL + "c", "edit");
@@ -134,8 +140,8 @@ public class AuralTextTest {
 		aural("LaTeX(\"\\sqrt[3]{x}\")", "start cube root x end root", "edit");
 		aural("LaTeX(\"\\frac{x}{2}\")", "start fraction x over 2 end fraction", "edit");
 		aural("LaTeX(\"\\vec{x}\")", " vector x", "edit");
-		aural("LaTeX(\"\\ogonek{x}\")", "xogonek", "edit");
-		aural("LaTeX(\"\\cedilla{x}\")", "xcedilla", "edit");
+		aural("LaTeX(\"\\ogonek{a}\")", "\u0105", "edit");
+		aural("LaTeX(\"\\cedilla{c}\")", "\u00E7", "edit");
 		aural("LaTeX(\"\\displaylines{x\\\\y}\")", "x y", "edit");
 		aural("LaTeX(\"\\overbrace{x}\")", "open brace  over x", "edit");
 		aural("LaTeX(\"\\fgcolor{red}{\\text{red text}}\")", "red text",

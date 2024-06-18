@@ -302,7 +302,6 @@ public class Commands {
 		}
 		switch (s) {
 
-
 		case "sc":
 			return new CommandSc();
 		case "fbox":
@@ -874,7 +873,7 @@ public class Commands {
 			return new CommandJlmSelection();
 
 		// eg
-		// \imagebasesixtyfour{40}{36}{data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAAKUlEQVR42u3NMQEAAAwCIPuX1hbbAwVIn0QsFovFYrFYLBaLxWKx+M4AoNrQEWa6zscAAAAASUVORK5CYII=}
+		// \imagebasesixtyfour{40}{36}{data:image/png;base64,iVBORw0KGgoA...zscAAAAASUVORK5CYII=}
 		case "imagebasesixtyfour":
 			return new CommandImageBase64();
 
@@ -1716,7 +1715,6 @@ public class Commands {
 				}
 			};
 
-
 		case "fcscore":
 			return new Command0AImpl() {
 				@Override
@@ -1735,7 +1733,6 @@ public class Commands {
 				}
 			};
 
-
 		case "includegraphics":
 			return new Command0AImpl() {
 				@Override
@@ -1745,8 +1742,6 @@ public class Commands {
 					return new GraphicsAtom(arg2, arg1);
 				}
 			};
-
-
 
 		case "thinspace":
 		case ",":
@@ -1835,7 +1830,6 @@ public class Commands {
 				}
 			};
 
-
 		case "char":
 			return new Command0AImpl() {
 				@Override
@@ -1874,10 +1868,10 @@ public class Commands {
 					final RowAtom ra = new RowAtom(
 							new SpaceAtom(Unit.EX, -0.1, 0., 0.),
 							Symbols.BAR);
-					final VRowAtom vra = new VRowAtom(new LapedAtom(ra, 'r'));
+					final VRowAtom vra = new SilentVRowAtom(new LapedAtom(ra, 'r'));
 					vra.setRaise(Unit.EX, -0.55);
 					return new RowAtom(vra, new RomanAtom(
-							new CharAtom('D', TextStyle.MATHNORMAL)));
+							new CharAtom('D', TextStyle.MATHNORMAL), "\u0110"));
 				}
 			};
 		case "dstrok":
@@ -1887,10 +1881,10 @@ public class Commands {
 					final RowAtom ra = new RowAtom(
 							new SpaceAtom(Unit.EX, 0.25, 0., 0.),
 							Symbols.BAR);
-					final VRowAtom vra = new VRowAtom(new LapedAtom(ra, 'r'));
+					final VRowAtom vra = new SilentVRowAtom(new LapedAtom(ra, 'r'));
 					vra.setRaise(Unit.EX, -0.1);
 					return new RowAtom(vra, new RomanAtom(
-							new CharAtom('d', TextStyle.MATHNORMAL)));
+							new CharAtom('d', TextStyle.MATHNORMAL), "\u0111"));
 				}
 			};
 		case "Hstrok":
@@ -1900,10 +1894,10 @@ public class Commands {
 					final RowAtom ra = new RowAtom(
 							new SpaceAtom(Unit.EX, 0.28, 0., 0.),
 							Symbols.TEXTENDASH);
-					final VRowAtom vra = new VRowAtom(new LapedAtom(ra, 'r'));
+					final VRowAtom vra = new SilentVRowAtom(new LapedAtom(ra, 'r'));
 					vra.setRaise(Unit.EX, 0.55);
 					return new RowAtom(vra, new RomanAtom(
-							new CharAtom('H', TextStyle.MATHNORMAL)));
+							new CharAtom('H', TextStyle.MATHNORMAL), "\u0126"));
 				}
 			};
 		case "hstrok":
@@ -1913,10 +1907,10 @@ public class Commands {
 					final RowAtom ra = new RowAtom(
 							new SpaceAtom(Unit.EX, -0.1, 0., 0.),
 							Symbols.BAR);
-					final VRowAtom vra = new VRowAtom(new LapedAtom(ra, 'r'));
+					final VRowAtom vra = new SilentVRowAtom(new LapedAtom(ra, 'r'));
 					vra.setRaise(Unit.EX, -0.1);
 					return new RowAtom(vra, new RomanAtom(
-							new CharAtom('h', TextStyle.MATHNORMAL)));
+							new CharAtom('h', TextStyle.MATHNORMAL), "\u0127"));
 				}
 			};
 		case "smallfrowneq":
@@ -1972,7 +1966,6 @@ public class Commands {
 					return at.changeType(TeXConstants.TYPE_BINARY_OPERATOR);
 				}
 			};
-
 
 		case "hline":
 			return new Command0A() {
@@ -2064,7 +2057,6 @@ public class Commands {
 				}
 			};
 
-
 		case "cornersize":
 			return new Command0AImpl() {
 				@Override
@@ -2073,7 +2065,6 @@ public class Commands {
 					return new SetLengthAtom("cornersize", cs);
 				}
 			};
-
 
 		case "mathstrut":
 			return new Command0A() {
@@ -2086,7 +2077,6 @@ public class Commands {
 				}
 			};
 
-
 		case "LaTeX":
 			return new Command0A() {
 				@Override
@@ -2094,7 +2084,6 @@ public class Commands {
 					return new LaTeXAtom();
 				}
 			};
-
 
 		case "questeq":
 			return new Command0A() {
@@ -2114,7 +2103,6 @@ public class Commands {
 							TeXParser.getAtomForLatinStr("def", true)));
 				}
 			};
-
 
 		case "hdotsfor":
 			return new Command0AImpl() {
@@ -2147,7 +2135,6 @@ public class Commands {
 				}
 			};
 
-
 		case "iddots":
 			return new Command0A() {
 				@Override
@@ -2170,7 +2157,6 @@ public class Commands {
 				}
 			};
 
-
 		case "joinrel":
 			return new Command0A() {
 				@Override
@@ -2179,7 +2165,6 @@ public class Commands {
 							.changeType(TeXConstants.TYPE_RELATION);
 				}
 			};
-
 
 		case "tcaron":
 			return new Command0A() {
@@ -2231,7 +2216,6 @@ public class Commands {
 				}
 			};
 
-
 		case "_":
 		case "underscore":
 			return new Command0A() {
@@ -2240,8 +2224,6 @@ public class Commands {
 					return new UnderscoreAtom();
 				}
 			};
-
-
 
 		case "the":
 			return new Command0AImpl() {
@@ -2526,7 +2508,7 @@ public class Commands {
 				public Atom newI(TeXParser tp) {
 					final Atom a = new RowAtom(SymbolAtom.get("polishlcross"),
 							new CharAtom('L', false));
-					return new RomanAtom(a);
+					return new RomanAtom(a, "\u0141");
 				}
 			};
 		case "l":
@@ -2535,7 +2517,7 @@ public class Commands {
 				public Atom newI(TeXParser tp) {
 					final Atom a = new RowAtom(SymbolAtom.get("polishlcross"),
 							new CharAtom('l', false));
-					return new RomanAtom(a);
+					return new RomanAtom(a, "\u0142");
 				}
 			};
 		case "Join":
