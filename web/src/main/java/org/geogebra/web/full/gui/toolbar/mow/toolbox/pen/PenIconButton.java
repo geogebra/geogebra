@@ -49,7 +49,7 @@ public class PenIconButton extends IconButton {
 	}
 
 	private Consumer<Integer> getUpdateButtonCallback() {
-		return mode -> GGWToolBar.getImageResource(mode, appW, image ->{
+		return mode -> GGWToolBar.getImageResource(mode, appW, image -> {
 			updateImgAndTxt((SVGResource) image, mode, appW);
 			setActive(true);
 			penPopup.update();
