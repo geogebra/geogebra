@@ -31,7 +31,6 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 		setGlassEnabled(true);
 		addStyleName("calcChooser");
 		Dom.toggleClass(this, "smallScreen", app.getWidth() < 914);
-		app.registerPopup(this);
 		app.registerRestrictable(this);
 		buildGUI();
 		app.addWindowResizeListener(this);
@@ -92,6 +91,13 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 	public void show() {
 		super.show();
 		super.center();
+		((AppW) app).registerPopup(this);
+	}
+
+	@Override
+	public void hide() {
+		super.hide();
+		((AppW) app).unregisterPopup(this);
 	}
 
 	@Override
