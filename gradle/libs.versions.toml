@@ -12,11 +12,12 @@ murok = "1.0.202402201544"
 mozilla-rhino = "1.7.15"
 quickJs = '1.0.202403131629-SNAPSHOT'
 multiplayer = "1.0.202405211502"
+spotbugs = "4.8.6"
 
 [libraries]
 apache-math="org.apache:math-cross-platform:3.6.1"
 j2objc-annotations = "com.google.j2objc:annotations:2.8"
-spotbugs-annotations = "com.github.spotbugs:spotbugs-annotations:4.8.5"
+spotbugs-annotations = {module = "com.github.spotbugs:spotbugs-annotations", version.ref = "spotbugs"}
 findbugs-annotations = "com.google.code.findbugs:jsr305:3.0.2"
 javacc = "net.java.dev.javacc:javacc:7.0.13"
 echosvg = "io.sf.carte:echosvg-all:1.0.1"
