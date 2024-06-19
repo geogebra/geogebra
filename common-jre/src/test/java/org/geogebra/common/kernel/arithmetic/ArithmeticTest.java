@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.test.TestStringUtil;
+import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
 import org.junit.Before;
@@ -504,6 +505,36 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-5546")
+	public void sufficientPrecisionForAddition() {
+		t("1295.1+42.37", "1337.47", StringTemplate.maxDecimals);
+	}
+
+	@Test
+	@Issue("APPS-5546")
+	public void sufficientPrecisionForSubtraction() {
+		t("1295.1-42.37", "1252.73", StringTemplate.maxDecimals);
+	}
+
+	@Test
+	@Issue("APPS-5546")
+	public void sufficientPrecisionForPower() {
+		t("123456789.12^2-123456789^2-2*123456789*0.12", "0.0144", StringTemplate.maxDecimals);
+	}
+
+	@Test
+	public void numberAndBoolOperations() {
+		t("5 * true", "5");
+		t("true * 5", "5");
+		t("5 + true", "6");
+		t("true + 5", "6");
+		t("5 - true", "4");
+		t("true - 5", "-4");
+		t("5 / true", "5");
+		t("true / 5", "0.2");
+	}
+
+	@Test
 	public void testImpreciseForDivisionIncludingSlider() {
 		GeoNumeric a = add("a = 1");
 		a.setShowExtendedAV(true);
@@ -512,7 +543,7 @@ public class ArithmeticTest extends BaseUnitTest {
 		GeoNumeric b = add("a/7.01");
 		assertTrue(b.getNumber().isImprecise());
 		GeoNumeric c = add("7.01/a");
-		assertTrue(b.getNumber().isImprecise());
+		assertTrue(c.getNumber().isImprecise());
 	}
 
 	@Test

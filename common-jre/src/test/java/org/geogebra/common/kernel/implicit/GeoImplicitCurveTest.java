@@ -69,12 +69,15 @@ public class GeoImplicitCurveTest extends BaseUnitTest {
 					ArgumentMatchers.<RoundingMode>any())).thenReturn(decimal);
 			Mockito.when(decimal.divide(ArgumentMatchers.any(),
 					ArgumentMatchers.<MathContext>any())).thenReturn(decimal);
+			Mockito.when(decimal.add(ArgumentMatchers.any())).thenReturn(decimal);
+			Mockito.when(decimal.subtract(ArgumentMatchers.any())).thenReturn(decimal);
+			Mockito.when(decimal.pow(ArgumentMatchers.anyInt())).thenReturn(decimal);
 			counter.incrementAndGet();
 		};
 		try (ScopedMock ignore = Mockito.mockConstruction(BigDecimal.class, init)) {
 			add("eq1: y^(2) = (sin(x))^(2) + ((sin(pi / 2) / (m^(2) + x^(2)) * (cos(m) + "
 					+ "sin(m))^(2))) / tan((x^(2) + sin(pi / (16 + m^(2)))) / sec(m + x))");
 		}
-		assertThat(counter.get(), OrderingComparison.lessThan(50));
+		assertThat(counter.get(), OrderingComparison.lessThan(100));
 	}
 }

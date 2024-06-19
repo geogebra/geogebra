@@ -700,11 +700,11 @@ public class CommandsTestCommon {
 
 	@Test
 	public void expandedFractionIsNotUsedForEvaluation() {
-		t("a=(1+1/143)^143", "2.708837868759473");
+		t("a=(1+1/143)^143", "2.7088378687594363");
 		((GeoNumeric) get("a")).setSymbolicMode(true, true);
 		t("a", "2.708837868759473");
 
-		t("b=(1+1/400)^400", "2.7148917443812293");
+		t("b=(1+1/400)^400", "2.714891744381287");
 		((GeoNumeric) get("b")).setSymbolicMode(true, true);
 		t("b", "2.7148917443812293");
 	}
