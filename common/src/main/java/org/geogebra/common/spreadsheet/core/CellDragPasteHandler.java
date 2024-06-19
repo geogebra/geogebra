@@ -136,122 +136,87 @@ public class CellDragPasteHandler {
 		}
 		switch (pasteDirection) {
 		case UP:
-			pasteUpwards(destinationRange,
-					getMaxRowIndexFromOrigin(), getMaxColumnIndexFromOrigin());
+		case DOWN:
+			pasteVertical(destinationRange, getMinRowIndexFromOrigin(), getMaxRowIndexFromOrigin(),
+					getMinColumnIndexFromOrigin(), getMaxColumnIndexFromOrigin());
 			return;
 		case RIGHT:
-			pasteRightwards(destinationRange,
-					getMinRowIndexFromOrigin(), getMinColumnIndexFromOrigin());
-			return;
-		case DOWN:
-			pasteDownwards(destinationRange,
-					getMinRowIndexFromOrigin(), getMinColumnIndexFromOrigin());
-			return;
 		case LEFT:
-			pasteLeftwards(destinationRange,
-					getMaxRowIndexFromOrigin(), getMaxColumnIndexFromOrigin());
+			pasteHorizontal(destinationRange, getMinRowIndexFromOrigin(),
+					getMaxRowIndexFromOrigin(), getMinColumnIndexFromOrigin(),
+					getMaxColumnIndexFromOrigin());
 		}
 	}
 
-	private void pasteUpwards(TabularRange destinationRange,
-			int maxOriginRow, int maxOriginColumn)
+	private void pasteVertical(TabularRange destinationRange, int minOriginRow, int maxOriginRow,
+			int minOriginColumn, int maxOriginColumn)
 			throws CircularDefinitionException, ParseException {
 
 		if (shouldCopySingleRowOnly()) {
-			pasteSingleRow(getMinColumnIndexFromOrigin(), maxOriginColumn,
-					maxOriginRow, fromRow, toRow);
+			pasteSingleRow(minOriginColumn, maxOriginColumn,
+					pasteDirection == PasteDirection.UP ? maxOriginRow : minOriginRow,
+					fromRow, toRow);
 			return;
 		}
 
 		if (shouldPasteLinearPattern()) {
-			relativeCopy.pasteLinearPatternUpwards(getMinRowIndexFromOrigin(), maxOriginRow,
-					getMinColumnIndexFromOrigin(), maxOriginColumn, fromRow, toRow);
+			if (pasteDirection == PasteDirection.UP) {
+				relativeCopy.pasteLinearPatternUpwards(minOriginRow, maxOriginRow,
+						minOriginColumn, maxOriginColumn, fromRow, toRow);
+			} else {
+				relativeCopy.pasteLinearPatternDownwards(minOriginRow, maxOriginRow,
+						minOriginColumn, maxOriginColumn, fromRow, toRow);
+			}
 			return;
 		}
 
 		int column = 0;
 		do {
 			for (int row = 0; row < destinationRange.getHeight(); row++) {
-				pasteRowOrColumn(maxOriginRow - row, toRow - row,
-						maxOriginColumn - column, toColumn - column);
+				if (pasteDirection == PasteDirection.UP) {
+					pasteRowOrColumn(maxOriginRow - row, toRow - row,
+							maxOriginColumn - column, toColumn - column);
+				} else {
+					pasteRowOrColumn(minOriginRow + row, fromRow + row,
+							minOriginColumn + column, fromColumn + column);
+				}
 			}
 			column++;
 		} while (column < destinationRange.getWidth());
 	}
 
-	private void pasteRightwards(TabularRange destinationRange,
-			int minOriginRow, int minOriginColumn)
+	private void pasteHorizontal(TabularRange destinationRange, int minOriginRow, int maxOriginRow,
+			int minOriginColumn, int maxOriginColumn)
 			throws CircularDefinitionException, ParseException {
 
 		if (shouldCopySingleColumnOnly()) {
-			pasteSingleColumn(minOriginRow, getMaxRowIndexFromOrigin(),
-					minOriginColumn, fromColumn, toColumn);
+			pasteSingleColumn(minOriginRow, maxOriginRow,
+					pasteDirection == PasteDirection.RIGHT ? minOriginColumn : maxOriginColumn,
+					fromColumn, toColumn);
 			return;
 		}
 
 		if (shouldPasteLinearPattern()) {
-			relativeCopy.pasteLinearPatternRightwards(minOriginRow, getMaxRowIndexFromOrigin(),
-					minOriginColumn, getMaxColumnIndexFromOrigin(), fromColumn, toColumn);
+			if (pasteDirection == PasteDirection.RIGHT) {
+				relativeCopy.pasteLinearPatternRightwards(minOriginRow, maxOriginRow,
+						minOriginColumn, maxOriginColumn, fromColumn, toColumn);
+			} else {
+				relativeCopy.pasteLinearPatternLeftwards(minOriginRow, maxOriginRow,
+						minOriginColumn, maxOriginColumn, fromColumn, toColumn);
+			}
 			return;
 		}
 
 		int row = 0;
 		do {
 			for (int column = 0; column < destinationRange.getWidth(); column++) {
-				pasteRowOrColumn(minOriginRow + row, fromRow + row,
-						minOriginColumn + column, fromColumn + column);
-			}
-			row++;
-		} while (row < destinationRange.getHeight());
-	}
-
-	private void pasteDownwards(TabularRange destinationRange,
-			int minOriginRow, int minOriginColumn)
-			throws CircularDefinitionException, ParseException {
-
-		if (shouldCopySingleRowOnly()) {
-			pasteSingleRow(minOriginColumn, getMaxColumnIndexFromOrigin(),
-					minOriginRow, fromRow, toRow);
-			return;
-		}
-
-		if (shouldPasteLinearPattern()) {
-			relativeCopy.pasteLinearPatternDownwards(minOriginRow, getMaxRowIndexFromOrigin(),
-					minOriginColumn, getMaxColumnIndexFromOrigin(), fromRow, toRow);
-			return;
-		}
-
-		int column = 0;
-		do {
-			for (int row = 0; row < destinationRange.getHeight(); row++) {
-				pasteRowOrColumn(minOriginRow + row, fromRow + row,
-						minOriginColumn + column, fromColumn + column);
-			}
-			column++;
-		} while (column < destinationRange.getWidth());
-	}
-
-	private void pasteLeftwards(TabularRange destinationRange,
-			int maxOriginRow, int maxOriginColumn)
-			throws CircularDefinitionException, ParseException {
-
-		if (shouldCopySingleColumnOnly()) {
-			pasteSingleColumn(getMinRowIndexFromOrigin(), maxOriginRow,
-					maxOriginColumn, fromColumn, toColumn);
-			return;
-		}
-
-		if (shouldPasteLinearPattern()) {
-			relativeCopy.pasteLinearPatternLeftwards(getMinRowIndexFromOrigin(), maxOriginRow,
-					getMinColumnIndexFromOrigin(), maxOriginColumn, fromColumn, toColumn);
-			return;
-		}
-
-		int row = 0;
-		do {
-			for (int column = 0; column < destinationRange.getWidth(); column++) {
-				pasteRowOrColumn(maxOriginRow - row, toRow - row,
-						maxOriginColumn - column, toColumn - column);
+				if (pasteDirection == PasteDirection.RIGHT) {
+					pasteRowOrColumn(minOriginRow + row, fromRow + row,
+							minOriginColumn + column, fromColumn + column);
+				} else {
+					pasteRowOrColumn(maxOriginRow - row, toRow - row,
+							maxOriginColumn - column, toColumn - column);
+				}
 			}
 			row++;
 		} while (row < destinationRange.getHeight());
