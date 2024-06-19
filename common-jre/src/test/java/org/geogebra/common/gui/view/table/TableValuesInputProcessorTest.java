@@ -6,6 +6,8 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
@@ -15,8 +17,10 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.undo.UndoManager;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class TableValuesInputProcessorTest extends BaseUnitTest {
 
@@ -253,6 +257,33 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		cell = model.getCellAt(0, 0);
 		assertThat(cell.getInput(), equalTo("invalid"));
 		assertThat(cell.isErroneous(), is(true));
+	}
+
+	@Test
+	@Issue("APPS-5545")
+	public void testInvalidInput() {
+		processor.processInput("1", view.getValues(), 0);
+		processor.processInput("2", view.getValues(), 1);
+		processor.processInput("3", null, 1);
+		TableValuesListener mockListener = Mockito.mock(TableValuesListener.class);
+		model.registerListener(mockListener);
+		processor.processInput("invalid", (GeoList) view.getEvaluatable(1), 1);
+		Mockito.verify(mockListener).notifyCellChanged(any(), any(), anyInt(), anyInt());
+	}
+
+	@Test
+	@Issue("APPS-5553")
+	public void testExpressionInput() {
+		processor.processInput("1", view.getValues(), 0);
+		processor.processInput("2", view.getValues(), 1);
+		processor.processInput("5/2", null, 0);
+		GeoList data = (GeoList) view.getEvaluatable(1);
+		processor.processInput("1+1/2", data, 1);
+		processor.processInput("1++", data, 2);
+		StringBuilder sb = new StringBuilder();
+		data.getExpressionXML(sb);
+		assertThat(sb.toString(), equalTo("<expression label=\"y_{1}\" exp=\""
+				+ "{5 / 2,1 + 1 / 2,ParseToNumber[&quot;1++&quot;]}\" type=\"list\"/>\n"));
 	}
 
 	@Test
