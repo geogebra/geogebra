@@ -15,7 +15,7 @@ import org.junit.Test;
 public class SpreadsheetSelectionControllerTest {
 
 	private final SpreadsheetController controller =
-			new SpreadsheetController(new TestTabularData(), null);
+			new SpreadsheetController(new TestTabularData());
 
 	private final SpreadsheetSelectionController selectionController =
 			new SpreadsheetSelectionController();

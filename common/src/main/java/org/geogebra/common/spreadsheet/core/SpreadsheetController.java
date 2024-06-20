@@ -45,10 +45,9 @@ public final class SpreadsheetController {
 	/**
 	 * @param tabularData underlying data for the spreadsheet
 	 */
-	public SpreadsheetController(TabularData<?> tabularData,
-			CellDragPasteHandler cellDragPasteHandler) {
+	public SpreadsheetController(TabularData<?> tabularData) {
 		this.tabularData = tabularData;
-		this.cellDragPasteHandler = cellDragPasteHandler;
+		this.cellDragPasteHandler = tabularData.getCellDragPasteHandler();
 		resetDragAction();
 		style = new SpreadsheetStyle(tabularData.getFormat());
 		layout = new TableLayout(tabularData.numberOfRows(),

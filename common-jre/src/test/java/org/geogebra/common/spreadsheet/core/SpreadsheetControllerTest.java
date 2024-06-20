@@ -32,7 +32,7 @@ public class SpreadsheetControllerTest {
 
     @Before
     public void setup() {
-        controller = new SpreadsheetController(new TestTabularData(), null);
+        controller = new SpreadsheetController(new TestTabularData());
         controller.getLayout().setHeightForRows(cellHeight, 0, 5);
         controller.getLayout().setWidthForColumns(40, 0, 5);
         setViewport(new Rectangle(0, 100, 0, 120));

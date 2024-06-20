@@ -31,7 +31,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 	public void setupSpreadsheet() {
 		tabularData = new TestTabularData();
 		spreadsheet = new Spreadsheet(tabularData,
-				new TestCellRenderableFactory(), null, null);
+				new TestCellRenderableFactory(), null);
 		spreadsheet.setHeightForRows(20, 0, 5);
 		spreadsheet.setWidthForColumns(40, 0, 5);
 		viewport = new Rectangle(0, 100, 0, 120);

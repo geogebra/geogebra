@@ -2,9 +2,6 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
@@ -30,8 +27,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param undoProvider undo provider, may be null
 	 */
 	public Spreadsheet(TabularData<?> tabularData, CellRenderableFactory rendererFactory,
-			UndoProvider undoProvider, CellDragPasteHandler cellDragPasteHandler) {
-		controller = new SpreadsheetController(tabularData, cellDragPasteHandler);
+			UndoProvider undoProvider) {
+		controller = new SpreadsheetController(tabularData);
 		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
 				controller.getStyle());
 		setViewport(new Rectangle(0, 0, 0, 0));
@@ -247,5 +244,9 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	public void onEnter() {
 		controller.onEnter();
+	}
+
+	public void scrollForPasteSelectionIfNeeded() {
+		controller.scrollForPasteSelectionIfNeeded();
 	}
 }

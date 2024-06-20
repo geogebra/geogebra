@@ -57,11 +57,10 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		this.app = app;
 		addStyleName("spreadsheetPanel");
 		KernelTabularDataAdapter tabularData = new KernelTabularDataAdapter(
-				app.getSettings().getSpreadsheet());
+				app.getSettings().getSpreadsheet(), app.getKernel());
 		app.getKernel().notifyAddAll(tabularData);
 		spreadsheet = new Spreadsheet(tabularData, new GeoElementCellRendererFactory(
-				new AwtReTexGraphicsBridgeW()), app.getUndoManager(),
-				new CellDragPasteHandler(tabularData, app.getKernel()));
+				new AwtReTexGraphicsBridgeW()), app.getUndoManager());
 
 		app.getKernel().attach(tabularData);
 		add(spreadsheetWidget);
@@ -119,7 +118,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			repaint();
 		}, 200);
 		DomGlobal.setInterval((ignore) -> {
-			spreadsheet.getController().scrollForPasteSelectionIfNeeded();
+			spreadsheet.scrollForPasteSelectionIfNeeded();
 		}, 20);
 		scrollOverlay.addScrollHandler(event -> {
 			onScroll();

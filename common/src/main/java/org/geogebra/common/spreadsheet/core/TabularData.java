@@ -59,6 +59,8 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	int getAlignment(int row, int column);
 
 	default void setPersistenceListener(PersistenceListener layout) {
-		// not needed in tests
+
 	}
+
+	CellDragPasteHandler getCellDragPasteHandler();
 }
