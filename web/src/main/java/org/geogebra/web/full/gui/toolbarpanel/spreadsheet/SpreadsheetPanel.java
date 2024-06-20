@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
-import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
 import org.geogebra.common.spreadsheet.core.ViewportAdjusterDelegate;
