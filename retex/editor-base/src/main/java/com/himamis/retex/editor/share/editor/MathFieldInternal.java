@@ -301,7 +301,7 @@ public class MathFieldInternal
 		if (keyEvent.getKeyCode() == 13 || keyEvent.getKeyCode() == 10) {
 			if (!listeners.isEmpty()) {
 				this.enterPressed = true;
-				listeners.forEach(MathFieldListener::onEnter);
+				notifyListeners(l -> { l.onEnter(); return true; });
 				return true;
 			}
 		}
@@ -894,7 +894,8 @@ public class MathFieldInternal
 
 	private boolean notifyListeners(Predicate<MathFieldListener> eventDispatcher) {
 		boolean handled = false;
-		for (MathFieldListener listener: listeners) {
+		List<MathFieldListener> listenersCopy = new ArrayList<>(listeners);
+		for (MathFieldListener listener: listenersCopy) {
 			handled = eventDispatcher.test(listener) || handled;
 		}
 		return handled;
