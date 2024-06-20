@@ -22,7 +22,7 @@ import org.gwtproject.user.client.ui.Widget;
 public class DistributionPanel extends FlowPanel implements InsertHandler {
 	private ProbabilityCalculatorViewW view;
 	private Localization loc;
-	private CompDropDown distributionDroDown;
+	private CompDropDown distributionDropDown;
 	private ToggleButton cumulativeWidget;
 	private Label[] lblParameterArray;
 	private MathTextFieldW[] fldParameterArray;
@@ -177,12 +177,12 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	public void buildDistrComboBox(FlowPanel parent) {
 		DistributionTypeProperty distTypeProperty = new DistributionTypeProperty(loc, view);
 		String comboLbl = getApp().getConfig().hasDistributionView() ? "Distribution" : null;
-		distributionDroDown = new CompDropDown(getApp(), comboLbl, distTypeProperty);
+		distributionDropDown = new CompDropDown(getApp(), comboLbl, distTypeProperty);
 		if (getApp().getConfig().hasDistributionView()) {
-			distributionDroDown.setFullWidth(true);
+			distributionDropDown.setFullWidth(true);
 		}
-		distributionDroDown.addStyleName("comboDistribution");
-		parent.add(distributionDroDown);
+		distributionDropDown.addStyleName("comboDistribution");
+		parent.add(distributionDropDown);
 	}
 
 	private AppW getApp() {
@@ -195,7 +195,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	public void updateGUI() {
 		updateCumulative();
 		updateParameters();
-		distributionDroDown.resetFromModel();
+		distributionDropDown.resetFromModel();
 		modeGroup.setMode(view.getProbMode());
 	}
 
@@ -207,7 +207,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	 * update translation
 	 */
 	public void setLabels() {
-		distributionDroDown.setLabels();
+		distributionDropDown.setLabels();
 		if (cumulativeWidget != null) {
 			cumulativeWidget.setTitle(loc.getMenu("Cumulative"));
 		}

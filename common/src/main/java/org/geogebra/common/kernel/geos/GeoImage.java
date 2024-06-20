@@ -57,6 +57,8 @@ public class GeoImage extends GeoElement implements
 	public static final int PROTRACTOR_WIDTH = 558;
 	public static final int PROTRACTOR_HEIGHT = 296;
 	public static final int RULER_LEFT = 112;
+	private static final int TRIANGLE_PROTRACTOR_WIDTH = 879;
+	private static final int TRIANGLE_PROTRACTOR_HEIGHT = 440;
 
 	private GeoPoint[] corners; // corners of the image
 
@@ -1429,10 +1431,14 @@ public class GeoImage extends GeoElement implements
 	 */
 	public void setImagePropertiesIfNecessary() {
 		if (isMeasurementTool) {
-			String fileName = getImageFileName();
 			EuclidianView view = app.getActiveEuclidianView();
+			String fileName = getImageFileName();
 			if (fileName.contains("Ruler.svg")) {
 				view.setMeasurementTool(this, RULER_LEFT);
+			} else if (fileName.contains("TriangleProtractor.svg")) {
+				int middle = (view.getWidth() - TRIANGLE_PROTRACTOR_WIDTH) / 2;
+				view.setMeasurementTool(this,
+						middle, TRIANGLE_PROTRACTOR_WIDTH, TRIANGLE_PROTRACTOR_HEIGHT);
 			} else if (fileName.contains("Protractor.svg")) {
 				int middle = (view.getWidth() - PROTRACTOR_WIDTH) / 2;
 				view.setMeasurementTool(this,

@@ -144,12 +144,12 @@ public class FunctionExpander implements Traversing {
 						}
 						en2 = new ExpressionNode(en.getKernel(), vector);
 						if (en.getRight() instanceof MyList
-								&& ((MyList) en.getRight()).getListElement(
+								&& ((MyList) en.getRight()).get(
 										0) instanceof ExpressionNode
 								&& ((ExpressionNode) ((MyList) en.getRight())
-										.getListElement(0)).getLeft() instanceof MyList) {
+										.get(0)).getLeft() instanceof MyList) {
 							en.setRight(((ExpressionNode) ((MyList) en
-									.getRight()).getListElement(0)).getLeft());
+									.getRight()).get(0)).getLeft());
 						}
 					} else {
 						en2 = en2.getCopy(((GeoCasCell) geo).getKernel());
@@ -158,13 +158,13 @@ public class FunctionExpander implements Traversing {
 				}
 				if (geo instanceof GeoSurfaceCartesianND) {
 					if (en.getRight() instanceof MyList
-							&& ((MyList) en.getRight()).getListElement(
+							&& ((MyList) en.getRight()).get(
 							0) instanceof ExpressionNode
 							&& ((ExpressionNode) ((MyList) en.getRight())
-							.getListElement(0))
+							.get(0))
 							.getLeft() instanceof MyList) {
 						en.setRight(((ExpressionNode) ((MyList) en.getRight())
-								.getListElement(0)).getLeft());
+								.get(0)).getLeft());
 					}
 					GeoSurfaceCartesianND geoSurface = (GeoSurfaceCartesianND) geo;
 					Kernel kernel = geoSurface.kernel;
@@ -304,7 +304,7 @@ public class FunctionExpander implements Traversing {
 	private ExpressionValue getElement(ExpressionValue argument, int i, int argLength) {
 		if (argument instanceof MyList
 				&& ((MyList) argument).size() == argLength) {
-			return ((MyList) argument).getListElement(i);
+			return ((MyList) argument).get(i);
 		} else {
 			return VectorArithmetic.computeCoord(argument.wrap(), i);
 		}

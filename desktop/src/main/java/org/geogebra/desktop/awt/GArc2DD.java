@@ -90,8 +90,8 @@ public class GArc2DD implements GRectangularShapeD, GArc2D {
 
 	@Override
 	public void setArcByCenter(double x, double y, double radius, double angSt,
-			double angExt, int closure) {
-		impl.setArcByCenter(x, y, radius, angSt, angExt, closure);
+			double angleExt, int closure) {
+		impl.setArcByCenter(x, y, radius, angSt, angleExt, closure);
 
 	}
 

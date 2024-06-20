@@ -437,11 +437,11 @@ public class CASInputHandler {
 				casResult = cas.getCurrentCAS()
 						.evaluateRaw(
 								CustomFunctions.GGBIS_POLYNOMIAL + "("
-										+ equList.getListElement(0).toString(
+										+ equList.get(0).toString(
 												StringTemplate.giacTemplate)
 										+ ") && "
 										+ CustomFunctions.GGBIS_POLYNOMIAL + "("
-										+ equList.getListElement(1).toString(
+										+ equList.get(1).toString(
 												StringTemplate.giacTemplate)
 										+ ")");
 			}

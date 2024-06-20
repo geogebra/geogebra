@@ -2,7 +2,6 @@ package org.geogebra.common.gui.view.data;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
@@ -14,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 
@@ -440,26 +440,26 @@ public class DataSource {
 		for (int i = 0; i < items.size(); i++) {
 			String range = items.get(i);
 
-			GPoint start = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
+			SpreadsheetCoords start = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
 					range.substring(0, range.indexOf(':')));
 
-			GPoint end = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
+			SpreadsheetCoords end = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
 					range.substring(range.indexOf(':') + 1));
 
-			TabularRange tr = new TabularRange(start.y, start.x, end.y, end.x);
+			TabularRange tr = new TabularRange(start.row, start.column, end.row, end.column);
 			ranges.add(tr);
 		}
 
 		if (frequencies != null) {
 			setFrequencyFromColumn(true);
 
-			GPoint start = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
+			SpreadsheetCoords start = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
 					frequencies.substring(0, frequencies.indexOf(':')));
 
-			GPoint end = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
+			SpreadsheetCoords end = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
 					frequencies.substring(frequencies.indexOf(':') + 1));
 
-			TabularRange tr = new TabularRange(start.y, start.x, end.y, end.x);
+			TabularRange tr = new TabularRange(start.row, start.column, end.row, end.column);
 			ranges.add(tr);
 		}
 

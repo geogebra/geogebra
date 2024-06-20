@@ -40,7 +40,7 @@ public class ContextMenuItems {
 	 * @param toRow Index of the bottommost row
 	 * @param fromCol Index of the leftmost column
 	 * @param toCol Index of the rightmost column
-	 * @return map of the menu key and its action.
+	 * @return list of the menu key and its action.
 	 */
 	public List<ContextMenuItem> get(int fromRow, int toRow, int fromCol, int toCol) {
 		if (shouldShowTableItems(fromRow, fromCol)) {
@@ -94,35 +94,29 @@ public class ContextMenuItems {
 	}
 
 	private void pasteCells(int row, int column) {
-		List<Selection> selections = selectionController.selections();
-		if (selections.isEmpty()) {
+		if (!selectionController.hasSelection()) {
 			copyPasteCut.paste(row, column);
 		} else {
-			for (Selection selection: selections) {
-				copyPasteCut.paste(selection.getRange());
-			}
+			selectionController.getSelections().forEach(
+					selection -> copyPasteCut.paste(selection.getRange()));
 		}
 	}
 
 	private void copyCells(int row, int column) {
-		List<Selection> selections = selectionController.selections();
-		if (selections.isEmpty()) {
+		if (!selectionController.hasSelection()) {
 			copyPasteCut.copyDeep(new TabularRange(row, row, column, column));
 		} else {
-			for (Selection selection: selections) {
-				copyPasteCut.copyDeep(selection.getRange());
-			}
+			selectionController.getSelections().forEach(
+					selection -> copyPasteCut.copyDeep(selection.getRange()));
 		}
 	}
 
 	private void cutCells(int row, int column) {
-		List<Selection> selections = selectionController.selections();
-		if (selections.isEmpty()) {
+		if (!selectionController.hasSelection()) {
 			copyPasteCut.cut(new TabularRange(row, row, column, column));
 		} else {
-			for (Selection selection: selections) {
-				copyPasteCut.cut(selection.getRange());
-			}
+			selectionController.getSelections().forEach(
+					selection -> copyPasteCut.cut(selection.getRange()));
 		}
 	}
 

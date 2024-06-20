@@ -3,9 +3,8 @@ package org.geogebra.common.gui;
 import org.geogebra.common.main.App;
 
 public enum AccessibilityGroup {
-	MENU, ALGEBRA_CLOSE, UNDO, REDO, EV_CONTROLS, EV2_CONTROLS, EV3D_CONTROLS, PAGE_LIST_OPEN,
-	NOTES_TOOLBAR_HEADER, NOTES_TOOL_SELECT, NOTES_TOOL_TOOLS, NOTES_TOOL_MEDIA,
-	NOTES_COLOR_PANEL, NOTES_COLOR_CUSTOM, NOTES_PEN_THICKNESS_SLIDER,
+	MENU, GEOGEBRA_LOGO, SUBAPP_CHOOSER, SHARE, ASSIGN, SIGN_IN_TEXT, SIGN_IN_ICON, AVATAR,
+	ALGEBRA_CLOSE, UNDO, REDO, EV_CONTROLS, EV2_CONTROLS, EV3D_CONTROLS, PAGE_LIST_OPEN,
 	ALT_GEOTEXT, GEO_ELEMENT, ALGEBRA_ITEM;
 
 	public enum ViewControlId {
@@ -24,11 +23,11 @@ public enum AccessibilityGroup {
 	public static AccessibilityGroup getViewGroup(int viewId) {
 		switch (viewId) {
 			case App.VIEW_EUCLIDIAN3D:
-				return  AccessibilityGroup.EV3D_CONTROLS;
+				return AccessibilityGroup.EV3D_CONTROLS;
 			case App.VIEW_EUCLIDIAN2:
-				return  AccessibilityGroup.EV2_CONTROLS;
+				return AccessibilityGroup.EV2_CONTROLS;
 			default:
-				return  AccessibilityGroup.EV_CONTROLS;
+				return AccessibilityGroup.EV_CONTROLS;
 		}
 	}
 }

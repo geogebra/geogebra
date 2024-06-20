@@ -1,6 +1,9 @@
 package org.geogebra.web.html5.util;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
@@ -788,5 +791,14 @@ public class AppletParameters {
 	public boolean getParamSandbox() {
 		return getBoolDataParam("sandboxJavaScript",
 				getDataParamApp() || Browser.isGeoGebraOrg());
+	}
+
+	/**
+	 * List of disabled categories in ToolboxMow
+	 * @return the data-param-customToolbox (default: empty list)
+	 */
+	public List<String> getDataParamCustomToolbox() {
+		return Arrays.stream(getStringDataParam("customToolbox", "").split(","))
+				.map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
 	}
 }

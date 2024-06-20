@@ -4,42 +4,48 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
 
+/**
+ * Provides implementations for selection-related methods of {@link SpreadsheetController}
+ */
 final class SpreadsheetSelectionController {
-	private final ArrayList<Selection> selections = new ArrayList<>();
 
-	void setDimensions(int numberOfRows, int numberOfColumns) {
-		// stub
-	}
+	/**
+	 * Each selection in the list represents one (non-empty) rectangular area.
+	 * If nothing is selected, the list is empty.
+	 */
+	private final List<Selection> selections = new ArrayList<>();
 
-	 void clearSelections() {
+	void clearSelections() {
 		selections.clear();
-	 }
-
-	void selectAll(int numberOfRows, int numberOfColumns) {
-		setSelections(new Selection(
-				TabularRange.range(-1, numberOfRows - 2, -1, numberOfColumns - 2)));
 	}
 
-	List<Selection> selections() {
-		return selections;
+	void selectAll() {
+		setSelection(new Selection(TabularRange.range(-1, -1,
+						-1, -1)));
+	}
+
+	/**
+	 * @return The current selections as Stream.
+	 *
+	 * @apiNote This method returns a copy of the internal state, so you can use it to snapshot
+	 * the current selection state, and compare that against the selection state after some
+	 * (potentially selection-modifying) operations.
+	 */
+	Stream<Selection> getSelections() {
+		return selections.stream();
 	}
 
 	/**
 	 * Clears the list of selection and adds a single element to it
 	 * @param selection Selection
-	 * @return whether selection changed
 	 */
-	public boolean setSelections(Selection selection) {
-		if (selections.size() == 1
-				&& selections.get(0).getRange().isEqualCells(selection.getRange())) {
-			return false;
-		}
-		clearSelections();
+	public void setSelection(Selection selection) {
+		this.selections.clear();
 		this.selections.add(selection);
-		return true;
 	}
 
 	/**
@@ -79,7 +85,9 @@ final class SpreadsheetSelectionController {
 	void moveLeft(boolean extendSelection) {
 		Selection lastSelection = getLastSelection();
 		if (lastSelection != null) {
-			select(lastSelection.getLeft(extendSelection), extendSelection, false);
+			select(extendSelection ? lastSelection.getLeftExtension()
+							: lastSelection.getNextCellForMoveLeft(),
+					extendSelection, false);
 		}
 	}
 
@@ -90,7 +98,8 @@ final class SpreadsheetSelectionController {
 	void moveRight(boolean extendSelection, int numberOfColumns) {
 		Selection lastSelection = getLastSelection();
 		if (lastSelection != null) {
-			select(lastSelection.getRight(numberOfColumns, extendSelection),
+			select(extendSelection ? lastSelection.getRightExtension(numberOfColumns)
+							: lastSelection.getNextCellForMoveRight(numberOfColumns),
 					extendSelection, false);
 		}
 	}
@@ -101,7 +110,8 @@ final class SpreadsheetSelectionController {
 	void moveUp(boolean extendSelection) {
 		Selection lastSelection = getLastSelection();
 		if (lastSelection != null) {
-			select(lastSelection.getTop(extendSelection), extendSelection, false);
+			select(extendSelection ? lastSelection.getTopExtension()
+					: lastSelection.getNextCellForMoveUp(), extendSelection, false);
 		}
 	}
 
@@ -112,21 +122,10 @@ final class SpreadsheetSelectionController {
 	void moveDown(boolean extendSelection, int numberOfRows) {
 		Selection lastSelection = getLastSelection();
 		if (lastSelection != null) {
-			select(lastSelection.getBottom(numberOfRows, extendSelection),
+			select(extendSelection ? lastSelection.getBottomExtension(numberOfRows)
+							: lastSelection.getNextCellForMoveDown(numberOfRows),
 					extendSelection, false);
 		}
-	}
-
-	void enter() {
-		// stub
-	}
-
-	void cancel() {
-		// stub
-	}
-
-	void addSelectionListener(SpreadsheetSelectionListener listener) {
-		// stub
 	}
 
 	/**
@@ -134,18 +133,20 @@ final class SpreadsheetSelectionController {
 	 * @param extendSelection Whether we want to extend the current selection (SHIFT)
 	 * @param addSelection Whether we want to add this selection to the current selections (CTRL)
 	 */
-	public boolean select(Selection selection, boolean extendSelection, boolean addSelection) {
+	public void select(Selection selection, boolean extendSelection, boolean addSelection) {
 		Selection lastSelection = getLastSelection();
 		if (extendSelection && lastSelection != null) {
 			extendSelection(lastSelection, selection, addSelection);
-			return true;
-		} else if (!addSelection) {
-			return setSelections(selection);
+			return;
+		}
+		if (!addSelection) {
+			setSelection(selection);
+			return;
 		}
 		ArrayList<Selection> independent = new ArrayList<>();
 		Selection merged = selection;
 		for (Selection other: selections) {
-			Selection mergeResult = merged.merge(other);
+			Selection mergeResult = merged.getRectangularUnion(other);
 			if (mergeResult == null) {
 				independent.add(other);
 			} else {
@@ -155,7 +156,6 @@ final class SpreadsheetSelectionController {
 		clearSelections();
 		selections.addAll(independent);
 		selections.add(merged);
-		return true;
 	}
 
 	/**
@@ -171,7 +171,7 @@ final class SpreadsheetSelectionController {
 			this.selections.add(extendedSelection);
 			return;
 		}
-		setSelections(extendedSelection);
+		setSelection(extendedSelection);
 	}
 
 	public boolean isSelected(int row, int column) {
@@ -186,9 +186,10 @@ final class SpreadsheetSelectionController {
 	}
 
 	/**
-	 * @return Last Selection if present, null otherwise
+	 * In case there are multiple selections (ctrl+click), returns the one that was created last.
+	 * @return Last selection if present, null otherwise
 	 */
-	public @CheckForNull Selection getLastSelection() {
+	@CheckForNull Selection getLastSelection() {
 		return selections.isEmpty() ? null : selections.get(selections.size() - 1);
 	}
 
@@ -240,6 +241,11 @@ final class SpreadsheetSelectionController {
 	boolean areOnlyCellsSelected() {
 		return selections.stream().allMatch(
 				selection -> !selection.getRange().isRow() && !selection.getRange().isColumn());
+	}
+
+	boolean isSingleSelectionType() {
+		return areOnlyRowsSelected() || areOnlyColumnsSelected()
+				|| areOnlyCellsSelected() || areAllCellsSelected();
 	}
 
 	/**
