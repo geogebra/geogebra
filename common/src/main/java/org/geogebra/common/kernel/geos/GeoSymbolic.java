@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -633,8 +634,11 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private ExpressionNode getNodeFromOutput() throws ParseException {
-		return kernel.getParser().parseGeoGebraExpression(LabelManager.HIDDEN_PREFIX + ":"
-				+ casOutputString).wrap();
+		ValidExpression validExpression =
+				kernel.getParser().parseGeoGebraExpression(LabelManager.HIDDEN_PREFIX + ":"
+						+ casOutputString);
+		validExpression.setLabels(null);
+		return validExpression.wrap();
 	}
 
 	private ExpressionNode getNodeFromInput() {
