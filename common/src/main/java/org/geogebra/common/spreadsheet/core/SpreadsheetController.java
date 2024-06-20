@@ -741,7 +741,7 @@ public final class SpreadsheetController {
 
 			mathFieldAdapter = new SpreadsheetMathFieldAdapter(mathField, row, column,
 					cellEditor.getCellProcessor(), SpreadsheetController.this);
-			mathField.setFieldListener(mathFieldAdapter);
+			mathField.addMathFieldListener(mathFieldAdapter);
 			mathField.setUnhandledArrowListener(mathFieldAdapter);
 
 			Rectangle editorBounds = layout.getBounds(row, column)
@@ -752,6 +752,7 @@ public final class SpreadsheetController {
 		}
 
 		void hide() {
+			cellEditor.getMathField().removeMathFieldListener(mathFieldAdapter);
 			cellEditor.hide();
 			isVisible = false;
 		}
