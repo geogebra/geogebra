@@ -178,6 +178,7 @@ public final class SpreadsheetController {
 
 	public void setControlsDelegate(SpreadsheetControlsDelegate controlsDelegate) {
 		this.controlsDelegate = controlsDelegate;
+		editor = null;
 	}
 
 	public void setViewportAdjustmentHandler(ViewportAdjusterDelegate viewportAdjusterDelegate) {
@@ -387,11 +388,12 @@ public final class SpreadsheetController {
 	}
 
 	private void startTyping(String key, Modifiers modifiers) {
-		if (!modifiers.ctrlOrCmd && !modifiers.alt && !StringUtil.empty(key)
-				&& controlsDelegate != null) {
+		if (!modifiers.ctrlOrCmd && !modifiers.alt && !StringUtil.empty(key)) {
 			showCellEditorAtSelection();
-			editor.clearInput();
-			editor.type(key);
+			if (editor != null) {
+				editor.clearInput();
+				editor.type(key);
+			}
 		}
 	}
 
@@ -404,7 +406,7 @@ public final class SpreadsheetController {
 	}
 
 	private void deleteSelectedCells() {
-		// TODO
+		// TODO implement single cell deletion (delete key)
 	}
 
 	/**

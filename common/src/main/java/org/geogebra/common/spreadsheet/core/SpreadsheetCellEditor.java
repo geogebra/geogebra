@@ -2,6 +2,7 @@ package org.geogebra.common.spreadsheet.core;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.util.shape.Rectangle;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -18,7 +19,8 @@ public interface SpreadsheetCellEditor {
 	 * Show the spreadsheet cell editor.
 	 * @param editorBounds The editor (=cell) bounds in viewport-relative coordinates.
 	 * @param viewport The current visible viewport.
-	 * @param textAlignment The text alignment of the editor. (TODO introduce enum)
+	 * @param textAlignment The text alignment of the editor. One of {@link CellFormat}'s
+	 * ALIGN_LEFT, ALIGN_CENTER, or ALIGN_RIGHT.
 	 */
 	void show(Rectangle editorBounds, Rectangle viewport, int textAlignment);
 
