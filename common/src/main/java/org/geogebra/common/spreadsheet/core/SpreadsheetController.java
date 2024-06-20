@@ -57,6 +57,32 @@ public final class SpreadsheetController {
 		contextMenuItems = new ContextMenuItems(this, selectionController, getCopyPasteCut());
 	}
 
+	/**
+	 * @param controlsDelegate The controls delegate.
+	 */
+	public void setControlsDelegate(SpreadsheetControlsDelegate controlsDelegate) {
+		this.controlsDelegate = controlsDelegate;
+		editor = null;
+	}
+
+	/**
+	 * @param viewportAdjusterDelegate The viewport adjuster delegate.
+	 */
+	public void setViewportAdjustmentHandler(ViewportAdjusterDelegate viewportAdjusterDelegate) {
+		this.viewportAdjuster = new ViewportAdjuster(getLayout(), viewportAdjusterDelegate);
+	}
+
+	/**
+	 * @param undoProvider The undo provider.
+	 */
+	public void setUndoProvider(UndoProvider undoProvider) {
+		this.undoProvider = undoProvider;
+	}
+
+	void setViewport(Rectangle viewport) {
+		this.viewport = viewport;
+	}
+
 	TableLayout getLayout() {
 		return layout;
 	}
@@ -153,9 +179,6 @@ public final class SpreadsheetController {
 		return true;
 	}
 
-	/**
-	 * Hides the cell editor if it is currently active.
-	 */
 	private void hideCellEditor() {
 		if (isEditorActive()) {
 			editor.hide();
@@ -176,30 +199,13 @@ public final class SpreadsheetController {
 		}
 	}
 
-	public void setControlsDelegate(SpreadsheetControlsDelegate controlsDelegate) {
-		this.controlsDelegate = controlsDelegate;
-		editor = null;
-	}
-
-	public void setViewportAdjustmentHandler(ViewportAdjusterDelegate viewportAdjusterDelegate) {
-		this.viewportAdjuster = new ViewportAdjuster(getLayout(), viewportAdjusterDelegate);
-	}
-
-	public void setViewport(Rectangle viewport) {
-		this.viewport = viewport;
-	}
-
-	public void setUndoProvider(UndoProvider undoProvider) {
-		this.undoProvider = undoProvider;
-	}
-
 	/**
 	 * @param x x-coordinate relative to viewport
 	 * @param y y-coordinate relative to viewport
 	 * @param modifiers event modifiers
 	 */
 	// TODO change to double (APPS-5637)
-	// TODO group all handlePointer methods together
+	// TODO group all handleXxx methods together
 	public void handlePointerDown(int x, int y, Modifiers modifiers) {
 		if (isEditorActive()) {
 			saveContentAndHideCellEditor();
@@ -218,7 +224,6 @@ public final class SpreadsheetController {
 		int row = findRowOrHeader(y);
 
 		if (viewportAdjuster != null) {
-
 			viewportAdjuster.adjustViewportIfNeeded(row, column, viewport);
 		}
 
