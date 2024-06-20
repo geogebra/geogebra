@@ -301,7 +301,10 @@ public class MathFieldInternal
 		if (keyEvent.getKeyCode() == 13 || keyEvent.getKeyCode() == 10) {
 			if (!listeners.isEmpty()) {
 				this.enterPressed = true;
-				notifyListeners(l -> { l.onEnter(); return true; });
+				notifyListeners(l -> {
+					l.onEnter();
+					return true;
+				});
 				return true;
 			}
 		}
