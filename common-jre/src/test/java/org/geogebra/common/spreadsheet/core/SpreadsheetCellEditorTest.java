@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.spreadsheet.TestTabularData;
-import org.geogebra.common.util.shape.Rectangle;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +15,6 @@ public class SpreadsheetCellEditorTest {
 
 	private TestTabularData data;
 	private SpreadsheetController controller;
-	private final Rectangle viewport = new Rectangle(0, 0, 500, 500);
 	private TestSpreadsheetCellEditor editor;
 
 	@Before

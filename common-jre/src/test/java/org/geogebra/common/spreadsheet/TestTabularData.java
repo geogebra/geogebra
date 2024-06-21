@@ -3,6 +3,7 @@ package org.geogebra.common.spreadsheet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
 import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
@@ -102,5 +103,10 @@ public class TestTabularData implements TabularData<String> {
 	@Override
 	public int getAlignment(int row, int column) {
 		return CellFormat.ALIGN_RIGHT;
+	}
+
+	@Override
+	public CellDragPasteHandler getCellDragPasteHandler() {
+		return null;
 	}
 }

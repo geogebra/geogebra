@@ -61,4 +61,6 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	default void setPersistenceListener(PersistenceListener layout) {
 		// not needed in tests
 	}
+
+	CellDragPasteHandler getCellDragPasteHandler();
 }

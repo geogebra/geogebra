@@ -24,7 +24,7 @@ public class KernelTabularDataProcessorTest extends BaseUnitTest {
 
 	@Before
 	public void setUp() throws Exception {
-		adapter = new KernelTabularDataAdapter(new SpreadsheetSettings());
+		adapter = new KernelTabularDataAdapter(new SpreadsheetSettings(), getKernel());
 		getKernel().attach(adapter);
 		geo1 = add("1");
 		adapter.setContent(0, 0, geo1);

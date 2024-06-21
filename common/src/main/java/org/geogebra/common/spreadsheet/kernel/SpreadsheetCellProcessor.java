@@ -33,7 +33,6 @@ public class SpreadsheetCellProcessor {
 
 	/**
 	 * Depending on input, processor makes text or evaluates input.
-	 *
 	 * @param input to process
 	 */
 	public void process(String input) {
