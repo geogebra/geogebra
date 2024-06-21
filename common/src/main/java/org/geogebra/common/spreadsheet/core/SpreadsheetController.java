@@ -365,7 +365,7 @@ public final class SpreadsheetController implements TabularSelection {
 
 	private void pasteDragSelectionToDestination() {
 		Selection lastSelection = getLastSelection();
-		TabularRange destinationRange = cellDragPasteHandler.getDestinationRange();
+		TabularRange destinationRange = cellDragPasteHandler.getDragPasteDestinationRange();
 		if (lastSelection == null || destinationRange == null) {
 			return;
 		}
@@ -774,7 +774,7 @@ public final class SpreadsheetController implements TabularSelection {
 		if (cellDragPasteHandler == null) {
 			return null;
 		}
-		return cellDragPasteHandler.getDestinationRange();
+		return cellDragPasteHandler.getDragPasteDestinationRange();
 	}
 
 	/**
@@ -782,8 +782,8 @@ public final class SpreadsheetController implements TabularSelection {
 	 * selection, starts scrolling the viewport
 	 */
 	public void scrollForPasteSelectionIfNeeded() {
-		if (cellDragPasteHandler != null && cellDragPasteHandler.getDestinationRange() != null
-				&& viewportAdjuster != null) {
+		if (cellDragPasteHandler != null && viewportAdjuster != null
+				&& cellDragPasteHandler.getDragPasteDestinationRange() != null) {
 			viewportAdjuster.scrollForPasteSelectionIfNeeded(
 					lastPointerPositionX, lastPointerPositionY, viewport,
 					cellDragPasteHandler.destinationShouldExtendVertically(

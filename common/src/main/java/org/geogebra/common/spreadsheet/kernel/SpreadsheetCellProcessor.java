@@ -36,25 +36,15 @@ public class SpreadsheetCellProcessor {
 	 * @param input to process
 	 */
 	public void process(String input) {
-		process(input, true);
-	}
-
-	/**
-	 * Depending on input, processor makes text or evaluates input
-	 * @param input to process
-	 * @param storeUndo Whether or not to store undo point
-	 */
-	public void process(String input, boolean storeUndo) {
 		try {
-			processInput(isCommand(input) ? buildCommandFrom(input) : buildTextFrom(input),
-					storeUndo);
+			processInput(isCommand(input) ? buildCommandFrom(input) : buildTextFrom(input));
 		} catch (Exception e) {
 			Log.debug("error " + e.getLocalizedMessage());
 		}
 	}
 
-	private void processInput(String command, boolean storeUndo) {
-		algebraProcessor.processAlgebraCommandNoExceptionHandling(command, storeUndo,
+	private void processInput(String command) {
+		algebraProcessor.processAlgebraCommandNoExceptionHandling(command, true,
 				errorHandler, false, this::setGeosEuclidianInvisibleAndAuxiliary);
 	}
 

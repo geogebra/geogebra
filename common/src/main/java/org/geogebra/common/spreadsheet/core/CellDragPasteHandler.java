@@ -53,7 +53,7 @@ public class CellDragPasteHandler {
 	/**
 	 * @return The selected range used to copy a selection to
 	 */
-	public @CheckForNull TabularRange getDestinationRange() {
+	public @CheckForNull TabularRange getDragPasteDestinationRange() {
 		if (rangeToCopy == null || (destinationRowIsWithinOriginalSelection()
 				&& destinationColumnIsWithinOriginalSelection())) {
 			return null;
@@ -86,7 +86,7 @@ public class CellDragPasteHandler {
 	 * Pastes the selected range to the chosen destination
 	 */
 	public void pasteToDestination() {
-		if (getDestinationRange() == null || rangeToCopy == null) {
+		if (getDragPasteDestinationRange() == null || rangeToCopy == null) {
 			return;
 		}
 		setPasteDirection();
@@ -130,7 +130,7 @@ public class CellDragPasteHandler {
 	}
 
 	private void pasteToCorrectDirection() throws CircularDefinitionException, ParseException {
-		TabularRange destinationRange = getDestinationRange();
+		TabularRange destinationRange = getDragPasteDestinationRange();
 		if (destinationRange == null) {
 			return;
 		}

@@ -128,21 +128,21 @@ public class CellDragPasteHandlerTest extends BaseUnitTest {
 	public void testInvalidDestination1() {
 		setRangeToCopy(1, 1, 1, 1);
 		cellDragPasteHandler.setDestinationForPaste(1, 1);
-		assertNull(cellDragPasteHandler.getDestinationRange());
+		assertNull(cellDragPasteHandler.getDragPasteDestinationRange());
 	}
 
 	@Test
 	public void testInvalidDestination2() {
 		setRangeToCopy(-1, -1, 2, 2);
 		cellDragPasteHandler.setDestinationForPaste(15, 2);
-		assertNull(cellDragPasteHandler.getDestinationRange());
+		assertNull(cellDragPasteHandler.getDragPasteDestinationRange());
 	}
 
 	@Test
 	public void testInvalidDestination3() {
 		setRangeToCopy(2, 4, -1, -1);
 		cellDragPasteHandler.setDestinationForPaste(3, 0);
-		assertNull(cellDragPasteHandler.getDestinationRange());
+		assertNull(cellDragPasteHandler.getDragPasteDestinationRange());
 	}
 
 	@Test

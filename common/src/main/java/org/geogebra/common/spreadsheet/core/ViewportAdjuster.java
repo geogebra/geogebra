@@ -58,7 +58,8 @@ public class ViewportAdjuster {
 	 * @param viewport Viewport
 	 * @param extendVertically True if the paste selection is extended vertically, false else
 	 * (horizontally)
-	 * @param callback Function used to update the destination of the paste selection
+	 * @param callback Function used to update the target cell of the drag paste selection, which
+	 * might have changed because of the viewport adjustment, based on the new x and y coordinates
 	 */
 	public void scrollForPasteSelectionIfNeeded(int x, int y, Rectangle viewport,
 			boolean extendVertically, BiConsumer<Integer, Integer> callback) {
