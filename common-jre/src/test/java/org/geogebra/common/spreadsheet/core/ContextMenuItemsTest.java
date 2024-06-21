@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
-import org.geogebra.common.util.shape.Rectangle;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -45,7 +44,7 @@ public final class ContextMenuItemsTest {
 		data = new TestTabularData();
 		fillTestData();
 		clipboard = new TestClipboard();
-		controller = new SpreadsheetController(data, new Rectangle(), null);
+		controller = new SpreadsheetController(data);
 		CopyPasteCutTabularDataImpl<?> copyPasteCut =
 				new CopyPasteCutTabularDataImpl<>(data, clipboard, controller.getLayout());
 		items = new ContextMenuItems(controller, selectionController, copyPasteCut);

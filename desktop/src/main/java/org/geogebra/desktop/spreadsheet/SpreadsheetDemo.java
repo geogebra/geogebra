@@ -69,9 +69,9 @@ public class SpreadsheetDemo {
 			frame.setPreferredSize(preferredSize);
 			AppCommon appCommon = new AppCommon(new LocalizationCommon(3), new AwtFactoryD());
 			KernelTabularDataAdapter adapter = new KernelTabularDataAdapter(
-					appCommon.getSettings().getSpreadsheet());
+					appCommon.getSettings().getSpreadsheet(), appCommon.getKernel());
 			Spreadsheet spreadsheet = new Spreadsheet(adapter,
-					new GeoElementCellRendererFactory(new AwtReTeXGraphicsBridgeD()), null, null);
+					new GeoElementCellRendererFactory(new AwtReTeXGraphicsBridgeD()), null);
 
 			FactoryProviderDesktop.setInstance(new FactoryProviderDesktop());
 			spreadsheet.setWidthForColumns(60, 0, 10);

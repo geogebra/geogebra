@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.spreadsheet.TestTabularData;
-import org.geogebra.common.util.shape.Rectangle;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,7 +20,7 @@ public class SpreadsheetCellEditorTest {
 	@Before
 	public void setupEditor() {
 		data = new TestTabularData();
-		controller = new SpreadsheetController(data, null, null);
+		controller = new SpreadsheetController(data);
 		editor = new TestSpreadsheetCellEditor();
 		controller.setControlsDelegate(new SpreadsheetControlsDelegate() {
 			@Override

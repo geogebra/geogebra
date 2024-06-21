@@ -30,9 +30,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param undoProvider undo provider, may be null
 	 */
 	public Spreadsheet(@Nonnull TabularData<?> tabularData,
-			@Nonnull CellRenderableFactory rendererFactory, @CheckForNull UndoProvider undoProvider,
-			CellDragPasteHandler cellDragPasteHandler) {
-		controller = new SpreadsheetController(tabularData, null, cellDragPasteHandler);
+			@Nonnull CellRenderableFactory rendererFactory, @CheckForNull UndoProvider undoProvider) {
+		controller = new SpreadsheetController(tabularData);
 		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
 				controller.getStyle());
 		setViewport(new Rectangle(0, 0, 0, 0));
@@ -91,10 +90,10 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		double offsetY = viewport.getMinY() - layout.getColumnHeaderHeight();
 		drawContentCells(graphics, portion, offsetX, offsetY);
 		renderer.drawHeaderBackgroundAndOutline(graphics, viewport);
-		for (Selection range: controller.getSelections()) {
-			renderer.drawSelectionHeader(range, graphics,
+		controller.getSelections().forEach(selection -> {
+			renderer.drawSelectionHeader(selection, graphics,
 					this.viewport, controller.getLayout());
-		}
+		});
 		graphics.translate(-offsetX, 0);
 		graphics.setColor(controller.getStyle().getGridColor());
 		for (int column = portion.fromColumn + 1; column <= portion.toColumn; column++) {
@@ -192,10 +191,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.handleKeyPressed(keyCode, key, modifiers);
 	}
 
-	public SpreadsheetController getController() {
-        return controller;
-	}
-
 	@Override
 	public void tabularDataDidChange(int row, int column) {
 		renderer.invalidate(row, column);
@@ -215,7 +210,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	public MouseCursor getCursor(int x, int y) {
-		return controller.getDragAction(x, y).activeCursor;
+		return controller.getDragAction(x, y).cursor;
 	}
 
 	public double getTotalWidth() {
@@ -228,5 +223,33 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	public boolean isEditorActive() {
 		return controller.isEditorActive();
+	}
+
+	public void tabPressed() {
+		controller.moveRight(false);
+	}
+
+	void selectRow(int row, boolean extend, boolean add) {
+		controller.selectRow(row, extend, add);
+	}
+
+	void selectColumn(int column, boolean extend, boolean add) {
+		controller.selectColumn(column, extend, add);
+	}
+
+	void selectCell(int row, int column, boolean extend, boolean add) {
+		controller.selectCell(row, column, extend, add);
+	}
+
+	public void setViewportAdjustmentHandler(ViewportAdjusterDelegate mockForScrollable) {
+		controller.setViewportAdjustmentHandler(mockForScrollable);
+	}
+
+	public void onEnter() {
+		controller.onEnter();
+	}
+
+	public void scrollForPasteSelectionIfNeeded() {
+		controller.scrollForPasteSelectionIfNeeded();
 	}
 }

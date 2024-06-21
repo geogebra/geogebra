@@ -84,7 +84,7 @@ public class AlgoLastFunction extends AlgoElement {
 		}
 
 		result.setValue(((ListValue) ev)
-				.getListElement(((ListValue) ev).size() - 1).evaluateDouble());
+				.get(((ListValue) ev).size() - 1).evaluateDouble());
 
 	}
 

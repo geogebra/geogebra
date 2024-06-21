@@ -16,27 +16,27 @@ public class TabularRangeTest {
 	private final TabularRange cellA4 = new TabularRange(3, 0, 3, 0);
 
 	@Test
-	public void testMergeIdentical() {
-		assertRangeEquals(cellA3.merge(cellA3), 2, 0, 2, 0);
-		assertRangeEquals(cellB3.merge(cellB3), 2, 1, 2, 1);
+	public void testGetRectangularUnionIdentical() {
+		assertRangeEquals(cellA3.getRectangularUnion(cellA3), 2, 0, 2, 0);
+		assertRangeEquals(cellB3.getRectangularUnion(cellB3), 2, 1, 2, 1);
 	}
 
 	@Test
-	public void testMergeAdjacentHorizontal() {
-		assertRangeEquals(cellA3.merge(cellB3), 2, 0, 2, 1);
-		assertRangeEquals(cellB3.merge(cellA3), 2, 0, 2, 1);
+	public void testGetRectangularUnionAdjacentHorizontal() {
+		assertRangeEquals(cellA3.getRectangularUnion(cellB3), 2, 0, 2, 1);
+		assertRangeEquals(cellB3.getRectangularUnion(cellA3), 2, 0, 2, 1);
 	}
 
 	@Test
-	public void testMergeAdjacentVertical() {
-		assertRangeEquals(cellA3.merge(cellA4), 2, 0, 3, 0);
-		assertRangeEquals(cellA4.merge(cellA3), 2, 0, 3, 0);
+	public void testGetRectangularUnionAdjacentVertical() {
+		assertRangeEquals(cellA3.getRectangularUnion(cellA4), 2, 0, 3, 0);
+		assertRangeEquals(cellA4.getRectangularUnion(cellA3), 2, 0, 3, 0);
 	}
 
 	@Test
 	public void testMergeIndependent() {
-		assertThat(cellA4.merge(cellB3), nullValue());
-		assertThat(cellB3.merge(cellA4), nullValue());
+		assertThat(cellA4.getRectangularUnion(cellB3), nullValue());
+		assertThat(cellB3.getRectangularUnion(cellA4), nullValue());
 	}
 
 	private void assertRangeEquals(@Nullable TabularRange range, int anchorRow, int anchorColumn,

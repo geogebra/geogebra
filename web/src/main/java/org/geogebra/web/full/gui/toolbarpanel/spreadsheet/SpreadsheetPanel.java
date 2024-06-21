@@ -1,13 +1,13 @@
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
-import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
-import org.geogebra.common.spreadsheet.core.ViewportAdjustmentHandler;
+import org.geogebra.common.spreadsheet.core.ViewportAdjusterDelegate;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
+import org.geogebra.common.util.shape.Size;
 import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
@@ -56,11 +56,10 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		this.app = app;
 		addStyleName("spreadsheetPanel");
 		KernelTabularDataAdapter tabularData = new KernelTabularDataAdapter(
-				app.getSettings().getSpreadsheet());
+				app.getSettings().getSpreadsheet(), app.getKernel());
 		app.getKernel().notifyAddAll(tabularData);
 		spreadsheet = new Spreadsheet(tabularData, new GeoElementCellRendererFactory(
-				new AwtReTexGraphicsBridgeW()), app.getUndoManager(),
-				new CellDragPasteHandler(tabularData, app.getKernel()));
+				new AwtReTexGraphicsBridgeW()), app.getUndoManager());
 
 		app.getKernel().attach(tabularData);
 		add(spreadsheetWidget);
@@ -75,8 +74,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		add(scrollOverlay);
 		spreadsheetElement = scrollContent.getElement();
 
-		ViewportAdjustmentHandler viewportAdjustmentHandler = createScrollable();
-		spreadsheet.getController().setViewportAdjustmentHandler(viewportAdjustmentHandler);
+		ViewportAdjusterDelegate viewportAdjusterDelegate = createScrollable();
+		spreadsheet.setViewportAdjustmentHandler(viewportAdjusterDelegate);
 
 		GlobalHandlerRegistry registry = app.getGlobalHandlers();
 		registry.addEventListener(spreadsheetElement, "pointerdown", event -> {
@@ -118,7 +117,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			repaint();
 		}, 200);
 		DomGlobal.setInterval((ignore) -> {
-			spreadsheet.getController().scrollForPasteSelectionIfNeeded();
+			spreadsheet.scrollForPasteSelectionIfNeeded();
 		}, 20);
 		scrollOverlay.addScrollHandler(event -> {
 			onScroll();
@@ -169,9 +168,13 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	}
 
 	private void updateTotalSize() {
-		Style style = scrollOverlay.getWidget().getElement().getStyle();
 		double width = spreadsheet.getTotalWidth();
 		double height = spreadsheet.getTotalHeight();
+		updateTotalSize(width, height);
+	}
+
+	private void updateTotalSize(double width, double height) {
+		Style style = scrollOverlay.getWidget().getElement().getStyle();
 		style.setWidth(width, Unit.PX);
 		style.setHeight(height, Unit.PX);
 		style.setProperty("maxHeight", height + "px");
@@ -217,8 +220,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		return mathField.getKeyboardListener();
 	}
 
-	private ViewportAdjustmentHandler createScrollable() {
-		return new ViewportAdjustmentHandler() {
+	private ViewportAdjusterDelegate createScrollable() {
+		return new ViewportAdjusterDelegate() {
 
 			@Override
 			public void setScrollPosition(int x, int y) {
@@ -232,8 +235,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			}
 
 			@Override
-			public void updateScrollPanelSize() {
-				updateTotalSize();
+			public void updateScrollPanelSize(Size size) {
+				updateTotalSize(size.getWidth(), size.getHeight());
 			}
 		};
 	}

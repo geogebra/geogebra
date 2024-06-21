@@ -135,7 +135,7 @@ public class AlgoDependentListExpression extends AlgoElement
 		list.clear();
 
 		for (int i = 0; i < evalListSize; i++) {
-			ExpressionValue element = myList.getListElement(i)
+			ExpressionValue element = myList.get(i)
 					.evaluate(StringTemplate.defaultTemplate);
 			GeoElement cached = null;
 			if (i < cachedListSize) {
@@ -270,7 +270,7 @@ public class AlgoDependentListExpression extends AlgoElement
 			 */
 
 			for (int j = 0; j < myList2.size(); j++) {
-				ExpressionValue en = myList2.getListElement(j);
+				ExpressionValue en = myList2.get(j);
 				ExpressionValue ev = en
 						.evaluate(StringTemplate.defaultTemplate);
 				GeoElementND geo2 = toGeo(ev, null, cons);

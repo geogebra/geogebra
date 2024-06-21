@@ -51,7 +51,7 @@ public class ListFold implements FoldComputer {
 		for (int i = 0; i < sum.size(); i++) {
 			try {
 				result.add(ap.processValidExpression(
-						sum.getListElement(i).wrap())[0]);
+						sum.get(i).wrap())[0]);
 			} catch (MyError | Exception e) {
 				result.setUndefined();
 				Log.debug(e);

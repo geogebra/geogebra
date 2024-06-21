@@ -1,10 +1,10 @@
 package org.geogebra.common.spreadsheet.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.annotation.CheckForNull;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
 
 /**
@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.Kernel;
  * For example TabularRange(2, 1, 5, 7) means an 3x6 sized area
  * begins from row 2 column 1 and ends at row 5 column 7
  */
-public class TabularRange {
+public final class TabularRange {
 	private final int anchorColumn;
 	private final int anchorRow;
 	private final int minColumn;
@@ -41,14 +41,14 @@ public class TabularRange {
 	/**
 	 * @param anchorRow anchor row
 	 * @param anchorColumn anchor column
-	 * @param row2 end row
-	 * @param col2 end column
+	 * @param endRow end row
+	 * @param endCol end column
 	 */
-	public TabularRange(int anchorRow, int anchorColumn, int row2, int col2) {
-		minColumn = Math.min(anchorColumn, col2);
-		maxColumn = Math.max(anchorColumn, col2);
-		minRow = Math.min(anchorRow, row2);
-		maxRow = Math.max(anchorRow, row2);
+	public TabularRange(int anchorRow, int anchorColumn, int endRow, int endCol) {
+		minColumn = Math.min(anchorColumn, endCol);
+		maxColumn = Math.max(anchorColumn, endCol);
+		minRow = Math.min(anchorRow, endRow);
+		maxRow = Math.max(anchorRow, endRow);
 
 		this.anchorColumn = anchorColumn;
 		this.anchorRow = anchorRow;
@@ -75,11 +75,11 @@ public class TabularRange {
 	}
 
 	public boolean isColumn() {
-		return anchorRow == -1 || minRow == -1;
+		return (anchorRow == -1 || minRow == -1) && anchorColumn != -1;
 	}
 
 	public boolean isRow() {
-		return anchorColumn == -1 || minColumn == -1;
+		return (anchorColumn == -1 || minColumn == -1) && anchorRow != -1;
 	}
 
 	public int getWidth() {
@@ -151,14 +151,15 @@ public class TabularRange {
 	}
 
 	/**
+	 * row/column pairs
 	 * @param location point (column, row)
 	 * @return whether given point is part of this range
 	 */
-	public boolean contains(GPoint location) {
+	public boolean contains(SpreadsheetCoords location) {
 		if (location != null
-				&& location.x < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP
-				&& location.y < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP) {
-			return contains(location.y, location.x);
+				&& location.column < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP
+				&& location.row < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP) {
+			return contains(location.row, location.column);
 		}
 		return false;
 	}
@@ -187,19 +188,19 @@ public class TabularRange {
 	 *            whether to sort by column
 	 * @return list of all coords in the range
 	 */
-	public ArrayList<GPoint> toCellList(boolean scanByColumn) {
+	public ArrayList<SpreadsheetCoords> toCellList(boolean scanByColumn) {
 
-		ArrayList<GPoint> list = new ArrayList<>();
+		ArrayList<SpreadsheetCoords> list = new ArrayList<>();
 		if (scanByColumn) {
 			for (int col = minColumn; col <= maxColumn; ++col) {
 				for (int row = minRow; row <= maxRow; ++row) {
-					list.add(new GPoint(col, row));
+					list.add(new SpreadsheetCoords(row, col));
 				}
 			}
 		} else {
 			for (int row = minRow; row <= maxRow; ++row) {
 				for (int col = minColumn; col <= maxColumn; ++col) {
-					list.add(new GPoint(col, row));
+					list.add(new SpreadsheetCoords(row, col));
 				}
 			}
 		}
@@ -283,7 +284,7 @@ public class TabularRange {
 	 * @param range other range
 	 * @return new range if this and the other range could be merged, null otherwise
 	 */
-	public @CheckForNull TabularRange merge(TabularRange range) {
+	public @CheckForNull TabularRange getRectangularUnion(TabularRange range) {
 		if (minColumn == range.minColumn && maxColumn == range.maxColumn) {
 			if ((range.minRow >= minRow && range.minRow <= maxRow + 1)
 					|| (minRow >= range.minRow && minRow <= range.maxRow + 1)) {
@@ -356,12 +357,20 @@ public class TabularRange {
 		return ret;
 	}
 
-	/**
-	 * @param other other range
-	 * @return whether both ranges cover the same part of spreadsheet, ignoring their direction
-	 */
-	public boolean isEqualCells(TabularRange other) {
-		return minColumn == other.minColumn && maxColumn == other.maxColumn
-				&& minRow == other.minRow && maxRow == other.maxRow;
+	@Override
+	public int hashCode() {
+		return Arrays.hashCode(new int[]{minColumn, minRow, maxColumn, maxRow});
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof TabularRange)) {
+			return false;
+		}
+		TabularRange other = (TabularRange) obj;
+		return minColumn == other.minColumn
+				&& maxColumn == other.maxColumn
+				&& minRow == other.minRow
+				&& maxRow == other.maxRow;
 	}
 }

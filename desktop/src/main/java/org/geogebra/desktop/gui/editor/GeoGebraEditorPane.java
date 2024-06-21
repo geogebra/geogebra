@@ -34,6 +34,7 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
 
+import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.desktop.gui.GeoGebraKeys;
 import org.geogebra.desktop.main.AppD;
 
@@ -47,24 +48,19 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 
 	private static final long serialVersionUID = 1L;
 
-	private static final int GEOGEBRA = 0;
-	private static final int LATEX = 1;
-	private static final int JAVASCRIPT = 2;
-
 	private Popup helpPopup;
 
-	private AppD app;
-	private int rows;
-	private int cols;
+	private final AppD app;
+	private final int rows;
+	private final int cols;
 	private int rowHeight;
 	private int columnWidth;
 	private Lexer lexer;
 	private boolean matchingEnable;
 	private MatchingBlockManager matchLR;
 	private MatchingBlockManager matchRL;
-	private Point mousePoint;
-	private List<KeywordListener> kwListeners = new ArrayList<>();
-	private int type;
+	private final List<KeywordListener> kwListeners = new ArrayList<>();
+	private ScriptType type;
 
 	/**
 	 * Default Constructor
@@ -96,35 +92,27 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	/**
 	 * @param kitString "geogebra", "javascript" or "latex"
 	 */
-	public void setEditorKit(String kitString) {
+	public void setEditorKit(ScriptType kitString) {
 		String str = getText();
-		if ("geogebra".equalsIgnoreCase(kitString)) {
+		type = kitString;
+		if (kitString == ScriptType.GGBSCRIPT) {
 			GeoGebraEditorKit ggbKit = new GeoGebraEditorKit(app);
 			super.setEditorKit(ggbKit);
 			setFont(ggbKit.getStylePreferences().tokenFont);
 			lexer = new GeoGebraLexer(getDocument(), app);
-			type = GEOGEBRA;
-		} else if ("latex".equalsIgnoreCase(kitString)) {
-			LaTeXEditorKit ltxKit = new LaTeXEditorKit(app);
-			super.setEditorKit(ltxKit);
-			setFont(ltxKit.getStylePreferences().tokenFont);
-			lexer = new LaTeXLexer(getDocument());
-			type = LATEX;
-		} else if ("javascript".equalsIgnoreCase(kitString)) {
+
+		} else if (kitString == ScriptType.JAVASCRIPT) {
 			JavascriptEditorKit javascriptKit = new JavascriptEditorKit(app);
 			super.setEditorKit(javascriptKit);
 			setFont(javascriptKit.getStylePreferences().tokenFont);
 			lexer = new JavascriptLexer(getDocument());
 			((JavascriptEditorKit.JavascriptDocument) getDocument())
 					.setTextComponent(this);
-			type = JAVASCRIPT;
 		}
 
-		matchLR = new MatchingBlockManager(getDocument(), this, true,
-				getHighlighter());
+		matchLR = new MatchingBlockManager(getDocument(), this, true);
 		matchLR.setDefaults();
-		matchRL = new MatchingBlockManager(getDocument(), this, false,
-				getHighlighter());
+		matchRL = new MatchingBlockManager(getDocument(), this, false);
 		matchRL.setDefaults();
 		enableMatchingKeywords(true);
 		setText(str);
@@ -148,36 +136,6 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 		super.setFont(f);
 		revalidate();
 	}
-
-	// =================================================================
-	//
-	// TODO These two methods are preventing the script editor from scrolling.
-	// Do we
-	// need them, can they be removed?
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	/*
-	 * @Override public Dimension getPreferredSize() { Dimension dim =
-	 * super.getPreferredSize(); dim = (dim == null) ? new Dimension(400, 400) :
-	 * dim; if (cols != 0) { dim.width = cols * columnWidth; } if (rows != 0) {
-	 * dim.height = rows * rowHeight; }
-	 * 
-	 * return dim; }
-	 */
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	/*
-	 * @Override public Dimension getPreferredScrollableViewportSize() { return
-	 * new Dimension(cols * columnWidth, rows * rowHeight); }
-	 */
-
-	// =================================================================
 
 	/**
 	 * Returns preferred dimension for the given number of rows and columns when
@@ -218,16 +176,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 *            a KeywordListener
 	 */
 	public void removeKeywordListener(KeywordListener kw) {
-		if (kwListeners.contains(kw)) {
-			kwListeners.remove(kw);
-		}
-	}
-
-	/**
-	 * @return an array of KeywordListener
-	 */
-	public KeywordListener[] getKeywordListeners() {
-		return kwListeners.toArray(new KeywordListener[0]);
+		kwListeners.remove(kw);
 	}
 
 	/**
@@ -238,20 +187,6 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 */
 	public void enableMatchingKeywords(boolean active) {
 		matchingEnable = active;
-	}
-
-	/**
-	 * Get a matching manager
-	 *
-	 * @param lr
-	 *            true if the LR matcher must be returned
-	 * @return the MatchingBlockManager
-	 */
-	public MatchingBlockManager getMatchingBlockManager(boolean lr) {
-		if (lr) {
-			return matchLR;
-		}
-		return matchRL;
 	}
 
 	/**
@@ -273,7 +208,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 						lexer.start + lexer.yychar() + lexer.yylength());
 			}
 
-			if (type == GEOGEBRA && rtok == GeoGebraLexerConstants.OPENCLOSE) {
+			if (type == ScriptType.GGBSCRIPT && rtok == GeoGebraLexerConstants.OPENCLOSE) {
 				pos = getCaretPosition() - 1;
 				rtok = lexer.getKeyword(pos, true);
 				if (rtok == GeoGebraLexerConstants.COMMAND) {
@@ -292,9 +227,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 								this, panel, p.x + r.x,
 								p.y + r.y + 2 + r.height);
 						helpPopup.show();
-					} catch (BadLocationException ex) {
-						//
-					} catch (IllegalComponentStateException ex) {
+					} catch (BadLocationException | IllegalComponentStateException ex) {
 						//
 					}
 				}
@@ -335,37 +268,6 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 */
 	public KeywordEvent getKeywordEvent(int position) {
 		int tok = lexer.getKeyword(position, true);
-		return new KeywordEvent(this, null, tok, lexer.start + lexer.yychar(),
-				lexer.yylength());
-	}
-
-	/**
-	 * Get a keyword at the current position in the document.
-	 *
-	 * @return the KeywordEvent containing infos about keyword.
-	 */
-	public KeywordEvent getKeywordEvent() {
-		return getKeywordEvent(getCaretPosition());
-	}
-
-	/**
-	 * Get a keyword at the current position in the document.
-	 *
-	 * @param caret
-	 *            if true the position is the current caret position in the doc
-	 *            else the position is the mouse pointer position projected in
-	 *            the document.
-	 * @param strict
-	 *            if true the char just after the caret is ignored
-	 * @return the KeywordEvent containing infos about keyword.
-	 */
-	public KeywordEvent getKeywordEvent(boolean caret, boolean strict) {
-		int tok;
-		if (caret) {
-			tok = lexer.getKeyword(getCaretPosition(), strict);
-		} else {
-			tok = lexer.getKeyword(viewToModel(mousePoint), strict);
-		}
 		return new KeywordEvent(this, null, tok, lexer.start + lexer.yychar(),
 				lexer.yylength());
 	}
@@ -413,7 +315,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		this.mousePoint = e.getPoint();
+		//
 	}
 
 	/**
@@ -457,8 +359,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 */
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		this.mousePoint = e.getPoint();
-		preventConcernedKeywordListener(viewToModel(mousePoint), e,
+		preventConcernedKeywordListener(viewToModel(e.getPoint()), e,
 				KeywordListener.ONMOUSEOVER);
 	}
 
@@ -472,12 +373,4 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	public void mouseDragged(MouseEvent e) {
 		//
 	}
-
-	/**
-	 * @return the current mouse position in this pane
-	 */
-	public Point getMousePoint() {
-		return mousePoint;
-	}
-
 }

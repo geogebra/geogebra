@@ -2206,7 +2206,7 @@ public class GuiManagerW extends GuiManager
 		GlobalHeader.INSTANCE.initShareButton(share -> {
 			getApp().hideMenu();
 			FileMenuW.share(getApp(), share);
-		});
+		}, (AppW) app);
 	}
 
 	@Override

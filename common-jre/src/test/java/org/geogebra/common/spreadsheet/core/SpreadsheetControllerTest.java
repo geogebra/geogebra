@@ -17,6 +17,7 @@ import java.util.List;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.util.shape.Rectangle;
+import org.geogebra.common.util.shape.Size;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,16 +27,16 @@ public class SpreadsheetControllerTest {
     private final int cellHeight = TableLayout.DEFAUL_CELL_HEIGHT;
     private final int rowHeaderCellWidth = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 
-    private final SpreadsheetController controller =
-            new SpreadsheetController(new TestTabularData(), null, null);
+    private SpreadsheetController controller;
     private Rectangle viewport;
 
     @Before
     public void setup() {
+        controller = new SpreadsheetController(new TestTabularData());
         controller.getLayout().setHeightForRows(cellHeight, 0, 5);
         controller.getLayout().setWidthForColumns(40, 0, 5);
         setViewport(new Rectangle(0, 100, 0, 120));
-        controller.setViewportAdjustmentHandler(new ViewportAdjustmentHandler() {
+        controller.setViewportAdjustmentHandler(new ViewportAdjusterDelegate() {
             @Override
             public void setScrollPosition(int x, int y) {
                 viewport = viewport.translatedBy(x, y);
@@ -47,7 +48,7 @@ public class SpreadsheetControllerTest {
             }
 
             @Override
-            public void updateScrollPanelSize() {
+            public void updateScrollPanelSize(Size size) {
                 // not needed
             }
         });
@@ -244,7 +245,7 @@ public class SpreadsheetControllerTest {
         runContextItemAt(2, 2, DELETE_COLUMN);
         selectCells(0, 1, 0, 1);
         runContextItemAt(0, 1, INSERT_COLUMN_RIGHT);
-        assertTrue("The current selection should move when a column is inserted to the right!",
+        assertTrue("The current selection should move when a column is inserted!",
                 controller.getLastSelection().contains(0, 2));
         assertTrue("There should be no more than 1 cell selected!",
                 controller.isOnlyCellSelected(0, 2));
@@ -298,9 +299,9 @@ public class SpreadsheetControllerTest {
         controller.setControlsDelegate(getSpreadsheetControlsDelegate());
         controller.handlePointerDown(rowHeaderCellWidth + 10, cellHeight + 10,
                 new Modifiers(false, false, false, true));
-        assertEquals(1, controller.getSelections().size());
-        assertTrue(controller.getSelections().get(0).getRange().isEqualCells(
-                new TabularRange(0, 0, 1, 1)));
+        assertEquals(1, controller.getSelections().count());
+		assertEquals(controller.getSelections().findFirst().get().getRange(),
+                new TabularRange(0, 0, 1, 1));
     }
 
     private void runContextItemAt(int row, int column, Identifier identifier) {
@@ -316,9 +317,9 @@ public class SpreadsheetControllerTest {
         controller.selectColumn(2, false, true);
         controller.handlePointerDown(rowHeaderCellWidth + 10, cellHeight + 10,
                 new Modifiers(false, false, false, true));
-        assertEquals(1, controller.getSelections().size());
-        assertTrue(controller.getSelections().get(0).getRange().isEqualCells(
-                new TabularRange(0, 0, 0, 0)));
+        assertEquals(1, controller.getSelections().count());
+        assertEquals(controller.getSelections().findFirst().get().getRange(),
+                new TabularRange(0, 0, 0, 0));
     }
 
     private void setViewport(Rectangle viewport) {
