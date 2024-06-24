@@ -131,10 +131,10 @@ final class CopyPasteCutTabularDataImpl<T>
 
 	@Override
 	public void cut(TabularRange range) {
-		copy(range);
-		if (internalClipboard != null) {
-			internalClipboard.clear();
-		}
+		copyDeep(range);
+//		if (internalClipboard != null) {
+//			internalClipboard.clear();
+//		}
 		range.forEach((row, column) -> tabularData.setContent(row, column, null));
 	}
 }

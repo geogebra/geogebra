@@ -3,11 +3,13 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
 
 public class ContextMenuItems {
 	static final int HEADER_INDEX = -1;
-	private final CopyPasteCutTabularData copyPasteCut;
+	private @CheckForNull CopyPasteCutTabularData copyPasteCut;
 	private final SpreadsheetSelectionController selectionController;
 	private final SpreadsheetController spreadsheetController;
 
@@ -43,6 +45,7 @@ public class ContextMenuItems {
 	 * @return list of the menu key and its action.
 	 */
 	public List<ContextMenuItem> get(int fromRow, int toRow, int fromCol, int toCol) {
+		copyPasteCut = spreadsheetController.getCopyPasteCut();
 		if (shouldShowTableItems(fromRow, fromCol)) {
 			return tableItems(fromRow, fromCol);
 		} else if (fromRow == HEADER_INDEX) {

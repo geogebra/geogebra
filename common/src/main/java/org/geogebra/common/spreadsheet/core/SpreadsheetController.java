@@ -38,6 +38,7 @@ public final class SpreadsheetController {
 	private Rectangle viewport = new Rectangle(0, 0, 0, 0);
 	private @CheckForNull ViewportAdjuster viewportAdjuster;
 	private @CheckForNull UndoProvider undoProvider;
+	private @CheckForNull CopyPasteCutTabularData copyPasteCut;
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
@@ -662,10 +663,15 @@ public final class SpreadsheetController {
 		return selectionController.isSingleSelectionType();
 	}
 
-	private CopyPasteCutTabularData getCopyPasteCut() {
-		return controlsDelegate != null
-				? new CopyPasteCutTabularDataImpl<>(tabularData,
-				controlsDelegate.getClipboard(), layout) : null;
+	/**
+	 * @return {@link CopyPasteCutTabularData}
+	 */
+	public @CheckForNull CopyPasteCutTabularData getCopyPasteCut() {
+		if (copyPasteCut == null && controlsDelegate != null) {
+			copyPasteCut = new CopyPasteCutTabularDataImpl<>(tabularData,
+					controlsDelegate.getClipboard(), layout);
+		}
+		return copyPasteCut;
 	}
 
 	/**
