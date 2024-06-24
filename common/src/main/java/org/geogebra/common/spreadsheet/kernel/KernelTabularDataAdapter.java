@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -14,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
 import org.geogebra.common.spreadsheet.core.PersistenceListener;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
@@ -33,13 +35,15 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	private final KernelTabularDataProcessor processor;
 	private final CellFormat cellFormat;
 	private final SpreadsheetSettings spreadsheetSettings;
+	private final Kernel kernel;
 
 	/**
 	 * @param spreadsheetSettings spreadsheet settings
 	 */
-	public KernelTabularDataAdapter(SpreadsheetSettings spreadsheetSettings) {
+	public KernelTabularDataAdapter(SpreadsheetSettings spreadsheetSettings, Kernel kernel) {
 		this.cellFormat = new CellFormat(null);
 		this.spreadsheetSettings = spreadsheetSettings;
+		this.kernel = kernel;
 		cellFormat.processXMLString(spreadsheetSettings.cellFormat());
 		spreadsheetSettings.addListener((settings) -> {
 				notifySizeChanged(spreadsheetSettings);
@@ -241,5 +245,10 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	@Override
 	public void setPersistenceListener(PersistenceListener layout) {
 		spreadsheetSettings.setPersistenceListener(layout);
+	}
+
+	@Override
+	public CellDragPasteHandler getCellDragPasteHandler() {
+		return new CellDragPasteHandler(this, kernel);
 	}
 }
