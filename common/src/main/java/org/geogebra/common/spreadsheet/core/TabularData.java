@@ -56,9 +56,15 @@ public interface TabularData<T> extends HasTabularValues<T> {
 
 	CellFormat getFormat();
 
+	/**
+	 * @return The (cell value) alignment for the given cell. One of {@link CellFormat}'s
+	 * ALIGN_LEFT, ALIGN_CENTER, or ALIGN_RIGHT.
+	 */
 	int getAlignment(int row, int column);
 
 	default void setPersistenceListener(PersistenceListener layout) {
 		// not needed in tests
 	}
+
+	CellDragPasteHandler getCellDragPasteHandler();
 }
