@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
@@ -15,10 +16,12 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 /**
- * A container for tabular data, with support for selecting parts of the data.
+ * A container for tabular data, with support for selecting and editing the data.
  *
  * @apiNote This type is not designed to be thread-safe.
  */
@@ -30,12 +33,13 @@ public final class SpreadsheetController {
 	final private TabularData<?> tabularData;
 
 	//@NonOwning
-	private SpreadsheetControlsDelegate controlsDelegate;
+	private @CheckForNull SpreadsheetControlsDelegate controlsDelegate;
+	private Editor editor;
 	private final TableLayout layout;
 
 	private final SpreadsheetStyle style;
 	private DragState dragState;
-	private Rectangle viewport = new Rectangle(0, 0, 0, 0);
+	private Rectangle viewport;
 	private @CheckForNull ViewportAdjuster viewportAdjuster;
 	private @CheckForNull UndoProvider undoProvider;
 	private CellDragPasteHandler cellDragPasteHandler;
@@ -47,6 +51,7 @@ public final class SpreadsheetController {
 	 */
 	public SpreadsheetController(TabularData<?> tabularData) {
 		this.tabularData = tabularData;
+		this.viewport = new Rectangle(0, 0, 0, 0);
 		this.cellDragPasteHandler = tabularData.getCellDragPasteHandler();
 		resetDragAction();
 		style = new SpreadsheetStyle(tabularData.getFormat());
@@ -54,6 +59,32 @@ public final class SpreadsheetController {
 				tabularData.numberOfColumns(), TableLayout.DEFAUL_CELL_HEIGHT,
 				TableLayout.DEFAULT_CELL_WIDTH);
 		contextMenuItems = new ContextMenuItems(this, selectionController, getCopyPasteCut());
+	}
+
+	/**
+	 * @param controlsDelegate The controls delegate.
+	 */
+	public void setControlsDelegate(SpreadsheetControlsDelegate controlsDelegate) {
+		this.controlsDelegate = controlsDelegate;
+		editor = null;
+	}
+
+	/**
+	 * @param viewportAdjusterDelegate The viewport adjuster delegate.
+	 */
+	public void setViewportAdjustmentHandler(ViewportAdjusterDelegate viewportAdjusterDelegate) {
+		this.viewportAdjuster = new ViewportAdjuster(getLayout(), viewportAdjusterDelegate);
+	}
+
+	/**
+	 * @param undoProvider The undo provider.
+	 */
+	public void setUndoProvider(UndoProvider undoProvider) {
+		this.undoProvider = undoProvider;
+	}
+
+	void setViewport(Rectangle viewport) {
+		this.viewport = viewport;
 	}
 
 	TableLayout getLayout() {
@@ -74,7 +105,7 @@ public final class SpreadsheetController {
 
 	// - TabularData
 
-	public Object contentAt(int row, int column) {
+	Object contentAt(int row, int column) {
 		return tabularData.contentAt(row, column);
 	}
 
@@ -140,54 +171,36 @@ public final class SpreadsheetController {
 		return tabularData.getRowName(column);
 	}
 
-	boolean showCellEditor(int row, int column) {
+	private boolean showCellEditor(int row, int column) {
 		if (controlsDelegate == null) {
-			return false;
+			return false; // cell editor not shown
 		}
-		Rectangle editorBounds = getEditorBounds(row, column);
-		SpreadsheetCellEditor editor = controlsDelegate.getCellEditor();
-		editor.setBounds(editorBounds);
-
-		editor.setContent(tabularData.contentAt(row, column));
-		editor.setAlign(tabularData.getAlignment(row, column));
-		editor.setTargetCell(row, column);
+		if (editor == null) {
+			editor = new Editor(controlsDelegate.getCellEditor());
+		}
+		editor.showAt(row, column);
 		resetDragAction();
 		return true;
 	}
 
-	private Rectangle getEditorBounds(int row, int column) {
-		return layout.getBounds(row, column)
-				.translatedBy(-viewport.getMinX() + layout.getRowHeaderWidth(),
-						-viewport.getMinY() + layout.getColumnHeaderHeight());
-	}
-
-	/**
-	 * Process the editor input, update corresponding cell and hide the editor
-	 */
-	public void saveContentAndHideCellEditor() {
-		if (controlsDelegate != null) {
-			SpreadsheetCellEditor editor = controlsDelegate.getCellEditor();
-			if (editor != null && editor.isVisible()) {
-				editor.onEnter();
-				editor.hide();
-			}
+	private void hideCellEditor() {
+		if (isEditorActive()) {
+			editor.hide();
 		}
 	}
 
-	public void setControlsDelegate(SpreadsheetControlsDelegate controlsDelegate) {
-		this.controlsDelegate = controlsDelegate;
+	/**
+	 * @return true if the cell editor is currently visible.
+	 */
+	public boolean isEditorActive() {
+		return editor != null && editor.isVisible;
 	}
 
-	public void setViewportAdjustmentHandler(ViewportAdjusterDelegate viewportAdjusterDelegate) {
-		this.viewportAdjuster = new ViewportAdjuster(getLayout(), viewportAdjusterDelegate);
-	}
-
-	public void setViewport(Rectangle viewport) {
-		this.viewport = viewport;
-	}
-
-	public void setUndoProvider(UndoProvider undoProvider) {
-		this.undoProvider = undoProvider;
+	private void saveContentAndHideCellEditor() {
+		if (editor.isVisible) {
+			editor.commit();
+			editor.hide();
+		}
 	}
 
 	/**
@@ -196,8 +209,11 @@ public final class SpreadsheetController {
 	 * @param modifiers event modifiers
 	 */
 	// TODO change to double (APPS-5637)
+	// TODO group all handleXxx methods together
 	public void handlePointerDown(int x, int y, Modifiers modifiers) {
-		saveContentAndHideCellEditor();
+		if (isEditorActive()) {
+			saveContentAndHideCellEditor();
+		}
 		if (controlsDelegate != null) {
 			controlsDelegate.hideContextMenu();
 		}
@@ -218,7 +234,6 @@ public final class SpreadsheetController {
 		int row = findRowOrHeader(y);
 
 		if (viewportAdjuster != null) {
-
 			viewportAdjuster.adjustViewportIfNeeded(row, column, viewport);
 		}
 
@@ -259,7 +274,7 @@ public final class SpreadsheetController {
 	}
 
 	private int findColumnOrHeader(int x) {
-		return x < layout.getRowHeaderWidth() ? - 1
+		return x < layout.getRowHeaderWidth() ? -1
 				: layout.findColumn(x + viewport.getMinX());
 	}
 
@@ -400,6 +415,11 @@ public final class SpreadsheetController {
 			case JavaKeyCodes.VK_ENTER:
 				showCellEditorAtSelection();
 				return;
+			case JavaKeyCodes.VK_DELETE:
+			case JavaKeyCodes.VK_BACK_SPACE:
+			case JavaKeyCodes.VK_CLEAR:
+				deleteSelectedCells();
+				break;
 			default:
 				startTyping(key, modifiers);
 			}
@@ -410,12 +430,12 @@ public final class SpreadsheetController {
 	}
 
 	private void startTyping(String key, Modifiers modifiers) {
-		SpreadsheetControlsDelegate controls = controlsDelegate;
-		if (!modifiers.ctrlOrCmd && !modifiers.alt && !StringUtil.empty(key)
-				&& controls != null) {
+		if (!modifiers.ctrlOrCmd && !modifiers.alt && !StringUtil.empty(key)) {
 			showCellEditorAtSelection();
-			controls.getCellEditor().setContent("");
-			controls.getCellEditor().type(key);
+			if (editor != null) {
+				editor.clearInput();
+				editor.type(key);
+			}
 		}
 	}
 
@@ -427,39 +447,62 @@ public final class SpreadsheetController {
 		}
 	}
 
+	private void deleteSelectedCells() {
+		// TODO implement single cell deletion (delete key)
+	}
+
 	/**
-	 * Move focus down and adjust viewport
+	 * Hides the cell editor if active, moves input focus down by one cell, and adjusts the
+	 * viewport if necessary.
 	 */
-	public void onEnter() {
+	void onEnter() {
+		hideCellEditor();
 		moveDown(false);
 		adjustViewportIfNeeded();
 	}
 
 	/**
+	 * Hides the cell editor if acgive, moves input focus right by one cell, and adjusts the
+	 * viewport if necessary.
+	 */
+	void onTab() {
+		hideCellEditor();
+		moveRight(false);
+		adjustViewportIfNeeded();
+	}
+
+	/**
+	 * Hides the cell editor if active.
+	 */
+	void onEsc() {
+		hideCellEditor();
+	}
+
+	/**
 	 * @param extendingCurrentSelection True if the current selection should expand, false else
 	 */
-	public void moveLeft(boolean extendingCurrentSelection) {
+	void moveLeft(boolean extendingCurrentSelection) {
 		selectionController.moveLeft(extendingCurrentSelection);
 	}
 
 	/**
 	 * @param extendingCurrentSelection True if the current selection should expand, false else
 	 */
-	public void moveRight(boolean extendingCurrentSelection) {
+	void moveRight(boolean extendingCurrentSelection) {
 		selectionController.moveRight(extendingCurrentSelection, layout.numberOfColumns());
 	}
 
 	/**
 	 * @param extendingCurrentSelection True if the current selection should expand, false else
 	 */
-	public void moveUp(boolean extendingCurrentSelection) {
+	void moveUp(boolean extendingCurrentSelection) {
 		selectionController.moveUp(extendingCurrentSelection);
 	}
 
 	/**
 	 * @param extendingCurrentSelection True if the current selection should expand, false else
 	 */
-	public void moveDown(boolean extendingCurrentSelection) {
+	void moveDown(boolean extendingCurrentSelection) {
 		selectionController.moveDown(extendingCurrentSelection, layout.numberOfRows());
 	}
 
@@ -476,7 +519,8 @@ public final class SpreadsheetController {
 		}
 	}
 
-	@CheckForNull Selection getLastSelection() {
+	@CheckForNull
+	Selection getLastSelection() {
 		return selectionController.getLastSelection();
 	}
 
@@ -526,7 +570,7 @@ public final class SpreadsheetController {
 	/**
 	 * @return selections limited to data size
 	 */
-	public List<TabularRange> getVisibleSelections() {
+	List<TabularRange> getVisibleSelections() {
 		return getSelections().map(this::intersectWithDataRange)
 				.collect(Collectors.toList());
 	}
@@ -551,7 +595,7 @@ public final class SpreadsheetController {
 	 * @param column column index
 	 * @return whether selection contains at least one cell in given column
 	 */
-	public boolean isSelectionIntersectingColumn(int column) {
+	boolean isSelectionIntersectingColumn(int column) {
 		return selectionController.getSelections()
 				.anyMatch(sel -> sel.getRange().intersectsColumn(column));
 	}
@@ -560,12 +604,13 @@ public final class SpreadsheetController {
 	 * @param row row index
 	 * @return whether selection contains at least one cell in given row
 	 */
-	public boolean isSelectionIntersectingRow(int row) {
+	boolean isSelectionIntersectingRow(int row) {
 		return selectionController.getSelections()
 				.anyMatch(sel -> sel.getRange().intersectsRow(row));
 	}
 
-	@CheckForNull GPoint2D getDraggingDot() {
+	@CheckForNull
+	GPoint2D getDraggingDot() {
 		if (isEditorActive()) {
 			return null;
 		}
@@ -573,7 +618,7 @@ public final class SpreadsheetController {
 		if (!visibleSelections.isEmpty()) {
 			TabularRange lastSelection = visibleSelections.get(visibleSelections.size() - 1);
 			Rectangle bounds = layout.getBounds(lastSelection, viewport);
-			if (bounds != null && bounds.getMaxX() >  layout.getRowHeaderWidth()
+			if (bounds != null && bounds.getMaxX() > layout.getRowHeaderWidth()
 					&& bounds.getMaxY() > layout.getColumnHeaderHeight()) {
 				return new GPoint2D(bounds.getMaxX(), bounds.getMaxY());
 			}
@@ -588,7 +633,7 @@ public final class SpreadsheetController {
 	 * is selected</b>
 	 * @param row Row index
 	 */
-	public void deleteRowAt(int row) {
+	void deleteRowAt(int row) {
 		if (!selectionController.hasSelection() || selectionController.isOnlyRowSelected(row)) {
 			deleteRowAndResizeRemainingRows(row);
 		} else {
@@ -622,7 +667,7 @@ public final class SpreadsheetController {
 	 * is selected</b>
 	 * @param column Column index
 	 */
-	public void deleteColumnAt(int column) {
+	void deleteColumnAt(int column) {
 		if (!selectionController.hasSelection()
 				|| selectionController.isOnlyColumnSelected(column)) {
 			deleteColumnAndResizeRemainingColumns(column);
@@ -657,7 +702,7 @@ public final class SpreadsheetController {
 	 * @param column Index of where to insert the column
 	 * @param right Whether the column is being inserted right of the currently selected column
 	 */
-	public void insertColumnAt(int column, boolean right) {
+	void insertColumnAt(int column, boolean right) {
 		tabularData.insertColumnAt(column);
 		Selection lastSelection = selectionController.getLastSelection();
 		if (right && lastSelection != null) {
@@ -683,7 +728,7 @@ public final class SpreadsheetController {
 	 * @param row Index of where to insert the row
 	 * @param below Whether the row is being inserted below the currently selected row
 	 */
-	public void insertRowAt(int row, boolean below) {
+	void insertRowAt(int row, boolean below) {
 		tabularData.insertRowAt(row);
 		Selection lastSelection = selectionController.getLastSelection();
 		if (below && lastSelection != null) {
@@ -721,13 +766,6 @@ public final class SpreadsheetController {
 		return controlsDelegate != null
 				? new CopyPasteCutTabularDataImpl<>(tabularData,
 				controlsDelegate.getClipboard(), layout) : null;
-	}
-
-	/**
-	 * @return whether editor is currently visible
-	 */
-	public boolean isEditorActive() {
-		return controlsDelegate != null && controlsDelegate.getCellEditor().isVisible();
 	}
 
 	private void storeUndoInfo() {
@@ -770,6 +808,54 @@ public final class SpreadsheetController {
 					cellDragPasteHandler.destinationShouldExtendVertically(
 							findRowOrHeader(lastPointerPositionY)),
 					this::setDestinationForDragPaste);
+		}
+	}
+
+	private final class Editor {
+		private final @Nonnull SpreadsheetCellEditor cellEditor;
+		private @CheckForNull SpreadsheetMathFieldAdapter mathFieldAdapter;
+		boolean isVisible;
+
+		Editor(@Nonnull SpreadsheetCellEditor cellEditor) {
+			this.cellEditor = cellEditor;
+		}
+
+		void showAt(int row, int column) {
+			Object content = tabularData.contentAt(row, column);
+
+			MathFieldInternal mathField = cellEditor.getMathField();
+			mathField.parse(cellEditor.getCellDataSerializer().getStringForEditor(content));
+
+			mathFieldAdapter = new SpreadsheetMathFieldAdapter(mathField, row, column,
+					cellEditor.getCellProcessor(), SpreadsheetController.this);
+			mathField.addMathFieldListener(mathFieldAdapter);
+			mathField.setUnhandledArrowListener(mathFieldAdapter);
+
+			Rectangle editorBounds = layout.getBounds(row, column)
+					.translatedBy(-viewport.getMinX() + layout.getRowHeaderWidth(),
+							-viewport.getMinY() + layout.getColumnHeaderHeight());
+			cellEditor.show(editorBounds, viewport, tabularData.getAlignment(row, column));
+			isVisible = true;
+		}
+
+		void hide() {
+			cellEditor.getMathField().removeMathFieldListener(mathFieldAdapter);
+			cellEditor.hide();
+			isVisible = false;
+		}
+
+		void clearInput() {
+			cellEditor.getMathField().parse("");
+		}
+
+		void type(String key) {
+			KeyboardInputAdapter.type(cellEditor.getMathField(), key);
+		}
+
+		void commit() {
+			if (mathFieldAdapter != null) {
+				mathFieldAdapter.commitInput();
+			}
 		}
 	}
 }

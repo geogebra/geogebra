@@ -1,6 +1,5 @@
 package org.geogebra.desktop.spreadsheet;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -20,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.swing.AbstractAction;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -38,12 +38,13 @@ import org.geogebra.common.spreadsheet.core.ClipboardInterface;
 import org.geogebra.common.spreadsheet.core.ContextMenuItem;
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCellDataSerializer;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellEditor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetControlsDelegate;
+import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellDataSerializer;
+import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
-import org.geogebra.common.spreadsheet.kernel.KernelDataSerializer;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
-import org.geogebra.common.spreadsheet.kernel.SpreadsheetEditorListener;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
@@ -54,7 +55,7 @@ import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.gui.spreadsheet.AwtReTeXGraphicsBridgeD;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
-import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 
 public class SpreadsheetDemo {
@@ -157,7 +158,6 @@ public class SpreadsheetDemo {
 			editorBox.setBorder(new BevelBorder(BevelBorder.RAISED));
 			editorBox.add(mathField);
 			mathField.setBounds(0, 0, 200, 200);
-			mathField.requestViewFocus();
 			editorBox.setAlignmentX(0);
 			editorBox.setAlignmentY(0);
 
@@ -211,8 +211,8 @@ public class SpreadsheetDemo {
 
 			spreadsheet.setControlsDelegate(new SpreadsheetControlsDelegate() {
 
-				final SpreadsheetCellEditor editor = new DesktopSpreadsheetCellEditor(frame,
-						app, this);
+				private final SpreadsheetCellEditor editor = new DesktopSpreadsheetCellEditor(frame,
+						app);
 
 				private ClipboardInterface clipboard = new ClipboardD();
 
@@ -258,7 +258,8 @@ public class SpreadsheetDemo {
 		}
 
 		private Modifiers getModifiers(KeyEvent event) {
-			return new Modifiers(event.isAltDown(), event.isControlDown(),
+			return new Modifiers(event.isAltDown(),
+					event.isControlDown() || event.isMetaDown(), // looks like Meta == Cmd on Mac
 					event.isShiftDown(), false);
 		}
 
@@ -277,70 +278,47 @@ public class SpreadsheetDemo {
 
 			private final JFrame frame;
 			private final AppCommon app;
-			private final SpreadsheetControlsDelegate controls;
 
-			DesktopSpreadsheetCellEditor(JFrame frame, AppCommon app,
-					SpreadsheetControlsDelegate controls) {
+			DesktopSpreadsheetCellEditor(JFrame frame, AppCommon app) {
 				this.frame = frame;
 				this.app = app;
-				this.controls = controls;
 			}
 
 			@Override
-			public void setBounds(Rectangle bounds) {
+			public void show(Rectangle editorBounds, Rectangle viewport, int textAlignment) {
 				if (!frame.getContentPane().isAncestorOf(editorBox)) {
 					frame.getContentPane().add(editorBox);
 				}
-				editorBox.setBounds((int) bounds.getMinX(), (int) bounds.getMinY(),
-						(int) bounds.getWidth(), (int) bounds.getHeight());
+				editorBox.setBounds((int) editorBounds.getMinX(), (int) editorBounds.getMinY(),
+						(int) editorBounds.getWidth(), (int) editorBounds.getHeight());
 				mathField.setBounds(0, 0,
-						(int) bounds.getWidth(), (int) bounds.getHeight());
-
-				editorBox.setBackground(Color.BLUE);
+						(int) editorBounds.getWidth(), (int) editorBounds.getHeight());
 				editorBox.setVisible(true);
-				frame.revalidate();
 				mathField.requestViewFocus();
-			}
-
-			@Override
-			public void setTargetCell(int row, int column) {
-				mathField.getInternal().setFieldListener(new SpreadsheetEditorListener(
-						mathField.getInternal(), app.getKernel(), row, column, this, spreadsheet));
-			}
-
-			@Override
-			public void setContent(Object content) {
-				mathField.parse(new KernelDataSerializer().getStringForEditor(content));
-			}
-
-			@Override
-			public void type(String text) {
-				KeyboardInputAdapter.type(mathField.getInternal(), text);
-			}
-
-			@Override
-			public void setAlign(int align) {
-				// not needed
-			}
-
-			@Override
-			public void scrollHorizontally() {
-				// not needed in demo
-			}
-
-			@Override
-			public boolean isVisible() {
-				return editorBox.isVisible();
 			}
 
 			@Override
 			public void hide() {
 				editorBox.setVisible(false);
+				requestFocus();
+				frame.getContentPane().repaint();
 			}
 
 			@Override
-			public void onEnter() {
-				// not needed in demo
+			public @Nonnull MathFieldInternal getMathField() {
+				return mathField.getInternal();
+			}
+
+			@Override
+			public @Nonnull DefaultSpreadsheetCellProcessor getCellProcessor() {
+				return new DefaultSpreadsheetCellProcessor(
+						app.getKernel().getAlgebraProcessor(),
+						app.getDefaultErrorHandler());
+			}
+
+			@Override
+			public @Nonnull SpreadsheetCellDataSerializer getCellDataSerializer() {
+				return new DefaultSpreadsheetCellDataSerializer();
 			}
 		}
 	}

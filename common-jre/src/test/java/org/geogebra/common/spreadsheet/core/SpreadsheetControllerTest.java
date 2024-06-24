@@ -8,6 +8,7 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.IN
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_ABOVE;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_BELOW;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -15,26 +16,45 @@ import static org.junit.Assert.fail;
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.io.FactoryProviderCommon;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class SpreadsheetControllerTest {
+public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
     private final int cellHeight = TableLayout.DEFAUL_CELL_HEIGHT;
+    private final int cellWidth = 40;
     private final int rowHeaderCellWidth = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 
     private SpreadsheetController controller;
+    private TabularData tabularData;
+    private SpreadsheetCellEditor cellEditor;
+    private ClipboardInterface clipboard;
     private Rectangle viewport;
+
+    @BeforeClass
+    public static void setupOnce() {
+        FactoryProvider.setInstance(new FactoryProviderCommon()); // required by MathField
+    }
 
     @Before
     public void setup() {
-        controller = new SpreadsheetController(new TestTabularData());
+        tabularData = new TestTabularData();
+        clipboard = new TestClipboard();
+        cellEditor = new TestSpreadsheetCellEditor(tabularData);
+
+        controller = new SpreadsheetController(tabularData);
+        controller.setControlsDelegate(this);
         controller.getLayout().setHeightForRows(cellHeight, 0, 5);
-        controller.getLayout().setWidthForColumns(40, 0, 5);
+        controller.getLayout().setWidthForColumns(cellWidth, 0, 5);
         setViewport(new Rectangle(0, 100, 0, 120));
         controller.setViewportAdjustmentHandler(new ViewportAdjusterDelegate() {
             @Override
@@ -296,7 +316,6 @@ public class SpreadsheetControllerTest {
     @Test
     public void testRightClickingMultiCellSelectionShouldNotChangeSelection() {
         selectCells(0, 0, 1, 1);
-        controller.setControlsDelegate(getSpreadsheetControlsDelegate());
         controller.handlePointerDown(rowHeaderCellWidth + 10, cellHeight + 10,
                 new Modifiers(false, false, false, true));
         assertEquals(1, controller.getSelections().count());
@@ -322,6 +341,52 @@ public class SpreadsheetControllerTest {
                 new TabularRange(0, 0, 0, 0));
     }
 
+    // Cell editing
+
+    @Test
+    public void testActivateCellEditorByClickOnSelectedCell() {
+        controller.selectCell(0, 0, false, false);
+        simulateCellMouseClick(0, 0, 1);
+        assertTrue(controller.isEditorActive());
+    }
+
+    @Test
+    public void testActivateCellEditorByDoubleClickingCell() {
+        simulateCellMouseClick(0, 0, 2);
+        assertTrue(controller.isEditorActive());
+    }
+
+    @Test
+    public void testActivateCellEditorByTypingInSelectedCell() {
+        controller.selectCell(0, 0, false, false);
+        controller.handleKeyPressed(JavaKeyCodes.VK_EQUALS, "=", Modifiers.NONE);
+        assertTrue(controller.isEditorActive());
+    }
+
+    @Test
+    public void testReturnCommitsCellEditorChanges() {
+        tabularData.setContent(0, 0, "1");
+        simulateCellMouseClick(0, 0, 2);
+        assertTrue(controller.isEditorActive());
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_0);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_ENTER);
+        assertFalse(controller.isEditorActive());
+        assertEquals("10", tabularData.contentAt(0, 0));
+    }
+
+    @Test
+    public void testCancelDoesntCommitCellEditorChanges() {
+        tabularData.setContent(0, 0, "1");
+        simulateCellMouseClick(0, 0, 2);
+        assertTrue(controller.isEditorActive());
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_0);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_ESCAPE);
+        assertFalse(controller.isEditorActive());
+        assertEquals("1", tabularData.contentAt(0, 0));
+    }
+
+    // Helpers
+
     private void setViewport(Rectangle viewport) {
         this.viewport = viewport;
         controller.setViewport(viewport);
@@ -343,31 +408,59 @@ public class SpreadsheetControllerTest {
         controller.handleKeyPressed(40, "", Modifiers.NONE);
     }
 
+    private void simulateCellMouseClick(int row, int column, int nrClicks) {
+        TableLayout layout = controller.getLayout();
+        Rectangle cellBounds = layout.getBounds(row, column)
+                .translatedBy(layout.getRowHeaderWidth(), layout.getColumnHeaderHeight());
+        double midX = cellBounds.getMinX() + cellBounds.getWidth() / 2;
+        double midY = cellBounds.getMinY() + cellBounds.getWidth() / 2;
+        for (int click = 0; click < nrClicks; click++) {
+            controller.handlePointerDown((int) midX, (int) midY, Modifiers.NONE);
+            controller.handlePointerUp((int) midX, (int) midY, Modifiers.NONE);
+        }
+    }
+
+    /**
+     * Simulates a key press in the cell editor's underlying MathField.
+     * Note: Depending on the key code, onKeyTyped needs to be invoked or not. Currently,
+     * only the ranges a..z, A..Z, 0..9 will trigger onKeyTyped. You may need to extend
+     * these ranges.
+     * @param keyCode See {@link JavaKeyCodes}
+     */
+    private void simulateKeyPressInCellEditor(int keyCode) {
+        MathFieldInternal mathField = cellEditor.getMathField();
+        KeyEvent keyEvent = new KeyEvent(keyCode, 0, (char) keyCode);
+        mathField.onKeyPressed(keyEvent);
+        if ((keyCode >= JavaKeyCodes.VK_A && keyCode <= JavaKeyCodes.VK_Z)
+            || (keyCode >= JavaKeyCodes.VK_0 && keyCode <= JavaKeyCodes.VK_9)) {
+            mathField.onKeyTyped(keyEvent);
+        }
+        mathField.onKeyReleased(keyEvent);
+    }
+
     private void selectCells(int fromRow, int fromColumn, int toRow, int toColumn) {
         controller.select(new TabularRange(fromRow, fromColumn, toRow, toColumn), false, false);
     }
 
-    private SpreadsheetControlsDelegate getSpreadsheetControlsDelegate() {
-        return new SpreadsheetControlsDelegate() {
-            @Override
-            public SpreadsheetCellEditor getCellEditor() {
-                return new TestSpreadsheetCellEditor();
-            }
+    // SpreadsheetControlsDelegate
 
-            @Override
-            public void showContextMenu(List<ContextMenuItem> actions, GPoint coords) {
-                // Not needed
-            }
+    @Override
+    public SpreadsheetCellEditor getCellEditor() {
+        return cellEditor;
+    }
 
-            @Override
-            public void hideContextMenu() {
-                // Not needed
-            }
+    @Override
+    public void showContextMenu(List<ContextMenuItem> actions, GPoint coords) {
+        // Not needed
+    }
 
-            @Override
-            public ClipboardInterface getClipboard() {
-                return null;
-            }
-        };
+    @Override
+    public void hideContextMenu() {
+        // Not needed
+    }
+
+    @Override
+    public ClipboardInterface getClipboard() {
+        return clipboard;
     }
 }

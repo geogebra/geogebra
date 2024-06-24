@@ -131,7 +131,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 	private SpreadsheetControlsDelegateW initDelegate() {
 		return new SpreadsheetControlsDelegateW(app,
-				this, mathField, spreadsheet);
+				this, mathField);
 	}
 
 	public void requestFocus() {
