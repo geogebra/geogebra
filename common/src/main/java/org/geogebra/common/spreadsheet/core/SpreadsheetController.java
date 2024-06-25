@@ -832,6 +832,7 @@ public final class SpreadsheetController {
 			mathField.setUnhandledArrowListener(mathFieldAdapter);
 
 			Rectangle editorBounds = layout.getBounds(row, column)
+					.insetBy(1, 1) // don't overdraw thick selection border
 					.translatedBy(-viewport.getMinX() + layout.getRowHeaderWidth(),
 							-viewport.getMinY() + layout.getColumnHeaderHeight());
 			cellEditor.show(editorBounds, viewport, tabularData.getAlignment(row, column));

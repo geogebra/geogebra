@@ -87,4 +87,17 @@ public class Rectangle {
 	public Rectangle translatedBy(double dx, double dy) {
 		return new Rectangle(new Point(getMinX() + dx, getMinY() + dy), size);
 	}
+
+	/**
+	 * Returns a new rectangle that is inset from the original edges by x and y margins.
+	 * A positive margin shrinks the rectangle along an axis, a negative margin grows the
+	 * rectangle along an axis.
+	 * @param dx Margin along the x axis.
+	 * @param dy Margin along the y axis.
+	 * @return A new rectangle inset by the given x and y margins.
+	 */
+	public Rectangle insetBy(double dx, double dy) {
+		return new Rectangle(new Point(getMinX() + dx, getMinY() + dy),
+				new Size(getWidth() - 2 * dx, getHeight() - 2 * dy));
+	}
 }
