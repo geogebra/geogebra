@@ -337,8 +337,7 @@ public interface GGraphics2D {
 
 	void updateCanvasColor();
 
-	void drawStraightLine(double xCrossPix, double d,
-			double xCrossPix2, double i);
+	void drawStraightLine(double x1, double y1, double x2, double y2);
 
 	/**
 	 * Saves the state of the current transformation matrix.

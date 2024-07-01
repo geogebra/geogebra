@@ -37,7 +37,8 @@ public class ComponentSlider extends FlowPanel {
 	private void buildGui() {
 		sliderLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(
 				appW.getLocalization().getMenu("Thickness"), "sliderLabel");
-		preview = new PenPreview(appW, 30, 30);
+		preview = new PenPreview(appW.getActiveEuclidianView().getEuclidianController().getPen(),
+				30, 30);
 		preview.addStyleName("preview");
 
 		FlowPanel labelPreviewHolder = new FlowPanel();
