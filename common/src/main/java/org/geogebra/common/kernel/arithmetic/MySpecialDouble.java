@@ -65,6 +65,18 @@ public class MySpecialDouble extends MyDouble {
 	 *            string representation
 	 */
 	public MySpecialDouble(Kernel kernel, double val, String str) {
+		this(kernel, val, str, false);
+	}
+
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param val
+	 *            value
+	 * @param str
+	 *            string representation
+	 */
+	public MySpecialDouble(Kernel kernel, double val, String str, boolean fromCas) {
 		super(kernel, val);
 
 		// Reduce can't handle .5*8
@@ -82,7 +94,7 @@ public class MySpecialDouble extends MyDouble {
 		keepOriginalString = !isLetterConstant
 				&& (containsE || Double.isInfinite(val));
 
-		if (keepOriginalString) {
+		if (keepOriginalString && fromCas) {
 			BigDecimal bd = new BigDecimal(strToString);
 			// avoid E notation for small values
 			double absVal = Math.abs(val);
