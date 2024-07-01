@@ -1229,8 +1229,8 @@ public class ProverBotanasMethod {
 							if (expNode.getLeft() instanceof MyList) {
 								list = ((MyList) expNode.getLeft()).getMyList();
 							}
-							if (list.getListElement(0).isExpressionNode()) {
-								root = (ExpressionNode) list.getListElement(0);
+							if (list.get(0).isExpressionNode()) {
+								root = (ExpressionNode) list.get(0);
 							}
 
 							((AlgoDependentBoolean) algo).getProverAdapter()

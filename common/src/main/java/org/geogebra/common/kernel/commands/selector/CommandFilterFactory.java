@@ -69,7 +69,7 @@ public final class CommandFilterFactory {
 	}
 
 	private static void addBooleanCommands(CommandNameFilter nameFilter) {
-		nameFilter.addCommands(Commands.AreCollinear,
+        nameFilter.addCommands(Commands.AreCollinear, Commands.IsTangent,
 				Commands.AreConcurrent, Commands.AreConcyclic, Commands.AreCongruent,
 				Commands.AreEqual, Commands.AreParallel, Commands.ArePerpendicular);
 	}
@@ -119,7 +119,7 @@ public final class CommandFilterFactory {
 				Commands.RootList, Commands.Volume, Commands.Plane,
 				Commands.OrthogonalPlane,
 				Commands.PlaneBisector, Commands.Angle, Commands.Distance, Commands.Relation,
-				Commands.IsTangent, Commands.IsInRegion);
+				Commands.IsInRegion);
 		addBooleanCommands(nameFilter);
 		return new EnglishCommandFilter(nameFilter);
 	}
@@ -212,8 +212,9 @@ public final class CommandFilterFactory {
 				Commands.Histogram, Commands.HistogramRight, Commands.NormalQuantilePlot,
 				Commands.ResidualPlot, Commands.StemPlot, Commands.StepGraph,
 				Commands.StickGraph, Commands.LineGraph, Commands.PieChart,
-				// Discrete Math Commands
-				Commands.ShortestDistance,
+				// Barycentric Commands
+				Commands.TriangleCenter, Commands.Barycenter, Commands.Trilinear, Commands.Cubic,
+				Commands.TriangleCurve,
 				// GeoGebra Commands
 				Commands.DynamicCoordinates, Commands.Object, Commands.SlowPlot,
 				Commands.ToolImage,
@@ -225,6 +226,7 @@ public final class CommandFilterFactory {
 				Commands.Text, Commands.UnicodeToLetter,
 				// Logical Commands
 				Commands.Defined, Commands.Relation,
+				Commands.LocusEquation, Commands.Envelope, Commands.Prove, Commands.ProveDetails,
 				// Optimization Command
 				Commands.Maximize, Commands.Minimize,
 				// Scripting Commands
@@ -260,7 +262,10 @@ public final class CommandFilterFactory {
 				Commands.ColumnName, Commands.FillCells, Commands.FillColumn,
 				Commands.FillRow, Commands.Row
 			);
-		return new EnglishCommandFilter(commandNameFilter);
+		addBooleanCommands(commandNameFilter);
+		CompositeCommandFilter composite = new CompositeCommandFilter(commandNameFilter,
+				new CommandTableFilter(Commands.TABLE_DISCRETE));
+		return new EnglishCommandFilter(composite);
 	}
 
 	/**

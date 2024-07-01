@@ -597,7 +597,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		else if (lt instanceof ListValue && rt instanceof VectorValue) {
 			MyList list = ((ListValue) lt).getMyList();
 			if (list.size() > 0) {
-				ExpressionValue ev = list.getListElement(0);
+				ExpressionValue ev = list.get(0);
 				if (ev instanceof NumberValue) { // eg {1,2} + (1,2) treat as
 													// point, ev is evaluated
 													// before
@@ -618,7 +618,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		else if (rt instanceof ListValue && lt instanceof VectorValue) {
 			MyList list = ((ListValue) rt).getMyList();
 			if (list.size() > 0) {
-				ExpressionValue ev = list.getListElement(0);
+				ExpressionValue ev = list.get(0);
 				if (ev instanceof NumberValue) { // eg {1,2} + (1,2) treat as
 													// point, ev is evaluated
 													// before
@@ -1122,7 +1122,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				double[] args = list.toDouble(0);
 				return evaluateFunctionNvar(funN, args, lt);
 			} else if (list.size() == 1) {
-				ExpressionValue ev = list.getMyList().getListElement(0)
+				ExpressionValue ev = list.getMyList().get(0)
 						.evaluate(StringTemplate.defaultTemplate);
 				if ((funN.getVarNumber() == 2 || funN.getVarNumber() == 3)
 						&& (ev instanceof VectorNDValue)) {
@@ -1130,7 +1130,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					return evaluateFunctionNvar(funN, pt, lt);
 				} else if ((ev instanceof ListValue) && (((ListValue) ev)
 						.getMyList().size() > 0) && ((ListValue) ev)
-						.getMyList().getListElement(0).evaluate(
+						.getMyList().get(0).evaluate(
 								StringTemplate.defaultTemplate) instanceof NumberValue) {
 					// TODO can we avoid evaluate here
 					double[] vals = ((ListValue) ev).toDouble(0);
@@ -1144,7 +1144,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						// arguments to
 						// f(x,y) in
 						// MyList
-						lArg.addListElement(l.getListElement(i));
+						lArg.addListElement(l.get(i));
 						ret.addListElement(new ExpressionNode(kernel, lt,
 								Operation.FUNCTION_NVAR, lArg));
 					}
@@ -1371,7 +1371,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			boolean sublistUndefined = false;
 			for (int i = 0; i < lv.size(); i++) {
 				ExpressionNode ith = (ExpressionNode) lv.getMyList()
-						.getListElement(i);
+						.get(i);
 				idx = (int) Math.round(ith.evaluateDouble()) - 1;
 				if (i < lv.size() - 1) {
 					GeoElement nextSublist;
@@ -1394,7 +1394,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						}
 						return new MyDouble(getKernel(),
 								((GeoFunction) nextSublist)
-										.value(lv.getListElement(i + 1)
+										.value(lv.get(i + 1)
 												.evaluateDouble()));
 					} else if (nextSublist instanceof GeoFunctionNVar
 							&& i == lv.size() - ((GeoFunctionNVar) nextSublist)

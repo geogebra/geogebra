@@ -232,7 +232,7 @@ public class Derivative {
 			MyList rt = (MyList) right;
 			for (int i = 0; i < rt.size(); i++) {
 				rtDiff.addListElement(
-						rt.getListElement(i).derivative(fv, kernel0));
+						rt.get(i).derivative(fv, kernel0));
 			}
 			return new ExpressionNode(kernel0, left, Operation.IF_LIST, rtDiff);
 
@@ -375,9 +375,9 @@ public class Derivative {
 				int index = (int) Math.round(right.evaluateDouble());
 				MyList list = ((ListValue) left).getMyList();
 
-				if (index >= 0 && index < list.getLength()) {
+				if (index >= 0 && index < list.size()) {
 
-					ExpressionValue element = list.getListElement(index);
+					ExpressionValue element = list.get(index);
 
 					ExpressionValue deriv = element.derivative(fv, kernel0);
 

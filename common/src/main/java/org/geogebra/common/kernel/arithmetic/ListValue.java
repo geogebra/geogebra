@@ -29,7 +29,7 @@ public interface ListValue extends ExpressionValue {
 	 * 
 	 * @return MyList representation of this list
 	 */
-	public MyList getMyList();
+	MyList getMyList();
 
 	/**
 	 * Tries to return this list as an array of double values
@@ -39,23 +39,23 @@ public interface ListValue extends ExpressionValue {
 	 * 
 	 * @return array of double values from this list
 	 */
-	public double[] toDouble(int offset);
+	double[] toDouble(int offset);
 
 	/**
 	 * @return number of elements of this list
 	 */
-	public int size();
+	int size();
 
 	/**
 	 * @param i
-	 *            list index
-	 * @return i-th element
+	 *            list index (0-based)
+	 * @return element at given index
 	 */
-	public ExpressionValue getListElement(int i);
+	ExpressionValue get(int i);
 
 	/**
 	 * @return true if list is matrix
 	 */
-	public boolean isMatrix();
+	boolean isMatrix();
 
 }

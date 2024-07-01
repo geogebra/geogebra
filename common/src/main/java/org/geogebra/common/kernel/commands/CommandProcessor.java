@@ -793,7 +793,7 @@ public abstract class CommandProcessor {
 		if (correctType) {
 			boolean oldMacroMode = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			list = kernel.getAlgoDispatcher().list(null, geoElementList, false);
+			list = kernel.getAlgoDispatcher().list(geoElementList, false);
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
@@ -839,7 +839,7 @@ public abstract class CommandProcessor {
 
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		list = kernelA.getAlgoDispatcher().list(null, geoElementList, false);
+		list = kernelA.getAlgoDispatcher().list(geoElementList, false);
 		cons.setSuppressLabelCreation(oldMacroMode);
 
 		return list;

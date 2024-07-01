@@ -421,9 +421,9 @@ public class ProbabilityManager {
 	 * @param cons construction
 	 * @return default parameters
 	 */
-	public static GeoNumeric[] getDefaultParameters(Dist dist, Construction cons) {
+	public static GeoNumberValue[] getDefaultParameters(Dist dist, Construction cons) {
 		double[] values = getDefaultParameters(dist);
-		GeoNumeric[] params = new GeoNumeric[values.length];
+		GeoNumberValue[] params = new GeoNumberValue[values.length];
 		for (int i = 0; i < params.length; i++) {
 			params[i] = new GeoNumeric(cons, values[i]);
 		}

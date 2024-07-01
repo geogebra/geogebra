@@ -414,8 +414,8 @@ final public class GeoVec2D extends ValidExpression
 			return;
 		}
 
-		double enX = list.getListElement(0).evaluateDouble();
-		double enY = list.getListElement(1).evaluateDouble();
+		double enX = list.get(0).evaluateDouble();
+		double enY = list.get(1).evaluateDouble();
 
 		if (Double.isNaN(enX) || Double.isNaN(enY)) {
 			c.x = Double.NaN;
@@ -450,8 +450,8 @@ final public class GeoVec2D extends ValidExpression
 			return;
 		}
 
-		double enX = list.getListElement(0).evaluateDouble();
-		double enY = list.getListElement(1).evaluateDouble();
+		double enX = list.get(0).evaluateDouble();
+		double enY = list.get(1).evaluateDouble();
 
 		if (reverse) {
 			c.x = a.x - enX;

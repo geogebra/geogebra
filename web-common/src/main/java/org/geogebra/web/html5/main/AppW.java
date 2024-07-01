@@ -757,8 +757,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (archiveContent.containsKey(GgbFile.STRUCTURE_JSON)) {
 			getAppletParameters().setAttribute("appName", "notes");
 			getAppletFrame().initPageControlPanel(this);
-			getKernel().getConstruction().setProtractor(null);
-			getKernel().getConstruction().setRuler(null);
+			euclidianController.clearMeasurementTools();
 			getAppletFrame().setNotesMode(getMode());
 			if (getPageController() != null) {
 				getPageController().loadSlides(archiveContent);
@@ -3579,5 +3578,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	public boolean isLockedExam() {
 		return !StringUtil.empty(getAppletParameters().getParamExamMode());
+	}
+
+	/**
+	 * @param category - category name
+	 * @return check if category should be enabled based on customToolbox parameter
+	 */
+	public boolean isToolboxCategoryEnabled(String category) {
+		List tools = getAppletParameters().getDataParamCustomToolbox();
+		return tools.contains(category) || tools.isEmpty();
 	}
 }

@@ -943,6 +943,9 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_PROTRACTOR:
 			return resourceBundle.mode_protractor();
 
+		case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
+			return resourceBundle.mode_triangle_protractor();
+
 		default:
 			return AppResources.INSTANCE.empty();
 		}

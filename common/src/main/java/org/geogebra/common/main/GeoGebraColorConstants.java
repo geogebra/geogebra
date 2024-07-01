@@ -65,7 +65,7 @@ public class GeoGebraColorConstants {
 	/** polygon brown */
 	public static final GColor GGB_BROWN = rgb(153, 51, 0);
 	/** intersection line orange */
-	public static final GColor GGB_ORANGE = rgb(255, 85, 0);
+	public static final GColor GGB_ORANGE = rgb(199, 80, 0);
 	/**
 	 * Light blue: don't change: default Point on path color
 	 */
@@ -140,9 +140,6 @@ public class GeoGebraColorConstants {
 	public static final GColor GEOGEBRA_OBJECT_BLUE = rgb(0x1565C0);
 	/** GEOGEBRA_OBJECT_RED */
 	public static final GColor GEOGEBRA_OBJECT_RED = rgb(0xD32F2F);
-	/** GEOGEBRA_OBJECT_ORANGE */
-	public static final GColor GEOGEBRA_OBJECT_ORANGE = rgb(0xDB6114);
-
 	/** GEOGEBRA_OBJECT_GREY */
 	public static final GColor GEOGEBRA_OBJECT_GREY = rgb(0x616161);
 	/** GEOGEBRA_OBJECT_BLACK */
@@ -545,7 +542,7 @@ public class GeoGebraColorConstants {
 		popupColors[0] = GEOGEBRA_OBJECT_GREEN;
 		popupColors[1] = GEOGEBRA_OBJECT_BLUE;
 		popupColors[2] = GEOGEBRA_OBJECT_RED;
-		popupColors[3] = GEOGEBRA_OBJECT_ORANGE;
+		popupColors[3] = GGB_ORANGE;
 		popupColors[4] = PURPLE_600;
 		popupColors[5] = GEOGEBRA_OBJECT_GREY;
 		popupColors[6] = GEOGEBRA_OBJECT_BLACK;
@@ -568,7 +565,7 @@ public class GeoGebraColorConstants {
 		popupColors[4] = PURPLE_600;
 		popupColors[5] = MOW_MAGENTA;
 		popupColors[6] = GEOGEBRA_OBJECT_RED;
-		popupColors[7] = GEOGEBRA_OBJECT_ORANGE;
+		popupColors[7] = GGB_ORANGE;
 		popupColors[8] = MOW_YELLOW;
 		popupColors[9] = null; // placeholder for (...) button
 		return popupColors;
@@ -662,7 +659,7 @@ public class GeoGebraColorConstants {
 		return new GColor[] { primColor[0], primColor[2], primColor[4],
 				primColor[8], primColor[10], primColor[12], GColor.BLACK,
 				GeoGebraColorConstants.GEOGEBRA_OBJECT_RED,
-				GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE, scolors[19],
+				GeoGebraColorConstants.GGB_ORANGE, scolors[19],
 				GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN, scolors[43],
 				GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE,
 				GeoGebraColorConstants.PURPLE_600, scolors[0],

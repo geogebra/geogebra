@@ -642,6 +642,7 @@ public class RedefineTest extends BaseUnitTest {
 	@Test
 	public void absPositionStaticTextShouldSurviveRedefine() {
 		GeoText text = add("text=\"foo\"");
+		add("a=3");
 		text.setAbsoluteScreenLocActive(true);
 		text.setAbsoluteScreenLoc(200, 300);
 		add("text=a+\"foo\"");

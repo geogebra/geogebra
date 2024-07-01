@@ -84,6 +84,7 @@ public class ResourceAvailability {
 			case EuclidianConstants.MODE_MIND_MAP:
 			case EuclidianConstants.MODE_RULER:
 			case EuclidianConstants.MODE_PROTRACTOR:
+			case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
 			case EuclidianConstants.MODE_PHOTO_LIBRARY:
 				continue;
 			default:

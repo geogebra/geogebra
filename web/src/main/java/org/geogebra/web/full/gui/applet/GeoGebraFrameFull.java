@@ -824,25 +824,6 @@ public class GeoGebraFrameFull
 	}
 
 	/**
-	 * @return true if toolbar open, false otherwise
-	 */
-	public boolean isNotesToolbarOpen() {
-		if (notesLayout != null) {
-			return notesLayout.isNotesToolbarOpen();
-		}
-		return false;
-	}
-
-	/**
-	 * @param open true if should open notes toolbar
-	 */
-	public void setNotesToolbarOpen(boolean open) {
-		if (notesLayout != null) {
-			notesLayout.setToolbarOpen(open);
-		}
-	}
-
-	/**
 	 * @return MOW toolbar
 	 */
 	public NotesLayout getNotesLayout() {

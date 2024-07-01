@@ -44,9 +44,6 @@ public class ComponentSnackbar extends FlowPanel {
 	public ComponentSnackbar(AppW app, String title, String text, String buttonText) {
 		addStyleName("snackbarComponent");
 		getElement().setId("snackbarID");
-		if (app.isWhiteboardActive()) {
-			addStyleName("mowPosition");
-		}
 		buildGui(title, text, buttonText);
 		app.getAppletFrame().add(this);
 		fadeIn.schedule(100);

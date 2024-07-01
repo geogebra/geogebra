@@ -90,7 +90,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		ConicMirrorable, GeoPointND,
-		Transformable, SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
+		Transformable, SymbolicParametersAlgo, SymbolicParametersBotanaAlgo, HasCoordinates {
 	private static volatile Comparator<GeoPoint> comparatorX;
 
 	// don't set point size here as this would overwrite

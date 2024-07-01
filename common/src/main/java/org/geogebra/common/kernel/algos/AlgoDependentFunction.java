@@ -320,7 +320,7 @@ public class AlgoDependentFunction extends AlgoElement
 					ListValue list = (ListValue) rt;
 					int constants = list.size();
 					for (int i = 0; i < list.size() - 1; i++) {
-						if (list.getListElement(i).wrap()
+						if (list.get(i).wrap()
 								.containsFreeFunctionVariable(null)) {
 							constants = i;
 							break;
@@ -333,7 +333,7 @@ public class AlgoDependentFunction extends AlgoElement
 					if (res instanceof Functional
 							&& constants >= list.size() - 1) {
 						return substituteFunction((Functional) res,
-								list.getListElement(list.size() - 1), fast,
+								list.get(list.size() - 1), fast,
 								node.getKernel());
 					}
 					if (res instanceof FunctionalNVar
@@ -398,20 +398,20 @@ public class AlgoDependentFunction extends AlgoElement
 		for (int i = 0; i < xy.length; i++) {
 			funNExpression = funNExpression.replace(xy[i],
 					expandFunctionDerivativeNodes(
-							getListElement(rightList, i + offset), fast))
+							get(rightList, i + offset), fast))
 					.wrap();
 		}
 		return funNExpression;
 	}
 
 	// needed for eg f(x,y) = a(A) a(x, y)
-	private static ExpressionValue getListElement(MyList list, int i) {
+	private static ExpressionValue get(MyList list, int i) {
 
 		Kernel kernel0 = list.getKernel();
 
-		if (list.getLength() == 1
-				&& list.getListElement(0).unwrap() instanceof GeoPointND) {
-			GeoPointND point = (GeoPointND) list.getListElement(0).unwrap();
+		if (list.size() == 1
+				&& list.get(0).unwrap() instanceof GeoPointND) {
+			GeoPointND point = (GeoPointND) list.get(0).unwrap();
 			if (i == 0) {
 				return new MyDouble(kernel0, point.getInhomX());
 			} else if (i == 1) {
@@ -424,12 +424,12 @@ public class AlgoDependentFunction extends AlgoElement
 			}
 		}
 
-		if (i >= list.getLength()) {
+		if (i >= list.size()) {
 			Log.error("problem in AlgoDependentFunction");
 			return null;
 		}
 
-		return list.getListElement(i).unwrap();
+		return list.get(i).unwrap();
 	}
 
 	private static ExpressionValue substituteFunction(Functional leftValue,

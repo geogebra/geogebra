@@ -2,9 +2,9 @@ package org.geogebra.common.euclidian;
 
 import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
 
+import org.geogebra.common.euclidian.measurement.MeasurementController;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoEmbed;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 
@@ -12,13 +12,16 @@ public class ModeSwitcher {
 
 	private final App app;
 	private final Construction cons;
+	private final MeasurementController measurementController;
 
 	/**
 	 * @param app application
+	 * @param measurementController {@link MeasurementController}
 	 */
-	public ModeSwitcher(App app) {
+	public ModeSwitcher(App app, MeasurementController measurementController) {
 		this.app = app;
 		cons = app.getKernel().getConstruction();
+		this.measurementController = measurementController;
 	}
 
 	/**
@@ -59,28 +62,9 @@ public class ModeSwitcher {
 			break;
 
 		case EuclidianConstants.MODE_RULER:
-			GeoImage ruler = cons.getRuler();
-			if (ruler != null) {
-				ruler.remove();
-				cons.setRuler(null);
-			} else {
-				cons.setRuler(
-						cons.getApplication().getActiveEuclidianView()
-								.addMeasurementTool(EuclidianConstants.MODE_RULER, "Ruler.svg"));
-			}
-			break;
-
 		case EuclidianConstants.MODE_PROTRACTOR:
-			GeoImage protractor = cons.getProtractor();
-			if (protractor != null) {
-				protractor.remove();
-				cons.setProtractor(null);
-			} else {
-				cons.setProtractor(
-						cons.getApplication().getActiveEuclidianView()
-								.addMeasurementTool(EuclidianConstants.MODE_PROTRACTOR,
-										"Protractor.svg"));
-			}
+		case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
+			measurementController.toggleActiveTool(newMode);
 			break;
 
 		default:

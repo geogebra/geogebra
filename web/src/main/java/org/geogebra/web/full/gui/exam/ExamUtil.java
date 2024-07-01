@@ -102,12 +102,7 @@ public class ExamUtil {
 	 * Listen to focus / blur / resize events on the browser window.
 	 */
 	public void addVisibilityAndBlurHandlers() {
-		addVisibilityAndBlurHandlers(isTablet());
-	}
-
-	private boolean isTablet() {
-		return app.getLAF().isTablet()
-				&& !"TabletWin".equals(app.getLAF().getFrameStyleName());
+		addVisibilityAndBlurHandlers(app.getLAF().isTablet());
 	}
 
 	/**

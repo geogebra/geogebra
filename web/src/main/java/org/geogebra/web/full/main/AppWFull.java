@@ -130,7 +130,6 @@ import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.full.gui.menubar.action.StartExamAction;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
-import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.dataimport.CsvImportHandler;
 import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
@@ -177,7 +176,6 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.GlobalHeader;
-import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
@@ -188,6 +186,7 @@ import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.Command;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.HorizontalPanel;
+import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -1544,9 +1543,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isWhiteboardActive()) {
 			frame.attachNotesUI(this);
 		}
-		GlobalHeader.INSTANCE.initAssignButton(() -> {
-			getShareController().assign();
-		});
+		GlobalHeader.INSTANCE.initLogo(this);
+		GlobalHeader.INSTANCE.initAssignButton(() -> getShareController().assign(), this);
 
 		// showAlgebraInput should come from data-param,
 		// this is just a 'second line of defense'
@@ -1973,13 +1971,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	protected void getLayoutXML(StringBuilder sb, boolean asPreference) {
 		super.getLayoutXML(sb, asPreference);
-
-		if (isWhiteboardActive()) {
-			sb.append("\t<notesToolbarOpen");
-			sb.append(" val=\"");
-			sb.append(getAppletFrame().isNotesToolbarOpen());
-			sb.append("\"/>\n");
-		}
 	}
 
 	@Override
@@ -2134,7 +2125,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void centerAndResizeViews() {
 		centerAndResizePopups();
 		resizePropertiesView();
-		updateFloatingButtonsPosition();
 		DockPanelW dp = getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA);
 		if (dp instanceof AlgebraDockPanelW) {
 			dp.onResize(); // to force branding visibility update
@@ -2143,7 +2133,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void centerAndResizePopups() {
 		for (HasHide w : popups) {
-			if (w instanceof ComponentDialog) {
+			if (w instanceof RequiresResize) {
 					((GPopupPanel) w).centerAndResize(
 						this.getAppletFrame().getKeyboardHeight());
 			}
@@ -2155,13 +2145,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				&& isUnbundledOrWhiteboard()) {
 			((PropertiesViewW) getGuiManager().getPropertiesView()).resize(
 					getWidth(), getHeight() - frame.getKeyboardHeight());
-		}
-	}
-
-	private void updateFloatingButtonsPosition() {
-		NotesLayout notesLayout = frame.getNotesLayout();
-		if (notesLayout != null) {
-			notesLayout.updateFloatingButtonsPosition();
 		}
 	}
 
@@ -2574,11 +2557,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			suiteAppPickerButton.setIconAndLabel(subappCode);
 			GlobalHeader.onResize();
 		}
-	}
-
-	@Override
-	public void setNotesToolbarOpen(boolean open) {
-		getAppletFrame().setNotesToolbarOpen(open);
 	}
 
 	/**

@@ -12,7 +12,6 @@ import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigatio
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -335,37 +334,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	/**
-	 * Moves the zoom panel up for MOW toolbar
-	 *
-	 * @param up
-	 *            true if zoom panel should move up, false if zoom panel should
-	 *            move down
-	 */
-	public void moveZoomPanelUpOrDown(boolean up) {
-		if (zoomPanel != null) {
-			Dom.toggleClass(zoomPanel, "showMowSubmenu", "hideMowSubmenu", up);
-		}
-	}
-
-	/**
-	 * Move zoom panel to bottom
-	 */
-	public void moveZoomPanelToBottom() {
-		if (zoomPanel != null) {
-			zoomPanel.removeStyleName("narrowscreen");
-		}
-	}
-
-	/**
-	 * Move zoom panel to avoid conflicts with toolbar
-	 */
-	public void moveZoomPanelAboveToolbar() {
-		if (zoomPanel != null) {
-			zoomPanel.addStyleName("narrowscreen");
-		}
-	}
-
-	/**
 	 * Checks if zoom panel fit on Euclidian View with given height and
 	 * shows/hides it respectively.
 	 *
@@ -424,5 +392,4 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			zoomPanel.setStyleName("pointerEventsNoneWhenDragging", !enable);
 		}
 	}
-
 }

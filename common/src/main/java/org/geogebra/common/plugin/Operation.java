@@ -576,8 +576,8 @@ public enum Operation {
 				}
 				int n = list.size() - 3;
 				if (n >= 1) {
-					double min = (list.getListElement(0)).evaluateDouble();
-					double max = (list.getListElement(1)).evaluateDouble();
+					double min = (list.get(0)).evaluateDouble();
+					double max = (list.get(1)).evaluateDouble();
 
 					if ((min > max) || (x > max) || (x < min)) {
 						return new MyDouble(ev.getKernel(), Double.NaN);
@@ -588,12 +588,12 @@ public enum Operation {
 					int index = (int) Math.floor((x - min) / step);
 
 					if (index > (n - 1)) {
-						ret = (list.getListElement(n + 2)).evaluateDouble();
+						ret = (list.get(n + 2)).evaluateDouble();
 					} else {
 
-						double y1 = (list.getListElement(index + 2))
+						double y1 = (list.get(index + 2))
 								.evaluateDouble();
-						double y2 = (list.getListElement(index + 3))
+						double y2 = (list.get(index + 3))
 								.evaluateDouble();
 						double x1 = min + (index * step);
 
@@ -621,33 +621,33 @@ public enum Operation {
 				if (keyList.size() < 1) {
 					return new MyDouble(ev.getKernel(), Double.NaN);
 				}
-				double max = keyList.getListElement(keyList.size() - 1)
+				double max = keyList.get(keyList.size() - 1)
 						.evaluateDouble();
 				if (keyList.size() == 1) {
 					double ret = Double.NaN;
 					if (DoubleUtil.isEqual(max, x)) {
-						ret = valueList.getListElement(0).evaluateDouble();
+						ret = valueList.get(0).evaluateDouble();
 					}
 					return new MyDouble(ev.getKernel(), ret);
 				}
-				double min = keyList.getListElement(0).evaluateDouble();
+				double min = keyList.get(0).evaluateDouble();
 				if (max < x || min > x) {
 					return new MyDouble(ev.getKernel(), Double.NaN);
 				}
 				int index = (int) (keyList.size() * (x - min) / (max - min));
 				index = Math.max(Math.min(index, keyList.size() - 1), 0);
-				while (index > 0 && keyList.getListElement(index)
+				while (index > 0 && keyList.get(index)
 						.evaluateDouble() >= x) {
 					index--;
 				}
 				while (index < keyList.size() - 1 && keyList
-						.getListElement(index + 1).evaluateDouble() < x) {
+						.get(index + 1).evaluateDouble() < x) {
 					index++;
 				}
-				double x1 = keyList.getListElement(index).evaluateDouble();
-				double x2 = keyList.getListElement(index + 1).evaluateDouble();
-				double y1 = valueList.getListElement(index).evaluateDouble();
-				double y2 = valueList.getListElement(index + 1)
+				double x1 = keyList.get(index).evaluateDouble();
+				double x2 = keyList.get(index + 1).evaluateDouble();
+				double y1 = valueList.get(index).evaluateDouble();
+				double y2 = valueList.get(index + 1)
 						.evaluateDouble();
 				return new MyDouble(ev.getKernel(),
 						((x - x1) * y2 + y1 * (x2 - x)) / (x2 - x1));
@@ -1677,8 +1677,8 @@ public enum Operation {
 
 				if (lt instanceof GeoSurfaceCartesianND) {
 					return ((GeoSurfaceCartesianND) lt).evaluateSurface(
-							arg.getListElement(0).evaluateDouble(),
-							arg.getListElement(1).evaluateDouble());
+							arg.get(0).evaluateDouble(),
+							arg.get(1).evaluateDouble());
 				}
 				throw ev.illegalArgument(lt);
 			}
@@ -1792,18 +1792,18 @@ public enum Operation {
 			if (lt instanceof MyList && rt instanceof MyList) {
 				MyList cond = (MyList) lt;
 				for (int i = 0; i < cond.size(); i++) {
-					ExpressionValue curr = cond.getListElement(i).evaluate(tpl);
+					ExpressionValue curr = cond.get(i).evaluate(tpl);
 
 					if (curr instanceof BooleanValue) {
 						if (((BooleanValue) curr).getBoolean()) {
-							return ((MyList) rt).getListElement(i)
+							return ((MyList) rt).get(i)
 									.evaluate(tpl);
 						}
 					}
 				}
 				return cond.size() == ((MyList) rt).size()
 						? new MyDouble(ev.getKernel(), Double.NaN)
-						: ((MyList) rt).getListElement(cond.size())
+						: ((MyList) rt).get(cond.size())
 								.evaluate(tpl);
 			}
 
