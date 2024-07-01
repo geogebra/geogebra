@@ -426,10 +426,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	/**
-	 * @return last used subapp, if saved in local storage, graphing otherwise
+	 * @return Last used SubApp, only if it is saved in local storage and the app was not started
+	 * with a file, Graphing SubApp otherwise <br/>
+	 * If the app was started with a file, the activity should be updated from
+	 * {@link #updateAppCodeSuite(String, Perspective)} anyways
 	 */
 	public String getLastUsedSubApp() {
-		if (isLockedExam()) {
+		if (isLockedExam() || isStartedWithFile()) {
 			return GRAPHING_APPCODE;
 		}
 		String lastUsedSubApp = BrowserStorage.LOCAL.getItem(BrowserStorage.LAST_USED_SUB_APP);
