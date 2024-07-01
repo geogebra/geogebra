@@ -6,12 +6,12 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -122,7 +122,7 @@ public class GeoGebraFrameFull
 	protected AppW createApplication(GeoGebraElement geoGebraElement,
 			AppletParameters parameters, GLookAndFeelI laf) {
 		if (SecureBrowser.get() != null && SecureBrowser.get().security != null) {
-			parameters.setAttribute("examMode", ExamRegion.CHOOSE);
+			parameters.setAttribute("examMode", ExamType.CHOOSE);
 			SecureBrowser.get().security.lockDown(true,
 					(state) -> Log.info("Lockdown successful"),
 					(state) -> Log.error("Lockdown failed")

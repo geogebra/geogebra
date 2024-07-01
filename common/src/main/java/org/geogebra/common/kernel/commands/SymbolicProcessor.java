@@ -129,7 +129,7 @@ public class SymbolicProcessor {
 				cmd = (Command) replaced.unwrap();
 				Commands command = Commands.stringToCommand(cmd.getName());
 				boolean isAvailable = kernel.getGeoGebraCAS().isCommandAvailable(cmd);
-				if (command != null && !cmdDispatcher.isAllowedByNameFilter(command)
+				if (command != null && !cmdDispatcher.isAllowedByCommandFilters(command)
 					|| (command == null && isAvailable)) {
 					throw new MyError(kernel.getLocalization(), MyError.Errors.UnknownCommand);
 				}

@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -259,7 +260,7 @@ public class ContextMenuTV {
 	}
 
 	private void addImportData() {
-		if (!app.isExamStarted() && app.getConfig().hasDataImport()) {
+		if (!GlobalScope.examController.isExamActive() && app.getConfig().hasDataImport()) {
 			addCommand(((AppWFull) app).getCsvHandler(), "ContextMenu.ImportData", "importData");
 		}
 	}

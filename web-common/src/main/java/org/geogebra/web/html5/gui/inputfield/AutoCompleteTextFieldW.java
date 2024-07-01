@@ -27,6 +27,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.InputKeyboardButton;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.StringUtil;
@@ -336,7 +337,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		Dom.addEventListener(textField.getValueBox().getElement(), "contextmenu", (event) -> {
 			event.stopPropagation();
-			if  (app.isExam()) {
+			if  (!GlobalScope.examController.isIdle()) {
 				event.preventDefault();
 			}
 		});

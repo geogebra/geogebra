@@ -10,6 +10,7 @@ import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
@@ -213,7 +214,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 	 *            max height
 	 */
 	public void updateGUI(int maxOffsetHeight) {
-		showOnlineHelpButton(!app.isExam() && app.showMenuBar());
+		showOnlineHelpButton(GlobalScope.examController.isIdle() && app.showMenuBar());
 		int height = maxOffsetHeight - 60;
 		double width = ((GuiManagerW) app.getGuiManager()).getRootComponent()
 				.getOffsetWidth() - 60;
@@ -221,7 +222,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 		int w = (int) Math.min(700, width);
 		sp.setPixelSize(w, height);
 	}
-	
+
 	/**
 	 * @param scale
 	 *            scale

@@ -6,10 +6,11 @@ import org.geogebra.common.properties.Property;
 /**
  * Helper class for implementing the localized name of a property.
  */
-public class AbstractProperty implements Property {
+public abstract class AbstractProperty implements Property {
 
 	private Localization localization;
 	private String name;
+	private boolean frozen = false;
 
 	/**
 	 * Constructs an abstract property.
@@ -20,10 +21,15 @@ public class AbstractProperty implements Property {
 		this.localization = localization;
 		this.name = name;
 	}
-
+	
 	@Override
 	public String getName() {
 		return localization.getMenu(name);
+	}
+
+	@Override
+	public String getRawName() {
+		return name;
 	}
 
 	@Override
@@ -37,5 +43,15 @@ public class AbstractProperty implements Property {
 	 */
 	protected Localization getLocalization() {
 		return localization;
+	}
+
+	@Override
+	public boolean isFrozen() {
+		return frozen;
+	}
+
+	@Override
+	public void setFrozen(boolean frozen) {
+		this.frozen = frozen;
 	}
 }

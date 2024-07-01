@@ -79,6 +79,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
+import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
@@ -325,6 +326,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private final StringBuilder sbBuildExplicitLineEquation = new StringBuilder(
 			50);
 	/** Application */
+	@NonOwning
 	@Weak
 	protected App app;
 

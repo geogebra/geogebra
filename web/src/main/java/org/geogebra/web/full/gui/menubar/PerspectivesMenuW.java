@@ -1,6 +1,8 @@
 package org.geogebra.web.full.gui.menubar;
 
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
@@ -19,6 +21,7 @@ public class PerspectivesMenuW extends Submenu {
 
 	/** Application */
 	AppW app;
+	private final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * @param app application
@@ -39,7 +42,7 @@ public class PerspectivesMenuW extends Submenu {
 		addPerspective(2, pr.menu_icon_spreadsheet_transparent());
 		addPerspective(5, pr.menu_icon_probability_transparent());
 
-		if (!app.isExam()) {
+		if (examController.isIdle()) {
 			if (app.getLAF().examSupported()) {
 				addItem(MainMenu.getMenuBarHtmlClassic(
 						GuiResources.INSTANCE.menu_icon_exam24().getSafeUri()
@@ -70,7 +73,7 @@ public class PerspectivesMenuW extends Submenu {
 					@Override
 					public void doExecute() {
 						setPerspective(app, perspective);
-						if (!(app.isExam() && app.getExam().getStart() >= 0)) {
+						if (!examController.isExamActive()) {
 							app.showStartTooltip(perspective);
 						}
 					}
@@ -82,10 +85,7 @@ public class PerspectivesMenuW extends Submenu {
 	 *         (goes fullscreen)
 	 */
 	AsyncOperation<Boolean> getExamCallback() {
-		return active -> {
-			app.setNewExam();
-			app.examWelcome();
-		};
+		return active -> app.showExamWelcomeMessage();
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package org.geogebra.common.properties.impl.objects.collection;
+package org.geogebra.common.properties.impl.collections;
 
 import org.geogebra.common.properties.RangeProperty;
 
@@ -6,7 +6,7 @@ import org.geogebra.common.properties.RangeProperty;
  * Handles a collection of RangeProperty objects as a single RangeProperty.
  */
 public class RangePropertyCollection<T extends RangeProperty<V>, V extends Number & Comparable<V>>
-		extends AbstractTypedPropertyCollection<T, V> implements RangeProperty<V> {
+		extends AbstractValuedPropertyCollection<T, V> implements RangeProperty<V> {
 
 	/**
 	 * @param properties properties to handle

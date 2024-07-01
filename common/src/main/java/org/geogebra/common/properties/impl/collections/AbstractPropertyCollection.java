@@ -1,8 +1,9 @@
-package org.geogebra.common.properties.impl;
+package org.geogebra.common.properties.impl.collections;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
+import org.geogebra.common.properties.impl.AbstractProperty;
 
 /**
  * Implements the PropertyCollection interface.
