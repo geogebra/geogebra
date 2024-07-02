@@ -21,7 +21,7 @@ public class UndefinedOrEmptyChecker implements Inspecting {
 
         // Return true for empty list
         if (v instanceof MyList
-                && ((MyList) v).getLength() == 0) {
+                && ((MyList) v).size() == 0) {
             return true;
         }
 

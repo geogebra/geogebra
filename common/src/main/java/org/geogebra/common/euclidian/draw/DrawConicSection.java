@@ -268,8 +268,7 @@ public class DrawConicSection extends DrawConic {
 		}
 
 		// transform to screen coords
-		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(view.getCompanion().getTransform(conic, M, ev));
+		setTransform(M);
 
 		// BIG RADIUS: larger than screen diagonal
 		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's

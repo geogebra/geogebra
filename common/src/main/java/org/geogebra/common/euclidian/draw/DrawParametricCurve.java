@@ -315,7 +315,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		 * dataExpression.getRight()) .getY();
 		 */
 		for (int i = 0; i < lvX.size(); i++) {
-			double xRW = lvX.getListElement(i).evaluateDouble();
+			double xRW = lvX.get(i).evaluateDouble();
 			if (invert != null) {
 				invFV.set(xRW);
 				xRW = invert.evaluateDouble();

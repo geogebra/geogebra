@@ -1388,6 +1388,7 @@ public class GeoNumeric extends GeoElement
 		boolean okMin = isIntervalMinActive();
 		boolean okMax = isIntervalMaxActive();
 		boolean ok = getIntervalMin() <= getIntervalMax();
+		ExpressionNode oldDefinition = getDefinition();
 		if (ok && okMin && okMax) {
 			setValue(isDefined() ? value : 1.0);
 			isDrawable = true;
@@ -1397,6 +1398,7 @@ public class GeoNumeric extends GeoElement
 		if (oldValue != value) {
 			updateCascade();
 		} else {
+			setDefinition(oldDefinition); // no value change because of min/max, keep definition
 			// we want to make the slider visible again if it was not
 			// do what GeoElement.update does (no need to call listeners)
 			// also don't update the CAS
@@ -2226,5 +2228,19 @@ public class GeoNumeric extends GeoElement
 			return null;
 		}
 		return (RecurringDecimal) getDefinition().unwrap();
+	}
+
+	/**
+	 * @param parts output array for [numerator,denominator]
+	 * @param expandPlus whether to expand + and - operations
+	 */
+	public void getFraction(ExpressionValue[] parts, boolean expandPlus) {
+		if (getDefinition() == null) {
+			parts[0] = getNumber();
+			parts[1] = null;
+			return;
+		}
+		getDefinition().isFraction(); // force fraction caching
+		getDefinition().getFraction(parts, expandPlus);
 	}
 }

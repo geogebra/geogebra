@@ -49,7 +49,7 @@ public class AriaMenuItem extends SimplePanel {
 	 */
 	public AriaMenuItem() {
 		super(Document.get().createLIElement());
-		getElement().setClassName("gwt-MenuItem listMenuItem");
+		getElement().setClassName("gwt-MenuItem listMenuItem keyboardFocus");
 		getElement().setAttribute("role", "menuitem");
 		getElement().setTabIndex(0);
 	}

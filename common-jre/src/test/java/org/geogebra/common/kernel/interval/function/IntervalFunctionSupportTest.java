@@ -78,6 +78,7 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 		shouldBeNotSupported("(x * (1, 1)) * (1, 1)");
 		shouldBeNotSupported("acosh(x)");
 		shouldBeNotSupported("sin(x)^(ln(x))");
+		shouldBeNotSupported("Curve(t,t,t,1,5)");
 	}
 
 	@Test
@@ -96,8 +97,8 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 		shouldBeNotSupported("If[x < sin(2), x^2]");
 		shouldBeNotSupported("If[sin(x) < 0, x + 1]");
 		shouldBeNotSupported("If[0 < sin(x), x + 1]");
-		shouldBeNotSupported("If[x < 1, 2x + x^3");
-		shouldBeNotSupported("If[1 < x, 2x + x^3");
+		shouldBeNotSupported("If[x < 1, 2x + x^3]");
+		shouldBeNotSupported("If[1 < x, 2x + x^3]");
 		shouldBeNotSupported("If[x < 1, x, x + 1]");
 		shouldBeNotSupported("If[x != 1, x, x + 1]");
 		shouldBeNotSupported("If[-1 < x < 1, x, x + 1]");

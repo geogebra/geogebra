@@ -6,6 +6,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.ResourceAction;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.gwtutil.Cookies;
 import org.geogebra.web.full.gui.exam.ExamUtil;
@@ -62,7 +63,7 @@ public class GLookAndFeel implements GLookAndFeelI {
 	 */
 	@Override
 	public void addWindowClosingHandler(final AppW app) {
-		if (app.getExam() != null) {
+		if (GlobalScope.examController.isExamActive()) {
 			return;
 		}
 		// popup when the user wants to exit accidentally
@@ -191,11 +192,6 @@ public class GLookAndFeel implements GLookAndFeelI {
 		} else {
 			BrowserStorage.LOCAL.setItem("GeoGebraLangUI", lang);
 		}
-	}
-
-	@Override
-	public String getFrameStyleName() {
-		return "GeoGebra";
 	}
 
 	@Override

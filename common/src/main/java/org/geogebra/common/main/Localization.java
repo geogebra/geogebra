@@ -58,6 +58,7 @@ public abstract class Localization extends LocalizationI {
 	private int[] decimalPlacesOptions = { 0, 1, 2, 3, 4, 5, 10, 13, 15 };
 	private int[] significantFiguresOptions = {3, 5, 10, 15};
 
+	// TODO this doesn't really belong here; find a better owner (CommandProcessor?)
 	private final CommandErrorMessageBuilder commandErrorMessageBuilder;
 
 	/**

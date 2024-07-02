@@ -11,14 +11,14 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 class InputBoxRenderer {
 	private final MathFormulaConverter formulaConverter;
-	private GeoInputBox inputBox;
+	private final GeoInputBox inputBox;
 	private GeoElementND linkedGeo;
 	private StringTemplate stringTemplateForLaTeX;
 
 	InputBoxRenderer(GeoInputBox inputBox) {
 		this.inputBox = inputBox;
 		this.linkedGeo = inputBox.getLinkedGeo();
-		this.stringTemplateForLaTeX = inputBox.tpl.deriveLaTeXTemplate();
+		this.stringTemplateForLaTeX = inputBox.tpl.derivePrecisionPreservingLaTeXTemplate();
 		formulaConverter = new MathFormulaConverter();
 	}
 
@@ -128,7 +128,7 @@ class InputBoxRenderer {
 	}
 
 	void updateLatexTemplate() {
-		stringTemplateForLaTeX = inputBox.tpl.deriveLaTeXTemplate();
+		stringTemplateForLaTeX = inputBox.tpl.derivePrecisionPreservingLaTeXTemplate();
 	}
 
 	void setLinkedGeo(GeoElementND linkedGeo) {

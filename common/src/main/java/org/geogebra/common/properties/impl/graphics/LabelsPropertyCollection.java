@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.Property;
-import org.geogebra.common.properties.impl.AbstractPropertyCollection;
+import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
 
 /**
  * This collection groups properties that are related to labeling the axes.

@@ -1019,16 +1019,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * @return copy of this, with string type set to StringType.LATEX
+	 * @return copy of this, with string type set to LATEX and more digits allowed
 	 */
-	public StringTemplate deriveLaTeXTemplate() {
-
-		if (stringType.equals(StringType.LATEX)) {
+	public StringTemplate derivePrecisionPreservingLaTeXTemplate() {
+		if (stringType.equals(StringType.LATEX) && allowMoreDigits) {
 			return this;
 		}
 
 		StringTemplate ret = this.copy();
-
+		ret.allowMoreDigits = true;
 		ret.setType(StringType.LATEX);
 
 		return ret;

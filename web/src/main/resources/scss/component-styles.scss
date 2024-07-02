@@ -5,6 +5,13 @@
 
 .GeoGebraFrame {
 
+	.floatingActionButton.keyboardFocus:focus-visible {
+		outline-color: var(--ggb-dark-color);
+		outline-width: 2px;
+		outline-style: solid;
+		outline-offset: 3px;
+	}
+
 	/* CHECKBOX COMPONENT */
 	@mixin checkboxBg($color) {
 		.background {
@@ -513,6 +520,14 @@
 			color: neutral(700);
 			background-color: neutral(200);
 		}
+
+		&:focus-visible {
+			outline-color: var(--ggb-dark-color);
+			outline-width: 2px;
+			outline-style: solid;
+			outline-offset: 3px;
+			background: var(--ggb-light-color);
+		}
 	}
 
 	/** Material CONTAINED BUTTON used for dialogs positive action **/
@@ -520,6 +535,13 @@
 		@extend .materialContainedButton;
 
 		box-shadow: none;
+
+		&:focus-visible {
+			outline-color: var(--ggb-dark-color);
+			outline-width: 2px;
+			outline-style: solid;
+			outline-offset: 3px;
+		}
 	}
 
    .orDividerComponent {
@@ -834,7 +856,7 @@
 				color: transparent;
 				user-select: none; /* standard */
 				pointer-events: none;
-            }
+			}
 
 			input[type=text]:focus:not([readonly]) {
 				border: none;
@@ -849,30 +871,30 @@
 	}
 
 	.flatButtonHeader {
-        padding: 6px;
-        cursor: pointer;
-        height: 36px;
-        float: left;
-        box-sizing: border-box;
-        border-radius: 50%;
-        transition: background-color 150ms ease 0ms;
-        position: relative;
+		padding: 6px;
+		cursor: pointer;
+		height: 36px;
+		float: left;
+		box-sizing: border-box;
+		border-radius: 50%;
+		transition: background-color 150ms ease 0ms;
+		position: relative;
 
-        img {
-        	opacity: 0.54;
-        }
+		img {
+			opacity: 0.54;
+		}
 
-        &:focus, &:hover, &.selected {
-            background-color: neutral(200);
-        }
-     }
+		&:focus, &:hover, &.selected {
+			background-color: neutral(200);
+		}
+	 }
 
-     .buttonInactive {
-     	cursor: default;
+	 .buttonInactive {
+		cursor: default;
 
-     	img {
-     		opacity: 0.26;
-     	}
+		img {
+			opacity: 0.26;
+		}
 
 		&:hover {
 			background-color: transparent;
@@ -1243,6 +1265,7 @@
 			height: 20px;
 			line-height: 20px;
 			margin: 5px 8px;
+			font-size: 90%;
 		}
 	}
 

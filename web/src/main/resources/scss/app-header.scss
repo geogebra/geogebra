@@ -47,7 +47,8 @@
 	transition: background-color 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.GeoGebraHeader .signIn:hover{
+.GeoGebraHeader .signIn:hover,
+.GeoGebraHeader .signIn:focus {
 	background-color: neutral(200);
 }
 
@@ -110,12 +111,23 @@
     margin: 0 12px;
 }
 
+.GeoGebraFrame .dialogContainedButton.assignBtn:focus {
+    background-color: #5145A8;
+}
+
 .GeoGebraHeader .profilePanel, .GeoGebraHeader .signIn {
     text-transform: uppercase;
     line-height: 24px;
     border-radius: 2px;
     cursor: pointer;
 }
+
+.GeoGebraHeader #profileId:focus {
+	.imageHolder {
+		background: neutral(200);
+	}
+}
+
 .GeoGebraHeader .profilePanel {
     margin: 8px;
 }
@@ -199,6 +211,7 @@ img.profileImage {
 }
 
 .GeoGebraHeader .suiteAppPickerButton:hover,
+.GeoGebraHeader .suiteAppPickerButton:focus,
 .GeoGebraHeader .suiteAppPickerButton[aria-expanded=true] {
 	background-color: neutral(200);
 }
@@ -363,6 +376,14 @@ svg.icon.left {
 
 .GeoGebraFrame .headerLogo {
     margin: 8px;
+}
+
+.GeoGebraFrame #logoID:hover {
+	cursor: pointer
+}
+
+.GeoGebraFrame .logoLink:focus {
+    background-color: neutral(200);
 }
 
 .compact.GeoGebraFrame .headerLogo,

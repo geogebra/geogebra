@@ -282,7 +282,7 @@ public class Parser implements ParserInterface {
         if (externalCASParsing || geoGebraCASParsing || highPrecisionParsing) {
             // preserve string from CAS: it may have higher
             // precision than double
-            return new MySpecialDouble(kernel, val, percent ? image + "%" : image);
+            return new MySpecialDouble(kernel, val, percent ? image + "%" : image, externalCASParsing);
         }
 
         return new MyDouble(kernel, val);

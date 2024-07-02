@@ -8,6 +8,7 @@ import org.geogebra.common.cas.giac.binding.CASGiacBinding;
 import org.geogebra.common.cas.giac.binding.Context;
 import org.geogebra.common.cas.giac.binding.Gen;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.debug.crashlytics.CrashlyticsLogger;
 
 /**
  * Giac connector using C++ or JNI binding
@@ -71,8 +72,11 @@ public abstract class CASgiacB extends CASgiac {
 		if (cachedResult != null && !cachedResult.isEmpty()) {
 			return cachedResult;
 		}
+		String casInput = "caseval(" + exp + ")";
 
-		Gen g = binding.createGen("caseval(" + exp + ")", context);
+		CrashlyticsLogger.log("Giac Input: " + casInput);
+
+		Gen g = binding.createGen(casInput, context);
 		g = g.eval(1, context);
 		String ret = g.print(context);
 
@@ -93,7 +97,6 @@ public abstract class CASgiacB extends CASgiac {
 	 */
 	protected void debug(String prefix, String giacString) {
 		Log.debug(prefix + giacString);
-
 	}
 
 	private void init(String exp, long timeoutMilliseconds) {

@@ -12,6 +12,8 @@ import java.util.stream.Stream;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.exam.restrictions.ExamRestrictable;
+import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
@@ -56,8 +58,8 @@ import com.google.j2objc.annotations.Weak;
  * Keeps lists of selected geos (global, per type)
  *
  */
-public class SelectionManager {
-	/** list of selected geos */
+public class SelectionManager implements ExamRestrictable {
+
 	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<>();
 
 	@Weak
@@ -101,6 +103,8 @@ public class SelectionManager {
 	private GeoBoolean tempSelectedBoolean;
 	private GeoElement focusedGroupElement;
 	private boolean keyboardSelection = false;
+
+	private ExamRestrictions examRestrictions;
 
 	/**
 	 * @param kernel
@@ -298,7 +302,9 @@ public class SelectionManager {
 	 */
 	public final void addSelectedGeo(GeoElementND geoND, boolean repaint,
 			boolean updateSelection) {
-
+		if (!isSelectionAllowed(geoND)) {
+			return;
+		}
 		if ((geoND == null) || selectedGeos.contains(geoND)) {
 			return;
 		}
@@ -1395,5 +1401,32 @@ public class SelectionManager {
 		} else {
 			return keyboardSelection && selectedGeos.contains(geo);
 		}
+	}
+
+	// ExamRestrictable
+
+	@Override
+	public void applyRestrictions(ExamRestrictions examRestrictions) {
+		this.examRestrictions = examRestrictions;
+	}
+
+	@Override
+	public void removeRestrictions(ExamRestrictions examRestrictions) {
+		this.examRestrictions = null;
+	}
+
+	/**
+	 * TODO not sure if this makes sense to suppress selection of certain elements during exams
+	 * @param geoND A geo.
+	 * @return True if selecting the geo is allowed.
+	 */
+	public boolean isSelectionAllowed(GeoElementND geoND) {
+		if (geoND == null) {
+			return false;
+		}
+		if (examRestrictions != null) {
+			return examRestrictions.isSelectionAllowed(geoND);
+		}
+		return true;
 	}
 }

@@ -18,6 +18,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandlerFactory;
@@ -137,7 +138,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	public void resetMenuOnAppSwitch(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
 		defaultDrawerMenuFactory = createDefaultMenuFactory(app, version);
-		if (!app.isExamStarted()) {
+		if (!GlobalScope.examController.isExamActive()) {
 			setDefaultMenu();
 		} else {
 			setExamMenu();
@@ -257,6 +258,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		hideSubmenuAndMoveFocus();
 		if (floatingMenuView.isVisible()) {
 			menuView.selectItem(0);
+			menuView.getSelectedItem().getElement().focus();
 		}
 		setMenuTransition(menuView, floatingMenuView.isVisible());
 	}
@@ -300,6 +302,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		if (submenuContainer.getWidget() != null) {
 			setSubmenuVisibility(false);
 			menuView.selectItem(menuView.getSelectedIndex());
+			menuView.getSelectedItem().getElement().focus();
 		}
 	}
 

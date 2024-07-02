@@ -142,12 +142,12 @@ public class VectorArithmetic {
 				&& exp.getLeft().unwrap().getListDepth() == 2
 				&& ((ListValue) exp.getLeft().unwrap()).size() > i) {
 			ListValue lv = (ListValue) ((ListValue) exp.getLeft())
-					.getListElement(i);
+					.get(i);
 			if (lv.size() == 2 || lv.size() == 3) {
 				ExpressionNode sum = new ExpressionNode(kernel, 0);
 				for (int j = 0; j < lv.size(); j++) {
 					sum = sum.plus(computeCoord(exp.getRightTree(), j)
-							.multiply(lv.getListElement(j)));
+							.multiply(lv.get(j)));
 				}
 				return sum;
 			}

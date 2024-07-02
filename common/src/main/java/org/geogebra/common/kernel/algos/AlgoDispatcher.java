@@ -574,17 +574,15 @@ public class AlgoDispatcher {
 	}
 
 	/**
-	 * Creates a free list object with the given elements
-	 * 
-	 * @param label
-	 *            output label
+	 * Creates a free or dependent list object with the given elements
+	 *
 	 * @param geoElementList
 	 *            list of GeoElement objects
 	 * @param isIndependent
 	 *            whether to create independent list
 	 * @return list with given elements
 	 */
-	final public GeoList list(String label,
+	final public GeoList list(
 			ArrayList<GeoElement> geoElementList, boolean isIndependent) {
 		if (isIndependent) {
 			GeoList list = new GeoList(cons);
@@ -592,11 +590,9 @@ public class AlgoDispatcher {
 			for (int i = 0; i < size; i++) {
 				list.add(geoElementList.get(i));
 			}
-			list.setLabel(label);
 			return list;
 		}
-		AlgoDependentList algoList = new AlgoDependentList(cons, label,
-				geoElementList);
+		AlgoDependentList algoList = new AlgoDependentList(cons, geoElementList, false);
 		return algoList.getGeoList();
 	}
 

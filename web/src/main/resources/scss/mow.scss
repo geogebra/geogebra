@@ -191,10 +191,7 @@
 		transition: $floatingbtn-hover-transition, $mowsubmenu-transition;
 
 		&:hover {
-			background-color: colors.$mow_primary_variant;
-		}
-		&.keyboardFocus:focus {
-			outline: colors.$focus-black 5px auto;
+			background-color: var(--ggb-dark-color);
 		}
 	}
 
