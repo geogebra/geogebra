@@ -1,4 +1,4 @@
-package org.geogebra.common.main.exam.restriction;
+package org.geogebra.common.exam;
 
 import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.G3D_APPCODE;
@@ -6,17 +6,13 @@ import static org.geogebra.common.GeoGebraConstants.GEOMETRY_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.PROBABILITY_APPCODE;
 
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
 
-public enum ExamRegion {
+public enum ExamType {
 
 	GENERIC() {
 		@Override
@@ -32,6 +28,7 @@ public enum ExamRegion {
 			return loc.getMenu(shortAppName);
 		}
 
+		@Deprecated
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
 			// no specific restrictions
@@ -75,9 +72,10 @@ public enum ExamRegion {
 			return "Niedersachsen";
 		}
 
+		@Deprecated
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
-			model.setSubAppCodes(G3D_APPCODE);
+			model.setRestrictedSubAppCodes(G3D_APPCODE);
 		}
 
 		@Override
@@ -96,9 +94,10 @@ public enum ExamRegion {
 			return "Schulversuch CAS";
 		}
 
+		@Deprecated
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
-			model.setSubAppCodes(GRAPHING_APPCODE, GEOMETRY_APPCODE, G3D_APPCODE,
+			model.setRestrictedSubAppCodes(GRAPHING_APPCODE, GEOMETRY_APPCODE, G3D_APPCODE,
 					PROBABILITY_APPCODE);
 			model.setCommandFilter(CommandFilterFactory.createBayernCasFilter());
 		}
@@ -119,9 +118,10 @@ public enum ExamRegion {
 			return "Vlaanderen";
 		}
 
+		@Deprecated
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
-			model.setSubAppCodes(CAS_APPCODE);
+			model.setRestrictedSubAppCodes(CAS_APPCODE);
 			model.setCommandFilter(CommandFilterFactory.createVlaanderenFilter());
 		}
 
@@ -138,8 +138,8 @@ public enum ExamRegion {
 	 * @param shortName exam name
 	 * @return exam region
 	 */
-	public static ExamRegion byName(String shortName) {
-		for (ExamRegion region: values()) {
+	public static ExamType byName(String shortName) {
+		for (ExamType region: values()) {
 			if (region.name().equalsIgnoreCase(shortName)) {
 				return region;
 			}
@@ -147,22 +147,13 @@ public enum ExamRegion {
 		return null;
 	}
 
-	/**
-	 * @param appCode app code for API (suite/graphing/classic/...)
-	 * @return list of supported mode IDs
-	 */
-	public static String getSupportedModes(String appCode) {
-		return Stream.concat(Stream.of(appCode, CHOOSE), Arrays.stream(ExamRegion.values())
-					.filter(r -> r != ExamRegion.GENERIC)
-					.map(r -> r.name().toLowerCase(Locale.ROOT)))
-					.collect(Collectors.joining(", "));
-	}
-
 	public abstract String getDisplayName(Localization loc, AppConfig config);
 
 	public abstract String getShortDisplayName(Localization loc, AppConfig config);
 
+	@Deprecated
 	public abstract void applyRestrictions(ExamRestrictionModel model);
 
+	@Deprecated
 	public abstract void setDefaultSubAppCode(ExamRestrictionModel model);
 }

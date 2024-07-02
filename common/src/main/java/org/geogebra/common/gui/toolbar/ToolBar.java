@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
+import org.geogebra.common.ownership.GlobalScope;
 
 /**
  * Utility class for toolbar strings
@@ -809,7 +810,8 @@ public class ToolBar {
 	public static String getAllTools(App app) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(ToolBar.getAllToolsNoMacros(app.isHTML5Applet(), app.isExam(), app));
+		sb.append(ToolBar.getAllToolsNoMacros(app.isHTML5Applet(),
+				GlobalScope.examController.isExamActive(), app));
 
 		// macros
 		Kernel kernel = app.getKernel();

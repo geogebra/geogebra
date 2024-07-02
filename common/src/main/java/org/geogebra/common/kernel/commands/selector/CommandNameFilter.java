@@ -8,9 +8,9 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * CommandFilter interface implemented using HashSet&lt;Commands&gt;
+ * Filters commands by their name.
  */
-class CommandNameFilterSet implements CommandFilter {
+public class CommandNameFilter implements CommandFilter {
 
     private Set<Commands> allowedCommands;
 	private boolean inverse;
@@ -21,16 +21,27 @@ class CommandNameFilterSet implements CommandFilter {
 	 * @param inverse
 	 *            whether to invert selection
 	 */
-	CommandNameFilterSet(boolean inverse) {
+	public CommandNameFilter(boolean inverse) {
         allowedCommands = new HashSet<>();
 		this.inverse = inverse;
     }
 
 	/**
+	 * Create a new command filter.
+	 *
+	 * @param inverse Pass true to invert the selection.
+	 * @param commands The list of allowed commands.
+	 */
+	public CommandNameFilter(boolean inverse, Commands... commands) {
+		this.inverse = inverse;
+		allowedCommands = Set.of(commands);
+	}
+
+	/**
 	 * @param commands
 	 *            allowed commands
 	 */
-    void addCommands(Commands... commands) {
+	public void addCommands(Commands... commands) {
         allowedCommands.addAll(Arrays.asList(commands));
     }
 

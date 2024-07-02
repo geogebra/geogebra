@@ -1,4 +1,4 @@
-package org.geogebra.common.properties.impl.objects.collection;
+package org.geogebra.common.properties.impl.collections;
 
 import javax.annotation.Nullable;
 
@@ -8,7 +8,7 @@ import org.geogebra.common.properties.aliases.StringProperty;
  * Handles a collection of StringProperty objects as a single StringProperty.
  */
 public class StringPropertyCollection<T extends StringProperty>
-		extends AbstractTypedPropertyCollection<T, String> implements StringProperty {
+		extends AbstractValuedPropertyCollection<T, String> implements StringProperty {
 
 	/**
 	 * @param properties properties to handle

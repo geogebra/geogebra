@@ -47,8 +47,7 @@ public class GeneralPropertiesTest extends BaseUnitTest {
 
 	@Test
 	public void angleUnitShouldUpdateAV() {
-		AngleUnitProperty rp = new AngleUnitProperty(getKernel(),
-				getLocalization());
+		AngleUnitProperty rp = new AngleUnitProperty(getKernel(), getLocalization());
 		t("a=90deg");
 		t("b=Angle(xAxis,yAxis)");
 		valueTextShouldBe("a", "a = 90deg");

@@ -6,7 +6,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.aliases.ActionableIconProperty;
 import org.geogebra.common.properties.aliases.ActionableIconPropertyCollection;
-import org.geogebra.common.properties.impl.AbstractPropertyCollection;
+import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
 
 public class EuclideanViewXRActionsPropertyCollection
 		extends AbstractPropertyCollection<ActionableIconProperty>

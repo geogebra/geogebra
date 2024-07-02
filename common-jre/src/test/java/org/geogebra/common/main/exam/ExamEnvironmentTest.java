@@ -14,6 +14,7 @@ import org.geogebra.common.move.ggtapi.models.UserPublic;
 import org.junit.Before;
 import org.junit.Test;
 
+@Deprecated
 public class ExamEnvironmentTest extends BaseUnitTest {
 
 	private ExamEnvironment examEnvironment;

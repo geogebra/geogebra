@@ -375,7 +375,7 @@ public class Derivative {
 				int index = (int) Math.round(right.evaluateDouble());
 				MyList list = ((ListValue) left).getMyList();
 
-				if (index >= 0 && index < list.getLength()) {
+				if (index >= 0 && index < list.size()) {
 
 					ExpressionValue element = list.get(index);
 

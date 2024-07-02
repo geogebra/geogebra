@@ -1613,7 +1613,7 @@ public class GeoCasCell extends GeoElement
 				&& ((ExpressionNode) ve).getRight() == null) {
 			ArrayList<ExpressionValue> results = new ArrayList<>();
 			for (int i = 0; i < ((MyList) ((ExpressionNode) ve).getLeft())
-					.getLength(); i++) {
+					.size(); i++) {
 				boolean isComplex = ((MyList) ((ExpressionNode) ve).getLeft())
 						.get(i)
 						.inspect(Inspecting.ComplexChecker.INSTANCE);

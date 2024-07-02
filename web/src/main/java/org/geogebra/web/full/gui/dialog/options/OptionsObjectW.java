@@ -68,6 +68,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -708,7 +709,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		});
 		tabPanel.setStyleName("propertiesPanel");
 		createBasicTab();
-		if (!(app.isExam())) {
+		if (GlobalScope.examController.isIdle()) {
 			tabs = Arrays.asList(basicTab, addTextTab(), addSliderTab(),
 					addColorTab(), addStyleTab(), addPositionTab(),
 					addAdvancedTab(), addAlgebraTab(), addScriptTab());

@@ -15,8 +15,11 @@ package org.geogebra.common.kernel.commands;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -70,6 +73,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariable
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.traversing.SqrtMinusOneReplacer;
 import org.geogebra.common.kernel.arithmetic.traversing.SqrtMultiplyFixer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
@@ -181,6 +185,8 @@ public class AlgebraProcessor {
 	 */
 	protected ParametricProcessor paramProcessor;
 
+	private final List<ExpressionFilter> expressionFilters = new ArrayList<>();
+
 	/** TODO use the selector from CommandDispatcher instead. */
 	@Deprecated
 	private CommandFilter noCASfilter;
@@ -248,6 +254,35 @@ public class AlgebraProcessor {
 	 */
 	public boolean isCommandAvailable(String cmd) {
 		return cmdDispatcher.isCommandAvailable(cmd);
+	}
+
+	/**
+	 * Add an expression filter (used for dynamically filtering valid expressions).
+	 * @param filter An expression filter.
+	 */
+	public void addExpressionFilter(ExpressionFilter filter) {
+		if (filter != null) {
+			expressionFilters.add(filter);
+		}
+	}
+
+	/**
+	 * Remove an expression filter.
+	 * @param filter An expression filter.
+	 */
+	public void removeExpressionFilter(ExpressionFilter filter) {
+		if (filter != null) {
+			expressionFilters.remove(filter);
+		}
+	}
+
+	private boolean isExpressionAllowed(ValidExpression expression) {
+		for (ExpressionFilter expressionFilter : expressionFilters) {
+			if (!expressionFilter.isAllowed(expression)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -918,6 +953,9 @@ public class AlgebraProcessor {
 			final ErrorHandler handler,
 			final AsyncOperation<GeoElementND[]> callback0,
 			final EvalInfo info) {
+		if (!isExpressionAllowed(ve)) {
+			return null;
+		}
 		// collect undefined variables
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables(
 				info.isMultipleUnassignedAllowed());
@@ -2764,7 +2802,7 @@ public class AlgebraProcessor {
 			}
 		}
 
-		if (singleLeftVariable != null && equ.getLabel() == null) {
+		if (singleLeftVariable != null && equ.getLabel() == null && info.isAssignmentAllowed()) {
 			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
 			try {
 				return processValidExpression(equ.getRHS());
@@ -3362,16 +3400,18 @@ public class AlgebraProcessor {
 			cons.setSuppressLabelCreation(oldMacroMode);
 
 			// Create GeoList object
-			ret = kernel.getAlgoDispatcher().list(label, geoElements,
+			ret = kernel.getAlgoDispatcher().list(geoElements,
 					isIndependent);
 			if (info.isSymbolic()) {
 				((HasSymbolicMode) ret).initSymbolicMode();
 			}
 			if (!evalList.isDefined() || (isIndependent && ret.isUndefinedMatrix())) {
 				ret.setUndefined();
-				ret.updateRepaint();
 			}
 			ret.setDefinition(n);
+			if (info.isLabelOutput()) {
+				ret.setLabel(label);
+			}
 		}
 
 		// operations and variables are present
@@ -3745,7 +3785,7 @@ public class AlgebraProcessor {
 	 *            only the commands that are allowed by the CommandFilter
 	 *            will be added to the command table
 	 */
-	public void addCommandFilter(CommandFilter commandFilter) {
+	public void addCommandFilter(@Nonnull CommandFilter commandFilter) {
 		cmdDispatcher.addCommandFilter(commandFilter);
 	}
 
@@ -3793,7 +3833,7 @@ public class AlgebraProcessor {
 		if (cmd == null) {
 			return syntax.getCommandSyntax(cmdInt, dim);
 		}
-		if (!this.cmdDispatcher.isAllowedByNameFilter(cmd)) {
+		if (!this.cmdDispatcher.isAllowedByCommandFilters(cmd)) {
 			return null;
 		}
 		// IntegralBetween gives all syntaxes. Typing Integral or NIntegral
