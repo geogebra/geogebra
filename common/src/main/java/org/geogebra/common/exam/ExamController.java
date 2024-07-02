@@ -330,8 +330,9 @@ public final class ExamController {
 	 * state.
 	 */
 	public void prepareExam() {
-		if (state != ExamState.IDLE) {
-			throw new IllegalStateException("expected to be in IDLE state, but is " + state);
+		if (state != ExamState.IDLE && state != ExamState.PREPARING) {
+			throw new IllegalStateException("expected to be in IDLE or PREPARING state, but is "
+					+ state); // allow prepareExam() call also in PREPARING state (APPS-5536)
 		}
 		setState(ExamState.PREPARING);
 		// save current material and restore after exit?
