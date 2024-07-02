@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -886,16 +885,6 @@ public class GeoGebraFrameFull
 			return;
 		}
 		notesLayout.updateUndoRedoActions();
-	}
-
-	/**
-	 * deselect drag button
-	 */
-	public void deselectDragBtn() {
-		if (getApp().getZoomPanelMow() != null
-				&& app.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
-			getApp().getZoomPanelMow().deselectDragBtn();
-		}
 	}
 
 	/**
