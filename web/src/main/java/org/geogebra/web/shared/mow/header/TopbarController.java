@@ -74,6 +74,7 @@ public class TopbarController {
 			appW.setMode(MODE_SELECT_MOW);
 		}
 	}
+
 	/**
 	 * on home press
 	 */
