@@ -99,7 +99,8 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 
 	private void addDragButton() {
 		dragBtn = new IconButton(controller.getApp(), MaterialDesignResources
-				.INSTANCE.move_canvas(), "PanView", "PanView", () -> controller.onDrag(), null);
+				.INSTANCE.move_canvas(), "PanView", "PanView", () -> controller.onDrag(),
+				() -> controller.getApp().setMode(EuclidianConstants.MODE_SELECT_MOW));
 		dragBtn.addStyleName("small");
 		buttons.add(dragBtn);
 		add(dragBtn);

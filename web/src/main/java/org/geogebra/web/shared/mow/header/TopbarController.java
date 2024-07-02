@@ -1,5 +1,7 @@
 package org.geogebra.web.shared.mow.header;
 
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
@@ -53,6 +55,7 @@ public class TopbarController {
 	 * on zoom in press
 	 */
 	public void onZoomIn() {
+		setSelectMode();
 		zoomController.onZoomInPressed();
 		deselectDragBtn.run();
 	}
@@ -61,10 +64,16 @@ public class TopbarController {
 	 * on zoom out press
 	 */
 	public void onZoomOut() {
+		setSelectMode();
 		zoomController.onZoomOutPressed();
 		deselectDragBtn.run();
 	}
 
+	private void setSelectMode() {
+		if (appW.getMode() != MODE_SELECT_MOW) {
+			appW.setMode(MODE_SELECT_MOW);
+		}
+	}
 	/**
 	 * on home press
 	 */
