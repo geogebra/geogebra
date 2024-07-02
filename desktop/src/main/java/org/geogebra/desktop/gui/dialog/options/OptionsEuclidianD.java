@@ -22,6 +22,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.NumberFormat;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -82,6 +83,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		SetLabels, EuclidianOptionsModel.IBasicTab,
 		EuclidianOptionsModel.IGridTab {
 
+	private final GridStyleProperty gridProperty;
 	protected AppD app;
 	private final Kernel kernel;
 	private final EuclidianOptionsModel model;
@@ -188,6 +190,8 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		kernel = app.getKernel();
 		this.view = view;
 		model = new EuclidianOptionsModel(app, view);
+		this.gridProperty = new GridStyleProperty(app.getLocalization(),
+				view.getSettings());
 		view.setOptionPanel(this);
 
 		wrappedPanel = new JPanel();
@@ -547,7 +551,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 		initGridTypePanel();
 		initGridStylePanel();
-
+		model.updateGridProperties(this);
 		JPanel gridPanel = new JPanel(new FullWidthLayout());
 		fillGridPanel(showGridPanel, gridPanel);
 
@@ -633,22 +637,8 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		cbBoldGrid.addActionListener(this);
 
 		cbGridType.removeActionListener(this);
-		cbGridType.setSelectedIndex(getItemIndexFromGridType(gridType));
+		cbGridType.setSelectedIndex(Arrays.asList(gridProperty.getValues()).indexOf(gridType));
 		cbGridType.addActionListener(this);
-	}
-
-	private int getItemIndexFromGridType(int gridType) {
-		switch (gridType) {
-		default:
-		case EuclidianView.GRID_CARTESIAN:
-			return 0;
-		case EuclidianView.GRID_CARTESIAN_WITH_SUBGRID:
-			return 1;
-		case EuclidianView.GRID_POLAR:
-			return 2;
-		case EuclidianView.GRID_ISOMETRIC:
-			return 3;
-		}
 	}
 
 	@Override
@@ -658,7 +648,8 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		cbAxesStyle.removeActionListener(this);
 		cbGridStyle.removeActionListener(this);
 
-		model.updateProperties(this, this);
+		model.updateBasicProperties(this);
+		model.updateGridProperties(this);
 
 		cbGridStyle.addActionListener(this);
 		cbAxesStyle.addActionListener(this);
@@ -740,8 +731,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	}
 
 	private void fillGridTypeCombo() {
-		String[] gridTypes = new GridStyleProperty(app.getLocalization(),
-				view.getSettings()).getValueNames();
+		String[] gridTypes = gridProperty.getValueNames();
 		for (String item : gridTypes) {
 			cbGridType.addItem(item);
 		}
@@ -911,17 +901,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	}
 
 	private int getGridTypeFromIndex() {
-		switch (cbGridType.getSelectedIndex()) {
-		default:
-		case 0:
-			return EuclidianView.GRID_CARTESIAN;
-		case 1:
-			return EuclidianView.GRID_CARTESIAN_WITH_SUBGRID;
-		case 2:
-			return EuclidianView.GRID_POLAR;
-		case 3:
-			return EuclidianView.GRID_ISOMETRIC;
-		}
+		return gridProperty.getValues()[cbGridType.getSelectedIndex()];
 	}
 
 	private double parseDouble(String text) {
