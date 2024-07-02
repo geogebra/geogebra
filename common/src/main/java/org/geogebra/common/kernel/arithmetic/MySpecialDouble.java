@@ -206,10 +206,6 @@ public class MySpecialDouble extends MyDouble {
 		bd = null;
 	}
 
-	/**
-	 * Set precise value
-	 * @param val value as BigDecimal
-	 */
 	@Override
 	public void set(BigDecimal val) {
 		super.set(val.doubleValue());
