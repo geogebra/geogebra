@@ -210,7 +210,7 @@ public class AlgoIf extends AlgoElement {
 	protected String toExpString(StringTemplate tpl) {
 		if (result instanceof FunctionalNVar && result.isLabelSet()) {
 			FunctionalNVar functionalNVar = (FunctionalNVar) result;
-			String rhs = functionalNVar.getFunction().toString(tpl);
+			String rhs = toString(tpl);
 			return result.getLabel(tpl) + "("
 					+ functionalNVar.getVarString(tpl) + ") = " + rhs;
 		}
