@@ -61,15 +61,9 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 		final NumberInputHandler handler = new NumberInputHandler(
 				geoPoint2.getKernel().getAlgebraProcessor());
 		new SegmentHandler(geoPoint2, geoPoint2.getKernel())
-				.doSegmentFixedAsync(getInput(), handler, this,
-
-						new AsyncOperation<Boolean>() {
-
-							@Override
-							public void callback(Boolean obj) {
-								// ignore
-							}
-						});
+				.doSegmentFixedAsync(getInput(), handler, this, obj -> {
+					// ignore
+				});
 
 	}
 
@@ -80,12 +74,9 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 		DialogManager.createAngleFixed(selectedPoints[0].getKernel(),
 				getInput(),
 				getClockwise(), this, selectedSegments, selectedPoints,
-				new AsyncOperation<Boolean>() {
-			@Override
-					public void callback(Boolean obj) {
-						// ignore
-					}
-				}, ec);
+				obj -> {
+							// ignore
+						}, ec);
 	}
 
 	private boolean getClockwise() {
@@ -105,8 +96,7 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 		DialogManager.rotateObject(app, getInput(),
 				getClockwise(), selectedPolygons,
 				new DialogManager.CreateGeoForRotatePoint(selectedPoints[0]), selGeos,
-				ec, this,
-				obj -> {
+				ec, this, obj -> {
 					// ignore
 				});
 	}
@@ -123,12 +113,8 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,
 			GeoCoordSys2D direction) {
 		DialogManager.makeRegularPolygon(app, ec, getInput(), geoPoint1,
-				geoPoint2, direction, this, new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean ok) {
-						// ignore
-					}
+				geoPoint2, direction, this, ok -> {
+					// ignore
 				});
 	}
 

@@ -7,7 +7,6 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
-import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.event.dom.client.HasAllKeyHandlers;
 import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyDownEvent;
@@ -549,12 +548,7 @@ public class GSuggestBox extends Composite
 			for (final Suggestion curSuggestion : suggestions) {
 				final SuggestionMenuItem menuItem = new SuggestionMenuItem(
 						curSuggestion, isDisplayStringHTML);
-				menuItem.setScheduledCommand(new ScheduledCommand() {
-					@Override
-					public void execute() {
-						callback.onSuggestionSelected(curSuggestion);
-					}
-				});
+				menuItem.setScheduledCommand(() -> callback.onSuggestionSelected(curSuggestion));
 
 				suggestionMenu.addItem(menuItem);
 			}
@@ -610,12 +604,9 @@ public class GSuggestBox extends Composite
 
 		public SuggestionMenuItem(Suggestion suggestion, boolean asHTML) {
 			super(suggestion.getDisplayString(), asHTML,
-					new ScheduledCommand() {
-						@Override
-						public void execute() {
-							// TODO Auto-generated method stub
+					() -> {
+						// TODO Auto-generated method stub
 
-						}
 					});
 			// Each suggestion should be placed in a single row in the
 			// suggestion

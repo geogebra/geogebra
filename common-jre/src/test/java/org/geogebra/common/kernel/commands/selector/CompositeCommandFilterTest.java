@@ -8,17 +8,8 @@ public class CompositeCommandFilterTest {
 
 	@Test
 	public void testCompositeCommandFilter() {
-		CompositeCommandFilter commandFilter = new CompositeCommandFilter(new CommandFilter() {
-			@Override
-			public boolean isCommandAllowed(Commands command) {
-				return command == Commands.Cone;
-			}
-		}, new CommandFilter() {
-			@Override
-			public boolean isCommandAllowed(Commands command) {
-				return command == Commands.Cube;
-			}
-		});
+		CompositeCommandFilter commandFilter = new CompositeCommandFilter(
+				command -> command == Commands.Cone, command -> command == Commands.Cube);
 		Assert.assertFalse(commandFilter.isCommandAllowed(Commands.Cone));
 		Assert.assertFalse(commandFilter.isCommandAllowed(Commands.Cube));
 	}

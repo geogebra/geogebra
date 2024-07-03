@@ -284,12 +284,7 @@ public final class CharMapping {
 	// https://www.w3.org/TR/MathML2/bycodes.html
 
 	private void initMappings() {
-		put('\u00B0', new Mapping() {
-			@Override
-			public void map(final TeXParser tp, final boolean mathMode) {
-				tp.cumSupSymbols(Symbols.CIRC);
-			}
-		});
+		put('\u00B0', (tp, mathMode) -> tp.cumSupSymbols(Symbols.CIRC));
 		put(SUPZERO, new SubSupMapping('0', true));
 		put(SUPONE, new SubSupMapping('1', true));
 		put(SUPTWO, new SubSupMapping('2', true));

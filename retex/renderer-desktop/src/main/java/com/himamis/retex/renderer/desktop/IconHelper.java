@@ -51,8 +51,6 @@ import com.himamis.retex.renderer.desktop.graphics.ColorD;
 import com.himamis.retex.renderer.desktop.graphics.Graphics2DD;
 import com.himamis.retex.renderer.share.Colors;
 import com.himamis.retex.renderer.share.TeXIcon;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
-import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 
 public class IconHelper {
 
@@ -63,15 +61,11 @@ public class IconHelper {
 			public void paintIcon(Component c, Graphics g, int x, int y) {
 				final Component component = c;
 				final Graphics2DD g2d = new Graphics2DD((Graphics2D) g);
-				icon.paintIcon(new HasForegroundColor() {
-
-					@Override
-					public Color getForegroundColor() {
-						if (component != null) {
-							return new ColorD(component.getForeground());
-						}
-						return Colors.BLACK;
+				icon.paintIcon(() -> {
+					if (component != null) {
+						return new ColorD(component.getForeground());
 					}
+					return Colors.BLACK;
 				}, g2d, x, y);
 				icon.paintCursor(g2d, y);
 			}

@@ -113,12 +113,7 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 		// onResize();
 	}
 
-	private ScheduledCommand onResizeCmd = new ScheduledCommand() {
-		@Override
-		public void execute() {
-			onResize();
-		}
-	};
+	private ScheduledCommand onResizeCmd = this::onResize;
 
 	@Override
 	public void updateNavigationBar() {
