@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
-import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
@@ -471,30 +470,6 @@ public enum Operation {
 						MyList.get(rt, 1)));
 			}
 			return ret;
-		}
-
-		private void add(MyList ret, ExpressionValue lt,
-				ExpressionValue rt, final Operation op) {
-			Traversing pmSimplifier = new Traversing() {
-
-				@Override
-				public ExpressionValue process(ExpressionValue ev) {
-					if (ev.isExpressionNode()) {
-						ExpressionNode en = (ExpressionNode) ev;
-						if (en.getOperation() == Operation.PLUSMINUS) {
-							en.setOperation(op);
-						}
-					}
-					return ev;
-				}
-
-			};
-			ret.addListElement(
-					ret.getKernel().getAlgebraProcessor()
-							.makeFunctionNVar(lt.wrap().apply(op, rt)
-									.deepCopy(ret.getKernel())
-									.traverse(pmSimplifier).wrap()));
-
 		}
 	},
 	VECTORPRODUCT {
