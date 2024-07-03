@@ -1,6 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 
 /**
  * It represents a copy/paste operation of a spreadsheet cell.
@@ -34,6 +35,7 @@ final class CopyPasteCellOperation {
 	void apply(TabularClipboard<GeoElement> buffer, TabularData<GeoElement> tabularData) {
 		GeoElement value = buffer.contentAt(sourceRow, sourceCol);
 		GeoElement copy = value.copy();
+		copy.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(destCol, destRow));
 		tabularData.setContent(destRow, destCol, copy);
 	}
 

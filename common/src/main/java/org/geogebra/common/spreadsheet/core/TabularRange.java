@@ -82,6 +82,10 @@ public final class TabularRange {
 		return (anchorColumn == -1 || minColumn == -1) && anchorRow != -1;
 	}
 
+	public boolean areAllCellsSelected() {
+		return minRow == -1 && minColumn == -1;
+	}
+
 	public int getWidth() {
 		return maxColumn - minColumn + 1;
 	}

@@ -24,7 +24,8 @@ public class PasteGeosTest extends BaseUnitTest {
 		tabularData.setContent(2, 1, add("Text(\"foo\")"));
 		tabularData.setContent(2, 2, add("Button()"));
 
-		copyPasteCut = new CopyPasteCutTabularDataImpl<>(tabularData, new TestClipboard(), null);
+		copyPasteCut = new CopyPasteCutTabularDataImpl<>(tabularData, new TestClipboard(),
+				null, null);
 	}
 
 	@Test

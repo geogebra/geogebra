@@ -35,10 +35,8 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 			for (int row = source.getFromRow(); row <= source.getToRow(); ++row) {
 				int bufferRow = row - source.getFromRow();
 
-				// check if we're pasting back into what we're copying from
 				if (bufferCol + destination.getFromColumn() <= destination.getToColumn()
-						&& bufferRow + destination.getFromRow() <= destination.getToRow()
-						&& (!isInSource(col, row, source, destination))) {
+						&& bufferRow + destination.getFromRow() <= destination.getToRow()) {
 
 					GeoElement geo = buffer.contentAt(bufferRow, bufferCol);
 					if (geo != null) {
@@ -50,14 +48,5 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 			}
 		}
 		return operations;
-	}
-
-	private static boolean isInSource(int col, int row, TabularRange source,
-			TabularRange destination) {
-		return col + (destination.getFromColumn() - source.getFromColumn()) <= source.getToColumn()
-				&& col
-				+ (destination.getFromColumn() - source.getFromColumn()) >= source.getFromColumn()
-				&& row + (destination.getFromRow() - source.getFromRow()) <= source.getToRow()
-				&& row + (destination.getFromRow() - source.getFromRow()) >= source.getFromRow();
 	}
 }
