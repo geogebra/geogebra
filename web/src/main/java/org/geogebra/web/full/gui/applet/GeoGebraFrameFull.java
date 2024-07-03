@@ -55,6 +55,7 @@ import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.geogebra.web.shared.GlobalHeader;
+import org.geogebra.web.shared.mow.header.NotesTopbar;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
@@ -746,7 +747,9 @@ public class GeoGebraFrameFull
 	 */
 	public void attachNotesUI(AppW app) {
 		NotesLayout notesLayout = getNotesLayoutSafe(app);
-		if (notesLayout.getTopbar() != null) {
+
+		NotesTopbar notesTopbar = notesLayout.getTopbar();
+		if (notesTopbar != null && notesTopbar.getElement().hasChildNodes()) {
 			add(notesLayout.getTopbar());
 		}
 		if (notesLayout.getToolbar() != null) {
