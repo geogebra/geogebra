@@ -124,4 +124,10 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		assertFalse("The created element is visible within the EV!",
 				lookup("A1").isEuclidianVisible());
 	}
+
+	@Test
+	public void testNoOperationForTextMinus() {
+		processor.process("7-2", "A1");
+		assertTrue(lookup("A1").isGeoText());
+	}
 }
