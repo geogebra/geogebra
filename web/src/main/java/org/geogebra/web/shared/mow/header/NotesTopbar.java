@@ -38,10 +38,6 @@ public class NotesTopbar extends FlowPanel implements SetLabels {
 	private void buildGui() {
 		addMenuButton();
 		addUndoRedo();
-
-		if (!getElement().hasChildNodes()) {
-			setVisible(false);
-		}
 	}
 
 	private void addMenuButton() {
