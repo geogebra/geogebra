@@ -167,9 +167,9 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 
 			.catLabel {
 				cursor: default;
-			    line-height: 24px;
-			    font-size: 100%;
-                margin: 8px 0px;
+				line-height: 24px;
+				font-size: 100%;
+				margin: 8px 0px;
 			}
 
 			.categoryPanel {
@@ -210,14 +210,33 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 				margin: 0px;
 				vertical-align: top;
 				margin-bottom: 4px;
+				display: inline-block;
+				border-radius: 4px;
+				height: 72px;
+				cursor: pointer;
 
-				img, img:hover {
-					opacity: 1;
-                }
+				img {
+					padding: 4px 28px;
+				}
+
+				.gwt-Label {
+					color: neutral(700);
+					font-size: 12px;
+					width: 80px;
+					height: 28px;
+					text-align: center;
+					line-height: 14px;
+					position: relative;
+					overflow: hidden;
+				}
 
 				&[selected=true] .gwt-Label {
-                    color: colors.$purple-dark;
-                    font-weight: 600;
+					color: colors.$purple-dark;
+					font-weight: 600;
+				}
+
+				&[selected=false]:hover .gwt-Label {
+					color: neutral(900);
 				}
 			}
 

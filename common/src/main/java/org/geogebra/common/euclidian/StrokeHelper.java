@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 public class StrokeHelper {
-	public static final String DEL = "DEL -";
 
 	/**
 	 * returns the xml of the given strokes

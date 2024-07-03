@@ -91,6 +91,13 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 	public void show() {
 		super.show();
 		super.center();
+		((AppW) app).registerPopup(this);
+	}
+
+	@Override
+	public void hide() {
+		super.hide();
+		((AppW) app).unregisterPopup(this);
 	}
 
 	@Override

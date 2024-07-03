@@ -5,6 +5,13 @@
 
 .GeoGebraFrame {
 
+	.floatingActionButton.keyboardFocus:focus-visible {
+		outline-color: var(--ggb-dark-color);
+		outline-width: 2px;
+		outline-style: solid;
+		outline-offset: 3px;
+	}
+
 	/* CHECKBOX COMPONENT */
 	@mixin checkboxBg($color) {
 		.background {
@@ -513,6 +520,14 @@
 			color: neutral(700);
 			background-color: neutral(200);
 		}
+
+		&:focus-visible {
+			outline-color: var(--ggb-dark-color);
+			outline-width: 2px;
+			outline-style: solid;
+			outline-offset: 3px;
+			background: var(--ggb-light-color);
+		}
 	}
 
 	/** Material CONTAINED BUTTON used for dialogs positive action **/
@@ -520,6 +535,13 @@
 		@extend .materialContainedButton;
 
 		box-shadow: none;
+
+		&:focus-visible {
+			outline-color: var(--ggb-dark-color);
+			outline-width: 2px;
+			outline-style: solid;
+			outline-offset: 3px;
+		}
 	}
 
    .orDividerComponent {
@@ -834,7 +856,7 @@
 				color: transparent;
 				user-select: none; /* standard */
 				pointer-events: none;
-            }
+			}
 
 			input[type=text]:focus:not([readonly]) {
 				border: none;
@@ -849,30 +871,30 @@
 	}
 
 	.flatButtonHeader {
-        padding: 6px;
-        cursor: pointer;
-        height: 36px;
-        float: left;
-        box-sizing: border-box;
-        border-radius: 50%;
-        transition: background-color 150ms ease 0ms;
-        position: relative;
+		padding: 6px;
+		cursor: pointer;
+		height: 36px;
+		float: left;
+		box-sizing: border-box;
+		border-radius: 50%;
+		transition: background-color 150ms ease 0ms;
+		position: relative;
 
-        img {
-        	opacity: 0.54;
-        }
+		img {
+			opacity: 0.54;
+		}
 
-        &:focus, &:hover, &.selected {
-            background-color: neutral(200);
-        }
-     }
+		&:focus, &:hover, &.selected {
+			background-color: neutral(200);
+		}
+	 }
 
-     .buttonInactive {
-     	cursor: default;
+	 .buttonInactive {
+		cursor: default;
 
-     	img {
-     		opacity: 0.26;
-     	}
+		img {
+			opacity: 0.26;
+		}
 
 		&:hover {
 			background-color: transparent;
@@ -1117,6 +1139,53 @@
 		}
 	}
 
+	.iconButton {
+		position: relative;
+		width: 24px;
+		height: 24px;
+		padding: 12px;
+		border-radius: 50%;
+		transition: background-color 150ms ease 0ms;
+
+		&.small {
+			padding: 6px;
+		}
+
+		img {
+			opacity: 0.54;
+		}
+
+		&:hover {
+			background-color: neutral(200);
+		}
+
+		&.active {
+			background-color: var(--ggb-light-color);
+
+			img {
+				opacity: 1;
+			}
+		}
+
+		&.disabled {
+			pointer-events: none;
+			cursor: default;
+			opacity: 0.38;
+
+			&:hover {
+				background-color: white;
+			}
+		}
+
+		&.focused, &:focus-visible {
+			outline-color: var(--ggb-dark-color);
+			outline-width: 2px;
+			outline-style: solid;
+			outline-offset: 3px;
+			background: var(--ggb-light-color);
+		}
+	}
+
 	.progressBar {
 		height: 4px;
 		border-radius: 4px;
@@ -1189,5 +1258,43 @@
 		100% {
 			transform: translateX(107%);
 		}
+	}
+
+	.sliderComponent {
+		.sliderLabel {
+			height: 20px;
+			line-height: 20px;
+			margin: 5px 8px;
+			font-size: 90%;
+		}
+	}
+
+	input[type=range].slider {
+		-webkit-appearance: none;
+		width: 100%;
+    }
+
+    input[type=range].slider::-webkit-slider-runnable-track {
+    	width: 100%;
+    	height: 4px;
+        background: var(--ggb-selection-color);
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    input[type=range].slider::-webkit-slider-thumb {
+    	height: 18px;
+    	width: 18px;
+    	border-radius: 50%;
+    	background: var(--ggb-primary-color);
+    	cursor: pointer;
+    	-webkit-appearance: none;
+    	margin-top: -7px
+    }
+
+	input[type=range].slider:hover::-webkit-slider-thumb {
+		outline: 8px solid var(--ggb-selection-color);
+		height: 18px;
+		width: 18px;
 	}
 }

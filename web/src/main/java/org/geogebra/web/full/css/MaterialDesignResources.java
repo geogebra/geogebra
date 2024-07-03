@@ -171,6 +171,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_check_white_24px.svg")
 	SVGResource check_white();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/check_border.svg")
+	SVGResource check_border();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_expand_more_black_24px.svg")
 	SVGResource expand_black();
 
@@ -406,6 +409,19 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/move_white.svg")
 	SVGResource mode_move();
+	
+	// Notes Toolbox
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/mouse_cursor.svg")
+	SVGResource mouse_cursor();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/tool_shapes.svg")
+	SVGResource shapes();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/add_box.svg")
+	SVGResource apps();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/text_fields.svg")
+	SVGResource texts();
 
 	// Burger Menu resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/menu_whiteBorder.svg")

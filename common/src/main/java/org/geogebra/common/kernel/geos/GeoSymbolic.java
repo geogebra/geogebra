@@ -36,10 +36,12 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.SymbolicProcessor;
 import org.geogebra.common.kernel.geos.properties.DelegateProperties;
 import org.geogebra.common.kernel.geos.properties.EquationType;
@@ -632,7 +634,11 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private ExpressionNode getNodeFromOutput() throws ParseException {
-		return kernel.getParser().parseGeoGebraExpression(casOutputString).wrap();
+		ValidExpression validExpression =
+				kernel.getParser().parseGeoGebraExpression(LabelManager.HIDDEN_PREFIX + ":"
+						+ casOutputString);
+		validExpression.setLabels(null);
+		return validExpression.wrap();
 	}
 
 	private ExpressionNode getNodeFromInput() {
@@ -694,7 +700,8 @@ public class GeoSymbolic extends GeoElement
 		if (algebraProcessor.hasVectorLabel(this)) {
 			expressionNode.setForceVector();
 		}
-		GeoElement[] elements = algebraProcessor.processValidExpression(expressionNode);
+		EvalInfo twinInfo = new EvalInfo(false, true).withAssignments(false);
+		GeoElement[] elements = algebraProcessor.processValidExpression(expressionNode, twinInfo);
 		GeoElement result = elements.length > 1 || needsListWrapping(elements[0])
 				? toGeoList(elements) : elements[0];
 		AlgoElement parentAlgo = elements[0].getParentAlgorithm();

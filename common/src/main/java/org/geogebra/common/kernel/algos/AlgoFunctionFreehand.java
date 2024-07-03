@@ -159,8 +159,8 @@ public class AlgoFunctionFreehand extends AlgoElement {
 		double step, min, max;
 		int n = inputList.size() - 3;
 		if (n >= 1) {
-			min = inputList.getListElement(0).evaluateDouble();
-			max = inputList.getListElement(1).evaluateDouble();
+			min = inputList.get(0).evaluateDouble();
+			max = inputList.get(1).evaluateDouble();
 
 			if (min > max) {
 				return ret;

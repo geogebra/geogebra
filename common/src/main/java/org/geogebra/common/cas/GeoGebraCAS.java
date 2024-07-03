@@ -308,7 +308,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			MyList listOfEqus = (MyList) args.get(0).getLeft();
 			for (int i = 0; i < listOfEqus.size(); i++) {
 				// get variables of current equation
-				Set<GeoElement> varsInCurrEqu = listOfEqus.getListElement(i)
+				Set<GeoElement> varsInCurrEqu = listOfEqus.get(i)
 						.getVariables(symbolicMode);
 				// add to set of vars form equations
 				for (GeoElement geo : varsInCurrEqu) {
@@ -410,12 +410,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					// get vars of current equation
 
 					// 2 = 2 should be handled as equation, not assumption
-					boolean contains = isEquation(listOfEqus.getListElement(k),
+					boolean contains = isEquation(listOfEqus.get(k),
 							listOfVars);
 					boolean linear = false;
 					// check if equation can be used with assume
 					if (!contains) {
-						linear = isLinear(listOfEqus.getListElement(k),
+						linear = isLinear(listOfEqus.get(k),
 								symbolicMode);
 					}
 
@@ -428,14 +428,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 							sbCASCommand.append(3);
 						}
 						// add current equation to assumptions
-						ExpressionValue ev = listOfEqus.getListElement(k);
+						ExpressionValue ev = listOfEqus.get(k);
 						assumesForArgs.append(toString(ev, symbolic, tpl));
 						assumesForArgs.append("),assume(");
 					}
 					// we found an equation which should be solved
 					else if (contains) {
 						// add current equation to list of equations
-						ExpressionValue ev = listOfEqus.getListElement(k);
+						ExpressionValue ev = listOfEqus.get(k);
 						equsForArgs.addListElement(ev);
 					}
 				}
@@ -450,7 +450,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				GeoDummyVariable var = (GeoDummyVariable) args.get(1).unwrap();
 				for (int k = 0; k < listOfEqus.size(); k++) {
 					// get current equation
-					Set<GeoElement> varsInEqu = listOfEqus.getListElement(k)
+					Set<GeoElement> varsInEqu = listOfEqus.get(k)
 							.getVariables(symbolicMode);
 					Iterator<GeoElement> it = varsInEqu.iterator();
 					boolean contains = false;
@@ -478,7 +478,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 							sbCASCommand.append(3);
 						}
 						// add current equation to assumptions
-						ExpressionValue ev = listOfEqus.getListElement(k);
+						ExpressionValue ev = listOfEqus.get(k);
 						assumesForArgs.append(toString(ev, symbolic, tpl));
 						assumesForArgs.append("),assume(");
 					}
@@ -486,7 +486,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					// solved
 					else if (contains) {
 						// add current equation to the list of equations
-						ExpressionValue ev = listOfEqus.getListElement(k);
+						ExpressionValue ev = listOfEqus.get(k);
 						equsForArgs.addListElement(ev);
 					}
 				}
@@ -677,7 +677,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 								&& args.size() > 2) {
 							sbCASCommand.append(toString(
 									((MyList) (args.get(pos).getLeft()))
-											.getListElement(0),
+											.get(0),
 									symbolic, tplToUse));
 						} else {
 
@@ -829,7 +829,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			StringBuilder sbCASCommand) {
 		ExpressionValue node = args.get(0).unwrap();
 		if (node instanceof MyList) {
-			if (((MyList) node).getListElement(0).wrap().getLeft()
+			if (((MyList) node).get(0).wrap().getLeft()
 					.isNumberValue()) {
 				sbCASCommand.append(1);
 			} else {
@@ -837,7 +837,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				sbCASCommand.append(size);
 				args.clear();
 				for (int i = 0; i < size; i++) {
-					args.add(((MyList) node).getListElement(i).wrap());
+					args.add(((MyList) node).get(i).wrap());
 				}
 			}
 		}
@@ -1007,9 +1007,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// where c,d are Algebra View objects
 		if (ev instanceof GeoConicND || ev instanceof GeoLineND) {
 			if (listOfVars.size() == 2) {
-				String var0 = listOfVars.getListElement(0)
+				String var0 = listOfVars.get(0)
 						.toValueString(StringTemplate.defaultTemplate);
-				String var1 = listOfVars.getListElement(1)
+				String var1 = listOfVars.get(1)
 						.toValueString(StringTemplate.defaultTemplate);
 
 				// {x,y}
@@ -1020,11 +1020,11 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			return false;
 		} else if (ev instanceof GeoQuadricND) {
 			if (listOfVars.size() == 3) {
-				String var0 = listOfVars.getListElement(0)
+				String var0 = listOfVars.get(0)
 						.toValueString(StringTemplate.defaultTemplate);
-				String var1 = listOfVars.getListElement(1)
+				String var1 = listOfVars.get(1)
 						.toValueString(StringTemplate.defaultTemplate);
-				String var2 = listOfVars.getListElement(2)
+				String var2 = listOfVars.get(2)
 						.toValueString(StringTemplate.defaultTemplate);
 
 				// {x,y,z}
@@ -1061,7 +1061,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			}
 		}
 		for (int i = 0; i < listOfVariables.size(); i++) {
-			String labelOfVariableFromList = getLabel(listOfVariables.getListElement(i));
+			String labelOfVariableFromList = getLabel(listOfVariables.get(i));
 			if (containsFunctionVariable(validExpression, labelOfVariableFromList)
 					|| containsVariable(expanded, labelOfVariableFromList)) {
 				return true;

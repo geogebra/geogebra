@@ -201,7 +201,7 @@ public class ConstructionDefaults implements SettingListener {
 	public static final GColor colPolygonG = GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE;
 
 	/** default color for pyramids and cones */
-	public static final GColor colPyramidAndCone = GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE;
+	public static final GColor colPyramidAndCone = GeoGebraColorConstants.GGB_ORANGE;
 
 	/** default color for prisms and cylinders */
 	public static final GColor colPrismAndCylinder = GeoGebraColorConstants.GEOGEBRA_OBJECT_PINK;

@@ -28,6 +28,7 @@ public class EvalInfo {
 	private boolean multipleUnassignedAllowed = false;
 	private boolean allowMultiLetterVariables = true;
 	private boolean keepDefinition = true;
+	private boolean allowAssignment = true;
 	private SymbolicMode symbolicMode = SymbolicMode.NONE;
 	private Predicate<String> labelFilter;
 	private RuleCollection redefinitionRule;
@@ -167,6 +168,7 @@ public class EvalInfo {
 		ret.isRedefinition = this.isRedefinition;
 		ret.useAnalytics = this.useAnalytics;
 		ret.forceFunctionsEnabled = this.forceFunctionsEnabled;
+		ret.allowAssignment = this.allowAssignment;
 		return ret;
 	}
 
@@ -529,5 +531,19 @@ public class EvalInfo {
 		EvalInfo info = copy();
 		info.forceFunctionsEnabled = functionsEnabled;
 		return info;
+	}
+
+	/**
+	 * @param assignmentAllowed - whether to allow assignment
+	 * @return new eval info
+	 */
+	public EvalInfo withAssignments(boolean assignmentAllowed) {
+		EvalInfo info = copy();
+		info.allowAssignment = assignmentAllowed;
+		return info;
+	}
+
+	public boolean isAssignmentAllowed() {
+		return allowAssignment;
 	}
 }

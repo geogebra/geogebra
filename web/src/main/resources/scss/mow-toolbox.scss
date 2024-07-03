@@ -1,0 +1,157 @@
+@use 'z-index';
+@use 'colorMap' as *;
+
+.GeoGebraFrame{
+	.toolboxMow {
+		position: absolute;
+		top: 50%;
+		width: 48px;
+		transform: translateY(-50%);
+		border-radius: 36px;
+		padding: 8px;
+		box-shadow: 0px 2px 24px -1px #85848A24;
+		background-color: white;
+		z-index: z-index.$z-mow-toolbar;
+
+		&.leftAligned {
+			left: 16px;
+		}
+
+		.divider {
+			height: 1px;
+			margin: 8px 0 7px;
+			background-color: neutral(300);
+		}
+	}
+
+	.colorPalette {
+		width: 180px;
+		height: 72px;
+
+		&.disabled {
+			.colorButton {
+				opacity: 0.36;
+				cursor: default;
+
+				&:hover {
+					background: none;
+				}
+			}
+
+			.colorButton.customColor:hover {
+				.imageHolder {
+					background: none;
+				}
+			}
+		}
+
+		.colorButton {
+			display: inline-flex;
+			width: 36px;
+			height: 36px;
+			background: white;
+			border-radius: 50%;
+			cursor: pointer;
+
+			.colorBg, .imageHolder {
+				width: 32px;
+				height: 32px;
+				margin: 2px;
+				border-radius: 50%;
+			}
+
+			.checkmark, .plus {
+				visibility: hidden;
+				position: absolute;
+				padding: 9px
+			}
+
+			&.selected {
+				.checkmark {
+					visibility: visible;
+				}
+			}
+
+			&.white .colorBg {
+				border: 1px solid neutral(400);
+				box-sizing: border-box;
+			}
+
+			&:hover {
+				background: neutral(200);
+			}
+		}
+
+		.colorButton.customColor {
+			.imageHolder {
+				border: 1px dashed neutral(400);
+				box-sizing: border-box;
+			}
+
+			.plus {
+				visibility: visible;
+				opacity: 0.54;
+			}
+
+			&:hover {
+				background: white;
+
+				.imageHolder {
+					background: neutral(200);
+				}
+			}
+		}
+	}
+
+	.gwt-PopupPanel.categoryPopup {
+		width: 144px;
+		height: 144px;
+		display:inline-flex;
+		padding: 8px;
+	}
+
+	.gwt-PopupPanel.categoryPopup.penCategory {
+		width: 192px;
+		padding: 16px 8px;
+		height: 206px;
+
+		.toolsHolder {
+			display: flex;
+			justify-content: space-between;
+			padding: 0 8px;
+			margin-bottom: 16px;
+		}
+
+		.colorPalette {
+			padding: 0 6px;
+			margin-bottom: 16px;
+		}
+
+		.labelPreviewHolder {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.sliderComponent {
+			.optionsSlider {
+				display: inline;
+
+				.gwt-Label {
+					display: none;
+				}
+			}
+
+			.preview {
+				overflow: hidden;
+				margin-right: 8px;
+			}
+
+			.slider {
+				margin: 0 8px;
+				width: calc(100% - 16px);
+				height: 36px;
+				padding: 0;
+			}
+		}
+	}
+}

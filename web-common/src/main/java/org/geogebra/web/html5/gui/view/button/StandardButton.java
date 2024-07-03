@@ -143,6 +143,7 @@ public class StandardButton extends Widget implements HasResource {
 		if (image != null) {
 			btnImage = new NoDragImage(image, width, height);
 			btnImage.getElement().setTabIndex(-1);
+			AriaHelper.setDraggable(btnImage, false);
 
 			this.getElement().appendChild(btnImage.getElement());
 

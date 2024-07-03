@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 import static org.geogebra.test.commands.AlgebraTestHelper.shouldFail;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -521,7 +522,7 @@ public class ArithmeticTest extends BaseUnitTest {
 		for (int i = 0; i < 999; i++) {
 			power.append("*a");
 		}
-		t(power.toString(), "2.719642216442848", StringTemplate.maxDecimals);
+		t(power.toString(), "2.71964221644285", StringTemplate.maxDecimals);
 	}
 
 	@Test
@@ -588,6 +589,15 @@ public class ArithmeticTest extends BaseUnitTest {
 	@Test
 	public void testInvalidImplicitCurve() {
 		t("x^3+y^3+z^3=1", "?");
+	}
+
+	@Test
+	public void multiplicationByScriptShouldNotCrash() {
+		GeoElement text = add("\"prefix\"*SlowPlot(x)");
+		assertThat(text.toValueString(StringTemplate.latexTemplate),
+				equalTo("prefixSlowPlot(x)"));
+		assertThat(text.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("\"prefix\" SlowPlot(x)"));
 	}
 
 	private void assertAreEqual(String first, String second, Object areEqual) {

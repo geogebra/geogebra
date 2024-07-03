@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import static org.geogebra.common.main.undo.ConstructionActionExecutor.DEL;
+
 import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;

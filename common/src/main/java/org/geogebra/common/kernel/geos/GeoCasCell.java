@@ -1613,13 +1613,13 @@ public class GeoCasCell extends GeoElement
 				&& ((ExpressionNode) ve).getRight() == null) {
 			ArrayList<ExpressionValue> results = new ArrayList<>();
 			for (int i = 0; i < ((MyList) ((ExpressionNode) ve).getLeft())
-					.getLength(); i++) {
+					.size(); i++) {
 				boolean isComplex = ((MyList) ((ExpressionNode) ve).getLeft())
-						.getListElement(i)
+						.get(i)
 						.inspect(Inspecting.ComplexChecker.INSTANCE);
 				if (!isComplex) {
 					results.add(((MyList) ((ExpressionNode) ve).getLeft())
-							.getListElement(i));
+							.get(i));
 				}
 			}
 			MyList filteredResultList = new MyList(kernel, results.size());
@@ -2270,21 +2270,21 @@ public class GeoCasCell extends GeoElement
 						GeoDummyVariable y = new GeoDummyVariable(cons, "y");
 						for (int i = 0; i < equList.size(); i++) {
 							if (equList
-									.getListElement(i) instanceof ExpressionNode
-									&& equList.getListElement(i)
+									.get(i) instanceof ExpressionNode
+									&& equList.get(i)
 											.unwrap() instanceof Equation) {
 								// set Equation in list of equs instead of
 								// ExpressionNode that contains Equation
 								equList.setListElement(i,
-										equList.getListElement(i).unwrap());
+										equList.get(i).unwrap());
 								// Equation contains "x" functionVariable
 								// replace with simple GeoDummyVariable
-								equList.getListElement(i)
+								equList.get(i)
 										.traverse(GeoDummyReplacer
 												.getReplacer("x", x, true));
 								// Equation contains "y" functionVariable
 								// replace with simple GeoDummyVariable
-								equList.getListElement(i)
+								equList.get(i)
 										.traverse(GeoDummyReplacer
 												.getReplacer("y", y, true));
 							}
@@ -2449,9 +2449,9 @@ public class GeoCasCell extends GeoElement
 				if (arg1.getLeft() instanceof MyList
 						&& ((MyList) arg1.getLeft()).getListDepth() == 1
 						&& ((MyList) arg1.getLeft())
-								.getListElement(0) instanceof Equation) {
+								.get(0) instanceof Equation) {
 					expandEquation(cmd, (Equation) ((MyList) arg1.getLeft())
-							.getListElement(0));
+							.get(0));
 				} else if (arg1.unwrap() instanceof Equation) {
 					expandEquation(cmd, (Equation) arg1.unwrap());
 				}
@@ -2588,8 +2588,8 @@ public class GeoCasCell extends GeoElement
 		MyList arg = cmd.getArgument(0).unwrap() instanceof MyList
 				? (MyList) cmd.getArgument(0).unwrap() : null;
 		if (arg != null && arg.size() == 2) {
-			String lhs1 = lhs(arg.getListElement(0), "@0");
-			String lhs2 = lhs(arg.getListElement(1), "@1");
+			String lhs1 = lhs(arg.get(0), "@0");
+			String lhs2 = lhs(arg.get(1), "@1");
 
 			if (lhs1.equals(lhs2)) {
 				String test = null;
@@ -2598,12 +2598,12 @@ public class GeoCasCell extends GeoElement
 				} catch (Throwable t) {
 					// not a label
 				}
-				if (test != null && !((Equation) arg.getListElement(0).unwrap())
+				if (test != null && !((Equation) arg.get(0).unwrap())
 						.getRHS().evaluatesToNumber(true)) {
 					Equation merge = new Equation(kernel,
-							((Equation) arg.getListElement(0).unwrap())
+							((Equation) arg.get(0).unwrap())
 									.getRHS(),
-							((Equation) arg.getListElement(1).unwrap())
+							((Equation) arg.get(1).unwrap())
 									.getRHS());
 					cmd.setArgument(0, merge.wrap());
 				}

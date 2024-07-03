@@ -1,18 +1,26 @@
 package org.geogebra.common.main.undo;
 
-import static org.geogebra.common.euclidian.StrokeSplitHelper.DEL;
-
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.draw.DrawInline;
+import org.geogebra.common.kernel.CircularDefinitionException;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInline;
+import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.ActionType;
+import org.geogebra.common.util.debug.Log;
 
 public class ConstructionActionExecutor
 		implements ActionExecutor {
 
 	private final App app;
+	public static final String DEL = "DEL::";
+	public static final String SET = "SET::";
 
 	public ConstructionActionExecutor(App app) {
 		this.app = app;
@@ -31,17 +39,7 @@ public class ConstructionActionExecutor
 			app.getActiveEuclidianView().invalidateDrawableList();
 		} else if (action == ActionType.UPDATE || action == ActionType.MERGE_STROKE
 					|| action == ActionType.SPLIT_STROKE) {
-			for (String arg: args) {
-				if (arg.charAt(0) == '<') {
-					evalXML(arg);
-				} else if (arg.startsWith(DEL)) {
-					app.getKernel().lookupLabel(arg.substring(DEL.length())).remove();
-				}
-				else {
-					app.getGgbApi().evalCommand(arg);
-				}
-				app.getActiveEuclidianView().invalidateDrawableList();
-			}
+			executeUpdateAction(args);
 		} else  if (action == ActionType.UPDATE_ORDERING) {
 			for (String arg: args) {
 				String [] split = arg.split(",");
@@ -63,6 +61,34 @@ public class ConstructionActionExecutor
 			return false;
 		}
 		return true;
+	}
+
+	private void executeUpdateAction(String[] args) {
+		for (String arg: args) {
+			if (arg.charAt(0) == '<') {
+				evalXML(arg);
+			} else if (arg.startsWith(DEL)) {
+				app.getKernel().lookupLabel(arg.substring(DEL.length())).remove();
+			} else if (arg.startsWith(SET)) {
+				processSetValue(arg.substring(SET.length()));
+			} else {
+				app.getGgbApi().evalCommand(arg);
+			}
+			app.getActiveEuclidianView().invalidateDrawableList();
+		}
+	}
+
+	private void processSetValue(String substring) {
+		try {
+			ValidExpression ve = app.getKernel().getParser().parseGeoGebraExpression(substring);
+			String label = ve.getLabel();
+			ve.setLabel(null);
+			AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
+			CmdSetValue.setValue2(app.getKernel().lookupLabel(label),
+					algebraProcessor.processValidExpression(ve, new EvalInfo(false))[0]);
+		} catch (ParseException | MyError | CircularDefinitionException | RuntimeException e) {
+			Log.warn(e);
+		}
 	}
 
 	private void setContentAndNotify(GeoInline inline, String content) {

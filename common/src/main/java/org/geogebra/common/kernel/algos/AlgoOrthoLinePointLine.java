@@ -142,7 +142,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 		// (but keep nice answers for smaller numbers
 		// eg PerpendicularLine[ (1,2), Segment[(1,6),(6,1)]
 		// eg https://www.geogebra.org/m/wv8xnjnc
-		g.getnormalizedCoefficients(normal, 10E6);
+		g.getnormalizedCoefficients(normal, 10E6, 1E-2);
 		g.x = normal[0];
 		g.y = normal[1];
 		g.z = normal[2];

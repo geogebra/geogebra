@@ -51,7 +51,8 @@ public class UpdateActionStore {
 	private ArrayList<GeoElement> getGeosToStore() {
 		ArrayList<GeoElement> geosToStore = new ArrayList<>();
 		for (GeoElement geo : selection.getSelectedGeos()) {
-			if (geo.getParentAlgorithm() != null) {
+			if (geo.getParentAlgorithm() != null
+					&& !geo.isPointOnPath() && !geo.isPointInRegion()) {
 				geosToStore.addAll(geo.getParentAlgorithm().getDefinedAndLabeledInput());
 			} else if (geo instanceof GeoImage) {
 				geosToStore.addAll(((GeoImage) geo).getDefinedAndLabeledStartPoints());
