@@ -54,14 +54,10 @@ public enum ExamType {
 		@Deprecated
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
-			model.setRestrictedSubAppCodes(GRAPHING_APPCODE, GEOMETRY_APPCODE, G3D_APPCODE,
-					PROBABILITY_APPCODE);
-			model.setCommandFilter(CommandFilterFactory.createBayernCasFilter());
 		}
 
 		@Override
 		public void setDefaultSubAppCode(ExamRestrictionModel model) {
-			model.setDefaultAppCode(CAS_APPCODE);
 		}
 	},
 
