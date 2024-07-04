@@ -39,6 +39,25 @@ public enum ExamType {
 			// no restrictions -> no default needed
 		}
 	},
+	CVTE() {
+		@Override
+		public String getDisplayName(Localization loc, AppConfig config) {
+			return "CvTE goedgekeurde examenstand";
+		}
+
+		@Override
+		public String getShortDisplayName(Localization loc, AppConfig config) {
+			return "CvTE";
+		}
+
+		@Override
+		public void applyRestrictions(ExamRestrictionModel model) {
+		}
+
+		@Override
+		public void setDefaultSubAppCode(ExamRestrictionModel model) {
+		}
+	},
 	/*MMS() {
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
