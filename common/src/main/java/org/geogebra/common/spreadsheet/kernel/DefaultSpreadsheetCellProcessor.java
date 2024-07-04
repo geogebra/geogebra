@@ -70,7 +70,7 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 
 		appendCellAssign(cellName, sb);
 
-		if (isNumber(input) && input.indexOf('-') < 1) {
+		if (isNumber(input) && input.lastIndexOf('-') < 1) {
 			sb.append(input);
 		} else if (isCommand(input)) {
 			appendAsCommand(input, sb);
