@@ -17,6 +17,7 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	private DefaultSpreadsheetCellProcessor processor;
 	private final DefaultSpreadsheetCellDataSerializer
 			serializer = new DefaultSpreadsheetCellDataSerializer();
+	private KernelTabularDataAdapter tabularData;
 
 	@Before
 	public void setUp() {
@@ -24,6 +25,7 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		processor =
 				new DefaultSpreadsheetCellProcessor(getKernel().getAlgebraProcessor(),
 						errorHandler);
+		tabularData = new KernelTabularDataAdapter(getSettings().getSpreadsheet(), getKernel());
 	}
 
 	@Test
@@ -91,7 +93,9 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	}
 
 	private void assertIsAuxiliary() {
-		assertTrue("The created element is not auxiliary!", lookup("A1").isAuxiliaryObject());
+		tabularData.setContent(0, 0, lookup("A1"));
+		assertTrue("The created element is not auxiliary!",
+				tabularData.contentAt(0, 0).isAuxiliaryObject());
 	}
 
 	private void assertIsEuclidianInvisible() {

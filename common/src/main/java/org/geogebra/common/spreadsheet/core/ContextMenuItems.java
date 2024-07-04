@@ -105,17 +105,16 @@ public class ContextMenuItems {
 	}
 
 	private void pasteCells(int row, int column) {
-		if (copyPasteCut == null) {
-			return;
+		if (copyPasteCut != null) {
+			if (!selectionController.hasSelection()) {
+				copyPasteCut.paste(row, column);
+			} else {
+				selectionController.getSelections().forEach(
+						selection -> copyPasteCut.paste(selection.getRange()));
+			}
+			copyPasteCut.selectPastedContent();
+			spreadsheetController.notifyDataDimensionsChanged();
 		}
-		if (!selectionController.hasSelection()) {
-			copyPasteCut.paste(row, column);
-		} else {
-			selectionController.getSelections().forEach(
-					selection -> copyPasteCut.paste(selection.getRange()));
-		}
-		copyPasteCut.selectPastedContent();
-		spreadsheetController.notifyDataDimensionsChanged();
 	}
 
 	private void copyCells(int row, int column) {

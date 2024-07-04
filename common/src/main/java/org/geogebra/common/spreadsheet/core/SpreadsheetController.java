@@ -498,7 +498,9 @@ public final class SpreadsheetController {
 
 	private void pasteToSelections() {
 		if (copyPasteCut != null) {
-			getSelections().forEach(selection -> copyPasteCut.paste(selection.getRange()));
+			for (Selection selection : getSelections().collect(Collectors.toList())) {
+				copyPasteCut.paste(selection.getRange());
+			}
 			copyPasteCut.selectPastedContent();
 		}
 	}
