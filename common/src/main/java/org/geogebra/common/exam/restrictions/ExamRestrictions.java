@@ -59,6 +59,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 */
 	public static ExamRestrictions forExamType(ExamType examType) {
 		switch (examType) {
+		case CVTE:
+			return new CvteExamRestrictions();
 		case BAYERN_CAS:
 			return new BayernCasExamRestrictions();
 		case NIEDERSACHSEN:
