@@ -52,10 +52,12 @@ public enum ExamType {
 
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
+			// deprecated, will be removed
 		}
 
 		@Override
 		public void setDefaultSubAppCode(ExamRestrictionModel model) {
+			// deprecated, will be removed
 		}
 	},
 	/*MMS() {
