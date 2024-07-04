@@ -51,7 +51,6 @@ public enum ExamType {
 			return "IB Exam";
 		}
 
-		@Deprecated
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
 		}
