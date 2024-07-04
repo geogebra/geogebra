@@ -39,6 +39,32 @@ public enum ExamType {
 			// no restrictions -> no default needed
 		}
 	},
+
+	IB() {
+		@Override
+		public String getDisplayName(Localization loc, AppConfig config) {
+			return "IB Exam";
+		}
+
+		@Override
+		public String getShortDisplayName(Localization loc, AppConfig config) {
+			return "IB Exam";
+		}
+
+		@Deprecated
+		@Override
+		public void applyRestrictions(ExamRestrictionModel model) {
+			model.setRestrictedSubAppCodes(GRAPHING_APPCODE, GEOMETRY_APPCODE, G3D_APPCODE,
+					PROBABILITY_APPCODE);
+			model.setCommandFilter(CommandFilterFactory.createBayernCasFilter());
+		}
+
+		@Override
+		public void setDefaultSubAppCode(ExamRestrictionModel model) {
+			model.setDefaultAppCode(CAS_APPCODE);
+		}
+	},
+
 	/*MMS() {
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
@@ -61,6 +87,7 @@ public enum ExamType {
 			model.setDefaultAppCode(CAS_APPCODE);
 		}
 	},*/
+
 	NIEDERSACHSEN() {
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
@@ -83,6 +110,7 @@ public enum ExamType {
 			model.setDefaultAppCode(GRAPHING_APPCODE);
 		}
 	},
+
 	BAYERN_CAS() {
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
@@ -107,6 +135,7 @@ public enum ExamType {
 			model.setDefaultAppCode(CAS_APPCODE);
 		}
 	},
+
 	VLAANDEREN() {
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
