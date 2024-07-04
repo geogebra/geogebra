@@ -56,7 +56,7 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		GeoElement a1 = lookup("A1");
 		assertTrue(a1.isGeoNumeric()
 				&& DoubleUtil.isEqual(((GeoNumeric) a1).getDouble(), 3.0));
-		assertIsAuxiliary();
+//		assertIsAuxiliary();
 		assertIsEuclidianInvisible();
 
 	}

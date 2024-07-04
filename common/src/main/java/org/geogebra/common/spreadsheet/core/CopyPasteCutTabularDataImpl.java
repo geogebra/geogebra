@@ -3,11 +3,6 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
-
 final class CopyPasteCutTabularDataImpl<T>
 		implements CopyPasteCutTabularData {
 	private final TabularData<T> tabularData;
@@ -181,7 +176,9 @@ final class CopyPasteCutTabularDataImpl<T>
 
 	private void addDestinationToPastedSelections(TabularRange destination) {
 		TabularRange destinationToSelect = destination;
-		if (rangeCoversWholeRow(destination)) {
+		if (rangeCoversAllCells(destination)) {
+			destinationToSelect = TabularRange.range(-1, -1, -1, -1);
+		} else if (rangeCoversWholeRow(destination)) {
 			destinationToSelect = TabularRange.range(
 					destination.getFromRow(), destination.getToRow(), -1, -1);
 		} else if (rangeCoversWholeColumn(destination)) {

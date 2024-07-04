@@ -206,9 +206,6 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		if (content != null) {
 			GeoElement geo = (GeoElement) content;
 			geo.rename(GeoElementSpreadsheet.getSpreadsheetCellName(column, row));
-			geo.setEuclidianVisible(false);
-			geo.setAuxiliaryObject(true);
-			geo.updateVisualStyle(GProperty.VISIBLE);
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, geo);
 		} else {
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, null);
