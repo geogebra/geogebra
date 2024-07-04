@@ -1,5 +1,7 @@
 package org.geogebra.common.spreadsheet.kernel;
 
+import static org.geogebra.common.util.StringUtil.isNumber;
+
 import java.util.Arrays;
 
 import javax.annotation.CheckForNull;
@@ -57,11 +59,41 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	 */
 	public void process(String input, String cellName) {
 		try {
-			processInput(isCommand(input)
-					? buildCommandFrom(input, cellName) : buildTextFrom(input, cellName));
+			processInput(buildProperInput(input, cellName));
 		} catch (Exception e) {
 			Log.debug("error " + e.getLocalizedMessage());
 		}
+	}
+
+	private String buildProperInput(String input, String cellName) {
+		StringBuilder sb = new StringBuilder();
+
+		appendCellAssign(cellName, sb);
+
+		if (isNumber(input) && input.lastIndexOf('-') < 1) {
+			sb.append(input);
+		} else if (isCommand(input)) {
+			appendAsCommand(input, sb);
+		} else {
+			appendAsText(input, sb);
+		}
+
+		return sb.toString();
+	}
+
+	private static void appendCellAssign(String cellName, StringBuilder sb) {
+		sb.append(cellName);
+		sb.append(Unicode.ASSIGN_STRING);
+	}
+
+	private static void appendAsCommand(String input, StringBuilder sb) {
+		sb.append(input.substring(1));
+	}
+
+	private static void appendAsText(String input, StringBuilder sb) {
+		sb.append("\"");
+		sb.append(input.replaceAll("\"", ""));
+		sb.append("\"");
 	}
 
 	private void processInput(String command) {
@@ -79,23 +111,5 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 
 	private static boolean isCommand(String input) {
 		return input.startsWith("=");
-	}
-
-	private String buildTextFrom(String input, String cellName) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(cellName);
-		sb.append(Unicode.ASSIGN_STRING);
-		sb.append("\"");
-		sb.append(input.replaceAll("\"", ""));
-		sb.append("\"");
-		return sb.toString();
-	}
-
-	private String buildCommandFrom(String input, String cellName) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(cellName);
-		sb.append(Unicode.ASSIGN_STRING);
-		sb.append(input.substring(1));
-		return sb.toString();
 	}
 }
