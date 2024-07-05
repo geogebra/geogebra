@@ -26,7 +26,7 @@ public class StringRenderer implements CellRenderer {
 		graphics.setFont(font);
 		graphics.drawString(data.toString(), cellBorder.getMinX() + offset,
 				cellBorder.getMaxY() - (cellBorder.getHeight() - LINE_HEIGHT) / 2
-						- font.getSize() / 4);
+						- font.getSize() / 4.0);
 	}
 
 	@Override
