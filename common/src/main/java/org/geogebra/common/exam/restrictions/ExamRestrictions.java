@@ -6,7 +6,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
+import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -14,6 +17,7 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
@@ -25,7 +29,7 @@ import org.geogebra.common.properties.ValuedProperty;
  * Restrictions that are specific to the different exam types are represented as subclasses
  * of this class.
  * Restrictions that apply to all exam types should be implemented in this class
- * (in {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object)}).
+ * (in {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, App)}).
  * <p/>
  * Any restrictions to be applied during exams should be implemented in here (so that
  * everything is one place):
@@ -49,6 +53,10 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	// filter independent of exam region
 	private final CommandArgumentFilter examCommandArgumentFilter =
 			new ExamCommandArgumentFilter();
+	private final ToolCollectionFilter toolsFilter;
+
+	// TODO syntaxes filter (allow only subset of syntaxes)
+
 	private final Set<String> frozenProperties;
 
 	/**
@@ -59,6 +67,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 */
 	public static ExamRestrictions forExamType(ExamType examType) {
 		switch (examType) {
+		case CVTE:
+			return new CvteExamRestrictions();
 		case BAYERN_CAS:
 			return new BayernCasExamRestrictions();
 		case NIEDERSACHSEN:
@@ -83,6 +93,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * exams.
 	 * @param commandFilters An optional command filter to apply during exams.
 	 * @param commandArgumentFilters An optional command argument filter to apply during exams.
+	 * @param toolsFilter An optional filter for tools that should be unvaialable during the exam.
+	 * If this argument is null, the Image tool will stil be filtered out (APPS-5214). When
+	 * providing a non-null filter here, it should include the Image tool.
 	 * @param frozenProperties An optional set of properties to freeze during the exam.
 	 */
 	protected ExamRestrictions(@Nonnull ExamType examType,
@@ -92,6 +105,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Set<ExpressionFilter> expressionFilters,
 			@Nullable Set<CommandFilter> commandFilters,
 			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
+			@Nullable ToolCollectionFilter toolsFilter,
 			@Nullable Set<String> frozenProperties) {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
@@ -101,6 +115,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.commandFilters = commandFilters != null ? commandFilters : Set.of();
 		this.commandArgumentFilters = commandArgumentFilters != null
 				? commandArgumentFilters : Set.of();
+		this.toolsFilter = toolsFilter == null
+				? new ToolCollectionSetFilter(EuclidianConstants.MODE_IMAGE) : toolsFilter;
 		this.frozenProperties = frozenProperties != null ? frozenProperties : Set.of();
 	}
 
@@ -141,7 +157,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	public void apply(@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
-			@Nullable Object context) {
+			@Nullable App app) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.addCommandFilter(commandFilter);
@@ -158,22 +174,25 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		}
 		if (propertiesRegistry != null) {
 			for (String frozenProperty : frozenProperties) {
-				Property property = propertiesRegistry.lookup(frozenProperty, context);
+				Property property = propertiesRegistry.lookup(frozenProperty, app);
 				if (property != null) {
 					freeze(property);
 				}
 			}
 		}
+		if (app != null) {
+			app.setTemporaryToolsFilter(toolsFilter);
+		}
 	}
 
 	/**
 	 * Remove the exam restrictions (i.e., undo the changes from
-	 * {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object)}).
+	 * {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, App)}).
 	 */
 	public void remove(@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
-			@Nullable Object context) {
+			@Nullable App app) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.removeCommandFilter(commandFilter);
@@ -190,11 +209,14 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		}
 		if (propertiesRegistry != null) {
 			for (String frozenProperty : frozenProperties) {
-				Property property = propertiesRegistry.lookup(frozenProperty, context);
+				Property property = propertiesRegistry.lookup(frozenProperty, app);
 				if (property != null) {
 					unfreeze(property);
 				}
 			}
+		}
+		if (app != null) {
+			app.setTemporaryToolsFilter(null);
 		}
 	}
 

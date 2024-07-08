@@ -28,8 +28,4 @@ public abstract class BaseCommandArgumentFilter implements CommandArgumentFilter
         }
         return false;
     }
-
-    static boolean isCommand(Command command, Commands cmdName) {
-        return cmdName.name().equals(command.getName());
-    }
 }

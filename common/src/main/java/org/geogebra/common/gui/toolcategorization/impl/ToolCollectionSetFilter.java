@@ -15,7 +15,7 @@ public class ToolCollectionSetFilter implements ToolCollectionFilter {
 	private boolean include = false;
 
 	/**
-	 * Constructs a filter. This filters based on a set.
+	 * Constructs a filter based on a set of tool IDs to exclude.
 	 *
 	 * @param excludeSet tools that should be excluded
 	 */
@@ -28,7 +28,7 @@ public class ToolCollectionSetFilter implements ToolCollectionFilter {
 	 * @param excludeTools tools that should be excluded
 	 */
 	public ToolCollectionSetFilter(Integer... excludeTools) {
-		this(new HashSet<>(Arrays.asList(excludeTools)));
+		this(Set.of(excludeTools));
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class ToolCollectionSetFilter implements ToolCollectionFilter {
 	}
 
 	@Override
-	public boolean filter(int tool) {
+	public boolean isIncluded(int tool) {
 		return set.contains(tool) == include;
 	}
 }

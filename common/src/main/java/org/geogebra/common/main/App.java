@@ -49,13 +49,17 @@ import org.geogebra.common.gui.AccessibilityManagerNoGui;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
+import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.AbstractToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.CustomToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.GeometryToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.Graphing3DToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.GraphingToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.SuiteToolCollectionFactory;
+import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.gui.util.InvalidToolFilter;
 import org.geogebra.common.gui.view.algebra.GeoElementValueConverter;
 import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
 import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
@@ -376,6 +380,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * whether toolbar should be visible
 	 */
 	protected boolean showToolBar = true;
+
+	private ToolCollectionFilter temporaryToolsFilter = null;
+
 	/**
 	 * whether shift, drag and zoom features are enabled
 	 */
@@ -4635,46 +4642,62 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return nextVariableID++;
 	}
 
+	public void setTemporaryToolsFilter(ToolCollectionFilter filter) {
+		this.temporaryToolsFilter = filter;
+	}
+
 	/**
-	 * Create a tool collection factory for this app.
-	 *
-	 * @return a ToolCollectionFactory
+	 * @return the currently available tools. Note that the set of tools may be restricted
+	 * depending on platform (iOS, Android) or during exams.
 	 */
+	public ToolCollection getAvailableTools() {
+		ToolCollection toolCollection = createToolCollectionFactory().createToolCollection();
+		toolCollection.filter(new InvalidToolFilter(this));
+		if (getPlatform().isMobile()) {
+			toolCollection.filter(new ToolCollectionSetFilter(
+					EuclidianConstants.MODE_TEXT,
+					EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX,
+					EuclidianConstants.MODE_BUTTON_ACTION,
+					EuclidianConstants.MODE_TEXTFIELD_ACTION,
+					EuclidianConstants.MODE_FUNCTION_INSPECTOR,
+					EuclidianConstants.MODE_MOVE_ROTATE));
+		}
+		if (temporaryToolsFilter != null) {
+			toolCollection.filter(temporaryToolsFilter);
+		}
+		return toolCollection;
+	}
+
+	/**
+	 * Depreacted. Use {@link #getAvailableTools()} instead.
+	 */
+	@Deprecated
 	public ToolCollectionFactory createToolCollectionFactory() {
 		String toolbarDefinition = getGuiManager().getToolbarDefinition();
-		if (toolbarDefinition == null || !GlobalScope.examController.isIdle()
-				|| ToolBar.isDefaultToolbar(toolbarDefinition)) {
+		if (toolbarDefinition == null || ToolBar.isDefaultToolbar(toolbarDefinition)) {
 			return createDefaultToolCollectionFactory();
-		} else {
-			return new CustomToolCollectionFactory(this, toolbarDefinition);
 		}
+		return new CustomToolCollectionFactory(this, toolbarDefinition);
 	}
 
 	private ToolCollectionFactory createDefaultToolCollectionFactory() {
-		AbstractToolCollectionFactory factory = null;
+		boolean isMobileApp = getPlatform().isMobile();
+		ToolCollectionFactory factory = null;
 		switch (getConfig().getToolbarType()) {
 			case GRAPHING_CALCULATOR:
-				factory = new GraphingToolCollectionFactory();
+				factory = new GraphingToolCollectionFactory(isMobileApp);
 				break;
 			case GEOMETRY_CALC:
-				factory = new GeometryToolCollectionFactory();
+				factory = new GeometryToolCollectionFactory(isMobileApp);
 				break;
 			case GRAPHER_3D:
-				factory = new Graphing3DToolCollectionFactory();
+				factory = new Graphing3DToolCollectionFactory(isMobileApp);
 				break;
 			case SUITE:
-				factory = new SuiteToolCollectionFactory();
+				factory = new SuiteToolCollectionFactory(isMobileApp);
 				break;
 			default:
-				factory = new GraphingToolCollectionFactory();
-		}
-		switch (getPlatform()) {
-			case ANDROID:
-			case IOS:
-				factory.setPhoneApp(true);
-				break;
-			default:
-				factory.setPhoneApp(false);
+				factory = new GraphingToolCollectionFactory(isMobileApp);
 		}
 		return factory;
 	}

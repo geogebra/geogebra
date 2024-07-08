@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.TempStorage;
@@ -106,26 +107,31 @@ public final class ExamController {
 	}
 
 	/**
-	 * Set the active context and associated dependencies.
+	 * Deprecated, use {@link #setActiveApp(App, CommandDispatcher, AlgebraProcessor)} instead.
+	 */
+	@Deprecated
+	public void setActiveContext(@Nonnull Object context,
+			@Nonnull CommandDispatcher commandDispatcher,
+			@Nonnull AlgebraProcessor algebraProcessor) {
+		App app = context instanceof App ? (App)context : null;
+		setActiveApp(app, commandDispatcher, algebraProcessor);
+	}
+
+	/**
+	 * Set the active app and associated dependencies.
 	 * <p/>
-	 * The context can be <i>any object</i>, but it should correspond to or identify the current
-	 * app, or, in Suite, the currently active sub-app (Graphing, Geometry, etc). The only
-	 * requirement here is that when any of the dependencies (e.g., the command dispatcher or
-	 * algebra processor) change, this should also mean a change in current context and be
-	 * communicated to the exam controller by calling this method.
-	 * <p/>
-	 * This method needs to be called before an exam starts, and also when the active context
+	 * This method needs to be called before an exam starts, and also when the active app
 	 * changes during an exam, so what we can remove the restrictions on the current dependencies,
 	 * and apply the restrictions on the new dependencies.
 	 */
-	public void setActiveContext(@Nonnull Object context,
+	public void setActiveApp(@Nonnull App app,
 			@Nonnull CommandDispatcher commandDispatcher,
 			@Nonnull AlgebraProcessor algebraProcessor) {
 		// remove restrictions for current dependencies, if exam is active
 		if (examRestrictions != null && activeDependencies != null) {
 			removeRestrictionsFromContextDependencies(activeDependencies);
 		}
-		activeDependencies = new ContextDependencies(context,
+		activeDependencies = new ContextDependencies(app,
 				commandDispatcher,
 				algebraProcessor);
 		// apply restrictions to new dependencies, if exam is active
@@ -479,7 +485,7 @@ public final class ExamController {
 			examRestrictions.apply(dependencies.commandDispatcher,
 					dependencies.algebraProcessor,
 					propertiesRegistry,
-					dependencies.context);
+					dependencies.app);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.addCommandFilter(noCASFilter);
 			}
@@ -494,7 +500,7 @@ public final class ExamController {
 			examRestrictions.remove(dependencies.commandDispatcher,
 					dependencies.algebraProcessor,
 					propertiesRegistry,
-					dependencies.context);
+					dependencies.app);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.removeCommandFilter(noCASFilter);
 			}
@@ -550,7 +556,7 @@ public final class ExamController {
 	private static class ContextDependencies {
 		@NonOwning
 		@Nonnull
-		final Object context;
+		final App app;
 		@NonOwning
 		@Nonnull
 		final CommandDispatcher commandDispatcher;
@@ -558,10 +564,10 @@ public final class ExamController {
 		@Nonnull
 		final AlgebraProcessor algebraProcessor;
 
-		ContextDependencies(@Nonnull Object context,
+		ContextDependencies(@Nonnull App app,
 				@Nonnull CommandDispatcher commandDispatcher,
 				@Nonnull AlgebraProcessor algebraProcessor) {
-			this.context = context;
+			this.app = app;
 			this.commandDispatcher = commandDispatcher;
 			this.algebraProcessor = algebraProcessor;
 		}
