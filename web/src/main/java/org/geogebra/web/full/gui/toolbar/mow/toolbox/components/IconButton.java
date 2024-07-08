@@ -141,6 +141,20 @@ public class IconButton extends StandardButton implements SetLabels {
 	}
 
 	/**
+	 * Toggle icon button with icon change
+	 * @param loc - localization
+	 * @param iconOff - icon of non-selected state
+	 * @param iconOn - icon of selected state
+	 * @param ariaLabel - aria label
+	 */
+	public IconButton(Localization loc, SVGResource iconOff, SVGResource iconOn,
+			String ariaLabel) {
+		this(loc, iconOff, ariaLabel);
+		dataTitleTransKey = ariaLabel;
+		AriaHelper.setTitle(this, loc.getMenu(ariaLabel));
+	}
+
+	/**
 	 * Disable button
 	 * @param isDisabled - whether is disabled or not
 	 */

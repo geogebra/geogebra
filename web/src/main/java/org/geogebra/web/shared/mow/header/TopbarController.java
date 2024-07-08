@@ -110,4 +110,16 @@ public class TopbarController {
 			homeBtn.setDisabled(view.isStandardView());
 		}
 	}
+
+	/**
+	 * @return whether fullscreen button is allowed or not
+	 */
+	public boolean needsFullscreenButton() {
+		return ZoomController.needsFullscreenButton(appW);
+	}
+
+	public void onFullscreenOn(IconButton fullscreenBtn) {
+		//zoomController.onFullscreenPressed(fullscreenBtn.getParent().getElement(),
+		//		fullscreenBtn);
+	}
 }

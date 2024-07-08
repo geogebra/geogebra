@@ -261,6 +261,22 @@ public class ZoomController {
 	}
 
 	/**
+	 * @param app - appication
+	 * @return whether fullscreen button should be added
+	 */
+	public static boolean needsFullscreenButton(AppW app) {
+		if (app.getAppletParameters().getDataParamApp()) {
+			return ZoomController.isRunningInIframe() || !NavigatorUtil.isMobile();
+		} else {
+			if (!app.getAppletParameters().getDataParamShowFullscreenButton()) {
+				return false;
+			}
+
+			return !(NavigatorUtil.isiOS() && ZoomController.isRunningInIframe());
+		}
+	}
+
+	/**
 	 * @param app
 	 *            application
 	 * @return whether emulated fullscreen mode is needed (enforced by browser

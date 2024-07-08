@@ -74,7 +74,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 			addZoomButtons();
 		}
 
-		if (ZoomPanel.needsFullscreenButton(app) && rightBottom) {
+		if (ZoomController.needsFullscreenButton(app) && rightBottom) {
 			addFullscreenButton();
 		}
 
@@ -295,18 +295,6 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		}
 	}
 
-	private static boolean needsFullscreenButton(AppW app) {
-		if (app.getAppletParameters().getDataParamApp()) {
-			return ZoomController.isRunningInIframe() || !NavigatorUtil.isMobile();
-		} else {
-			if (!app.getAppletParameters().getDataParamShowFullscreenButton()) {
-				return false;
-			}
-
-			return !(NavigatorUtil.isiOS() && ZoomController.isRunningInIframe());
-		}
-	}
-
 	/**
 	 *
 	 * @param app see {@link AppW}
@@ -327,7 +315,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 */
 	public static boolean neededFor(AppW app) {
 		return (needsZoomButtons(app) && !app.isWhiteboardActive())
-			|| needsFullscreenButton(app);
+			|| ZoomController.needsFullscreenButton(app);
 	}
 
 	/** Focus the first available button on zoom panel. */
@@ -451,7 +439,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 *            whether the zoom panel's parent is now bottom right panel
 	 */
 	public void updateFullscreenVisibility(boolean bottomRight) {
-		if (ZoomPanel.needsFullscreenButton(app) && bottomRight) {
+		if (ZoomController.needsFullscreenButton(app) && bottomRight) {
 			if (fullscreenBtn == null) {
 				addFullscreenButton();
 			} else {
