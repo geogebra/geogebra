@@ -2,9 +2,12 @@ package org.geogebra.web.shared.mow.header;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
 
+import java.util.function.Consumer;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.zoompanel.ZoomController;
 import org.geogebra.web.html5.main.AppW;
 
@@ -119,7 +122,17 @@ public class TopbarController {
 	}
 
 	public void onFullscreenOn(IconButton fullscreenBtn) {
-		//zoomController.onFullscreenPressed(fullscreenBtn.getParent().getElement(),
-		//		fullscreenBtn);
+		zoomController.onFullscreenPressed(fullscreenBtn.getParent().getElement(),
+				getFullscreenBtnSelectCB(fullscreenBtn));
+	}
+
+	private Consumer<Boolean> getFullscreenBtnSelectCB(final IconButton fullscreenBtn) {
+		return fullScreenActive -> {
+			if (fullscreenBtn != null && fullscreenBtn.isActive() != fullScreenActive) {
+				fullscreenBtn.setIcon(fullScreenActive
+						? ZoomPanelResources.INSTANCE.fullscreen_exit_black18()
+						: ZoomPanelResources.INSTANCE.fullscreen_black18());
+			}
+		};
 	}
 }
