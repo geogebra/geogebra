@@ -27,6 +27,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 				TestExamRestrictions.createCommandFilters(),
 				null,
 				null,
+				null,
 				Set.of("AngleUnit"));
 	}
 

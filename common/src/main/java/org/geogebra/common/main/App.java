@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 import java.util.Vector;
 import java.util.function.Predicate;
 
@@ -52,6 +54,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
+import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.AbstractToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.CustomToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.GeometryToolCollectionFactory;
@@ -157,7 +160,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Represents an application window, gives access to views and system stuff
  */
 public abstract class App implements UpdateSelection, AppInterface, EuclidianHost,
-		ExamRestrictable, ExamProvider {
+		ExamRestrictable, ExamProvider, ToolsProvider {
 
 	/** Url for wiki article about functions */
 	public static final String WIKI_OPERATORS = "Predefined Functions and Operators";
@@ -381,7 +384,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	protected boolean showToolBar = true;
 
-	private ToolCollectionFilter temporaryToolsFilter = null;
+	private Set<ToolCollectionFilter> toolFilters = new HashSet<>();
 
 	/**
 	 * whether shift, drag and zoom features are enabled
@@ -4642,10 +4645,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return nextVariableID++;
 	}
 
-	public void setTemporaryToolsFilter(ToolCollectionFilter filter) {
-		this.temporaryToolsFilter = filter;
+	public void addToolsFilter(ToolCollectionFilter filter) {
+		toolFilters.add(filter);
 	}
 
+	public void removeToolsFilter(ToolCollectionFilter filter) {
+		toolFilters.remove(filter);
+	}
 	/**
 	 * @return the currently available tools. Note that the set of tools may be restricted
 	 * depending on platform (iOS, Android) or during exams.
@@ -4662,8 +4668,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 					EuclidianConstants.MODE_FUNCTION_INSPECTOR,
 					EuclidianConstants.MODE_MOVE_ROTATE));
 		}
-		if (temporaryToolsFilter != null) {
-			toolCollection.filter(temporaryToolsFilter);
+		for (ToolCollectionFilter toolFilter : toolFilters) {
+			toolCollection.filter(toolFilter);
 		}
 		return toolCollection;
 	}

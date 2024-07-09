@@ -14,11 +14,11 @@ import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.TempStorage;
@@ -107,33 +107,30 @@ public final class ExamController {
 	}
 
 	/**
-	 * Deprecated, use {@link #setActiveApp(App, CommandDispatcher, AlgebraProcessor)} instead.
-	 */
-	@Deprecated
-	public void setActiveContext(@Nonnull Object context,
-			@Nonnull CommandDispatcher commandDispatcher,
-			@Nonnull AlgebraProcessor algebraProcessor) {
-		App app = context instanceof App ? (App)context : null;
-		setActiveApp(app, commandDispatcher, algebraProcessor);
-	}
-
-	/**
-	 * Set the active app and associated dependencies.
+	 * Set the active context and associated dependencies.
+	 * <p/>
+	 * The context can be <i>any object</i>, but it should correspond to or identify the current
+	 * app, or, in Suite, the currently active sub-app (Graphing, Geometry, etc). The only
+	 * requirement here is that when any of the dependencies (e.g., the command dispatcher or
+	 * algebra processor) change, this should also mean a change in current context and be
+	 * communicated to the exam controller by calling this method.
 	 * <p/>
 	 * This method needs to be called before an exam starts, and also when the active app
 	 * changes during an exam, so what we can remove the restrictions on the current dependencies,
 	 * and apply the restrictions on the new dependencies.
 	 */
-	public void setActiveApp(@Nonnull App app,
+	public void setActiveContext(@Nonnull Object context,
 			@Nonnull CommandDispatcher commandDispatcher,
-			@Nonnull AlgebraProcessor algebraProcessor) {
+			@Nonnull AlgebraProcessor algebraProcessor,
+			@Nullable ToolsProvider toolsProvider) {
 		// remove restrictions for current dependencies, if exam is active
 		if (examRestrictions != null && activeDependencies != null) {
 			removeRestrictionsFromContextDependencies(activeDependencies);
 		}
-		activeDependencies = new ContextDependencies(app,
+		activeDependencies = new ContextDependencies(context,
 				commandDispatcher,
-				algebraProcessor);
+				algebraProcessor,
+				toolsProvider);
 		// apply restrictions to new dependencies, if exam is active
 		if (examRestrictions != null) {
 			applyRestrictionsToContextDependencies(activeDependencies);
@@ -485,7 +482,8 @@ public final class ExamController {
 			examRestrictions.apply(dependencies.commandDispatcher,
 					dependencies.algebraProcessor,
 					propertiesRegistry,
-					dependencies.app);
+					dependencies.context,
+					dependencies.toolsProvider);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.addCommandFilter(noCASFilter);
 			}
@@ -500,7 +498,8 @@ public final class ExamController {
 			examRestrictions.remove(dependencies.commandDispatcher,
 					dependencies.algebraProcessor,
 					propertiesRegistry,
-					dependencies.app);
+					dependencies.context,
+					dependencies.toolsProvider);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.removeCommandFilter(noCASFilter);
 			}
@@ -556,20 +555,25 @@ public final class ExamController {
 	private static class ContextDependencies {
 		@NonOwning
 		@Nonnull
-		final App app;
+		final Object context;
 		@NonOwning
 		@Nonnull
 		final CommandDispatcher commandDispatcher;
 		@NonOwning
 		@Nonnull
 		final AlgebraProcessor algebraProcessor;
+		@NonOwning
+		@Nullable
+		final ToolsProvider toolsProvider;
 
-		ContextDependencies(@Nonnull App app,
+		ContextDependencies(@Nonnull Object context,
 				@Nonnull CommandDispatcher commandDispatcher,
-				@Nonnull AlgebraProcessor algebraProcessor) {
-			this.app = app;
+				@Nonnull AlgebraProcessor algebraProcessor,
+				@Nullable ToolsProvider toolsProvider) {
+			this.context = context;
 			this.commandDispatcher = commandDispatcher;
 			this.algebraProcessor = algebraProcessor;
+			this.toolsProvider = toolsProvider;
 		}
 	}
 }

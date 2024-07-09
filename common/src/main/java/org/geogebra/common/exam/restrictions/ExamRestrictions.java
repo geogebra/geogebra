@@ -9,6 +9,7 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
+import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -17,7 +18,6 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
@@ -157,7 +157,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	public void apply(@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
-			@Nullable App app) {
+			@Nullable Object context,
+			@Nullable ToolsProvider toolsProvider) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.addCommandFilter(commandFilter);
@@ -174,25 +175,26 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		}
 		if (propertiesRegistry != null) {
 			for (String frozenProperty : frozenProperties) {
-				Property property = propertiesRegistry.lookup(frozenProperty, app);
+				Property property = propertiesRegistry.lookup(frozenProperty, context);
 				if (property != null) {
 					freeze(property);
 				}
 			}
 		}
-		if (app != null) {
-			app.setTemporaryToolsFilter(toolsFilter);
+		if (toolsProvider != null && toolsFilter != null) {
+			toolsProvider.addToolsFilter(toolsFilter);
 		}
 	}
 
 	/**
 	 * Remove the exam restrictions (i.e., undo the changes from
-	 * {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, App)}).
+	 * {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, ToolsProvider)}).
 	 */
 	public void remove(@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
-			@Nullable App app) {
+			@Nullable Object context,
+			@Nullable ToolsProvider toolsProvider) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.removeCommandFilter(commandFilter);
@@ -209,14 +211,14 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		}
 		if (propertiesRegistry != null) {
 			for (String frozenProperty : frozenProperties) {
-				Property property = propertiesRegistry.lookup(frozenProperty, app);
+				Property property = propertiesRegistry.lookup(frozenProperty, context);
 				if (property != null) {
 					unfreeze(property);
 				}
 			}
 		}
-		if (app != null) {
-			app.setTemporaryToolsFilter(null);
+		if (toolsProvider != null && toolsFilter != null) {
+			toolsProvider.removeToolsFilter(toolsFilter);
 		}
 	}
 
