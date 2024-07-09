@@ -899,7 +899,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	}
 
 	@Override
-	public void unfocusCell(int row, int column) {
+	public void unfocusCell(int row, int column, boolean isTransferringFocus) {
 		focusedCell = null;
 	}
 

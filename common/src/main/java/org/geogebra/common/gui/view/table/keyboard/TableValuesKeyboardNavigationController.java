@@ -136,7 +136,7 @@ public final class TableValuesKeyboardNavigationController {
 		}
 		boolean changed = selectedRow != row || selectedColumn != column;
 		if (!changed) {
-			if (delegate != null) {
+			if (delegate != null && selectedRow >= 0 && selectedColumn >= 0) {
 				// notify delegate so it can re-focus the selected cell after a
 				// potential reload (e.g., after receiving a datasetChanged event)
 				delegate.refocusCell(selectedRow, selectedColumn);
@@ -164,9 +164,12 @@ public final class TableValuesKeyboardNavigationController {
 
 		if (delegate != null) {
 			if (selectedRow >= 0 && selectedColumn >= 0) {
+				if (previouslySelectedRow >= 0 && previouslySelectedColumn >= 0) {
+					delegate.unfocusCell(previouslySelectedRow, previouslySelectedColumn, true);
+				}
 				delegate.focusCell(selectedRow, selectedColumn);
 			} else {
-				delegate.unfocusCell(previouslySelectedRow, previouslySelectedColumn);
+				delegate.unfocusCell(previouslySelectedRow, previouslySelectedColumn, false);
 			}
 		}
 	}
@@ -239,8 +242,7 @@ public final class TableValuesKeyboardNavigationController {
 				addedPlaceholderColumn = true;
 				nextColumn = getMaxColumnIndex() - 1;
 			} else {
-				select(selectedRow, selectedColumn);
-				return;
+				nextColumn = selectedColumn;
 			}
 		}
 		select(selectedRow, nextColumn);
@@ -254,7 +256,6 @@ public final class TableValuesKeyboardNavigationController {
 	}
 
 	private void handleArrowDown() {
-		int nextRow = selectedRow + 1;
 		if (isEditingPlaceholderColumn()) {
 			if (selectedRow == tableValuesModel.getRowCount()
 					&& isCellEmpty(selectedRow, selectedColumn)) {
@@ -269,12 +270,7 @@ public final class TableValuesKeyboardNavigationController {
 			select(selectedRow, selectedColumn);
 			return;
 		}
-		commitPendingChanges();
-		if (nextRow > tableValuesModel.getRowCount()) {
-			nextRow = selectedRow; // last row was deleted, leave row index as is
-			addedPlaceholderRow = true; // we're in the placeholder row
-		}
-		select(nextRow, selectedColumn);
+		select(selectedRow + 1, selectedColumn);
 	}
 
 	private boolean isFirstRow(int row) {
