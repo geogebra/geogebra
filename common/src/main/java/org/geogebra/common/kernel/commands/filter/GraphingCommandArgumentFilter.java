@@ -18,9 +18,8 @@ public class GraphingCommandArgumentFilter extends BaseCommandArgumentFilter {
     }
 
     @Override
-    public void checkAllowed(Command command,
-                             CommandProcessor commandProcessor) {
-        if (!check(command, commandProcessor)) {
+    public void checkAllowed(Command command, CommandProcessor commandProcessor) {
+        if (!isFilteredCommand(command)) {
             return;
         }
         GeoElement[] arguments = commandProcessor.resArgs(command);
@@ -39,7 +38,7 @@ public class GraphingCommandArgumentFilter extends BaseCommandArgumentFilter {
     }
 
     private void checkLine(Command command, GeoElement[] arguments,
-                                          CommandProcessor commandProcessor) {
+            CommandProcessor commandProcessor) {
         if (arguments.length < 2) {
             return;
         }

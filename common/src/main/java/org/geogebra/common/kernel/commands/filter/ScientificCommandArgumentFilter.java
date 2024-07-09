@@ -15,7 +15,7 @@ public class ScientificCommandArgumentFilter extends BaseCommandArgumentFilter {
 	@Override
 	public void checkAllowed(Command command,
 			CommandProcessor commandProcessor) {
-		if (!check(command, commandProcessor)) {
+		if (!isFilteredCommand(command)) {
 			return;
 		}
 		GeoElement[] arguments = commandProcessor.resArgs(command);

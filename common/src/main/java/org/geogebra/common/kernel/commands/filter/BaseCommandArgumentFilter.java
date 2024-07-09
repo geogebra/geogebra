@@ -6,22 +6,22 @@ import org.geogebra.common.kernel.commands.Commands;
 
 public abstract class BaseCommandArgumentFilter implements CommandArgumentFilter {
 
-    private Commands[] commands;
+    private Commands[] filteredCommands;
 
-    BaseCommandArgumentFilter(Commands... commands) {
-        this.commands = commands;
+    /**
+     * @param commands A list of commands that are not allowed.
+     */
+    public BaseCommandArgumentFilter(Commands... commands) {
+        this.filteredCommands = commands;
     }
 
-    protected boolean check(Command command, CommandProcessor commandProcessor) {
-        if (commandProcessor == null) {
-            return false;
-        }
+    protected boolean isFilteredCommand(Command command) {
         return isFilteredCommand(command.getName());
     }
 
     @Override
     public boolean isFilteredCommand(String commandName) {
-        for (Commands cmd: commands) {
+        for (Commands cmd: filteredCommands) {
             if (cmd.name().equals(commandName)) {
                 return true;
             }
