@@ -136,7 +136,7 @@ public final class TableValuesKeyboardNavigationController {
 		}
 		boolean changed = selectedRow != row || selectedColumn != column;
 		if (!changed) {
-			if (delegate != null && selectedRow >= 0 && selectedColumn >= 0) {
+			if (delegate != null) {
 				// notify delegate so it can re-focus the selected cell after a
 				// potential reload (e.g., after receiving a datasetChanged event)
 				delegate.refocusCell(selectedRow, selectedColumn);
