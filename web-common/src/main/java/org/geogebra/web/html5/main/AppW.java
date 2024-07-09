@@ -1964,16 +1964,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	// Languages
 	// ========================================================
 
-	/**
-	 * Checks for GeoGebraLangUI in URL, then in cookie, then checks browser
-	 * language
-	 *
-	 * @return user preferred language
-	 */
-	public String getLanguageFromCookie() {
-		return UserPreferredLanguage.get(this);
-	}
-
 	@Override
 	public void setLabels() {
 		if (initing) {
