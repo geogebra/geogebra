@@ -616,7 +616,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		Log.debug("setting language to:" + languageTag + ", browser languageTag:"
 				+ browserLang);
-		getLocalization().loadScript(languageTag, this);
+		getLocalization().loadScript(language1, this);
 	}
 
 	/**
@@ -626,15 +626,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            country or country_variant
 	 */
 	public void setLanguage(String language, String country) {
-
-		if (language == null || "".equals(language)) {
+		if (StringUtil.empty(language)) {
 			Log.warn("error calling setLanguage(), setting to English (US): "
 					+ language + "_" + country);
 			setLanguage("en");
 			return;
 		}
-
-		if (country == null || "".equals(country)) {
+		if (StringUtil.empty(country)) {
 			setLanguage(language);
 			return;
 		}
@@ -3575,7 +3573,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return check if category should be enabled based on customToolbox parameter
 	 */
 	public boolean isToolboxCategoryEnabled(String category) {
-		List tools = getAppletParameters().getDataParamCustomToolbox();
+		List<String> tools = getAppletParameters().getDataParamCustomToolbox();
 		return tools.contains(category) || tools.isEmpty();
 	}
 }
