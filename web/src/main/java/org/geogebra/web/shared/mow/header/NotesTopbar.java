@@ -128,7 +128,7 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 			fullscreenButton = addSmallPressButton(ZoomPanelResources.INSTANCE
 					.fullscreen_black18(), "Fullscreen", null);
 			fullscreenButton.addFastClickHandler(source ->
-					controller.onFullscreenOn(fullscreenButton, getElement()));
+					controller.onFullscreenOn(fullscreenButton));
 
 			addDivider();
 		}
