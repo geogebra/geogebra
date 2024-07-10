@@ -17,7 +17,6 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	private DefaultSpreadsheetCellProcessor processor;
 	private final DefaultSpreadsheetCellDataSerializer
 			serializer = new DefaultSpreadsheetCellDataSerializer();
-	private KernelTabularDataAdapter tabularData;
 
 	@Before
 	public void setUp() {
@@ -25,7 +24,8 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		processor =
 				new DefaultSpreadsheetCellProcessor(getKernel().getAlgebraProcessor(),
 						errorHandler);
-		tabularData = new KernelTabularDataAdapter(getSettings().getSpreadsheet(), getKernel());
+		getKernel().attach(new KernelTabularDataAdapter(
+				getSettings().getSpreadsheet(), getKernel()));
 	}
 
 	@Test
@@ -58,7 +58,7 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		GeoElement a1 = lookup("A1");
 		assertTrue(a1.isGeoNumeric()
 				&& DoubleUtil.isEqual(((GeoNumeric) a1).getDouble(), 3.0));
-//		assertIsAuxiliary();
+		assertIsAuxiliary();
 		assertIsEuclidianInvisible();
 
 	}
@@ -93,9 +93,8 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	}
 
 	private void assertIsAuxiliary() {
-		tabularData.setContent(0, 0, lookup("A1"));
 		assertTrue("The created element is not auxiliary!",
-				tabularData.contentAt(0, 0).isAuxiliaryObject());
+				lookup("A1").isAuxiliaryObject());
 	}
 
 	private void assertIsEuclidianInvisible() {

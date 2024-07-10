@@ -157,19 +157,19 @@ final class CopyPasteCutTabularDataImpl<T>
 	private void insertRowsAndColumnsIfNeeded() {
 		Selection lastSelection = selectionController.getLastSelection();
 		if (layout != null && lastSelection != null) {
-			int currentAmountOfColumns = layout.numberOfColumns();
-			int amountOfColumnsNeeded = tabularData.numberOfColumns();
-			if (currentAmountOfColumns < amountOfColumnsNeeded) {
-				layout.setNumberOfColumns(amountOfColumnsNeeded);
+			int currentNumberOfColumns = layout.numberOfColumns();
+			int numberOfColumnsNeeded = tabularData.numberOfColumns();
+			if (currentNumberOfColumns < numberOfColumnsNeeded) {
+				layout.setNumberOfColumns(numberOfColumnsNeeded);
 				layout.setWidthForColumns(layout.getWidth(lastSelection.getRange().getMaxColumn()),
-						currentAmountOfColumns, amountOfColumnsNeeded - 1);
+						currentNumberOfColumns, numberOfColumnsNeeded - 1);
 			}
-			int currentAmountOfRows = layout.numberOfRows();
-			int amountOfRowsNeeded = tabularData.numberOfRows();
-			if (currentAmountOfRows < amountOfRowsNeeded) {
-				layout.setNumberOfRows(amountOfRowsNeeded);
+			int currentNumberOfRows = layout.numberOfRows();
+			int numberOfRowsNeeded = tabularData.numberOfRows();
+			if (currentNumberOfRows < numberOfRowsNeeded) {
+				layout.setNumberOfRows(numberOfRowsNeeded);
 				layout.setHeightForRows(layout.getHeight(lastSelection.getRange().getMaxRow()),
-						currentAmountOfRows, amountOfRowsNeeded - 1);
+						currentNumberOfRows, numberOfRowsNeeded - 1);
 			}
 		}
 	}

@@ -59,7 +59,7 @@ public final class SpreadsheetController {
 		layout = new TableLayout(tabularData.numberOfRows(),
 				tabularData.numberOfColumns(), TableLayout.DEFAUL_CELL_HEIGHT,
 				TableLayout.DEFAULT_CELL_WIDTH);
-		contextMenuItems = new ContextMenuItems(this, selectionController, null);
+		contextMenuItems = new ContextMenuItems(this, selectionController);
 	}
 
 	/**

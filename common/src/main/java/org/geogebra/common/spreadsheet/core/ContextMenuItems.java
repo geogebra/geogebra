@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
 
@@ -18,14 +17,11 @@ public class ContextMenuItems {
 	/**
 	 * @param spreadsheetController {@link SpreadsheetController}
 	 * @param selectionController {@link SpreadsheetSelectionController}
-	 * @param copyPasteCut {@link CopyPasteCutTabularData}
 	 */
 	public ContextMenuItems(SpreadsheetController spreadsheetController,
-			SpreadsheetSelectionController selectionController,
-			@Nullable CopyPasteCutTabularData copyPasteCut) {
+			SpreadsheetSelectionController selectionController) {
 		this.spreadsheetController = spreadsheetController;
 		this.selectionController = selectionController;
-		this.copyPasteCut = copyPasteCut;
 	}
 
 	/**
@@ -112,7 +108,9 @@ public class ContextMenuItems {
 				selectionController.getSelections().forEach(
 						selection -> copyPasteCut.paste(selection.getRange()));
 			}
-			copyPasteCut.selectPastedContent();
+			if (copyPasteCut != null) {
+				copyPasteCut.selectPastedContent();
+			}
 			spreadsheetController.notifyDataDimensionsChanged();
 		}
 	}
