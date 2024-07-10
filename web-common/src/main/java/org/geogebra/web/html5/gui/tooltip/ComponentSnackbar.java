@@ -42,7 +42,7 @@ public class ComponentSnackbar extends FlowPanel {
 	 */
 	public ComponentSnackbar(AppW app, ToolTip toolTip) {
 		addStyleName("snackbarComponent");
-		if (toolTip.role == ToolTip.Role.ALERT) {
+		if (toolTip.isAlert()) {
 			AriaHelper.setRole(this, "alert");
 		}
 		getElement().setId("snackbarID");

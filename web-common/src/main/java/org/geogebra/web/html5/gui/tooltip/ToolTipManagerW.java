@@ -83,7 +83,7 @@ public final class ToolTipManagerW {
 	 */
 	public void showBottomMessage(String text, AppW appW, ToolTip.Role role) {
 		blockToolTip = false;
-		showBottomInfoToolTip(new ToolTip(text, null, null, null, role), appW,
+		showBottomInfoToolTip(new ToolTip(text, role), appW,
 				ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
 		blockToolTip = true;
 	}

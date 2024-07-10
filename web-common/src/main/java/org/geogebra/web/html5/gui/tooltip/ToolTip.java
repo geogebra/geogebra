@@ -7,10 +7,18 @@ public class ToolTip {
 	public final String helpText;
 	public final String buttonTransKey;
 	public final String url;
-	public final Role role;
+	private final Role role;
 
 	public enum Role {
 		INFO, ALERT
+	}
+
+	/**
+	 * @param text text content
+	 * @param role role for accessibility purposes
+	 */
+	public ToolTip(String text, Role role) {
+		this(text, null, null, null, role);
 	}
 
 	/**
@@ -38,5 +46,9 @@ public class ToolTip {
 		this.buttonTransKey = buttonTransKey;
 		this.url = url;
 		this.role = role;
+	}
+
+	public boolean isAlert() {
+		return role == Role.ALERT;
 	}
 }
