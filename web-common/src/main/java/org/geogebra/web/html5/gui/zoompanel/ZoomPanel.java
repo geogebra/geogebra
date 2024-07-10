@@ -391,12 +391,9 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	}
 
 	private Consumer<Boolean> getFullscreenBtnSelectCB() {
-		return new Consumer<Boolean>() {
-			@Override
-			public void accept(Boolean fullScreenActive) {
-				if (fullscreenBtn != null && fullscreenBtn.isSelected() != fullScreenActive) {
-					fullscreenBtn.setSelected(fullScreenActive);
-				}
+		return fullScreenActive -> {
+			if (fullscreenBtn != null && fullscreenBtn.isSelected() != fullScreenActive) {
+				fullscreenBtn.setSelected(fullScreenActive);
 			}
 		};
 	}

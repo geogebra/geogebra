@@ -125,7 +125,7 @@ public class TopbarController {
 	/**
 	 * on fullscreen press
 	 * @param fullscreenBtn - fullscreen button
-	 * @oaram elem - element
+	 * @param elem - element
 	 */
 	public void onFullscreenOn(IconButton fullscreenBtn, final Element elem) {
 		zoomController.onFullscreenPressed(elem, getFullscreenBtnSelectCB(fullscreenBtn));
