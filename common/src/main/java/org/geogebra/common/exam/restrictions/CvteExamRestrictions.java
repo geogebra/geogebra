@@ -2,22 +2,16 @@ package org.geogebra.common.exam.restrictions;
 
 import java.util.Set;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
-import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 
 public class CvteExamRestrictions extends ExamRestrictions {

@@ -6,6 +6,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
@@ -52,8 +53,10 @@ public final class LocalizationW extends Localization {
 	 */
 	public LocalizationW(AppConfig config, int dimension) {
 		super(dimension, 13);
-		// TODO add syntax filter somewhere outside (in app setup)
-		getCommandSyntax().addSyntaxFilter(config.newCommandSyntaxFilter());
+		SyntaxFilter syntaxFilter = config.newCommandSyntaxFilter();
+		if (syntaxFilter != null) {
+			getCommandSyntax().addSyntaxFilter(syntaxFilter);
+		}
 	}
 
 	//

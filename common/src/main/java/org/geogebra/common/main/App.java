@@ -48,7 +48,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
-import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -56,7 +55,6 @@ import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
-import org.geogebra.common.gui.toolcategorization.impl.AbstractToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.CustomToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.GeometryToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.Graphing3DToolCollectionFactory;
@@ -127,6 +125,7 @@ import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.main.undo.DefaultDeletionExecutor;
 import org.geogebra.common.main.undo.DeletionExecutor;
 import org.geogebra.common.main.undo.UndoManager;
@@ -134,7 +133,6 @@ import org.geogebra.common.main.undo.UndoableDeletionExecutor;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
-import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventDispatcher;
@@ -653,7 +651,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		AppConfig config = getConfig();
 		localization.setDecimalPlaces(config.getDecimalPlaces());
 		localization.setSignificantFigures(config.getSignificantFigures());
-		localization.getCommandSyntax().addSyntaxFilter(config.newCommandSyntaxFilter());
+		SyntaxFilter syntaxFilter = config.newCommandSyntaxFilter();
+		if (syntaxFilter != null) {
+			localization.getCommandSyntax().addSyntaxFilter(syntaxFilter);
+		}
 	}
 
 	/**
@@ -4644,10 +4645,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return nextVariableID++;
 	}
 
+	@Override
 	public void addToolsFilter(ToolCollectionFilter filter) {
 		toolFilters.add(filter);
 	}
 
+	@Override
 	public void removeToolsFilter(ToolCollectionFilter filter) {
 		toolFilters.remove(filter);
 	}
@@ -4655,6 +4658,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return the currently available tools. Note that the set of tools may be restricted
 	 * depending on platform (iOS, Android) or during exams.
 	 */
+	@Override
 	public ToolCollection getAvailableTools() {
 		ToolCollection toolCollection = createToolCollectionFactory().createToolCollection();
 		toolCollection.filter(new InvalidToolFilter(this));

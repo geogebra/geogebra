@@ -1,7 +1,6 @@
 package org.geogebra.common.main.syntax;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 
 /**
  * Class to get the syntax of the command

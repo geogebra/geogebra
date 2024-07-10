@@ -1,9 +1,5 @@
 package org.geogebra.common.main.syntax;
 
-import javax.annotation.Nonnull;
-
-import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
-
 /**
  * Interface to get the syntax of the commands for
  * autocompletion or help.

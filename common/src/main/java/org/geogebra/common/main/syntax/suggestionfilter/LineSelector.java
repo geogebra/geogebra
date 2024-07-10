@@ -1,7 +1,5 @@
 package org.geogebra.common.main.syntax.suggestionfilter;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 public final class LineSelector {

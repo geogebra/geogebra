@@ -1,8 +1,6 @@
 package org.geogebra.common.main.syntax.suggestionfilter;
 
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
-import org.geogebra.common.kernel.commands.filter.GraphingCommandArgumentFilter;
 
 public class GraphingSyntaxFilter extends AbstractSyntaxFilter {
 

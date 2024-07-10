@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.commands.filter;
 
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 
 public abstract class BaseCommandArgumentFilter implements CommandArgumentFilter {
