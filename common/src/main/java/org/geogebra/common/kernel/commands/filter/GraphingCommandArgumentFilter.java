@@ -24,16 +24,16 @@ public class GraphingCommandArgumentFilter extends BaseCommandArgumentFilter {
         }
         GeoElement[] arguments = commandProcessor.resArgs(command);
 
-        if (areEqual(command, Commands.Line)) {
+        if (isCommand(command, Commands.Line)) {
             checkLine(command, arguments, commandProcessor);
-        } else if (areEqual(command, Commands.Length)) {
+        } else if (isCommand(command, Commands.Length)) {
             checkLength(command, arguments, commandProcessor);
-        } else if (areEqual(command, Commands.PolyLine) || areEqual(command, Commands.Polyline)) {
+        } else if (isCommand(command, Commands.PolyLine) || isCommand(command, Commands.Polyline)) {
             checkPolyline(command, arguments, commandProcessor);
         }
     }
 
-    private boolean areEqual(Command command, Commands commandsValue) {
+    private boolean isCommand(Command command, Commands commandsValue) {
         return command.getName().equals(commandsValue.name());
     }
 

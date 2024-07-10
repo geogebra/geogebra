@@ -35,7 +35,7 @@ public class ExamCommandArgumentFilter extends BaseCommandArgumentFilter {
 		}
     }
 
-	private static boolean isCommand(Command command, Commands cmdName) {
+	private boolean isCommand(Command command, Commands cmdName) {
 		return cmdName.name().equals(command.getName());
 	}
 }

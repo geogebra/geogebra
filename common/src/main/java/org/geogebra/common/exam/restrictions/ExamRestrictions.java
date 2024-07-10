@@ -18,6 +18,9 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.localization.AutocompleteProvider;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
@@ -53,10 +56,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	// filter independent of exam region
 	private final CommandArgumentFilter examCommandArgumentFilter =
 			new ExamCommandArgumentFilter();
+	private SyntaxFilter syntaxFilter;
 	private final ToolCollectionFilter toolsFilter;
-
-	// TODO syntaxes filter (allow only subset of syntaxes)
-
 	private final Set<String> frozenProperties;
 
 	/**
@@ -105,6 +106,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Set<ExpressionFilter> expressionFilters,
 			@Nullable Set<CommandFilter> commandFilters,
 			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
+			@Nullable SyntaxFilter syntaxFilter,
 			@Nullable ToolCollectionFilter toolsFilter,
 			@Nullable Set<String> frozenProperties) {
 		this.examType = examType;
@@ -115,6 +117,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.commandFilters = commandFilters != null ? commandFilters : Set.of();
 		this.commandArgumentFilters = commandArgumentFilters != null
 				? commandArgumentFilters : Set.of();
+		this.syntaxFilter = syntaxFilter;
 		this.toolsFilter = toolsFilter == null
 				? new ToolCollectionSetFilter(EuclidianConstants.MODE_IMAGE) : toolsFilter;
 		this.frozenProperties = frozenProperties != null ? frozenProperties : Set.of();
@@ -154,10 +157,12 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	/**
 	 * Apply the exam restrictions.
 	 */
-	public void apply(@Nullable CommandDispatcher commandDispatcher,
+	public void applyTo(@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
 			@Nullable Object context,
+			@Nullable Localization localization,
+			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
@@ -171,6 +176,14 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		if (algebraProcessor != null) {
 			for (ExpressionFilter expressionFilter : expressionFilters) {
 				algebraProcessor.addExpressionFilter(expressionFilter);
+			}
+		}
+		if (syntaxFilter != null) {
+			if (autoCompleteProvider != null) {
+				autoCompleteProvider.addSyntaxFilter(syntaxFilter);
+			}
+			if (localization != null) {
+				localization.getCommandSyntax().addSyntaxFilter(syntaxFilter);
 			}
 		}
 		if (propertiesRegistry != null) {
@@ -188,12 +201,15 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 
 	/**
 	 * Remove the exam restrictions (i.e., undo the changes from
-	 * {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, ToolsProvider)}).
+	 * {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Localization,
+	 * AutocompleteProvider, ToolsProvider)}).
 	 */
-	public void remove(@Nullable CommandDispatcher commandDispatcher,
+	public void removeFrom(@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
 			@Nullable Object context,
+			@Nullable Localization localization,
+			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
@@ -207,6 +223,14 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		if (algebraProcessor != null) {
 			for (ExpressionFilter expressionFilter : expressionFilters) {
 				algebraProcessor.removeExpressionFilter(expressionFilter);
+			}
+		}
+		if (syntaxFilter != null) {
+			if (autoCompleteProvider != null) {
+				autoCompleteProvider.removeSyntaxFilter(syntaxFilter);
+			}
+			if (localization != null) {
+				localization.getCommandSyntax().removeSyntaxFilter(syntaxFilter);
 			}
 		}
 		if (propertiesRegistry != null) {

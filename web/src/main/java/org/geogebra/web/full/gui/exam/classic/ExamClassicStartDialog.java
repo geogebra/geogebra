@@ -120,6 +120,8 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		examController.setActiveContext(app,
 				app.getKernel().getAlgebraProcessor().getCommandDispatcher(),
 				app.getKernel().getAlgebraProcessor(),
+				app.getLocalization(),
+				null, // TODO inject AutoCompleteProvider
 				app);
 		examController.registerRestrictable(app);
 		examController.setDelegate(new ExamControllerDelegateW(app));

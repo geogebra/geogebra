@@ -13,10 +13,9 @@ public class EnglishCommandSyntax extends LocalizedCommandSyntax {
 
 	/**
 	 * @param localization the localization.
-	 * @param syntaxFilter syntax filter
 	 */
-	public EnglishCommandSyntax(Localization localization, SyntaxFilter syntaxFilter) {
-		super(localization, syntaxFilter);
+	public EnglishCommandSyntax(Localization localization) {
+		super(localization);
 	}
 
 	@Override

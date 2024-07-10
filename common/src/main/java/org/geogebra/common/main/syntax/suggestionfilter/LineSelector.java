@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-class LineSelector {
+public final class LineSelector {
 
-	String select(String[] lines, Integer... indices) {
-		Set<Integer> indexSet = new HashSet<>(Arrays.asList(indices));
+	public static String select(String[] lines, Integer... indices) {
+		Set<Integer> indexSet = Set.of(indices);
 		StringBuilder linesBuilder = new StringBuilder();
 		for (int i = 0; i < lines.length; i++) {
 			if (indexSet.contains(i)) {

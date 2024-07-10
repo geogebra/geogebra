@@ -48,6 +48,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
+import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -652,6 +653,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		AppConfig config = getConfig();
 		localization.setDecimalPlaces(config.getDecimalPlaces());
 		localization.setSignificantFigures(config.getSignificantFigures());
+		localization.getCommandSyntax().addSyntaxFilter(config.newCommandSyntaxFilter());
 	}
 
 	/**
@@ -1062,27 +1064,24 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * differs from translateCommand somehow and either document it or remove
 	 * this method
 	 *
-	 * @param cmd
+	 * @param localizedCommandName
 	 *            localized command name
 	 * @return internal command name
 	 */
-	public String getInternalCommand(String cmd) {
+	public String getInternalCommand(String localizedCommandName) {
 		initTranslatedCommands();
 		String s;
-		String cmdLower = StringUtil.toLowerCaseUS(cmd);
-		String renamed = Commands.getRenamed(cmdLower, getLocalization());
+		String localizedCommandNameLower = StringUtil.toLowerCaseUS(localizedCommandName);
+		String renamed = Commands.getRenamed(localizedCommandNameLower, getLocalization());
 		if (renamed != null) {
 			return renamed;
 		}
-
 		Commands[] values = Commands.values();
 		for (Commands c : values) {
 			s = Commands.englishToInternal(c).name();
-
-			// make sure that when si[] is typed in script, it's changed to
-			// Si[] etc
+			// make sure that when si[] is typed in script, it's changed to Si[] etc
 			if (StringUtil.toLowerCaseUS(getLocalization().getCommand(s))
-					.equals(cmdLower)) {
+					.equals(localizedCommandNameLower)) {
 				return s;
 			}
 		}
@@ -4679,7 +4678,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	@Deprecated
 	public ToolCollectionFactory createToolCollectionFactory() {
-		String toolbarDefinition = getGuiManager().getToolbarDefinition();
+		GuiManagerInterface guiManager = getGuiManager();
+		String toolbarDefinition = guiManager != null ? guiManager.getToolbarDefinition() : null;
 		if (toolbarDefinition == null || ToolBar.isDefaultToolbar(toolbarDefinition)) {
 			return createDefaultToolCollectionFactory();
 		}

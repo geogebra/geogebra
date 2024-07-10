@@ -746,24 +746,23 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * @param key
-	 *            command name
+	 * @param internalCommandName
+	 *            internal command name
 	 * @return command syntax TODO check whether getSyntaxString works here
 	 */
-	public String getCommandSyntax(String key) {
-		return commandSyntax.getCommandSyntax(key, dimension);
+	public String getCommandSyntax(String internalCommandName) {
+		return commandSyntax.getCommandSyntax(internalCommandName, dimension);
 	}
 
 	/**
-	 * @param key
-	 *            command name
+	 * @param internalCommandName
+	 *            internal command name
 	 * @param dim
 	 *            dimension override
 	 * @return command syntax TODO check whether getSyntaxString works here
 	 */
-	public String getCommandSyntax(String key, int dim) {
-
-		return commandSyntax.getCommandSyntax(key, dim);
+	public String getCommandSyntax(String internalCommandName, int dim) {
+		return commandSyntax.getCommandSyntax(internalCommandName, dim);
 	}
 
 	/**
@@ -821,24 +820,23 @@ public abstract class Localization extends LocalizationI {
 	public abstract String getSymbolTooltip(int key);
 
 	/**
-	 * @param key
-	 *            command name
+	 * @param internalCommandName
+	 *            internal command name
 	 * @return CAS syntax
 	 */
-	public String getCommandSyntaxCAS(String key) {
-		return commandSyntax.getCommandSyntaxCAS(key);
+	public String getCommandSyntaxCAS(String internalCommandName) {
+		return commandSyntax.getCommandSyntaxCAS(internalCommandName);
 	}
 
 	/**
 	 * 
-	 * @param key
+	 * @param internalCommandName
 	 *            (internal) command name to check
 	 * @return true if this command has a CAS-specific syntax
 	 */
-	public boolean isCASCommand(String key) {
-		String keyCAS = key + syntaxCAS;
+	public boolean isCASCommand(String internalCommandName) {
+		String keyCAS = internalCommandName + syntaxCAS;
 		String syntax = getCommand(keyCAS);
-
 		return !syntax.equals(keyCAS);
 	}
 
@@ -1004,15 +1002,15 @@ public abstract class Localization extends LocalizationI {
 	/**
 	 * English and internal names differ for e.g. LaTeX vs FormulaText.
 	 * 
-	 * @param internalName
+	 * @param internalCommandName
 	 *            internal command name
 	 * @return English command name
 	 */
-	public String getEnglishCommand(String internalName) {
-		Commands toTest = Commands.stringToCommand(internalName);
+	public String getEnglishCommand(String internalCommandName) {
+		Commands toTest = Commands.stringToCommand(internalCommandName);
 
 		if (toTest == null) {
-			return internalName;
+			return internalCommandName;
 		}
 
 		String mainCommandName = getMainCommandName(toTest);
@@ -1029,8 +1027,8 @@ public abstract class Localization extends LocalizationI {
 			}
 		}
 
-		// nothing found, English name must be internalName
-		return internalName;
+		// nothing found, English name must be internalCommandName
+		return internalCommandName;
 	}
 
 	static private String getMainCommandName(Commands command) {

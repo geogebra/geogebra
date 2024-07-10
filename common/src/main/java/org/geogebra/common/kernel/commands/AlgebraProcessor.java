@@ -192,8 +192,6 @@ public class AlgebraProcessor {
 	private CommandFilter noCASfilter;
 
 	private SymbolicProcessor symbolicProcessor;
-	private CommandSyntax localizedCommandSyntax;
-	private CommandSyntax englishCommandSyntax;
 	private final SqrtMinusOneReplacer sqrtMinusOneReplacer;
 
 	// Somewhat duplicates EvalInfo.isRedefinition but propagating EvalInfo to constructors of
@@ -3789,49 +3787,19 @@ public class AlgebraProcessor {
 		cmdDispatcher.addCommandFilter(commandFilter);
 	}
 
-	/**
-	 * @param cmdInt
-	 *            command name
-	 * @param settings
-	 *            settings
-	 * @return syntax
-	 */
-	public String getSyntax(String cmdInt, Settings settings) {
-		if (localizedCommandSyntax == null) {
-			localizedCommandSyntax =
-					new LocalizedCommandSyntax(loc, app.getConfig().newCommandSyntaxFilter());
-		}
-		return getSyntax(localizedCommandSyntax, cmdInt, settings);
-	}
-
-	/**
-	 * @param cmdInt
-	 *            command name
-	 * @param settings
-	 *            settings
-	 * @return syntax in english // as fallback
-	 */
-	public String getEnglishSyntax(String cmdInt, Settings settings) {
-		if (englishCommandSyntax == null) {
-			englishCommandSyntax =
-					new EnglishCommandSyntax(loc, app.getConfig().newCommandSyntaxFilter());
-		}
-		return getSyntax(englishCommandSyntax, cmdInt, settings);
-	}
-
-	private String getSyntax(CommandSyntax syntax, String cmdInt, Settings settings) {
+	public String getSyntax(CommandSyntax syntax, String internalCommandName, Settings settings) {
 		int dim = settings.getEuclidian(-1).isEnabled() ? 3 : 2;
 		if (cmdDispatcher.isCASAllowed()) {
-			return syntax.getCommandSyntax(cmdInt, dim);
+			return syntax.getCommandSyntax(internalCommandName, dim);
 		}
 		Commands cmd = null;
 		try {
-			cmd = Commands.valueOf(cmdInt);
+			cmd = Commands.valueOf(internalCommandName);
 		} catch (Exception e) {
 			// macro or error
 		}
 		if (cmd == null) {
-			return syntax.getCommandSyntax(cmdInt, dim);
+			return syntax.getCommandSyntax(internalCommandName, dim);
 		}
 		if (!this.cmdDispatcher.isAllowedByCommandFilters(cmd)) {
 			return null;
@@ -3848,7 +3816,7 @@ public class AlgebraProcessor {
 			return null;
 		}
 
-		return syntax.getCommandSyntax(cmdInt, dim);
+		return syntax.getCommandSyntax(internalCommandName, dim);
 	}
 
 	/**

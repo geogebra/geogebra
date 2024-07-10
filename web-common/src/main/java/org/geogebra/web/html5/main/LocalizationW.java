@@ -52,7 +52,8 @@ public final class LocalizationW extends Localization {
 	 */
 	public LocalizationW(AppConfig config, int dimension) {
 		super(dimension, 13);
-		getCommandSyntax().setSyntaxFilter(config.newCommandSyntaxFilter());
+		// TODO add syntax filter somewhere outside (in app setup)
+		getCommandSyntax().addSyntaxFilter(config.newCommandSyntaxFilter());
 	}
 
 	//

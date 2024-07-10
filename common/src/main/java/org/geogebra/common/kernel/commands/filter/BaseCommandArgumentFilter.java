@@ -19,10 +19,9 @@ public abstract class BaseCommandArgumentFilter implements CommandArgumentFilter
         return isFilteredCommand(command.getName());
     }
 
-    @Override
-    public boolean isFilteredCommand(String commandName) {
+    protected boolean isFilteredCommand(String internalCommandName) {
         for (Commands cmd: filteredCommands) {
-            if (cmd.name().equals(commandName)) {
+            if (cmd.name().equals(internalCommandName)) {
                 return true;
             }
         }

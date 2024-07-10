@@ -20,6 +20,7 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 				VlaanderenExamRestrictions.createCommandFilters(),
 				null,
 				null,
+				null,
 				null);
 	}
 

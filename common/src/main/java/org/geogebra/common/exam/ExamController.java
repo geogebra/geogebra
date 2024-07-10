@@ -23,6 +23,7 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.main.exam.event.CheatingEvents;
+import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.properties.PropertiesRegistry;
@@ -122,6 +123,8 @@ public final class ExamController {
 	public void setActiveContext(@Nonnull Object context,
 			@Nonnull CommandDispatcher commandDispatcher,
 			@Nonnull AlgebraProcessor algebraProcessor,
+			@Nonnull Localization localization,
+			@Nullable AutocompleteProvider autocompleteProvider,
 			@Nullable ToolsProvider toolsProvider) {
 		// remove restrictions for current dependencies, if exam is active
 		if (examRestrictions != null && activeDependencies != null) {
@@ -130,6 +133,8 @@ public final class ExamController {
 		activeDependencies = new ContextDependencies(context,
 				commandDispatcher,
 				algebraProcessor,
+				localization,
+				autocompleteProvider,
 				toolsProvider);
 		// apply restrictions to new dependencies, if exam is active
 		if (examRestrictions != null) {
@@ -479,10 +484,12 @@ public final class ExamController {
 			}
 		}
 		if (dependencies != null) {
-			examRestrictions.apply(dependencies.commandDispatcher,
+			examRestrictions.applyTo(dependencies.commandDispatcher,
 					dependencies.algebraProcessor,
 					propertiesRegistry,
 					dependencies.context,
+					dependencies.localization,
+					dependencies.autoCompleteProvider,
 					dependencies.toolsProvider);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.addCommandFilter(noCASFilter);
@@ -495,10 +502,12 @@ public final class ExamController {
 			return;
 		}
 		if (dependencies != null) {
-			examRestrictions.remove(dependencies.commandDispatcher,
+			examRestrictions.removeFrom(dependencies.commandDispatcher,
 					dependencies.algebraProcessor,
 					propertiesRegistry,
 					dependencies.context,
+					dependencies.localization,
+					dependencies.autoCompleteProvider,
 					dependencies.toolsProvider);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.removeCommandFilter(noCASFilter);
@@ -563,16 +572,26 @@ public final class ExamController {
 		@Nonnull
 		final AlgebraProcessor algebraProcessor;
 		@NonOwning
+		@Nonnull
+		final Localization localization;
+		@NonOwning
+		@Nullable
+		final AutocompleteProvider autoCompleteProvider;
+		@NonOwning
 		@Nullable
 		final ToolsProvider toolsProvider;
 
 		ContextDependencies(@Nonnull Object context,
 				@Nonnull CommandDispatcher commandDispatcher,
 				@Nonnull AlgebraProcessor algebraProcessor,
+				@Nonnull Localization localization,
+				@Nullable AutocompleteProvider autoCompleteProvider,
 				@Nullable ToolsProvider toolsProvider) {
 			this.context = context;
 			this.commandDispatcher = commandDispatcher;
 			this.algebraProcessor = algebraProcessor;
+			this.localization = localization;
+			this.autoCompleteProvider = autoCompleteProvider;
 			this.toolsProvider = toolsProvider;
 		}
 	}

@@ -10,12 +10,16 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
+import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -24,6 +28,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
@@ -48,6 +53,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	private CommandDispatcher previousCommandDispatcher;
 	private AlgebraProcessor algebraProcessor;
 	private SuiteSubApp currentSubApp;
+	private AutocompleteProvider autocompleteProvider;
 	private final List<ExamState> examStates = new ArrayList<>();
 	private boolean didRequestClearApps;
 	private boolean didRequestClearClipboard;
@@ -79,9 +85,11 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		app = AppCommonFactory.create(createConfig(subApp));
 		algebraProcessor = app.getKernel().getAlgebraProcessor();
 		commandDispatcher = algebraProcessor.getCommandDispatcher();
+		autocompleteProvider = new AutocompleteProvider(app, false);
 		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization()),
 				app);
-		examController.setActiveContext(app, commandDispatcher, algebraProcessor, app);
+		examController.setActiveContext(app, commandDispatcher, algebraProcessor,
+				app.getLocalization(), autocompleteProvider, app);
 	}
 
 	private void switchApp(SuiteSubApp subApp) {
@@ -93,9 +101,11 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		activeMaterial = null;
 		algebraProcessor = app.getKernel().getAlgebraProcessor();
 		commandDispatcher = algebraProcessor.getCommandDispatcher();
+		autocompleteProvider = new AutocompleteProvider(app, false);
 		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization()),
 				app);
-		examController.setActiveContext(app, commandDispatcher, algebraProcessor, app);
+		examController.setActiveContext(app, commandDispatcher, algebraProcessor,
+				app.getLocalization(), autocompleteProvider, app);
 	}
 
 	private AppConfig createConfig(SuiteSubApp subApp) {
@@ -298,6 +308,34 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		GlobalScope.examController = examController;
 		LanguageProperty languageProperty = new LanguageProperty(app, app.getLocalization());
 		assertFalse(languageProperty.isEnabled()); // should be disabled during exam
+	}
+
+	@Test
+	public void testCvteRestrictions() {
+		setInitialApp(SuiteSubApp.GEOMETRY);
+		examController.prepareExam();
+		examController.startExam(ExamType.CVTE, null);
+
+		// check syntax restrictions on AutoCompleteProvider
+		// - allow only Circle(<Center>, <Radius>), filter out all other variants
+		List<AutocompleteProvider.Completion> completions = autocompleteProvider
+				.getCompletions("circle").collect(Collectors.toList());
+		assertEquals(1, completions.size());
+		AutocompleteProvider.Completion circleCompletion = completions.get(0);
+		assertEquals(1, circleCompletion.syntaxes.size());
+		assertEquals("Circle( <Point>, <Radius Number> )", circleCompletion.syntaxes.get(0));
+
+		// check syntax restrictions on CommandDispatcher
+		// - (indirectly) via checkIsAllowedByCommandArgumentFilters
+		evaluate("A=(1,1)");
+		evaluate("B=(2,2)");
+		GeoElementND[] circle = evaluate("Circle(A,B)");
+		assertNull(circle);
+
+		// check tool restrictions
+		ToolCollection availableTools = app.getAvailableTools();
+		assertTrue(availableTools.contains(EuclidianConstants.MODE_MOVE));
+		assertFalse(availableTools.contains(EuclidianConstants.MODE_POINT));
 	}
 
 	// -- ExamControllerDelegate --
