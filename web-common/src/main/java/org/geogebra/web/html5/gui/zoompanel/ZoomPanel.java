@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.gui.zoompanel;
 
+import java.util.function.Consumer;
+
 import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -74,7 +76,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 			addZoomButtons();
 		}
 
-		if (ZoomPanel.needsFullscreenButton(app) && rightBottom) {
+		if (ZoomController.needsFullscreenButton(app) && rightBottom) {
 			addFullscreenButton();
 		}
 
@@ -124,7 +126,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 
 		fullscreenBtn.addFastClickHandler(source -> {
 			getZoomController().onFullscreenPressed(getPanelElement(),
-					fullscreenBtn);
+					getFullscreenBtnSelectCB());
 			setFullScreenAuralText();
 		});
 		fullscreenBtn.setSelected(Browser.isFullscreen());
@@ -152,7 +154,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		// we may have multiple zoom panels; if this one doesn't have FS button,
 		// it shouldn't handle FS
 		if (fullscreenBtn != null) {
-			getZoomController().onExitFullscreen(getElement(), fullscreenBtn);
+			getZoomController().onExitFullscreen(getElement(), getFullscreenBtnSelectCB());
 		}
 	}
 
@@ -295,18 +297,6 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		}
 	}
 
-	private static boolean needsFullscreenButton(AppW app) {
-		if (app.getAppletParameters().getDataParamApp()) {
-			return ZoomController.isRunningInIframe() || !NavigatorUtil.isMobile();
-		} else {
-			if (!app.getAppletParameters().getDataParamShowFullscreenButton()) {
-				return false;
-			}
-
-			return !(NavigatorUtil.isiOS() && ZoomController.isRunningInIframe());
-		}
-	}
-
 	/**
 	 *
 	 * @param app see {@link AppW}
@@ -327,7 +317,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 */
 	public static boolean neededFor(AppW app) {
 		return (needsZoomButtons(app) && !app.isWhiteboardActive())
-			|| needsFullscreenButton(app);
+			|| ZoomController.needsFullscreenButton(app);
 	}
 
 	/** Focus the first available button on zoom panel. */
@@ -397,7 +387,15 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 * @param isFullscreen whether fullscreen should be active
 	 */
 	public void setFullScreen(boolean isFullscreen) {
-		getZoomController().setFullScreenActive(isFullscreen, fullscreenBtn);
+		getZoomController().setFullScreenActive(isFullscreen, getFullscreenBtnSelectCB());
+	}
+
+	private Consumer<Boolean> getFullscreenBtnSelectCB() {
+		return fullScreenActive -> {
+			if (fullscreenBtn != null && fullscreenBtn.isSelected() != fullScreenActive) {
+				fullscreenBtn.setSelected(fullScreenActive);
+			}
+		};
 	}
 
 	/**
@@ -451,7 +449,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 *            whether the zoom panel's parent is now bottom right panel
 	 */
 	public void updateFullscreenVisibility(boolean bottomRight) {
-		if (ZoomPanel.needsFullscreenButton(app) && bottomRight) {
+		if (ZoomController.needsFullscreenButton(app) && bottomRight) {
 			if (fullscreenBtn == null) {
 				addFullscreenButton();
 			} else {

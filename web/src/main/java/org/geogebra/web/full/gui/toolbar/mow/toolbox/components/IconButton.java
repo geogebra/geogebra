@@ -137,7 +137,11 @@ public class IconButton extends StandardButton implements SetLabels {
 		dataTitleTransKey = ariaLabel;
 		AriaHelper.setTitle(this, loc.getMenu(dataTitleTransKey));
 		addStyleName("small");
-		addFastClickHandler((event) -> clickHandler.run());
+		addFastClickHandler((event) -> {
+			if (clickHandler != null) {
+				clickHandler.run();
+			}
+		});
 	}
 
 	/**

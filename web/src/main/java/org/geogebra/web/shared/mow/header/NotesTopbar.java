@@ -30,6 +30,7 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 	private IconButton redoBtn;
 	private IconButton homeBtn;
 	private IconButton dragBtn;
+	private IconButton fullscreenButton;
 	private final Runnable deselectDragBtn = () -> {
 			if (dragBtn != null && controller.getApp().getMode()
 					== EuclidianConstants.MODE_TRANSLATEVIEW) {
@@ -57,6 +58,7 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 		addMenuButton();
 		addUndoRedo();
 		addZoomButtons();
+		addFullscreenButton();
 	}
 
 	private void addMenuButton() {
@@ -101,9 +103,13 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 		dragBtn = new IconButton(controller.getApp(), MaterialDesignResources
 				.INSTANCE.move_canvas(), "PanView", "PanView", () -> controller.onDrag(),
 				() -> controller.getApp().setMode(EuclidianConstants.MODE_SELECT_MOW));
-		dragBtn.addStyleName("small");
-		buttons.add(dragBtn);
-		add(dragBtn);
+		styleAndRegisterTopbarButton(dragBtn);
+	}
+
+	private void styleAndRegisterTopbarButton(IconButton button) {
+		button.addStyleName("small");
+		buttons.add(button);
+		add(button);
 	}
 
 	/**
@@ -115,6 +121,17 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 				appletParams.getParamAllowUndoCheckpoints());
 		undoBtn.setDisabled(!kernel.undoPossible());
 		redoBtn.setDisabled(!kernel.redoPossible());
+	}
+
+	private void addFullscreenButton() {
+		if (controller.needsFullscreenButton()) {
+			fullscreenButton = addSmallPressButton(ZoomPanelResources.INSTANCE
+					.fullscreen_black18(), "Fullscreen", null);
+			fullscreenButton.addFastClickHandler(source ->
+					controller.onFullscreenOn(fullscreenButton));
+
+			addDivider();
+		}
 	}
 
 	private IconButton addSmallPressButton(SVGResource image, String ariaLabel,
