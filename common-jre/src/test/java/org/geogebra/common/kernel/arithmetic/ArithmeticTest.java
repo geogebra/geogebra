@@ -508,6 +508,7 @@ public class ArithmeticTest extends BaseUnitTest {
 	@Issue("APPS-5546")
 	public void sufficientPrecisionForAddition() {
 		t("1295.1+42.37", "1337.47", StringTemplate.maxDecimals);
+		t("200 (1+((0.08)/(525600)))^(525600)", "216.65741221592083", StringTemplate.maxDecimals);
 	}
 
 	@Test

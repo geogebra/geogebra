@@ -49,7 +49,8 @@ public enum DoubleOperation {
 	}, INT_POWER {
 		@Override
 		protected BigDecimal evalDecimal(BigDecimal num1, BigDecimal num2) {
-			return num1.pow((int) Math.round(num2.doubleValue()));
+			// limit precision here for very high powers
+			return num1.pow((int) Math.round(num2.doubleValue()), MathContext.DECIMAL128);
 		}
 
 		@Override
