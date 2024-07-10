@@ -296,8 +296,6 @@ public class ZoomController {
 	 */
 	void onFullscreen(Consumer<Boolean> fullscreenBtnSelectCB) {
 		setFullScreenActive(true, fullscreenBtnSelectCB);
-		// fullscreenBtn.getElement().focus();
-		// TODO fix this here
 	}
 
 	private void setHomeButtonVisible(StandardButton homeBtn, boolean visible) {
