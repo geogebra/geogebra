@@ -290,6 +290,15 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	}
 
+	@Test
+	public void asymptoteVertical() {
+		add("f:(0.581550952232088x)/(0.03544522x+0.1996238)");
+		// discontinuity not removable
+		t("Asymptote(f)", "{y = 16.40703463632298, x = -5.631896204904357}");
+		// discontinuity removable, even though limit of f is very high
+		t("Asymptote((10^18*x)/x)", "{y = 1000000000000000000}");
+	}
+
 	/** Test for MOB-1667 */
 	@Test
 	public void cmdSolveSystem() {
