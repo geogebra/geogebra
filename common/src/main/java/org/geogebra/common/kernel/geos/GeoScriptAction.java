@@ -90,8 +90,7 @@ public class GeoScriptAction extends GeoElement {
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		// TODO Auto-generated method stub
-		return null;
+		return command.toValueString(tpl);
 	}
 
 	@Override

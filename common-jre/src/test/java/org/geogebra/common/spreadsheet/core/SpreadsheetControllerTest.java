@@ -375,6 +375,17 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
     }
 
     @Test
+    public void testTabCommitsCellEditorChanges() {
+        tabularData.setContent(0, 0, "1");
+        simulateCellMouseClick(0, 0, 2);
+        assertTrue(controller.isEditorActive());
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_0);
+        simulateKeyPressInCellEditor(JavaKeyCodes.VK_TAB);
+        assertFalse(controller.isEditorActive());
+        assertEquals("10", tabularData.contentAt(0, 0));
+    }
+
+    @Test
     public void testCancelDoesntCommitCellEditorChanges() {
         tabularData.setContent(0, 0, "1");
         simulateCellMouseClick(0, 0, 2);

@@ -19,6 +19,7 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.config.AppConfigCas;
@@ -126,9 +127,15 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 	private void swapConfig(AppConfig config) {
 		CommandDispatcher commandDispatcher =
 				getKernel().getAlgebraProcessor().getCommandDispatcher();
-		commandDispatcher.removeCommandFilter(getApp().getConfig().getCommandFilter());
+		CommandFilter commandFilter = getApp().getConfig().getCommandFilter();
+		if (commandFilter != null) {
+			commandDispatcher.removeCommandFilter(commandFilter);
+		}
 		getApp().setConfig(config);
-		commandDispatcher.addCommandFilter(getApp().getConfig().getCommandFilter());
+		commandFilter = getApp().getConfig().getCommandFilter();
+		if (commandFilter != null) {
+			commandDispatcher.addCommandFilter(commandFilter);
+		}
 		getApp().resetCommandDict();
 	}
 

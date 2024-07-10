@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.inputfield;
 
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.main.localization.AutocompleteProvider;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.MatchedString;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.Shades;
@@ -63,7 +64,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 		FlowPanel heading = new FlowPanel();
 		heading.addStyleName("autocompleteSyntaxHeading");
 		heading.add(new Label(command.getCommand()));
-		if (!getApp().isExamStarted()) {
+		if (!GlobalScope.examController.isExamActive()) {
 			heading.add(createHelpButton(command));
 		}
 		return heading;

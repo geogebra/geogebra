@@ -1,4 +1,4 @@
-package org.geogebra.common.properties.impl.objects.collection;
+package org.geogebra.common.properties.impl.collections;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -9,13 +9,15 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyValueObserver;
 import org.geogebra.common.properties.ValuedProperty;
 
-abstract class AbstractTypedPropertyCollection<T extends ValuedProperty<S>, S> implements
+abstract class AbstractValuedPropertyCollection<T extends ValuedProperty<S>, S> implements
 		ValuedProperty<S> {
 
 	private final T[] properties;
 	private final Set<PropertyValueObserver> observers = new HashSet<>();
+	private boolean frozen = false;
+	private S previousValue = null;
 
-	AbstractTypedPropertyCollection(T[] properties) {
+	AbstractValuedPropertyCollection(T[] properties) {
 		if (properties.length == 0) {
 			throw new IllegalArgumentException("Properties must have at least a single property");
 		}
@@ -25,6 +27,11 @@ abstract class AbstractTypedPropertyCollection<T extends ValuedProperty<S>, S> i
 	@Override
 	public String getName() {
 		return getFirstProperty().getName();
+	}
+
+	@Override
+	public String getRawName() {
+		return getFirstProperty().getRawName();
 	}
 
 	protected T getFirstProperty() {
@@ -69,19 +76,51 @@ abstract class AbstractTypedPropertyCollection<T extends ValuedProperty<S>, S> i
 
 	@Override
 	public void setValue(S value) {
+		if (isFrozen()) {
+			return;
+		}
 		callProperty(property -> property.setValue(value));
 		notifyObservers(observer -> observer.onDidSetValue(this));
 	}
 
 	@Override
 	public void beginSetValue() {
+		if (isFrozen()) {
+			return;
+		}
 		callProperty(ValuedProperty::beginSetValue);
 		notifyObservers(observer -> observer.onBeginSetValue(this));
 	}
 
 	@Override
 	public void endSetValue() {
+		if (isFrozen()) {
+			return;
+		}
 		callProperty(ValuedProperty::endSetValue);
 		notifyObservers(observer -> observer.onEndSetValue(this));
+	}
+
+	@Override
+	public boolean isFrozen() {
+		return frozen;
+	}
+
+	@Override
+	public void setFrozen(boolean frozen) {
+		this.frozen = frozen;
+	}
+
+	@Override
+	public void freezeValue(S fixedValue) {
+		previousValue = getValue();
+		setValue(fixedValue);
+		setFrozen(true);
+	}
+
+	@Override
+	public void unfreezeValue() {
+		setFrozen(false);
+		setValue(previousValue);
 	}
 }

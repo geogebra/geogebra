@@ -228,9 +228,6 @@
 		&:hover {
 			background-color: var(--ggb-dark-color);
 		}
-		&.keyboardFocus:focus {
-			outline: colors.$focus-black 5px auto;
-		}
 	}
 
 	.mowPlusButton{

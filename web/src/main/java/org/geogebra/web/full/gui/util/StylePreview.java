@@ -1,11 +1,8 @@
 package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.euclidian.EuclidianStatic;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.web.html5.awt.GGraphics2DW;
-import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.user.client.ui.Composite;
 
@@ -16,10 +13,10 @@ import org.gwtproject.user.client.ui.Composite;
  *
  */
 public abstract class StylePreview extends Composite {
-	/** The value canvas next to the slider */
-	protected GGraphics2DWI g2;
-	private int marginX = 0;
-	private int marginY;
+	/** The value canvas */
+	private final GGraphics2DW g2;
+	private final int marginY;
+	private final int width;
 
 	/**
 	 * @param width
@@ -29,11 +26,11 @@ public abstract class StylePreview extends Composite {
 	 */
 	public StylePreview(int width, int height) {
 		Canvas canvas = Canvas.createIfSupported();
-		canvas.setCoordinateSpaceWidth(width);
-		canvas.setCoordinateSpaceHeight(height);
 		initWidget(canvas);
 		g2 = new GGraphics2DW(canvas);
-		setMarginY(height / 2 - 1);
+		g2.setCoordinateSpaceSize(width, height);
+		marginY = height / 2 - 1;
+		this.width = width;
 	}
 
 	/**
@@ -43,30 +40,10 @@ public abstract class StylePreview extends Composite {
 		g2.clearAll();
 	}
 
-	public int getMarginX() {
-		return marginX;
-	}
-
-	public void setMarginX(int marginX) {
-		this.marginX = marginX;
-	}
-
-	public int getMarginY() {
-		return marginY;
-	}
-
-	public void setMarginY(int marginY) {
-		this.marginY = marginY;
-	}
-
-	protected void drawStylePreview(GColor color, int thickness, int style, int width) {
-		GGeneralPath gp = AwtFactory.getPrototype().newGeneralPath();
+	protected void drawStylePreview(GColor color, int thickness, int style) {
 		g2.setStroke(EuclidianStatic.getStroke(thickness,
 				style));
 		g2.setColor(color);
-		gp.reset();
-		gp.moveTo(marginX, marginY);
-		gp.lineTo(marginX + width, marginY);
-		g2.draw(gp);
+		g2.drawStraightLine(0, marginY, width, marginY);
 	}
 }

@@ -1,21 +1,28 @@
 package org.geogebra.common.main.exam.event;
 
+import java.util.Date;
+
 /**
  * This class represents a cheating event.
  * A cheating event consists of a cheating action and the time of this action.
  */
-public class CheatingEvent {
+public final class CheatingEvent {
 
-    private CheatingAction action;
-    private Long time;
+    private final CheatingAction action;
+    private final Date date;
 
     /**
      * @param action action
      * @param time time
      */
-    CheatingEvent(CheatingAction action, Long time) {
+    CheatingEvent(CheatingAction action, Long timemillis) {
         this.action = action;
-        this.time = time;
+        this.date = new Date(timemillis);
+    }
+
+    CheatingEvent(CheatingAction action, Date date) {
+        this.action = action;
+        this.date = date;
     }
 
     public CheatingAction getAction() {
@@ -23,6 +30,10 @@ public class CheatingEvent {
     }
 
     public Long getTime() {
-        return time;
+        return date.getTime();
+    }
+
+    public Date getDate() {
+        return date;
     }
 }

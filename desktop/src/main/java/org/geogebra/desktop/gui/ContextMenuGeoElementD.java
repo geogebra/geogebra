@@ -772,8 +772,9 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			geoRecordToSpreadSheet = getGeo();
 		} else {
 			geoRecordToSpreadSheet = app.getKernel().getAlgoDispatcher()
-					.list(null, getGeos(), false);
+					.list(getGeos(), false);
 			geoRecordToSpreadSheet.setAuxiliaryObject(true);
+			geoRecordToSpreadSheet.setLabel(null);
 		}
 
 		((GuiManagerD) app.getGuiManager()).getSpreadsheetView()

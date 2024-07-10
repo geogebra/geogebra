@@ -1,9 +1,9 @@
-package org.geogebra.common.properties.impl.objects.collection;
+package org.geogebra.common.properties.impl.collections;
 
 import org.geogebra.common.properties.EnumeratedProperty;
 
 abstract public class EnumeratedPropertyCollection<T extends EnumeratedProperty<S>, S>
-		extends AbstractTypedPropertyCollection<T, S> implements EnumeratedProperty<S> {
+		extends AbstractValuedPropertyCollection<T, S> implements EnumeratedProperty<S> {
 
 	public EnumeratedPropertyCollection(T[] properties) {
 		super(properties);
