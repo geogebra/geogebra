@@ -121,6 +121,10 @@ public class TopbarController {
 		return ZoomController.needsFullscreenButton(appW);
 	}
 
+	/**
+	 * on fullscreen press
+	 * @param fullscreenBtn - fullscreen button
+	 */
 	public void onFullscreenOn(IconButton fullscreenBtn) {
 		zoomController.onFullscreenPressed(fullscreenBtn.getParent().getElement(),
 				getFullscreenBtnSelectCB(fullscreenBtn));
@@ -130,8 +134,8 @@ public class TopbarController {
 		return fullScreenActive -> {
 			if (fullscreenBtn != null && fullscreenBtn.isActive() != fullScreenActive) {
 				fullscreenBtn.setIcon(fullScreenActive
-						? ZoomPanelResources.INSTANCE.fullscreen_exit_black18()
-						: ZoomPanelResources.INSTANCE.fullscreen_black18());
+						? ZoomPanelResources.INSTANCE.fullscreen_black18()
+						: ZoomPanelResources.INSTANCE.fullscreen_exit_black18());
 			}
 		};
 	}

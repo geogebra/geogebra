@@ -9,7 +9,6 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
-import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.GeoGebraElement;
@@ -158,10 +157,8 @@ public class ZoomController {
 	}
 
 	/**
-	 * @param elem
-	 *            element
-	 * @param fullscreenButton
-	 *            fullscreen button
+	 * @param elem - element
+	 * @param fullscreenBtnSelectCB - fullscreen button select callback
 	 */
 	public void onExitFullscreen(Element elem, Consumer<Boolean> fullscreenBtnSelectCB) {
 		setFullScreenActive(false, fullscreenBtnSelectCB);
@@ -189,11 +186,8 @@ public class ZoomController {
 
 	/**
 	 * Full screen button handler.
-	 *
-	 * @param elem
-	 *            element
-	 * @param fullscreenBtnSelectCB
-	 * 			  callback to update button select state
+	 * @param elem - element
+	 * @param fullscreenBtnSelectCB - callback to update button select state
 	 */
 	public void onFullscreenPressed(final Element elem,
 			Consumer<Boolean> fullscreenBtnSelectCB) {
