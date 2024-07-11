@@ -31,7 +31,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	private final LongTouchManager longTouchManager;
 
 	private boolean dragModeMustBeSelected = false;
-	private int deltaSum = 0;
 	private int moveCounter = 0;
 	private boolean dragModeIsRightClick = false;
 	private final LinkedList<PointerEvent> mousePool = new LinkedList<>();
@@ -96,21 +95,12 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		int x = (int) Math.round(event.offsetX / getZoomLevel());
 		int y = (int) Math.round(event.offsetY / getZoomLevel());
 		boolean shiftOrMeta = event.shiftKey || event.metaKey;
-		if (delta == 0) {
-			deltaSum += delta;
-			if (Math.abs(deltaSum) > 40) {
-				double ds = deltaSum;
-				deltaSum = 0;
-				ec.wrapMouseWheelMoved(x, y, ds,
-						shiftOrMeta, event.altKey);
-			}
-			// normal scrolling
-		} else {
-			deltaSum = 0;
-			ec.wrapMouseWheelMoved(x, y, delta,
+		boolean consumed = false;
+		if (delta != 0) {
+			consumed = ec.wrapMouseWheelMoved(x, y, delta,
 					shiftOrMeta, event.altKey);
 		}
-		if (ec.allowMouseWheel(shiftOrMeta)) {
+		if (consumed || ec.allowMouseWheel(shiftOrMeta)) {
 			event.preventDefault();
 		}
 	}

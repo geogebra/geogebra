@@ -10616,27 +10616,23 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            whether shift or meta keys are pressed
 	 * @param alt
 	 *            whether alt is pressed
+	 * @return whether event was handled
 	 */
-	public void wrapMouseWheelMoved(int x, int y, double delta,
+	public boolean wrapMouseWheelMoved(int x, int y, double delta,
 			boolean shiftOrMeta, boolean alt) {
-		if (isTextfieldHasFocus()) {
-			return;
-		}
-
-		if (penMode(mode)) {
-			return;
+		if (isTextfieldHasFocus() || penMode(mode)) {
+			return false;
 		}
 
 		DrawDropDownList combo = view.getOpenedComboBox();
 		if (combo != null) {
-			combo.onMouseWheel(delta);
-			return;
+			return combo.onMouseWheel(delta);
 		}
 		app.maySetCoordSystem();
 
 		// don't allow mouse wheel zooming for applets if mode is not zoom mode
 		if (!allowMouseWheel(shiftOrMeta)) {
-			return;
+			return false;
 		}
 
 		setMouseLocation(alt, x, y);
@@ -10660,6 +10656,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		view.setAnimatedCoordSystem(
 				px, py, factor, view.getXscale() * factor, 4, false);
 		app.setUnsaved();
+		return true;
 	}
 
 	/**
