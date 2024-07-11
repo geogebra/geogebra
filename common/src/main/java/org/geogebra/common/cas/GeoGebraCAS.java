@@ -728,8 +728,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		if ("SolveODE".equals(name) && args.size() >= 2) {
 			return sbCASCommand.toString().replaceAll("unicode39u", "\'");
 			// return switchVarsToSolveODE(args, sbCASCommand);
-		} else if ("Distance".equals(name)) {
-			return sbCASCommand.toString().replace("ggbvect", "point");
 		} else if ("Solutions".equals(name) && args.size() == 1) {
 			return switchVarsToSolutions(args, sbCASCommand);
 		}
