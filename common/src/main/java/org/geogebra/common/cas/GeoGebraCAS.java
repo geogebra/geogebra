@@ -679,7 +679,15 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 									((MyList) (args.get(pos).getLeft()))
 											.get(0),
 									symbolic, tplToUse));
-						} else {
+						} else
+//							if ("Distance".equals(name) && args.get(1).getLeft() instanceof GeoSymbolic
+//						&& pos == 1) {
+//							GeoSymbolic symbolic1 = (GeoSymbolic) args.get(1).getLeft();
+//							if  (symbolic1.getTwinGeo().isGeoLine()) {
+//								sbCASCommand
+//										.append(toString(args.get(1).getLeft(), symbolic, tplToUse));
+//							}
+						{
 
 							sbCASCommand
 									.append(toString(ev, symbolic, tplToUse));
@@ -720,6 +728,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		if ("SolveODE".equals(name) && args.size() >= 2) {
 			return sbCASCommand.toString().replaceAll("unicode39u", "\'");
 			// return switchVarsToSolveODE(args, sbCASCommand);
+		} else if ("Distance".equals(name)) {
+			return sbCASCommand.toString().replace("ggbvect", "point");
 		} else if ("Solutions".equals(name) && args.size() == 1) {
 			return switchVarsToSolutions(args, sbCASCommand);
 		}
