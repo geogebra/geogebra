@@ -20,6 +20,7 @@ import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
+import org.gwtproject.user.client.ui.Widget;
 
 public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemListener {
 	private final Localization loc;
@@ -137,9 +138,10 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 	}
 
 	private void addSettingsButton() {
-		if (appletParams.getDataParamAllowStyleBar()) {
-			addSmallPressButton(MaterialDesignResources.INSTANCE.gear(), "Settings",
-					() -> controller.onSettingsOpen());
+		if (appletParams.getDataParamAllowStyleBar()||true) {
+			IconButton settingsBtn = addSmallPressButton(MaterialDesignResources.INSTANCE.gear(),
+					"Settings", null);
+			settingsBtn.addFastClickHandler(source -> controller.onSettingsOpen(settingsBtn));
 		}
 	}
 

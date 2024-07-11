@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.web.full.gui.ContextMenuGraphicsWindowW;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.zoompanel.ZoomController;
@@ -141,7 +142,21 @@ public class TopbarController {
 		};
 	}
 
-	public void onSettingsOpen() {
+	/**
+	 * on settings press
+	 * @param anchor - settings button
+	 */
+	public void onSettingsOpen(IconButton anchor) {
+		if (!anchor.isActive()) {
+			ContextMenuGraphicsWindowW settings
+					= new ContextMenuGraphicsWindowW(appW, 0, 0, false);
+			settings.getWrappedPopup().showAtPoint((int) (anchor.getAbsoluteLeft()
+					- appW.getAbsLeft()), (int) (anchor.getAbsoluteTop()
+					+ anchor.getOffsetHeight() - appW.getAbsTop()));
 
+			settings.getWrappedPopup().getPopupPanel().addCloseHandler(close
+					-> anchor.setActive(false));
+			anchor.setActive(true);
+		}
 	}
 }
