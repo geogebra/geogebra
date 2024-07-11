@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
@@ -317,7 +316,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.startExam(ExamType.CVTE, null);
 
 		// check syntax restrictions on AutoCompleteProvider
-		// - allow only Circle(<Center>, <Radius>), filter out all other variants
+		// - allow only Circle(<Center>, <Radius>) syntax
 		List<AutocompleteProvider.Completion> completions = autocompleteProvider
 				.getCompletions("circle").collect(Collectors.toList());
 		assertEquals(1, completions.size());
@@ -329,8 +328,10 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		// - (indirectly) via checkIsAllowedByCommandArgumentFilters
 		evaluate("A=(1,1)");
 		evaluate("B=(2,2)");
-		GeoElementND[] circle = evaluate("Circle(A,B)");
-		assertNull(circle);
+		GeoElementND[] circlePointPoint = evaluate("Circle(A, B)");
+		assertNull(circlePointPoint);
+		GeoElementND[] circlePointRadius = evaluate("Circle(A, 1)");
+		assertNotNull(circlePointRadius);
 
 		// check tool restrictions
 		ToolCollection availableTools = app.getAvailableTools();

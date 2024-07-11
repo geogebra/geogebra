@@ -5,6 +5,8 @@ import java.util.Set;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.cvte.CvteCommandArgumentFilter;
+import org.geogebra.common.exam.restrictions.cvte.CvteSyntaxFilter;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.commands.Commands;
@@ -14,7 +16,7 @@ import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 
-public class CvteExamRestrictions extends ExamRestrictions {
+final class CvteExamRestrictions extends ExamRestrictions {
 
 	CvteExamRestrictions() {
 		super(ExamType.CVTE,
@@ -84,6 +86,7 @@ public class CvteExamRestrictions extends ExamRestrictions {
 
 	private static ToolCollectionFilter createToolsFilter() {
 		// Source: https://docs.google.com/spreadsheets/d/1xUnRbtDPGtODKcYhM4tx-uD4G8B1wcpGgSkT4iX8BJA/edit?gid=1199288464#gid=1199288464
+		// note: this is the set of *excluded* tools
 		return new ToolCollectionSetFilter(
 				EuclidianConstants.MODE_POINT,
 				EuclidianConstants.MODE_FITLINE,
