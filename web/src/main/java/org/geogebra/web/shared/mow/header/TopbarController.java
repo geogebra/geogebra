@@ -140,4 +140,8 @@ public class TopbarController {
 			}
 		};
 	}
+
+	public void onSettingsOpen() {
+
+	}
 }

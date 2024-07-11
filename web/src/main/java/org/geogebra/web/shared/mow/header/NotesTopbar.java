@@ -59,6 +59,7 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 		addUndoRedo();
 		addZoomButtons();
 		addFullscreenButton();
+		addSettingsButton();
 	}
 
 	private void addMenuButton() {
@@ -132,6 +133,13 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 			});
 
 			addDivider();
+		}
+	}
+
+	private void addSettingsButton() {
+		if (appletParams.getDataParamAllowStyleBar()) {
+			addSmallPressButton(MaterialDesignResources.INSTANCE.gear(), "Settings",
+					() -> controller.onSettingsOpen());
 		}
 	}
 
