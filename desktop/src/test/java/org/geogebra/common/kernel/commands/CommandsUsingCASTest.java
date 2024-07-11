@@ -249,7 +249,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		t("Asymptote[ (2 - x) / ((x - 2) (x - 4)) ]", "{y = 0, x = 4}");
 
 		t("Asymptote[ 5+exp(-x^2) ]", "{y = 5}");
-		t("Asymptote[ (x^3-9+4)/(2x^3+6x+7) ]", "{y = 0.5}");
+		tRound("Asymptote[ (x^3-9+4)/(2x^3+6x+7) ]", "{y = 0.5, x = -0.91299}");
 		tRound("Asymptote[ 3 atan(2x) ]", "{y = 4.71239, y = -4.71239}");
 		tRound("Asymptote[ (9-4x^2)/(1+5x+5x^2)]",
 				"{y = -0.8, x = -0.72361, x = -0.27639}");
