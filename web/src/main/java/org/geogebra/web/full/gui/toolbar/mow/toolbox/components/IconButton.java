@@ -126,17 +126,18 @@ public class IconButton extends StandardButton implements SetLabels {
 
 	/**
 	 * Small press icon buttons, used in notes topbar
-	 * @param loc - localization
+	 * @param appW - application
 	 * @param image - svg
 	 * @param ariaLabel - aria label
 	 * @param clickHandler - click handler
 	 */
-	public IconButton(Localization loc, Runnable clickHandler, SVGResource image,
+	public IconButton(AppW appW, Runnable clickHandler, SVGResource image,
 			String ariaLabel) {
-		this(loc, image, ariaLabel);
+		this(appW.getLocalization(), image, ariaLabel);
 		dataTitleTransKey = ariaLabel;
-		AriaHelper.setTitle(this, loc.getMenu(dataTitleTransKey));
+		AriaHelper.setTitle(this, appW.getLocalization().getMenu(dataTitleTransKey));
 		addStyleName("small");
+		selectionColor = getSelectionColor(appW);
 		addFastClickHandler((event) -> {
 			if (clickHandler != null) {
 				clickHandler.run();
