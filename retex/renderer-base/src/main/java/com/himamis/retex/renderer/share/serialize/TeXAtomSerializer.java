@@ -139,7 +139,7 @@ public class TeXAtomSerializer {
 			}
 			String accentCommand = ((IsAccentedAtom) root).getCommand();
 			if (accentCommand != null) {
-				Character ret = CharMapping.getReverse(accentCommand + "{" + content + "}");
+				Character ret = CharMapping.getReverse("\\" + accentCommand + "{" + content + "}");
 				if (ret != null) {
 					return String.valueOf(ret);
 				}

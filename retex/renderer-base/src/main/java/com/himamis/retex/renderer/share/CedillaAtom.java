@@ -90,7 +90,7 @@ public class CedillaAtom extends Atom implements IsAccentedAtom {
 
 	@Override
 	public String getCommand() {
-		return "\\c";
+		return "c";
 	}
 
 	@Override

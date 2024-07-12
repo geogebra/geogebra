@@ -24,7 +24,8 @@ public class Normalizer extends NormalizerMinimal {
 	@Override
 	public String transform(String s) {
 		String ret = StringUtil.toLowerCaseUS(s);
-		return java.text.Normalizer.normalize(ret, java.text.Normalizer.Form.NFD);
+		return java.text.Normalizer.normalize(ret, java.text.Normalizer.Form.NFD)
+				.replaceAll("[\u0300-\u036F]", "");
 	}
 
 }

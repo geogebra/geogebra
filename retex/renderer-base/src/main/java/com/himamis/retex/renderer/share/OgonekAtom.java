@@ -88,7 +88,7 @@ public class OgonekAtom extends Atom implements IsAccentedAtom {
 
 	@Override
 	public String getCommand() {
-		return "\\k";
+		return "k";
 	}
 
 	@Override
