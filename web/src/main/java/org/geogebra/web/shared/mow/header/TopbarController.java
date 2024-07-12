@@ -6,8 +6,10 @@ import java.util.function.Consumer;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.web.full.gui.ContextMenuGraphicsWindowW;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.css.ZoomPanelResources;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.zoompanel.ZoomController;
 import org.geogebra.web.html5.main.AppW;
 
@@ -16,6 +18,7 @@ public class TopbarController {
 	private ZoomController zoomController;
 	private final EuclidianView view;
 	private final Runnable deselectDragBtn;
+	private ContextMenuGraphicsWindowW settingsContextMenu;
 
 	/**
 	 * Controller
@@ -137,5 +140,41 @@ public class TopbarController {
 						: ZoomPanelResources.INSTANCE.fullscreen_black18());
 			}
 		};
+	}
+
+	/**
+	 * on settings press
+	 * @param anchor - settings button
+	 */
+	public void onSettingsOpen(IconButton anchor) {
+		initSettingsContextMenu(anchor);
+		toggleSettingsContextMenu(anchor);
+	}
+
+	private void initSettingsContextMenu(IconButton anchor) {
+		if (settingsContextMenu == null) {
+			settingsContextMenu = new ContextMenuGraphicsWindowW(appW, 0, 0, false);
+			getSettingsContextMenu().setAutoHideEnabled(false);
+			getSettingsContextMenu().addCloseHandler(event -> {
+				anchor.setActive(false);
+			});
+		}
+	}
+
+	private void toggleSettingsContextMenu(IconButton anchor) {
+		boolean settingsShowing  = getSettingsContextMenu().isShowing();
+		if (settingsShowing) {
+			settingsContextMenu.getWrappedPopup().getPopupPanel().hide();
+		} else {
+			appW.registerPopup(getSettingsContextMenu());
+			settingsContextMenu.getWrappedPopup().showAtPoint((int) (anchor.getAbsoluteLeft()
+					- appW.getAbsLeft()), (int) (anchor.getAbsoluteTop()
+					+ anchor.getOffsetHeight() - appW.getAbsTop()));
+		}
+		anchor.setActive(!settingsShowing);
+	}
+
+	private final GPopupPanel getSettingsContextMenu() {
+		return settingsContextMenu.getWrappedPopup().getPopupPanel();
 	}
 }

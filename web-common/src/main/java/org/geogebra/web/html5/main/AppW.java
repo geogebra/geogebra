@@ -2914,7 +2914,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public boolean allowStylebar() {
 		return !isApplet()
 				|| getAppletParameters().getDataParamShowMenuBar(false)
-				|| getAppletParameters().getDataParamAllowStyleBar(false);
+				|| getAppletParameters().getDataParamAllowStyleBar();
 	}
 
 	@Override
