@@ -134,7 +134,7 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 	}
 
 	private void addSettingsButton() {
-		if (appletParams.getDataParamAllowStyleBar()) {
+		if (controller.getApp().allowStylebar()) {
 			IconButton settingsBtn = addSmallPressButton(MaterialDesignResources.INSTANCE.gear(),
 					"Settings", null);
 			settingsBtn.addFastClickHandler(source -> controller.onSettingsOpen(settingsBtn));
