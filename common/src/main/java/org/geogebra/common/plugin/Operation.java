@@ -184,7 +184,7 @@ public enum Operation {
 				return bool;
 			}
 			throw ev.illegalBinary(lt, rt, Errors.IllegalBoolean,
-					ExpressionNodeConstants.strOR);
+					ExpressionNodeConstants.strXOR);
 		}
 	},
 	AND {
