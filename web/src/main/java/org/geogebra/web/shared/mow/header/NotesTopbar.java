@@ -7,7 +7,6 @@ import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.Localization;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
@@ -22,7 +21,6 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 
 public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemListener {
-	private final Localization loc;
 	private final AppletParameters appletParams;
 	private TopbarController controller;
 	private final List<IconButton> buttons = new ArrayList<>();
@@ -44,7 +42,6 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 	 * @param appW - application
 	 */
 	public NotesTopbar(AppW appW) {
-		this.loc = appW.getLocalization();
 		this.appletParams = appW.getAppletParameters();
 		controller = new TopbarController(appW, deselectDragBtn);
 		if (appW.getActiveEuclidianView() != null) {
