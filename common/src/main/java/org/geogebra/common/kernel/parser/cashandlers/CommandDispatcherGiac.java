@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.GetItem;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
@@ -269,7 +268,7 @@ public class CommandDispatcherGiac {
 	 * @param kernel
 	 *            kernel
 	 */
-	public static ExpressionNode processCommand(String cmdName, GetItem args,
+	public static ExpressionNode processCommand(String cmdName, MyList args,
 			Kernel kernel) {
 		GiacCommands cmd = null;
 		if (cmdName == null || cmdName.startsWith(Kernel.TMP_VARIABLE_PREFIX)) {
@@ -298,7 +297,7 @@ public class CommandDispatcherGiac {
 				break;
 			case piecewise:
 
-				if (args.getLength() < 3) {
+				if (args.size() < 3) {
 					// eg Integral[Function[x^2,-2,3]]
 					return new ExpressionNode(kernel, Double.NaN);
 				}
@@ -313,7 +312,7 @@ public class CommandDispatcherGiac {
 			case Dirac:
 				return null; //fallback to GGB parser
 			case Psi:
-				if (args.getLength() == 1) {
+				if (args.size() == 1) {
 					// Psi(x) -> psi(x)
 					ret = new ExpressionNode(kernel, args.getItem(0),
 							Operation.PSI, null);
@@ -327,15 +326,15 @@ public class CommandDispatcherGiac {
 				break;
 
 			case ggbText:
-				if (args.getLength() == 1) {
+				if (args.size() == 1) {
 					return args.getItem(0).wrap();
 				}
 
 				throw new CASException("Giac: bad number of args for text(): "
-						+ args.getLength());
+						+ args.size());
 
 			case point:
-				switch (args.getLength()) {
+				switch (args.size()) {
 				case 2:
 					double a = args.getItem(0).evaluateDouble();
 					double b = args.getItem(1).evaluateDouble();
@@ -351,12 +350,12 @@ public class CommandDispatcherGiac {
 				default:
 					throw new CASException(
 							"Giac: bad number of args for point(): "
-									+ args.getLength());
+									+ args.size());
 				}
 
 			case hyperplan:
 
-				switch (args.getLength()) {
+				switch (args.size()) {
 				case 2:
 
 					ExpressionValue item0 = args.getItem(0).unwrap();
@@ -368,9 +367,9 @@ public class CommandDispatcherGiac {
 					}
 
 					MyList list1 = (MyList) item0;
-					double a = list1.getListElement(0).evaluateDouble();
-					double b = list1.getListElement(1).evaluateDouble();
-					double c = list1.getListElement(2).evaluateDouble();
+					double a = list1.get(0).evaluateDouble();
+					double b = list1.get(1).evaluateDouble();
+					double c = list1.get(2).evaluateDouble();
 					double constant;
 
 					if (item1.isGeoElement()
@@ -387,9 +386,9 @@ public class CommandDispatcherGiac {
 
 						MyList list2 = (MyList) item1;
 
-						double d = list2.getListElement(0).evaluateDouble();
-						double e = list2.getListElement(1).evaluateDouble();
-						double f = list2.getListElement(2).evaluateDouble();
+						double d = list2.get(0).evaluateDouble();
+						double e = list2.get(1).evaluateDouble();
+						double f = list2.get(2).evaluateDouble();
 
 						if (f != 0) {
 							constant = f * c;
@@ -425,14 +424,14 @@ public class CommandDispatcherGiac {
 				default:
 					throw new CASException(
 							"Giac: bad number of args for hyperplan(): "
-									+ args.getLength());
+									+ args.size());
 				}
 
 			case ggbvect:
 
 				ValidExpression vec;
 
-				switch (args.getLength()) {
+				switch (args.size()) {
 				case 2:
 
 					vec = new MyVecNode(kernel, args.getItem(0),
@@ -448,7 +447,7 @@ public class CommandDispatcherGiac {
 				default:
 					throw new CASException(
 							"Giac: bad number of args for ggbvect(): "
-									+ args.getLength());
+									+ args.size());
 
 				}
 
@@ -497,7 +496,7 @@ public class CommandDispatcherGiac {
 			case floor:
 			case ceiling:
 			case normal_icdf:
-				if (args.getLength() != 1) {
+				if (args.size() != 1) {
 
 					// eg Derivative[zeta(x)] -> Zeta(1,x) which GeoGebra
 					// doesn't support
@@ -547,7 +546,7 @@ public class CommandDispatcherGiac {
 				break;
 
 			case igamma:
-				if (args.getLength() == 2) {
+				if (args.size() == 2) {
 					ret = new ExpressionNode(kernel, args.getItem(0),
 							Operation.GAMMA_INCOMPLETE, args.getItem(1));
 				} else { // must be 3
@@ -559,11 +558,11 @@ public class CommandDispatcherGiac {
 				}
 				break;
 			case when:
-				if (args.getLength() == 2) {
+				if (args.size() == 2) {
 					// shouldn't get 2 arguments, but just in case
 					ret = new ExpressionNode(kernel, args.getItem(0),
 							Operation.IF, args.getItem(1));
-				} else if (args.getLength() == 3) {
+				} else if (args.size() == 3) {
 
 					ExpressionValue Else = args.getItem(2);
 
@@ -579,11 +578,11 @@ public class CommandDispatcherGiac {
 					}
 				} else {
 					throw new CASException("Giac: bad number of args for when:"
-							+ args.getLength());
+							+ args.size());
 				}
 				break;
 			case surd:
-				if (args.getLength() == 2) {
+				if (args.size() == 2) {
 
 					ExpressionValue arg1 = args.getItem(1);
 					double arg1Num = arg1.evaluateDouble();
@@ -601,16 +600,16 @@ public class CommandDispatcherGiac {
 					}
 				} else {
 					throw new CASException("Giac: bad number of args for surd:"
-							+ args.getLength());
+							+ args.size());
 				}
 				break;
 
 			case Beta:
-				switch (args.getLength()) {
+				switch (args.size()) {
 
 				default:
 					throw new CASException("Giac: bad number of args for beta:"
-							+ args.getLength());
+							+ args.size());
 				case 2:
 					ret = new ExpressionNode(kernel, args.getItem(0),
 							Operation.BETA, args.getItem(1));
@@ -668,7 +667,7 @@ public class CommandDispatcherGiac {
 				break;
 
 			case diff:
-				double deg = args.getLength() == 3 ? args.getItem(2).evaluateDouble() : 1;
+				double deg = args.size() == 3 ? args.getItem(2).evaluateDouble() : 1;
 
 				if (deg > 1 && DoubleUtil.isInteger(deg)) {
 					return new ExpressionNode(kernel,

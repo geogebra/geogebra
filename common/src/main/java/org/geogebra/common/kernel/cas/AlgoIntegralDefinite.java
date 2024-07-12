@@ -773,9 +773,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		if (n < 1) {
 			return Double.NaN;
 		}
-		double max = keyList.getListElement(keyList.size() - 1)
+		double max = keyList.get(keyList.size() - 1)
 				.evaluateDouble();
-		double min = keyList.getListElement(0).evaluateDouble();
+		double min = keyList.get(0).evaluateDouble();
 		if (max < upperLimit || min > lowerLimit) {
 			return Double.NaN;
 		}
@@ -786,7 +786,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		// find (approx) start and end
 		// binary search would be more efficient
 		for (int i = 0; i < n; i++) {
-			double x = keyList.getListElement(i).evaluateDouble();
+			double x = keyList.get(i).evaluateDouble();
 
 			if (x < lowerLimit) {
 				start = i + 1;
@@ -813,10 +813,10 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		}
 
 		for (int i = start; i < end - 1; i++) {
-			x1 = keyList.getListElement(i).evaluateDouble();
-			x2 = keyList.getListElement(i + 1).evaluateDouble();
-			y1 = valueList.getListElement(i).evaluateDouble();
-			y2 = valueList.getListElement(i + 1).evaluateDouble();
+			x1 = keyList.get(i).evaluateDouble();
+			x2 = keyList.get(i + 1).evaluateDouble();
+			y1 = valueList.get(i).evaluateDouble();
+			y2 = valueList.get(i + 1).evaluateDouble();
 			// App.error("i = " + i + "x1 = " + x1 + " x2 = " + x2 + " y1 = " +
 			// y1
 			// + " y2 = " + y2 + " area = " + trapeziumArea(x1, x2, y1, y2));
@@ -825,10 +825,10 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 		}
 
-		x1 = keyList.getListElement(start - 1).evaluateDouble();
-		x2 = keyList.getListElement(start).evaluateDouble();
-		y1 = valueList.getListElement(start - 1).evaluateDouble();
-		y2 = valueList.getListElement(start).evaluateDouble();
+		x1 = keyList.get(start - 1).evaluateDouble();
+		x2 = keyList.get(start).evaluateDouble();
+		y1 = valueList.get(start - 1).evaluateDouble();
+		y2 = valueList.get(start).evaluateDouble();
 
 		// if (lowerLimit < x1 || lowerLimit > x2) {
 		// App.error(
@@ -849,8 +849,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		// y2
 		// + " area = " + trapeziumArea(x1, x2, y1, y2));
 
-		x1 = keyList.getListElement(end - 1).evaluateDouble();
-		y1 = valueList.getListElement(end - 1).evaluateDouble();
+		x1 = keyList.get(end - 1).evaluateDouble();
+		y1 = valueList.get(end - 1).evaluateDouble();
 
 		// if (upperLimit < x1 || upperLimit > x2) {
 		// App.error(

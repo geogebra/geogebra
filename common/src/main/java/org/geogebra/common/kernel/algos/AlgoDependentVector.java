@@ -36,22 +36,6 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 	private GeoVec2D temp;
 
 	/**
-	 * Creates new AlgoDependentVector
-	 * 
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            output label
-	 * @param root
-	 *            expression
-	 */
-	public AlgoDependentVector(Construction cons, String label,
-			ExpressionNode root) {
-		this(cons, root);
-		v.setLabel(label);
-	}
-
-	/**
 	 * @param cons
 	 *            construction
 	 * @param root

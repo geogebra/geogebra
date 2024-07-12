@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
@@ -46,7 +45,6 @@ import org.geogebra.common.kernel.algos.AlgoSemicircle;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.ListValue;
@@ -194,17 +192,6 @@ public class GeoList extends GeoElement
 		setBackgroundColor(null);
 	}
 
-	/**
-	 * Copy constructor
-	 *
-	 * @param list
-	 *            list to copy
-	 */
-	public GeoList(final GeoList list) {
-		this(list.cons, list.size());
-		set(list);
-	}
-
 	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.LIST;
@@ -222,7 +209,9 @@ public class GeoList extends GeoElement
 
 	@Override
 	public GeoList copy() {
-		return new GeoList(this);
+		GeoList copy = new GeoList(this.cons, this.size());
+		copy.set(this);
+		return copy;
 	}
 
 	@Override
@@ -412,7 +401,7 @@ public class GeoList extends GeoElement
 		}
 		super.removeColorFunction();
 
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 
@@ -429,7 +418,7 @@ public class GeoList extends GeoElement
 	public final void setColorFunction(final GeoList col) {
 		super.setColorFunction(col);
 
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 
@@ -447,7 +436,7 @@ public class GeoList extends GeoElement
 	public final void setColorSpace(final int colorSpace) {
 		super.setColorSpace(colorSpace);
 
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 
@@ -471,7 +460,7 @@ public class GeoList extends GeoElement
 			throws CircularDefinitionException {
 		super.setShowObjectCondition(bool);
 
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 
@@ -496,7 +485,7 @@ public class GeoList extends GeoElement
 		}
 
 		// set visual style
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 		final int size = elements.size();
@@ -511,7 +500,7 @@ public class GeoList extends GeoElement
 	@Override
 	public void setObjColor(final GColor color) {
 		super.setObjColor(color);
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 
@@ -528,7 +517,7 @@ public class GeoList extends GeoElement
 	public void setBackgroundColor(final GColor color) {
 		super.setBackgroundColor(color);
 
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 
@@ -545,7 +534,7 @@ public class GeoList extends GeoElement
 	public void setEuclidianVisible(final boolean visible) {
 		super.setEuclidianVisible(visible);
 
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 
@@ -581,9 +570,8 @@ public class GeoList extends GeoElement
 		TreeSet<GeoElement> lists = cons.getGeoSetLabelOrder(GeoClass.LIST);
 
 		if (lists != null) {
-			Iterator<GeoElement> it = lists.iterator();
-			while (it.hasNext()) {
-				GeoList list = (GeoList) it.next();
+			for (GeoElement geoElement : lists) {
+				GeoList list = (GeoList) geoElement;
 				if (list.isEuclidianVisible() && list.drawAsComboBox()) {
 					count++;
 				}
@@ -604,7 +592,7 @@ public class GeoList extends GeoElement
 	@Override
 	public void setVisibility(int viewId, boolean setVisible) {
 		super.setVisibility(viewId, setVisible);
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 
@@ -827,6 +815,7 @@ public class GeoList extends GeoElement
 	 *            element position
 	 * @return the element at the specified position in this list.
 	 */
+	@Override
 	final public GeoElement get(final int index) {
 		return elements.get(index);
 	}
@@ -938,7 +927,7 @@ public class GeoList extends GeoElement
 		return sb;
 	}
 
-	private StringBuilder appendElementsForXml(StringBuilder sb) {
+	private void appendElementsForXml(StringBuilder sb) {
 		for (int i = 0; i < elements.size(); i++) {
 			final GeoElement geo = elements.get(i);
 			if (i != 0) {
@@ -946,7 +935,6 @@ public class GeoList extends GeoElement
 			}
 			StringUtil.encodeXML(sb, geo.getLabel(StringTemplate.xmlTemplate));
 		}
-		return sb;
 	}
 
 	@Override
@@ -1138,7 +1126,7 @@ public class GeoList extends GeoElement
 	public void setLineThickness(final int thickness) {
 		super.setLineThickness(thickness);
 
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 
@@ -1156,7 +1144,7 @@ public class GeoList extends GeoElement
 	 */
 	@Override
 	public int getMinimumLineThickness() {
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return 1;
 		}
 
@@ -1176,7 +1164,7 @@ public class GeoList extends GeoElement
 	public void setLineType(final int type) {
 		super.setLineType(type);
 
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 
@@ -1193,7 +1181,7 @@ public class GeoList extends GeoElement
 	public void setLineTypeHidden(final int type) {
 		super.setLineTypeHidden(type);
 
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 
@@ -1209,7 +1197,7 @@ public class GeoList extends GeoElement
 	@Override
 	public void setPointSize(final int size) {
 		pointSize = size;
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 
@@ -1230,7 +1218,7 @@ public class GeoList extends GeoElement
 	public void setPointStyle(final int style) {
 		pointStyle = style;
 
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 
@@ -1248,7 +1236,7 @@ public class GeoList extends GeoElement
 			// no alphaValue set
 			// so we need to set it to that of the first element, if there is
 			// one
-			if ((elements != null) && (elements.size() > 0)) {
+			if (!isEmptyList()) {
 
 				// get alpha value of first element
 				final double alpha = elements.get(0).getAlphaValue();
@@ -1285,7 +1273,7 @@ public class GeoList extends GeoElement
 
 		super.setAlphaValue(alpha);
 
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 
@@ -1305,7 +1293,7 @@ public class GeoList extends GeoElement
 
 	@Override
 	public boolean isFillable() {
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return false;
 		}
 
@@ -1373,7 +1361,7 @@ public class GeoList extends GeoElement
 	public void setFontSizeMultiplier(final double size) {
 		fontSizeD = size;
 
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 
@@ -1394,7 +1382,7 @@ public class GeoList extends GeoElement
 	public void setFontStyle(final int fontStyle) {
 		this.fontStyle = fontStyle;
 
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 
@@ -2366,11 +2354,6 @@ public class GeoList extends GeoElement
 		return drawAsComboBox();
 	}
 
-	@Override
-	public ExpressionValue getListElement(int i) {
-		return get(i);
-	}
-
 	/**
 	 * attempts to calculate mean of the list if any non-numeric elements are
 	 * found, Double.NAN will be returned
@@ -2600,8 +2583,7 @@ public class GeoList extends GeoElement
 	public void setShowOnAxis(boolean showOnAxis) {
 		this.showOnAxis = showOnAxis;
 
-		for (int i = 0; i < elements.size(); i++) {
-			final GeoElement geo = elements.get(i);
+		for (GeoElement geo : elements) {
 			if (!geo.isLabelSet() && (geo instanceof InequalityProperties)) {
 				((InequalityProperties) geo).setShowOnAxis(showOnAxis);
 			}
@@ -2613,7 +2595,7 @@ public class GeoList extends GeoElement
 	 */
 	public boolean containsGeoElement3D() {
 		for (GeoElement geo : elements) {
-			boolean contains = false;
+			boolean contains;
 			if (geo.isGeoList()) {
 				contains = ((GeoList) geo).containsGeoElement3D();
 			} else {
@@ -2964,12 +2946,11 @@ public class GeoList extends GeoElement
 	public void setLineOpacity(int lineOpacity) {
 		this.lineOpacity = lineOpacity;
 
-		if ((elements == null) || (elements.size() == 0)) {
+		if (isEmptyList()) {
 			return;
 		}
 
-		for (int i = 0; i < elements.size(); i++) {
-			final GeoElement geo = elements.get(i);
+		for (final GeoElement geo : elements) {
 			if (!geo.isLabelSet()) {
 				geo.setLineOpacity(lineOpacity);
 			}

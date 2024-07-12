@@ -1,6 +1,8 @@
 package org.geogebra.web.full.gui.exam;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.exam.ExamController;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.gwtutil.SecureBrowser;
 import org.geogebra.web.html5.Browser;
@@ -19,6 +21,7 @@ public class ExamUtil {
 
 	private AppW app;
 	private static boolean examModeRunning = false;
+	private static final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * @param app
@@ -73,14 +76,14 @@ public class ExamUtil {
 	}
 
 	private void startCheating() {
-		if (app.getExam() != null && !app.getExam().isClosed() && SecureBrowser.get() == null) {
-			app.getExam().checkedWindowLeft();
+		if (examController.isExamActive() && SecureBrowser.get() == null) {
+			examController.getCheatingEvents().addWindowLeftEvent();
 		}
 	}
 
 	private void stopCheating() {
-		if (app.getExam() != null) {
-			app.getExam().stopCheating();
+		if (examController.isExamActive()) {
+			examController.getCheatingEvents().addWindowEnteredEvent();
 		}
 	}
 
@@ -99,12 +102,7 @@ public class ExamUtil {
 	 * Listen to focus / blur / resize events on the browser window.
 	 */
 	public void addVisibilityAndBlurHandlers() {
-		addVisibilityAndBlurHandlers(isTablet());
-	}
-
-	private boolean isTablet() {
-		return app.getLAF().isTablet()
-				&& !"TabletWin".equals(app.getLAF().getFrameStyleName());
+		addVisibilityAndBlurHandlers(app.getLAF().isTablet());
 	}
 
 	/**
@@ -129,7 +127,7 @@ public class ExamUtil {
 	 */
 	public static String status(AppW appW) {
 		return appW.getLocalization().getMenu("exam_menu_entry") + ": "
-				+ (appW.getExam().isCheating()
+				+ (examController.isCheating()
 						? appW.getLocalization().getMenu("exam_alert")
 						: appW.getLocalization().getMenu("OK"));
 	}

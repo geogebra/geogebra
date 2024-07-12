@@ -20,7 +20,7 @@ public class ComponentToast extends GPopupPanel {
 	public ComponentToast(AppW app, String contentStr) {
 		super(app.getAppletFrame(), app);
 		addStyleName("toast");
-		addStyleName(Shades.NEUTRAL_600.getName());
+		addStyleName(Shades.NEUTRAL_700.getName());
 		buildGUI(contentStr);
 		Dom.addEventListener(getElement(), "transitionend", evt -> {
 			if (!getElement().hasClassName("fadeIn")) {

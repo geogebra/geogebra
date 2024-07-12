@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.util;
 
-import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
@@ -11,7 +11,6 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 
 public class ExamSaveDialog {
 
-	private final TempStorage tempStorage;
 	private ComponentInputDialog examSave;
 
 	/**
@@ -22,8 +21,6 @@ public class ExamSaveDialog {
 	 *  using either the positive or negative button
 	 */
 	public ExamSaveDialog(AppW app, Runnable onDialogClosed) {
-		tempStorage = app.getExam().getTempStorage();
-
 		initGui(app);
 		setActionHandlers(app, onDialogClosed);
 	}
@@ -61,7 +58,7 @@ public class ExamSaveDialog {
 				material.setTitle(examSave.getInputText());
 				material.setBase64(app.getGgbApi().getBase64());
 				material.setThumbnailBase64(getThumbnail(app));
-				tempStorage.saveTempMaterial(material);
+				GlobalScope.examController.saveTempMaterial(material);
 				app.setSaved();
 			} else {
 				msg = app.getLocalization().getError("SaveFileFailed");

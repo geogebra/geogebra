@@ -36,8 +36,6 @@ import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.logical.shared.CloseEvent;
 import org.gwtproject.event.logical.shared.CloseHandler;
 import org.gwtproject.event.logical.shared.HasCloseHandlers;
-import org.gwtproject.event.logical.shared.ResizeEvent;
-import org.gwtproject.event.logical.shared.ResizeHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.DOM;
@@ -110,33 +108,6 @@ public class GPopupPanel extends SimplePanel implements
 	 */
 	protected static final int VERTICAL_PADDING = 32;
 
-	/**
-	 * Window resize handler used to keep the glass the proper size.
-	 */
-	private final ResizeHandler glassResizer = new ResizeHandler() {
-		@Override
-		public void onResize(ResizeEvent event) {
-			if (glass == null) {
-				return;
-			}
-			Style style = glass.getStyle();
-
-			int winWidth = getRootPanel().getOffsetWidth();
-			int winHeight = getRootPanel().getOffsetHeight();
-
-			// Set the glass size to the larger of the window's client size or
-			// the
-			// document's scroll size.
-			int headerHeight = ((AppW) app).getAppletParameters().getDataParamMarginTop();
-			style.setWidth(winWidth, Unit.PX);
-			style.setHeight(winHeight + headerHeight, Unit.PX);
-			style.setTop(-headerHeight, Unit.PX);
-
-			// The size is set. Show the glass again.
-			style.setDisplay(Display.BLOCK);
-		}
-	};
-
 	private AnimationType animType = AnimationType.CENTER;
 
 	private boolean autoHide;
@@ -205,6 +176,30 @@ public class GPopupPanel extends SimplePanel implements
 		 * @see GPopupPanel#setPopupPositionAndShow(PositionCallback)
 		 */
 		void setPosition(int offsetWidth, int offsetHeight);
+	}
+
+	/**
+	 * Window resize handler used to keep the glass the proper size.
+	 */
+	protected final void resizeGlass() {
+		if (glass == null) {
+			return;
+		}
+		Style style = glass.getStyle();
+
+		int winWidth = getRootPanel().getOffsetWidth();
+		int winHeight = getRootPanel().getOffsetHeight();
+
+		// Set the glass size to the larger of the window's client size or
+		// the
+		// document's scroll size.
+		int headerHeight = ((AppW) app).getAppletParameters().getDataParamMarginTop();
+		style.setWidth(winWidth, Unit.PX);
+		style.setHeight(winHeight + headerHeight, Unit.PX);
+		style.setTop(-headerHeight, Unit.PX);
+
+		// The size is set. Show the glass again.
+		style.setDisplay(Display.BLOCK);
 	}
 
 	/**
@@ -427,10 +422,10 @@ public class GPopupPanel extends SimplePanel implements
 				if (curPanel.isGlassEnabled) {
 					getRootPanel().getElement().appendChild(curPanel.glass);
 
-					resizeRegistration = evt -> curPanel.glassResizer.onResize(null);
+					resizeRegistration = evt -> curPanel.resizeGlass();
 					((AppW) app).getGlobalHandlers().addEventListener(
 							DomGlobal.window, "resize", resizeRegistration);
-					curPanel.glassResizer.onResize(null);
+					curPanel.resizeGlass();
 
 					glassShowing = true;
 				}
@@ -578,7 +573,7 @@ public class GPopupPanel extends SimplePanel implements
 		childElement.getStyle().clearHeight();
 
 		center(keyboardHeight);
-		glassResizer.onResize(null);
+		resizeGlass();
 
 		int maxHeight = (int) Math.min(getRootPanel().getOffsetHeight() - keyboardHeight
 				- VERTICAL_PADDING, getMaxHeight());

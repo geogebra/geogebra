@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -55,6 +55,7 @@ import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.geogebra.web.shared.GlobalHeader;
+import org.geogebra.web.shared.mow.header.NotesTopbar;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
@@ -117,7 +118,7 @@ public class GeoGebraFrameFull
 	protected AppW createApplication(GeoGebraElement geoGebraElement,
 			AppletParameters parameters, GLookAndFeelI laf) {
 		if (SecureBrowser.get() != null && SecureBrowser.get().security != null) {
-			parameters.setAttribute("examMode", ExamRegion.CHOOSE);
+			parameters.setAttribute("examMode", ExamType.CHOOSE);
 			SecureBrowser.get().security.lockDown(true,
 					(state) -> Log.info("Lockdown successful"),
 					(state) -> Log.error("Lockdown failed")
@@ -746,7 +747,9 @@ public class GeoGebraFrameFull
 	 */
 	public void attachNotesUI(AppW app) {
 		NotesLayout notesLayout = getNotesLayoutSafe(app);
-		if (notesLayout.getTopbar() != null) {
+
+		NotesTopbar notesTopbar = notesLayout.getTopbar();
+		if (notesTopbar != null && notesTopbar.getElement().hasChildNodes()) {
 			add(notesLayout.getTopbar());
 		}
 		if (notesLayout.getToolbar() != null) {

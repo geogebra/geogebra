@@ -121,6 +121,7 @@ public class EvaluateInput {
 				return;
 			}
 
+			// TODO none of all this logic should be implemented in here
 			if (!app.getConfig().hasAutomaticLabels()) {
 				new LabelHiderCallback().callback(geos);
 			}

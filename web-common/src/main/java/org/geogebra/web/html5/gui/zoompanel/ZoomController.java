@@ -2,6 +2,8 @@ package org.geogebra.web.html5.gui.zoompanel;
 
 import java.util.function.Consumer;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -112,7 +114,7 @@ public class ZoomController {
 	 *            element
 	 */
 	protected void scaleApplet(Element scaler, Element container,
-			Element elem) {
+			@CheckForNull Element elem) {
 		double scale = 1;
 		if (app.isUnbundled()) {
 			app.getGgbApi().setSize(NavigatorUtil.getWindowWidth(),
@@ -160,7 +162,8 @@ public class ZoomController {
 	 * @param elem - element
 	 * @param fullscreenBtnSelectCB - fullscreen button select callback
 	 */
-	public void onExitFullscreen(Element elem, Consumer<Boolean> fullscreenBtnSelectCB) {
+	public void onExitFullscreen(@CheckForNull  Element elem,
+			Consumer<Boolean> fullscreenBtnSelectCB) {
 		setFullScreenActive(false, fullscreenBtnSelectCB);
 		if (!app.getAppletParameters().getDataParamFitToScreen()) {
 			final Element scaler = app.getGeoGebraElement().getParentElement();

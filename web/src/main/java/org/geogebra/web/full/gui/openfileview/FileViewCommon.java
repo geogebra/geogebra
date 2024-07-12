@@ -1,7 +1,9 @@
 package org.geogebra.web.full.gui.openfileview;
 
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
@@ -46,6 +48,7 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 	private Label timer;
 	private FlowPanel emptyListNotificationPanel;
 	private LoadSpinner spinner;
+	private final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * @param app the application
@@ -88,7 +91,7 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 			addSearchBar();
 			buildSingInPanel();
 		}
-		if (app.isExam()) {
+		if (!examController.isIdle()) {
 			addExamPanel();
 		}
 		this.setHeaderWidget(headerView);
@@ -106,9 +109,8 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 		AnimationScheduler.get().requestAnimationFrame(new AnimationScheduler.AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				if (getApp().getExam() != null) {
-					timer.setText(
-							getApp().getExam().getElapsedTimeLocalized());
+				if (!examController.isIdle()) {
+					timer.setText(examController.getDurationFormatted(loc));
 					AnimationScheduler.get().requestAnimationFrame(this);
 				}
 			}

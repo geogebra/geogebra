@@ -1,5 +1,9 @@
 package org.geogebra.common.main.localization;
 
+import javax.annotation.Nonnull;
+
+import org.geogebra.common.exam.restrictions.ExamRestrictable;
+import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -9,7 +13,7 @@ import org.geogebra.common.main.MyError.Errors;
 /**
  * Creates user facing messages, when a command is invalid.
  */
-public class CommandErrorMessageBuilder {
+public class CommandErrorMessageBuilder implements ExamRestrictable {
 
 	private Localization localization;
 
@@ -28,7 +32,6 @@ public class CommandErrorMessageBuilder {
 
 	/**
 	 * Set to true to show the syntax in the error message.
-	 *
 	 * @param showingSyntax true to show syntax
 	 */
 	public void setShowingSyntax(boolean showingSyntax) {
@@ -114,5 +117,23 @@ public class CommandErrorMessageBuilder {
 		} else {
 			builder.setLength(0);
 		}
+	}
+
+	// ExamRestrictable
+
+	/**
+	 * Note: Client code adopting the new exam handling needs to register the current instance
+	 * as an {@link ExamRestrictable} with the {@link org.geogebra.common.exam.ExamController}.
+	 *
+	 * @param examRestrictions The restrictions for the current exam.
+	 */
+	@Override
+	public void applyRestrictions(@Nonnull ExamRestrictions examRestrictions) {
+		setShowingSyntax(false);
+	}
+
+	@Override
+	public void removeRestrictions(@Nonnull ExamRestrictions examRestrictions) {
+		setShowingSyntax(true);
 	}
 }

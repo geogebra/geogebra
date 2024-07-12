@@ -963,7 +963,7 @@ public class ExpressionNode extends ValidExpression
 				if (right instanceof MyList) {
 					MyList list = (MyList) right;
 					for (int i = 0; i < list.size(); i++) {
-						ExpressionValue ev = list.getListElement(i);
+						ExpressionValue ev = list.get(i);
 						if (ev instanceof ExpressionNode) {
 							((ExpressionNode) ev).makePolynomialTree(equ,
 									keepFraction);
@@ -984,7 +984,7 @@ public class ExpressionNode extends ValidExpression
 		ExpressionNode expr = func.getExpression().getCopy(kernel);
 		if (func.getFunctionVariables().length == list.size()) {
 			for (int i = 0; i < list.size(); i++) {
-				ExpressionValue ev = list.getListElement(i);
+				ExpressionValue ev = list.get(i);
 				if (ev instanceof ExpressionNode) {
 					ExpressionNode en = ((ExpressionNode) ev).getCopy(kernel);
 					if (!equ.isFunctionDependent()) {
@@ -994,7 +994,7 @@ public class ExpressionNode extends ValidExpression
 					// replacement
 					// en.makePolynomialTree(equ);
 					ev = en;
-				} else if (list.getListElement(i) instanceof FunctionVariable) {
+				} else if (list.get(i) instanceof FunctionVariable) {
 					equ.setFunctionDependent(true);
 				}
 				expr = expr.replace(func.getFunctionVariables()[i], ev).wrap();

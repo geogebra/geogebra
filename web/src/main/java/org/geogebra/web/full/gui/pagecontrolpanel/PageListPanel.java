@@ -90,6 +90,7 @@ public class PageListPanel
 		plusButton = new StandardButton(
 				MaterialDesignResources.INSTANCE.add_white(), null, 24);
 		plusButton.setStyleName("mowFloatingButton");
+		plusButton.addStyleName("floatingActionButton");
 		plusButton.addStyleName("mowPlusButton");
 		// make sure clicking + does not select slides
 		ClickStartHandler.initDefaults(plusButton, false, true);

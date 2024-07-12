@@ -12,7 +12,6 @@ import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.zoompanel.ZoomController;
 import org.geogebra.web.html5.main.AppW;
-import org.gwtproject.dom.client.Element;
 
 public class TopbarController {
 	private final AppW appW;
@@ -128,10 +127,9 @@ public class TopbarController {
 	/**
 	 * on fullscreen press
 	 * @param fullscreenBtn - fullscreen button
-	 * @oaram elem - element
 	 */
-	public void onFullscreenOn(IconButton fullscreenBtn, final Element elem) {
-		zoomController.onFullscreenPressed(elem, getFullscreenBtnSelectCB(fullscreenBtn));
+	public void onFullscreenOn(IconButton fullscreenBtn) {
+		zoomController.onFullscreenPressed(null, getFullscreenBtnSelectCB(fullscreenBtn));
 	}
 
 	private Consumer<Boolean> getFullscreenBtnSelectCB(final IconButton fullscreenBtn) {

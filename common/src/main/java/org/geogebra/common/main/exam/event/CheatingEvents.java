@@ -8,14 +8,19 @@ import java.util.List;
  */
 public class CheatingEvents {
 
-    private List<CheatingEvent> events;
+    private final List<CheatingEvent> events;
 
-    private boolean isScreenOn = true;
     private boolean isScreenLocked = true;
     private boolean isOnWindow = true;
     private boolean isAirplaneModeEnabled = true;
     private boolean isWifiEnabled;
     private boolean isBluetoothEnabled;
+
+    public Delegate delegate;
+
+    public interface Delegate {
+        void cheatingEventAdded(CheatingEvent cheatingEvent);
+    }
 
     public CheatingEvents() {
         events = new LinkedList<>();
@@ -31,26 +36,6 @@ public class CheatingEvents {
 
     public int size() {
         return events.size();
-    }
-
-    /**
-     * Adds a screen on event.
-     */
-    public void addScreenOnEvent() {
-        if (!isScreenOn) {
-            addCheatingEvent(CheatingAction.SCREEN_ON);
-            isScreenOn = true;
-        }
-    }
-
-    /**
-     * Adds a screen off event.
-     */
-    public void addScreenOffEvent() {
-        if (isScreenOn) {
-            addCheatingEvent(CheatingAction.SCREEN_OFF);
-            isScreenOn = false;
-        }
     }
 
     /**
@@ -154,6 +139,10 @@ public class CheatingEvents {
     }
 
     private void addCheatingEvent(CheatingAction action) {
-        events.add(new CheatingEvent(action, System.currentTimeMillis()));
+        CheatingEvent cheatingEvent = new CheatingEvent(action, System.currentTimeMillis());
+        events.add(cheatingEvent);
+        if (delegate != null) {
+            delegate.cheatingEventAdded(cheatingEvent);
+        }
     }
 }
