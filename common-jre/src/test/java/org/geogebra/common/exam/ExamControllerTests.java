@@ -56,7 +56,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	private final List<ExamState> examStates = new ArrayList<>();
 	private boolean didRequestClearApps;
 	private boolean didRequestClearClipboard;
-	private SuiteSubApp didRequestSwitchToSubApp;
 	private Material activeMaterial;
 
 	@Before
@@ -73,7 +72,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examStates.clear();
 		didRequestClearApps = false;
 		didRequestClearClipboard = false;
-		didRequestSwitchToSubApp = null;
 		activeMaterial = null;
 	}
 
@@ -145,7 +143,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertEquals(List.of(ExamState.PREPARING), examStates);
 		assertFalse(didRequestClearApps);
 		assertFalse(didRequestClearClipboard);
-		assertNull(didRequestSwitchToSubApp);
 		assertNull(activeMaterial);
 	}
 
@@ -161,7 +158,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertEquals(Arrays.asList(ExamState.PREPARING, ExamState.ACTIVE), examStates);
 		assertTrue(didRequestClearApps);
 		assertTrue(didRequestClearClipboard);
-		assertNull(didRequestSwitchToSubApp);
 		assertNotNull(activeMaterial);
 	}
 
@@ -206,7 +202,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.finishExam();
 		didRequestClearApps = false;
 		didRequestClearClipboard = false;
-		didRequestSwitchToSubApp = null;
 		examController.exitExam();
 
 		assertNull(examController.getStartDate());
@@ -219,7 +214,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 				ExamState.IDLE), examStates);
 		assertTrue(didRequestClearApps);
 		assertTrue(didRequestClearClipboard);
-		assertNull(didRequestSwitchToSubApp);
 		assertNull(activeMaterial);
 	}
 
@@ -230,7 +224,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		setInitialApp(SuiteSubApp.CAS);
 		examController.prepareExam();
 		examController.startExam(ExamType.VLAANDEREN, null); // doesn't allow CAS
-		assertEquals(SuiteSubApp.GRAPHING, didRequestSwitchToSubApp);
+		assertEquals(SuiteSubApp.GRAPHING, currentSubApp);
 		assertNotNull(activeMaterial);
 	}
 
@@ -239,7 +233,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.startExam(ExamType.VLAANDEREN, null);
-		assertNull(didRequestSwitchToSubApp);
+		assertEquals(SuiteSubApp.GRAPHING, currentSubApp);
 		assertNotNull(activeMaterial);
 	}
 
@@ -279,7 +273,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.setExamRestrictionsForTesting(
 				ExamRestrictions.forExamType(ExamType.BAYERN_CAS)); // only allows CAS app
 		examController.startExam(ExamType.BAYERN_CAS, null);
-		assertEquals(SuiteSubApp.CAS, didRequestSwitchToSubApp);
+		assertEquals(SuiteSubApp.CAS, currentSubApp);
 		assertNotNull(activeMaterial);
 	}
 
@@ -368,7 +362,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 	@Override
 	public void examSwitchSubApp(SuiteSubApp subApp) {
-		didRequestSwitchToSubApp = subApp;
 		if (!subApp.equals(currentSubApp)) {
 			switchApp(subApp);
 		}
