@@ -33,7 +33,8 @@ import org.geogebra.common.properties.ValuedProperty;
  * Restrictions that are specific to the different exam types are represented as subclasses
  * of this class.
  * Restrictions that apply to all exam types should be implemented in this class
- * (in {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, App)}).
+ * (in {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,
+ * Localization, Settings, AutocompleteProvider, ToolsProvider)}).
  * <p/>
  * Any restrictions to be applied during exams should be implemented in here (so that
  * everything is one place):
@@ -95,6 +96,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * exams.
 	 * @param commandFilters An optional command filter to apply during exams.
 	 * @param commandArgumentFilters An optional command argument filter to apply during exams.
+	 * @param syntaxFilter An optional syntax filter to apply during exams.
 	 * @param toolsFilter An optional filter for tools that should be unvaialable during the exam.
 	 * If this argument is null, the Image tool will stil be filtered out (APPS-5214). When
 	 * providing a non-null filter here, it should include the Image tool.
@@ -206,8 +208,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 
 	/**
 	 * Remove the exam restrictions (i.e., undo the changes from
-	 * {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Localization,
-	 * AutocompleteProvider, ToolsProvider)}).
+	 * {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,
+	 * Localization, Settings, AutocompleteProvider, ToolsProvider)} ).
 	 */
 	public void removeFrom(@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,

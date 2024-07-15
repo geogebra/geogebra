@@ -4,6 +4,10 @@ import java.util.Set;
 
 public final class LineSelector {
 
+	public static String select(String lines, Integer... indices) {
+		return select(lines.split("\n"), indices);
+	}
+
 	public static String select(String[] lines, Integer... indices) {
 		Set<Integer> indexSet = Set.of(indices);
 		StringBuilder linesBuilder = new StringBuilder();

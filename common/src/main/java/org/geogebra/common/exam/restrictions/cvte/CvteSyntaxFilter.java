@@ -12,13 +12,13 @@ public final class CvteSyntaxFilter implements SyntaxFilter {
 	public String getFilteredSyntax(String internalCommandName, String syntax) {
 		if (Commands.Circle.name().equals(internalCommandName)) {
 			// allow only Circle(<Center>, <Radius>)
-			return LineSelector.select(syntax.split("\n"), 0);
+			return LineSelector.select(syntax, 0);
 		} else if (Commands.Extremum.name().equals(internalCommandName)) {
 			// allow only Extremum(<Function>, <Start x-Value>, <End x-Value>)
-			return LineSelector.select(syntax.split("\n"), 1);
+			return LineSelector.select(syntax, 1);
 		} else if (Commands.Root.name().equals(internalCommandName)) {
 			// allow only Root( <Function>, <Start x-Value>, <End x-Value> )
-			return LineSelector.select(syntax.split("\n"), 2);
+			return LineSelector.select(syntax, 2);
 		}
 		return syntax;
 	}

@@ -2,12 +2,12 @@ package org.geogebra.common.main.syntax.suggestionfilter;
 
 import org.geogebra.common.kernel.commands.Commands;
 
-public class CASSyntaxFilter extends AbstractSyntaxFilter {
+public class CASSyntaxFilter implements SyntaxFilter {
 
     @Override
     public String getFilteredSyntax(String internalCommandName, String syntax) {
         if (Commands.Distance.name().equals(internalCommandName)) {
-            return select(syntax, 0, 1);
+            return LineSelector.select(syntax, 0, 1);
         }
         return syntax;
     }

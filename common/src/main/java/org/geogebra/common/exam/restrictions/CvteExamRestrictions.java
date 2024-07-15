@@ -56,8 +56,8 @@ final class CvteExamRestrictions extends ExamRestrictions {
 			casEnabled = settings.getCasSettings().isEnabled();
 			// Note: The effect we want to acchieve here is disable the symbolic versions of the
 			// Derivative and Integral commands, and replace them on the fly with their numeric
-			// counterparts (a requirement of APPS-4871/APPS-4961). And this behavior is
-			// implemented using the CAS enabled flag (deep inside the algebra processor and
+			// counterparts (a requirement of APPS-4871/APPS-4961). This behavior is
+			// implemented using the "CAS enabled" flag (deep inside the algebra processor and
 			// other places).
 			// Careful: setting the "CAS enabled" setting to false here only makes because
 			// CvTE exam is restricted to the Graphing subapp of Suite, and the Graphing
