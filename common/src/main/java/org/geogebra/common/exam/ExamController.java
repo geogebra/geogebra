@@ -24,6 +24,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.main.localization.AutocompleteProvider;
+import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.properties.PropertiesRegistry;
@@ -124,6 +125,7 @@ public final class ExamController {
 			@Nonnull CommandDispatcher commandDispatcher,
 			@Nonnull AlgebraProcessor algebraProcessor,
 			@Nonnull Localization localization,
+			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autocompleteProvider,
 			@Nullable ToolsProvider toolsProvider) {
 		// remove restrictions for current dependencies, if exam is active
@@ -134,6 +136,7 @@ public final class ExamController {
 				commandDispatcher,
 				algebraProcessor,
 				localization,
+				settings,
 				autocompleteProvider,
 				toolsProvider);
 		// apply restrictions to new dependencies, if exam is active
@@ -489,6 +492,7 @@ public final class ExamController {
 					propertiesRegistry,
 					dependencies.context,
 					dependencies.localization,
+					dependencies.settings,
 					dependencies.autoCompleteProvider,
 					dependencies.toolsProvider);
 			if (options != null && !options.casEnabled) {
@@ -574,6 +578,9 @@ public final class ExamController {
 		@NonOwning
 		@Nonnull
 		final Localization localization;
+		@Nonnull
+		@Nullable
+		final Settings settings;
 		@NonOwning
 		@Nullable
 		final AutocompleteProvider autoCompleteProvider;
@@ -585,12 +592,14 @@ public final class ExamController {
 				@Nonnull CommandDispatcher commandDispatcher,
 				@Nonnull AlgebraProcessor algebraProcessor,
 				@Nonnull Localization localization,
+				@Nonnull Settings settings,
 				@Nullable AutocompleteProvider autoCompleteProvider,
 				@Nullable ToolsProvider toolsProvider) {
 			this.context = context;
 			this.commandDispatcher = commandDispatcher;
 			this.algebraProcessor = algebraProcessor;
 			this.localization = localization;
+			this.settings = settings;
 			this.autoCompleteProvider = autoCompleteProvider;
 			this.toolsProvider = toolsProvider;
 		}

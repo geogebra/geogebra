@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
+import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
@@ -162,6 +163,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable PropertiesRegistry propertiesRegistry,
 			@Nullable Object context,
 			@Nullable Localization localization,
+			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider) {
 		if (commandDispatcher != null) {
@@ -209,6 +211,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable PropertiesRegistry propertiesRegistry,
 			@Nullable Object context,
 			@Nullable Localization localization,
+			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider) {
 		if (commandDispatcher != null) {
