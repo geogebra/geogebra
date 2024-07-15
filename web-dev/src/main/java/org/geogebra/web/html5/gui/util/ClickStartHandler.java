@@ -73,10 +73,10 @@ public abstract class ClickStartHandler {
 	 * be called, if the handling-method is canceled for the event.
 	 * 
 	 * @param preventDefault
-	 *            whether or not event.preventDefault() should be called for
+	 *            whether event.preventDefault() should be called for
 	 *            MouseDownEvents and TouchStartEvents
 	 * @param stopPropagation
-	 *            whether or not event.stopPropagation() should be called for
+	 *            whether event.stopPropagation() should be called for
 	 *            MouseDownEvents and TouchStartEvents
 	 */
 	public ClickStartHandler(boolean preventDefault, boolean stopPropagation) {
@@ -119,7 +119,7 @@ public abstract class ClickStartHandler {
 	 * called, if the handling-method is canceled for the event.
 	 * 
 	 * @param preventDefault
-	 *            whether or not event.preventDefault() should be called for
+	 *            whether event.preventDefault() should be called for
 	 *            MouseDownEvents and TouchStartEvents
 	 */
 	public void setPreventDefault(boolean preventDefault) {
@@ -131,7 +131,7 @@ public abstract class ClickStartHandler {
 	 * called, if the handling-method is canceled for the event.
 	 * 
 	 * @param stopPropagation
-	 *            whether or not event.stopPropagation() should be called for
+	 *            whether event.stopPropagation() should be called for
 	 *            MouseDownEvents and TouchStartEvents
 	 */
 	public void setStopPropagation(boolean stopPropagation) {
@@ -145,10 +145,10 @@ public abstract class ClickStartHandler {
 	 * @param w
 	 *            Widget that the handlers are attached to
 	 * @param preventDefault
-	 *            whether or not event.preventDefault() should be called for
+	 *            whether event.preventDefault() should be called for
 	 *            MouseDownEvents and TouchStartEvents
 	 * @param stopPropagation
-	 *            whether or not event.stopPropagation() should be called for
+	 *            whether event.stopPropagation() should be called for
 	 *            MouseDownEvents and TouchStartEvents
 	 */
 	public static void initDefaults(Widget w, boolean preventDefault,

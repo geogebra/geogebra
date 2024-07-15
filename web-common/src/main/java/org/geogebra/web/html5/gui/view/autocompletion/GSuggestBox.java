@@ -222,7 +222,7 @@ public class GSuggestBox extends Composite
 		}
 
 		/**
-		 * Check whether or not the list of suggestions is being shown.
+		 * Check whether the list of suggestions is being shown.
 		 *
 		 * @return true if the suggestions are visible, false if not
 		 */
@@ -358,7 +358,7 @@ public class GSuggestBox extends Composite
 		}
 
 		/**
-		 * Check whether or not the suggestion list is hidden when there are no
+		 * Check whether the suggestion list is hidden when there are no
 		 * suggestions to display.
 		 *
 		 * @return true if hidden when empty, false if not
@@ -402,7 +402,7 @@ public class GSuggestBox extends Composite
 		}
 
 		/**
-		 * Set whether or not the suggestion list should be hidden when there
+		 * Set whether the suggestion list should be hidden when there
 		 * are no suggestions to display. Defaults to true.
 		 *
 		 * @param hideWhenEmpty
@@ -796,7 +796,7 @@ public class GSuggestBox extends Composite
 	}
 
 	/**
-	 * Check whether or not the {@link DefaultSuggestionDisplay} has animations
+	 * Check whether the {@link DefaultSuggestionDisplay} has animations
 	 * enabled. Note that this method only has a meaningful return value when
 	 * the {@link DefaultSuggestionDisplay} is used.
 	 *
@@ -810,7 +810,7 @@ public class GSuggestBox extends Composite
 	}
 
 	/**
-	 * Returns whether or not the first suggestion will be automatically
+	 * Returns whether the first suggestion will be automatically
 	 * selected. This behavior is on by default.
 	 *
 	 * @return true if the first suggestion will be automatically selected
@@ -873,7 +873,7 @@ public class GSuggestBox extends Composite
 	 * suggested item. This behavior is on by default.
 	 *
 	 * @param selectsFirstItem
-	 *            Whether or not to automatically select the first suggestion
+	 *            whether to automatically select the first suggestion
 	 */
 	public void setAutoSelectEnabled(boolean selectsFirstItem) {
 		this.selectsFirstItem = selectsFirstItem;

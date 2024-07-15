@@ -74,10 +74,10 @@ public abstract class ClickEndHandler {
 	 * be called, if the handling-method is canceled for the event.
 	 * 
 	 * @param preventDefault
-	 *            whether or not event.preventDefault() should be called for
+	 *            whether event.preventDefault() should be called for
 	 *            MouseUpEvents and TouchEndEvents
 	 * @param stopPropagation
-	 *            whether or not event.stopPropagation() should be called for
+	 *            whether event.stopPropagation() should be called for
 	 *            MouseUpEvents and TouchEndEvents
 	 */
 	public ClickEndHandler(boolean preventDefault, boolean stopPropagation) {
@@ -102,7 +102,7 @@ public abstract class ClickEndHandler {
 	 * called, if the handling-method is canceled for the event.
 	 * 
 	 * @param preventDefault
-	 *            whether or not event.preventDefault() should be called for
+	 *            whether event.preventDefault() should be called for
 	 *            MouseUpEvents and TouchEndEvents
 	 */
 	public void setPreventDefault(boolean preventDefault) {
@@ -114,7 +114,7 @@ public abstract class ClickEndHandler {
 	 * called, if the handling-method is canceled for the event.
 	 * 
 	 * @param stopPropagation
-	 *            whether or not event.stopPropagation() should be called for
+	 *            whether event.stopPropagation() should be called for
 	 *            MouseUpEvents and TouchEndEvents
 	 */
 	public void setStopPropagation(boolean stopPropagation) {
@@ -128,10 +128,10 @@ public abstract class ClickEndHandler {
 	 * @param w
 	 *            Widget that the handlers are attached to
 	 * @param preventDefault
-	 *            whether or not event.preventDefault() should be called for
+	 *            whether event.preventDefault() should be called for
 	 *            MouseUpEvents and TouchEndEvents
 	 * @param stopPropagation
-	 *            whether or not event.stopPropagation() should be called for
+	 *            whether event.stopPropagation() should be called for
 	 *            MouseUpEvents and TouchEndEvents
 	 */
 	public static void initDefaults(Widget w, boolean preventDefault,
