@@ -33,7 +33,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 		super(ExamType.CVTE,
 				Set.of(SuiteSubApp.CAS, SuiteSubApp.G3D, SuiteSubApp.GEOMETRY,
 						SuiteSubApp.PROBABILITY, SuiteSubApp.SCIENTIFIC),
-				SuiteSubApp.CAS,
+				SuiteSubApp.GRAPHING,
 				null,
 				null,
 				CvteExamRestrictions.createCommandFilters(),
