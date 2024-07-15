@@ -68,10 +68,11 @@ public class LocalizedCommandSyntax implements CommandSyntax {
 	}
 
 	private String filterSyntax(String internalCommandName, String syntax) {
+		String filteredSyntax = syntax;
 		for (SyntaxFilter syntaxFilter : syntaxFilters) {
-			syntax = syntaxFilter.getFilteredSyntax(internalCommandName, syntax);
+			filteredSyntax = syntaxFilter.getFilteredSyntax(internalCommandName, filteredSyntax);
 		}
-		return syntax;
+		return filteredSyntax;
 	}
 
 	private String buildSyntax(String syntax, String command) {
@@ -102,12 +103,20 @@ public class LocalizedCommandSyntax implements CommandSyntax {
 		return loc;
 	}
 
+	/**
+	 * Add a syntax filter.
+	 * @param syntaxFilter a syntax filter.
+	 */
 	public void addSyntaxFilter(@Nonnull SyntaxFilter syntaxFilter) {
 		if (syntaxFilter != null) {
 			syntaxFilters.add(syntaxFilter);
 		}
 	}
 
+	/**
+	 * Remove a previously added syntax filter.
+	 * @param syntaxFilter a syntax filter.
+	 */
 	public void removeSyntaxFilter(@Nonnull SyntaxFilter syntaxFilter) {
 		if (syntaxFilter != null) {
 			syntaxFilters.remove(syntaxFilter);

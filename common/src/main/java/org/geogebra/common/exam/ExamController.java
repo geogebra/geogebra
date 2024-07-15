@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
@@ -125,9 +124,9 @@ public final class ExamController {
 			@Nonnull CommandDispatcher commandDispatcher,
 			@Nonnull AlgebraProcessor algebraProcessor,
 			@Nonnull Localization localization,
-			@Nullable Settings settings,
-			@Nullable AutocompleteProvider autocompleteProvider,
-			@Nullable ToolsProvider toolsProvider) {
+			@Nonnull Settings settings,
+			@CheckForNull AutocompleteProvider autocompleteProvider,
+			@CheckForNull ToolsProvider toolsProvider) {
 		// remove restrictions for current dependencies, if exam is active
 		if (examRestrictions != null && activeDependencies != null) {
 			removeRestrictionsFromContextDependencies(activeDependencies);
@@ -373,7 +372,7 @@ public final class ExamController {
 	 * @param examType The exam type.
 	 * @param options Additional options (optional).
 	 */
-	public void startExam(@Nonnull ExamType examType, @Nullable ExamOptions options) {
+	public void startExam(@Nonnull ExamType examType, @CheckForNull ExamOptions options) {
 		if (state != ExamState.IDLE && state != ExamState.PREPARING) {
 			throw new IllegalStateException("expected to be in IDLE or PREPARING state, "
 					+ "but is " + state);
@@ -580,13 +579,13 @@ public final class ExamController {
 		@Nonnull
 		final Localization localization;
 		@Nonnull
-		@Nullable
+		@CheckForNull
 		final Settings settings;
 		@NonOwning
-		@Nullable
+		@CheckForNull
 		final AutocompleteProvider autoCompleteProvider;
 		@NonOwning
-		@Nullable
+		@CheckForNull
 		final ToolsProvider toolsProvider;
 
 		ContextDependencies(@Nonnull Object context,
@@ -594,8 +593,8 @@ public final class ExamController {
 				@Nonnull AlgebraProcessor algebraProcessor,
 				@Nonnull Localization localization,
 				@Nonnull Settings settings,
-				@Nullable AutocompleteProvider autoCompleteProvider,
-				@Nullable ToolsProvider toolsProvider) {
+				@CheckForNull AutocompleteProvider autoCompleteProvider,
+				@CheckForNull ToolsProvider toolsProvider) {
 			this.context = context;
 			this.commandDispatcher = commandDispatcher;
 			this.algebraProcessor = algebraProcessor;

@@ -4654,6 +4654,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void removeToolsFilter(ToolCollectionFilter filter) {
 		toolFilters.remove(filter);
 	}
+
 	/**
 	 * @return the currently available tools. Note that the set of tools may be restricted
 	 * depending on platform (iOS, Android) or during exams.
@@ -4678,6 +4679,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * @return a tool collection factory
 	 * Depreacted. Use {@link #getAvailableTools()} instead.
 	 */
 	@Deprecated

@@ -56,7 +56,7 @@ public interface ToolCollection {
 
     /**
      * Look for the given tool in this collection.
-     * @param mode - tool (mode)
+     * @param tool - tool (mode)
      * @return true if tool is part of this collection, false otherwise
      */
     boolean contains(int tool);

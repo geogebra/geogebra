@@ -40,12 +40,20 @@ public class AutocompleteProvider {
 		this.forCAS = forCAS;
 	}
 
+	/**
+	 * Adds a syntax filter.
+	 * @param syntaxFilter a syntax filter.
+	 */
 	public void addSyntaxFilter(@Nonnull SyntaxFilter syntaxFilter) {
 		if (syntaxFilter != null) {
 			getEnglishCommandSyntax().addSyntaxFilter(syntaxFilter);
 		}
 	}
 
+	/**
+	 * Removes a previously added syntax filter.
+	 * @param syntaxFilter a syntax filter.
+	 */
 	public void removeSyntaxFilter(@Nonnull SyntaxFilter syntaxFilter) {
 		if (syntaxFilter != null) {
 			getEnglishCommandSyntax().removeSyntaxFilter(syntaxFilter);

@@ -124,8 +124,6 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.CommandSyntax;
-import org.geogebra.common.main.syntax.EnglishCommandSyntax;
-import org.geogebra.common.main.syntax.LocalizedCommandSyntax;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -3787,6 +3785,13 @@ public class AlgebraProcessor {
 		cmdDispatcher.addCommandFilter(commandFilter);
 	}
 
+	/**
+	 * Returns the syntax for the given command, if the command is allowed.
+	 * @param syntax an abstraction for loading command syntax definitions
+	 * @param internalCommandName the internal command name (see {@link Commands}).
+	 * @param settings the current (application) settings.
+	 * @return the syntax for the command if the command is allowed, null otherwise.
+	 */
 	public String getSyntax(CommandSyntax syntax, String internalCommandName, Settings settings) {
 		int dim = settings.getEuclidian(-1).isEnabled() ? 3 : 2;
 		if (cmdDispatcher.isCASAllowed()) {
