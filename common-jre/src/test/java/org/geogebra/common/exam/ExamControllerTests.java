@@ -30,9 +30,9 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
-import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigProbability;
+import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.PropertiesRegistry;
@@ -86,7 +86,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization()),
 				app);
 		examController.setActiveContext(app, commandDispatcher, algebraProcessor,
-				app.getLocalization(), autocompleteProvider, app);
+				app.getLocalization(), app.getSettings(), autocompleteProvider, app);
 	}
 
 	private void switchApp(SuiteSubApp subApp) {
@@ -102,7 +102,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization()),
 				app);
 		examController.setActiveContext(app, commandDispatcher, algebraProcessor,
-				app.getLocalization(), autocompleteProvider, app);
+				app.getLocalization(), app.getSettings(), autocompleteProvider, app);
 	}
 
 	private AppConfig createConfig(SuiteSubApp subApp) {
@@ -110,7 +110,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		case CAS:
 			return new AppConfigCas(GeoGebraConstants.SUITE_APPCODE);
 		case GRAPHING:
-			return new AppConfigGraphing(GeoGebraConstants.SUITE_APPCODE);
+			return new AppConfigUnrestrictedGraphing(GeoGebraConstants.SUITE_APPCODE);
 		case GEOMETRY:
 			return new AppConfigGeometry(GeoGebraConstants.SUITE_APPCODE);
 		case SCIENTIFIC:
@@ -308,6 +308,10 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		setInitialApp(SuiteSubApp.GEOMETRY);
 		examController.prepareExam();
 		examController.startExam(ExamType.CVTE, null);
+
+		// subapps restricted to Graphing, CAS disabled for this exam type
+		assertEquals(SuiteSubApp.GRAPHING, currentSubApp);
+		assertFalse(app.getSettings().getCasSettings().isEnabled());
 
 		// check syntax restrictions on AutoCompleteProvider
 		// - allow only Circle(<Center>, <Radius>) syntax

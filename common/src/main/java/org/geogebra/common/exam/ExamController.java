@@ -511,6 +511,7 @@ public final class ExamController {
 					propertiesRegistry,
 					dependencies.context,
 					dependencies.localization,
+					dependencies.settings,
 					dependencies.autoCompleteProvider,
 					dependencies.toolsProvider);
 			if (options != null && !options.casEnabled) {

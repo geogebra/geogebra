@@ -27,7 +27,7 @@ import org.geogebra.common.properties.PropertiesRegistry;
 
 final class CvteExamRestrictions extends ExamRestrictions {
 
-	private boolean casEnabled = false;
+	private boolean casEnabled = true;
 
 	CvteExamRestrictions() {
 		super(ExamType.CVTE,
@@ -52,9 +52,6 @@ final class CvteExamRestrictions extends ExamRestrictions {
 			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider) {
-		super.applyTo(commandDispatcher, algebraProcessor, propertiesRegistry, context,
-				localization, settings, autoCompleteProvider, toolsProvider);
-
 		if (settings != null) {
 			casEnabled = settings.getCasSettings().isEnabled();
 			// Note: The effect we want to acchieve here is disable the symbolic versions of the
@@ -66,8 +63,9 @@ final class CvteExamRestrictions extends ExamRestrictions {
 			// CvTE exam is restricted to the Graphing subapp of Suite, and the Graphing
 			// standalone app disables CAS, but it's enabled in Suite (see app config).
 			settings.getCasSettings().setEnabled(false);
-			algebraProcessor.reinitCommands();
 		}
+		super.applyTo(commandDispatcher, algebraProcessor, propertiesRegistry, context,
+				localization, settings, autoCompleteProvider, toolsProvider);
 	}
 
 	@Override
@@ -83,7 +81,6 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				localization, settings, autoCompleteProvider, toolsProvider);
 		if (settings != null) {
 			settings.getCasSettings().setEnabled(casEnabled);
-			algebraProcessor.reinitCommands();
 		}
 	}
 
