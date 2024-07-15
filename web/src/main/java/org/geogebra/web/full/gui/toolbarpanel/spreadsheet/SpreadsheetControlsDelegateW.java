@@ -51,6 +51,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			mathField.addStyleName("spreadsheetEditor");
 			this.parent = parent;
 			this.app = app;
+			mathField.addBlurHandler(blur -> getSpreadsheetPanel().saveContentAndHideCellEditor());
 		}
 
 		public SpreadsheetPanel getSpreadsheetPanel() {
@@ -68,7 +69,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			mathField.asWidget().getElement().getStyle().setTextAlign(
 					textAlignment == CellFormat.ALIGN_LEFT ? TextAlign.LEFT : TextAlign.RIGHT);
 			mathField.setVisible(true);
-			mathField.requestFocus();
+			mathField.editorClicked();
 			Scheduler.get().scheduleDeferred(mathField::requestFocus);
 		}
 

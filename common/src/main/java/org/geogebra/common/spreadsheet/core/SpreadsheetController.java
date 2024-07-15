@@ -196,7 +196,7 @@ public final class SpreadsheetController {
 		return editor != null && editor.isVisible;
 	}
 
-	private void saveContentAndHideCellEditor() {
+	void saveContentAndHideCellEditor() {
 		if (editor.isVisible) {
 			editor.commit();
 			editor.hide();
@@ -265,6 +265,13 @@ public final class SpreadsheetController {
 		} else { // Select cell
 			select(TabularRange.range(row, row, column, column),
 					modifiers.shift, modifiers.ctrlOrCmd);
+		}
+	}
+
+	void scrollEditorIntoView() {
+		if (viewportAdjuster != null && editor != null && editor.isVisible) {
+			viewport = viewportAdjuster.adjustViewportIfNeeded(editor.row, editor.column, viewport);
+			editor.updatePosition();
 		}
 	}
 
@@ -815,6 +822,8 @@ public final class SpreadsheetController {
 		private final @Nonnull SpreadsheetCellEditor cellEditor;
 		private @CheckForNull SpreadsheetMathFieldAdapter mathFieldAdapter;
 		boolean isVisible;
+		int row;
+		int column;
 
 		Editor(@Nonnull SpreadsheetCellEditor cellEditor) {
 			this.cellEditor = cellEditor;
@@ -822,7 +831,8 @@ public final class SpreadsheetController {
 
 		void showAt(int row, int column) {
 			Object content = tabularData.contentAt(row, column);
-
+			this.row = row;
+			this.column = column;
 			MathFieldInternal mathField = cellEditor.getMathField();
 			mathField.parse(cellEditor.getCellDataSerializer().getStringForEditor(content));
 
@@ -831,12 +841,16 @@ public final class SpreadsheetController {
 			mathField.addMathFieldListener(mathFieldAdapter);
 			mathField.setUnhandledArrowListener(mathFieldAdapter);
 
+			updatePosition();
+			isVisible = true;
+		}
+
+		void updatePosition() {
 			Rectangle editorBounds = layout.getBounds(row, column)
 					.insetBy(1, 1) // don't overdraw thick selection border
 					.translatedBy(-viewport.getMinX() + layout.getRowHeaderWidth(),
 							-viewport.getMinY() + layout.getColumnHeaderHeight());
 			cellEditor.show(editorBounds, viewport, tabularData.getAlignment(row, column));
-			isVisible = true;
 		}
 
 		void hide() {

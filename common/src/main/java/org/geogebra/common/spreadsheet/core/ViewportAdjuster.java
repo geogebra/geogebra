@@ -38,9 +38,9 @@ public final class ViewportAdjuster {
 	 * @param row Row index
 	 * @param column Column index
 	 * @param viewport Viewport
-	 * @return True if the viewport was adjusted, false else
+	 * @return Updated viewport
 	 */
-	public boolean adjustViewportIfNeeded(int row, int column, Rectangle viewport) {
+	public Rectangle adjustViewportIfNeeded(int row, int column, Rectangle viewport) {
 		double scrollAmountX = getScrollAmountX(column, viewport);
 		double scrollAmountY = getScrollAmountY(row, viewport);
 
@@ -48,9 +48,9 @@ public final class ViewportAdjuster {
 			viewportAdjusterDelegate.setScrollPosition(
 					(int) (viewport.getMinX() + scrollAmountX),
 					(int) (viewport.getMinY() + scrollAmountY));
-			return true;
+			return viewport.translatedBy(scrollAmountX, scrollAmountY);
 		}
-		return false;
+		return viewport;
 	}
 
 	/**

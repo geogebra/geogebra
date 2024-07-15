@@ -102,11 +102,13 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	}
 
 	private void setGeosEuclidianInvisibleAndAuxiliary(GeoElementND[] geos) {
-		Arrays.stream(geos).forEach(geo -> {
-			geo.setEuclidianVisible(false);
-			geo.setAuxiliaryObject(true);
-			geo.updateVisualStyle(GProperty.VISIBLE);
-		});
+		if (geos != null) {
+			Arrays.stream(geos).forEach(geo -> {
+				geo.setEuclidianVisible(false);
+				geo.setAuxiliaryObject(true);
+				geo.updateVisualStyle(GProperty.VISIBLE);
+			});
+		}
 	}
 
 	private static boolean isCommand(String input) {
