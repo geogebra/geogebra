@@ -18,7 +18,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
 public class CompDropDown extends FlowPanel implements SetLabels {
 	private final AppW app;
 	private Label label;
-	private String labelKey;
+	private final String labelKey;
 	private Label selectedOption;
 	private boolean isDisabled = false;
 	private DropDownComboBoxController controller;
@@ -30,7 +30,7 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 	 * @param label - label of drop-down
 	 * @param items - popup elements
 	 */
-	public CompDropDown(AppW app, String label, List<String> items) {
+	private CompDropDown(AppW app, String label, List<String> items) {
 		this.app = app;
 		labelKey = label;
 		addStyleName("dropDown");
