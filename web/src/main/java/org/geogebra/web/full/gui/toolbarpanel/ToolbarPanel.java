@@ -35,7 +35,6 @@ import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.TableTab;
-import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.accessibility.SideBarAccessibilityAdapter;
@@ -81,7 +80,7 @@ public class ToolbarPanel extends FlowPanel
 	/** Header of the panel with buttons and tabs */
 	NavigationRail navRail;
 	/** Application */
-	private final AppW app;
+	private final AppWFull app;
 	private EventDispatcher eventDispatcher;
 	private FlowPanel main;
 	private StandardButton moveBtn;
@@ -102,7 +101,7 @@ public class ToolbarPanel extends FlowPanel
 	 * @param app application
 	 */
 	public ToolbarPanel(AppW app, DockPanelDecorator decorator) {
-		this.app = app;
+		this.app = (AppWFull) app;
 		this.decorator = decorator;
 		eventDispatcher = app.getEventDispatcher();
 		app.getActiveEuclidianView().getEuclidianController()
@@ -330,7 +329,7 @@ public class ToolbarPanel extends FlowPanel
 		add(main);
 		hideDragger();
 		if (examController.isExamActive() && !examController.isCheating()) {
-			if (app.isLockedExam()) {
+			if (ExamUtil.hasExternalSecurityCheck(app)) {
 				setHeaderStyle("examLock");
 			} else {
 				setHeaderStyle("examOk");
@@ -428,7 +427,7 @@ public class ToolbarPanel extends FlowPanel
 			viewId = App.VIEW_PROBABILITY_CALCULATOR;
 		}
 		DockPanelW opposite =
-				(DockPanelW) app.getGuiManager().getLayout().getDockManager().getPanel(viewId);
+				app.getGuiManager().getLayout().getDockManager().getPanel(viewId);
 		DockSplitPaneW dockParent = getDockParent();
 		if (dockParent == null) {
 			return;
@@ -806,7 +805,7 @@ public class ToolbarPanel extends FlowPanel
 	 * @return the frame with casting.
 	 */
 	GeoGebraFrameFull getFrame() {
-		return ((AppWFull) app).getAppletFrame();
+		return app.getAppletFrame();
 	}
 
 	/**
@@ -1047,7 +1046,7 @@ public class ToolbarPanel extends FlowPanel
 					|| app.getInputPosition() != InputPosition.algebraView) {
 				return null;
 			}
-			return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
+			return app.getAlgebraView().getActiveTreeItem();
 		}
 		if (getSelectedTabId() == TabIds.TABLE && tabTable != null) {
 			return tabTable.getKeyboardListener(fallback);
@@ -1165,7 +1164,7 @@ public class ToolbarPanel extends FlowPanel
 	 * close portrait
 	 */
 	public void doCloseInPortrait() {
-		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
+		DockManagerW dm = app.getGuiManager().getLayout()
 				.getDockManager();
 		dm.closePortrait();
 		updatePanelVisibility(false);
