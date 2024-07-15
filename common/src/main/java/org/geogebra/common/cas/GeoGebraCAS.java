@@ -681,14 +681,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 											.get(0),
 									symbolic, tplToUse));
 						} else {
-							if ("Distance".equals(name) && ev.wrap().evaluatesToVectorNotPoint()) {
-								GeoSymbolic symbolic1 = (GeoSymbolic) ev.unwrap();
 
-								if (symbolic1 != null) {
-									((MyVec3DNode) symbolic1.getValue().wrap().getLeft())
-											.clearCASVector();
-								}
+							MyVec3DNode myVec3DNode = get3DVectFromDistance(name, ev);
+							if (myVec3DNode != null) {
+								myVec3DNode.clearCASVector();
 							}
+
 							sbCASCommand
 									.append(toString(ev, symbolic, tplToUse));
 
@@ -733,6 +731,18 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		return sbCASCommand.toString();
+	}
+
+	private static MyVec3DNode get3DVectFromDistance(String name, ExpressionValue ev) {
+		ExpressionValue unwrap = ev.unwrap();
+		if (!"Distance".equals(name) || !ev.wrap().evaluatesToVectorNotPoint()
+				|| !(unwrap instanceof GeoSymbolic)) {
+			return null;
+		}
+
+		ExpressionValue value = ((GeoSymbolic) unwrap).getValue();
+		return value != null && value.wrap().getLeft() instanceof MyVec3DNode
+				? ((MyVec3DNode) value.wrap().getLeft()) : null;
 	}
 
 	private void updateArgsAndSbForSum(ArrayList<ExpressionNode> args, StringBuilder sbCASCommand) {
