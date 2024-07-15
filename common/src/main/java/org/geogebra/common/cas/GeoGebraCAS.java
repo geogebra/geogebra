@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.DummyVariableCollector;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -679,16 +680,15 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 									((MyList) (args.get(pos).getLeft()))
 											.get(0),
 									symbolic, tplToUse));
-						} else
-//							if ("Distance".equals(name) && args.get(1).getLeft() instanceof GeoSymbolic
-//						&& pos == 1) {
-//							GeoSymbolic symbolic1 = (GeoSymbolic) args.get(1).getLeft();
-//							if  (symbolic1.getTwinGeo().isGeoLine()) {
-//								sbCASCommand
-//										.append(toString(args.get(1).getLeft(), symbolic, tplToUse));
-//							}
-						{
+						} else {
+							if ("Distance".equals(name) && ev.wrap().evaluatesToVectorNotPoint()) {
+								GeoSymbolic symbolic1 = (GeoSymbolic) ev.unwrap();
 
+								if (symbolic1 != null) {
+									((MyVec3DNode) symbolic1.getValue().wrap().getLeft())
+											.clearCASVector();
+								}
+							}
 							sbCASCommand
 									.append(toString(ev, symbolic, tplToUse));
 

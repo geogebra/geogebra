@@ -18,13 +18,16 @@ class CartesianPrinter3D implements Printer {
     public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter,
 			PrintableVector vector) {
 		if (tpl.getStringType().isGiac()) {
-			return (vector.isCASVector() ? "ggbvect[" : "point(")
+			boolean vectorNot3dPoint = vector.isCASVector();// && !((MyVec3DNode) vector).
+//					isPoint3DValue();
+			return (vectorNot3dPoint
+					? "ggbvect[" : "point(")
 					+ expressionPrinter.print(vector.getX(), tpl)
 					+ ','
 					+ expressionPrinter.print(vector.getY(), tpl)
 					+ ','
 					+ expressionPrinter.print(vector.getZ(), tpl)
-					+ (vector.isCASVector() ? "]" : ")");
+					+ (vectorNot3dPoint ? "]" : ")");
 		}
 		String delimiter = tpl.getCartesianDelimiter(settings);
         return tpl.leftBracket()
