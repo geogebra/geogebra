@@ -77,6 +77,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		public void hide() {
 			mathField.setVisible(false);
 			parent.requestFocus();
+			app.hideKeyboard();
 		}
 
 		@Override

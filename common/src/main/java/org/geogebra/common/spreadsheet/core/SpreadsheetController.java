@@ -855,8 +855,10 @@ public final class SpreadsheetController {
 
 		void hide() {
 			cellEditor.getMathField().removeMathFieldListener(mathFieldAdapter);
-			cellEditor.hide();
+			// flag needs to be set *before* hiding since hiding may change layout (keyboard closed)
+			// and during layout update we may need to query this flag
 			isVisible = false;
+			cellEditor.hide();
 		}
 
 		void clearInput() {
