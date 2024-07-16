@@ -22,7 +22,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	private final SpreadsheetController controller;
 
 	private final SpreadsheetRenderer renderer;
-	private Rectangle viewport;
 
 	/**
 	 * @param tabularData data source
@@ -54,6 +53,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 */
 	public void draw(GGraphics2D graphics) {
 		graphics.setPaint(GColor.WHITE);
+		Rectangle viewport = controller.getViewport();
 		graphics.fillRect(0, 0, (int) viewport.getWidth(), (int) viewport.getHeight());
 		List<TabularRange> visibleSelections = controller.getVisibleSelections();
 		for (TabularRange range: visibleSelections) {
@@ -92,7 +92,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		renderer.drawHeaderBackgroundAndOutline(graphics, viewport);
 		controller.getSelections().forEach(selection -> {
 			renderer.drawSelectionHeader(selection, graphics,
-					this.viewport, controller.getLayout());
+					controller.getViewport(), controller.getLayout());
 		});
 		graphics.translate(-offsetX, 0);
 		graphics.setColor(controller.getStyle().getGridColor());
@@ -150,8 +150,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param viewport viewport relative to the table, in pixels
 	 */
 	public void setViewport(Rectangle viewport) {
-		this.viewport = viewport;
-		this.controller.setViewport(this.viewport);
+		this.controller.setViewport(viewport);
 	}
 
 	public void setControlsDelegate(SpreadsheetControlsDelegate controlsDelegate) {

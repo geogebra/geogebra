@@ -87,6 +87,10 @@ public final class SpreadsheetController {
 		this.viewport = viewport;
 	}
 
+	Rectangle getViewport() {
+		return viewport;
+	}
+
 	TableLayout getLayout() {
 		return layout;
 	}
@@ -234,7 +238,7 @@ public final class SpreadsheetController {
 		int row = findRowOrHeader(y);
 
 		if (viewportAdjuster != null) {
-			viewportAdjuster.adjustViewportIfNeeded(row, column, viewport);
+			viewport = viewportAdjuster.adjustViewportIfNeeded(row, column, viewport);
 		}
 
 		if (modifiers.secondaryButton && controlsDelegate != null) {
@@ -519,7 +523,7 @@ public final class SpreadsheetController {
 	private void adjustViewportIfNeeded() {
 		Selection lastSelection = getLastSelection();
 		if (lastSelection != null && viewportAdjuster != null) {
-			viewportAdjuster.adjustViewportIfNeeded(
+			viewport = viewportAdjuster.adjustViewportIfNeeded(
 					lastSelection.getRange().getToRow(),
 					lastSelection.getRange().getToColumn(),
 					viewport);
