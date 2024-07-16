@@ -47,6 +47,10 @@ class ItemSelector implements MoveSelector {
 		return hasKeyboardFocus;
 	}
 
+	public void setKeyboardFocus(boolean hasKeyboardFocus) {
+		this.hasKeyboardFocus = hasKeyboardFocus;
+	}
+
 	void cancelDrag() {
 		dragged = null;
 		dragOffset = 0;
@@ -93,13 +97,12 @@ class ItemSelector implements MoveSelector {
 		moveSelectorBy(model.getRowCount(), left);
 	}
 
-	void setHovered(OptionItem item, boolean hasKeyboardFocus) {
+	void setHovered(OptionItem item) {
 		if (item == null || item.isEqual(hovered)) {
 			return;
 		}
 		app.dispatchEvent(getFocusEvent(item));
 		hovered = item;
-		this.hasKeyboardFocus = hasKeyboardFocus;
 	}
 
 	private Event getFocusEvent(OptionItem item) {
