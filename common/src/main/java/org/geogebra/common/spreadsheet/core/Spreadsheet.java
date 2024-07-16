@@ -229,6 +229,9 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.moveRight(false);
 	}
 
+	/**
+	 * Clears the selection, committing any pending cell edits beforehand.
+	 */
 	public void clearSelection() {
 		controller.saveContentAndHideCellEditor();
 		controller.clearSelection();
