@@ -1,7 +1,9 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.common.BaseUnitTest.hasValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,8 +28,9 @@ public class Cas3DCommandsTest extends BaseSymbolicTest {
 	public void testDistancePointAndLine3D() {
 		GeoSymbolic point3D = add("A := (6, 7, -3)");
 		GeoSymbolic line3D = add("g(t):=(2,1,4) + t*(3,0,-2)");
-		GeoElement res = add("Distance(A, g)");
-		assertEquals("7", res);
+		add("Distance(A, g)");
+		GeoElement res = add("Extremum(a)");
+		assertThat(res, hasValue("{(2, 7)}"));
 		ArrayList<ExpressionNode> args = new ArrayList<>(Arrays.asList(
 				point3D.wrap(), line3D.wrap()));
 
@@ -45,18 +48,12 @@ public class Cas3DCommandsTest extends BaseSymbolicTest {
 
 	@Test
 	public void testDistanceWithVector() {
-
-		try {
-			GeoSymbolic vec1 = add("Vector(1, 2)");
-			GeoSymbolic vec2 = add("Vector(1, 2)");
-			ArrayList<ExpressionNode> args =
-					new ArrayList<>(Arrays.asList(vec1.wrap(), vec2.wrap()));
-			geoGebraCAS.getCASCommand("Distance",
-					args,	false, StringTemplate.giacTemplate, SymbolicMode.NONE);
-
-		} catch (Exception e) {
-			fail(e.getClass().getSimpleName() + " was thrown");
-		}
-
+		GeoSymbolic vec1 = add("Vector(1, 2)");
+		GeoSymbolic vec2 = add("Vector(1, 2)");
+		ArrayList<ExpressionNode> args =
+				new ArrayList<>(Arrays.asList(vec1.wrap(), vec2.wrap()));
+		String distCommand = geoGebraCAS.getCASCommand("Distance",
+				args, false, StringTemplate.giacTemplate, SymbolicMode.NONE);
+		assertThat(distCommand, containsString("ggbvect[1,2]"));
 	}
 }

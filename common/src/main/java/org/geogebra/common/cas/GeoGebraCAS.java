@@ -741,8 +741,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		ExpressionValue value = ((GeoSymbolic) unwrap).getValue();
-		return value != null && value.wrap().getLeft() instanceof MyVec3DNode
-				? ((MyVec3DNode) value.wrap().getLeft()) : null;
+		return value != null && value.unwrap() instanceof MyVec3DNode
+				? ((MyVec3DNode) value.unwrap()) : null;
 	}
 
 	private void updateArgsAndSbForSum(ArrayList<ExpressionNode> args, StringBuilder sbCASCommand) {
