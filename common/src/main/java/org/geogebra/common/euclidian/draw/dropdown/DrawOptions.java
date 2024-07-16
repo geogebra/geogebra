@@ -102,7 +102,7 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 		}
 
 		if (idx >= 0 && idx < items.size()) {
-			selector.setHovered(items.get(idx));
+			selector.setHovered(items.get(idx), true);
 			model.setSelected(idx);
 			drawDropDownList.update();
 			view.repaintView();
@@ -213,7 +213,7 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 		}
 		OptionItem item = items.at(x, y);
 
-		selector.setHovered(item);
+		selector.setHovered(item, false);
 		view.repaintView();
 	}
 
@@ -245,7 +245,8 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 	}
 
 	private void updateHovering() {
-		selector.setHovered(model.isScrollBoundsValid() ? items.get(model.getSelected()) : null);
+		selector.setHovered(model.isScrollBoundsValid() ? items.get(model.getSelected())
+				: null, true);
 	}
 
 	private void updateVisibleRange() {
