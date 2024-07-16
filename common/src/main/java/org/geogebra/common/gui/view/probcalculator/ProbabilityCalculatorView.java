@@ -1076,8 +1076,8 @@ public abstract class ProbabilityCalculatorView
 	public void setXAxisPoints() {
 		isSettingAxisPoints = true;
 
-		xAxis.lowPoint().setCoords(getLow(), 0.0, 1.0);
-		xAxis.highPoint().setCoords(getHigh(), 0.0, 1.0);
+		xAxis.lowPoint().setCoords(roundIfDiscrete(getLow()), 0.0, 1.0);
+		xAxis.highPoint().setCoords(roundIfDiscrete(getHigh()), 0.0, 1.0);
 		getPlotPanel().repaint();
 		GeoElement.updateCascade(pointList, getTempSet(), false);
 		tempSet.clear();
@@ -1468,16 +1468,25 @@ public abstract class ProbabilityCalculatorView
 	 * @return probability of selected interval
 	 */
 	protected double intervalProbability() {
-		return probManager.intervalProbability(getLow(), getHigh(),
+		return probManager.intervalProbability(roundIfDiscrete(getLow()),
+				roundIfDiscrete(getHigh()),
 				selectedDist, parameters, probMode);
 	}
 
+	private double roundIfDiscrete(double value) {
+		if (isDiscreteProbability()) {
+			double decimalPat = value - (int) value;
+			return decimalPat < 0.5 ? Math.floor(value) : Math.ceil(value);
+		}
+		return value;
+	}
+
 	protected double rightProbability(double high) {
-		return probManager.rightProbability(high, parameters, selectedDist);
+		return probManager.rightProbability(roundIfDiscrete(high), parameters, selectedDist);
 	}
 
 	protected double leftProbability() {
-		return probManager.probability(getLow(), parameters, selectedDist, true);
+		return probManager.probability(roundIfDiscrete(getLow()), parameters, selectedDist, true);
 	}
 
 	/**
@@ -1541,9 +1550,9 @@ public abstract class ProbabilityCalculatorView
 	 * @param xHigh - interval max
 	 * @return whether interval is valid for given mode
 	 */
+	// TODO remove this method if discrete input rounding is OK.
 	public boolean isValidInterval(double xLow, double xHigh) {
-		return !(probManager.isDiscrete(selectedDist)
-				&& (Math.floor(xLow) != xLow || Math.floor(xHigh) != xHigh));
+		return true;
 	}
 
 	/**
