@@ -197,7 +197,7 @@ public final class SpreadsheetController {
 	}
 
 	void saveContentAndHideCellEditor() {
-		if (editor.isVisible) {
+		if (editor != null && editor.isVisible) {
 			editor.commit();
 			editor.hide();
 		}
