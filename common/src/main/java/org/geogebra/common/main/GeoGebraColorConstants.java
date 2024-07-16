@@ -6,8 +6,6 @@ import java.util.Map.Entry;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.util.StringUtil;
 
-import sun.misc.GC;
-
 /**
  * Color constants for swatches, spreadsheet etc.
  */
