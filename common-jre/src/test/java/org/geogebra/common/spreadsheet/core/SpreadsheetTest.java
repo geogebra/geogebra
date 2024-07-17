@@ -25,7 +25,6 @@ public class SpreadsheetTest extends BaseUnitTest {
 	private final int rowHeader = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 	private Spreadsheet spreadsheet;
 	private TestTabularData tabularData;
-	private Rectangle viewport;
 
 	@Before
 	public void setupSpreadsheet() {
@@ -34,12 +33,11 @@ public class SpreadsheetTest extends BaseUnitTest {
 				new TestCellRenderableFactory(), null);
 		spreadsheet.setHeightForRows(20, 0, 5);
 		spreadsheet.setWidthForColumns(40, 0, 5);
-		viewport = new Rectangle(0, 100, 0, 120);
-		spreadsheet.setViewport(viewport);
+		resetViewport();
 		spreadsheet.setViewportAdjustmentHandler(new ViewportAdjusterDelegate() {
 			@Override
 			public void setScrollPosition(int x, int y) {
-				viewport = viewport.translatedBy(x, y);
+				// no UI to update
 			}
 
 			@Override
@@ -52,6 +50,11 @@ public class SpreadsheetTest extends BaseUnitTest {
 				// no UI to update
 			}
 		});
+	}
+
+	private void resetViewport() {
+		Rectangle viewport = new Rectangle(0, 100, 0, 120);
+		spreadsheet.setViewport(viewport);
 	}
 
 	@Test
@@ -144,6 +147,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 		spreadsheet.handlePointerDown(15, colHeader + 20, Modifiers.NONE);
 		spreadsheet.handlePointerMove(15, colHeader + 45, Modifiers.NONE);
 		spreadsheet.handlePointerUp(15, colHeader + 45, Modifiers.NONE);
+		resetViewport();
 		graphics = new StringCapturingGraphics();
 		spreadsheet.draw(graphics);
 		// after resize, we have 3

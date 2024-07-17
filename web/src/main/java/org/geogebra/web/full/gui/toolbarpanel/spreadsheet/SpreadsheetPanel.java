@@ -120,7 +120,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			spreadsheet.scrollForPasteSelectionIfNeeded();
 		}, 20);
 		scrollOverlay.addScrollHandler(event -> {
-			onScroll();
+			updateViewport();
+			repaint();
 		});
 	}
 
@@ -185,7 +186,9 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	public void onResize() {
 		graphics.setDevicePixelRatio(app.getPixelRatio());
 		graphics.setCoordinateSpaceSize(getWidth(), getHeight());
-		onScroll();
+		updateViewport();
+		spreadsheet.scrollEditorIntoView();
+		repaint();
 	}
 
 	private void repaint() {
@@ -193,12 +196,11 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		spreadsheet.draw(graphics);
 	}
 
-	private void onScroll() {
+	private void updateViewport() {
 		int scrollTop = scrollOverlay.getElement().getScrollTop();
 		int scrollLeft = scrollOverlay.getElement().getScrollLeft();
 		spreadsheet.setViewport(new Rectangle(scrollLeft, scrollLeft + getWidth(),
 				scrollTop, scrollTop + getHeight()));
-		repaint();
 	}
 
 	private int getHeight() {
@@ -239,5 +241,9 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 				updateTotalSize(size.getWidth(), size.getHeight());
 			}
 		};
+	}
+
+	public void saveContentAndHideCellEditor() {
+		spreadsheet.saveContentAndHideCellEditor();
 	}
 }
