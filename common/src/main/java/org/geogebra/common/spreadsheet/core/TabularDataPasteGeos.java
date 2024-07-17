@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
-import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -16,15 +15,12 @@ import org.geogebra.common.util.debug.Log;
 public final class TabularDataPasteGeos implements TabularDataPasteInterface<GeoElement> {
 
 	private final RelativeCopy relativeCopy;
-	private final KernelTabularDataAdapter tabularData;
 	private final App app;
 
 	/**
-	 * @param tabularData Where to paste geos to
 	 * @param kernel Needed for {@link RelativeCopy}
 	 */
-	public TabularDataPasteGeos(KernelTabularDataAdapter tabularData, Kernel kernel) {
-		this.tabularData = tabularData;
+	public TabularDataPasteGeos(Kernel kernel) {
 		this.relativeCopy = new RelativeCopy(kernel);
 		this.app = kernel.getApplication();
 	}
@@ -69,8 +65,7 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 								destination.getFromColumn() - source.getFromColumn(),
 								destination.getFromRow() - source.getFromRow());
 						if (geo != null) {
-							operations.add(geo, bufferRow, bufferCol,
-									destinationRow, destinationColumn);
+							operations.add(geo, destinationRow, destinationColumn);
 						}
 					} catch (CircularDefinitionException | ParseException e) {
 						Log.error(e);

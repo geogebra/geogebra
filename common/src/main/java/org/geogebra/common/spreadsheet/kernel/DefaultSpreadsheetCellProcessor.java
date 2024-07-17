@@ -2,8 +2,6 @@ package org.geogebra.common.spreadsheet.kernel;
 
 import static org.geogebra.common.util.StringUtil.isNumber;
 
-import java.util.Arrays;
-
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 

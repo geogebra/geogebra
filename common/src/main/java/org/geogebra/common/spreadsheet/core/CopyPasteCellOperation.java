@@ -14,16 +14,12 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
  */
 final class CopyPasteCellOperation {
 	private GeoElement geoToCopy;
-	private int sourceRow;
-	private int sourceCol;
 	private int destRow;
 	private int destCol;
 
-	CopyPasteCellOperation(GeoElement geoToCopy, int sourceRow, int sourceCol, int destRow, int destCol) {
+	CopyPasteCellOperation(GeoElement geoToCopy, int destRow, int destCol) {
 		this.geoToCopy = geoToCopy;
-		this.sourceRow = sourceRow;
 		this.destRow = destRow;
-		this.sourceCol = sourceCol;
 		this.destCol = destCol;
 	}
 

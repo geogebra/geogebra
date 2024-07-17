@@ -135,10 +135,6 @@ final class CopyPasteCutTabularDataImpl<T>
 		}
 	}
 
-	private void ensureOrder(TabularRange destination) {
-
-	}
-
 	private boolean isSmallerOrEqualThanClipboardData(TabularRange destination) {
 		return destination.getWidth() <= internalClipboard.numberOfColumns()
 				&& destination.getHeight() <= internalClipboard.numberOfRows();
