@@ -13,14 +13,14 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
  *
  */
 final class CopyPasteCellOperation {
-	private int id;
+	private GeoElement geoToCopy;
 	private int sourceRow;
 	private int sourceCol;
 	private int destRow;
 	private int destCol;
 
-	CopyPasteCellOperation(int id, int sourceRow, int sourceCol, int destRow, int destCol) {
-		this.id = id;
+	CopyPasteCellOperation(GeoElement geoToCopy, int sourceRow, int sourceCol, int destRow, int destCol) {
+		this.geoToCopy = geoToCopy;
 		this.sourceRow = sourceRow;
 		this.destRow = destRow;
 		this.sourceCol = sourceCol;
@@ -29,17 +29,16 @@ final class CopyPasteCellOperation {
 
 	/**
 	 * Executes the paste from buffer to tabularData.
-	 * @param buffer to copy from.
 	 * @param tabularData to paste to.
 	 */
-	void apply(TabularClipboard<GeoElement> buffer, TabularData<GeoElement> tabularData) {
-		GeoElement value = buffer.contentAt(sourceRow, sourceCol);
-		GeoElement copy = value.copy();
+	void apply(TabularData<GeoElement> tabularData) {
+		GeoElement copy = geoToCopy.copy();
+		copy.setDefinition(geoToCopy.getDefinition());
 		copy.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(destCol, destRow));
 		tabularData.setContent(destRow, destCol, copy);
 	}
 
 	int getId() {
-		return id;
+		return geoToCopy.getConstructionIndex();
 	}
 }

@@ -1,12 +1,33 @@
 package org.geogebra.common.spreadsheet.core;
 
+import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
+import org.geogebra.common.kernel.CircularDefinitionException;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.main.App;
+import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Handles copy/paste of {@link TabularData} when the content of the cell
  * is a {@link GeoElement}.
  */
 public final class TabularDataPasteGeos implements TabularDataPasteInterface<GeoElement> {
+
+	private final RelativeCopy relativeCopy;
+	private final KernelTabularDataAdapter tabularData;
+	private final App app;
+
+	/**
+	 * @param tabularData Where to paste geos to
+	 * @param kernel Needed for {@link RelativeCopy}
+	 */
+	public TabularDataPasteGeos(KernelTabularDataAdapter tabularData, Kernel kernel) {
+		this.tabularData = tabularData;
+		this.relativeCopy = new RelativeCopy(kernel);
+		this.app = kernel.getApplication();
+	}
 
 	/**
 	 * Copy and paste geos ensuring that the creation order of the new, pasted geos
@@ -17,7 +38,7 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 			TabularClipboard<GeoElement> clipboard, TabularRange destination) {
 		CopyPasteCellOperationList operations = collectOperations(clipboard, destination);
 		operations.sort();
-		operations.apply(clipboard, tabularData);
+		operations.apply(tabularData);
 	}
 
 	@Override
@@ -26,7 +47,7 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 		// TODO
 	}
 
-	private static CopyPasteCellOperationList collectOperations(TabularClipboard<GeoElement> buffer,
+	private CopyPasteCellOperationList collectOperations(TabularClipboard<GeoElement> buffer,
 			TabularRange destination) {
 		CopyPasteCellOperationList operations = new CopyPasteCellOperationList();
 		TabularRange source = buffer.getSourceRange();
@@ -35,14 +56,24 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 			for (int row = source.getFromRow(); row <= source.getToRow(); ++row) {
 				int bufferRow = row - source.getFromRow();
 
+				int destinationRow = destination.getFromRow() + bufferRow;
+				int destinationColumn = destination.getFromColumn() + bufferCol;
+
 				if (bufferCol + destination.getFromColumn() <= destination.getToColumn()
 						&& bufferRow + destination.getFromRow() <= destination.getToRow()) {
 
-					GeoElement geo = buffer.contentAt(bufferRow, bufferCol);
-					if (geo != null) {
-						operations.add(geo.getConstructionIndex(), bufferRow, bufferCol,
-								destination.getFromRow() + bufferRow,
-								destination.getFromColumn() + bufferCol);
+					try {
+						GeoElement geo = (GeoElement) relativeCopy.doCopyNoStoringUndoInfo0(
+								buffer.contentAt(bufferRow, bufferCol),
+								RelativeCopy.getValue(app, destinationColumn, destinationRow),
+								destination.getFromColumn() - source.getFromColumn(),
+								destination.getFromRow() - source.getFromRow());
+						if (geo != null) {
+							operations.add(geo, bufferRow, bufferCol,
+									destinationRow, destinationColumn);
+						}
+					} catch (CircularDefinitionException | ParseException e) {
+						Log.error(e);
 					}
 				}
 			}

@@ -232,7 +232,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public TabularDataPasteInterface<GeoElement> getPaste() {
-		return new TabularDataPasteGeos();
+		return new TabularDataPasteGeos(this, kernel);
 	}
 
 	@Override

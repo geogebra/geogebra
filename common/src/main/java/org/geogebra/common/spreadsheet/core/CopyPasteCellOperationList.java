@@ -19,26 +19,24 @@ final class CopyPasteCellOperationList {
 	/**
 	 * Adds a copy/paste cell operation.
 	 *
-	 * @param id of the content
+	 * @param geo Geo to be copy-pasted
 	 * @param sourceRow to copy from.
 	 * @param sourceCol to copy from.
 	 * @param destRow to paste to.
 	 * @param destCol to paste to.
 	 */
-	void add(int id, int sourceRow, int sourceCol, int destRow, int destCol) {
-		list.add(new CopyPasteCellOperation(id, sourceRow, sourceCol,
+	void add(GeoElement geo, int sourceRow, int sourceCol, int destRow, int destCol) {
+		list.add(new CopyPasteCellOperation(geo, sourceRow, sourceCol,
 				destRow, destCol));
 	}
 
 	/**
 	 * Apply all the operations in list between two data sources.
-	 *
-	 * @param from buffer to copy from
-	 * @param to to paste to.
+	 * @param tabularData TabularData where content is pasted to
 	 */
-	void apply(TabularClipboard<GeoElement> from, TabularData<GeoElement> to) {
+	void apply(TabularData<GeoElement> tabularData) {
 		for (CopyPasteCellOperation operation: list) {
-			operation.apply(from, to);
+			operation.apply(tabularData);
 		}
 	}
 

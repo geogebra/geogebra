@@ -15,9 +15,9 @@ final class CopyPasteCutTabularDataImpl<T>
 	private List<Selection> pastedSelections = new ArrayList<>();
 
 	/**
-	 *
 	 * @param tabularData {@link TabularData}
 	 * @param clipboard {@link ClipboardInterface}
+	 * @param layout Spreadsheet dimensions
 	 * @param selectionController {@link SpreadsheetSelectionController}
 	 */
 	CopyPasteCutTabularDataImpl(TabularData<T> tabularData, ClipboardInterface clipboard,
@@ -135,6 +135,10 @@ final class CopyPasteCutTabularDataImpl<T>
 		}
 	}
 
+	private void ensureOrder(TabularRange destination) {
+
+	}
+
 	private boolean isSmallerOrEqualThanClipboardData(TabularRange destination) {
 		return destination.getWidth() <= internalClipboard.numberOfColumns()
 				&& destination.getHeight() <= internalClipboard.numberOfRows();
@@ -212,13 +216,13 @@ final class CopyPasteCutTabularDataImpl<T>
 		int rowStep = internalClipboard.numberOfRows();
 		int columnMultiplier = Math.max(destination.getWidth() / columnStep, 1);
 		int rowMultiplier = Math.max(destination.getHeight() / rowStep, 1);
-		int maxColumn = columnStep * columnMultiplier ;
+		int maxColumn = columnStep * columnMultiplier;
 		int maxRow = rowStep * rowMultiplier;
-		int fromRow = destination.getFromRow() < 0 ? 0 : destination.getFromRow();
-		int fromColumn = destination.getFromColumn() < 0 ? 0 : destination.getFromColumn();
+		int minRow = destination.getMinRow() < 0 ? 0 : destination.getMinRow();
+		int minColumn = destination.getMinColumn() < 0 ? 0 : destination.getMinColumn();
 
-		for (int column = fromColumn; column < fromColumn + maxColumn; column += columnStep) {
-			for (int row = fromRow; row < fromRow + maxRow; row += rowStep) {
+		for (int column = minColumn; column < minColumn + maxColumn; column += columnStep) {
+			for (int row = minRow; row < minRow + maxRow; row += rowStep) {
 				pasteInternalOnce(new TabularRange(row, column,
 						row + rowStep - 1, column + columnStep - 1));
 			}
