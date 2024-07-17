@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
+import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.properties.impl.distribution.ParameterProperty;
 import org.junit.Test;
 
@@ -61,7 +62,7 @@ public class ProbabilityCalculatorViewTest extends BaseUnitTest {
 	@Test
 	public void noTypeCastForParameters() {
 		ProbabilityCalculatorView probCalc = new HeadlessProbabilityCalculatorView(getApp());
-		probCalc.setProbabilityCalculator(ProbabilityCalculatorSettings.Dist.NORMAL, null, false);
+		probCalc.setProbabilityCalculator(Dist.NORMAL, null, false);
 		ParameterProperty prop = new ParameterProperty(getLocalization(),
 				getKernel().getAlgebraProcessor(), probCalc, 0, "");
 		prop.setValue("true");
@@ -73,20 +74,20 @@ public class ProbabilityCalculatorViewTest extends BaseUnitTest {
 		List<Double> lows = Arrays.asList(6.5, 6.65, 6.7, 6.9);
 		List<Double> highs = Arrays.asList(10.1, 10.23, 10.33, 10.45);
 
-		shouldBeEqualForAll(lows, highs, 0.72555, BINOMIAL, PROB_INTERVAL);
-		shouldBeEqualForAll(lows, highs, 0.87569, BINOMIAL, PROB_LEFT);
-		shouldBeEqualForAll(lows, highs, 0.84985, BINOMIAL, PROB_RIGHT);
-//		shouldBeEqualForAll(lows, highs, -0.183239, BINOMIAL, PROB_TWO_TAILED);
+		forEachProbabilityShouldBe(0.72555, lows, highs, BINOMIAL, PROB_INTERVAL);
+		forEachProbabilityShouldBe(0.87569, highs, BINOMIAL, PROB_LEFT);
+		forEachProbabilityShouldBe(0.84985, lows, BINOMIAL, PROB_RIGHT);
+		forEachProbabilityShouldBe(0.58680, lows, highs, BINOMIAL, PROB_TWO_TAILED);
 
-		shouldBeEqualForAll(lows, highs, 0.40022, PASCAL, PROB_INTERVAL);
-		shouldBeEqualForAll(lows, highs, 0.65023, PASCAL, PROB_LEFT);
-		shouldBeEqualForAll(lows, highs, 0.74998, PASCAL, PROB_RIGHT);
-//		shouldBeEqualForAll(highs, lows, 0.74998, PASCAL, PROB_TWO_TAILED);
+		forEachProbabilityShouldBe(0.40022, lows, highs, PASCAL, PROB_INTERVAL);
+		forEachProbabilityShouldBe(0.65023, highs, PASCAL, PROB_LEFT);
+		forEachProbabilityShouldBe(0.74998, lows, PASCAL, PROB_RIGHT);
+		forEachProbabilityShouldBe(0.79331, lows, highs,  PASCAL, PROB_TWO_TAILED);
 
 	}
 
-	private void shouldBeEqualForAll(List<Double> lows, List<Double> highs, double result,
-			ProbabilityCalculatorSettings.Dist dist, int mode) {
+	private void forEachProbabilityShouldBe(double result, List<Double> lows, List<Double> highs,
+			Dist dist, int mode) {
 		assertEquals("Lows and highs size differs, please check your test",
 				highs.size(), lows.size());
 		for (int i = 0; i < lows.size(); i++) {
@@ -96,8 +97,19 @@ public class ProbabilityCalculatorViewTest extends BaseUnitTest {
 		}
 	}
 
+	private void forEachProbabilityShouldBe(double result, List<Double> values,
+			Dist dist, int mode) {
+		for (Double value : values) {
+			boolean right = mode == PROB_RIGHT;
+			discreteWithRealBoundsShouldBe(
+					right ? value : Double.NaN,
+					right ? Double.NaN : value, result,
+					dist, mode);
+		}
+	}
+
 	private void discreteWithRealBoundsShouldBe(double low, double high, double result,
-			ProbabilityCalculatorSettings.Dist dist, int probMode) {
+			Dist dist, int probMode) {
 		ProbabilityCalculatorView probCalc = new HeadlessProbabilityCalculatorView(getApp());
 		GeoNumberValue[] params = new GeoNumeric[]{
 				new GeoNumeric(getKernel().getConstruction(), 14),
@@ -105,11 +117,30 @@ public class ProbabilityCalculatorViewTest extends BaseUnitTest {
 
 		probCalc.setProbabilityCalculator(dist, params, false);
 		probCalc.setProbabilityMode(probMode);
-		probCalc.setLow(low);
-		probCalc.setHigh(high);
+		if (!Double.isNaN(low)) {
+			probCalc.setLow(low);
+		}
+
+		if (!Double.isNaN(high)) {
+			probCalc.setHigh(high);
+		}
+
 		probCalc.updateOutput(true);
-		assertThat(probCalc.getProbability(), closeTo(result, 0.0001));
+		double probability = probMode == PROB_TWO_TAILED
+				? probCalc.leftProbability + probCalc.rightProbability
+				: probCalc.getProbability();
+		assertThat(probability, closeTo(result, 0.0001));
 
 	}
 
+	@Test
+	public void testXAxisIntervalForDiscreteDistShouldBeOne() {
+		ProbabilityCalculatorView probCalc = new HeadlessProbabilityCalculatorView(getApp());
+		probCalc.plotSettings.xAxesInterval = 0.5;
+		for (Dist dist: Dist.values()) {
+			probCalc.setProbabilityCalculator(dist, null, false);
+			double expected = probCalc.isDiscreteProbability() ? 1 : 0.5;
+			assertEquals(expected, probCalc.getPlotSettings().xAxesInterval, 0);
+		}
+	}
 }
