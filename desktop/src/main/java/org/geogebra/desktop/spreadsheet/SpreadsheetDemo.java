@@ -1,9 +1,11 @@
 package org.geogebra.desktop.spreadsheet;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -24,6 +26,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -101,36 +104,50 @@ public class SpreadsheetDemo {
 				.getResource("spreadsheet.xml").toURI()), StandardCharsets.UTF_8);
 	}
 
-	private static void initParentPanel(JFrame frame, SpreadsheetPanel sp) {
-		JScrollBar vertical = new JScrollBar();
-		JScrollBar horizontal = new JScrollBar(JScrollBar.HORIZONTAL);
+	private static void initParentPanel(JFrame frame, SpreadsheetPanel spreadsheetPanel) {
+		JScrollBar verticalScrollBar = new JScrollBar();
+		JScrollBar horizontalScrollBar = new JScrollBar(JScrollBar.HORIZONTAL);
 		JPanel scrollPanel = new JPanel();
 		scrollPanel.setLayout(new BoxLayout(scrollPanel, BoxLayout.Y_AXIS));
-		JPanel top = new JPanel();
-		top.setLayout(new BoxLayout(top, BoxLayout.X_AXIS));
-		top.add(sp);
-		top.add(vertical);
-		scrollPanel.add(top);
-		scrollPanel.add(horizontal);
+
+		JPanel topBar = new JPanel();
+		topBar.setBackground(Color.lightGray);
+		topBar.setPreferredSize(new Dimension(800, 30));
+		topBar.add(new JLabel("(Click here to clear selection)"));
+		topBar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				spreadsheetPanel.spreadsheet.clearSelection();
+				frame.repaint();
+			}
+		});
+
+		JPanel spreadsheetContainer = new JPanel();
+		spreadsheetContainer.setLayout(new BoxLayout(spreadsheetContainer, BoxLayout.X_AXIS));
+		spreadsheetContainer.add(spreadsheetPanel);
+		spreadsheetContainer.add(verticalScrollBar);
+		scrollPanel.add(topBar);
+		scrollPanel.add(spreadsheetContainer);
+		scrollPanel.add(horizontalScrollBar);
+
 		Container contentPane = frame.getContentPane();
 		contentPane.setPreferredSize(new Dimension(800, 600));
 		contentPane.setLayout(new OverlayLayout(contentPane));
-
 		contentPane.add(scrollPanel);
-		sp.editorOverlay = new JPanel();
-		sp.editorOverlay.setPreferredSize(new Dimension(800, 600));
-		sp.editorOverlay.setLayout(null);
-		contentPane.add(sp.editorOverlay);
-		sp.editorOverlay.add(sp.editorBox);
+		spreadsheetPanel.editorOverlay = new JPanel();
+		spreadsheetPanel.editorOverlay.setPreferredSize(new Dimension(800, 600));
+		spreadsheetPanel.editorOverlay.setLayout(null);
+		contentPane.add(spreadsheetPanel.editorOverlay);
+		spreadsheetPanel.editorOverlay.add(spreadsheetPanel.editorBox);
 
-		vertical.addAdjustmentListener(evt -> {
-			sp.scrollY = evt.getValue() * 10;
-			sp.spreadsheet.setViewport(sp.getViewport());
+		verticalScrollBar.addAdjustmentListener(evt -> {
+			spreadsheetPanel.scrollY = evt.getValue() * 10;
+			spreadsheetPanel.spreadsheet.setViewport(spreadsheetPanel.getViewport());
 			frame.repaint();
 		});
-		horizontal.addAdjustmentListener(evt -> {
-			sp.scrollX = evt.getValue() * 10;
-			sp.spreadsheet.setViewport(sp.getViewport());
+		horizontalScrollBar.addAdjustmentListener(evt -> {
+			spreadsheetPanel.scrollX = evt.getValue() * 10;
+			spreadsheetPanel.spreadsheet.setViewport(spreadsheetPanel.getViewport());
 			frame.repaint();
 		});
 		frame.addWindowListener(new WindowAdapter() {
@@ -289,7 +306,9 @@ public class SpreadsheetDemo {
 				if (!frame.getContentPane().isAncestorOf(editorBox)) {
 					frame.getContentPane().add(editorBox);
 				}
-				editorBox.setBounds((int) editorBounds.getMinX(), (int) editorBounds.getMinY(),
+				Point locationInWindow = getParent().getLocation();
+				editorBox.setBounds((int) editorBounds.getMinX() + (int)locationInWindow.x,
+						(int) editorBounds.getMinY() + (int)locationInWindow.y,
 						(int) editorBounds.getWidth(), (int) editorBounds.getHeight());
 				mathField.setBounds(0, 0,
 						(int) editorBounds.getWidth(), (int) editorBounds.getHeight());
