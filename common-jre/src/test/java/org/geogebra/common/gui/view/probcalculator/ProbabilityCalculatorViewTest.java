@@ -1,13 +1,23 @@
 package org.geogebra.common.gui.view.probcalculator;
 
+import static org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView.PROB_INTERVAL;
+import static org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView.PROB_LEFT;
+import static org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView.PROB_RIGHT;
 import static org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView.PROB_TWO_TAILED;
+import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist.BINOMIAL;
+import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist.PASCAL;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.core.Is.isA;
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.properties.impl.distribution.ParameterProperty;
 import org.junit.Test;
@@ -56,6 +66,50 @@ public class ProbabilityCalculatorViewTest extends BaseUnitTest {
 				getKernel().getAlgebraProcessor(), probCalc, 0, "");
 		prop.setValue("true");
 		assertThat(probCalc.getProbability(), closeTo(0.34, 0.01));
+	}
+
+	@Test
+	public void testDiscreteDistributionWithDecimalInput() {
+		List<Double> lows = Arrays.asList(6.5, 6.65, 6.7, 6.9);
+		List<Double> highs = Arrays.asList(10.1, 10.23, 10.33, 10.45);
+
+		shouldBeEqualForAll(lows, highs, 0.72555, BINOMIAL, PROB_INTERVAL);
+		shouldBeEqualForAll(lows, highs, 0.87569, BINOMIAL, PROB_LEFT);
+		shouldBeEqualForAll(lows, highs, 0.84985, BINOMIAL, PROB_RIGHT);
+//		shouldBeEqualForAll(lows, highs, -0.183239, BINOMIAL, PROB_TWO_TAILED);
+
+		shouldBeEqualForAll(lows, highs, 0.40022, PASCAL, PROB_INTERVAL);
+		shouldBeEqualForAll(lows, highs, 0.65023, PASCAL, PROB_LEFT);
+		shouldBeEqualForAll(lows, highs, 0.74998, PASCAL, PROB_RIGHT);
+//		shouldBeEqualForAll(highs, lows, 0.74998, PASCAL, PROB_TWO_TAILED);
+
+	}
+
+	private void shouldBeEqualForAll(List<Double> lows, List<Double> highs, double result,
+			ProbabilityCalculatorSettings.Dist dist, int mode) {
+		assertEquals("Lows and highs size differs, please check your test",
+				highs.size(), lows.size());
+		for (int i = 0; i < lows.size(); i++) {
+			discreteWithRealBoundsShouldBe(lows.get(i), highs.get(i), result,
+					dist, mode);
+
+		}
+	}
+
+	private void discreteWithRealBoundsShouldBe(double low, double high, double result,
+			ProbabilityCalculatorSettings.Dist dist, int probMode) {
+		ProbabilityCalculatorView probCalc = new HeadlessProbabilityCalculatorView(getApp());
+		GeoNumberValue[] params = new GeoNumeric[]{
+				new GeoNumeric(getKernel().getConstruction(), 14),
+				new GeoNumeric(getKernel().getConstruction(), 0.6)};
+
+		probCalc.setProbabilityCalculator(dist, params, false);
+		probCalc.setProbabilityMode(probMode);
+		probCalc.setLow(low);
+		probCalc.setHigh(high);
+		probCalc.updateOutput(true);
+		assertThat(probCalc.getProbability(), closeTo(result, 0.0001));
+
 	}
 
 }
