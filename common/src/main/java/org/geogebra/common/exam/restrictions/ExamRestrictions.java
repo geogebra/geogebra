@@ -114,9 +114,6 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Set<String> frozenProperties) {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
-		if (defaultSubApp != null && disabledSubApps != null) {
-			assert !disabledSubApps.contains(defaultSubApp); // I actually made that mistake
-		}
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
 		this.featureRestrictions = featureRestrictions != null ? featureRestrictions : Set.of();
 		this.expressionFilters = expressionFilters != null ? expressionFilters : Set.of();

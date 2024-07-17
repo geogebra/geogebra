@@ -366,7 +366,8 @@ public final class ExamController {
 	 * @throws IllegalStateException if the exam controller is not in either the
 	 * {@link ExamState#IDLE} or {@link ExamState#PREPARING PREPARING} state.
 	 *
-	 * @apiNote Make sure to call {@link #setActiveContext(Object, CommandDispatcher, AlgebraProcessor)}
+	 * @apiNote Make sure to call {@link #setActiveContext(Object, CommandDispatcher,
+	 * AlgebraProcessor, Localization, Settings, AutocompleteProvider, ToolsProvider)}
 	 * before attempting to start an exam.
 	 *
 	 * @param examType The exam type.

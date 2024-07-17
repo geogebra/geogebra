@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.commands.Commands;
 
 public abstract class BaseCommandArgumentFilter implements CommandArgumentFilter {
 
-    private Commands[] filteredCommands;
+    private final Commands[] filteredCommands;
 
     /**
      * @param commands A list of commands that are not allowed.
