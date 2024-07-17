@@ -110,14 +110,11 @@ public class ToolbarPanelTest {
 
 	private void checkPanelNotVisibleInXml() {
 		final CountDownLatch latch = new CountDownLatch(1);
-		app.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				String algebraViewNotVisible =
-						"view id=\"" + App.VIEW_ALGEBRA + "\" visible=\"false\"";
-				Assert.assertTrue(app.getXML().contains(algebraViewNotVisible));
-				latch.countDown();
-			}
+		app.invokeLater(() -> {
+			String algebraViewNotVisible =
+					"view id=\"" + App.VIEW_ALGEBRA + "\" visible=\"false\"";
+			Assert.assertTrue(app.getXML().contains(algebraViewNotVisible));
+			latch.countDown();
 		});
 		try {
 			latch.await();

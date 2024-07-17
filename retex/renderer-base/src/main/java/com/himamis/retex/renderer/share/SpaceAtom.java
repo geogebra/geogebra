@@ -151,4 +151,7 @@ public class SpaceAtom extends Atom {
 		return unit;
 	}
 
+	public double getWidth() {
+		return width;
+	}
 }

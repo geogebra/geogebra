@@ -80,7 +80,7 @@ public class ScriptManagerW extends ScriptManager {
 		}
 	}
 
-	public static void ggbOnInit(String arg, Object self) {
+	public static void ggbOnInitExternal(String arg, Object self) {
 		JsEval.callNativeGlobalFunction("ggbOnInit", arg, self);
 	}
 
@@ -88,20 +88,11 @@ public class ScriptManagerW extends ScriptManager {
 	public void ggbOnInit() {
 		try {
 			tryTabletOnInit();
-			String libraryJavaScript = app.getKernel().getLibraryJavaScript();
-			boolean standardJS = libraryJavaScript
-					.equals(Kernel.defaultLibraryJavaScript);
 			final String param = ((AppW) app).getAppletId();
-			if (!standardJS && !app.useBrowserForJavaScript()
-					&& !app.getEventDispatcher().isDisabled(ScriptType.JAVASCRIPT)) {
-				libraryJavaScript += "ggbOnInit(\"" + param + "\",ggbApplet)";
-				app.evalJavaScript(app, libraryJavaScript,
-						null);
-			}
-			if (!standardJS || app.useBrowserForJavaScript()) {
-				if (!((AppW) app).getAppletParameters().getParamSandbox()) {
-					ggbOnInit(param, exportedApi);
-				}
+			if (app.useBrowserForJavaScript()) {
+				ggbOnInitExternal(param, exportedApi);
+			} else if (!app.getEventDispatcher().isDisabled(ScriptType.JAVASCRIPT)) {
+				ggbOnInitInternal(param);
 			}
 		} catch (CommandNotLoadedError e) {
 			throw e;
@@ -122,6 +113,16 @@ public class ScriptManagerW extends ScriptManager {
 					appletFrame.getOnLoadCallback(), exportedApi);
 			// callback only needed on first file load, not switching slides
 			appletFrame.appletOnLoadCalled(true);
+		}
+	}
+
+	private void ggbOnInitInternal(String param) {
+		String libraryJavaScript = app.getKernel().getLibraryJavaScript();
+		boolean standardJS = libraryJavaScript
+				.equals(Kernel.defaultLibraryJavaScript);
+		if (!standardJS) {
+			libraryJavaScript += ";ggbOnInit(\"" + param + "\",ggbApplet)";
+			app.evalJavaScript(app, libraryJavaScript, null);
 		}
 	}
 

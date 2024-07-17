@@ -317,17 +317,10 @@ public class EuclidianOptionsModel {
 				loc.getMenu("Automatic"), loc.getMenu("Off") };
 	}
 
-	public void updateProperties(IBasicTab basicTab, IGridTab gridTab) {
+	public void updateBasicProperties(IBasicTab basicTab) {
 		basicTab.updateAxes(view.getAxesColor(),
 				view.getShowXaxis() && view.getShowYaxis(), view.areAxesBold());
-
-		gridTab.updateGrid(view.getGridColor(), view.getShowGrid(),
-				view.getGridIsBold(), view.getGridType());
-
 		basicTab.updateBackgroundColor(getBackgroundColor());
-		EuclidianSettings es = view.getSettings();
-		gridTab.updateRuler(es.getBackgroundType(), es.getBgRulerColor(),
-				es.getRulerLineStyle(), es.isRulerBold());
 		int ind = view.getAllowToolTips();
 		int idx = -1;
 
@@ -358,12 +351,6 @@ public class EuclidianOptionsModel {
 				break;
 			}
 		}
-
-		gridTab.selectGridStyle(view.getGridLineStyle());
-
-		gridTab.updateGridTicks(view.isAutomaticGridDistance(),
-				view.getGridDistances(), view.getGridType());
-
 		// cons protocol panel
 		basicTab.updateConsProtocolPanel(
 				app.showConsProtNavigation(view.getViewID()));
@@ -372,6 +359,18 @@ public class EuclidianOptionsModel {
 		basicTab.updateAxisFontStyle(serif,
 				(fontStyle & GFont.BOLD) == GFont.BOLD,
 				(fontStyle & GFont.ITALIC) == GFont.ITALIC);
+	}
+
+	public void updateGridProperties(IGridTab gridTab) {
+		gridTab.updateGrid(view.getGridColor(), view.getShowGrid(),
+				view.getGridIsBold(), view.getGridType());
+		EuclidianSettings es = view.getSettings();
+		gridTab.updateRuler(es.getBackgroundType(), es.getBgRulerColor(),
+				es.getRulerLineStyle(), es.isRulerBold());
+		gridTab.selectGridStyle(view.getGridLineStyle());
+
+		gridTab.updateGridTicks(view.isAutomaticGridDistance(),
+				view.getGridDistances(), view.getGridType());
 	}
 
 	public List<String> getAngleOptions() {
