@@ -1053,7 +1053,8 @@ public abstract class ProbabilityCalculatorView
 			// intervals
 			plotSettings.gridInterval[0] = 1;
 			plotSettings.gridIntervalAuto = false;
-			plotSettings.xAxesIntervalAuto = true;
+			plotSettings.xAxesIntervalAuto = false;
+			plotSettings.xAxesInterval = 1;
 		} else {
 			plotSettings.pointCaptureStyle = EuclidianStyleConstants.POINT_CAPTURING_OFF;
 			plotSettings.xAxesIntervalAuto = true;
