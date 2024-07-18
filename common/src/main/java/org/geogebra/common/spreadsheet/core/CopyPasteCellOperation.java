@@ -1,7 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 
 /**
  * It represents a copy/paste operation of a spreadsheet cell.
@@ -28,10 +27,7 @@ final class CopyPasteCellOperation {
 	 * @param tabularData to paste to.
 	 */
 	void apply(TabularData<GeoElement> tabularData) {
-		GeoElement copy = geoToCopy.copy();
-		copy.setDefinition(geoToCopy.getDefinition());
-		copy.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(destCol, destRow));
-		tabularData.setContent(destRow, destCol, copy);
+		tabularData.setContent(destRow, destCol, geoToCopy);
 	}
 
 	int getId() {

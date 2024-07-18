@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.junit.Test;
@@ -18,12 +19,13 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 	private final TableLayout layout = new TableLayout(100, 26, 10, 10);
 	private final SpreadsheetSelectionController selectionController
 			= new SpreadsheetSelectionController();
+	private final ClipboardInterface clipboard = new TestClipboard();
 
 	@Override
 	public void setup() {
 		super.setup();
 		tabularData = new KernelTabularDataAdapter(getSettings().getSpreadsheet(), getKernel());
-		copyPasteCut = new CopyPasteCutTabularDataImpl<>(tabularData, getClipboard(),
+		copyPasteCut = new CopyPasteCutTabularDataImpl<>(tabularData, clipboard,
 				layout, selectionController);
 	}
 
@@ -33,6 +35,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 		copyPasteCut.copyDeep(TabularRange.range(1, 1, 1, 1));
 		copyPasteCut.paste(TabularRange.range(3, 3, 3, 3));
 		assertCellContentIsEqual(1, 1, 3, 3);
+		assertLabelIsEqualTo("D4", 3, 3);
 	}
 
 	@Test
@@ -43,6 +46,8 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 		copyPasteCut.paste(TabularRange.range(5, 7, 4, 4));
 		assertCellContentIsEqual(2, 2, 5, 4);
 		assertCellContentIsEqual(3, 2, 6, 4);
+		assertLabelIsEqualTo("E6", 5, 4);
+		assertLabelIsEqualTo("E7", 6, 4);
 	}
 
 	@Test
@@ -51,6 +56,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 		copyPasteCut.copyDeep(TabularRange.range(4, 4, 4, 4));
 		copyPasteCut.paste(TabularRange.range(3, 1, 1, 1));
 		assertCellContentIsEqual(4, 4, 1, 1);
+		assertLabelIsEqualTo("B2", 1, 1);
 	}
 
 	@Test
@@ -59,6 +65,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 		copyPasteCut.copyDeep(TabularRange.range(1, 1, 3, 3));
 		copyPasteCut.paste(TabularRange.range(2, 2, 4, 1));
 		assertCellContentIsEqual(1, 3, 2, 1);
+		assertLabelIsEqualTo("B3", 2, 1);
 	}
 
 	@Test
@@ -123,6 +130,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 		copyPasteCut.copyDeep(TabularRange.range(2, 2, -1, -1));
 		copyPasteCut.paste(TabularRange.range(3, 3, -1, -1));
 		assertCellContentIsEqual(2, 3, 3, 3);
+		assertLabelIsEqualTo("D4", 3, 3);
 	}
 
 	@Test
@@ -133,6 +141,8 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 		copyPasteCut.paste(TabularRange.range(4, 5, -1, -1));
 		assertCellContentIsEqual(2, 3, 4, 3);
 		assertCellContentIsEqual(3, 4, 5, 4);
+		assertLabelIsEqualTo("D5", 4, 3);
+		assertLabelIsEqualTo("E6", 5, 4);
 	}
 
 	@Test
@@ -160,6 +170,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 		copyPasteCut.copyDeep(TabularRange.range(-1, -1, 4, 4));
 		copyPasteCut.paste(TabularRange.range(-1, -1, 6, 6));
 		assertCellContentIsEqual(1, 4, 1, 6);
+		assertLabelIsEqualTo("G2", 1, 6);
 	}
 
 	@Test
@@ -170,6 +181,8 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 		copyPasteCut.paste(TabularRange.range(-1, -1, 5, 5));
 		assertCellContentIsEqual(2, 3, 2, 5);
 		assertCellContentIsEqual(4, 4, 4, 6);
+		assertLabelIsEqualTo("F3", 2, 5);
+		assertLabelIsEqualTo("G5", 4, 6);
 	}
 
 	@Test
@@ -218,6 +231,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 		assertEquals("8", getValueStringForCell(3, 1));
 		assertEquals("16", getValueStringForCell(4, 1));
 		assertEquals("32", getValueStringForCell(5, 1));
+		assertLabelIsEqualTo("B6", 5, 1);
 	}
 
 	@Test
@@ -229,6 +243,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 		assertEquals("8", getValueStringForCell(3, 1));
 		assertEquals("4", getValueStringForCell(2, 1));
 		assertEquals("2", getValueStringForCell(1, 1));
+		assertLabelIsEqualTo("B4", 3, 1);
 	}
 
 	@Test
@@ -240,6 +255,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 		assertEquals("42", getValueStringForCell(3, 1));
 		assertEquals("39", getValueStringForCell(3, 2));
 		assertEquals("36", getValueStringForCell(3, 3));
+		assertLabelIsEqualTo("D4", 3, 3);
 	}
 
 	@Test
@@ -260,26 +276,15 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 				getValueStringForCell(destinationRow, destinationColumn));
 	}
 
+	private void assertLabelIsEqualTo(String expected, int row, int column) {
+		GeoElement geo = tabularData.contentAt(row, column);
+		assert geo != null;
+		assertEquals("The label does not match with what is expected!",
+				expected, geo.getLabelSimple());
+	}
+
 	private String getValueStringForCell(int row, int column) {
 		return lookup(GeoElementSpreadsheet.getSpreadsheetCellName(column, row))
 				.toValueString(StringTemplate.defaultTemplate);
 	}
-
-	private ClipboardInterface getClipboard() {
-		return new ClipboardInterface() {
-
-			private String content;
-
-			@Override
-			public String getContent() {
-				return content;
-			}
-
-			@Override
-			public void setContent(String content) {
-				this.content = content;
-			}
-		};
-	}
-
 }

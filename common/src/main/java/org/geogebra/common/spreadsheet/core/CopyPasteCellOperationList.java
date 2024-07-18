@@ -19,12 +19,12 @@ final class CopyPasteCellOperationList {
 	/**
 	 * Adds a copy/paste cell operation.
 	 *
-	 * @param geo Geo to be copy-pasted
+	 * @param geoToCopy Geo to be copy-pasted
 	 * @param destRow to paste to.
 	 * @param destCol to paste to.
 	 */
-	void add(GeoElement geo, int destRow, int destCol) {
-		list.add(new CopyPasteCellOperation(geo, destRow, destCol));
+	void add(GeoElement geoToCopy, int destRow, int destCol) {
+		list.add(new CopyPasteCellOperation(geoToCopy, destRow, destCol));
 	}
 
 	/**
