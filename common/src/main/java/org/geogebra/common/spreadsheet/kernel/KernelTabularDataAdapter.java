@@ -205,10 +205,24 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	public void setContent(int row, int column, Object content) {
 		if (content != null) {
 			GeoElement geo = (GeoElement) content;
-			geo.rename(GeoElementSpreadsheet.getSpreadsheetCellName(column, row));
+			setEuclidianInvisibleAndAuxiliaryObject(geo);
+			setLabel(geo, row, column);
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, geo);
 		} else {
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, null);
+		}
+	}
+
+	private void setEuclidianInvisibleAndAuxiliaryObject(GeoElement geo) {
+		geo.setEuclidianVisible(false);
+		geo.setAuxiliaryObject(true);
+		geo.updateVisualStyle(GProperty.VISIBLE);
+	}
+
+	private void setLabel(GeoElement geo, int row, int column) {
+		String label = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
+		if (kernel.getConstruction().isFreeLabel(label)) {
+			geo.rename(label);
 		}
 	}
 
@@ -229,7 +243,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public TabularDataPasteInterface<GeoElement> getPaste() {
-		return new TabularDataPasteGeos();
+		return new TabularDataPasteGeos(kernel);
 	}
 
 	@Override

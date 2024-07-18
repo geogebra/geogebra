@@ -24,6 +24,8 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		processor =
 				new DefaultSpreadsheetCellProcessor(getKernel().getAlgebraProcessor(),
 						errorHandler);
+		getKernel().attach(new KernelTabularDataAdapter(
+				getSettings().getSpreadsheet(), getKernel()));
 	}
 
 	@Test
@@ -117,7 +119,8 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	}
 
 	private void assertIsAuxiliary() {
-		assertTrue("The created element is not auxiliary!", lookup("A1").isAuxiliaryObject());
+		assertTrue("The created element is not auxiliary!",
+				lookup("A1").isAuxiliaryObject());
 	}
 
 	private void assertIsEuclidianInvisible() {

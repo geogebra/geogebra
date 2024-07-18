@@ -45,6 +45,7 @@ public final class SpreadsheetController {
 	private CellDragPasteHandler cellDragPasteHandler;
 	private int lastPointerPositionX = -1;
 	private int lastPointerPositionY = -1;
+	private @CheckForNull CopyPasteCutTabularData copyPasteCut;
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
@@ -58,7 +59,7 @@ public final class SpreadsheetController {
 		layout = new TableLayout(tabularData.numberOfRows(),
 				tabularData.numberOfColumns(), TableLayout.DEFAUL_CELL_HEIGHT,
 				TableLayout.DEFAULT_CELL_WIDTH);
-		contextMenuItems = new ContextMenuItems(this, selectionController, getCopyPasteCut());
+		contextMenuItems = new ContextMenuItems(this, selectionController);
 	}
 
 	/**
@@ -67,6 +68,7 @@ public final class SpreadsheetController {
 	public void setControlsDelegate(SpreadsheetControlsDelegate controlsDelegate) {
 		this.controlsDelegate = controlsDelegate;
 		editor = null;
+		initCopyPasteCut();
 	}
 
 	/**
@@ -190,6 +192,14 @@ public final class SpreadsheetController {
 	private void hideCellEditor() {
 		if (isEditorActive()) {
 			editor.hide();
+		}
+	}
+
+	private void initCopyPasteCut() {
+		if (copyPasteCut == null && controlsDelegate != null) {
+			copyPasteCut = new CopyPasteCutTabularDataImpl<>(tabularData,
+					controlsDelegate.getClipboard(), layout, selectionController);
+			contextMenuItems.setCopyPasteCut(copyPasteCut);
 		}
 	}
 
@@ -431,6 +441,29 @@ public final class SpreadsheetController {
 			case JavaKeyCodes.VK_CLEAR:
 				deleteSelectedCells();
 				break;
+			case JavaKeyCodes.VK_X:
+				if (modifiers.ctrlOrCmd) {
+					cutSelections();
+					notifyDataDimensionsChanged();
+					return;
+				}
+				startTyping(key, modifiers);
+				break;
+			case JavaKeyCodes.VK_C:
+				if (modifiers.ctrlOrCmd) {
+					copySelections();
+					return;
+				}
+				startTyping(key, modifiers);
+				break;
+			case JavaKeyCodes.VK_V:
+				if (modifiers.ctrlOrCmd) {
+					pasteToSelections();
+					notifyDataDimensionsChanged();
+					return;
+				}
+				startTyping(key, modifiers);
+				break;
 			default:
 				startTyping(key, modifiers);
 			}
@@ -460,6 +493,27 @@ public final class SpreadsheetController {
 
 	private void deleteSelectedCells() {
 		// TODO implement single cell deletion (delete key)
+	}
+
+	private void cutSelections() {
+		if (copyPasteCut != null) {
+			getSelections().forEach(selection -> copyPasteCut.cut(selection.getRange()));
+		}
+	}
+
+	private void copySelections() {
+		if (copyPasteCut != null) {
+			getSelections().forEach(selection -> copyPasteCut.copyDeep(selection.getRange()));
+		}
+	}
+
+	private void pasteToSelections() {
+		if (copyPasteCut != null) {
+			for (Selection selection : getSelections().collect(Collectors.toList())) {
+				copyPasteCut.paste(selection.getRange());
+			}
+			copyPasteCut.selectPastedContent();
+		}
 	}
 
 	/**
@@ -728,7 +782,11 @@ public final class SpreadsheetController {
 		notifyDataDimensionsChanged();
 	}
 
-	private void notifyDataDimensionsChanged() {
+	/**
+	 * Updates the ScrollPane size and adjusts the viewport if needed, while also creating an
+	 * undo point.
+	 */
+	public void notifyDataDimensionsChanged() {
 		notifyViewportAdjuster();
 		adjustViewportIfNeeded();
 		storeUndoInfo();
@@ -771,12 +829,6 @@ public final class SpreadsheetController {
 	 */
 	private boolean shouldKeepSelectionForContextMenu() {
 		return selectionController.isSingleSelectionType();
-	}
-
-	private CopyPasteCutTabularData getCopyPasteCut() {
-		return controlsDelegate != null
-				? new CopyPasteCutTabularDataImpl<>(tabularData,
-				controlsDelegate.getClipboard(), layout) : null;
 	}
 
 	private void storeUndoInfo() {

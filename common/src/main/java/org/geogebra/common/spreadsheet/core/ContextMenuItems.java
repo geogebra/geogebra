@@ -3,25 +3,25 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
 
 public class ContextMenuItems {
 	static final int HEADER_INDEX = -1;
-	private final CopyPasteCutTabularData copyPasteCut;
+	private @CheckForNull CopyPasteCutTabularData copyPasteCut;
 	private final SpreadsheetSelectionController selectionController;
 	private final SpreadsheetController spreadsheetController;
 
 	/**
 	 * @param spreadsheetController {@link SpreadsheetController}
 	 * @param selectionController {@link SpreadsheetSelectionController}
-	 * @param copyPasteCut {@link CopyPasteCutTabularData}
 	 */
 	public ContextMenuItems(SpreadsheetController spreadsheetController,
-			SpreadsheetSelectionController selectionController,
-			CopyPasteCutTabularData copyPasteCut) {
+			SpreadsheetSelectionController selectionController) {
 		this.spreadsheetController = spreadsheetController;
 		this.selectionController = selectionController;
-		this.copyPasteCut = copyPasteCut;
 	}
 
 	/**
@@ -51,6 +51,13 @@ public class ContextMenuItems {
 			return rowItems(fromRow, toRow);
 		}
 		return cellItems(fromRow, toRow, fromCol, toCol);
+	}
+
+	/**
+	 * @param copyPasteCut {@link CopyPasteCutTabularData}
+	 */
+	public void setCopyPasteCut(@Nonnull CopyPasteCutTabularData copyPasteCut) {
+		this.copyPasteCut = copyPasteCut;
 	}
 
 	/**
@@ -94,15 +101,24 @@ public class ContextMenuItems {
 	}
 
 	private void pasteCells(int row, int column) {
-		if (!selectionController.hasSelection()) {
-			copyPasteCut.paste(row, column);
-		} else {
-			selectionController.getSelections().forEach(
-					selection -> copyPasteCut.paste(selection.getRange()));
+		if (copyPasteCut != null) {
+			if (!selectionController.hasSelection()) {
+				copyPasteCut.paste(row, column);
+			} else {
+				selectionController.getSelections().forEach(
+						selection -> copyPasteCut.paste(selection.getRange()));
+			}
+			if (copyPasteCut != null) {
+				copyPasteCut.selectPastedContent();
+			}
+			spreadsheetController.notifyDataDimensionsChanged();
 		}
 	}
 
 	private void copyCells(int row, int column) {
+		if (copyPasteCut == null) {
+			return;
+		}
 		if (!selectionController.hasSelection()) {
 			copyPasteCut.copyDeep(new TabularRange(row, row, column, column));
 		} else {
@@ -112,12 +128,16 @@ public class ContextMenuItems {
 	}
 
 	private void cutCells(int row, int column) {
+		if (copyPasteCut == null) {
+			return;
+		}
 		if (!selectionController.hasSelection()) {
 			copyPasteCut.cut(new TabularRange(row, row, column, column));
 		} else {
 			selectionController.getSelections().forEach(
 					selection -> copyPasteCut.cut(selection.getRange()));
 		}
+		spreadsheetController.notifyDataDimensionsChanged();
 	}
 
 	/*private void deleteCells(int row, int column) {
@@ -139,9 +159,9 @@ public class ContextMenuItems {
 
 	private List<ContextMenuItem> rowItems(int fromRow, int toRow) {
 		return Arrays.asList(
-				new ContextMenuItem(Identifier.CUT, () -> {}),
-				new ContextMenuItem(Identifier.COPY, () -> {}),
-				new ContextMenuItem(Identifier.PASTE, () -> {}),
+				new ContextMenuItem(Identifier.CUT, () -> cutCells(fromRow, -1)),
+				new ContextMenuItem(Identifier.COPY, () -> copyCells(fromRow, -1)),
+				new ContextMenuItem(Identifier.PASTE, () -> pasteCells(fromRow, -1)),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.INSERT_ROW_ABOVE,
 						() -> insertRowAt(fromRow, false)),
@@ -154,9 +174,9 @@ public class ContextMenuItems {
 
 	private List<ContextMenuItem> columnItems(int fromCol, int toCol) {
 		return Arrays.asList(
-				new ContextMenuItem(Identifier.CUT, () -> {}),
-				new ContextMenuItem(Identifier.COPY, () -> {}),
-				new ContextMenuItem(Identifier.PASTE, () -> {}),
+				new ContextMenuItem(Identifier.CUT, () -> cutCells(-1, fromCol)),
+				new ContextMenuItem(Identifier.COPY, () -> copyCells(-1, fromCol)),
+				new ContextMenuItem(Identifier.PASTE, () -> pasteCells(-1, fromCol)),
 				new ContextMenuItem(Identifier.DIVIDER),
 				new ContextMenuItem(Identifier.INSERT_COLUMN_LEFT,
 						() -> insertColumnAt(fromCol, false)),

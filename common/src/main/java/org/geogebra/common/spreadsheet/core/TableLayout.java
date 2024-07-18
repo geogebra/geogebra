@@ -213,7 +213,7 @@ public final class TableLayout implements PersistenceListener {
 	 * Sets the width for a range of columns
 	 * @param width double
 	 * @param minColumn Index from where to start setting the width
-	 * @param maxColumn Index of where to stop setting the width
+	 * @param maxColumn Index of where to stop setting the width (inclusive)
 	 */
 	public void setWidthForColumns(double width, int minColumn, int maxColumn) {
 		for (int column = minColumn; column <= maxColumn; column++) {
@@ -233,7 +233,7 @@ public final class TableLayout implements PersistenceListener {
 	 * Sets the height for a range of rows
 	 * @param height double
 	 * @param minRow Index from where to start setting the height
-	 * @param maxRow Index of where to stop setting the width
+	 * @param maxRow Index of where to stop setting the width (inclusive)
 	 */
 	public void setHeightForRows(double height, int minRow, int maxRow) {
 		for (int row = minRow; row <= maxRow; row++) {

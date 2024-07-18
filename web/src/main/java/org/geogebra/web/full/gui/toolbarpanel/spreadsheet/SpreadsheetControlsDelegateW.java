@@ -22,6 +22,7 @@ import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.full.util.ClipboardW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -38,6 +39,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	private final Localization loc;
 	private final static int CONTEXT_MENU_PADDING = 8;
 	private final static int MARGIN_FROM_SCREEN_EDGE = 16;
+	private final ClipboardInterface clipboard = new ClipboardW();
 
 	private static class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
 		private final MathFieldEditor mathField;
@@ -193,7 +195,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 	@Override
 	public ClipboardInterface getClipboard() {
-		return null;
+		return clipboard;
 	}
 
 	private SVGResource getActionIcon(ContextMenuItem.Identifier action) {

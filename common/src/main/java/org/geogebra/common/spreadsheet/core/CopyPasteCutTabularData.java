@@ -40,4 +40,9 @@ public interface CopyPasteCutTabularData {
 	 * @param range of cells to cut.
 	 */
 	void cut(TabularRange range);
+
+	/**
+	 * Selects one or multiple destination ranges to which content was pasted to
+	 */
+	void selectPastedContent();
 }
