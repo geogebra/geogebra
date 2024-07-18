@@ -608,6 +608,9 @@ public class GeoSymbolic extends GeoElement
 		} catch (CommandNotLoadedError err) {
 			// by failing the whole twin creation we make sure this uses the same path
 			// in web and other platforms
+			if (!isLabelSet()) {
+				remove();
+			}
 			throw err;
 		} catch (Throwable throwable) {
 			try {
