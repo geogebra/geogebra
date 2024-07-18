@@ -9,13 +9,6 @@ public final class ToolTipManagerW {
 	private boolean blockToolTip = true;
 
 	/**
-	 * @return whether tooltips are blocked
-	 */
-	public boolean isToolTipBlocked() {
-		return blockToolTip;
-	}
-
-	/**
 	 * @param blockToolTip
 	 *            whether to block tooltips
 	 */
@@ -24,19 +17,16 @@ public final class ToolTipManagerW {
 	}
 
 	/**
-	 * @param title -title of snackbar
-	 * @param helpText - text of snackbar
-	 * @param buttonText - text of button
+	 * @param toolTip - data for the tooltip
 	 * @param appW - app for positioning
 	 * @param showDuration - how long should the tooltip be visible
 	 */
-	public void showBottomInfoToolTip(String title, final String helpText,
-			String buttonText, String url, final AppW appW, int showDuration) {
+	public void showBottomInfoToolTip(ToolTip toolTip, final AppW appW, int showDuration) {
 		if (blockToolTip || appW == null) {
 			return;
 		}
 
-		createSnackbar(appW, title, helpText, buttonText, showDuration, url);
+		createSnackbar(appW, toolTip, showDuration);
 
 		Style style = snackbar.getElement().getStyle();
 		if (appW.isWhiteboardActive()) {
@@ -57,36 +47,20 @@ public final class ToolTipManagerW {
 		}
 	}
 
-	private void createSnackbar(AppW appW, String title, String helpText, String buttonText,
-			int showDuration, String url) {
+	private void createSnackbar(AppW appW, ToolTip toolTip,
+			int showDuration) {
 		if (snackbar != null) {
 			appW.getAppletFrame().remove(snackbar);
 		}
-		snackbar = new ComponentSnackbar(appW, title, helpText, buttonText);
+		snackbar = new ComponentSnackbar(appW, toolTip);
 		snackbar.setShowDuration(showDuration);
 		snackbar.setButtonAction(() -> {
-			if ("Share".equals(buttonText)) {
+			if ("Share".equals(toolTip.buttonTransKey)) {
 				appW.share();
 			} else {
-				appW.getFileManager().open(url);
+				appW.getFileManager().open(toolTip.url);
 			}
 		});
-	}
-
-	/**
-	 * @param title
-	 *            title of snackbar
-	 * @param helpText
-	 *            text of snackbar
-	 * @param buttonText
-	 *           text of button
-	 * @param appW
-	 *            app for positioning
-	 */
-	public void showBottomInfoToolTip(String title, final String helpText,
-			String buttonText, String url, final AppW appW) {
-		showBottomInfoToolTip(title, helpText, buttonText, url, appW,
-				ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
 	}
 
 	/**
@@ -97,8 +71,20 @@ public final class ToolTipManagerW {
 	 *            application
 	 */
 	public void showBottomMessage(String text, AppW appW) {
+		showBottomMessage(text, appW, ToolTip.Role.INFO);
+	}
+
+	/**
+	 * displays the given message
+	 * @param text
+	 *            String
+	 * @param appW
+	 *            application
+	 */
+	public void showBottomMessage(String text, AppW appW, ToolTip.Role role) {
 		blockToolTip = false;
-		showBottomInfoToolTip(text, null, null, null, appW);
+		showBottomInfoToolTip(new ToolTip(text, role), appW,
+				ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
 		blockToolTip = true;
 	}
 
