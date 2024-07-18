@@ -67,6 +67,7 @@ public class KeyboardSwitcher extends FlowPanel {
 	public KeyboardSwitcher(TabbedKeyboard tabbedkeyboard) {
 		this.tabbedkeyboard = tabbedkeyboard;
 		addStyleName("KeyboardSwitcher");
+		getElement().setAttribute("data-nosnippet", "");
 		setup();
 	}
 
