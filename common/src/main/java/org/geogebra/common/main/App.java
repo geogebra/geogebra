@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 import java.util.Vector;
 import java.util.function.Predicate;
 
@@ -49,13 +51,17 @@ import org.geogebra.common.gui.AccessibilityManagerNoGui;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
-import org.geogebra.common.gui.toolcategorization.impl.AbstractToolCollectionFactory;
+import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
+import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.CustomToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.GeometryToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.Graphing3DToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.GraphingToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.SuiteToolCollectionFactory;
+import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.gui.util.InvalidToolFilter;
 import org.geogebra.common.gui.view.algebra.GeoElementValueConverter;
 import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
 import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
@@ -119,6 +125,7 @@ import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.main.undo.DefaultDeletionExecutor;
 import org.geogebra.common.main.undo.DeletionExecutor;
 import org.geogebra.common.main.undo.UndoManager;
@@ -126,7 +133,6 @@ import org.geogebra.common.main.undo.UndoableDeletionExecutor;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
-import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventDispatcher;
@@ -153,7 +159,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Represents an application window, gives access to views and system stuff
  */
 public abstract class App implements UpdateSelection, AppInterface, EuclidianHost,
-		ExamRestrictable, ExamProvider {
+		ExamRestrictable, ExamProvider, ToolsProvider {
 
 	/** Url for wiki article about functions */
 	public static final String WIKI_OPERATORS = "Predefined Functions and Operators";
@@ -376,6 +382,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * whether toolbar should be visible
 	 */
 	protected boolean showToolBar = true;
+
+	private Set<ToolCollectionFilter> toolFilters = new HashSet<>();
+
 	/**
 	 * whether shift, drag and zoom features are enabled
 	 */
@@ -642,6 +651,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		AppConfig config = getConfig();
 		localization.setDecimalPlaces(config.getDecimalPlaces());
 		localization.setSignificantFigures(config.getSignificantFigures());
+		SyntaxFilter syntaxFilter = config.newCommandSyntaxFilter();
+		if (syntaxFilter != null) {
+			localization.getCommandSyntax().addSyntaxFilter(syntaxFilter);
+		}
 	}
 
 	/**
@@ -1052,27 +1065,24 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * differs from translateCommand somehow and either document it or remove
 	 * this method
 	 *
-	 * @param cmd
+	 * @param localizedCommandName
 	 *            localized command name
 	 * @return internal command name
 	 */
-	public String getInternalCommand(String cmd) {
+	public String getInternalCommand(String localizedCommandName) {
 		initTranslatedCommands();
 		String s;
-		String cmdLower = StringUtil.toLowerCaseUS(cmd);
-		String renamed = Commands.getRenamed(cmdLower, getLocalization());
+		String localizedCommandNameLower = StringUtil.toLowerCaseUS(localizedCommandName);
+		String renamed = Commands.getRenamed(localizedCommandNameLower, getLocalization());
 		if (renamed != null) {
 			return renamed;
 		}
-
 		Commands[] values = Commands.values();
 		for (Commands c : values) {
 			s = Commands.englishToInternal(c).name();
-
-			// make sure that when si[] is typed in script, it's changed to
-			// Si[] etc
+			// make sure that when si[] is typed in script, it's changed to Si[] etc
 			if (StringUtil.toLowerCaseUS(getLocalization().getCommand(s))
-					.equals(cmdLower)) {
+					.equals(localizedCommandNameLower)) {
 				return s;
 			}
 		}
@@ -4635,46 +4645,71 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return nextVariableID++;
 	}
 
+	@Override
+	public void addToolsFilter(ToolCollectionFilter filter) {
+		toolFilters.add(filter);
+	}
+
+	@Override
+	public void removeToolsFilter(ToolCollectionFilter filter) {
+		toolFilters.remove(filter);
+	}
+
 	/**
-	 * Create a tool collection factory for this app.
-	 *
-	 * @return a ToolCollectionFactory
+	 * @return the currently available tools. Note that the set of tools may be restricted
+	 * depending on platform (iOS, Android) or during exams.
 	 */
-	public ToolCollectionFactory createToolCollectionFactory() {
-		String toolbarDefinition = getGuiManager().getToolbarDefinition();
-		if (toolbarDefinition == null || !GlobalScope.examController.isIdle()
-				|| ToolBar.isDefaultToolbar(toolbarDefinition)) {
-			return createDefaultToolCollectionFactory();
-		} else {
-			return new CustomToolCollectionFactory(this, toolbarDefinition);
+	@Override
+	public ToolCollection getAvailableTools() {
+		ToolCollection toolCollection = createToolCollectionFactory().createToolCollection();
+		toolCollection.filter(new InvalidToolFilter(this));
+		if (getPlatform().isMobile()) {
+			toolCollection.filter(new ToolCollectionSetFilter(
+					EuclidianConstants.MODE_TEXT,
+					EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX,
+					EuclidianConstants.MODE_BUTTON_ACTION,
+					EuclidianConstants.MODE_TEXTFIELD_ACTION,
+					EuclidianConstants.MODE_FUNCTION_INSPECTOR,
+					EuclidianConstants.MODE_MOVE_ROTATE));
 		}
+		for (ToolCollectionFilter toolFilter : toolFilters) {
+			toolCollection.filter(toolFilter);
+		}
+		return toolCollection;
+	}
+
+	/**
+	 * @return a tool collection factory
+	 * Depreacted. Use {@link #getAvailableTools()} instead.
+	 */
+	@Deprecated
+	public ToolCollectionFactory createToolCollectionFactory() {
+		GuiManagerInterface guiManager = getGuiManager();
+		String toolbarDefinition = guiManager != null ? guiManager.getToolbarDefinition() : null;
+		if (toolbarDefinition == null || ToolBar.isDefaultToolbar(toolbarDefinition)) {
+			return createDefaultToolCollectionFactory();
+		}
+		return new CustomToolCollectionFactory(this, toolbarDefinition);
 	}
 
 	private ToolCollectionFactory createDefaultToolCollectionFactory() {
-		AbstractToolCollectionFactory factory = null;
+		boolean isMobileApp = getPlatform().isMobile();
+		ToolCollectionFactory factory = null;
 		switch (getConfig().getToolbarType()) {
 			case GRAPHING_CALCULATOR:
-				factory = new GraphingToolCollectionFactory();
+				factory = new GraphingToolCollectionFactory(isMobileApp);
 				break;
 			case GEOMETRY_CALC:
-				factory = new GeometryToolCollectionFactory();
+				factory = new GeometryToolCollectionFactory(isMobileApp);
 				break;
 			case GRAPHER_3D:
-				factory = new Graphing3DToolCollectionFactory();
+				factory = new Graphing3DToolCollectionFactory(isMobileApp);
 				break;
 			case SUITE:
-				factory = new SuiteToolCollectionFactory();
+				factory = new SuiteToolCollectionFactory(isMobileApp);
 				break;
 			default:
-				factory = new GraphingToolCollectionFactory();
-		}
-		switch (getPlatform()) {
-			case ANDROID:
-			case IOS:
-				factory.setPhoneApp(true);
-				break;
-			default:
-				factory.setPhoneApp(false);
+				factory = new GraphingToolCollectionFactory(isMobileApp);
 		}
 		return factory;
 	}

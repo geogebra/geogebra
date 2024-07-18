@@ -20,6 +20,8 @@ final class BayernCasExamRestrictions extends ExamRestrictions {
 				null,
 				BayernCasExamRestrictions.createCommandFilters(),
 				null,
+				null,
+				null,
 				null);
 	}
 

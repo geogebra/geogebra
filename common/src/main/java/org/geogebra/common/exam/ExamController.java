@@ -7,13 +7,13 @@ import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
@@ -22,6 +22,8 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.main.exam.event.CheatingEvents;
+import org.geogebra.common.main.localization.AutocompleteProvider;
+import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.properties.PropertiesRegistry;
@@ -114,20 +116,28 @@ public final class ExamController {
 	 * algebra processor) change, this should also mean a change in current context and be
 	 * communicated to the exam controller by calling this method.
 	 * <p/>
-	 * This method needs to be called before an exam starts, and also when the active context
+	 * This method needs to be called before an exam starts, and also when the active app
 	 * changes during an exam, so what we can remove the restrictions on the current dependencies,
 	 * and apply the restrictions on the new dependencies.
 	 */
 	public void setActiveContext(@Nonnull Object context,
 			@Nonnull CommandDispatcher commandDispatcher,
-			@Nonnull AlgebraProcessor algebraProcessor) {
+			@Nonnull AlgebraProcessor algebraProcessor,
+			@Nonnull Localization localization,
+			@Nonnull Settings settings,
+			@CheckForNull AutocompleteProvider autocompleteProvider,
+			@CheckForNull ToolsProvider toolsProvider) {
 		// remove restrictions for current dependencies, if exam is active
 		if (examRestrictions != null && activeDependencies != null) {
 			removeRestrictionsFromContextDependencies(activeDependencies);
 		}
 		activeDependencies = new ContextDependencies(context,
 				commandDispatcher,
-				algebraProcessor);
+				algebraProcessor,
+				localization,
+				settings,
+				autocompleteProvider,
+				toolsProvider);
 		// apply restrictions to new dependencies, if exam is active
 		if (examRestrictions != null) {
 			applyRestrictionsToContextDependencies(activeDependencies);
@@ -356,13 +366,14 @@ public final class ExamController {
 	 * @throws IllegalStateException if the exam controller is not in either the
 	 * {@link ExamState#IDLE} or {@link ExamState#PREPARING PREPARING} state.
 	 *
-	 * @apiNote Make sure to call {@link #setActiveContext(Object, CommandDispatcher, AlgebraProcessor)}
+	 * @apiNote Make sure to call {@link #setActiveContext(Object, CommandDispatcher,
+	 * AlgebraProcessor, Localization, Settings, AutocompleteProvider, ToolsProvider)}
 	 * before attempting to start an exam.
 	 *
 	 * @param examType The exam type.
 	 * @param options Additional options (optional).
 	 */
-	public void startExam(@Nonnull ExamType examType, @Nullable ExamOptions options) {
+	public void startExam(@Nonnull ExamType examType, @CheckForNull ExamOptions options) {
 		if (state != ExamState.IDLE && state != ExamState.PREPARING) {
 			throw new IllegalStateException("expected to be in IDLE or PREPARING state, "
 					+ "but is " + state);
@@ -476,10 +487,14 @@ public final class ExamController {
 			}
 		}
 		if (dependencies != null) {
-			examRestrictions.apply(dependencies.commandDispatcher,
+			examRestrictions.applyTo(dependencies.commandDispatcher,
 					dependencies.algebraProcessor,
 					propertiesRegistry,
-					dependencies.context);
+					dependencies.context,
+					dependencies.localization,
+					dependencies.settings,
+					dependencies.autoCompleteProvider,
+					dependencies.toolsProvider);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.addCommandFilter(noCASFilter);
 			}
@@ -491,10 +506,14 @@ public final class ExamController {
 			return;
 		}
 		if (dependencies != null) {
-			examRestrictions.remove(dependencies.commandDispatcher,
+			examRestrictions.removeFrom(dependencies.commandDispatcher,
 					dependencies.algebraProcessor,
 					propertiesRegistry,
-					dependencies.context);
+					dependencies.context,
+					dependencies.localization,
+					dependencies.settings,
+					dependencies.autoCompleteProvider,
+					dependencies.toolsProvider);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.removeCommandFilter(noCASFilter);
 			}
@@ -557,13 +576,33 @@ public final class ExamController {
 		@NonOwning
 		@Nonnull
 		final AlgebraProcessor algebraProcessor;
+		@NonOwning
+		@Nonnull
+		final Localization localization;
+		@Nonnull
+		@CheckForNull
+		final Settings settings;
+		@NonOwning
+		@CheckForNull
+		final AutocompleteProvider autoCompleteProvider;
+		@NonOwning
+		@CheckForNull
+		final ToolsProvider toolsProvider;
 
 		ContextDependencies(@Nonnull Object context,
 				@Nonnull CommandDispatcher commandDispatcher,
-				@Nonnull AlgebraProcessor algebraProcessor) {
+				@Nonnull AlgebraProcessor algebraProcessor,
+				@Nonnull Localization localization,
+				@Nonnull Settings settings,
+				@CheckForNull AutocompleteProvider autoCompleteProvider,
+				@CheckForNull ToolsProvider toolsProvider) {
 			this.context = context;
 			this.commandDispatcher = commandDispatcher;
 			this.algebraProcessor = algebraProcessor;
+			this.localization = localization;
+			this.settings = settings;
+			this.autoCompleteProvider = autoCompleteProvider;
+			this.toolsProvider = toolsProvider;
 		}
 	}
 }

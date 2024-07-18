@@ -1,7 +1,9 @@
 package org.geogebra.common.main.syntax;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
@@ -16,8 +18,7 @@ public class LocalizedCommandSyntax implements CommandSyntax {
 
 	private final Localization loc;
 
-	@CheckForNull
-	private SyntaxFilter syntaxFilter;
+	private List<SyntaxFilter> syntaxFilters = new ArrayList<>();
 
 	/**
 	 *
@@ -28,56 +29,50 @@ public class LocalizedCommandSyntax implements CommandSyntax {
 	}
 
 	/**
-	 * @param localization the localization.
-	 * @param syntaxFilter command syntax filter
-	 */
-	public LocalizedCommandSyntax(Localization localization, SyntaxFilter syntaxFilter) {
-		this(localization);
-		this.syntaxFilter = syntaxFilter;
-	}
-
-	/**
-	 * @param key command name
+	 * @param internalCommandName internal command name
 	 * @param dim dimension override
 	 * @return command syntax TODO check whether getSyntaxString works here
 	 */
 	@Override
-	public String getCommandSyntax(String key, int dim) {
-		String command = getLocalizedCommand(key);
+	public String getCommandSyntax(String internalCommandName, int dim) {
+		String localizedCommandName = getLocalizedCommand(internalCommandName);
 		if (dim == 3) {
-			String key3D = key + Localization.syntax3D;
-			String cmdSyntax3D = loc.getCommand(key3D);
-			if (!cmdSyntax3D.equals(key3D)) {
-				cmdSyntax3D = buildSyntax(cmdSyntax3D, command);
-				return cmdSyntax3D;
+			String keySyntax3D = internalCommandName + Localization.syntax3D;
+			String syntax3D = loc.getCommand(keySyntax3D);
+			if (!syntax3D.equals(keySyntax3D)) {
+				syntax3D = filterSyntax(internalCommandName, syntax3D);
+				return buildSyntax(syntax3D, localizedCommandName);
 			}
 		}
-
-		String syntax = getLocalizedSyntax(key);
-		syntax = buildSyntax(syntax, command);
-
+		String syntax = getLocalizedSyntax(internalCommandName);
+		syntax = filterSyntax(internalCommandName, syntax);
+		syntax = buildSyntax(syntax, localizedCommandName);
 		return syntax;
 	}
 
 	/**
 	 *
-	 * @param key internal key
+	 * @param internalCommandName internal command name
 	 * @return the localized command
 	 */
-	protected String getLocalizedCommand(String key) {
-		return loc.getCommand(key);
+	protected String getLocalizedCommand(String internalCommandName) {
+		return loc.getCommand(internalCommandName);
 	}
 
-	private String getLocalizedSyntax(String key) {
-		String syntaxKey = key + Localization.syntaxStr;
-		String syntax = getLocalizedCommand(syntaxKey);
-		return syntaxFilter != null ? syntaxFilter.getFilteredSyntax(key, syntax) : syntax;
+	private String getLocalizedSyntax(String internalCommandName) {
+		return getLocalizedCommand(internalCommandName + Localization.syntaxStr);
 	}
 
-	private String getLocalizedSyntaxCAS(String key) {
-		String syntaxKey = key + Localization.syntaxCAS;
-		String syntax = getLocalizedCommand(syntaxKey);
-		return syntaxFilter != null ? syntaxFilter.getFilteredSyntax(key, syntax) : syntax;
+	private String getLocalizedSyntaxCAS(String internalCommandName) {
+		return getLocalizedCommand(internalCommandName + Localization.syntaxCAS);
+	}
+
+	private String filterSyntax(String internalCommandName, String syntax) {
+		String filteredSyntax = syntax;
+		for (SyntaxFilter syntaxFilter : syntaxFilters) {
+			filteredSyntax = syntaxFilter.getFilteredSyntax(internalCommandName, filteredSyntax);
+		}
+		return filteredSyntax;
 	}
 
 	private String buildSyntax(String syntax, String command) {
@@ -85,19 +80,18 @@ public class LocalizedCommandSyntax implements CommandSyntax {
 	}
 
 	@Override
-	public String getCommandSyntaxCAS(String key) {
+	public String getCommandSyntaxCAS(String internalCommandName) {
+		String command = getLocalizedCommand(internalCommandName);
+		String syntax = getLocalizedSyntaxCAS(internalCommandName);
 
-		String command = getLocalizedCommand(key);
-		String syntax = getLocalizedSyntaxCAS(key);
-
-		String keyCAS = key + Localization.syntaxCAS;
+		String keyCAS = internalCommandName + Localization.syntaxCAS;
 		// make sure "PointList.SyntaxCAS" not displayed in dialog
 		if (syntax.equals(keyCAS)) {
-			syntax = getLocalizedSyntax(key);
+			syntax = getLocalizedSyntax(internalCommandName);
 		}
 
+		syntax = filterSyntax(internalCommandName, syntax);
 		syntax = buildSyntax(syntax, command);
-
 		return syntax;
 	}
 
@@ -109,7 +103,23 @@ public class LocalizedCommandSyntax implements CommandSyntax {
 		return loc;
 	}
 
-	public void setSyntaxFilter(@Nullable SyntaxFilter syntaxFilter) {
-		this.syntaxFilter = syntaxFilter;
+	/**
+	 * Add a syntax filter.
+	 * @param syntaxFilter a syntax filter.
+	 */
+	public void addSyntaxFilter(@Nonnull SyntaxFilter syntaxFilter) {
+		if (syntaxFilter != null) {
+			syntaxFilters.add(syntaxFilter);
+		}
+	}
+
+	/**
+	 * Remove a previously added syntax filter.
+	 * @param syntaxFilter a syntax filter.
+	 */
+	public void removeSyntaxFilter(@Nonnull SyntaxFilter syntaxFilter) {
+		if (syntaxFilter != null) {
+			syntaxFilters.remove(syntaxFilter);
+		}
 	}
 }

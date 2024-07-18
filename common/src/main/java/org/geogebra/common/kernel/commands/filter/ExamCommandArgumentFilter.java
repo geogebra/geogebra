@@ -16,9 +16,8 @@ public class ExamCommandArgumentFilter extends BaseCommandArgumentFilter {
 	}
 
     @Override
-	public void checkAllowed(Command command,
-			CommandProcessor commandProcessor) {
-		if (!check(command, commandProcessor)) {
+	public void checkAllowed(Command command, CommandProcessor commandProcessor) {
+		if (!isFilteredCommand(command)) {
 			return;
 		}
 		GeoElement[] arguments = commandProcessor.resArgs(command);
@@ -27,12 +26,16 @@ public class ExamCommandArgumentFilter extends BaseCommandArgumentFilter {
 		}
 		GeoElement firstArgument = arguments[0];
 		boolean isSetFixed = isCommand(command, Commands.SetFixed);
-		boolean isCopyFree = isCommand(command, Commands.CopyFreeObject);
 		if (isSetFixed && firstArgument.isFunctionOrEquationFromUser()) {
 			throw commandProcessor.argErr(command, firstArgument);
 		}
+		boolean isCopyFree = isCommand(command, Commands.CopyFreeObject);
 		if (isCopyFree && (firstArgument instanceof EquationValue)) {
 			throw commandProcessor.argErr(command, firstArgument);
 		}
     }
+
+	private boolean isCommand(Command command, Commands cmdName) {
+		return cmdName.name().equals(command.getName());
+	}
 }

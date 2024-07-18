@@ -6,7 +6,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
+import org.geogebra.common.gui.toolcategorization.ToolsProvider;
+import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -14,6 +18,10 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.localization.AutocompleteProvider;
+import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
@@ -25,7 +33,8 @@ import org.geogebra.common.properties.ValuedProperty;
  * Restrictions that are specific to the different exam types are represented as subclasses
  * of this class.
  * Restrictions that apply to all exam types should be implemented in this class
- * (in {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object)}).
+ * (in {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,
+ * Localization, Settings, AutocompleteProvider, ToolsProvider)}).
  * <p/>
  * Any restrictions to be applied during exams should be implemented in here (so that
  * everything is one place):
@@ -49,6 +58,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	// filter independent of exam region
 	private final CommandArgumentFilter examCommandArgumentFilter =
 			new ExamCommandArgumentFilter();
+	private SyntaxFilter syntaxFilter;
+	private final ToolCollectionFilter toolsFilter;
 	private final Set<String> frozenProperties;
 
 	/**
@@ -59,6 +70,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 */
 	public static ExamRestrictions forExamType(ExamType examType) {
 		switch (examType) {
+		case CVTE:
+			return new CvteExamRestrictions();
 		case BAYERN_CAS:
 			return new BayernCasExamRestrictions();
 		case NIEDERSACHSEN:
@@ -83,6 +96,10 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * exams.
 	 * @param commandFilters An optional command filter to apply during exams.
 	 * @param commandArgumentFilters An optional command argument filter to apply during exams.
+	 * @param syntaxFilter An optional syntax filter to apply during exams.
+	 * @param toolsFilter An optional filter for tools that should be unvaialable during the exam.
+	 * If this argument is null, the Image tool will stil be filtered out (APPS-5214). When
+	 * providing a non-null filter here, it should include the Image tool.
 	 * @param frozenProperties An optional set of properties to freeze during the exam.
 	 */
 	protected ExamRestrictions(@Nonnull ExamType examType,
@@ -92,6 +109,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Set<ExpressionFilter> expressionFilters,
 			@Nullable Set<CommandFilter> commandFilters,
 			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
+			@Nullable SyntaxFilter syntaxFilter,
+			@Nullable ToolCollectionFilter toolsFilter,
 			@Nullable Set<String> frozenProperties) {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
@@ -101,6 +120,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.commandFilters = commandFilters != null ? commandFilters : Set.of();
 		this.commandArgumentFilters = commandArgumentFilters != null
 				? commandArgumentFilters : Set.of();
+		this.syntaxFilter = syntaxFilter;
+		this.toolsFilter = toolsFilter == null
+				? new ToolCollectionSetFilter(EuclidianConstants.MODE_IMAGE) : toolsFilter;
 		this.frozenProperties = frozenProperties != null ? frozenProperties : Set.of();
 	}
 
@@ -138,10 +160,14 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	/**
 	 * Apply the exam restrictions.
 	 */
-	public void apply(@Nullable CommandDispatcher commandDispatcher,
+	public void applyTo(@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
-			@Nullable Object context) {
+			@Nullable Object context,
+			@Nullable Localization localization,
+			@Nullable Settings settings,
+			@Nullable AutocompleteProvider autoCompleteProvider,
+			@Nullable ToolsProvider toolsProvider) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.addCommandFilter(commandFilter);
@@ -156,6 +182,14 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 				algebraProcessor.addExpressionFilter(expressionFilter);
 			}
 		}
+		if (syntaxFilter != null) {
+			if (autoCompleteProvider != null) {
+				autoCompleteProvider.addSyntaxFilter(syntaxFilter);
+			}
+			if (localization != null) {
+				localization.getCommandSyntax().addSyntaxFilter(syntaxFilter);
+			}
+		}
 		if (propertiesRegistry != null) {
 			for (String frozenProperty : frozenProperties) {
 				Property property = propertiesRegistry.lookup(frozenProperty, context);
@@ -164,16 +198,24 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 				}
 			}
 		}
+		if (toolsProvider != null && toolsFilter != null) {
+			toolsProvider.addToolsFilter(toolsFilter);
+		}
 	}
 
 	/**
 	 * Remove the exam restrictions (i.e., undo the changes from
-	 * {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object)}).
+	 * {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,
+	 * Localization, Settings, AutocompleteProvider, ToolsProvider)} ).
 	 */
-	public void remove(@Nullable CommandDispatcher commandDispatcher,
+	public void removeFrom(@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
-			@Nullable Object context) {
+			@Nullable Object context,
+			@Nullable Localization localization,
+			@Nullable Settings settings,
+			@Nullable AutocompleteProvider autoCompleteProvider,
+			@Nullable ToolsProvider toolsProvider) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.removeCommandFilter(commandFilter);
@@ -188,6 +230,14 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 				algebraProcessor.removeExpressionFilter(expressionFilter);
 			}
 		}
+		if (syntaxFilter != null) {
+			if (autoCompleteProvider != null) {
+				autoCompleteProvider.removeSyntaxFilter(syntaxFilter);
+			}
+			if (localization != null) {
+				localization.getCommandSyntax().removeSyntaxFilter(syntaxFilter);
+			}
+		}
 		if (propertiesRegistry != null) {
 			for (String frozenProperty : frozenProperties) {
 				Property property = propertiesRegistry.lookup(frozenProperty, context);
@@ -195,6 +245,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 					unfreeze(property);
 				}
 			}
+		}
+		if (toolsProvider != null && toolsFilter != null) {
+			toolsProvider.removeToolsFilter(toolsFilter);
 		}
 	}
 

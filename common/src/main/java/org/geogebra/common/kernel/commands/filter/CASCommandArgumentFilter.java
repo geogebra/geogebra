@@ -13,7 +13,7 @@ public class CASCommandArgumentFilter extends BaseCommandArgumentFilter {
 
 	@Override
 	public void checkAllowed(Command command, CommandProcessor commandProcessor) throws MyError {
-		if (!check(command, commandProcessor)) {
+		if (!isFilteredCommand(command)) {
 			return;
 		}
 		if (command.getArgumentNumber() < 4) {
