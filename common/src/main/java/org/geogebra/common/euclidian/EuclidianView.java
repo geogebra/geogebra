@@ -61,7 +61,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
@@ -6666,36 +6665,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			coordSystemInfo.setXAxisZoom(false);
 			euclidianController.notifyZoomerStopped();
 		}
-	}
-
-	/**
-	 * adds ruler or protractor image to canvas
-	 * @return geoImage containing ruler or protractor
-	 */
-	public GeoImage addMeasurementTool(int mode, String fileName) {
-		return null;
-	}
-
-	/**
-	 * Adds a measurement tool with given size
-	 *
-	 * @param tool image of the tool
-	 * @param left coordinate of the tool
-	 * @param width of the tool
-	 * @param height of the tool
-	 */
-	public void setMeasurementTool(GeoImage tool, int left, int width, int height) {
-		// implemented in web.
-	}
-
-	/**
-	 * Adds a measurement tool with its own size
-	 *
-	 * @param tool image of the tool
-	 * @param left coordinate of the tool
-	 */
-	public void setMeasurementTool(GeoImage tool, int left) {
-		// implemented in web.
 	}
 
 	@Override
