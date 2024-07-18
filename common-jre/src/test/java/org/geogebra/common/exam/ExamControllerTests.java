@@ -301,12 +301,9 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	}
 
 	@Test
-	public void testDerivativeOperatorDisabled() {
+	public void testDerivativeOperatorDisabledForVlaanderen() {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
-		examController.setExamRestrictionsForTesting(
-				new TestExamRestrictions(ExamType.VLAANDEREN));
-
 		examController.startExam(ExamType.VLAANDEREN, null);
 
 		assertNotNull(evaluate("f(x) = x^2"));

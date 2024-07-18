@@ -40,7 +40,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
 		return Set.of(
-				new OperationExpressionFilter(Operation.OR, Operation.AND, Operation.DERIVATIVE),
+				new OperationExpressionFilter(Operation.OR, Operation.AND),
 				new ComplexExpressionFilter(),
 				new RadianExpressionFilter());
 	}
