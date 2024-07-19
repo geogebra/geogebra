@@ -136,11 +136,7 @@ public final class SpreadsheetRenderer {
 			Rectangle viewport, TableLayout layout, boolean thickOutline, boolean dashed) {
 		Rectangle rect = layout.getBounds(selection, viewport);
 		if (rect != null) {
-			if (dashed) {
-				graphics.setStroke(dashedGridStroke);
-			} else {
-				graphics.setStroke(thickOutline ? borderStroke : gridStroke);
-			}
+			setStroke(graphics, thickOutline, dashed);
 			graphics.setColor(dashed ? style.getDashedSelectionBorderColor()
 					: style.getSelectionBorderColor());
 			double minX = Math.max(rect.getMinX(), layout.getRowHeaderWidth());
@@ -150,6 +146,17 @@ public final class SpreadsheetRenderer {
 			if (minX < maxX && minY < maxY) {
 				drawRectangleWithStraightLines(graphics, minX, minY, maxX, maxY);
 			}
+			if (dashed) {
+				setStroke(graphics, thickOutline, false);
+			}
+		}
+	}
+
+	private void setStroke(GGraphics2D graphics, boolean thickOutline, boolean dashed) {
+		if (dashed) {
+			graphics.setStroke(dashedGridStroke);
+		} else {
+			graphics.setStroke(thickOutline ? borderStroke : gridStroke);
 		}
 	}
 
