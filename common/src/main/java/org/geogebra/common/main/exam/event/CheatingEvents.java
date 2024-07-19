@@ -1,5 +1,6 @@
 package org.geogebra.common.main.exam.event;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -139,7 +140,7 @@ public class CheatingEvents {
     }
 
     private void addCheatingEvent(CheatingAction action) {
-        CheatingEvent cheatingEvent = new CheatingEvent(action, System.currentTimeMillis());
+        CheatingEvent cheatingEvent = new CheatingEvent(action, new Date());
         events.add(cheatingEvent);
         if (delegate != null) {
             delegate.cheatingEventAdded(cheatingEvent);

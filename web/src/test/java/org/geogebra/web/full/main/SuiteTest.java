@@ -2,8 +2,8 @@ package org.geogebra.web.full.main;
 
 import static org.junit.Assert.assertTrue;
 
-import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.shared.GlobalHeader;

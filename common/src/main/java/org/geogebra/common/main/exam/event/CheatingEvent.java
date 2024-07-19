@@ -13,13 +13,8 @@ public final class CheatingEvent {
 
     /**
      * @param action action
-     * @param time time
+     * @param date time
      */
-    CheatingEvent(CheatingAction action, Long timemillis) {
-        this.action = action;
-        this.date = new Date(timemillis);
-    }
-
     CheatingEvent(CheatingAction action, Date date) {
         this.action = action;
         this.date = date;
@@ -29,7 +24,7 @@ public final class CheatingEvent {
         return action;
     }
 
-    public Long getTime() {
+    public long getTime() {
         return date.getTime();
     }
 

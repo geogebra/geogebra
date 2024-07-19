@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.dialog;
 
-
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamListener;

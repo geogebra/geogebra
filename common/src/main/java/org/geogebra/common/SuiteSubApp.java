@@ -18,6 +18,10 @@ public enum SuiteSubApp {
 		this.appCode = appCode;
 	}
 
+	/**
+	 * @param code app code used e.g. in XML
+	 * @return subapp with given code
+	 */
 	public static SuiteSubApp forCode(String code) {
 		return Arrays.stream(values()).filter(subApp -> subApp.appCode.equals(code))
 				.findFirst().orElse(null);
