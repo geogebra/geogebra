@@ -2149,6 +2149,8 @@ public class GuiManagerW extends GuiManager
 		getUnbundledToolbar().openTableView((GeoEvaluatable) geo, true);
 	}
 
+
+
 	@Override
 	public void removeGeoFromTV(String label) {
 		GeoElement geo = app.getKernel().lookupLabel(label);
@@ -2250,6 +2252,15 @@ public class GuiManagerW extends GuiManager
 			inputKeyboardButton = new InputKeyboardButtonW(getApp());
 		}
 		return inputKeyboardButton;
+	}
+
+	@Override
+	public void toggleTableView() {
+		if (!app.getConfig().hasTableView() || !app.isUnbundled()) {
+			return;
+		}
+		ToolbarPanel toolbar = getUnbundledToolbar();
+		toolbar.toggle(DockPanelData.TabIds.TABLE);
 	}
 
 	@Override

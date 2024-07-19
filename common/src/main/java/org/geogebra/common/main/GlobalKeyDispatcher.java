@@ -671,12 +671,6 @@ public abstract class GlobalKeyDispatcher {
 			consumed = true;
 
 			break;
-		case T: // File -> Export -> PSTricks
-			if (isShiftDown && app.getGuiManager() != null) {
-				app.getGuiManager().showPSTricksExport();
-				consumed = true;
-			}
-			break;
 		case W: // File -> Export -> Webpage
 			if (isShiftDown && app.getGuiManager() != null) {
 				app.getGuiManager().showWebpageExport();

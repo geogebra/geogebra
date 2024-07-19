@@ -148,11 +148,18 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					handleCtrlAltX();
 					handled = true;
 				}
+
+
 				if (NavigatorUtil.isiOS() && isControlKeyDown(event)) {
 					handleIosKeyboard((char) event.getCharCode());
 					handled = true;
 				}
-				if (event.getCtrlKey()) {
+
+				if (event.getKeyCode() == GWTKeycodes.KEY_T
+						&& event.getCtrlKey()
+						&& event.getAltKey()) {
+					handled = toggleTableView();
+				} else if (event.getCtrlKey()) {
 					handled = handleCtrlKeys(KeyCodes.translateGWTcode(event.getKeyCode()),
 							event.getShiftKey(), false, true);
 				}
@@ -181,6 +188,15 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			}
 		}
 	}
+
+	private boolean toggleTableView() {
+		if (!app.getConfig().hasTableView()) {
+			return false;
+		}
+		app.getGuiManager().toggleTableView();
+		return true;
+	}
+
 
 	private void handleCtrlAltX() {
 		app.hideMenu();
