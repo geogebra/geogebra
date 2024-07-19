@@ -119,7 +119,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	public void addFullscreenButton() {
 		fullscreenBtn = new ToggleButton(ZoomPanelResources.INSTANCE.fullscreen_black18(),
 				ZoomPanelResources.INSTANCE.fullscreen_exit_black18());
-		fullscreenBtn.setStyleName("zoomPanelBtn");
+		fullscreenBtn.setStyleName("zoomPanelBtn fullscreen");
 		registerFocusable(fullscreenBtn, AccessibilityGroup.ViewControlId.FULL_SCREEN);
 
 		fullscreenBtn.addFastClickHandler(source -> {
@@ -328,62 +328,6 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	public static boolean neededFor(AppW app) {
 		return (needsZoomButtons(app) && !app.isWhiteboardActive())
 			|| needsFullscreenButton(app);
-	}
-
-	/** Focus the first available button on zoom panel. */
-	public void focusFirstButton() {
-		Widget btn = getFirstButton();
-		if (btn != null) {
-			btn.getElement().focus();
-		}
-	}
-
-	/**
-	 *
-	 * @return if panel have visible buttons.
-	 */
-	public boolean hasButtons() {
-		return getFirstButton() != null;
-	}
-
-	/** Focus the last available button on zoom panel. */
-	public void focusLastButton() {
-		Widget btn = getLastButton();
-		if (btn != null) {
-			btn.getElement().focus();
-		}
-	}
-
-	private Widget getFirstButton() {
-		if (zoomButtonsVisible) {
-			if (homeBtn != null && isHomeShown()) {
-				return homeBtn;
-			}
-			if (zoomInBtn != null) {
-				return zoomInBtn;
-			}
-		}
-		return fullscreenBtn;
-	}
-
-	private Widget getLastButton() {
-		if (fullscreenBtn != null) {
-			return fullscreenBtn;
-		}
-		if (zoomButtonsVisible) {
-			if (zoomOutBtn != null) {
-				return zoomOutBtn;
-			}
-
-			if (zoomInBtn != null) {
-				return zoomInBtn;
-			}
-
-			if (homeBtn != null && isHomeShown()) {
-				return homeBtn;
-			}
-		}
-		return null;
 	}
 
 	/**
