@@ -119,7 +119,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	public void addFullscreenButton() {
 		fullscreenBtn = new ToggleButton(ZoomPanelResources.INSTANCE.fullscreen_black18(),
 				ZoomPanelResources.INSTANCE.fullscreen_exit_black18());
-		fullscreenBtn.setStyleName("zoomPanelBtn fullscreen");
+		fullscreenBtn.setStyleName("zoomPanelBtn");
 		registerFocusable(fullscreenBtn, AccessibilityGroup.ViewControlId.FULL_SCREEN);
 
 		fullscreenBtn.addFastClickHandler(source -> {

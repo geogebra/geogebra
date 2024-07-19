@@ -42,7 +42,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return 0;
 	};
 
-	private final TreeSet<MayHaveFocus>	components = new TreeSet<>(componentComparator);
+	private final TreeSet<MayHaveFocus> components = new TreeSet<>(componentComparator);
 
 	/**
 	 * Constructor.
