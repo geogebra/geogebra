@@ -103,7 +103,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 					getModifiers(ptr));
 		});
 		registry.addEventListener(spreadsheetElement, "blur", event -> {
-			spreadsheet.clearSelection();
+			spreadsheet.clearSelectionOnly();
 		});
 
 		ClickStartHandler.initDefaults(scrollContent, false, true);
