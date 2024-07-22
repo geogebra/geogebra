@@ -46,7 +46,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 			}
 
 			@Override
-			public void updateScrollPanelSize(Size size) {
+			public void updateScrollableContentSize(Size size) {
 				// no UI to update
 			}
 		});
