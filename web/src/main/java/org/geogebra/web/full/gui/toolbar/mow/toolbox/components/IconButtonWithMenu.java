@@ -5,6 +5,7 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
 import java.util.List;
 
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -12,6 +13,7 @@ import org.geogebra.web.resources.SVGResource;
 public class IconButtonWithMenu extends IconButton {
 	private final AppW appW;
 	private final List<Integer> tools;
+	private CategoryMenuPopup iconButtonPopup;
 
 	/**
 	 * Constructor
@@ -31,22 +33,38 @@ public class IconButtonWithMenu extends IconButton {
 		addFastClickHandler((event) -> {
 			deselectButtons.run();
 			initPopupAndShow();
-			setActive(true);
 		});
 	}
 
 	private void initPopupAndShow() {
-		CategoryMenuPopup iconButtonPopup = new CategoryMenuPopup(appW, tools);
-		ToolboxPopupPositioner.showRelativeToToolbox(iconButtonPopup.getPopupPanel(),
-				this, appW);
-		AriaHelper.setAriaExpanded(this, true);
+		if (iconButtonPopup == null) {
+			iconButtonPopup = new CategoryMenuPopup(appW, tools);
+		}
 
+		showHideMenu();
+		addCloseHandler();
+	}
+
+	private void showHideMenu() {
+		if (getPopup().isShowing()) {
+			iconButtonPopup.hide();
+		} else {
+			appW.registerPopup(getPopup());
+			ToolboxPopupPositioner.showRelativeToToolbox(getPopup(), this, appW);
+		}
+		AriaHelper.setAriaExpanded(this, getPopup().isShowing());
+		setActive(getPopup().isShowing());
+	}
+
+	private void addCloseHandler() {
 		iconButtonPopup.getPopupPanel().addCloseHandler(e -> {
 			deactivate();
 			AriaHelper.setAriaExpanded(this, false);
-			if (e.isAutoClosed()) {
-				appW.setMode(MODE_SELECT_MOW);
-			}
+			appW.setMode(MODE_SELECT_MOW);
 		});
+	}
+
+	private GPopupPanel getPopup() {
+		return iconButtonPopup.getPopupPanel();
 	}
 }

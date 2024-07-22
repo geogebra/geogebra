@@ -19,6 +19,7 @@ public class CategoryMenuPopup extends GPopupMenuW {
 	 */
 	public CategoryMenuPopup(AppW appW, List<Integer> tools) {
 		super(appW);
+		getPopupPanel().setAutoHideEnabled(false);
 		buildGui(tools);
 	}
 
@@ -35,15 +36,6 @@ public class CategoryMenuPopup extends GPopupMenuW {
 		AriaMenuItem item = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
 				image.getSafeUri().asString(), text), true, () -> getApp().setMode(mode));
 		addItem(item);
-	}
-
-	/**
-	 * show popup at position
-	 * @param left - left position
-	 * @param top - top position
-	 */
-	public void show(int left, int top) {
-		showAtPoint(left, top);
 	}
 
 	/**
