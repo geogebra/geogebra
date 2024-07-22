@@ -33,6 +33,11 @@ final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 	}
 
 	@Override
+	public void updatePosition(Rectangle editorBounds, Rectangle viewport) {
+		// not needed in tests
+	}
+
+	@Override
 	public void hide() {
 	}
 
