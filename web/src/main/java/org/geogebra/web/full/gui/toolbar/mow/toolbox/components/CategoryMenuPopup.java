@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 
 import java.util.List;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.menubar.MainMenu;
@@ -10,7 +11,8 @@ import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
-public class CategoryMenuPopup extends GPopupMenuW {
+public class CategoryMenuPopup extends GPopupMenuW implements SetLabels {
+	private final List<Integer> tools;
 
 	/**
 	 * Menu popup for MOW toolbox
@@ -19,11 +21,14 @@ public class CategoryMenuPopup extends GPopupMenuW {
 	 */
 	public CategoryMenuPopup(AppW appW, List<Integer> tools) {
 		super(appW);
+		this.tools = tools;
 		getPopupPanel().setAutoHideEnabled(false);
-		buildGui(tools);
+		buildGui();
 	}
 
-	private void buildGui(List<Integer> tools) {
+	private void buildGui() {
+		clearItems();
+
 		for (Integer mode : tools) {
 			addItem(mode);
 		}
@@ -53,5 +58,10 @@ public class CategoryMenuPopup extends GPopupMenuW {
 	 */
 	public String getTextForMode(int mode) {
 		return getApp().getToolName(mode);
+	}
+
+	@Override
+	public void setLabels() {
+		buildGui();
 	}
 }

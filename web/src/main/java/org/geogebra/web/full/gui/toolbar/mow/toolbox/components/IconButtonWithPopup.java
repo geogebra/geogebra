@@ -30,21 +30,38 @@ public class IconButtonWithPopup extends IconButton {
 
 		addFastClickHandler(source -> {
 			deselectButtons.run();
+			initAndShowPopup(tools);
 			setActive(true);
 
-			initAndShowPopup(tools);
-			AriaHelper.setAriaExpanded(this, true);
-			appW.setMode(categoryPopup.getLastSelectedMode());
-
-			categoryPopup.addCloseHandler((event) -> AriaHelper.setAriaExpanded(this, false));
+			categoryPopup.addCloseHandler((event) -> {
+				AriaHelper.setAriaExpanded(this, false);
+				deactivate();
+			});
 		});
 	}
 
 	private void initAndShowPopup(List<Integer> tools) {
 		if (categoryPopup == null) {
 			categoryPopup = new CategoryPopup(appW, tools, getUpdateButtonCallback());
+			categoryPopup.setAutoHideEnabled(false);
 		}
-		ToolboxPopupPositioner.showRelativeToToolbox(categoryPopup, this, appW);
+
+		showHidePopup();
+		updateSelection();
+	}
+
+	private void showHidePopup() {
+		if (categoryPopup.isShowing()) {
+			categoryPopup.hide();
+		} else {
+			appW.registerPopup(categoryPopup);
+			ToolboxPopupPositioner.showRelativeToToolbox(categoryPopup, this, appW);
+		}
+	}
+
+	private void updateSelection() {
+		AriaHelper.setAriaExpanded(this, categoryPopup.isShowing());
+		appW.setMode(categoryPopup.getLastSelectedMode());
 	}
 
 	private Consumer<Integer> getUpdateButtonCallback() {

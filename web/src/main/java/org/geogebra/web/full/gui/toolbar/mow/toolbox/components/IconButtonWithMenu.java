@@ -33,6 +33,7 @@ public class IconButtonWithMenu extends IconButton {
 		addFastClickHandler((event) -> {
 			deselectButtons.run();
 			initPopupAndShow();
+			addCloseHandler();
 		});
 	}
 
@@ -42,7 +43,12 @@ public class IconButtonWithMenu extends IconButton {
 		}
 
 		showHideMenu();
-		addCloseHandler();
+		updateSelection();
+	}
+
+	private void updateSelection() {
+		AriaHelper.setAriaExpanded(this, getPopup().isShowing());
+		setActive(getPopup().isShowing());
 	}
 
 	private void showHideMenu() {
@@ -52,8 +58,6 @@ public class IconButtonWithMenu extends IconButton {
 			appW.registerPopup(getPopup());
 			ToolboxPopupPositioner.showRelativeToToolbox(getPopup(), this, appW);
 		}
-		AriaHelper.setAriaExpanded(this, getPopup().isShowing());
-		setActive(getPopup().isShowing());
 	}
 
 	private void addCloseHandler() {
@@ -66,5 +70,13 @@ public class IconButtonWithMenu extends IconButton {
 
 	private GPopupPanel getPopup() {
 		return iconButtonPopup.getPopupPanel();
+	}
+
+	@Override
+	public void setLabels() {
+		super.setLabels();
+		if (iconButtonPopup != null) {
+			iconButtonPopup.setLabels();
+		}
 	}
 }
