@@ -5,8 +5,6 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
 
@@ -161,10 +159,6 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 				appW.getVendorSettings().isH5PEnabled());
 		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.resource_card_shared(),
 				"Link", linkTools);
-	}
-
-	private List<Integer> concat(List<Integer> tools, int tool) {
-		return Stream.concat(tools.stream(), Stream.of(tool)).collect(Collectors.toList());
 	}
 
 	private void addSelectModeButton() {
