@@ -50,7 +50,6 @@ public class PenIconButton extends IconButton {
 		if (penPopup.isShowing()) {
 			penPopup.hide();
 		} else {
-			appW.registerPopup(penPopup);
 			ToolboxPopupPositioner.showRelativeToToolbox(penPopup, this, appW);
 		}
 	}

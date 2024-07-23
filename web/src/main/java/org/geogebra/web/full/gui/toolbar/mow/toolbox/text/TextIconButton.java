@@ -46,7 +46,6 @@ public class TextIconButton extends IconButton {
 		if (getPopup().isShowing()) {
 			getPopup().hide();
 		} else {
-			appW.registerPopup(getPopup());
 			ToolboxPopupPositioner.showRelativeToToolbox(getPopup(),
 					this, appW);
 		}

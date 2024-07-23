@@ -54,7 +54,6 @@ public class IconButtonWithPopup extends IconButton {
 		if (categoryPopup.isShowing()) {
 			categoryPopup.hide();
 		} else {
-			appW.registerPopup(categoryPopup);
 			ToolboxPopupPositioner.showRelativeToToolbox(categoryPopup, this, appW);
 		}
 	}

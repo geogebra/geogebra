@@ -55,7 +55,6 @@ public class IconButtonWithMenu extends IconButton {
 		if (getPopup().isShowing()) {
 			iconButtonPopup.hide();
 		} else {
-			appW.registerPopup(getPopup());
 			ToolboxPopupPositioner.showRelativeToToolbox(getPopup(), this, appW);
 		}
 	}
