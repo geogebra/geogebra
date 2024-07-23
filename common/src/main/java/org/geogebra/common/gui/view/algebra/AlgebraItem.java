@@ -628,9 +628,20 @@ public class AlgebraItem {
 	 * @return if Algebra View should show a slider for this geo
 	 */
 	public static boolean shouldShowSlider(GeoElement geo) {
-		return geo instanceof GeoNumeric
+		return geo.getApp().getConfig().hasSlidersInAV() &&
+				geo instanceof GeoNumeric
 				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
 				&& Double.isFinite(((GeoNumeric) geo).value);
+	}
+
+	/**
+	 * Initializes the element for the Algebra View.
+	 * @param geo element to initialzie
+	 */
+	public static void initForAlgebraView(GeoElement geo) {
+		if (shouldShowSlider(geo) && !geo.isEuclidianVisible()) {
+			((GeoNumeric) geo).initAlgebraSlider();
+		}
 	}
 
 	/**
