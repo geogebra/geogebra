@@ -53,7 +53,6 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	private final ToolboxDecorator decorator;
 	private final ToolboxController controller;
 	private @CheckForNull IconButton spotlightButton;
-	private @CheckForNull IconButton selectButton;
 	private final List<IconButton> buttons = new ArrayList<>();
 	private final static List<Integer> uploadCategory = Arrays.asList(MODE_IMAGE, MODE_CAMERA,
 			MODE_PDF);
@@ -212,9 +211,11 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 			return;
 		}
 
-		selectButton = addPressButton(MaterialDesignResources.INSTANCE.mouse_cursor(),
-				appW.getToolName(MODE_SELECT_MOW), appW.getToolName(MODE_SELECT_MOW),
+		IconButton selectButton = new IconButton(MODE_SELECT_MOW, appW,
+				MaterialDesignResources.INSTANCE.mouse_cursor(),
 				() -> appW.setMode(MODE_SELECT_MOW));
+		add(selectButton);
+		buttons.add(selectButton);
 	}
 
 	private void addPenModeButton() {
@@ -266,10 +267,11 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	 * @param mode - tool mode
 	 */
 	public void setMode(int mode) {
-		if (MODE_SELECT_MOW == mode) {
-			deselectButtons();
-			if (selectButton != null) {
-				selectButton.setActive(true);
+		for (IconButton button : buttons) {
+			if (button.getMode() == mode) {
+				button.setActive(true);
+			} else {
+				button.deactivate();
 			}
 		}
 	}

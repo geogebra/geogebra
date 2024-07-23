@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox.text;
 
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MEDIA_TEXT;
+
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
@@ -51,6 +53,12 @@ public class TextIconButton extends IconButton {
 		}
 
 		AriaHelper.setAriaExpanded(this, getPopup().isShowing());
+	}
+
+	@Override
+	public int getMode() {
+		return textCategoryPopup != null ? textCategoryPopup.getLastSelectedMode()
+				: MODE_MEDIA_TEXT;
 	}
 
 	@Override

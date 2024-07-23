@@ -12,6 +12,7 @@ import org.geogebra.web.resources.SVGResource;
 
 public class IconButtonWithPopup extends IconButton {
 	private final AppW appW;
+	private final List<Integer> tools;
 	private CategoryPopup categoryPopup;
 
 	/**
@@ -26,6 +27,7 @@ public class IconButtonWithPopup extends IconButton {
 			Runnable deselectButtons) {
 		super(appW, icon, ariaLabel, ariaLabel, () -> {}, null);
 		this.appW = appW;
+		this.tools = tools;
 		AriaHelper.setAriaHasPopup(this);
 
 		addFastClickHandler(source -> {
@@ -70,6 +72,12 @@ public class IconButtonWithPopup extends IconButton {
 			updateImgAndTxt(image, mode, appW);
 			setActive(true);
 		};
+	}
+
+	@Override
+	public int getMode() {
+		return categoryPopup != null && categoryPopup.getLastSelectedMode() == -1
+				? categoryPopup.getLastSelectedMode() : tools.get(0);
 	}
 
 	@Override
