@@ -64,7 +64,6 @@ import com.google.j2objc.annotations.Weak;
 public class ExpressionNode extends ValidExpression
 		implements ExpressionNodeConstants, ReplaceChildrenByValues {
 
-	public static final double ALLOW_PI_LIMIT = Math.PI * 1000;
 	private Localization loc;
 	@Weak
 	private Kernel kernel;
@@ -3472,13 +3471,8 @@ public class ExpressionNode extends ValidExpression
 
 	private void initFraction() {
 		if (resolve == null || !resolve.isExpressionNode()) {
-			resolve = Fractions.getResolution(this, kernel, isPiAllowed());
+			resolve = Fractions.getResolution(this, kernel, true);
 		}
-	}
-
-	private boolean isPiAllowed() {
-		double value = evaluateDouble();
-		return -ALLOW_PI_LIMIT < value && value < ALLOW_PI_LIMIT;
 	}
 
 	/**

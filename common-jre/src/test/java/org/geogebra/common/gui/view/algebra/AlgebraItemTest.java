@@ -169,6 +169,5 @@ public class AlgebraItemTest extends BaseUnitTest {
         GeoElement element = add("17!");
         String definition = element.getAlgebraDescriptionForPreviewOutput();
         assertThat(definition, is("355687428096000"));
-
     }
 }
