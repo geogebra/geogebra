@@ -222,6 +222,7 @@ public final class SpreadsheetRenderer {
 	void drawEditorBorder(Rectangle bounds, GGraphics2D graphics) {
 		graphics.setColor(style.getSelectionBorderColor());
 		graphics.setStroke(borderStroke);
-		drawRectangleWithStraightLines(graphics, bounds.getMinX(), bounds.getMinY(), bounds.getMaxX(), bounds.getMaxY());
+		drawRectangleWithStraightLines(graphics,
+				bounds.getMinX(), bounds.getMinY(), bounds.getMaxX(), bounds.getMaxY());
 	}
 }
