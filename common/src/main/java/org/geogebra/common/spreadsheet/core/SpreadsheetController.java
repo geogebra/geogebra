@@ -101,6 +101,10 @@ public final class SpreadsheetController {
 		return style;
 	}
 
+	@CheckForNull Rectangle getEditorBounds() {
+		return editor != null ? editor.bounds : null;
+	}
+
 	/**
 	 * Visible for tests
 	 * @return {@link ContextMenuItems}
@@ -877,6 +881,7 @@ public final class SpreadsheetController {
 	private final class Editor {
 		private final @Nonnull SpreadsheetCellEditor cellEditor;
 		private @CheckForNull SpreadsheetMathFieldAdapter mathFieldAdapter;
+		@CheckForNull Rectangle bounds;
 		boolean isVisible;
 		int row;
 		int column;
@@ -902,11 +907,8 @@ public final class SpreadsheetController {
 		}
 
 		void updatePosition() {
-			Rectangle editorBounds = layout.getBounds(row, column)
-					.insetBy(1, 1) // don't overdraw thick selection border
-					.translatedBy(-viewport.getMinX() + layout.getRowHeaderWidth(),
-							-viewport.getMinY() + layout.getColumnHeaderHeight());
-			cellEditor.show(editorBounds, viewport, tabularData.getAlignment(row, column));
+			bounds = layout.getBounds(new TabularRange(row, column), viewport);
+			cellEditor.show(bounds.insetBy(1, 1), viewport, tabularData.getAlignment(row, column));
 		}
 
 		void hide() {
@@ -914,6 +916,7 @@ public final class SpreadsheetController {
 			// flag needs to be set *before* hiding since hiding may change layout (keyboard closed)
 			// and during layout update we may need to query this flag
 			isVisible = false;
+			bounds = null;
 			cellEditor.hide();
 		}
 
