@@ -26,15 +26,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public interface ToolboxConstants {
-	List<Integer> uploadCategory = Arrays.asList(MODE_IMAGE, MODE_CAMERA,
+public class ToolboxConstants {
+	static List<Integer> uploadCategory = Arrays.asList(MODE_IMAGE, MODE_CAMERA,
 			MODE_PDF);
-	List<Integer> linkCategory = Arrays.asList(
+	static List<Integer> linkCategory = Arrays.asList(
 			MODE_EXTENSION, MODE_VIDEO, MODE_AUDIO);
-	List<Integer> shapeCategory = Arrays.asList(MODE_SHAPE_RECTANGLE,
+	static List<Integer> shapeCategory = Arrays.asList(MODE_SHAPE_RECTANGLE,
 			MODE_SHAPE_SQUARE , MODE_SHAPE_TRIANGLE , MODE_SHAPE_CIRCLE , MODE_SHAPE_ELLIPSE,
 			MODE_SHAPE_PENTAGON, MODE_SHAPE_LINE, MODE_SHAPE_FREEFORM, MODE_MASK);
-	List<Integer> appsCategory = Arrays.asList(
+	static List<Integer> appsCategory = Arrays.asList(
 			MODE_CALCULATOR, MODE_MIND_MAP, MODE_TABLE);
 
 	static List<Integer> getLinkCategory(boolean hasH5P) {
