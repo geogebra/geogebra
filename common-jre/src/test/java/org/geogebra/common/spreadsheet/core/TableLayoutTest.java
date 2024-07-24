@@ -74,14 +74,15 @@ public class TableLayoutTest {
 						new Rectangle(viewportOrigin, viewportSize)).cursor,
 				equalTo(MouseCursor.DEFAULT));
 
-		// in the center of the corner, viewport scrolled by 0.5 * columnHeaderHeight
+		// in the center of the corner, viewport scrolled vertically by columnHeaderHeight / 2
 		viewportOrigin = new Point(0, 0.5 * columnHeaderHeight);
 		assertThat(layout.getResizeAction(mouseX, columnHeaderHeight / 2,
 						new Rectangle(viewportOrigin, viewportSize)).cursor,
 				equalTo(MouseCursor.DEFAULT));
 
-		// in the center of the corner, viewport vertically scrolled by 1.5 * columnHeaderHeight
-		viewportOrigin = new Point(0, 1.5 * columnHeaderHeight);
+		// in the center of the corner, viewport scrolled vertically by columnHeaderHeight / 2
+		// + height of first row
+		viewportOrigin = new Point(0, 0.5 * columnHeaderHeight + rowHeight);
 		assertThat(layout.getResizeAction(mouseX, columnHeaderHeight / 2,
 						new Rectangle(viewportOrigin, viewportSize)).cursor,
 				equalTo(MouseCursor.DEFAULT));
@@ -99,8 +100,8 @@ public class TableLayoutTest {
 						new Rectangle(viewportOrigin, viewportSize)).cursor,
 				equalTo(MouseCursor.RESIZE_Y));
 
-		// in the center of the corner, viewport scrolled horizontally by
-		// rowHeaderWidth / 2 + width of first column
+		// in the center of the corner, viewport scrolled horizontally by rowHeaderWidth / 2
+		// + width of first column
 		viewportOrigin = new Point(rowHeaderWidth / 2 + columWidth, 0);
 		assertThat(layout.getResizeAction(mouseX, columnHeaderHeight / 2,
 						new Rectangle(viewportOrigin, viewportSize)).cursor,
