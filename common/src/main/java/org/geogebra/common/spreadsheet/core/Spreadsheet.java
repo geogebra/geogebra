@@ -236,13 +236,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.clearSelection();
 	}
 
-	/**
-	 * Clears the selection only.
-	 */
-	public void clearSelectionOnly() {
-		controller.clearSelection();
-	}
-
 	void selectRow(int row, boolean extend, boolean add) {
 		controller.selectRow(row, extend, add);
 	}
