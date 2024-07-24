@@ -1,6 +1,7 @@
 package org.geogebra.common.spreadsheet.kernel;
 
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
 import org.geogebra.common.util.AsyncOperation;
 
 public class SpreadsheetErrorHandler implements ErrorHandler {

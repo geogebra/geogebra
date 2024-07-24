@@ -286,4 +286,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	public void saveContentAndHideCellEditor() {
 		controller.saveContentAndHideCellEditor();
 	}
+
+	public SpreadsheetController getController() {
+		return controller;
+	}
 }

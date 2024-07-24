@@ -932,8 +932,8 @@ public final class SpreadsheetController {
 		}
 	}
 
-	public void markError(int row, int column, boolean hasError) {
-		tabularData.markError(row, column, hasError);
+	public TabularData getTabularData() {
+		return tabularData;
 	}
 
 	public boolean hasError(int row, int column) {

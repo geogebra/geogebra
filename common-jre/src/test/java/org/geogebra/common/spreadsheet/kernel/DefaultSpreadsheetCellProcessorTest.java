@@ -20,8 +20,7 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	@Before
 	public void setUp() {
 		processor =
-				new DefaultSpreadsheetCellProcessor(getKernel().getAlgebraProcessor(),
-						errorHandler);
+				new DefaultSpreadsheetCellProcessor(getKernel().getAlgebraProcessor(), null);
 		getKernel().attach(new KernelTabularDataAdapter(
 				getSettings().getSpreadsheet(), getKernel()));
 	}
@@ -113,7 +112,7 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 
 	private void assertSerializedAs(String value) {
 		assertEquals("The values do not match!", value,
-				serializer.getStringForEditor(lookup("A1"), false));
+				serializer.getStringForEditor(lookup("A1")));
 	}
 
 	private void assertIsAuxiliary() {
@@ -128,10 +127,10 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 
 	@Test
 	public void testErrorShouldBeTextWithOriginalInput() {
-		processor.process("=1+@");
+		processor.process("=1+@", "A1");
 		GeoElement a1 = lookup("A1");
 		assertTrue(a1.isGeoText());
-		assertEquals(serializer.getStringForEditor(lookup("A1"), true),
+		assertEquals(serializer.getStringForEditor(lookup("A1")),
 				"=1+@");
 	}
 

@@ -268,7 +268,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public String getErrorString() {
-		return loc.getError("Error").toUpperCase(Locale.ROOT);
+		return kernel.getLocalization().getError("Error").toUpperCase(Locale.ROOT);
 	}
 
 	@Override

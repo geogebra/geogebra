@@ -90,7 +90,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		@Override
 		public @Nonnull DefaultSpreadsheetCellProcessor getCellProcessor() {
 			return new DefaultSpreadsheetCellProcessor(app.getKernel().getAlgebraProcessor(),
-					app.getDefaultErrorHandler());
+					getSpreadsheetPanel().getTabularData());
 		}
 
 		@Nonnull

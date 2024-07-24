@@ -18,6 +18,11 @@ final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 		public void process(String input, int row, int column) {
 			tabularData.setContent(row, column, input);
 		}
+
+		@Override
+		public void markError() {
+			// TODO
+		}
 	};
 	private final SpreadsheetCellDataSerializer cellDataSerializer =
 			new DefaultSpreadsheetCellDataSerializer();
@@ -26,16 +31,6 @@ final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 
 	TestSpreadsheetCellEditor(TabularData tabularData) {
 		this.tabularData = tabularData;
-	}
-
-	@Override
-	public void setContent(Object content, boolean hasError) {
-		this.content = content;
-	}
-
-	@Override
-	public void type(String text) {
-		setContent(text, false);
 	}
 
 	@Override
