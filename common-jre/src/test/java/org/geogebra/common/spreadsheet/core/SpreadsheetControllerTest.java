@@ -30,7 +30,7 @@ import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
-    private final int cellHeight = TableLayout.DEFAUL_CELL_HEIGHT;
+    private final int cellHeight = TableLayout.DEFAULT_CELL_HEIGHT;
     private final int cellWidth = 40;
     private final int rowHeaderCellWidth = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 

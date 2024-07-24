@@ -12,7 +12,7 @@ import org.geogebra.common.util.shape.Rectangle;
  */
 public final class TableLayout implements PersistenceListener {
 	public static final int DEFAULT_CELL_WIDTH = 120;
-	public static final int DEFAUL_CELL_HEIGHT = 36;
+	public static final int DEFAULT_CELL_HEIGHT = 36;
 	public static final int DEFAULT_ROW_HEADER_WIDTH = 52;
 
 	private static final int MIN_CELL_SIZE = 10;
@@ -21,7 +21,7 @@ public final class TableLayout implements PersistenceListener {
 	private double[] cumulativeWidths;
 	private double[] cumulativeHeights;
 	private double rowHeaderWidth = DEFAULT_ROW_HEADER_WIDTH;
-	private double columnHeaderHeight = DEFAUL_CELL_HEIGHT;
+	private double columnHeaderHeight = DEFAULT_CELL_HEIGHT;
 
 	public double getWidth(int column) {
 		return columnWidths[column];
@@ -154,7 +154,7 @@ public final class TableLayout implements PersistenceListener {
 		}
 		dimensions.getHeightMap().clear();
 		for (int i = 0; i < rowHeights.length; i++) {
-			if (rowHeights[i] != DEFAUL_CELL_HEIGHT) {
+			if (rowHeights[i] != DEFAULT_CELL_HEIGHT) {
 				dimensions.getHeightMap().put(i, (int) rowHeights[i]);
 			}
 		}
@@ -167,7 +167,7 @@ public final class TableLayout implements PersistenceListener {
 			columnWidths[i] = dimensions.getWidthMap().getOrDefault(i, DEFAULT_CELL_WIDTH);
 		}
 		for (int i = 0; i < rowHeights.length; i++) {
-			rowHeights[i] = dimensions.getHeightMap().getOrDefault(i, DEFAUL_CELL_HEIGHT);
+			rowHeights[i] = dimensions.getHeightMap().getOrDefault(i, DEFAULT_CELL_HEIGHT);
 		}
 		updateCumulativeHeights(0);
 		updateCumulativeWidths(0);
@@ -312,7 +312,7 @@ public final class TableLayout implements PersistenceListener {
 	 */
 	public void resetCellSizes() {
 		setWidthForColumns(DEFAULT_CELL_WIDTH, 0, columnWidths.length - 1);
-		setHeightForRows(DEFAUL_CELL_HEIGHT, 0, rowHeights.length - 1);
+		setHeightForRows(DEFAULT_CELL_HEIGHT, 0, rowHeights.length - 1);
 	}
 
 	/**
@@ -326,7 +326,7 @@ public final class TableLayout implements PersistenceListener {
 		for (int row = resizeFrom; row < numberOfRows - 1; row++) {
 			setHeightForRows(getHeight(row + 1), row, row);
 		}
-		setHeightForRows(DEFAUL_CELL_HEIGHT, numberOfRows - 1, numberOfRows - 1);
+		setHeightForRows(DEFAULT_CELL_HEIGHT, numberOfRows - 1, numberOfRows - 1);
 	}
 
 	/**
