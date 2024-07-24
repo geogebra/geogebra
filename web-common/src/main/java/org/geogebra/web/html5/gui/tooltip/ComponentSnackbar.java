@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui.tooltip;
 
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -73,7 +74,9 @@ public class ComponentSnackbar extends FlowPanel {
 			actionBtn = new StandardButton(app.getLocalization()
 					.getMenu(toolTip.buttonTransKey));
 			actionBtn.addStyleName("materialTextButton");
-			add(actionBtn);
+			if (shouldAddButton(toolTip)) {
+				add(actionBtn);
+			}
 			actionBtn.addFastClickHandler(source -> {
 				if (btnAction != null) {
 					btnAction.run();
@@ -81,6 +84,15 @@ public class ComponentSnackbar extends FlowPanel {
 				}
 			});
 		}
+	}
+
+	/**
+	 * @param toolTip - tooltip data
+	 * @return whether should add button, dont allow redirects in exam mode
+	 */
+	private boolean shouldAddButton(ToolTip toolTip) {
+		return !GlobalScope.examController.isExamActive()
+				|| "Share".equals(toolTip.buttonTransKey);
 	}
 
 	/**
