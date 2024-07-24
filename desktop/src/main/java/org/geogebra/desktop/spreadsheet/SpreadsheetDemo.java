@@ -330,7 +330,8 @@ public class SpreadsheetDemo {
 
 			@Override
 			public @Nonnull DefaultSpreadsheetCellProcessor getCellProcessor() {
-				return new DefaultSpreadsheetCellProcessor(app.getKernel().getAlgebraProcessor());
+				return new DefaultSpreadsheetCellProcessor(app.getKernel().getAlgebraProcessor(),
+						spreadsheet.getController().getTabularData());
 			}
 
 			@Override
