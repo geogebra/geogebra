@@ -227,12 +227,9 @@ public final class CmdDerivative extends CommandProcessor {
 	 */
 	public GeoElement derivative(String label, CasEvaluableFunction f,
 			GeoNumeric var, GeoNumberValue n, EvalInfo info) {
-		if (cmd == Commands.NDerivative
-				|| !app.getSettings().getCasSettings().isEnabled()) {
-			AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n, true, info);
-			return algo.getResult();
-		}
-		AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n, info);
+		boolean numeric = cmd == Commands.NDerivative
+				|| !app.getSettings().getCasSettings().isEnabled();
+		AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n, numeric, info);
 		return algo.getResult();
 	}
 

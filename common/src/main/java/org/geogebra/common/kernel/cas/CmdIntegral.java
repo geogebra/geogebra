@@ -173,12 +173,9 @@ public final class CmdIntegral extends CommandProcessor implements UsesCAS {
 	 * @return integral of given function wrt given variable
 	 */
 	public GeoElement integral(CasEvaluableFunction f, GeoNumeric var, EvalInfo info) {
-		if (command == Commands.NIntegral
-				|| !app.getSettings().getCasSettings().isEnabled()) {
-			AlgoIntegral algo = new AlgoIntegral(cons, f, var, true, info, true);
-			return algo.getResult();
-		}
-		AlgoIntegral algo = new AlgoIntegral(cons, f, var, true, info, false);
+		boolean numeric = command == Commands.NIntegral
+				|| !app.getSettings().getCasSettings().isEnabled();
+		AlgoIntegral algo = new AlgoIntegral(cons, f, var, true, info, numeric);
 		return algo.getResult();
 	}
 }
