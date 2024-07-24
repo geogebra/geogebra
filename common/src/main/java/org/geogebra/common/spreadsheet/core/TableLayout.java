@@ -90,25 +90,29 @@ public final class TableLayout implements PersistenceListener {
 		return cumulativeWidths[cumulativeWidths.length - 1] + getRowHeaderWidth();
 	}
 
-	DragState getResizeAction(double xAbs, double yAbs, Rectangle viewport) {
-		double x = xAbs + viewport.getMinX();
-		double y = yAbs + viewport.getMinY();
-		int row = findRow(y);
-		int column = findColumn(x);
-		if (yAbs < columnHeaderHeight && column >= 0
-				&& x > cumulativeWidths[column + 1] + rowHeaderWidth - 5) {
+	DragState getResizeAction(double x, double y, Rectangle viewport) {
+		double xAbs = x + viewport.getMinX();
+		double yAbs = y + viewport.getMinY();
+		int row = findRow(yAbs);
+		int column = findColumn(xAbs);
+		if (y < columnHeaderHeight && column >= 0
+				&& x > rowHeaderWidth
+				&& xAbs > cumulativeWidths[column + 1] + rowHeaderWidth - 5) {
 			return new DragState(MouseCursor.RESIZE_X, row, column);
 		}
-		if (yAbs < columnHeaderHeight && column > 0
-				&& x < cumulativeWidths[column] + rowHeaderWidth + 5) {
+		if (y < columnHeaderHeight && column > 0
+				&& x > rowHeaderWidth
+				&& xAbs < cumulativeWidths[column] + rowHeaderWidth + 5) {
 			return new DragState(MouseCursor.RESIZE_X, row, column - 1);
 		}
-		if (xAbs < rowHeaderWidth && row >= 0
-				&& y > cumulativeHeights[row + 1] + columnHeaderHeight - 5) {
+		if (x < rowHeaderWidth && row >= 0
+				&& y > columnHeaderHeight
+				&& yAbs > cumulativeHeights[row + 1] + columnHeaderHeight - 5) {
 			return new DragState(MouseCursor.RESIZE_Y, row, column);
 		}
-		if (xAbs < rowHeaderWidth && row > 0
-				&& y < cumulativeHeights[row] + columnHeaderHeight + 5) {
+		if (x < rowHeaderWidth && row > 0
+				&& y > columnHeaderHeight
+				&& yAbs < cumulativeHeights[row] + columnHeaderHeight + 5) {
 			return new DragState(MouseCursor.RESIZE_Y, row - 1, column);
 		}
 		return new DragState(MouseCursor.DEFAULT, row, column);
