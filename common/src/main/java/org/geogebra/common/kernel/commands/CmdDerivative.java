@@ -19,7 +19,7 @@ import org.geogebra.common.util.debug.Log;
  * Derivative[ &lt;GeoFunction&gt; ] Derivative[ &lt;GeoFunctionNVar&gt;, &lt;var&gt; ]
  * Derivative[ &lt;GeoCurveCartesian&gt; ]
  */
-public class CmdDerivative extends CommandProcessor {
+public final class CmdDerivative extends CommandProcessor {
 
 	private Commands cmd;
 
@@ -37,7 +37,7 @@ public class CmdDerivative extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		String label = c.getLabel();
 		GeoElement[] arg, arg2;
@@ -229,8 +229,7 @@ public class CmdDerivative extends CommandProcessor {
 			GeoNumeric var, GeoNumberValue n, EvalInfo info) {
 		if (cmd == Commands.NDerivative
 				|| !app.getSettings().getCasSettings().isEnabled()) {
-			AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n,
-					true, new EvalInfo(false));
+			AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n, true, info);
 			return algo.getResult();
 		}
 		AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n, info);

@@ -22,7 +22,7 @@ import org.geogebra.common.main.MyError;
  *
  * Integral[ &lt;GeoFunction f&gt;, &lt;GeoFunction g&gt;, &lt;Number a&gt;, &lt;Number b&gt; ]
  */
-public class CmdIntegral extends CommandProcessor implements UsesCAS {
+public final class CmdIntegral extends CommandProcessor implements UsesCAS {
 
 	// from GeoGebra 4.0, Integral has been split into Integral and
 	// IntegralBetween
@@ -43,7 +43,7 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
@@ -172,15 +172,13 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 	 *            variable
 	 * @return integral of given function wrt given variable
 	 */
-	final public GeoElement integral(CasEvaluableFunction f, GeoNumeric var, EvalInfo info) {
+	public GeoElement integral(CasEvaluableFunction f, GeoNumeric var, EvalInfo info) {
 		if (command == Commands.NIntegral
 				|| !app.getSettings().getCasSettings().isEnabled()) {
-			AlgoIntegral algo = new AlgoIntegral(cons, f, var, true,
-					new EvalInfo(false), true);
+			AlgoIntegral algo = new AlgoIntegral(cons, f, var, true, info, true);
 			return algo.getResult();
 		}
-		AlgoIntegral algo = new AlgoIntegral(cons, f, var, true, info,
-				isNIntegral());
+		AlgoIntegral algo = new AlgoIntegral(cons, f, var, true, info, false);
 		return algo.getResult();
 	}
 }
