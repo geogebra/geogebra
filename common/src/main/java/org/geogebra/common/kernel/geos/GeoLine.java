@@ -1673,15 +1673,13 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * 
 	 * Also needed for repeated use of PerpendicularLine()
 	 * 
-	 * @param ret
-	 *            output array
-	 * @param threshold
-	 *            eg 2 for very strict normalizing (keeps the numbers between
-	 *            0.5 and 2)
+	 * @param ret output array
+	 * @param max at least one coefficient has to be lower or equal to this bound
+	 * @param min at least one coefficient has to be greater or equal to this bound
 	 * 
 	 * @return normalized coefficients x,y,z
 	 */
-	public double[] getnormalizedCoefficients(double[] ret, double threshold) {
+	public double[] getnormalizedCoefficients(double[] ret, double max, double min) {
 		ret[0] = x;
 		ret[1] = y;
 		ret[2] = z;
@@ -1695,20 +1693,17 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			return ret;
 		}
 
-		double thresholdRecip = 1 / threshold;
-		double thresholdHalf = threshold / 2;
-
-		while (Math.abs(ret[0]) < thresholdRecip
-				&& Math.abs(ret[1]) < thresholdRecip
-				&& Math.abs(ret[2]) < thresholdRecip) {
+		while (Math.abs(ret[0]) < min
+				&& Math.abs(ret[1]) < min
+				&& Math.abs(ret[2]) < min) {
 			ret[0] *= 2;
 			ret[1] *= 2;
 			ret[2] *= 2;
 		}
 
-		while (Math.abs(ret[0]) > thresholdHalf
-				&& Math.abs(ret[1]) > thresholdHalf
-				&& Math.abs(ret[2]) > thresholdHalf) {
+		while (Math.abs(ret[0]) > max
+				&& Math.abs(ret[1]) > max
+				&& Math.abs(ret[2]) > max) {
 			ret[0] /= 2;
 			ret[1] /= 2;
 			ret[2] /= 2;

@@ -43,6 +43,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
+import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
@@ -56,18 +57,24 @@ import com.himamis.retex.editor.share.util.Unicode;
 public abstract class CommandProcessor {
 
 	/** application */
+	@NonOwning
 	@Weak
 	protected App app;
 	/** localization */
+	@NonOwning
 	protected Localization loc;
 	/** kernel */
+	@NonOwning
 	@Weak
 	protected Kernel kernel;
 	/** construction */
+	@NonOwning
 	@Weak
 	protected Construction cons;
+	@NonOwning
 	@Weak
 	private final AlgebraProcessor algProcessor;
+	@NonOwning
 	private final CommandErrorMessageBuilder commandErrorMessageBuilder;
 
 	/**
@@ -786,7 +793,7 @@ public abstract class CommandProcessor {
 		if (correctType) {
 			boolean oldMacroMode = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			list = kernel.getAlgoDispatcher().list(null, geoElementList, false);
+			list = kernel.getAlgoDispatcher().list(geoElementList, false);
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
@@ -832,7 +839,7 @@ public abstract class CommandProcessor {
 
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		list = kernelA.getAlgoDispatcher().list(null, geoElementList, false);
+		list = kernelA.getAlgoDispatcher().list(geoElementList, false);
 		cons.setSuppressLabelCreation(oldMacroMode);
 
 		return list;

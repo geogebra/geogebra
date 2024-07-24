@@ -41,22 +41,22 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	 */
 	default void ensureCapacity(int rows, int cols) {
 		int maxRows = numberOfRows();
-		if (maxRows < rows + 1) {
-			for (int i = maxRows; i <= rows; i++) {
-				insertRowAt(maxRows);
-			}
+		for (int i = maxRows; i <= rows; i++) {
+			insertRowAt(i);
 		}
 
 		int maxColumns = numberOfColumns();
-		if (maxColumns < cols + 1) {
-			for (int i = maxColumns; i <= cols; i++) {
-				insertColumnAt(maxColumns);
-			}
+		for (int i = maxColumns; i <= cols; i++) {
+			insertColumnAt(i);
 		}
 	}
 
 	CellFormat getFormat();
 
+	/**
+	 * @return The (cell value) alignment for the given cell. One of {@link CellFormat}'s
+	 * ALIGN_LEFT, ALIGN_CENTER, or ALIGN_RIGHT.
+	 */
 	int getAlignment(int row, int column);
 
 	void markError(int row, int column, boolean hasError);
@@ -68,4 +68,6 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	}
 
 	String getErrorString();
+
+	CellDragPasteHandler getCellDragPasteHandler();
 }

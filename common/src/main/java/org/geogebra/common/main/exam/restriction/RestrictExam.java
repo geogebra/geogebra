@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 /**
  * Class to manage restrictions at exam start and clear them at exam end..
  */
+@Deprecated // use org.geogebra.common.exam API instead
 public interface RestrictExam {
 
 	/**

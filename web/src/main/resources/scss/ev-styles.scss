@@ -292,23 +292,6 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		z-index: z-index.$z-spotlight-graphics;
 	}
 
-	.spotlightOffBtn {
-		position: absolute;
-		right: 8px;
-		top: 92px;
-		width: 40px;
-		height: 40px;
-		border-radius: 50%;
-		background-color: white;
-		cursor: pointer;
-		z-index: z-index.$z-spotlightOff-button;
-
-		img {
-			opacity: 0.54;
-			padding: 8px;
-		}
-	}
-
 	.pointerEventsNoneWhenDragging {
 		pointer-events: none;
 	}
@@ -347,11 +330,11 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				}
 			}
 
-			&.keyboardFocus:focus {
-				img {
-					opacity: 1;
-					outline: colors.$focus-black 5px auto;
-				}
+			&.keyboardFocus:focus-visible {
+				outline-color: var(--ggb-dark-color);
+				outline-width: 2px;
+				outline-style: solid;
+				outline-offset: 3px;
 			}
 		}
 		.zoomPanelBtnSmall img {

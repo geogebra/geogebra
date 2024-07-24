@@ -22,20 +22,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GAffineTransform;
-import org.geogebra.common.awt.GArc2D;
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GRectangularShape;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
-import org.geogebra.common.euclidian.clipping.ClipShape;
+import org.geogebra.common.euclidian.clipping.ArcClipper;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
@@ -105,17 +103,11 @@ public class DrawConic extends SetDrawable implements Previewable {
 	private DrawLine[] drawLines;
 
 	// CONIC_CIRCLE
-	private boolean firstCircle = true;
 	private GeoVec2D midpoint;
-	private GArc2D arc;
-	private GeneralPathClipped arcCroppedToView;
-	private GRectangularShape circle;
 	private double mx;
 	private double my;
 	private double radius;
 	private double yradius;
-	private double angSt;
-	private double angEnd;
 
 	/** transform for ellipse, hyperbola, parabola */
 	protected GAffineTransform transform = AwtFactory.getPrototype()
@@ -124,7 +116,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 	protected GShape fillShape;
 
 	// CONIC_ELLIPSE
-	private boolean firstEllipse = true;
 	/** lengths of half axes */
 	protected double[] halfAxes;
 	private GEllipse2DDouble ellipse;
@@ -171,6 +162,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 	protected Coords[] ev;
 	private GeoLine diameter;
 	private GPoint2D transformPoint;
+	private ArcClipper arcClipper;
+	private GAffineTransform conicTransform;
 
 	@Override
 	public GArea getShape() {
@@ -576,7 +569,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 	 */
 	protected void updateCircle() {
 		setShape(null);
-		boolean fullAngle = false;
 		// calc screen pixel of radius
 		radius = halfAxes[0] * view.getXscale();
 		yradius = halfAxes[1] * view.getYscale(); // radius scaled in y
@@ -588,15 +580,9 @@ public class DrawConic extends SetDrawable implements Previewable {
 			return;
 		}
 
-		if (firstCircle) {
-			firstCircle = false;
-			arc = AwtFactory.getPrototype().newArc2D();
-			if (ellipse == null) {
-				ellipse = AwtFactory.getPrototype().newEllipse2DDouble();
-			}
+		if (ellipse == null) {
+			ellipse = AwtFactory.getPrototype().newEllipse2DDouble();
 		}
-
-		int i = -1; // bugfix
 
 		// if circle is very big, draw arc: this is very important
 		// for graphical continuity
@@ -604,9 +590,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 		// BIG RADIUS: larger than screen diagonal
 		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's
 																// diagonal
-		boolean hasArcFiller = false;
 		if (radius < BIG_RADIUS && yradius < BIG_RADIUS) {
-			circle = ellipse;
 			// calc screen coords of midpoint
 			Coords M;
 			if (isPreview) {
@@ -632,6 +616,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 			my = -M.getY() * view.getYscale() + view.getYZero();
 			ellipse.setFrame(mx - radius, my - yradius, 2.0 * radius,
 					2.0 * yradius);
+			fillShape = ellipse;
 		} else {
 			// special case: really big circle
 			// draw arc according to midpoint position
@@ -652,168 +637,38 @@ public class DrawConic extends SetDrawable implements Previewable {
 			mx = M.getX() * view.getXscale() + view.getXZero();
 			my = -M.getY() * view.getYscale() + view.getYZero();
 
-			angSt = Double.NaN;
-			// left
-			if (mx < 0.0) {
-				// top
-				if (my < 0.0) {
-					angSt = -Math.acos(-mx / radius);
-					angEnd = -Math.asin(-my / yradius);
-					i = 0;
-				}
-				// bottom
-				else if (my > view.getHeight()) {
-					angSt = Math.asin((my - view.getHeight()) / yradius);
-					angEnd = Math.acos(-mx / radius);
-					i = 2;
-				}
-				// middle
-				else {
-					angSt = -Math.asin((view.getHeight() - my) / yradius);
-					angEnd = Math.asin(my / yradius);
-					i = 1;
-				}
-			}
-			// right
-			else if (mx > view.getWidth()) {
-				// top
-				if (my < 0.0) {
-					angSt = Math.PI + Math.asin(-my / yradius);
-					angEnd = Math.PI
-							+ Math.acos((mx - view.getWidth()) / radius);
-					i = 6;
-				}
-				// bottom
-				else if (my > view.getHeight()) {
-					angSt = Math.PI
-							- Math.acos((mx - view.getWidth()) / radius);
-					angEnd = Math.PI
-							- Math.asin((my - view.getHeight()) / yradius);
-					i = 4;
-				}
-				// middle
-				else {
-					angSt = Math.PI - Math.asin(my / yradius);
-					angEnd = Math.PI
-							+ Math.asin((view.getHeight() - my) / yradius);
-					i = 5;
-				}
-			}
-			// top middle
-			else if (my < 0.0) {
-				angSt = Math.PI + Math.acos(mx / radius);
-				angEnd = 2 * Math.PI
-						- Math.acos((view.getWidth() - mx) / radius);
-				i = 7;
-			}
-			// bottom middle
-			else if (my > view.getHeight()) {
-				angSt = Math.acos((view.getWidth() - mx) / radius);
-				angEnd = Math.PI - Math.acos(mx / radius);
-				i = 3;
-			}
 			// center on screen
-			else {
+			if (!(mx < 0.0 || mx > view.getWidth() || my < 0.0 || my > view.getHeight())) {
 				// huge circle with center on screen: use screen rectangle
 				// instead of circle for possible filling
 				if (radius < BIG_RADIUS || yradius < BIG_RADIUS) {
 					updateEllipse();
 					return;
 				}
-				fillShape = circle = AwtFactory.getPrototype().newRectangle(-1, -1,
+				fillShape = AwtFactory.getPrototype().newRectangle(-1, -1,
 						view.getWidth() + 2, view.getHeight() + 2);
 
 				xLabel = -100;
 				yLabel = -100;
 				return;
 			}
-
-			if (Double.isNaN(angSt) || Double.isNaN(angEnd)) {
-				// to ensure drawing ...
-				angSt = 0.0d;
-				angEnd = 2 * Math.PI;
-				fullAngle = true;
-			}
 			// set arc
-			circle = arc;
-			arc.setArc(mx - radius, my - yradius, 2.0 * radius, 2.0 * yradius,
-					Math.toDegrees(angSt), Math.toDegrees(angEnd - angSt),
-					GArc2D.OPEN);
+			ellipse.setFrame(mx - radius, my - yradius, 2.0 * radius, 2.0 * yradius);
 			// set general path for filling the arc to screen borders
-			if (conic.isFilled() && !fullAngle) {
-				if (arcCroppedToView == null) {
-					arcCroppedToView = new GeneralPathClipped(view);
-				}
-				arcCroppedToView.resetWithThickness(geo.getLineThickness());
-				GPoint2D sp = arc.getStartPoint();
-				getArcFillerGP(sp, i);
-				// gp.
-				hasArcFiller = true;
-			}
+			updateEv();
+			setTransform(M);
+			fillShape = getArcClipper().clipArc(transform).orElse(ellipse);
 		}
-		fillShape = hasArcFiller ? arcCroppedToView : circle;
 		// set label position
 		xLabel = (int) (mx - radius / 2.0);
 		yLabel = (int) (my - yradius * 0.85) + 20;
 	}
 
-	private void getArcFillerGP(GPoint2D sp, int i) {
-		switch (i) { // case number
-		case 0: // left top
-			arcCroppedToView.moveTo(0, 0);
-			arcCroppedToView.lineTo(sp.getX(), sp.getY());
-			arcCroppedToView.append(arc);
-			break;
-
-		case 1: // left middle
-			arcCroppedToView.moveTo(0, view.getHeight());
-			arcCroppedToView.lineTo(sp.getX(), sp.getY());
-			arcCroppedToView.append(arc);
-			arcCroppedToView.lineTo(0, 0);
-			break;
-
-		case 2: // left bottom
-			arcCroppedToView.moveTo(0, view.getHeight());
-			arcCroppedToView.lineTo(sp.getX(), sp.getY());
-			arcCroppedToView.append(arc);
-			break;
-
-		case 3: // middle bottom
-			arcCroppedToView.moveTo(view.getWidth(), view.getHeight());
-			arcCroppedToView.lineTo(sp.getX(), sp.getY());
-			arcCroppedToView.append(arc);
-			arcCroppedToView.lineTo(0, view.getHeight());
-			break;
-
-		case 4: // right bottom
-			arcCroppedToView.moveTo(view.getWidth(), view.getHeight());
-			arcCroppedToView.lineTo(sp.getX(), sp.getY());
-			arcCroppedToView.append(arc);
-			break;
-
-		case 5: // right middle
-			arcCroppedToView.moveTo(view.getWidth(), 0);
-			arcCroppedToView.lineTo(sp.getX(), sp.getY());
-			arcCroppedToView.append(arc);
-			arcCroppedToView.lineTo(view.getWidth(), view.getHeight());
-			break;
-
-		case 6: // right top
-			arcCroppedToView.moveTo(view.getWidth(), 0);
-			arcCroppedToView.lineTo(sp.getX(), sp.getY());
-			arcCroppedToView.append(arc);
-			break;
-
-		case 7: // top middle
-			arcCroppedToView.moveTo(0, 0);
-			arcCroppedToView.lineTo(sp.getX(), sp.getY());
-			arcCroppedToView.append(arc);
-			arcCroppedToView.lineTo(view.getWidth(), 0);
-			break;
-
-		default:
-			arcCroppedToView = null;
+	private ArcClipper getArcClipper() {
+		if (arcClipper == null) {
+			arcClipper = new ArcClipper(view, geo, conic);
 		}
+		return arcClipper;
 	}
 
 	/**
@@ -842,33 +697,17 @@ public class DrawConic extends SetDrawable implements Previewable {
 			}
 		}
 
-		if (ev == null) {
-			ev = new Coords[2];
-		}
-		if (isPreview) { // calculations were in view coords
-			for (int j = 0; j < 2; j++) {
-				ev[j] = conic.getEigenvec(j);
-			}
-		} else {
-			for (int j = 0; j < 2; j++) {
-				ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
-				if (!DoubleUtil.isZero(ev[j].getZ())) { // check if in view
-					isVisible = false;
-					return;
-				}
-			}
+		isVisible = updateEv();
+		if (!isVisible) {
+			return;
 		}
 
-		if (firstEllipse) {
-			firstEllipse = false;
-			if (ellipse == null) {
-				ellipse = AwtFactory.getPrototype().newEllipse2DDouble();
-			}
+		if (ellipse == null) {
+			ellipse = AwtFactory.getPrototype().newEllipse2DDouble();
 		}
 
 		// set transform
-		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(view.getCompanion().getTransform(conic, M, ev));
+		setTransform(M);
 
 		// set ellipse
 		ellipse.setFrameFromCenter(0, 0, halfAxes[0], halfAxes[1]);
@@ -880,12 +719,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 			fillShape = transform.createTransformedShape(ellipse);
 		} else {
 			// clip big arc at screen
-			// shape=ClipShape.clipToRect(shape,ellipse, transform, new
-			// Rectangle(-1,
-			// -1, view.getWidth() + 2, view.getHeight() + 2));
-			fillShape = ClipShape.clipToRect(ellipse, transform, -1, -1,
-					view.getWidth() + 2, view.getHeight() + 2);
-
+			fillShape = getArcClipper().clipArc(transform)
+					.orElseGet(() -> transform.createTransformedShape(ellipse));
 		}
 		// set label coords
 		labelCoords[0] = -halfAxes[0] / 2.0d;
@@ -893,6 +728,30 @@ public class DrawConic extends SetDrawable implements Previewable {
 		transform.transform(labelCoords, 0, labelCoords, 0, 1);
 		xLabel = (int) labelCoords[0];
 		yLabel = (int) labelCoords[1];
+	}
+
+	private boolean updateEv() {
+		if (ev == null) {
+			ev = new Coords[2];
+		}
+		if (isPreview) { // calculations were in view coords
+			for (int j = 0; j < 2; j++) {
+				ev[j] = conic.getEigenvec(j);
+			}
+		} else {
+			for (int j = 0; j < 2; j++) {
+				ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
+				if (!DoubleUtil.isZero(ev[j].getZ())) { // check if in view
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	protected void setTransform(Coords M) {
+		transform.setTransform(view.getCoordTransform());
+		transform.concatenate(this.conicTransform = view.getCompanion().getTransform(conic, M, ev));
 	}
 
 	/**
@@ -959,8 +818,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 		}
 
 		// set transform for Graphics2D
-		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(view.getCompanion().getTransform(conic, M, ev));
+		setTransform(M);
 
 		// hyperbola is visible on screen
 		double step = Math.sqrt((x0 - a) / (x0 + a)) / (points - 1);
@@ -1144,13 +1002,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 			firstParabola = false;
 			parabola = AwtFactory.getPrototype().newGeneralPath();
 		}
-		GAffineTransform conicTransform = view.getCompanion()
-				.getTransform(conic, M, ev);
+		setTransform(M);
 		updateParabolaX0Y0(conicTransform);
-
-		// set transform
-		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(conicTransform);
 
 		// setCurve(P0, P1, P2)
 		// parabola.setCurve(x0, y0, -x0, 0.0, x0, -y0);
@@ -1322,7 +1175,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	}
 
 	private void drawShape(GGraphics2D g2) {
-		g2.draw(fillShape == arcCroppedToView ? arc : fillShape);
+		g2.draw(fillShape);
 	}
 
 	private void fillEllipseParabola(GGraphics2D g2) {
@@ -2024,4 +1877,5 @@ public class DrawConic extends SetDrawable implements Previewable {
 		}
 		conic.diameterLine(0, 1, diameter);
 	}
+
 }

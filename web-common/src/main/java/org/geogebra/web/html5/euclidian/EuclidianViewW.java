@@ -14,7 +14,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianPen;
@@ -60,10 +59,8 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
-import org.geogebra.web.html5.main.SafeGeoImageFactory;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
-import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.canvas.client.Canvas;
@@ -1012,6 +1009,22 @@ public class EuclidianViewW extends EuclidianView implements
 		setCursorClass("cursor_highlighter");
 	}
 
+	private void setMindmapCursor() {
+		setCursorClass("cursor_mindmap");
+	}
+
+	private void setTableCursor() {
+		setCursorClass("cursor_table");
+	}
+
+	private void setTextCursor() {
+		setCursorClass("cursor_text");
+	}
+
+	private void setCrosshairCursor() {
+		setCursorClass("cursor_crosshair");
+	}
+
 	private void setRotationCursor() {
 		setCursorClass("cursor_rotation");
 	}
@@ -1250,6 +1263,18 @@ public class EuclidianViewW extends EuclidianView implements
 			return;
 		case HIGHLIGHTER:
 			setHighlighterCursor();
+			return;
+		case MINDMAP:
+			setMindmapCursor();
+			return;
+		case TABLE:
+			setTableCursor();
+			return;
+		case TEXT:
+			setTextCursor();
+			return;
+		case CROSSHAIR:
+			setCrosshairCursor();
 			return;
 		case ROTATION:
 			if (appW.isWhiteboardActive() && getEuclidianController()
@@ -1506,21 +1531,8 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public GeoImage addMeasurementTool(int mode, String fileName) {
-		GeoImage tool = new GeoImage(getKernel().getConstruction());
-		SVGResource toolSVG =
-				mode == EuclidianConstants.MODE_RULER ? GuiResourcesSimple.INSTANCE.ruler()
-						: GuiResourcesSimple.INSTANCE.protractor();
-		tool.setMeasurementTool(true);
-		SafeGeoImageFactory factory = new SafeGeoImageFactory(appW, tool);
-		String path = ImageManagerW.getMD5FileName(fileName, toolSVG.getSafeUri().asString());
-		tool = factory.createInternalFile(path, toolSVG.getSafeUri().asString());
-		return tool;
-	}
-
-	@Override
 	public void setMeasurementTool(GeoImage tool, int left, int width, int height) {
-		removeMeasurementTool(tool);
+		kernel.getConstruction().removeFromConstructionList(tool);
 		setToolLocation(tool, left, height);
 		tool.setSize(width, height);
 	}

@@ -2,6 +2,9 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
@@ -19,16 +22,15 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	private final SpreadsheetController controller;
 
 	private final SpreadsheetRenderer renderer;
-	private Rectangle viewport;
 
 	/**
 	 * @param tabularData data source
 	 * @param rendererFactory converts custom data type to rendable objects
 	 * @param undoProvider undo provider, may be null
 	 */
-	public Spreadsheet(TabularData<?> tabularData,
-			CellRenderableFactory rendererFactory, UndoProvider undoProvider) {
-		controller = new SpreadsheetController(tabularData, null);
+	public Spreadsheet(@Nonnull TabularData<?> tabularData,
+			@Nonnull CellRenderableFactory rendererFactory, @CheckForNull UndoProvider undoProvider) {
+		controller = new SpreadsheetController(tabularData);
 		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
 				controller.getStyle(), tabularData);
 		setViewport(new Rectangle(0, 0, 0, 0));
@@ -51,6 +53,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 */
 	public void draw(GGraphics2D graphics) {
 		graphics.setPaint(GColor.WHITE);
+		Rectangle viewport = controller.getViewport();
 		graphics.fillRect(0, 0, (int) viewport.getWidth(), (int) viewport.getHeight());
 		List<TabularRange> visibleSelections = controller.getVisibleSelections();
 		for (TabularRange range: visibleSelections) {
@@ -60,17 +63,22 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		drawCells(graphics, viewport);
 		for (TabularRange range: visibleSelections) {
 			renderer.drawSelectionBorder(range, graphics,
-					viewport, controller.getLayout(), false);
+					viewport, controller.getLayout(), false, false);
 		}
 		if (!visibleSelections.isEmpty()) {
 			TabularRange range = visibleSelections.get(visibleSelections.size() - 1);
 			TabularRange firstCell = new TabularRange(range.getFromRow(), range.getFromColumn());
 			renderer.drawSelectionBorder(firstCell, graphics,
-					viewport, controller.getLayout(), true);
+					viewport, controller.getLayout(), true, false);
 		}
 		GPoint2D draggingDot = controller.getDraggingDot();
 		if (draggingDot != null) {
 			renderer.drawDraggingDot(draggingDot, graphics);
+		}
+		TabularRange dragPasteSelection = controller.getDragPasteSelection();
+		if (dragPasteSelection != null) {
+			renderer.drawSelectionBorder(dragPasteSelection, graphics, viewport,
+					controller.getLayout(), false, true);
 		}
 	}
 
@@ -82,11 +90,10 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		double offsetY = viewport.getMinY() - layout.getColumnHeaderHeight();
 		drawContentCells(graphics, portion, offsetX, offsetY);
 		renderer.drawHeaderBackgroundAndOutline(graphics, viewport);
-		for (Selection range: controller.getSelections()) {
-			renderer.drawSelectionHeader(range, graphics,
-					this.viewport, controller.getLayout());
-		}
-
+		controller.getSelections().forEach(selection -> {
+			renderer.drawSelectionHeader(selection, graphics,
+					controller.getViewport(), controller.getLayout());
+		});
 		graphics.translate(-offsetX, 0);
 		graphics.setColor(controller.getStyle().getGridColor());
 		for (int column = portion.fromColumn + 1; column <= portion.toColumn; column++) {
@@ -156,8 +163,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param viewport viewport relative to the table, in pixels
 	 */
 	public void setViewport(Rectangle viewport) {
-		this.viewport = viewport;
-		this.controller.setViewport(this.viewport);
+		this.controller.setViewport(viewport);
 	}
 
 	public void setControlsDelegate(SpreadsheetControlsDelegate controlsDelegate) {
@@ -197,10 +203,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.handleKeyPressed(keyCode, key, modifiers);
 	}
 
-	public SpreadsheetController getController() {
-        return controller;
-	}
-
 	@Override
 	public void tabularDataDidChange(int row, int column) {
 		renderer.invalidate(row, column);
@@ -220,7 +222,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	public MouseCursor getCursor(int x, int y) {
-		return controller.getDragAction(x, y).activeCursor;
+		return controller.getDragAction(x, y).cursor;
 	}
 
 	public double getTotalWidth() {
@@ -233,5 +235,55 @@ public final class Spreadsheet implements TabularDataChangeListener {
 
 	public boolean isEditorActive() {
 		return controller.isEditorActive();
+	}
+
+	public void tabPressed() {
+		controller.moveRight(false);
+	}
+
+	/**
+	 * Clears the selection, committing any pending cell edits beforehand.
+	 */
+	public void clearSelection() {
+		controller.saveContentAndHideCellEditor();
+		controller.clearSelection();
+	}
+
+	/**
+	 * Clears the selection only.
+	 */
+	public void clearSelectionOnly() {
+		controller.clearSelection();
+	}
+
+	void selectRow(int row, boolean extend, boolean add) {
+		controller.selectRow(row, extend, add);
+	}
+
+	void selectColumn(int column, boolean extend, boolean add) {
+		controller.selectColumn(column, extend, add);
+	}
+
+	void selectCell(int row, int column, boolean extend, boolean add) {
+		controller.selectCell(row, column, extend, add);
+	}
+
+	public void setViewportAdjustmentHandler(ViewportAdjusterDelegate mockForScrollable) {
+		controller.setViewportAdjustmentHandler(mockForScrollable);
+	}
+
+	public void scrollForPasteSelectionIfNeeded() {
+		controller.scrollForPasteSelectionIfNeeded();
+	}
+
+	/**
+	 * Scroll editor into view if visible
+	 */
+	public void scrollEditorIntoView() {
+		controller.scrollEditorIntoView();
+	}
+
+	public void saveContentAndHideCellEditor() {
+		controller.saveContentAndHideCellEditor();
 	}
 }

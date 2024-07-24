@@ -79,6 +79,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
+import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
@@ -325,6 +326,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private final StringBuilder sbBuildExplicitLineEquation = new StringBuilder(
 			50);
 	/** Application */
+	@NonOwning
 	@Weak
 	protected App app;
 
@@ -2945,7 +2947,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			this.ggbCAS.clearResult();
 		}
 		if (macroManager != null) {
-			macroManager.setAllMacrosUnused(cons);
+			macroManager.setAllMacrosUnused();
 		}
 
 		clearAnimations();
@@ -4677,8 +4679,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * @return new kernel for a macro
 	 */
-	public MacroKernel newMacroKernel(Macro macro) {
-		return new MacroKernel(this, macro);
+	public MacroKernel newMacroKernel() {
+		return new MacroKernel(this);
 	}
 
 	/**

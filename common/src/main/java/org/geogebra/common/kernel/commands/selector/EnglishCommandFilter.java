@@ -15,7 +15,7 @@ public class EnglishCommandFilter implements CommandFilter {
 	 *
 	 * @param wrappedFilter filter to wrap
 	 */
-	EnglishCommandFilter(CommandFilter wrappedFilter) {
+	public EnglishCommandFilter(CommandFilter wrappedFilter) {
 		this.wrappedFilter = wrappedFilter;
 	}
 

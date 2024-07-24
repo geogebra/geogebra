@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -17,7 +17,9 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
 import org.geogebra.common.spreadsheet.core.PersistenceListener;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
@@ -36,15 +38,15 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	private final KernelTabularDataProcessor processor;
 	private final CellFormat cellFormat;
 	private final SpreadsheetSettings spreadsheetSettings;
-	private final Localization loc;
+	private final Kernel kernel;
 
 	/**
 	 * @param spreadsheetSettings spreadsheet settings
 	 */
-	public KernelTabularDataAdapter(SpreadsheetSettings spreadsheetSettings, Localization loc) {
+	public KernelTabularDataAdapter(SpreadsheetSettings spreadsheetSettings, Kernel kernel) {
 		this.cellFormat = new CellFormat(null);
 		this.spreadsheetSettings = spreadsheetSettings;
-		this.loc = loc;
+		this.kernel = kernel;
 		cellFormat.processXMLString(spreadsheetSettings.cellFormat());
 		spreadsheetSettings.addListener((settings) -> {
 				notifySizeChanged(spreadsheetSettings);
@@ -75,10 +77,10 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	private void removeByLabel(String labelSimple) {
-		GPoint pt = GeoElementSpreadsheet.spreadsheetIndices(labelSimple);
-		if (pt != null && pt.x != -1) {
-			setContent(pt.y, pt.x, null);
-			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.y, pt.x));
+		SpreadsheetCoords pt = GeoElementSpreadsheet.spreadsheetIndices(labelSimple);
+		if (pt != null && pt.column != -1) {
+			setContent(pt.row, pt.column, null);
+			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.row, pt.column));
 		}
 	}
 
@@ -90,10 +92,10 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public void update(GeoElement geo) {
-		GPoint pt = GeoElementSpreadsheet.spreadsheetIndices(geo.getLabelSimple());
-		if (pt.x != -1) {
-			setContent(pt.y, pt.x, geo);
-			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.y, pt.x));
+		SpreadsheetCoords pt = GeoElementSpreadsheet.spreadsheetIndices(geo.getLabelSimple());
+		if (pt.column != -1) {
+			setContent(pt.row, pt.column, geo);
+			changeListeners.forEach(listener -> listener.tabularDataDidChange(pt.row, pt.column));
 		}
 	}
 
@@ -207,11 +209,25 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	public void setContent(int row, int column, Object content) {
 		if (content != null) {
 			GeoElement geo = (GeoElement) content;
-			geo.rename(GeoElementSpreadsheet.getSpreadsheetCellName(column, row));
+			setEuclidianInvisibleAndAuxiliaryObject(geo);
+			setLabel(geo, row, column);
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, geo);
 			markError(row, column, false);
 		} else {
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, null);
+		}
+	}
+
+	private void setEuclidianInvisibleAndAuxiliaryObject(GeoElement geo) {
+		geo.setEuclidianVisible(false);
+		geo.setAuxiliaryObject(true);
+		geo.updateVisualStyle(GProperty.VISIBLE);
+	}
+
+	private void setLabel(GeoElement geo, int row, int column) {
+		String label = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
+		if (kernel.getConstruction().isFreeLabel(label)) {
+			geo.rename(label);
 		}
 	}
 
@@ -232,7 +248,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public TabularDataPasteInterface<GeoElement> getPaste() {
-		return new TabularDataPasteGeos();
+		return new TabularDataPasteGeos(kernel);
 	}
 
 	@Override
@@ -266,5 +282,10 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 			return false;
 		}
 		return errorData.get(row).get(column);
+	}
+
+	@Override
+	public CellDragPasteHandler getCellDragPasteHandler() {
+		return new CellDragPasteHandler(this, kernel);
 	}
 }

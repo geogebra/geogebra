@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.menubar;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -23,7 +24,7 @@ public class ClassicMenuItemProvider {
 	 * @param menus list of menus
 	 */
 	public void addMenus(ArrayList<Submenu> menus) {
-		boolean exam = app.isExam();
+		boolean exam = !GlobalScope.examController.isIdle();
 		if (app.enableFileFeatures() && !app.isLockedExam()) {
 			menus.add(new FileMenuW(app));
 		}

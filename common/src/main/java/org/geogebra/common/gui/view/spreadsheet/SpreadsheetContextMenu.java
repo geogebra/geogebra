@@ -583,8 +583,9 @@ public class SpreadsheetContextMenu<T> {
 			geoRecordToSpreadSheet = geo;
 		} else {
 			geoRecordToSpreadSheet = app.getKernel().getAlgoDispatcher()
-					.list(null, geos, false);
+					.list(geos, false);
 			geoRecordToSpreadSheet.setAuxiliaryObject(true);
+			geoRecordToSpreadSheet.setLabel(null);
 		}
 
 		table.getView().showTraceDialog(geoRecordToSpreadSheet, null);

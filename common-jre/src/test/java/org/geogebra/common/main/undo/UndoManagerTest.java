@@ -1,5 +1,6 @@
 package org.geogebra.common.main.undo;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -8,6 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.util.List;
 
 import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
+import org.geogebra.common.euclidian.UpdateActionStore;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
@@ -161,6 +163,45 @@ public class UndoManagerTest extends BaseEuclidianControllerTest {
 		assertThat(lookup("A"), hasValue("(4, -3)"));
 		getUndoManager().undo();
 		assertThat(lookup("A"), hasValue("(3, -2)"));
+	}
+
+	@Test
+	public void undoDraggingPointOnPath() {
+		activateUndo();
+		UpdateActionStore actionStore = new UpdateActionStore(getApp().getSelectionManager(),
+				getUndoManager());
+		GeoPoint pt = add("A=Point(xAxis)");
+		final GeoPoint dependent = add("B=A+(0,1)");
+		getApp().getSelectionManager().addSelectedGeo(pt);
+		actionStore.storeSelection();
+		pt.setCoords(3, 0, 1);
+		pt.update();
+		actionStore.storeUndo();
+		getUndoManager().undo();
+		assertThat(pt, hasValue("(0, 0)"));
+		assertThat(dependent, hasValue("(0, 1)"));
+		getUndoManager().redo();
+		assertThat(pt, hasValue("(3, 0)"));
+		assertThat(dependent, hasValue("(3, 1)"));
+		assertThat(String.join(",", getApp().getGgbApi().getAllObjectNames()), equalTo("A,B"));
+	}
+
+	@Test
+	public void undoDraggingPointInRegion() {
+		activateUndo();
+		UpdateActionStore actionStore = new UpdateActionStore(getApp().getSelectionManager(),
+				getUndoManager());
+		add("poly=Polygon((0,0),(5,0),4)");
+		GeoPoint pt = add("PointIn(poly)");
+		getApp().getSelectionManager().addSelectedGeo(pt);
+		actionStore.storeSelection();
+		pt.setCoords(3, 0, 1);
+		pt.update();
+		actionStore.storeUndo();
+		getUndoManager().undo();
+		assertThat(pt, hasValue("(0, 0)"));
+		getUndoManager().redo();
+		assertThat(pt, hasValue("(3, 0)"));
 	}
 
 	private UndoManager getUndoManager() {

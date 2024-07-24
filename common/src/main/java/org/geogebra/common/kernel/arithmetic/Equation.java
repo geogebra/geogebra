@@ -633,7 +633,7 @@ public class Equation extends ValidExpression implements EquationValue {
 		if (v instanceof MyList) {
 			MyList list = (MyList) v;
 			for (int i = 0; i < list.size(); i++) {
-				if (containsVar(list.getListElement(i), var)) {
+				if (containsVar(list.get(i), var)) {
 					return true;
 				}
 			}

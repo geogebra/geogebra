@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.statistics;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
@@ -16,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.regexp.shared.MatchResult;
 
@@ -60,15 +60,15 @@ public class CmdFillCells extends CommandProcessor {
 				AlgoCellRange algo = (AlgoCellRange) cellRange
 						.getParentAlgorithm();
 
-				GPoint[] points = algo.getRectangle();
+				SpreadsheetCoords[] points = algo.getRectangle();
 
-				GPoint startCoords = points[0];
-				GPoint endCoords = points[1];
+				SpreadsheetCoords startCoords = points[0];
+				SpreadsheetCoords endCoords = points[1];
 
-				int minCol = Math.min(startCoords.x, endCoords.x);
-				int maxCol = Math.max(startCoords.x, endCoords.x);
-				int minRow = Math.min(startCoords.y, endCoords.y);
-				int maxRow = Math.max(startCoords.y, endCoords.y);
+				int minCol = Math.min(startCoords.column, endCoords.column);
+				int maxCol = Math.max(startCoords.column, endCoords.column);
+				int minRow = Math.min(startCoords.row, endCoords.row);
+				int maxRow = Math.max(startCoords.row, endCoords.row);
 
 				GeoElement geo = arg[1];
 				GeoElement[] ret = {};

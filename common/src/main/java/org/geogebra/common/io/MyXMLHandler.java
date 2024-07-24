@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.TreeMap;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -221,8 +220,6 @@ public class MyXMLHandler implements DocHandler {
 	private String xValuesCaption;
 	private ArrayList<String> entries;
 	private String subAppCode;
-	private List<ParsedXMLTag> macroConstructionElements = new ArrayList<>();
-	private boolean randomMacros;
 
 	/**
 	 * Creates a new instance of MyXMLHandler
@@ -254,7 +251,6 @@ public class MyXMLHandler implements DocHandler {
 		mode = MODE_INVALID;
 		constMode = MODE_CONSTRUCTION;
 		hasGuiElement = false;
-		randomMacros = false;
 		compLayout = new CompatibilityLayout();
 		initKernelVars();
 
@@ -270,7 +266,6 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private void initKernelVars() {
-		this.macro = null;
 		this.kernel = origKernel;
 		this.parser = origParser;
 		this.cons = origKernel.getConstruction();
@@ -326,10 +321,7 @@ public class MyXMLHandler implements DocHandler {
 	@Override
 	final public void startElement(String eName,
 			LinkedHashMap<String, String> attrs) throws XMLParseException {
-		if (mode == MODE_CONSTRUCTION && origKernel != kernel) {
-			macroConstructionElements.add(new ParsedXMLTag(eName, attrs, true));
-			return;
-		}
+
 		if (kernel.userStopsLoading()) {
 			kernel.setUserStopsLoading(false);
 			throw new XMLParseException("User has cancelled loading");
@@ -491,10 +483,6 @@ public class MyXMLHandler implements DocHandler {
 			// public void endElement(String namespaceURI, String sName, String
 			// qName)
 			throws XMLParseException {
-		if (mode == MODE_CONSTRUCTION && origKernel != kernel && !"construction".equals(eName)) {
-			macroConstructionElements.add(new ParsedXMLTag(eName, null, false));
-			return;
-		}
 		// String eName = qName;
 		switch (mode) {
 		default:
@@ -1927,9 +1915,6 @@ public class MyXMLHandler implements DocHandler {
 		case "menuFont":
 			ok = handleMenuFont(app, attrs);
 			break;
-		case "notesToolbarOpen":
-			ok = handleNotesToolbarOpen(app, attrs);
-			break;
 		case "labelingStyle":
 			ok = handleLabelingStyle(app, attrs);
 			break;
@@ -2298,17 +2283,6 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private static boolean handleNotesToolbarOpen(App app,
-			LinkedHashMap<String, String> attrs) {
-		try {
-			boolean open = Boolean.parseBoolean(attrs.get("val"));
-			app.setNotesToolbarOpen(open);
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
 	private static boolean handleLabelingStyle(App app,
 			LinkedHashMap<String, String> attrs) {
 		try {
@@ -2642,7 +2616,7 @@ public class MyXMLHandler implements DocHandler {
 			macro.setShowInToolBar(showTool);
 			macro.setViewId(viewId);
 
-			MacroKernel macroKernel = kernel.newMacroKernel(macro);
+			MacroKernel macroKernel = kernel.newMacroKernel();
 			macroKernel.setContinuous(false);
 
 			// we have to change the construction object temporarily so
@@ -2657,16 +2631,14 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private void endMacro() throws XMLParseException {
+	private void endMacro() {
 		// cons now holds a reference to the macroConstruction
-		macro.initMacro(cons, macroInputLabels, macroOutputLabels, macroConstructionElements);
-		randomMacros = randomMacros || macro.isRandom();
-		if (randomMacros) {
-			macro.load();
-		}
-		macroConstructionElements = new ArrayList<>();
+		macro.initMacro(cons, macroInputLabels, macroOutputLabels);
 		// ad the newly built macro to the kernel
 		origKernel.addMacro(macro);
+		// update construction resets the nearto relations in macro, so "outer
+		// world" won't affect it
+		cons.updateConstruction(true);
 		// set kernel and construction back to the original values
 		initKernelVars();
 	}

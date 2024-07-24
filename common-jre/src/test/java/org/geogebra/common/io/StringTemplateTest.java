@@ -228,7 +228,8 @@ public class StringTemplateTest {
 	@Test
 	public void definitionShouldKeepSmallNumbersScientific() {
 		GeoElementND num = add("a=1E-20");
-		StringTemplate latexNoLocal = StringTemplate.defaultTemplate.deriveLaTeXTemplate();
+		StringTemplate latexNoLocal = StringTemplate.defaultTemplate
+				.derivePrecisionPreservingLaTeXTemplate();
 		latexNoLocal.setLocalizeCmds(false);
 		assertEquals("1 \\cdot 10^{-20}", num.getDefinition(latexNoLocal));
 	}

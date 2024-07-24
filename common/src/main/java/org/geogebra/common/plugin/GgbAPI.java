@@ -61,6 +61,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -1701,8 +1702,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		if ("exam".equals(code)) {
-			app.setNewExam();
-			app.examWelcome();
+			app.showExamWelcomeMessage();
 			return;
 		}
 		
@@ -1740,8 +1740,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			}
 			return;
 		}
-		String allToolsNoMacros = ToolBar.getAllToolsNoMacros(app.isHTML5Applet(), app.isExam(),
-				app);
+		String allToolsNoMacros = ToolBar.getAllToolsNoMacros(app.isHTML5Applet(),
+				!GlobalScope.examController.isIdle(), app);
 		Perspective ps = PerspectiveDecoder.decode(code, kernel.getParser(),
 				allToolsNoMacros, app.getLayout());
 		if (app.getGuiManager() == null) {
@@ -2108,12 +2108,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			double ymax, double zmin, double zmax, double xyScale,
 			double xzScale, double xTickDistance, double yTickDistance,
 			double zTickDistance) {
-		if (app.is3D()) {
-			return app.getCompanion().exportCollada(xmin, xmax, ymin, ymax,
-					zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
-					zTickDistance);
-		}
-		return null;
+		return app.getCompanion().exportCollada(xmin, xmax, ymin, ymax,
+				zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
+				zTickDistance);
 	}
 
 	@Override
@@ -2121,11 +2118,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			double xmax, double ymin, double ymax, double zmin, double zmax,
 			double xyScale, double xzScale, double xTickDistance,
 			double yTickDistance, double zTickDistance) {
-		if (app.is3D()) {
-			app.getCompanion().exportGeometry3D(getter, xmin, xmax, ymin, ymax,
-					zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
-					zTickDistance);
-		}
+		app.getCompanion().exportGeometry3D(getter, xmin, xmax, ymin, ymax,
+				zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
+				zTickDistance);
 	}
 
 	@Override
@@ -2134,14 +2129,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			double ymax, double zmin, double zmax, double xyScale,
 			double xzScale, double xTickDistance, double yTickDistance,
 			double zTickDistance) {
-		if (app.is3D()) {
-			Geometry3DGetterSimple getter = new Geometry3DGetterSimple(name);
-			app.getCompanion().exportGeometry3D(getter, xmin, xmax, ymin, ymax,
-					zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
-					zTickDistance);
-			return getter.get().toString();
+		Geometry3DGetterSimple getter = new Geometry3DGetterSimple(name);
+		if (!app.getCompanion().exportGeometry3D(getter, xmin, xmax, ymin, ymax,
+				zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
+				zTickDistance)) {
+			return "";
 		}
-		return "";
+		return getter.get().toString();
 	}
 
 	/**

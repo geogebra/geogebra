@@ -46,15 +46,12 @@ public class DrawingEmulator {
 	}
 
 	private FileLoader.Callback getFileLoaderCallback() {
-		return new FileLoader.Callback() {
-			@Override
-			public void onLoad(String fileContent) {
-				try {
-					coordinates = CoordinatesParser.parseCoordinates(fileContent);
-					drawWithFpsProfiling();
-				} catch (JSONException e) {
-					Log.debug(e);
-				}
+		return fileContent -> {
+			try {
+				coordinates = CoordinatesParser.parseCoordinates(fileContent);
+				drawWithFpsProfiling();
+			} catch (JSONException e) {
+				Log.debug(e);
 			}
 		};
 	}

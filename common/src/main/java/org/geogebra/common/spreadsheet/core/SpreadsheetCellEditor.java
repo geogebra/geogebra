@@ -1,32 +1,52 @@
 package org.geogebra.common.spreadsheet.core;
 
+import javax.annotation.Nonnull;
+
+import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.util.shape.Rectangle;
 
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
+
+/**
+ * An abstraction for spreadsheet cell editing.
+ *
+ * (This prevents dependencies on the platform-specifics of cell editors in the spreadsheet.core
+ * package.)
+ */
 public interface SpreadsheetCellEditor {
 
-	void setBounds(Rectangle editorBounds);
-
-	void setTargetCell(int row, int column);
+	/**
+	 * Show the spreadsheet cell editor.
+	 * @param editorBounds The editor (=cell) bounds in viewport-relative coordinates.
+	 * @param viewport The current visible viewport.
+	 * @param textAlignment The text alignment of the editor. One of {@link CellFormat}'s
+	 * ALIGN_LEFT, ALIGN_CENTER, or ALIGN_RIGHT.
+	 */
+	void show(Rectangle editorBounds, Rectangle viewport, int textAlignment);
 
 	/**
-	 * @param content value of the cell being edited
-	 * @param hasError cell marked as error or not
+	 * Hide the spreadsheet cell editor.
 	 */
-	void setContent(Object content, boolean hasError);
-
-	/**
-	 * Add text to current input, handle as if typed by keyboard.
-	 * @param text partial input, doesn't have to be valid editor string
-	 */
-	void type(String text);
-
-	void setAlign(int align);
-
-	void scrollHorizontally();
-
-	boolean isVisible();
-
 	void hide();
 
-	void onEnter();
+	/**
+	 * @return The underlying `MathFieldInternal` of the (platform-specific) cell editor.
+	 */
+	@Nonnull MathFieldInternal getMathField();
+
+	/**
+	 * @return A {@link SpreadsheetCellProcessor} (which basically abstracts the kernel code away
+	 * from the spreadsheet code). You can simply return an instance of
+	 * {@link org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellProcessor} here, it
+	 * offers a default implementation.
+	 */
+	@Nonnull SpreadsheetCellProcessor getCellProcessor();
+
+	/**
+	 * @return A {@link SpreadsheetCellDataSerializer} (which basically abstracts the kernel code
+	 * away from the spreadsheet code). You can simply return an instance of
+	 * {@link org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellDataSerializer} here,
+	 * offers a default implementation.
+	 */
+	@Nonnull SpreadsheetCellDataSerializer getCellDataSerializer();
 }

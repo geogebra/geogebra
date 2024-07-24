@@ -15,7 +15,8 @@ import org.junit.Test;
 public class SpreadsheetSelectionControllerTest {
 
 	private final SpreadsheetController controller =
-			new SpreadsheetController(new TestTabularData(), null);
+			new SpreadsheetController(new TestTabularData());
+
 	private final SpreadsheetSelectionController selectionController =
 			new SpreadsheetSelectionController();
 	private final int numberOfRows = 100;
@@ -24,14 +25,15 @@ public class SpreadsheetSelectionControllerTest {
 	@Test
 	public void testMove() {
 		selectionController.selectCell(1, 1, false, false);
-		Selection initialCell = selectionController.getLastSelection();
-
 		selectionController.moveRight(false, numberOfColumns);
 		selectionController.moveDown(false, numberOfRows);
+		assertRangeEquals(selectionController.getLastSelection(),
+				Selection.getSingleCellSelection(2, 2));
 		selectionController.moveLeft(false);
 		selectionController.moveUp(false);
 
-		assertRangeEquals(initialCell, Selection.getSingleCellSelection(1, 1));
+		assertRangeEquals(selectionController.getLastSelection(),
+				Selection.getSingleCellSelection(1, 1));
 	}
 
 	@Test
@@ -160,7 +162,7 @@ public class SpreadsheetSelectionControllerTest {
 		selectionController.selectCell(5, 6, false, true);
 		selectionController.selectCell(7, 7, true, true);
 
-		assertEquals(3, selectionController.selections().size());
+		assertEquals(3, selectionController.getSelections().count());
 	}
 
 	@Test
@@ -208,13 +210,13 @@ public class SpreadsheetSelectionControllerTest {
 
 	@Test
 	public void testIsOnlyColumnSelected3() {
-		selectionController.selectAll(numberOfRows, numberOfColumns);
+		selectionController.selectAll();
 		assertFalse(selectionController.isOnlyColumnSelected(1));
 	}
 
 	@Test
 	public void testAllCellsSelected() {
-		selectionController.selectAll(numberOfRows, numberOfColumns);
+		selectionController.selectAll();
 		assertTrue(selectionController.areAllCellsSelected());
 	}
 

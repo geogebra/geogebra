@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.euclidian.EuclidianPen;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.web.html5.main.AppW;
 
 /**
  * Widget to show line with thickness and style.
@@ -14,16 +13,16 @@ public class PenPreview extends StylePreview {
 	private EuclidianPen pen;
 
 	/**
-	 * @param app
-	 *            app
+	 * @param pen
+	 *            euclidian pen
 	 * @param width
 	 *            pixel width
 	 * @param height
 	 *            pixel height
 	 */
-	public PenPreview(AppW app, int width, int height) {
+	public PenPreview(EuclidianPen pen, int width, int height) {
 		super(width, height);
-		pen = app.getActiveEuclidianView().getEuclidianController().getPen();
+		this.pen = pen;
 	}
 
 	/**
@@ -32,7 +31,6 @@ public class PenPreview extends StylePreview {
 	public void update() {
 		clear();
 		drawStylePreview(pen.getPenColorWithOpacity(), pen.getPenSize(),
-				EuclidianStyleConstants.LINE_TYPE_FULL, 30);
+				EuclidianStyleConstants.LINE_TYPE_FULL);
 	}
-
 }

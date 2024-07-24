@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.menubar.action;
 
+import org.geogebra.common.exam.ExamController;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.exam.ExamStartDialog;
 import org.geogebra.web.full.gui.exam.classic.ExamClassicStartDialog;
@@ -11,6 +13,8 @@ import org.geogebra.web.shared.components.dialog.DialogData;
  * Starts exam.
  */
 public class StartExamAction extends DefaultMenuAction<AppWFull> {
+
+	private final ExamController examController = GlobalScope.examController;
 
 	@Override
 	public void execute(AppWFull app) {
@@ -30,13 +34,18 @@ public class StartExamAction extends DefaultMenuAction<AppWFull> {
 			DialogData data = new DialogData("exam_menu_enter", cancel,
 					"exam_start_button");
 			ExamStartDialog examStartDialog = new ExamStartDialog(app, data);
-			examStartDialog.setOnNegativeAction(() -> app.getLAF().toggleFullscreen(false));
-			examStartDialog.setOnPositiveAction(() -> {
-				ExamClassicStartDialog.blockEscTab(app);
-				app.setNewExam(examStartDialog.getSelectedRegion());
-				app.startExam();
+			examStartDialog.setOnNegativeAction(() -> {
+				examController.cancelExam();
+				app.getLAF().toggleFullscreen(false);
 			});
+			examStartDialog.setOnPositiveAction(() -> startExam(app, examStartDialog));
+			examController.prepareExam();
 			examStartDialog.show();
 		};
+	}
+
+	private void startExam(AppWFull app, ExamStartDialog examStartDialog) {
+		ExamClassicStartDialog.blockEscTab(app);
+		app.startExam(examStartDialog.getSelectedRegion());
 	}
 }

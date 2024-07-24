@@ -116,9 +116,9 @@ public class MacroManager {
 	/**
 	 * All macros are marked as unused
 	 */
-	public void setAllMacrosUnused(Construction cons) {
+	public void setAllMacrosUnused() {
 		for (int i = 0; i < macroList.size(); i++) {
-			macroList.get(i).setUnusedBy(cons);
+			macroList.get(i).setUnused();
 		}
 	}
 

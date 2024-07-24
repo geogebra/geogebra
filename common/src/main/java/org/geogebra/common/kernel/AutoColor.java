@@ -19,7 +19,7 @@ public enum AutoColor {
 	CURVES_GRAPHING(new GColor[] { GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE,
+			GeoGebraColorConstants.GGB_ORANGE,
 			GeoGebraColorConstants.PURPLE_600,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY }),
 	/** surfaces */
@@ -27,7 +27,7 @@ public enum AutoColor {
 			GColor.PURPLE_A400,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_PINK,
 			GeoGebraColorConstants.PURPLE_600,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE });
+			GeoGebraColorConstants.GGB_ORANGE });
 
 	private GColor[] sequence;
 	private int index;

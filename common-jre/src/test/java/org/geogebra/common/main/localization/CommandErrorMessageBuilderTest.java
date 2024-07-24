@@ -11,7 +11,6 @@ import org.geogebra.common.main.Localization;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 public class CommandErrorMessageBuilderTest extends BaseUnitTest {
@@ -21,21 +20,12 @@ public class CommandErrorMessageBuilderTest extends BaseUnitTest {
 	@Before
 	public void setupTest() {
 		Localization localization = Mockito.mock(Localization.class);
-		Answer<String> keyAnswer = new Answer<String>() {
-			@Override
-			public String answer(InvocationOnMock invocation) {
-				return invocation.getArgument(0);
-			}
-		};
+		Answer<String> keyAnswer = invocation -> invocation.getArgument(0);
 		Mockito.when(localization.getCommand(Mockito.anyString())).then(keyAnswer);
 		Mockito.when(localization.getMenu(Mockito.anyString())).then(keyAnswer);
 		Mockito.when(localization.getError(Mockito.anyString())).then(keyAnswer);
-		Mockito.when(localization.getCommandSyntax(Mockito.anyString())).then(new Answer<String>() {
-			@Override
-			public String answer(InvocationOnMock invocation) {
-				return invocation.getArgument(0) + ".Syntax";
-			}
-		});
+		Mockito.when(localization.getCommandSyntax(Mockito.anyString())).then(
+				invocation -> invocation.getArgument(0) + ".Syntax");
 
 		builder = new CommandErrorMessageBuilder(localization);
 	}
@@ -63,12 +53,8 @@ public class CommandErrorMessageBuilderTest extends BaseUnitTest {
 	public void testBuildArgumentError() {
 		final String expressionValue = "expression";
 		ExpressionValue value = Mockito.mock(ExpressionValue.class);
-		Mockito.when(value.toString(Mockito.any(StringTemplate.class))).then(new Answer<String>() {
-			@Override
-			public String answer(InvocationOnMock invocation) {
-				return expressionValue;
-			}
-		});
+		Mockito.when(value.toString(Mockito.any(StringTemplate.class))).then(
+				invocation -> expressionValue);
 
 		builder.setShowingSyntax(true);
 		String message = builder.buildArgumentError("Cmd", value);

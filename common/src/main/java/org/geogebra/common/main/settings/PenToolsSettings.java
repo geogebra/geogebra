@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.XMLBuilder;
 public class PenToolsSettings extends AbstractSettings {
 
 	private GColor lastSelectedPenColor = GColor.BLACK;
-	private GColor lastSelectedHighlighterColor = GColor.MOW_GREEN;
+	private GColor lastSelectedHighlighterColor = GColor.newColorRGB(0x388C83);
 	private int lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
 	private int lastHighlighterThinckness = EuclidianConstants.DEFAULT_HIGHLIGHTER_SIZE;
 	private int lastPenOpacity = 255;

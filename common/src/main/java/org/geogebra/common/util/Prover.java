@@ -288,12 +288,7 @@ public abstract class Prover {
 
 		private void sortGeos() {
 			// We need this because geos are sorted in the order of creation.
-			Arrays.sort(geos, new Comparator<GeoElement>() {
-				@Override
-				public int compare(GeoElement g1, GeoElement g2) {
-					return g1.getLabelSimple().compareTo(g2.getLabelSimple());
-				}
-			});
+			Arrays.sort(geos, Comparator.comparing(GeoElement::getLabelSimple));
 		}
 
 		/**

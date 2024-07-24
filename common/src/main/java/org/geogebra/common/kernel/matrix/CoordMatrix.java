@@ -1000,6 +1000,19 @@ public class CoordMatrix {
 
 	}
 
+	/**
+	 * Convert to a flat matrix (for conics
+	 * @param matrix conic coefficients
+	 */
+	public void flattenTo(double[] matrix) {
+		matrix[0] = this.get(1, 1);
+		matrix[1] = this.get(2, 2);
+		matrix[2] = this.get(3, 3);
+		matrix[3] = (this.get(1, 2) + this.get(2, 1)) / 2.0;
+		matrix[4] = (this.get(1, 3) + this.get(3, 1)) / 2.0;
+		matrix[5] = (this.get(2, 3) + this.get(3, 2)) / 2.0;
+	}
+
 	static abstract private class PivotAbstract {
 		protected PivotAbstract() {
 			//

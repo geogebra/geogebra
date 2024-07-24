@@ -3,14 +3,12 @@ package org.geogebra.common.spreadsheet.core;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 /**
  * A contiguous range of cells in a {@link Spreadsheet}.
  *
- * @Note: toRow/toCol may be less than fromRow/fromCol, respectively.
- * If toRow is less than fromRow, the selection handle is on the upper
- * edge of the selection rectangle, and on the lower edge otherwise.
- * Similarly, if toCol is less than fromCol, the selection handle is on
- * the left edge of the selection rangle, and on the right edge otherwise.
+ * @apiNote this class is immutable
  */
 final class Selection {
 
@@ -30,103 +28,171 @@ final class Selection {
 		}
 	}
 
+	/**
+	 * @param rowIndex Row Index
+	 * @param columnIndex Column Index
+	 * @return A single cell with given index
+	 */
+	static Selection getSingleCellSelection(int rowIndex, int columnIndex) {
+		return new Selection(TabularRange.range(
+				rowIndex, rowIndex, columnIndex, columnIndex));
+	}
+
 	boolean isEmpty() {
 		return range.isEmptyRange();
 	}
 
 	/**
-	 * @param selection other selection
+	 * Union of two selections if they are represent rectangles with one common edge,
+	 * null otherwise.
+	 * @param other other selection
 	 * @return bigger selection if this could be merged, null otherwise
 	 */
-	public Selection merge(Selection selection) {
-		if (type != selection.type) {
+	@CheckForNull Selection getRectangularUnion(Selection other) {
+		if (type != other.type) {
 			return null;
 		}
-		TabularRange mergedRange = range.merge(selection.range);
-		return mergedRange == null ? null : new Selection(mergedRange);
+		TabularRange union = range.getRectangularUnion(other.range);
+		return union == null ? null : new Selection(union);
 	}
 
-	public TabularRange getRange() {
+	TabularRange getRange() {
 		return range;
 	}
 
-	public SelectionType getType() {
+	SelectionType getType() {
 		return type;
 	}
 
-	public boolean contains(int row, int column) {
+	boolean contains(int row, int column) {
 		return range.contains(row, column);
 	}
 
 	/**
-	 * If Rows are selected then the leftmost Column with a single cell is selected
-	 * @param extendSelection Whether we want to extend the current Selection
-	 * @return Selection to the left of the selection calling this method if possible
+	 * Takes the anchor cell of this selection and returns
+	 * - the cell to the left of it if possible
+	 * - the cell itself if it is in the first column
+	 * Examples: for rectangular range C2:D3 yields B2, for column selection C:D yields B1,
+	 * for row selection 2:3 yields A2
+	 * @return single cell to the left of this
 	 */
-	public Selection getLeft(boolean extendSelection) {
+	Selection getNextCellForMoveLeft() {
 		if (type == SelectionType.ROWS) {
 			return getSingleCellSelection(range.getFromRow(), 0);
-		} else if (!extendSelection) {
-			return getSingleCellSelection(range.getFromRow(),
+		} else {
+			return getSingleCellSelection(Math.max(range.getFromRow(), 0),
 					Math.max(range.getFromColumn() - 1, 0));
 		}
+	}
 
+	/**
+	 * Range spanned by this selection's anchor cell and an end cell that was shifted to the left.
+	 * - for rectangular range C2:D3 that can be either B2:D3 (if anchor is in D)
+	 *   or C2:C3 (if anchor is in C)
+	 * - for column selection C:D yields either B:D or D:D, depending on anchor
+	 * - for row selection 2:3 yields the selection unchanged
+	 * @return Selection extended to the left
+	 */
+	Selection getLeftExtension() {
+		if (type == SelectionType.ROWS) {
+			return this;
+		}
 		int leftColumnIndex = Math.max(range.getToColumn() - 1, 0);
 		return new Selection(TabularRange.range(range.getFromRow(), range.getToRow(),
 				leftColumnIndex, leftColumnIndex));
 	}
 
 	/**
-	 * If Rows are selected then the second leftmost Column with a single cell is selected
-	 * @param numberOfColumns Number of columns
-	 * @param extendSelection Whether we want to extend the current Selection
-	 * @return Selection to the right of the selection calling this method if possible
+	 * Takes the anchor cell of this selection and returns
+	 * - the cell to the right of it if possible
+	 * - the cell itself if it is in the last column
+	 * @see #getNextCellForMoveLeft()
+	 * @return single cell to the right of this
 	 */
-	public Selection getRight(int numberOfColumns, boolean extendSelection) {
+	Selection getNextCellForMoveRight(int numberOfColumns) {
 		if (type == SelectionType.ROWS) {
 			return getSingleCellSelection(range.getFromRow(), 1);
-		} else if (!extendSelection) {
-			return getSingleCellSelection(range.getFromRow(),
+		} else {
+			return getSingleCellSelection(Math.max(range.getFromRow(), 0),
 					Math.min(range.getFromColumn() + 1, numberOfColumns - 1));
 		}
-
-		int rightColumnIndex = Math.min(range.getToColumn() + 1, numberOfColumns - 1);
-		return new Selection(TabularRange.range(range.getFromRow(), range.getToRow(),
-				rightColumnIndex, rightColumnIndex));
 	}
 
 	/**
-	 * If Columns are selected then the topmost Row with a single cell is selected
-	 * @param extendSelection Whether we want to extend the current Selection
-	 * @return Selection on top of the selection calling this method if possible
+	 * Range spanned by this selection's anchor cell and an end cell that was shifted to the right.
+	 * Unlike the left extension needs to be aware of table size so that it doesn't exceed it.
+	 * @see #getLeftExtension()
+	 * @return Selection extended to the left
 	 */
-	public Selection getTop(boolean extendSelection) {
+	Selection getRightExtension(int numberOfColumns) {
+		if (type == SelectionType.ROWS) {
+			return this;
+		}
+		int columnIndex = Math.min(range.getToColumn() + 1, numberOfColumns - 1);
+		return new Selection(TabularRange.range(range.getFromRow(), range.getToRow(),
+				columnIndex, columnIndex));
+	}
+
+	/**
+	 * Takes the anchor cell of this selection and returns
+	 * - the cell above of it if possible
+	 * - the cell itself if it is in the first row
+	 * Examples: for rectangular range C2:D3 yields C1, for column selection C:D yields C1,
+	 * for row selection 2:3 yields A1
+	 * @return single cell to the left of this
+	 */
+	Selection getNextCellForMoveUp() {
 		if (type == SelectionType.COLUMNS) {
 			return getSingleCellSelection(0, range.getFromColumn());
-		} else if (!extendSelection) {
+		} else {
 			return getSingleCellSelection(Math.max(range.getFromRow() - 1, 0),
-					range.getFromColumn());
+					Math.max(range.getFromColumn(), 0));
 		}
+	}
 
+	/**
+	 * Range spanned by this selection's anchor cell and an end cell that was shifted up.
+	 * - for rectangular range C2:D3 that can be either C1:D3 (if anchor is in 3)
+	 *   or C2:D2 (if anchor is in C)
+	 * - for column selection C:D yields the selection unchanged
+	 * - for row selection 2:3 yields either 1:3 or 2:2, depending on anchor
+	 * @return Selection extended to the top
+	 */
+	Selection getTopExtension() {
+		if (type == SelectionType.COLUMNS) {
+			return this;
+		}
 		int aboveRowIndex = Math.max(this.range.getToRow() - 1, 0);
 		return new Selection(TabularRange.range(aboveRowIndex, aboveRowIndex,
 				range.getFromColumn(), range.getToColumn()));
 	}
 
 	/**
-	 * If Columns are selected then the second topmost Row with a single cell is selected
-	 * @param numberOfRows Number of rows
-	 * @param extendSelection Whether we want to extend the current Selection
-	 * @return Selection underneath the selection calling this method if possible
+	 * Takes the anchor cell of this selection and returns
+	 * - the cell below if possible
+	 * - the cell itself if it is in the last row
+	 * @see #getNextCellForMoveUp()
+	 * @return single cell below of this
 	 */
-	public Selection getBottom(int numberOfRows, boolean extendSelection) {
+	Selection getNextCellForMoveDown(int numberOfRows) {
 		if (type == SelectionType.COLUMNS) {
 			return getSingleCellSelection(1, range.getFromColumn());
-		} else if (!extendSelection) {
+		} else {
 			return getSingleCellSelection(Math.min(range.getFromRow() + 1, numberOfRows - 1),
-					range.getFromColumn());
+					Math.max(range.getFromColumn(), 0));
 		}
+	}
 
+	/**
+	 * Range spanned by this selection's anchor cell and an end cell that was shifted down.
+	 * Unlike the bottom extension needs to be aware of table size so that it doesn't exceed it.
+	 * @see #getTopExtension()
+	 * @return Selection extended to the bottom
+	 */
+	Selection getBottomExtension(int numberOfRows) {
+		if (type == SelectionType.COLUMNS) {
+			return this;
+		}
 		int underneathRowIndex = Math.min(range.getToRow() + 1, numberOfRows - 1);
 		return new Selection(TabularRange.range(underneathRowIndex, underneathRowIndex,
 				range.getFromColumn(), range.getToColumn()));
@@ -135,34 +201,24 @@ final class Selection {
 	/**
 	 * Creates an extended Selection by creating a rectangle that contains the current Selection
 	 * and the clicked Cell / Row / Column
-	 * @param newSelection new Selection
+	 * @param other new Selection
 	 * @return Resulting selection
 	 */
-	public Selection getExtendedSelection(Selection newSelection) {
-		SelectionType selectionType = this.getSelectionTypeForExtension(newSelection);
+	Selection getExtendedSelection(Selection other) {
+		SelectionType selectionType = this.getSelectionTypeForExtendingWith(other);
 
-		if ((selectionType == SelectionType.CELLS && this.type != newSelection.type)
+		if ((selectionType == SelectionType.CELLS && this.type != other.type)
 				|| selectionType == SelectionType.ALL) {
 			return new Selection(new TabularRange(
-					Math.min(this.range.getMinRow(), newSelection.range.getMinRow()),
-					Math.max(this.range.getMaxRow(), newSelection.range.getMaxRow()),
-					Math.min(this.range.getMinColumn(), newSelection.range.getMinColumn()),
-					Math.max(this.range.getMaxColumn(), newSelection.range.getMaxColumn())));
+					Math.min(this.range.getMinRow(), other.range.getMinRow()),
+					Math.max(this.range.getMaxRow(), other.range.getMaxRow()),
+					Math.min(this.range.getMinColumn(), other.range.getMinColumn()),
+					Math.max(this.range.getMaxColumn(), other.range.getMaxColumn())));
 		}
 
 		return new Selection(TabularRange.range(
-				this.range.getFromRow(), newSelection.range.getToRow(),
-				this.range.getFromColumn(), newSelection.range.getToColumn()));
-	}
-
-	/**
-	 * @param rowIndex Row Index
-	 * @param columnIndex Column Index
-	 * @return A single cell with given index
-	 */
-	public static Selection getSingleCellSelection(int rowIndex, int columnIndex) {
-		return new Selection(TabularRange.range(
-				rowIndex, rowIndex, columnIndex, columnIndex));
+				this.range.getFromRow(), other.range.getToRow(),
+				this.range.getFromColumn(), other.range.getToColumn()));
 	}
 
 	/**
@@ -175,14 +231,33 @@ final class Selection {
 	 * @param newSelection New Selection
 	 * @return Resulting SelectionType
 	 */
-	private SelectionType getSelectionTypeForExtension(Selection newSelection) {
+	private SelectionType getSelectionTypeForExtendingWith(Selection newSelection) {
 		List<SelectionType> selectionTypes = Arrays.asList(this.type, newSelection.type);
 		if (this.type == newSelection.type) {
 			return this.type;
 		} else if (selectionTypes.contains(SelectionType.ALL)) {
 			return SelectionType.ALL;
-		} else {
-			return SelectionType.CELLS;
 		}
+		return SelectionType.CELLS;
 	}
+
+	@Override
+	public int hashCode() {
+		return 31 * type.hashCode() + range.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Selection)) {
+			return false;
+		}
+		Selection other = (Selection) obj;
+		return type == other.type && range.equals(other.range);
+	}
+
+	@Override
+	public String toString() {
+		return range.toString();
+	}
+
 }

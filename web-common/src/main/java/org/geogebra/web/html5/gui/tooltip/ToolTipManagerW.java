@@ -41,8 +41,7 @@ public final class ToolTipManagerW {
 		Style style = snackbar.getElement().getStyle();
 		if (appW.isWhiteboardActive()) {
 			style.setLeft((appW.getWidth() - snackbar.getOffsetWidth()) / 2, Unit.PX);
-		}
-		else {
+		} else {
 			if (appW.getAppletFrame().isKeyboardShowing()) {
 				style.setBottom(236, Unit.PX); // 8px higher then keyboard
 			} else if (appW.isUnbundled() || appW.isSuite()) {

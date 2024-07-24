@@ -343,8 +343,6 @@ public class RedefineTest extends BaseUnitTest {
 		add("b:Circle(O,1)");
 		add("c:xx+yy=2");
 		add("d:xx+yy");
-		app.setNewExam();
-		app.startExam();
 		assertFalse(lookup("b").isLocked());
 		assertTrue(lookup("c").isLocked());
 		assertFalse(lookup("d").isLocked());
@@ -644,6 +642,7 @@ public class RedefineTest extends BaseUnitTest {
 	@Test
 	public void absPositionStaticTextShouldSurviveRedefine() {
 		GeoText text = add("text=\"foo\"");
+		add("a=3");
 		text.setAbsoluteScreenLocActive(true);
 		text.setAbsoluteScreenLoc(200, 300);
 		add("text=a+\"foo\"");

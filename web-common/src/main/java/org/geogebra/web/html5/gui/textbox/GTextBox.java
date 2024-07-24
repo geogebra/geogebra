@@ -5,7 +5,6 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.NativeEvent;
-import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.dom.client.KeyUpHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.user.client.Event;
@@ -58,19 +57,15 @@ public class GTextBox extends TextBox
 	@Override
 	public HandlerRegistration addKeyUpHandler(KeyUpHandler handler) {
 		final KeyUpHandler finalHandler = handler;
-		return super.addKeyUpHandler(new KeyUpHandler() {
+		return super.addKeyUpHandler(event -> {
+			if (event.getNativeKeyCode() == 0) {
+				NativeEvent nativeEvent = Document.get().createKeyUpEvent(
+						isControlKeyDown, isAltKeyDown, isShiftKeyDown,
+						isMetaKeyDown, keyCode);
+				event.setNativeEvent(nativeEvent);
 
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == 0) {
-					NativeEvent nativeEvent = Document.get().createKeyUpEvent(
-							isControlKeyDown, isAltKeyDown, isShiftKeyDown,
-							isMetaKeyDown, keyCode);
-					event.setNativeEvent(nativeEvent);
-
-				}
-				finalHandler.onKeyUp(event);
 			}
+			finalHandler.onKeyUp(event);
 		});
 	}
 

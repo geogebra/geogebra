@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.HasCoordinates;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -655,14 +656,25 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 	 *            precision
 	 * @return type of intersection
 	 */
-	public final static synchronized int intersectLineConic(GeoLine g,
+	public static synchronized int intersectLineConic(GeoLine g,
 			GeoConicND c, GeoPoint[] sol, double eps) {
-		double[] A = c.getFlatMatrix();
+		g.getnormalizedCoefficients(xyz, 2, 0.5);
+		return intersectLineConic(xyz, c.getFlatMatrix(), c.getType(),  eps, sol);
+	}
 
-		g.getnormalizedCoefficients(xyz, 2);
-		double x = xyz[0];
-		double y = xyz[1];
-		double z = xyz[2];
+	/**
+	 * @param g line coefficients
+	 * @param A conic matrix
+	 * @param type conic type
+	 * @param eps precision
+	 * @param sol output points
+	 * @return solution type
+	 */
+	public static synchronized int intersectLineConic(double[] g,
+				double[] A, int type, double eps, HasCoordinates... sol) {
+		double x = g[0];
+		double y = g[1];
+		double z = g[2];
 
 		// get arbitrary point of line
 		double px, py;
@@ -689,7 +701,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		double SvY = A[3] * y - A[1] * x;
 		double u = y * SvX - x * SvY;
 		double d = px * SvX + py * SvY + A[4] * y - A[5] * x;
-		double w = c.evaluate(px, py);
+		double w = GeoConicND.evaluate(A, px, py);
 
 		// estimate err for delta; also avoid this too be too large
 		double delta = Math.min(Kernel.MIN_PRECISION,
@@ -733,7 +745,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		if (DoubleUtil.isEqual(dis, 0, delta)) {
 			double t1 = -d / u;
 			sol[0].setCoords(px + t1 * y, py - t1 * x, 1.0);
-			sol[1].setCoords(sol[0]);
+			sol[1].setCoords(sol[0].getX(), sol[0].getY(), sol[0].getZ());
 			return INTERSECTION_TANGENT_LINE;
 		}
 		// Sekante oder Passante
@@ -741,10 +753,10 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		// Sekante
 
 		// Double line => one intersection point
-		if (c.type == GeoConicNDConstants.CONIC_DOUBLE_LINE) {
+		if (type == GeoConicNDConstants.CONIC_DOUBLE_LINE) {
 			double t1 = -d / u;
 			sol[0].setCoords(px + t1 * y, py - t1 * x, 1.0);
-			sol[1].setCoords(sol[0]);
+			sol[1].setCoords(sol[0].getX(), sol[0].getY(), sol[0].getZ());
 			return INTERSECTION_SECANT_LINE;
 		}
 		if (dis > 0) {

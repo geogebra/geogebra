@@ -1,21 +1,31 @@
 package org.geogebra.common.spreadsheet.core;
 
+import javax.annotation.Nonnull;
+
+import org.geogebra.common.io.MathFieldCommon;
+import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellDataSerializer;
 import org.geogebra.common.util.shape.Rectangle;
 
-public class TestSpreadsheetCellEditor
-		implements SpreadsheetCellEditor {
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.meta.MetaModel;
 
-	private Object content;
-	private boolean visible;
+final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 
-	@Override
-	public void setBounds(Rectangle editorBounds) {
-		visible = true;
-	}
+	private final MathFieldCommon mathField = new MathFieldCommon(new MetaModel(), null);
 
-	@Override
-	public void setTargetCell(int row, int column) {
-		// not needed
+	private final SpreadsheetCellProcessor cellProcessor = new SpreadsheetCellProcessor() {
+		@Override
+		public void process(String input, int row, int column) {
+			tabularData.setContent(row, column, input);
+		}
+	};
+	private final SpreadsheetCellDataSerializer cellDataSerializer =
+			new DefaultSpreadsheetCellDataSerializer();
+
+	private final TabularData tabularData;
+
+	TestSpreadsheetCellEditor(TabularData tabularData) {
+		this.tabularData = tabularData;
 	}
 
 	@Override
@@ -29,31 +39,28 @@ public class TestSpreadsheetCellEditor
 	}
 
 	@Override
-	public void setAlign(int align) {
-		// not needed
-	}
-
-	@Override
-	public void scrollHorizontally() {
-		// not needed
-	}
-
-	@Override
-	public boolean isVisible() {
-		return visible;
+	public void show(Rectangle editorBounds, Rectangle viewport, int textAlignment) {
 	}
 
 	@Override
 	public void hide() {
-		visible = false;
 	}
 
+	@Nonnull
 	@Override
-	public void onEnter() {
-		// not needed
+	public MathFieldInternal getMathField() {
+		return mathField.getInternal();
 	}
 
-	public Object getContent() {
-		return content;
+	@Nonnull
+	@Override
+	public SpreadsheetCellProcessor getCellProcessor() {
+		return cellProcessor;
+	}
+
+	@Nonnull
+	@Override
+	public SpreadsheetCellDataSerializer getCellDataSerializer() {
+		return cellDataSerializer;
 	}
 }

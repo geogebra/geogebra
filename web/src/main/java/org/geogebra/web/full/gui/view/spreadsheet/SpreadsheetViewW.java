@@ -17,6 +17,7 @@ import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.util.AdvancedFocusPanel;
@@ -226,15 +227,15 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	@Override
 	public void scrollIfNeeded(GeoElement geo, String labelNew) {
-		GPoint location = geo.getSpreadsheetCoords();
+		SpreadsheetCoords location = geo.getSpreadsheetCoords();
 
 		if (labelNew != null && location == null) {
 			location = GeoElementSpreadsheet.spreadsheetIndices(labelNew);
 		}
 
-		if (scrollToShow && location != null && (location.x > -1) && (location.y > -1)) {
+		if (scrollToShow && location != null && (location.column > -1) && (location.row > -1)) {
 			// autoscroll to new cell's location
-			table.scrollRectToVisible(location.x, location.y);
+			table.scrollRectToVisible(location.column, location.row);
 		}
 	}
 
@@ -246,7 +247,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 			// TODO traceDialog.updateTraceDialog();
 		}
 
-		GPoint location = geo.getSpreadsheetCoords();
+		SpreadsheetCoords location = geo.getSpreadsheetCoords();
 
 		switch (geo.getGeoClassType()) {
 		default:
@@ -259,8 +260,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		}
 
 		if (location != null) {
-			table.updateCellFormat(location.y, location.x);
-			table.syncRowHeaderHeight(location.y);
+			table.updateCellFormat(location.row, location.column);
+			table.syncRowHeaderHeight(location.row);
 		}
 
 		// update the rowHeader height in case an oversized element has been
@@ -337,29 +338,23 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	public void update(GeoElement geo) {
 
 		// table.setRepaintAll();
-		GPoint location = geo.getSpreadsheetCoords();
+		SpreadsheetCoords location = geo.getSpreadsheetCoords();
 		if (location != null
-				&& location.x < app.getMaxSpreadsheetColumnsVisible()
-				&& location.y < app.getMaxSpreadsheetRowsVisible()) {
+				&& location.column < app.getMaxSpreadsheetColumnsVisible()
+				&& location.row < app.getMaxSpreadsheetRowsVisible()) {
 
 			// TODO: rowHeader and column
 			// changes should be handled by a table model listener
 
-			if (location.y >= tableModel.getRowCount()) {
-				tableModel.setRowCount(location.y + 1);
-				// TODO//spreadsheet.getRowHeader().revalidate();
+			if (location.row >= tableModel.getRowCount()) {
+				tableModel.setRowCount(location.row + 1);
 			}
-			if (location.x >= tableModel.getColumnCount()) {
-				tableModel.setColumnCount(location.x + 1);
-				// TODO//JViewport cH = spreadsheet.getColumnHeader();
-
-				// bugfix: double-click to load ggb file gives cH = null
-				// TODO//if (cH != null)
-				// TODO cH.revalidate();
+			if (location.column >= tableModel.getColumnCount()) {
+				tableModel.setColumnCount(location.column + 1);
 			}
 
 			// Mark this cell to be resized by height
-			table.addResizeHeight(new GPoint(location.x, location.y));
+			table.addResizeHeight(new GPoint(location.column, location.row));
 
 			// put geos with special editors in the oneClickEditMap
 			if (geo.isGeoBoolean() || geo.isGeoButton() || geo.isGeoList()) {
@@ -367,7 +362,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 			}
 
 			// Update the cell format, it may change with this geo's properties
-			table.updateCellFormat(location.y, location.x);
+			table.updateCellFormat(location.row, location.column);
 		}
 	}
 
