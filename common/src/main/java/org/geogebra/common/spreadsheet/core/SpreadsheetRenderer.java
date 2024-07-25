@@ -1,11 +1,8 @@
 package org.geogebra.common.spreadsheet.core;
 
-import static org.geogebra.common.spreadsheet.style.SpreadsheetStyle.SPREADSHEET_ERROR_BORDER;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.geogebra.common.awt.GBasicStroke;
@@ -17,7 +14,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;

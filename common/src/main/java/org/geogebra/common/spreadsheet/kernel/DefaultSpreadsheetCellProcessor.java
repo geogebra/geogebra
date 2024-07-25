@@ -3,10 +3,8 @@ package org.geogebra.common.spreadsheet.kernel;
 import static com.himamis.retex.editor.share.util.Unicode.ASSIGN_STRING;
 import static org.geogebra.common.util.StringUtil.isNumber;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -15,8 +13,6 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.util.debug.Log;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Sends spreadsheet cell editor input towards the AlgebraProcessor.
@@ -34,6 +30,7 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	/**
 	 * Constructor.
 	 * @param algebraProcessor {@link AlgebraProcessor}
+	 * @param tabularData {@link TabularData}
 	 * @param errorHandler The error handler of the cell.
 	 */
 	public DefaultSpreadsheetCellProcessor(@Nonnull AlgebraProcessor algebraProcessor,
@@ -129,9 +126,9 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 			geo.setUndefined();
 		}
 		processInput(buildRestoredInput());
-		SpreadsheetCoords pt = GeoElementSpreadsheet.spreadsheetIndices(cellName);
-		if (tabularData != null && pt != null && pt.row != -1) {
-			tabularData.markError(pt.row, pt.column, true);
+		SpreadsheetCoords coords = GeoElementSpreadsheet.spreadsheetIndices(cellName);
+		if (tabularData != null && coords != null && coords.row != -1) {
+			tabularData.markError(coords.row, coords.column, true);
 		}
 	}
 }
