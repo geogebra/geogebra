@@ -2552,7 +2552,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				mode -> settings.setTreeMode(AlgebraView.SortMode.fromInt(mode)));
 	}
 
-
 	@Override
 	public void showAllObjects() {
 		app.setViewShowAllObjects();
