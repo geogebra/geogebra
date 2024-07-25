@@ -97,6 +97,8 @@ public class TabbedKeyboard extends FlowPanel
 		this.switcher = new KeyboardSwitcher(this);
 		this.hasMoreButton = hasMoreButton;
 		this.keyboardMap = new HashMap<>();
+		getElement().setAttribute("data-nosnippet", "");
+
 	}
 
 	/**
