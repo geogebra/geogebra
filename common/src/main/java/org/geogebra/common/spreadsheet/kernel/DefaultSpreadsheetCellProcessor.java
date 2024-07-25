@@ -29,6 +29,7 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	private final ErrorHandler errorHandler;
 	private String cellName;
 	private final TabularData tabularData;
+	private String input;
 
 	/**
 	 * Constructor.
@@ -64,6 +65,7 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	public void process(String input, String cellName) {
 		try {
 			this.cellName = cellName;
+			this.input = input;
 			processInput(buildProperInput(input, cellName));
 		} catch (Exception e) {
 			Log.debug("error " + e.getLocalizedMessage());
@@ -110,23 +112,23 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 		return input.startsWith("=");
 	}
 
-	private String buildError() {
-		StringBuilder strBuilder = new StringBuilder();
-		strBuilder.append(cellName);
-		strBuilder.append(ASSIGN_STRING);
-		strBuilder.append("\"");
-		strBuilder.append("ERROR");
-		strBuilder.append("\"");
-		return strBuilder.toString();
+	private String buildRestoredInput() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(cellName);
+		stringBuilder.append(ASSIGN_STRING);
+		stringBuilder.append("\"");
+		stringBuilder.append(input.replaceAll("=", ""));
+		stringBuilder.append("\"");
+		return stringBuilder.toString();
 	}
 
 	@Override
 	public void markError() {
 		GeoElement geo = algebraProcessor.getKernel().lookupLabel(cellName);
 		if (geo != null) {
-			geo.remove();
+			geo.setUndefined();
 		}
-		processInput(buildError());
+		processInput(buildRestoredInput());
 		SpreadsheetCoords pt = GeoElementSpreadsheet.spreadsheetIndices(cellName);
 		if (tabularData != null && pt != null && pt.row != -1) {
 			tabularData.markError(pt.row, pt.column, true);

@@ -14,14 +14,14 @@ public class DefaultSpreadsheetCellDataSerializerTest extends BaseUnitTest {
 	@Test
 	public void testNull() {
 		SpreadsheetCellDataSerializer serializer = new DefaultSpreadsheetCellDataSerializer();
-		String result = serializer.getStringForEditor(null);
+		String result = serializer.getStringForEditor(null, false);
 		assertEquals("", result);
 	}
 
 	@Test
 	public void testString() {
 		SpreadsheetCellDataSerializer serializer = new DefaultSpreadsheetCellDataSerializer();
-		String result = serializer.getStringForEditor("hello");
+		String result = serializer.getStringForEditor("hello", false);
 		assertEquals("hello", result);
 	}
 
@@ -29,7 +29,7 @@ public class DefaultSpreadsheetCellDataSerializerTest extends BaseUnitTest {
 	public void testGeoText() {
 		SpreadsheetCellDataSerializer serializer = new DefaultSpreadsheetCellDataSerializer();
 		GeoElement text = new GeoText(getConstruction(), "hello");
-		String result = serializer.getStringForEditor(text);
+		String result = serializer.getStringForEditor(text, false);
 		assertEquals("hello", result);
 	}
 
@@ -37,7 +37,7 @@ public class DefaultSpreadsheetCellDataSerializerTest extends BaseUnitTest {
 	public void testGeoNumber() {
 		SpreadsheetCellDataSerializer serializer = new DefaultSpreadsheetCellDataSerializer();
 		GeoElement number = new GeoNumeric(getConstruction(), 3);
-		String result = serializer.getStringForEditor(number);
+		String result = serializer.getStringForEditor(number, false);
 		assertEquals("=3", result);
 	}
 }

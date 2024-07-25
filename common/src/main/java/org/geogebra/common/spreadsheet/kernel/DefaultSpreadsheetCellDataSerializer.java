@@ -12,10 +12,11 @@ public final class DefaultSpreadsheetCellDataSerializer implements SpreadsheetCe
 
 	/**
 	 * @param data Spreadsheet cell content.
+	 * @param hasError Whether cell has error.
 	 * @return A string representation of the content suitable for a cell editor.
 	 */
 	@Override
-	public String getStringForEditor(Object data) {
+	public String getStringForEditor(Object data, boolean hasError) {
 		if (data instanceof String) {
 			return (String) data;
 		}
@@ -24,6 +25,6 @@ public final class DefaultSpreadsheetCellDataSerializer implements SpreadsheetCe
 		}
 		GeoElement geo = (GeoElement) data;
 		String redefineString = geo.getRedefineString(true, false);
-		return geo.isGeoText() ? redefineString : "=" + redefineString;
+		return geo.isGeoText() && !hasError ? redefineString : "=" + redefineString;
 	}
 }

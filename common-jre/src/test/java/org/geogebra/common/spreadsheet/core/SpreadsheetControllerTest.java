@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.io.FactoryProviderCommon;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
@@ -394,6 +395,24 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_ESCAPE);
         assertFalse(controller.isEditorActive());
         assertEquals("1", tabularData.contentAt(0, 0));
+    }
+
+    @Test
+    public void testNumericOrTextInputShouldHaveNoError() {
+        cellEditor.getCellProcessor().process("1", 0, 0);
+        assertFalse(tabularData.hasError(0, 0));
+
+        cellEditor.getCellProcessor().process("Text(\"foo\")", 0, 1);
+        assertFalse(tabularData.hasError(1, 0));
+    }
+
+    @Test
+    public void testNumericInputChangedToErrorShouldHaveError() {
+        cellEditor.getCellProcessor().process("=1", 0, 0);
+        assertFalse(tabularData.hasError(0, 0));
+
+        cellEditor.getCellProcessor().process("=1+%", 0, 0);
+        assertTrue(tabularData.hasError(0, 0));
     }
 
     // Helpers
