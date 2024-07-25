@@ -8,6 +8,8 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.io.file.ByteArrayZipFile;
@@ -23,17 +25,23 @@ public class SvgLoadTest extends BaseUnitTest {
 	static AppDNoGui app;
 	private static SVGImage image;
 	private int allSvgCount = 0;
-	private long supportedSvgCount = 0;
+	private final List<String> unsupportedSvgNames = new ArrayList<>();
 
 	@Before
 	public void setUp() {
+		allSvgCount = 0;
+		unsupportedSvgNames.clear();
 		app = new AppDNoGui(new LocalizationD(3), false) {
 			@Override
 			public void addExternalImage(String name, MyImageJre img) {
-				if (img.isSVG() && !JSVGConstants.UNSUPPORTED_SVG.equals(img.getSVG())) {
-					supportedSvgCount++;
+				if (img.isSVG()) {
+					if (JSVGConstants.UNSUPPORTED_SVG.equals(img.getSVG())) {
+						unsupportedSvgNames.add(name.split("/")[1]);
+					}
+					allSvgCount++;
+				} else {
+					assertEquals("geogebra_thumbnail.png", name);
 				}
-				allSvgCount++;
 			}
 		};
 	}
@@ -43,8 +51,8 @@ public class SvgLoadTest extends BaseUnitTest {
 	@Test
 	public void testLoadSvgsGGB() {
 		inMaterial("svgs.ggb")
-				.shouldSupport(138)
-				.ofSvgs(143);
+				.shouldSupportAllBut("issue55.svg,issue82.svg,issue134.svg")
+				.ofSvgs(142);
 	}
 
 	private SvgLoadTest inMaterial(String fileName) {
@@ -54,8 +62,8 @@ public class SvgLoadTest extends BaseUnitTest {
 		return this;
 	}
 
-	private SvgLoadTest shouldSupport(int supported) {
-		assertEquals(supported, supportedSvgCount);
+	private SvgLoadTest shouldSupportAllBut(String unsupported) {
+		assertEquals(unsupported, String.join(",", unsupportedSvgNames));
 		return this;
 	}
 
@@ -67,8 +75,8 @@ public class SvgLoadTest extends BaseUnitTest {
 	@Test
 	public void testLoadVrTGGB() {
 		inMaterial("material-VrT75QCK.ggb")
-				.shouldSupport(4)
-				.ofSvgs(6);
+				.shouldSupportAllBut("plot (1).svg")
+				.ofSvgs(5);
 	}
 
 	@Test
