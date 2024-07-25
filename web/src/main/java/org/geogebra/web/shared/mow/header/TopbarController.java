@@ -6,10 +6,12 @@ import java.util.function.Consumer;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.web.full.gui.ContextMenuGraphicsWindowW;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.gui.zoompanel.ZoomController;
 import org.geogebra.web.html5.main.AppW;
 
@@ -174,7 +176,16 @@ public class TopbarController {
 		anchor.setActive(!settingsShowing);
 	}
 
-	private final GPopupPanel getSettingsContextMenu() {
+	private GPopupPanel getSettingsContextMenu() {
 		return settingsContextMenu.getWrappedPopup().getPopupPanel();
+	}
+
+	/**
+	 * register focusable widget
+	 * @param button - focusable widget
+	 * @param group - accessibility group
+	 */
+	public void registerFocusable(IconButton button, AccessibilityGroup group) {
+		new FocusableWidget(group, null, button).attachTo(appW);
 	}
 }
