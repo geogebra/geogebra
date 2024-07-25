@@ -132,7 +132,7 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 					controller.onFullscreenOn(fullscreenButton));
 
 			controller.getApp().getGlobalHandlers().addEventListener(DomGlobal.document,
-			Browser.getFullscreenEventName(), event -> {
+					Browser.getFullscreenEventName(), event -> {
 				if (!Browser.isFullscreen()) {
 					controller.onFullscreenExit(fullscreenButton);
 				}
