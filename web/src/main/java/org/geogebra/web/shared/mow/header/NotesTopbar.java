@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
@@ -19,6 +20,8 @@ import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
+
+import elemental2.dom.DomGlobal;
 
 public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemListener {
 	private final AppletParameters appletParams;
@@ -127,6 +130,13 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 					.fullscreen_black18(), "Fullscreen", null);
 			fullscreenButton.addFastClickHandler(source ->
 					controller.onFullscreenOn(fullscreenButton));
+
+			controller.getApp().getGlobalHandlers().addEventListener(DomGlobal.document,
+					Browser.getFullscreenEventName(), event -> {
+				if (!Browser.isFullscreen()) {
+					controller.onFullscreenExit(fullscreenButton);
+				}
+			});
 
 			addDivider();
 		}

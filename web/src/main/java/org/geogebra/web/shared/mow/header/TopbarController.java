@@ -132,6 +132,14 @@ public class TopbarController {
 		zoomController.onFullscreenPressed(null, getFullscreenBtnSelectCB(fullscreenBtn));
 	}
 
+	/**
+	 * on fullscreen exit
+	 * @param fullscreenBtn - fullscreen button
+	 */
+	public void onFullscreenExit(IconButton fullscreenBtn) {
+		zoomController.onExitFullscreen(null, getFullscreenBtnSelectCB(fullscreenBtn));
+	}
+
 	private Consumer<Boolean> getFullscreenBtnSelectCB(final IconButton fullscreenBtn) {
 		return fullScreenActive -> {
 			if (fullscreenBtn != null) {
