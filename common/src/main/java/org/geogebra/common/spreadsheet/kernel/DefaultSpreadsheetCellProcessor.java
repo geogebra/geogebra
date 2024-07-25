@@ -31,7 +31,6 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	 * Constructor.
 	 * @param algebraProcessor {@link AlgebraProcessor}
 	 * @param tabularData {@link TabularData}
-	 * @param errorHandler The error handler of the cell.
 	 */
 	public DefaultSpreadsheetCellProcessor(@Nonnull AlgebraProcessor algebraProcessor,
 			TabularData tabularData) {
@@ -111,11 +110,12 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 
 	private String buildRestoredInput() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(cellName);
-		stringBuilder.append(ASSIGN_STRING);
+		appendCellAssign(cellName, stringBuilder);
+
 		stringBuilder.append("\"");
 		stringBuilder.append(input.replaceAll("=", ""));
 		stringBuilder.append("\"");
+
 		return stringBuilder.toString();
 	}
 
