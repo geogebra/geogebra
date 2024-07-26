@@ -6,10 +6,12 @@ import java.util.function.Consumer;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.web.full.gui.ContextMenuGraphicsWindowW;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.gui.zoompanel.ZoomController;
 import org.geogebra.web.html5.main.AppW;
 
@@ -154,7 +156,8 @@ public class TopbarController {
 	 * on settings press
 	 * @param anchor - settings button
 	 */
-	public void onSettingsOpen(IconButton anchor) {
+	public void onSettingsOpen(IconButton anchor, FocusableWidget focusableAnchor) {
+		appW.getAccessibilityManager().setAnchor(focusableAnchor);
 		initSettingsContextMenu(anchor);
 		toggleSettingsContextMenu(anchor);
 	}
@@ -172,17 +175,44 @@ public class TopbarController {
 	private void toggleSettingsContextMenu(IconButton anchor) {
 		boolean settingsShowing  = getSettingsContextMenu().isShowing();
 		if (settingsShowing) {
-			settingsContextMenu.getWrappedPopup().getPopupPanel().hide();
+			settingsContextMenu.getWrappedPopup().hide();
 		} else {
 			appW.registerPopup(getSettingsContextMenu());
-			settingsContextMenu.getWrappedPopup().showAtPoint((int) (anchor.getAbsoluteLeft()
-					- appW.getAbsLeft()), (int) (anchor.getAbsoluteTop()
-					+ anchor.getOffsetHeight() - appW.getAbsTop()));
+			showAndFocusMenuRelativeTo(anchor);
 		}
 		anchor.setActive(!settingsShowing);
 	}
 
-	private final GPopupPanel getSettingsContextMenu() {
+	private void showAndFocusMenuRelativeTo(IconButton anchor) {
+		settingsContextMenu.getWrappedPopup().showAtPoint((int) (anchor.getAbsoluteLeft()
+				- appW.getAbsLeft()), (int) (anchor.getAbsoluteTop()
+				+ anchor.getOffsetHeight() - appW.getAbsTop()));
+		settingsContextMenu.getWrappedPopup().getPopupMenu().getItemAt(0).getElement().focus();
+	}
+
+	private GPopupPanel getSettingsContextMenu() {
 		return settingsContextMenu.getWrappedPopup().getPopupPanel();
+	}
+
+	/**
+	 * register focusable widget
+	 * @param button - focusable widget
+	 * @param group - accessibility group
+	 */
+	public void registerFocusable(IconButton button, AccessibilityGroup group) {
+		new FocusableWidget(group, null, button).attachTo(appW);
+	}
+
+	/**
+	 * register focusable widget
+	 * @param group - accessibility group
+	 * @param button - focusable widget
+	 * @return focusable widget
+	 */
+	public FocusableWidget getRegisteredFocusable(AccessibilityGroup group,
+			IconButton button) {
+		FocusableWidget focusableWidget = new FocusableWidget(group, null, button);
+		focusableWidget.attachTo(appW);
+		return focusableWidget;
 	}
 }
