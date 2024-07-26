@@ -148,7 +148,8 @@ public class TopbarController {
 	 * on settings press
 	 * @param anchor - settings button
 	 */
-	public void onSettingsOpen(IconButton anchor) {
+	public void onSettingsOpen(IconButton anchor, FocusableWidget focusableAnchor) {
+		appW.getAccessibilityManager().setAnchor(focusableAnchor);
 		initSettingsContextMenu(anchor);
 		toggleSettingsContextMenu(anchor);
 	}
@@ -166,14 +167,19 @@ public class TopbarController {
 	private void toggleSettingsContextMenu(IconButton anchor) {
 		boolean settingsShowing  = getSettingsContextMenu().isShowing();
 		if (settingsShowing) {
-			settingsContextMenu.getWrappedPopup().getPopupPanel().hide();
+			settingsContextMenu.getWrappedPopup().hide();
 		} else {
 			appW.registerPopup(getSettingsContextMenu());
-			settingsContextMenu.getWrappedPopup().showAtPoint((int) (anchor.getAbsoluteLeft()
-					- appW.getAbsLeft()), (int) (anchor.getAbsoluteTop()
-					+ anchor.getOffsetHeight() - appW.getAbsTop()));
+			showAndFocusMenuRelativeTo(anchor);
 		}
 		anchor.setActive(!settingsShowing);
+	}
+
+	private void showAndFocusMenuRelativeTo(IconButton anchor) {
+		settingsContextMenu.getWrappedPopup().showAtPoint((int) (anchor.getAbsoluteLeft()
+				- appW.getAbsLeft()), (int) (anchor.getAbsoluteTop()
+				+ anchor.getOffsetHeight() - appW.getAbsTop()));
+		settingsContextMenu.getWrappedPopup().getPopupMenu().getItemAt(0).getElement().focus();
 	}
 
 	private GPopupPanel getSettingsContextMenu() {
@@ -187,5 +193,17 @@ public class TopbarController {
 	 */
 	public void registerFocusable(IconButton button, AccessibilityGroup group) {
 		new FocusableWidget(group, null, button).attachTo(appW);
+	}
+
+	/**
+	 * register focusable widget
+	 * @param group - accessibility group
+	 * @param button - focusable widget
+	 */
+	public FocusableWidget getRegisteredFocusable(AccessibilityGroup group,
+			IconButton button) {
+		FocusableWidget focusableWidget = new FocusableWidget(group, null, button);
+		focusableWidget.attachTo(appW);
+		return focusableWidget;
 	}
 }

@@ -13,6 +13,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.ZoomPanelResources;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.AppletParameters;
@@ -138,8 +139,12 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 	private void addSettingsButton() {
 		if (controller.getApp().allowStylebar()) {
 			IconButton settingsBtn = addSmallPressButton(MaterialDesignResources.INSTANCE.gear(),
-					"Settings", null, AccessibilityGroup.SETTINGS_NOTES);
-			settingsBtn.addFastClickHandler(source -> controller.onSettingsOpen(settingsBtn));
+					"Settings", null, null);
+			FocusableWidget focusableSettingsBtn = controller.getRegisteredFocusable(
+					AccessibilityGroup.SETTINGS_NOTES, settingsBtn);
+
+			settingsBtn.addFastClickHandler(source -> controller.onSettingsOpen(settingsBtn,
+					focusableSettingsBtn));
 		}
 	}
 
@@ -148,7 +153,10 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 		IconButton button = new IconButton(controller.getApp(), clickHandler, image, ariaLabel);
 		add(button);
 		buttons.add(button);
-		controller.registerFocusable(button, group);
+
+		if (group != null) {
+			controller.registerFocusable(button, group);
+		}
 
 		return button;
 	}
