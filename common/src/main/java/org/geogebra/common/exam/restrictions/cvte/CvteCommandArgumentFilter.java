@@ -99,10 +99,10 @@ public final class CvteCommandArgumentFilter implements CommandArgumentFilter {
 	}
 
 	private boolean isDisplayableIn2DGraphics(GeoElement geoElement) {
-		return geoElement instanceof GeoLine ||
-				(geoElement instanceof GeoFunction &&
-						((GeoFunction) geoElement).getFunctionVariables().length == 1) ||
-				geoElement instanceof GeoImplicitCurve || geoElement instanceof GeoCurveCartesian ||
-				geoElement instanceof GeoConic;
+		return geoElement instanceof GeoLine
+				|| (geoElement instanceof GeoFunction
+					&& ((GeoFunction) geoElement).getFunctionVariables().length == 1)
+				|| geoElement instanceof GeoImplicitCurve || geoElement instanceof GeoCurveCartesian
+				|| geoElement instanceof GeoConic;
 	}
 }
