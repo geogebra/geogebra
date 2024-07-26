@@ -8,21 +8,24 @@ import static org.junit.Assert.assertTrue;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.util.DoubleUtil;
 import org.junit.Before;
 import org.junit.Test;
 
 public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	private DefaultSpreadsheetCellProcessor processor;
+	private TabularData tabularData;
 	private final DefaultSpreadsheetCellDataSerializer
 			serializer = new DefaultSpreadsheetCellDataSerializer();
 
 	@Before
 	public void setUp() {
-		processor =
-				new DefaultSpreadsheetCellProcessor(getKernel().getAlgebraProcessor(), null);
-		getKernel().attach(new KernelTabularDataAdapter(
-				getSettings().getSpreadsheet(), getKernel()));
+		tabularData = new KernelTabularDataAdapter(
+				getSettings().getSpreadsheet(), getKernel());
+		processor = new
+				DefaultSpreadsheetCellProcessor(getKernel().getAlgebraProcessor(), tabularData);
+		getKernel().attach((KernelTabularDataAdapter) tabularData);
 	}
 
 	@Test
@@ -140,5 +143,23 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		assertTrue(lookup("A1").isGeoText());
 		processor.process("-7-2", "A1");
 		assertTrue(lookup("A1").isGeoText());
+	}
+
+	@Test
+	public void testNumericOrTextInputShouldHaveNoError() {
+		processor.process("1", 0, 0);
+		assertFalse(tabularData.hasError(0, 0));
+
+		processor.process("Text(\"foo\")", 0, 1);
+		assertFalse(tabularData.hasError(1, 0));
+	}
+
+	@Test
+	public void testNumericInputChangedToErrorShouldHaveError() {
+		processor.process("=1", 0, 0);
+		assertFalse(tabularData.hasError(0, 0));
+
+		processor.process("=1+%", 0, 0);
+		assertTrue(tabularData.hasError(0, 0));
 	}
 }

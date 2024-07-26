@@ -397,24 +397,6 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
         assertEquals("1", tabularData.contentAt(0, 0));
     }
 
-    @Test
-    public void testNumericOrTextInputShouldHaveNoError() {
-        cellEditor.getCellProcessor().process("1", 0, 0);
-        assertFalse(tabularData.hasError(0, 0));
-
-        cellEditor.getCellProcessor().process("Text(\"foo\")", 0, 1);
-        assertFalse(tabularData.hasError(1, 0));
-    }
-
-    @Test
-    public void testNumericInputChangedToErrorShouldHaveError() {
-        cellEditor.getCellProcessor().process("=1", 0, 0);
-        assertFalse(tabularData.hasError(0, 0));
-
-        cellEditor.getCellProcessor().process("=1+%", 0, 0);
-        assertTrue(tabularData.hasError(0, 0));
-    }
-
     // Helpers
 
     private void setViewport(Rectangle viewport) {
