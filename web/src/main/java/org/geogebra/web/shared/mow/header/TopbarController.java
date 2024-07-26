@@ -199,6 +199,7 @@ public class TopbarController {
 	 * register focusable widget
 	 * @param group - accessibility group
 	 * @param button - focusable widget
+	 * @return focusable widget
 	 */
 	public FocusableWidget getRegisteredFocusable(AccessibilityGroup group,
 			IconButton button) {
