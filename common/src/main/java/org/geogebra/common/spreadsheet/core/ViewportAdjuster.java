@@ -109,7 +109,8 @@ public final class ViewportAdjuster {
 		if (shouldAdjustViewportVerticallyDownwards(row, viewport)) {
 			scrollAmountY = Math.ceil(layout.getY(row + 1) - viewport.getMinY()
 					+ layout.getColumnHeaderHeight() - viewport.getHeight()
-					+ viewportAdjusterDelegate.getScrollBarWidth() + SCROLL_INCREMENT);
+					+ viewportAdjusterDelegate.getScrollBarWidth() + SCROLL_INCREMENT
+					+ viewportAdjusterDelegate.getViewportInsets().getBottom());
 			scrolledDown = true;
 		}
 		if (shouldAdjustViewportVerticallyUpwards(row, viewport)) {
@@ -135,7 +136,8 @@ public final class ViewportAdjuster {
 			return false;
 		}
 		return layout.getY(row + 1) - viewport.getMinY() + layout.getColumnHeaderHeight()
-				> viewport.getHeight() - viewportAdjusterDelegate.getScrollBarWidth();
+				> viewport.getHeight() - viewportAdjusterDelegate.getScrollBarWidth()
+				- viewportAdjusterDelegate.getViewportInsets().getBottom();
 	}
 
 	private boolean shouldAdjustViewportVerticallyUpwards(int row, Rectangle viewport) {
