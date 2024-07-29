@@ -68,7 +68,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
             }
 
             @Override
-            public void updateScrollPanelSize(Size size) {
+            public void updateScrollableContentSize(Size size) {
                 // not needed
             }
         });

@@ -897,16 +897,19 @@ public final class SpreadsheetController {
 			mathField.addMathFieldListener(mathFieldAdapter);
 			mathField.setUnhandledArrowListener(mathFieldAdapter);
 
-			updatePosition();
+			cellEditor.show(getEditorBounds(), viewport, tabularData.getAlignment(row, column));
 			isVisible = true;
 		}
 
 		void updatePosition() {
-			Rectangle editorBounds = layout.getBounds(row, column)
+			cellEditor.updatePosition(getEditorBounds(), viewport);
+		}
+
+		private Rectangle getEditorBounds() {
+			return layout.getBounds(row, column)
 					.insetBy(1, 1) // don't overdraw thick selection border
 					.translatedBy(-viewport.getMinX() + layout.getRowHeaderWidth(),
 							-viewport.getMinY() + layout.getColumnHeaderHeight());
-			cellEditor.show(editorBounds, viewport, tabularData.getAlignment(row, column));
 		}
 
 		void hide() {

@@ -17,5 +17,5 @@ public interface ViewportAdjusterDelegate {
 	 * Update size of the scrollable area.
 	 * @param size total size of the scollable content
 	 */
-	void updateScrollPanelSize(Size size);
+	void updateScrollableContentSize(Size size);
 }
