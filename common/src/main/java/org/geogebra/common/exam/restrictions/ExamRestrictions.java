@@ -120,8 +120,10 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
 		this.featureRestrictions = featureRestrictions != null ? featureRestrictions : Set.of();
-		this.inputExpressionFilters = inputExpressionFilters != null ? inputExpressionFilters : Set.of();
-		this.outputExpressionFilters = outputExpressionFilters != null ? outputExpressionFilters : Set.of();
+		this.inputExpressionFilters =
+				inputExpressionFilters != null ? inputExpressionFilters : Set.of();
+		this.outputExpressionFilters =
+				outputExpressionFilters != null ? outputExpressionFilters : Set.of();
 		this.commandFilters = commandFilters != null ? commandFilters : Set.of();
 		this.commandArgumentFilters = commandArgumentFilters != null
 				? commandArgumentFilters : Set.of();

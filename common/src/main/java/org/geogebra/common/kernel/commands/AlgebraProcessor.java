@@ -294,7 +294,8 @@ public class AlgebraProcessor {
 		}
 	}
 
-	private boolean isExpressionAllowed(ValidExpression expression, List<ExpressionFilter> filters) {
+	private boolean isExpressionAllowed(ValidExpression expression,
+			List<ExpressionFilter> filters) {
 		for (ExpressionFilter expressionFilter : filters) {
 			if (!expressionFilter.isAllowed(expression)) {
 				return false;
@@ -1128,9 +1129,12 @@ public class AlgebraProcessor {
 		GeoElement[] geos = processValidExpression(storeUndo, handler, ve,
 				newInfo);
 
-		for (GeoElement element : geos) {
-			if (!isExpressionAllowed(element.wrap(), outputExpressionFilters)) {
-				return null;
+		if (geos != null) {
+			for (GeoElement element : geos) {
+				if (element != null && !isExpressionAllowed(element.wrap(),
+						outputExpressionFilters)) {
+					return null;
+				}
 			}
 		}
 
