@@ -486,7 +486,7 @@ public interface JavaScriptAPI {
 
 	/**
 	 * @param hideCursorWhenDragging
-	 *            Whether or not to show the mouse pointer (cursor) when
+	 *            Whether to show the mouse pointer (cursor) when
 	 *            dragging
 	 */
 	void hideCursorWhenDragging(boolean hideCursorWhenDragging);

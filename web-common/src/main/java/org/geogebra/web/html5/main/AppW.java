@@ -2110,14 +2110,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	// ========================================
 
 	/**
-	 * Export given view to clipboard as png
-	 *
-	 * TODO actually downloads image
+	 * Export given view to png
 	 *
 	 * @param ev
 	 *            view
 	 */
-	public final void copyEVtoClipboard(EuclidianViewW ev) {
+	public final void exportView(EuclidianViewW ev) {
 		String image = ev.getExportImageDataUrl(3, true, false);
 		String title = ev.getApplication().getKernel().getConstruction()
 				.getTitle();
@@ -2251,7 +2249,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return whether there are some open popups
 	 */
 	public boolean hasPopup() {
-		return popups.size() > 0;
+		return !popups.isEmpty();
 	}
 
 	/**
@@ -2926,10 +2924,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return whether a file was used for initialization
 	 */
 	public boolean isStartedWithFile() {
-		return getAppletParameters().getDataParamFileName().length() > 0
-				|| getAppletParameters().getDataParamBase64String().length() > 0
-				|| getAppletParameters().getDataParamTubeID().length() > 0
-				|| this.getAppletParameters().getDataParamJSON().length() > 0
+		return !getAppletParameters().getDataParamFileName().isEmpty()
+				|| !getAppletParameters().getDataParamBase64String().isEmpty()
+				|| !getAppletParameters().getDataParamTubeID().isEmpty()
+				|| !getAppletParameters().getDataParamJSON().isEmpty()
 				|| (getAppletParameters().getDataParamApp()
 						&& NavigatorUtil.getUrlParameter("state") != null);
 	}

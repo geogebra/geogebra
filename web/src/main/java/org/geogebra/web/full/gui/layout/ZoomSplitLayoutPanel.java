@@ -525,11 +525,11 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
   }
 
   /**
-   * Sets whether or not double-clicking on the splitter should toggle the
+   * Sets whether double-clicking on the splitter should toggle the
    * display of the widget.
    *
    * @param child the child whose display toggling will be allowed or not.
-   * @param allowed whether or not display toggling is allowed for this widget
+   * @param allowed whether display toggling is allowed for this widget
    */
   public void setWidgetToggleDisplayAllowed(Widget child, boolean allowed) {
     assertWidgetIsChild(child);

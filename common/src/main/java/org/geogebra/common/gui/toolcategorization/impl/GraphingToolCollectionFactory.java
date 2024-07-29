@@ -60,8 +60,7 @@ public class GraphingToolCollectionFactory extends AbstractToolCollectionFactory
         impl.extendCategory(ToolCategory.LINES,
                 EuclidianConstants.MODE_JOIN,
                 EuclidianConstants.MODE_RAY,
-                EuclidianConstants.MODE_VECTOR,
-                EuclidianConstants.MODE_VECTOR_FROM_POINT);
+                EuclidianConstants.MODE_VECTOR);
 
         List<Integer> others = new ArrayList<>(Arrays.asList(
                 EuclidianConstants.MODE_PEN,

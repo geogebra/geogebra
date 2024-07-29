@@ -160,6 +160,9 @@ import org.geogebra.web.html5.gui.HasHide;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
+import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
+import org.geogebra.web.html5.gui.tooltip.ToolTip;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -676,9 +679,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			String helpText = getLocalization().getPlain("CheckOutTutorial",
 					getLocalization().getMenu(appName));
 			String tooltipURL = getLocalization().getTutorialURL(getConfig());
-			getToolTipManager().showBottomInfoToolTip(
-					getLocalization().getMenu("NewToGeoGebra"), helpText,
-					getLocalization().getMenu("Help"), tooltipURL, this);
+			ToolTipManagerW toolTipManagerW = getToolTipManager();
+			String title = getLocalization().getMenu("NewToGeoGebra");
+			toolTipManagerW.showBottomInfoToolTip(new ToolTip(title, helpText, "Help",
+							tooltipURL), this,
+					ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
 			getToolTipManager().setBlockToolTip(true);
 		}
 	}

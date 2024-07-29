@@ -12,13 +12,7 @@ import org.junit.Test;
 
 public class MediaURLParserTest {
 	protected static final String MEBIS_REGEX = "https://mediathek.mebis.bayern.de/\\?doc=provideVideo&identifier=[BYWS\\-0-9]+&type=video(&)?(#t=[0-9,]+)?";
-	private static AsyncOperation<VideoURL> INVALID = new AsyncOperation<VideoURL>() {
-
-		@Override
-		public void callback(VideoURL obj) {
-			Assert.assertFalse(obj.isValid());
-		}
-	};
+	private static AsyncOperation<VideoURL> INVALID = obj -> Assert.assertFalse(obj.isValid());
 
 	private static AsyncOperation<VideoURL> validYT(final String id) {
 		return valid(MediaFormat.VIDEO_YOUTUBE, id);
@@ -34,31 +28,28 @@ public class MediaURLParserTest {
 
 	private static AsyncOperation<VideoURL> valid(final MediaFormat fmt,
 			final String id) {
-		return new AsyncOperation<VideoURL>() {
-			@Override
-			public void callback(VideoURL obj) {
-				assertTrue(obj.isValid());
-				assertEquals(fmt, obj.getFormat());
-				if (fmt == MediaFormat.VIDEO_YOUTUBE) {
-					assertEquals(id,
-						MediaURLParser.getYouTubeId(obj.getUrl()));
-				}
-				if (fmt == MediaFormat.VIDEO_MEBIS) {
-					assertThat(obj.getUrl(),
-							new TypeSafeMatcher<String>() {
+		return obj -> {
+			assertTrue(obj.isValid());
+			assertEquals(fmt, obj.getFormat());
+			if (fmt == MediaFormat.VIDEO_YOUTUBE) {
+				assertEquals(id,
+					MediaURLParser.getYouTubeId(obj.getUrl()));
+			}
+			if (fmt == MediaFormat.VIDEO_MEBIS) {
+				assertThat(obj.getUrl(),
+						new TypeSafeMatcher<String>() {
 
-								@Override
-								public void describeTo(
-										Description description) {
-									description.appendText("Valid Mebis URL");
-								}
+							@Override
+							public void describeTo(
+									Description description) {
+								description.appendText("Valid Mebis URL");
+							}
 
-								@Override
-								public boolean matchesSafely(String item) {
-									return item.matches(MEBIS_REGEX);
-								}
-							});
-				}
+							@Override
+							public boolean matchesSafely(String item) {
+								return item.matches(MEBIS_REGEX);
+							}
+						});
 			}
 		};
 	}

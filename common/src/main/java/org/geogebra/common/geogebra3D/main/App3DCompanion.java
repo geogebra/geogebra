@@ -380,7 +380,7 @@ public abstract class App3DCompanion extends AppCompanion {
 	}
 
 	@Override
-	public void exportGeometry3D(Geometry3DGetter getter, double xmin,
+	public boolean exportGeometry3D(Geometry3DGetter getter, double xmin,
 			double xmax, double ymin, double ymax, double zmin, double zmax,
 			double xyScale, double xzScale, double xTickDistance,
 			double yTickDistance, double zTickDistance) {
@@ -414,6 +414,7 @@ public abstract class App3DCompanion extends AppCompanion {
 		}
 		exportView3D.export3D(getter);
 		app.getKernel().detach(exportView3D);
+		return true;
 	}
 
 	public EuclidianViewForPlaneCompanion getEuclidianViewForPlaneCompanion() {

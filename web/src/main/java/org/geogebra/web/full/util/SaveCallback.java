@@ -5,6 +5,8 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
+import org.geogebra.web.html5.gui.tooltip.ToolTip;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -61,9 +63,10 @@ public class SaveCallback {
 							app.getKernel().getConstruction().getTitle());
 				}
 				app.getToolTipManager().setBlockToolTip(false);
-				app.getToolTipManager().showBottomInfoToolTip(
-						msg, null, app.getLocalization().getMenu("Share"),
-						activeMaterial.getURL(), app);
+				ToolTip toolTip = new ToolTip(msg, null, "Share",
+						activeMaterial.getURL());
+				app.getToolTipManager().showBottomInfoToolTip(toolTip, app,
+						ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
 			} else {
 				app.getToolTipManager().showBottomMessage(
 						msg, app);

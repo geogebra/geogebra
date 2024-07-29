@@ -600,6 +600,11 @@ public class ArithmeticTest extends BaseUnitTest {
 				equalTo("\"prefix\" SlowPlot(x)"));
 	}
 
+	@Test
+	public void xorShouldFail() {
+		shouldFail("1" + Unicode.XOR + "2", "1 " + Unicode.XOR + " 2", getApp());
+	}
+
 	private void assertAreEqual(String first, String second, Object areEqual) {
 		getKernel().clearConstruction(false);
 		add("f:" + first);

@@ -32,6 +32,7 @@ import org.geogebra.common.main.settings.config.AppConfigProbability;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.PropertiesRegistry;
+import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
@@ -43,13 +44,11 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	private ExamController examController;
 	private PropertiesRegistry propertiesRegistry;
 	private AppCommon app;
-	private AppCommon previousApp;
 	private CommandDispatcher commandDispatcher;
 	private CommandDispatcher previousCommandDispatcher;
 	private AlgebraProcessor algebraProcessor;
-	private AlgebraProcessor previousAlgebraProcessor;
 	private SuiteSubApp currentSubApp;
-	private List<ExamState> examStates = new ArrayList<>();
+	private final List<ExamState> examStates = new ArrayList<>();
 	private boolean didRequestClearApps;
 	private boolean didRequestClearClipboard;
 	private SuiteSubApp didRequestSwitchToSubApp;
@@ -65,7 +64,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 		examController = new ExamController(propertiesRegistry);
 		examController.setDelegate(this);
-		examController.addListener(newState -> examStates.add(newState));
+		examController.addListener(examStates::add);
 		examStates.clear();
 		didRequestClearApps = false;
 		didRequestClearClipboard = false;
@@ -87,8 +86,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 	private void switchApp(SuiteSubApp subApp) {
 		// keep references so that we can check if restrictions have been reverted correctly
-		previousApp = app;
-		previousAlgebraProcessor = algebraProcessor;
 		previousCommandDispatcher = commandDispatcher;
 
 		currentSubApp = subApp;
@@ -255,7 +252,9 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		// expression restrictions
 		assertNull(evaluate("true || false"));
 		// property restrictions
-		assertTrue(propertiesRegistry.lookup("AngleUnit", app).isFrozen());
+		Property angleUnit = propertiesRegistry.lookup("AngleUnit", app);
+		assertNotNull(angleUnit);
+		assertTrue("Angle unit should be frozen", angleUnit.isFrozen());
 
 		examController.finishExam();
 		assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));

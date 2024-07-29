@@ -37,6 +37,19 @@ public class IconButton extends StandardButton implements SetLabels {
 		addStyleName("iconButton");
 	}
 
+	/** Constructor
+	 * @param mode - tool mode
+	 * @param appW - application
+	 * @param icon - image
+	 * @param onHandler - switch on handler
+	 */
+	public IconButton(int mode, AppW appW, SVGResource icon, Runnable onHandler) {
+		this(appW, icon, appW.getToolAriaLabel(mode), appW.getToolAriaLabel(mode),
+				appW.getToolAriaLabel(mode), onHandler);
+		this.appW = appW;
+		this.mode = mode;
+	}
+
 	/**
 	 * Constructor press icon button
 	 * @param loc - localization
