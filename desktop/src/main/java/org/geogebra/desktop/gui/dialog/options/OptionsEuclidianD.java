@@ -1232,7 +1232,6 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	@Override
 	public void selectGridStyle(int style) {
 		cbGridStyle.setSelectedIndex(LineStyleModel.indexOfLineType(style));
-
 	}
 
 	@Override
