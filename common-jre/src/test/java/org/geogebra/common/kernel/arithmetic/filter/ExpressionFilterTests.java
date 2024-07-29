@@ -18,14 +18,14 @@ public class ExpressionFilterTests extends BaseUnitTest {
 
 	@Test
 	public void testComplexExpression() throws Exception {
-		ExpressionFilter filter = new ComplexExpressionFilter();
+		ExpressionFilter filter = new ComplexInputExpressionFilter();
 		ValidExpression expression = parse("3i");
 		assertFalse(filter.isAllowed(expression));
 	}
 
 	@Test
 	public void testRadianExpression() throws Exception {
-		ExpressionFilter filter = new RadianExpressionFilter();
+		ExpressionFilter filter = new RadianInputExpressionFilter();
 		ValidExpression expression = parse("3rad");
 		assertFalse(filter.isAllowed(expression));
 	}

@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 /**
  * An {@link ExpressionFilter} based on the use of radian in expressions.
  */
-public class RadianExpressionFilter implements ExpressionFilter {
+public class RadianInputExpressionFilter implements ExpressionFilter {
 
     @Override
     public boolean isAllowed(ValidExpression expression) {

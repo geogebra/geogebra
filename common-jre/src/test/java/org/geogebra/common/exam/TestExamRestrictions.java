@@ -5,10 +5,10 @@ import java.util.Set;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
-import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.ComplexInputExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
-import org.geogebra.common.kernel.arithmetic.filter.RadianExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.RadianInputExpressionFilter;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
@@ -24,6 +24,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 				SuiteSubApp.GRAPHING,
 				Set.of(ExamFeatureRestriction.DATA_TABLE_REGRESSION),
 				TestExamRestrictions.createExpressionFilters(),
+				null,
 				TestExamRestrictions.createCommandFilters(),
 				null,
 				null,
@@ -43,8 +44,8 @@ final class TestExamRestrictions extends ExamRestrictions {
 	private static Set<ExpressionFilter> createExpressionFilters() {
 		return Set.of(
 				new OperationExpressionFilter(Operation.OR, Operation.AND),
-				new ComplexExpressionFilter(),
-				new RadianExpressionFilter());
+				new ComplexInputExpressionFilter(),
+				new RadianInputExpressionFilter());
 	}
 
 	@Override

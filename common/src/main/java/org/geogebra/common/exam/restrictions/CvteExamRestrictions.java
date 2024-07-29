@@ -8,10 +8,12 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.cvte.CvteCommandArgumentFilter;
+import org.geogebra.common.exam.restrictions.cvte.CvteExpressionFilter;
 import org.geogebra.common.exam.restrictions.cvte.CvteSyntaxFilter;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
@@ -35,7 +37,8 @@ final class CvteExamRestrictions extends ExamRestrictions {
 						SuiteSubApp.PROBABILITY, SuiteSubApp.SCIENTIFIC),
 				SuiteSubApp.GRAPHING,
 				null,
-				null,
+				CvteExamRestrictions.createExpressionFilter(),
+				CvteExamRestrictions.createExpressionFilter(),
 				CvteExamRestrictions.createCommandFilters(),
 				CvteExamRestrictions.createCommandArgumentFilters(),
 				CvteExamRestrictions.createSyntaxFilter(),
@@ -196,5 +199,9 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX,
 				EuclidianConstants.MODE_TEXTFIELD_ACTION
 		);
+	}
+
+	private static Set<ExpressionFilter> createExpressionFilter() {
+		return Set.of(new CvteExpressionFilter());
 	}
 }

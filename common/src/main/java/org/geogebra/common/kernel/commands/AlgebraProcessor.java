@@ -183,7 +183,9 @@ public class AlgebraProcessor {
 	 */
 	protected ParametricProcessor paramProcessor;
 
-	private final List<ExpressionFilter> expressionFilters = new ArrayList<>();
+	private final List<ExpressionFilter> inputExpressionFilters = new ArrayList<>();
+
+	private final List<ExpressionFilter> outputExpressionFilters = new ArrayList<>();
 
 	/** TODO use the selector from CommandDispatcher instead. */
 	@Deprecated
@@ -253,27 +255,47 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * Add an expression filter (used for dynamically filtering valid expressions).
-	 * @param filter An expression filter.
+	 * Add an input expression filter (used for dynamically filtering valid input expressions).
+	 * @param filter An input expression filter.
 	 */
-	public void addExpressionFilter(ExpressionFilter filter) {
+	public void addInputExpressionFilter(ExpressionFilter filter) {
 		if (filter != null) {
-			expressionFilters.add(filter);
+			inputExpressionFilters.add(filter);
 		}
 	}
 
 	/**
-	 * Remove an expression filter.
-	 * @param filter An expression filter.
+	 * Remove an input expression filter.
+	 * @param filter An input expression filter.
 	 */
-	public void removeExpressionFilter(ExpressionFilter filter) {
+	public void removeInputExpressionFilter(ExpressionFilter filter) {
 		if (filter != null) {
-			expressionFilters.remove(filter);
+			inputExpressionFilters.remove(filter);
 		}
 	}
 
-	private boolean isExpressionAllowed(ValidExpression expression) {
-		for (ExpressionFilter expressionFilter : expressionFilters) {
+	/**
+	 * Add an output expression filter (used for dynamically filtering output expressions).
+	 * @param filter An output expression filter.
+	 */
+	public void addOutputExpressionFilter(ExpressionFilter filter) {
+		if (filter != null) {
+			outputExpressionFilters.add(filter);
+		}
+	}
+
+	/**
+	 * Remove an output expression filter.
+	 * @param filter An output expression filter.
+	 */
+	public void removeOutputExpressionFilter(ExpressionFilter filter) {
+		if (filter != null) {
+			outputExpressionFilters.remove(filter);
+		}
+	}
+
+	private boolean isExpressionAllowed(ValidExpression expression, List<ExpressionFilter> filters) {
+		for (ExpressionFilter expressionFilter : filters) {
 			if (!expressionFilter.isAllowed(expression)) {
 				return false;
 			}
@@ -949,7 +971,7 @@ public class AlgebraProcessor {
 			final ErrorHandler handler,
 			final AsyncOperation<GeoElementND[]> callback0,
 			final EvalInfo info) {
-		if (!isExpressionAllowed(ve)) {
+		if (!isExpressionAllowed(ve, inputExpressionFilters)) {
 			return null;
 		}
 		// collect undefined variables
@@ -1105,6 +1127,13 @@ public class AlgebraProcessor {
 
 		GeoElement[] geos = processValidExpression(storeUndo, handler, ve,
 				newInfo);
+
+		for (GeoElement element : geos) {
+			if (!isExpressionAllowed(element.wrap(), outputExpressionFilters)) {
+				return null;
+			}
+		}
+
 		runCallback(callback0, geos, step);
 		return geos;
 	}
@@ -3171,6 +3200,7 @@ public class AlgebraProcessor {
 
 		// ELSE: resolve variables and evaluate expressionnode
 		n.resolveVariables(info);
+
 		if (n.isLeaf() && n.getLeft().isExpressionNode()) {
 			// we changed f' to f'(x) -> clean double wrap
 
