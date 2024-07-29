@@ -673,4 +673,9 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 		tfMinZ.addActionListener(this);
 		tfMaxZ.addActionListener(this);
 	}
+
+	@Override
+	public void selectGridStyle(int style) {
+		// nothing to do here
+	}
 }

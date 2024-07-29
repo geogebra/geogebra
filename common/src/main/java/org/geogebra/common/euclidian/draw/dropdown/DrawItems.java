@@ -1,5 +1,11 @@
 package org.geogebra.common.euclidian.draw.dropdown;
 
+import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_200;
+import static org.geogebra.common.main.GeoGebraColorConstants.NEUTRAL_900;
+import static org.geogebra.common.main.GeoGebraColorConstants.PURPLE_100;
+import static org.geogebra.common.main.GeoGebraColorConstants.PURPLE_700;
+
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.factories.AwtFactory;
@@ -33,14 +39,20 @@ class DrawItems {
 			visibleRows++;
 		}
 
+		OptionItem focusedItem = null;
 		for (int col = 0; col < model.getColCount(); col++) {
 			for (int row = startRow; row < visibleRows; row++) {
 				if (idx >= 0 && idx < items.size()) {
 					draw(g2, col, row, items.get(idx));
+					if (selector.isHovered(items.get(idx)) && selector.hasKeyboardFocus()) {
+						focusedItem = items.get(idx);
+					}
 				}
 				idx++;
 			}
 		}
+
+		drawFocusedItemBorder(g2, focusedItem);
 	}
 
 	private void draw(GGraphics2D g2, int col, int row, OptionItem item) {
@@ -65,12 +77,14 @@ class DrawItems {
 	private void drawItem(GGraphics2D g2, OptionItem item, boolean hover) {
 		scroller.clip(g2, item, selector.getDragOffset());
 
-		g2.setColor(hover ? selector.getColor() : model.getBackgroundColor());
+		GColor bgColor = hover ? (selector.hasKeyboardFocus() ? PURPLE_100 : NEUTRAL_200)
+				: model.getBackgroundColor();
+		g2.setColor(bgColor);
 		drawItem(g2, item);
 
 		calculateItemRectangle(item);
 
-		g2.setPaint(model.getItemColor());
+		g2.setPaint(hover ? NEUTRAL_900 : model.getItemColor());
 
 		if (item.isLatex()) {
 			drawItemAsLatex(g2, item);
@@ -116,5 +130,13 @@ class DrawItems {
 
 	private void drawItem(GGraphics2D g2, OptionItem item) {
 		g2.fillRect(item.getLeft(), item.getTop(), items.getMaxWidth(), items.getMaxHeight());
+	}
+
+	private void drawFocusedItemBorder(GGraphics2D g2, OptionItem item) {
+		if (item != null) {
+			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2));
+			g2.setColor(PURPLE_700);
+			g2.drawRect(item.getLeft(), item.getTop(), items.getMaxWidth(), items.getMaxHeight());
+		}
 	}
 }
