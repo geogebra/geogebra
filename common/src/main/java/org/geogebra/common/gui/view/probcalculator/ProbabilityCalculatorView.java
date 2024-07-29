@@ -1441,8 +1441,8 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	protected void selectProbabilityTableRows() {
-		int start = (int) getLow();
-		int end = Math.min((int) getHigh(), getDiscreteXMax());
+		int start = (int) roundToInt(getLow());
+		int end = Math.min((int) roundToInt(getHigh()), getDiscreteXMax());
 		if (table != null) {
 			if (isTwoTailedMode()) {
 				table.setTwoTailedSelection(start, end);
@@ -1475,11 +1475,12 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	private double roundIfDiscrete(double value) {
-		if (isDiscreteProbability()) {
-			double decimalPat = value - (int) value;
-			return decimalPat < 0.5 ? Math.floor(value) : Math.ceil(value);
-		}
-		return value;
+		return isDiscreteProbability() ? roundToInt(value) : value;
+	}
+
+	private static double roundToInt(double value) {
+		double decimalPat = value - (int) value;
+		return decimalPat < 0.5 ? Math.floor(value) : Math.ceil(value);
 	}
 
 	protected double rightProbability(double high) {

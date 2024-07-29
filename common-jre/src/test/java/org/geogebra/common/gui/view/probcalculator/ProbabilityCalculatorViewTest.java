@@ -6,10 +6,12 @@ import static org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorV
 import static org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView.PROB_TWO_TAILED;
 import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist.BINOMIAL;
 import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist.PASCAL;
+import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist.POISSON;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.core.Is.isA;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +26,8 @@ import org.geogebra.common.properties.impl.distribution.ParameterProperty;
 import org.junit.Test;
 
 public class ProbabilityCalculatorViewTest extends BaseUnitTest {
+
+	private ProbabilityTableMock table;
 
 	@Test
 	public void validBounds() {
@@ -110,6 +114,17 @@ public class ProbabilityCalculatorViewTest extends BaseUnitTest {
 
 	private void discreteWithRealBoundsShouldBe(double low, double high, double result,
 			Dist dist, int probMode) {
+		ProbabilityCalculatorView probCalc =
+				createProbabilityCalculatorView(dist, probMode, low, high);
+		probCalc.updateOutput(true);
+		double probability = probMode == PROB_TWO_TAILED
+				? probCalc.leftProbability + probCalc.rightProbability
+				: probCalc.getProbability();
+		assertThat(probability, closeTo(result, 0.0001));
+	}
+
+	private ProbabilityCalculatorView createProbabilityCalculatorView(Dist dist, int probMode,
+			double low, double high) {
 		ProbabilityCalculatorView probCalc = new HeadlessProbabilityCalculatorView(getApp());
 		GeoNumberValue[] params = new GeoNumeric[]{
 				new GeoNumeric(getKernel().getConstruction(), 14),
@@ -124,13 +139,7 @@ public class ProbabilityCalculatorViewTest extends BaseUnitTest {
 		if (!Double.isNaN(high)) {
 			probCalc.setHigh(high);
 		}
-
-		probCalc.updateOutput(true);
-		double probability = probMode == PROB_TWO_TAILED
-				? probCalc.leftProbability + probCalc.rightProbability
-				: probCalc.getProbability();
-		assertThat(probability, closeTo(result, 0.0001));
-
+		return probCalc;
 	}
 
 	@Test
@@ -142,5 +151,38 @@ public class ProbabilityCalculatorViewTest extends BaseUnitTest {
 			double expected = probCalc.isDiscreteProbability() ? 1 : 0.5;
 			assertEquals(expected, probCalc.getPlotSettings().xAxesInterval, 0);
 		}
+	}
+
+	@Test
+	public void testProbabilityTableRowSelection() {
+		withProbabilityTable(BINOMIAL, PROB_INTERVAL, 1.9, 10.1)
+				.shouldBeHighlightedBetween(2, 10);
+		withProbabilityTable(BINOMIAL, PROB_LEFT, 1.9, Double.NaN)
+				.shouldBeHighlightedFrom(2);
+		withProbabilityTable(BINOMIAL, PROB_RIGHT, Double.NaN, 10)
+				.shouldBeHighlightedBetween(0, 10);
+		withProbabilityTable(PASCAL, PROB_INTERVAL, 0.9, 10.6)
+				.shouldBeHighlightedBetween(1, 11);
+		withProbabilityTable(POISSON, PROB_LEFT, 19.43, Double.NaN)
+				.shouldBeHighlightedFrom(19);
+		withProbabilityTable(PASCAL, PROB_RIGHT, Double.NaN, 5.55)
+				.shouldBeHighlightedBetween(0, 6);
+	}
+
+	public ProbabilityCalculatorViewTest withProbabilityTable(Dist dist, int mode, double low, double high) {
+		ProbabilityCalculatorView probCalc =
+				createProbabilityCalculatorView(dist, mode, low, high);
+		table = new ProbabilityTableMock(getApp(), probCalc);
+		return this;
+	}
+
+	private void shouldBeHighlightedBetween(int from, int to) {
+		assertTrue("Highlight rows is not (" + from + ", " + to + ") but "
+				+ table.highlightRange() ,table.isRangeHighlighted(from, to));
+	}
+
+	private void shouldBeHighlightedFrom(int from) {
+		assertTrue("Highlight rows is not from " + from + ", but "
+				+ table.highlightRange() ,table.isHighlightedFrom(from));
 	}
 }
