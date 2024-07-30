@@ -79,8 +79,7 @@ public class MySpecialDouble extends MyDouble {
 	public MySpecialDouble(Kernel kernel, double val, String str, boolean fromCas) {
 		super(kernel, val);
 
-		// Reduce can't handle .5*8
-		originalString = StringUtil.canonicalNumber(str);
+		originalString = fromCas ? StringUtil.canonicalNumber(str) : str;
 
 		strToString = originalString;
 
@@ -164,7 +163,8 @@ public class MySpecialDouble extends MyDouble {
 			// serializing to CAS -- simply print input
 
 			if (tpl.hasCASType()) {
-				return tpl.convertScientificNotationGiac(originalString);
+				return tpl.convertScientificNotationGiac(
+						StringUtil.canonicalNumber(originalString));
 			}
 
 			if (isPercentage()) {
