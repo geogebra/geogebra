@@ -58,7 +58,7 @@ import com.google.j2objc.annotations.Weak;
  * Keeps lists of selected geos (global, per type)
  *
  */
-public class SelectionManager implements ExamRestrictable {
+public class SelectionManager {
 
 	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<>();
 
@@ -103,8 +103,6 @@ public class SelectionManager implements ExamRestrictable {
 	private GeoBoolean tempSelectedBoolean;
 	private GeoElement focusedGroupElement;
 	private boolean keyboardSelection = false;
-
-	private ExamRestrictions examRestrictions;
 
 	/**
 	 * @param kernel
@@ -302,9 +300,6 @@ public class SelectionManager implements ExamRestrictable {
 	 */
 	public final void addSelectedGeo(GeoElementND geoND, boolean repaint,
 			boolean updateSelection) {
-		if (!isSelectionAllowed(geoND)) {
-			return;
-		}
 		if ((geoND == null) || selectedGeos.contains(geoND)) {
 			return;
 		}
@@ -1401,32 +1396,5 @@ public class SelectionManager implements ExamRestrictable {
 		} else {
 			return keyboardSelection && selectedGeos.contains(geo);
 		}
-	}
-
-	// ExamRestrictable
-
-	@Override
-	public void applyRestrictions(ExamRestrictions examRestrictions) {
-		this.examRestrictions = examRestrictions;
-	}
-
-	@Override
-	public void removeRestrictions(ExamRestrictions examRestrictions) {
-		this.examRestrictions = null;
-	}
-
-	/**
-	 * TODO not sure if this makes sense to suppress selection of certain elements during exams
-	 * @param geoND A geo.
-	 * @return True if selecting the geo is allowed.
-	 */
-	public boolean isSelectionAllowed(GeoElementND geoND) {
-		if (geoND == null) {
-			return false;
-		}
-		if (examRestrictions != null) {
-			return examRestrictions.isSelectionAllowed(geoND);
-		}
-		return true;
 	}
 }

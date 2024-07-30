@@ -290,12 +290,6 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		// override
 	}
 
-	// TODO unclear how to implement
-	// see https://git.geogebra.org/ggb/geogebra/-/issues/8#function-graphs-new
-	public boolean isSelectionAllowed(GeoElementND geoND) {
-		return true;
-	}
-
 	// PropertiesRegistryListener
 
 	/**
