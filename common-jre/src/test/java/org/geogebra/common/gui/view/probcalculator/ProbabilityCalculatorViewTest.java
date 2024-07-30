@@ -169,7 +169,8 @@ public class ProbabilityCalculatorViewTest extends BaseUnitTest {
 				.shouldBeHighlightedBetween(0, 6);
 	}
 
-	public ProbabilityCalculatorViewTest withProbabilityTable(Dist dist, int mode, double low, double high) {
+	private ProbabilityCalculatorViewTest withProbabilityTable(Dist dist, int mode, double low,
+			double high) {
 		ProbabilityCalculatorView probCalc =
 				createProbabilityCalculatorView(dist, mode, low, high);
 		table = new ProbabilityTableMock(getApp(), probCalc);
@@ -178,11 +179,11 @@ public class ProbabilityCalculatorViewTest extends BaseUnitTest {
 
 	private void shouldBeHighlightedBetween(int from, int to) {
 		assertTrue("Highlight rows is not (" + from + ", " + to + ") but "
-				+ table.highlightRange() ,table.isRangeHighlighted(from, to));
+				+ table.highlightRange(), table.isRangeHighlighted(from, to));
 	}
 
 	private void shouldBeHighlightedFrom(int from) {
 		assertTrue("Highlight rows is not from " + from + ", but "
-				+ table.highlightRange() ,table.isHighlightedFrom(from));
+				+ table.highlightRange(), table.isHighlightedFrom(from));
 	}
 }
