@@ -890,18 +890,6 @@ public class GeoGebraFrameFull
 		notesLayout.updateUndoRedoActions();
 	}
 
-	/**
-	 * @param mode
-	 *            new mode for MOW toolbar
-	 */
-	@Override
-	public void setNotesMode(int mode) {
-		if (notesLayout == null) {
-			return;
-		}
-		notesLayout.setMode(mode);
-	}
-
 	private void setKeyboardShowing(boolean keyboardShowing) {
 		this.keyboardShowing = keyboardShowing;
 	}

@@ -747,7 +747,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			getGuiManager().getUnbundledToolbar()
 					.updateContent();
 		}
-		getAppletFrame().setNotesMode(getMode());
+		//getAppletFrame().setNotesMode(getMode());
 	}
 
 	private void resetAllToolbars() {

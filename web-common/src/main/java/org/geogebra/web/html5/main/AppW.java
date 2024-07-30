@@ -758,7 +758,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getAppletParameters().setAttribute("appName", "notes");
 			getAppletFrame().initPageControlPanel(this);
 			euclidianController.clearMeasurementTools();
-			getAppletFrame().setNotesMode(getMode());
+			//getAppletFrame().setNotesMode(getMode());
 			if (getPageController() != null) {
 				getPageController().loadSlides(archiveContent);
 				return;

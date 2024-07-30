@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResources;
@@ -24,7 +25,7 @@ import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 
-public class NotesToolbox extends FlowPanel implements SetLabels {
+public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeListener {
 	private final AppW appW;
 	private final ToolboxDecorator decorator;
 	private final ToolboxController controller;
@@ -215,10 +216,8 @@ public class NotesToolbox extends FlowPanel implements SetLabels {
 		}
 	}
 
-	/**
-	 * @param mode - tool mode
-	 */
-	public void setMode(int mode) {
+	@Override
+	public void onModeChange(int mode) {
 		for (IconButton button : buttons) {
 			if (button.getMode() == mode) {
 				button.setActive(true);
