@@ -84,10 +84,16 @@ public class TopbarController {
 
 	/**
 	 * on drag button press
+	 * @param isDragButtonActive whether drag is on or off
 	 */
-	public void onDrag() {
-		appW.setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
-		appW.hideMenu();
+	public void onDrag(boolean isDragButtonActive) {
+		if (isDragButtonActive) {
+			appW.setMode(EuclidianConstants.MODE_SELECT_MOW);
+		} else {
+			appW.setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
+			appW.hideMenu();
+			appW.closePopups();
+		}
 	}
 
 	public AppW getApp() {

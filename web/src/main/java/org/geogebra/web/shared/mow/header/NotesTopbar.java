@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.CoordSystemListener;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
@@ -101,8 +100,11 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 
 	private void addDragButton() {
 		dragBtn = new IconButton(controller.getApp(), MaterialDesignResources
-				.INSTANCE.move_canvas(), "PanView", "PanView", () -> controller.onDrag(),
-				() -> controller.getApp().setMode(EuclidianConstants.MODE_SELECT_MOW));
+				.INSTANCE.move_canvas(), "PanView", "PanView", "", null);
+		dragBtn.addFastClickHandler((event) -> {
+			controller.onDrag(dragBtn.isActive());
+		});
+
 		registerFocusable(dragBtn, AccessibilityGroup.ZOOM_NOTES_DRAG_VIEW);
 		styleAndRegisterTopbarButton(dragBtn);
 	}
