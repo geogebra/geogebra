@@ -1,11 +1,11 @@
-/*
+/* 
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
 
 This file is part of GeoGebra.
 
-This program is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License as published by
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
  */
@@ -41,7 +41,7 @@ import org.geogebra.common.util.AsyncOperation;
  * This interface is almost the same as GuiManager, just it is an interface and
  * doesn't implement anything, and contains only public methods. (So things from
  * GuiManager were moved to here.)
- *
+ * 
  * @author arpad
  *
  */
@@ -63,8 +63,6 @@ public interface GuiManagerInterface extends SettingListener {
 	void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 							ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
 							GPoint p);
-
-	void focusPopupMenuItemAt(int index);
 
 	void setMode(int mode, ModeSetter m);
 
@@ -156,7 +154,7 @@ public interface GuiManagerInterface extends SettingListener {
 
 	/**
 	 * tells the properties view that mouse has been released
-	 *
+	 * 
 	 * @param creatorMode
 	 *            tells if ev is in creator mode (ie not move mode)
 	 */
@@ -200,9 +198,9 @@ public interface GuiManagerInterface extends SettingListener {
 
 	/**
 	 * Attach a view which by using the view ID.
-	 *
+	 * 
 	 * @author Florian Sonner
-	 *
+	 * 
 	 * @param viewId
 	 *            view ID
 	 */
@@ -218,9 +216,9 @@ public interface GuiManagerInterface extends SettingListener {
 
 	/**
 	 * Detach a view which by using the view ID.
-	 *
+	 * 
 	 * @author Florian Sonner
-	 *
+	 * 
 	 * @param viewId
 	 *            view ID
 	 */
@@ -248,7 +246,7 @@ public interface GuiManagerInterface extends SettingListener {
 
 	/**
 	 * Enable / disable autoscroll in spreadsheet.
-	 *
+	 * 
 	 * @param scrollToShow
 	 *            scrolling flag for spreadsheet
 	 */
@@ -274,7 +272,7 @@ public interface GuiManagerInterface extends SettingListener {
 	void updateFrameSize();
 
 	/**
-	 *
+	 * 
 	 * @return id of view which is setting the active toolbar
 	 */
 	int getActiveToolbarId();
@@ -302,7 +300,7 @@ public interface GuiManagerInterface extends SettingListener {
 	 * #3490 "Create sliders for a, b?" Create Sliders / Cancel Yes: create
 	 * sliders and draw line No: go back into input bar and allow user to change
 	 * input
-	 *
+	 * 
 	 * @param string
 	 *            eg "a, b"
 	 * @return true/false

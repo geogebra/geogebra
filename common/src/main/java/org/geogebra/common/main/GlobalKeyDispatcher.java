@@ -477,12 +477,10 @@ public abstract class GlobalKeyDispatcher {
 							GPoint p = new GPoint((int) bounds.getMinX(),
 									(int) bounds.getMinY());
 
-							GuiManagerInterface guiManager = app.getGuiManager();
-							guiManager.showPopupChooseGeo(
+							app.getGuiManager().showPopupChooseGeo(
 									app.getSelectionManager().getSelectedGeos(),
 									app.getSelectionManager().getSelectedGeoList(),
 									app.getActiveEuclidianView(), p);
-							guiManager.focusPopupMenuItemAt(0);
 						}
 					} else {
 						// open in corner
@@ -966,7 +964,7 @@ public abstract class GlobalKeyDispatcher {
 
 	/**
 	 * Change algebra style value -&gt; definition -&gt; description ...
-	 *
+	 * 
 	 * @param app
 	 *            application
 	 */
@@ -1010,7 +1008,7 @@ public abstract class GlobalKeyDispatcher {
 
 	/**
 	 * Opens print preview dialog
-	 *
+	 * 
 	 * @param app2
 	 *            application
 	 */
@@ -1043,7 +1041,7 @@ public abstract class GlobalKeyDispatcher {
 	/**
 	 * Changes the font size of the user interface and construction element
 	 * styles (thickness, size) for a given fontSize.
-	 *
+	 * 
 	 * @param app
 	 *            application
 	 * @param fontSize
@@ -1176,7 +1174,7 @@ public abstract class GlobalKeyDispatcher {
 
 	/**
 	 * Handle pressed key for selected GeoElements
-	 *
+	 * 
 	 * @param key
 	 *            key code
 	 * @param geos
@@ -1189,7 +1187,7 @@ public abstract class GlobalKeyDispatcher {
 	 *            whether alt is down
 	 * @param fromSpreadsheet
 	 *            whether this event comes from spreadsheet
-	 *
+	 * 
 	 * @return if key was consumed
 	 */
 	protected boolean handleSelectedGeosKeys(KeyCodes key,
@@ -1721,7 +1719,7 @@ public abstract class GlobalKeyDispatcher {
 
 	/**
 	 * Copies definitions of geos to input bar and wraps them in a list
-	 *
+	 * 
 	 * @param geos
 	 *            list of geos
 	 */
