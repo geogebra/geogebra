@@ -186,7 +186,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	/**
 	 * Returns last filename that was used in save dialog (may be for .png,
 	 * .ggb, ...) See #665
-	 * 
+	 *
 	 * @return last filename including extension
 	 */
 	public String getLastFileNameOfSaveDialog() {
@@ -301,7 +301,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	private PropertiesDockPanel propertiesDockPanel = null;
 
 	/**
-	 * 
+	 *
 	 * @return the properties dock panel
 	 */
 	public PropertiesDockPanel getPropertiesDockPanel() {
@@ -534,7 +534,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	/**
 	 * TODO: Do not just use the default euclidian view if no EV has focus, but
 	 *       determine if maybe just one EV is visible etc.
-	 * 
+	 *
 	 * @return The euclidian view to which new geo elements should be added by
 	 *         default (if the user uses this mode). This is the focused
 	 *         euclidian view or the first euclidian view at the moment.
@@ -1175,7 +1175,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * /** Tries to gets an image from a transferable object or the clipboard
 	 * (if transfer is null). If an image is found, then it is loaded and stored
 	 * in this application's imageManager.
-	 * 
+	 *
 	 * @param transfer0 transferable
 	 * @return fileName of image stored in imageManager
 	 */
@@ -1322,7 +1322,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	/**
 	 * Shows a file open dialog to choose an image file, Then the image file is
 	 * loaded and stored in this application's imageManager.
-	 * 
+	 *
 	 * @return fileName of image stored in imageManager
 	 */
 	public String getImageFromFile() {
@@ -1337,7 +1337,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * Loads and stores an image file is in this application's imageManager. If
 	 * a null image file is passed, then a file dialog is opened to choose a
 	 * file.
-	 * 
+	 *
 	 * @return fileName of image stored in imageManager
 	 */
 	public String getImageFromFile(File imageFile0) {
@@ -1878,7 +1878,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	/**
 	 * Points to the given file in the file dialog popup window and offers to
 	 * choose that file --- or a different one.
-	 * 
+	 *
 	 * @param file file to open
 	 */
 	public void openFile(File file) {
@@ -2168,7 +2168,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * Returns true if a ggb file was dropped succesfully. This is a utility
 	 * method for component transfer handlers that need to pass potential ggb
 	 * file drops on to the top level drop handler.
-	 * 
+	 *
 	 * @param t transferable
 	 * @return whether ggb/ggt files were found in transferable
 	 */
@@ -2211,7 +2211,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	/**
 	 * Load off files to current view
-	 * 
+	 *
 	 * @param file
 	 *            off file
 	 * @return status
@@ -2719,7 +2719,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	/**
 	 * close properties view
-	 * 
+	 *
 	 */
 	@Override
 	public void updatePropertiesViewStylebar() {
@@ -2759,6 +2759,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
+	public void focusPopupMenuItemAt(int index) {
+		// Not needed in Desktop
+	}
+
+	@Override
 	public void setFocusedPanel(AbstractEvent event,
 			boolean updatePropertiesView) {
 		setFocusedPanel((MouseEventND) event, updatePropertiesView);
@@ -2777,7 +2782,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * object or the clipboard contents, then places it at the given location
 	 * (real world coords). If the transfer content is a list of images, then
 	 * multiple GeoImages will be created.
-	 * 
+	 *
 	 * @return whether a new image was created or not
 	 */
 	public boolean loadImage(GeoPoint corner, boolean fromClipboard,
@@ -3028,7 +3033,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	@Override
 	public void openMenuInAVFor(GeoElement geo) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

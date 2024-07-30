@@ -344,6 +344,18 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
+	public void focusPopupMenuItemAt(int index) {
+		if (currentPopup == null) {
+			return;
+		}
+		ContextMenuGeoElementW contextMenu = (ContextMenuGeoElementW) currentPopup;
+		Scheduler.get().scheduleDeferred(() -> {
+			contextMenu.getWrappedPopup().getPopupMenu().selectItem(index);
+			contextMenu.getWrappedPopup().getPopupMenu().getItemAt(index).getElement().focus();
+		});
+	}
+
+	@Override
 	public void setFocusedPanel(final AbstractEvent event,
 			final boolean updatePropertiesView) {
 
