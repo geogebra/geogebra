@@ -9,10 +9,12 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.TabularData;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -25,19 +27,15 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	private final AlgebraProcessor algebraProcessor;
 	private final ErrorHandler errorHandler;
 	private String cellName;
-	private final TabularData tabularData;
 	private String input;
 
 	/**
 	 * Constructor.
 	 * @param algebraProcessor {@link AlgebraProcessor}
-	 * @param tabularData {@link TabularData}
 	 */
-	public DefaultSpreadsheetCellProcessor(@Nonnull AlgebraProcessor algebraProcessor,
-			TabularData tabularData) {
+	public DefaultSpreadsheetCellProcessor(@Nonnull AlgebraProcessor algebraProcessor) {
 		this.algebraProcessor = algebraProcessor;
 		this.errorHandler = new SpreadsheetErrorHandler(this);
-		this.tabularData = tabularData;
 	}
 
 	/**
@@ -63,7 +61,8 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 		try {
 			this.cellName = cellName;
 			this.input = input;
-			processInput(buildProperInput(input, cellName));
+			processInput(buildProperInput(input, cellName),
+					(geo) -> algebraProcessor.getKernel().getApplication().storeUndoInfo());
 		} catch (Exception e) {
 			Log.debug("error " + e.getLocalizedMessage());
 		}
@@ -100,9 +99,9 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 		sb.append("\"");
 	}
 
-	private void processInput(String command) {
-		algebraProcessor.processAlgebraCommandNoExceptionHandling(command, true,
-				errorHandler, false, null);
+	private void processInput(String command,  AsyncOperation<GeoElementND[]> callback) {
+		algebraProcessor.processAlgebraCommandNoExceptionHandling(command, false,
+				errorHandler, false, callback);
 	}
 
 	private static boolean isCommand(String input) {
@@ -124,7 +123,6 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	public void markError() {
 		setOldInputUndefined();
 		buildNewInputWithErrorMark();
-		markErrorInData();
 	}
 
 	private void setOldInputUndefined() {
@@ -135,17 +133,10 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	}
 
 	private void buildNewInputWithErrorMark() {
-		processInput(buildRestoredInput());
+		processInput(buildRestoredInput(), null);
 		GeoElement errorGeo = algebraProcessor.getKernel().lookupLabel(cellName);
 		if (errorGeo.isGeoText()) {
 			((GeoText) errorGeo).setSpreadsheetError(true);
-		}
-	}
-
-	private void markErrorInData() {
-		SpreadsheetCoords coords = GeoElementSpreadsheet.spreadsheetIndices(cellName);
-		if (tabularData != null && coords != null && coords.row != -1) {
-			tabularData.markError(coords.row, coords.column, true);
 		}
 	}
 }

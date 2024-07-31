@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
-import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.ViewportAdjusterDelegate;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
@@ -247,7 +246,4 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		spreadsheet.saveContentAndHideCellEditor();
 	}
 
-	public TabularData getTabularData() {
-		return spreadsheet.getController().getTabularData();
-	}
 }
