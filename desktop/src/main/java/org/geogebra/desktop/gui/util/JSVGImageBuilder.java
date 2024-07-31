@@ -66,6 +66,7 @@ public final class JSVGImageBuilder {
 		} catch (SAXIOException e) {
 			LoggerD.debug(e.getMessage());
 		} catch (DOMException | IOException e) {
+			LoggerD.debug(e);
 			return unsupportedImage();
 		}
 
@@ -78,6 +79,7 @@ public final class JSVGImageBuilder {
 			model.build();
 			return new SVGImage(model);
 		} catch (Exception e) {
+			LoggerD.debug(e);
 			return unsupportedImage();
 		}
 	}
