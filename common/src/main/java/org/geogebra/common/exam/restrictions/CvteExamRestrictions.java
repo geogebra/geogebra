@@ -8,7 +8,7 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.cvte.CvteCommandArgumentFilter;
-import org.geogebra.common.exam.restrictions.cvte.CvteExpressionFilter;
+import org.geogebra.common.exam.restrictions.cvte.MatrixExpressionFilter;
 import org.geogebra.common.exam.restrictions.cvte.CvteSyntaxFilter;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
@@ -202,6 +202,6 @@ final class CvteExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilter() {
-		return Set.of(new CvteExpressionFilter());
+		return Set.of(new MatrixExpressionFilter());
 	}
 }

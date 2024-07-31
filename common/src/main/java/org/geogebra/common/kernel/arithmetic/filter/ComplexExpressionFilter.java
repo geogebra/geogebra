@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 /**
  * An {@link ExpressionFilter} based on complex values in expressions.
  */
-public class ComplexInputExpressionFilter implements ExpressionFilter {
+public class ComplexExpressionFilter implements ExpressionFilter {
 
     @Override
     public boolean isAllowed(ValidExpression expression) {

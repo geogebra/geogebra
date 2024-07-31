@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 
-public class CvteExpressionFilter implements ExpressionFilter {
+public class MatrixExpressionFilter implements ExpressionFilter {
 
 	@Override
 	public boolean isAllowed(ValidExpression expression) {
