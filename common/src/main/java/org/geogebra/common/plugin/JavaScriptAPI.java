@@ -722,8 +722,7 @@ public interface JavaScriptAPI {
 	 * @param dpi
 	 *            eg 72
 	 * @param copyToClipboard
-	 *            only supported in desktop, waiting for
-	 *            https://code.google.com/p/chromium/issues/detail?id=150835
+	 *            only supported in desktop, web (Chrome, Electron)
 	 * @param greyscale
 	 *            true for monochrome
 	 * @return base64 encoded picture of active view
@@ -929,7 +928,7 @@ public interface JavaScriptAPI {
 	 * objName previously had a mapping JavaScript function, the old value is
 	 * replaced.
 	 * 
-	 * Example: First, set a change listening JavaScript function:
+	 * <p>Example: First, set a change listening JavaScript function:
 	 * ggbApplet.registerObjectUpdateListener("A", "myJavaScriptFunction"); Then
 	 * the GeoGebra Applet will call the Javascript function
 	 * myJavaScriptFunction("A"); whenever object A changes.
@@ -982,7 +981,7 @@ public interface JavaScriptAPI {
 	/**
 	 * Gets the double value of the specified index of the list.
 	 * 
-	 * Returns Double.NaN if the object is not a GeoNumeric/Angle
+	 * <p>Returns Double.NaN if the object is not a GeoNumeric/Angle
 	 * 
 	 * @param objName
 	 *            list label
@@ -1128,7 +1127,7 @@ public interface JavaScriptAPI {
 	/**
 	 * Ends the recording of the drawing and logs the results.
 	 *
-	 * For autonomous drawing, the logged result has to be copied into the coords.json file.
+	 * <p>For autonomous drawing, the logged result has to be copied into the coords.json file.
 	 */
 	void endDrawRecordingAndLogResults();
 
@@ -1217,4 +1216,9 @@ public interface JavaScriptAPI {
 	 * @param options to specify algebra options: sortBy for sorting order
 	 */
 	void setAlgebraOptions(Object options);
+
+	/**
+	 * Show all objects in EuclidianView
+	 */
+	void showAllObjects();
 }

@@ -12,7 +12,7 @@ import org.geogebra.common.util.shape.Rectangle;
  */
 public final class TableLayout implements PersistenceListener {
 	public static final int DEFAULT_CELL_WIDTH = 120;
-	public static final int DEFAUL_CELL_HEIGHT = 36;
+	public static final int DEFAULT_CELL_HEIGHT = 36;
 	public static final int DEFAULT_ROW_HEADER_WIDTH = 52;
 
 	private static final int MIN_CELL_SIZE = 10;
@@ -21,7 +21,7 @@ public final class TableLayout implements PersistenceListener {
 	private double[] cumulativeWidths;
 	private double[] cumulativeHeights;
 	private double rowHeaderWidth = DEFAULT_ROW_HEADER_WIDTH;
-	private double columnHeaderHeight = DEFAUL_CELL_HEIGHT;
+	private double columnHeaderHeight = DEFAULT_CELL_HEIGHT;
 
 	public double getWidth(int column) {
 		return columnWidths[column];
@@ -90,25 +90,29 @@ public final class TableLayout implements PersistenceListener {
 		return cumulativeWidths[cumulativeWidths.length - 1] + getRowHeaderWidth();
 	}
 
-	DragState getResizeAction(double xAbs, double yAbs, Rectangle viewport) {
-		double x = xAbs + viewport.getMinX();
-		double y = yAbs + viewport.getMinY();
-		int row = findRow(y);
-		int column = findColumn(x);
-		if (yAbs < columnHeaderHeight && column >= 0
-				&& x > cumulativeWidths[column + 1] + rowHeaderWidth - 5) {
+	DragState getResizeAction(double x, double y, Rectangle viewport) {
+		double xAbs = x + viewport.getMinX();
+		double yAbs = y + viewport.getMinY();
+		int row = findRow(yAbs);
+		int column = findColumn(xAbs);
+		if (y < columnHeaderHeight && column >= 0
+				&& x > rowHeaderWidth
+				&& xAbs > cumulativeWidths[column + 1] + rowHeaderWidth - 5) {
 			return new DragState(MouseCursor.RESIZE_X, row, column);
 		}
-		if (yAbs < columnHeaderHeight && column > 0
-				&& x < cumulativeWidths[column] + rowHeaderWidth + 5) {
+		if (y < columnHeaderHeight && column > 0
+				&& x > rowHeaderWidth
+				&& xAbs < cumulativeWidths[column] + rowHeaderWidth + 5) {
 			return new DragState(MouseCursor.RESIZE_X, row, column - 1);
 		}
-		if (xAbs < rowHeaderWidth && row >= 0
-				&& y > cumulativeHeights[row + 1] + columnHeaderHeight - 5) {
+		if (x < rowHeaderWidth && row >= 0
+				&& y > columnHeaderHeight
+				&& yAbs > cumulativeHeights[row + 1] + columnHeaderHeight - 5) {
 			return new DragState(MouseCursor.RESIZE_Y, row, column);
 		}
-		if (xAbs < rowHeaderWidth && row > 0
-				&& y < cumulativeHeights[row] + columnHeaderHeight + 5) {
+		if (x < rowHeaderWidth && row > 0
+				&& y > columnHeaderHeight
+				&& yAbs < cumulativeHeights[row] + columnHeaderHeight + 5) {
 			return new DragState(MouseCursor.RESIZE_Y, row - 1, column);
 		}
 		return new DragState(MouseCursor.DEFAULT, row, column);
@@ -154,7 +158,7 @@ public final class TableLayout implements PersistenceListener {
 		}
 		dimensions.getHeightMap().clear();
 		for (int i = 0; i < rowHeights.length; i++) {
-			if (rowHeights[i] != DEFAUL_CELL_HEIGHT) {
+			if (rowHeights[i] != DEFAULT_CELL_HEIGHT) {
 				dimensions.getHeightMap().put(i, (int) rowHeights[i]);
 			}
 		}
@@ -167,7 +171,7 @@ public final class TableLayout implements PersistenceListener {
 			columnWidths[i] = dimensions.getWidthMap().getOrDefault(i, DEFAULT_CELL_WIDTH);
 		}
 		for (int i = 0; i < rowHeights.length; i++) {
-			rowHeights[i] = dimensions.getHeightMap().getOrDefault(i, DEFAUL_CELL_HEIGHT);
+			rowHeights[i] = dimensions.getHeightMap().getOrDefault(i, DEFAULT_CELL_HEIGHT);
 		}
 		updateCumulativeHeights(0);
 		updateCumulativeWidths(0);
@@ -312,7 +316,7 @@ public final class TableLayout implements PersistenceListener {
 	 */
 	public void resetCellSizes() {
 		setWidthForColumns(DEFAULT_CELL_WIDTH, 0, columnWidths.length - 1);
-		setHeightForRows(DEFAUL_CELL_HEIGHT, 0, rowHeights.length - 1);
+		setHeightForRows(DEFAULT_CELL_HEIGHT, 0, rowHeights.length - 1);
 	}
 
 	/**
@@ -326,7 +330,7 @@ public final class TableLayout implements PersistenceListener {
 		for (int row = resizeFrom; row < numberOfRows - 1; row++) {
 			setHeightForRows(getHeight(row + 1), row, row);
 		}
-		setHeightForRows(DEFAUL_CELL_HEIGHT, numberOfRows - 1, numberOfRows - 1);
+		setHeightForRows(DEFAULT_CELL_HEIGHT, numberOfRows - 1, numberOfRows - 1);
 	}
 
 	/**

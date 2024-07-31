@@ -243,7 +243,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			}
 
 			@Override
-			public void updateScrollPanelSize(Size size) {
+			public void updateScrollableContentSize(Size size) {
 				updateTotalSize(size.getWidth(), size.getHeight());
 			}
 		};
