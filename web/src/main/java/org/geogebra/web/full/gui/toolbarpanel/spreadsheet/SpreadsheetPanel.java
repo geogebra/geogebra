@@ -45,8 +45,6 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	private final ScrollPanel scrollOverlay;
 	private final MathTextFieldW mathField;
 	private Element spreadsheetElement;
-	private boolean blurCancleled = false;
-
 	/**
 	 * @param app application
 	 */
@@ -103,9 +101,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			spreadsheet.handlePointerMove(offsetX, offsetY,
 					getModifiers(ptr));
 		});
-		registry.addEventListener(spreadsheetElement, "blur", event -> {
-			if (blurCancleled) {
-				blurCancleled = false;
+		registry.addEventListener(DomGlobal.window, "pointerup", event -> {
+			if (event.target == spreadsheetElement) {
 				return;
 			}
 			spreadsheet.clearSelectionOnly();
@@ -118,7 +115,6 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 					evt.getNativeKeyCode()).getJavaKeyCode(),
 					getKey(evt.getNativeEvent()),
 					getKeyboardModifiers(evt));
-			cancelBlur();
 			evt.stopPropagation(); // do not let global event handler interfere
 			evt.preventDefault(); // do not scroll the view
 		}, KeyDownEvent.getType());
@@ -133,10 +129,6 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			updateViewport();
 			repaint();
 		});
-	}
-
-	private void cancelBlur() {
-		blurCancleled = true;
 	}
 
 	private String getKey(NativeEvent nativeEvent) {
