@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
@@ -121,11 +122,27 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 
 	@Override
 	public void markError() {
+		setOldInputUndefined();
+		buildNewInputWithErrorMark();
+		markErrorInData();
+	}
+
+	private void setOldInputUndefined() {
 		GeoElement geo = algebraProcessor.getKernel().lookupLabel(cellName);
 		if (geo != null) {
 			geo.setUndefined();
 		}
+	}
+
+	private void buildNewInputWithErrorMark() {
 		processInput(buildRestoredInput());
+		GeoElement errorGeo = algebraProcessor.getKernel().lookupLabel(cellName);
+		if (errorGeo.isGeoText()) {
+			((GeoText) errorGeo).setSpreadsheetError(true);
+		}
+	}
+
+	private void markErrorInData() {
 		SpreadsheetCoords coords = GeoElementSpreadsheet.spreadsheetIndices(cellName);
 		if (tabularData != null && coords != null && coords.row != -1) {
 			tabularData.markError(coords.row, coords.column, true);

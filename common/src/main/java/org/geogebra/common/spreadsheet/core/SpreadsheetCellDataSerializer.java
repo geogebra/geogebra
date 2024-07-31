@@ -10,8 +10,7 @@ public interface SpreadsheetCellDataSerializer {
 	/**
 	 * Converts spreadsheet cell data to a string representation for the cell editor.
 	 * @param data Spreadsheet cell data.
-	 * @param hasError Whether cell has error.
 	 * @return A string representation of the data.
 	 */
-	String getStringForEditor(Object data, boolean hasError);
+	String getStringForEditor(Object data);
 }

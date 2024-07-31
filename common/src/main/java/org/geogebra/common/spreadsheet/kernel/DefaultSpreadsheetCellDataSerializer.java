@@ -1,6 +1,7 @@
 package org.geogebra.common.spreadsheet.kernel;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellDataSerializer;
 
 /**
@@ -12,11 +13,10 @@ public final class DefaultSpreadsheetCellDataSerializer implements SpreadsheetCe
 
 	/**
 	 * @param data Spreadsheet cell content.
-	 * @param hasError Whether cell has error.
 	 * @return A string representation of the content suitable for a cell editor.
 	 */
 	@Override
-	public String getStringForEditor(Object data, boolean hasError) {
+	public String getStringForEditor(Object data) {
 		if (data instanceof String) {
 			return (String) data;
 		}
@@ -25,6 +25,6 @@ public final class DefaultSpreadsheetCellDataSerializer implements SpreadsheetCe
 		}
 		GeoElement geo = (GeoElement) data;
 		String redefineString = geo.getRedefineString(true, false);
-		return geo.isGeoText() && !hasError ? redefineString : "=" + redefineString;
+		return geo.isGeoText() && !((GeoText) geo).hasSpreadsheetError() ? redefineString : "=" + redefineString;
 	}
 }

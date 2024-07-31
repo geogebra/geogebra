@@ -33,7 +33,6 @@ import org.geogebra.common.spreadsheet.style.CellFormat;
  */
 public final class KernelTabularDataAdapter implements UpdateLocationView, TabularData<GeoElement> {
 	private final Map<Integer, Map<Integer, GeoElement>> data = new HashMap<>();
-	private final Map<Integer, Map<Integer, Boolean>> errorData = new HashMap<>();
 	private final List<TabularDataChangeListener> changeListeners = new ArrayList<>();
 	private final KernelTabularDataProcessor processor;
 	private final CellFormat cellFormat;
@@ -132,7 +131,6 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	@Override
 	public void clearView() {
 		data.clear();
-		errorData.clear();
 		changeListeners.forEach(listener -> listener.tabularDataDidChange(-1, -1));
 	}
 
@@ -213,7 +211,6 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 			unfixSymbolic(geo);
 			setLabel(geo, row, column);
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, geo);
-			markError(row, column, false);
 		} else {
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, null);
 		}
@@ -280,15 +277,25 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public void markError(int row, int column, boolean hasError) {
-		errorData.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, hasError);
+		if (data.get(row) == null || data.get(row).get(column) == null) {
+			return;
+		}
+		GeoElement geo = data.get(row).get(column);
+		if (geo.isGeoText()) {
+			((GeoText) geo).setSpreadsheetError(true);
+		}
 	}
 
 	@Override
 	public boolean hasError(int row, int column) {
-		if (errorData.get(row) == null || errorData.get(row).get(column) == null) {
+		if (data.get(row) == null || data.get(row).get(column) == null) {
 			return false;
 		}
-		return errorData.get(row).get(column);
+		GeoElement geo = data.get(row).get(column);
+		if (geo.isGeoText()) {
+			return ((GeoText) geo).hasSpreadsheetError();
+		}
+		return false;
 	}
 
 	@Override

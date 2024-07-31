@@ -21,7 +21,7 @@ final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 
 		@Override
 		public void markError() {
-			// TODO
+			// nothing to do here
 		}
 	};
 	private final SpreadsheetCellDataSerializer cellDataSerializer =

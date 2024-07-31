@@ -890,8 +890,7 @@ public final class SpreadsheetController {
 			this.row = row;
 			this.column = column;
 			MathFieldInternal mathField = cellEditor.getMathField();
-			mathField.parse(cellEditor.getCellDataSerializer().getStringForEditor(content,
-					tabularData.hasError(row, column)));
+			mathField.parse(cellEditor.getCellDataSerializer().getStringForEditor(content));
 
 			mathFieldAdapter = new SpreadsheetMathFieldAdapter(mathField, row, column,
 					cellEditor.getCellProcessor(), SpreadsheetController.this);
