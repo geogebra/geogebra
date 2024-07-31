@@ -19,7 +19,7 @@ public class DefaultSpreadsheetCellProcessorSymbolicTest extends BaseSymbolicTes
 		ErrorHandler errorHandler = app.getDefaultErrorHandler();
 		processor =
 				new DefaultSpreadsheetCellProcessor(kernel.getAlgebraProcessor(),
-						errorHandler);
+						null);
 		kernel.attach(new KernelTabularDataAdapter(
 				app.getSettings().getSpreadsheet(), kernel));
 	}
