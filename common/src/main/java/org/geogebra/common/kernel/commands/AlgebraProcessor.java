@@ -3177,12 +3177,10 @@ public class AlgebraProcessor {
 		n.resolveVariables(info);
 		if (n.isLeaf() && n.getLeft().isExpressionNode()) {
 			// we changed f' to f'(x) -> clean double wrap
-
-			boolean wasPoint = n.isForcedPoint();
-			n = n.getLeft().wrap();
-			if (wasPoint) {
-				n.setForcePoint();
-			}
+			ExpressionNode unwrapped = n.getLeft().wrap();
+			n.copyAttributesTo(unwrapped);
+			unwrapped.setLabels(n.getLabels());
+			n = unwrapped;
 		}
 
 		String label = n.getLabel();

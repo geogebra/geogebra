@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.test.TestStringUtil;
+import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
 import org.junit.Before;
@@ -603,6 +604,14 @@ public class ArithmeticTest extends BaseUnitTest {
 	@Test
 	public void xorShouldFail() {
 		shouldFail("1" + Unicode.XOR + "2", "1 " + Unicode.XOR + " 2", getApp());
+	}
+
+	@Test
+	@Issue("APPS-5572")
+	public void dollarOpsShouldKeepLabel() {
+		add("A1=7");
+		GeoElement nextRow = add("A2=A$1");
+		assertEquals("A2", nextRow.getLabelSimple());
 	}
 
 	private void assertAreEqual(String first, String second, Object areEqual) {
