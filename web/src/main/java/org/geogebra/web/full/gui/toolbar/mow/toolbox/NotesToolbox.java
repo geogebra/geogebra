@@ -219,6 +219,9 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 	@Override
 	public void onModeChange(int mode) {
 		for (IconButton button : buttons) {
+			if (button instanceof RulerIconButton) {
+				continue;
+			}
 			if (button.getMode() == mode) {
 				button.setActive(true);
 			} else {

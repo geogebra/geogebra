@@ -73,9 +73,9 @@ public class CategoryPopup extends GPopupPanel implements SetLabels {
 	private IconButton createButton(Integer mode) {
 		IconButton button = new IconButton(mode, (AppW) app);
 		button.addFastClickHandler(source -> {
-			app.setMode(mode);
 			updateButtonSelection(button);
 			updateParentCallback.accept(mode);
+			app.setMode(mode);
 			if (!preventHide) {
 				hide();
 			}
