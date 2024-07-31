@@ -19,17 +19,14 @@ public class TopbarController {
 	private final AppW appW;
 	private ZoomController zoomController;
 	private final EuclidianView view;
-	private final Runnable deselectDragBtn;
 	private ContextMenuGraphicsWindowW settingsContextMenu;
 
 	/**
 	 * Controller
 	 * @param appW - application
-	 * @param deselectDragBtn - deselect drag button callback
 	 */
-	public TopbarController(AppW appW, Runnable deselectDragBtn) {
+	public TopbarController(AppW appW) {
 		this.appW = appW;
-		this.deselectDragBtn = deselectDragBtn;
 		this.view = appW.getActiveEuclidianView();
 		zoomController = new ZoomController(appW, view);
 	}
@@ -40,7 +37,6 @@ public class TopbarController {
 	public void onMenuToggle() {
 		appW.hideKeyboard();
 		appW.toggleMenu();
-		deselectDragBtn.run();
 	}
 
 	/**
@@ -48,7 +44,6 @@ public class TopbarController {
 	 */
 	public void onUndo() {
 		appW.getGuiManager().undo();
-		deselectDragBtn.run();
 	}
 
 	/**
@@ -56,7 +51,6 @@ public class TopbarController {
 	 */
 	public void onRedo() {
 		appW.getGuiManager().redo();
-		deselectDragBtn.run();
 	}
 
 	/**
@@ -65,7 +59,6 @@ public class TopbarController {
 	public void onZoomIn() {
 		setSelectMode();
 		zoomController.onZoomInPressed();
-		deselectDragBtn.run();
 	}
 
 	/**
@@ -74,7 +67,6 @@ public class TopbarController {
 	public void onZoomOut() {
 		setSelectMode();
 		zoomController.onZoomOutPressed();
-		deselectDragBtn.run();
 	}
 
 	private void setSelectMode() {
@@ -88,15 +80,20 @@ public class TopbarController {
 	 */
 	public void onHome() {
 		zoomController.onHomePressed();
-		deselectDragBtn.run();
 	}
 
 	/**
 	 * on drag button press
+	 * @param isDragButtonActive whether drag is on or off
 	 */
-	public void onDrag() {
-		appW.setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
-		appW.hideMenu();
+	public void onDrag(boolean isDragButtonActive) {
+		if (isDragButtonActive) {
+			appW.setMode(EuclidianConstants.MODE_SELECT_MOW);
+		} else {
+			appW.setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
+			appW.hideMenu();
+			appW.closePopups();
+		}
 	}
 
 	public AppW getApp() {

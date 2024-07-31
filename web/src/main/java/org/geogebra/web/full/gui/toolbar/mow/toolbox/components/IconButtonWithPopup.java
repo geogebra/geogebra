@@ -37,7 +37,6 @@ public class IconButtonWithPopup extends IconButton {
 
 			categoryPopup.addCloseHandler((event) -> {
 				AriaHelper.setAriaExpanded(this, false);
-				deactivate();
 			});
 		});
 	}
@@ -76,7 +75,7 @@ public class IconButtonWithPopup extends IconButton {
 
 	@Override
 	public int getMode() {
-		return categoryPopup != null && categoryPopup.getLastSelectedMode() == -1
+		return categoryPopup != null && categoryPopup.getLastSelectedMode() != -1
 				? categoryPopup.getLastSelectedMode() : tools.get(0);
 	}
 

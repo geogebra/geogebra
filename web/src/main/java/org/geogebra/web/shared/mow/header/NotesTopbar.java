@@ -1,10 +1,12 @@
 package org.geogebra.web.shared.mow.header;
 
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRANSLATEVIEW;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.CoordSystemListener;
-import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.Kernel;
@@ -25,7 +27,8 @@ import org.gwtproject.user.client.ui.SimplePanel;
 
 import elemental2.dom.DomGlobal;
 
-public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemListener {
+public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemListener,
+		ModeChangeListener {
 	private final AppletParameters appletParams;
 	private TopbarController controller;
 	private final List<IconButton> buttons = new ArrayList<>();
@@ -34,13 +37,6 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 	private IconButton homeBtn;
 	private IconButton dragBtn;
 	private IconButton fullscreenButton;
-	private final Runnable deselectDragBtn = () -> {
-			if (dragBtn != null && controller.getApp().getMode()
-					== EuclidianConstants.MODE_TRANSLATEVIEW) {
-				dragBtn.setActive(false);
-				controller.getApp().setMode(EuclidianConstants.MODE_SELECT_MOW);
-			}
-		};
 
 	/**
 	 * constructor
@@ -48,7 +44,7 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 	 */
 	public NotesTopbar(AppW appW) {
 		this.appletParams = appW.getAppletParameters();
-		controller = new TopbarController(appW, deselectDragBtn);
+		controller = new TopbarController(appW);
 		if (appW.getActiveEuclidianView() != null) {
 			appW.getActiveEuclidianView().getEuclidianController().addZoomerListener(this);
 		}
@@ -104,8 +100,11 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 
 	private void addDragButton() {
 		dragBtn = new IconButton(controller.getApp(), MaterialDesignResources
-				.INSTANCE.move_canvas(), "PanView", "PanView", () -> controller.onDrag(),
-				() -> controller.getApp().setMode(EuclidianConstants.MODE_SELECT_MOW));
+				.INSTANCE.move_canvas(), "PanView", "PanView", "", null);
+		dragBtn.addFastClickHandler((event) -> {
+			controller.onDrag(dragBtn.isActive());
+		});
+
 		registerFocusable(dragBtn, AccessibilityGroup.ZOOM_NOTES_DRAG_VIEW);
 		styleAndRegisterTopbarButton(dragBtn);
 	}
@@ -187,11 +186,16 @@ public class NotesTopbar extends FlowPanel implements SetLabels, CoordSystemList
 		controller.updateHomeButtonVisibility(homeBtn);
 	}
 
-	public void deselectDragButton() {
-		deselectDragBtn.run();
-	}
-
 	private void registerFocusable(IconButton button, AccessibilityGroup group) {
 		controller.registerFocusable(button, group);
+	}
+
+	@Override
+	public void onModeChange(int mode) {
+		if (dragBtn == null) {
+			return;
+		}
+
+		dragBtn.setActive(mode == MODE_TRANSLATEVIEW);
 	}
 }

@@ -1682,11 +1682,6 @@ public class GuiManagerW extends GuiManager
 			return mode;
 		}
 
-		if (getApp().isWhiteboardActive()) {
-			(getApp().getAppletFrame()).setNotesMode(mode);
-			return mode;
-		}
-
 		if (toolbarPanel == null) {
 			return mode;
 		}

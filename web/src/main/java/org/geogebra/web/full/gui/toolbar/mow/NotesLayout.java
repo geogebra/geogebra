@@ -1,8 +1,11 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
+
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -17,7 +20,7 @@ import org.geogebra.web.shared.mow.header.NotesTopbar;
 import org.gwtproject.event.dom.client.TouchStartEvent;
 import org.gwtproject.user.client.ui.Widget;
 
-public class NotesLayout implements SetLabels {
+public class NotesLayout implements SetLabels, ModeChangeListener {
 	private final AppW appW;
 	private final @CheckForNull NotesToolbox toolbar;
 	private final @CheckForNull NotesTopbar topbar;
@@ -31,6 +34,8 @@ public class NotesLayout implements SetLabels {
 		this.appW = appW;
 		this.toolbar = appW.showToolBar() ? new NotesToolbox(appW) : null;
 		topbar = new NotesTopbar(appW);
+		appW.getActiveEuclidianView().getEuclidianController()
+				.setModeChangeListener(this);
 		createPageControlButton();
 		setLabels();
 	}
@@ -86,9 +91,7 @@ public class NotesLayout implements SetLabels {
 
 		getPageControlPanel().open();
 		appW.getPageController().updatePreviewImage();
-		if (topbar != null) {
-			topbar.deselectDragButton();
-		}
+		appW.setMode(MODE_SELECT_MOW);
 	}
 
 	private PageListPanel getPageControlPanel() {
@@ -120,21 +123,21 @@ public class NotesLayout implements SetLabels {
 		}
 	}
 
-	/**
-	 * Select the correct icon in the toolbar
-	 * @param mode selected tool
-	 */
-	public void setMode(int mode) {
-		if (toolbar != null) {
-			toolbar.setMode(mode);
-		}
-	}
-
 	public Widget getToolbar() {
 		return toolbar;
 	}
 
 	public NotesTopbar getTopbar() {
 		return topbar;
+	}
+
+	@Override
+	public void onModeChange(int mode) {
+		if (topbar != null) {
+			topbar.onModeChange(mode);
+		}
+		if (toolbar != null) {
+			toolbar.onModeChange(mode);
+		}
 	}
 }
