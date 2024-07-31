@@ -24,7 +24,7 @@ public final class ViewportAdjuster {
 	 * @param layout TableLayout
 	 * @param viewportAdjusterDelegate ViewportAdjustmentHandler
 	 */
-	public ViewportAdjuster(TableLayout layout,
+	ViewportAdjuster(TableLayout layout,
 			ViewportAdjusterDelegate viewportAdjusterDelegate) {
 		this.layout = layout;
 		this.viewportAdjusterDelegate = viewportAdjusterDelegate;
@@ -40,7 +40,7 @@ public final class ViewportAdjuster {
 	 * @param viewport Viewport
 	 * @return Updated viewport
 	 */
-	public Rectangle adjustViewportIfNeeded(int row, int column, Rectangle viewport) {
+	Rectangle adjustViewportIfNeeded(int row, int column, Rectangle viewport) {
 		double scrollAmountX = getScrollAmountX(column, viewport);
 		double scrollAmountY = getScrollAmountY(row, viewport);
 
@@ -64,7 +64,7 @@ public final class ViewportAdjuster {
 	 * @param callback Function used to update the target cell of the drag paste selection, which
 	 * might have changed because of the viewport adjustment, based on the new x and y coordinates
 	 */
-	public void scrollForPasteSelectionIfNeeded(int x, int y, Rectangle viewport,
+	void scrollForPasteSelectionIfNeeded(int x, int y, Rectangle viewport,
 			boolean extendVertically, BiConsumer<Integer, Integer> callback) {
 		int viewportWidth = (int) viewport.getWidth();
 		int viewportHeight = (int) viewport.getHeight();
@@ -109,7 +109,8 @@ public final class ViewportAdjuster {
 		if (shouldAdjustViewportVerticallyDownwards(row, viewport)) {
 			scrollAmountY = Math.ceil(layout.getY(row + 1) - viewport.getMinY()
 					+ layout.getColumnHeaderHeight() - viewport.getHeight()
-					+ viewportAdjusterDelegate.getScrollBarWidth() + SCROLL_INCREMENT);
+					+ viewportAdjusterDelegate.getScrollBarWidth() + SCROLL_INCREMENT
+					+ viewportAdjusterDelegate.getViewportInsets().getBottom());
 			scrolledDown = true;
 		}
 		if (shouldAdjustViewportVerticallyUpwards(row, viewport)) {
@@ -135,7 +136,8 @@ public final class ViewportAdjuster {
 			return false;
 		}
 		return layout.getY(row + 1) - viewport.getMinY() + layout.getColumnHeaderHeight()
-				> viewport.getHeight() - viewportAdjusterDelegate.getScrollBarWidth();
+				> viewport.getHeight() - viewportAdjusterDelegate.getScrollBarWidth()
+				- viewportAdjusterDelegate.getViewportInsets().getBottom();
 	}
 
 	private boolean shouldAdjustViewportVerticallyUpwards(int row, Rectangle viewport) {
@@ -151,7 +153,7 @@ public final class ViewportAdjuster {
 	}
 
 	public void updateScrollPaneSize(Size size) {
-		viewportAdjusterDelegate.updateScrollPanelSize(size);
+		viewportAdjusterDelegate.updateScrollableContentSize(size);
 	}
 
 	private int getVerticalScrollAmountForDrag(int viewportHeight, int y) {

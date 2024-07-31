@@ -63,16 +63,21 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		@Override
 		public void show(Rectangle editorBounds, Rectangle viewport, int textAlignment) {
 			mathField.attach(parent);
-			mathField.getStyle().setLeft(editorBounds.getMinX(), Unit.PX);
-			mathField.getStyle().setTop(editorBounds.getMinY(), Unit.PX);
-			mathField.getStyle().setWidth(editorBounds.getWidth(), Unit.PX);
-			mathField.getStyle().setProperty("minHeight", editorBounds.getHeight(), Unit.PX);
+			updatePosition(editorBounds, viewport);
 			mathField.setRightMargin(8);
 			mathField.asWidget().getElement().getStyle().setTextAlign(
 					textAlignment == CellFormat.ALIGN_LEFT ? TextAlign.LEFT : TextAlign.RIGHT);
 			mathField.setVisible(true);
 			mathField.editorClicked();
 			Scheduler.get().scheduleDeferred(mathField::requestFocus);
+		}
+
+		@Override
+		public void updatePosition(Rectangle editorBounds, Rectangle viewport) {
+			mathField.getStyle().setLeft(editorBounds.getMinX(), Unit.PX);
+			mathField.getStyle().setTop(editorBounds.getMinY(), Unit.PX);
+			mathField.getStyle().setWidth(editorBounds.getWidth(), Unit.PX);
+			mathField.getStyle().setProperty("minHeight", editorBounds.getHeight(), Unit.PX);
 		}
 
 		@Override

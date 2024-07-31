@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui.tooltip;
 
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.timer.client.Timer;
@@ -37,38 +38,40 @@ public class ComponentSnackbar extends FlowPanel {
 	/**
 	 * constructor
 	 * @param app see {@link AppW}
-	 * @param title snackbar title
-	 * @param text snackbar text
-	 * @param buttonText snackbar button text
+	 * @param toolTip tooltip data
 	 */
-	public ComponentSnackbar(AppW app, String title, String text, String buttonText) {
+	public ComponentSnackbar(AppW app, ToolTip toolTip) {
 		addStyleName("snackbarComponent");
+		if (toolTip.isAlert()) {
+			AriaHelper.setRole(this, "alert");
+		}
 		getElement().setId("snackbarID");
-		buildGui(title, text, buttonText);
+		buildGui(toolTip, app);
 		app.getAppletFrame().add(this);
 		fadeIn.schedule(100);
 	}
 
-	private void buildGui(String title, String text, String buttonText) {
+	private void buildGui(ToolTip toolTip, AppW app) {
 		FlowPanel textContainer = new FlowPanel();
 		textContainer.addStyleName("txtContainer");
 
-		String[] textLines = title.split("\\n");
+		String[] textLines = toolTip.title.split("\\n");
 		for (String line : textLines) {
 			Label textLbl = new Label(line);
 			textLbl.addStyleName("title");
 			textContainer.add(textLbl);
 		}
 
-		if (text != null) {
-			Label textLbl = new Label(text);
+		if (toolTip.helpText != null) {
+			Label textLbl = new Label(toolTip.helpText);
 			textLbl.addStyleName("text");
 			textContainer.add(textLbl);
 		}
 		add(textContainer);
 
-		if (buttonText != null) {
-			actionBtn = new StandardButton(buttonText);
+		if (toolTip.buttonTransKey != null) {
+			actionBtn = new StandardButton(app.getLocalization()
+					.getMenu(toolTip.buttonTransKey));
 			actionBtn.addStyleName("materialTextButton");
 			add(actionBtn);
 			actionBtn.addFastClickHandler(source -> {

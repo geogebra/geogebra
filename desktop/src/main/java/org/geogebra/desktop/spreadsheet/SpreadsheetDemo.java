@@ -306,14 +306,19 @@ public class SpreadsheetDemo {
 				if (!frame.getContentPane().isAncestorOf(editorBox)) {
 					frame.getContentPane().add(editorBox);
 				}
+				updatePosition(editorBounds, viewport);
+				editorBox.setVisible(true);
+				mathField.requestViewFocus();
+			}
+
+			@Override
+			public void updatePosition(Rectangle editorBounds, Rectangle viewport) {
 				Point locationInWindow = getParent().getLocation();
 				editorBox.setBounds((int) editorBounds.getMinX() + (int)locationInWindow.x,
 						(int) editorBounds.getMinY() + (int)locationInWindow.y,
 						(int) editorBounds.getWidth(), (int) editorBounds.getHeight());
 				mathField.setBounds(0, 0,
 						(int) editorBounds.getWidth(), (int) editorBounds.getHeight());
-				editorBox.setVisible(true);
-				mathField.requestViewFocus();
 			}
 
 			@Override

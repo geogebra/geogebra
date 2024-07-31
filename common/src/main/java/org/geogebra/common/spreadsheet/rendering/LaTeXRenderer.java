@@ -19,11 +19,13 @@ public final class LaTeXRenderer implements CellRenderer {
 	}
 
 	@Override
-	public void draw(Object data, int fontStyle, int alignment,
+	public void draw(Object data, int fontStyle, int offset,
 			GGraphics2D graphics, Rectangle cellBorder) {
 		graphics.setColor(GColor.BLACK);
-		((TeXIcon) data).paintIcon(() -> null, bridge.convert(graphics),
-				cellBorder.getMinX(), cellBorder.getMinY());
+		TeXIcon teXIcon = (TeXIcon) data;
+		teXIcon.paintIcon(null, bridge.convert(graphics),
+				cellBorder.getMinX() + offset, cellBorder.getMinY()
+						+ (cellBorder.getHeight() - teXIcon.getIconHeight()) / 2);
 	}
 
 	@Override

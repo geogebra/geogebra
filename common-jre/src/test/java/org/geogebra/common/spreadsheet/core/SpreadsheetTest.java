@@ -21,7 +21,7 @@ import org.junit.Test;
 
 public class SpreadsheetTest extends BaseUnitTest {
 
-	private final int colHeader = TableLayout.DEFAUL_CELL_HEIGHT;
+	private final int colHeader = TableLayout.DEFAULT_CELL_HEIGHT;
 	private final int rowHeader = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 	private Spreadsheet spreadsheet;
 	private TestTabularData tabularData;
@@ -46,7 +46,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 			}
 
 			@Override
-			public void updateScrollPanelSize(Size size) {
+			public void updateScrollableContentSize(Size size) {
 				// no UI to update
 			}
 		});

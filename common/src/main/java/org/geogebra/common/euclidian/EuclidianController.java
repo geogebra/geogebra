@@ -5719,7 +5719,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void notifyPositionUpdate(AbsoluteScreenLocateable geo) {
-		if (geo.needsUpdatedBoundingBox()) {
+		if (geo.hasChildren()) {
 			geo.updateCascade();
 		}
 		geo.updateVisualStyle(GProperty.POSITION);
