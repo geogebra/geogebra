@@ -7,6 +7,7 @@ import org.geogebra.common.gui.view.table.TableValuesCell;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.util.StringUtil;
 
 import com.google.j2objc.annotations.Weak;
@@ -37,14 +38,14 @@ public final class TableValuesKeyboardNavigationController {
 		ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ARROW_DOWN, RETURN;
 	}
 
-	//@NonOwning
+	@NonOwning
 	@Weak
 	public TableValuesKeyboardNavigationControllerDelegate delegate;
 
-	//@NonOwning
+	@NonOwning
 	@Nonnull
 	private final TableValues tableValuesView;
-	//@NonOwning
+	@NonOwning
 	@Nonnull
 	private final TableValuesModel tableValuesModel;
 
