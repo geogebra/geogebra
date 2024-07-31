@@ -134,9 +134,10 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 		@Override
 		public void onBrowserEvent(Event event) {
+
 			if (CopyPasteW.incorrectTarget(event.getEventTarget().cast())
-					&& !isGlobalEvent(event)) {
-				return;
+						&& !isGlobalEvent(event)) {
+					return;
 			}
 
 			if (DOM.eventGetType(event) == Event.ONKEYDOWN) {
@@ -155,9 +156,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					handled = true;
 				}
 
-				if (event.getKeyCode() == GWTKeycodes.KEY_T
+				if (event.getKeyCode() == GWTKeycodes.KEY_U
 						&& event.getCtrlKey()
-						&& event.getAltKey()) {
+						&& event.getShiftKey()) {
 					handled = toggleTableView();
 				} else if (event.getCtrlKey()) {
 					handled = handleCtrlKeys(KeyCodes.translateGWTcode(event.getKeyCode()),
