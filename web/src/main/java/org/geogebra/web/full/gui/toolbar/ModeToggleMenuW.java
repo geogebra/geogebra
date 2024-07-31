@@ -10,6 +10,7 @@ import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
+import org.geogebra.web.html5.gui.tooltip.ToolTip;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -467,9 +468,9 @@ public class ModeToggleMenuW extends ListItem
 	 */
 	public void showToolTipBottom(int mode, ModeSetter m) {
 		if (m != ModeSetter.CAS_VIEW && app.showToolBarHelp()) {
-			app.getToolTipManager().showBottomInfoToolTip(app.getToolName(mode),
-					app.getToolHelp(mode), app.getLocalization().getMenu("Help"),
-					app.getGuiManager().getTooltipURL(mode), app,
+			app.getToolTipManager().showBottomInfoToolTip(new ToolTip(app.getToolName(mode),
+					app.getToolHelp(mode), "Help",
+					app.getGuiManager().getTooltipURL(mode)), app,
 					ComponentSnackbar.TOOL_TOOLTIP_DURATION);
 		}
 	}

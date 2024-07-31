@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.PreviewPointPopup;
@@ -55,12 +56,9 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public void showListToolTip(String message) {
-		if (message != null && !"".equals(message)) {
+		if (!StringUtil.empty(message)) {
 			ToolTipManagerW toolTipManager = ((AppW) app).getToolTipManager();
-			toolTipManager.setBlockToolTip(false);
-			toolTipManager.showBottomInfoToolTip(message,
-					null, null, "", (AppW) app);
-			toolTipManager.setBlockToolTip(true);
+			toolTipManager.showBottomMessage(message, (AppW) app);
 		}
 	}
 

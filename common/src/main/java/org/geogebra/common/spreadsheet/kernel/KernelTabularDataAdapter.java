@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -209,11 +210,18 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		if (content != null) {
 			GeoElement geo = (GeoElement) content;
 			setEuclidianInvisibleAndAuxiliaryObject(geo);
+			unfixSymbolic(geo);
 			setLabel(geo, row, column);
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, geo);
 			markError(row, column, false);
 		} else {
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, null);
+		}
+	}
+
+	private void unfixSymbolic(GeoElement geo) {
+		if (geo instanceof GeoSymbolic && geo.isLocked()) {
+			geo.setFixed(false);
 		}
 	}
 

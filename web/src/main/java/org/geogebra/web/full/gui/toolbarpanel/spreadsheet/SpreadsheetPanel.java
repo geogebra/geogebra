@@ -103,10 +103,6 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			spreadsheet.handlePointerMove(offsetX, offsetY,
 					getModifiers(ptr));
 		});
-		registry.addEventListener(spreadsheetElement, "blur", event -> {
-			spreadsheet.clearSelectionOnly();
-		});
-
 		ClickStartHandler.initDefaults(scrollContent, false, true);
 		scrollContent.getElement().setTabIndex(0);
 		scrollContent.addDomHandler(evt -> {
@@ -241,7 +237,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			}
 
 			@Override
-			public void updateScrollPanelSize(Size size) {
+			public void updateScrollableContentSize(Size size) {
 				updateTotalSize(size.getWidth(), size.getHeight());
 			}
 		};

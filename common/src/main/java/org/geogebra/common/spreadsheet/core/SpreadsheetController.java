@@ -57,7 +57,7 @@ public final class SpreadsheetController {
 		resetDragAction();
 		style = new SpreadsheetStyle(tabularData.getFormat());
 		layout = new TableLayout(tabularData.numberOfRows(),
-				tabularData.numberOfColumns(), TableLayout.DEFAUL_CELL_HEIGHT,
+				tabularData.numberOfColumns(), TableLayout.DEFAULT_CELL_HEIGHT,
 				TableLayout.DEFAULT_CELL_WIDTH);
 		contextMenuItems = new ContextMenuItems(this, selectionController);
 	}
@@ -898,16 +898,19 @@ public final class SpreadsheetController {
 			mathField.addMathFieldListener(mathFieldAdapter);
 			mathField.setUnhandledArrowListener(mathFieldAdapter);
 
-			updatePosition();
+			cellEditor.show(getEditorBounds(), viewport, tabularData.getAlignment(row, column));
 			isVisible = true;
 		}
 
 		void updatePosition() {
-			Rectangle editorBounds = layout.getBounds(row, column)
+			cellEditor.updatePosition(getEditorBounds(), viewport);
+		}
+
+		private Rectangle getEditorBounds() {
+			return layout.getBounds(row, column)
 					.insetBy(1, 1) // don't overdraw thick selection border
 					.translatedBy(-viewport.getMinX() + layout.getRowHeaderWidth(),
 							-viewport.getMinY() + layout.getColumnHeaderHeight());
-			cellEditor.show(editorBounds, viewport, tabularData.getAlignment(row, column));
 		}
 
 		void hide() {

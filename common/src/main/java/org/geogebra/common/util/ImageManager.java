@@ -62,8 +62,10 @@ abstract public class ImageManager {
 			}
 
 			// make sure 2nd corner is on screen
-			ensure2ndCornerOnScreen(point1.getInhomX(), point2, app);
-			ensureImageHeightFitsInScreen(point1.getInhomX(), point2, app, geoImage);
+			if (!geoImage.isMeasurementTool()) {
+				ensure2ndCornerOnScreen(point1.getInhomX(), point2, app);
+				ensureImageHeightFitsInScreen(point1.getInhomX(), point2, app, geoImage);
+			}
 		}
 		if (app.isWhiteboardActive()) {
 			centerOnScreen(geoImage, app);
