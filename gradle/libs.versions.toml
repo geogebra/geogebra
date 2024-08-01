@@ -20,7 +20,7 @@ j2objc-annotations = "com.google.j2objc:annotations:2.8"
 spotbugs-annotations = {module = "com.github.spotbugs:spotbugs-annotations", version.ref = "spotbugs"}
 findbugs-annotations = "com.google.code.findbugs:jsr305:3.0.2"
 javacc = "net.java.dev.javacc:javacc:7.0.13"
-echosvg = "io.sf.carte:echosvg-all:1.0.1"
+echosvg = "io.sf.carte:echosvg-all:1.2"
 murok = { module = "org.murok:editor", version.ref = "murok" }
 mozilla-rhino = { module = "org.mozilla:rhino", version.ref = "mozilla-rhino" }
 autoService = "com.google.auto.service:auto-service:1.1.1"
