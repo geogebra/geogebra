@@ -796,6 +796,12 @@ public abstract class GlobalKeyDispatcher {
 			}
 			consumed = true;
 			break;
+		case U:
+			if (isShiftDown && app.getGuiManager() != null) {
+				toggleTableView();
+				consumed = true;
+			}
+			break;
 		case V:
 			// check not spreadsheet, not inputbar
 			if (!fromSpreadsheet) {
@@ -934,6 +940,10 @@ public abstract class GlobalKeyDispatcher {
 			break;
 		}
 		return consumed;
+	}
+
+	protected void toggleTableView() {
+		// web only
 	}
 
 	private boolean isUndoRedoEnabled() {

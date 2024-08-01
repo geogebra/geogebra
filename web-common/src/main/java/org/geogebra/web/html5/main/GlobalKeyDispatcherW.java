@@ -149,18 +149,11 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					handleCtrlAltX();
 					handled = true;
 				}
-
-
 				if (NavigatorUtil.isiOS() && isControlKeyDown(event)) {
 					handleIosKeyboard((char) event.getCharCode());
 					handled = true;
 				}
-
-				if (event.getKeyCode() == GWTKeycodes.KEY_U
-						&& event.getCtrlKey()
-						&& event.getShiftKey()) {
-					handled = toggleTableView();
-				} else if (event.getCtrlKey()) {
+				if (isControlKeyDown(event)) {
 					handled = handleCtrlKeys(KeyCodes.translateGWTcode(event.getKeyCode()),
 							event.getShiftKey(), false, true);
 				}
@@ -190,14 +183,14 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		}
 	}
 
-	private boolean toggleTableView() {
+	@Override
+	protected void toggleTableView() {
 		if (!app.getConfig().hasTableView()) {
-			return false;
+			return;
 		}
-		app.getGuiManager().toggleTableView();
-		return true;
+		app.getGuiManager().setShowView(!app.getGuiManager().isTableViewShowing(),
+				App.VIEW_TABLE);
 	}
-
 
 	private void handleCtrlAltX() {
 		app.hideMenu();
@@ -267,8 +260,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	}
 
 	private static boolean isControlKeyDown(NativeEvent event) {
-		return event.getCtrlKey()
-				|| (NavigatorUtil.isMacOS() || NavigatorUtil.isiOS()) && event.getMetaKey();
+		return (NavigatorUtil.isMacOS() || NavigatorUtil.isiOS()) ? event.getMetaKey()
+				: event.getCtrlKey();
 	}
 
 	/**

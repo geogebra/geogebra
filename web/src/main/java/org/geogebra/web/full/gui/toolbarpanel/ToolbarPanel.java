@@ -97,7 +97,6 @@ public class ToolbarPanel extends FlowPanel
 	private FlowPanel heading;
 	private DockPanelDecorator decorator;
 	private final ExamController examController = GlobalScope.examController;
-	private TabIds lastOpenedTabId = TabIds.ALGEBRA;
 
 	/**
 	 * @param app application
@@ -1401,16 +1400,5 @@ public class ToolbarPanel extends FlowPanel
 		if (tabTable != null) {
 			tabTable.openDialogIfEmpty();
 		}
-	}
-
-	public void toggle(TabIds tabId) {
-		TabIds selectedTabId = getSelectedTabId();
-		if (selectedTabId != tabId) {
-			switchTab(tabId, true);
-			lastOpenedTabId = selectedTabId;
-		} else {
-			switchTab(lastOpenedTabId, true);
-		}
-		setMoveMode();
 	}
 }

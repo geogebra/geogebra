@@ -364,5 +364,7 @@ public interface GuiManagerInterface extends SettingListener {
 	@CheckForNull
 	InputKeyboardButton getInputKeyboardButton();
 
-	void toggleTableView();
+	default boolean isTableViewShowing() {
+		return false;
+	}
 }
