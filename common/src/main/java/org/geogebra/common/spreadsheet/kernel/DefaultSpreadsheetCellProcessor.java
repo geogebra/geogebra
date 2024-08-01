@@ -12,8 +12,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
-import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
-import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 

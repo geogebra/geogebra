@@ -40,7 +40,7 @@ public final class SpreadsheetRenderer {
 	private final static GBasicStroke borderStroke = AwtFactory.getPrototype().newBasicStroke(2);
 	private final SpreadsheetStyle style;
 	private final TabularData tabularData;
-	private final static int ERROR_RECT_WIDTH = 10;
+	private final static int ERROR_TRIANGLE_WIDTH = 10;
 	private final static int TEXT_PADDING = 10;
 	private final static int TEXT_HEIGHT = 16;
 
@@ -96,23 +96,32 @@ public final class SpreadsheetRenderer {
 			double offsetX, double offsetY) {
 		graphics.setColor(style.geErrorGridColor());
 		graphics.setStroke(borderStroke);
-		int topLeftX = (int) (layout.getX(column) - offsetX);
-		int topLeftY = (int) (layout.getY(row) - offsetY);
-		graphics.drawRect(topLeftX, topLeftY, (int) layout.getWidth(column),
-				(int) layout.getHeight(row));
 
-		int topRightX = (int) (layout.getX(column) - offsetX + layout.getWidth(column));
-		int topRightY = (int) (layout.getY(row) - offsetY);
+		int topLeftX = (int) Math.max(layout.getX(column) - offsetX, layout.getRowHeaderWidth());
+		int topLeftY = (int) Math.max(layout.getY(row) - offsetY, layout.getColumnHeaderHeight());
+		int topRightX = (int) (layout.getWidth(column) - layout.getX(column) - offsetX);
+		graphics.drawRect(topLeftX, topLeftY, (int) (topRightX - layout.getRowHeaderWidth()),
+				(int) layout.getHeight(row)); // draw error border
 
+		int topRightY =  (int) (layout.getY(row) - offsetY);
+		drawErrorTriangle(graphics, topRightX, topRightY, topLeftX, topLeftY);
+
+		drawErrorString(graphics, topLeftX, topLeftY);
+	}
+
+	private void drawErrorTriangle(GGraphics2D graphics, int topRightX, int topRightY,
+			int topLeftX, int topLeftY) {
 		GGeneralPath path = AwtFactory.getPrototype().newGeneralPath();
-		path.moveTo(topRightX - ERROR_RECT_WIDTH, topRightY);
+		path.moveTo(topRightX - ERROR_TRIANGLE_WIDTH, topRightY);
 		path.lineTo(topRightX, topRightY);
-		path.lineTo(topRightX, topRightY + ERROR_RECT_WIDTH);
+		path.lineTo(topRightX, topRightY + ERROR_TRIANGLE_WIDTH);
 		path.closePath();
 
 		graphics.draw(path);
 		graphics.fill(path);
+	}
 
+	private void drawErrorString(GGraphics2D graphics, int topLeftX, int topLeftY) {
 		graphics.setColor(style.getTextColor());
 		graphics.setFont(graphics.getFont().deriveFont(GFont.ITALIC));
 		graphics.drawString(tabularData.getErrorString(), topLeftX + TEXT_PADDING,
