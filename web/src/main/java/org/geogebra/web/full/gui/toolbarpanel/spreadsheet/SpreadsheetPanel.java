@@ -44,7 +44,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	// on high-res screens
 	private final ScrollPanel scrollOverlay;
 	private final MathTextFieldW mathField;
-	private Element spreadsheetElement;
+	private final Element spreadsheetElement;
 
 	/**
 	 * @param app application
@@ -102,6 +102,13 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			spreadsheet.handlePointerMove(offsetX, offsetY,
 					getModifiers(ptr));
 		});
+		registry.addEventListener(DomGlobal.window, "pointerup", event -> {
+			if (Js.uncheckedCast(event.target) == spreadsheetElement) {
+				return;
+			}
+			spreadsheet.clearSelectionOnly();
+		});
+
 		ClickStartHandler.initDefaults(scrollContent, false, true);
 		scrollContent.getElement().setTabIndex(0);
 		scrollContent.addDomHandler(evt -> {
