@@ -667,11 +667,17 @@ public class GeoText extends GeoElement
 		getBreakpointXML(sb);
 
 		getAuxiliaryXML(sb);
-		sb.append("\t<hasSpreadsheetError val=\"" + hasSpreadsheetError + "\" />\n");
+		getSpreadsheetHasErrorXML(sb);
 
 		// store location of text (and possible labelOffset)
 		sb.append(getXMLlocation());
 		getScriptTags(sb);
+	}
+
+	private void getSpreadsheetHasErrorXML(StringBuilder sb) {
+		sb.append("\t<hasSpreadsheetError val=\"");
+		sb.append(hasSpreadsheetError);
+		sb.append("\"/>\n");
 	}
 
 	/**

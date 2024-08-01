@@ -107,12 +107,12 @@ public class TestTabularData implements TabularData<String> {
 
 	@Override
 	public void markError(int row, int column, boolean hasError) {
-		//errorData.get(row).set(column, hasError); TODO
+		// not needed here
 	}
 
 	@Override
 	public boolean hasError(int row, int column) {
-		return false;//errorData.get(row).get(column); TODO
+		return false;
 	}
 
 	@Override

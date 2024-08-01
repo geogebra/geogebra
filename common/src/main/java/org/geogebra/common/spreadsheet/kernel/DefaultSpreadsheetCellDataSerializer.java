@@ -25,6 +25,7 @@ public final class DefaultSpreadsheetCellDataSerializer implements SpreadsheetCe
 		}
 		GeoElement geo = (GeoElement) data;
 		String redefineString = geo.getRedefineString(true, false);
-		return geo.isGeoText() && !((GeoText) geo).hasSpreadsheetError() ? redefineString : "=" + redefineString;
+		return geo.isGeoText() && !((GeoText) geo).hasSpreadsheetError() ? redefineString
+				: "=" + redefineString;
 	}
 }
