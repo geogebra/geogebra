@@ -2054,7 +2054,7 @@ public enum Operation {
 			ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX);
 
 	public boolean isPlusorMinus() {
-		return this.equals(PLUS) || this.equals(MINUS);
+		return this.equals(PLUS) || this.equals(MINUS) || this.equals(INVISIBLE_PLUS);
 	}
 
 	/**
@@ -2081,6 +2081,7 @@ public enum Operation {
 	public static Operation inverse(Operation op) {
 		switch (op) {
 		case PLUS:
+		case INVISIBLE_PLUS:
 			return Operation.MINUS;
 		case MINUS:
 			return Operation.PLUS;
