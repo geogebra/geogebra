@@ -105,16 +105,27 @@ public final class SpreadsheetRenderer {
 
 		int width = (int) layout.getWidth(column);
 		int height = (int) layout.getHeight(row);
-		if (layout.getX(column) - offsetX < layout.getRowHeaderWidth()) {
+		if (leftOutOfBounds(column, offsetX)) {
 			width = (int) (topRightX - layout.getRowHeaderWidth());
 		}
-		if (layout.getY(row) - offsetY < layout.getColumnHeaderHeight()) {
+		if (topOutOfBounds(row, offsetY)) {
 			height = (int) (topRightY + layout.getHeight(row) - layout.getColumnHeaderHeight());
 		}
 
 		graphics.drawRect(topLeftX, topLeftY, width, height); // draw error border
 		drawErrorTriangle(graphics, topLeftX + width, topLeftY, topLeftX, topLeftY);
-		drawErrorString(graphics, topLeftX, topLeftY);
+
+		if (!leftOutOfBounds(column, offsetX) && !topOutOfBounds(row, offsetY)) {
+			drawErrorString(graphics, topLeftX, topLeftY);
+		}
+	}
+
+	private boolean leftOutOfBounds(int column, double offsetX) {
+		return layout.getX(column) - offsetX < layout.getRowHeaderWidth();
+	}
+
+	private boolean topOutOfBounds(int row, double offsetY) {
+		return layout.getY(row) - offsetY < layout.getColumnHeaderHeight();
 	}
 
 	private void drawErrorTriangle(GGraphics2D graphics, int topRightX, int topRightY,
