@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.DoubleUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -144,20 +145,21 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 
 	@Test
 	public void testNumericOrTextInputShouldHaveNoError() {
-		processor.process("1", 0, 0);
+		processor.process("1", "A1");
 		GeoElement a1 = lookup("A1");
-		//assertFalse(a1.hasEr);
+		assertFalse(a1.getXML().contains("hasSpreadsheetError"));
 
-		processor.process("Text(\"foo\")", 0, 1);
-		//assertFalse(tabularData.hasError(1, 0));
+		processor.process("Text(\"foo\")", "A2");
+		GeoElement a2 = lookup("A2");
+		assertTrue(a2.isGeoText());
+		assertFalse(((GeoText) a2).hasSpreadsheetError());
 	}
 
 	@Test
-	public void testNumericInputChangedToErrorShouldHaveError() {
-		processor.process("=1", 0, 0);
-	//	assertFalse(tabularData.hasError(0, 0));
-
-		processor.process("=1+%", 0, 0);
-	//	assertTrue(tabularData.hasError(0, 0));
+	public void testInvalidInputShouldHaveError() {
+		processor.process("=1+%", "A1");
+		GeoElement a1 = lookup("A1");
+		assertTrue(a1.isGeoText());
+		assertTrue(((GeoText) a1).hasSpreadsheetError());
 	}
 }
