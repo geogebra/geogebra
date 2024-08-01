@@ -24,12 +24,12 @@ public class GeoSelectionCallback implements AsyncOperation<GeoElementND[]>, Exa
 	}
 
 	@Override
-	public void callback(GeoElementND[] obj) {
+	public void callback(GeoElementND[] geoElements) {
 		if (restrictGraphSelectionForFunctions) {
 			return;
 		}
-		if (obj != null && obj.length == 1) {
-			GeoElementND geoElement = obj[0];
+		if (geoElements != null && geoElements.length == 1) {
+			GeoElementND geoElement = geoElements[0];
 			AlgebraItem.addSelectedGeoWithSpecialPoints(geoElement, geoElement.getApp());
 		}
 	}
