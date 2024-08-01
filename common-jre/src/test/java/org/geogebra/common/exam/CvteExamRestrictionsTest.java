@@ -1,8 +1,11 @@
 package org.geogebra.common.exam;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,8 +35,25 @@ public class CvteExamRestrictionsTest extends BaseUnitTest {
 		assertNull(add("{1,2,3} + {{4,5,6}}"));
 		assertNull(add("{{1},{2},{3}} * {{4,5,6}}"));
 		assertNull(add("Invert({{1,2}, {3,4}})"));
+
+	}
+
+	@Test
+	public void testMatrixOutputNotIsAllowed() {
+		ErrorHandler originalHandler = getErrorHandler();
+		setErrorHandler(ErrorHelper.silent());
+
 		add("l1={1,2}");
 		add("l2={1,2}");
+
 		assertNull(add("{l1, l2}"));
+		assertNull(add("{If(true, l1}}"));
+		assertNull(add("{IterationList(x^2,3,2)}"));
+		assertNull(add("{Sequence(k,k,1,3)}"));
+
+		// Assert that the geos are deleted from the construction
+		assertEquals(2, getConstruction().steps());
+
+		setErrorHandler(originalHandler);
 	}
 }

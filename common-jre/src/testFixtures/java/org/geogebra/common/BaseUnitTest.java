@@ -39,6 +39,7 @@ public class BaseUnitTest {
 	private Construction construction;
 	private AppCommon app;
 	private GeoElementFactory elementFactory;
+	private ErrorHandler errorHandler = TestErrorHandler.INSTANCE;
 	private static TypeSafeMatcher<GeoElementND> isDefined;
 
     /**
@@ -115,6 +116,16 @@ public class BaseUnitTest {
 		return app.getLocalization();
 	}
 
+	/** Set the error handler used for processing algebra input */
+	protected void setErrorHandler(ErrorHandler errorHandler) {
+		this.errorHandler = errorHandler;
+	}
+
+	/** Get the error handler used for processing algebra input */
+	protected ErrorHandler getErrorHandler() {
+		return errorHandler;
+	}
+
 	/**
 	 * Use this method when you want to test the commands as if those were read from file.
 	 *
@@ -125,7 +136,7 @@ public class BaseUnitTest {
 	protected <T extends GeoElementND> T add(String command) {
 		GeoElementND[] geoElements =
 				getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(command, false,
-						TestErrorHandler.INSTANCE, false, null);
+						errorHandler, false, null);
 		return getFirstElement(geoElements);
 	}
 

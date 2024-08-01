@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1129,12 +1130,15 @@ public class AlgebraProcessor {
 		GeoElement[] geos = processValidExpression(storeUndo, handler, ve,
 				newInfo);
 
+		// Test output for filetered expression
 		if (geos != null) {
-			for (GeoElement element : geos) {
-				if (element != null && !isExpressionAllowed(element.wrap(),
-						outputExpressionFilters)) {
-					return null;
-				}
+			boolean anyOutputFiltered = Arrays.stream(geos)
+					.map(geo -> geo.wrap())
+					.anyMatch(geo -> !isExpressionAllowed(geo, outputExpressionFilters));
+			if (anyOutputFiltered) {
+				// Remove filtered geos
+				Arrays.stream(geos).forEach(geo -> geo.remove());
+				throw new MyError(loc, MyError.Errors.InvalidInput);
 			}
 		}
 
