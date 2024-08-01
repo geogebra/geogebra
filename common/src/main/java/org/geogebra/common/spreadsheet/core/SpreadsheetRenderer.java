@@ -115,7 +115,8 @@ public final class SpreadsheetRenderer {
 		graphics.drawRect(topLeftX, topLeftY, width, height); // draw error border
 		drawErrorTriangle(graphics, topLeftX + width, topLeftY, topLeftX, topLeftY);
 
-		if (!leftOutOfBounds(column, offsetX) && !topOutOfBounds(row, offsetY)) {
+		if (!leftOutOfBounds(column, offsetX - TEXT_PADDING)
+				&& !topOutOfBounds(row, offsetY - TEXT_PADDING)) {
 			drawErrorString(graphics, topLeftX, topLeftY);
 		}
 	}
