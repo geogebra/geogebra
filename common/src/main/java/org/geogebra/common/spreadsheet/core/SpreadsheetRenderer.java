@@ -19,6 +19,7 @@ import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -99,13 +100,20 @@ public final class SpreadsheetRenderer {
 
 		int topLeftX = (int) Math.max(layout.getX(column) - offsetX, layout.getRowHeaderWidth());
 		int topLeftY = (int) Math.max(layout.getY(row) - offsetY, layout.getColumnHeaderHeight());
-		int topRightX = (int) (layout.getWidth(column) - layout.getX(column) - offsetX);
-		graphics.drawRect(topLeftX, topLeftY, (int) (topRightX - layout.getRowHeaderWidth()),
-				(int) layout.getHeight(row)); // draw error border
+		int topRightX = (int) (layout.getX(column) - offsetX + layout.getWidth(column));
+		int topRightY = (int) (layout.getY(row) - offsetY);
 
-		int topRightY =  (int) (layout.getY(row) - offsetY);
-		drawErrorTriangle(graphics, topRightX, topRightY, topLeftX, topLeftY);
+		int width = (int) layout.getWidth(column);
+		int height = (int) layout.getHeight(row);
+		if (layout.getX(column) - offsetX < layout.getRowHeaderWidth()) {
+			width = (int) (topRightX - layout.getRowHeaderWidth());
+		}
+		if (layout.getY(row) - offsetY < layout.getColumnHeaderHeight()) {
+			height = (int) (topRightY + layout.getHeight(row) - layout.getColumnHeaderHeight());
+		}
 
+		graphics.drawRect(topLeftX, topLeftY, width, height); // draw error border
+		drawErrorTriangle(graphics, topLeftX + width, topLeftY, topLeftX, topLeftY);
 		drawErrorString(graphics, topLeftX, topLeftY);
 	}
 
