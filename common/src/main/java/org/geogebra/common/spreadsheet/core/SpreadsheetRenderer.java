@@ -19,7 +19,6 @@ import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.shape.Rectangle;
 
 /**
@@ -113,7 +112,7 @@ public final class SpreadsheetRenderer {
 		}
 
 		graphics.drawRect(topLeftX, topLeftY, width, height); // draw error border
-		drawErrorTriangle(graphics, topLeftX + width, topLeftY, topLeftX, topLeftY);
+		drawErrorTriangle(graphics, topLeftX + width, topLeftY);
 
 		if (!leftOutOfBounds(column, offsetX - TEXT_PADDING)
 				&& !topOutOfBounds(row, offsetY - TEXT_PADDING)) {
@@ -129,8 +128,7 @@ public final class SpreadsheetRenderer {
 		return layout.getY(row) - offsetY < layout.getColumnHeaderHeight();
 	}
 
-	private void drawErrorTriangle(GGraphics2D graphics, int topRightX, int topRightY,
-			int topLeftX, int topLeftY) {
+	private void drawErrorTriangle(GGraphics2D graphics, int topRightX, int topRightY) {
 		GGeneralPath path = AwtFactory.getPrototype().newGeneralPath();
 		path.moveTo(topRightX - ERROR_TRIANGLE_WIDTH, topRightY);
 		path.lineTo(topRightX, topRightY);
