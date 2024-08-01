@@ -40,7 +40,7 @@ public class CvteExamRestrictionsTest extends BaseUnitTest {
 
 	@Test
 	public void testMatrixOutputNotIsAllowed() {
-		ErrorHandler originalHandler = getErrorHandler();
+		final ErrorHandler originalHandler = getErrorHandler();
 		setErrorHandler(ErrorHelper.silent());
 
 		add("l1={1,2}");
