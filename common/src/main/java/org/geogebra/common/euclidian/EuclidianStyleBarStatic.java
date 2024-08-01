@@ -458,8 +458,6 @@ public class EuclidianStyleBarStatic {
 	 */
 	public static boolean applyLineStyleSplitStrokes(int lineStyleIndex, int lineSize, App app,
 			List<GeoElement> geos) {
-		int lineStyle = EuclidianView.getLineType(lineStyleIndex);
-
 		List<GeoElement> splitStrokes = splitStrokes(geos, app);
 		UpdateStrokeStyleStore stylingHelper = new UpdateStrokeStyleStore(splitStrokes,
 				app.getUndoManager());
@@ -473,8 +471,6 @@ public class EuclidianStyleBarStatic {
 
 		return needUndo;
 	}
-
-
 
 	private static List<GeoElement> splitStrokes(List<GeoElement> geos, App app) {
 		if (app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true)) {
