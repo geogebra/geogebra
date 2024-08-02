@@ -1,7 +1,5 @@
 package org.geogebra.common.spreadsheet.core;
 
-import java.util.function.BiConsumer;
-
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 
@@ -54,18 +52,17 @@ public final class ViewportAdjuster {
 	}
 
 	/**
-	 * Starts scrolling the view when the paste selection is at the top / right / bottom / left
+	 * Starts scrolling the view when dragging happens  at the top / right / bottom / left
 	 * edge of the viewport
 	 * @param x Horizontal pointer position
 	 * @param y Vertical pointer position
 	 * @param viewport Viewport
 	 * @param extendVertically True if the paste selection is extended vertically, false else
 	 * (horizontally)
-	 * @param callback Function used to update the target cell of the drag paste selection, which
-	 * might have changed because of the viewport adjustment, based on the new x and y coordinates
+	 * @return new viewport
 	 */
-	void scrollForPasteSelectionIfNeeded(int x, int y, Rectangle viewport,
-			boolean extendVertically, BiConsumer<Integer, Integer> callback) {
+	Rectangle scrollForDrag(int x, int y, Rectangle viewport,
+			boolean extendVertically) {
 		int viewportWidth = (int) viewport.getWidth();
 		int viewportHeight = (int) viewport.getHeight();
 		int scrollAmountX = 0;
@@ -78,13 +75,19 @@ public final class ViewportAdjuster {
 		}
 
 		if (scrollAmountX == 0 && scrollAmountY == 0) {
-			return;
+			return viewport;
+		}
+		double targetX = viewport.getMinX() + scrollAmountX;
+		double targetY = viewport.getMinY() + scrollAmountY;
+		if (targetX < 0
+				|| targetX > layout.getTotalWidth()
+				|| targetY < 0
+				|| targetY > layout.getTotalHeight()) {
+			return viewport;
 		}
 
-		viewportAdjusterDelegate.setScrollPosition(
-				(int) viewport.getMinX() + scrollAmountX,
-				(int) viewport.getMinY() + scrollAmountY);
-		callback.accept(x + scrollAmountX, y + scrollAmountY);
+		viewportAdjusterDelegate.setScrollPosition((int) targetX, (int) targetY);
+		return viewport.translatedBy(scrollAmountX, scrollAmountY);
 	}
 
 	private double getScrollAmountX(int column, Rectangle viewport) {

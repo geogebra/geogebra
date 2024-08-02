@@ -30,7 +30,9 @@ import org.gwtproject.user.client.ui.ScrollPanel;
 import com.google.gwt.core.client.Scheduler;
 import com.himamis.retex.editor.share.util.KeyCodes;
 
+import elemental2.core.Function;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.Event;
 import jsinterop.base.Js;
 
 public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
@@ -45,6 +47,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	private final ScrollPanel scrollOverlay;
 	private final MathTextFieldW mathField;
 	private Element spreadsheetElement;
+	double moveTimeout;
+	int viewportChanges;
 
 	/**
 	 * @param app application
@@ -78,10 +82,12 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		spreadsheet.setViewportAdjustmentHandler(viewportAdjusterDelegate);
 
 		GlobalHandlerRegistry registry = app.getGlobalHandlers();
+
 		registry.addEventListener(spreadsheetElement, "pointerdown", event -> {
 			NativePointerEvent ptr = Js.uncheckedCast(event);
 			spreadsheet.handlePointerDown(getEventX(ptr), getEventY(ptr),
 					getModifiers(ptr));
+			setPointerCapture(event);
 			if (ptr.getButton() == 2 || (NavigatorUtil.isMacOS() && ptr.getCtrlKey())) {
 				event.preventDefault();
 			}
@@ -98,9 +104,9 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			NativePointerEvent ptr = Js.uncheckedCast(event);
 			int offsetX = getEventX(ptr);
 			int offsetY = getEventY(ptr);
-			setCursor(spreadsheet.getCursor(offsetX, offsetY));
-			spreadsheet.handlePointerMove(offsetX, offsetY,
-					getModifiers(ptr));
+			Modifiers modifiers = getModifiers(ptr);
+			DomGlobal.clearTimeout(moveTimeout);
+			handlePointerMoved(offsetX, offsetY, modifiers);
 		});
 		ClickStartHandler.initDefaults(scrollContent, false, true);
 		scrollContent.getElement().setTabIndex(0);
@@ -117,12 +123,31 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			repaint();
 		}, 200);
 		DomGlobal.setInterval((ignore) -> {
-			spreadsheet.scrollForPasteSelectionIfNeeded();
+			spreadsheet.scrollForDragIfNeeded();
 		}, 20);
 		scrollOverlay.addScrollHandler(event -> {
 			updateViewport();
 			repaint();
 		});
+	}
+
+	private void handlePointerMoved(int offsetX, int offsetY,
+			Modifiers modifiers) {
+		DomGlobal.clearTimeout(moveTimeout);
+		setCursor(spreadsheet.getCursor(offsetX, offsetY));
+		viewportChanges = 0;
+
+		spreadsheet.handlePointerMove(offsetX, offsetY,
+					modifiers);
+	}
+
+	private void setPointerCapture(Event event) {
+		Function capture = Js.uncheckedCast(Js.asPropertyMap(event.target)
+				.get("setPointerCapture"));
+		if (Js.isTruthy(capture)) {
+			NativePointerEvent ptr = Js.uncheckedCast(event);
+			capture.call(event.target, ptr.getPointerId());
+		}
 	}
 
 	private String getKey(NativeEvent nativeEvent) {
@@ -146,13 +171,13 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	}
 
 	private int getEventX(NativePointerEvent ptr) {
-		return (int) ptr.getOffsetX() - scrollOverlay.getElement()
-				.getScrollLeft();
+		return Math.min((int) ptr.getOffsetX() - scrollOverlay.getElement()
+				.getScrollLeft(), scrollOverlay.getOffsetWidth());
 	}
 
 	private int getEventY(NativePointerEvent ptr) {
-		return (int) ptr.getOffsetY() - scrollOverlay.getElement()
-				.getScrollTop();
+		return Math.min((int) ptr.getOffsetY() - scrollOverlay.getElement()
+				.getScrollTop(), scrollOverlay.getOffsetHeight());
 	}
 
 	private void setCursor(MouseCursor cursor) {
@@ -229,6 +254,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			public void setScrollPosition(int x, int y) {
 				scrollOverlay.setHorizontalScrollPosition(x);
 				scrollOverlay.setVerticalScrollPosition(y);
+				viewportChanges++;
 			}
 
 			@Override
