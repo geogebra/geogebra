@@ -5,6 +5,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.ResourceAction;
 import org.geogebra.web.html5.main.AppW;
 
+import elemental2.promise.Promise;
+
 public interface GLookAndFeelI {
 	int COMMAND_LINE_HEIGHT = 43;
 	int TOOLBAR_HEIGHT = 53;
@@ -41,6 +43,8 @@ public interface GLookAndFeelI {
 
 	void storeLanguage(String language);
 
+	Promise<String> loadLanguage();
+
 	void toggleFullscreen(boolean b);
 
 	boolean isOfflineExamSupported();
@@ -67,4 +71,5 @@ public interface GLookAndFeelI {
 	boolean isExternalLoginAllowed();
 
 	ResourceAction getDisplayAction(ResourceAction action);
+
 }
