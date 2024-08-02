@@ -934,4 +934,8 @@ public final class SpreadsheetController {
 			}
 		}
 	}
+
+	public boolean hasError(int row, int column) {
+		return tabularData.hasError(row, column);
+	}
 }

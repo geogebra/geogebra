@@ -337,6 +337,8 @@ public class QDParser {
 					if (sb.toString().equals("!DOCTYP")) {
 						sb.setLength(0);
 						mode = DOCTYPE;
+					} else {
+						sb.append((char) c);
 					}
 					break;
 

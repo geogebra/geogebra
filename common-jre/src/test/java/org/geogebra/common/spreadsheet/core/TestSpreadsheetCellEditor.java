@@ -18,6 +18,11 @@ final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 		public void process(String input, int row, int column) {
 			tabularData.setContent(row, column, input);
 		}
+
+		@Override
+		public void markError() {
+			// nothing to do here
+		}
 	};
 	private final SpreadsheetCellDataSerializer cellDataSerializer =
 			new DefaultSpreadsheetCellDataSerializer();

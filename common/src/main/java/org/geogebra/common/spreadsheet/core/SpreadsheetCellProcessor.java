@@ -15,4 +15,9 @@ public interface SpreadsheetCellProcessor {
 	 * @param column The row identifying the cell being edited.
 	 */
 	void process(String input, int row, int column);
+
+	/**
+	 * Mark error for cell input.
+	 */
+	void markError();
 }

@@ -106,6 +106,21 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
+	public void markError(int row, int column, boolean hasError) {
+		// not needed here
+	}
+
+	@Override
+	public boolean hasError(int row, int column) {
+		return false;
+	}
+
+	@Override
+	public String getErrorString() {
+		return "";
+	}
+
+	@Override
 	public CellDragPasteHandler getCellDragPasteHandler() {
 		return null;
 	}

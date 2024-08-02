@@ -138,8 +138,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	}
 
 	private SpreadsheetControlsDelegateW initDelegate() {
-		return new SpreadsheetControlsDelegateW(app,
-				this, mathField);
+		return new SpreadsheetControlsDelegateW(app, this, mathField);
 	}
 
 	public void requestFocus() {
@@ -253,4 +252,5 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	public void saveContentAndHideCellEditor() {
 		spreadsheet.saveContentAndHideCellEditor();
 	}
+
 }

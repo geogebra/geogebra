@@ -712,6 +712,20 @@ public class ConsElementXMLHandler {
 		}
 	}
 
+	private boolean handleHasSpreadsheetError(LinkedHashMap<String, String> attrs) {
+		if (!geo.isGeoText()) {
+			Log.error("wrong element type for <hasSpreadsheetError>: " + geo.getClass());
+			return false;
+		}
+
+		try {
+			((GeoText) geo).setSpreadsheetError(MyXMLHandler.parseBoolean(attrs.get("val")));
+			return true;
+		} catch (RuntimeException e) {
+			return false;
+		}
+	}
+
 	private boolean handleTextFigures(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof TextProperties)) {
 			Log.error("wrong element type for <decimals>: " + geo.getClass());
@@ -2280,6 +2294,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "headStyle":
 				handleHeadStyle(attrs);
+				return;
+			case "hasSpreadsheetError":
+				handleHasSpreadsheetError(attrs);
 				return;
 			case "isLaTeX":
 				handleIsLaTeX(attrs);

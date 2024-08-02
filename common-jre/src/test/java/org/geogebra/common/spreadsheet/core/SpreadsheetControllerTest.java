@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.io.FactoryProviderCommon;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;

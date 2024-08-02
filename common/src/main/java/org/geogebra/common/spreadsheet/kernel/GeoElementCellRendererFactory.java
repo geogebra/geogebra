@@ -55,6 +55,7 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 		if (data instanceof GeoBoolean && ((GeoBoolean) data).isIndependent()) {
 			return new SelfRenderable(checkboxCellRenderer, fontStyle, align, data, background);
 		}
+
 		return new SelfRenderable(stringRenderer, fontStyle, align,
 				((GeoElement) data).toValueString(StringTemplate.defaultTemplate),
 				background);

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.junit.Before;
@@ -16,10 +15,8 @@ public class DefaultSpreadsheetCellProcessorSymbolicTest extends BaseSymbolicTes
 
 	@Before
 	public void setUp() {
-		ErrorHandler errorHandler = app.getDefaultErrorHandler();
 		processor =
-				new DefaultSpreadsheetCellProcessor(kernel.getAlgebraProcessor(),
-						errorHandler);
+				new DefaultSpreadsheetCellProcessor(kernel.getAlgebraProcessor());
 		kernel.attach(new KernelTabularDataAdapter(
 				app.getSettings().getSpreadsheet(), kernel));
 	}

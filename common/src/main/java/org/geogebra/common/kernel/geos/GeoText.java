@@ -130,6 +130,7 @@ public class GeoText extends GeoElement
 	private int totalHeight;
 	private int totalWidth;
 	private final List<GeoElement> updateListeners;
+	private boolean hasSpreadsheetError = false;
 
 	/**
 	 * Creates a new GeoText.
@@ -666,10 +667,17 @@ public class GeoText extends GeoElement
 		getBreakpointXML(sb);
 
 		getAuxiliaryXML(sb);
+		getSpreadsheetHasErrorXML(sb);
 
 		// store location of text (and possible labelOffset)
 		sb.append(getXMLlocation());
 		getScriptTags(sb);
+	}
+
+	private void getSpreadsheetHasErrorXML(StringBuilder sb) {
+		sb.append("\t<hasSpreadsheetError val=\"");
+		sb.append(hasSpreadsheetError);
+		sb.append("\"/>\n");
 	}
 
 	/**
@@ -1631,5 +1639,13 @@ public class GeoText extends GeoElement
 			}
 		}
 		return b.toString();
+	}
+
+	public boolean hasSpreadsheetError() {
+		return hasSpreadsheetError;
+	}
+
+	public void setSpreadsheetError(boolean hasSpreadsheetError) {
+		this.hasSpreadsheetError = hasSpreadsheetError;
 	}
 }

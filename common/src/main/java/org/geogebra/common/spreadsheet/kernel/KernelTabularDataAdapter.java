@@ -3,6 +3,7 @@ package org.geogebra.common.spreadsheet.kernel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.geogebra.common.kernel.Kernel;
@@ -267,6 +268,34 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	@Override
 	public void setPersistenceListener(PersistenceListener layout) {
 		spreadsheetSettings.setPersistenceListener(layout);
+	}
+
+	@Override
+	public String getErrorString() {
+		return kernel.getLocalization().getError("Error").toUpperCase(Locale.ROOT);
+	}
+
+	@Override
+	public void markError(int row, int column, boolean hasError) {
+		if (data.get(row) == null || data.get(row).get(column) == null) {
+			return;
+		}
+		GeoElement geo = data.get(row).get(column);
+		if (geo.isGeoText()) {
+			((GeoText) geo).setSpreadsheetError(true);
+		}
+	}
+
+	@Override
+	public boolean hasError(int row, int column) {
+		if (data.get(row) == null || data.get(row).get(column) == null) {
+			return false;
+		}
+		GeoElement geo = data.get(row).get(column);
+		if (geo.isGeoText()) {
+			return ((GeoText) geo).hasSpreadsheetError();
+		}
+		return false;
 	}
 
 	@Override
