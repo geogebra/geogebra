@@ -81,9 +81,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 					controller.getLayout(), false, true);
 		}
 
-		Rectangle editorBounds = controller.getEditorBounds();
-		if (controller.isEditorActive() && editorBounds != null) {
-			renderer.drawEditorBorder(editorBounds, graphics);
+		if (controller.getEditorBounds() != null) {
+			renderer.drawEditorBorder(controller.getEditorBounds(), graphics);
 		}
 	}
 

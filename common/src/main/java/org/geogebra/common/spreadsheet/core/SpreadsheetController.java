@@ -211,11 +211,11 @@ public final class SpreadsheetController {
 	 * @return true if the cell editor is currently visible.
 	 */
 	public boolean isEditorActive() {
-		return editor != null && editor.isVisible;
+		return editor != null && editor.isVisible();
 	}
 
 	void saveContentAndHideCellEditor() {
-		if (editor != null && editor.isVisible) {
+		if (editor != null && editor.isVisible()) {
 			editor.commit();
 			editor.hide();
 		}
@@ -287,7 +287,7 @@ public final class SpreadsheetController {
 	}
 
 	void scrollEditorIntoView() {
-		if (viewportAdjuster != null && editor != null && editor.isVisible) {
+		if (viewportAdjuster != null && editor != null && editor.isVisible()) {
 			viewport = viewportAdjuster.adjustViewportIfNeeded(editor.row, editor.column, viewport);
 			editor.updatePosition();
 		}
@@ -882,7 +882,6 @@ public final class SpreadsheetController {
 		private final @Nonnull SpreadsheetCellEditor cellEditor;
 		private @CheckForNull SpreadsheetMathFieldAdapter mathFieldAdapter;
 		@CheckForNull Rectangle bounds;
-		boolean isVisible;
 		int row;
 		int column;
 
@@ -904,7 +903,6 @@ public final class SpreadsheetController {
 
 			bounds = layout.getBounds(new TabularRange(row, column), viewport);
 			cellEditor.show(bounds.insetBy(1, 1), viewport, tabularData.getAlignment(row, column));
-			isVisible = true;
 		}
 
 		void updatePosition() {
@@ -914,11 +912,12 @@ public final class SpreadsheetController {
 
 		void hide() {
 			cellEditor.getMathField().removeMathFieldListener(mathFieldAdapter);
-			// flag needs to be set *before* hiding since hiding may change layout (keyboard closed)
-			// and during layout update we may need to query this flag
-			isVisible = false;
-			bounds = null;
 			cellEditor.hide();
+			bounds = null;
+		}
+
+		boolean isVisible() {
+			return bounds != null;
 		}
 
 		void clearInput() {
