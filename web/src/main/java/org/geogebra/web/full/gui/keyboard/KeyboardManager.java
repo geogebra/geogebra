@@ -44,7 +44,6 @@ import org.gwtproject.user.client.ui.RootPanel;
 public final class KeyboardManager
 		implements RequiresResize, KeyboardManagerInterface {
 
-	private static final int SWITCHER_HEIGHT = 42;
 	private final AppW app;
 	private VirtualKeyboardGUI keyboard;
 
@@ -146,9 +145,7 @@ public final class KeyboardManager
 
 	@Override
 	public int estimateHiddenKeyboardHeight() {
-		int keyboardContentHeight = app.needsSmallKeyboard() ? TabbedKeyboard.SMALL_HEIGHT
-				: TabbedKeyboard.BIG_HEIGHT;
-		return keyboardContentHeight + SWITCHER_HEIGHT;
+		return TabbedKeyboard.TOTAL_HEIGHT;
 	}
 
 	/**
