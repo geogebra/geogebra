@@ -462,14 +462,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				}
 			}
 			return msb;
-		} else
-		// number * ...
-
-		// boolean * number
-		if (lt instanceof BooleanValue && rt instanceof NumberValue) {
-			num = ((NumberValue) rt).getNumber();
-			MyDouble.mult(num, ((BooleanValue) lt).getDouble(), num);
-			return num;
 		}
 		// vector * ...
 		else if (lt instanceof VectorNDValue) {
@@ -572,7 +564,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		MyStringBuffer msb;
 		if (lt instanceof NumberValue && rt instanceof NumberValue) {
 			num = ((NumberValue) lt).getNumber();
-			MyDouble.add(num, ((NumberValue) rt).getNumber(), num);
+			MyDouble.add(num, (NumberValue) rt, num);
 			return num;
 		}
 		// vector + vector
@@ -742,7 +734,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// number / number
 			if (lt instanceof NumberValue) {
 				num = ((NumberValue) lt).getNumber();
-				MyDouble.div(num, ((NumberValue) rt).getNumber(), num);
+				MyDouble.div(num, (NumberValue) rt, num);
 				return num;
 			}
 			// vector / number
@@ -872,11 +864,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		if (lt instanceof NumberValue && rt instanceof NumberValue) {
 			num = ((NumberValue) lt).getNumber();
 			double base = num.getDouble();
-			MyDouble exponent = ((NumberValue) rt).getNumber();
+			NumberValue exponent = (NumberValue) rt;
 
 			// special case: e^exponent (Euler number)
 			if (MyDouble.exactEqual(base, Math.E)) {
-				return exponent.exp();
+				return exponent.getNumber().exp();
 			}
 
 			// special case: left side is negative and
