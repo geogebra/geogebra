@@ -1226,7 +1226,7 @@ public abstract class GlobalKeyDispatcher {
 			base = 100;
 		}
 
-		if (geos == null || geos.size() == 0) {
+		if (geos == null || geos.isEmpty()) {
 			return moveCoordSystem(key, base, isShiftDown);
 		}
 
@@ -1282,6 +1282,15 @@ public abstract class GlobalKeyDispatcher {
 			if (!isControlDown
 					&& (!app.isApplet() || keyboardShortcutsEnabled())) {
 				app.splitAndDeleteSelectedObjects();
+				return true;
+			}
+			break;
+
+		case CONTEXT_MENU:
+		case F10:
+			if (app.isAlgebraViewFocused() &&
+					(isShiftDown || key == KeyCodes.CONTEXT_MENU && keyboardShortcutsEnabled())) {
+				app.getGuiManager().openMenuInAVFor(geos.get(0));
 				return true;
 			}
 			break;

@@ -199,7 +199,7 @@ public class RadioTreeItemController implements ClickHandler,
 		item.updateButtonPanelPosition();
 	}
 
-	private void setAlgebraViewAsFocusedPanel() {
+	protected void setAlgebraViewAsFocusedPanel() {
 		app.getGuiManager().getLayout().getDockManager().setFocusedPanel(App.VIEW_ALGEBRA);
 	}
 

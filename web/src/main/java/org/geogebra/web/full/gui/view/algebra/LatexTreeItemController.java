@@ -253,8 +253,12 @@ public class LatexTreeItemController extends RadioTreeItemController
 			return true;
 		}
 		if (item.geo != null || StringUtil.empty(item.getText())) {
+			boolean isAlgebraViewFocused = app.isAlgebraViewFocused();
 			onBlur(null);
 			app.getAccessibilityManager().focusGeo(item.geo);
+			if (isAlgebraViewFocused) {
+				setAlgebraViewAsFocusedPanel();
+			}
 			return true;
 		}
 		return false;

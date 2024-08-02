@@ -1,7 +1,6 @@
 package org.geogebra.common.gui;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.SelectionManager;
 
 public class GeoTabber implements MayHaveFocus {
@@ -38,33 +37,38 @@ public class GeoTabber implements MayHaveFocus {
 
 	/**
 	 * Focuses the next available GeoElement<br/>
-	 * If the AlgebraView is currently focused, this method ensures that the focused panel,
+	 * If the Algebra View is currently focused, this method ensures that the focused panel,
 	 * after the next GeoElement has been selected, remains the AlgebraView
 	 * @return True if the selection of the next geo was successful, false else
 	 */
 	@Override
 	public boolean focusNext() {
-		boolean isAlgebraViewFocused = isAlgebraViewFocused();
+		boolean isAlgebraViewFocused = app.isAlgebraViewFocused();
 		selected = selectionManager.selectNextGeo();
 		if (isAlgebraViewFocused) {
-			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(App.VIEW_ALGEBRA);
+			setAlgebraViewAsFocusedPanel();
 		}
 		return selected;
 	}
 
-	private boolean isAlgebraViewFocused() {
-		GuiManagerInterface guiManager = app.getGuiManager();
-		if (guiManager == null || guiManager.getLayout() == null
-				|| guiManager.getLayout().getDockManager() == null) {
-			return false;
-		}
-		return guiManager.getLayout().getDockManager().getFocusedViewId() == App.VIEW_ALGEBRA;
-	}
-
+	/**
+	 * Focuses the previous available GeoElement<br/>
+	 * If the Algebra View is currently focused, this method ensures that the focused panel,
+	 * after the previous GeoElement has been selected, remains the AlgebraView
+	 * @return True if the selection of the previous geo was successful, false else
+	 */
 	@Override
 	public boolean focusPrevious() {
+		boolean isAlgebraViewFocused = app.isAlgebraViewFocused();
 		selected = selectionManager.selectPreviousGeo();
+		if (isAlgebraViewFocused) {
+			setAlgebraViewAsFocusedPanel();
+		}
 		return selected;
+	}
+
+	private void setAlgebraViewAsFocusedPanel() {
+		app.getGuiManager().getLayout().getDockManager().setFocusedPanel(App.VIEW_ALGEBRA);
 	}
 
 	@Override
