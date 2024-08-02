@@ -2159,7 +2159,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 						try {
 							String limit = kernel.evaluateCachedGeoGebraCAS(
 									sbCasCommand.toString(), null);
-							if (GeoFunction.isUndefinedOrInf(limit)) {
+							if (GeoFunction.isUndefinedOrInf(limit)
+									|| isNearInfinity(limit, asymptoteX.getKey())) {
 								if (verticalSB.length() > 1) {
 									verticalSB.append(',');
 								}
@@ -2177,6 +2178,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		} catch (Throwable t) {
 			Log.debug(t);
 		}
+	}
+
+	private boolean isNearInfinity(String limit, double xValue) {
+		double closeByValue = Math.max(Math.abs(value(xValue + 1)), 1);
+		return Math.abs(kernel.getAlgebraProcessor().evaluateToDouble(limit)
+				/ closeByValue) > 1E8;
 	}
 
 	private String transformedVericalAsymptotes(String transform, String suffix,

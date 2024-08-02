@@ -1205,7 +1205,7 @@ public final class Configuration {
 		add("\u03C8", TeXConstants.TYPE_ORDINARY, 968, fonts.fcmrpg);
 		add("\u03C9", TeXConstants.TYPE_ORDINARY, 969, fonts.fcmrpg);
 		add("\u03D1", TeXConstants.TYPE_ORDINARY, 977, fonts.fcmrpg);
-		add("ogonek", TeXConstants.TYPE_ACCENT, 197, fonts.cmr10);
+		add("ogonek", TeXConstants.TYPE_ACCENT, 197, fonts.cmr10, '\u02DB');
 		add("varTheta", TeXConstants.TYPE_ORDINARY, 163, fonts.cmmi10,
 				'\u03F4');
 		add("intop", TeXConstants.TYPE_BIG_OPERATOR, 82, fonts.cmex10, '\u222b');
@@ -1326,7 +1326,7 @@ public final class Configuration {
 		add("textnormaldot", TeXConstants.TYPE_PUNCTUATION, 46, fonts.cmss10);
 		add("unlhd", TeXConstants.TYPE_RELATION, 69, fonts.msam10);
 		add("Gamma", TeXConstants.TYPE_ORDINARY, 161, fonts.cmr10, '\u0393');
-		add("jlatexmathcedilla", TeXConstants.TYPE_ORDINARY, 187, fonts.cmti10);
+		add("jlatexmathcedilla", TeXConstants.TYPE_ORDINARY, 187, fonts.cmti10, '\u00B8');
 		add("vec", TeXConstants.TYPE_ACCENT, 126, fonts.cmmi10_unchanged,
 				'\u20d7');
 		add("mapsfromchar", TeXConstants.TYPE_RELATION, 123, fonts.stmary10);

@@ -17,6 +17,7 @@ publishing {
 
 dependencies {
     implementation(libs.j2objc.annotations)
+    api(libs.findbugs.annotations)
 }
 
 tasks.register<Jar>("jarSources") {

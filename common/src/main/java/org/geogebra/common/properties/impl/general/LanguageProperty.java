@@ -54,7 +54,7 @@ public class LanguageProperty extends AbstractNamedEnumeratedProperty<String> {
 
     @Override
     public String getValue() {
-        return getLocalization().getLanguageTag();
+        return getLocalization().getPreferredLanguageTag();
     }
 
     @Override
