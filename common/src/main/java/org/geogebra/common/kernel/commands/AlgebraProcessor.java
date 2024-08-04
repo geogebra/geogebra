@@ -2532,7 +2532,8 @@ public class AlgebraProcessor {
 		if (!cx.containsDeep(loc2)) {
 			add(coefX, 0, mult.multiply(cx));
 			return 0;
-		} else if (cx.getOperation() == Operation.PLUS) {
+		} else if (cx.getOperation() == Operation.PLUS
+				|| cx.getOperation() == Operation.INVISIBLE_PLUS) {
 			int deg1 = getPolyCoeffs(cx.getLeftTree(), coefX, mult, loc2);
 			int deg2 = getPolyCoeffs(cx.getRightTree(), coefX, mult, loc2);
 			if (deg1 < 0 || deg2 < 0) {

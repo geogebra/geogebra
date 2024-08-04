@@ -2210,8 +2210,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	private ExpressionNode getSubexpForAsymptote(ExpressionNode exp) {
 		if (exp.getOperation() == Operation.EXP) {
 			return getSubexpForAsymptote(exp.getLeftTree());
-		} else if (exp.getOperation() == Operation.PLUS
-				|| exp.getOperation() == Operation.MINUS) {
+		} else if (exp.getOperation().isPlusorMinus()) {
 			if (!exp.getLeftTree().containsFreeFunctionVariable(null)) {
 				return getSubexpForAsymptote(exp.getRightTree());
 			}
