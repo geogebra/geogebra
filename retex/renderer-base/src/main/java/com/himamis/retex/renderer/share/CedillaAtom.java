@@ -89,6 +89,11 @@ public class CedillaAtom extends Atom implements IsAccentedAtom {
 	}
 
 	@Override
+	public String getCommand() {
+		return "c";
+	}
+
+	@Override
 	public Atom getTrueBase() {
 		return base;
 	}

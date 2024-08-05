@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.EventAcumulator;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -444,6 +445,17 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 		assertCannotDrag(image);
 		add("SetFixed(img,false)");
 		assertCanDrag(image, false);
+	}
+
+	@Test
+	@Issue("APPS-5592")
+	public void moveImageMovesChildren() {
+		GeoImage image = createImage();
+		image.setLabel("img");
+		add("Reflect(img,xAxis)");
+		((AbsoluteScreenLocateable) image).setAbsoluteScreenLocActive(true);
+		DragResult dr = getDragResult(image, false);
+		assertEquals("UPDATE img,UPDATE img',UPDATE_STYLE img", dr.events);
 	}
 
 	@Test
