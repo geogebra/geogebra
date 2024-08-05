@@ -10,6 +10,7 @@ import org.junit.Test;
 public class KernelTabularDataAdapterTest extends BaseUnitTest {
 
 	private KernelTabularDataAdapter tabularData;
+
 	@Before
 	public void setupData() {
 		tabularData = new KernelTabularDataAdapter(getApp().getSettings().getSpreadsheet(),
