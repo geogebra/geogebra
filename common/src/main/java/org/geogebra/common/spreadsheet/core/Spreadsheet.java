@@ -290,4 +290,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	public SpreadsheetController getController() {
 		return controller;
 	}
+
+	public Rectangle getViewport() {
+		return controller.getViewport();
+	}
 }

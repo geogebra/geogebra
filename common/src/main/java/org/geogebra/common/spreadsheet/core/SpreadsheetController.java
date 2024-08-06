@@ -642,12 +642,19 @@ public final class SpreadsheetController {
 
 	private void extendSelectionByDrag(int x, int y, boolean addSelection) {
 		if (dragState.startColumn >= 0 || dragState.startRow >= 0) {
-			int row = findRowOrHeader(y);
-			int column = findColumnOrHeader(x);
-
+			int row = Math.min(findRowOrHeader(y), tabularData.numberOfRows() - 1);
+			int column = Math.min(findColumnOrHeader(x), tabularData.numberOfColumns() - 1);
+			if ((row == -1 && dragState.startRow != -1)
+					|| (column == -1 && dragState.startColumn != -1)) {
+				// TODO autoscroll
+				return;
+			}
 			TabularRange range =
 					new TabularRange(dragState.startRow, dragState.startColumn, row, column);
 			selectionController.select(new Selection(range), false, addSelection);
+			if (viewportAdjuster != null) {
+				viewport = viewportAdjuster.adjustViewportIfNeeded(row, column, viewport);
+			}
 		}
 	}
 
