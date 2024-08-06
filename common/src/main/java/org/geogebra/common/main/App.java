@@ -5206,12 +5206,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	// ExamRestrictable
 
-	/**
-	 * Note: Client code adopting the new exam handling needs to register the current instance
-	 * as an {@link ExamRestrictable} with the {@link org.geogebra.common.exam.ExamController}.
-	 *
-	 * @param examRestrictions The restrictions for the current exam.
-	 */
 	@Override
 	public void applyRestrictions(ExamType examType,
 			@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {

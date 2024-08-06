@@ -14,15 +14,17 @@ public interface ExamRestrictable {
 	/**
 	 * Apply the restrictions when the exam starts.
 	 *
-	 * @param examRestrictions The restrictions for the current exam.
+	 * @param examType The exam type.
+	 * @param featureRestrictions The feature restrictions for the exam.
 	 */
 	void applyRestrictions(ExamType examType,
 			@Nonnull Set<ExamFeatureRestriction> featureRestrictions);
 
 	/**
-	 * Reverse the effects of {@link #applyRestrictions(ExamRestrictions)}.
+	 * Reverse the effects of {@link #applyRestrictions(ExamType, Set)}.
 	 *
-	 * @param examRestrictions The restrictions for the current exam.
+	 * @param examType The exam type.
+	 * 	 * @param featureRestrictions The feature restrictions for the exam.
 	 */
 	void removeRestrictions(ExamType examType,
 			@Nonnull Set<ExamFeatureRestriction> featureRestrictions);

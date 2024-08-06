@@ -87,6 +87,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 	private static Set<ExamFeatureRestriction> createFeatureRestrictions() {
 		return Set.of(ExamFeatureRestriction.AUTOMATIC_GRAPH_SELECTION_FOR_FUNCTIONS);
 	}
+
 	private static Set<CommandFilter> createCommandFilters() {
 		// Source: https://docs.google.com/spreadsheets/d/1xUnRbtDPGtODKcYhM4tx-uD4G8B1wcpGgSkT4iX8BJA/edit?gid=215139506#gid=215139506
 		// note: this is the set of *allowed* commands
