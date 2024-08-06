@@ -171,6 +171,8 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			labelingDropDown.resetFromModel();
 			fontSizeDropDown.resetFromModel();
 			languageDropDown.resetFromModel();
+			lblLanguage.setVisible(examController.isIdle());
+			languageDropDown.setVisible(examController.isIdle());
 			saveRestoreRow.setVisible(examController.isIdle());
 		}
 

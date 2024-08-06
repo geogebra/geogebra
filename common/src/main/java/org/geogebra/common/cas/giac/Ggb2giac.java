@@ -198,7 +198,7 @@ public class Ggb2giac {
 		// needed for eg ComplexRoot[sqrt(3)*x^2+sqrt(5)*x+sqrt(7)]
 		String csolutions = "ggbsort([[[ggbcsans:=0/0],[ggbcsans:=%0],[ggbvars:=lname(ggbcsans)]],"
 				+ "normal(cZeros(%0,when(size(ggbvars)==1,ggbvars[0],x)))][1])";
-		p("ComplexRoot.1", csolutions.replace("normal", "evalf"));
+		p("ComplexRoot.1", "cfsolve(%0)");
 
 		p("CSolutions.1", csolutions);
 		p("CSolutions.2", "ggbsort(normal(cZeros(%0,%1)))");

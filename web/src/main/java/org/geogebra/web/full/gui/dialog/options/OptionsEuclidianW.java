@@ -693,7 +693,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 	@Override
 	public void updateGUI() {
 		setLabels(); // resets all comboboxes: call *before* properties update
-		model.updateProperties(basicTab, gridTab);
+		model.updateBasicProperties(basicTab);
+		model.updateGridProperties(gridTab);
 		xAxisTab.updateGUI();
 		yAxisTab.updateGUI();
 		gridTab.updateGUI();

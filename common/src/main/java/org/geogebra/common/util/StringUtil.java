@@ -1659,13 +1659,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 *            number of symbols
 	 * @return unicode range
 	 */
-	public static String[] getSetOfSymbols(int symbolsStartValue,
+	public static List<String> getSetOfSymbols(int symbolsStartValue,
 			int symbolsNumber) {
-		String[] symbols = new String[symbolsNumber];
+		ArrayList<String> ret = new ArrayList<>();
 		for (int i = 0; i < symbolsNumber; i++) {
-			symbols[i] = "" + (char) (symbolsStartValue + i);
+			ret.add("" + (char) (symbolsStartValue + i));
 		}
-		return symbols;
+		return ret;
 	}
 
 	/**

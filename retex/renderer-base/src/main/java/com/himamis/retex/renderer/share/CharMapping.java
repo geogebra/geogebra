@@ -45,6 +45,9 @@
 
 package com.himamis.retex.renderer.share;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class CharMapping {
 
 	public static final char APOSTROPHE = '\'';
@@ -81,6 +84,11 @@ public final class CharMapping {
 	public static final char SUBEQUAL = '\u208C';
 	public static final char SUBLPAR = '\u208D';
 	public static final char SUBRPAR = '\u208E';
+	private static final Map<String, Character> reverse = new HashMap<>();
+
+	public static Character getReverse(String s) {
+		return reverse.get(s);
+	}
 
 	public interface Mapping {
 
@@ -237,6 +245,11 @@ public final class CharMapping {
 		mapToSym[c] = new FormulaMapping(s);
 	}
 
+	public void putFormRev(final char c, final String s) {
+		mapToSym[c] = new FormulaMapping(s);
+		reverse.put(s, c);
+	}
+
 	public void putForm(final char c, final String s, String text) {
 		mapToSym[c] = new FormulaMapping(s, text);
 	}
@@ -328,8 +341,8 @@ public final class CharMapping {
 		putForm('\u00C2', "\\^A");
 		putForm('\u00C3', "\\~A");
 		putForm('\u00C4', "\\\"A");
-		putForm('\u00C5', "\\r{A}");
-		putForm('\u00C7', "\\c{C}");
+		putFormRev('\u00C5', "\\r{A}");
+		putFormRev('\u00C7', "\\c{C}");
 		putForm('\u00C8', "\\`E");
 		putForm('\u00C9', "\\'E");
 		putForm('\u00CA', "\\^E");
@@ -354,8 +367,8 @@ public final class CharMapping {
 		putForm('\u00E2', "\\^a");
 		putForm('\u00E3', "\\~a");
 		putForm('\u00E4', "\\\"a");
-		putForm('\u00E5', "\\aa");
-		putForm('\u00E7', "\\c{c}");
+		putFormRev('\u00E5', "\\r{a}");
+		putFormRev('\u00E7', "\\c{c}");
 		putForm('\u00E8', "\\`e");
 		putForm('\u00E9', "\\'e");
 		putForm('\u00EA', "\\^e");
@@ -380,8 +393,8 @@ public final class CharMapping {
 		putForm('\u0101', "\\=a");
 		putForm('\u0102', "\\u{A}");
 		putForm('\u0103', "\\u{a}");
-		putForm('\u0104', "\\k{A}");
-		putForm('\u0105', "\\k{a}");
+		putFormRev('\u0104', "\\k{A}");
+		putFormRev('\u0105', "\\k{a}");
 		putForm('\u0106', "\\'C");
 		putForm('\u0107', "\\'c");
 		putForm('\u0108', "\\^C");
@@ -400,8 +413,8 @@ public final class CharMapping {
 		putForm('\u0115', "\\u{e}");
 		putForm('\u0116', "\\.E");
 		putForm('\u0117', "\\.e");
-		putForm('\u0118', "\\k{E}");
-		putForm('\u0119', "\\k{e}");
+		putFormRev('\u0118', "\\k{E}");
+		putFormRev('\u0119', "\\k{e}");
 		putForm('\u011A', "\\v{E}");
 		putForm('\u011B', "\\v{e}");
 		putForm('\u011C', "\\^G");
@@ -422,8 +435,8 @@ public final class CharMapping {
 		putForm('\u012B', "\\=\\i");
 		putForm('\u012C', "\\u{I}");
 		putForm('\u012D', "\\u{\\i}");
-		putForm('\u012E', "\\k{I}");
-		putForm('\u012F', "\\k{i}");
+		putFormRev('\u012E', "\\k{I}");
+		putFormRev('\u012F', "\\k{i}");
 		putForm('\u0130', "\\.I");
 		putForm('\u0132', "\\IJ");
 		putForm('\u0133', "\\ij");
@@ -464,12 +477,12 @@ public final class CharMapping {
 		putForm('\u015B', "\\'s");
 		putForm('\u015C', "\\^S");
 		putForm('\u015D', "\\^s");
-		putForm('\u015E', "\\c{S}");
-		putForm('\u015F', "\\c{s}");
+		putFormRev('\u015E', "\\c{S}");
+		putFormRev('\u015F', "\\c{s}");
 		putForm('\u0160', "\\v{S}");
 		putForm('\u0161', "\\v{s}");
-		putForm('\u0162', "\\c{T}");
-		putForm('\u0163', "\\c{t}");
+		putFormRev('\u0162', "\\c{T}");
+		putFormRev('\u0163', "\\c{t}");
 		putForm('\u0164', "\\v{T}");
 		putForm('\u0165', "\\tcaron");
 		putForm('\u0166', "\\Tstroke");
@@ -480,12 +493,12 @@ public final class CharMapping {
 		putForm('\u016B', "\\=u");
 		putForm('\u016C', "\\u{U}");
 		putForm('\u016D', "\\u{u}");
-		putForm('\u016E', "\\r{U}");
-		putForm('\u016F', "\\r{u}");
+		putFormRev('\u016E', "\\r{U}");
+		putFormRev('\u016F', "\\r{u}");
 		putForm('\u0170', "\\H{U}");
 		putForm('\u0171', "\\H{u}");
-		putForm('\u0172', "\\k{U}");
-		putForm('\u0173', "\\k{u}");
+		putFormRev('\u0172', "\\k{U}");
+		putFormRev('\u0173', "\\k{u}");
 		putForm('\u0174', "\\^W");
 		putForm('\u0175', "\\^w");
 		putForm('\u0176', "\\^Y");

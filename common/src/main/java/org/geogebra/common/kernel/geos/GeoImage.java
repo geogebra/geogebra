@@ -57,10 +57,11 @@ public class GeoImage extends GeoElement implements
 	public static final int PROTRACTOR_WIDTH = 558;
 	public static final int PROTRACTOR_HEIGHT = 296;
 	public static final int RULER_LEFT = 112;
+	private static final int RULER_HEIGHT = 71;
 	private static final int TRIANGLE_PROTRACTOR_WIDTH = 879;
 	private static final int TRIANGLE_PROTRACTOR_HEIGHT = 440;
 
-	private GeoPoint[] corners; // corners of the image
+	private final GeoPoint[] corners; // corners of the image
 
 	/** width in pixels */
 	protected int pixelWidth;
@@ -80,7 +81,7 @@ public class GeoImage extends GeoElement implements
 	// corner points for transformations
 	private GeoPoint[] tempPoints;
 	// coords is the 2d result array for (x, y); n is 0, 1, or 2
-	private double[] tempCoords = new double[2];
+	private final double[] tempCoords = new double[2];
 	private ArrayList<GeoElementND> al = null;
 	private boolean centered = false;
 
@@ -1386,6 +1387,10 @@ public class GeoImage extends GeoElement implements
 
 	@Override
 	public void setLocation(GPoint2D location) {
+		setLocation(location.x, location.y);
+	}
+
+	private void setLocation(double newLeft, double newTop) {
 		ensureCorner();
 		double top = getStartPoints()[2].y;
 		double left = getStartPoints()[2].x;
@@ -1399,7 +1404,7 @@ public class GeoImage extends GeoElement implements
 			top += -cropLeft * Math.sin(angle) - cropTop * Math.cos(angle);
 		}
 
-		Coords shift = new Coords(location.x - left, location.y - top);
+		Coords shift = new Coords(newLeft - left, newTop - top);
 		if (getStartPoints()[1] != null && getStartPoints()[2] != null) {
 			getStartPoint().translate(shift);
 			getStartPoints()[1].translate(shift);
@@ -1431,20 +1436,25 @@ public class GeoImage extends GeoElement implements
 	 */
 	public void setImagePropertiesIfNecessary() {
 		if (isMeasurementTool) {
-			EuclidianView view = app.getActiveEuclidianView();
 			String fileName = getImageFileName();
 			if (fileName.contains("Ruler.svg")) {
-				view.setMeasurementTool(this, RULER_LEFT);
+				initPosition(0, RULER_HEIGHT, false);
 			} else if (fileName.contains("TriangleProtractor.svg")) {
-				int middle = (view.getWidth() - TRIANGLE_PROTRACTOR_WIDTH) / 2;
-				view.setMeasurementTool(this,
-						middle, TRIANGLE_PROTRACTOR_WIDTH, TRIANGLE_PROTRACTOR_HEIGHT);
+				initPosition(TRIANGLE_PROTRACTOR_WIDTH, TRIANGLE_PROTRACTOR_HEIGHT, true);
 			} else if (fileName.contains("Protractor.svg")) {
-				int middle = (view.getWidth() - PROTRACTOR_WIDTH) / 2;
-				view.setMeasurementTool(this,
-						middle, PROTRACTOR_WIDTH, PROTRACTOR_HEIGHT);
+				initPosition(PROTRACTOR_WIDTH, PROTRACTOR_HEIGHT, true);
 			}
 		}
+	}
+
+	private void initPosition(double width, double height, boolean center) {
+		EuclidianView view = app.getActiveEuclidianView();
+		double top = (view.getHeight() - height) / 2;
+		double left = center ? (view.getWidth() - width) / 2.0 : RULER_LEFT;
+		kernel.getConstruction().removeFromConstructionList(this);
+		setLocation(view.toRealWorldCoordX(left),
+				view.toRealWorldCoordY(top));
+		update();
 	}
 
 	@Override

@@ -226,7 +226,7 @@ public class GPopupPanel extends SimplePanel implements
 		private final GPopupPanel curPanel;
 
 		/**
-		 * Indicates whether or not the {@link GPopupPanel} is in the process of
+		 * Indicates whether the {@link GPopupPanel} is in the process of
 		 * unloading. If the popup is unloading, then the animation just does
 		 * cleanup.
 		 */
@@ -768,7 +768,7 @@ public class GPopupPanel extends SimplePanel implements
 	}
 
 	/**
-	 * Determines whether or not this popup is showing.
+	 * Determines whether this popup is showing.
 	 *
 	 * @return <code>true</code> if the popup is showing
 	 * @see #show()
@@ -779,7 +779,7 @@ public class GPopupPanel extends SimplePanel implements
 	}
 
 	/**
-	 * Determines whether or not this popup is visible. Note that this just
+	 * Determines whether this popup is visible. Note that this just
 	 * checks the <code>visibility</code> style attribute, which is set in the
 	 * {@link #setVisible(boolean)} method. If you want to know if the popup is
 	 * attached to the page, use {@link #isShowing()} instead.
