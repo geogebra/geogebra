@@ -13,6 +13,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -24,6 +25,8 @@ public class GeoEmbed extends GeoWidget {
 	private static final double DEFAULT_HEIGHT = 600;
 
 	public final static int EMBED_SIZE_THRESHOLD = 100;
+	private final static int MARGINS = 32; // left + right
+	private static final int TOOLBOX_WIDTH = 80;
 
 	private double contentWidth = DEFAULT_WIDTH;
 	private double contentHeight = DEFAULT_HEIGHT;
@@ -90,7 +93,7 @@ public class GeoEmbed extends GeoWidget {
 	 *            view
 	 */
 	public void initPosition(EuclidianViewInterfaceCommon ev) {
-		double x = ev.toRealWorldCoordX((ev.getViewWidth() - getWidth()) / 2.0);
+		double x = ev.toRealWorldCoordX((ev.getViewWidth() - getWidth() + TOOLBOX_WIDTH) / 2.0);
 		double y = ev.toRealWorldCoordY((ev.getViewHeight() - getHeight()) / 2.0);
 		startPoint.setLocation(x, y);
 	}
@@ -100,7 +103,13 @@ public class GeoEmbed extends GeoWidget {
 	 * @param view euclidian view
 	 */
 	public void initDefaultPosition(EuclidianView view) {
-		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		double width = MyMath.clamp(DEFAULT_WIDTH, EMBED_SIZE_THRESHOLD,
+				view.getWidth() - TOOLBOX_WIDTH - MARGINS);
+		double height =
+				MyMath.clamp(DEFAULT_HEIGHT, EMBED_SIZE_THRESHOLD, view.getHeight() - MARGINS);
+		setContentWidth(width);
+		setContentHeight(height);
+		setSize(width, height);
 		initPosition(view);
 	}
 

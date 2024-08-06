@@ -311,7 +311,7 @@ public abstract class Ellipse2D extends RectangularShape {
     }
 
     /**
-     * Determines whether or not the specified <code>Object</code> is
+     * Determines whether the specified <code>Object</code> is
      * equal to this <code>Ellipse2D</code>.  The specified
      * <code>Object</code> is equal to this <code>Ellipse2D</code>
      * if it is an instance of <code>Ellipse2D</code> and if its

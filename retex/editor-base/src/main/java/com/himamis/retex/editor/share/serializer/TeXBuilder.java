@@ -43,6 +43,7 @@ import com.himamis.retex.renderer.share.TextStyle;
 import com.himamis.retex.renderer.share.TextStyleAtom;
 import com.himamis.retex.renderer.share.UnderOverArrowAtom;
 import com.himamis.retex.renderer.share.UnderscoreAtom;
+import com.himamis.retex.renderer.share.Unit;
 import com.himamis.retex.renderer.share.commands.CommandOpName;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -131,6 +132,10 @@ public class TeXBuilder {
 			}
 
 			ra.add(argument);
+		}
+		MathComponent last = mathFormula.getArgument(mathFormula.size() - 1);
+		if (last instanceof MathCharacter && ((MathCharacter) last).isOperator()) {
+			ra.add(new SpaceAtom(Unit.EM, 0));
 		}
 
 		return ra;

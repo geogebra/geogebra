@@ -218,10 +218,6 @@ public class MySpecialDouble extends MyDouble {
 		bd = null;
 	}
 
-	/**
-	 * Set precise value
-	 * @param val value as BigDecimal
-	 */
 	@Override
 	public void set(BigDecimal val) {
 		super.set(val.doubleValue());
@@ -251,10 +247,15 @@ public class MySpecialDouble extends MyDouble {
 			return super.unaryMinus(kernel);
 		}
 		if (!isLetterConstant && !scientificNotation) {
-			return new MySpecialDouble(kernel, -getDouble(), "-" + originalString);
+			return new MySpecialDouble(kernel, -getDouble(), flipSign(originalString));
 		}
 		return new ExpressionNode(kernel, new MinusOne(kernel),
 				Operation.MULTIPLY, this);
+	}
+
+	private String flipSign(String originalString) {
+		return originalString.startsWith("-")
+				? originalString.substring(1) : "-" + originalString;
 	}
 
 	public boolean isScientificNotation() {

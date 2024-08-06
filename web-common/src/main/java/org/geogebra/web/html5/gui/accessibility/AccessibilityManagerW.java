@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui.accessibility;
 
+import java.util.Comparator;
 import java.util.TreeSet;
 
 import javax.annotation.Nonnull;
@@ -29,7 +30,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	private final AltTextTimer timer;
 
-	private final TreeSet<MayHaveFocus> components = new TreeSet<>((o1, o2) -> {
+	private final Comparator<MayHaveFocus> componentComparator = (o1, o2) -> {
 		int viewDiff = o1.getAccessibilityGroup().ordinal()
 				- o2.getAccessibilityGroup().ordinal();
 		if (viewDiff != 0) {
@@ -39,7 +40,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return o1.getViewControlId().ordinal() - o2.getViewControlId().ordinal();
 		}
 		return 0;
-	});
+	};
+
+	private final TreeSet<MayHaveFocus> components = new TreeSet<>(componentComparator);
 
 	/**
 	 * Constructor.
@@ -131,6 +134,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public void register(MayHaveFocus focusable) {
+		components.removeIf(c -> componentComparator.compare(focusable, c) == 0);
 		components.add(focusable);
 	}
 

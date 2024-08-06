@@ -50,7 +50,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor.addBlurHandler(this);
 		editor.getMathField().setChangeListener(this);
 		editor.setTextRendererSettings(settings);
-		decorator = new SymbolicEditorDecorator(editor, app.getFontSize(), settings.getFixMargin());
+		decorator = new SymbolicEditorDecorator(editor, settings.getFixMargin());
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	protected void resetChanges() {
 		getDrawInputBox().setEditing(true);
 
-		decorator.update(bounds, getGeoInputBox());
+		decorator.update(bounds, getGeoInputBox(), app.getFontSize());
 		setBaseline(bounds.getY() + bounds.getHeight() / 2d);
 
 		colorEditor();

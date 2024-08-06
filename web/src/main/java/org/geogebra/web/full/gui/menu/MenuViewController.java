@@ -301,6 +301,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	void hideSubmenuAndMoveFocus() {
 		if (submenuContainer.getWidget() != null) {
 			setSubmenuVisibility(false);
+			submenuContainer.setWidget(null);
 			menuView.selectItem(menuView.getSelectedIndex());
 			menuView.getSelectedItem().getElement().focus();
 		}

@@ -232,7 +232,7 @@ public class GeoList extends GeoElement
 
 	/**
 	 * @param other {@link GeoElementND}
-	 * @param internalCopy Whether or not the list elements of the other geo should call
+	 * @param internalCopy Whether the list elements of the other geo should call
 	 * {@link GeoElement#copyInternal(Construction)} or {@link GeoElement#copy()}
 	 */
 	public void set(final GeoElementND other, boolean internalCopy) {

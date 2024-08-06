@@ -8,17 +8,14 @@ import org.geogebra.web.full.gui.components.MathFieldEditorDecoratorBase;
 public class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
 
 	public static final int LEFT_OFFSET = -1; // TODO: clean this up once...
-	private final double fontSize;
 	private final int fixMargin;
 
 	/**
 	 * @param editor to decorate.
-	 * @param fontSize to use.
 	 * @param fixMargin to subtract from width.
 	 */
-	SymbolicEditorDecorator(MathFieldEditor editor, int fontSize, int fixMargin) {
+	SymbolicEditorDecorator(MathFieldEditor editor, int fixMargin) {
 		super(editor);
-		this.fontSize = fontSize;
 		this.fixMargin = fixMargin;
 		editor.addStyleName("evInputEditor");
 	}
@@ -29,8 +26,9 @@ public class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
 	 *
 	 * @param bounds to set.
 	 * @param geoInputBox the currently edited geo.
+	 * @param fontSize base font size.
 	 */
-	void update(GRectangle bounds, GeoInputBox geoInputBox) {
+	void update(GRectangle bounds, GeoInputBox geoInputBox, int fontSize) {
 		updateBounds(bounds);
 		setForegroundColor(geoInputBox.getObjectColor());
 		setBackgroundColor(geoInputBox.getBackgroundColor());
