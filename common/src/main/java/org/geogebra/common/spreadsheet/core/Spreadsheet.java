@@ -80,6 +80,11 @@ public final class Spreadsheet implements TabularDataChangeListener {
 			renderer.drawSelectionBorder(dragPasteSelection, graphics, viewport,
 					controller.getLayout(), false, true);
 		}
+
+		Rectangle editorBounds = controller.getEditorBounds();
+		if (editorBounds != null) {
+			renderer.drawEditorBorder(editorBounds, graphics);
+		}
 	}
 
 	void drawCells(GGraphics2D graphics, Rectangle viewport) {

@@ -291,4 +291,11 @@ public final class SpreadsheetRenderer {
 		drawRectangleWithStraightLines(graphics, dot.getX() - dotSize,
 				dot.getY() - dotSize, dot.getX() + dotSize, dot.getY() + dotSize);
 	}
+
+	void drawEditorBorder(Rectangle bounds, GGraphics2D graphics) {
+		graphics.setColor(style.getSelectionBorderColor());
+		graphics.setStroke(borderStroke);
+		drawRectangleWithStraightLines(graphics,
+				bounds.getMinX(), bounds.getMinY(), bounds.getMaxX(), bounds.getMaxY());
+	}
 }
