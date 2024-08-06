@@ -5,7 +5,7 @@ hamcrest = "3.0"
 jogl = "2.5.0"
 javagiac = "70320"
 gwt = "2.11.0"
-gwtTreblereel = "202406111"
+gwtTreblereel = "202408061"
 elemental2 = "1.2.1"
 murok = "1.0.202402201544"
 # built from ef18cb9206; switch to upstream when https://github.com/mozilla/rhino/pull/1385 is released

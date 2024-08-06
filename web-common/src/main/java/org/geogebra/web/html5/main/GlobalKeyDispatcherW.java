@@ -20,7 +20,6 @@ import org.gwtproject.event.dom.client.KeyPressEvent;
 import org.gwtproject.event.dom.client.KeyPressHandler;
 import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.dom.client.KeyUpHandler;
-import org.gwtproject.event.legacy.shared.EventHandler;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.EventListener;
@@ -81,7 +80,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 * @param ev
 	 *            key event
 	 */
-	public static void setDownKeys(KeyEvent<? extends EventHandler> ev) {
+	public static void setDownKeys(KeyEvent<?> ev) {
 		setDownKeys(ev.isControlKeyDown(), ev.isShiftKeyDown());
 	}
 
@@ -90,7 +89,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 * @param ev event
 	 * @param down flag indicating if key was down or released
 	 */
-	public static void setDownAltKeys(KeyEvent<? extends EventHandler> ev, boolean down) {
+	public static void setDownAltKeys(KeyEvent<?> ev, boolean down) {
 		if (MathFieldW.isRightAlt(ev.getNativeEvent())) {
 			rightAltDown = down;
 		}
@@ -352,7 +351,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 *            The KeyEvent
 	 * @return true if unwanted key combination has pressed.
 	 */
-	public static boolean isBadKeyEvent(KeyEvent<? extends EventHandler> e) {
+	public static boolean isBadKeyEvent(KeyEvent<?> e) {
 		return e.isAltKeyDown() && !e.isControlKeyDown()
 				&& e.getNativeEvent().getCharCode() > 128;
 	}
