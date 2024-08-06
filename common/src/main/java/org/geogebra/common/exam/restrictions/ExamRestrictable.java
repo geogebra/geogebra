@@ -24,7 +24,7 @@ public interface ExamRestrictable {
 	 * Reverse the effects of {@link #applyRestrictions(ExamType, Set)}.
 	 *
 	 * @param examType The exam type.
-	 * 	 * @param featureRestrictions The feature restrictions for the exam.
+	 * @param featureRestrictions The feature restrictions for the exam.
 	 */
 	void removeRestrictions(ExamType examType,
 			@Nonnull Set<ExamFeatureRestriction> featureRestrictions);
