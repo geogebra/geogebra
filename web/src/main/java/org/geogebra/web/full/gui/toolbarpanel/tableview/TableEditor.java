@@ -85,32 +85,17 @@ public class TableEditor implements UnhandledArrowListener {
 		table.flush();
 	}
 
-	void hideKeyboardForEmptyEdit() {
-		if (wasEnterPressed()) {
-			mathTextField.getMathField().getInternal().setEnterPressed(false);
-			if (isLastInputRowEmpty()) {
-				stopEditing();
-				app.hideKeyboard();
-			}
-		}
-	}
-
-	private boolean wasEnterPressed() {
-		return mathTextField.getMathField().getInternal().isEnterPressed();
-	}
-
-	private boolean isLastInputRowEmpty() {
-		return mathTextField.getText().isEmpty()
-				&& (controller.getSelectedRow() == table.tableModel.getRowCount()
-						|| table.getColumnsChange() < 0 || table.getRowsChange() < 0);
-	}
-
 	private void ensureMathTextFieldExists() {
 		if (mathTextField == null) {
 			mathTextField = new MathTextFieldW(app);
 			mathTextField.setRightMargin(22);
-			mathTextField.addChangeHandler(() -> controller.keyPressed(
-					TableValuesKeyboardNavigationController.Key.RETURN));
+			mathTextField.addChangeHandler((enter) -> {
+				if (enter) {
+					controller.keyPressed(TableValuesKeyboardNavigationController.Key.RETURN);
+				} else {
+					controller.deselect();
+				}
+			});
 			mathTextField.setTextMode(true);
 			mathTextField.asWidget().setStyleName("tableEditor");
 			mathTextField.setUnhandledArrowListener(this);

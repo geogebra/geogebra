@@ -118,8 +118,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 					@Override
 					public void refocusCell(int row, int column) {
-
-						editor.hideKeyboardForEmptyEdit();
+						// not needed
 					}
 
 					@Override
