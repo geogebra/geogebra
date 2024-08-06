@@ -628,8 +628,8 @@ public class AlgebraItem {
 	 * @return if Algebra View should show a slider for this geo
 	 */
 	public static boolean shouldShowSlider(GeoElement geo) {
-		return geo.getApp().getConfig().hasSlidersInAV()
-				&& geo instanceof GeoNumeric
+		return geo instanceof GeoNumeric
+				&& geo.getApp().getConfig().hasSlidersInAV()
 				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
 				&& Double.isFinite(((GeoNumeric) geo).value);
 	}
