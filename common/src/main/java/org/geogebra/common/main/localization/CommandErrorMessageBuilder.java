@@ -1,9 +1,12 @@
 package org.geogebra.common.main.localization;
 
+import java.util.Set;
+
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
-import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -128,12 +131,14 @@ public class CommandErrorMessageBuilder implements ExamRestrictable {
 	 * @param examRestrictions The restrictions for the current exam.
 	 */
 	@Override
-	public void applyRestrictions(@Nonnull ExamRestrictions examRestrictions) {
+	public void applyRestrictions(ExamType examType,
+			@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
 		setShowingSyntax(false);
 	}
 
 	@Override
-	public void removeRestrictions(@Nonnull ExamRestrictions examRestrictions) {
+	public void removeRestrictions(ExamType examType,
+			@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
 		setShowingSyntax(true);
 	}
 }

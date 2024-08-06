@@ -41,8 +41,8 @@ import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
-import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
@@ -5213,12 +5213,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param examRestrictions The restrictions for the current exam.
 	 */
 	@Override
-	public void applyRestrictions(@Nonnull ExamRestrictions examRestrictions) {
+	public void applyRestrictions(ExamType examType,
+			@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
 		resetCommandDict();
 	}
 
 	@Override
-	public void removeRestrictions(@Nonnull ExamRestrictions examRestrictions) {
+	public void removeRestrictions(ExamType examType,
+			@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
 		// probably nothing to do here
 	}
 }
