@@ -55,6 +55,6 @@ public class GraphingToolSet {
         EuclidianConstants.MODE_RELATION);
 
     public static boolean isAvailable(int tool) {
-        return !unavailableToolsGraphingCalc.contains(tool);
+        return !notAllowedToolsGraphingCalc.contains(tool);
     }
 }
