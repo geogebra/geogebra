@@ -1132,10 +1132,10 @@ public class AlgebraProcessor {
 
 		// Test output for filetered expression
 		if (geos != null) {
-			boolean anyOutputFiltered = Arrays.stream(geos)
+			boolean containsRestrictedExpressions = Arrays.stream(geos)
 					.map(geo -> geo.wrap())
 					.anyMatch(geo -> !isExpressionAllowed(geo, outputExpressionFilters));
-			if (anyOutputFiltered) {
+			if (containsRestrictedExpressions) {
 				// Remove filtered geos
 				Arrays.stream(geos).forEach(geo -> geo.remove());
 				throw new MyError(loc, MyError.Errors.InvalidInput);

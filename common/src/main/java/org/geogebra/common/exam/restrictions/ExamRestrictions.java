@@ -94,9 +94,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * default subapp.
 	 * @param featureRestrictions An optional set of features to disable during the exam.
 	 * @param inputExpressionFilters An optional set of expression filters (e.g., ||) to apply during
-	 * exams to the algebra inputs
+	 * exams to the algebra inputs.
 	 * @param outputExpressionFilters An optional set of expression filters (e.g., ||) to apply during
-	 * exams to the algebra outputs
+	 * exams to the algebra outputs.
 	 * @param commandFilters An optional command filter to apply during exams.
 	 * @param commandArgumentFilters An optional command argument filter to apply during exams.
 	 * @param syntaxFilter An optional syntax filter to apply during exams.

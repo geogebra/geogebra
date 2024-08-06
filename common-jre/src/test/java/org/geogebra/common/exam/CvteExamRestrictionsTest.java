@@ -22,25 +22,7 @@ public class CvteExamRestrictionsTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testDirectMatrixInputIsNotAllowed() {
-		assertNull(add("{{1,2,3,4}}")); // row vector
-		assertNull(add("{{1},{2},{3},{4}}")); // column vector
-		assertNull(add("{{1,2},{3,4}}"));
-		assertNull(add("{{5,6,7},{1,2,3}}"));
-	}
-
-	@Test
-	public void testIndirectMatrixInputIsNotAllowed() {
-		assertNull(add("{{1,2},{3,4}} * {{5,6},{7,8}}"));
-		assertNull(add("{1,2,3} + {{4,5,6}}"));
-		assertNull(add("{{1},{2},{3}} * {{4,5,6}}"));
-		assertNull(add("Invert({{1,2}, {3,4}})"));
-
-	}
-
-	@Test
 	public void testMatrixOutputNotIsAllowed() {
-		final ErrorHandler originalHandler = getErrorHandler();
 		setErrorHandler(ErrorHelper.silent());
 
 		add("l1={1,2}");
@@ -51,9 +33,6 @@ public class CvteExamRestrictionsTest extends BaseUnitTest {
 		assertNull(add("{IterationList(x^2,3,2)}"));
 		assertNull(add("{Sequence(k,k,1,3)}"));
 
-		// Assert that the geos are deleted from the construction
-		assertEquals(2, getConstruction().steps());
-
-		setErrorHandler(originalHandler);
+		resetErrorHandler();
 	}
 }

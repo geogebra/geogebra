@@ -94,6 +94,15 @@ public class BaseUnitTest {
         return app;
     }
 
+	/**
+	 * Get the algebra processor.
+	 *
+	 * @return algebra processor
+	 */
+	protected AlgebraProcessor getAlgebraProcessor() {
+		return kernel.getAlgebraProcessor();
+	}
+
 	protected Settings getSettings() {
 		return app.getSettings();
 	}
@@ -121,9 +130,9 @@ public class BaseUnitTest {
 		this.errorHandler = errorHandler;
 	}
 
-	/** Get the error handler used for processing algebra input */
-	protected ErrorHandler getErrorHandler() {
-		return errorHandler;
+	/** Resets the error handler to the original instance */
+	protected void resetErrorHandler() {
+		errorHandler = TestErrorHandler.INSTANCE;
 	}
 
 	/**
@@ -138,10 +147,6 @@ public class BaseUnitTest {
 				getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(command, false,
 						errorHandler, false, null);
 		return getFirstElement(geoElements);
-	}
-
-	private AlgebraProcessor getAlgebraProcessor() {
-		return getApp().getKernel().getAlgebraProcessor();
 	}
 
 	private <T extends GeoElementND> T getFirstElement(GeoElementND[] geoElements) {
