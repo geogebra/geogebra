@@ -76,7 +76,8 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 			addZoomButtons();
 		}
 
-		if (ZoomController.needsFullscreenButton(app) && rightBottom) {
+		if (ZoomController.needsFullscreenButton(app) && rightBottom
+			&& !app.isWhiteboardActive()) {
 			addFullscreenButton();
 		}
 
@@ -393,7 +394,8 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 *            whether the zoom panel's parent is now bottom right panel
 	 */
 	public void updateFullscreenVisibility(boolean bottomRight) {
-		if (ZoomController.needsFullscreenButton(app) && bottomRight) {
+		if (ZoomController.needsFullscreenButton(app) && bottomRight
+			&& !app.isWhiteboardActive()) {
 			if (fullscreenBtn == null) {
 				addFullscreenButton();
 			} else {
