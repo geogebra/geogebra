@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -351,8 +352,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (op == Operation.REAL && arg instanceof NumberValue) {
 			// real(3) should return 3
 			return arg.evaluateDouble();
+
+		} else if (arg instanceof GeoDummyVariable) {
+			return Double.NaN;
 		} else {
-			throw polynomialOrDie(arg,
+			throw illegalArgument(arg,
 					op == Operation.XCOORD ? "x(" : "real(");
 		}
 
@@ -377,8 +381,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (op == Operation.IMAGINARY && arg instanceof NumberValue) {
 			// imaginary(3) should return 0
 			return 0;
+		} else if (arg instanceof GeoDummyVariable) {
+			return Double.NaN;
 		} else {
-			throw polynomialOrDie(arg,
+			throw illegalArgument(arg,
 					op == Operation.YCOORD ? "y(" : "imaginary(");
 		}
 	}
@@ -395,8 +401,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return ((Vector3DValue) lt).getPointAsDouble()[2];
 		} else if (lt instanceof GeoLine) {
 			return ((GeoLine) lt).getZ();
+		} else if (lt instanceof GeoDummyVariable) {
+			return Double.NaN;
 		}
-		throw polynomialOrDie(lt, "z(");
+		throw illegalArgument(lt, "z(");
 	}
 
 	/**
@@ -1187,7 +1195,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Throw illegal argument exception for multivariable builtin function
+	 * Throws an illegal argument exception for multivariable builtin function
 	 *
 	 * @param lt
 	 *            left argument
@@ -1195,9 +1203,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            right argument
 	 * @param opname
 	 *            operation name
-	 * @return nothing (error is thrown)
-	 * @throws MyError
-	 *             (always)
+	 * @return MyError
 	 */
 	public MyError illegalArgument(ExpressionValue lt,
 			ExpressionValue rt, String opname) {
@@ -1205,12 +1211,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Throw simple illegal argument exception
+	 * Throws a simple illegal argument exception
 	 *
 	 * @param arg
 	 *            argument
-	 * @return nothing (error is thrown)
-	 * @throws MyError
+	 * @return MyError
 	 *             (always)
 	 */
 	public MyError illegalArgument(ExpressionValue arg) {
@@ -1268,8 +1273,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Check whether lt is constant polynomial and compute op(lt) if it is; if
-	 * not throw illegal argument "opname lt)"
+	 * Throws illegal argument "opname lt)"
 	 *
 	 * @param lt
 	 *            argument
@@ -1279,13 +1283,12 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @throws MyError
 	 *             if not polynomial or not constant
 	 */
-	public MyError polynomialOrDie(ExpressionValue lt, String opname) {
-		return polynomialOrDie(lt, opname, ")");
+	public MyError illegalArgument(ExpressionValue lt, String opname) {
+		return illegalArgument(lt, opname, ")");
 	}
 
 	/**
-	 * Check whether lt is constant polynomial and compute op(lt) if it is; if
-	 * not throw illegal argument "prefix lt suffix"
+	 * Throws illegal argument "prefix lt suffix"
 	 *
 	 * @param lt
 	 *            argument
@@ -1293,11 +1296,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            prefix of error message
 	 * @param suffix
 	 *            of error message
-	 * @return op(lt) if lt is constant poly
-	 * @throws MyError
+	 * @return MyError
 	 *             if not polynomial or not constant
 	 */
-	public MyError polynomialOrDie(ExpressionValue lt, String prefix, String suffix) {
+	public MyError illegalArgument(ExpressionValue lt, String prefix, String suffix) {
 		return new MyError(loc, Errors.IllegalArgument, prefix, MyError.toErrorString(lt), suffix);
 	}
 

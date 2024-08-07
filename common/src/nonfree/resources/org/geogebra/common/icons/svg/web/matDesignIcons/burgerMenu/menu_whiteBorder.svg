@@ -1,14 +1,1 @@
-<svg id="menu_border" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <defs>
-    <style>
-      .cls-1 {
-        fill: #fff;
-      }
-    </style>
-  </defs>
-  <title>menu_whiteBorder</title>
-  <rect class="cls-1" x="2" y="5" width="20" height="4"/>
-  <rect class="cls-1" x="2" y="10" width="20" height="4"/>
-  <rect class="cls-1" x="2" y="15" width="20" height="4"/>
-  <path d="M3,18H21V16H3Zm0-5H21V11H3ZM3,6V8H21V6Z"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M2 5h20v4H2zm0 5h20v4H2zm0 5h20v4H2z" style="fill:#fff"/><path d="M3 18h18v-2H3Zm0-5h18v-2H3Zm0-7v2h18V6Z"/></svg>
