@@ -7,9 +7,15 @@ package org.geogebra.common.spreadsheet.core;
 public final class TabularDataFormatter<T> {
 
 	private final TabularData<T> data;
+	private final SpreadsheetCellDataSerializer serializer;
 
-	public TabularDataFormatter(TabularData<T> data) {
+	/**
+	 * @param data tabular data
+	 * @param serializer cell serializer
+	 */
+	public TabularDataFormatter(TabularData<T> data, SpreadsheetCellDataSerializer serializer) {
 		this.data = data;
+		this.serializer = serializer;
 	}
 
 	/**
@@ -23,8 +29,8 @@ public final class TabularDataFormatter<T> {
 		StringBuilder sb = new StringBuilder();
 		for (int row = range.getFromRow(); row < range.getToRow() + 1; row++) {
 			for (int column = range.getFromColumn(); column < range.getToColumn() + 1; column++) {
-				Object value = data.contentAt(row, column);
-				sb.append(value);
+				String value = serializer.getStringForEditor(data.contentAt(row, column));
+				sb.append(value.startsWith("=") ? value.substring(1) : value);
 				if (column != range.getToColumn()) {
 					sb.append('\t');
 				}

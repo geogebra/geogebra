@@ -39,7 +39,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	private final Localization loc;
 	private final static int CONTEXT_MENU_PADDING = 8;
 	private final static int MARGIN_FROM_SCREEN_EDGE = 16;
-	private final ClipboardInterface clipboard = new ClipboardW();
+	private final ClipboardInterface clipboard;
 
 	private static class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
 		private final MathFieldEditor mathField;
@@ -115,6 +115,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		editor = new SpreadsheetCellEditorW(app, parent, mathTextField);
 		contextMenu = new GPopupMenuW(app);
 		loc = app.getLocalization();
+		clipboard = new ClipboardW();
 	}
 
 	@Override

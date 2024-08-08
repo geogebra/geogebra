@@ -113,7 +113,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 
 			String[][] data = DataImport.parseExternalData(app, transferString,
 					isCSV);
-			succ = pasteExternalMultiple(data, column1, row1, column2, row2);
+			succ = adapter.pasteExternalMultiple(data, column1, row1, column2, row2);
 		}
 
 		return succ;

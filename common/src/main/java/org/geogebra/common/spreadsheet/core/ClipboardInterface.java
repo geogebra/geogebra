@@ -1,7 +1,9 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.util.function.Consumer;
+
 public interface ClipboardInterface {
-	String getContent();
+	void readContent(Consumer<String> reader);
 
 	void setContent(String content);
 }
