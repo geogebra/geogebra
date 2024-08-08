@@ -2,6 +2,7 @@ package org.geogebra.common.main.undo;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -69,10 +70,9 @@ public abstract class UndoManager {
 	 */
 	public UndoCommand getCheckpoint(String slideID) {
 		UndoCommand state = null;
-		ListIterator<UndoCommand> undoIterator = undoInfoList.listIterator(iterator.nextIndex());
-
-		while (undoIterator.hasPrevious()) {
-			UndoCommand cmd = undoIterator.previous();
+		Iterator<UndoCommand> undoIterator = undoInfoList.descendingIterator();
+		while (undoIterator.hasNext()) {
+			UndoCommand cmd = undoIterator.next();
 			if (cmd.getAppState() != null && (cmd.getSlideID() == null
 					|| cmd.getSlideID().equals(slideID))) {
 				state = cmd;
@@ -98,26 +98,19 @@ public abstract class UndoManager {
 	 */
 	public void redoCreationCommand(String slideID) {
 		UndoCommand state = null;
-		int steps = 0;
-		while (iterator.hasPrevious()) {
-			UndoCommand cmd = iterator.previous();
-			steps++;
+		Iterator<UndoCommand> undoIterator = undoInfoList.descendingIterator();
+		while (undoIterator.hasNext()) {
+			UndoCommand cmd = undoIterator.next();
 			if ((cmd.getAction() == ActionType.ADD_PAGE
 					|| cmd.getAction() == ActionType.PASTE_PAGE)
 					&& cmd.getArgs().length > 1
 					&& cmd.getArgs()[1].equals(slideID)) {
-
 				state = cmd;
 				break;
 			}
 		}
-
 		if (state != null) {
 			state.loadStateAfter(this);
-		}
-
-		for (int i = 0; i < steps; i++) {
-			iterator.next();
 		}
 	}
 
