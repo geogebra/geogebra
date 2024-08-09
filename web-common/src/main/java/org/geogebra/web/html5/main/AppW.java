@@ -179,7 +179,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public static final String EDIT_MACRO_URL_PARAM_NAME = "editMacroName";
 	public static final String EDITED_MACRO_NAME_KEY = "editedMacroName";
 	public static final String EDITED_MACRO_XML_KEY = "editedMacroXML";
-	private static final int LOWER_HEIGHT = 350;
 	/*
 	 * Note: the following numbers need to be in sync with deploygbb to scale
 	 * screenshots
@@ -2547,15 +2546,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			return 0;
 		}
 		return getFrameElement().getOffsetHeight();
-	}
-
-	/**
-	 * @return whether small keyboard is needed
-	 */
-	public boolean needsSmallKeyboard() {
-		return (getHeight() > 0 && getHeight() < LOWER_HEIGHT)
-				|| (getHeight() == 0 && getAppletParameters()
-						.getDataParamHeight() < LOWER_HEIGHT);
 	}
 
 	@Override

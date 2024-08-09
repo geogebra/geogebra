@@ -1,17 +1,17 @@
 [versions]
 junit = "4.13.2"
 mockito = "5.12.0"
-hamcrest = "2.2"
+hamcrest = "3.0"
 jogl = "2.5.0"
 javagiac = "70320"
 gwt = "2.11.0"
-gwtTreblereel = "202406111"
+gwtTreblereel = "202408061"
 elemental2 = "1.2.1"
 murok = "1.0.202402201544"
 # built from ef18cb9206; switch to upstream when https://github.com/mozilla/rhino/pull/1385 is released
 mozilla-rhino = "1.7.15"
 quickJs = '1.0.202403131629-SNAPSHOT'
-multiplayer = "1.0.202407010620"
+multiplayer = "1.0.202407091435"
 spotbugs = "4.8.6"
 
 [libraries]

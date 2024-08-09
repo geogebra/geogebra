@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.menubar;
 
 import org.gwtproject.event.dom.client.DomEvent.Type;
-import org.gwtproject.event.legacy.shared.EventHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.safehtml.shared.SafeHtml;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
@@ -118,7 +117,7 @@ public interface StackPanelInterface extends InsertPanel, EventListener {
 	 *            event type
 	 * @return event registration
 	 */
-	<H extends EventHandler>
+	<H>
 			HandlerRegistration addDomHandler(H handler,
 			Type<H> type);
 
