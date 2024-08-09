@@ -1,10 +1,11 @@
 package org.geogebra.common.spreadsheet.kernel;
 
-import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorLogger;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 
-public class SpreadsheetErrorHandler implements ErrorHandler {
+public class SpreadsheetErrorHandler implements ErrorLogger {
 	final SpreadsheetCellProcessor processor;
 
 	/**
@@ -37,5 +38,10 @@ public class SpreadsheetErrorHandler implements ErrorHandler {
 	@Override
 	public void resetError() {
 		// nothing to do here
+	}
+
+	@Override
+	public void log(Throwable e) {
+		Log.warn(e.getMessage());
 	}
 }

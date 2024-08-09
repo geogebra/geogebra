@@ -1,6 +1,8 @@
 package org.geogebra.common.spreadsheet.kernel;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -9,6 +11,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +32,7 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	@Test
 	public void testTextInput() {
 		processor.process("(1, 1)", "A1");
-		assertTrue(lookup("A1").isGeoText());
+		assertEquals(lookup("A1").getGeoClassType(), GeoClass.TEXT);
 		assertIsAuxiliary();
 		assertIsEuclidianInvisible();
 	}
@@ -130,7 +133,7 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	public void testErrorShouldBeTextWithOriginalInput() {
 		processor.process("=1+@", "A1");
 		GeoElement a1 = lookup("A1");
-		assertTrue(a1.isGeoText());
+		assertEquals(a1.getGeoClassType(), GeoClass.TEXT);
 		assertEquals(serializer.getStringForEditor(lookup("A1")),
 				"=1+@");
 	}
@@ -138,28 +141,45 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	@Test
 	public void testNoOperationForTextMinus() {
 		processor.process("7-2", "A1");
-		assertTrue(lookup("A1").isGeoText());
+		assertEquals(lookup("A1").getGeoClassType(), GeoClass.TEXT);
 		processor.process("-7-2", "A1");
-		assertTrue(lookup("A1").isGeoText());
+		assertEquals(lookup("A1").getGeoClassType(), GeoClass.TEXT);
 	}
 
 	@Test
 	public void testNumericOrTextInputShouldHaveNoError() {
 		processor.process("1", "A1");
 		GeoElement a1 = lookup("A1");
-		assertFalse(a1.getXML().contains("hasSpreadsheetError"));
+		assertThat(a1.getXML(), not(containsString("hasSpreadsheetError")));
 
 		processor.process("Text(\"foo\")", "A2");
 		GeoElement a2 = lookup("A2");
-		assertTrue(a2.isGeoText());
-		assertFalse(((GeoText) a2).hasSpreadsheetError());
+		assertEquals(a2.getGeoClassType(), GeoClass.TEXT);
+		assertThat(a2.getXML(), not(containsString("hasSpreadsheetError")));
+	}
+
+	@Test
+	public void dependentObjectsShouldPropagateError() {
+		processor.process("=1+", "A1");
+		GeoElement a1 = lookup("A1");
+		assertTrue(a1.getXML().contains("hasSpreadsheetError"));
+
+		processor.process("=A1+A1", "A2");
+		GeoElement a2 = lookup("A2");
+		assertEquals(a2.getGeoClassType(), GeoClass.TEXT);
+		assertThat(a2.getXML(), containsString("hasSpreadsheetError"));
+
+		processor.process("=Length(A1)", "A3");
+		GeoElement a3 = lookup("A3");
+		assertEquals(a3.getGeoClassType(), GeoClass.TEXT);
+		assertThat(a3.getXML(), containsString("hasSpreadsheetError"));
 	}
 
 	@Test
 	public void testInvalidInputShouldHaveError() {
 		processor.process("=1+%", "A1");
 		GeoElement a1 = lookup("A1");
-		assertTrue(a1.isGeoText());
+		assertEquals(a1.getGeoClassType(), GeoClass.TEXT);
 		assertTrue(((GeoText) a1).hasSpreadsheetError());
 	}
 }

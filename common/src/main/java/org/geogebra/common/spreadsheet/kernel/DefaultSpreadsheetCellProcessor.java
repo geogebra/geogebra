@@ -8,7 +8,6 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
@@ -110,9 +109,9 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 		StringBuilder stringBuilder = new StringBuilder();
 		appendCellAssign(cellName, stringBuilder);
 
-		stringBuilder.append("\"");
-		stringBuilder.append(input.replaceAll("=", ""));
-		stringBuilder.append("\"");
+		stringBuilder.append("ParseToNumber[\"");
+		stringBuilder.append(input.startsWith("=") ? input.substring(1) : input);
+		stringBuilder.append("\"]");
 
 		return stringBuilder.toString();
 	}
@@ -133,8 +132,6 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	private void buildNewInputWithErrorMark() {
 		processInput(buildRestoredInput(), null);
 		GeoElement errorGeo = algebraProcessor.getKernel().lookupLabel(cellName);
-		if (errorGeo.isGeoText()) {
-			((GeoText) errorGeo).setSpreadsheetError(true);
-		}
+		errorGeo.updateRepaint(); //TODO needed?
 	}
 }
