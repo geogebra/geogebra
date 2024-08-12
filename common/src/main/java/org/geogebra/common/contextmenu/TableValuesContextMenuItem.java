@@ -1,8 +1,8 @@
 package org.geogebra.common.contextmenu;
 
-
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public enum TableValuesContextMenuItem implements ContextMenuItem {
@@ -20,17 +20,19 @@ public enum TableValuesContextMenuItem implements ContextMenuItem {
 	private List<String> translationParameters;
 	private final int groupId;
 
-	private TableValuesContextMenuItem(String translationId, int groupId) {
+	TableValuesContextMenuItem(String translationId, int groupId) {
 		this.translationId = translationId;
-		this.translationParameters = translationParameters;
+		this.translationParameters = List.of();
 		this.groupId = groupId;
 	}
 
+	@Nonnull
 	@Override
 	public String getTranslationId() {
 		return translationId;
 	}
 
+	@Nonnull
 	@Override
 	public List<String> getTranslationParameters() {
 		return translationParameters;
@@ -47,7 +49,7 @@ public enum TableValuesContextMenuItem implements ContextMenuItem {
 		return null;
 	}
 
-	protected void setTranslationParameters(List<String> translationParameters) {
+	void setTranslationParameters(List<String> translationParameters) {
 		this.translationParameters = translationParameters;
 	}
 }

@@ -14,7 +14,7 @@ public interface ContextMenuItem {
 	@Nullable
 	Icon getIcon();
 
-	public enum Icon {
+	enum Icon {
 		Expression, Text, Help, Delete
 	}
 }

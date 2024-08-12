@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.scientific.LabelController;
 
 public class ContextMenu<T extends ContextMenuItem> {
@@ -44,6 +43,10 @@ public class ContextMenu<T extends ContextMenuItem> {
 		return items;
 	}
 
+	public Delegate<T> getDelegate() {
+		return delegate;
+	}
+
 	private void addItem(T item, boolean predicate) {
 		if (predicate) {
 			items.add(item);
@@ -58,7 +61,7 @@ public class ContextMenu<T extends ContextMenuItem> {
 			@Nullable GeoElement geoElement,
 			AlgebraProcessor algebraProcessor,
 			String appCode,
-			ContextMenu.Delegate<AlgebraContextMenuItem> delegate
+			Delegate<AlgebraContextMenuItem> delegate
 	) {
 		if (geoElement == null) {
 			return makeDeleteAlgebraContextMenu(delegate);
@@ -126,12 +129,12 @@ public class ContextMenu<T extends ContextMenuItem> {
 			TableValuesModel tableValuesModel,
 			boolean isScientific,
 			boolean isExamActive,
-			ContextMenu.Delegate<TableValuesContextMenuItem> delegate
+			Delegate<TableValuesContextMenuItem> delegate
 	) {
 		if (isScientific) {
 			return makeScientificTableValuesContextMenu(delegate);
 		} else {
-			String header = "x " + tableValuesModel.getHeaderAt(column);
+			String columnLabel = tableValuesModel.getHeaderAt(column);
 			boolean showImportData = !isExamActive;
 			boolean pointsVisible = geoEvaluatable.isPointsVisible();
 			boolean showEdit = geoEvaluatable instanceof GeoFunctionable;
@@ -140,14 +143,14 @@ public class ContextMenu<T extends ContextMenuItem> {
 			if (column == 0) {
 				return makeTableValuesContextMenuForFirstColumn(showImportData, delegate);
 			} else {
-				return makeTableValuesContextMenu(header, pointsVisible, showEdit, showStatistics, delegate);
+				return makeTableValuesContextMenu(columnLabel, pointsVisible, showEdit, showStatistics, delegate);
 			}
 		}
 	}
 
 	public static ContextMenu<InputContextMenuItem> makeInputContextMenu(
 			boolean includeHelpItem,
-			ContextMenu.Delegate<InputContextMenuItem> delegate
+			Delegate<InputContextMenuItem> delegate
 	) {
 		ContextMenu<InputContextMenuItem> contextMenu = new ContextMenu<>(delegate);
 		contextMenu.addItem(Expression);
@@ -157,46 +160,44 @@ public class ContextMenu<T extends ContextMenuItem> {
 	}
 
 	public static ContextMenu<MaterialContextMenuItem> makeMaterialContextMenu(
-			ContextMenu.Delegate<MaterialContextMenuItem> delegate
+			Delegate<MaterialContextMenuItem> delegate
 	) {
 		ContextMenu<MaterialContextMenuItem> contextMenu = new ContextMenu<>(delegate);
 		contextMenu.addItem(MaterialContextMenuItem.Delete);
 		return contextMenu;
 	}
 
-	private static ContextMenu makeTableValuesContextMenuForFirstColumn(
+	private static ContextMenu<TableValuesContextMenuItem> makeTableValuesContextMenuForFirstColumn(
 			boolean showImportData,
-			ContextMenu.Delegate<TableValuesContextMenuItem> delegate
+			Delegate<TableValuesContextMenuItem> delegate
 	) {
 		ContextMenu<TableValuesContextMenuItem> contextMenu = new ContextMenu<>(delegate);
 		contextMenu.addItem(Edit);
 		contextMenu.addItem(ClearColumn);
 		contextMenu.addItem(ImportData, showImportData);
-		contextMenu.addItem(Statistics1);
+		contextMenu.addItem(makeStatistics1Item("x"));
 		return contextMenu;
 	}
 
-	private static ContextMenu makeTableValuesContextMenu(
-			String header,
+	private static ContextMenu<TableValuesContextMenuItem> makeTableValuesContextMenu(
+			String columnLabel,
 			boolean pointsVisible,
 			boolean showEdit,
 			boolean showStatistics,
-			ContextMenu.Delegate<TableValuesContextMenuItem> delegate
+			Delegate<TableValuesContextMenuItem> delegate
 	) {
 		ContextMenu<TableValuesContextMenuItem> contextMenu = new ContextMenu<>(delegate);
 		contextMenu.addItem(pointsVisible ? HidePoints : ShowPoints);
 		contextMenu.addItem(Edit, showEdit);
 		contextMenu.addItem(RemoveColumn);
-		contextMenu.addItem(Statistics1, showStatistics);
-		TableValuesContextMenuItem statistics2 = Statistics2;
-		statistics2.setTranslationParameters(List.of(header));
-		contextMenu.addItem(statistics2, showStatistics);
+		contextMenu.addItem(makeStatistics1Item(columnLabel), showStatistics);
+		contextMenu.addItem(makeStatistics2Item("x " + columnLabel), showStatistics);
 		contextMenu.addItem(Regression, showStatistics);
 		return contextMenu;
 	}
 
-	private static ContextMenu makeScientificTableValuesContextMenu(
-			ContextMenu.Delegate<TableValuesContextMenuItem> delegate
+	private static ContextMenu<TableValuesContextMenuItem> makeScientificTableValuesContextMenu(
+			Delegate<TableValuesContextMenuItem> delegate
 	) {
 		ContextMenu<TableValuesContextMenuItem> contextMenu = new ContextMenu<>(delegate);
 		contextMenu.addItem(Edit);
@@ -204,7 +205,7 @@ public class ContextMenu<T extends ContextMenuItem> {
 		return contextMenu;
 	}
 
-	private static ContextMenu makeCasAlgebraContextMenu(
+	private static ContextMenu<AlgebraContextMenuItem> makeCasAlgebraContextMenu(
 			boolean showStatisticsSuggestion,
 			boolean showDuplicateOutput,
 			boolean showSpecialPointsSuggestion,
@@ -213,7 +214,7 @@ public class ContextMenu<T extends ContextMenuItem> {
 			boolean showCreateSlider,
 			boolean showRemoveSlider,
 			boolean showSolveSuggestion,
-			ContextMenu.Delegate<AlgebraContextMenuItem> delegate
+			Delegate<AlgebraContextMenuItem> delegate
 	) {
 		ContextMenu<AlgebraContextMenuItem> contextMenu = new ContextMenu<>(delegate);
 		contextMenu.addItem(Statistics, showStatisticsSuggestion);
@@ -230,10 +231,10 @@ public class ContextMenu<T extends ContextMenuItem> {
 		return contextMenu;
 	}
 
-	private static ContextMenu makeScientificAlgebraContextMenu(
+	private static ContextMenu<AlgebraContextMenuItem> makeScientificAlgebraContextMenu(
 			boolean isLabelVisible,
 			boolean showDuplicateOutput,
-			ContextMenu.Delegate<AlgebraContextMenuItem> delegate
+			Delegate<AlgebraContextMenuItem> delegate
 	) {
 		ContextMenu<AlgebraContextMenuItem> contextMenu = new ContextMenu<>(delegate);
 		contextMenu.addItem(isLabelVisible ? RemoveLabel : AddLabel);
@@ -243,12 +244,12 @@ public class ContextMenu<T extends ContextMenuItem> {
 		return contextMenu;
 	}
 
-	private static ContextMenu make3DAlgebraContextMenu(
+	private static ContextMenu<AlgebraContextMenuItem> make3DAlgebraContextMenu(
 			boolean showStatisticsSuggestion,
 			boolean showDuplicateOutput,
 			boolean showSpecialPointsSuggestion,
 			boolean showSolveSuggestion,
-			ContextMenu.Delegate<AlgebraContextMenuItem> delegate
+			Delegate<AlgebraContextMenuItem> delegate
 	) {
 		ContextMenu<AlgebraContextMenuItem> contextMenu = new ContextMenu<>(delegate);
 		contextMenu.addItem(Statistics, showStatisticsSuggestion);
@@ -261,12 +262,12 @@ public class ContextMenu<T extends ContextMenuItem> {
 		return contextMenu;
 	}
 
-	private static ContextMenu makeTableValuesAlgebraContextMenu(
+	private static ContextMenu<AlgebraContextMenuItem> makeTableValuesAlgebraContextMenu(
 			boolean showStatisticsSuggestion,
 			boolean showDuplicateOutput,
 			boolean showSpecialPointsSuggestion,
 			boolean showCreateTableValues,
-			ContextMenu.Delegate<AlgebraContextMenuItem> delegate
+			Delegate<AlgebraContextMenuItem> delegate
 	) {
 		ContextMenu<AlgebraContextMenuItem> contextMenu = new ContextMenu<>(delegate);
 		contextMenu.addItem(Statistics, showStatisticsSuggestion);
@@ -279,10 +280,10 @@ public class ContextMenu<T extends ContextMenuItem> {
 		return contextMenu;
 	}
 
-	private static ContextMenu makeDefaultAlgebraContextMenu(
+	private static ContextMenu<AlgebraContextMenuItem> makeDefaultAlgebraContextMenu(
 			boolean showStatisticsSuggestion,
 			boolean showDuplicateOutput,
-			ContextMenu.Delegate<AlgebraContextMenuItem> delegate
+			Delegate<AlgebraContextMenuItem> delegate
 	) {
 		ContextMenu<AlgebraContextMenuItem> contextMenu = new ContextMenu<>(delegate);
 		contextMenu.addItem(Statistics, showStatisticsSuggestion);
@@ -292,9 +293,23 @@ public class ContextMenu<T extends ContextMenuItem> {
 		return contextMenu;
 	}
 
-	private static ContextMenu makeDeleteAlgebraContextMenu(ContextMenu.Delegate<AlgebraContextMenuItem> delegate) {
+	private static ContextMenu<AlgebraContextMenuItem> makeDeleteAlgebraContextMenu(
+			Delegate<AlgebraContextMenuItem> delegate
+	) {
 		ContextMenu<AlgebraContextMenuItem> contextMenu = new ContextMenu<>(delegate);
 		contextMenu.addItem(Delete);
 		return contextMenu;
+	}
+
+	private static TableValuesContextMenuItem makeStatistics1Item(String columnLabel) {
+		TableValuesContextMenuItem item = Statistics1;
+		item.setTranslationParameters(List.of(columnLabel));
+		return item;
+	}
+
+	private static TableValuesContextMenuItem makeStatistics2Item(String columnLabel) {
+		TableValuesContextMenuItem item = Statistics2;
+		item.setTranslationParameters(List.of(columnLabel));
+		return item;
 	}
 }

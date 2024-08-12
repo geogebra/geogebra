@@ -21,10 +21,11 @@ public enum AlgebraContextMenuItem implements ContextMenuItem {
 
 	private final String translationId;
 
-	private AlgebraContextMenuItem(String translationId) {
+	AlgebraContextMenuItem(String translationId) {
 		this.translationId = translationId;
 	}
 
+	@Nonnull
 	@Override
 	public String getTranslationId() {
 		return translationId;
