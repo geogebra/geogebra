@@ -90,6 +90,13 @@ public final class TableLayout implements PersistenceListener {
 		return cumulativeWidths[cumulativeWidths.length - 1] + getRowHeaderWidth();
 	}
 
+	/**
+	 * @param x Mouse position relative to viewport, in logical points.
+	 * @param y Mouse position relative to viewport, in logical points.
+	 * @param viewport The viewport.
+	 * @return The {@link DragState} for the given point in the spreadsheet.
+	 */
+	// TODO find a better method name
 	DragState getResizeAction(double x, double y, Rectangle viewport) {
 		double xAbs = x + viewport.getMinX();
 		double yAbs = y + viewport.getMinY();
@@ -270,7 +277,7 @@ public final class TableLayout implements PersistenceListener {
 	}
 
 	/**
-	 * @param x pixel coordinate within viewport
+	 * @param x position relative to viewport, in logical points
 	 * @return hit column index (0 based, hitting left counts), -1 if header is hit
 	 */
 	public int findColumn(double x) {
@@ -278,7 +285,7 @@ public final class TableLayout implements PersistenceListener {
 	}
 
 	/**
-	 * @param y pixel coordinate within viewport
+	 * @param y position relative to viewport, in logical points
 	 * @return hit row index (0 based, hitting top border counts), -1 if header is hit
 	 */
 	public int findRow(double y) {
