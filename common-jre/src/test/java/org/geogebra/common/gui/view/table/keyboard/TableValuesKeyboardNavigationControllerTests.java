@@ -7,12 +7,16 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.dialog.handler.DefineFunctionHandler;
+import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.ScientificDataTableController;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.gui.view.table.column.TableValuesFunctionColumn;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.junit.Test;
@@ -884,6 +888,32 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 		keyboardController.select(0, 0);
 		assertNull(focusedCell);
+	}
+
+	// see https://geogebra-jira.atlassian.net/browse/APPS-5585?focusedCommentId=211833
+	@Test
+	public void testMoveIntoFunctionColumn() throws Exception {
+		traceEvents = true;
+		// select (0, 1), insert "1" into (placeholder) cell, press RETURN
+		keyboardController.select(0, 1);
+		cellContent = "1";
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.RETURN);
+		assertEquals(new CellIndex(1, 1), focusedCell);
+
+		// note: f(x) is added in column 2
+		cellContent = "";
+		addFunction("f", "x");
+		tableValuesView.setValues(-2, 2, 1);
+
+		// select cell (0, 1), delete content, press RETURN
+		keyboardController.select(0, 1);
+		cellContent = "";
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.RETURN);
+		assertEquals(new CellIndex(1, 1), focusedCell);
+
+		// f(x) has moved to column 1 and should not be editable
+		assertTrue(tableValuesView.getEvaluatable(1) instanceof GeoFunction);
+		assertFalse(keyboardController.isColumnEditable(1));
 	}
 
 	// TableValuesKeyboardControllerDelegate
