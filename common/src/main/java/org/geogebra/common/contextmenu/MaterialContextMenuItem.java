@@ -5,12 +5,14 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 public enum MaterialContextMenuItem implements ContextMenuItem {
-	Delete("Delete");
+	Delete("Delete", Icon.Delete);
 
 	private final String translationId;
+	private final Icon icon;
 
-	private MaterialContextMenuItem(String translationId) {
+	private MaterialContextMenuItem(String translationId, Icon icon) {
 		this.translationId = translationId;
+		this.icon = icon;
 	}
 
 	@Override
@@ -26,6 +28,12 @@ public enum MaterialContextMenuItem implements ContextMenuItem {
 	@Override
 	public int getGroupId() {
 		return 0;
+	}
+
+	@Nullable
+	@Override
+	public Icon getIcon() {
+		return icon;
 	}
 }
 

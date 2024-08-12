@@ -1,18 +1,22 @@
 package org.geogebra.common.contextmenu;
 
+import static org.geogebra.common.contextmenu.ContextMenuItem.Icon;
+
 import java.util.List;
 
 import javax.annotation.Nullable;
 
 public enum InputContextMenuItem implements ContextMenuItem {
-	Expression("Expression"),
-	Text("Text"),
-	Help("Help");
+	Expression("Expression", Icon.Expression),
+	Text("Text", Icon.Text),
+	Help("Help", Icon.Help);
 
 	private final String translationId;
+	private final ContextMenuItem.Icon icon;
 
-	private InputContextMenuItem(String translationId) {
+	private InputContextMenuItem(String translationId, Icon icon) {
 		this.translationId = translationId;
+		this.icon = icon;
 	}
 
 	@Override
@@ -28,5 +32,11 @@ public enum InputContextMenuItem implements ContextMenuItem {
 	@Override
 	public int getGroupId() {
 		return 0;
+	}
+
+	@Nullable
+	@Override
+	public Icon getIcon() {
+		return this.icon;
 	}
 }

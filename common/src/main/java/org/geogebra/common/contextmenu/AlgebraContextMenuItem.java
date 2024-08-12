@@ -2,6 +2,9 @@ package org.geogebra.common.contextmenu;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public enum AlgebraContextMenuItem implements ContextMenuItem {
 	Statistics("Statistics"),
 	Delete("Delete"),
@@ -28,6 +31,7 @@ public enum AlgebraContextMenuItem implements ContextMenuItem {
 	}
 
 	@Override
+	@Nonnull
 	public List<String> getTranslationParameters() {
 		return List.of();
 	}
@@ -35,5 +39,11 @@ public enum AlgebraContextMenuItem implements ContextMenuItem {
 	@Override
 	public int getGroupId() {
 		return 0;
+	}
+
+	@Nullable
+	@Override
+	public Icon getIcon() {
+		return null;
 	}
 }

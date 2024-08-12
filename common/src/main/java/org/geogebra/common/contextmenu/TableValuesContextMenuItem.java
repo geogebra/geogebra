@@ -3,6 +3,8 @@ package org.geogebra.common.contextmenu;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 public enum TableValuesContextMenuItem implements ContextMenuItem {
 	Edit("Edit", 0),
 	ClearColumn("ClearColumn", 0),
@@ -37,6 +39,12 @@ public enum TableValuesContextMenuItem implements ContextMenuItem {
 	@Override
 	public int getGroupId() {
 		return groupId;
+	}
+
+	@Nullable
+	@Override
+	public Icon getIcon() {
+		return null;
 	}
 
 	protected void setTranslationParameters(List<String> translationParameters) {
