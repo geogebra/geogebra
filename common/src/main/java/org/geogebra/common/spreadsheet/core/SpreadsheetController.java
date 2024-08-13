@@ -916,7 +916,7 @@ public final class SpreadsheetController {
 	 * @param fromColumn first column that needs resizing
 	 * @param fromRow first row that needs resizing
 	 */
-	public void syncSize(int fromColumn, int fromRow) {
+	private void syncSize(int fromColumn, int fromRow) {
 		if (layout != null) {
 			layout.setNumberOfColumns(tabularData.numberOfColumns());
 			layout.setNumberOfRows(tabularData.numberOfRows());
