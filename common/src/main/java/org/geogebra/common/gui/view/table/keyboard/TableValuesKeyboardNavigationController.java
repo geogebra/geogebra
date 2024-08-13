@@ -162,7 +162,11 @@ public final class TableValuesKeyboardNavigationController {
 				selectedRow = tableValuesModel.getRowCount();
 			}
 		}
-
+		// are we trying to focus a cell that has become non-editable after committing changes?
+		if (!isColumnEditable(selectedColumn)) {
+			selectedRow = -1;
+			selectedColumn = -1;
+		}
 		if (delegate != null) {
 			if (selectedRow >= 0 && selectedColumn >= 0) {
 				if (previouslySelectedRow >= 0 && previouslySelectedColumn >= 0) {

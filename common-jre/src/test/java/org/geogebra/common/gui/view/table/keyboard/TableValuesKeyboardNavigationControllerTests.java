@@ -909,11 +909,13 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 		keyboardController.select(0, 1);
 		cellContent = "";
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.RETURN);
-		assertEquals(new CellIndex(1, 1), focusedCell);
 
 		// f(x) has moved to column 1 and should not be editable
 		assertTrue(tableValuesView.getEvaluatable(1) instanceof GeoFunction);
 		assertFalse(keyboardController.isColumnEditable(1));
+
+		// since column 1 is now non-editable, there should be no focused cell
+		assertNull(focusedCell);
 	}
 
 	// TableValuesKeyboardControllerDelegate
