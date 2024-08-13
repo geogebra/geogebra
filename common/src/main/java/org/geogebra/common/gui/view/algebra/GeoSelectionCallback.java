@@ -4,7 +4,6 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;

@@ -4,8 +4,6 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.exam.ExamType;
-
 /**
  * Apply custom restrictions during exams.
  */
