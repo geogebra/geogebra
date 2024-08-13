@@ -52,7 +52,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final Set<SuiteSubApp> disabledSubApps;
 	private final SuiteSubApp defaultSubApp;
 	private final Set<ExamFeatureRestriction> featureRestrictions;
-	private final Set<ExpressionFilter> expressionFilters;
+	private final Set<ExpressionFilter> inputExpressionFilters;
+	private final Set<ExpressionFilter> outputExpressionFilters;
 	private final Set<CommandFilter> commandFilters;
 	private final Set<CommandArgumentFilter> commandArgumentFilters;
 	// filter independent of exam region
@@ -92,8 +93,10 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * current subapp is in the list of restricted subapps. If null, Graphing will be used as the
 	 * default subapp.
 	 * @param featureRestrictions An optional set of features to disable during the exam.
-	 * @param expressionFilters An optional set of expression filters (e.g., ||) to apply during
-	 * exams.
+	 * @param inputExpressionFilters An optional set of expression filters (e.g., ||) to apply during
+	 * exams to the algebra inputs.
+	 * @param outputExpressionFilters An optional set of expression filters (e.g., ||) to apply during
+	 * exams to the algebra outputs.
 	 * @param commandFilters An optional command filter to apply during exams.
 	 * @param commandArgumentFilters An optional command argument filter to apply during exams.
 	 * @param syntaxFilter An optional syntax filter to apply during exams.
@@ -106,7 +109,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Set<SuiteSubApp> disabledSubApps,
 			@Nullable SuiteSubApp defaultSubApp,
 			@Nullable Set<ExamFeatureRestriction> featureRestrictions,
-			@Nullable Set<ExpressionFilter> expressionFilters,
+			@Nullable Set<ExpressionFilter> inputExpressionFilters,
+			@Nullable Set<ExpressionFilter> outputExpressionFilters,
 			@Nullable Set<CommandFilter> commandFilters,
 			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
 			@Nullable SyntaxFilter syntaxFilter,
@@ -116,7 +120,10 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
 		this.featureRestrictions = featureRestrictions != null ? featureRestrictions : Set.of();
-		this.expressionFilters = expressionFilters != null ? expressionFilters : Set.of();
+		this.inputExpressionFilters =
+				inputExpressionFilters != null ? inputExpressionFilters : Set.of();
+		this.outputExpressionFilters =
+				outputExpressionFilters != null ? outputExpressionFilters : Set.of();
 		this.commandFilters = commandFilters != null ? commandFilters : Set.of();
 		this.commandArgumentFilters = commandArgumentFilters != null
 				? commandArgumentFilters : Set.of();
@@ -178,8 +185,11 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			}
 		}
 		if (algebraProcessor != null) {
-			for (ExpressionFilter expressionFilter : expressionFilters) {
-				algebraProcessor.addExpressionFilter(expressionFilter);
+			for (ExpressionFilter expressionFilter : inputExpressionFilters) {
+				algebraProcessor.addInputExpressionFilter(expressionFilter);
+			}
+			for (ExpressionFilter expressionFilter : outputExpressionFilters) {
+				algebraProcessor.addOutputExpressionFilter(expressionFilter);
 			}
 		}
 		if (syntaxFilter != null) {
@@ -226,8 +236,11 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			}
 		}
 		if (algebraProcessor != null) {
-			for (ExpressionFilter expressionFilter : expressionFilters) {
-				algebraProcessor.removeExpressionFilter(expressionFilter);
+			for (ExpressionFilter expressionFilter : inputExpressionFilters) {
+				algebraProcessor.removeInputExpressionFilter(expressionFilter);
+			}
+			for (ExpressionFilter expressionFilter : outputExpressionFilters) {
+				algebraProcessor.removeOutputExpressionFilter(expressionFilter);
 			}
 		}
 		if (syntaxFilter != null) {
