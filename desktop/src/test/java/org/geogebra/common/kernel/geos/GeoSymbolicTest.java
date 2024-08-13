@@ -2335,4 +2335,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(copy, hasValue("a = x + 5"));
 	}
 
+	@Test
+	@Issue("APPS-5658")
+	public void matrixMultiplicationShouldResultInFunction() {
+		add("m1 = {{1, 0.3}, {1 / 4, 2}}");
+		GeoSymbolic result = add("m2 = m1 * {{cos(t)}, {sin(t)}}");
+		assertThat(result, hasValue("{{cos(t) + 3 / 10 sin(t)}, {1 / 4 cos(t) + 2sin(t)}}"));
+	}
+
 }

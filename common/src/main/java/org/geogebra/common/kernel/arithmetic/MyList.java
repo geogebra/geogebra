@@ -20,6 +20,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -199,6 +200,10 @@ public class MyList extends ValidExpression
 	private void matrixMultiply(MyList LHlist, MyList RHlist) {
 		int LHcols = LHlist.getMatrixCols(), LHrows = LHlist.getMatrixRows();
 		int RHcols = RHlist.getMatrixCols(); // RHlist.getMatrixRows();
+		if (RHlist.containsFunctionVariable() || LHlist.containsFunctionVariable()) {
+			RHlist.convertListElementsToFunctions();
+			LHlist.convertListElementsToFunctions();
+		}
 
 		ExpressionNode totalNode;
 		ExpressionNode tempNode;
@@ -247,6 +252,12 @@ public class MyList extends ValidExpression
 		matrixRows = -1; // reset
 		matrixCols = -1;
 
+	}
+
+	private void convertListElementsToFunctions() {
+		listElements = listElements.stream()
+				.map(element -> new Function(kernel, element.wrap()))
+				.collect(Collectors.toCollection(ArrayList::new));
 	}
 
 	/**
