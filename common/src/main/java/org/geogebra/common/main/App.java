@@ -5207,14 +5207,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// ExamRestrictable
 
 	@Override
-	public void applyRestrictions(ExamType examType,
-			@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
+	public void applyRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
 		resetCommandDict();
 	}
 
 	@Override
-	public void removeRestrictions(ExamType examType,
-			@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
+	public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
 		// probably nothing to do here
 	}
 }

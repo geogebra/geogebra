@@ -15,15 +15,13 @@ public class GeoSelectionCallback implements AsyncOperation<GeoElementND[]>, Exa
 	private boolean restrictGraphSelectionForFunctions = false;
 
 	@Override
-	public void applyRestrictions(ExamType examType,
-			@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
+	public void applyRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
 		restrictGraphSelectionForFunctions = featureRestrictions
 				.contains(ExamFeatureRestriction.AUTOMATIC_GRAPH_SELECTION_FOR_FUNCTIONS);
 	}
 
 	@Override
-	public void removeRestrictions(ExamType examType,
-			@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
+	public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
 		restrictGraphSelectionForFunctions = false;
 	}
 

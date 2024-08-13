@@ -125,14 +125,12 @@ public class CommandErrorMessageBuilder implements ExamRestrictable {
 	// ExamRestrictable
 
 	@Override
-	public void applyRestrictions(ExamType examType,
-			@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
+	public void applyRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
 		setShowingSyntax(false);
 	}
 
 	@Override
-	public void removeRestrictions(ExamType examType,
-			@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
+	public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
 		setShowingSyntax(true);
 	}
 }
