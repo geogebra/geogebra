@@ -1130,7 +1130,7 @@ public class AlgebraProcessor {
 		GeoElement[] geos = processValidExpression(storeUndo, handler, ve,
 				newInfo);
 
-		// Test output for filetered expression
+		// Test output for filtered expression
 		if (geos != null) {
 			boolean containsRestrictedExpressions = Arrays.stream(geos)
 					.map(geo -> geo.wrap())
