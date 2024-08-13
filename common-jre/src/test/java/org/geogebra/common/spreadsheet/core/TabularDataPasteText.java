@@ -16,6 +16,6 @@ public class TabularDataPasteText implements TabularDataPasteInterface<String> {
 	@Override
 	public void pasteExternal(TabularData<String> tabularData, String[][] clipboardContent,
 			TabularRange destination) {
-		// TODO
+		throw new UnsupportedOperationException();
 	}
 }

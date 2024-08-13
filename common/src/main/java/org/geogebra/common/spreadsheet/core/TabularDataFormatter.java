@@ -2,7 +2,7 @@ package org.geogebra.common.spreadsheet.core;
 
 /**
  * Class to convert TabularData to string.
- * Format: colunms are separated by \t and rows are separated by \n .
+ * Format: columns are separated by \t and rows are separated by \n .
  */
 public final class TabularDataFormatter<T> {
 

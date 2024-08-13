@@ -518,13 +518,13 @@ public final class SpreadsheetController {
 
 	void pasteToSelections(Stream<TabularRange> destinations) {
 		if (copyPasteCut != null) {
-			List<TabularRange> collect = destinations.collect(Collectors.toList());
+			//List<TabularRange> collect = destinations.collect(Collectors.toList());
 			copyPasteCut.readExternalClipboard(externalContent -> {
 				int oldColumns = getLayout().numberOfColumns();
 				int oldRows = getLayout().numberOfRows();
 				String[][] data = externalContent == null ? null
 						: DataImport.parseExternalData(null, externalContent, true);
-				collect.forEach(
+				destinations.forEach(
 						destination -> copyPasteCut.paste(destination, data));
 				if (copyPasteCut != null) {
 					copyPasteCut.selectPastedContent();

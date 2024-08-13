@@ -12,9 +12,14 @@ import org.geogebra.common.gui.view.spreadsheet.HasTabularValues;
 public final class TabularClipboard<T> implements HasTabularValues<T> {
 	private List<List<T>> data = new ArrayList<>();
 	private TabularRange sourceRange;
+	private SelectionType type;
 
 	public TabularRange getSourceRange() {
 		return sourceRange;
+	}
+
+	public SelectionType getType() {
+		return type;
 	}
 
 	@Override
@@ -52,9 +57,11 @@ public final class TabularClipboard<T> implements HasTabularValues<T> {
 	 * Copy from tabular data to the buffer.
 	 * @param tabularData to copy from.
 	 * @param range to copy.
+	 * @param type selection type
 	 */
-	public void copy(TabularData tabularData, TabularRange range) {
+	public void copy(TabularData tabularData, TabularRange range, SelectionType type) {
 		this.sourceRange = range;
+		this.type = type;
 		clear();
 		for (int row = range.getFromRow(); row < range.getToRow() + 1; row++) {
 			List<T> rowData = new ArrayList<>();

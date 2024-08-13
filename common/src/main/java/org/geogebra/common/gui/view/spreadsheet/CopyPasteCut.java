@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.spreadsheet.core.CopyPasteCutTabularData;
 import org.geogebra.common.spreadsheet.core.SelectionType;
 import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
@@ -360,13 +361,19 @@ public abstract class CopyPasteCut {
 	 * 
 	 * @param data
 	 *            data
-	 * @param cr
+	 * @param destination
 	 *            cell range
 	 * @return whether all cells were pasted successfully
 	 */
-	protected boolean pasteExternalMultiple(String[][] data, TabularRange cr) {
-		return adapter.pasteExternalMultiple(data, cr.getMinColumn(), cr.getMinRow(),
-				cr.getMaxColumn(), cr.getMaxRow());
+	protected boolean pasteExternalMultiple(String[][] data, TabularRange destination) {
+		boolean oldEqualsSetting = app.getSettings().getSpreadsheet()
+				.equalsRequired();
+		app.getSettings().getSpreadsheet().setEqualsRequired(true);
+		TabularRange tiledRange = CopyPasteCutTabularData.getTiledRange(destination, data);
+		boolean success = tiledRange != null
+				&& adapter.pasteExternalMultiple(data, tiledRange);
+		app.getSettings().getSpreadsheet().setEqualsRequired(oldEqualsSetting);
+		return success;
 	}
 
 	/**

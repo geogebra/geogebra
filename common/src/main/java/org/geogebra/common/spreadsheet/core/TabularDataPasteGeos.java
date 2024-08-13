@@ -43,9 +43,7 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 	@Override
 	public void pasteExternal(TabularData<GeoElement> tabularData, String[][] data,
 			TabularRange destination) {
-
-		adapter.pasteExternalMultiple(data, destination.getMinColumn(), destination.getMinRow(),
-				destination.getMaxColumn(), destination.getMaxRow());
+		adapter.pasteExternalMultiple(data, destination);
 	}
 
 	private CopyPasteCellOperationList collectOperations(TabularClipboard<GeoElement> buffer,

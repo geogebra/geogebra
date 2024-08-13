@@ -51,7 +51,39 @@ public interface CopyPasteCutTabularData {
 
 	/**
 	 * Provides asynchronous access to clipboard
-	 * @param reader gets clipboard content if present, null otherwise
+	 * @param reader gets clipboard content if present and distinct from internal clipboard,
+	 *    null otherwise
 	 */
 	void readExternalClipboard(Consumer<String> reader);
+
+	/**
+	 * Range for tiled pasting of tabular data. The size is a multiple of tileHeight vertically
+	 * and tileWidth horizontally. At least one copy is created in each direction, i.e.
+	 * if destination width < tileWidth, the destination will overflow horizontally,
+	 * similar for height.
+	 * @param destination destination range
+	 * @param tileHeight tile height
+	 * @param tileWidth tile tileWidth
+	 * @return tiled range
+	 */
+	static TabularRange getTiledRange(TabularRange destination, int tileHeight, int tileWidth) {
+		int minColumn = Math.max(destination.getMinColumn(), 0);
+		int minRow = Math.max(destination.getMinRow(), 0);
+		int columnMultiplier = Math.max(destination.getWidth() / tileWidth, 1);
+		int rowMultiplier = Math.max(destination.getHeight() / tileHeight, 1);
+		int maxColumn = destination.getMinColumn() + tileWidth * columnMultiplier - 1;
+		int maxRow = destination.getMinRow() + tileHeight * rowMultiplier - 1;
+		return new TabularRange(minRow, minColumn, maxRow, maxColumn);
+	}
+
+	/**
+	 * Range for tiled pasting of tabular data.
+	 * @param destination destination
+	 * @param pastedData pasted data
+	 * @return tiled range
+	 */
+	static TabularRange getTiledRange(TabularRange destination, String[][] pastedData) {
+		return pastedData == null || pastedData.length == 0 || pastedData[0].length == 0 ? null
+				: getTiledRange(destination, pastedData.length, pastedData[0].length);
+	}
 }
