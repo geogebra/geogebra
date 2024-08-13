@@ -1,12 +1,10 @@
 package com.himamis.retex.editor.web;
 
-import org.gwtproject.event.legacy.shared.EventHandler;
-
 /**
  * Handles CompositionEndEvents (for languages where single letter needs
  * multiple keystrokes)
  */
-public interface CompositionEndHandler extends EventHandler {
+public interface CompositionEndHandler {
 
 	/**
 	 * @param event
