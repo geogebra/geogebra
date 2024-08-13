@@ -198,12 +198,13 @@ public class MyList extends ValidExpression
 	}
 
 	private void matrixMultiply(MyList LHlist, MyList RHlist) {
-		int LHcols = LHlist.getMatrixCols(), LHrows = LHlist.getMatrixRows();
-		int RHcols = RHlist.getMatrixCols(); // RHlist.getMatrixRows();
 		if (RHlist.containsFunctionVariable() || LHlist.containsFunctionVariable()) {
 			RHlist.convertListElementsToFunctions();
 			LHlist.convertListElementsToFunctions();
 		}
+
+		int LHcols = LHlist.getMatrixCols(), LHrows = LHlist.getMatrixRows();
+		int RHcols = RHlist.getMatrixCols(); // RHlist.getMatrixRows();
 
 		ExpressionNode totalNode;
 		ExpressionNode tempNode;
