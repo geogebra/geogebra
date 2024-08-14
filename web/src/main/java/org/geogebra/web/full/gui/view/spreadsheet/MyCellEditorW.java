@@ -383,6 +383,7 @@ public class MyCellEditorW implements BaseCellEditor {
 
 			if (keyCode == KeyCodes.KEY_ESCAPE) {
 				e.preventDefault();
+				e.stopPropagation();
 				GeoElement oldGeo = kernel.getGeoAt(column, row);
 				cancelCellEditing();
 

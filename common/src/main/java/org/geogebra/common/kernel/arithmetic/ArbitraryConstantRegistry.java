@@ -417,8 +417,7 @@ public class ArbitraryConstantRegistry {
 		}
 
 		private ExpressionValue handleSpecialCase(ExpressionNode en) {
-			if (en.getOperation() == Operation.PLUS
-					|| en.getOperation() == Operation.MINUS) {
+			if (en.getOperation().isPlusorMinus()) {
 				if (isMultipleOfArbconst(en.getRight())) {
 					return en.getLeft();
 				}
