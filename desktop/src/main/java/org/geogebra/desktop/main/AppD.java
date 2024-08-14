@@ -2003,9 +2003,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public void setTooltipLanguage(String ttLanguage) {
-		Language language = Language.fromLanguageTagOrLocaleString(ttLanguage == null
-				? getLocale().getLanguage() : ttLanguage);
-		setTooltipLanguage(language);
+		setTooltipLanguage(StringUtil.empty(ttLanguage) ? null
+				: Language.fromLanguageTagOrLocaleString(ttLanguage));
 	}
 
 	/**
