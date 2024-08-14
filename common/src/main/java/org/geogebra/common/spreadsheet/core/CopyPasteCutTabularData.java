@@ -71,8 +71,8 @@ public interface CopyPasteCutTabularData {
 		int minRow = Math.max(destination.getMinRow(), 0);
 		int columnMultiplier = Math.max(destination.getWidth() / tileWidth, 1);
 		int rowMultiplier = Math.max(destination.getHeight() / tileHeight, 1);
-		int maxColumn = destination.getMinColumn() + tileWidth * columnMultiplier - 1;
-		int maxRow = destination.getMinRow() + tileHeight * rowMultiplier - 1;
+		int maxColumn = minColumn + tileWidth * columnMultiplier - 1;
+		int maxRow = minRow + tileHeight * rowMultiplier - 1;
 		return new TabularRange(minRow, minColumn, maxRow, maxColumn);
 	}
 
