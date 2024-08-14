@@ -2085,7 +2085,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// only allow special locales due to some weird server
 		// problems with the naming of the property files
 		loc.setLocale(locale);
-		setTooltipLanguage(locale.getLanguage());
 
 		// update font for new language (needed for e.g. chinese)
 		try {
