@@ -28,6 +28,7 @@ import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.ScrollPanel;
 
 import com.google.gwt.core.client.Scheduler;
+import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.util.KeyCodes;
 
 import elemental2.core.Function;
@@ -68,7 +69,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		app.getKernel().attach(tabularData);
 		add(spreadsheetWidget);
 		scrollOverlay = new ScrollPanel();
-		mathField = new MathTextFieldW(app);
+		mathField = new MathTextFieldW(app, new MetaModel());
 
 		spreadsheet.setControlsDelegate(initDelegate());
 
