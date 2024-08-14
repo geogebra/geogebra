@@ -203,8 +203,7 @@ public final class SpreadsheetController {
 	private void initCopyPasteCut() {
 		if (copyPasteCut == null && controlsDelegate != null) {
 			copyPasteCut = new CopyPasteCutTabularDataImpl<>(tabularData,
-					controlsDelegate.getClipboard(), layout, selectionController,
-					controlsDelegate.getCellEditor().getCellDataSerializer());
+					controlsDelegate.getClipboard(), layout, selectionController);
 		}
 	}
 

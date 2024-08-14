@@ -22,17 +22,15 @@ final class CopyPasteCutTabularDataImpl<T>
 	 * @param clipboard {@link ClipboardInterface}
 	 * @param layout Spreadsheet dimensions
 	 * @param selectionController {@link SpreadsheetSelectionController}
-	 * @param serializer for formatting strings for clipboard
 	 */
 	CopyPasteCutTabularDataImpl(TabularData<T> tabularData, ClipboardInterface clipboard,
-			TableLayout layout, SpreadsheetSelectionController selectionController,
-			SpreadsheetCellDataSerializer serializer) {
+			TableLayout layout, SpreadsheetSelectionController selectionController) {
 		this.tabularData = tabularData;
 		this.clipboard = clipboard;
 		this.layout = layout;
 		this.selectionController = selectionController;
 		paste = tabularData.getPaste();
-		tabularDataFormatter = new TabularDataFormatter<>(tabularData, serializer);
+		tabularDataFormatter = new TabularDataFormatter<>(tabularData);
 	}
 
 	TabularClipboard<T> getInternalClipboard() {

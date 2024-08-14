@@ -47,7 +47,7 @@ public final class ContextMenuItemsTest {
 		controller = new SpreadsheetController(data);
 		CopyPasteCutTabularDataImpl<?> copyPasteCut =
 				new CopyPasteCutTabularDataImpl<>(data, clipboard, controller.getLayout(),
-						new SpreadsheetSelectionController(), Object::toString);
+						new SpreadsheetSelectionController());
 		items = new ContextMenuItems(controller, selectionController);
 		controller.setCopyPasteCut(copyPasteCut);
 	}

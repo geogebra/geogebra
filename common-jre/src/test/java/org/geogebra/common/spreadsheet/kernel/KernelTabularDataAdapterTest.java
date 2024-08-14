@@ -29,4 +29,11 @@ public class KernelTabularDataAdapterTest extends BaseUnitTest {
 		add("ZZ1=1");
 		assertThat(tabularData.numberOfColumns(), equalTo(702));
 	}
+
+	@Test
+	public void testContentSerialization() {
+		add("A1:x=y");
+		// this should be the default string template, not the one for editor
+		assertThat(tabularData.serializeContentAt(0, 0), equalTo("x = y"));
+	}
 }

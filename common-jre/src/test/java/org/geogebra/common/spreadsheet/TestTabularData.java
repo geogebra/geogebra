@@ -81,6 +81,11 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
+	public String serializeContentAt(int row, int column) {
+		return data.get(row).get(column);
+	}
+
+	@Override
 	public String getColumnName(int column) {
 		return "col" + column;
 	}

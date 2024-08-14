@@ -9,7 +9,6 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellDataSerializer;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,7 +27,7 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 		super.setup();
 		tabularData = new KernelTabularDataAdapter(getSettings().getSpreadsheet(), getKernel());
 		copyPasteCut = new CopyPasteCutTabularDataImpl<>(tabularData, clipboard,
-				layout, selectionController, new DefaultSpreadsheetCellDataSerializer());
+				layout, selectionController);
 	}
 
 	@Test
