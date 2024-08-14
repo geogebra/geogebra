@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.gui.view.algebra.contextmenu.impl.RemoveSlider;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.junit.Test;
@@ -116,6 +115,24 @@ public class AlgebraContextMenuTests extends BaseUnitTest {
 		);
 	}
 
+	@Test
+	public void testForInputWithSpecialPointsInGraphing3DApp() {
+		assertEquals(
+				List.of(SpecialPoints, DuplicateInput, Delete, Settings),
+				makeAlgebraContextMenu(add("x"), algebraProcessor,
+						GeoGebraConstants.G3D_APPCODE, items -> {}).getItems()
+		);
+	}
+
+	@Test
+	public void testForInputWithStatisticsInGraphing3DApp() {
+		assertEquals(
+				List.of(Statistics, DuplicateInput, Delete, Settings),
+				makeAlgebraContextMenu(add("{1, 2, 3}"), algebraProcessor,
+						GeoGebraConstants.G3D_APPCODE, items -> {}).getItems()
+		);
+	}
+
 	// CAS app
 
 	// TODO setup?
@@ -129,7 +146,7 @@ public class AlgebraContextMenuTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void testForSimpleInputWithSliderAndLabel() {
+	public void testForSimpleInputWithSliderAndLabelInCasApp() {
 		assertEquals(
 				List.of(RemoveLabel, RemoveSlider, DuplicateInput, Delete, Settings),
 				makeAlgebraContextMenu(add("5"), algebraProcessor,
@@ -138,10 +155,19 @@ public class AlgebraContextMenuTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void testForSimpleInputWithLabel() {
+	public void testForSimpleInputWithLabelInCasApp() {
 		assertEquals(
 				List.of(RemoveLabel, CreateSlider, DuplicateInput, Delete, Settings),
 				makeAlgebraContextMenu(add("5"), algebraProcessor,
+						GeoGebraConstants.CAS_APPCODE, items -> {}).getItems()
+		);
+	}
+
+	@Test
+	public void testForInputWithStatisticsInCasApp() {
+		assertEquals(
+				List.of(CreateTableValues, AddLabel, Statistics, DuplicateInput, Delete, Settings),
+				makeAlgebraContextMenu(add("{1, 2, 3}"), algebraProcessor,
 						GeoGebraConstants.CAS_APPCODE, items -> {}).getItems()
 		);
 	}

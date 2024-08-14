@@ -5,6 +5,7 @@ import static org.geogebra.common.contextmenu.InputContextMenuItem.*;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
@@ -53,7 +54,7 @@ public final class ContextMenu<T extends ContextMenuItem> {
 	 */
 	@Nonnull
 	public List<T> getItems() {
-		return items;
+		return Collections.unmodifiableList(items);
 	}
 
 	/**
@@ -277,10 +278,16 @@ public final class ContextMenu<T extends ContextMenuItem> {
 			Delegate<AlgebraContextMenuItem> delegate
 	) {
 		ContextMenu<AlgebraContextMenuItem> contextMenu = new ContextMenu<>(delegate);
+		if (showSolveSuggestion) {
+			contextMenu.items.add(Solve);
+		}
+		if (showCreateTableValues) {
+			contextMenu.items.add(CreateTableValues);
+		}
+		contextMenu.items.add(isAlgebraLabelVisible ? RemoveLabel : AddLabel);
 		if (showStatisticsSuggestion) {
 			contextMenu.items.add(Statistics);
 		}
-		contextMenu.items.add(isAlgebraLabelVisible ? RemoveLabel : AddLabel);
 		if (showCreateSlider) {
 			contextMenu.items.add(CreateSlider);
 		}
@@ -295,12 +302,6 @@ public final class ContextMenu<T extends ContextMenuItem> {
 		contextMenu.items.add(Settings);
 		if (showSpecialPointsSuggestion) {
 			contextMenu.items.add(SpecialPoints);
-		}
-		if (showCreateTableValues) {
-			contextMenu.items.add(CreateTableValues);
-		}
-		if (showSolveSuggestion) {
-			contextMenu.items.add(Solve);
 		}
 		return contextMenu;
 	}
@@ -334,15 +335,15 @@ public final class ContextMenu<T extends ContextMenuItem> {
 		if (showStatisticsSuggestion) {
 			contextMenu.items.add(Statistics);
 		}
+		if (showSpecialPointsSuggestion) {
+			contextMenu.items.add(SpecialPoints);
+		}
 		contextMenu.items.add(DuplicateInput);
 		if (showDuplicateOutput) {
 			contextMenu.items.add(DuplicateOutput);
 		}
 		contextMenu.items.add(Delete);
 		contextMenu.items.add(Settings);
-		if (showSpecialPointsSuggestion) {
-			contextMenu.items.add(SpecialPoints);
-		}
 		return contextMenu;
 	}
 

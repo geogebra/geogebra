@@ -30,7 +30,7 @@ public enum TableValuesContextMenuItem implements ContextMenuItem {
 		return localization.getPlainArray(translationKey, null, translationPlaceholderValues);
 	}
 
-	void setTranslationPlaceholderValues(String[] translationPlaceholderValues) {
+	void setTranslationPlaceholderValues(@Nonnull String[] translationPlaceholderValues) {
 		this.translationPlaceholderValues = translationPlaceholderValues;
 	}
 }
