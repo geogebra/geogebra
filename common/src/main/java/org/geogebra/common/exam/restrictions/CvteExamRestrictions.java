@@ -36,7 +36,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				Set.of(SuiteSubApp.CAS, SuiteSubApp.G3D, SuiteSubApp.GEOMETRY,
 						SuiteSubApp.PROBABILITY, SuiteSubApp.SCIENTIFIC),
 				SuiteSubApp.GRAPHING,
-				null,
+				CvteExamRestrictions.createFeatureRestrictions(),
 				CvteExamRestrictions.createExpressionFilters(),
 				CvteExamRestrictions.createExpressionFilters(),
 				CvteExamRestrictions.createCommandFilters(),
@@ -85,6 +85,10 @@ final class CvteExamRestrictions extends ExamRestrictions {
 		if (settings != null) {
 			settings.getCasSettings().setEnabled(casEnabled);
 		}
+	}
+
+	private static Set<ExamFeatureRestriction> createFeatureRestrictions() {
+		return Set.of(ExamFeatureRestriction.AUTOMATIC_GRAPH_SELECTION_FOR_FUNCTIONS);
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {

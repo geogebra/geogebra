@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.Settings;
@@ -301,12 +300,6 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 */
 	protected void unfreezeValue(@Nonnull ValuedProperty property) {
 		// override
-	}
-
-	// TODO unclear how to implement
-	// see https://git.geogebra.org/ggb/geogebra/-/issues/8#function-graphs-new
-	public boolean isSelectionAllowed(GeoElementND geoND) {
-		return true;
 	}
 
 	// PropertiesRegistryListener
