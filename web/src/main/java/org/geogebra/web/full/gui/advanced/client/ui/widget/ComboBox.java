@@ -989,6 +989,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 					} else if (button == KeyCodes.KEY_ESCAPE && !hasModifiers) {
 						hideList();
 						setKeyPressed(false);
+						nativeEvent.stopPropagation();
 					} else if (button == KeyCodes.KEY_TAB
 							&& (!hasModifiers || !alt && !ctrl)) {
 						hideList();

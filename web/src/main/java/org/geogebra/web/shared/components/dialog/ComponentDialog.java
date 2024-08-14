@@ -247,7 +247,8 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 				&& !isTextarea(nativeEvent.getEventTarget())) {
 			onPositiveAction();
 		} else if (event.getTypeInt() == Event.ONKEYUP
-				&& event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
+				&& nativeEvent.getKeyCode() == KeyCodes.KEY_ESCAPE) {
+			nativeEvent.stopPropagation();
 			onEscape();
 		}
 	}
