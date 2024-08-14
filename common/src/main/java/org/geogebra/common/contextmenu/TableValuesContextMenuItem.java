@@ -1,55 +1,36 @@
 package org.geogebra.common.contextmenu;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+
+import org.geogebra.common.main.Localization;
 
 public enum TableValuesContextMenuItem implements ContextMenuItem {
-	Edit("Edit", 0),
-	ClearColumn("ClearColumn", 0),
-	RemoveColumn("RemoveColumn", 0),
-	ShowPoints("ShowPoints", 0),
-	HidePoints("HidePoints", 0),
-	ImportData("ContextMenu.ImportData", 0),
-	Regression("Regression", 1),
-	Statistics1("AStatistics", 1),
-	Statistics2("AStatistics", 1);
+	Edit("Edit"),
+	ClearColumn("ClearColumn"),
+	RemoveColumn("RemoveColumn"),
+	ShowPoints("ShowPoints"),
+	HidePoints("HidePoints"),
+	ImportData("ContextMenu.ImportData"),
+	Regression("Regression"),
+	Statistics1("AStatistics"),
+	Statistics2("AStatistics"),
+	Separator("");
 
-	private final String translationId;
-	private List<String> translationParameters;
-	private final int groupId;
+	private final String translationKey;
+	private String[] translationPlaceholderValues;
 
-	TableValuesContextMenuItem(String translationId, int groupId) {
-		this.translationId = translationId;
-		this.translationParameters = List.of();
-		this.groupId = groupId;
+	TableValuesContextMenuItem(String translationKey) {
+		this.translationKey = translationKey;
+		this.translationPlaceholderValues = new String[]{};
 	}
 
 	@Nonnull
 	@Override
-	public String getTranslationId() {
-		return translationId;
+	public String getLocalizedTitle(@Nonnull Localization localization) {
+		return localization.getPlainArray(translationKey, null, translationPlaceholderValues);
 	}
 
-	@Nonnull
-	@Override
-	public List<String> getTranslationParameters() {
-		return translationParameters;
-	}
-
-	@Override
-	public int getGroupId() {
-		return groupId;
-	}
-
-	@Nullable
-	@Override
-	public Icon getIcon() {
-		return null;
-	}
-
-	void setTranslationParameters(List<String> translationParameters) {
-		this.translationParameters = translationParameters;
+	void setTranslationPlaceholderValues(String[] translationPlaceholderValues) {
+		this.translationPlaceholderValues = translationPlaceholderValues;
 	}
 }

@@ -1,23 +1,20 @@
 package org.geogebra.common.contextmenu;
 
-import java.util.List;
-
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+
+import org.geogebra.common.main.Localization;
 
 public interface ContextMenuItem {
 	@Nonnull
-	String getTranslationId();
-	@Nonnull
-	List<String> getTranslationParameters();
-	int getGroupId();
-	@Nullable
-	Icon getIcon();
+	String getLocalizedTitle(@Nonnull Localization localization);
+
+	@CheckForNull
+	default Icon getIcon() {
+		return null;
+	}
 
 	enum Icon {
 		Expression, Text, Help, Delete
 	}
 }
-
-
-

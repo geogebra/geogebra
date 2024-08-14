@@ -1,39 +1,26 @@
 package org.geogebra.common.contextmenu;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+
+import org.geogebra.common.main.Localization;
 
 public enum MaterialContextMenuItem implements ContextMenuItem {
 	Delete("Delete", Icon.Delete);
 
-	private final String translationId;
+	private final String translationKey;
 	private final Icon icon;
 
-	MaterialContextMenuItem(String translationId, Icon icon) {
-		this.translationId = translationId;
+	MaterialContextMenuItem(String translationKey, Icon icon) {
+		this.translationKey = translationKey;
 		this.icon = icon;
 	}
 
 	@Nonnull
 	@Override
-	public String getTranslationId() {
-		return translationId;
+	public String getLocalizedTitle(@Nonnull Localization localization) {
+		return localization.getMenu(translationKey);
 	}
 
-	@Nonnull
-	@Override
-	public List<String> getTranslationParameters() {
-		return List.of();
-	}
-
-	@Override
-	public int getGroupId() {
-		return 0;
-	}
-
-	@Nullable
 	@Override
 	public Icon getIcon() {
 		return icon;

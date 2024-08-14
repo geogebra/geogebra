@@ -1,9 +1,8 @@
 package org.geogebra.common.contextmenu;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+
+import org.geogebra.common.main.Localization;
 
 public enum AlgebraContextMenuItem implements ContextMenuItem {
 	Statistics("Statistics"),
@@ -19,32 +18,15 @@ public enum AlgebraContextMenuItem implements ContextMenuItem {
 	RemoveSlider("RemoveSlider"),
 	Solve("Solve");
 
-	private final String translationId;
+	private final String translationKey;
 
-	AlgebraContextMenuItem(String translationId) {
-		this.translationId = translationId;
+	AlgebraContextMenuItem(String translationKey) {
+		this.translationKey = translationKey;
 	}
 
 	@Nonnull
 	@Override
-	public String getTranslationId() {
-		return translationId;
-	}
-
-	@Override
-	@Nonnull
-	public List<String> getTranslationParameters() {
-		return List.of();
-	}
-
-	@Override
-	public int getGroupId() {
-		return 0;
-	}
-
-	@Nullable
-	@Override
-	public Icon getIcon() {
-		return null;
+	public String getLocalizedTitle(@Nonnull Localization localization) {
+		return localization.getMenu(translationKey);
 	}
 }

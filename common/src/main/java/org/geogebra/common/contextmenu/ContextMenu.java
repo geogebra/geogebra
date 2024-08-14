@@ -7,7 +7,8 @@ import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
@@ -26,42 +27,49 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.scientific.LabelController;
 
-public class ContextMenu<T extends ContextMenuItem> {
+public final class ContextMenu<T extends ContextMenuItem> {
+	private final Delegate<T> delegate;
+	private final List<T> items;
+
 	public interface Delegate<T> {
-		void onItemSelected(T selection);
+		void onItemSelected(@Nonnull T selection);
 	}
 
-	private final Delegate<T> delegate;
-	private final ArrayList<T> items;
-
-	public ContextMenu(Delegate<T> delegate) {
+	private ContextMenu(@Nonnull Delegate<T> delegate) {
 		this.delegate = delegate;
 		this.items = new ArrayList<>();
 	}
 
+	@Nonnull
 	public List<T> getItems() {
 		return items;
 	}
 
+	@Nonnull
 	public Delegate<T> getDelegate() {
 		return delegate;
 	}
 
-	private void addItem(T item, boolean predicate) {
-		if (predicate) {
-			items.add(item);
-		}
-	}
-
-	private void addItem(T item) {
-		items.add(item);
-	}
-
+	/**
+	 * Creates the context menu for the algebra view value for the context menu button at the end
+	 * of a non-empty algebra view input
+	 *
+	 * @param geoElement Current value in the algebra view
+	 * @param algebraProcessor Algebra processor responsible for handling the geo elements in the
+	 *                         algebra view
+	 * @param appCode The active app code, one of {@link GeoGebraConstants#CAS_APPCODE},
+	 *                {@link GeoGebraConstants#SCIENTIFIC_APPCODE},
+	 *                {@link GeoGebraConstants#G3D_APPCODE},
+	 *                {@link GeoGebraConstants#GRAPHING_APPCODE}
+	 *                or {@link GeoGebraConstants#GEOMETRY_APPCODE}
+	 * @param delegate Delegate that responds to an item selection in the context menu
+	 * @return Context menu for the algebra value
+	 */
 	public static ContextMenu<AlgebraContextMenuItem> makeAlgebraContextMenu(
-			@Nullable GeoElement geoElement,
-			AlgebraProcessor algebraProcessor,
-			String appCode,
-			Delegate<AlgebraContextMenuItem> delegate
+			@CheckForNull GeoElement geoElement,
+			@Nonnull AlgebraProcessor algebraProcessor,
+			@Nonnull String appCode,
+			@Nonnull Delegate<AlgebraContextMenuItem> delegate
 	) {
 		if (geoElement == null) {
 			return makeDeleteAlgebraContextMenu(delegate);
@@ -123,47 +131,74 @@ public class ContextMenu<T extends ContextMenuItem> {
 		}
 	}
 
+	/**
+	 * Creates the context menu for the table value columns
+	 * for the context menu buttons in the header
+	 *
+	 * @param geoEvaluatable Evaluatable in the given table value column
+	 * @param columnIndex Index of the table values column where the context menu button takes place
+	 * @param tableValuesModel Table values model containing and handling the geoEvaluatable
+	 *                         at the given column
+	 * @param isScientific Weather the current app or sub-app is Scientific calculator
+	 * @param isExamActive Weather the application is currently in exam mode
+	 * @param delegate Delegate that responds to an item selection in the context menu
+	 * @return Context menu for the table value columns
+	 */
 	public static ContextMenu<TableValuesContextMenuItem> makeTableValuesContextMenu(
-			GeoEvaluatable geoEvaluatable,
-			int column,
-			TableValuesModel tableValuesModel,
+			@Nonnull GeoEvaluatable geoEvaluatable,
+			int columnIndex,
+			@Nonnull TableValuesModel tableValuesModel,
 			boolean isScientific,
 			boolean isExamActive,
-			Delegate<TableValuesContextMenuItem> delegate
+			@Nonnull Delegate<TableValuesContextMenuItem> delegate
 	) {
 		if (isScientific) {
 			return makeScientificTableValuesContextMenu(delegate);
-		} else {
-			String columnLabel = tableValuesModel.getHeaderAt(column);
-			boolean showImportData = !isExamActive;
-			boolean pointsVisible = geoEvaluatable.isPointsVisible();
-			boolean showEdit = geoEvaluatable instanceof GeoFunctionable;
-			boolean showStatistics = geoEvaluatable instanceof GeoList;
+		}
 
-			if (column == 0) {
-				return makeTableValuesContextMenuForFirstColumn(showImportData, delegate);
-			} else {
-				return makeTableValuesContextMenu(columnLabel, pointsVisible, showEdit, showStatistics, delegate);
-			}
+		String columnLabel = tableValuesModel.getHeaderAt(columnIndex);
+		boolean showImportData = !isExamActive;
+		boolean pointsVisible = geoEvaluatable.isPointsVisible();
+		boolean showEdit = geoEvaluatable instanceof GeoFunctionable;
+		boolean showStatistics = geoEvaluatable instanceof GeoList;
+
+		if (columnIndex == 0) {
+			return makeTableValuesContextMenuForFirstColumn(showImportData, delegate);
+		} else {
+			return makeTableValuesContextMenu(columnLabel, pointsVisible, showEdit, showStatistics, delegate);
 		}
 	}
 
+	/**
+	 * Creates the context menu for the algebra view input button
+	 * at the start of an empty algebra view input
+	 *
+	 * @param includeHelpItem Weather the Help item is enabled in the app
+	 * @param delegate Delegate that responds to an item selection in the context menu
+	 * @return Context menu for algebra view input button
+	 */
 	public static ContextMenu<InputContextMenuItem> makeInputContextMenu(
 			boolean includeHelpItem,
-			Delegate<InputContextMenuItem> delegate
+			@Nonnull Delegate<InputContextMenuItem> delegate
 	) {
 		ContextMenu<InputContextMenuItem> contextMenu = new ContextMenu<>(delegate);
-		contextMenu.addItem(Expression);
-		contextMenu.addItem(Text);
-		contextMenu.addItem(Help, includeHelpItem);
+		contextMenu.items.add(Expression);
+		contextMenu.items.add(Text);
+		if (includeHelpItem) contextMenu.items.add(Help);
 		return contextMenu;
 	}
 
+	/**
+	 * Creates the context menu for the materials in exam mode
+	 *
+	 * @param delegate Delegate that responds to an item selection in the context menu
+	 * @return Context menu for the materials
+	 */
 	public static ContextMenu<MaterialContextMenuItem> makeMaterialContextMenu(
-			Delegate<MaterialContextMenuItem> delegate
+			@Nonnull Delegate<MaterialContextMenuItem> delegate
 	) {
 		ContextMenu<MaterialContextMenuItem> contextMenu = new ContextMenu<>(delegate);
-		contextMenu.addItem(MaterialContextMenuItem.Delete);
+		contextMenu.items.add(MaterialContextMenuItem.Delete);
 		return contextMenu;
 	}
 
@@ -172,10 +207,11 @@ public class ContextMenu<T extends ContextMenuItem> {
 			Delegate<TableValuesContextMenuItem> delegate
 	) {
 		ContextMenu<TableValuesContextMenuItem> contextMenu = new ContextMenu<>(delegate);
-		contextMenu.addItem(Edit);
-		contextMenu.addItem(ClearColumn);
-		contextMenu.addItem(ImportData, showImportData);
-		contextMenu.addItem(makeStatistics1Item("x"));
+		contextMenu.items.add(Edit);
+		contextMenu.items.add(ClearColumn);
+		if (showImportData) contextMenu.items.add(ImportData);
+		contextMenu.items.add(Separator);
+		contextMenu.items.add(makeStatistics1Item("x"));
 		return contextMenu;
 	}
 
@@ -187,12 +223,15 @@ public class ContextMenu<T extends ContextMenuItem> {
 			Delegate<TableValuesContextMenuItem> delegate
 	) {
 		ContextMenu<TableValuesContextMenuItem> contextMenu = new ContextMenu<>(delegate);
-		contextMenu.addItem(pointsVisible ? HidePoints : ShowPoints);
-		contextMenu.addItem(Edit, showEdit);
-		contextMenu.addItem(RemoveColumn);
-		contextMenu.addItem(makeStatistics1Item(columnLabel), showStatistics);
-		contextMenu.addItem(makeStatistics2Item("x " + columnLabel), showStatistics);
-		contextMenu.addItem(Regression, showStatistics);
+		contextMenu.items.add(pointsVisible ? HidePoints : ShowPoints);
+		if (showEdit) contextMenu.items.add(Edit);
+		contextMenu.items.add(RemoveColumn);
+		if (showStatistics) {
+			contextMenu.items.add(Separator);
+			contextMenu.items.add(makeStatistics1Item(columnLabel));
+			contextMenu.items.add(makeStatistics2Item("x " + columnLabel));
+			contextMenu.items.add(Regression);
+		}
 		return contextMenu;
 	}
 
@@ -200,8 +239,8 @@ public class ContextMenu<T extends ContextMenuItem> {
 			Delegate<TableValuesContextMenuItem> delegate
 	) {
 		ContextMenu<TableValuesContextMenuItem> contextMenu = new ContextMenu<>(delegate);
-		contextMenu.addItem(Edit);
-		contextMenu.addItem(ClearColumn);
+		contextMenu.items.add(Edit);
+		contextMenu.items.add(ClearColumn);
 		return contextMenu;
 	}
 
@@ -217,17 +256,17 @@ public class ContextMenu<T extends ContextMenuItem> {
 			Delegate<AlgebraContextMenuItem> delegate
 	) {
 		ContextMenu<AlgebraContextMenuItem> contextMenu = new ContextMenu<>(delegate);
-		contextMenu.addItem(Statistics, showStatisticsSuggestion);
-		contextMenu.addItem(DuplicateInput);
-		contextMenu.addItem(DuplicateOutput, showDuplicateOutput);
-		contextMenu.addItem(Delete);
-		contextMenu.addItem(Settings);
-		contextMenu.addItem(SpecialPoints, showSpecialPointsSuggestion);
-		contextMenu.addItem(CreateTableValues, showCreateTableValues);
-		contextMenu.addItem(isAlgebraLabelVisible ? RemoveLabel : AddLabel);
-		contextMenu.addItem(CreateSlider, showCreateSlider);
-		contextMenu.addItem(RemoveSlider, showRemoveSlider);
-		contextMenu.addItem(Solve, showSolveSuggestion);
+		if (showStatisticsSuggestion) contextMenu.items.add(Statistics);
+		contextMenu.items.add(isAlgebraLabelVisible ? RemoveLabel : AddLabel);
+		if (showCreateSlider) contextMenu.items.add(CreateSlider);
+		if (showRemoveSlider) contextMenu.items.add(RemoveSlider);
+		contextMenu.items.add(DuplicateInput);
+		if (showDuplicateOutput) contextMenu.items.add(DuplicateOutput);
+		contextMenu.items.add(Delete);
+		contextMenu.items.add(Settings);
+		if (showSpecialPointsSuggestion) contextMenu.items.add(SpecialPoints);
+		if (showCreateTableValues) contextMenu.items.add(CreateTableValues);
+		if (showSolveSuggestion) contextMenu.items.add(Solve);
 		return contextMenu;
 	}
 
@@ -237,10 +276,10 @@ public class ContextMenu<T extends ContextMenuItem> {
 			Delegate<AlgebraContextMenuItem> delegate
 	) {
 		ContextMenu<AlgebraContextMenuItem> contextMenu = new ContextMenu<>(delegate);
-		contextMenu.addItem(isLabelVisible ? RemoveLabel : AddLabel);
-		contextMenu.addItem(DuplicateInput);
-		contextMenu.addItem(Delete);
-		contextMenu.addItem(DuplicateOutput, showDuplicateOutput);
+		contextMenu.items.add(isLabelVisible ? RemoveLabel : AddLabel);
+		contextMenu.items.add(DuplicateInput);
+		contextMenu.items.add(Delete);
+		if (showDuplicateOutput) contextMenu.items.add(DuplicateOutput);
 		return contextMenu;
 	}
 
@@ -252,13 +291,13 @@ public class ContextMenu<T extends ContextMenuItem> {
 			Delegate<AlgebraContextMenuItem> delegate
 	) {
 		ContextMenu<AlgebraContextMenuItem> contextMenu = new ContextMenu<>(delegate);
-		contextMenu.addItem(Statistics, showStatisticsSuggestion);
-		contextMenu.addItem(DuplicateInput);
-		contextMenu.addItem(DuplicateOutput, showDuplicateOutput);
-		contextMenu.addItem(Delete);
-		contextMenu.addItem(Settings);
-		contextMenu.addItem(SpecialPoints, showSpecialPointsSuggestion);
-		contextMenu.addItem(Solve, showSolveSuggestion);
+		if (showSolveSuggestion) contextMenu.items.add(Solve);
+		if (showStatisticsSuggestion) contextMenu.items.add(Statistics);
+		contextMenu.items.add(DuplicateInput);
+		if (showDuplicateOutput) contextMenu.items.add(DuplicateOutput);
+		contextMenu.items.add(Delete);
+		contextMenu.items.add(Settings);
+		if (showSpecialPointsSuggestion) contextMenu.items.add(SpecialPoints);
 		return contextMenu;
 	}
 
@@ -270,13 +309,13 @@ public class ContextMenu<T extends ContextMenuItem> {
 			Delegate<AlgebraContextMenuItem> delegate
 	) {
 		ContextMenu<AlgebraContextMenuItem> contextMenu = new ContextMenu<>(delegate);
-		contextMenu.addItem(Statistics, showStatisticsSuggestion);
-		contextMenu.addItem(DuplicateInput);
-		contextMenu.addItem(DuplicateOutput, showDuplicateOutput);
-		contextMenu.addItem(Delete);
-		contextMenu.addItem(Settings);
-		contextMenu.addItem(SpecialPoints, showSpecialPointsSuggestion);
-		contextMenu.addItem(CreateTableValues, showCreateTableValues);
+		if (showCreateTableValues) contextMenu.items.add(CreateTableValues);
+		if (showSpecialPointsSuggestion) contextMenu.items.add(SpecialPoints);
+		if (showStatisticsSuggestion) contextMenu.items.add(Statistics);
+		contextMenu.items.add(DuplicateInput);
+		if (showDuplicateOutput) contextMenu.items.add(DuplicateOutput);
+		contextMenu.items.add(Delete);
+		contextMenu.items.add(Settings);
 		return contextMenu;
 	}
 
@@ -286,10 +325,11 @@ public class ContextMenu<T extends ContextMenuItem> {
 			Delegate<AlgebraContextMenuItem> delegate
 	) {
 		ContextMenu<AlgebraContextMenuItem> contextMenu = new ContextMenu<>(delegate);
-		contextMenu.addItem(Statistics, showStatisticsSuggestion);
-		contextMenu.addItem(DuplicateOutput, showDuplicateOutput);
-		contextMenu.addItem(Delete);
-		contextMenu.addItem(Settings);
+		if (showStatisticsSuggestion) contextMenu.items.add(Statistics);
+		contextMenu.items.add(DuplicateInput);
+		if (showDuplicateOutput) contextMenu.items.add(DuplicateOutput);
+		contextMenu.items.add(Delete);
+		contextMenu.items.add(Settings);
 		return contextMenu;
 	}
 
@@ -297,19 +337,19 @@ public class ContextMenu<T extends ContextMenuItem> {
 			Delegate<AlgebraContextMenuItem> delegate
 	) {
 		ContextMenu<AlgebraContextMenuItem> contextMenu = new ContextMenu<>(delegate);
-		contextMenu.addItem(Delete);
+		contextMenu.items.add(Delete);
 		return contextMenu;
 	}
 
 	private static TableValuesContextMenuItem makeStatistics1Item(String columnLabel) {
 		TableValuesContextMenuItem item = Statistics1;
-		item.setTranslationParameters(List.of(columnLabel));
+		item.setTranslationPlaceholderValues(new String[] { columnLabel });
 		return item;
 	}
 
 	private static TableValuesContextMenuItem makeStatistics2Item(String columnLabel) {
 		TableValuesContextMenuItem item = Statistics2;
-		item.setTranslationParameters(List.of(columnLabel));
+		item.setTranslationPlaceholderValues(new String[] { columnLabel });
 		return item;
 	}
 }
