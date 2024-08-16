@@ -26,7 +26,7 @@ mozilla-rhino = { module = "org.mozilla:rhino", version.ref = "mozilla-rhino" }
 autoService = "com.google.auto.service:auto-service:1.1.1"
 pdfJs = "org.webjars.npm:pdfjs-dist:2.5.207"
 multiplayer = { module = "org.geogebra:multiplayer", version.ref = "multiplayer" }
-fflate = "org.webjars.npm:fflate:0.8.0"
+fflate = "org.webjars.npm:fflate:0.8.2"
 quickjs = {module = "org.quickjs:emscripten", version.ref = "quickJs"}
 
 jsObject = "netscape.javascript:jsobject:1"
