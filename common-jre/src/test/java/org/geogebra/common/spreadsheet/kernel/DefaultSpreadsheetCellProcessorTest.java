@@ -188,7 +188,7 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	}
 
 	private GetCommand getCommand(GeoElement a1) {
-		return a1.getParentAlgorithm() == null ? null :
-				a1.getParentAlgorithm().getClassName();
+		return a1.getParentAlgorithm() == null ? null
+				: a1.getParentAlgorithm().getClassName();
 	}
 }
