@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.StringUtil;
@@ -205,8 +206,11 @@ public final class SpreadsheetController {
 		if (copyPasteCut == null && controlsDelegate != null) {
 			copyPasteCut = new CopyPasteCutTabularDataImpl<>(tabularData,
 					controlsDelegate.getClipboard(), layout, selectionController);
-			contextMenuItems.setCopyPasteCut(copyPasteCut);
 		}
+	}
+
+	void setCopyPasteCut(CopyPasteCutTabularData copyPasteCut) {
+		this.copyPasteCut = copyPasteCut;
 	}
 
 	/**
@@ -465,8 +469,8 @@ public final class SpreadsheetController {
 				break;
 			case JavaKeyCodes.VK_V:
 				if (modifiers.ctrlOrCmd) {
-					pasteToSelections();
-					notifyDataDimensionsChanged();
+					pasteToSelections(selectionController.getSelections()
+							.map(Selection::getRange));
 					return;
 				}
 				startTyping(key, modifiers);
@@ -514,12 +518,21 @@ public final class SpreadsheetController {
 		}
 	}
 
-	private void pasteToSelections() {
+	void pasteToSelections(Stream<TabularRange> destinations) {
 		if (copyPasteCut != null) {
-			for (Selection selection : getSelections().collect(Collectors.toList())) {
-				copyPasteCut.paste(selection.getRange());
-			}
-			copyPasteCut.selectPastedContent();
+			//List<TabularRange> collect = destinations.collect(Collectors.toList());
+			copyPasteCut.readExternalClipboard(externalContent -> {
+				int oldColumns = getLayout().numberOfColumns();
+				int oldRows = getLayout().numberOfRows();
+				String[][] data = externalContent == null ? null
+						: DataImport.parseExternalData(null, externalContent, true);
+				destinations.forEach(
+						destination -> copyPasteCut.paste(destination, data));
+				if (copyPasteCut != null) {
+					copyPasteCut.selectPastedContent();
+				}
+				syncSize(oldColumns - 1, oldRows - 1);
+			});
 		}
 	}
 
@@ -561,6 +574,12 @@ public final class SpreadsheetController {
 	 * @param extendingCurrentSelection True if the current selection should expand, false else
 	 */
 	void moveRight(boolean extendingCurrentSelection) {
+		Selection lastSelection = selectionController.getLastSelection();
+		if (lastSelection != null
+				&& lastSelection.getRange().getMaxColumn() == tabularData.numberOfColumns() - 1) {
+			tabularData.insertColumnAt(tabularData.numberOfColumns());
+			syncSize(tabularData.numberOfColumns() - 1, tabularData.numberOfRows());
+		}
 		selectionController.moveRight(extendingCurrentSelection, layout.numberOfColumns());
 	}
 
@@ -575,6 +594,12 @@ public final class SpreadsheetController {
 	 * @param extendingCurrentSelection True if the current selection should expand, false else
 	 */
 	void moveDown(boolean extendingCurrentSelection) {
+		Selection lastSelection = selectionController.getLastSelection();
+		if (lastSelection != null
+				&& lastSelection.getRange().getMaxRow() == tabularData.numberOfRows() - 1) {
+			tabularData.insertRowAt(tabularData.numberOfRows());
+			syncSize(tabularData.numberOfColumns(), tabularData.numberOfRows() - 1);
+		}
 		selectionController.moveDown(extendingCurrentSelection, layout.numberOfRows());
 	}
 
@@ -905,6 +930,29 @@ public final class SpreadsheetController {
 			extendSelectionByDrag(Math.max(lastPointerPositionX, layout.getRowHeaderWidth()),
 					Math.max(lastPointerPositionY, layout.getColumnHeaderHeight()), false, false);
 		}
+	}
+
+	/**
+	 * Update layout and save undo point after number of columns/rows changed
+	 * @param fromColumn first column that needs resizing
+	 * @param fromRow first row that needs resizing
+	 */
+	private void syncSize(int fromColumn, int fromRow) {
+		if (layout != null) {
+			layout.setNumberOfColumns(tabularData.numberOfColumns());
+			layout.setNumberOfRows(tabularData.numberOfRows());
+			double w = layout.getWidth(fromColumn - 1);
+			double h = layout.getHeight(fromRow - 1);
+			layout.setWidthForColumns(w, fromColumn,
+					tabularData.numberOfColumns() - 1);
+			layout.setHeightForRows(h, fromRow,
+					tabularData.numberOfRows() - 1);
+		}
+		notifyDataDimensionsChanged();
+	}
+
+	CopyPasteCutTabularData getCopyPasteCut() {
+		return copyPasteCut;
 	}
 
 	private final class Editor {

@@ -1,5 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
+import org.geogebra.common.gui.view.spreadsheet.CopyPasteAdapter;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
@@ -16,6 +17,7 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 
 	private final RelativeCopy relativeCopy;
 	private final App app;
+	CopyPasteAdapter adapter;
 
 	/**
 	 * @param kernel Needed for {@link RelativeCopy}
@@ -23,6 +25,7 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 	public TabularDataPasteGeos(Kernel kernel) {
 		this.relativeCopy = new RelativeCopy(kernel);
 		this.app = kernel.getApplication();
+		adapter = new CopyPasteAdapter(app, null);
 	}
 
 	/**
@@ -38,9 +41,9 @@ public final class TabularDataPasteGeos implements TabularDataPasteInterface<Geo
 	}
 
 	@Override
-	public void pasteExternal(TabularData<GeoElement> tabularData, ClipboardInterface clipboard,
+	public void pasteExternal(TabularData<GeoElement> tabularData, String[][] data,
 			TabularRange destination) {
-		// TODO
+		adapter.pasteExternalMultiple(data, destination);
 	}
 
 	private CopyPasteCellOperationList collectOperations(TabularClipboard<GeoElement> buffer,

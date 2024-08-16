@@ -222,6 +222,13 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		}
 	}
 
+	@Override
+	public String serializeContentAt(int row, int column) {
+		GeoElement geoElement = contentAt(row, column);
+		return geoElement == null ? ""
+				: geoElement.getRedefineString(true, false);
+	}
+
 	private void unfixSymbolic(GeoElement geo) {
 		if (geo instanceof GeoSymbolic && geo.isLocked()) {
 			geo.setFixed(false);

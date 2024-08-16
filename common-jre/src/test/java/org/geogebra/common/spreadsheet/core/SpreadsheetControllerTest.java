@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.io.FactoryProviderCommon;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
@@ -395,6 +394,16 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_ESCAPE);
         assertFalse(controller.isEditorActive());
         assertEquals("1", tabularData.contentAt(0, 0));
+    }
+
+    @Test
+    public void arrowsShouldExtendDataSize() {
+        controller.selectCell(99, 99, false, false);
+        fakeRightArrowPress();
+        fakeRightArrowPress();
+        fakeDownArrowPress();
+        assertEquals(101, tabularData.numberOfRows());
+        assertEquals(102, tabularData.numberOfColumns());
     }
 
     // Helpers

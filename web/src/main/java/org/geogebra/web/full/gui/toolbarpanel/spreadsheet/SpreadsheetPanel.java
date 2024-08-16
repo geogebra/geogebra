@@ -17,7 +17,6 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.gwtproject.canvas.client.Canvas;
-import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Unit;
@@ -48,7 +47,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	// on high-res screens
 	private final ScrollPanel scrollOverlay;
 	private final MathTextFieldW mathField;
-	private Element spreadsheetElement;
+	private final elemental2.dom.Element spreadsheetElement;
 	double moveTimeout;
 	int viewportChanges;
 
@@ -78,7 +77,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		scrollOverlay.setWidget(scrollContent);
 		scrollOverlay.setStyleName("spreadsheetScrollOverlay");
 		add(scrollOverlay);
-		spreadsheetElement = scrollContent.getElement();
+		spreadsheetElement = Js.uncheckedCast(scrollContent.getElement());
 
 		ViewportAdjusterDelegate viewportAdjusterDelegate = createScrollable();
 		spreadsheet.setViewportAdjustmentHandler(viewportAdjusterDelegate);
@@ -111,7 +110,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			handlePointerMoved(offsetX, offsetY, modifiers);
 		});
 		registry.addEventListener(DomGlobal.window, "pointerup", event -> {
-			if (Js.uncheckedCast(event.target) == spreadsheetElement) {
+			elemental2.dom.Element target = Js.uncheckedCast(event.target);
+			if (target.closest(".spreadsheetScrollOverlay,.gwt-PopupPanel") != null) {
 				return;
 			}
 			spreadsheet.clearSelectionOnly();

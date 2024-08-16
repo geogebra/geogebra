@@ -2,15 +2,12 @@ package org.geogebra.common.spreadsheet.core;
 
 import java.util.Arrays;
 import java.util.List;
-
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
+import java.util.stream.Stream;
 
 import org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier;
 
 public class ContextMenuItems {
 	static final int HEADER_INDEX = -1;
-	private @CheckForNull CopyPasteCutTabularData copyPasteCut;
 	private final SpreadsheetSelectionController selectionController;
 	private final SpreadsheetController spreadsheetController;
 
@@ -54,13 +51,6 @@ public class ContextMenuItems {
 	}
 
 	/**
-	 * @param copyPasteCut {@link CopyPasteCutTabularData}
-	 */
-	public void setCopyPasteCut(@Nonnull CopyPasteCutTabularData copyPasteCut) {
-		this.copyPasteCut = copyPasteCut;
-	}
-
-	/**
 	 * @param fromRow Index of the uppermost row
 	 * @param fromCol Index of the leftmost column
 	 * @return Whether the table items should be shown. This is the case if either all cells are
@@ -101,21 +91,16 @@ public class ContextMenuItems {
 	}
 
 	private void pasteCells(int row, int column) {
-		if (copyPasteCut != null) {
-			if (!selectionController.hasSelection()) {
-				copyPasteCut.paste(row, column);
-			} else {
-				selectionController.getSelections().forEach(
-						selection -> copyPasteCut.paste(selection.getRange()));
-			}
-			if (copyPasteCut != null) {
-				copyPasteCut.selectPastedContent();
-			}
-			spreadsheetController.notifyDataDimensionsChanged();
+		if (!selectionController.hasSelection()) {
+			spreadsheetController.pasteToSelections(Stream.of(new TabularRange(row, column)));
+		} else {
+			spreadsheetController.pasteToSelections(
+					selectionController.getSelections().map(Selection::getRange));
 		}
 	}
 
 	private void copyCells(int row, int column) {
+		CopyPasteCutTabularData copyPasteCut = spreadsheetController.getCopyPasteCut();
 		if (copyPasteCut == null) {
 			return;
 		}
@@ -128,6 +113,7 @@ public class ContextMenuItems {
 	}
 
 	private void cutCells(int row, int column) {
+		CopyPasteCutTabularData copyPasteCut = spreadsheetController.getCopyPasteCut();
 		if (copyPasteCut == null) {
 			return;
 		}
