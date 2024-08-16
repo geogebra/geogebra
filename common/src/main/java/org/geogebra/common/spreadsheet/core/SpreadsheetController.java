@@ -46,6 +46,8 @@ public final class SpreadsheetController {
 	private int lastPointerPositionX = -1;
 	private int lastPointerPositionY = -1;
 	private @CheckForNull CopyPasteCutTabularData copyPasteCut;
+	private boolean autoscrollRow;
+	private boolean autoscrollColumn;
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
@@ -293,12 +295,12 @@ public final class SpreadsheetController {
 		}
 	}
 
-	private int findRowOrHeader(int y) {
+	private int findRowOrHeader(double y) {
 		return y < layout.getColumnHeaderHeight() ? -1
 				: layout.findRow(y + viewport.getMinY());
 	}
 
-	private int findColumnOrHeader(int x) {
+	private int findColumnOrHeader(double x) {
 		return x < layout.getRowHeaderWidth() ? -1
 				: layout.findColumn(x + viewport.getMinX());
 	}
@@ -350,12 +352,13 @@ public final class SpreadsheetController {
 			notifyDataDimensionsChanged();
 			break;
 		case DEFAULT:
-			extendSelectionByDrag(x, y, modifiers.ctrlOrCmd);
+			extendSelectionByDrag(x, y, modifiers.ctrlOrCmd, true);
 			break;
 		case DRAG_DOT:
 			pasteDragSelectionToDestination();
 			notifyDataDimensionsChanged();
 		}
+		autoscrollColumn = autoscrollRow = false;
 		resetDragAction();
 	}
 
@@ -601,6 +604,7 @@ public final class SpreadsheetController {
 	public void handlePointerMove(int x, int y, Modifiers modifiers) {
 		lastPointerPositionX = x;
 		lastPointerPositionY = y;
+		autoscrollColumn = autoscrollRow = false;
 		switch (dragState.cursor) {
 		case RESIZE_X:
 			// only handle the dragged column here, the rest of selection on pointer up
@@ -614,11 +618,11 @@ public final class SpreadsheetController {
 			setDestinationForDragPaste(x, y);
 			return;
 		default:
-			extendSelectionByDrag(x, y, modifiers.ctrlOrCmd);
+			extendSelectionByDrag(x, y, modifiers.ctrlOrCmd, false);
 		}
 	}
 
-	private void setDestinationForDragPaste(int x, int y) {
+	private void setDestinationForDragPaste(double x, double y) {
 		int row = findRowOrHeader(y);
 		int column = findColumnOrHeader(x);
 		cellDragPasteHandler.setDestinationForPaste(row, column);
@@ -644,19 +648,29 @@ public final class SpreadsheetController {
 				.collect(Collectors.toList());
 	}
 
-	private void extendSelectionByDrag(int x, int y, boolean addSelection) {
+	private void extendSelectionByDrag(double x, double y,
+			boolean addSelection, boolean pointerUp) {
 		if (dragState.startColumn >= 0 || dragState.startRow >= 0) {
 			int row = Math.min(findRowOrHeader(y), tabularData.numberOfRows() - 1);
 			int column = Math.min(findColumnOrHeader(x), tabularData.numberOfColumns() - 1);
-			if ((row == -1 && dragState.startRow != -1)
-					|| (column == -1 && dragState.startColumn != -1)) {
-				// TODO autoscroll
+			if (row == -1 && dragState.startRow != -1) {
+				autoscrollRow = true;
+				return;
+			}
+			if (column == -1 && dragState.startColumn != -1) {
+				autoscrollColumn = true;
 				return;
 			}
 			TabularRange range =
 					new TabularRange(dragState.startRow, dragState.startColumn, row, column);
 			selectionController.select(new Selection(range), false, addSelection);
-			if (viewportAdjuster != null) {
+			if (column >= layout.findColumn(viewport.getMaxX())) {
+				autoscrollColumn = true;
+			}
+			if (row >= layout.findRow(viewport.getMaxY())) {
+				autoscrollRow = true;
+			}
+			if (pointerUp && viewportAdjuster != null) {
 				viewport = viewportAdjuster.adjustViewportIfNeeded(row, column, viewport);
 			}
 		}
@@ -871,17 +885,25 @@ public final class SpreadsheetController {
 	}
 
 	/**
-	 * If the pointer is at the top / right / bottom / left corner while dragging a paste
-	 * selection, starts scrolling the viewport
+	 * @see Spreadsheet#scrollForDragIfNeeded()
 	 */
-	public void scrollForPasteSelectionIfNeeded() {
-		if (cellDragPasteHandler != null && viewportAdjuster != null
+	void scrollForDragIfNeeded() {
+		if (viewportAdjuster == null) {
+			return;
+		}
+		if (cellDragPasteHandler != null
 				&& cellDragPasteHandler.getDragPasteDestinationRange() != null) {
-			viewportAdjuster.scrollForPasteSelectionIfNeeded(
+			viewport = viewportAdjuster.scrollForDrag(
 					lastPointerPositionX, lastPointerPositionY, viewport,
 					cellDragPasteHandler.destinationShouldExtendVertically(
-							findRowOrHeader(lastPointerPositionY)),
-					this::setDestinationForDragPaste);
+							findRowOrHeader(lastPointerPositionY)));
+			setDestinationForDragPaste(viewport.getMinX(), viewport.getMinY());
+		} else if (autoscrollRow  || autoscrollColumn) {
+			viewport = viewportAdjuster.scrollForDrag(
+					lastPointerPositionX, lastPointerPositionY, viewport,
+					autoscrollRow);
+			extendSelectionByDrag(Math.max(lastPointerPositionX, layout.getRowHeaderWidth()),
+					Math.max(lastPointerPositionY, layout.getColumnHeaderHeight()), false, false);
 		}
 	}
 
