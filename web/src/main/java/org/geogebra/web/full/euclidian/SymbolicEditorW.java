@@ -149,7 +149,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		updateTop();
 		addDegree(key, editor.getMathField().getInternal());
 		getDrawInputBox().update();
-		editor.scrollHorizontally();
+		editor.scrollCursorVisibleHorizontally();
 		editor.updateAriaLabel();
 		dispatchKeyTypeEvent(key);
 	}
@@ -190,7 +190,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 	@Override
 	public boolean onArrowKeyPressed(int keyCode) {
-		editor.scrollHorizontally();
+		editor.scrollCursorVisibleHorizontally();
 		return false;
 	}
 
