@@ -2,7 +2,7 @@ package org.geogebra.common.contextmenu;
 
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.*;
 import static org.geogebra.common.contextmenu.InputContextMenuItem.*;
-import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.*;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Type.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -225,13 +225,13 @@ public final class ContextMenu<T extends ContextMenuItem> {
 			Delegate<TableValuesContextMenuItem> delegate
 	) {
 		ContextMenu<TableValuesContextMenuItem> contextMenu = new ContextMenu<>(delegate);
-		contextMenu.items.add(Edit);
-		contextMenu.items.add(ClearColumn);
+		contextMenu.items.add(Edit.toContextMenuItem());
+		contextMenu.items.add(ClearColumn.toContextMenuItem());
 		if (showImportData) {
-			contextMenu.items.add(ImportData);
+			contextMenu.items.add(ImportData.toContextMenuItem());
 		}
-		contextMenu.items.add(Separator);
-		contextMenu.items.add(makeStatistics1Item("x"));
+		contextMenu.items.add(Separator.toContextMenuItem());
+		contextMenu.items.add(Statistics1.toContextMenuItem(new String[] { "x" }));
 		return contextMenu;
 	}
 
@@ -243,16 +243,16 @@ public final class ContextMenu<T extends ContextMenuItem> {
 			Delegate<TableValuesContextMenuItem> delegate
 	) {
 		ContextMenu<TableValuesContextMenuItem> contextMenu = new ContextMenu<>(delegate);
-		contextMenu.items.add(pointsVisible ? HidePoints : ShowPoints);
+		contextMenu.items.add(pointsVisible ? HidePoints.toContextMenuItem() : ShowPoints.toContextMenuItem());
 		if (showEdit) {
-			contextMenu.items.add(Edit);
+			contextMenu.items.add(Edit.toContextMenuItem());
 		}
-		contextMenu.items.add(RemoveColumn);
+		contextMenu.items.add(RemoveColumn.toContextMenuItem());
 		if (showStatistics) {
-			contextMenu.items.add(Separator);
-			contextMenu.items.add(makeStatistics1Item(columnLabel));
-			contextMenu.items.add(makeStatistics2Item("x " + columnLabel));
-			contextMenu.items.add(Regression);
+			contextMenu.items.add(Separator.toContextMenuItem());
+			contextMenu.items.add(Statistics1.toContextMenuItem(new String[] { columnLabel }));
+			contextMenu.items.add(Statistics2.toContextMenuItem(new String[] { "x " + columnLabel }));
+			contextMenu.items.add(Regression.toContextMenuItem());
 		}
 		return contextMenu;
 	}
@@ -261,8 +261,8 @@ public final class ContextMenu<T extends ContextMenuItem> {
 			Delegate<TableValuesContextMenuItem> delegate
 	) {
 		ContextMenu<TableValuesContextMenuItem> contextMenu = new ContextMenu<>(delegate);
-		contextMenu.items.add(Edit);
-		contextMenu.items.add(ClearColumn);
+		contextMenu.items.add(Edit.toContextMenuItem());
+		contextMenu.items.add(ClearColumn.toContextMenuItem());
 		return contextMenu;
 	}
 
@@ -397,17 +397,5 @@ public final class ContextMenu<T extends ContextMenuItem> {
 		ContextMenu<AlgebraContextMenuItem> contextMenu = new ContextMenu<>(delegate);
 		contextMenu.items.add(Delete);
 		return contextMenu;
-	}
-
-	private static TableValuesContextMenuItem makeStatistics1Item(String columnLabel) {
-		TableValuesContextMenuItem item = Statistics1;
-		item.setTranslationPlaceholderValues(new String[] { columnLabel });
-		return item;
-	}
-
-	private static TableValuesContextMenuItem makeStatistics2Item(String columnLabel) {
-		TableValuesContextMenuItem item = Statistics2;
-		item.setTranslationPlaceholderValues(new String[] { columnLabel });
-		return item;
 	}
 }

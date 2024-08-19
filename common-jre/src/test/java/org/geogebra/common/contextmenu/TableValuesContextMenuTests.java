@@ -1,7 +1,7 @@
 package org.geogebra.common.contextmenu;
 
 import static org.geogebra.common.contextmenu.ContextMenu.makeTableValuesContextMenu;
-import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.*;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Type.*;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
@@ -35,7 +35,8 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 		GeoEvaluatable geoEvaluatable = new GeoLine(getConstruction());
 
 		assertEquals(
-				List.of(Edit, ClearColumn),
+				List.of(Edit.toContextMenuItem(),
+						ClearColumn.toContextMenuItem()),
 				makeTableValuesContextMenu(
 						geoEvaluatable, 0, tableValuesModel, true,
 						false, item -> {}).getItems()
@@ -47,7 +48,11 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 		GeoEvaluatable geoEvaluatable = new GeoLine(getConstruction());
 
 		assertEquals(
-				List.of(Edit, ClearColumn, ImportData, Separator, Statistics1),
+				List.of(Edit.toContextMenuItem(),
+						ClearColumn.toContextMenuItem(),
+						ImportData.toContextMenuItem(),
+						Separator.toContextMenuItem(),
+						Statistics1.toContextMenuItem(new String[]{ "x" })),
 				makeTableValuesContextMenu(
 						geoEvaluatable, 0, tableValuesModel, false,
 						false, item -> {}).getItems()
@@ -59,7 +64,10 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 		GeoEvaluatable geoEvaluatable = new GeoLine(getConstruction());
 
 		assertEquals(
-				List.of(Edit, ClearColumn, Separator, Statistics1),
+				List.of(Edit.toContextMenuItem(),
+						ClearColumn.toContextMenuItem(),
+						Separator.toContextMenuItem(),
+						Statistics1.toContextMenuItem(new String[]{ "x" })),
 				makeTableValuesContextMenu(geoEvaluatable, 0, tableValuesModel,
 						false, true, item -> {}).getItems()
 		);
@@ -72,7 +80,9 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 		tableValuesView.addAndShow(geoFunction);
 
 		assertEquals(
-				List.of(HidePoints, Edit, RemoveColumn),
+				List.of(HidePoints.toContextMenuItem(),
+						Edit.toContextMenuItem(),
+						RemoveColumn.toContextMenuItem()),
 				makeTableValuesContextMenu(geoFunction, 1, tableValuesModel,
 						false, false, item -> {}).getItems()
 		);
@@ -87,7 +97,12 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 		tableValuesView.addAndShow(geoList);
 
 		assertEquals(
-				List.of(HidePoints, RemoveColumn, Separator, Statistics1, Statistics2, Regression),
+				List.of(HidePoints.toContextMenuItem(),
+						RemoveColumn.toContextMenuItem(),
+						Separator.toContextMenuItem(),
+						Statistics1.toContextMenuItem(new String[]{ "y_{1}" }),
+						Statistics2.toContextMenuItem(new String[] { "x y_{1}" }),
+						Regression.toContextMenuItem()),
 				makeTableValuesContextMenu(geoList, 1, tableValuesModel,
 						false, false, item -> {}).getItems()
 		);
@@ -103,7 +118,12 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 		geoList.setPointsVisible(false);
 
 		assertEquals(
-				List.of(ShowPoints, RemoveColumn, Separator, Statistics1, Statistics2, Regression),
+				List.of(ShowPoints.toContextMenuItem(),
+						RemoveColumn.toContextMenuItem(),
+						Separator.toContextMenuItem(),
+						Statistics1.toContextMenuItem(new String[]{ "y_{1}" }),
+						Statistics2.toContextMenuItem(new String[]{ "x y_{1}" }),
+						Regression.toContextMenuItem()),
 				makeTableValuesContextMenu(geoList, 1, tableValuesModel,
 						false, false, item -> {}).getItems()
 		);
