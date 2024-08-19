@@ -4,7 +4,13 @@ import static org.geogebra.common.contextmenu.ContextMenuFactory.makeTableValues
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Type.*;
 import static org.junit.Assert.assertEquals;
 
+import java.awt.font.TextAttribute;
+import java.text.AttributedCharacterIterator;
+import java.text.AttributedString;
+import java.text.CharacterIterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
@@ -119,5 +125,38 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 						Regression.toContextMenuItem()),
 				makeTableValuesContextMenu(geoList, 1, tableValuesModel, false, false)
 		);
+	}
+
+	@Test
+	public void testStatisticsItemTitleSubscript() {
+		TableValuesContextMenuItem item = Statistics1.toContextMenuItem(new String[]{ "y_{1}" });
+		AttributedString title = item.getLocalizedTitle(getLocalization());
+
+		assertEquals("y1 Statistics", parseAttributedString(title));
+		assertEquals(Set.of(TextAttribute.SUPERSCRIPT), title.getIterator().getAllAttributeKeys());
+
+		AttributedCharacterIterator iterator = title.getIterator();
+
+		iterator.setIndex(0);
+		assertEquals(Map.of(), iterator.getAttributes());
+
+		iterator.setIndex(1);
+		assertEquals(
+				Map.of(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUB),
+				iterator.getAttributes()
+		);
+
+		iterator.setIndex(2);
+		assertEquals(Map.of(), iterator.getAttributes());
+	}
+
+	private String parseAttributedString(AttributedString text) {
+		StringBuilder stringBuilder = new StringBuilder();
+		AttributedCharacterIterator iterator = text.getIterator();
+		while (iterator.current() != CharacterIterator.DONE) {
+			stringBuilder.append(iterator.current());
+			iterator.next();
+		}
+		return stringBuilder.toString();
 	}
 }

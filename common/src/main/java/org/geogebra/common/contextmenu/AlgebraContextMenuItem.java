@@ -1,5 +1,7 @@
 package org.geogebra.common.contextmenu;
 
+import java.text.AttributedString;
+
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.main.Localization;
@@ -26,7 +28,7 @@ public enum AlgebraContextMenuItem implements ContextMenuItem {
 
 	@Nonnull
 	@Override
-	public String getLocalizedTitle(@Nonnull Localization localization) {
-		return localization.getMenu(translationKey);
+	public AttributedString getLocalizedTitle(@Nonnull Localization localization) {
+		return new AttributedString(localization.getMenu(translationKey));
 	}
 }

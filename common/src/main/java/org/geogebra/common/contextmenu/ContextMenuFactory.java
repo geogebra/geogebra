@@ -174,7 +174,7 @@ public final class ContextMenuFactory {
 			items.add(ImportData.toContextMenuItem());
 		}
 		items.add(Separator.toContextMenuItem());
-		items.add(Statistics1.toContextMenuItem(new String[] { "x g_{hello}" }));
+		items.add(Statistics1.toContextMenuItem(new String[] { "x" }));
 		return items;
 	}
 
