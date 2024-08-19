@@ -55,7 +55,7 @@ public class HelpDialog {
 
 		} else {
 
-			modeTextInternal = EuclidianConstants.getModeTextSimple(mode);
+			modeTextInternal = EuclidianConstants.getModeHelpPage(mode);
 			icon = app.getToolBarImage(modeTextInternal, Color.BLACK);
 		}
 		Localization loc = app.getLocalization();

@@ -1980,7 +1980,7 @@ public class GuiManagerW extends GuiManager
 		}
 
 		return getHelpURL(Help.TOOL,
-				EuclidianConstants.getModeTextSimple(mode));
+				EuclidianConstants.getModeHelpPage(mode));
 	}
 
 	@Override
