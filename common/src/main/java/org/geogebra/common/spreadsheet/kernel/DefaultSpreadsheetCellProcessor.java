@@ -59,7 +59,12 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 			this.cellName = cellName;
 			this.input = input;
 			processInput(buildProperInput(input, cellName),
-					(geo) -> algebraProcessor.getKernel().getApplication().storeUndoInfo());
+					(geos) -> {
+						if (geos.length > 0) {
+							((GeoElement) geos[0]).setEmptySpreadsheetCell(false);
+						}
+						algebraProcessor.getKernel().getApplication().storeUndoInfo();
+					});
 		} catch (Exception e) {
 			Log.debug("error " + e.getLocalizedMessage());
 		}
@@ -131,7 +136,5 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 
 	private void buildNewInputWithErrorMark() {
 		processInput(buildRestoredInput(), null);
-		GeoElement errorGeo = algebraProcessor.getKernel().lookupLabel(cellName);
-		errorGeo.updateRepaint(); //TODO needed?
 	}
 }

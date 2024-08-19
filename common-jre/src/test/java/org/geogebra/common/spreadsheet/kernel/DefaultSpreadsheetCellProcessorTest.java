@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
 import org.junit.Before;
@@ -22,6 +23,11 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	private DefaultSpreadsheetCellProcessor processor;
 	private final DefaultSpreadsheetCellDataSerializer
 			serializer = new DefaultSpreadsheetCellDataSerializer();
+
+	@Before
+	public void setAppConfig() {
+		getApp().setConfig(new AppConfigGraphing());
+	}
 
 	@Before
 	public void setUp() {
@@ -185,6 +191,27 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		GeoElement a1 = lookup("A1");
 		assertEquals(a1.getGeoClassType(), GeoClass.NUMERIC);
 		assertEquals(Commands.ParseToNumber, getCommand(a1));
+	}
+
+	@Test
+	public void handleCircularDefinitions() {
+		add("A2=1");
+		add("B2=2");
+		add("B3=A2+B2");
+		processor.process("=A2+B3", "B3");
+		GeoElement b3 = lookup("B3");
+		assertEquals(b3.getGeoClassType(), GeoClass.NUMERIC);
+		assertEquals(Commands.ParseToNumber, getCommand(b3));
+	}
+
+	@Test
+	public void shouldAutoCreateZeroCells() {
+		processor.process("=A2+B2+1", "B3");
+		assertThat(lookup("A2"), hasValue("0"));
+		assertThat(lookup("B2"), hasValue("0"));
+		assertThat(lookup("B3"), hasValue("1"));
+		assertTrue("A2 should be empty", lookup("A2").isEmptySpreadsheetCell());
+		assertFalse("B3 should not be empty", lookup("B3").isEmptySpreadsheetCell());
 	}
 
 	private GetCommand getCommand(GeoElement a1) {
