@@ -2340,7 +2340,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void matrixMultiplicationShouldResultInFunction() {
 		add("m1 = {{1, 0.3}, {1 / 4, 2}}");
 		GeoSymbolic result = add("m1 * {{cos(t)}, {sin(t)}}");
-		assertThat(result, hasValue("{{cos(t) + 3 / 10 sin(t)}, {1 / 4 cos(t) + 2sin(t)}}"));
+		SymbolicUtil.toggleSymbolic(result);
+		assertThat(result, hasValue("{{1cos(t) + 0.3sin(t)}, {0.25cos(t) + 2sin(t)}}"));
 	}
 
 }
