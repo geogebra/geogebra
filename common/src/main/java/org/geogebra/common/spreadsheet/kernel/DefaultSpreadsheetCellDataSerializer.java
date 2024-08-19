@@ -32,7 +32,8 @@ public final class DefaultSpreadsheetCellDataSerializer implements SpreadsheetCe
 			return "=" + parentAlgorithm.getInput(0).toValueString(
 					StringTemplate.defaultTemplate);
 		}
-		String redefineString = geo.getRedefineString(true, false);
+		String redefineString = geo.getRedefineString(true, false,
+				StringTemplate.editorTemplate);
 		return geo.isGeoText() ? redefineString : "=" + redefineString;
 	}
 }

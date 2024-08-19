@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.StringUtil;
@@ -46,6 +47,8 @@ public final class SpreadsheetController {
 	private int lastPointerPositionX = -1;
 	private int lastPointerPositionY = -1;
 	private @CheckForNull CopyPasteCutTabularData copyPasteCut;
+	private boolean autoscrollRow;
+	private boolean autoscrollColumn;
 
 	/**
 	 * @param tabularData underlying data for the spreadsheet
@@ -203,8 +206,11 @@ public final class SpreadsheetController {
 		if (copyPasteCut == null && controlsDelegate != null) {
 			copyPasteCut = new CopyPasteCutTabularDataImpl<>(tabularData,
 					controlsDelegate.getClipboard(), layout, selectionController);
-			contextMenuItems.setCopyPasteCut(copyPasteCut);
 		}
+	}
+
+	void setCopyPasteCut(CopyPasteCutTabularData copyPasteCut) {
+		this.copyPasteCut = copyPasteCut;
 	}
 
 	/**
@@ -293,12 +299,12 @@ public final class SpreadsheetController {
 		}
 	}
 
-	private int findRowOrHeader(int y) {
+	private int findRowOrHeader(double y) {
 		return y < layout.getColumnHeaderHeight() ? -1
 				: layout.findRow(y + viewport.getMinY());
 	}
 
-	private int findColumnOrHeader(int x) {
+	private int findColumnOrHeader(double x) {
 		return x < layout.getRowHeaderWidth() ? -1
 				: layout.findColumn(x + viewport.getMinX());
 	}
@@ -350,12 +356,13 @@ public final class SpreadsheetController {
 			notifyDataDimensionsChanged();
 			break;
 		case DEFAULT:
-			extendSelectionByDrag(x, y, modifiers.ctrlOrCmd);
+			extendSelectionByDrag(x, y, modifiers.ctrlOrCmd, true);
 			break;
 		case DRAG_DOT:
 			pasteDragSelectionToDestination();
 			notifyDataDimensionsChanged();
 		}
+		autoscrollColumn = autoscrollRow = false;
 		resetDragAction();
 	}
 
@@ -462,8 +469,8 @@ public final class SpreadsheetController {
 				break;
 			case JavaKeyCodes.VK_V:
 				if (modifiers.ctrlOrCmd) {
-					pasteToSelections();
-					notifyDataDimensionsChanged();
+					pasteToSelections(selectionController.getSelections()
+							.map(Selection::getRange));
 					return;
 				}
 				startTyping(key, modifiers);
@@ -511,12 +518,21 @@ public final class SpreadsheetController {
 		}
 	}
 
-	private void pasteToSelections() {
+	void pasteToSelections(Stream<TabularRange> destinations) {
 		if (copyPasteCut != null) {
-			for (Selection selection : getSelections().collect(Collectors.toList())) {
-				copyPasteCut.paste(selection.getRange());
-			}
-			copyPasteCut.selectPastedContent();
+			//List<TabularRange> collect = destinations.collect(Collectors.toList());
+			copyPasteCut.readExternalClipboard(externalContent -> {
+				int oldColumns = getLayout().numberOfColumns();
+				int oldRows = getLayout().numberOfRows();
+				String[][] data = externalContent == null ? null
+						: DataImport.parseExternalData(null, externalContent, true);
+				destinations.forEach(
+						destination -> copyPasteCut.paste(destination, data));
+				if (copyPasteCut != null) {
+					copyPasteCut.selectPastedContent();
+				}
+				syncSize(oldColumns - 1, oldRows - 1);
+			});
 		}
 	}
 
@@ -558,6 +574,12 @@ public final class SpreadsheetController {
 	 * @param extendingCurrentSelection True if the current selection should expand, false else
 	 */
 	void moveRight(boolean extendingCurrentSelection) {
+		Selection lastSelection = selectionController.getLastSelection();
+		if (lastSelection != null
+				&& lastSelection.getRange().getMaxColumn() == tabularData.numberOfColumns() - 1) {
+			tabularData.insertColumnAt(tabularData.numberOfColumns());
+			syncSize(tabularData.numberOfColumns() - 1, tabularData.numberOfRows());
+		}
 		selectionController.moveRight(extendingCurrentSelection, layout.numberOfColumns());
 	}
 
@@ -572,6 +594,12 @@ public final class SpreadsheetController {
 	 * @param extendingCurrentSelection True if the current selection should expand, false else
 	 */
 	void moveDown(boolean extendingCurrentSelection) {
+		Selection lastSelection = selectionController.getLastSelection();
+		if (lastSelection != null
+				&& lastSelection.getRange().getMaxRow() == tabularData.numberOfRows() - 1) {
+			tabularData.insertRowAt(tabularData.numberOfRows());
+			syncSize(tabularData.numberOfColumns(), tabularData.numberOfRows() - 1);
+		}
 		selectionController.moveDown(extendingCurrentSelection, layout.numberOfRows());
 	}
 
@@ -601,6 +629,7 @@ public final class SpreadsheetController {
 	public void handlePointerMove(int x, int y, Modifiers modifiers) {
 		lastPointerPositionX = x;
 		lastPointerPositionY = y;
+		autoscrollColumn = autoscrollRow = false;
 		switch (dragState.cursor) {
 		case RESIZE_X:
 			// only handle the dragged column here, the rest of selection on pointer up
@@ -614,11 +643,11 @@ public final class SpreadsheetController {
 			setDestinationForDragPaste(x, y);
 			return;
 		default:
-			extendSelectionByDrag(x, y, modifiers.ctrlOrCmd);
+			extendSelectionByDrag(x, y, modifiers.ctrlOrCmd, false);
 		}
 	}
 
-	private void setDestinationForDragPaste(int x, int y) {
+	private void setDestinationForDragPaste(double x, double y) {
 		int row = findRowOrHeader(y);
 		int column = findColumnOrHeader(x);
 		cellDragPasteHandler.setDestinationForPaste(row, column);
@@ -644,19 +673,29 @@ public final class SpreadsheetController {
 				.collect(Collectors.toList());
 	}
 
-	private void extendSelectionByDrag(int x, int y, boolean addSelection) {
+	private void extendSelectionByDrag(double x, double y,
+			boolean addSelection, boolean pointerUp) {
 		if (dragState.startColumn >= 0 || dragState.startRow >= 0) {
 			int row = Math.min(findRowOrHeader(y), tabularData.numberOfRows() - 1);
 			int column = Math.min(findColumnOrHeader(x), tabularData.numberOfColumns() - 1);
-			if ((row == -1 && dragState.startRow != -1)
-					|| (column == -1 && dragState.startColumn != -1)) {
-				// TODO autoscroll
+			if (row == -1 && dragState.startRow != -1) {
+				autoscrollRow = true;
+				return;
+			}
+			if (column == -1 && dragState.startColumn != -1) {
+				autoscrollColumn = true;
 				return;
 			}
 			TabularRange range =
 					new TabularRange(dragState.startRow, dragState.startColumn, row, column);
 			selectionController.select(new Selection(range), false, addSelection);
-			if (viewportAdjuster != null) {
+			if (column >= layout.findColumn(viewport.getMaxX())) {
+				autoscrollColumn = true;
+			}
+			if (row >= layout.findRow(viewport.getMaxY())) {
+				autoscrollRow = true;
+			}
+			if (pointerUp && viewportAdjuster != null) {
 				viewport = viewportAdjuster.adjustViewportIfNeeded(row, column, viewport);
 			}
 		}
@@ -871,18 +910,49 @@ public final class SpreadsheetController {
 	}
 
 	/**
-	 * If the pointer is at the top / right / bottom / left corner while dragging a paste
-	 * selection, starts scrolling the viewport
+	 * @see Spreadsheet#scrollForDragIfNeeded()
 	 */
-	public void scrollForPasteSelectionIfNeeded() {
-		if (cellDragPasteHandler != null && viewportAdjuster != null
+	void scrollForDragIfNeeded() {
+		if (viewportAdjuster == null) {
+			return;
+		}
+		if (cellDragPasteHandler != null
 				&& cellDragPasteHandler.getDragPasteDestinationRange() != null) {
-			viewportAdjuster.scrollForPasteSelectionIfNeeded(
+			viewport = viewportAdjuster.scrollForDrag(
 					lastPointerPositionX, lastPointerPositionY, viewport,
 					cellDragPasteHandler.destinationShouldExtendVertically(
-							findRowOrHeader(lastPointerPositionY)),
-					this::setDestinationForDragPaste);
+							findRowOrHeader(lastPointerPositionY)));
+			setDestinationForDragPaste(viewport.getMinX(), viewport.getMinY());
+		} else if (autoscrollRow  || autoscrollColumn) {
+			viewport = viewportAdjuster.scrollForDrag(
+					lastPointerPositionX, lastPointerPositionY, viewport,
+					autoscrollRow);
+			extendSelectionByDrag(Math.max(lastPointerPositionX, layout.getRowHeaderWidth()),
+					Math.max(lastPointerPositionY, layout.getColumnHeaderHeight()), false, false);
 		}
+	}
+
+	/**
+	 * Update layout and save undo point after number of columns/rows changed
+	 * @param fromColumn first column that needs resizing
+	 * @param fromRow first row that needs resizing
+	 */
+	private void syncSize(int fromColumn, int fromRow) {
+		if (layout != null) {
+			layout.setNumberOfColumns(tabularData.numberOfColumns());
+			layout.setNumberOfRows(tabularData.numberOfRows());
+			double w = layout.getWidth(fromColumn - 1);
+			double h = layout.getHeight(fromRow - 1);
+			layout.setWidthForColumns(w, fromColumn,
+					tabularData.numberOfColumns() - 1);
+			layout.setHeightForRows(h, fromRow,
+					tabularData.numberOfRows() - 1);
+		}
+		notifyDataDimensionsChanged();
+	}
+
+	CopyPasteCutTabularData getCopyPasteCut() {
+		return copyPasteCut;
 	}
 
 	private final class Editor {

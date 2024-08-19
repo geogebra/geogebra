@@ -277,8 +277,12 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.setViewportAdjustmentHandler(mockForScrollable);
 	}
 
-	public void scrollForPasteSelectionIfNeeded() {
-		controller.scrollForPasteSelectionIfNeeded();
+	/**
+	 * If the pointer is at the top / right / bottom / left corner while dragging,
+	 * starts scrolling the viewport
+	 */
+	public void scrollForDragIfNeeded() {
+		controller.scrollForDragIfNeeded();
 	}
 
 	/**
