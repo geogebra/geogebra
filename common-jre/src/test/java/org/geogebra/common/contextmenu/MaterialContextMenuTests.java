@@ -1,6 +1,6 @@
 package org.geogebra.common.contextmenu;
 
-import static org.geogebra.common.contextmenu.ContextMenu.makeMaterialContextMenu;
+import static org.geogebra.common.contextmenu.ContextMenuFactory.makeMaterialContextMenu;
 import static org.geogebra.common.contextmenu.MaterialContextMenuItem.Delete;
 import static org.junit.Assert.assertEquals;
 
@@ -13,7 +13,7 @@ public class MaterialContextMenuTests {
 	public void testSingleContextMenuItem() {
 		assertEquals(
 				List.of(Delete),
-				makeMaterialContextMenu(item -> {}).getItems()
+				makeMaterialContextMenu()
 		);
 	}
 }

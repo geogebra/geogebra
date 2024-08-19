@@ -1,7 +1,7 @@
 package org.geogebra.common.contextmenu;
 
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.*;
-import static org.geogebra.common.contextmenu.ContextMenu.*;
+import static org.geogebra.common.contextmenu.ContextMenuFactory.*;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class AlgebraContextMenuTests extends BaseUnitTest {
 		assertEquals(
 				List.of(Delete),
 				makeAlgebraContextMenu(null, algebraProcessor,
-						GeoGebraConstants.GRAPHING_APPCODE, items -> {}).getItems()
+						GeoGebraConstants.GRAPHING_APPCODE)
 		);
 	}
 
@@ -36,27 +36,35 @@ public class AlgebraContextMenuTests extends BaseUnitTest {
 	@Test
 	public void testForDefaultAlgebraInputInGeometryApp() {
 		assertEquals(
-				List.of(DuplicateInput, Delete, Settings),
+				List.of(DuplicateInput,
+						Delete,
+						Settings),
 				makeAlgebraContextMenu(add("x"), algebraProcessor,
-						GeoGebraConstants.GEOMETRY_APPCODE, items -> {}).getItems()
+						GeoGebraConstants.GEOMETRY_APPCODE)
 		);
 	}
 
 	@Test
 	public void testForInputWithStatisticsInGeometryApp() {
 		assertEquals(
-				List.of(Statistics, DuplicateInput, Delete, Settings),
+				List.of(Statistics,
+						DuplicateInput,
+						Delete,
+						Settings),
 				makeAlgebraContextMenu(add("{1, 2, 3}"), algebraProcessor,
-						GeoGebraConstants.GEOMETRY_APPCODE, items -> {}).getItems()
+						GeoGebraConstants.GEOMETRY_APPCODE)
 		);
 	}
 
 	@Test
 	public void testForInputWithOutputInGeometryApp() {
 		assertEquals(
-				List.of(DuplicateInput, DuplicateOutput, Delete, Settings),
+				List.of(DuplicateInput,
+						DuplicateOutput,
+						Delete,
+						Settings),
 				makeAlgebraContextMenu(add("1 + 2"), algebraProcessor,
-						GeoGebraConstants.GEOMETRY_APPCODE, items -> {}).getItems()
+						GeoGebraConstants.GEOMETRY_APPCODE)
 		);
 	}
 
@@ -67,9 +75,11 @@ public class AlgebraContextMenuTests extends BaseUnitTest {
 		GeoElement geoElement = add("5");
 		geoElement.setAlgebraLabelVisible(false);
 		assertEquals(
-				List.of(AddLabel, DuplicateInput, Delete),
+				List.of(AddLabel,
+						DuplicateInput,
+						Delete),
 				makeAlgebraContextMenu(geoElement, algebraProcessor,
-						GeoGebraConstants.SCIENTIFIC_APPCODE, items -> {}).getItems()
+						GeoGebraConstants.SCIENTIFIC_APPCODE)
 		);
 	}
 
@@ -78,9 +88,11 @@ public class AlgebraContextMenuTests extends BaseUnitTest {
 		GeoElement geoElement = add("5");
 		geoElement.setAlgebraLabelVisible(true);
 		assertEquals(
-				List.of(RemoveLabel, DuplicateInput, Delete),
+				List.of(RemoveLabel,
+						DuplicateInput,
+						Delete),
 				makeAlgebraContextMenu(geoElement, algebraProcessor,
-						GeoGebraConstants.SCIENTIFIC_APPCODE, items -> {}).getItems()
+						GeoGebraConstants.SCIENTIFIC_APPCODE)
 		);
 	}
 
@@ -89,18 +101,26 @@ public class AlgebraContextMenuTests extends BaseUnitTest {
 	@Test
 	public void testForInputWithSpecialPointsAndTableValuesInGraphingApp() {
 		assertEquals(
-				List.of(CreateTableValues, SpecialPoints, DuplicateInput, Delete, Settings),
+				List.of(CreateTableValues,
+						SpecialPoints,
+						DuplicateInput,
+						Delete,
+						Settings),
 				makeAlgebraContextMenu(add("x"), algebraProcessor,
-						GeoGebraConstants.GRAPHING_APPCODE, items -> {}).getItems()
+						GeoGebraConstants.GRAPHING_APPCODE)
 		);
 	}
 
 	@Test
 	public void testForInputWithStatisticsInGraphingApp() {
 		assertEquals(
-				List.of(CreateTableValues, Statistics, DuplicateInput, Delete, Settings),
+				List.of(CreateTableValues,
+						Statistics,
+						DuplicateInput,
+						Delete,
+						Settings),
 				makeAlgebraContextMenu(add("{1, 2, 3}"), algebraProcessor,
-						GeoGebraConstants.GRAPHING_APPCODE, items -> {}).getItems()
+						GeoGebraConstants.GRAPHING_APPCODE)
 		);
 	}
 
@@ -109,27 +129,37 @@ public class AlgebraContextMenuTests extends BaseUnitTest {
 	@Test
 	public void testForInputWithSolutionInGraphing3DApp() {
 		assertEquals(
-				List.of(Solve, DuplicateInput, DuplicateOutput, Delete, Settings),
+				List.of(Solve,
+						DuplicateInput,
+						DuplicateOutput,
+						Delete,
+						Settings),
 				makeAlgebraContextMenu(add("x^(2) - 5x + 6 = 0"), algebraProcessor,
-						GeoGebraConstants.G3D_APPCODE, items -> {}).getItems()
+						GeoGebraConstants.G3D_APPCODE)
 		);
 	}
 
 	@Test
 	public void testForInputWithSpecialPointsInGraphing3DApp() {
 		assertEquals(
-				List.of(SpecialPoints, DuplicateInput, Delete, Settings),
+				List.of(SpecialPoints,
+						DuplicateInput,
+						Delete,
+						Settings),
 				makeAlgebraContextMenu(add("x"), algebraProcessor,
-						GeoGebraConstants.G3D_APPCODE, items -> {}).getItems()
+						GeoGebraConstants.G3D_APPCODE)
 		);
 	}
 
 	@Test
 	public void testForInputWithStatisticsInGraphing3DApp() {
 		assertEquals(
-				List.of(Statistics, DuplicateInput, Delete, Settings),
+				List.of(Statistics,
+						DuplicateInput,
+						Delete,
+						Settings),
 				makeAlgebraContextMenu(add("{1, 2, 3}"), algebraProcessor,
-						GeoGebraConstants.G3D_APPCODE, items -> {}).getItems()
+						GeoGebraConstants.G3D_APPCODE)
 		);
 	}
 
@@ -139,36 +169,53 @@ public class AlgebraContextMenuTests extends BaseUnitTest {
 	@Test
 	public void testForSimpleInputInCasApp() {
 		assertEquals(
-				List.of(AddLabel, CreateSlider, DuplicateInput, Delete, Settings),
+				List.of(AddLabel,
+						CreateSlider,
+						DuplicateInput,
+						Delete,
+						Settings),
 				makeAlgebraContextMenu(add("5"), algebraProcessor,
-						GeoGebraConstants.CAS_APPCODE, items -> {}).getItems()
+						GeoGebraConstants.CAS_APPCODE)
 		);
 	}
 
 	@Test
 	public void testForSimpleInputWithSliderAndLabelInCasApp() {
 		assertEquals(
-				List.of(RemoveLabel, RemoveSlider, DuplicateInput, Delete, Settings),
+				List.of(RemoveLabel,
+						RemoveSlider,
+						DuplicateInput,
+						Delete,
+						Settings),
 				makeAlgebraContextMenu(add("5"), algebraProcessor,
-						GeoGebraConstants.CAS_APPCODE, items -> {}).getItems()
+						GeoGebraConstants.CAS_APPCODE)
 		);
 	}
 
 	@Test
 	public void testForSimpleInputWithLabelInCasApp() {
 		assertEquals(
-				List.of(RemoveLabel, CreateSlider, DuplicateInput, Delete, Settings),
+				List.of(RemoveLabel,
+						CreateSlider,
+						DuplicateInput,
+						Delete,
+						Settings),
 				makeAlgebraContextMenu(add("5"), algebraProcessor,
-						GeoGebraConstants.CAS_APPCODE, items -> {}).getItems()
+						GeoGebraConstants.CAS_APPCODE)
 		);
 	}
 
 	@Test
 	public void testForInputWithStatisticsInCasApp() {
 		assertEquals(
-				List.of(CreateTableValues, AddLabel, Statistics, DuplicateInput, Delete, Settings),
+				List.of(CreateTableValues,
+						AddLabel,
+						Statistics,
+						DuplicateInput,
+						Delete,
+						Settings),
 				makeAlgebraContextMenu(add("{1, 2, 3}"), algebraProcessor,
-						GeoGebraConstants.CAS_APPCODE, items -> {}).getItems()
+						GeoGebraConstants.CAS_APPCODE)
 		);
 	}
 }

@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.main.Localization;
 
 /**
- * Items contained in the {@link ContextMenu} as selectable options
+ * Items contained in context menus
  */
 public interface ContextMenuItem {
 	/**
@@ -42,8 +42,7 @@ public interface ContextMenuItem {
 	String getLocalizedTitle(@Nonnull Localization localization);
 
 	/**
-	 * @return One of the possible values identifying the icon to be displayed in the UI
-	 * in front of the item title, or null if the context menu item does not contain an icon
+	 * @return The item's icon, or null if the context menu item does not have an icon
 	 */
 	@CheckForNull
 	default Icon getIcon() {
