@@ -20,7 +20,6 @@ package org.geogebra.common.kernel.arithmetic;
 
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -198,11 +197,6 @@ public class MyList extends ValidExpression
 	}
 
 	private void matrixMultiply(MyList LHlist, MyList RHlist) {
-		if (RHlist.containsFunctionVariable() || LHlist.containsFunctionVariable()) {
-			RHlist.convertListElementsToFunctions();
-			LHlist.convertListElementsToFunctions();
-		}
-
 		int LHcols = LHlist.getMatrixCols(), LHrows = LHlist.getMatrixRows();
 		int RHcols = RHlist.getMatrixCols(); // RHlist.getMatrixRows();
 
@@ -253,12 +247,6 @@ public class MyList extends ValidExpression
 		matrixRows = -1; // reset
 		matrixCols = -1;
 
-	}
-
-	private void convertListElementsToFunctions() {
-		listElements = listElements.stream()
-				.map(element -> new Function(kernel, element.wrap()))
-				.collect(Collectors.toCollection(ArrayList::new));
 	}
 
 	/**
@@ -663,11 +651,26 @@ public class MyList extends ValidExpression
 		ExpressionValue singleValue = list.get(col)
 				.evaluate(StringTemplate.defaultTemplate);
 		if (singleValue instanceof ListValue) {
-			return (((ListValue) singleValue).getMyList()
-					.get(row))
-							.evaluate(StringTemplate.defaultTemplate);
+			ExpressionValue ev = ((ListValue) singleValue).getMyList().get(row);
+			if (ev.inspect(v -> v instanceof FunctionVariable)) {
+				return convertToFunction(ev, list.getKernel());
+			}
+			return ev.evaluate(StringTemplate.defaultTemplate);
 		}
 		return null;
+	}
+
+	/**
+	 * @param ev ExpressionValue
+	 * @param kernel Kernel
+	 * @return The passed ExpressionValue as either a {@link FunctionNVar} or {@link Function}
+	 */
+	private static ExpressionValue convertToFunction(ExpressionValue ev, Kernel kernel) {
+		FunctionVarCollector fun = FunctionVarCollector.getCollector();
+		ev.traverse(fun);
+		FunctionVariable[] fVars = fun.buildVariables(kernel);
+		return fVars.length == 1
+				? new Function(ev.wrap(), fVars) : new FunctionNVar(ev.wrap(), fVars);
 	}
 
 	@Override
