@@ -620,6 +620,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 				char keyCode = (char) event.getKeyCode();
 				if (keyCode == KeyCodes.KEY_ESCAPE) {
 					hide();
+					event.stopPropagation();
 				} else if (keyCode == KeyCodes.KEY_TAB) {
 					if (event.getShiftKey()) {
 						if (!moveSelectionUp()) {

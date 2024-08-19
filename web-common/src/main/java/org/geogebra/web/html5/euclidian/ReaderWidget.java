@@ -8,6 +8,7 @@ import org.gwtproject.dom.client.Element;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.ui.SimplePanel;
 
+import elemental2.core.JsString;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLElement;
 import jsinterop.base.Js;
@@ -67,10 +68,11 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	 *            to read.
 	 */
 	private void read(final String text) {
-		ScreenReader.debug(text);
+		String normalized = new JsString(text).normalize();
+		ScreenReader.debug(normalized);
 		// make sure text isn't truncated by <return>
 		// https://help.geogebra.org/topic/alttext-reading-stops-at-hard-return
-		setText(text.replace('\n', ' '));
+		setText(normalized.replace('\n', ' '));
 		focus();
 		resetWithDelay();
 	}

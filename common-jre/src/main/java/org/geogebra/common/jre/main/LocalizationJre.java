@@ -506,4 +506,19 @@ public abstract class LocalizationJre extends Localization {
 		return locales;
 	}
 
+	/**
+	 * @param key translation key
+	 * @return whether translation exists in menu category
+	 */
+	public boolean hasMenu(String key) {
+		if (rbmenu == null) {
+			rbmenu = createBundle(getMenuRessourcePath(), currentLocale);
+		}
+		try {
+			rbmenu.getString(key);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }

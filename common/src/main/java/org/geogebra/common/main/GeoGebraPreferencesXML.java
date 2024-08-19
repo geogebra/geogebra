@@ -52,7 +52,7 @@ public class GeoGebraPreferencesXML {
 				+ "<settings ignoreDocument=\"false\" showTitleBar=\"true\" />"
 				+ "<labelingStyle val=\""
 
-				+ app.getConfig().getDefaultLabelingStyle()
+				+ app.getConfig().getDefaultLabelingStyle().getValue()
 				+ "\"/>"
 				+ "<font  size=\""
 

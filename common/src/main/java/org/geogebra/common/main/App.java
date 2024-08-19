@@ -2818,8 +2818,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			Macro macro = kernel.getMacro(mode - EuclidianConstants.MACRO_MODE_ID_OFFSET);
 			return macro == null ? "" : macro.getToolHelp();
 		} else {
-			String modeText = EuclidianConstants.getModeTextSimple(mode);
-			return getLocalization().getMenu(modeText + ".Help");
+
+			return getLocalization().getMenu(EuclidianConstants.getHelpTransKey(mode));
 		}
 	}
 

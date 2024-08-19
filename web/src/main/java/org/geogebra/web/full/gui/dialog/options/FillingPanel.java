@@ -43,8 +43,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	private FlowPanel hatchFillPanel;
 	private FlowPanel imagePanel;
 	private FlowPanel anglePanel;
-	private Label lblSelectedSymbol;
-	private Label lblMsgSelected;
 	private StandardButton btnOpenFile;
 
 	private PopupMenuButtonW btnImage;
@@ -99,14 +97,9 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		tfInsertUnicode.setAutoComplete(false);
 
 		tfInsertUnicode.addStyleName("fillSymbol");
-		lblMsgSelected = new Label(app.getLocalization().getMenu(
-				"Filling.CurrentSymbol")
-				+ ":");
-		lblMsgSelected.setVisible(false);
 		lblSymbols = new Label(
 				app.getLocalization().getMenu("Filling.Symbol") + ":");
 		lblSymbols.setVisible(false);
-		lblSelectedSymbol = new Label();
 
 		opacitySlider = new SliderPanel(0, 100);
 		opacitySlider.setTickSpacing(5);
@@ -124,14 +117,11 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		symbol1Panel.add(tfInsertUnicode);
 		FlowPanel symbol2Panel = new FlowPanel();
 		symbol2Panel.setStyleName("optionsPanelCell");
-		symbol2Panel.add(lblMsgSelected);
-		symbol2Panel.add(lblSelectedSymbol);
 
 		FlowPanel symbolPanel = new FlowPanel();
 		symbolPanel.setStyleName("optionsPanelIndent");
 		symbolPanel.add(symbol1Panel);
 		symbolPanel.add(symbol2Panel);
-		lblSelectedSymbol.setVisible(false);
 		panel.add(symbolPanel);
 		// panels to hold sliders
 		opacityPanel = new FlowPanel();
@@ -199,16 +189,13 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 			if (symbolText.isEmpty()) {
 				return;
 			}
-			selectSymbol(symbolText);
 			model.applyUnicode(symbolText);
 		});
 
 		tfInsertUnicode.addKeyHandler(e -> {
 			if (e.isEnterKey()) {
 				String symbolText = tfInsertUnicode.getText();
-				selectSymbol(symbolText);
 				model.applyUnicode(symbolText);
-
 			}
 		});
 
@@ -450,14 +437,9 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		if (isVisible) {
 			unicodePanel.setVisible(true);
 			lblSymbols.setVisible(true);
-			lblSelectedSymbol.setVisible(true);
-			lblMsgSelected.setVisible(true);
 		} else {
 			lblSymbols.setVisible(false);
 			unicodePanel.setVisible(false);
-			lblMsgSelected.setVisible(false);
-			lblSelectedSymbol.setVisible(false);
-			lblSelectedSymbol.setText("");
 		}
 	}
 
@@ -498,12 +480,12 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 	@Override
 	public void selectSymbol(String symbol) {
-		lblSelectedSymbol.setText(symbol);
+		tfInsertUnicode.setText(symbol);
 	}
 
 	@Override
 	public String getSelectedSymbolText() {
-		return lblSelectedSymbol.getText();
+		return tfInsertUnicode.getText();
 	}
 
 	@Override
