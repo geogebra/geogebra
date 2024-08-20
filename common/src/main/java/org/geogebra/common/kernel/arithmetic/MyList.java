@@ -661,6 +661,25 @@ public class MyList extends ValidExpression
 	}
 
 	/**
+	 * @param list
+	 *            matrix
+	 * @param row
+	 *            row number (starts with 0)
+	 * @param col
+	 *            col number (starts with 0)
+	 * @return numeric value of the cell at given position in given list
+	 */
+	public static double getCellAsDouble(MyList list, int row, int col) {
+		ExpressionValue singleValue = list.get(col)
+				.evaluate(StringTemplate.defaultTemplate);
+		if (singleValue instanceof ListValue) {
+			ExpressionValue ev = ((ListValue) singleValue).getMyList().get(row);
+			return ev.evaluateDouble();
+		}
+		return Double.NaN;
+	}
+
+	/**
 	 * @param ev ExpressionValue
 	 * @param kernel Kernel
 	 * @return The passed ExpressionValue as either a {@link FunctionNVar} or {@link Function}
