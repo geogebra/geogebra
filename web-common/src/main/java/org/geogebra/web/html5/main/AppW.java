@@ -2682,7 +2682,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            after the update the input of the keyboard is written into
 	 *            this field
 	 */
-	public void updateKeyBoardField(MathKeyboardListener field) {
+	public void updateKeyboardField(MathKeyboardListener field) {
 		// Overwritten in subclass - nothing to do here
 	}
 

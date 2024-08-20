@@ -101,9 +101,9 @@ public class ScriptInputPanelW extends FlowPanel implements
 	 * Shows the keyboard.
 	 */
 	protected void showKeyboard() {
-		app.updateKeyBoardField(textArea);
+		app.updateKeyboardField(textArea);
 		((AppWFull) app).getAppletFrame()
-				.showKeyBoard(true, textArea, false);
+				.showKeyboard(true, textArea, false);
 		CancelEventTimer.keyboardSetVisible();
 	}
 
