@@ -1,8 +1,8 @@
-package org.geogebra.regexp.shared.contextmenu;
+package org.geogebra.common.contextmenu;
 
-import static org.geogebra.regexp.shared.contextmenu.AlgebraContextMenuItem.*;
-import static org.geogebra.regexp.shared.contextmenu.InputContextMenuItem.*;
-import static org.geogebra.regexp.shared.contextmenu.TableValuesContextMenuItem.Item.*;
+import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.*;
+import static org.geogebra.common.contextmenu.InputContextMenuItem.*;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +42,7 @@ public final class ContextMenuFactory {
 	 *                or {@link GeoGebraConstants#GEOMETRY_APPCODE}
 	 * @return List of context menu items
 	 */
+	@Nonnull
 	public static List<AlgebraContextMenuItem> makeAlgebraContextMenu(
 			@CheckForNull GeoElement geoElement,
 			@Nonnull AlgebraProcessor algebraProcessor,
@@ -113,6 +114,7 @@ public final class ContextMenuFactory {
 	 * @param isExamActive Weather the application is currently in exam mode
 	 * @return List of context menu items
 	 */
+	@Nonnull
 	public static List<TableValuesContextMenuItem> makeTableValuesContextMenu(
 			@Nonnull GeoEvaluatable geoEvaluatable,
 			int columnIndex,
@@ -143,6 +145,7 @@ public final class ContextMenuFactory {
 	 * @param includeHelpItem Weather the Help item is enabled in the app
 	 * @return List of context menu items
 	 */
+	@Nonnull
 	public static List<InputContextMenuItem> makeInputContextMenu(
 			boolean includeHelpItem
 	) {
@@ -160,6 +163,7 @@ public final class ContextMenuFactory {
 	 *
 	 * @return List of context menu items
 	 */
+	@Nonnull
 	public static List<MaterialContextMenuItem> makeMaterialContextMenu() {
 		return List.of(MaterialContextMenuItem.Delete);
 	}

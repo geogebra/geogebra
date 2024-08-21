@@ -1,6 +1,4 @@
-package org.geogebra.regexp.shared.contextmenu;
-
-import java.text.AttributedString;
+package org.geogebra.common.contextmenu;
 
 import javax.annotation.Nonnull;
 

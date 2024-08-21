@@ -1,18 +1,18 @@
-package org.geogebra.regexp.shared.contextmenu;
-
-import java.text.AttributedString;
+package org.geogebra.common.contextmenu;
 
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.main.Localization;
 
-public enum MaterialContextMenuItem implements ContextMenuItem {
-	Delete("Delete", Icon.Delete);
+public enum InputContextMenuItem implements ContextMenuItem {
+	Expression("Expression", Icon.Expression),
+	Text("Text", Icon.Text),
+	Help("Help", Icon.Help);
 
 	private final String translationKey;
-	private final Icon icon;
+	private final ContextMenuItem.Icon icon;
 
-	MaterialContextMenuItem(String translationKey, Icon icon) {
+	InputContextMenuItem(String translationKey, Icon icon) {
 		this.translationKey = translationKey;
 		this.icon = icon;
 	}
@@ -28,4 +28,3 @@ public enum MaterialContextMenuItem implements ContextMenuItem {
 		return icon;
 	}
 }
-

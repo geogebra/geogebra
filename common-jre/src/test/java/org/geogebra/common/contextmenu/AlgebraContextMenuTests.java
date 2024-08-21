@@ -1,7 +1,7 @@
 package org.geogebra.common.contextmenu;
 
-import static org.geogebra.regexp.shared.contextmenu.AlgebraContextMenuItem.*;
-import static org.geogebra.regexp.shared.contextmenu.ContextMenuFactory.*;
+import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.*;
+import static org.geogebra.common.contextmenu.ContextMenuFactory.*;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;

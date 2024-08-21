@@ -1,15 +1,10 @@
 package org.geogebra.common.contextmenu;
 
-import static org.geogebra.regexp.shared.contextmenu.ContextMenuFactory.makeTableValuesContextMenu;
-import static org.geogebra.regexp.shared.contextmenu.TableValuesContextMenuItem.Item.*;
+import static org.geogebra.common.contextmenu.ContextMenuFactory.makeTableValuesContextMenu;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.*;
 import static org.junit.Assert.assertEquals;
 
-import java.awt.font.TextAttribute;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedString;
-import java.text.CharacterIterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.geogebra.common.BaseUnitTest;
@@ -21,7 +16,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.geogebra.regexp.shared.contextmenu.TableValuesContextMenuItem;
+import org.geogebra.common.util.Range;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -133,31 +128,23 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 		TableValuesContextMenuItem item = Statistics1.toContextMenuItem(new String[]{ "y_{1}" });
 		AttributedString title = item.getLocalizedTitle(getLocalization());
 
-		assertEquals("y1 Statistics", parseAttributedString(title));
-		assertEquals(Set.of(TextAttribute.SUPERSCRIPT), title.getIterator().getAllAttributeKeys());
-
-		AttributedCharacterIterator iterator = title.getIterator();
-
-		iterator.setIndex(0);
-		assertEquals(Map.of(), iterator.getAttributes());
-
-		iterator.setIndex(1);
+		assertEquals("y1 Statistics", title.toString());
 		assertEquals(
-				Map.of(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUB),
-				iterator.getAttributes()
+				Set.of(Range.of(1, 2)),
+				title.getAttribute(AttributedString.Attribute.Subscript)
 		);
-
-		iterator.setIndex(2);
-		assertEquals(Map.of(), iterator.getAttributes());
 	}
 
-	private String parseAttributedString(AttributedString text) {
-		StringBuilder stringBuilder = new StringBuilder();
-		AttributedCharacterIterator iterator = text.getIterator();
-		while (iterator.current() != CharacterIterator.DONE) {
-			stringBuilder.append(iterator.current());
-			iterator.next();
-		}
-		return stringBuilder.toString();
+	@Test
+	public void testStatisticsItemTitleWithMultipleSubscripts() {
+		TableValuesContextMenuItem item = Statistics2.toContextMenuItem(
+				new String[] { "y_{1} value_{subscript}"});
+		AttributedString title = item.getLocalizedTitle(getLocalization());
+
+		assertEquals("y1 valuesubscript Statistics", title.toString());
+		assertEquals(
+				Set.of(Range.of(1, 2), Range.of(8, 17)),
+				title.getAttribute(AttributedString.Attribute.Subscript)
+		);
 	}
 }

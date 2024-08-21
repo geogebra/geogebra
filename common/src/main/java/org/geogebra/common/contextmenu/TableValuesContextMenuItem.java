@@ -1,8 +1,5 @@
-package org.geogebra.regexp.shared.contextmenu;
+package org.geogebra.common.contextmenu;
 
-import static org.geogebra.regexp.shared.contextmenu.AttributedStringFactory.convertSpecialCharacters;
-
-import java.text.AttributedString;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -30,7 +27,7 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 		}
 
 		public TableValuesContextMenuItem toContextMenuItem() {
-			return new TableValuesContextMenuItem(this, new String[]{});
+			return new TableValuesContextMenuItem(this);
 		}
 
 		public TableValuesContextMenuItem toContextMenuItem(String[] translationPlaceholderValues) {
@@ -41,6 +38,11 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 	public final Item item;
 	private final String[] translationPlaceholderValues;
 
+	private TableValuesContextMenuItem(Item item) {
+		this.item = item;
+		this.translationPlaceholderValues = new String[]{};
+	}
+
 	private TableValuesContextMenuItem(Item item, String[] translationPlaceholderValues) {
 		this.item = item;
 		this.translationPlaceholderValues = translationPlaceholderValues;
@@ -49,13 +51,11 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 	@Nonnull
 	@Override
 	public AttributedString getLocalizedTitle(@Nonnull Localization localization) {
-		return convertSpecialCharacters(
+		return AttributedString.parseString(
 				localization.getPlainArray(item.translationKey, null,
 						translationPlaceholderValues)
 		);
 	}
-
-
 
 	@Override
 	public boolean equals(Object o) {
