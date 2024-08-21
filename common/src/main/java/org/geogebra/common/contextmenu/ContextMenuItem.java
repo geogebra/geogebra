@@ -10,12 +10,8 @@ import org.geogebra.common.main.Localization;
  */
 public interface ContextMenuItem {
 	/**
-	 * Title/label of an item which may contain special attributes for subscripts
-	 *
 	 * @param localization Used for translating the title
-	 * @return The title of the item with possible subscript attributes marked with
-	 * 		   {@link java.awt.font.TextAttribute#SUPERSCRIPT} attribute key and
-	 * 		   {@link java.awt.font.TextAttribute#SUPERSCRIPT_SUB} value
+	 * @return The title of the item with possible attributes for subscripts
 	 */
 	@Nonnull
 	AttributedString getLocalizedTitle(@Nonnull Localization localization);

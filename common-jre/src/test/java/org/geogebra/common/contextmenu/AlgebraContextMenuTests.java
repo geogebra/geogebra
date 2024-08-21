@@ -230,8 +230,6 @@ public class AlgebraContextMenuTests {
 	}
 
 	private GeoElement add(String command) {
-		//algebraProcessor.processAlgebraCommandNoExceptionHandling(command, false, TestErrorHandler.INSTANCE, false, )
-
 		GeoElementND[] geoElements = algebraProcessor.processAlgebraCommandNoExceptionHandling(
 				command, false, TestErrorHandler.INSTANCE, false, null);
 		return (GeoElement) geoElements[0];

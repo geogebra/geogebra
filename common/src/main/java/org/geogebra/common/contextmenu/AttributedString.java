@@ -61,6 +61,7 @@ public class AttributedString {
         return attributedString;
     }
 
+    @CheckForNull
     private static Range findRawSubscript(String rawText, int fromIndex) {
         int start = rawText.indexOf("_{", fromIndex);
         if (start != -1) {
