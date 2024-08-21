@@ -214,7 +214,10 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 
 		selectButton = addPressButton(MaterialDesignResources.INSTANCE.mouse_cursor(),
 				appW.getToolName(MODE_SELECT_MOW), appW.getToolName(MODE_SELECT_MOW),
-				() -> appW.setMode(MODE_SELECT_MOW));
+				() -> {
+			appW.setMode(MODE_SELECT_MOW);
+			appW.closePopups();
+		});
 	}
 
 	private void addPenModeButton() {
