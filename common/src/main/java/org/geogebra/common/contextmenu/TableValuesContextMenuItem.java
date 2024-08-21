@@ -1,17 +1,13 @@
 package org.geogebra.common.contextmenu;
 
-import java.awt.font.TextAttribute;
+import static org.geogebra.common.contextmenu.AttributedStringFactory.convertSpecialCharacters;
+
 import java.text.AttributedString;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.math3.util.Pair;
 import org.geogebra.common.main.Localization;
 
 public final class TableValuesContextMenuItem implements ContextMenuItem {
@@ -34,7 +30,7 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 		}
 
 		public TableValuesContextMenuItem toContextMenuItem() {
-			return new TableValuesContextMenuItem(this);
+			return new TableValuesContextMenuItem(this, new String[]{});
 		}
 
 		public TableValuesContextMenuItem toContextMenuItem(String[] translationPlaceholderValues) {
@@ -45,11 +41,6 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 	public final Item item;
 	private final String[] translationPlaceholderValues;
 
-	private TableValuesContextMenuItem(Item item) {
-		this.item = item;
-		this.translationPlaceholderValues = new String[]{};
-	}
-
 	private TableValuesContextMenuItem(Item item, String[] translationPlaceholderValues) {
 		this.item = item;
 		this.translationPlaceholderValues = translationPlaceholderValues;
@@ -58,46 +49,13 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 	@Nonnull
 	@Override
 	public AttributedString getLocalizedTitle(@Nonnull Localization localization) {
-		return createSubscriptAttributedString(
+		return convertSpecialCharacters(
 				localization.getPlainArray(item.translationKey, null,
 						translationPlaceholderValues)
 		);
 	}
 
-	private static AttributedString createSubscriptAttributedString(String text) {
-		StringBuilder stringBuilder = new StringBuilder(text);
-		List<Pair<Integer, Integer>> subscriptRanges = new ArrayList<>();
 
-		// Special character sequence representing a subscript
-		Matcher matcher = Pattern.compile("_\\{(.+)\\}").matcher(text);
-
-		int offset = 0;
-		while (matcher.find()) {
-			// Start and end index of special subsequence relative to the final string
-			int start = matcher.start() - offset;
-			int end = matcher.end() - offset;
-
-			// Value contained in the special subsequence
-			String subscript = matcher.group(1);
-
-			// Replace special character sequence with the value it contains
-			stringBuilder.replace(start, end, subscript);
-
-			// Save the range of the special subscript value
-			subscriptRanges.add(Pair.create(start, start + subscript.length()));
-
-			// Update the offset as the string length changes
-			offset += end - start - subscript.length() + 1;
-		}
-
-		AttributedString attributedString = new AttributedString(stringBuilder.toString());
-		for (Pair<Integer, Integer> subscriptRange : subscriptRanges) {
-			attributedString.addAttribute(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUB,
-					subscriptRange.getFirst(), subscriptRange.getSecond());
-		}
-
-		return attributedString;
-	}
 
 	@Override
 	public boolean equals(Object o) {
