@@ -27,20 +27,19 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.scientific.LabelController;
 
-
 public final class ContextMenuFactory {
 	/**
-	 * Builds the context menu for an item in the algebra view
+	 * Builds the context menu for an item in the algebra view.
 	 *
-	 * @param geoElement An item in the algebra view
+	 * @param geoElement An item in the algebra view.
 	 * @param algebraProcessor Algebra processor responsible for handling the geo elements in the
-	 *                         algebra view
+	 *                         algebra view.
 	 * @param appCode The active app code, one of {@link GeoGebraConstants#CAS_APPCODE},
 	 *                {@link GeoGebraConstants#SCIENTIFIC_APPCODE},
 	 *                {@link GeoGebraConstants#G3D_APPCODE},
 	 *                {@link GeoGebraConstants#GRAPHING_APPCODE}
-	 *                or {@link GeoGebraConstants#GEOMETRY_APPCODE}
-	 * @return List of context menu items
+	 *                or {@link GeoGebraConstants#GEOMETRY_APPCODE}.
+	 * @return List of context menu items.
 	 */
 	@Nonnull
 	public static List<AlgebraContextMenuItem> makeAlgebraContextMenu(
@@ -104,15 +103,15 @@ public final class ContextMenuFactory {
 	}
 
 	/**
-	 * Builds the context menu for a column in the table values view
+	 * Builds the context menu for a column in the table values view.
 	 *
-	 * @param geoEvaluatable Evaluatable in the given table value column
-	 * @param columnIndex Index of the table values column
+	 * @param geoEvaluatable Evaluatable in the given table value column.
+	 * @param columnIndex Index of the table values column.
 	 * @param tableValuesModel Table values model containing and handling the geoEvaluatable
-	 *                         at the given column
-	 * @param isScientific Weather the current app or sub-app is Scientific calculator
-	 * @param isExamActive Weather the application is currently in exam mode
-	 * @return List of context menu items
+	 *                         at the given column.
+	 * @param isScientific Weather the current app or sub-app is Scientific calculator.
+	 * @param isExamActive Weather the application is currently in exam mode.
+	 * @return List of context menu items.
 	 */
 	@Nonnull
 	public static List<TableValuesContextMenuItem> makeTableValuesContextMenu(
@@ -140,10 +139,10 @@ public final class ContextMenuFactory {
 	}
 
 	/**
-	 * Builds the context menu for the empty algebra view input
+	 * Builds the context menu for the empty algebra view input.
 	 *
-	 * @param includeHelpItem Weather the Help item is enabled in the app
-	 * @return List of context menu items
+	 * @param includeHelpItem Weather the Help item is enabled in the app.
+	 * @return List of context menu items.
 	 */
 	@Nonnull
 	public static List<InputContextMenuItem> makeInputContextMenu(
@@ -159,9 +158,9 @@ public final class ContextMenuFactory {
 	}
 
 	/**
-	 * Builds the context menu for the materials in exam mode
+	 * Builds the context menu for the materials in exam mode.
 	 *
-	 * @return List of context menu items
+	 * @return List of context menu items.
 	 */
 	@Nonnull
 	public static List<MaterialContextMenuItem> makeMaterialContextMenu() {

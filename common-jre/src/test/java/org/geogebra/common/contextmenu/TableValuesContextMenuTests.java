@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.util.AttributedString;
 import org.geogebra.common.util.Range;
 import org.junit.Before;
 import org.junit.Test;
@@ -130,7 +131,7 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 
 		assertEquals("y1 Statistics", title.toString());
 		assertEquals(
-				Set.of(Range.of(1, 2)),
+				Set.of(new Range(1, 2)),
 				title.getAttribute(AttributedString.Attribute.Subscript)
 		);
 	}
@@ -143,7 +144,7 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 
 		assertEquals("y1 valuesubscript Statistics", title.toString());
 		assertEquals(
-				Set.of(Range.of(1, 2), Range.of(8, 17)),
+				Set.of(new Range(1, 2), new Range(8, 17)),
 				title.getAttribute(AttributedString.Attribute.Subscript)
 		);
 	}

@@ -6,6 +6,7 @@ import java.util.Objects;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.AttributedString;
 
 public final class TableValuesContextMenuItem implements ContextMenuItem {
 	public enum Item {

@@ -3,6 +3,7 @@ package org.geogebra.common.contextmenu;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.AttributedString;
 
 public enum AlgebraContextMenuItem implements ContextMenuItem {
 	Statistics("Statistics"),
