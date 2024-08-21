@@ -1,6 +1,6 @@
-package org.geogebra.common.contextmenu;
+package org.geogebra.regexp.shared.contextmenu;
 
-import static org.geogebra.common.contextmenu.AttributedStringFactory.convertSpecialCharacters;
+import static org.geogebra.regexp.shared.contextmenu.AttributedStringFactory.convertSpecialCharacters;
 
 import java.text.AttributedString;
 import java.util.Arrays;

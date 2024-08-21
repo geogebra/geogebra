@@ -1,8 +1,8 @@
-package org.geogebra.common.contextmenu;
+package org.geogebra.regexp.shared.contextmenu;
 
-import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.*;
-import static org.geogebra.common.contextmenu.InputContextMenuItem.*;
-import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.*;
+import static org.geogebra.regexp.shared.contextmenu.AlgebraContextMenuItem.*;
+import static org.geogebra.regexp.shared.contextmenu.InputContextMenuItem.*;
+import static org.geogebra.regexp.shared.contextmenu.TableValuesContextMenuItem.Item.*;
 
 import java.util.ArrayList;
 import java.util.List;

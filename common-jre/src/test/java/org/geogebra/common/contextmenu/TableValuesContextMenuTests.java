@@ -1,7 +1,7 @@
 package org.geogebra.common.contextmenu;
 
-import static org.geogebra.common.contextmenu.ContextMenuFactory.makeTableValuesContextMenu;
-import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.*;
+import static org.geogebra.regexp.shared.contextmenu.ContextMenuFactory.makeTableValuesContextMenu;
+import static org.geogebra.regexp.shared.contextmenu.TableValuesContextMenuItem.Item.*;
 import static org.junit.Assert.assertEquals;
 
 import java.awt.font.TextAttribute;
@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.regexp.shared.contextmenu.TableValuesContextMenuItem;
 import org.junit.Before;
 import org.junit.Test;
 

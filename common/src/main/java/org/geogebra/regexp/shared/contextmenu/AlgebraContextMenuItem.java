@@ -1,4 +1,4 @@
-package org.geogebra.common.contextmenu;
+package org.geogebra.regexp.shared.contextmenu;
 
 import java.text.AttributedString;
 
