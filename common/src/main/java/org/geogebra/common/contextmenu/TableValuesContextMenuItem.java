@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AttributedString;
 
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public final class TableValuesContextMenuItem implements ContextMenuItem {
 	public enum Item {
 		Edit("Edit"),
@@ -59,10 +60,14 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		TableValuesContextMenuItem that = (TableValuesContextMenuItem) o;
+	public boolean equals(Object object) {
+		if (this == object) {
+			return true;
+		}
+		if (object == null || getClass() != object.getClass()) {
+			return false;
+		}
+		TableValuesContextMenuItem that = (TableValuesContextMenuItem) object;
 		return item == that.item && Arrays.equals(translationPlaceholderValues,
 				that.translationPlaceholderValues);
 	}
