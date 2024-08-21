@@ -80,13 +80,13 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 			// Value contained in the special subsequence
 			String subscript = matcher.group(1);
 
-			// Replace special character sequence with the value it contained
+			// Replace special character sequence with the value it contains
 			stringBuilder.replace(start, end, subscript);
 
 			// Save the range of the special subscript value
 			subscriptRanges.add(Pair.create(start, start + subscript.length()));
 
-			// Update the offset according to the change in the string length
+			// Update the offset as the string length changes
 			offset += end - start - subscript.length() + 1;
 		}
 
