@@ -65,8 +65,6 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	 */
 	int getAlignment(int row, int column);
 
-	void markError(int row, int column, boolean hasError);
-
 	boolean hasError(int row, int column);
 
 	default void setPersistenceListener(PersistenceListener layout) {

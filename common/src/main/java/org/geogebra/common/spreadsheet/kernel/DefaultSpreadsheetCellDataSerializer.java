@@ -1,8 +1,10 @@
 package org.geogebra.common.spreadsheet.kernel;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.Algos;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellDataSerializer;
 
 /**
@@ -25,8 +27,13 @@ public final class DefaultSpreadsheetCellDataSerializer implements SpreadsheetCe
 			return "";
 		}
 		GeoElement geo = (GeoElement) data;
-		String redefineString = geo.getRedefineString(true, false, StringTemplate.editorTemplate);
-		return geo.isGeoText() && !((GeoText) geo).hasSpreadsheetError() ? redefineString
-				: "=" + redefineString;
+		AlgoElement parentAlgorithm = geo.getParentAlgorithm();
+		if (Algos.isUsedFor(Commands.ParseToNumber, geo) && parentAlgorithm != null) {
+			return "=" + parentAlgorithm.getInput(0).toValueString(
+					StringTemplate.defaultTemplate);
+		}
+		String redefineString = geo.getRedefineString(true, false,
+				StringTemplate.editorTemplate);
+		return geo.isGeoText() ? redefineString : "=" + redefineString;
 	}
 }

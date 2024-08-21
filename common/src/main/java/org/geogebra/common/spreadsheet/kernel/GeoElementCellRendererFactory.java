@@ -38,14 +38,15 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 			return null;
 		}
 		Integer fontStyle = style.getFontStyle(row, column);
+		GeoElement geoElement = (GeoElement) data;
 		GColor background = style.getBackgroundColor(row, column,
-				((GeoElement) data).getBackgroundColor());
+				geoElement.getBackgroundColor());
 		Integer align = style.getAlignment(row, column);
 		if (align == null) {
 			align = (data instanceof GeoText) ? CellFormat.ALIGN_LEFT : CellFormat.ALIGN_RIGHT;
 		}
 		if (data instanceof GeoFunction) {
-			TeXFormula tf = new TeXFormula(((GeoElement) data)
+			TeXFormula tf = new TeXFormula(geoElement
 					.toValueString(StringTemplate.latexTemplate));
 			return new SelfRenderable(laTeXRenderer,
 					fontStyle, align,
@@ -57,8 +58,13 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 		}
 
 		return new SelfRenderable(stringRenderer, fontStyle, align,
-				((GeoElement) data).toValueString(StringTemplate.defaultTemplate),
+				getValueString(geoElement),
 				background);
+	}
+
+	private String getValueString(GeoElement geoElement) {
+		return geoElement.isEmptySpreadsheetCell() ? ""
+				: geoElement.toValueString(StringTemplate.defaultTemplate);
 	}
 
 	private static class CheckboxCellRenderer implements CellRenderer {
