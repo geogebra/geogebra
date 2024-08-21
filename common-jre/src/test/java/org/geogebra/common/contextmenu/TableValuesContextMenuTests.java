@@ -1,7 +1,7 @@
 package org.geogebra.common.contextmenu;
 
 import static org.geogebra.common.contextmenu.ContextMenuFactory.makeTableValuesContextMenu;
-import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Type.*;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.*;
 import static org.junit.Assert.assertEquals;
 
 import java.awt.font.TextAttribute;

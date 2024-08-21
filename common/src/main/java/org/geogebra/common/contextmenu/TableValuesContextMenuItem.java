@@ -15,7 +15,7 @@ import org.apache.commons.math3.util.Pair;
 import org.geogebra.common.main.Localization;
 
 public final class TableValuesContextMenuItem implements ContextMenuItem {
-	public enum Type {
+	public enum Item {
 		Edit("Edit"),
 		ClearColumn("ClearColumn"),
 		RemoveColumn("RemoveColumn"),
@@ -29,7 +29,7 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 
 		private final String translationKey;
 
-		Type(String translationKey) {
+		Item(String translationKey) {
 			this.translationKey = translationKey;
 		}
 
@@ -42,16 +42,16 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 		}
 	}
 
-	public final Type type;
+	public final Item item;
 	private final String[] translationPlaceholderValues;
 
-	private TableValuesContextMenuItem(Type type) {
-		this.type = type;
+	private TableValuesContextMenuItem(Item item) {
+		this.item = item;
 		this.translationPlaceholderValues = new String[]{};
 	}
 
-	private TableValuesContextMenuItem(Type type, String[] translationPlaceholderValues) {
-		this.type = type;
+	private TableValuesContextMenuItem(Item item, String[] translationPlaceholderValues) {
+		this.item = item;
 		this.translationPlaceholderValues = translationPlaceholderValues;
 	}
 
@@ -59,7 +59,7 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 	@Override
 	public AttributedString getLocalizedTitle(@Nonnull Localization localization) {
 		return createSubscriptAttributedString(
-				localization.getPlainArray(type.translationKey, null,
+				localization.getPlainArray(item.translationKey, null,
 						translationPlaceholderValues)
 		);
 	}
@@ -104,13 +104,13 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		TableValuesContextMenuItem that = (TableValuesContextMenuItem) o;
-		return type == that.type && Arrays.equals(translationPlaceholderValues,
+		return item == that.item && Arrays.equals(translationPlaceholderValues,
 				that.translationPlaceholderValues);
 	}
 
 	@Override
 	public int hashCode() {
-		int result = Objects.hash(type);
+		int result = Objects.hash(item);
 		result = 31 * result + Arrays.hashCode(translationPlaceholderValues);
 		return result;
 	}
@@ -118,7 +118,7 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(type.name());
+		stringBuilder.append(item.name());
 		if (translationPlaceholderValues.length > 0) {
 			stringBuilder.append(" ");
 			stringBuilder.append(String.join(" ", translationPlaceholderValues));

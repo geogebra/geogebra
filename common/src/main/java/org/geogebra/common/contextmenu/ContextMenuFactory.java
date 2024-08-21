@@ -2,7 +2,7 @@ package org.geogebra.common.contextmenu;
 
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.*;
 import static org.geogebra.common.contextmenu.InputContextMenuItem.*;
-import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Type.*;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.*;
 
 import java.util.ArrayList;
 import java.util.List;
