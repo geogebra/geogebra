@@ -5,7 +5,8 @@ import java.util.Objects;
 /**
  * Represents an immutable range of integers with a start and an end value.
  */
-public class Range {
+public final class Range {
+
     private final int start;
     private final int end;
 
