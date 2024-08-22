@@ -105,6 +105,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				Commands.Integral,
 				Commands.Intersect,
 				Commands.Invert,
+				Commands.IsTangent,
 				Commands.Iteration,
 				Commands.IterationList,
 				Commands.Max,
@@ -130,6 +131,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				Commands.stdev,
 				Commands.stdevp,
 				Commands.Sum,
+				Commands.Tangent,
 				Commands.ZoomIn,
 				Commands.ZoomOut);
 		return Set.of(new EnglishCommandFilter(nameFilter));
