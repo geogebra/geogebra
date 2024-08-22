@@ -206,8 +206,8 @@ public final class SpreadsheetRenderer {
 		Rectangle bounds = layout.getBounds(selection, viewport);
 		if (bounds != null) {
 			graphics.setColor(style.getSelectionColor());
-			graphics.fillRect((int) bounds.getMinX(), (int) bounds.getMinY(), (int) bounds.getWidth(),
-					(int) bounds.getHeight());
+			graphics.fillRect((int) bounds.getMinX(), (int) bounds.getMinY(),
+					(int) bounds.getWidth(), (int) bounds.getHeight());
 		}
 	}
 
@@ -248,7 +248,7 @@ public final class SpreadsheetRenderer {
 	}
 
 	/**
-	 * Draws only the selection borders that should be fully visible</br>
+	 * Draws only the selection borders that should be fully visible
 	 * @implNote Only checks if the top horizontal line and the left vertical line are visible
 	 * since the bottom horizontal line and right vertical line are hidden behind the Scrollbar
 	 */
