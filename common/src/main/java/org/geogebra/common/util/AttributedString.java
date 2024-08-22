@@ -54,7 +54,8 @@ public final class AttributedString {
      */
     @CheckForNull
     public Set<Range> getAttribute(Attribute attribute) {
-        return Collections.unmodifiableSet(attributes.get(attribute));
+        Set<Range> ranges = attributes.get(attribute);
+        return ranges == null ? null : Collections.unmodifiableSet(ranges);
     }
 
     @Override
