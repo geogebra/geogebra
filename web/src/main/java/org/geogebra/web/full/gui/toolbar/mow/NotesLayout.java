@@ -16,14 +16,14 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.mow.header.NotesTopbar;
+import org.geogebra.web.shared.mow.header.NotesTopBar;
 import org.gwtproject.event.dom.client.TouchStartEvent;
 import org.gwtproject.user.client.ui.Widget;
 
 public class NotesLayout implements SetLabels, ModeChangeListener {
 	private final AppW appW;
 	private final @CheckForNull NotesToolbox toolbar;
-	private final @CheckForNull NotesTopbar topbar;
+	private final @CheckForNull NotesTopBar topBar;
 	private StandardButton pageControlButton;
 	private @CheckForNull PageListPanel pageControlPanel;
 
@@ -32,8 +32,8 @@ public class NotesLayout implements SetLabels, ModeChangeListener {
 	 */
 	public NotesLayout(AppW appW) {
 		this.appW = appW;
-		this.toolbar = appW.showToolBar() ? new NotesToolbox(appW) : null;
-		topbar = new NotesTopbar(appW);
+		topBar = new NotesTopBar(appW);
+		this.toolbar = appW.showToolBar() ? new NotesToolbox(appW, topBar.wasAttached()) : null;
 		appW.getActiveEuclidianView().getEuclidianController()
 				.setModeChangeListener(this);
 		createPageControlButton();
@@ -107,8 +107,8 @@ public class NotesLayout implements SetLabels, ModeChangeListener {
 		if (toolbar != null) {
 			toolbar.setLabels();
 		}
-		if (topbar != null) {
-			topbar.setLabels();
+		if (topBar != null) {
+			topBar.setLabels();
 		}
 		pageControlButton
 				.setTitle(appW.getLocalization().getMenu("PageControl"));
@@ -118,8 +118,8 @@ public class NotesLayout implements SetLabels, ModeChangeListener {
 	 * update style of undo+redo buttons
 	 */
 	public void updateUndoRedoActions() {
-		if (topbar != null) {
-			topbar.updateUndoRedoActions(appW.getKernel());
+		if (topBar != null) {
+			topBar.updateUndoRedoActions(appW.getKernel());
 		}
 	}
 
@@ -127,14 +127,14 @@ public class NotesLayout implements SetLabels, ModeChangeListener {
 		return toolbar;
 	}
 
-	public NotesTopbar getTopbar() {
-		return topbar;
+	public NotesTopBar getTopBar() {
+		return topBar;
 	}
 
 	@Override
 	public void onModeChange(int mode) {
-		if (topbar != null) {
-			topbar.onModeChange(mode);
+		if (topBar != null) {
+			topBar.onModeChange(mode);
 		}
 		if (toolbar != null) {
 			toolbar.onModeChange(mode);
