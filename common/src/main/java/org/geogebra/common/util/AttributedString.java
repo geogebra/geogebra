@@ -63,10 +63,14 @@ public final class AttributedString {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AttributedString that = (AttributedString) o;
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        AttributedString that = (AttributedString) object;
         return Objects.equals(rawValue, that.rawValue) && Objects.equals(attributes,
                 that.attributes);
     }
