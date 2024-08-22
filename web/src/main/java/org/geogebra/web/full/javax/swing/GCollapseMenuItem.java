@@ -101,7 +101,7 @@ public class GCollapseMenuItem {
 					String.valueOf(!expanded));
 		}
 		menuItem.getElement().setAttribute("aria-label",
-				title + (value ? " collapsed" : " expanded"));
+				title + (value ? " expanded" : " collapsed"));
 		updateItems();
 
 		items.getElement().setTabIndex(-1);
