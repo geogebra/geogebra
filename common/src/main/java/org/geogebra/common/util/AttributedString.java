@@ -1,10 +1,8 @@
 package org.geogebra.common.util;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -40,7 +38,7 @@ public final class AttributedString {
      * @param range The range of characters to which the attribute should be applied.
      * The supplied range is not checked for validity.
      */
-    public void add(Attribute attribute, Range range) {
+    public void add(@Nonnull Attribute attribute, @Nonnull Range range) {
         attributes.computeIfAbsent(attribute, k -> new HashSet<>());
         attributes.get(attribute).add(range);
     }
@@ -53,7 +51,7 @@ public final class AttributedString {
      * the attribute is not present.
      */
     @CheckForNull
-    public Set<Range> getAttribute(Attribute attribute) {
+    public Set<Range> getAttribute(@Nonnull Attribute attribute) {
         Set<Range> ranges = attributes.get(attribute);
         return ranges == null ? null : Collections.unmodifiableSet(ranges);
     }
