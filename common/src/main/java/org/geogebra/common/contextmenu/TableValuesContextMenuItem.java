@@ -29,7 +29,7 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 		}
 
 		public TableValuesContextMenuItem toContextMenuItem() {
-			return new TableValuesContextMenuItem(this);
+			return new TableValuesContextMenuItem(this, new String[]{});
 		}
 
 		public TableValuesContextMenuItem toContextMenuItem(String[] translationPlaceholderValues) {
@@ -39,11 +39,6 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 
 	public final Item item;
 	private final String[] translationPlaceholderValues;
-
-	private TableValuesContextMenuItem(Item item) {
-		this.item = item;
-		this.translationPlaceholderValues = new String[]{};
-	}
 
 	private TableValuesContextMenuItem(Item item, String[] translationPlaceholderValues) {
 		this.item = item;
