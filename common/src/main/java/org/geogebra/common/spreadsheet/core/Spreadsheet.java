@@ -57,19 +57,16 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		graphics.fillRect(0, 0, (int) viewport.getWidth(), (int) viewport.getHeight());
 		List<TabularRange> visibleSelections = controller.getVisibleSelections();
 		for (TabularRange range: visibleSelections) {
-			renderer.drawSelection(range, graphics,
-					viewport, controller.getLayout());
+			renderer.drawSelection(range, graphics, viewport);
 		}
 		drawCells(graphics, viewport);
 		for (TabularRange range: visibleSelections) {
-			renderer.drawSelectionBorder(range, graphics,
-					viewport, controller.getLayout(), false, false);
+			renderer.drawSelectionBorder(range, graphics, viewport, false, false);
 		}
 		if (!visibleSelections.isEmpty()) {
 			TabularRange range = visibleSelections.get(visibleSelections.size() - 1);
 			TabularRange firstCell = new TabularRange(range.getFromRow(), range.getFromColumn());
-			renderer.drawSelectionBorder(firstCell, graphics,
-					viewport, controller.getLayout(), true, false);
+			renderer.drawSelectionBorder(firstCell, graphics, viewport, true, false);
 		}
 		GPoint2D draggingDot = controller.getDraggingDot();
 		if (draggingDot != null) {
@@ -77,8 +74,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		}
 		TabularRange dragPasteSelection = controller.getDragPasteSelection();
 		if (dragPasteSelection != null) {
-			renderer.drawSelectionBorder(dragPasteSelection, graphics, viewport,
-					controller.getLayout(), false, true);
+			renderer.drawSelectionBorder(dragPasteSelection, graphics, viewport, false, true);
 		}
 
 		Rectangle editorBounds = controller.getEditorBounds();
@@ -95,10 +91,9 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		double offsetY = viewport.getMinY() - layout.getColumnHeaderHeight();
 		drawContentCells(graphics, portion, offsetX, offsetY);
 		renderer.drawHeaderBackgroundAndOutline(graphics, viewport);
-		controller.getSelections().forEach(selection -> {
-			renderer.drawSelectionHeader(selection, graphics,
-					controller.getViewport(), controller.getLayout());
-		});
+		controller.getSelections().forEach(selection ->
+			renderer.drawSelectionHeader(selection, graphics, controller.getViewport())
+		);
 		graphics.translate(-offsetX, 0);
 		graphics.setColor(controller.getStyle().getGridColor());
 		for (int column = portion.fromColumn + 1; column <= portion.toColumn; column++) {
@@ -124,15 +119,15 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		graphics.fillRect(0, 0, (int) layout.getRowHeaderWidth(),
 				(int) layout.getColumnHeaderHeight());
 
-		drawErrorCells(graphics, portion, offsetX, offsetY);
+		drawErrorCells(graphics, portion, viewport, offsetX, offsetY);
 	}
 
 	private void drawErrorCells(GGraphics2D graphics, TableLayout.Portion portion,
-			double offsetX, double offsetY) {
+			Rectangle viewport, double offsetX, double offsetY) {
 		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
 			for (int row = portion.fromRow; row <= portion.toRow; row++) {
 				if (controller.hasError(row, column)) {
-					renderer.drawErrorCell(row, column, graphics, offsetX, offsetY);
+					renderer.drawErrorCell(row, column, graphics, viewport, offsetX, offsetY);
 				}
 			}
 		}
