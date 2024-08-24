@@ -7,7 +7,7 @@ javagiac = "70320"
 gwt = "2.11.0"
 gwtTreblereel = "202408061"
 elemental2 = "1.2.1"
-murok = "1.0.202402201544"
+murok = "1.0.202408230914"
 # built from ef18cb9206; switch to upstream when https://github.com/mozilla/rhino/pull/1385 is released
 mozilla-rhino = "1.7.15"
 quickJs = '1.0.202403131629-SNAPSHOT'
