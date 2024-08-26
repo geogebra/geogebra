@@ -174,7 +174,7 @@ public class TopbarController {
 		} else {
 			showAndFocusMenuRelativeTo(anchor);
 			appW.closePopups();
-			appW.registerPopup(settingsContextMenu.getWrappedPopup().getPopupPanel());
+			appW.registerPopup(getSettingsContextMenu());
 		}
 		anchor.setActive(!settingsShowing);
 	}
