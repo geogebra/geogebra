@@ -423,10 +423,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	public ExpressionValue handleMult(ExpressionValue lt, ExpressionValue rt,
 			StringTemplate tpl, boolean holdsLaTeXtext) {
 		MyDouble num;
-		MyStringBuffer msb;
-
-		// Log.debug(lt.getClass()+" "+lt.toString());
-		// Log.debug(rt.getClass()+" "+rt.toString());
 
 		if (lt instanceof NumberValue) {
 			// number * number
@@ -444,32 +440,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		}
 		// text concatenation (left)
 		if (lt instanceof TextValue) {
-			msb = ((TextValue) lt).getText();
-			if (holdsLaTeXtext) {
-				msb.append(rt.toLaTeXString(false, tpl));
-			} else {
-				if (rt.isGeoElement()) {
-					GeoElement geo = (GeoElement) rt;
-					msb.append(geo.toDefinedValueString(tpl));
-				} else {
-					msb.append(rt.toValueString(tpl));
-				}
-			}
-			return msb;
+			return appendTextValueLeft((TextValue) lt, rt, tpl, holdsLaTeXtext);
 		} // text concatenation (right)
 		else if (rt instanceof TextValue) {
-			msb = ((TextValue) rt).getText();
-			if (holdsLaTeXtext) {
-				msb.insert(0, lt.toLaTeXString(false, tpl));
-			} else {
-				if (lt.isGeoElement()) {
-					GeoElement geo = (GeoElement) lt;
-					msb.insert(0, geo.toDefinedValueString(tpl));
-				} else {
-					msb.insert(0, lt.toValueString(tpl));
-				}
-			}
-			return msb;
+			return appendTextValueRight(lt, (TextValue) rt, tpl, holdsLaTeXtext);
 		}
 		// vector * ...
 		else if (lt instanceof VectorNDValue) {
@@ -569,7 +543,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			StringTemplate tpl, boolean holdsLaTeXtext) {
 		MyDouble num;
 		GeoVec2D vec;
-		MyStringBuffer msb;
 		if (lt instanceof NumberValue && rt instanceof NumberValue) {
 			num = ((NumberValue) lt).getNumber();
 			MyDouble.add(num, (NumberValue) rt, num);
@@ -636,38 +609,47 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		}
 		// text concatenation (left)
 		else if (lt instanceof TextValue) {
-			msb = ((TextValue) lt).getText();
-			if (holdsLaTeXtext) {
-				msb.append(rt.toLaTeXString(false, tpl));
-			} else {
-				if (rt.isGeoElement()) {
-					GeoElement geo = (GeoElement) rt;
-					msb.append(getGeoString(geo, tpl));
-				} else {
-					msb.append(rt.toValueString(tpl));
-				}
-			}
-			return msb;
+			return appendTextValueLeft((TextValue) lt, rt, tpl, holdsLaTeXtext);
 		} // text concatenation (right)
 		else if (rt instanceof TextValue) {
-			msb = ((TextValue) rt).getText();
-			if (holdsLaTeXtext) {
-				msb.insert(0, lt.toLaTeXString(false, tpl));
-			} else {
-				if (lt.isGeoElement()) {
-					GeoElement geo = (GeoElement) lt;
-					msb.insert(0, getGeoString(geo, tpl));
-				} else {
-					msb.insert(0, lt.toValueString(tpl));
-				}
-			}
-			return msb;
+			return appendTextValueRight(lt, (TextValue) rt, tpl, holdsLaTeXtext);
 		}
 		// polynomial + polynomial
 		else {
 			throw new MyError(loc, Errors.IllegalAddition, lt, "+", rt);
 		}
+	}
 
+	private ExpressionValue appendTextValueRight(ExpressionValue lt, TextValue rt,
+			StringTemplate tpl, boolean holdsLaTeXtext) {
+		MyStringBuffer msb = rt.getText();
+		if (holdsLaTeXtext) {
+			msb.insert(0, lt.toLaTeXString(false, tpl));
+		} else {
+			if (lt.isGeoElement()) {
+				GeoElement geo = (GeoElement) lt;
+				msb.insert(0, getGeoString(geo, tpl));
+			} else {
+				msb.insert(0, lt.toValueString(tpl));
+			}
+		}
+		return msb;
+	}
+
+	private ExpressionValue appendTextValueLeft(TextValue lt, ExpressionValue rt,
+			StringTemplate tpl, boolean holdsLaTeXtext) {
+		MyStringBuffer msb = lt.getText();
+		if (holdsLaTeXtext) {
+			msb.append(rt.toLaTeXString(false, tpl));
+		} else {
+			if (rt.isGeoElement()) {
+				GeoElement geo = (GeoElement) rt;
+				msb.append(getGeoString(geo, tpl));
+			} else {
+				msb.append(rt.toValueString(tpl));
+			}
+		}
+		return msb;
 	}
 
 	/**

@@ -163,4 +163,11 @@ public class AlgebraItemTest extends BaseUnitTest {
         String definition = AlgebraItem.getDefinitionLatexForGeoElement(element);
         assertThat(definition, is("(1,2)"));
     }
+
+    @Test
+    public void limitNMultiplyPiForm() {
+        GeoElement element = add("17!");
+        String definition = element.getAlgebraDescriptionForPreviewOutput();
+        assertThat(definition, is("355687428096000"));
+    }
 }

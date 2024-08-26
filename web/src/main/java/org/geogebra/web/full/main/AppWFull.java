@@ -535,7 +535,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public final boolean showKeyboard(MathKeyboardListener textField,
 			boolean forceShow) {
-		boolean ret = getAppletFrame().showKeyBoard(true, textField, forceShow);
+		boolean ret = getAppletFrame().showKeyboard(true, textField, forceShow);
 		if (textField != null && ret) {
 			CancelEventTimer.keyboardSetVisible();
 		}
@@ -548,7 +548,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public final void updateKeyBoardField(MathKeyboardListener field) {
+	public final void updateKeyboardField(MathKeyboardListener field) {
 		getKeyboardManager().setOnScreenKeyboardTextField(field);
 	}
 
@@ -619,11 +619,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				listener.setFocus(true);
 				if (getAppletFrame().appNeedsKeyboard()
 						&& examController.getState() != ExamState.PREPARING) {
-					getAppletFrame().showKeyBoard(true, listener, true);
+					getAppletFrame().showKeyboard(true, listener, true);
 				}
 			}
 			if (!getAppletFrame().appNeedsKeyboard()) {
-				getAppletFrame().showKeyBoard(false, null, true);
+				getAppletFrame().showKeyboard(false, null, true);
 			}
 
 		});
