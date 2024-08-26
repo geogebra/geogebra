@@ -2139,7 +2139,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			GeoElement geo0 = (previewFromInputBarGeos == null
 					|| previewFromInputBarGeos.length == 0) ? null
 					: previewFromInputBarGeos[0];
-			app.getSpecialPointsManager().updateSpecialPointsPreview(geo0);
+			app.getSpecialPointsManager().updateSpecialPoints(geo0);
 		} else {
 			repaintForPreviewFromInputBar();
 		}
