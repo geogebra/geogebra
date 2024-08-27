@@ -1,6 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
@@ -10,7 +11,7 @@ import org.geogebra.common.util.shape.Rectangle;
  *
  * @Note: This type is not designed to be thread-safe.
  */
-public final class TableLayout implements PersistenceListener {
+public final class TableLayout implements CustomRowAndColumnSizeProvider {
 	public static final int DEFAULT_CELL_WIDTH = 120;
 	public static final int DEFAULT_CELL_HEIGHT = 36;
 	public static final int DEFAULT_ROW_HEADER_WIDTH = 52;
@@ -156,17 +157,21 @@ public final class TableLayout implements PersistenceListener {
 	}
 
 	@Override
-	public void persist(SpreadsheetDimensions dimensions) {
-		dimensions.getWidthMap().clear();
+	public void getCustomColumnWidths(Map<Integer, Integer> widths) {
+		widths.clear();
 		for (int i = 0; i < columnWidths.length; i++) {
 			if (columnWidths[i] != DEFAULT_CELL_WIDTH) {
-				dimensions.getWidthMap().put(i, (int) columnWidths[i]);
+				widths.put(i, (int) columnWidths[i]);
 			}
 		}
-		dimensions.getHeightMap().clear();
+	}
+
+	@Override
+	public void getCustomRowHeights(Map<Integer, Integer> heights) {
+		heights.clear();
 		for (int i = 0; i < rowHeights.length; i++) {
 			if (rowHeights[i] != DEFAULT_CELL_HEIGHT) {
-				dimensions.getHeightMap().put(i, (int) rowHeights[i]);
+				heights.put(i, (int) rowHeights[i]);
 			}
 		}
 	}

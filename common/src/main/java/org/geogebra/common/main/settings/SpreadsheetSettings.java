@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.spreadsheet.core.PersistenceListener;
+import org.geogebra.common.spreadsheet.core.CustomRowAndColumnSizeProvider;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
 
 /**
@@ -54,7 +54,7 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	private int vScrollBarValue;
 	private int rows = 100;
 	private int columns = 26;
-	private PersistenceListener persistenceListener;
+	private CustomRowAndColumnSizeProvider customRowAndColumnSizeProvider;
 
 	public static class Defaults {
 		public static final boolean SHOW_FORMULA_BAR = false;
@@ -739,8 +739,9 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	 *            XML string builder
 	 */
 	public void getWidthsAndHeightsXML(StringBuilder sb) {
-		if (persistenceListener != null) {
-			persistenceListener.persist(this);
+		if (customRowAndColumnSizeProvider != null) {
+			customRowAndColumnSizeProvider.getCustomColumnWidths(widthMap);
+			customRowAndColumnSizeProvider.getCustomRowHeights(heightMap);
 		}
 		// column widths
 		HashMap<Integer, Integer> widthMap1 = getWidthMap();
@@ -803,8 +804,8 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 		this.columns  = columns;
 	}
 
-	public void setPersistenceListener(PersistenceListener layout) {
-		this.persistenceListener = layout;
+	public void setRowAndColumnSizeProvider(CustomRowAndColumnSizeProvider layout) {
+		this.customRowAndColumnSizeProvider = layout;
 	}
 
 }

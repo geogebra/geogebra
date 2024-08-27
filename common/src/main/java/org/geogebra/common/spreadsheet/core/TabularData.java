@@ -62,7 +62,7 @@ public interface TabularData<T> extends HasTabularValues<T> {
 
 	boolean hasError(int row, int column);
 
-	default void setPersistenceListener(PersistenceListener layout) {
+	default void setPersistenceListener(CustomRowAndColumnSizeProvider layout) {
 		// not needed in tests
 	}
 
