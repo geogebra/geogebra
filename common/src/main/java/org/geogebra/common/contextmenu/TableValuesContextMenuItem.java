@@ -37,12 +37,17 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 		}
 	}
 
-	public final Item item;
+	private final Item item;
 	private final String[] translationPlaceholderValues;
 
 	private TableValuesContextMenuItem(Item item, String[] translationPlaceholderValues) {
 		this.item = item;
 		this.translationPlaceholderValues = translationPlaceholderValues;
+	}
+
+	@Nonnull
+	public Item getItem() {
+		return item;
 	}
 
 	@Nonnull

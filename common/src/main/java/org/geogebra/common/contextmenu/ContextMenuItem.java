@@ -21,14 +21,7 @@ public interface ContextMenuItem {
 	 * @return The item's icon, or null if the context menu item does not have an icon.
 	 */
 	@CheckForNull
-	default Icon getIcon() {
+	default ContextMenuIcon getIcon() {
 		return null;
-	}
-
-	/**
-	 * An identifier for the possible icon values.
-	 */
-	enum Icon {
-		Expression, Text, Help, Delete
 	}
 }

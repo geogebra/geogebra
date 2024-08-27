@@ -6,12 +6,12 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AttributedString;
 
 public enum MaterialContextMenuItem implements ContextMenuItem {
-	Delete("Delete", Icon.Delete);
+	Delete("Delete", ContextMenuIcon.Delete);
 
 	private final String translationKey;
-	private final Icon icon;
+	private final ContextMenuIcon icon;
 
-	MaterialContextMenuItem(String translationKey, Icon icon) {
+	MaterialContextMenuItem(String translationKey, ContextMenuIcon icon) {
 		this.translationKey = translationKey;
 		this.icon = icon;
 	}
@@ -23,7 +23,7 @@ public enum MaterialContextMenuItem implements ContextMenuItem {
 	}
 
 	@Override
-	public Icon getIcon() {
+	public ContextMenuIcon getIcon() {
 		return icon;
 	}
 }

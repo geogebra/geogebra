@@ -6,14 +6,14 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AttributedString;
 
 public enum InputContextMenuItem implements ContextMenuItem {
-	Expression("Expression", Icon.Expression),
-	Text("Text", Icon.Text),
-	Help("Help", Icon.Help);
+	Expression("Expression", ContextMenuIcon.Expression),
+	Text("Text", ContextMenuIcon.Text),
+	Help("Help", ContextMenuIcon.Help);
 
 	private final String translationKey;
-	private final ContextMenuItem.Icon icon;
+	private final ContextMenuIcon icon;
 
-	InputContextMenuItem(String translationKey, Icon icon) {
+	InputContextMenuItem(String translationKey, ContextMenuIcon icon) {
 		this.translationKey = translationKey;
 		this.icon = icon;
 	}
@@ -25,7 +25,7 @@ public enum InputContextMenuItem implements ContextMenuItem {
 	}
 
 	@Override
-	public Icon getIcon() {
+	public ContextMenuIcon getIcon() {
 		return icon;
 	}
 }
