@@ -770,12 +770,18 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 	}
 
+	/**
+	 * Remove all custom heights
+	 */
 	public void clearHeights() {
 		if (heightMap != null) {
 			heightMap.clear();
 		}
 	}
 
+	/**
+	 * Remove all custom widths
+	 */
 	public void clearWidths() {
 		if (widthMap != null) {
 			widthMap.clear();

@@ -38,7 +38,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	// ggb fields
 	protected AppW app;
-	private Kernel kernel;
+	private final Kernel kernel;
 
 	// spreadsheet table and row header
 	MyTableW table;
@@ -57,9 +57,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	// current toolbar mode
 	private int mode = -1;
-
-	boolean repaintScheduled = false; // to repaint less often, make it
-										// quicker
 
 	// panel that contains the spreadsheet table and headers
 	private AbsolutePanel spreadsheet;
