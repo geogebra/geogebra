@@ -56,8 +56,8 @@ public final class AttributedString {
         return ranges == null ? null : Collections.unmodifiableSet(ranges);
     }
 
-    @Override
-    public String toString() {
+    @Nonnull
+    public String getRawValue() {
         return rawValue;
     }
 
