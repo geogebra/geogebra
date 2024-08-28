@@ -9112,7 +9112,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// check if side of bounding box was hit
 		wasBoundingBoxHit = view.getBoundingBox() != null
-				&& view.getBoundingBox().hitSideOfBoundingBox(event.getX(),
+				&& view.getBoundingBox().hit(event.getX(),
 						event.getY(), app.getCapturingThreshold(event.getType()));
 
 		view.getBoundingBoxHandlerHit(new GPoint(event.getX(), event.getY()), event.getType());
