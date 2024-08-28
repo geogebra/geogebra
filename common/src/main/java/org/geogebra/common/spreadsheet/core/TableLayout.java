@@ -1,6 +1,7 @@
 package org.geogebra.common.spreadsheet.core;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.geogebra.common.util.MouseCursor;
@@ -157,23 +158,25 @@ public final class TableLayout implements CustomRowAndColumnSizeProvider {
 	}
 
 	@Override
-	public void getCustomColumnWidths(Map<Integer, Integer> widths) {
-		widths.clear();
+	public Map<Integer, Integer> getCustomColumnWidths() {
+		Map<Integer, Integer> widths = new HashMap<>();
 		for (int i = 0; i < columnWidths.length; i++) {
 			if (columnWidths[i] != DEFAULT_CELL_WIDTH) {
 				widths.put(i, (int) columnWidths[i]);
 			}
 		}
+		return widths;
 	}
 
 	@Override
-	public void getCustomRowHeights(Map<Integer, Integer> heights) {
-		heights.clear();
+	public Map<Integer, Integer> getCustomRowHeights() {
+		Map<Integer, Integer> heights = new HashMap<>();
 		for (int i = 0; i < rowHeights.length; i++) {
 			if (rowHeights[i] != DEFAULT_CELL_HEIGHT) {
 				heights.put(i, (int) rowHeights[i]);
 			}
 		}
+		return heights;
 	}
 
 	void dimensionsDidChange(SpreadsheetDimensions dimensions) {

@@ -8,12 +8,12 @@ import java.util.Map;
 public interface CustomRowAndColumnSizeProvider {
 
 	/**
-	 * @param widths output map column=>width containing all widths that are not the default
+	 * @return map column=>width containing all widths that are not the default
 	 */
-	void getCustomColumnWidths(Map<Integer, Integer> widths);
+	Map<Integer, Integer> getCustomColumnWidths();
 
 	/**
-	 * @param heights output map row=>height containing all heights that are not the default
+	 * @return map row=>height containing all heights that are not the default
 	 */
-	void getCustomRowHeights(Map<Integer, Integer> heights);
+	Map<Integer, Integer> getCustomRowHeights();
 }

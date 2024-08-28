@@ -2,6 +2,7 @@ package org.geogebra.common.main.settings;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.geogebra.common.awt.GDimension;
@@ -36,8 +37,8 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	private boolean enableAutoComplete = Defaults.ENABLE_AUTOCOMPLETE;
 
 	// row and column size
-	private HashMap<Integer, Integer> widthMap;
-	private HashMap<Integer, Integer> heightMap;
+	private Map<Integer, Integer> widthMap;
+	private Map<Integer, Integer> heightMap;
 	private int preferredColumnWidth = TABLE_CELL_WIDTH;
 	private int preferredRowHeight = TABLE_CELL_HEIGHT;
 
@@ -96,7 +97,7 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	}
 
 	@Override
-	public HashMap<Integer, Integer> getWidthMap() {
+	public Map<Integer, Integer> getWidthMap() {
 		if (widthMap == null) {
 			widthMap = new HashMap<>();
 		}
@@ -131,7 +132,7 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	}
 
 	@Override
-	public HashMap<Integer, Integer> getHeightMap() {
+	public Map<Integer, Integer> getHeightMap() {
 		if (heightMap == null) {
 			heightMap = new HashMap<>();
 		}
@@ -740,11 +741,11 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	 */
 	public void getWidthsAndHeightsXML(StringBuilder sb) {
 		if (customRowAndColumnSizeProvider != null) {
-			customRowAndColumnSizeProvider.getCustomColumnWidths(widthMap);
-			customRowAndColumnSizeProvider.getCustomRowHeights(heightMap);
+			widthMap = customRowAndColumnSizeProvider.getCustomColumnWidths();
+			heightMap = customRowAndColumnSizeProvider.getCustomRowHeights();
 		}
 		// column widths
-		HashMap<Integer, Integer> widthMap1 = getWidthMap();
+		Map<Integer, Integer> widthMap1 = getWidthMap();
 		for (Entry<Integer, Integer> entry : widthMap1.entrySet()) {
 			Integer col = entry.getKey();
 			int colWidth = entry.getValue();
@@ -755,7 +756,7 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 		}
 
 		// row heights
-		HashMap<Integer, Integer> heightMap1 = getHeightMap();
+		Map<Integer, Integer> heightMap1 = getHeightMap();
 		for (Entry<Integer, Integer> entry : heightMap1.entrySet()) {
 			Integer row = entry.getKey();
 			int rowHeight = entry.getValue();
@@ -804,8 +805,8 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 		this.columns  = columns;
 	}
 
-	public void setRowAndColumnSizeProvider(CustomRowAndColumnSizeProvider layout) {
-		this.customRowAndColumnSizeProvider = layout;
+	public void setCustomRowAndColumnSizeProvider(CustomRowAndColumnSizeProvider provider) {
+		this.customRowAndColumnSizeProvider = provider;
 	}
 
 }

@@ -38,7 +38,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		if (undoProvider != null) {
 			controller.setUndoProvider(undoProvider);
 		}
-		tabularData.setPersistenceListener(controller.getLayout());
+		tabularData.setCustomRowAndColumnSizeProvider(controller.getLayout());
 	}
 
 	// layout

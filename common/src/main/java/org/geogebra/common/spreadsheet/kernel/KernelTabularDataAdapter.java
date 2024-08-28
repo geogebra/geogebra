@@ -272,8 +272,8 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public void setPersistenceListener(CustomRowAndColumnSizeProvider layout) {
-		spreadsheetSettings.setRowAndColumnSizeProvider(layout);
+	public void setCustomRowAndColumnSizeProvider(CustomRowAndColumnSizeProvider provider) {
+		spreadsheetSettings.setCustomRowAndColumnSizeProvider(provider);
 	}
 
 	@Override
