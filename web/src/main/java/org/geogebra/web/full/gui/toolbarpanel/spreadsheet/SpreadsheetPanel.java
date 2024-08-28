@@ -225,7 +225,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	}
 
 	private void repaint() {
-		graphics.restoreTransform();
+		double ratio = app.getPixelRatio();
+		graphics.getContext().setTransform2(ratio, 0, 0, ratio, 0, 0);
 		spreadsheet.draw(graphics);
 	}
 
