@@ -17,7 +17,7 @@ import org.geogebra.web.html5.main.AppW;
 
 public class TopbarController {
 	private final AppW appW;
-	private ZoomController zoomController;
+	private final ZoomController zoomController;
 	private final EuclidianView view;
 	private ContextMenuGraphicsWindowW settingsContextMenu;
 
@@ -163,9 +163,7 @@ public class TopbarController {
 		if (settingsContextMenu == null) {
 			settingsContextMenu = new ContextMenuGraphicsWindowW(appW, 0, 0, false);
 			getSettingsContextMenu().setAutoHideEnabled(false);
-			getSettingsContextMenu().addCloseHandler(event -> {
-				anchor.setActive(false);
-			});
+			getSettingsContextMenu().addCloseHandler(event -> anchor.setActive(false));
 		}
 	}
 
@@ -174,8 +172,9 @@ public class TopbarController {
 		if (settingsShowing) {
 			settingsContextMenu.getWrappedPopup().hide();
 		} else {
-			appW.registerPopup(getSettingsContextMenu());
 			showAndFocusMenuRelativeTo(anchor);
+			appW.closePopups();
+			appW.registerPopup(getSettingsContextMenu());
 		}
 		anchor.setActive(!settingsShowing);
 	}
