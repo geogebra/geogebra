@@ -129,7 +129,7 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 		TableValuesContextMenuItem item = Statistics1.toContextMenuItem(new String[]{ "y_{1}" });
 		AttributedString title = item.getLocalizedTitle(getLocalization());
 
-		assertEquals("y1 Statistics", title.toString());
+		assertEquals("y1 Statistics", title.getRawValue());
 		assertEquals(
 				Set.of(new Range(1, 2)),
 				title.getAttribute(AttributedString.Attribute.Subscript)
@@ -142,7 +142,7 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 				new String[] { "y_{1} value_{subscript}"});
 		AttributedString title = item.getLocalizedTitle(getLocalization());
 
-		assertEquals("y1 valuesubscript Statistics", title.toString());
+		assertEquals("y1 valuesubscript Statistics", title.getRawValue());
 		assertEquals(
 				Set.of(new Range(1, 2), new Range(8, 17)),
 				title.getAttribute(AttributedString.Attribute.Subscript)
