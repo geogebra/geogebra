@@ -1,12 +1,16 @@
-package org.geogebra.common.kernel.cas;
+package org.geogebra.common.spreadsheet.kernel;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.spreadsheet.kernel.DefaultSpreadsheetCellProcessor;
-import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
+import org.geogebra.common.plugin.GeoClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,5 +45,16 @@ public class DefaultSpreadsheetCellProcessorSymbolicTest extends BaseSymbolicTes
 		processor.process("A1 + A2", "A3");
 		assertFalse("Numbers should not be locked in Spreadsheet CAS", lookup("A3")
 				.isLocked());
+	}
+
+	@Test
+	public void testInvalidInput() {
+		processor.process("=atan", "A1");
+		assertThat(lookup("A1").getGeoClassType(), equalTo(GeoClass.SYMBOLIC));
+		processor.process("=1+", "A2");
+		assertThat(lookup("A2").getGeoClassType(), equalTo(GeoClass.NUMERIC));
+		AlgoElement parentAlgorithm = lookup("A2").getParentAlgorithm();
+		assertNotNull(parentAlgorithm);
+		assertThat(parentAlgorithm.getClassName(), equalTo(Commands.ParseToNumber));
 	}
 }
