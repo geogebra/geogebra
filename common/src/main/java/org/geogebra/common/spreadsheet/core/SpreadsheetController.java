@@ -918,11 +918,14 @@ public final class SpreadsheetController {
 		}
 		if (cellDragPasteHandler != null
 				&& cellDragPasteHandler.getDragPasteDestinationRange() != null) {
+			double oldViewportX = viewport.getMinX();
+			double oldViewportY = viewport.getMinY();
 			viewport = viewportAdjuster.scrollForDrag(
 					lastPointerPositionX, lastPointerPositionY, viewport,
 					cellDragPasteHandler.destinationShouldExtendVertically(
 							findRowOrHeader(lastPointerPositionY)));
-			setDestinationForDragPaste(viewport.getMinX(), viewport.getMinY());
+			setDestinationForDragPaste(lastPointerPositionX + viewport.getMinX() - oldViewportX,
+					lastPointerPositionY + viewport.getMinY() - oldViewportY);
 		} else if (autoscrollRow  || autoscrollColumn) {
 			viewport = viewportAdjuster.scrollForDrag(
 					lastPointerPositionX, lastPointerPositionY, viewport,
