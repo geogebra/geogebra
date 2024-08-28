@@ -3,15 +3,14 @@ package org.geogebra.web.html5.main;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.gwtutil.Cookies;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.util.BrowserStorage;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.Node;
 import elemental2.dom.URLSearchParams;
+import elemental2.promise.Promise;
 import jsinterop.base.Js;
 
 public class UserPreferredLanguage {
@@ -23,24 +22,25 @@ public class UserPreferredLanguage {
 	 * @param app {@link AppW}
 	 * @return the preferred language.
 	 */
-	public static String get(AppW app) {
+	public static Promise<String> get(AppW app) {
 		LogInOperation op = app.getLoginOperation();
 		boolean loggedIn = op != null && op.isLoggedIn();
 		if (loggedIn) {
 			String userLang = op.getUserLanguage();
 			if (!StringUtil.empty(userLang)) {
-				return userLang;
+				return Promise.resolve(userLang);
 			}
 		}
 
-		String cookieLang = Cookies.getCookie("GeoGebraLangUI");
-		if (!StringUtil.empty(cookieLang)) {
-			return cookieLang;
-		}
+		Promise<String> storedLang = app.getLAF() == null
+				? Promise.resolve((String) null) : app.getLAF().loadLanguage();
+		return storedLang.then(lang ->
+				Promise.resolve(getFallbackLanguage(lang, app, loggedIn)));
+	}
 
-		String storageLang = BrowserStorage.LOCAL.getItem("GeoGebraLangUI");
-		if (!StringUtil.empty(storageLang)) {
-			return storageLang;
+	private static String getFallbackLanguage(String lang, AppW app, boolean loggedIn) {
+		if (!StringUtil.empty(lang)) {
+			return lang;
 		}
 
 		String urlLang = app.getAppletParameters().getDataParamApp()
@@ -57,7 +57,7 @@ public class UserPreferredLanguage {
 
 		return Browser.navigatorLanguage();
 	}
-	
+
 	/**
 	 * Translates an element recursively using data-trans-key attribute.
 	 * 

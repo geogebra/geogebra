@@ -168,7 +168,10 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 
 		IconButton selectButton = new IconButton(MODE_SELECT_MOW, appW,
 				MaterialDesignResources.INSTANCE.mouse_cursor(),
-				() -> appW.setMode(MODE_SELECT_MOW));
+				() -> {
+			appW.setMode(MODE_SELECT_MOW);
+			appW.closePopups();
+		});
 		add(selectButton);
 		buttons.add(selectButton);
 	}

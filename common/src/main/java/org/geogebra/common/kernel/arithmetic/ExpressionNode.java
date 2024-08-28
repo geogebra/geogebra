@@ -2544,6 +2544,7 @@ public class ExpressionNode extends ValidExpression
 			break;
 
 		case PLUS:
+		case INVISIBLE_PLUS:
 			return wrap(left.integral(fv, kernel0))
 					.plus(right.integral(fv, kernel0));
 		case MINUS:
@@ -2891,7 +2892,7 @@ public class ExpressionNode extends ValidExpression
 			if (en.left.isNumberValue() && !en.left.contains(fv)) {
 				// strip off the "+1" etc
 				ev = en.right;
-				factor = op.equals(Operation.PLUS) ? 1 : -1;
+				factor = op.equals(Operation.MINUS) ? -1 : 1;
 			} else if (en.right.isNumberValue() && !en.right.contains(fv)) {
 				// strip off the "+1" etc
 				ev = en.left;

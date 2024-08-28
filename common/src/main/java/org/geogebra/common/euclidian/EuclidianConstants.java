@@ -1,7 +1,5 @@
 package org.geogebra.common.euclidian;
 
-import org.geogebra.common.util.debug.Log;
-
 /**
  * Mode numbers
  */
@@ -366,12 +364,6 @@ public final class EuclidianConstants {
 	public static final int MODE_SPREADSHEET_TWOVARSTATS = 2021;
 	/** Multiple Variable Analysis */
 	public static final int MODE_SPREADSHEET_MULTIVARSTATS = 2022;
-	/** Sort cells */
-	public static final int MODE_SPREADSHEET_SORT = 2030;
-	/** Sort cells increasingly */
-	public static final int MODE_SPREADSHEET_SORT_AZ = 2031;
-	/** Sort cells decreasingly */
-	public static final int MODE_SPREADSHEET_SORT_ZA = 2032;
 
 	/** Sum */
 	public static final int MODE_SPREADSHEET_SUM = 2040;
@@ -392,8 +384,6 @@ public final class EuclidianConstants {
 	public static final int MODE_SHAPE_SQUARE = 103;
 	/** Rectangle */
 	public static final int MODE_SHAPE_RECTANGLE = 104;
-	/** Rounded rectangle */
-	public static final int MODE_SHAPE_RECTANGLE_ROUND_EDGES = 105;
 	/** Regular polygon */
 	public static final int MODE_SHAPE_PENTAGON = 106;
 	/** Freeform TODO same as normal polygon? */
@@ -512,7 +502,7 @@ public final class EuclidianConstants {
 			return "Plane.Tool";
 
 		case EuclidianConstants.MODE_ORTHOGONAL_PLANE:
-			return "OrthogonalPlane";
+			return "PerpendicularPlane";
 
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
 			return "ParallelPlane";
@@ -566,7 +556,7 @@ public final class EuclidianConstants {
 			return "Volume";
 
 		case EuclidianConstants.MODE_MIRROR_AT_PLANE:
-			return "MirrorAtPlane";
+			return "ReflectAboutPlane";
 
 		case EuclidianConstants.MODE_ROTATE_AROUND_LINE:
 			return "RotateAroundLine";
@@ -605,7 +595,7 @@ public final class EuclidianConstants {
 			return "Polygon.Tool";
 
 		case EuclidianConstants.MODE_POLYLINE:
-			return "PolyLine.Tool";
+			return "Polyline.Tool";
 
 		case EuclidianConstants.MODE_RIGID_POLYGON:
 			return "RigidPolygon";
@@ -614,25 +604,25 @@ public final class EuclidianConstants {
 			return "VectorPolygon";
 
 		case EuclidianConstants.MODE_PARALLEL:
-			return "Parallel";
+			return "ParallelLine";
 
 		case EuclidianConstants.MODE_ORTHOGONAL:
-			return "Orthogonal";
+			return "PerpendicularLine";
 
 		case EuclidianConstants.MODE_INTERSECT:
 			return "Intersect";
 
 		case EuclidianConstants.MODE_INTERSECTION_CURVE:
-			return "IntersectionCurve";
+			return "IntersectTwoSurfaces";
 
 		case EuclidianConstants.MODE_LINE_BISECTOR:
-			return "LineBisector";
+			return "PerpendicularBisector";
 
 		case EuclidianConstants.MODE_ANGULAR_BISECTOR:
-			return "AngularBisector";
+			return "AngleBisector";
 
 		case EuclidianConstants.MODE_TANGENTS:
-			return "Tangent";
+			return "Tangents";
 
 		case EuclidianConstants.MODE_POLAR_DIAMETER:
 			return "PolarDiameter";
@@ -644,17 +634,17 @@ public final class EuclidianConstants {
 			return "Circle3";
 
 		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
-			return "Ellipse3";
+			return "Ellipse.Tool";
 
 		case EuclidianConstants.MODE_PARABOLA:
 			return "Parabola.Tool";
 
 		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
-			return "Hyperbola3";
+			return "Hyperbola.Tool";
 
 		// Michael Borcherds 2008-03-13
 		case EuclidianConstants.MODE_COMPASSES:
-			return "Compasses";
+			return "Compass";
 
 		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
 			return "Conic5";
@@ -663,7 +653,7 @@ public final class EuclidianConstants {
 			return "Relation";
 
 		case EuclidianConstants.MODE_TRANSLATEVIEW:
-			return "TranslateView";
+			return "MoveGraphicsView";
 
 		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
 			return "ShowHideObject";
@@ -694,34 +684,34 @@ public final class EuclidianConstants {
 			return "Semicircle.Tool";
 
 		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
-			return "CircleArc3";
+			return "CircularArc";
 
 		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
-			return "CircleSector3";
+			return "CircularSector";
 
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
-			return "CircumcircleArc3";
+			return "CircumcircularArc";
 
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-			return "CircumcircleSector3";
+			return "CircumcircularSector";
 
 		case EuclidianConstants.MODE_SLIDER:
 			return "Slider.Tool";
 
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-			return "MirrorAtPoint";
+			return "ReflectAboutPoint";
 
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-			return "MirrorAtLine";
+			return "ReflectAboutLine";
 
 		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE:
-			return "MirrorAtCircle";
+			return "ReflectAboutCircle";
 
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 			return "TranslateByVector";
 
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			return "RotateByAngle";
+			return "RotateAroundPoint";
 
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
 			return "DilateFromPoint";
@@ -742,7 +732,7 @@ public final class EuclidianConstants {
 			return "Distance";
 
 		case EuclidianConstants.MODE_MOVE_ROTATE:
-			return "MoveRotate";
+			return "MoveAroundPoint";
 
 		case EuclidianConstants.MODE_ZOOM_IN:
 			return "ZoomIn.Tool";
@@ -763,13 +753,13 @@ public final class EuclidianConstants {
 			return "RegularPolygon";
 
 		case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
-			return "ShowCheckBox";
+			return "CheckBox";
 
 		case EuclidianConstants.MODE_BUTTON_ACTION:
-			return "ButtonAction";
+			return "Button.Tool";
 
 		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
-			return "TextFieldAction";
+			return "InputBox";
 
 		case EuclidianConstants.MODE_PEN:
 			return "Pen";
@@ -790,7 +780,7 @@ public final class EuclidianConstants {
 			return "FitLine";
 
 		case EuclidianConstants.MODE_CREATE_LIST:
-			return "CreateList";
+			return "List.Tool";
 
 		case EuclidianConstants.MODE_PROBABILITY_CALCULATOR:
 			return "ProbabilityCalculator";
@@ -842,34 +832,34 @@ public final class EuclidianConstants {
 			return "MultiVarStats";
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
-			return "CreateList";
+			return "List.Tool";
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS:
-			return "CreateListOfPoints";
+			return "ListOfPoints";
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX:
-			return "CreateMatrix";
+			return "Matrix.Tool";
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT:
-			return "CreateTable";
+			return "Table.Tool";
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE:
 			return "CreatePolyLine";
 
 		case EuclidianConstants.MODE_SPREADSHEET_SUM:
-			return "SumCells";
+			return "Sum.Tool";
 
 		case EuclidianConstants.MODE_SPREADSHEET_AVERAGE:
-			return "MeanCells";
+			return "Mean.Tool";
 
 		case EuclidianConstants.MODE_SPREADSHEET_COUNT:
-			return "CountCells";
+			return "Count.Tool";
 
 		case EuclidianConstants.MODE_SPREADSHEET_MIN:
-			return "MinCells";
+			return "Minimum";
 
 		case EuclidianConstants.MODE_SPREADSHEET_MAX:
-			return "MaxCells";
+			return "Maximum";
 
 		case EuclidianConstants.MODE_EXTREMUM:
 			return "Extremum";
@@ -886,8 +876,6 @@ public final class EuclidianConstants {
 			return "ShapeSquare";
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
 			return "ShapeRectangle";
-		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
-			return "ShapeRoundedRectangle";
 		case EuclidianConstants.MODE_SHAPE_PENTAGON:
 			return "Pentagon";
 		case EuclidianConstants.MODE_SHAPE_FREEFORM:
@@ -937,7 +925,6 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
 			return "TriangleProtractor";
 		default:
-			Log.error("Unknown mode " + mode);
 			return "";
 		}
 	}
@@ -985,8 +972,118 @@ public final class EuclidianConstants {
 		}
 	}
 
+	/**
+	 * @param mode tool ID
+	 * @return whether given tool is only available in Notes app
+	 */
+	public static boolean isNotesTool(int mode) {
+		switch (mode) {
+		case EuclidianConstants.MODE_MASK:
+		case EuclidianConstants.MODE_MIND_MAP:
+		case EuclidianConstants.MODE_RULER:
+		case EuclidianConstants.MODE_PROTRACTOR:
+		case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
+		case EuclidianConstants.MODE_VIDEO:
+		case EuclidianConstants.MODE_AUDIO:
+		case EuclidianConstants.MODE_CALCULATOR:
+		case EuclidianConstants.MODE_EXTENSION:
+		case EuclidianConstants.MODE_H5P:
+		case EuclidianConstants.MODE_TABLE:
+		case EuclidianConstants.MODE_EQUATION:
+		case EuclidianConstants.MODE_CAMERA:
+		case EuclidianConstants.MODE_PDF:
+		case EuclidianConstants.MODE_GRASPABLE_MATH:
+		// these do have icons
+		case EuclidianConstants.MODE_HIGHLIGHTER:
+		case EuclidianConstants.MODE_ERASER:
+		case EuclidianConstants.MODE_SHAPE_CIRCLE:
+		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
+		case EuclidianConstants.MODE_SHAPE_FREEFORM:
+		case EuclidianConstants.MODE_SHAPE_PENTAGON:
+		case EuclidianConstants.MODE_SHAPE_LINE:
+		case EuclidianConstants.MODE_SHAPE_SQUARE:
+		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
+		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
+		case EuclidianConstants.MODE_SELECT_MOW:
+			return true;
+		default: return false;
+		}
+	}
+
 	// prevent instantiation
 	private EuclidianConstants() {
 	}
 
+	/**
+	 * @param mode mode ID
+	 * @return name of the manual page for given tool
+	 */
+	public static String getModeHelpPageSimple(int mode) {
+		switch (mode) {
+			case MODE_JOIN:
+				return "Line"; // Join
+			case MODE_CIRCLE_TWO_POINTS:
+				return "Circle_with_Center_through_Point"; // Circle2
+			case MODE_CIRCLE_THREE_POINTS:
+				return "Circle_through_3_Points"; // Circle3
+			case MODE_CONIC_FIVE_POINTS:
+				return "Conic_through_5_Points"; // Conic5
+			case MODE_MIDPOINT:
+				return "Midpoint_or_Center"; // Midpoint.Tool
+			case MODE_SEMICIRCLE:
+				return "Semicircle_through_2_Points"; // Semicircle.Tool
+			case MODE_CIRCLE_POINT_RADIUS:
+				return "Circle_with_Center_and_Radius"; // CirclePointRadius
+			case MODE_DISTANCE:
+				return "Distance_or_Length"; // Distance
+			case MODE_SELECTION_LISTENER:
+				return "Select_Objects"; // Select
+			case MODE_POLAR_DIAMETER:
+				return "Polar_or_Diameter_Line"; // PolarDiameter
+			case MODE_SEGMENT_FIXED:
+				return "Segment_with_Given_Length"; // SegmentFixed
+			case MODE_ANGLE_FIXED:
+				return "Angle_with_Given_Size"; // AngleFixed
+			case MODE_FITLINE:
+				return "Best_Fit_Line"; // FitLine
+			case MODE_SELECT:
+				return "Select_Objects"; // Select
+			case MODE_PLANE_THREE_POINTS:
+				return "Plane_through_3_Points"; // PlaneThreePoint
+			case MODE_ORTHOGONAL_THREE_D:
+				return "Perpendicular_Line"; // OrthogonalThreeD
+			case MODE_SPHERE_POINT_RADIUS:
+				return "Sphere_with_Center_and_Radius"; // SpherePointRadius
+			case MODE_SPHERE_TWO_POINTS:
+				return "Sphere_with_Center_through_Point"; // Sphere2
+			case MODE_EXTRUSION:
+				return "Extrude_to_Prism_or_Cylinder"; // Extrusion
+			case MODE_CONIFY:
+				return "Extrude_to_Pyramid_or_Cone"; // Conify
+			case MODE_TETRAHEDRON:
+				return "Regular_Tetrahedron"; // Tetrahedron
+			case MODE_ROTATEVIEW:
+				return "Rotate_3D_Graphics_View"; // RotateView
+			case MODE_CIRCLE_POINT_RADIUS_DIRECTION:
+				return "Circle_with_Center_Radius_and_Direction"; // CirclePointRadiusDirection
+			case MODE_CIRCLE_AXIS_POINT:
+				return "Circle_with_Axis_through_Point"; // CircleAxisPoint
+			case MODE_CAS_NUMERICAL_SOLVE:
+				return "Solve_Numerically"; // NSolve
+			case MODE_SPREADSHEET_CREATE_POLYLINE:
+				return "Polyline"; // CreatePolyLine
+			case MODE_SPREADSHEET_ONEVARSTATS:
+				return "One_Variable_Analysis"; // OneVarStats
+			case MODE_SPREADSHEET_TWOVARSTATS:
+				return "Two_Variable_Regression_Analysis"; // TwoVarStats
+			case MODE_SPREADSHEET_MULTIVARSTATS:
+				return "Multiple_Variable_Analysis"; // MultiVarStats
+			default: return getModeTextSimple(mode)
+					.replaceAll("(.)([A-Z])", "$1_$2").replace("_/_", "_");
+		}
+	}
+
+	public static String getHelpTransKey(int mode) {
+		return EuclidianConstants.getModeTextSimple(mode) + ".Help";
+	}
 }

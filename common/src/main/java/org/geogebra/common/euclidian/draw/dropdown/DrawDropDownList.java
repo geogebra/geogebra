@@ -506,9 +506,11 @@ public final class DrawDropDownList extends CanvasDrawable
 	/**
 	 * @param delta
 	 *            wheel scroll value; only sign matters
+	 * @return whether scrolling is allowed
 	 */
-	public void onMouseWheel(double delta) {
+	public boolean onMouseWheel(double delta) {
 		scroller.scroll(delta > 0 ? DropDownScrollMode.DOWN : DropDownScrollMode.UP);
+		return scroller.isActive();
 	}
 
 	@Override

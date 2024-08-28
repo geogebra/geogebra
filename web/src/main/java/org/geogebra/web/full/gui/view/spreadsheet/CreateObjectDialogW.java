@@ -91,27 +91,6 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 	}
 
 	/**
-	 * @param  objectType - type of object
-	 * @return title
-	 */
-	public String getTitle(int objectType) {
-		switch (objectType) {
-		default:
-			return null;
-		case 0:
-			return "CreateList";
-		case 1:
-			return "CreateListOfPoints";
-		case 3:
-			return "CreateTable";
-		case 4:
-			return "CreatePolyLine";
-		case 2:
-			return "CreateMatrix";
-		}
-	}
-
-	/**
 	 * Change object type in model
 	 */
 	void objectTypeChanged() {

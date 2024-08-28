@@ -66,7 +66,7 @@ public class CmdSetColor extends CmdScripting {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		c.getArgument(0).resolveVariables(argInfo);
-		target = resArg(c.getArgument(0), argInfo)[0];
+		target = resArg(c.getArgument(0), argInfo);
 		cons.setSuppressLabelCreation(oldMacroMode);
 
 		switch (n) {
@@ -152,9 +152,9 @@ public class CmdSetColor extends CmdScripting {
 
 		try {
 			cons.setSuppressLabelCreation(true);
-			GeoElement r = resArg(c.getArgument(offset), argInfo)[0];
-			GeoElement g = resArg(c.getArgument(offset + 1), argInfo)[0];
-			GeoElement b = resArg(c.getArgument(offset + 2), argInfo)[0];
+			GeoElement r = resArg(c.getArgument(offset), argInfo);
+			GeoElement g = resArg(c.getArgument(offset + 1), argInfo);
+			GeoElement b = resArg(c.getArgument(offset + 2), argInfo);
 
 			int red, blue, green;
 			if (r.isNumberValue()) {
@@ -189,14 +189,14 @@ public class CmdSetColor extends CmdScripting {
 			// resolve second argument
 			cons.setSuppressLabelCreation(true);
 			args[offset].resolveVariables(argInfo);
-			color = resArg(args[offset], argInfo)[0];
+			color = resArg(args[offset], argInfo);
 
 		} catch (Error e) {
-		// if there's a problem with the second argument, just wrap in
-		// quotes in case it's a color
-		// eg SetColor[A,blue] rather than SetColor[A,"blue"]
-		color = new GeoText(cons,
-				args[offset].toString(StringTemplate.defaultTemplate));
+			// if there's a problem with the second argument, just wrap in
+			// quotes in case it's a color
+			// eg SetColor[A,blue] rather than SetColor[A,"blue"]
+			color = new GeoText(cons,
+					args[offset].toString(StringTemplate.defaultTemplate));
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}

@@ -13,6 +13,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.UserPreferredLanguage;
 
 import jsinterop.base.JsPropertyMap;
 
@@ -77,23 +78,21 @@ public class LoadFilePresenter {
 		if (view.getDataParamEnableUndoRedo()) {
 			if (showToolBar || showMenuBar) {
 				undoRedoMode = UndoRedoMode.GUI;
-			} else if (app.getScriptManager()
-					.getStoreUndoListeners().size() > 0) {
+			} else if (!app.getScriptManager()
+					.getStoreUndoListeners().isEmpty()) {
 				undoRedoMode = UndoRedoMode.EXTERNAL;
 			}
 		}
 		String language = view.getDataParamLanguage();
 		if (StringUtil.empty(language)) {
-			language = app.getLanguageFromCookie();
-		}
-
-		if (language != null) {
-			String country = view.getDataParamCountry();
-			if (StringUtil.empty(country)) {
-				app.setLanguage(language);
-			} else {
-				app.setLanguage(language, country);
-			}
+			UserPreferredLanguage.get(app).then(lang -> {
+				if (lang != null) {
+					setAppLanguage(app, view, lang);
+				}
+				return null;
+			});
+		} else {
+			setAppLanguage(app, view, language);
 		}
 		app.setUseBrowserForJavaScript(view.getDataParamUseBrowserForJS());
 		app.setLabelDragsEnabled(view.getDataParamEnableLabelDrags());
@@ -126,6 +125,17 @@ public class LoadFilePresenter {
 		app.getLocalization().setUseLocalizedDigits(view.getParamUseLocalizedDigits(), app);
 		app.getLocalization().setUseLocalizedLabels(view.getParamUseLocalizedPointNames());
 
+	}
+
+	private void setAppLanguage(AppW app, AppletParameters view, String language) {
+		if (language != null) {
+			String country = view.getDataParamCountry();
+			if (StringUtil.empty(country)) {
+				app.setLanguage(language);
+			} else {
+				app.setLanguage(language, country);
+			}
+		}
 	}
 
 	/**

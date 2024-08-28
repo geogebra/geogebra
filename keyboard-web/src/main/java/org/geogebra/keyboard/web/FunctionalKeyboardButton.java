@@ -9,11 +9,11 @@ import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.user.client.ui.Image;
 
 /**
- * A KeyBoardButton with functional character. This button doesn't insert a
+ * A keyboard button with functional character. This button doesn't insert a
  * character or anything else, this button performs an action.
  * 
  */
-public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
+public class FunctionalKeyboardButton extends BaseKeyboardButton {
 
 	/**
 	 * the possible actions for a functional button
@@ -39,7 +39,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 * @param altText
 	 *            alternate text for icon
 	 */
-	public KeyBoardButtonFunctionalBase(SVGResource image,
+	public FunctionalKeyboardButton(SVGResource image,
 			ButtonHandler handler,
 			Action action, LocalizationI loc, String altText) {
 		super(handler);
@@ -67,7 +67,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 * @param altText
 	 *            alternate text for icon
 	 */
-	public KeyBoardButtonFunctionalBase(ImageResource image,
+	public FunctionalKeyboardButton(ImageResource image,
 			String feedback, ButtonHandler handler, LocalizationI loc,
 			String altText) {
 		super(handler);
@@ -89,7 +89,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 * @param altText
 	 *            alternate text for icon
 	 */
-	public KeyBoardButtonFunctionalBase(SVGResource svg, String feedback,
+	public FunctionalKeyboardButton(SVGResource svg, String feedback,
 			ButtonHandler handler, LocalizationI loc,
 			String altText) {
 		super(handler);
@@ -115,7 +115,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 * @param action
 	 *            {@link Action}
 	 */
-	public KeyBoardButtonFunctionalBase(String caption, ButtonHandler handler,
+	public FunctionalKeyboardButton(String caption, ButtonHandler handler,
 			Action action) {
 		super(caption, caption, handler);
 		this.action = action;
