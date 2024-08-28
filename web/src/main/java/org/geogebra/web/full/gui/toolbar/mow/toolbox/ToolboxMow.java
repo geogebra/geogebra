@@ -1,33 +1,10 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox;
 
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_AUDIO;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_CALCULATOR;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_CAMERA;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_EXTENSION;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_GRASPABLE_MATH;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_H5P;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_IMAGE;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MASK;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MIND_MAP;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PDF;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_CIRCLE;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_ELLIPSE;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_FREEFORM;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_LINE;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_PENTAGON;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_RECTANGLE;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_SQUARE;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_TRIANGLE;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TABLE;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_VIDEO;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.annotation.CheckForNull;
 
@@ -53,17 +30,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	private final ToolboxDecorator decorator;
 	private final ToolboxController controller;
 	private @CheckForNull IconButton spotlightButton;
-	private @CheckForNull IconButton selectButton;
 	private final List<IconButton> buttons = new ArrayList<>();
-	private final static List<Integer> uploadCategory = Arrays.asList(MODE_IMAGE, MODE_CAMERA,
-			MODE_PDF);
-	private final static List<Integer> linkCategory = Arrays.asList(
-			MODE_EXTENSION, MODE_VIDEO, MODE_AUDIO);
-	private final static List<Integer> shapeCategory = Arrays.asList(MODE_SHAPE_RECTANGLE,
-			MODE_SHAPE_SQUARE , MODE_SHAPE_TRIANGLE , MODE_SHAPE_CIRCLE , MODE_SHAPE_ELLIPSE,
-			MODE_SHAPE_PENTAGON, MODE_SHAPE_LINE, MODE_SHAPE_FREEFORM, MODE_MASK);
-	private final static List<Integer> appsCategory = Arrays.asList(
-			MODE_CALCULATOR, MODE_MIND_MAP, MODE_TABLE);
 
 	/**
 	 * MOW toolbox
@@ -99,15 +66,6 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	private boolean shouldAddDivider() {
 		return appW.isToolboxCategoryEnabled(ToolboxCategory.SPOTLIGHT.getName())
 				|| appW.isToolboxCategoryEnabled(ToolboxCategory.RULER.getName());
-	}
-
-	private IconButton addPressButton(SVGResource image, String ariaLabel, String dataTest,
-			Runnable onHandler) {
-		IconButton iconButton = new IconButton(appW, image, ariaLabel, ariaLabel, dataTest,
-				onHandler);
-		add(iconButton);
-		buttons.add(iconButton);
-		return iconButton;
 	}
 
 	private IconButton addToggleButton(SVGResource image, String ariaLabel, String dataTitle,
@@ -189,7 +147,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		}
 
 		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.upload(), "Upload",
-				uploadCategory);
+				ToolboxConstants.uploadCategory);
 	}
 
 	private void addLinkButton() {
@@ -197,14 +155,10 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 			return;
 		}
 
-		List<Integer> linkTools = appW.getVendorSettings().isH5PEnabled()
-				? concat(linkCategory, MODE_H5P) : linkCategory;
+		List<Integer> linkTools = ToolboxConstants.getLinkCategory(
+				appW.getVendorSettings().isH5PEnabled());
 		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.resource_card_shared(),
 				"Link", linkTools);
-	}
-
-	private List<Integer> concat(List<Integer> tools, int tool) {
-		return Stream.concat(tools.stream(), Stream.of(tool)).collect(Collectors.toList());
 	}
 
 	private void addSelectModeButton() {
@@ -212,12 +166,14 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 			return;
 		}
 
-		selectButton = addPressButton(MaterialDesignResources.INSTANCE.mouse_cursor(),
-				appW.getToolName(MODE_SELECT_MOW), appW.getToolName(MODE_SELECT_MOW),
+		IconButton selectButton = new IconButton(MODE_SELECT_MOW, appW,
+				MaterialDesignResources.INSTANCE.mouse_cursor(),
 				() -> {
 			appW.setMode(MODE_SELECT_MOW);
 			appW.closePopups();
 		});
+		add(selectButton);
+		buttons.add(selectButton);
 	}
 
 	private void addPenModeButton() {
@@ -237,7 +193,7 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 		}
 
 		addToggleButtonWithPopup(MaterialDesignResources.INSTANCE.shapes(), "Shape",
-				shapeCategory);
+				ToolboxConstants.shapeCategory);
 	}
 
 	private void addAppsButton() {
@@ -245,9 +201,8 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 			return;
 		}
 
-		List<Integer> appsTools = Browser.isGraspableMathEnabled()
-				? concat(appsCategory, MODE_GRASPABLE_MATH) : appsCategory;
-
+		List<Integer> appsTools
+				= ToolboxConstants.getAppsCategory(Browser.isGraspableMathEnabled());
 		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.apps(), "Tools.More",
 				appsTools);
 	}
@@ -269,10 +224,11 @@ public class ToolboxMow extends FlowPanel implements SetLabels {
 	 * @param mode - tool mode
 	 */
 	public void setMode(int mode) {
-		if (MODE_SELECT_MOW == mode) {
-			deselectButtons();
-			if (selectButton != null) {
-				selectButton.setActive(true);
+		for (IconButton button : buttons) {
+			if (button.getMode() == mode) {
+				button.setActive(true);
+			} else {
+				button.deactivate();
 			}
 		}
 	}
