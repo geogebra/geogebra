@@ -9,6 +9,6 @@ public class CommandR extends Command1A {
 
 	@Override
 	public Atom newI(TeXParser tp, Atom a) {
-		return new AccentedAtom(a, Symbols.MATHRING);
+		return new AccentedAtom(a, Symbols.MATHRING, "r");
 	}
 }

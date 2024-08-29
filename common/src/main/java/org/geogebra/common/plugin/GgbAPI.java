@@ -2108,12 +2108,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			double ymax, double zmin, double zmax, double xyScale,
 			double xzScale, double xTickDistance, double yTickDistance,
 			double zTickDistance) {
-		if (app.is3D()) {
-			return app.getCompanion().exportCollada(xmin, xmax, ymin, ymax,
-					zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
-					zTickDistance);
-		}
-		return null;
+		return app.getCompanion().exportCollada(xmin, xmax, ymin, ymax,
+				zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
+				zTickDistance);
 	}
 
 	@Override
@@ -2121,11 +2118,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			double xmax, double ymin, double ymax, double zmin, double zmax,
 			double xyScale, double xzScale, double xTickDistance,
 			double yTickDistance, double zTickDistance) {
-		if (app.is3D()) {
-			app.getCompanion().exportGeometry3D(getter, xmin, xmax, ymin, ymax,
-					zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
-					zTickDistance);
-		}
+		app.getCompanion().exportGeometry3D(getter, xmin, xmax, ymin, ymax,
+				zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
+				zTickDistance);
 	}
 
 	@Override
@@ -2134,14 +2129,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			double ymax, double zmin, double zmax, double xyScale,
 			double xzScale, double xTickDistance, double yTickDistance,
 			double zTickDistance) {
-		if (app.is3D()) {
-			Geometry3DGetterSimple getter = new Geometry3DGetterSimple(name);
-			app.getCompanion().exportGeometry3D(getter, xmin, xmax, ymin, ymax,
-					zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
-					zTickDistance);
-			return getter.get().toString();
+		Geometry3DGetterSimple getter = new Geometry3DGetterSimple(name);
+		if (!app.getCompanion().exportGeometry3D(getter, xmin, xmax, ymin, ymax,
+				zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
+				zTickDistance)) {
+			return "";
 		}
-		return "";
+		return getter.get().toString();
 	}
 
 	/**
@@ -2556,6 +2550,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		AlgebraSettings settings = app.getSettings().getAlgebra();
 		opts.ifIntPropertySet("sortBy",
 				mode -> settings.setTreeMode(AlgebraView.SortMode.fromInt(mode)));
+	}
+
+	@Override
+	public void showAllObjects() {
+		app.setViewShowAllObjects();
 	}
 
 	protected JsObjectWrapper getAxisOptions(int axisNo, EuclidianSettings es) {

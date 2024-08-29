@@ -37,7 +37,7 @@ public abstract class GFont {
 	public abstract int getSize();
 
 	/**
-	 * Indicates whether or not this <code>Font</code> object's style is ITALIC.
+	 * Indicates whether this <code>Font</code> object's style is ITALIC.
 	 * 
 	 * @return <code>true</code> if this <code>Font</code> object's style is
 	 *         ITALIC; <code>false</code> otherwise.
@@ -45,7 +45,7 @@ public abstract class GFont {
 	public abstract boolean isItalic();
 
 	/**
-	 * Indicates whether or not this <code>Font</code> object's style is BOLD.
+	 * Indicates whether this <code>Font</code> object's style is BOLD.
 	 * 
 	 * @return <code>true</code> if this <code>Font</code> object's style is
 	 *         BOLD; <code>false</code> otherwise.
@@ -53,7 +53,7 @@ public abstract class GFont {
 	public abstract boolean isBold();
 
 	/**
-	 * Indicates whether or not this <code>Font</code> can display a specified
+	 * Indicates whether this <code>Font</code> can display a specified
 	 * <code>String</code>. For strings with Unicode encoding, it is important
 	 * to know if a particular font can display the string. This method returns
 	 * an offset into the <code>String</code> <code>str</code> which is the
@@ -72,8 +72,8 @@ public abstract class GFont {
 
 	/**
 	 * @param style
-	 *            font style (GFont.PLAIN, GFont.BOLD, GFont.ITALIC or sum of
-	 *            last two)
+	 *            font style ({@link GFont#PLAIN}, {@link GFont#BOLD}, {@link GFont#ITALIC}
+	 *            or sum of the last two)
 	 * @param fontSize
 	 *            font size
 	 * @return derive fonts

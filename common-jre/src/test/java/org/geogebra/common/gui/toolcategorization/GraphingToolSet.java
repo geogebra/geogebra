@@ -10,7 +10,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
  */
 public class GraphingToolSet {
 
-    private static List<Integer> notAllowedToolsGraphingCalc = Arrays.asList(
+    private static final List<Integer> notAllowedToolsGraphingCalc = Arrays.asList(
         EuclidianConstants.MODE_SEGMENT,
         EuclidianConstants.MODE_IMAGE,
         EuclidianConstants.MODE_ANGLE,
@@ -51,6 +51,7 @@ public class GraphingToolSet {
         EuclidianConstants.MODE_TRANSLATE_BY_VECTOR,
         EuclidianConstants.MODE_DILATE_FROM_POINT,
         EuclidianConstants.MODE_MIRROR_AT_CIRCLE,
+        EuclidianConstants.MODE_VECTOR_FROM_POINT,
         EuclidianConstants.MODE_RELATION);
 
     public static boolean isInGraphingToolSet(int tool) {

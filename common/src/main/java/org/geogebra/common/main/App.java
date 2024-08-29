@@ -2818,8 +2818,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			Macro macro = kernel.getMacro(mode - EuclidianConstants.MACRO_MODE_ID_OFFSET);
 			return macro == null ? "" : macro.getToolHelp();
 		} else {
-			String modeText = EuclidianConstants.getModeTextSimple(mode);
-			return getLocalization().getMenu(modeText + ".Help");
+
+			return getLocalization().getMenu(EuclidianConstants.getHelpTransKey(mode));
 		}
 	}
 
@@ -3761,7 +3761,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case ADJUST_WIDGETS:
 			return false;
 
-		/** GGB-2255 */
+		/* GGB-2255 */
 		case GEOMETRIC_DISCOVERY:
 			return prerelease;
 
@@ -3771,7 +3771,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
        // *********************************************************
        // **********************************************************************
 
-		/** G3D-343 */
+		/* G3D-343 */
 		case G3D_SELECT_META:
 			return false;
 

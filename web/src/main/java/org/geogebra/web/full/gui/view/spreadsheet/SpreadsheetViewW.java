@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.view.spreadsheet;
 
 import java.util.HashMap;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
@@ -39,7 +38,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	// ggb fields
 	protected AppW app;
-	private Kernel kernel;
+	private final Kernel kernel;
 
 	// spreadsheet table and row header
 	MyTableW table;
@@ -58,9 +57,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	// current toolbar mode
 	private int mode = -1;
-
-	boolean repaintScheduled = false; // to repaint less often, make it
-										// quicker
 
 	// panel that contains the spreadsheet table and headers
 	private AbsolutePanel spreadsheet;
@@ -399,20 +395,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		// not implemented yet
 	}
 
-	/**
-	 * @param enableMode
-	 *            whether trace dialog is active
-	 */
-	public void setTraceDialogMode(boolean enableMode) {
-		if (enableMode) {
-			table.setSelectionRectangleColor(GColor.GRAY);
-			// table.setFocusable(false);
-		} else {
-			table.setSelectionRectangleColor(MyTableW.SELECTED_RECTANGLE_COLOR);
-			// table.setFocusable(true);
-		}
-	}
-
 	// ===============================================================
 	// XML
 	// ===============================================================
@@ -598,10 +580,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		}
 	}
 
-	public boolean getAllowToolTips() {
-		return settings().allowToolTips();
-	}
-
 	public boolean getShowFormulaBar() {
 		return settings().showFormulaBar();
 	}
@@ -650,45 +628,14 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		settings().addListener(this);
 	}
 
-	protected void updateRowHeightSetting(int row, int height) {
-		if (!allowSettingUpdate) {
-			return;
-		}
-
-		settings().removeListener(this);
-		settings().getHeightMap().put(row, height);
-		settings().addListener(this);
-	}
-
 	protected void updatePreferredRowHeight(int preferredRowHeight) {
 		if (!allowSettingUpdate) {
 			return;
 		}
 
 		settings().removeListener(this);
-		settings().getHeightMap().clear();
+		settings().clearHeights();
 		settings().setPreferredRowHeight(preferredRowHeight);
-		settings().addListener(this);
-	}
-
-	protected void updateColumnWidth(int col, int colWidth) {
-		if (!allowSettingUpdate) {
-			return;
-		}
-
-		settings().removeListener(this);
-		settings().getWidthMap().put(col, colWidth);
-		settings().addListener(this);
-	}
-
-	protected void updatePreferredColumnWidth() {
-		if (!allowSettingUpdate) {
-			return;
-		}
-
-		settings().removeListener(this);
-		settings().getWidthMap().clear();
-		settings().setPreferredColumnWidth(table.preferredColumnWidth());
 		settings().addListener(this);
 	}
 
@@ -789,13 +736,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 				&& table.getGrid().isAttached();
 	}
 
-	protected void onLoad() {
-		// this may be important if the view is added/removed from the DOM
-		// TODO: is this needed with stand alone spreadsheetView?
-		// super.onLoad();
-		repaintView();
-	}
-
 	/**
 	 * This method is called from timers. Only call this method if you really
 	 * know what you're doing. Otherwise just call repaint().
@@ -823,21 +763,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 		waitForRepaint--;
 		return true;
-	}
-
-	/**
-	 * This method is used from add and remove, to ensure it is executed after
-	 * the loop is executed - so in theory, if there is a loop with add methods,
-	 * all the add methods come first, and repaint is called only afterwards
-	 */
-	public void scheduleRepaint() {
-		if (!repaintScheduled) {
-			repaintScheduled = true;
-			Scheduler.get().scheduleDeferred(() -> {
-				repaintScheduled = false;
-				repaintView();
-			});
-		}
 	}
 
 	public Widget getFocusPanel() {

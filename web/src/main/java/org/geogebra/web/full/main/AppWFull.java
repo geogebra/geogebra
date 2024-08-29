@@ -161,6 +161,9 @@ import org.geogebra.web.html5.gui.HasHide;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
+import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
+import org.geogebra.web.html5.gui.tooltip.ToolTip;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -454,7 +457,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	private void preloadAdvancedCommandsForSuiteCAS() {
 		if (isSuite() && "cas".equals(activity.getConfig().getSubAppCode())) {
-			getAsyncManager().prefetch(null, "advanced", "giac");
+			getAsyncManager().prefetch(null, "advanced", "giac", "cas");
 		}
 	}
 
@@ -534,7 +537,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public final boolean showKeyboard(MathKeyboardListener textField,
 			boolean forceShow) {
-		boolean ret = getAppletFrame().showKeyBoard(true, textField, forceShow);
+		boolean ret = getAppletFrame().showKeyboard(true, textField, forceShow);
 		if (textField != null && ret) {
 			CancelEventTimer.keyboardSetVisible();
 		}
@@ -547,7 +550,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public final void updateKeyBoardField(MathKeyboardListener field) {
+	public final void updateKeyboardField(MathKeyboardListener field) {
 		getKeyboardManager().setOnScreenKeyboardTextField(field);
 	}
 
@@ -618,11 +621,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				listener.setFocus(true);
 				if (getAppletFrame().appNeedsKeyboard()
 						&& examController.getState() != ExamState.PREPARING) {
-					getAppletFrame().showKeyBoard(true, listener, true);
+					getAppletFrame().showKeyboard(true, listener, true);
 				}
 			}
 			if (!getAppletFrame().appNeedsKeyboard()) {
-				getAppletFrame().showKeyBoard(false, null, true);
+				getAppletFrame().showKeyboard(false, null, true);
 			}
 
 		});
@@ -678,9 +681,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			String helpText = getLocalization().getPlain("CheckOutTutorial",
 					getLocalization().getMenu(appName));
 			String tooltipURL = getLocalization().getTutorialURL(getConfig());
-			getToolTipManager().showBottomInfoToolTip(
-					getLocalization().getMenu("NewToGeoGebra"), helpText,
-					getLocalization().getMenu("Help"), tooltipURL, this);
+			ToolTipManagerW toolTipManagerW = getToolTipManager();
+			String title = getLocalization().getMenu("NewToGeoGebra");
+			toolTipManagerW.showBottomInfoToolTip(new ToolTip(title, helpText, "Help",
+							tooltipURL), this,
+					ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
 			getToolTipManager().setBlockToolTip(true);
 		}
 	}
@@ -2357,7 +2362,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			guiManager.resetBrowserGUI();
 			if (menuViewController != null) {
 				menuViewController.setExamMenu();
-				guiManager.setUnbundledHeaderStyle(isLockedExam() ? "examLock" : "examOk");
+				guiManager.setUnbundledHeaderStyle(
+						ExamUtil.hasExternalSecurityCheck(this) ? "examLock" : "examOk");
 				guiManager.resetMenu();
 				guiManager.updateUnbundledToolbarContent();
 				GlobalHeader.INSTANCE.addExamTimer();

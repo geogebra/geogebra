@@ -12,7 +12,8 @@ dependencies {
 tasks.register("extractJs") {
     doLast {
         configurations.runtimeClasspath.get().forEach { jarFile ->
-            if (jarFile.path.toString().contains("webjars.npm")) {
+            // on Jenkins the workspace name may contain webjars.npm-id-version
+            if (jarFile.path.toString().contains("webjars.npm" + File.separator)) {
                 val normalizedName = jarFile.name.replace("-[0-9].*".toRegex(), "").replace("-", "_")
                 copy {
                     from(zipTree(jarFile).matching { include("**/*.js") })

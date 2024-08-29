@@ -1,13 +1,11 @@
 package com.himamis.retex.editor.web;
 
-import org.gwtproject.event.legacy.shared.EventHandler;
-
 /**
  * Handler for composition update events
  * 
  * @author zbynek
  */
-public interface CompositionHandler extends EventHandler {
+public interface CompositionHandler {
 
 	/**
 	 * Called when CompositionUpdateEvent is fired.

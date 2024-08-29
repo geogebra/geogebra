@@ -203,7 +203,7 @@ class NavigationRail extends FlowPanel {
 	protected void onClosePressed(boolean snap) {
 		app.hideMenu();
 		onClose(snap, ToolbarPanel.OPEN_ANIM_TIME);
-		toolbarPanel.getFrame().showKeyBoard(false, null, true);
+		toolbarPanel.getFrame().showKeyboard(false, null, true);
 	}
 
 	protected void onClose(boolean snap, int time) {

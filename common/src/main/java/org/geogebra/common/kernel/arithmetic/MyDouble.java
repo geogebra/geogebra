@@ -19,7 +19,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.arithmetic;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.Set;
 
 import org.apache.commons.math3.util.Precision;
@@ -115,7 +114,14 @@ public class MyDouble extends ValidExpression
 		this.val = val;
 	}
 
+	/**
+	 * Set precise value
+	 * @param val value as BigDecimal
+	 */
 	public void set(BigDecimal val) {
+		if (val == null) {
+			throw new IllegalArgumentException();
+		}
 		set(val.doubleValue());
 	}
 
@@ -217,7 +223,7 @@ public class MyDouble extends ValidExpression
 	 */
 	final public static void add(MyDouble a, NumberValue b, MyDouble c) {
 		c.angleDim = a.angleDim == b.getAngleDim() ? a.angleDim : 0;
-		c.set(a.val + b.getDouble());
+		DoubleOperation.PLUS.apply(a, b, c);
 	}
 
 	/**
@@ -232,7 +238,7 @@ public class MyDouble extends ValidExpression
 	 */
 	final public static void sub(MyDouble a, NumberValue b, MyDouble c) {
 		c.angleDim = a.angleDim == b.getAngleDim() ? a.angleDim : 0;
-		c.set(a.val - b.getDouble());
+		DoubleOperation.MINUS.apply(a, b, c);
 	}
 
 	/**
@@ -258,51 +264,12 @@ public class MyDouble extends ValidExpression
 			return;
 		}
 
-		if (isNumberImprecise(a) || isNumberImprecise(b)) {
-			c.set(a.val * bval);
-			c.setImprecise(true);
-			return;
-		}
-
-		BigDecimal ba = a.toDecimal();
-		BigDecimal bb = b.toDecimal();
-		if (ba != null && bb != null) {
-			BigDecimal bc = ba.multiply(bb);
-			((MySpecialDouble) c).set(bc);
-			return;
-		}
-		c.set(a.val * bval);
+		DoubleOperation.MULTIPLY.apply(a, b, c);
 	}
 
-	private static boolean isNumberImprecise(NumberValue numberValue) {
-		return numberValue instanceof ValidExpression
+	protected static boolean isNumberImprecise(NumberValue numberValue) {
+		return !Double.isFinite(numberValue.getDouble()) || numberValue instanceof ValidExpression
 				&& ((ValidExpression) numberValue).isImprecise();
-	}
-
-	/**
-	 * c = a * b
-	 * http://functions.wolfram.com/Constants/ComplexInfinity/introductions
-	 * /Symbols/ShowAll.html
-	 * 
-	 * https://tinyurl.com/ComplexMultiply
-	 * 
-	 * @param a
-	 *            1st factor
-	 * @param b
-	 *            2nd factor
-	 * @param c
-	 *            result
-	 */
-	final public static void mult(MyDouble a, double b, MyDouble c) {
-		c.angleDim = a.angleDim;
-
-		// ? * anything = ?
-		if (Double.isNaN(a.val) || Double.isNaN(b)) {
-			c.set(Double.NaN);
-			return;
-		}
-
-		c.set(a.val * b);
 	}
 
 	/**
@@ -315,30 +282,14 @@ public class MyDouble extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void div(MyDouble a, MyDouble b, MyDouble c) {
-		c.angleDim = a.angleDim - b.angleDim;
-		if (isImpreciseDiv(a, b)) {
-			a.setImprecise(true);
-			b.setImprecise(true);
-			c.set(a.val / b.val);
+	final public static void div(MyDouble a, NumberValue b, MyDouble c) {
+		c.angleDim = a.angleDim - b.getAngleDim();
+		if (b.getDouble() == 0) {
+			c.set(a.val / b.getDouble());
 			c.setImprecise(true);
 			return;
 		}
-
-		BigDecimal numerator = a.toDecimal();
-		if (numerator != null) {
-			BigDecimal denominator = b.toDecimal();
-			if (denominator != null) {
-				c.set(numerator.divide(denominator, MathContext.DECIMAL128));
-				return;
-			}
-		}
-		c.set(a.val / b.val);
-	}
-
-	private static boolean isImpreciseDiv(MyDouble a, MyDouble b) {
-		return isNumberImprecise(a) || isNumberImprecise(b) || b.val == 0
-				|| !Double.isFinite(a.val) || !Double.isFinite(b.val) || !a.isDefined();
+		DoubleOperation.DIVIDE.apply(a, b, c);
 	}
 
 	/**
@@ -351,9 +302,14 @@ public class MyDouble extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void pow(MyDouble a, MyDouble b, MyDouble c) {
-		c.angleDim = b.angleDim > 0 ? 0 : a.angleDim;
-		c.set(pow(a.val, b.val));
+	final public static void pow(MyDouble a, NumberValue b, MyDouble c) {
+		c.angleDim = b.getAngleDim() > 0 ? 0 : a.angleDim;
+		double bVal = b.getDouble();
+		if (bVal >= 0 && bVal < 1E6 && DoubleUtil.isInteger(bVal)) {
+			DoubleOperation.INT_POWER.apply(a, b, c);
+		} else {
+			c.set(pow(a.val, bVal));
+		}
 	}
 
 	/**
