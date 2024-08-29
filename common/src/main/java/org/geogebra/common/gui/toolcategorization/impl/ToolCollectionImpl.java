@@ -96,17 +96,17 @@ class ToolCollectionImpl implements ToolCollection {
         for (ToolsCollection collection : levels.values()) {
             for (int i = collection.tools.size() - 1; i >= 0; i--) {
                 List<Integer> tools = collection.tools.get(i);
-                List<Integer> filteredTools = new ArrayList<>();
+                List<Integer> includedTools = new ArrayList<>();
                 for (Integer tool : tools) {
-                    if (filter.filter(tool)) {
-                        filteredTools.add(tool);
+                    if (filter.isIncluded(tool)) {
+                        includedTools.add(tool);
                     }
                 }
-                if (filteredTools.size() == 0) {
+                if (includedTools.size() == 0) {
                     collection.tools.remove(i);
                     collection.categories.remove(i);
                 } else {
-                    collection.tools.set(i, filteredTools);
+                    collection.tools.set(i, includedTools);
                 }
             }
         }

@@ -15,6 +15,9 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				null,
 				null,
 				null,
+				null,
+				null,
+				null,
 				null);
 	}
 }

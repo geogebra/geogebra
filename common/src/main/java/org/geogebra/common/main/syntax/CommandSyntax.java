@@ -8,15 +8,15 @@ package org.geogebra.common.main.syntax;
 public interface CommandSyntax {
 
 	/**
-	 * @param key the internal key of the command.
+	 * @param internalCommandName the internal command name of the command.
 	 * @param dim dimension of te application
 	 * @return the syntax of the command.
 	 */
-	String getCommandSyntax(String key, int dim);
+	String getCommandSyntax(String internalCommandName, int dim);
 
 	/**
-	 * @param key the internal key of the CAS command.
+	 * @param internalCommandName the internal command name of the CAS command.
 	 * @return the syntax of the CAS command.
 	 */
-	String getCommandSyntaxCAS(String key);
+	String getCommandSyntaxCAS(String internalCommandName);
 }

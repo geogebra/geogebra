@@ -54,7 +54,7 @@ public class GraphingToolSet {
         EuclidianConstants.MODE_VECTOR_FROM_POINT,
         EuclidianConstants.MODE_RELATION);
 
-    public static boolean isInGraphingToolSet(int tool) {
-        return notAllowedToolsGraphingCalc.contains(tool);
+    public static boolean isAvailable(int tool) {
+        return !notAllowedToolsGraphingCalc.contains(tool);
     }
 }

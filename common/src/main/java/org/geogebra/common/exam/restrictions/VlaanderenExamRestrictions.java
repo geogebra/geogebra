@@ -17,7 +17,10 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 				SuiteSubApp.GRAPHING,
 				null,
 				null,
+				null,
 				VlaanderenExamRestrictions.createCommandFilters(),
+				null,
+				null,
 				null,
 				null);
 	}

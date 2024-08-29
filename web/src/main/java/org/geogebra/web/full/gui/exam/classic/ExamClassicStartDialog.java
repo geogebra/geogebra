@@ -117,8 +117,13 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		((LayoutW) app.getGuiManager().getLayout()).resetPerspectives(app);
 
 		app.getKernel().getAlgebraProcessor().reinitCommands();
-		examController.setActiveContext(app, app.getKernel().getAlgebraProcessor()
-				.getCommandDispatcher(), app.getKernel().getAlgebraProcessor());
+		examController.setActiveContext(app,
+				app.getKernel().getAlgebraProcessor().getCommandDispatcher(),
+				app.getKernel().getAlgebraProcessor(),
+				app.getLocalization(),
+				app.getSettings(),
+				null, // TODO inject AutoCompleteProvider
+				app);
 		examController.registerRestrictable(app);
 		examController.setDelegate(new ExamControllerDelegateW(app));
 		examController.startExam(ExamType.GENERIC,

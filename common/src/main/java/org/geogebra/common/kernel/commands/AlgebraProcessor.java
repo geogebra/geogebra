@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -124,8 +125,6 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.CommandSyntax;
-import org.geogebra.common.main.syntax.EnglishCommandSyntax;
-import org.geogebra.common.main.syntax.LocalizedCommandSyntax;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -185,15 +184,15 @@ public class AlgebraProcessor {
 	 */
 	protected ParametricProcessor paramProcessor;
 
-	private final List<ExpressionFilter> expressionFilters = new ArrayList<>();
+	private final List<ExpressionFilter> inputExpressionFilters = new ArrayList<>();
+
+	private final List<ExpressionFilter> outputExpressionFilters = new ArrayList<>();
 
 	/** TODO use the selector from CommandDispatcher instead. */
 	@Deprecated
 	private CommandFilter noCASfilter;
 
 	private SymbolicProcessor symbolicProcessor;
-	private CommandSyntax localizedCommandSyntax;
-	private CommandSyntax englishCommandSyntax;
 	private final SqrtMinusOneReplacer sqrtMinusOneReplacer;
 
 	// Somewhat duplicates EvalInfo.isRedefinition but propagating EvalInfo to constructors of
@@ -257,27 +256,48 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * Add an expression filter (used for dynamically filtering valid expressions).
-	 * @param filter An expression filter.
+	 * Add an input expression filter (used for dynamically filtering valid input expressions).
+	 * @param filter An input expression filter.
 	 */
-	public void addExpressionFilter(ExpressionFilter filter) {
+	public void addInputExpressionFilter(ExpressionFilter filter) {
 		if (filter != null) {
-			expressionFilters.add(filter);
+			inputExpressionFilters.add(filter);
 		}
 	}
 
 	/**
-	 * Remove an expression filter.
-	 * @param filter An expression filter.
+	 * Remove an input expression filter.
+	 * @param filter An input expression filter.
 	 */
-	public void removeExpressionFilter(ExpressionFilter filter) {
+	public void removeInputExpressionFilter(ExpressionFilter filter) {
 		if (filter != null) {
-			expressionFilters.remove(filter);
+			inputExpressionFilters.remove(filter);
 		}
 	}
 
-	private boolean isExpressionAllowed(ValidExpression expression) {
-		for (ExpressionFilter expressionFilter : expressionFilters) {
+	/**
+	 * Add an output expression filter (used for dynamically filtering output expressions).
+	 * @param filter An output expression filter.
+	 */
+	public void addOutputExpressionFilter(ExpressionFilter filter) {
+		if (filter != null) {
+			outputExpressionFilters.add(filter);
+		}
+	}
+
+	/**
+	 * Remove an output expression filter.
+	 * @param filter An output expression filter.
+	 */
+	public void removeOutputExpressionFilter(ExpressionFilter filter) {
+		if (filter != null) {
+			outputExpressionFilters.remove(filter);
+		}
+	}
+
+	private boolean isExpressionAllowed(ValidExpression expression,
+			List<ExpressionFilter> filters) {
+		for (ExpressionFilter expressionFilter : filters) {
 			if (!expressionFilter.isAllowed(expression)) {
 				return false;
 			}
@@ -952,7 +972,7 @@ public class AlgebraProcessor {
 			final ErrorHandler handler,
 			final AsyncOperation<GeoElementND[]> callback0,
 			final EvalInfo info) {
-		if (!isExpressionAllowed(ve)) {
+		if (!isExpressionAllowed(ve, inputExpressionFilters)) {
 			return null;
 		}
 		// collect undefined variables
@@ -1108,6 +1128,19 @@ public class AlgebraProcessor {
 
 		GeoElement[] geos = processValidExpression(storeUndo, handler, ve,
 				newInfo);
+
+		// Test output for filtered expression
+		if (geos != null) {
+			boolean containsRestrictedExpressions = Arrays.stream(geos)
+					.map(geo -> geo.wrap())
+					.anyMatch(geo -> !isExpressionAllowed(geo, outputExpressionFilters));
+			if (containsRestrictedExpressions) {
+				// Remove filtered geos
+				Arrays.stream(geos).forEach(geo -> geo.remove());
+				throw new MyError(loc, MyError.Errors.InvalidInput);
+			}
+		}
+
 		runCallback(callback0, geos, step);
 		return geos;
 	}
@@ -3175,6 +3208,7 @@ public class AlgebraProcessor {
 
 		// ELSE: resolve variables and evaluate expressionnode
 		n.resolveVariables(info);
+
 		if (n.isLeaf() && n.getLeft().isExpressionNode()) {
 			// we changed f' to f'(x) -> clean double wrap
 
@@ -3790,48 +3824,25 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * @param cmdInt
-	 *            command name
-	 * @param settings
-	 *            settings
-	 * @return syntax
+	 * Returns the syntax for the given command, if the command is allowed.
+	 * @param syntax an abstraction for loading command syntax definitions
+	 * @param internalCommandName the internal command name (see {@link Commands}).
+	 * @param settings the current (application) settings.
+	 * @return the syntax for the command if the command is allowed, null otherwise.
 	 */
-	public String getSyntax(String cmdInt, Settings settings) {
-		if (localizedCommandSyntax == null) {
-			localizedCommandSyntax =
-					new LocalizedCommandSyntax(loc, app.getConfig().newCommandSyntaxFilter());
-		}
-		return getSyntax(localizedCommandSyntax, cmdInt, settings);
-	}
-
-	/**
-	 * @param cmdInt
-	 *            command name
-	 * @param settings
-	 *            settings
-	 * @return syntax in english // as fallback
-	 */
-	public String getEnglishSyntax(String cmdInt, Settings settings) {
-		if (englishCommandSyntax == null) {
-			englishCommandSyntax =
-					new EnglishCommandSyntax(loc, app.getConfig().newCommandSyntaxFilter());
-		}
-		return getSyntax(englishCommandSyntax, cmdInt, settings);
-	}
-
-	private String getSyntax(CommandSyntax syntax, String cmdInt, Settings settings) {
+	public String getSyntax(CommandSyntax syntax, String internalCommandName, Settings settings) {
 		int dim = settings.getEuclidian(-1).isEnabled() ? 3 : 2;
 		if (cmdDispatcher.isCASAllowed()) {
-			return syntax.getCommandSyntax(cmdInt, dim);
+			return syntax.getCommandSyntax(internalCommandName, dim);
 		}
 		Commands cmd = null;
 		try {
-			cmd = Commands.valueOf(cmdInt);
+			cmd = Commands.valueOf(internalCommandName);
 		} catch (Exception e) {
 			// macro or error
 		}
 		if (cmd == null) {
-			return syntax.getCommandSyntax(cmdInt, dim);
+			return syntax.getCommandSyntax(internalCommandName, dim);
 		}
 		if (!this.cmdDispatcher.isAllowedByCommandFilters(cmd)) {
 			return null;
@@ -3848,7 +3859,7 @@ public class AlgebraProcessor {
 			return null;
 		}
 
-		return syntax.getCommandSyntax(cmdInt, dim);
+		return syntax.getCommandSyntax(internalCommandName, dim);
 	}
 
 	/**

@@ -2353,7 +2353,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void startExam(ExamType region) {
 		examController.setActiveContext(this,
 				getKernel().getAlgebraProcessor().getCommandDispatcher(),
-				getKernel().getAlgebraProcessor());
+				getKernel().getAlgebraProcessor(),
+				getLocalization(),
+				getSettings(),
+				null, // TODO inject AutoCompleteProvider
+				this);
 		examController.registerRestrictable(this);
 		examController.setDelegate(new ExamControllerDelegateW(this));
 		examController.startExam(region, null);

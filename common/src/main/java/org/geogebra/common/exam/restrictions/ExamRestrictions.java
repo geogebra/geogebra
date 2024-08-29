@@ -6,14 +6,21 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
+import org.geogebra.common.gui.toolcategorization.ToolsProvider;
+import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.localization.AutocompleteProvider;
+import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
@@ -25,7 +32,8 @@ import org.geogebra.common.properties.ValuedProperty;
  * Restrictions that are specific to the different exam types are represented as subclasses
  * of this class.
  * Restrictions that apply to all exam types should be implemented in this class
- * (in {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object)}).
+ * (in {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,
+ * Localization, Settings, AutocompleteProvider, ToolsProvider)}).
  * <p/>
  * Any restrictions to be applied during exams should be implemented in here (so that
  * everything is one place):
@@ -43,12 +51,15 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final Set<SuiteSubApp> disabledSubApps;
 	private final SuiteSubApp defaultSubApp;
 	private final Set<ExamFeatureRestriction> featureRestrictions;
-	private final Set<ExpressionFilter> expressionFilters;
+	private final Set<ExpressionFilter> inputExpressionFilters;
+	private final Set<ExpressionFilter> outputExpressionFilters;
 	private final Set<CommandFilter> commandFilters;
 	private final Set<CommandArgumentFilter> commandArgumentFilters;
 	// filter independent of exam region
 	private final CommandArgumentFilter examCommandArgumentFilter =
 			new ExamCommandArgumentFilter();
+	private SyntaxFilter syntaxFilter;
+	private final ToolCollectionFilter toolsFilter;
 	private final Set<String> frozenProperties;
 
 	/**
@@ -81,28 +92,43 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * current subapp is in the list of restricted subapps. If null, Graphing will be used as the
 	 * default subapp.
 	 * @param featureRestrictions An optional set of features to disable during the exam.
-	 * @param expressionFilters An optional set of expression filters (e.g., ||) to apply during
-	 * exams.
+	 * @param inputExpressionFilters An optional set of expression filters (e.g., ||) to apply during
+	 * exams to the algebra inputs.
+	 * @param outputExpressionFilters An optional set of expression filters (e.g., ||) to apply during
+	 * exams to the algebra outputs.
 	 * @param commandFilters An optional command filter to apply during exams.
 	 * @param commandArgumentFilters An optional command argument filter to apply during exams.
+	 * @param syntaxFilter An optional syntax filter to apply during exams.
+	 * @param toolsFilter An optional filter for tools that should be unvaialable during the exam.
+	 * If this argument is null, the Image tool will stil be filtered out (APPS-5214). When
+	 * providing a non-null filter here, it should include the Image tool.
 	 * @param frozenProperties An optional set of properties to freeze during the exam.
 	 */
 	protected ExamRestrictions(@Nonnull ExamType examType,
 			@Nullable Set<SuiteSubApp> disabledSubApps,
 			@Nullable SuiteSubApp defaultSubApp,
 			@Nullable Set<ExamFeatureRestriction> featureRestrictions,
-			@Nullable Set<ExpressionFilter> expressionFilters,
+			@Nullable Set<ExpressionFilter> inputExpressionFilters,
+			@Nullable Set<ExpressionFilter> outputExpressionFilters,
 			@Nullable Set<CommandFilter> commandFilters,
 			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
+			@Nullable SyntaxFilter syntaxFilter,
+			@Nullable ToolCollectionFilter toolsFilter,
 			@Nullable Set<String> frozenProperties) {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
 		this.featureRestrictions = featureRestrictions != null ? featureRestrictions : Set.of();
-		this.expressionFilters = expressionFilters != null ? expressionFilters : Set.of();
+		this.inputExpressionFilters =
+				inputExpressionFilters != null ? inputExpressionFilters : Set.of();
+		this.outputExpressionFilters =
+				outputExpressionFilters != null ? outputExpressionFilters : Set.of();
 		this.commandFilters = commandFilters != null ? commandFilters : Set.of();
 		this.commandArgumentFilters = commandArgumentFilters != null
 				? commandArgumentFilters : Set.of();
+		this.syntaxFilter = syntaxFilter;
+		this.toolsFilter = toolsFilter == null
+				? new ToolCollectionSetFilter(EuclidianConstants.MODE_IMAGE) : toolsFilter;
 		this.frozenProperties = frozenProperties != null ? frozenProperties : Set.of();
 	}
 
@@ -140,10 +166,14 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	/**
 	 * Apply the exam restrictions.
 	 */
-	public void apply(@Nullable CommandDispatcher commandDispatcher,
+	public void applyTo(@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
-			@Nullable Object context) {
+			@Nullable Object context,
+			@Nullable Localization localization,
+			@Nullable Settings settings,
+			@Nullable AutocompleteProvider autoCompleteProvider,
+			@Nullable ToolsProvider toolsProvider) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.addCommandFilter(commandFilter);
@@ -154,8 +184,19 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			}
 		}
 		if (algebraProcessor != null) {
-			for (ExpressionFilter expressionFilter : expressionFilters) {
-				algebraProcessor.addExpressionFilter(expressionFilter);
+			for (ExpressionFilter expressionFilter : inputExpressionFilters) {
+				algebraProcessor.addInputExpressionFilter(expressionFilter);
+			}
+			for (ExpressionFilter expressionFilter : outputExpressionFilters) {
+				algebraProcessor.addOutputExpressionFilter(expressionFilter);
+			}
+		}
+		if (syntaxFilter != null) {
+			if (autoCompleteProvider != null) {
+				autoCompleteProvider.addSyntaxFilter(syntaxFilter);
+			}
+			if (localization != null) {
+				localization.getCommandSyntax().addSyntaxFilter(syntaxFilter);
 			}
 		}
 		if (propertiesRegistry != null) {
@@ -166,16 +207,24 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 				}
 			}
 		}
+		if (toolsProvider != null && toolsFilter != null) {
+			toolsProvider.addToolsFilter(toolsFilter);
+		}
 	}
 
 	/**
 	 * Remove the exam restrictions (i.e., undo the changes from
-	 * {@link #apply(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object)}).
+	 * {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,
+	 * Localization, Settings, AutocompleteProvider, ToolsProvider)} ).
 	 */
-	public void remove(@Nullable CommandDispatcher commandDispatcher,
+	public void removeFrom(@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
-			@Nullable Object context) {
+			@Nullable Object context,
+			@Nullable Localization localization,
+			@Nullable Settings settings,
+			@Nullable AutocompleteProvider autoCompleteProvider,
+			@Nullable ToolsProvider toolsProvider) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.removeCommandFilter(commandFilter);
@@ -186,8 +235,19 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			}
 		}
 		if (algebraProcessor != null) {
-			for (ExpressionFilter expressionFilter : expressionFilters) {
-				algebraProcessor.removeExpressionFilter(expressionFilter);
+			for (ExpressionFilter expressionFilter : inputExpressionFilters) {
+				algebraProcessor.removeInputExpressionFilter(expressionFilter);
+			}
+			for (ExpressionFilter expressionFilter : outputExpressionFilters) {
+				algebraProcessor.removeOutputExpressionFilter(expressionFilter);
+			}
+		}
+		if (syntaxFilter != null) {
+			if (autoCompleteProvider != null) {
+				autoCompleteProvider.removeSyntaxFilter(syntaxFilter);
+			}
+			if (localization != null) {
+				localization.getCommandSyntax().removeSyntaxFilter(syntaxFilter);
 			}
 		}
 		if (propertiesRegistry != null) {
@@ -197,6 +257,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 					unfreeze(property);
 				}
 			}
+		}
+		if (toolsProvider != null && toolsFilter != null) {
+			toolsProvider.removeToolsFilter(toolsFilter);
 		}
 	}
 
@@ -237,12 +300,6 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 */
 	protected void unfreezeValue(@Nonnull ValuedProperty property) {
 		// override
-	}
-
-	// TODO unclear how to implement
-	// see https://git.geogebra.org/ggb/geogebra/-/issues/8#function-graphs-new
-	public boolean isSelectionAllowed(GeoElementND geoND) {
-		return true;
 	}
 
 	// PropertiesRegistryListener

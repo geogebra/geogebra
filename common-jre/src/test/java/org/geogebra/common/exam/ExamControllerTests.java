@@ -24,11 +24,12 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
-import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigProbability;
+import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.PropertiesRegistry;
@@ -48,10 +49,10 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	private CommandDispatcher previousCommandDispatcher;
 	private AlgebraProcessor algebraProcessor;
 	private SuiteSubApp currentSubApp;
+	private AutocompleteProvider autocompleteProvider;
 	private final List<ExamState> examStates = new ArrayList<>();
 	private boolean didRequestClearApps;
 	private boolean didRequestClearClipboard;
-	private SuiteSubApp didRequestSwitchToSubApp;
 	private Material activeMaterial;
 
 	@Before
@@ -68,7 +69,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examStates.clear();
 		didRequestClearApps = false;
 		didRequestClearClipboard = false;
-		didRequestSwitchToSubApp = null;
 		activeMaterial = null;
 	}
 
@@ -79,9 +79,11 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		app = AppCommonFactory.create(createConfig(subApp));
 		algebraProcessor = app.getKernel().getAlgebraProcessor();
 		commandDispatcher = algebraProcessor.getCommandDispatcher();
+		autocompleteProvider = new AutocompleteProvider(app, false);
 		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization()),
 				app);
-		examController.setActiveContext(app, commandDispatcher, algebraProcessor);
+		examController.setActiveContext(app, commandDispatcher, algebraProcessor,
+				app.getLocalization(), app.getSettings(), autocompleteProvider, app);
 	}
 
 	private void switchApp(SuiteSubApp subApp) {
@@ -93,9 +95,11 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		activeMaterial = null;
 		algebraProcessor = app.getKernel().getAlgebraProcessor();
 		commandDispatcher = algebraProcessor.getCommandDispatcher();
+		autocompleteProvider = new AutocompleteProvider(app, false);
 		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization()),
 				app);
-		examController.setActiveContext(app, commandDispatcher, algebraProcessor);
+		examController.setActiveContext(app, commandDispatcher, algebraProcessor,
+				app.getLocalization(), app.getSettings(), autocompleteProvider, app);
 	}
 
 	private AppConfig createConfig(SuiteSubApp subApp) {
@@ -103,7 +107,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		case CAS:
 			return new AppConfigCas(GeoGebraConstants.SUITE_APPCODE);
 		case GRAPHING:
-			return new AppConfigGraphing(GeoGebraConstants.SUITE_APPCODE);
+			return new AppConfigUnrestrictedGraphing(GeoGebraConstants.SUITE_APPCODE);
 		case GEOMETRY:
 			return new AppConfigGeometry(GeoGebraConstants.SUITE_APPCODE);
 		case SCIENTIFIC:
@@ -136,7 +140,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertEquals(List.of(ExamState.PREPARING), examStates);
 		assertFalse(didRequestClearApps);
 		assertFalse(didRequestClearClipboard);
-		assertNull(didRequestSwitchToSubApp);
 		assertNull(activeMaterial);
 	}
 
@@ -152,7 +155,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertEquals(Arrays.asList(ExamState.PREPARING, ExamState.ACTIVE), examStates);
 		assertTrue(didRequestClearApps);
 		assertTrue(didRequestClearClipboard);
-		assertNull(didRequestSwitchToSubApp);
 		assertNotNull(activeMaterial);
 	}
 
@@ -197,7 +199,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.finishExam();
 		didRequestClearApps = false;
 		didRequestClearClipboard = false;
-		didRequestSwitchToSubApp = null;
 		examController.exitExam();
 
 		assertNull(examController.getStartDate());
@@ -210,7 +211,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 				ExamState.IDLE), examStates);
 		assertTrue(didRequestClearApps);
 		assertTrue(didRequestClearClipboard);
-		assertNull(didRequestSwitchToSubApp);
 		assertNull(activeMaterial);
 	}
 
@@ -221,7 +221,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		setInitialApp(SuiteSubApp.CAS);
 		examController.prepareExam();
 		examController.startExam(ExamType.VLAANDEREN, null); // doesn't allow CAS
-		assertEquals(SuiteSubApp.GRAPHING, didRequestSwitchToSubApp);
+		assertEquals(SuiteSubApp.GRAPHING, currentSubApp);
 		assertNotNull(activeMaterial);
 	}
 
@@ -230,7 +230,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.startExam(ExamType.VLAANDEREN, null);
-		assertNull(didRequestSwitchToSubApp);
+		assertEquals(SuiteSubApp.GRAPHING, currentSubApp);
 		assertNotNull(activeMaterial);
 	}
 
@@ -270,7 +270,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.setExamRestrictionsForTesting(
 				ExamRestrictions.forExamType(ExamType.BAYERN_CAS)); // only allows CAS app
 		examController.startExam(ExamType.BAYERN_CAS, null);
-		assertEquals(SuiteSubApp.CAS, didRequestSwitchToSubApp);
+		assertEquals(SuiteSubApp.CAS, currentSubApp);
 		assertNotNull(activeMaterial);
 	}
 
@@ -329,7 +329,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 	@Override
 	public void examSwitchSubApp(SuiteSubApp subApp) {
-		didRequestSwitchToSubApp = subApp;
 		if (!subApp.equals(currentSubApp)) {
 			switchApp(subApp);
 		}

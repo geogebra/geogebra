@@ -121,6 +121,12 @@ public interface GeoGebraConstants {
 			return "i".equals(name);
 		}
 
+		/**
+		 * @return true if the current platform is either Android or iOS.
+		 */
+		public boolean isMobile() {
+			return this == ANDROID || this == IOS;
+		}
 	}
 
 	enum MenuType {

@@ -24,7 +24,10 @@ final class TestExamRestrictions extends ExamRestrictions {
 				SuiteSubApp.GRAPHING,
 				Set.of(ExamFeatureRestriction.DATA_TABLE_REGRESSION),
 				TestExamRestrictions.createExpressionFilters(),
+				null,
 				TestExamRestrictions.createCommandFilters(),
+				null,
+				null,
 				null,
 				Set.of("AngleUnit"));
 	}

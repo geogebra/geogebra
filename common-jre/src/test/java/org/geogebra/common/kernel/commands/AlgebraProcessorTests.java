@@ -3,6 +3,13 @@ package org.geogebra.common.kernel.commands;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +22,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.kernel.algos.AlgoDependentGeoCopy;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -25,20 +33,19 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class AlgebraProcessorTests extends BaseUnitTest {
 
 	private AlgebraProcessor processor;
-
-	@Mock
 	private ErrorHandler errorHandler;
 
 	@Before
 	public void setupTest() {
-		processor = getKernel().getAlgebraProcessor();
+		errorHandler = Mockito.mock(ErrorHandler.class);
+		processor = getAlgebraProcessor();
 	}
 
 	@Test
@@ -110,6 +117,30 @@ public class AlgebraProcessorTests extends BaseUnitTest {
 				new GeoLine(getConstruction()), true));
 		evalCommand("Ray((0,0),(2,2))", new EvalInfo(true, false));
 		assertThat(loggedCommands, is(Arrays.asList("Midpoint", "Line")));
+	}
+
+	@Test
+	public void testOutputFilteringFiltersExpressions() {
+		// Set up
+		setErrorHandler(errorHandler);
+		ExpressionFilter outputFilter = mock(ExpressionFilter.class);
+		// Restrict all output
+		when(outputFilter.isAllowed(any())).thenReturn(false);
+		getAlgebraProcessor().addOutputExpressionFilter(outputFilter);
+
+		// Assertions
+		assertNull(add("1+1"));
+		assertNull(add("(1,2)"));
+		assertNull(add("x^2"));
+		// Verify mocks were called exactly 3 times
+		verify(outputFilter, times(3)).isAllowed(any());
+		verify(errorHandler, times(3)).showError(any());
+		// Assert that the geos are deleted from the construction
+		assertEquals(0, getConstruction().steps());
+
+		// Tear down
+		resetErrorHandler();
+		getAlgebraProcessor().removeOutputExpressionFilter(outputFilter);
 	}
 
 	private GeoElementND[] evalCommand(String s, EvalInfo info) {
