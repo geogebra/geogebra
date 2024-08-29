@@ -137,7 +137,7 @@ class NavigationRail extends FlowPanel {
 	}
 
 	private void createSpreadsheetButton() {
-		btnSpreadsheet = createTabButton("Spreadsheet",
+		btnSpreadsheet = createTabButton("Perspective.Spreadsheet",
 				MaterialDesignResources.INSTANCE.toolbar_spreadsheet());
 		btnSpreadsheet.addFastClickHandler(source -> onSpreadsheetPressed());
 	}
@@ -261,7 +261,7 @@ class NavigationRail extends FlowPanel {
 		setButtonText(btnTools, "Tools");
 		setButtonText(btnTableView, "Table");
 		setButtonText(btnDistribution, "Distribution");
-		setButtonText(btnSpreadsheet, "Spreadsheet");
+		setButtonText(btnSpreadsheet, "Perspective.Spreadsheet");
 	}
 
 	private void setButtonText(StandardButton btn, String key) {
