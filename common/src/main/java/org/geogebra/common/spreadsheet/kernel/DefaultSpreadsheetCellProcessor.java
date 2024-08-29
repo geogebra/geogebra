@@ -10,13 +10,13 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 
 /**
  * Sends spreadsheet cell editor input towards the AlgebraProcessor.
- *
  * (This class is an adapter between the Spreadsheet core and the Kernel.)
  */
 public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor {
@@ -54,13 +54,13 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	 * @param input The input to process.
 	 * @param cellName Identifies the cell to receive the input.
 	 */
-	public void process(String input, String cellName) {
+	protected void process(String input, String cellName) {
 		try {
 			this.cellName = cellName;
 			this.input = input;
-			processInput(buildProperInput(input, cellName),
+			processInput(buildProperInput(input, cellName), errorHandler,
 					(geos) -> {
-						if (geos.length > 0) {
+						if (geos != null && geos.length > 0) {
 							((GeoElement) geos[0]).setEmptySpreadsheetCell(false);
 						}
 						algebraProcessor.getKernel().getApplication().storeUndoInfo();
@@ -101,9 +101,10 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 		sb.append("\"");
 	}
 
-	private void processInput(String command,  AsyncOperation<GeoElementND[]> callback) {
+	private void processInput(String command, ErrorHandler handler, AsyncOperation<GeoElementND[]>
+			callback) {
 		algebraProcessor.processAlgebraCommandNoExceptionHandling(command, false,
-				errorHandler, false, callback);
+				handler, false, callback);
 	}
 
 	private static boolean isCommand(String input) {
@@ -135,6 +136,6 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	}
 
 	private void buildNewInputWithErrorMark() {
-		processInput(buildRestoredInput(), null);
+		processInput(buildRestoredInput(), ErrorHelper.silent(), null);
 	}
 }
