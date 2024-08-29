@@ -153,6 +153,13 @@ public class GeoNumericTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-5699")
+	public void shouldKeepTrailingZerosForIntegers() {
+		GeoNumeric withTrailing = addAvInput("1.00");
+		assertThat(withTrailing.getXML(), containsString("1.00"));
+	}
+
+	@Test
 	@Issue("APPS-5531")
 	public void shouldKeepENotation() {
 		GeoNumeric withTrailing = addAvInput("1.20E3");

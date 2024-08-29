@@ -16,7 +16,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
 /**
  * A button of the {@link TabbedKeyboard}.
  */
-public class KeyBoardButtonBase extends SimplePanel implements MouseOutHandler {
+public class BaseKeyboardButton extends SimplePanel implements MouseOutHandler {
 
 	private String caption;
 	/**
@@ -28,7 +28,7 @@ public class KeyBoardButtonBase extends SimplePanel implements MouseOutHandler {
 	 */
 	protected Label label;
 	private String secondaryAction;
-	private ButtonHandler buttonHandler;
+	private final ButtonHandler buttonHandler;
 
 	/**
 	 * @param caption
@@ -40,7 +40,7 @@ public class KeyBoardButtonBase extends SimplePanel implements MouseOutHandler {
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
-	public KeyBoardButtonBase(String caption, String altText, String feedback,
+	public BaseKeyboardButton(String caption, String altText, String feedback,
 			ButtonHandler handler) {
 		this(handler);
 		this.label = new Label();
@@ -57,7 +57,7 @@ public class KeyBoardButtonBase extends SimplePanel implements MouseOutHandler {
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
-	public KeyBoardButtonBase(String caption, String feedback,
+	public BaseKeyboardButton(String caption, String feedback,
 			ButtonHandler handler) {
 		this(caption, caption, feedback, handler);
 	}
@@ -78,7 +78,7 @@ public class KeyBoardButtonBase extends SimplePanel implements MouseOutHandler {
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
-	public KeyBoardButtonBase(String caption, ButtonHandler handler) {
+	public BaseKeyboardButton(String caption, ButtonHandler handler) {
 		this(caption, caption, handler);
 	}
 
@@ -87,17 +87,17 @@ public class KeyBoardButtonBase extends SimplePanel implements MouseOutHandler {
 	}
 
 	/**
-	 * Constructor for subclass {@link KeyBoardButtonFunctionalBase}
+	 * Constructor for subclass {@link FunctionalKeyboardButton}
 	 * 
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
-	protected KeyBoardButtonBase(final ButtonHandler handler) {
+	protected BaseKeyboardButton(final ButtonHandler handler) {
 		this.buttonHandler = handler;
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				handler.onClick(KeyBoardButtonBase.this, type);
+				handler.onClick(BaseKeyboardButton.this, type);
 			}
 		});
 		// only used for preventDefault and stopPropagation

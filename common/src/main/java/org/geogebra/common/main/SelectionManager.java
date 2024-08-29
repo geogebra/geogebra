@@ -249,8 +249,8 @@ public class SelectionManager implements ExamRestrictable {
 		if (geo == null) {
 			return;
 		}
-		dispatchDeselected(geo);
 		if (selectedGeos.remove(geo)) {
+			dispatchDeselected(geo);
 			// update only if selectedGeos contained geo
 			geo.setSelected(false);
 			if (updateSelection) {

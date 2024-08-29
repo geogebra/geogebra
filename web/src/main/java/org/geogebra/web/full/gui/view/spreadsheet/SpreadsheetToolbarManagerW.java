@@ -50,35 +50,35 @@ public class SpreadsheetToolbarManagerW {
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
 			//if(!app.getSelectedGeos().isEmpty() && prevMode == mode){
 			if (!CellRangeUtil.isEmpty(table.getFirstSelection(), app)) {
-				openDialog(CreateObjectModel.TYPE_LIST, "CreateList");
+				openDialog(CreateObjectModel.TYPE_LIST);
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS:
 			if (table.getCellRangeProcessor()
 					.isCreatePointListPossible(table.getSelectedRanges())) {
-				openDialog(CreateObjectModel.TYPE_LISTOFPOINTS, "CreateListOfPoints");
+				openDialog(CreateObjectModel.TYPE_LISTOFPOINTS);
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX:
 			if (table.getCellRangeProcessor()
 					.isCreateMatrixPossible(table.getSelectedRanges())) {
-				openDialog(CreateObjectModel.TYPE_MATRIX, "CreateMatrix");
+				openDialog(CreateObjectModel.TYPE_MATRIX);
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT:
 			if (table.getCellRangeProcessor()
 					.isCreateMatrixPossible(table.getSelectedRanges())) {
-				openDialog(CreateObjectModel.TYPE_TABLETEXT, "CreateTable");
+				openDialog(CreateObjectModel.TYPE_TABLETEXT);
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE:
 			if (table.getCellRangeProcessor()
 					.isCreatePointListPossible(table.getSelectedRanges())) {
-				openDialog(CreateObjectModel.TYPE_POLYLINE, "CreatePolyLine");
+				openDialog(CreateObjectModel.TYPE_POLYLINE);
 			}
 			break;
 			
@@ -99,8 +99,9 @@ public class SpreadsheetToolbarManagerW {
 		}
 	}
 
-	private void openDialog(int type, String title) {
-		createObjectDialog = new CreateObjectDialogW(app, view, type, title);
+	private void openDialog(int type) {
+		createObjectDialog = new CreateObjectDialogW(app, view, type,
+				CreateObjectModel.getTitle(type));
 		createObjectDialog.show();
 	}
 }

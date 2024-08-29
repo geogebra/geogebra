@@ -331,6 +331,10 @@ public class MyVec3DNode extends ValidExpression
 		setVectorPrintingMode();
 	}
 
+	public void clearCASVector() {
+		isCASVector = false;
+	}
+
 	@Override
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);

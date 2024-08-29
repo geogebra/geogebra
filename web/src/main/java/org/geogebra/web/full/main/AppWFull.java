@@ -457,7 +457,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	private void preloadAdvancedCommandsForSuiteCAS() {
 		if (isSuite() && "cas".equals(activity.getConfig().getSubAppCode())) {
-			getAsyncManager().prefetch(null, "advanced", "giac");
+			getAsyncManager().prefetch(null, "advanced", "giac", "cas");
 		}
 	}
 
@@ -537,7 +537,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public final boolean showKeyboard(MathKeyboardListener textField,
 			boolean forceShow) {
-		boolean ret = getAppletFrame().showKeyBoard(true, textField, forceShow);
+		boolean ret = getAppletFrame().showKeyboard(true, textField, forceShow);
 		if (textField != null && ret) {
 			CancelEventTimer.keyboardSetVisible();
 		}
@@ -550,7 +550,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public final void updateKeyBoardField(MathKeyboardListener field) {
+	public final void updateKeyboardField(MathKeyboardListener field) {
 		getKeyboardManager().setOnScreenKeyboardTextField(field);
 	}
 
@@ -621,11 +621,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				listener.setFocus(true);
 				if (getAppletFrame().appNeedsKeyboard()
 						&& examController.getState() != ExamState.PREPARING) {
-					getAppletFrame().showKeyBoard(true, listener, true);
+					getAppletFrame().showKeyboard(true, listener, true);
 				}
 			}
 			if (!getAppletFrame().appNeedsKeyboard()) {
-				getAppletFrame().showKeyBoard(false, null, true);
+				getAppletFrame().showKeyboard(false, null, true);
 			}
 
 		});
@@ -2362,7 +2362,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			guiManager.resetBrowserGUI();
 			if (menuViewController != null) {
 				menuViewController.setExamMenu();
-				guiManager.setUnbundledHeaderStyle(isLockedExam() ? "examLock" : "examOk");
+				guiManager.setUnbundledHeaderStyle(
+						ExamUtil.hasExternalSecurityCheck(this) ? "examLock" : "examOk");
 				guiManager.resetMenu();
 				guiManager.updateUnbundledToolbarContent();
 				GlobalHeader.INSTANCE.addExamTimer();
