@@ -3,13 +3,12 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.resources.SVGResourcePrototype;
 
 public class CategoryMenuPopup extends GPopupMenuW implements SetLabels {
 	private final List<Integer> tools;
@@ -35,21 +34,20 @@ public class CategoryMenuPopup extends GPopupMenuW implements SetLabels {
 	}
 
 	private void addItem(int mode) {
-		SVGResource image = getImageForMode(mode);
 		String text = getTextForMode(mode);
 
-		AriaMenuItem item = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
-				image.getSafeUri().asString(), text), true, () -> getApp().setMode(mode));
+		AriaMenuItem item = MainMenu.getMenuBarItem(
+				SVGResourcePrototype.EMPTY, text, () -> getApp().setMode(mode));
+		getImageForMode(mode, item);
 		addItem(item);
 	}
 
 	/**
 	 * @param mode - tool mode
-	 * @return image of tool
+	 * @param item popup item
 	 */
-	public SVGResource getImageForMode(int mode) {
-		return (SVGResource) GGWToolBar.getImageURLNotMacro(
-				ToolbarSvgResources.INSTANCE, mode, getApp());
+	public void getImageForMode(int mode, AriaMenuItem item) {
+		GGWToolBar.getImageResource(mode, getApp(), item);
 	}
 
 	/**

@@ -5,8 +5,8 @@ import org.geogebra.web.full.gui.AriaMenuItemMock;
 public class AriaMenuCheckMock extends AriaMenuItemMock {
 	private boolean checked = false;
 
-	public AriaMenuCheckMock(String html) {
-		super(html, false, () -> { });
+	public AriaMenuCheckMock(String text) {
+		super(text, null, () -> { });
 	}
 
 	public boolean isChecked() {

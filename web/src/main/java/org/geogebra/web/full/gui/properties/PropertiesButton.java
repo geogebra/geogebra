@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.properties;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.Command;
 
 /**
@@ -16,13 +17,13 @@ public class PropertiesButton extends AriaMenuItem {
 	/**
 	 * @param app
 	 *            application
-	 * @param text
+	 * @param icon
 	 *            content
 	 * @param cmd
 	 *            action
 	 */
-	public PropertiesButton(App app, String text, Command cmd) {
-		super(text, true, cmd);
+	public PropertiesButton(App app, ResourcePrototype icon, Command cmd) {
+		super("", icon, cmd);
 		setApp(app);
 	}
 
