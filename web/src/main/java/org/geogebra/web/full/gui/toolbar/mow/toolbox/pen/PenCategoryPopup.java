@@ -63,8 +63,8 @@ public class PenCategoryPopup extends CategoryPopup implements SettingListener {
 			colorChooser.updateColorSelection(controller.getLastHighlighterColor());
 		}
 		colorChooser.setDisabled(mode == MODE_ERASER);
-		controller.getPen().updateMode();
 		sliderComponent.update(mode);
+		controller.getPen().updateMode();
 	}
 
 	@Override
