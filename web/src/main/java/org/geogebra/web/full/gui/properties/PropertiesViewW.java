@@ -182,8 +182,7 @@ public class PropertiesViewW extends PropertiesView
 
 		case OBJECTS:
 			if (getObjectPanel() == null) {
-				setObjectPanel(new OptionsObjectW((AppW) app, false,
-						this::updatePropertiesView));
+				setObjectPanel(new OptionsObjectW((AppW) app, false));
 			}
 			getObjectPanel().selectTab(subType);
 			return getObjectPanel();
