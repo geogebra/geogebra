@@ -6263,15 +6263,19 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		inlineObject.setLabel(null);
 		selectAndShowSelectionUI(inlineObject);
-		final DrawableND drawable = view.getDrawableFor(inlineObject);
+		updateDrawableAndMoveToForeground(inlineObject);
+
+		view.setCursor(DEFAULT);
+		return true;
+	}
+
+	private void updateDrawableAndMoveToForeground(GeoElementND geo) {
+		DrawableND drawable = view.getDrawableFor(geo);
 		if (drawable != null) {
 			drawable.update();
 			((DrawInline) drawable).toForeground(0, 0);
 			app.getEventDispatcher().lockTextElement(drawable.getGeoElement());
 		}
-
-		view.setCursor(DEFAULT);
-		return true;
 	}
 
 	protected void hitCheckBox(GeoBoolean bool) {
@@ -9868,6 +9872,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (d instanceof DrawMindMap) {
 				GeoMindMapNode child = ((DrawMindMap) d).addChildNode(view.getHitHandler());
 				selectAndShowSelectionUI(child);
+				updateDrawableAndMoveToForeground(child);
 				lastMowHit = child;
 				view.resetHitHandler();
 				app.storeUndoInfo();
