@@ -17,7 +17,6 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Sends spreadsheet cell editor input towards the AlgebraProcessor.
- *
  * (This class is an adapter between the Spreadsheet core and the Kernel.)
  */
 public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor {
@@ -102,7 +101,8 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 		sb.append("\"");
 	}
 
-	private void processInput(String command, ErrorHandler handler, AsyncOperation<GeoElementND[]> callback) {
+	private void processInput(String command, ErrorHandler handler, AsyncOperation<GeoElementND[]>
+			callback) {
 		algebraProcessor.processAlgebraCommandNoExceptionHandling(command, false,
 				handler, false, callback);
 	}
