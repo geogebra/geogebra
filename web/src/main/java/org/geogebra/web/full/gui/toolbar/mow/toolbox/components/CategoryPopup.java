@@ -16,7 +16,7 @@ public class CategoryPopup extends GPopupPanel implements SetLabels {
 	private FlowPanel contentPanel;
 	private final List<IconButton> buttons = new ArrayList<>();
 	private final Integer defaultTool;
-	private boolean preventHide;
+	private final boolean preventHide;
 
 	/**
 	 * Constructor
