@@ -60,7 +60,7 @@ public class PerspectivesPopup {
 		addPerspectiveItem(pr.menu_icon_spreadsheet_transparent(), 2);
 		addPerspectiveItem(pr.menu_icon_probability_transparent(), 5);
 
-		if (app.getLAF().examSupported()) {
+		if (app.getLAF().isOfflineExamSupported()) {
 			addPerspectiveItem(pr.menu_icon_exam_transparent(), -1);
 		}
 

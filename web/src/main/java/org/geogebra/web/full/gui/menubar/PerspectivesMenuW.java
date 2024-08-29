@@ -43,7 +43,7 @@ public class PerspectivesMenuW extends Submenu {
 		addPerspective(5, pr.menu_icon_probability_transparent());
 
 		if (examController.isIdle()) {
-			if (app.getLAF().examSupported()) {
+			if (app.getLAF().isOfflineExamSupported()) {
 				addItem(MainMenu.getMenuBarHtmlClassic(
 						GuiResources.INSTANCE.menu_icon_exam24().getSafeUri()
 								.asString(),
