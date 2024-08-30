@@ -14,6 +14,6 @@ public class ClipboardW implements ClipboardInterface {
 
 	@Override
 	public void setContent(String content) {
-		CopyPasteW.writeToExternalClipboard(content);
+		CopyPasteW.writeToExternalClipboardWithFallback(content);
 	}
 }

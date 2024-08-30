@@ -185,11 +185,18 @@ public class CopyPasteW extends CopyPaste {
 
 	private static void saveToClipboard(String toSave) {
 		String escapedContent = Global.escape(toSave);
-		String encoded = pastePrefix + DomGlobal.btoa(escapedContent);
+		writeToExternalClipboardWithFallback(pastePrefix + DomGlobal.btoa(escapedContent));
+	}
+
+	/**
+	 * Copies to external clipboard, adding a fallback based on local storage
+	 * @param content clipboard content
+	 */
+	public static void writeToExternalClipboardWithFallback(String content) {
 		if (!NavigatorUtil.isiOS() || copyToExternalSupported()) {
-			writeToExternalClipboard(encoded);
+			writeToExternalClipboard(content);
 		}
-		BrowserStorage.LOCAL.setItem(pastePrefix, asBlobURL(encoded));
+		BrowserStorage.LOCAL.setItem(pastePrefix, asBlobURL(content));
 	}
 
 	private static boolean copyToExternalSupported() {
