@@ -14,6 +14,7 @@ import java.util.List;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
@@ -298,6 +299,17 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		GlobalScope.examController = examController;
 		LanguageProperty languageProperty = new LanguageProperty(app, app.getLocalization());
 		assertFalse(languageProperty.isEnabled()); // should be disabled during exam
+	}
+
+	@Test
+	public void testToolsExcludedDuringExam() {
+		setInitialApp(SuiteSubApp.GEOMETRY);
+		examController.prepareExam();
+		examController.setExamRestrictionsForTesting(
+				new TestExamRestrictions(ExamType.GENERIC));
+		examController.startExam(ExamType.GENERIC, null);
+
+		assertFalse(app.getAvailableTools().contains(EuclidianConstants.MODE_POINT));
 	}
 
 	// -- ExamControllerDelegate --

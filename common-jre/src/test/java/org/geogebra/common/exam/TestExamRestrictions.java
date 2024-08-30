@@ -1,10 +1,14 @@
 package org.geogebra.common.exam;
 
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_POINT;
+
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
+import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
+import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
@@ -28,7 +32,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 				TestExamRestrictions.createCommandFilters(),
 				null,
 				null,
-				null,
+				TestExamRestrictions.createToolCollectionFilter(),
 				Set.of("AngleUnit"));
 	}
 
@@ -46,6 +50,10 @@ final class TestExamRestrictions extends ExamRestrictions {
 				new OperationExpressionFilter(Operation.OR, Operation.AND),
 				new ComplexExpressionFilter(),
 				new RadianExpressionFilter());
+	}
+
+	private static ToolCollectionFilter createToolCollectionFilter() {
+		return new ToolCollectionSetFilter(MODE_POINT);
 	}
 
 	@Override
