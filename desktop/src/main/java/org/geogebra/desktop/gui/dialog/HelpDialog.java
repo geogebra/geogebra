@@ -71,7 +71,7 @@ public class HelpDialog {
 			if (modeTextInternal == null) {
 				// show help for custom tools?
 				((GuiManagerD) app.getGuiManager()).openHelp("Custom_Tools",
-						Help.GENERIC);
+						Help.TOOL);
 			} else {
 				((GuiManagerD) app.getGuiManager()).openHelp(modeTextInternal,
 						Help.TOOL);
