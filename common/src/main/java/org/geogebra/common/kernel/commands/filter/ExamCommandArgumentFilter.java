@@ -15,7 +15,7 @@ public class ExamCommandArgumentFilter extends BaseCommandArgumentFilter {
 		super(Commands.SetFixed, Commands.CopyFreeObject);
 	}
 
-    @Override
+	@Override
 	public void checkAllowed(Command command, CommandProcessor commandProcessor) {
 		if (!isFilteredCommand(command)) {
 			return;
@@ -33,9 +33,5 @@ public class ExamCommandArgumentFilter extends BaseCommandArgumentFilter {
 		if (isCopyFree && (firstArgument instanceof EquationValue)) {
 			throw commandProcessor.argErr(command, firstArgument);
 		}
-    }
-
-	private boolean isCommand(Command command, Commands cmdName) {
-		return cmdName.name().equals(command.getName());
 	}
 }

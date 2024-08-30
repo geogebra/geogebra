@@ -27,15 +27,11 @@ public class ScientificCommandArgumentFilter extends BaseCommandArgumentFilter {
 		}
 	}
 
-	private boolean isCommand(Command command, Commands commandsValue) {
-		return command.getName().equals(commandsValue.name());
-	}
-
 	private void checkBinomial(Command command, GeoElement[] arguments,
 			CommandProcessor commandProcessor) {
 
 		if (arguments.length == 3 || arguments.length == 4) {
-				return;
+			return;
 		} else {
 			throw commandProcessor.argNumErr(command, arguments.length);
 		}

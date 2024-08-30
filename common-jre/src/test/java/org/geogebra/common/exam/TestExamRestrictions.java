@@ -9,14 +9,21 @@ import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.RadianExpressionFilter;
+import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
+import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.ValuedProperty;
 
@@ -30,8 +37,8 @@ final class TestExamRestrictions extends ExamRestrictions {
 				TestExamRestrictions.createExpressionFilters(),
 				null,
 				TestExamRestrictions.createCommandFilters(),
-				null,
-				null,
+				TestExamRestrictions.createCommandArgumentFilter(),
+				TestExamRestrictions.createSyntaxFilter(),
 				TestExamRestrictions.createToolCollectionFilter(),
 				Set.of("AngleUnit"));
 	}
@@ -54,6 +61,27 @@ final class TestExamRestrictions extends ExamRestrictions {
 
 	private static ToolCollectionFilter createToolCollectionFilter() {
 		return new ToolCollectionSetFilter(MODE_POINT);
+	}
+
+	private static SyntaxFilter createSyntaxFilter() {
+		LineSelectorSyntaxFilter filter = new LineSelectorSyntaxFilter();
+		// Max [ <Function>, <Start x-Value>, <End x-Value> ]
+		filter.addSelector(Commands.Max, 4);
+		return filter;
+	}
+
+	private static Set<CommandArgumentFilter> createCommandArgumentFilter() {
+		return Set.of(new BaseCommandArgumentFilter() {
+			@Override
+			public void checkAllowed(Command command, CommandProcessor commandProcessor)
+					throws MyError {
+				if (isCommand(command, Commands.Max)) {
+					if (command.getArgumentNumber() != 3) {
+						throw commandProcessor.argNumErr(command, command.getArgumentNumber());
+					}
+				}
+			}
+		});
 	}
 
 	@Override

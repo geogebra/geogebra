@@ -335,11 +335,18 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
+import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
@@ -355,10 +362,16 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				IBExamRestrictions.createExpressionFilters(),
 				null,
 				IBExamRestrictions.createCommandFilters(),
-				null,
+				IBExamRestrictions.createCommandArgumentFilters(),
 				IBExamRestrictions.createSyntaxFilter(),
 				IBExamRestrictions.createToolCollectionFilter(),
 				null);
+	}
+
+	private static Set<ExpressionFilter> createExpressionFilters() {
+		OperationExpressionFilter operationFilter =
+				new OperationExpressionFilter(Operation.DERIVATIVE);
+		return Set.of(operationFilter);
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
@@ -410,10 +423,8 @@ public final class IBExamRestrictions extends ExamRestrictions {
 		return Set.of(nameFilter);
 	}
 
-	private static Set<ExpressionFilter> createExpressionFilters() {
-		OperationExpressionFilter operationFilter =
-				new OperationExpressionFilter(Operation.DERIVATIVE);
-		return Set.of(operationFilter);
+	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {
+		return Set.of(new IBExamCommandFilter());
 	}
 
 	private static SyntaxFilter createSyntaxFilter() {
@@ -437,5 +448,27 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				MODE_HYPERBOLA_THREE_POINTS, MODE_MIRROR_AT_LINE, MODE_MIRROR_AT_POINT,
 				MODE_TRANSLATE_BY_VECTOR, MODE_MOVE_ROTATE, MODE_DILATE_FROM_POINT,
 				MODE_MIRROR_AT_CIRCLE, MODE_FREEHAND_SHAPE, MODE_RELATION);
+	}
+
+	private static class IBExamCommandFilter extends BaseCommandArgumentFilter {
+
+		private IBExamCommandFilter() {
+			super();
+		}
+
+		@Override
+		public void checkAllowed(Command command, CommandProcessor commandProcessor)
+				throws MyError {
+			if (isCommand(command, Commands.Integral)) {
+				if (command.getArgumentNumber() != 3) {
+					throw commandProcessor.argNumErr(command, command.getArgumentNumber());
+				}
+			} else if (isCommand(command, Commands.Invert)) {
+				GeoElement[] elements = commandProcessor.resArgs(command);
+				if (elements.length == 1 && elements[0] instanceof GeoFunction) {
+					throw commandProcessor.argErr(command, elements[0]);
+				}
+			}
+		}
 	}
 }
