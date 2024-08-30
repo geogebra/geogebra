@@ -450,10 +450,6 @@ public final class IBExamRestrictions extends ExamRestrictions {
 
 	private static class IBExamCommandFilter extends BaseCommandArgumentFilter {
 
-		private IBExamCommandFilter() {
-			super();
-		}
-
 		@Override
 		public void checkAllowed(Command command, CommandProcessor commandProcessor)
 				throws MyError {
