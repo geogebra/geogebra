@@ -1,6 +1,5 @@
 package org.geogebra.common.exam.restrictions;
 
-
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_ANGLE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_ANGLE_FIXED;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_ANGULAR_BISECTOR;
@@ -350,7 +349,6 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
-
 
 public final class IBExamRestrictions extends ExamRestrictions {
 
