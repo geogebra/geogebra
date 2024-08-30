@@ -21,14 +21,16 @@ import org.junit.Test;
 
 public class SVGTest {
 
-	private static String SVG_PATH = "../common/src/nonfree/resources/org/geogebra/common/icons/svg/web/toolIcons";
+	public static final String BASE = "../common/src/nonfree/resources/";
+	private static final String SVG_PATH = BASE + "org/geogebra/common/icons/svg/web/toolIcons";
+
 	@Test
 	public void rmExtraSVGS() {
 		Path svgs = Paths.get(SVG_PATH);
-		Path root = Paths.get("../common/src/nonfree/resources");
+		Path root = Paths.get(BASE);
 		TreeSet<String> disk = new TreeSet<>();
-		try {
-			Files.list(svgs).map(root::relativize)
+		try (Stream<Path> svgList = Files.list(svgs)) {
+			svgList.map(root::relativize)
 					.map(s -> s.toString().replace('\\', '/'))
 					.forEach(disk::add);
 		} catch (Exception e) {
