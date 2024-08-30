@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
@@ -184,7 +185,7 @@ public class Variable extends ValidExpression {
 				return replacement;
 			}
 			if (mode == SymbolicMode.SYMBOLIC_AV) {
-				return new GeoDummyVariable(kernel.getConstruction(), name);
+				return resolveUnknownForCAS();
 			}
 			return resolve(allowAutoCreateGeoElement, true, mode, allowMultiLetterVariables);
 		}
@@ -212,6 +213,14 @@ public class Variable extends ValidExpression {
 
 		// standard case: no dollar sign
 		return geo;
+	}
+
+	private ExpressionValue resolveUnknownForCAS() {
+		if (GeoElementSpreadsheet.isSpreadsheetLabel(name)) {
+			return kernel.getConstruction()
+					.createSpreadsheetGeoElement(null, name);
+		}
+		return new GeoDummyVariable(kernel.getConstruction(), name);
 	}
 
 	/**
