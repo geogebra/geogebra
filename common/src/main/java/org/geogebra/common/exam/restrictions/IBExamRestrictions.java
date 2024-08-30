@@ -25,7 +25,6 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MIDPOINT;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MIRROR_AT_CIRCLE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MIRROR_AT_LINE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MIRROR_AT_POINT;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MOVE_ROTATE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_ORTHOGONAL;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PARABOLA;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PARALLEL;
