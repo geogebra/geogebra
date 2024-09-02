@@ -2,6 +2,7 @@ package org.geogebra.common.properties.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.exam.restrictions.ValueFilter;
 import org.geogebra.common.main.Localization;
@@ -39,7 +40,7 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 	public List<V> getValues() {
 		return values.stream().filter(value ->
 				valueFilters.stream().allMatch(filter ->
-						filter.isValueAllowed(value))).toList();
+						filter.isValueAllowed(value))).collect(Collectors.toList());
 	}
 
 	@Override

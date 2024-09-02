@@ -1,6 +1,7 @@
 package org.geogebra.common.properties.impl;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
@@ -31,7 +32,7 @@ public abstract class AbstractNamedEnumeratedProperty<V> extends AbstractEnumera
 	 * @param values localized values of this property // TODO DOCUMENTATION
 	 */
 	protected void setNamedValues(Map<V, String> values) {
-		setValues(values.keySet().stream().toList());
+		setValues(values.keySet().stream().collect(Collectors.toList()));
 		this.valueNameTranslationIds = values;
 	}
 
