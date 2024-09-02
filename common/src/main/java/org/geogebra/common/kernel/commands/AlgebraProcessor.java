@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -183,7 +184,9 @@ public class AlgebraProcessor {
 	 */
 	protected ParametricProcessor paramProcessor;
 
-	private final List<ExpressionFilter> expressionFilters = new ArrayList<>();
+	private final List<ExpressionFilter> inputExpressionFilters = new ArrayList<>();
+
+	private final List<ExpressionFilter> outputExpressionFilters = new ArrayList<>();
 
 	/** TODO use the selector from CommandDispatcher instead. */
 	@Deprecated
@@ -253,27 +256,48 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * Add an expression filter (used for dynamically filtering valid expressions).
-	 * @param filter An expression filter.
+	 * Add an input expression filter (used for dynamically filtering valid input expressions).
+	 * @param filter An input expression filter.
 	 */
-	public void addExpressionFilter(ExpressionFilter filter) {
+	public void addInputExpressionFilter(ExpressionFilter filter) {
 		if (filter != null) {
-			expressionFilters.add(filter);
+			inputExpressionFilters.add(filter);
 		}
 	}
 
 	/**
-	 * Remove an expression filter.
-	 * @param filter An expression filter.
+	 * Remove an input expression filter.
+	 * @param filter An input expression filter.
 	 */
-	public void removeExpressionFilter(ExpressionFilter filter) {
+	public void removeInputExpressionFilter(ExpressionFilter filter) {
 		if (filter != null) {
-			expressionFilters.remove(filter);
+			inputExpressionFilters.remove(filter);
 		}
 	}
 
-	private boolean isExpressionAllowed(ValidExpression expression) {
-		for (ExpressionFilter expressionFilter : expressionFilters) {
+	/**
+	 * Add an output expression filter (used for dynamically filtering output expressions).
+	 * @param filter An output expression filter.
+	 */
+	public void addOutputExpressionFilter(ExpressionFilter filter) {
+		if (filter != null) {
+			outputExpressionFilters.add(filter);
+		}
+	}
+
+	/**
+	 * Remove an output expression filter.
+	 * @param filter An output expression filter.
+	 */
+	public void removeOutputExpressionFilter(ExpressionFilter filter) {
+		if (filter != null) {
+			outputExpressionFilters.remove(filter);
+		}
+	}
+
+	private boolean isExpressionAllowed(ValidExpression expression,
+			List<ExpressionFilter> filters) {
+		for (ExpressionFilter expressionFilter : filters) {
 			if (!expressionFilter.isAllowed(expression)) {
 				return false;
 			}
@@ -400,8 +424,7 @@ public class AlgebraProcessor {
 				// so we don't need to call computeOutput,
 				// which also causes marble crashes
 
-				// casCell.computeOutput();
-				// casCell.updateCascade();
+				casCell.update();
 			} catch (Exception e) {
 				app.getEventDispatcher().enableListeners();
 				Log.debug(e);
@@ -949,7 +972,7 @@ public class AlgebraProcessor {
 			final ErrorHandler handler,
 			final AsyncOperation<GeoElementND[]> callback0,
 			final EvalInfo info) {
-		if (!isExpressionAllowed(ve)) {
+		if (!isExpressionAllowed(ve, inputExpressionFilters)) {
 			return null;
 		}
 		// collect undefined variables
@@ -1105,6 +1128,19 @@ public class AlgebraProcessor {
 
 		GeoElement[] geos = processValidExpression(storeUndo, handler, ve,
 				newInfo);
+
+		// Test output for filtered expression
+		if (geos != null) {
+			boolean containsRestrictedExpressions = Arrays.stream(geos)
+					.map(geo -> geo.wrap())
+					.anyMatch(geo -> !isExpressionAllowed(geo, outputExpressionFilters));
+			if (containsRestrictedExpressions) {
+				// Remove filtered geos
+				Arrays.stream(geos).forEach(geo -> geo.remove());
+				throw new MyError(loc, MyError.Errors.InvalidInput);
+			}
+		}
+
 		runCallback(callback0, geos, step);
 		return geos;
 	}
@@ -2529,7 +2565,8 @@ public class AlgebraProcessor {
 		if (!cx.containsDeep(loc2)) {
 			add(coefX, 0, mult.multiply(cx));
 			return 0;
-		} else if (cx.getOperation() == Operation.PLUS) {
+		} else if (cx.getOperation() == Operation.PLUS
+				|| cx.getOperation() == Operation.INVISIBLE_PLUS) {
 			int deg1 = getPolyCoeffs(cx.getLeftTree(), coefX, mult, loc2);
 			int deg2 = getPolyCoeffs(cx.getRightTree(), coefX, mult, loc2);
 			if (deg1 < 0 || deg2 < 0) {
@@ -3171,6 +3208,7 @@ public class AlgebraProcessor {
 
 		// ELSE: resolve variables and evaluate expressionnode
 		n.resolveVariables(info);
+
 		if (n.isLeaf() && n.getLeft().isExpressionNode()) {
 			// we changed f' to f'(x) -> clean double wrap
 

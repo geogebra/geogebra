@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 
 import javax.annotation.CheckForNull;
@@ -44,6 +45,8 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.euclidian.plot.interval.IntervalPathPlotter;
 import org.geogebra.common.euclidian.plot.interval.IntervalPathPlotterImpl;
+import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
+import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.EdgeInsets;
@@ -61,7 +64,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
@@ -108,7 +110,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * View containing graphic representation of construction elements
  */
 public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
-		SetLabels {
+		SetLabels, ExamRestrictable {
 
 	private boolean isCrashlyticsLoggingEnabled;
 
@@ -318,6 +320,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected boolean[] drawBorderAxes;
 
 	private boolean needsAllDrawablesUpdate;
+	private boolean restrictGraphSelectionForFunctions;
 	protected boolean batchUpdate;
 	/** kernel */
 	@Weak
@@ -2132,7 +2135,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	protected void updatePreviewFromInputBar() {
-		if (app.getConfig().hasPreviewPoints()) {
+		if (app.getConfig().hasPreviewPoints() && !restrictGraphSelectionForFunctions) {
 			GeoElement geo0 = (previewFromInputBarGeos == null
 					|| previewFromInputBarGeos.length == 0) ? null
 					: previewFromInputBarGeos[0];
@@ -6668,36 +6671,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	/**
-	 * adds ruler or protractor image to canvas
-	 * @return geoImage containing ruler or protractor
-	 */
-	public GeoImage addMeasurementTool(int mode, String fileName) {
-		return null;
-	}
-
-	/**
-	 * Adds a measurement tool with given size
-	 *
-	 * @param tool image of the tool
-	 * @param left coordinate of the tool
-	 * @param width of the tool
-	 * @param height of the tool
-	 */
-	public void setMeasurementTool(GeoImage tool, int left, int width, int height) {
-		// implemented in web.
-	}
-
-	/**
-	 * Adds a measurement tool with its own size
-	 *
-	 * @param tool image of the tool
-	 * @param left coordinate of the tool
-	 */
-	public void setMeasurementTool(GeoImage tool, int left) {
-		// implemented in web.
-	}
-
 	@Override
 	public EdgeInsets getSafeAreaInsets() {
 		return safeAreaInsets;
@@ -6727,5 +6700,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (bgGraphics != null) {
 			drawable.drawTrace(bgGraphics);
 		}
+	}
+
+	@Override
+	public void applyRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
+		restrictGraphSelectionForFunctions = featureRestrictions
+				.contains(ExamFeatureRestriction.AUTOMATIC_GRAPH_SELECTION_FOR_FUNCTIONS);
+	}
+
+	@Override
+	public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
+		restrictGraphSelectionForFunctions = false;
 	}
 }

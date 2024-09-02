@@ -1929,8 +1929,7 @@ public class AlgoKimberlingWeights {
 		case 590:
 			return a2 + S;
 		case 591:
-			return -2 * a6 + 5 * a4 * R + Q * R - 4 * a2 * (b4 + c4)
-					+ 2 * (Q - a2 * R) * S;
+			return 2 * a2 - b2 - c2 - S;
 		case 592:
 			return a2
 					* (a6 * (b2 + 2 * c2)

@@ -2,11 +2,9 @@ package org.geogebra.common.euclidian.draw.dropdown;
 
 import java.util.HashMap;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -15,7 +13,7 @@ class ItemSelector implements MoveSelector {
 	private final GeoList geoList;
 	private final VisibleItemRange range;
 	private OptionItem hovered;
-	private final GColor color;
+	private boolean hasKeyboardFocus = false;
 	private OptionItem dragged = null;
 	private int dragOffset;
 	private boolean dragDirection;
@@ -31,7 +29,6 @@ class ItemSelector implements MoveSelector {
 		geoList = model.getGeoList();
 		app = geoList.getApp();
 		range = model.getRange();
-		color = GeoGebraColorConstants.NEUTRAL_200;
 	}
 
 	int getDragOffset() {
@@ -46,8 +43,12 @@ class ItemSelector implements MoveSelector {
 		return item.isEqual(hovered);
 	}
 
-	GColor getColor() {
-		return color;
+	boolean hasKeyboardFocus() {
+		return hasKeyboardFocus;
+	}
+
+	public void setKeyboardFocus(boolean hasKeyboardFocus) {
+		this.hasKeyboardFocus = hasKeyboardFocus;
 	}
 
 	void cancelDrag() {

@@ -26,11 +26,6 @@ public interface HasKeyboard {
 	LocalizationI getLocalization();
 
 	/**
-	 * @return true-if small keyboard needed
-	 */
-	boolean needsSmallKeyboard();
-
-	/**
 	 * @return true if in whiteboard, where keyboard is used for equation editor
 	 */
 	boolean attachedToEqEditor();

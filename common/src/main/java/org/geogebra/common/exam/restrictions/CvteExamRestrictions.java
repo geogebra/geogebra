@@ -9,9 +9,11 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.cvte.CvteCommandArgumentFilter;
 import org.geogebra.common.exam.restrictions.cvte.CvteSyntaxFilter;
+import org.geogebra.common.exam.restrictions.cvte.MatrixExpressionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
@@ -34,8 +36,9 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				Set.of(SuiteSubApp.CAS, SuiteSubApp.G3D, SuiteSubApp.GEOMETRY,
 						SuiteSubApp.PROBABILITY, SuiteSubApp.SCIENTIFIC),
 				SuiteSubApp.GRAPHING,
-				null,
-				null,
+				CvteExamRestrictions.createFeatureRestrictions(),
+				CvteExamRestrictions.createExpressionFilters(),
+				CvteExamRestrictions.createExpressionFilters(),
 				CvteExamRestrictions.createCommandFilters(),
 				CvteExamRestrictions.createCommandArgumentFilters(),
 				CvteExamRestrictions.createSyntaxFilter(),
@@ -84,6 +87,10 @@ final class CvteExamRestrictions extends ExamRestrictions {
 		}
 	}
 
+	private static Set<ExamFeatureRestriction> createFeatureRestrictions() {
+		return Set.of(ExamFeatureRestriction.AUTOMATIC_GRAPH_SELECTION_FOR_FUNCTIONS);
+	}
+
 	private static Set<CommandFilter> createCommandFilters() {
 		// Source: https://docs.google.com/spreadsheets/d/1xUnRbtDPGtODKcYhM4tx-uD4G8B1wcpGgSkT4iX8BJA/edit?gid=215139506#gid=215139506
 		// note: this is the set of *allowed* commands
@@ -98,6 +105,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				Commands.Integral,
 				Commands.Intersect,
 				Commands.Invert,
+				Commands.IsTangent,
 				Commands.Iteration,
 				Commands.IterationList,
 				Commands.Max,
@@ -123,6 +131,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				Commands.stdev,
 				Commands.stdevp,
 				Commands.Sum,
+				Commands.Tangent,
 				Commands.ZoomIn,
 				Commands.ZoomOut);
 		return Set.of(new EnglishCommandFilter(nameFilter));
@@ -196,5 +205,9 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX,
 				EuclidianConstants.MODE_TEXTFIELD_ACTION
 		);
+	}
+
+	private static Set<ExpressionFilter> createExpressionFilters() {
+		return Set.of(new MatrixExpressionFilter());
 	}
 }

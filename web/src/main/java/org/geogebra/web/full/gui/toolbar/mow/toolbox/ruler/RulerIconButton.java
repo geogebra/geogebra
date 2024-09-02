@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox.ruler;
 
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MOVE;
-
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
@@ -57,7 +55,7 @@ public class RulerIconButton extends IconButton {
 			appW.setMode(rulerPopup.getActiveRulerType());
 		} else {
 			removeTool();
-			appW.setMode(MODE_MOVE);
+			appW.setMoveMode();
 		}
 	}
 

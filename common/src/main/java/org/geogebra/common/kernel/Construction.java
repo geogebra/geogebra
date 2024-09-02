@@ -189,7 +189,7 @@ public class Construction {
 
 	private GeoElement outputGeo;
 
-	private TreeSet<String> registeredFV = new TreeSet<>();
+	private ArrayList<String> registeredFV = new ArrayList<>();
 
 	private boolean fileLoading;
 	private boolean casCellUpdate = false;
@@ -2960,7 +2960,7 @@ public class Construction {
 	public void registerFunctionVariable(String fv) {
 		if (fv == null) {
 			registeredFV.clear();
-		} else {
+		} else if (!registeredFV.contains(fv)) {
 			registeredFV.add(fv);
 		}
 	}
@@ -3207,13 +3207,7 @@ public class Construction {
 	 * @return all function variables registered for parsing
 	 */
 	public String[] getRegisteredFunctionVariables() {
-		String[] varNames = new String[this.registeredFV.size()];
-		Iterator<String> it = this.registeredFV.iterator();
-		int i = 0;
-		while (it.hasNext()) {
-			varNames[i++] = it.next();
-		}
-		return varNames;
+		return registeredFV.toArray(new String[0]);
 	}
 
 	/**

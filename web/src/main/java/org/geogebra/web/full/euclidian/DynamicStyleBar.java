@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.dom.style.shared.Unit;
@@ -55,6 +56,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 					updateStyleBar();
 				});
 		EventUtil.stopPointer(getElement());
+		ClickStartHandler.initDefaults(this, false, true);
 	}
 
 	private GPoint calculatePosition(GRectangle2D gRectangle2D, boolean isPoint,
