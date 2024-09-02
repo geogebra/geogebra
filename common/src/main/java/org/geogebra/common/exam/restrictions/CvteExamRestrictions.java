@@ -14,6 +14,7 @@ import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
@@ -25,6 +26,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.PropertiesRegistry;
 
 final class CvteExamRestrictions extends ExamRestrictions {
@@ -37,10 +39,11 @@ final class CvteExamRestrictions extends ExamRestrictions {
 						SuiteSubApp.PROBABILITY, SuiteSubApp.SCIENTIFIC),
 				SuiteSubApp.GRAPHING,
 				CvteExamRestrictions.createFeatureRestrictions(),
-				CvteExamRestrictions.createExpressionFilters(),
-				CvteExamRestrictions.createExpressionFilters(),
+				CvteExamRestrictions.createInputExpressionFilters(),
+				CvteExamRestrictions.createOutputExpressionFilters(),
 				CvteExamRestrictions.createCommandFilters(),
 				CvteExamRestrictions.createCommandArgumentFilters(),
+				CvteExamRestrictions.getFilteredOperations(),
 				CvteExamRestrictions.createSyntaxFilter(),
 				CvteExamRestrictions.createToolsFilter(),
 				null);
@@ -145,6 +148,16 @@ final class CvteExamRestrictions extends ExamRestrictions {
 		return new CvteSyntaxFilter();
 	}
 
+	private static Set<Operation> getFilteredOperations() {
+		return Set.of(Operation.CONJUGATE,
+				Operation.FRACTIONAL_PART,
+				Operation.GAMMA,
+				Operation.GAMMA_INCOMPLETE,
+				Operation.GAMMA_INCOMPLETE_REGULARIZED,
+				Operation.POLYGAMMA,
+				Operation.RANDOM);
+	}
+
 	private static ToolCollectionFilter createToolsFilter() {
 		// Source: https://docs.google.com/spreadsheets/d/1xUnRbtDPGtODKcYhM4tx-uD4G8B1wcpGgSkT4iX8BJA/edit?gid=1199288464#gid=1199288464
 		// note: this is the set of *excluded* tools
@@ -207,7 +220,12 @@ final class CvteExamRestrictions extends ExamRestrictions {
 		);
 	}
 
-	private static Set<ExpressionFilter> createExpressionFilters() {
+	private static Set<ExpressionFilter> createInputExpressionFilters() {
+		return Set.of(new MatrixExpressionFilter(),
+				new OperationExpressionFilter(getFilteredOperations()));
+	}
+
+	private static Set<ExpressionFilter> createOutputExpressionFilters() {
 		return Set.of(new MatrixExpressionFilter());
 	}
 }
