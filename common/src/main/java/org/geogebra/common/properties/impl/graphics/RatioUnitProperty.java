@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import java.util.Map;
+
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
@@ -16,9 +18,10 @@ public class RatioUnitProperty extends AbstractNamedEnumeratedProperty<Integer> 
 	RatioUnitProperty(Localization localization, EuclidianView3D view3D) {
 		super(localization, "Settings.Unit");
 		this.view3D = view3D;
-		setValues(EuclidianView3D.RATIO_UNIT_METERS_CENTIMETERS_MILLIMETERS,
-				EuclidianView3D.RATIO_UNIT_INCHES);
-		setValueNames("Unit.cm", "Unit.inch");
+		setNamedValues(Map.of(
+				EuclidianView3D.RATIO_UNIT_METERS_CENTIMETERS_MILLIMETERS, "Unit.cm",
+				EuclidianView3D.RATIO_UNIT_INCHES, "Unit.inch"
+		));
 	}
 
 	@Override

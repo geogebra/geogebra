@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import java.util.Map;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -22,10 +24,11 @@ public class TooltipProperty extends AbstractNamedEnumeratedProperty<Integer> {
 		super(localization, "Labeling");
 		this.settings = settings;
 		this.view = view;
-		setValues(EuclidianStyleConstants.TOOLTIPS_ON,
-				EuclidianStyleConstants.TOOLTIPS_AUTOMATIC,
-				EuclidianStyleConstants.TOOLTIPS_OFF);
-		setValueNames("On", "Automatic", "Off");
+		setNamedValues(Map.of(
+				EuclidianStyleConstants.TOOLTIPS_ON, "On",
+				EuclidianStyleConstants.TOOLTIPS_AUTOMATIC, "Automatic",
+				EuclidianStyleConstants.TOOLTIPS_OFF, "Off"
+		));
 	}
 
 	@Override

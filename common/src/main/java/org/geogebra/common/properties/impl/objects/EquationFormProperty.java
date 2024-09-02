@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.objects;
 
+import java.util.Map;
+
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoVec3D;
@@ -21,11 +23,13 @@ public class EquationFormProperty extends AbstractNamedEnumeratedProperty<Intege
 			throws NotApplicablePropertyException {
 		super(localization, "Equation");
 		delegate = new EquationFormDelegate(element);
-		setValues(GeoLine.EQUATION_IMPLICIT, GeoLine.EQUATION_EXPLICIT, GeoLine.PARAMETRIC,
-				GeoLine.EQUATION_IMPLICIT_NON_CANONICAL, GeoLine.EQUATION_GENERAL,
-				GeoLine.EQUATION_USER);
-		setValueNames("ImplicitLineEquation", "ExplicitLineEquation", "ParametricForm",
-				"GeneralLineEquation", "InputForm");
+		setNamedValues(Map.of(
+				GeoLine.EQUATION_IMPLICIT, "ImplicitLineEquation",
+				GeoLine.EQUATION_EXPLICIT, "ExplicitLineEquation",
+				GeoLine.PARAMETRIC, "ParametricForm",
+				GeoLine.EQUATION_GENERAL, "GeneralLineEquation",
+				GeoLine.EQUATION_USER, "InputForm"
+		));
 	}
 
 	@Override

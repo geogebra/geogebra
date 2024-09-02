@@ -1,6 +1,7 @@
 package org.geogebra.common.properties.impl.general;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.LabelSettings;
@@ -34,9 +35,8 @@ public class LabelingProperty extends AbstractNamedEnumeratedProperty<LabelVisib
 			LabelVisibility... values) {
 		super(localization, "Labeling");
 		this.labelSettings = labelSettings;
-		setValues(values);
-		setValueNames(Arrays.stream(values)
-				.map(LabelVisibility::getTransKey).toArray(String[]::new));
+		setNamedValues(Arrays.stream(values).collect(Collectors.toMap(
+				labelVisibility -> labelVisibility, LabelVisibility::getTransKey)));
 	}
 
 	@Override

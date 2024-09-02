@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.collections;
 
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.objects.ElementColorProperty;
@@ -18,7 +20,7 @@ public class ColorPropertyCollection<T extends ElementColorProperty>
 	}
 
 	@Override
-	public GColor[] getValues() {
+	public List<GColor> getValues() {
 		return getFirstProperty().getValues();
 	}
 }

@@ -1,7 +1,9 @@
 package org.geogebra.common.properties.impl;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.geogebra.common.exam.restrictions.ValueFilter;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.EnumeratedProperty;
 
@@ -13,7 +15,8 @@ import org.geogebra.common.properties.EnumeratedProperty;
 public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProperty<V> implements
 		EnumeratedProperty<V> {
 
-	protected V[] values;
+	private List<V> values = new ArrayList<>();
+	private final List<ValueFilter> valueFilters = new ArrayList<>();
 
 	/**
 	 * Constructs an AbstractEnumeratedProperty.
@@ -25,27 +28,43 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 	}
 
 	protected void setValues(V... values) {
+		this.values = List.of(values);
+	}
+
+	protected void setValues(List<V> values) {
 		this.values = values;
 	}
 
 	@Override
-	public V[] getValues() {
-		return values;
+	public List<V> getValues() {
+		return values.stream().filter(value ->
+				valueFilters.stream().allMatch(filter ->
+						filter.isValueAllowed(value))).toList();
+	}
+
+	@Override
+	public void addValueFilter(ValueFilter valueFilter) {
+		valueFilters.add(valueFilter);
+	}
+
+	@Override
+	public void removeValueFilter(ValueFilter valueFilter) {
+		valueFilters.remove(valueFilter);
 	}
 
 	@Override
 	public void setIndex(int index) {
 		ensureValuesPresent();
-		if (index < 0 || index >= values.length) {
+		if (index < 0 || index >= values.size()) {
 			throw new RuntimeException("Index must be between (0, values.length-1)");
 		}
-		setValue(values[index]);
+		setValue(values.get(index));
 	}
 
 	@Override
 	public int getIndex() {
 		ensureValuesPresent();
-		return Arrays.asList(values).indexOf(getValue());
+		return values.indexOf(getValue());
 	}
 
 	private void ensureValuesPresent() {

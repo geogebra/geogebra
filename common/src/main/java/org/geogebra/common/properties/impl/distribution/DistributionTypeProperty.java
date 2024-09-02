@@ -1,5 +1,13 @@
 package org.geogebra.common.properties.impl.distribution;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.geogebra.common.exam.restrictions.ValueFilter;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
@@ -12,6 +20,14 @@ public class DistributionTypeProperty extends AbstractGroupedEnumeratedProperty<
 
 	private final ProbabilityCalculatorView view;
 
+	private void updateGroupDividerIndices() {
+		Optional<Dist> firstDiscreteDistribution = getValues().stream().filter(value ->
+				Set.of(Dist.BINOMIAL, Dist.PASCAL, Dist.HYPERGEOMETRIC, Dist.POISSON)
+						.contains(value)).findFirst();
+		firstDiscreteDistribution.ifPresent(dist ->
+				setGroupDividerIndices(new int[]{ getValues().indexOf(dist) }));
+	}
+
 	/**
 	 * Constructs an DistributionTypeProperty
 	 * @param localization the localization used
@@ -20,22 +36,25 @@ public class DistributionTypeProperty extends AbstractGroupedEnumeratedProperty<
 	public DistributionTypeProperty(Localization localization, ProbabilityCalculatorView view) {
 		super(localization, "Distribution");
 		this.view = view;
-		setValues(
-				// Continouus
-				Dist.NORMAL, Dist.STUDENT, Dist.CHISQUARE, Dist.F, Dist.EXPONENTIAL, Dist.CAUCHY,
-				Dist.WEIBULL, Dist.GAMMA, Dist.BETA, Dist.LOGNORMAL, Dist.LOGISTIC,
-				// Discrete
-				Dist.BINOMIAL, Dist.PASCAL, Dist.POISSON, Dist.HYPERGEOMETRIC);
-		setValueNames(
-				// Continouus
-				"Distribution.Normal", "Distribution.StudentT", "Distribution.ChiSquare",
-				"Distribution.F", "Distribution.Exponential", "Distribution.Cauchy",
-				"Distribution.Weibull", "Distribution.Gamma", "Distribution.Beta",
-				"Distribution.Lognormal", "Distribution.Logistic",
-				// Discrete
-				"Distribution.Binomial", "Distribution.Pascal", "Distribution.Poisson",
-				"Distribution.Hypergeometric");
-		setGroupDividerIndices(new int[]{11});
+		// Keep order of Dist enum values
+		Map<Dist, String> values = Arrays.stream(Dist.values()).collect(Collectors.toMap(
+				dist -> dist,
+				dist -> dist.translationKey,
+				(a, b) -> a, LinkedHashMap::new));
+		setNamedValues(values);
+		updateGroupDividerIndices();
+	}
+
+	@Override
+	public void addValueFilter(ValueFilter valueFilter) {
+		super.addValueFilter(valueFilter);
+		updateGroupDividerIndices();
+	}
+
+	@Override
+	public void removeValueFilter(ValueFilter valueFilter) {
+		super.removeValueFilter(valueFilter);
+		updateGroupDividerIndices();
 	}
 
 	@Override

@@ -1,10 +1,13 @@
 package org.geogebra.common.exam;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
+import org.geogebra.common.exam.restrictions.PropertyRestriction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
@@ -14,7 +17,6 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.properties.ValuedProperty;
 
 final class TestExamRestrictions extends ExamRestrictions {
 
@@ -23,13 +25,14 @@ final class TestExamRestrictions extends ExamRestrictions {
 				Set.of(SuiteSubApp.CAS),
 				SuiteSubApp.GRAPHING,
 				Set.of(ExamFeatureRestriction.DATA_TABLE_REGRESSION),
-				TestExamRestrictions.createExpressionFilters(),
+				createExpressionFilters(),
 				null,
-				TestExamRestrictions.createCommandFilters(),
+				createCommandFilters(),
 				null,
 				null,
 				null,
-				Set.of("AngleUnit"));
+				Map.of("AngleUnit", new PropertyRestriction(true,
+						value -> value != Integer.valueOf(Kernel.ANGLE_DEGREES_MINUTES_SECONDS))));
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
@@ -46,15 +49,5 @@ final class TestExamRestrictions extends ExamRestrictions {
 				new OperationExpressionFilter(Operation.OR, Operation.AND),
 				new ComplexExpressionFilter(),
 				new RadianExpressionFilter());
-	}
-
-	@Override
-	protected void freezeValue(ValuedProperty property) {
-		// tested in AbstractPropertyTests/AbstractValuedPropertyTests
-	}
-
-	@Override
-	protected void unfreezeValue(ValuedProperty property) {
-		// tested in AbstractPropertyTests/AbstractValuedPropertyTests
 	}
 }

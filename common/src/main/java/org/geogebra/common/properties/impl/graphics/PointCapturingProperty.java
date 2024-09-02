@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import java.util.Map;
+
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -20,11 +22,11 @@ public class PointCapturingProperty extends AbstractNamedEnumeratedProperty<Inte
 	public PointCapturingProperty(App app, Localization localization) {
 		super(localization, "PointCapturing");
 		this.app = app;
-		setValues(EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC,
-				EuclidianStyleConstants.POINT_CAPTURING_ON,
-				EuclidianStyleConstants.POINT_CAPTURING_ON_GRID,
-				EuclidianStyleConstants.POINT_CAPTURING_OFF);
-		setValueNames("Labeling.automatic", "SnapToGrid", "FixedToGrid", "Off");
+		setNamedValues(Map.of(EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC, "Labeling.automatic",
+				EuclidianStyleConstants.POINT_CAPTURING_ON, "SnapToGrid",
+				EuclidianStyleConstants.POINT_CAPTURING_ON_GRID, "FixedToGrid",
+				EuclidianStyleConstants.POINT_CAPTURING_OFF, "Off"
+		));
 	}
 
 	@Override

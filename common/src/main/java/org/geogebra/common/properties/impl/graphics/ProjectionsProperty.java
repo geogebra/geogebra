@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import java.util.Map;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.Localization;
@@ -35,12 +37,12 @@ public class ProjectionsProperty extends AbstractNamedEnumeratedProperty<Integer
 		super(localization, "Projection");
 		this.view = view;
 		this.euclidianSettings = euclidianSettings;
-		setValues(EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC,
-				EuclidianView3DInterface.PROJECTION_PERSPECTIVE,
-				EuclidianView3DInterface.PROJECTION_GLASSES,
-				EuclidianView3DInterface.PROJECTION_OBLIQUE);
-		setValueNames("stylebar.ParallelProjection", "stylebar.PerspectiveProjection",
-				"stylebar.GlassesProjection", "stylebar.ObliqueProjection");
+		setNamedValues(Map.of(
+				EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC, "stylebar.ParallelProjection",
+				EuclidianView3DInterface.PROJECTION_PERSPECTIVE, "stylebar.PerspectiveProjection",
+				EuclidianView3DInterface.PROJECTION_GLASSES, "stylebar.GlassesProjection",
+				EuclidianView3DInterface.PROJECTION_OBLIQUE, "stylebar.ObliqueProjection"
+		));
 	}
 
 	@Override

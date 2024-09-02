@@ -2,6 +2,7 @@ package org.geogebra.common.properties.impl.objects;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -30,8 +31,13 @@ public class CaptionStyleProperty extends AbstractNamedEnumeratedProperty<Intege
 			throws NotApplicablePropertyException {
 		super(localization, "stylebar.Caption");
 		delegate = new CaptionStyleDelegate(geoElement);
-		setValues(labelModes.toArray(new Integer[0]));
-		setValueNames("Hidden", "Name", "NameAndValue", "Value", "Caption");
+		setNamedValues(Map.of(
+				GeoElementND.LABEL_DEFAULT, "Hidden",
+				GeoElementND.LABEL_NAME, "Name",
+				GeoElementND.LABEL_NAME_VALUE, "NameAndValue",
+				GeoElementND.LABEL_VALUE, "Value",
+				GeoElementND.LABEL_CAPTION, "Caption"
+		));
 	}
 
 	@Override

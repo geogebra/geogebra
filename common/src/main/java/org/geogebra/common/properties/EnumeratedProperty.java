@@ -1,5 +1,9 @@
 package org.geogebra.common.properties;
 
+import java.util.List;
+
+import org.geogebra.common.exam.restrictions.ValueFilter;
+
 /**
  * A property whose value is one of an array of predefined values,
  * similarly to an enumeration, where the value is one a finite set of possible values.
@@ -10,12 +14,23 @@ package org.geogebra.common.properties;
 public interface EnumeratedProperty<V> extends ValuedProperty<V> {
 
 	/**
+	 * TODO DOCUMENTATION
 	 * Gets the list of possible values for this property.
 	 * When calling {@link EnumeratedProperty#setValue(Object)}
 	 * the value must be one of these values, otherwise it throws a RuntimeException.
 	 * @return predefined values
 	 */
-	V[] getValues();
+	List<V> getValues();
+
+	/**
+	 * TODO DOCUMENTATION
+	 */
+	void addValueFilter(ValueFilter valueFilter);
+
+	/**
+	 * TODO DOCUMENTATION
+	 */
+	void removeValueFilter(ValueFilter valueFilter);
 
 	/**
 	 * Get the index of the value of this property in the array

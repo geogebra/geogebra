@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import java.util.Map;
+
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -17,11 +19,12 @@ public class RightAngleProperty extends AbstractNamedEnumeratedProperty<Integer>
 	public RightAngleProperty(Localization localization, App app) {
 		super(localization, "Labeling");
 		this.app = app;
-		setValues(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE,
-				EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
-				EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT,
-				EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L);
-		setValueNames("Off", "\u25a1", "\u25CF", "\u2335");
+		setNamedValues(Map.of(
+				EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE, "Off",
+				EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, "\u25a1",
+				EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT, "\u25CF",
+				EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L, "\u2335"
+		));
 	}
 
 	@Override

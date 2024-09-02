@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.general;
 
+import java.util.Map;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.CoordinatesFormat;
@@ -23,9 +25,11 @@ public class CoordinatesProperty extends AbstractNamedEnumeratedProperty<Integer
 	public CoordinatesProperty(Kernel kernel, Localization localization) {
 		super(localization, "Coordinates");
 		this.kernel = kernel;
-		setValues(CoordinatesFormat.COORD_FORMAT_DEFAULT, CoordinatesFormat.COORD_FORMAT_AUSTRIAN,
-				CoordinatesFormat.COORD_FORMAT_FRENCH);
-		setValueNames("A = (x, y)", "A(x | y)", "A: (x, y)");
+		setNamedValues(Map.of(
+				CoordinatesFormat.COORD_FORMAT_DEFAULT, "A = (x, y)",
+				CoordinatesFormat.COORD_FORMAT_AUSTRIAN, "A(x | y)",
+				CoordinatesFormat.COORD_FORMAT_FRENCH, "A: (x, y)"
+		));
 	}
 
 	@Override

@@ -1,5 +1,8 @@
 package org.geogebra.common.properties.impl.collections;
 
+import java.util.List;
+
+import org.geogebra.common.exam.restrictions.ValueFilter;
 import org.geogebra.common.properties.EnumeratedProperty;
 
 abstract public class EnumeratedPropertyCollection<T extends EnumeratedProperty<S>, S>
@@ -10,7 +13,7 @@ abstract public class EnumeratedPropertyCollection<T extends EnumeratedProperty<
 	}
 
 	@Override
-	public S[] getValues() {
+	public List<S> getValues() {
 		return getFirstProperty().getValues();
 	}
 
@@ -21,6 +24,16 @@ abstract public class EnumeratedPropertyCollection<T extends EnumeratedProperty<
 
 	@Override
 	public void setIndex(int index) {
-		setValue(getValues()[index]);
+		setValue(getValues().get(index));
+	}
+
+	@Override
+	public void addValueFilter(ValueFilter valueFilter) {
+		getFirstProperty().addValueFilter(valueFilter);
+	}
+
+	@Override
+	public void removeValueFilter(ValueFilter valueFilter) {
+		getFirstProperty().removeValueFilter(valueFilter);
 	}
 }

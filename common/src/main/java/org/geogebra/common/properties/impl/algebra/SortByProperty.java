@@ -1,6 +1,7 @@
 package org.geogebra.common.properties.impl.algebra;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.main.Localization;
@@ -22,13 +23,8 @@ public class SortByProperty extends AbstractNamedEnumeratedProperty<AlgebraView.
 	public SortByProperty(AlgebraSettings algebraSettings, Localization localization) {
 		super(localization, "SortBy");
 		this.algebraSettings = algebraSettings;
-		setupValues();
-	}
-
-	private void setupValues() {
-		setValues(AlgebraView.SortMode.DEPENDENCY, AlgebraView.SortMode.TYPE,
-				AlgebraView.SortMode.ORDER, AlgebraView.SortMode.LAYER);
-		setValueNames(Arrays.stream(values).map(v -> v.toString()).toArray(String[]::new));
+		setNamedValues(Arrays.stream(AlgebraView.SortMode.values()).collect(Collectors.toMap(
+				mode -> mode, Enum::toString)));
 	}
 
 	@Override
