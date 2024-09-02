@@ -161,6 +161,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 				toolsFilter,
 				frozenProperties);
 	}
+
 	/**
 	 * @return The exam type.
 	 */

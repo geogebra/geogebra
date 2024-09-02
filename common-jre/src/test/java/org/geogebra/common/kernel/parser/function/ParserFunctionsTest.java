@@ -112,6 +112,21 @@ public class ParserFunctionsTest {
 	}
 
 	@Test
+	public void testCompletions() {
+		List<String> completions = parserFunctions.getCompletions("gam");
+		assertEquals(completions.size(), 3);
+	}
+
+	@Test
+	public void testCompletionsWithFilteredOperations() {
+		List<String> completions = parserFunctions.getCompletions("gam",
+				Set.of(Operation.GAMMA,
+						Operation.GAMMA_INCOMPLETE,
+						Operation.GAMMA_INCOMPLETE_REGULARIZED));
+		assertEquals(completions.size(), 0);
+	}
+
+	@Test
 	@Issue("APPS-5454")
 	public void testUnaryFlagConsistent() {
 		Localization loc = new LocalizationCommonUTF(3);

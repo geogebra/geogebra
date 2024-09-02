@@ -56,7 +56,6 @@ class FunctionReferences {
 
 	void getCompletions(String prefix, Set<String> completions,
 						@CheckForNull Set<Operation> filteredOperations) {
-		// TODO filter by Operation
 		for (OperationSyntax operationSyntax : syntaxes) {
 			if (filteredOperations != null && filteredOperations.contains(operationSyntax.operation)) {
 				continue;
