@@ -108,7 +108,6 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				Commands.Integral,
 				Commands.Intersect,
 				Commands.Invert,
-				Commands.IsTangent,
 				Commands.Iteration,
 				Commands.IterationList,
 				Commands.Max,
