@@ -1,5 +1,8 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import static java.util.Map.entry;
+
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.geogebra.common.main.App;
@@ -22,11 +25,12 @@ public class PointCapturingProperty extends AbstractNamedEnumeratedProperty<Inte
 	public PointCapturingProperty(App app, Localization localization) {
 		super(localization, "PointCapturing");
 		this.app = app;
-		setNamedValues(Map.of(EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC, "Labeling.automatic",
-				EuclidianStyleConstants.POINT_CAPTURING_ON, "SnapToGrid",
-				EuclidianStyleConstants.POINT_CAPTURING_ON_GRID, "FixedToGrid",
-				EuclidianStyleConstants.POINT_CAPTURING_OFF, "Off"
-		));
+		setNamedValues(new LinkedHashMap<>(Map.ofEntries(
+				entry(EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC, "Labeling.automatic"),
+				entry(EuclidianStyleConstants.POINT_CAPTURING_ON, "SnapToGrid"),
+				entry(EuclidianStyleConstants.POINT_CAPTURING_ON_GRID, "FixedToGrid"),
+				entry(EuclidianStyleConstants.POINT_CAPTURING_OFF, "Off")
+		)));
 	}
 
 	@Override

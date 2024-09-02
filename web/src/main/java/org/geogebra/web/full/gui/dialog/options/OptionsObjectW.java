@@ -1,8 +1,12 @@
 package org.geogebra.web.full.gui.dialog.options;
 
+import static java.util.Map.entry;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.dialog.options.OptionsObject;
@@ -972,10 +976,13 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		public LabelStyleProperty(LabelPanel labelPanel) {
 			super(app.getLocalization(), "");
 			this.labelPanel = labelPanel;
-			setValues(GeoElementND.LABEL_NAME, GeoElementND.LABEL_NAME_VALUE,
-					GeoElementND.LABEL_VALUE, GeoElementND.LABEL_CAPTION,
-					GeoElementND.LABEL_DEFAULT);
-			setValueNames("Name", "NameAndValue", "Value", "Caption", "CaptionAndValue");
+			setNamedValues(new LinkedHashMap<>(Map.ofEntries(
+					entry(GeoElementND.LABEL_NAME, "Name"),
+					entry(GeoElementND.LABEL_NAME_VALUE, "NameAndValue"),
+					entry(GeoElementND.LABEL_VALUE, "Value"),
+					entry(GeoElementND.LABEL_CAPTION, "Caption"),
+					entry(GeoElementND.LABEL_DEFAULT, "CaptionAndValue")
+			)));
 		}
 
 		@Override

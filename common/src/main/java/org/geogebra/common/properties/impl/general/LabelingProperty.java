@@ -1,12 +1,12 @@
 package org.geogebra.common.properties.impl.general;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.LabelSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
+import org.geogebra.common.util.OrderedCollector;
 
 /**
  * Property for setting the labeling for new objects.
@@ -35,7 +35,7 @@ public class LabelingProperty extends AbstractNamedEnumeratedProperty<LabelVisib
 			LabelVisibility... values) {
 		super(localization, "Labeling");
 		this.labelSettings = labelSettings;
-		setNamedValues(Arrays.stream(values).collect(Collectors.toMap(
+		setNamedValues(Arrays.stream(values).collect(OrderedCollector.toMap(
 				labelVisibility -> labelVisibility, LabelVisibility::getTransKey)));
 	}
 

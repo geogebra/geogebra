@@ -1,5 +1,6 @@
 package org.geogebra.common.properties.impl;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -31,7 +32,7 @@ public abstract class AbstractNamedEnumeratedProperty<V> extends AbstractEnumera
 	 * not localized.
 	 * @param values localized values of this property // TODO DOCUMENTATION
 	 */
-	protected void setNamedValues(Map<V, String> values) {
+	protected void setNamedValues(LinkedHashMap<V, String> values) {
 		setValues(values.keySet().stream().collect(Collectors.toList()));
 		this.valueNameTranslationIds = values;
 	}

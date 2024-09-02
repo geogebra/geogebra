@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
+import org.geogebra.common.util.OrderedCollector;
 import org.geogebra.common.util.lang.Language;
 
 public class GlobalLanguageProperty extends AbstractNamedEnumeratedProperty<String> {
@@ -24,7 +25,7 @@ public class GlobalLanguageProperty extends AbstractNamedEnumeratedProperty<Stri
 
 	private void setupValues(Localization localization) {
 		setNamedValues(Arrays.stream(localization.getSupportedLanguages(false)).collect(
-				Collectors.toMap(Language::toLanguageTag, Enum::name)));
+				OrderedCollector.toMap(Language::toLanguageTag, Enum::name)));
 	}
 
 	@Override

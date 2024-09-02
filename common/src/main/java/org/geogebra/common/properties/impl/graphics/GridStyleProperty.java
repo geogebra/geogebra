@@ -1,5 +1,8 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import static java.util.Map.entry;
+
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.geogebra.common.euclidian.EuclidianView;
@@ -30,12 +33,12 @@ public class GridStyleProperty extends AbstractNamedEnumeratedProperty<Integer>
 	public GridStyleProperty(Localization localization, EuclidianSettings euclidianSettings) {
 		super(localization, "GridType");
 		this.euclidianSettings = euclidianSettings;
-		setNamedValues(Map.of(
-				EuclidianView.GRID_CARTESIAN, "Grid.Major",
-				EuclidianView.GRID_CARTESIAN_WITH_SUBGRID, "Grid.MajorAndMinor",
-				EuclidianView.GRID_POLAR, "Polar",
-				EuclidianView.GRID_ISOMETRIC, "Isometric"
-		));
+		setNamedValues(new LinkedHashMap<>(Map.ofEntries(
+				entry(EuclidianView.GRID_CARTESIAN, "Grid.Major"),
+				entry(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID, "Grid.MajorAndMinor"),
+				entry(EuclidianView.GRID_POLAR, "Polar"),
+				entry(EuclidianView.GRID_ISOMETRIC, "Isometric")
+		)));
 	}
 
 	@Override

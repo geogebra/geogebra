@@ -1,5 +1,8 @@
 package org.geogebra.common.properties.impl.algebra;
 
+import static java.util.Map.entry;
+
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.geogebra.common.kernel.Kernel;
@@ -26,12 +29,12 @@ public class AlgebraDescriptionProperty extends AbstractNamedEnumeratedProperty<
     public AlgebraDescriptionProperty(Kernel kernel, Localization localization) {
         super(localization, "AlgebraDescriptions");
         this.kernel = kernel;
-        setNamedValues(Map.of(
-                Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE, "DefinitionAndValue",
-                Kernel.ALGEBRA_STYLE_VALUE, "Value",
-                Kernel.ALGEBRA_STYLE_DEFINITION, "Definition",
-                Kernel.ALGEBRA_STYLE_DESCRIPTION, "Description"
-        ));
+        setNamedValues(new LinkedHashMap<>(Map.ofEntries(
+                entry(Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE, "DefinitionAndValue"),
+                entry(Kernel.ALGEBRA_STYLE_VALUE, "Value"),
+                entry(Kernel.ALGEBRA_STYLE_DEFINITION, "Definition"),
+                entry(Kernel.ALGEBRA_STYLE_DESCRIPTION, "Description")
+        )));
     }
 
     @Override

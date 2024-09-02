@@ -1,5 +1,8 @@
 package org.geogebra.common.properties.impl.objects;
 
+import static java.util.Map.entry;
+
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -23,13 +26,13 @@ public class EquationFormProperty extends AbstractNamedEnumeratedProperty<Intege
 			throws NotApplicablePropertyException {
 		super(localization, "Equation");
 		delegate = new EquationFormDelegate(element);
-		setNamedValues(Map.of(
-				GeoLine.EQUATION_IMPLICIT, "ImplicitLineEquation",
-				GeoLine.EQUATION_EXPLICIT, "ExplicitLineEquation",
-				GeoLine.PARAMETRIC, "ParametricForm",
-				GeoLine.EQUATION_GENERAL, "GeneralLineEquation",
-				GeoLine.EQUATION_USER, "InputForm"
-		));
+		setNamedValues(new LinkedHashMap<>(Map.ofEntries(
+				entry(GeoLine.EQUATION_IMPLICIT, "ImplicitLineEquation"),
+				entry(GeoLine.EQUATION_EXPLICIT, "ExplicitLineEquation"),
+				entry(GeoLine.PARAMETRIC, "ParametricForm"),
+				entry(GeoLine.EQUATION_GENERAL, "GeneralLineEquation"),
+				entry(GeoLine.EQUATION_USER, "InputForm")
+		)));
 	}
 
 	@Override

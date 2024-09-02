@@ -6,7 +6,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
-import org.geogebra.common.util.OrderedCollectors;
+import org.geogebra.common.util.OrderedCollector;
 
 /**
  * Property for setting sort by in Algebra view.
@@ -23,7 +23,7 @@ public class SortByProperty extends AbstractNamedEnumeratedProperty<AlgebraView.
 	public SortByProperty(AlgebraSettings algebraSettings, Localization localization) {
 		super(localization, "SortBy");
 		this.algebraSettings = algebraSettings;
-		setNamedValues(Arrays.stream(AlgebraView.SortMode.values()).collect(OrderedCollectors.toMap(
+		setNamedValues(Arrays.stream(AlgebraView.SortMode.values()).collect(OrderedCollector.toMap(
 				mode -> mode, Enum::name)));
 	}
 

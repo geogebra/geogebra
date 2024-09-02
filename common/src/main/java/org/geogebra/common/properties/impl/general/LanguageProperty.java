@@ -7,7 +7,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
-import org.geogebra.common.util.OrderedCollectors;
+import org.geogebra.common.util.OrderedCollector;
 import org.geogebra.common.util.lang.Language;
 
 import com.google.j2objc.annotations.Weak;
@@ -37,7 +37,7 @@ public class LanguageProperty extends AbstractNamedEnumeratedProperty<String> {
     private void setupValues(App app, Localization localization) {
         Language[] languages = localization.getSupportedLanguages(
                 app.has(Feature.ALL_LANGUAGES));
-        setNamedValues(Arrays.stream(languages).collect(OrderedCollectors.toMap(
+        setNamedValues(Arrays.stream(languages).collect(OrderedCollector.toMap(
                 Language::toLanguageTag, Enum::name)));
     }
 

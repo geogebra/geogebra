@@ -1,9 +1,15 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import static java.util.Map.entry;
+import static org.geogebra.common.euclidian3D.EuclidianView3DInterface.PROJECTION_GLASSES;
+import static org.geogebra.common.euclidian3D.EuclidianView3DInterface.PROJECTION_OBLIQUE;
+import static org.geogebra.common.euclidian3D.EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC;
+import static org.geogebra.common.euclidian3D.EuclidianView3DInterface.PROJECTION_PERSPECTIVE;
+
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
@@ -37,18 +43,18 @@ public class ProjectionsProperty extends AbstractNamedEnumeratedProperty<Integer
 		super(localization, "Projection");
 		this.view = view;
 		this.euclidianSettings = euclidianSettings;
-		setNamedValues(Map.of(
-				EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC, "stylebar.ParallelProjection",
-				EuclidianView3DInterface.PROJECTION_PERSPECTIVE, "stylebar.PerspectiveProjection",
-				EuclidianView3DInterface.PROJECTION_GLASSES, "stylebar.GlassesProjection",
-				EuclidianView3DInterface.PROJECTION_OBLIQUE, "stylebar.ObliqueProjection"
-		));
+		setNamedValues(new LinkedHashMap<>(Map.ofEntries(
+				entry(PROJECTION_ORTHOGRAPHIC, "stylebar.ParallelProjection"),
+				entry(PROJECTION_PERSPECTIVE, "stylebar.PerspectiveProjection"),
+				entry(PROJECTION_GLASSES, "stylebar.GlassesProjection"),
+				entry(PROJECTION_OBLIQUE, "stylebar.ObliqueProjection")
+		)));
 	}
 
 	@Override
 	public Integer getValue() {
 		if (view.isXREnabled()) {
-			return EuclidianView3DInterface.PROJECTION_PERSPECTIVE;
+			return PROJECTION_PERSPECTIVE;
 		}
 		return euclidianSettings.getProjection();
 	}
