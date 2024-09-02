@@ -33,8 +33,10 @@ public abstract class AbstractNamedEnumeratedProperty<V> extends AbstractEnumera
 	 * @param values localized values of this property // TODO DOCUMENTATION
 	 */
 	protected void setNamedValues(List<Map.Entry<V, String>> values) {
-		setValues(values.stream().map(value -> value.getKey()).collect(Collectors.toList()));
-		this.valueNameTranslationIds = Map.ofEntries(values.toArray(Map.Entry[]::new));
+		setValues(values.stream().map(value -> value.getKey())
+				.collect(Collectors.toList()));
+		this.valueNameTranslationIds = values.stream()
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 	}
 
 	@Override
