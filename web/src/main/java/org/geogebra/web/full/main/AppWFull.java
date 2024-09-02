@@ -1924,7 +1924,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (oldSplitLayoutPanel == null) {
 			return; // simple GUI: avoid NPE
 		}
-		this.oldSplitLayoutPanel.setPixelSize(spWidth, getSpHeight());
+		this.oldSplitLayoutPanel.setPixelSize(spWidth, spHeight);
 		// we need relative position to make sure the menubar / toolbar are not
 		// hidden
 		this.oldSplitLayoutPanel.getElement().getStyle()
@@ -1970,8 +1970,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public int getHeightForSplitPanel(int fallback) {
-		if (getSpHeight() > 0) {
-			return getSpHeight();
+		if (spHeight > 0) {
+			return spHeight;
 		}
 		return super.getHeightForSplitPanel(fallback);
 	}
@@ -2000,9 +2000,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				return;
 			}
 			splitPanelWrapper.add(frame.getMenuBar(this));
-			oldSplitLayoutPanel.setPixelSize(
-					oldSplitLayoutPanel.getOffsetWidth()
-							- GLookAndFeel.MENUBAR_WIDTH,
+			spWidth = oldSplitLayoutPanel.getOffsetWidth()
+					- GLookAndFeel.MENUBAR_WIDTH;
+			oldSplitLayoutPanel.setPixelSize(spWidth,
 					oldSplitLayoutPanel.getOffsetHeight());
 			updateMenuHeight();
 			if (needsUpdate) {
@@ -2050,8 +2050,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			return;
 		}
 
-		if (this.isFloatingMenu()) {
-			this.toggleMenu();
+		if (menuViewController != null) {
+			menuViewController.setMenuVisible(false);
 		} else {
 			spWidth = this.oldSplitLayoutPanel.getOffsetWidth()
 					+ GLookAndFeel.MENUBAR_WIDTH;
@@ -2082,7 +2082,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public void addToHeight(int i) {
-		this.setSpHeight(this.getSpHeight() + i);
+		this.setSpHeight(spHeight + i);
 	}
 
 	/**
@@ -2100,7 +2100,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (newHeight >= 0) {
 			this.setSpHeight(newHeight);
 			if (oldSplitLayoutPanel != null) {
-				oldSplitLayoutPanel.setHeight(getSpHeight() + "px");
+				oldSplitLayoutPanel.setHeight(spHeight + "px");
 				getGuiManager().getLayout().getDockManager().resizeProbabilityCalculator();
 				getGuiManager().updateUnbundledToolbar();
 			}
@@ -2249,10 +2249,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (embedManager != null) {
 			embedManager.removeAll();
 		}
-	}
-
-	private int getSpHeight() {
-		return spHeight;
 	}
 
 	private void setSpHeight(int spHeight) {
@@ -2417,7 +2413,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void closeMenuHideKeyboard() {
 		if (menuShowing) {
-			toggleMenu();
+			hideMenu();
 		}
 		if (getAppletFrame().isKeyboardShowing()) {
 			hideKeyboard();
