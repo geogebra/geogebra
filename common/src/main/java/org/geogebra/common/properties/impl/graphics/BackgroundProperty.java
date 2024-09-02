@@ -2,8 +2,7 @@ package org.geogebra.common.properties.impl.graphics;
 
 import static java.util.Map.entry;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
@@ -23,11 +22,11 @@ public class BackgroundProperty extends AbstractNamedEnumeratedProperty<Renderer
 	public BackgroundProperty(App app, Localization localization) {
 		super(localization, "ar.background");
 		this.app = app;
-		setNamedValues(new LinkedHashMap<>(Map.ofEntries(
+		setNamedValues(List.of(
 				entry(Renderer.BackgroundStyle.NONE, "Camera"),
 				entry(Renderer.BackgroundStyle.TRANSPARENT, "ar.filter"),
 				entry(Renderer.BackgroundStyle.OPAQUE, "ar.opaqueColor")
-		)));
+		));
 	}
 
 	@Override

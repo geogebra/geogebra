@@ -2,8 +2,7 @@ package org.geogebra.web.full.gui.util;
 
 import static java.util.Map.entry;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialVisibility;
@@ -40,16 +39,16 @@ public class MaterialVisibilityProperty
 	public void update(MaterialVisibility visibility) {
 		Log.debug("Property is updated to " + visibility);
 		if (visibility == MaterialVisibility.Public) {
-			setNamedValues(new LinkedHashMap<>(Map.ofEntries(
+			setNamedValues(List.of(
 					entry(MaterialVisibility.Private, "Private"),
 					entry(MaterialVisibility.Shared, "Shared"),
 					entry(MaterialVisibility.Public, "Public")
-			)));
+			));
 		} else {
-			setNamedValues(new LinkedHashMap<>(Map.ofEntries(
+			setNamedValues(List.of(
 					entry(MaterialVisibility.Private, "Private"),
 					entry(MaterialVisibility.Shared, "Shared")
-			)));
+			));
 		}
 		doSetValue(visibility);
 	}

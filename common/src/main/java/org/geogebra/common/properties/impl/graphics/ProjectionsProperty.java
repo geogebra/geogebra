@@ -6,8 +6,7 @@ import static org.geogebra.common.euclidian3D.EuclidianView3DInterface.PROJECTIO
 import static org.geogebra.common.euclidian3D.EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC;
 import static org.geogebra.common.euclidian3D.EuclidianView3DInterface.PROJECTION_PERSPECTIVE;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.Localization;
@@ -43,12 +42,12 @@ public class ProjectionsProperty extends AbstractNamedEnumeratedProperty<Integer
 		super(localization, "Projection");
 		this.view = view;
 		this.euclidianSettings = euclidianSettings;
-		setNamedValues(new LinkedHashMap<>(Map.ofEntries(
+		setNamedValues(List.of(
 				entry(PROJECTION_ORTHOGRAPHIC, "stylebar.ParallelProjection"),
 				entry(PROJECTION_PERSPECTIVE, "stylebar.PerspectiveProjection"),
 				entry(PROJECTION_GLASSES, "stylebar.GlassesProjection"),
 				entry(PROJECTION_OBLIQUE, "stylebar.ObliqueProjection")
-		)));
+		));
 	}
 
 	@Override

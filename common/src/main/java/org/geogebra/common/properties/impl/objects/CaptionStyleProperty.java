@@ -3,9 +3,7 @@ package org.geogebra.common.properties.impl.objects;
 import static java.util.Map.entry;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -34,13 +32,13 @@ public class CaptionStyleProperty extends AbstractNamedEnumeratedProperty<Intege
 			throws NotApplicablePropertyException {
 		super(localization, "stylebar.Caption");
 		delegate = new CaptionStyleDelegate(geoElement);
-		setNamedValues(new LinkedHashMap<>(Map.ofEntries(
+		setNamedValues(List.of(
 				entry(GeoElementND.LABEL_DEFAULT, "Hidden"),
 				entry(GeoElementND.LABEL_NAME, "Name"),
 				entry(GeoElementND.LABEL_NAME_VALUE, "NameAndValue"),
 				entry(GeoElementND.LABEL_VALUE, "Value"),
 				entry(GeoElementND.LABEL_CAPTION, "Caption")
-		)));
+		));
 	}
 
 	@Override

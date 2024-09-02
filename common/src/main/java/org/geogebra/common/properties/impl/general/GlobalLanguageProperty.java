@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.general;
 
+import static java.util.Map.entry;
+
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -7,8 +9,6 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
-import org.geogebra.common.util.OrderedCollector;
-import org.geogebra.common.util.lang.Language;
 
 public class GlobalLanguageProperty extends AbstractNamedEnumeratedProperty<String> {
 
@@ -24,8 +24,9 @@ public class GlobalLanguageProperty extends AbstractNamedEnumeratedProperty<Stri
 	}
 
 	private void setupValues(Localization localization) {
-		setNamedValues(Arrays.stream(localization.getSupportedLanguages(false)).collect(
-				OrderedCollector.toMap(Language::toLanguageTag, Enum::name)));
+		setNamedValues(Arrays.stream(localization.getSupportedLanguages(false))
+				.map(language -> entry(language.toLanguageTag(), language.name))
+				.collect(Collectors.toList()));
 	}
 
 	@Override

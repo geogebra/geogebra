@@ -4,9 +4,7 @@ import static java.util.Map.entry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.dialog.options.OptionsObject;
@@ -976,13 +974,13 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		public LabelStyleProperty(LabelPanel labelPanel) {
 			super(app.getLocalization(), "");
 			this.labelPanel = labelPanel;
-			setNamedValues(new LinkedHashMap<>(Map.ofEntries(
+			setNamedValues(List.of(
 					entry(GeoElementND.LABEL_NAME, "Name"),
 					entry(GeoElementND.LABEL_NAME_VALUE, "NameAndValue"),
 					entry(GeoElementND.LABEL_VALUE, "Value"),
 					entry(GeoElementND.LABEL_CAPTION, "Caption"),
 					entry(GeoElementND.LABEL_DEFAULT, "CaptionAndValue")
-			)));
+			));
 		}
 
 		@Override

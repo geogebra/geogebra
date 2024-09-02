@@ -1,16 +1,17 @@
 package org.geogebra.common.properties.impl.distribution;
 
+import static java.util.Map.entry;
+
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.exam.restrictions.ValueFilter;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.properties.impl.AbstractGroupedEnumeratedProperty;
-import org.geogebra.common.util.OrderedCollector;
 
 /**
  * Property for the distribution type.
@@ -35,11 +36,9 @@ public class DistributionTypeProperty extends AbstractGroupedEnumeratedProperty<
 	public DistributionTypeProperty(Localization localization, ProbabilityCalculatorView view) {
 		super(localization, "Distribution");
 		this.view = view;
-		LinkedHashMap<Dist, String> values = Arrays.stream(Dist.values()).collect(
-				OrderedCollector.toMap(
-					dist -> dist,
-					dist -> dist.translationKey));
-		setNamedValues(values);
+		setNamedValues(Arrays.stream(Dist.values())
+				.map(dist -> entry(dist, dist.translationKey))
+				.collect(Collectors.toList()));
 		updateGroupDividerIndices();
 	}
 

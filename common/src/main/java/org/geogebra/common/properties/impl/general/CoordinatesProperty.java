@@ -2,8 +2,7 @@ package org.geogebra.common.properties.impl.general;
 
 import static java.util.Map.entry;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Localization;
@@ -28,11 +27,11 @@ public class CoordinatesProperty extends AbstractNamedEnumeratedProperty<Integer
 	public CoordinatesProperty(Kernel kernel, Localization localization) {
 		super(localization, "Coordinates");
 		this.kernel = kernel;
-		setNamedValues(new LinkedHashMap<>(Map.ofEntries(
+		setNamedValues(List.of(
 				entry(CoordinatesFormat.COORD_FORMAT_DEFAULT, "A = (x, y)"),
 				entry(CoordinatesFormat.COORD_FORMAT_AUSTRIAN, "A(x | y)"),
 				entry(CoordinatesFormat.COORD_FORMAT_FRENCH, "A: (x, y)")
-		)));
+		));
 	}
 
 	@Override

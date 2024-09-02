@@ -2,8 +2,7 @@ package org.geogebra.common.properties.impl.graphics;
 
 import static java.util.Map.entry;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.Localization;
@@ -27,11 +26,11 @@ public class TooltipProperty extends AbstractNamedEnumeratedProperty<Integer> {
 		super(localization, "Labeling");
 		this.settings = settings;
 		this.view = view;
-		setNamedValues(new LinkedHashMap<>(Map.ofEntries(
+		setNamedValues(List.of(
 				entry(EuclidianStyleConstants.TOOLTIPS_ON, "On"),
 				entry(EuclidianStyleConstants.TOOLTIPS_AUTOMATIC, "Automatic"),
 				entry(EuclidianStyleConstants.TOOLTIPS_OFF, "Off")
-		)));
+		));
 	}
 
 	@Override

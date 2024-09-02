@@ -1,13 +1,16 @@
 package org.geogebra.common.properties.impl.general;
 
-import java.util.LinkedHashMap;
+import static java.util.Map.entry;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
-import org.geogebra.common.util.OrderedCollector;
 import org.geogebra.common.util.Util;
 
 /**
@@ -34,11 +37,11 @@ public class FontSizeProperty extends AbstractNamedEnumeratedProperty<Integer> {
 	}
 
 	private void setupValues(Localization localization) {
-		LinkedHashMap<Integer, String> values = IntStream.range(0, Util.menuFontSizesLength())
-				.boxed().collect(OrderedCollector.toMap(
-						index -> index,
-						index -> localization
-								.getPlain("Apt", String.valueOf(Util.menuFontSizes(index)))));
+		List<Map.Entry<Integer, String>> values = IntStream.range(0, Util.menuFontSizesLength())
+				.boxed()
+				.map(fontIndex -> entry(fontIndex, localization
+						.getPlain("Apt", String.valueOf(Util.menuFontSizes(fontIndex)))))
+				.collect(Collectors.toList());
 		setNamedValues(values);
 	}
 

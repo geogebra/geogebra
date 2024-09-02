@@ -2,8 +2,7 @@ package org.geogebra.common.properties.impl.graphics;
 
 import static java.util.Map.entry;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -22,12 +21,12 @@ public class RightAngleProperty extends AbstractNamedEnumeratedProperty<Integer>
 	public RightAngleProperty(Localization localization, App app) {
 		super(localization, "Labeling");
 		this.app = app;
-		setNamedValues(new LinkedHashMap<>(Map.ofEntries(
+		setNamedValues(List.of(
 				entry(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE, "Off"),
 				entry(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, "\u25a1"),
 				entry(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT, "\u25CF"),
 				entry(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L, "\u2335")
-		)));
+		));
 	}
 
 	@Override
