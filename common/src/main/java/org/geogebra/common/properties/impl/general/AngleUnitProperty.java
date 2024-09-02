@@ -1,5 +1,6 @@
 package org.geogebra.common.properties.impl.general;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.geogebra.common.kernel.Kernel;
@@ -24,11 +25,11 @@ public class AngleUnitProperty extends AbstractNamedEnumeratedProperty<Integer> 
 	public AngleUnitProperty(Kernel kernel, Localization localization) {
 		super(localization, "AngleUnit");
 		this.kernel = kernel;
-		setNamedValues(Map.of(
-				Kernel.ANGLE_DEGREE, "Degree",
-				Kernel.ANGLE_RADIANT, "Radiant",
-				Kernel.ANGLE_DEGREES_MINUTES_SECONDS, "DegreesMinutesSeconds"
-		));
+		setNamedValues(new LinkedHashMap<Integer, String>(Map.ofEntries(
+				Map.entry(Kernel.ANGLE_DEGREE, "Degree"),
+				Map.entry(Kernel.ANGLE_RADIANT, "Radiant"),
+				Map.entry(Kernel.ANGLE_DEGREES_MINUTES_SECONDS, "DegreesMinutesSeconds")
+		)));
 	}
 
 	@Override
