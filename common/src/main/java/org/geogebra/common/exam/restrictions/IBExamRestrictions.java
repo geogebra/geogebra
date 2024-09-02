@@ -25,7 +25,6 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MIDPOINT;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MIRROR_AT_CIRCLE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MIRROR_AT_LINE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MIRROR_AT_POINT;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MOVE_ROTATE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_ORTHOGONAL;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PARABOLA;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PARALLEL;
@@ -36,6 +35,7 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RAY;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_REGULAR_POLYGON;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RELATION;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RIGID_POLYGON;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_ROTATE_BY_ANGLE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SEGMENT;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SEGMENT_FIXED;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SEMICIRCLE;
@@ -81,7 +81,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				MODE_CIRCLE_SECTOR_THREE_POINTS, MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS,
 				MODE_ELLIPSE_THREE_POINTS, MODE_CONIC_FIVE_POINTS, MODE_PARABOLA,
 				MODE_HYPERBOLA_THREE_POINTS, MODE_MIRROR_AT_LINE, MODE_MIRROR_AT_POINT,
-				MODE_TRANSLATE_BY_VECTOR, MODE_MOVE_ROTATE, MODE_DILATE_FROM_POINT,
+				MODE_TRANSLATE_BY_VECTOR, MODE_ROTATE_BY_ANGLE, MODE_DILATE_FROM_POINT,
 				MODE_MIRROR_AT_CIRCLE, MODE_FREEHAND_SHAPE, MODE_RELATION);
 	}
 }
