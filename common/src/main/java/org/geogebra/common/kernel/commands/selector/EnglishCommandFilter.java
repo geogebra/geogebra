@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.commands.Commands;
 /**
  * Wraps a CommandFilter and filters both the internal versions and 'english' version
  * of commands that are filtered by the wrapped filter.
- * @see {@link Commands#englishToInternal(Commands)}
+ * @see Commands#englishToInternal(Commands)
  */
 public class EnglishCommandFilter implements CommandFilter {
 
@@ -21,7 +21,7 @@ public class EnglishCommandFilter implements CommandFilter {
 
 	@Override
 	public boolean isCommandAllowed(Commands command) {
-		return wrappedFilter.isCommandAllowed(command) ||
-				wrappedFilter.isCommandAllowed(Commands.englishToInternal(command));
+		return wrappedFilter.isCommandAllowed(command)
+				|| wrappedFilter.isCommandAllowed(Commands.englishToInternal(command));
 	}
 }
