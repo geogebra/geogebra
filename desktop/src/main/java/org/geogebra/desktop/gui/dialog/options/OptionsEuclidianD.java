@@ -901,7 +901,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	}
 
 	private int getGridTypeFromIndex() {
-		return gridProperty.getValues()[cbGridType.getSelectedIndex()];
+		return gridProperty.getValues().get(cbGridType.getSelectedIndex());
 	}
 
 	private double parseDouble(String text) {
