@@ -204,8 +204,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			for (String propertyName : propertyRestrictions.keySet()) {
 				Property property = propertiesRegistry.lookup(propertyName, context);
 				if (property != null) {
-					PropertyRestriction propertyRestriction = propertyRestrictions.get(propertyName);
-					propertyRestriction.applyTo(property);
+					propertyRestrictions.get(propertyName).applyTo(property);
 				}
 			}
 		}
@@ -256,8 +255,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			for (String propertyName : propertyRestrictions.keySet()) {
 				Property property = propertiesRegistry.lookup(propertyName, context);
 				if (property != null) {
-					PropertyRestriction propertyRestriction = propertyRestrictions.get(propertyName);
-					propertyRestriction.removeFrom(property);
+					propertyRestrictions.get(propertyName).removeFrom(property);
 				}
 			}
 		}

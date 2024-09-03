@@ -35,7 +35,8 @@ public class IntervalProperty extends AbstractEnumeratedProperty<Integer> implem
 				ProbabilityCalculatorView.PROB_LEFT,
 				ProbabilityCalculatorView.PROB_INTERVAL,
 				ProbabilityCalculatorView.PROB_TWO_TAILED,
-				ProbabilityCalculatorView.PROB_RIGHT));
+				ProbabilityCalculatorView.PROB_RIGHT
+		));
 	}
 
 	@Override
