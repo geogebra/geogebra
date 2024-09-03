@@ -33,10 +33,6 @@ public class GraphingCommandArgumentFilter extends BaseCommandArgumentFilter {
         }
     }
 
-    private boolean isCommand(Command command, Commands commandsValue) {
-        return command.getName().equals(commandsValue.name());
-    }
-
     private void checkLine(Command command, GeoElement[] arguments,
             CommandProcessor commandProcessor) {
         if (arguments.length < 2) {
