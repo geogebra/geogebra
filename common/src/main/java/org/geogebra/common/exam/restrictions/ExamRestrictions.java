@@ -201,12 +201,12 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			}
 		}
 		if (propertiesRegistry != null) {
-			for (String propertyName : propertyRestrictions.keySet()) {
-				Property property = propertiesRegistry.lookup(propertyName, context);
+			propertyRestrictions.forEach((name, restriction) -> {
+				Property property = propertiesRegistry.lookup(name, context);
 				if (property != null) {
-					propertyRestrictions.get(propertyName).applyTo(property);
+					restriction.applyTo(property);
 				}
-			}
+			});
 		}
 		if (toolsProvider != null && toolsFilter != null) {
 			toolsProvider.addToolsFilter(toolsFilter);
@@ -252,12 +252,12 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			}
 		}
 		if (propertiesRegistry != null) {
-			for (String propertyName : propertyRestrictions.keySet()) {
-				Property property = propertiesRegistry.lookup(propertyName, context);
+			propertyRestrictions.forEach((name, restriction) -> {
+				Property property = propertiesRegistry.lookup(name, context);
 				if (property != null) {
-					propertyRestrictions.get(propertyName).removeFrom(property);
+					restriction.removeFrom(property);
 				}
-			}
+			});
 		}
 		if (toolsProvider != null && toolsFilter != null) {
 			toolsProvider.removeToolsFilter(toolsFilter);

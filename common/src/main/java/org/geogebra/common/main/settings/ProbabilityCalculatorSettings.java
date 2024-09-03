@@ -44,7 +44,8 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 		/** pascal */
 		PASCAL(Commands.Pascal, Commands.InversePascal, "Distribution.Pascal"),
 		/** hypergeometric */
-		HYPERGEOMETRIC(Commands.HyperGeometric, Commands.InverseHyperGeometric, "Distribution.Hypergeometric"),
+		HYPERGEOMETRIC(Commands.HyperGeometric, Commands.InverseHyperGeometric,
+				"Distribution.Hypergeometric"),
 		/** poisson */
 		POISSON(Commands.Poisson, Commands.InversePoisson, "Distribution.Poisson");
 
