@@ -311,9 +311,7 @@ class NavigationRail extends FlowPanel {
 
 	private void addShareButton() {
 		GlobalHeader.INSTANCE.initShareButton(share -> {
-			if (app.isMenuShowing()) {
-				app.toggleMenu();
-			}
+			app.hideMenu();
 			FileMenuW.share(app, share);
 		}, app);
 	}

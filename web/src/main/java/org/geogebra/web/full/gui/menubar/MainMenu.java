@@ -157,7 +157,7 @@ public class MainMenu extends FlowPanel
 					if (clicked instanceof Submenu
 							&& ((Submenu) clicked).getItems().isEmpty()) {
 						((Submenu) clicked).handleHeaderClick();
-						app.toggleMenu();
+						app.hideMenu();
 						return;
 					}
 					if (index != -1) {

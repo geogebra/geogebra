@@ -352,6 +352,7 @@ import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.MyError;
@@ -427,8 +428,8 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				InverseZipf, LogNormal, Logistic, Pascal, RandomBetween, RandomBinomial,
 				RandomDiscrete, RandomNormal, RandomPointIn, RandomPoisson, RandomPolynomial,
 				RandomUniform, Triangular, Uniform, Weibull, Zipf, Covariance, FitImplicit,
-				FitLineX, GeometricMean, HarmonicMean, InverseExponential, InverseZipf, Percentile,
-				RootMeanSquare, Sample, SampleVariance, Shuffle, SigmaXX, SigmaXY, SigmaYY,
+				FitLineX, GeometricMean, HarmonicMean, Percentile,
+				RootMeanSquare, Sample, SampleVariance, SigmaXX, SigmaXY, SigmaYY,
 				Spearman, Sum, SumSquaredErrors, Sxx, Sxy, Syy, TTestPaired, ContinuedFraction,
 				FormulaText, FractionText, LetterToUnicode, Ordinal, ReplaceAll, Split,
 				ScientificText, SurdText, Text, TextToUnicode, UnicodeToLetter, UnicodeToText,
@@ -436,7 +437,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				PerpendicularVector, UnitPerpendicularVector, UnitVector, Vector, CFactor,
 				GroebnerDegRevLex, GroebnerLexDeg, GroebnerLex, Substitute, NDerivative, BetaDist,
 				InverseBeta);
-		return Set.of(nameFilter);
+		return Set.of(new EnglishCommandFilter(nameFilter));
 	}
 
 	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {
