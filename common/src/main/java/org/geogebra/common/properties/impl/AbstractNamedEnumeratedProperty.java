@@ -10,7 +10,7 @@ import org.geogebra.common.properties.NamedEnumeratedProperty;
 /**
  * Base class for enumerated properties whose values have names associated with them.
  * When overriding this class, make sure to call
- * {@link AbstractNamedEnumeratedProperty#setNamedValues(Map)}
+ * {@link AbstractNamedEnumeratedProperty#setNamedValues(List)} )}
  * at some point in the constructor.
  */
 public abstract class AbstractNamedEnumeratedProperty<V> extends AbstractEnumeratedProperty<V>
@@ -30,7 +30,7 @@ public abstract class AbstractNamedEnumeratedProperty<V> extends AbstractEnumera
 	/**
 	 * Use this method to set the values of the property. These values are
 	 * not localized.
-	 * @param values localized values of this property // TODO DOCUMENTATION
+	 * @param values list of entries containing the name and the translation key of a value
 	 */
 	protected void setNamedValues(List<Map.Entry<V, String>> values) {
 		setValues(values.stream().map(value -> value.getKey())

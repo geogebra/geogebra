@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.objects;
 
+import java.util.List;
+
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
@@ -30,11 +32,13 @@ public class LineStyleProperty extends AbstractEnumeratedProperty<Integer>
 			throws NotApplicablePropertyException {
 		super(localization, "Properties.Style");
 		delegate = new LineStylePropertyDelegate(element);
-		setValues(EuclidianStyleConstants.LINE_TYPE_FULL,
+		setValues(List.of(
+				EuclidianStyleConstants.LINE_TYPE_FULL,
 				EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED,
 				EuclidianStyleConstants.LINE_TYPE_DASHED_LONG,
 				EuclidianStyleConstants.LINE_TYPE_DOTTED,
-				EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
+				EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT
+		));
 	}
 
 	@Override

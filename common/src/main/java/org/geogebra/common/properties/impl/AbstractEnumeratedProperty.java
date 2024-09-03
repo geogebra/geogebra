@@ -10,7 +10,7 @@ import org.geogebra.common.properties.EnumeratedProperty;
 
 /**
  * Base class for enumerated properties. When overriding this class, make sure to call
- * {@link AbstractEnumeratedProperty#setValues(Object[])} at some point in the constructor.
+ * {@link AbstractEnumeratedProperty#setValues(List)} at some point in the constructor.
  * @param <V> value type
  */
 public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProperty<V> implements
@@ -26,10 +26,6 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 	 */
 	public AbstractEnumeratedProperty(Localization localization, String name) {
 		super(localization, name);
-	}
-
-	protected void setValues(V... values) {
-		this.values = List.of(values);
 	}
 
 	protected void setValues(List<V> values) {

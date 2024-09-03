@@ -14,21 +14,27 @@ import org.geogebra.common.exam.restrictions.ValueFilter;
 public interface EnumeratedProperty<V> extends ValuedProperty<V> {
 
 	/**
-	 * TODO DOCUMENTATION
-	 * Gets the list of possible values for this property.
+	 * Gets the list of available values for this property.
 	 * When calling {@link EnumeratedProperty#setValue(Object)}
 	 * the value must be one of these values, otherwise it throws a RuntimeException.
-	 * @return predefined values
+	 * @return predefined values, except those filtered by {@link ValueFilter} during exam mode
 	 */
 	List<V> getValues();
 
 	/**
-	 * TODO DOCUMENTATION
+	 * Adds a {@link ValueFilter} to this property which can modify the list of available values
+	 * returned by {@link EnumeratedProperty#getValues()}.
+	 *
+	 * @param valueFilter the {@link ValueFilter} to be added.
 	 */
 	void addValueFilter(ValueFilter valueFilter);
 
 	/**
-	 * TODO DOCUMENTATION
+	 * Removes a previously added {@link ValueFilter} from this property.
+	 * Once removed, the filter will no longer affect the list of available values
+	 * returned by {@link EnumeratedProperty#getValues()}.
+	 *
+	 * @param valueFilter the {@link ValueFilter} to be removed.
 	 */
 	void removeValueFilter(ValueFilter valueFilter);
 
