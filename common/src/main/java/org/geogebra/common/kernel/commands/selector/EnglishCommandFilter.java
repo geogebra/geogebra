@@ -22,6 +22,6 @@ public class EnglishCommandFilter implements CommandFilter {
 	@Override
 	public boolean isCommandAllowed(Commands command) {
 		return wrappedFilter.isCommandAllowed(command)
-				|| wrappedFilter.isCommandAllowed(Commands.englishToInternal(command));
+				&& wrappedFilter.isCommandAllowed(Commands.englishToInternal(command));
 	}
 }
