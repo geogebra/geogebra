@@ -64,4 +64,13 @@ public class CasFunctionRedefineTest extends BaseCASIntegrationTest {
 		updateCellInput(f, input);
 		return f;
 	}
+
+	@Test
+	@Issue("APPS-5838")
+	public void solveButtonBroken() {
+		cellFromInput("f(x) := 2x - 123");
+		cellFromInput("f(x) = 5");
+		GeoCasCell solve = cellFromInput("Solve($2)");
+		assertEquals("{x = 64}", solve.getOutput(StringTemplate.defaultTemplate));
+	}
 }
