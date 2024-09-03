@@ -401,7 +401,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				PerpendicularBisector, PerpendicularLine, Point, PointIn, Polygon, Polyline, Prove,
 				ProveDetails, Radius, Ray, RigidPolygon, Sector, Segment, TriangleCenter,
 				TriangleCurve, Trilinear, Vertex, Corner, DynamicCoordinates, ToComplex, ToPoint,
-				Append, Classes, Element, First, Flatten, Frequency, IndexOf, Insert, Intersection,
+				Append, Classes, Element, First, Flatten, Frequency, IndexOf, Insert,
 				Join, Last, OrdinalRank, PointList, Product, RandomElement, Remove, RemoveUndefined,
 				Reverse, SelectedIndex, Shuffle, Sort, Take, TiedRank, Union, Unique, Zip, CountIf,
 				Bernoulli, Cauchy, Erlang, Exponential, Gamma, InverseCauchy, InverseExponential,
