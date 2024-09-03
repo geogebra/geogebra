@@ -33,6 +33,7 @@ public class ToolboxController {
 			appW.getActiveEuclidianView().getEuclidianController().spotlightOn();
 			initSpotlightOff();
 			appW.hideMenu();
+			appW.closePopups();
 		};
 	}
 
