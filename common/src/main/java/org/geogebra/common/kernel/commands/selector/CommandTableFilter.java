@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.commands.Commands;
  * {@link org.geogebra.common.kernel.commands.CommandsConstants#TABLE_ENGLISH}
  * are first converted to internal commands.
  */
-final public class CommandTableFilter implements CommandFilter {
+public final class CommandTableFilter implements CommandFilter {
 
 	private Set<Integer> filteredTables;
 
