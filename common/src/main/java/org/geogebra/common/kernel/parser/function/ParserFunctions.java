@@ -1,6 +1,9 @@
 package org.geogebra.common.kernel.parser.function;
 
 import java.util.ArrayList;
+import java.util.Set;
+
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
@@ -42,14 +45,26 @@ public interface ParserFunctions {
 	boolean isReserved(String name);
 
 	/**
-	 * Find completions for a given prefix (Arnaud 03/10/2011)
-	 * 
+	 * Find completions for a given prefix
+	 *
 	 * @param prefix
-	 *            the wanted prefix
+	 *            the prefix to match function syntaxes against
 	 * @return all the built-in functions starting with this prefix (with
 	 *         brackets at the end)
 	 */
 	ArrayList<String> getCompletions(String prefix);
+
+	/**
+	 * Find completions for a given prefix
+	 * 
+	 * @param prefix
+	 *            the prefix to match function syntaxes against
+	 * @param filteredOperations
+	 * 			  an optional set of Operations that should be filtered out (suppressed)
+	 * @return all the built-in functions starting with this prefix (with
+	 *         brackets at the end)
+	 */
+	ArrayList<String> getCompletions(String prefix, @CheckForNull Set<Operation> filteredOperations);
 
 	/**
 	 * @param localization
