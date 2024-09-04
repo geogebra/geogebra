@@ -21,6 +21,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
@@ -54,6 +55,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final Set<ExpressionFilter> inputExpressionFilters;
 	private final Set<ExpressionFilter> outputExpressionFilters;
 	private final Set<CommandFilter> commandFilters;
+	private final Set<Operation> filteredOperations;
 	private final Set<CommandArgumentFilter> commandArgumentFilters;
 	// filter independent of exam region
 	private final CommandArgumentFilter examCommandArgumentFilter =
@@ -98,6 +100,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * exams to the algebra outputs.
 	 * @param commandFilters An optional command filter to apply during exams.
 	 * @param commandArgumentFilters An optional command argument filter to apply during exams.
+	 * @param filteredOperations An optional set of operations to filter out during exams.
 	 * @param syntaxFilter An optional syntax filter to apply during exams.
 	 * @param toolsFilter An optional filter for tools that should be unvaialable during the exam.
 	 * If this argument is null, the Image tool will stil be filtered out (APPS-5214). When
@@ -112,6 +115,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Set<ExpressionFilter> outputExpressionFilters,
 			@Nullable Set<CommandFilter> commandFilters,
 			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
+			@Nullable Set<Operation> filteredOperations,
 			@Nullable SyntaxFilter syntaxFilter,
 			@Nullable ToolCollectionFilter toolsFilter,
 			@Nullable Set<String> frozenProperties) {
@@ -126,10 +130,36 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.commandFilters = commandFilters != null ? commandFilters : Set.of();
 		this.commandArgumentFilters = commandArgumentFilters != null
 				? commandArgumentFilters : Set.of();
+		this.filteredOperations = filteredOperations;
 		this.syntaxFilter = syntaxFilter;
 		this.toolsFilter = toolsFilter == null
 				? new ToolCollectionSetFilter(EuclidianConstants.MODE_IMAGE) : toolsFilter;
 		this.frozenProperties = frozenProperties != null ? frozenProperties : Set.of();
+	}
+
+	protected ExamRestrictions(@Nonnull ExamType examType,
+			@Nullable Set<SuiteSubApp> disabledSubApps,
+			@Nullable SuiteSubApp defaultSubApp,
+			@Nullable Set<ExamFeatureRestriction> featureRestrictions,
+			@Nullable Set<ExpressionFilter> inputExpressionFilters,
+			@Nullable Set<ExpressionFilter> outputExpressionFilters,
+			@Nullable Set<CommandFilter> commandFilters,
+			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
+			@Nullable SyntaxFilter syntaxFilter,
+			@Nullable ToolCollectionFilter toolsFilter,
+			@Nullable Set<String> frozenProperties) {
+		this(examType,
+				disabledSubApps,
+				defaultSubApp,
+				featureRestrictions,
+				inputExpressionFilters,
+				outputExpressionFilters,
+				commandFilters,
+				commandArgumentFilters,
+				null,
+				syntaxFilter,
+				toolsFilter,
+				frozenProperties);
 	}
 
 	/**
@@ -199,6 +229,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 				localization.getCommandSyntax().addSyntaxFilter(syntaxFilter);
 			}
 		}
+		if (autoCompleteProvider != null) {
+			autoCompleteProvider.setFilteredOperations(filteredOperations);
+		}
 		if (propertiesRegistry != null) {
 			for (String frozenProperty : frozenProperties) {
 				Property property = propertiesRegistry.lookup(frozenProperty, context);
@@ -249,6 +282,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			if (localization != null) {
 				localization.getCommandSyntax().removeSyntaxFilter(syntaxFilter);
 			}
+		}
+		if (autoCompleteProvider != null) {
+			autoCompleteProvider.setFilteredOperations(null);
 		}
 		if (propertiesRegistry != null) {
 			for (String frozenProperty : frozenProperties) {

@@ -3,8 +3,10 @@ package org.geogebra.common.main.localization;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -17,6 +19,7 @@ import org.geogebra.common.main.syntax.EnglishCommandSyntax;
 import org.geogebra.common.main.syntax.LocalizedCommandSyntax;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.ownership.NonOwning;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.debug.Log;
@@ -30,6 +33,7 @@ public class AutocompleteProvider {
 	private final App app;
 	private final boolean forCAS;
 	private LocalizedCommandSyntax englishCommandSyntax;
+	private @CheckForNull Set<Operation> filteredOperations;
 
 	/**
 	 * @param app application
@@ -58,6 +62,14 @@ public class AutocompleteProvider {
 		if (syntaxFilter != null) {
 			getEnglishCommandSyntax().removeSyntaxFilter(syntaxFilter);
 		}
+	}
+
+	/**
+	 * Sets operations to be filtered out from the results.
+	 * @param filteredOperations An optional set of operations to filter out from the results.
+	 */
+	public void setFilteredOperations(@CheckForNull Set<Operation> filteredOperations) {
+		this.filteredOperations = filteredOperations;
 	}
 
 	/**
@@ -162,7 +174,8 @@ public class AutocompleteProvider {
 	 * @return stream of suggestions
 	 */
 	public Stream<Completion> getCompletions(String curWord) {
-		List<String> functionResults = app.getParserFunctions().getCompletions(curWord);
+		List<String> functionResults = app.getParserFunctions().getCompletions(curWord,
+				filteredOperations);
 		Stream<Completion> completions = functionResults.stream()
 				.map(function -> new Completion(getMatch(function, curWord),
 						Collections.singletonList(function),
