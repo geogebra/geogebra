@@ -218,6 +218,10 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 				spreadsheetSettings.setColumnsNoFire(column + 1);
 			}
 		} else {
+			GeoElement geo = contentAt(row, column);
+			if (geo != null) {
+				kernel.getConstruction().removeFromConstructionList(geo);
+			}
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, null);
 		}
 	}
