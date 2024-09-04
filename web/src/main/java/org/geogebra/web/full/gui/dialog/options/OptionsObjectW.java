@@ -655,13 +655,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	}
 
 	/**
-	 * 
-	 * @param app
-	 *            app
-	 * @param isDefaults
-	 *            whether it's for defaults
-	 * @param onTabSelection
-	 * 			  tab selection callback
+	 * @param app - app
+	 * @param isDefaults - whether it's for defaults
+	 * @param onTabSelection - tab selection callback
 	 */
 	public OptionsObjectW(AppW app, boolean isDefaults, Runnable onTabSelection) {
 		this.app = app;
