@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
@@ -18,6 +19,7 @@ import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
+import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -311,6 +313,40 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.startExam(ExamType.GENERIC, null);
 
 		assertFalse(app.getAvailableTools().contains(EuclidianConstants.MODE_POINT));
+	}
+
+	@Test
+	public void testCvteRestrictions() {
+		setInitialApp(SuiteSubApp.GEOMETRY);
+		examController.prepareExam();
+		examController.startExam(ExamType.CVTE, null);
+
+		// subapps restricted to Graphing, CAS disabled for this exam type
+		assertEquals(SuiteSubApp.GRAPHING, currentSubApp);
+		assertFalse(app.getSettings().getCasSettings().isEnabled());
+
+		// check syntax restrictions on AutoCompleteProvider
+		// - allow only Circle(<Center>, <Radius>) syntax
+		List<AutocompleteProvider.Completion> completions = autocompleteProvider
+				.getCompletions("circle").collect(Collectors.toList());
+		assertEquals(1, completions.size());
+		AutocompleteProvider.Completion circleCompletion = completions.get(0);
+		assertEquals(1, circleCompletion.syntaxes.size());
+		assertEquals("Circle( <Point>, <Radius Number> )", circleCompletion.syntaxes.get(0));
+
+		// check syntax restrictions on CommandDispatcher
+		// - (indirectly) via checkIsAllowedByCommandArgumentFilters
+		evaluate("A=(1,1)");
+		evaluate("B=(2,2)");
+		GeoElementND[] circlePointPoint = evaluate("Circle(A, B)");
+		assertNull(circlePointPoint);
+		GeoElementND[] circlePointRadius = evaluate("Circle(A, 1)");
+		assertNotNull(circlePointRadius);
+
+		// check tool restrictions
+		ToolCollection availableTools = app.getAvailableTools();
+		assertTrue(availableTools.contains(EuclidianConstants.MODE_MOVE));
+		assertFalse(availableTools.contains(EuclidianConstants.MODE_POINT));
 	}
 
 	@Test
