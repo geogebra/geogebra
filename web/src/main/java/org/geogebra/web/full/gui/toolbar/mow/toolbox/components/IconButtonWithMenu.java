@@ -52,7 +52,6 @@ public class IconButtonWithMenu extends IconButton {
 	private void showHideMenu() {
 		if (getPopup().isShowing()) {
 			iconButtonPopup.hide();
-			appW.setMode(appW.getMode());
 		} else {
 			ToolboxPopupPositioner.showRelativeToToolbox(getPopup(), this, appW);
 		}
@@ -61,6 +60,7 @@ public class IconButtonWithMenu extends IconButton {
 	private void addCloseHandler() {
 		iconButtonPopup.getPopupPanel().addCloseHandler(e -> {
 			deactivate();
+			appW.setMode(appW.getMode());
 			AriaHelper.setAriaExpanded(this, false);
 		});
 	}
