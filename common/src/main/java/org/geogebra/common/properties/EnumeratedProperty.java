@@ -2,7 +2,7 @@ package org.geogebra.common.properties;
 
 import java.util.List;
 
-import org.geogebra.common.exam.restrictions.ValueFilter;
+import javax.annotation.Nonnull;
 
 /**
  * A property whose value is one of an array of predefined values,
@@ -15,10 +15,11 @@ public interface EnumeratedProperty<V> extends ValuedProperty<V> {
 
 	/**
 	 * Gets the list of available values for this property.
-	 * When calling {@link EnumeratedProperty#setValue(Object)}
-	 * the value must be one of these values, otherwise it throws a RuntimeException.
-	 * @return predefined values, except those filtered by {@link ValueFilter} during exam mode
+	 * When calling {@link EnumeratedProperty#setValue(Object)} the value must be
+	 * one of these values, otherwise a {@link RuntimeException} will be thrown.
+	 * @return the list of available values
 	 */
+	@Nonnull
 	List<V> getValues();
 
 	/**
@@ -27,7 +28,7 @@ public interface EnumeratedProperty<V> extends ValuedProperty<V> {
 	 *
 	 * @param valueFilter the {@link ValueFilter} to be added.
 	 */
-	void addValueFilter(ValueFilter valueFilter);
+	void addValueFilter(@Nonnull ValueFilter valueFilter);
 
 	/**
 	 * Removes a previously added {@link ValueFilter} from this property.
@@ -36,7 +37,7 @@ public interface EnumeratedProperty<V> extends ValuedProperty<V> {
 	 *
 	 * @param valueFilter the {@link ValueFilter} to be removed.
 	 */
-	void removeValueFilter(ValueFilter valueFilter);
+	void removeValueFilter(@Nonnull ValueFilter valueFilter);
 
 	/**
 	 * Get the index of the value of this property in the array

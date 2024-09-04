@@ -363,10 +363,6 @@ import org.geogebra.common.plugin.Operation;
 
 public final class IBExamRestrictions extends ExamRestrictions {
 
-	private static final Set<ProbabilityCalculatorSettings.Dist> restrictedDistributions = Set.of(
-			EXPONENTIAL, CAUCHY, WEIBULL, GAMMA,
-			BETA, LOGNORMAL, LOGISTIC, PASCAL);
-
 	IBExamRestrictions() {
 		super(ExamType.IB,
 				Set.of(SuiteSubApp.CAS, SuiteSubApp.G3D),
@@ -379,12 +375,6 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				createSyntaxFilter(),
 				createToolCollectionFilter(),
 				createDistributionPropertyRestriction());
-	}
-
-	private static Map<String, PropertyRestriction> createDistributionPropertyRestriction() {
-		return Map.of("Distribution", new PropertyRestriction(false, value ->
-			!restrictedDistributions.contains(value)
-		));
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
@@ -465,6 +455,15 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				MODE_HYPERBOLA_THREE_POINTS, MODE_MIRROR_AT_LINE, MODE_MIRROR_AT_POINT,
 				MODE_TRANSLATE_BY_VECTOR, MODE_ROTATE_BY_ANGLE, MODE_DILATE_FROM_POINT,
 				MODE_MIRROR_AT_CIRCLE, MODE_FREEHAND_SHAPE, MODE_RELATION);
+	}
+
+	private static Map<String, PropertyRestriction> createDistributionPropertyRestriction() {
+		Set<ProbabilityCalculatorSettings.Dist> restrictedDistributions = Set.of(
+				EXPONENTIAL, CAUCHY, WEIBULL, GAMMA, BETA, LOGNORMAL, LOGISTIC, PASCAL
+		);
+		return Map.of("Distribution", new PropertyRestriction(false, value ->
+				!restrictedDistributions.contains(value)
+		));
 	}
 
 	private static class IBExamCommandFilter extends BaseCommandArgumentFilter {

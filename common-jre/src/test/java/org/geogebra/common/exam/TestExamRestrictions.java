@@ -42,8 +42,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 				createCommandArgumentFilter(),
 				createSyntaxFilter(),
 				createToolCollectionFilter(),
-				Map.of("AngleUnit", new PropertyRestriction(true,
-						value -> value != Integer.valueOf(Kernel.ANGLE_DEGREES_MINUTES_SECONDS))));
+				createPropertyRestrictions());
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
@@ -85,5 +84,10 @@ final class TestExamRestrictions extends ExamRestrictions {
 				}
 			}
 		});
+	}
+
+	private static Map<String, PropertyRestriction> createPropertyRestrictions() {
+		return Map.of("AngleUnit", new PropertyRestriction(true, value ->
+						value != Integer.valueOf(Kernel.ANGLE_DEGREES_MINUTES_SECONDS)));
 	}
 }

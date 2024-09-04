@@ -3,11 +3,14 @@ package org.geogebra.common.properties.impl.distribution;
 import static java.util.Map.entry;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.geogebra.common.exam.restrictions.ValueFilter;
+import javax.annotation.Nonnull;
+
+import org.geogebra.common.properties.ValueFilter;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
@@ -36,20 +39,36 @@ public class DistributionTypeProperty extends AbstractGroupedEnumeratedProperty<
 	public DistributionTypeProperty(Localization localization, ProbabilityCalculatorView view) {
 		super(localization, "Distribution");
 		this.view = view;
-		setNamedValues(Arrays.stream(Dist.values())
-				.map(dist -> entry(dist, dist.translationKey))
-				.collect(Collectors.toList()));
+		setNamedValues(List.of(
+				// Continuous
+				entry(Dist.NORMAL, "Distribution.Normal"),
+				entry(Dist.STUDENT, "Distribution.StudentT"),
+				entry(Dist.CHISQUARE, "Distribution.ChiSquare"),
+				entry(Dist.F, "Distribution.F"),
+				entry(Dist.EXPONENTIAL, "Distribution.Exponential"),
+				entry(Dist.CAUCHY, "Distribution.Cauchy"),
+				entry(Dist.WEIBULL, "Distribution.Weibull"),
+				entry(Dist.GAMMA, "Distribution.Gamma"),
+				entry(Dist.BETA, "Distribution.Beta"),
+				entry(Dist.LOGNORMAL, "Distribution.Lognormal"),
+				entry(Dist.LOGISTIC, "Distribution.Logistic"),
+				// Discrete
+				entry(Dist.BINOMIAL, "Distribution.Binomial"),
+				entry(Dist.PASCAL, "Distribution.Pascal"),
+				entry(Dist.POISSON, "Distribution.Poisson"),
+				entry(Dist.HYPERGEOMETRIC, "Distribution.Hypergeometric")
+		));
 		updateGroupDividerIndices();
 	}
 
 	@Override
-	public void addValueFilter(ValueFilter valueFilter) {
+	public void addValueFilter(@Nonnull ValueFilter valueFilter) {
 		super.addValueFilter(valueFilter);
 		updateGroupDividerIndices();
 	}
 
 	@Override
-	public void removeValueFilter(ValueFilter valueFilter) {
+	public void removeValueFilter(@Nonnull ValueFilter valueFilter) {
 		super.removeValueFilter(valueFilter);
 		updateGroupDividerIndices();
 	}

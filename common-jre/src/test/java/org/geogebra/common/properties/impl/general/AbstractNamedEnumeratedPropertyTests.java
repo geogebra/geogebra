@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.exam.restrictions.ValueFilter;
+import org.geogebra.common.properties.ValueFilter;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.junit.Test;

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.geogebra.common.exam.restrictions.ValueFilter;
+import javax.annotation.Nonnull;
+
+import org.geogebra.common.properties.ValueFilter;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.EnumeratedProperty;
 
@@ -28,10 +30,11 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 		super(localization, name);
 	}
 
-	protected void setValues(List<V> values) {
+	protected void setValues(@Nonnull List<V> values) {
 		this.values = values;
 	}
 
+	@Nonnull
 	@Override
 	public List<V> getValues() {
 		return values.stream().filter(value ->
@@ -40,12 +43,12 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 	}
 
 	@Override
-	public void addValueFilter(ValueFilter valueFilter) {
+	public void addValueFilter(@Nonnull ValueFilter valueFilter) {
 		valueFilters.add(valueFilter);
 	}
 
 	@Override
-	public void removeValueFilter(ValueFilter valueFilter) {
+	public void removeValueFilter(@Nonnull ValueFilter valueFilter) {
 		valueFilters.remove(valueFilter);
 	}
 

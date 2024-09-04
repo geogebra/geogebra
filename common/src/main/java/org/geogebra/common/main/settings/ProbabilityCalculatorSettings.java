@@ -18,45 +18,42 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	/** distributions */
 	public enum Dist {
 		/** normal */
-		NORMAL(Commands.Normal, Commands.InverseNormal, "Distribution.Normal"),
+		NORMAL(Commands.Normal, Commands.InverseNormal),
 		/** student */
-		STUDENT(Commands.TDistribution, Commands.InverseTDistribution, "Distribution.StudentT"),
+		STUDENT(Commands.TDistribution, Commands.InverseTDistribution),
 		/** chi squares */
-		CHISQUARE(Commands.ChiSquared, Commands.InverseChiSquared, "Distribution.ChiSquare"),
+		CHISQUARE(Commands.ChiSquared, Commands.InverseChiSquared),
 		/** f distribution */
-		F(Commands.FDistribution, Commands.InverseFDistribution, "Distribution.F"),
+		F(Commands.FDistribution, Commands.InverseFDistribution),
 		/** Cauchy */
-		CAUCHY(Commands.Cauchy, Commands.InverseCauchy, "Distribution.Cauchy"),
+		CAUCHY(Commands.Cauchy, Commands.InverseCauchy),
 		/** exponential */
-		EXPONENTIAL(Commands.Exponential, Commands.InverseExponential, "Distribution.Exponential"),
+		EXPONENTIAL(Commands.Exponential, Commands.InverseExponential),
 		/** beta dist */
-		BETA(Commands.BetaDist, Commands.InverseBeta, "Distribution.Beta"),
+		BETA(Commands.BetaDist, Commands.InverseBeta),
 		/** gamma dist */
-		GAMMA(Commands.Gamma, Commands.InverseGamma, "Distribution.Gamma"),
+		GAMMA(Commands.Gamma, Commands.InverseGamma),
 		/** weibull */
-		WEIBULL(Commands.Weibull, Commands.InverseWeibull, "Distribution.Weibull"),
+		WEIBULL(Commands.Weibull, Commands.InverseWeibull),
 		/** logistic */
-		LOGISTIC(Commands.Logistic, Commands.InverseLogistic, "Distribution.Logistic"),
+		LOGISTIC(Commands.Logistic, Commands.InverseLogistic),
 		/** log-normal */
-		LOGNORMAL(Commands.LogNormal, Commands.InverseLogNormal, "Distribution.Lognormal"),
+		LOGNORMAL(Commands.LogNormal, Commands.InverseLogNormal),
 		/** binomial */
-		BINOMIAL(Commands.BinomialDist, Commands.InverseBinomial, "Distribution.Binomial"),
+		BINOMIAL(Commands.BinomialDist, Commands.InverseBinomial),
 		/** pascal */
-		PASCAL(Commands.Pascal, Commands.InversePascal, "Distribution.Pascal"),
+		PASCAL(Commands.Pascal, Commands.InversePascal),
 		/** hypergeometric */
-		HYPERGEOMETRIC(Commands.HyperGeometric, Commands.InverseHyperGeometric,
-				"Distribution.Hypergeometric"),
+		HYPERGEOMETRIC(Commands.HyperGeometric, Commands.InverseHyperGeometric),
 		/** poisson */
-		POISSON(Commands.Poisson, Commands.InversePoisson, "Distribution.Poisson");
+		POISSON(Commands.Poisson, Commands.InversePoisson);
 
 		public final Commands command;
 		public final Commands inverse;
-		public final String translationKey;
 
-		Dist(Commands command, Commands inverse, String translationKey) {
+		Dist(Commands command, Commands inverse) {
 			this.command = command;
 			this.inverse = inverse;
-			this.translationKey = translationKey;
 		}
 
 		/**

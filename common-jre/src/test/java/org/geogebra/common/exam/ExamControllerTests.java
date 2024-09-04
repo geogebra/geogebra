@@ -258,9 +258,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		// property restrictions
 		Property angleUnit = propertiesRegistry.lookup("AngleUnit", app);
 		assertNotNull(angleUnit);
-		assertTrue("Angle unit should be frozen", angleUnit.isFrozen());
-		assertEquals("Only degree and radiant should be allowed",
-				List.of(Kernel.ANGLE_DEGREE, Kernel.ANGLE_RADIANT),
+		assertTrue(angleUnit.isFrozen());
+		assertEquals(List.of(Kernel.ANGLE_DEGREE, Kernel.ANGLE_RADIANT),
 				((NamedEnumeratedProperty<?>) angleUnit).getValues());
 
 		examController.finishExam();
