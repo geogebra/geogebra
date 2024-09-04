@@ -52,16 +52,16 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 	@Override
 	public void setIndex(int index) {
 		ensureValuesPresent();
-		if (index < 0 || index >= values.size()) {
+		if (index < 0 || index >= getValues().size()) {
 			throw new RuntimeException("Index must be between (0, values.length-1)");
 		}
-		setValue(values.get(index));
+		setValue(getValues().get(index));
 	}
 
 	@Override
 	public int getIndex() {
 		ensureValuesPresent();
-		return values.indexOf(getValue());
+		return getValues().indexOf(getValue());
 	}
 
 	private void ensureValuesPresent() {
