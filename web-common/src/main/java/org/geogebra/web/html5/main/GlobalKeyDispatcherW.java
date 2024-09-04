@@ -188,8 +188,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		if (!app.getConfig().hasTableView()) {
 			return;
 		}
-		app.getGuiManager().setShowView(!app.getGuiManager().isTableViewShowing(),
-				App.VIEW_TABLE);
+
+		((GuiManagerInterfaceW) app.getGuiManager()).toggleTableValuesView();
 	}
 
 	private void handleCtrlAltX() {

@@ -883,11 +883,26 @@ public class ToolbarPanel extends FlowPanel
 		openTableView(null, fade);
 	}
 
-	/**
-	 * Opens tools tab.
-	 * @param geo to ensure to be visible.
-	 * @param fade decides if tab should fade during animation.
-	 */
+	public void toggleTableView() {
+		boolean isScientific = app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC;
+		if (isTableOfValuesViewActive() && isScientific) {
+			navRail.onAlgebraPressed();
+		} else {
+			navRail.onTableViewPressed();
+		}
+	}
+
+	private boolean isTableOfValuesViewActive() {
+		return tabTable != null && getSelectedTabId() == TabIds.TABLE;
+	}
+
+
+
+		/**
+		 * Opens tools tab.
+		 * @param geo to ensure to be visible.
+		 * @param fade decides if tab should fade during animation.
+		 */
 	public void openTableView(@Nullable GeoEvaluatable geo, boolean fade) {
 		if (!needsNavRail() || !app.getConfig().hasTableView()) {
 			openAlgebra(fade);
