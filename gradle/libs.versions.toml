@@ -60,7 +60,7 @@ mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 
 gwt-plugin = {module = "org.docstr:gwt-gradle-plugin", version = "1.1.31" }
-spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.0.21" }
+spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.0.22" }
 javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "3.0.2"}
 
 [plugins]
