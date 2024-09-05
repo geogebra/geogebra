@@ -223,6 +223,12 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
+	public void removeContentAt(int row, int column) {
+		processor.removeContentAt(row, column);
+		setContent(row, column, null);
+	}
+
+	@Override
 	public String serializeContentAt(int row, int column) {
 		GeoElement geoElement = contentAt(row, column);
 		return geoElement == null ? ""
