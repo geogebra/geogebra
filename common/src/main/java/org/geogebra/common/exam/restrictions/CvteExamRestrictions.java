@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.Settings;
@@ -136,7 +135,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				Commands.Tangent,
 				Commands.ZoomIn,
 				Commands.ZoomOut);
-		return Set.of(new EnglishCommandFilter(nameFilter));
+		return Set.of(nameFilter);
 	}
 
 	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {
