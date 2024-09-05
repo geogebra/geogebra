@@ -40,12 +40,11 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	private ToggleButton fullscreenBtn;
 
 	/** application */
-	private AppW app;
+	private final AppW app;
 	private final EuclidianView view;
 
-	private ZoomController zoomController;
-	private boolean zoomButtonsVisible;
-	private LocalizationW loc;
+	private final ZoomController zoomController;
+	private final LocalizationW loc;
 
 	/**
 	 *
@@ -221,10 +220,10 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 */
 	public void setLabels() {
 		setFullScreenAuralText();
-		setZoomAuralText(homeBtn, true, "StandardView", "Home button selected");
-		setZoomAuralText(zoomOutBtn, fullscreenBtn != null, "ZoomOut.Tool",
+		setZoomAuralText(homeBtn, "StandardView", "Home button selected");
+		setZoomAuralText(zoomOutBtn, "ZoomOut.Tool",
 				"Zoom out button selected");
-		setZoomAuralText(zoomInBtn, true, "ZoomIn.Tool", "Zoom in button selected");
+		setZoomAuralText(zoomInBtn, "ZoomIn.Tool", "Zoom in button selected");
 	}
 
 	/**
@@ -254,31 +253,13 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		sb.endSentence();
 	}
 
-	private void setZoomAuralText(StandardButton btn, boolean controlNext,
-			String transKey, String auralDefault) {
+	private void setZoomAuralText(StandardButton btn, String transKey, String auralDefault) {
 		if (btn == null) {
 			return;
 		}
+
 		String title = loc.getMenuDefault(transKey, auralDefault);
-
-		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
-		sb.append(title);
-		if (!Browser.needsAccessibilityView()) {
-			addZoomKeyboardControls(sb, controlNext);
-		}
-
-		setButtonTitleAndAltText(btn, title, sb.toString());
-	}
-
-	private void addZoomKeyboardControls(ScreenReaderBuilder sb, boolean controlNext) {
-		addSpaceControl(sb);
-		if (controlNext) {
-			sb.appendMenuDefault("PressTabToSelectControls",
-					"Press tab to select controls");
-		} else {
-			sb.appendMenuDefault("PressTabToSelectNext",
-					"Press tab to select next object");
-		}
+		setButtonTitleAndAltText(btn, title, title);
 	}
 
 	private void addSpaceControl(ScreenReaderBuilder sb) {
@@ -359,7 +340,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 */
 	public void setMaxHeight(int height) {
 		setHidden(height < 60);
-		zoomButtonsVisible = height >= 200;
+		boolean zoomButtonsVisible = height >= 200;
 		if (zoomInBtn != null) {
 			zoomInBtn.setVisible(zoomButtonsVisible);
 		}
