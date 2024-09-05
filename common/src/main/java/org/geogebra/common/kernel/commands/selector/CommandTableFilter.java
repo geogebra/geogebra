@@ -7,15 +7,16 @@ import java.util.Set;
 import org.geogebra.common.kernel.commands.Commands;
 
 /**
- * Filters commands by their table name.
+ * Filters commands by their table name. Commands from
+ * {@link org.geogebra.common.kernel.commands.CommandsConstants#TABLE_ENGLISH}
+ * are first converted to internal commands.
  */
-public class CommandTableFilter implements CommandFilter {
+public final class CommandTableFilter implements CommandFilter {
 
 	private Set<Integer> filteredTables;
 
 	/**
 	 * Creates a Command Table filter instance.
-	 *
 	 * @param filteredTables the tables that have to be filtered
 	 */
 	public CommandTableFilter(Integer... filteredTables) {
@@ -24,6 +25,7 @@ public class CommandTableFilter implements CommandFilter {
 
 	@Override
 	public boolean isCommandAllowed(Commands command) {
-		return !filteredTables.contains(command.getTable());
+		Commands internalCommand = Commands.englishToInternal(command);
+		return !filteredTables.contains(internalCommand.getTable());
 	}
 }

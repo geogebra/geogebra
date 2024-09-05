@@ -5,15 +5,12 @@ import org.geogebra.common.kernel.commands.CommandsConstants;
 
 /**
  * Creates CommandFilters for various apps.
- * 
  * @author laszlo
- *
  */
 public final class CommandFilterFactory {
 	/**
-	 *
 	 * @return Returns the CommandFilter that allows only the Scientific
-	 *         Calculator commands
+	 * Calculator commands
 	 */
 	public static CommandFilter createSciCalcCommandFilter() {
 		CommandNameFilter commandNameFilter = new CommandNameFilter(
@@ -27,7 +24,6 @@ public final class CommandFilterFactory {
 
 	/**
 	 * Creates a CommandFilter for the Graphing app (no cas: e.g. Solve).
-	 *
 	 * @return command filter
 	 */
 	public static CommandFilter createGraphingCommandFilter() {
@@ -36,9 +32,8 @@ public final class CommandFilterFactory {
 				CommandsConstants.TABLE_TRANSFORMATION,
 				CommandsConstants.TABLE_3D);
 		CommandFilter nameFilter = createGraphingNameFilter();
-		CommandFilter composite = new CompositeCommandFilter(noCasCommandFilter,
+		return new CompositeCommandFilter(noCasCommandFilter,
 				tableFilter, nameFilter);
-		return new EnglishCommandFilter(composite);
 	}
 
 	private static CommandFilter createGraphingNameFilter() {
@@ -69,7 +64,7 @@ public final class CommandFilterFactory {
 	}
 
 	private static void addBooleanCommands(CommandNameFilter nameFilter) {
-        nameFilter.addCommands(Commands.AreCollinear, Commands.IsTangent,
+		nameFilter.addCommands(Commands.AreCollinear, Commands.IsTangent,
 				Commands.AreConcurrent, Commands.AreConcyclic, Commands.AreCongruent,
 				Commands.AreEqual, Commands.AreParallel, Commands.ArePerpendicular);
 	}
@@ -121,17 +116,17 @@ public final class CommandFilterFactory {
 				Commands.PlaneBisector, Commands.Angle, Commands.Distance, Commands.Relation,
 				Commands.IsInRegion);
 		addBooleanCommands(nameFilter);
-		return new EnglishCommandFilter(nameFilter);
+		return nameFilter;
 	}
 
 	/**
 	 * @return filter for Bayern CAS exam
 	 */
-    @Deprecated // replaced by BayernCasExamRestrictions
+	@Deprecated // replaced by BayernCasExamRestrictions
 	public static CommandFilter createBayernCasFilter() {
 		CommandNameFilter nameFilter = new CommandNameFilter(true);
 		nameFilter.addCommands(Commands.Plane);
-		return new EnglishCommandFilter(nameFilter);
+		return nameFilter;
 	}
 
 	/**
@@ -144,7 +139,7 @@ public final class CommandFilterFactory {
 				Commands.IntegralSymbolic, Commands.IntegralBetween, Commands.NIntegral,
 				Commands.Solve, Commands.SolveQuartic, Commands.SolveODE, Commands.SolveCubic,
 				Commands.Solutions, Commands.NSolve, Commands.NSolveODE, Commands.NSolutions);
-		return new EnglishCommandFilter(nameFilter);
+		return nameFilter;
 	}
 
 	/**
@@ -261,11 +256,10 @@ public final class CommandFilterFactory {
 				Commands.Cell, Commands.CellRange, Commands.Column,
 				Commands.ColumnName, Commands.FillCells, Commands.FillColumn,
 				Commands.FillRow, Commands.Row
-			);
+		);
 		addBooleanCommands(commandNameFilter);
-		CompositeCommandFilter composite = new CompositeCommandFilter(commandNameFilter,
+		return new CompositeCommandFilter(commandNameFilter,
 				new CommandTableFilter(Commands.TABLE_DISCRETE));
-		return new EnglishCommandFilter(composite);
 	}
 
 	/**

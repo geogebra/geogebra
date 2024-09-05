@@ -343,7 +343,6 @@ import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.MyError;
@@ -419,7 +418,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				PerpendicularVector, UnitPerpendicularVector, UnitVector, Vector, CFactor,
 				GroebnerDegRevLex, GroebnerLexDeg, GroebnerLex, Substitute, NDerivative, BetaDist,
 				InverseBeta);
-		return Set.of(new EnglishCommandFilter(nameFilter));
+		return Set.of(nameFilter);
 	}
 
 	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {

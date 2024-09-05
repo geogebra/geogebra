@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
@@ -49,7 +48,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 				Commands.IntegralSymbolic, Commands.IntegralBetween, Commands.NIntegral,
 				Commands.Solve, Commands.SolveQuartic, Commands.SolveODE, Commands.SolveCubic,
 				Commands.Solutions, Commands.NSolve, Commands.NSolveODE, Commands.NSolutions);
-		return Set.of(new EnglishCommandFilter(nameFilter));
+		return Set.of(nameFilter);
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
