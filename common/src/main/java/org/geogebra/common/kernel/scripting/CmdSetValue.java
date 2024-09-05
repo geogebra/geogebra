@@ -164,7 +164,6 @@ public class CmdSetValue extends CmdScripting {
 	 *            value
 	 */
 	public static void setValue2(GeoElement target, GeoElement from) {
-		boolean undefineInputBoxes = false;
 		if (target.isGeoList() && from.isNumberValue()
 				&& !Double.isNaN(from.evaluateDouble())) {
 			int selectIdx = (int) Math.round(from.evaluateDouble()) - 1;
@@ -184,7 +183,6 @@ public class CmdSetValue extends CmdScripting {
 			if (from.isGeoNumeric()
 					&& Double.isNaN(from.evaluateDouble())) {
 				// eg SetValue[a,?] for line
-				undefineInputBoxes = true;
 				undefine(target);
 				target.updateRepaint();
 			}
@@ -193,7 +191,7 @@ public class CmdSetValue extends CmdScripting {
 			GeoInputBox geoInputBox = (GeoInputBox) target;
 			geoInputBox.updateLinkedGeo(textString);
 		}
-		resetInputboxes(target, undefineInputBoxes);
+		resetInputboxes(target);
 	}
 
 	private static void setValueForLists(GeoList target, GeoList from) {
@@ -275,14 +273,11 @@ public class CmdSetValue extends CmdScripting {
 		}
 	}
 
-	private static void resetInputboxes(GeoElement geo, boolean undefine) {
+	private static void resetInputboxes(GeoElement geo) {
 		if (geo.getAlgoUpdateSet() != null) {
 			for (AlgoElement childAlgo : geo.getAlgoUpdateSet()) {
 				if (childAlgo instanceof AlgoInputBox) {
 					((AlgoInputBox) childAlgo).getResult().clearTempUserInput();
-					if (undefine) {
-						((AlgoInputBox) childAlgo).getResult().updateLinkedGeo("?");
-					}
 				}
 			}
 		}
