@@ -1,14 +1,15 @@
 package org.geogebra.common.properties.impl;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.properties.ValueFilter;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.EnumeratedProperty;
+import org.geogebra.common.properties.ValueFilter;
 
 /**
  * Base class for enumerated properties. When overriding this class, make sure to call

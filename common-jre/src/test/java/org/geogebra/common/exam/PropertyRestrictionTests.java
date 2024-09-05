@@ -36,8 +36,10 @@ public class PropertyRestrictionTests extends BaseUnitTest {
 
     @Test
     public void testRestrictionWithValueFilter() {
-        PropertyRestriction propertyRestriction1 = new PropertyRestriction(false, value -> value != "value1");
-        PropertyRestriction propertyRestriction2 = new PropertyRestriction(false, value -> value != "value2");
+        PropertyRestriction propertyRestriction1 =
+                new PropertyRestriction(false, value -> value != "value1");
+        PropertyRestriction propertyRestriction2 =
+                new PropertyRestriction(false, value -> value != "value2");
 
         propertyRestriction1.applyTo(enumeratedProperty);
         assertEquals(List.of("value2", "value3"), enumeratedProperty.getValues());

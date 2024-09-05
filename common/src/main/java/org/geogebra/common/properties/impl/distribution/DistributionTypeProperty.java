@@ -2,18 +2,16 @@ package org.geogebra.common.properties.impl.distribution;
 
 import static java.util.Map.entry;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.properties.ValueFilter;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
+import org.geogebra.common.properties.ValueFilter;
 import org.geogebra.common.properties.impl.AbstractGroupedEnumeratedProperty;
 
 /**

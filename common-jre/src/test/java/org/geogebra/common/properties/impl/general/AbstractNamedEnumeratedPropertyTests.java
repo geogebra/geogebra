@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.properties.ValueFilter;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.ValueFilter;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.junit.Test;
 
@@ -65,7 +65,8 @@ public class AbstractNamedEnumeratedPropertyTests extends BaseUnitTest {
 				namedEnumeratedProperty.getValueNames());
 
 		namedEnumeratedProperty.removeValueFilter(valueFilter3);
-		assertEquals(List.of("value1", "value2", "value3"), namedEnumeratedProperty.getValues());
+		assertEquals(List.of("value1", "value2", "value3"),
+				namedEnumeratedProperty.getValues());
 		assertArrayEquals(new String[]{ "Value One", "Value Two", "Value Three" },
 				namedEnumeratedProperty.getValueNames());
 	}
@@ -91,7 +92,8 @@ public class AbstractNamedEnumeratedPropertyTests extends BaseUnitTest {
 		assertEquals("value3", namedEnumeratedProperty.getValue());
 	}
 
-	private static final class TestNamedEnumeratedProperty extends AbstractNamedEnumeratedProperty<String> {
+	private static final class TestNamedEnumeratedProperty
+			extends AbstractNamedEnumeratedProperty<String> {
 		private String value;
 
 		public TestNamedEnumeratedProperty(
