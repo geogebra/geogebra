@@ -225,6 +225,6 @@ final class CopyPasteCutTabularDataImpl<T>
 	}
 
 	private void resetCell(int row, int column) {
-		tabularData.setContent(row, column, null);
+		tabularData.removeContentAt(row, column);
 	}
 }

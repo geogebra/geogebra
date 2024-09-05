@@ -68,7 +68,7 @@ public class KernelTabularDataProcessor {
 		}
 	}
 
-	private void removeContentAt(int row, int column) {
+	void removeContentAt(int row, int column) {
 		GeoElement geo = adapter.contentAt(row, column);
 		if (geo != null) {
 			geo.remove();
