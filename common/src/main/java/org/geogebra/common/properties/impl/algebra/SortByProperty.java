@@ -6,9 +6,7 @@ import static org.geogebra.common.gui.view.algebra.AlgebraView.SortMode.LAYER;
 import static org.geogebra.common.gui.view.algebra.AlgebraView.SortMode.ORDER;
 import static org.geogebra.common.gui.view.algebra.AlgebraView.SortMode.TYPE;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.main.Localization;
