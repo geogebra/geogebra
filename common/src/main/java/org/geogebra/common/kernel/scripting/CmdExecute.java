@@ -70,11 +70,7 @@ public class CmdExecute extends CmdScripting {
 				break;
 			}
 		}
-
 		kernel.setCommandLookupStrategy(oldVal);
-
-		app.storeUndoInfo();
 		return arg;
-
 	}
 }
