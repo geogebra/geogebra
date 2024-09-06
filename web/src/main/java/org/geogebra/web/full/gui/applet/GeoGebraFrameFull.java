@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamType;
-import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
@@ -16,7 +14,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.gwtutil.SecureBrowser;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
@@ -49,8 +46,6 @@ import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
-import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.JsEval;
 import org.geogebra.web.html5.util.AppletParameters;
@@ -60,6 +55,7 @@ import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.geogebra.web.shared.GlobalHeader;
+import org.geogebra.web.shared.mow.header.NotesTopBar;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
@@ -746,56 +742,37 @@ public class GeoGebraFrameFull
 		}
 	}
 
-	private void attachMowMainMenu(final AppW app) {
-		StandardButton openMenuButton = new StandardButton(
-				MaterialDesignResources.INSTANCE.menu_black_whiteBorder(), null, 24);
-
-		openMenuButton.addFastClickHandler(source -> {
-			onMenuButtonPressed();
-			if (app.isWhiteboardActive()) {
-				deselectDragBtn();
-			}
-		});
-
-		openMenuButton.addStyleName("mowOpenMenuButton");
-		new FocusableWidget(AccessibilityGroup.MENU, null, openMenuButton).attachTo(app);
-		add(openMenuButton);
-	}
-
 	/**
 	 * Adds the notes toolbar and (if allowed) the undo panel and page control
 	 */
 	public void attachNotesUI(AppW app) {
 		NotesLayout notesLayout = getNotesLayoutSafe(app);
+
+		NotesTopBar notesTopBar = notesLayout.getTopBar();
+		if (notesTopBar != null && notesTopBar.wasAttached()) {
+			add(notesTopBar);
+		}
 		if (notesLayout.getToolbar() != null) {
 			add(notesLayout.getToolbar());
-		}
-		if (app.getAppletParameters().getDataParamEnableUndoRedo()) {
-			add(notesLayout.getUndoRedoButtons());
 		}
 		setPageControlButtonVisible(app.isMultipleSlidesOpen()
 				|| app.getAppletParameters().getParamShowSlides(), notesLayout);
 
 		if (GlobalHeader.isInDOM() && !app.isApplet()) {
 			app.getGuiManager().menuToGlobalHeader();
-		} else if (!app.isApplet()
-				|| app.getAppletParameters().getDataParamShowMenuBar(false)) {
-			notesLayout.getUndoRedoButtons().addStyleName("undoRedoPositionMebis");
-			attachMowMainMenu(app);
 		}
 		app.getGuiManager().initShareActionInGlobalHeader();
 		initPageControlPanel(app);
 	}
 
 	/**
-	 * Remove notes toolbar and undo panel
+	 * Remove notes toolbar
 	 */
-	public void detachNotesToolbarAndUndo(AppW app) {
+	public void detachNotesToolbar(AppW app) {
 		NotesLayout notesLayout = getNotesLayoutSafe(app);
 		if (notesLayout.getToolbar() != null) {
 			remove(notesLayout.getToolbar());
 		}
-		remove(notesLayout.getUndoRedoButtons());
 	}
 
 	/**
@@ -904,20 +881,6 @@ public class GeoGebraFrameFull
 	}
 
 	/**
-	 * Actions performed when menu button is pressed
-	 */
-	private void onMenuButtonPressed() {
-		app.getActiveEuclidianView().getEuclidianController()
-				.widgetsToBackground();
-		app.hideKeyboard();
-		app.closePopups();
-		app.toggleMenu();
-		if (app.isWhiteboardActive()) {
-			pageListPanel.close();
-		}
-	}
-
-	/**
 	 * Update undo/redo in MOW toolbar
 	 */
 	public void updateUndoRedoMOW() {
@@ -925,28 +888,6 @@ public class GeoGebraFrameFull
 			return;
 		}
 		notesLayout.updateUndoRedoActions();
-	}
-
-	/**
-	 * deselect drag button
-	 */
-	public void deselectDragBtn() {
-		if (getApp().getZoomPanelMow() != null
-				&& app.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
-			getApp().getZoomPanelMow().deselectDragBtn();
-		}
-	}
-
-	/**
-	 * @param mode
-	 *            new mode for MOW toolbar
-	 */
-	@Override
-	public void setNotesMode(int mode) {
-		if (notesLayout == null) {
-			return;
-		}
-		notesLayout.setMode(mode);
 	}
 
 	private void setKeyboardShowing(boolean keyboardShowing) {

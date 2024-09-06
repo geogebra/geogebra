@@ -1,41 +1,41 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
+
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxMow;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.NotesToolbox;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.PersistablePanel;
+import org.geogebra.web.shared.mow.header.NotesTopBar;
 import org.gwtproject.event.dom.client.TouchStartEvent;
 import org.gwtproject.user.client.ui.Widget;
 
-public class NotesLayout implements SetLabels {
+public class NotesLayout implements SetLabels, ModeChangeListener {
 	private final AppW appW;
-	private final @CheckForNull ToolboxMow toolbar;
+	private final @CheckForNull NotesToolbox toolbar;
+	private final @CheckForNull NotesTopBar topBar;
 	private StandardButton pageControlButton;
 	private @CheckForNull PageListPanel pageControlPanel;
-	/** panel containing undo and redo */
-	private PersistablePanel undoRedoPanel;
-	/** undo button */
-	protected StandardButton btnUndo;
-	/** redo button */
-	protected StandardButton btnRedo;
 
 	/**
 	 * @param appW application
 	 */
 	public NotesLayout(AppW appW) {
 		this.appW = appW;
-		this.toolbar = appW.showToolBar() ? new ToolboxMow(appW) : null;
-		createUndoRedoButtons();
+		topBar = new NotesTopBar(appW);
+		this.toolbar = appW.showToolBar() ? new NotesToolbox(appW, topBar.wasAttached()) : null;
+		appW.getActiveEuclidianView().getEuclidianController()
+				.setModeChangeListener(this);
 		createPageControlButton();
 		setLabels();
 	}
@@ -91,7 +91,7 @@ public class NotesLayout implements SetLabels {
 
 		getPageControlPanel().open();
 		appW.getPageController().updatePreviewImage();
-		deselectDragButton();
+		appW.setMode(MODE_SELECT_MOW);
 	}
 
 	private PageListPanel getPageControlPanel() {
@@ -102,85 +102,42 @@ public class NotesLayout implements SetLabels {
 		return pageControlPanel;
 	}
 
-	protected void deselectDragButton() {
-		(((AppWFull) appW).getAppletFrame()).deselectDragBtn();
-	}
-
 	@Override
 	public void setLabels() {
 		if (toolbar != null) {
 			toolbar.setLabels();
 		}
+		if (topBar != null) {
+			topBar.setLabels();
+		}
 		pageControlButton
 				.setTitle(appW.getLocalization().getMenu("PageControl"));
-		btnUndo.setTitle(appW.getLocalization().getMenu("Undo"));
-		btnRedo.setTitle(appW.getLocalization().getMenu("Redo"));
-	}
-
-	private void createUndoRedoButtons() {
-		undoRedoPanel = new PersistablePanel();
-		undoRedoPanel.addStyleName("undoRedoPanel");
-		undoRedoPanel.addStyleName(appW.getVendorSettings().getStyleName("undoRedoPosition"));
-		// create buttons
-		btnUndo = new StandardButton(
-				MaterialDesignResources.INSTANCE.undo_border(), null, 24);
-		btnUndo.addStyleName("flatButton");
-		btnUndo.addFastClickHandler(widget -> {
-			appW.getGuiManager().undo();
-			deselectDragButton();
-		});
-		new FocusableWidget(AccessibilityGroup.UNDO, null, btnUndo).attachTo(appW);
-		btnRedo = new StandardButton(
-				MaterialDesignResources.INSTANCE.redo_border(), null, 24);
-		btnRedo.addFastClickHandler(widget -> {
-			appW.getGuiManager().redo();
-			deselectDragButton();
-		});
-		btnRedo.addStyleName("flatButton");
-		btnRedo.addStyleName("buttonActive");
-		new FocusableWidget(AccessibilityGroup.REDO, null, btnRedo).attachTo(appW);
-		undoRedoPanel.add(btnUndo);
-		undoRedoPanel.add(btnRedo);
 	}
 
 	/**
 	 * update style of undo+redo buttons
 	 */
 	public void updateUndoRedoActions() {
-		appW.getKernel().getConstruction().getUndoManager().setAllowCheckpoints(
-		appW.getAppletParameters().getParamAllowUndoCheckpoints());
-		if (appW.getKernel().undoPossible()) {
-			btnUndo.addStyleName("buttonActive");
-			btnUndo.removeStyleName("buttonInactive");
-		} else {
-			btnUndo.removeStyleName("buttonActive");
-			btnUndo.addStyleName("buttonInactive");
-		}
-		if (appW.getKernel().redoPossible()) {
-			btnRedo.removeStyleName("hideButton");
-		} else {
-			btnRedo.addStyleName("hideButton");
-		}
-	}
-
-	/**
-	 * @return undo/redo panel
-	 */
-	public PersistablePanel getUndoRedoButtons() {
-		return undoRedoPanel;
-	}
-
-	/**
-	 * Select the correct icon in the toolbar
-	 * @param mode selected tool
-	 */
-	public void setMode(int mode) {
-		if (toolbar != null) {
-			toolbar.setMode(mode);
+		if (topBar != null) {
+			topBar.updateUndoRedoActions(appW.getKernel());
 		}
 	}
 
 	public Widget getToolbar() {
 		return toolbar;
+	}
+
+	public NotesTopBar getTopBar() {
+		return topBar;
+	}
+
+	@Override
+	public void onModeChange(int mode) {
+		if (topBar != null) {
+			topBar.onModeChange(mode);
+		}
+		if (toolbar != null) {
+			toolbar.onModeChange(mode);
+		}
 	}
 }

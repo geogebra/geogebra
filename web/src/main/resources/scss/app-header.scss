@@ -34,6 +34,11 @@
   	height: 80px;
 }
 
+.GeoGebraHeader.notesHeader {
+	box-shadow: none;
+	border-bottom: 1px solid neutral(300);
+}
+
 .GeoGebraHeader .signIn {
 	color: neutral(900);
 	padding: 4px 8px;
@@ -282,10 +287,6 @@ img.profileImage {
 .startscreen.notes-mebis {
 	top: 0;
 	height: 100%;
-}
-
-.startscreen.notes .mowOpenMenuButton {
-	display: none;
 }
 
 .startscreen .logo{
