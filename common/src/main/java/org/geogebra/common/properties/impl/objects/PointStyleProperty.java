@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.objects;
 
+import java.util.List;
+
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -31,11 +33,13 @@ public class PointStyleProperty extends AbstractEnumeratedProperty<Integer>
 			throws NotApplicablePropertyException {
 		super(localization, "Properties.Style");
 		delegate = new PointStylePropertyDelegate(element);
-		setValues(EuclidianStyleConstants.POINT_STYLE_DOT,
+		setValues(List.of(
+				EuclidianStyleConstants.POINT_STYLE_DOT,
 				EuclidianStyleConstants.POINT_STYLE_CROSS,
 				EuclidianStyleConstants.POINT_STYLE_CIRCLE,
 				EuclidianStyleConstants.POINT_STYLE_PLUS,
-				EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND);
+				EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND
+		));
 	}
 
 	@Override

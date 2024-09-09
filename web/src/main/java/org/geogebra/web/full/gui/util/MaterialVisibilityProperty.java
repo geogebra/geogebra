@@ -1,5 +1,9 @@
 package org.geogebra.web.full.gui.util;
 
+import static java.util.Map.entry;
+
+import java.util.List;
+
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
@@ -35,12 +39,16 @@ public class MaterialVisibilityProperty
 	public void update(MaterialVisibility visibility) {
 		Log.debug("Property is updated to " + visibility);
 		if (visibility == MaterialVisibility.Public) {
-			setValues(MaterialVisibility.Private, MaterialVisibility.Shared,
-					MaterialVisibility.Public);
-			setValueNames("Private", "Shared", "Public");
+			setNamedValues(List.of(
+					entry(MaterialVisibility.Private, "Private"),
+					entry(MaterialVisibility.Shared, "Shared"),
+					entry(MaterialVisibility.Public, "Public")
+			));
 		} else {
-			setValues(MaterialVisibility.Private, MaterialVisibility.Shared);
-			setValueNames("Private", "Shared");
+			setNamedValues(List.of(
+					entry(MaterialVisibility.Private, "Private"),
+					entry(MaterialVisibility.Shared, "Shared")
+			));
 		}
 		doSetValue(visibility);
 	}

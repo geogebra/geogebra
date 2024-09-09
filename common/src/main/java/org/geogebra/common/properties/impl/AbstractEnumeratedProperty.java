@@ -1,19 +1,25 @@
 package org.geogebra.common.properties.impl;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.EnumeratedProperty;
+import org.geogebra.common.properties.ValueFilter;
 
 /**
  * Base class for enumerated properties. When overriding this class, make sure to call
- * {@link AbstractEnumeratedProperty#setValues(Object[])} at some point in the constructor.
+ * {@link AbstractEnumeratedProperty#setValues(List)} at some point in the constructor.
  * @param <V> value type
  */
 public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProperty<V> implements
 		EnumeratedProperty<V> {
 
-	protected V[] values;
+	private List<V> values = new ArrayList<>();
+	private final List<ValueFilter> valueFilters = new ArrayList<>();
 
 	/**
 	 * Constructs an AbstractEnumeratedProperty.
@@ -24,28 +30,41 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 		super(localization, name);
 	}
 
-	protected void setValues(V... values) {
+	protected void setValues(@Nonnull List<V> values) {
 		this.values = values;
 	}
 
+	@Nonnull
 	@Override
-	public V[] getValues() {
-		return values;
+	public List<V> getValues() {
+		return values.stream().filter(value ->
+				valueFilters.stream().allMatch(filter ->
+						filter.isValueAllowed(value))).collect(Collectors.toList());
+	}
+
+	@Override
+	public void addValueFilter(@Nonnull ValueFilter valueFilter) {
+		valueFilters.add(valueFilter);
+	}
+
+	@Override
+	public void removeValueFilter(@Nonnull ValueFilter valueFilter) {
+		valueFilters.remove(valueFilter);
 	}
 
 	@Override
 	public void setIndex(int index) {
 		ensureValuesPresent();
-		if (index < 0 || index >= values.length) {
+		if (index < 0 || index >= getValues().size()) {
 			throw new RuntimeException("Index must be between (0, values.length-1)");
 		}
-		setValue(values[index]);
+		setValue(getValues().get(index));
 	}
 
 	@Override
 	public int getIndex() {
 		ensureValuesPresent();
-		return Arrays.asList(values).indexOf(getValue());
+		return getValues().indexOf(getValue());
 	}
 
 	private void ensureValuesPresent() {

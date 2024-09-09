@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.distribution;
 
+import java.util.List;
+
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.IconsEnumeratedProperty;
@@ -29,8 +31,12 @@ public class IntervalProperty extends AbstractEnumeratedProperty<Integer> implem
 	public IntervalProperty(Localization localization, ProbabilityCalculatorView view) {
 		super(localization, "Interval");
 		this.view = view;
-		setValues(ProbabilityCalculatorView.PROB_LEFT, ProbabilityCalculatorView.PROB_INTERVAL,
-				ProbabilityCalculatorView.PROB_TWO_TAILED, ProbabilityCalculatorView.PROB_RIGHT);
+		setValues(List.of(
+				ProbabilityCalculatorView.PROB_LEFT,
+				ProbabilityCalculatorView.PROB_INTERVAL,
+				ProbabilityCalculatorView.PROB_TWO_TAILED,
+				ProbabilityCalculatorView.PROB_RIGHT
+		));
 	}
 
 	@Override

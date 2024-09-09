@@ -2,13 +2,16 @@ package org.geogebra.common.exam;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_POINT;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
+import org.geogebra.common.exam.restrictions.PropertyRestriction;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
@@ -24,7 +27,6 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.properties.ValuedProperty;
 
 final class TestExamRestrictions extends ExamRestrictions {
 
@@ -33,13 +35,13 @@ final class TestExamRestrictions extends ExamRestrictions {
 				Set.of(SuiteSubApp.CAS),
 				SuiteSubApp.GRAPHING,
 				Set.of(ExamFeatureRestriction.DATA_TABLE_REGRESSION),
-				TestExamRestrictions.createExpressionFilters(),
+				createExpressionFilters(),
 				null,
-				TestExamRestrictions.createCommandFilters(),
-				TestExamRestrictions.createCommandArgumentFilter(),
-				TestExamRestrictions.createSyntaxFilter(),
-				TestExamRestrictions.createToolCollectionFilter(),
-				Set.of("AngleUnit"));
+				createCommandFilters(),
+				createCommandArgumentFilter(),
+				createSyntaxFilter(),
+				createToolCollectionFilter(),
+				createPropertyRestrictions());
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
@@ -83,13 +85,8 @@ final class TestExamRestrictions extends ExamRestrictions {
 		});
 	}
 
-	@Override
-	protected void freezeValue(ValuedProperty property) {
-		// tested in AbstractPropertyTests/AbstractValuedPropertyTests
-	}
-
-	@Override
-	protected void unfreezeValue(ValuedProperty property) {
-		// tested in AbstractPropertyTests/AbstractValuedPropertyTests
+	private static Map<String, PropertyRestriction> createPropertyRestrictions() {
+		return Map.of("AngleUnit", new PropertyRestriction(true, value ->
+						value != Integer.valueOf(Kernel.ANGLE_DEGREES_MINUTES_SECONDS)));
 	}
 }

@@ -327,7 +327,16 @@ import static org.geogebra.common.kernel.commands.Commands.Voronoi;
 import static org.geogebra.common.kernel.commands.Commands.Weibull;
 import static org.geogebra.common.kernel.commands.Commands.Zip;
 import static org.geogebra.common.kernel.commands.Commands.Zipf;
+import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist.BETA;
+import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist.CAUCHY;
+import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist.EXPONENTIAL;
+import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist.GAMMA;
+import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist.LOGISTIC;
+import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist.LOGNORMAL;
+import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist.PASCAL;
+import static org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist.WEIBULL;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
@@ -346,6 +355,7 @@ import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
@@ -357,19 +367,17 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				Set.of(SuiteSubApp.CAS, SuiteSubApp.G3D),
 				SuiteSubApp.GRAPHING,
 				null,
-				IBExamRestrictions.createExpressionFilters(),
+				createExpressionFilters(),
 				null,
-				IBExamRestrictions.createCommandFilters(),
-				IBExamRestrictions.createCommandArgumentFilters(),
-				IBExamRestrictions.createSyntaxFilter(),
-				IBExamRestrictions.createToolCollectionFilter(),
-				null);
+				createCommandFilters(),
+				createCommandArgumentFilters(),
+				createSyntaxFilter(),
+				createToolCollectionFilter(),
+				createDistributionPropertyRestriction());
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
-		OperationExpressionFilter operationFilter =
-				new OperationExpressionFilter(Operation.DERIVATIVE);
-		return Set.of(operationFilter);
+		return Set.of(new OperationExpressionFilter(Operation.DERIVATIVE));
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
@@ -446,6 +454,15 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				MODE_HYPERBOLA_THREE_POINTS, MODE_MIRROR_AT_LINE, MODE_MIRROR_AT_POINT,
 				MODE_TRANSLATE_BY_VECTOR, MODE_ROTATE_BY_ANGLE, MODE_DILATE_FROM_POINT,
 				MODE_MIRROR_AT_CIRCLE, MODE_FREEHAND_SHAPE, MODE_RELATION);
+	}
+
+	private static Map<String, PropertyRestriction> createDistributionPropertyRestriction() {
+		Set<ProbabilityCalculatorSettings.Dist> restrictedDistributions = Set.of(
+				EXPONENTIAL, CAUCHY, WEIBULL, GAMMA, BETA, LOGNORMAL, LOGISTIC, PASCAL
+		);
+		return Map.of("Distribution", new PropertyRestriction(false, value ->
+				!restrictedDistributions.contains(value)
+		));
 	}
 
 	private static class IBExamCommandFilter extends BaseCommandArgumentFilter {

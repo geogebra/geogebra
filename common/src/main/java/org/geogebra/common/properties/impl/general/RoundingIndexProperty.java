@@ -1,7 +1,10 @@
 package org.geogebra.common.properties.impl.general;
 
+import static java.util.Map.entry;
+
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.geogebra.common.gui.menubar.RoundingOptions;
@@ -41,8 +44,9 @@ public class RoundingIndexProperty extends AbstractNamedEnumeratedProperty<Integ
 		figuresIndex = valueNames.indexOf(Localization.ROUNDING_MENU_SEPARATOR);
 		valueNames.remove(figuresIndex);
 
-		setValues(IntStream.range(0, valueNames.size()).boxed().toArray(Integer[]::new));
-		setValueNames(valueNames.toArray(new String[0]));
+		setNamedValues(IntStream.range(0, valueNames.size()).boxed()
+				.map(index -> entry(index, valueNames.get(index)))
+				.collect(Collectors.toList()));
 	}
 
 	@Override
