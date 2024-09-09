@@ -172,13 +172,14 @@ public class SuggestionIntersectExtremum extends Suggestion {
 	@Override
 	protected boolean allAlgosExist(GetCommand className, GeoElement[] input,
 			boolean[] algosMissing) {
-		if (className == Commands.Intersect && containsLabel(input, "xAxis")) {
+		boolean withYAxis = containsLabel(input, "yAxis");
+		if (className == Commands.Intersect && !withYAxis) {
 			algosMissing[0] = false;
 		}
 		if (className == Commands.Extremum) {
 			algosMissing[1] = false;
 		}
-		if (className == Commands.Intersect && containsLabel(input, "yAxis")) {
+		if (className == Commands.Intersect && withYAxis) {
 			algosMissing[2] = false;
 		}
 		return !algosMissing[0] && !algosMissing[1] && !algosMissing[2];
