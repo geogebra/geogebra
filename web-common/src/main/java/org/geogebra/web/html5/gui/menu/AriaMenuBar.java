@@ -199,6 +199,8 @@ public class AriaMenuBar extends FlowPanel {
 	protected void focus(AriaMenuItem item) {
 		if (item.isFocusable()) {
 			item.getElement().focus();
+		} else if (item.getStyleName().contains("fakeFocus")) {
+			item.removeStyleName("fakeFocus");
 		}
 	}
 
@@ -253,11 +255,16 @@ public class AriaMenuBar extends FlowPanel {
 	private void keyboardSelectItem(AriaMenuItem item) {
 		if (selectedItem != null) {
 			selectedItem.getElement().blur();
+			selectedItem.removeStyleName("fakeFocus");
 		}
 		unselect();
 		this.selectedItem = item;
-		if (item != null && item.isFocusable()) {
-			focus(item);
+		if (item != null) {
+			if (item.isFocusable()) {
+				focus(item);
+			} else {
+				item.addStyleName("fakeFocus");
+			}
 		}
 	}
 

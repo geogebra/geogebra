@@ -49,12 +49,14 @@ public class AutoCompletePopup extends GPopupMenuW {
 				hide();
 			});
 			item.addStyleName(Shades.NEUTRAL_900.getFgColName());
+			item.setFocusable(false);
 			submenu.addItem(item);
 		}
 		AriaMenuItem menuItem = new AriaMenuItem(highlightSuffix(cpl.match),
 				true, submenu);
 		menuItem.setSubmenuHeading(buildSubmenuHeading(cpl));
 		menuItem.addStyleName("no-image");
+		menuItem.setFocusable(false);
 		addItem(menuItem, false);
 	}
 
@@ -96,7 +98,6 @@ public class AutoCompletePopup extends GPopupMenuW {
 			removeSubPopup();
 			positionAndShowPopup(left, top, height);
 			getPopupMenu().selectItem(0);
-			getPopupMenu().getSelectedItem().getElement().focus();
 		} else {
 			popupPanel.hide();
 		}
