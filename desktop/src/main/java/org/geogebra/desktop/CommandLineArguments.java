@@ -8,17 +8,17 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * Class to parse command line arguments. A list of possible arguments for
- * GeoGebra is available online at http://wiki.geogebra.org/.
- * 
- * Arguments are accepted in the following format: --key1=value1 --key2=value2
+ * Class to parse command line arguments. A list of possible arguments is included in
+ * <a href="https://geogebra.github.io/docs/reference/en/Command_Line_Arguments/">the reference</a>.
+ *
+ * <p>Arguments are accepted in the following format: --key1=value1 --key2=value2
  * ... file1 file2 ... filen
- * 
- * The last arguments have no "--key=" prefix and specifies the files to load.
+ *
+ * <p>The last arguments have no "--key=" prefix and specifies the files to load.
  * The value of these arguments are stored with "file0", "file1", etc as the
  * keys.
- * 
- * If no value is specified (ie "--key=" or "--key") an empty string is regarded
+ *
+ * <p>If no value is specified (ie "--key=" or "--key") an empty string is regarded
  * as value.
  */
 public class CommandLineArguments {

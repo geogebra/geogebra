@@ -55,7 +55,7 @@ public class HelpDialog {
 
 		} else {
 
-			modeTextInternal = EuclidianConstants.getModeTextSimple(mode);
+			modeTextInternal = EuclidianConstants.getModeHelpPage(mode);
 			icon = app.getToolBarImage(modeTextInternal, Color.BLACK);
 		}
 		Localization loc = app.getLocalization();
@@ -71,7 +71,7 @@ public class HelpDialog {
 			if (modeTextInternal == null) {
 				// show help for custom tools?
 				((GuiManagerD) app.getGuiManager()).openHelp("Custom_Tools",
-						Help.GENERIC);
+						Help.TOOL);
 			} else {
 				((GuiManagerD) app.getGuiManager()).openHelp(modeTextInternal,
 						Help.TOOL);

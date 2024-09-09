@@ -5,6 +5,9 @@ import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Predicate;
@@ -38,13 +41,14 @@ public class EuclidianConstantsTest extends BaseUnitTest {
 		File manual = new File(pathname);
 		assumeTrue(manual.isDirectory());
 		StringBuilder missing = new StringBuilder();
+		List<String> files = Arrays.asList(Objects.requireNonNull(manual.list()));
 		for (int mode: modes) {
 			String modeText = EuclidianConstants.getModeText(mode);
 			if (!StringUtil.empty(modeText) && !EuclidianConstants.isNotesTool(mode)
 					&& mode != EuclidianConstants.MODE_PROBABILITY_CALCULATOR
 					&& mode != EuclidianConstants.MODE_PHOTO_LIBRARY) {
-				String english = EuclidianConstants.getModeHelpPageSimple(mode);
-				if (!new File(pathname + "/" + english + ".adoc").exists()) {
+				String english = EuclidianConstants.getModeHelpPage(mode);
+				if (!files.contains(english + ".adoc")) {
 					missing.append(english).append(", ");
 				}
 			}
