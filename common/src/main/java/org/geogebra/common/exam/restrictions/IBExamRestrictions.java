@@ -435,7 +435,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 
 	private static SyntaxFilter createSyntaxFilter() {
 		LineSelectorSyntaxFilter filter = new LineSelectorSyntaxFilter();
-		filter.addSelector(Commands.Integral, 0, 1, 3);
+		filter.addSelector(Commands.Integral, 2);
 		filter.addSelector(Commands.Invert, 0);
 		return filter;
 	}
