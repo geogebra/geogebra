@@ -150,7 +150,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
 			@Nullable SyntaxFilter syntaxFilter,
 			@Nullable ToolCollectionFilter toolsFilter,
-		   	@Nullable Map<String, PropertyRestriction> propertyRestrictions) {
+			@Nullable Map<String, PropertyRestriction> propertyRestrictions) {
 		this(examType,
 				disabledSubApps,
 				defaultSubApp,
