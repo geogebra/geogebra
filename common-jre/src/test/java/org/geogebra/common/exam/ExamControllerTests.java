@@ -22,6 +22,7 @@ import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
@@ -36,6 +37,7 @@ import org.geogebra.common.main.settings.config.AppConfigProbability;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
@@ -258,7 +260,9 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		// property restrictions
 		Property angleUnit = propertiesRegistry.lookup("AngleUnit", app);
 		assertNotNull(angleUnit);
-		assertTrue("Angle unit should be frozen", angleUnit.isFrozen());
+		assertTrue(angleUnit.isFrozen());
+		assertEquals(List.of(Kernel.ANGLE_DEGREE, Kernel.ANGLE_RADIANT),
+				((NamedEnumeratedProperty<?>) angleUnit).getValues());
 
 		examController.finishExam();
 		assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));

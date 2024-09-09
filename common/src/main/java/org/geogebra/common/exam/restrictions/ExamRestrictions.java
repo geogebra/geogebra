@@ -1,5 +1,6 @@
 package org.geogebra.common.exam.restrictions;
 
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -25,7 +26,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
-import org.geogebra.common.properties.ValuedProperty;
 
 /**
  * Represents restrictions that apply during exams.
@@ -60,9 +60,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	// filter independent of exam region
 	private final CommandArgumentFilter examCommandArgumentFilter =
 			new ExamCommandArgumentFilter();
-	private SyntaxFilter syntaxFilter;
+	private final SyntaxFilter syntaxFilter;
 	private final ToolCollectionFilter toolsFilter;
-	private final Set<String> frozenProperties;
+	private final Map<String, PropertyRestriction> propertyRestrictions;
 
 	/**
 	 * Factory for ExamRestrictions.
@@ -104,10 +104,11 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * @param commandArgumentFilters An optional command argument filter to apply during exams.
 	 * @param filteredOperations An optional set of operations to filter out during exams.
 	 * @param syntaxFilter An optional syntax filter to apply during exams.
-	 * @param toolsFilter An optional filter for tools that should be unvaialable during the exam.
-	 * If this argument is null, the Image tool will stil be filtered out (APPS-5214). When
+	 * @param toolsFilter An optional filter for tools that should be unavailable during the exam.
+	 * If this argument is null, the Image tool will still be filtered out (APPS-5214). When
 	 * providing a non-null filter here, it should include the Image tool.
-	 * @param frozenProperties An optional set of properties to freeze during the exam.
+	 * @param propertyRestrictions An optional map of properties and restrictions
+	 * to be applied to them during the exam.
 	 */
 	protected ExamRestrictions(@Nonnull ExamType examType,
 			@Nullable Set<SuiteSubApp> disabledSubApps,
@@ -120,7 +121,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Set<Operation> filteredOperations,
 			@Nullable SyntaxFilter syntaxFilter,
 			@Nullable ToolCollectionFilter toolsFilter,
-			@Nullable Set<String> frozenProperties) {
+			@Nullable Map<String, PropertyRestriction> propertyRestrictions) {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
@@ -134,9 +135,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 				? commandArgumentFilters : Set.of();
 		this.filteredOperations = filteredOperations;
 		this.syntaxFilter = syntaxFilter;
-		this.toolsFilter = toolsFilter == null
-				? new ToolCollectionSetFilter(EuclidianConstants.MODE_IMAGE) : toolsFilter;
-		this.frozenProperties = frozenProperties != null ? frozenProperties : Set.of();
+		this.toolsFilter = toolsFilter != null ? toolsFilter
+				: new ToolCollectionSetFilter(EuclidianConstants.MODE_IMAGE);
+		this.propertyRestrictions = propertyRestrictions != null ? propertyRestrictions : Map.of();
 	}
 
 	protected ExamRestrictions(@Nonnull ExamType examType,
@@ -149,7 +150,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
 			@Nullable SyntaxFilter syntaxFilter,
 			@Nullable ToolCollectionFilter toolsFilter,
-			@Nullable Set<String> frozenProperties) {
+		   	@Nullable Map<String, PropertyRestriction> propertyRestrictions) {
 		this(examType,
 				disabledSubApps,
 				defaultSubApp,
@@ -161,7 +162,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 				null,
 				syntaxFilter,
 				toolsFilter,
-				frozenProperties);
+				propertyRestrictions);
 	}
 
 	/**
@@ -235,12 +236,12 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			autoCompleteProvider.setFilteredOperations(filteredOperations);
 		}
 		if (propertiesRegistry != null) {
-			for (String frozenProperty : frozenProperties) {
-				Property property = propertiesRegistry.lookup(frozenProperty, context);
+			propertyRestrictions.forEach((name, restriction) -> {
+				Property property = propertiesRegistry.lookup(name, context);
 				if (property != null) {
-					freeze(property);
+					restriction.applyTo(property);
 				}
-			}
+			});
 		}
 		if (toolsProvider != null && toolsFilter != null) {
 			toolsProvider.addToolsFilter(toolsFilter);
@@ -289,55 +290,16 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			autoCompleteProvider.setFilteredOperations(null);
 		}
 		if (propertiesRegistry != null) {
-			for (String frozenProperty : frozenProperties) {
-				Property property = propertiesRegistry.lookup(frozenProperty, context);
+			propertyRestrictions.forEach((name, restriction) -> {
+				Property property = propertiesRegistry.lookup(name, context);
 				if (property != null) {
-					unfreeze(property);
+					restriction.removeFrom(property);
 				}
-			}
+			});
 		}
 		if (toolsProvider != null && toolsFilter != null) {
 			toolsProvider.removeToolsFilter(toolsFilter);
 		}
-	}
-
-	/**
-	 * "Freeze" a property (i.e. prevent changing the value, or triggering the action)
-	 * at the start of the exam.
-	 * @param property A property.
-	 */
-	protected void freeze(@Nonnull Property property) {
-		property.setFrozen(true);
-		if (property instanceof ValuedProperty) {
-			freezeValue((ValuedProperty) property);
-		}
-	}
-
-	/**
-	 * "Unfreeze" a property at the end of the exam.
-	 * @param property A property.
-	 */
-	protected void unfreeze(@Nonnull Property property) {
-		property.setFrozen(false);
-		if (property instanceof ValuedProperty) {
-			freezeValue((ValuedProperty) property);
-		}
-	}
-
-	/**
-	 * Override to freeze the value of a property to some fixed value.
-	 * @param property A property whose value should be fixed during an exam.
-	 */
-	protected void freezeValue(@Nonnull ValuedProperty property) {
-		// override
-	}
-
-	/**
-	 * Override to unfreeze the value of a property.
-	 * @param property A property should be fixed during an exam.
-	 */
-	protected void unfreezeValue(@Nonnull ValuedProperty property) {
-		// override
 	}
 
 	// PropertiesRegistryListener
@@ -348,8 +310,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 */
 	@Override
 	public void propertyRegistered(@Nonnull Property property, Object context) {
-		if (frozenProperties.contains(property.getRawName())) {
-			freeze(property);
+		if (propertyRestrictions.containsKey(property.getRawName())) {
+			propertyRestrictions.get(property.getRawName()).applyTo(property);
 		}
 	}
 
@@ -359,8 +321,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 */
 	@Override
 	public void propertyUnregistered(@Nonnull Property property, Object context) {
-		if (frozenProperties.contains(property.getRawName())) {
-			unfreeze(property);
+		if (propertyRestrictions.containsKey(property.getRawName())) {
+			propertyRestrictions.get(property.getRawName()).removeFrom(property);
 		}
 	}
 }
