@@ -497,7 +497,11 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 		AccessibilityManagerInterface am = getApp()
 				.getAccessibilityManager();
 		MayHaveFocus anchor = am.getAnchor();
-		popupPanel.hide();
+		if (subPopup != null && subPopup.isMenuShown()) {
+			subPopup.hide();
+		} else {
+			popupPanel.hide();
+		}
 		if (anchor != null) {
 			anchor.focusIfVisible(true);
 		}
