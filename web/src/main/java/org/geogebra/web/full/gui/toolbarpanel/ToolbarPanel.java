@@ -890,6 +890,10 @@ public class ToolbarPanel extends FlowPanel
 		} else {
 			navRail.onTableViewPressed();
 		}
+
+		if (!navRail.isOpen()) {
+			app.getActiveEuclidianView().requestFocus();
+		}
 	}
 
 	private boolean isTableOfValuesViewActive() {
