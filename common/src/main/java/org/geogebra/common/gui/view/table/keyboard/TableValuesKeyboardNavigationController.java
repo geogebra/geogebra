@@ -143,7 +143,17 @@ public final class TableValuesKeyboardNavigationController {
 			}
 			return;
 		}
+
+		// the following commit may delete the selected column, requiring the target column
+		// to be decremented (shifted left) by 1
+		boolean selectedColumnIsLeftOfTargetColumn = selectedColumn != -1
+				&& selectedColumn < column;
+		int columnCountBeforeCommit = tableValuesModel.getColumnCount();
 		commitPendingChanges();
+		if (tableValuesModel.getColumnCount() < columnCountBeforeCommit
+				&& selectedColumnIsLeftOfTargetColumn) {
+			column -= 1;
+		}
 
 		int previouslySelectedRow = selectedRow;
 		int previouslySelectedColumn = selectedColumn;

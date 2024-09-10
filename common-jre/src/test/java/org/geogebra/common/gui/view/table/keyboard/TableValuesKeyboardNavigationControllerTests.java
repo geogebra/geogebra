@@ -886,6 +886,34 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 		assertNull(focusedCell);
 	}
 
+	// https://geogebra-jira.atlassian.net/browse/APPS-5585?focusedCommentId=212824
+	@Test
+	public void testDeleteColumn() throws Exception {
+		traceEvents = true;
+
+		// y1: select (0, 1), insert "2" into (placeholder) cell, press RETURN
+		keyboardController.select(0, 1);
+		cellContent = "2";
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.RETURN);
+
+		// add f(x) in column 2
+		cellContent = "";
+		addFunction("f", "x");
+
+		// y2: select (0, 3), insert "3" into (placeholder) cell, press RETURN
+		keyboardController.select(0, 3);
+		cellContent = "3";
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.RETURN);
+
+		// y1: select cell (0, 1), delete content, press ARROW_RIGHT
+		keyboardController.select(0, 1);
+		cellContent = "";
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
+
+		// y2 (now at column 2) should be selected
+		assertEquals(new CellIndex(0, 2), focusedCell);
+	}
+
 	// TableValuesKeyboardControllerDelegate
 
 	@Override
