@@ -7,6 +7,7 @@ import org.geogebra.common.gui.view.table.TableValuesCell;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.util.StringUtil;
 
 import com.google.j2objc.annotations.Weak;
@@ -37,14 +38,14 @@ public final class TableValuesKeyboardNavigationController {
 		ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ARROW_DOWN, RETURN;
 	}
 
-	//@NonOwning
+	@NonOwning
 	@Weak
 	public TableValuesKeyboardNavigationControllerDelegate delegate;
 
-	//@NonOwning
+	@NonOwning
 	@Nonnull
 	private final TableValues tableValuesView;
-	//@NonOwning
+	@NonOwning
 	@Nonnull
 	private final TableValuesModel tableValuesModel;
 
@@ -167,12 +168,19 @@ public final class TableValuesKeyboardNavigationController {
 				selectedRow = tableValuesModel.getRowCount();
 			}
 		}
-
+		// are we trying to focus a cell that has become non-editable after committing changes?
+		if (!isColumnEditable(selectedColumn)) {
+			selectedRow = -1;
+			selectedColumn = -1;
+		}
 		if (delegate != null) {
 			if (selectedRow >= 0 && selectedColumn >= 0) {
+				if (previouslySelectedRow >= 0 && previouslySelectedColumn >= 0) {
+					delegate.unfocusCell(previouslySelectedRow, previouslySelectedColumn, true);
+				}
 				delegate.focusCell(selectedRow, selectedColumn);
 			} else {
-				delegate.unfocusCell(previouslySelectedRow, previouslySelectedColumn);
+				delegate.unfocusCell(previouslySelectedRow, previouslySelectedColumn, false);
 			}
 		}
 	}
@@ -245,8 +253,7 @@ public final class TableValuesKeyboardNavigationController {
 				addedPlaceholderColumn = true;
 				nextColumn = getMaxColumnIndex() - 1;
 			} else {
-				select(selectedRow, selectedColumn);
-				return;
+				nextColumn = selectedColumn;
 			}
 		}
 		select(selectedRow, nextColumn);
@@ -260,7 +267,6 @@ public final class TableValuesKeyboardNavigationController {
 	}
 
 	private void handleArrowDown() {
-		int nextRow = selectedRow + 1;
 		if (isEditingPlaceholderColumn()) {
 			if (selectedRow == tableValuesModel.getRowCount()
 					&& isCellEmpty(selectedRow, selectedColumn)) {
@@ -275,12 +281,7 @@ public final class TableValuesKeyboardNavigationController {
 			select(selectedRow, selectedColumn);
 			return;
 		}
-		commitPendingChanges();
-		if (nextRow > tableValuesModel.getRowCount()) {
-			nextRow = selectedRow; // last row was deleted, leave row index as is
-			addedPlaceholderRow = true; // we're in the placeholder row
-		}
-		select(nextRow, selectedColumn);
+		select(selectedRow + 1, selectedColumn);
 	}
 
 	private boolean isFirstRow(int row) {
