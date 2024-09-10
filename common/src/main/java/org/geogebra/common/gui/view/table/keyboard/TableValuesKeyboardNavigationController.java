@@ -146,19 +146,20 @@ public final class TableValuesKeyboardNavigationController {
 
 		// the following commit may delete the selected column, requiring the target column
 		// to be decremented (shifted left) by 1
+		int targetColumn = column;
 		boolean selectedColumnIsLeftOfTargetColumn = selectedColumn != -1
 				&& selectedColumn < column;
 		int columnCountBeforeCommit = tableValuesModel.getColumnCount();
 		commitPendingChanges();
 		if (tableValuesModel.getColumnCount() < columnCountBeforeCommit
 				&& selectedColumnIsLeftOfTargetColumn) {
-			column -= 1;
+			targetColumn -= 1;
 		}
 
 		int previouslySelectedRow = selectedRow;
 		int previouslySelectedColumn = selectedColumn;
 		selectedRow = row;
-		selectedColumn = column;
+		selectedColumn = targetColumn;
 
 		if (column >= tableValuesModel.getColumnCount()) {
 			if (tableValuesModel.allowsAddingColumns() && !addedPlaceholderColumn) {
