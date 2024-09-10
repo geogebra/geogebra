@@ -205,6 +205,14 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void handleSelfReferencingDefinitions() {
+		processor.process("=A2+B3", "B3");
+		GeoElement b3 = lookup("B3");
+		assertEquals(b3.getGeoClassType(), GeoClass.NUMERIC);
+		assertEquals(Commands.ParseToNumber, getCommand(b3));
+	}
+
+	@Test
 	public void shouldAutoCreateZeroCells() {
 		processor.process("=A2+B2+1", "B3");
 		assertThat(lookup("A2"), hasValue("0"));

@@ -5,10 +5,14 @@ import static org.geogebra.common.util.StringUtil.isNumber;
 
 import javax.annotation.Nonnull;
 
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
@@ -55,19 +59,39 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	 * @param cellName Identifies the cell to receive the input.
 	 */
 	protected void process(String input, String cellName) {
+		this.cellName = cellName;
+		this.input = input;
+		Kernel kernel = algebraProcessor.getKernel();
+		if (checkCircularDefinition(input, kernel)) {
+			markError();
+			kernel.getApplication().storeUndoInfo();
+			return;
+		}
 		try {
-			this.cellName = cellName;
-			this.input = input;
 			processInput(buildProperInput(input, cellName), errorHandler,
 					(geos) -> {
 						if (geos != null && geos.length > 0) {
 							((GeoElement) geos[0]).setEmptySpreadsheetCell(false);
 						}
-						algebraProcessor.getKernel().getApplication().storeUndoInfo();
+
+						kernel.getApplication().storeUndoInfo();
 					});
 		} catch (Exception e) {
 			Log.debug("error " + e.getLocalizedMessage());
 		}
+	}
+
+	private boolean checkCircularDefinition(String input, Kernel kernel) {
+		try {
+			ValidExpression parsed = kernel.getParser().parseGeoGebraExpression(input);
+			if (parsed.inspect(v -> v instanceof Variable
+					&& cellName.equals(((Variable) v).getName()))) {
+				return true;
+			}
+		} catch (ParseException e) {
+			// continue
+		}
+		return false;
 	}
 
 	private String buildProperInput(String input, String cellName) {
