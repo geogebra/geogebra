@@ -19,6 +19,7 @@ public class GeoTabber implements MayHaveFocus {
 
 	@Override
 	public boolean focusIfVisible(boolean reverse) {
+		boolean isAlgebraViewFocused = app.isAlgebraViewFocused();
 		selectionManager.clearSelectedGeos(false);
 		// selectNext / selectPrevious are responsible also for moving the focus -- they have
 		// to decide if it goes to inputbox or canvas. We should not move focus here.
@@ -26,6 +27,9 @@ public class GeoTabber implements MayHaveFocus {
 			selected = selectionManager.selectPreviousGeo();
 		} else {
 			selected = selectionManager.selectNextGeo();
+		}
+		if (isAlgebraViewFocused) {
+			setAlgebraViewAsFocusedPanel();
 		}
 		return selected;
 	}
