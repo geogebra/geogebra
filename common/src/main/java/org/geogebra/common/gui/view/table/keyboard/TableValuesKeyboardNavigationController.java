@@ -148,7 +148,7 @@ public final class TableValuesKeyboardNavigationController {
 		// to be decremented (shifted left) by 1
 		int targetColumn = column;
 		boolean selectedColumnIsLeftOfTargetColumn = selectedColumn != -1
-				&& selectedColumn < column;
+				&& selectedColumn < targetColumn;
 		int columnCountBeforeCommit = tableValuesModel.getColumnCount();
 		commitPendingChanges();
 		if (tableValuesModel.getColumnCount() < columnCountBeforeCommit
@@ -161,7 +161,7 @@ public final class TableValuesKeyboardNavigationController {
 		selectedRow = row;
 		selectedColumn = targetColumn;
 
-		if (column >= tableValuesModel.getColumnCount()) {
+		if (targetColumn >= tableValuesModel.getColumnCount()) {
 			if (tableValuesModel.allowsAddingColumns() && !addedPlaceholderColumn) {
 				addedPlaceholderColumn = true;
 				selectedColumn = tableValuesModel.getColumnCount();
