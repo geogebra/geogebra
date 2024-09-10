@@ -179,4 +179,11 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 	public String getSelectedText() {
 		return controller.getSelectedText();
 	}
+
+	/**
+	 * @param property - update property
+	 */
+	public void setProperty(NamedEnumeratedProperty<?> property) {
+		controller.setProperty(property);
+	}
 }
