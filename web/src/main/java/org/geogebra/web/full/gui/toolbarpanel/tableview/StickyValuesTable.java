@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.gui.view.table.TableValuesListener;
@@ -62,6 +63,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private boolean shadedColumns = true;
 	DefineFunctionsDialogTV defFuncDialog;
 	private TableValuesKeyboardNavigationController controller;
+	GPoint lastEdit = null;
 
 	public MathKeyboardListener getKeyboardListener() {
 		return editor.getKeyboardListener();
@@ -113,12 +115,13 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 				new TableValuesKeyboardNavigationControllerDelegate() {
 					@Override
 					public void focusCell(int row, int column) {
+						lastEdit = new GPoint(column, row);
 						editor.startEditing(row, column);
 					}
 
 					@Override
 					public void refocusCell(int row, int column) {
-						// not needed
+						editor.startEditing(row, column);
 					}
 
 					@Override
@@ -271,7 +274,21 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		// In AbstractCellTable model each column remembers its index
 		// so deleting last column and let dataProvider do the rest we need.
 		getTable().removeColumn(getTable().getColumnCount() - 1);
+		boolean wasAttached = editor.isAttached();
 		reset();
+		if (wasAttached && lastEdit != null) {
+			refreshEditingState();
+		}
+	}
+
+	private void refreshEditingState() {
+		editor.stopEditing();
+		if (tableModel.isColumnEditable(lastEdit.x)) {
+			controller.select(lastEdit.y, lastEdit.x);
+		} else {
+			app.hideKeyboard();
+		}
+		lastEdit = null;
 	}
 
 	private void addColumn(int column) {

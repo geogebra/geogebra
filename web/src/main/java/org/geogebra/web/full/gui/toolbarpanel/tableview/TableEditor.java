@@ -138,4 +138,8 @@ public class TableEditor implements UnhandledArrowListener {
 	public void adjustCursor(Event evt) {
 		this.event = evt;
 	}
+
+	public boolean isAttached() {
+		return mathTextField != null && mathTextField.asWidget().isAttached();
+	}
 }
