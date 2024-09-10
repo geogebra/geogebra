@@ -3844,13 +3844,8 @@ public class AlgebraProcessor {
 		if (cmd == null) {
 			return syntax.getCommandSyntax(internalCommandName, dim);
 		}
-		if (!this.cmdDispatcher.isAllowedByCommandFilters(cmd)) {
+		if (!cmdDispatcher.isAllowedByCommandFilters(cmd)) {
 			return null;
-		}
-		// IntegralBetween gives all syntaxes. Typing Integral or NIntegral
-		// gives suggestions for NIntegral
-		if (cmd == Commands.Integral) {
-			return syntax.getCommandSyntaxCAS("NIntegral");
 		}
 		if (noCASfilter == null) {
 			noCASfilter = CommandFilterFactory.createNoCasCommandFilter();
