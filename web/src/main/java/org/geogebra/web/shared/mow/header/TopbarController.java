@@ -172,8 +172,8 @@ public class TopbarController {
 		if (settingsShowing) {
 			settingsContextMenu.getWrappedPopup().hide();
 		} else {
-			showAndFocusMenuRelativeTo(anchor);
 			appW.closePopups();
+			showAndFocusMenuRelativeTo(anchor);
 			appW.registerPopup(getSettingsContextMenu());
 		}
 		anchor.setActive(!settingsShowing);
