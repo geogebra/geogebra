@@ -7,16 +7,12 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.dialog.handler.DefineFunctionHandler;
-import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.ScientificDataTableController;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
-import org.geogebra.common.gui.view.table.column.TableValuesFunctionColumn;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.junit.Test;
@@ -916,6 +912,34 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 
 		// since column 1 is now non-editable, there should be no focused cell
 		assertNull(focusedCell);
+	}
+
+	// https://geogebra-jira.atlassian.net/browse/APPS-5585?focusedCommentId=212824
+	@Test
+	public void testDeleteColumn() throws Exception {
+		traceEvents = true;
+
+		// y1: select (0, 1), insert "2" into (placeholder) cell, press RETURN
+		keyboardController.select(0, 1);
+		cellContent = "2";
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.RETURN);
+
+		// add f(x) in column 2
+		cellContent = "";
+		addFunction("f", "x");
+
+		// y2: select (0, 3), insert "3" into (placeholder) cell, press RETURN
+		keyboardController.select(0, 3);
+		cellContent = "3";
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.RETURN);
+
+		// y1: select cell (0, 1), delete content, press ARROW_RIGHT
+		keyboardController.select(0, 1);
+		cellContent = "";
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
+
+		// y2 (now at column 2) should be selected
+		assertEquals(new CellIndex(0, 2), focusedCell);
 	}
 
 	// TableValuesKeyboardControllerDelegate
