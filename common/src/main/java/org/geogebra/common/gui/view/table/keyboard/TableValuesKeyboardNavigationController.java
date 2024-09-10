@@ -146,27 +146,22 @@ public final class TableValuesKeyboardNavigationController {
 
 		// the following commit may delete the selected column, requiring the target column
 		// to be decremented (shifted left) by 1
-		int targetColumn = column;
-		boolean selectedColumnIsLeftOfTargetColumn = selectedColumn != -1
-				&& selectedColumn < targetColumn;
+		boolean selectedColumnIsLeftOfColumn = selectedColumn != -1 && selectedColumn < column;
 		int columnCountBeforeCommit = tableValuesModel.getColumnCount();
 		commitPendingChanges();
-		if (tableValuesModel.getColumnCount() < columnCountBeforeCommit
-				&& selectedColumnIsLeftOfTargetColumn) {
-			targetColumn -= 1;
-		}
+		boolean columnDeleted = tableValuesModel.getColumnCount() < columnCountBeforeCommit;
 
 		int previouslySelectedRow = selectedRow;
 		int previouslySelectedColumn = selectedColumn;
 		selectedRow = row;
-		selectedColumn = targetColumn;
+		selectedColumn = columnDeleted && selectedColumnIsLeftOfColumn ? column - 1 : column;
 
-		if (targetColumn >= tableValuesModel.getColumnCount()) {
+		if (selectedColumn >= tableValuesModel.getColumnCount()) {
 			if (tableValuesModel.allowsAddingColumns() && !addedPlaceholderColumn) {
 				addedPlaceholderColumn = true;
 				selectedColumn = tableValuesModel.getColumnCount();
 			}
-		} else if (row >= tableValuesModel.getRowCount()) {
+		} else if (selectedRow >= tableValuesModel.getRowCount()) {
 			if (isColumnEditable(selectedColumn) && !addedPlaceholderRow) {
 				addedPlaceholderRow = true;
 				selectedRow = tableValuesModel.getRowCount();
