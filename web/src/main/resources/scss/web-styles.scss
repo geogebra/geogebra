@@ -340,7 +340,7 @@
 		text-align: left;
 	}
 
-	.menubarSMART .GeoGebraMenuBar .gwt-MenuItem.checkboxMenuItem {
+	.menuBarClassic .GeoGebraMenuBar .gwt-MenuItem.checkboxMenuItem {
 		padding: 0 4px;
 	}
 
@@ -2661,8 +2661,14 @@
 	   ###       New Start Screen           ###
 	   ######################################## */
 
-	.menubarSMART .GeoGebraMenuImage.menuImg {
-		opacity: 0.54;
+	.menuBarClassic {
+		.menuImg {
+			opacity: 0.54;
+		}
+
+		.noTransparency .menuImg {
+			opacity: 1;
+		}
 	}
 
 	.fiButton img {
