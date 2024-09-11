@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.kernel.parser.TokenMgrException;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
@@ -49,7 +50,8 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	@Override
 	public void process(String input, int row, int column) {
 		String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
-		process(input, cellName);
+		algebraProcessor.getKernel().getApplication().getAsyncManager()
+				.scheduleCallback(() -> process(input, cellName));
 	}
 
 	/**
@@ -88,7 +90,7 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 					&& cellName.equals(((Variable) v).getName()))) {
 				return true;
 			}
-		} catch (ParseException e) {
+		} catch (ParseException | TokenMgrException e) {
 			// continue
 		}
 		return false;

@@ -206,10 +206,20 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 
 	@Test
 	public void handleSelfReferencingDefinitions() {
+		processor.process("=A1", "A1");
+		assertEquals(Commands.ParseToNumber, getCommand(lookup("A1")));
+		assertThat(lookup("A1"), hasValue("?"));
+
 		processor.process("=A2+B3", "B3");
-		GeoElement b3 = lookup("B3");
-		assertEquals(b3.getGeoClassType(), GeoClass.NUMERIC);
-		assertEquals(Commands.ParseToNumber, getCommand(b3));
+		assertEquals(Commands.ParseToNumber, getCommand(lookup("B3")));
+		assertThat(lookup("B3"), hasValue("?"));
+
+		processor.process("=A3+1", "A3");
+		assertEquals(Commands.ParseToNumber, getCommand(lookup("A3")));
+		assertThat(lookup("A3"), hasValue("?"));
+
+		assertEquals("A1,B3,A3",
+				String.join(",", getApp().getGgbApi().getAllObjectNames()));
 	}
 
 	@Test
