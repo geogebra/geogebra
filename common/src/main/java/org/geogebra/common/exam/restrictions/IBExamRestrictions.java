@@ -19,6 +19,7 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_ELLIPSE_THRE
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_FREEHAND_SHAPE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_IMAGE;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_JOIN;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_LINE_BISECTOR;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_LOCUS;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MIDPOINT;
@@ -39,7 +40,6 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_ROTATE_BY_AN
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SEGMENT;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SEGMENT_FIXED;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SEMICIRCLE;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SHAPE_LINE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TEXT;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRANSLATE_BY_VECTOR;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_VECTOR;
@@ -443,7 +443,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 	private static ToolCollectionFilter createToolCollectionFilter() {
 		return new ToolCollectionSetFilter(MODE_IMAGE, MODE_TEXT, MODE_ANGLE, MODE_DISTANCE,
 				MODE_AREA, MODE_ANGLE_FIXED, MODE_MIDPOINT, MODE_ORTHOGONAL, MODE_LINE_BISECTOR,
-				MODE_PARALLEL, MODE_ANGULAR_BISECTOR, MODE_LOCUS, MODE_SEGMENT, MODE_SHAPE_LINE,
+				MODE_PARALLEL, MODE_ANGULAR_BISECTOR, MODE_LOCUS, MODE_SEGMENT, MODE_JOIN,
 				MODE_RAY, MODE_VECTOR, MODE_SEGMENT_FIXED, MODE_VECTOR_FROM_POINT,
 				MODE_POLAR_DIAMETER, MODE_POLYLINE, MODE_POLYGON, MODE_REGULAR_POLYGON,
 				MODE_VECTOR_POLYGON, MODE_RIGID_POLYGON, MODE_CIRCLE_TWO_POINTS, MODE_COMPASSES,
