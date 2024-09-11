@@ -2149,6 +2149,7 @@ public class GuiManagerW extends GuiManager
 		getUnbundledToolbar().openTableView((GeoEvaluatable) geo, true);
 	}
 
+	@Override
 	public void toggleTableValuesView() {
 		getUnbundledToolbar().toggleTableView();
 	}

@@ -883,6 +883,9 @@ public class ToolbarPanel extends FlowPanel
 		openTableView(null, fade);
 	}
 
+	/**
+	 * If table view is active, hide the whole toolbar. If not, open toolbar and focus TV.
+	 */
 	public void toggleTableView() {
 		boolean isScientific = app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC;
 		if (isTableOfValuesViewActive() && isScientific) {
@@ -900,13 +903,11 @@ public class ToolbarPanel extends FlowPanel
 		return tabTable != null && getSelectedTabId() == TabIds.TABLE;
 	}
 
-
-
-		/**
-		 * Opens tools tab.
-		 * @param geo to ensure to be visible.
-		 * @param fade decides if tab should fade during animation.
-		 */
+	/**
+	 * Opens tools tab.
+	 * @param geo to ensure to be visible.
+	 * @param fade decides if tab should fade during animation.
+	 */
 	public void openTableView(@Nullable GeoEvaluatable geo, boolean fade) {
 		if (!needsNavRail() || !app.getConfig().hasTableView()) {
 			openAlgebra(fade);
