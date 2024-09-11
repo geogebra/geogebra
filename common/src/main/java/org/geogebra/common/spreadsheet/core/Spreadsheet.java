@@ -22,7 +22,6 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	private final SpreadsheetController controller;
 
 	private final SpreadsheetRenderer renderer;
-	private Rectangle viewport;
 
 	/**
 	 * @param tabularData data source
@@ -33,7 +32,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 			@Nonnull CellRenderableFactory rendererFactory, @CheckForNull UndoProvider undoProvider) {
 		controller = new SpreadsheetController(tabularData);
 		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
-				controller.getStyle());
+				controller.getStyle(), tabularData);
 		setViewport(new Rectangle(0, 0, 0, 0));
 		tabularData.addChangeListener(this);
 		if (undoProvider != null) {
@@ -54,22 +53,20 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 */
 	public void draw(GGraphics2D graphics) {
 		graphics.setPaint(GColor.WHITE);
+		Rectangle viewport = controller.getViewport();
 		graphics.fillRect(0, 0, (int) viewport.getWidth(), (int) viewport.getHeight());
 		List<TabularRange> visibleSelections = controller.getVisibleSelections();
 		for (TabularRange range: visibleSelections) {
-			renderer.drawSelection(range, graphics,
-					viewport, controller.getLayout());
+			renderer.drawSelection(range, graphics, viewport);
 		}
 		drawCells(graphics, viewport);
 		for (TabularRange range: visibleSelections) {
-			renderer.drawSelectionBorder(range, graphics,
-					viewport, controller.getLayout(), false, false);
+			renderer.drawSelectionBorder(range, graphics, viewport, false, false);
 		}
 		if (!visibleSelections.isEmpty()) {
 			TabularRange range = visibleSelections.get(visibleSelections.size() - 1);
 			TabularRange firstCell = new TabularRange(range.getFromRow(), range.getFromColumn());
-			renderer.drawSelectionBorder(firstCell, graphics,
-					viewport, controller.getLayout(), true, false);
+			renderer.drawSelectionBorder(firstCell, graphics, viewport, true, false);
 		}
 		GPoint2D draggingDot = controller.getDraggingDot();
 		if (draggingDot != null) {
@@ -77,8 +74,12 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		}
 		TabularRange dragPasteSelection = controller.getDragPasteSelection();
 		if (dragPasteSelection != null) {
-			renderer.drawSelectionBorder(dragPasteSelection, graphics, viewport,
-					controller.getLayout(), false, true);
+			renderer.drawSelectionBorder(dragPasteSelection, graphics, viewport, false, true);
+		}
+
+		Rectangle editorBounds = controller.getEditorBounds();
+		if (editorBounds != null) {
+			renderer.drawEditorBorder(editorBounds, graphics);
 		}
 	}
 
@@ -90,10 +91,9 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		double offsetY = viewport.getMinY() - layout.getColumnHeaderHeight();
 		drawContentCells(graphics, portion, offsetX, offsetY);
 		renderer.drawHeaderBackgroundAndOutline(graphics, viewport);
-		controller.getSelections().forEach(selection -> {
-			renderer.drawSelectionHeader(selection, graphics,
-					this.viewport, controller.getLayout());
-		});
+		controller.getSelections().forEach(selection ->
+			renderer.drawSelectionHeader(selection, graphics, controller.getViewport())
+		);
 		graphics.translate(-offsetX, 0);
 		graphics.setColor(controller.getStyle().getGridColor());
 		for (int column = portion.fromColumn + 1; column <= portion.toColumn; column++) {
@@ -118,6 +118,19 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		graphics.setColor(controller.getStyle().getHeaderBackgroundColor());
 		graphics.fillRect(0, 0, (int) layout.getRowHeaderWidth(),
 				(int) layout.getColumnHeaderHeight());
+
+		drawErrorCells(graphics, portion, viewport, offsetX, offsetY);
+	}
+
+	private void drawErrorCells(GGraphics2D graphics, TableLayout.Portion portion,
+			Rectangle viewport, double offsetX, double offsetY) {
+		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
+			for (int row = portion.fromRow; row <= portion.toRow; row++) {
+				if (controller.hasError(row, column)) {
+					renderer.drawErrorCell(row, column, graphics, viewport, offsetX, offsetY);
+				}
+			}
+		}
 	}
 
 	private void drawContentCells(GGraphics2D graphics, TableLayout.Portion portion,
@@ -126,7 +139,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
 			for (int row = portion.fromRow; row <= portion.toRow; row++) {
 				renderer.drawCell(row, column, graphics,
-						controller.contentAt(row, column));
+						controller.contentAt(row, column), controller.hasError(row, column));
 			}
 		}
 		graphics.translate(offsetX, offsetY);
@@ -150,8 +163,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param viewport viewport relative to the table, in pixels
 	 */
 	public void setViewport(Rectangle viewport) {
-		this.viewport = viewport;
-		this.controller.setViewport(this.viewport);
+		this.controller.setViewport(viewport);
 	}
 
 	public void setControlsDelegate(SpreadsheetControlsDelegate controlsDelegate) {
@@ -229,6 +241,21 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.moveRight(false);
 	}
 
+	/**
+	 * Clears the selection, committing any pending cell edits beforehand.
+	 */
+	public void clearSelection() {
+		controller.saveContentAndHideCellEditor();
+		controller.clearSelection();
+	}
+
+	/**
+	 * Clears the selection only.
+	 */
+	public void clearSelectionOnly() {
+		controller.clearSelection();
+	}
+
 	void selectRow(int row, boolean extend, boolean add) {
 		controller.selectRow(row, extend, add);
 	}
@@ -245,11 +272,30 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.setViewportAdjustmentHandler(mockForScrollable);
 	}
 
-	public void onEnter() {
-		controller.onEnter();
+	/**
+	 * If the pointer is at the top / right / bottom / left corner while dragging,
+	 * starts scrolling the viewport
+	 */
+	public void scrollForDragIfNeeded() {
+		controller.scrollForDragIfNeeded();
 	}
 
-	public void scrollForPasteSelectionIfNeeded() {
-		controller.scrollForPasteSelectionIfNeeded();
+	/**
+	 * Scroll editor into view if visible
+	 */
+	public void scrollEditorIntoView() {
+		controller.scrollEditorIntoView();
+	}
+
+	public void saveContentAndHideCellEditor() {
+		controller.saveContentAndHideCellEditor();
+	}
+
+	public SpreadsheetController getController() {
+		return controller;
+	}
+
+	public Rectangle getViewport() {
+		return controller.getViewport();
 	}
 }

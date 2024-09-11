@@ -86,14 +86,14 @@ public abstract class Submenu extends GMenuBar {
 	 */
 	public AriaMenuItem addItem(final MenuItem<AppWFull> menuItem) {
 		return addItem(
-				MainMenu.getMenuBarHtml(menuItem.getImage(),
-				menuItem.getTitle(getApp().getLocalization())), true,
+				MainMenu.getMenuBarItem(menuItem.getImage(),
+				menuItem.getTitle(getApp().getLocalization()),
 				new MenuCommand(getApp()) { // Close
 
 					@Override
 					public void doExecute() {
 						menuItem.executeAction((AppWFull) getApp());
 					}
-				});
+				}));
 	}
 }

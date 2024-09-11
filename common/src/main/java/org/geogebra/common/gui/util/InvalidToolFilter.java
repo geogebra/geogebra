@@ -5,7 +5,10 @@ import org.geogebra.common.main.App;
 
 /**
  * Filters modes that are invalid based on app.
+ *
+ * Deprecated, use {@link App#getAvailableTools()} instead.
  */
+@Deprecated
 public class InvalidToolFilter implements ToolCollectionFilter {
 
 	private App app;
@@ -20,7 +23,7 @@ public class InvalidToolFilter implements ToolCollectionFilter {
 	}
 
 	@Override
-	public boolean filter(int tool) {
+	public boolean isIncluded(int tool) {
 		return app.isModeValid(tool);
 	}
 }

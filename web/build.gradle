@@ -114,6 +114,7 @@ gwt {
     }
 
     devModules devModule
+    sourceLevel = "11"
 
     dev {
         bindAddress = project.findProperty("gbind") ?: 'localhost'

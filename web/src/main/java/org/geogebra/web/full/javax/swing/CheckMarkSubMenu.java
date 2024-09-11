@@ -3,6 +3,7 @@ package org.geogebra.web.full.javax.swing;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.Command;
 
 /**
@@ -39,9 +40,9 @@ public abstract class CheckMarkSubMenu {
 	 * @param withImg
 	 *            true if menu item does have img
 	 */
-	public void addItem(String text, boolean selected, Command command,
+	public void addItem(ResourcePrototype icon, String text, boolean selected, Command command,
 			boolean withImg) {
-		GCheckmarkMenuItem cm = new GCheckmarkMenuItem(text,
+		GCheckmarkMenuItem cm = new GCheckmarkMenuItem(icon, text,
 				selected, command);
 		if (withImg) {
 			cm.getMenuItem().addStyleName("withImg");

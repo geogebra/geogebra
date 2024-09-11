@@ -19,6 +19,7 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.Command;
 
@@ -99,7 +100,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 		RadioButtonMenuBarW yaxisMenu = new RadioButtonMenuBarW(app.getLocalization());
 		addAxesRatioItems(yaxisMenu);
 		AriaMenuItem mi = new AriaMenuItem(
-				loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"), true,
+				loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"), null,
 				yaxisMenu);
 		if (!app.isUnbundled()) {
 			wrappedPopup.addItem(mi);
@@ -113,12 +114,11 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	}
 
 	private void addRulingMenuItem(final OptionType optionType) {
-		AriaMenuItem rulingMenuItem = new AriaMenuItem(
-				MainMenu.getMenuBarHtmlClassic(
-						MaterialDesignResources.INSTANCE.minor_gridlines()
-								.getSafeUri().asString(),
-						loc.getMenu("Ruling")),
-				true, () -> {
+		AriaMenuItem rulingMenuItem =
+				MainMenu.getMenuBarItem(
+						MaterialDesignResources.INSTANCE.minor_gridlines(),
+						loc.getMenu("Ruling"),
+				() -> {
 					showOptionsDialog(optionType);
 					((PropertiesViewW) app.getGuiManager().getPropertiesView())
 							.getOptionPanel(optionType, -1)
@@ -129,12 +129,11 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	}
 
 	private void addBackgroundMenuItem() {
-		AriaMenuItem miBackgroundCol = new AriaMenuItem(
-				MainMenu.getMenuBarHtmlClassic(
-						MaterialDesignResources.INSTANCE.color_black()
-								.getSafeUri().asString(),
-						loc.getMenu("BackgroundColor")),
-				true, this::openColorChooser);
+		AriaMenuItem miBackgroundCol =
+				MainMenu.getMenuBarItem(
+						MaterialDesignResources.INSTANCE.color_black(),
+						loc.getMenu("BackgroundColor"),
+				this::openColorChooser);
 		wrappedPopup.addItem(miBackgroundCol);
 	}
 
@@ -180,26 +179,23 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	}
 
 	private void addClearTraceMenuItem() {
-		String imgClearTrace = MaterialDesignResources.INSTANCE.refresh_black()
-				.getSafeUri().asString();
-		AriaMenuItem miClearTrace = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
-				imgClearTrace, loc.getMenu("ClearTrace")), true,
+		SVGResource imgClearTrace = MaterialDesignResources.INSTANCE.refresh_black();
+		AriaMenuItem miClearTrace = MainMenu.getMenuBarItem(
+				imgClearTrace, loc.getMenu("ClearTrace"),
 				app::refreshViews);
 		wrappedPopup.addItem(miClearTrace);
 	}
 
 	private void addShowAllObjAndStandView() {
 		ResourcePrototype img = MaterialDesignResources.INSTANCE.show_all_objects_black();
-		AriaMenuItem miShowAllObjectsView = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAllObjects")),
-				true,
+		AriaMenuItem miShowAllObjectsView =
+				MainMenu.getMenuBarItem(img, loc.getMenu("ShowAllObjects"),
 				this::setViewShowAllObject
 		);
 
 		ResourcePrototype img2 = MaterialDesignResources.INSTANCE.home_black();
-		AriaMenuItem miStandardView = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img2, loc.getMenu("StandardView")),
-				true,
+		AriaMenuItem miStandardView =
+				MainMenu.getMenuBarItem(img2, loc.getMenu("StandardView"),
 				() -> app.setStandardView()
 		);
 
@@ -217,7 +213,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	}
 
 	private void addGridMenuItem() {
-		String htmlString = MainMenu.getMenuBarHtmlClassic(
+		String htmlString = MainMenu.getMenuBarHtml(
 						MaterialDesignResources.INSTANCE.grid_black().getSafeUri().asString(),
 						loc.getMenu("ShowGrid"));
 		gridCollapseItem = new GCollapseMenuItem(htmlString,
@@ -237,13 +233,12 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 * add snap to grid menu item
 	 */
 	public void addSnapToGridMenuItem() {
-		String img = MaterialDesignResources.INSTANCE.snap_to_grid()
-				.getSafeUri().asString();
+		SVGResource img = MaterialDesignResources.INSTANCE.snap_to_grid();
 		final boolean isSnapToGrid = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC == app
 				.getSettings().getEuclidian(1).getPointCapturingMode();
 		final GCheckmarkMenuItem snapToGrid = new GCheckmarkMenuItem(
-				MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("SnapToGrid")),
-				isSnapToGrid);
+				img, loc.getMenu("SnapToGrid"),
+				isSnapToGrid, () -> {});
 		snapToGrid.setCommand(() -> {
 			app.getEuclidianView1().setPointCapturing(isSnapToGrid
 					? EuclidianStyleConstants.POINT_CAPTURING_OFF
@@ -265,14 +260,13 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 *
 	 */
 	protected void addAxesMenuItem() {
-		String img = MaterialDesignResources.INSTANCE.axes_black()
-					.getSafeUri().asString();
+		SVGResource img = MaterialDesignResources.INSTANCE.axes_black();
 
 		boolean checked = app.getActiveEuclidianView().getShowXaxis()
 				&& (app.getActiveEuclidianView().getShowYaxis());
 
 		final GCheckmarkMenuItem showAxes = new GCheckmarkMenuItem(
-				MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("ShowAxes")),
+				img, loc.getMenu("ShowAxes"),
 				checked, app.getGuiManager()::showAxesCmd);
 
 		wrappedPopup.addItem(showAxes);
@@ -293,14 +287,13 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 *            of option
 	 */
 	protected void addMiProperties(String name, final OptionType type) {
-		String img = MaterialDesignResources.INSTANCE.gear().getSafeUri().asString();
+		SVGResource img = MaterialDesignResources.INSTANCE.gear();
 
-		AriaMenuItem miProperties = new AriaMenuItem(
-				MainMenu.getMenuBarHtmlClassic(img,
+		AriaMenuItem miProperties =
+				MainMenu.getMenuBarItem(img,
 						app.isUnbundledOrWhiteboard()
 						? loc.getMenu("Settings")
-						: loc.getMenu(name) + " ..."),
-				true,
+						: loc.getMenu(name) + " ...",
 				() -> showOptionsDialog(type));
 		miProperties.setEnabled(true); // TMP AG
 		wrappedPopup.addItem(miProperties);
@@ -372,12 +365,10 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	protected void addZoomMenu() {
 		// zoom for both axes
 		AriaMenuBar zoomMenu = new AriaMenuBar();
-		String img = GuiResourcesSimple.INSTANCE.zoom_in().getSafeUri()
-					.asString();
+		ResourcePrototype img = GuiResourcesSimple.INSTANCE.zoom_in();
 
 		AriaMenuItem zoomMenuItem = new AriaMenuItem(
-				MainMenu.getMenuBarHtmlClassic(img,
-				loc.getMenu("Zoom")), true, zoomMenu);
+				loc.getMenu("Zoom"), img, zoomMenu);
 
 		wrappedPopup.addItem(zoomMenuItem);
 		addZoomItems(zoomMenu);
@@ -405,7 +396,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 			// TODO: it is terrible, should be used ONE listener for each
 			// menuItem, this kills the memory, if GWT changes this
 			// get it right!
-			mi = new AriaMenuItem(sb.toString(), false, () -> zoom(getZoomFactor(index)));
+			mi = new AriaMenuItem(sb.toString(), null, () -> zoom(getZoomFactor(index)));
 			menu.addItem(mi);
 		}
 	}
@@ -431,7 +422,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 		boolean selected = app.showConsProtNavigation(app
 				.getActiveEuclidianView().getViewID());
 
-		GCheckmarkMenuItem showConstructionStep = new GCheckmarkMenuItem(
+		GCheckmarkMenuItem showConstructionStep = new GCheckmarkMenuItem(null,
 				loc.getMenu("NavigationBar"), selected, showConstructionStepCommand);
 
 		wrappedPopup.addItem(showConstructionStep);
@@ -480,13 +471,13 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 			String text = app.getLocalization().getMenu(key);
 			boolean isSelected = app.getActiveEuclidianView()
 					.getGridType() == gridType && app.getActiveEuclidianView().getShowGrid();
-			addItem(text, isSelected, () -> setGridType(gridType), false);
+			addItem(null, text, isSelected, () -> setGridType(gridType), false);
 		}
 
 		private void addNoGridItem() {
 			String text = app.getLocalization().getMenu("Grid.No");
 			boolean isSelected = !app.getActiveEuclidianView().getShowGrid();
-			addItem(text, isSelected, () -> setGridType(EuclidianView.GRID_NOT_SHOWN), false);
+			addItem(null, text, isSelected, () -> setGridType(EuclidianView.GRID_NOT_SHOWN), false);
 		}
 
 		@Override

@@ -1,5 +1,7 @@
 package org.geogebra.common.gui.toolcategorization.impl;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 
 import org.geogebra.common.gui.toolcategorization.GraphingToolSet;
@@ -21,7 +23,7 @@ public class GraphingGraphingToolCollectionFactoryTest {
 
 	@Before
 	public void setupTest() {
-		toolCollection = new GraphingToolCollectionFactory()
+		toolCollection = new GraphingToolCollectionFactory(false)
 				.createToolCollection();
 	}
 
@@ -30,8 +32,7 @@ public class GraphingGraphingToolCollectionFactoryTest {
 		List<ToolCategory> categories = toolCollection.getCategories();
 		for (int i = 0; i < categories.size(); i++) {
 			for (int tool : toolCollection.getTools(i)) {
-				Assert.assertFalse("Should not be available" + tool,
-						GraphingToolSet.isInGraphingToolSet(tool));
+				assertTrue("Should be available: " + tool, GraphingToolSet.isAvailable(tool));
 			}
 		}
 	}

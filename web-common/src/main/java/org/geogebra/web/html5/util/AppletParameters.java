@@ -200,16 +200,6 @@ public class AppletParameters {
 	}
 
 	/**
-	 * @param def
-	 *            fallback if parameter is not set
-	 * @return data-param-allowStylebar: whether to have stylebar; no effect
-	 *         when menu is present
-	 */
-	public boolean getDataParamAllowStyleBar(boolean def) {
-		return getBoolDataParam("allowStyleBar", def);
-	}
-
-	/**
 	 * @param def fallback if parameter is not set
 	 * @return true in full apps, or non-notes applets with show menu set.
 	 *  data-param-showToolBar otherwise, with fallback def

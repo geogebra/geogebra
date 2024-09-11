@@ -608,6 +608,9 @@ public class GeoSymbolic extends GeoElement
 		} catch (CommandNotLoadedError err) {
 			// by failing the whole twin creation we make sure this uses the same path
 			// in web and other platforms
+			if (!isLabelSet()) {
+				remove();
+			}
 			throw err;
 		} catch (Throwable throwable) {
 			try {
@@ -1165,6 +1168,13 @@ public class GeoSymbolic extends GeoElement
 			}
 		}
 		return super.getFormulaString(tpl, substituteNumbers);
+	}
+
+	@Override
+	protected void appendObjectColorXML(StringBuilder sb) {
+		if (isDefaultGeo() || isColorSet()) {
+			super.appendObjectColorXML(sb);
+		}
 	}
 
 	private ConditionalSerializer getConditionalSerializer() {

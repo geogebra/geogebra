@@ -257,8 +257,6 @@ public interface ToolbarResources {
 
 	SVGResource mode_shape_rectangle_32();
 
-	SVGResource mode_shape_rectangle_round_edges_32();
-
 	SVGResource mode_shape_pentagon_32();
 
 	SVGResource mode_shape_freeform_32();

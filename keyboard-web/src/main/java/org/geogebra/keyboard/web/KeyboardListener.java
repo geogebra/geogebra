@@ -68,12 +68,6 @@ public interface KeyboardListener {
 	void insertString(String text);
 
 	/**
-	 * @param text
-	 *            true if text
-	 */
-	void setKeyBoardModeText(boolean text);
-
-	/**
 	 * @return true if spreadsheet view
 	 */
 	boolean isSVCell();

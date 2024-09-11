@@ -64,7 +64,7 @@ public class SVGResourcePrototype implements SVGResource {
 		Document doc = parser.parseFromString(svg, "image/svg+xml");
 		CSSStyleDeclaration style = Js.uncheckedCast(Js.asPropertyMap(doc)
 				.nestedGet("rootElement.style"));
-		if (Js.isTruthy(style)) {
+		if (style != null && Js.isTruthy(style)) {
 			style.setProperty("fill", color);
 		}
 		return serializer.serializeToString(doc);

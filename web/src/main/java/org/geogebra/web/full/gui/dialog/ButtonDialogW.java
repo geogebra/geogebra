@@ -87,7 +87,8 @@ public class ButtonDialogW extends ComponentDialog
 			List<String> optionNames = options.stream()
 					.map(geo -> geo == null ? "" : geo.toString(StringTemplate.defaultTemplate))
 					.collect(Collectors.toList());
-			CompDropDown linkedDropDown = new CompDropDown((AppW) app, "LinkedObject", optionNames);
+			CompDropDown linkedDropDown = new CompDropDown((AppW) app, "LinkedObject",
+					optionNames, 0);
 			linkedDropDown.addChangeHandler(() -> updateModel(linkedDropDown, options));
 			linkedDropDown.setDisabled(options.size() < 2);
 			linkedDropDown.setFullWidth(true);

@@ -17,7 +17,6 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
-import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
@@ -27,6 +26,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.AppKeyboardType;
+import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.DefaultPropertiesFactory;
@@ -219,8 +219,8 @@ public class AppConfigDefault extends AbstractAppConfig {
 	}
 
 	@Override
-	public int getDefaultLabelingStyle() {
-		return ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC;
+	public LabelVisibility getDefaultLabelingStyle() {
+		return LabelVisibility.Automatic;
 	}
 
 	@Override

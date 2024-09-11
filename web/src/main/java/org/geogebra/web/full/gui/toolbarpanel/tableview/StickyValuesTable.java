@@ -2,10 +2,15 @@ package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.gui.view.table.TableUtil;
+import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.gui.view.table.keyboard.TableValuesKeyboardNavigationController;
+import org.geogebra.common.gui.view.table.keyboard.TableValuesKeyboardNavigationControllerDelegate;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -56,6 +61,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private int removedColumnByUser = -1;
 	private boolean shadedColumns = true;
 	DefineFunctionsDialogTV defFuncDialog;
+	private TableValuesKeyboardNavigationController controller;
 
 	public MathKeyboardListener getKeyboardListener() {
 		return editor.getKeyboardListener();
@@ -102,6 +108,36 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		this.tableModel = view.getTableValuesModel();
 		tableModel.registerListener(this);
 		editor = new TableEditor(this, app);
+		controller = new TableValuesKeyboardNavigationController(
+				(TableValues) app.getGuiManager().getTableValuesView(),
+				new TableValuesKeyboardNavigationControllerDelegate() {
+					@Override
+					public void focusCell(int row, int column) {
+						editor.startEditing(row, column);
+					}
+
+					@Override
+					public void refocusCell(int row, int column) {
+						// not needed
+					}
+
+					@Override
+					public void unfocusCell(int row, int column, boolean isTransferringFocus) {
+						editor.stopEditing();
+					}
+
+					@CheckForNull
+					@Override
+					public String getCellEditorContent(int row, int column) {
+						return editor.getText();
+					}
+
+					@Override
+					public void invalidCellContentDetected(int row, int column) {
+						// not needed
+					}
+				});
+		editor.controller = controller;
 		reset();
 		addHeadClickHandler((row, column, evt) -> {
 			Element el = Js.uncheckedCast(evt.target);
@@ -115,7 +151,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			if (row <= tableModel.getRowCount()
 					&& column <= tableModel.getColumnCount()) {
 				if (column == tableModel.getColumnCount() || isColumnEditable(column)) {
-					editor.startEditing(row, column, evt);
+					controller.select(row, column);
+					editor.adjustCursor(evt);
 					return true;
 				}
 			}

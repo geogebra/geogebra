@@ -558,7 +558,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_SHAPE_PENTAGON:
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
 		case EuclidianConstants.MODE_MASK:
-		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
 		case EuclidianConstants.MODE_SHAPE_SQUARE:
 		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
 			return true;
@@ -6263,15 +6262,19 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		inlineObject.setLabel(null);
 		selectAndShowSelectionUI(inlineObject);
-		final DrawableND drawable = view.getDrawableFor(inlineObject);
+		updateDrawableAndMoveToForeground(inlineObject);
+
+		view.setCursor(DEFAULT);
+		return true;
+	}
+
+	private void updateDrawableAndMoveToForeground(GeoElementND geo) {
+		DrawableND drawable = view.getDrawableFor(geo);
 		if (drawable != null) {
 			drawable.update();
 			((DrawInline) drawable).toForeground(0, 0);
 			app.getEventDispatcher().lockTextElement(drawable.getGeoElement());
 		}
-
-		view.setCursor(DEFAULT);
-		return true;
 	}
 
 	protected void hitCheckBox(GeoBoolean bool) {
@@ -9112,7 +9115,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// check if side of bounding box was hit
 		wasBoundingBoxHit = view.getBoundingBox() != null
-				&& view.getBoundingBox().hitSideOfBoundingBox(event.getX(),
+				&& view.getBoundingBox().hit(event.getX(),
 						event.getY(), app.getCapturingThreshold(event.getType()));
 
 		view.getBoundingBoxHandlerHit(new GPoint(event.getX(), event.getY()), event.getType());
@@ -9868,6 +9871,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (d instanceof DrawMindMap) {
 				GeoMindMapNode child = ((DrawMindMap) d).addChildNode(view.getHitHandler());
 				selectAndShowSelectionUI(child);
+				updateDrawableAndMoveToForeground(child);
 				lastMowHit = child;
 				view.resetHitHandler();
 				app.storeUndoInfo();

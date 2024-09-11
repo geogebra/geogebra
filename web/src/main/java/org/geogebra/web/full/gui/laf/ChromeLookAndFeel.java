@@ -30,17 +30,17 @@ public class ChromeLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
+	public boolean hasLockedEnvironment() {
+		return true;
+	}
+
+	@Override
 	public boolean hasHeader() {
 		return false;
 	}
 
 	@Override
 	public boolean hasLoginButton() {
-		return true;
-	}
-
-	@Override
-	public boolean examSupported() {
 		return true;
 	}
 

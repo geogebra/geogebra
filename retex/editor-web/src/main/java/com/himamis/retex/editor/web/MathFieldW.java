@@ -1067,10 +1067,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		mathFieldInternal.insertFunction(text);
 	}
 
-	public void checkEnterReleased(Runnable r) {
-		mathFieldInternal.checkEnterReleased(r);
-	}
-
 	public void setPlainTextMode(boolean plainText) {
 		this.mathFieldInternal.setPlainTextMode(plainText);
 	}

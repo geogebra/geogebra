@@ -24,6 +24,7 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 	private final GeoElement result;
 	private final Commands cmd;
 	private final GeoList vars;
+	private final String label;
 	private GeoElement[] inputForUpdateSetPropagation;
 	private final Set<GeoElement> referencedObjects = new HashSet<>();
 
@@ -34,12 +35,13 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 	 * @param cmd ParseToNumber or ParseToFunction
 	 */
 	public AlgoParseToNumberOrFunction(Construction cons, GeoText text,
-			GeoList vars, Commands cmd) {
+			GeoList vars, Commands cmd, String label) {
 		super(cons);
 		this.cmd = cmd;
 		this.text = text;
 		this.vars = vars;
 		this.result = initResult();
+		this.label = label;
 		setInputOutput();
 		compute();
 	}
@@ -96,6 +98,9 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 		referencedObjects.clear();
 		if (definition != null) {
 			definition.getVariables(referencedObjects, SymbolicMode.NONE);
+		}
+		if (label != null && referencedObjects.remove(kernel.lookupLabel(label))) {
+			result.setUndefined();
 		}
 		if (!referencedObjects.isEmpty()) {
 			inputForUpdateSetPropagation = new GeoElement[referencedObjects.size() + 1];

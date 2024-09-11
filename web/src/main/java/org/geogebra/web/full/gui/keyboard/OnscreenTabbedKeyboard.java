@@ -1,8 +1,8 @@
 package org.geogebra.web.full.gui.keyboard;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.keyboard.web.BaseKeyboardButton;
 import org.geogebra.keyboard.web.HasKeyboard;
-import org.geogebra.keyboard.web.KeyBoardButtonBase;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPopup;
@@ -84,7 +84,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	}
 
 	@Override
-	public void onClick(KeyBoardButtonBase btn, PointerEventType type) {
+	public void onClick(BaseKeyboardButton btn, PointerEventType type) {
 		GeoGebraFrameW.hideAllTooltips();
 		super.onClick(btn, type);
 	}

@@ -22,6 +22,7 @@ import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.full.util.ClipboardW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -38,6 +39,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	private final Localization loc;
 	private final static int CONTEXT_MENU_PADDING = 8;
 	private final static int MARGIN_FROM_SCREEN_EDGE = 16;
+	private final ClipboardInterface clipboard;
 
 	private static class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
 		private final MathFieldEditor mathField;
@@ -51,6 +53,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			mathField.addStyleName("spreadsheetEditor");
 			this.parent = parent;
 			this.app = app;
+			mathField.addBlurHandler(blur -> getSpreadsheetPanel().saveContentAndHideCellEditor());
 		}
 
 		public SpreadsheetPanel getSpreadsheetPanel() {
@@ -60,22 +63,28 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		@Override
 		public void show(Rectangle editorBounds, Rectangle viewport, int textAlignment) {
 			mathField.attach(parent);
-			mathField.getStyle().setLeft(editorBounds.getMinX(), Unit.PX);
-			mathField.getStyle().setTop(editorBounds.getMinY(), Unit.PX);
-			mathField.getStyle().setWidth(editorBounds.getWidth(), Unit.PX);
-			mathField.getStyle().setProperty("minHeight", editorBounds.getHeight(), Unit.PX);
+			updatePosition(editorBounds, viewport);
 			mathField.setRightMargin(8);
 			mathField.asWidget().getElement().getStyle().setTextAlign(
 					textAlignment == CellFormat.ALIGN_LEFT ? TextAlign.LEFT : TextAlign.RIGHT);
 			mathField.setVisible(true);
-			mathField.requestFocus();
+			mathField.editorClicked();
 			Scheduler.get().scheduleDeferred(mathField::requestFocus);
+		}
+
+		@Override
+		public void updatePosition(Rectangle editorBounds, Rectangle viewport) {
+			mathField.getStyle().setLeft(editorBounds.getMinX(), Unit.PX);
+			mathField.getStyle().setTop(editorBounds.getMinY(), Unit.PX);
+			mathField.getStyle().setWidth(editorBounds.getWidth(), Unit.PX);
+			mathField.getStyle().setProperty("minHeight", editorBounds.getHeight(), Unit.PX);
 		}
 
 		@Override
 		public void hide() {
 			mathField.setVisible(false);
 			parent.requestFocus();
+			app.hideKeyboard();
 		}
 
 		@Override
@@ -85,8 +94,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 		@Override
 		public @Nonnull DefaultSpreadsheetCellProcessor getCellProcessor() {
-			return new DefaultSpreadsheetCellProcessor(app.getKernel().getAlgebraProcessor(),
-					app.getDefaultErrorHandler());
+			return new DefaultSpreadsheetCellProcessor(app.getKernel().getAlgebraProcessor());
 		}
 
 		@Nonnull
@@ -107,6 +115,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		editor = new SpreadsheetCellEditorW(app, parent, mathTextField);
 		contextMenu = new GPopupMenuW(app);
 		loc = app.getLocalization();
+		clipboard = new ClipboardW();
 	}
 
 	@Override
@@ -125,12 +134,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 				String itemText = loc.getMenu(item.getLocalizationKey());
 				AriaMenuItem menuItem;
 
-				if (image != null) {
-					menuItem = new AriaMenuItem(MainMenu.getMenuBarHtml(image, itemText),
-							true, item::performAction);
-				} else {
-					menuItem = new AriaMenuItem(itemText, true, item::performAction);
-				}
+				menuItem = MainMenu.getMenuBarItem(image, itemText, item::performAction);
 				contextMenu.addItem(menuItem);
 			}
 		}
@@ -191,7 +195,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 	@Override
 	public ClipboardInterface getClipboard() {
-		return null;
+		return clipboard;
 	}
 
 	private SVGResource getActionIcon(ContextMenuItem.Identifier action) {

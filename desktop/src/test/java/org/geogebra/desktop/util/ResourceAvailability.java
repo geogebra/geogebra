@@ -1,9 +1,12 @@
 package org.geogebra.desktop.util;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
 
@@ -14,6 +17,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class ResourceAvailability {
+
 	@Test
 	public void checkGuiResources() {
 		for (GuiResourcesD res : GuiResourcesD.values()) {
@@ -61,30 +65,14 @@ public class ResourceAvailability {
 		ImageManagerD man = new ImageManagerD(new JPanel());
 		StringBuilder missing = new StringBuilder();
 
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 3000; i++) {
 			String modeText = EuclidianConstants.getModeTextSimple(i);
 
-			if (modeText.isEmpty()) {
+			if (modeText.isEmpty() || EuclidianConstants.isNotesTool(i)) {
 				continue;
 			}
 			switch (i) {
 			case EuclidianConstants.MODE_SELECTION_LISTENER:
-			case EuclidianConstants.MODE_VIDEO:
-			case EuclidianConstants.MODE_AUDIO:
-			case EuclidianConstants.MODE_CALCULATOR:
-			case EuclidianConstants.MODE_EXTENSION:
-			case EuclidianConstants.MODE_H5P:
-			case EuclidianConstants.MODE_TABLE:
-			case EuclidianConstants.MODE_EQUATION:
-			case EuclidianConstants.MODE_CAMERA:
-			case EuclidianConstants.MODE_PDF:
-			case EuclidianConstants.MODE_GRASPABLE_MATH:
-			case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
-			case EuclidianConstants.MODE_MASK:
-			case EuclidianConstants.MODE_MIND_MAP:
-			case EuclidianConstants.MODE_RULER:
-			case EuclidianConstants.MODE_PROTRACTOR:
-			case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
 			case EuclidianConstants.MODE_PHOTO_LIBRARY:
 				continue;
 			default:
@@ -99,5 +87,22 @@ public class ResourceAvailability {
 		}
 
 		Assert.assertEquals(missing.toString(), 0, missing.length());
+	}
+
+	@Test
+	public void imageSetsShouldBeIdentical() {
+		String lowres = Arrays.stream(new File(
+				"../common/src/nonfree/resources/org/geogebra/common/icons_toolbar/p32/")
+				.list()).sorted().collect(
+				Collectors.joining("\n"));
+		String[] otherSets = new String[] {
+				"../common/src/nonfree/resources/org/geogebra/common/icons_toolbar/p64/",
+				"../common/src/gpl/resources/org/geogebra/common/icons_toolbar/p32/",
+				"../common/src/gpl/resources/org/geogebra/common/icons_toolbar/p32/"};
+		for (String directory: otherSets) {
+			String hires = Arrays.stream(new File(directory).list()).sorted().collect(
+					Collectors.joining("\n"));
+			assertEquals(directory, lowres, hires);
+		}
 	}
 }

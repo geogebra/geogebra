@@ -13,6 +13,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class Fractions {
 	private static final double MAX_NUM_DENOMINATOR = 1E15;
+	private static final int ALLOW_PI_LIMIT = 1000;
 
 	/**
 	 * @param expr
@@ -35,7 +36,7 @@ public class Fractions {
 				boolean pi = false;
 				double piDiv = lt / Math.PI;
 				if (allowPi && DoubleUtil.isInteger(piDiv)
-						&& !DoubleUtil.isZero(piDiv) && lt < MAX_NUM_DENOMINATOR) {
+						&& !DoubleUtil.isZero(piDiv) && Math.abs(piDiv) < ALLOW_PI_LIMIT) {
 					lt = piDiv;
 					pi = true;
 				}

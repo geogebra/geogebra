@@ -55,7 +55,7 @@ public class AppWsimple extends AppW {
 		initCoreObjects();
 		setUndoActive(undoActive);
 		afterCoreObjectsInited();
-		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
+		getFontSettingsUpdater().resetFonts();
 		Browser.removeDefaultContextMenu(getGeoGebraElement().getElement());
 	}
 

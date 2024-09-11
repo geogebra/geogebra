@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -358,8 +359,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (op == Operation.REAL && arg instanceof NumberValue) {
 			// real(3) should return 3
 			return arg.evaluateDouble();
+
+		} else if (arg instanceof GeoDummyVariable) {
+			return Double.NaN;
 		} else {
-			throw polynomialOrDie(arg,
+			throw illegalArgument(arg,
 					op == Operation.XCOORD ? "x(" : "real(");
 		}
 
@@ -384,8 +388,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (op == Operation.IMAGINARY && arg instanceof NumberValue) {
 			// imaginary(3) should return 0
 			return 0;
+		} else if (arg instanceof GeoDummyVariable) {
+			return Double.NaN;
 		} else {
-			throw polynomialOrDie(arg,
+			throw illegalArgument(arg,
 					op == Operation.YCOORD ? "y(" : "imaginary(");
 		}
 	}
@@ -402,8 +408,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return ((Vector3DValue) lt).getPointAsDouble()[2];
 		} else if (lt instanceof GeoLine) {
 			return ((GeoLine) lt).getZ();
+		} else if (lt instanceof GeoDummyVariable) {
+			return Double.NaN;
 		}
-		throw polynomialOrDie(lt, "z(");
+		throw illegalArgument(lt, "z(");
 	}
 
 	/**
@@ -422,10 +430,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	public ExpressionValue handleMult(ExpressionValue lt, ExpressionValue rt,
 			StringTemplate tpl, boolean holdsLaTeXtext) {
 		MyDouble num;
-		MyStringBuffer msb;
-
-		// Log.debug(lt.getClass()+" "+lt.toString());
-		// Log.debug(rt.getClass()+" "+rt.toString());
 
 		if (lt instanceof NumberValue) {
 			// number * number
@@ -443,32 +447,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		}
 		// text concatenation (left)
 		if (lt instanceof TextValue) {
-			msb = ((TextValue) lt).getText();
-			if (holdsLaTeXtext) {
-				msb.append(rt.toLaTeXString(false, tpl));
-			} else {
-				if (rt.isGeoElement()) {
-					GeoElement geo = (GeoElement) rt;
-					msb.append(geo.toDefinedValueString(tpl));
-				} else {
-					msb.append(rt.toValueString(tpl));
-				}
-			}
-			return msb;
+			return appendTextValueLeft((TextValue) lt, rt, tpl, holdsLaTeXtext);
 		} // text concatenation (right)
 		else if (rt instanceof TextValue) {
-			msb = ((TextValue) rt).getText();
-			if (holdsLaTeXtext) {
-				msb.insert(0, lt.toLaTeXString(false, tpl));
-			} else {
-				if (lt.isGeoElement()) {
-					GeoElement geo = (GeoElement) lt;
-					msb.insert(0, geo.toDefinedValueString(tpl));
-				} else {
-					msb.insert(0, lt.toValueString(tpl));
-				}
-			}
-			return msb;
+			return appendTextValueRight(lt, (TextValue) rt, tpl, holdsLaTeXtext);
 		}
 		// vector * ...
 		else if (lt instanceof VectorNDValue) {
@@ -568,7 +550,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			StringTemplate tpl, boolean holdsLaTeXtext) {
 		MyDouble num;
 		GeoVec2D vec;
-		MyStringBuffer msb;
 		if (lt instanceof NumberValue && rt instanceof NumberValue) {
 			num = ((NumberValue) lt).getNumber();
 			MyDouble.add(num, (NumberValue) rt, num);
@@ -635,38 +616,47 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		}
 		// text concatenation (left)
 		else if (lt instanceof TextValue) {
-			msb = ((TextValue) lt).getText();
-			if (holdsLaTeXtext) {
-				msb.append(rt.toLaTeXString(false, tpl));
-			} else {
-				if (rt.isGeoElement()) {
-					GeoElement geo = (GeoElement) rt;
-					msb.append(getGeoString(geo, tpl));
-				} else {
-					msb.append(rt.toValueString(tpl));
-				}
-			}
-			return msb;
+			return appendTextValueLeft((TextValue) lt, rt, tpl, holdsLaTeXtext);
 		} // text concatenation (right)
 		else if (rt instanceof TextValue) {
-			msb = ((TextValue) rt).getText();
-			if (holdsLaTeXtext) {
-				msb.insert(0, lt.toLaTeXString(false, tpl));
-			} else {
-				if (lt.isGeoElement()) {
-					GeoElement geo = (GeoElement) lt;
-					msb.insert(0, getGeoString(geo, tpl));
-				} else {
-					msb.insert(0, lt.toValueString(tpl));
-				}
-			}
-			return msb;
+			return appendTextValueRight(lt, (TextValue) rt, tpl, holdsLaTeXtext);
 		}
 		// polynomial + polynomial
 		else {
 			throw new MyError(loc, Errors.IllegalAddition, lt, "+", rt);
 		}
+	}
 
+	private ExpressionValue appendTextValueRight(ExpressionValue lt, TextValue rt,
+			StringTemplate tpl, boolean holdsLaTeXtext) {
+		MyStringBuffer msb = rt.getText();
+		if (holdsLaTeXtext) {
+			msb.insert(0, lt.toLaTeXString(false, tpl));
+		} else {
+			if (lt.isGeoElement()) {
+				GeoElement geo = (GeoElement) lt;
+				msb.insert(0, getGeoString(geo, tpl));
+			} else {
+				msb.insert(0, lt.toValueString(tpl));
+			}
+		}
+		return msb;
+	}
+
+	private ExpressionValue appendTextValueLeft(TextValue lt, ExpressionValue rt,
+			StringTemplate tpl, boolean holdsLaTeXtext) {
+		MyStringBuffer msb = lt.getText();
+		if (holdsLaTeXtext) {
+			msb.append(rt.toLaTeXString(false, tpl));
+		} else {
+			if (rt.isGeoElement()) {
+				GeoElement geo = (GeoElement) rt;
+				msb.append(getGeoString(geo, tpl));
+			} else {
+				msb.append(rt.toValueString(tpl));
+			}
+		}
+		return msb;
 	}
 
 	/**
@@ -1194,7 +1184,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Throw illegal argument exception for multivariable builtin function
+	 * Throws an illegal argument exception for multivariable builtin function
 	 *
 	 * @param lt
 	 *            left argument
@@ -1202,9 +1192,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            right argument
 	 * @param opname
 	 *            operation name
-	 * @return nothing (error is thrown)
-	 * @throws MyError
-	 *             (always)
+	 * @return MyError
 	 */
 	public MyError illegalArgument(ExpressionValue lt,
 			ExpressionValue rt, String opname) {
@@ -1212,12 +1200,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Throw simple illegal argument exception
+	 * Throws a simple illegal argument exception
 	 *
 	 * @param arg
 	 *            argument
-	 * @return nothing (error is thrown)
-	 * @throws MyError
+	 * @return MyError
 	 *             (always)
 	 */
 	public MyError illegalArgument(ExpressionValue arg) {
@@ -1275,8 +1262,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Check whether lt is constant polynomial and compute op(lt) if it is; if
-	 * not throw illegal argument "opname lt)"
+	 * Throws illegal argument "opname lt)"
 	 *
 	 * @param lt
 	 *            argument
@@ -1286,13 +1272,12 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @throws MyError
 	 *             if not polynomial or not constant
 	 */
-	public MyError polynomialOrDie(ExpressionValue lt, String opname) {
-		return polynomialOrDie(lt, opname, ")");
+	public MyError illegalArgument(ExpressionValue lt, String opname) {
+		return illegalArgument(lt, opname, ")");
 	}
 
 	/**
-	 * Check whether lt is constant polynomial and compute op(lt) if it is; if
-	 * not throw illegal argument "prefix lt suffix"
+	 * Throws illegal argument "prefix lt suffix"
 	 *
 	 * @param lt
 	 *            argument
@@ -1300,11 +1285,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            prefix of error message
 	 * @param suffix
 	 *            of error message
-	 * @return op(lt) if lt is constant poly
-	 * @throws MyError
+	 * @return MyError
 	 *             if not polynomial or not constant
 	 */
-	public MyError polynomialOrDie(ExpressionValue lt, String prefix, String suffix) {
+	public MyError illegalArgument(ExpressionValue lt, String prefix, String suffix) {
 		return new MyError(loc, Errors.IllegalArgument, prefix, MyError.toErrorString(lt), suffix);
 	}
 

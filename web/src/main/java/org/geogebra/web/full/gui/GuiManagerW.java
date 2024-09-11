@@ -1626,7 +1626,7 @@ public class GuiManagerW extends GuiManager
 			if (show) {
 				frame.attachNotesUI(getApp());
 			} else {
-				frame.detachNotesToolbarAndUndo(getApp());
+				frame.detachNotesToolbar(getApp());
 			}
 			return;
 		}
@@ -1680,11 +1680,6 @@ public class GuiManagerW extends GuiManager
 				.setVisible(false);
 			}
 
-			return mode;
-		}
-
-		if (getApp().isWhiteboardActive()) {
-			(getApp().getAppletFrame()).setNotesMode(mode);
 			return mode;
 		}
 
@@ -1977,11 +1972,11 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public String getTooltipURL(int mode) {
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
-			return getHelpURL(Help.GENERIC, "Custom_Tools");
+			return getHelpURL(Help.TOOL, "Custom_Tools");
 		}
 
 		return getHelpURL(Help.TOOL,
-				EuclidianConstants.getModeTextSimple(mode));
+				EuclidianConstants.getModeHelpPage(mode));
 	}
 
 	@Override
@@ -2089,8 +2084,9 @@ public class GuiManagerW extends GuiManager
 	 */
 	@Override
 	public void openMenuInAVFor(GeoElement geo) {
-		if (getApp().isUnbundled() && hasAlgebraView()) {
+		if (hasAlgebraView()) {
 			getAlgebraView().openMenuFor(geo);
+			getAlgebraView().getNode(geo).focusFirstMoreMenuElement();
 		}
 	}
 
@@ -2251,6 +2247,15 @@ public class GuiManagerW extends GuiManager
 			inputKeyboardButton = new InputKeyboardButtonW(getApp());
 		}
 		return inputKeyboardButton;
+	}
+
+	@Override
+	public boolean isTableViewShowing() {
+		if (!app.getConfig().hasTableView() || !app.isUnbundled() || !showView(App.VIEW_ALGEBRA)) {
+			return false;
+		}
+		ToolbarPanel toolbar = getUnbundledToolbar();
+		return toolbar.getSelectedTabId() == DockPanelData.TabIds.TABLE;
 	}
 
 	@Override

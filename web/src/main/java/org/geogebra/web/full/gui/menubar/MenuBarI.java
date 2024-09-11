@@ -1,8 +1,6 @@
 package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
-import org.gwtproject.core.client.Scheduler.ScheduledCommand;
-import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 
 /**
  * Shared interface for export and download menu
@@ -16,15 +14,8 @@ public interface MenuBarI {
 	void hide();
 
 	/**
-	 * @param text
-	 *            item heading
-	 * @param asHTML
-	 *            whether to use html
-	 * @param cmd
-	 *            callback
-	 * @return menu item
+	 * @return menu item to be added
 	 */
-	AriaMenuItem addItem(@IsSafeHtml String text, boolean asHTML,
-			ScheduledCommand cmd);
+	AriaMenuItem addItem(AriaMenuItem item);
 
 }

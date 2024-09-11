@@ -2,12 +2,15 @@ package org.geogebra.common.spreadsheet.core;
 
 /**
  * Class to convert TabularData to string.
- * Format: colunms are separated by \t and rows are separated by \n .
+ * Format: columns are separated by \t and rows are separated by \n .
  */
 public final class TabularDataFormatter<T> {
 
 	private final TabularData<T> data;
 
+	/**
+	 * @param data tabular data
+	 */
 	public TabularDataFormatter(TabularData<T> data) {
 		this.data = data;
 	}
@@ -23,8 +26,7 @@ public final class TabularDataFormatter<T> {
 		StringBuilder sb = new StringBuilder();
 		for (int row = range.getFromRow(); row < range.getToRow() + 1; row++) {
 			for (int column = range.getFromColumn(); column < range.getToColumn() + 1; column++) {
-				Object value = data.contentAt(row, column);
-				sb.append(value);
+				sb.append(data.serializeContentAt(row, column));
 				if (column != range.getToColumn()) {
 					sb.append('\t');
 				}

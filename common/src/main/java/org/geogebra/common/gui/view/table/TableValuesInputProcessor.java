@@ -77,7 +77,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			preloadScripting();
 			AlgoParseToNumberOrFunction algoParseToNumberOrFunction =
 					new AlgoParseToNumberOrFunction(cons,
-							new GeoText(cons, input), null, Commands.ParseToNumber);
+							new GeoText(cons, input), null, Commands.ParseToNumber, null);
 			GeoElement el = algoParseToNumberOrFunction.getOutput(0);
 			if (el.isDefined()) {
 				algoParseToNumberOrFunction.remove();

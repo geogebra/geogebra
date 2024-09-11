@@ -198,8 +198,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @return coordinates as array
 	 */
 	public double[] getCoords() {
-		double[] res = { x, y };
-		return res;
+		return new double[]{ x, y };
 	}
 
 	/**
@@ -241,8 +240,7 @@ final public class GeoVec2D extends ValidExpression
 	 */
 	public double[] getUnitCoords() {
 		double len = this.length();
-		double[] res = { x / len, y / len };
-		return res;
+		return new double[]{ x / len, y / len };
 	}
 
 	/**
@@ -1169,10 +1167,10 @@ final public class GeoVec2D extends ValidExpression
 
 		double a, b, c, d;
 
-		a = MyList.getCell(list, 0, 0).evaluateDouble();
-		b = MyList.getCell(list, 1, 0).evaluateDouble();
-		c = MyList.getCell(list, 0, 1).evaluateDouble();
-		d = MyList.getCell(list, 1, 1).evaluateDouble();
+		a = MyList.getCellAsDouble(list, 0, 0);
+		b = MyList.getCellAsDouble(list, 1, 0);
+		c = MyList.getCellAsDouble(list, 0, 1);
+		d = MyList.getCellAsDouble(list, 1, 1);
 
 		matrixTransform(a, b, c, d);
 	}
@@ -1192,13 +1190,13 @@ final public class GeoVec2D extends ValidExpression
 
 		double a, b, c, d;
 
-		a = MyList.getCell(list, 0, 0).evaluateDouble();
-		b = MyList.getCell(list, 1, 0).evaluateDouble();
-		c = MyList.getCell(list, 0, 1).evaluateDouble();
-		d = MyList.getCell(list, 1, 1).evaluateDouble();
+		a = MyList.getCellAsDouble(list, 0, 0);
+		b = MyList.getCellAsDouble(list, 1, 0);
+		c = MyList.getCellAsDouble(list, 0, 1);
+		d = MyList.getCellAsDouble(list, 1, 1);
 
-		Double x1 = a * v.getX() + b * v.getY();
-		Double y1 = c * v.getX() + d * v.getY();
+		double x1 = a * v.getX() + b * v.getY();
+		double y1 = c * v.getX() + d * v.getY();
 
 		ret.x = x1;
 		ret.y = y1;
@@ -1218,10 +1216,10 @@ final public class GeoVec2D extends ValidExpression
 
 		double a, b, c, d;
 
-		a = MyList.getCell(list, 0, 0).evaluateDouble();
-		b = MyList.getCell(list, 1, 0).evaluateDouble();
-		c = MyList.getCell(list, 0, 1).evaluateDouble();
-		d = MyList.getCell(list, 1, 1).evaluateDouble();
+		a = MyList.getCellAsDouble(list, 0, 0);
+		b = MyList.getCellAsDouble(list, 1, 0);
+		c = MyList.getCellAsDouble(list, 0, 1);
+		d = MyList.getCellAsDouble(list, 1, 1);
 
 		matrixTransform(a, c, b, d);
 	}
@@ -1241,8 +1239,8 @@ final public class GeoVec2D extends ValidExpression
 	 */
 	public void matrixTransform(double a, double b, double c, double d) {
 
-		Double x1 = a * x + b * y;
-		Double y1 = c * x + d * y;
+		double x1 = a * x + b * y;
+		double y1 = c * x + d * y;
 
 		x = x1;
 		y = y1;
@@ -1293,15 +1291,15 @@ final public class GeoVec2D extends ValidExpression
 					+ (rt == null ? "null" : rt.getValueType()));
 		}
 
-		double a = MyList.getCell(list, 0, 0).evaluateDouble();
-		double b = MyList.getCell(list, 1, 0).evaluateDouble();
-		double c = MyList.getCell(list, 2, 0).evaluateDouble();
-		double d = MyList.getCell(list, 0, 1).evaluateDouble();
-		double e = MyList.getCell(list, 1, 1).evaluateDouble();
-		double f = MyList.getCell(list, 2, 1).evaluateDouble();
-		double g = MyList.getCell(list, 0, 2).evaluateDouble();
-		double h = MyList.getCell(list, 1, 2).evaluateDouble();
-		double i = MyList.getCell(list, 2, 2).evaluateDouble();
+		double a = MyList.getCellAsDouble(list, 0, 0);
+		double b = MyList.getCellAsDouble(list, 1, 0);
+		double c = MyList.getCellAsDouble(list, 2, 0);
+		double d = MyList.getCellAsDouble(list, 0, 1);
+		double e = MyList.getCellAsDouble(list, 1, 1);
+		double f = MyList.getCellAsDouble(list, 2, 1);
+		double g = MyList.getCellAsDouble(list, 0, 2);
+		double h = MyList.getCellAsDouble(list, 1, 2);
+		double i = MyList.getCellAsDouble(list, 2, 2);
 
 		x = a * xx + b * yy + c * zz;
 		y = d * xx + e * yy + f * zz;

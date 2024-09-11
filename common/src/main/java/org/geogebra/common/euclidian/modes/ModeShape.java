@@ -123,14 +123,9 @@ public class ModeShape {
 		if (mode != EuclidianConstants.MODE_SHAPE_FREEFORM) {
 			dragPointSet = false;
 		}
-		if (mode == EuclidianConstants.MODE_SHAPE_RECTANGLE
-				|| mode == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES) {
+		if (mode == EuclidianConstants.MODE_SHAPE_RECTANGLE) {
 			updateRectangle(event, false);
-			if (mode == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES) {
-				view.setRounded(true);
-			} else {
-				view.setRounded(false);
-			}
+			view.setRounded(false);
 			view.setShapeRectangle(rectangle);
 			view.repaintView();
 		} else if (mode == EuclidianConstants.MODE_SHAPE_SQUARE) {
@@ -264,8 +259,7 @@ public class ModeShape {
 			dragStartPoint = new GPoint();
 			return null;
 		}
-		if (mode == EuclidianConstants.MODE_SHAPE_RECTANGLE || ec
-				.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES
+		if (mode == EuclidianConstants.MODE_SHAPE_RECTANGLE
 				|| mode == EuclidianConstants.MODE_SHAPE_SQUARE) {
 			boolean square = mode == EuclidianConstants.MODE_SHAPE_SQUARE;
 			AlgoPolygon algo = getPolyAlgo(getPointArray(event, square));

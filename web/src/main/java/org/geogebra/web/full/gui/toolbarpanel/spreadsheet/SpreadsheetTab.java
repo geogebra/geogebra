@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarTab;
@@ -12,7 +14,7 @@ import org.gwtproject.dom.style.shared.Unit;
 public class SpreadsheetTab extends ToolbarTab {
 
 	private final ToolbarPanel toolbarPanel;
-	private SpreadsheetPanel spreadsheetPanel;
+	private @CheckForNull SpreadsheetPanel spreadsheetPanel;
 
 	/**
 	 * Constructor
@@ -24,9 +26,10 @@ public class SpreadsheetTab extends ToolbarTab {
 	}
 
 	private void createContent() {
-		this.spreadsheetPanel = new SpreadsheetPanel(toolbarPanel.getApp());
-		add(spreadsheetPanel);
-		spreadsheetPanel.getElement().getParentElement().getStyle().setHeight(100, Unit.PCT);
+		SpreadsheetPanel panel = new SpreadsheetPanel(toolbarPanel.getApp());
+		add(panel);
+		panel.getElement().getParentElement().getStyle().setHeight(100, Unit.PCT);
+		spreadsheetPanel = panel;
 	}
 
 	@Override
@@ -65,6 +68,6 @@ public class SpreadsheetTab extends ToolbarTab {
 
 	@Override
 	public MathKeyboardListener getKeyboardListener() {
-		return spreadsheetPanel.getKeyboardListener();
+		return spreadsheetPanel == null ? null : spreadsheetPanel.getKeyboardListener();
 	}
 }

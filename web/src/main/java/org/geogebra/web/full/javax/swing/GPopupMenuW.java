@@ -483,7 +483,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	 *            command
 	 */
 	public void addItem(String s, ScheduledCommand c) {
-		addItem(new AriaMenuItem(s, false, c));
+		addItem(new AriaMenuItem(s, null, c));
 	}
 
 	/**
@@ -497,7 +497,11 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 		AccessibilityManagerInterface am = getApp()
 				.getAccessibilityManager();
 		MayHaveFocus anchor = am.getAnchor();
-		popupPanel.hide();
+		if (subPopup != null && subPopup.isMenuShown()) {
+			subPopup.hide();
+		} else {
+			popupPanel.hide();
+		}
 		if (anchor != null) {
 			anchor.focusIfVisible(true);
 		}
@@ -620,6 +624,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 				char keyCode = (char) event.getKeyCode();
 				if (keyCode == KeyCodes.KEY_ESCAPE) {
 					hide();
+					event.stopPropagation();
 				} else if (keyCode == KeyCodes.KEY_TAB) {
 					if (event.getShiftKey()) {
 						if (!moveSelectionUp()) {

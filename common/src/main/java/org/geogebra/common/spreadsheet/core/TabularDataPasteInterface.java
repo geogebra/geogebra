@@ -25,9 +25,9 @@ public interface TabularDataPasteInterface<T> {
 	 * Paste data from system clipboard tabularData.
 	 *
 	 * @param tabularData to paste to.
-	 * @param clipboard the external clipboard with the serialized cell data.
+	 * @param clipboardContent the serialized cell data.
 	 * @param destination range of tabularData to paste to
 	 */
-	void pasteExternal(TabularData<T> tabularData, ClipboardInterface clipboard,
+	void pasteExternal(TabularData<T> tabularData, String[][] clipboardContent,
 		TabularRange destination);
 }

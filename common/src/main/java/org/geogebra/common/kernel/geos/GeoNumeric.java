@@ -813,6 +813,13 @@ public class GeoNumeric extends GeoElement
 		super.getStyleXML(sb);
 	}
 
+	@Override
+	protected void appendObjectColorXML(StringBuilder sb) {
+		if (isDefaultGeo() || isColorSet()) {
+			super.appendObjectColorXML(sb);
+		}
+	}
+
 	/**
 	 * Returns true iff slider is possible
 	 * 

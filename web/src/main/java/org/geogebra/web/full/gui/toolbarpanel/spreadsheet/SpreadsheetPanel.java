@@ -17,7 +17,6 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.gwtproject.canvas.client.Canvas;
-import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Unit;
@@ -28,13 +27,17 @@ import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.ScrollPanel;
 
 import com.google.gwt.core.client.Scheduler;
+import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.util.KeyCodes;
 
+import elemental2.core.Function;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.Event;
 import jsinterop.base.Js;
 
 public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
+	public static final int AUTOSCROLL_OFFSET = 30;
 	private final Spreadsheet spreadsheet;
 	private final GGraphics2DW graphics;
 	private final AppW app;
@@ -44,7 +47,9 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	// on high-res screens
 	private final ScrollPanel scrollOverlay;
 	private final MathTextFieldW mathField;
-	private Element spreadsheetElement;
+	private final elemental2.dom.Element spreadsheetElement;
+	double moveTimeout;
+	int viewportChanges;
 
 	/**
 	 * @param app application
@@ -64,7 +69,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		app.getKernel().attach(tabularData);
 		add(spreadsheetWidget);
 		scrollOverlay = new ScrollPanel();
-		mathField = new MathTextFieldW(app);
+		mathField = new MathTextFieldW(app, new MetaModel());
 
 		spreadsheet.setControlsDelegate(initDelegate());
 
@@ -72,16 +77,18 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		scrollOverlay.setWidget(scrollContent);
 		scrollOverlay.setStyleName("spreadsheetScrollOverlay");
 		add(scrollOverlay);
-		spreadsheetElement = scrollContent.getElement();
+		spreadsheetElement = Js.uncheckedCast(scrollContent.getElement());
 
 		ViewportAdjusterDelegate viewportAdjusterDelegate = createScrollable();
 		spreadsheet.setViewportAdjustmentHandler(viewportAdjusterDelegate);
 
 		GlobalHandlerRegistry registry = app.getGlobalHandlers();
+
 		registry.addEventListener(spreadsheetElement, "pointerdown", event -> {
 			NativePointerEvent ptr = Js.uncheckedCast(event);
 			spreadsheet.handlePointerDown(getEventX(ptr), getEventY(ptr),
 					getModifiers(ptr));
+			setPointerCapture(event);
 			if (ptr.getButton() == 2 || (NavigatorUtil.isMacOS() && ptr.getCtrlKey())) {
 				event.preventDefault();
 			}
@@ -98,10 +105,18 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			NativePointerEvent ptr = Js.uncheckedCast(event);
 			int offsetX = getEventX(ptr);
 			int offsetY = getEventY(ptr);
-			setCursor(spreadsheet.getCursor(offsetX, offsetY));
-			spreadsheet.handlePointerMove(offsetX, offsetY,
-					getModifiers(ptr));
+			Modifiers modifiers = getModifiers(ptr);
+			DomGlobal.clearTimeout(moveTimeout);
+			handlePointerMoved(offsetX, offsetY, modifiers);
 		});
+		registry.addEventListener(DomGlobal.window, "pointerup", event -> {
+			elemental2.dom.Element target = Js.uncheckedCast(event.target);
+			if (target.closest(".spreadsheetScrollOverlay,.gwt-PopupPanel") != null) {
+				return;
+			}
+			spreadsheet.clearSelectionOnly();
+		});
+
 		ClickStartHandler.initDefaults(scrollContent, false, true);
 		scrollContent.getElement().setTabIndex(0);
 		scrollContent.addDomHandler(evt -> {
@@ -117,11 +132,31 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			repaint();
 		}, 200);
 		DomGlobal.setInterval((ignore) -> {
-			spreadsheet.scrollForPasteSelectionIfNeeded();
+			spreadsheet.scrollForDragIfNeeded();
 		}, 20);
 		scrollOverlay.addScrollHandler(event -> {
-			onScroll();
+			updateViewport();
+			repaint();
 		});
+	}
+
+	private void handlePointerMoved(int offsetX, int offsetY,
+			Modifiers modifiers) {
+		DomGlobal.clearTimeout(moveTimeout);
+		setCursor(spreadsheet.getCursor(offsetX, offsetY));
+		viewportChanges = 0;
+
+		spreadsheet.handlePointerMove(offsetX, offsetY,
+					modifiers);
+	}
+
+	private void setPointerCapture(Event event) {
+		Function capture = Js.uncheckedCast(Js.asPropertyMap(event.target)
+				.get("setPointerCapture"));
+		if (Js.isTruthy(capture)) {
+			NativePointerEvent ptr = Js.uncheckedCast(event);
+			capture.call(event.target, ptr.getPointerId());
+		}
 	}
 
 	private String getKey(NativeEvent nativeEvent) {
@@ -130,8 +165,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	}
 
 	private SpreadsheetControlsDelegateW initDelegate() {
-		return new SpreadsheetControlsDelegateW(app,
-				this, mathField);
+		return new SpreadsheetControlsDelegateW(app, this, mathField);
 	}
 
 	public void requestFocus() {
@@ -145,13 +179,13 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	}
 
 	private int getEventX(NativePointerEvent ptr) {
-		return (int) ptr.getOffsetX() - scrollOverlay.getElement()
-				.getScrollLeft();
+		return Math.min((int) ptr.getOffsetX() - scrollOverlay.getElement()
+				.getScrollLeft(), scrollOverlay.getOffsetWidth());
 	}
 
 	private int getEventY(NativePointerEvent ptr) {
-		return (int) ptr.getOffsetY() - scrollOverlay.getElement()
-				.getScrollTop();
+		return Math.min((int) ptr.getOffsetY() - scrollOverlay.getElement()
+				.getScrollTop(), scrollOverlay.getOffsetHeight());
 	}
 
 	private void setCursor(MouseCursor cursor) {
@@ -185,20 +219,22 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	public void onResize() {
 		graphics.setDevicePixelRatio(app.getPixelRatio());
 		graphics.setCoordinateSpaceSize(getWidth(), getHeight());
-		onScroll();
+		updateViewport();
+		spreadsheet.scrollEditorIntoView();
+		repaint();
 	}
 
 	private void repaint() {
-		graphics.restoreTransform();
+		double ratio = app.getPixelRatio();
+		graphics.getContext().setTransform2(ratio, 0, 0, ratio, 0, 0);
 		spreadsheet.draw(graphics);
 	}
 
-	private void onScroll() {
+	private void updateViewport() {
 		int scrollTop = scrollOverlay.getElement().getScrollTop();
 		int scrollLeft = scrollOverlay.getElement().getScrollLeft();
 		spreadsheet.setViewport(new Rectangle(scrollLeft, scrollLeft + getWidth(),
 				scrollTop, scrollTop + getHeight()));
-		repaint();
 	}
 
 	private int getHeight() {
@@ -227,6 +263,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			public void setScrollPosition(int x, int y) {
 				scrollOverlay.setHorizontalScrollPosition(x);
 				scrollOverlay.setVerticalScrollPosition(y);
+				viewportChanges++;
 			}
 
 			@Override
@@ -235,9 +272,14 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			}
 
 			@Override
-			public void updateScrollPanelSize(Size size) {
+			public void updateScrollableContentSize(Size size) {
 				updateTotalSize(size.getWidth(), size.getHeight());
 			}
 		};
 	}
+
+	public void saveContentAndHideCellEditor() {
+		spreadsheet.saveContentAndHideCellEditor();
+	}
+
 }

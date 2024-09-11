@@ -81,6 +81,11 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
+	public String serializeContentAt(int row, int column) {
+		return data.get(row).get(column);
+	}
+
+	@Override
 	public String getColumnName(int column) {
 		return "col" + column;
 	}
@@ -103,6 +108,16 @@ public class TestTabularData implements TabularData<String> {
 	@Override
 	public int getAlignment(int row, int column) {
 		return CellFormat.ALIGN_RIGHT;
+	}
+
+	@Override
+	public boolean hasError(int row, int column) {
+		return false;
+	}
+
+	@Override
+	public String getErrorString() {
+		return "";
 	}
 
 	@Override

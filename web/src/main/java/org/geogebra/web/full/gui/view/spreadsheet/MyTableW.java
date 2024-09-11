@@ -1559,7 +1559,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 */
 	public void setColumnWidth(int column, int width) {
 		setColumnWidthSilent(column, width);
-		this.view.settings().getWidthMap().put(column, width);
+		this.view.settings().addWidthNoFire(column, width);
 
 	}
 
@@ -1623,7 +1623,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			int rowHeight2 = Math.max(rowHeight, minimumRowHeight);
 			setRowHeightCallback(row, rowHeight);
 			if (updateSettings) {
-				view.settings().getHeightMap().put(row, rowHeight2);
+				view.settings().addHeightNoFire(row, rowHeight2);
 			}
 		});
 	}

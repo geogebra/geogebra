@@ -49,7 +49,7 @@ public class GCheckBoxMenuItem {
 	 *            command
 	 */
 	public void setCommand(ScheduledCommand cmd) {
-		menuItem = new AriaMenuItem(itemPanel.toString(), true, cmd);
+		menuItem = new AriaMenuItem(itemPanel, cmd);
 		menuItem.addStyleName("checkboxMenuItem");
 		AriaHelper.setRole(menuItem, "menuitemcheckbox");
 	}
@@ -59,8 +59,6 @@ public class GCheckBoxMenuItem {
 	 */
 	public void setSelected(boolean sel) {
 		checkBox.setSelected(sel);
-		String html = itemPanel.toString();
-		menuItem.setHTML(html);
 		AriaHelper.setChecked(menuItem, sel);
 	}
 

@@ -40,12 +40,12 @@ public class CmdRename extends CmdScripting {
 
 			// resolve first argument
 			args[0].resolveVariables(argInfo);
-			arg[0] = resArg(args[0], argInfo)[0];
+			arg[0] = resArg(args[0], argInfo);
 
 			try {
 				// resolve second argument
 				args[1].resolveVariables(argInfo);
-				arg[1] = resArg(args[1], argInfo)[0];
+				arg[1] = resArg(args[1], argInfo);
 			} catch (Error e) {
 				// if there's a problem with the second argument, just wrap in
 				// quotes in case it's a color

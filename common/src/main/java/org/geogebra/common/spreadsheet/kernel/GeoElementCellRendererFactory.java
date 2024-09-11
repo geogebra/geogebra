@@ -19,6 +19,7 @@ import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.shape.Rectangle;
 
 import com.himamis.retex.renderer.share.TeXConstants;
+import com.himamis.retex.renderer.share.TeXFont;
 import com.himamis.retex.renderer.share.TeXFormula;
 
 public final class GeoElementCellRendererFactory implements CellRenderableFactory {
@@ -37,25 +38,33 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 			return null;
 		}
 		Integer fontStyle = style.getFontStyle(row, column);
+		GeoElement geoElement = (GeoElement) data;
 		GColor background = style.getBackgroundColor(row, column,
-				((GeoElement) data).getBackgroundColor());
+				geoElement.getBackgroundColor());
 		Integer align = style.getAlignment(row, column);
 		if (align == null) {
 			align = (data instanceof GeoText) ? CellFormat.ALIGN_LEFT : CellFormat.ALIGN_RIGHT;
 		}
 		if (data instanceof GeoFunction) {
-			TeXFormula tf = new TeXFormula(((GeoElement) data)
+			TeXFormula tf = new TeXFormula(geoElement
 					.toValueString(StringTemplate.latexTemplate));
 			return new SelfRenderable(laTeXRenderer,
 					fontStyle, align,
-					tf.createTeXIcon(TeXConstants.STYLE_DISPLAY, 12), background);
+					tf.createTeXIcon(TeXConstants.STYLE_DISPLAY, 12, TeXFont.SANSSERIF),
+					background);
 		}
 		if (data instanceof GeoBoolean && ((GeoBoolean) data).isIndependent()) {
 			return new SelfRenderable(checkboxCellRenderer, fontStyle, align, data, background);
 		}
+
 		return new SelfRenderable(stringRenderer, fontStyle, align,
-				((GeoElement) data).toValueString(StringTemplate.defaultTemplate),
+				getValueString(geoElement),
 				background);
+	}
+
+	private String getValueString(GeoElement geoElement) {
+		return geoElement.isEmptySpreadsheetCell() ? ""
+				: geoElement.toValueString(StringTemplate.defaultTemplate);
 	}
 
 	private static class CheckboxCellRenderer implements CellRenderer {

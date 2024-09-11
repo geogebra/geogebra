@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
-import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
+import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
 import org.geogebra.common.gui.view.algebra.SuggestionSolve;
 import org.geogebra.common.gui.view.algebra.SuggestionStatistics;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -563,30 +563,30 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	public void rootSuggestionShouldVanish() {
 		t("f:x");
 		GeoElement line = getGeo("f");
-		Assert.assertNotNull(SuggestionRootExtremum.get(line));
-		SuggestionRootExtremum.get(line).execute(line);
-		Assert.assertNull(SuggestionRootExtremum.get(line));
+		Assert.assertNotNull(SuggestionIntersectExtremum.get(line));
+		SuggestionIntersectExtremum.get(line).execute(line);
+		Assert.assertNull(SuggestionIntersectExtremum.get(line));
 		getGeo("B").remove();
-		Assert.assertNotNull(SuggestionRootExtremum.get(line));
+		Assert.assertNotNull(SuggestionIntersectExtremum.get(line));
 	}
 
 	@Test
 	public void rootSuggestionForParabolaShouldVanish() {
 		t("f:y=x^2-6x+8");
 		GeoElement parabola = getGeo("f");
-		Assert.assertNotNull(SuggestionRootExtremum.get(parabola));
-		SuggestionRootExtremum.get(parabola).execute(parabola);
-		Assert.assertNull(SuggestionRootExtremum.get(parabola));
+		Assert.assertNotNull(SuggestionIntersectExtremum.get(parabola));
+		SuggestionIntersectExtremum.get(parabola).execute(parabola);
+		Assert.assertNull(SuggestionIntersectExtremum.get(parabola));
 		getGeo("B").remove();
-		Assert.assertNotNull(SuggestionRootExtremum.get(parabola));
+		Assert.assertNotNull(SuggestionIntersectExtremum.get(parabola));
 	}
 
 	@Test
 	public void rootSuggestionForParabolaShouldCreatePoints() {
 		t("f:y=x^2-6x+8");
 		GeoElement parabola = getGeo("f");
-		Assert.assertNotNull(SuggestionRootExtremum.get(parabola));
-		SuggestionRootExtremum.get(parabola).execute(parabola);
+		Assert.assertNotNull(SuggestionIntersectExtremum.get(parabola));
+		SuggestionIntersectExtremum.get(parabola).execute(parabola);
 		assertEquals(4,
 				app.getGgbApi().getAllObjectNames("point").length);
 	}
@@ -595,18 +595,18 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	public void rootSuggestionForHyperbola() {
 		t("f:xx-yy=1");
 		GeoElement hyperbola = getGeo("f");
-		Assert.assertNull(SuggestionRootExtremum.get(hyperbola));
+		Assert.assertNull(SuggestionIntersectExtremum.get(hyperbola));
 	}
 
 	@Test
 	public void suggestionShouldNotCreateTwice() {
 		t("f:x");
 		GeoElement line = getGeo("f");
-		SuggestionRootExtremum.get(line).execute(line);
+		SuggestionIntersectExtremum.get(line).execute(line);
 		assertEquals(3, app.getGgbApi().getObjectNumber());
 		getGeo("B").remove();
 		assertEquals(2, app.getGgbApi().getObjectNumber());
-		SuggestionRootExtremum.get(line).execute(line);
+		SuggestionIntersectExtremum.get(line).execute(line);
 		assertEquals(3, app.getGgbApi().getObjectNumber());
 	}
 
@@ -614,11 +614,11 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	public void suggestionShouldNotCreateTwiceNonPolynomial() {
 		t("f:1/x");
 		GeoElement line = getGeo("f");
-		SuggestionRootExtremum.get(line).execute(line);
+		SuggestionIntersectExtremum.get(line).execute(line);
 		assertEquals(4, app.getGgbApi().getObjectNumber());
 		getGeo("B").remove();
 		assertEquals(3, app.getGgbApi().getObjectNumber());
-		SuggestionRootExtremum.get(line).execute(line);
+		SuggestionIntersectExtremum.get(line).execute(line);
 		assertEquals(4, app.getGgbApi().getObjectNumber());
 	}
 

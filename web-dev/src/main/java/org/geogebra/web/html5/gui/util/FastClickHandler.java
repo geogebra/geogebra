@@ -1,12 +1,11 @@
 package org.geogebra.web.html5.gui.util;
 
-import org.gwtproject.event.legacy.shared.EventHandler;
 import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Handler for TouchStart / MouseDown events.
  */
-public interface FastClickHandler extends EventHandler {
+public interface FastClickHandler {
 	/**
 	 * Called when a FastClickEvent is fired.
 	 * 

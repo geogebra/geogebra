@@ -22,7 +22,7 @@ public final class DividerIndicesViewAdapter {
 	 * @param property property to construct adapter for
 	 */
 	public DividerIndicesViewAdapter(GroupedEnumeratedProperty<?> property) {
-		this(property.getGroupDividerIndices(), property.getValues().length);
+		this(property.getGroupDividerIndices(), property.getValues().size());
 	}
 
 	/**

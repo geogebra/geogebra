@@ -25,6 +25,13 @@ public interface SpreadsheetCellEditor {
 	void show(Rectangle editorBounds, Rectangle viewport, int textAlignment);
 
 	/**
+	 * Move the spreadsheet cell editor to a new position.
+	 * @param editorBounds The editor (=cell) bounds in viewport-relative coordinates.
+	 * @param viewport The current visible viewport.
+	 */
+	void updatePosition(Rectangle editorBounds, Rectangle viewport);
+
+	/**
 	 * Hide the spreadsheet cell editor.
 	 */
 	void hide();

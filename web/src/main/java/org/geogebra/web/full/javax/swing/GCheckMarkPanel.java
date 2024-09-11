@@ -2,10 +2,10 @@ package org.geogebra.web.full.javax.swing;
 
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.resources.SVGResource;
-import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.FlowPanel;
-import org.gwtproject.user.client.ui.HTML;
 import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * Adds a panel with a checkmark on its end.
@@ -13,13 +13,12 @@ import org.gwtproject.user.client.ui.Image;
  * @author laszlo
  * 
  */
-public abstract class GCheckMarkPanel {
+public class GCheckMarkPanel extends FlowPanel {
 
-	private FlowPanel itemPanel;
+	private final Label label;
 	private boolean checked;
 	private String text;
-	private Image checkImg;
-	private ScheduledCommand cmd;
+	private final Image checkImg;
 
 	/**
 	 * @param text
@@ -28,30 +27,18 @@ public abstract class GCheckMarkPanel {
 	 *            image of check mark
 	 * @param checked
 	 *            initial value.
-	 * @param cmd
-	 *            The command to run.
 	 */
-	public GCheckMarkPanel(String text, SVGResource checkUrl, boolean checked,
-			final ScheduledCommand cmd) {
-		this.setText(text);
-		this.setCmd(cmd);
+	public GCheckMarkPanel(String text, ResourcePrototype icon,
+			SVGResource checkUrl, boolean checked) {
 		checkImg = new NoDragImage(checkUrl, 24, 24);
 		checkImg.addStyleName("checkImg");
-		itemPanel = new FlowPanel();
-		itemPanel.addStyleName("checkMarkMenuItem");
-		createContents();
-		setChecked(checked);
+		addStyleName("checkMarkMenuItem");
+		this.text = text;
+		label = new Label(text);
+		label.setStyleName("gwt-HTML");
+		this.checked = checked;
+		buildGui(icon);
 	}
-
-	/**
-	 * Creates the contents goes along with the check mark.
-	 */
-	protected abstract void createContents();
-
-	/**
-	 * Updates the contents goes along with the check mark.
-	 */
-	protected abstract void updateContents();
 
 	/**
 	 * Sets the item checked/unchecked.
@@ -61,20 +48,20 @@ public abstract class GCheckMarkPanel {
 	 */
 	public void setChecked(boolean value) {
 		checked = value;
-		updateGUI();
-		updateContents();
+		if (checked) {
+			add(checkImg);
+		} else {
+			checkImg.removeFromParent();
+		}
 	}
 
-	private void updateGUI() {
-		if (itemPanel == null) {
-			return;
+	private void buildGui(ResourcePrototype icon) {
+		if (icon != null) {
+			add(new NoDragImage(icon, 24));
 		}
-
-		itemPanel.clear();
-		HTML html = new HTML(getText());
-		itemPanel.add(html);
+		add(label);
 		if (checked) {
-			itemPanel.add(checkImg);
+			add(checkImg);
 		}
 	}
 
@@ -84,21 +71,6 @@ public abstract class GCheckMarkPanel {
 	 */
 	public boolean isChecked() {
 		return checked;
-	}
-
-	/**
-	 * @return checkbox action
-	 */
-	public ScheduledCommand getCmd() {
-		return cmd;
-	}
-
-	/**
-	 * @param cmd
-	 *            checkbox action
-	 */
-	public void setCmd(ScheduledCommand cmd) {
-		this.cmd = cmd;
 	}
 
 	/**
@@ -114,20 +86,6 @@ public abstract class GCheckMarkPanel {
 	 */
 	public void setText(String text) {
 		this.text = text;
-		updateGUI();
-	}
-
-	/**
-	 * @return panel
-	 */
-	public FlowPanel getPanel() {
-		return itemPanel;
-	}
-
-	/**
-	 * @return HTML content
-	 */
-	public String getHTML() {
-		return itemPanel.toString();
+		label.setText(text);
 	}
 }

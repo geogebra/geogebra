@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * Helper methods for creating new AV items
  */
 public class ItemFactory {
-	private boolean slidersEnabled = true;
 
 	/**
 	 *
@@ -17,7 +16,7 @@ public class ItemFactory {
 	 * @return if geo matches to SliderTreeItem.
 	 */
 	public boolean matchSlider(GeoElement geo) {
-		return slidersEnabled && AlgebraItem.shouldShowSlider(geo);
+		return AlgebraItem.shouldShowSlider(geo);
 	}
 
 	/**
@@ -35,7 +34,7 @@ public class ItemFactory {
 	 * @return AV item
 	 */
 	public final RadioTreeItem createAVItem(final GeoElement ob) {
-		RadioTreeItem ti = null;
+		RadioTreeItem ti;
 		if (matchSlider(ob)) {
 			ti = new SliderTreeItemRetex(ob);
 		} else if (matchCheckbox(ob)) {
@@ -49,13 +48,4 @@ public class ItemFactory {
 		ti.addStyleName("avItem");
 		return ti;
 	}
-
-	/**
-	 * @param slidersEnabled
-	 *            whether to allow creation of sliders
-	 */
-	public void setSlidersEnabled(boolean slidersEnabled) {
-		this.slidersEnabled = slidersEnabled;
-	}
-
 }

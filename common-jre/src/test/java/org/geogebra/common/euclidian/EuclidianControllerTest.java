@@ -826,12 +826,6 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
-	public void shapeRoundedRectangleTool() {
-		setMode(EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES); // TODO
-																			// 105
-	}
-
-	@Test
 	public void shapePolygonTool() {
 		setMode(EuclidianConstants.MODE_SHAPE_PENTAGON); // TODO 106
 	}

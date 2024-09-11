@@ -7,16 +7,19 @@ public class GeoTabber implements MayHaveFocus {
 
 	private boolean selected;
 	private final SelectionManager selectionManager;
+	private final App app;
 
 	/**
 	 * @param app Application
 	 */
 	public GeoTabber(App app) {
 		selectionManager = app.getSelectionManager();
+		this.app = app;
 	}
 
 	@Override
 	public boolean focusIfVisible(boolean reverse) {
+		boolean isAlgebraViewFocused = app.isAlgebraViewFocused();
 		selectionManager.clearSelectedGeos(false);
 		// selectNext / selectPrevious are responsible also for moving the focus -- they have
 		// to decide if it goes to inputbox or canvas. We should not move focus here.
@@ -24,6 +27,9 @@ public class GeoTabber implements MayHaveFocus {
 			selected = selectionManager.selectPreviousGeo();
 		} else {
 			selected = selectionManager.selectNextGeo();
+		}
+		if (isAlgebraViewFocused) {
+			setAlgebraViewAsFocusedPanel();
 		}
 		return selected;
 	}
@@ -33,16 +39,40 @@ public class GeoTabber implements MayHaveFocus {
 		return selected;
 	}
 
+	/**
+	 * Focuses the next available GeoElement<br/>
+	 * If the Algebra View is currently focused, this method ensures that the focused panel,
+	 * after the next GeoElement has been selected, remains the AlgebraView
+	 * @return True if the selection of the next geo was successful, false else
+	 */
 	@Override
 	public boolean focusNext() {
+		boolean isAlgebraViewFocused = app.isAlgebraViewFocused();
 		selected = selectionManager.selectNextGeo();
+		if (isAlgebraViewFocused) {
+			setAlgebraViewAsFocusedPanel();
+		}
 		return selected;
 	}
 
+	/**
+	 * Focuses the previous available GeoElement<br/>
+	 * If the Algebra View is currently focused, this method ensures that the focused panel,
+	 * after the previous GeoElement has been selected, remains the AlgebraView
+	 * @return True if the selection of the previous geo was successful, false else
+	 */
 	@Override
 	public boolean focusPrevious() {
+		boolean isAlgebraViewFocused = app.isAlgebraViewFocused();
 		selected = selectionManager.selectPreviousGeo();
+		if (isAlgebraViewFocused) {
+			setAlgebraViewAsFocusedPanel();
+		}
 		return selected;
+	}
+
+	private void setAlgebraViewAsFocusedPanel() {
+		app.getGuiManager().getLayout().getDockManager().setFocusedPanel(App.VIEW_ALGEBRA);
 	}
 
 	@Override

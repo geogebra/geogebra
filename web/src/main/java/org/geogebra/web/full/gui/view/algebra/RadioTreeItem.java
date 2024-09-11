@@ -2066,6 +2066,16 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		controls.openMoreMenu();
 	}
 
+	/**
+	 * Focuses the first element of the settings context menu
+	 */
+	public void focusFirstMoreMenuElement() {
+		if (!hasMoreMenu()) {
+			return;
+		}
+		controls.focusFirstMoreMenuElement();
+	}
+
 	public boolean hasMoreMenu() {
 		return inputControl.hasMoreMenu();
 	}

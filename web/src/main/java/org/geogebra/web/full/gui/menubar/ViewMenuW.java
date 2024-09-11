@@ -53,22 +53,22 @@ public class ViewMenuW extends Submenu {
 	 *            localization
 	 */
 	protected void initRefreshActions(Localization loc) {
-		addItem(MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("Refresh")), true,
+		addItem(MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("Refresh"),
 				new MenuCommand(app) {
 
 					@Override
 					public void doExecute() {
 						app.refreshViews();
 					}
-				});
-		addItem(MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("RecomputeAllViews")),
-				true, new MenuCommand(app) {
+				}));
+		addItem(MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("RecomputeAllViews"),
+				new MenuCommand(app) {
 
 			@Override
 			public void doExecute() {
 						app.getKernel().updateConstruction(true);
 			}
-		});
+		}));
 	}
 
 	/**

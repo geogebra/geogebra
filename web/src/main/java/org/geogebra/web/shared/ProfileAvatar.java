@@ -10,6 +10,7 @@ import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.user.client.Command;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -74,9 +75,6 @@ public class ProfileAvatar extends FlowPanel {
 
 	private void addAvatarPanel() {
 		FlowPanel imageHolder = new FlowPanel();
-		AriaMenuItem profileItem = new AriaMenuItem();
-		profileItem.addStyleName("profileItem");
-
 		profileImage = new Image();
 		profileImage.setStyleName("profileImage");
 
@@ -84,31 +82,32 @@ public class ProfileAvatar extends FlowPanel {
 		imageHolder.add(profileImage);
 		imageHolder.add(userName);
 
-		profileItem.setWidget(imageHolder);
+		AriaMenuItem profileItem = new AriaMenuItem(imageHolder, (Scheduler.ScheduledCommand) null);
+		profileItem.addStyleName("profileItem");
 		profilePanel.addItem(profileItem);
 	}
 
 	private void addProfileItem() {
-		profileItem = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.person_black(),
-						loc.getMenu("ProfilePanel.Profile")),
-				true, (Command) () -> Browser.openWindow(profileLink));
+		profileItem =
+				MainMenu.getMenuBarItem(MaterialDesignResources.INSTANCE.person_black(),
+						loc.getMenu("ProfilePanel.Profile"),
+				(Command) () -> Browser.openWindow(profileLink));
 		profilePanel.addItem(profileItem);
 	}
 
 	private void addSettingsItem() {
-		settingsItem = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.settings_border(),
-						loc.getMenu("ProfilePanel.Settings")),
-				true, (Command) () -> Browser.openWindow(editProfileHref));
+		settingsItem =
+				MainMenu.getMenuBarItem(MaterialDesignResources.INSTANCE.settings_border(),
+						loc.getMenu("ProfilePanel.Settings"),
+				(Command) () -> Browser.openWindow(editProfileHref));
 		profilePanel.addItem(settingsItem);
 	}
 
 	private void addSignOutItem() {
-		signOutItem = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.signout_black(),
-						loc.getMenu("SignOut")),
-				true, (Command) () -> {
+		signOutItem =
+				MainMenu.getMenuBarItem(MaterialDesignResources.INSTANCE.signout_black(),
+						loc.getMenu("SignOut"),
+				(Command) () -> {
 			app.getLoginOperation().showLogoutUI();
 			app.getLoginOperation().performLogOut();
 			togglePopup();
@@ -150,14 +149,11 @@ public class ProfileAvatar extends FlowPanel {
 	 * update popup language
 	 */
 	public void setLabels() {
-		profileItem.setContent(MainMenu.getMenuBarHtml(
-				MaterialDesignResources.INSTANCE.person_black(),
-						loc.getMenu("ProfilePanel.Profile")), true);
-		settingsItem.setContent(MainMenu.getMenuBarHtml(
-				MaterialDesignResources.INSTANCE.settings_border(),
-				loc.getMenu("ProfilePanel.Settings")), true);
-		signOutItem.setContent(MainMenu.getMenuBarHtml(
-				MaterialDesignResources.INSTANCE.signout_black(),
-				loc.getMenu("SignOut")), true);
+		profileItem.setTextContent(
+						loc.getMenu("ProfilePanel.Profile"));
+		settingsItem.setTextContent(
+				loc.getMenu("ProfilePanel.Settings"));
+		signOutItem.setTextContent(
+				loc.getMenu("SignOut"));
 	}
 }

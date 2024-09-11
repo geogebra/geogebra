@@ -10,8 +10,9 @@ import org.geogebra.common.util.shape.Rectangle;
  * Renderer for plain text cells
  */
 public class StringRenderer implements CellRenderer {
+	public static final int FONT_SIZE = 14;
 	private static final GFont baseFont = AwtFactory.getPrototype()
-			.newFont("mathsans", GFont.PLAIN, 14);
+			.newFont("mathsans", GFont.PLAIN, FONT_SIZE);
 	private static final GGraphics2D measuringGraphics = AwtFactory.getPrototype()
 			.createBufferedImage(100, 100, true).createGraphics();
 

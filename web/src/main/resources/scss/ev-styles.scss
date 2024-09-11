@@ -389,72 +389,6 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		transition: $fullscreenBtn-transition;
 	}
 
-	.mowZoomPanel {
-		will-change: transform;
-		top: -6px !important;
-		position: relative;
-
-		.zoomPanelBtn {
-			display: block;
-			position: relative;
-			margin: 6px;
-			padding: 6px;
-			cursor: pointer;
-			border-radius: 50%;
-			width: 24px;
-			height: 24px;
-			transition: background-color 150ms ease 0ms;
-
-			&.zoomPanelBtnSmall {
-				padding: 8px;
-				width: 20px;
-				height: 20px;
-
-				img {
-					width: 20px;
-					height: 20px;
-				}
-			}
-
-		   img {
-				width: 24px;
-				height: 24px;
-				opacity: 0.54;
-		   }
-
-			&:hover, &:focus, &.selected {
-				img {
-					opacity: 1;
-				}
-				background-color: neutral(200);
-			}
-		}
-		.zoomPanelHomeIn {
-			opacity: 1;
-			visibility: visible;
-			transition: all 0.2s ease;
-		}
-
-		.zoomPanelHomeOut {
-			cursor: default;
-			opacity: 0;
-			visibility: hidden;
-			transition: all 0.2s ease;
-
-			img {
-				opacity: 0;
-			}
-
-			&:hover, &:focus {
-				background-color: colors.$mow_card_background_hover;
-
-				img {
-					opacity: 1;
-				}
-			}
-
-		}
-	}
 	.zoomPanelWithPageControl {
 		margin-bottom: 64px;
 		right: 22px !important;
@@ -491,11 +425,6 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				background-color: colors.$mow_card_background_hover;
 			}
 		}
-	}
-
-	.undoRedoPositionMebis {
-		@extend .undoRedoPosition;
-		left: 40px;
 	}
 
 	input[type="text"], input[type="number"], .gwt-TextBox,

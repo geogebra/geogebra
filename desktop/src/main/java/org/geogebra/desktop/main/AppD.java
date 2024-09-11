@@ -2003,7 +2003,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public void setTooltipLanguage(String ttLanguage) {
-		setTooltipLanguage(Language.fromLanguageTagOrLocaleString(ttLanguage));
+		setTooltipLanguage(StringUtil.empty(ttLanguage) ? null
+				: Language.fromLanguageTagOrLocaleString(ttLanguage));
 	}
 
 	/**
@@ -2311,7 +2312,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				return getMenuBarPanel(this, applicationPanel);
 			}
 
-			getSettingsUpdater().getFontSettingsUpdater().resetFonts();
+			getFontSettingsUpdater().resetFonts();
 			// Standard case: return application panel
 			return applicationPanel;
 		}

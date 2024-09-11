@@ -18,6 +18,7 @@ public class TestStringUtil {
 						Unicode.SUPERSCRIPT_MINUS + "" + Unicode.SUPERSCRIPT_1)
 				.replace("deg", Unicode.DEGREE_STRING)
 				.replace("@pi", Unicode.PI_STRING)
+				.replace("@inf", Unicode.INFINITY + "")
 				.replace("@theta", Unicode.theta_STRING);
 	}
 }

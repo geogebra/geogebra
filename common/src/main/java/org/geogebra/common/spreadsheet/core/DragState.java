@@ -21,7 +21,7 @@ final class DragState {
 		this.startColumn = startColumn;
 	}
 
-	public boolean isModifyingOperation() {
+	boolean isModifyingOperation() {
 		return cursor != MouseCursor.DEFAULT;
 	}
 }

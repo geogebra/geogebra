@@ -3,6 +3,7 @@ package org.geogebra.common.spreadsheet.kernel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.geogebra.common.kernel.Kernel;
@@ -11,6 +12,7 @@ import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -205,10 +207,44 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	public void setContent(int row, int column, Object content) {
 		if (content != null) {
 			GeoElement geo = (GeoElement) content;
-			geo.rename(GeoElementSpreadsheet.getSpreadsheetCellName(column, row));
+			setEuclidianInvisibleAndAuxiliaryObject(geo);
+			unfixSymbolic(geo);
+			setLabel(geo, row, column);
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, geo);
+			if (numberOfRows() <= row) {
+				spreadsheetSettings.setRowsNoFire(row + 1);
+			}
+			if (numberOfColumns() <= column) {
+				spreadsheetSettings.setColumnsNoFire(column + 1);
+			}
 		} else {
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, null);
+		}
+	}
+
+	@Override
+	public String serializeContentAt(int row, int column) {
+		GeoElement geoElement = contentAt(row, column);
+		return geoElement == null ? ""
+				: geoElement.getRedefineString(true, false);
+	}
+
+	private void unfixSymbolic(GeoElement geo) {
+		if (geo instanceof GeoSymbolic && geo.isLocked()) {
+			geo.setFixed(false);
+		}
+	}
+
+	private void setEuclidianInvisibleAndAuxiliaryObject(GeoElement geo) {
+		geo.setEuclidianVisible(false);
+		geo.setAuxiliaryObject(true);
+		geo.updateVisualStyle(GProperty.VISIBLE);
+	}
+
+	private void setLabel(GeoElement geo, int row, int column) {
+		String label = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
+		if (kernel.getConstruction().isFreeLabel(label)) {
+			geo.rename(label);
 		}
 	}
 
@@ -229,7 +265,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 
 	@Override
 	public TabularDataPasteInterface<GeoElement> getPaste() {
-		return new TabularDataPasteGeos();
+		return new TabularDataPasteGeos(kernel);
 	}
 
 	@Override
@@ -245,6 +281,20 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	@Override
 	public void setPersistenceListener(PersistenceListener layout) {
 		spreadsheetSettings.setPersistenceListener(layout);
+	}
+
+	@Override
+	public String getErrorString() {
+		return kernel.getLocalization().getError("Error").toUpperCase(Locale.ROOT);
+	}
+
+	@Override
+	public boolean hasError(int row, int column) {
+		if (data.get(row) == null || data.get(row).get(column) == null) {
+			return false;
+		}
+		GeoElement geo = data.get(row).get(column);
+		return !geo.isDefined() && !geo.isEmptySpreadsheetCell();
 	}
 
 	@Override

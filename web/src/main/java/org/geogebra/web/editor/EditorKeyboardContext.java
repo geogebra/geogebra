@@ -58,11 +58,6 @@ public class EditorKeyboardContext implements HasKeyboard {
 	}
 
 	@Override
-	public boolean needsSmallKeyboard() {
-		return false;
-	}
-
-	@Override
 	public boolean attachedToEqEditor() {
 		return false;
 	}

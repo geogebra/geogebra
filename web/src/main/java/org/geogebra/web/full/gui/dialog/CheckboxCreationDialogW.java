@@ -143,7 +143,7 @@ public class CheckboxCreationDialogW extends ComponentDialog implements
 			}
 		}
 		availableObjectNames.add("");
-		gbObjects = new CompDropDown((AppW) app, "Tool.SelectObjects", availableObjectNames);
+		gbObjects = new CompDropDown((AppW) app, "Tool.SelectObjects", availableObjectNames, -1);
 		rebuildNames();
 	
 		// fill list with all selected geos

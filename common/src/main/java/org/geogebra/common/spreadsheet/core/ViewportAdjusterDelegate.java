@@ -1,5 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.util.shape.Size;
 
 public interface ViewportAdjusterDelegate {
@@ -17,5 +18,14 @@ public interface ViewportAdjusterDelegate {
 	 * Update size of the scrollable area.
 	 * @param size total size of the scollable content
 	 */
-	void updateScrollPanelSize(Size size);
+	void updateScrollableContentSize(Size size);
+
+	/**
+	 * Get the insets for the viewport that is safe to interact with
+	 * (is not overlapped by any other UI element)
+	 * @return viewport insets
+	 */
+	default EdgeInsets getViewportInsets() {
+		return new EdgeInsets();
+	}
 }

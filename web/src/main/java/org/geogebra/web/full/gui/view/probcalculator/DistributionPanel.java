@@ -299,17 +299,14 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	}
 
 	private void checkBounds(GeoNumberValue value, boolean intervalCheck, boolean high) {
-		boolean valid = high ? view.isValidInterval(view.getLow(), value.getDouble())
-				: view.isValidInterval(value.getDouble(), view.getHigh());
-
-		if (valid) {
-			if (high) {
-				view.setHigh(value);
-			} else {
-				view.setLow(value);
-			}
-			view.setXAxisPoints();
+		if (high) {
+			view.setHigh(value);
+		} else {
+			view.setLow(value);
 		}
+
+		view.setXAxisPoints();
+
 		if (intervalCheck) {
 			updateGUI();
 			if (view.isTwoTailedMode()) {

@@ -14,13 +14,16 @@ import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
  */
 public class GeometryToolCollectionFactory extends AbstractToolCollectionFactory {
 
+    public GeometryToolCollectionFactory(boolean isMobileApp) {
+        super(isMobileApp);
+    }
+
     @Override
     public ToolCollection createToolCollection() {
         ToolCollectionImpl impl = new ToolCollectionImpl();
         createEmptyConstructionLevel(impl);
         createStandardLevel(impl);
         createAdvancedLevel(impl);
-
         impl.setLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
         return impl;
     }
@@ -148,7 +151,7 @@ public class GeometryToolCollectionFactory extends AbstractToolCollectionFactory
                 EuclidianConstants.MODE_FREEHAND_SHAPE,
                 EuclidianConstants.MODE_RELATION));
 
-        if (!isPhoneApp) {
+        if (!isMobileApp) {
             others.addAll(Arrays.asList(
                     // EuclidianConstants.MODE_FUNCTION_INSPECTOR,
                     EuclidianConstants.MODE_BUTTON_ACTION,

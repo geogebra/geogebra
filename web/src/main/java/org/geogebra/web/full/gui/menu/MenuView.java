@@ -23,6 +23,7 @@ class MenuView extends AriaMenuBar {
 			} else {
 				controller.setMenuVisible(false);
 			}
+			event.stopPropagation();
 			return;
 		}
 		super.onBrowserEvent(event);

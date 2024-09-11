@@ -39,8 +39,10 @@ fun resolveDependencies(configurations: ConfigurationContainer) {
                     val variant = project.dependencies.variantOf(dependencyProvider) {
                         classifier("sources")
                     }
-
-                    project.dependencies.add("gwt", variant)
+                    val isWebjar = this.group?.contains("webjars");
+                    if (isWebjar != null && !isWebjar) {
+                        project.dependencies.add("gwt", variant)
+                    }
                 } else if (this is FileCollectionDependency) {
                     logger.debug("GWT Conventions: Adding dependency to file collection {}", files)
 

@@ -1,5 +1,9 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -33,17 +37,11 @@ public class AxisModel {
 		this.view = view;
 	}
 
-	public void fillTicksCombo() {
+	public List<String> getTickOptions() {
 		// ticks
-		char big = '|';
-		char small = '\'';
-		listener.addTickItem(" " + big + "  " + small + "  " + big + "  "
-				+ small + "  " + big); // major and minor ticks
-		listener.addTickItem(" " + big + "     " + big + "     " + big); // major
-																			// ticks
-																			// only
-		// must be " " not ""
-		listener.addTickItem(" "); // no ticks
+		return Arrays.asList(" |  '  |  '  |",
+				" |  \u00a0 | \u00a0  |", // only major
+				" "); // no ticks
 	}
 
 	public String getAxisName() {
@@ -97,15 +95,15 @@ public class AxisModel {
 		return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);
 	}
 
-	public void fillUnitLabel() {
-		listener.addUnitLabelItem(null);
-		listener.addUnitLabelItem(Unicode.DEGREE_STRING); // degrees
-		listener.addUnitLabelItem(Unicode.PI_STRING); // pi
-		listener.addUnitLabelItem("mm");
-		listener.addUnitLabelItem("cm");
-		listener.addUnitLabelItem("m");
-		listener.addUnitLabelItem("km");
-		listener.addUnitLabelItem(Unicode.CURRENCY_DOLLAR + "");
+	public List<String> getUnitLabelOptions() {
+		return Arrays.asList(null,
+			Unicode.DEGREE_STRING, // degrees
+			Unicode.PI_STRING, // pi
+			"mm",
+			"cm",
+			"m",
+			"km",
+			Unicode.CURRENCY_DOLLAR + "");
 	}
 
 	public void showAxis(boolean value) {
@@ -254,8 +252,9 @@ public class AxisModel {
 		return axis;
 	}
 
-	public void fillAxisCombo() {
-		listener.addAxisLabelItem("");
+	public List<String> getAxisLabelOptions() {
+		ArrayList<String> labels = new ArrayList<>();
+		labels.add("");
 		String defaultLabel;
 		switch (axis) {
 		case AXIS_X:
@@ -269,8 +268,9 @@ public class AxisModel {
 			defaultLabel = "z";
 			break;
 		}
-		listener.addAxisLabelItem(defaultLabel);
-		GeoElement.addAddAllGreekLowerCaseNoPi(listener);
+		labels.add(defaultLabel);
+		GeoElement.addAddAllGreekLowerCaseNoPi(labels);
+		return labels;
 	}
 
 	public void setView(EuclidianView view) {
@@ -294,12 +294,11 @@ public class AxisModel {
 		return false;
 	}
 
+	public int getTickStyleIndex(int axis) {
+		return view.getAxisTickStyle(axis);
+	}
+
 	public interface IAxisModelListener {
-		void addTickItem(String item);
-
-		void addAxisLabelItem(String item);
-
-		void addUnitLabelItem(String item);
 
 		void setCrossText(String text);
 	}

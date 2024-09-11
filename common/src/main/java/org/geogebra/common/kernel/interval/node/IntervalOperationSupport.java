@@ -16,6 +16,7 @@ public class IntervalOperationSupport {
 			if (operation != IntervalOperation.UNSUPPORTED) {
 				operationMap.put(operation.mappedOperation(), operation);
 			}
+			operationMap.put(Operation.INVISIBLE_PLUS, IntervalOperation.PLUS);
 		}
 	}
 

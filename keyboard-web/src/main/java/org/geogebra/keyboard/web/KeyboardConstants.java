@@ -5,7 +5,7 @@ import org.geogebra.keyboard.base.model.impl.factory.Characters;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
- * Contains Strings which are used for the {@link KeyBoardButtonBase buttons} of
+ * Contains Strings which are used for the {@link BaseKeyboardButton buttons} of
  * the {@link TabbedKeyboard}
  */
 public class KeyboardConstants {

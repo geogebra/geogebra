@@ -27,7 +27,6 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
-import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
@@ -236,9 +235,8 @@ public class ContextMenuTV {
 	}
 
 	private void addCommandLocalized(Command command, String title, String testTitle) {
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml((SVGResource) null, title),
-				true, command);
+		AriaMenuItem mi = MainMenu.getMenuBarItem(null, title,
+				command);
 		mi.addStyleName("no-image");
 		TestHarness.setAttr(mi, "menu_" + testTitle);
 		wrappedPopup.addItem(mi);

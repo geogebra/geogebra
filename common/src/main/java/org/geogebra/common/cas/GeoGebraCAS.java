@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.DummyVariableCollector;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -681,6 +682,11 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 									symbolic, tplToUse));
 						} else {
 
+							MyVec3DNode myVec3DNode = get3DVectFromDistance(name, ev);
+							if (myVec3DNode != null) {
+								myVec3DNode.clearCASVector();
+							}
+
 							sbCASCommand
 									.append(toString(ev, symbolic, tplToUse));
 
@@ -725,6 +731,18 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		return sbCASCommand.toString();
+	}
+
+	private static MyVec3DNode get3DVectFromDistance(String name, ExpressionValue ev) {
+		ExpressionValue unwrap = ev.unwrap();
+		if (!"Distance".equals(name) || !ev.wrap().evaluatesToVectorNotPoint()
+				|| !(unwrap instanceof GeoSymbolic)) {
+			return null;
+		}
+
+		ExpressionValue value = ((GeoSymbolic) unwrap).getValue();
+		return value != null && value.unwrap() instanceof MyVec3DNode
+				? ((MyVec3DNode) value.unwrap()) : null;
 	}
 
 	private void updateArgsAndSbForSum(ArrayList<ExpressionNode> args, StringBuilder sbCASCommand) {

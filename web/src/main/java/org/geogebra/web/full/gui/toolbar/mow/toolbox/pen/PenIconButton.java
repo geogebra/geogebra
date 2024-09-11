@@ -31,6 +31,7 @@ public class PenIconButton extends IconButton {
 		if (penPopup == null) {
 			penPopup = new PenCategoryPopup(appW, Arrays.asList(MODE_PEN, MODE_HIGHLIGHTER,
 					MODE_ERASER), getUpdateButtonCallback());
+			penPopup.setAutoHideEnabled(false);
 		}
 		addFastClickHandler((event) -> {
 			deselectButtons.run();
@@ -45,7 +46,11 @@ public class PenIconButton extends IconButton {
 	private void showPopup() {
 		appW.setMode(getLastSelectedMode());
 		penPopup.update();
-		ToolboxPopupPositioner.showRelativeToToolbox(penPopup, this, appW);
+		if (penPopup.isShowing()) {
+			penPopup.hide();
+		} else {
+			ToolboxPopupPositioner.showRelativeToToolbox(penPopup, this, appW);
+		}
 	}
 
 	private Consumer<Integer> getUpdateButtonCallback() {

@@ -18,6 +18,11 @@ final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 		public void process(String input, int row, int column) {
 			tabularData.setContent(row, column, input);
 		}
+
+		@Override
+		public void markError() {
+			// nothing to do here
+		}
 	};
 	private final SpreadsheetCellDataSerializer cellDataSerializer =
 			new DefaultSpreadsheetCellDataSerializer();
@@ -30,6 +35,11 @@ final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 
 	@Override
 	public void show(Rectangle editorBounds, Rectangle viewport, int textAlignment) {
+	}
+
+	@Override
+	public void updatePosition(Rectangle editorBounds, Rectangle viewport) {
+		// not needed in tests
 	}
 
 	@Override

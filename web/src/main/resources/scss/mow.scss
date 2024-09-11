@@ -150,41 +150,6 @@
 /*****************
 *   BURGER MENU
 ******************/
-
-	.mowOpenMenuButton {
-		position: absolute;
-		top: 0px;
-		padding: 6px;
-		margin: 10px 6px 6px 10px;
-		left: 0px;
-		z-index: z-index.$z-on-top-of-graphics;
-		border-radius: 50%;
-		width: 24px;
-		height: 24px;
-		cursor: pointer;
-		transition: background-color 150ms ease 0ms;
-
-		img{
-			width: 24px;
-			height: 24px;
-		}
-
-		&:focus {
-			outline: colors.$focus-black 5px auto;
-		}
-
-		&.button-up img {
-			opacity: 0.54;
-		}
-
-		&.button-up-hovering {
-			img {
-				opacity: 1;
-			}
-			background-color: colors.$mow_card_background_hover;
-		}
-	}
-
 	.mowMenubar {
 		  position: absolute;
 		  width: 100%;

@@ -129,7 +129,8 @@ public abstract class StyleBarW2 extends StyleBarW {
 			int selectedIndex = btnLineStyle.getSelectedIndex();
 			int lineSize = btnLineStyle.getSliderValue();
 			btnLineStyle.setSelectedIndex(selectedIndex);
-			return EuclidianStyleBarStatic.applyLineStyle(selectedIndex, lineSize, app, targetGeos);
+			return EuclidianStyleBarStatic.applyLineStyleSplitStrokes(selectedIndex, lineSize, app,
+					targetGeos);
 		}
 		return false;
 	}
@@ -140,7 +141,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 			openColorChooser(targetGeos, false);
 		} else {
 			double alpha = btnColor.getSliderValue() / 100.0;
-			return EuclidianStyleBarStatic.applyColor(color,
+			return EuclidianStyleBarStatic.applyColorSplitStrokes(color,
 					alpha, app, targetGeos);
 		}
 		return false;

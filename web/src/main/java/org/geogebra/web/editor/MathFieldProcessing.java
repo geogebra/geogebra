@@ -67,11 +67,6 @@ public class MathFieldProcessing implements KeyboardListener {
 		KeyboardInputAdapter.onKeyboardInput(mf.getInternal(), text);
 	}
 
-	@Override
-	public void setKeyBoardModeText(boolean text) {
-		// TODO Auto-generated method stub
-	}
-
 	/**
 	 * @param text
 	 *            text to be inserted

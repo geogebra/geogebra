@@ -86,6 +86,7 @@ public class SpotlightController {
 	private void disappearBoundingBox() {
 		selectionManager.clearSelectedGeos();
 		app.getActiveEuclidianView().setBoundingBox(null);
+		app.getActiveEuclidianView().setCursor(EuclidianCursor.DRAG);
 	}
 
 	/**

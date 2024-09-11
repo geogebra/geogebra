@@ -78,10 +78,6 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 	}
 
 	private void createSliderGUI() {
-		if (!num.isEuclidianVisible()) {
-			num.initAlgebraSlider();
-		}
-
 		if (num.getIntervalMinObject() != null
 				&& num.getIntervalMaxObject() != null) {
 			boolean degree = geo.isGeoAngle()

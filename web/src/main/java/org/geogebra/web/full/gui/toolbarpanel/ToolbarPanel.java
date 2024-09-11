@@ -81,7 +81,7 @@ public class ToolbarPanel extends FlowPanel
 	/** Header of the panel with buttons and tabs */
 	NavigationRail navRail;
 	/** Application */
-	private final AppW app;
+	private final AppWFull app;
 	private EventDispatcher eventDispatcher;
 	private FlowPanel main;
 	private StandardButton moveBtn;
@@ -102,7 +102,7 @@ public class ToolbarPanel extends FlowPanel
 	 * @param app application
 	 */
 	public ToolbarPanel(AppW app, DockPanelDecorator decorator) {
-		this.app = app;
+		this.app = (AppWFull) app;
 		this.decorator = decorator;
 		eventDispatcher = app.getEventDispatcher();
 		app.getActiveEuclidianView().getEuclidianController()
@@ -349,7 +349,7 @@ public class ToolbarPanel extends FlowPanel
 		add(main);
 		hideDragger();
 		if (examController.isExamActive() && !examController.isCheating()) {
-			if (app.isLockedExam()) {
+			if (ExamUtil.hasExternalSecurityCheck(app)) {
 				setHeaderStyle("examLock");
 			} else {
 				setHeaderStyle("examOk");
@@ -451,7 +451,7 @@ public class ToolbarPanel extends FlowPanel
 			viewId = App.VIEW_PROBABILITY_CALCULATOR;
 		}
 		DockPanelW opposite =
-				(DockPanelW) app.getGuiManager().getLayout().getDockManager().getPanel(viewId);
+				app.getGuiManager().getLayout().getDockManager().getPanel(viewId);
 		DockSplitPaneW dockParent = getDockParent();
 		if (dockParent == null) {
 			return;
@@ -829,7 +829,7 @@ public class ToolbarPanel extends FlowPanel
 	 * @return the frame with casting.
 	 */
 	GeoGebraFrameFull getFrame() {
-		return ((AppWFull) app).getAppletFrame();
+		return app.getAppletFrame();
 	}
 
 	/**
@@ -1162,7 +1162,7 @@ public class ToolbarPanel extends FlowPanel
 	 * close portrait
 	 */
 	public void doCloseInPortrait() {
-		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
+		DockManagerW dm = app.getGuiManager().getLayout()
 				.getDockManager();
 		dm.closePortrait();
 		updatePanelVisibility(false);

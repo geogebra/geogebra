@@ -33,11 +33,28 @@ public class IconButton extends StandardButton implements SetLabels {
 		this.appW = appW;
 		selectionColor = getSelectionColor(appW);
 		AriaHelper.setDataTitle(this, appW.getToolName(mode));
+		GGWToolBar.getImageResource(mode, appW, image -> {
+			this.image = (SVGResource) image;
+			setActive(getElement().hasClassName("active"));
+		});
 		addStyleName("iconButton");
 		GGWToolBar.getImageResource(mode, appW, image -> {
 			this.image = (SVGResource) image;
 			setActive(getElement().hasClassName("active"));
 		});
+	}
+
+	/** Constructor
+	 * @param mode - tool mode
+	 * @param appW - application
+	 * @param icon - image
+	 * @param onHandler - switch on handler
+	 */
+	public IconButton(int mode, AppW appW, SVGResource icon, Runnable onHandler) {
+		this(appW, icon, appW.getToolAriaLabel(mode), appW.getToolAriaLabel(mode),
+				appW.getToolAriaLabel(mode), onHandler);
+		this.appW = appW;
+		this.mode = mode;
 	}
 
 	/**
@@ -125,6 +142,27 @@ public class IconButton extends StandardButton implements SetLabels {
 		AriaHelper.setTitle(this, appW.getLocalization().getMenu(dataTitle));
 		TestHarness.setAttr(this, dataTest);
 		selectionColor = getSelectionColor(appW);
+	}
+
+	/**
+	 * Small press icon buttons, used in notes topbar
+	 * @param appW - application
+	 * @param image - svg
+	 * @param ariaLabel - aria label
+	 * @param clickHandler - click handler
+	 */
+	public IconButton(AppW appW, Runnable clickHandler, SVGResource image,
+			String ariaLabel) {
+		this(appW.getLocalization(), image, ariaLabel);
+		dataTitleTransKey = ariaLabel;
+		AriaHelper.setTitle(this, appW.getLocalization().getMenu(dataTitleTransKey));
+		addStyleName("small");
+		selectionColor = getSelectionColor(appW);
+		addFastClickHandler((event) -> {
+			if (clickHandler != null) {
+				clickHandler.run();
+			}
+		});
 	}
 
 	/**

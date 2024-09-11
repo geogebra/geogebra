@@ -114,6 +114,10 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 		settingChanged();
 	}
 
+	public void addWidthNoFire(int index, int width) {
+		getWidthMap().put(index, width);
+	}
+
 	/**
 	 * @return global preferred column width
 	 */
@@ -147,6 +151,10 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	public void addHeight(int index, int height) {
 		getHeightMap().put(index, height);
 		settingChanged();
+	}
+
+	public void addHeightNoFire(int row, int height) {
+		getHeightMap().put(row, height);
 	}
 
 	/**
@@ -764,6 +772,24 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 			}
 		}
 
+	}
+
+	/**
+	 * Remove all custom heights
+	 */
+	public void clearHeights() {
+		if (heightMap != null) {
+			heightMap.clear();
+		}
+	}
+
+	/**
+	 * Remove all custom widths
+	 */
+	public void clearWidths() {
+		if (widthMap != null) {
+			widthMap.clear();
+		}
 	}
 
 	@Override

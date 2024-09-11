@@ -483,6 +483,15 @@ public class GgbApiTest {
 		assertFalse(api.hasUnlabeledPredecessors("b"));
 	}
 
+	@Test
+	public void setFixedShouldNotTriggerSelection() {
+		api.evalCommand("a=42");
+		EventAcumulator acc = new EventAcumulator();
+		app.getEventDispatcher().addEventListener(acc);
+		api.setFixed("a", false, false);
+		assertEquals(List.of("UPDATE_STYLE a"), acc.getEvents());
+	}
+
 	private class MockScriptManager extends ScriptManagerJre {
 		public MockScriptManager() {
 			super(GgbApiTest.this.app);
