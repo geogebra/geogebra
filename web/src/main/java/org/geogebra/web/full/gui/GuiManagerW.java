@@ -2147,6 +2147,11 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
+	public void toggleTableValuesView() {
+		getUnbundledToolbar().toggleTableView();
+	}
+
+	@Override
 	public void removeGeoFromTV(String label) {
 		GeoElement geo = app.getKernel().lookupLabel(label);
 		if (getTableValuesView() != null && geo instanceof GeoEvaluatable) {
