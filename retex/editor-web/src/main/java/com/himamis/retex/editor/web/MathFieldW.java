@@ -137,6 +137,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private int bottomOffset = 10;
 	private double maxHeight = -1;
 	private ClickAdapterW adapter;
+	private boolean powerHappened;
 
 	/**
 	 * @param converter
@@ -386,14 +387,26 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 		}, KeyPressEvent.getType());
 		html2.addDomHandler(event -> {
-			if (checkPowerKeyInput(html2.getElement())) {
-				keyListener.onKeyTyped(new KeyEvent(0, 0, '^'));
+			int code = convertToJavaKeyCode(event.getNativeEvent());
+			// on Mac, the key event right after ^ is a KeyUpEvent,
+			// so it must be redirected to the onKeyTyped() handler.
+			if (powerHappened && event.getNativeKeyCode() != 18) {
+				powerHappened = false;
+				keyListener.onKeyTyped(new KeyEvent(0, 0,
+						(char) event.getNativeKeyCode()));
 				onFocusTimer(); // refocus to remove the half-written letter
 				updateAltForKeyUp(event);
 				event.preventDefault();
 				return;
 			}
-			int code = convertToJavaKeyCode(event.getNativeEvent());
+			if (checkPowerKeyInput(html2.getElement())) {
+				keyListener.onKeyTyped(new KeyEvent(0, 0, '^'));
+				onFocusTimer(); // refocus to remove the half-written letter
+				updateAltForKeyUp(event);
+				event.preventDefault();
+				powerHappened = true;
+				return;
+			}
 			keyListener.onKeyReleased(new KeyEvent(code,
 					getModifiers(event), getChar(event.getNativeEvent())));
 			updateAltForKeyUp(event);
@@ -434,7 +447,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			if (code == JavaKeyCodes.VK_DELETE
 					|| code == JavaKeyCodes.VK_ESCAPE || handled
 					|| isLeftAltDown()) {
-				event.preventDefault();
+
 			}
 			if (!isGlobalEvent.test(event.getNativeEvent())) {
 				event.stopPropagation();
