@@ -25,7 +25,6 @@ import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.gui.toolcategorization.AppType;
-import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
@@ -2272,9 +2271,7 @@ public class GuiManagerW extends GuiManager
 				}
 			}
 		} else {
-			ToolCollection toolCollection =
-					app.createToolCollectionFactory().createToolCollection();
-			return toolCollection.contains(EuclidianConstants.MODE_IMAGE);
+			return app.getAvailableTools().contains(EuclidianConstants.MODE_IMAGE);
 		}
 
 		return false;

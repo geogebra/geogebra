@@ -61,7 +61,6 @@ import org.geogebra.common.gui.toolcategorization.impl.Graphing3DToolCollectionF
 import org.geogebra.common.gui.toolcategorization.impl.GraphingToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.SuiteToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
-import org.geogebra.common.gui.util.InvalidToolFilter;
 import org.geogebra.common.gui.view.algebra.GeoElementValueConverter;
 import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
 import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
@@ -4662,7 +4661,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	@Override
 	public ToolCollection getAvailableTools() {
 		ToolCollection toolCollection = createToolCollectionFactory().createToolCollection();
-		toolCollection.filter(new InvalidToolFilter(this));
+		toolCollection.filter(this::isModeValid);
 		if (getPlatform().isMobile()) {
 			toolCollection.filter(new ToolCollectionSetFilter(
 					EuclidianConstants.MODE_TEXT,
