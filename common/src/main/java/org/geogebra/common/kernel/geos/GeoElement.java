@@ -330,11 +330,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	private static Comparator<AlgoElement> algoComparator = (o1, o2) -> o1.compareTo(o2);
 
 	/**
-	 * Prefix used for default labels of objects in multiuser
-	 */
-	private static String LABEL_PREFIX_FOR_MULTIUSER = "";
-
-	/**
 	 * Creates new GeoElement for given construction
 	 *
 	 * @param c
@@ -2718,7 +2713,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public String getDefaultLabel() {
 		char[] chars;
-		String labelPrefix = LABEL_PREFIX_FOR_MULTIUSER;
+		String labelPrefix = cons.getLabelManager().getUserPrefix();
 		EquationType equationType = getEquationTypeForLabeling();
 		if (isGeoPoint() && !(this instanceof GeoTurtle)) {
 			// Michael Borcherds 2008-02-23
@@ -2821,7 +2816,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private String defaultNumberedLabel(final String plainKey) {
 		String trans = getLoc().getPlainLabel(plainKey, plainKey);
-		return cons.getLabelManager().getNextNumberedLabel(LABEL_PREFIX_FOR_MULTIUSER + trans);
+		return cons.getLabelManager().getNextNumberedLabel(
+				cons.getLabelManager().getUserPrefix() + trans);
 	}
 
 	@Override
@@ -7187,19 +7183,5 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public boolean isFreeInputPoint() {
 		return isGeoPoint() && (isIndependent() || isMoveable());
-	}
-
-	/**
-	 * @param labelPrefix Label prefix
-	 */
-	public static void setLabelPrefixForMultiuser(String labelPrefix) {
-		LABEL_PREFIX_FOR_MULTIUSER = labelPrefix;
-	}
-
-	/**
-	 * @return Label prefix used for default labels of objects
-	 */
-	public static String getLabelPrefixForMultiuser() {
-		return LABEL_PREFIX_FOR_MULTIUSER;
 	}
 }

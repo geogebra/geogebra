@@ -18,6 +18,7 @@ public class LabelManager {
 	
 	private char[] angleLabels;
 	private final Construction cons;
+	private String userPrefix = "";
 
 	/**
 	 * @param construction
@@ -241,7 +242,7 @@ public class LabelManager {
 			q = counter / chars.length; // quotient
 			r = counter % chars.length; // remainder
 
-			String labelBase = GeoElement.getLabelPrefixForMultiuser() + chars[r];
+			String labelBase = getUserPrefix() + chars[r];
 
 			// this arabic letter is two Unicode chars
 			if (chars[r] == '\u0647') {
@@ -317,5 +318,20 @@ public class LabelManager {
 					StringTemplate.defaultTemplate);
 		} while (!cons.isFreeLabel(str));
 		return str;
+	}
+
+	/**
+	 * Sets a prefix that is used for labeling newly created objects within multiuser
+	 * @param userPrefix User Prefix
+	 */
+	public void setUserPrefix(String userPrefix) {
+		this.userPrefix = userPrefix;
+	}
+
+	/**
+	 * @return The user prefix used to label objects in multiuser
+	 */
+	public String getUserPrefix() {
+		return userPrefix;
 	}
 }

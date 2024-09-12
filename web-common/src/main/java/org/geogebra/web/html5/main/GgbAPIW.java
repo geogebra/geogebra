@@ -893,11 +893,18 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * Sets a prefix that is used to label objects within multiuser
+	 * Sets a prefix that is used to label objects within multiuser<br/>
+	 * Calling this method with an argument < 0 resets the label prefix
 	 * @param labelPrefixIndex Index
 	 */
 	public void setLabelPrefixForMultiuser(int labelPrefixIndex) {
-		MultiuserManager.INSTANCE.assignLabelPrefix(labelPrefixIndex);
+		String labelPrefix = "";
+		int index = labelPrefixIndex;
+		while (index > 0) {
+			labelPrefix = (char) ('a' + (index - 1) % 26) + labelPrefix;
+			index = (index - 1) / 26;
+		}
+		construction.getLabelManager().setUserPrefix(labelPrefix);
 	}
 
 	public void asyncEvalCommand(String command, ResolveCallbackFn<String> onSuccess,

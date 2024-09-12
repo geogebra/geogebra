@@ -8,7 +8,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
@@ -106,24 +105,5 @@ public final class MultiuserManager implements EventListener {
 				user.removeSelection(evt.target.getLabelSimple());
 			}
 		}
-	}
-
-	/**
-	 * Sets a prefix that is used for labeling newly created objects<br/>
-	 * Calling this method with -1 as argument resets the used prefix
-	 * @param labelPrefixIndex Index
-	 */
-	public void assignLabelPrefix(int labelPrefixIndex) {
-		if (labelPrefixIndex == -1) {
-			GeoElement.setLabelPrefixForMultiuser("");
-			return;
-		}
-		String labelPrefix = "";
-		int index = labelPrefixIndex;
-		while (index > 0) {
-			labelPrefix = (char) ('a' + (index - 1) % 26) + labelPrefix;
-			index = (index - 1) / 26;
-		}
-		GeoElement.setLabelPrefixForMultiuser(labelPrefix);
 	}
 }
