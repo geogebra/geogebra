@@ -81,7 +81,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 	private void addToggleButtonWithMenuPopup(SVGResource image, String ariaLabel,
 			List<Integer> tools) {
 		IconButton iconButton = new IconButtonWithMenu(appW, image, ariaLabel, tools,
-				this::deselectButtons);
+				this::deselectButtons, this);
 		add(iconButton);
 		buttons.add(iconButton);
 	}

@@ -70,7 +70,7 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 	private void addMenuButton() {
 		if (!GlobalHeader.isInDOM() && appletParams.getDataParamShowMenuBar(false)) {
 			addSmallPressButton(MaterialDesignResources.INSTANCE.toolbar_menu_black(), "Menu",
-					() -> controller.onMenuToggle(), AccessibilityGroup.MENU);
+					controller::onMenuToggle, AccessibilityGroup.MENU);
 			addDivider();
 		}
 	}
@@ -78,9 +78,9 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 	private void addUndoRedo() {
 		if (appletParams.getDataParamEnableUndoRedo()) {
 			undoBtn = addSmallPressButton(MaterialDesignResources.INSTANCE.undo_border(), "Undo",
-					() -> controller.onUndo(), AccessibilityGroup.UNDO);
+					controller::onUndo, AccessibilityGroup.UNDO);
 			redoBtn = addSmallPressButton(MaterialDesignResources.INSTANCE.redo_border(), "Redo",
-					() -> controller.onRedo(), AccessibilityGroup.REDO);
+					controller::onRedo, AccessibilityGroup.REDO);
 			addDivider();
 		}
 	}
@@ -92,13 +92,13 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 
 		if (!NavigatorUtil.isMobile()) {
 			addSmallPressButton(GuiResourcesSimple.INSTANCE.zoom_in(), "ZoomIn.Tool",
-					() -> controller.onZoomIn(), AccessibilityGroup.ZOOM_NOTES_PLUS);
+					controller::onZoomIn, AccessibilityGroup.ZOOM_NOTES_PLUS);
 			addSmallPressButton(GuiResourcesSimple.INSTANCE.zoom_out(), "ZoomOut.Tool",
-					() -> controller.onZoomOut(), AccessibilityGroup.ZOOM_NOTES_MINUS);
+					controller::onZoomOut, AccessibilityGroup.ZOOM_NOTES_MINUS);
 		}
 
 		homeBtn = addSmallPressButton(ZoomPanelResources.INSTANCE.home_zoom_black18(),
-				"StandardView", () -> controller.onHome(), AccessibilityGroup.ZOOM_NOTES_HOME);
+				"StandardView", controller::onHome, AccessibilityGroup.ZOOM_NOTES_HOME);
 		homeBtn.setDisabled(true);
 
 		addDragButton();
@@ -108,9 +108,7 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 	private void addDragButton() {
 		dragBtn = new IconButton(controller.getApp(), MaterialDesignResources
 				.INSTANCE.move_canvas(), "PanView", "PanView", "", null);
-		dragBtn.addFastClickHandler((event) -> {
-			controller.onDrag(dragBtn.isActive());
-		});
+		dragBtn.addFastClickHandler((event) -> controller.onDrag(dragBtn.isActive()));
 
 		registerFocusable(dragBtn, AccessibilityGroup.ZOOM_NOTES_DRAG_VIEW);
 		styleAndRegisterTopbarButton(dragBtn);
