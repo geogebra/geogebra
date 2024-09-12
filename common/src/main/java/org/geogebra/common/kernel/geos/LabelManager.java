@@ -241,7 +241,7 @@ public class LabelManager {
 			q = counter / chars.length; // quotient
 			r = counter % chars.length; // remainder
 
-			String labelBase = GeoElement.LABEL_PREFIX_FOR_MULTIUSER + chars[r];
+			String labelBase = GeoElement.getLabelPrefixForMultiuser() + chars[r];
 
 			// this arabic letter is two Unicode chars
 			if (chars[r] == '\u0647') {

@@ -330,9 +330,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	private static Comparator<AlgoElement> algoComparator = (o1, o2) -> o1.compareTo(o2);
 
 	/**
-	 * Prefix used for labeling objects in multiuser
+	 * Prefix used for default labels of objects in multiuser
 	 */
-	public static String LABEL_PREFIX_FOR_MULTIUSER = "";
+	private static String LABEL_PREFIX_FOR_MULTIUSER = "";
 
 	/**
 	 * Creates new GeoElement for given construction
@@ -7187,5 +7187,19 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public boolean isFreeInputPoint() {
 		return isGeoPoint() && (isIndependent() || isMoveable());
+	}
+
+	/**
+	 * @param labelPrefix Label prefix
+	 */
+	public static void setLabelPrefixForMultiuser(String labelPrefix) {
+		LABEL_PREFIX_FOR_MULTIUSER = labelPrefix;
+	}
+
+	/**
+	 * @return Label prefix used for default labels of objects
+	 */
+	public static String getLabelPrefixForMultiuser() {
+		return LABEL_PREFIX_FOR_MULTIUSER;
 	}
 }

@@ -109,13 +109,13 @@ public final class MultiuserManager implements EventListener {
 	}
 
 	/**
-	 * Sets a prefix that is used for labeling newly created objects</br>
+	 * Sets a prefix that is used for labeling newly created objects<br/>
 	 * Calling this method with -1 as argument resets the used prefix
 	 * @param labelPrefixIndex Index
 	 */
 	public void assignLabelPrefix(int labelPrefixIndex) {
 		if (labelPrefixIndex == -1) {
-			GeoElement.LABEL_PREFIX_FOR_MULTIUSER = "";
+			GeoElement.setLabelPrefixForMultiuser("");
 			return;
 		}
 		String labelPrefix = "";
@@ -124,6 +124,6 @@ public final class MultiuserManager implements EventListener {
 			labelPrefix = (char) ('a' + (index - 1) % 26) + labelPrefix;
 			index = (index - 1) / 26;
 		}
-		GeoElement.LABEL_PREFIX_FOR_MULTIUSER = labelPrefix;
+		GeoElement.setLabelPrefixForMultiuser(labelPrefix);
 	}
 }
