@@ -750,6 +750,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public void setMode(int mode, ModeSetter m) {
+		if (mode == this.mode && mode != EuclidianConstants.MODE_IMAGE) {
+			return;
+		}
 		boolean shouldClearSelectedGeos = shouldClearSelectedGeos(mode);
 		this.mode = mode;
 		initCursor();
