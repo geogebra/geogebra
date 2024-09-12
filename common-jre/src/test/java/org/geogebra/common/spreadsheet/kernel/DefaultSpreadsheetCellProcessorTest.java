@@ -205,6 +205,24 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void handleSelfReferencingDefinitions() {
+		processor.process("=A1", "A1");
+		assertEquals(Commands.ParseToNumber, getCommand(lookup("A1")));
+		assertThat(lookup("A1"), hasValue("?"));
+
+		processor.process("=A2+B3", "B3");
+		assertEquals(Commands.ParseToNumber, getCommand(lookup("B3")));
+		assertThat(lookup("B3"), hasValue("?"));
+
+		processor.process("=A3+1", "A3");
+		assertEquals(Commands.ParseToNumber, getCommand(lookup("A3")));
+		assertThat(lookup("A3"), hasValue("?"));
+
+		assertEquals("A1,B3,A3",
+				String.join(",", getApp().getGgbApi().getAllObjectNames()));
+	}
+
+	@Test
 	public void shouldAutoCreateZeroCells() {
 		processor.process("=A2+B2+1", "B3");
 		assertThat(lookup("A2"), hasValue("0"));
