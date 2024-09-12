@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.gwtutil.SafeExamBrowser;
 import org.geogebra.gwtutil.SecureBrowser;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
@@ -42,6 +43,9 @@ public class ExamUtil {
 	 *            whether we are in tablet app
 	 */
 	private void addVisibilityAndBlurHandlers(boolean tabletMode) {
+		if (hasExternalSecurityCheck(app)) {
+			return;
+		}
 		if (tabletMode) {
 			app.getGlobalHandlers().addEventListener(DomGlobal.document,
 					"visibilitychange", (e) -> {
@@ -75,8 +79,16 @@ public class ExamUtil {
 		}
 	}
 
+	/**
+	 * @return whether we're running in a secure browser
+	 */
+	public static boolean hasExternalSecurityCheck(AppW app) {
+		return app.isLockedExam() && (SecureBrowser.get() != null || SafeExamBrowser.get() != null
+				|| app.getLAF().hasLockedEnvironment());
+	}
+
 	private void startCheating() {
-		if (examController.isExamActive() && SecureBrowser.get() == null) {
+		if (examController.isExamActive()) {
 			examController.getCheatingEvents().addWindowLeftEvent();
 		}
 	}

@@ -161,11 +161,6 @@ public class GLookAndFeel implements GLookAndFeelI {
 	}
 
 	@Override
-	public boolean examSupported() {
-		return false;
-	}
-
-	@Override
 	public boolean printSupported() {
 		return true;
 	}

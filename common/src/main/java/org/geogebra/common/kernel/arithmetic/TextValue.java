@@ -26,4 +26,5 @@ public interface TextValue extends ExpressionValue {
 	 * @return string value of this
 	 */
 	public String getTextString();
+
 }

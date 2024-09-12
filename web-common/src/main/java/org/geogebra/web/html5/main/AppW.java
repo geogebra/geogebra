@@ -481,6 +481,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * parts of the code that have been split by the GWT compiler
 	 * @return the instance of the AsyncManager
 	 */
+	@Override
 	public final AsyncManager getAsyncManager() {
 		if (asyncManager == null) {
 			asyncManager = new AsyncManager(this);
@@ -2371,17 +2372,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					&& getCASFactory().isEnabled();
 		}
 
-		if ((getLAF() != null
-				&& getLAF().examSupported())
-				|| (getLAF() != null && getLAF().isTablet() && !isUnbundled()
-						&& !isWhiteboardActive())) {
-			if (viewID == App.VIEW_EUCLIDIAN) {
-				return getSettings().getEuclidian(1).isEnabled();
-			} else if (viewID == App.VIEW_EUCLIDIAN2) {
-				return getSettings().getEuclidian(2).isEnabled();
-			}
-		}
-
 		return viewID != App.VIEW_EUCLIDIAN3D;
 	}
 
@@ -2682,7 +2672,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            after the update the input of the keyboard is written into
 	 *            this field
 	 */
-	public void updateKeyBoardField(MathKeyboardListener field) {
+	public void updateKeyboardField(MathKeyboardListener field) {
 		// Overwritten in subclass - nothing to do here
 	}
 

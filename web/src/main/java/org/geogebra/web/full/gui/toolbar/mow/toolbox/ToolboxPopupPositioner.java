@@ -15,9 +15,15 @@ public final class ToolboxPopupPositioner {
 	 * @param app provides bounds for horizontal position
 	 */
 	public static void showRelativeToToolbox(GPopupPanel popup, UIObject anchor, AppW app) {
+		closePopupsRegisterNewPopup(popup, app);
 		popup.setPopupPosition((int) (anchor.getAbsoluteLeft() + anchor.getOffsetWidth()
 						+ TOOLBOX_PADDING - app.getAbsLeft()),
 				(int) (anchor.getAbsoluteTop() - app.getAbsTop()));
 		popup.show();
+	}
+
+	private static void closePopupsRegisterNewPopup(GPopupPanel popup, AppW app) {
+		app.closePopups();
+		app.registerPopup(popup);
 	}
 }

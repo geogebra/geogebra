@@ -222,6 +222,19 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		}
 	}
 
+	@Override
+	public void removeContentAt(int row, int column) {
+		processor.removeContentAt(row, column);
+		setContent(row, column, null);
+	}
+
+	@Override
+	public String serializeContentAt(int row, int column) {
+		GeoElement geoElement = contentAt(row, column);
+		return geoElement == null ? ""
+				: geoElement.getRedefineString(true, false);
+	}
+
 	private void unfixSymbolic(GeoElement geo) {
 		if (geo instanceof GeoSymbolic && geo.isLocked()) {
 			geo.setFixed(false);
@@ -282,26 +295,12 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public void markError(int row, int column, boolean hasError) {
-		if (data.get(row) == null || data.get(row).get(column) == null) {
-			return;
-		}
-		GeoElement geo = data.get(row).get(column);
-		if (geo.isGeoText()) {
-			((GeoText) geo).setSpreadsheetError(true);
-		}
-	}
-
-	@Override
 	public boolean hasError(int row, int column) {
 		if (data.get(row) == null || data.get(row).get(column) == null) {
 			return false;
 		}
 		GeoElement geo = data.get(row).get(column);
-		if (geo.isGeoText()) {
-			return ((GeoText) geo).hasSpreadsheetError();
-		}
-		return false;
+		return !geo.isDefined() && !geo.isEmptySpreadsheetCell();
 	}
 
 	@Override

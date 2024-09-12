@@ -89,10 +89,11 @@ public final class SpreadsheetRenderer {
 	 * @param row - row
 	 * @param column - column
 	 * @param graphics - graphics
+	 * @param viewport Viewport relative to the table, in pixels
 	 * @param offsetX - x offset
 	 * @param offsetY - y offset
 	 */
-	public void drawErrorCell(int row, int column, GGraphics2D graphics,
+	public void drawErrorCell(int row, int column, GGraphics2D graphics, Rectangle viewport,
 			double offsetX, double offsetY) {
 		graphics.setColor(style.geErrorGridColor());
 		graphics.setStroke(borderStroke);
@@ -111,7 +112,13 @@ public final class SpreadsheetRenderer {
 			height = (int) (topRightY + layout.getHeight(row) - layout.getColumnHeaderHeight());
 		}
 
-		graphics.drawRect(topLeftX, topLeftY, width, height); // draw error border
+		// Draw error border
+		Rectangle bounds = layout.getBounds(new TabularRange(row, column), viewport);
+		if (bounds != null) {
+			drawVisibleSelectionBorders(graphics, bounds,
+					topLeftX, topLeftY, topLeftX + width, topLeftY + height);
+		}
+
 		if (width > ERROR_TRIANGLE_WIDTH && height > ERROR_TRIANGLE_WIDTH) {
 			drawErrorTriangle(graphics, topLeftX + width, topLeftY);
 		}
@@ -195,29 +202,28 @@ public final class SpreadsheetRenderer {
 		graphics.drawStraightLine(right, 0, right, rectangle.getHeight());
 	}
 
-	void drawSelection(TabularRange selection, GGraphics2D graphics,
-			Rectangle viewport, TableLayout layout) {
-		Rectangle rect = layout.getBounds(selection, viewport);
-		if (rect != null) {
+	void drawSelection(TabularRange selection, GGraphics2D graphics, Rectangle viewport) {
+		Rectangle bounds = layout.getBounds(selection, viewport);
+		if (bounds != null) {
 			graphics.setColor(style.getSelectionColor());
-			graphics.fillRect((int) rect.getMinX(), (int) rect.getMinY(), (int) rect.getWidth(),
-					(int) rect.getHeight());
+			graphics.fillRect((int) bounds.getMinX(), (int) bounds.getMinY(),
+					(int) bounds.getWidth(), (int) bounds.getHeight());
 		}
 	}
 
-	void drawSelectionBorder(TabularRange selection, GGraphics2D graphics,
-			Rectangle viewport, TableLayout layout, boolean thickOutline, boolean dashed) {
-		Rectangle rect = layout.getBounds(selection, viewport);
-		if (rect != null) {
+	void drawSelectionBorder(TabularRange selection, GGraphics2D graphics, Rectangle viewport,
+			boolean thickOutline, boolean dashed) {
+		Rectangle bounds = layout.getBounds(selection, viewport);
+		if (bounds != null) {
 			setStroke(graphics, thickOutline, dashed);
 			graphics.setColor(dashed ? style.getDashedSelectionBorderColor()
 					: style.getSelectionBorderColor());
-			double minX = Math.max(rect.getMinX(), layout.getRowHeaderWidth());
-			double minY = Math.max(rect.getMinY(), layout.getColumnHeaderHeight());
-			double maxX = rect.getMaxX();
-			double maxY = rect.getMaxY();
+			double minX = Math.max(bounds.getMinX(), layout.getRowHeaderWidth());
+			double minY = Math.max(bounds.getMinY(), layout.getColumnHeaderHeight());
+			double maxX = bounds.getMaxX();
+			double maxY = bounds.getMaxY();
 			if (minX < maxX && minY < maxY) {
-				drawRectangleWithStraightLines(graphics, minX, minY, maxX, maxY);
+				drawVisibleSelectionBorders(graphics, bounds, minX, minY, maxX, maxY);
 			}
 			if (dashed) {
 				setStroke(graphics, thickOutline, false);
@@ -241,8 +247,25 @@ public final class SpreadsheetRenderer {
 		graphics.drawStraightLine(maxX, minY, maxX, maxY);
 	}
 
-	void drawSelectionHeader(Selection selection, GGraphics2D graphics,
-			Rectangle viewport, TableLayout layout) {
+	/**
+	 * Draws only the selection borders that should be fully visible
+	 * @implNote Only checks if the top horizontal line and the left vertical line are visible
+	 * since the bottom horizontal line and right vertical line are hidden behind the Scrollbar
+	 */
+	private void drawVisibleSelectionBorders(GGraphics2D graphics, Rectangle bounds,
+			double minX, double minY, double maxX, double maxY) {
+		if (bounds.getMinY() - layout.getColumnHeaderHeight() >= 0) {
+			graphics.drawStraightLine(minX, minY, maxX, minY);
+		}
+		graphics.drawStraightLine(minX, maxY, maxX, maxY);
+
+		if (bounds.getMinX() - layout.getRowHeaderWidth() >= 0) {
+			graphics.drawStraightLine(minX, minY, minX, maxY);
+		}
+		graphics.drawStraightLine(maxX, minY, maxX, maxY);
+	}
+
+	void drawSelectionHeader(Selection selection, GGraphics2D graphics, Rectangle viewport) {
 		double offsetX = -viewport.getMinX() + layout.getRowHeaderWidth();
 		double offsetY = -viewport.getMinY() + layout.getColumnHeaderHeight();
 		TabularRange range = selection.getRange();

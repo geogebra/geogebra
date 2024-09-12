@@ -13,9 +13,9 @@ import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.web.HasKeyboard;
+import org.geogebra.keyboard.web.KeyboardCloseListener;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.keyboard.web.TabbedKeyboard;
-import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.AlgebraMathFieldProcessing;
 import org.geogebra.web.full.gui.dialog.text.GeoTextEditor;
@@ -188,7 +188,7 @@ public final class KeyboardManager
 	 *            open/close listener
 	 */
 	public void setListeners(MathKeyboardListener textField,
-			UpdateKeyBoardListener listener) {
+			KeyboardCloseListener listener) {
 		ensureKeyboardsExist();
 		((OnscreenTabbedKeyboard) keyboard).clearAndUpdate();
 		if (textField != null) {

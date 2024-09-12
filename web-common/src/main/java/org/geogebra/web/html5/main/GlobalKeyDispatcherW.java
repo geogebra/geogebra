@@ -139,45 +139,48 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			}
 
 			if (DOM.eventGetType(event) == Event.ONKEYDOWN) {
-				boolean handled = false;
-
-				if (event.getKeyCode() == GWTKeycodes.KEY_X
-						&& event.getCtrlKey()
-						&& event.getAltKey()) {
-					handleCtrlAltX();
-					handled = true;
-				}
-				if (NavigatorUtil.isiOS() && isControlKeyDown(event)) {
-					handleIosKeyboard((char) event.getCharCode());
-					handled = true;
-				}
-				if (event.getCtrlKey()) {
-					handled = handleCtrlKeys(KeyCodes.translateGWTcode(event.getKeyCode()),
-							event.getShiftKey(), false, true);
-				}
-				KeyCodes kc = KeyCodes.translateGWTcode(event.getKeyCode());
-				if (kc == KeyCodes.TAB) {
-					if (!escPressed) {
-						handled = handleTab(event.getShiftKey());
-					}
-				} else if (kc == KeyCodes.ESCAPE) {
-					escPressed = true;
-					handleEscForDropdown();
-					if (app.isApplet()) {
-						((AppW) GlobalKeyDispatcherW.this.app).moveFocusToLastWidget();
-					} else {
-						handleEscapeForNonApplets();
-					}
-					handled = true;
-				} else {
-					handled = handled || handleSelectedGeosKeys(event);
-				}
-
-				if (handled) {
+				if (handleKeyDown(event)) {
 					event.preventDefault();
 					event.stopPropagation();
 				}
 			}
+		}
+
+		private boolean handleKeyDown(Event event) {
+			boolean handled = false;
+
+			if (event.getKeyCode() == GWTKeycodes.KEY_X
+					&& event.getCtrlKey()
+					&& event.getAltKey()) {
+				handleCtrlAltX();
+				handled = true;
+			}
+			if (NavigatorUtil.isiOS() && isControlKeyDown(event)) {
+				handleIosKeyboard((char) event.getCharCode());
+				handled = true;
+			}
+			if (event.getCtrlKey()) {
+				handled = handleCtrlKeys(KeyCodes.translateGWTcode(event.getKeyCode()),
+						event.getShiftKey(), false, true);
+			}
+			KeyCodes kc = KeyCodes.translateGWTcode(event.getKeyCode());
+			if (kc == KeyCodes.TAB) {
+				if (!escPressed) {
+					handled = handleTab(event.getShiftKey());
+				}
+			} else if (kc == KeyCodes.ESCAPE) {
+				escPressed = true;
+				handleEscForDropdown();
+				if (app.isApplet()) {
+					((AppW) GlobalKeyDispatcherW.this.app).moveFocusToLastWidget();
+				} else {
+					handleEscapeForNonApplets();
+				}
+				handled = true;
+			} else {
+				handled = handled || handleSelectedGeosKeys(event);
+			}
+			return handled;
 		}
 	}
 

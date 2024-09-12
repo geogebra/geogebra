@@ -63,9 +63,16 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	 */
 	public MathFieldEditor(App app, MathFieldListener listener) {
 		this(app);
-		createMathField(listener);
+		createMathField(listener, getDefaultModel());
 		mathField.getInputTextArea().getElement().setAttribute("data-test", "mathFieldTextArea");
 		main.getElement().setAttribute("data-test", "mathFieldEditor");
+	}
+
+	protected static MetaModel getDefaultModel() {
+		MetaModel model = new MetaModel();
+		model.enableSubstitutions();
+		model.setForceBracketAfterFunction(true);
+		return model;
 	}
 
 	/**
@@ -77,13 +84,10 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		this.frame = this.app.getAppletFrame();
 	}
 
-	protected void createMathField(MathFieldListener listener) {
+	protected void createMathField(MathFieldListener listener, MetaModel model) {
 		main = new KeyboardFlowPanel();
 		Canvas canvas = Canvas.createIfSupported();
 
-		MetaModel model = new MetaModel();
-		model.enableSubstitutions();
-		model.setForceBracketAfterFunction(true);
 		mathField = new MathFieldW(new SyntaxAdapterImplWithPaste(kernel), main,
 				canvas, listener, model);
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
@@ -152,14 +156,6 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 
 	public void focus() {
 		mathField.setFocus(true);
-	}
-
-	/**
-	 * Prefer {@link  #scrollCursorVisibleHorizontally()} instead.
-	 */
-	@Deprecated
-	public void scrollHorizontally() {
-		scrollCursorVisibleHorizontally();
 	}
 
 	/**
@@ -257,9 +253,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		}
 
 		if (useKeyboardButton) {
-			frame.showKeyBoard(show, retexListener, true);
+			frame.showKeyboard(show, retexListener, true);
 		} else {
-			frame.doShowKeyBoard(show, retexListener);
+			frame.doShowKeyboard(show, retexListener);
 		}
 	}
 
@@ -272,7 +268,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		if (!frame.isKeyboardShowing() && !show) {
 			return;
 		}
-		frame.doShowKeyBoard(show, retexListener);
+		frame.doShowKeyboard(show, retexListener);
 	}
 
 	/**

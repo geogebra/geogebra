@@ -22,6 +22,15 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	// content
 	void setContent(int row, int column, Object content);
 
+	void removeContentAt(int row, int column);
+
+	/**
+	 * @param row table row
+	 * @param column table column
+	 * @return content of given cell formatted for external use (clipboard)
+	 */
+	String serializeContentAt(int row, int column);
+
 	String getColumnName(int column);
 
 	default String getRowName(int row) {
@@ -58,8 +67,6 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	 */
 	int getAlignment(int row, int column);
 
-	void markError(int row, int column, boolean hasError);
-
 	boolean hasError(int row, int column);
 
 	default void setCustomRowAndColumnSizeProvider(CustomRowAndColumnSizeProvider provider) {
@@ -69,4 +76,5 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	String getErrorString();
 
 	CellDragPasteHandler getCellDragPasteHandler();
+
 }

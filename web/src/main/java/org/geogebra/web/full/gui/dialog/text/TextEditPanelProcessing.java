@@ -59,11 +59,6 @@ public class TextEditPanelProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public void setKeyBoardModeText(boolean text) {
-		// overridden for RTI
-	}
-
-	@Override
 	public boolean isSVCell() {
 		return false;
 	}

@@ -260,9 +260,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	}
 
 	private void updateGraphButtons() {
-		btnLineGraph.setVisible(getProbManager().isDiscrete(getSelectedDist()));
-		btnStepGraph.setVisible(getProbManager().isDiscrete(getSelectedDist()));
-		btnBarGraph.setVisible(getProbManager().isDiscrete(getSelectedDist()));
+		btnLineGraph.setVisible(isDiscreteProbability());
+		btnStepGraph.setVisible(isDiscreteProbability());
+		btnBarGraph.setVisible(isDiscreteProbability());
 
 		btnLineGraph.setSelected(getGraphType()
 				== ProbabilityCalculatorView.GRAPH_LINE);
@@ -376,6 +376,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	 * @return whether the selected distribution discrete is
 	 */
 	public boolean hasTableView() {
-		return getProbManager().isDiscrete(getSelectedDist());
+		return isDiscreteProbability();
 	}
+
 }

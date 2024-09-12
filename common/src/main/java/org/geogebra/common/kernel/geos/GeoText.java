@@ -25,7 +25,6 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -62,7 +61,7 @@ import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
  *
  */
 public class GeoText extends GeoElement
-		implements Locateable, AbsoluteScreenLocateable, TextValue,
+		implements AbsoluteScreenLocateable, TextValue,
 		TextProperties, SpreadsheetTraceable, HasSymbolicMode, HasAuralText {
 	public static final String NEW_LINE = "\\\\n";
 	private static Comparator<GeoText> comparator;
@@ -130,7 +129,6 @@ public class GeoText extends GeoElement
 	private int totalHeight;
 	private int totalWidth;
 	private final List<GeoElement> updateListeners;
-	private boolean hasSpreadsheetError = false;
 
 	/**
 	 * Creates a new GeoText.
@@ -163,7 +161,6 @@ public class GeoText extends GeoElement
 
 	/**
 	 * Creates a new GeoText.
-	 *
 	 * Note: This will set construction defaults.
 	 *
 	 * @param construction
@@ -667,17 +664,10 @@ public class GeoText extends GeoElement
 		getBreakpointXML(sb);
 
 		getAuxiliaryXML(sb);
-		getSpreadsheetHasErrorXML(sb);
 
 		// store location of text (and possible labelOffset)
 		sb.append(getXMLlocation());
 		getScriptTags(sb);
-	}
-
-	private void getSpreadsheetHasErrorXML(StringBuilder sb) {
-		sb.append("\t<hasSpreadsheetError val=\"");
-		sb.append(hasSpreadsheetError);
-		sb.append("\"/>\n");
 	}
 
 	/**
@@ -1641,11 +1631,4 @@ public class GeoText extends GeoElement
 		return b.toString();
 	}
 
-	public boolean hasSpreadsheetError() {
-		return hasSpreadsheetError;
-	}
-
-	public void setSpreadsheetError(boolean hasSpreadsheetError) {
-		this.hasSpreadsheetError = hasSpreadsheetError;
-	}
 }

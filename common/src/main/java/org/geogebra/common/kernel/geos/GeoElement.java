@@ -41,7 +41,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.factories.LaTeXFactory;
-import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.AnimationManager;
@@ -2703,21 +2702,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		for (Greek greek : Greek.values()) {
 			if (!greek.upperCase && greek.unicode != Unicode.pi) {
 				list.add(greek.getUnicodeNonCurly() + "");
-			}
-		}
-	}
-
-	/**
-	 * appends all upper case Greek letters to list
-	 * 
-	 * @param listener
-	 *            listener to append Greek Upper case letters to
-	 */
-	public static void addAddAllGreekLowerCaseNoPi(
-			IAxisModelListener listener) {
-		for (Greek greek : Greek.values()) {
-			if (!greek.upperCase && greek.unicode != Unicode.pi) {
-				listener.addAxisLabelItem(greek.getUnicodeNonCurly() + "");
 			}
 		}
 	}

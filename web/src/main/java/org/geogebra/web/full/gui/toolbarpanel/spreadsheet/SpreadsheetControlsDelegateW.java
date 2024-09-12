@@ -39,7 +39,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 	private final Localization loc;
 	private final static int CONTEXT_MENU_PADDING = 8;
 	private final static int MARGIN_FROM_SCREEN_EDGE = 16;
-	private final ClipboardInterface clipboard = new ClipboardW();
+	private final ClipboardInterface clipboard;
 
 	private static class SpreadsheetCellEditorW implements SpreadsheetCellEditor {
 		private final MathFieldEditor mathField;
@@ -74,10 +74,11 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 		@Override
 		public void updatePosition(Rectangle editorBounds, Rectangle viewport) {
-			mathField.getStyle().setLeft(editorBounds.getMinX(), Unit.PX);
-			mathField.getStyle().setTop(editorBounds.getMinY(), Unit.PX);
-			mathField.getStyle().setWidth(editorBounds.getWidth(), Unit.PX);
-			mathField.getStyle().setProperty("minHeight", editorBounds.getHeight(), Unit.PX);
+			Rectangle bounds = editorBounds.insetBy(-2, -2);
+			mathField.getStyle().setLeft(bounds.getMinX(), Unit.PX);
+			mathField.getStyle().setTop(bounds.getMinY(), Unit.PX);
+			mathField.getStyle().setWidth(bounds.getWidth(), Unit.PX);
+			mathField.getStyle().setProperty("minHeight", bounds.getHeight(), Unit.PX);
 		}
 
 		@Override
@@ -115,6 +116,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		editor = new SpreadsheetCellEditorW(app, parent, mathTextField);
 		contextMenu = new GPopupMenuW(app);
 		loc = app.getLocalization();
+		clipboard = new ClipboardW();
 	}
 
 	@Override

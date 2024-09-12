@@ -76,7 +76,17 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
+	public void removeContentAt(int row, int column) {
+		data.get(row).set(column, null);
+	}
+
+	@Override
 	public String contentAt(int row, int column) {
+		return data.get(row).get(column);
+	}
+
+	@Override
+	public String serializeContentAt(int row, int column) {
 		return data.get(row).get(column);
 	}
 
@@ -103,11 +113,6 @@ public class TestTabularData implements TabularData<String> {
 	@Override
 	public int getAlignment(int row, int column) {
 		return CellFormat.ALIGN_RIGHT;
-	}
-
-	@Override
-	public void markError(int row, int column, boolean hasError) {
-		// not needed here
 	}
 
 	@Override

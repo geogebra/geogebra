@@ -511,10 +511,6 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	SVGResource mode_shape_rectangle_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_rounded_rectangle_black.svg")
-	SVGResource mode_shape_rectangle_round_edges_32();
-
-	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_pentagon_black.svg")
 	SVGResource mode_shape_pentagon_32();
 

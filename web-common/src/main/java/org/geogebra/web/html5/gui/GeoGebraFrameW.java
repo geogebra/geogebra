@@ -120,12 +120,20 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private void addFocusHandlers(Element e) {
 		app.getGlobalHandlers().addEventListener(e, "focusin", evt -> {
 			useFocusedBorder();
-			elemental2.dom.Element target = Js.uncheckedCast(evt.target);
-			if (!target.classList.contains("screenReaderStyle")) {
-				getApp().getGlobalKeyDispatcher().setEscPressed(false);
-			}
+			unsetEscape(evt);
 		});
 		app.getGlobalHandlers().addEventListener(e, "focusout", evt -> useDataParamBorder());
+	}
+
+	private void unsetEscape(elemental2.dom.Event evt) {
+		elemental2.dom.Element target = Js.uncheckedCast(evt.target);
+		if (!target.classList.contains("screenReaderStyle")) {
+			getApp().getGlobalKeyDispatcher().setEscPressed(false);
+		}
+	}
+
+	private void addFocusHandlersForApp(Element e) {
+		app.getGlobalHandlers().addEventListener(e, "focusin", this::unsetEscape);
 	}
 
 	/**
@@ -564,6 +572,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		setSizeStyles();
 		if (!appletParameters.getDataParamApp()) {
 			addFocusHandlers(geoGebraElement.getElement());
+		} else {
+			addFocusHandlersForApp(geoGebraElement.getElement());
 		}
 	}
 

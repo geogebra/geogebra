@@ -202,7 +202,7 @@ public class DropDownComboBoxController implements SetLabels {
 	 * on text input from user
 	 */
 	public void onInputChange() {
-		dropDown.setSelectedIndex(-1);
+		setSelectedOption(-1);
 		for (Runnable handler: changeHandlers) {
 			handler.run();
 		}
