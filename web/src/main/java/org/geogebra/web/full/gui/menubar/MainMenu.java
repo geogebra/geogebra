@@ -70,7 +70,7 @@ public class MainMenu extends FlowPanel
 	 */
 	public MainMenu(AppWFull app) {
 		if (!app.isUnbundledOrWhiteboard()) {
-			this.addStyleName("menubarSMART");
+			this.addStyleName("menuBarClassic");
 		}
 		this.actionProvider = new ClassicMenuItemProvider(app);
 		signInMenu = new SignInMenu(app);
