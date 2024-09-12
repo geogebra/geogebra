@@ -892,6 +892,14 @@ public class GgbAPIW extends GgbAPI {
 		MultiuserManager.INSTANCE.deselect(app, clientId);
 	}
 
+	/**
+	 * Sets a prefix that is used to label objects within multiuser
+	 * @param labelPrefixIndex Index
+	 */
+	public void setLabelPrefixForMultiuser(int labelPrefixIndex) {
+		MultiuserManager.INSTANCE.assignLabelPrefix(labelPrefixIndex);
+	}
+
 	public void asyncEvalCommand(String command, ResolveCallbackFn<String> onSuccess,
 			RejectCallbackFn onFailure) {
 		((AppW) app).getAsyncManager().asyncEvalCommand(command, onSuccess, onFailure);

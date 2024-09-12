@@ -734,6 +734,10 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().removeMultiuserSelections(clientId);
 	}
 
+	public void setLabelPrefixForMultiuser(int labelPrefixIndex) {
+		getGgbAPI().setLabelPrefixForMultiuser(labelPrefixIndex);
+	}
+
 	// APPS-646 deprecated, needs changing to getValue("correct")
 	public double getExerciseFraction() {
 		return getGgbAPI().getExerciseFraction();
