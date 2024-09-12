@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
-import org.geogebra.common.spreadsheet.core.PersistenceListener;
+import org.geogebra.common.spreadsheet.core.CustomRowAndColumnSizeProvider;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
 import org.geogebra.common.spreadsheet.core.TabularData;
@@ -285,8 +285,8 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	@Override
-	public void setPersistenceListener(PersistenceListener layout) {
-		spreadsheetSettings.setPersistenceListener(layout);
+	public void setCustomRowAndColumnSizeProvider(CustomRowAndColumnSizeProvider provider) {
+		spreadsheetSettings.setCustomRowAndColumnSizeProvider(provider);
 	}
 
 	@Override

@@ -2,12 +2,13 @@ package org.geogebra.common.main.settings;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.spreadsheet.core.PersistenceListener;
+import org.geogebra.common.spreadsheet.core.CustomRowAndColumnSizeProvider;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
 
 /**
@@ -36,8 +37,8 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	private boolean enableAutoComplete = Defaults.ENABLE_AUTOCOMPLETE;
 
 	// row and column size
-	private HashMap<Integer, Integer> widthMap;
-	private HashMap<Integer, Integer> heightMap;
+	private Map<Integer, Integer> widthMap;
+	private Map<Integer, Integer> heightMap;
 	private int preferredColumnWidth = TABLE_CELL_WIDTH;
 	private int preferredRowHeight = TABLE_CELL_HEIGHT;
 
@@ -54,7 +55,7 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	private int vScrollBarValue;
 	private int rows = 100;
 	private int columns = 26;
-	private PersistenceListener persistenceListener;
+	private CustomRowAndColumnSizeProvider customRowAndColumnSizeProvider;
 
 	public static class Defaults {
 		public static final boolean SHOW_FORMULA_BAR = false;
@@ -96,7 +97,7 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	}
 
 	@Override
-	public HashMap<Integer, Integer> getWidthMap() {
+	public Map<Integer, Integer> getWidthMap() {
 		if (widthMap == null) {
 			widthMap = new HashMap<>();
 		}
@@ -135,7 +136,7 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	}
 
 	@Override
-	public HashMap<Integer, Integer> getHeightMap() {
+	public Map<Integer, Integer> getHeightMap() {
 		if (heightMap == null) {
 			heightMap = new HashMap<>();
 		}
@@ -747,11 +748,12 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	 *            XML string builder
 	 */
 	public void getWidthsAndHeightsXML(StringBuilder sb) {
-		if (persistenceListener != null) {
-			persistenceListener.persist(this);
+		if (customRowAndColumnSizeProvider != null) {
+			widthMap = customRowAndColumnSizeProvider.getCustomColumnWidths();
+			heightMap = customRowAndColumnSizeProvider.getCustomRowHeights();
 		}
 		// column widths
-		HashMap<Integer, Integer> widthMap1 = getWidthMap();
+		Map<Integer, Integer> widthMap1 = getWidthMap();
 		for (Entry<Integer, Integer> entry : widthMap1.entrySet()) {
 			Integer col = entry.getKey();
 			int colWidth = entry.getValue();
@@ -762,7 +764,7 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 		}
 
 		// row heights
-		HashMap<Integer, Integer> heightMap1 = getHeightMap();
+		Map<Integer, Integer> heightMap1 = getHeightMap();
 		for (Entry<Integer, Integer> entry : heightMap1.entrySet()) {
 			Integer row = entry.getKey();
 			int rowHeight = entry.getValue();
@@ -811,8 +813,8 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 		this.columns  = columns;
 	}
 
-	public void setPersistenceListener(PersistenceListener layout) {
-		this.persistenceListener = layout;
+	public void setCustomRowAndColumnSizeProvider(CustomRowAndColumnSizeProvider provider) {
+		this.customRowAndColumnSizeProvider = provider;
 	}
 
 	/**

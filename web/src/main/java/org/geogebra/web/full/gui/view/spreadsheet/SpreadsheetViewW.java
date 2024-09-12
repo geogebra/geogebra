@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
@@ -490,7 +490,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	public void setColumnWidthsFromSettings() {
 
 		int prefWidth = table.preferredColumnWidth();
-		HashMap<Integer, Integer> widthMap = settings().getWidthMap();
+		Map<Integer, Integer> widthMap = settings().getWidthMap();
 
 		for (int col = 0; col < table.getColumnCount(); ++col) {
 			if (widthMap.containsKey(col)) {
@@ -511,7 +511,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		table.setRowHeight(prefHeight, false);
 
 		// now set custom row heights
-		HashMap<Integer, Integer> heightMap = settings().getHeightMap();
+		Map<Integer, Integer> heightMap = settings().getHeightMap();
 		Log.debug("height map size: " + heightMap.size());
 		for (int row = 0; row < table.getRowCount(); ++row) {
 			if (heightMap.containsKey(row)) {

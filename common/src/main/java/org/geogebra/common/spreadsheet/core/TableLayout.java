@@ -1,6 +1,8 @@
 package org.geogebra.common.spreadsheet.core;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.shape.Rectangle;
@@ -10,7 +12,7 @@ import org.geogebra.common.util.shape.Rectangle;
  *
  * @Note: This type is not designed to be thread-safe.
  */
-public final class TableLayout implements PersistenceListener {
+public final class TableLayout implements CustomRowAndColumnSizeProvider {
 	public static final int DEFAULT_CELL_WIDTH = 120;
 	public static final int DEFAULT_CELL_HEIGHT = 36;
 	public static final int DEFAULT_ROW_HEADER_WIDTH = 52;
@@ -90,6 +92,13 @@ public final class TableLayout implements PersistenceListener {
 		return cumulativeWidths[cumulativeWidths.length - 1] + getRowHeaderWidth();
 	}
 
+	/**
+	 * @param x Mouse position relative to viewport, in logical points.
+	 * @param y Mouse position relative to viewport, in logical points.
+	 * @param viewport The viewport.
+	 * @return The {@link DragState} for the given point in the spreadsheet.
+	 */
+	// TODO find a better method name
 	DragState getResizeAction(double x, double y, Rectangle viewport) {
 		double xAbs = x + viewport.getMinX();
 		double yAbs = y + viewport.getMinY();
@@ -149,19 +158,25 @@ public final class TableLayout implements PersistenceListener {
 	}
 
 	@Override
-	public void persist(SpreadsheetDimensions dimensions) {
-		dimensions.getWidthMap().clear();
+	public Map<Integer, Integer> getCustomColumnWidths() {
+		Map<Integer, Integer> widths = new HashMap<>();
 		for (int i = 0; i < columnWidths.length; i++) {
 			if (columnWidths[i] != DEFAULT_CELL_WIDTH) {
-				dimensions.getWidthMap().put(i, (int) columnWidths[i]);
+				widths.put(i, (int) columnWidths[i]);
 			}
 		}
-		dimensions.getHeightMap().clear();
+		return widths;
+	}
+
+	@Override
+	public Map<Integer, Integer> getCustomRowHeights() {
+		Map<Integer, Integer> heights = new HashMap<>();
 		for (int i = 0; i < rowHeights.length; i++) {
 			if (rowHeights[i] != DEFAULT_CELL_HEIGHT) {
-				dimensions.getHeightMap().put(i, (int) rowHeights[i]);
+				heights.put(i, (int) rowHeights[i]);
 			}
 		}
+		return heights;
 	}
 
 	void dimensionsDidChange(SpreadsheetDimensions dimensions) {
@@ -270,7 +285,7 @@ public final class TableLayout implements PersistenceListener {
 	}
 
 	/**
-	 * @param x pixel coordinate within viewport
+	 * @param x position relative to viewport, in logical points
 	 * @return hit column index (0 based, hitting left counts), -1 if header is hit
 	 */
 	public int findColumn(double x) {
@@ -278,7 +293,7 @@ public final class TableLayout implements PersistenceListener {
 	}
 
 	/**
-	 * @param y pixel coordinate within viewport
+	 * @param y position relative to viewport, in logical points
 	 * @return hit row index (0 based, hitting top border counts), -1 if header is hit
 	 */
 	public int findRow(double y) {

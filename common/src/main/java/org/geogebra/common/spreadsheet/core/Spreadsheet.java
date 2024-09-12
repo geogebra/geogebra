@@ -38,7 +38,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		if (undoProvider != null) {
 			controller.setUndoProvider(undoProvider);
 		}
-		tabularData.setPersistenceListener(controller.getLayout());
+		tabularData.setCustomRowAndColumnSizeProvider(controller.getLayout());
 	}
 
 	// layout
@@ -160,7 +160,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	// - TabularSelection
 
 	/**
-	 * @param viewport viewport relative to the table, in pixels
+	 * @param viewport The viewport (visible rectangle) relative to the table, in points.
 	 */
 	public void setViewport(Rectangle viewport) {
 		this.controller.setViewport(viewport);
@@ -221,6 +221,11 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		controller.getLayout().setHeightForRows(height, minRow, maxRow);
 	}
 
+	/**
+	 * @param x mouse position relative to viewport, in logical points.
+	 * @param y mouse position relative to viewport, in logical points.
+	 * @return the cursor to show at the given point.
+	 */
 	public MouseCursor getCursor(int x, int y) {
 		return controller.getDragAction(x, y).cursor;
 	}
