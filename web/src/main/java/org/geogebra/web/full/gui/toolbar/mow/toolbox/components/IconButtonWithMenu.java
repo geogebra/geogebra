@@ -31,13 +31,13 @@ public class IconButtonWithMenu extends IconButton {
 		addFastClickHandler((event) -> {
 			deselectButtons.run();
 			initPopupAndShow();
-			addCloseHandler();
 		});
 	}
 
 	private void initPopupAndShow() {
 		if (iconButtonPopup == null) {
 			iconButtonPopup = new CategoryMenuPopup(appW, tools);
+			addCloseHandler();
 		}
 
 		showHideMenu();

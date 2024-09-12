@@ -34,10 +34,6 @@ public class IconButtonWithPopup extends IconButton {
 			deselectButtons.run();
 			initAndShowPopup(tools);
 			setActive(true);
-
-			categoryPopup.addCloseHandler((event) -> {
-				AriaHelper.setAriaExpanded(this, false);
-			});
 		});
 	}
 
@@ -45,6 +41,8 @@ public class IconButtonWithPopup extends IconButton {
 		if (categoryPopup == null) {
 			categoryPopup = new CategoryPopup(appW, tools, getUpdateButtonCallback());
 			categoryPopup.setAutoHideEnabled(false);
+
+			categoryPopup.addCloseHandler((event) -> AriaHelper.setAriaExpanded(this, false));
 		}
 
 		showHidePopup();
