@@ -97,6 +97,11 @@ public class BaseEuclidianControllerTest extends BaseUnitTest {
 		ec.wrapMouseReleased(evt);
 	}
 
+	protected void pointerRelease(int x, int y) {
+		TestEvent evt = new TestEvent(x, y, null, false);
+		ec.wrapMouseReleased(evt);
+	}
+
 	protected void drag(int x, int y) {
 		TestEvent evt = new TestEvent(x, y, null, false);
 		ec.wrapMouseDragged(evt, true);
