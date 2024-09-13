@@ -75,11 +75,6 @@ public class Material implements Serializable {
 	private long timestamp;
 
 	/**
-	 * UNIX timestamp of this material's last autosave time.
-	 */
-	private long autoSaveTimestamp;
-
-	/**
 	 * Id of the person who stored material to local device
 	 */
 	private int viewerID;
@@ -150,7 +145,6 @@ public class Material implements Serializable {
 
 		this.title = "";
 		this.timestamp = -1;
-		this.autoSaveTimestamp = -1;
 		this.creator = new UserPublic();
 		this.url = "";
 		this.language = "";
@@ -181,7 +175,6 @@ public class Material implements Serializable {
 		type = material.type;
 		description = material.description;
 		timestamp = material.timestamp;
-		autoSaveTimestamp = material.autoSaveTimestamp;
 		viewerID = material.viewerID;
 		url = material.url;
 		language = material.language;
@@ -332,43 +325,10 @@ public class Material implements Serializable {
 	}
 
 	/**
-	 * Reset timestamp and autosave timestamp.
+	 * Reset timestamp.
 	 */
 	public void resetTimestamp() {
 		setTimestamp(0);
-		setAutosaveTimestamp(0);
-	}
-
-	/**
-	 * @param autoSaveTimestamp
-	 *            autosave timestamp in s
-	 */
-	public void setAutosaveTimestamp(long autoSaveTimestamp) {
-		this.autoSaveTimestamp = autoSaveTimestamp;
-	}
-
-	/**
-	 * JAVA USES MILLISECONDS, UNIX USES SECONDS
-	 * 
-	 * @param autoSaveTimestamp
-	 *            autosave timestamp in ms
-	 */
-	public void setAutosaveTimestampFromJava(long autoSaveTimestamp) {
-		setAutosaveTimestamp(autoSaveTimestamp / 1000);
-	}
-
-	/**
-	 * @return autosave timestamp in seconds
-	 */
-	public long getAutosaveTimestamp() {
-		return autoSaveTimestamp;
-	}
-
-	/**
-	 * @return autosave timestamp in ms
-	 */
-	public long getAutosaveTimestampForJava() {
-		return autoSaveTimestamp * 1000;
 	}
 
 	public void setURL(String url) {
@@ -488,7 +448,7 @@ public class Material implements Serializable {
 
 	/**
 	 * @param storeLocalValues
-	 *            whether to include local ID and autosave timestamp
+	 *            whether to include local ID
 	 * @return JSON representation
 	 */
 	public JSONObject toJson(boolean storeLocalValues) {
@@ -519,7 +479,6 @@ public class Material implements Serializable {
 		putString(ret, "appnname", appName);
 		if (storeLocalValues) {
 			putString(ret, "localID", localID + "");
-			putString(ret, "autoSaveTimestamp", autoSaveTimestamp + "");
 
 		}
 		return ret;
