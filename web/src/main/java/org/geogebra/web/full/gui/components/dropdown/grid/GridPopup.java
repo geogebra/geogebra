@@ -57,6 +57,11 @@ public class GridPopup extends GPopupPanel {
 		}
 	}
 
+	/**
+	 * @param app - application
+	 * @param parentUpdateCB - callback to update parent
+	 * @param columns - columns
+	 */
 	public GridPopup(AppW app, Runnable parentUpdateCB, int columns) {
 		super(true, true, app.getAppletFrame(), app);
 		addStyleName("materialPopupPanel");
@@ -64,11 +69,17 @@ public class GridPopup extends GPopupPanel {
 		this.parentUpdateCB = parentUpdateCB;
 	}
 
+	/**
+	 * @param anchor - anchor button
+	 */
 	public void showGridPopup(StandardButton anchor) {
 		updateGui();
 		showRelativeTo(anchor);
 	}
 
+	/**
+	 * fill grid and update ui
+	 */
 	public void updateGui() {
 		super.clear();
 		view = createGridView();
@@ -136,11 +147,13 @@ public class GridPopup extends GPopupPanel {
 		int column = cell.getCellIndex();
 		int row = cell.getRowIndex();
 		int itemIndex = row * columns + column;
+
 		setSelectedIndex(itemIndex);
 		updateVisualSelection(row, column);
 		if (listener != null) {
 			listener.itemSelected(itemIndex);
 		}
+
 		hide();
 	}
 
@@ -184,6 +197,7 @@ public class GridPopup extends GPopupPanel {
 		}
 	}
 
+	@Override
 	public void clear() {
 		items.clear();
 		setSelectedIndex(UNSELECTED_INDEX);

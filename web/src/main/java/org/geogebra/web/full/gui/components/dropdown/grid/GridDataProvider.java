@@ -6,6 +6,10 @@ import org.geogebra.web.full.gui.images.PropertiesResources;
 import org.gwtproject.resources.client.ImageResource;
 
 public class GridDataProvider {
+	/**
+	 * @param rulingType - grid type
+	 * @return name on type
+	 */
 	public static String getTransKeyForRulingType(BackgroundType rulingType) {
 		switch (rulingType) {
 		case RULER:
@@ -33,8 +37,12 @@ public class GridDataProvider {
 		}
 	}
 
-	public static ImageResource getResourceForBackgroundType(BackgroundType type) {
-		switch (type) {
+	/**
+	 * @param rulingType - grid type
+	 * @return background image for the type
+	 */
+	public static ImageResource getResourceForBackgroundType(BackgroundType rulingType) {
+		switch (rulingType) {
 		case RULER:
 			return PropertiesResources.INSTANCE.linedRuling();
 		case SQUARE_SMALL:
