@@ -22,6 +22,7 @@ public class TableEditor implements UnhandledArrowListener {
 	private final AppW app;
 	public TableValuesKeyboardNavigationController controller;
 	private MathTextFieldW mathTextField;
+	Element wrapper;
 	private Event event;
 	private boolean wasError;
 
@@ -51,10 +52,15 @@ public class TableEditor implements UnhandledArrowListener {
 			table.getTableWrapper().add(mathTextField); // first add to GWT tree
 			setChildrenDisplay(cell, "none");
 			wasError = cell.removeClassName("errorCell");
-			Element wrap = DOM.createDiv();
-			wrap.addClassName("tableEditorWrap");
-			wrap.appendChild(mathTextField.asWidget().getElement());
-			cell.appendChild(wrap); // then move in DOM
+			Element element = mathTextField.asWidget().getElement();
+			if (wrapper == null) {
+				wrapper = DOM.createDiv();
+				wrapper.addClassName("tableEditorWrap");
+			} else {
+				wrapper.getStyle().setProperty("display", "");
+			}
+			wrapper.appendChild(element);
+			cell.appendChild(wrapper); // then move in DOM
 
 			mathTextField.editorClicked();
 			if (event != null) {
@@ -72,14 +78,15 @@ public class TableEditor implements UnhandledArrowListener {
 	}
 
 	void stopEditing() {
-		Element wrapper = mathTextField.asWidget().getElement().getParentElement();
 		mathTextField.asWidget().removeFromParent();
 		if (wrapper != null) {
 			Element cell = wrapper.getParentElement();
 			wrapper.removeFromParent();
-			setChildrenDisplay(cell, "");
-			if (wasError) {
-				cell.addClassName("errorCell");
+			if (cell != null) {
+				setChildrenDisplay(cell, "");
+				if (wasError) {
+					cell.addClassName("errorCell");
+				}
 			}
 		}
 		table.flush();
