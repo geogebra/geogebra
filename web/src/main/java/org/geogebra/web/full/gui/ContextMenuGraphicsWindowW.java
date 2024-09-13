@@ -8,17 +8,19 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.components.dropdown.grid.GridDialog;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.menubar.RadioButtonMenuBarW;
-import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.javax.swing.CheckMarkSubMenu;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GCollapseMenuItem;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.Command;
 
@@ -55,7 +57,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 * @param showPaste
 	 *            whether to show the paste button (false for the graphics settings button)
 	 */
-	public ContextMenuGraphicsWindowW(AppW app, double px, double py, boolean showPaste) {
+	public ContextMenuGraphicsWindowW(AppW app, double px, double py, boolean showPaste,
+			StandardButton anchor) {
 		this(app);
 		this.px = px;
 		this.py = py;
@@ -85,7 +88,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 				addPasteItem();
 				wrappedPopup.addSeparator();
 			}
-			addRulingMenuItem(ot);
+			addRulingMenuItem(anchor);
 			addBackgroundMenuItem();
 		}
 
@@ -112,17 +115,17 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 		}
 	}
 
-	private void addRulingMenuItem(final OptionType optionType) {
+	private void addRulingMenuItem(StandardButton settingsButton) {
 		AriaMenuItem rulingMenuItem = new AriaMenuItem(
 				MainMenu.getMenuBarHtmlClassic(
 						MaterialDesignResources.INSTANCE.minor_gridlines()
 								.getSafeUri().asString(),
 						loc.getMenu("Ruling")),
 				true, () -> {
-					showOptionsDialog(optionType);
-					((PropertiesViewW) app.getGuiManager().getPropertiesView())
-							.getOptionPanel(optionType, -1)
-							.getTabPanel().selectTab(3);
+					DialogData data = new DialogData("Ruling", "Cancel", "Save");
+					GridDialog gridDialog = new GridDialog((AppW) app, data,
+							app.getActiveEuclidianView());
+					gridDialog.showRelativeTo(settingsButton);
 				});
 
 		wrappedPopup.addItem(rulingMenuItem);
@@ -282,7 +285,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 * show/hide construction protocol navigation
 	 */
 	void toggleShowConstructionProtocolNavigation() {
-		((AppW) app).toggleShowConstructionProtocolNavigation(app
+		app.toggleShowConstructionProtocolNavigation(app
 				.getActiveEuclidianView().getViewID());
 	}
 

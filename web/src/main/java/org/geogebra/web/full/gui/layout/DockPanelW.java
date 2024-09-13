@@ -366,7 +366,7 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	protected ContextMenuGraphicsWindowW getGraphicsWindowContextMenu() {
-		return new ContextMenuGraphicsWindowW(app, 0, 0, false);
+		return new ContextMenuGraphicsWindowW(app, 0, 0, false, null);
 	}
 
 	/**

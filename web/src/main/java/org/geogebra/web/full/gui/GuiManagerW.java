@@ -460,7 +460,7 @@ public class GuiManagerW extends GuiManager
 
 	private ContextMenuGeoElementW getDrawingPadpopupMenu(final int x,
 			final int y) {
-		currentPopup = new ContextMenuGraphicsWindowW(getApp(), x, y, true);
+		currentPopup = new ContextMenuGraphicsWindowW(getApp(), x, y, true, null);
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 
