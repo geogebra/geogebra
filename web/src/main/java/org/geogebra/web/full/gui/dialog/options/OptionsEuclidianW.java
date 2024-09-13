@@ -19,10 +19,9 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentCombobox;
+import org.geogebra.web.full.gui.components.dropdown.grid.GridDataProvider;
 import org.geogebra.web.full.gui.components.dropdown.grid.GridDropdown;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
-import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.full.gui.images.PropertiesResources;
 import org.geogebra.web.full.gui.util.LineStylePopup;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -291,9 +290,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 			lblRulerType = new FormLabel(loc.getMenu("Ruling"))
 					.setFor(lbRulerType);
 			for (BackgroundType type : BackgroundType.rulingOptions) {
-				addRulerTypeItem(model.getTransKeyForRulingType(type), type);
+				addRulerTypeItem(GridDataProvider.getTransKeyForRulingType(type), type);
 			}
-			lbRulerType.setListener((dropdown, index) -> {
+			lbRulerType.setListener((index) -> {
 				model.applyRulerType(BackgroundType.rulingOptions.get(index));
 				updateView();
 				((EuclidianViewW) view).doRepaint();
@@ -495,35 +494,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 		}
 
 		private void addRulerTypeItem(String titleTransKey, BackgroundType type) {
-			ImageResource background = getResourceForBackgroundType(type);
+			ImageResource background = GridDataProvider.getResourceForBackgroundType(type);
 			lbRulerType.addItem(titleTransKey, background);
-		}
-
-		private ImageResource getResourceForBackgroundType(BackgroundType type) {
-			switch (type) {
-				case RULER:
-					return PropertiesResources.INSTANCE.linedRuling();
-				case SQUARE_SMALL:
-					return PropertiesResources.INSTANCE.squared5Ruling();
-				case SQUARE_BIG:
-					return PropertiesResources.INSTANCE.squared1Ruling();
-				case ELEMENTARY12_COLORED:
-					return PropertiesResources.INSTANCE.coloredRuling();
-				case ELEMENTARY12:
-					return PropertiesResources.INSTANCE.elementary12Ruling();
-				case ELEMENTARY12_HOUSE:
-					return PropertiesResources.INSTANCE.houseRuling();
-				case ELEMENTARY34:
-					return PropertiesResources.INSTANCE.elementary34Ruling();
-				case MUSIC:
-					return PropertiesResources.INSTANCE.musicRuling();
-				case ISOMETRIC:
-					return PropertiesResources.INSTANCE.isometricRuling();
-				case POLAR:
-					return PropertiesResources.INSTANCE.polarRuling();
-				default:
-					return AppResources.INSTANCE.empty();
-			}
 		}
 
 		/**
