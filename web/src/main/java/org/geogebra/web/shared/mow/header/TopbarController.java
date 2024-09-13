@@ -161,7 +161,7 @@ public class TopbarController {
 
 	private void initSettingsContextMenu(IconButton anchor) {
 		if (settingsContextMenu == null) {
-			settingsContextMenu = new ContextMenuGraphicsWindowW(appW, 0, 0, false, anchor);
+			settingsContextMenu = new ContextMenuGraphicsWindowW(appW, 0, 0, false);
 			getSettingsContextMenu().setAutoHideEnabled(false);
 			getSettingsContextMenu().addCloseHandler(event -> anchor.setActive(false));
 		}

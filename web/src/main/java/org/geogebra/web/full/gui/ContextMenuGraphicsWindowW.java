@@ -57,8 +57,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 * @param showPaste
 	 *            whether to show the paste button (false for the graphics settings button)
 	 */
-	public ContextMenuGraphicsWindowW(AppW app, double px, double py, boolean showPaste,
-			StandardButton anchor) {
+	public ContextMenuGraphicsWindowW(AppW app, double px, double py, boolean showPaste) {
 		this(app);
 		this.px = px;
 		this.py = py;
@@ -88,7 +87,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 				addPasteItem();
 				wrappedPopup.addSeparator();
 			}
-			addRulingMenuItem(anchor);
+			addRulingMenuItem();
 			addBackgroundMenuItem();
 		}
 
@@ -115,7 +114,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 		}
 	}
 
-	private void addRulingMenuItem(StandardButton settingsButton) {
+	private void addRulingMenuItem() {
 		AriaMenuItem rulingMenuItem = new AriaMenuItem(
 				MainMenu.getMenuBarHtmlClassic(
 						MaterialDesignResources.INSTANCE.minor_gridlines()
@@ -125,7 +124,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 					DialogData data = new DialogData("Ruling", "Cancel", "Save");
 					GridDialog gridDialog = new GridDialog((AppW) app, data,
 							app.getActiveEuclidianView());
-					gridDialog.showRelativeTo(settingsButton);
+					gridDialog.show();
 				});
 
 		wrappedPopup.addItem(rulingMenuItem);
