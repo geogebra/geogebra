@@ -904,7 +904,7 @@ public class GgbAPIW extends GgbAPI {
 			labelPrefix = (char) ('a' + (index - 1) % 26) + labelPrefix;
 			index = (index - 1) / 26;
 		}
-		construction.getLabelManager().setUserPrefix(labelPrefix);
+		construction.getLabelManager().setMultiuserPrefix(labelPrefix);
 	}
 
 	public void asyncEvalCommand(String command, ResolveCallbackFn<String> onSuccess,

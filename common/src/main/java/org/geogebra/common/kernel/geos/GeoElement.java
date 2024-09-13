@@ -2713,7 +2713,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public String getDefaultLabel() {
 		char[] chars;
-		String labelPrefix = cons.getLabelManager().getUserPrefix();
+		String labelPrefix = cons.getLabelManager().getMultiuserPrefix();
 		EquationType equationType = getEquationTypeForLabeling();
 		if (isGeoPoint() && !(this instanceof GeoTurtle)) {
 			// Michael Borcherds 2008-02-23
@@ -2817,7 +2817,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	private String defaultNumberedLabel(final String plainKey) {
 		String trans = getLoc().getPlainLabel(plainKey, plainKey);
 		return cons.getLabelManager().getNextNumberedLabel(
-				cons.getLabelManager().getUserPrefix() + trans);
+				cons.getLabelManager().getMultiuserPrefix() + trans);
 	}
 
 	@Override
