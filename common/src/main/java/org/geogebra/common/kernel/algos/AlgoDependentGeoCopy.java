@@ -123,4 +123,7 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 		return origGeoNode;
 	}
 
+	public void setExpression(ExpressionNode expression) {
+		origGeoNode = expression;
+	}
 }
