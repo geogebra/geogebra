@@ -252,10 +252,10 @@ public final class ContextMenuFactory {
 		List<AlgebraContextMenuItem> items = new ArrayList<>();
 		items.add(isLabelVisible ? RemoveLabel : AddLabel);
 		items.add(DuplicateInput);
-		items.add(Delete);
 		if (showDuplicateOutput) {
 			items.add(DuplicateOutput);
 		}
+		items.add(Delete);
 		return items;
 	}
 
