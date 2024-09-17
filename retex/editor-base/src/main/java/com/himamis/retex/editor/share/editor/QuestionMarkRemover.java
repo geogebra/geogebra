@@ -19,8 +19,6 @@ public class QuestionMarkRemover implements Traversing {
 			MathComponent argument = container.getArgument(i);
 			if (isQuestionMark(argument)) {
 				addPlaceholder(container, i);
-			} else {
-				argument.traverse(this);
 			}
 		}
 		return component;

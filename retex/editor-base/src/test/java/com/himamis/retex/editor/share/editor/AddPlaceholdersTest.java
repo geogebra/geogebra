@@ -1,6 +1,7 @@
 package com.himamis.retex.editor.share.editor;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -10,6 +11,7 @@ import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 
 public class AddPlaceholdersTest {
 	private final Parser parser = new Parser(new MetaModel());
@@ -33,6 +35,17 @@ public class AddPlaceholdersTest {
 		placeholders.process(mathArray);
 		assertEquals("MathArray[MathSequence[1, ,,"
 				+ " MathCharPlaceholder[]]]", mathArray.toString());
+	}
+
+	@Test
+	public void deepFractionsShouldParseAndSerializeFast() {
+		int depth = 15;
+		long start = System.currentTimeMillis();
+		MathFormula formula = getFormula("1/(".repeat(depth) + "1" + ")".repeat(depth));
+		placeholders.process(formula.getRootComponent());
+		assertEquals("((1)/(".repeat(depth) + "1" + "))".repeat(depth),
+				GeoGebraSerializer.serialize(formula.getRootComponent()));
+		assertTrue("Traversing too slow", System.currentTimeMillis() - start < 1000);
 	}
 
 	private MathFormula getFormula(String text) {
