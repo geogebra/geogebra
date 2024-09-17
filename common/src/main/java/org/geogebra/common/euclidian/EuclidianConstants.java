@@ -471,7 +471,7 @@ public final class EuclidianConstants {
 	public static final int MAX_PEN_HIGHLIGHTER_SIZE = 30;
 
 	public static String getModeIconName(int mode) {
-		return mode == EuclidianConstants.MODE_DELETE ? "erase" : getModeTextSimple(mode);
+		return mode == EuclidianConstants.MODE_DELETE ? "eraser" : getModeTextSimple(mode);
 	}
 
 	/**
