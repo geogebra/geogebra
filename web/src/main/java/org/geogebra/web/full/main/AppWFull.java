@@ -300,7 +300,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		initCoreObjects();
 		checkExamPerspective();
 		afterCoreObjectsInited();
-		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
+		getFontSettingsUpdater().resetFonts();
 		Browser.removeDefaultContextMenu(geoGebraElement.getElement());
 		if (getAppletParameters().getDataParamApp() && !this.getLAF().isSmart()) {
 			RootPanel.getBodyElement().addClassName("application");
@@ -2310,7 +2310,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
-		return new SettingsUpdaterBuilder(this)
+		return super.newSettingsUpdaterBuilder()
 				.withFontSettingsUpdater(new FontSettingsUpdaterW(this));
 	}
 

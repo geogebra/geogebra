@@ -716,7 +716,7 @@ public class AppCommon extends App {
 	private void reInit() {
 		resetAlgebraOutputFilter();
 		kernel.setAlgebraProcessor(null);
-		getSettingsUpdater().resetSettingsOnAppStart();
+		initSettingsUpdater().resetSettingsOnAppStart();
 	}
 
 	public void setScriptManager(ScriptManager scriptManager) {
