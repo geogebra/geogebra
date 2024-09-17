@@ -31,7 +31,7 @@ quickjs = {module = "org.quickjs:emscripten", version.ref = "quickJs"}
 
 jsObject = "netscape.javascript:jsobject:1"
 openGeoProver = "com.ogprover:OpenGeoProver:20120725"
-jna = "net.java.dev.jna:jna:5.14.0"
+jna = "net.java.dev.jna:jna:5.15.0"
 
 gwt-user = { module = "org.gwtproject:gwt-user", version.ref = "gwt" }
 gwt-dev = { module = "org.gwtproject:gwt-dev", version.ref = "gwt" }
