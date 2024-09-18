@@ -14,21 +14,21 @@ import org.geogebra.common.plugin.Operation;
  */
 public final class PointDerivativeFilter implements ExpressionFilter, Inspecting {
 
-    @Override
-    public boolean isAllowed(ValidExpression expression) {
-        // Inspecting searches for derivatives over a variable
-        return !expression.inspect(this);
-    }
+	@Override
+	public boolean isAllowed(ValidExpression expression) {
+		// Inspecting searches for derivatives over a variable
+		return !expression.inspect(this);
+	}
 
-    @Override
-    public boolean check(ExpressionValue v) {
-        if (v.isOperation(Operation.FUNCTION) && v instanceof ExpressionNode) {
-            ExpressionNode node = (ExpressionNode) v;
-            ExpressionValue left = node.getLeft();
-            ExpressionValue right = node.getRight();
-            return left != null && left.isOperation(Operation.DERIVATIVE)
-                    && right != null && right.inspect(e -> e instanceof FunctionVariable);
-        }
-        return false;
-    }
+	@Override
+	public boolean check(ExpressionValue v) {
+		if (v.isOperation(Operation.FUNCTION) && v instanceof ExpressionNode) {
+			ExpressionNode node = (ExpressionNode) v;
+			ExpressionValue left = node.getLeft();
+			ExpressionValue right = node.getRight();
+			return left != null && left.isOperation(Operation.DERIVATIVE) && right != null
+					&& right.inspect(e -> e instanceof FunctionVariable);
+		}
+		return false;
+	}
 }

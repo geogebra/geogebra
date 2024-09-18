@@ -12,34 +12,34 @@ import org.junit.Test;
 
 public class PointDerivativeFilterTest extends BaseUnitTest {
 
-    private final PointDerivativeFilter filter = new PointDerivativeFilter();
+	private final PointDerivativeFilter filter = new PointDerivativeFilter();
 
-    @Before
-    public void setupTest() {
-        add("f(x)=x^2");
-    }
+	@Before
+	public void setupTest() {
+		add("f(x)=x^2");
+	}
 
-    @Test
-    public void testFilterRestrictsDerivativesOverVariable() {
-        assertFalse(filter.isAllowed(parse("f'(x)")));
-        assertFalse(filter.isAllowed(parse("f'(x-1)")));
-        assertFalse(filter.isAllowed(parse("f'")));
-    }
+	@Test
+	public void testFilterRestrictsDerivativesOverVariable() {
+		assertFalse(filter.isAllowed(parse("f'(x)")));
+		assertFalse(filter.isAllowed(parse("f'(x-1)")));
+		assertFalse(filter.isAllowed(parse("f'")));
+	}
 
-    @Test
-    public void testAllowsDerivativeAtPoint() {
-        assertTrue(filter.isAllowed(parse("f'(1)")));
-        add("a = 2");
-        assertTrue(filter.isAllowed(parse("f'(a)")));
-    }
+	@Test
+	public void testAllowsDerivativeAtPoint() {
+		assertTrue(filter.isAllowed(parse("f'(1)")));
+		add("a = 2");
+		assertTrue(filter.isAllowed(parse("f'(a)")));
+	}
 
-    private ExpressionNode parse(String expression) {
-        try {
-            ExpressionNode node = getKernel().getParser().parseExpression(expression);
-            node.resolveVariables(EvalInfoFactory.getEvalInfoForAV(getApp()));
-            return node;
-        } catch (ParseException e) {
-            throw new AssertionError(e);
-        }
-    }
+	private ExpressionNode parse(String expression) {
+		try {
+			ExpressionNode node = getKernel().getParser().parseExpression(expression);
+			node.resolveVariables(EvalInfoFactory.getEvalInfoForAV(getApp()));
+			return node;
+		} catch (ParseException e) {
+			throw new AssertionError(e);
+		}
+	}
 }
