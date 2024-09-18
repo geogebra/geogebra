@@ -224,6 +224,20 @@ public class AlgebraContextMenuTests {
 		);
 	}
 
+	@Test
+	public void testForInputWithSpecialPointsInCasApp() {
+		setupApp(GeoGebraConstants.CAS_APPCODE);
+		assertEquals(
+				List.of(CreateTableValues,
+						RemoveLabel,
+						SpecialPoints,
+						DuplicateInput,
+						Delete,
+						Settings),
+				makeAlgebraContextMenu(add("x"), algebraProcessor, appCode)
+		);
+	}
+
 	private void setupApp(String appCode) {
 		this.appCode = appCode;
 		App app = AppCommonFactory.create(makeAppConfig(appCode));
