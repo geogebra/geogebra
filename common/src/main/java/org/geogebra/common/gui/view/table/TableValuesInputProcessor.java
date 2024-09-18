@@ -5,6 +5,7 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.advanced.AlgoParseToNumberOrFunction;
+import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -73,8 +74,25 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			double parsedInput = Double.parseDouble(trimmedInput);
 			return model.createValue(parsedInput);
 		} catch (NumberFormatException e) {
-			return new AlgoParseToNumberOrFunction(cons,
-					new GeoText(cons, input), null, Commands.ParseToNumber).getOutput(0);
+			preloadScripting();
+			AlgoParseToNumberOrFunction algoParseToNumberOrFunction =
+					new AlgoParseToNumberOrFunction(cons,
+							new GeoText(cons, input), null, Commands.ParseToNumber);
+			GeoElement el = algoParseToNumberOrFunction.getOutput(0);
+			if (el.isDefined()) {
+				algoParseToNumberOrFunction.remove();
+				el.setParentAlgorithm(null);
+			}
+			return el;
+		}
+	}
+
+	private void preloadScripting() {
+		try {
+			cons.getKernel().getAlgebraProcessor().getCommandDispatcher()
+					.getScriptingCommandProcessorFactory();
+		} catch (CommandNotLoadedError err) {
+			// preloading
 		}
 	}
 }

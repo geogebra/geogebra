@@ -168,7 +168,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
 		this.itemFactory = new ItemFactory();
-		itemFactory.setSlidersEnabled(app.getConfig().hasSlidersInAV());
 		this.addOpenHandler(this);
 		selectionCtrl = new AVSelectionController(app);
 		algCtrl.setView(this);
@@ -1115,6 +1114,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 					&& !showAuxiliaryObjects() && geo.isAuxiliaryObject()) {
 				return;
 			}
+
+			AlgebraItem.initForAlgebraView(geo);
 
 			TreeItem parent = getParentNode(geo, forceLayer);
 			RadioTreeItem node = itemFactory.createAVItem(geo);

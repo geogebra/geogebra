@@ -1,17 +1,17 @@
 [versions]
 junit = "4.13.2"
-mockito = "5.12.0"
-hamcrest = "2.2"
+mockito = "5.13.0"
+hamcrest = "3.0"
 jogl = "2.5.0"
-javagiac = "70312"
+javagiac = "70320"
 gwt = "2.11.0"
-gwtTreblereel = "202406111"
+gwtTreblereel = "202408061"
 elemental2 = "1.2.1"
 murok = "1.0.202402201544"
 # built from ef18cb9206; switch to upstream when https://github.com/mozilla/rhino/pull/1385 is released
 mozilla-rhino = "1.7.15"
 quickJs = '1.0.202403131629-SNAPSHOT'
-multiplayer = "1.0.202407010620"
+multiplayer = "1.0.202408121043"
 spotbugs = "4.8.6"
 
 [libraries]
@@ -20,13 +20,13 @@ j2objc-annotations = "com.google.j2objc:annotations:2.8"
 spotbugs-annotations = {module = "com.github.spotbugs:spotbugs-annotations", version.ref = "spotbugs"}
 findbugs-annotations = "com.google.code.findbugs:jsr305:3.0.2"
 javacc = "net.java.dev.javacc:javacc:7.0.13"
-echosvg = "io.sf.carte:echosvg-all:1.0.1"
+echosvg = "io.sf.carte:echosvg-all:1.2.2"
 murok = { module = "org.murok:editor", version.ref = "murok" }
 mozilla-rhino = { module = "org.mozilla:rhino", version.ref = "mozilla-rhino" }
 autoService = "com.google.auto.service:auto-service:1.1.1"
 pdfJs = "org.webjars.npm:pdfjs-dist:2.5.207"
 multiplayer = { module = "org.geogebra:multiplayer", version.ref = "multiplayer" }
-fflate = "org.webjars.npm:fflate:0.8.0"
+fflate = "org.webjars.npm:fflate:0.8.2"
 quickjs = {module = "org.quickjs:emscripten", version.ref = "quickJs"}
 
 jsObject = "netscape.javascript:jsobject:1"
@@ -59,8 +59,8 @@ junit = { module = "junit:junit", version.ref = "junit" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 
-gwt-plugin = {module = "org.docstr:gwt-gradle-plugin", version = "1.1.30" }
-spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.0.18" }
+gwt-plugin = {module = "org.docstr:gwt-gradle-plugin", version = "1.1.31" }
+spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.0.21" }
 javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "3.0.2"}
 
 [plugins]

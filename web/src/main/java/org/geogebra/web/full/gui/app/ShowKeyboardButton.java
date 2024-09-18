@@ -2,8 +2,8 @@ package org.geogebra.web.full.gui.app;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.AppKeyboardType;
+import org.geogebra.keyboard.web.KeyboardCloseListener;
 import org.geogebra.keyboard.web.KeyboardResources;
-import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.keyboard.OnscreenTabbedKeyboard;
@@ -27,7 +27,7 @@ public class ShowKeyboardButton extends SimplePanel {
 	
 	/**
 	 * @param listener
-	 *            {@link UpdateKeyBoardListener}
+	 *            {@link KeyboardCloseListener}
 	 * @param dm
 	 *            {@link DockManagerW}
 	 * @param app
@@ -58,12 +58,12 @@ public class ShowKeyboardButton extends SimplePanel {
 						.getKeyboardListener(panel);
 						
 				if (panel instanceof AlgebraPanelInterface) {
-					listener.doShowKeyBoard(true,
+					listener.doShowKeyboard(true,
 							((AlgebraPanelInterface) panel)
 									.updateKeyboardListener(
 											mathKeyboardListener));
 				} else {
-					listener.doShowKeyBoard(true, mathKeyboardListener);
+					listener.doShowKeyboard(true, mathKeyboardListener);
 				}
 
 				if (guiManagerW.hasSpreadsheetView()) {

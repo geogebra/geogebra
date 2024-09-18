@@ -953,4 +953,9 @@ public class EditorTypingTest {
 				.right(1).type("2").right(1).type("3")
 				.checkGGBMath("1" + Unicode.INVISIBLE_PLUS + "2 / 3");
 	}
+
+	@Test
+	public void operatorShouldBeFollowedByZeroSpace() {
+		checker.type("1+").checkPlaceholders("1+\u200b");
+	}
 }

@@ -135,7 +135,6 @@ import org.geogebra.web.full.gui.toolbarpanel.tableview.dataimport.CsvImportHand
 import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
-import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.ConstructionItemProvider;
 import org.geogebra.web.full.main.activity.CASActivity;
@@ -161,6 +160,9 @@ import org.geogebra.web.html5.gui.HasHide;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
+import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
+import org.geogebra.web.html5.gui.tooltip.ToolTip;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -247,7 +249,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private ShareControllerW shareController;
 	private FileManager fm;
 	private GoogleDriveOperation googleDriveOperation;
-	private ZoomPanelMow mowZoomPanel;
 	private GeoGebraActivity activity;
 	private KeyboardManager keyboardManager;
 	/** dialog manager */
@@ -454,7 +455,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	private void preloadAdvancedCommandsForSuiteCAS() {
 		if (isSuite() && "cas".equals(activity.getConfig().getSubAppCode())) {
-			getAsyncManager().prefetch(null, "advanced", "giac");
+			getAsyncManager().prefetch(null, "advanced", "giac", "cas");
 		}
 	}
 
@@ -534,7 +535,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public final boolean showKeyboard(MathKeyboardListener textField,
 			boolean forceShow) {
-		boolean ret = getAppletFrame().showKeyBoard(true, textField, forceShow);
+		boolean ret = getAppletFrame().showKeyboard(true, textField, forceShow);
 		if (textField != null && ret) {
 			CancelEventTimer.keyboardSetVisible();
 		}
@@ -547,7 +548,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public final void updateKeyBoardField(MathKeyboardListener field) {
+	public final void updateKeyboardField(MathKeyboardListener field) {
 		getKeyboardManager().setOnScreenKeyboardTextField(field);
 	}
 
@@ -618,11 +619,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				listener.setFocus(true);
 				if (getAppletFrame().appNeedsKeyboard()
 						&& examController.getState() != ExamState.PREPARING) {
-					getAppletFrame().showKeyBoard(true, listener, true);
+					getAppletFrame().showKeyboard(true, listener, true);
 				}
 			}
 			if (!getAppletFrame().appNeedsKeyboard()) {
-				getAppletFrame().showKeyBoard(false, null, true);
+				getAppletFrame().showKeyboard(false, null, true);
 			}
 
 		});
@@ -678,9 +679,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			String helpText = getLocalization().getPlain("CheckOutTutorial",
 					getLocalization().getMenu(appName));
 			String tooltipURL = getLocalization().getTutorialURL(getConfig());
-			getToolTipManager().showBottomInfoToolTip(
-					getLocalization().getMenu("NewToGeoGebra"), helpText,
-					getLocalization().getMenu("Help"), tooltipURL, this);
+			ToolTipManagerW toolTipManagerW = getToolTipManager();
+			String title = getLocalization().getMenu("NewToGeoGebra");
+			toolTipManagerW.showBottomInfoToolTip(new ToolTip(title, helpText, "Help",
+							tooltipURL), this,
+					ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
 			getToolTipManager().setBlockToolTip(true);
 		}
 	}
@@ -744,7 +747,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			getGuiManager().getUnbundledToolbar()
 					.updateContent();
 		}
-		getAppletFrame().setNotesMode(getMode());
 	}
 
 	private void resetAllToolbars() {
@@ -1919,7 +1921,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (oldSplitLayoutPanel == null) {
 			return; // simple GUI: avoid NPE
 		}
-		this.oldSplitLayoutPanel.setPixelSize(spWidth, getSpHeight());
+		this.oldSplitLayoutPanel.setPixelSize(spWidth, spHeight);
 		// we need relative position to make sure the menubar / toolbar are not
 		// hidden
 		this.oldSplitLayoutPanel.getElement().getStyle()
@@ -1965,8 +1967,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public int getHeightForSplitPanel(int fallback) {
-		if (getSpHeight() > 0) {
-			return getSpHeight();
+		if (spHeight > 0) {
+			return spHeight;
 		}
 		return super.getHeightForSplitPanel(fallback);
 	}
@@ -1995,9 +1997,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				return;
 			}
 			splitPanelWrapper.add(frame.getMenuBar(this));
-			oldSplitLayoutPanel.setPixelSize(
-					oldSplitLayoutPanel.getOffsetWidth()
-							- GLookAndFeel.MENUBAR_WIDTH,
+			spWidth = oldSplitLayoutPanel.getOffsetWidth()
+					- GLookAndFeel.MENUBAR_WIDTH;
+			oldSplitLayoutPanel.setPixelSize(spWidth,
 					oldSplitLayoutPanel.getOffsetHeight());
 			updateMenuHeight();
 			if (needsUpdate) {
@@ -2045,8 +2047,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			return;
 		}
 
-		if (this.isFloatingMenu()) {
-			this.toggleMenu();
+		if (menuViewController != null) {
+			menuViewController.setMenuVisible(false);
 		} else {
 			spWidth = this.oldSplitLayoutPanel.getOffsetWidth()
 					+ GLookAndFeel.MENUBAR_WIDTH;
@@ -2077,7 +2079,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public void addToHeight(int i) {
-		this.setSpHeight(this.getSpHeight() + i);
+		this.setSpHeight(spHeight + i);
 	}
 
 	/**
@@ -2095,7 +2097,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (newHeight >= 0) {
 			this.setSpHeight(newHeight);
 			if (oldSplitLayoutPanel != null) {
-				oldSplitLayoutPanel.setHeight(getSpHeight() + "px");
+				oldSplitLayoutPanel.setHeight(spHeight + "px");
 				getGuiManager().getLayout().getDockManager().resizeProbabilityCalculator();
 				getGuiManager().updateUnbundledToolbar();
 			}
@@ -2246,10 +2248,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 	}
 
-	private int getSpHeight() {
-		return spHeight;
-	}
-
 	private void setSpHeight(int spHeight) {
 		this.spHeight = spHeight;
 	}
@@ -2278,20 +2276,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			shareController = new ShareControllerW(this);
 		}
 		return shareController;
-	}
-
-	/**
-	 * @param mowZoomPanel zoom panel
-	 */
-	public void setMowZoomPanel(ZoomPanelMow mowZoomPanel) {
-		this.mowZoomPanel = mowZoomPanel;
-	}
-
-	/**
-	 * @return zoom panel
-	 */
-	public ZoomPanelMow getZoomPanelMow() {
-		return mowZoomPanel;
 	}
 
 	@Override
@@ -2357,7 +2341,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			guiManager.resetBrowserGUI();
 			if (menuViewController != null) {
 				menuViewController.setExamMenu();
-				guiManager.setUnbundledHeaderStyle(isLockedExam() ? "examLock" : "examOk");
+				guiManager.setUnbundledHeaderStyle(
+						ExamUtil.hasExternalSecurityCheck(this) ? "examLock" : "examOk");
 				guiManager.resetMenu();
 				guiManager.updateUnbundledToolbarContent();
 				GlobalHeader.INSTANCE.addExamTimer();
@@ -2411,7 +2396,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void closeMenuHideKeyboard() {
 		if (menuShowing) {
-			toggleMenu();
+			hideMenu();
 		}
 		if (getAppletFrame().isKeyboardShowing()) {
 			hideKeyboard();

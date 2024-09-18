@@ -796,6 +796,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			app.getGlobalKeyDispatcher().handleTab(e.isShiftKeyDown());
 			e.stopPropagation(); // avoid conflict with GeoTabber
 		}
+		if (handleEscapeKey && keyCode == KeyCodes.KEY_ESCAPE) {
+			e.stopPropagation();
+		}
 		textFieldController.handleKeyboardEvent(e);
 	}
 
@@ -1208,7 +1211,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			app.getSelectionManager().addSelectedGeo(geoUsedForInputBox);
 		}
 
-		app.updateKeyBoardField(this);
+		app.updateKeyboardField(this);
 	}
 
 	@Override

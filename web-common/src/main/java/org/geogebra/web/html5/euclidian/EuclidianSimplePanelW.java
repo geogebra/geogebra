@@ -23,7 +23,8 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 	private int oldHeight = 0;
 	private int oldWidth = 0;
 
-	private Canvas eview1 = null; // static foreground
+	private Canvas eview1 = null;
+	private final ScheduledCommand onResizeCmd = this::onResize;
 
 	/**
 	 * This constructor is used by the applet
@@ -112,13 +113,6 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 		Scheduler.get().scheduleDeferred(onResizeCmd);
 		// onResize();
 	}
-
-	private ScheduledCommand onResizeCmd = new ScheduledCommand() {
-		@Override
-		public void execute() {
-			onResize();
-		}
-	};
 
 	@Override
 	public void updateNavigationBar() {

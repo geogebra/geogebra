@@ -7,7 +7,6 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
-import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.event.dom.client.HasAllKeyHandlers;
 import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyDownEvent;
@@ -223,7 +222,7 @@ public class GSuggestBox extends Composite
 		}
 
 		/**
-		 * Check whether or not the list of suggestions is being shown.
+		 * Check whether the list of suggestions is being shown.
 		 *
 		 * @return true if the suggestions are visible, false if not
 		 */
@@ -359,7 +358,7 @@ public class GSuggestBox extends Composite
 		}
 
 		/**
-		 * Check whether or not the suggestion list is hidden when there are no
+		 * Check whether the suggestion list is hidden when there are no
 		 * suggestions to display.
 		 *
 		 * @return true if hidden when empty, false if not
@@ -403,7 +402,7 @@ public class GSuggestBox extends Composite
 		}
 
 		/**
-		 * Set whether or not the suggestion list should be hidden when there
+		 * Set whether the suggestion list should be hidden when there
 		 * are no suggestions to display. Defaults to true.
 		 *
 		 * @param hideWhenEmpty
@@ -549,12 +548,7 @@ public class GSuggestBox extends Composite
 			for (final Suggestion curSuggestion : suggestions) {
 				final SuggestionMenuItem menuItem = new SuggestionMenuItem(
 						curSuggestion, isDisplayStringHTML);
-				menuItem.setScheduledCommand(new ScheduledCommand() {
-					@Override
-					public void execute() {
-						callback.onSuggestionSelected(curSuggestion);
-					}
-				});
+				menuItem.setScheduledCommand(() -> callback.onSuggestionSelected(curSuggestion));
 
 				suggestionMenu.addItem(menuItem);
 			}
@@ -610,12 +604,9 @@ public class GSuggestBox extends Composite
 
 		public SuggestionMenuItem(Suggestion suggestion, boolean asHTML) {
 			super(suggestion.getDisplayString(), asHTML,
-					new ScheduledCommand() {
-						@Override
-						public void execute() {
-							// TODO Auto-generated method stub
+					() -> {
+						// TODO Auto-generated method stub
 
-						}
 					});
 			// Each suggestion should be placed in a single row in the
 			// suggestion
@@ -805,7 +796,7 @@ public class GSuggestBox extends Composite
 	}
 
 	/**
-	 * Check whether or not the {@link DefaultSuggestionDisplay} has animations
+	 * Check whether the {@link DefaultSuggestionDisplay} has animations
 	 * enabled. Note that this method only has a meaningful return value when
 	 * the {@link DefaultSuggestionDisplay} is used.
 	 *
@@ -819,7 +810,7 @@ public class GSuggestBox extends Composite
 	}
 
 	/**
-	 * Returns whether or not the first suggestion will be automatically
+	 * Returns whether the first suggestion will be automatically
 	 * selected. This behavior is on by default.
 	 *
 	 * @return true if the first suggestion will be automatically selected
@@ -882,7 +873,7 @@ public class GSuggestBox extends Composite
 	 * suggested item. This behavior is on by default.
 	 *
 	 * @param selectsFirstItem
-	 *            Whether or not to automatically select the first suggestion
+	 *            whether to automatically select the first suggestion
 	 */
 	public void setAutoSelectEnabled(boolean selectsFirstItem) {
 		this.selectsFirstItem = selectsFirstItem;

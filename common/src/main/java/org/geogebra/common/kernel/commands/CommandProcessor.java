@@ -154,7 +154,7 @@ public abstract class CommandProcessor {
 
 				// resolve i-th argument and get GeoElements
 				// use only first resolved argument object for result
-				result[i] = resArg(arg[i], argInfo)[0];
+				result[i] = resArg(arg[i], argInfo);
 			}
 		} finally {
 			// remove added variables from construction
@@ -255,7 +255,7 @@ public abstract class CommandProcessor {
 
 				// resolve i-th argument and get GeoElements
 				// use only first resolved argument object for result
-				result[i] = resArg(arg[i], argInfo)[0];
+				result[i] = resArg(arg[i], argInfo);
 			}
 		}
 
@@ -275,12 +275,12 @@ public abstract class CommandProcessor {
 	 *             if processing argument causes error (i.e. wrong syntax of
 	 *             subcommand)
 	 */
-	protected final GeoElement[] resArg(ExpressionNode arg, EvalInfo info)
+	protected final GeoElement resArg(ExpressionNode arg, EvalInfo info)
 			throws MyError {
 		GeoElement[] geos = algProcessor.processExpressionNode(arg,
 				info.withLabels(false));
-		if (geos != null) {
-			return geos;
+		if (geos != null && geos.length > 0) {
+			return geos[0];
 		}
 		throw new MyError(loc, Errors.IllegalArgument,
 				arg.toString(StringTemplate.defaultTemplate));
@@ -309,7 +309,7 @@ public abstract class CommandProcessor {
 
 		// resolve i-th argument and get GeoElements
 		// use only first resolved argument object for result
-		GeoElement result = resArg(c.getArgument(pos), info)[0];
+		GeoElement result = resArg(c.getArgument(pos), info);
 
 		cons.setSuppressLabelCreation(oldMacroMode);
 		return result;
@@ -349,7 +349,7 @@ public abstract class CommandProcessor {
 			NumberValue initValue;
 			try {
 				initValue = (NumberValue) resArg(c.getArgument(initPos),
-					new EvalInfo(false))[0];
+					new EvalInfo(false));
 			} catch (MyError e) {
 				cmdCons.removeLocalVariable(localVarName);
 				throw e;
@@ -432,7 +432,7 @@ public abstract class CommandProcessor {
 
 			GeoList gl = null;
 			if (c.getArgumentNumber() > varPos + 1) {
-				GeoElement el = resArg(c.getArgument(varPos + 1), argInfo)[0];
+				GeoElement el = resArg(c.getArgument(varPos + 1), argInfo);
 				if (el.isGeoList()) {
 					gl = (GeoList) el;
 				} else {
@@ -468,8 +468,7 @@ public abstract class CommandProcessor {
 				def.inspect(node -> updateObject(node, vars[fi], over[fi]));
 			}
 		}
-		GeoElement[] arg = resArg(def, argInfo);
-		return arg[0];
+		return resArg(def, argInfo);
 	}
 
 	private boolean updateObject(ExpressionValue ev, GeoElement var, GeoList list) {
@@ -505,7 +504,7 @@ public abstract class CommandProcessor {
 
 		Construction cmdCons = c.getKernel().getConstruction();
 		EvalInfo argInfo = new EvalInfo(false);
-		GeoElement geo = resArg(c.getArgument(numArgs - 2), argInfo)[0];
+		GeoElement geo = resArg(c.getArgument(numArgs - 2), argInfo);
 		if (geo != null && !(geo instanceof GeoList)) {
 			throw argErr(c, c.getArgument(numArgs - 2));
 		}
@@ -562,11 +561,9 @@ public abstract class CommandProcessor {
 
 		}
 
-		number[0] = (GeoNumeric) resArg(c.getArgument(numArgs - 1), argInfo)[0];
+		number[0] = (GeoNumeric) resArg(c.getArgument(numArgs - 1), argInfo);
 
-		GeoElement[] arg = resArg(c.getArgument(0), argInfo);
-
-		return arg[0];
+		return resArg(c.getArgument(0), argInfo);
 	}
 
 	/**
@@ -623,7 +620,7 @@ public abstract class CommandProcessor {
 				boolean oldval = cons.isSuppressLabelsActive();
 				cons.setSuppressLabelCreation(true);
 				NumberValue initValue = (NumberValue) resArg(
-						c.getArgument(initPos[i]), argInfo)[0];
+						c.getArgument(initPos[i]), argInfo);
 				cons.setSuppressLabelCreation(oldval);
 				num[i].setValue(initValue.getDouble());
 			}

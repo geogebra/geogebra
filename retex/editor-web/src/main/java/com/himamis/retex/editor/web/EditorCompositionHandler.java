@@ -5,7 +5,6 @@ import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyDownHandler;
 import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.dom.client.KeyUpHandler;
-import org.gwtproject.event.legacy.shared.EventHandler;
 
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.model.Korean;
@@ -81,7 +80,7 @@ final class EditorCompositionHandler
 		}
 	}
 
-	private <T extends EventHandler> boolean composingBackspace(KeyCodeEvent<T> event) {
+	private <T> boolean composingBackspace(KeyCodeEvent<T> event) {
 		JsPropertyMap<Object> nativeEvent = Js.asPropertyMap(event.getNativeEvent());
 		return Js.isTruthy(nativeEvent.get("isComposing"))
 			&& "Backspace".equals(nativeEvent.get("code"));

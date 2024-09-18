@@ -60,7 +60,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 					@Override
 					public void execute() {
 						menu.hide();
-						app.toggleMenu();
+						app.hideMenu();
 						app.getSelectionManager().clearSelectedGeos();
 
 						String url = ExportImageDialog.getExportDataURL(app);
@@ -77,7 +77,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 					@Override
 					public void execute() {
 						menu.hide();
-						app.toggleMenu();
+						app.hideMenu();
 						app.getSelectionManager().clearSelectedGeos();
 						EuclidianViewWInterface ev
 								= (EuclidianViewWInterface) app.getActiveEuclidianView();
@@ -93,7 +93,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 					public void execute() {
 
 						menu.hide();
-						app.toggleMenu();
+						app.hideMenu();
 						app.getSelectionManager().clearSelectedGeos();
 
 						app.getGgbApi().exportPDF(1, null, (pdf) -> {

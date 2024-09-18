@@ -22,6 +22,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.NumberFormat;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -82,6 +83,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		SetLabels, EuclidianOptionsModel.IBasicTab,
 		EuclidianOptionsModel.IGridTab {
 
+	private final GridStyleProperty gridProperty;
 	protected AppD app;
 	private final Kernel kernel;
 	private final EuclidianOptionsModel model;
@@ -188,6 +190,8 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		kernel = app.getKernel();
 		this.view = view;
 		model = new EuclidianOptionsModel(app, view);
+		this.gridProperty = new GridStyleProperty(app.getLocalization(),
+				view.getSettings());
 		view.setOptionPanel(this);
 
 		wrappedPanel = new JPanel();
@@ -547,7 +551,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 		initGridTypePanel();
 		initGridStylePanel();
-
+		model.updateGridProperties(this);
 		JPanel gridPanel = new JPanel(new FullWidthLayout());
 		fillGridPanel(showGridPanel, gridPanel);
 
@@ -633,7 +637,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		cbBoldGrid.addActionListener(this);
 
 		cbGridType.removeActionListener(this);
-		cbGridType.setSelectedIndex(gridType);
+		cbGridType.setSelectedIndex(Arrays.asList(gridProperty.getValues()).indexOf(gridType));
 		cbGridType.addActionListener(this);
 	}
 
@@ -644,7 +648,8 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		cbAxesStyle.removeActionListener(this);
 		cbGridStyle.removeActionListener(this);
 
-		model.updateProperties(this, this);
+		model.updateBasicProperties(this);
+		model.updateGridProperties(this);
 
 		cbGridStyle.addActionListener(this);
 		cbAxesStyle.addActionListener(this);
@@ -726,8 +731,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	}
 
 	private void fillGridTypeCombo() {
-		String[] gridTypes = new GridStyleProperty(app.getLocalization(),
-				view.getSettings()).getValueNames();
+		String[] gridTypes = gridProperty.getValueNames();
 		for (String item : gridTypes) {
 			cbGridType.addItem(item);
 		}
@@ -831,7 +835,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 			model.applyMouseCoords(cbShowMouseCoords.isSelected());
 
 		} else if (source == cbGridType) {
-			model.applyGridType(cbGridType.getSelectedIndex());
+			model.applyGridType(getGridTypeFromIndex());
 
 		} else if (source == cbAxesStyle) {
 
@@ -894,6 +898,10 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 		view.updateBackground();
 		updateGUI();
+	}
+
+	private int getGridTypeFromIndex() {
+		return gridProperty.getValues()[cbGridType.getSelectedIndex()];
 	}
 
 	private double parseDouble(String text) {
@@ -1224,7 +1232,6 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	@Override
 	public void selectGridStyle(int style) {
 		cbGridStyle.setSelectedIndex(LineStyleModel.indexOfLineType(style));
-
 	}
 
 	@Override

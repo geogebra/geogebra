@@ -82,24 +82,26 @@ public class CreateObjectModel {
 	 * @return title
 	 */
 	public String getTitle() {
-		switch (getObjectType()) {
-		default:
+		return loc.getMenu(getTitle(getObjectType()));
+	}
+
+	/**
+	 * @param type dialog type
+	 * @return translation key for title
+	 */
+	public static String getTitle(int type) {
+		switch (type) {
+			default:
 			return null;
+			case TYPE_LIST: return "List.Tool";
 
-		case TYPE_LIST:
-			return loc.getMenu("CreateList");
+			case TYPE_LISTOFPOINTS: return "ListOfPoints";
 
-		case TYPE_LISTOFPOINTS:
-			return loc.getMenu("CreateListOfPoints");
+			case TYPE_TABLETEXT: return "Table.Tool";
 
-		case TYPE_TABLETEXT:
-			return loc.getMenu("CreateTable");
+			case TYPE_POLYLINE: return "CreatePolyLine";
 
-		case TYPE_POLYLINE:
-			return loc.getMenu("CreatePolyLine");
-
-		case TYPE_MATRIX:
-			return loc.getMenu("CreateMatrix");
+			case TYPE_MATRIX: return "Matrix.Tool";
 		}
 	}
 

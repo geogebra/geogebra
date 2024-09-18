@@ -17,6 +17,7 @@ import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.gwtutil.SafeExamBrowser;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.html5.GeoGebraGlobal;
@@ -413,7 +414,7 @@ public class GlobalHeader implements EventRenderable {
 		FlowPanel examTypePanel = new FlowPanel();
 		examTypePanel.getElement().setId("examTypeId");
 		examTypePanel.addStyleName("examTypePanel");
-		if (app != null && app.isLockedExam()) {
+		if (app != null && ExamUtil.hasExternalSecurityCheck(app)) {
 			examTypePanel.addStyleName("locked");
 		}
 		examTypePanel.add(examImg);

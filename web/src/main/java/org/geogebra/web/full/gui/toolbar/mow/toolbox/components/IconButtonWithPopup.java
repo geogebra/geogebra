@@ -12,6 +12,7 @@ import org.geogebra.web.resources.SVGResource;
 
 public class IconButtonWithPopup extends IconButton {
 	private final AppW appW;
+	private final List<Integer> tools;
 	private CategoryPopup categoryPopup;
 
 	/**
@@ -26,25 +27,41 @@ public class IconButtonWithPopup extends IconButton {
 			Runnable deselectButtons) {
 		super(appW, icon, ariaLabel, ariaLabel, () -> {}, null);
 		this.appW = appW;
+		this.tools = tools;
 		AriaHelper.setAriaHasPopup(this);
 
 		addFastClickHandler(source -> {
 			deselectButtons.run();
+			initAndShowPopup(tools);
 			setActive(true);
 
-			initAndShowPopup(tools);
-			AriaHelper.setAriaExpanded(this, true);
-			appW.setMode(categoryPopup.getLastSelectedMode());
-
-			categoryPopup.addCloseHandler((event) -> AriaHelper.setAriaExpanded(this, false));
+			categoryPopup.addCloseHandler((event) -> {
+				AriaHelper.setAriaExpanded(this, false);
+			});
 		});
 	}
 
 	private void initAndShowPopup(List<Integer> tools) {
 		if (categoryPopup == null) {
 			categoryPopup = new CategoryPopup(appW, tools, getUpdateButtonCallback());
+			categoryPopup.setAutoHideEnabled(false);
 		}
-		ToolboxPopupPositioner.showRelativeToToolbox(categoryPopup, this, appW);
+
+		showHidePopup();
+		updateSelection();
+	}
+
+	private void showHidePopup() {
+		if (categoryPopup.isShowing()) {
+			categoryPopup.hide();
+		} else {
+			ToolboxPopupPositioner.showRelativeToToolbox(categoryPopup, this, appW);
+		}
+	}
+
+	private void updateSelection() {
+		AriaHelper.setAriaExpanded(this, categoryPopup.isShowing());
+		appW.setMode(categoryPopup.getLastSelectedMode());
 	}
 
 	private Consumer<Integer> getUpdateButtonCallback() {
@@ -54,6 +71,12 @@ public class IconButtonWithPopup extends IconButton {
 			updateImgAndTxt(image, mode, appW);
 			setActive(true);
 		};
+	}
+
+	@Override
+	public int getMode() {
+		return categoryPopup != null && categoryPopup.getLastSelectedMode() != -1
+				? categoryPopup.getLastSelectedMode() : tools.get(0);
 	}
 
 	@Override

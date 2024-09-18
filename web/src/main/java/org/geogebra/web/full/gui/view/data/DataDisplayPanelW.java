@@ -401,9 +401,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 		app.updateSelection(false);
 
 		app.setWaitCursor();
-		app.copyEVtoClipboard(plotPanel);
+		app.exportView(plotPanel);
 		app.setDefaultCursor();
-    }
+	}
 
 	protected void exportToEV() {
 		// use EV1 unless shift is down, then use EV2

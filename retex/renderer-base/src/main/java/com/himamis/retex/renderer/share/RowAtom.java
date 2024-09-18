@@ -129,7 +129,6 @@ public class RowAtom extends Atom implements Row {
 		}
 	}
 
-
 	public void append(final RowAtom ra) {
 		elements.addAll(ra.elements);
 	}
@@ -423,4 +422,5 @@ public class RowAtom extends Atom implements Row {
 	public Atom getElement(int i) {
 		return i < elements.size() ? elements.get(i) : null;
 	}
+
 }

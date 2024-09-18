@@ -10,14 +10,14 @@ import org.geogebra.web.html5.main.AppW;
 
 public class ToolboxController {
 	private final AppW appW;
-	private final ToolboxMow toolbox;
+	private final NotesToolbox toolbox;
 	
 	/**
 	 * Controller
 	 * @param appW - application
 	 * @param toolbox - toolbox
 	 */
-	public ToolboxController(AppW appW, ToolboxMow toolbox) {
+	public ToolboxController(AppW appW, NotesToolbox toolbox) {
 		this.appW = appW;
 		this.toolbox = toolbox;
 	}
@@ -33,6 +33,7 @@ public class ToolboxController {
 			appW.getActiveEuclidianView().getEuclidianController().spotlightOn();
 			initSpotlightOff();
 			appW.hideMenu();
+			appW.closePopups();
 		};
 	}
 

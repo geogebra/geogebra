@@ -17,7 +17,6 @@ import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.DomMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.gwtproject.user.client.ui.Button;
-import org.gwtproject.user.client.ui.Label;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
@@ -25,8 +24,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import com.google.gwtmockito.WithClassesToStub;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
@@ -130,30 +127,12 @@ public class AccessibilityViewTest {
 
 	private BaseWidgetFactory getBaseWidgetFactory() {
 		BaseWidgetFactory factory = mock(BaseWidgetFactory.class);
-		when(factory.newButton()).thenAnswer(new Answer<Button>() {
-
-			@Override
-			public Button answer(InvocationOnMock invocation) throws Throwable {
-				return DomMocker.withElement(new Button());
-			}
-		});
-		when(factory.newLabel()).thenAnswer(new Answer<Label>() {
-
-			@Override
-			public Label answer(InvocationOnMock invocation) throws Throwable {
-				return DomMocker.newLabel();
-			}
-		});
+		when(factory.newButton()).thenAnswer(
+				invocation -> DomMocker.withElement(new Button()));
+		when(factory.newLabel()).thenAnswer(invocation -> DomMocker.newLabel());
 
 		when(factory.newSlider(Matchers.anyInt(), Matchers.anyInt()))
-				.thenAnswer(new Answer<SliderW>() {
-
-					@Override
-					public SliderW answer(InvocationOnMock invocation)
-							throws Throwable {
-						return DomMocker.withElement(new SliderW(0, 1));
-					}
-				});
+				.thenAnswer(invocation -> DomMocker.withElement(new SliderW(0, 1)));
 		when(factory.newPanel()).thenReturn(mockPanel);
 
 		return factory;
