@@ -231,7 +231,6 @@ public final class TableValuesKeyboardNavigationController {
 	private void handleArrowLeft() {
 		if (isFirstColumn(selectedColumn)) {
 			// arrow left in first column -> no change in selection
-			select(selectedRow, selectedColumn);
 			return;
 		}
 		select(selectedRow, findFirstFocusableColumnLeftOf(selectedColumn));
