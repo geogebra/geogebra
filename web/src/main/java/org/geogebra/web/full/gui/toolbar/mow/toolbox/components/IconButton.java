@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -11,6 +10,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.resources.SVGResourcePrototype;
 
 public class IconButton extends StandardButton implements SetLabels {
 	private static final int DEFAULT_BUTTON_WIDTH = 24;
@@ -28,12 +28,15 @@ public class IconButton extends StandardButton implements SetLabels {
 	 * @param appW - application
 	 */
 	public IconButton(int mode, AppW appW) {
-		this(appW.getLocalization(), (SVGResource) GGWToolBar.getImageURLNotMacro(
-				ToolbarSvgResources.INSTANCE, mode, appW), appW.getToolAriaLabel(mode));
+		this(appW.getLocalization(), SVGResourcePrototype.EMPTY, appW.getToolAriaLabel(mode));
 		this.mode = mode;
 		this.appW = appW;
 		selectionColor = getSelectionColor(appW);
 		AriaHelper.setDataTitle(this, appW.getToolName(mode));
+		GGWToolBar.getImageResource(mode, appW, image -> {
+			this.image = (SVGResource) image;
+			setActive(getElement().hasClassName("active"));
+		});
 		addStyleName("iconButton");
 	}
 

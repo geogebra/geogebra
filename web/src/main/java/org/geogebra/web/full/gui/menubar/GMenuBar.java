@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.menubar;
 
 import java.util.List;
 
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
@@ -64,7 +63,7 @@ public class GMenuBar extends AriaMenuBar {
 	 *            specifies if submenu should open to the left.
 	 * @return MenuItem
 	 */
-	public AriaMenuItem addItem(String itemtext, boolean textishtml,
+	/*public AriaMenuItem addItem(String itemtext, boolean textishtml,
 			final AriaMenuBar submenupopup, final boolean subleft) {
 
 		// this works, but it is still different from addItem in
@@ -153,7 +152,7 @@ public class GMenuBar extends AriaMenuBar {
 		});
 
 		return (AriaMenuItem) ait[0];
-	}
+	}*/
 
 	/**
 	 * @return title for event logger

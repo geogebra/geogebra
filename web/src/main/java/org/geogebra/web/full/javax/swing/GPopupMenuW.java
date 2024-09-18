@@ -483,7 +483,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	 *            command
 	 */
 	public void addItem(String s, ScheduledCommand c) {
-		addItem(new AriaMenuItem(s, false, c));
+		addItem(new AriaMenuItem(s, null, c));
 	}
 
 	/**

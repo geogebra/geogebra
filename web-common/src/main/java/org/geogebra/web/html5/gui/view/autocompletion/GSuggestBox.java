@@ -547,7 +547,7 @@ public class GSuggestBox extends Composite
 
 			for (final Suggestion curSuggestion : suggestions) {
 				final SuggestionMenuItem menuItem = new SuggestionMenuItem(
-						curSuggestion, isDisplayStringHTML);
+						curSuggestion);
 				menuItem.setScheduledCommand(() -> callback.onSuggestionSelected(curSuggestion));
 
 				suggestionMenu.addItem(menuItem);
@@ -602,8 +602,8 @@ public class GSuggestBox extends Composite
 
 		private Suggestion suggestion;
 
-		public SuggestionMenuItem(Suggestion suggestion, boolean asHTML) {
-			super(suggestion.getDisplayString(), asHTML,
+		public SuggestionMenuItem(Suggestion suggestion) {
+			super(suggestion.getDisplayString(), null,
 					() -> {
 						// TODO Auto-generated method stub
 
