@@ -498,6 +498,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 				.getAccessibilityManager();
 		MayHaveFocus anchor = am.getAnchor();
 		if (subPopup != null && subPopup.isMenuShown()) {
+			subPopup.getPopupMenu().getSelectedItem().removeStyleName("fakeFocus");
 			subPopup.hide();
 		} else {
 			popupPanel.hide();
@@ -565,8 +566,10 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 					&& target.getSelectedItem().getSubMenu() != null) {
 				openSubmenu(target.getSelectedItem());
 				target.getSelectedItem().getSubMenu().selectItem(0);
+				target.getSelectedItem().getSubMenu().getItemAt(0).addStyleName("fakeFocus");
 			}
 		} else if (keyCode == JavaKeyCodes.VK_LEFT) {
+			target.getSelectedItem().removeStyleName("fakeFocus");
 			removeSubPopup();
 		}
 	}
@@ -615,6 +618,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 				AriaMenuItem item = findItem(DOM.eventGetTarget(event));
 				if (item != null) {
 					if (item.getSubMenu() != null) {
+						removeFakeFocus();
 						openSubmenu(item);
 					} else {
 						GPopupMenuW.this.onItemHover();
@@ -689,6 +693,16 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 				return null;
 			}
 			return expandItems.get(getItemAt(idx));
+		}
+	}
+
+
+	/**
+	 * clear out fake focus
+	 */
+	public void removeFakeFocus() {
+		for (AriaMenuItem item : popupMenu.getItems()) {
+			item.removeStyleName("fakeFocus");
 		}
 	}
 }
