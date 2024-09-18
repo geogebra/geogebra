@@ -341,11 +341,16 @@ import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.ib.PointDerivativeFilter;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
-import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
@@ -377,7 +382,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
-		return Set.of(new OperationExpressionFilter(Operation.DERIVATIVE));
+		return Set.of(new PointDerivativeFilter());
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
