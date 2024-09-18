@@ -343,13 +343,12 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	 */
 	private int getPopupXCoord() {
 		int xCoordRightSide = getRightSubPopupXCord();
-		int rightSideMargin = app.getAppletFrame().getAbsoluteLeft()
-					+ app.getAppletFrame().getOffsetWidth();
+		int rightSideMargin = app.getAppletFrame().getOffsetWidth();
 		int spaceOnTheRightSide = rightSideMargin - xCoordRightSide;
 
 		int xCoordLeftSide = getLeftSubPopupXCord();
-		int leftSideMargin = app.getAppletFrame().getAbsoluteLeft();
-		int spaceOnTheLeftSide = xCoordLeftSide - leftSideMargin;
+		int spaceOnTheLeftSide = (int) ((getPopupLeft()
+				- app.getAppletFrame().getAbsoluteLeft()) / getScaleX());
 
 		if (spaceOnTheRightSide >= getSubPopupWidth()) {
 			return xCoordRightSide;
@@ -357,9 +356,9 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 			return xCoordLeftSide;
 		} else {
 			if (spaceOnTheRightSide >= spaceOnTheLeftSide) {
-				return rightSideMargin - getSubPopupWidth();
+				return Math.max(rightSideMargin - getSubPopupWidth(), 0);
 			} else {
-				return leftSideMargin;
+				return Math.max(xCoordLeftSide, 0);
 			}
 		}
 	}
