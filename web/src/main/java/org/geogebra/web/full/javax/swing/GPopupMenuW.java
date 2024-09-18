@@ -696,7 +696,6 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 		}
 	}
 
-
 	/**
 	 * clear out fake focus
 	 */
