@@ -100,6 +100,19 @@ public class AlgebraContextMenuTests {
 		);
 	}
 
+	@Test
+	public void testForInputWithDuplicateOutputInScientificApp() {
+		setupApp(GeoGebraConstants.SCIENTIFIC_APPCODE);
+		GeoElement geoElement = add("1 + 2");
+		assertEquals(
+				List.of(RemoveLabel,
+						DuplicateInput,
+						DuplicateOutput,
+						Delete),
+				makeAlgebraContextMenu(geoElement, algebraProcessor, appCode)
+		);
+	}
+
 	// Graphing app
 
 	@Test
