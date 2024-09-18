@@ -278,6 +278,16 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
+	public void segmentWithDrag() {
+		setMode(EuclidianConstants.MODE_SEGMENT);
+		click(0, 0);
+		dragStart(100, 100);
+		pointerRelease(200, 150);
+		checkContent("A = (0, 0)", "B = (4, -3)", "f = 5");
+		events.clear();
+	}
+
+	@Test
 	public void polygonTool() {
 		setMode(EuclidianConstants.MODE_POLYGON);
 		click(0, 0);
