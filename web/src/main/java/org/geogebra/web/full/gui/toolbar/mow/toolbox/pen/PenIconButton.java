@@ -39,12 +39,12 @@ public class PenIconButton extends IconButton {
 			setActive(true);
 
 			AriaHelper.setAriaExpanded(this, true);
-			penPopup.addCloseHandler((e) -> AriaHelper.setAriaExpanded(this, false));
 		});
+		penPopup.addCloseHandler((e) -> AriaHelper.setAriaExpanded(this, false));
 	}
 
 	private void showPopup() {
-		appW.setMode(getLastSelectedMode());
+		appW.setMode(getMode());
 		penPopup.update();
 		if (penPopup.isShowing()) {
 			penPopup.hide();
@@ -61,7 +61,8 @@ public class PenIconButton extends IconButton {
 		});
 	}
 
-	private int getLastSelectedMode() {
+	@Override
+	public int getMode() {
 		return penPopup.getLastSelectedMode() == -1 ? MODE_PEN : penPopup.getLastSelectedMode();
 	}
 
