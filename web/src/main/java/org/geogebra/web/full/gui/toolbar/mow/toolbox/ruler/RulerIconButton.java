@@ -25,6 +25,7 @@ public class RulerIconButton extends IconButton {
 		this.appW = appW;
 		ec = appW.getActiveEuclidianView().getEuclidianController();
 		addFastClickHandler((event) -> {
+			appW.closePopups();
 			setActive(!isActive());
 			initRulerTypePopup();
 			if (!isActive()) {
