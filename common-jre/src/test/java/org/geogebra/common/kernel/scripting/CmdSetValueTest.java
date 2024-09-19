@@ -179,4 +179,16 @@ public class CmdSetValueTest extends BaseUnitTest {
 		add("SetValue(g, ?)");
 		assertEquals("", inputBox.getTextForEditor());
 	}
+
+	@Test
+	@Issue("APPS-5629")
+	public void setValueShouldKeepTypeForDependentGeoCopy() {
+		add("f(n) = n");
+		add("g(n) = f(n)");
+		add("SetValue(g, ?)");
+		getApp().setXML(getApp().getXML(), true);
+		GeoElement function = lookup("g");
+		assertThat(function, hasValue("?"));
+		assertThat(function, hasProperty("type", GeoElement::getGeoClassType, GeoClass.FUNCTION));
+	}
 }

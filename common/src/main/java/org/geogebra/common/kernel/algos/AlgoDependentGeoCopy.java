@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -125,5 +126,14 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 
 	public void setExpression(ExpressionNode expression) {
 		origGeoNode = expression;
+	}
+
+	@Override
+	protected String toExpString(StringTemplate tpl) {
+		if (copyGeo.isLabelSet() && (copyGeo.isGeoFunction() || copyGeo.isGeoFunctionNVar())) {
+			return copyGeo.getLabel(tpl) + "(" + ((Evaluate2Var) copyGeo).getVarString(tpl)
+					+ ") = " + origGeoNode.toString(tpl);
+		}
+		return super.toExpString(tpl);
 	}
 }
