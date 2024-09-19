@@ -6,7 +6,6 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRIANGLE_PRO
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;

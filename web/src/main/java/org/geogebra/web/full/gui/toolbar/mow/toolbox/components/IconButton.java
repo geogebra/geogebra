@@ -38,10 +38,6 @@ public class IconButton extends StandardButton implements SetLabels {
 			setActive(getElement().hasClassName("active"));
 		});
 		addStyleName("iconButton");
-		GGWToolBar.getImageResource(mode, appW, image -> {
-			this.image = (SVGResource) image;
-			setActive(getElement().hasClassName("active"));
-		});
 	}
 
 	/** Constructor
