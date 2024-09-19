@@ -224,6 +224,9 @@ public final class ContextMenuFactory {
 			items.add(CreateTableValues);
 		}
 		items.add(isAlgebraLabelVisible ? RemoveLabel : AddLabel);
+		if (showSpecialPointsSuggestion) {
+			items.add(SpecialPoints);
+		}
 		if (showStatisticsSuggestion) {
 			items.add(Statistics);
 		}
@@ -239,9 +242,6 @@ public final class ContextMenuFactory {
 		}
 		items.add(Delete);
 		items.add(Settings);
-		if (showSpecialPointsSuggestion) {
-			items.add(SpecialPoints);
-		}
 		return items;
 	}
 
