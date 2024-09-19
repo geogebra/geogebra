@@ -6,6 +6,8 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.ResourceAction;
+import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.gwtutil.Cookies;
 import org.geogebra.web.full.gui.exam.ExamUtil;
@@ -19,6 +21,7 @@ import org.geogebra.web.shared.SignInController;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;
 import elemental2.dom.EventListener;
+import elemental2.promise.Promise;
 import jsinterop.base.Js;
 
 /**
@@ -62,7 +65,7 @@ public class GLookAndFeel implements GLookAndFeelI {
 	 */
 	@Override
 	public void addWindowClosingHandler(final AppW app) {
-		if (app.getExam() != null) {
+		if (GlobalScope.examController.isExamActive()) {
 			return;
 		}
 		// popup when the user wants to exit accidentally
@@ -158,11 +161,6 @@ public class GLookAndFeel implements GLookAndFeelI {
 	}
 
 	@Override
-	public boolean examSupported() {
-		return false;
-	}
-
-	@Override
 	public boolean printSupported() {
 		return true;
 	}
@@ -190,6 +188,16 @@ public class GLookAndFeel implements GLookAndFeelI {
 					"geogebra.org", "/");
 		} else {
 			BrowserStorage.LOCAL.setItem("GeoGebraLangUI", lang);
+		}
+	}
+
+	@Override
+	public Promise<String> loadLanguage() {
+		String cookieLang = Cookies.getCookie("GeoGebraLangUI");
+		if (!StringUtil.empty(cookieLang)) {
+			return Promise.resolve(cookieLang);
+		} else {
+			return Promise.resolve(BrowserStorage.LOCAL.getItem("GeoGebraLangUI"));
 		}
 	}
 

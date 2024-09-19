@@ -74,8 +74,7 @@ public class ContextMenuButtonCard extends StandardButton
 	 */
 	protected AriaMenuItem addItem(SVGResource img, String text,
 			ScheduledCommand cmd) {
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, text), true, cmd);
+		AriaMenuItem mi = MainMenu.getMenuBarItem(img, text, cmd);
 		wrappedPopup.addItem(mi);
 		return mi;
 	}

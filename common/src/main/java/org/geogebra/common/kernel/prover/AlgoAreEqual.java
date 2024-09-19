@@ -15,8 +15,6 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.Commands;
@@ -158,30 +156,27 @@ public class AlgoAreEqual extends AlgoElement
 		// Then we check if none of the numbers used in the input exceed the
 		// precision we used when comparing the numerical result
 		return actual.getDefinition().isConstant()
-				&& !actual.getDefinition().inspect(new Inspecting() {
-			@Override
-			public boolean check(ExpressionValue v) {
-				if (v instanceof MyDouble) {
-					// Special numbers, such as E, Pi, and 1 degree are allowed
-					double d = ((MyDouble) v).getDouble();
-					if (DoubleUtil.isEqual(d, Math.PI, Kernel.MAX_PRECISION)
-						|| DoubleUtil.isEqual(d, Math.E, Kernel.MAX_PRECISION)
-						|| DoubleUtil.isEqual(d, Kernel.PI_180, Kernel.MAX_PRECISION)) {
-						return false;
+				&& !actual.getDefinition().inspect(v -> {
+					if (v instanceof MyDouble) {
+						// Special numbers, such as E, Pi, and 1 degree are allowed
+						double d = ((MyDouble) v).getDouble();
+						if (DoubleUtil.isEqual(d, Math.PI, Kernel.MAX_PRECISION)
+							|| DoubleUtil.isEqual(d, Math.E, Kernel.MAX_PRECISION)
+							|| DoubleUtil.isEqual(d, Kernel.PI_180, Kernel.MAX_PRECISION)) {
+							return false;
+						}
+
+						// Integers between -10^8 and 10^8 are allowed
+						if (MyDouble.exactEqual(d, Math.round(d))) {
+							return d <= -1E8 || 1E8 <= d;
+						}
+
+						// Decimal numbers with less than 8 significant digits are allowed
+						return countSignifiantDigits(d) > 8;
 					}
 
-					// Integers between -10^8 and 10^8 are allowed
-					if (MyDouble.exactEqual(d, Math.round(d))) {
-						return d <= -1E8 || 1E8 <= d;
-					}
-
-					// Decimal numbers with less than 8 significant digits are allowed
-					return countSignifiantDigits(d) > 8;
-				}
-
-				return false;
-			}
-		});
+					return false;
+				});
 	}
 
 	private int countSignifiantDigits(double d) {

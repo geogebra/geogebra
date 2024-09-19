@@ -142,7 +142,7 @@ public class ProductParserTest extends TokenizerBaseTest {
 
 	@Test
 	public void testImaginaryProduct() {
-		shouldReparseAs("i1", String.valueOf(Unicode.IMAGINARY));
+		shouldReparseAs("i1", Unicode.IMAGINARY + " * 1");
 	}
 
 	@Test

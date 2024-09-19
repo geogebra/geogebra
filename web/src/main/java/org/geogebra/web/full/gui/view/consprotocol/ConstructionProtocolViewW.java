@@ -364,7 +364,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 					initGUI();
 				};
 
-				GCheckmarkMenuItem columnItem = new GCheckmarkMenuItem(
+				GCheckmarkMenuItem columnItem = new GCheckmarkMenuItem(null,
 						data.columns[j].getTranslatedTitle(),
 						data.columns[j].isVisible(), com);
 				popupMenu.addItem(columnItem);
@@ -373,9 +373,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		popupMenu.addVerticalSeparator();
 
-		GCheckmarkMenuItem miShowOnlyBreakpoints = new GCheckmarkMenuItem(
+		GCheckmarkMenuItem miShowOnlyBreakpoints = new GCheckmarkMenuItem(null,
 				app.getLocalization().getMenu("ShowOnlyBreakpoints"),
-				app.getKernel().getConstruction().showOnlyBreakpoints());
+				app.getKernel().getConstruction().showOnlyBreakpoints(), null);
 
 		miShowOnlyBreakpoints.setCommand(() -> {
 			showOnlyBreakpointsAction();

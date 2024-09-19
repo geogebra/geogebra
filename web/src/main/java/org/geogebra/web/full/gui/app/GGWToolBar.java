@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.exam.ExamController;
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.UndoRedoMode;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
@@ -82,6 +85,7 @@ public class GGWToolBar extends Composite
 	/** undo button */
 	StandardButton undoButton;
 	private StandardButton redoButton;
+	private final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * Create a new GGWToolBar object
@@ -148,7 +152,7 @@ public class GGWToolBar extends Composite
 
 		toolBarPanel.addStyleName("toolbarPanel");
 
-		if (app.isExam()) {
+		if (!examController.isIdle()) {
 			toolBarPanel.addStyleName("toolbarPanelExam");
 		}
 		toolBPanel.setStyleName("toolBPanel");
@@ -221,24 +225,23 @@ public class GGWToolBar extends Composite
 
 	// timer for GeoGebraExam
 	private FlowPanel getTimer() {
-		final Label timer = new Label();
-		timer.getElement().setClassName("timer");
-		timer.getElement().setId("timer");
-		timer.getElement().setPropertyBoolean("started", false);
+		final Label timerLabel = new Label();
+		timerLabel.getElement().setClassName("timer");
+		timerLabel.getElement().setId("timer");
+		timerLabel.getElement().setPropertyBoolean("started", false);
 
 		// https://groups.google.com/forum/#!msg/google-web-toolkit/VrF3KD1iLh4/-y4hkIDt5BUJ
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				if (app.getExam() != null) {
-					if (app.getExam().isCheating()) {
+				if (examController.isExamActive()
+						|| examController.getState() == ExamState.PREPARING) {
+					if (examController.isCheating()) {
 						ExamUtil.makeRed(getElement(), true);
 						makeTimerWhite(Js.uncheckedCast(getElement()));
 					}
 
-					timer.setText(app.getExam()
-							.timeToString(System.currentTimeMillis()));
-
+					timerLabel.setText(examController.getDurationFormatted(app.getLocalization()));
 					AnimationScheduler.get().requestAnimationFrame(this);
 				}
 			}
@@ -248,7 +251,7 @@ public class GGWToolBar extends Composite
 		new ExamUtil(app).addVisibilityAndBlurHandlers();
 
 		FlowPanel fp = new FlowPanel();
-		fp.add(timer);
+		fp.add(timerLabel);
 		Image info = new Image(
 				GuiResourcesSimple.INSTANCE.dialog_info().getSafeUri().asString());
 		info.setStyleName("examInfo");
@@ -293,15 +296,14 @@ public class GGWToolBar extends Composite
 	 */
 	public void updateActionPanel() {
 		rightButtonPanel.clear();
-		boolean exam = app.isExam();
+		boolean exam = !examController.isIdle();
 		setStyleName("examToolbar", exam);
 		if (exam) {
 			// We directly read the parameters to show the intention.
 			// It may be possible that 3D is not supported from technical
 			// reasons (e.g. the graphics card is problematic), but in such
 			// cases we don't want to show that here.
-			boolean supportsCAS = app.getKernel().getAlgebraProcessor()
-					.getCommandDispatcher().isCASAllowed();
+			boolean supportsCAS = app.getSettings().getCasSettings().isEnabled();
 			if (!supportsCAS) {
 				Label nocas = new Label("CAS");
 				nocas.getElement().getStyle()
@@ -882,9 +884,6 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
 			return resourceBundle.mode_shape_rectangle_32();
 
-		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
-			return resourceBundle.mode_shape_rectangle_round_edges_32();
-
 		case EuclidianConstants.MODE_SHAPE_PENTAGON:
 			return resourceBundle.mode_shape_pentagon_32();
 
@@ -1067,7 +1066,7 @@ public class GGWToolBar extends Composite
 		if (app.showMenuBar()) {
 			extraButtons += 90;
 		}
-		if (app.isExam()) {
+		if (!examController.isIdle()) {
 			extraButtons += 95;
 			if (!app.getSettings().getEuclidian(-1).isEnabled()) {
 				extraButtons += 55;

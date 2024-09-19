@@ -5,9 +5,10 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.aliases.ActionableIconProperty;
-import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.impl.AbstractActionableProperty;
 
-public class ShowAllObjectsAction extends AbstractProperty implements ActionableIconProperty {
+public class ShowAllObjectsAction extends AbstractActionableProperty
+		implements ActionableIconProperty {
 
 	private final AppConfig appConfig;
 	private final EuclidianView euclidianView;
@@ -26,7 +27,7 @@ public class ShowAllObjectsAction extends AbstractProperty implements Actionable
 	}
 
 	@Override
-	public void performAction() {
+	protected void doPerformAction() {
 		boolean keepRatio = appConfig.shouldKeepRatioEuclidian();
 		euclidianView.setViewShowAllObjects(true, keepRatio);
 	}

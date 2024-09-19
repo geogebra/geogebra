@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.plugin.Geometry3DGetter;
 
 import com.google.j2objc.annotations.Weak;
@@ -22,6 +23,7 @@ import com.google.j2objc.annotations.Weak;
  */
 public class AppCompanion {
 	/** application */
+	@NonOwning
 	@Weak
 	protected App app;
 
@@ -246,12 +248,13 @@ public class AppCompanion {
 	 *            y axis tick distance
 	 * @param zTickDistance
 	 *            z axis tick distance
+	 * @return whether successful
 	 */
-	public void exportGeometry3D(Geometry3DGetter getter, double xmin,
+	public boolean exportGeometry3D(Geometry3DGetter getter, double xmin,
 			double xmax, double ymin, double ymax, double zmin, double zmax,
 			double xyScale, double xzScale, double xTickDistance,
 			double yTickDistance, double zTickDistance) {
-		// implemented in App3DCompanion
+		return false; // implemented in App3DCompanion
 	}
 
 	public void updateFonts3D() {

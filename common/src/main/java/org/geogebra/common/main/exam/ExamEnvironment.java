@@ -4,12 +4,13 @@ import java.util.Date;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
-import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
+import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.AppConfig;
@@ -17,7 +18,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.Translation;
 import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.main.exam.event.CheatingEvents;
-import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
 import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.main.settings.CASSettings;
@@ -28,6 +28,7 @@ import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.TimeFormatAdapter;
 import org.geogebra.common.util.debug.Log;
 
+@Deprecated // use org.geogebra.common.exam API instead
 public class ExamEnvironment {
 
 	private static final long EXAM_START_TIME_NOT_STARTED = -1;
@@ -52,7 +53,7 @@ public class ExamEnvironment {
 	private long closed = -1;
 
 	private TimeFormatAdapter timeFormatter;
-	private final CommandArgumentFilter examCommandFilter = new ExamCommandFilter();
+	private final CommandArgumentFilter examCommandFilter = new ExamCommandArgumentFilter();
 	private static final CommandFilter noCASFilter = CommandFilterFactory
 			.createNoCasCommandFilter();
 
@@ -61,7 +62,7 @@ public class ExamEnvironment {
 	private Boolean wasCasEnabled;
 
 	private TempStorage tempStorage;
-	private ExamRegion region = ExamRegion.GENERIC;
+	private ExamType region = ExamType.GENERIC;
 	private ExamRestrictionModel model;
 
 	/**
@@ -89,11 +90,11 @@ public class ExamEnvironment {
 		return copyPaste;
 	}
 
-	public void setExamRegion(ExamRegion region) {
+	public void setExamRegion(ExamType region) {
 		this.region = region;
 	}
 
-	public ExamRegion getExamRegion() {
+	public ExamType getExamRegion() {
 		return region;
 	}
 
@@ -493,7 +494,7 @@ public class ExamEnvironment {
 	 * @return wether we are in GENERIC(restricted graphing) exam mode
 	 */
 	public boolean isRestrictedGraphExam() {
-		return ExamRegion.GENERIC.getDisplayName(localization, appConfig).equals(getExamRegion()
+		return ExamType.GENERIC.getDisplayName(localization, appConfig).equals(getExamRegion()
 						.getDisplayName(localization, appConfig));
 	}
 
@@ -619,7 +620,9 @@ public class ExamEnvironment {
 	 * sets the exam command filter for the duration of the exam mode.
 	 */
 	private void enableExamCommandFilter() {
-		commandDispatcher.addCommandArgumentFilter(examCommandFilter);
+		if (examCommandFilter != null) {
+			commandDispatcher.addCommandArgumentFilter(examCommandFilter);
+		}
 	}
 
 	/**
@@ -647,7 +650,9 @@ public class ExamEnvironment {
 	 * the CommandDispatcher
 	 */
 	private void disableExamCommandFilter() {
-		commandDispatcher.removeCommandArgumentFilter(examCommandFilter);
+		if (examCommandFilter != null) {
+			commandDispatcher.removeCommandArgumentFilter(examCommandFilter);
+		}
 	}
 
 	/**

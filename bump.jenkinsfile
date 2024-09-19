@@ -4,9 +4,15 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'git checkout master'
-                sh 'git reset --hard origin/master'
-                sh './gradlew :common:versionBump'
+                withCredentials([usernamePassword(credentialsId: "gitlab", 
+                    usernameVariable: 'username', passwordVariable: 'password')]) {
+                        sh 'git fetch --depth 1 https://${username}:${password}@git.geogebra.org/ggb/geogebra.git master'
+                }
+                sh '''
+                git checkout master
+                git reset --hard origin/master
+                ./gradlew :common:versionBump
+                '''
                 script {
                     def version = readFile('common/build/version.txt')
                     currentBuild.displayName = "${currentBuild.displayName} (${version})"

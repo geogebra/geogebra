@@ -796,12 +796,7 @@ public class MathFieldInternal
 
 	private void insertStringFinished() {
 		if (mathField instanceof MathFieldAsync) {
-			((MathFieldAsync) mathField).requestViewFocus(new Runnable() {
-				@Override
-				public void run() {
-					onKeyTyped();
-				}
-			});
+			((MathFieldAsync) mathField).requestViewFocus(this::onKeyTyped);
 		} else {
 			mathField.requestViewFocus();
 			// do this as late as possible

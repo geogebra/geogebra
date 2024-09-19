@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
+import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.PropertiesFactory;
@@ -155,21 +156,24 @@ public interface AppConfig extends Serializable {
 	/**
 	 * @return labeling style
 	 */
-	int getDefaultLabelingStyle();
+	LabelVisibility getDefaultLabelingStyle();
 
 	/**
 	 * @return the Command filter for the app.
 	 */
+	@CheckForNull
 	CommandFilter getCommandFilter();
 
 	/**
 	 * @return new command filter for the app.
 	 */
+	@CheckForNull
 	CommandFilter createCommandFilter();
 
 	/**
 	 * @return the Command Argument filter for the app.
 	 */
+	@CheckForNull
 	CommandArgumentFilter getCommandArgumentFilter();
 
 	/**

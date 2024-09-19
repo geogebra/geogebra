@@ -4,9 +4,10 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.PropertyResource;
 import org.geogebra.common.properties.aliases.ActionableIconProperty;
-import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.impl.AbstractActionableProperty;
 
-public class ARFitThicknessAction extends AbstractProperty implements ActionableIconProperty {
+public class ARFitThicknessAction extends AbstractActionableProperty
+		implements ActionableIconProperty {
 
 	final EuclidianView3D euclidianView;
 
@@ -21,7 +22,7 @@ public class ARFitThicknessAction extends AbstractProperty implements Actionable
 	}
 
 	@Override
-	public void performAction() {
+	public void doPerformAction() {
 		euclidianView.getRenderer().fitThicknessInAR();
 	}
 

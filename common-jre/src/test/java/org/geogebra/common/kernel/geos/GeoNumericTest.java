@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.RecurringDecimal;
 import org.geogebra.common.main.settings.config.AppConfigCas;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 public class GeoNumericTest extends BaseUnitTest {
@@ -140,5 +141,39 @@ public class GeoNumericTest extends BaseUnitTest {
 		recurring.setSymbolicMode(true, true);
 		assertThat(recurring.getFormulaString(tpl, true), is("4 / 3"));
 		assertThat(recurring.getFormulaString(tpl, false), is("1 + 0.3\u0305"));
+	}
+
+	@Test
+	@Issue("APPS-5531")
+	public void shouldKeepTrailingZeros() {
+		GeoNumeric withTrailing = addAvInput("1.20");
+		assertThat(withTrailing.getXML(), containsString("1.20"));
+		withTrailing.setEuclidianVisible(true);
+		assertThat(withTrailing.getXML(), containsString("1.20"));
+	}
+
+	@Test
+	@Issue("APPS-5699")
+	public void shouldKeepTrailingZerosForIntegers() {
+		GeoNumeric withTrailing = addAvInput("1.00");
+		assertThat(withTrailing.getXML(), containsString("1.00"));
+	}
+
+	@Test
+	@Issue("APPS-5531")
+	public void shouldKeepENotation() {
+		GeoNumeric withTrailing = addAvInput("1.20E3");
+		assertThat(withTrailing.getXML(), containsString("1.20E3"));
+	}
+
+	@Test
+	@Issue("APPS-1889")
+	public void shouldNotStoreStyleIfNotInitialized() {
+		addAvInput("a=3");
+		reload();
+		GeoElement slider = lookup("a");
+		slider.setEuclidianVisible(true);
+		slider.updateRepaint();
+		assertThat(slider.getLineThickness(), is(10));
 	}
 }

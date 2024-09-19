@@ -1,13 +1,15 @@
 package org.geogebra.web.full.gui.menubar;
 
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ResourcePrototype;
@@ -19,6 +21,7 @@ public class PerspectivesMenuW extends Submenu {
 
 	/** Application */
 	AppW app;
+	private final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * @param app application
@@ -39,19 +42,18 @@ public class PerspectivesMenuW extends Submenu {
 		addPerspective(2, pr.menu_icon_spreadsheet_transparent());
 		addPerspective(5, pr.menu_icon_probability_transparent());
 
-		if (!app.isExam()) {
-			if (app.getLAF().examSupported()) {
-				addItem(MainMenu.getMenuBarHtmlClassic(
-						GuiResources.INSTANCE.menu_icon_exam24().getSafeUri()
-								.asString(),
-						app.getLocalization().getMenu("exam_menu_entry")), // "Exam
+		if (examController.isIdle()) {
+			if (app.getLAF().isOfflineExamSupported()) {
+				addItem(MainMenu.getMenuBarItem(
+						GuiResources.INSTANCE.menu_icon_exam24(),
+						app.getLocalization().getMenu("exam_menu_entry"), // "Exam
 																					// Mode"
-						true, new MenuCommand(app) {
+						new MenuCommand(app) {
 							@Override
 							public void doExecute() {
 								app.getSaveController().showDialogIfNeeded(getExamCallback(), true);
 							}
-						});
+						}));
 			}
 		}
 	}
@@ -61,20 +63,20 @@ public class PerspectivesMenuW extends Submenu {
 		if (perspective == null) {
 			return;
 		}
-		addItem(MainMenu.getMenuBarHtmlClassic(NoDragImage.safeURI(icon),
+		AriaMenuItem item = addItem(MainMenu.getMenuBarItem(icon,
 				app.getLocalization()
-						.getMenu(perspective.getId())),
-				true,
+						.getMenu(perspective.getId()),
 				new MenuCommand(app) {
 
 					@Override
 					public void doExecute() {
 						setPerspective(app, perspective);
-						if (!(app.isExam() && app.getExam().getStart() >= 0)) {
+						if (!examController.isExamActive()) {
 							app.showStartTooltip(perspective);
 						}
 					}
-				});
+				}));
+		item.addStyleName("noTransparency");
 	}
 
 	/**
@@ -82,10 +84,7 @@ public class PerspectivesMenuW extends Submenu {
 	 *         (goes fullscreen)
 	 */
 	AsyncOperation<Boolean> getExamCallback() {
-		return active -> {
-			app.setNewExam();
-			app.examWelcome();
-		};
+		return active -> app.showExamWelcomeMessage();
 	}
 
 	/**

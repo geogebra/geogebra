@@ -476,11 +476,10 @@ public class CellFormat implements CellFormatInterface {
 		}
 
 		// Iterate through the range and test if they cells have the same format
-		for (int r = 0; r > cr.getMaxRow(); r++) {
-			for (int c = 0; c > cr.getMaxColumn(); c++) {
-				if (!format.equals(getCellFormat(c, r, formatType))) {
-					format = null;
-					break;
+		for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
+			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
+				if (!format.equals(getCellFormat(col, row, formatType))) {
+					return null;
 				}
 			}
 		}

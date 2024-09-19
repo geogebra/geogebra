@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.impl.general.LanguageProperty;
+import org.geogebra.common.properties.PropertiesRegistry;
 
 public class ProbabilityPropertiesFactory extends DefaultPropertiesFactory {
 	@Override
 	public List<PropertiesArray> createProperties(App app, Localization localization,
-			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
-		return Arrays.asList(createGeneralProperties(app, localization, onLanguageSetCallback));
+			PropertiesRegistry propertiesRegistry) {
+		return Arrays.asList(createGeneralProperties(app, localization, propertiesRegistry));
 	}
 }

@@ -2,11 +2,13 @@ package org.geogebra.web.full.gui.menubar;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
@@ -14,9 +16,11 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyDownEvent;
@@ -56,6 +60,7 @@ public class MainMenu extends FlowPanel
 	final SignInMenu signInMenu;
 
 	private final ClassicMenuItemProvider actionProvider;
+	private final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * Constructs the menubar
@@ -65,7 +70,7 @@ public class MainMenu extends FlowPanel
 	 */
 	public MainMenu(AppWFull app) {
 		if (!app.isUnbundledOrWhiteboard()) {
-			this.addStyleName("menubarSMART");
+			this.addStyleName("menuBarClassic");
 		}
 		this.actionProvider = new ClassicMenuItemProvider(app);
 		signInMenu = new SignInMenu(app);
@@ -76,7 +81,7 @@ public class MainMenu extends FlowPanel
 	private void init() {
 		app.ensureLoginOperation();
 		this.app.getLoginOperation().getView().add(this);
-		final boolean exam = app.isExam();
+		final boolean exam = !examController.isIdle();
 
 		this.menus = new ArrayList<>();
 		this.userMenu = new UserSubmenu(app);
@@ -143,7 +148,7 @@ public class MainMenu extends FlowPanel
 				int eventType = DOM.eventGetType(event);
 				Element target = DOM.eventGetTarget(event);
 				int index = findDividerIndex(target);
-				if (!app.isExam() && eventType == Event.ONMOUSEOUT) {
+				if (examController.isIdle() && eventType == Event.ONMOUSEOUT) {
 					if (index != getSelectedIndex()) {
 						getMenuAt(getSelectedIndex()).selectItem(null);
 					}
@@ -154,7 +159,7 @@ public class MainMenu extends FlowPanel
 					if (clicked instanceof Submenu
 							&& ((Submenu) clicked).getItems().isEmpty()) {
 						((Submenu) clicked).handleHeaderClick();
-						app.toggleMenu();
+						app.hideMenu();
 						return;
 					}
 					if (index != -1) {
@@ -572,10 +577,9 @@ public class MainMenu extends FlowPanel
 	 *            localized text
 	 * @return HTML
 	 */
-	public static String getMenuBarHtml(final ResourcePrototype imgRes,
-			String name) {
-		final String iconString = NoDragImage.safeURI(imgRes);
-		return MainMenu.getMenuBarHtml(iconString, name);
+	public static AriaMenuItem getMenuBarItem(final ResourcePrototype imgRes,
+			String name, Scheduler.ScheduledCommand cmd) {
+		return new AriaMenuItem(name, imgRes, cmd);
 	}
 
 	/**
@@ -583,8 +587,8 @@ public class MainMenu extends FlowPanel
 	 *            manu item localized name
 	 * @return item HTML
 	 */
-	public static String getMenuBarHtmlEmptyIcon(String name) {
-		final String iconString = AppResources.INSTANCE.empty().getSafeUri().asString();
-		return MainMenu.getMenuBarHtml(iconString, name);
+	public static AriaMenuItem getMenuBarHtmlEmptyIcon(String name,
+			Scheduler.ScheduledCommand cmd) {
+		return MainMenu.getMenuBarItem(AppResources.INSTANCE.empty(), name, cmd);
 	}
 }

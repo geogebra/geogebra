@@ -1,12 +1,16 @@
 package org.geogebra.common.properties.factory;
 
+import static org.geogebra.common.properties.factory.PropertiesRegistration.registerProperties;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
+import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.graphics.ARRatioPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxesColoredProperty;
@@ -24,9 +28,10 @@ import org.geogebra.common.properties.impl.graphics.ProjectionsProperty;
 public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 
 	@Override
-	protected PropertiesArray createGraphicsProperties(App app, Localization localization) {
+	protected PropertiesArray createGraphicsProperties(App app, Localization localization,
+			PropertiesRegistry propertiesRegistry) {
 		EuclidianSettings euclidianSettings = app.getActiveEuclidianView().getSettings();
-		ArrayList<Property> propertyList = new ArrayList<>();
+		List<Property> propertyList = new ArrayList<>();
 
 		if (app.getActiveEuclidianView().isXREnabled()) {
 			EuclidianView3D view3D = (EuclidianView3D) app.getActiveEuclidianView();
@@ -51,7 +56,7 @@ public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 		propertyList.add(
 				new AxesColoredProperty(localization, (EuclidianSettings3D) euclidianSettings));
 
-		return new PropertiesArray(
-				localization.getMenu("DrawingPad"), propertyList.toArray(new Property[0]));
+		return new PropertiesArray(localization.getMenu("DrawingPad"),
+				registerProperties(propertiesRegistry, propertyList));
 	}
 }

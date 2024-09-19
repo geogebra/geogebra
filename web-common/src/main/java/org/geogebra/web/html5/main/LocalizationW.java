@@ -39,6 +39,7 @@ public final class LocalizationW extends Localization {
 	// (cached for speed)
 	private Language lang = Language.English_US;
 	private String languageTag = lang.toLanguageTag();
+	private String preferredTag = languageTag;
 
 	private ScriptLoadCallback scriptCallback;
 
@@ -258,7 +259,7 @@ public final class LocalizationW extends Localization {
 		// these must be updated whenever language changes
 		lang = StringUtil.empty(lang0) ? Language.English_US
 				: Language.fromLanguageTagOrLocaleString(lang0);
-		languageTag = lang.toLanguageTag();
+		preferredTag = languageTag = lang.toLanguageTag();
 
 		setCommandChanged(true);
 
@@ -280,6 +281,11 @@ public final class LocalizationW extends Localization {
 	@Override
 	public String getLanguageTag() {
 		return lang.toLanguageTag();
+	}
+
+	@Override
+	public String getPreferredLanguageTag() {
+		return preferredTag;
 	}
 
 	/**
@@ -339,15 +345,16 @@ public final class LocalizationW extends Localization {
 	}
 
 	/**
-	 * @param lang0
+	 * @param language
 	 *            language
 	 * @param app
 	 *            callback
 	 */
-	public void loadScript(final String lang0, final HasLanguage app) {
-		if (LocalizationW.loadPropertiesFromStorage(lang0,
+	public void loadScript(final Language language, final HasLanguage app) {
+		preferredTag = language.toLanguageTag();
+		if (LocalizationW.loadPropertiesFromStorage(preferredTag,
 				GeoGebraConstants.VERSION_STRING)) {
-			app.doSetLanguage(lang0, false);
+			app.doSetLanguage(preferredTag, false);
 		} else {
 			// load keys (into a JavaScript <script> tag)
 			String url = StyleInjector.normalizeUrl(GWT.getModuleBaseURL());
@@ -361,9 +368,9 @@ public final class LocalizationW extends Localization {
 						return;
 					}
 					// force reload
-					app.doSetLanguage(lang0, true);
+					app.doSetLanguage(preferredTag, true);
 
-					LocalizationW.savePropertiesToStorage(lang0);
+					LocalizationW.savePropertiesToStorage(preferredTag);
 				}
 
 				@Override
@@ -372,17 +379,18 @@ public final class LocalizationW extends Localization {
 						Log.debug("Async language file load canceled.");
 						return;
 					}
-					LocalizationW.loadPropertiesFromStorage(lang0, "");
-					app.doSetLanguage(lang0, false);
+					LocalizationW.loadPropertiesFromStorage(preferredTag, "");
+					app.doSetLanguage(preferredTag, false);
 				}
 
 				@Override
 				public void cancel() {
 					canceled = true;
+					preferredTag = languageTag;
 				}
 
 			};
-			JavaScriptInjector.loadJS(url + "js/properties_keys_" + lang0 + ".js",
+			JavaScriptInjector.loadJS(url + "js/properties_keys_" + preferredTag + ".js",
 					scriptCallback);
 		}
 

@@ -15,8 +15,11 @@ package org.geogebra.common.kernel.commands;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -70,6 +73,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariable
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.traversing.SqrtMinusOneReplacer;
 import org.geogebra.common.kernel.arithmetic.traversing.SqrtMultiplyFixer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
@@ -181,6 +185,8 @@ public class AlgebraProcessor {
 	 */
 	protected ParametricProcessor paramProcessor;
 
+	private final List<ExpressionFilter> expressionFilters = new ArrayList<>();
+
 	/** TODO use the selector from CommandDispatcher instead. */
 	@Deprecated
 	private CommandFilter noCASfilter;
@@ -248,6 +254,35 @@ public class AlgebraProcessor {
 	 */
 	public boolean isCommandAvailable(String cmd) {
 		return cmdDispatcher.isCommandAvailable(cmd);
+	}
+
+	/**
+	 * Add an expression filter (used for dynamically filtering valid expressions).
+	 * @param filter An expression filter.
+	 */
+	public void addExpressionFilter(ExpressionFilter filter) {
+		if (filter != null) {
+			expressionFilters.add(filter);
+		}
+	}
+
+	/**
+	 * Remove an expression filter.
+	 * @param filter An expression filter.
+	 */
+	public void removeExpressionFilter(ExpressionFilter filter) {
+		if (filter != null) {
+			expressionFilters.remove(filter);
+		}
+	}
+
+	private boolean isExpressionAllowed(ValidExpression expression) {
+		for (ExpressionFilter expressionFilter : expressionFilters) {
+			if (!expressionFilter.isAllowed(expression)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -369,8 +404,6 @@ public class AlgebraProcessor {
 				// so we don't need to call computeOutput,
 				// which also causes marble crashes
 
-				// casCell.computeOutput();
-				// casCell.updateCascade();
 			} catch (Exception e) {
 				app.getEventDispatcher().enableListeners();
 				Log.debug(e);
@@ -918,6 +951,9 @@ public class AlgebraProcessor {
 			final ErrorHandler handler,
 			final AsyncOperation<GeoElementND[]> callback0,
 			final EvalInfo info) {
+		if (!isExpressionAllowed(ve)) {
+			return null;
+		}
 		// collect undefined variables
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables(
 				info.isMultipleUnassignedAllowed());
@@ -2495,7 +2531,8 @@ public class AlgebraProcessor {
 		if (!cx.containsDeep(loc2)) {
 			add(coefX, 0, mult.multiply(cx));
 			return 0;
-		} else if (cx.getOperation() == Operation.PLUS) {
+		} else if (cx.getOperation() == Operation.PLUS
+				|| cx.getOperation() == Operation.INVISIBLE_PLUS) {
 			int deg1 = getPolyCoeffs(cx.getLeftTree(), coefX, mult, loc2);
 			int deg2 = getPolyCoeffs(cx.getRightTree(), coefX, mult, loc2);
 			if (deg1 < 0 || deg2 < 0) {
@@ -3137,6 +3174,13 @@ public class AlgebraProcessor {
 
 		// ELSE: resolve variables and evaluate expressionnode
 		n.resolveVariables(info);
+
+		// Check for allowed expressions again, as resolving variables might end up creating
+		// expressions that otherwise are not allowed. See APPS-5138
+		if (!isExpressionAllowed(n)) {
+			return null;
+		}
+
 		if (n.isLeaf() && n.getLeft().isExpressionNode()) {
 			// we changed f' to f'(x) -> clean double wrap
 
@@ -3747,7 +3791,7 @@ public class AlgebraProcessor {
 	 *            only the commands that are allowed by the CommandFilter
 	 *            will be added to the command table
 	 */
-	public void addCommandFilter(CommandFilter commandFilter) {
+	public void addCommandFilter(@Nonnull CommandFilter commandFilter) {
 		cmdDispatcher.addCommandFilter(commandFilter);
 	}
 
@@ -3795,7 +3839,7 @@ public class AlgebraProcessor {
 		if (cmd == null) {
 			return syntax.getCommandSyntax(cmdInt, dim);
 		}
-		if (!this.cmdDispatcher.isAllowedByNameFilter(cmd)) {
+		if (!this.cmdDispatcher.isAllowedByCommandFilters(cmd)) {
 			return null;
 		}
 		// IntegralBetween gives all syntaxes. Typing Integral or NIntegral

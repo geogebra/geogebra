@@ -20,7 +20,6 @@ import org.gwtproject.event.dom.client.KeyPressEvent;
 import org.gwtproject.event.dom.client.KeyPressHandler;
 import org.gwtproject.event.dom.client.KeyUpEvent;
 import org.gwtproject.event.dom.client.KeyUpHandler;
-import org.gwtproject.event.legacy.shared.EventHandler;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.EventListener;
@@ -81,7 +80,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 * @param ev
 	 *            key event
 	 */
-	public static void setDownKeys(KeyEvent<? extends EventHandler> ev) {
+	public static void setDownKeys(KeyEvent<?> ev) {
 		setDownKeys(ev.isControlKeyDown(), ev.isShiftKeyDown());
 	}
 
@@ -90,7 +89,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 * @param ev event
 	 * @param down flag indicating if key was down or released
 	 */
-	public static void setDownAltKeys(KeyEvent<? extends EventHandler> ev, boolean down) {
+	public static void setDownAltKeys(KeyEvent<?> ev, boolean down) {
 		if (MathFieldW.isRightAlt(ev.getNativeEvent())) {
 			rightAltDown = down;
 		}
@@ -140,45 +139,48 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			}
 
 			if (DOM.eventGetType(event) == Event.ONKEYDOWN) {
-				boolean handled = false;
-
-				if (event.getKeyCode() == GWTKeycodes.KEY_X
-						&& event.getCtrlKey()
-						&& event.getAltKey()) {
-					handleCtrlAltX();
-					handled = true;
-				}
-				if (NavigatorUtil.isiOS() && isControlKeyDown(event)) {
-					handleIosKeyboard((char) event.getCharCode());
-					handled = true;
-				}
-				if (event.getCtrlKey()) {
-					handled = handleCtrlKeys(KeyCodes.translateGWTcode(event.getKeyCode()),
-							event.getShiftKey(), false, true);
-				}
-				KeyCodes kc = KeyCodes.translateGWTcode(event.getKeyCode());
-				if (kc == KeyCodes.TAB) {
-					if (!escPressed) {
-						handled = handleTab(event.getShiftKey());
-					}
-				} else if (kc == KeyCodes.ESCAPE) {
-					escPressed = true;
-					handleEscForDropdown();
-					if (app.isApplet()) {
-						((AppW) GlobalKeyDispatcherW.this.app).moveFocusToLastWidget();
-					} else {
-						handleEscapeForNonApplets();
-					}
-					handled = true;
-				} else {
-					handled = handled || handleSelectedGeosKeys(event);
-				}
-
-				if (handled) {
+				if (handleKeyDown(event)) {
 					event.preventDefault();
 					event.stopPropagation();
 				}
 			}
+		}
+
+		private boolean handleKeyDown(Event event) {
+			boolean handled = false;
+
+			if (event.getKeyCode() == GWTKeycodes.KEY_X
+					&& event.getCtrlKey()
+					&& event.getAltKey()) {
+				handleCtrlAltX();
+				handled = true;
+			}
+			if (NavigatorUtil.isiOS() && isControlKeyDown(event)) {
+				handleIosKeyboard((char) event.getCharCode());
+				handled = true;
+			}
+			if (event.getCtrlKey()) {
+				handled = handleCtrlKeys(KeyCodes.translateGWTcode(event.getKeyCode()),
+						event.getShiftKey(), false, true);
+			}
+			KeyCodes kc = KeyCodes.translateGWTcode(event.getKeyCode());
+			if (kc == KeyCodes.TAB) {
+				if (!escPressed) {
+					handled = handleTab(event.getShiftKey());
+				}
+			} else if (kc == KeyCodes.ESCAPE) {
+				escPressed = true;
+				handleEscForDropdown();
+				if (app.isApplet()) {
+					((AppW) GlobalKeyDispatcherW.this.app).moveFocusToLastWidget();
+				} else {
+					handleEscapeForNonApplets();
+				}
+				handled = true;
+			} else {
+				handled = handled || handleSelectedGeosKeys(event);
+			}
+			return handled;
 		}
 	}
 
@@ -352,7 +354,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 *            The KeyEvent
 	 * @return true if unwanted key combination has pressed.
 	 */
-	public static boolean isBadKeyEvent(KeyEvent<? extends EventHandler> e) {
+	public static boolean isBadKeyEvent(KeyEvent<?> e) {
 		return e.isAltKeyDown() && !e.isControlKeyDown()
 				&& e.getNativeEvent().getCharCode() > 128;
 	}

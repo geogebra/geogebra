@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.inputfield;
 
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.main.localization.AutocompleteProvider;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.MatchedString;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.Shades;
@@ -12,6 +13,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SharedResources;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.InlineHTML;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -43,7 +45,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 		submenu.addStyleName("customScrollbar");
 		for (String line: cpl.syntaxes) {
 			AriaMenuItem item = new AriaMenuItem(line.replaceAll("[<>]", ""),
-					false, () -> {
+					null, () -> {
 				component.insertString(line);
 				hide();
 			});
@@ -52,7 +54,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 			submenu.addItem(item);
 		}
 		AriaMenuItem menuItem = new AriaMenuItem(highlightSuffix(cpl.match),
-				true, submenu);
+				submenu);
 		menuItem.setSubmenuHeading(buildSubmenuHeading(cpl));
 		menuItem.addStyleName("no-image");
 		menuItem.setFocusable(false);
@@ -63,7 +65,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 		FlowPanel heading = new FlowPanel();
 		heading.addStyleName("autocompleteSyntaxHeading");
 		heading.add(new Label(command.getCommand()));
-		if (!getApp().isExamStarted()) {
+		if (!GlobalScope.examController.isExamActive()) {
 			heading.add(createHelpButton(command));
 		}
 		return heading;
@@ -77,9 +79,9 @@ public class AutoCompletePopup extends GPopupMenuW {
 		return button;
 	}
 
-	private String highlightSuffix(MatchedString command) {
+	private InlineHTML highlightSuffix(MatchedString command) {
 		String[] parts = command.getParts();
-		return parts[0] + "<strong>" + parts[1] + "</strong>" + parts[2];
+		return new InlineHTML(parts[0] + "<strong>" + parts[1] + "</strong>" + parts[2]);
 	}
 
 	/**

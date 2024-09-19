@@ -36,9 +36,11 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.SymbolicProcessor;
@@ -603,6 +605,13 @@ public class GeoSymbolic extends GeoElement
 		cons.setSuppressLabelCreation(true);
 		try {
 			return process(getTwinInput());
+		} catch (CommandNotLoadedError err) {
+			// by failing the whole twin creation we make sure this uses the same path
+			// in web and other platforms
+			if (!isLabelSet()) {
+				remove();
+			}
+			throw err;
 		} catch (Throwable throwable) {
 			try {
 				return process(getTwinFallbackInput());
@@ -633,8 +642,11 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private ExpressionNode getNodeFromOutput() throws ParseException {
-		return kernel.getParser().parseGeoGebraExpression(LabelManager.HIDDEN_PREFIX + ":"
-				+ casOutputString).wrap();
+		ValidExpression validExpression =
+				kernel.getParser().parseGeoGebraExpression(LabelManager.HIDDEN_PREFIX + ":"
+						+ casOutputString);
+		validExpression.setLabels(null);
+		return validExpression.wrap();
 	}
 
 	private ExpressionNode getNodeFromInput() {
@@ -1156,6 +1168,13 @@ public class GeoSymbolic extends GeoElement
 			}
 		}
 		return super.getFormulaString(tpl, substituteNumbers);
+	}
+
+	@Override
+	protected void appendObjectColorXML(StringBuilder sb) {
+		if (isDefaultGeo() || isColorSet()) {
+			super.appendObjectColorXML(sb);
+		}
 	}
 
 	private ConditionalSerializer getConditionalSerializer() {

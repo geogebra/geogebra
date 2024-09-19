@@ -813,6 +813,13 @@ public class GeoNumeric extends GeoElement
 		super.getStyleXML(sb);
 	}
 
+	@Override
+	protected void appendObjectColorXML(StringBuilder sb) {
+		if (isDefaultGeo() || isColorSet()) {
+			super.appendObjectColorXML(sb);
+		}
+	}
+
 	/**
 	 * Returns true iff slider is possible
 	 * 
@@ -1388,6 +1395,7 @@ public class GeoNumeric extends GeoElement
 		boolean okMin = isIntervalMinActive();
 		boolean okMax = isIntervalMaxActive();
 		boolean ok = getIntervalMin() <= getIntervalMax();
+		ExpressionNode oldDefinition = getDefinition();
 		if (ok && okMin && okMax) {
 			setValue(isDefined() ? value : 1.0);
 			isDrawable = true;
@@ -1397,6 +1405,7 @@ public class GeoNumeric extends GeoElement
 		if (oldValue != value) {
 			updateCascade();
 		} else {
+			setDefinition(oldDefinition); // no value change because of min/max, keep definition
 			// we want to make the slider visible again if it was not
 			// do what GeoElement.update does (no need to call listeners)
 			// also don't update the CAS

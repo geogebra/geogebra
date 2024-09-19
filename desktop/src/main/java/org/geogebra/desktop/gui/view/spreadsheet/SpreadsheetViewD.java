@@ -44,6 +44,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.layout.LayoutD;
@@ -57,7 +58,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 	// ggb fields
 	protected AppD app;
-	private Kernel kernel;
+	private final Kernel kernel;
 
 	// spreadsheet gui components
 	private JPanel spreadsheetWrapper;
@@ -282,13 +283,6 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 			styleBar = new SpreadsheetStyleBar(this);
 		}
 		return styleBar;
-	}
-
-	/**
-	 * @return panel that contains the entire spreadsheet GUI
-	 */
-	public JComponent getContainerPanel() {
-		return spreadsheetWrapper;
 	}
 
 	// ===============================================================
@@ -665,8 +659,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	}
 
 	private void setRowHeightsFromSettings() {
-		HashMap<Integer, Integer> heightMap = app.getSettings().getSpreadsheet()
-				.getHeightMap();
+		HashMap<Integer, Integer> heightMap = app.getSettings().getSpreadsheet().getHeightMap();
 
 		table.setRowHeight(
 				app.getSettings().getSpreadsheet().preferredRowHeight());
@@ -847,10 +840,6 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		return settings().allowToolTips();
 	}
 
-	public void setAllowToolTips(boolean allowToolTips) {
-		// do nothing yet
-	}
-
 	private void setShowFormulaBar(boolean showFormulaBar) {
 		if (showFormulaBar) {
 			spreadsheetPanel.add(getFormulaBar(), BorderLayout.NORTH);
@@ -874,10 +863,6 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		return styleBar == null || styleBar.isVisible();
 	}
 
-	public void setColumnSelect(boolean isColumnSelect) {
-		// do nothing yet
-	}
-
 	public boolean isColumnSelect() {
 		return settings().isColumnSelect();
 	}
@@ -897,13 +882,6 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		table.setEqualsRequired(isEqualsRequired);
 	}
 
-	/**
-	 * @return requirement that commands entered into cells must start with "="
-	 */
-	public boolean isEqualsRequired() {
-		return settings().equalsRequired();
-	}
-
 	boolean allowSettingUpdate = true;
 
 	@Override
@@ -917,30 +895,13 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		settings().addListener(this);
 	}
 
-	protected void updateAllRowSettings() {
-		if (!allowSettingUpdate) {
-			return;
-		}
-
-		settings().removeListener(this);
-		settings().setPreferredRowHeight(table.getRowHeight());
-		settings().getHeightMap().clear();
-		for (int row = 0; row < table.getRowCount(); row++) {
-			int rowHeight = table.getRowHeight(row);
-			if (rowHeight != table.getRowHeight()) {
-				settings().getHeightMap().put(row, rowHeight);
-			}
-		}
-		settings().addListener(this);
-	}
-
 	protected void updateRowHeightSetting(int row, int height) {
 		if (!allowSettingUpdate) {
 			return;
 		}
 
 		settings().removeListener(this);
-		settings().getHeightMap().put(row, height);
+		settings().addHeightNoFire(row, height);
 		settings().addListener(this);
 	}
 
@@ -950,29 +911,8 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		}
 
 		settings().removeListener(this);
-		settings().getHeightMap().clear();
+		settings().clearHeights();
 		settings().setPreferredRowHeight(preferredRowHeight);
-		settings().addListener(this);
-	}
-
-	protected void updateColumnWidth(int col, int colWidth) {
-		if (!allowSettingUpdate) {
-			return;
-		}
-
-		settings().removeListener(this);
-		settings().getWidthMap().put(col, colWidth);
-		settings().addListener(this);
-	}
-
-	protected void updatePreferredColumnWidth(int colWidth) {
-		if (!allowSettingUpdate) {
-			return;
-		}
-
-		settings().removeListener(this);
-		settings().getWidthMap().clear();
-		settings().setPreferredColumnWidth(table.preferredColumnWidth);
 		settings().addListener(this);
 	}
 
@@ -983,12 +923,12 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 		settings().removeListener(this);
 		settings().setPreferredColumnWidth(table.preferredColumnWidth);
-		settings().getWidthMap().clear();
+		settings().clearWidths();
 		for (int col = 0; col < table.getColumnCount(); col++) {
 			TableColumn column = table.getColumnModel().getColumn(col);
 			int colWidth = column.getWidth();
 			if (colWidth != table.preferredColumnWidth) {
-				settings().getWidthMap().put(col, colWidth);
+				settings().addWidthNoFire(col, colWidth);
 			}
 		}
 		settings().addListener(this);
@@ -1009,9 +949,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		setShowVScrollBar(settings().showVScrollBar());
 		setShowHScrollBar(settings().showHScrollBar());
 		setShowGrid(settings().showGrid());
-		setAllowToolTips(settings().allowToolTips());
 		setShowFormulaBar(settings().showFormulaBar());
-		setColumnSelect(settings().isColumnSelect());
 		setAllowSpecialEditor(settings().allowSpecialEditor());
 		setEqualsRequired(settings().equalsRequired());
 		setEnableAutoComplete(settings().isEnableAutoComplete());
@@ -1053,7 +991,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 						.isAncestorOf(spreadsheetWrapper);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		return hasFocus;

@@ -26,12 +26,14 @@ import com.himamis.retex.editor.share.serializer.TeXBuilder;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.MathFormulaConverter;
+import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.ColorAtom;
 import com.himamis.retex.renderer.share.PhantomAtom;
 import com.himamis.retex.renderer.share.ResizeAtom;
 import com.himamis.retex.renderer.share.RowAtom;
+import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
 
 class EditorChecker {
@@ -112,6 +114,9 @@ class EditorChecker {
 
 		if (atom instanceof ResizeAtom) {
 			return serializeAtom(((ResizeAtom) atom).getTrueBase());
+		}
+		if (atom instanceof SpaceAtom && ((SpaceAtom) atom).getWidth() == 0) {
+			return Unicode.ZERO_WIDTH_SPACE + "";
 		}
 		return null;
 	}

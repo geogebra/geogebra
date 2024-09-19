@@ -409,7 +409,7 @@ public class AlgebraItem {
 
 	/**
 	 * add geo to selection with its special points.
-	 *
+	 * TODO rename to selectGeo(WithSpecialPoints?)
 	 * @param geo
 	 *            The geo element to add.
 	 * @param app
@@ -418,6 +418,9 @@ public class AlgebraItem {
 	public static void addSelectedGeoWithSpecialPoints(GeoElementND geo,
 			App app) {
 		if (!app.getConfig().hasPreviewPoints()) {
+			return;
+		}
+		if (!app.getSelectionManager().isSelectionAllowed(geo)) {
 			return;
 		}
 		app.getSelectionManager().clearSelectedGeos(false, false);
@@ -626,8 +629,19 @@ public class AlgebraItem {
 	 */
 	public static boolean shouldShowSlider(GeoElement geo) {
 		return geo instanceof GeoNumeric
+				&& geo.getApp().getConfig().hasSlidersInAV()
 				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
 				&& Double.isFinite(((GeoNumeric) geo).value);
+	}
+
+	/**
+	 * Initializes the element for the Algebra View.
+	 * @param geo element to initialzie
+	 */
+	public static void initForAlgebraView(GeoElement geo) {
+		if (shouldShowSlider(geo) && !geo.isEuclidianVisible()) {
+			((GeoNumeric) geo).initAlgebraSlider();
+		}
 	}
 
 	/**

@@ -49,7 +49,6 @@ import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
-import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
@@ -134,12 +133,7 @@ public class JlmLib {
 
 		// paint the icon
 
-		icon.paintIcon(new HasForegroundColor() {
-			@Override
-			public Color getForegroundColor() {
-				return fgColor;
-			}
-		}, g2, x, y);
+		icon.paintIcon(() -> fgColor, g2, x, y);
 		g2.maybeNotifyDrawingFinishedCallback(false);
 
 		// return {width, height}

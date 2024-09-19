@@ -1,7 +1,10 @@
 package org.geogebra.web.full.gui.exam;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.exam.ExamController;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.gwtutil.SafeExamBrowser;
 import org.geogebra.gwtutil.SecureBrowser;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
@@ -19,6 +22,7 @@ public class ExamUtil {
 
 	private AppW app;
 	private static boolean examModeRunning = false;
+	private static final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * @param app
@@ -39,6 +43,9 @@ public class ExamUtil {
 	 *            whether we are in tablet app
 	 */
 	private void addVisibilityAndBlurHandlers(boolean tabletMode) {
+		if (hasExternalSecurityCheck(app)) {
+			return;
+		}
 		if (tabletMode) {
 			app.getGlobalHandlers().addEventListener(DomGlobal.document,
 					"visibilitychange", (e) -> {
@@ -72,15 +79,23 @@ public class ExamUtil {
 		}
 	}
 
+	/**
+	 * @return whether we're running in a secure browser
+	 */
+	public static boolean hasExternalSecurityCheck(AppW app) {
+		return app.isLockedExam() && (SecureBrowser.get() != null || SafeExamBrowser.get() != null
+				|| app.getLAF().hasLockedEnvironment());
+	}
+
 	private void startCheating() {
-		if (app.getExam() != null && !app.getExam().isClosed() && SecureBrowser.get() == null) {
-			app.getExam().checkedWindowLeft();
+		if (examController.isExamActive()) {
+			examController.getCheatingEvents().addWindowLeftEvent();
 		}
 	}
 
 	private void stopCheating() {
-		if (app.getExam() != null) {
-			app.getExam().stopCheating();
+		if (examController.isExamActive()) {
+			examController.getCheatingEvents().addWindowEnteredEvent();
 		}
 	}
 
@@ -124,7 +139,7 @@ public class ExamUtil {
 	 */
 	public static String status(AppW appW) {
 		return appW.getLocalization().getMenu("exam_menu_entry") + ": "
-				+ (appW.getExam().isCheating()
+				+ (examController.isCheating()
 						? appW.getLocalization().getMenu("exam_alert")
 						: appW.getLocalization().getMenu("OK"));
 	}

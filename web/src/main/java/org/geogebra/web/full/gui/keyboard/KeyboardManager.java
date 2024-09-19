@@ -13,9 +13,9 @@ import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.web.HasKeyboard;
+import org.geogebra.keyboard.web.KeyboardCloseListener;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.keyboard.web.TabbedKeyboard;
-import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.AlgebraMathFieldProcessing;
 import org.geogebra.web.full.gui.dialog.text.GeoTextEditor;
@@ -44,7 +44,6 @@ import org.gwtproject.user.client.ui.RootPanel;
 public final class KeyboardManager
 		implements RequiresResize, KeyboardManagerInterface {
 
-	private static final int SWITCHER_HEIGHT = 42;
 	private final AppW app;
 	private VirtualKeyboardGUI keyboard;
 
@@ -146,9 +145,7 @@ public final class KeyboardManager
 
 	@Override
 	public int estimateHiddenKeyboardHeight() {
-		int keyboardContentHeight = app.needsSmallKeyboard() ? TabbedKeyboard.SMALL_HEIGHT
-				: TabbedKeyboard.BIG_HEIGHT;
-		return keyboardContentHeight + SWITCHER_HEIGHT;
+		return TabbedKeyboard.TOTAL_HEIGHT;
 	}
 
 	/**
@@ -191,7 +188,7 @@ public final class KeyboardManager
 	 *            open/close listener
 	 */
 	public void setListeners(MathKeyboardListener textField,
-			UpdateKeyBoardListener listener) {
+			KeyboardCloseListener listener) {
 		ensureKeyboardsExist();
 		((OnscreenTabbedKeyboard) keyboard).clearAndUpdate();
 		if (textField != null) {

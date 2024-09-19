@@ -65,10 +65,21 @@ public class MySpecialDouble extends MyDouble {
 	 *            string representation
 	 */
 	public MySpecialDouble(Kernel kernel, double val, String str) {
+		this(kernel, val, str, false);
+	}
+
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param val
+	 *            value
+	 * @param str
+	 *            string representation
+	 */
+	public MySpecialDouble(Kernel kernel, double val, String str, boolean fromCas) {
 		super(kernel, val);
 
-		// Reduce can't handle .5*8
-		originalString = StringUtil.canonicalNumber(str);
+		originalString = fromCas ? StringUtil.canonicalNumber(str) : str;
 
 		strToString = originalString;
 
@@ -82,7 +93,7 @@ public class MySpecialDouble extends MyDouble {
 		keepOriginalString = !isLetterConstant
 				&& (containsE || Double.isInfinite(val));
 
-		if (keepOriginalString) {
+		if (keepOriginalString && fromCas) {
 			BigDecimal bd = new BigDecimal(strToString);
 			// avoid E notation for small values
 			double absVal = Math.abs(val);
@@ -152,7 +163,8 @@ public class MySpecialDouble extends MyDouble {
 			// serializing to CAS -- simply print input
 
 			if (tpl.hasCASType()) {
-				return tpl.convertScientificNotationGiac(originalString);
+				return tpl.convertScientificNotationGiac(
+						StringUtil.canonicalNumber(originalString));
 			}
 
 			if (isPercentage()) {
@@ -206,10 +218,6 @@ public class MySpecialDouble extends MyDouble {
 		bd = null;
 	}
 
-	/**
-	 * Set precise value
-	 * @param val value as BigDecimal
-	 */
 	@Override
 	public void set(BigDecimal val) {
 		super.set(val.doubleValue());
@@ -239,10 +247,15 @@ public class MySpecialDouble extends MyDouble {
 			return super.unaryMinus(kernel);
 		}
 		if (!isLetterConstant && !scientificNotation) {
-			return new MySpecialDouble(kernel, -getDouble(), "-" + originalString);
+			return new MySpecialDouble(kernel, -getDouble(), flipSign(originalString));
 		}
 		return new ExpressionNode(kernel, new MinusOne(kernel),
 				Operation.MULTIPLY, this);
+	}
+
+	private String flipSign(String originalString) {
+		return originalString.startsWith("-")
+				? originalString.substring(1) : "-" + originalString;
 	}
 
 	public boolean isScientificNotation() {
