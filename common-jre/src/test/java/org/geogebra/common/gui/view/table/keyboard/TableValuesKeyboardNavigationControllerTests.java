@@ -668,7 +668,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 		cellContent = getFocusedCellContent();
 		focusedCell = null;
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_LEFT);
-		assertEquals(new CellIndex(0, 0), focusedCell);
+		assertNull(focusedCell);
 	}
 
 	@Test
