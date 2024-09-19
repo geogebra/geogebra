@@ -86,6 +86,7 @@ public class NotesLayout implements SetLabels, ModeChangeListener {
 	 */
 	public void openPagePanel(Widget trigger) {
 		appW.hideMenu();
+		appW.closePopups();
 		EuclidianController ec = appW.getActiveEuclidianView().getEuclidianController();
 		ec.widgetsToBackground();
 
