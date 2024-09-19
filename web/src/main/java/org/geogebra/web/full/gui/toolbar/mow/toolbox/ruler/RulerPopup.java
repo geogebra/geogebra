@@ -6,7 +6,6 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRIANGLE_PRO
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -14,6 +13,7 @@ import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.resources.SVGResourcePrototype;
 
 public class RulerPopup extends GPopupMenuW implements SetLabels {
 	private RulerIconButton rulerButton;
@@ -43,9 +43,9 @@ public class RulerPopup extends GPopupMenuW implements SetLabels {
 	}
 
 	private void addItem(String text, int mode) {
-		SVGResource image = GGWToolBar.getImageURLNotMacro(
-				ToolbarSvgResources.INSTANCE, mode, getApp());
-		AriaMenuItem item = MainMenu.getMenuBarItem(image, text, () -> {});
+		AriaMenuItem item = MainMenu.getMenuBarItem(
+				SVGResourcePrototype.EMPTY, text, () -> {});
+		GGWToolBar.getImageResource(mode, getApp(), item);
 		item.setScheduledCommand(() -> {
 			activeRulerMode = mode;
 			updateRulerButton(mode);
