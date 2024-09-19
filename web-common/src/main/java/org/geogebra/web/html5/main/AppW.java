@@ -755,7 +755,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getAppletParameters().setAttribute("appName", "notes");
 			getAppletFrame().initPageControlPanel(this);
 			euclidianController.clearMeasurementTools();
-			getAppletFrame().setNotesMode(getMode());
 			if (getPageController() != null) {
 				getPageController().loadSlides(archiveContent);
 				return;
@@ -2879,7 +2878,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public boolean allowStylebar() {
 		return !isApplet()
 				|| getAppletParameters().getDataParamShowMenuBar(false)
-				|| getAppletParameters().getDataParamAllowStyleBar(false);
+				|| getAppletParameters().getDataParamAllowStyleBar();
 	}
 
 	@Override

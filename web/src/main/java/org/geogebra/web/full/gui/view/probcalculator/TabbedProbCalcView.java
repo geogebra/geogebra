@@ -93,7 +93,7 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 
 	private void addExportItem(GPopupMenuW exportMenu, String title,
 			Scheduler.ScheduledCommand copyCmd) {
-		AriaMenuItem item = new AriaMenuItem(loc.getMenu(title), false, copyCmd);
+		AriaMenuItem item = new AriaMenuItem(loc.getMenu(title), null, copyCmd);
 		item.addStyleName("no-image");
 		exportMenu.addItem(item);
 	}

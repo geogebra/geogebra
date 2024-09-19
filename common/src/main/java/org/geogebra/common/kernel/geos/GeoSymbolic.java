@@ -1170,6 +1170,13 @@ public class GeoSymbolic extends GeoElement
 		return super.getFormulaString(tpl, substituteNumbers);
 	}
 
+	@Override
+	protected void appendObjectColorXML(StringBuilder sb) {
+		if (isDefaultGeo() || isColorSet()) {
+			super.appendObjectColorXML(sb);
+		}
+	}
+
 	private ConditionalSerializer getConditionalSerializer() {
 		if (conditionalSerializer == null) {
 			conditionalSerializer = new ConditionalSerializer(kernel, this);

@@ -135,7 +135,6 @@ import org.geogebra.web.full.gui.toolbarpanel.tableview.dataimport.CsvImportHand
 import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
-import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.ConstructionItemProvider;
 import org.geogebra.web.full.main.activity.CASActivity;
@@ -250,7 +249,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private ShareControllerW shareController;
 	private FileManager fm;
 	private GoogleDriveOperation googleDriveOperation;
-	private ZoomPanelMow mowZoomPanel;
 	private GeoGebraActivity activity;
 	private KeyboardManager keyboardManager;
 	/** dialog manager */
@@ -302,7 +300,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		initCoreObjects();
 		checkExamPerspective();
 		afterCoreObjectsInited();
-		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
+		getFontSettingsUpdater().resetFonts();
 		Browser.removeDefaultContextMenu(geoGebraElement.getElement());
 		if (getAppletParameters().getDataParamApp() && !this.getLAF().isSmart()) {
 			RootPanel.getBodyElement().addClassName("application");
@@ -749,7 +747,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			getGuiManager().getUnbundledToolbar()
 					.updateContent();
 		}
-		getAppletFrame().setNotesMode(getMode());
 	}
 
 	private void resetAllToolbars() {
@@ -2281,20 +2278,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		return shareController;
 	}
 
-	/**
-	 * @param mowZoomPanel zoom panel
-	 */
-	public void setMowZoomPanel(ZoomPanelMow mowZoomPanel) {
-		this.mowZoomPanel = mowZoomPanel;
-	}
-
-	/**
-	 * @return zoom panel
-	 */
-	public ZoomPanelMow getZoomPanelMow() {
-		return mowZoomPanel;
-	}
-
 	@Override
 	public AlgebraViewW getAlgebraView() {
 		if (getGuiManager() == null) {
@@ -2327,7 +2310,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
-		return new SettingsUpdaterBuilder(this)
+		return super.newSettingsUpdaterBuilder()
 				.withFontSettingsUpdater(new FontSettingsUpdaterW(this));
 	}
 

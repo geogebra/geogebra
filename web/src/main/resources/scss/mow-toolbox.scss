@@ -17,6 +17,10 @@
 			left: 16px;
 		}
 
+		&.withTopBar {
+			transform: translateY(calc(-50% + 24px));
+		}
+
 		.divider {
 			height: 1px;
 			margin: 8px 0 7px;

@@ -1625,7 +1625,7 @@ public class GuiManagerW extends GuiManager
 			if (show) {
 				frame.attachNotesUI(getApp());
 			} else {
-				frame.detachNotesToolbarAndUndo(getApp());
+				frame.detachNotesToolbar(getApp());
 			}
 			return;
 		}
@@ -1679,11 +1679,6 @@ public class GuiManagerW extends GuiManager
 				.setVisible(false);
 			}
 
-			return mode;
-		}
-
-		if (getApp().isWhiteboardActive()) {
-			(getApp().getAppletFrame()).setNotesMode(mode);
 			return mode;
 		}
 

@@ -7,11 +7,11 @@ javagiac = "70320"
 gwt = "2.11.0"
 gwtTreblereel = "202408061"
 elemental2 = "1.2.1"
-murok = "1.0.202402201544"
+murok = "1.0.202408230914"
 # built from ef18cb9206; switch to upstream when https://github.com/mozilla/rhino/pull/1385 is released
 mozilla-rhino = "1.7.15"
 quickJs = '1.0.202403131629-SNAPSHOT'
-multiplayer = "1.0.202408121043"
+multiplayer = "1.0.202409101124"
 spotbugs = "4.8.6"
 
 [libraries]
@@ -31,7 +31,7 @@ quickjs = {module = "org.quickjs:emscripten", version.ref = "quickJs"}
 
 jsObject = "netscape.javascript:jsobject:1"
 openGeoProver = "com.ogprover:OpenGeoProver:20120725"
-jna = "net.java.dev.jna:jna:5.14.0"
+jna = "net.java.dev.jna:jna:5.15.0"
 
 gwt-user = { module = "org.gwtproject:gwt-user", version.ref = "gwt" }
 gwt-dev = { module = "org.gwtproject:gwt-dev", version.ref = "gwt" }
@@ -60,7 +60,7 @@ mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 
 gwt-plugin = {module = "org.docstr:gwt-gradle-plugin", version = "1.1.31" }
-spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.0.21" }
+spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.0.22" }
 javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "3.0.2"}
 
 [plugins]

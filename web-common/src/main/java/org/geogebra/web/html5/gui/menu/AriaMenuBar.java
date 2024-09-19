@@ -73,23 +73,6 @@ public class AriaMenuBar extends FlowPanel {
 	}
 
 	/**
-	 * Adds a menu item to the bar, that will fire the given command when it is
-	 * selected.
-	 *
-	 * @param text
-	 *            the item's text
-	 * @param asHTML
-	 *            <code>true</code> to treat the specified text as html
-	 * @param cmd
-	 *            the command to be fired
-	 * @return the {@link AriaMenuItem} object created
-	 */
-	public AriaMenuItem addItem(String text, boolean asHTML,
-			ScheduledCommand cmd) {
-		return addItem(new AriaMenuItem(text, asHTML, cmd));
-	}
-
-	/**
 	 * Focus the whole menu
 	 */
 	public void focus() {
