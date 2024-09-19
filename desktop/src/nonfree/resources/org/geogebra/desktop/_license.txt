@@ -165,7 +165,7 @@ TRANSLATORS
   * Portuguese (Brazil): Humberto Bortolossi, Celina A. A. P. Abar,
     Gerson Pastre de Oliveira, Lisbete Madsen Barbosa,
     Herminio Borges Neto, Alana Paula Araujo Freitas, Luciana de Lima,
-    Alana Souza de Oliveira (Brazil), Jorge Cássio Costa Nóbriga
+    Alana Souza de Oliveira, Jorge Cássio Costa Nóbriga (Brazil)
   * Portuguese (Portugal): Jorge Geraldes, Antonio Ribeiro (Portugal)
   * Romanian: Alexandra Fortis, Casian Colcher, Valerian Antohe,
       Moni Ungvari (Romania)

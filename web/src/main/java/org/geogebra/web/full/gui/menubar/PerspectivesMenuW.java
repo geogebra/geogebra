@@ -44,18 +44,16 @@ public class PerspectivesMenuW extends Submenu {
 
 		if (examController.isIdle()) {
 			if (app.getLAF().isOfflineExamSupported()) {
-				// "Exam
-				// Mode"
 				addItem(MainMenu.getMenuBarItem(
 						GuiResources.INSTANCE.menu_icon_exam24(),
-						app.getLocalization().getMenu("exam_menu_entry"), new MenuCommand(app) {
+						app.getLocalization().getMenu("exam_menu_entry"), // "Exam
+																					// Mode"
+						new MenuCommand(app) {
 							@Override
 							public void doExecute() {
 								app.getSaveController().showDialogIfNeeded(getExamCallback(), true);
 							}
-						}) // "Exam
-																					// Mode"
-				);
+						}));
 			}
 		}
 	}
