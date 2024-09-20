@@ -21,7 +21,7 @@ public class IconButtonWithMenu extends IconButton {
 	 * @param ariaLabel - aria label
 	 * @param tools - list of tools showing in the popup
 	 * @param deselectButtons - deselect button callback
-	 * @param toolbox - toolbox
+	 * @param toolbox - notes toolbox
 	 */
 	public IconButtonWithMenu(AppW appW, SVGResource icon, String ariaLabel,
 			List<Integer> tools, Runnable deselectButtons, NotesToolbox toolbox) {
@@ -32,14 +32,14 @@ public class IconButtonWithMenu extends IconButton {
 		AriaHelper.setAriaHasPopup(this);
 		addFastClickHandler((event) -> {
 			deselectButtons.run();
-			initPopupAndShow();
-			addCloseHandler(toolbox);
+			initPopupAndShow(toolbox);
 		});
 	}
 
-	private void initPopupAndShow() {
+	private void initPopupAndShow(NotesToolbox toolbox) {
 		if (iconButtonPopup == null) {
 			iconButtonPopup = new CategoryMenuPopup(appW, tools);
+			addCloseHandler(toolbox);
 		}
 
 		showHideMenu();
