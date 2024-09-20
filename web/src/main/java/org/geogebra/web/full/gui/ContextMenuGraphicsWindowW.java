@@ -8,10 +8,10 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.components.dropdown.grid.GridDialog;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.menubar.RadioButtonMenuBarW;
-import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.javax.swing.CheckMarkSubMenu;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GCollapseMenuItem;
@@ -20,6 +20,7 @@ import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.Command;
 
@@ -86,7 +87,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 				addPasteItem();
 				wrappedPopup.addSeparator();
 			}
-			addRulingMenuItem(ot);
+			addRulingMenuItem();
 			addBackgroundMenuItem();
 		}
 
@@ -113,16 +114,16 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 		}
 	}
 
-	private void addRulingMenuItem(final OptionType optionType) {
+	private void addRulingMenuItem() {
 		AriaMenuItem rulingMenuItem =
 				MainMenu.getMenuBarItem(
 						MaterialDesignResources.INSTANCE.minor_gridlines(),
 						loc.getMenu("Ruling"),
-				() -> {
-					showOptionsDialog(optionType);
-					((PropertiesViewW) app.getGuiManager().getPropertiesView())
-							.getOptionPanel(optionType, -1)
-							.getTabPanel().selectTab(3);
+				 () -> {
+					DialogData data = new DialogData("Ruling", "Cancel", "Save");
+					GridDialog gridDialog = new GridDialog((AppW) app, data,
+							app.getActiveEuclidianView());
+					gridDialog.show();
 				});
 
 		wrappedPopup.addItem(rulingMenuItem);
@@ -276,7 +277,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 * show/hide construction protocol navigation
 	 */
 	void toggleShowConstructionProtocolNavigation() {
-		((AppW) app).toggleShowConstructionProtocolNavigation(app
+		app.toggleShowConstructionProtocolNavigation(app
 				.getActiveEuclidianView().getViewID());
 	}
 
