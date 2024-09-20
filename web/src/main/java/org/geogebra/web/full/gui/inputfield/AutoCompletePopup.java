@@ -177,6 +177,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 	protected void openSubmenu(AriaMenuItem item) {
 		super.openSubmenu(item);
 		item.getSubMenu().selectItem(0);
+		item.getSubMenu().getItemAt(0).addStyleName("fakeFocus");
 	}
 
 	/**
