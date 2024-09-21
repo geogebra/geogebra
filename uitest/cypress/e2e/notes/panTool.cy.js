@@ -22,7 +22,7 @@ describe('Pan tool test', () => {
                 }
             });
 
-            selectors.panViewTool.click();
+            cy.get('[data-title="Pan View"]').click();
 
             let before;
 
@@ -34,7 +34,7 @@ describe('Pan tool test', () => {
                 .then(() => expect(before).to.not.equal(win.ggbApplet.getPNGBase64(1)))
                 .then(() => expect(selected).to.equal(undefined));
 
-            selectors.panViewTool.get().should('have.class', 'selected');
+            cy.get('[data-title="Pan View"]').should('have.class', 'active');
 
             before = win.ggbApplet.getPNGBase64(1);
             selectors.euclidianView.get()
@@ -43,7 +43,7 @@ describe('Pan tool test', () => {
                 .then(() => expect(before).to.not.equal(win.ggbApplet.getPNGBase64(1)))
                 .then(() => expect(selected).to.equal("q1"));
 
-            selectors.panViewTool.get().should('not.have.class', 'selected');
+            cy.get('[data-title="Pan View"]').should('not.have.class', 'active');
         });
     });
 });
