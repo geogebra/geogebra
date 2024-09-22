@@ -10,8 +10,8 @@ describe('Mindmap tool test', () => {
     afterEach(cy.setSaved);
 
     it("Mindmap tool should insert mindmap", () => {
-        selectors.mediaPanelButton.click();
-        selectors.mindmapButton.click();
+        cy.get('[data-title="More"]').click();
+        cy.get('li').contains('Mindmap').click();
         selectors.euclidianView.get()
             .mouseEvent('down', 100, 100)
             .mouseEvent('up', 100, 100);

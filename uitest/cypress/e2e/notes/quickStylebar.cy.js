@@ -22,7 +22,7 @@ describe('Quick stylebar test', () => {
     });
 
     it("Quick stylebar should show after creating rectangle", () => {
-        selectors.toolsPanelButton.click();
+        cy.get('[data-title="Shape"]').click();
 
         selectors.dynamicStyleBar.get().should('not.exist');
 
@@ -35,7 +35,7 @@ describe('Quick stylebar test', () => {
     });
 
     it("Quick stylebar should show after creating text", () => {
-        selectors.mediaPanelButton.click();
+        cy.get('[data-title="Text"]').click();
 
         selectors.dynamicStyleBar.get().should('not.exist');
 
@@ -47,11 +47,11 @@ describe('Quick stylebar test', () => {
     });
 
     it("Quick stylebar should show after inserting graphing calculator", () => {
+        cy.viewport(900, 900);
         cy.window().then((win) => {win.mainApplet = win.ggbApplet;});
-        selectors.mediaPanelButton.click();
-
+        cy.get('[data-title="More"]').click();
         selectors.dynamicStyleBar.get().should('not.exist');
-        selectors.insertGraphingCalculatorButton.click();
+        cy.get('li').contains("GeoGebra").click();
         // cypress view too small to se the whole stylebar here
         cy.get(".matDynStyleContextButton").should('be.visible');
     });

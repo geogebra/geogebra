@@ -11,8 +11,8 @@ describe('Mask tool test', () => {
 
     it("Mask tool should hide other objects", () => {
         
-        selectors.toolsPanelButton.click();
-        selectors.maskToolButton.click();
+        cy.get('[data-title="Shape"]').click();
+        cy.get('[data-title="Mask"]').click();
         selectors.euclidianView.get()
             .mouseEvent('down', 100, 40) // drag to create a mask
             .mouseEvent('move', 800, 300)
