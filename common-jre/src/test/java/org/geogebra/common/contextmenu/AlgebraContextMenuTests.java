@@ -41,7 +41,8 @@ public class AlgebraContextMenuTests {
 	public void testForDefaultAlgebraInputInGeometryApp() {
 		setupApp(GeoGebraConstants.GEOMETRY_APPCODE);
 		assertEquals(
-				List.of(DuplicateInput,
+				List.of(SpecialPoints,
+						DuplicateInput,
 						Delete,
 						Settings),
 				makeAlgebraContextMenu(add("x"), algebraProcessor, appCode)
@@ -183,11 +184,10 @@ public class AlgebraContextMenuTests {
 	// CAS app
 
 	@Test
-	public void testForSimpleInputWithSliderAndLabelInCasApp() {
+	public void testForSimpleInputWithSliderInCasApp() {
 		setupApp(GeoGebraConstants.CAS_APPCODE);
 		assertEquals(
-				List.of(RemoveLabel,
-						RemoveSlider,
+				List.of(RemoveSlider,
 						DuplicateInput,
 						Delete,
 						Settings),
@@ -201,8 +201,7 @@ public class AlgebraContextMenuTests {
 		GeoElement geoElement = add("5");
 		new LabelController().hideLabel(geoElement);
 		assertEquals(
-				List.of(AddLabel,
-						RemoveSlider,
+				List.of(RemoveSlider,
 						DuplicateInput,
 						Delete,
 						Settings),
