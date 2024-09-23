@@ -77,6 +77,13 @@ public class AlgoDependentFunctionNVar extends AlgoElement
 		return f;
 	}
 
+	/**
+	 * @return The function used as input - {@link #fun}
+	 */
+	public FunctionNVar getInputFunction() {
+		return fun;
+	}
+
 	@Override
 	public final void compute() {
 		// evaluation of function will be done in view (see

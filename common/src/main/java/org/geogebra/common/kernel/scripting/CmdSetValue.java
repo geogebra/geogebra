@@ -5,6 +5,9 @@ import java.util.Iterator;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.SetRandomValue;
+import org.geogebra.common.kernel.algos.AlgoDependentFunction;
+import org.geogebra.common.kernel.algos.AlgoDependentFunctionNVar;
+import org.geogebra.common.kernel.algos.AlgoDependentGeoCopy;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoInputBox;
 import org.geogebra.common.kernel.algos.DependentAlgo;
@@ -263,13 +266,32 @@ public class CmdSetValue extends CmdScripting {
 				geo.setDefinition(geo.toValidExpression().wrap());
 			}
 		} else if (geo.isGeoFunction() || geo.isGeoFunctionNVar()) {
-			((Evaluate2Var) geo).getFunction().setExpression(new ExpressionNode(kernel,
-					Double.NaN));
+			ExpressionNode undefined = new ExpressionNode(kernel, Double.NaN);
+			((Evaluate2Var) geo).getFunction().setExpression(undefined);
+			AlgoElement parentAlgo = geo.getParentAlgorithm();
+			if (parentAlgo != null) {
+				undefineInput(parentAlgo, undefined);
+			}
 			geo.setUndefined();
 		} else {
 			geo.setDefinition(geo.getUndefinedCopy(kernel)
 					.toValidExpression().wrap());
 			geo.setUndefined();
+		}
+	}
+
+	/**
+	 * Undefines the expression of the input for certain AlgoElements
+	 * @param parentAlgo {@link AlgoElement}
+	 * @param undefined {@link ExpressionNode}
+	 */
+	private static void undefineInput(AlgoElement parentAlgo, ExpressionNode undefined) {
+		if (parentAlgo instanceof AlgoDependentFunction) {
+			((AlgoDependentFunction) parentAlgo).getInputFunction().setExpression(undefined);
+		} else if (parentAlgo instanceof AlgoDependentFunctionNVar) {
+			((AlgoDependentFunctionNVar) parentAlgo).getInputFunction().setExpression(undefined);
+		} else if (parentAlgo instanceof AlgoDependentGeoCopy) {
+			((AlgoDependentGeoCopy) parentAlgo).setExpression(undefined);
 		}
 	}
 

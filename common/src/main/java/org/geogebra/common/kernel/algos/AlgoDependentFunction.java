@@ -141,6 +141,13 @@ public class AlgoDependentFunction extends AlgoElement
 		return f;
 	}
 
+	/**
+	 * @return The function used as input - {@link #fun}
+	 */
+	public Function getInputFunction() {
+		return fun;
+	}
+
 	@Override
 	public final void compute() {
 		// evaluation of function will be done in view (see
