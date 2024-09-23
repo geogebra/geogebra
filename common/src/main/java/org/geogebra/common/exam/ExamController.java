@@ -185,6 +185,13 @@ public final class ExamController {
 	}
 
 	/**
+	 * Remove all the listeners
+	 */
+	public void removeAllListeners() {
+		listeners.clear();
+	}
+
+	/**
 	 * @return The current exam state.
 	 * <p/>
 	 * Observable through {@link ExamListener#examStateChanged(ExamState) examStateChanged()}.
