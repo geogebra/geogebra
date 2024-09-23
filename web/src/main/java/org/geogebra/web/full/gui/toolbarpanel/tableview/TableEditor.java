@@ -38,10 +38,14 @@ public class TableEditor implements UnhandledArrowListener {
 	/**
 	 * @param row row
 	 * @param column column
+	 * @param keepFocusIfEditing if set and the editor is already active, do not reset
 	 */
-	public void startEditing(int row, int column) {
+	public void startEditing(int row, int column, boolean keepFocusIfEditing) {
 		ensureMathTextFieldExists();
 		app.invokeLater(() -> {
+			if (mathTextField.asWidget().isAttached() && keepFocusIfEditing) {
+				return;
+			}
 			boolean newColumnAndRow = table.tableModel.getColumnCount() > column
 					&& table.tableModel.getRowCount() > row;
 			mathTextField.setText(newColumnAndRow

@@ -116,12 +116,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 					@Override
 					public void focusCell(int row, int column) {
 						lastEdit = new GPoint(column, row);
-						editor.startEditing(row, column);
+						editor.startEditing(row, column, false);
 					}
 
 					@Override
 					public void refocusCell(int row, int column) {
-						editor.startEditing(row, column);
+						editor.startEditing(row, column, true);
 					}
 
 					@Override
