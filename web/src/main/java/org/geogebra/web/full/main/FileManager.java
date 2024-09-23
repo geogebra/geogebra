@@ -236,8 +236,8 @@ public abstract class FileManager extends MaterialsManager {
 		this.fileHandle = handle;
 		this.provider = Provider.LOCAL;
 		handle.getFile().then(file -> {
-			app.getKernel().getConstruction()
-					.setTitle(StringUtil.removeFileExtension(file.name));
+			app.getKernel().getConstruction().setTitle(
+					StringUtil.removeFolderName(StringUtil.removeFileExtension(file.name)));
 			return null;
 		});
 	}
