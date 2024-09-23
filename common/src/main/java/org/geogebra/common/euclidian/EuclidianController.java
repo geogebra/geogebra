@@ -9922,6 +9922,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (!getSelectedPointList().contains(firstPoint)) {
 					this.getSelectedPointList().add(firstPoint);
 				}
+				createNewPointForModeOther(hits);
 				this.view.setHits(new GPoint(eventX, eventY),
 						event.getType());
 				hits = view.getHits();
