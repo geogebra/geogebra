@@ -417,9 +417,6 @@ public final class EuclidianConstants {
 	/** Equation */
 	public static final int MODE_EQUATION = 124;
 
-	/** H5P tool */
-	public static final int MODE_H5P = 125;
-
 	public static final int MODE_MIND_MAP = 126;
 	/** Ruler */
 	public static final int MODE_RULER = 127;
@@ -906,8 +903,6 @@ public final class EuclidianConstants {
 			return "PDF";
 		case EuclidianConstants.MODE_EXTENSION:
 			return "Web";
-		case EuclidianConstants.MODE_H5P:
-			return "H5P";
 		case EuclidianConstants.MODE_SELECT:
 			return "Select";
 		case EuclidianConstants.MODE_SELECT_MOW:
@@ -987,7 +982,6 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_AUDIO:
 		case EuclidianConstants.MODE_CALCULATOR:
 		case EuclidianConstants.MODE_EXTENSION:
-		case EuclidianConstants.MODE_H5P:
 		case EuclidianConstants.MODE_TABLE:
 		case EuclidianConstants.MODE_EQUATION:
 		case EuclidianConstants.MODE_CAMERA:

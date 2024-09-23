@@ -1296,17 +1296,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *         finished already.
 	 */
 	public boolean doOpenFile(File fileToHandle) {
-		String ggbRegEx = ".*\\.(ggb|ggt|ggs|csv|off|pdf|h5p)$";
+		String ggbRegEx = ".*\\.(ggb|ggt|ggs|csv|off|pdf)$";
 		String fileName = fileToHandle.name.toLowerCase();
 		if (!fileName.matches(ggbRegEx)) {
 			return false;
 		}
 		if (fileName.endsWith(".pdf")) {
 			openPDF(fileToHandle);
-			return true;
-		}
-		if (fileName.endsWith(".h5p")) {
-			openH5P(fileToHandle);
 			return true;
 		}
 
@@ -2834,10 +2830,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            PDF file
 	 */
 	public void openPDF(File pdfFile) {
-		// only makes sense in GUI
-	}
-
-	public void openH5P(File pdfFile) {
 		// only makes sense in GUI
 	}
 
