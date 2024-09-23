@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.SymbolicUtil;
@@ -2333,6 +2334,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(copy.getTwinGeo(), nullValue());
 		assertThat(original, hasValue("a = x + 5"));
 		assertThat(copy, hasValue("a = x + 5"));
+	}
+
+	@Test
+	@Issue("APPS-5893")
+	public void twinForSimplifyShouldBeNumber() {
+		GeoSymbolic simplify = add("Simplify(2+3)");
+		assertThat(simplify.getTwinGeo().getGeoClassType(), is(GeoClass.NUMERIC));
 	}
 
 }
