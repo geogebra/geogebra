@@ -6,7 +6,6 @@ import org.geogebra.common.exam.ExamListener;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
-import org.geogebra.common.gui.util.InvalidToolFilter;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
 import org.geogebra.common.ownership.GlobalScope;
