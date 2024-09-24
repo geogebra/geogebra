@@ -32,8 +32,8 @@ public class GridDialog extends ComponentDialog {
 					GridDataProvider.getResourceForBackgroundType(type));
 		}
 
-		grid.setSelectedIndex(BackgroundType.rulingOptions.indexOf(
-				view.getSettings().getBackgroundType()));
+		selectedRuling = view.getSettings().getBackgroundType();
+		grid.setSelectedIndex(BackgroundType.rulingOptions.indexOf(selectedRuling));
 		grid.updateGui();
 
 		grid.setListener((index) -> selectedRuling = BackgroundType.rulingOptions.get(index));
@@ -42,11 +42,13 @@ public class GridDialog extends ComponentDialog {
 
 	private void applyRuling() {
 		EuclidianSettings settings = view.getSettings();
-		settings.setBackgroundType(selectedRuling);
+		if (settings.getBackgroundType() != selectedRuling) {
+			settings.setBackgroundType(selectedRuling);
 
-		view.updateBackground();
-		((EuclidianViewW) view).doRepaint();
+			view.updateBackground();
+			((EuclidianViewW) view).doRepaint();
 
-		app.storeUndoInfo();
+			app.storeUndoInfo();
+		}
 	}
 }
