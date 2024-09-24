@@ -5254,7 +5254,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				@Override
 				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
 					GeoMindMapNode mindMap = new GeoMindMapNode(cons, location);
-					mindMap.setSize(GeoMindMapNode.MIN_WIDTH, GeoMindMapNode.ROOT_HEIGHT);
+					mindMap.setSize(GeoMindMapNode.DEFAULT_WIDTH, GeoMindMapNode.ROOT_HEIGHT);
 					mindMap.setVerticalAlignment(VerticalAlignment.MIDDLE);
 
 					if (app.isMebis()) {
