@@ -270,7 +270,8 @@ public class Ggb2giac {
 						+ GGBVECT_TYPE + "," +
 						// eg lists length 4 (and not ggbvect)
 						// max -> error for different size lists
-						"sum(seq(ggbdotarg0[j] * ggbdotarg1[j], j, 0, max(length(ggbdotarg0), length(ggbdotarg1))-1))"
+						"[[flatarg0:=flatten(ggbdotarg0)],[flatarg1:=flatten(ggbdotarg1)],"
+						+ "sum(seq(flatarg0[j] * flatarg1[j], j, 0, max(length(flatarg0), length(flatarg1))-1))][2]"
 						+ ","
 						+ " regroup(xcoord(ggbdotarg0)*xcoord(ggbdotarg1)+ycoord(ggbdotarg0)*ycoord(ggbdotarg1)+zcoord(ggbdotarg0)*zcoord(ggbdotarg1))"
 						+ ")][1]");

@@ -143,6 +143,7 @@ var __giac = [
 { cat:"DivisorsList", cmd:"DivisorsList[100]", result:"{1, 2, 4, 5, 10, 20, 25, 50, 100}" },
 { cat:"DivisorsSum", cmd:"DivisorsSum[100]", result:"217" },
 { cat:"Dot", cmd:"Dot[(1,2,3),(-1,4,5)]", result:"22" },
+{ cat:"Dot", cmd:"Dot[{{1},{2},{3},{4}}, {{2},{3},{4},{5}}]", result:"40" },
 { cat:"Element", cmd:"Element[{{1,2,3},{4,5,-1},{4,5,2}},2]", result:"{4,5,-1}" },
 { cat:"Element", cmd:"Element[{{1,2,3},{4,5,-1},{4,5,2}},2,1]", result:"4" },
 { cat:"Expand", cmd:"Expand[ (x+1)/2 ]", result:"1/2x+1/2" },
