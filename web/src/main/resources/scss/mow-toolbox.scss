@@ -112,6 +112,7 @@
 		height: 144px;
 		display:inline-flex;
 		padding: 8px;
+		z-index: z-index.$z-dialog-under-keyboard;
 	}
 
 	.gwt-PopupPanel.categoryPopup.penCategory {
