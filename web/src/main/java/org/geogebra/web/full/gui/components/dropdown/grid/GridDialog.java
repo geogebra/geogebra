@@ -10,7 +10,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 
 public class GridDialog extends ComponentDialog {
 	private final EuclidianView view;
-	private BackgroundType selectedRuling;
+	private BackgroundType selectedRuling = BackgroundType.NONE;
 
 	/**
 	 * base dialog constructor
@@ -42,11 +42,13 @@ public class GridDialog extends ComponentDialog {
 
 	private void applyRuling() {
 		EuclidianSettings settings = view.getSettings();
-		settings.setBackgroundType(selectedRuling);
+		if (settings.getBackgroundType() != selectedRuling) {
+			settings.setBackgroundType(selectedRuling);
 
-		view.updateBackground();
-		((EuclidianViewW) view).doRepaint();
+			view.updateBackground();
+			((EuclidianViewW) view).doRepaint();
 
-		app.storeUndoInfo();
+			app.storeUndoInfo();
+		}
 	}
 }
