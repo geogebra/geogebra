@@ -2129,16 +2129,16 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public String getDefaultLabel() {
 		int counter = 0;
 		String str;
-		String name;
+		String name = cons.getLabelManager().getMultiuserPrefix();
 		if (getMetasLength() == 1) {
-			name = getLoc().getPlainLabel("face", "face"); // Name.face
+			name += getLoc().getPlainLabel("face", "face"); // Name.face
 		} else {
 			if (points != null && points.length == 3) {
-				name = getLoc().getPlainLabel("triangle", "t"); // Name.triangle
+				name += getLoc().getPlainLabel("triangle", "t"); // Name.triangle
 			} else if (points != null && points.length == 4) {
-				name = getLoc().getPlainLabel("quadrilateral", "q"); // Name.quadrilateral
+				name += getLoc().getPlainLabel("quadrilateral", "q"); // Name.quadrilateral
 			} else {
-				name = getLoc().getPlainLabel("polygon", "poly");
+				name += getLoc().getPlainLabel("polygon", "poly");
 			}
 
 		}
