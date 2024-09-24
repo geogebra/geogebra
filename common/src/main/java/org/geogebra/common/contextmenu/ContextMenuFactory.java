@@ -164,7 +164,8 @@ public final class ContextMenuFactory {
 		if (columnIndex == 0) {
 			return filteredItems(makeTableValuesContextMenuForFirstColumn(showImportData));
 		} else {
-			return filteredItems(makeTableValuesContextMenu(columnLabel, pointsVisible, showEdit, showStatistics));
+			return filteredItems(makeTableValuesContextMenu(
+					columnLabel, pointsVisible, showEdit, showStatistics));
 		}
 	}
 
