@@ -76,7 +76,7 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 	private void handleKey(KeyCodes keyCodes, List<GeoElement> selection) {
 		dispatcher.handleSelectedGeosKeys(
 				keyCodes, selection,
-				false, false, false, false);
+				false, false, false, false, getApp().isMacOS());
 	}
 
 	@Test
@@ -103,7 +103,7 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 	private void handleSpace() {
 		dispatcher.handleGeneralKeys(
 				KeyCodes.SPACE,
-				false, false, false, false, false);
+				false, false, false, false, false, getApp().isMacOS());
 	}
 
 	@Test

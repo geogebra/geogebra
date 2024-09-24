@@ -245,7 +245,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		boolean handled = handleGeneralKeys(kc,
 				event.isShiftKeyDown(),
 				isControlKeyDown(event.getNativeEvent()),
-				event.isAltKeyDown(), false, true);
+				event.isAltKeyDown(), false, true, NavigatorUtil.isMacOS());
 		if (handled) {
 			event.preventDefault();
 		}
@@ -267,7 +267,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				KeyCodes.translateGWTcode(event
 						.getKeyCode()), selection.getSelectedGeos(),
 				event.getShiftKey(), event.getCtrlKey(), event.getAltKey(),
-				false);
+				false, NavigatorUtil.isMacOS());
 	}
 
 	@Override
