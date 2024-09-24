@@ -97,6 +97,7 @@ public final class ContextMenuFactory {
 					showCreateTableValues);
 		default:
 			return makeDefaultAlgebraContextMenu(
+					showSpecialPointsSuggestion,
 					showStatisticsSuggestion,
 					showDuplicateOutput);
 		}
@@ -223,7 +224,9 @@ public final class ContextMenuFactory {
 		if (showCreateTableValues) {
 			items.add(CreateTableValues);
 		}
-		items.add(isAlgebraLabelVisible ? RemoveLabel : AddLabel);
+		if (!showRemoveSlider) {
+			items.add(isAlgebraLabelVisible ? RemoveLabel : AddLabel);
+		}
 		if (showSpecialPointsSuggestion) {
 			items.add(SpecialPoints);
 		}
@@ -310,10 +313,14 @@ public final class ContextMenuFactory {
 	}
 
 	private static List<AlgebraContextMenuItem> makeDefaultAlgebraContextMenu(
+			boolean showSpecialPointsSuggestion,
 			boolean showStatisticsSuggestion,
 			boolean showDuplicateOutput
 	) {
 		List<AlgebraContextMenuItem> items = new ArrayList<>();
+		if (showSpecialPointsSuggestion) {
+			items.add(SpecialPoints);
+		}
 		if (showStatisticsSuggestion) {
 			items.add(Statistics);
 		}
