@@ -1,8 +1,11 @@
 package org.geogebra.common.exam;
 
+import static org.geogebra.common.contextmenu.InputContextMenuItem.Expression;
+
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
@@ -27,6 +30,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 				null,
 				TestExamRestrictions.createCommandFilters(),
 				null,
+				TestExamRestrictions.createContextMenuItemFilters(),
 				null,
 				null,
 				Set.of("AngleUnit"));
@@ -46,6 +50,10 @@ final class TestExamRestrictions extends ExamRestrictions {
 				new OperationExpressionFilter(Operation.OR, Operation.AND),
 				new ComplexExpressionFilter(),
 				new RadianExpressionFilter());
+	}
+
+	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
+		return Set.of(item -> !item.equals(Expression));
 	}
 
 	@Override

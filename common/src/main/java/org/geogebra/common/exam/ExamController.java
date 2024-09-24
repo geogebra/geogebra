@@ -9,6 +9,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
@@ -70,6 +71,8 @@ public final class ExamController {
 
 	@NonOwning
 	private PropertiesRegistry propertiesRegistry;
+	@NonOwning
+	private ContextMenuFactory contextMenuFactory;
 
 	private Set<ExamRestrictable> restrictables = new HashSet<>();
 	private ContextDependencies activeDependencies;
@@ -91,10 +94,15 @@ public final class ExamController {
 	/**
 	 * Creates a new ExamController.
 	 * @param propertiesRegistry The properties registry.
+	 * @param contextMenuFactory The context menu factory.
 	 * @implNote The ExamController will register itself as a listener on the properties registry.
 	 */
-	public ExamController(@Nonnull PropertiesRegistry propertiesRegistry) {
+	public ExamController(
+			@Nonnull PropertiesRegistry propertiesRegistry,
+			@Nonnull ContextMenuFactory contextMenuFactory
+	) {
 		this.propertiesRegistry = propertiesRegistry;
+		this.contextMenuFactory = contextMenuFactory;
 	}
 
 	/**
@@ -494,7 +502,8 @@ public final class ExamController {
 					dependencies.localization,
 					dependencies.settings,
 					dependencies.autoCompleteProvider,
-					dependencies.toolsProvider);
+					dependencies.toolsProvider,
+					contextMenuFactory);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.addCommandFilter(noCASFilter);
 			}
@@ -513,7 +522,8 @@ public final class ExamController {
 					dependencies.localization,
 					dependencies.settings,
 					dependencies.autoCompleteProvider,
-					dependencies.toolsProvider);
+					dependencies.toolsProvider,
+					contextMenuFactory);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.removeCommandFilter(noCASFilter);
 			}

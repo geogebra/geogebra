@@ -6,6 +6,7 @@ import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -27,7 +28,35 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.scientific.LabelController;
 
+/**
+ * Factory for creating context menu items.
+ */
 public final class ContextMenuFactory {
+	private final List<ContextMenuItemFilter> filters = new ArrayList<>();
+
+	/**
+	 * Adds a {@link ContextMenuItemFilter} which can modify the list of items returned by
+	 * {@link ContextMenuFactory#makeAlgebraContextMenu},
+	 * {@link ContextMenuFactory#makeTableValuesContextMenu},
+	 * {@link ContextMenuFactory#makeInputContextMenu} or
+	 * {@link ContextMenuFactory#makeMaterialContextMenu}
+	 *
+	 * @param filter the {@link ContextMenuItemFilter} to be added
+	 */
+	public void addFilter(ContextMenuItemFilter filter) {
+		filters.add(filter);
+	}
+
+	/**
+	 * Removes the previously added {@link ContextMenuItemFilter}, undoing the effect of
+	 * {@link ContextMenuFactory#addFilter}
+	 *
+	 * @param filter the {@link ContextMenuItemFilter} to be removed
+	 */
+	public void removeFilter(ContextMenuItemFilter filter) {
+		filters.remove(filter);
+	}
+
 	/**
 	 * Builds the context menu for an item in the algebra view.
 	 *
@@ -42,13 +71,13 @@ public final class ContextMenuFactory {
 	 * @return List of context menu items.
 	 */
 	@Nonnull
-	public static List<AlgebraContextMenuItem> makeAlgebraContextMenu(
+	public List<AlgebraContextMenuItem> makeAlgebraContextMenu(
 			@CheckForNull GeoElement geoElement,
 			@Nonnull AlgebraProcessor algebraProcessor,
 			@Nonnull String appCode
 	) {
 		if (geoElement == null) {
-			return makeDeleteAlgebraContextMenu();
+			return filteredItems(makeDeleteAlgebraContextMenu());
 		}
 
 		CreateSlider createSlider = new CreateSlider(algebraProcessor, new LabelController());
@@ -70,7 +99,7 @@ public final class ContextMenuFactory {
 
 		switch (appCode) {
 		case GeoGebraConstants.CAS_APPCODE:
-			return makeCasAlgebraContextMenu(
+			return filteredItems(makeCasAlgebraContextMenu(
 					showStatisticsSuggestion,
 					showDuplicateOutput,
 					showSpecialPointsSuggestion,
@@ -78,28 +107,28 @@ public final class ContextMenuFactory {
 					isAlgebraLabelVisible,
 					showCreateSlider,
 					showRemoveSlider,
-					showSolveSuggestion);
+					showSolveSuggestion));
 		case GeoGebraConstants.SCIENTIFIC_APPCODE:
-			return makeScientificAlgebraContextMenu(
+			return filteredItems(makeScientificAlgebraContextMenu(
 					isAlgebraLabelVisible,
-					showDuplicateOutput);
+					showDuplicateOutput));
 		case GeoGebraConstants.G3D_APPCODE:
-			return make3DAlgebraContextMenu(
+			return filteredItems(make3DAlgebraContextMenu(
 					showStatisticsSuggestion,
 					showDuplicateOutput,
 					showSpecialPointsSuggestion,
-					showSolveSuggestion);
+					showSolveSuggestion));
 		case GeoGebraConstants.GRAPHING_APPCODE:
-			return makeTableValuesAlgebraContextMenu(
+			return filteredItems(makeTableValuesAlgebraContextMenu(
 					showStatisticsSuggestion,
 					showDuplicateOutput,
 					showSpecialPointsSuggestion,
-					showCreateTableValues);
+					showCreateTableValues));
 		default:
-			return makeDefaultAlgebraContextMenu(
+			return filteredItems(makeDefaultAlgebraContextMenu(
 					showSpecialPointsSuggestion,
 					showStatisticsSuggestion,
-					showDuplicateOutput);
+					showDuplicateOutput));
 		}
 	}
 
@@ -115,7 +144,7 @@ public final class ContextMenuFactory {
 	 * @return List of context menu items.
 	 */
 	@Nonnull
-	public static List<TableValuesContextMenuItem> makeTableValuesContextMenu(
+	public List<TableValuesContextMenuItem> makeTableValuesContextMenu(
 			@Nonnull GeoEvaluatable geoEvaluatable,
 			int columnIndex,
 			@Nonnull TableValuesModel tableValuesModel,
@@ -123,7 +152,7 @@ public final class ContextMenuFactory {
 			boolean isExamActive
 	) {
 		if (isScientific) {
-			return makeScientificTableValuesContextMenu();
+			return filteredItems(makeScientificTableValuesContextMenu());
 		}
 
 		String columnLabel = tableValuesModel.getHeaderAt(columnIndex);
@@ -133,9 +162,9 @@ public final class ContextMenuFactory {
 		boolean showStatistics = geoEvaluatable instanceof GeoList;
 
 		if (columnIndex == 0) {
-			return makeTableValuesContextMenuForFirstColumn(showImportData);
+			return filteredItems(makeTableValuesContextMenuForFirstColumn(showImportData));
 		} else {
-			return makeTableValuesContextMenu(columnLabel, pointsVisible, showEdit, showStatistics);
+			return filteredItems(makeTableValuesContextMenu(columnLabel, pointsVisible, showEdit, showStatistics));
 		}
 	}
 
@@ -146,7 +175,7 @@ public final class ContextMenuFactory {
 	 * @return List of context menu items.
 	 */
 	@Nonnull
-	public static List<InputContextMenuItem> makeInputContextMenu(
+	public List<InputContextMenuItem> makeInputContextMenu(
 			boolean includeHelpItem
 	) {
 		List<InputContextMenuItem> items = new ArrayList<>();
@@ -155,7 +184,7 @@ public final class ContextMenuFactory {
 		if (includeHelpItem) {
 			items.add(Help);
 		}
-		return items;
+		return filteredItems(items);
 	}
 
 	/**
@@ -164,8 +193,14 @@ public final class ContextMenuFactory {
 	 * @return List of context menu items.
 	 */
 	@Nonnull
-	public static List<MaterialContextMenuItem> makeMaterialContextMenu() {
-		return List.of(MaterialContextMenuItem.Delete);
+	public List<MaterialContextMenuItem> makeMaterialContextMenu() {
+		return filteredItems(List.of(MaterialContextMenuItem.Delete));
+	}
+
+	private <Item extends ContextMenuItem> List<Item> filteredItems(List<Item> items) {
+		return items.stream().filter(item ->
+				filters.stream().allMatch(filter ->
+						filter.isAllowed(item))).collect(Collectors.toList());
 	}
 
 	private static List<TableValuesContextMenuItem> makeTableValuesContextMenuForFirstColumn(

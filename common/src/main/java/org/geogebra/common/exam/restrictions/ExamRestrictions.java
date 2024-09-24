@@ -6,6 +6,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.contextmenu.ContextMenuFactory;
+import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
@@ -34,7 +36,7 @@ import org.geogebra.common.properties.ValuedProperty;
  * of this class.
  * Restrictions that apply to all exam types should be implemented in this class
  * (in {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,
- * Localization, Settings, AutocompleteProvider, ToolsProvider)}).
+ * Localization, Settings, AutocompleteProvider, ToolsProvider, ContextMenuFactory)}).
  * <p/>
  * Any restrictions to be applied during exams should be implemented in here (so that
  * everything is one place):
@@ -57,6 +59,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final Set<CommandFilter> commandFilters;
 	private final Set<Operation> filteredOperations;
 	private final Set<CommandArgumentFilter> commandArgumentFilters;
+	private final Set<ContextMenuItemFilter> contextMenuItemFilters;
 	// filter independent of exam region
 	private final CommandArgumentFilter examCommandArgumentFilter =
 			new ExamCommandArgumentFilter();
@@ -116,6 +119,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Set<CommandFilter> commandFilters,
 			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
 			@Nullable Set<Operation> filteredOperations,
+			@Nullable Set<ContextMenuItemFilter> contextMenuItemFilters,
 			@Nullable SyntaxFilter syntaxFilter,
 			@Nullable ToolCollectionFilter toolsFilter,
 			@Nullable Set<String> frozenProperties) {
@@ -131,6 +135,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.commandArgumentFilters = commandArgumentFilters != null
 				? commandArgumentFilters : Set.of();
 		this.filteredOperations = filteredOperations;
+		this.contextMenuItemFilters =
+				contextMenuItemFilters != null ? contextMenuItemFilters : Set.of();
 		this.syntaxFilter = syntaxFilter;
 		this.toolsFilter = toolsFilter == null
 				? new ToolCollectionSetFilter(EuclidianConstants.MODE_IMAGE) : toolsFilter;
@@ -145,6 +151,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Set<ExpressionFilter> outputExpressionFilters,
 			@Nullable Set<CommandFilter> commandFilters,
 			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
+			@Nullable Set<ContextMenuItemFilter> contextMenuItemFilters,
 			@Nullable SyntaxFilter syntaxFilter,
 			@Nullable ToolCollectionFilter toolsFilter,
 			@Nullable Set<String> frozenProperties) {
@@ -157,6 +164,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 				commandFilters,
 				commandArgumentFilters,
 				null,
+				contextMenuItemFilters,
 				syntaxFilter,
 				toolsFilter,
 				frozenProperties);
@@ -196,14 +204,16 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	/**
 	 * Apply the exam restrictions.
 	 */
-	public void applyTo(@Nullable CommandDispatcher commandDispatcher,
+	public void applyTo(
+			@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
 			@Nullable Object context,
 			@Nullable Localization localization,
 			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
-			@Nullable ToolsProvider toolsProvider) {
+			@Nullable ToolsProvider toolsProvider,
+			@Nullable ContextMenuFactory contextMenuFactory) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.addCommandFilter(commandFilter);
@@ -243,21 +253,28 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		if (toolsProvider != null && toolsFilter != null) {
 			toolsProvider.addToolsFilter(toolsFilter);
 		}
+		if (contextMenuFactory != null) {
+			for (ContextMenuItemFilter filter : contextMenuItemFilters) {
+				contextMenuFactory.addFilter(filter);
+			}
+		}
 	}
 
 	/**
 	 * Remove the exam restrictions (i.e., undo the changes from
 	 * {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,
-	 * Localization, Settings, AutocompleteProvider, ToolsProvider)} ).
+	 * Localization, Settings, AutocompleteProvider, ToolsProvider, ContextMenuFactory)} ).
 	 */
-	public void removeFrom(@Nullable CommandDispatcher commandDispatcher,
+	public void removeFrom(
+			@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
 			@Nullable Object context,
 			@Nullable Localization localization,
 			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
-			@Nullable ToolsProvider toolsProvider) {
+			@Nullable ToolsProvider toolsProvider,
+			@Nullable ContextMenuFactory contextMenuFactory) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.removeCommandFilter(commandFilter);
@@ -296,6 +313,11 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		}
 		if (toolsProvider != null && toolsFilter != null) {
 			toolsProvider.removeToolsFilter(toolsFilter);
+		}
+		if (contextMenuFactory != null) {
+			for (ContextMenuItemFilter filter : contextMenuItemFilters) {
+				contextMenuFactory.addFilter(filter);
+			}
 		}
 	}
 

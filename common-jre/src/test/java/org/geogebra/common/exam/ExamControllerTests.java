@@ -1,5 +1,7 @@
 package org.geogebra.common.exam;
 
+import static org.geogebra.common.contextmenu.InputContextMenuItem.Help;
+import static org.geogebra.common.contextmenu.InputContextMenuItem.Text;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
@@ -47,6 +50,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 	private ExamController examController;
 	private PropertiesRegistry propertiesRegistry;
+	private ContextMenuFactory contextMenuFactory;
 	private AppCommon app;
 	private CommandDispatcher commandDispatcher;
 	private CommandDispatcher previousCommandDispatcher;
@@ -65,8 +69,9 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		commandDispatcher = null;
 
 		propertiesRegistry = new DefaultPropertiesRegistry();
+		contextMenuFactory = new ContextMenuFactory();
 
-		examController = new ExamController(propertiesRegistry);
+		examController = new ExamController(propertiesRegistry, contextMenuFactory);
 		examController.setDelegate(this);
 		examController.addListener(examStates::add);
 		examStates.clear();
@@ -258,6 +263,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		Property angleUnit = propertiesRegistry.lookup("AngleUnit", app);
 		assertNotNull(angleUnit);
 		assertTrue("Angle unit should be frozen", angleUnit.isFrozen());
+		// context menu restrictions
+		assertEquals(List.of(Text, Help), contextMenuFactory.makeInputContextMenu(true));
 
 		examController.finishExam();
 		assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
