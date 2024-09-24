@@ -132,6 +132,12 @@ public class GeoText extends GeoElement
 	private final List<GeoElement> updateListeners;
 
 	/**
+	 * Flag to indicate whether this GeoText's value ({@link #str}) has changed since the last call
+	 * to the {@link #update(boolean)} method (needed for setting alt texts used for ScreenReader)
+	 */
+	private boolean textualValueChanged = false;
+
+	/**
 	 * Creates a new GeoText.
 	 *
 	 * Note: This will set construction defaults.
@@ -214,6 +220,7 @@ public class GeoText extends GeoElement
 		GeoText gt = (GeoText) geo;
 		// macro output: don't set start point
 		// but update to desired number format
+		String oldStr = str;
 		if (cons != geo.getConstruction() && isAlgoMacroOutput()) {
 			if (!useSignificantFigures) {
 				gt.setPrintDecimals(printDecimals > -1 ? printDecimals
@@ -225,11 +232,13 @@ public class GeoText extends GeoElement
 			str = gt.str;
 			isLaTeX = gt.isLaTeX;
 			updateTemplate();
+			setTextualValueChanged(oldStr);
 			return;
 		}
 
 		str = gt.str;
 		isLaTeX = gt.isLaTeX;
+		setTextualValueChanged(oldStr);
 
 		// needed for Corner[Element[text
 		boundingBox = gt.getBoundingBox();
@@ -293,6 +302,7 @@ public class GeoText extends GeoElement
 			text = text.substring(0, text.length() - 1);
 		}
 
+		String oldStr = str;
 		if (isLaTeX) {
 			// TODO: check greek letters of latex string
 			str = StringUtil.toLaTeXString(text, false);
@@ -301,7 +311,11 @@ public class GeoText extends GeoElement
 			// for eg Text["Hello\\nWorld",(1,1)]
 			str = text.replace(NEW_LINE, "\n");
 		}
+		setTextualValueChanged(oldStr);
+	}
 
+	private void setTextualValueChanged(String oldString) {
+		textualValueChanged = str != null && !str.equals(oldString);
 	}
 
 	/**
@@ -402,8 +416,9 @@ public class GeoText extends GeoElement
 
 		super.update(drag);
 		if (!cons.isFileLoading() && getLabelSimple() != null
-				&& getLabelSimple().startsWith("altText")) {
+				&& getLabelSimple().startsWith("altText") && textualValueChanged) {
 			kernel.getApplication().setAltText(this);
+			textualValueChanged = false;
 		}
 
 		notifyListeners();
@@ -432,6 +447,7 @@ public class GeoText extends GeoElement
 	@Override
 	public void setUndefined() {
 		str = null;
+		setTextualValueChanged(null);
 	}
 
 	@Override
