@@ -1403,6 +1403,9 @@ public class GeoFunctionNVar extends GeoElement
 	@Override
 	public void updateCASEvalMap(TreeMap<String, String> map) {
 		if (fun != null) {
+			for (FunctionVariable v: getFunctionVariables()) {
+				cons.registerFunctionVariable(v.getSetVarString());
+			}
 			fun.updateCASEvalMap(map);
 		}
 	}

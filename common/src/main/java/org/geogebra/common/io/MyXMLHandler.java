@@ -3267,7 +3267,7 @@ public class MyXMLHandler implements DocHandler {
 		if (varStr != null) {
 			String[] vars = varStr.split(",");
 			for (String var : vars) {
-				cons.registerFunctionVariable(var);
+				cons.registerFunctionVariable(var.trim());
 			}
 		}
 		if (name != null) {
