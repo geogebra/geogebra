@@ -52,7 +52,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				CvteExamRestrictions.createCommandFilters(),
 				CvteExamRestrictions.createCommandArgumentFilters(),
 				CvteExamRestrictions.getFilteredOperations(),
-				CvteExamRestrictions.createContextMenuItemFilter(),
+				CvteExamRestrictions.createContextMenuItemFilters(),
 				CvteExamRestrictions.createSyntaxFilter(),
 				CvteExamRestrictions.createToolsFilter(),
 				null);
@@ -241,7 +241,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 		return Set.of(new MatrixExpressionFilter());
 	}
 
-	private static Set<ContextMenuItemFilter> createContextMenuItemFilter() {
+	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
 		Set<TableValuesContextMenuItem.Item> restrictedContextMenuItems = Set.of(
 				Separator,
 				Statistics1,

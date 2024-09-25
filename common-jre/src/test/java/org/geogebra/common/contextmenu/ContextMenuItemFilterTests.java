@@ -5,6 +5,12 @@ import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Delete;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.DuplicateInput;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Settings;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.SpecialPoints;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.ClearColumn;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Edit;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.ImportData;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Regression;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics1;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics2;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
@@ -12,8 +18,10 @@ import java.util.Set;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
@@ -59,7 +67,7 @@ public class ContextMenuItemFilterTests {
 	}
 
 	@Test
-	public void testMultipleItemFilter() {
+	public void testMultipleItemFilters() {
 		contextMenuFactory.addFilter(item -> !Set.of(Delete, Settings).contains(item));
 
 		assertEquals(
@@ -70,7 +78,7 @@ public class ContextMenuItemFilterTests {
 	}
 
 	@Test
-	public void testMultipleFilter() {
+	public void testMultipleFilters() {
 		ContextMenuItemFilter filter1 = item -> !Set.of(Delete, Settings).contains(item);
 		ContextMenuItemFilter filter2 = item -> !Set.of(Delete, SpecialPoints).contains(item);
 
@@ -100,6 +108,26 @@ public class ContextMenuItemFilterTests {
 				List.of(CreateTableValues, SpecialPoints, DuplicateInput, Delete, Settings),
 				contextMenuFactory.makeAlgebraContextMenu(
 						geoElement, algebraProcessor, GeoGebraConstants.GRAPHING_APPCODE)
+		);
+	}
+
+    @Test
+	public void testUnnecessarySeparatorsAfterFilteredItems() {
+		contextMenuFactory.addFilter(item -> {
+			if (item instanceof TableValuesContextMenuItem) {
+				return !Set.of(Statistics1, Statistics2, Regression)
+						.contains(((TableValuesContextMenuItem) item).getItem());
+			}
+			return true;
+		});
+
+		assertEquals(
+				List.of(Edit.toContextMenuItem(),
+						ClearColumn.toContextMenuItem(),
+						ImportData.toContextMenuItem()),
+				contextMenuFactory.makeTableValuesContextMenu(
+						new GeoLine(algebraProcessor.getConstruction()), 0,
+						new TableValuesView(app.getKernel()).getTableValuesModel(), false, false)
 		);
 	}
 

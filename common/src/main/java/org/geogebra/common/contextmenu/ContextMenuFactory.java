@@ -5,8 +5,11 @@ import static org.geogebra.common.contextmenu.InputContextMenuItem.*;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -32,7 +35,7 @@ import org.geogebra.common.scientific.LabelController;
  * Factory for creating context menu items.
  */
 public final class ContextMenuFactory {
-	private final List<ContextMenuItemFilter> filters = new ArrayList<>();
+	private final Set<ContextMenuItemFilter> filters = new HashSet<>();
 
 	/**
 	 * Adds a {@link ContextMenuItemFilter} which can modify the list of items returned by
@@ -77,7 +80,7 @@ public final class ContextMenuFactory {
 			@Nonnull String appCode
 	) {
 		if (geoElement == null) {
-			return filteredItems(makeDeleteAlgebraContextMenu());
+			return filter(makeDeleteAlgebraContextMenu());
 		}
 
 		CreateSlider createSlider = new CreateSlider(algebraProcessor, new LabelController());
@@ -99,7 +102,7 @@ public final class ContextMenuFactory {
 
 		switch (appCode) {
 		case GeoGebraConstants.CAS_APPCODE:
-			return filteredItems(makeCasAlgebraContextMenu(
+			return filter(makeCasAlgebraContextMenu(
 					showStatisticsSuggestion,
 					showDuplicateOutput,
 					showSpecialPointsSuggestion,
@@ -109,23 +112,23 @@ public final class ContextMenuFactory {
 					showRemoveSlider,
 					showSolveSuggestion));
 		case GeoGebraConstants.SCIENTIFIC_APPCODE:
-			return filteredItems(makeScientificAlgebraContextMenu(
+			return filter(makeScientificAlgebraContextMenu(
 					isAlgebraLabelVisible,
 					showDuplicateOutput));
 		case GeoGebraConstants.G3D_APPCODE:
-			return filteredItems(make3DAlgebraContextMenu(
+			return filter(make3DAlgebraContextMenu(
 					showStatisticsSuggestion,
 					showDuplicateOutput,
 					showSpecialPointsSuggestion,
 					showSolveSuggestion));
 		case GeoGebraConstants.GRAPHING_APPCODE:
-			return filteredItems(makeTableValuesAlgebraContextMenu(
+			return filter(makeTableValuesAlgebraContextMenu(
 					showStatisticsSuggestion,
 					showDuplicateOutput,
 					showSpecialPointsSuggestion,
 					showCreateTableValues));
 		default:
-			return filteredItems(makeDefaultAlgebraContextMenu(
+			return filter(makeDefaultAlgebraContextMenu(
 					showSpecialPointsSuggestion,
 					showStatisticsSuggestion,
 					showDuplicateOutput));
@@ -152,7 +155,7 @@ public final class ContextMenuFactory {
 			boolean isExamActive
 	) {
 		if (isScientific) {
-			return filteredItems(makeScientificTableValuesContextMenu());
+			return filter(makeScientificTableValuesContextMenu());
 		}
 
 		String columnLabel = tableValuesModel.getHeaderAt(columnIndex);
@@ -162,9 +165,9 @@ public final class ContextMenuFactory {
 		boolean showStatistics = geoEvaluatable instanceof GeoList;
 
 		if (columnIndex == 0) {
-			return filteredItems(makeTableValuesContextMenuForFirstColumn(showImportData));
+			return filter(makeTableValuesContextMenuForFirstColumn(showImportData));
 		} else {
-			return filteredItems(makeTableValuesContextMenu(
+			return filter(makeTableValuesContextMenu(
 					columnLabel, pointsVisible, showEdit, showStatistics));
 		}
 	}
@@ -185,7 +188,7 @@ public final class ContextMenuFactory {
 		if (includeHelpItem) {
 			items.add(Help);
 		}
-		return filteredItems(items);
+		return filter(items);
 	}
 
 	/**
@@ -195,13 +198,37 @@ public final class ContextMenuFactory {
 	 */
 	@Nonnull
 	public List<MaterialContextMenuItem> makeMaterialContextMenu() {
-		return filteredItems(List.of(MaterialContextMenuItem.Delete));
+		return filter(List.of(MaterialContextMenuItem.Delete));
 	}
 
-	private <Item extends ContextMenuItem> List<Item> filteredItems(List<Item> items) {
-		return items.stream().filter(item ->
-				filters.stream().allMatch(filter ->
-						filter.isAllowed(item))).collect(Collectors.toList());
+    private <Item extends ContextMenuItem> List<Item> filter(List<Item> items) {
+		// Keep only those items that are allowed by all of the filters
+		List<Item> filteredItems = items.stream().filter(
+				item -> filters.stream().allMatch(
+						filter -> filter.isAllowed(item))).collect(Collectors.toList());
+
+		// Remove unnecessary separators once some of the items are potentially removed
+		return IntStream.range(0, filteredItems.size()).filter(index -> {
+			// Remove separators
+			if (isSeparator(filteredItems.get(index))) {
+				// If they are the first/last in the list
+				if (index == 0 || index == filteredItems.size() - 1) {
+					return false;
+				}
+
+				// Or if there are multiple separators after each other
+				if (isSeparator(filteredItems.get(index + 1))) {
+					return false;
+				}
+			}
+
+			return true;
+		}).mapToObj(filteredItems::get).collect(Collectors.toList());
+	}
+
+	private boolean isSeparator(ContextMenuItem contextMenuItem) {
+		return contextMenuItem instanceof TableValuesContextMenuItem &&
+				((TableValuesContextMenuItem) contextMenuItem).getItem() == Separator;
 	}
 
 	private static List<TableValuesContextMenuItem> makeTableValuesContextMenuForFirstColumn(
