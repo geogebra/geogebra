@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.factories.UtilFactory;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasAuralText;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.Localization;
@@ -74,5 +75,13 @@ public class AltTextTimer implements GTimerListener {
 
 	private boolean textChanged(HasAuralText textProvider) {
 		return !textProvider.getAuralText().equals(lastReadText.get(textProvider));
+	}
+
+	/**
+	 * Adds a GeoText and its aural text to the {@link #lastReadText}
+	 * @param geoText {@link GeoText}
+	 */
+	public void preload(GeoText geoText) {
+		lastReadText.put(geoText, geoText.getAuralText());
 	}
 }

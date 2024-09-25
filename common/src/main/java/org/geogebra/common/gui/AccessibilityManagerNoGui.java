@@ -103,4 +103,8 @@ public final class AccessibilityManagerNoGui
 		}
 	}
 
+	@Override
+	public void preloadAltText(GeoText geoText) {
+		// not used
+	}
 }
