@@ -78,6 +78,6 @@ public class GgbSettings implements VendorSettings {
 
 	@Override
 	public boolean hasTriangleProtractor(Language language) {
-		return "de".equals(language.language);
+		return !"en".equals(language.language);
 	}
 }

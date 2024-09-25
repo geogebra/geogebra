@@ -31,11 +31,9 @@ public class RulerPopup extends GPopupMenuW implements SetLabels {
 
 	private void buildGui() {
 		addItem(getApp().getLocalization().getMenu("Ruler"), MODE_RULER);
-
-		if (!getApp().getVendorSettings().hasTriangleProtractor(
+		addItem(getApp().getLocalization().getMenu("Protractor"), MODE_PROTRACTOR);
+		if (getApp().getVendorSettings().hasTriangleProtractor(
 				getApp().getLocalization().getLanguage())) {
-			addItem(getApp().getLocalization().getMenu("Protractor"), MODE_PROTRACTOR);
-		} else {
 			addItem(getApp().getLocalization().getMenu("TriangleProtractor"),
 					MODE_TRIANGLE_PROTRACTOR);
 		}
@@ -89,9 +87,8 @@ public class RulerPopup extends GPopupMenuW implements SetLabels {
 		clearItems();
 		boolean triangleSupported = getApp().getVendorSettings().hasTriangleProtractor(
 				getApp().getLocalization().getLanguage());
-		if (activeRulerMode == MODE_TRIANGLE_PROTRACTOR && !triangleSupported
-			|| activeRulerMode == MODE_PROTRACTOR && triangleSupported) {
-			activeRulerMode = triangleSupported ? MODE_TRIANGLE_PROTRACTOR : MODE_PROTRACTOR;
+		if (activeRulerMode == MODE_TRIANGLE_PROTRACTOR && !triangleSupported) {
+			activeRulerMode = MODE_PROTRACTOR;
 			updateRulerButton(activeRulerMode);
 		}
 		buildGui();
