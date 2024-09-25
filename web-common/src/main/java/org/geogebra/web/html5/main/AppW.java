@@ -2161,7 +2161,19 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @param asSlide
 	 *            whether jus a slide is loaded
 	 */
-	public abstract void afterLoadFileAppOrNot(boolean asSlide);
+	public void afterLoadFileAppOrNot(boolean asSlide) {
+		boolean commandsLoaded = false;
+		for (GeoElement geo : kernel.getConstruction().getGeoSetConstructionOrder()) {
+			if (!commandsLoaded && geo.hasScripts()) {
+				getAsyncManager().loadAllCommands();
+				commandsLoaded = true;
+			}
+			if (geo instanceof GeoText && geo.getLabelSimple() != null
+					&& geo.getLabelSimple().startsWith("altText")) {
+				getAccessibilityManager().preloadAltText((GeoText) geo);
+			}
+		}
+	}
 
 	/**
 	 * Recalculate offsets/transforms for graphics events
