@@ -227,8 +227,8 @@ public final class ContextMenuFactory {
 	}
 
 	private boolean isSeparator(ContextMenuItem contextMenuItem) {
-		return contextMenuItem instanceof TableValuesContextMenuItem &&
-				((TableValuesContextMenuItem) contextMenuItem).getItem() == Separator;
+		return contextMenuItem instanceof TableValuesContextMenuItem
+				&& ((TableValuesContextMenuItem) contextMenuItem).getItem() == Separator;
 	}
 
 	private static List<TableValuesContextMenuItem> makeTableValuesContextMenuForFirstColumn(
