@@ -382,12 +382,11 @@ public abstract class GlobalKeyDispatcher {
 	 * @param isAltDown whether alt is down
 	 * @param fromSpreadsheet whether this event comes from spreadsheet
 	 * @param fromEuclidianView whether this event comes from EV
-	 * @param macOS True for macOS, false else
 	 * @return if key was consumed
 	 */
 	protected boolean handleGeneralKeys(KeyCodes key, boolean isShiftDown,
 			boolean isControlDown, boolean isAltDown, boolean fromSpreadsheet,
-			boolean fromEuclidianView, boolean macOS) {
+			boolean fromEuclidianView) {
 
 		// eventually make an undo point (e.g. after zooming)
 		app.storeUndoInfoIfSetCoordSystemOccured();
@@ -453,8 +452,7 @@ public abstract class GlobalKeyDispatcher {
 
 		case CONTEXT_MENU:
 		case F10: // <Shift>F10 -> Right-click
-			if ((key == KeyCodes.F10 && isShiftDown
-					|| key == KeyCodes.CONTEXT_MENU && !macOS)
+			if ((isShiftDown || key == KeyCodes.CONTEXT_MENU)
 					&& keyboardShortcutsEnabled()) {
 				if (app.getGuiManager() != null) {
 
@@ -1199,13 +1197,12 @@ public abstract class GlobalKeyDispatcher {
 	 *            whether alt is down
 	 * @param fromSpreadsheet
 	 *            whether this event comes from spreadsheet
-	 * @param macOS True for macOS, false else
 	 * 
 	 * @return if key was consumed
 	 */
 	protected boolean handleSelectedGeosKeys(KeyCodes key,
 			List<GeoElement> geos, boolean isShiftDown,
-			boolean isControlDown, boolean isAltDown, boolean fromSpreadsheet, boolean macOS) {
+			boolean isControlDown, boolean isAltDown, boolean fromSpreadsheet) {
 		// SPECIAL KEYS
 		double changeValX = 0; // later: changeVal = base or -base
 		double changeValY = 0; // later: changeVal = base or -base
@@ -1291,8 +1288,8 @@ public abstract class GlobalKeyDispatcher {
 
 		case CONTEXT_MENU:
 		case F10:
-			if ((key == KeyCodes.F10 && isShiftDown || key == KeyCodes.CONTEXT_MENU && !macOS)
-					&& keyboardShortcutsEnabled() && app.isAlgebraViewFocused()) {
+			if ((isShiftDown || key == KeyCodes.CONTEXT_MENU && keyboardShortcutsEnabled())
+					&& app.isAlgebraViewFocused()) {
 				app.getGuiManager().openMenuInAVFor(geos.get(0));
 				return true;
 			}

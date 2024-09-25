@@ -24,8 +24,8 @@ import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.app.FileExtensionFilter;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
+import org.geogebra.desktop.gui.app.FileExtensionFilter;
 import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
@@ -149,7 +149,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 		return handleGeneralKeys(KeyCodes.translateJavacode(event.getKeyCode()),
 				event.isShiftDown(), AppD.isControlDown(event),
 				event.isAltDown(), event.getSource() instanceof JTable,
-				event.getSource() instanceof EuclidianViewD, app.isMacOS());
+				event.getSource() instanceof EuclidianViewD);
 	}
 
 	private boolean handleSelectedGeosKeys(KeyEvent event,
@@ -161,7 +161,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 		return handleSelectedGeosKeys(
 				KeyCodes.translateJavacode(event.getKeyCode()), geos,
 				event.isShiftDown(), AppD.isControlDown(event),
-				event.isAltDown(), event.getSource() instanceof JTable, app.isMacOS());
+				event.isAltDown(), event.getSource() instanceof JTable);
 	}
 
 	@Override
