@@ -22,7 +22,9 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 		HasVerticalAlignment {
 
 	public static final int DEFAULT_WIDTH = 100;
-	public static final int DEFAULT_HEIGHT = 30;
+	public static final int DEFAULT_HEIGHT = 36;
+	public static final int MIN_WIDTH = 36;
+	public static final int MIN_HEIGHT = 30;
 	public static final int NO_BORDER = 0;
 
 	private double minHeight;
@@ -65,12 +67,12 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 
 	@Override
 	public double getMinWidth() {
-		return DEFAULT_WIDTH;
+		return MIN_WIDTH;
 	}
 
 	@Override
 	public double getMinHeight() {
-		return Math.max(minHeight, DEFAULT_HEIGHT);
+		return Math.max(minHeight, MIN_HEIGHT);
 	}
 
 	@Override
