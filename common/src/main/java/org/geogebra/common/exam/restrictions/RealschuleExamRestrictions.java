@@ -64,7 +64,8 @@ final class RealschuleExamRestrictions extends ExamRestrictions {
 	private static class RealschuleCommandArgumentFilter extends BaseCommandArgumentFilter {
 
 		@Override
-		public void checkAllowed(Command command, CommandProcessor commandProcessor) throws MyError {
+		public void checkAllowed(Command command, CommandProcessor commandProcessor)
+				throws MyError {
 			GeoElement[] arguments = commandProcessor.resArgs(command);
 			if (isCommand(command, Length)) {
 				switch (command.getArgumentNumber()) {
