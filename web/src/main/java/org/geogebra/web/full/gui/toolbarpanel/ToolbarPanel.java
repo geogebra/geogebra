@@ -883,6 +883,26 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	/**
+	 * If table view is active, hide the whole toolbar. If not, open toolbar and focus TV.
+	 */
+	public void toggleTableView() {
+		boolean isScientific = app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC;
+		if (isTableOfValuesViewActive() && isScientific) {
+			navRail.onAlgebraPressed();
+		} else {
+			navRail.onTableViewPressed();
+		}
+
+		if (!navRail.isOpen()) {
+			app.getActiveEuclidianView().requestFocus();
+		}
+	}
+
+	private boolean isTableOfValuesViewActive() {
+		return tabTable != null && getSelectedTabId() == TabIds.TABLE;
+	}
+
+	/**
 	 * Opens tools tab.
 	 * @param geo to ensure to be visible.
 	 * @param fade decides if tab should fade during animation.

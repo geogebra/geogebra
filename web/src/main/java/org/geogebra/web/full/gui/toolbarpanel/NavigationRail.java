@@ -170,7 +170,7 @@ class NavigationRail extends FlowPanel {
 	/**
 	 * Handler for table view button.
 	 */
-	protected void onTableViewPressed() {
+	void onTableViewPressed() {
 		if (isOpen() && toolbarPanel.getSelectedTabId() == TabIds.TABLE) {
 			if (app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC) {
 				return;
