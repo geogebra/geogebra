@@ -390,7 +390,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			int code = convertToJavaKeyCode(event.getNativeEvent());
 			// on Mac, the key event right after ^ is a KeyUpEvent,
 			// so it must be redirected to the onKeyTyped() handler.
-			if (powerHappened && event.getNativeKeyCode() != 18) {
+			if (isPowerHappened(event.getNativeKeyCode())) {
 				powerHappened = false;
 				redirectToKeyTyped(keyListener, (char) event.getNativeKeyCode(), event);
 				return;
@@ -440,7 +440,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			if (code == JavaKeyCodes.VK_DELETE
 					|| code == JavaKeyCodes.VK_ESCAPE || handled
 					|| isLeftAltDown()) {
-
+				event.preventDefault();
 			}
 			if (!isGlobalEvent.test(event.getNativeEvent())) {
 				event.stopPropagation();
@@ -449,12 +449,16 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}, KeyDownEvent.getType());
 	}
 
-	private void redirectToKeyTyped(KeyListener keyListener, char event, KeyUpEvent event1) {
+	private boolean isPowerHappened(int key) {
+		return powerHappened && key != GWTKeycodes.KEY_ALT && key != GWTKeycodes.KEY_SHIFT;
+	}
+
+	private void redirectToKeyTyped(KeyListener keyListener, char typedEvent, KeyUpEvent event) {
 		keyListener.onKeyTyped(new KeyEvent(0, 0,
-				event));
+				typedEvent));
 		onFocusTimer(); // refocus to remove the half-written letter
-		updateAltForKeyUp(event1);
-		event1.preventDefault();
+		updateAltForKeyUp(event);
+		event.preventDefault();
 	}
 
 	/**
@@ -964,6 +968,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	protected void resetFlags() {
 		this.setRightAltDown(false);
 		this.setLeftAltDown(false);
+		powerHappened = false;
 	}
 
 	public void setOnBlur(BlurHandler run) {
