@@ -7,7 +7,6 @@ import java.util.Set;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.commands.CommandNotFoundError;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
@@ -16,9 +15,9 @@ import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
-final class ReaulschuleExamRestrictions extends ExamRestrictions {
+final class RealschuleExamRestrictions extends ExamRestrictions {
 
-	ReaulschuleExamRestrictions() {
+	RealschuleExamRestrictions() {
 		super(ExamType.REALSCHULE,
 				Set.of(SuiteSubApp.CAS, SuiteSubApp.GEOMETRY, SuiteSubApp.G3D,
 						SuiteSubApp.PROBABILITY, SuiteSubApp.SCIENTIFIC),
