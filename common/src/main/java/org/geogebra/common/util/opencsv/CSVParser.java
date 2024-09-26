@@ -19,8 +19,6 @@ package org.geogebra.common.util.opencsv;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.util.StringUtil;
-
 /**
  * A very simple CSV parser released under a commercial-friendly license. This
  * just implements splitting a single line into fields.
@@ -411,7 +409,7 @@ public class CSVParser {
 		for (int i = 0; i < sb.length(); i++) {
 			char c = sb.charAt(i);
 
-			if (!StringUtil.isWhitespace(c)) {
+			if (!Character.isWhitespace(c)) {
 				return false;
 			}
 		}

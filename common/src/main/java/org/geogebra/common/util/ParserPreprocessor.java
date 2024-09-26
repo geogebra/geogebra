@@ -102,7 +102,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 				handleComma(i);
 			}
 
-			if (StringUtil.isWhitespace(ch)
+			if (Character.isWhitespace(ch)
 					|| (comment && !ch.equals('"'))) {
 				continue;
 			}
