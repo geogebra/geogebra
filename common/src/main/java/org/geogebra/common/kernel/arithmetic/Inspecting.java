@@ -356,7 +356,6 @@ public interface Inspecting {
 			}
 			return false;
 		}
-
 	}
 
 	/**
@@ -366,6 +365,7 @@ public interface Inspecting {
 	public enum MinusChecker implements Inspecting {
 		/** singleton instance */
 		INSTANCE;
+
 		@Override
 		public boolean check(ExpressionValue v) {
 			if (v instanceof GeoDummyVariable) {
@@ -397,4 +397,5 @@ public interface Inspecting {
 			return v instanceof NumberValue && !((NumberValue) v).isDefined();
 		}
 	};
+
 }

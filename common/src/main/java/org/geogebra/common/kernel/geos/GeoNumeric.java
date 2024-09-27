@@ -1909,7 +1909,8 @@ public class GeoNumeric extends GeoElement
 		boolean symbolicMode =
 				(definition == null)
 						|| (!definition.isSimpleFraction() && definition.isFractionNoPi())
-						|| (definition.isSimplifiableSurd());
+						|| (definition.isSimplifiableSurd())
+						|| (definition.isRationalizableFraction());
 		setSymbolicMode(symbolicMode, false);
 	}
 
