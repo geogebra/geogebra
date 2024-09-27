@@ -36,8 +36,11 @@ public interface TableValuesKeyboardNavigationControllerDelegate {
 	 * Unfocus (i.e., end editing, remove selection border) the given cell.
 	 * @param row The row index of the cell that should be unfocused.
 	 * @param column The column index of the cell that should be unfocused.
+	 * @param isTransferringFocus Indicates whether the reason for unfocusing
+	 * is to transfer the focus to another cell. If it is transferring,
+	 * then it is followed by a {@link #focusCell(int, int)} call.
 	 */
-	void unfocusCell(int row, int column);
+	void unfocusCell(int row, int column, boolean isTransferringFocus);
 
 	/**
 	 * Get the contents of the editor of the given cell.
