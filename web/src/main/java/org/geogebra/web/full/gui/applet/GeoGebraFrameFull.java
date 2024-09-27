@@ -749,7 +749,7 @@ public class GeoGebraFrameFull
 
 		NotesTopBar notesTopBar = notesLayout.getTopBar();
 		if (notesTopBar != null && notesTopBar.wasAttached()) {
-			add(notesTopBar);
+			insert(notesTopBar, 0);
 		}
 		if (notesLayout.getToolbar() != null) {
 			add(notesLayout.getToolbar());

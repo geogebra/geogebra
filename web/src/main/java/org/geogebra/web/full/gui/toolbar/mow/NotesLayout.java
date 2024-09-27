@@ -27,6 +27,8 @@ public class NotesLayout implements SetLabels, ModeChangeListener {
 	private StandardButton pageControlButton;
 	private @CheckForNull PageListPanel pageControlPanel;
 
+	private static final int TOP_BAR_HEIGHT = 48;
+
 	/**
 	 * @param appW application
 	 */
@@ -140,5 +142,9 @@ public class NotesLayout implements SetLabels, ModeChangeListener {
 		if (toolbar != null) {
 			toolbar.onModeChange(mode);
 		}
+	}
+
+	public int getTopBarHeight() {
+		return topBar != null && topBar.wasAttached() ? TOP_BAR_HEIGHT : 0;
 	}
 }

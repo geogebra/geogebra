@@ -133,7 +133,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 		@Override
 		public void onBrowserEvent(Event event) {
-
 			if (CopyPasteW.incorrectTarget(event.getEventTarget().cast())
 						&& !isGlobalEvent(event)) {
 					return;

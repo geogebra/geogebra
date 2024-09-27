@@ -30,16 +30,10 @@ import jsinterop.base.Js;
 public class GLookAndFeel implements GLookAndFeelI {
 	/** width of menu */
 	public static final int MENUBAR_WIDTH = 270; //TODO make it smaller - wordWrap
-	/** height of header in browse gui */
-	public static final int BROWSE_HEADER_HEIGHT = 61;
-	/** width of panle with file sources in browse gui (GDrive, MAT) */
-	public static final int PROVIDER_PANEL_WIDTH = 70;
 	/** toolbar height + offset */
 	public static final int TOOLBAR_OFFSET = 61;
 	/** toolbar height */
 	public static final int TOOLBAR_HEIGHT = 53;
-	/** size of icons in view submenu of stylebar */
-	public static final int VIEW_ICON_SIZE = 20;
 	private EventListener windowClosingHandler;
 	private EventListener windowCloseHandler;
 

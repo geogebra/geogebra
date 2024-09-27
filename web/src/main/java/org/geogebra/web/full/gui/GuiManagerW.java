@@ -619,7 +619,7 @@ public class GuiManagerW extends GuiManager
 				return; // not in DOM yet => no reliable size
 			}
 			final DockSplitPaneW root = getLayout().getRootComponent();
-			int verticalSpace = borderThickness + getApp().getToolbarAndInputbarHeight();
+			int verticalSpace = borderThickness + getApp().getToolbarAndInputBarHeight();
 			int horizontalSpace = borderThickness;
 			if (mainMenuBar != null) {
 				horizontalSpace += mainMenuBar.getOffsetWidth();

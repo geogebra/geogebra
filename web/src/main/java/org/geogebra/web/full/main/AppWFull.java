@@ -2088,7 +2088,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	@Override
 	public void updateSplitPanelHeight() {
-		int newHeight = frame.computeHeight() - getToolbarAndInputbarHeight();
+		int newHeight = frame.computeHeight() - getToolbarAndInputBarHeight();
 
 		if (frame.isKeyboardShowing()) {
 			newHeight -= frame.getKeyboardHeight();
@@ -2104,19 +2104,18 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 	}
 
-	/**
-	 * @return toolbar height (if toolbar visible) + input bar height (if visible)
-	 */
-	public int getToolbarAndInputbarHeight() {
+	@Override
+	public int getToolbarAndInputBarHeight() {
 		int height = 0;
 		if (showAlgebraInput()
-				&& getInputPosition() != InputPosition.algebraView
-				&& getGuiManager().getAlgebraInput() != null) {
-			height += getGuiManager().getAlgebraInput()
-					.getOffsetHeight();
+				&& getInputPosition() != InputPosition.algebraView) {
+			height += GLookAndFeel.COMMAND_LINE_HEIGHT;
 		}
 		if (getToolbar() != null && getToolbar().isShown()) {
 			height += GLookAndFeel.TOOLBAR_HEIGHT;
+		}
+		if (isWhiteboardActive()) {
+			height += frame.getNotesLayoutSafe(this).getTopBarHeight();
 		}
 		return height;
 	}
