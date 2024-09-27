@@ -7,6 +7,7 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.HasAllKeyHandlers;
 import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyDownEvent;
@@ -27,6 +28,7 @@ import org.gwtproject.user.client.ui.HasAnimation;
 import org.gwtproject.user.client.ui.HasEnabled;
 import org.gwtproject.user.client.ui.HasText;
 import org.gwtproject.user.client.ui.HasValue;
+import org.gwtproject.user.client.ui.InlineHTML;
 import org.gwtproject.user.client.ui.MultiWordSuggestOracle;
 import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.SuggestOracle;
@@ -547,8 +549,7 @@ public class GSuggestBox extends Composite
 
 			for (final Suggestion curSuggestion : suggestions) {
 				final SuggestionMenuItem menuItem = new SuggestionMenuItem(
-						curSuggestion);
-				menuItem.setScheduledCommand(() -> callback.onSuggestionSelected(curSuggestion));
+						curSuggestion, () -> callback.onSuggestionSelected(curSuggestion));
 
 				suggestionMenu.addItem(menuItem);
 			}
@@ -602,12 +603,8 @@ public class GSuggestBox extends Composite
 
 		private Suggestion suggestion;
 
-		public SuggestionMenuItem(Suggestion suggestion) {
-			super(suggestion.getDisplayString(), null,
-					() -> {
-						// TODO Auto-generated method stub
-
-					});
+		public SuggestionMenuItem(Suggestion suggestion, Scheduler.ScheduledCommand command) {
+			super(new InlineHTML(suggestion.getDisplayString()), command);
 			// Each suggestion should be placed in a single row in the
 			// suggestion
 			// menu. If the window is resized and the suggestion cannot fit on a
