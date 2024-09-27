@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.dialog.options;
 
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.PropertyValueObserver;
@@ -93,8 +94,16 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addLabelingItem() {
-			LabelingProperty property = new LabelingProperty(app.getLocalization(),
-					app.getSettings().getLabelSettings());
+			LabelingProperty property;
+			if (app.isUnbundledOrWhiteboard()) {
+				property = new LabelingProperty(app.getLocalization(),
+						app.getSettings().getLabelSettings());
+			} else {
+				property = new LabelingProperty(app.getLocalization(),
+						app.getSettings().getLabelSettings(), LabelVisibility.Automatic,
+						LabelVisibility.AlwaysOn, LabelVisibility.AlwaysOff,
+						LabelVisibility.PointsOnly);
+			}
 			labelingDropDown = new CompDropDown(app, property);
 			lblLabeling = new FormLabel(
 					app.getLocalization().getMenu("Labeling") + ":")
@@ -108,7 +117,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			NamedEnumeratedProperty<?> fontSizeProperty = new FontSizeProperty(
 					app.getLocalization(),
 					app.getSettings().getFontSettings(),
-					app.getSettingsUpdater().getFontSettingsUpdater());
+					app.getFontSettingsUpdater());
 			fontSizeDropDown = new CompDropDown(app, fontSizeProperty);
 			lblFontSize = new FormLabel(
 					app.getLocalization().getMenu("FontSize") + ":")

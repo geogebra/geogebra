@@ -337,6 +337,16 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertFalse(availableTools.contains(EuclidianConstants.MODE_POINT));
 	}
 
+	@Test
+	public void testDerivativeOperatorDisabledForVlaanderen() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+		examController.prepareExam();
+		examController.startExam(ExamType.VLAANDEREN, null);
+
+		assertNotNull(evaluate("f(x) = x^2"));
+		assertNull(evaluate("f'"));
+	}
+
 	// -- ExamControllerDelegate --
 
 	@Override

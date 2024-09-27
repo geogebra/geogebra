@@ -249,9 +249,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		}
 
 		if (useKeyboardButton) {
-			frame.showKeyBoard(show, retexListener, true);
+			frame.showKeyboard(show, retexListener, true);
 		} else {
-			frame.doShowKeyBoard(show, retexListener);
+			frame.doShowKeyboard(show, retexListener);
 		}
 	}
 
@@ -264,7 +264,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		if (!frame.isKeyboardShowing() && !show) {
 			return;
 		}
-		frame.doShowKeyBoard(show, retexListener);
+		frame.doShowKeyboard(show, retexListener);
 	}
 
 	/**

@@ -755,7 +755,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getAppletParameters().setAttribute("appName", "notes");
 			getAppletFrame().initPageControlPanel(this);
 			euclidianController.clearMeasurementTools();
-			getAppletFrame().setNotesMode(getMode());
 			if (getPageController() != null) {
 				getPageController().loadSlides(archiveContent);
 				return;
@@ -2371,17 +2370,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					&& getCASFactory().isEnabled();
 		}
 
-		if ((getLAF() != null
-				&& getLAF().examSupported())
-				|| (getLAF() != null && getLAF().isTablet() && !isUnbundled()
-						&& !isWhiteboardActive())) {
-			if (viewID == App.VIEW_EUCLIDIAN) {
-				return getSettings().getEuclidian(1).isEnabled();
-			} else if (viewID == App.VIEW_EUCLIDIAN2) {
-				return getSettings().getEuclidian(2).isEnabled();
-			}
-		}
-
 		return viewID != App.VIEW_EUCLIDIAN3D;
 	}
 
@@ -2682,7 +2670,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            after the update the input of the keyboard is written into
 	 *            this field
 	 */
-	public void updateKeyBoardField(MathKeyboardListener field) {
+	public void updateKeyboardField(MathKeyboardListener field) {
 		// Overwritten in subclass - nothing to do here
 	}
 
@@ -2890,7 +2878,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public boolean allowStylebar() {
 		return !isApplet()
 				|| getAppletParameters().getDataParamShowMenuBar(false)
-				|| getAppletParameters().getDataParamAllowStyleBar(false);
+				|| getAppletParameters().getDataParamAllowStyleBar();
 	}
 
 	@Override

@@ -33,7 +33,7 @@ public class ScientificPropertiesFactory implements PropertiesFactory {
 						new FontSizeProperty(
 								localization,
 								app.getSettings().getFontSettings(),
-								app.getSettingsUpdater().getFontSettingsUpdater()),
+								app.getFontSettingsUpdater()),
 						new LanguageProperty(app, localization)));
 	}
 }

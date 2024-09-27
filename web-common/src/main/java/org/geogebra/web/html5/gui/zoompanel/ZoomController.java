@@ -1,5 +1,9 @@
 package org.geogebra.web.html5.gui.zoompanel;
 
+import java.util.function.Consumer;
+
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -7,7 +11,6 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
-import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.GeoGebraElement;
@@ -56,15 +59,13 @@ public class ZoomController {
 	/**
 	 * @param fullScreenActive
 	 *            true if fullscreen
-	 * @param fullscreenBtn
-	 *            button
+	 * @param fullscreenBtnSelectCB
+	 *            callback to update button select state
 	 */
 	public void setFullScreenActive(boolean fullScreenActive,
-			ToggleButton fullscreenBtn) {
+			Consumer<Boolean> fullscreenBtnSelectCB) {
 		state.fullScreenActive = fullScreenActive;
-		if (fullscreenBtn != null && fullscreenBtn.isSelected() != fullScreenActive) {
-			fullscreenBtn.setSelected(fullScreenActive);
-		}
+		fullscreenBtnSelectCB.accept(fullScreenActive);
 	}
 
 	/**
@@ -113,7 +114,7 @@ public class ZoomController {
 	 *            element
 	 */
 	protected void scaleApplet(Element scaler, Element container,
-			Element elem) {
+			@CheckForNull Element elem) {
 		double scale = 1;
 		if (app.isUnbundled()) {
 			app.getGgbApi().setSize(NavigatorUtil.getWindowWidth(),
@@ -158,14 +159,12 @@ public class ZoomController {
 	}
 
 	/**
-	 * @param elem
-	 *            element
-	 * @param fullscreenButton
-	 *            fullscreen button
+	 * @param elem - element
+	 * @param fullscreenBtnSelectCB - fullscreen button select callback
 	 */
-	public void onExitFullscreen(Element elem,
-			ToggleButton fullscreenButton) {
-		setFullScreenActive(false, fullscreenButton);
+	public void onExitFullscreen(@CheckForNull  Element elem,
+			Consumer<Boolean> fullscreenBtnSelectCB) {
+		setFullScreenActive(false, fullscreenBtnSelectCB);
 		if (!app.getAppletParameters().getDataParamFitToScreen()) {
 			final Element scaler = app.getGeoGebraElement().getParentElement();
 			// check for null in case external website removed applet from DOM
@@ -190,14 +189,11 @@ public class ZoomController {
 
 	/**
 	 * Full screen button handler.
-	 *
-	 * @param elem
-	 *            element
-	 * @param fullscreenBtn
-	 *            fullscreen button
+	 * @param elem - element
+	 * @param fullscreenBtnSelectCB - callback to update button select state
 	 */
-	protected void onFullscreenPressed(final Element elem,
-			final ToggleButton fullscreenBtn) {
+	public void onFullscreenPressed(final Element elem,
+			Consumer<Boolean> fullscreenBtnSelectCB) {
 		app.closeMenuHideKeyboard();
 		final Element container;
 		state.emulated = useEmulatedFullscreen(app);
@@ -208,13 +204,13 @@ public class ZoomController {
 
 					@Override
 					public void run() {
-						onFullscreen(fullscreenBtn);
+						onFullscreen(fullscreenBtnSelectCB);
 					}
 				};
 				// delay scaling to make sure scrollbars disappear
 				t.schedule(50);
 			}
-			handleIframeFullscreen(fullscreenBtn);
+			handleIframeFullscreen(fullscreenBtnSelectCB);
 		} else {
 			GeoGebraElement geoGebraElement = app.getGeoGebraElement();
 			final Element scaler = geoGebraElement.getParentElement();
@@ -227,7 +223,7 @@ public class ZoomController {
 					@Override
 					public void run() {
 						scaleApplet(scaler, container, elem);
-						onFullscreen(fullscreenBtn);
+						onFullscreen(fullscreenBtnSelectCB);
 					}
 				};
 				// delay scaling to make sure scrollbars disappear
@@ -236,7 +232,7 @@ public class ZoomController {
 				if (state.emulated) {
 					state.removeTransformOverride();
 					container.removeClassName("GeoGebraFullscreenContainer");
-					onExitFullscreen(elem, fullscreenBtn);
+					onExitFullscreen(elem, fullscreenBtnSelectCB);
 					if (state.getCssScale() != 0) {
 						Browser.scale(scaler, state.getCssScale(),
 								0, 0);
@@ -245,18 +241,34 @@ public class ZoomController {
 			}
 		}
 		if (!state.emulated) {
-			setFullScreenActive(!isFullScreenActive(), fullscreenBtn);
+			setFullScreenActive(!isFullScreenActive(), fullscreenBtnSelectCB);
 			Browser.toggleFullscreen(isFullScreenActive(), container);
 		}
 	}
 
-	private void handleIframeFullscreen(ToggleButton fullscreenBtn) {
+	private void handleIframeFullscreen(Consumer<Boolean> fullscreenBtnSelectCB) {
 		if (isRunningInIframe() && state.emulated) {
 			FullScreenHandler fullScreenHandler = app.getVendorSettings().getFullscreenHandler();
 			if (fullScreenHandler != null) {
 				fullScreenHandler.toggleFullscreen();
-				setFullScreenActive(!state.fullScreenActive, fullscreenBtn);
+				setFullScreenActive(!state.fullScreenActive, fullscreenBtnSelectCB);
 			}
+		}
+	}
+
+	/**
+	 * @param app - appication
+	 * @return whether fullscreen button should be added
+	 */
+	public static boolean needsFullscreenButton(AppW app) {
+		if (app.getAppletParameters().getDataParamApp()) {
+			return ZoomController.isRunningInIframe() || !NavigatorUtil.isMobile();
+		} else {
+			if (!app.getAppletParameters().getDataParamShowFullscreenButton()) {
+				return false;
+			}
+
+			return !(NavigatorUtil.isiOS() && ZoomController.isRunningInIframe());
 		}
 	}
 
@@ -282,12 +294,11 @@ public class ZoomController {
 	/**
 	 * Handler that runs on switching to fullscreen.
 	 *
-	 * @param fullscreenBtn
-	 *            fullscreen button
+	 * @param fullscreenBtnSelectCB
+	 *            callback to update button select state
 	 */
-	void onFullscreen(ToggleButton fullscreenBtn) {
-		setFullScreenActive(true, fullscreenBtn);
-		fullscreenBtn.getElement().focus();
+	void onFullscreen(Consumer<Boolean> fullscreenBtnSelectCB) {
+		setFullScreenActive(true, fullscreenBtnSelectCB);
 	}
 
 	private void setHomeButtonVisible(StandardButton homeBtn, boolean visible) {

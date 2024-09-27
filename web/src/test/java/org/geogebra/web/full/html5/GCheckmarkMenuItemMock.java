@@ -4,7 +4,6 @@ import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 
 public class GCheckmarkMenuItemMock extends GCheckmarkMenuItem {
-	private final String originalTitle;
 	private AriaMenuCheckMock menuCheck;
 
 	/**
@@ -12,14 +11,13 @@ public class GCheckmarkMenuItemMock extends GCheckmarkMenuItem {
 	 * @param checked whether it's checked initially
 	 */
 	public GCheckmarkMenuItemMock(String title, boolean checked) {
-		super(title, checked);
-		originalTitle = title;
+		super(null, title, checked, null);
 		setChecked(checked);
 	}
 
 	@Override
 	protected AriaMenuItem newMenuItem() {
-		menuCheck = new AriaMenuCheckMock(getHTML());
+		menuCheck = new AriaMenuCheckMock(panel.getText());
 		return menuCheck;
 	}
 
@@ -29,7 +27,6 @@ public class GCheckmarkMenuItemMock extends GCheckmarkMenuItem {
 		menuCheck.setChecked(value);
 	}
 
-	@Override
 	public boolean isChecked() {
 		return menuCheck.isChecked();
 	}

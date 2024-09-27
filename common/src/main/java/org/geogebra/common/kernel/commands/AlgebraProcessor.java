@@ -424,7 +424,6 @@ public class AlgebraProcessor {
 				// so we don't need to call computeOutput,
 				// which also causes marble crashes
 
-				casCell.update();
 			} catch (Exception e) {
 				app.getEventDispatcher().enableListeners();
 				Log.debug(e);
@@ -3209,6 +3208,11 @@ public class AlgebraProcessor {
 		// ELSE: resolve variables and evaluate expressionnode
 		n.resolveVariables(info);
 
+		// Check for allowed expressions again, as resolving variables might end up creating
+		// expressions that otherwise are not allowed. See APPS-5138
+		if (!isExpressionAllowed(n, inputExpressionFilters)) {
+			return null;
+		}
 		if (n.isLeaf() && n.getLeft().isExpressionNode()) {
 			// we changed f' to f'(x) -> clean double wrap
 
