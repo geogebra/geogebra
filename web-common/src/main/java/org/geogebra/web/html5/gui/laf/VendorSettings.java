@@ -85,7 +85,7 @@ public interface VendorSettings {
 
 	/**
 	 * @param language active language
-	 * @return whether triangle protractor should be used for given language
+	 * @return list of protractor tools for given language
 	 */
-	boolean hasTriangleProtractor(Language language);
+	List<Integer> getProtractorTools(Language language);
 }

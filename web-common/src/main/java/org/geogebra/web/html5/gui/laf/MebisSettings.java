@@ -1,9 +1,11 @@
 package org.geogebra.web.html5.gui.laf;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.lang.Language;
@@ -90,7 +92,7 @@ public class MebisSettings implements VendorSettings {
 	}
 
 	@Override
-	public boolean hasTriangleProtractor(Language language) {
-		return true;
+	public List<Integer> getProtractorTools(Language language) {
+		return Collections.singletonList(EuclidianConstants.MODE_TRIANGLE_PROTRACTOR);
 	}
 }
