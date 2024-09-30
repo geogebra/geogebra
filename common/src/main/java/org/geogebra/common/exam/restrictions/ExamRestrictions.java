@@ -190,6 +190,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			for (ExpressionFilter expressionFilter : outputExpressionFilters) {
 				algebraProcessor.addOutputExpressionFilter(expressionFilter);
 			}
+			algebraProcessor.reinitCommands();
 		}
 		if (syntaxFilter != null) {
 			if (autoCompleteProvider != null) {
@@ -241,6 +242,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			for (ExpressionFilter expressionFilter : outputExpressionFilters) {
 				algebraProcessor.removeOutputExpressionFilter(expressionFilter);
 			}
+			algebraProcessor.reinitCommands();
 		}
 		if (syntaxFilter != null) {
 			if (autoCompleteProvider != null) {

@@ -194,8 +194,7 @@ public abstract class CommandDispatcher implements Restrictable {
 
 		CommandProcessor cmdProc = getProcessor(c);
 
-		if (cmdProc == null
-				|| (c.isAvailable() && !isAllowedByCommandFilters(Commands.valueOf(c.getName())))) {
+		if (cmdProc == null) {
 			if (c.getName()
 					.equals(app.getLocalization().getFunction("freehand"))) {
 				return null;
