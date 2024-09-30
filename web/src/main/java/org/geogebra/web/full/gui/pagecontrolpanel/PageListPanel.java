@@ -139,7 +139,6 @@ public class PageListPanel
 		}
 
 		dockPanel.hideZoomPanel();
-		notesLayout.showPageControlButton(false);
 
 		setVisible(true);
 		setLabels();
@@ -168,7 +167,6 @@ public class PageListPanel
 	 */
 	protected void onClose() {
 		if (app.isWhiteboardActive()) {
-			notesLayout.showPageControlButton(true);
 			dockPanel.showZoomPanel();
 		}
 		setVisible(false);

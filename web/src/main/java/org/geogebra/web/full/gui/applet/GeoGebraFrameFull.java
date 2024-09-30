@@ -755,8 +755,6 @@ public class GeoGebraFrameFull
 		if (notesLayout.getToolbar() != null) {
 			add(notesLayout.getToolbar());
 		}
-		setPageControlButtonVisible(app.isMultipleSlidesOpen()
-				|| app.getAppletParameters().getParamShowSlides(), notesLayout);
 
 		if (GlobalHeader.isInDOM() && !app.isApplet()) {
 			app.getGuiManager().menuToGlobalHeader();
@@ -772,20 +770,6 @@ public class GeoGebraFrameFull
 		NotesLayout notesLayout = getNotesLayoutSafe(app);
 		if (notesLayout.getToolbar() != null) {
 			remove(notesLayout.getToolbar());
-		}
-	}
-
-	/**
-	 * @param show whether to show the button
-	 */
-	public void setPageControlButtonVisible(boolean show, NotesLayout notesLayout) {
-		if (show) {
-			add(notesLayout.getPageControlButton());
-		} else if (notesLayout != null) {
-			notesLayout.getPageControlButton().removeFromParent();
-		}
-		if (app.getZoomPanel() != null) {
-			app.getZoomPanel().updatePosition(show);
 		}
 	}
 
