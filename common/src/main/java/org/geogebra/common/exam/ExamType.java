@@ -41,15 +41,15 @@ public enum ExamType {
 		}
 	},
 
-	CVTE() {
+	REALSCHULE() {
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
-			return "CvTE goedgekeurde examenstand";
+			return "Bayern Realschulrechner";
 		}
 
 		@Override
 		public String getShortDisplayName(Localization loc, AppConfig config) {
-			return "CvTE";
+			return "Realschule";
 		}
 
 		@Override
@@ -63,15 +63,15 @@ public enum ExamType {
 		}
 	},
 
-	REALSCHULE() {
+	CVTE() {
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
-			return "Bayern Realschulrechner";
+			return "CvTE goedgekeurde examenstand";
 		}
 
 		@Override
 		public String getShortDisplayName(Localization loc, AppConfig config) {
-			return "Realschule";
+			return "CvTE";
 		}
 
 		@Override
