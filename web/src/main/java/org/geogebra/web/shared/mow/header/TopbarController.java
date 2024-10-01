@@ -19,7 +19,6 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.gui.zoompanel.ZoomController;
 import org.geogebra.web.html5.main.AppW;
-import org.gwtproject.user.client.ui.Widget;
 
 public class TopbarController {
 	private final AppW appW;

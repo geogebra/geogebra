@@ -26,7 +26,6 @@ public class NotesLayout implements SetLabels, ModeChangeListener {
 		setLabels();
 	}
 
-
 	@Override
 	public void setLabels() {
 		if (toolbar != null) {

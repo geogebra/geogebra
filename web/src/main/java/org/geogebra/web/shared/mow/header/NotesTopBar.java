@@ -9,7 +9,6 @@ import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -167,8 +166,8 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 
 	private void addPageOverviewButton() {
 		if (appletParams.getParamShowSlides()) {
-			IconButton pageOverviewBtn = addSmallPressButton(MaterialDesignResources.INSTANCE.mow_page_control(),
-					"PageControl", null, null);
+			IconButton pageOverviewBtn = addSmallPressButton(MaterialDesignResources.INSTANCE
+							.mow_page_control(), "PageControl", null, null);
 			pageOverviewBtn.addStyleName("pageOverview");
 			pageOverviewBtn.addFastClickHandler(source -> {
 				controller.togglePagePanel();

@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.pagecontrolpanel;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
@@ -10,7 +8,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
-import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -136,7 +133,8 @@ public class PageListPanel
 		}
 
 		setVisible(true);
-		((EuclidianViewW) dockPanel.getEuclidianView()).getAbsolutePanel().setWidth(String.valueOf(dockPanel.getEuclidianPanel().getOffsetWidth() - getOffsetWidth()));
+		((EuclidianViewW) dockPanel.getEuclidianView()).getAbsolutePanel().setWidth(String
+				.valueOf(dockPanel.getEuclidianPanel().getOffsetWidth() - getOffsetWidth()));
 		setLabels();
 		removeStyleName("animateOut");
 		addStyleName("animateIn");
