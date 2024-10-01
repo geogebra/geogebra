@@ -241,7 +241,7 @@
 		position: absolute;
 		top: 48px;
 		right: 0px;
-		box-shadow: $shadow-elevation-16;
+		border-left: 1px solid neutral(300);
 		background-color: colors.$white;
 		z-index: z-index.$z-page-control-panel;
 		height: calc(100% - 48px);
