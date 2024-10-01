@@ -337,6 +337,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						+ "\n Supported exam modes: " + supportedModes);
 				appletParameters.setAttribute("examMode", "");
 			}
+		} else if (!StringUtil.empty(appletParameters.getParamExamMode())) {
+			ExamType examType = ExamType.byName(appletParameters.getParamExamMode());
+			initExamRestrictions();
+			examController.startExam(examType, null);
 		}
 	}
 
@@ -2329,11 +2333,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @param region {@link ExamType}
 	 */
 	public void startExam(ExamType region) {
-		examController.setActiveContext(this,
-				getKernel().getAlgebraProcessor().getCommandDispatcher(),
-				getKernel().getAlgebraProcessor());
-		examController.registerRestrictable(this);
-		examController.setDelegate(new ExamControllerDelegateW(this));
+		initExamRestrictions();
 		examController.startExam(region, null);
 		getLAF().toggleFullscreen(true);
 		if (guiManager != null) {
@@ -2349,6 +2349,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				guiManager.initInfoBtnAction();
 			}
 		}
+	}
+
+	private void initExamRestrictions() {
+		examController.setActiveContext(this,
+				getKernel().getAlgebraProcessor().getCommandDispatcher(),
+				getKernel().getAlgebraProcessor());
+		examController.registerRestrictable(this);
+		examController.setDelegate(new ExamControllerDelegateW(this));
 	}
 
 	/**

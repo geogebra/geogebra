@@ -24,7 +24,9 @@ public class ExamControllerDelegateW implements ExamControllerDelegate {
 		if (app instanceof AppWFull) {
 			((AppWFull) app).clearSubAppCons();
 		}
-		app.fileNew();
+		if (app.getGuiManager() != null) {
+			app.fileNew();
+		}
 	}
 
 	@Override

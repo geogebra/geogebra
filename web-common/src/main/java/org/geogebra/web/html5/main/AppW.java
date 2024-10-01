@@ -3538,7 +3538,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	public boolean isLockedExam() {
-		return !StringUtil.empty(getAppletParameters().getParamExamMode());
+		return !StringUtil.empty(getAppletParameters().getParamExamMode()) && appletParameters.getDataParamApp();
 	}
 
 	/**
