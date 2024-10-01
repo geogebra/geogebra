@@ -125,13 +125,6 @@ public interface EmbedManager {
 	 */
 	void openGraspableMTool();
 
-	/**
-	 * opens the H5P tool
-	 * @param onError error handler
-	 * @return embed element
-	 */
-	GeoEmbed openH5PTool(Runnable onError);
-
 	void initAppEmbed(GeoEmbed ge);
 
 	/**

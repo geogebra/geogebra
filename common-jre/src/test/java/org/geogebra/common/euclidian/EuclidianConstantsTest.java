@@ -71,7 +71,7 @@ public class EuclidianConstantsTest extends BaseUnitTest {
 		String missing = modes.stream().map(EuclidianConstants::getModeText)
 				.filter(Predicate.not(getApp().getLocalization()::hasMenu))
 				.collect(Collectors.joining(", "));
-		assertEquals("Graspable Math, PDF, H5P", missing);
+		assertEquals("Graspable Math, PDF", missing);
 	}
 
 }

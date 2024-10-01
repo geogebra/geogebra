@@ -1674,37 +1674,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.dialogComponent.mediaDialog.H5P {
-
-		.dialogMainPanel .dialogTitle {
-			margin-bottom: 8px;
-		}
-
-		.helpTxt {
-			margin-bottom: 24px;
-			font-size: 75%;
-		}
-
-		.AutoCompleteTextFieldW {
-			margin-right: 0px;
-		}
-
-		.orDividerComponent {
-			margin-top: 24px;
-		}
-
-		.btnContainer {
-			display: flex;
-			justify-content: center;
-			margin: 24px 0px;
-
-			.uploadFileBtn {
-				color: colors.$mebis-text-btn-col;
-				padding: 0px 16px;
-			}
-		}
-	}
-
 	.dialogComponent.statistics {
 		.dialogTitle {
 			height: 24px;

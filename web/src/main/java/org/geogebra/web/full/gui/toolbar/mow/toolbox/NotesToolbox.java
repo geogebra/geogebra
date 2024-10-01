@@ -156,8 +156,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 			return;
 		}
 
-		List<Integer> linkTools = ToolboxConstants.getLinkCategory(
-				appW.getVendorSettings().isH5PEnabled());
+		List<Integer> linkTools = ToolboxConstants.linkCategory;
 		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.resource_card_shared(),
 				"Link", linkTools);
 	}
