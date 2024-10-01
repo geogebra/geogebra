@@ -9,7 +9,6 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.GgbFile;
@@ -133,8 +132,8 @@ public class PageListPanel
 		}
 
 		setVisible(true);
-		((EuclidianViewW) dockPanel.getEuclidianView()).getAbsolutePanel().setWidth(String
-				.valueOf(dockPanel.getEuclidianPanel().getOffsetWidth() - getOffsetWidth()));
+		int dockPanelWidth = dockPanel.getWidth() - getOffsetWidth();
+		dockPanel.resizeView(dockPanelWidth, dockPanel.getHeight());
 		setLabels();
 		removeStyleName("animateOut");
 		addStyleName("animateIn");
@@ -150,6 +149,7 @@ public class PageListPanel
 		if (!isVisible()) {
 			return false;
 		}
+		dockPanel.resizeView(dockPanel.getWidth(), dockPanel.getHeight());
 		showPlusButton(false);
 		addStyleName("animateOut");
 		CSSEvents.runOnAnimation(this::onClose, getElement(), "animateOut");
