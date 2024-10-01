@@ -32,7 +32,8 @@ public class EvaluateInput {
 	 * @param item to evaluate.
 	 * @param ctrl the controller.
 	 */
-	public EvaluateInput(RadioTreeItem item, RadioTreeItemController ctrl, GeoSelectionCallback callback) {
+	public EvaluateInput(RadioTreeItem item, RadioTreeItemController ctrl,
+			GeoSelectionCallback callback) {
 		this.item = item;
 		this.app = item.getApplication();
 		this.ctrl = ctrl;
