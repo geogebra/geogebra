@@ -5,6 +5,8 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_TRANSLATEVIE
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.gui.AccessibilityGroup;
@@ -32,8 +34,8 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 	private final AppletParameters appletParams;
 	private final TopbarController controller;
 	private final List<IconButton> buttons = new ArrayList<>();
-	private IconButton undoBtn;
-	private IconButton redoBtn;
+	private @CheckForNull IconButton undoBtn;
+	private @CheckForNull IconButton redoBtn;
 	private IconButton homeBtn;
 	private IconButton dragBtn;
 	private IconButton fullscreenButton;
@@ -127,8 +129,10 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 	public void updateUndoRedoActions(Kernel kernel) {
 		kernel.getConstruction().getUndoManager().setAllowCheckpoints(
 				appletParams.getParamAllowUndoCheckpoints());
-		undoBtn.setDisabled(!kernel.undoPossible());
-		redoBtn.setDisabled(!kernel.redoPossible());
+		if (undoBtn != null && redoBtn != null) {
+			undoBtn.setDisabled(!kernel.undoPossible());
+			redoBtn.setDisabled(!kernel.redoPossible());
+		}
 	}
 
 	private void addFullscreenButton() {
