@@ -239,12 +239,12 @@
 ******************/
 	.mowPageControlPanel {
 		position: absolute;
-		top: 0px;
+		top: 48px;
 		right: 0px;
 		box-shadow: $shadow-elevation-16;
 		background-color: colors.$white;
 		z-index: z-index.$z-page-control-panel;
-		height: 100%;
+		height: calc(100% - 48px);
 		width: $pagecontrolpanelWidth;
 		overflow: hidden;
 
@@ -260,25 +260,27 @@
 		}
 	}
 	.mowPageControlPanel.animateIn {
-		animation-duration: 0.25s;
+		animation-duration: 0.3s;
 		animation-name: pCPanimateIn;
+		animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 		overflow: auto;
 	}
 
 	@keyframes pCPanimateIn {
-		0% {right: -$pagecontrolpanelWidth; top: 0px;}
-		100% {right: 0px; top: 0px;}
+		0% {right: -$pagecontrolpanelWidth; top: 48px;}
+		100% {right: 0px; top: 48px;}
 	}
 
 	.mowPageControlPanel.animateOut {
-		animation-duration: 0.25s;
+		animation-duration: 0.3s;
 		animation-name: pCPanimateOut;
+		animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 		overflow-y: auto;
 	}
 
 	@keyframes pCPanimateOut {
-		0% {right: 0px; top: 0px;}
-		100% {right: -$pagecontrolpanelWidth; top: 0px;}
+		0% {right: 0px; top: 48px;}
+		100% {right: -$pagecontrolpanelWidth; top: 48px;}
 	}
 
 /*****************

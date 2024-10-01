@@ -12,6 +12,7 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.GgbFile;
@@ -43,9 +44,6 @@ public class PageListPanel
 	private final PageListController pageController;
 	private boolean isTouch = false;
 
-	@Nonnull
-	private final NotesLayout notesLayout;
-
 	/**
 	 * @param app
 	 *            application
@@ -55,7 +53,6 @@ public class PageListPanel
 		this.frame = app.getAppletFrame();
 		this.dockPanel = (EuclidianDockPanelW) (app.getGuiManager().getLayout()
 				.getDockManager().getPanel(App.VIEW_EUCLIDIAN));
-		this.notesLayout = frame.getNotesLayoutSafe(app);
 		pageController = new PageListController(app, this);
 		app.setPageController(pageController);
 		initGUI();
@@ -138,9 +135,8 @@ public class PageListPanel
 			return;
 		}
 
-		dockPanel.hideZoomPanel();
-
 		setVisible(true);
+		((EuclidianViewW) dockPanel.getEuclidianView()).getAbsolutePanel().setWidth(String.valueOf(dockPanel.getEuclidianPanel().getOffsetWidth() - getOffsetWidth()));
 		setLabels();
 		removeStyleName("animateOut");
 		addStyleName("animateIn");
