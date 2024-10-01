@@ -376,6 +376,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 					|| isLeftAltDown()) {
 				event.stopPropagation();
 			} else {
+				powerHappened = false;
 				if (event.getUnicodeCharCode() > 31) {
 					keyListener.onKeyTyped(
 							new KeyEvent(event.getNativeEvent().getKeyCode(), 0,
@@ -390,7 +391,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			int code = convertToJavaKeyCode(event.getNativeEvent());
 			// on Mac, the key event right after ^ is a KeyUpEvent,
 			// so it must be redirected to the onKeyTyped() handler.
-			if (isPowerHappened(event.getNativeKeyCode())) {
+			if (powerHappened && isAlphanumeric(event.getNativeEvent())) {
 				powerHappened = false;
 				redirectToKeyTyped(keyListener, (char) event.getNativeKeyCode(), event);
 				return;
@@ -447,10 +448,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			}
 
 		}, KeyDownEvent.getType());
-	}
-
-	private boolean isPowerHappened(int key) {
-		return powerHappened && key != GWTKeycodes.KEY_ALT && key != GWTKeycodes.KEY_SHIFT;
 	}
 
 	private void redirectToKeyTyped(KeyListener keyListener, char typedEvent, KeyUpEvent event) {
@@ -531,6 +528,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public static boolean checkCode(Object evt, String check) {
 		return check.equals(Js.<KeyboardEvent>uncheckedCast(evt).code);
+	}
+
+	private static boolean isAlphanumeric(Object evt) {
+		KeyboardEvent nativeEvt = Js.uncheckedCast(evt);
+		return nativeEvt.key != null && nativeEvt.key.length() == 1;
 	}
 
 	/**
