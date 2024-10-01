@@ -1,5 +1,7 @@
 package org.geogebra.common.exam;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -40,6 +42,7 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
+import org.geogebra.test.commands.ErrorAccumulator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -57,6 +60,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	private boolean didRequestClearApps;
 	private boolean didRequestClearClipboard;
 	private Material activeMaterial;
+	private ErrorAccumulator errorAccumulator = new ErrorAccumulator();
 
 	@Before
 	public void setUp() {
@@ -73,6 +77,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		didRequestClearApps = false;
 		didRequestClearClipboard = false;
 		activeMaterial = null;
+		errorAccumulator.resetError();
 	}
 
 	// Helpers
@@ -126,7 +131,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	private GeoElementND[] evaluate(String expression) {
 		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(app, false);
 		return algebraProcessor.processAlgebraCommandNoExceptionHandling(
-				expression, false, null, evalInfo, null);
+				expression, false, errorAccumulator, evalInfo, null);
 	}
 
 	// State & duration
@@ -328,13 +333,19 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		evaluate("B=(2,2)");
 		GeoElementND[] circlePointPoint = evaluate("Circle(A, B)");
 		assertNull(circlePointPoint);
+		assertThat(errorAccumulator.getErrorsSinceReset(),
+				containsString("Illegal argument: Point B"));
+		errorAccumulator.resetError();
 		GeoElementND[] circlePointRadius = evaluate("Circle(A, 1)");
 		assertNotNull(circlePointRadius);
+		assertEquals("", errorAccumulator.getErrorsSinceReset());
 
 		// check tool restrictions
 		ToolCollection availableTools = app.getAvailableTools();
 		assertTrue(availableTools.contains(EuclidianConstants.MODE_MOVE));
 		assertFalse(availableTools.contains(EuclidianConstants.MODE_POINT));
+		assertTrue(commandDispatcher.isAllowedByCommandFilters(Commands.Curve));
+		assertTrue(commandDispatcher.isAllowedByCommandFilters(Commands.CurveCartesian));
 	}
 
 	@Test

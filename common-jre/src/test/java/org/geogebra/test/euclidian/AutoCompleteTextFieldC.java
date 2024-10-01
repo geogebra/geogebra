@@ -86,11 +86,6 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	}
 
 	@Override
-	public void setDictionary(boolean forCAS) {
-		// for test, not needed
-	}
-
-	@Override
 	public void setUsedForInputBox(GeoInputBox geoInputBox) {
 		this.geoInputBox = geoInputBox;
 	}
