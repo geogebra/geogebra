@@ -13,7 +13,6 @@ public class IconButtonWithMenu extends IconButton {
 	private final AppW appW;
 	private final List<Integer> tools;
 	private CategoryMenuPopup iconButtonPopup;
-	private final NotesToolbox toolbox;
 
 	/**
 	 * Constructor
@@ -29,19 +28,18 @@ public class IconButtonWithMenu extends IconButton {
 		super(appW, icon, ariaLabel, ariaLabel, "", () -> {}, null);
 		this.appW = appW;
 		this.tools = tools;
-		this.toolbox = toolbox;
 
 		AriaHelper.setAriaHasPopup(this);
 		addFastClickHandler((event) -> {
 			deselectButtons.run();
-			initPopupAndShow();
+			initPopupAndShow(toolbox);
 		});
 	}
 
-	private void initPopupAndShow() {
+	private void initPopupAndShow(NotesToolbox toolbox) {
 		if (iconButtonPopup == null) {
 			iconButtonPopup = new CategoryMenuPopup(appW, tools);
-			addCloseHandler();
+			addCloseHandler(toolbox);
 		}
 
 		showHideMenu();
@@ -61,7 +59,7 @@ public class IconButtonWithMenu extends IconButton {
 		}
 	}
 
-	private void addCloseHandler() {
+	private void addCloseHandler(NotesToolbox toolbox) {
 		iconButtonPopup.getPopupPanel().addCloseHandler(e -> {
 			deactivate();
 			toolbox.onModeChange(appW.getMode());
