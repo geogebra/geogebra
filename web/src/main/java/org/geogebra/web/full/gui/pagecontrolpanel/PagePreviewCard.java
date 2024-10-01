@@ -13,12 +13,10 @@ import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.util.ArchiveEntry;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * Page Preview Card showing preview of EuclidianView
- * 
- * @author Alicia Hofstaetter
- *
  */
 public class PagePreviewCard extends FlowPanel
 		implements SetLabels {
@@ -32,9 +30,10 @@ public class PagePreviewCard extends FlowPanel
 	/** Height of one card with the bottom margin */
 	static final int TOTAL_HEIGHT = CARD_HEIGHT + MARGIN;
 
-	private AppW app;
-	private Localization loc;
+	private final AppW app;
+	private final Localization loc;
 	private int pageIndex;
+	private Label number;
 	private FlowPanel imagePanel;
 	private CardInfoPanel infoPanel;
 	private ContextMenuButtonPreviewCard contextMenu;
@@ -79,26 +78,34 @@ public class PagePreviewCard extends FlowPanel
 	
 	private void initGUI() {
 		resetTop();
-		addStyleName("mowPagePreviewCard");
+		addStyleName("cardRow");
+
+		number = new Label(String.valueOf(pageIndex + 1));
+		number.addStyleName("number");
+		add(number);
+
+		FlowPanel cardPanel = new FlowPanel();
+		cardPanel.addStyleName("mowPagePreviewCard");
 		if (!(NavigatorUtil.isMobile())) {
-			addStyleName("desktop");
+			cardPanel.addStyleName("desktop");
 		}
 
 		imagePanel = new FlowPanel();
 		imagePanel.addStyleName("mowImagePanel");
-
 		infoPanel = new CardInfoPanel();
 		infoPanel.addStyleName("mowTitlePanel");
 
 		contextMenu = new ContextMenuButtonPreviewCard(app, this);
 		infoPanel.add(contextMenu);
 
-		add(imagePanel);
-		add(infoPanel);
+		cardPanel.add(imagePanel);
+		cardPanel.add(infoPanel);
 		if (!updatePreviewFromFile()) {
 			updatePreviewImage();
 		}
 		updateLabel();
+
+		add(cardPanel);
 	}
 
 	/**
@@ -136,6 +143,7 @@ public class PagePreviewCard extends FlowPanel
 	}
 
 	private void updateLabel() {
+		number.setText(String.valueOf(pageIndex + 1));
 		infoPanel.setCardId(loc.getMenu("page") + " " + (pageIndex + 1));
 	}
 
@@ -150,7 +158,6 @@ public class PagePreviewCard extends FlowPanel
 
 	/**
 	 * set index of page
-	 * 
 	 * note: this will also update the title of the page
 	 * 
 	 * @param index
