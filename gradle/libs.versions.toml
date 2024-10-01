@@ -1,6 +1,6 @@
 [versions]
 junit = "4.13.2"
-mockito = "5.13.0"
+mockito = "5.14.1"
 hamcrest = "3.0"
 jogl = "2.5.0"
 javagiac = "70320"
