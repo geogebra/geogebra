@@ -100,7 +100,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 		CommandNameFilter nameFilter = new CommandNameFilter(false,
 				Commands.BinomialCoefficient,
 				Commands.Circle,
-				Commands.Curve,
+				Commands.CurveCartesian,
 				Commands.Delete,
 				Commands.Derivative,
 				Commands.Extremum,
