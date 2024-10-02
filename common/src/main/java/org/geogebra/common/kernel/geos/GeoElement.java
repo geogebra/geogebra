@@ -2713,7 +2713,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public String getDefaultLabel() {
 		char[] chars;
-		String labelPrefix = cons.getLabelManager().getMultiuserPrefix();
+		String labelSuffix = cons.getLabelManager().getMultiuserSuffix();
 		EquationType equationType = getEquationTypeForLabeling();
 		if (isGeoPoint() && !(this instanceof GeoTurtle)) {
 			// Michael Borcherds 2008-02-23
@@ -2739,7 +2739,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 				// check through z_1, z_2, etc and return first one free
 				// (also checks z_{1} to avoid clash)
-				return cons.getIndexLabel(labelPrefix + "z");
+				return cons.getIndexLabel("z" + labelSuffix);
 			}
 
 		} else if (equationType == EquationType.IMPLICIT) {
@@ -2752,7 +2752,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 					&& !((FromMeta) this).getMetas()[0].isGeoPolygon()) {
 				int counter = 0;
 				String str;
-				final String name = labelPrefix + getLoc().getPlainLabel("edge", "edge");
+				final String name = getLoc().getPlainLabel("edge", "edge") + labelSuffix;
 				do {
 					counter++;
 					str = name + kernel.internationalizeDigits(counter + "",
@@ -2806,7 +2806,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 			String prefix = list.isMatrix() ? "m" : "l";
 			return list.getTableColumn() == -1 ? defaultNumberedLabel(prefix)
-					: cons.buildIndexedLabel(labelPrefix + "y", false);
+					: cons.buildIndexedLabel("y" + labelSuffix, false);
 		} else {
 			chars = LabelType.lowerCaseLabels;
 		}
@@ -2817,7 +2817,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	private String defaultNumberedLabel(final String plainKey) {
 		String trans = getLoc().getPlainLabel(plainKey, plainKey);
 		return cons.getLabelManager().getNextNumberedLabel(
-				cons.getLabelManager().getMultiuserPrefix() + trans);
+				trans + cons.getLabelManager().getMultiuserSuffix());
 	}
 
 	@Override

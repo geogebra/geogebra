@@ -18,7 +18,7 @@ public class LabelManager {
 	
 	private char[] angleLabels;
 	private final Construction cons;
-	private String multiuserPrefix = "";
+	private String multiuserSuffix = "";
 
 	/**
 	 * @param construction
@@ -242,7 +242,7 @@ public class LabelManager {
 			q = counter / chars.length; // quotient
 			r = counter % chars.length; // remainder
 
-			String labelBase = getMultiuserPrefix() + chars[r];
+			String labelBase = chars[r] + "";
 
 			// this arabic letter is two Unicode chars
 			if (chars[r] == '\u0647') {
@@ -251,6 +251,7 @@ public class LabelManager {
 
 			String index1;
 			String index2;
+			labelBase += getMultiuserSuffix();
 
 			if (q == 0) {
 				index1 = "";
@@ -321,17 +322,17 @@ public class LabelManager {
 	}
 
 	/**
-	 * Sets a prefix that is used for labeling newly created objects within multiuser
-	 * @param multiuserPrefix User Prefix
+	 * Sets a suffix that is used for labeling newly created objects within multiuser
+	 * @param multiuserSuffix User Suffix
 	 */
-	public void setMultiuserPrefix(String multiuserPrefix) {
-		this.multiuserPrefix = multiuserPrefix;
+	public void setMultiuserSuffix(String multiuserSuffix) {
+		this.multiuserSuffix = multiuserSuffix;
 	}
 
 	/**
-	 * @return The user prefix used to label objects in multiuser
+	 * @return The user suffix used to label objects in multiuser
 	 */
-	public String getMultiuserPrefix() {
-		return multiuserPrefix;
+	public String getMultiuserSuffix() {
+		return multiuserSuffix;
 	}
 }
