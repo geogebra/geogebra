@@ -257,12 +257,6 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		setButtonTitleAndAltText(btn, title, title);
 	}
 
-	private void addSpaceControl(ScreenReaderBuilder sb) {
-		sb.appendSpace();
-		sb.appendMenuDefault("PressSpaceToActivate", "press space to activate");
-		sb.endSentence();
-	}
-
 	private static void setButtonTitleAndAltText(Widget btn, String dataTitle,
 			String ariaLabel) {
 		if (btn != null) {
