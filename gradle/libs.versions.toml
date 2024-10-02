@@ -66,7 +66,7 @@ javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "3
 
 [plugins]
 cpd = "de.aaschmid.cpd:3.4"
-sass = "io.miret.etienne.sass:1.5.0"
+sass = "io.miret.etienne.sass:1.5.1"
 
 # Plugins defined by this project
 geogebra-gwt = "gwt-conventions:unspecified"
