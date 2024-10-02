@@ -109,11 +109,8 @@ public class GMenuBar extends AriaMenuBar {
 					popup.show();
 				} else {
 					submenu.selectItem(null);
-
-					if (popup != null) {
-						popup.hide();
-						popup = null;
-					}
+					popup.hide();
+					popup = null;
 				}
 			}
 		};
