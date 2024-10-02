@@ -340,6 +340,26 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertEquals(1, completion.get().syntaxes.size());
 	}
 
+	// https://geogebra-jira.atlassian.net/browse/APPS-5912
+	@Test
+	public void testCommandRestrictionsWhenStartingDifferentExams() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+
+		examController.prepareExam();
+		examController.startExam(ExamType.GENERIC, null);
+		assertNotNull(evaluate("f(x) = x"));
+		assertNotNull(evaluate("Derivative(f)"));
+		examController.finishExam();
+		examController.exitExam();
+
+		examController.prepareExam();
+		examController.startExam(ExamType.IB, null);
+		assertNotNull(evaluate("f(x) = x"));
+		assertNull(evaluate("Derivative(f)"));
+		examController.finishExam();
+		examController.exitExam();
+	}
+
 	// -- ExamControllerDelegate --
 
 	@Override
