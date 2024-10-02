@@ -65,6 +65,8 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 		addZoomButtons();
 		addFullscreenButton();
 		addSettingsButton();
+
+		addPageOverviewButton();
 	}
 
 	private void addMenuButton() {
@@ -159,6 +161,18 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 
 			settingsBtn.addFastClickHandler(source -> controller.onSettingsOpen(settingsBtn,
 					focusableSettingsBtn));
+		}
+	}
+
+	private void addPageOverviewButton() {
+		if (controller.getApp().isMultipleSlidesOpen() || appletParams.getParamShowSlides()) {
+			IconButton pageOverviewBtn = addSmallPressButton(MaterialDesignResources.INSTANCE
+							.mow_page_control(), "PageControl", null, null);
+			pageOverviewBtn.addStyleName("pageOverview");
+			pageOverviewBtn.addFastClickHandler(source -> {
+				controller.togglePagePanel();
+				pageOverviewBtn.setActive(!pageOverviewBtn.isActive());
+			});
 		}
 	}
 
