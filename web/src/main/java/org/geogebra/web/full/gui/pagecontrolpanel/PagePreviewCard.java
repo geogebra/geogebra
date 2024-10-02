@@ -79,6 +79,7 @@ public class PagePreviewCard extends FlowPanel
 	private void initGUI() {
 		resetTop();
 		addStyleName("cardRow");
+		addStyleName("noTitle");
 
 		number = new Label(String.valueOf(pageIndex + 1));
 		number.addStyleName("number");
@@ -144,7 +145,7 @@ public class PagePreviewCard extends FlowPanel
 
 	private void updateLabel() {
 		number.setText(String.valueOf(pageIndex + 1));
-		infoPanel.setCardId(loc.getMenu("page") + " " + (pageIndex + 1));
+		//infoPanel.setCardId(loc.getMenu("page") + " " + (pageIndex + 1));
 	}
 
 	/**
@@ -300,5 +301,9 @@ public class PagePreviewCard extends FlowPanel
 		if (!file.getID().equals(pageId)) {
 			file = file.duplicate(pageId);
 		}
+	}
+
+	public void showContextMenu() {
+		contextMenu.show();
 	}
 }

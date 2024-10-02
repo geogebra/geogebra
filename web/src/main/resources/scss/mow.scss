@@ -380,6 +380,16 @@
 		}
 	}
 
+	.cardRow.noTitle {
+		.mowTitlePanel {
+			background-color: transparent;
+		}
+
+		.cardTitle {
+			display: none;
+		}
+	}
+
 	.mowPagePreviewCard.desktop {
 		&:hover {
 			box-shadow: $shadow-elevation-8;

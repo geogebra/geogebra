@@ -728,13 +728,13 @@ public class PageListController implements PageListControllerInterface,
 		if (NavigatorUtil.isMobile()) {
 			return;
 		}
-		dragCtrl.stop();
+		dragCtrl.stop(event.isControlKeyDown());
 	}
 
 	@Override
 	public void onMouseOut(MouseOutEvent event) {
 		dragCtrl.cancelClick();
-		dragCtrl.stop();
+		dragCtrl.stop(event.isControlKeyDown());
 	}
 
 	@Override
@@ -754,7 +754,7 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
-		dragCtrl.stop();
+		dragCtrl.stop(event.isControlKeyDown());
 	}
 
 	// Cards Interface

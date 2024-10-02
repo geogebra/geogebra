@@ -41,5 +41,6 @@ public class PreviewCardRenameDialog extends CardRenameDialog {
 	@Override
 	protected void renameCard(String text) {
 		((PageListController) pageController).rename(card, text);
+		card.removeStyleName("noTitle");
 	}
 }
