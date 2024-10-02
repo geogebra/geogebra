@@ -242,16 +242,17 @@ public class LabelManager {
 			q = counter / chars.length; // quotient
 			r = counter % chars.length; // remainder
 
-			String labelBase = chars[r] + "";
+			String labelBase;
 
 			// this arabic letter is two Unicode chars
 			if (chars[r] == '\u0647') {
-				labelBase += "\u0640";
+				labelBase = "\u0647\u0640" + getMultiuserSuffix();
+			} else {
+				labelBase = chars[r] + getMultiuserSuffix();
 			}
 
 			String index1;
 			String index2;
-			labelBase += getMultiuserSuffix();
 
 			if (q == 0) {
 				index1 = "";
