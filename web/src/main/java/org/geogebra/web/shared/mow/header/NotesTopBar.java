@@ -165,7 +165,7 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 	}
 
 	private void addPageOverviewButton() {
-		if (appletParams.getParamShowSlides()) {
+		if (controller.getApp().isMultipleSlidesOpen() || appletParams.getParamShowSlides()) {
 			IconButton pageOverviewBtn = addSmallPressButton(MaterialDesignResources.INSTANCE
 							.mow_page_control(), "PageControl", null, null);
 			pageOverviewBtn.addStyleName("pageOverview");
