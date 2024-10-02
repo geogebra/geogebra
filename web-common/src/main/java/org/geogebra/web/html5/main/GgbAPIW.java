@@ -1361,4 +1361,12 @@ public class GgbAPIW extends GgbAPI {
 	public Object getFileLoadingError() {
 		return this.fileLoadingError;
 	}
+
+	public void exitFullScreen() {
+		Browser.toggleFullscreen(false, null);
+	}
+
+	public boolean isFullScreenActive() {
+		return Browser.isFullscreen();
+	}
 }
