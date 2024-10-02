@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.main.Localization;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.CardInfoPanel;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
@@ -31,7 +30,6 @@ public class PagePreviewCard extends FlowPanel
 	static final int TOTAL_HEIGHT = CARD_HEIGHT + MARGIN;
 
 	private final AppW app;
-	private final Localization loc;
 	private int pageIndex;
 	private Label number;
 	private FlowPanel imagePanel;
@@ -55,7 +53,6 @@ public class PagePreviewCard extends FlowPanel
 		this.app = app;
 		this.pageIndex = pageIndex;
 		this.file = file;
-		this.loc = app.getLocalization();
 		initGUI();
 	}
 
@@ -145,7 +142,6 @@ public class PagePreviewCard extends FlowPanel
 
 	private void updateLabel() {
 		number.setText(String.valueOf(pageIndex + 1));
-		//infoPanel.setCardId(loc.getMenu("page") + " " + (pageIndex + 1));
 	}
 
 	/**

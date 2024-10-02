@@ -308,14 +308,14 @@
 		margin-left: 8px;
 		border-radius: 12px;
 		box-sizing: border-box;
+		border: 2px solid neutral(300);
 		background-color: colors.$white;
-		box-shadow: $shadow-elevation-2;
 		transition: box-shadow .25s;
 		cursor: pointer;
 
 		.mowImagePanel {
 			width: 100%;
-			height: 128px;
+			height: 124px;
 			background-repeat: no-repeat;
 			background-position: center;
 			background-size: 110%;
@@ -324,7 +324,7 @@
 
 		.mowTitlePanel {
 			@extend .cardInfo;
-			width: 188px;
+			width: 184px;
 			height: 48px;
 			position: relative;
 			bottom: 48px;
@@ -365,18 +365,12 @@
 
 	.cardRow.selected {
 		.mowPagePreviewCard {
-			box-shadow: $shadow-elevation-2;
-			transition: box-shadow .25s;
-			border: 2px solid var(--ggb-primary-color);
+			border-color: var(--ggb-primary-color);
 			box-sizing: border-box;
 
-			.mowImagePanel {
-				height: 124px;
-			}
-
-			.mowTitlePanel {
-				width: 184px;
-			}
+			&:hover {
+				border-color: var(--ggb-primary-color);
+            }
 		}
 	}
 
@@ -392,7 +386,7 @@
 
 	.mowPagePreviewCard.desktop {
 		&:hover {
-			box-shadow: $shadow-elevation-8;
+			border-color: neutral(500);
 		}
 	}
 
