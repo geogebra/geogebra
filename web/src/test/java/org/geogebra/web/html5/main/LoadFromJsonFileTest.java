@@ -44,12 +44,9 @@ public class LoadFromJsonFileTest {
 		initAppFromFile();
 		final ToolbarPanel toolbarPanel = initToolbarFromApp();
 		final CountDownLatch latch = new CountDownLatch(1);
-		app.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				Assert.assertTrue(toolbarPanel == null || toolbarPanel.isClosed());
-				latch.countDown();
-			}
+		app.invokeLater(() -> {
+			Assert.assertTrue(toolbarPanel == null || toolbarPanel.isClosed());
+			latch.countDown();
 		});
 		try {
 			latch.await();

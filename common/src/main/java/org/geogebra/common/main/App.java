@@ -2480,7 +2480,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            whether fonts should be reset
 	 */
 	public void setFontSize(int points, boolean update) {
-		FontSettingsUpdater fontSettingsUpdater = getSettingsUpdater().getFontSettingsUpdater();
+		FontSettingsUpdater fontSettingsUpdater = getFontSettingsUpdater();
 		if (update) {
 			fontSettingsUpdater.setAppFontSizeAndUpdateViews(points);
 		} else {
@@ -2501,7 +2501,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            GUI font size
 	 */
 	public void setGUIFontSize(int size) {
-		getSettingsUpdater().getFontSettingsUpdater().setGUIFontSizeAndUpdate(size);
+		getFontSettingsUpdater().setGUIFontSizeAndUpdate(size);
 	}
 
 	/**
@@ -2818,8 +2818,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			Macro macro = kernel.getMacro(mode - EuclidianConstants.MACRO_MODE_ID_OFFSET);
 			return macro == null ? "" : macro.getToolHelp();
 		} else {
-			String modeText = EuclidianConstants.getModeTextSimple(mode);
-			return getLocalization().getMenu(modeText + ".Help");
+
+			return getLocalization().getMenu(EuclidianConstants.getHelpTransKey(mode));
 		}
 	}
 
@@ -3761,7 +3761,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case ADJUST_WIDGETS:
 			return false;
 
-		/** GGB-2255 */
+		/* GGB-2255 */
 		case GEOMETRIC_DISCOVERY:
 			return prerelease;
 
@@ -3771,7 +3771,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
        // *********************************************************
        // **********************************************************************
 
-		/** G3D-343 */
+		/* G3D-343 */
 		case G3D_SELECT_META:
 			return false;
 
@@ -4949,6 +4949,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return settingsUpdater;
 	}
 
+	public FontSettingsUpdater getFontSettingsUpdater() {
+		return getSettingsUpdater().getFontSettingsUpdater();
+	}
+
 	/**
 	 * make sure we create a new settings updater according the new appConfig
 	 * @return setting updater
@@ -4960,7 +4964,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
-		return new SettingsUpdaterBuilder(this);
+		SettingsUpdaterBuilder builder = new SettingsUpdaterBuilder(this);
+		builder.setPrototype(getConfig().createSettingsUpdater());
+		return builder;
 	}
 
 	/**

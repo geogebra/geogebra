@@ -89,12 +89,9 @@ public class DummyCursor implements FocusHandler, BlurHandler {
 		if (dummyActive || Browser.isIPad()) {
 			return;
 		}
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				int caretPos = textField.getCursorPos();
-				addAt(caretPos);
-			}
+		Scheduler.get().scheduleDeferred(() -> {
+			int caretPos = textField.getCursorPos();
+			addAt(caretPos);
 		});
 	}
 

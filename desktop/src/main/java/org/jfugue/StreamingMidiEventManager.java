@@ -56,41 +56,38 @@ final public class StreamingMidiEventManager {
 		isActive = true;
 		currentTime = System.currentTimeMillis();
 
-		Thread timerThread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while (isActive) {
-					long checkTime = System.currentTimeMillis();
-					if (checkTime != currentTime) {
-						long tempBackTime = currentTime;
-						currentTime = System.currentTimeMillis(); // Do this
-																	// again to
-																	// get the
-																	// most
-																	// up-to-date
-																	// time
+		Thread timerThread = new Thread(() -> {
+			while (isActive) {
+				long checkTime = System.currentTimeMillis();
+				if (checkTime != currentTime) {
+					long tempBackTime = currentTime;
+					currentTime = System.currentTimeMillis(); // Do this
+																// again to
+																// get the
+																// most
+																// up-to-date
+																// time
 
-						// Get any TimerEvents that may have happened in the
-						// intervening time, and execute them
-						for (long time = tempBackTime; time < currentTime; time++) {
-							List<NoteOffTimerEvent> timerEvents = timerMap
-									.get(time);
-							if (null != timerEvents) {
-								for (NoteOffTimerEvent event : timerEvents) {
-									channels[event.track].noteOff(
-											event.noteValue,
-											event.decayVelocity);
-								}
+					// Get any TimerEvents that may have happened in the
+					// intervening time, and execute them
+					for (long time = tempBackTime; time < currentTime; time++) {
+						List<NoteOffTimerEvent> timerEvents = timerMap
+								.get(time);
+						if (null != timerEvents) {
+							for (NoteOffTimerEvent event : timerEvents) {
+								channels[event.track].noteOff(
+										event.noteValue,
+										event.decayVelocity);
 							}
-							timerMap.put(time, null);
 						}
+						timerMap.put(time, null);
 					}
+				}
 
-					try {
-						Thread.sleep(20); // Don't hog the CPU
-					} catch (InterruptedException e) {
-						throw new JFugueException(JFugueException.ERROR_SLEEP);
-					}
+				try {
+					Thread.sleep(20); // Don't hog the CPU
+				} catch (InterruptedException e) {
+					throw new JFugueException(JFugueException.ERROR_SLEEP);
 				}
 			}
 		});

@@ -22,7 +22,6 @@ import org.geogebra.common.ownership.GlobalScope;
 
 public class FillingModel extends MultipleOptionsModel {
 
-	private FillType fillType;
 	private Kernel kernel;
 	private boolean hasGeoButton;
 	private boolean hasGeoTurtle;
@@ -249,8 +248,6 @@ public class FillingModel extends MultipleOptionsModel {
 		} else {
 			type = style.getBarFillType(idx);
 		}
-
-		fillType = type;
 		updateFillType(type);
 	}
 
@@ -318,11 +315,11 @@ public class FillingModel extends MultipleOptionsModel {
 			if (!"".equals(symbolText)) {
 				if (isChart()) {
 					if (!updateBarsFillType(geo, FillingProperty.SYMBOL, null)) {
-						geo.setFillType(fillType);
+						geo.setFillType(FillType.SYMBOLS);
 						geo.setFillSymbol(symbolText);
 					}
 				} else {
-					geo.setFillType(fillType);
+					geo.setFillType(FillType.SYMBOLS);
 					geo.setFillSymbol(symbolText);
 				}
 				geo.updateVisualStyleRepaint(GProperty.HATCHING);
@@ -382,7 +379,7 @@ public class FillingModel extends MultipleOptionsModel {
 	}
 
 	public void applyFillType(int index) {
-		fillType = getFillTypeAt(index);
+		FillType fillType = getFillTypeAt(index);
 		GeoElement geo0 = getGeoAt(0);
 		if (fillType == FillType.IMAGE && geo0.getFillImage() != null) {
 			getFillingListener().setFillingImage(geo0.getImageFileName());
@@ -397,10 +394,10 @@ public class FillingModel extends MultipleOptionsModel {
 			GeoElement geo = getGeoAt(i);
 			if (isChart()) {
 				if (!updateBarsFillType(geo, FillingProperty.FILL_TYPE, null)) {
-					updateGeoFillType(geo);
+					updateGeoFillType(geo, fillType);
 				}
 			} else {
-				updateGeoFillType(geo);
+				updateGeoFillType(geo, fillType);
 			}
 		}
 		kernel.notifyRepaint();
@@ -409,7 +406,7 @@ public class FillingModel extends MultipleOptionsModel {
 		updateFillType(fillType);
 	}
 
-	private void updateGeoFillType(GeoElement geo) {
+	private void updateGeoFillType(GeoElement geo, FillType fillType) {
 		if (fillType == FillType.SYMBOLS && geo.getFillSymbol() == null) {
 			geo.setFillSymbol("$");
 		}
@@ -444,7 +441,7 @@ public class FillingModel extends MultipleOptionsModel {
 		switch (type) {
 		default:
 		case FILL_TYPE:
-			algo.setBarFillType(getFillType(), selectedBarIndex);
+			algo.setBarFillType(getSelectedFillType(), selectedBarIndex);
 			algo.setBarHatchDistance(getDistanceValue(), selectedBarIndex);
 			algo.setBarHatchAngle(getAngleValue(), selectedBarIndex);
 			algo.setBarImage(null, selectedBarIndex);
@@ -560,10 +557,6 @@ public class FillingModel extends MultipleOptionsModel {
 	public boolean hasGeoTurtle() {
 		// its function must be clarified.
 		return hasGeoTurtle;
-	}
-
-	public FillType getFillType() {
-		return fillType;
 	}
 
 	public FillType getFillTypeAt(int index) {

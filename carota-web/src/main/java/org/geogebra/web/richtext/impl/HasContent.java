@@ -10,6 +10,8 @@ public interface HasContent {
 
 	void contentChanged(EditorCallback editorCallback);
 
+	void onEscape(EditorCallback editorCallback);
+
 	Object save();
 
 	void load(Object content);

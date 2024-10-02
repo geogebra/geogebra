@@ -558,7 +558,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_SHAPE_PENTAGON:
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
 		case EuclidianConstants.MODE_MASK:
-		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
 		case EuclidianConstants.MODE_SHAPE_SQUARE:
 		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
 			return true;
@@ -5255,7 +5254,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				@Override
 				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
 					GeoMindMapNode mindMap = new GeoMindMapNode(cons, location);
-					mindMap.setSize(GeoMindMapNode.MIN_WIDTH, GeoMindMapNode.ROOT_HEIGHT);
+					mindMap.setSize(GeoMindMapNode.DEFAULT_WIDTH, GeoMindMapNode.ROOT_HEIGHT);
 					mindMap.setVerticalAlignment(VerticalAlignment.MIDDLE);
 
 					if (app.isMebis()) {
@@ -5719,7 +5718,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void notifyPositionUpdate(AbsoluteScreenLocateable geo) {
-		if (geo.needsUpdatedBoundingBox()) {
+		if (geo.hasChildren()) {
 			geo.updateCascade();
 		}
 		geo.updateVisualStyle(GProperty.POSITION);
@@ -6264,15 +6263,19 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		inlineObject.setLabel(null);
 		selectAndShowSelectionUI(inlineObject);
-		final DrawableND drawable = view.getDrawableFor(inlineObject);
+		updateDrawableAndMoveToForeground(inlineObject);
+
+		view.setCursor(DEFAULT);
+		return true;
+	}
+
+	private void updateDrawableAndMoveToForeground(GeoElementND geo) {
+		DrawableND drawable = view.getDrawableFor(geo);
 		if (drawable != null) {
 			drawable.update();
 			((DrawInline) drawable).toForeground(0, 0);
 			app.getEventDispatcher().lockTextElement(drawable.getGeoElement());
 		}
-
-		view.setCursor(DEFAULT);
-		return true;
 	}
 
 	protected void hitCheckBox(GeoBoolean bool) {
@@ -9113,7 +9116,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// check if side of bounding box was hit
 		wasBoundingBoxHit = view.getBoundingBox() != null
-				&& view.getBoundingBox().hitSideOfBoundingBox(event.getX(),
+				&& view.getBoundingBox().hit(event.getX(),
 						event.getY(), app.getCapturingThreshold(event.getType()));
 
 		view.getBoundingBoxHandlerHit(new GPoint(event.getX(), event.getY()), event.getType());
@@ -9869,6 +9872,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (d instanceof DrawMindMap) {
 				GeoMindMapNode child = ((DrawMindMap) d).addChildNode(view.getHitHandler());
 				selectAndShowSelectionUI(child);
+				updateDrawableAndMoveToForeground(child);
 				lastMowHit = child;
 				view.resetHitHandler();
 				app.storeUndoInfo();
@@ -10616,27 +10620,23 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            whether shift or meta keys are pressed
 	 * @param alt
 	 *            whether alt is pressed
+	 * @return whether event was handled
 	 */
-	public void wrapMouseWheelMoved(int x, int y, double delta,
+	public boolean wrapMouseWheelMoved(int x, int y, double delta,
 			boolean shiftOrMeta, boolean alt) {
-		if (isTextfieldHasFocus()) {
-			return;
-		}
-
-		if (penMode(mode)) {
-			return;
+		if (isTextfieldHasFocus() || penMode(mode)) {
+			return false;
 		}
 
 		DrawDropDownList combo = view.getOpenedComboBox();
 		if (combo != null) {
-			combo.onMouseWheel(delta);
-			return;
+			return combo.onMouseWheel(delta);
 		}
 		app.maySetCoordSystem();
 
 		// don't allow mouse wheel zooming for applets if mode is not zoom mode
 		if (!allowMouseWheel(shiftOrMeta)) {
-			return;
+			return false;
 		}
 
 		setMouseLocation(alt, x, y);
@@ -10660,6 +10660,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		view.setAnimatedCoordSystem(
 				px, py, factor, view.getXscale() * factor, 4, false);
 		app.setUnsaved();
+		return true;
 	}
 
 	/**

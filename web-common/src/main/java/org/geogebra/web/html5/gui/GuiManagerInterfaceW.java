@@ -198,6 +198,11 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	void removeGeoFromTV(String label);
 
 	/**
+	 * Shows/hides table of values view
+	 */
+	void toggleTableValuesView();
+
+	/**
 	 * @param min - starting value of table
 	 * @param max - ending value of table
 	 * @param step - step value of table

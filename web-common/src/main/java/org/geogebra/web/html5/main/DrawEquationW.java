@@ -19,7 +19,6 @@ import com.himamis.retex.renderer.share.TeXFont;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
-import com.himamis.retex.renderer.web.DrawingFinishedCallback;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.graphics.ColorW;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
@@ -54,14 +53,10 @@ public class DrawEquationW extends DrawEquation {
 				font.getLaTeXStyle(serif), null, null);
 
 		Graphics2DW g3 = new Graphics2DW(((GGraphics2DW) g2).getContext());
-		g3.setDrawingFinishedCallback(new DrawingFinishedCallback() {
-
-			@Override
-			public void onDrawingFinished(boolean async) {
-				g2.updateCanvasColor();
-				if (callback != null) {
-					callback.run();
-				}
+		g3.setDrawingFinishedCallback(async -> {
+			g2.updateCanvasColor();
+			if (callback != null) {
+				callback.run();
 			}
 		});
 		icon.paintIcon(() -> convertColor(fgColor), g3, x, y);

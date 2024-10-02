@@ -11,8 +11,10 @@ import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -290,7 +292,8 @@ public class TableValuesView implements TableValues, SettingListener {
 			} else {
 				model.removeEvaluatable(evaluatable, false);
 			}
-		} else if (geo.isIndependent() && (geo instanceof GeoNumeric || geo instanceof GeoText)) {
+		} else if ((geo.isIndependent() || Algos.isUsedFor(Commands.ParseToNumber, geo))
+				&& (geo instanceof GeoNumeric || geo instanceof GeoText)) {
 			model.maybeUpdateListElement(geo);
 		}
 	}

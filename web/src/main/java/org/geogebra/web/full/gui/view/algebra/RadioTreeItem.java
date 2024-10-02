@@ -57,6 +57,8 @@ import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
+import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
+import org.geogebra.web.html5.gui.tooltip.ToolTip;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -983,9 +985,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			Element snackbar = DOM.getElementById("snackbarID");
 			if (snackbar == null) {
 				app.getToolTipManager().setBlockToolTip(false);
-				app.getToolTipManager().showBottomInfoToolTip(
-						errorMessage, null, app.getLocalization().getMenu("Help"),
-						app.getGuiManager().getHelpURL(Help.COMMAND, commandError), app);
+				ToolTip toolTip = new ToolTip(errorMessage, null, "Help",
+						app.getGuiManager().getHelpURL(Help.COMMAND, commandError),
+						ToolTip.Role.ALERT);
+				app.getToolTipManager().showBottomInfoToolTip(toolTip, app,
+						ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
 				app.getToolTipManager().setBlockToolTip(true);
 			}
 			return true;
@@ -995,7 +999,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (app.isUnbundled() && app.getCurrentActivity().useValidInput()) {
 				return false;
 			}
-			app.getToolTipManager().showBottomMessage(errorMessage, app);
+			app.getToolTipManager().showBottomMessage(errorMessage, app, ToolTip.Role.ALERT);
 			return true;
 
 		}

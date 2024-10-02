@@ -370,9 +370,12 @@ public class CopyPasteW extends CopyPaste {
 		String content = tokens[2];
 		if (InternalClipboard.imagePrefix.equals(prefix)) {
 			ImageManagerW imageManager = ((AppW) app).getImageManager();
-			imageManager.addExternalImage(name, content);
-			HTMLImageElement img = imageManager.getExternalImage(name, true);
-			img.src = content;
+			// only add images if they come from a different app
+			if (imageManager.getExternalImage(name, false) == null) {
+				imageManager.addExternalImage(name, content);
+				HTMLImageElement img = imageManager.getExternalImage(name, true);
+				img.src = content;
+			}
 		} else {
 			EmbedManager embedManager = app.getEmbedManager();
 			if (embedManager != null) {

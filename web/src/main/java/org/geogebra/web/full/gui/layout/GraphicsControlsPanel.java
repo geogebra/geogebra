@@ -4,7 +4,6 @@ import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ContextMenuGraphicsWindowW;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
@@ -24,7 +23,8 @@ public class GraphicsControlsPanel extends FlowPanel implements DockControlPanel
 	 */
 	public GraphicsControlsPanel(AppW app, DockPanelW parent) {
 		this.app = app;
-		if (app.allowStylebar() && parent.getViewId() != App.VIEW_PROBABILITY_CALCULATOR) {
+		if (app.allowStylebar() && !app.isWhiteboardActive()
+				&& parent.getViewId() != App.VIEW_PROBABILITY_CALCULATOR) {
 			addSettingsIcon(parent);
 		}
 		setStyleName("graphicsControlsPanel");
@@ -58,11 +58,6 @@ public class GraphicsControlsPanel extends FlowPanel implements DockControlPanel
 	/** Graphics Settings button handler */
 	private void onGraphicsSettingsPressed(DockPanelW parent) {
 		app.closeMenuHideKeyboard();
-		if (app.isWhiteboardActive() && app.getAppletFrame() != null
-				&& app.getAppletFrame() instanceof GeoGebraFrameFull) {
-			((GeoGebraFrameFull) app.getAppletFrame()).deselectDragBtn();
-		}
-
 		final ContextMenuGraphicsWindowW contextMenu = parent.getGraphicsWindowContextMenu();
 
 		final GPopupPanel popup = contextMenu.getWrappedPopup().getPopupPanel();

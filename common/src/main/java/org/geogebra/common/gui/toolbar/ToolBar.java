@@ -1,8 +1,5 @@
 package org.geogebra.common.gui.toolbar;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Vector;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -281,72 +278,6 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_DELETE);
 
 		return sb.toString();
-	}
-
-	/**
-	 * @param includeGraspableMath whether to include GraspableMath
-	 * @param includeH5P whether to include H5P
-	 * @param fileFeaturesEnabled whether file pickers are allowed
-	 * @return definition for MOW media toolbar
-	 */
-	public static List<Integer> getNotesMediaToolBar(boolean includeGraspableMath,
-			boolean includeH5P, boolean fileFeaturesEnabled) {
-
-		List<Integer>tools = new ArrayList<>(Arrays.asList(
-				EuclidianConstants.MODE_MEDIA_TEXT,
-				EuclidianConstants.MODE_TABLE,
-				EuclidianConstants.MODE_EQUATION,
-				EuclidianConstants.MODE_CALCULATOR,
-				EuclidianConstants.MODE_EXTENSION,
-				EuclidianConstants.MODE_MIND_MAP,
-				EuclidianConstants.MODE_IMAGE,
-				EuclidianConstants.MODE_CAMERA,
-				EuclidianConstants.MODE_VIDEO,
-				EuclidianConstants.MODE_AUDIO,
-				EuclidianConstants.MODE_PDF
-		));
-
-		if (!fileFeaturesEnabled) {
-			tools.removeAll(Arrays.asList(
-					EuclidianConstants.MODE_IMAGE,
-					EuclidianConstants.MODE_PDF
-			));
-		}
-		if (includeGraspableMath) {
-			tools.add(EuclidianConstants.MODE_GRASPABLE_MATH);
-		}
-		if (includeH5P) {
-			tools.add(EuclidianConstants.MODE_H5P);
-		}
-
-		return tools;
-	}
-
-	/**
-	 * @return definition for MOW pen toolbar
-	 */
-	public static List<Integer> getNotesPenToolBar() {
-		return Arrays.asList(EuclidianConstants.MODE_SELECT_MOW,
-				EuclidianConstants.MODE_PEN,
-				EuclidianConstants.MODE_RULER,
-				EuclidianConstants.MODE_ERASER,
-				EuclidianConstants.MODE_HIGHLIGHTER,
-				EuclidianConstants.MODE_PROTRACTOR);
-	}
-
-	/**
-	 * @return definition for MOW math toolbar
-	 */
-	public static List<Integer> getNotesShapesToolBar() {
-		return Arrays.asList(EuclidianConstants.MODE_SHAPE_RECTANGLE,
-				EuclidianConstants.MODE_SHAPE_SQUARE,
-				EuclidianConstants.MODE_SHAPE_CIRCLE,
-				EuclidianConstants.MODE_SHAPE_ELLIPSE,
-				EuclidianConstants.MODE_SHAPE_PENTAGON,
-				EuclidianConstants.MODE_SHAPE_FREEFORM,
-				EuclidianConstants.MODE_SHAPE_TRIANGLE,
-				EuclidianConstants.MODE_SHAPE_LINE,
-				EuclidianConstants.MODE_MASK);
 	}
 
 	/**

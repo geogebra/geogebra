@@ -35,6 +35,12 @@
   	height: 80px;
 }
 
+.GeoGebraHeader.notesHeader {
+	box-shadow: none;
+	border-bottom: 1px solid neutral(300);
+	box-sizing: border-box;
+}
+
 .GeoGebraHeader .signIn {
 	color: neutral(900);
 	padding: 4px 8px;
@@ -51,7 +57,7 @@
 .GeoGebraHeader .appName {
 	font-size: 24px;
     font-weight: normal;
-    margin: 22px 24px 18px 0px;
+    margin: 21px 24px 19px 0px;
     width: fit-content;
     height: 24px;
     line-height: 24px;
@@ -293,10 +299,6 @@ img.profileImage {
 .startscreen.notes-mebis {
 	top: 0;
 	height: 100%;
-}
-
-.startscreen.notes .mowOpenMenuButton {
-	display: none;
 }
 
 .startscreen .logo{

@@ -154,7 +154,7 @@ public interface GuiManagerInterface extends SettingListener {
 
 	/**
 	 * tells the properties view that mouse has been released
-	 * 
+	 *
 	 * @param creatorMode
 	 *            tells if ev is in creator mode (ie not move mode)
 	 */
@@ -198,9 +198,9 @@ public interface GuiManagerInterface extends SettingListener {
 
 	/**
 	 * Attach a view which by using the view ID.
-	 * 
+	 *
 	 * @author Florian Sonner
-	 * 
+	 *
 	 * @param viewId
 	 *            view ID
 	 */
@@ -216,9 +216,9 @@ public interface GuiManagerInterface extends SettingListener {
 
 	/**
 	 * Detach a view which by using the view ID.
-	 * 
+	 *
 	 * @author Florian Sonner
-	 * 
+	 *
 	 * @param viewId
 	 *            view ID
 	 */
@@ -246,7 +246,7 @@ public interface GuiManagerInterface extends SettingListener {
 
 	/**
 	 * Enable / disable autoscroll in spreadsheet.
-	 * 
+	 *
 	 * @param scrollToShow
 	 *            scrolling flag for spreadsheet
 	 */
@@ -272,7 +272,7 @@ public interface GuiManagerInterface extends SettingListener {
 	void updateFrameSize();
 
 	/**
-	 * 
+	 *
 	 * @return id of view which is setting the active toolbar
 	 */
 	int getActiveToolbarId();
@@ -300,7 +300,7 @@ public interface GuiManagerInterface extends SettingListener {
 	 * #3490 "Create sliders for a, b?" Create Sliders / Cancel Yes: create
 	 * sliders and draw line No: go back into input bar and allow user to change
 	 * input
-	 * 
+	 *
 	 * @param string
 	 *            eg "a, b"
 	 * @return true/false
@@ -363,4 +363,8 @@ public interface GuiManagerInterface extends SettingListener {
 
 	@CheckForNull
 	InputKeyboardButton getInputKeyboardButton();
+
+	default boolean isTableViewShowing() {
+		return false;
+	}
 }

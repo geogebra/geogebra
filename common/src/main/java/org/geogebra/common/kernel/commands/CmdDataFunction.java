@@ -111,10 +111,10 @@ public class CmdDataFunction extends CommandProcessor {
 		}
 
 		// eg DataFunction(x({A,B,C}), y({A,B,C}))
-		GeoElement[] res = this.resArg(c.getArgument(argIndex),
+		GeoElement res = this.resArg(c.getArgument(argIndex),
 				new EvalInfo(false));
-		if (res.length > 0 && res[0] instanceof ListValue) {
-			return (ListValue) res[0];
+		if (res instanceof ListValue) {
+			return (ListValue) res;
 		}
 
 		throw argErr(c, ev);

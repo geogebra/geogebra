@@ -127,6 +127,11 @@ public class AccentSetAtom extends Atom implements IsAccentedAtom {
 	}
 
 	@Override
+	public String getCommand() {
+		return null;
+	}
+
+	@Override
 	public Atom getTrueBase() {
 		return base;
 	}

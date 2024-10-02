@@ -404,8 +404,6 @@ public class AlgebraProcessor {
 				// so we don't need to call computeOutput,
 				// which also causes marble crashes
 
-				// casCell.computeOutput();
-				// casCell.updateCascade();
 			} catch (Exception e) {
 				app.getEventDispatcher().enableListeners();
 				Log.debug(e);
@@ -2533,7 +2531,8 @@ public class AlgebraProcessor {
 		if (!cx.containsDeep(loc2)) {
 			add(coefX, 0, mult.multiply(cx));
 			return 0;
-		} else if (cx.getOperation() == Operation.PLUS) {
+		} else if (cx.getOperation() == Operation.PLUS
+				|| cx.getOperation() == Operation.INVISIBLE_PLUS) {
 			int deg1 = getPolyCoeffs(cx.getLeftTree(), coefX, mult, loc2);
 			int deg2 = getPolyCoeffs(cx.getRightTree(), coefX, mult, loc2);
 			if (deg1 < 0 || deg2 < 0) {
@@ -3175,6 +3174,13 @@ public class AlgebraProcessor {
 
 		// ELSE: resolve variables and evaluate expressionnode
 		n.resolveVariables(info);
+
+		// Check for allowed expressions again, as resolving variables might end up creating
+		// expressions that otherwise are not allowed. See APPS-5138
+		if (!isExpressionAllowed(n)) {
+			return null;
+		}
+
 		if (n.isLeaf() && n.getLeft().isExpressionNode()) {
 			// we changed f' to f'(x) -> clean double wrap
 

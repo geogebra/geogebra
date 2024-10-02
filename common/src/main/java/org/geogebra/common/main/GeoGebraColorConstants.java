@@ -166,7 +166,9 @@ public class GeoGebraColorConstants {
 	public static final GColor NEUTRAL_700 = rgb(0x6E6D73);
 	public static final GColor NEUTRAL_900 = rgb(0x1C1C1F);
 
+	public static final GColor PURPLE_100 = rgb(0xF3F0FF);
 	public static final GColor PURPLE_600 = rgb(0x6557D2); // primary purple
+	public static final GColor PURPLE_700 = rgb(0x5145A8);
 
 	/**
 	 * HashMap recording RGB color values with named colors key = color name

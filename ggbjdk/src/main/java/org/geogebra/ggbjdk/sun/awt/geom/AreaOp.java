@@ -183,23 +183,20 @@ public abstract class AreaOp {
         }
     }
 
-    private static Comparator<Object> YXTopComparator = new Comparator<Object>() {
-        @Override
-		public int compare(Object o1, Object o2) {
-            Curve c1 = ((Edge) o1).getCurve();
-            Curve c2 = ((Edge) o2).getCurve();
-            double v1, v2;
-            if ((v1 = c1.getYTop()) == (v2 = c2.getYTop())) {
-                if ((v1 = c1.getXTop()) == (v2 = c2.getXTop())) {
-                    return 0;
-                }
-            }
-            if (v1 < v2) {
-                return -1;
-            }
-            return 1;
-        }
-    };
+    private static Comparator<Edge> YXTopComparator = (o1, o2) -> {
+		Curve c1 = o1.getCurve();
+		Curve c2 = o2.getCurve();
+		double v1, v2;
+		if ((v1 = c1.getYTop()) == (v2 = c2.getYTop())) {
+			if ((v1 = c1.getXTop()) == (v2 = c2.getXTop())) {
+				return 0;
+			}
+		}
+		if (v1 < v2) {
+			return -1;
+		}
+		return 1;
+	};
 
     private Vector<Object> pruneEdges(Vector<Object> edges) {
         int numedges = edges.size();

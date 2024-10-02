@@ -10,10 +10,10 @@ public class ArithmeticFactory {
 	 * @param variables variables
 	 * @return new function
 	 */
-	public <T extends FunctionNVar> T newFunction(
+	public FunctionNVar newFunction(
 			ExpressionNode expressionNode, FunctionVariable[] variables) {
-		return (T) (variables.length == 1
+		return variables.length == 1
 						? new Function(expressionNode, variables[0])
-						: new FunctionNVar(expressionNode, variables));
+						: new FunctionNVar(expressionNode, variables);
 	}
 }
