@@ -190,6 +190,8 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			parameters.setAttribute("preventFocus", "true");
 		}
 		fr.runAsyncAfterSplash();
+		fr.getApp().getKernel().getConstruction().getLabelManager().setMultiuserPrefix(
+				app.getKernel().getConstruction().getLabelManager().getMultiuserPrefix());
 
 		CalcEmbedElement element = new CalcEmbedElement(fr, this, drawEmbed.getEmbedID());
 		addDragHandler(Js.uncheckedCast(fr.getElement()));
