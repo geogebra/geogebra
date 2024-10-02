@@ -24,7 +24,7 @@ public class PagePreviewCard extends FlowPanel
 	static final int MARGIN = 16;
 
 	/** Height of a card without margins */
-	static final int CARD_HEIGHT = 184;
+	static final int CARD_HEIGHT = 128;
 
 	/** Height of one card with the bottom margin */
 	static final int TOTAL_HEIGHT = CARD_HEIGHT + MARGIN;

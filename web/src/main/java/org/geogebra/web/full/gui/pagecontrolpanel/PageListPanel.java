@@ -160,9 +160,6 @@ public class PageListPanel
 	 * handles close actions after animation
 	 */
 	protected void onClose() {
-		if (app.isWhiteboardActive()) {
-			dockPanel.showZoomPanel();
-		}
 		setVisible(false);
 	}
 

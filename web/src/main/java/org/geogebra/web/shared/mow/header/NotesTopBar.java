@@ -22,6 +22,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
+import org.gwtproject.event.dom.client.TouchStartEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 
@@ -173,6 +174,8 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 				controller.togglePagePanel();
 				pageOverviewBtn.setActive(!pageOverviewBtn.isActive());
 			});
+			pageOverviewBtn.addBitlessDomHandler(event -> controller
+					.setTouchStyleForPagePreviewCards(), TouchStartEvent.getType());
 		}
 	}
 
