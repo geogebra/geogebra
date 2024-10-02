@@ -31,6 +31,7 @@ import jsinterop.base.Js;
 public class PageListPanel
 		extends PersistablePanel implements SetLabels, CardListInterface {
 
+	public static final int PAGE_OVERVIEW_WIDTH = 270;
 	private final AppWFull app;
 	private final GeoGebraFrameFull frame;
 	private final EuclidianDockPanelW dockPanel;
@@ -132,8 +133,9 @@ public class PageListPanel
 		}
 
 		setVisible(true);
-		int dockPanelWidth = dockPanel.getWidth() - getOffsetWidth();
+		int dockPanelWidth = dockPanel.getWidth() - PAGE_OVERVIEW_WIDTH;
 		dockPanel.resizeView(dockPanelWidth, dockPanel.getHeight());
+
 		setLabels();
 		removeStyleName("animateOut");
 		addStyleName("animateIn");
