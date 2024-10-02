@@ -244,16 +244,8 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 			sb.appendMenuDefault("FullscreenButtonSelected",
 					"Full screen button selected (currently not full screen)");
 		}
-		if (!Browser.needsAccessibilityView()) {
-			addFullscreenKeyboardControls(sb);
-		}
-		setButtonTitleAndAltText(fullscreenBtn, loc.getMenu("Fullscreen"), sb.toString());
-	}
 
-	private void addFullscreenKeyboardControls(ScreenReaderBuilder sb) {
-		addSpaceControl(sb);
-		sb.append(loc.getMenuDefault("PressTabToSelectNext", "Press tab to select next object"));
-		sb.endSentence();
+		setButtonTitleAndAltText(fullscreenBtn, loc.getMenu("Fullscreen"), sb.toString());
 	}
 
 	private void setZoomAuralText(StandardButton btn, String transKey, String auralDefault) {
