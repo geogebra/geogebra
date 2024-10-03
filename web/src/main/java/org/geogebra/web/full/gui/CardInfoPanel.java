@@ -71,8 +71,8 @@ public class CardInfoPanel extends FlowPanel {
 	 * @param title to set.
 	 */
 	public void setCardTitle(String title) {
-		if (titleLabel != null) {
-			titleLabel.setText(title);
+		if (idLabel != null) {
+			idLabel.setText(title);
 		}
 	}
 
@@ -80,6 +80,6 @@ public class CardInfoPanel extends FlowPanel {
 	 * @return the card subtitle if it is a label.
 	 */
 	public String getCardTitle() {
-		return titleLabel != null ? titleLabel.getText() : "";
+		return idLabel != null ? idLabel.getText() : "";
 	}
 }

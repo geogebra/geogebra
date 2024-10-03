@@ -232,6 +232,10 @@ public class TopbarController {
 		return pageControlPanel;
 	}
 
+	public void setTouchStyleForPagePreviewCards() {
+		getPageControlPanel().setIsTouch();
+	}
+
 	/**
 	 * register focusable widget
 	 * @param button - focusable widget

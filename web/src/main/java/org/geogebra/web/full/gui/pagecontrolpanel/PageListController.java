@@ -64,9 +64,6 @@ import jsinterop.base.JsPropertyMap;
 
 /**
  * controller for page actions, such as delete or add slide
- * 
- * @author csilla
- *
  */
 public class PageListController implements PageListControllerInterface,
 		MouseDownHandler, MouseMoveHandler, MouseUpHandler, TouchStartHandler, MouseOutHandler,
@@ -81,10 +78,10 @@ public class PageListController implements PageListControllerInterface,
 	final ArrayList<PagePreviewCard> slides;
 	private PagePreviewCard selectedCard;
 
-	private DragController dragCtrl;
-	private CardListInterface listener;
+	private final DragController dragCtrl;
+	private final CardListInterface listener;
 	private Material activeMaterial = null;
-	private UndoManager undoManager;
+	private final UndoManager undoManager;
 	private boolean selectedCardChangedAfterLoad;
 
 	/**
@@ -728,13 +725,13 @@ public class PageListController implements PageListControllerInterface,
 		if (NavigatorUtil.isMobile()) {
 			return;
 		}
-		dragCtrl.stop();
+		dragCtrl.stop(event.isControlKeyDown());
 	}
 
 	@Override
 	public void onMouseOut(MouseOutEvent event) {
 		dragCtrl.cancelClick();
-		dragCtrl.stop();
+		dragCtrl.stop(event.isControlKeyDown());
 	}
 
 	@Override
@@ -754,7 +751,7 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
-		dragCtrl.stop();
+		dragCtrl.stop(event.isControlKeyDown());
 	}
 
 	// Cards Interface
