@@ -648,7 +648,7 @@ public class GuiManagerW extends GuiManager
 				AwtFactory.getPrototype().newDimension(width, height));
 		Scheduler.get().scheduleDeferred(() -> {
 			getApp().centerAndResizeViews();
-			getApp().getKeyboardManager().resizeKeyboard();
+			getApp().resizeKeyboard();
 		});
 	}
 
