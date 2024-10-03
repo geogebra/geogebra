@@ -2729,9 +2729,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 			MathmlTemplate.mathml(sb, "<and/>", leftStr, rightStr);
 		} else if (stringType.isGiac()) {
 			sb.append('(');
-			sb.append(leftStr);
+			append(sb, leftStr, left, Operation.AND);
 			sb.append(" && ");
-			sb.append(rightStr);
+			append(sb, rightStr, right, Operation.AND);
 			sb.append(')');
 		} else {
 			append(sb, leftStr, left, Operation.AND);
