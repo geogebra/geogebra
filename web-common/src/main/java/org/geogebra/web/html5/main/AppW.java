@@ -1859,9 +1859,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected EuclidianView newEuclidianView(boolean[] showEvAxes,
 			boolean showEvGrid) {
 
-		return euclidianView = newEuclidianView(euclidianViewPanel,
+		euclidianView = newEuclidianView(euclidianViewPanel,
 				getEuclidianController(), showEvAxes, showEvGrid, 1,
 				getSettings().getEuclidian(1));
+		GlobalScope.examController.registerRestrictable(euclidianView);
+		return euclidianView;
 	}
 
 	/**
