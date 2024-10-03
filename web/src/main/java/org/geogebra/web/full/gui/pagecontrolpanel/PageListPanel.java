@@ -31,7 +31,7 @@ import jsinterop.base.Js;
 public class PageListPanel
 		extends PersistablePanel implements SetLabels, CardListInterface {
 
-	public static final int PAGE_OVERVIEW_WIDTH = 270;
+	public static final int PAGE_OVERVIEW_WIDTH = 240;
 	private final AppWFull app;
 	private final GeoGebraFrameFull frame;
 	private final EuclidianDockPanelW dockPanel;
