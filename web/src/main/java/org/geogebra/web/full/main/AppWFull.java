@@ -387,6 +387,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		return activity;
 	}
 
+	public GeoGebraActivity getCurrentActivity() {
+		return activity == null ? null : activity.getSubapp();
+	}
+
 	private void initActivity() {
 		if (appletParameters == null || activity != null) {
 			return;
@@ -770,11 +774,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				.getPanel(VIEW_ALGEBRA);
 		if (avPanel instanceof ToolbarDockPanelW) {
 			final ToolbarDockPanelW dockPanel = (ToolbarDockPanelW) avPanel;
-			dockPanel.getToolbar().reset();
+			if (dockPanel.getToolbar() != null) {
+				dockPanel.getToolbar().reset();
+			}
 			dockPanel.tryBuildZoomPanel();
 		}
-		if (activity instanceof ScientificActivity) {
-			((ScientificActivity) activity).initTableOfValues(this);
+		if (getCurrentActivity() != null) {
+			getCurrentActivity().initTableOfValues(this);
 		}
 	}
 
@@ -1672,7 +1678,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			removeSplash();
 		}
 		if (getAppletParameters().getDataParamApp()) {
-			getAppletFrame().updateHeaderSize();
+			fitSizeToScreen();
 		}
 		String perspective = getAppletParameters().getDataParamPerspective();
 		if (!isUsingFullGui()) {
@@ -2189,9 +2195,18 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				setPerspective(p);
 				updateSidebarAndMenu(subApp);
 				reinitAlgebraView();
+				getGuiManager().resetPanels();
 				setSuiteHeaderButton(subApp);
 			}
 			getDialogManager().hideCalcChooser();
+		}
+	}
+
+	private void removeUndoRedoPanel() {
+		ToolbarPanel unbundledToolbar = getGuiManager().getUnbundledToolbar();
+		if (unbundledToolbar != null) {
+			unbundledToolbar.removeToolsTab();
+			unbundledToolbar.removeUndoRedoPanel();
 		}
 	}
 
@@ -2427,25 +2442,27 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 		storeCurrentUndoHistory();
 		storeCurrentMaterial();
+		getGuiManager().closePropertiesView();
 		activity = new SuiteActivity(subAppCode, !getSettings().getCasSettings().isEnabled());
 		preloadAdvancedCommandsForSuiteCAS();
 		activity.start(this);
 		getKernel().removeAllMacros();
 		getGuiManager().setGeneralToolBarDefinition(ToolBar.getAllTools(this));
-		resetToolbarPanel();
-		Perspective perspective = PerspectiveDecoder.getDefaultPerspective(
+		final Perspective perspective = PerspectiveDecoder.getDefaultPerspective(
 				getConfig().getForcedPerspective(), getGuiManager().getLayout());
 		updateSidebarAndMenu(subAppCode);
 		reinitSettings();
 		clearConstruction();
+		resetToolbarPanel(); // after construction clear so that TV functions can be set up
 		setTmpPerspective(null);
-		getGuiManager().getUnbundledToolbar().removeToolsTab();
+		removeUndoRedoPanel();
+		getGuiManager().resetPanels();
 		getGuiManager().getLayout().applyPerspective(perspective);
+
+		frame.fitSizeToScreen();
+
 		kernel.initUndoInfo();
-		commandFilter = getConfig().getCommandFilter();
-		if (commandFilter != null) {
-			kernel.getAlgebraProcessor().getCommandDispatcher().addCommandFilter(commandFilter);
-		}
+		kernel.resetFiltersFromConfig();
 		resetCommandDict();
 		if (suiteAppPickerButton != null) {
 			suiteAppPickerButton.setIconAndLabel(subAppCode);

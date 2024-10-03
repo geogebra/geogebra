@@ -227,6 +227,7 @@ public interface AppConfig extends Serializable {
 	 *
 	 * @return operation argument filter
 	 */
+	@CheckForNull
 	OperationArgumentFilter createOperationArgumentFilter();
 
 	/**
