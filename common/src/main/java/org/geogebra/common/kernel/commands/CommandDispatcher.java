@@ -711,6 +711,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case MinimalPolynomial:
 			case LUDecomposition:
 			case QRDecomposition:
+			case IntegralSymbolic:
 				return new CAScmdProcessor(kernel);
 
 			// ************** STATS ***************
