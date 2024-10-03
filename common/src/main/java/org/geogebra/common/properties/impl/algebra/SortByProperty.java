@@ -29,10 +29,10 @@ public class SortByProperty extends AbstractNamedEnumeratedProperty<AlgebraView.
 		super(localization, "SortBy");
 		this.algebraSettings = algebraSettings;
 		setNamedValues(List.of(
-				entry(DEPENDENCY, DEPENDENCY.name()),
-				entry(TYPE, TYPE.name()),
-				entry(ORDER, ORDER.name()),
-				entry(LAYER, LAYER.name())
+				entry(DEPENDENCY, DEPENDENCY.toString()),
+				entry(TYPE, TYPE.toString()),
+				entry(ORDER, ORDER.toString()),
+				entry(LAYER, LAYER.toString())
 		));
 	}
 
