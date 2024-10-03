@@ -158,10 +158,11 @@ public class FileMenuW extends Submenu implements BooleanRenderable {
 
 	private void addDownloadAsItem() {
 		if (getApp().getLAF().exportSupported()) {
-			addItem(new AriaMenuItem(
+			AriaMenuItem export = addItem(new AriaMenuItem(
 					loc.getMenu("DownloadAs") + Unicode.ELLIPSIS,
 					MaterialDesignResources.INSTANCE.file_download_black(),
 								new ExportMenuW(getApp())));
+			export.setScheduledCommand(getSubmenuCommand(export, true));
 		}
 	}
 
