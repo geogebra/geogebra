@@ -613,9 +613,7 @@ public abstract class GlobalKeyDispatcher {
 		case A:
 			if (isShiftDown) {
 				if (app.isUsingFullGui() && app.getGuiManager() != null) {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(App.VIEW_ALGEBRA),
-							App.VIEW_ALGEBRA);
+					toggleAlgebraView();
 					consumed = true;
 				}
 			} else {
@@ -940,6 +938,15 @@ public abstract class GlobalKeyDispatcher {
 			break;
 		}
 		return consumed;
+	}
+
+	private void toggleAlgebraView() {
+		// if there is no EV we cannot really close the side panel
+		if (app.getConfig().hasEuclidianView()) {
+			app.getGuiManager().setShowView(
+					!app.getGuiManager().showView(App.VIEW_ALGEBRA),
+					App.VIEW_ALGEBRA);
+		}
 	}
 
 	protected void toggleTableView() {
