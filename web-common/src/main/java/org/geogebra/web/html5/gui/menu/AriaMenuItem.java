@@ -94,7 +94,7 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	 */
 	private void setContent(String text, @CheckForNull ResourcePrototype icon) {
 		getElement().removeAllChildren();
-		this.textNode = DomGlobal.document.createTextNode(text);
+		this.textNode = DomGlobal.document.createTextNode(text == null ? "" : text);
 		try {
 			elemental2.dom.Element el = Js.uncheckedCast(getElement());
 			if (icon != null) {
