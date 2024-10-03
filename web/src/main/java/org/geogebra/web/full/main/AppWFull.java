@@ -2301,6 +2301,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		return keyboardManager;
 	}
 
+	/**
+	 * Updates the keyboard size
+	 */
 	public void resizeKeyboard() {
 		if (keyboardManager != null) {
 			keyboardManager.resizeKeyboard();
