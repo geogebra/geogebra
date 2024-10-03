@@ -184,7 +184,7 @@ public class ArrayAtom extends Atom {
 				final Atom at = matrix.get(i, j);
 				Box b = (at == null) ? StrutBox.getEmpty()
 						: at.createBox(env);
-				if (options.isFlowText(j)) {
+				if (options.isFlowText(j) && b.type != TeXConstants.TYPE_MULTICOLUMN) {
 					b = BreakFormula.split(b, colWidth[j], baselineskip, TeXConstants.Align.LEFT);
 				}
 				boxarr[i][j] = b;
