@@ -37,10 +37,6 @@ public class Tools extends FlowPanel implements SetLabels {
 	 * see {@link ToolsTab}
 	 */
 	private final ToolsTab parentTab;
-	/**
-	 * move button
-	 */
-	private StandardButton moveButton;
 
 	private ArrayList<CategoryPanel> categoryPanelList;
 
@@ -92,14 +88,6 @@ public class Tools extends FlowPanel implements SetLabels {
 	 */
 	public AppW getApp() {
 		return app;
-	}
-
-	/**
-	 * @param moveButton
-	 *            floating action move btn
-	 */
-	private void setMoveButton(StandardButton moveButton) {
-		this.moveButton = moveButton;
 	}
 
 	/**
@@ -161,9 +149,6 @@ public class Tools extends FlowPanel implements SetLabels {
 			ToolButton btn = getToolButton(mode);
 			toolButtonList.add(btn);
 			toolsPanel.add(btn);
-			if (mode == EuclidianConstants.MODE_MOVE) {
-				setMoveButton(btn);
-			}
 		}
 
 		private void initGui() {
