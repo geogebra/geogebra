@@ -1,5 +1,6 @@
 package org.geogebra.common.spreadsheet.kernel;
 
+import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertFalse;
@@ -56,5 +57,13 @@ public class DefaultSpreadsheetCellProcessorSymbolicTest extends BaseSymbolicTes
 		AlgoElement parentAlgorithm = lookup("A2").getParentAlgorithm();
 		assertNotNull(parentAlgorithm);
 		assertThat(parentAlgorithm.getClassName(), equalTo(Commands.ParseToNumber));
+	}
+
+	@Test
+	public void shouldCreateEmptyCells() {
+		processor.process("=A1+1", "B1");
+		assertThat(lookup("A1"), hasValue("0"));
+		processor.process("=1", "A1");
+		assertThat(lookup("B1"), hasValue("2"));
 	}
 }

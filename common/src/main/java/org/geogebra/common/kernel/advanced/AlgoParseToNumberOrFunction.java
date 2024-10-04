@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -17,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.error.ErrorHelper;
 
 public class AlgoParseToNumberOrFunction extends AlgoElement {
 
@@ -66,7 +68,9 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 		AlgebraProcessor ap = kernel.getAlgebraProcessor();
 		String textToParse = text.getTextStringSafe();
 		if (cmd == Commands.ParseToNumber) {
-			num = ap.evaluateToNumeric(textToParse, true);
+			EvalInfo evalInfo = new EvalInfo(!cons.isSuppressLabelsActive(), true)
+					.withAutocreate(false);
+			num = ap.evaluateToNumeric(textToParse, ErrorHelper.silent(), evalInfo);
 			if (num != null) {
 				updateReferences(num.getDefinition());
 			}
@@ -87,7 +91,7 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 				updateReferences(((GeoFunctionNVar) num).getFunctionExpression());
 			}
 		}
-		if (num == null) {
+		if (num == null || num.toGeoElement().isEmptySpreadsheetCell()) {
 			result.setUndefined();
 		} else {
 			result.set(num);

@@ -16,7 +16,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.CheckForNull;
@@ -648,7 +648,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 	private void setColumnWidthsFromSettings() {
 		table.setPreferredColumnWidth(settings().preferredColumnWidth());
-		HashMap<Integer, Integer> widthMap = settings().getWidthMap();
+		Map<Integer, Integer> widthMap = settings().getWidthMap();
 		for (int i = 0; i < table.getColumnCount(); ++i) {
 			if (widthMap.containsKey(i)) {
 				table.getColumnModel().getColumn(i)
@@ -661,7 +661,8 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	}
 
 	private void setRowHeightsFromSettings() {
-		HashMap<Integer, Integer> heightMap = app.getSettings().getSpreadsheet().getHeightMap();
+		Map<Integer, Integer> heightMap = app.getSettings().getSpreadsheet()
+				.getHeightMap();
 
 		table.setRowHeight(
 				app.getSettings().getSpreadsheet().preferredRowHeight());

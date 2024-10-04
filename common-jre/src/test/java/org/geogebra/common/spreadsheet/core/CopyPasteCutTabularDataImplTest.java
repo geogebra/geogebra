@@ -298,6 +298,23 @@ public class CopyPasteCutTabularDataImplTest extends BaseUnitTest {
 		copyPasteCut.readExternalClipboard(content -> assertEquals("3", content));
 	}
 
+	@Test
+	public void testCutRemovesElement() {
+		tabularData.setContent(1, 1, add("=1"));
+		int constructionSteps = getKernel().getConstruction().steps();
+		copyPasteCut.cut(new TabularRange(1, 1, 1, 1));
+		assertEquals(constructionSteps - 1, getKernel().getConstruction().steps());
+	}
+
+	@Test
+	public void testCutRemovesElements() {
+		tabularData.setContent(1, 1, add("=1"));
+		tabularData.setContent(2, 1, add("3 + 2"));
+		int constructionSteps = getKernel().getConstruction().steps();
+		copyPasteCut.cut(new TabularRange(1, 1, 2, 1));
+		assertEquals(constructionSteps - 2, getKernel().getConstruction().steps());
+	}
+
 	private void paste(TabularRange range) {
 		copyPasteCut.paste(range, null);
 	}

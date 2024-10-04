@@ -76,6 +76,11 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
+	public void removeContentAt(int row, int column) {
+		data.get(row).set(column, null);
+	}
+
+	@Override
 	public String contentAt(int row, int column) {
 		return data.get(row).get(column);
 	}

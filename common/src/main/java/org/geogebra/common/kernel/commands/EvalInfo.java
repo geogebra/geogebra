@@ -36,6 +36,7 @@ public class EvalInfo {
 	private boolean isRedefinition = false;
 	private boolean useAnalytics;
 	private boolean forceFunctionsEnabled = false;
+	private boolean autoCreateObjects = true;
 
 	/**
 	 * Creates a default evaluation info
@@ -169,6 +170,7 @@ public class EvalInfo {
 		ret.useAnalytics = this.useAnalytics;
 		ret.forceFunctionsEnabled = this.forceFunctionsEnabled;
 		ret.allowAssignment = this.allowAssignment;
+		ret.autoCreateObjects = this.autoCreateObjects;
 		return ret;
 	}
 
@@ -545,5 +547,19 @@ public class EvalInfo {
 
 	public boolean isAssignmentAllowed() {
 		return allowAssignment;
+	}
+
+	/**
+	 * @param autoCreate false to disable autocreation of elements (lengths, spreadsheet cells)
+	 * @return modified copy
+	 */
+	public EvalInfo withAutocreate(boolean autoCreate) {
+		EvalInfo info = copy();
+		info.autoCreateObjects = autoCreate;
+		return info;
+	}
+
+	public boolean isAutoCreateObjects() {
+		return autoCreateObjects;
 	}
 }

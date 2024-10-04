@@ -1820,7 +1820,21 @@ public class AlgebraProcessor {
 	 * @return resulting number
 	 */
 	public GeoNumberValue evaluateToNumeric(String str, ErrorHandler handler) {
+		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(), true);
+		return evaluateToNumeric(str, handler, info);
+	}
 
+	/**
+	 * Parses given String str and tries to evaluate it to a NumberValue Returns
+	 * null if something went wrong.
+	 *
+	 * @param str
+	 *            string to parse
+	 * @param handler
+	 *            callback for handling errors
+	 * @return resulting number
+	 */
+	public GeoNumberValue evaluateToNumeric(String str, ErrorHandler handler, EvalInfo info) {
 		if (str == null || "".equals(str)) {
 			ErrorHelper.handleInvalidInput(str, loc, handler);
 			return new GeoNumeric(cons, Double.NaN);
@@ -1832,7 +1846,7 @@ public class AlgebraProcessor {
 		GeoNumberValue num = null;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
-			GeoElementND[] temp = processValidExpression(ve);
+			GeoElementND[] temp = processValidExpression(ve, info);
 
 			if (temp[0] instanceof GeoNumberValue) {
 				num = (GeoNumberValue) temp[0];

@@ -4214,6 +4214,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	}
 
+	public AsyncManagerI getAsyncManager() {
+		return Runnable::run;
+	}
+
 	/**
 	 * possible positions for the inputBar (respective inputBox)
 	 */

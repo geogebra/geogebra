@@ -22,6 +22,8 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	// content
 	void setContent(int row, int column, Object content);
 
+	void removeContentAt(int row, int column);
+
 	/**
 	 * @param row table row
 	 * @param column table column
@@ -67,7 +69,7 @@ public interface TabularData<T> extends HasTabularValues<T> {
 
 	boolean hasError(int row, int column);
 
-	default void setPersistenceListener(PersistenceListener layout) {
+	default void setCustomRowAndColumnSizeProvider(CustomRowAndColumnSizeProvider provider) {
 		// not needed in tests
 	}
 

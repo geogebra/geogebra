@@ -481,6 +481,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * parts of the code that have been split by the GWT compiler
 	 * @return the instance of the AsyncManager
 	 */
+	@Override
 	public final AsyncManager getAsyncManager() {
 		if (asyncManager == null) {
 			asyncManager = new AsyncManager(this);

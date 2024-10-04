@@ -19,7 +19,6 @@ import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
-import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.util.ClipboardW;
@@ -74,10 +73,11 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 		@Override
 		public void updatePosition(Rectangle editorBounds, Rectangle viewport) {
-			mathField.getStyle().setLeft(editorBounds.getMinX(), Unit.PX);
-			mathField.getStyle().setTop(editorBounds.getMinY(), Unit.PX);
-			mathField.getStyle().setWidth(editorBounds.getWidth(), Unit.PX);
-			mathField.getStyle().setProperty("minHeight", editorBounds.getHeight(), Unit.PX);
+			Rectangle bounds = editorBounds.insetBy(-2, -2);
+			mathField.getStyle().setLeft(bounds.getMinX(), Unit.PX);
+			mathField.getStyle().setTop(bounds.getMinY(), Unit.PX);
+			mathField.getStyle().setWidth(bounds.getWidth(), Unit.PX);
+			mathField.getStyle().setProperty("minHeight", bounds.getHeight(), Unit.PX);
 		}
 
 		@Override
@@ -132,9 +132,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			} else {
 				SVGResource image = getActionIcon(item.getIdentifier());
 				String itemText = loc.getMenu(item.getLocalizationKey());
-				AriaMenuItem menuItem;
-
-				menuItem = MainMenu.getMenuBarItem(image, itemText, item::performAction);
+				AriaMenuItem menuItem = new AriaMenuItem(itemText, image, item::performAction);
 				contextMenu.addItem(menuItem);
 			}
 		}

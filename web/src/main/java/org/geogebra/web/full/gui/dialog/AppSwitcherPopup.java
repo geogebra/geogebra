@@ -73,7 +73,7 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 			addElement(GeoGebraConstants.CAS_APPCODE);
 		}
 		addElement(GeoGebraConstants.PROBABILITY_APPCODE);
-		addElement(GeoGebraConstants.SCIENTIFIC_APPCODE);
+		//addElement(GeoGebraConstants.SCIENTIFIC_APPCODE);
 	}
 
 	private void addElement(final String subAppCode) {

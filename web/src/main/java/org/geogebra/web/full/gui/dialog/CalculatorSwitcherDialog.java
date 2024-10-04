@@ -58,7 +58,7 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 			buildAndAddCalcButton(GeoGebraConstants.CAS_APPCODE, contentPanel);
 		}
 		buildAndAddCalcButton(GeoGebraConstants.PROBABILITY_APPCODE, contentPanel);
-		buildAndAddCalcButton(GeoGebraConstants.SCIENTIFIC_APPCODE, contentPanel);
+
 		add(contentPanel);
 	}
 
@@ -102,14 +102,8 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 	@Override
 	public void onResize() {
 		if (isShowing()) {
-			updateDialogWidth();
+			Dom.toggleClass(this, "smallScreen", app.getWidth() < 914);
 			super.centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
 		}
-	}
-
-	private void updateDialogWidth() {
-		Dom.toggleClass(this, "twoRows", app.getWidth() < 984
-				&& app.getWidth() >= 480);
-		Dom.toggleClass(this, "threeRows", app.getWidth() < 480);
 	}
 }

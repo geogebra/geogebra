@@ -171,7 +171,7 @@ public class InputBoxProcessor {
 				false, false).withSliders(false)
 				.withNoRedefinitionAllowed().withPreventingTypeChange()
 				.withRedefinitionRule(createRedefinitionRule())
-				.withMultipleUnassignedAllowed().withPreventVariable();
+				.withMultipleUnassignedAllowed().withPreventVariable().withAutocreate(false);
 	}
 
 	private String prependLabel(String text, StringTemplate tpl) {
