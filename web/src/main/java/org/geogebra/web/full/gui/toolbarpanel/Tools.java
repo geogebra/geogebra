@@ -59,18 +59,6 @@ public class Tools extends FlowPanel implements SetLabels {
 	}
 
 	/**
-	 * Selects MODE_MOVE as mode and changes visual settings accordingly of
-	 * this.
-	 */
-	public void setMoveMode() {
-		app.setMode(EuclidianConstants.MODE_MOVE);
-		clearSelectionStyle();
-		if (moveButton != null) {
-			moveButton.getElement().setAttribute("selected", "true");
-		}
-	}
-
-	/**
 	 * Changes visual settings of selected mode.
 	 * 
 	 * @param mode
@@ -112,22 +100,6 @@ public class Tools extends FlowPanel implements SetLabels {
 	 */
 	private void setMoveButton(StandardButton moveButton) {
 		this.moveButton = moveButton;
-	}
-
-	/**
-	 * Clears visual selection of all tools.
-	 */
-	private void clearSelectionStyle() {
-		for (int i = 0; i < getWidgetCount(); i++) {
-			Widget w = getWidget(i);
-			if (w instanceof CategoryPanel) {
-				FlowPanel panelTools = ((CategoryPanel) w).getToolsPanel();
-				for (int j = 0; j < panelTools.getWidgetCount(); j++) {
-					panelTools.getWidget(j).getElement()
-							.setAttribute("selected", "false");
-				}
-			}
-		}
 	}
 
 	/**
