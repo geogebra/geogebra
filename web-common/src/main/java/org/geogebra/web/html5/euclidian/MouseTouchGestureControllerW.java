@@ -180,10 +180,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 */
 	public void onPointerEventStart(AbstractEvent event) {
 		app.getFpsProfiler().notifyTouchStart();
+		app.hideMenu();
 
-		if (((AppW) app).isMenuShowing()) {
-			((AppW) app).toggleMenu();
-		}
 		if (isRecording) {
 			drawingRecorder
 					.recordCoordinate(event.getX(), event.getY(), System.currentTimeMillis());

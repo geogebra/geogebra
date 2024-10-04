@@ -165,4 +165,15 @@ public class GeoNumericTest extends BaseUnitTest {
 		GeoNumeric withTrailing = addAvInput("1.20E3");
 		assertThat(withTrailing.getXML(), containsString("1.20E3"));
 	}
+
+	@Test
+	@Issue("APPS-1889")
+	public void shouldNotStoreStyleIfNotInitialized() {
+		addAvInput("a=3");
+		reload();
+		GeoElement slider = lookup("a");
+		slider.setEuclidianVisible(true);
+		slider.updateRepaint();
+		assertThat(slider.getLineThickness(), is(10));
+	}
 }

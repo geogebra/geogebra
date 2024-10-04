@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ResourcePrototype;
@@ -34,6 +35,9 @@ public final class AppDescription {
 		case GeoGebraConstants.PROBABILITY_APPCODE:
 			return new AppDescription(res.menu_icon_probability_transparent(),
 					"Probability");
+		case GeoGebraConstants.SCIENTIFIC_APPCODE:
+			return new AppDescription(MaterialDesignResources.INSTANCE.scientific(),
+					"Scientific");
 		case GeoGebraConstants.GRAPHING_APPCODE:
 		default:
 			return new AppDescription(res.menu_icon_algebra_transparent(),

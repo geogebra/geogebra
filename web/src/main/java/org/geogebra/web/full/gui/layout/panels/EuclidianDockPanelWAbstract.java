@@ -7,9 +7,7 @@ import org.geogebra.common.euclidian.GetViewId;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.ViewCounter;
-import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
-import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -38,13 +36,8 @@ import jsinterop.base.Js;
  */
 public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		implements GetViewId {
-
 	private ConstructionProtocolNavigationW consProtNav;
-
 	private boolean mayHaveZoomButtons;
-
-	/** Zoom panel for MOW */
-	@CheckForNull ZoomPanelMow mowZoomPanel;
 
 	/**
 	 * default constructor
@@ -239,9 +232,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		if (allowZoomPanel()) {
 			dockLayoutPanel.addSouth(zoomPanel, 0);
 		}
-		if (app.isWhiteboardActive() && mowZoomPanel != null) {
-			controls.add(mowZoomPanel);
-		}
 	}
 
 	@Override
@@ -264,23 +254,11 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 				zoomPanel.setFullScreen(true);
 			}
 		}
-		tryBuildMowZoomPanel();
 	}
 
 	private boolean isBottomRight() {
 		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout().getDockManager();
 		return dm.getRoot() == null || dm.getRoot().isBottomRight(this);
-	}
-
-	private void tryBuildMowZoomPanel() {
-		if (mowZoomPanel != null) {
-			mowZoomPanel.removeFromParent();
-			mowZoomPanel = null;
-		}
-		if (ZoomPanel.needsZoomButtons(app) && app.isWhiteboardActive()) {
-			mowZoomPanel = new ZoomPanelMow(app);
-			((AppWFull) app).setMowZoomPanel(mowZoomPanel);
-		}
 	}
 
 	/**
@@ -304,9 +282,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		if (zoomPanel != null) {
 			zoomPanel.setLabels();
 		}
-		if (mowZoomPanel != null) {
-			mowZoomPanel.setLabels();
-		}
 	}
 
 	/**
@@ -316,9 +291,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		if (zoomPanel != null) {
 			zoomPanel.setHidden(true);
 		}
-		if (mowZoomPanel != null) {
-			mowZoomPanel.addStyleName("hidden");
-		}
 	}
 
 	/**
@@ -327,9 +299,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	public void showZoomPanel() {
 		if (zoomPanel != null) {
 			zoomPanel.setHidden(false);
-		}
-		if (mowZoomPanel != null) {
-			mowZoomPanel.removeStyleName("hidden");
 		}
 	}
 

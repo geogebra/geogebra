@@ -620,7 +620,7 @@ public class GuiManagerW extends GuiManager
 				return; // not in DOM yet => no reliable size
 			}
 			final DockSplitPaneW root = getLayout().getRootComponent();
-			int verticalSpace = borderThickness + getApp().getToolbarAndInputbarHeight();
+			int verticalSpace = borderThickness + getApp().getToolbarAndInputBarHeight();
 			int horizontalSpace = borderThickness;
 			if (mainMenuBar != null) {
 				horizontalSpace += mainMenuBar.getOffsetWidth();
@@ -980,12 +980,11 @@ public class GuiManagerW extends GuiManager
 	}
 
 	/**
-	 * close properties view
-	 *
+	 * Close properties view.
 	 */
 	public void closePropertiesView() {
 		if (propertiesView != null) {
-			getLayout().getDockManager().closePanel(App.VIEW_PROPERTIES, false);
+			((PropertiesViewW) propertiesView).close();
 		}
 	}
 
@@ -1627,7 +1626,7 @@ public class GuiManagerW extends GuiManager
 			if (show) {
 				frame.attachNotesUI(getApp());
 			} else {
-				frame.detachNotesToolbarAndUndo(getApp());
+				frame.detachNotesToolbar(getApp());
 			}
 			return;
 		}
@@ -1681,11 +1680,6 @@ public class GuiManagerW extends GuiManager
 				.setVisible(false);
 			}
 
-			return mode;
-		}
-
-		if (getApp().isWhiteboardActive()) {
-			(getApp().getAppletFrame()).setNotesMode(mode);
 			return mode;
 		}
 
@@ -2152,6 +2146,11 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
+	public void toggleTableValuesView() {
+		getUnbundledToolbar().toggleTableView();
+	}
+
+	@Override
 	public void removeGeoFromTV(String label) {
 		GeoElement geo = app.getKernel().lookupLabel(label);
 		if (getTableValuesView() != null && geo instanceof GeoEvaluatable) {
@@ -2252,6 +2251,15 @@ public class GuiManagerW extends GuiManager
 			inputKeyboardButton = new InputKeyboardButtonW(getApp());
 		}
 		return inputKeyboardButton;
+	}
+
+	@Override
+	public boolean isTableViewShowing() {
+		if (!app.getConfig().hasTableView() || !app.isUnbundled() || !showView(App.VIEW_ALGEBRA)) {
+			return false;
+		}
+		ToolbarPanel toolbar = getUnbundledToolbar();
+		return toolbar.getSelectedTabId() == DockPanelData.TabIds.TABLE;
 	}
 
 	@Override

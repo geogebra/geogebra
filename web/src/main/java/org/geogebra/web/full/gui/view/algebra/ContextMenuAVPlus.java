@@ -64,8 +64,8 @@ public class ContextMenuAVPlus implements SetLabels {
 
 	private void addExpressionItem() {
 		SVGResource img = MaterialDesignResources.INSTANCE.description();
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("Expression")), true, () -> {
+		AriaMenuItem mi =
+				MainMenu.getMenuBarItem(img, loc.getMenu("Expression"), () -> {
 					item.getController().setInputAsText(false);
 					item.ensureEditing();
 					kbd.selectTab(KeyboardType.NUMBERS);
@@ -75,8 +75,8 @@ public class ContextMenuAVPlus implements SetLabels {
 
 	private void addTextItem() {
 		SVGResource img = MaterialDesignResources.INSTANCE.icon_quote_black();
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("Text")), true, () -> {
+		AriaMenuItem mi =
+				MainMenu.getMenuBarItem(img, loc.getMenu("Text"), () -> {
 					item.getController().setInputAsText(true);
 					item.ensureEditing();
 					kbd.selectTab(KeyboardType.ABC);
@@ -86,8 +86,8 @@ public class ContextMenuAVPlus implements SetLabels {
 	
 	void addImageItem() {
 		SVGResource img = MaterialDesignResources.INSTANCE.insert_photo_black();
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("Image")), true, () -> {
+		AriaMenuItem mi =
+				MainMenu.getMenuBarItem(img, loc.getMenu("Image"), () -> {
 					item.getController().setInputAsText(false);
 					app.getImageManager().setPreventAuxImage(true);
 
@@ -99,8 +99,8 @@ public class ContextMenuAVPlus implements SetLabels {
 
 	private void addHelpItem() {
 		SVGResource img = SharedResources.INSTANCE.icon_help_black();
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("Help")), true, this::showHelp);
+		AriaMenuItem mi =
+				MainMenu.getMenuBarItem(img, loc.getMenu("Help"), this::showHelp);
 		wrappedPopup.addItem(mi);
 	}
 

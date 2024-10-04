@@ -196,7 +196,16 @@ public class ToolbarPanel extends FlowPanel
 				&& app.getConfig().getVersion() != GeoGebraConstants.Version.PROBABILITY;
 		if (isAllowed) {
 			addUndoRedoButtons();
-		} else if (undoRedoPanel != null) {
+		} else {
+			removeUndoRedoPanel();
+		}
+	}
+
+	/**
+	 * remove undo/redo from frame
+	 */
+	public void removeUndoRedoPanel() {
+		if (undoRedoPanel != null) {
 			undoRedoPanel.removeFromParent();
 			undoRedoPanel = null;
 		}
@@ -888,6 +897,26 @@ public class ToolbarPanel extends FlowPanel
 
 	public void openTableView(boolean fade) {
 		openTableView(null, fade);
+	}
+
+	/**
+	 * If table view is active, hide the whole toolbar. If not, open toolbar and focus TV.
+	 */
+	public void toggleTableView() {
+		boolean isScientific = app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC;
+		if (isTableOfValuesViewActive() && isScientific) {
+			navRail.onAlgebraPressed();
+		} else {
+			navRail.onTableViewPressed();
+		}
+
+		if (!navRail.isOpen()) {
+			app.getActiveEuclidianView().requestFocus();
+		}
+	}
+
+	private boolean isTableOfValuesViewActive() {
+		return tabTable != null && getSelectedTabId() == TabIds.TABLE;
 	}
 
 	/**

@@ -668,7 +668,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 		cellContent = getFocusedCellContent();
 		focusedCell = null;
 		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_LEFT);
-		assertEquals(new CellIndex(0, 0), focusedCell);
+		assertNull(focusedCell);
 	}
 
 	@Test
@@ -886,6 +886,62 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 		assertNull(focusedCell);
 	}
 
+	// see https://geogebra-jira.atlassian.net/browse/APPS-5585?focusedCommentId=211833
+	@Test
+	public void testMoveIntoFunctionColumn() throws Exception {
+		traceEvents = true;
+		// select (0, 1), insert "1" into (placeholder) cell, press RETURN
+		keyboardController.select(0, 1);
+		cellContent = "1";
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.RETURN);
+		assertEquals(new CellIndex(1, 1), focusedCell);
+
+		// note: f(x) is added in column 2
+		cellContent = "";
+		addFunction("f", "x");
+		tableValuesView.setValues(-2, 2, 1);
+
+		// select cell (0, 1), delete content, press RETURN
+		keyboardController.select(0, 1);
+		cellContent = "";
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.RETURN);
+
+		// f(x) has moved to column 1 and should not be editable
+		assertTrue(tableValuesView.getEvaluatable(1) instanceof GeoFunction);
+		assertFalse(keyboardController.isColumnEditable(1));
+
+		// since column 1 is now non-editable, there should be no focused cell
+		assertNull(focusedCell);
+	}
+
+	// https://geogebra-jira.atlassian.net/browse/APPS-5585?focusedCommentId=212824
+	@Test
+	public void testDeleteColumn() throws Exception {
+		traceEvents = true;
+
+		// y1: select (0, 1), insert "2" into (placeholder) cell, press RETURN
+		keyboardController.select(0, 1);
+		cellContent = "2";
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.RETURN);
+
+		// add f(x) in column 2
+		cellContent = "";
+		addFunction("f", "x");
+
+		// y2: select (0, 3), insert "3" into (placeholder) cell, press RETURN
+		keyboardController.select(0, 3);
+		cellContent = "3";
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.RETURN);
+
+		// y1: select cell (0, 1), delete content, press ARROW_RIGHT
+		keyboardController.select(0, 1);
+		cellContent = "";
+		keyboardController.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
+
+		// y2 (now at column 2) should be selected
+		assertEquals(new CellIndex(0, 2), focusedCell);
+	}
+
 	// TableValuesKeyboardControllerDelegate
 
 	@Override
@@ -899,7 +955,7 @@ public class TableValuesKeyboardNavigationControllerTests extends BaseUnitTest
 	}
 
 	@Override
-	public void unfocusCell(int row, int column) {
+	public void unfocusCell(int row, int column, boolean isTransferringFocus) {
 		focusedCell = null;
 	}
 

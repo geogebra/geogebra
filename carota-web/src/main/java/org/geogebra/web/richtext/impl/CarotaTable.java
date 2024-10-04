@@ -48,6 +48,9 @@ public class CarotaTable implements HasContentAndFormat {
 	@Override
 	public native void selectionChanged(EditorCallback editorCallback);
 
+	@Override
+	public native void onEscape(EditorCallback editorCallback);
+
 	@JsOverlay
 	public final void startEditing(int x, int y) {
 		startEditing(getHitCell(x, y), x, y);

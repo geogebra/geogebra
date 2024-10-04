@@ -181,7 +181,7 @@ class NavigationRail extends FlowPanel {
 	/**
 	 * Handler for table view button.
 	 */
-	protected void onTableViewPressed() {
+	void onTableViewPressed() {
 		if (isOpen() && toolbarPanel.getSelectedTabId() == TabIds.TABLE) {
 			if (app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC) {
 				return;
@@ -334,9 +334,7 @@ class NavigationRail extends FlowPanel {
 
 	private void addShareButton() {
 		GlobalHeader.INSTANCE.initShareButton(share -> {
-			if (app.isMenuShowing()) {
-				app.toggleMenu();
-			}
+			app.hideMenu();
 			FileMenuW.share(app, share);
 		}, app);
 	}

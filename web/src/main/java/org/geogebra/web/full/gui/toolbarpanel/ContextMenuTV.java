@@ -19,20 +19,20 @@ import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
-import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.Command;
+import org.gwtproject.user.client.ui.InlineHTML;
 
 /**
  * Context menu which is opened with the table of values header 3dot button
@@ -163,7 +163,8 @@ public class ContextMenuTV {
 
 	private void addStats(String title, Function<Integer, List<StatisticGroup>> statFunction,
 			DialogData data, String noDataMsg) {
-		addCommandLocalized(() -> showStats(statFunction, data, noDataMsg), title, "stats");
+		Scheduler.ScheduledCommand command = () -> showStats(statFunction, data, noDataMsg);
+		addItem(new AriaMenuItem(new InlineHTML(title), command), "stats");
 	}
 
 	private void showRegression(DialogData data) {
@@ -232,13 +233,12 @@ public class ContextMenuTV {
 	}
 
 	private void addCommand(Command command, String transKey, String testTitle) {
-		addCommandLocalized(command, app.getLocalization().getMenu(transKey), testTitle);
+		AriaMenuItem item = new AriaMenuItem(app.getLocalization().getMenu(transKey),
+				null, command);
+		addItem(item, testTitle);
 	}
 
-	private void addCommandLocalized(Command command, String title, String testTitle) {
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml((SVGResource) null, title),
-				true, command);
+	private void addItem(AriaMenuItem mi, String testTitle) {
 		mi.addStyleName("no-image");
 		TestHarness.setAttr(mi, "menu_" + testTitle);
 		wrappedPopup.addItem(mi);

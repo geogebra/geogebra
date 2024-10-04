@@ -487,7 +487,8 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private static ExpressionValue buildProduct(ExpressionNode power, ExpressionValue product) {
-		return product == null ? power : power.multiply(product);
+		return product == null ? power
+				: new ExpressionNode(power.kernel, product, Operation.MULTIPLY, power);
 	}
 
 	/**

@@ -756,7 +756,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getAppletParameters().setAttribute("appName", "notes");
 			getAppletFrame().initPageControlPanel(this);
 			euclidianController.clearMeasurementTools();
-			getAppletFrame().setNotesMode(getMode());
 			if (getPageController() != null) {
 				getPageController().loadSlides(archiveContent);
 				return;
@@ -2335,24 +2334,21 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public int getHeightForSplitPanel(int fallback) {
 		// border excluded
-		int windowHeight = getAppletHeight() - getAppletParameters().getBorderThickness();
-		// but we want to know the available height for the rootPane
-		// so we either use the above as a heuristic,
-		// or we should substract the height(s) of
-		// toolbar, menubar, and input bar;
-		// heuristics come from GeoGebraAppFrame
-		if (showAlgebraInput()
-				&& getInputPosition() != InputPosition.algebraView) {
-			windowHeight -= GLookAndFeelI.COMMAND_LINE_HEIGHT;
-		}
-		if (showToolBar() && !isUnbundledOrWhiteboard()) {
-			windowHeight -= GLookAndFeelI.TOOLBAR_HEIGHT;
-		}
+		int windowHeight = getAppletHeight() - getAppletParameters().getBorderThickness()
+				- getToolbarAndInputBarHeight();
+
 		// menubar height is always 0
 		if (windowHeight <= 0) {
 			windowHeight = fallback;
 		}
 		return windowHeight;
+	}
+
+	/**
+	 * @return toolbar height (if toolbar visible) + input bar height (if visible)
+	 */
+	protected int getToolbarAndInputBarHeight() {
+		return 0; // overridden with UI
 	}
 
 	/**
@@ -2880,7 +2876,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public boolean allowStylebar() {
 		return !isApplet()
 				|| getAppletParameters().getDataParamShowMenuBar(false)
-				|| getAppletParameters().getDataParamAllowStyleBar(false);
+				|| getAppletParameters().getDataParamAllowStyleBar();
 	}
 
 	@Override
@@ -3231,6 +3227,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public String getSlideID() {
+		if (!isWhiteboardActive()) {
+			return super.getSlideID();
+		}
 		return getPageController() == null
 				? GgbFile.SLIDE_PREFIX + GgbFile.getCounter()
 				: getPageController().getSlideID();

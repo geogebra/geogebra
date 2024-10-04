@@ -72,9 +72,11 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 
 	private void buildPropertiesPanel(PropertiesArray properties, FlowPanel panel) {
 		for (Property property : properties.getProperties()) {
-			Widget cell = createPropertyCell(property);
-			if (cell != null) {
-				panel.add(cell);
+			if (property.isEnabled()) {
+				Widget cell = createPropertyCell(property);
+				if (cell != null) {
+					panel.add(cell);
+				}
 			}
 		}
 	}

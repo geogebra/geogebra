@@ -26,9 +26,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.contextmenu.FontSubMenu;
 import org.geogebra.web.full.gui.dialog.HyperlinkDialog;
-import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
-import org.geogebra.web.full.javax.swing.InlineTextToolbar;
 import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
@@ -134,8 +132,8 @@ public class InlineFormattingItems {
 				}
 			};
 
-			AriaMenuItem item = factory.newAriaMenuItem(loc.getMenu("ContextMenu." + setting),
-					false, command);
+			AriaMenuItem item = factory.newAriaMenuItem(null,
+					loc.getMenu("ContextMenu." + setting), command);
 
 			if (setting.equals(wrapping)) {
 				item.addStyleName("highlighted");
@@ -145,7 +143,7 @@ public class InlineFormattingItems {
 		}
 
 		AriaMenuItem item = factory.newAriaMenuItem(loc.getMenu("ContextMenu.textWrapping"),
-				false, wrappingSubmenu);
+				null, wrappingSubmenu);
 		item.addStyleName("no-image");
 		menu.addItem(item);
 	}
@@ -174,8 +172,8 @@ public class InlineFormattingItems {
 				}
 			};
 
-			AriaMenuItem item = factory.newAriaMenuItem(loc.getMenu("ContextMenu.rotate"
-							+ setting), false, command);
+			AriaMenuItem item = factory.newAriaMenuItem(null, loc.getMenu("ContextMenu.rotate"
+							+ setting), command);
 
 			if (setting.toLowerCase(Locale.US).equals(rotation)) {
 				item.addStyleName("highlighted");
@@ -185,7 +183,7 @@ public class InlineFormattingItems {
 		}
 
 		AriaMenuItem item = factory.newAriaMenuItem(loc.getMenu("ContextMenu.textRotation"),
-				false, rotationSubmenu);
+				null, rotationSubmenu);
 		item.addStyleName("no-image");
 		menu.addItem(item);
 	}
@@ -193,7 +191,7 @@ public class InlineFormattingItems {
 	private void addSubMenuItem(AriaMenuBar submenu, SVGResource icon,
 			String transKey, Scheduler.ScheduledCommand cmd) {
 		AriaMenuItem submenuItem = factory.newAriaMenuItem(
-				MainMenu.getMenuBarHtml(icon, loc.getMenu(transKey)), true, cmd);
+				icon, loc.getMenu(transKey), cmd);
 		submenu.addItem(submenuItem);
 	}
 
@@ -233,7 +231,7 @@ public class InlineFormattingItems {
 				"ContextMenu.PieChart", () -> chartCreator.accept(PieChart));
 
 		AriaMenuItem chartItem = factory.newAriaMenuItem(loc.getMenu("ContextMenu.CreateChart"),
-				false, chartSubmenu);
+				null, chartSubmenu);
 		chartItem.addStyleName("no-image");
 
 		menu.addItem(chartItem);
@@ -266,7 +264,7 @@ public class InlineFormattingItems {
 				});
 
 		AriaMenuItem item = factory.newAriaMenuItem(loc.getMenu("ContextMenu.Heading"),
-				false, headingSubmenu);
+				null, headingSubmenu);
 		item.addStyleName("no-image");
 		menu.addItem(item);
 	}
@@ -294,21 +292,21 @@ public class InlineFormattingItems {
 
 	private void addToolbar() {
 		if (inlines.stream().allMatch(this::textOrEditModeTable)) {
-			InlineTextToolbar toolbar = factory.newInlineTextToolbar(inlines, app);
-			menu.addItem(toolbar.getItem(), false);
+			AriaMenuItem toolbar = factory.newInlineTextToolbar(inlines, app);
+			menu.addItem(toolbar, false);
 		}
 	}
 
 	private void addFontSubmenu() {
 		AriaMenuItem item = factory.newAriaMenuItem(loc.getMenu("ContextMenu.Font"),
-				false,
+				null,
 				new FontSubMenu((AppW) app, inlines));
 		item.addStyleName("no-image");
 		menu.addItem(item);
 	}
 
 	private void addItem(String text, Command command) {
-		AriaMenuItem menuItem = factory.newAriaMenuItem(loc.getMenu(text), false,
+		AriaMenuItem menuItem = factory.newAriaMenuItem(null, loc.getMenu(text),
 				command);
 		menuItem.getElement().getStyle()
 				.setPaddingLeft(16, Unit.PX);

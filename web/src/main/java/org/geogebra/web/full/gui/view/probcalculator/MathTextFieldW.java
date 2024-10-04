@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.util.JsRunnable;
@@ -15,7 +16,7 @@ import com.himamis.retex.editor.share.meta.MetaModel;
 
 public class MathTextFieldW extends MathFieldEditor implements MathFieldListener, ErrorHandler {
 	private final ArrayList<JsRunnable> inputHandlers = new ArrayList<>();
-	private final ArrayList<JsRunnable> changeHandlers = new ArrayList<>();
+	private final ArrayList<JsConsumer<Boolean>> changeHandlers = new ArrayList<>();
 
 	/**
 	 * Constructor
@@ -35,7 +36,8 @@ public class MathTextFieldW extends MathFieldEditor implements MathFieldListener
 		createMathField(this, model);
 		addBlurHandler(event -> {
 			this.asWidget().getParent().removeStyleName("focusState");
-			onEnter();
+			scrollHorizontally();
+			notifyListeners(false);
 		});
 		addStyleName("mathTextField");
 		setUseKeyboardButton(!NavigatorUtil.isMobile());
@@ -44,8 +46,12 @@ public class MathTextFieldW extends MathFieldEditor implements MathFieldListener
 	@Override
 	public void onEnter() {
 		scrollCursorVisibleHorizontally();
-		for (JsRunnable listener: changeHandlers) {
-			listener.run();
+		notifyListeners(true);
+	}
+
+	private void notifyListeners(boolean isEnter) {
+		for (JsConsumer<Boolean> listener: changeHandlers) {
+			listener.accept(isEnter);
 		}
 	}
 
@@ -90,7 +96,7 @@ public class MathTextFieldW extends MathFieldEditor implements MathFieldListener
 		this.inputHandlers.add(inputHandler);
 	}
 
-	public void addChangeHandler(JsRunnable inputHandler) {
+	public void addChangeHandler(JsConsumer<Boolean> inputHandler) {
 		this.changeHandlers.add(inputHandler);
 	}
 

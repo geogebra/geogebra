@@ -1237,35 +1237,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	}
 
 	/**
-	 * @param c
-	 *            character
-	 * @return emulation of Character.isWhiteSpace
-	 */
-	public static boolean isWhitespace(char c) {
-		return c == ' ' || c == '\t' /* , HORIZONTAL TABULATION. */
-				|| c == '\n' /* LINE FEED. */
-				|| c == '\u000B' /* VERTICAL TABULATION. */
-				|| c == '\f' /* FORM FEED. */
-				|| c == '\r' /* CARRIAGE RETURN. */
-				|| c == '\u001C' /* FILE SEPARATOR. */
-				|| c == '\u001D' /* GROUP SEPARATOR. */
-				|| c == '\u001E' /* RECORD SEPARATOR. */
-				|| c == '\u001F' /* UNIT SEPARATOR. */
-				|| c == '\u1680' || c == '\u180E' || c == '\u2000' || c == '\u2001'
-				|| c == '\u2002' || c == '\u2003' || c == '\u2004'
-				|| c == '\u2005' || c == '\u2006' || c == '\u2008'
-				|| c == '\u2009' || c == '\u200A' || c == '\u2028'
-				|| c == '\u2029' || c == '\u205F' || c == '\u3000';
-	}
-
-	/**
 	 * Returns true if the string only contains whitespace.
 	 * @param string string to check
 	 * @return true if string.trim().isEmpty() is true
 	 */
 	public static boolean isTrimmedEmpty(String string) {
 		for (int i = 0; i < string.length(); i++) {
-			if (!isWhitespace(string.charAt(i))) {
+			if (!Character.isWhitespace(string.charAt(i))) {
 				return false;
 			}
 		}
@@ -1416,6 +1394,16 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	}
 
 	/**
+	 * Removes folder name from full file path
+	 * @param filePath file name or full file path
+	 * @return file name without folder
+	 */
+	public static String removeFolderName(String filePath) {
+		int lastDelimiter = Math.max(filePath.lastIndexOf("/"), filePath.lastIndexOf("\\"));
+		return lastDelimiter == -1 ? filePath : filePath.substring(lastDelimiter + 1);
+	}
+
+	/**
 	 * @param fileName
 	 *            eg "file.gif"
 	 * @param extension
@@ -1519,7 +1507,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			return true;
 		}
 		for (int i = 0; i < str.length(); i++) {
-			if (!isWhitespace(str.charAt(i))) {
+			if (!Character.isWhitespace(str.charAt(i))) {
 				return false;
 			}
 		}

@@ -1,5 +1,6 @@
 package org.geogebra.web.full.main.activity;
 
+import org.geogebra.common.gui.view.table.ScientificDataTableController;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.MaterialVisibility;
@@ -62,8 +63,8 @@ public class BaseActivity implements GeoGebraActivity {
 	}
 
 	@Override
-	public AlgebraItemHeader createAVItemHeader(RadioTreeItem radioTreeItem) {
-		return new MarblePanel(radioTreeItem);
+	public AlgebraItemHeader createAVItemHeader(RadioTreeItem radioTreeItem, boolean forInput) {
+		return new MarblePanel(radioTreeItem, forInput);
 	}
 
 	@Override
@@ -129,5 +130,10 @@ public class BaseActivity implements GeoGebraActivity {
 	@Override
 	public void markSaveProcess(String title, MaterialVisibility visibility) {
 		// nothing to do
+	}
+
+	@Override
+	public ScientificDataTableController getTableController() {
+		return null;
 	}
 }

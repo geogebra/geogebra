@@ -95,10 +95,6 @@ public class MathFieldInternal
 	private final List<MathFieldListener> listeners = new ArrayList<>();
 	private UnhandledArrowListener unhandledArrowListener;
 
-	private boolean enterPressed;
-
-	private Runnable enterCallback;
-
 	private boolean scrollOccured = false;
 
 	private boolean longPressOccured = false;
@@ -300,7 +296,6 @@ public class MathFieldInternal
 	public boolean onKeyPressed(KeyEvent keyEvent) {
 		if (keyEvent.getKeyCode() == 13 || keyEvent.getKeyCode() == 10) {
 			if (!listeners.isEmpty()) {
-				this.enterPressed = true;
 				notifyListeners(l -> {
 					l.onEnter();
 					return true;
@@ -344,14 +339,6 @@ public class MathFieldInternal
 
 	@Override
 	public boolean onKeyReleased(KeyEvent keyEvent) {
-		enterPressed = false;
-		if (keyEvent.getKeyCode() == 13 || keyEvent.getKeyCode() == 10) {
-			if (enterCallback != null) {
-				enterCallback.run();
-				enterCallback = null;
-				return true;
-			}
-		}
 		boolean alt = (keyEvent.getKeyModifiers() & KeyEvent.ALT_MASK) > 0
 				&& (keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) == 0;
 		if (alt) {
@@ -854,20 +841,6 @@ public class MathFieldInternal
 	}
 
 	/**
-	 * Run callback after enter is released.
-	 * 
-	 * @param r
-	 *            callback
-	 */
-	public void checkEnterReleased(Runnable r) {
-		if (this.enterPressed) {
-			this.enterCallback = r;
-		} else {
-			r.run();
-		}
-	}
-
-	/**
 	 * Handle the tab key.
 	 * 
 	 * @param shiftDown
@@ -945,14 +918,6 @@ public class MathFieldInternal
 	public String getText() {
 		GeoGebraSerializer s = new GeoGebraSerializer();
 		return s.serialize(getFormula());
-	}
-
-	public boolean isEnterPressed() {
-		return enterPressed;
-	}
-
-	public void setEnterPressed(boolean enterPressed) {
-		this.enterPressed = enterPressed;
 	}
 
 	public void setUnhandledArrowListener(UnhandledArrowListener arrowListener) {
