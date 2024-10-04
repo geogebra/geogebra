@@ -1,5 +1,10 @@
 package com.himamis.retex.editor.share.event;
 
+// TODO Try to document this collection of random-ish methods (what is their meaning?
+//  when are they called?; what does the return value mean?)
+//  Also,
+//  - can we align the return types?
+//  - try to find a better (more descriptive) name for onInsertString()
 public interface MathFieldListener {
 
 	void onEnter();
@@ -8,7 +13,9 @@ public interface MathFieldListener {
 
 	boolean onArrowKeyPressed(int keyCode);
 
-	void onInsertString();
+	default void onInsertString() {
+		// rarely needed
+	}
 
 	boolean onEscape();
 

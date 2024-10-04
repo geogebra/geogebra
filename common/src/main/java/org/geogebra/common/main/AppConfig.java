@@ -349,5 +349,11 @@ public interface AppConfig extends Serializable {
 
 	boolean hasOneVarStatistics();
 
+	/**
+	 * @return true, if app has spreadsheet view
+	 */
+	boolean hasSpreadsheetView();
+
 	boolean hasDataImport();
+
 }

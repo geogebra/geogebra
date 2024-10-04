@@ -16,9 +16,10 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.CheckForNull;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -31,7 +32,6 @@ import javax.swing.table.TableColumn;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -44,6 +44,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
@@ -217,7 +219,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		btnTraceDialog.setToolTipText(
 				app.getLocalization().getMenuTooltip("TraceToSpreadsheet"));
 		btnTraceDialog.addActionListener(
-				e -> showTraceDialog(null, table.getSelectedCellRanges().get(0)));
+				e -> showTraceDialog(null, table.getFirstSelection()));
 
 		upperLeftCorner.setLayout(new BorderLayout());
 		upperLeftCorner.add(btnTraceDialog, BorderLayout.WEST);
@@ -312,20 +314,20 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 	@Override
 	public void scrollIfNeeded(GeoElement geo, String labelNew) {
-		GPoint location = geo.getSpreadsheetCoords();
+		SpreadsheetCoords location = geo.getSpreadsheetCoords();
 
 		if (labelNew != null && location == null) {
 			location = GeoElementSpreadsheet.spreadsheetIndices(labelNew);
 		}
 
-		if (location == null || (location.x == -1 && location.y == -1)) {
+		if (location == null || (location.column == -1 && location.row == -1)) {
 			return;
 		}
 
 		// autoscroll to new cell's location
 		if (scrollToShow) {
 			table.scrollRectToVisible(
-					table.getCellRect(location.y, location.x, true));
+					table.getCellRect(location.row, location.column, true));
 		}
 
 	}
@@ -340,7 +342,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 			}
 		}
 
-		GPoint location = geo.getSpreadsheetCoords();
+		SpreadsheetCoords location = geo.getSpreadsheetCoords();
 
 		switch (geo.getGeoClassType()) {
 		default:
@@ -439,20 +441,20 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 	@Override
 	public void update(GeoElement geo) {
-		GPoint location = geo.getSpreadsheetCoords();
+		SpreadsheetCoords location = geo.getSpreadsheetCoords();
 		if (location != null
-				&& location.x < app.getMaxSpreadsheetColumnsVisible()
-				&& location.y < app.getMaxSpreadsheetRowsVisible()) {
+				&& location.column < app.getMaxSpreadsheetColumnsVisible()
+				&& location.row < app.getMaxSpreadsheetRowsVisible()) {
 
 			// TODO: rowHeader and column
 			// changes should be handled by a table model listener
 
-			if (location.y >= tableModel.getRowCount()) {
+			if (location.row >= tableModel.getRowCount()) {
 				// tableModel.setRowCount(location.y + 1);
 				spreadsheet.getRowHeader().revalidate();
 			}
-			if (location.x >= tableModel.getColumnCount()) {
-				tableModel.setColumnCount(location.x + 1);
+			if (location.column >= tableModel.getColumnCount()) {
+				tableModel.setColumnCount(location.column + 1);
 				JViewport cH = spreadsheet.getColumnHeader();
 
 				// bugfix: double-click to load ggb file gives cH = null
@@ -462,7 +464,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 			}
 
 			// Mark this cell to be resized by height
-			table.cellResizeHeightSet.add(new GPoint(location.x, location.y));
+			table.cellResizeHeightSet.add(new GPoint(location.column, location.row));
 
 			// put geos with special editors in the oneClickEditMap
 			if (geo.isGeoBoolean() || geo.isGeoButton() || geo.isGeoList()) {
@@ -525,7 +527,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	// =====================================================
 
 	@Override
-	public void showTraceDialog(GeoElement geo, CellRange traceCell) {
+	public void showTraceDialog(GeoElement geo, TabularRange traceCell) {
 		if (traceDialog == null) {
 			traceDialog = new TraceDialog(app, geo, traceCell);
 		} else {
@@ -543,7 +545,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	 * @param anchorRow initial row
 	 * @return trace selection range
 	 */
-	public CellRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
+	public @CheckForNull TabularRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
 		if (traceDialog == null) {
 			return null;
 		}
@@ -646,7 +648,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 	private void setColumnWidthsFromSettings() {
 		table.setPreferredColumnWidth(settings().preferredColumnWidth());
-		HashMap<Integer, Integer> widthMap = settings().getWidthMap();
+		Map<Integer, Integer> widthMap = settings().getWidthMap();
 		for (int i = 0; i < table.getColumnCount(); ++i) {
 			if (widthMap.containsKey(i)) {
 				table.getColumnModel().getColumn(i)
@@ -659,7 +661,8 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	}
 
 	private void setRowHeightsFromSettings() {
-		HashMap<Integer, Integer> heightMap = app.getSettings().getSpreadsheet().getHeightMap();
+		Map<Integer, Integer> heightMap = app.getSettings().getSpreadsheet()
+				.getHeightMap();
 
 		table.setRowHeight(
 				app.getSettings().getSpreadsheet().preferredRowHeight());
@@ -961,7 +964,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		// cell format
 		getSpreadsheetTable().getCellFormatHandler()
 				.processXMLString(settings().cellFormat());
-
+		table.repaintAll();
 		// preferredSize
 		spreadsheetWrapper.setPreferredSize(
 				GDimensionD.getAWTDimension(settings().preferredSize()));

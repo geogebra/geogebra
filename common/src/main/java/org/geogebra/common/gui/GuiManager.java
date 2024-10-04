@@ -170,7 +170,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 *            whether this is for preferences
 	 */
 	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
-		// TODO Auto-generated method stub
+		sb.append("<spreadsheetView>\n");
+		app.getSettings().getSpreadsheet().getSizeXML(sb);
+		app.getSettings().getSpreadsheet().getWidthsAndHeightsXML(sb);
+		sb.append("</spreadsheetView>\n");
 	}
 
 	@Override
@@ -832,4 +835,5 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public InputKeyboardButton getInputKeyboardButton() {
 		return null;
 	}
+
 }

@@ -233,7 +233,7 @@ public final class CommandFilterFactory {
 				Commands.AttachCopyToView, Commands.Button, Commands.Checkbox,
 				Commands.CopyFreeObject, Commands.Delete, Commands.GetTime,
 				Commands.Textfield, Commands.Pan,
-				Commands.ParseToFunction, Commands.ParseToNumber, Commands.PlaySound,
+				Commands.ParseToFunction, Commands.PlaySound,
 				Commands.Rename, Commands.Repeat, Commands.RunClickScript,
 				Commands.RunUpdateScript, Commands.SelectObjects, Commands.SetActiveView,
 				Commands.SetConditionToShowObject, Commands.SetConstructionStep, Commands.SetCoords,

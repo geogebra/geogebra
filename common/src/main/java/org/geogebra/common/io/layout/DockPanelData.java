@@ -40,7 +40,10 @@ final public class DockPanelData {
 		TABLE,
 
 		/** tab four */
-		DISTRIBUTION
+		DISTRIBUTION,
+
+		/** tab five */
+		SPREADSHEET
 	}
 
 	/**

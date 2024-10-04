@@ -157,11 +157,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 		return false;
 	}
 
-	@Override
-	public void onInsertString() {
-		// nothing to do
-	}
-
 	/**
 	 * @return whether suggestions are open
 	 */

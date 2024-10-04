@@ -3,6 +3,7 @@ package org.geogebra.web.html5.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.DrawableND;
@@ -184,11 +185,18 @@ public class CopyPasteW extends CopyPaste {
 
 	private static void saveToClipboard(String toSave) {
 		String escapedContent = Global.escape(toSave);
-		String encoded = pastePrefix + DomGlobal.btoa(escapedContent);
+		writeToExternalClipboardWithFallback(pastePrefix + DomGlobal.btoa(escapedContent));
+	}
+
+	/**
+	 * Copies to external clipboard, adding a fallback based on local storage
+	 * @param content clipboard content
+	 */
+	public static void writeToExternalClipboardWithFallback(String content) {
 		if (!NavigatorUtil.isiOS() || copyToExternalSupported()) {
-			writeToExternalClipboard(encoded);
+			writeToExternalClipboard(content);
 		}
-		BrowserStorage.LOCAL.setItem(pastePrefix, asBlobURL(encoded));
+		BrowserStorage.LOCAL.setItem(pastePrefix, asBlobURL(content));
 	}
 
 	private static boolean copyToExternalSupported() {
@@ -200,10 +208,10 @@ public class CopyPasteW extends CopyPaste {
 		paste(app, text -> pasteText(app, text));
 	}
 
-	private static void handleStorageFallback(AsyncOperation<String> callback) {
+	private static void handleStorageFallback(Consumer<String> callback) {
 		DomGlobal.fetch(BrowserStorage.LOCAL.getItem(pastePrefix)).then(Response::text)
 				.then(text -> {
-					callback.callback(text);
+					callback.accept(text);
 					return null;
 				});
 	}
@@ -223,7 +231,15 @@ public class CopyPasteW extends CopyPaste {
 	 * @param app application
 	 * @param callback consumer for the pasted string
 	 */
-	public static void pasteNative(App app, AsyncOperation<String> callback) {
+	public static void pasteNative(App app, Consumer<String> callback) {
+		pasteNative(callback, image -> pasteImage(app, image));
+	}
+
+	/**
+	 * @param callback consumer for the pasted string
+	 * @param imageCallback consumer for base64-encoded image
+	 */
+	public static void pasteNative(Consumer<String> callback, Consumer<String> imageCallback) {
 		if (navigatorSupports("clipboard.read")) {
 			// supported in Chrome
 			Clipboard
@@ -236,7 +252,7 @@ public class CopyPasteW extends CopyPaste {
 									FileReader reader = new FileReader();
 
 									reader.addEventListener("load", (ignore) ->
-											pasteImage(app, reader.result.asString()), false);
+											imageCallback.accept(reader.result.asString()), false);
 
 									data.getAt(i).getType("image/png").then((item) -> {
 										reader.readAsDataURL(item);
@@ -263,8 +279,7 @@ public class CopyPasteW extends CopyPaste {
 			// not sure if any browser enters this at the time of writing
 			Clipboard.readText().then(
 				(text) -> {
-					app.getActiveEuclidianView().requestFocus();
-					pasteText(app, text);
+					callback.accept(text);
 					return null;
 				},
 				(reason) -> {
@@ -466,13 +481,13 @@ public class CopyPasteW extends CopyPaste {
 				|| "BR".equalsIgnoreCase(target.tagName) || target.hasAttribute("contenteditable");
 	}
 
-	private static void readBlob(Blob blob, AsyncOperation<String> callback) {
+	private static void readBlob(Blob blob, Consumer<String> callback) {
 		// in Chrome one could use blob.text().then(callback)
 		// but the FileReader code is also compatible with Safari 13.1
 		FileReader reader = new FileReader();
 		reader.addEventListener("loadend", evt -> {
 			if (reader.result != null) {
-				callback.callback(reader.result.asString());
+				callback.accept(reader.result.asString());
 			}
 		});
 		reader.readAsText(blob);

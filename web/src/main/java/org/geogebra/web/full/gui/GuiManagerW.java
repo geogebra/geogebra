@@ -1418,6 +1418,8 @@ public class GuiManagerW extends GuiManager
 			final boolean asPreference) {
 		if (spreadsheetView != null) {
 			spreadsheetView.getXML(sb, asPreference);
+		} else {
+			super.getSpreadsheetViewXML(sb, asPreference);
 		}
 	}
 
@@ -2240,7 +2242,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public boolean isAlgebraViewActive() {
-		return getUnbundledToolbar().getAlgebraTab().isActive();
+		return getUnbundledToolbar().getTab(DockPanelData.TabIds.ALGEBRA).isActive();
 	}
 
 	@Override
