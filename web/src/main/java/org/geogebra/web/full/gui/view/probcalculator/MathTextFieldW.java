@@ -36,7 +36,7 @@ public class MathTextFieldW extends MathFieldEditor implements MathFieldListener
 		createMathField(this, model);
 		addBlurHandler(event -> {
 			this.asWidget().getParent().removeStyleName("focusState");
-			scrollHorizontally();
+			scrollCursorVisibleHorizontally();
 			notifyListeners(false);
 		});
 		addStyleName("mathTextField");

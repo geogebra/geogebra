@@ -133,14 +133,9 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			} else {
 				SVGResource image = getActionIcon(item.getIdentifier());
 				String itemText = loc.getMenu(item.getLocalizationKey());
-				AriaMenuItem menuItem;
 
-				if (image != null) {
-					menuItem = new AriaMenuItem(MainMenu.getMenuBarHtml(image, itemText),
-							true, item::performAction);
-				} else {
-					menuItem = new AriaMenuItem(itemText, true, item::performAction);
-				}
+				AriaMenuItem menuItem;
+				menuItem = new AriaMenuItem(itemText, image, item::performAction);
 				contextMenu.addItem(menuItem);
 			}
 		}
