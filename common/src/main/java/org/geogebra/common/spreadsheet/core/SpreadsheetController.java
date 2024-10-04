@@ -503,7 +503,11 @@ public final class SpreadsheetController {
 	}
 
 	private void deleteSelectedCells() {
-		// TODO implement single cell deletion (delete key)
+		getSelections().forEach(s -> {
+			TabularRange visibleRange = s.getRange().restrictTo(tabularData.numberOfRows(),
+					tabularData.numberOfColumns());
+			visibleRange.forEach(tabularData::removeContentAt);
+		});
 	}
 
 	private void cutSelections() {
