@@ -2643,19 +2643,19 @@ public class TeXParser {
 				break;
 			case 'p':
 				++pos;
-				options.addAlignment(TeXConstants.Align.LEFT, TeXConstants.Align.TOP, getArgAsLength());
+				options.addAlignment(TeXConstants.Align.LEFT, TeXConstants.Align.TOP, getArgAsLength(), true);
 				break;
 			case 'L': // JLM specific; avoids need for \newcolumntype
 				++pos;
-				options.addAlignment(TeXConstants.Align.LEFT, TeXConstants.Align.CENTER, getArgAsLength());
+				options.addAlignment(TeXConstants.Align.LEFT, getArgAsLength());
 				break;
 			case 'C': // JLM specific; avoids need for \newcolumntype
 				++pos;
-				options.addAlignment(TeXConstants.Align.CENTER, TeXConstants.Align.CENTER, getArgAsLength());
+				options.addAlignment(TeXConstants.Align.CENTER, getArgAsLength());
 				break;
 			case 'R': // JLM specific; avoids need for \newcolumntype
 				++pos;
-				options.addAlignment(TeXConstants.Align.RIGHT, TeXConstants.Align.CENTER, getArgAsLength());
+				options.addAlignment(TeXConstants.Align.RIGHT, getArgAsLength());
 				break;
 			case '|':
 				options.addVline(getNumberOf('|'));

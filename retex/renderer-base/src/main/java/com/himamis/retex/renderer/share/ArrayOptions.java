@@ -55,14 +55,16 @@ public final class ArrayOptions {
 		private final TeXConstants.Align alignment;
 		private final TeXConstants.Align vertAlignment;
 		private final TeXLength minWidth;
-		private List<Atom> separators;
+		private final List<Atom> separators;
+		private final boolean flowText;
 
 		Option(final TeXConstants.Align alignment, final TeXConstants.Align vertAlignment,
-				final TeXLength minWidth) {
+				final TeXLength minWidth, boolean flowText) {
 			this.alignment = alignment;
 			this.vertAlignment = vertAlignment;
 			this.separators = new ArrayList<>();
 			this.minWidth = minWidth;
+			this.flowText = flowText;
 		}
 
 		public TeXConstants.Align getAlignment() {
@@ -117,6 +119,10 @@ public final class ArrayOptions {
 
 		public TeXConstants.Align getVertAlignment() {
 			return vertAlignment;
+		}
+
+		public boolean isFlowText() {
+			return this.flowText;
 		}
 	}
 
@@ -181,15 +187,19 @@ public final class ArrayOptions {
 	}
 
 	public ArrayOptions addAlignment(final TeXConstants.Align alignment) {
-		return addAlignment(alignment, TeXConstants.Align.TOP, null);
+		return addAlignment(alignment, TeXConstants.Align.TOP, null, false);
+	}
+
+	public ArrayOptions addAlignment(final TeXConstants.Align alignment, TeXLength minWidth) {
+		return addAlignment(alignment, TeXConstants.Align.CENTER, minWidth, false);
 	}
 
 	public ArrayOptions addAlignment(final TeXConstants.Align alignment,
-			TeXConstants.Align vertAlignment, TeXLength minWidth) {
+			TeXConstants.Align vertAlignment, TeXLength minWidth, boolean flowText) {
 		if (options.isEmpty() || last().isAlignment()) {
 			addSeparator(VlineAtom.getEmpty());
 		}
-		options.add(new Option(alignment, vertAlignment, minWidth));
+		options.add(new Option(alignment, vertAlignment, minWidth, flowText));
 		return this;
 	}
 
@@ -200,7 +210,8 @@ public final class ArrayOptions {
 	public ArrayOptions addSeparator(final Atom a) {
 		final int s = options.size();
 		if (s == 0) {
-			final Option o = new Option(TeXConstants.Align.INVALID, TeXConstants.Align.TOP, null);
+			final Option o = new Option(TeXConstants.Align.INVALID,
+					TeXConstants.Align.TOP, null, false);
 			o.separators.add(a);
 			options.add(o);
 		} else {
@@ -243,5 +254,9 @@ public final class ArrayOptions {
 
 	public TeXConstants.Align getVertAlignment(int j) {
 		return options.get(j + 1).getVertAlignment();
+	}
+
+	public boolean isFlowText(int j) {
+		return options.get(j + 1).isFlowText();
 	}
 }
