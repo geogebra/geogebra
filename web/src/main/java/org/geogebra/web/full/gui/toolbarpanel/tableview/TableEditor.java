@@ -46,6 +46,9 @@ public class TableEditor implements UnhandledArrowListener {
 			if (mathTextField.asWidget().isAttached() && keepFocusIfEditing) {
 				return;
 			}
+			if (row > table.tableModel.getRowCount() + 1) {
+				return;
+			}
 			boolean newColumnAndRow = table.tableModel.getColumnCount() > column
 					&& table.tableModel.getRowCount() > row;
 			mathTextField.setText(newColumnAndRow

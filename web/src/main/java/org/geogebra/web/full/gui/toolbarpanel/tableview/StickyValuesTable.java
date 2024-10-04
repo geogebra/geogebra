@@ -249,10 +249,13 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 				el = getTableElementByClassName("." + className);
 			}
 			if (remove) {
-				Dom.addEventListener(el, "animationend", e -> reset());
+				Dom.addEventListener(el, "animationend", e -> resetAndRefreshEditor());
 			} else {
-				Dom.addEventListener(el, "animationend",
-						e -> removeAnimationStyleName(el, className));
+				if (!el.hasAttribute("data-listeners")) {
+					el.setAttribute("data-listeners", "true");
+					Dom.addEventListener(el, "animationend",
+							e -> removeAnimationStyleName(el, className));
+				}
 			}
 			columnsChange = 0;
 			rowsChange = 0;
@@ -274,6 +277,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		// In AbstractCellTable model each column remembers its index
 		// so deleting last column and let dataProvider do the rest we need.
 		getTable().removeColumn(getTable().getColumnCount() - 1);
+		resetAndRefreshEditor();
+	}
+
+	private void resetAndRefreshEditor() {
 		boolean wasAttached = editor.isAttached();
 		reset();
 		if (wasAttached && lastEdit != null) {
@@ -283,12 +290,16 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	private void refreshEditingState() {
 		editor.stopEditing();
-		if (tableModel.isColumnEditable(lastEdit.x)) {
+		if (isColumnFocusable(lastEdit.x) && (lastEdit.y <= tableModel.getRowCount())) {
 			controller.select(lastEdit.y, lastEdit.x);
 		} else {
 			app.hideKeyboard();
 		}
 		lastEdit = null;
+	}
+
+	private boolean isColumnFocusable(int column) {
+		return column == tableModel.getColumnCount() || tableModel.isColumnEditable(column);
 	}
 
 	private void addColumn(int column) {
@@ -438,7 +449,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			removedColumnByUser = column;
 		} else {
 			columnsChange = -1;
-			reset();
+			resetAndRefreshEditor();
 		}
 	}
 
@@ -460,7 +471,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		if (transitioning) {
 			removeRowsBeforeReset();
 		} else {
-			reset();
+			resetAndRefreshEditor();
 		}
 	}
 
