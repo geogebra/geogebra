@@ -50,7 +50,7 @@ import elemental2.dom.DomGlobal;
 /**
  * Singleton representing external header bar of unbundled apps.
  */
-public class GlobalHeader implements EventRenderable, ExamListener {
+public final class GlobalHeader implements EventRenderable, ExamListener {
 	/**
 	 * Singleton instance.
 	 */
