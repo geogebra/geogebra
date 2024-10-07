@@ -3,6 +3,7 @@ package org.geogebra.web.html5.euclidian;
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FocusUtil;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.timer.client.Timer;
@@ -91,7 +92,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	 */
 	@Override
 	public void readText(String text) {
-		if (!Browser.needsAccessibilityView()) {
+		if (!Browser.needsAccessibilityView() && !isDomSliderActive()) {
 			readTextImmediate(text);
 		}
 	}
@@ -121,6 +122,12 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 		read(text);
 		FocusUtil.focusNoScroll(anchor);
 		scrollElement.scrollTop = scrollTop;
+	}
+
+	private boolean isDomSliderActive() {
+		Element activeElement = Dom.getActiveElement();
+		return activeElement != null && activeElement.hasTagName("INPUT")
+				&& "range".equals(activeElement.getAttribute("type"));
 	}
 
 	private void updateScrollElement() {
