@@ -22,6 +22,7 @@ $menuWidth: 320px;
 		transition-property: left;
 		overflow: auto;
 		overflow-x: hidden;
+		pointer-events: initial;
 
 		&.transitionIn {
 			transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
@@ -169,6 +170,7 @@ $menuWidth: 320px;
 		overflow: hidden;
 		position: absolute;
 		top: 0;
+		pointer-events: none;
 	}
 }
 
