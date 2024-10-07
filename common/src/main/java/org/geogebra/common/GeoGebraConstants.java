@@ -195,7 +195,7 @@ public interface GeoGebraConstants {
 	/** GeoGebraTube beta URL, used when Feature.TUBE_BETA == true */
 	public final static String GEOGEBRA_WEBSITE_BETA = "https://beta.geogebra.org/";
 
-	String GEOGEBRA_HELP_WEBSITE = "https://wiki.geogebra.org/help/";
+	String GEOGEBRA_HELP_WEBSITE = "https://geogebra.github.io/docs/manual/";
 
 	/**
 	 * minimal precision in LocusEquation: by default rounding is at least 4

@@ -1972,11 +1972,11 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public String getTooltipURL(int mode) {
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
-			return getHelpURL(Help.GENERIC, "Custom_Tools");
+			return getHelpURL(Help.TOOL, "Custom_Tools");
 		}
 
 		return getHelpURL(Help.TOOL,
-				EuclidianConstants.getModeTextSimple(mode));
+				EuclidianConstants.getModeHelpPage(mode));
 	}
 
 	@Override
