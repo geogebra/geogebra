@@ -39,6 +39,7 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -340,8 +341,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertEquals(1, completion.get().syntaxes.size());
 	}
 
-	// https://geogebra-jira.atlassian.net/browse/APPS-5912
 	@Test
+	@Issue("APPS-5912")
 	public void testCommandRestrictionsWhenStartingDifferentExams() {
 		setInitialApp(SuiteSubApp.GRAPHING);
 
