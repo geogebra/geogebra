@@ -508,6 +508,7 @@ public final class SpreadsheetController {
 					tabularData.numberOfColumns());
 			visibleRange.forEach(tabularData::removeContentAt);
 		});
+		storeUndoInfo();
 	}
 
 	private void cutSelections() {
