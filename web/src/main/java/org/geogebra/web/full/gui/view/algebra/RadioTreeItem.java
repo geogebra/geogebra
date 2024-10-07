@@ -1590,7 +1590,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		mf.setFontSize(getFontSize());
 		mf.getInternal().registerMathFieldInternalListener(syntaxController);
 		mf.setPixelRatio(app.getPixelRatio());
-		mf.setScale(app.getGeoGebraElement().getScaleX());
 		mf.setOnBlur((blurEvent) -> {
 			if (toast != null) {
 				toast.hide();
@@ -1856,7 +1855,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	public void setPixelRatio(double pixelRatio) {
 		if (mf != null) {
 			mf.setPixelRatio(pixelRatio);
-			mf.setScale(app.getGeoGebraElement().getScaleX());
 			mf.repaint();
 		}
 	}
@@ -1947,7 +1945,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	public void adjustCaret(int x, int y) {
 		if (mf != null) {
-			mf.adjustCaret(x, y);
+			mf.adjustCaret(x, y, app.getGeoGebraElement().getScaleX());
 		}
 	}
 
