@@ -80,6 +80,8 @@ public interface AccessibilityManagerInterface {
 
 	void register(MayHaveFocus focusable);
 
+	void unregister(MayHaveFocus focusable);
+
 	void setTabOverGeos();
 
 	void readSliderUpdate(GeoNumeric geo);

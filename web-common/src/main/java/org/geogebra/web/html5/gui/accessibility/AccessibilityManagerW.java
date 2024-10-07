@@ -138,6 +138,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
+	public void unregister(MayHaveFocus focusable) {
+		components.removeIf(c -> componentComparator.compare(focusable, c) == 0);
+	}
+
+	@Override
 	public void setTabOverGeos() {
 		geoTabber.setFocused(true);
 		app.getSelectionManager().resetKeyboardSelection();
