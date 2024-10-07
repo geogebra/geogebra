@@ -9,7 +9,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.StyleInjector;
 import org.gwtproject.dom.client.Element;
 
-import elemental2.dom.Document;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLStyleElement;
 import elemental2.dom.ScrollToOptions;
