@@ -41,6 +41,7 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -342,6 +343,26 @@ public class ExamControllerTests implements ExamControllerDelegate {
 						.findFirst();
 		assertTrue(completion.isPresent());
 		assertEquals(1, completion.get().syntaxes.size());
+	}
+
+	@Test
+	@Issue("APPS-5912")
+	public void testCommandRestrictionsWhenStartingDifferentExams() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+
+		examController.prepareExam();
+		examController.startExam(ExamType.GENERIC, null);
+		assertNotNull(evaluate("f(x) = x"));
+		assertNotNull(evaluate("Derivative(f)"));
+		examController.finishExam();
+		examController.exitExam();
+
+		examController.prepareExam();
+		examController.startExam(ExamType.IB, null);
+		assertNotNull(evaluate("f(x) = x"));
+		assertNull(evaluate("Derivative(f)"));
+		examController.finishExam();
+		examController.exitExam();
 	}
 
 	// -- ExamControllerDelegate --
