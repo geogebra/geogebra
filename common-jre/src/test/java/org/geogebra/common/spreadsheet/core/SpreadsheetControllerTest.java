@@ -10,6 +10,7 @@ import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.IN
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -404,6 +405,14 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
         fakeDownArrowPress();
         assertEquals(101, tabularData.numberOfRows());
         assertEquals(102, tabularData.numberOfColumns());
+    }
+
+    @Test
+    public void deleteShouldRemoveCells() {
+        tabularData.setContent(1, 3, "1");
+        selectCells(1, 3, 1, 3);
+        controller.handleKeyPressed(JavaKeyCodes.VK_DELETE, "", Modifiers.NONE);
+        assertNull(tabularData.contentAt(1, 3));
     }
 
     // Helpers
