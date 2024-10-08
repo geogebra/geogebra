@@ -86,7 +86,7 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		NativePointerEvent ptr = Js.uncheckedCast(evt);
 		Node target = Js.uncheckedCast(evt.target);
 		if (!"CANVAS".equals(target.nodeName)) {
-			mathField.adjustCaret((int) ptr.getOffsetX(), (int) ptr.getOffsetY());
+			mathField.adjustCaret((int) ptr.getOffsetX(), (int) ptr.getOffsetY(), 1);
 		}
 	}
 

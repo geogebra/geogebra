@@ -791,4 +791,8 @@ public class AppletParameters {
 		return Arrays.stream(getStringDataParam("customToolbox", "").split(","))
 				.map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
 	}
+
+	public double getMaxHeight() {
+		return getIntDataParam("maxHeight", -1);
+	}
 }

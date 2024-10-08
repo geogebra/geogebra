@@ -386,7 +386,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	}
 
 	public void adjustCaret(double x, double y) {
-		mathField.adjustCaret((int) x, (int) y);
+		mathField.adjustCaret((int) x, (int) y, 1);
 	}
 
 	public void selectEntryAt(int x, int y) {
