@@ -1291,7 +1291,7 @@ public abstract class GlobalKeyDispatcher {
 
 		case CONTEXT_MENU:
 		case F10:
-			if ((isShiftDown || key == KeyCodes.CONTEXT_MENU && keyboardShortcutsEnabled())
+			if ((isShiftDown || key == KeyCodes.CONTEXT_MENU) && keyboardShortcutsEnabled()
 					&& app.isAlgebraViewFocused()) {
 				app.getGuiManager().openMenuInAVFor(geos.get(0));
 				return true;

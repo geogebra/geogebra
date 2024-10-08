@@ -160,10 +160,10 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				handled = true;
 			}
 			if (isControlKeyDown(event)) {
-				handled = handleCtrlKeys(KeyCodes.translateGWTcode(event.getKeyCode()),
+				handled = handleCtrlKeys(NavigatorUtil.translateGWTcode(event.getKeyCode()),
 						event.getShiftKey(), false, true);
 			}
-			KeyCodes kc = KeyCodes.translateGWTcode(event.getKeyCode());
+			KeyCodes kc = NavigatorUtil.translateGWTcode(event.getKeyCode());
 			if (kc == KeyCodes.TAB) {
 				if (!escPressed) {
 					handled = handleTab(event.getShiftKey());
@@ -220,7 +220,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	@Override
 	public void onKeyPress(KeyPressEvent event) {
 		setDownKeys(event);
-		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeEvent()
+		KeyCodes kc = NavigatorUtil.translateGWTcode(event.getNativeEvent()
 				.getKeyCode());
 		// Do not prevent default for the v key, otherwise paste events are not fired
 		if (kc != KeyCodes.TAB && event.getCharCode() != 'v'
@@ -249,7 +249,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 *            event
 	 */
 	public void handleGeneralKeys(KeyUpEvent event) {
-		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
+		KeyCodes kc = NavigatorUtil.translateGWTcode(event.getNativeKeyCode());
 
 		boolean handled = handleGeneralKeys(kc,
 				event.isShiftKeyDown(),
@@ -273,7 +273,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 */
 	public boolean handleSelectedGeosKeys(NativeEvent event) {
 		return handleSelectedGeosKeys(
-				KeyCodes.translateGWTcode(event
+				NavigatorUtil.translateGWTcode(event
 						.getKeyCode()), selection.getSelectedGeos(),
 				event.getShiftKey(), event.getCtrlKey(), event.getAltKey(),
 				false);
@@ -281,7 +281,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
-		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
+		KeyCodes kc = NavigatorUtil.translateGWTcode(event.getNativeKeyCode());
 		setDownKeys(event);
 
 		boolean handled = handleSelectedGeosKeys(event.getNativeEvent());

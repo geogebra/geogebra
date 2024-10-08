@@ -222,23 +222,6 @@ public enum KeyCodes {
 	}
 
 	/**
-	 * @param gwtKeyCode
-	 *            native key code
-	 * @return KeyCodes wrapper
-	 */
-	public static KeyCodes translateGWTcode(int gwtKeyCode) {
-		for (KeyCodes l : KeyCodes.values()) {
-			if (l.GWTKey == gwtKeyCode) {
-				return l;
-			}
-		}
-
-		// Log.warn("GWT keycode not found:" + gwtKeyCode);
-		return UNKNOWN;
-
-	}
-
-	/**
 	 * @param javaKeyCode
 	 *            java key code
 	 * @return KeyCodes wrapper
@@ -249,14 +232,15 @@ public enum KeyCodes {
 				return l;
 			}
 		}
-
-		// Log.warn("Java keycode not found:" + javaKeyCode);
 		return UNKNOWN;
-
 	}
 
 	public int getJavaKeyCode() {
 		return javaKey;
+	}
+
+	public int getGWTKeyCode() {
+		return GWTKey;
 	}
 
 }
