@@ -1363,6 +1363,9 @@ public class GgbAPIW extends GgbAPI {
 		return this.fileLoadingError;
 	}
 
+	/**
+	 * If this app is in fullscreen mode (emulated or native), leave that mode
+	 */
 	public void exitFullScreen() {
 		AppW appW = (AppW) app;
 		if (isFullScreenActive()) {
