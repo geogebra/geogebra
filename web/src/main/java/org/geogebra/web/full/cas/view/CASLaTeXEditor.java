@@ -323,11 +323,6 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	}
 
 	@Override
-	public void onInsertString() {
-		// nothing to do
-	}
-
-	@Override
 	public boolean onEscape() {
 		// TODO Auto-generated method stub
 		return false;

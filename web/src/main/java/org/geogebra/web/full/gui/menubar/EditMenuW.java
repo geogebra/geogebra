@@ -72,14 +72,14 @@ public class EditMenuW extends Submenu {
 				addSeparator();
 				// invert selection menu
 				addItem(MainMenu.getMenuBarHtmlEmptyIcon(
-						loc.getMenu("InvertSelection")), true,
+						loc.getMenu("InvertSelection"),
 						new MenuCommand(getApp()) {
 
 							@Override
 							public void doExecute() {
 								selection.invertSelection();
 							}
-						});
+						}));
 			}
 			if (layer != -1) {
 				addShowHideItem();
@@ -94,44 +94,44 @@ public class EditMenuW extends Submenu {
 	}
 
 	private void addShowHideLabelsItem() {
-		addItem(MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("ShowHideLabels")),
-				true,
+		addItem(MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("ShowHideLabels"),
+
 				new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
 						selection.showHideSelectionLabels();
 					}
-				});
+				}));
 	}
 
 	private void addShowHideItem() {
-		addItem(MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("ShowHide")),
-				true, new MenuCommand(getApp()) {
+		addItem(MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("ShowHide"),
+				new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
 						selection.showHideSelection();
 					}
-				});
+				}));
 	}
 
 	private void addDeleteItem() {
-		addItem(MainMenu.getMenuBarHtml(
+		addItem(MainMenu.getMenuBarItem(
 				MaterialDesignResources.INSTANCE.delete_black(),
-				loc.getMenu("Delete")), true, new MenuCommand(getApp()) {
+				loc.getMenu("Delete"), new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
 						getApp().deleteSelectedObjects(false);
 					}
-				});
+				}));
 	}
 
 	private void addPasteItem() {
-		addItem(MainMenu.getMenuBarHtml(
+		addItem(MainMenu.getMenuBarItem(
 				MaterialDesignResources.INSTANCE.paste_black(),
-				loc.getMenu("Paste")), true, new MenuCommand(getApp()) {
+				loc.getMenu("Paste"), new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
@@ -139,13 +139,13 @@ public class EditMenuW extends Submenu {
 						getApp().getCopyPaste().pasteFromXML(getApp());
 						getApp().setDefaultCursor();
 					}
-				});
+				}));
 	}
 
 	private void addCopyToClipboard() {
-		addItem(MainMenu.getMenuBarHtml(
+		addItem(MainMenu.getMenuBarItem(
 				MaterialDesignResources.INSTANCE.copy_black(),
-				loc.getMenu("DrawingPadToClipboard")), true,
+				loc.getMenu("DrawingPadToClipboard"),
 				new MenuCommand(getApp()) {
 
 					@Override
@@ -154,14 +154,14 @@ public class EditMenuW extends Submenu {
 						app.getToolTipManager().showBottomMessage(
 								loc.getMenu("GraphicsViewCopiedToClipboard"), app);
 					}
-				});
+				}));
 	}
 
 	private void addSelectAllItem() {
 		// select all menu
-		addItem(MainMenu.getMenuBarHtml(
+		addItem(MainMenu.getMenuBarItem(
 				MaterialDesignResources.INSTANCE.select_all_black(),
-				loc.getMenu("SelectAll")), true,
+				loc.getMenu("SelectAll"),
 				new MenuCommand(getApp()) {
 
 					@Override
@@ -170,21 +170,21 @@ public class EditMenuW extends Submenu {
 							selection.selectAll(-1);
 						}
 					}
-				});
+				}));
 	}
 
 	private void addPredecessorsItem() {
 		if (selection.hasPredecessors()) {
 			// select ancestors menu
 			addItem(MainMenu
-					.getMenuBarHtmlEmptyIcon(loc.getMenu("SelectAncestors")), true,
+					.getMenuBarHtmlEmptyIcon(loc.getMenu("SelectAncestors"),
 					new MenuCommand(getApp()) {
 
 						@Override
 						public void doExecute() {
 							selection.selectAllPredecessors();
 						}
-					});
+					}));
 		}
 	}
 
@@ -192,14 +192,14 @@ public class EditMenuW extends Submenu {
 		if (selection.hasDescendants()) {
 			// select descendants menu
 			addItem(MainMenu.getMenuBarHtmlEmptyIcon(
-					loc.getMenu("SelectDescendants")), true,
+					loc.getMenu("SelectDescendants"),
 					new MenuCommand(getApp()) {
 
 						@Override
 						public void doExecute() {
 							selection.selectAllDescendants();
 						}
-					});
+					}));
 		}
 	}
 
@@ -207,7 +207,7 @@ public class EditMenuW extends Submenu {
 		if (selection.getSelectedLayer() >= 0
 				&& getApp().getMaxLayerUsed() > 0) {
 			addItem(MainMenu.getMenuBarHtmlEmptyIcon(
-					loc.getMenu("SelectCurrentLayer")), true,
+					loc.getMenu("SelectCurrentLayer"),
 					new MenuCommand(getApp()) {
 
 						@Override
@@ -219,34 +219,33 @@ public class EditMenuW extends Submenu {
 																// layer
 							}
 						}
-					});
+					}));
 		}
 	}
 
 	private void addPropertiesItem() {
 		addItem(MainMenu
-				.getMenuBarHtml(
+				.getMenuBarItem(
 						MaterialDesignResources.INSTANCE.gear(),
 				!getApp().getKernel().isEmpty() ? loc.getMenu("Properties")
 						: getApp().isUnbundledOrWhiteboard()
 								? loc.getMenu("Settings")
-										: loc.getMenu("Options") + " ..."),
-				true, new MenuCommand(getApp()) {
+										: loc.getMenu("Options") + " ...",
+				new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
 						getApp().getDialogManager()
 								.showPropertiesDialog(OptionType.OBJECTS, null);
 					}
-				});
+				}));
 	}
 
 	private void addCopy() {
 		addItem(MainMenu
-				.getMenuBarHtml(
+				.getMenuBarItem(
 						MaterialDesignResources.INSTANCE.copy_black(),
-						loc.getMenu("Copy")),
-				true, new MenuCommand(getApp()) {
+						loc.getMenu("Copy"), new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
@@ -260,16 +259,16 @@ public class EditMenuW extends Submenu {
 							getApp().setDefaultCursor();
 						}
 					}
-				});
+				}));
 	}
 
 	private void addUndoRedo() {
 		// undo menu
 		addItem(MainMenu
-				.getMenuBarHtml(
+				.getMenuBarItem(
 						MaterialDesignResources.INSTANCE.undo_black(),
-						loc.getMenu("Undo")),
-				true, new MenuCommand(getApp()) {
+						loc.getMenu("Undo"),
+				new MenuCommand(getApp()) {
 
 					@Override
 					public void execute() {
@@ -277,13 +276,13 @@ public class EditMenuW extends Submenu {
 							getApp().getGuiManager().undo();
 						}
 					}
-				});
+				}));
 		// redo menu
 		addItem(MainMenu
-				.getMenuBarHtml(
+				.getMenuBarItem(
 						MaterialDesignResources.INSTANCE.redo_black(),
-						loc.getMenu("Redo")),
-				true, new MenuCommand(getApp()) {
+						loc.getMenu("Redo"),
+				new MenuCommand(getApp()) {
 
 					@Override
 					public void execute() {
@@ -291,7 +290,7 @@ public class EditMenuW extends Submenu {
 							getApp().getGuiManager().redo();
 						}
 					}
-				});
+				}));
 	}
 
 	/**

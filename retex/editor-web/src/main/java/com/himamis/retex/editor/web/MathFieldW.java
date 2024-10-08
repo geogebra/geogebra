@@ -183,7 +183,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}
 		SelectionBox.touchSelection = false;
 		mathFieldInternal.setSelectionMode(true);
-		mathFieldInternal.setFieldListener(listener);
+		mathFieldInternal.addMathFieldListener(listener);
 		mathFieldInternal.setType(TeXFont.SANSSERIF);
 		mathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel));
 		initTimer();
@@ -1065,10 +1065,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public void insertFunction(String text) {
 		mathFieldInternal.insertFunction(text);
-	}
-
-	public void checkEnterReleased(Runnable r) {
-		mathFieldInternal.checkEnterReleased(r);
 	}
 
 	public void setPlainTextMode(boolean plainText) {

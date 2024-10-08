@@ -3,7 +3,8 @@ package org.geogebra.web.full.gui.view.spreadsheet;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
+import org.geogebra.common.spreadsheet.core.SelectionType;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.util.AdvancedFocusPanel;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -203,7 +204,7 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 			 * .getStyle();
 			 */
 
-			if (table.getSelectionType() == MyTableInterface.COLUMN_SELECT) {
+			if (table.getSelectionType() == SelectionType.COLUMNS) {
 				// setBgColorIfNeeded(s, defaultBackground);
 				updateCellSelection(false, rowIndex);
 			} else {
@@ -245,10 +246,10 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 	 */
 	private int getResizingRow(GPoint p, int boundary) {
 		int resizeRow = -1;
-		GPoint point = table.getIndexFromPixel(0, p.y);
+		SpreadsheetCoords point = table.getIndexFromPixel(0, p.y);
 		if (point != null) {
 			// test if mouse is 3 pixels from row boundary
-			int cellRow = point.getY();
+			int cellRow = point.row;
 
 			if (cellRow >= 0) {
 				GRectangle r = table.getCellRect(cellRow, 0, false);
@@ -308,7 +309,7 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 			if (shiftDown) {
 				// extend the column selection
 				int row = table.getLeadSelectionRow();
-				table.setSelectionType(MyTableInterface.ROW_SELECT);
+				table.setSelectionType(SelectionType.ROWS);
 				table.changeSelection(row - 1, -1, true);
 			} else {
 				// select topmost cell in first column left of the selection
@@ -325,7 +326,7 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 			if (shiftDown) {
 				// extend the row selection
 				int row = table.getLeadSelectionRow();
-				table.setSelectionType(MyTableInterface.ROW_SELECT);
+				table.setSelectionType(SelectionType.ROWS);
 				table.changeSelection(row + 1, -1, true);
 			} else {
 				// select topmost cell in first column left of the selection
@@ -431,17 +432,17 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 				return;
 			}
 
-			GPoint point = table.getIndexFromPixel(x, y);
+			SpreadsheetCoords point = table.getIndexFromPixel(x, y);
 			if (point != null) {
 
-				if (table.getSelectionType() != MyTableInterface.ROW_SELECT) {
-					table.setSelectionType(MyTableInterface.ROW_SELECT);
+				if (table.getSelectionType() != SelectionType.ROWS) {
+					table.setSelectionType(SelectionType.ROWS);
 					// ?//requestFocusInWindow();
 				}
 
 				if (shiftPressed) {
 					if (row0 != -1) {
-						int row = point.getY();
+						int row = point.row;
 						table.setRowSelectionInterval(row0, row);
 					}
 				}
@@ -449,7 +450,7 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 				// ctrl-select is handled in table
 
 				else {
-					row0 = point.getY();
+					row0 = point.row;
 					table.setRowSelectionInterval(row0, row0);
 				}
 				table.repaint();
@@ -497,9 +498,9 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 					renderSelection();
 				}
 			} else { // select row
-				GPoint point = table.getIndexFromPixel(x, y);
+				SpreadsheetCoords point = table.getIndexFromPixel(x, y);
 				if (point != null) {
-					int row = point.getY();
+					int row = point.row;
 					table.setRowSelectionInterval(row0, row);
 
 					// G.Sturr 2010-4-4
@@ -650,12 +651,12 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 	}
 
 	@Override
-	public void updateSelection(GPoint p) {
+	public void updateSelection(SpreadsheetCoords p) {
 		// switch to row selection mode and select row
-		if (table.getSelectionType() != MyTableInterface.ROW_SELECT) {
-			table.setSelectionType(MyTableInterface.ROW_SELECT);
+		if (table.getSelectionType() != SelectionType.ROWS) {
+			table.setSelectionType(SelectionType.ROWS);
 		}
-		table.setRowSelectionInterval(p.getY(), p.getY());
+		table.setRowSelectionInterval(p.row, p.row);
 		renderSelection();
 	}
 }

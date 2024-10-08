@@ -20,7 +20,7 @@ public class MenuCommand implements Command {
  
 	@Override
 	public void execute() {
-		app.toggleMenu();
+		app.hideMenu();
 		this.doExecute();
 	}
 

@@ -144,7 +144,7 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 		init();
 		drawAndSelectStroke();
 		ArrayList<GeoElement> geos = selection.getGeos();
-		EuclidianStyleBarStatic.applyColor(GColor.GREEN, 1, getApp(), geos);
+		EuclidianStyleBarStatic.applyColorSplitStrokes(GColor.GREEN, 1, getApp(), geos);
 
 		assertEquals(GColor.GREEN, lookup("stroke2").getObjectColor());
 		assertNotEquals(GColor.GREEN, lookup("stroke3").getObjectColor());
@@ -155,7 +155,7 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 		init();
 		drawAndSelectStroke();
 		ArrayList<GeoElement> geos = selection.getGeos();
-		EuclidianStyleBarStatic.applyLineStyle(4, 10, getApp(), geos);
+		EuclidianStyleBarStatic.applyLineStyleSplitStrokes(4, 10, getApp(), geos);
 
 		getKernel().undo();
 		assertNotEquals(30, lookup("stroke2").getLineType());

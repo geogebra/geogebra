@@ -66,59 +66,59 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 		final String tutorialURL = app.getLocalization().getTutorialURL(app.getConfig());
 		if (!StringUtil.empty(tutorialURL)) {
 			tutorials = addItem(
-					MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.tutorial_black(),
-							loc.getMenu("Tutorials")),
-					true, new MenuCommand(app) {
+					MainMenu.getMenuBarItem(MaterialDesignResources.INSTANCE.tutorial_black(),
+							loc.getMenu("Tutorials"),
+					new MenuCommand(app) {
 
 						@Override
 						public void doExecute() {
 							app.getFileManager().open(tutorialURL);
 						}
-					});
+					}));
 		}
 	}
 
 	private void addManualItem(final AppW app, Localization loc) {
 		manual = addItem(
-				MainMenu.getMenuBarHtml(
+				MainMenu.getMenuBarItem(
 						MaterialDesignResources.INSTANCE.manual_black(),
-						loc.getMenu("Manual")),
-				true, new MenuCommand(app) {
+						loc.getMenu("Manual"),
+				new MenuCommand(app) {
 
 					@Override
 					public void doExecute() {
 						app.getGuiManager().openHelp(App.WIKI_MANUAL);
 
 					}
-				});
+				}));
 	}
 
 	private void addForumItem(final AppW app, Localization loc) {
 		forum = addItem(
-				MainMenu.getMenuBarHtml(
+				MainMenu.getMenuBarItem(
 						SharedResources.INSTANCE.icon_help_black(),
-						loc.getMenu("Help")),
-				true, new MenuCommand(app) {
+						loc.getMenu("Help"),
+				new MenuCommand(app) {
 
 					@Override
 					public void doExecute() {
 						app.getFileManager().open(GeoGebraConstants.FORUM_URL);
 					}
-				});
+				}));
 	}
 
 	private void addReportBugItem(final AppW app, Localization loc) {
 		bug = addItem(
-				MainMenu.getMenuBarHtml(
+				MainMenu.getMenuBarItem(
 						MaterialDesignResources.INSTANCE.bug_report_black(),
-						loc.getMenu("ReportBug")),
-				true, new MenuCommand(app) {
+						loc.getMenu("ReportBug"),
+				new MenuCommand(app) {
 
 					@Override
 					public void doExecute() {
 						app.getFileManager().open(GeoGebraConstants.REPORT_BUG_URL);
 					}
-				});
+				}));
 	}
 
 	private void addAboutItem() {

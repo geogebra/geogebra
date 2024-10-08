@@ -4,7 +4,6 @@ import org.geogebra.common.gui.view.table.ScientificDataTableController;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
-import org.geogebra.web.full.main.activity.ScientificActivity;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
@@ -26,8 +25,8 @@ public class DefineFunctionsDialogTV extends ComponentDialog {
 	public DefineFunctionsDialogTV(AppW app, DialogData dialogData) {
 		super(app, dialogData, false, true);
 
-		GeoGebraActivity activity = ((AppWFull) app).getActivity();
-		controller = ((ScientificActivity) activity).getTableController();
+		GeoGebraActivity activity = ((AppWFull) app).getCurrentActivity();
+		controller = activity.getTableController();
 
 		addStyleName("defineFunctionsDialog");
 		buildGUI();

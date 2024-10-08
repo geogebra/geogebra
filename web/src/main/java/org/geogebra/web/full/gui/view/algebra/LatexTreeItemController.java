@@ -149,18 +149,12 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public boolean onArrowKeyPressed(int keyCode) {
-
 		if (isSuggesting()) {
 			autocomplete.onArrowKeyPressed(keyCode);
 			return true;
 		}
 		item.onCursorMove();
 		return false;
-	}
-
-	@Override
-	public void onInsertString() {
-		// nothing to do
 	}
 
 	/**
@@ -238,7 +232,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		retexListener = new RetexKeyboardListener(item.canvas, getMathField());
 		retexListener.setAcceptsCommandInserts(true);
 		if (show) {
-			app.getAppletFrame().showKeyBoard(true, item, false);
+			app.getAppletFrame().showKeyboard(true, item, false);
 		}
 	}
 

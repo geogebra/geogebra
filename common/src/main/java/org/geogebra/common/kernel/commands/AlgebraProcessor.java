@@ -404,7 +404,6 @@ public class AlgebraProcessor {
 				// so we don't need to call computeOutput,
 				// which also causes marble crashes
 
-				casCell.update();
 			} catch (Exception e) {
 				app.getEventDispatcher().enableListeners();
 				Log.debug(e);
@@ -1787,7 +1786,21 @@ public class AlgebraProcessor {
 	 * @return resulting number
 	 */
 	public GeoNumberValue evaluateToNumeric(String str, ErrorHandler handler) {
+		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(), true);
+		return evaluateToNumeric(str, handler, info);
+	}
 
+	/**
+	 * Parses given String str and tries to evaluate it to a NumberValue Returns
+	 * null if something went wrong.
+	 *
+	 * @param str
+	 *            string to parse
+	 * @param handler
+	 *            callback for handling errors
+	 * @return resulting number
+	 */
+	public GeoNumberValue evaluateToNumeric(String str, ErrorHandler handler, EvalInfo info) {
 		if (str == null || "".equals(str)) {
 			ErrorHelper.handleInvalidInput(str, loc, handler);
 			return new GeoNumeric(cons, Double.NaN);
@@ -1799,7 +1812,7 @@ public class AlgebraProcessor {
 		GeoNumberValue num = null;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
-			GeoElementND[] temp = processValidExpression(ve);
+			GeoElementND[] temp = processValidExpression(ve, info);
 
 			if (temp[0] instanceof GeoNumberValue) {
 				num = (GeoNumberValue) temp[0];
@@ -3175,14 +3188,19 @@ public class AlgebraProcessor {
 
 		// ELSE: resolve variables and evaluate expressionnode
 		n.resolveVariables(info);
+
+		// Check for allowed expressions again, as resolving variables might end up creating
+		// expressions that otherwise are not allowed. See APPS-5138
+		if (!isExpressionAllowed(n)) {
+			return null;
+		}
+
 		if (n.isLeaf() && n.getLeft().isExpressionNode()) {
 			// we changed f' to f'(x) -> clean double wrap
-
-			boolean wasPoint = n.isForcedPoint();
-			n = n.getLeft().wrap();
-			if (wasPoint) {
-				n.setForcePoint();
-			}
+			ExpressionNode unwrapped = n.getLeft().wrap();
+			n.copyAttributesTo(unwrapped);
+			unwrapped.setLabels(n.getLabels());
+			n = unwrapped;
 		}
 
 		String label = n.getLabel();

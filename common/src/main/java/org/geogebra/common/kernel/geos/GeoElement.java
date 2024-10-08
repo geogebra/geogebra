@@ -34,7 +34,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -104,6 +103,7 @@ import org.geogebra.common.plugin.JsReference;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.script.Script;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.IndexHTMLBuilder;
@@ -218,8 +218,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	// on change: see setVisualValues()
 
 	// spreadsheet specific properties
-	private GPoint spreadsheetCoords;
-	private GPoint oldSpreadsheetCoords;
+	private SpreadsheetCoords spreadsheetCoords;
+	private SpreadsheetCoords oldSpreadsheetCoords;
 
 	/** condition to show object */
 	protected GeoBoolean condShowObject;
@@ -1721,14 +1721,13 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		case TOOLTIP_NEXTCELL: // tooltip is the next cell to the right
 								// (spreadsheet objects only)
 			String cellLabel = getLabel(tpl);
-			final GPoint coords = GeoElementSpreadsheet
+			final SpreadsheetCoords coords = GeoElementSpreadsheet
 					.getSpreadsheetCoordsForLabel(cellLabel);
 			if (coords == null) {
 				return "";
 			}
-			coords.x++;
-			cellLabel = GeoElementSpreadsheet.getSpreadsheetCellName(coords.x,
-					coords.y);
+			cellLabel = GeoElementSpreadsheet.getSpreadsheetCellName(coords.column + 1,
+					coords.row);
 			if (cellLabel == null) {
 				return "";
 			}
@@ -2539,21 +2538,21 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			// init old and current spreadsheet coords
 			if (spreadsheetCoords == null) {
 				oldSpreadsheetCoords = null;
-				spreadsheetCoords = new GPoint();
+				spreadsheetCoords = new SpreadsheetCoords();
 			} else {
 				if (oldSpreadsheetCoords == null) {
-					oldSpreadsheetCoords = new GPoint();
+					oldSpreadsheetCoords = new SpreadsheetCoords();
 				}
 				oldSpreadsheetCoords.setLocation(spreadsheetCoords);
 			}
 
 			// we need to also support wrapped GeoElements like
 			// $A4 that are implemented as dependent geos (using ExpressionNode)
-			final GPoint p = GeoElementSpreadsheet.spreadsheetIndices(
+			final SpreadsheetCoords p = GeoElementSpreadsheet.spreadsheetIndices(
 					getLabel(StringTemplate.defaultTemplate));
 
-			if ((p.x >= 0) && (p.y >= 0)) {
-				spreadsheetCoords.setLocation(p.x, p.y);
+			if ((p.column >= 0) && (p.row >= 0)) {
+				spreadsheetCoords.setLocation(p);
 			} else {
 				spreadsheetCoords = null;
 			}
@@ -2576,8 +2575,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public String getSpreadsheetLabelWithDollars(final boolean colDollar,
 			final boolean rowDollar) {
 		final String colName = GeoElementSpreadsheet
-				.getSpreadsheetColumnName(spreadsheetCoords.x);
-		final String rowName = Integer.toString(spreadsheetCoords.y + 1);
+				.getSpreadsheetColumnName(spreadsheetCoords.column);
+		final String rowName = Integer.toString(spreadsheetCoords.row + 1);
 
 		final StringBuilder sb = new StringBuilder(label.length() + 2);
 		if (colDollar) {
@@ -5351,7 +5350,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * 
 	 * @return position of this GeoElement in GeoGebra's spreadsheet view.
 	 */
-	public GPoint getSpreadsheetCoords() {
+	public SpreadsheetCoords getSpreadsheetCoords() {
 		if (spreadsheetCoords == null) {
 			updateSpreadsheetCoordinates();
 		}
@@ -5361,7 +5360,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	/**
 	 * @return old spreadsheet coords
 	 */
-	public GPoint getOldSpreadsheetCoords() {
+	public SpreadsheetCoords getOldSpreadsheetCoords() {
 		return oldSpreadsheetCoords;
 	}
 

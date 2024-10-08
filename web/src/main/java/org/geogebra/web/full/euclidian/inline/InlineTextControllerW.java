@@ -200,6 +200,11 @@ public class InlineTextControllerW implements InlineTextController {
 				geo.getKernel().notifyUpdateVisualStyle(geo, GProperty.TEXT_SELECTION);
 				geo.getKernel().notifyRepaint();
 			}
+
+			@Override
+			public void onEscape() {
+				toBackground();
+			}
 		});
 	}
 

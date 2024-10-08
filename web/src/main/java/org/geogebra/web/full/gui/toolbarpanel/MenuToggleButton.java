@@ -1,9 +1,11 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.ToggleButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.GlobalHeader;
@@ -27,6 +29,7 @@ public class MenuToggleButton extends ToggleButton
 		super(MaterialDesignResources.INSTANCE.toolbar_menu_black(),
 				MaterialDesignResources.INSTANCE.toolbar_menu_black());
 		removeStyleName("ToggleButton");
+		new FocusableWidget(AccessibilityGroup.MENU, null, this).attachTo(app);
 		this.appW = app;
 		buildUI();
 	}

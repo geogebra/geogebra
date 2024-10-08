@@ -42,8 +42,10 @@ import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -75,6 +77,7 @@ import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
@@ -5239,5 +5242,21 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	public GeoFunctionConverter getFunctionConverter() {
 		return functionConverter;
+	}
+
+	/**
+	 * Reset command, operation and parsing filters from current config
+	 */
+	public void resetFiltersFromConfig() {
+		AppConfig config = app.getConfig();
+		CommandFilter commandFilter = config.getCommandFilter();
+		if (commandFilter != null) {
+			getAlgebraProcessor().getCommandDispatcher().addCommandFilter(commandFilter);
+		}
+		getAlgebraProcessor().setEnableStructures(config.isEnableStructures());
+		OperationArgumentFilter operationArgumentFilter = config.createOperationArgumentFilter();
+		if (operationArgumentFilter != null) {
+			getExpressionNodeEvaluator().setOperationArgumentFilter(operationArgumentFilter);
+		}
 	}
 }

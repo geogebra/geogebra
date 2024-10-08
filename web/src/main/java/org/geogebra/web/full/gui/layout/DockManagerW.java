@@ -1708,7 +1708,7 @@ public class DockManagerW extends DockManager {
 			layout.getDockManager().unRegisterPanel(old);
 		}
 		layout.registerPanel(
-					((AppWFull) app).getActivity().createAVPanel());
+					((AppWFull) app).getCurrentActivity().createAVPanel());
 
 	}
 
