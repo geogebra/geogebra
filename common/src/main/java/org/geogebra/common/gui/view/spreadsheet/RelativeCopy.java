@@ -563,12 +563,10 @@ public class RelativeCopy {
 		// make sure a/0.001 doesn't become a/0
 
 		StringTemplate highPrecision = StringTemplate.maxPrecision;
-		if (value.isPointOnPath() || value.isPointInRegion()) {
+		if (value.getDefinition() != null && value.getDefinition(highPrecision) != null) {
 			text = value.getDefinition(highPrecision);
-		} else if (value.isChangeable()) {
-			text = value.toValueString(highPrecision);
 		} else {
-			text = value.getDefinition(highPrecision);
+			text = value.toValueString(highPrecision);
 		}
 
 		// handle GeoText source value
