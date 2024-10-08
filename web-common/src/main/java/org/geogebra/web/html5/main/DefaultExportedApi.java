@@ -1121,6 +1121,15 @@ public class DefaultExportedApi implements ExportedApi {
 	public Object getFileLoadingError() {
 		return getGgbAPI().getFileLoadingError();
 	}
+
+	public void exitFullScreen() {
+		getGgbAPI().exitFullScreen();
+	}
+
+	public boolean isFullScreenActive() {
+		return getGgbAPI().isFullScreenActive();
+	}
+
 	private GgbAPIW getGgbAPI() {
 		if (ggbAPI == null) {
 			throw new IllegalStateException("app was already removed");
