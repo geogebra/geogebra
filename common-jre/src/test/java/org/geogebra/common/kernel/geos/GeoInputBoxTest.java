@@ -17,6 +17,7 @@ import java.util.Locale;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
@@ -895,6 +896,16 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		input.updateLinkedGeo(updated);
 		assertFalse(input.hasError());
 		assertEquals("\\operatorname{sin⁻¹} \\left( 0.5 \\right)", input.getText());
+	}
+
+	@Test
+	@Issue("APPS-4701")
+	public void shouldSTayTransparentAfterReload() {
+		GeoInputBox input = add("InputBox()");
+		assertEquals(GColor.WHITE, input.getBackgroundColor());
+		input.setBackgroundColor(null);
+		reload();
+		assertNull(input.getBackgroundColor());
 	}
 
 }
