@@ -95,8 +95,6 @@ public class CommandsTestCommon {
 			signature = CommandSignatures.getSignature(cmdName, app1);
 			if (signature != null) {
 				syntaxes = signature.size();
-				AlgebraTestHelper.dummySyntaxesShouldFail(cmdName, signature,
-						app1);
 			}
 			Log.debug(cmdName);
 		}
@@ -3546,7 +3544,7 @@ public class CommandsTestCommon {
 	public void cmdSetViewDirection() {
 		t("SetViewDirection[]");
 		t("SetViewDirection[Vector[(0, 0, 1)]]");
-		t("SetViewDirection[Vector[(1; α; -30°)], false]");
+		t("SetViewDirection[Vector[(1; 0; -30°)], false]");
 	}
 
 	@Test

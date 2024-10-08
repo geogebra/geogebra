@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.scripting;
 
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
@@ -31,10 +32,8 @@ public class CmdSetViewDirection extends CmdScripting {
 
 	@Override
 	protected final GeoElement[] perform(Command c) throws MyError {
-
-		if (!app.isEuclidianView3Dinited()) {
-			return new GeoElement[0];
-		}
+		EuclidianView3DInterface view3D = app.isEuclidianView3Dinited()
+				? app.getEuclidianView3D() : null;
 
 		int n = c.getArgumentNumber();
 
@@ -44,7 +43,9 @@ public class CmdSetViewDirection extends CmdScripting {
 
 		// no argument: set default orientation
 		if (n == 0) {
-			app.getEuclidianView3D().setDefaultRotAnimation();
+			if (view3D != null) {
+				view3D.setDefaultRotAnimation();
+			}
 			return new GeoElement[0];
 		}
 
@@ -60,26 +61,22 @@ public class CmdSetViewDirection extends CmdScripting {
 		}
 
 		if (arg[0].isGeoVector()) {
-			GeoVectorND v = (GeoVectorND) arg[0];
-
-			EuclidianView3DInterface view3D = app.getEuclidianView3D();
-
-			if (tmpCoords == null) {
-				tmpCoords = new Coords(3);
+			if (view3D != null) {
+				GeoVectorND v = (GeoVectorND) arg[0];
+				if (tmpCoords == null) {
+					tmpCoords = new Coords(3);
+				}
+				tmpCoords.setMul(v.getCoordsInD3(), -1);
+				view3D.setRotAnimation(tmpCoords, false, animated);
 			}
-			tmpCoords.setMul(v.getCoordsInD3(), -1);
-			view3D.setRotAnimation(tmpCoords, false, animated);
-
 			return arg;
 		}
 
-		if (arg[0] instanceof GeoDirectionND) {
+		if (arg[0] instanceof GeoDirectionND && !(arg[0] instanceof GeoSpace)) {
 			GeoDirectionND d = (GeoDirectionND) arg[0];
 
-			EuclidianView3DInterface view3D = app.getEuclidianView3D();
-
 			Coords v = d.getDirectionInD3();
-			if (v != null) {
+			if (v != null && view3D != null) {
 				view3D.setClosestRotAnimation(v, animated);
 			}
 
@@ -90,8 +87,7 @@ public class CmdSetViewDirection extends CmdScripting {
 		if (arg[0].isGeoPoint()) {
 			GeoPointND p = (GeoPointND) arg[0];
 
-			if (p.isDefined()) {
-				EuclidianView3DInterface view3D = app.getEuclidianView3D();
+			if (p.isDefined() && view3D != null) {
 				view3D.setClosestRotAnimation(p.getInhomCoordsInD3(), animated);
 			}
 
@@ -103,9 +99,9 @@ public class CmdSetViewDirection extends CmdScripting {
 			// shift value to have x-axis to the left when angle is zero
 			// sign for anti-clockwise rotation
 			double value = -((GeoNumeric) arg[0]).getDouble() - Math.PI / 2;
-
-			app.getEuclidianView3D().setRotAnimation(value, false, animated);
-
+			if (view3D != null) {
+				view3D.setRotAnimation(value, false, animated);
+			}
 			return arg;
 
 		}
