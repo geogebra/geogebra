@@ -43,6 +43,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.zoompanel.ZoomController;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.AnimationExporter;
@@ -1363,10 +1364,17 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	public void exitFullScreen() {
-		Browser.toggleFullscreen(false, null);
+		AppW appW = (AppW) app;
+		if (isFullScreenActive()) {
+			if (ZoomController.useEmulatedFullscreen(appW) && appW.getZoomPanel() != null) {
+				appW.getZoomPanel().onExitFullscreen();
+			} else {
+				Browser.toggleFullscreen(false, null);
+			}
+		}
 	}
 
 	public boolean isFullScreenActive() {
-		return Browser.isFullscreen();
+		return ((AppW) app).getFullscreenState().isFullScreenActive();
 	}
 }
