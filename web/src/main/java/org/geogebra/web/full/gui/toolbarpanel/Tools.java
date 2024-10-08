@@ -16,7 +16,6 @@ import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
 import org.geogebra.web.html5.gui.tooltip.ToolTip;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -37,10 +36,6 @@ public class Tools extends FlowPanel implements SetLabels {
 	 * see {@link ToolsTab}
 	 */
 	private final ToolsTab parentTab;
-	/**
-	 * move button
-	 */
-	private StandardButton moveButton;
 
 	private ArrayList<CategoryPanel> categoryPanelList;
 
@@ -56,18 +51,6 @@ public class Tools extends FlowPanel implements SetLabels {
 
 		this.addStyleName("toolsPanel");
 		buildGui();
-	}
-
-	/**
-	 * Selects MODE_MOVE as mode and changes visual settings accordingly of
-	 * this.
-	 */
-	public void setMoveMode() {
-		app.setMode(EuclidianConstants.MODE_MOVE);
-		clearSelectionStyle();
-		if (moveButton != null) {
-			moveButton.getElement().setAttribute("selected", "true");
-		}
 	}
 
 	/**
@@ -104,30 +87,6 @@ public class Tools extends FlowPanel implements SetLabels {
 	 */
 	public AppW getApp() {
 		return app;
-	}
-
-	/**
-	 * @param moveButton
-	 *            floating action move btn
-	 */
-	private void setMoveButton(StandardButton moveButton) {
-		this.moveButton = moveButton;
-	}
-
-	/**
-	 * Clears visual selection of all tools.
-	 */
-	private void clearSelectionStyle() {
-		for (int i = 0; i < getWidgetCount(); i++) {
-			Widget w = getWidget(i);
-			if (w instanceof CategoryPanel) {
-				FlowPanel panelTools = ((CategoryPanel) w).getToolsPanel();
-				for (int j = 0; j < panelTools.getWidgetCount(); j++) {
-					panelTools.getWidget(j).getElement()
-							.setAttribute("selected", "false");
-				}
-			}
-		}
 	}
 
 	/**
@@ -189,9 +148,6 @@ public class Tools extends FlowPanel implements SetLabels {
 			ToolButton btn = getToolButton(mode);
 			toolButtonList.add(btn);
 			toolsPanel.add(btn);
-			if (mode == EuclidianConstants.MODE_MOVE) {
-				setMoveButton(btn);
-			}
 		}
 
 		private void initGui() {

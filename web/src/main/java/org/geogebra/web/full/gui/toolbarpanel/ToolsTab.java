@@ -134,7 +134,7 @@ public class ToolsTab extends ToolbarTab implements ExamListener {
 	public void updateContent() {
 		toolsPanel.removeFromParent();
 		toolsPanel = new Tools((AppW) app, this);
-		setMoveMode();
+		app.setMoveMode();
 		sp.clear();
 		sp.add(toolsPanel);
 		if (!isCustomToolbar) {
@@ -144,14 +144,6 @@ public class ToolsTab extends ToolbarTab implements ExamListener {
 			this.toolbarPanel.setLabels();
 			handleMoreLessButtons();
 		}
-	}
-
-	/**
-	 * Selects MODE_MOVE as mode and changes visual settings accordingly of
-	 * this.
-	 */
-	void setMoveMode() {
-		toolsPanel.setMoveMode();
 	}
 
 	/**
