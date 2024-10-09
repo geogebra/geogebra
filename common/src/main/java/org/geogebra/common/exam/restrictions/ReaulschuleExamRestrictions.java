@@ -16,6 +16,9 @@ final class ReaulschuleExamRestrictions extends ExamRestrictions {
 				null,
 				null,
 				null,
+				null,
+				null,
+				null,
 				null);
 	}
 }

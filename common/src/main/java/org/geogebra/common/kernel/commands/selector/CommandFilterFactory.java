@@ -29,8 +29,7 @@ public final class CommandFilterFactory {
 	public static CommandFilter createGraphingCommandFilter() {
 		CommandFilter noCasCommandFilter = createNoCasCommandFilter();
 		CommandFilter tableFilter = new CommandTableFilter(CommandsConstants.TABLE_CONIC,
-				CommandsConstants.TABLE_TRANSFORMATION,
-				CommandsConstants.TABLE_3D);
+				CommandsConstants.TABLE_TRANSFORMATION, CommandsConstants.TABLE_3D);
 		CommandFilter nameFilter = createGraphingNameFilter();
 		return new CompositeCommandFilter(noCasCommandFilter,
 				tableFilter, nameFilter);
@@ -55,7 +54,7 @@ public final class CommandFilterFactory {
 				Commands.Prove, Commands.ProveDetails, Commands.Radius, Commands.RigidPolygon,
 				Commands.Sector, Commands.Segment, Commands.Slope, Commands.Tangent,
 				Commands.TriangleCenter, Commands.TriangleCurve, Commands.Trilinear,
-				Commands.Vertex, Commands.Polynomial, Commands.PolyLine,
+				Commands.Vertex, Commands.Polynomial,
 				Commands.TaylorSeries, Commands.Asymptote, Commands.OsculatingCircle,
 				Commands.CommonDenominator, Commands.CompleteSquare, Commands.Div, Commands.Mod,
 				Commands.Division, Commands.IsVertexForm);
@@ -70,9 +69,8 @@ public final class CommandFilterFactory {
 	}
 
 	/**
-	 * @return filter for IQB MMS exam
+	 * @return filer for IQB MMS exam
 	 */
-	@Deprecated // replaced by MmsExamRestrictions
 	public static CommandFilter createMmsFilter() {
 		CommandNameFilter nameFilter = new CommandNameFilter(true);
 		nameFilter.addCommands(Commands.Axes, Commands.Focus,
@@ -99,7 +97,7 @@ public final class CommandFilterFactory {
 				Commands.Translate, Commands.Shear, Commands.Polygon,
 				Commands.Arc, Commands.Circle, Commands.CircleSector,
 				Commands.CircleArc, Commands.OsculatingCircle, Commands.Cubic,
-				Commands.Line, Commands.Segment, Commands.Ray,
+				Commands.Polygon, Commands.Line, Commands.Segment, Commands.Ray,
 				Commands.Ellipse, Commands.LineBisector, Commands.OrthogonalLine,
 				Commands.Asymptote, Commands.RigidPolygon, Commands.Tangent,
 				Commands.AngularBisector,
@@ -114,13 +112,121 @@ public final class CommandFilterFactory {
 				Commands.RootList, Commands.Volume, Commands.Plane,
 				Commands.OrthogonalPlane,
 				Commands.PlaneBisector, Commands.Angle, Commands.Distance, Commands.Relation,
-				Commands.IsInRegion);
+				Commands.IsInRegion, Commands.AffineRatio, Commands.Angle,
+				Commands.AngleBisector, Commands.ANOVA, Commands.ApplyMatrix, Commands.Arc,
+				Commands.Area, Commands.AreCollinear, Commands.AreConcurrent,
+				Commands.AreConcyclic, Commands.AreCongruent, Commands.AreEqual,
+				Commands.AreParallel, Commands.ArePerpendicular, Commands.Asymptote,
+				Commands.AttachCopyToView, Commands.Axes, Commands.AxisStepX, Commands.AxisStepY,
+				Commands.Barycenter, Commands.Bernoulli, Commands.Bottom, Commands.Button,
+				Commands.CASLoaded, Commands.Cauchy, Commands.Cell, Commands.CellRange,
+				Commands.CenterView, Commands.Centroid, Commands.Checkbox, Commands.ChiSquared,
+				Commands.ChiSquaredTest, Commands.Circle, Commands.CircularArc,
+				Commands.CircleSector, Commands.CircumcircularArc, Commands.CircumcircularSector,
+				Commands.Classes, Commands.ClosestPoint, Commands.ClosestPointRegion,
+				Commands.Column, Commands.ColumnName, Commands.CompleteSquare, Commands.ComplexRoot,
+				Commands.Cone, Commands.Conic, Commands.ConjugateDiameter,
+				Commands.ConstructionStep, Commands.ContingencyTable, Commands.ContinuedFraction,
+				Commands.ConvexHull, Commands.CopyFreeObject, Commands.Corner, Commands.CrossRatio,
+				Commands.Cube, Commands.Cubic, Commands.Curvature, Commands.CurvatureVector,
+				Commands.Curve, Commands.Cylinder, Commands.DelauneyTriangulation,
+				Commands.Difference, Commands.Dilate, Commands.Direction, Commands.Directrix,
+				Commands.Distance, Commands.Div, Commands.Divisors, Commands.DivisorsList,
+				Commands.DivisorsSum, Commands.Dodecahedron, Commands.DotPlot,
+				Commands.DynamicCoordinates, Commands.Eccentricity, Commands.Ellipse,
+				Commands.Ends, Commands.Envelope, Commands.Erlang, Commands.Execute,
+				Commands.Exponential, Commands.ExportImage, Commands.Extremum,
+				Commands.FDistribution, Commands.FillCells, Commands.FillColumn, Commands.FillRow,
+				Commands.Fit, Commands.FitExp, Commands.FitGrowth, Commands.FitImplicit,
+				Commands.FitLineY, Commands.FitLineX, Commands.FitLog, Commands.FitLogistic,
+				Commands.FitPoly, Commands.FitPow, Commands.FitSin, Commands.Focus,
+				Commands.FormulaText, Commands.FractionText, Commands.FrequencyTable,
+				Commands.FromBase, Commands.Function, Commands.FutureValue, Commands.Gamma,
+				Commands.GeometricMean, Commands.GetTime, Commands.GroebnerDegRevLex,
+				Commands.GroebnerLex, Commands.GroebnerLexDeg, Commands.HarmonicMean,
+				Commands.Height, Commands.HideLayer, Commands.Hyperbola, Commands.Icosahedron,
+				Commands.ImplicitCurve, Commands.ImplicitDerivative, Commands.Incircle,
+				Commands.InfiniteCone, Commands.TurningPoint, Commands.InputBox,
+				Commands.IntegralBetween, Commands.InteriorAngles, Commands.Intersect,
+				Commands.IntersectConic, Commands.IntersectPath, Commands.InverseBinomial,
+				Commands.InverseCauchy, Commands.InverseChiSquared, Commands.InverseExponential,
+				Commands.InverseFDistribution, Commands.InverseGamma,
+				Commands.InverseHyperGeometric, Commands.InverseLogistic,
+				Commands.InverseLogNormal, Commands.InverseNormal, Commands.InversePascal,
+				Commands.InversePoisson, Commands.InverseTDistribution, Commands.InverseWeibull,
+				Commands.InverseZipf, Commands.IsDefined, Commands.IsFactored, Commands.IsInRegion,
+				Commands.IsInteger, Commands.IsPrime, Commands.IsVertexForm,
+				Commands.Iteration, Commands.IterationList, Commands.Laplace, Commands.LeftSum,
+				Commands.Length, Commands.LetterToUnicode, Commands.Line,
+				Commands.Excentricity, Commands.Locus, Commands.LocusEquation,
+				Commands.Logistic, Commands.LogNormal, Commands.LowerSum, Commands.mad,
+				Commands.MajorAxis, Commands.Maximize, Commands.Midpoint, Commands.Minimize,
+				Commands.MinimumSpanningTree, Commands.MinorAxis, Commands.Name, Commands.Net,
+				Commands.NextPrime, Commands.NormalQuantilePlot, Commands.NSolveODE,
+				Commands.Object, Commands.Octahedron, Commands.Ordinal, Commands.OsculatingCircle,
+				Commands.Pan, Commands.Parabola, Commands.Parameter, Commands.ParametricDerivative,
+				Commands.ParseToFunction, Commands.ParseToNumber, Commands.Pascal,
+				Commands.PathParameter, Commands.Payment, Commands.Perimeter, Commands.Periods,
+				Commands.PerpendicularBisector, Commands.PerpendicularLine,
+				Commands.OrthogonalVector, Commands.Plane, Commands.PlaneBisector,
+				Commands.PlaySound, Commands.PlotSolve, Commands.Point, Commands.PointIn,
+				Commands.PointList, Commands.Poisson, Commands.Polar, Commands.Polygon,
+				Commands.Polyline, Commands.Polynomial, Commands.PresentValue,
+				Commands.PreviousPrime, Commands.Prism, Commands.Prove, Commands.ProveDetails,
+				Commands.Pyramid, Commands.Radius, Commands.RandomBinomial,
+				Commands.RandomDiscrete, Commands.RandomNormal, Commands.RandomPointIn,
+				Commands.RandomPoisson, Commands.RandomPolynomial, Commands.RandomUniform,
+				Commands.Rate, Commands.Rationalize, Commands.Ray, Commands.ReadText,
+				Commands.RectangleSum, Commands.ReducedRowEchelonForm, Commands.Reflect,
+				Commands.Relation, Commands.RemovableDiscontinuity, Commands.Rename,
+				Commands.Repeat, Commands.ResidualPlot, Commands.RigidPolygon, Commands.Root,
+				Commands.RootList, Commands.RootMeanSquare, Commands.Roots, Commands.Rotate,
+				Commands.RotateText, Commands.Row, Commands.RunClickScript,
+				Commands.RunUpdateScript, Commands.SampleSD, Commands.stdev, Commands.SampleSDX,
+				Commands.SampleSDY, Commands.SampleVariance, Commands.ScientificText, Commands.SD,
+				Commands.stdevp, Commands.SDX, Commands.SDY, Commands.Sector, Commands.Segment,
+				Commands.SelectedElement, Commands.SelectedIndex, Commands.Semicircle,
+				Commands.SemiMajorAxisLength, Commands.SemiMinorAxisLength, Commands.SetActiveView,
+				Commands.SetAxesRatio, Commands.SetBackgroundColor, Commands.SetCaption,
+				Commands.SetColor, Commands.SetConditionToShowObject, Commands.SetConstructionStep,
+				Commands.SetCoords, Commands.SetDecoration, Commands.SetDynamicColor,
+				Commands.SetFilling, Commands.SetFixed, Commands.SetImage, Commands.SetLabelMode,
+				Commands.SetLayer, Commands.SetLevelOfDetail, Commands.SetLineStyle,
+				Commands.SetLineThickness, Commands.SetPerspective, Commands.SetPointSize,
+				Commands.SetPointStyle, Commands.SetSeed, Commands.SetSpinSpeed,
+				Commands.SetTooltipMode, Commands.SetTrace, Commands.SetValue,
+				Commands.SetViewDirection, Commands.SetVisibleInView, Commands.Shear,
+				Commands.ShortestDistance, Commands.ShowAxes, Commands.ShowGrid,
+				Commands.ShowLabel, Commands.ShowLayer, Commands.Side, Commands.SigmaXX,
+				Commands.SigmaXY, Commands.SigmaYY, Commands.Slope, Commands.SlopeField,
+				Commands.SlowPlot, Commands.SolveCubic, Commands.SolveODE, Commands.SolveQuartic,
+				Commands.Spearman, Commands.Sphere, Commands.Spline, Commands.Split,
+				Commands.StartAnimation, Commands.StartRecord, Commands.Stretch,
+				Commands.SumSquaredErrors, Commands.SurdText, Commands.Surface, Commands.SVD,
+				Commands.SXX, Commands.SXY, Commands.SYY, Commands.TableText, Commands.Tangent,
+				Commands.TaylorSeries, Commands.TDistribution, Commands.Tetrahedron,
+				Commands.TextToUnicode, Commands.TMean2Estimate, Commands.TMeanEstimate,
+				Commands.ToBase, Commands.ToolImage, Commands.Top, Commands.ToPoint,
+				Commands.ToPolar, Commands.Translate, Commands.TrapezoidalSum,
+				Commands.TravelingSalesman, Commands.TriangleCenter, Commands.TriangleCurve,
+				Commands.Triangular, Commands.TrigCombine, Commands.TrigExpand,
+				Commands.TrigSimplify, Commands.Trilinear, Commands.TTest, Commands.TTest2,
+				Commands.TTestPaired, Commands.Turtle, Commands.TurtleBack, Commands.TurtleDown,
+				Commands.TurtleForward, Commands.TurtleLeft, Commands.TurtleRight,
+				Commands.TurtleUp, Commands.Type, Commands.UnicodeToLetter, Commands.UnicodeToText,
+				Commands.Uniform, Commands.UnitOrthogonalVector, Commands.UnitVector,
+				Commands.UpperSum, Commands.Variance, Commands.Vector, Commands.Vertex,
+				Commands.VerticalText, Commands.Volume, Commands.Voronoi, Commands.Weibull,
+				Commands.Zip, Commands.Zipf, Commands.ZMean2Estimate, Commands.ZMean2Test,
+				Commands.ZMeanEstimate, Commands.ZMeanTest, Commands.ZoomIn, Commands.ZoomOut,
+				Commands.ZProportion2Estimate, Commands.ZProportion2Test,
+				Commands.ZProportionEstimate, Commands.ZProportionTest);
 		addBooleanCommands(nameFilter);
 		return nameFilter;
 	}
 
 	/**
-	 * @return filter for Bayern CAS exam
+	 * @return filer for Bayern CAS exam
 	 */
 	@Deprecated // replaced by BayernCasExamRestrictions
 	public static CommandFilter createBayernCasFilter() {
@@ -207,9 +313,8 @@ public final class CommandFilterFactory {
 				Commands.Histogram, Commands.HistogramRight, Commands.NormalQuantilePlot,
 				Commands.ResidualPlot, Commands.StemPlot, Commands.StepGraph,
 				Commands.StickGraph, Commands.LineGraph, Commands.PieChart,
-				// Barycentric Commands
-				Commands.TriangleCenter, Commands.Barycenter, Commands.Trilinear, Commands.Cubic,
-				Commands.TriangleCurve,
+				// Discrete Math Commands
+				Commands.ShortestDistance,
 				// GeoGebra Commands
 				Commands.DynamicCoordinates, Commands.Object, Commands.SlowPlot,
 				Commands.ToolImage,
@@ -221,7 +326,6 @@ public final class CommandFilterFactory {
 				Commands.Text, Commands.UnicodeToLetter,
 				// Logical Commands
 				Commands.Defined, Commands.Relation,
-				Commands.LocusEquation, Commands.Envelope, Commands.Prove, Commands.ProveDetails,
 				// Optimization Command
 				Commands.Maximize, Commands.Minimize,
 				// Scripting Commands

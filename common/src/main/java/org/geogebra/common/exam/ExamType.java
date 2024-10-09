@@ -84,7 +84,9 @@ public enum ExamType {
 		}
 	},
 
-	/*MMS() {
+
+	MMS() {
+
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
 			return "Deutschland IQB MMS Abitur";
@@ -97,15 +99,14 @@ public enum ExamType {
 
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
-			model.setSubAppCodes(GRAPHING_APPCODE, GEOMETRY_APPCODE, G3D_APPCODE);
-			model.setCommandFilter(CommandFilterFactory.createMmsFilter());
+			// deprecated, will be removed
 		}
 
 		@Override
 		public void setDefaultSubAppCode(ExamRestrictionModel model) {
-			model.setDefaultAppCode(CAS_APPCODE);
+			// deprecated, will be removed
 		}
-	},*/
+	},
 
 	IB() {
 		@Override

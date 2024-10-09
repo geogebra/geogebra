@@ -273,6 +273,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
 		examController.exitExam();
 		assertTrue(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
+		assertFalse(examController
+				.isFeatureRestricted(ExamFeatureRestriction.DATA_TABLE_REGRESSION));
 	}
 
 	@Test

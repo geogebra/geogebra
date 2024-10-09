@@ -72,8 +72,8 @@ public class CommandFilterFactoryTest {
 		filter = CommandFilterFactory.createMmsFilter();
 		assertAllowed(false, Commands.AreEqual);
 		assertAllowed(false, Commands.Hyperbola);
-		assertAllowed(true, Commands.Slope);
-		assertAllowed(true, Commands.Intersect);
+		assertAllowed(false, Commands.Slope);
+		assertAllowed(false, Commands.Intersect);
 		// disabled commands that have different english and internal name
 		assertAllowed(false, Commands.DelaunayTriangulation);
 		assertAllowed(false, Commands.SemiMajorAxisLength);
