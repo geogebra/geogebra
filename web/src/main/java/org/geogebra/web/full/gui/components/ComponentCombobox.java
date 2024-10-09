@@ -70,7 +70,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("inputPanel");
 
-		inputTextField = new AutoCompleteTextFieldW(-1, appW, false, null, false);
+		inputTextField = new AutoCompleteTextFieldW(-1, appW, false, null);
 		inputTextField.prepareShowSymbolButton(false);
 		inputTextField.enableGGBKeyboard();
 		inputTextField.addStyleName("textField");

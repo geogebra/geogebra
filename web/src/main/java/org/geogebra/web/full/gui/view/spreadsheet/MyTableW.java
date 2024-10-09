@@ -714,7 +714,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	public void setLabels() {
-		editor.setLabels();
+		// not needed
 	}
 
 	public int preferredColumnWidth() {

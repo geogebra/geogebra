@@ -3,8 +3,10 @@ package org.geogebra.common.main.localization;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -17,6 +19,7 @@ import org.geogebra.common.main.syntax.EnglishCommandSyntax;
 import org.geogebra.common.main.syntax.LocalizedCommandSyntax;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.ownership.NonOwning;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.debug.Log;
@@ -28,16 +31,17 @@ public class AutocompleteProvider {
 	@Weak
 	@Nonnull
 	private final App app;
-	private final boolean forCAS;
+	private final boolean isForClassicCAS;
 	private LocalizedCommandSyntax englishCommandSyntax;
+	private @CheckForNull Set<Operation> filteredOperations;
 
 	/**
 	 * @param app application
-	 * @param forCAS whether this is for the classic CAS
+	 * @param isForClassicCAS whether this is for the classic CAS
 	 */
-	public AutocompleteProvider(@Nonnull App app, boolean forCAS) {
+	public AutocompleteProvider(@Nonnull App app, boolean isForClassicCAS) {
 		this.app = app;
-		this.forCAS = forCAS;
+		this.isForClassicCAS = isForClassicCAS;
 	}
 
 	/**
@@ -58,6 +62,14 @@ public class AutocompleteProvider {
 		if (syntaxFilter != null) {
 			getEnglishCommandSyntax().removeSyntaxFilter(syntaxFilter);
 		}
+	}
+
+	/**
+	 * Sets operations to be filtered out from the results.
+	 * @param filteredOperations An optional set of operations to filter out from the results.
+	 */
+	public void setFilteredOperations(@CheckForNull Set<Operation> filteredOperations) {
+		this.filteredOperations = filteredOperations;
 	}
 
 	/**
@@ -130,7 +142,7 @@ public class AutocompleteProvider {
 		if (syntaxString.endsWith(Localization.syntaxCAS)
 				|| syntaxString.endsWith(Localization.syntaxStr)) {
 			// command not found, check for macros
-			Macro macro = forCAS ? null
+			Macro macro = isCas() ? null
 					: app.getKernel().getMacro(internalCommandName);
 			if (macro != null) {
 				return macro.toString();
@@ -162,7 +174,8 @@ public class AutocompleteProvider {
 	 * @return stream of suggestions
 	 */
 	public Stream<Completion> getCompletions(String curWord) {
-		List<String> functionResults = app.getParserFunctions().getCompletions(curWord);
+		List<String> functionResults = app.getParserFunctions().getCompletions(curWord,
+				filteredOperations);
 		Stream<Completion> completions = functionResults.stream()
 				.map(function -> new Completion(getMatch(function, curWord),
 						Collections.singletonList(function),
@@ -188,7 +201,7 @@ public class AutocompleteProvider {
 	}
 
 	private boolean isCas() {
-		return forCAS || app.getConfig().getVersion() == GeoGebraConstants.Version.CAS;
+		return isForClassicCAS || app.getConfig().getVersion() == GeoGebraConstants.Version.CAS;
 	}
 
 	private LowerCaseDictionary getCommandDictionary() {

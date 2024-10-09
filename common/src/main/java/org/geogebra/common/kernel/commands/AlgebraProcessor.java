@@ -3227,7 +3227,6 @@ public class AlgebraProcessor {
 		if (!isExpressionAllowed(n, inputExpressionFilters)) {
 			return null;
 		}
-
 		if (n.isLeaf() && n.getLeft().isExpressionNode()) {
 			// we changed f' to f'(x) -> clean double wrap
 			ExpressionNode unwrapped = n.getLeft().wrap();
