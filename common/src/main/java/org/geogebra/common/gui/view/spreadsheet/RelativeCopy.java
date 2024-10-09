@@ -563,7 +563,8 @@ public class RelativeCopy {
 		// make sure a/0.001 doesn't become a/0
 
 		StringTemplate highPrecision = StringTemplate.maxPrecision;
-		if (value.getDefinition() != null && value.getDefinition(highPrecision) != null) {
+		if ((value.getDefinition() != null && value.getDefinition(highPrecision) != null)
+				|| value.isPointInRegion() || value.isPointOnPath()) {
 			text = value.getDefinition(highPrecision);
 		} else {
 			text = value.toValueString(highPrecision);
