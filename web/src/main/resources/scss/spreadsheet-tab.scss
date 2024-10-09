@@ -1,0 +1,25 @@
+@use 'colorMap' as *;
+
+.GeoGebraFrame {
+	.spreadsheetPanel {
+		height: 100%;
+		overflow: hidden;
+	}
+	.spreadsheetWidget {
+		position: absolute;
+	}
+	.spreadsheetScrollOverlay {
+		position: absolute;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+	}
+	.spreadsheetEditor {
+		position: absolute;
+		border-radius: 0;
+		background: white;
+		border: 2px purple(600) solid;
+		box-sizing: border-box;
+	}
+}

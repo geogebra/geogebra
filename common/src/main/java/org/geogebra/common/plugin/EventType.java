@@ -144,6 +144,9 @@ public enum EventType {
 	EMBED_LOADED("embedLoaded"),
 	/** Algebra Panel selected */
 	ALGEBRA_PANEL_SELECTED("algebraPanelSelected"),
+
+	/** Spreadsheet panel selected */
+	SPREADSHEET_PANEL_SELECTED("spreadsheetPanelSelected"),
 	/** Tools Panel selected */
 	TOOLS_PANEL_SELECTED("toolsPanelSelected"),
 	/** Table Panel selected */

@@ -795,6 +795,11 @@ public class AppCommon extends App {
 	}
 
 	@Override
+	public boolean isUnbundled() {
+		return AppConfigDefault.isUnbundled(getConfig().getAppCode());
+	}
+
+	@Override
 	protected void getViewsXML(StringBuilder sb, boolean asPreference) {
 		getSettings().getAlgebra().getXML(sb, asPreference);
 	}

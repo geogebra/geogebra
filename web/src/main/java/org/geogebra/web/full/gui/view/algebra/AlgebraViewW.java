@@ -2298,4 +2298,13 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public GeoSelectionCallback getSelectionCallback() {
 		return selectionCallback;
 	}
+
+	/**
+	 * Reset the header (+ in graphing, number in scientific) after app switch
+	 */
+	public void resetInputItemHeader() {
+		if (inputPanelLatex != null) {
+			inputPanelLatex.resetItemHeader();
+		}
+	}
 }

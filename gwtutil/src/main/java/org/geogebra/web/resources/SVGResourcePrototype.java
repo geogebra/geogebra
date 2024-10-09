@@ -15,7 +15,8 @@ import jsinterop.base.Js;
  */
 public class SVGResourcePrototype implements SVGResource {
 
-	public static final SVGResource EMPTY = new SVGResourcePrototype("empty", "<svg/>");
+	public static final SVGResource EMPTY = new SVGResourcePrototype("empty",
+			"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1\" height=\"1\"/>");
 	private static DOMParser parser;
 
 	private static XMLSerializer serializer;
