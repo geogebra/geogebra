@@ -28,4 +28,11 @@ public class GeoElementTest extends BaseUnitTest {
 		geo.rename(LabelManager.HIDDEN_PREFIX + "1");
 		assertEquals("7", geo.toString(StringTemplate.defaultTemplate));
 	}
+
+	@Test
+	public void definitionShouldHoldCorrectPrecision() {
+		GeoElement geo = add("0.14579");
+		getApp().setRounding("2");
+		assertEquals("0.14579", geo.getDefinition(StringTemplate.maxPrecision));
+	}
 }

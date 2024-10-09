@@ -43,6 +43,16 @@ public class RelativeCopyTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void numericCopyHasCorrectPrecision() {
+		add("C3 = 1 / 8");
+		getApp().setRounding("2");
+		new RelativeCopy(getKernel(), TestErrorHandler.INSTANCE).doDragCopy(2, 2, 2, 2,
+				3, 2, 3, 2);
+		getApp().setRounding("3");
+		assertThat(lookup("D3"), hasValue("0.125"));
+	}
+
+	@Test
 	public void commandsShouldBeCaseInsensitiveCommandsInCells() {
 		add("c = Circle((0, 0), 1)");
 		assertThat(prepareAddingValue("Dilate(c, 2)"), hasValue("x\u00B2 + y\u00B2 = 4"));
