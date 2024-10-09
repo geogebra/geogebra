@@ -66,7 +66,7 @@ public class SaveDialog extends SaveFileDialog {
 			providers.add(provider.getName());
 		}
 		locationDropDown = new CompDropDown((AppW) app,
-				app.getLocalization().getMenu("Location"), providers);
+				app.getLocalization().getMenu("Location"), providers, 0);
 		locationDropDown.setFullWidth(true);
 		locationDropDown.addChangeHandler(() -> {
 			Material.Provider provider = getSelectedProvider(locationDropDown.getSelectedText());

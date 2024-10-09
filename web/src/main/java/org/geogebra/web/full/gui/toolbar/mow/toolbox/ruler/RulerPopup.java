@@ -45,8 +45,8 @@ public class RulerPopup extends GPopupMenuW implements SetLabels {
 	}
 
 	private void addItem(SVGResource image, String text, int mode) {
-		AriaMenuItem item = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
-				image.getSafeUri().asString(), text), true, () -> {});
+		AriaMenuItem item = MainMenu.getMenuBarItem(
+				image, text, () -> {});
 		item.setScheduledCommand(() -> {
 			rulerButton.removeTool();
 			activeRulerMode = mode;

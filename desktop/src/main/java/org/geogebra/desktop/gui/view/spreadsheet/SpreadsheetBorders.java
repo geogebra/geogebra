@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Set;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.CellFormat;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
+import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.desktop.awt.GColorD;
 
 /**
@@ -31,22 +31,22 @@ public class SpreadsheetBorders {
 		g2.setColor(GColorD.getAwtColor(GColor.BLACK));
 		g2.setStroke(new BasicStroke(1));
 
-		HashMap<GPoint, Object> map = table.getCellFormatHandler()
+		HashMap<SpreadsheetCoords, Object> map = table.getCellFormatHandler()
 				.getFormatMap(CellFormat.FORMAT_BORDER);
-		Set<GPoint> formatCell = map.keySet();
+		Set<SpreadsheetCoords> formatCell = map.keySet();
 
-		int c = 0, r = 0;
-		for (GPoint cell : formatCell) {
+		int column = 0, row = 0;
+		for (SpreadsheetCoords cell : formatCell) {
 
-			Byte b = (Byte) table.getCellFormatHandler().getCellFormat(cell.x,
-					cell.y, CellFormat.FORMAT_BORDER);
+			Byte b = (Byte) table.getCellFormatHandler().getCellFormat(cell.column,
+					cell.row, CellFormat.FORMAT_BORDER);
 			if (b != null) {
-				c = cell.x;
-				r = cell.y;
-				if (c == -1 || r == -1) {
-					handleRowOrColumnGridFormat(g2, table, c, r, b);
+				column = cell.column;
+				row = cell.row;
+				if (column == -1 || row == -1) {
+					handleRowOrColumnGridFormat(g2, table, column, row, b);
 				} else {
-					drawPartialBorder(g2, table, c, r, c + 1, r + 1, b);
+					drawPartialBorder(g2, table, column, row, column + 1, row + 1, b);
 				}
 			}
 		}

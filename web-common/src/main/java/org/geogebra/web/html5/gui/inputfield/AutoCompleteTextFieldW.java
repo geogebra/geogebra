@@ -1211,7 +1211,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			app.getSelectionManager().addSelectedGeo(geoUsedForInputBox);
 		}
 
-		app.updateKeyBoardField(this);
+		app.updateKeyboardField(this);
 	}
 
 	@Override

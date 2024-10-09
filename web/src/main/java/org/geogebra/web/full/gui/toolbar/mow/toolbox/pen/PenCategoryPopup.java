@@ -15,7 +15,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.ComponentSlider;
 
 public class PenCategoryPopup extends CategoryPopup implements SettingListener {
-	private PenCategoryController controller;
+	private final PenCategoryController controller;
 	private ColorChooserPanel colorChooser;
 	private ComponentSlider sliderComponent;
 
@@ -63,8 +63,8 @@ public class PenCategoryPopup extends CategoryPopup implements SettingListener {
 			colorChooser.updateColorSelection(controller.getLastHighlighterColor());
 		}
 		colorChooser.setDisabled(mode == MODE_ERASER);
-		controller.getPen().updateMode();
 		sliderComponent.update(mode);
+		controller.getPen().updateMode();
 	}
 
 	@Override

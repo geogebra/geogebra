@@ -15,7 +15,7 @@ public interface ButtonHandler {
 	 * @param type
 	 *            the type of click (mouse vs. touch)
 	 */
-	void onClick(KeyBoardButtonBase btn, PointerEventType type);
+	void onClick(BaseKeyboardButton btn, PointerEventType type);
 
 	/**
 	 * Stop keyboard repeating command

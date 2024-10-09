@@ -64,7 +64,7 @@ public class ResultPanelW extends FlowPanel implements ResultPanel {
 	 */
 	void addInsertHandler(final MathTextFieldW field) {
 		field.addInputHandler(() -> insertHandler.doTextFieldActionPerformed(field, false));
-		field.addChangeHandler(() -> insertHandler.doTextFieldActionPerformed(field, true));
+		field.addChangeHandler((enter) -> insertHandler.doTextFieldActionPerformed(field, true));
 	}
 
 	@Override

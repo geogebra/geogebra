@@ -134,8 +134,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		@Override
 		public void onBrowserEvent(Event event) {
 			if (CopyPasteW.incorrectTarget(event.getEventTarget().cast())
-					&& !isGlobalEvent(event)) {
-				return;
+						&& !isGlobalEvent(event)) {
+					return;
 			}
 
 			if (DOM.eventGetType(event) == Event.ONKEYDOWN) {
@@ -159,7 +159,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				handleIosKeyboard((char) event.getCharCode());
 				handled = true;
 			}
-			if (event.getCtrlKey()) {
+			if (isControlKeyDown(event)) {
 				handled = handleCtrlKeys(KeyCodes.translateGWTcode(event.getKeyCode()),
 						event.getShiftKey(), false, true);
 			}
@@ -182,6 +182,15 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			}
 			return handled;
 		}
+	}
+
+	@Override
+	protected void toggleTableView() {
+		if (!app.getConfig().hasTableView()) {
+			return;
+		}
+
+		((GuiManagerInterfaceW) app.getGuiManager()).toggleTableValuesView();
 	}
 
 	private void handleCtrlAltX() {
@@ -252,8 +261,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	}
 
 	private static boolean isControlKeyDown(NativeEvent event) {
-		return event.getCtrlKey()
-				|| (NavigatorUtil.isMacOS() || NavigatorUtil.isiOS()) && event.getMetaKey();
+		return (NavigatorUtil.isMacOS() || NavigatorUtil.isiOS()) ? event.getMetaKey()
+				: event.getCtrlKey();
 	}
 
 	/**

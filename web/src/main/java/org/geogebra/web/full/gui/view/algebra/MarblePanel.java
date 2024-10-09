@@ -32,15 +32,16 @@ public class MarblePanel extends FlowPanel
 	/**
 	 * @param item
 	 *            AV item
+	 * @param forInput whether this is for input row
 	 */
-	public MarblePanel(RadioTreeItem item) {
+	public MarblePanel(RadioTreeItem item, boolean forInput) {
 		this.item = item;
 		marble = new Marble(item);
 		marble.setStyleName("marble");
 		marble.setEnabled(shouldShowMarble());
 		addStyleName("marblePanel");
 
-		if (item.getAV().isInputActive() && item.getGeo() == null) {
+		if (forInput) {
 			addStyleName("plus");
 			initPlus();
 			return;

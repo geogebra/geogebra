@@ -17,4 +17,9 @@ public interface EditorChangeListener {
 	 * Called on selection change
 	 */
 	void onSelectionChanged();
+
+	/**
+	 * Called on pressing the Escape key within the editor
+	 */
+	void onEscape();
 }

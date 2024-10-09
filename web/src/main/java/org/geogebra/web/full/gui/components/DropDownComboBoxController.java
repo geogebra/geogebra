@@ -85,7 +85,7 @@ public class DropDownComboBoxController implements SetLabels {
 
 		for (int i = 0; i < dropDownList.size(); ++i) {
 			final int currentIndex = i;
-			AriaMenuItem item = new AriaMenuItem(dropDownList.get(i), true, () -> {
+			AriaMenuItem item = new AriaMenuItem(dropDownList.get(i), null, () -> {
 				setSelectedOption(currentIndex);
 				if (property != null) {
 					property.setIndex(currentIndex);
@@ -202,7 +202,7 @@ public class DropDownComboBoxController implements SetLabels {
 	 * on text input from user
 	 */
 	public void onInputChange() {
-		dropDown.setSelectedIndex(-1);
+		setSelectedOption(-1);
 		for (Runnable handler: changeHandlers) {
 			handler.run();
 		}

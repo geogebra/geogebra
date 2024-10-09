@@ -300,6 +300,16 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertFalse(languageProperty.isEnabled()); // should be disabled during exam
 	}
 
+	@Test
+	public void testDerivativeOperatorDisabledForVlaanderen() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+		examController.prepareExam();
+		examController.startExam(ExamType.VLAANDEREN, null);
+
+		assertNotNull(evaluate("f(x) = x^2"));
+		assertNull(evaluate("f'"));
+	}
+
 	// -- ExamControllerDelegate --
 
 	@Override

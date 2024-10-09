@@ -404,6 +404,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/distribution.svg")
 	SVGResource toolbar_distribution();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/spreadsheet.svg")
+	SVGResource toolbar_spreadsheet();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_filter_list_black_24px.svg")
 	SVGResource filter_list_black();
 

@@ -50,6 +50,9 @@ public class CarotaDocument implements HasContent {
 	public native void contentChanged(EditorCallback editorCallback);
 
 	@Override
+	public native void onEscape(EditorCallback editorCallback);
+
+	@Override
 	public native Object save();
 
 	@JsProperty

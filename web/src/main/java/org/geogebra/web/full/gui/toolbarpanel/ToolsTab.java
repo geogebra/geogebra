@@ -6,6 +6,7 @@ import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 import org.geogebra.common.gui.util.InvalidToolFilter;
+import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.util.CustomScrollbar;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -199,6 +200,11 @@ public class ToolsTab extends ToolbarTab {
 	@Override
 	protected void onActive() {
 		// unused
+	}
+
+	@Override
+	public DockPanelData.TabIds getID() {
+		return DockPanelData.TabIds.TOOLS;
 	}
 
 	@Override
