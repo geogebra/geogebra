@@ -6,6 +6,11 @@ import static org.geogebra.common.GeoGebraConstants.GEOMETRY_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.PROBABILITY_APPCODE;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.AppConfig;
@@ -83,7 +88,6 @@ public enum ExamType {
 			// deprecated, will be removed
 		}
 	},
-
 
 	MMS() {
 
@@ -227,4 +231,28 @@ public enum ExamType {
 
 	@Deprecated
 	public abstract void setDefaultSubAppCode(ExamRestrictionModel model);
+
+	/**
+	 * List of exam types sorted by localized names (except GENERIC goes first)
+	 * @param loc localization
+	 * @param config app config
+	 * @return available types
+	 */
+	public static List<ExamType> getAvailableValues(Localization loc, AppConfig config) {
+		Comparator<ExamType> genericFirst = Comparator.comparing(type -> !GENERIC.equals(type));
+		return Arrays.stream(values()).filter(ExamType::isAvailable)
+				.sorted(genericFirst.thenComparing(type -> type.getDisplayName(loc, config)))
+				.collect(Collectors.toList());
+	}
+
+	private boolean isAvailable() {
+		switch (this) {
+		case CVTE:
+		case MMS:
+		case IB:
+		case REALSCHULE:
+			return false; // TODO feature flag goes here
+		default: return true;
+		}
+	}
 }

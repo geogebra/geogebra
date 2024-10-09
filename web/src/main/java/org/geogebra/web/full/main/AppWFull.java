@@ -12,7 +12,6 @@ import static org.geogebra.common.exam.ExamType.CHOOSE;
 import static org.geogebra.common.gui.Layout.findDockPanelData;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -347,7 +346,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @return list of supported mode IDs
 	 */
 	private String getSupportedExamModes(String appCode) {
-		return Stream.concat(Stream.of(appCode, CHOOSE), Arrays.stream(ExamType.values())
+		List<ExamType> examTypes = ExamType.getAvailableValues(getLocalization(), getConfig());
+		return Stream.concat(Stream.of(appCode, CHOOSE), examTypes.stream()
 						.filter(r -> r != ExamType.GENERIC)
 						.map(r -> r.name().toLowerCase(Locale.ROOT)))
 				.collect(Collectors.joining(", "));
