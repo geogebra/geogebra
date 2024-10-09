@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -223,13 +224,29 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void shouldAutoCreateZeroCells() {
+	public void shouldAutoCreateZeroCells1() {
 		processor.process("=A2+B2+1", "B3");
 		assertThat(lookup("A2"), hasValue("0"));
 		assertThat(lookup("B2"), hasValue("0"));
 		assertThat(lookup("B3"), hasValue("1"));
 		assertTrue("A2 should be empty", lookup("A2").isEmptySpreadsheetCell());
 		assertFalse("B3 should not be empty", lookup("B3").isEmptySpreadsheetCell());
+	}
+
+	@Test
+	@Issue("APPS-5983")
+	public void shouldAutoCreateZeroCells2() {
+		processor.process("=1", "A1");
+		processor.process("=A2", "B1");
+		assertThat(lookup("A2"), hasValue("0"));
+	}
+
+	@Test
+	@Issue("APPS-5983")
+	public void shouldAutoCreateZeroCells3() {
+		processor.process("=3", "C3");
+		processor.process("=C4", "D4");
+		assertThat(lookup("D4"), hasValue("0"));
 	}
 
 	private GetCommand getCommand(GeoElement a1) {
