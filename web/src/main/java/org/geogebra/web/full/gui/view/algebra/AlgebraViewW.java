@@ -2293,4 +2293,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		return app;
 	}
 
+	/**
+	 * Reset the header (+ in graphing, number in scientific) after app switch
+	 */
+	public void resetInputItemHeader() {
+		if (inputPanelLatex != null) {
+			inputPanelLatex.resetItemHeader();
+		}
+	}
 }

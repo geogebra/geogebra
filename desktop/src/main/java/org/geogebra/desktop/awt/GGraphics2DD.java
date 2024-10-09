@@ -6,6 +6,7 @@ import java.awt.RenderingHints;
 import java.awt.RenderingHints.Key;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.util.Stack;
 
 import org.geogebra.common.awt.GAffineTransform;
@@ -16,11 +17,9 @@ import org.geogebra.common.awt.GComposite;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.gui.MyImageD;
@@ -357,11 +356,11 @@ public class GGraphics2DD implements GGraphics2D {
 		// TODO Auto-generated method stub
 	}
 
-	private GLine2D line;
+	private Line2D.Double line;
 
-	private GLine2D getLine() {
+	private Line2D.Double getLine() {
 		if (line == null) {
-			line = AwtFactory.getPrototype().newLine2D();
+			line = new Line2D.Double();
 		}
 
 		return line;
@@ -375,7 +374,7 @@ public class GGraphics2DD implements GGraphics2D {
 		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
 				RenderingHints.VALUE_STROKE_DEFAULT);
 
-		impl.draw(GGenericShapeD.getAwtShape(line));
+		impl.draw(line);
 
 		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
 				RenderingHints.VALUE_STROKE_PURE);
@@ -450,4 +449,9 @@ public class GGraphics2DD implements GGraphics2D {
 	public void drawImage(MyImage img, int dx, int dy, int dw, int dh) {
 		impl.drawImage(((MyImageD) img).getImage(), dx, dy, dx, dy, null);
 	}
+
+	public Graphics2D getNativeImplementation() {
+		return impl;
+	}
+
 }

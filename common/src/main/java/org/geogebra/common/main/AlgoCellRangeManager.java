@@ -2,10 +2,10 @@ package org.geogebra.common.main;
 
 import java.util.HashMap;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.statistics.AlgoCellRange;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 
 /**
  * Maintains a list of all instances of AlgoCellRange in a construction and
@@ -45,14 +45,14 @@ public class AlgoCellRangeManager {
 	 *            true if the given GeoElement has been removed
 	 * 
 	 */
-	public void updateCellRangeAlgos(GeoElement geo, GPoint location,
+	public void updateCellRangeAlgos(GeoElement geo, SpreadsheetCoords location,
 			boolean isRemoveAction) {
 		if (geo == null || algos == null) {
 			return;
 		}
 
 		for (AlgoCellRange algo : algos.values()) {
-			if (algo.getCellRange().contains(location)) {
+			if (algo.getRange().contains(location)) {
 				algo.updateList(geo, isRemoveAction);
 			}
 		}
@@ -66,13 +66,13 @@ public class AlgoCellRangeManager {
 	 * @param location
 	 *            location on spreadsheet
 	 */
-	public void addToCellRangeAlgos(GeoElement geo, GPoint location) {
+	public void addToCellRangeAlgos(GeoElement geo, SpreadsheetCoords location) {
 		if (geo == null || algos == null) {
 			return;
 		}
 
 		for (AlgoCellRange algo : algos.values()) {
-			if (algo.getCellRange().contains(location)) {
+			if (algo.getRange().contains(location)) {
 				algo.addToList(geo, location);
 			}
 		}

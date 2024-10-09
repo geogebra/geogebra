@@ -161,14 +161,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		ExamRestrictable, ExamProvider, ToolsProvider {
 
 	/** Url for wiki article about functions */
-	public static final String WIKI_OPERATORS = "Predefined Functions and Operators";
+	public static final String WIKI_OPERATORS = "Predefined_Functions_and_Operators";
 	/** Url for main page of manual */
-	public static final String WIKI_MANUAL = "Manual";
+	public static final String WIKI_MANUAL = "";
 	/** Url for wiki article about CAS */
 	public static final String WIKI_CAS_VIEW = "CAS_View";
 
 	/** Url for wiki article about functions */
-	public static final String WIKI_TEXT_TOOL = "Text Tool";
+	public static final String WIKI_TEXT_TOOL = "tools/Text";
 	/** id for dummy view */
 	public static final int VIEW_NONE = 0;
 	/** id for euclidian view */
@@ -2489,7 +2489,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            whether fonts should be reset
 	 */
 	public void setFontSize(int points, boolean update) {
-		FontSettingsUpdater fontSettingsUpdater = getSettingsUpdater().getFontSettingsUpdater();
+		FontSettingsUpdater fontSettingsUpdater = getFontSettingsUpdater();
 		if (update) {
 			fontSettingsUpdater.setAppFontSizeAndUpdateViews(points);
 		} else {
@@ -2510,7 +2510,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            GUI font size
 	 */
 	public void setGUIFontSize(int size) {
-		getSettingsUpdater().getFontSettingsUpdater().setGUIFontSizeAndUpdate(size);
+		getFontSettingsUpdater().setGUIFontSizeAndUpdate(size);
 	}
 
 	/**
@@ -4227,6 +4227,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	}
 
+	public AsyncManagerI getAsyncManager() {
+		return Runnable::run;
+	}
+
 	/**
 	 * possible positions for the inputBar (respective inputBox)
 	 */
@@ -4983,6 +4987,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return settingsUpdater;
 	}
 
+	public FontSettingsUpdater getFontSettingsUpdater() {
+		return getSettingsUpdater().getFontSettingsUpdater();
+	}
+
 	/**
 	 * make sure we create a new settings updater according the new appConfig
 	 * @return setting updater
@@ -4994,7 +5002,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
-		return new SettingsUpdaterBuilder(this);
+		SettingsUpdaterBuilder builder = new SettingsUpdaterBuilder(this);
+		builder.setPrototype(getConfig().createSettingsUpdater());
+		return builder;
 	}
 
 	/**

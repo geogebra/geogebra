@@ -30,7 +30,7 @@ public class GPopupMenuWMock extends GPopupMenuW {
 
 	@Override
 	public void addItem(AriaMenuItem item) {
-		menuBarMock.add(item.getHTML());
+		menuBarMock.add(item.getText());
 	}
 
 	@Override

@@ -4,9 +4,12 @@ import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.plugin.Operation;
 
 final class VlaanderenExamRestrictions extends ExamRestrictions {
 
@@ -15,8 +18,8 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 				Set.of(SuiteSubApp.CAS),
 				SuiteSubApp.GRAPHING,
 				null,
-				null,
-				null,
+				VlaanderenExamRestrictions.createExpressionFilters(),
+				VlaanderenExamRestrictions.createExpressionFilters(),
 				VlaanderenExamRestrictions.createCommandFilters(),
 				null,
 				null,
@@ -31,5 +34,11 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 				Commands.Solve, Commands.SolveQuartic, Commands.SolveODE, Commands.SolveCubic,
 				Commands.Solutions, Commands.NSolve, Commands.NSolveODE, Commands.NSolutions);
 		return Set.of(nameFilter);
+	}
+
+	private static Set<ExpressionFilter> createExpressionFilters() {
+		OperationExpressionFilter operationFilter = new OperationExpressionFilter(
+				Operation.DERIVATIVE);
+		return Set.of(operationFilter);
 	}
 }

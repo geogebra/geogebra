@@ -657,19 +657,17 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	}
 
 	/**
-	 * 
-	 * @param app
-	 *            app
-	 * @param isDefaults
-	 *            whether it's for defaults
+	 * @param app - app
+	 * @param isDefaults - whether it's for defaults
+	 * @param onTabSelection - tab selection callback
 	 */
-	public OptionsObjectW(AppW app, boolean isDefaults) {
+	public OptionsObjectW(AppW app, boolean isDefaults, Runnable onTabSelection) {
 		this.app = app;
 		this.isDefaults = isDefaults;
 		loc = app.getLocalization();
 		// build GUI
 		initPermissions();
-		initGUI();
+		initGUI(onTabSelection);
 	}
 
 	private void initPermissions() {
@@ -693,7 +691,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		return app;
 	}
 
-	private void initGUI() {
+	private void initGUI(final Runnable onTabSelection) {
 		wrappedPanel = new FlowPanel();
 		wrappedPanel.setStyleName("propertiesPanel");
 		tabPanel = new MultiRowsTabPanel();
@@ -704,6 +702,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 				tab.setFocused(false);
 			}
 			tabs.get(event.getSelectedItem()).initGUI();
+			onTabSelection.run();
 		});
 		tabPanel.setStyleName("propertiesPanel");
 		createBasicTab();

@@ -499,15 +499,15 @@ final public class Geo3DVec extends ValidExpression
 		double yy = v.getY();
 		double zz = v.getZ();
 
-		double a = MyList.getCell(list, 0, 0).evaluateDouble();
-		double b = MyList.getCell(list, 1, 0).evaluateDouble();
-		double c = MyList.getCell(list, 2, 0).evaluateDouble();
-		double d = MyList.getCell(list, 0, 1).evaluateDouble();
-		double e = MyList.getCell(list, 1, 1).evaluateDouble();
-		double f = MyList.getCell(list, 2, 1).evaluateDouble();
-		double g = MyList.getCell(list, 0, 2).evaluateDouble();
-		double h = MyList.getCell(list, 1, 2).evaluateDouble();
-		double i = MyList.getCell(list, 2, 2).evaluateDouble();
+		double a = MyList.getCellAsDouble(list, 0, 0);
+		double b = MyList.getCellAsDouble(list, 1, 0);
+		double c = MyList.getCellAsDouble(list, 2, 0);
+		double d = MyList.getCellAsDouble(list, 0, 1);
+		double e = MyList.getCellAsDouble(list, 1, 1);
+		double f = MyList.getCellAsDouble(list, 2, 1);
+		double g = MyList.getCellAsDouble(list, 0, 2);
+		double h = MyList.getCellAsDouble(list, 1, 2);
+		double i = MyList.getCellAsDouble(list, 2, 2);
 
 		x = a * xx + b * yy + c * zz;
 		y = d * xx + e * yy + f * zz;
@@ -544,10 +544,10 @@ final public class Geo3DVec extends ValidExpression
 			vector = true;
 		}
 
-		m = MyList.getCell(list, 0, 3).evaluateDouble();
-		n = MyList.getCell(list, 1, 3).evaluateDouble();
-		o = MyList.getCell(list, 2, 3).evaluateDouble();
-		p = MyList.getCell(list, 3, 3).evaluateDouble();
+		m = MyList.getCellAsDouble(list, 0, 3);
+		n = MyList.getCellAsDouble(list, 1, 3);
+		o = MyList.getCellAsDouble(list, 2, 3);
+		p = MyList.getCellAsDouble(list, 3, 3);
 
 		double w = m * xx + n * yy + o * zz + p * ww;
 
@@ -558,20 +558,20 @@ final public class Geo3DVec extends ValidExpression
 			return;
 		}
 
-		double a = MyList.getCell(list, 0, 0).evaluateDouble();
-		double b = MyList.getCell(list, 1, 0).evaluateDouble();
-		double c = MyList.getCell(list, 2, 0).evaluateDouble();
-		double d = MyList.getCell(list, 3, 0).evaluateDouble();
+		double a = MyList.getCellAsDouble(list, 0, 0);
+		double b = MyList.getCellAsDouble(list, 1, 0);
+		double c = MyList.getCellAsDouble(list, 2, 0);
+		double d = MyList.getCellAsDouble(list, 3, 0);
 
-		double e = MyList.getCell(list, 0, 1).evaluateDouble();
-		double f = MyList.getCell(list, 1, 1).evaluateDouble();
-		double g = MyList.getCell(list, 2, 1).evaluateDouble();
-		double h = MyList.getCell(list, 3, 1).evaluateDouble();
+		double e = MyList.getCellAsDouble(list, 0, 1);
+		double f = MyList.getCellAsDouble(list, 1, 1);
+		double g = MyList.getCellAsDouble(list, 2, 1);
+		double h = MyList.getCellAsDouble(list, 3, 1);
 
-		double i = MyList.getCell(list, 0, 2).evaluateDouble();
-		double j = MyList.getCell(list, 1, 2).evaluateDouble();
-		double k = MyList.getCell(list, 2, 2).evaluateDouble();
-		double l = MyList.getCell(list, 3, 2).evaluateDouble();
+		double i = MyList.getCellAsDouble(list, 0, 2);
+		double j = MyList.getCellAsDouble(list, 1, 2);
+		double k = MyList.getCellAsDouble(list, 2, 2);
+		double l = MyList.getCellAsDouble(list, 3, 2);
 
 		x = a * xx + b * yy + c * zz + d * ww;
 		y = e * xx + f * yy + g * zz + h * ww;
@@ -598,12 +598,12 @@ final public class Geo3DVec extends ValidExpression
 		double xx = v.getX();
 		double yy = v.getY();
 
-		double a = MyList.getCell(list, 0, 0).evaluateDouble();
-		double b = MyList.getCell(list, 1, 0).evaluateDouble();
-		double d = MyList.getCell(list, 0, 1).evaluateDouble();
-		double e = MyList.getCell(list, 1, 1).evaluateDouble();
-		double g = MyList.getCell(list, 0, 2).evaluateDouble();
-		double h = MyList.getCell(list, 1, 2).evaluateDouble();
+		double a = MyList.getCellAsDouble(list, 0, 0);
+		double b = MyList.getCellAsDouble(list, 1, 0);
+		double d = MyList.getCellAsDouble(list, 0, 1);
+		double e = MyList.getCellAsDouble(list, 1, 1);
+		double g = MyList.getCellAsDouble(list, 0, 2);
+		double h = MyList.getCellAsDouble(list, 1, 2);
 
 		x = a * xx + b * yy;
 		y = d * xx + e * yy;
@@ -628,12 +628,12 @@ final public class Geo3DVec extends ValidExpression
 		double yy = v.getY();
 		double zz = v.getZ();
 
-		double a = MyList.getCell(list, 0, 0).evaluateDouble();
-		double b = MyList.getCell(list, 1, 0).evaluateDouble();
-		double c = MyList.getCell(list, 2, 0).evaluateDouble();
-		double d = MyList.getCell(list, 0, 1).evaluateDouble();
-		double e = MyList.getCell(list, 1, 1).evaluateDouble();
-		double f = MyList.getCell(list, 2, 1).evaluateDouble();
+		double a = MyList.getCellAsDouble(list, 0, 0);
+		double b = MyList.getCellAsDouble(list, 1, 0);
+		double c = MyList.getCellAsDouble(list, 2, 0);
+		double d = MyList.getCellAsDouble(list, 0, 1);
+		double e = MyList.getCellAsDouble(list, 1, 1);
+		double f = MyList.getCellAsDouble(list, 2, 1);
 
 		ret.setCoords(a * xx + b * yy + c * zz, d * xx + e * yy + f * zz);
 	}

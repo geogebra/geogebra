@@ -637,6 +637,14 @@ public class ArithmeticTest extends BaseUnitTest {
 		shouldFail("1" + Unicode.XOR + "2", "1 " + Unicode.XOR + " 2", getApp());
 	}
 
+	@Test
+	@Issue("APPS-5572")
+	public void dollarOpsShouldKeepLabel() {
+		add("A1=7");
+		GeoElement nextRow = add("A2=A$1");
+		assertEquals("A2", nextRow.getLabelSimple());
+	}
+
 	private void assertAreEqual(String first, String second, Object areEqual) {
 		getKernel().clearConstruction(false);
 		add("f:" + first);

@@ -13,7 +13,7 @@ final class BayernCasExamRestrictions extends ExamRestrictions {
 	BayernCasExamRestrictions() {
 		super(ExamType.BAYERN_CAS,
 				Set.of(SuiteSubApp.GRAPHING, SuiteSubApp.GEOMETRY, SuiteSubApp.G3D,
-						SuiteSubApp.PROBABILITY),
+						SuiteSubApp.PROBABILITY, SuiteSubApp.SCIENTIFIC),
 				SuiteSubApp.CAS,
 				null,
 				null,

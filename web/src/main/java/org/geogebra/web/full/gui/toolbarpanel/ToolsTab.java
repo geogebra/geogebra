@@ -6,6 +6,7 @@ import org.geogebra.common.exam.ExamListener;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
+import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.util.CustomScrollbar;
@@ -199,6 +200,11 @@ public class ToolsTab extends ToolbarTab implements ExamListener {
 	@Override
 	protected void onActive() {
 		// unused
+	}
+
+	@Override
+	public DockPanelData.TabIds getID() {
+		return DockPanelData.TabIds.TOOLS;
 	}
 
 	@Override

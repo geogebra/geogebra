@@ -365,6 +365,16 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.exitExam();
 	}
 
+	@Test
+	public void testDerivativeOperatorDisabledForVlaanderen() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+		examController.prepareExam();
+		examController.startExam(ExamType.VLAANDEREN, null);
+
+		assertNotNull(evaluate("f(x) = x^2"));
+		assertNull(evaluate("f'"));
+	}
+
 	// -- ExamControllerDelegate --
 
 	@Override

@@ -372,7 +372,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private void createExportMenu() {
 		AriaMenuBar menu = new AriaMenuBar();
 		AriaMenuItem miToGraphich = new AriaMenuItem(
-				loc.getMenu("CopyToGraphics"), false,
+				loc.getMenu("CopyToGraphics"), null,
 				() -> {
 					exportToEV();
 					btnExport.removeSubPopup();
@@ -382,17 +382,15 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		if (app.getLAF().copyToClipboardSupported()) {
 			AriaMenuItem miAsPicture = new AriaMenuItem(
-					loc.getMenu("ExportAsPicture"), false,
+					loc.getMenu("ExportAsPicture"), null,
 					() -> {
 						exportAsPicture();
 						btnExport.removeSubPopup();
 					});
 			menu.addItem(miAsPicture);
 		}
-		String image = "<img src=\""
-				+ MaterialDesignResources.INSTANCE.prob_calc_export().getSafeUri()
-						.asString() + "\" >";
-		btnExport.addItem(new AriaMenuItem(image, true, menu));
+		btnExport.addItem(new AriaMenuItem("",
+				MaterialDesignResources.INSTANCE.prob_calc_export(), menu));
 	}
 
 	protected void exportAsPicture() {

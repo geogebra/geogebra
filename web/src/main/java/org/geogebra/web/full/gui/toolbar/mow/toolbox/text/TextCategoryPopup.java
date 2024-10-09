@@ -5,7 +5,6 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MEDIA_TEXT;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
@@ -13,6 +12,7 @@ import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.resources.SVGResourcePrototype;
 
 public class TextCategoryPopup extends GPopupMenuW implements SetLabels {
 	private IconButton textButton;
@@ -37,16 +37,17 @@ public class TextCategoryPopup extends GPopupMenuW implements SetLabels {
 	}
 
 	private void addItem(int mode) {
-		SVGResource image = (SVGResource) GGWToolBar.getImageURLNotMacro(
-				ToolbarSvgResources.INSTANCE, mode, getApp());
 		String text = getApp().getToolName(mode);
 
-		AriaMenuItem item = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
-				image.getSafeUri().asString(), text), true, () -> {});
-		item.setScheduledCommand(() -> {
-			updateMode(mode);
-			updateButton(image, mode);
-			updateSelection(item);
+		AriaMenuItem item = MainMenu.getMenuBarItem(
+				SVGResourcePrototype.EMPTY, text, () -> {});
+		GGWToolBar.getImageResource(mode, getApp(), image -> {
+			item.setResource(image);
+			item.setScheduledCommand(() -> {
+				updateMode(mode);
+				updateButton((SVGResource) image, mode);
+				updateSelection(item);
+			});
 		});
 		addItem(item);
 	}

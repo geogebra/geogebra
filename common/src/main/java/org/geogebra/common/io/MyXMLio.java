@@ -150,7 +150,6 @@ public abstract class MyXMLio {
 		}
 
 		sb.append("</geogebra>");
-
 		return sb;
 	}
 

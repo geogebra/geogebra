@@ -1,10 +1,7 @@
 package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.gui.view.spreadsheet.CellFormat;
-import org.geogebra.common.gui.view.spreadsheet.CellFormatInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -19,6 +16,9 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
+import org.geogebra.common.spreadsheet.style.CellFormat;
+import org.geogebra.common.spreadsheet.style.CellFormatInterface;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -80,7 +80,7 @@ public class CmdSetColor extends CmdScripting {
 					&& LabelManager.isValidLabel(label, kernel, null)
 					&& GeoElementSpreadsheet.isSpreadsheetLabel(label)) {
 
-				GPoint coords = GeoElementSpreadsheet.spreadsheetIndices(label);
+				SpreadsheetCoords coords = GeoElementSpreadsheet.spreadsheetIndices(label);
 
 				CellFormatInterface formatHandler = kernel.getApplication()
 						.getSpreadsheetTableModel().getCellFormat(null);
@@ -119,7 +119,7 @@ public class CmdSetColor extends CmdScripting {
 					&& LabelManager.isValidLabel(label, kernel, null)
 					&& GeoElementSpreadsheet.isSpreadsheetLabel(label)) {
 
-				GPoint coords = GeoElementSpreadsheet.spreadsheetIndices(label);
+				SpreadsheetCoords coords = GeoElementSpreadsheet.spreadsheetIndices(label);
 
 				CellFormatInterface formatHandler = kernel.getApplication()
 						.getSpreadsheetTableModel().getCellFormat(null);

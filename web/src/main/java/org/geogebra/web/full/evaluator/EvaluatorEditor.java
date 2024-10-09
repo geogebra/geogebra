@@ -90,7 +90,7 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 	}
 
 	private void scrollContentIfNeeded() {
-		mathFieldEditor.scrollHorizontally();
+		mathFieldEditor.scrollCursorVisibleHorizontally();
 		mathFieldEditor.scrollVertically();
 	}
 

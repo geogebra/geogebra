@@ -43,4 +43,7 @@ public class NativePointerEvent {
 
 	@JsProperty
 	public native int getButton();
+
+	@JsProperty
+	public native boolean getMetaKey();
 }

@@ -36,7 +36,7 @@ import org.gwtproject.user.client.ui.Widget;
 public class PropertiesViewW extends PropertiesView
 		implements RequiresResize, SetLabels {
 
-	private FlowPanel wrappedPanel;
+	private final FlowPanel wrappedPanel;
 
 	// option panels
 	private OptionsDefaultsW defaultsPanel;
@@ -137,8 +137,7 @@ public class PropertiesViewW extends PropertiesView
 
 		case EUCLIDIAN:
 			if (euclidianPanel == null) {
-				euclidianPanel = new OptionsEuclidianW((AppW) app,
-						((AppW) app).getActiveEuclidianView());
+				euclidianPanel = new OptionsEuclidianW((AppW) app, app.getActiveEuclidianView());
 				euclidianPanel.setLabels();
 				euclidianPanel.setView(((AppW) app).getEuclidianView1());
 			}
@@ -155,8 +154,7 @@ public class PropertiesViewW extends PropertiesView
 
 		case EUCLIDIAN3D:
 			if (euclidianPanel3D == null) {
-				euclidianPanel3D = new OptionsEuclidianW((AppW) app,
-						((AppW) app).getEuclidianView3D());
+				euclidianPanel3D = new OptionsEuclidianW((AppW) app, app.getEuclidianView3D());
 				euclidianPanel3D.setLabels();
 			}
 			return euclidianPanel2;
@@ -182,7 +180,7 @@ public class PropertiesViewW extends PropertiesView
 
 		case OBJECTS:
 			if (getObjectPanel() == null) {
-				setObjectPanel(new OptionsObjectW((AppW) app, false));
+				setObjectPanel(new OptionsObjectW((AppW) app, false, this::updatePropertiesView));
 			}
 			getObjectPanel().selectTab(subType);
 			return getObjectPanel();
@@ -361,7 +359,7 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void updateSelection(ArrayList<GeoElement> geos) {
-		if (geos.size() != 0 && optionType != OptionType.OBJECTS) {
+		if (!geos.isEmpty() && optionType != OptionType.OBJECTS) {
 			setOptionPanel(OptionType.OBJECTS);
 		}
 		updatePropertiesGUI();
