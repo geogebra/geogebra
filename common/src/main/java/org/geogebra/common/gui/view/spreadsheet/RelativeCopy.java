@@ -558,7 +558,7 @@ public class RelativeCopy {
 			}
 			return null;
 		}
-		String text = null;
+		String text;
 
 		// make sure a/0.001 doesn't become a/0
 
@@ -570,7 +570,7 @@ public class RelativeCopy {
 		}
 
 		// handle GeoText source value
-		if (value.isGeoText() && !((GeoText) value).isTextCommand()) {
+		if (value.isGeoText() && !value.isTextCommand()) {
 			// enclose text in quotes if we are copying an independent GeoText,
 			// e.g. "2+3"
 			if (value.isIndependent()) {
