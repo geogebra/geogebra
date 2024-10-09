@@ -35,7 +35,7 @@ public class RelativeCopyTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void numericCopy1() {
+	public void numericCopy() {
 		add("A1=1");
 		new RelativeCopy(getKernel(), TestErrorHandler.INSTANCE).doDragCopy(0, 0, 0, 0,
 				0, 1, 0, 1);
@@ -43,12 +43,13 @@ public class RelativeCopyTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void numericCopy2() {
+	public void numericCopyHasCorrectPrecision() {
 		add("C3 = 1 / 8");
 		getApp().setRounding("2");
 		new RelativeCopy(getKernel(), TestErrorHandler.INSTANCE).doDragCopy(2, 2, 2, 2,
 				3, 2, 3, 2);
-		assertThat(lookup("D3"), hasValue("0.13"));
+		getApp().setRounding("3");
+		assertThat(lookup("D3"), hasValue("0.125"));
 	}
 
 	@Test
