@@ -32,9 +32,7 @@ public abstract class Localization extends LocalizationI {
 	static final public String ROUNDING_MENU_SEPARATOR = "---";
 
 	// Giac works to 13 sig digits (for "double" calculations)
-	private int dimension = 2;
-
-	private StringBuilder sbOrdinal = new StringBuilder();
+	private final int dimension;
 	private boolean isAutoCompletePossible = true;
 	// For Persian and Arabic.
 	private boolean isMinusOnRight = false;
@@ -57,10 +55,11 @@ public abstract class Localization extends LocalizationI {
 	/** comma (different in Arabic) */
 	private char unicodeComma = ','; // \u060c for Arabic comma
 
-	private int[] decimalPlaces = { 0, 1, 2, 3, 4, 5, 10, 13, 15 };
-	private int[] significantFigures = {3, 5, 10, 15};
+	private int[] decimalPlacesOptions = { 0, 1, 2, 3, 4, 5, 10, 13, 15 };
+	private int[] significantFiguresOptions = {3, 5, 10, 15};
 
-	private CommandErrorMessageBuilder commandErrorMessageBuilder;
+	// TODO this doesn't really belong here; find a better owner (CommandProcessor?)
+	private final CommandErrorMessageBuilder commandErrorMessageBuilder;
 
 	/**
 	 * eg Symbol.And
@@ -75,7 +74,7 @@ public abstract class Localization extends LocalizationI {
 	 */
 	public Localization(int dimension, int maxFigures) {
 		this.dimension = dimension;
-		this.significantFigures[significantFigures.length - 1] = maxFigures;
+		this.significantFiguresOptions[significantFiguresOptions.length - 1] = maxFigures;
 		this.commandErrorMessageBuilder = new CommandErrorMessageBuilder(this);
 	}
 
@@ -123,7 +122,7 @@ public abstract class Localization extends LocalizationI {
 	 * @return the decimal places in this localization
 	 */
 	public int[] getDecimalPlaces() {
-		return decimalPlaces;
+		return decimalPlacesOptions;
 	}
 
 	/**
@@ -132,14 +131,14 @@ public abstract class Localization extends LocalizationI {
 	 * @param decimalPlaces decimal places
 	 */
 	public void setDecimalPlaces(int[] decimalPlaces) {
-		this.decimalPlaces = decimalPlaces;
+		this.decimalPlacesOptions = decimalPlaces;
 	}
 
 	/**
 	 * @return the sigificant figures in this localization
 	 */
 	public int[] getSignificantFigures() {
-		return significantFigures;
+		return significantFiguresOptions;
 	}
 
 	/**
@@ -148,7 +147,7 @@ public abstract class Localization extends LocalizationI {
 	 * @param significantFigures significant figures
 	 */
 	public void setSignificantFigures(int[] significantFigures) {
-		this.significantFigures = significantFigures;
+		this.significantFiguresOptions = significantFigures;
 	}
 
 	/**
@@ -186,7 +185,7 @@ public abstract class Localization extends LocalizationI {
 				match = text.indexOf(affix);
 				// match > 0 can be assumed because an affix will not start the
 				// text
-				if ((match > -1) && (match > 0)) {
+				if (match > 0) {
 					// Affix found. Get the previous character.
 					String prevChars = translationFixPronouncedPrevChars(text,
 							match, 1);
@@ -281,7 +280,7 @@ public abstract class Localization extends LocalizationI {
 	 * Gets the previous "pronounced" characters from text before the match
 	 * position for the given length. The returned text will be lowercased.
 	 * 
-	 * Example: translationFixPrevChars("ABC_{123}", 8, 4) gives "c123"
+	 * <p>Example: translationFixPrevChars("ABC_{123}", 8, 4) gives "c123"
 	 * 
 	 * @param text
 	 *            the text to pronounce
@@ -294,7 +293,7 @@ public abstract class Localization extends LocalizationI {
 	private static String translationFixPronouncedPrevChars(String text,
 			int match, int length) {
 		int pos = match;
-		String rettext = "";
+		StringBuilder rettext = new StringBuilder();
 		int rettextlen = 0;
 		String thisChar;
 		String ignoredChars = "_{}";
@@ -302,12 +301,12 @@ public abstract class Localization extends LocalizationI {
 		while ((rettextlen < length) && (pos > 0)) {
 			thisChar = text.substring(pos - 1, pos);
 			if (!ignoredChars.contains(thisChar)) {
-				rettext = thisChar.toLowerCase() + rettext;
+				rettext.insert(0, thisChar.toLowerCase());
 				rettextlen++;
 			}
 			pos--;
 		}
-		return rettext;
+		return rettext.toString();
 	}
 
 	/**
@@ -410,7 +409,7 @@ public abstract class Localization extends LocalizationI {
 			}
 		}
 
-		if ("".equals(replace)) {
+		if (replace.isEmpty()) {
 			// No replace.
 			return text;
 		}
@@ -476,17 +475,18 @@ public abstract class Localization extends LocalizationI {
 	 * @author Michael Borcherds, Markus Hohenwarter
 	 * @param key
 	 *            key
+	 * @param defaultPattern default translation pattern
 	 * @param args
 	 *            arguments for replacement
 	 * @return translated key with replaced %*s
 	 */
-	final public String getPlainArray(String key, String default0,
+	final public String getPlainArray(String key, String defaultPattern,
 			String[] args) {
 		String str = getMenu(key);
 
-		if (default0 != null && key.equals(str)) {
+		if (defaultPattern != null && key.equals(str)) {
 			// lookup failed, use default
-			str = default0;
+			str = defaultPattern;
 		}
 
 		StringBuilder sbPlain = new StringBuilder();
@@ -530,13 +530,11 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * 
-	 * 
-	 * only letters, numbers and _ allowed in label names check for other
+	 * Only letters, numbers and _ allowed in label names check for other
 	 * characters in the properties, and remove them
 	 * 
 	 * @param key
-	 *            eg "poly" -> "Name.poly" -> poly -> poly1 as a label
+	 *            eg "polygon" -&gt; "Name.polygon" -&gt; poly
 	 * @param fallback
 	 *            if properties not loaded
 	 * @return "poly" (the suffix is added later)
@@ -589,10 +587,14 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * 
-	 * @return 2 letter language name, eg "en"
+	 * @return active language
 	 */
-	public abstract String getLanguage();
+	public abstract Language getLanguage();
+
+	/**
+	 * @return current language
+	 */
+	public abstract Language getLanguageEnum();
 
 	/**
 	 * @param lang
@@ -600,7 +602,7 @@ public abstract class Localization extends LocalizationI {
 	 * @return whether we are currently using given language
 	 */
 	public boolean languageIs(String lang) {
-		return getLanguage().equals(lang);
+		return getLanguage().language.equals(lang);
 	}
 
 	/**
@@ -614,220 +616,10 @@ public abstract class Localization extends LocalizationI {
 	 */
 	public String translationFix(String text) {
 		// Currently no other language is supported than Hungarian.
-		String lang = getLanguage();
-		if (!("hu".equals(lang))) {
-			return text;
+		if (languageIs("hu")) {
+			return translationFixHu(text);
 		}
-		return translationFixHu(text);
-	}
-
-	/**
-	 * given 1, return eg 1st, 1e, 1:e according to the language
-	 * 
-	 * http://en.wikipedia.org/wiki/Ordinal_indicator
-	 * 
-	 * @param n
-	 *            number
-	 * @return corresponding ordinal number
-	 */
-	public String getOrdinalNumber(int n) {
-		String lang = getLanguage();
-
-		if ("en".equals(lang)) {
-			return getOrdinalNumberEn(n);
-		}
-
-		// check here for languages where 1st = 1
-		if ("pt".equals(lang) || "ar".equals(lang) || "cy".equals(lang)
-				|| "fa".equals(lang) || "ja".equals(lang) || "ko".equals(lang)
-				|| "lt".equals(lang) || "mr".equals(lang) || "ms".equals(lang)
-				|| "nl".equals(lang) || "si".equals(lang) || "th".equals(lang)
-				|| "vi".equals(lang) || "zh".equals(lang)) {
-			return n + "";
-		}
-
-		if (sbOrdinal == null) {
-			sbOrdinal = new StringBuilder();
-		} else {
-			sbOrdinal.setLength(0);
-		}
-
-		// prefixes
-		if ("in".equals(lang)) {
-			sbOrdinal.append("ke-");
-		} else if ("iw".equals(lang)) {
-			// prefix and postfix for Hebrew
-			sbOrdinal.append("\u200f\u200e");
-		}
-
-		sbOrdinal.append(n);
-
-		if ("cs".equals(lang) || "da".equals(lang) || "et".equals(lang)
-				|| "eu".equals(lang) || "hr".equals(lang) || "hu".equals(lang)
-				|| "is".equals(lang) || "no".equals(lang) || "sk".equals(lang)
-				|| "sr".equals(lang) || "tr".equals(lang)) {
-			sbOrdinal.append('.');
-		} else if ("de".equals(lang)) {
-			sbOrdinal.append("th");
-		} else if ("fi".equals(lang)) {
-			sbOrdinal.append(":s");
-		} else if ("el".equals(lang)) {
-			sbOrdinal.append('\u03b7');
-		} else if ("ro".equals(lang) || "es".equals(lang) || "it".equals(lang)
-				|| "pt".equals(lang)) {
-			sbOrdinal.append(Unicode.FEMININE_ORDINAL_INDICATOR);
-		} else if ("bs".equals(lang) || "sl".equals(lang)) {
-			sbOrdinal.append("-ti");
-		} else if ("ca".equals(lang)) {
-
-			switch (n) {
-			// Catalan (masculine)
-			case 0:
-				break; // just "0", not "0e" etc
-			case 1:
-				sbOrdinal.append("r");
-				break;
-			case 2:
-				sbOrdinal.append("n");
-				break;
-			case 3:
-				sbOrdinal.append("r");
-				break;
-			case 4:
-				sbOrdinal.append("t");
-				break;
-			default:
-				sbOrdinal.append("e");
-				break;
-			}
-
-		} else if ("sq".equals(lang)) {
-			sbOrdinal.append("-te");
-		} else if ("gl".equals(lang)) {
-			sbOrdinal.append("ava");
-		} else if ("mk".equals(lang)) {
-			sbOrdinal.append("-\u0442\u0438");
-		} else if ("ka".equals(lang)) {
-			sbOrdinal.append("-\u10d4");
-		} else if ("iw".equals(lang)) {
-			sbOrdinal.append("\u200e\u200f");
-		} else if ("ru".equals(lang) || "uk".equals(lang)) {
-			sbOrdinal.append("-\u0433\u043e");
-		} else if ("fr".equals(lang)) {
-			if (n == 1) {
-				sbOrdinal.append("er"); // could also be "re" for feminine...
-			} else {
-				sbOrdinal.append("e"); // could also be "es" for plural...
-			}
-		} else if ("sv".equals(lang)) {
-			int unitsDigit = n % 10;
-			if ((unitsDigit == 1) || (unitsDigit == 2)) {
-				sbOrdinal.append(":a");
-			} else {
-				sbOrdinal.append(":e");
-			}
-		}
-
-		return sbOrdinal.toString();
-	}
-
-	/**
-	 * given 1, return eg 1st (English only)
-	 * 
-	 * http://en.wikipedia.org/wiki/Ordinal_indicator
-	 * 
-	 * @param n
-	 *            number
-	 * @return english ordinal number
-	 */
-	public String getOrdinalNumberEn(int n) {
-		/*
-		 * http://en.wikipedia.org/wiki/Names_of_numbers_in_English If the tens
-		 * digit of a number is 1, then write "th" after the number. For
-		 * example: 13th, 19th, 112th, 9,311th. If the tens digit is not equal
-		 * to 1, then use the following table: If the units digit is: 0 1 2 3 4
-		 * 5 6 7 8 9 write this after the number th st nd rd th th th th th th
-		 */
-
-		int tensDigit = (n / 10) % 10;
-
-		if (tensDigit == 1) {
-			return n + "th";
-		}
-
-		int unitsDigit = n % 10;
-
-		switch (unitsDigit) {
-		case 1:
-			return n + "st";
-		case 2:
-			return n + "nd";
-		case 3:
-			return n + "rd";
-		default:
-			return n + "th";
-		}
-
-	}
-
-	/**
-	 * Prime notation ()' vs Leibniz notation d/dx for derivatives
-	 * 
-	 * @return whether to use prime notation
-	 */
-	public boolean primeNotation() {
-		return !getLocaleStr().startsWith("en");
-	}
-
-	/**
-	 * @param closed
-	 *            closed intercal
-	 * @param template
-	 *            template
-	 * @return interval start bracket
-	 */
-	public String intervalStartBracket(boolean closed,
-			StringTemplate template) {
-		String lang = getLanguage();
-
-		if (closed) {
-			if ("cs".equals(lang)) {
-				return template.leftAngleBracket();
-			}
-
-			return template.leftSquareBracket();
-		}
-
-		if ("hu".equals(lang) || "fr".equals(lang)) {
-			return template.invertedLeftSquareBracket();
-		}
-
-		return template.leftBracket();
-	}
-
-	/**
-	 * @param closed
-	 *            closed intercal
-	 * @param template
-	 *            template
-	 * @return interval end bracket
-	 */
-	public String intervalEndBracket(boolean closed, StringTemplate template) {
-		String lang = getLanguage();
-
-		if (closed) {
-			if ("cs".equals(lang)) {
-				return template.rightAngleBracket();
-			}
-
-			return template.rightSquareBracket();
-		}
-
-		if ("hu".equals(lang) || "fr".equals(lang)) {
-			return template.invertedRightSquareBracket();
-		}
-
-		return template.rightBracket();
+		return text;
 	}
 
 	/**
@@ -835,17 +627,17 @@ public abstract class Localization extends LocalizationI {
 	 */
 	public String[] getRoundingMenu() {
 		List<String> list = new ArrayList<>();
-		for (int i = 0; i < decimalPlaces.length; i++) {
+		for (int decimalPlaces : decimalPlacesOptions) {
 			String key = "ADecimalPlaces";
 			// zero is singular in eg French
-			if (decimalPlaces[i] == 0 && !isZeroPlural(getLanguage())) {
+			if (decimalPlaces == 0 && !isZeroPlural()) {
 				key = "ADecimalPlace";
 			}
-			list.add(getPlain(key, String.valueOf(decimalPlaces[i])));
+			list.add(getPlain(key, String.valueOf(decimalPlaces)));
 		}
 		list.add(ROUNDING_MENU_SEPARATOR);
-		for (int i = 0; i < significantFigures.length; i++) {
-			list.add(getPlain("ASignificantFigures", String.valueOf(significantFigures[i])));
+		for (int significantFigures : significantFiguresOptions) {
+			list.add(getPlain("ASignificantFigures", String.valueOf(significantFigures)));
 		}
 
 		String[] array = new String[list.size()];
@@ -857,12 +649,10 @@ public abstract class Localization extends LocalizationI {
 	/**
 	 * in French, zero is singular, eg 0 dcimale rather than 0 decimal places
 	 * 
-	 * @param lang
-	 *            language code
 	 * @return whether 0 is plural
 	 */
-	public boolean isZeroPlural(String lang) {
-		return !lang.startsWith("fr");
+	public boolean isZeroPlural() {
+		return languageIs("fr");
 	}
 
 	/**
@@ -947,14 +737,12 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * @param language
-	 *            language string
+	 * @param language ISO 639-1 or 2 defined two or three letter language code
 	 * @return whether to use LTR
 	 */
 	public static boolean rightToLeftReadingOrder(String language) {
-		String lang = language.substring(0, 2);
-		return "iw".equals(lang) || "ar".equals(lang) || "fa".equals(lang)
-				|| "ji".equals(lang) || "he".equals(lang) || "ug".equals(lang);
+		return "ar".equals(language) || "fa".equals(language) || "yi".equals(language)
+				|| "he".equals(language) || "ug".equals(language);
 	}
 
 	/**
@@ -998,7 +786,7 @@ public abstract class Localization extends LocalizationI {
 	/**
 	 * Use localized digits for certain languages (Arabic, Hebrew, etc).
 	 * 
-	 * Calls {@link #updateLanguageFlags(String)} to apply the change, but just
+	 * <p>Calls {@link #updateLanguageFlags(String)} to apply the change, but just
 	 * if the new flag differs from the current.
 	 * 
 	 * @param useLocalizedDigits
@@ -1012,7 +800,7 @@ public abstract class Localization extends LocalizationI {
 		}
 
 		this.useLocalizedDigits = useLocalizedDigits;
-		updateLanguageFlags(getLanguage());
+		updateLanguageFlags(getLanguage().language);
 		app.getKernel().updateConstruction(false);
 		app.setUnsaved();
 
@@ -1123,7 +911,7 @@ public abstract class Localization extends LocalizationI {
 	protected abstract boolean isCommandNull();
 
 	public int getRightAngleStyle() {
-		return Language.getRightAngleStyle(getLanguage());
+		return getLanguage().getRightAngleStyle();
 	}
 
 	/**
@@ -1142,13 +930,7 @@ public abstract class Localization extends LocalizationI {
 		if (ret != null) {
 			return ret;
 		}
-		// if that fails check internal commands
-		for (Commands c : Commands.values()) {
-			if (StringUtil.toLowerCaseUS(c.name()).equals(key)) {
-				return Commands.englishToInternal(c).name();
-			}
-		}
-		return null;
+		return Commands.lookupInternal(key);
 	}
 
 	/**
@@ -1196,12 +978,9 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * 
-	 * return East/West as appropriate for eg Hebrew / Arabic
-	 * 
-	 * return String rather than app.borderWest() so we're not dependent on awt
-	 * 
-	 * @return "West" or "East"
+	 * Return East/West as appropriate for eg Hebrew / Arabic
+	 *
+	 * @return "West" or "East" (String rather than app.borderWest() so we're not dependent on awt)
 	 */
 	final public String borderWest() {
 		if (!isRightToLeftReadingOrder()) {
@@ -1211,12 +990,9 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * 
 	 * return East/West as appropriate for eg Hebrew / Arabic
 	 * 
-	 * return String rather than app.borderEast() so we're not dependent on awt
-	 * 
-	 * @return "East" or "West"
+	 * @return "East" or "West" (String rather than app.borderEast() so we're not dependent on awt)
 	 */
 	final public String borderEast() {
 		if (isRightToLeftReadingOrder()) {
@@ -1314,7 +1090,7 @@ public abstract class Localization extends LocalizationI {
 	 * @return character for zero (0) in current language
 	 */
 	public char getZero() {
-		return Language.getUnicodeZero(getLanguage());
+		return getLanguage().getUnicodeZero();
 	}
 
 	/**
@@ -1347,7 +1123,7 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	public boolean isUsingDecimalComma() {
-		return Language.isUsingDecimalComma(getLanguage());
+		return getLanguage().isUsingDecimalComma();
 	}
 
 	/**
@@ -1362,4 +1138,11 @@ public abstract class Localization extends LocalizationI {
 		return commandSyntax;
 	}
 
+	/**
+	 * The accounts website uses ISO 639-2 language names, but with _ as subtag separator
+	 * @return language tag with underscores
+	 */
+	public String getLanguageTagForLogin() {
+		return getLanguageTag().replace("-", "_");
+	}
 }

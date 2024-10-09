@@ -13,10 +13,10 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Translate[ &lt;GeoPoint>, &lt;GeoVector> ] Translate[ &lt;GeoLine>,
- * &lt;GeoVector> ] Translate[ &lt;GeoConic>, &lt;GeoVector> ] Translate[
- * &lt;GeoFunction>, &lt;GeoVector> ] Translate[ &lt;GeoVector>, &lt;GeoPoint> ]
- * // set start point Translate[ &lt;GeoPolygon>, &lt;GeoVector> ]
+ * Translate[ &lt;GeoPoint&gt;, &lt;GeoVector&gt; ] Translate[ &lt;GeoLine&gt;,
+ * &lt;GeoVector&gt; ] Translate[ &lt;GeoConic&gt;, &lt;GeoVector&gt; ] Translate[
+ * &lt;GeoFunction&gt;, &lt;GeoVector&gt; ] Translate[ &lt;GeoVector&gt;, &lt;GeoPoint&gt; ]
+ * // set start point Translate[ &lt;GeoPolygon&gt;, &lt;GeoVector&gt; ]
  * 
  */
 public class CmdTranslate extends CommandProcessor {
@@ -32,7 +32,7 @@ public class CmdTranslate extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c)
+	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		String label = c.getLabel();
 		int n = c.getArgumentNumber();

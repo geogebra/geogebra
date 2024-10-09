@@ -78,6 +78,7 @@ import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
+import com.himamis.retex.renderer.web.geom.Point2DW;
 import com.himamis.retex.renderer.web.graphics.ColorW;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
@@ -134,6 +135,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private boolean wasPaintedWithCursor;
 	private int rightMargin = 30;
 	private int bottomOffset = 10;
+	private double maxHeight = -1;
+	private ClickAdapterW adapter;
 
 	/**
 	 * @param converter
@@ -180,7 +183,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}
 		SelectionBox.touchSelection = false;
 		mathFieldInternal.setSelectionMode(true);
-		mathFieldInternal.setFieldListener(listener);
+		mathFieldInternal.addMathFieldListener(listener);
 		mathFieldInternal.setType(TeXFont.SANSSERIF);
 		mathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel));
 		initTimer();
@@ -311,17 +314,34 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public void setTeXIcon(TeXIcon icon) {
 		this.lastIcon = icon;
 
-		double height = computeHeight();
-		if (ctx == null || height < 0) {
+		Point2DW size = computeSize();
+		if (ctx == null || size == null) {
 			return;
 		}
-		ctx.canvas.style.height = CSSProperties.HeightUnionType.of(height + "px");
 
-		double value = computeWidth();
-		ctx.canvas.style.width = CSSProperties.WidthUnionType.of(value + "px");
-		parent.setHeight(height + "px");
+		ctx.canvas.style.height = CSSProperties.HeightUnionType.of(size.getY() + "px");
+		ctx.canvas.style.width = CSSProperties.WidthUnionType.of(size.getX() + "px");
+		parent.setHeight(size.getY() + "px");
 		parent.getElement().getStyle().setVerticalAlign(VerticalAlign.TOP);
 		repaintWeb();
+	}
+
+	private Point2DW computeSize() {
+		double height = computeHeight();
+		if (ctx == null || height < 0) {
+			return null;
+		}
+		double width = computeWidth();
+		if (maxHeight > 0) {
+			scale = 1;
+			if (height > maxHeight) {
+				scale = maxHeight / height;
+				width = width * scale;
+				height = maxHeight;
+			}
+			adapter.setScale(scale);
+		}
+		return new Point2DW(width, height);
 	}
 
 	@Override
@@ -331,7 +351,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	@Override
 	public void setClickListener(ClickListener clickListener) {
-		ClickAdapterW adapter = new ClickAdapterW(clickListener, this);
+		adapter = new ClickAdapterW(clickListener, this);
 		adapter.listenTo(html);
 	}
 
@@ -349,7 +369,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		html2.getElement().setAttribute("role", "application");
 		html2.addDomHandler(event -> {
 			// don't kill Ctrl+V or write V
-		if (controlDown(event)
+			if (controlDown(event)
 					&& (event.getCharCode() == 'v'
 							|| event.getCharCode() == 'V')
 					|| isLeftAltDown()) {
@@ -609,16 +629,19 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (lastIcon == null) {
 			return;
 		}
-		final double height = computeHeight();
-		final double width = computeWidth();
-		ctx.canvas.height = (int) Math.ceil(height * ratio);
-		ctx.canvas.width = (int) Math.ceil(width * ratio);
+		Point2DW size = computeSize();
+		if (size == null) {
+			return;
+		}
+		ctx.canvas.height = (int) Math.ceil(size.getY() * ratio);
+		ctx.canvas.width = (int) Math.ceil(size.getX() * ratio);
 		wasPaintedWithCursor = CursorBox.visible();
 
 		double margin = getMargin(lastIcon);
 
-		paint(ctx, margin, backgroundColor);
-		lastIcon.paintCursor(new Graphics2DW(ctx), margin);
+		paint(ctx, margin, backgroundColor, scale);
+		Graphics2DW g = new Graphics2DW(ctx);
+		lastIcon.paintCursor(g, margin);
 	}
 
 	private double computeWidth() {
@@ -629,9 +652,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * Paints the formula on a canvas
 	 * @param ctx canvas context
 	 */
-	public void paint(CanvasRenderingContext2D ctx, double top, ColorW bgColor) {
+	public void paint(CanvasRenderingContext2D ctx, double top, ColorW bgColor, double scale) {
 		JlmLib.draw(lastIcon, ctx, 0, top, foregroundColor,
-				bgColor, null, ratio);
+				bgColor, null, ratio * scale);
 	}
 
 	/**
@@ -832,10 +855,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		this.mathFieldInternal.deleteCurrentWord();
 	}
 
-	public String getCurrentWord() {
-		return this.mathFieldInternal.getCurrentWord();
-	}
-
 	/**
 	 * Make the cursor blink in this editor.
 	 */
@@ -892,7 +911,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	public void clearState() {
-		Js.asPropertyMap(inputTextArea.getElement()).set("value", "");
+		Js.<HTMLTextAreaElement>uncheckedCast(inputTextArea.getElement()).value = "";
 	}
 
 	@Override
@@ -950,10 +969,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			hiddenTextArea.setId("hiddenCopyPasteLatexArea" + counter);
 			hiddenTextArea.getStyle().setOpacity(0);
 			clipDiv.getStyle().setZIndex(-32000);
-			//* although clip is for absolute position, necessary! 
-			//* as it is deprecated, may cause CSS challenges later 
+			// although clip is for absolute position, necessary!
+			// as it is deprecated, may cause CSS challenges later
 			clipDiv.getStyle().setProperty("clip", "rect(1em 1em 1em 1em)");
-			//* top/left will be specified dynamically, depending on scrollbar
+			// top/left will be specified dynamically, depending on scrollbar
 			clipDiv.getStyle().setHeight(1, Unit.PX);
 			clipDiv.getStyle().setWidth(1, Unit.PX);
 			clipDiv.getStyle().setPosition(Position.RELATIVE);
@@ -1046,10 +1065,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public void insertFunction(String text) {
 		mathFieldInternal.insertFunction(text);
-	}
-
-	public void checkEnterReleased(Runnable r) {
-		mathFieldInternal.checkEnterReleased(r);
 	}
 
 	public void setPlainTextMode(boolean plainText) {
@@ -1247,4 +1262,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		return minHeight;
 	}
 
+	public void setMaxHeight(double maxHeight) {
+		this.maxHeight = maxHeight;
+	}
 }

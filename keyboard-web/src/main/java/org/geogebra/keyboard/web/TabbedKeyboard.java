@@ -3,7 +3,8 @@ package org.geogebra.keyboard.web;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
@@ -17,10 +18,12 @@ import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.base.Resource;
+import org.geogebra.keyboard.base.impl.DefaultKeyboardFactory;
 import org.geogebra.keyboard.base.model.WeightedButton;
 import org.geogebra.keyboard.scientific.factory.ScientificKeyboardFactory;
 import org.geogebra.keyboard.web.factory.InputBoxKeyboardFactory;
 import org.geogebra.keyboard.web.factory.NotesKeyboardFactory;
+import org.geogebra.keyboard.web.factory.SolverKeyboardFactory;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -36,13 +39,9 @@ public class TabbedKeyboard extends FlowPanel
 		implements ButtonHandler, RequiresResize {
 
 	/**
-	 * small height
+	 * Height including the switcher
 	 */
-	public static final int SMALL_HEIGHT = 131;
-	/**
-	 * big height
-	 */
-	public static final int BIG_HEIGHT = 186;
+	public static final int TOTAL_HEIGHT = 228;
 
 	/**
 	 * minimum width of the whole application to use normal font (small font
@@ -58,14 +57,14 @@ public class TabbedKeyboard extends FlowPanel
 	 * localization
 	 */
 	LocalizationI locale;
-	private boolean isSmallKeyboard;
+
 	/**
 	 * application
 	 */
 	protected HasKeyboard hasKeyboard;
 	private final ArrayList<Keyboard> layouts = new ArrayList<>(4);
-	private String keyboardLocale;
-	private UpdateKeyBoardListener updateKeyBoardListener;
+	private String keyboardLanguageTag;
+	private KeyboardCloseListener keyboardCloseListener;
 	protected KeyboardListener processField;
 	private FlowPanel tabs;
 	protected KeyboardSwitcher switcher;
@@ -90,54 +89,64 @@ public class TabbedKeyboard extends FlowPanel
 	public TabbedKeyboard(HasKeyboard appKeyboard, boolean hasMoreButton) {
 		this.hasKeyboard = appKeyboard;
 		this.locale = hasKeyboard.getLocalization();
-		this.keyboardLocale = locale.getLocaleStr();
+		this.keyboardLanguageTag = locale.getLanguageTag();
 		this.switcher = new KeyboardSwitcher(this);
 		this.hasMoreButton = hasMoreButton;
 		this.keyboardMap = new HashMap<>();
+		getElement().setAttribute("data-nosnippet", "");
+
 	}
 
 	/**
-	 * @return {@link UpdateKeyBoardListener}
+	 * @return {@link KeyboardCloseListener}
 	 */
-	public UpdateKeyBoardListener getUpdateKeyBoardListener() {
-		return updateKeyBoardListener;
+	public KeyboardCloseListener getKeyboardCloseListener() {
+		return keyboardCloseListener;
 	}
 
 	/**
 	 * @param listener
-	 *            {@link UpdateKeyBoardListener}
+	 *            {@link KeyboardCloseListener}
 	 */
-	public void setListener(UpdateKeyBoardListener listener) {
-		this.updateKeyBoardListener = listener;
+	public void setListener(KeyboardCloseListener listener) {
+		this.keyboardCloseListener = listener;
 	}
 
 	/**
 	 * on close
 	 */
 	protected void closeButtonClicked() {
-		if (updateKeyBoardListener != null) {
-			updateKeyBoardListener.closeKeyboard();
+		if (keyboardCloseListener != null) {
+			keyboardCloseListener.closeKeyboard();
 		}
 		keyboardWanted = false;
 		BrowserStorage.LOCAL.setItem(BrowserStorage.KEYBOARD_WANTED, "false");
 	}
 
-	private KeyboardFactory initKeyboardFactory() {
-		KeyboardFactory factory;
+	private KeyboardFactory createKeyboardFactory() {
 		if (hasKeyboard.getInputBoxType() != null) {
-			factory = new InputBoxKeyboardFactory(hasKeyboard.getInputBoxType(),
+			return new InputBoxKeyboardFactory(hasKeyboard.getInputBoxType(),
 					hasKeyboard.getInputBoxFunctionVars());
 		} else {
-			if (hasKeyboard.getKeyboardType() == AppKeyboardType.NOTES) {
-				factory = NotesKeyboardFactory.INSTANCE;
-			} else if (hasKeyboard.getKeyboardType() == AppKeyboardType.SCIENTIFIC
-				|| hasKeyboard.getKeyboardType() == AppKeyboardType.SOLVER) {
-				factory = ScientificKeyboardFactory.INSTANCE;
-			} else {
-				factory = KeyboardFactory.INSTANCE;
+			AppKeyboardType type = hasKeyboard.getKeyboardType();
+			switch (type) {
+			case NOTES:
+				return new NotesKeyboardFactory();
+			case SCIENTIFIC:
+				return new ScientificKeyboardFactory();
+			case SOLVER:
+				return new SolverKeyboardFactory();
+			default:
+				return new DefaultKeyboardFactory();
 			}
 		}
-		return factory;
+	}
+
+	private boolean hasKeyboardFactoryChanged(@Nonnull KeyboardFactory newFactory) {
+		if (factory == null) {
+			return true;
+		}
+		return !newFactory.equals(factory);
 	}
 
 	private void buildGUIGgb() {
@@ -293,14 +302,14 @@ public class TabbedKeyboard extends FlowPanel
 		}
 	}
 
-	protected KeyBoardButtonBase makeButton(WeightedButton wb) {
+	protected BaseKeyboardButton makeButton(WeightedButton wb) {
 		ButtonHandler b = this;
 		switch (wb.getResourceType()) {
 		case TRANSLATION_MENU_KEY:
 			if (wb.getResourceName().equals("Translate.currency")) {
-				return new KeyBoardButtonBase(
-						Language.getCurrency(keyboardLocale),
-						Language.getCurrency(keyboardLocale), b);
+				return new BaseKeyboardButton(
+						Language.getCurrency(keyboardLanguageTag),
+						Language.getCurrency(keyboardLanguageTag), b);
 			}
 
 			final String name = wb.getPrimaryActionName();
@@ -312,10 +321,10 @@ public class TabbedKeyboard extends FlowPanel
 				// eg "inverse sine"
 				altText = locale.getAltText(wb.getAltText());
 			}
-			return new KeyBoardButtonBase(locale.getFunction(name), altText,
+			return new BaseKeyboardButton(locale.getFunction(name), altText,
 					name, b);
 		case TRANSLATION_COMMAND_KEY:
-			return new KeyBoardButtonBase(
+			return new BaseKeyboardButton(
 					locale.getCommand(wb.getPrimaryActionName()),
 					wb.getPrimaryActionName(), b);
 		case DEFINED_CONSTANT:
@@ -326,7 +335,7 @@ public class TabbedKeyboard extends FlowPanel
 		}
 	}
 
-	private KeyBoardButtonBase textButton(WeightedButton wb, ButtonHandler b) {
+	private BaseKeyboardButton textButton(WeightedButton wb, ButtonHandler b) {
 		String name = wb.getPrimaryActionName();
 		if (name.equals(Action.TOGGLE_ACCENT_ACUTE.name())) {
 			return accentButton(Accents.ACCENT_ACUTE, Action.TOGGLE_ACCENT_ACUTE, b);
@@ -342,33 +351,33 @@ public class TabbedKeyboard extends FlowPanel
 		}
 		if ((Unicode.DIVIDE + "").equals(name)) {
 			// division button in scientific
-			return new KeyBoardButtonBase(Unicode.DIVIDE + "", "/", b);
+			return new BaseKeyboardButton(Unicode.DIVIDE + "", "/", b);
 		}
 		if ("/".equals(name)) {
 			// division button in graphing
-			return new KeyBoardButtonBase(wb.getResourceName(), "/", b);
+			return new BaseKeyboardButton(wb.getResourceName(), "/", b);
 		}
 		if ("|".equals(name)) {
-			return new KeyBoardButtonBase("abs", "abs", b);
+			return new BaseKeyboardButton("abs", "abs", b);
 		}
 		if ("-".equals(name)) {
-			return new KeyBoardButtonBase(Unicode.MINUS + "", b);
+			return new BaseKeyboardButton(Unicode.MINUS + "", "-", b);
 		}
 		if (name.equals(Action.ANS.name())) {
-			return new KeyBoardButtonFunctionalBase("ans", this, Action.ANS);
+			return new FunctionalKeyboardButton("ans", this, Action.ANS);
 		}
 		if (name.equals(Action.SWITCH_TO_SPECIAL_SYMBOLS.name())) {
-			return new KeyBoardButtonFunctionalBase(
+			return new FunctionalKeyboardButton(
 					KeyboardConstants.SWITCH_TO_SPECIAL_SYMBOLS, this,
 					Action.SWITCH_TO_SPECIAL_SYMBOLS);
 		}
 		if (name.equals(Action.SWITCH_TO_GREEK_CHARACTERS.name())) {
-			return new KeyBoardButtonFunctionalBase(
+			return new FunctionalKeyboardButton(
 					KeyboardConstants.SWITCH_TO_GREEK_CHARACTERS, this,
 					Action.SWITCH_TO_GREEK_CHARACTERS);
 		}
 		if (name.equals(Action.SWITCH_TO_ABC.name())) {
-			return new KeyBoardButtonFunctionalBase("ABC", this,
+			return new FunctionalKeyboardButton("ABC", this,
 					Action.SWITCH_TO_ABC);
 		}
 
@@ -384,12 +393,12 @@ public class TabbedKeyboard extends FlowPanel
 			altText = locale.getAltText(altText);
 		}
 
-		return new KeyBoardButtonBase(caption, altText, name, b);
+		return new BaseKeyboardButton(caption, altText, name, b);
 	}
 
-	private static KeyBoardButtonBase accentButton(String accent, Action action,
+	private static BaseKeyboardButton accentButton(String accent, Action action,
 			ButtonHandler b) {
-		return new KeyBoardButtonFunctionalBase(accent, b, action);
+		return new FunctionalKeyboardButton(accent, b, action);
 	}
 
 	/**
@@ -420,7 +429,7 @@ public class TabbedKeyboard extends FlowPanel
 		}
 	}
 
-	private KeyBoardButtonBase functionButton(WeightedButton button) {
+	private BaseKeyboardButton functionButton(WeightedButton button) {
 		LocalizationI loc = hasKeyboard.getLocalization();
 		String resourceName = button.getResourceName();
 		ButtonHandler bh = this;
@@ -432,71 +441,71 @@ public class TabbedKeyboard extends FlowPanel
 		}
 		switch (resource) {
 		case RETURN_ENTER:
-			return new KeyBoardButtonFunctionalBase(
+			return new FunctionalKeyboardButton(
 					KeyboardResources.INSTANCE.keyboard_enter_black(), bh,
 					Action.RETURN_ENTER, loc, resource.altText);
 		case BACKSPACE_DELETE:
-			return new KeyBoardButtonFunctionalBase(
+			return new FunctionalKeyboardButton(
 					KeyboardResources.INSTANCE.keyboard_backspace(), bh,
 					Action.BACKSPACE_DELETE, loc, resource.altText);
 		case LEFT_ARROW:
-			return new KeyBoardButtonFunctionalBase(
+			return new FunctionalKeyboardButton(
 					KeyboardResources.INSTANCE.keyboard_arrowLeft_black(), bh,
 					Action.LEFT_CURSOR, loc, resource.altText);
 		case RIGHT_ARROW:
-			return new KeyBoardButtonFunctionalBase(
+			return new FunctionalKeyboardButton(
 					KeyboardResources.INSTANCE.keyboard_arrowRight_black(), bh,
 					Action.RIGHT_CURSOR, loc, resource.altText);
 		case DOWN_ARROW:
-			return new KeyBoardButtonFunctionalBase(
+			return new FunctionalKeyboardButton(
 					KeyboardResources.INSTANCE.keyboard_arrowDown_black(), bh,
 					Action.DOWN_CURSOR, loc, resource.altText);
 		case UP_ARROW:
-			return new KeyBoardButtonFunctionalBase(
+			return new FunctionalKeyboardButton(
 					KeyboardResources.INSTANCE.keyboard_arrowUp_black(), bh,
 					Action.UP_CURSOR, loc, resource.altText);
 		case FRACTION:
-			return new KeyBoardButtonFunctionalBase(
+			return new FunctionalKeyboardButton(
 					KeyboardResources.INSTANCE.fraction(),
 					"/", bh, loc,
 					resource.altText);
 		case CAPS_LOCK:
-			return new KeyBoardButtonFunctionalBase(
+			return new FunctionalKeyboardButton(
 					KeyboardResources.INSTANCE.keyboard_shift(), bh,
 					Action.CAPS_LOCK, loc, resource.altText);
 		case CAPS_LOCK_ENABLED:
-			return new KeyBoardButtonFunctionalBase(
+			return new FunctionalKeyboardButton(
 					KeyboardResources.INSTANCE.keyboard_shiftDown(), bh,
 					Action.CAPS_LOCK, loc, resource.altText);
 		case LOG_10:
-			return new KeyBoardButtonBase("log_10",
+			return new BaseKeyboardButton("log_10",
 					loc.getAltText(resource.altText),
 					button.getPrimaryActionName(), bh);
 		case A_N:
-			return new KeyBoardButtonFunctionalBase(
+			return new FunctionalKeyboardButton(
 					KeyboardResources.INSTANCE.subscript(),
 					"_", bh, loc, resource.altText);
 		case INTEGRAL:
-			return new KeyBoardButtonFunctionalBase(
+			return new FunctionalKeyboardButton(
 					KeyboardResources.INSTANCE.integral(),
 					button.getPrimaryActionName(), bh, loc, resource.altText);
 		case DERIVATIVE:
-			return new KeyBoardButtonFunctionalBase(
+			return new FunctionalKeyboardButton(
 					KeyboardResources.INSTANCE.derivative(),
 					button.getPrimaryActionName(), bh, loc, resource.altText);
 		case ABS:
-			return new KeyBoardButtonFunctionalBase(
+			return new FunctionalKeyboardButton(
 					KeyboardResources.INSTANCE.abs(),
 					"abs", bh, loc, resource.altText);
 		}
 
 		SVGResource svg = getSvg(resource);
 		if (svg != null) {
-			return new KeyBoardButtonFunctionalBase(
+			return new FunctionalKeyboardButton(
 					svg, button.getPrimaryActionName(),
 					this, loc, resource.altText);
 		}
-		return new KeyBoardButtonBase(button.getPrimaryActionName(),
+		return new BaseKeyboardButton(button.getPrimaryActionName(),
 				button.getPrimaryActionName(), bh);
 	}
 
@@ -538,6 +547,8 @@ public class TabbedKeyboard extends FlowPanel
 			return KeyboardResources.INSTANCE.sqrt();
 		case MIXED_NUMBER:
 			return KeyboardResources.INSTANCE.mixed_number();
+		case RECURRING_DECIMAL:
+			return KeyboardResources.INSTANCE.recurring_decimal();
 		default: return null;
 		}
 	}
@@ -549,14 +560,6 @@ public class TabbedKeyboard extends FlowPanel
 		}
 		// -2 for applet border
 		setWidth(hasKeyboard.getInnerWidth() + "px");
-		boolean shouldBeSmall = hasKeyboard.needsSmallKeyboard();
-		if (shouldBeSmall && !isSmallKeyboard) {
-			addStyleName("lowerHeight");
-			this.isSmallKeyboard = true;
-		} else if (!shouldBeSmall && isSmallKeyboard) {
-			removeStyleName("lowerHeight");
-			this.isSmallKeyboard = false;
-		}
 		updateHeight();
 		for (int i = 0; tabs != null && i < tabs.getWidgetCount(); i++) {
 			Widget wdgt = tabs.getWidget(i);
@@ -581,19 +584,18 @@ public class TabbedKeyboard extends FlowPanel
 	public void checkLanguage() {
 		switcher.reset();
 
-		// TODO validate?
-		String newKeyboardLocale = hasKeyboard.getLocalization().getLocaleStr();
+		String newKeyboardLocale = hasKeyboard.getLocalization().getLanguageTag();
 		if ((newKeyboardLocale != null
-				&& newKeyboardLocale.equals(keyboardLocale)) || factory == null) {
+				&& newKeyboardLocale.equals(keyboardLanguageTag)) || factory == null) {
 			return;
 		}
 
 		switcher.clear();
 		switcher.setup();
 		if (newKeyboardLocale != null) {
-			this.keyboardLocale = newKeyboardLocale;
+			this.keyboardLanguageTag = newKeyboardLocale;
 		} else {
-			this.keyboardLocale = Language.English_US.getLocaleGWT();
+			this.keyboardLanguageTag = Language.English_US.toLanguageTag();
 		}
 
 		clear();
@@ -604,13 +606,11 @@ public class TabbedKeyboard extends FlowPanel
 	 * rebuilds the keyboard layout based on the inputbox type
 	 */
 	public void clearAndUpdate() {
-		KeyboardFactory newFactory = initKeyboardFactory();
-		if (Objects.equals(factory, newFactory)) {
+		KeyboardFactory newFactory = createKeyboardFactory();
+		if (!hasKeyboardFactoryChanged(newFactory)) {
 			return;
-		} else {
-			factory = newFactory;
 		}
-
+		factory = newFactory;
 		switcher.clear();
 		switcher.setup();
 		clear();
@@ -622,8 +622,7 @@ public class TabbedKeyboard extends FlowPanel
 	 */
 	public void buildGUI() {
 		this.tabs = new FlowPanel();
-		if (hasKeyboard.getKeyboardType() == AppKeyboardType.SCIENTIFIC
-			|| hasKeyboard.getKeyboardType() == AppKeyboardType.SOLVER) {
+		if (hasKeyboard.getKeyboardType() == AppKeyboardType.SCIENTIFIC) {
 			buildGUIScientific();
 		} else {
 			buildGUIGgb();
@@ -745,13 +744,13 @@ public class TabbedKeyboard extends FlowPanel
 	}
 
 	@Override
-	public void onClick(KeyBoardButtonBase btn, PointerEventType type) {
+	public void onClick(BaseKeyboardButton btn, PointerEventType type) {
 		if (processField == null) {
 			return;
 		}
-		if (btn instanceof KeyBoardButtonFunctionalBase
-				&& ((KeyBoardButtonFunctionalBase) btn).getAction() != null) {
-			KeyBoardButtonFunctionalBase button = (KeyBoardButtonFunctionalBase) btn;
+		if (btn instanceof FunctionalKeyboardButton
+				&& ((FunctionalKeyboardButton) btn).getAction() != null) {
+			FunctionalKeyboardButton button = (FunctionalKeyboardButton) btn;
 
 			if (Accents.isAccent(btn.getFeedback())) {
 				processAccent(btn.getFeedback());
@@ -802,9 +801,6 @@ public class TabbedKeyboard extends FlowPanel
 		case RETURN_ENTER:
 			// make sure enter is processed correctly
 			processField.onEnter();
-			if (processField.resetAfterEnter()) {
-				getUpdateKeyBoardListener().closeKeyboard();
-			}
 			break;
 		case SWITCH_TO_SPECIAL_SYMBOLS:
 			switcher.select(KeyboardType.SPECIAL);

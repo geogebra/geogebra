@@ -32,8 +32,6 @@ final class SharedFileOpenCallback
 			if (!loginEvent.isAutomatic()
 					|| loginEvent.isSuccessful()) {
 				app.checkOpen(onError, this);
-			} else {
-				app.getSignInController().loginFromApp();
 			}
 		}
 	}

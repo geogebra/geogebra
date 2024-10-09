@@ -27,8 +27,7 @@ public class TableValuesViewUndoRedoTests extends BaseUnitTest {
 		model = view.getTableValuesModel();
 		view.clearView();
 		processor = view.getProcessor();
-		getApp().setUndoRedoEnabled(true);
-		getApp().setUndoActive(true);
+		activateUndo();
 		getKernel().getConstruction().initUndoInfo();
 	}
 
@@ -191,7 +190,7 @@ public class TableValuesViewUndoRedoTests extends BaseUnitTest {
 	}
 
 	private boolean isInGraphics(GeoElement plot) {
-		return getApp().getEuclidianView1().getDrawableFor(plot) != null;
+		return getDrawable(plot) != null;
 	}
 
 	private void shouldHaveUndoPointsAndColumns(int expected, int expectCols) {

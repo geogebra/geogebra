@@ -1,5 +1,6 @@
 package org.geogebra.web.geogebra3D.web.gui;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.gui.ContextMenuGeoElementW;
@@ -54,9 +55,7 @@ public class GuiManager3DW extends GuiManagerW {
 	}
 
 	@Override
-	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
-	        org.geogebra.common.awt.GPoint p) {
-
+	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view, GPoint p) {
 		// clear highlighting and selections in views
 		getApp().getActiveEuclidianView().resetMode();
 		getDrawingPadpopupMenu3D(p.x, p.y).showScaled(

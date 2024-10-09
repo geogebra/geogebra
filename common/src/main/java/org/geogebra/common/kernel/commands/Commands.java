@@ -157,6 +157,8 @@ public enum Commands implements CommandsConstants,
 
 	PolyLine(TABLE_GEOMETRY),
 
+	PenStroke(TABLE_GEOMETRY),
+
 	PointIn(TABLE_GEOMETRY),
 
 	AffineRatio(TABLE_GEOMETRY),
@@ -256,7 +258,6 @@ public enum Commands implements CommandsConstants,
 
 	/**
 	 * bad translation, actually InflectionPoint
-	 *
 	 * name just used internally and in XML
 	 */
 	TurningPoint(TABLE_FUNCTION),
@@ -266,9 +267,6 @@ public enum Commands implements CommandsConstants,
 	Function(TABLE_FUNCTION),
 
 	Extremum(TABLE_FUNCTION),
-
-	/** move to TABLE_FUNCTION when released */
-	Holes(TABLE_ENGLISH),
 
 	RemovableDiscontinuity(TABLE_FUNCTION),
 
@@ -665,6 +663,10 @@ public enum Commands implements CommandsConstants,
 	FDistribution(TABLE_PROBABILITY),
 
 	InverseFDistribution(TABLE_PROBABILITY),
+
+	BetaDist(TABLE_PROBABILITY),
+
+	InverseBeta(TABLE_PROBABILITY),
 
 	Gamma(TABLE_PROBABILITY),
 
@@ -1243,6 +1245,21 @@ public enum Commands implements CommandsConstants,
 
 	Commands(int table) {
 		this.table = table;
+	}
+
+	/**
+	 * Case-insensitive lookup of commands
+	 * @param key user-specified name
+	 * @return name with normalized capitalization, null if command not found
+	 */
+	public static String lookupInternal(String key) {
+		// if that fails check internal commands
+		for (Commands c : Commands.values()) {
+			if (c.name().equalsIgnoreCase(key)) {
+				return Commands.englishToInternal(c).name();
+			}
+		}
+		return null;
 	}
 
 	public int getTable() {

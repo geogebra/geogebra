@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
+import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.ConicMirrorable;
@@ -49,6 +50,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -110,6 +112,13 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	private boolean updatePathNeeded = false;
 	private Equation expanded;
 	private static long fastDrawThreshold = 10;
+	private static final String[] XY_VARIABLES = {"x", "y"};
+	private static final Traversing SIMPLIFY_CONST = ev -> {
+		if (ev.isExpressionNode() && !((ExpressionNode) ev).containsFreeFunctionVariable(null)) {
+			return ev.evaluate(StringTemplate.defaultTemplate);
+		}
+		return ev;
+	};
 
 	/**
 	 * Construct an empty Implicit Curve Object
@@ -318,19 +327,16 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			coeffSquarefree = new double[1][coeff.length][];
 			for (int i = 0; i < coeff.length; ++i) {
 				coeffSquarefree[0][i] = new double[coeff[i].length];
-				for (int j = 0; j < coeff[i].length; ++j) {
-					coeffSquarefree[0][i][j] = coeff[i][j];
-				}
+				System.arraycopy(coeff[i], 0, coeffSquarefree[0][i], 0, coeff[i].length);
 			}
 		}
-		/*
-		 * These are unsupported in GWT, the first will stop with a runtime
-		 * error, the second one with a compile error. :-(
-		 */
-		// System.arraycopy(coeff, 0, coeffSquarefree[0], 0, coeff.length);
-		// coeffSquarefree[0] = coeff.clone();
 		factorExpression = new FunctionNVar[1];
 		factorExpression[0] = expression.deepCopy(kernel);
+		try {
+			factorExpression[0].traverse(SIMPLIFY_CONST);
+		} catch (MyError err) {
+			// if simplification failed, leave as is
+		}
 	}
 
 	/*
@@ -441,8 +447,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		try {
 			hasDerivatives = true;
 			FunctionNVar func = expression.getFunction();
-			diffExp[0] = func.getDerivativeNoCAS(x, 1);
-			diffExp[1] = func.getDerivativeNoCAS(y, 1);
+			diffExp[0] = func.getDerivativeNoCAS(x, 1).deepCopy(kernel);
+			diffExp[1] = func.getDerivativeNoCAS(y, 1).deepCopy(kernel);
+			diffExp[0].traverse(SIMPLIFY_CONST);
+			diffExp[1].traverse(SIMPLIFY_CONST);
 			ExpressionNode der = new ExpressionNode(kernel,
 					diffExp[0].getExpression().multiply(-1.0), Operation.DIVIDE,
 					diffExp[1].getExpression());
@@ -651,7 +659,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			return "?";
 		}
 		if (!isInputForm() && coeff != null) {
-			return toRawValueString(coeff, kernel, tpl);
+			return toRawValueString(tpl);
 		}
 		if (expanded != null) {
 			return expanded.toValueString(tpl);
@@ -690,6 +698,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		evalArray[0] = x;
 		evalArray[1] = y;
 		return this.expression.evaluate(evalArray);
+	}
+
+	@Override
+	public boolean isLaTeXDrawableGeo() {
+		return getToStringMode() == GeoLine.EQUATION_USER || coeff == null;
 	}
 
 	/**
@@ -1521,7 +1534,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 */
 	public static void interpolate(double[] in, double[] out) {
 		double r = -in[1] / (in[0] - in[1]);
-		if (!MyDouble.isFinite(r) || r > 1.0 || r < 0.0) {
+		if (!Double.isFinite(r) || r > 1.0 || r < 0.0) {
 			r = 0.5;
 		}
 		out[0] = r * (in[2] - in[4]) + in[4];
@@ -2202,19 +2215,15 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	/**
-	 * @param coeff
-	 *            coeefficients
-	 * @param kernel
-	 *            kernel
 	 * @param tpl0
 	 *            string template
 	 * @return string representation of polynomial with given coefficients
 	 */
-	protected static String toRawValueString(double[][] coeff, Kernel kernel,
-			StringTemplate tpl0) {
+	protected String toRawValueString(StringTemplate tpl0) {
 		if (coeff == null) {
 			return "";
 		}
+		String[] varNames = getVariableNames();
 		StringTemplate tpl = tpl0.deriveWithQuestionmark(true);
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
@@ -2256,7 +2265,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 							}
 						}
 						if (i > 0) {
-							sb.append(tpl.printVariableName("x"));
+							sb.append(tpl.printVariableName(varNames[0]));
 						}
 						addPow(sb, i, tpl);
 						if (j > 0) {
@@ -2265,7 +2274,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 							} else if (i > 0) { // insert blank after x^i
 								sb.append(' ');
 							}
-							sb.append(tpl.printVariableName("y"));
+							sb.append(tpl.printVariableName(varNames[1]));
 						}
 						addPow(sb, j, tpl);
 						sb.append(' ');
@@ -2275,6 +2284,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 
 		return sb.toString();
+	}
+
+	protected String[] getVariableNames() {
+		return XY_VARIABLES;
 	}
 
 	private static void addPow(StringBuilder sb, int exp, StringTemplate tpl) {
@@ -2465,5 +2478,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	public void setViewFlags(List<Integer> viewSet) {
 		super.setViewFlags(viewSet);
 		updatePath();
+	}
+
+	public boolean isValidType() {
+		return expression.getExpression().evaluatesToNumber(true);
 	}
 }

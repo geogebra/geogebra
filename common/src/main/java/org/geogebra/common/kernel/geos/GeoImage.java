@@ -1,4 +1,4 @@
-/* 
+/*
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
 
@@ -13,11 +13,15 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.AwtFactory;
@@ -25,6 +29,7 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -49,8 +54,14 @@ public class GeoImage extends GeoElement implements
 	public final static int IMG_SIZE_THRESHOLD = 50;
 	/** name of the folder containing the image == md5 hash of the image */
 	public static final int MD5_FOLDER_LENGTH = 32;
+	public static final int PROTRACTOR_WIDTH = 558;
+	public static final int PROTRACTOR_HEIGHT = 296;
+	public static final int RULER_LEFT = 112;
+	private static final int RULER_HEIGHT = 71;
+	private static final int TRIANGLE_PROTRACTOR_WIDTH = 879;
+	private static final int TRIANGLE_PROTRACTOR_HEIGHT = 440;
 
-	private GeoPoint[] corners; // corners of the image
+	private final GeoPoint[] corners; // corners of the image
 
 	/** width in pixels */
 	protected int pixelWidth;
@@ -70,7 +81,7 @@ public class GeoImage extends GeoElement implements
 	// corner points for transformations
 	private GeoPoint[] tempPoints;
 	// coords is the 2d result array for (x, y); n is 0, 1, or 2
-	private double[] tempCoords = new double[2];
+	private final double[] tempCoords = new double[2];
 	private ArrayList<GeoElementND> al = null;
 	private boolean centered = false;
 
@@ -147,6 +158,18 @@ public class GeoImage extends GeoElement implements
 
 		if (corners[index] == null) {
 			corners[index] = tempPoints[index];
+		}
+	}
+
+	private void initTransformPointForCenter() {
+		if (tempPoints == null) {
+			// temp corner points for transformations and absolute location
+			tempPoints = new GeoPoint[4];
+			tempPoints[CENTER_INDEX] = new GeoPoint(cons); //only care abou the center
+		}
+
+		if (corners[CENTER_INDEX] == null) {
+			corners[CENTER_INDEX] = tempPoints[CENTER_INDEX];
 		}
 	}
 
@@ -427,6 +450,14 @@ public class GeoImage extends GeoElement implements
 	}
 
 	/**
+	 * @return List of corner points that are not null, defined, and labeled
+	 */
+	public List<GeoPoint> getDefinedAndLabeledStartPoints() {
+		return Arrays.stream(corners).filter(point -> point != null
+				&& point.isDefined() && point.isLabelSet()).collect(Collectors.toList());
+	}
+
+	/**
 	 * Returns n-th corner point
 	 *
 	 * @param number
@@ -529,13 +560,6 @@ public class GeoImage extends GeoElement implements
 		return !hasAbsoluteScreenLocation && hasChangeableLocation
 				&& isPointerChangeable();
 	}
-
-	/**
-	 * Returns whether this image can be fixed.
-	 * 
-	 * public boolean isFixable() { return (hasAbsoluteScreenLocation ||
-	 * hasAbsoluteLocation) && isIndependent(); }
-	 */
 
 	@Override
 	public boolean isFillable() {
@@ -648,6 +672,10 @@ public class GeoImage extends GeoElement implements
 
 	@Override
 	public void setRealWorldLoc(double x, double y) {
+		if (hasAbsoluteScreenLocation && corners[0] != null) {
+			corners[0].getLocateableList().unregisterLocateable(this);
+			corners[0] = null;
+		}
 		setRealWorldCoord(x, y, 0);
 	}
 
@@ -977,15 +1005,18 @@ public class GeoImage extends GeoElement implements
 
 	@Override
 	public void translate(Coords v) {
-		if (!initTransformPoints()) {
-			return;
+		if (isCentered()) {
+			initTransformPointForCenter();
+		} else {
+			if (!initTransformPoints()) {
+				return;
+			}
 		}
+
 		// calculate the new corner points
 		for (int i = 0; i < corners.length; i++) {
-			if (corners[i] != null) {
-				tempPoints[i].translate(v);
-				corners[i] = tempPoints[i];
-			}
+			tempPoints[i].translate(v);
+			corners[i] = tempPoints[i];
 		}
 	}
 
@@ -1201,9 +1232,10 @@ public class GeoImage extends GeoElement implements
 		if (corners[idx] == null || corners[idx].hasChildren()) {
 			return;
 		}
+		if (Inspecting.dynamicGeosFinder.check(corners[idx])) {
+			corners[idx].remove();
+		}
 		setCorner(null, idx);
-		corners[idx].remove();
-		kernel.notifyRemove(corners[idx]);
 		corners[idx] = null;
 	}
 
@@ -1335,7 +1367,7 @@ public class GeoImage extends GeoElement implements
 		double angle = -getAngle();
 
 		getStartPoint().setCoords(getStartPoints()[2].x + rwHeight * Math.sin(angle),
-				 getStartPoints()[2].y - rwHeight * Math.cos(angle), 1);
+				getStartPoints()[2].y - rwHeight * Math.cos(angle), 1);
 		getStartPoints()[1].setCoords(getStartPoints()[0].x + rwWidth * Math.cos(angle),
 				getStartPoints()[0].y + rwWidth * Math.sin(angle), 1);
 	}
@@ -1355,6 +1387,10 @@ public class GeoImage extends GeoElement implements
 
 	@Override
 	public void setLocation(GPoint2D location) {
+		setLocation(location.x, location.y);
+	}
+
+	private void setLocation(double newLeft, double newTop) {
 		ensureCorner();
 		double top = getStartPoints()[2].y;
 		double left = getStartPoints()[2].x;
@@ -1368,7 +1404,7 @@ public class GeoImage extends GeoElement implements
 			top += -cropLeft * Math.sin(angle) - cropTop * Math.cos(angle);
 		}
 
-		Coords shift = new Coords(location.x - left, location.y - top);
+		Coords shift = new Coords(newLeft - left, newTop - top);
 		if (getStartPoints()[1] != null && getStartPoints()[2] != null) {
 			getStartPoint().translate(shift);
 			getStartPoints()[1].translate(shift);
@@ -1400,14 +1436,25 @@ public class GeoImage extends GeoElement implements
 	 */
 	public void setImagePropertiesIfNecessary() {
 		if (isMeasurementTool) {
-			if (getImageFileName().contains("Ruler.svg")) {
-				app.getActiveEuclidianView().setMeasurementTool(this, 1472, 72, 72);
-			}
-			if (getImageFileName().contains("Protractor.svg")) {
-				int middle = (app.getActiveEuclidianView().getWidth() - 558) / 2;
-				app.getActiveEuclidianView().setMeasurementTool(this, 558, 296, middle);
+			String fileName = getImageFileName();
+			if (fileName.contains("Ruler.svg")) {
+				initPosition(0, RULER_HEIGHT, false);
+			} else if (fileName.contains("TriangleProtractor.svg")) {
+				initPosition(TRIANGLE_PROTRACTOR_WIDTH, TRIANGLE_PROTRACTOR_HEIGHT, true);
+			} else if (fileName.contains("Protractor.svg")) {
+				initPosition(PROTRACTOR_WIDTH, PROTRACTOR_HEIGHT, true);
 			}
 		}
+	}
+
+	private void initPosition(double width, double height, boolean center) {
+		EuclidianView view = app.getActiveEuclidianView();
+		double top = (view.getHeight() - height) / 2;
+		double left = center ? (view.getWidth() - width) / 2.0 : RULER_LEFT;
+		kernel.getConstruction().removeFromConstructionList(this);
+		setLocation(view.toRealWorldCoordX(left),
+				view.toRealWorldCoordY(top));
+		update();
 	}
 
 	@Override

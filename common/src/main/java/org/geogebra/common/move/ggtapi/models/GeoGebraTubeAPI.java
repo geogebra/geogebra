@@ -2,7 +2,6 @@ package org.geogebra.common.move.ggtapi.models;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -33,7 +32,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	/** Login for beta */
 	public static final String login_urlBeta = "https://accounts-beta.geogebra.org/api/index.php";
 
-	protected boolean available = true;
 	protected boolean availabilityCheckDone = false;
 	protected ClientInfo client;
 	private String materialsURL;
@@ -113,7 +111,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	public final void authorizeUser(final GeoGebraTubeUser user,
 			final LogInOperation op, final boolean automatic) {
 		if ("".equals(user.getLoginToken())) {
-			op.stayLoggedOut();
+			op.loginCanceled();
 			return;
 		}
 		performRequest(
@@ -123,8 +121,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 					public void onSuccess(String responseStr) {
 						try {
 							GeoGebraTubeAPI.this.availabilityCheckDone = true;
-
-							GeoGebraTubeAPI.this.available = true;
 
 							// Parse the userdata from the response
 							if (!parseUserDataFromResponse(user, responseStr)) {
@@ -146,7 +142,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 					@Override
 					public void onError(String error) {
 						GeoGebraTubeAPI.this.availabilityCheckDone = true;
-						GeoGebraTubeAPI.this.available = false;
 						op.onEvent(
 								new LoginEvent(user, false, automatic, null));
 					}
@@ -183,65 +178,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 			return null;
 		}
 		return requestJSON.toString();
-	}
-
-	@Override
-	public boolean checkAvailable(LogInOperation op) {
-		if (this.availabilityCheckDone && op != null) {
-			op.onEvent(new TubeAvailabilityCheckEvent(this.available));
-		}
-		checkIfAvailable(op);
-		return this.available;
-	}
-
-	/**
-	 * @return whether the API is available; assume true if not tested
-	 */
-	public boolean isAvailable() {
-		return this.available;
-	}
-
-	/**
-	 * Sends a test request to GeoGebraTube to check if it is available The
-	 * result is stored in a boolean variable. Subsequent calls to isAvailable()
-	 * will return the value of the stored variable and don't send the request
-	 * again.
-	 */
-	private void checkIfAvailable(final LogInOperation op) {
-		if (!this.availabilityCheckDone) {
-			this.available = false;
-		}
-		this.availabilityCheckDone = false;
-		try {
-			performRequest(
-					"{\"request\": {\"-api\": \"1.0.0\", \"task\": {\"-type\": \"info\"}}}",
-					false, new AjaxCallback() {
-
-						@Override
-						public void onSuccess(String response) {
-							GeoGebraTubeAPI.this.availabilityCheckDone = true;
-							GeoGebraTubeAPI.this.available = true;
-							if (op != null) {
-								op.onEvent(
-										new TubeAvailabilityCheckEvent(true));
-							}
-						}
-
-						@Override
-						public void onError(String error) {
-							GeoGebraTubeAPI.this.availabilityCheckDone = true;
-							GeoGebraTubeAPI.this.available = false;
-							if (op != null) {
-								op.onEvent(
-										new TubeAvailabilityCheckEvent(true));
-							}
-
-						}
-					});
-
-		} catch (Exception e) {
-			Log.debug(e);
-		}
 	}
 
 	@Override
@@ -379,20 +315,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	@Override
 	public void setClient(ClientInfo clientInfo) {
 		this.client = clientInfo;
-	}
-
-	@Override
-	public boolean performCookieLogin(LogInOperation op) {
-		return false;
-	}
-
-	@Override
-	public void performTokenLogin(LogInOperation logInOperation, String token) {
-		if (token != null) {
-			logInOperation.performTokenLogin(token, true);
-		} else if (!performCookieLogin(logInOperation)) {
-			checkAvailable(logInOperation);
-		}
 	}
 
 	@Override

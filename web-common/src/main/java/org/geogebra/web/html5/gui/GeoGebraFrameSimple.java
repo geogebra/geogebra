@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.gwtutil.JsConsumer;
+import org.geogebra.web.html5.bridge.AttributeProvider;
+import org.geogebra.web.html5.bridge.DOMAttributeProvider;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AppWsimple;
@@ -45,7 +47,8 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 */
 	public static void main(ArrayList<GeoGebraElement> geoGebraMobileTags, CASFactory factory) {
 		for (final GeoGebraElement geoGebraElement : geoGebraMobileTags) {
-			AppletParameters parameters = new AppletParameters(geoGebraElement);
+			AppletParameters parameters = new AppletParameters(
+					new DOMAttributeProvider(geoGebraElement.getElement()));
 			GeoGebraFrameW inst = new GeoGebraFrameSimple(geoGebraElement, parameters, factory);
 			LoggerW.startLogger(parameters);
 			inst.createSplash();
@@ -60,10 +63,12 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 *            callback
 	 * @param factory CAS factory
 	 */
-	public static void renderArticleElement(GeoGebraElement el, JsConsumer<Object> clb,
+	public static void renderArticleElement(AttributeProvider el, JsConsumer<Object> clb,
 			CASFactory factory) {
 		AppletParameters parameters = new AppletParameters(el);
-		new GeoGebraFrameSimple(el, parameters, factory).renderArticleElementWithFrame(el, clb);
+		GeoGebraElement element = GeoGebraElement.as(el.getElement());
+		new GeoGebraFrameSimple(element, parameters, factory)
+				.renderArticleElementWithFrame(element, el, clb);
 	}
 
 	@Override

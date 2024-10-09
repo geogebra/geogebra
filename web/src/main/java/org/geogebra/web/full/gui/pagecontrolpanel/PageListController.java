@@ -21,6 +21,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
@@ -279,8 +280,9 @@ public class PageListController implements PageListControllerInterface,
 			String json) {
 		PagePreviewCard ret = pasteSlide(sourceCard, targetID, json);
 		undoManager.storeAction(
-				EventType.PASTE_PAGE, sourceCard.getPageIndex() + "",
-				ret.getFile().getID(), json);
+				ActionType.PASTE_PAGE, new String[]{sourceCard.getPageIndex() + "",
+				ret.getFile().getID(), json}, ActionType.REMOVE_PAGE,
+				(sourceCard.getPageIndex() + 1) + "");
 		return ret;
 	}
 
@@ -472,7 +474,8 @@ public class PageListController implements PageListControllerInterface,
 	public void reorder(int srcIdx, int destIdx) {
 		doReorder(srcIdx, destIdx);
 		undoManager
-				.storeAction(EventType.MOVE_PAGE, srcIdx + "", destIdx + "");
+				.storeAction(ActionType.MOVE_PAGE, new String[]{srcIdx + "", destIdx + ""},
+						ActionType.MOVE_PAGE, destIdx + "", srcIdx + "");
 	}
 
 	private void doReorder(int srcIdx, int destIdx) {
@@ -539,11 +542,18 @@ public class PageListController implements PageListControllerInterface,
 
 	/**
 	 * load existing page
-	 * 
+	 *
 	 * @param index
 	 *            index of page to load
 	 */
-	public void loadNewPage(int index) {
+	public void loadNewPageStoreUndo(int index) {
+		this.loadNewPage(index);
+		app.getUndoManager().storeAction(ActionType.ADD_PAGE, new String[]{index + "",
+						getSlide(index).getID()}, ActionType.REMOVE_PAGE,
+				index + "");
+	}
+
+	private void loadNewPage(int index) {
 		saveMaterialProperties();
 		savePreviewCard(selectedCard);
 		app.loadEmptySlide();
@@ -566,6 +576,8 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	private void dispatchSelected(int pageIdx) {
+		// first notify listeners about deselecting all objects on current page
+		app.getSelectionManager().clearSelectedGeos(false);
 		app.dispatchEvent(new Event(EventType.SELECT_PAGE,
 				null, slides.get(pageIdx).getID()));
 	}
@@ -623,7 +635,6 @@ public class PageListController implements PageListControllerInterface,
 
 		case "clearPage":
 			loadNewPage(0);
-
 			break;
 
 		default:
@@ -662,6 +673,10 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void setPageContent(String pageId, PageContent content) {
+		if (StringUtil.empty(content.xml)) {
+			slides.get(content.order).replaceId(pageId);
+			return;
+		}
 		PagePreviewCard target = findById(pageId).orElse(null);
 		if (target == null) {
 			target = addSlide(slides.size(), new GgbFile(pageId));
@@ -789,10 +804,10 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	@Override
-	public boolean executeAction(EventType action,  String... args) {
+	public boolean executeAction(ActionType action,  String... args) {
 		switch (action) {
 		case ADD_PAGE:
-			executeAddSlideAction(null, args);
+			executeAddSlideAction(args);
 			break;
 		case REMOVE_PAGE:
 			if (getSlideCount() > 1) {
@@ -824,15 +839,17 @@ public class PageListController implements PageListControllerInterface,
 		return true;
 	}
 
-	private void executeAddSlideAction(UndoCommand cmd, String... args) {
+	private void executeAddSlideAction(String... args) {
 		int idx = args.length > 0 ? Integer.parseInt(args[0])
 				: getSlideCount();
 		GgbFile file = args.length < 2 ? new GgbFile()
 				: new GgbFile(args[1]);
-
-		AppState state = undoManager.extractFromCommand(cmd);
-		if (state != null) {
-			file.put("geogebra.xml", state.getXml());
+		if (args.length > 2) {
+			UndoCommand cmd = undoManager.getCheckpoint(args[2]);
+			AppState state = undoManager.extractFromCommand(cmd);
+			if (state != null) {
+				file.put("geogebra.xml", state.getXml());
+			}
 		}
 
 		if (idx >= 0) {
@@ -854,38 +871,6 @@ public class PageListController implements PageListControllerInterface,
 
 		setCardSelected(idx);
 		updatePreviewImage();
-	}
-
-	@Override
-	public boolean undoAction(EventType action, String... args) {
-		switch (action) {
-		case ADD_PAGE:
-			executeAction(EventType.REMOVE_PAGE, args[0]);
-			break;
-		case PASTE_PAGE:
-			executeAction(EventType.REMOVE_PAGE, (Integer.parseInt(args[0]) + 1) + "");
-			break;
-		case REMOVE_PAGE:
-			executeAddSlideAction(undoManager.getCheckpoint(args[1]),
-					args[0], args[1]);
-			break;
-		case CLEAR_PAGE:
-			executeAddSlideAction(undoManager.getCheckpoint(args[0]),
-					"-1", args[0]);
-			break;
-		case MOVE_PAGE:
-			executeAction(EventType.MOVE_PAGE,
-					args[1], args[0]);
-			break;
-		case RENAME_PAGE:
-			executeAction(EventType.RENAME_PAGE,
-					args[0], args[2], args[1]);
-			break;
-		default:
-			return false;
-		}
-		listener.update();
-		return true;
 	}
 
 	private void renameCard(int pageIndex, String title) {
@@ -915,11 +900,6 @@ public class PageListController implements PageListControllerInterface,
 				|| evt.getType() == EventType.REDO) {
 			savePreviewCard(selectedCard);
 		}
-	}
-
-	@Override
-	public void reset() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -954,8 +934,9 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	private void storeRenameAction(PagePreviewCard card, String oldTitle) {
-		undoManager.storeAction(EventType.RENAME_PAGE, "" + card.getPageIndex(),
-				oldTitle, card.getCardTitle());
+		undoManager.storeAction(ActionType.RENAME_PAGE, new String[]{"" + card.getPageIndex(),
+						card.getCardTitle()},
+				ActionType.RENAME_PAGE, "" + card.getPageIndex(), oldTitle);
 		Event evt = new Event(EventType.RENAME_PAGE, null,
 				card.getID());
 		HashMap<String, Object> args = new HashMap<>();
@@ -974,4 +955,32 @@ public class PageListController implements PageListControllerInterface,
 	public static String nextID() {
 		return "p" + Math.floor(Math.random() * 1E6);
 	}
+
+	/**
+	 * Rmove page and store undo info
+	 * @param index page index
+	 */
+	public void removePage(int index) {
+		String id = getSlide(index).getID();
+		if (index == 0 && getSlideCount() == 1) {
+			app.getUndoManager().storeActionWithSlideId(id, ActionType.CLEAR_PAGE, new String[]{id},
+					ActionType.ADD_PAGE, new String[]{"-1", id, id});
+			loadNewPage(0);
+		} else {
+			removeSlide(index);
+			app.getUndoManager()
+					.storeActionWithSlideId(id, ActionType.REMOVE_PAGE, new String[]{index + ""},
+							ActionType.ADD_PAGE, new String[]{index + "", id, id});
+			listener.updateIndexes(index);
+			// load new slide
+			if (index == getSlideCount()) {
+				// last slide was deleted
+				loadPage(index - 1);
+			} else {
+				// otherwise
+				loadPage(index);
+			}
+		}
+	}
+
 }

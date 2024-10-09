@@ -2,6 +2,7 @@ package org.geogebra.cas;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assume.assumeFalse;
 
 import java.util.HashSet;
@@ -17,9 +18,11 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,7 +45,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	 *            The expression to be evaluated, in geogebra's CAS syntax.
 	 * @return The string returned by GeogebraCAS.
 	 */
-	private String executeInCAS(String input) throws Throwable {
+	private String executeInCAS(String input) {
 		GeoGebraCasInterface cas = kernel.getGeoGebraCAS();
 		CASparser parser = (CASparser) cas.getCASparser();
 		ValidExpression inputVe = parser
@@ -116,7 +119,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	/**
 	 * Tests that the given input produces a result that matches a given output.
 	 * 
-	 * The pattern for the output is basically a normal regular expression,
+	 * <p>The pattern for the output is basically a normal regular expression,
 	 * except that many RE special characters will be taken literally, e.g.
 	 * braces, parenthesis etc. Additionally, all whitespace will be optional
 	 * and character- class boxes (e.g. [a-z]) do not work!
@@ -594,8 +597,6 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				"{{1 - 2 * \u03af, 1 - \u03af}, {1 + 2 * \u03af, 1 + \u03af}}",
 				"{{1 + 2 * \u03af, 1 + \u03af}, {1 - 2 *  \u03af, 1 - \u03af}}");
 	}
-
-	/* CSolve */
 
 	/* One Equation and one Variable */
 
@@ -1798,9 +1799,8 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				"(0, (-13 * sqrt(224 * sqrt(10) + 687) * sqrt(10) * sqrt(31) "
 						+ "+ 27 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2883) / 1922)");
 		t("First[Tangent[P, c]]", "{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2}");
-		// this is always numeric, the 13th digit changed multiple times with new Giac
-		t("Numeric(Last[Tangent[P, c]],12)", "{y = 5.55821394864 * x - 0.026806742873}",
-				"{y = 5.55821394864 * x - 0.0268067428731}");
+		// this is always numeric, the last few digits changed multiple times with new Giac
+		t("Numeric(Last[Tangent[P, c]],10)", "{y = 5.558213949 * x - 0.02680674287}");
 	}
 
 	/* Variable not specified */
@@ -1944,7 +1944,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		f.setEvalCommand("Keepinput");
 		f.computeOutput();
 
-		Assert.assertEquals(
+		assertEquals(
 				"\\mathbf{\\int\\limits_{1}^{2}x^{2}\\,\\mathrm{d}x}",
 				f.getLaTeXOutput());
 	}
@@ -1957,7 +1957,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		f.setEvalCommand("Keepinput");
 		f.computeOutput();
 
-		Assert.assertEquals(
+		assertEquals(
 				"\\mathbf{\\int\\limits_{somevar}^{g\\left(h \\right)}f\\left(y \\right)\\,"
 						+ "\\mathrm{d}y}",
 				f.getLaTeXOutput());
@@ -1971,7 +1971,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		f.setEvalCommand("Keepinput");
 		f.computeOutput();
 
-		Assert.assertEquals("\\mathbf{\\sum_{x=1}^{2}x^{2}}",
+		assertEquals("\\mathbf{\\sum_{x=1}^{2}x^{2}}",
 				f.getLaTeXOutput());
 	}
 
@@ -1983,7 +1983,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		f.setEvalCommand("Keepinput");
 		f.computeOutput();
 
-		Assert.assertEquals(
+		assertEquals(
 				"\\mathbf{\\sum_{y=somevar}^{g\\left(h \\right)}f\\left(y \\right)}",
 				f.getLaTeXOutput());
 	}
@@ -2110,7 +2110,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	 * Test is ignored. Keepinput is no user command anymore, internal use seems
 	 * to meet our expectations.
 	 * 
-	 * Therefore we don't want to mess with this anytime soon, except somebody
+	 * <p>Therefore we don't want to mess with this anytime soon, except somebody
 	 * complains.
 	 */
 	@Test
@@ -2147,7 +2147,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		f.setInput("f(x) := a * x^3 + b * x^2 + c * x + d");
 		f.computeOutput();
 
-		Assert.assertEquals(
+		assertEquals(
 				"f(x):=a x" + Unicode.SUPERSCRIPT_3 + " + b x"
 						+ Unicode.SUPERSCRIPT_2 + " + c x + d",
 				f.getOutput(StringTemplate.defaultTemplate));
@@ -2578,12 +2578,12 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	public void vectorPointTest() {
 		t("v:=(1,1)", "(1,1)");
 		t("V:=v+v", "(2,2)");
-		Assert.assertEquals(GeoClass.VECTOR,
+		assertEquals(GeoClass.VECTOR,
 				kernel.lookupLabel("V").getGeoClassType());
 
 		t("w:=(1,1,1)", "(1,1,1)");
 		t("W:=w+w", "(2,2,2)");
-		Assert.assertEquals(GeoClass.VECTOR3D,
+		assertEquals(GeoClass.VECTOR3D,
 				kernel.lookupLabel("W").getGeoClassType());
 	}
 
@@ -2598,12 +2598,12 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	public void quadricReloadTest() {
 		t("a:=2", "2");
 		t("K:=x^2+y^2+z^2=a", "x^(2) + y^(2) + z^(2) = 2");
-		Assert.assertEquals("Sphere", kernel.lookupCasCellLabel("K")
+		assertEquals("Sphere", kernel.lookupCasCellLabel("K")
 				.getTwinGeo().getTypeString());
 		String xml = getApp().getXML();
 		kernel.clearConstruction(true);
 		getApp().setXML(xml, true);
-		Assert.assertEquals("Sphere", kernel.lookupCasCellLabel("K")
+		assertEquals("Sphere", kernel.lookupCasCellLabel("K")
 				.getTwinGeo().getTypeString());
 	}
 
@@ -2618,8 +2618,8 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		new CASCellProcessor(kernel.getLocalization()).fixInput(a, input,
 				false);
 
-		Assert.assertEquals("c(x) := x^2 * x",
-				a.getInput(StringTemplate.defaultTemplate));
+		assertEquals("c(x) := x^2 * x",
+				a.getLocalizedInput());
 		Assert.assertFalse(a.isError());
 	}
 
@@ -2655,7 +2655,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("f:LeftSide(1=x)", "1");
 		GeoCasCell casCell = kernel.lookupCasCellLabel("f");
 		casCell.plot();
-		Assert.assertEquals(
+		assertEquals(
 				casCell.getTwinGeo().getGeoClassType(),
 				GeoClass.FUNCTION);
 	}
@@ -2670,7 +2670,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 			} catch (Throwable throwable) {
 				Log.debug(throwable);
 			}
-			Assert.assertEquals("Failed at " + i, "0", casResult);
+			assertEquals("Failed at " + i, "0", casResult);
 		}
 	}
 
@@ -2698,6 +2698,18 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		f.computeOutput();
 		f.plot();
 		assertThat(f.getTwinGeo().getLabel(StringTemplate.defaultTemplate), equalTo("f"));
+	}
+
+	@Test
+	public void testVectorFunctionLabel() {
+		GeoCasCell h = new GeoCasCell(kernel.getConstruction());
+		h.setInput("h(t):=(t,t,t)");
+		h.computeOutput();
+		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+		f.setInput("Vector(h(0))");
+		f.computeOutput();
+		f.plot();
+		assertThat(f.getOutput(StringTemplate.defaultTemplate), equalTo("u:=(0, 0, 0)"));
 	}
 
 	@Test
@@ -2738,5 +2750,54 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 						+ " {Element(KL, j) * (0, 0, 1)}, {1}}, j, 1, Length(KL))");
 		t("H({(1,2,3),(4,5,6),(7,8,9)})",
 				"{{{1}, {2}, {3}, {1}}, {{4}, {5}, {6}, {1}}, {{7}, {8}, {9}, {1}}}");
+	}
+
+	@Test
+	public void dateFunctionShouldReload() {
+		GeoCasCell cell = add("JD(YY,MM,DD):= floor(365.25*(YY+4716-If(MM<=2,1,0))) "
+				+ "+ floor(30.6001*(MM+1+If(MM<=2,12,0))) + DD + 2 "
+				+ "- floor((YY-If(MM<=2,1,0))/100) + floor((YY-If(MM<=2,1,0))/400) -1524.5");
+		assertEquals("YY, MM, DD", cell.getVarString(StringTemplate.defaultTemplate));
+		assertEquals("YY, MM, DD", ((GeoFunctionNVar) cell.getTwinGeo())
+				.getVarString(StringTemplate.defaultTemplate));
+		add("JD(2023,3,26.5)");
+		assertThat(lookup("$2").toValueString(StringTemplate.editTemplate),
+				equalTo("2460030"));
+		getApp().setXML(getApp().getXML(), true);
+		assertThat(lookup("$2").toValueString(StringTemplate.editTemplate),
+				equalTo("2460030"));
+	}
+
+	@Test
+	public void inputPrecisionPreservedOnReload() {
+		add("sqrt(30.6001)");
+		getApp().setXML(getApp().getXML(), true);
+		assertThat(((GeoCasCell) lookup("$1")).getLaTeXInput(),
+				equalTo("\\sqrt{30.6001}"));
+	}
+
+	@Test
+	@Issue("APPS-5344")
+	public void mistypedParametricShouldFail() {
+		t("X=(1,2,3)+r(1,2,3)", "X = ?");
+		t("X=(1,2)+s(1,2)", "X = (s(1, 2) + 1, 2)");
+	}
+
+	@Test
+	@Issue("APPS-5344")
+	public void vectorNumberAddition() {
+		t("v:=(1,2,3)", "(1,2,3)");
+		t("V:=(1,2,3)", "(1,2,3)");
+		t("5+V", "(6,7,8)");
+		t("V+5", "(6,7,8)");
+		t("5+v", "(6,7,8)");
+		t("v+5", "(6,7,8)");
+	}
+
+	@Test
+	@Issue("APPS-5264")
+	public void testIntegral2() {
+		t("f(x):=b", "b");
+		t("Integral[f]", "b * x + c_{1}");
 	}
 }

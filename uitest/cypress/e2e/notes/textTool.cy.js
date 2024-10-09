@@ -12,7 +12,7 @@ describe('Text tool test', () => {
 
     it("Text tool should maintain focus on resize", () => {
         // text tool selected as first on media panel
-        selectors.mediaPanelButton.click(); 
+        cy.get('[data-title="Text"]').click();
         // use mouse down+up to avoid "scroll to view" behavior of cy.click
         selectors.euclidianView.get()
             .mouseEvent('down', 100, 100)
@@ -29,7 +29,7 @@ describe('Text tool test', () => {
 
     it("Bold button should  change text format", () => {
             // text tool selected as first on media panel
-            selectors.mediaPanelButton.click();
+            cy.get('[data-title="Text"]').click();
             // use mouse down+up to avoid "scroll to view" behavior of cy.click
             selectors.euclidianView.get()
                 .mouseEvent('down', 100, 300)
@@ -47,7 +47,7 @@ describe('Text tool test', () => {
 
     it("Underline button should  change text format", () => {
            // text tool selected as first on media panel
-           selectors.mediaPanelButton.click();
+           cy.get('[data-title="Text"]').click();
            // use mouse down+up to avoid "scroll to view" behavior of cy.click
            selectors.euclidianView.get()
                 .mouseEvent('down', 100, 300)

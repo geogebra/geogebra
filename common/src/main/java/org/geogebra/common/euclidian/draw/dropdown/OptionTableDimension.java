@@ -10,6 +10,7 @@ class OptionTableDimension {
 	private final GDimension itemDimension;
 	private final int downArrowHeight;
 	private final boolean scroll;
+	static final int VERTICAL_PADDING = 8;
 
 	OptionTableDimension(DropDownModel settings, GDimension itemDimension,
 			int downArrowHeight,
@@ -40,7 +41,7 @@ class OptionTableDimension {
 			}
 		}
 
-		return tableHeight;
+		return tableHeight + 2 * VERTICAL_PADDING;
 	}
 
 	private int heightForScroll(int downArrowHeight, int tableHeight) {

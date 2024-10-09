@@ -15,7 +15,7 @@ public class test {
     }
   }
 
-  public static void main(String argv[]) 
+  public static void main(String argv[])
   {
     context C=new context();
     String s;
@@ -54,7 +54,7 @@ public class test {
     String z1 = "v16,v12,v11,v10,v9,v8,v7,v6,v5";
     String z2 = "v16,v11,v10,v9,v8,v7,v6,v5,v12";
     
-    s="eliminate([2*v5+-1*v3,2*v6+-1*v4,2*v7+-1*v3,2*v8+-1*v4,v10+-1*v8+-1*v7,v9+v8+-1*v7,-1*v11*v10+v12*v9+v11*v8+-1*v9*v8+-1*v12*v7+v10*v7,-1*v11*v4+v12*v3,-1+-1*v16*v12+v16*v6],[" + 
+    s="eliminate([2*v5+-1*v3,2*v6+-1*v4,2*v7+-1*v3,2*v8+-1*v4,v10+-1*v8+-1*v7,v9+v8+-1*v7,-1*v11*v10+v12*v9+v11*v8+-1*v9*v8+-1*v12*v7+v10*v7,-1*v11*v4+v12*v3,-1+-1*v16*v12+v16*v6],[" +
     		z1
     		+ "])]";
     

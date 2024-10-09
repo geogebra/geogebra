@@ -48,24 +48,6 @@ public class AlgoDependentPoint extends AlgoElement
 	private GeoVec2D temp;
 
 	/**
-	 * Creates new dependent point algo
-	 * 
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            output label
-	 * @param root
-	 *            expression defining the result
-	 * @param complex
-	 *            true if result is complex number
-	 */
-	public AlgoDependentPoint(Construction cons, String label,
-			ExpressionNode root, boolean complex) {
-		this(cons, root, complex);
-		P.setLabel(label);
-	}
-
-	/**
 	 * @param cons
 	 *            construction
 	 * @param root

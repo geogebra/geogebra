@@ -14,20 +14,20 @@ public enum AutoColor {
 			GeoGebraColorConstants.GGB_RED, GColor.BLUE,
 			GeoGebraColorConstants.GGB_ORANGE,
 			GeoGebraColorConstants.GGB_CLASSIC_PURPLE, GeoGebraColorConstants.GGB_GRAY,
-			GeoGebraColorConstants.GGB_BROWN }), 
+			GeoGebraColorConstants.GGB_BROWN }),
 	/** curves, function (graphing) */
 	CURVES_GRAPHING(new GColor[] { GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY }), 
+			GeoGebraColorConstants.GGB_ORANGE,
+			GeoGebraColorConstants.PURPLE_600,
+			GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY }),
 	/** surfaces */
-	SURFACES(new GColor[] { GColor.MOW_MEBIS_TEAL,
+	SURFACES(new GColor[] { GeoGebraColorConstants.MEBIS_ACCENT,
 			GColor.PURPLE_A400,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_PINK,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE });
+			GeoGebraColorConstants.PURPLE_600,
+			GeoGebraColorConstants.GGB_ORANGE });
 
 	private GColor[] sequence;
 	private int index;

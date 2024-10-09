@@ -1,14 +1,18 @@
 package org.geogebra.web.shared.ggtapi.models;
 
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
+import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.gwtutil.Cookies;
+import org.geogebra.web.html5.MebisGlobal;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 
 import elemental2.dom.DomGlobal;
+import jsinterop.base.Js;
 
 /**
  * @author gabor
@@ -19,7 +23,7 @@ public class AuthenticationModelW extends AuthenticationModel  {
 	private static final String GGB_LAST_USER = "last_user";
 	/** token storage */
 	private String authToken = null;
-	private AppW app;
+	private final AppW app;
 	private boolean inited = false;
 
 	/**
@@ -47,6 +51,9 @@ public class AuthenticationModelW extends AuthenticationModel  {
 		if (authToken != null) {
 			return authToken;
 		}
+		if (BrowserStorage.SESSION.getItem(GGB_TOKEN_KEY_NAME) != null) {
+			return BrowserStorage.SESSION.getItem(GGB_TOKEN_KEY_NAME);
+		}
 		return BrowserStorage.LOCAL.getItem(GGB_TOKEN_KEY_NAME);
 	}
 
@@ -59,6 +66,7 @@ public class AuthenticationModelW extends AuthenticationModel  {
 		ensureInited();
 		this.app.dispatchEvent(new Event(EventType.LOGIN, null, ""));
 		BrowserStorage.LOCAL.removeItem(GGB_TOKEN_KEY_NAME);
+		BrowserStorage.SESSION.removeItem(GGB_TOKEN_KEY_NAME);
 		BrowserStorage.LOCAL.removeItem(GGB_LAST_USER);
 	}
 
@@ -71,14 +79,17 @@ public class AuthenticationModelW extends AuthenticationModel  {
 		app.getGgbApi().registerClientListener("loginListener");
 	}
 
-	@Override
-	protected void storeLastUser(String username) {
-		BrowserStorage.LOCAL.setItem(GGB_LAST_USER, username);
-	}
-
-	@Override
-	public String loadLastUser() {
-		return BrowserStorage.LOCAL.getItem(GGB_LAST_USER);
+	/**
+	 * @param api responsible for mapping JSON to user object
+	 * @return whether user data was loaded
+	 */
+	public boolean loadUserFromSession(BackendAPI api) {
+		String sessionUser = BrowserStorage.SESSION.getItem(GGB_LAST_USER);
+		if (sessionUser != null) {
+			loadUserFromString(sessionUser, api);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -92,5 +103,21 @@ public class AuthenticationModelW extends AuthenticationModel  {
 	@Override
 	public String getCookie(String cookieName) {
 		return Cookies.getCookie(cookieName);
+	}
+
+	@Override
+	public void refreshToken(HttpRequest request, Runnable afterRefresh) {
+		if (app.isMebis()) {
+			MebisGlobal.refreshToken(token -> {
+				if (Js.isTruthy(token)) {
+					request.setAuth(token);
+					// just update the token, no need to fire event
+					authToken = token;
+				}
+				afterRefresh.run();
+			});
+		} else {
+			afterRefresh.run();
+		}
 	}
 }

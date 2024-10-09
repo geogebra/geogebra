@@ -1,9 +1,9 @@
 package com.himamis.retex.renderer.android.graphics;
 
-import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
-
 import android.graphics.Paint.Cap;
 import android.graphics.Paint.Join;
+
+import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
 
 public class BasicStrokeA implements BasicStroke {
 
@@ -39,18 +39,6 @@ public class BasicStrokeA implements BasicStroke {
 
 	public double getMiterLimit() {
 		return mMiterLimit;
-	}
-
-	public int getCap() {
-		return mCap;
-	}
-
-	public int getJoin() {
-		return mJoin;
-	}
-
-	public Object getNativeObject() {
-		return null;
 	}
 
 	public Cap getNativeCap() {

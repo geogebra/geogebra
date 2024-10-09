@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.components;
 
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
@@ -19,6 +20,7 @@ public class ComponentToast extends GPopupPanel {
 	public ComponentToast(AppW app, String contentStr) {
 		super(app.getAppletFrame(), app);
 		addStyleName("toast");
+		addStyleName(Shades.NEUTRAL_700.getName());
 		buildGUI(contentStr);
 		Dom.addEventListener(getElement(), "transitionend", evt -> {
 			if (!getElement().hasClassName("fadeIn")) {

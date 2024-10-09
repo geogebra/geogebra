@@ -3,8 +3,10 @@ package org.geogebra.common.geogebra3D.kernel3D.commands;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.advanced.CmdIntersectPath;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.MyError;
@@ -24,7 +26,7 @@ public class CmdIntersectConic extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
@@ -45,7 +47,7 @@ public class CmdIntersectConic extends CommandProcessor {
 			}
 
 			// intersection plane/quadric
-			GeoElement ret = CmdIntersectPath3D.processQuadricPlane(kernel, c,
+			GeoElement ret = CmdIntersectPath.processQuadricPlane(kernel, c,
 					arg, ok);
 			if (ret != null) {
 				return new GeoElement[] { ret };

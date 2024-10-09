@@ -4,12 +4,13 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Transform;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * ApplyMatrix[&lt;Matrix>, &lt;Object>]
+ * ApplyMatrix[&lt;Matrix&gt;, &lt;Object&gt;]
  * 
  * @author Michael Borcherds
  */
@@ -26,7 +27,7 @@ public class CmdApplyMatrix extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		String label = c.getLabel();
 		int n = c.getArgumentNumber();
 

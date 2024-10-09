@@ -1,15 +1,13 @@
 package org.geogebra.desktop.gui.menubar;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import org.geogebra.common.util.lang.Language;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 
 /**
  * Handle the change of the language.
  */
-public class LanguageActionListener implements ActionListener {
+public class LanguageActionListener {
 
 	private AppD app;
 
@@ -17,9 +15,11 @@ public class LanguageActionListener implements ActionListener {
 		this.app = app;
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		app.setLanguage(AppD.getLocale(e.getActionCommand()));
+	/**
+	 * @param language language
+	 */
+	public void setLanguage(Language language) {
+		app.setLanguage(app.getLocalization().convertToLocale(language));
 		// make sure axes labels are updated eg for Arabic
 		app.getEuclidianView1().updateBackground();
 		if (app.hasEuclidianView2EitherShowingOrNot(1)) {

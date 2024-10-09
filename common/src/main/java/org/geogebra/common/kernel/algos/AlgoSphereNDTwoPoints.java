@@ -67,8 +67,7 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
 		input[0] = (GeoElement) M;
 		input[1] = (GeoElement) P;
 
-		super.setOutputLength(1);
-		super.setOutput(0, sphereND);
+		setOnlyOutput(sphereND);
 		setDependencies(); // done by AlgoElement
 	}
 

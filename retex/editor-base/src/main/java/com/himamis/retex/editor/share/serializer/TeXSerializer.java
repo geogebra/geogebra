@@ -5,6 +5,7 @@ import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
+import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathPlaceholder;
@@ -116,12 +117,12 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append(showPlaceholder ? PLACEHOLDER : PLACEHOLDER_INVISIBLE);
 		}
 		int lengthBefore = stringBuilder.length();
-		boolean addBraces = (sequence.hasChildren() || // {a^b_c}
-				sequence.size() > 1 || // {aa}
-				(sequence.size() == 1 && letterLength(sequence, 0) > 1) || // {\pi}
-				(sequence.size() == 0 && sequence != mCurrentField) || // {\triangleright}
-				(sequence.size() == 1 && sequence == mCurrentField)) && // {a|}
-				(stringBuilder.length() > 0 && stringBuilder
+		boolean addBraces = (sequence.hasChildren() // {a^b_c}
+				|| sequence.size() > 1 // {aa}
+				|| (sequence.size() == 1 && letterLength(sequence, 0) > 1) // {\pi}
+				|| (sequence.size() == 0 && sequence != mCurrentField) // {\triangleright}
+				|| (sequence.size() == 1 && sequence == mCurrentField)) // {a|}
+				&& (stringBuilder.length() > 0 && stringBuilder
 						.charAt(stringBuilder.length() - 1) != '{');
 		if (sequence == currentSelStart) {
 			stringBuilder.append(selection_start);
@@ -332,6 +333,10 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("\\overline{");
 			serialize(function.getArgument(0), stringBuilder);
 			stringBuilder.append("}");
+			MathComponent next = function.nextSibling();
+			if (!(next instanceof MathCharacter) || !((MathCharacter) next).isWordBreak()) {
+				stringBuilder.append("\\nbsp{}");
+			}
 			break;
 		default:
 			stringBuilder.append("{\\mathrm{");
@@ -464,7 +469,7 @@ public class TeXSerializer extends SerializerAdapter {
 	/**
 	 * Checks if the stringBuilder contains a mixed number e.g. 3 1/2 <br>
 	 * @param stringBuilder StringBuilder
-	 * @return Index >= 0 of where to put opening parentheses if there is a mixed number, -1 else
+	 * @return Index &gt;= 0 of where to put opening parentheses if there is a mixed number, -1 else
 	 */
 	@Override
 	public int isMixedNumber(StringBuilder stringBuilder) {
@@ -474,8 +479,8 @@ public class TeXSerializer extends SerializerAdapter {
 					&& !isMixedNumber) {
 				i -= 6; // Expecting a space preceding the fraction
 				continue;
-			} else if (stringBuilder.charAt(i) >= '0' && stringBuilder.charAt(i) <= '9') {
-				isMixedNumber = true; // Only allow digits 0 - 9 here
+			} else if (Character.isDigit(stringBuilder.charAt(i))) {
+				isMixedNumber = true; // Only allow digits here
 			} else if (isMixedNumber
 					&& " +-*/(}{".contains(Character.toString(stringBuilder.charAt(i)))) {
 				return i + 1;

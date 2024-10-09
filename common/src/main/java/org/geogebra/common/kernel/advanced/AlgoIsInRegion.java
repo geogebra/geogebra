@@ -61,13 +61,12 @@ public class AlgoIsInRegion extends AlgoElement {
 			result.setValue(false);
 			return;
 		}
-		result.setValue(region.isInRegion(pi));
+		result.setValue(region.isInRegionInRealCoords(pi));
 	}
 
 	@Override
 	protected void setInputOutput() {
-		setOutputLength(1);
-		setOutput(0, result);
+		setOnlyOutput(result);
 		input = new GeoElement[2];
 		input[0] = (GeoElement) pi;
 		input[1] = (GeoElement) region;

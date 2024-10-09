@@ -3,8 +3,8 @@ package org.geogebra.common.kernel.scripting;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -14,10 +14,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.MyError;
 
 /**
- * 
- * Slider[&lt;Min>,&lt;Max>,&lt;Increment>,&lt;Speed>,&lt;Width>,&lt;Angle>,&lt;Horizontal>,&lt;
- * Animating>,&lt;Random>]
- * 
+ * Slider[&lt;Min&gt;,&lt;Max&gt;,&lt;Increment&gt;,&lt;Speed&gt;,&lt;Width&gt;,&lt;Angle&gt;,
+ * &lt;Horizontal&gt;,&lt;Animating&gt;,&lt;Random&gt;]
  */
 public class CmdSlider extends CommandProcessor {
 
@@ -32,7 +30,7 @@ public class CmdSlider extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
@@ -77,7 +75,7 @@ public class CmdSlider extends CommandProcessor {
 		slider.setIntervalMax((GeoNumberValue) arg[1]);
 		if (n > 2) {
 			slider.setAnimationStep((GeoNumberValue) arg[2]);
-			slider.setAutoStep(!MyDouble.isFinite(arg[2].evaluateDouble()));
+			slider.setAutoStep(!Double.isFinite(arg[2].evaluateDouble()));
 		}
 		if (n > 3) {
 			slider.setAnimationSpeedObject((GeoNumberValue) arg[3]);

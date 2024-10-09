@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.commands;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdOrthogonalVector;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -10,7 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.main.MyError;
 
 /**
- * OrthogonalVector[ &lt;GeoPlane3D> ]
+ * OrthogonalVector[ &lt;GeoPlane3D&gt; ]
  */
 public class CmdOrthogonalVector3D extends CmdOrthogonalVector {
 	/**
@@ -22,7 +23,7 @@ public class CmdOrthogonalVector3D extends CmdOrthogonalVector {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
@@ -50,7 +51,7 @@ public class CmdOrthogonalVector3D extends CmdOrthogonalVector {
 
 		}
 
-		return super.process(c);
+		return super.process(c, info);
 	}
 
 }

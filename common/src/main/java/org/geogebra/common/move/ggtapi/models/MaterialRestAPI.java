@@ -27,8 +27,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class MaterialRestAPI implements BackendAPI {
 	private static final int SEARCH_COUNT = 30;
-	/** whether API is available */
-	protected boolean available = true;
+
 	/** whether availability check request was sent */
 	private boolean availabilityCheckDone = false;
 	private final String baseURL;
@@ -45,6 +44,7 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	/**
+	 * @param service backend service (Marvl/Mebis)
 	 * @param baseURL URL of the API; endpoints append eg. "/materials" to it
 	 */
 	public MaterialRestAPI(String baseURL, Service service) {
@@ -77,14 +77,6 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	@Override
-	public boolean checkAvailable(LogInOperation logInOperation) {
-		if (!availabilityCheckDone) {
-			performCookieLogin(logInOperation);
-		}
-		return available;
-	}
-
-	@Override
 	public String getLoginUrl() {
 		return null;
 	}
@@ -99,6 +91,7 @@ public class MaterialRestAPI implements BackendAPI {
 			guser.setIdentifier("");
 			guser.setStudent(!"1".equals(user.getString("isTeacher")));
 			guser.setLanguage(user.optString("langUi"));
+			guser.setJWTToken(user.optString("jwtToken"));
 			ArrayList<GroupIdentifier> allGroups = new ArrayList<>();
 			addGroups(user, "allClasses", allGroups, GroupIdentifier.GroupCategory.CLASS);
 			addGroups(user, "allCourses", allGroups, GroupIdentifier.GroupCategory.COURSE);
@@ -163,13 +156,13 @@ public class MaterialRestAPI implements BackendAPI {
 			final boolean automatic) {
 
 		HttpRequest request = service.createRequest(model);
+		request.setAuth(user.getLoginToken());
 		request.sendRequestPost(HttpMethod.GET.name(), baseURL + "/auth", null,
 				new AjaxCallback() {
 					@Override
 					public void onSuccess(String responseStr) {
 						try {
 							MaterialRestAPI.this.availabilityCheckDone = true;
-							MaterialRestAPI.this.available = true;
 
 							// Parse the userdata from the response
 							if (!parseUserDataFromResponse(user, responseStr)) {
@@ -188,7 +181,6 @@ public class MaterialRestAPI implements BackendAPI {
 					public void onError(String error) {
 						Log.error(error);
 						MaterialRestAPI.this.availabilityCheckDone = true;
-						MaterialRestAPI.this.available = false;
 
 						op.onEvent(new LoginEvent(user, false, automatic, null));
 					}
@@ -223,17 +215,6 @@ public class MaterialRestAPI implements BackendAPI {
 	@Override
 	public void uploadLocalMaterial(Material mat, MaterialCallbackI cb) {
 		// offline materials not supported
-	}
-
-	@Override
-	public boolean performCookieLogin(final LogInOperation op) {
-		op.passiveLogin();
-		return true;
-	}
-
-	@Override
-	public void performTokenLogin(LogInOperation op, String token) {
-		performCookieLogin(op);
 	}
 
 	/**
@@ -367,6 +348,7 @@ public class MaterialRestAPI implements BackendAPI {
 	 * Get materials created by user + shared with user's group
 	 * @param callback callback
 	 * @param order order
+	 * @param offset number of materials to skip
 	 */
 	public void getUsersAndSharedMaterials(MaterialCallbackI callback, ResourceOrdering order,
 			int offset) {
@@ -419,8 +401,13 @@ public class MaterialRestAPI implements BackendAPI {
 		if (method == HttpMethod.GET) {
 			HttpRequest request = service.createRequest(model);
 			request.setContentTypeJson();
-			request.sendRequestPost(method.name(), baseURL + endpoint, json,
-					callback);
+			Runnable sendRequest = () -> request.sendRequestPost(
+					method.name(), baseURL + endpoint, json, callback);
+			if (model != null) {
+				model.refreshToken(request, sendRequest);
+			} else {
+				sendRequest.run();
+			}
 			return request;
 		} else {
 			return performWithAuthentication(method, endpoint, json, callback);
@@ -431,7 +418,7 @@ public class MaterialRestAPI implements BackendAPI {
 			String json, AjaxCallback callback) {
 		HttpRequest request = service.createRequest(model);
 		request.setContentTypeJson();
-		getAndAddCSRFToken(new AjaxCallback() {
+		model.refreshToken(request, () -> getAndAddCSRFToken(new AjaxCallback() {
 			@Override
 			public void onSuccess(String token) {
 				try {
@@ -447,7 +434,7 @@ public class MaterialRestAPI implements BackendAPI {
 			public void onError(String error) {
 				callback.onError(error);
 			}
-		});
+		}));
 		return request;
 	}
 

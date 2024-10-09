@@ -8,11 +8,14 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.IsWidget;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.Widget;
+
+import elemental2.dom.CanvasRenderingContext2D;
 
 /**
  * Split pane which is used to separate two DockPanels.
@@ -20,7 +23,7 @@ import org.gwtproject.user.client.ui.Widget;
  * @author Florian Sonner, adapted by G.Sturr for web
  */
 public class DockSplitPaneW extends ZoomSplitLayoutPanel
-		implements DockComponent {
+		implements DockComponent, PaintToCanvas {
 
 	private Widget leftComponent;
 	private Widget rightComponent;
@@ -80,6 +83,9 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		}
 		if (!app.isUnbundledOrWhiteboard()) {
 			addStyleName("highlightDraggers");
+		}
+		if (!app.getAppletParameters().getDataParamTransparentGraphics()) {
+			addStyleName(Shades.NEUTRAL_0.getName());
 		}
 	}
 
@@ -278,38 +284,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 		} else {
 			throw new IllegalArgumentException();
 		}
-	}
-
-	/**
-	 * set the left component and check if it's empty when loading file
-	 * 
-	 * @param component
-	 *            componenent
-	 */
-	public void setLeftComponentCheckEmpty(Widget component) {
-
-		// ensure visibility flags of dock panels set to false
-		if (leftComponent != null) {
-			((DockComponent) leftComponent).setDockPanelsVisible(false);
-		}
-
-		setLeftComponent(component);
-	}
-
-	/**
-	 * set the right component and check if it's empty when loading file
-	 * 
-	 * @param component
-	 *            componenent
-	 */
-	public void setRightComponentCheckEmpty(Widget component) {
-
-		// ensure visibility flags of dock panels set to false
-		if (rightComponent != null) {
-			((DockComponent) rightComponent).setDockPanelsVisible(false);
-		}
-
-		setRightComponent(component);
 	}
 
 	/**
@@ -560,6 +534,52 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	public void setComponentOrder(DockPanelW left, DockPanelW right) {
 		leftComponent = left;
 		rightComponent = right;
+	}
+
+	@Override
+	public void paintToCanvas(CanvasRenderingContext2D context2d,
+			ViewCounter counter, int x, int y) {
+		if (leftComponent != null) {
+			if (counter != null) {
+				counter.increment();
+			}
+			((PaintToCanvas) leftComponent).paintToCanvas(context2d, counter, x, y);
+		}
+		if (rightComponent != null) {
+			if (counter != null) {
+				counter.increment();
+			}
+			int dx = orientation == SwingConstants.HORIZONTAL_SPLIT && leftComponent != null
+					? leftComponent.getOffsetWidth() + getSplitterSize() : 0;
+			int dy = orientation == SwingConstants.VERTICAL_SPLIT && leftComponent != null
+					? leftComponent.getOffsetHeight() + getSplitterSize() : 0;
+			((PaintToCanvas) rightComponent)
+					.paintToCanvas(context2d, counter, x + dx, y + dy);
+		}
+		if (counter != null) {
+			counter.decrement();
+		}
+	}
+
+	public Widget getChild(int direction) {
+		return direction == 1 ? getRightComponent() : getLeftComponent();
+	}
+
+	/**
+	 * set the index-th component and check if it's empty when loading file
+	 * @param index 0 for left/top, 1 for right/bottom
+	 * @param component component
+	 */
+	public void setComponentCheckEmpty(int index, Widget component) {
+		// ensure visibility flags of dock panels set to false
+		if (getChild(index) != null) {
+			((DockComponent) getChild(index)).setDockPanelsVisible(false);
+		}
+		if (index == 1) {
+			setRightComponent(component);
+		} else {
+			setLeftComponent(component);
+		}
 	}
 
 	/*************************************************************************

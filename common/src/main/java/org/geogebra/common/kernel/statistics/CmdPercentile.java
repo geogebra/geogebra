@@ -3,13 +3,15 @@ package org.geogebra.common.kernel.statistics;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Percentile[ &lt;List>, &lt;Value> ] G. Sturr
+ * Percentile[ &lt;List&gt;, &lt;Value&gt; ]
+ * @author G. Sturr
  */
 public class CmdPercentile extends CommandProcessor {
 
@@ -24,7 +26,7 @@ public class CmdPercentile extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		boolean[] ok = new boolean[n];

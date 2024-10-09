@@ -44,12 +44,6 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 		return canvas;
 	}
 
-	@Override
-	public String getText() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	/**
 	 * @return math input field
 	 */

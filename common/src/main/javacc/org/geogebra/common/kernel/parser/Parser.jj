@@ -93,6 +93,7 @@ public class Parser implements ParserInterface {
     private FunctionParser functionParser;
     private final ArrayList<ExpressionNode> undecided = new ArrayList<ExpressionNode >();
     private boolean highPrecisionParsing;
+    private int nestedCommands = 0;
 
     public Parser(Kernel kernel) {
         this ( new StringProvider("") ); // dummy stream for parser initing
@@ -132,6 +133,7 @@ public class Parser implements ParserInterface {
 		externalCASParsing = false;
 		giacParsing = false;
 		highPrecisionParsing = true;
+		nestedCommands = 0;
 		functionParser.setInputBoxParsing(false);
 		enableStructures = kernel.getAlgebraProcessor().enableStructures();
 		undecided.clear();
@@ -217,6 +219,7 @@ public class Parser implements ParserInterface {
     public ExpressionNode parseCmdExpression(String parseString)
     throws ParseException {
         myReInit(parseString );
+        nestedCommands = 1;
         ExpressionNode ret = expressionOrEquation().wrap();
         processUndecided();
         return ret;
@@ -279,7 +282,7 @@ public class Parser implements ParserInterface {
         if (externalCASParsing || geoGebraCASParsing || highPrecisionParsing) {
             // preserve string from CAS: it may have higher
             // precision than double
-            return new MySpecialDouble(kernel, val, percent ? image + "%" : image);
+            return new MySpecialDouble(kernel, val, percent ? image + "%" : image, externalCASParsing);
         }
 
         return new MyDouble(kernel, val);
@@ -295,12 +298,9 @@ public class Parser implements ParserInterface {
         return d;
     }
 
-    private RecurringDecimal parseRecurringDecimal(String image, boolean percent) {
-		double val = RecurringDecimal.parseDouble(loc, image);
-		if (percent) {
-			val = val * 0.01;
-		}
-		return new RecurringDecimal(kernel, val, image);
+    private RecurringDecimal parseRecurringDecimal(String imagePreperiod, String imageRecurring) {
+        return RecurringDecimal.parse(kernel, imagePreperiod,
+            imageRecurring.replace(String.valueOf(Unicode.OVERLINE), ""));
     }
 
 }
@@ -314,10 +314,6 @@ SKIP : {
   | "\t"
   | "\n"
 }
-
-//TOKEN : {
-//    < EOL: ";" >
-//}
 
 /* OPERATORS */
 TOKEN :  {
@@ -385,7 +381,7 @@ TOKEN :  {
   | < DERIVATIVE: "'" >
   | < TRUE:     ( "true" | "True" ) >
   | < FALSE:    ( "false" | "False" ) >
-  | < OVERLINE: "\u0305" >
+  | < #OVERLINE: "\u0305" >
   | < DECIMAL_POINT:    ( "." | "\u066b" ) > // Arabic decimal point
   | < COMMA:    ( "," | "\u060c" | "\u23B8" ) > // Arabic comma, vertical bar for Austrian points
 }
@@ -397,11 +393,11 @@ TOKEN : {
   //|     < PARAMETRICVAR: (("\u0058") /*| ( ("(") (< VARX >) (< COMMA >) (< VARY >) (")"))*/) > // X
   |     < FLOAT:  (<INTEGER> | <DECIMAL_POINT>)+ > //deliberately trap eg 1.2.3.4 , 1..2 here, error then thrown in MyDouble.parseDouble()
   |     < EFLOAT: <FLOAT> ("E") (<PLUS> | <MINUS>)? <INTEGER> >
-  |		< RECURRING_DECIMAL: <FLOAT> (<INTEGER> <OVERLINE>)+ >
+  |     < RECURRING_DIGITS: <OVERLINE> (<DIGIT> <OVERLINE>)* >
   |     < INTEGER: ( <DIGIT> )+ >
   |     < #DIGIT:                                     // unicode digits
          [
-          "\u0030"-"\u0039", // Roman
+          "\u0030"-"\u0039", // Arabic (=Latin)
           "\u0660"-"\u0669", // Arabic-Indic
           "\u06f0"-"\u06f9", // Extended Arabic-Indic
           "\u0966"-"\u096f", // Devanagari (Hindi)
@@ -434,7 +430,7 @@ TOKEN : {
  |
    // standard case: labels for GeoElements and command names
    < LABEL:
-    <LETTER> ( <LETTER> | <DIGIT> | "'" | "‘" | "’" )* (("." <INTEGER>)?  | ((<INDEX> | <LETTER> | <DIGIT> | "'" | "‘" | "’")*))>
+    <LETTER> ( <INDEX> | <LETTER> | <DIGIT> | "'" | "‘" | "’" )* ("." <INTEGER>)?>
  |  < #INDEX:  "_" (  <CHAR>  | ("{" (~["}"])+ "}" ) )  >
  | < #LETTER:  // unicode letters
        [
@@ -465,7 +461,7 @@ TOKEN : {
 
 
 // labels for function names
-TOKEN: {
+TOKEN : {
     < X_FUNC:  ("x" | "xcoord")  ("("|"[")>
 |  < Y_FUNC:  ("y" | "ycoord")   ("("|"[")>
 |  < Z_FUNC:  ("z" | "zcoord")   ("("|"[")>
@@ -476,21 +472,19 @@ TOKEN: {
 |   < FUNCTION_POWER_LABEL: (<SPREADSHEET_LABEL> | <LABEL> ) (< POWERN > )("("|"[") >
 }
 
- TOKEN : {
+TOKEN : {
  < TEXT: "\""  (<CHAR>)* "\"" > |
  < #CHAR: ["\u0000"-"\u0021", "\u0023"-"\uffff"]  >
 }
 
-
-
 /**
  * for GeoGebra input field
  * validexpression =
- *                  labellist() = command() |           // e.g. {A,B} = Intersect[c, g]
- *                      <LABEL> : parametric() |        // e.g. X = (3,2) + t (2,1)
- *                      <LABEL> = expressionn()      // arithmetic expression of floats, vectors and vars
- *                      <LABEL> : equation()        // equation in x an y
-             <LABEL>(x) = function()   // function in x, e.g. f(x) = 3x^3 - sqrt(x)
+ *                  labellist() = functionOrCommand() |           // e.g. {A,B} = Intersect[c, g]
+ *                      &lt;LABEL&gt; : parametric() |        // e.g. X = (3,2) + t (2,1)
+ *                      &lt;LABEL&gt; = expression()      // arithmetic expression of floats, vectors and vars
+ *                      &lt;LABEL&gt; : equation()        // equation in x an y
+             &lt;LABEL&gt;(x) = function()   // function in x, e.g. f(x) = 3x^3 - sqrt(x)
  */
 ValidExpression buildValidExpression() :
 {
@@ -615,7 +609,7 @@ private ValidExpression buildGiacExpression() :
 }
 
 /**
- * (<VARZ> | <LABEL> | <SPREADSHEET_LABEL>)
+ * (&lt;VARZ&gt; | &lt;LABEL&gt; | &lt;SPREADSHEET_LABEL&gt;)
  */
 Token label():
 {
@@ -627,7 +621,7 @@ Token label():
 }
 
 /**
- * (<VARX> | <VARY> | <VARZ> | <LABEL> | <SPREADSHEET_LABEL>)
+ * (&lt;VARX&gt; | &lt;VARY&gt; | &lt;VARZ&gt; | &lt;LABEL&gt; | &lt;SPREADSHEET_LABEL&gt;)
  */
 Token casVar():
 {
@@ -638,35 +632,6 @@ Token casVar():
   {
     return t;
   }
-}
-
-
-/**
- * command =     <LABEL> [ argument (, argument)* ]
- */
-ValidExpression command():
-{
-    Command c;
-    Token t;
-    String cmdName;
-    ValidExpression en;
-}
-{
-  (
-       (t = <FUNCTION_LABEL>) // includes (
-      { cmdName = t.image.substring(0,t.image.length()-1);
-        c = new Command(kernel, cmdName, true, !externalCASParsing );    }
-      (   ( en = expressionOrEquation()  { c.addArgument( en.wrap() ); } )?
-          ( <COMMA> en = expressionOrEquation() { c.addArgument( en.wrap() ); } )*
-      (")"|"]") )
-      { if (giacParsing)
-      {
-        ExpressionNode res = CommandDispatcherGiac.processCommand(cmdName,c,kernel);
-        if (res != null)
-          return res;
-      }
-      return c; }
-  )
 }
 
 
@@ -852,7 +817,7 @@ FunctionNVar casFunction(GeoSymbolicI cell):
 
 
 /**
- *  expression =  term <OR> term
+ *  expression =  term &lt;IMPLIES&gt; term
  */
 ExpressionNode expressionnode():
 {
@@ -906,7 +871,7 @@ ValidExpression expressionOrEquation():
 }
 
 /**
- * ANDterm =   COMPAREterm <AND> COMPAREterm
+ * ANDterm =   COMPAREterm &lt;AND&gt; COMPAREterm
  */
 ExpressionValue ANDterm():
 {
@@ -923,7 +888,7 @@ ExpressionValue ANDterm():
 }
 
 /**
- * XORterm =   ANDterm <OR> ANDterm
+ * XORterm =   ANDterm &lt;XOR&gt; ANDterm
  */
 ExpressionValue XORterm():
 {
@@ -940,7 +905,7 @@ ExpressionValue XORterm():
 }
 
 /**
- * ORterm =   XORterm <OR> XORterm
+ * ORterm =   XORterm &lt;OR&gt; XORterm
  */
 ExpressionValue ORterm():
 {
@@ -957,7 +922,7 @@ ExpressionValue ORterm():
 }
 
 /**
- * COMPAREterm =   listopnode ("==" | "<" | "<=" | ">" | ">=") listopnode
+ * COMPAREterm =   listopnode ("==" | "&lt;" | "&lt;=" | "&gt;" | "&gt;=") listopnode
  */
 ExpressionValue COMPAREterm():
 {
@@ -1244,11 +1209,13 @@ ExpressionValue enunary():
 {
     ExpressionValue e;
     ExpressionValue ret;
+	int minusCount = 0;
 }
 {
-    (<MINUS> e = enpower()
-        { // -e  = -1*e
-          ret = ExpressionNode.unaryMinus(kernel, e);
+   (
+    (<MINUS> { minusCount++;} )+ e = enpower()
+        { // -e  = -1*e, --e = e
+          ret = minusCount % 2 == 0 ? e : ExpressionNode.unaryMinus(kernel, e);
         }
 |
    <PLUS> e = enpower()
@@ -1332,8 +1299,8 @@ ExpressionValue enpower():
 }
 
 /**
- * factorial =  <NOTterm> |
- *              <NOTterm> !
+ * factorial =  &lt;NOTterm&gt; |
+ *              &lt;NOTterm&gt; !
  */
 ExpressionValue enfactorial():
 {
@@ -1376,8 +1343,8 @@ ExpressionValue ensqrt():
 }
 
 /**
- * NOTterm =  <NOT> <enelement> |
- *                 <enelement>
+ * NOTterm =  &lt;NOT&gt; &lt;enelement&gt; |
+ *                 &lt;enelement&gt;
  */
 ExpressionValue NOTterm():
 {
@@ -1400,8 +1367,8 @@ ExpressionValue NOTterm():
 }
 
 /**
- * element =    <variable>      |
- *              <float>         |
+ * element =    &lt;variable&gt;      |
+ *              &lt;float&gt;         |
  *              ( expression )
  */
 ExpressionValue enelement():
@@ -1422,11 +1389,7 @@ ExpressionValue enelement():
 |
     // cos, sin, tan, ...
     LOOKAHEAD(2147483647)
-    ev = numberFunction()
-|
-  // command
-  LOOKAHEAD(2147483647)
-    ev = command()
+    ev = functionOrCommand()
 |
     // number or vector variable
      LOOKAHEAD(2147483647)
@@ -1593,7 +1556,6 @@ Command spreadsheetRange():
   }
 }
 
-
 /**
  * floating point number: angle or numeric are distinguished
  */
@@ -1606,12 +1568,13 @@ ExpressionValue myDouble():
     Token degree = null;
     Token minutes = null;
     Token seconds = null;
+    Token recurringDigits = null;
     MyDouble d;
     ExpressionValue ret = null;
 }
 {
    (LOOKAHEAD(2)(
-     (c = <FLOAT> | c = <EFLOAT> | c = <RECURRING_DECIMAL> )
+     (c = <FLOAT> | c = <EFLOAT> )
      ((percent ="%")
      | LOOKAHEAD(3)((degree = <DEGREE_SYMBOL>)
        (c2 = <FLOAT>)
@@ -1624,6 +1587,7 @@ ExpressionValue myDouble():
      | LOOKAHEAD(3)(minutes = <ANGLE_MINUTES> | minutes = "'")(s = <FLOAT>)(<ANGLE_SECONDS>)
      | (minutes = <ANGLE_MINUTES> | minutes = "'")
      | (seconds = <ANGLE_SECONDS>)
+     | (recurringDigits = <RECURRING_DIGITS> )
      )
     )
   {
@@ -1631,13 +1595,16 @@ ExpressionValue myDouble():
         boolean isAngle = false;
         boolean hasDegrees = false, hasMinutes = false, hasSeconds = false;
         double vd = 0, vm = 0, vs = 0;
-        if (degree != null) {
-                // if e.g. 3° (no minute no second) we need to do 3*° for CAS
+        if (recurringDigits != null) {
+            ret = parseRecurringDecimal(c.image.substring(0, c.image.length() - 1),
+                        c.image.charAt(c.image.length() - 1) + recurringDigits.image);
+        } else if (degree != null) {
+            // if e.g. 3deg (no minute no second) we need to do 3*deg for CAS
             if (c2 == null) {
                 d = newSpecialDegree();
                 return new ExpressionNode(kernel, parseDouble(image, false), Operation.MULTIPLY, d);
             }
-             // at least 3°5' or 3°5'' (or 3°5'7'')
+             // at least 3deg5' or 3deg5'' (or 3deg5'7'')
             isAngle = true;
             vd = MyDouble.parseDouble(loc, image);
             hasDegrees = true;
@@ -1678,14 +1645,10 @@ ExpressionValue myDouble():
         }
     }
 |
-    (c = <FLOAT> | c = <EFLOAT> | c = <RECURRING_DECIMAL>)
+    (c = <FLOAT> | c = <EFLOAT> )
     {
-		if (c.kind == RECURRING_DECIMAL) {
-			ret = parseRecurringDecimal(c.image, false);
-		} else {
-    		String image = c.image.replaceFirst("e", "E");
-    		ret = parseDouble(image, false);
-		}
+		String image = c.image.replaceFirst("e", "E");
+		ret = parseDouble(image, false);
     }
 |
     (c = <DEGREE_WORD> | c = <DEGREE_SYMBOL>)
@@ -1755,8 +1718,9 @@ ExpressionValue myDouble():
 
 /**
  * mathematical Function (cos, sin, tan, ...)
+ * or command (Midpoint, Line, ...)
  */
-ExpressionNode numberFunction():
+ExpressionNode functionOrCommand():
 {
     ValidExpression en;
     MyList myList;
@@ -1818,23 +1782,29 @@ ExpressionNode numberFunction():
         ret = new ExpressionNode(kernel, randNum, Operation.RANDOM, null);
     }
 |
-    c = <FUNCTION_LABEL> en = expressionOrEquation()
-    {
+    c = <FUNCTION_LABEL> {
         myList = new MyList(kernel, true);
-        myList.addListElement(en);
+        nestedCommands++;
     }
-    (
-    	<COMMA> en = expressionOrEquation()
+     (en = expressionOrEquation()
         {
             myList.addListElement(en);
         }
-    )*
+        (
+            <COMMA> en = expressionOrEquation()
+            {
+                myList.addListElement(en);
+            }
+        )*
+    )?
     (closing = ")" | closing = "]")
     {
-		// note: the last character of FUNCTION_LABEL is a "("
+        nestedCommands--;
+        boolean topLevel = c.beginColumn == 1
+                && (closing.next == null || closing.next.kind == EOF || closing.next.kind == POLAR_SEPARATOR);
+        // note: the last character of FUNCTION_LABEL is a "("
         ret = functionParser.makeFunctionNode(c.image, myList, undecided, giacParsing,
-        	geoGebraCASParsing, c.beginColumn == 1
-        		&& (closing.next == null || closing.next.kind == EOF || closing.next.kind == POLAR_SEPARATOR));
+            geoGebraCASParsing, topLevel, nestedCommands);
     })
     {return ret;}
 }
@@ -1884,10 +1854,10 @@ ExpressionValue tuple():
 
 /**
 * Expression in the form
-*   <LABEL> "(" <value> "|" <value> ")" 				-- austrian style 2d point (cartesian)
-*   <LABEL> "(" <value> "|" <value> "|" <value> ")"		-- austrian style 3d point (cartesian)
-*   <LABEL> "(" <value> ";" <value> ")" 				-- point with polar coordinates
-*   <LABEL> "(" <value> ";" <value> ";" <value> ")" 	-- point with spherical coordinates
+*   &lt;LABEL&gt; "(" &lt;value&gt; "|" &lt;value&gt; ")" 				-- austrian style 2d point (cartesian)
+*   &lt;LABEL&gt; "(" &lt;value&gt; "|" &lt;value&gt; "|" &lt;value&gt; ")"		-- austrian style 3d point (cartesian)
+*   &lt;LABEL&gt; "(" &lt;value&gt; ";" &lt;value&gt; ")" 				-- point with polar coordinates
+*   &lt;LABEL&gt; "(" &lt;value&gt; ";" &lt;value&gt; ";" &lt;value&gt; ")" 	-- point with spherical coordinates
 */
 ValidExpression vectorSpecial():
 {

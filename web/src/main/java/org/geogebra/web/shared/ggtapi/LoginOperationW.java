@@ -10,11 +10,13 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.analytics.LoginAnalytics;
+import org.geogebra.gwtutil.Cookies;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
 
 import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.MessageEvent;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -60,18 +62,14 @@ public class LoginOperationW extends LogInOperation {
 
 	/**
 	 * Handles message from login frame
-	 * <ul>
-	 * <li>logintoken: we got token from Tube backend
-	 * <li>logincookie: user initiated login, uses cookies rather than tokens
-	 * (MOW)
-	 * <li>loginpassive: passive login, uses cookies
-	 * </ul>
+	 * {action:"logintoken", msg:token}
 	 */
 	private void iniNativeEvents(AppW app) {
 		app.getGlobalHandlers().addEventListener(DomGlobal.window,
 						"message",
 						event -> {
-							Object data = Js.asPropertyMap(event).get("data");
+							MessageEvent<?> message = Js.uncheckedCast(event);
+							Object data = message.data;
 							// later if event.origin....
 							if ("string".equals(Js.typeof(data))) {
 								try {
@@ -82,10 +80,6 @@ public class LoginOperationW extends LogInOperation {
 									if ("logintoken".equals(action)) {
 										Log.debug("Login token sent via message");
 										performTokenLogin((String) dataObject.get("msg"), false);
-									}
-									if ("logincookie".equals(action)
-										|| "loginpassive".equals(action)) {
-										processCookie("loginpassive".equals(action));
 									}
 								} catch (Throwable err) {
 									Log.debug("error occured while logging: \n"
@@ -123,17 +117,12 @@ public class LoginOperationW extends LogInOperation {
 	}
 
 	@Override
-	public String getLoginURL(String languageCode) {
+	public String getLoginURL(String languageTag) {
 		if (!StringUtil.empty(app.getAppletParameters().getParamLoginURL())) {
 			return app.getAppletParameters().getParamLoginURL();
 		}
 
-		return super.getLoginURL(languageCode);
-	}
-
-	private void processCookie(boolean passive) {
-		Log.debug("COOKIE LOGIN");
-		doPerformTokenLogin(new GeoGebraTubeUser(""), passive);
+		return super.getLoginURL(languageTag);
 	}
 
 	@Override
@@ -152,11 +141,22 @@ public class LoginOperationW extends LogInOperation {
 	@Override
 	public void passiveLogin() {
 		model.setLoginStarted();
-		processCookie(true);
+		if (!app.isMebis()) {
+			String cookie = Cookies.getCookie("SSID");
+			if (cookie != null) {
+				doPerformTokenLogin(new GeoGebraTubeUser(null, cookie), true);
+			} else {
+				stayLoggedOut();
+			}
+		}
 	}
 
 	@Override
 	protected boolean isExternalLoginAllowed() {
 		return app.getLAF() == null || app.getLAF().isExternalLoginAllowed();
+	}
+
+	public boolean loadUserFromSession() {
+		return ((AuthenticationModelW) getModel()).loadUserFromSession(getGeoGebraTubeAPI());
 	}
 }

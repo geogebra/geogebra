@@ -1,15 +1,15 @@
 package org.geogebra.common.kernel.advanced;
 
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.main.MyError;
 
 /**
- * FirstAxis[ &lt;GeoConic> ]
+ * FirstAxis[ &lt;GeoConic&gt; ]
  */
 public class CmdAxis extends CommandProcessor {
 
@@ -28,7 +28,7 @@ public class CmdAxis extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
@@ -39,8 +39,8 @@ public class CmdAxis extends CommandProcessor {
 			// asymptotes to conic
 			if (arg[0].isGeoConic()) {
 
-				AlgoAxis algo = getAlgoAxisFirst(cons, c.getLabel(),
-						(GeoConicND) arg[0]);
+				AlgoAxis algo = kernel.getAlgoDispatcher().axis(c.getLabel(),
+						(GeoConicND) arg[0], axisId);
 
 				GeoElement[] ret = { algo.getAxis().toGeoElement() };
 				return ret;
@@ -50,20 +50,5 @@ public class CmdAxis extends CommandProcessor {
 		default:
 			throw argNumErr(c);
 		}
-	}
-
-	/**
-	 * @param cons1
-	 *            construction
-	 * @param label
-	 *            label
-	 * @param geoConicND
-	 *            conic
-	 * @return axis algo
-	 */
-	protected AlgoAxis getAlgoAxisFirst(Construction cons1, String label,
-			GeoConicND geoConicND) {
-
-		return new AlgoAxis(cons1, label, geoConicND, axisId);
 	}
 }

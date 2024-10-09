@@ -3,32 +3,26 @@ package org.geogebra.web.full.gui.view.spreadsheet;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.gui.view.spreadsheet.CellFormat;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
+import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
-import org.geogebra.web.full.gui.util.PopupMenuButtonW;
-import org.geogebra.web.full.gui.util.PopupMenuHandler;
 import org.geogebra.web.full.gui.util.StyleBarW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.resources.SVGResource;
-import org.gwtproject.event.dom.client.ClickEvent;
-import org.gwtproject.event.dom.client.ClickHandler;
-import org.gwtproject.event.logical.shared.ValueChangeEvent;
-import org.gwtproject.event.logical.shared.ValueChangeHandler;
 
 /**
  * Stylebar for SpreadsheetView
  * 
  */
-public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
-        ValueChangeHandler<Boolean>, PopupMenuHandler {
+public class SpreadsheetStyleBarW extends StyleBarW {
 
 	private MyTableW table;
 	private CellFormat formatHandler;
@@ -96,7 +90,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		btnBgColor.setEnableTable(true);
 		btnBgColor.setKeepVisible(false);
 		btnBgColor.setSelectedIndex(7);
-		btnBgColor.addPopupHandler(this);
+		btnBgColor.addPopupHandler(w -> handleEventHandlers());
 	}
 
 	private void addButtons() {
@@ -136,19 +130,8 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		btnRightAlign.setTitle(loc.getPlainTooltip("stylebar.AlignRight"));
 	}
 
-	@Override
-	public void onValueChange(ValueChangeEvent<Boolean> event) {
-		Object source = event.getSource();
-		handleEventHandlers(source);
-	}
-
-	@Override
-	public void onClick(ClickEvent event) {
-		handleEventHandlers(event.getSource());
-	}
-
 	private void handleAlignment(ToggleButton button) {
-		ArrayList<CellRange> selectedCells = table.getSelectedCellRanges();
+		ArrayList<TabularRange> selectedCells = table.getSelectedRanges();
 		Integer align = null;
 		if (button.isSelected()) {
 			if (button == btnLeftAlign) {
@@ -176,8 +159,8 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	}
 
 	private void handleFormatting() {
-		ArrayList<CellRange> selectedCells = table.getSelectedCellRanges();
-		Integer fontStyle = CellFormat.STYLE_PLAIN;
+		ArrayList<TabularRange> selectedCells = table.getSelectedRanges();
+		int fontStyle = CellFormat.STYLE_PLAIN;
 		if (btnBold.isSelected()) {
 			fontStyle += CellFormat.STYLE_BOLD;
 		}
@@ -190,32 +173,30 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		table.updateCellFormat(selectedCells);
 	}
 
-	private void handleEventHandlers(Object source) {
-
+	private void handleEventHandlers() {
 		if (!allowActionPerformed) {
 			return;
 		}
 
-		ArrayList<CellRange> selectedCells = table.getSelectedCellRanges();
-		if (source == btnBgColor) {
-			// set color in table (needed as geos can be renamed, deleted etc)
-			GColor bgCol = btnBgColor.getSelectedColor();
-			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_BGCOLOR, bgCol);
-			
-			// set the color
-			ImageOrText data = GeoGebraIconW.createColorSwatchIcon(1.0, null,
-			        bgCol);
-			data.applyToLabel(btnBgColor.getColorLabel());
-			
-			// set color for the actual geos
-			for (int i = 0; i < selectedCells.size(); i++) {
-				CellRange cr = selectedCells.get(i);
-				ArrayList<GeoElement> ar = cr.toGeoList();
-				for (int j = 0; j < ar.size(); j++) {
-					GeoElement geo = ar.get(i);
-					geo.setBackgroundColor(bgCol);
-					geo.updateRepaint();
-				}
+		ArrayList<TabularRange> selectedCells = table.getSelectedRanges();
+
+		// set color in table (needed as geos can be renamed, deleted etc)
+		GColor bgCol = btnBgColor.getSelectedColor();
+		formatHandler.setFormat(selectedCells, CellFormat.FORMAT_BGCOLOR, bgCol);
+
+		// set the color
+		ImageOrText data = GeoGebraIconW.createColorSwatchIcon(1.0, null,
+				bgCol);
+		data.applyToLabel(btnBgColor.getColorLabel());
+
+		// set color for the actual geos
+		for (int i = 0; i < selectedCells.size(); i++) {
+			TabularRange tr = selectedCells.get(i);
+			ArrayList<GeoElement> ar = CellRangeUtil.toGeoList(tr, app);
+			for (int j = 0; j < ar.size(); j++) {
+				GeoElement geo = ar.get(i);
+				geo.setBackgroundColor(bgCol);
+				geo.updateRepaint();
 			}
 		}
 		app.storeUndoInfo();
@@ -229,7 +210,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 
 		allowActionPerformed = false;
 
-		CellRange range = table.getSelectedCellRanges().get(0);
+		TabularRange range = table.getFirstSelection();
 
 		// update font style buttons
 		Integer fontStyle = (Integer) formatHandler.getCellFormat(range,
@@ -275,9 +256,4 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public void fireActionPerformed(PopupMenuButtonW actionButton) {
-		handleEventHandlers(actionButton);
-    }
 }

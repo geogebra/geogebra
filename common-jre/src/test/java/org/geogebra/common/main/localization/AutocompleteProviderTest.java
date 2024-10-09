@@ -1,5 +1,6 @@
 package org.geogebra.common.main.localization;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -18,6 +19,7 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.config.AppConfigCas;
@@ -25,7 +27,6 @@ import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.geogebra.common.main.syntax.suggestionfilter.GraphingSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
-import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -42,20 +43,27 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 	@Test
 	public void functionSuggestionTest() {
 		List<AutocompleteProvider.Completion> completionList = getCompletions("sin");
-		assertEquals("sin", completionList.get(0).command);
+		assertEquals("sin", completionList.get(0).getCommand());
 		assertEquals(Collections.singletonList("sin( <x> )"), completionList.get(0).syntaxes);
 	}
 
 	@Test
 	public void functionSuggestionShouldBeCaseSensitive() {
-		List<AutocompleteProvider.Completion> completionList = getCompletions("Sin");
-		assertThat(completionList, IsEmptyCollection.empty());
+		List<String> completionList = getStringCompletions("Sin");
+		assertThat(completionList, equalTo(Arrays.asList("FitSin", "IsInRegion", "IsInteger")));
+	}
+
+	@Test
+	public void initialMatchesShouldComeFirst() {
+		List<String> completionList = getStringCompletions("Row");
+		assertThat(completionList, equalTo(Arrays.asList("Row", "FillRow", "FitGrowth",
+				"ReducedRowEchelonForm")));
 	}
 
 	@Test
 	public void commandSuggestionTest() {
 		List<AutocompleteProvider.Completion> completionList = getCompletions("int");
-		assertEquals("Integral", completionList.get(0).command);
+		assertEquals("Integral", completionList.get(0).getCommand());
 		assertEquals(Arrays.asList("Integral( <Function> )", "Integral( <Function>, <Variable> )"),
 				completionList.get(0).syntaxes.subList(0, 2));
 	}
@@ -73,11 +81,18 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 						.count());
 	}
 
+	@Test
+	public void shouldShowCasSpecific() {
+		AutocompleteProvider casProvider = new AutocompleteProvider(getApp(), true);
+		assertEquals(3, casProvider.getCompletions("Groebner").count());
+		assertEquals(0, casProvider.getCompletions("ExpSimplify").count());
+	}
+
 	private Stream<AutocompleteProvider.Completion> getExactSyntaxMatchOf(AppConfig config,
 			String name) {
 		App app = AppCommonFactory.create(config);
 		AutocompleteProvider provider = new AutocompleteProvider(app, false);
-		return provider.getCompletions(name).filter(c -> Objects.equals(c.command, name));
+		return provider.getCompletions(name).filter(c -> Objects.equals(c.match, name));
 	}
 
 	@Test
@@ -101,8 +116,8 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 		assertEquals(0, casProvider.getCompletions(curveCommand).count());
 
 		swapConfig(new AppConfigGraphing());
-		assertEquals(1, provider.getCompletions(curveCommand).count());
-		assertEquals(1, casProvider.getCompletions(curveCommand).count());
+		assertEquals(2, provider.getCompletions(curveCommand).count());
+		assertEquals(2, casProvider.getCompletions(curveCommand).count());
 
 		swapConfig(new AppConfigCas());
 		assertEquals(0, provider.getCompletions(curveCommand).count());
@@ -112,9 +127,15 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 	private void swapConfig(AppConfig config) {
 		CommandDispatcher commandDispatcher =
 				getKernel().getAlgebraProcessor().getCommandDispatcher();
-		commandDispatcher.removeCommandFilter(getApp().getConfig().getCommandFilter());
+		CommandFilter commandFilter = getApp().getConfig().getCommandFilter();
+		if (commandFilter != null) {
+			commandDispatcher.removeCommandFilter(commandFilter);
+		}
 		getApp().setConfig(config);
-		commandDispatcher.addCommandFilter(getApp().getConfig().getCommandFilter());
+		commandFilter = getApp().getConfig().getCommandFilter();
+		if (commandFilter != null) {
+			commandDispatcher.addCommandFilter(commandFilter);
+		}
 		getApp().resetCommandDict();
 	}
 
@@ -124,16 +145,21 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 		AppConfigUnrestrictedGraphing graphingSuiteConfig = new AppConfigUnrestrictedGraphing();
 
 		swapConfig(graphingSuiteConfig);
-		assertEquals(2, provider.getCompletions("Solve").count());
+		assertEquals(5, provider.getCompletions("Solve").count());
 
 		swapConfig(new AppConfigGraphing());
-		assertEquals(0, provider.getCompletions("Solve").count());
+		assertEquals(1, provider.getCompletions("Solve").count());
 
 		swapConfig(new AppConfigUnrestrictedGraphing());
-		assertEquals(2, provider.getCompletions("Solve").count());
+		assertEquals(5, provider.getCompletions("Solve").count());
 	}
 
 	private List<AutocompleteProvider.Completion> getCompletions(String sin) {
 		return provider.getCompletions(sin).collect(Collectors.toList());
+	}
+
+	private List<String> getStringCompletions(String sin) {
+		return provider.getCompletions(sin)
+				.map(AutocompleteProvider.Completion::getCommand).collect(Collectors.toList());
 	}
 }

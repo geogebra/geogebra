@@ -1,6 +1,6 @@
 package org.geogebra.common.main.undo;
 
-import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.ActionType;
 
 public interface ActionExecutor {
 
@@ -13,7 +13,5 @@ public interface ActionExecutor {
 	 *            action parameters
 	 * @return whether action was handled by this executor
 	 */
-	boolean executeAction(EventType action, String... args);
-
-	boolean undoAction(EventType action, String... args);
+	boolean executeAction(ActionType action, String... args);
 }

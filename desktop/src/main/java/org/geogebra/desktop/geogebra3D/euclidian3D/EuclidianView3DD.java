@@ -33,7 +33,6 @@ import org.geogebra.common.euclidian3D.Mouse3DEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.RendererType;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -43,9 +42,9 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
+import org.geogebra.desktop.euclidian.CoordSystemAnimationD;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
 import org.geogebra.desktop.euclidian.EuclidianViewJPanelD;
-import org.geogebra.desktop.euclidian.MyZoomerD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.geogebra3D.App3D;
@@ -65,6 +64,10 @@ public class EuclidianView3DD extends EuclidianView3D
 
 	/** Java component for this view */
 	protected EuclidianViewJPanelD evjpanel;
+	private Component canvas;
+	private boolean exportToClipboard;
+	private File exportFile;
+	private int exportDPI;
 
 	/**
 	 * constructor
@@ -95,8 +98,6 @@ public class EuclidianView3DD extends EuclidianView3D
 
 	}
 
-	private Component canvas;
-
 	@Override
 	protected void createPanel() {
 		evjpanel = new EuclidianViewJPanelD(this);
@@ -118,17 +119,7 @@ public class EuclidianView3DD extends EuclidianView3D
 		// set stereo on/off
 		getCompanion().setIsStereoBuffered(((App3D) app).isStereo3D());
 
-		// we don't want shaders with win os < vista
-		if (!AppD.WINDOWS_VISTA_OR_EARLIER) {
-			return new RendererCheckGLVersionD(this, canUseCanvas());
-		}
-
-		if (app.useShaders()) {
-			return new RendererCheckGLVersionD(this, true, RendererType.SHADER);
-		}
-
-		return new RendererCheckGLVersionD(this, canUseCanvas(), RendererType.GL2);
-
+		return new RendererCheckGLVersionD(this, canUseCanvas());
 	}
 
 	private boolean canUseCanvas() {
@@ -377,10 +368,10 @@ public class EuclidianView3DD extends EuclidianView3D
 
 	// @Override
 	@Override
-	public void setToolTipText(String plain) {
+	public void setToolTipText(String plainText) {
 		if ((tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_ON)
 				|| (tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC)) {
-			evjpanel.setToolTipText(plain);
+			evjpanel.setToolTipText(plainText);
 		}
 	}
 
@@ -426,8 +417,8 @@ public class EuclidianView3DD extends EuclidianView3D
 	}
 
 	@Override
-	protected MyZoomerD newZoomer() {
-		return new MyZoomerD(this);
+	protected CoordSystemAnimationD newZoomer() {
+		return new CoordSystemAnimationD(this);
 	}
 
 	@Override
@@ -458,10 +449,6 @@ public class EuclidianView3DD extends EuclidianView3D
 
 		return getRenderer().getExportImage();
 	}
-
-	private boolean exportToClipboard;
-	private File exportFile;
-	private int exportDPI;
 
 	@Override
 	public void exportImagePNG(double scale, boolean transparency, int dpi,

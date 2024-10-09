@@ -12,13 +12,6 @@ import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 public interface BackendAPI {
 
 	/**
-	 * @param logInOperation
-	 *            login operation
-	 * @return whether the API is available; assume true if not tested
-	 */
-	boolean checkAvailable(LogInOperation logInOperation);
-
-	/**
 	 * TODO get this from somewhere else, makes only sense for Tube API
 	 *
 	 * @return login API url
@@ -92,23 +85,6 @@ public interface BackendAPI {
 	 *            {@link MaterialCallbackI}
 	 */
 	void uploadLocalMaterial(Material mat, MaterialCallbackI cb);
-
-	/**
-	 * @param op
-	 *            login operation
-	 * @return whether cookie was found
-	 */
-	boolean performCookieLogin(LogInOperation op);
-
-	/**
-	 * Log user in using either cookie or given token.
-	 *
-	 * @param logInOperation
-	 *            login operation
-	 * @param token
-	 *            stored token
-	 */
-	void performTokenLogin(LogInOperation logInOperation, String token);
 
 	/**
 	 * Uploads the actual opened application to ggt

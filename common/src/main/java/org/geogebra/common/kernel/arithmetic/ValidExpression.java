@@ -46,13 +46,14 @@ public abstract class ValidExpression
 	private List<String> localVariables = new ArrayList<>();
 	private boolean inTree; // used by ExpressionNode
 
+	private boolean imprecise = false;
+
 	/**
 	 * @param label
 	 *            label to be added
 	 */
 	public void addLabel(String label) {
 		initLabels();
-		// App.printStacktrace(label+":"+(label==null));
 		labels.add(label);
 	}
 
@@ -378,7 +379,7 @@ public abstract class ValidExpression
 				if (i > 0) {
 					sb.append(",");
 				}
-				sb.append(debugString(((MyList) s).getListElement(i)));
+				sb.append(debugString(((MyList) s).get(i)));
 			}
 			sb.append(')');
 			return sb.toString();
@@ -467,13 +468,7 @@ public abstract class ValidExpression
 	 * @return deep check for function variable
 	 */
 	public final boolean containsFunctionVariable() {
-		return this.inspect(new Inspecting() {
-
-			@Override
-			public boolean check(ExpressionValue v) {
-				return v instanceof FunctionVariable;
-			}
-		});
+		return this.inspect(v -> v instanceof FunctionVariable);
 	}
 
 	/**
@@ -623,5 +618,18 @@ public abstract class ValidExpression
 	 */
 	public boolean containsCommands() {
 		return inspect(t -> t instanceof Command);
+	}
+
+	@Override
+	public boolean isRecurringDecimal() {
+		return false;
+	}
+
+	public boolean isImprecise() {
+		return imprecise;
+	}
+
+	public void setImprecise(boolean imprecise) {
+		this.imprecise = imprecise;
 	}
 }

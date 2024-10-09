@@ -1,14 +1,20 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
+import org.geogebra.web.full.gui.layout.ViewCounter;
+import org.geogebra.web.full.gui.view.algebra.AlgebraCanvasExporter;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.util.CustomScrollbar;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Panel;
+
+import elemental2.dom.CanvasRenderingContext2D;
 
 /**
  * Algebra tab of tool panel
@@ -49,9 +55,9 @@ public class AlgebraTab extends ToolbarTab {
 				wrapper.remove(aview);
 				remove(wrapper);
 			}
-
 			wrapper = new FlowPanel();
 			aview = av;
+			aview.resetInputItemHeader();
 			wrapper.add(aview);
 			wrapper.add(logo);
 			add(decorate(wrapper));
@@ -152,7 +158,31 @@ public class AlgebraTab extends ToolbarTab {
 	}
 
 	@Override
+	public DockPanelData.TabIds getID() {
+		return DockPanelData.TabIds.ALGEBRA;
+	}
+
+	@Override
 	public void setLabels() {
 		logo.setLabels();
+	}
+
+	@Override
+	public MathKeyboardListener getKeyboardListener() {
+		if (app.getInputPosition() != App.InputPosition.algebraView) {
+			return null;
+		}
+		return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
+	}
+
+	@Override
+	public void paintToCanvas(CanvasRenderingContext2D context2d,
+			ViewCounter counter, int left, int top) {
+		AlgebraCanvasExporter exporter = new AlgebraCanvasExporter(aview, context2d,
+				getOffsetWidth());
+		exporter.paintToCanvas(left, top);
+		if (counter != null) {
+			counter.decrement();
+		}
 	}
 }

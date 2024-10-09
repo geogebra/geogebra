@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 
 /**
  * AlgoOptimize: Abstract class for AlgoMaximize and AlgoMinimize Command
- * Minimize[ &lt;dependent variable>, &lt;independent variable> ] (and
+ * Minimize[ &lt;dependent variable&gt;, &lt;independent variable&gt; ] (and
  * Maximize[] ) which searches for the independent variable which gives the
  * smallest/largest result for the dependent variable.
  * 
@@ -97,8 +97,7 @@ public abstract class AlgoOptimize extends AlgoElement {
 		input[0] = dep;
 		input[1] = indep.getGeo();
 
-		super.setOutputLength(1);
-		super.setOutput(0, result);
+		setOnlyOutput(result);
 
 		setDependencies(); // done by AlgoElement
 	}

@@ -108,6 +108,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public boolean isFinite();
 
 	/**
+	 * @param absPosition whether the position is absolute (=in screen pixels)
 	 * @param sb string builder to append the correct xml representation as a
 	 *         start point for an object (button, vector, text)
 	 */
@@ -246,6 +247,15 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 *         not included in coord sys
 	 */
 	public Coords getCoordsInD2IfInPlane(CoordSys coordSys);
+
+	/**
+	 * Same as {@link #getCoordsInD2IfInPlane(CoordSys)}, but forces usage of real coordinates
+	 * if necessary
+	 * @param coordSys Coord system
+	 * @return the coords of the point in 2D (projected on coord sys) or null if
+	 *         not included in coord sys
+	 */
+	public Coords getCoordsInD2IfInPlaneInRealCoords(CoordSys coordSys);
 
 	/**
 	 * @return path on which this point lies
@@ -464,6 +474,12 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public int getToStringMode();
 
 	public void addToPathParameter(double d);
+
+	/**
+	 * Sets the path parameter t of the point and updates it.
+	 * @param t path parameter
+	 */
+	public void updatePathParameter(double t);
 
 	/**
 	 * set region changed with x, y coords

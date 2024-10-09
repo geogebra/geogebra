@@ -1091,9 +1091,9 @@ public class Manager3D implements Manager3DInterface {
 	// 3D CURVE (1 VAR)
 
 	/**
-	 * 3D Cartesian curve command: Curve[ &lt;expression x-coord>,
-	 * &lt;expression y-coord>, &lt;expression z-coord>, &lt;number-var>,
-	 * &lt;from>, &lt;to> ]
+	 * 3D Cartesian curve command: Curve[ &lt;expression x-coord&gt;,
+	 * &lt;expression y-coord&gt;, &lt;expression z-coord&gt;, &lt;number-var&gt;,
+	 * &lt;from&gt;, &lt;to&gt; ]
 	 */
 	@Override
 	final public GeoCurveCartesian3D curveCartesian3D(GeoNumberValue xcoord,
@@ -2388,6 +2388,26 @@ public class Manager3D implements Manager3DInterface {
 		}
 
 		return kernel.tangent(label, point, (GeoCurveCartesian) curve);
+	}
+
+	@Override
+	public GeoElement lineToPlane(GeoElement geoElement) {
+		GeoLine line = (GeoLine) geoElement;
+		GeoPlane3D plane = new GeoPlane3D(cons, line.getX(), line.getY(), 0,
+				line.getZ());
+		if (line.getDefinition() != null) {
+			ExpressionValue eq = geoElement.getDefinition().unwrap();
+			if (eq instanceof Equation) {
+				plane.setDefinition(eq.wrap());
+			}
+		}
+		return plane;
+	}
+
+	@Override
+	public AlgoElement intersectFunctionNVarPlane(Construction cons,
+			GeoFunctionNVar function, GeoPlaneND plane) {
+		return new AlgoIntersectFunctionNVarPlane(cons, function, plane);
 	}
 
 	@Override

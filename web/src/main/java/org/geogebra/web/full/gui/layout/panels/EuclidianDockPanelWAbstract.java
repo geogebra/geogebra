@@ -6,12 +6,10 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
-import org.geogebra.web.full.gui.util.ZoomPanelMow;
+import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
-import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -38,13 +36,8 @@ import jsinterop.base.Js;
  */
 public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		implements GetViewId {
-
 	private ConstructionProtocolNavigationW consProtNav;
-
 	private boolean mayHaveZoomButtons;
-
-	/** Zoom panel for MOW */
-	@CheckForNull ZoomPanelMow mowZoomPanel;
 
 	/**
 	 * default constructor
@@ -234,13 +227,10 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	@Override
-	protected void addZoomPanel(MyDockLayoutPanel dockLayoutPanel,
+	protected void addZoomPanel(InnerDockLayoutPanel dockLayoutPanel,
 			InsertPanel controls) {
 		if (allowZoomPanel()) {
 			dockLayoutPanel.addSouth(zoomPanel, 0);
-		}
-		if (app.isWhiteboardActive() && mowZoomPanel != null) {
-			controls.add(mowZoomPanel);
 		}
 	}
 
@@ -264,23 +254,11 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 				zoomPanel.setFullScreen(true);
 			}
 		}
-		tryBuildMowZoomPanel();
 	}
 
 	private boolean isBottomRight() {
 		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout().getDockManager();
 		return dm.getRoot() == null || dm.getRoot().isBottomRight(this);
-	}
-
-	private void tryBuildMowZoomPanel() {
-		if (mowZoomPanel != null) {
-			mowZoomPanel.removeFromParent();
-			mowZoomPanel = null;
-		}
-		if (ZoomPanel.needsZoomButtons(app) && app.isWhiteboardActive()) {
-			mowZoomPanel = new ZoomPanelMow(app);
-			((AppWFull) app).setMowZoomPanel(mowZoomPanel);
-		}
 	}
 
 	/**
@@ -304,9 +282,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		if (zoomPanel != null) {
 			zoomPanel.setLabels();
 		}
-		if (mowZoomPanel != null) {
-			mowZoomPanel.setLabels();
-		}
 	}
 
 	/**
@@ -316,9 +291,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		if (zoomPanel != null) {
 			zoomPanel.setHidden(true);
 		}
-		if (mowZoomPanel != null) {
-			mowZoomPanel.addStyleName("hidden");
-		}
 	}
 
 	/**
@@ -327,40 +299,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	public void showZoomPanel() {
 		if (zoomPanel != null) {
 			zoomPanel.setHidden(false);
-		}
-		if (mowZoomPanel != null) {
-			mowZoomPanel.removeStyleName("hidden");
-		}
-	}
-
-	/**
-	 * Moves the zoom panel up for MOW toolbar
-	 *
-	 * @param up
-	 *            true if zoom panel should move up, false if zoom panel should
-	 *            move down
-	 */
-	public void moveZoomPanelUpOrDown(boolean up) {
-		if (zoomPanel != null) {
-			Dom.toggleClass(zoomPanel, "showMowSubmenu", "hideMowSubmenu", up);
-		}
-	}
-
-	/**
-	 * Move zoom panel to bottom
-	 */
-	public void moveZoomPanelToBottom() {
-		if (zoomPanel != null) {
-			zoomPanel.removeStyleName("narrowscreen");
-		}
-	}
-
-	/**
-	 * Move zoom panel to avoid conflicts with toolbar
-	 */
-	public void moveZoomPanelAboveToolbar() {
-		if (zoomPanel != null) {
-			zoomPanel.addStyleName("narrowscreen");
 		}
 	}
 
@@ -399,7 +337,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	@Override
 	public void paintToCanvas(CanvasRenderingContext2D context2d,
-			Runnable callback, int left, int top) {
+			ViewCounter counter, int left, int top) {
 		if (getEuclidianView() != null) {
 			HTMLCanvasElement evCanvas =
 					Js.uncheckedCast(((EuclidianViewWInterface) getEuclidianView())
@@ -409,7 +347,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			context2d.drawImage(evCanvas, pixelRatio * left, pixelRatio * top);
 			context2d.scale(pixelRatio, pixelRatio);
 		}
-		callback.run();
+		if (counter != null) {
+			counter.decrement();
+		}
 	}
 
 	/**
@@ -421,5 +361,4 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			zoomPanel.setStyleName("pointerEventsNoneWhenDragging", !enable);
 		}
 	}
-
 }

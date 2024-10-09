@@ -12,7 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
-import java.util.HashSet;
+import java.math.BigDecimal;
+import java.util.Set;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -107,8 +108,8 @@ public class MyBoolean extends ValidExpression
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
-		return null;
+	public void getVariables(Set<GeoElement> variables, SymbolicMode symbolicMode) {
+		// constant
 	}
 
 	@Override
@@ -197,5 +198,10 @@ public class MyBoolean extends ValidExpression
 	@Override
 	public ValueType getValueType() {
 		return ValueType.BOOLEAN;
+	}
+
+	@Override
+	public BigDecimal toDecimal() {
+		return value ? BigDecimal.ONE : BigDecimal.ZERO;
 	}
 }

@@ -1,5 +1,6 @@
 package org.geogebra.web.editor;
 
+import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.html5.bridge.RenderGgbElement;
 import org.geogebra.web.resources.StyleInjector;
 
@@ -11,19 +12,31 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmApi;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
+import elemental2.core.Function;
 import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 public class EditorEntry implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
 		FactoryProviderGWT.ensureLoaded();
+		Function onReady = (Function) Js.asPropertyMap(DomGlobal.window)
+				.nestedGet("editor.onReady");
 		initFontAndCss();
-		initJlmLibrary();
+
 		EditorKeyboard keyboard = new EditorKeyboard();
-		RenderGgbElement.setRenderGGBElement(new RenderEditor(keyboard));
-		RenderGgbElement.renderGGBElementReady();
+		if (onReady != null) { // loaded as module => no globals
+			onReady.call(DomGlobal.window, "editor", new RenderEditor(keyboard));
+			JlmApi jlmApi = new JlmApi(new JlmEditorLib());
+			JsConsumer<JsPropertyMap<?>> draw = jlmApi::drawLatex;
+			onReady.call(DomGlobal.window, "formula", draw);
+		} else { // fallback
+			initJlmLibrary();
+			RenderGgbElement.setRenderGGBElement(new RenderEditor(keyboard));
+			RenderGgbElement.renderGGBElementReady();
+		}
 	}
 
 	private void initJlmLibrary() {

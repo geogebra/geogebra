@@ -95,7 +95,6 @@ public class StatTableModel {
 	 * 
 	 */
 	public void updatePanel() {
-		// App.printStacktrace("update stat panel");
 		GeoList dataList = getListener().getDataSelected();
 
 		GeoElement geoRegression = getListener().getRegressionModel();

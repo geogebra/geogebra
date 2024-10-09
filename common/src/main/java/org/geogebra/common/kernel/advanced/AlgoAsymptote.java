@@ -83,7 +83,7 @@ public class AlgoAsymptote extends AlgoElement {
 
 		eigenvec = c.eigenvec;
 		halfAxes = c.halfAxes;
-		b = c.b;
+		b = c.getB();
 
 		asymptotes = new GeoLine[2];
 		asymptotes[0] = new GeoLine(cons);

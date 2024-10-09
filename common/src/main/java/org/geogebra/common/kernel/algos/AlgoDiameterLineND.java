@@ -88,8 +88,7 @@ public abstract class AlgoDiameterLineND extends AlgoElement {
 		input[0] = (GeoElement) g;
 		input[1] = c;
 
-		super.setOutputLength(1);
-		super.setOutput(0, (GeoElement) diameter);
+		setOnlyOutput(diameter);
 		setDependencies(); // done by AlgoElement
 	}
 

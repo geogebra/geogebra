@@ -6,10 +6,10 @@ package org.geogebra.web.html5.webcam;
  *
  */
 public interface WebcamDialogInterface {
-	/** Show the WebCam dialog*/ 
+	/** Show the WebCam dialog*/
 	void show();
 	
-	/** resize the WebCam dialog */ 
+	/** resize the WebCam dialog */
 	void resize();
 	
 	void showAndResize();

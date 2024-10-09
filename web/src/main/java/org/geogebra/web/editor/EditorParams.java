@@ -1,11 +1,11 @@
 package org.geogebra.web.editor;
 
-import org.gwtproject.dom.client.Element;
+import org.geogebra.web.html5.bridge.AttributeProvider;
 
 import com.himamis.retex.editor.web.MathFieldW;
 
 public class EditorParams {
-	private final Element element;
+	private final AttributeProvider element;
 	private final MathFieldW mathField;
 
 	/**
@@ -13,7 +13,7 @@ public class EditorParams {
 	 * @param element where the params come from.
 	 * @param mathField to setup.
 	 */
-	public EditorParams(Element element, MathFieldW mathField) {
+	public EditorParams(AttributeProvider element, MathFieldW mathField) {
 		this.element = element;
 		this.mathField = mathField;
 		process();
@@ -36,19 +36,19 @@ public class EditorParams {
 	}
 
 	private boolean isTextMode() {
-		return isTrue("data-param-textmode");
+		return isTrue("textmode");
 	}
 
 	private double getFontSize() {
-		return toDouble(element.getAttribute("data-param-fontsize"), 16.0);
+		return toDouble(element.getAttribute("fontsize"), 16.0);
 	}
 
 	private String getForegroundColor() {
-		return element.getAttribute("data-param-editorforegroundcolor");
+		return element.getAttribute("editorforegroundcolor");
 	}
 
 	private String getBackgroundColor() {
-		return element.getAttribute("data-param-editorbackgroundcolor");
+		return element.getAttribute("editorbackgroundcolor");
 	}
 
 	private boolean isTrue(String attribute) {
@@ -67,6 +67,6 @@ public class EditorParams {
 	}
 
 	public boolean isPreventFocus() {
-		return isTrue("data-param-preventfocus");
+		return isTrue("preventfocus");
 	}
 }

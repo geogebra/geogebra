@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Vertex[ &lt;GeoConic> ]
+ * Vertex[ &lt;GeoConic&gt; ]
  */
 public class CmdVertex extends CommandProcessor {
 
@@ -37,7 +37,7 @@ public class CmdVertex extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

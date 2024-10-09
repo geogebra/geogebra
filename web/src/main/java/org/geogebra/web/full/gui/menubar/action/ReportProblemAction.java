@@ -9,10 +9,10 @@ import elemental2.dom.DomGlobal;
 /**
  * Opens the bug report page.
  */
-public class ReportProblemAction extends DefaultMenuAction<Void> {
+public class ReportProblemAction extends DefaultMenuAction<AppWFull> {
 
 	@Override
-	public void execute(Void item, AppWFull app) {
-		DomGlobal.window.open(GeoGebraConstants.FORUM_URL, "_blank", "");
+	public void execute(AppWFull app) {
+		DomGlobal.window.open(GeoGebraConstants.REPORT_BUG_URL, "_blank", "");
 	}
 }

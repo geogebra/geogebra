@@ -11,10 +11,12 @@ package org.geogebra.common.kernel.statistics;
  the Free Software Foundation.
 
  */
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -23,7 +25,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * FitPoly[&lt;List of points>,&lt;degree>]
+ * FitPoly[&lt;List of Points&gt;,&lt;degree&gt;]
  * 
  * @author Hans-Petter Ulven
  * @version 06.04.08
@@ -40,7 +42,7 @@ public class CmdFitPoly extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c);
 

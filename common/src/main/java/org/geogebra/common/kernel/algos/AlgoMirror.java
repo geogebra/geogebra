@@ -21,6 +21,7 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
@@ -237,8 +238,7 @@ public class AlgoMirror extends AlgoTransformation implements
 		input[0] = inGeo;
 		input[1] = mirror;
 
-		setOutputLength(1);
-		setOutput(0, outGeo);
+		setOnlyOutput(outGeo);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -398,64 +398,55 @@ public class AlgoMirror extends AlgoTransformation implements
 		}
 
 		GeoConicPart arc = (GeoConicPart) b;
-		arc.setParameters(0, 6.28, true);
+		arc.setParameters(0, Kernel.PI_2, true);
+		transformedPoint.removePath();
 		if (a instanceof GeoRay) {
-			transformedPoint.removePath();
-			setTransformedObject(((GeoRay) a).getStartPoint(),
-					transformedPoint);
-			compute();
-			arc.pathChanged(transformedPoint);
-			double d = transformedPoint.getPathParameter().getT();
-			transformedPoint.removePath();
+			transformedPoint.setCoords(((GeoRay) a).getStartPoint());
+			transformedPoint.mirror(mirrorConic);
+			double d = getTransformedParam(arc);
+
 			transformedPoint.setCoords(mirrorConic.getTranslationVector());
-			arc.pathChanged(transformedPoint);
-			double e = transformedPoint.getPathParameter().getT();
+			double e = getTransformedParam(arc);
 			arc.setParameters(d * Kernel.PI_2, e * Kernel.PI_2, true);
+
+			transformedPoint.setCoords(arc.getPointParam(0.5));
+			transformedPoint.mirror(mirrorConic);
 			transformedPoint.removePath();
-			setTransformedObject(arc.getPointParam(0.5), transformedPoint);
-			compute();
 			if (!((GeoRay) a).isOnPath(transformedPoint,
 					Kernel.STANDARD_PRECISION)) {
 				arc.setParameters(d * Kernel.PI_2, e * Kernel.PI_2, false);
 			}
-
-			setTransformedObject(a, b);
 		} else if (a instanceof GeoSegment) {
-			arc.setParameters(0, Kernel.PI_2, true);
-			transformedPoint.removePath();
-			setTransformedObject(((GeoSegment) a).getStartPoint(),
-					transformedPoint);
-			compute();
+			transformedPoint.setCoords(((GeoSegment) a).getStartPoint());
+			transformedPoint.mirror(mirrorConic);
 			if (arc.getType() == GeoConicNDConstants.CONIC_LINE) {
 				arc.getLines()[0].setStartPoint(transformedPoint.copy());
 			}
-			// if start point itself is on path, transformed point may have
-			// wrong path param #2306
-			transformedPoint.removePath();
-			arc.pathChanged(transformedPoint);
-			double d = transformedPoint.getPathParameter().getT();
+			double d = getTransformedParam(arc);
 
-			arc.setParameters(0, Kernel.PI_2, true);
-			transformedPoint.removePath();
-			setTransformedObject(((GeoSegment) a).getEndPoint(),
-					transformedPoint);
-			compute();
+			transformedPoint.setCoords(((GeoSegment) a).getEndPoint());
+			transformedPoint.mirror(mirrorConic);
 			if (arc.getType() == GeoConicNDConstants.CONIC_LINE) {
 				arc.getLines()[0].setEndPoint(transformedPoint.copy());
 			}
-			arc.pathChanged(transformedPoint);
-			double e = transformedPoint.getPathParameter().getT();
+			double e = getTransformedParam(arc);
 			arc.setParameters(d * Kernel.PI_2, e * Kernel.PI_2, true);
 			transformedPoint.removePath();
 			transformedPoint.setCoords(mirrorConic.getTranslationVector());
 			if (arc.isOnPath(transformedPoint, Kernel.STANDARD_PRECISION)) {
 				arc.setParameters(d * Kernel.PI_2, e * Kernel.PI_2, false);
 			}
-			setTransformedObject(a, b);
 		}
 		if (a instanceof GeoConicPart) {
 			transformLimitedConic(a, b);
 		}
+	}
+
+	private double getTransformedParam(GeoConicPart arc) {
+		Coords coords = transformedPoint.getCoordsInD2(arc.getCoordSys());
+		PathParameter pp = new PathParameter();
+		arc.pointChanged(coords, pp);
+		return pp.getT();
 	}
 
 	@Override

@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,7 +21,7 @@ import org.geogebra.desktop.main.LocalizationD;
 /**
  * Advanced options for the options dialog.
  */
-public class OptionsAlgebraD 
+public class OptionsAlgebraD
 		implements SetLabels, OptionPanelD {
 
 	private static final List<SortMode> SUPPORTED_MODES = Arrays.asList(
@@ -106,8 +104,8 @@ public class OptionsAlgebraD
 	/**
 	 * Initialize the user interface.
 	 * 
-	 * @remark updateGUI() will be called directly after this method
-	 * @remark Do not use translations here, the option dialog will take care of
+	 * <p>Remark: updateGUI() will be called directly after this method
+	 * <p>Remark: Do not use translations here, the option dialog will take care of
 	 *         calling setLabels()
 	 */
 	@SuppressWarnings("serial")
@@ -147,7 +145,7 @@ public class OptionsAlgebraD
 	/**
 	 * Update the user interface, ie change selected values.
 	 * 
-	 * @remark Do not call setLabels() here
+	 * <p>Remark: Do not call setLabels() here
 	 */
 	@Override
 	public void updateGUI() {

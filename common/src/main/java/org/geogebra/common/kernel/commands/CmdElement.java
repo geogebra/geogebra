@@ -11,9 +11,9 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * Element[ &lt;list>, &lt;n> ]
+ * Element[ &lt;List&gt;, &lt;n&gt; ]
  * 
- * Element[ &lt;point>, &lt;n> ]
+ * Element[ &lt;Point&gt;, &lt;n&gt; ]
  */
 public class CmdElement extends CommandProcessor {
 
@@ -28,7 +28,7 @@ public class CmdElement extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
@@ -44,7 +44,7 @@ public class CmdElement extends CommandProcessor {
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
 				AlgoListElement algo = new AlgoListElement(cons,
-						(GeoList) arg[0], (GeoNumberValue) arg[1]);
+						(GeoList) arg[0], (GeoNumberValue) arg[1], info.isLabelOutput());
 				algo.getElement().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getElement() };
 				return ret;
@@ -76,7 +76,7 @@ public class CmdElement extends CommandProcessor {
 			}
 
 			AlgoListElement algo = new AlgoListElement(cons,
-					(GeoList) arg[0], nvs);
+					(GeoList) arg[0], nvs, info.isLabelOutput());
 			algo.getElement().setLabel(c.getLabel());
 			GeoElement[] ret = { algo.getElement() };
 			return ret;

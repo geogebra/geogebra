@@ -12,10 +12,10 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
+import org.apache.commons.math3.special.Erf;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.util.MyMath2;
 
 /**
  * InverseLogNormal[mean, s, val]
@@ -25,13 +25,12 @@ import org.geogebra.common.util.MyMath2;
 
 public class AlgoInverseLogNormal extends AlgoDistribution {
 
-	@SuppressWarnings("javadoc")
-	public AlgoInverseLogNormal(Construction cons, String label,
-			GeoNumberValue a, GeoNumberValue b, GeoNumberValue c) {
-		super(cons, label, a, b, c, null);
-	}
-
-	@SuppressWarnings("javadoc")
+	/**
+	 * @param cons construction
+	 * @param a first parameter
+	 * @param b second parameter
+	 * @param c random variable value
+	 */
 	public AlgoInverseLogNormal(Construction cons, GeoNumberValue a,
 			GeoNumberValue b, GeoNumberValue c) {
 		super(cons, a, b, c, null);
@@ -55,7 +54,7 @@ public class AlgoInverseLogNormal extends AlgoDistribution {
 				num.setValue(0);
 			} else {
 				num.setValue(Math
-						.exp(MyMath2.inverf(2 * (x - 0.5)) * Math.sqrt(2) * s
+						.exp(Erf.erfInv(2 * (x - 0.5)) * Math.sqrt(2) * s
 								+ mean));
 			}
 

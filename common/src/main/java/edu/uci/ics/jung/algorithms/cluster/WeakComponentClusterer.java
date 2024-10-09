@@ -12,11 +12,10 @@ package edu.uci.ics.jung.algorithms.cluster;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
 
-import org.apache.commons.collections15.Buffer;
-import org.apache.commons.collections15.Transformer;
-import org.apache.commons.collections15.buffer.UnboundedFifoBuffer;
-
+import edu.uci.ics.jung.collections.Buffer;
+import edu.uci.ics.jung.collections.UnboundedFifoBuffer;
 import edu.uci.ics.jung.graph.Graph;
 
 /**
@@ -35,7 +34,7 @@ import edu.uci.ics.jung.graph.Graph;
  * @author Scott White
  */
 public class WeakComponentClusterer<V, E>
-		implements Transformer<Graph<V, E>, Set<Set<V>>> {
+		implements Function<Graph<V, E>, Set<Set<V>>> {
 	/**
 	 * Extracts the weak components from a graph.
 	 * 
@@ -44,7 +43,7 @@ public class WeakComponentClusterer<V, E>
 	 * @return the list of weak components
 	 */
 	@Override
-	public Set<Set<V>> transform(Graph<V, E> graph) {
+	public Set<Set<V>> apply(Graph<V, E> graph) {
 
 		Set<Set<V>> clusterSet = new HashSet<Set<V>>();
 

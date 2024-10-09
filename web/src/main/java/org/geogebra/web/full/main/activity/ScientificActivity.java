@@ -53,10 +53,7 @@ public class ScientificActivity extends BaseActivity {
 		initTableOfValues(app);
 	}
 
-	/**
-	 * init table values
-	 * @param app see {@link AppW}
-	 */
+	@Override
 	public void initTableOfValues(AppW app) {
 		tableController = new ScientificDataTableController(app.getKernel());
 		TableValuesView tableValuesView =
@@ -65,6 +62,7 @@ public class ScientificActivity extends BaseActivity {
 		tableValuesView.noAlgebraLabelVisibleCheck();
 	}
 
+	@Override
 	public ScientificDataTableController getTableController() {
 		return tableController;
 	}
@@ -85,8 +83,8 @@ public class ScientificActivity extends BaseActivity {
 	}
 
 	@Override
-	public AlgebraItemHeader createAVItemHeader(RadioTreeItem radioTreeItem) {
-		return new AVItemHeaderScientific();
+	public AlgebraItemHeader createAVItemHeader(RadioTreeItem radioTreeItem, boolean forInput) {
+		return new AVItemHeaderScientific(radioTreeItem.getApplication().getLocalization());
 	}
 
 	@Override

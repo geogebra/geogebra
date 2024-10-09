@@ -15,6 +15,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/header/baseline-apps-24px.svg")
 	SVGResource apps_black();
 
+	@Source("org/geogebra/common/icons/svg/web/header/timer.svg")
+	SVGResource timer();
+
 	// settings panel
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/ic_arrow_drop_up_black_24px.svg")
 	SVGResource arrow_drop_up();
@@ -167,6 +170,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_check_white_24px.svg")
 	SVGResource check_white();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/check_border.svg")
+	SVGResource check_border();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_expand_more_black_24px.svg")
 	SVGResource expand_black();
@@ -398,11 +404,27 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/distribution.svg")
 	SVGResource toolbar_distribution();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/spreadsheet.svg")
+	SVGResource toolbar_spreadsheet();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_filter_list_black_24px.svg")
 	SVGResource filter_list_black();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/move_white.svg")
 	SVGResource mode_move();
+	
+	// Notes Toolbox
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/mouse_cursor.svg")
+	SVGResource mouse_cursor();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/tool_shapes.svg")
+	SVGResource shapes();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/add_box.svg")
+	SVGResource apps();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/text_fields.svg")
+	SVGResource texts();
 
 	// Burger Menu resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/menu_whiteBorder.svg")
@@ -458,6 +480,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_forum_black_24px.svg")
 	SVGResource forum_black();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/google_classroom.svg")
+	SVGResource google_classroom();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_info_outline_black_24px.svg")
 	SVGResource info_black();
@@ -690,4 +715,7 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/visibility_black_24dp.svg")
 	SVGResource visibility();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dataImport/upload_file_black_24dp.svg")
+	SVGResource upload_file();
 }

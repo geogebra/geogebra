@@ -130,7 +130,8 @@ public class XMLBuilder {
 			sb.append("\t<layer val=\"");
 			sb.append(geo.getLayer());
 			sb.append("\"/>\n");
-			if (geo.getOrdering() >= 0) {
+
+			if (!Double.isNaN(geo.getOrdering())) {
 				sb.append("\t<ordering val=\"");
 				sb.append(geo.getOrdering());
 				sb.append("\"/>\n");
@@ -181,13 +182,6 @@ public class XMLBuilder {
 				&& geo.getSpreadsheetTrace()) {
 			sb.append(geo.getKernel().getApplication().getTraceXML(geo));
 		}
-
-		/*
-		 * --- old version // trace to spreadsheet on or off if (isGeoPoint()) {
-		 * GeoPoint2 p = (GeoPoint2) this; if (p.getSpreadsheetTrace()) {
-		 * sb.append("\t<spreadsheetTrace val=\"true\"/>\n"); } }
-		 */
-		// END G.Sturr
 
 		// decoration type
 		if (geo.getDecorationType() != GeoElementND.DECORATION_NONE) {
@@ -294,6 +288,7 @@ public class XMLBuilder {
 	 *            corner index
 	 * @param corners
 	 *            corners
+	 * @param isAbsolute whether the position is in screen pixels
 	 */
 	public static void getCornerPointXML(StringBuilder sb, int number, GeoPointND[] corners,
 			boolean isAbsolute) {
@@ -320,7 +315,7 @@ public class XMLBuilder {
 	}
 
 	/**
-	 * Add the &lt;dimension> tag
+	 * Add the &lt;dimension&gt; tag
 	 * 
 	 * @param sb
 	 *            XML builder

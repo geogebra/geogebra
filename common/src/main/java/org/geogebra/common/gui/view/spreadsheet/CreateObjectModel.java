@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.debug.Log;
 
@@ -23,7 +24,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class CreateObjectModel {
 	private CellRangeProcessor cp;
-	private ArrayList<CellRange> selectedCellRanges;
+	private ArrayList<TabularRange> selectedRanges;
 
 	public static final int TYPE_LIST = 0;
 	public static final int TYPE_MATRIX = 2;
@@ -82,24 +83,26 @@ public class CreateObjectModel {
 	 * @return title
 	 */
 	public String getTitle() {
-		switch (getObjectType()) {
-		default:
+		return loc.getMenu(getTitle(getObjectType()));
+	}
+
+	/**
+	 * @param type dialog type
+	 * @return translation key for title
+	 */
+	public static String getTitle(int type) {
+		switch (type) {
+			default:
 			return null;
+			case TYPE_LIST: return "List.Tool";
 
-		case TYPE_LIST:
-			return loc.getMenu("CreateList");
+			case TYPE_LISTOFPOINTS: return "ListOfPoints";
 
-		case TYPE_LISTOFPOINTS:
-			return loc.getMenu("CreateListOfPoints");
+			case TYPE_TABLETEXT: return "Table.Tool";
 
-		case TYPE_TABLETEXT:
-			return loc.getMenu("CreateTable");
+			case TYPE_POLYLINE: return "CreatePolyLine";
 
-		case TYPE_POLYLINE:
-			return loc.getMenu("CreatePolyLine");
-
-		case TYPE_MATRIX:
-			return loc.getMenu("CreateMatrix");
+			case TYPE_MATRIX: return "Matrix.Tool";
 		}
 	}
 
@@ -213,10 +216,10 @@ public class CreateObjectModel {
 			newGeo.remove();
 		}
 
-		int column1 = selectedCellRanges.get(0).getMinColumn();
-		int column2 = selectedCellRanges.get(0).getMaxColumn();
-		int row1 = selectedCellRanges.get(0).getMinRow();
-		int row2 = selectedCellRanges.get(0).getMaxRow();
+		int column1 = selectedRanges.get(0).getMinColumn();
+		int column2 = selectedRanges.get(0).getMaxColumn();
+		int row1 = selectedRanges.get(0).getMinRow();
+		int row2 = selectedRanges.get(0).getMaxRow();
 
 		boolean copyByValue = listener.isCopiedByValue();
 		boolean scanByColumn = listener.isScannedByColumn();
@@ -232,12 +235,12 @@ public class CreateObjectModel {
 				// do nothing
 				break;
 			case TYPE_LIST:
-				newGeo = cp.createList(getSelectedCellRanges(), scanByColumn,
+				newGeo = cp.createList(getSelectedRanges(), scanByColumn,
 						copyByValue);
 				break;
 
 			case TYPE_LISTOFPOINTS:
-				newGeo = cp.createPointGeoList(getSelectedCellRanges(),
+				newGeo = cp.createPointGeoList(getSelectedRanges(),
 						copyByValue, leftToRight, doStoreUndo,
 						doCreateFreePoints);
 				newGeo.setLabel(null);
@@ -261,7 +264,7 @@ public class CreateObjectModel {
 				break;
 
 			case TYPE_POLYLINE:
-				newGeo = cp.createPolyLine(getSelectedCellRanges(), copyByValue,
+				newGeo = cp.createPolyLine(getSelectedRanges(), copyByValue,
 						leftToRight);
 				newGeo.setLabel(null);
 				GeoPointND[] pts = ((AlgoPolyLine) newGeo.getParentAlgorithm())
@@ -320,12 +323,12 @@ public class CreateObjectModel {
 		this.cp = cp;
 	}
 
-	public ArrayList<CellRange> getSelectedCellRanges() {
-		return selectedCellRanges;
+	public ArrayList<TabularRange> getSelectedRanges() {
+		return selectedRanges;
 	}
 
-	public void setSelectedCellRanges(ArrayList<CellRange> selectedCellRanges) {
-		this.selectedCellRanges = selectedCellRanges;
+	public void setSelectedRanges(ArrayList<TabularRange> selectedRanges) {
+		this.selectedRanges = selectedRanges;
 	}
 
 	public int getObjectType() {

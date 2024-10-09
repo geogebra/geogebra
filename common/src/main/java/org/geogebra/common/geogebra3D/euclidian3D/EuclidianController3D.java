@@ -145,7 +145,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected AbstractEvent mouseEvent = null;
 
 	/**
-	 * scale factor for changing angle of view : 2Pi <-> 360 pixels (so 1 pixel
+	 * scale factor for changing angle of view : 2Pi ~ 360 pixels (so 1 pixel
 	 * = 1degrees )
 	 */
 	static final public double ANGLE_TO_DEGREES = 2 * Math.PI / 360;
@@ -441,9 +441,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	protected boolean checkXYMinMax(Coords v) {
-	    if (view3D.isXREnabled()) {
-	        return false;
-        }
+		if (view3D.isXREnabled()) {
+			return false;
+		}
 
 		if (getMoveMode() != EuclidianController.MOVE_POINT) {
 			return false;
@@ -510,7 +510,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected void moveTextAbsoluteLocation() {
+	protected void moveTextStaticRWLocation() {
 		view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin);
 		view3D.toSceneCoords3D(tmpCoordsForOrigin);
 
@@ -1319,7 +1319,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	/**
-	 * create plane containing polygon / 2 lines / line & point / 3 points
+	 * create plane containing polygon / 2 lines / line + point / 3 points
 	 * 
 	 * @param hits0
 	 *            hits
@@ -1403,11 +1403,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 			Coords vn = geo.getMainDirection();
 			if (vn != null) {
 				if (view3D.hasMouse()) {
-				    if (view3D.isXREnabled()) {
-				        view3D.setRotAnimationAR(view3D.getCursorNormal());
-                    } else {
-                        view3D.setRotAnimation(view3D.getCursorNormal());
-                    }
+					if (view3D.isXREnabled()) {
+						view3D.setRotAnimationAR(view3D.getCursorNormal());
+					} else {
+						view3D.setRotAnimation(view3D.getCursorNormal());
+					}
 				} else { // doesn't come from 3D view
 					view3D.setClosestRotAnimation(vn, true);
 				}
@@ -2340,7 +2340,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected boolean switchModeForMouseReleased(int releaseMode, Hits hits,
-			boolean changedKernel, boolean control, PointerEventType type,
+			boolean changedKernel, boolean multipleSelect, PointerEventType type,
 			boolean runScripts) {
 		switch (releaseMode) {
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
@@ -2372,7 +2372,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return true;
 		default:
 			return super.switchModeForMouseReleased(releaseMode, hits,
-					changedKernel, control, type, runScripts);
+					changedKernel, multipleSelect, type, runScripts);
 		}
 	}
 
@@ -3378,7 +3378,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 				case EuclidianConstants.MODE_JOIN:
 				case EuclidianConstants.MODE_SEGMENT:
-			    case EuclidianConstants.MODE_SEGMENT_FIXED:
+				case EuclidianConstants.MODE_SEGMENT_FIXED:
 
 				case EuclidianConstants.MODE_RAY:
 				case EuclidianConstants.MODE_VECTOR:
@@ -3475,10 +3475,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	protected boolean viewHasHitsForMouseDragged() {
 		if (moveMode == MOVE_POINT
-                && (view3D.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_ALREADY
-                || view3D.isXREnabled())) {
+				&& (view3D.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_ALREADY
+				|| view3D.isXREnabled())) {
 			// if already a point moved, or
-		    // if a point is under the mouse, don't try to find another hit
+			// if a point is under the mouse, don't try to find another hit
 			return movedGeoPoint != null || getView().getHits().containsGeoPoint();
 		}
 
@@ -3491,15 +3491,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public void wrapMouseDragged(AbstractEvent event, boolean startCapture) {
 		if (handledGeo != null) {
 			setMouseLocation(event);
-            event.release();
-            if (updateTranslationVector(handledGeo
-                    .getChangeableParent3D())) {
-                handledGeo.getChangeableParent3D().move(
-                        translationVec3D, startPoint3D,
-                        view3D.getViewDirection(), null, null, view3D);
-                kernel.notifyRepaint();
-            }
-            return;
+			event.release();
+			if (updateTranslationVector(handledGeo
+					.getChangeableParent3D())) {
+				handledGeo.getChangeableParent3D().move(
+						translationVec3D, startPoint3D,
+						view3D.getViewDirection(), null, null, view3D);
+				kernel.notifyRepaint();
+			}
+			return;
 		}
 
 		setMouseMovedEvent(event);
@@ -4000,15 +4000,15 @@ public abstract class EuclidianController3D extends EuclidianController {
         // for some modes, simulate mouse enter / mouse exit to show 3D cursor
 		if (mode == EuclidianConstants.MODE_MOVE
 				&& (ms == ModeSetter.TOOLBAR || ms == ModeSetter.DOCK_PANEL)) {
-		    view3D.updateMatrixForCursor3D();
-            view3D.mouseEntered();
-            scheduleMouseExit();
-        }
+			view3D.updateMatrixForCursor3D();
+			view3D.mouseEntered();
+			scheduleMouseExit();
+		}
 	}
 
 	public boolean isCurrentModeForCreatingPoint() {
-	    return isModeForCreatingPoint;
-    }
+		return isModeForCreatingPoint;
+	}
 
 	@Override
 	protected void setDragCursorIfMoveView() {
@@ -4436,8 +4436,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return new mouse exit runnable
 	 */
 	protected ScheduledMouseExit createScheduledMouseExit(AbstractEvent event) {
-        return new ScheduledMouseExit(event);
-    }
+		return new ScheduledMouseExit(event);
+	}
 
 	/**
 	 * schedule mouse exit
@@ -4452,41 +4452,41 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param event
 	 *            event calling
 	 */
-    public void scheduleMouseExit(AbstractEvent event) {
-        cancelMouseExit();
-        if (!view3D.isXREnabled() || !isCurrentModeForCreatingPoint()) {
-            if (schedulerForMouseExit == null) {
-                SchedulerFactory factory = SchedulerFactory.getPrototype();
-                if (factory != null) {
+	public void scheduleMouseExit(AbstractEvent event) {
+		cancelMouseExit();
+		if (!view3D.isXREnabled() || !isCurrentModeForCreatingPoint()) {
+			if (schedulerForMouseExit == null) {
+				SchedulerFactory factory = SchedulerFactory.getPrototype();
+				if (factory != null) {
 					schedulerForMouseExit = SchedulerFactory.getPrototype()
 							.createScheduler();
-                }
-            }
-            if (schedulerForMouseExit != null) {
-                mScheduledMouseExit = createScheduledMouseExit(event);
+				}
+			}
+			if (schedulerForMouseExit != null) {
+				mScheduledMouseExit = createScheduledMouseExit(event);
 				schedulerForMouseExit.schedule(mScheduledMouseExit,
 						EuclidianView3D.CURSOR_DELAY_IN_MILLISECONDS);
-            }
-        }
-    }
+			}
+		}
+	}
 
 	/**
 	 * cancel scheduled mouse exit (if exists)
 	 */
-    public void cancelMouseExit() {
-        if (schedulerForMouseExit != null) {
-            schedulerForMouseExit.cancel();
-        }
-        if (mScheduledMouseExit != null) {
-            mScheduledMouseExit.cancel();
-        }
-    }
+	public void cancelMouseExit() {
+		if (schedulerForMouseExit != null) {
+			schedulerForMouseExit.cancel();
+		}
+		if (mScheduledMouseExit != null) {
+			mScheduledMouseExit.cancel();
+		}
+	}
 
-    @Override
-    public void wrapMouseEntered() {
-	    cancelMouseExit();
-	    super.wrapMouseEntered();
-    }
+	@Override
+	public void wrapMouseEntered() {
+		cancelMouseExit();
+		super.wrapMouseEntered();
+	}
 
 	@Override
 	public boolean checkTransparencyForSortingDrawables() {

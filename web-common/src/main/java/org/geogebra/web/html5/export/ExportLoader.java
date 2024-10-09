@@ -3,6 +3,7 @@ package org.geogebra.web.html5.export;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.gwtutil.ScriptLoadCallback;
+import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.core.client.GWT;
 
@@ -80,7 +81,8 @@ public final class ExportLoader {
 
 	@JsOverlay
 	private static void load(Runnable callback, String name) {
-		String  src = GWT.getModuleBaseURL() + "js/" + name + ".min.js";
+		String moduleBaseURL = StyleInjector.normalizeUrl(GWT.getModuleBaseURL());
+		String src = moduleBaseURL + "js/" + name + ".min.js";
 		ScriptLoadCallback loadCallback = new ScriptLoadCallback() {
 			@Override
 			public void onLoad() {

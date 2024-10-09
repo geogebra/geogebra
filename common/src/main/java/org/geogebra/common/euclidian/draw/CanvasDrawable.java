@@ -262,7 +262,7 @@ public abstract class CanvasDrawable extends Drawable {
 	 */
 	public static GTextLayout getLayout(GGraphics2D g2, String text, GFont font) {
 		// make sure layout won't be null ("" makes it null).
-		return getTextLayout("".equals(text) ? "A" : text, font, g2);
+		return getTextLayout(StringUtil.empty(text) ? "A" : text, font, g2);
 	}
 
 	/**

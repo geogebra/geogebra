@@ -10,10 +10,11 @@ import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.event.dom.client.MouseOverEvent;
+import org.gwtproject.user.client.ui.InlineHTML;
 
 /**
  * Menu for choosing geos
@@ -124,7 +125,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 			return;
 		}
 
-		AriaMenuItem mi = new AriaMenuItem(getDescription(geo, false), true,
+		AriaMenuItem mi = new AriaMenuItem(new InlineHTML(getDescription(geo, false)),
 				() -> geoActionCmd(geo));
 		mi.addDomHandler(evt -> view.getEuclidianController().doSingleHighlighting(geo),
 				MouseOverEvent.getType());
@@ -142,11 +143,11 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		Localization localization = app.getLocalization();
 		if (EuclidianConstants.isMoveOrSelectionMode(mode)) {
 			selectAnotherMenuItem = new AriaMenuItem(
-					localization.getMenu("SelectAnother"), false,
+					localization.getMenu("SelectAnother"), null,
 					selectAnotherMenu);
 		} else {
 			selectAnotherMenuItem = new AriaMenuItem(
-					localization.getMenu("PerformToolOn"), false,
+					localization.getMenu("PerformToolOn"), null,
 					selectAnotherMenu);
 		}
 		wrappedPopup.addItem(selectAnotherMenuItem);

@@ -6,7 +6,6 @@ import java.util.Objects;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.factories.AwtFactory;
@@ -133,8 +132,6 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private double lockedAxesRatio = -1;
 
-	private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
-
 	private int axisFontStyle = GFont.PLAIN;
 
 	private boolean axesLabelsSerif = false;
@@ -158,10 +155,6 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private int defaultLabelingStyle = ConstructionDefaults.LABEL_VISIBLE_NOT_SET;
 
-	private GColor lastSelectedPenColor = GColor.BLACK;
-	private GColor lastSelectedHighlighterColor = GColor.MOW_GREEN;
-	private int lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
-	private int lastHighlighterThinckness = EuclidianConstants.DEFAULT_HIGHLIGHTER_SIZE;
 	private int visibleFromX;
 	private int visibleUntilY = Integer.MIN_VALUE;
 
@@ -356,11 +349,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 		if (changed) {
 			gridDistances = dists;
-			if (dists == null) {
-				setAutomaticGridDistance(true, false);
-			} else {
-				setAutomaticGridDistance(false, false);
-			}
+			setAutomaticGridDistance(dists == null, false);
 			settingChanged();
 		}
 	}
@@ -518,7 +507,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * @return whether settings changed
 	 */
 	public boolean setAxisLabel(int axis, String axisLabel, boolean fireSettingsChanged) {
-		boolean changed = false;
+		boolean changed;
 		if (StringUtil.empty(axisLabel)) {
 			changed = axesLabels[axis] != null;
 			axesLabels[axis] = null;
@@ -1138,21 +1127,6 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @return delete tool size
-	 */
-	public int getDeleteToolSize() {
-		return this.deleteToolSize;
-	}
-
-	/**
-	 * @param size
-	 *            delete tool size
-	 */
-	public void setDeleteToolSize(int size) {
-		this.deleteToolSize = size;
-	}
-
-	/**
 	 * @param i
 	 *            axis index
 	 * @param sbxml
@@ -1226,7 +1200,7 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
-	 * Returns axis label including &lt;b> and &lt;i>
+	 * Returns axis label including &lt;b&gt; and &lt;i&gt;
 	 * 
 	 * @param i
 	 *            index of axis (0 for x, 1 for y)
@@ -1504,6 +1478,10 @@ public class EuclidianSettings extends AbstractSettings {
 	 *            {@link BackgroundType}
 	 */
 	public void setBackgroundType(BackgroundType backgroundType) {
+		if (isGridType(this.backgroundType) && !isGridType(backgroundType)) {
+			setShowGridSetting(false);
+		}
+
 		this.backgroundType = backgroundType;
 		if (backgroundType == BackgroundType.ISOMETRIC) {
 			gridType = EuclidianView.GRID_ISOMETRIC;
@@ -1511,10 +1489,13 @@ public class EuclidianSettings extends AbstractSettings {
 		} else if (backgroundType == BackgroundType.POLAR) {
 			gridType = EuclidianView.GRID_POLAR;
 			setShowGridSetting(true);
-		} else if (backgroundType != BackgroundType.NONE) {
-			setShowGridSetting(false);
 		}
+
 		settingChanged();
+	}
+
+	private boolean isGridType(BackgroundType type) {
+		return type == BackgroundType.ISOMETRIC || type == BackgroundType.POLAR;
 	}
 
 	/**
@@ -1653,64 +1634,6 @@ public class EuclidianSettings extends AbstractSettings {
 
 	public void setDefaultLabelingStyle(int labelingStyle) {
 		this.defaultLabelingStyle = labelingStyle;
-	}
-
-	/**
-	 * @return last selected pen color
-	 */
-	public GColor getLastSelectedPenColor() {
-		return lastSelectedPenColor;
-	}
-
-	/**
-	 * @param lastSelectedPenColor
-	 *            update last selected pen color
-	 */
-	public void setLastSelectedPenColor(GColor lastSelectedPenColor) {
-		this.lastSelectedPenColor = lastSelectedPenColor;
-	}
-
-	/**
-	 * @return last selected highlighter color
-	 */
-	public GColor getLastSelectedHighlighterColor() {
-		return lastSelectedHighlighterColor;
-	}
-
-	/**
-	 * @param lastSelectedHighlighterColor
-	 *            update last selected highlighter color
-	 */
-	public void setLastSelectedHighlighterColor(GColor lastSelectedHighlighterColor) {
-		this.lastSelectedHighlighterColor = lastSelectedHighlighterColor;
-	}
-
-	/**
-	 * @return last selected size for pen
-	 */
-	public int getLastPenThickness() {
-		return lastPenThickness;
-	}
-
-	/**
-	 * @param lastPenThickness size of pen
-	 */
-	public void setLastPenThickness(int lastPenThickness) {
-		this.lastPenThickness = lastPenThickness;
-	}
-
-	/**
-	 * @return last selected size of highlighter
-	 */
-	public int getLastHighlighterThinckness() {
-		return lastHighlighterThinckness;
-	}
-
-	/**
-	 * @param lastHighlighterThinckness size of highlighter
-	 */
-	public void setLastHighlighterThinckness(int lastHighlighterThinckness) {
-		this.lastHighlighterThinckness = lastHighlighterThinckness;
 	}
 
 	public void setVisibleFromX(int visibleFromX) {

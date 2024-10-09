@@ -23,8 +23,8 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -37,7 +37,7 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Michael
  */
-public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
+public class AlgoIntersectCurveCurve extends AlgoIntersectCoordSysCurve
 		implements UsesCAS {
 
 	private GeoCurveCartesianND curve2;
@@ -64,10 +64,9 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 
 		super(c);
 
-		outputPoints = createOutputPoints();
-
 		this.curve = c1;
 		this.curve2 = c2;
+		outputPoints = createOutputPoints(is3d());
 
 		compute();
 
@@ -76,6 +75,10 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 		outputPoints.setLabelsMulti(labels);
 
 		update();
+	}
+
+	private boolean is3d() {
+		return curve.isGeoElement3D() || curve2.isGeoElement3D();
 	}
 
 	/**
@@ -97,10 +100,10 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 			GeoNumberValue t2) {
 
 		super(c);
-		outputPoints = createOutputPoints();
 
 		this.curve = c1;
 		this.curve2 = c2;
+		outputPoints = createOutputPoints(is3d());
 
 		this.t1 = t1;
 		this.t2 = t2;
@@ -113,23 +116,6 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 		outputPoints.setLabelsMulti(labels);
 
 		update();
-	}
-
-	/**
-	 * 
-	 * @return handler for output points
-	 */
-	@Override
-	protected OutputHandler<GeoElement> createOutputPoints() {
-		return new OutputHandler<>(new ElementFactory<GeoElement>() {
-			@Override
-			public GeoPoint newElement() {
-				GeoPoint p = new GeoPoint(cons);
-				p.setCoords(0, 0, 1);
-				p.setParentAlgorithm(AlgoIntersectCurveCurve.this);
-				return p;
-			}
-		});
 	}
 
 	@Override
@@ -243,18 +229,11 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 			}
 
 			outputPoints.adjustOutputSize(index + 1);
-			GeoPoint point = (GeoPoint) outputPoints.getElement(index);
+			GeoPointND point = outputPoints.getElement(index);
 
 			index++;
 
 			checkPointInRange(x1, y1, point);
-
-			// if (point.isDefined()) {
-			// Log.debug("("+point.inhomX+","+point.inhomY+")");
-			// } else {
-			// Log.debug("out of range");
-			// }
-
 		} else {
 
 			// use CAS Solver
@@ -273,31 +252,34 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 			// * can get equations that we can't solve exactly
 
 			// use StringTemplate that gives 3 not 3.00000000000000
-			String c1X = curve.getFun(0).toValueString(
-					StringTemplate.fullFigures(StringType.GEOGEBRA_XML));
-			String c1Y = curve.getFun(1).toValueString(
-					StringTemplate.fullFigures(StringType.GEOGEBRA_XML));
-			String c2X = curve2.getFun(0).toValueString(
-					StringTemplate.fullFigures(StringType.GEOGEBRA_XML));
-			String c2Y = curve2.getFun(1).toValueString(
-					StringTemplate.fullFigures(StringType.GEOGEBRA_XML));
+			int dim = is3d() ? 3 : 2;
+			String[] c1 = new String[dim];
+			String[] c2 = new String[dim];
+			for (int i = 0; i < dim; i++) {
+				c1[i] = curve.getFun(i).toValueString(
+						StringTemplate.fullFigures(StringType.GEOGEBRA_XML));
+				c2[i] = curve2.getFun(i).toValueString(
+						StringTemplate.fullFigures(StringType.GEOGEBRA_XML));
+			}
 
 			// it's likely that both curves have parameter 't'
 			if (fv1.equals(fv2)) {
 				fv2 = fv2 + "2"; // eg t -> t2
-				c2X = c2X.replaceAll(fv1, fv2);
-				c2Y = c2Y.replaceAll(fv1, fv2);
+				for (int i = 0; i < dim; i++) {
+					c2[i] = c2[i].replaceAll(fv1, fv2);
+				}
 			}
 
 			StringBuilder sb = new StringBuilder();
 			sb.append("Solve[{");
-			sb.append(c1X);
-			sb.append('=');
-			sb.append(c2X);
-			sb.append(',');
-			sb.append(c1Y);
-			sb.append('=');
-			sb.append(c2Y);
+			for (int i = 0; i < dim; i++) {
+				if (i != 0) {
+					sb.append(',');
+				}
+				sb.append(c1[i]);
+				sb.append('=');
+				sb.append(c2[i]);
+			}
 			sb.append("},{");
 			sb.append(fv1);
 			sb.append(',');
@@ -312,7 +294,6 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 			} catch (Throwable e) {
 				// other points are undefined
 				for (int i = 0; i < outputPoints.size(); i++) {
-					// Log.debug("setting undefined "+i);
 					outputPoints.getElement(i).setUndefined();
 				}
 
@@ -321,7 +302,6 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 			}
 
 			// eg {{ t = 3 / 2, t2 = 1 / 2}}
-			// Log.debug(result);
 
 			// result can have eg 1/2 or sqrt(5) in so needs parsing
 			AlgebraProcessor ap = kernel.getAlgebraProcessor();
@@ -336,7 +316,7 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 				if (nextComma > -1 && nextCloseBrace > -1) {
 
 					outputPoints.adjustOutputSize(index + 1);
-					GeoPoint point = (GeoPoint) outputPoints.getElement(index);
+					GeoPointND point = outputPoints.getElement(index);
 					index++;
 
 					// eg t=3/2
@@ -346,22 +326,11 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 					String s2 = result.substring(nextComma + 1, nextCloseBrace)
 							.replaceAll(" ", "");
 
-					// Log.debug(ap.evaluateToDouble(s1.substring(fv1.length() +
-					// 1), true));
-					// Log.debug(ap.evaluateToDouble(s2.substring(fv2.length() +
-					// 1), true));
-
 					if (s1.startsWith(fv1 + "=") && s2.startsWith(fv2 + "=")) {
 						double p1 = ap.evaluateToDouble(
 								s1.substring(fv1.length() + 1), true, null);
 						double p2 = ap.evaluateToDouble(
 								s2.substring(fv2.length() + 1), true, null);
-
-						// Log.debug(p1+" "+
-						// curve.getMinParameter()+" "+curve.getMaxParameter());
-						// Log.debug(p2+" "+
-						// curve2.getMinParameter()+"
-						// "+curve2.getMaxParameter());
 
 						checkPointInRange(p1, p2, point);
 
@@ -371,13 +340,6 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 								s1.substring(fv2.length() + 1), true, null);
 						double p1 = ap.evaluateToDouble(
 								s2.substring(fv1.length() + 1), true, null);
-
-						// Log.debug(t1+" "+
-						// curve1.getMinParameter()+"
-						// "+curve1.getMaxParameter());
-						// Log.debug(t2+" "+
-						// curve2.getMinParameter()+"
-						// "+curve2.getMaxParameter());
 
 						checkPointInRange(p1, p2, point);
 
@@ -405,19 +367,26 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 		}
 	}
 
-	private void checkPointInRange(double p1, double p2, GeoPoint point) {
+	private void checkPointInRange(double p1, double p2, GeoPointND point) {
 		// check parameters in range
 		if (DoubleUtil.isGreaterEqual(p1, curve.getMinParameter())
 				&& DoubleUtil.isGreaterEqual(curve.getMaxParameter(), p1)
 				&& DoubleUtil.isGreaterEqual(p2, curve2.getMinParameter())
 				&& DoubleUtil.isGreaterEqual(curve2.getMaxParameter(), p2)) {
+			FunctionVariable fv = curve.getFun(0).getFunctionVariable();
 
-			double x = curve.getFun(0).value(p1);
-			double y = curve.getFun(1).value(p1);
-			// Log.debug("in range: ("+x+", "+y+")");
-
-			point.setCoords(x, y, 1.0);
-
+			ExpressionNode xFun = curve.getFun(0).getExpression();
+			ExpressionNode yFun = curve.getFun(1).getExpression();
+			double z = 0;
+			fv.set(p1);
+			if (curve.getDimension() > 2) {
+				z = curve.getFun(2).getExpression().evaluateDouble();
+			}
+			point.setCoords(xFun.evaluateDouble(), yFun.evaluateDouble(), z, 1.0);
+			// for symbolic all 3 coords are checked by the CAS
+			if (numeric && !onCurve2(point, p2)) {
+				point.setUndefined();
+			}
 		} else {
 			point.setUndefined();
 		}
@@ -427,8 +396,12 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 	final public String toString(StringTemplate tpl) {
 		return getLoc().getPlainDefault("IntersectionOfAandB",
 				"Intersection of %0 and %1",
-				((GeoElement) curve).getLabel(tpl),
-				((GeoElement) curve2).getLabel(tpl));
+				curve.getLabel(tpl),
+				curve2.getLabel(tpl));
+	}
+
+	protected boolean onCurve2(GeoPointND point, double param) {
+		return DoubleUtil.isEqual(curve2.getFun(2).value(param), point.getInhomZ());
 	}
 
 }

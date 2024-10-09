@@ -6,20 +6,21 @@
 **/
 
 @use 'colors';
+@use 'colorMap' as *;
 
 .GeoGebraFrame {
 	background-color: colors.$white;
 	&.transparent {
 		background-color: transparent;
 	}
-	color: colors.$text-primary;
+	color: neutral(900);
 	font-size: 16px;
 
 	label,
 	span,
 	td,
 	th {
-		color: colors.$text-primary;
+		color: neutral(900);
 		font-size: 16px;
 	}
 
@@ -88,5 +89,23 @@
 
 	.DialogRbPanel td {
 		padding-right: 20px;
+	}
+
+	@each $colorname, $color in $neutrals {
+		.neutral-#{$colorname} {
+		   background-color: $color;
+		}
+	}
+
+	@each $colorname, $color in $purples {
+		.purple-#{$colorname} {
+			background-color: $color;
+		}
+	}
+
+	@each $colorname, $color in $neutrals {
+		.fg-neutral-#{$colorname} {
+			color: $color;
+		}
 	}
 }

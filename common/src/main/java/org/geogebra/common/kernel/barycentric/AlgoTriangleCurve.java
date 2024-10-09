@@ -125,8 +125,7 @@ public class AlgoTriangleCurve extends AlgoElement
 		input[2] = C;
 		input[3] = n.toGeoElement();
 
-		setOutputLength(1);
-		setOutput(0, poly);
+		setOnlyOutput(poly);
 		setDependencies(); // done ycoef[1] AlgoElement
 	}
 

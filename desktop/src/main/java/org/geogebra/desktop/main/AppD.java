@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.desktop.main;
 
 import java.awt.AWTKeyStroke;
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -23,14 +22,12 @@ import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -52,15 +49,14 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -112,6 +108,9 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
+import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
+import org.geogebra.common.export.pstricks.GeoGebraToPgf;
+import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
@@ -119,9 +118,9 @@ import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.io.OFFHandler;
-import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
@@ -129,7 +128,6 @@ import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.headless.AppDI;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
-import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.jre.main.TemplateHelper;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.Construction;
@@ -154,7 +152,6 @@ import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
@@ -165,6 +162,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.Log.LogDestination;
+import org.geogebra.common.util.lang.Language;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.GeoGebra;
 import org.geogebra.desktop.awt.GBufferedImageD;
@@ -175,12 +173,11 @@ import org.geogebra.desktop.euclidian.EuclidianControllerD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.euclidian.event.MouseEventND;
+import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GeoGebraTubeExportD;
 import org.geogebra.desktop.export.PrintPreviewD;
-import org.geogebra.desktop.export.pstricks.GeoGebraToAsymptoteD;
-import org.geogebra.desktop.export.pstricks.GeoGebraToPgfD;
-import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
+import org.geogebra.desktop.export.pstricks.ExportGraphicsFactoryD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.factories.CASFactoryD;
 import org.geogebra.desktop.factories.FactoryD;
@@ -198,7 +195,6 @@ import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.layout.DockBar;
 import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
-import org.geogebra.desktop.gui.menubar.OptionsMenuController;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.headless.GFileHandler;
@@ -232,7 +228,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @author Markus Hohenwarter
  */
-@SuppressWarnings("javadoc")
 public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
@@ -252,11 +247,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// ==============================================================
 
 	/**
-	 * Possible alternative names for geogebra.jar. Used for 3D webstart at the
-	 * moment.
+	 * Names for geogebra.jar.
 	 */
-	public final static String[] GEOGEBRA_JAR_ALT = { "geogebra.jar",
-			"geogebra-jogl2.jar" };
+	public final static String GEOGEBRA_JAR = "geogebra.jar";
 
 	// ==============================================================
 	// LOCALE fields
@@ -266,7 +259,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// FILE fields
 	// ==============================================================
 
-	private static LinkedList<File> fileList = new LinkedList<>();
+	private static final LinkedList<File> fileList = new LinkedList<>();
 	protected File currentPath;
 	protected File currentImagePath;
 	protected File currentFile = null;
@@ -309,8 +302,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private boolean showDockBar = true;
 	private boolean isDockBarEast = true;
 
-	protected boolean showAlgebraView = true;
-
 	/**
 	 * Preferred application frame size. Used in case frame size needs updating.
 	 */
@@ -321,9 +312,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/** Vertical page margin in cm */
 	public static final double PAGE_MARGIN_Y = (1.8 * 72) / 2.54;
-
-	/** Default icon size */
-	public static final int DEFAULT_ICON_SIZE = 32;
 
 	/**
 	 * made a little darker in ggb40 (problem showing on some projectors)
@@ -349,8 +337,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// ==============================================================
 	// MISC FLAGS
 	// ==============================================================
-
-	private boolean allowToolTips = true;
 
 	protected boolean isErrorDialogShowing = false;
 
@@ -401,28 +387,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		loc.setApp(this);
 		this.cmdArgs = args;
 		this.prerelease = args != null && args.containsArg("prerelease");
-		if (args != null && !args.containsArg("silent")) {
-			LoggerD logger = new LoggerD();
-			logger.setReading(true);
-			Log.setLogger(logger);
-			Log.setLogDestination(LogDestination.CONSOLE);
-			if (args.containsArg("logLevel")) {
-				Log.setLogLevel(args.getStringValue("logLevel"));
-			}
-			if (args.containsArg("logFile")) {
-				Log.setLogDestination(LogDestination.FILE);
-				logger.setLogFileImpl(args.getStringValue("logFile"));
-			}
-			if (args.containsArg("logShowCaller")) {
-				Log.setCallerShown(args.getBooleanValue("logShowCaller", true));
-			}
-			if (args.containsArg("logShowTime")) {
-				LoggerD.setTimeShown(args.getBooleanValue("logShowTime", true));
-			}
-			if (args.containsArg("logShowLevel")) {
-				Log.setLevelShown(args.getBooleanValue("logShowLevel", true));
-			}
-		}
 
 		if (prerelease) {
 			Log.error("*********************************");
@@ -445,18 +409,16 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		useFullGui = true;
 
-		// don't want to redirect System.out and System.err when running as
-		// Applet
-		// or eg from Eclipse
 		getCodeBase(); // initialize runningFromJar
 
 		Log.debug("runningFromJar=" + runningFromJar);
+		// don't want to redirect System.out and System.err when running from IDE
 		if (runningFromJar) {
 			setUpLogging();
 		} else {
 			Log.debug("Not setting up logging via LogManager");
 		}
-
+		System.setProperty("io.sf.carte.echosvg.warn_destination", "false");
 		// needed for JavaScript getCommandName(), getValueString() to work
 		// (security problem running non-locally)
 
@@ -561,17 +523,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		setSaved();
 
-		if (getCASVersionString().equals("")) {
-			setCASVersionString(loc.getMenu("CASInitializing"));
-		}
-
 		// user authentication handling
 		initSignInEventFlow();
 		if (kernel.wantAnimationStarted()) {
 			kernel.getAnimatonManager().startAnimation();
 			kernel.setWantAnimationStarted(false);
 		}
-
 	}
 
 	// **************************************************************************
@@ -1017,8 +974,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 		if (args.containsArg("prover")) {
 			String[] proverOptions = args.getStringValue("prover").split(",");
-			for (int i = 0; i < proverOptions.length; i++) {
-				setProverOption(proverOptions[i]);
+			for (String proverOption : proverOptions) {
+				setProverOption(proverOption);
 			}
 		}
 	}
@@ -1290,7 +1247,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return false;
 		}
 
-		boolean success = false;
+		boolean success;
 
 		setWaitCursor();
 		// hide navigation bar for construction steps if visible
@@ -1440,9 +1397,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			end++;
 		}
 
-		return end == page.length() || end == begin ? // attribute value not
+		return end == page.length() || end == begin // attribute value not
 		// terminated or empty
-				null : page.substring(begin, end);
+				? null : page.substring(begin, end);
 	}
 
 	private static boolean isMarker(char[] markers, char character) {
@@ -1455,11 +1412,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	private static String fetchPage(URL url) throws IOException {
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(
-					new InputStreamReader(url.openStream(),
-							Charsets.getUtf8()));
+		try (BufferedReader reader = new BufferedReader(
+				new InputStreamReader(url.openStream(),
+						StandardCharsets.UTF_8))) {
 			StringBuilder page = new StringBuilder();
 			String line;
 			while (null != (line = reader.readLine())) {
@@ -1467,10 +1422,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				// '\n', '\r' or "\r\n"
 			}
 			return page.toString();
-		} finally {
-			if (reader != null) {
-				reader.close();
-			}
 		}
 	}
 
@@ -1553,14 +1504,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return getGuiManager().getActiveEuclidianView();
 	}
 
-	public void setShowAxesSelected(JCheckBoxMenuItem cb) {
-
-	}
-
-	public void setShowGridSelected(JCheckBoxMenuItem cb) {
-
-	}
-
 	// **************************************************************************
 	// ICONS & IMAGES
 	// **************************************************************************
@@ -1603,27 +1546,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * shown in Vista, Win 7
 	 */
 	public void setEmptyIcon(JCheckBoxMenuItem cb) {
-		if (!WINDOWS_VISTA_OR_LATER) {
+		if (!WINDOWS) {
 			cb.setIcon(getEmptyIcon());
 		}
 	}
 
-	protected String getMenuIconPath() {
-		// int fontSize = getGUIFontSize();
-		String path = "/gui/images/64px/";
-		// if (fontSize < 30) {
-		// path += "20px/";
-		// } else if (fontSize >= 30 && fontSize < 79.5) {
-		// path += "40px/";
-		// } else if (fontSize >= 79.5) {
-		// path += "106px/";
-		// }
-		//
-		return path;
-	}
-
 	private static int ptToPx(int points) {
-		int px = 0;
+		int px;
 		switch (points) {
 		case 12:
 		case 14:
@@ -1705,7 +1634,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param borderColor border color
 	 * @return tool icon
 	 */
-	public ImageIcon getToolBarImage(String modeText, Color borderColor) {
+	public ScaledIcon getToolBarImage(String modeText, Color borderColor) {
 
 		ImageIcon icon = imageManager.getImageIcon(
 				imageManager.getToolImageResource(modeText), borderColor,
@@ -1723,13 +1652,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 			Log.debug("icon missing for mode " + modeText);
 		}
-
 		// scale icon if necessary
-		icon = ImageManagerD.getScaledIcon(icon,
-				Math.min(icon.getIconWidth(), imageManager.getMaxIconSize()),
-				Math.min(icon.getIconHeight(), imageManager.getMaxIconSize()));
-
-		return icon;
+		int maxSize = imageManager.getMaxIconSize();
+		return imageManager.getResponsiveScaledIcon(icon, maxSize);
 	}
 
 	/**
@@ -1738,7 +1663,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	public ImageIcon getToolIcon(Color border) {
 		ImageResourceD res;
-		if (imageManager.getMaxIconSize() <= 32) {
+		if (imageManager.getMaxIconSize() <= 32 && imageManager.getPixelRatio() <= 1.0) {
 			res = GuiResourcesD.TOOL_MODE32;
 		} else {
 			res = GuiResourcesD.TOOL_MODE64;
@@ -1755,34 +1680,52 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return imageManager.getInternalImage(filename).getImage();
 	}
 
+	/***
+	 * @return returns VIEW_REFRESH image
+	 */
 	public Image getRefreshViewImage() {
 		// don't need to load gui jar as reset image is in main jar
 		return getMenuInternalImage(GuiResourcesD.VIEW_REFRESH);
 	}
 
+	/***
+	 * @return returns NAV_PLAY image
+	 */
 	public Image getPlayImage() {
 		// don't need to load gui jar as reset image is in main jar
 		return imageManager.getInternalImage(GuiResourcesD.NAV_PLAY).getImage();
 	}
 
+	/***
+	 * @return returns NAV_PLAY_CIRCLE image
+	 */
 	public Image getPlayImageCircle() {
 		// don't need to load gui jar as reset image is in main jar
 		return imageManager.getInternalImage(GuiResourcesD.NAV_PLAY_CIRCLE)
 				.getImage();
 	}
 
+	/***
+	 * @return returns NAV_PLAY_HOVER image
+	 */
 	public Image getPlayImageCircleHover() {
 		// don't need to load gui jar as reset image is in main jar
 		return imageManager.getInternalImage(GuiResourcesD.NAV_PLAY_HOVER)
 				.getImage();
 	}
 
+	/***
+	 * @return returns NAV_PAUSE_CIRCLE image
+	 */
 	public Image getPauseImageCircle() {
 		// don't need to load gui jar as reset image is in main jar
 		return imageManager.getInternalImage(GuiResourcesD.NAV_PAUSE_CIRCLE)
 				.getImage();
 	}
 
+	/***
+	 * @return returns NAV_PAUSE_CIRCLE_HOVER image
+	 */
 	public Image getPauseImageCircleHover() {
 		// don't need to load gui jar as reset image is in main jar
 		return imageManager
@@ -1790,24 +1733,43 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				.getImage();
 	}
 
+	/***
+	 * @return returns NAV_PAUSE image
+	 */
 	public Image getPauseImage() {
 		// don't need to load gui jar as reset image is in main jar
 		return imageManager.getInternalImage(GuiResourcesD.NAV_PAUSE)
 				.getImage();
 	}
 
+	/***
+	 *
+	 * @param filename filename
+	 * @return returns image by path
+	 */
 	@Override
 	public MyImageD getExternalImage(String filename) {
 		return ImageManagerD.getExternalImage(filename);
 	}
 
+	/***
+	 *
+	 * @param filename filename
+	 * @param width width
+	 * @param height height
+	 * @return returns image by path
+	 */
 	@Override
 	public final MyImage getExternalImageAdapter(String filename, int width,
 			int height) {
-		MyImageD im = ImageManagerD.getExternalImage(filename);
-		return im;
+		return ImageManagerD.getExternalImage(filename);
 	}
 
+	/***
+	 * adds external image
+	 * @param filename filename
+	 * @param image image
+	 */
 	@Override
 	public void addExternalImage(String filename, MyImageJre image) {
 		imageManager.addExternalImage(filename, image);
@@ -1818,8 +1780,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return new GImageIconD(getModeIcon(mode));
 	}
 
-	public ImageIcon getModeIcon(int mode) {
-		ImageIcon icon;
+	/***
+	 * returns an ImageIcon based on a given integer mode
+	 * @param mode mode
+	 * @return imageIcon
+	 */
+	public ScaledIcon getModeIcon(int mode) {
+		ScaledIcon icon;
 
 		Color border = Color.lightGray;
 
@@ -1832,13 +1799,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				MyImageD img = getExternalImage(iconName);
 				if (img == null || img.isSVG()) {
 					// default icon
-					icon = getToolIcon(border);
+					icon = new ScaledIcon(getToolIcon(border), imageManager.getPixelRatio());
 				} else {
 					// use image as icon
-					int size = imageManager.getMaxIconSize();
-					icon = new ImageIcon(ImageManagerD.addBorder(img.getImage()
+					int size = imageManager.getMaxScaledIconSize();
+					icon = new ScaledIcon(new ImageIcon(ImageManagerD.addBorder(img.getImage()
 							.getScaledInstance(size, -1, Image.SCALE_SMOOTH),
-							border, null));
+							border, null)), imageManager.getPixelRatio());
 				}
 			} catch (Exception e) {
 				Log.debug("macro does not exist: ID = " + macroID);
@@ -1884,7 +1851,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		try {
 			InputStream is = AppD.class.getResourceAsStream(s);
 			br = new BufferedReader(
-					new InputStreamReader(is, Charsets.getUtf8()));
+					new InputStreamReader(is, StandardCharsets.UTF_8));
 			String thisLine;
 			while ((thisLine = br.readLine()) != null) {
 				sb.append(thisLine);
@@ -1910,46 +1877,47 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		copyGraphicsViewToClipboard(getActiveEuclidianView());
 	}
 
+	/***
+	 * copies the contents of a EuclidianView object to the clipboard
+	 * @param copyView copyView
+	 */
 	public void copyGraphicsViewToClipboard(final EuclidianView copyView) {
 
 		getSelectionManager().clearSelectedGeos(true, false);
 		updateSelection(false);
 
-		Thread runner = new Thread() {
-			@Override
-			public void run() {
-				setWaitCursor();
+		Thread runner = new Thread(() -> {
+			setWaitCursor();
 
-				simpleExportToClipboard(copyView);
+			simpleExportToClipboard(copyView);
 
-				/*
-				 * doesn't work in Win7, XP pasting into eg Paint pasting into
-				 * eg Office 2010 is OK
-				 * 
-				 * 
-				 * if (!WINDOWS_VISTA_OR_LATER) {
-				 * 
-				 * // use other method for WinXP or earlier //
-				 * GraphicExportDialog.exportPNG() doesn't work well on XP // eg
-				 * paste into Paint
-				 * 
-				 * simpleExportToClipboard(ev);
-				 * 
-				 * } else {
-				 * 
-				 * GraphicExportDialog export = new GraphicExportDialog(app);
-				 * export.setDPI("300");
-				 * 
-				 * if (!export.exportPNG(true, false)) { // if there's an error
-				 * (eg memory) just do a simple // export
-				 * simpleExportToClipboard(ev);
-				 * 
-				 * } }
-				 */
+			/*
+			 * doesn't work in Win7, XP pasting into eg Paint pasting into
+			 * eg Office 2010 is OK
+			 *
+			 *
+			 * if (!WINDOWS_VISTA_OR_LATER) {
+			 *
+			 * // use other method for WinXP or earlier //
+			 * GraphicExportDialog.exportPNG() doesn't work well on XP // eg
+			 * paste into Paint
+			 *
+			 * simpleExportToClipboard(ev);
+			 *
+			 * } else {
+			 *
+			 * GraphicExportDialog export = new GraphicExportDialog(app);
+			 * export.setDPI("300");
+			 *
+			 * if (!export.exportPNG(true, false)) { // if there's an error
+			 * (eg memory) just do a simple // export
+			 * simpleExportToClipboard(ev);
+			 *
+			 * } }
+			 */
 
-				setDefaultCursor();
-			}
-		};
+			setDefaultCursor();
+		});
 		runner.start();
 
 	}
@@ -1958,8 +1926,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		double scale = getMaxScaleForClipBoard(ev);
 
 		// copy drawing pad to the system clipboard
-		Image img = GBufferedImageD.getAwtBufferedImage(
-				((EuclidianViewD) ev).getExportImage(scale));
+		Image img = GBufferedImageD.getAwtBufferedImage(ev.getExportImage(scale));
 		copyImageToClipboard(img);
 	}
 
@@ -1981,8 +1948,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	private static Rectangle screenSize = null;
 
-	/*
+	/***
 	 * gets the screensize (taking into account toolbars etc)
+	 * @return screensize
 	 */
 	public static Rectangle getScreenSize() {
 		if (screenSize == null) {
@@ -2029,36 +1997,27 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @return locale
 	 */
 	public static Locale getLocale(String languageISOCode) {
-		// remove "_" from string
-		String languageCode = languageISOCode.replaceAll("_", "");
-
-		Locale loc;
-		if (languageCode.length() == 6) {
-			// language, country, variant
-			loc = new Locale(languageCode.substring(0, 2),
-					languageCode.substring(2, 4), languageCode.substring(4, 6));
-		} else if (languageCode.length() == 4) {
-			// language, country
-			loc = new Locale(languageCode.substring(0, 2),
-					languageCode.substring(2, 4));
-		} else {
-			// language only
-			loc = new Locale(languageCode.substring(0, 2));
-		}
-		return loc;
+		Language lang = Language.fromLanguageTagOrLocaleString(languageISOCode);
+		return Locale.forLanguageTag(lang.toLanguageTag());
 	}
 
 	@Override
-	public void setTooltipLanguage(String s) {
+	public void setTooltipLanguage(String ttLanguage) {
+		setTooltipLanguage(StringUtil.empty(ttLanguage) ? null
+				: Language.fromLanguageTagOrLocaleString(ttLanguage));
+	}
 
-		boolean updateNeeded = loc.setTooltipLanguage(s);
+	/**
+	 * @param ttLanguage tooltip language
+	 */
+	public void setTooltipLanguage(Language ttLanguage) {
+		boolean updateNeeded = loc.setTooltipLanguage(ttLanguage);
 
-		updateNeeded = updateNeeded || (loc.getTooltipLocale() != null);
+		updateNeeded = updateNeeded || (loc.getTooltipLanguage() != null);
 
 		if (updateNeeded) {
 			setLabels(); // update eg Tooltips for Toolbar
 		}
-
 	}
 
 	@Override
@@ -2080,18 +2039,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public void setLanguage(String s) {
-		String[] parts = s.split("_");
-		String language = parts[0];
-		String country = parts.length > 1 ? parts[1] : null;
-		Locale locale = null;
-		if (language != null) {
-			if (country != null) {
-				locale = new Locale(language, country);
-			} else {
-				locale = new Locale(language);
-			}
-		}
-		setLocale(locale);
+		setLocale(getLocale(s));
 	}
 
 	/**
@@ -2123,8 +2071,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		setOrientation();
 	}
 
-	StringBuilder testCharacters = new StringBuilder();
-
+	/***
+	 * Sets the locale of the application.
+	 * The locale determines the language and cultural settings that the application should use.
+	 * @param locale locale
+	 */
 	public void setLocale(Locale locale) {
 		if (locale == loc.getLocale()) {
 			return;
@@ -2137,7 +2088,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		// update font for new language (needed for e.g. chinese)
 		try {
-			fontManager.setLanguage(loc.getLocale());
+			fontManager.setLanguage(loc);
 		} catch (Exception e) {
 			showGenericError(e);
 
@@ -2145,8 +2096,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			loc.setLocale(oldLocale);
 		}
 
-		getLocalization().updateLanguageFlags(locale.getLanguage());
-
+		getLocalization().updateLanguageFlags(loc.getLocale().getLanguage());
+		if (guiManager != null) {
+			guiManager.updateFonts();
+		}
 	}
 
 	/**
@@ -2179,25 +2132,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * Updates the GUI of the main component.
 	 */
 	public void updateContentPane() {
-		updateContentPane(true);
-	}
-
-	/**
-	 * Updates the GUI of the frame and its size.
-	 */
-	public void updateContentPaneAndSize() {
-		if (initing) {
-			return;
-		}
-
-		updateContentPane(false);
-		if ((frame != null) && frame.isShowing()) {
-			getGuiManager().updateFrameSize();
-		}
-		updateComponentTreeUI();
-	}
-
-	private void updateContentPane(boolean updateComponentTreeUI) {
 		if (initing) {
 			return;
 		}
@@ -2222,9 +2156,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		// update layout
-		if (updateComponentTreeUI) {
-			updateComponentTreeUI();
-		}
+		updateComponentTreeUI();
 
 		// reset mode and focus
 		setMoveMode();
@@ -2380,7 +2312,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				return getMenuBarPanel(this, applicationPanel);
 			}
 
-			getSettingsUpdater().getFontSettingsUpdater().resetFonts();
+			getFontSettingsUpdater().resetFonts();
 			// Standard case: return application panel
 			return applicationPanel;
 		}
@@ -2453,6 +2385,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	}
 
+	/**
+	 * updates the main center panel of the application's user interface with the appropriate
+	 * components depending on whether the full GUI or just the Euclidian view is being used.
+	 * @param updateUI updateUI
+	 */
 	public void updateCenterPanel(boolean updateUI) {
 		if (centerPanel == null) {
 			return;
@@ -2472,12 +2409,20 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
+	/**
+	 * validates the frame
+	 */
 	public void validateComponent() {
 		if (frame != null) {
 			frame.validate();
 		}
 	}
 
+	/**
+	 * This method updates the toolbar in the GUI.
+	 * If the toolbar is not supposed to be shown or if the GUI is
+	 * currently being initialized, the method returns without making any updates.
+	 */
 	public void updateToolBar() {
 		if (!showToolBar || isIniting()) {
 			return;
@@ -2524,6 +2469,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// not implemented here
 	}
 
+	/**
+	 * updateMenuWindow
+	 */
 	public void updateMenuWindow() {
 		if (!showMenuBar || !isUsingFullGui() || isIniting()) {
 			return;
@@ -2533,6 +2481,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		getGuiManager().updateMenuFile();
 	}
 
+	/**
+	 * updates frame title
+	 */
 	public void updateTitle() {
 		if (frame == null) {
 			return;
@@ -2565,6 +2516,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return guiManager;
 	}
 
+	/**
+	 * returns the JFrame that contains the GeoGebra application
+	 * Only one thread can access this method at a time, which is necessary to prevent concurrency
+	 * issues when multiple threads try to access or modify the frame variable simultaneously.
+	 * @return JFrame
+	 */
 	public synchronized JFrame getFrame() {
 		if ((frame == null) && (getGuiManager() != null)) {
 			frame = ((GuiManagerD) getGuiManager()).createFrame();
@@ -2586,6 +2543,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		preferredSize = size;
 	}
 
+	/**
+	 * getContentPane
+	 * @return content pane of the frame
+	 */
 	public Container getContentPane() {
 		if (mainComp == frame) {
 			return frame.getContentPane();
@@ -2612,10 +2573,17 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
+	/**
+	 * showToolBarHelp
+	 * @return boolean showToolBarHelp
+	 */
 	public boolean showToolBarHelp() {
 		return showToolBarHelp;
 	}
 
+	/**
+	 * updateToolBarLayout
+	 */
 	public void updateToolBarLayout() {
 		if (!isIniting()) {
 			updateApplicationLayout();
@@ -2639,6 +2607,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return dockBar;
 	}
 
+	/**
+	 * showDockBar
+	 * @return showDockBar
+	 */
 	public boolean isShowDockBar() {
 		return showDockBar;
 	}
@@ -2647,6 +2619,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return isDockBarEast;
 	}
 
+	/**
+	 *  Indicates whether the dock bar should be oriented to the east or not
+	 * @param isDockBarEast boolean
+	 */
 	public void setDockBarEast(boolean isDockBarEast) {
 		this.isDockBarEast = isDockBarEast;
 		if (getDockBar() != null) {
@@ -2663,6 +2639,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		setShowDockBar(showDockBar, true);
 	}
 
+	/**
+	 * sets whether the dockbar should be shown
+	 * @param showDockBar boolean
+	 * @param update boolean
+	 */
 	public void setShowDockBar(boolean showDockBar, boolean update) {
 		this.showDockBar = showDockBar;
 		if (update) {
@@ -2674,16 +2655,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// TOOL TIPS
 	// **************************************************************************
 
-	public boolean getAllowToolTips() {
-		return allowToolTips;
-	}
-
 	/**
-	 * Sets allowToolTips flag and toggles tooltips for the application.
+	 * @return always true
+	 * @deprecated you should probably call EuclidianView.getAllowToolTips() instead
 	 */
-	public void setAllowToolTips(boolean allowToolTips) {
-		this.allowToolTips = allowToolTips;
-		ToolTipManager.sharedInstance().setEnabled(allowToolTips);
+	@Deprecated
+	public boolean getAllowToolTips() {
+		return true;
 	}
 
 	/**
@@ -2696,7 +2674,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	public String getToolTooltipHTML(int mode) {
 
-		if (loc.getTooltipLocale() != null) {
+		if (loc.getTooltipLanguage() != null) {
 			loc.setTooltipFlag();
 		}
 
@@ -2727,10 +2705,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	final public GFont getPlainFontCommon() {
 		return fontManager.getPlainFont();
-	}
-
-	final public Font getSerifFont() {
-		return ((GFontD) fontManager.getSerifFont()).getAwtFont();
 	}
 
 	final public Font getSmallFont() {
@@ -2787,6 +2761,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	Cursor transparentCursor = null;
 
+	/**
+	 * If cursor is null, create a cursor using a 16x16 image with all pixels set to transparent.
+	 * @return returns a transparent cursor, which is a cursor that is not visible on the screen.
+	 */
 	public Cursor getTransparentCursor() {
 
 		if (transparentCursor == null) {
@@ -2799,98 +2777,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 		return transparentCursor;
 	}
-
-	Cursor eraserCursor = null;
-
-	public Cursor getEraserCursor() {
-
-		if (eraserCursor == null) {
-
-			int size = 32;
-
-			/*
-			 * we need two buffered images as the cursor only supports on/off
-			 * for alpha
-			 * 
-			 * so we need to draw to an image without alpha support then draw
-			 * that to one with alpha support then make "white" transparent
-			 */
-			BufferedImage image = new BufferedImage(size, size,
-					BufferedImage.TYPE_INT_RGB);
-			BufferedImage image2 = new BufferedImage(size, size,
-					BufferedImage.TYPE_INT_ARGB);
-
-			Graphics2D g = image.createGraphics();
-			Graphics2D g2 = image2.createGraphics();
-
-			g.setColor(Color.white);
-			g.fillRect(0, 0, size, size);
-
-			// turn on anti-aliasing.
-			g.setStroke(new BasicStroke(4.0f)); // 4-pixel lines
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_ON);
-
-			g.setColor(new Color(0.5f, 0f, 0f));
-			g.drawOval(3, 3, size - 7, size - 7);
-
-			g2.drawImage(image, 0, 0, Color.white, null);
-
-			for (int y = 0; y < size; y++) {
-				for (int x = 0; x < size; x++) {
-
-					int rgb = image.getRGB(x, y);
-
-					int blue = rgb & 0xff;
-					int green = (rgb & 0xff00) >> 8;
-					int red = (rgb & 0xff0000) >> 16;
-					// int alpha = (rgb & 0xff000000) >> 24;
-
-					if (red == 255 && green == 255 && blue == 255) {
-						// make white transparent
-						image2.setRGB(x, y, 0);
-					}
-
-				}
-			}
-
-			eraserCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-					image2, new Point(size / 2, size / 2), "eraserCursor");
-		}
-		return eraserCursor;
-	}
-
-	// **************************************************************************
-	// EXIT
-	// **************************************************************************
-
-	/**
-	 * // think about this Downloads the latest jar files from the GeoGebra
-	 * server.
-	 * 
-	 * private void updateGeoGebra() { try { File dest = new File(codebase +
-	 * Application.JAR_FILE); URL jarURL = new URL(Application.UPDATE_URL +
-	 * Application.JAR_FILE);
-	 * 
-	 * if (dest.exists()) { // check if jarURL is newer then dest try {
-	 * URLConnection connection = jarURL.openConnection(); if
-	 * (connection.getLastModified() <= dest.lastModified()) { showMessage("No
-	 * update available"); return; } } catch (Exception e) { // we don't know if
-	 * the file behind jarURL is newer than dest // so don't do anything
-	 * showMessage("No update available: " + (e.getMessage())); return; } } //
-	 * copy JAR_FILE if (!CopyURLToFile.copyURLToFile(this, jarURL, dest))
-	 * return; // copy properties file dest = new File(codebase +
-	 * Application.PROPERTIES_FILE); jarURL = new URL(Application.UPDATE_URL +
-	 * Application.PROPERTIES_FILE); if (!CopyURLToFile.copyURLToFile(this,
-	 * jarURL, dest)) return; // copy jscl file dest = new File(codebase +
-	 * Application.JSCL_FILE); jarURL = new URL(Application.UPDATE_URL +
-	 * Application.JSCL_FILE); if (!CopyURLToFile.copyURLToFile(this, jarURL,
-	 * dest)) return;
-	 * 
-	 * 
-	 * showMessage("Update finished. Please restart GeoGebra."); } catch
-	 * (Exception e) { showError("Update failed: "+ e.getMessage()); } }
-	 */
 
 	/**
 	 * Clears the current construction. Used for File-New.
@@ -2912,6 +2798,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return false;
 	}
 
+	/**
+	 * exit
+	 */
 	public void exit() {
 		// glassPane is active: don't exit now!
 		if (glassPaneListener != null) {
@@ -2970,6 +2859,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	private OFFHandler offHandler;
 
+	/**
+	 * This is a method that loads an OFF file (Object File Format) into the application.
+	 * @param file file
+	 * @return loading status
+	 */
 	public boolean loadOffFile(File file) {
 		if (!checkFileExistsAndShowFileNotFound(file)) {
 			return false;
@@ -3013,6 +2907,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return true;
 	}
 
+	/**
+	 * Loads XML file
+	 * @param file file
+	 * @param isMacroFile boolean
+	 * @return loading status
+	 */
 	public boolean loadExistingFile(File file, boolean isMacroFile) {
 
 		setWaitCursor();
@@ -3034,16 +2934,16 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		try {
 			fis = new FileInputStream(file);
 
-			boolean success = false;
+			boolean success;
 
 			// pretend we're initializing the application to prevent unnecessary
 			// update
 			if (!initing) {
 				initing = true;
-				success = GFileHandler.loadXML(this, fis, isMacroFile);
+				success = doLoadXML(fis, isMacroFile);
 				initing = false;
 			} else {
-				success = GFileHandler.loadXML(this, fis, isMacroFile);
+				success = doLoadXML(fis, isMacroFile);
 			}
 
 			if (success && !isMacroFile) {
@@ -3053,7 +2953,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return success;
 		} catch (Exception e) {
 			setCurrentFile(null);
-			e.printStackTrace();
+			Log.debug(e);
 			showError(Errors.LoadFileFailed, file.getName());
 			return false;
 		} finally {
@@ -3076,7 +2976,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	final public boolean loadXML(URL url, boolean isMacroFile) {
 
 		try {
-			boolean success = GFileHandler.loadXML(this, url.openStream(),
+			boolean success = doLoadXML(url.openStream(),
 					isMacroFile);
 
 			// don't clear JavaScript here -- we may have just read one from the
@@ -3101,10 +3001,21 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
-	/*
+	private boolean doLoadXML(InputStream inputStream, boolean isMacroFile)
+			throws IOException, XMLParseException {
+		storeFrameCenter();
+		boolean ok = GFileHandler.loadXML(this, inputStream, isMacroFile);
+		if (ok) {
+			hideDockBarPopup();
+		}
+		return ok;
+	}
+
+	/**
 	 * loads an XML file as a String
+	 * @param xml construction XML
+	 * @return whether loading was successful
 	 */
-	@Override
 	public boolean loadXML(String xml) {
 		try {
 
@@ -3122,21 +3033,22 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			hideDockBarPopup();
 
 			return true;
-		} catch (Exception err) {
+		} catch (RuntimeException | XMLParseException err) {
 			setCurrentFile(null);
-			err.printStackTrace();
+			Log.debug(err);
 			return false;
 		}
 	}
 
-	@Override
-	public void storeFrameCenter() {
+	private void storeFrameCenter() {
 		centerX = getWindowCenterX();
 		centerY = getWindowCenterY();
 	}
 
+	/**
+	 * re-centers window
+	 */
 	public void centerFrame() {
-		// re-center window
 		if (frame != null) {
 			int x0 = centerX - frame.getWidth() / 2;
 			if (x0 < 0) {
@@ -3220,6 +3132,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
+	/**
+	 * loadMacroFileFromByteArray
+	 * @param byteArray byteArray
+	 * @param removeOldMacros removeOldMacros
+	 */
 	public void loadMacroFileFromByteArray(byte[] byteArray,
 			boolean removeOldMacros) {
 		try {
@@ -3242,6 +3159,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return (MyXMLioD) super.getXMLio();
 	}
 
+	/**
+	 * getOFFHandler
+	 * @return OFFHandler
+	 */
 	public OFFHandler getOFFHandler() {
 		if (offHandler == null) {
 			offHandler = new OFFHandler(kernel.getConstruction());
@@ -3258,13 +3179,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public void storeUndoInfo() {
 		if (isUndoActive()) {
 			kernel.storeUndoInfo();
-			setUnsaved();
-		}
-	}
-
-	public void restoreCurrentUndoInfo() {
-		if (isUndoActive()) {
-			kernel.restoreCurrentUndoInfo();
 			setUnsaved();
 		}
 	}
@@ -3345,12 +3259,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			}
 
 			// remove "geogebra.jar" from end of codebase string
-			for (int i = 0; i < GEOGEBRA_JAR_ALT.length; ++i) {
-				if (path.endsWith(GEOGEBRA_JAR_ALT[i])) {
-					runningFromJar = true;
-					path = path.substring(0,
-							path.length() - GEOGEBRA_JAR_ALT[i].length());
-				}
+			if (path.endsWith(GEOGEBRA_JAR)) {
+				runningFromJar = true;
+				path = path.substring(0,
+						path.length() - GEOGEBRA_JAR.length());
 			}
 
 			// set codebase
@@ -3373,6 +3285,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	private ErrorHandler defaultErrorHandler;
 
+	/**
+	 * startDispatchingEventsTo
+	 * @param comp component to dispatch events to
+	 */
 	public void startDispatchingEventsTo(JComponent comp) {
 		if (guiManager != null) {
 			getDialogManager().closeAll();
@@ -3395,6 +3311,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
+	/**
+	 * stopDispatchingEvents
+	 */
 	public void stopDispatchingEvents() {
 		if (glassPaneListener != null) {
 			Component glassPane = getGlassPane();
@@ -3409,6 +3328,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
+	/**
+	 * getGlassPane
+	 * @return Component
+	 */
 	public Component getGlassPane() {
 		if (mainComp == frame) {
 			return frame.getGlassPane();
@@ -3416,6 +3339,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return null;
 	}
 
+	/**
+	 * setGlassPane
+	 * @param component component
+	 */
 	public void setGlassPane(Component component) {
 		if (mainComp == frame) {
 			frame.setGlassPane(component);
@@ -3450,7 +3377,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				Component rootComp = SwingUtilities.getRoot(e.getComponent());
 				if (rootComp instanceof JDialog) {
-					((JDialog) rootComp).setVisible(false);
+					rootComp.setVisible(false);
 					return true;
 				}
 			}
@@ -3497,8 +3424,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return new GlobalKeyDispatcherD(this);
 	}
 
-	/*
+	/**
 	 * check for alt pressed (but not ctrl) (or ctrl but not alt on MacOS)
+	 * @param e event
+	 * @return isAltDown
 	 */
 	public static boolean isAltDown(InputEvent e) {
 		// we don't want to act when AltGr is down
@@ -3537,66 +3466,30 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public static boolean isControlDown(boolean isMetaDown,
 			boolean isControlDown) {
 
-		if (fakeRightClick) {
-			return false;
-		}
-
 		// multiple selection
 		return (MAC_OS && isMetaDown) // Mac: meta down for
 				// multiple selection, Ctrl for other OS
 				|| (!MAC_OS && isControlDown);
 	}
 
-	private static boolean fakeRightClick = false;
-
 	public static boolean isMiddleClick(MouseEventND e) {
 		return e.isMiddleClick();
 	}
 
-	public static boolean isRightClick(MouseEvent e) {
-
-		// right-click returns isMetaDown on MAC_OS
-		// so we want to return true for isMetaDown
-		// if it occurred first at the same time as
-		// a popup trigger
-		if (MAC_OS && !e.isMetaDown()) {
-			fakeRightClick = false;
-		}
-
-		if (MAC_OS && e.isPopupTrigger() && e.isMetaDown()) {
-			fakeRightClick = true;
-		}
-
-		/*
-		 * debug("MAC_OS = "+MAC_OS); debug("isMetaDown = "+e.isMetaDown());
-		 * debug("isControlDown ="+e.isControlDown()); debug("isShiftDown = "
-		 * +e.isShiftDown()); debug("isAltDown = "+e.isAltDown()); debug(
-		 * "isAltGrDown ="+e.isAltGraphDown()); debug("isPopupTrigger = "
-		 * +e.isPopupTrigger()); debug("fakeRightClick = "+fakeRightClick);
-		 */
-
-		if (fakeRightClick) {
-			return true;
-		}
-
-		boolean ret =
-				// e.isPopupTrigger() ||
-				(MAC_OS && e.isControlDown()) // Mac: ctrl click = right click
-						|| (!MAC_OS && e.isMetaDown()); // non-Mac: right click
-														// = meta
-		// click
-
-		// debug("ret = " + ret);
-		return ret;
-		// return e.isMetaDown();
-
-	}
-
+	/**
+	 * isRightClickForceMetaDown
+	 * @param e event
+	 * @return boolean
+	 */
 	public static boolean isRightClickForceMetaDown(MouseEvent e) {
 		return (MAC_OS && e.isControlDown()) // Mac: ctrl click = right click
 						|| (e.isMetaDown()); // non-Mac: right click = meta click
 	}
 
+	/**
+	 * removeTraversableKeys
+	 * @param p panel
+	 */
 	public void removeTraversableKeys(JPanel p) {
 		Set<AWTKeyStroke> set = p.getFocusTraversalKeys(
 				KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS);
@@ -3609,7 +3502,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				set);
 		p.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
 				set);
-
 	}
 
 	// **************************************************************************
@@ -3639,7 +3531,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 		if (this.getErrorHandler() != null) {
 			this.getErrorHandler().showError(msg);
-			return;
 		}
 
 	}
@@ -3791,7 +3682,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					"Logging into explicitly defined file, not using LogManager");
 			return;
 		}
-
 		// initialize logging to go to rolling log file
 		logManager = LogManager.getLogManager();
 		logManager.reset();
@@ -3833,14 +3723,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		logger = Logger.getLogger("stdout");
 		los = new LoggingOutputStream(logger, StdOutErrLevel.STDOUT);
 
-		try {
-			System.setOut(new PrintStream(los, true, Charsets.UTF_8));
-			logger = Logger.getLogger("stderr");
-			los = new LoggingOutputStream(logger, StdOutErrLevel.STDERR);
-			System.setErr(new PrintStream(los, true, Charsets.UTF_8));
-		} catch (UnsupportedEncodingException e) {
-			// do nothing
-		}
+		System.setOut(new PrintStream(los, true, StandardCharsets.UTF_8));
+		logger = Logger.getLogger("stderr");
+		los = new LoggingOutputStream(logger, StdOutErrLevel.STDERR);
+		System.setErr(new PrintStream(los, true, StandardCharsets.UTF_8));
 
 		// show stdout going to logger
 		// System.out.println("Hello world!");
@@ -3860,9 +3746,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// stdout.println("Hello on old stdout");
 	}
 
-	/*
+	/**
 	 * gets a String from the clipboard
-	 * 
 	 * @return null if not possible
 	 */
 	public String getStringFromClipboard() {
@@ -3920,7 +3805,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	public DrawEquationD getDrawEquation() {
 		if (drawEquation == null) {
-			drawEquation = new DrawEquationD();
+			drawEquation = new DrawEquationD(getFrame());
 		}
 		return drawEquation;
 	}
@@ -3954,8 +3839,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	public void evalJavaScript(App app, String script, String arg)
-			throws Exception {
+	public void evalJavaScript(App app, String script, String arg) {
 		((ScriptManagerD) getScriptManager()).evalJavaScript(app, script, arg);
 	}
 
@@ -4002,7 +3886,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public UndoManagerD getUndoManager(Construction cons) {
-		return new UndoManagerD(cons, false);
+		return new UndoManagerD(cons);
 	}
 
 	@Override
@@ -4020,33 +3904,37 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	public boolean isRightClick(AbstractEvent e) {
-		return isRightClick(MouseEventD.getEvent(e));
-	}
-
-	@Override
-	public boolean isControlDown(AbstractEvent e) {
-		return e != null && isControlDown(e.isMetaDown(), e.isControlDown());
-	}
-
-	@Override
 	public boolean isMiddleClick(AbstractEvent e) {
 		return isMiddleClick((MouseEventND) e);
 	}
 
-	public Font getFontCanDisplayAwt(String string, boolean b, int plain,
-			int i) {
-		return ((GFontD) getFontManager().getFontCanDisplay(string, b, plain,
-				i)).getAwtFont();
+	/**
+	 *  returns an AWT Font that can display a given string with the specified properties
+	 * @param string the string to be displayed
+	 * @param serif whether the font should be serif or not
+	 * @param fontStyle whether the font should be plain, italic, or bold-italic
+	 * @param size font size
+	 * @return AWT Font
+	 */
+	public Font getFontCanDisplayAwt(String string, boolean serif, int fontStyle,
+			int size) {
+		return ((GFontD) getFontManager().getFontCanDisplay(string, serif, fontStyle,
+				size)).getAwtFont();
 	}
 
 	public Font getFontCanDisplayAwt(String string) {
 		return GFontD.getAwtFont(getFontCanDisplay(string));
 	}
 
-	public Font getFontCanDisplayAwt(String value, int plain) {
+	/**
+	 *  returns a font that can display the string given
+	 * @param value string to be displayed
+	 * @param fontStyle font style
+	 * @return AWT Font
+	 */
+	public Font getFontCanDisplayAwt(String value, int fontStyle) {
 		int fontSize = settings.getFontSettings().getAppFontSize();
-		GFont font = getFontCreator().newSansSerifFont(value, plain, fontSize);
+		GFont font = getFontCreator().newSansSerifFont(value, fontStyle, fontSize);
 		return GFontD.getAwtFont(font);
 	}
 
@@ -4074,19 +3962,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public static final boolean MAC_OS = OS.startsWith("mac");
 	public static final boolean WINDOWS = OS.startsWith("windows");
 	public static final boolean LINUX = OS.startsWith("linux");
-
-	// make sure still works in the future on eg Windows 10/11
-	// note Java 7u40 returns "Windows 8" for Windows 8.1 and Windows 10
-	private static final boolean WINDOWS_XP_OR_EARLIER = OS
-			.startsWith("windows 2000") || OS.startsWith("windows 95")
-			|| OS.startsWith("windows 98") || OS.startsWith("windows nt")
-			|| OS.startsWith("windows xp");
-
-	public static final boolean WINDOWS_VISTA_OR_LATER = WINDOWS
-			&& !WINDOWS_XP_OR_EARLIER;
-
-	public static final boolean WINDOWS_VISTA_OR_EARLIER = WINDOWS_XP_OR_EARLIER
-			|| OS.startsWith("windows vista");
 
 	/**
 	 * @return true if running on Mac OS Big Sur or later versions.
@@ -4127,6 +4002,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		getGuiManager().showURLinBrowser(strURL);
 	}
 
+	/**
+	 * uploadToGeoGebraTube
+	 */
 	public void uploadToGeoGebraTube() {
 		GeoGebraTubeExportD ggbtube = new GeoGebraTubeExportD(this);
 		ggbtube.uploadWorksheet();
@@ -4255,12 +4133,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// COMPONENT ORIENTATION
 	// **************************************************************************
 
-	public ComponentOrientation getComponentOrientation() {
-		return getLocalization().isRightToLeftReadingOrder()
-				? ComponentOrientation.RIGHT_TO_LEFT
-				: ComponentOrientation.LEFT_TO_RIGHT;
-	}
-
+	/**
+	 * Sets the component orientation of the given Component
+	 * based on the reading order of the current localization
+	 * @param c Component
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void setComponentOrientation(Component c) {
 		boolean rtl = getLocalization().isRightToLeftReadingOrder();
@@ -4322,6 +4199,19 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// ConstructionProtocol
 	// **************************************************************************
 
+	/**
+	 *  exports an animated GIF of an EuclidianView.
+	 *  The GIF is generated by iterating through a range of values
+	 *  and capturing an image of the view for each.
+	 * @param ev EuclidianView
+	 * @param gifEncoder gifEncoder
+	 * @param num AnimationExportSlider
+	 * @param n n
+	 * @param initVal initVal
+	 * @param min min
+	 * @param max max
+	 * @param stepSize stepSize
+	 */
 	public void exportAnimatedGIF(EuclidianView ev, FrameCollector gifEncoder,
 			AnimationExportSlider num, int n, double initVal, double min,
 			double max, double stepSize) {
@@ -4367,20 +4257,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * stored token
 	 */
 	protected void initSignInEventFlow() {
-		// Inizialize the login operation
+		// Inizialize the login operation -- stub only, no sign in UI in desktop
 		loginOperation = new LoginOperationD(this);
-
-		// Try to login the stored user
-		loginOperation.performTokenLogin();
 	}
 
 	@Override
 	public CommandDispatcher newCommandDispatcher(Kernel kernel) {
-		return new CommandDispatcherJre(kernel);
-	}
-
-	@Override
-	public CommandDispatcher3D newCommand3DDispatcher(Kernel kernel) {
 		return new CommandDispatcher3DJre(kernel);
 	}
 
@@ -4428,14 +4310,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// afterwards, the file is loaded into "ad" in theory,
 		// so we have to use the CopyPaste class to copy it
 
-		getCopyPaste()
-				.copyToXML(ad,
-						new ArrayList<>(ad.getKernel()
-				.getConstruction().getGeoSetWithCasCellsConstructionOrder()),
-				true);
-
-		// and paste
-		getCopyPaste().pasteFromXML(this, true);
+		getCopyPaste().insertFrom(ad, this);
 
 		// forgotten something important!
 		// ad should be closed!
@@ -4476,12 +4351,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	private boolean popupsDone = false;
 
+	/**
+	 * shows pop up
+	 */
 	public void showPopUps() {
-		LoginOperationD signIn = (LoginOperationD) getLoginOperation();
-		if (!signIn.isTubeCheckDone()) {
-			return;
-		}
-
 		if (isAllowPopups()) {
 
 			// Show login popup
@@ -4489,43 +4362,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				popupsDone = true;
 
 				EventQueue.invokeLater(() -> {
-					boolean showDockPopup = true;
-
-					LoginOperationD signInOp = (LoginOperationD) getLoginOperation();
-					if (signInOp.isTubeAvailable()
-							&& !signInOp.isLoggedIn()) {
-						showDockPopup = showTubeLogin();
-					}
-
-					if (showDockPopup && isShowDockBar()) {
+					if (isShowDockBar()) {
 						showPerspectivePopup();
 					}
 				});
 			}
 		}
-	}
-
-	protected boolean showTubeLogin() {
-		// for debugging only
-		// force sign-in popup if not logged in
-		// GeoGebraPreferencesD.getPref().savePreference(
-		// GeoGebraPreferencesD.USER_LOGIN_SKIP,
-		// "false");
-
-		boolean showDockPopup = true;
-
-		String skipLogin = GeoGebraPreferencesD.getPref()
-				.loadPreference(GeoGebraPreferencesD.USER_LOGIN_SKIP, "false");
-
-		if (!"true".equals(skipLogin)) {
-			showDockPopup = false;
-			GeoGebraPreferencesD.getPref().savePreference(
-					GeoGebraPreferencesD.USER_LOGIN_SKIP, "true");
-
-			getGuiManager().login();
-		}
-
-		return showDockPopup;
 	}
 
 	protected void showPerspectivePopup() {
@@ -4549,6 +4391,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return true;
 	}
 
+	/**
+	 * returns an ImageIcon for a given ImageResourceD object
+	 * @param res ImageResourceD
+	 * @return ImageIcon
+	 */
 	public ImageIcon getMenuIcon(ImageResourceD res) {
 		if (isMacOS()) {
 			// fixed-size, 16x16 icons for mac menu
@@ -4558,6 +4405,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return getScaledIcon(res, null);
 	}
 
+	/**
+	 * get image based on name
+	 * @param name name of image
+	 * @return Image
+	 */
 	public Image getMenuInternalImage(ImageResourceD name) {
 		if (isMacOS()) {
 			// no scaling for mac menu
@@ -4569,10 +4421,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	public void needThumbnailFor3D() {
 		// nothing to do here
-	}
-
-	public boolean useHugeGuiForInput3D() {
-		return false;
 	}
 
 	/**
@@ -4589,6 +4437,14 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
+	public boolean hasMultipleSelectModifier(AbstractEvent e) {
+		if (!(e instanceof MouseEventD)) {
+			return false;
+		}
+		return MouseEventUtil.hasMultipleSelectModifier((MouseEventD) e);
+	}
+
+	@Override
 	public GTimer newTimer(GTimerListener listener, int delay) {
 		return new GTimerD(listener, delay);
 	}
@@ -4599,8 +4455,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private ScheduledFuture<?> handler;
 
 	private PrintPreviewD printPreview;
-
-	private OptionsMenuController optionsMenu;
 
 	private static volatile MessageDigest md5EncrypterD;
 
@@ -4625,6 +4479,16 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return (GuiManagerD) app.getGuiManager();
 	}
 
+	/**
+	 * initializes toolbar
+	 * @param app AppD
+	 * @param toolbarPosition toolbarPosition
+	 * @param showToolBarHelp showToolBarHelp
+	 * @param northPanel northPanel
+	 * @param eastPanel eastPanel
+	 * @param southPanel southPanel
+	 * @param westPanel westPanel
+	 */
 	public static void initToolbar(AppD app, int toolbarPosition,
 			boolean showToolBarHelp, JPanel northPanel, JPanel eastPanel,
 			JPanel southPanel, JPanel westPanel) {
@@ -4672,6 +4536,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
+	/**
+	 * initializes input bar
+	 * @param app AppD
+	 * @param showInputTop whether the input top should be shown
+	 * @param northPanel JPanel
+	 * @param southPanel JPanel
+	 */
 	public static void initInputBar(AppD app, boolean showInputTop,
 			JPanel northPanel, JPanel southPanel) {
 		GuiManagerD gui = (GuiManagerD) app.getGuiManager();
@@ -4683,6 +4554,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		((AlgebraInputD) gui.getAlgebraInput()).updateOrientation(showInputTop);
 	}
 
+	/**
+	 * getMenuBarPanel
+	 * @param appD AppD
+	 * @param applicationPanel JPanel
+	 * @return JPanel
+	 */
 	public static JPanel getMenuBarPanel(AppD appD, JPanel applicationPanel) {
 		JPanel menuBarPanel = new JPanel(new BorderLayout());
 		menuBarPanel.add(appD.getGuiManager().getMenuBar(), BorderLayout.NORTH);
@@ -4741,18 +4618,18 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public void newGeoGebraToPstricks(AsyncOperation<GeoGebraExport> callback) {
-		callback.callback(new GeoGebraToPstricksD(this));
+		callback.callback(new GeoGebraToPstricks(this, new ExportGraphicsFactoryD()));
 	}
 
 	@Override
 	public void newGeoGebraToAsymptote(
 			AsyncOperation<GeoGebraExport> callback) {
-		callback.callback(new GeoGebraToAsymptoteD(this));
+		callback.callback(new GeoGebraToAsymptote(this, new ExportGraphicsFactoryD()));
 	}
 
 	@Override
 	public void newGeoGebraToPgf(AsyncOperation<GeoGebraExport> callback) {
-		callback.callback(new GeoGebraToPgfD(this));
+		callback.callback(new GeoGebraToPgf(this, new ExportGraphicsFactoryD()));
 	}
 
 	public void setPrintPreview(PrintPreviewD printPreviewD) {
@@ -4776,12 +4653,147 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// * works offline
 		if (GeoGebraConstants.GEOGEBRA_LOADING_PNG.equals(url)) {
 			return StringUtil.pngMarker
-					+ "iVBORw0KGgoAAAANSUhEUgAAAWgAAAA+CAMAAAAxm3G5AAACPVBMVEUAAAD////Ly8v///+UlJT////////////z8/P///+wsLDi4uJubm78/Pz4+Pj///////////96enrs7Oy+vr7////////////////X19eGhoaUlJT///////+hoaH///////////////////////////////////////9vb2////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////96enqHh4f////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Gxsb///////+0tLT///+ampofHx/X19fb29sBAQEHBwcODg7l5eWJiYn///////9DQ0O9vb2jo6P29vaqqqpwcHBJSUnLy8uAgIBFRUU0NDR/f3+enp4yMjIpKSmdnZ3u7u6qqqrKysoFBQV1dXUkJCT///9lZWWYmP8AAACoqKhMTID29vbPz89ubm4KCg8GBgYdHTDw8PDf398TEyDs7OwmJkA/Pz9ycsBfX6CRkZGPj/B8fNCfn5+BgYF4eHg5OWAwMFA4ODgqKioQEBCFheBycr9NTU0wMDBeXl4YGBj6+vpCQnBoaGhXV1d7e89VVZBpabB5IoDqAAAAk3RSTlMA/b/50Pzw98/7w8Px49ja7fPkyMAJ5+TpwNnP9gTI9ahHsfLFlPEi1/DSzUQGAr9sUBYNGBHct97KmmfU0LShe0A3HqWLcY9+eFhKKSDj2FU9u2M6Gw8L4MfCdSa5gKyXh2BNhFo0MS0rE+td/qqd/p7+/fz9/PTn/PwQB/37yPPu6Ofm9/Dv7eXk49/d3djDoJ3CiGq2AAAXqElEQVR42u1cBXcbRxDW6nR3OsmyJNsCO6pBZtmO7ZiZGWJK4thO4nCapE2ZmZnkXCkpMzO3v623vEdu2r6m7WunfW0iLcx8Ozs7MzsrjzM1VB89lu7rjEciyURNxUDTSpvnb6aWocGOcCSqSpKaKk+2N040t/7p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";
+				+ "iVBORw0KGgoAAAANSUhEUgAAAWgAAAA+CAMAAAAxm3G5AAACPVBMVEUAAAD////Ly8v///+UlJT////"
+					+ "////////z8/P///+wsLDi4uJubm78/Pz4+Pj///////////96enrs7Oy+vr7///////////////"
+					+ "/X19eGhoaUlJT///////+hoaH///////////////////////////////////////9vb2///////"
+					+ "///////////////////////////////////////////////////////////////////////////"
+					+ "//////////////////////////////////////////////////////////////96enqHh4f////"
+					+ "///////////////////////////////////////////////////////////////////////////"
+					+ "/////////////////////////////////////Gxsb///////+0tLT///+ampofHx/X19fb29sBA"
+					+ "QEHBwcODg7l5eWJiYn///////9DQ0O9vb2jo6P29vaqqqpwcHBJSUnLy8uAgIBFRUU0NDR/f3+e"
+					+ "np4yMjIpKSmdnZ3u7u6qqqrKysoFBQV1dXUkJCT///9lZWWYmP8AAACoqKhMTID29vbPz89ubm4"
+					+ "KCg8GBgYdHTDw8PDf398TEyDs7OwmJkA/Pz9ycsBfX6CRkZGPj/B8fNCfn5+BgYF4eHg5OWAwMF"
+					+ "A4ODgqKioQEBCFheBycr9NTU0wMDBeXl4YGBj6+vpCQnBoaGhXV1d7e89VVZBpabB5IoDqAAAAk"
+					+ "3RSTlMA/b/50Pzw98/7w8Px49ja7fPkyMAJ5+TpwNnP9gTI9ahHsfLFlPEi1/DSzUQGAr9sUBYN"
+					+ "GBHct97KmmfU0LShe0A3HqWLcY9+eFhKKSDj2FU9u2M6Gw8L4MfCdSa5gKyXh2BNhFo0MS0rE+t"
+					+ "d/qqd/p7+/fz9/PTn/PwQB/37yPPu6Ofm9/Dv7eXk49/d3djDoJ3CiGq2AAAXqElEQVR42u1cBX"
+					+ "cbRxDW6nR3OsmyJNsCO6pBZtmO7ZiZGWJK4thO4nCapE2ZmZnkXCkpMzO3v623vEdu2r6m7Wunf"
+					+ "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";
 		}
 
 		if (GeoGebraConstants.APPLET_PLAY_PNG.equals(url)) {
 			return StringUtil.pngMarker
-					+ "iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAAhFBMVEUAAABmZmb///9qampsbGz+/v6qqqpvb29ubm6enp6rq6t3d3d1dXVxcXH6+vqCgoJ+fn719fXv7+/n5+eTk5N0dHSXl5eNjY2KioqIiIji4uLe3t6UlJSQkJDr6+vW1tbCwsK5ubmioqK7u7uzs7OmpqaFhYXk5OR7e3vNzc3Jycmvr6833NujAAAAAXRSTlMAQObYZgAAAlhJREFUWMPVmNuW2jAMRS2Ogk0JCZBwvzPATNv//7/SdrqyBoxl2U/dH7DXUeSLYvP/czrPAPAdgG+DTNsCRKAvMJKlQwLIA4BWb2st02tAQ13OFcloSncUR2wnmGKZG5k3gKIBRN8H6YAQ0pGacchHKawEnxo4wadn5vdZSmbr37rpYOcRgjKA4NMzevQtBaF68TBlgogOQ5Wavxww/ta1I4e0iOQBx6poTmwpFtf5BuShnPTuNH2GvmbrPeF7f6jWu1jlLNhi/lb0PpVNbaH6iqW3gH7R+8fk+9BSBG3XEn/Cjv0RHB+RpIR3iubMiBS2QWGn3LSOo64DhEvuqN5XFhERSUrYMT3MHAVgSehRnsCCUCj5ieYMDpa8lRM+dmduERigakHoYbKvnV+4vAuXJJTsVR4An7C+C8dSQj9rfnE+LJ0o9PMT/jYPZonCDfuF1zJR+PZC2E8UNsNX1/MtRVhtxnh1Oiz0y6ZYDxgv1+FCnbC5gkMDslI4PQp7WSecrJ+ulxxhNV1YiOchYoXFumUmEoUc1+Vi3xdvvrqbNcWE0x/MJGGihZPDeASKFQ6lkqtp7UAypfkEwYTV+9ZBN34hlHB/YdYO7lePEdvi776wluLAxQQjYvO7Fx8WKUP2HPSMPV1KBkWzFP8bmUmBe3gYoEyQ9Gcmr8GOEWXB5pFzXkbzTEkZ1J1HXbTc4fzGIOPVRv6A+VXDBOBEXyAjSMfYSOTEy30QgjNRrEBRsOaBOIKb0TAWwmFrtOwgFJvAyuLBCiKUA5PDrp4xs3PsmO1wrpXl8wsCuyePXN5O7AAAAABJRU5ErkJggg==";
+					+ "iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAAhFBMVEUAAABmZmb///9qampsbGz"
+					+ "+/v6qqqpvb29ubm6enp6rq6t3d3d1dXVxcXH6+vqCgoJ+fn719fXv7+/n5+eTk5N0dHSXl5eNjY"
+					+ "2KioqIiIji4uLe3t6UlJSQkJDr6+vW1tbCwsK5ubmioqK7u7uzs7OmpqaFhYXk5OR7e3vNzc3Jy"
+					+ "cmvr6833NujAAAAAXRSTlMAQObYZgAAAlhJREFUWMPVmNuW2jAMRS2Ogk0JCZBwvzPATNv//7/S"
+					+ "drqyBoxl2U/dH7DXUeSLYvP/czrPAPAdgG+DTNsCRKAvMJKlQwLIA4BWb2st02tAQ13OFcloSnc"
+					+ "UR2wnmGKZG5k3gKIBRN8H6YAQ0pGacchHKawEnxo4wadn5vdZSmbr37rpYOcRgjKA4NMzevQtBa"
+					+ "F68TBlgogOQ5Wavxww/ta1I4e0iOQBx6poTmwpFtf5BuShnPTuNH2GvmbrPeF7f6jWu1jlLNhi/"
+					+ "lb0PpVNbaH6iqW3gH7R+8fk+9BSBG3XEn/Cjv0RHB+RpIR3iubMiBS2QWGn3LSOo64DhEvuqN5X"
+					+ "FhERSUrYMT3MHAVgSehRnsCCUCj5ieYMDpa8lRM+dmduERigakHoYbKvnV+4vAuXJJTsVR4An7C"
+					+ "+C8dSQj9rfnE+LJ0o9PMT/jYPZonCDfuF1zJR+PZC2E8UNsNX1/MtRVhtxnh1Oiz0y6ZYDxgv1+"
+					+ "FCnbC5gkMDslI4PQp7WSecrJ+ulxxhNV1YiOchYoXFumUmEoUc1+Vi3xdvvrqbNcWE0x/MJGGih"
+					+ "ZPDeASKFQ6lkqtp7UAypfkEwYTV+9ZBN34hlHB/YdYO7lePEdvi776wluLAxQQjYvO7Fx8WKUP2"
+					+ "HPSMPV1KBkWzFP8bmUmBe3gYoEyQ9Gcmr8GOEWXB5pFzXkbzTEkZ1J1HXbTc4fzGIOPVRv6A+VX"
+					+ "DBOBEXyAjSMfYSOTEy30QgjNRrEBRsOaBOIKb0TAWwmFrtOwgFJvAyuLBCiKUA5PDrp4xs3PsmO"
+					+ "1wrpXl8wsCuyePXN5O7AAAAABJRU5ErkJggg==";
 		}
 
 		return url;
@@ -4799,14 +4811,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			fileName.append("test.");
 			fileName.append(ext);
 			BufferedWriter objBufferedWriter = new BufferedWriter(
-					new OutputStreamWriter(new FileOutputStream(fileName.toString()), "UTF-8"));
+					new OutputStreamWriter(new FileOutputStream(fileName.toString()),
+							StandardCharsets.UTF_8));
 			Log.debug("Export to " + fileName);
 			objBufferedWriter.write(content);
 			objBufferedWriter.close();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -4820,10 +4829,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return;
 		}
 
-		byte[] png;
+		byte[] pngData;
 		try {
-			png = Base64.decode(base64image.getBytes(Charsets.getUtf8()));
-			ByteArrayInputStream bis = new ByteArrayInputStream(png);
+			pngData = Base64.decode(base64image.getBytes(StandardCharsets.UTF_8));
+			ByteArrayInputStream bis = new ByteArrayInputStream(pngData);
 			BufferedImage image = ImageIO.read(bis);
 			copyImageToClipboard(image);
 		} catch (Exception e) {
@@ -4865,7 +4874,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		if (getMd5Encrypter() == null) {
 			return UUID.randomUUID().toString();
 		}
-		getMd5Encrypter().update(s.getBytes(Charsets.getUtf8()));
+		getMd5Encrypter().update(s.getBytes(StandardCharsets.UTF_8));
 		byte[] md5hash = md5EncrypterD.digest();
 		return StringUtil.convertToHex(md5hash);
 	}
@@ -4885,13 +4894,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return md5EncrypterD;
 	}
 
-	public void isShowingLogInDialog() {
-		// for 3D
-	}
-
 	@Override
 	public String getModeIconBase64(int m) {
-		ImageIcon icon = getModeIcon(m);
+		ScaledIcon icon = getModeIcon(m);
 		Image img1 = icon.getImage();
 
 		BufferedImage img2 = ImageManagerD.toBufferedImage(img1);

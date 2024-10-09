@@ -6,8 +6,8 @@ import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.BigDelimiterAtom;
 import com.himamis.retex.renderer.share.BigOperatorAtom;
 import com.himamis.retex.renderer.share.BreakMarkAtom;
-import com.himamis.retex.renderer.share.CedillaAtom;
 import com.himamis.retex.renderer.share.CharAtom;
+import com.himamis.retex.renderer.share.CharMapping;
 import com.himamis.retex.renderer.share.ColorAtom;
 import com.himamis.retex.renderer.share.CursorAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
@@ -21,13 +21,15 @@ import com.himamis.retex.renderer.share.HlineAtom;
 import com.himamis.retex.renderer.share.JavaFontRenderingAtom;
 import com.himamis.retex.renderer.share.MHeightAtom;
 import com.himamis.retex.renderer.share.NthRoot;
-import com.himamis.retex.renderer.share.OgonekAtom;
 import com.himamis.retex.renderer.share.OverlinedAtom;
 import com.himamis.retex.renderer.share.PhantomAtom;
+import com.himamis.retex.renderer.share.ResizeAtom;
+import com.himamis.retex.renderer.share.RomanAtom;
 import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.RuleAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
 import com.himamis.retex.renderer.share.SetLengthAtom;
+import com.himamis.retex.renderer.share.SilentVRowAtom;
 import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
 import com.himamis.retex.renderer.share.Symbols;
@@ -49,12 +51,6 @@ public class TeXAtomSerializer {
 	public static final String HYPERBOLICS = "sinh cosh tanh coth sech csch";
 	public static final String TRIGONOMETRICS = "sin cos tan cot sec csc" + HYPERBOLICS;
 	private final SerializationAdapter adapter;
-
-	private enum DegreePlural {
-		None,
-		Degree,
-		Degrees
-	}
 
 	/**
 	 * @param ad
@@ -116,17 +112,22 @@ public class TeXAtomSerializer {
 				|| root instanceof VlineAtom || root instanceof CEEmptyAtom
 				|| root instanceof RuleAtom || root instanceof GraphicsAtom
 				|| root instanceof GraphicsAtomBase64 || root instanceof HVruleAtom
-				|| root instanceof MHeightAtom || root instanceof TheAtom) {
+				|| root instanceof MHeightAtom || root instanceof TheAtom
+				|| root instanceof SilentVRowAtom) {
 			return "";
 		}
 		if (root instanceof SymbolAtom) {
 			return serializeSymbol((SymbolAtom) root);
 		}
+		if (root instanceof RomanAtom && ((RomanAtom) root).getUnicode() != null) {
+			return ((RomanAtom) root).getUnicode();
+		}
 		if (root instanceof RowAtom) {
 			RowAtom row = (RowAtom) root;
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; row.getElement(i) != null; i++) {
-				sb.append(serialize(row.getElement(i)));
+				Atom element = row.getElement(i);
+				sb.append(serialize(element));
 			}
 			return adapter.getLigature(sb.toString());
 		}
@@ -136,7 +137,14 @@ public class TeXAtomSerializer {
 			if (accent == Symbols.VEC) {
 				return " vector " + content;
 			}
-			return content + " with " + serialize(accent);
+			String accentCommand = ((IsAccentedAtom) root).getCommand();
+			if (accentCommand != null) {
+				Character ret = CharMapping.getReverse("\\" + accentCommand + "{" + content + "}");
+				if (ret != null) {
+					return String.valueOf(ret);
+				}
+			}
+			return content + serialize(accent);
 		}
 		if (root instanceof TextCircledAtom) {
 			return "circled " + serialize(((TextCircledAtom) root).getTrueBase());
@@ -194,11 +202,8 @@ public class TeXAtomSerializer {
 		// BoldAtom, ItAtom, TextStyleAtom, StyleAtom, RomanAtom
 		if (root instanceof HasTrueBase) {
 			Atom trueBase = ((HasTrueBase) root).getTrueBase();
-			DegreePlural degreePlural = checkDegrees(trueBase);
-			if (degreePlural != DegreePlural.None) {
-				return serialize(trueBase) + serializeDegrees(degreePlural);
-			}
-			return serialize(trueBase);
+			String baseString = serialize(trueBase);
+			return root instanceof ResizeAtom ? adapter.transformWrapper(baseString) : baseString;
 		}
 
 		if (root instanceof BigDelimiterAtom) {
@@ -240,43 +245,8 @@ public class TeXAtomSerializer {
 	}
 
 	private String serializeSymbol(SymbolAtom symbol) {
-		if (symbol == CedillaAtom.CEDILLA) {
-			return "cedilla";
-		}
-		if (symbol == OgonekAtom.OGONEK) {
-			return "ogonek";
-		}
+
 		return adapter.convertCharacter(symbol.getUnicode());
-	}
-
-	private DegreePlural checkDegrees(Atom trueBase) {
-		if (!(trueBase instanceof RowAtom)) {
-			return DegreePlural.None;
-		}
-		RowAtom row = (RowAtom) trueBase;
-		if (!(row.last() instanceof ScriptsAtom)) {
-			return DegreePlural.None;
-		}
-
-		ScriptsAtom scripts = (ScriptsAtom) (row.last());
-		boolean degree = DEGREE.equals(serialize(scripts.getSup()));
-		if (degree && "1".equals(serialize(row.getBase())) && noNumberIn(row)) {
-			return DegreePlural.Degree;
-		}
-		return degree ? DegreePlural.Degrees : DegreePlural.None;
-	}
-
-	private boolean noNumberIn(RowAtom row) {
-		for (int i = 0; i < row.size(); i++) {
-			if (row.getElement(i) instanceof CharAtom) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private String serializeDegrees(DegreePlural plural) {
-		return plural == DegreePlural.Degree ? "degree" : "degrees";
 	}
 
 	private String serializeFractionAtom(FractionAtom frac) {

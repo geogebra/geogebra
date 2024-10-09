@@ -128,8 +128,7 @@ public class AlgoVector extends AlgoElement
 		input[0] = (GeoElement) P;
 		input[1] = (GeoElement) Q;
 
-		super.setOutputLength(1);
-		super.setOutput(0, (GeoElement) v);
+		setOnlyOutput(v);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -6,16 +6,23 @@ import java.util.List;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.BooleanProperty;
-import org.geogebra.common.properties.ColorProperty;
-import org.geogebra.common.properties.IconsEnumerableProperty;
+import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.RangeProperty;
+import org.geogebra.common.properties.aliases.BooleanProperty;
+import org.geogebra.common.properties.aliases.ColorProperty;
+import org.geogebra.common.properties.impl.collections.BooleanPropertyCollection;
+import org.geogebra.common.properties.impl.collections.ColorPropertyCollection;
+import org.geogebra.common.properties.impl.collections.EnumeratedPropertyCollection;
+import org.geogebra.common.properties.impl.collections.IconsEnumeratedPropertyCollection;
+import org.geogebra.common.properties.impl.collections.NamedEnumeratedPropertyCollection;
+import org.geogebra.common.properties.impl.collections.RangePropertyCollection;
+import org.geogebra.common.properties.impl.collections.StringPropertyCollection;
 import org.geogebra.common.properties.impl.objects.AnimationStepProperty;
 import org.geogebra.common.properties.impl.objects.CaptionStyleProperty;
 import org.geogebra.common.properties.impl.objects.ElementColorProperty;
 import org.geogebra.common.properties.impl.objects.EquationFormProperty;
-import org.geogebra.common.properties.impl.objects.FixObjectProperty;
+import org.geogebra.common.properties.impl.objects.IsFixedObjectProperty;
 import org.geogebra.common.properties.impl.objects.LineStyleProperty;
 import org.geogebra.common.properties.impl.objects.MaxProperty;
 import org.geogebra.common.properties.impl.objects.MinProperty;
@@ -28,12 +35,6 @@ import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 import org.geogebra.common.properties.impl.objects.ShowTraceProperty;
 import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
 import org.geogebra.common.properties.impl.objects.ThicknessProperty;
-import org.geogebra.common.properties.impl.objects.collection.BooleanPropertyCollection;
-import org.geogebra.common.properties.impl.objects.collection.ColorPropertyCollection;
-import org.geogebra.common.properties.impl.objects.collection.EnumerablePropertyCollection;
-import org.geogebra.common.properties.impl.objects.collection.IconsEnumerablePropertyCollection;
-import org.geogebra.common.properties.impl.objects.collection.RangePropertyCollection;
-import org.geogebra.common.properties.impl.objects.collection.StringPropertyCollection;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**
@@ -131,31 +132,31 @@ public class GeoElementPropertiesFactory {
 	public static BooleanProperty createFixObjectProperty(Localization localization,
 			List<GeoElement> elements) {
 		try {
-			List<FixObjectProperty> fixObjectProperties = new ArrayList<>();
+			List<IsFixedObjectProperty> fixObjectProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
-				fixObjectProperties.add(new FixObjectProperty(localization, element));
+				fixObjectProperties.add(new IsFixedObjectProperty(localization, element));
 			}
 			return new BooleanPropertyCollection<>(
-					fixObjectProperties.toArray(new FixObjectProperty[0]));
+					fixObjectProperties.toArray(new IsFixedObjectProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
 		}
 	}
 
 	/**
-	 * Returns an IconsEnumerableProperty controlling the point style or null if not applicable.
+	 * Returns an IconsEnumeratedProperty controlling the point style or null if not applicable.
 	 * @param localization localization
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public static IconsEnumerableProperty createPointStyleProperty(Localization localization,
+	public static IconsEnumeratedProperty createPointStyleProperty(Localization localization,
 			List<GeoElement> elements) {
 		try {
 			List<PointStyleProperty> pointStyleProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				pointStyleProperties.add(new PointStyleProperty(localization, element));
 			}
-			return new IconsEnumerablePropertyCollection<>(
+			return new IconsEnumeratedPropertyCollection<>(
 					pointStyleProperties.toArray(new PointStyleProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
@@ -188,7 +189,7 @@ public class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public static RangeProperty<Integer> createThicknessProperty(Localization localization,
+	public static RangePropertyCollection<?, ?> createThicknessProperty(Localization localization,
 			List<GeoElement> elements) {
 		try {
 			List<ThicknessProperty> thicknessProperties = new ArrayList<>();
@@ -203,26 +204,27 @@ public class GeoElementPropertiesFactory {
 	}
 
 	/**
-	 * Returns an IconsEnumerableProperty controlling the line style or null if not applicable.
+	 * Returns an IconsEnumeratedProperty controlling the line style or null if not applicable.
 	 * @param localization localization
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public static IconsEnumerableProperty createLineStyleProperty(Localization localization,
-			List<GeoElement> elements) {
+	public static IconsEnumeratedProperty createLineStyleProperty(
+			Localization localization, List<GeoElement> elements) {
 		try {
 			List<LineStyleProperty> lineStyleProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				lineStyleProperties.add(new LineStyleProperty(localization, element));
 			}
-			return new IconsEnumerablePropertyCollection<>(
+			return new IconsEnumeratedPropertyCollection<>(
 					lineStyleProperties.toArray(new LineStyleProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
 		}
 	}
 
-	private static void addPropertyIfNotNull(List<Property> properties, Property property) {
+	private static void addPropertyIfNotNull(List<Property> properties,
+			Property property) {
 		if (property != null) {
 			properties.add(property);
 		}
@@ -251,14 +253,14 @@ public class GeoElementPropertiesFactory {
 				showObjectProperties.toArray(new ShowObjectProperty[0]));
 	}
 
-	private static EnumerablePropertyCollection<CaptionStyleProperty> createCaptionStyleProperty(
-			Localization localization, List<GeoElement> elements) {
+	private static EnumeratedPropertyCollection<CaptionStyleProperty, Integer>
+	createCaptionStyleProperty(Localization localization, List<GeoElement> elements) {
 		try {
 			List<CaptionStyleProperty> captionStyleProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				captionStyleProperties.add(new CaptionStyleProperty(localization, element));
 			}
-			return new EnumerablePropertyCollection<>(
+			return new NamedEnumeratedPropertyCollection<>(
 					captionStyleProperties.toArray(new CaptionStyleProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
@@ -271,7 +273,7 @@ public class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return property or null
 	 */
-	public static RangePropertyCollection<OpacityProperty, Integer> createOpacityProperty(
+	public static RangeProperty<Integer> createOpacityProperty(
 			Localization localization, List<GeoElement> elements) {
 		try {
 			List<OpacityProperty> opacityProperties = new ArrayList<>();
@@ -341,14 +343,14 @@ public class GeoElementPropertiesFactory {
 		}
 	}
 
-	private static EnumerablePropertyCollection<EquationFormProperty> createEquationFormProperty(
-			Localization localization, List<GeoElement> elements) {
+	private static EnumeratedPropertyCollection<EquationFormProperty, Integer>
+	createEquationFormProperty(Localization localization, List<GeoElement> elements) {
 		try {
 			List<EquationFormProperty> equationFormProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				equationFormProperties.add(new EquationFormProperty(localization, element));
 			}
-			return new EnumerablePropertyCollection<>(
+			return new NamedEnumeratedPropertyCollection<>(
 					equationFormProperties.toArray(new EquationFormProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
@@ -391,6 +393,7 @@ public class GeoElementPropertiesFactory {
 		} else {
 			name = "";
 		}
+
 		return new PropertiesArray(name, properties.toArray(new Property[0]));
 	}
 }

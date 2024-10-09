@@ -1,10 +1,11 @@
 @use 'colors';
 @use 'dimens';
+@use 'colorMap' as *;
 
 .GeoGebraFrame {
 
 	.tab.scientific {
-		background-color: colors.$gray-background;
+		background-color: neutral(100);
 	}
 
     .algebraPanelScientificSmallScreen {
@@ -41,6 +42,7 @@
        }
     }
 
+	&.compact,
     &.smallScreen {
        .undoRedoSettingsPanelScientific {
            max-width: calc(100% - 36px);
@@ -48,6 +50,7 @@
        }
     }
 
+	&.compact,
     &.portrait, &.smallScreen {
         .undoRedoSettingsPanelScientific {
             padding-left: 0;
@@ -55,7 +58,7 @@
     }
 
     .scientificSettingsView {
-        background-color: colors.$gray-background;
+        background-color: neutral(100);
     }
 
     .scientificSettingsViewSmall {
@@ -63,7 +66,7 @@
     }
 
     %sheetOfPaper {
-        background-color: colors.$gray-background;
+        background-color: neutral(100);
          &>div {
             @extend %paperWidth;
             min-height: calc(100% - 24px);
@@ -131,7 +134,6 @@
     }
 
     .avItemNumber, .avWarningScientific {
-        color: colors.$text-secondary;
         font-size: 75%;
         top: 14px;
         left: 16px;
@@ -140,6 +142,7 @@
 
     .avWarningScientific {
         top: 12px;
+        opacity: .54;
     }
 
     %panelFadeAnimation {

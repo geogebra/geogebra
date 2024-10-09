@@ -37,8 +37,6 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 
 	boolean belongsToToolCreator(ListCellRenderer renderer);
 
-	void login();
-
 	Component getInputHelpPanel();
 
 	void resetCasView();

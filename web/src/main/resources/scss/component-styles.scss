@@ -1,8 +1,16 @@
 @use 'colors';
 @use 'z-index';
 @use 'header';
+@use 'colorMap' as *;
 
 .GeoGebraFrame {
+
+	.floatingActionButton.keyboardFocus:focus-visible {
+		outline-color: var(--ggb-dark-color);
+		outline-width: 2px;
+		outline-style: solid;
+		outline-offset: 3px;
+	}
 
 	/* CHECKBOX COMPONENT */
 	@mixin checkboxBg($color) {
@@ -24,12 +32,11 @@
 			margin-left: 20px;
 			margin-top: 8px;
 			margin-bottom: 8px;
-			color: colors.$text-primary;
 			font-size: 100%;
 
 			&.disabled {
 				cursor: default;
-				color: colors.$text-disabled;
+				color: neutral(500);
 			}
 		}
 	}
@@ -49,18 +56,18 @@
 			box-sizing: border-box;
 			border: 2px solid;
 			border-radius: 2px;
-			border-color: colors.$black-54;
+			border-color: neutral(700);
 			background-color: transparent;
 			transition: border-color 180ms cubic-bezier(0,0,.2,1) 0ms,background-color 180ms cubic-bezier(0,0,.2,1) 0ms;
-		 }
+		}
 
-		 .checkmark {
-			 position: absolute;
-			 left: 11px;
-			 top: 10px;
-			 width: 14px;
-			 height: 14px;
-			 visibility: hidden;
+		.checkmark {
+			position: absolute;
+			left: 11px;
+			top: 10px;
+			width: 14px;
+			height: 14px;
+			visibility: hidden;
 
 			.checkmarkSvg {
 				-webkit-transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
@@ -80,9 +87,9 @@
 				stroke-dashoffset: 29.7833385;
 				stroke-dasharray: 29.7833385;
 			}
-		 }
+		}
 
-		 .hoverBg {
+		.hoverBg {
 			display: inline-block;
 			width: 36px;
 			height: 36px;
@@ -93,7 +100,7 @@
 			&:after {
 				background-image: radial-gradient(circle, black 10%, transparent 10.01%);
 			}
-		 }
+		}
 
 		&.selected {
 			@include checkboxBg(colors.$mow_primary);
@@ -107,14 +114,14 @@
 			&:hover {
 				.hoverBg {
 					opacity: 1;
-					background-color: colors.$purple-default-12;
+					background-color: var(--ggb-selection-color);
 				}
 			}
 
 			.checkmark {
 				visibility: visible;
 
-				 .checkmarkPath {
+				.checkmarkPath {
 					stroke-dashoffset: 0;
 				}
 			}
@@ -143,12 +150,12 @@
 			}
 
 			.background {
-				border-color: colors.$black-36;
+				border-color: neutral(500);
 			}
 
 			&.selected {
 				.background {
-					background-color: colors.$black-36;
+					background-color: neutral(500);
 					border-color: transparent;
 				}
 			}
@@ -161,13 +168,13 @@
 
 	/* SWITCHER COMPONENT */
 	@mixin switcherBg($colTrack, $colThumb) {
-    	.track {
-    		background-color: $colTrack;
-    	}
-    	.thumb {
-    		background-color: $colThumb;
-    	}
-    }
+		.track {
+			background-color: $colTrack;
+		}
+		.thumb {
+			background-color: $colThumb;
+		}
+	}
 
 	.switch {
 		width: 40px;
@@ -227,7 +234,6 @@
 
 		.inputLabel {
 			font-size: 75%;
-			color: colors.$text-secondary;
 			height: 12px;
 			line-height: 100%;
 			display: block;
@@ -251,7 +257,7 @@
 			margin-bottom: 7px; // 8 - border
 			border-radius: 0px;
 			border: none;
-			border-bottom: 1px solid colors.$black-42;
+			border-bottom: 1px solid neutral(500);
 
 			input[type="text"] {
 				border: none !important;
@@ -279,21 +285,21 @@
 		&.focusState:not(.error), &.focusState:not(.error):hover {
 
 			.inputLabel {
-				color: colors.$teal-default;
+				color: purple(600);
 			}
 			.AutoCompleteTextFieldW {
-				border-bottom-color: colors.$teal-default;
+				border-bottom-color: purple(600);
 			}
 		}
 
 		&.hoverState:not(.error) {
 
 			.inputLabel {
-				color: colors.$black-87;
+				color: neutral(900);
 			}
 
 			.AutoCompleteTextFieldW {
-				border-bottom: 2px solid colors.$black-87;
+				border-bottom: 2px solid neutral(900);
 			}
 		}
 	}
@@ -360,11 +366,10 @@
 
 		.dropDownElement:hover {
 			cursor: pointer;
-			background: colors.$black-04;
 		}
 
 		.selectedDropDownElement, .selectedDropDownElement:hover {
-			background: colors.$black-12;
+			background: neutral(300);
 		}
 
 		&.show {
@@ -401,7 +406,6 @@
 				font-size: 125%;
 				margin-bottom: 20px;
 				margin-left: 24px;
-				color: colors.$text-primary;
 			}
 
 			.dialogContent {
@@ -431,7 +435,6 @@
 				margin-left: 24px;
 				height: 14px;
 				font-size: 75%;
-				color: colors.$text-secondary;
 				line-height: 1.2;
 			}
 		}
@@ -443,7 +446,7 @@
 		min-width: 64px;
 		height: 36px;
 		background: transparent;
-		color: colors.$mow_primary;
+		color: var(--ggb-primary-color);
 		font-size: 90%;
 		letter-spacing: .04em;
 		line-height: 36px;
@@ -455,7 +458,7 @@
 		transition: background 280ms cubic-bezier(0.4, 0, 0.2, 1);
 
 		&:hover {
-			background: colors.$mow_card_background_hover;
+			background: neutral(200);
 		}
 
 		.gwt-Label {
@@ -463,7 +466,7 @@
 		}
 
 		&.disabled {
-			color: colors.$disabled-text-btn-col;
+			color: neutral(500);
 
 			&:hover {
 				background: transparent;
@@ -477,23 +480,24 @@
 		@extend .materialTextButton;
 
 		padding: 0px 16px;
-		background-color: colors.$mow_primary;
+		background-color: var(--ggb-primary-color);
 		color: white;
 		box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
 		transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+		text-align: center;
 
 		&:hover {
-			background: colors.$mow_primary;
+			background: var(--ggb-primary-color);
 			box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0,0,0,.12);
 		}
 
 		&.disabled {
-			background-color: colors.$disabled-contained-btn-bg;
-			color: colors.$disabled-contained-btn-col;
+			background-color: neutral(300);
+			color: neutral(500);
 
 			&:hover {
 				cursor: default;
-				background: colors.$disabled-contained-btn-bg;
+				background: neutral(300);
 				box-shadow: none;
 			}
 		}
@@ -510,11 +514,19 @@
 	.dialogTextButton {
 		@extend .materialTextButton;
 
-		color: colors.$black-54;
+		color: neutral(700);
 
 		&:hover {
-			color: colors.$dialog-text-btn-hover;
-			background-color: colors.$selected-menuitem-background;
+			color: neutral(700);
+			background-color: neutral(200);
+		}
+
+		&:focus-visible {
+			outline-color: var(--ggb-dark-color);
+			outline-width: 2px;
+			outline-style: solid;
+			outline-offset: 3px;
+			background: var(--ggb-light-color);
 		}
 	}
 
@@ -523,6 +535,13 @@
 		@extend .materialContainedButton;
 
 		box-shadow: none;
+
+		&:focus-visible {
+			outline-color: var(--ggb-dark-color);
+			outline-width: 2px;
+			outline-style: solid;
+			outline-offset: 3px;
+		}
 	}
 
    .orDividerComponent {
@@ -542,7 +561,6 @@
 			font-size: 75%;
 			margin: 0px 24px;
 			flex-basis: auto;
-			color: colors.$text-disabled;
 			text-transform: uppercase;
 		}
 	}
@@ -552,11 +570,11 @@
 		float: left;
 		min-width: 64px;
 		height: header.$button_height;
-		border-radius: 2px;
-		background-color: colors.$mow_grey_button;
+		border-radius: 4px;
+		background-color: neutral(200);
 		transition: header.$button_hover_transition;
 		&:hover {
-			background-color: colors.$mow_card_background_hover;
+			background-color: neutral(300);
 		}
 
 		img {
@@ -573,7 +591,14 @@
 			text-transform: uppercase;
 			font-size: 87.5%; // (=14px)
 			line-height: 1;
-			color: colors.$text-secondary;
+			color: neutral(700);
+		}
+
+		&.disabled {
+			.gwt-Label {
+				color: neutral(500);
+				background-color: neutral(200);
+			}
 		}
 	}
 
@@ -584,7 +609,7 @@
 		.indicator {
 			height: 2px;
 			width: 90px;
-			background-color: colors.$purple-default;
+			background-color: purple(600);
 			top: 49px;
 			position: relative;
 			border-radius: 2px 2px 0 0;
@@ -594,7 +619,7 @@
 		}
 
 		.header {
-			border-bottom: 1px solid colors.$black-12;
+			border-bottom: 1px solid neutral(300);
 			.tabBtn {
 				min-width: 90px;
 				height: 48px;
@@ -604,16 +629,16 @@
 					line-height: 20px;
 					margin: 14px 16px;
 					text-align: center;
-					color: colors.$text-primary;
+					color: neutral(900);
 				}
 
 				&:hover {
-					background-color: colors.$purple-default-12;
+					background-color: neutral(200);
 				}
 
 				&.selected {
 					.gwt-Label {
-						color: colors.$purple-default;
+						color: purple(600);
 					}
 					&:hover {
 						background-color: colors.$white;
@@ -643,13 +668,12 @@
 			margin-left: calc(50% - 56px); // (56+2*28)/2=56
 			margin-bottom: 16px;
 			opacity: 0.54;
-			background-color: colors.$mow_white_hover;
+			background-color: neutral(200);
 			border-radius: 50%;
 		}
 
 		.title {
 			margin-bottom: 8px;
-			color: colors.$text-primary;
 			font-size: 100%;
 			min-height: 20px;
 			line-height: 20px;
@@ -658,7 +682,6 @@
 		}
 
 		.subtext {
-			color: colors.$text-secondary;
 			font-size: 87%;
 			min-height: 20px;
 			line-height: 20px;
@@ -704,7 +727,6 @@
 			line-height: 36px;
 			margin-left: 16px;
 			font-size: 100%;
-			color: colors.$text-primary;
 		}
 
 		&:hover {
@@ -792,9 +814,9 @@
 	.searchBar {
 		display: inline-flex;
 		height: 44px;
-		width: 100%;
+		flex-grow: 1;
 		max-width: 720px;
-		background-color: colors.$white-5-overlay;
+		background-color: neutral(200);
 		margin: 10px auto;
 		box-sizing: border-box;
 		border-radius: 22px;
@@ -804,8 +826,12 @@
 		.flatButtonHeader {
 			margin: auto 2px;
 
-			&:hover img {
-				opacity: 1;
+			&:hover {
+				background-color: neutral(300);
+
+				img {
+					opacity: 1;
+				}
 			}
 		}
 
@@ -823,7 +849,13 @@
 				background-color: transparent;
 				height: 20px;
 				display: flex;
-				color: colors.$text-primary;
+				color: neutral(900);
+			}
+
+			.withCursorOverlay .TextField {
+				color: transparent;
+				user-select: none; /* standard */
+				pointer-events: none;
 			}
 
 			input[type=text]:focus:not([readonly]) {
@@ -839,35 +871,35 @@
 	}
 
 	.flatButtonHeader {
-        padding: 6px;
-        cursor: pointer;
-        height: 36px;
-        float: left;
-        box-sizing: border-box;
-        border-radius: 50%;
-        transition: background-color 150ms ease 0ms;
-        position: relative;
+		padding: 6px;
+		cursor: pointer;
+		height: 36px;
+		float: left;
+		box-sizing: border-box;
+		border-radius: 50%;
+		transition: background-color 150ms ease 0ms;
+		position: relative;
 
-        img {
-        	opacity: 0.54;
-        }
+		img {
+			opacity: 0.54;
+		}
 
-        &:focus, &:hover, &.selected {
-            background-color: colors.$hover-calc-btn-bg;
-        }
-     }
+		&:focus, &:hover, &.selected {
+			background-color: neutral(200);
+		}
+	 }
 
-     .buttonInactive {
-     	cursor: default;
+	 .buttonInactive {
+		cursor: default;
 
-     	img {
-     		opacity: 0.26;
-     	}
+		img {
+			opacity: 0.26;
+		}
 
 		&:hover {
 			background-color: transparent;
 		}
-     }
+	}
 
 	.searchBar.compact {
 		max-width: 488px;
@@ -887,7 +919,6 @@
 
 	.toast {
 		position: absolute;
-		background-color: colors.$toast-background;
 		max-width: fit-content;
 		border-radius: 4px;
 		padding: 8px 12px;
@@ -917,12 +948,11 @@
 		cursor: pointer;
 		display: inline-flex;
 		box-sizing: border-box;
-		border-bottom: 1px solid colors.$black-42;
+		border-bottom: 1px solid neutral(500);
 
 		.optionLabelHolder {
 			.label {
 				font-size: 75%;
-				color: colors.$text-secondary;
 				height: 12px;
 				line-height: 12px;
 			}
@@ -930,7 +960,6 @@
 			.selectedOption {
 				height: 20px;
 				margin: 8px 8px 0 0;
-				color: colors.$text-primary;
 			}
 
 			&.noLabel {
@@ -953,16 +982,16 @@
 		}
 
 		&:hover {
-			border-bottom: 2px solid colors.$text-primary;
-
-			.optionLabelHolder {
-				.label {
-					color: colors.$text-primary;
-				}
-			}
+			border-bottom: 2px solid neutral(900);
 
 			.arrow {
 				opacity: 0.87;
+			}
+
+			.optionLabelHolder {
+				.label {
+					color: neutral(900);
+				}
 			}
 		}
 
@@ -1007,7 +1036,6 @@
 
 		.inputLabel {
 			font-size: 75%;
-			color: colors.$text-secondary;
 			height: 12px;
 			line-height: 100%;
 			display: block;
@@ -1051,11 +1079,11 @@
 
 		&:not(.disabled):hover {
 			.inputLabel {
-				color: colors.$text-primary;
+				color: neutral(900);
 			}
 
 			.inputPanel {
-				border-bottom: 2px solid colors.$text-primary;
+				border-bottom: 2px solid neutral(900);
 
 				.AutoCompleteTextFieldW {
 					margin-bottom: 7px;
@@ -1076,8 +1104,8 @@
 				border-bottom: 2px solid colors.$mow_dark;
 
 				.AutoCompleteTextFieldW {
-                	margin-bottom: 7px;
-                }
+					margin-bottom: 7px;
+				}
 			}
 
 			.arrow {
@@ -1109,5 +1137,164 @@
 				opacity: 0.36;
 			}
 		}
+	}
+
+	.iconButton {
+		position: relative;
+		width: 24px;
+		height: 24px;
+		padding: 12px;
+		border-radius: 50%;
+		transition: background-color 150ms ease 0ms;
+
+		&.small {
+			padding: 6px;
+		}
+
+		img {
+			opacity: 0.54;
+		}
+
+		&:hover {
+			background-color: neutral(200);
+		}
+
+		&.active {
+			background-color: var(--ggb-light-color);
+
+			img {
+				opacity: 1;
+			}
+		}
+
+		&.disabled {
+			pointer-events: none;
+			cursor: default;
+			opacity: 0.38;
+
+			&:hover {
+				background-color: white;
+			}
+		}
+
+		&.focused, &:focus-visible {
+			outline-color: var(--ggb-dark-color);
+			outline-width: 2px;
+			outline-style: solid;
+			outline-offset: 3px;
+			background: var(--ggb-light-color);
+		}
+	}
+
+	.progressBar {
+		height: 4px;
+		border-radius: 4px;
+		position: relative;
+		overflow: hidden;
+
+		.track {
+			position: absolute;
+			background-color: purple("100");
+			height: 4px;
+			width: 100%;
+		}
+
+		.indicator {
+			position: absolute;
+			background-color: purple("600");
+			height: 4px;
+			border-radius: 4px;
+			left: 0px;
+			bottom: 0px;
+			top: 0px;
+			transition: transform 0.2s linear;
+			transform-origin: left;
+			transition: width 750ms cubic-bezier(0.3, 0.4, 0.5, 0.9) 0ms;
+
+			&.animBar1 {
+				width: 100%;
+				animation: animBar1 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+			}
+
+			&.animBar2 {
+				width: 100%;
+				animation: animBar2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
+			}
+		}
+
+		&.dark {
+			.track {
+				background-color: neutral("800");
+			}
+			.indicator {
+				background-color: purple("400");
+			}
+		}
+	}
+
+	@keyframes animBar1 {
+		0% {
+			transform: translateX(-35%);
+		}
+
+		60% {
+			transform: translateX(100%);
+		}
+
+		100% {
+			transform: translateX(100%);
+		}
+	}
+
+	@keyframes animBar2 {
+		0% {
+			transform: translateX(-200%);
+		}
+
+		60% {
+			transform: translateX(107%);
+		}
+
+		100% {
+			transform: translateX(107%);
+		}
+	}
+
+	.sliderComponent {
+		.sliderLabel {
+			height: 20px;
+			line-height: 20px;
+			margin: 5px 8px;
+			font-size: 90%;
+		}
+	}
+
+	input[type=range].slider {
+		-webkit-appearance: none;
+		width: 100%;
+    }
+
+    input[type=range].slider::-webkit-slider-runnable-track {
+    	width: 100%;
+    	height: 4px;
+        background: var(--ggb-selection-color);
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    input[type=range].slider::-webkit-slider-thumb {
+    	height: 18px;
+    	width: 18px;
+    	border-radius: 50%;
+    	background: var(--ggb-primary-color);
+    	cursor: pointer;
+    	-webkit-appearance: none;
+    	margin-top: -7px
+    }
+
+	input[type=range].slider:hover::-webkit-slider-thumb {
+		outline: 8px solid var(--ggb-selection-color);
+		height: 18px;
+		width: 18px;
 	}
 }

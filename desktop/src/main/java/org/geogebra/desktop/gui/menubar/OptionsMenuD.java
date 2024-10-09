@@ -2,7 +2,6 @@ package org.geogebra.desktop.gui.menubar;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -18,6 +17,7 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.desktop.main.AppD;
@@ -30,7 +30,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * The "Options" menu.
  */
 public class OptionsMenuD extends BaseMenu
-		implements ActionListener, MenuInterface {
+		implements MenuInterface {
 	private static final long serialVersionUID = -8032696074032177289L;
 
 	private AbstractAction showOptionsAction;
@@ -112,11 +112,11 @@ public class OptionsMenuD extends BaseMenu
 	 * 
 	 * @param menu
 	 *            menu component
-	 * @param al
+	 * @param listener
 	 *            language change listener
 	 */
 	public static void addLanguageMenuItems(AppD app, JComponent menu,
-			ActionListener al) {
+			LanguageActionListener listener) {
 		JRadioButtonMenuItem mi;
 		ButtonGroup bg = new ButtonGroup();
 		boolean rtl = app.getLocalization().isRightToLeftReadingOrder();
@@ -129,13 +129,15 @@ public class OptionsMenuD extends BaseMenu
 		menu.add(submenu3);
 		menu.add(submenu4);
 
-		String currentLocale = app.getLocale().toString();
+		String currentLocale = app.getLocale().toLanguageTag();
 
 		// change en_GB into enGB
 		currentLocale = currentLocale.replaceAll("_", "");
 		StringBuilder sb = new StringBuilder(20);
 
-		for (Language loc : Language.values()) {
+		Language[] supportedLanguages = app.getLocalization()
+				.getSupportedLanguages(app.has(Feature.ALL_LANGUAGES));
+		for (Language loc : supportedLanguages) {
 
 			// enforce to show specialLanguageNames first
 			// because here getDisplayLanguage doesn't return a good result
@@ -162,11 +164,10 @@ public class OptionsMenuD extends BaseMenu
 			mi.setFont(app.getFontCanDisplayAwt(text, false, Font.PLAIN,
 					app.getGUIFontSize()));
 
-			if (loc.locale.equals(currentLocale)) {
+			if (loc.toLanguageTag().equals(currentLocale)) {
 				mi.setSelected(true);
 			}
-			mi.setActionCommand(loc.locale);
-			mi.addActionListener(al);
+			mi.addActionListener((ignore) -> listener.setLanguage(loc));
 			bg.add(mi);
 
 			if (ch <= 'D') {
@@ -295,15 +296,6 @@ public class OptionsMenuD extends BaseMenu
 	@Override
 	public void update() {
 		getOptionsMenu().update();
-	}
-
-	/**
-	 * Execute a performed action.
-	 */
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		String cmd = event.getActionCommand();
-		getOptionsMenu().processActionPerformed(cmd);
 	}
 
 	private OptionsMenuController getOptionsMenu() {

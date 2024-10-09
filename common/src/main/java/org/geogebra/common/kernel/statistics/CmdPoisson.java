@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.statistics;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -25,7 +26,7 @@ public class CmdPoisson extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
@@ -75,10 +76,10 @@ public class CmdPoisson extends CommandProcessor {
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoBoolean())) {
 
-				AlgoPoisson algo = new AlgoPoisson(cons, c.getLabel(),
+				AlgoPoisson algo = new AlgoPoisson(cons,
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoBoolean) arg[2]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

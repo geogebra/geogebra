@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import com.himamis.retex.editor.android.event.ClickListenerAdapter;
 import com.himamis.retex.editor.android.event.FocusListenerAdapter;
@@ -26,12 +27,14 @@ import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
+import com.himamis.retex.editor.share.io.latex.ParseException;
+import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
-import com.himamis.retex.editor.share.parser.Parser;
+import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.renderer.android.FactoryProviderAndroid;
 import com.himamis.retex.renderer.android.graphics.ColorA;
 import com.himamis.retex.renderer.android.graphics.Graphics2DA;
@@ -44,6 +47,16 @@ import com.himamis.retex.renderer.share.platform.graphics.Insets;
 @SuppressWarnings({"ClassWithTooManyFields", "ClassWithTooManyMethods", "OverlyComplexClass", "OverlyCoupledClass"})
 public class FormulaEditor extends View implements MathField {
 
+    public interface InputChangeListener {
+
+        /**
+         * Called after the formula has been changed.
+         *
+         * @param input GgbInput instance
+         */
+        void afterInputChanged(FormulaEditor input);
+    }
+
     private final static int CURSOR_MARGIN = 5;
 
     private static final int DEFAULT_SIZE = 20;
@@ -52,7 +65,7 @@ public class FormulaEditor extends View implements MathField {
     private static final int ALIGN_LEFT = 0;
     private static final int ALIGN_RIGHT = 1;
 
-    public static MetaModel sMetaModel = new MetaModel();
+    public final static MetaModel sMetaModel = new MetaModel();
     protected MathFieldInternal mMathFieldInternal;
     protected float mScale;
     private TeXIcon mTeXIcon;
@@ -70,6 +83,10 @@ public class FormulaEditor extends View implements MathField {
     private int mAlignment = ALIGN_LEFT;
 
     private TeXIcon mFormulaPreviewTeXIcon;
+
+    protected final List<InputChangeListener> mInputChangeListeners = new ArrayList<>();
+
+    private final GeoGebraSerializer mSerializer = new GeoGebraSerializer();
 
     public FormulaEditor(Context context) {
         super(context);
@@ -91,7 +108,7 @@ public class FormulaEditor extends View implements MathField {
     }
 
     public void debug(@SuppressWarnings("unused") String message) {
-        //System.out.println(message);
+        //FactoryProvider.debugS(message);
     }
 
     @Override
@@ -267,7 +284,13 @@ public class FormulaEditor extends View implements MathField {
     }
 
     private void createTeXFormula() {
-        mMathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel, mParser, mText));
+        MathFormula formula;
+        try {
+            formula = mParser.parse(mText);
+        } catch (ParseException e) {
+            formula = new MathFormula(sMetaModel);
+        }
+        mMathFieldInternal.setFormula(formula);
     }
 
     private Insets createInsetsFromPadding() {
@@ -423,8 +446,11 @@ public class FormulaEditor extends View implements MathField {
         }
     }
 
+    @Override
     public void fireInputChangedEvent() {
-        // implemented in AlgebraInput
+        for (InputChangeListener inputChangeListener : mInputChangeListeners) {
+            inputChangeListener.afterInputChanged(this);
+        }
     }
 
     @Override
@@ -595,6 +621,19 @@ public class FormulaEditor extends View implements MathField {
     public void parse(String text) {
         mMathFieldInternal.parse(text);
     }
+
+    public void registerInputChangeListener(InputChangeListener inputChangeListener) {
+        mInputChangeListeners.add(inputChangeListener);
+    }
+
+    public void unregisterInputChangeListeners() {
+        mInputChangeListeners.clear();
+    }
+
+    public String getSerializedFormula() {
+        return mSerializer.serialize(mMathFieldInternal.getFormula());
+    }
+
 
     @Override
     public int getBaseline() {

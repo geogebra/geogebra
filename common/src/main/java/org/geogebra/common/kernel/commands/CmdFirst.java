@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * First[ &lt;List>, n ]
+ * First[ &lt;List&gt;, n ]
  * 
  * @author Michael Borcherds
  */
@@ -29,7 +29,7 @@ public class CmdFirst extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);

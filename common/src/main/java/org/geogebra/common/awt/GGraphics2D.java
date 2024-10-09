@@ -1,5 +1,7 @@
 package org.geogebra.common.awt;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.font.GTextLayout;
 
 public interface GGraphics2D {
@@ -21,7 +23,7 @@ public interface GGraphics2D {
 	 * @see #setClip
 	 * @see #setComposite
 	 */
-	void draw(GShape s);
+	void draw(@Nonnull GShape s);
 
 	void drawImage(GBufferedImage img, int x, int y);
 
@@ -97,7 +99,7 @@ public interface GGraphics2D {
 	 * @see #setComposite
 	 * @see #setClip
 	 */
-	void fill(GShape s);
+	void fill(@Nonnull GShape s);
 
 	/**
 	 * Sets the <code>Composite</code> for the <code>Graphics2D</code> context.
@@ -335,8 +337,7 @@ public interface GGraphics2D {
 
 	void updateCanvasColor();
 
-	void drawStraightLine(double xCrossPix, double d,
-			double xCrossPix2, double i);
+	void drawStraightLine(double x1, double y1, double x2, double y2);
 
 	/**
 	 * Saves the state of the current transformation matrix.

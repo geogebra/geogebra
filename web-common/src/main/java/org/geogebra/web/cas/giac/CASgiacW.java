@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.web.html5.Browser;
@@ -44,12 +43,10 @@ public class CASgiacW extends CASgiac {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CASgiacW(CASparser casParser,
-	        Kernel kernel) {
+	public CASgiacW(CASparser casParser, Kernel kernel) {
 		super(casParser);
 		this.kernel = kernel;
 
-		App.setCASVersionString("Giac/JS");
 		Log.debug("starting CAS");
 		if (externalCAS) {
 			Log.debug("switching to external");
@@ -225,7 +222,7 @@ public class CASgiacW extends CASgiac {
 			// make sure CAS cells etc re-evaluated after CAS loaded
 			setUpInitCAS();
 
-			GWT.runAsync(new RunAsyncCallback() {
+			GWT.runAsync(CASgiacW.class, new RunAsyncCallback() {
 				@Override
 				public void onSuccess() {
 					LoggerW.loaded("GIAC webAssembly");

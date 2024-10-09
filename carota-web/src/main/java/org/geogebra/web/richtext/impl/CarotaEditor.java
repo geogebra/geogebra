@@ -108,7 +108,7 @@ public class CarotaEditor implements Editor {
 	@Override
 	public void deselect() {
 		int end = editor.documentRange().getEnd() - 1;
-		editor.select(end, end);
+		editor.select(end, end, false);
 	}
 
 	@Override
@@ -152,6 +152,11 @@ public class CarotaEditor implements Editor {
 	@Override
 	public void setExternalScale(double sx) {
 		editor.setExternalScale(sx);
+	}
+
+	@Override
+	public void addInsertFilter(Carota.InsertFilter handleInsert) {
+		editor.insertFilters.push(handleInsert);
 	}
 
 	private CarotaRange getRange() {

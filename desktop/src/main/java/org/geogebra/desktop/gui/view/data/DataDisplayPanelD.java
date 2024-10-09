@@ -15,8 +15,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -37,8 +35,6 @@ import javax.swing.JToolBar;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.DataDisplayModel;
@@ -314,7 +310,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 		if (cbDisplayType == null) {
 			cbDisplayType = new JComboBox();
-			cbDisplayType.setRenderer(new MyRenderer(app));
+			cbDisplayType.setRenderer(new PlotTypeRenderer(app));
 
 		} else {
 			cbDisplayType.removeActionListener(this);
@@ -519,7 +515,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		}
 
 		else if (source == cbDisplayType) {
-			if (cbDisplayType.getSelectedItem().equals(MyRenderer.SEPARATOR)) {
+			if (cbDisplayType.getSelectedItem().equals(PlotTypeRenderer.SEPARATOR)) {
 				cbDisplayType.setSelectedItem(getModel().getSelectedPlot());
 			} else {
 				getModel().setSelectedPlot(
@@ -609,7 +605,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 	// ComboBox Renderer with SEPARATOR
 	// ============================================================
 
-	private static class MyRenderer extends JLabel implements ListCellRenderer {
+	private static class PlotTypeRenderer extends JLabel implements ListCellRenderer {
 		private static final long serialVersionUID = 1L;
 
 		public static final String SEPARATOR = "SEPARATOR";
@@ -617,7 +613,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 		private AppD app;
 
-		public MyRenderer(AppD app) {
+		public PlotTypeRenderer(AppD app) {
 			this.app = app;
 			setOpaque(true);
 			setBorder(new EmptyBorder(1, 1, 1, 1));

@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * Remove[ &lt;List>, &lt;List&gt; ]
+ * Remove[ &lt;List&gt;, &lt;List&gt; ]
  * 
  * @author Michael Borcherds
  * @version 2008-03-06
@@ -25,7 +25,7 @@ public class CmdRemove extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

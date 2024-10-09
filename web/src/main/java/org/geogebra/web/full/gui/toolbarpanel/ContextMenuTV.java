@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.gui.view.table.RegressionSpecification;
 import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValuesPoints;
@@ -15,23 +16,24 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.exam.restriction.FeatureRestriction;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
-import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.Command;
+import org.gwtproject.user.client.ui.InlineHTML;
 
 /**
  * Context menu which is opened with the table of values header 3dot button
@@ -104,6 +106,7 @@ public class ContextMenuTV {
 			}
 		});
 		addCommand(view::clearValues, "ClearColumn", "clear");
+		addImportData();
 		if (app.getConfig().hasOneVarStatistics()) {
 			wrappedPopup.addVerticalSeparator();
 			addOneVarStats("x");
@@ -123,7 +126,8 @@ public class ContextMenuTV {
 		addStats(getStatisticsTitleHTML("x " + headerHTMLName),
 				view::getStatistics2Var, twoVarStat, "StatsDialog.NoDataMsg2VarStats");
 
-		if (!app.doesRestrictionApply(FeatureRestriction.DATA_TABLE_REGRESSION)) {
+		if (!GlobalScope.examController
+				.isFeatureRestricted(ExamFeatureRestriction.DATA_TABLE_REGRESSION)) {
 			DialogData regressionData = new DialogData("Regression",
 					getColumnTitleHTML(headerHTMLName), "Close", "Plot");
 			addCommand(() -> showRegression(regressionData), "Regression",
@@ -160,7 +164,8 @@ public class ContextMenuTV {
 
 	private void addStats(String title, Function<Integer, List<StatisticGroup>> statFunction,
 			DialogData data, String noDataMsg) {
-		addCommandLocalized(() -> showStats(statFunction, data, noDataMsg), title, "stats");
+		Scheduler.ScheduledCommand command = () -> showStats(statFunction, data, noDataMsg);
+		addItem(new AriaMenuItem(new InlineHTML(title), command), "stats");
 	}
 
 	private void showRegression(DialogData data) {
@@ -229,13 +234,12 @@ public class ContextMenuTV {
 	}
 
 	private void addCommand(Command command, String transKey, String testTitle) {
-		addCommandLocalized(command, app.getLocalization().getMenu(transKey), testTitle);
+		AriaMenuItem item = new AriaMenuItem(app.getLocalization().getMenu(transKey),
+				null, command);
+		addItem(item, testTitle);
 	}
 
-	private void addCommandLocalized(Command command, String title, String testTitle) {
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml((SVGResource) null, title),
-				true, command);
+	private void addItem(AriaMenuItem mi, String testTitle) {
 		mi.addStyleName("no-image");
 		TestHarness.setAttr(mi, "menu_" + testTitle);
 		wrappedPopup.addItem(mi);
@@ -256,6 +260,12 @@ public class ContextMenuTV {
 		addCommand(cmd, "Edit", "edit");
 	}
 
+	private void addImportData() {
+		if (!GlobalScope.examController.isExamActive() && app.getConfig().hasDataImport()) {
+			addCommand(((AppWFull) app).getCsvHandler(), "ContextMenu.ImportData", "importData");
+		}
+	}
+
 	/**
 	 * Show the context menu at the (x, y) screen coordinates.
 	 * 
@@ -265,8 +275,7 @@ public class ContextMenuTV {
 	 *            y coordinate.
 	 */
 	public void show(Element source, int x, int y) {
-		wrappedPopup.show(source, x, y);
-		wrappedPopup.getPopupMenu().focusDeferred();
+		wrappedPopup.showAndFocus(source, x, y);
 	}
 
 	public void hide() {

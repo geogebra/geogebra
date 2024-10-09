@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.main.MyError;
 
 /**
- * Difference[&lt;polygon>, &lt;polygon>]
+ * Difference[&lt;polygon&gt;, &lt;polygon&gt;]
  * 
  * @author thilina
  *
@@ -26,7 +26,7 @@ public class CmdDifference extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c)
+	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		int argumentNo = c.getArgumentNumber();
 		boolean[] ok = { false, false, false };

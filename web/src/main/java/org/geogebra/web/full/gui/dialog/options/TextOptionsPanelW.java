@@ -104,7 +104,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 				DialogData data = new DialogData("EnterPercentage", "Cancel", "OK");
 				ComponentDialog dialog = new ComponentDialog(appw, data, false, true);
 				ComponentInputField inputTextField = new ComponentInputField(app, "", "", "",
-						currentSize, -1, 1, "");
+						currentSize, -1, "");
 				dialog.addDialogContent(inputTextField);
 				dialog.setOnPositiveAction(() ->
 						model.applyFontSizeFromString(inputTextField.getText()));
@@ -219,7 +219,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	}
 
 	private void addStyleClickListener(final String propertyName, final int mask,
-									   final ToggleButton toggle) {
+			final ToggleButton toggle) {
 		toggle.addFastClickHandler(event -> {
 			boolean selected = toggle.isSelected();
 			saveEditorChanges();

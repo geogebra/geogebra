@@ -174,7 +174,7 @@ public class TestGraphs {
 	 * Returns a bigger test graph with a clique, several components, and other
 	 * parts.
 	 * 
-	 * @return a demonstration graph of type <tt>UndirectedSparseMultigraph</tt>
+	 * @return a demonstration graph of type {@code UndirectedSparseMultigraph}
 	 *         with 28 vertices.
 	 */
 	public static Graph<String, Number> getDemoGraph() {

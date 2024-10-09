@@ -8,11 +8,13 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolcategorization.ToolCategory;
 import org.geogebra.common.main.App;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.toolbar.ToolButton;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.tooltip.ToolTip;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -149,15 +151,13 @@ public class Tools extends FlowPanel implements SetLabels {
 
 		for (int i = 0; i < categories.size(); i++) {
 			ToolCategory category = categories.get(i);
-			if (!app.isExam() || category.isAllowedInExam()) {
+			if (GlobalScope.examController.isIdle() || category.isAllowedInExam()) {
 				CategoryPanel catPanel = new CategoryPanel(category,
 						parentTab.toolCollection.getTools(i));
 				categoryPanelList.add(catPanel);
 				add(catPanel);
 			}
 		}
-
-		setMoveMode();
 	}
 
 	@Override
@@ -196,8 +196,8 @@ public class Tools extends FlowPanel implements SetLabels {
 
 		private void initGui() {
 			if (category != null) {
-				categoryLabel = new Label(category.getLocalizedHeader(app.getLocalization()));
-				categoryLabel.setStyleName("catLabel");
+				categoryLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(
+						category.getLocalizedHeader(app.getLocalization()), "catLabel");
 				add(categoryLabel);
 				AriaHelper.hide(categoryLabel);
 			}
@@ -255,13 +255,13 @@ public class Tools extends FlowPanel implements SetLabels {
 	 */
 	public void showTooltip(int mode) {
 		if (allowTooltips()) {
-			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-			ToolTipManagerW.sharedInstance()
-					.showBottomInfoToolTip(app.getToolName(mode), app.getToolHelp(mode),
-							app.getLocalization().getMenu("Help"),
-							app.getGuiManager().getTooltipURL(mode), app,
+			app.getToolTipManager().setBlockToolTip(false);
+			app.getToolTipManager()
+					.showBottomInfoToolTip(new ToolTip(app.getToolName(mode), app.getToolHelp(mode),
+							"Help",
+							app.getGuiManager().getTooltipURL(mode)), app,
 							ComponentSnackbar.TOOL_TOOLTIP_DURATION);
-			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+			app.getToolTipManager().setBlockToolTip(true);
 		}
 	}
 }

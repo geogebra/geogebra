@@ -35,7 +35,7 @@ public final class DrawButton extends Drawable {
 
 	private String oldCaption;
 	/** button "component" */
-	public DrawButtonWidget myButton;
+	private final DrawButtonWidget myButton;
 
 	/**
 	 * @param view
@@ -125,4 +125,7 @@ public final class DrawButton extends Drawable {
 		return myButton.getBounds();
 	}
 
+	public DrawButtonWidget getWidget() {
+		return myButton;
+	}
 }

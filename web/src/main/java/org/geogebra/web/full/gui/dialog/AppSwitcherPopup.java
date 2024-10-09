@@ -1,12 +1,15 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.exam.ExamController;
+import org.geogebra.common.exam.ExamListener;
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
-import org.geogebra.common.main.exam.restriction.Restrictable;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -16,12 +19,11 @@ import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
+public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 
 	SuiteHeaderAppPicker appPickerButton;
-	private final static int X_COORDINATE_OFFSET = 8;
-	private ExamRestrictionModel restrictionModel;
 	private FlowPanel contentPanel;
+	private final ExamController examController = GlobalScope.examController;
 
 	/**
 	 * @param app
@@ -36,6 +38,7 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 		addAutoHidePartner(appPickerButton.getElement());
 		setGlassEnabled(false);
 		addStyleName("appPickerPopup");
+		examController.addListener(this);
 		buildGUI();
 		app.registerAutoclosePopup(this);
 	}
@@ -47,8 +50,7 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 		if (isShowing()) {
 			hide();
 		} else {
-			setPopupPosition(getLeft(), 0);
-			super.show();
+			showRelativeTo(appPickerButton);
 			updateLanguage(app);
 		}
 	}
@@ -71,10 +73,12 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 			addElement(GeoGebraConstants.CAS_APPCODE);
 		}
 		addElement(GeoGebraConstants.PROBABILITY_APPCODE);
+		//addElement(GeoGebraConstants.SCIENTIFIC_APPCODE);
 	}
 
 	private void addElement(final String subAppCode) {
-		if (hasRestrictions() && restrictionModel.isAppRestricted(subAppCode)) {
+		if (examController.isExamActive()
+				&& examController.isDisabledSubApp(subAppCode)) {
 			return;
 		}
 
@@ -85,33 +89,22 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 		rowPanel.add(img);
 
 		String key = description.getNameKey();
-		Label label = new Label(app.getLocalization().getMenu(key));
-		label.addStyleName("appPickerLabel");
+		Label label = BaseWidgetFactory.INSTANCE.newPrimaryText(app.getLocalization().getMenu(key),
+				"appPickerLabel");
 		AriaHelper.setAttribute(label, "data-trans-key", key);
 		rowPanel.add(label);
 		rowPanel.setStyleName("appPickerRow");
-		rowPanel.addDomHandler(event -> {
-			switchToSubApp(subAppCode);
-		}, ClickEvent.getType());
+		rowPanel.addDomHandler(event -> switchToSubApp(subAppCode), ClickEvent.getType());
 		contentPanel.add(rowPanel);
 	}
 
 	private void switchToSubApp(String subAppCode) {
 		hide();
-		appPickerButton.setIconAndLabel(subAppCode);
-		GlobalHeader.onResize();
 		app.hideMenu();
 		((AppWFull) app).switchToSubapp(subAppCode);
+		GlobalHeader.onResize();
 		Analytics.logEvent(Analytics.Event.APP_SWITCHED, Analytics.Param.SUB_APP,
 				Analytics.Param.convertToSubAppParam(subAppCode));
-	}
-
-	private boolean hasRestrictions() {
-		return restrictionModel != null;
-	}
-
-	private int getLeft() {
-		return appPickerButton.getAbsoluteLeft() - X_COORDINATE_OFFSET ;
 	}
 
 	private void updateLanguage(App app) {
@@ -119,21 +112,9 @@ public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 	}
 
 	@Override
-	public boolean isExamRestrictionModelAccepted(ExamRestrictionModel model) {
-		return model.hasSubApps();
-	}
-
-	@Override
-	public void setExamRestrictionModel(ExamRestrictionModel model) {
-		restrictionModel = model;
-	}
-
-	@Override
-	public void applyExamRestrictions() {
-		updateGUI();
-		if (restrictionModel != null
-				&& restrictionModel.isAppRestricted(app.getConfig().getSubAppCode())) {
-			switchToSubApp(restrictionModel.getDefaultAppCode());
+	public void examStateChanged(ExamState newState) {
+		if (newState == ExamState.ACTIVE || newState == ExamState.IDLE) {
+			updateGUI();
 		}
 	}
 }

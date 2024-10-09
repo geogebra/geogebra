@@ -21,17 +21,17 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Angle[ number ] Angle[ &lt;GeoPolygon> ]
+ * Angle[ number ] Angle[ &lt;GeoPolygon&gt; ]
  * 
- * Angle[ &lt;GeoConic> ] Angle[ &lt;GeoVector> ]
+ * Angle[ &lt;GeoConic&gt; ] Angle[ &lt;GeoVector&gt; ]
  * 
- * Angle[ &lt;GeoPoint> ] Angle[ &lt;GeoVector>, &lt;GeoVector> ]
+ * Angle[ &lt;GeoPoint&gt; ] Angle[ &lt;GeoVector&gt;, &lt;GeoVector&gt; ]
  * 
- * Angle[ &lt;GeoLine>, &lt;GeoLine> ]
+ * Angle[ &lt;GeoLine&gt;, &lt;GeoLine&gt; ]
  * 
- * Angle[ &lt;GeoPoint>, &lt;GeoPoint>, &lt;GeoPoint> ]
+ * Angle[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
  * 
- * Angle[ &lt;GeoPoint>, &lt;GeoPoint>, &lt;Number> ]
+ * Angle[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt;, &lt;Number&gt; ]
  */
 public class CmdAngle extends CommandProcessor {
 
@@ -46,7 +46,7 @@ public class CmdAngle extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 

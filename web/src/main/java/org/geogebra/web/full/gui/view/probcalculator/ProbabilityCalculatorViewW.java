@@ -3,8 +3,8 @@ package org.geogebra.web.full.gui.view.probcalculator;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
+import org.geogebra.common.gui.view.probcalculator.ProbabilityTable;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
-import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.main.App;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.css.GuiResources;
@@ -64,14 +64,20 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	}
 
 	@Override
+	public void disableInterval(boolean disable) {
+		distrPanel.disableInterval(disable);
+	}
+
+	@Override
 	public void setLabels() {
 		setLabelArrays();
 		if (distrPanel != null) {
 			distrPanel.setLabels();
 		}
 
-		if (getTable() != null) {
-			getTable().setLabels();
+		ProbabilityTable table = getTable();
+		if (table != null) {
+			table.setLabels();
 		}
 
 		btnLineGraph.setTitle(loc.getMenu("LineGraph"));
@@ -99,17 +105,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 			int euclidianViewID = GlobalKeyDispatcherW.getShiftDown()
 						? getApp().getEuclidianView2(1).getViewID()
 						: getApp().getEuclidianView1().getViewID();
-			// do the export
+			// do the export, preload Take, Pascal/Binomial, Integral, ...
 			AsyncManager manager = ((AppW) app).getAsyncManager();
-			manager.runOrSchedule(() -> {
-				final CommandDispatcher cmdDispatcher = app.getKernel()
-						.getAlgebraProcessor().getCmdDispatcher();
-				// preload Take, Pascal/Binomial, Integral, ...
-				cmdDispatcher.getAdvancedDispatcher();
-				cmdDispatcher.getStatsDispatcher();
-				cmdDispatcher.getCASDispatcher();
-				exportGeosToEV(euclidianViewID);
-			});
+			manager.prefetch(() -> exportGeosToEV(euclidianViewID),
+					"advanced", "stats", "cas");
 		};
 	}
 
@@ -147,7 +146,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 				: GuiResources.INSTANCE.normal_overlay());
 		btnNormalOverlay.addStyleName("probCalcStylbarBtn");
 		if (app.getConfig().hasDistributionView()) {
-			btnNormalOverlay.removeStyleName("MyToggleButton");
+			btnNormalOverlay.removeStyleName("ToggleButton");
 			btnNormalOverlay.addStyleName("suite");
 		}
 		btnNormalOverlay.addFastClickHandler(event -> {
@@ -235,7 +234,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 
 	@Override
 	public void updateDiscreteTable() {
-		if (!isDiscreteProbability()) {
+		if (!isDiscreteProbability() || getTable() == null) {
 			return;
 		}
 		int[] firstXLastX = generateFirstXLastXCommon();
@@ -261,9 +260,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	}
 
 	private void updateGraphButtons() {
-		btnLineGraph.setVisible(getProbManager().isDiscrete(getSelectedDist()));
-		btnStepGraph.setVisible(getProbManager().isDiscrete(getSelectedDist()));
-		btnBarGraph.setVisible(getProbManager().isDiscrete(getSelectedDist()));
+		btnLineGraph.setVisible(isDiscreteProbability());
+		btnStepGraph.setVisible(isDiscreteProbability());
+		btnBarGraph.setVisible(isDiscreteProbability());
 
 		btnLineGraph.setSelected(getGraphType()
 				== ProbabilityCalculatorView.GRAPH_LINE);
@@ -377,6 +376,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	 * @return whether the selected distribution discrete is
 	 */
 	public boolean hasTableView() {
-		return getProbManager().isDiscrete(getSelectedDist());
+		return isDiscreteProbability();
 	}
+
 }

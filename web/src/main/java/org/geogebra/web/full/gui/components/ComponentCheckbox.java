@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -56,8 +57,7 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 		add(checkbox);
 
 		if (!templateTxt.isEmpty()) {
-			checkboxLbl = new Label();
-			checkboxLbl.setStyleName("checkboxLbl");
+			checkboxLbl = BaseWidgetFactory.INSTANCE.newPrimaryText("", "checkboxLbl");
 			add(checkboxLbl);
 		}
 

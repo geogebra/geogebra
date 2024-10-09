@@ -22,35 +22,34 @@ public class KeyboardSettings extends AbstractSettings {
 	private static final ArrayList<String> supportedLocales = new ArrayList<>();
 
 	static {
-		supportedLocales.add(Language.Arabic.locale); // Arabic
+		supportedLocales.add(Language.Arabic.language); // Arabic
 
 		// same keyboard layout (TODO: maybe combine)
-		supportedLocales.add(Language.Croatian.locale); // Croatian
-		supportedLocales.add(Language.Serbian.locale); // Serbian
-		supportedLocales.add(Language.Slovenian.locale); // Slovenian
+		supportedLocales.add(Language.Croatian.language); // Croatian
+		supportedLocales.add(Language.Serbian.language); // Serbian
+		supportedLocales.add(Language.Slovenian.language); // Slovenian
 
-		supportedLocales.add(Language.Czech.locale); // Czech
-		supportedLocales.add(Language.Danish.locale); // Danish
+		supportedLocales.add(Language.Czech.language); // Czech
+		supportedLocales.add(Language.Danish.language); // Danish
+		supportedLocales.add("enGB"); // English (UK)
 
-		supportedLocales.add(Language.English_UK.locale); // English (UK)
-
-		supportedLocales.add(Language.French.locale); // French
-		supportedLocales.add(Language.German.locale); // German
-		supportedLocales.add(Language.Greek.locale); // Greek
-		supportedLocales.add(Language.Finnish.locale); // Finnish
-		supportedLocales.add(Language.Hebrew.locale); // Hebrew
-		supportedLocales.add(Language.Hindi.locale); // Hindi
-		supportedLocales.add(Language.Hungarian.locale); // Hungarian
-		supportedLocales.add(Language.Korean.locale); // Korean
-		supportedLocales.add(Language.Macedonian.locale); // Macedonian
-		// supportedLocales.add(Language.Malayalam.locale); // Malayalam
+		supportedLocales.add(Language.French.language); // French
+		supportedLocales.add(Language.German.language); // German
+		supportedLocales.add(Language.Greek.language); // Greek
+		supportedLocales.add(Language.Finnish.language); // Finnish
+		supportedLocales.add(Language.Hebrew.language); // Hebrew
+		supportedLocales.add(Language.Hindi.language); // Hindi
+		supportedLocales.add(Language.Hungarian.language); // Hungarian
+		supportedLocales.add(Language.Korean.language); // Korean
+		supportedLocales.add(Language.Macedonian.language); // Macedonian
+		// supportedLocales.add(Language.Malayalam.language); // Malayalam
 		supportedLocales.add("no"); // Norwegian (covers both)
-		supportedLocales.add(Language.Persian.locale); // Persian
+		supportedLocales.add(Language.Persian.language); // Persian
 		// supportedLocales.add("pt_PT"); // Portuguese (Portugal)
-		supportedLocales.add(Language.Russian.locale); // Russian
-		supportedLocales.add(Language.Slovak.locale); // Slovak
-		supportedLocales.add(Language.Spanish.locale); // Spanish
-		supportedLocales.add(Language.Yiddish.locale);
+		supportedLocales.add(Language.Russian.language); // Russian
+		supportedLocales.add(Language.Slovak.language); // Slovak
+		supportedLocales.add(Language.Spanish.language); // Spanish
+		supportedLocales.add(Language.Yiddish.language);
 	}
 
 	private double keyboardOpacity = 0.7f;
@@ -158,6 +157,11 @@ public class KeyboardSettings extends AbstractSettings {
 			}
 		}
 		Log.debug("Unsupported keyboard locale: " + string);
+	}
+
+	public void setKeyboardLocale(int index) {
+		keyboardLocale = index <=0 ? null : supportedLocales.get(index - 1);
+		settingChanged();
 	}
 
 	public static int getLocaleCount() {

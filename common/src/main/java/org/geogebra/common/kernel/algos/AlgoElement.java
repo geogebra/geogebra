@@ -19,9 +19,11 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -48,10 +50,11 @@ import org.geogebra.common.kernel.geos.GeoScriptAction;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+
+import com.google.j2objc.annotations.AutoreleasePool;
 
 /**
  * AlgoElement is the superclass of all algorithms.
@@ -90,6 +93,10 @@ public abstract class AlgoElement extends ConstructionElement
 	protected StringBuilder sbAE = new StringBuilder();
 	/** flag stating whether remove() on this algo was already called */
 	protected boolean removed = false;
+	/**
+	 * flag stating whether updateDependentGeos() was already called on this algo
+	 */
+	private boolean updatedDependentGeos = false;
 
 	/**
 	 * Creates new algorithm
@@ -206,7 +213,7 @@ public abstract class AlgoElement extends ConstructionElement
 		while (it.hasNext()) {
 			OutputHandler<?> handler = it.next();
 			for (int k = 0; k < handler.size(); k++) {
-				output[i++] = handler.getElement(k);
+				output[i++] = handler.getElement(k).toGeoElement();
 			}
 		}
 	}
@@ -262,7 +269,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param <T>
 	 *            extends GeoElement: type of the OutputHandler
 	 */
-	public class OutputHandler<T extends GeoElement> {
+	public class OutputHandler<T extends GeoElementND> {
 		private ElementFactory<T> fac;
 		private ArrayList<T> outputList;
 		private String[] labels;
@@ -563,7 +570,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param <S>
 	 *            element type
 	 */
-	public interface ElementFactory<S extends GeoElement> {
+	public interface ElementFactory<S extends GeoElementND> {
 
 		/**
 		 * this is called by the OutputHandler every Time a new Element is
@@ -624,11 +631,8 @@ public abstract class AlgoElement extends ConstructionElement
 		return false;
 	}
 
-	// public static double startTime, endTime;
-	// public static double computeTime, updateTime;
-	// public static double counter;
-
 	@Override
+	@AutoreleasePool
 	public void update() {
 		if (stopUpdateCascade) {
 			return;
@@ -636,20 +640,14 @@ public abstract class AlgoElement extends ConstructionElement
 
 		updateUnlabeledRandomGeos();
 
-		// counter++;
-		// startTime = System.currentTimeMillis();
-
-		// compute output from input
 		compute();
 
-		// endTime = System.currentTimeMillis();
-		// computeTime += (endTime - startTime);
-		// startTime = System.currentTimeMillis();
+		if (!updatedDependentGeos) {
+			updatedDependentGeos = true;
+			updateDependentGeos();
+		}
 
-		updateDependentGeos();
-
-		// endTime = System.currentTimeMillis();
-		// updateTime += (endTime - startTime );
+		updatedDependentGeos = false;
 	}
 
 	/**
@@ -755,6 +753,14 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
+	 * @return List of input elements that are not null, defined, and labeled
+	 */
+	final public List<GeoElement> getDefinedAndLabeledInput() {
+		return Arrays.stream(input).filter(geo -> geo != null
+				&& geo.isDefined() && geo.isLabelSet()).collect(Collectors.toList());
+	}
+
+	/**
 	 * Note : maybe overridden for xOy plane additionnal input
 	 * 
 	 * @param i
@@ -852,7 +858,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param output
 	 *            output element
 	 */
-	protected void setOutputDependencies(GeoElement output) {
+	protected void setOutputDependencies(GeoElementND output) {
 		// parent algorithm of output
 		output.setParentAlgorithm(this);
 
@@ -866,7 +872,7 @@ public abstract class AlgoElement extends ConstructionElement
 		// this is important for macro constructions that have input geos from
 		// outside the macro: the output should be part of the macro
 		// construction!
-		if (cons != output.cons) {
+		if (cons != output.getConstruction()) {
 			output.setConstruction(cons);
 		}
 
@@ -1177,10 +1183,8 @@ public abstract class AlgoElement extends ConstructionElement
 			if (!(this instanceof DependentAlgo)) {
 				boolean allIndependent = true;
 				for (int i = 0; i < input.length; i++) {
-					if (input[i].isGeoPoint()
-							&& (input[i].isIndependent()
-									|| input[i].isMoveable())) {
-						freeInputPoints.add((GeoPointND) input[i]);
+					if (input[i].isFreeInputPoint()) {
+						freeInputPoints.add(input[i]);
 						allIndependent &= input[i].isIndependent();
 					}
 				}
@@ -1480,6 +1484,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 *            builder for the expression XML tag
 	 */
 	protected void getExpXML(StringTemplate tpl, StringBuilder sb) {
+		String expString = toExpString(tpl);
 		sb.append("<expression");
 		// add label
 		if (/* output != null && */getOutputLength() == 1) {
@@ -1491,7 +1496,7 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 		// add expression
 		sb.append(" exp=\"");
-		StringUtil.encodeXML(sb, toExpString(tpl));
+		StringUtil.encodeXML(sb, expString);
 		sb.append("\"");
 
 		// make sure that a vector remains a vector and a point remains a point

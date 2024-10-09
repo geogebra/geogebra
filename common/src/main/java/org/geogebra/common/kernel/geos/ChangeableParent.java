@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -226,7 +225,7 @@ public class ChangeableParent {
         if (needsSnap(view)) {
             val = converter.snap(val, view);
         }
-        if (!MyDouble.isFinite(val)) {
+        if (!Double.isFinite(val)) {
             return false;
         }
 

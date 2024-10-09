@@ -1,21 +1,17 @@
 package org.geogebra.desktop.gui.view.spreadsheet;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JTable;
 
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Cell editor for GeoBoolean.
@@ -36,7 +32,7 @@ public class MyCellEditorList extends DefaultCellEditor
 	public MyCellEditorList() {
 		super(new JComboBox());
 		comboBox = (JComboBox) editorComponent;
-		comboBox.setRenderer(new MyListCellRenderer());
+		comboBox.setRenderer(new SpreadsheetCellRendererD.GeoElementListCellRenderer());
 		model = new DefaultComboBoxModel<>();
 		comboBox.addActionListener(this);
 	}
@@ -44,12 +40,9 @@ public class MyCellEditorList extends DefaultCellEditor
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			editGeo.setSelectedIndex(comboBox.getSelectedIndex(), false);
-			editGeo.updateCascade();
-			editGeo.getKernel().notifyRepaint();
-			editGeo.getKernel().storeUndoInfo();
+			editGeo.setSelectedIndexUpdate(comboBox.getSelectedIndex());
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			Log.debug(ex);
 		}
 	}
 
@@ -79,39 +72,5 @@ public class MyCellEditorList extends DefaultCellEditor
 		return false;
 	}
 
-	// ======================================================
-	// ComboBox Cell Renderer
-	// ======================================================
-
-	/**
-	 * Custom cell renderer that displays GeoElement descriptions.
-	 */
-	static private class MyListCellRenderer extends DefaultListCellRenderer {
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean hasFocus) {
-
-			setBackground(Color.WHITE);
-			JLabel lbl = (JLabel) super.getListCellRendererComponent(list,
-					value, index, isSelected, hasFocus);
-			lbl.setHorizontalAlignment(LEFT);
-
-			if (value != null) {
-				GeoElement geo = (GeoElement) value;
-				if (geo.isGeoText()) {
-					setText(geo.toValueString(StringTemplate.defaultTemplate));
-				} else {
-					setText(geo.getLabel(StringTemplate.defaultTemplate));
-				}
-			} else {
-				setText(" ");
-			}
-
-			return lbl;
-		}
-
-	}
 
 }

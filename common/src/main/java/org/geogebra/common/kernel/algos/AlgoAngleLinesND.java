@@ -110,8 +110,7 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 		input[0] = (GeoElement) g;
 		input[1] = (GeoElement) h;
 
-		setOutputLength(1);
-		setOutput(0, angle);
+		setOnlyOutput(angle);
 		setDependencies(); // done by AlgoElement
 	}
 

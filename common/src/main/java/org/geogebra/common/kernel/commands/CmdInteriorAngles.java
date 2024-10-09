@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.main.MyError;
 
 /**
- * InteriorAngles[ &lt;GeoPolygon> ]
+ * InteriorAngles[ &lt;GeoPolygon&gt; ]
  */
 public class CmdInteriorAngles extends CommandProcessor {
 
@@ -22,7 +22,7 @@ public class CmdInteriorAngles extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		if (n == 1) {
 			GeoElement[] arg = resArgs(c);

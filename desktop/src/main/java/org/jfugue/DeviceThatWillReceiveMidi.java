@@ -24,7 +24,6 @@ package org.jfugue;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiDevice;
-import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
@@ -77,13 +76,7 @@ public class DeviceThatWillReceiveMidi {
 	 */
 	public void sendSequence(Sequence sequence) {
 		TimeFactor.sortAndDeliverMidiMessages(sequence,
-				new MidiMessageRecipient() {
-					@Override
-					public void messageReady(MidiMessage message,
-							long timestamp) {
-						receiver.send(message, -1);
-					}
-				});
+				(message, timestamp) -> receiver.send(message, -1));
 
 		// Send messages to turn all controllers and all notes off for all
 		// tracks (channels)

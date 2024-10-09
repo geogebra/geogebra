@@ -27,6 +27,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Updates linked element for an input box from user input
@@ -95,7 +96,7 @@ public class InputBoxProcessor {
 		if (contentLaTeX == null) {
 			return null;
 		}
-		return contentLaTeX.replaceAll("\\?",
+		return contentLaTeX.replace("?",
 				TeXSerializer.PLACEHOLDER);
 	}
 
@@ -142,7 +143,8 @@ public class InputBoxProcessor {
 		if (linkedGeo.isGeoText()) {
 			// set content first, make independent later, otherwise there is a conflict
 			// between Enter and blur handlers in Web
-			((GeoText) linkedGeo).setTextString(content.getEditorInput());
+			String editorInput = content.getEditorInput().replace(Unicode.MINUS, '-');
+			((GeoText) linkedGeo).setTextString(editorInput);
 			makeGeoIndependent();
 			linkedGeo.updateRepaint();
 			return;
@@ -169,7 +171,7 @@ public class InputBoxProcessor {
 				false, false).withSliders(false)
 				.withNoRedefinitionAllowed().withPreventingTypeChange()
 				.withRedefinitionRule(createRedefinitionRule())
-				.withMultipleUnassignedAllowed().withPreventVariable();
+				.withMultipleUnassignedAllowed().withPreventVariable().withAutocreate(false);
 	}
 
 	private String prependLabel(String text, StringTemplate tpl) {

@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandProcessor3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.AlgoIntersectImplicitSurface;
 import org.geogebra.common.kernel.Construction;
@@ -9,6 +10,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Manager3DInterface;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
+import org.geogebra.common.kernel.advanced.AlgoAxis;
+import org.geogebra.common.kernel.algos.AlgoAxesQuadricND;
 import org.geogebra.common.kernel.algos.AlgoClosestPoint;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
@@ -25,6 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -333,6 +337,45 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			algo = new AlgoPolygon(cons, labels, pointList);
 		}
 		return algo.getOutput();
+	}
+
+	@Override
+	public AlgoAxesQuadricND axesConic(GeoQuadricND c, String[] labels) {
+		if (c.isGeoElement3D()) {
+			return new AlgoAxes3D(cons, labels, c);
+		}
+		return super.axesConic(c, labels);
+	}
+
+	@Override
+	public AlgoAxis axis(String label, GeoConicND conic, int axisId) {
+		if (conic instanceof GeoConic3D) {
+			return new AlgoAxis3D(cons, label, conic, axisId);
+		}
+		return super.axis(label, conic, axisId);
+	}
+
+	@Override
+	public GeoElement polarLine(String label, GeoPointND P, GeoConicND c) {
+
+		if (P.isGeoElement3D() || c.isGeoElement3D()) {
+			AlgoPolarLine3D algo = new AlgoPolarLine3D(cons, label, c, P);
+			return (GeoElement) algo.getLine();
+		}
+
+		return super.polarLine(label, P, c);
+	}
+
+	@Override
+	public GeoElement polarPoint(String label, GeoLineND line,
+			GeoConicND c) {
+
+		if (line.isGeoElement3D() || c.isGeoElement3D()) {
+			AlgoPolarPoint3D algo = new AlgoPolarPoint3D(cons, label, c, line);
+			return (GeoElement) algo.getPoint();
+		}
+
+		return super.polarPoint(label, line, c);
 	}
 
 }

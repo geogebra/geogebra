@@ -42,7 +42,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
-	public ToolbarConfigPanel confPanel;
+	private ToolbarConfigPanel confPanel;
 
 	private LocalizationD loc;
 

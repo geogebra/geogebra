@@ -24,6 +24,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	/**
 	 * Construct a new object of Table Values Points.
 	 * @param construction the construction to add points to
+	 * @param view table view
 	 * @param model model
 	 */
 	public TableValuesPointsImpl(Construction construction, TableValues view,
@@ -39,6 +40,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	 * Construct and register a new object of Table Values Points.
 	 * @param construction the construction to add points to
 	 * @param model model
+	 * @param view table view
 	 * @return points model
 	 */
 	public static TableValuesPointsImpl create(Construction construction, TableValues view,
@@ -149,10 +151,18 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 		for (int i = points.size() - 1; i >= 0; i--) {
 			removePointsFromList(i);
 		}
+		if (model.isImportingData()) {
+			return; // no automatic point creation during import
+		}
 		for (int column = 1; column < model.getColumnCount(); column++) {
 			GeoEvaluatable evaluatable = view.getEvaluatable(column);
 			addPointsToList(evaluatable, column);
 		}
+	}
+
+	@Override
+	public void notifyImportFinished(TableValuesModel model) {
+		createAndAddPoints();
 	}
 
 	private void addPointsToList(GeoEvaluatable evaluatable, int column) {
@@ -175,6 +185,13 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	private void initPoints(int column) {
 		int size = Math.max(column - points.size() + 1, 0);
 		points.addAll(Collections.nCopies(size, null));
+	}
+
+	/**
+	 * @return points list size, if not initialized -1
+	 */
+	public int getPointsSize() {
+		return points != null ? points.size() : -1;
 	}
 
 	private void createAndAddPoints(GeoEvaluatable evaluatable, int column) {
@@ -241,10 +258,9 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public boolean arePointsVisible(int column) {
-		if (points.size() < column) {
+		if (points.size() <= column) {
 			return false;
 		}
-
 		return points.get(column) != null;
 	}
 
@@ -258,5 +274,12 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 			removePoints(column);
 		}
 		construction.getKernel().getApplication().storeUndoInfo();
+	}
+
+	private void createAndAddPoints() {
+		for (int column = 1; column < model.getColumnCount(); column++) {
+			initPoints(column);
+			addPointsToList(view.getEvaluatable(column), column);
+		}
 	}
 }

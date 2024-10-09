@@ -12,6 +12,7 @@ import java.util.Vector;
 import java.util.function.Predicate;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
@@ -37,7 +38,9 @@ import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.euclidian3D.Input3DConstants;
+import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.exam.restrictions.ExamRestrictable;
+import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
@@ -66,6 +69,7 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.kernel.AnimationManager;
+import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -101,7 +105,6 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.exam.ExamEnvironment;
-import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.common.main.exam.restriction.ExamRestrictionFactory;
 import org.geogebra.common.main.exam.restriction.FeatureRestriction;
 import org.geogebra.common.main.exam.restriction.RestrictExam;
@@ -117,10 +120,14 @@ import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
+import org.geogebra.common.main.undo.DefaultDeletionExecutor;
+import org.geogebra.common.main.undo.DeletionExecutor;
 import org.geogebra.common.main.undo.UndoManager;
+import org.geogebra.common.main.undo.UndoableDeletionExecutor;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventDispatcher;
@@ -146,18 +153,18 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Represents an application window, gives access to views and system stuff
  */
-public abstract class App implements UpdateSelection, AppInterface, EuclidianHost, ExamProvider {
-	/** Url for wiki article about functions */
-	public static final String WIKI_OPERATORS = "Predefined Functions and Operators";
-	/** Url for main page of manual */
-	public static final String WIKI_MANUAL = "Manual";
-	/** Url for wiki article about CAS */
-	public static final String WIKI_CAS_VIEW = "CAS_View";
-	/** Url for Intel RealSense tutorials */
-	public static final String REALSENSE_TUTORIAL = "https://www.geogebra.org/m/OaGmb7LE";
+public abstract class App implements UpdateSelection, AppInterface, EuclidianHost,
+		ExamRestrictable, ExamProvider {
 
 	/** Url for wiki article about functions */
-	public static final String WIKI_TEXT_TOOL = "Text Tool";
+	public static final String WIKI_OPERATORS = "Predefined_Functions_and_Operators";
+	/** Url for main page of manual */
+	public static final String WIKI_MANUAL = "";
+	/** Url for wiki article about CAS */
+	public static final String WIKI_CAS_VIEW = "CAS_View";
+
+	/** Url for wiki article about functions */
+	public static final String WIKI_TEXT_TOOL = "tools/Text";
 	/** id for dummy view */
 	public static final int VIEW_NONE = 0;
 	/** id for euclidian view */
@@ -339,7 +346,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/** XML input / output handler */
 	private MyXMLio myXMLio;
 	/** kernel */
-	public Kernel kernel;
+	protected Kernel kernel;
 	/** whether points can be created by other tools than point tool */
 	protected boolean isOnTheFlyPointCreationActive = true;
 	/** Settings object */
@@ -387,14 +394,16 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private SpreadsheetTraceManager traceManager;
 
 	// Exam
+	@Deprecated // use ExamController instead
 	private ExamEnvironment exam;
+	@Deprecated // use ExamController instead
 	protected RestrictExam restrictions;
 
 	// moved to Application from EuclidianView as the same value is used across
 	// multiple EVs
 	private int maxLayerUsed = 0;
 	private boolean labelDragsEnabled = true;
-	private boolean undoRedoEnabled = true;
+	private UndoRedoMode undoMode = UndoRedoMode.GUI;
 
 	// command dictionary
 	private LowerCaseDictionary commandDict;
@@ -410,7 +419,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private boolean blockUpdateScripts = false;
 	private boolean useBrowserForJavaScript = true;
 	private EventDispatcher eventDispatcher;
-	private int[] versionArray = null;
+
+	// gets reset on file load
+	private int[] versionArray = App.getSubValues(GeoGebraConstants.VERSION_STRING);
 	private final List<SavedStateListener> savedListeners = new ArrayList<>();
 	private Macro editMacro;
 	private String editMacroPreviousName = "";
@@ -447,7 +458,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private FontCreator fontCreator;
 	private AlgebraOutputFilter algebraOutputFilter;
 
-	private final AppConfig appConfig = new AppConfigDefault();
+	protected AppConfig appConfig = new AppConfigDefault();
 
 	private Material activeMaterial;
 
@@ -503,18 +514,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @return CAS version
+	 * @return CAS version (for debug info)
 	 */
-	public static final String getCASVersionString() {
+	public static String getCASVersionString() {
 		return CASVersionString;
 
 	}
 
 	/**
 	 * @param string
-	 *            CAS version string
+	 *            CAS version string (for debug info)
 	 */
-	public static final void setCASVersionString(String string) {
+	public static void setCASVersionString(String string) {
 		CASVersionString = string;
 	}
 
@@ -525,7 +536,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            string version, eg 4.9.38.0
 	 * @return version as list of ints, eg [4,9,38,0]
 	 */
-	static final public int[] getSubValues(String version) {
+	static public int[] getSubValues(String version) {
 		String[] values = version.split("\\.");
 		int[] ret = new int[values.length];
 		for (int i = 0; i < values.length; i++) {
@@ -577,7 +588,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            view id
 	 * @return true if id is a 3D view id
 	 */
-	public static final boolean isView3D(int id) {
+	public static boolean isView3D(int id) {
 		if (id == App.VIEW_EUCLIDIAN3D) {
 			return true;
 		}
@@ -671,26 +682,16 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// available, otherwise untranslated)
 		for (String cmd : cas.getAvailableCommandNames()) {
 			try {
-				if (!commandDispatcher.isAllowedByNameFilter(Commands.valueOf(cmd))) {
+				if (!commandDispatcher.isAllowedByCommandFilters(Commands.valueOf(cmd))) {
 					continue;
 				}
 			} catch (Exception e) {
-				// nothing happens
+				continue; // not a translatable command => skip
 			}
-			try {
-				String local = getLocalization().getCommand(cmd);
-				putInTranslateCommandTable(Commands.valueOf(cmd), local);
-				if (local != null) {
-					commandDictCAS.addEntry(local);
-					subCommandDict[CommandsConstants.TABLE_CAS].addEntry(local);
-				} else {
-					commandDictCAS.addEntry(cmd);
-					subCommandDict[CommandsConstants.TABLE_CAS].addEntry(cmd);
-				}
-			} catch (Exception mre) {
-				commandDictCAS.addEntry(cmd);
-				subCommandDict[CommandsConstants.TABLE_CAS].addEntry(cmd);
-			}
+			String local = getLocalization().getCommand(cmd);
+			putInTranslateCommandTable(Commands.valueOf(cmd), local);
+			commandDictCAS.addEntry(local);
+			subCommandDict[CommandsConstants.TABLE_CAS].addEntry(local);
 		}
 	}
 
@@ -777,7 +778,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// command dictionary for all public command names available in
 		// GeoGebra's input field
 		// removed check for null: commandDict.clear() removes keys, but they
-		// are still available with commandDict.getIterator()
+		// are still available with commandDict.iterator()
 		// so change English -> French -> English doesn't work in the input bar
 		// see AutoCompleteTextfield.lookup()
 		// if (commandDict == null)
@@ -796,7 +797,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				.getTranslateCommandTable();
 
 		for (Commands comm : Commands.values()) {
-			if (!cf.isAllowedByNameFilter(comm)) {
+			if (!cf.isAllowedByCommandFilters(comm)) {
 				continue;
 			}
 
@@ -856,25 +857,31 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	}
 
-	private void putInTranslateCommandTable(Commands comm, String local) {
+	private boolean putInTranslateCommandTable(Commands comm, String local) {
 		String internal = comm.name();
 		// Check that we don't overwrite local with English
 		HashMap<String, String> translateCommandTable = getLocalization()
 				.getTranslateCommandTable();
+		int added = 0;
+		String lowerCaseUS = StringUtil.toLowerCaseUS(internal);
 		if (!translateCommandTable
-				.containsKey(StringUtil.toLowerCaseUS(internal))) {
-			translateCommandTable.put(StringUtil.toLowerCaseUS(internal),
+				.containsKey(lowerCaseUS)) {
+			translateCommandTable.put(lowerCaseUS,
 					Commands.englishToInternal(comm).name());
+			added++;
 		}
 		if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
-			return;
+			return added > 0;
 		}
 
 		if (local != null) {
-			translateCommandTable.put(StringUtil.toLowerCaseUS(local),
+			String old = translateCommandTable.put(StringUtil.toLowerCaseUS(local),
 					Commands.englishToInternal(comm).name());
+			if (old == null) {
+				added++;
+			}
 		}
-
+		return added > 0;
 	}
 
 	/**
@@ -887,7 +894,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public String getReverseCommand(String command) {
 		// don't init command table on file loading
-		if (kernel.isUsingInternalCommandNames()) {
+		if (kernel.getCommandLookupStrategy() != CommandLookupStrategy.USER) {
 			try {
 				Commands.valueOf(command);
 				return command;
@@ -1145,6 +1152,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return scriptManager;
 	}
 
+	public final boolean hasScriptManager() {
+		return scriptManager != null;
+	}
+
 	/**
 	 * Get the event dispatcher, which dispatches events objects that manage
 	 * event driven scripts
@@ -1153,9 +1164,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public EventDispatcher getEventDispatcher() {
 		if (eventDispatcher == null) {
-			eventDispatcher = new EventDispatcher(this);
+			eventDispatcher = newEventDispatcher();
 		}
 		return eventDispatcher;
+	}
+
+	protected EventDispatcher newEventDispatcher() {
+		return new EventDispatcher(this);
 	}
 
 	/**
@@ -1234,23 +1249,27 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			ArrayList<GeoElement> geos2 = new ArrayList<>(getActiveEuclidianView()
 					.getEuclidianController().getJustCreatedGeos());
 			geos2.addAll(selection.getSelectedGeos());
-			for (GeoElement geo : geos2) {
-				if (filter.test(geo)) {
-					boolean isChartEmbed = geo.getParentAlgorithm() instanceof AlgoTableToChart;
-					if (isCut && !isChartEmbed && geo.getParentAlgorithm() != null) {
-						for (GeoElement ge : geo.getParentAlgorithm().input) {
-							ge.removeOrSetUndefinedIfHasFixedDescendent();
+			DeletionExecutor recorder = isWhiteboardActive() ? new UndoableDeletionExecutor()
+					: new DefaultDeletionExecutor();
+			geos2.stream().filter(filter).forEach(geo -> {
+				boolean isChartEmbed = geo.getParentAlgorithm() instanceof AlgoTableToChart;
+				if (isCut && !isChartEmbed && geo.getParentAlgorithm() != null) {
+					for (GeoElement ancestor : geo.getParentAlgorithm().input) {
+						if (ancestor.isLabelSet()) {
+							recorder.delete(ancestor);
 						}
 					}
-					geo.removeOrSetUndefinedIfHasFixedDescendent();
 				}
-			}
+				recorder.delete(geo);
+			});
 
 			getActiveEuclidianView().getEuclidianController()
 					.clearJustCreatedGeos();
 			getActiveEuclidianView().getEuclidianController()
 					.clearSelectionAndRectangle();
-			storeUndoInfoAndStateForModeStarting();
+			if (recorder.storeUndoAction(kernel)) {
+				setUnsaved();
+			}
 		}
 	}
 
@@ -1365,7 +1384,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            version parts
 	 * @return whether given version is newer than this code
 	 */
-	public boolean fileVersionBefore(int[] v) {
+	public boolean fileVersionBefore(int... v) {
 		if (this.versionArray == null) {
 			return true;
 		}
@@ -1427,18 +1446,19 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *         USE_DEFAULTS/POINTS_ONLY (for 3D) or OFF depending on visibility
 	 *         of AV
 	 */
-	public int getCurrentLabelingStyle() {
-		if (getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
+	public LabelVisibility getCurrentLabelingStyle() {
+		LabelVisibility userValue = getSettings().getLabelSettings().getLabelVisibility();
+		if (userValue == LabelVisibility.Automatic) {
 			if ((getGuiManager() != null)
 					&& getGuiManager().hasAlgebraViewShowing()
 					&& getAlgebraView().isVisible()) {
-					// default behaviour for other views
-					return ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS;
+				// default behaviour for other views
+				return LabelVisibility.UseDefaults;
 			}
 			// no AV: no label
-			return ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
+			return LabelVisibility.AlwaysOff;
 		}
-		return getLabelingStyle();
+		return userValue;
 	}
 
 	/**
@@ -1460,24 +1480,24 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Enables or disables undo/redo in this application. This is useful for
-	 * applets.
+	 * Enables or disables undo/redo storing and UI in this application.
+	 * This is useful for applets.
 	 *
-	 * @param flag
-	 *            true to allow Undo / Redo
+	 * @param undoRedoMode
+	 *            decides if undo points should be stored and if the undo UI should be visible
 	 */
-	public void setUndoRedoEnabled(boolean flag) {
-		undoRedoEnabled = flag;
-		if (!undoRedoEnabled && kernel != null) {
+	public void setUndoRedoMode(UndoRedoMode undoRedoMode) {
+		this.undoMode = undoRedoMode;
+		if (undoRedoMode == UndoRedoMode.DISABLED && kernel != null) {
 			kernel.setUndoActive(false);
 		}
 	}
 
 	/**
-	 * @return whether undo / redo are possible
+	 * @return undo management mode
 	 */
-	public boolean isUndoRedoEnabled() {
-		return undoRedoEnabled;
+	public UndoRedoMode getUndoRedoMode() {
+		return undoMode;
 	}
 
 	/**
@@ -1826,9 +1846,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			}
 		}
 
-		if (getGuiManager() != null) {
-			getGuiManager().getViewsXML(sb, asPreference);
-		}
+		getViewsXML(sb, asPreference);
 
 		if (asPreference) {
 			getKeyboardXML(sb);
@@ -1839,6 +1857,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		getScriptingXML(sb, asPreference);
 
 		return sb.toString();
+	}
+
+	protected void getViewsXML(StringBuilder sb, boolean asPreference) {
+		if (getGuiManager() != null) {
+			getGuiManager().getViewsXML(sb, asPreference);
+		}
 	}
 
 	private void getScriptingXML(StringBuilder sb, boolean asPreference) {
@@ -1961,10 +1985,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * @param ttl
-	 *            tooltip language
+	 *            tooltip language, may be either BCP47 tag or Java locale string
 	 */
 	public void setTooltipLanguage(String ttl) {
-		// TODO Auto-generated method stub
+		// only in desktop ATM
 	}
 
 	public Perspective getTmpPerspective() {
@@ -2103,6 +2127,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	final public void initKernel() {
 		kernel = companion.newKernel();
 		kernel.setAngleUnit(appConfig.getDefaultAngleUnit());
+		kernel.setSymbolicMode(appConfig.getSymbolicMode());
 		// ensure that the selection manager is created
 		getSelectionManager();
 	}
@@ -2192,7 +2217,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Changes current mode to move mode
+	 * Changes current mode to move mode if whiteboard is not active
 	 */
 	public void setMoveMode() {
 		setMoveMode(ModeSetter.TOOLBAR);
@@ -2202,7 +2227,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Changes current mode to move mode
 	 */
 	public void setMoveMode(ModeSetter m) {
-		setMode(EuclidianConstants.MODE_MOVE, m);
+		if (!isWhiteboardActive()) {
+			setMode(EuclidianConstants.MODE_MOVE, m);
+		} else {
+			setMode(EuclidianConstants.MODE_SELECT_MOW, m);
+		}
 	}
 
 	/**
@@ -2452,7 +2481,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            whether fonts should be reset
 	 */
 	public void setFontSize(int points, boolean update) {
-		FontSettingsUpdater fontSettingsUpdater = getSettingsUpdater().getFontSettingsUpdater();
+		FontSettingsUpdater fontSettingsUpdater = getFontSettingsUpdater();
 		if (update) {
 			fontSettingsUpdater.setAppFontSizeAndUpdateViews(points);
 		} else {
@@ -2473,7 +2502,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            GUI font size
 	 */
 	public void setGUIFontSize(int size) {
-		getSettingsUpdater().getFontSettingsUpdater().setGUIFontSizeAndUpdate(size);
+		getFontSettingsUpdater().setGUIFontSizeAndUpdate(size);
 	}
 
 	/**
@@ -2509,7 +2538,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return font
 	 */
 	public GFont getFontCanDisplay(String testString, boolean serif,
-	                               int fontStyle, int fontSize) {
+			int fontStyle, int fontSize) {
 		FontCreator fontCreator = getFontCreator();
 		if (serif) {
 			return fontCreator.newSerifFont(testString, fontStyle, fontSize);
@@ -2649,7 +2678,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void setUndoActive(boolean undoActive) {
 		boolean flag = undoActive;
 		// don't allow undo when data-param-EnableUndoRedo = false
-		if (flag && !undoRedoEnabled) {
+		if (flag && undoMode == UndoRedoMode.DISABLED) {
 			flag = false;
 		}
 
@@ -2770,6 +2799,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * Returns name of tool with help
+	 * @param mode - number
+	 * @return name + help of tool
+	 */
+	public String getToolAriaLabel(int mode) {
+		return getToolName(mode) + ". " + getToolHelp(mode);
+	}
+
+	/**
 	 * Returns the tool help text for the given tool.
 	 *
 	 * @param mode
@@ -2781,8 +2819,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			Macro macro = kernel.getMacro(mode - EuclidianConstants.MACRO_MODE_ID_OFFSET);
 			return macro == null ? "" : macro.getToolHelp();
 		} else {
-			String modeText = EuclidianConstants.getModeTextSimple(mode);
-			return getLocalization().getMenu(modeText + ".Help");
+
+			return getLocalization().getMenu(EuclidianConstants.getHelpTransKey(mode));
 		}
 	}
 
@@ -3503,8 +3541,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public abstract CommandDispatcher newCommandDispatcher(Kernel cmdKernel);
 
-	public abstract CommandDispatcher newCommand3DDispatcher(Kernel cmdKernel);
-
 	/**
 	 * Whether the app is running just to create a screenshot, some
 	 * recomputations can be avoided in such case
@@ -3604,7 +3640,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Adds a macro from XML
 	 *
 	 * @param xml
-	 *            macro code (including &lt;macro> wrapper)
+	 *            macro code (including &lt;macro&gt; wrapper)
 	 * @return True if successful
 	 */
 	public boolean addMacroXML(String xml) {
@@ -3695,15 +3731,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// **********************************************************************
 
 		// **********************************************************************
-		// MOW START
-		// note: please use prefix MOW
-		// *********************************************************
-		// **********************************************************************
-		// distinguishing between pen and touch
-		case MOW_PEN_EVENTS:
-			return false;
-
-		// **********************************************************************
 		// MOW END
 		// *********************************************************
 		// **********************************************************************
@@ -3735,7 +3762,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case ADJUST_WIDGETS:
 			return false;
 
-		/** GGB-2255 */
+		/* GGB-2255 */
 		case GEOMETRIC_DISCOVERY:
 			return prerelease;
 
@@ -3745,7 +3772,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
        // *********************************************************
        // **********************************************************************
 
-		/** G3D-343 */
+		/* G3D-343 */
 		case G3D_SELECT_META:
 			return false;
 
@@ -3880,7 +3907,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * handle space key hitted
+	 * handle space key hit
 	 *
 	 * @return true if key is consumed
 	 */
@@ -3892,6 +3919,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		ArrayList<GeoElement> selGeos = selection.getSelectedGeos();
 		if (selGeos.size() == 1) {
 			GeoElement geo = selGeos.get(0);
+			if (!selection.isSelectableForEV(geo)) {
+				// if some selection-preventing property (e.g. visibility) changed in scripts
+				// between selecting the geo and pressing <Space>, just do nothing
+				return false;
+			}
 			if (geo.isGeoBoolean()) {
 				if (!geo.isIndependent()) {
 					return true;
@@ -3913,7 +3945,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 				// <Space> -> toggle slider animation off/on
 				GeoNumeric num = (GeoNumeric) geo;
-				if (num.isAnimatable()) {
+				if (num.isAnimatable() && isRightClickEnabled()) {
 					num.setAnimating(!num.isAnimating());
 
 					storeUndoInfo();
@@ -3965,31 +3997,37 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return true;
 	}
 
-	@Override
+	@Deprecated // use ExamController instead
+	@Override // from deprecated ExamProvider
 	public ExamEnvironment getExam() {
 		return exam;
 	}
 
+	@Deprecated // use ExamController instead
 	public boolean isExam() {
 		return getExam() != null;
 	}
 
+	@Deprecated // use ExamController instead
 	public boolean isExamStarted() {
 		return isExam() && getExam().isStarted();
 	}
 
+	@Deprecated // use ExamController instead
 	public void setExam(ExamEnvironment exam) {
 		this.exam = exam;
 	}
 
+	@Deprecated // use ExamController instead
 	public void setNewExam() {
-		setNewExam(ExamRegion.GENERIC);
+		setNewExam(ExamType.GENERIC);
 	}
 
 	/**
 	 * Initializes a new ExamEnvironment instance.
 	 */
-	public void setNewExam(ExamRegion region) {
+	@Deprecated // use ExamController instead
+	public void setNewExam(ExamType region) {
 		ExamEnvironment examEnvironment = newExamEnvironment();
 		examEnvironment.setExamRegion(region);
 		initRestrictions(region);
@@ -4002,11 +4040,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		examEnvironment.setCopyPaste(getCopyPaste());
 	}
 
+	@Deprecated // use ExamController instead
 	protected ExamEnvironment newExamEnvironment() {
 		return new ExamEnvironment(getLocalization());
 	}
 
-	private void initRestrictions(ExamRegion region) {
+	@Deprecated // use ExamController instead
+	private void initRestrictions(ExamType region) {
 		RestrictExam oldRestrictions = restrictions;
 		restrictions = ExamRestrictionFactory.create(region);
 		if (oldRestrictions != null) {
@@ -4019,10 +4059,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *
 	 * @param restrictable the component to restrict.
 	 */
+	@Deprecated // use ExamController instead
 	public void registerRestrictable(Restrictable restrictable) {
 		if (restrictions == null) {
 			ExamEnvironment exam = getExam();
-			ExamRegion region = exam != null && exam.isStarted() ? exam.getExamRegion() : null;
+			ExamType region = exam != null && exam.isStarted() ? exam.getExamRegion() : null;
 			restrictions = ExamRestrictionFactory.create(region);
 		}
 		restrictions.register(restrictable);
@@ -4031,6 +4072,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * Start exam with current timestamp.
 	 */
+	@Deprecated // use ExamController instead
 	public void startExam() {
 		getExam().prepareExamForStarting();
 		getExam().setStart((new Date()).getTime());
@@ -4038,10 +4080,30 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * If an exam is active, re-enable any exam restrictions.
+	 */
+	@Deprecated // use ExamController instead
+	public void reEnableExamRestrictions() {
+		if (getExam() != null && isExamStarted() && restrictions != null) {
+			restrictions.enable();
+		}
+	}
+
+	/**
 	 * Show exam welcome message.
 	 */
+	@Deprecated // use ExamController instead
 	public void examWelcome() {
 		// overridden in platforms supporting exam
+	}
+
+	/**
+	 * Prepares the exam mode and shows the exam welcome message<br/>
+	 * Note: Only implemented within AppWFull, method still declared here so it can also be
+	 * accessed by {@link org.geogebra.common.plugin.GgbAPI}
+	 */
+	public void showExamWelcomeMessage() {
+		// Not needed here
 	}
 
 	/**
@@ -4082,10 +4144,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 	}
 
-	public String getInput3DType() {
-		return Input3DConstants.PREFS_NONE;
-	}
-
 	/**
 	 * Close popups and dropdowns; keep active dropdown at (x,y).
 	 *
@@ -4110,14 +4168,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public double getExportScale() {
 		return this.exportScale;
-	}
-
-	/**
-	 * @param geo
-	 *            slider to be read by screen reader
-	 */
-	public void readLater(GeoNumeric geo) {
-		// implemented in AppW
 	}
 
 	/**
@@ -4146,8 +4196,31 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return StringTemplate.screenReaderAscii;
 	}
 
+	@Deprecated // restrictions are handled by ExamController
 	public void clearRestrictions() {
 		restrictions.disable();
+	}
+
+	/**
+	 *
+	 * @param e event to examine
+	 * @return if event has the modifier that user can select multiple elements.
+	 */
+	public boolean hasMultipleSelectModifier(AbstractEvent e) {
+		return e.isControlDown();
+	}
+
+	/**
+	 * Split selected strokes (if any) and deletes selected objects.
+	 */
+	public void splitAndDeleteSelectedObjects() {
+		getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
+		deleteSelectedObjects(false);
+
+	}
+
+	public AsyncManagerI getAsyncManager() {
+		return Runnable::run;
 	}
 
 	/**
@@ -4443,7 +4516,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            labeling style (GeoElement.LABEL_*)
 	 * @return localized labeling style
 	 */
-	final public static String getLabelStyleName(App app, int id) {
+	public static String getLabelStyleName(App app, int id) {
 		switch (id) {
 		case -1:
 			return app.getLocalization().getMenu("Hidden");
@@ -4513,7 +4586,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * last commands selected from help (used in Android & iOS native)
+	 * last commands selected from help (used in Android and iOS native)
 	 *
 	 * @param commandName
 	 *            last command
@@ -4528,7 +4601,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @return last commands selected from help (used in Android & iOS native)
+	 * @return last commands selected from help (used in Android and iOS native)
 	 */
 	public ArrayList<String> getLastCommandsSelectedFromHelp() {
 		return mLastCommandsSelectedFromHelp;
@@ -4574,7 +4647,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public ToolCollectionFactory createToolCollectionFactory() {
 		String toolbarDefinition = getGuiManager().getToolbarDefinition();
-		if (toolbarDefinition == null || isExam()
+		if (toolbarDefinition == null || !GlobalScope.examController.isIdle()
 				|| ToolBar.isDefaultToolbar(toolbarDefinition)) {
 			return createDefaultToolCollectionFactory();
 		} else {
@@ -4881,6 +4954,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return settingsUpdater;
 	}
 
+	public FontSettingsUpdater getFontSettingsUpdater() {
+		return getSettingsUpdater().getFontSettingsUpdater();
+	}
+
 	/**
 	 * make sure we create a new settings updater according the new appConfig
 	 * @return setting updater
@@ -4892,7 +4969,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
-		return new SettingsUpdaterBuilder(this);
+		SettingsUpdaterBuilder builder = new SettingsUpdaterBuilder(this);
+		builder.setPrototype(getConfig().createSettingsUpdater());
+		return builder;
 	}
 
 	/**
@@ -5026,7 +5105,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * GeoPriorityComparators are used to decide the drawing
 	 * and selection orders of Geos
-	 * @return the default comparator (layer -> type -> construction order) in every
+	 * @return the default comparator (layer -&gt; type -&gt; construction order) in every
 	 * app except notes, where the geo's `ordering` is used
 	 */
 	public GeoPriorityComparator getGeoPriorityComparator() {
@@ -5053,6 +5132,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *
 	 * @param commandDispatcher command dispatcher
 	 */
+	@Deprecated
 	public void onCommandDispatcherSet(CommandDispatcher commandDispatcher) {
 		ExamEnvironment examEnvironment = getExam();
 		if (examEnvironment != null) {
@@ -5087,14 +5167,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return "[main thread]";
 	}
 
-	/**
-	 * opens/closes notes toolbar
-	 * @param open true if should open notes toolbar
-	 */
-	public void setNotesToolbarOpen(boolean open) {
-		// nothing to do here
-	}
-
 	public @CheckForNull Material getActiveMaterial() {
 		return activeMaterial;
 	}
@@ -5108,15 +5180,21 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return null;
 	}
 
+	// ExamRestrictable
+
 	/**
-	 * should restrict UI feature
-	 * @param featureRestriction - UI element
-	 * @return whether should disable the given UI element
+	 * Note: Client code adopting the new exam handling needs to register the current instance
+	 * as an {@link ExamRestrictable} with the {@link org.geogebra.common.exam.ExamController}.
+	 *
+	 * @param examRestrictions The restrictions for the current exam.
 	 */
-	public boolean doesRestrictionApply(FeatureRestriction featureRestriction) {
-		if (!isExamStarted()) {
-			return false;
-		}
-		return getExam().getRestrictionModel().isFeatureRestricted(featureRestriction);
+	@Override
+	public void applyRestrictions(@Nonnull ExamRestrictions examRestrictions) {
+		resetCommandDict();
+	}
+
+	@Override
+	public void removeRestrictions(@Nonnull ExamRestrictions examRestrictions) {
+		// probably nothing to do here
 	}
 }

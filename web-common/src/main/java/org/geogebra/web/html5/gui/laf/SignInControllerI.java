@@ -10,8 +10,7 @@ public interface SignInControllerI {
 	void login();
 
 	/**
-	 * Log in initiated by the app, can't open popups
+	 * Actively listen for cookie change
 	 */
-	void loginFromApp();
-
+	void initLoginTimer();
 }

@@ -49,14 +49,13 @@ import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
-import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
-import jsinterop.base.JsPropertyMap;
+import elemental2.dom.HTMLCanvasElement;
 
 public class JlmLib {
 
@@ -70,12 +69,12 @@ public class JlmLib {
 		initString.append(string);
 	}
 
-	public JsPropertyMap<Object> drawLatex(final CanvasRenderingContext2D ctx,
+	public FormulaRenderingResult drawLatex(final CanvasRenderingContext2D ctx,
 			final TeXFormula formula,
 			final double size, final int type, final int x, final int y,
-			final int topInset, final int leftInset, final int bottomInset,
-			final int rightInset, final String fgColorString,
-			final String bgColorString, final DrawingFinishedCallback callback) {
+			final Insets insets, final String fgColorString,
+			final String bgColorString, final DrawingFinishedCallback callback,
+			HTMLCanvasElement canvasElement) {
 
 		// init jlm with the given string
 		if (initString.length() > 0) {
@@ -83,8 +82,17 @@ public class JlmLib {
 			initString.setLength(0);
 		}
 		// create icon and graphics objects
-		TeXIcon icon = createIcon(formula, size, type,
-				new Insets(topInset, leftInset, bottomInset, rightInset));
+		TeXIcon icon = createIcon(formula, size, type, insets);
+		if (canvasElement != null) {
+			int iconWidth = icon.getIconWidth();
+			canvasElement.width = (int) Math.ceil(iconWidth * getPixelRatio());
+			int iconHeight = icon.getIconHeight();
+			canvasElement.height = (int) Math.ceil(iconHeight * getPixelRatio());
+			canvasElement.style.verticalAlign = (100 * icon.getBaseLine() - 100) + "%";
+			canvasElement.style.setProperty("height", iconHeight + "px");
+			canvasElement.style.setProperty("line-height", iconHeight + "px");
+			canvasElement.style.setProperty("width", iconWidth + "px");
+		}
 		return draw(icon, ctx, x, y, fgColorString, bgColorString, callback);
 	}
 
@@ -93,7 +101,7 @@ public class JlmLib {
 	}
 
 
-	public static JsPropertyMap<Object> draw(TeXIcon icon, CanvasRenderingContext2D ctx,
+	public static FormulaRenderingResult draw(TeXIcon icon, CanvasRenderingContext2D ctx,
 			final int x, final int y, final String fgColorString,
 			final String bgColorString, final DrawingFinishedCallback callback) {
 		return draw(icon, ctx, x, y, decode(fgColorString),
@@ -104,7 +112,7 @@ public class JlmLib {
 		return color == null ? null : Colors.decode(color);
 	}
 
-	public static JsPropertyMap<Object> draw(TeXIcon icon, CanvasRenderingContext2D ctx,
+	public static FormulaRenderingResult draw(TeXIcon icon, CanvasRenderingContext2D ctx,
 			final double x, final double y, final Color fgColor,
 			final Color bgColor, final DrawingFinishedCallback callback,
 			double ratio) {
@@ -125,12 +133,7 @@ public class JlmLib {
 
 		// paint the icon
 
-		icon.paintIcon(new HasForegroundColor() {
-			@Override
-			public Color getForegroundColor() {
-				return fgColor;
-			}
-		}, g2, x, y);
+		icon.paintIcon(() -> fgColor, g2, x, y);
 		g2.maybeNotifyDrawingFinishedCallback(false);
 
 		// return {width, height}
@@ -146,13 +149,13 @@ public class JlmLib {
 		return icon;
 	}
 
-	private static JsPropertyMap<Object> createReturnValue(TeXIcon icon,
+	private static FormulaRenderingResult createReturnValue(TeXIcon icon,
 			double ratio) {
-		JsPropertyMap<Object> object = JsPropertyMap.of();
-		object.set("width", icon.getIconWidth());
-		object.set("height", icon.getIconHeight());
-		object.set("baseline", icon.getBaseLine());
-		object.set("pixelRatio", ratio);
+		FormulaRenderingResult object = new FormulaRenderingResult();
+		object.width = icon.getIconWidth();
+		object.height = icon.getIconHeight();
+		object.baseline = icon.getBaseLine();
+		object.pixelRatio = ratio;
 		return object;
 	}
 

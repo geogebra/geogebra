@@ -10,12 +10,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.statistics.AlgoBinomialDist;
 
-public class BinomialDistribution implements DiscreteDistribution {
+public class BinomialDistribution extends CachingDiscreteDistribution {
 
-	private final GeoNumeric k;
-	private DiscreteProbability discreteProbability;
 	private final Construction cons;
-	private DistributionParameters oldParameters = null;
 
 	/**
 	 *
@@ -23,18 +20,12 @@ public class BinomialDistribution implements DiscreteDistribution {
 	 */
 	public BinomialDistribution(Construction cons) {
 		this.cons = cons;
-		k = new GeoNumeric(cons);
 	}
 
 	@Override
-	public DiscreteProbability create(DistributionParameters parameters) {
-		if (parameters.equals(oldParameters)) {
-			return discreteProbability;
-		}
-
+	protected DiscreteProbability createProbability(DistributionParameters parameters) {
 		GeoNumberValue nGeo = parameters.at(0);
 		GeoNumberValue pGeo = parameters.at(1);
-		oldParameters = parameters;
 
 		GeoNumeric nPlusOneGeo = new GeoNumeric(cons, nGeo.getDouble() + 1);
 
@@ -42,6 +33,7 @@ public class BinomialDistribution implements DiscreteDistribution {
 				new GeoNumeric(cons, 0.0), nGeo, null);
 		GeoList values = (GeoList) algoSeq.getOutput(0);
 
+		GeoNumeric k = new GeoNumeric(cons);
 		AlgoListElement algo = new AlgoListElement(cons, values,
 				k);
 		cons.removeFromConstructionList(algo);
@@ -56,7 +48,6 @@ public class BinomialDistribution implements DiscreteDistribution {
 		cons.removeFromConstructionList(algoSeq2);
 
 		GeoList probs = (GeoList) algoSeq2.getOutput(0);
-		this.discreteProbability = new DiscreteProbability(values, probs);
-		return discreteProbability;
+		return new DiscreteProbability(values, probs);
 	}
 }

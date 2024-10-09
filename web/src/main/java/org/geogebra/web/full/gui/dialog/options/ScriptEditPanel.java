@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.gui.dialog.options.model.ScriptInputModel;
+import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.dialog.ScriptInputPanelW;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.AsyncManager;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.TabPanel;
 
@@ -35,6 +37,15 @@ class ScriptEditPanel extends OptionPanel {
 		tabbedPane = new TabPanel();
 		tabbedPane.setStyleName("scriptTabPanel");
 		scriptModels = ScriptInputModel.getModels(app);
+		AsyncManager manager = app.getAsyncManager();
+
+		manager.runOrSchedule(() -> {
+			final CommandDispatcher cmdDispatcher = app.getKernel()
+					.getAlgebraProcessor().getCmdDispatcher();
+			// preload scripting
+			cmdDispatcher.getScriptingCommandProcessorFactory();
+		});
+
 		for (ScriptInputModel scriptModel : scriptModels) {
 			ScriptInputPanelW panel = new ScriptInputPanelW(app, scriptModel);
 			scriptModel.setListener(panel);

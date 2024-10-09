@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * BarChart[ &lt;Number>, &lt;Number>, &lt;List> ]
+ * BarChart[ &lt;Number&gt;, &lt;Number&gt;, &lt;List&gt; ]
  */
 public class CmdBarChart extends CommandProcessor {
 
@@ -26,7 +26,7 @@ public class CmdBarChart extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

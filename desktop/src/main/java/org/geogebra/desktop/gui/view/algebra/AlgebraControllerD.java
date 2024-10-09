@@ -42,6 +42,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 
@@ -89,7 +90,7 @@ public class AlgebraControllerD extends AlgebraTreeController
 	@Override
 	public void mousePressed(MouseEvent e) {
 		getView().cancelEditItem();
-		boolean rightClick = app.isRightClickEnabled() && AppD.isRightClick(e);
+		boolean rightClick = app.isRightClickEnabled() && MouseEventUtil.isRightClick(e);
 		if (rightClick) { // RIGHT CLICK
 			GPoint mouseCoords = new GPoint(e.getPoint().x, e.getPoint().y);
 			rightPress(e, mouseCoords);

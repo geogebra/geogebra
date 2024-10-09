@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.gui.popup.autocompletion.InputSuggestions;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
@@ -63,7 +64,6 @@ import com.himamis.retex.editor.share.editor.MathField;
  * @author laszlo
  *
  */
-@SuppressWarnings("javadoc")
 public class RadioTreeItemController implements ClickHandler,
 		DoubleClickHandler, MouseDownHandler, MouseUpHandler, MouseMoveHandler,
 		TouchStartHandler, TouchMoveHandler, TouchEndHandler {
@@ -77,12 +77,12 @@ public class RadioTreeItemController implements ClickHandler,
 
 	private boolean markForEdit = false;
 	private long latestTouchEndTime = 0;
-	private int editHeigth;
+	private int editHeight;
 
 	/** whether blur listener is disabled */
 	protected boolean preventBlur = false;
 
-	private InputSuggestions inputSuggestions;
+	private final InputSuggestions inputSuggestions;
 
 	/**
 	 * Creates controller for given item.
@@ -186,8 +186,8 @@ public class RadioTreeItemController implements ClickHandler,
 		if (!isEditing()) {
 			app.closePopups();
 		}
-
-		if (markForEdit() && !item.isInputTreeItem()) {
+		markForEdit();
+		if (!item.isInputTreeItem()) {
 			return;
 		}
 
@@ -311,10 +311,6 @@ public class RadioTreeItemController implements ClickHandler,
 		if (item.isInputTreeItem()) {
 			event.preventDefault();
 		}
-		JsArray<Touch> targets = event.getTargetTouches();
-		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(targets.get(0),
-				ZeroOffset.INSTANCE);
-		onPointerMove(wrappedEvent);
 		CancelEventTimer.touchEventOccured();
 	}
 
@@ -345,8 +341,8 @@ public class RadioTreeItemController implements ClickHandler,
 		if (isMarbleHit(x, y)) {
 			getLongTouchManager().cancelTimer();
 		}
-
-		if (markForEdit() && !item.isInputTreeItem()) {
+		markForEdit();
+		if (!item.isInputTreeItem()) {
 			return;
 		}
 		// Do NOT prevent default, kills scrolling on touch
@@ -393,15 +389,6 @@ public class RadioTreeItemController implements ClickHandler,
 	 */
 	protected void dispatchEditEvent(EventType eventType) {
 		app.dispatchEvent(new Event(eventType, item.getGeo(), null));
-	}
-
-	/**
-	 *
-	 * @param event
-	 *            mouse move event
-	 */
-	protected void onPointerMove(AbstractEvent event) {
-		// used to tell EuclidianView to handle mouse over
 	}
 
 	protected void onPointerUp(AbstractEvent event) {
@@ -479,7 +466,7 @@ public class RadioTreeItemController implements ClickHandler,
 
 		GeoElement geo = item.geo;
 		if (!isEditing()) {
-			setEditHeigth(item.getEditHeight());
+			setEditHeight(item.getEditHeight());
 			getAV().startEditItem(geo);
 			Scheduler.get().scheduleDeferred(() -> item.adjustStyleBar());
 			showKeyboard();
@@ -509,7 +496,7 @@ public class RadioTreeItemController implements ClickHandler,
 		if (!markForEdit) {
 			return false;
 		}
-
+		ensureMoveMode();
 		markForEdit = false;
 		boolean enable = true;
 		if (item.isSliderItem()
@@ -542,12 +529,8 @@ public class RadioTreeItemController implements ClickHandler,
 		this.longTouchManager = longTouchManager;
 	}
 
-	private boolean markForEdit() {
-		if (markForEdit) {
-			return true;
-		}
+	private void markForEdit() {
 		markForEdit = true;
-		return true;
 	}
 
 	private void onRightClick(MouseEvent<?> evt) {
@@ -586,8 +569,15 @@ public class RadioTreeItemController implements ClickHandler,
 	}
 
 	boolean handleAVItem(MouseEvent<?> evt) {
+		ensureMoveMode();
 		return handleAVItem(evt.getClientX(), evt.getClientY(),
 				evt.getNativeButton() == NativeEvent.BUTTON_RIGHT);
+	}
+
+	private void ensureMoveMode() {
+		if (!EuclidianConstants.isMoveOrSelectionMode(app.getMode())) {
+			app.setMoveMode(ModeSetter.DOCK_PANEL);
+		}
 	}
 
 	protected void handleAVItem(TouchStartEvent evt) {
@@ -649,12 +639,12 @@ public class RadioTreeItemController implements ClickHandler,
 		return app;
 	}
 
-	public int getEditHeigth() {
-		return editHeigth;
+	public int getEditHeight() {
+		return editHeight;
 	}
 
-	public void setEditHeigth(int editHeigth) {
-		this.editHeigth = editHeigth - VERTICAL_PADDING;
+	public void setEditHeight(int editHeight) {
+		this.editHeight = editHeight - VERTICAL_PADDING;
 	}
 
 	public boolean hasMultiGeosSelected() {
@@ -664,8 +654,6 @@ public class RadioTreeItemController implements ClickHandler,
 	/**
 	 * When setting to true, all input typed treated as text, so the newly
 	 * created item will be GeoText.
-	 * 
-	 * used in LatexTreeItemController
 	 * 
 	 * @param value
 	 *            to set.
@@ -693,11 +681,10 @@ public class RadioTreeItemController implements ClickHandler,
 	}
 
 	/**
-	 *
-	 * @param mf the MathField the suggestion would happen
-	 * @return if suggestion is prevented.
+	 * @param mf the input MathField
+	 * @return currently typed command
 	 */
-	public boolean isSuggestionPrevented(MathField mf) {
-		return inputSuggestions.isPreventedFor(mf.getInternal().getEditorState());
+	public String getCommand(MathField mf) {
+		return inputSuggestions.getCommand(mf);
 	}
 }

@@ -11,11 +11,12 @@ import org.geogebra.web.full.gui.menubar.GMenuBar;
 import org.geogebra.web.full.html5.AttachedToDOM;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.geogebra.web.html5.gui.util.MenuHoverListener;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.MenuHoverListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.event.dom.client.ClickEvent;
@@ -482,7 +483,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	 *            command
 	 */
 	public void addItem(String s, ScheduledCommand c) {
-		addItem(new AriaMenuItem(s, false, c));
+		addItem(new AriaMenuItem(s, null, c));
 	}
 
 	/**
@@ -496,7 +497,11 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 		AccessibilityManagerInterface am = getApp()
 				.getAccessibilityManager();
 		MayHaveFocus anchor = am.getAnchor();
-		popupPanel.hide();
+		if (subPopup != null && subPopup.isMenuShown()) {
+			removeSubPopup();
+		} else {
+			popupPanel.hide();
+		}
 		if (anchor != null) {
 			anchor.focusIfVisible(true);
 		}
@@ -560,8 +565,10 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 					&& target.getSelectedItem().getSubMenu() != null) {
 				openSubmenu(target.getSelectedItem());
 				target.getSelectedItem().getSubMenu().selectItem(0);
+				target.getSelectedItem().getSubMenu().getItemAt(0).addStyleName("fakeFocus");
 			}
 		} else if (keyCode == JavaKeyCodes.VK_LEFT) {
+			target.getSelectedItem().removeStyleName("fakeFocus");
 			removeSubPopup();
 		}
 	}
@@ -569,6 +576,16 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	@Override
 	public void onItemHover() {
 		removeSubPopup();
+	}
+
+	/**
+	 * @param c element
+	 * @param x x-coordinate relative to element
+	 * @param y y-coordinate relative to element
+	 */
+	public void showAndFocus(Element c, int x, int y) {
+		show(c, x, y);
+		Scheduler.get().scheduleDeferred(popupMenu::focus);
 	}
 
 	private class PopupMenuBar extends GMenuBar {
@@ -600,6 +617,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 				AriaMenuItem item = findItem(DOM.eventGetTarget(event));
 				if (item != null) {
 					if (item.getSubMenu() != null) {
+						removeFakeFocus();
 						openSubmenu(item);
 					} else {
 						GPopupMenuW.this.onItemHover();
@@ -609,6 +627,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 				char keyCode = (char) event.getKeyCode();
 				if (keyCode == KeyCodes.KEY_ESCAPE) {
 					hide();
+					event.stopPropagation();
 				} else if (keyCode == KeyCodes.KEY_TAB) {
 					if (event.getShiftKey()) {
 						if (!moveSelectionUp()) {
@@ -673,6 +692,15 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 				return null;
 			}
 			return expandItems.get(getItemAt(idx));
+		}
+	}
+
+	/**
+	 * clear out fake focus
+	 */
+	public void removeFakeFocus() {
+		for (AriaMenuItem item : popupMenu.getItems()) {
+			item.removeStyleName("fakeFocus");
 		}
 	}
 }

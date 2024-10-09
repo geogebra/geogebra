@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.advanced;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -14,7 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Curvature[&lt;Point>,&lt;Curve>], Curvature[&lt;Point>,&lt;Function>]
+ * Curvature[&lt;Point&gt;,&lt;Curve&gt;], Curvature[&lt;Point&gt;,&lt;Function&gt;]
  * 
  * @author Victor Franco Espino
  */
@@ -30,7 +31,7 @@ public class CmdCurvature extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

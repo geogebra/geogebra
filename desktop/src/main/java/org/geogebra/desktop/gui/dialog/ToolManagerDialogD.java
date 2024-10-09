@@ -16,7 +16,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
@@ -31,7 +30,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -40,6 +38,7 @@ import org.geogebra.common.gui.dialog.ToolManagerDialogModel.ToolManagerDialogLi
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.util.FileExtensions;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.gui.ToolNameIconPanelD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
@@ -59,7 +58,7 @@ public class ToolManagerDialogD extends Dialog
 	AppD app;
 	final LocalizationD loc;
 	private DefaultListModel<Macro> toolsModel;
-	private ToolManagerDialogModel model;
+	private final ToolManagerDialogModel model;
 
 	/**
 	 * @param app application
@@ -226,9 +225,9 @@ public class ToolManagerDialogD extends Dialog
 					// no or several tools selected
 					namePanel.init(null, null);
 				} else {
-					Macro macro = (Macro) toolsModel
+					Macro macro = toolsModel
 							.getElementAt(selIndices[0]);
-					namePanel.init(ToolManagerDialogD.this, macro);
+					namePanel.init(this, macro);
 				}
 			};
 			selModel.addListSelectionListener(selListener);
@@ -248,7 +247,7 @@ public class ToolManagerDialogD extends Dialog
 			pack();
 			setLocationRelativeTo(app.getFrame()); // center
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

@@ -77,14 +77,14 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	private double perspXZ;
 	private double perspYZ;
-	private double[] glassesXZ = new double[2];
-	private double[] glassesYZ = new double[2];
+	private final double[] glassesXZ = new double[2];
+	private final double[] glassesYZ = new double[2];
 
-	private float[] clipPlanesMin = new float[3];
-	private float[] clipPlanesMax = new float[3];
+	private final float[] clipPlanesMin = new float[3];
+	private final float[] clipPlanesMax = new float[3];
 
 	private int currentLayer;
-	private float[] eyeOrDirection = new float[4];
+	private final float[] eyeOrDirection = new float[4];
 	protected float[][] ambiantDiffuse;
 
 	/**
@@ -765,7 +765,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void drawFaceToScreenAbove() {
-	    setNormalToNone();
+		setNormalToNone();
 		glUniform1i(labelRenderingLocation, 1);
 	}
 
@@ -1021,7 +1021,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		glUniform1i(layerLocation, currentLayer);
 	}
 
-	final private void initLayer() {
+	private void initLayer() {
 		currentLayer = 0;
 		glUniform1i(layerLocation, 0);
 	}

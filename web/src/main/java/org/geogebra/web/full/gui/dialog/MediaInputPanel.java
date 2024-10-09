@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
@@ -40,7 +41,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 		setStyleName("mowInputPanelContent");
 		addStyleName("emptyState");
 
-		inputField = new InputPanelW("", app, 1, -1, false);
+		inputField = new InputPanelW("", app,  false);
 
 		FormLabel inputLabel = new FormLabel().setFor(inputField.getTextComponent());
 		inputLabel.setText(app.getLocalization().getMenu(labelTransKey));
@@ -89,8 +90,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * Add info label to the input panel
 	 */
 	public void addInfoLabel() {
-		infoLabel = new Label();
-		infoLabel.addStyleName("msgLabel");
+		infoLabel = BaseWidgetFactory.INSTANCE.newSecondaryText("", "msgLabel");
 		add(infoLabel);
 	}
 

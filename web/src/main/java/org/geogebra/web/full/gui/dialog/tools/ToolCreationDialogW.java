@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
@@ -330,7 +329,7 @@ public class ToolCreationDialogW extends ComponentDialog implements
 		boolean success = toolModel.finish(appToSave, commandName, toolName,
 				toolHelp, showInToolBar, iconFileName);
 		if (success) {
-			ToolTipManagerW.sharedInstance().showBottomMessage(
+			((AppW) app).getToolTipManager().showBottomMessage(
 					loc.getMenu("Tool.CreationSuccess"), appw);
 		} else {
 			DialogData data = new DialogData(appw.getLocalization().getError("Error"),

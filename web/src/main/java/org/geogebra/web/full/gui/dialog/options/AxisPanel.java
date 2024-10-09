@@ -1,12 +1,6 @@
 package org.geogebra.web.full.gui.dialog.options;
 
-import static org.geogebra.common.gui.dialog.options.model.AxisModel.AXIS_X;
-import static org.geogebra.common.gui.dialog.options.model.AxisModel.AXIS_Y;
-import static org.geogebra.common.gui.dialog.options.model.AxisModel.AXIS_Z;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
@@ -23,7 +17,6 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class AxisPanel extends FlowPanel
@@ -90,7 +83,8 @@ public class AxisPanel extends FlowPanel
 				model::applyAllowSelection);
 
 		// ticks
-		lbTickStyle = new CompDropDown(app, "", Arrays.asList("|'|'|", "|||", ""));
+		lbTickStyle = new CompDropDown(app, "", model.getTickOptions(),
+				model.getTickStyleIndex(axis));
 		axisTicks = new FormLabel(loc.getMenu("AxisTicks") + ":")
 				.setFor(lbTickStyle);
 		axisTicks.addStyleName("dropDownLabel");
@@ -118,19 +112,17 @@ public class AxisPanel extends FlowPanel
 		distancePanel.add(ncbTickDist);
 
 		// axis and unit label
-		comboAxisLabel = new ComponentCombobox(app, "", getLabelsList());
+		comboAxisLabel = new ComponentCombobox(app, "", model.getAxisLabelOptions());
 		comboAxisLabel.addChangeHandler(() -> {
 			String text = comboAxisLabel.getSelectedText().trim();
 			model.applyAxisLabel(text);
 		});
 		comboAxisLabel.setDisabled(false);
-		model.fillAxisCombo();
 
 		axisLabel = new FormLabel(loc.getMenu("AxisLabel") + ":")
 				.setFor(comboAxisLabel);
 
-		comboUnitLabel = new ComponentCombobox(app, "", Arrays.asList(Unicode.DEGREE_STRING + "",
-				Unicode.PI_STRING + "", "mm", "cm", "m", "km", Unicode.CURRENCY_DOLLAR + ""));
+		comboUnitLabel = new ComponentCombobox(app, "", model.getUnitLabelOptions());
 		comboUnitLabel.addChangeHandler(() -> {
 				String text = comboUnitLabel.getSelectedText().trim();
 				model.applyUnitLabel(text);
@@ -150,7 +142,7 @@ public class AxisPanel extends FlowPanel
 
 		// cross at and stick to edge
 
-		InputPanelW input = new InputPanelW(null, app, 1, -1, false);
+		InputPanelW input = new InputPanelW(null, app,  false);
 		tfCross = input.getTextComponent();
 		tfCross.setAutoComplete(false);
 		tfCross.removeSymbolTable();
@@ -188,31 +180,8 @@ public class AxisPanel extends FlowPanel
 			add(crossPanel);
 		}
 		add(cbAllowSelection);
-		updatePanel();
-	}
-
-	private List<String> getLabelsList() {
-		List<String> labels = new ArrayList<>();
-		String defaultLabel;
-		switch (getModel().getAxis()) {
-		case AXIS_X:
-			defaultLabel = "x";
-			break;
-		case AXIS_Y:
-		default:
-			defaultLabel = "y";
-			break;
-		case AXIS_Z:
-			defaultLabel = "z";
-			break;
-		}
-		labels.add(defaultLabel);
-		for (Greek greek : Greek.values()) {
-			if (!greek.upperCase && greek.unicode != Unicode.pi) {
-				labels.add(greek.getUnicodeNonCurly() + "");
-			}
-		}
-		return labels;
+		// no need to update panel,
+		// updateGui called right after addTabs in OptionsEuclidianW
 	}
 
 	private void onDistanceSelected(boolean isTickDistanceOn) {
@@ -241,10 +210,8 @@ public class AxisPanel extends FlowPanel
 
 		cbManualTicks.setSelected(!view.isAutomaticAxesNumberingDistance()[axis]);
 		ncbTickDist.setDisabled(!cbManualTicks.isSelected());
-
-		/*comboAxisLabel.setSelected(view.getAxesLabels(true)[axis]);
-		comboUnitLabel.se(view.getAxesUnitLabels()[axis]);*/
-		comboUnitLabel.setLabels();
+		comboAxisLabel.setValue(view.getAxesLabels(true)[axis]);
+		comboUnitLabel.setValue(view.getAxesUnitLabels()[axis]);
 
 		int type = view.getAxesTickStyles()[axis];
 		lbTickStyle.setSelectedIndex(type);
@@ -287,21 +254,6 @@ public class AxisPanel extends FlowPanel
 		cbAllowSelection.setLabels();
 		comboUnitLabel.setLabels();
 		ncbTickDist.setLabels();
-	}
-
-	@Override
-	public void addTickItem(String item) {
-		// nothing to do here
-	}
-
-	@Override
-	public void addAxisLabelItem(String item) {
-		// nothing to do here
-	}
-
-	@Override
-	public void addUnitLabelItem(String item) {
-		// nothing to do here
 	}
 
 	@Override

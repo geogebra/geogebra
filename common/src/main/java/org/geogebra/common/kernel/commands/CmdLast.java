@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * Last[ &lt;List>,n ]
+ * Last[ &lt;List&gt;,n ]
  * 
  * @author Michael Borcherds
  * @version 2008-03-04
@@ -30,7 +30,7 @@ public class CmdLast extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);

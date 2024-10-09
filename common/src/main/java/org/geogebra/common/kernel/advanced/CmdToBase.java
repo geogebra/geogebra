@@ -3,12 +3,13 @@ package org.geogebra.common.kernel.advanced;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * ToBase[&lt;base>, &lt;Number>]
+ * ToBase[&lt;base&gt;, &lt;Number&gt;]
  */
 public class CmdToBase extends CommandProcessor {
 
@@ -23,7 +24,7 @@ public class CmdToBase extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

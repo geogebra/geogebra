@@ -61,7 +61,7 @@ public class MathMLParser {
 	private static HashMap<String, String> latexMap;
 
 	/**
-	 * @return tag->geogebra syntax map
+	 * @return tag-&gt;geogebra syntax map
 	 */
 	static synchronized HashMap<String, String> getGeogebraMap() {
 
@@ -789,7 +789,7 @@ public class MathMLParser {
 	 * </pre>
 	 * 
 	 * can not be parsed.
-	 * </p>
+	 * <p>
 	 * Both notations of entities can be parsed: The plain MathML notation,
 	 * starting with an ampersand sign (e.g. '&amp;equals;'), or the
 	 * "HTML wrapped" notation startig with an entity for the ampersand sign
@@ -844,7 +844,7 @@ public class MathMLParser {
 			// TODO besser result stutzen? -> return new
 			// StringBuilder(result) o. result.toString()
 			return result.toString();
-		} catch (Exception e) {
+		} catch (XMLParseException | RuntimeException e) {
 			Log.debug(e);
 		}
 		return null; // TODO statt exception, speter lo(umlaut)schen
@@ -884,16 +884,14 @@ public class MathMLParser {
 	 *            builder to which we append the string
 	 * @param appendSpace
 	 *            whether space shoud be appended after the block content
-	 * @throws Exception
+	 * @throws XMLParseException
 	 *             if an error occurs while parsing
 	 */
 	void parseBlock(String startTag, StringBuilder result, boolean appendSpace)
-			throws Exception {
+			throws XMLParseException {
 		boolean closeBracketNow = this.closeBracketNext;
 		this.closeBracketNext = false;
 		String endTag = generateEndTag(startTag);
-
-		// System.out.println(startTag+ " "+endTag);
 
 		int blockEnd = getBlockEnd(startTag, endTag);
 
@@ -987,7 +985,7 @@ public class MathMLParser {
 							try {
 								blockNumber = Integer.parseInt(blockNumberStr);
 							} catch (NumberFormatException nfe) {
-								throw new Exception(
+								throw new XMLParseException(
 										"Parsing error at character " + pos
 												+ ": Unparseable block number in substitution.");
 							}
@@ -1036,11 +1034,9 @@ public class MathMLParser {
 				result.append(")");
 			}
 		}
-		// System.out.print(pos);
 		// TODO Warum braucht 'amayaOut.htm' diese Anweisung? -> 853, 853
 		// (<mprescripts/>)
 		pos = blockEnd;
-		// System.out.println(", "+pos+" ("+startTag+")");
 	}
 
 	/**
@@ -1233,13 +1229,12 @@ public class MathMLParser {
 	 * @param s
 	 *            the string to parse
 	 * @return the Latex representation of the given string
-	 * @throws Exception
+	 * @throws XMLParseException
 	 *             if HTML wrapped entities were expected but not found
 	 */
-	String parseBlockContent(String s) throws Exception {
+	String parseBlockContent(String s) throws XMLParseException {
 
 		// TODO hier!
-		// System.out.println("got '"+s+"'");
 
 		int sbIndex = 0;
 		StringBuilder sb = new StringBuilder(s);
@@ -1307,7 +1302,7 @@ public class MathMLParser {
 						sbIndex++;
 					}
 				} catch (StringIndexOutOfBoundsException sioobe) {
-					throw new Exception("Parsing error at character " + pos
+					throw new XMLParseException("Parsing error at character " + pos
 							+ ": MathML code is not HTML wrapped.");
 				}
 

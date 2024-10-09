@@ -49,8 +49,7 @@ public class AlgoAreaPolygon extends AlgoElement
 	 * @param polygon
 	 *            polygon
 	 */
-	public AlgoAreaPolygon(Construction cons, 
-			GeoPolygon polygon) {
+	public AlgoAreaPolygon(Construction cons, GeoPolygon polygon) {
 		super(cons);
 		this.polygon = polygon;
 		area = new GeoNumeric(cons);
@@ -76,8 +75,7 @@ public class AlgoAreaPolygon extends AlgoElement
 		input = new GeoElement[1];
 		input[0] = polygon;
 
-		setOutputLength(1);
-		setOutput(0, area);
+		setOnlyOutput(area);
 		setDependencies(); // done by AlgoElement
 	}
 

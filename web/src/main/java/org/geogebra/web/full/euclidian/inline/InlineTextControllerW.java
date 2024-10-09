@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.FontLoader;
@@ -33,6 +34,8 @@ import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Position;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.Widget;
+
+import jsinterop.base.Js;
 
 /**
  * Web implementation of the inline text controller.
@@ -64,6 +67,18 @@ public class InlineTextControllerW implements InlineTextController {
 		}
 		this.contentDefaultSize = getCurrentFontSize();
 		checkFonts(getFormat(geo.getContent()), getCallback());
+	}
+
+	/**
+	 * @param s string inserted by user
+	 * @param geo construction element
+	 * @return string to be actually inserted
+	 */
+	public static String checkEncodedPaste(String s, GeoInline geo) {
+		if (Js.isTruthy(s) && CopyPasteW.pasteIfEncoded(geo.getApp(), s)) {
+			return null;
+		}
+		return s;
 	}
 
 	@Override
@@ -138,6 +153,7 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public void create() {
 		editor = new CarotaEditor(DrawInlineText.PADDING);
+		editor.addInsertFilter(s -> checkEncodedPaste(s, geo));
 		final Widget widget = editor.getWidget();
 		widget.addStyleName(INVISIBLE);
 		EventUtil.stopPointerEvents(widget.getElement(), btn -> btn <= 0);
@@ -153,9 +169,12 @@ public class InlineTextControllerW implements InlineTextController {
 		editor.setListener(new EditorChangeListener() {
 			@Override
 			public void onContentChanged(String content) {
-				if (!content.equals(geo.getContent())) {
+				String oldContent = geo.getContent();
+				double oldHeight = geo.getHeight();
+				double oldContentHeight = geo.getContentHeight();
+				if (!content.equals(oldContent)) {
 					geo.setContent(content);
-					geo.getKernel().storeUndoInfo();
+					storeUndoAction(geo, oldHeight, oldContentHeight, oldContent);
 					geo.notifyUpdate();
 				}
 			}
@@ -181,7 +200,33 @@ public class InlineTextControllerW implements InlineTextController {
 				geo.getKernel().notifyUpdateVisualStyle(geo, GProperty.TEXT_SELECTION);
 				geo.getKernel().notifyRepaint();
 			}
+
+			@Override
+			public void onEscape() {
+				toBackground();
+			}
 		});
+	}
+
+	private void storeUndoAction(GeoInline geo, double oldHeight, double oldContentHeight,
+			String oldContent) {
+		if (oldContent != null) {
+			String label = geo.getLabelSimple();
+			geo.getConstruction().getUndoManager()
+					.buildAction(ActionType.SET_CONTENT, label, Double.toString(geo.getHeight()),
+							Double.toString(geo.getContentHeight()), geo.getContent())
+					.withUndo(ActionType.SET_CONTENT, label, Double.toString(oldHeight),
+							Double.toString(oldContentHeight), oldContent)
+					.withLabels(label)
+					.storeAndNotifyUnsaved();
+		} else {
+			geo.getConstruction().getUndoManager().storeAddGeo(geo);
+		}
+	}
+
+	@Override
+	public GeoInline getInline() {
+		return geo;
 	}
 
 	private void updateVerticalAlign() {
@@ -247,7 +292,7 @@ public class InlineTextControllerW implements InlineTextController {
 	public void format(String key, Object val) {
 		editor.format(key, val);
 		saveContent();
-		geo.updateVisualStyleRepaint(GProperty.COMBINED);
+		geo.updateRepaint();
 		if ("font".equals(key)) {
 			FontLoader.loadFont(String.valueOf(val), getCallback());
 		}
@@ -329,7 +374,7 @@ public class InlineTextControllerW implements InlineTextController {
 	public void setVerticalAlignment(VerticalAlignment alignment) {
 		((HasVerticalAlignment) geo).setVerticalAlignment(alignment);
 		updateVerticalAlign();
-		geo.getKernel().notifyRepaint();
+		geo.updateRepaint();
 	}
 
 	@Override

@@ -64,8 +64,6 @@ import org.geogebra.desktop.awt.GFontRenderContextD;
  * resizing pixel-based images, such as jpeg and png files.
  * <p>
  * Example usage:
- * <p>
- * 
  * <pre>
  * Graphics2D g = new EpsGraphics2D();
  * g.setColor(Color.black);
@@ -94,6 +92,32 @@ import org.geogebra.desktop.awt.GFontRenderContextD;
  */
 abstract public class EpsGraphics implements GGraphics2D {
 	public static final String VERSION = "1.0.0";
+	private GColor color;
+
+	private GAffineTransform _clipTransform;
+
+	private GColor _backgroundColor;
+
+	private GPaint _paint;
+
+	private GComposite _composite;
+
+	private GBasicStroke _stroke;
+
+	private GFont _font;
+
+	private GShape _clip;
+
+	protected GAffineTransform _transform = AwtFactory.getPrototype()
+			.newAffineTransform();
+
+	private boolean _accurateTextMode;
+
+	private EpsDocument _document;
+
+	private GFontRenderContext _fontRenderContext;
+
+	protected ColorMode colorMode = ColorMode.COLOR_RGB;
 
 	/**
 	 * Constructs a new EPS document that is initially empty and can be drawn on
@@ -1220,33 +1244,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	// r.setSize((int) rect.getWidth(), (int) rect.getHeight());
 	// return r;
 	// }
-
-	private GColor color;
-
-	private GAffineTransform _clipTransform;
-
-	private GColor _backgroundColor;
-
-	private GPaint _paint;
-
-	private GComposite _composite;
-
-	private GBasicStroke _stroke;
-
-	private GFont _font;
-
-	private GShape _clip;
-
-	protected GAffineTransform _transform = AwtFactory.getPrototype()
-			.newAffineTransform();
-
-	private boolean _accurateTextMode;
-
-	private EpsDocument _document;
-
-	private GFontRenderContext _fontRenderContext;
-
-	protected ColorMode colorMode = ColorMode.COLOR_RGB;
 
 	abstract public GGraphics2D create();
 

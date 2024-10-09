@@ -40,10 +40,10 @@ public class AlgebraController {
 	private boolean isAutoCreateSliders = true;
 	private boolean isStoringUndo = true;
 
-	// private GeoVector tempVec;
-	// private boolean kernelChanged;
-
-	/** Creates new CommandProcessor */
+	/**
+	 * Creates a new algebra view controller
+	 * @param kernel kernel
+	 */
 	public AlgebraController(Kernel kernel) {
 		this.kernel = kernel;
 		app = kernel.getApplication();

@@ -11,9 +11,9 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * TableText[&lt;Matrix>]
+ * TableText[&lt;Matrix&gt;]
  * 
- * TableText[&lt;Matrix>,&lt;Point>]
+ * TableText[&lt;Matrix&gt;,&lt;Point&gt;]
  */
 
 public class CmdTableText extends CommandProcessor {
@@ -28,7 +28,7 @@ public class CmdTableText extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

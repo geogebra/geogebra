@@ -350,10 +350,11 @@ public class ToolCreationDialogModel {
 	}
 
 	/**
-	 * Remove elements from output
+	 * Remove elements from a list
 	 * 
 	 * @param selIndices
-	 *            indices in output list
+	 *            indices in input/output list
+	 * @param output whether this is for input or output
 	 */
 	public void removeFromList(ArrayList<Integer> selIndices, boolean output) {
 		if (selIndices.isEmpty()) {

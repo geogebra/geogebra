@@ -12,11 +12,11 @@ import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 
@@ -67,8 +67,8 @@ public class DrawAudio extends DrawWidget {
 	private int duration;
 	private boolean sliderHighlighted = false;
 
-	private GColor playHoverColor = GColor.MOW_MEBIS_TEAL;
-	private GColor blobColor = GColor.MOW_MEBIS_TEAL;
+	private GColor playHoverColor = GeoGebraColorConstants.MEBIS_ACCENT;
+	private GColor blobColor = GeoGebraColorConstants.MEBIS_ACCENT;
 
 	/**
 	 * @param view
@@ -122,7 +122,7 @@ public class DrawAudio extends DrawWidget {
 
 		double d = geoAudio.getDuration();
 		double param = geoAudio.getCurrentTime() / d;
-		if (!MyDouble.isFinite(param) || param < 0) {
+		if (!Double.isFinite(param) || param < 0) {
 			param = 0;
 		}
 		sliderLeft = (int) (x + txtLayout.getBounds().getWidth()

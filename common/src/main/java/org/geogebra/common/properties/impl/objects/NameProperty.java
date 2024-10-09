@@ -1,12 +1,14 @@
 package org.geogebra.common.properties.impl.objects;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.properties.StringProperty;
-import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.aliases.StringProperty;
+import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NamePropertyDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
@@ -14,7 +16,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 /**
  * Name
  */
-public class NameProperty extends AbstractProperty implements StringProperty {
+public class NameProperty extends AbstractValuedProperty<String> implements StringProperty {
 
 	private final GeoElementDelegate delegate;
 
@@ -35,7 +37,7 @@ public class NameProperty extends AbstractProperty implements StringProperty {
 	}
 
 	@Override
-	public void setValue(String value) {
+	public void doSetValue(String value) {
 		GeoElement element = delegate.getElement();
 		String oldLabel = element.getLabelSimple();
 		if (value.equals(oldLabel)) {
@@ -53,14 +55,13 @@ public class NameProperty extends AbstractProperty implements StringProperty {
 		}
 	}
 
+	@Nullable
 	@Override
-	public boolean isValid(String value) {
+	public String validateValue(String value) {
 		GeoElement element = delegate.getElement();
-		return !value.isEmpty() && LabelManager.isValidLabel(value, element.getKernel(), element);
-	}
-
-	@Override
-	public String getInvalidInputErrorMessage() {
-		return getLocalization().getError("InvalidInput");
+		if (value.isEmpty() || !LabelManager.isValidLabel(value, element.getKernel(), element)) {
+			return getLocalization().getError("InvalidInput");
+		}
+		return null;
 	}
 }

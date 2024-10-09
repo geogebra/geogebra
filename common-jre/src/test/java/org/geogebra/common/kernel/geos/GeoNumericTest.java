@@ -2,13 +2,16 @@ package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.RecurringDecimal;
 import org.geogebra.common.main.settings.config.AppConfigCas;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 public class GeoNumericTest extends BaseUnitTest {
@@ -100,5 +103,77 @@ public class GeoNumericTest extends BaseUnitTest {
 		add("SetValue(sl,.5)");
 		assertThat(slider.isEuclidianVisible(), is(false));
 		assertThat(((GeoNumeric) reloaded).isSliderable(), is(true));
+	}
+
+	@Test
+	public void testRecurringSwitchSymbolic() {
+		GeoNumeric recurring = addAvInput("1.2\u03053\u0305");
+		assertThat(recurring.getDefinition().unwrap().isRecurringDecimal(), is(true));
+		recurring.setSymbolicMode(false, true);
+		assertThat(recurring.toValueString(StringTemplate.maxDecimals),
+				is("1.232323232323232"));
+		recurring.setSymbolicMode(true, true);
+		assertThat(recurring.toValueString(StringTemplate.maxDecimals),
+				is("122 / 99"));
+	}
+
+	@Test
+	public void testIsRecurringDecimal() {
+		assertThat(this.<GeoNumeric>add("1.2\u03053\u0305").isRecurringDecimal(), is(true));
+		assertThat(this.<GeoNumeric>add("1.234").isRecurringDecimal(), is(false));
+		assertThat(this.<GeoNumeric>add("12 / 34").isRecurringDecimal(), is(false));
+	}
+
+	@Test
+	public void testAsRecurringDecimal() {
+		assertThat(this.<GeoNumeric>add("1.02\u03053\u0305").asRecurringDecimal(),
+				is(RecurringDecimal.parse(getKernel(), "1.0", "23")));
+		assertThat(this.<GeoNumeric>add("1.234").asRecurringDecimal(), nullValue());
+		assertThat(this.<GeoNumeric>add("12 / 34").asRecurringDecimal(), nullValue());
+	}
+
+	@Test
+	public void testFormulaString() {
+		GeoNumeric recurring = add("1 + 0.3\u0305");
+		StringTemplate tpl = StringTemplate.defaultTemplate;
+		assertThat(recurring.getFormulaString(tpl, true), is("1.33"));
+		assertThat(recurring.getFormulaString(tpl, false), is("1 + 0.3\u0305"));
+		recurring.setSymbolicMode(true, true);
+		assertThat(recurring.getFormulaString(tpl, true), is("4 / 3"));
+		assertThat(recurring.getFormulaString(tpl, false), is("1 + 0.3\u0305"));
+	}
+
+	@Test
+	@Issue("APPS-5531")
+	public void shouldKeepTrailingZeros() {
+		GeoNumeric withTrailing = addAvInput("1.20");
+		assertThat(withTrailing.getXML(), containsString("1.20"));
+		withTrailing.setEuclidianVisible(true);
+		assertThat(withTrailing.getXML(), containsString("1.20"));
+	}
+
+	@Test
+	@Issue("APPS-5699")
+	public void shouldKeepTrailingZerosForIntegers() {
+		GeoNumeric withTrailing = addAvInput("1.00");
+		assertThat(withTrailing.getXML(), containsString("1.00"));
+	}
+
+	@Test
+	@Issue("APPS-5531")
+	public void shouldKeepENotation() {
+		GeoNumeric withTrailing = addAvInput("1.20E3");
+		assertThat(withTrailing.getXML(), containsString("1.20E3"));
+	}
+
+	@Test
+	@Issue("APPS-1889")
+	public void shouldNotStoreStyleIfNotInitialized() {
+		addAvInput("a=3");
+		reload();
+		GeoElement slider = lookup("a");
+		slider.setEuclidianVisible(true);
+		slider.updateRepaint();
+		assertThat(slider.getLineThickness(), is(10));
 	}
 }

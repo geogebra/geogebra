@@ -10,7 +10,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -42,7 +41,7 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.app.MyFileFilter;
+import org.geogebra.desktop.gui.app.FileExtensionFilter;
 import org.geogebra.desktop.gui.autocompletion.AutoCompletion;
 import org.geogebra.desktop.gui.toolbar.ToolbarConfigDialog;
 import org.geogebra.desktop.gui.util.GeoGebraFileChooser;
@@ -152,12 +151,12 @@ public class DialogManagerD extends DialogManagerMinimal {
 	public void showPropertiesDialog(OptionType type,
 			ArrayList<GeoElement> geos) {
 
-		if (!((AppD) app).letShowPropertiesDialog()) {
+		if (!app.letShowPropertiesDialog()) {
 			return;
 		}
 
 		// get PropertiesView
-		PropertiesView pv = (PropertiesView) ((GuiManagerD) app.getGuiManager())
+		PropertiesView pv = (PropertiesView) app.getGuiManager()
 				.getPropertiesView();
 
 		// select geos
@@ -174,7 +173,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 		}
 
 		// show the view
-		((GuiManagerD) app.getGuiManager()).setShowView(true,
+		app.getGuiManager().setShowView(true,
 				App.VIEW_PROPERTIES);
 		if (geos != null && geos.size() == 1 && geos.get(0).isEuclidianVisible()
 				&& geos.get(0) instanceof GeoNumeric) {
@@ -270,7 +269,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 		} catch (Exception e) {
 			success = false;
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		return success;
 	}
@@ -432,25 +431,6 @@ public class DialogManagerD extends DialogManagerMinimal {
 		return true;
 	}
 
-	@Override
-	public void showLogInDialog() {
-		// No Login Dialog
-	}
-
-	@Override
-	public void showLogOutDialog() {
-		Object[] options = { getLocalization().getMenu("SignOut"),
-				getLocalization().getMenu("Cancel") };
-		int n = JOptionPane.showOptionDialog(((AppD) app).getMainComponent(),
-				getLocalization().getMenu("ReallySignOut"),
-				getLocalization().getMenu("Question"),
-				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-				options, options[0]);
-		if (n == 0) {
-			app.getLoginOperation().performLogOut();
-		}
-	}
-
 	/**
 	 * Creates a new JavaScript button at given location (screen coords).
 	 * 
@@ -572,10 +552,14 @@ public class DialogManagerD extends DialogManagerMinimal {
 	private class FileFilterChangedListener implements PropertyChangeListener {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
-			if (getFileChooser().getFileFilter() instanceof MyFileFilter) {
+			if (getFileChooser().getFileFilter() instanceof FileExtensionFilter) {
+				File selectedFile = getFileChooser().getSelectedFile();
+				if (selectedFile != null && getFileChooser().getFileFilter().accept(selectedFile)) {
+					return;
+				}
 				String fileName = null;
-				if (getFileChooser().getSelectedFile() != null) {
-					fileName = getFileChooser().getSelectedFile().getName();
+				if (selectedFile != null) {
+					fileName = selectedFile.getName();
 				} else {
 					fileName = ((GuiManagerD) app.getGuiManager())
 							.getLastFileNameOfSaveDialog();
@@ -583,10 +567,10 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 				// fileName = getFileName(fileName);
 
-				if (fileName != null && fileName.indexOf(".") > -1) {
+				if (fileName != null && fileName.contains(".")) {
 					fileName = fileName.substring(0, fileName.lastIndexOf("."))
 							+ "."
-							+ ((MyFileFilter) getFileChooser().getFileFilter())
+							+ ((FileExtensionFilter) getFileChooser().getFileFilter())
 									.getExtension();
 
 					getFileChooser().setSelectedFile(new File(

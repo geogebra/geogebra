@@ -8,6 +8,8 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.bridge.AttributeProvider;
+import org.geogebra.web.html5.bridge.DOMAttributeProvider;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.dom.client.Element;
@@ -20,7 +22,7 @@ import elemental2.dom.HTMLCollection;
 import elemental2.dom.ViewCSS;
 import jsinterop.base.Js;
 
-public final class GeoGebraElement implements AttributeProvider {
+public final class GeoGebraElement {
 
 	private Element el;
 
@@ -49,8 +51,9 @@ public final class GeoGebraElement implements AttributeProvider {
 				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		ArrayList<GeoGebraElement> articleNodes = new ArrayList<>();
 		for (int i = 0; i < nodes.getLength(); i++) {
-			GeoGebraElement ae = GeoGebraElement.as(Js.uncheckedCast(nodes.getAt(i)));
-			ae.initID(i);
+			Element el = Js.uncheckedCast(nodes.getAt(i));
+			GeoGebraElement ae = GeoGebraElement.as(el);
+			ae.initID(i, new DOMAttributeProvider(el));
 			articleNodes.add(ae);
 		}
 		return articleNodes;
@@ -64,8 +67,8 @@ public final class GeoGebraElement implements AttributeProvider {
 	 * @param i
 	 *            number for id if fdataParamId not set
 	 */
-	public void initID(int i) {
-		AppletParameters params = new AppletParameters(this);
+	public void initID(int i, AttributeProvider provider) {
+		AppletParameters params = new AppletParameters(provider);
 		String paramID = params.getDataParamId();
 		if (paramID.equals(el.getId())) {
 			return;
@@ -104,16 +107,23 @@ public final class GeoGebraElement implements AttributeProvider {
 	 * @param element ui element
 	 * @return primary color
 	 */
-
 	public String getPrimaryColor(Element element) {
 		return getComputedStyle(element).getPropertyValue("--ggb-primary-color");
 	}
 
 	/**
 	 *
+	 * @param element ui element
+	 * @return dark color
+	 */
+	public String getDarkColor(Element element) {
+		return getComputedStyle(element).getPropertyValue("--ggb-dark-color");
+	}
+
+	/**
+	 *
 	 * @return that the article element has (inherited) direction attribute
 	 */
-
 	public boolean isRTL() {
 		return "rtl".equals(getComputedStyle(el).direction);
     }
@@ -186,7 +196,7 @@ public final class GeoGebraElement implements AttributeProvider {
 		// to
 		// a simple field
 		if ("".equals(el.getAttribute("data-scalex"))) {
-			setAttribute("data-scalex", String.valueOf(envScale("x")));
+			el.setAttribute("data-scalex", String.valueOf(envScale("x")));
 		}
 		return Double.parseDouble(el.getAttribute("data-scalex"));
 	}
@@ -213,7 +223,7 @@ public final class GeoGebraElement implements AttributeProvider {
 		// no instance fields in subclasses of Element, so no way to asign it to
 		// a simple field
 		if ("".equals(el.getAttribute("data-scaley"))) {
-			setAttribute("data-scaley", String.valueOf(envScale("y")));
+			el.setAttribute("data-scaley", String.valueOf(envScale("y")));
 		}
 		return Double.parseDouble(el.getAttribute("data-scaley"));
 	}
@@ -223,28 +233,8 @@ public final class GeoGebraElement implements AttributeProvider {
 	 */
 
 	public void resetScale() {
-		setAttribute("data-scalex", "" + envScale("x"));
-		setAttribute("data-scaley", "" + envScale("y"));
-	}
-
-	@Override
-	public boolean hasAttribute(String attribute) {
-		return el.hasAttribute(attribute);
-	}
-
-	@Override
-	public void removeAttribute(String attribute) {
-		el.removeAttribute(attribute);
-	}
-
-	@Override
-	public void setAttribute(String attribute, String value) {
-		el.setAttribute(attribute, value);
-	}
-
-	@Override
-	public String getAttribute(String attribute) {
-		return el.getAttribute(attribute);
+		el.setAttribute("data-scalex", "" + envScale("x"));
+		el.setAttribute("data-scaley", "" + envScale("y"));
 	}
 
 	public String getId() {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.geogebra.common.util.MatchedString;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.gwtproject.safehtml.shared.SafeHtmlBuilder;
 import org.gwtproject.user.client.ui.MultiWordSuggestOracle;
@@ -56,7 +57,7 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 		}
 		textField.resetCompletions();
 		String query = request.getQuery();
-		List<String> completions = textField.getCompletions();
+		List<MatchedString> completions = textField.getCompletions();
 		if (completions == null || completions.size() == 0) {
 			callback.onSuggestionsReady(request,
 					new Response(Collections.<Suggestion> emptyList()));
@@ -81,24 +82,27 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 	}
 	
 	private static List<MultiWordSuggestion> convertToFormattedSuggestions(
-			String query, List<String> candidates) {
+			String query, List<MatchedString> candidates) {
 		List<MultiWordSuggestion> suggestions = new ArrayList<>();
 		for (int i = 0; i < candidates.size(); i++) {
-			String candidate = candidates.get(i);
+			MatchedString candidate = candidates.get(i);
 			
 			SafeHtmlBuilder accum = new SafeHtmlBuilder();
-			if (query.length() < candidate.length()) {
-				String part1 = candidate.substring(0, query.length());
-				String part2 = candidate.substring(query.length(),
-				        candidate.length());
-				accum.appendHtmlConstant("<strong>");
+			if (query.length() < candidate.content.length()) {
+				String part1 = candidate.content.substring(0, candidate.from);
+				String part2 = candidate.content.substring(candidate.from,
+						candidate.from  + query.length());
+				String part3 = candidate.content.substring(candidate.from  + query.length());
 				accum.appendEscaped(part1);
-				accum.appendHtmlConstant("</strong>");
+				accum.appendHtmlConstant("<strong>");
 				accum.appendEscaped(part2);
+				accum.appendHtmlConstant("</strong>");
+				accum.appendEscaped(part3);
 			} else {
-				accum.appendEscaped(candidate);
+				accum.appendEscaped(candidate.content);
 			}
-			suggestions.add(new MultiWordSuggestion(candidate, accum.toSafeHtml().asString()));
+			suggestions.add(new MultiWordSuggestion(candidate.content,
+					accum.toSafeHtml().asString()));
 		}
 		return suggestions;
 	}

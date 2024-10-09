@@ -1,11 +1,13 @@
 package org.geogebra.web.full.javax.swing;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.draw.HasTextFormat;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.undo.UpdateContentActionStore;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.resources.SVGResource;
@@ -16,7 +18,6 @@ import org.gwtproject.user.client.ui.Widget;
  * Menu item that acts like a toolbar.
  */
 public class InlineTextToolbar implements FastClickHandler {
-	private AriaMenuItem item;
 	private final App app;
 	private List<HasTextFormat> formatters;
 	private FlowPanel panel;
@@ -31,9 +32,8 @@ public class InlineTextToolbar implements FastClickHandler {
 	 * @param formatters the formatters.
 	 *
 	 */
-	public InlineTextToolbar(List<HasTextFormat> formatters, AriaMenuItem item, App app) {
+	public InlineTextToolbar(List<HasTextFormat> formatters, App app) {
 		this.formatters = formatters;
-		this.item = item;
 		this.app = app;
 
 		createGui();
@@ -44,22 +44,12 @@ public class InlineTextToolbar implements FastClickHandler {
 	 * Creates the toolbar gui
 	 */
 	protected void createGui() {
-		item.setStyleName("inlineTextToolbar");
 		panel = new FlowPanel();
 		createSubscriptBtn();
 		createSuperscriptBtn();
 		createBulletListBtn();
 		createNumberedListBtn();
-		item.setWidget(panel);
 		updateState();
-	}
-
-	/**
-	 * Set item content as text
-	 * @param text to set
-	 */
-	protected void setContent(String text) {
-		item.setContent(text, false);
 	}
 
 	private void createSubscriptBtn() {
@@ -166,17 +156,24 @@ public class InlineTextToolbar implements FastClickHandler {
 	}
 
 	private void formatScript(String type, Boolean value) {
+		ArrayList<GeoInline> geosToStore = new ArrayList();
+		for (HasTextFormat formatter : formatters) {
+			geosToStore.add(formatter.getInline());
+		}
+
+		UpdateContentActionStore store = new UpdateContentActionStore(geosToStore);
 		for (HasTextFormat formatter : formatters) {
 			formatter.format("script", value ? type : "none");
 		}
-		app.storeUndoInfo();
+		if (store.needUndo()) {
+			store.storeUndo();
+		}
 	}
 
 	private void switchListTo(String listType) {
 		for (HasTextFormat formatter : formatters) {
 			formatter.switchListTo(listType);
 		}
-		app.storeUndoInfo();
 	}
 
 	/**
@@ -193,7 +190,7 @@ public class InlineTextToolbar implements FastClickHandler {
 	 *
 	 * @return the toolbar as a menu item
 	 */
-	public AriaMenuItem getItem() {
-		return item;
+	public FlowPanel getItem() {
+		return panel;
 	}
 }

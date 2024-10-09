@@ -8,7 +8,8 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.print.PageFormat;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 import javax.swing.AbstractAction;
@@ -27,14 +28,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.MenuElement;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.common.move.events.BaseEvent;
-import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
-import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.common.util.Charsets;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.export.PrintPreviewD;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -44,7 +41,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.LocalizationD;
 
-public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
+public class GeoGebraMenuBar extends JMenuBar {
 	private static final long serialVersionUID = 1736020764918189176L;
 
 	private BaseMenu fileMenu;
@@ -57,10 +54,10 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	ViewMenuApplicationD viewMenu;
 
 	private final AppD app;
-	private LayoutD layout;
+	private final LayoutD layout;
 
 	/**
-	 * Creates new menubar
+	 * Creates new menu-bar
 	 * 
 	 * @param app
 	 *            Application
@@ -70,7 +67,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	public GeoGebraMenuBar(AppD app, LayoutD layout) {
 		this.layout = layout;
 
-		/**
+		/*
 		 * A nasty workaround to prevent any borders from being drawn. All other
 		 * elements will have a border at the top to prevent visual conflicts
 		 * while moving the toolbar / algebra input to the top / bottom. The
@@ -131,28 +128,6 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
-	}
-
-	/**
-	 * Display the result of login events
-	 */
-	@Override
-	public void renderEvent(final BaseEvent event) {
-		SwingUtilities.invokeLater(() -> doRenderEvent(event));
-
-	}
-
-	protected void doRenderEvent(BaseEvent event) {
-		if (event instanceof TubeAvailabilityCheckEvent) {
-			TubeAvailabilityCheckEvent checkEvent = (TubeAvailabilityCheckEvent) event;
-			onTubeAvailable(checkEvent.isAvailable());
-		}
-	}
-
-	private void onTubeAvailable(boolean available) {
-		if (available) {
-			app.showPopUps();
-		}
 	}
 
 	/**
@@ -304,7 +279,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 		sb.append(app.getHeapSize() / 1024 / 1024);
 		sb.append("MB, ");
-		sb.append(App.getCASVersionString());
+		sb.append(getCASVersion(app));
 
 		sb.append(")<br>");
 
@@ -381,13 +356,10 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		sb.append("\nArchitecture: ");
 		sb.append(System.getProperty("os.arch")); // tells us 32 or 64 bit
 													// (Java)
-		sb.append(" / ");
-		sb.append(System.getenv("PROCESSOR_ARCHITECTURE")); // tells us 32 or 64
-															// bit (Java)
 		sb.append("\nHeap: ");
 		sb.append(app.getHeapSize() / 1024 / 1024);
 		sb.append("MB\nCAS: ");
-		sb.append(App.getCASVersionString());
+		sb.append(getCASVersion(app));
 		if (glCard != null) {
 			sb.append("\nGraphics Card: ").append(glCard);
 		}
@@ -405,22 +377,16 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 		// copy file log
 		if (app.logFile != null) {
-			sb.append("File log from " + app.logFile.toString() + ":\n");
+			sb.append("File log from ").append(app.logFile).append(":\n");
 			String NL = System.getProperty("line.separator");
-			Scanner scanner = null;
-			try {
-				scanner = new Scanner(new File(app.logFile.toString()),
-						Charsets.UTF_8);
+			try (Scanner scanner = new Scanner(new File(app.logFile.toString()),
+					StandardCharsets.UTF_8)) {
 				while (scanner.hasNextLine()) {
-					sb.append(scanner.nextLine() + NL);
+					sb.append(scanner.nextLine()).append(NL);
 				}
-			} catch (FileNotFoundException e) {
+			} catch (IOException e) {
 				app.showMessage(
 						app.getLocalization().getMenu("CannotOpenLogFile"));
-			} finally {
-				if (scanner != null) {
-					scanner.close();
-				}
 			}
 			sb.append("\n");
 		}
@@ -438,7 +404,13 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		sb.append("[/pre]");
 		Toolkit.getDefaultToolkit().getSystemClipboard()
 				.setContents(new StringSelection(sb.toString()), null);
+	}
 
+	private static String getCASVersion(AppD app) {
+		if (StringUtil.empty(App.getCASVersionString())) {
+			return app.getLocalization().getMenu("CASInitializing");
+		}
+		return App.getCASVersionString();
 	}
 
 	public static void setGlCard(String s) {

@@ -5,7 +5,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 
 /**
- * Class to plot x->f(x) functions and 2D/3D parametric curves
+ * Class to plot real functions f(x) and 2D/3D parametric curves
  * 
  * @author mathieu
  *

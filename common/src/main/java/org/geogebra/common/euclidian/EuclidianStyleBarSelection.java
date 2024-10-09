@@ -75,7 +75,7 @@ public class EuclidianStyleBarSelection {
 	}
 
 	/**
-	 * @return map mode -> default geo type
+	 * @return map mode -&gt; default geo type
 	 */
 	public HashMap<Integer, Integer> getDefaultMap() {
 		return defaultGeoMap;
@@ -88,7 +88,7 @@ public class EuclidianStyleBarSelection {
 	public void updateDefaultsForMode(int mode) {
 		defaultGeos = new ArrayList<>();
 		if (EuclidianView.isPenMode(mode)) {
-			GeoElement geo = ec.getPen().defaultPenLine;
+			GeoElement geo = ec.getPen().getDefaultPenLine();
 			if (geo != null) {
 				defaultGeos.add(geo);
 			}

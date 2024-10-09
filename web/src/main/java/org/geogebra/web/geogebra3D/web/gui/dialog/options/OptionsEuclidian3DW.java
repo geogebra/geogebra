@@ -64,11 +64,6 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		}
 
 		@Override
-		protected int setDimension() {
-			return 6;
-		}
-
-		@Override
 		protected void fillMiscPanel() {
 			miscPanel.add(LayoutUtilW.panelRow(backgroundColorLabel,
 					btBackgroundColor));
@@ -112,8 +107,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		protected void fillAxesOptionsPanel() {
 			axesOptionsPanel.add(LayoutUtilW.panelRow(cbShowAxes));
 			axesOptionsPanel.add(LayoutUtilW.panelRow(cbYAxisVertical));
-			axesOptionsPanel.add(LayoutUtilW.panelRow(lblAxisLabelStyle,
-					cbAxisLabelSerif, cbAxisLabelBold, cbAxisLabelItalic));
+			super.addFontStyleRow();
 			axesOptionsPanel.add(LayoutUtilW.panelRow(cbAxesColored));
 		}
 
@@ -578,6 +572,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		((BasicTab3D) basicTab).update3DProperties();
 		projectionTab.updateGUI();
 		super.updateGUI();
+		zAxisTab.updateGUI();
 	}
 
 	@Override

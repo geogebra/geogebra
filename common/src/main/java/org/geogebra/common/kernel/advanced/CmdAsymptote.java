@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -13,7 +14,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.main.MyError;
 
 /**
- * Asymptote[ &lt;GeoConic> ]
+ * Asymptote[ &lt;GeoConic&gt; ]
  */
 public class CmdAsymptote extends CommandProcessor implements UsesCAS {
 
@@ -28,7 +29,7 @@ public class CmdAsymptote extends CommandProcessor implements UsesCAS {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 

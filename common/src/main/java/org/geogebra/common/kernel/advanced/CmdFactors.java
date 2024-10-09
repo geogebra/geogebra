@@ -5,13 +5,14 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.cas.AlgoFactors;
 import org.geogebra.common.kernel.cas.AlgoPrimeFactorization;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Factors[ &lt;Function> ] Factors[ &lt;Number> ]
+ * Factors[ &lt;Function&gt; ] Factors[ &lt;Number&gt; ]
  */
 public class CmdFactors extends CommandProcessor {
 
@@ -26,7 +27,7 @@ public class CmdFactors extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 
 		GeoElement[] arg;

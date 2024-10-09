@@ -1,6 +1,9 @@
 package org.geogebra.web.html5.util;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
@@ -8,6 +11,9 @@ import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
+import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.bridge.AttributeProvider;
+import org.geogebra.web.html5.bridge.MapAttributeProvider;
 
 /**
  *
@@ -23,26 +29,26 @@ public class AppletParameters {
 	 *            name of app
 	 */
 	public AppletParameters(String appName) {
-		this.attributeProvider = new MapAttributeProvider();
+		this.attributeProvider = new MapAttributeProvider(null);
 		setAttribute("appName", appName);
 		setAttribute("width", "800");
 		setAttribute("height", "600");
 	}
 
-	public AppletParameters(GeoGebraElement element) {
+	public AppletParameters(AttributeProvider element) {
 		this.attributeProvider = element;
 	}
 
 	private String getAttribute(String attribute) {
-		return attributeProvider.getAttribute("data-param-" + attribute);
+		return attributeProvider.getAttribute(attribute);
 	}
 
 	public boolean hasAttribute(String attribute) {
-		return attributeProvider.hasAttribute("data-param-" + attribute);
+		return attributeProvider.hasAttribute(attribute);
 	}
 
 	public void removeAttribute(String attribute) {
-		attributeProvider.removeAttribute("data-param-" + attribute);
+		attributeProvider.removeAttribute(attribute);
 	}
 
 	/**
@@ -51,7 +57,7 @@ public class AppletParameters {
 	 * @return this
 	 */
 	public AppletParameters setAttribute(String attribute, String value) {
-		attributeProvider.setAttribute("data-param-" + attribute, value);
+		attributeProvider.setAttribute(attribute, value);
 		return this;
 	}
 
@@ -157,10 +163,10 @@ public class AppletParameters {
 	}
 
 	/**
-	 * @return true, if data-param-lockExam attribute is set to true
+	 * @return value of data-param-examMode or null
 	 */
-	public boolean getParamLockExam() {
-		return getBoolDataParam("lockExam", false);
+	public String getParamExamMode() {
+		return getStringDataParam("examMode", null);
 	}
 
 	public boolean hasDataParamEnable3D() {
@@ -191,16 +197,6 @@ public class AppletParameters {
 	 */
 	public boolean getDataParamShowMenuBar(boolean def) {
 		return getBoolDataParam("showMenuBar", def) || getDataParamApp();
-	}
-
-	/**
-	 * @param def
-	 *            fallback if parameter is not set
-	 * @return data-param-allowStylebar: whether to have stylebar; no effect
-	 *         when menu is present
-	 */
-	public boolean getDataParamAllowStyleBar(boolean def) {
-		return getBoolDataParam("allowStyleBar", def);
 	}
 
 	/**
@@ -354,10 +350,11 @@ public class AppletParameters {
 	}
 
 	/**
+	 * @param fallback border color if none is set
 	 * @return border color (valid CSS color)
 	 */
-	public String getDataParamBorder() {
-		return getStringDataParam("borderColor", "");
+	public String getDataParamBorder(String fallback) {
+		return getStringDataParam("borderColor", fallback);
 	}
 
 	/**
@@ -518,6 +515,13 @@ public class AppletParameters {
 	/**
 	 * @return URL of materials plaftform API (empty string if not set)
 	 */
+	public String getMaterialId() {
+		return getStringDataParam("material_id", "");
+	}
+
+	/**
+	 * @return URL of materials plaftform API (empty string if not set)
+	 */
 	public String getLoginAPIurl() {
 		return getStringDataParam("loginApi", "");
 	}
@@ -580,7 +584,7 @@ public class AppletParameters {
 	}
 
 	/**
-	 * @return whether to allow scale > 1
+	 * @return whether to allow scale &gt; 1
 	 */
 	public boolean getParamAllowUpscale() {
 		return getBoolDataParam("allowUpscale", false);
@@ -744,5 +748,47 @@ public class AppletParameters {
 
 	public String getParamMultiplayerUrl() {
 		return getStringDataParam("multiplayerUrl", "");
+	}
+
+	public boolean getParamAllowUndoCheckpoints() {
+		return getBoolDataParam("allowUndoCheckpoints", true);
+	}
+
+	public double getBorderRadius() {
+		return getIntDataParam("borderRadius", 0);
+	}
+
+	/**
+	 * @return if scripting in JavaScript is disabled (default: false)
+	 */
+	public boolean getDisableJavaScript() {
+		return getBoolDataParam("disableJavaScript", false);
+	}
+
+	/**
+	 * When set, keyboard should be attached to the first element in DOM
+	 * that fits the selector.
+	 *
+	 * @return the selector where the keyboard should be attached in DOM.
+	 */
+	public String getDetachKeyboardParent() {
+		return getStringDataParam("detachedKeyboardParent", "");
+	}
+
+	/**
+	 * @return whether to run JS in QuickJS sandbox
+	 */
+	public boolean getParamSandbox() {
+		return getBoolDataParam("sandboxJavaScript",
+				getDataParamApp() || Browser.isGeoGebraOrg());
+	}
+
+	/**
+	 * List of disabled categories in ToolboxMow
+	 * @return the data-param-customToolbox (default: empty list)
+	 */
+	public List<String> getDataParamCustomToolbox() {
+		return Arrays.stream(getStringDataParam("customToolbox", "").split(","))
+				.map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
 	}
 }

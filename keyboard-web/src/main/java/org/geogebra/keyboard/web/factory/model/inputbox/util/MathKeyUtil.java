@@ -4,11 +4,9 @@ import static org.geogebra.keyboard.base.model.impl.factory.Characters.CURLY_EUL
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.CURLY_PI;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.DEGREE;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.EULER;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.INFINITY;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.PI;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.ROOT;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUP2;
-import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 
@@ -28,7 +26,6 @@ public class MathKeyUtil {
 		addInputButton(row, buttonFactory, Characters.x, "x");
 		addInputButton(row, buttonFactory, Characters.y, "y");
 		addInputButton(row, buttonFactory, Characters.z, "z");
-		addButton(row, buttonFactory.createEmptySpace(1.2f));
 	}
 
 	/**
@@ -40,19 +37,7 @@ public class MathKeyUtil {
 		addConstantInputButton(row, buttonFactory, Resource.POWA2, SUP2);
 		addConstantInputButton(row, buttonFactory, Resource.POWAB, "^");
 		addConstantInputButton(row, buttonFactory, Resource.ROOT, ROOT);
-		addConstantInputButton(row, buttonFactory, Resource.FRACTION, "/");
-	}
-
-	/**
-	 * third row of math default inputbox math keyboard
-	 * @param row row
-	 * @param buttonFactory factory
-	 */
-	public static void addImInfDegComma(RowImpl row, ButtonFactory buttonFactory) {
-		addInputButton(row, buttonFactory, Characters.imaginaryI, "i", "altText.Imaginaryi");
-		addInputButton(row, buttonFactory, INFINITY);
-		addInputButton(row, buttonFactory, DEGREE);
-		addInputButton(row, buttonFactory, ",");
+		addConstantInputButton(row, buttonFactory, Resource.RECURRING_DECIMAL, "recurringDecimal");
 	}
 
 	/**
@@ -60,10 +45,22 @@ public class MathKeyUtil {
 	 * @param row row
 	 * @param buttonFactory factory
 	 */
-	public static void addParenthesesPiE(RowImpl row, ButtonFactory buttonFactory) {
+	public static void addParenthesesFractionMixed(RowImpl row, ButtonFactory buttonFactory) {
 		addInputButton(row, buttonFactory, "(");
 		addInputButton(row, buttonFactory, ")");
+		addConstantInputButton(row, buttonFactory, Resource.FRACTION, "/");
+		addConstantInputButton(row, buttonFactory, Resource.MIXED_NUMBER, "mixedNumber");
+	}
+
+	/**
+	 * third row of math default inputbox math keyboard
+	 * @param row row
+	 * @param buttonFactory factory
+	 */
+	public static void addPiEIDegree(RowImpl row, ButtonFactory buttonFactory) {
 		addInputButton(row, buttonFactory, CURLY_PI, PI);
 		addInputButton(row, buttonFactory, CURLY_EULER, EULER);
+		addInputButton(row, buttonFactory, Characters.imaginaryI, "i", "altText.Imaginaryi");
+		addInputButton(row, buttonFactory, DEGREE);
 	}
 }

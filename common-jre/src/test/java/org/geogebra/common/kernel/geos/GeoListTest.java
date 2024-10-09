@@ -4,7 +4,11 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
+import java.util.Objects;
+
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.awt.GGraphicsCommon;
+import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.kernel.StringTemplate;
 import org.junit.Test;
 
@@ -48,5 +52,20 @@ public class GeoListTest extends BaseUnitTest {
 		StringBuilder sb = new StringBuilder();
 		allLists.getExpressionXML(sb);
 		assertThat(sb.toString(), is("<expression label=\"allLists\" exp=\"{{1}}\"/>\n"));
+	}
+
+	@Test
+	public void shouldBeDrawableIfNotSelected() {
+		add("a=5");
+		GeoList list = add("Sequence(a)");
+		list.setDrawAsComboBox(true);
+		list.setEuclidianVisible(true);
+		list.setSelectedIndex(4);
+		list.updateRepaint();
+		DrawDropDownList drawList = (DrawDropDownList) getDrawable(list);
+		Objects.requireNonNull(drawList).toggleOptions();
+		add("SetValue(a,1)");
+		drawList.draw(new GGraphicsCommon());
+		assertThat(list.getSelectedElement(), hasValue("1"));
 	}
 }

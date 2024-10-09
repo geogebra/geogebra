@@ -33,7 +33,7 @@ public class AlgebraTree extends JTree {
 	protected AppD app; // parent appame
 	protected Kernel kernel;
 
-	protected MyRendererForAlgebraTree renderer;
+	protected AlgebraTreeCellRenderer renderer;
 
 	protected AlgebraTreeController algebraController;
 
@@ -117,8 +117,8 @@ public class AlgebraTree extends JTree {
 	 * @param app application
 	 * @return new renderer of a cell
 	 */
-	protected MyRendererForAlgebraTree newMyRenderer(AppD app) {
-		return new MyRendererForAlgebraTree(app, this);
+	protected AlgebraTreeCellRenderer newMyRenderer(AppD app) {
+		return new AlgebraTreeCellRenderer(app, this);
 	}
 
 	public boolean isRenderLaTeX() {

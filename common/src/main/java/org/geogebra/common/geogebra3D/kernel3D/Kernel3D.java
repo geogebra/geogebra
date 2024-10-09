@@ -79,7 +79,7 @@ import org.geogebra.common.plugin.GeoClass;
  * <code>
    final public GeoNew3D New3D(String label, ???) { <br> &nbsp;&nbsp;
      AlgoNew3D algo = new AlgoNew3D(cons, label, ???); <br> &nbsp;&nbsp;
-	 return algo.getGeo(); <br> 
+     return algo.getGeo(); <br>
    }
    </code></li>
  * </ul>
@@ -173,7 +173,7 @@ public class Kernel3D extends Kernel {
 	 */
 	@Override
 	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
-		return new AlgebraProcessor3D(kernel, app.newCommand3DDispatcher(kernel));
+		return new AlgebraProcessor3D(kernel, app.newCommandDispatcher(kernel));
 	}
 
 	/** return all points of the current construction */

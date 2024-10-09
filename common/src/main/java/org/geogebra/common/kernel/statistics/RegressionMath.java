@@ -30,11 +30,10 @@ import org.geogebra.common.util.debug.Log;
  * 
  * Might be problems if callers are running in separate threads. Is this a
  * problem?
- * 
- * <ul>
  * <b>--- Interface: ---</b>
+ * <ul>
  * <li>RegressionMath(GeoList)
- * <li>det33(...), det44(...) determinants. (Faster than Gauss for n<5)
+ * <li>det33(...), det44(...) determinants. (Faster than Gauss for n&lt;5)
  * <li>but det55 removed to keep code size down (web)
  * <li>doLinReg(),doQuadReg(),doCubicReg(),doQuartRet()
  * <li>doExpReg(),doLogReg(),doPowReg()
@@ -133,7 +132,7 @@ public final class RegressionMath {
 	}
 
 	/**
-	 * Does the Polynom regression for degree > 4
+	 * Does the Polynom regression for degree &gt; 4
 	 * 
 	 * @param gl
 	 *            inut data
@@ -152,26 +151,14 @@ public final class RegressionMath {
 			return false;
 		}
 		try {
-			/*
-			 * Old Jama version: long time=System.currentTimeMillis();
-			 * makeMatrixArrays(degree); //make marray and yarray Matrix M=new
-			 * Matrix(marray); Matrix Y=new Matrix(yarray); Matrix
-			 * Par=M.solve(Y); //Par.print(3,3);
-			 * pararray=Par.getRowPackedCopy();
-			 * System.out.println(System.currentTimeMillis()-time);
-			 */
 			makeMatrixArrays(degree); // make marray and yarray
 			RealMatrix M = new Array2DRowRealMatrix(marray, false);
 			DecompositionSolver solver = new QRDecomposition(M).getSolver();
-			// time=System.currentTimeMillis();
 			RealMatrix Y = new Array2DRowRealMatrix(yarray, false);
 			RealMatrix P = solver.solve(Y);
 			for (int i = 0; i <= degree; i++) {
 				cof[i] = P.getEntry(i, 0);
 			}
-
-			// System.out.println(System.currentTimeMillis()-time);
-			// diff(pararray,par);
 		} catch (Throwable t) {
 			Log.debug(t.toString());
 			error = true;

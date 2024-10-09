@@ -16,7 +16,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 
 /**
- * Function[ &lt;GeoFunction>, &lt;NumberValue>, &lt;NumberValue> ]
+ * Function[ &lt;GeoFunction&gt;, &lt;NumberValue&gt;, &lt;NumberValue&gt; ]
  */
 public class CmdDataFunction extends CommandProcessor {
 	/**
@@ -30,7 +30,7 @@ public class CmdDataFunction extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
@@ -111,10 +111,10 @@ public class CmdDataFunction extends CommandProcessor {
 		}
 
 		// eg DataFunction(x({A,B,C}), y({A,B,C}))
-		GeoElement[] res = this.resArg(c.getArgument(argIndex),
+		GeoElement res = this.resArg(c.getArgument(argIndex),
 				new EvalInfo(false));
-		if (res.length > 0 && res[0] instanceof ListValue) {
-			return (ListValue) res[0];
+		if (res instanceof ListValue) {
+			return (ListValue) res;
 		}
 
 		throw argErr(c, ev);

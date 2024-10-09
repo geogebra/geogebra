@@ -655,7 +655,7 @@ public class OptionsTab extends FlowPanel {
 		}
 
 		@Override
-		public void addItem(String plain) {
+		public void addItem(String item) {
 			// do nothing
 		}
 
@@ -716,11 +716,11 @@ public class OptionsTab extends FlowPanel {
 			mainPanel.setStyleName("optionsPanel");
 			titleLabel = new Label("-");
 			mainPanel.add(titleLabel);
-			btnPointStyle = PointStylePopup.create(app, -1, false, model);
-			if (btnPointStyle != null) {
-				btnPointStyle.setKeepVisible(false);
-				mainPanel.add(btnPointStyle);
-			}
+			btnPointStyle = PointStylePopup.create(app, -1, false);
+			btnPointStyle.addPopupHandler(model::applyChanges);
+			btnPointStyle.setKeepVisible(false);
+			mainPanel.add(btnPointStyle);
+
 			setWidget(mainPanel);
 		}
 
@@ -799,20 +799,16 @@ public class OptionsTab extends FlowPanel {
 			// opacitySlider.setSnapToTicks(true);
 			lineOpacityPanel.add(opacitySlider);
 
-			opacitySlider.addInputHandler(event -> {
-				int value = (int) ((opacitySlider.getValue() / 100.0) * 255);
-				model.applyOpacity(value);
-			});
+			opacitySlider.addInputHandler(model::applyOpacityPercentage);
 			opacitySlider.addValueChangeHandler(val -> model.storeUndoInfo());
 
 			stylePanel = new FlowPanel();
 			stylePanel.setStyleName("optionsPanel");
 			popupLabel = new Label();
 			stylePanel.add(popupLabel);
-			btnLineStyle = LineStylePopup.create(app, false);
+			btnLineStyle = LineStylePopup.create(app);
 			// slider.setSnapToTicks(true);
-			btnLineStyle.addPopupHandler(actionButton -> model.applyLineTypeFromIndex(btnLineStyle
-					.getSelectedIndex()));
+			btnLineStyle.addPopupHandler(model::applyLineTypeFromIndex);
 			btnLineStyle.setKeepVisible(false);
 			mainPanel.add(btnLineStyle);
 
@@ -990,7 +986,7 @@ public class OptionsTab extends FlowPanel {
 
 			FlowPanel mainPanel = new FlowPanel();
 			label = new Label();
-			inputPanel = new InputPanelW(null, app, 1, -1, false);
+			inputPanel = new InputPanelW(null, app, false);
 			textField = inputPanel.getTextComponent();
 			textField.setAutoComplete(false);
 			textField.addBlurHandler(event -> model.applyChanges(textField.getText()));
@@ -1055,8 +1051,8 @@ public class OptionsTab extends FlowPanel {
 					getModel()::applyChanges);
 			setLabels();
 
-			ipButtonWidth = new InputPanelW(null, app, 1, -1, false);
-			ipButtonHeight = new InputPanelW(null, app, 1, -1, false);
+			ipButtonWidth = new InputPanelW(null, app, false);
+			ipButtonHeight = new InputPanelW(null, app, false);
 
 			tfButtonWidth = ipButtonWidth.getTextComponent();
 			tfButtonWidth.setAutoComplete(false);

@@ -66,7 +66,7 @@ public class AlgoAxis extends AlgoElement {
 		this(cons, c, axisId);
 
 		eigenvec = c.eigenvec;
-		b = c.b;
+		b = c.getB();
 
 		axis = new GeoLine(cons);
 		finishSetup(label);
@@ -93,8 +93,7 @@ public class AlgoAxis extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = c;
 
-		setOutputLength(1);
-		setOutput(0, getAxis().toGeoElement());
+		setOnlyOutput(getAxis());
 		setDependencies(); // done by AlgoElement
 	}
 

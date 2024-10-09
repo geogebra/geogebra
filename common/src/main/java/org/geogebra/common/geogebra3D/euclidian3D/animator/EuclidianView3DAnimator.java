@@ -185,7 +185,7 @@ public class EuclidianView3DAnimator {
 	}
 
 	/**
-	 * zoom y & z axes ratio regarding x axis
+	 * zoom y &amp; z axes ratio regarding x axis
 	 * 
 	 * @param zoomFactorY zoom factor (y over x)
 	 * @param zoomFactorZ zoom factor (z over x)

@@ -85,13 +85,13 @@ public class GArc2DD implements GRectangularShapeD, GArc2D {
 
 	@Override
 	public GPoint2D getEndPoint() {
-		return new GPoint2D(impl.getStartPoint().getX(), impl.getStartPoint().getY());
+		return new GPoint2D(impl.getEndPoint().getX(), impl.getEndPoint().getY());
 	}
 
 	@Override
 	public void setArcByCenter(double x, double y, double radius, double angSt,
-			double angExt, int closure) {
-		impl.setArcByCenter(x, y, radius, angSt, angExt, closure);
+			double angleExt, int closure) {
+		impl.setArcByCenter(x, y, radius, angSt, angleExt, closure);
 
 	}
 

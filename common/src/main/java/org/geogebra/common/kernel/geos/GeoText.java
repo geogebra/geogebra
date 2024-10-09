@@ -25,7 +25,6 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -62,7 +61,7 @@ import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
  *
  */
 public class GeoText extends GeoElement
-		implements Locateable, AbsoluteScreenLocateable, TextValue,
+		implements AbsoluteScreenLocateable, TextValue,
 		TextProperties, SpreadsheetTraceable, HasSymbolicMode, HasAuralText {
 	public static final String NEW_LINE = "\\\\n";
 	private static Comparator<GeoText> comparator;
@@ -116,8 +115,8 @@ public class GeoText extends GeoElement
 	// for absolute screen location
 	private boolean hasAbsoluteScreenLocation = false;
 
-	private GeoNumeric verticalAlignment;
-	private GeoNumeric horizontalAlignment;
+	private Integer verticalAlignment;
+	private Integer horizontalAlignment;
 
 	/**
 	 */
@@ -132,32 +131,60 @@ public class GeoText extends GeoElement
 	private final List<GeoElement> updateListeners;
 
 	/**
-	 * Creates new text
-	 * 
-	 * @param c
+	 * Creates a new GeoText.
+	 *
+	 * Note: This will set construction defaults.
+	 *
+	 * @param construction
 	 *            construction
 	 */
-	public GeoText(Construction c) {
-		super(c);
+	public GeoText(Construction construction) {
+		this(construction, true);
+	}
 
-		// moved from GeoElement's constructor
-		// must be called from the subclass, see
-		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
-		setConstructionDefaults(); // init visual settings
+	/**
+	 * Creates a new GeoText.
+	 *
+	 * @param construction
+	 *            construction
+	 * @param setDefaults
+	 *            if true, will set construction defaults.
+	 */
+	public GeoText(Construction construction, boolean setDefaults) {
+		super(construction);
 
+		if (setDefaults) {
+			setConstructionDefaults(); // init visual settings
+		}
 		updateListeners = new ArrayList<>();
 	}
 
 	/**
-	 * Creates new GeoText
-	 * 
-	 * @param c
+	 * Creates a new GeoText.
+	 * Note: This will set construction defaults.
+	 *
+	 * @param construction
 	 *            construction
 	 * @param value
 	 *            text
 	 */
-	public GeoText(Construction c, String value) {
-		this(c);
+	public GeoText(Construction construction, String value) {
+		this(construction);
+		setTextString(value);
+	}
+
+	/**
+	 * Creates a new GeoText.
+	 *
+	 * @param construction
+	 *            construction
+	 * @param setDefaults
+	 *            If true, set construction defaults
+	 * @param value
+	 *            text
+	 */
+	public GeoText(Construction construction, String value, boolean setDefaults) {
+		this(construction, setDefaults);
 		setTextString(value);
 	}
 
@@ -383,6 +410,9 @@ public class GeoText extends GeoElement
 	private void notifyListeners() {
 		for (GeoElement geo : updateListeners) {
 			geo.notifyUpdate();
+			if (geo.isGeoNumeric()) {
+				((GeoNumeric) geo).notifyScreenReader();
+			}
 		}
 	}
 
@@ -552,8 +582,7 @@ public class GeoText extends GeoElement
 
 	@Override
 	public boolean isFixable() {
-		// workaround for Text["text",(1,2)]
-		return !alwaysFixed;
+		return true;
 	}
 
 	@Override
@@ -686,18 +715,26 @@ public class GeoText extends GeoElement
 	}
 
 	private void setSameLocation(GeoText text) {
-		if (text.hasAbsoluteScreenLocation) {
-			setAbsoluteScreenLocActive(true);
-			setAbsoluteScreenLoc(text.getAbsoluteScreenLocX(),
-					text.getAbsoluteScreenLocY());
+		if (text.isAbsoluteScreenLocActive()) {
+			if (text.startPoint == null) {
+				hasAbsoluteScreenLocation = true;
+				setAbsoluteScreenLoc(text.getAbsoluteScreenLocX(), text.getAbsoluteScreenLocY());
+			} else {
+				setAbsoluteStartPoint(text.startPoint, true);
+			}
 		} else {
 			if (text.startPoint != null) {
-				try {
-					setStartPoint(text.startPoint);
-				} catch (Exception e) {
-					// Circular definition, do nothing
-				}
+				setAbsoluteStartPoint(text.startPoint, false);
 			}
+		}
+	}
+
+	private void setAbsoluteStartPoint(GeoPointND oldStartPoint, boolean isAbsolute) {
+		hasAbsoluteScreenLocation = isAbsolute;
+		try {
+			setStartPoint(oldStartPoint);
+		} catch (CircularDefinitionException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -744,6 +781,10 @@ public class GeoText extends GeoElement
 	public void setAbsoluteScreenLoc(int x, int y) {
 		labelOffsetX = x;
 		labelOffsetY = y;
+		if (startPoint != null) {
+			startPoint.getLocateableList().unregisterLocateable(this);
+			startPoint = null;
+		}
 		if (!hasScreenLocation() && (x != 0 && y != 0)) {
 			setScreenLocation(x, y);
 		}
@@ -778,7 +819,7 @@ public class GeoText extends GeoElement
 	@Override
 	public void setRealWorldLoc(double x, double y) {
 		GeoPointND locPoint = getStartPoint();
-		if (locPoint == null) {
+		if (locPoint == null || hasAbsoluteScreenLocation) {
 			locPoint = new GeoPoint(cons);
 			try {
 				setStartPoint(locPoint);
@@ -1063,11 +1104,6 @@ public class GeoText extends GeoElement
 		return ExtendedBoolean.FALSE;
 	}
 
-	@Override
-	public void setZero() {
-		str = "";
-	}
-
 	/**
 	 * Returns a comparator for GeoText objects. If equal, doesn't return zero
 	 * (otherwise TreeSet deletes duplicates)
@@ -1188,9 +1224,6 @@ public class GeoText extends GeoElement
 
 	@Override
 	public boolean isSpreadsheetTraceable() {
-
-		// App.printStacktrace("\n"+this+"\n"+spreadsheetTraceableCase);
-
 		switch (spreadsheetTraceableCase) {
 		case TRUE:
 			return true;
@@ -1505,7 +1538,7 @@ public class GeoText extends GeoElement
 	 */
 	public String getAuralTextLaTeX() {
 		kernel.getApplication().getDrawEquation()
-				.checkFirstCall(kernel.getApplication());
+				.checkFirstCall();
 		// TeXAtomSerializer makes formula human-readable.
 		TeXFormula tf = getTeXFormula();
 		SerializationAdapter adapter = ScreenReader.getSerializationAdapter(app);
@@ -1555,19 +1588,19 @@ public class GeoText extends GeoElement
 		}
 	}
 
-	public void setHorizontalAlignment(GeoNumeric horizAlign) {
+	public void setHorizontalAlignment(Integer horizAlign) {
 		horizontalAlignment = horizAlign;
 	}
 
-	public GeoNumeric getHorizontalAlignment() {
+	public Integer getHorizontalAlignment() {
 		return horizontalAlignment;
 	}
 
-	public void setVerticalAlignment(GeoNumeric vertAlign) {
+	public void setVerticalAlignment(Integer vertAlign) {
 		verticalAlignment = vertAlign;
 	}
 
-	public GeoNumeric getVerticalAlignment() {
+	public Integer getVerticalAlignment() {
 		return verticalAlignment;
 	}
 
@@ -1597,4 +1630,5 @@ public class GeoText extends GeoElement
 		}
 		return b.toString();
 	}
+
 }

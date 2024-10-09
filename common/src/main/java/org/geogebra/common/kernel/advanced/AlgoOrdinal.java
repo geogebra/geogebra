@@ -59,8 +59,7 @@ public class AlgoOrdinal extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = n;
 
-		super.setOutputLength(1);
-		super.setOutput(0, text);
+		setOnlyOutput(text);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -88,7 +87,7 @@ public class AlgoOrdinal extends AlgoElement {
 			return;
 		}
 
-		text.setTextString(getLoc().getOrdinalNumber((int) num));
+		text.setTextString(getLoc().getLanguage().getOrdinalNumber((int) num));
 
 	}
 

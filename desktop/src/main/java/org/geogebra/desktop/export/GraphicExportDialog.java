@@ -18,8 +18,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
@@ -97,7 +95,6 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 	@SuppressWarnings("rawtypes")
 	JComboBox cbDPI;
 	private JLabel sizeLabel;
-	private JButton cancelButton;
 
 	private double exportScale;
 	private int pixelWidth;
@@ -119,12 +116,12 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 		PNG, PDF, EPS, SVG, EMF
 	}
 
-	private EuclidianViewD specifiedEuclidianView;
+	private final EuclidianViewD specifiedEuclidianView;
 
 	/** print scale or pixel size settings */
 	PrintScalePanel psp;
 
-	private LocalizationD loc;
+	private final LocalizationD loc;
 
 	/**
 	 * Creates a dialog for exporting an image of the active EuclidianView
@@ -186,8 +183,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 
 		// preferred font not found, check for any that contain "braille"
 		for (Font f : fonts) {
-			if (StringUtil.toLowerCaseUS(f.getFontName())
-					.indexOf("braille") > -1) {
+			if (StringUtil.toLowerCaseUS(f.getFontName()).contains("braille")) {
 				Log.debug("found Braille font: " + f.getFontName());
 				brailleFont = f;
 				braille = true;
@@ -365,7 +361,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 		cp.add(p, BorderLayout.CENTER);
 
 		// Cancel and Export Button
-		cancelButton = new JButton(loc.getMenu("Cancel"));
+		JButton cancelButton = new JButton(loc.getMenu("Cancel"));
 		cancelButton.addActionListener(e -> setVisible(false));
 		JButton exportButton = new JButton(loc.getMenu("Save"));
 		exportButton.addActionListener(e -> {
@@ -532,7 +528,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 
 			updateSizeLabel();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -929,7 +925,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 					transparent0);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -1009,7 +1005,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 			g.endExport();
 			expGraphics.resetClip();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		} finally {
 			app.setExporting(ExportType.NONE, 1);
 		}
@@ -1059,7 +1055,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 			g.endExport();
 
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}
@@ -1134,7 +1130,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 					? ExportType.PDF_TEXTASSHAPES : ExportType.PDF_EMBEDFONTS);
 			g.endExport();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

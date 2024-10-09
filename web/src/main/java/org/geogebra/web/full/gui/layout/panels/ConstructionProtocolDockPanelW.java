@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.layout.panels;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
-import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW.MyPanel;
+import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW.ConsProtocolScrollPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.Panel;
@@ -39,8 +39,8 @@ public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
 	@Override
 	public void resizeContent(Panel content) {
 		super.resizeContent(content);
-		if (content instanceof MyPanel) {
-			((MyPanel) content).onResize();
+		if (content instanceof ConsProtocolScrollPanel) {
+			((ConsProtocolScrollPanel) content).onResize();
 		}
 	}
 }

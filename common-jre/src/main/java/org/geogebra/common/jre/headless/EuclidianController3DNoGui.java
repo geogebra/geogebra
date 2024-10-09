@@ -19,12 +19,6 @@ public class EuclidianController3DNoGui extends EuclidianController3D {
 	}
 
 	@Override
-	protected void initToolTipManager() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	protected void resetToolTipManager() {
 		// TODO Auto-generated method stub
 

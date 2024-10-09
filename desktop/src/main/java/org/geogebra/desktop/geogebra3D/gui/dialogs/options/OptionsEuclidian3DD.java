@@ -58,6 +58,21 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 
 	private JCheckBox cbUseLight;
 
+	private JLabel[] projectionLabel;
+	private JTextField tfPersp;
+	private JTextField tfGlassesEyeSep;
+	private JTextField tfObliqueAngle;
+	private JTextField tfObliqueFactor;
+	private JLabel tfPerspLabel;
+	private JLabel tfGlassesLabel;
+	private JLabel tfObliqueAngleLabel;
+	private JLabel tfObliqueFactorLabel;
+	private ProjectionButtons projectionButtons;
+	private JCheckBox cbGlassesGray;
+	private JLabel cbGlassesGrayLabel;
+	private JCheckBox cbGlassesShutDownGreen;
+	private JLabel cbGlassesShutDownGreenLabel;
+
 	/**
 	 * constructor
 	 * 
@@ -68,9 +83,6 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 	 */
 	public OptionsEuclidian3DD(AppD app, EuclidianView3D view) {
 		super(app, view);
-
-		enableStuff(false);
-
 		updateGUI();
 	}
 
@@ -173,34 +185,6 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 		super.initMiscPanel();
 	}
 
-	private void enableStuff(boolean flag) {
-		// TODO remove when implemented
-
-		// tfMinX.setEnabled(flag);
-		// tfMaxX.setEnabled(flag);
-		// tfMinY.setEnabled(flag);
-		// tfMaxY.setEnabled(flag);
-		//
-		// btAxesColor.setEnabled(flag);
-		// cbAxesStyle.setEnabled(flag);
-		// cbShowMouseCoords.setEnabled(flag);
-		// cbTooltips.setEnabled(flag);
-		//
-		// // ((AxisPanel3D) xAxisPanel).enableStuff(flag);
-		// // ((AxisPanel3D) yAxisPanel).enableStuff(flag);
-		// // zAxisPanel.enableStuff(flag);
-		//
-		// cbGridManualTick.setEnabled(flag);
-		// ncbGridTickX.setEnabled(flag);
-		// ncbGridTickY.setEnabled(flag);
-		// cbGridTickAngle.setEnabled(flag);
-		// cbGridStyle.setEnabled(flag);
-		// cbGridType.setEnabled(flag);
-		// cbBoldGrid.setEnabled(flag);
-		// btGridColor.setEnabled(flag);
-
-	}
-
 	@Override
 	public void updateGUI() {
 		super.updateGUI();
@@ -289,21 +273,6 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 		tabbedPane.addTab("", new JScrollPane(zAxisPanel));
 
 	}
-
-	private JLabel[] projectionLabel;
-	private JTextField tfPersp;
-	private JTextField tfGlassesEyeSep;
-	private JTextField tfObliqueAngle;
-	private JTextField tfObliqueFactor;
-	private JLabel tfPerspLabel;
-	private JLabel tfGlassesLabel;
-	private JLabel tfObliqueAngleLabel;
-	private JLabel tfObliqueFactorLabel;
-	private ProjectionButtons projectionButtons;
-	private JCheckBox cbGlassesGray;
-	private JLabel cbGlassesGrayLabel;
-	private JCheckBox cbGlassesShutDownGreen;
-	private JLabel cbGlassesShutDownGreenLabel;
 
 	private class ProjectionButtons {
 
@@ -703,5 +672,10 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 		tfMaxY.addActionListener(this);
 		tfMinZ.addActionListener(this);
 		tfMaxZ.addActionListener(this);
+	}
+
+	@Override
+	public void selectGridStyle(int style) {
+		// nothing to do here
 	}
 }

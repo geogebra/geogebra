@@ -58,9 +58,8 @@ public abstract class Log {
 		 */
 		FILE,
 		/**
-		 * Sends logging to console. Messages <= ERROR will be written to
-		 * STDERR, others to STDOUT in desktop mode; sends log messages via
-		 * GWT.log to the Eclipse console in web development mode.
+		 * Sends logging to console. Messages at leve ERROR or higher will be written to
+		 * STDERR, others to STDOUT in desktop mode; in Web console.(log|info|warn|error) is used
 		 */
 		CONSOLE
 	}
@@ -184,7 +183,7 @@ public abstract class Log {
 	}
 
 	/**
-	 * Prints a log message if the logLevel is set to <= level
+	 * Prints a log message if the logLevel is set to &lt;= level
 	 * 
 	 * @param level
 	 *            logging level
@@ -284,7 +283,7 @@ public abstract class Log {
 	 * @param message
 	 *            message to be printed
 	 */
-	public static void trace(String message) {
+	public static void trace(Object message) {
 		if (logger != null) {
 			logger.log(Level.TRACE, message);
 		}

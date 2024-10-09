@@ -10,6 +10,7 @@ import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
@@ -47,7 +48,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 	private LocaleSensitiveComparator comparator;
 	private SplitLayoutPanel sp;
 	private InlineLabel lblSyntax;
-	private MyTreeItem itmFunction;
+	private InputHelpTreeItem itmFunction;
 	private AutoCompleteW inputField;
 	private InputBarHelpPanel hp;
 
@@ -100,7 +101,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 
 		HorizontalPanel detailTitlePanel = new HorizontalPanel();
 		detailTitlePanel
-		        .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+				.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		detailTitlePanel.add(lblSyntax);
 		detailTitlePanel.add(pnlButton);
 		detailTitlePanel.addStyleName("inputHelp-detailPanelTitle");
@@ -168,12 +169,12 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 			app.getGuiManager().openHelp("InputBar");
 
 		} else if (getSelectedCommand().equals(
-		        app.getLocalization().getMenu("MathematicalFunctions"))) {
+				app.getLocalization().getMenu("MathematicalFunctions"))) {
 			app.getGuiManager().openHelp(App.WIKI_OPERATORS);
 
 		} else {
 			app.getGuiManager()
-			        .openCommandHelp(getSelectedCommand());
+					.openCommandHelp(getSelectedCommand());
 		}
 	}
 
@@ -189,11 +190,11 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 	 */
 	public String getSelectedCommand() {
 		if (indexTree == null || indexTree.getSelectedItem() == null
-		        || indexTree.getSelectedItem().getChildCount() > 0) {
+				|| indexTree.getSelectedItem().getChildCount() > 0) {
 			return null;
 		}
 		return indexTree.getSelectedItem().getWidget().getElement()
-		        .getInnerText();
+				.getInnerText();
 	}
 
 	@Override
@@ -213,7 +214,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 	 *            max height
 	 */
 	public void updateGUI(int maxOffsetHeight) {
-		showOnlineHelpButton(!app.isExam() && app.showMenuBar());
+		showOnlineHelpButton(GlobalScope.examController.isIdle() && app.showMenuBar());
 		int height = maxOffsetHeight - 60;
 		double width = ((GuiManagerW) app.getGuiManager()).getRootComponent()
 				.getOffsetWidth() - 60;
@@ -221,7 +222,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 		int w = (int) Math.min(700, width);
 		sp.setPixelSize(w, height);
 	}
-	
+
 	/**
 	 * @param scale
 	 *            scale
@@ -244,15 +245,15 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 
 		indexTree.clear();
 
-		itmFunction = new MyTreeItem();
+		itmFunction = new InputHelpTreeItem();
 		itmFunction.setWidget(new TreeItemButton(
 				app.getLocalization().getMenu("MathematicalFunctions"),
 				itmFunction, false));
 		indexTree.addItem(itmFunction);
 
-		MyTreeItem itmAllCommands = new MyTreeItem();
+		InputHelpTreeItem itmAllCommands = new InputHelpTreeItem();
 		itmAllCommands.setWidget(new TreeItemButton(app.getLocalization()
-		        .getMenu("AllCommands"), itmAllCommands, false));
+				.getMenu("AllCommands"), itmAllCommands, false));
 
 		addCmdNames(itmAllCommands, getAllCommandsTreeSet());
 		indexTree.addItem(itmAllCommands);
@@ -264,7 +265,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 			if (cmdNames != null) {
 				String cmdSetName = app.getKernel().getAlgebraProcessor()
 						.getSubCommandSetName(index);
-				TreeItem itmCmdSet = new MyTreeItem();
+				TreeItem itmCmdSet = new InputHelpTreeItem();
 				itmCmdSet.setWidget(
 						new TreeItemButton(cmdSetName, itmCmdSet, false));
 				// add command set branch to tree
@@ -278,7 +279,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 	private void addCmdNames(TreeItem item, TreeSet<String> names) {
 		for (String cmdName : names) {
 			if (cmdName != null && cmdName.length() > 0) {
-				MyTreeItem cmd = new MyTreeItem();
+				InputHelpTreeItem cmd = new InputHelpTreeItem();
 				cmd.setWidget(new TreeItemButton(cmdName, cmd, true));
 				item.addItem(cmd);
 			}
@@ -288,7 +289,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 	private class TreeItemButton extends InlineLabel {
 
 		public TreeItemButton(String text, final TreeItem item,
-		        final boolean isLeaf) {
+				final boolean isLeaf) {
 			super(text);
 			addStyleName("inputHelp-treeItem");
 
@@ -303,9 +304,9 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 		}
 	}
 
-	private static class MyTreeItem extends TreeItem {
+	private static class InputHelpTreeItem extends TreeItem {
 
-		protected MyTreeItem() {
+		protected InputHelpTreeItem() {
 			// avoid synth access warning
 		}
 
@@ -364,7 +365,7 @@ public class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanR
 		lblSyntax.setText(getSelectedCommand());
 		ArrayList<Widget> rows;
 		if (getSelectedCommand().equals(
-		        app.getLocalization().getMenu("MathematicalFunctions"))) {
+				app.getLocalization().getMenu("MathematicalFunctions"))) {
 			rows = functionTableHTML();
 			
 			syntaxPanel.removeStyleName("inputHelp-cmdSyntax");

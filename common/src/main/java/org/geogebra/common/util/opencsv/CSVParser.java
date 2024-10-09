@@ -19,8 +19,6 @@ package org.geogebra.common.util.opencsv;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.util.StringUtil;
-
 /**
  * A very simple CSV parser released under a commercial-friendly license. This
  * just implements splitting a single line into fields.
@@ -186,6 +184,7 @@ public class CSVParser {
 	 *            if true, characters outside the quotes are ignored
 	 * @param ignoreLeadingWhiteSpace
 	 *            if true, white space in front of a quote in a field is ignored
+	 * @param ignoreQuotations whether to ignore quotes
 	 */
 	public CSVParser(char separator, char quotechar, char escape,
 			boolean strictQuotes, boolean ignoreLeadingWhiteSpace,
@@ -399,7 +398,7 @@ public class CSVParser {
 	}
 
 	/**
-	 * precondition: sb.length() > 0
+	 * precondition: sb not empty
 	 *
 	 * @param sb
 	 *            A sequence of characters to examine
@@ -410,7 +409,7 @@ public class CSVParser {
 		for (int i = 0; i < sb.length(); i++) {
 			char c = sb.charAt(i);
 
-			if (!StringUtil.isWhitespace(c)) {
+			if (!Character.isWhitespace(c)) {
 				return false;
 			}
 		}

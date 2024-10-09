@@ -93,8 +93,7 @@ public class AlgoDependentLine extends AlgoElement
 		input = equation.getGeoElementVariables(
 				SymbolicMode.NONE);
 
-		setOutputLength(1);
-		setOutput(0, g);
+		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 

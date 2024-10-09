@@ -10,7 +10,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * Normalize[ &lt;List> ]
+ * Normalize[ &lt;List&gt; ]
  * 
  * @author Oana Niculaescu
  */
@@ -27,7 +27,7 @@ public class CmdNormalize extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);

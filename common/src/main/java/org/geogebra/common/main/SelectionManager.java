@@ -12,6 +12,8 @@ import java.util.stream.Stream;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.exam.restrictions.ExamRestrictable;
+import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
@@ -47,7 +49,6 @@ import org.geogebra.common.kernel.kernelND.GeoQuadric3DLimitedInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
-import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 
@@ -57,8 +58,8 @@ import com.google.j2objc.annotations.Weak;
  * Keeps lists of selected geos (global, per type)
  *
  */
-public class SelectionManager {
-	/** list of selected geos */
+public class SelectionManager implements ExamRestrictable {
+
 	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<>();
 
 	@Weak
@@ -102,6 +103,8 @@ public class SelectionManager {
 	private GeoBoolean tempSelectedBoolean;
 	private GeoElement focusedGroupElement;
 	private boolean keyboardSelection = false;
+
+	private ExamRestrictions examRestrictions;
 
 	/**
 	 * @param kernel
@@ -199,6 +202,7 @@ public class SelectionManager {
 	 *            call (or not) updateSelection()
 	 */
 	public void clearSelectedGeos(boolean repaint, boolean updateSelection) {
+		tempSelectedBoolean = null;
 		int size = selectedGeos.size();
 		if (size > 0) {
 			focusedGroupElement = null;
@@ -217,8 +221,6 @@ public class SelectionManager {
 			if (updateSelection) {
 				updateSelection();
 			}
-
-			tempSelectedBoolean = null;
 
 			dispatchDeselected(null);
 		}
@@ -247,8 +249,8 @@ public class SelectionManager {
 		if (geo == null) {
 			return;
 		}
-		dispatchDeselected(geo);
 		if (selectedGeos.remove(geo)) {
+			dispatchDeselected(geo);
 			// update only if selectedGeos contained geo
 			geo.setSelected(false);
 			if (updateSelection) {
@@ -300,7 +302,9 @@ public class SelectionManager {
 	 */
 	public final void addSelectedGeo(GeoElementND geoND, boolean repaint,
 			boolean updateSelection) {
-
+		if (!isSelectionAllowed(geoND)) {
+			return;
+		}
 		if ((geoND == null) || selectedGeos.contains(geoND)) {
 			return;
 		}
@@ -327,7 +331,7 @@ public class SelectionManager {
 
 	private void dispatchSelected(GeoElement geo) {
 		kernel.getApplication().getEventDispatcher()
-				.dispatchEvent(new Event(EventType.SELECT, geo, ""));
+				.dispatchEvent(EventType.SELECT, geo, "");
 	}
 
 	private void dispatchDeselected(GeoElement geo) {
@@ -922,7 +926,12 @@ public class SelectionManager {
 		return tabbingSet.stream().filter(this::isSelectableForEV);
 	}
 
-	private boolean isSelectableForEV(GeoElement geo) {
+	/**
+	 * is selectable by the TAB handler
+	 * @param geo geo element
+	 * @return true, if the user can get to this element using TAB
+	 */
+	public boolean isSelectableForEV(GeoElement geo) {
 		if (!geo.isSelectionAllowed(null) || !geo.isLead()) {
 			return false;
 		}
@@ -1392,5 +1401,32 @@ public class SelectionManager {
 		} else {
 			return keyboardSelection && selectedGeos.contains(geo);
 		}
+	}
+
+	// ExamRestrictable
+
+	@Override
+	public void applyRestrictions(ExamRestrictions examRestrictions) {
+		this.examRestrictions = examRestrictions;
+	}
+
+	@Override
+	public void removeRestrictions(ExamRestrictions examRestrictions) {
+		this.examRestrictions = null;
+	}
+
+	/**
+	 * TODO not sure if this makes sense to suppress selection of certain elements during exams
+	 * @param geoND A geo.
+	 * @return True if selecting the geo is allowed.
+	 */
+	public boolean isSelectionAllowed(GeoElementND geoND) {
+		if (geoND == null) {
+			return false;
+		}
+		if (examRestrictions != null) {
+			return examRestrictions.isSelectionAllowed(geoND);
+		}
+		return true;
 	}
 }

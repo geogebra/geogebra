@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoSymbolicI;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
@@ -362,8 +363,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				break;
 			case LIBRE_OFFICE:
 				sb.append("fact {");
-				if ((leftStr.charAt(0) != '-') && // no unary
-						left.isLeaf()) {
+				if ((leftStr.charAt(0) != '-') && left.isLeaf()) {
 					sb.append(leftStr);
 				} else {
 					sb.append('(');
@@ -374,8 +374,8 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				break;
 
 			default:
-				if (((leftStr.charAt(0) != '-') && // no unary
-						tpl.isSinglePowerArg(left) && !StringTemplate.isFraction(left))
+				if (((leftStr.charAt(0) != '-')
+						&& tpl.isSinglePowerArg(left) && !StringTemplate.isFraction(left))
 						&& !(left instanceof GeoSymbolicI && stringType == StringType.GIAC)
 						|| (ExpressionNode.opID(left) > Operation.POWER.ordinal()
 								&& ExpressionNode.opID(left) != Operation.FACTORIAL.ordinal())) {
@@ -1502,9 +1502,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case XCOORD:
 			if (!stringType.isGiac() && valueForm && !left.wrap().containsFunctionVariable()
-					&& (leftEval = left.evaluate(tpl)) instanceof VectorNDValue) {
+					&& (leftEval = safeEvaluate(left, tpl)) instanceof VectorNDValue) {
 				sb.append(kernel.format(((VectorNDValue) leftEval).getVector().getX(), tpl));
-			} else if (valueForm && ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
+			} else if (valueForm && ((leftEval = safeEvaluate(left, tpl)) instanceof GeoLine)) {
 				sb.append(kernel.format(((GeoLine) leftEval).getX(), tpl));
 			} else {
 				switch (stringType) {
@@ -1533,9 +1533,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case YCOORD:
 			if (!stringType.isGiac() && valueForm && !left.wrap().containsFunctionVariable()
-					&& (leftEval = left.evaluate(tpl)) instanceof VectorNDValue) {
+					&& (leftEval = safeEvaluate(left, tpl)) instanceof VectorNDValue) {
 				sb.append(kernel.format(((VectorNDValue) leftEval).getVector().getY(), tpl));
-			} else if (valueForm && ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
+			} else if (valueForm && ((leftEval = safeEvaluate(left, tpl)) instanceof GeoLine)) {
 				sb.append(kernel.format(((GeoLine) leftEval).getY(), tpl));
 			} else {
 				switch (stringType) {
@@ -1564,9 +1564,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case ZCOORD:
 			if (!stringType.isGiac() && valueForm && !left.wrap().containsFunctionVariable()
-					&& (leftEval = left.evaluate(tpl)) instanceof Vector3DValue) {
+					&& (leftEval = safeEvaluate(left, tpl)) instanceof Vector3DValue) {
 				sb.append(kernel.format(((Vector3DValue) leftEval).getPointAsDouble()[2], tpl));
-			} else if (valueForm && ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
+			} else if (valueForm && ((leftEval = safeEvaluate(left, tpl)) instanceof GeoLine)) {
 				sb.append(kernel.format(((GeoLine) leftEval).getZ(), tpl));
 			} else {
 				switch (stringType) {
@@ -1706,7 +1706,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 							sb.append(',');
 						}
 						sb.append("(");
-						sb.append(list.getListElement(i).toString(tpl));
+						sb.append(list.get(i).toString(tpl));
 						sb.append(")-1");
 					}
 					sb.append("]");
@@ -1729,7 +1729,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 					for (int i = 0; (i < func.getVarNumber())
 							&& (i < ((MyList) right).size()); i++) {
 						en.replace(func.getFunctionVariables()[i],
-								((MyList) right).getListElement(i));
+								((MyList) right).get(i));
 					}
 					// add brackets, see TRAC-1287
 					if (!stringType.equals(StringType.LATEX)) {
@@ -2038,16 +2038,16 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				if (i > 0) {
 					sb.append(", ");
 				}
-				sb.append(valueForm ? cond.getListElement(i).toValueString(tpl)
-						: cond.getListElement(i).toString(tpl));
+				sb.append(valueForm ? cond.get(i).toValueString(tpl)
+						: cond.get(i).toString(tpl));
 				sb.append(", ");
-				sb.append(valueForm ? fn.getListElement(i).toValueString(tpl)
-						: fn.getListElement(i).toString(tpl));
+				sb.append(valueForm ? fn.get(i).toValueString(tpl)
+						: fn.get(i).toString(tpl));
 			}
 			if (fn.size() > cond.size()) {
 				sb.append(", ");
-				sb.append(valueForm ? fn.getListElement(fn.size() - 1).toValueString(tpl)
-						: fn.getListElement(fn.size() - 1).toString(tpl));
+				sb.append(valueForm ? fn.get(fn.size() - 1).toValueString(tpl)
+						: fn.get(fn.size() - 1).toString(tpl));
 			}
 
 			sb.append(stringType.isGiac() ? ")" : tpl.rightCommandBracket());
@@ -2083,6 +2083,16 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			sb.append(operation);
 		}
 		return sb.toString();
+	}
+
+	private static ExpressionValue safeEvaluate(ExpressionValue ev, StringTemplate tpl) {
+		ExpressionValue result = null;
+		try {
+			result = ev.evaluate(tpl);
+		} catch (MyError e) {
+			Log.debug(e);
+		}
+		return result;
 	}
 
 	private static void appendRightIfDefined(String rightStr, StringBuilder sb) {

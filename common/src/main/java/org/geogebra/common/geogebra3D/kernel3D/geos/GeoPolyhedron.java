@@ -750,8 +750,6 @@ public class GeoPolyhedron extends GeoElement3D
 	 *            labels for this, points, faces, edges
 	 */
 	public void initLabels(String[] labels) {
-		// Application.printStacktrace("");
-
 		if (cons.isSuppressLabelsActive()) { // for redefine
 			return;
 		}
@@ -1900,7 +1898,7 @@ public class GeoPolyhedron extends GeoElement3D
 
 	/**
 	 * 
-	 * @return bottom face (for pyramid & prism)
+	 * @return bottom face (for pyramid and prism)
 	 */
 	public GeoPolygon getBottomFace() {
 		if (polygonsLinked.isEmpty()) {
@@ -2372,7 +2370,7 @@ public class GeoPolyhedron extends GeoElement3D
 	@Override
 	public boolean isInRegion(GeoPointND P) {
 		for (GeoPolygon3D p : getPolygons()) {
-			if (p.isInRegion(P)) {
+			if (p.isInRegionInRealCoords(P)) {
 				return true;
 			}
 		}

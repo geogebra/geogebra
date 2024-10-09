@@ -8,9 +8,12 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.GeoGebraColorConstants;
 
 public class DrawSelectedItem {
 	private final GRectangle ctrlRect;
+	private static final int BORDER_WIDTH_RESTING = 1;
+	private static final int BORDER_WIDTH_FOCUSED = 2;
 
 	/**
 	 * Constructor
@@ -30,7 +33,6 @@ public class DrawSelectedItem {
 	 */
 	public void drawOpenControl(GGraphics2D g2, int boxLeft, int boxTop, int boxWidth,
 			int boxHeight) {
-		g2.setPaint(GColor.BLACK);
 		int left = boxLeft + boxWidth - boxHeight;
 		ctrlRect.setBounds(boxLeft, boxTop, boxWidth, boxHeight);
 		drawTriangle(g2, left, boxTop, boxHeight);
@@ -53,7 +55,14 @@ public class DrawSelectedItem {
 		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
 		// TF Rectangle
-		g2.setPaint(geo.doHighlighting() ? GColor.BLUE : GColor.BLACK);
+		if (bgColor == GColor.WHITE) {
+			g2.setPaint(geo.doHighlighting()
+					? GeoGebraColorConstants.PURPLE_600 : GeoGebraColorConstants.NEUTRAL_500);
+		} else {
+			g2.setPaint(GColor.getBorderColorFrom(bgColor));
+		}
+		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(geo.doHighlighting()
+				? BORDER_WIDTH_FOCUSED : BORDER_WIDTH_RESTING));
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 	}
 
@@ -68,7 +77,7 @@ public class DrawSelectedItem {
 	 *            size
 	 */
 	public void drawTriangle(GGraphics2D g2, int left, int top, int size) {
-		g2.setColor(GColor.DARK_GRAY);
+		g2.setColor(GeoGebraColorConstants.NEUTRAL_700);
 
 		int middleX = left + size / 2;
 

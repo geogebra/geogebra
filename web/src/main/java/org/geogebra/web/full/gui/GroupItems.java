@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 
 /**
  * Class to create group related menu items.
@@ -51,7 +51,7 @@ public class GroupItems {
 	}
 
 	private AriaMenuItem createUngroupItem() {
-		return new AriaMenuItem(app.getLocalization().getMenu("ContextMenu.Ungroup"), false,
+		return new AriaMenuItem(app.getLocalization().getMenu("ContextMenu.Ungroup"), null,
 				() -> {
 					app.getKernel().getConstruction().ungroupGroups(getGeos());
 					app.storeUndoInfo();
@@ -60,7 +60,7 @@ public class GroupItems {
 	}
 
 	private AriaMenuItem createGroupItem() {
-		return new AriaMenuItem(app.getLocalization().getMenu("ContextMenu.Group"), false,
+		return new AriaMenuItem(app.getLocalization().getMenu("ContextMenu.Group"), null,
 				() -> {
 					app.getKernel().getConstruction().createGroupFromSelected(getGeos());
 					app.storeUndoInfo();

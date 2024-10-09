@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Focus[ &lt;GeoConic> ]
+ * Focus[ &lt;GeoConic&gt; ]
  */
 public class CmdFocus extends CommandProcessor {
 
@@ -24,7 +24,7 @@ public class CmdFocus extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 

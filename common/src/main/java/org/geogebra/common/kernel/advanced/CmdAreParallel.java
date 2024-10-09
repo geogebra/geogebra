@@ -16,13 +16,14 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.prover.AlgoAreParallel;
 import org.geogebra.common.main.MyError;
 
 /**
- * AreParallel[&lt;Line>, &lt;Line>]
+ * AreParallel[&lt;Line&gt;, &lt;Line&gt;]
  * 
  * @author Simon Weitzhofer 3rd of may 2012
  *
@@ -40,7 +41,7 @@ public class CmdAreParallel extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c)
+	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;

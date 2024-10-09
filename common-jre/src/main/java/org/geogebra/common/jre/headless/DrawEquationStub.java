@@ -29,7 +29,7 @@ public class DrawEquationStub extends DrawEquation {
 	}
 
 	@Override
-	public void checkFirstCall(App app) {
+	public void checkFirstCall() {
 		// unused
 	}
 
@@ -39,8 +39,7 @@ public class DrawEquationStub extends DrawEquation {
 	}
 
 	@Override
-	public GDimension measureEquation(App app, String text, GFont font,
-									  boolean serif) {
+	public GDimension measureEquation(App app, String text, GFont font, boolean serif) {
 		return AwtFactory.getPrototype().newDimension(0, 0);
 	}
 }

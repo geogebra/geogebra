@@ -15,14 +15,12 @@ package org.geogebra.desktop.util;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.MediaTracker;
-import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
@@ -49,6 +47,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.MyImageD;
+import org.geogebra.desktop.main.ScaledIcon;
 
 import com.himamis.retex.renderer.desktop.graphics.Base64;
 
@@ -60,22 +59,24 @@ import com.himamis.retex.renderer.desktop.graphics.Base64;
  */
 public class ImageManagerD extends ImageManager {
 
-	private Hashtable<String, ImageIcon> iconTable = new Hashtable<>();
-	private Hashtable<String, MyImageD> internalImageTable = new Hashtable<>();
-	private static Hashtable<String, MyImageD> externalImageTable = new Hashtable<>();
+	private final Hashtable<String, ImageIcon> iconTable = new Hashtable<>();
+	private final Hashtable<String, MyImageD> internalImageTable = new Hashtable<>();
+	private static final Hashtable<String, MyImageD> externalImageTable = new Hashtable<>();
 
-	private Hashtable<String, ImageResourceD> fillableImgs = new Hashtable<>();
+	private final Hashtable<String, ImageResourceD> fillableImgs = new Hashtable<>();
 
-	private Toolkit toolKit;
+	private final Toolkit toolKit;
 	private MediaTracker tracker;
 
 	private int maxIconSize = 64; // DEFAULT_ICON_SIZE;
+	private double pixelRatio = 1;
 
 	/**
 	 * Creates a new ImageManager for the given JFrame.
 	 */
 	public ImageManagerD(Component comp) {
 		toolKit = Toolkit.getDefaultToolkit();
+		updatePixelRatio(comp.getGraphicsConfiguration());
 		tracker = new MediaTracker(comp);
 	}
 
@@ -169,6 +170,7 @@ public class ImageManagerD extends ImageManager {
 	}
 
 	/**
+	 * Adds an external image files and changes ".gif" extensions to ".png".
 	 * @param fileName0 filename
 	 * @param img image
 	 */
@@ -385,15 +387,7 @@ public class ImageManagerD extends ImageManager {
 	 * @return scaled image
 	 */
 	public static Image getScaledImage(Image img, int width, int height) {
-		// scale image
-		BufferedImage scaledImage = new BufferedImage(width, height,
-				BufferedImage.TYPE_INT_RGB);
-		Graphics2D graphics2D = scaledImage.createGraphics();
-		graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-				RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-		graphics2D.drawImage(img, 0, 0, width, height, null);
-		graphics2D.dispose();
-		return scaledImage;
+		return img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 	}
 
 	/**
@@ -422,7 +416,7 @@ public class ImageManagerD extends ImageManager {
 	 * @return path to folder with toolbar icons for current font size
 	 */
 	public String getToolbarIconPath() {
-		if (getMaxIconSize() <= 32) {
+		if (getMaxIconSize() <= 32 && pixelRatio <= 1) {
 			return "/org/geogebra/common/icons_toolbar/p32/";
 		}
 		return "/org/geogebra/common/icons_toolbar/p64/";
@@ -447,6 +441,10 @@ public class ImageManagerD extends ImageManager {
 		return maxIconSize;
 	}
 
+	public int getMaxScaledIconSize() {
+		return (int) (maxIconSize * pixelRatio);
+	}
+
 	/**
 	 * @param image image
 	 * @param imageFileName filename
@@ -461,7 +459,7 @@ public class ImageManagerD extends ImageManager {
 			String fn = fileName;
 			int index = fileName.lastIndexOf(File.separator);
 			if (index != -1) {
-				fn = fn.substring(index + 1, fn.length()); // filename without
+				fn = fn.substring(index + 1); // filename without
 			}
 			// path
 			fn = Util.processFilename(fn);
@@ -489,8 +487,7 @@ public class ImageManagerD extends ImageManager {
 					int pos = fileName.lastIndexOf('.');
 					String firstPart = pos > 0 ? fileName.substring(0, pos)
 							: "";
-					String extension = pos < fileName.length()
-							? fileName.substring(pos) : "";
+					String extension = fileName.substring(pos);
 					fileName = firstPart + n + extension;
 				} while (ImageManagerD.getExternalImage(fileName) != null);
 			}
@@ -500,7 +497,7 @@ public class ImageManagerD extends ImageManager {
 			return fileName;
 		} catch (Exception e) {
 			app.setDefaultCursor();
-			e.printStackTrace();
+			Log.debug(e);
 			app.showError(Errors.LoadFileFailed);
 			return null;
 		} catch (java.lang.OutOfMemoryError t) {
@@ -519,19 +516,11 @@ public class ImageManagerD extends ImageManager {
 
 			BufferedImage image = null;
 			byte[] imageByte = Base64.decode(pngStr);
-			ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-			try {
+
+			try (ByteArrayInputStream bis = new ByteArrayInputStream(imageByte)) {
 				image = ImageIO.read(bis);
 			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				if (bis != null) {
-					try {
-						bis.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
+				Log.debug(e);
 			}
 
 			if (image != null) {
@@ -541,7 +530,7 @@ public class ImageManagerD extends ImageManager {
 		} else if (urlBase64.startsWith("<svg")
 				|| urlBase64.startsWith("<?xml")) {
 
-			MyImageD img = new MyImageD(urlBase64, filename0);
+			MyImageD img = new MyImageD(urlBase64);
 
 			addExternalImage(filename0, img);
 
@@ -592,5 +581,45 @@ public class ImageManagerD extends ImageManager {
 		fillableImgs.put("remove", GuiResourcesD.REMOVE);
 		fillableImgs.put("add", GuiResourcesD.ADD);
 		fillableImgs.put("check_mark", GuiResourcesD.CHECK_MARK);
+	}
+
+	public double getPixelRatio() {
+		return pixelRatio;
+	}
+
+	/**
+	 *
+	 * @param panel graphics configuration
+	 */
+	public boolean updatePixelRatio(GraphicsConfiguration panel) {
+		try {
+			double oldRatio = pixelRatio;
+			pixelRatio = panel.getDefaultTransform().getScaleX();
+			if (pixelRatio != oldRatio) {
+				iconTable.clear();
+				return true;
+			}
+		} catch (RuntimeException ex) {
+			Log.debug(ex);
+		}
+		return false;
+	}
+
+	/**
+	 * @param icon unscaled icon
+	 * @param maxSize maximum size in pixels (assuming width == height)
+	 * @return icon respecting pixel ratio
+	 */
+	public ScaledIcon getResponsiveScaledIcon(ImageIcon icon, int maxSize) {
+		int maxScaledSize = (int) (maxSize * getPixelRatio());
+		return new ScaledIcon(ImageManagerD.getScaledIcon(icon,
+				Math.min(icon.getIconWidth(), maxScaledSize),
+				Math.min(icon.getIconHeight(), maxScaledSize)),
+
+				getPixelRatio());
+	}
+
+	public static String fixSVG(String content) {
+		return ImageManager.fixSVG(content);
 	}
 }

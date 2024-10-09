@@ -7,11 +7,8 @@ The following tools are used as part of GeoGebra's software development process.
 
 ### Compilation 
 
-  The Apache Commons IO Library
-  : https://commons.apache.org/proper/commons-io/ (Apache Software License)
-
   The Apache Commons Mathematics Library
-  : http://commons.apache.org/math/ (Apache Software License)
+  : https://commons.apache.org/proper/commons-math/ (Apache Software License)
 
   Apache Commons Collections
   : https://commons.apache.org/proper/commons-collections (Apache Software License)
@@ -23,10 +20,10 @@ The following tools are used as part of GeoGebra's software development process.
   : https://github.com/ongakuer/CircleIndicator (Apache 2.0)
 
   Domvas
-  : http://pbakaus.github.io/domvas/ (MIT)
+  : https://pbakaus.github.io/domvas/ (MIT)
 
   EPS Graphics
-  : http://epsgraphics.sf.net (GPL2+)
+  : https://epsgraphics.sf.net (GPL2+)
 
   FreeHEP
   : used for exporting SVG, PDF etc. This branch is used from GeoGebra 4 http://java.freehep.org/svn/repos/freehep/list/freehep/branches/vectorgraphics-emfplus/?revision=HEAD but with some important patches applied eg r24876 [r7436](http://dev.geogebra.org/trac/changeset/7436/trunk/geogebra/org/freehep/graphicsio/AbstractVectorGraphicsIO.java) r38230 (Apache 2.0 / LGPL)
@@ -38,14 +35,14 @@ The following tools are used as part of GeoGebra's software development process.
   : Original sources [BSD License](http://jogamp.org/git/?p=jogl.git;a=blob;f=LICENSE.txt) are available here: https://github.com/sgothel/jogl (git repository)
 
   JavaCC
-  : http://javacc.java.net/ This is used for turning kernel.parser.parser.jj into *.java files\\
-  Source: http://java.net/projects/javacc/sources/svn/show/trunk. License: BSD
+  : https://javacc.github.io/javacc/ This is used for turning kernel.parser.parser.jj into *.java files\\
+  Source: https://github.com/javacc/javacc. License: BSD
 
   fenster
   : https://github.com/malmstein/fenster (Apache 2.0)
 
   Giac (CAS Engine)
-  : http://www-fourier.ujf-grenoble.fr/~parisse/giac.html (GPL3)
+  : https://www-fourier.ujf-grenoble.fr/~parisse/giac.html (GPL3)
 
   Glide
   : https://github.com/bumptech/glide (Apache 2.0)
@@ -69,7 +66,7 @@ The following tools are used as part of GeoGebra's software development process.
   : Original Sources can be found at https://github.com/opencollab/jlatexmath (GPL2+ with Classpath exception)
 
   JUNG
-  : http://jung.sourceforge.net (new BSD)
+  : https://jung.sourceforge.net (new BSD)
 
   JSON Parser
   : https://android.googlesource.com/platform/libcore/+/master/json/src/main/java/org/json (Apache 2.0)
@@ -81,7 +78,7 @@ The following tools are used as part of GeoGebra's software development process.
   : https://github.com/murkle/mp3transform/tree/master/mp3 (LGPL)
 
   OpenCSV
-  : Used for parsing CSV for importing into the spreadsheet http://opencsv.sourceforge.net/ (Apache 2.0)
+  : Used for parsing CSV for importing into the spreadsheet https://opencsv.sourceforge.net/ (Apache 2.0)
 
   OpenGeoProver
   : A Java library for theorem proving. http://code.google.com/p/open-geo-prover/ (GPL3)
@@ -90,7 +87,7 @@ The following tools are used as part of GeoGebra's software development process.
   : https://github.com/nodebox/opentype.js (MIT)
 
   QuickHull3D
-  : http://quickhull3d.github.io/quickhull3d/index.html (new BSD)
+  : https://quickhull3d.github.io/quickhull3d/index.html (new BSD)
 
   RecyclerView Animators
   : https://github.com/wasabeef/recyclerview-animators (Apache 2.0)
@@ -101,9 +98,6 @@ The following tools are used as part of GeoGebra's software development process.
   Sliding Menu
   : https://github.com/jfeinstein10/SlidingMenu (Apache 2.0)
 
-  SVG Salamander
-  : https://svgsalamander.java.net/ (LGPL / BSD)
-
   Swifter
   : https://github.com/httpswift/swifter (BSD 3)
 
@@ -113,22 +107,19 @@ The following tools are used as part of GeoGebra's software development process.
   UITestUtils
   : https://github.com/zmeyc/UITestUtils (MIT)
 
-  zip.js
-  : A JavaScript library to zip and unzip files. http://gildas-lormeau.github.com/zip.js/ (new BSD)
+  fflate
+  : A JavaScript library to zip and unzip files. https://github.com/101arrowz/fflate (MIT)
 
   Others
-  : sources for all other libraries used are in GeoGebra's SVN repository: https://github.com/geogebra/geogebra
+  : sources for all other libraries used are in GeoGebra's repository: https://github.com/geogebra/geogebra
 
 ## Endorsements
 The following software packages are not part of GeoGebra, but we would like to mention them here because they help us during development or they power our websites.
 
 ### Build tools
 
-  [Eclipse](https://eclipse.org/downloads/)
- : thanks to [The Eclipse Foundation](https://eclipse.org/org/foundation/) for making it freely available
-
   Jetty
-  : http://download.eclipse.org/jetty/stable-9/dist/ (Apache 2.0)
+  : https://github.com/jetty/jetty.project (Apache 2.0)
   
   [Jenkins](https://jenkins.io)
   : continuous integration and automation server
@@ -182,9 +173,6 @@ Leaflet
   pclzip
   : http://www.phpconcept.net/pclzip (LGPL 2.1)
 
-  php-ga (Google Analytics)
-  : http://code.google.com/p/php-ga (LGPL 3)
-
   webfont.js
   : https://github.com/typekit/webfontloader (Apache 2.0)
 
@@ -211,4 +199,3 @@ Leaflet
  
  Responsive theme
  : http://cyberchimps.com/responsive-theme/ (GPL 3)
-

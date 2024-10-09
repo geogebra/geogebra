@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -1090,15 +1091,15 @@ public interface Manager3DInterface {
 	/**
 	 * @return ellipse with foci A, B passing thorugh C
 	 */
-	public GeoConicND ellipseHyperbola3D(String label, GeoPointND A,
-			GeoPointND B, GeoPointND C, final int type);
+	GeoConicND ellipseHyperbola3D(String label, GeoPointND A,
+			GeoPointND B, GeoPointND C, int type);
 
 	/**
 	 * @return ellipse with foci A, B passing thorugh C, oriented
 	 */
-	public GeoConicND ellipseHyperbola3D(String label, GeoPointND A,
+	GeoConicND ellipseHyperbola3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C, GeoDirectionND orientation,
-			final int type);
+			int type);
 
 	/**
 	 * @return parabola with focus F and line l
@@ -1119,4 +1120,8 @@ public interface Manager3DInterface {
 	public GeoElement tangent3D(String label, GeoPointND point,
 			GeoCurveCartesianND curve);
 
+	GeoElement lineToPlane(GeoElement geoElement);
+
+	AlgoElement intersectFunctionNVarPlane(Construction cons,
+			GeoFunctionNVar function, GeoPlaneND plane);
 }

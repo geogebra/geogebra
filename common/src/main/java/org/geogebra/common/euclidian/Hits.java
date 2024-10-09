@@ -15,6 +15,7 @@ package org.geogebra.common.euclidian;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
@@ -24,6 +25,7 @@ import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -621,46 +623,44 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return array of GeoElements NOT passing test out of hits
 	 */
 	final public Hits getOtherHits(TestGeo geoclass, Hits result) {
-		return getHits(geoclass, true, result);
+		return getHits(geoclass.negate(), result);
 	}
 
 	/**
-	 * @param geoclass
+	 * Stores all GeoElements that satisfy given condition to result list.
+	 * @param condition
 	 *            test for type
 	 * @param result
 	 *            hits object for result
-	 * @return array of GeoElements passing test out of hits
+	 * @return list of GeoElements passing test out of hits
 	 */
-	final public Hits getHits(TestGeo geoclass, Hits result) {
-		return getHits(geoclass, false, result);
+	final public Hits getHits(Predicate<Object> condition, Hits result) {
+		result.clear();
+		for (GeoElement geo: this) {
+			if (condition.test(geo)) {
+				result.add(geo);
+			}
+		}
+		return result;
 	}
 
 	/**
-	 * Stores all GeoElements of type geoclass to result list.
-	 * 
-	 * @param geoclass
-	 *            test
-	 * 
-	 * @param other
-	 *            == true: returns array of GeoElements NOT passing test out of
-	 *            hits.
-	 * @param result
-	 *            Hits in which the result should be stored
-	 * @return result
+	 * Stores all GeoElements that satisfy given condition to result list.
+	 * @param condition test for type
+	 * @param result hits object for result
+	 * @param max maximum allowed size for result
+	 * @return list of GeoElements passing test out of hits
 	 */
-	final protected Hits getHits(TestGeo geoclass, boolean other, Hits result) {
+	final public Hits getHits(Predicate<Object> condition, Hits result, int max) {
 		result.clear();
-		for (int i = 0; i < size(); ++i) {
-			boolean success = geoclass.check(get(i));
-			if (other) {
-				success = !success;
+		for (GeoElement geo: this) {
+			if (condition.test(geo)) {
+				result.add(geo);
 			}
-			if (success) {
-				result.add(get(i));
+			if (result.size() == max) {
+				return result;
 			}
 		}
-		// return result.size() == 0 ? null : result;
-
 		return result;
 	}
 
@@ -772,26 +772,26 @@ public class Hits extends ArrayList<GeoElement> {
 		// point in there?
 		Hits topHitsList = new Hits();
 		if (containsComboBox(topHitsList)) {
-			getHits(TestGeo.GEOLIST_AS_COMBO, false, topHitsList);
+			getHits(TestGeo.GEOLIST_AS_COMBO, topHitsList);
 			return topHitsList;
 		}
 		if (containsGeoPoint(topHitsList)) {
 			// Hits topHitsList = new Hits();
-			getHits(TestGeo.GEOPOINTND, false, topHitsList);
+			getHits(TestGeo.GEOPOINTND, topHitsList);
 			return topHitsList;
 		}
 		if (containsGeoTextfield(topHitsList)) {
-			getHits(TestGeo.GEOTEXTFIELD, false, topHitsList);
+			getHits(TestGeo.GEOTEXTFIELD, topHitsList);
 			return topHitsList;
 		}
 		// text in there?
 		if (containsGeoText(topHitsList)) {
-			getHits(TestGeo.GEOTEXT, false, topHitsList);
+			getHits(TestGeo.GEOTEXT, topHitsList);
 			return topHitsList;
 		}
 
 		if (containsGeoNumeric()) {
-			getHits(TestGeo.GEONUMERIC, false, topHitsList);
+			getHits(TestGeo.GEONUMERIC, topHitsList);
 			return topHitsList;
 		}
 		return cloneHits();
@@ -806,11 +806,6 @@ public class Hits extends ArrayList<GeoElement> {
 	 */
 	public Hits getTopHits(int nb) {
 		Hits topHits = getTopHits();
-
-		/*
-		 * //remove all last elements, since topHits.size()<=nb
-		 * for(;topHits.size()>nb;) topHits.remove(topHits.size()-1);
-		 */
 
 		Hits ret = new Hits();
 		for (int i = 0; i < nb && i < topHits.size(); i++) {
@@ -1102,5 +1097,22 @@ public class Hits extends ArrayList<GeoElement> {
 	@Override
 	public int hashCode() {
 		return super.hashCode();
+	}
+
+	/**
+	 * Removes parallel lines from the current hits
+	 */
+	public void removeParallelLines() {
+		HashSet<Double> distinctLines = new HashSet<>();
+		for (int i = size() - 1; i >= 0; i--) {
+			if (get(i) instanceof GeoLine) {
+				double slope = ((GeoLine) get(i)).getSlope();
+				if (distinctLines.contains(slope)) {
+					remove(i);
+				} else {
+					distinctLines.add(slope);
+				}
+			}
+		}
 	}
 }

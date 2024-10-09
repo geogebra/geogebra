@@ -21,9 +21,11 @@ package org.geogebra.common.kernel.arithmetic;
 import static org.geogebra.common.kernel.arithmetic.ExpressionNode.getLabelOrDefinition;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
+import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
@@ -53,6 +55,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class Command extends ValidExpression
 		implements ReplaceChildrenByValues, GetItem, HasArguments {
 
+	private static final String DEFAULT_FUNCTION_VAR_NAME = "x";
 	// list of arguments
 	private final ArrayList<ExpressionNode> args = new ArrayList<>();
 	private String name; // internal command name (in English)
@@ -115,7 +118,12 @@ public class Command extends ValidExpression
 		 * other languages to use English names for different commands
 		 */
 
-		if (translateName && !kernel.isUsingInternalCommandNames()) {
+		if (!translateName || kernel.getCommandLookupStrategy() == CommandLookupStrategy.XML) {
+			this.name = name;
+		} else if (kernel.getCommandLookupStrategy() == CommandLookupStrategy.SCRIPT) {
+			String normalized = Commands.lookupInternal(name);
+			this.name = normalized == null ? name : normalized;
+		} else {
 			// translate command name to internal name
 			this.name = app.getReverseCommand(name);
 			// in CAS functions get parsed as commands as well and we want to
@@ -123,8 +131,6 @@ public class Command extends ValidExpression
 			if (this.name == null) {
 				this.name = name;
 			}
-		} else {
-			this.name = name;
 		}
 	}
 
@@ -322,10 +328,11 @@ public class Command extends ValidExpression
 	 * Side effect: replace f -> f(v) in the first argument
 	 */
 	private String getIntegralVar(StringTemplate tpl) {
-		Set<GeoElement> vars = getArgument(0)
-				.getVariables(SymbolicMode.NONE);
-		String var = "x";
-		if (vars != null && !vars.isEmpty()) {
+		ExpressionNode argument = getArgument(0);
+		SymbolicMode symbolicMode = kernel.getSymbolicMode();
+		Set<GeoElement> vars = argument.getVariables(symbolicMode);
+		String var = getFunctionVarName(argument, vars);
+		if (!vars.isEmpty()) {
 			for (GeoElement geo : vars) {
 				// get function from construction
 				String label = geo.getLabel(StringTemplate.defaultTemplate);
@@ -338,12 +345,41 @@ public class Command extends ValidExpression
 				// make sure that we get from set the variable and not
 				// the function, needed for TRAC-5364
 				if (geo instanceof GeoDummyVariable && geoFunc == null
-						&& geoCASCell == null) {
+						&& geoCASCell == null && SymbolicMode.NONE.equals(symbolicMode)) {
 					var = geo.toString(tpl);
 				}
 			}
 		}
 		return var;
+	}
+
+	private String getFunctionVarName(ExpressionNode node, Set<GeoElement> vars) {
+		if (node.containsFreeFunctionVariable(DEFAULT_FUNCTION_VAR_NAME)) {
+			return DEFAULT_FUNCTION_VAR_NAME;
+		}
+		ExpressionNodeCollector<String> collector =
+				new ExpressionNodeCollector<>(node);
+
+		List<String> integralVarNames = collector
+				.filter(v -> v instanceof FunctionVariable)
+				.mapTo(t -> ((FunctionVariable) (t.unwrap())).getSetVarString());
+
+		if (vars != null) {
+			List<String> dummyVarNames = getDummyVarNames(vars);
+			integralVarNames.addAll(dummyVarNames);
+		}
+		Collections.sort(integralVarNames);
+		return integralVarNames.size() > 0 ? integralVarNames.get(0) : DEFAULT_FUNCTION_VAR_NAME;
+	}
+
+	private static List<String> getDummyVarNames(Set<GeoElement> vars) {
+		final ArrayList<String> list = new ArrayList<>();
+		for (GeoElement var: vars) {
+			if (var instanceof GeoDummyVariable) {
+				list.add(((GeoDummyVariable) var).getVarName());
+			}
+		}
+		return list;
 	}
 
 	private void replaceFunctionNode(GeoElement geo, GeoElement geoFunc) {
@@ -507,6 +543,9 @@ public class Command extends ValidExpression
 
 		// not yet evaluated: process command
 		if (evalGeos == null) {
+			if (!kernel.getAlgebraProcessor().getCommandDispatcher().hasProcessor(this)) {
+				return false;
+			}
 			evalGeos = evaluateMultiple(new EvalInfo(false));
 		}
 
@@ -563,7 +602,9 @@ public class Command extends ValidExpression
 		if ("Vector".equals(name)) {
 			return ValueType.NONCOMPLEX2D;
 		}
-		if ("Evaluate".equals(name) && args.size() > 0) {
+		if (("Evaluate".equals(name) || "Numerator".equals(name)
+				|| "Denominator".equals(name) || "Simplify".equals(name))
+				&& !args.isEmpty()) {
 			return args.get(0).getValueType();
 		}
 		Command evaluationCopy = this;
@@ -647,15 +688,10 @@ public class Command extends ValidExpression
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
-		HashSet<GeoElement> set = new HashSet<>();
+	public void getVariables(Set<GeoElement> variables, SymbolicMode mode) {
 		for (ExpressionNode arg : args) {
-			Set<GeoElement> s = arg.getVariables(mode);
-			if (s != null) {
-				set.addAll(s);
-			}
+			arg.getVariables(variables, mode);
 		}
-		return set;
 	}
 
 	@Override
@@ -776,7 +812,7 @@ public class Command extends ValidExpression
 	}
 
 	@Override
-	public int getLength() {
+	public int size() {
 		return getArgumentNumber();
 	}
 
@@ -849,7 +885,6 @@ public class Command extends ValidExpression
 					Operation.MULTIPLY_OR_FUNCTION, en);
 			undecided.add(en2);
 		}
-		// App.printStacktrace("");
 		return en2;
 
 	}

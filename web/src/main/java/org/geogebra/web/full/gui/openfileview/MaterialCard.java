@@ -4,11 +4,10 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.CardInfoPanel;
 import org.geogebra.web.full.gui.browser.MaterialCardController;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.dialog.ComponentDialog;
-import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.event.dom.client.ClickEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
@@ -112,15 +111,15 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 
 	@Override
 	public void onDelete() {
-		DialogData data = new DialogData(null, "Cancel", "Delete");
-		ComponentDialog removeDialog = new RemoveDialog(app, data, this);
-		removeDialog.show();
-		removeDialog.setOnPositiveAction(this::onConfirmDelete);
+		controller.showDeleteConfirmDialog(this);
 	}
 
-	/**
-	 * @return card title
-	 */
+	@Override
+	public MaterialCardController getController() {
+		return controller;
+	}
+
+	@Override
 	public String getCardTitle() {
 		return getMaterial().getTitle();
 	}
@@ -136,22 +135,22 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 			visibility = "S";
 		}
 		NoDragImage visibiltyImg;
-		Label visibilityTxt;
+		String visibilityTxt;
 		if (material.isMultiuser()) {
 			visibiltyImg = getMultiuserIcon();
 			if (isOwnMaterial()) {
-				visibilityTxt = new Label(app.getLocalization().getMenu("Collaborative"));
+				visibilityTxt = app.getLocalization().getMenu("Collaborative");
 			} else {
-				visibilityTxt = new Label(getCardAuthor());
+				visibilityTxt = getCardAuthor();
 			}
 		} else if (!isOwnMaterial()) {
 			visibiltyImg = null;
-			visibilityTxt = new Label(getCardAuthor());
+			visibilityTxt = getCardAuthor();
 		} else {
 			switch (visibility) {
 			case "P":
 				visibiltyImg = new NoDragImage(res.mow_card_private(), 24);
-				visibilityTxt = new Label(app.getLocalization().getMenu("Private"));
+				visibilityTxt = app.getLocalization().getMenu("Private");
 				break;
 			case "S":
 				if (app.isMebis()) {
@@ -159,23 +158,26 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 				} else {
 					visibiltyImg = new NoDragImage(res.resource_card_shared(), 24);
 				}
-				visibilityTxt = new Label(app.getLocalization().getMenu("Shared"));
+				visibilityTxt = app.getLocalization().getMenu("Shared");
 				break;
 			case "O":
 			default:
 				visibiltyImg = new NoDragImage(res.mow_card_public(), 24);
-				visibilityTxt = new Label(app.getLocalization().getMenu("Public"));
+				visibilityTxt = app.getLocalization().getMenu("Public");
 				break;
 			}
 		}
+
 		infoPanelContent.clear();
+		Label visibilityLbl = BaseWidgetFactory.INSTANCE.newSecondaryText(visibilityTxt);
+
 		if (visibiltyImg != null) {
 			infoPanelContent.setStyleName("visibilityPanel");
 			infoPanelContent
-					.add(LayoutUtilW.panelRow(visibiltyImg, visibilityTxt));
+					.add(LayoutUtilW.panelRow(visibiltyImg, visibilityLbl));
 		} else {
 			infoPanelContent.setStyleName("cardAuthor");
-			infoPanelContent.add(visibilityTxt);
+			infoPanelContent.add(visibilityLbl);
 		}
 	}
 

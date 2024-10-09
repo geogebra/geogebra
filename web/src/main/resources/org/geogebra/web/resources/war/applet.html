@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"/>
 	<link rel="shortcut icon" href="https://www.geogebra.org/apps/icons/geogebra.ico" type="image/x-icon">
 	<link rel="icon" href="https://www.geogebra.org/apps/icons/geogebra.ico" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/mvp.css">
 	<style>
 		body {
 			font-family: sans-serif;
@@ -29,11 +30,15 @@
 		#settings {
 			position: absolute;
 			right: 0;
-			top: 0;
-			max-height: 100%;
+			top: 64px;
+			max-height: calc(100% - 64px);
 			overflow-y: auto;
 			z-index: 1000;
+			font-size: 12px;
 			background-color: rgba(255, 255, 255, 0.9);
+		}
+		#settings input {
+			margin-bottom: 0;
 		}
 
 		#scaleContainer {
@@ -41,6 +46,13 @@
 			top: 100px;
 			left: 100px;
 			background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpolygon points='0,0 2,5 0,10 5,8 10,10 8,5 10,0 5,2' fill='%23EEEEEE'/%3E%3C/svg%3E");
+		}
+
+		#keyboardParent {
+			position: absolute;
+			top: 1200px;
+			left: 200px;
+			width: 80%;
 		}
 
 		#resizer {
@@ -63,6 +75,10 @@
 			height: 100%;
 			visibility: hidden;
 			z-index: 2000;
+		}
+
+		#filter {
+			display: inline;
 		}
 
 		.popupImg {
@@ -96,15 +112,16 @@
 			"enableLabelDrags": ["boolean", true],
 			"enableShiftDragZoom": ["boolean", true],
 			"enableFileFeatures": ["boolean", true],
-			"enableGraphing": ["boolean", true],
 			"enable3D": ["boolean", true],
 			"enableCAS": ["boolean", true],
 			"useBrowserForJS": ["boolean", true],
+			"disableJavaScript": "boolean",
 			"screenshotGenerator": "boolean",
 			"prerelease": "boolean",
 			"useLocalizedDigits": "boolean",
 			"useLocalizedPointNames": ["boolean", true],
 			"borderColor": ["text", "#D3D3D3"],
+			"borderRadius": "number",
 			"capturingThreshold": "number",
 			"fitToScreen": "boolean",
 			"showStartTooltip": "boolean",
@@ -119,6 +136,7 @@
 			"marginTop": "number",
 			"clientId": "text",
 			"laf": "text",
+			"examMode": ["select", "", "classic", "graphing", "geometry", "suite", "niedersachsen", "bayern_cas", "vlaanderen"],
 			"showResetIcon": "boolean",
 			"showAnimationButton": ["boolean", true],
 			"showFullscreenButton": "boolean",
@@ -135,16 +153,20 @@
 			"fontSize": "text",
 			"keyboardType": ["select", "normal", "scientific", "notes", "solver"],
 			"detachKeyboard": ["select", "auto", "true", "false"],
+			"detachedKeyboardParent": "text",
 			"showKeyboardOnFocus": ["select", "", "auto", "true", "false"],
 			"textMode": "boolean",
 			"editorForegroundColor": "text",
 			"editorBackgroundColor": "text",
 			"transparentGraphics": "boolean",
 			"randomSeed": "text",
+			"randomize": ["boolean", true],
 			"screenReaderMode": ["select", "auto", "ascii", "unicode"],
 			"maxImageSize": "text",
+			"sandboxJavaScript": ["boolean", true],
 			"width": ["text", 800],
-			"height": ["text", 600]
+			"height": ["text", 600],
+			"customToolbox": "text"
 		};
 
 		function decode(el, param) {
@@ -244,12 +266,13 @@
 				});
 				label.setAttribute("for", "set" + param);
 				field = document.createElement("div");
+				field.setAttribute("data-for", param.toLowerCase());
 				field.appendChild(label);
 				field.appendChild(input);
 				document.getElementById("settings").appendChild(field);
 			}
 
-			article.className = "geogebraweb";
+			article.className = "geogebraweb notranslate";
 			document.getElementById("parent").appendChild(article);
 			settings = location.search.substring(1).split("&");
 			var module = "web3d";
@@ -296,7 +319,13 @@
 				}
 			});
 			document.getElementById("hide").addEventListener("click", function(e) {
-				document.getElementById("settings").style.display = "none";
+				const style = document.getElementById("settings").style;
+				style.display = style.display == "none" ? "" : "none";
+			});
+			document.getElementById("filter").addEventListener("input", function(e) {
+				document.querySelectorAll("[data-for]").forEach(el => {
+					el.style.display = el.getAttribute("data-for").includes(document.getElementById("filter").value.toLowerCase()) ? "" : "none";
+				});
 			});
 			document.getElementById("testDrag").addEventListener("click", function(e) {
 				document.getElementById("draggables").style.display = "flex";
@@ -339,13 +368,15 @@
 <button id="snap">Screenshot</button>
 <button id="testDrag">Test dragging</button>
 <button id="testReloading">Test reloading</button>
+<button id="hide">Show / Hide Settings</button>
 <div id="draggables">
 	<p draggable="true" data-type="text/plain">Drag me as text!</p>
 	<p draggable="true" data-type="application/x-latex" data-content="\sqrt{a}"><img draggable="false" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAXCAYAAAAYyi9XAAAAAXNSR0IArs4c6QAAAXZJREFUSEvV1D9IlWEUx/GPEDjYUkujDuJYQ5BL+AdSFEIQjMjaQ5oiQZy0TXTQRQhFBAdRbEuDCscW16JBSAKDxEGc3AQ58Cov13u5772PXOiBZ3h4znO+53fOc06TBq+mBvP8l8C3+FclUxuX96kKhzGC9SrAnZsC7qIf50X/QorCQTzC+6KwsEsBfsJznDUC2IPuWtWlKNzEa5zm1EUQz3ALoX67nPJ6UtqJgRJ1L/EUX9CGKTzG91JoJWAX7mGrTJSrmMBx7u4uTnLnz9jDdBHgOFrQl0WZf/MA0XvXHOWM2vEqq3FvEWDYtOIAQ7hqWixiBocljp5gGX9yO2paGBj+VnA7+/px7sBoBXU/8TF3FxmIX1wTMFL6FffxA3P4gN9l6hq1DugSHmIhy0JNwPD7Db8y2BtMVmjyF9lMvYN9HNWjMHyPYR6ziIkf8KRVrQ+b8RdreJdEyh5XA4ZZNHHUKFldymirW2wRhXU7v6lZmhTABegYPRiILkp1AAAAAElFTkSuQmCC"/></p>
 	<p draggable="true" data-type="application/mathml-presentation+xml"><math display="block"><mrow>  <mi>x</mi>  <mo>=</mo>  <mfrac>    <mrow>      <mrow>        <mo>-</mo>        <mi>b</mi>      </mrow>      <mo>&PlusMinus;</mo>      <msqrt>        <mrow>          <msup>            <mi>b</mi>            <mn>2</mn>          </msup>          <mo>-</mo>          <mrow>            <mn>4</mn>            <mo>&InvisibleTimes;</mo>            <mi>a</mi>            <mo>&InvisibleTimes;</mo>            <mi>c</mi>          </mrow>        </mrow>      </msqrt>    </mrow>    <mrow>      <mn>2</mn>      <mo>&InvisibleTimes;</mo>      <mi>a</mi>    </mrow>  </mfrac></mrow></math></p>
 	<p draggable="true"><img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA3QAAAN0BcFOiBwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAT4SURBVFiF1ZddTJNnFMd/L1BmbQWhaRErlkXpuABEcdYCxg8wwWCYWcYw3qBzkqhdRI0fwRk3wsSPeGOyQJTAFKPEIELcHWhgIKAmEz9QgwwMmMYgVIpDKG15drHYyVoQKonxf/e+57zn/3/Pc855nkcSQgg+Inw+JvmnLWBkZITr16/T39//YQqEF8jPPyk0Gq2Ii0sVarVWbNqUKWw2mzehhDTVIuzs7CQ+fjV7994iICAEu32IoqJvWLs2ii1bNqPT6Zg5c+ak4/lNNWP5+SdYvnwbAQEhAMhkcpKS9lNW9j1Waz+SJKFWq4mIiCAtLY3Zs2dPjwCz2czVq1d5/PghQgyPsVksz9DrFxIbG0tbWxs9PT309PTQ0tJCZmYmixYtGjfue5fA6XRy6dIlGhoaEEIgk8koK7vC+vVHWbo0g/b2Bq5c+YGWlkZUKhUAAwMDVFRU0NTUBMDKlSvZuHEjPj7uNT9hFwghKC4upr6+HoCMjAxOnz5Nd3cHCQmCo0e/QC6v586dOhc5QEBAAJs3byY7OxtfX19qa2s5deoU3d3dHkk8YnR0VJw7d05kZWUJk8kkXr165VWVnz9/QQQGqkV09Fqh1S4UKSlpoq+vb/wu6O3tpbT0Ao8ePcbhGEGpVJKXl0dgYOBEyRo3g/PmfY7JVIdKpUOIUcrLs0lMVHPkyGH3JSgqKiEyMobqajPt7T6Ul1eRmprqFTnAgwcPiIxch0qlA0CSfEhO3kdh4VmXj6sLnE4nubl5ZGfXodFEAGA0fsexYzmkpKR4JSA0NJS+vvYx716+/AudLtz17MpAU1MTSuUcFzlAePiXtLc/w263eyVArVajVDqorj7J4KCFp0/ruXbtAHv2mFw+rgwsWbKE3t5nvH7dw6xZGpdaheIzZDKZVwIA6upqKCg4Q07OQoKD1Rw/nkt6evp/Du9W7KFDR8T8+dFi69YLIjOzWOh0UeLmzUavqv9d2Gw2kZWVJbZv3+5mGzMJ8/J+ws8PLl8+QVLSau7e/YOgoCCv//4tnjx5AkBMTIybzW0Q6fV6VqxYzv79e6eFXAhBaWkpAGvWrHm/gLfj0mKxfDA5QGtrKwMDA2i1WvR6vZvdbTOaO3cuADU1NRNuIuPBbrdz40YtDoeTBQvCKSgoACA5Odmjv1sG4uPjUalUtLW1YTabgX9nhJjEsaGrqwu9PprCwmYuXuxg1ar13L79JwkJCRiNRo/feNwNm5ubKSkpQZIkLJa/aWy8hcMxzMGDB9i1ayeSJHkMlpS0DoPhZ8LDlwEwOGghNzeS5887USgUk8sAgMFgICwsjIqK3wkK+orDh9vIyXlEVdVDfvut1GMgh8PB/fv3XeQACkUwOl0sjY2NHr8ZV4AkSRgMBoKDdcTFpSNJEjNmzCIt7Rdycn50Lcfo6ChDQ0N0dXVRWVmJn58fHR3NrjiDg32Yza0kJiaOK2DcE5FSqcTf//8TUGJ4eJgdO3Ygk8mw2WxjrIsXR3H27NckJm5DoVDT0PArJtNO5HL51AUYjUacTivNzedZtmwTQ0MDVFYeICYmCiEENpsNX19fNBoNoaGhaLVajEYjdrudM2eKsFq7qKmp8th6YzDRCL13757YsOFbERISJubMCRO7d+8TVqtVvHnzRrx48UI4HI4PHtOTOpZbrVbkcjn+/v7vc50ypnwvmG58unfD6cI/0T9r58TMYVUAAAAASUVORK5CYII='/></p>
 </div>
-<div id="settings"><button id="hide">Hide settings</button></div>
+
+<div id="settings"><div><input type="search" id="filter"/>🔎</div></div>
 <div id="scaleContainer">
 	<div>
 		<div id="parent"></div>
@@ -356,5 +387,6 @@
 </div>
 <div id="glasspane"></div>
 <div id="status"></div>
+<div id="keyboardParent">Keyboard comes here</div>
 </body>
 </html>

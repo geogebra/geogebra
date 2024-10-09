@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.test.CASTestLogger;
+import org.hamcrest.CoreMatchers;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -103,8 +104,8 @@ public class ArbitraryConstIntegrationTest {
 
 	@Test
 	public void solveODE_1() {
-		ta("SolveODE[y''-5y'+6y=0]", "y = c_{1} * " + Unicode.EULER_STRING
-				+ "^(3 * x) + c_{2} * " + Unicode.EULER_STRING + "^(2 * x)");
+		ta("SolveODE[y''-5y'+6y=0]", "y = c_{1} * (" + Unicode.EULER_STRING
+				+ "^(x))^(3) + c_{2} * (" + Unicode.EULER_STRING + "^(x))^(2)");
 	}
 
 	@Test
@@ -139,24 +140,23 @@ public class ArbitraryConstIntegrationTest {
 
 	@Test
 	public void solveODE_7() {
-		ta("SolveODE[y''=y]", "y = c_{1} *" + Unicode.EULER_STRING
-				+ "^(x) + c_{2} *" + Unicode.EULER_STRING + "^(-x)");
+		ta("SolveODE[y''=y]", "y = (c_{1} * (" + Unicode.EULER_STRING + "^(x))^(2) "
+				+ "+ c_{2}) / " + Unicode.EULER_STRING + "^(x)");
 	}
 
 	@Test
 	public void solveODE_8() {
 		ta("SolveODE[2y''+y'-y=0]",
-				"y = c_{1} *" + Unicode.EULER_STRING + "^(-x) + c_{2} *"
-						+ Unicode.EULER_STRING + "^(x/2)",
+				"y = (c_{1} + c_{2} * " + Unicode.EULER_STRING + "^(x) * "
+				+ Unicode.EULER_STRING + "^(x / 2)) / " + Unicode.EULER_STRING + "^(x)",
 				"y = c_{1} *" + Unicode.EULER_STRING + "^(x / 2) + c_{2} *"
 						+ Unicode.EULER_STRING + "^(-x)");
 	}
 
 	@Test
 	public void solveODE_9() {
-		ta("SolveODE[y''-5y=0]",
-				"y = c_{1} *" + Unicode.EULER_STRING + "^(sqrt(5) * x) + c_{2} *"
-						+ Unicode.EULER_STRING + "^(-sqrt(5) * x)");
+		ta("SolveODE[y''-5y=0]", "y = (c_{1} * (" + Unicode.EULER_STRING
+				+ "^(sqrt(5) * x))^(2) + c_{2}) / " + Unicode.EULER_STRING + "^(sqrt(5) * x)");
 	}
 
 	@Test
@@ -181,9 +181,8 @@ public class ArbitraryConstIntegrationTest {
 
 	@Test
 	public void solveODE_13() {
-		ta("SolveODE[y''=2y]",
-				"y = c_{1} * " + Unicode.EULER_STRING + "^(sqrt(2) * x) + c_{2} * "
-						+ Unicode.EULER_STRING + "^(-sqrt(2) * x)");
+		ta("SolveODE[y''=2y]", "y = (c_{1} * (" + Unicode.EULER_STRING
+				+ "^(sqrt(2) * x))^(2) + c_{2}) / " + Unicode.EULER_STRING + "^(sqrt(2) * x)");
 	}
 
 	@Test
@@ -252,62 +251,6 @@ public class ArbitraryConstIntegrationTest {
 		assertEquals("\\mathbf{y = c_{1} + x^{2}}", cell.getLaTeXOutput());
 	}
 
-	/**
-	 * Note that first cell is updated after second cell.
-	 * 
-	 * @param cell1Input
-	 *            The input of first cell.
-	 * @param cell2Input
-	 *            The input of second cell.
-	 * @param cell1InputUpdate
-	 *            The input to update first cell.
-	 * @param cell2InputUpdate
-	 *            The input to update second cell.
-	 * @param expectedResult1
-	 *            The expected result for the first cell.
-	 * @param expectedResult2
-	 *            The expected result for the second cell.
-	 */
-	private static void casCellupdate2(String cell1Input, String cell2Input,
-			String cell1InputUpdate, String cell2InputUpdate,
-			String expectedResult1, String expectedResult2) {
-		String result1, result2;
-
-		try {
-			GeoCasCell f1 = new GeoCasCell(kernel.getConstruction());
-			kernel.getConstruction().addToConstructionList(f1, false);
-
-			f1.setInput(cell1Input);
-			f1.computeOutput();
-
-			GeoCasCell f2 = new GeoCasCell(kernel.getConstruction());
-			kernel.getConstruction().addToConstructionList(f2, false);
-
-			f2.setInput(cell2Input);
-			f2.computeOutput();
-
-			f2.setInput(cell2InputUpdate);
-			f2.computeOutput();
-
-			result2 = getOutput(f2);
-
-			f1.setInput(cell1InputUpdate);
-			f1.computeOutput();
-
-			result1 = getOutput(f1);
-
-		} catch (Throwable t) {
-			String sts = CasTestJsonCommon.stacktrace(t);
-			result1 = t.getClass().getName() + ":" + t.getMessage() + sts;
-			result2 = t.getClass().getName() + ":" + t.getMessage() + sts;
-		}
-		String[] alternatives = new String[0];
-		assertThat(result1, equalToIgnoreWhitespaces(logger, cell1Input,
-				expectedResult1, alternatives));
-		assertThat(result2, equalToIgnoreWhitespaces(logger, cell2Input,
-				expectedResult2, alternatives));
-	}
-
 	private static String getOutput(GeoCasCell f2) {
 		HashSet<Command> commands = new HashSet<>();
 
@@ -334,84 +277,42 @@ public class ArbitraryConstIntegrationTest {
 
 	/**
 	 * Before redefinition: c_1 in first row, c_2 in second.
-	 * 
 	 * After redefine 2: c_2 and c_3 in second
-	 * 
 	 * After redefine 1: c_1 and c_4 in first
 	 */
 	@Test
 	public void arbConst_Integration_3() {
-		casCellupdate2("Integral[x]", "Integral[sin(x)]", "SolveODE[y''+9y=0]",
-				"SolveODE[y''+4y=0]", "y = c_{1} * cos(3 * x) + c_{4} * sin(3 * x)",
-				"y = c_{2} * cos(2 * x) + c_{3} * sin(2 * x)");
+		GeoCasCell f1 = cellFromInput("Integral[x]");
+		GeoCasCell f2 = cellFromInput("Integral[sin(x)]");
+		f2.setInput("SolveODE[y''+4y=0]");
+		f2.computeOutput();
+		f1.setInput("SolveODE[y''+9y=0]");
+		f1.computeOutput();
+
+		assertThat(getOutput(f1), equalToIgnoreWhitespaces(logger, "Integral[x]",
+				"y = c_{1} * cos(3 * x) + c_{4} * sin(3 * x)"));
+		assertThat(getOutput(f2), equalToIgnoreWhitespaces(logger, "Integral[sin(x)]",
+				"y = c_{2} * cos(2 * x) + c_{3} * sin(2 * x)"));
 	}
 
-	/**
-	 * Add first cell, update it, add second cell, update it.
-	 * 
-	 * @param cell1Input
-	 *            The input of first cell.
-	 * @param cell2Input
-	 *            The input of second cell.
-	 * @param cell1InputUpdate
-	 *            The input to update first cell.
-	 * @param cell2InputUpdate
-	 *            The input to update second cell.
-	 * @param expectedResult1
-	 *            The expected result for cell 1.
-	 * @param expectedResult2
-	 *            The expected result for cell 2.
-	 */
-	private static void casCellupdate3(String cell1Input, String cell2Input,
-			String cell1InputUpdate, String cell2InputUpdate,
-			String expectedResult1, String expectedResult2) {
-		String result1, result2;
-
-		try {
-			GeoCasCell f1 = new GeoCasCell(kernel.getConstruction());
-			kernel.getConstruction().addToConstructionList(f1, false);
-
-			f1.setInput(cell1Input);
-			f1.computeOutput();
-
-			f1.setInput(cell1InputUpdate);
-			f1.computeOutput();
-
-			result1 = getOutput(f1);
-
-			GeoCasCell f2 = new GeoCasCell(kernel.getConstruction());
-			kernel.getConstruction().addToConstructionList(f2, false);
-
-			f2.setInput(cell2Input);
-			f2.computeOutput();
-
-			f2.setInput(cell2InputUpdate);
-			f2.computeOutput();
-
-			result2 = getOutput(f2);
-
-		} catch (Throwable t) {
-			String sts = CasTestJsonCommon.stacktrace(t);
-			result1 = t.getClass().getName() + ":" + t.getMessage() + sts;
-			result2 = t.getClass().getName() + ":" + t.getMessage() + sts;
-		}
-
-		assertThat(result1, equalToIgnoreWhitespaces(logger, cell1Input,
-				expectedResult1));
-		assertThat(result2, equalToIgnoreWhitespaces(logger, cell2Input,
-				expectedResult2));
-	}
-
-	@Test
 	/**
 	 * First cell: c_1 before redefine, c_1 and c_2 after
-	 * 
 	 * Second cell: c_3 before redefine, c_3 and c_4 after
 	 */
+	@Test
 	public void arbConst_Integration_4() {
-		casCellupdate3("Integral[x]", "Integral[sin(x)]", "SolveODE[y''+9y=0]",
-				"SolveODE[y''+4y=0]", "y = c_{1} * cos(3 * x) + c_{2} * sin(3 * x)",
-				"y = c_{3} * cos(2 * x) + c_{4} * sin(2 * x)");
+		GeoCasCell f1 = cellFromInput("Integral[x]");
+		f1.setInput("SolveODE[y''+9y=0]");
+		f1.computeOutput();
+
+		GeoCasCell f2 = cellFromInput("Integral[sin(x)]");
+		f2.setInput("SolveODE[y''+4y=0]");
+		f2.computeOutput();
+
+		assertThat(getOutput(f1), equalToIgnoreWhitespaces(logger, "Integral[x]",
+				"y = c_{1} * cos(3 * x) + c_{2} * sin(3 * x)"));
+		assertThat(getOutput(f2), equalToIgnoreWhitespaces(logger, "Integral[sin(x)]",
+				"y = c_{3} * cos(2 * x) + c_{4} * sin(2 * x)"));
 	}
 
 	@Test
@@ -434,13 +335,27 @@ public class ArbitraryConstIntegrationTest {
 			app.getGgbApi().undo();
 			app.getGgbApi().undo();
 		}
-		assertEquals(app.getGgbApi().getValueString("$2", true),
-				"F(x):=-cos(x) + c_{1}");
+		assertEquals("F(x):=-cos(x) + c_{1}",
+				app.getGgbApi().getValueString("$2", true));
+		fullReload();
+		assertEquals("F(x):=-cos(x) + c_{1}",
+				app.getGgbApi().getValueString("$2", true));
+	}
+
+	private void fullReload() {
 		String base64 = app.getGgbApi().getBase64();
 		app.getKernel().clearConstruction(true);
 		app.getGgbApi().setBase64(base64);
-		assertEquals(app.getGgbApi().getValueString("$2", true),
-				"F(x):=-cos(x) + c_{1}");
+	}
+
+	@Test
+	public void reloadTestSolveODE() {
+		ta("f(x):=SolveODE(y''=x)", "1 / 6 * x^(3) + c_{1} * x + c_{2}");
+		assertEquals("f(x):=1 / 6 x³ + c_{1} x + c_{2}",
+				app.getGgbApi().getValueString("$1", true));
+		fullReload();
+		assertEquals("f(x):=1 / 6 x³ + c_{1} x + c_{2}",
+				app.getGgbApi().getValueString("$1", true));
 	}
 
 	@Test
@@ -501,8 +416,10 @@ public class ArbitraryConstIntegrationTest {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		GeoElementND[] f = ap.processAlgebraCommand("F:SolveODE(-1-y^2, (1,2))", false);
 		assertArrayEquals(new String[]{"F"}, app.getGgbApi().getAllObjectNames());
-		assertThat(f[0], hasValue("tan(0π - x + tan"
-				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(2) + 1)"));
+		assertThat(f[0], CoreMatchers.anyOf(hasValue("tan(tan"
+				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(2) + 0π - x + 1)"),
+				hasValue("tan(0π + tan"
+						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(2) - x + 1)")));
 	}
 
 	@Test

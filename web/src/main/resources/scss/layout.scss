@@ -1,5 +1,6 @@
 @use 'colors';
 @use 'z-index';
+@use 'colorMap' as *;
 
 .GeoGebraFrame {
 
@@ -182,13 +183,13 @@
 			height: 24px;
 		}
 		&.selected .gwt-Label {
-			color: colors.$purple-default;
+			color: purple(600);
 		}
 		&:hover {
-			background-color: colors.$black-08;
+			background-color: neutral(200);
 		}
 		&.selected:hover {
-			background-color: colors.$purple-default-12;
+			background-color: purple(100);
 		}
 		&.selected  {
 			opacity: 1;

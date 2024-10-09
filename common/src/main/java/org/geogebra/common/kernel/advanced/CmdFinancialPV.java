@@ -3,13 +3,14 @@ package org.geogebra.common.kernel.advanced;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * PresentValue[ &lt;Rate>, &lt;Number of Periods>, &lt;Payment>, &lt;Future
- * Value (optional)>, &lt;Type (optional)> ] Like the Excel PV function
+ * PresentValue[ &lt;Rate&gt;, &lt;Number of Periods&gt;, &lt;Payment&gt;, &lt;Future
+ * Value (optional)&gt;, &lt;Type (optional)&gt; ] Like the Excel PV function
  */
 public class CmdFinancialPV extends CommandProcessor {
 
@@ -24,7 +25,7 @@ public class CmdFinancialPV extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

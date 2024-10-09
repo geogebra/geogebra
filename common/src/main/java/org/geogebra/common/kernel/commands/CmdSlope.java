@@ -8,9 +8,9 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.MyError;
 
 /**
- * Slope[ &lt;GeoLine> ]
+ * Slope[ &lt;GeoLine&gt; ]
  * 
- * Slope[ &lt;GeoFunction> ]
+ * Slope[ &lt;GeoFunction&gt; ]
  */
 public class CmdSlope extends CommandProcessor {
 
@@ -25,7 +25,7 @@ public class CmdSlope extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 

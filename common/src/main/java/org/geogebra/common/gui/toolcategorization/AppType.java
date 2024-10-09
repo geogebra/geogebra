@@ -1,10 +1,8 @@
 package org.geogebra.common.gui.toolcategorization;
 
 /**
+ * App types
  * @author csilla
- *
- *         app types
- *
  */
 public enum AppType {
     /**

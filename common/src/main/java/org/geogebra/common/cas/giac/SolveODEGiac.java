@@ -41,7 +41,7 @@ public class SolveODEGiac {
 
 		// used by AlgoSolveODECAS.java
 		commandMap.accept("SolveODEPoint.2",
-				"normal(check_derivative(desolve(y'=%0,x,y,%1),%1))");
+				"regroup(check_derivative(desolve(y'=%0,x,y,%1),%1))");
 
 		commandMap.accept("SolveODE.3",
 				when("(%0)[0]==equal",

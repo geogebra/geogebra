@@ -20,10 +20,10 @@ import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.ExtendedBoolean;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
+import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
@@ -33,7 +33,6 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
-import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.DockLayoutPanel;
 import org.gwtproject.user.client.ui.Panel;
@@ -42,6 +41,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.BaseRenderingContext2D;
 import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.HTMLCanvasElement;
 import jsinterop.base.Js;
 
 /**
@@ -50,8 +50,7 @@ import jsinterop.base.Js;
  * Based on desktop implementation by Florian Sonner
  */
 public class DockManagerW extends DockManager {
-	/** default keyboard height */
-	public static final int DEFAULT_KEYBOARD_HEIGHT = 228;
+
 	/** application */
 	AppW app;
 	private LayoutW layout;
@@ -189,34 +188,22 @@ public class DockManagerW extends DockManager {
 			for (int i = 1; i < spData.length; ++i) {
 				DockSplitPaneW currentParent = rootPane;
 
-				// a similar system as it's used to determine the position of
-				// the dock panels (see comment in DockManager::show())
-				// 0: turn left/up, 1: turn right/down
-				String[] directions = spData[i].getLocation().split(",");
+				int[] selectors = spData[i].getChildSelectors();
 
 				// get the parent split pane, the last position is reserved for
 				// the location
 				// of the current split pane and therefore ignored here
-				for (int j = 0; j < directions.length - 1; ++j) {
-					if (directions[j].equals("0")) {
-						currentParent = (DockSplitPaneW) currentParent
-								.getLeftComponent();
-					} else {
-						currentParent = (DockSplitPaneW) currentParent
-								.getRightComponent();
-					}
+				for (int j = 0; j < selectors.length - 1; ++j) {
+					currentParent = (DockSplitPaneW) currentParent
+							.getChild(selectors[j]);
 				}
 
 				// insert the split pane
-				if (directions[directions.length - 1].equals("0")) {
-					currentParent.setLeftComponentCheckEmpty(splitPanes[i]);
-				} else {
-					currentParent.setRightComponentCheckEmpty(splitPanes[i]);
-				}
+				currentParent.setComponentCheckEmpty(selectors[selectors.length - 1],
+						splitPanes[i]);
 			}
 			// sort panels right to left: needed for fullscreen button
-			Arrays.sort(dpData, Comparator.comparing(o ->
-					o.getEmbeddedDef().replace('0', '4')));
+			Arrays.sort(dpData, Comparator.comparing(DockPanelData::getRightToLeftSortingKey));
 			// now insert the dock panels
 			for (DockPanelData dpItem : dpData) {
 				DockPanelW panel = getPanel(dpItem.getViewId());
@@ -232,22 +219,16 @@ public class DockManagerW extends DockManager {
 				app.getGuiManager().attachView(panel.getViewId());
 
 				DockSplitPaneW currentParent = rootPane;
-				String[] directions = dpItem.getEmbeddedDef().split(",");
+				int[] selectors = dpItem.getChildSelectors();
 
 				/*
 				 * Get the parent split pane of this dock panel and ignore the
-				 * last direction as its reserved for the position of the dock
+				 * last direction as it's reserved for the position of the dock
 				 * panel itself.
 				 *
 				 */
-				for (int j = 0; j < directions.length - 1; ++j) {
-					Widget current;
-					if (directions[j].equals("0")
-							|| directions[j].equals("3")) {
-						current = currentParent.getLeftComponent();
-					} else {
-						current = currentParent.getRightComponent();
-					}
+				for (int j = 0; j < selectors.length - 1; ++j) {
+					Widget current = currentParent.getChild(selectors[j]);
 					if (current instanceof  DockSplitPaneW) {
 						currentParent = (DockSplitPaneW) current;
 					}
@@ -255,11 +236,8 @@ public class DockManagerW extends DockManager {
 				if (currentParent == null) {
 					Log.error("Invalid perspective");
 					currentParent = rootPane;
-				} else if (directions[directions.length - 1].equals("0")
-						|| directions[directions.length - 1].equals("3")) {
-					currentParent.setLeftComponentCheckEmpty(panel);
 				} else {
-					currentParent.setRightComponentCheckEmpty(panel);
+					currentParent.setComponentCheckEmpty(selectors[selectors.length - 1], panel);
 				}
 
 				panel.setEmbeddedSize(dpItem.getEmbeddedSize());
@@ -756,7 +734,7 @@ public class DockManagerW extends DockManager {
 	 * left (=3) of the current container. - Insert the DockPanel at the bottom
 	 * (=2) of the current container.
 	 * 
-	 * Note that the program differs between the top & left and bottom & right
+	 * Note that the program differs between the top &amp; left and bottom &amp; right
 	 * position while the DockSplitPane just differs between a left and right
 	 * component and the orientation of the split pane.
 	 * 
@@ -783,25 +761,7 @@ public class DockManagerW extends DockManager {
 
 		app.persistWidthAndHeight();
 		// Transform the definition into an array of integers
-		String[] def = panel.getEmbeddedDef().split(",");
-		int[] locations = new int[def.length];
-
-		for (int i = 0; i < def.length; ++i) {
-			if (def[i].length() == 0) {
-				def[i] = "1";
-			}
-
-			locations[i] = Integer.parseInt(def[i]);
-
-			if (locations[i] > 3 || locations[i] < 0) {
-				locations[i] = 3; // left as default direction
-			}
-		}
-
-		// We insert this panel at the left by default
-		if (locations.length == 0) {
-			locations = new int[] { 3 };
-		}
+		int[] locations = DockPanelData.parseLocation(panel.getEmbeddedDef());
 
 		DockSplitPaneW currentPane = rootPane;
 		int secondLastPos = -1;
@@ -1139,7 +1099,7 @@ public class DockManagerW extends DockManager {
 		// app.validateComponent();
 		// }
 
-		if (fromDrop) {
+		if (fromDrop && opposite != null) {
 			if (opposite.getParent() instanceof DockSplitPaneW) {
 				((DockSplitPaneW) opposite.getParent()).onResize();
 			} else if (opposite instanceof DockSplitPaneW) {
@@ -1731,7 +1691,7 @@ public class DockManagerW extends DockManager {
 	private void calculateKeyboardHeight() {
 		double kh = app.getAppletFrame().getKeyboardHeight();
 		if (kh == 0) {
-			kh = DEFAULT_KEYBOARD_HEIGHT;
+			kh = TabbedKeyboard.TOTAL_HEIGHT;
 		}
 
 		if (kbHeight < kh) {
@@ -1748,12 +1708,12 @@ public class DockManagerW extends DockManager {
 			layout.getDockManager().unRegisterPanel(old);
 		}
 		layout.registerPanel(
-					((AppWFull) app).getActivity().createAVPanel());
+					((AppWFull) app).getCurrentActivity().createAVPanel());
 
 	}
 
 	/**
-	 * Reset stylebar in all panels when changing classic <=> graphing
+	 * Reset stylebar in all panels when changing classic to graphing or vice versa
 	 */
 	public void reset() {
 		for (DockPanelW dock : this.dockPanels) {
@@ -1781,36 +1741,17 @@ public class DockManagerW extends DockManager {
 	 * @param c canvas
 	 * @param callback consumer for the resulting base64 string (without marker)
 	 */
-	public void paintPanels(Canvas c, StringConsumer callback, double scale) {
+	public void paintPanels(HTMLCanvasElement c, StringConsumer callback, double scale) {
 		int width = (int) (rootPane.getOffsetWidth() * scale);
 		int height = (int) (rootPane.getOffsetHeight() * scale);
-		c.setCoordinateSpaceWidth(width);
-		c.setCoordinateSpaceHeight(height);
-		Runnable counter = new Runnable() {
-			private int count = dockPanels.size();
-			@Override
-			public void run() {
-				count--;
-				if (count == 0) {
-					callback.consume(StringUtil.removePngMarker(c.toDataUrl()));
-				}
-			}
-		};
+		c.width = width;
+		c.height = height;
 		CanvasRenderingContext2D context2d = Js.uncheckedCast(c.getContext("2d"));
 		// gray color for the dividers in Classic
 		context2d.fillStyle = BaseRenderingContext2D.FillStyleUnionType.of("rgb(200,200,200)");
 		context2d.fillRect(0, 0, width, height);
 		context2d.scale(scale, scale);
-		for (DockPanelW panel: dockPanels) {
-			if (panel.isAttached()) {
-				int left = (int) ((panel.getAbsoluteLeft() - rootPane.getAbsoluteLeft()) / app
-						.getGeoGebraElement().getScaleX());
-				int top = (int) ((panel.getAbsoluteTop() - rootPane.getAbsoluteTop()) / app
-						.getGeoGebraElement().getScaleY());
-				panel.paintToCanvas(context2d, counter, left, top);
-			} else {
-				counter.run();
-			}
-		}
+		ViewCounter counter = callback == null ? null : new ViewCounter(c, callback);
+		rootPane.paintToCanvas(context2d, counter, 0, 0);
 	}
 }

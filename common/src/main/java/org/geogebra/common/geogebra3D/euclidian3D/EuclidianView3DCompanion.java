@@ -297,8 +297,8 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 	protected void setPickPointFromMouse(GPoint mouse, Coords pickPoint) {
 		Renderer renderer = getView().getRenderer();
 		int projection = getView().getProjection();
-		pickPoint.setX(mouse.getX() + renderer.getLeft());
-		pickPoint.setY(-mouse.getY() + renderer.getTop());
+		pickPoint.setX(mouse.getX() * renderer.getPixelRatio() + renderer.getLeft());
+		pickPoint.setY(-mouse.getY() * renderer.getPixelRatio() + renderer.getTop());
 		if (projection == EuclidianView3DInterface.PROJECTION_PERSPECTIVE
 				|| projection == EuclidianView3DInterface.PROJECTION_GLASSES) {
 			pickPoint.setZ(0);

@@ -43,6 +43,6 @@ public class SymbolicRoundingTest extends BaseSymbolicTest {
 		GeoSymbolic number = add("NSolve(x^2=6, x)");
 		kernel.setPrintDecimals(3);
 		String output = AlgebraItem.getOutputTextForGeoElement(number);
-		assertThat(output, equalTo("\\left\\{x\\, = \\,-2.449, x\\, = \\,2.449\\right\\}"));
+		assertThat(output, equalTo("\\left\\{x\\, = \\,-2.449,\\;x\\, = \\,2.449\\right\\}"));
 	}
 }

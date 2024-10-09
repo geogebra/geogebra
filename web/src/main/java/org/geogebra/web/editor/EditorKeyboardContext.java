@@ -6,15 +6,15 @@ import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.LocalizationI;
 import org.geogebra.keyboard.web.HasKeyboard;
-import org.gwtproject.dom.client.Element;
+import org.geogebra.web.html5.bridge.AttributeProvider;
 
 import elemental2.dom.DomGlobal;
 
 public class EditorKeyboardContext implements HasKeyboard {
 
-	private final Element element;
+	private final AttributeProvider element;
 
-	public EditorKeyboardContext(Element el) {
+	public EditorKeyboardContext(AttributeProvider el) {
 		this.element = el;
 	}
 
@@ -33,7 +33,7 @@ public class EditorKeyboardContext implements HasKeyboard {
 		return new LocalizationI() {
 
 			@Override
-			public String getLocaleStr() {
+			public String getLanguageTag() {
 				return "en-US";
 			}
 
@@ -58,18 +58,13 @@ public class EditorKeyboardContext implements HasKeyboard {
 	}
 
 	@Override
-	public boolean needsSmallKeyboard() {
-		return false;
-	}
-
-	@Override
 	public boolean attachedToEqEditor() {
 		return false;
 	}
 
 	@Override
 	public AppKeyboardType getKeyboardType() {
-		return AppKeyboardType.fromName(element.getAttribute("data-param-keyboardtype"));
+		return AppKeyboardType.fromName(element.getAttribute("keyboardtype"));
 	}
 
 	@Override

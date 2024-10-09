@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
-import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
@@ -40,6 +40,8 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 
+// TODO find a better package for this
+// (see also https://git.geogebra.org/ggb/geogebra/-/merge_requests/7181#note_52771)
 @SuppressWarnings("javadoc")
 public enum Operation {
 	NO_OPERATION {
@@ -182,7 +184,7 @@ public enum Operation {
 				return bool;
 			}
 			throw ev.illegalBinary(lt, rt, Errors.IllegalBoolean,
-					ExpressionNodeConstants.strOR);
+					ExpressionNodeConstants.strXOR);
 		}
 	},
 	AND {
@@ -242,7 +244,7 @@ public enum Operation {
 
 				double a = lt.evaluateDouble();
 				double b = rt.evaluateDouble();
-				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
+				boolean defined = Double.isFinite(a) && Double.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(), DoubleUtil.isGreater(b, a),
 						defined);
@@ -264,7 +266,7 @@ public enum Operation {
 
 				double a = lt.evaluateDouble();
 				double b = rt.evaluateDouble();
-				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
+				boolean defined = Double.isFinite(a) && Double.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(), DoubleUtil.isGreater(a, b),
 						defined);
@@ -286,7 +288,7 @@ public enum Operation {
 
 				double a = lt.evaluateDouble();
 				double b = rt.evaluateDouble();
-				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
+				boolean defined = Double.isFinite(a) && Double.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(),
 						DoubleUtil.isGreaterEqual(b, a), defined);
@@ -309,7 +311,7 @@ public enum Operation {
 
 				double a = lt.evaluateDouble();
 				double b = rt.evaluateDouble();
-				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
+				boolean defined = Double.isFinite(a) && Double.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(),
 						DoubleUtil.isGreaterEqual(a, b), defined);
@@ -469,30 +471,6 @@ public enum Operation {
 			}
 			return ret;
 		}
-
-		private void add(MyList ret, ExpressionValue lt,
-				ExpressionValue rt, final Operation op) {
-			Traversing pmSimplifier = new Traversing() {
-
-				@Override
-				public ExpressionValue process(ExpressionValue ev) {
-					if (ev.isExpressionNode()) {
-						ExpressionNode en = (ExpressionNode) ev;
-						if (en.getOperation() == Operation.PLUSMINUS) {
-							en.setOperation(op);
-						}
-					}
-					return ev;
-				}
-
-			};
-			ret.addListElement(
-					ret.getKernel().getAlgebraProcessor()
-							.makeFunctionNVar(lt.wrap().apply(op, rt)
-									.deepCopy(ret.getKernel())
-									.traverse(pmSimplifier).wrap()));
-
-		}
 	},
 	VECTORPRODUCT {
 		@Override
@@ -508,11 +486,15 @@ public enum Operation {
 	// so that brackets work for eg a/(b/c)
 	// and are removed in (a/b)/c
 	// see case DIVIDE in ExpressionNode
+
 	MULTIPLY {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			checkImprecise(left, lt);
+			checkImprecise(right, rt);
+
 			return ev.handleMult(lt, rt, tpl, holdsLaTeX);
 
 		}
@@ -531,6 +513,8 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			checkImprecise(left, lt);
+			checkImprecise(right, rt);
 			return ev.handleDivide(lt, rt, left, right);
 		}
 	},
@@ -567,8 +551,8 @@ public enum Operation {
 				}
 				int n = list.size() - 3;
 				if (n >= 1) {
-					double min = (list.getListElement(0)).evaluateDouble();
-					double max = (list.getListElement(1)).evaluateDouble();
+					double min = (list.get(0)).evaluateDouble();
+					double max = (list.get(1)).evaluateDouble();
 
 					if ((min > max) || (x > max) || (x < min)) {
 						return new MyDouble(ev.getKernel(), Double.NaN);
@@ -579,12 +563,12 @@ public enum Operation {
 					int index = (int) Math.floor((x - min) / step);
 
 					if (index > (n - 1)) {
-						ret = (list.getListElement(n + 2)).evaluateDouble();
+						ret = (list.get(n + 2)).evaluateDouble();
 					} else {
 
-						double y1 = (list.getListElement(index + 2))
+						double y1 = (list.get(index + 2))
 								.evaluateDouble();
-						double y2 = (list.getListElement(index + 3))
+						double y2 = (list.get(index + 3))
 								.evaluateDouble();
 						double x1 = min + (index * step);
 
@@ -612,33 +596,33 @@ public enum Operation {
 				if (keyList.size() < 1) {
 					return new MyDouble(ev.getKernel(), Double.NaN);
 				}
-				double max = keyList.getListElement(keyList.size() - 1)
+				double max = keyList.get(keyList.size() - 1)
 						.evaluateDouble();
 				if (keyList.size() == 1) {
 					double ret = Double.NaN;
 					if (DoubleUtil.isEqual(max, x)) {
-						ret = valueList.getListElement(0).evaluateDouble();
+						ret = valueList.get(0).evaluateDouble();
 					}
 					return new MyDouble(ev.getKernel(), ret);
 				}
-				double min = keyList.getListElement(0).evaluateDouble();
+				double min = keyList.get(0).evaluateDouble();
 				if (max < x || min > x) {
 					return new MyDouble(ev.getKernel(), Double.NaN);
 				}
 				int index = (int) (keyList.size() * (x - min) / (max - min));
 				index = Math.max(Math.min(index, keyList.size() - 1), 0);
-				while (index > 0 && keyList.getListElement(index)
+				while (index > 0 && keyList.get(index)
 						.evaluateDouble() >= x) {
 					index--;
 				}
 				while (index < keyList.size() - 1 && keyList
-						.getListElement(index + 1).evaluateDouble() < x) {
+						.get(index + 1).evaluateDouble() < x) {
 					index++;
 				}
-				double x1 = keyList.getListElement(index).evaluateDouble();
-				double x2 = keyList.getListElement(index + 1).evaluateDouble();
-				double y1 = valueList.getListElement(index).evaluateDouble();
-				double y2 = valueList.getListElement(index + 1)
+				double x1 = keyList.get(index).evaluateDouble();
+				double x2 = keyList.get(index + 1).evaluateDouble();
+				double y1 = valueList.get(index).evaluateDouble();
+				double y2 = valueList.get(index + 1)
 						.evaluateDouble();
 				return new MyDouble(ev.getKernel(),
 						((x - x1) * y2 + y1 * (x2 - x)) / (x2 - x1));
@@ -661,7 +645,7 @@ public enum Operation {
 				return vec;
 
 			}
-			throw ev.polynomialOrDie(lt, "cos(");
+			throw ev.illegalArgument(lt, "cos(");
 
 		}
 	},
@@ -680,7 +664,7 @@ public enum Operation {
 				return vec;
 
 			}
-			throw ev.polynomialOrDie(lt, "sin(");
+			throw ev.illegalArgument(lt, "sin(");
 
 		}
 	},
@@ -699,7 +683,7 @@ public enum Operation {
 				return vec;
 
 			}
-			throw ev.polynomialOrDie(lt, "tan(");
+			throw ev.illegalArgument(lt, "tan(");
 
 		}
 	},
@@ -719,7 +703,7 @@ public enum Operation {
 				return vec;
 
 			} else {
-				throw ev.polynomialOrDie(lt, "exp(");
+				throw ev.illegalArgument(lt, "exp(");
 			}
 
 		}
@@ -740,7 +724,7 @@ public enum Operation {
 				return vec;
 
 			} else {
-				throw ev.polynomialOrDie(lt, "ln(");
+				throw ev.illegalArgument(lt, "ln(");
 			}
 		}
 	},
@@ -756,7 +740,7 @@ public enum Operation {
 				GeoVec2D.complexAcos(vec, vec);
 				return vec;
 			}
-			throw ev.polynomialOrDie(lt, "acos(");
+			throw ev.illegalArgument(lt, "acos(");
 
 		}
 	},
@@ -771,7 +755,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().acos(true);
 			}
-			throw ev.polynomialOrDie(lt, "acosd(");
+			throw ev.illegalArgument(lt, "acosd(");
 
 		}
 	},
@@ -787,7 +771,7 @@ public enum Operation {
 				GeoVec2D.complexAsin(vec, vec);
 				return vec;
 			}
-			throw ev.polynomialOrDie(lt, "asin(");
+			throw ev.illegalArgument(lt, "asin(");
 
 		}
 	},
@@ -802,7 +786,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().asin(true);
 			}
-			throw ev.polynomialOrDie(lt, "asind(");
+			throw ev.illegalArgument(lt, "asind(");
 
 		}
 	},
@@ -818,7 +802,7 @@ public enum Operation {
 				GeoVec2D.complexAtan(vec, vec);
 				return vec;
 			}
-			throw ev.polynomialOrDie(lt, "atan(");
+			throw ev.illegalArgument(lt, "atan(");
 		}
 	},
 	/*
@@ -832,7 +816,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().atan(true);
 			}
-			throw ev.polynomialOrDie(lt, "atand(");
+			throw ev.illegalArgument(lt, "atand(");
 
 		}
 	},
@@ -906,7 +890,7 @@ public enum Operation {
 				return vec;
 
 			} else {
-				throw ev.polynomialOrDie(lt, "sqrt(");
+				throw ev.illegalArgument(lt, "sqrt(");
 			}
 		}
 	},
@@ -944,7 +928,7 @@ public enum Operation {
 				return new MyDouble(kernel, vec3d.length());
 
 			} else {
-				throw ev.polynomialOrDie(lt, "abs(");
+				throw ev.illegalArgument(lt, "abs(");
 			}
 		}
 	},
@@ -956,7 +940,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().sgn();
 			}
-			throw ev.polynomialOrDie(lt, "sgn(");
+			throw ev.illegalArgument(lt, "sgn(");
 		}
 	},
 	XCOORD {
@@ -1009,7 +993,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().fractionalPart();
 			}
-			throw ev.polynomialOrDie(lt, "fractionalPart(");
+			throw ev.illegalArgument(lt, "fractionalPart(");
 		}
 	},
 	COSH {
@@ -1027,7 +1011,7 @@ public enum Operation {
 				return vec;
 
 			}
-			throw ev.polynomialOrDie(lt, "cosh(");
+			throw ev.illegalArgument(lt, "cosh(");
 
 		}
 	},
@@ -1046,7 +1030,7 @@ public enum Operation {
 				return vec;
 
 			}
-			throw ev.polynomialOrDie(lt, "sinh(");
+			throw ev.illegalArgument(lt, "sinh(");
 
 		}
 	},
@@ -1065,7 +1049,7 @@ public enum Operation {
 				return vec;
 
 			}
-			throw ev.polynomialOrDie(lt, "tanh(");
+			throw ev.illegalArgument(lt, "tanh(");
 
 		}
 	},
@@ -1077,7 +1061,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().acosh();
 			}
-			throw ev.polynomialOrDie(lt, "acosh(");
+			throw ev.illegalArgument(lt, "acosh(");
 
 		}
 	},
@@ -1089,7 +1073,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().asinh();
 			}
-			throw ev.polynomialOrDie(lt, "asinh(");
+			throw ev.illegalArgument(lt, "asinh(");
 
 		}
 	},
@@ -1101,7 +1085,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().atanh();
 			}
-			throw ev.polynomialOrDie(lt, "atanh(");
+			throw ev.illegalArgument(lt, "atanh(");
 		}
 	},
 	CSC {
@@ -1118,7 +1102,7 @@ public enum Operation {
 				GeoVec2D.complexCsc(vec, vec);
 				return vec;
 			}
-			throw ev.polynomialOrDie(lt, "csc(");
+			throw ev.illegalArgument(lt, "csc(");
 		}
 	},
 	SEC {
@@ -1135,7 +1119,7 @@ public enum Operation {
 				GeoVec2D.complexSec(vec, vec);
 				return vec;
 			}
-			throw ev.polynomialOrDie(lt, "sec(");
+			throw ev.illegalArgument(lt, "sec(");
 		}
 	},
 	COT {
@@ -1153,7 +1137,7 @@ public enum Operation {
 				return vec;
 
 			}
-			throw ev.polynomialOrDie(lt, "cot(");
+			throw ev.illegalArgument(lt, "cot(");
 		}
 	},
 	CSCH {
@@ -1171,7 +1155,7 @@ public enum Operation {
 				return vec;
 
 			}
-			throw ev.polynomialOrDie(lt, "csch(");
+			throw ev.illegalArgument(lt, "csch(");
 		}
 	},
 	SECH {
@@ -1188,7 +1172,7 @@ public enum Operation {
 				GeoVec2D.complexSech(vec, vec);
 				return vec;
 			}
-			throw ev.polynomialOrDie(lt, "sech(");
+			throw ev.illegalArgument(lt, "sech(");
 		}
 	},
 	COTH {
@@ -1205,7 +1189,7 @@ public enum Operation {
 				GeoVec2D.complexCoth(vec, vec);
 				return vec;
 			}
-			throw ev.polynomialOrDie(lt, "coth(");
+			throw ev.illegalArgument(lt, "coth(");
 		}
 	},
 	FLOOR {
@@ -1227,7 +1211,7 @@ public enum Operation {
 				return ((Vector3DValue) lt).getVector()
 						.floor();
 			}
-			throw ev.polynomialOrDie(lt, "floor(");
+			throw ev.illegalArgument(lt, "floor(");
 		}
 	},
 	CEIL {
@@ -1248,7 +1232,7 @@ public enum Operation {
 			if (lt instanceof Vector3DValue) {
 				return ((Vector3DValue) lt).getVector().ceil();
 			}
-			throw ev.polynomialOrDie(lt, "ceil(");
+			throw ev.illegalArgument(lt, "ceil(");
 		}
 	},
 	FACTORIAL {
@@ -1259,7 +1243,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().factorial();
 			}
-			throw ev.polynomialOrDie(lt, "", "!");
+			throw ev.illegalArgument(lt, "", "!");
 		}
 	},
 	ROUND {
@@ -1281,7 +1265,7 @@ public enum Operation {
 				return ((Vector3DValue) lt).getVector()
 						.round();
 			}
-			throw ev.polynomialOrDie(lt, "round(");
+			throw ev.illegalArgument(lt, "round(");
 		}
 	},
 	ROUND2 {
@@ -1310,7 +1294,7 @@ public enum Operation {
 				return ((Vector3DValue) lt).getVector()
 						.round();
 			}
-			throw ev.polynomialOrDie(lt, "round(");
+			throw ev.illegalArgument(lt, "round(");
 		}
 	},
 	GAMMA {
@@ -1321,7 +1305,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().gamma();
 			}
-			throw ev.polynomialOrDie(lt, "gamma(");
+			throw ev.illegalArgument(lt, "gamma(");
 		}
 	},
 	DIRAC {
@@ -1332,7 +1316,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().dirac();
 			}
-			throw ev.polynomialOrDie(lt, "Dirac(");
+			throw ev.illegalArgument(lt, "Dirac(");
 		}
 	},
 	HEAVISIDE {
@@ -1343,7 +1327,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().heaviside();
 			}
-			throw ev.polynomialOrDie(lt, "heaviside(");
+			throw ev.illegalArgument(lt, "heaviside(");
 		}
 	},
 	GAMMA_INCOMPLETE {
@@ -1413,7 +1397,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().erf();
 			}
-			throw ev.polynomialOrDie(lt, "erf(");
+			throw ev.illegalArgument(lt, "erf(");
 		}
 	},
 	PSI {
@@ -1424,7 +1408,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().psi();
 			}
-			throw ev.polynomialOrDie(lt, "psi(");
+			throw ev.illegalArgument(lt, "psi(");
 		}
 	},
 	POLYGAMMA {
@@ -1436,7 +1420,7 @@ public enum Operation {
 				return ((NumberValue) rt).getNumber()
 						.polygamma((NumberValue) lt);
 			}
-			throw ev.polynomialOrDie(lt, "polygamma(");
+			throw ev.illegalArgument(lt, "polygamma(");
 		}
 	},
 	LAMBERTW {
@@ -1454,7 +1438,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().lambertW(branch);
 			}
-			throw ev.polynomialOrDie(lt, "LambertW(");
+			throw ev.illegalArgument(lt, "LambertW(");
 		}
 	},
 	LOG10 {
@@ -1465,7 +1449,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().log10();
 			}
-			throw ev.polynomialOrDie(lt, "log10(");
+			throw ev.illegalArgument(lt, "log10(");
 		}
 	},
 	LOG2 {
@@ -1476,7 +1460,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().log2();
 			}
-			throw ev.polynomialOrDie(lt, "log2(");
+			throw ev.illegalArgument(lt, "log2(");
 		}
 	},
 	LOGB {
@@ -1510,7 +1494,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().cosineIntegral();
 			}
-			throw ev.polynomialOrDie(lt, "cosIntegral(");
+			throw ev.illegalArgument(lt, "cosIntegral(");
 		}
 	},
 	SI {
@@ -1521,7 +1505,7 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().sineIntegral();
 			}
-			throw ev.polynomialOrDie(lt, "sinIntegral(");
+			throw ev.illegalArgument(lt, "sinIntegral(");
 		}
 	},
 	EI {
@@ -1535,7 +1519,7 @@ public enum Operation {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
 				return vec.ei();
 			}
-			throw ev.polynomialOrDie(lt, "expIntegral(");
+			throw ev.illegalArgument(lt, "expIntegral(");
 		}
 	},
 	CBRT {
@@ -1551,7 +1535,7 @@ public enum Operation {
 				GeoVec2D.complexCbrt(vec, vec);
 				return vec;
 			}
-			throw ev.polynomialOrDie(lt, "cbrt(");
+			throw ev.illegalArgument(lt, "cbrt(");
 		}
 	},
 	RANDOM {
@@ -1577,7 +1561,7 @@ public enum Operation {
 				return vec;
 
 			}
-			throw ev.polynomialOrDie(lt, "conjugate(");
+			throw ev.illegalArgument(lt, "conjugate(");
 		}
 	},
 	ARG {
@@ -1597,13 +1581,13 @@ public enum Operation {
 
 				double num = lt.evaluateDouble();
 
-				if (MyDouble.isFinite(num)) {
+				if (Double.isFinite(num)) {
 
 					return new MyDouble(kernel, num < 0 ? Math.PI : 0);
 				}
 				return new MyDouble(kernel, Double.NaN);
 			}
-			throw ev.polynomialOrDie(lt, "arg(");
+			throw ev.illegalArgument(lt, "arg(");
 		}
 	},
 	ALT {
@@ -1623,7 +1607,7 @@ public enum Operation {
 				ret.setAngle();
 				return ret;
 			}
-			throw ev.polynomialOrDie(lt, "alt(");
+			throw ev.illegalArgument(lt, "alt(");
 		}
 	},
 	FUNCTION {
@@ -1668,8 +1652,8 @@ public enum Operation {
 
 				if (lt instanceof GeoSurfaceCartesianND) {
 					return ((GeoSurfaceCartesianND) lt).evaluateSurface(
-							arg.getListElement(0).evaluateDouble(),
-							arg.getListElement(1).evaluateDouble());
+							arg.get(0).evaluateDouble(),
+							arg.get(1).evaluateDouble());
 				}
 				throw ev.illegalArgument(lt);
 			}
@@ -1783,18 +1767,18 @@ public enum Operation {
 			if (lt instanceof MyList && rt instanceof MyList) {
 				MyList cond = (MyList) lt;
 				for (int i = 0; i < cond.size(); i++) {
-					ExpressionValue curr = cond.getListElement(i).evaluate(tpl);
+					ExpressionValue curr = cond.get(i).evaluate(tpl);
 
 					if (curr instanceof BooleanValue) {
 						if (((BooleanValue) curr).getBoolean()) {
-							return ((MyList) rt).getListElement(i)
+							return ((MyList) rt).get(i)
 									.evaluate(tpl);
 						}
 					}
 				}
 				return cond.size() == ((MyList) rt).size()
 						? new MyDouble(ev.getKernel(), Double.NaN)
-						: ((MyList) rt).getListElement(cond.size())
+						: ((MyList) rt).get(cond.size())
 								.evaluate(tpl);
 			}
 
@@ -1893,7 +1877,7 @@ public enum Operation {
 				return vec;
 
 			} else {
-				throw ev.polynomialOrDie(lt, "zeta(");
+				throw ev.illegalArgument(lt, "zeta(");
 			}
 		}
 	},
@@ -1926,6 +1910,19 @@ public enum Operation {
 		}
 	};
 
+	private static void checkImprecise(ExpressionValue value, ExpressionValue rt) {
+		if (!(value instanceof ValidExpression)) {
+			return;
+		}
+		ValidExpression ve = (ValidExpression) value;
+		if (ve.containsFunctionVariable()) {
+			ve.setImprecise(true);
+			if (rt instanceof ValidExpression) {
+				((ValidExpression) rt).setImprecise(true);
+			}
+		}
+	}
+
 	protected ExpressionValue[] expandPlusMinus(ExpressionNode exp, Kernel kernel) {
 		ExpressionValue[] expand = new ExpressionValue[2];
 		if (exp == null || exp.isLeaf()) {
@@ -1956,14 +1953,19 @@ public enum Operation {
 		expand[1] = new ExpressionNode(kernel, expandLeft[1], minusOp, expandRight[1]);
 	}
 
+	/**
+	 * @return whether this function expects only one argument
+	 */
 	public boolean isUnary() {
-		return this == NO_OPERATION || isSimpleFunction(this);
+		return this == NO_OPERATION || isSimpleFunction(this)
+				|| this == ALT || this == ARG || this == CONJUGATE
+				|| this == REAL || this == IMAGINARY;
 	}
 
 	/**
 	 * @param op
 	 *            operation
-	 * @return whether operation is a real->real function
+	 * @return whether operation is a real-&gt;real function
 	 */
 	public static boolean isSimpleFunction(Operation op) {
 		switch (op) {
@@ -2005,6 +2007,12 @@ public enum Operation {
 		case GAMMA:
 		case DIRAC:
 		case HEAVISIDE:
+		case FLOOR:
+		case CEIL:
+		case ROUND:
+		case FACTORIAL:
+		case SGN:
+		case FRACTIONAL_PART:
 			return true;
 		}
 		return false;
@@ -2046,7 +2054,7 @@ public enum Operation {
 			ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX);
 
 	public boolean isPlusorMinus() {
-		return this.equals(PLUS) || this.equals(MINUS);
+		return this.equals(PLUS) || this.equals(MINUS) || this.equals(INVISIBLE_PLUS);
 	}
 
 	/**
@@ -2073,6 +2081,7 @@ public enum Operation {
 	public static Operation inverse(Operation op) {
 		switch (op) {
 		case PLUS:
+		case INVISIBLE_PLUS:
 			return Operation.MINUS;
 		case MINUS:
 			return Operation.PLUS;
@@ -2115,7 +2124,7 @@ public enum Operation {
 	}
 
 	/**
-	 * @return negation of this expression (optimizes negation of >,<,=>,<=)
+	 * @return negation of this expression (optimizes negation of &gt;,&lt;,&gt;=,&lt;=)
 	 */
 	public Operation negate() {
 		switch (this) {

@@ -13,7 +13,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.Collator;
-import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -71,7 +70,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	private final InputBarHelpPanelD thisPanel;
 	private final Color bgColor;
 
-	private MyJTree cmdTree;
+	private CommandTree cmdTree;
 	private DefaultMutableTreeNode functionTitleNode;
 	private DefaultMutableTreeNode rootSubCommands;
 	private DefaultMutableTreeNode rootAllCommands;
@@ -362,7 +361,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		setCommands();
 
 		cmdTreeModel = new DefaultTreeModel(rootSubCommands);
-		cmdTree = new MyJTree(cmdTreeModel);
+		cmdTree = new CommandTree(cmdTreeModel);
 
 		cmdTree.setFocusable(false);
 		ToolTipManager.sharedInstance().registerComponent(cmdTree);
@@ -377,7 +376,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		cmdTree.getSelectionModel()
 				.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-		cmdTree.setCellRenderer(new MyRenderer());
+		cmdTree.setCellRenderer(new CommandTreeRenderer());
 		cmdTree.setLargeModel(true);
 		// tree.putClientProperty("JTree.lineStyle", "none");
 		cmdTree.setRootVisible(false);
@@ -431,9 +430,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 			addNodeInSortedOrder(rootSubCommands, child);
 
 			// add leaf nodes: sub-command names
-			Iterator<?> it = subDict[i].getIterator();
-			while (it.hasNext()) {
-				String cmdName = subDict[i].get(it.next());
+			for (String s : subDict[i]) {
+				String cmdName = subDict[i].get(s);
 				if (cmdName != null && cmdName.length() > 0) {
 					addNodeInSortedOrder(child,
 							new DefaultMutableTreeNode(cmdName));
@@ -443,9 +441,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		// laod the All Commands node
 		LowerCaseDictionary dict = app.getCommandDictionary();
-		Iterator<?> it = dict.getIterator();
-		while (it.hasNext()) {
-			String cmdName = dict.get(it.next());
+		for (String s : dict) {
+			String cmdName = dict.get(s);
 			if (cmdName != null && cmdName.length() > 0) {
 				addNodeInSortedOrder(rootAllCommands,
 						new DefaultMutableTreeNode(cmdName));
@@ -526,9 +523,9 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			MyJTree tree;
+			CommandTree tree;
 			if (e.getSource() instanceof JTree) {
-				tree = (MyJTree) e.getSource();
+				tree = (CommandTree) e.getSource();
 			} else {
 				return;
 			}
@@ -541,9 +538,9 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 			// TODO most of this code can be removed now that roll over no
 			// longer changes the help text
-			MyJTree tree;
-			if (e.getSource() instanceof MyJTree) {
-				tree = (MyJTree) e.getSource();
+			CommandTree tree;
+			if (e.getSource() instanceof CommandTree) {
+				tree = (CommandTree) e.getSource();
 			} else {
 				return;
 			}
@@ -659,14 +656,14 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	// Tree Cell Renderer
 	// =============================================
 
-	private class MyRenderer extends DefaultTreeCellRenderer {
+	private class CommandTreeRenderer extends DefaultTreeCellRenderer {
 
 		private static final long serialVersionUID = 1L;
 
 		private final Color selectionColor;
 		private final Color rollOverColor;
 
-		public MyRenderer() {
+		public CommandTreeRenderer() {
 			update();
 			selectionColor = GColorD.getAwtColor(
 					GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
@@ -706,8 +703,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 				if (isSelected) {
 					setBackgroundSelectionColor(selectionColor);
-				} else if ((tree instanceof MyJTree)
-						&& row == ((MyJTree) tree).rollOverRow) {
+				} else if ((tree instanceof CommandTree)
+						&& row == ((CommandTree) tree).rollOverRow) {
 					setBackgroundNonSelectionColor(rollOverColor);
 				} else {
 					setBackgroundSelectionColor(bgColor);
@@ -718,7 +715,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 				setFont(app.getBoldFont());
 				setBackgroundSelectionColor(bgColor);
 				setBackgroundNonSelectionColor(bgColor);
-				if (row == ((MyJTree) tree).rollOverRow) {
+				if (row == ((CommandTree) tree).rollOverRow) {
 					setBackgroundNonSelectionColor(rollOverColor);
 					setBackgroundSelectionColor(rollOverColor);
 				}
@@ -798,13 +795,13 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		// TODO Auto-generated method stub
 	}
 
-	private static class MyJTree extends JTree {
+	private static class CommandTree extends JTree {
 
 		private static final long serialVersionUID = 1L;
 
 		public int rollOverRow = -1;
 
-		public MyJTree(TreeModel tm) {
+		public CommandTree(TreeModel tm) {
 			super(tm);
 		}
 	}

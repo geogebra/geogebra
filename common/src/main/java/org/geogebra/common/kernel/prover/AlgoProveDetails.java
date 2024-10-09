@@ -41,7 +41,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Algo for the ProveDetails command.
  * 
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  */
 public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 
@@ -98,8 +98,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		input = new GeoElement[1];
 		input[0] = root;
 
-		super.setOutputLength(1);
-		super.setOutput(0, list);
+		setOnlyOutput(list);
 		setDependencies(); // done by AlgoElement
 		inputFingerprint = fingerprint(root);
 	}

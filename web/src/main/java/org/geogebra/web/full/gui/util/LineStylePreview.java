@@ -33,6 +33,6 @@ public class LineStylePreview extends StylePreview {
 	 */
 	public void update(int thickness, int typeIdx, GColor color) {
 		clear();
-		drawStylePreview(color, thickness, EuclidianView.getLineType(typeIdx), 30);
+		drawStylePreview(color, thickness, EuclidianView.getLineType(typeIdx));
 	}
 }

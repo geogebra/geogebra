@@ -12,38 +12,22 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.geogebra3D;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Cursor;
-import java.awt.Desktop;
-import java.awt.FlowLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
-import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.gui.layout.DockManager;
@@ -52,31 +36,19 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
-import org.geogebra.common.main.settings.EuclidianSettings3D;
-import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
-import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianController3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
 import org.geogebra.desktop.geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
-import org.geogebra.desktop.geogebra3D.euclidianInput3D.EuclidianControllerHand3D;
-import org.geogebra.desktop.geogebra3D.euclidianInput3D.EuclidianControllerInput3D;
-import org.geogebra.desktop.geogebra3D.euclidianInput3D.EuclidianViewInput3D;
 import org.geogebra.desktop.geogebra3D.gui.GuiManager3D;
 import org.geogebra.desktop.geogebra3D.gui.layout.panels.EuclidianDockPanel3DD;
-import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory;
-import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
-import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DExceptionType;
 import org.geogebra.desktop.geogebra3D.util.ImageManager3D;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame3D;
 import org.geogebra.desktop.gui.layout.DockManagerD;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.LocalizationD;
-import org.geogebra.desktop.main.settings.updater.FontSettingsUpdaterD;
 import org.geogebra.desktop.util.FrameCollector;
 
 /**
@@ -89,15 +61,18 @@ public class App3D extends AppD {
 	private EuclidianView3D euclidianView3D;
 	private EuclidianController3D euclidianController3D;
 
+	private EuclidianCursor oldCursorMode;
+
+	private boolean useShaders;
+
+	private boolean isStereo3D;
+
 	/**
 	 * @param args arguments
 	 * @param frame frame
 	 */
 	public App3D(CommandLineArguments args, JFrame frame) {
-
 		super(args, frame, null, true, new LocalizationD(3));
-
-		runThreadForCheckInput3D();
 	}
 
 	/**
@@ -106,306 +81,15 @@ public class App3D extends AppD {
 	 */
 	public App3D(CommandLineArguments args, Container comp) {
 		super(args, null, comp, true, new LocalizationD(3));
-
-		runThreadForCheckInput3D();
-	}
-
-	private class ThreadForCheckInput3D extends Thread {
-
-		@Override
-		public void run() {
-			boolean realsenseInited = initRealsense();
-
-			if (!realsenseInited) {
-				initZspace();
-			}
-		}
-
-		private boolean initRealsense() {
-			try {
-				// try to init realsense
-				Input3DFactory.initRealsense();
-				Log.debug("RealSense: Session successfully created");
-
-				// save in prefs
-				setInput3DType(Input3DConstants.PREFS_REALSENSE);
-
-				// show message
-				showRealSenseCongratulations();
-
-				return true;
-			} catch (Input3DException e) {
-				Log.debug(e.getMessage());
-				if (e.getType() == Input3DExceptionType.NOT_UP_TO_DATE) {
-					showRealSenseNotUpToDate(e.getMessage());
-				}
-			}
-
-			return false;
-		}
-
-		private boolean initZspace() {
-			try {
-				// try to init zSpace
-				Log.debug("zSpace: try to init");
-				Input3DFactory.initZSpace();
-				Log.debug("zSpace: successfully detected");
-
-				// save in prefs
-				setInput3DType(Input3DConstants.PREFS_ZSPACE);
-
-				// show message
-				showZSpaceCongratulations();
-
-				return true;
-			} catch (Input3DException e) {
-				Log.debug(e.getMessage());
-			}
-
-			return false;
-		}
-	}
-
-	private void runThreadForCheckInput3D() {
-		if (!tubeLoginIsShowing && AppD.WINDOWS
-				&& getInput3DType().equals(Input3DConstants.PREFS_NONE)) {
-			Log.debug("============ runThreadToCheckInput3D ");
-			Thread t = new ThreadForCheckInput3D();
-			t.start();
-		}
-	}
-
-	/**
-	 * shows congratulations message for using realsense
-	 */
-	void showRealSenseCongratulations() {
-		showInput3DCongratulations(
-				getLocalization().getMenu("RealSense.DetectedMessage"),
-				REALSENSE_TUTORIAL);
-	}
-
-	/**
-	 * recommend to update version
-	 * 
-	 * @param version
-	 *            version currently installed
-	 */
-	void showRealSenseNotUpToDate(String version) {
-		showInput3DMessage(
-				getLocalization().getPlain("RealSense.NotUpToDate", version),
-				getLocalization().getMenu("RealSense.DownloadUpdate"),
-				"https://software.intel.com/intel-realsense-sdk/download");
-	}
-
-	/**
-	 * shows congratulations message for using zspace
-	 */
-	void showZSpaceCongratulations() {
-		showInput3DCongratulations(
-				getLocalization().getMenu("ZSpace.DetectedMessage"),
-				"http://www.geogebra.org/tutorial/zspace");
-
-	}
-
-	private void showInput3DCongratulations(final String message,
-			final String tutorialURL) {
-		showInput3DMessage(message, getLocalization().getMenu("OpenTutorial"),
-				tutorialURL);
-	}
-
-	private void showInput3DMessage(final String message,
-			final String messageForURL, final String URL) {
-		// popup help dialog
-		input3DPopupShowing = true;
-		final JFrame frame = new JFrame();
-		Container c = frame.getContentPane();
-		JPanel panel = new JPanel();
-		c.add(panel);
-
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.setBackground(Color.WHITE);
-		panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-		JLabel label = new JLabel(message);
-		JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		labelPanel.setBackground(Color.WHITE);
-		labelPanel.add(label);
-		panel.add(labelPanel);
-
-		JLabel website = new JLabel();
-		// String tutorialText = "Click here to get a tutorial";
-		website.setText("<html><a href=\"\">" + messageForURL + "</a></html>");
-		website.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		website.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				try {
-					try {
-						frame.setAlwaysOnTop(false);
-					} catch (SecurityException se) {
-						// failed to unset on top
-					}
-					Desktop.getDesktop().browse(new URI(URL));
-				} catch (IOException e1) {
-					// not working
-				} catch (URISyntaxException e1) {
-					// not working
-				}
-			}
-		});
-		JPanel websitePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		websitePanel.setBackground(Color.WHITE);
-		websitePanel.add(website);
-		panel.add(websitePanel);
-
-		JLabel closeLabel = new JLabel("OK");
-		closeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		closeLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				frame.setVisible(false);
-				if (tubeLoginHasToBeShown) {
-					perspectivePopupHasToBeShown = perspectivePopupHasToBeShown
-							&& superShowTubeLogin();
-				}
-				if (perspectivePopupHasToBeShown) {
-					superShowPerspectivePopup();
-				}
-			}
-		});
-		JPanel closePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		closePanel.setBackground(Color.WHITE);
-		closePanel.add(closeLabel);
-		panel.add(closePanel);
-
-		frame.setUndecorated(true);
-
-		frame.pack();
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-		try {
-			frame.setAlwaysOnTop(true);
-		} catch (SecurityException e) {
-			// failed to set on top
-		}
-	}
-
-	/**
-	 * download and update realsense
-	 */
-	void updateRealSense() {
-		Log.debug("\n========== updating RealSense");
-	}
-
-	boolean input3DPopupShowing = false;
-	boolean tubeLoginHasToBeShown = false;
-	private boolean tubeLoginIsShowing = false;
-	boolean perspectivePopupHasToBeShown = false;
-
-	@Override
-	protected boolean showTubeLogin() {
-		if (input3DPopupShowing) {
-			tubeLoginHasToBeShown = true;
-			return true;
-		}
-		return superShowTubeLogin();
-	}
-
-	boolean superShowTubeLogin() {
-		tubeLoginHasToBeShown = false;
-		boolean ret = super.showTubeLogin();
-		tubeLoginIsShowing = false;
-		return ret;
-	}
-
-	@Override
-	public void isShowingLogInDialog() {
-		tubeLoginIsShowing = true;
-		runThreadForCheckInput3D();
-	}
-
-	@Override
-	protected void showPerspectivePopup() {
-		if (input3DPopupShowing) {
-			perspectivePopupHasToBeShown = true;
-		} else {
-			superShowPerspectivePopup();
-		}
-	}
-
-	void superShowPerspectivePopup() {
-		perspectivePopupHasToBeShown = false;
-		super.showPerspectivePopup();
-	}
-
-	/**
-	 * set 3D input
-	 * 
-	 * @param type
-	 *            type
-	 */
-	public static void setInput3DType(String type) {
-		GeoGebraPreferencesD.getPref().setInput3DType(type);
-	}
-
-	@Override
-	public String getInput3DType() {
-		return GeoGebraPreferencesD.getPref().getInput3DType();
 	}
 
 	@Override
 	protected void initImageManager(Component component) {
-		imageManager = new ImageManager3D(component, this);
+		imageManager = new ImageManager3D(component);
 	}
 
 	private void initEuclidianController3D() {
-
-		Input3D input3D;
-
-		if (AppD.WINDOWS) {
-			// init the 3D euclidian view (with perhaps a specific 3D input)
-			try {
-				input3D = Input3DFactory.createInput3D(this, getInput3DType());
-			} catch (Input3DException e) {
-				if (e.getType() == Input3DExceptionType.INSTALL) {
-					// reset 3D input type, guessing 3d input has been
-					// uninstalled
-					setInput3DType(Input3DConstants.PREFS_NONE);
-				} else if (e.getType() == Input3DExceptionType.NOT_UP_TO_DATE) {
-					showRealSenseNotUpToDate(e.getMessage());
-				}
-				input3D = null;
-				Log.debug("Problem initializing 3D Input:" + e.getMessage());
-			} catch (Throwable e) {
-				input3D = null;
-				Log.debug("Problem initializing 3D Input:" + e.getClass() + " "
-						+ e.getMessage());
-			}
-		} else {
-			input3D = null;
-		}
-
-		// input3D = null;
-		if (input3D != null) {
-			switch (input3D.getDeviceType()) {
-			case HAND:
-				euclidianController3D = new EuclidianControllerHand3D(kernel,
-						input3D);
-				break;
-			case PEN:
-			default:
-				euclidianController3D = new EuclidianControllerInput3D(kernel,
-						input3D);
-				break;
-			}
-
-			// set specific settings
-			input3D.setSpecificSettings(
-					(EuclidianSettings3D) getSettings().getEuclidian(3));
-
-		} else {
-			euclidianController3D = new EuclidianController3DD(kernel);
-		}
+		euclidianController3D = new EuclidianController3DD(kernel);
 	}
 
 	@Override
@@ -414,15 +98,6 @@ public class App3D extends AppD {
 		if (euclidianController3D != null) {
 			euclidianController3D.exitInput3D();
 		}
-	}
-
-	@Override
-	public boolean isRightClick(AbstractEvent e) {
-		if (e instanceof MouseEventD) {
-			return isRightClick(MouseEventD.getEvent(e));
-		}
-
-		return e.isRightClick();
 	}
 
 	@Override
@@ -473,14 +148,12 @@ public class App3D extends AppD {
 	@Override
 	public EuclidianView3D getEuclidianView3D() {
 		if (this.euclidianView3D == null) {
+			setWaitCursor();
 			initEuclidianController3D();
-			if (euclidianController3D.hasInput3D()) {
-				euclidianView3D = new EuclidianViewInput3D(
-						euclidianController3D, getSettings().getEuclidian(3));
-			} else {
-				euclidianView3D = new EuclidianView3DD(euclidianController3D,
-						getSettings().getEuclidian(3));
-			}
+			euclidianView3D = new EuclidianView3DD(euclidianController3D,
+					getSettings().getEuclidian(3));
+
+			setDefaultCursor();
 		}
 		return euclidianView3D;
 	}
@@ -605,8 +278,6 @@ public class App3D extends AppD {
 	public boolean is3D() {
 		return true;
 	}
-
-	private EuclidianCursor oldCursorMode;
 
 	@Override
 	protected void handleShiftEvent(boolean isShiftDown) {
@@ -755,10 +426,6 @@ public class App3D extends AppD {
 
 	}
 
-	private boolean useShaders;
-
-	private boolean isStereo3D;
-
 	public boolean isStereo3D() {
 		return isStereo3D;
 	}
@@ -785,43 +452,4 @@ public class App3D extends AppD {
 		return super.handleSpaceKey();
 	}
 
-	@Override
-	public boolean useHugeGuiForInput3D() {
-		return euclidianController3D != null
-				&& euclidianController3D.isZSpace();
-	}
-
-	@Override
-	public int getToolbarPosition() {
-		if (useHugeGuiForInput3D()) {
-			return SwingConstants.WEST;
-		}
-
-		return super.getToolbarPosition();
-	}
-
-	@Override
-	public int getGUIFontSize() {
-		int size = super.getGUIFontSize();
-		if (size < 24 && useHugeGuiForInput3D()) {
-			return 24;
-		}
-
-		return size;
-	}
-
-	@Override
-	public int getScaledIconSize() {
-		int size = super.getScaledIconSize();
-		if (size < 36 && useHugeGuiForInput3D()) {
-			return 36;
-		}
-		return size;
-	}
-
-	@Override
-	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
-		return new SettingsUpdaterBuilder(this)
-				.withFontSettingsUpdater(new FontSettingsUpdaterD(this));
-	}
 }

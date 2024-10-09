@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ClipboardUtil;
@@ -87,8 +88,8 @@ public class ExportImageDialog extends ComponentDialog {
 		contentPanel = new FlowPanel();
 		contentPanel.addStyleName("expImgContent");
 		if (!ClipboardUtil.isCopyImageToClipboardAvailable()) {
-			Label rightClickText = new Label(app.getLocalization().getMenu("expImgRightClickMsg"));
-			rightClickText.addStyleName("rightClickHelpText");
+			Label rightClickText = BaseWidgetFactory.INSTANCE.newSecondaryText(
+					app.getLocalization().getMenu("expImgRightClickMsg"), "rightClickHelpText");
 			contentPanel.add(rightClickText);
 		}
 		if (previewImage != null) {

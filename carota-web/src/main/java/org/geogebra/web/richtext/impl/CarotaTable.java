@@ -48,6 +48,9 @@ public class CarotaTable implements HasContentAndFormat {
 	@Override
 	public native void selectionChanged(EditorCallback editorCallback);
 
+	@Override
+	public native void onEscape(EditorCallback editorCallback);
+
 	@JsOverlay
 	public final void startEditing(int x, int y) {
 		startEditing(getHitCell(x, y), x, y);
@@ -174,4 +177,6 @@ public class CarotaTable implements HasContentAndFormat {
 	public native void setExternalPaint(boolean externalPaint);
 
 	public native void setHitCell(double x, double y);
+
+	public native void addInsertFilter(Carota.InsertFilter filter);
 }

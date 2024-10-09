@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
@@ -22,7 +23,7 @@ public class CmdImplicitDerivative extends CommandProcessor implements UsesCAS {
 	}
 
 	@Override
-	public GeoElement[] process(Command c)
+	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		GeoElement[] args = resArgs(c);
 		if (args.length != 1) {

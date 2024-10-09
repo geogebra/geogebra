@@ -188,6 +188,13 @@ public abstract class Renderer {
 		return new Textures(this);
 	}
 
+	/**
+	 * @return ratio between physical and logical pixels (for event handling)
+	 */
+	public double getPixelRatio() {
+		return 1;
+	}
+
     /**
      * Start AR session
      */
@@ -522,7 +529,7 @@ public abstract class Renderer {
 	public void startAnimatedGIFExport(Object gifEncoder,
 			AnimationExportSlider num, int n, double val, double min,
 			double max, double step) {
-		exportType = ExportType.ANIMATEDGIF;
+		setExportType(ExportType.ANIMATEDGIF);
 
 		num.setValue(val);
 		num.updateRepaint();
@@ -818,7 +825,7 @@ public abstract class Renderer {
 	/**
 	 * draw view cursor
 	 * 
-	 * WARNING: needs to be protected for iOS
+	 * <p>WARNING: needs to be protected for iOS
 	 */
 	protected void drawCursor() {
 		if (enableClipPlanes) {
@@ -1238,7 +1245,7 @@ public abstract class Renderer {
 	/**
 	 * update values for perspective projection
 	 */
-	final private void updatePerspValues() {
+	private void updatePerspValues() {
 		if (rendererImpl != null) {
 			rendererImpl.updatePerspValues();
 		}
@@ -1406,16 +1413,15 @@ public abstract class Renderer {
 	 * Export image to clipboardd (async)
 	 */
 	public void exportToClipboard() {
-		exportType = ExportType.CLIPBOARD;
+		setExportType(ExportType.CLIPBOARD);
 		needExportImage(App.getMaxScaleForClipBoard(view3D), true);
-
 	}
 
 	/**
 	 * Export image (async), start Tube upload after that.
 	 */
 	public void uploadToGeoGebraTube() {
-		exportType = ExportType.UPLOAD_TO_GEOGEBRATUBE;
+		setExportType(ExportType.UPLOAD_TO_GEOGEBRATUBE);
 		needExportImage();
 	}
 
@@ -1441,7 +1447,7 @@ public abstract class Renderer {
 	 *            value
 	 * @return first power of 2 greater than val
 	 */
-	public static final int firstPowerOfTwoGreaterThan(int val) {
+	public static int firstPowerOfTwoGreaterThan(int val) {
 
 		int ret = 1;
 		while (ret < val) {
@@ -1552,7 +1558,6 @@ public abstract class Renderer {
 	 *            image export flag
 	 */
 	final public void setNeedExportImage(boolean flag) {
-		// Log.printStacktrace("" + flag);
 		needExportImage = flag;
 	}
 
@@ -1701,10 +1706,10 @@ public abstract class Renderer {
 	 */
 	public void setBackgroundColor() {
 		XRManagerInterface<?> arManager = getXRManager();
-	    if (arManager != null) {
-            arManager.setBackgroundColor();
-        }
-    }
+		if (arManager != null) {
+			arManager.setBackgroundColor();
+		}
+	}
 
 	/**
 	 * set background style
@@ -1714,9 +1719,9 @@ public abstract class Renderer {
 	 */
 	public void setBackgroundStyle(BackgroundStyle backgroundStyle) {
 		XRManagerInterface<?> arManager = getXRManager();
-        if (arManager != null) {
-            arManager.setBackgroundStyle(backgroundStyle);
-        }
+		if (arManager != null) {
+			arManager.setBackgroundStyle(backgroundStyle);
+		}
 	}
 
 	/**
@@ -1724,22 +1729,22 @@ public abstract class Renderer {
 	 */
 	public BackgroundStyle getBackgroundStyle() {
 		XRManagerInterface<?> arManager = getXRManager();
-        if (arManager != null) {
-            return arManager.getBackgroundStyle();
-        }
+		if (arManager != null) {
+			return arManager.getBackgroundStyle();
+		}
 		return BackgroundStyle.NONE;
 	}
 
-    /**
-     * set z-value for first floor hit in AR
-     * @param z altitude
-     */
-    public void setARFloorZ(double z) {
+	/**
+	 * set z-value for first floor hit in AR
+	 * @param z altitude
+	 */
+	public void setARFloorZ(double z) {
 		XRManagerInterface<?> arManager = getXRManager();
 		if (arManager != null) {
-            arManager.setFirstFloor(z);
+			arManager.setFirstFloor(z);
 		}
-    }
+	}
 
 	/**
 	 * sets the clip planes
@@ -2014,7 +2019,7 @@ public abstract class Renderer {
 			rendererImpl.needExportImage(scale, w, h);
 		}
 	}
-	
+
 	/**
 	 * @return implementation
 	 */
@@ -2060,10 +2065,6 @@ public abstract class Renderer {
 	 * @return canvas (for desktop version at least)
 	 */
 	abstract public Object getCanvas();
-
-	/**
-	 * re-calc the display immediately
-	 */
 
 	/**
 	 * set line width

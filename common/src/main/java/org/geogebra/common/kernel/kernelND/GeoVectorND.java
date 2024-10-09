@@ -112,5 +112,5 @@ public interface GeoVectorND
 	 *            end position
 	 * @return true if successful
 	 */
-	boolean moveVector(final Coords rwTransVec, final Coords endPosition);
+	boolean moveVector(Coords rwTransVec, Coords endPosition);
 }

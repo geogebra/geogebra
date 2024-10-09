@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
@@ -36,7 +37,7 @@ public class CommandFilterTest extends BaseUnitTest {
 			if (cmd0 == Commands.Integral || cmd0 == Commands.IntegralBetween
 					|| cmd0 == Commands.NIntegral
 					|| cmd0 == Commands.Factors
-					|| NoExceptionsTest.betaCommand(cmd0, app)
+					|| AlgebraTestHelper.betaCommand(cmd0, app)
 					|| AlgebraTestHelper.internalCAScommand(cmd0)) {
 				continue;
 			}
@@ -44,7 +45,6 @@ public class CommandFilterTest extends BaseUnitTest {
 				List<Integer> signature = CommandSignatures
 						.getSignature(cmd.name(), app);
 				if (signature != null && !signature.contains(0)) {
-
 					AlgebraTestHelper.shouldFail(cmd + "()", "number of arg",
 							"only",
 							app);
@@ -59,8 +59,10 @@ public class CommandFilterTest extends BaseUnitTest {
 
 	@Test
 	public void noCasCommandsInSuiteAndClassic() {
-		List<String> integralsClassic = getApp().getCommandDictionary().getCompletions("Integ");
+		List<String> integralsClassic = getApp().getCommandDictionary().getCompletions("Integ")
+				.stream().map(c -> c.content).collect(Collectors.toList());
 		// should not contain IntegralSymbolic
-		assertEquals(Arrays.asList("Integral", "IntegralBetween"), integralsClassic);
+		assertEquals(Arrays.asList("Integral", "IntegralBetween",
+				"IsInteger", "NIntegral"), integralsClassic);
 	}
 }

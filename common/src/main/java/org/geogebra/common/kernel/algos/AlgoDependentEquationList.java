@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 
 /**
  * List expression, e.g. with L1 = {3, 2, 1}, L2 = {5, 1, 7} such an expression
@@ -38,6 +39,7 @@ public class AlgoDependentEquationList extends AlgoElement
 	private GeoList list; // output
 	private ExpressionNode lhs;
 	private ExpressionNode rhs;
+	private boolean validTypes = true;
 
 	/**
 	 * Creates new dependent list algo.
@@ -97,25 +99,27 @@ public class AlgoDependentEquationList extends AlgoElement
 	@Override
 	public final void compute() {
 		// get resulting list of ExpressionNodes
-
 		ExpressionValue leftList = listOrValue(lhs);
 
 		ExpressionValue rightList = listOrValue(rhs);
 
-		// if (!leftleftList.isDefined() || !rightList.isDefined()) {
-		// list.setUndefined();
-		// return;
-		// }
-
 		list.setDefined(true);
+		int leftSize = leftList instanceof MyList ? ((MyList) leftList).size() : -1;
+		int rightSize = rightList instanceof MyList ? ((MyList) rightList).size() : -1;
+		if (leftSize != -1 && rightSize != -1 && leftSize != rightSize) {
+			computeAndCheckTypes(leftList, rightList, 1);
+			list.setUndefined();
+		} else {
+			computeAndCheckTypes(leftList, rightList, Math.max(leftSize, rightSize));
+		}
+	}
 
-		int evalListSize = leftList instanceof MyList
-				? ((MyList) leftList).size() : ((MyList) rightList).size();
-
+	private void computeAndCheckTypes(ExpressionValue leftList,
+			ExpressionValue rightList, int max) {
 		list.clear();
 		boolean oldFlag = kernel.getConstruction().isSuppressLabelsActive();
 		kernel.getConstruction().setSuppressLabelCreation(true);
-		for (int i = 0; i < evalListSize; i++) {
+		for (int i = 0; i < max; i++) {
 			Equation eq = new Equation(kernel, get(leftList, i),
 					get(rightList, i));
 			eq.setLHS(AlgoDependentFunction
@@ -124,9 +128,11 @@ public class AlgoDependentEquationList extends AlgoElement
 			GeoElement element = kernel.getAlgebraProcessor()
 					.processEquation(eq, eq.wrap(), true,
 							new EvalInfo(false))[0];
-
 			if (element != null) {
 				list.add(element);
+				if (element.isGeoImplicitCurve()) {
+					validTypes = validTypes && ((GeoImplicitCurve) element).isValidType();
+				}
 			}
 		}
 		kernel.getConstruction().setSuppressLabelCreation(oldFlag);
@@ -152,4 +158,7 @@ public class AlgoDependentEquationList extends AlgoElement
 		return list.getDefinition().toString(tpl);
 	}
 
+	public boolean validate() {
+		return validTypes;
+	}
 }

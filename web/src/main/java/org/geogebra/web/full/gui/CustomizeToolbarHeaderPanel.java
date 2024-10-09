@@ -74,7 +74,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 		final ToggleButton btnGeneral = new ToggleButton(pr.menu_icon_graphics());
 		buttons.add(btnGeneral);
 		DockPanelW[] panels = ((GuiManagerW) app.getGuiManager()).getLayout()
-		        .getDockManager().getPanels();
+				.getDockManager().getPanels();
 		for (DockPanelW panel : panels) {
 			final int viewId = panel.getViewId();
 			if (panel.canCustomizeToolbar()) {

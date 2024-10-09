@@ -80,7 +80,7 @@ public final class MidiEventManager {
 	 * Sets the current layer within the track to which new events will be
 	 * added.
 	 * 
-	 * @param track
+	 * @param layer
 	 *            the track to select
 	 */
 	public void setCurrentLayer(byte layer) {
@@ -122,12 +122,10 @@ public final class MidiEventManager {
 	/**
 	 * Adds a MetaMessage to the current track.
 	 *
-	 * @param definition
+	 * @param type
 	 *            the MIDI command represented by this message
-	 * @param data1
-	 *            the first data byte
-	 * @param data2
-	 *            the second data byte
+	 * @param bytes
+	 *            the data bytes
 	 */
 	public void addMetaMessage(int type, byte[] bytes) {
 		try {

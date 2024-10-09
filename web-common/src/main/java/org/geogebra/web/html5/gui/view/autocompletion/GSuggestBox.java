@@ -5,12 +5,9 @@ import java.util.Collection;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
-import org.geogebra.web.html5.gui.textbox.GTextBox;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.gwtproject.core.client.Scheduler.ScheduledCommand;
-import org.gwtproject.dom.client.Document;
-import org.gwtproject.dom.client.Element;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.HasAllKeyHandlers;
 import org.gwtproject.event.dom.client.KeyCodes;
 import org.gwtproject.event.dom.client.KeyDownEvent;
@@ -31,9 +28,9 @@ import org.gwtproject.user.client.ui.HasAnimation;
 import org.gwtproject.user.client.ui.HasEnabled;
 import org.gwtproject.user.client.ui.HasText;
 import org.gwtproject.user.client.ui.HasValue;
+import org.gwtproject.user.client.ui.InlineHTML;
 import org.gwtproject.user.client.ui.MultiWordSuggestOracle;
 import org.gwtproject.user.client.ui.Panel;
-import org.gwtproject.user.client.ui.RootPanel;
 import org.gwtproject.user.client.ui.SuggestOracle;
 import org.gwtproject.user.client.ui.SuggestOracle.Callback;
 import org.gwtproject.user.client.ui.SuggestOracle.Request;
@@ -84,10 +81,6 @@ import org.gwtproject.user.client.ui.Widget;
  * suggestions. A GSuggestBox fires {@link SelectionEvent SelectionEvents}
  * whenever a suggestion is chosen, and handlers for these events can be added
  * using the {@link #addSelectionHandler(SelectionHandler)} method.
- * </p>
- *
- * <p>
- * <img class='gallery' src='doc-files/SuggestBox.png'/>
  * </p>
  *
  * <h3>CSS Style Rules</h3>
@@ -231,7 +224,7 @@ public class GSuggestBox extends Composite
 		}
 
 		/**
-		 * Check whether or not the list of suggestions is being shown.
+		 * Check whether the list of suggestions is being shown.
 		 *
 		 * @return true if the suggestions are visible, false if not
 		 */
@@ -367,7 +360,7 @@ public class GSuggestBox extends Composite
 		}
 
 		/**
-		 * Check whether or not the suggestion list is hidden when there are no
+		 * Check whether the suggestion list is hidden when there are no
 		 * suggestions to display.
 		 *
 		 * @return true if hidden when empty, false if not
@@ -411,7 +404,7 @@ public class GSuggestBox extends Composite
 		}
 
 		/**
-		 * Set whether or not the suggestion list should be hidden when there
+		 * Set whether the suggestion list should be hidden when there
 		 * are no suggestions to display. Defaults to true.
 		 *
 		 * @param hideWhenEmpty
@@ -556,13 +549,7 @@ public class GSuggestBox extends Composite
 
 			for (final Suggestion curSuggestion : suggestions) {
 				final SuggestionMenuItem menuItem = new SuggestionMenuItem(
-						curSuggestion, isDisplayStringHTML);
-				menuItem.setScheduledCommand(new ScheduledCommand() {
-					@Override
-					public void execute() {
-						callback.onSuggestionSelected(curSuggestion);
-					}
-				});
+						curSuggestion, () -> callback.onSuggestionSelected(curSuggestion));
 
 				suggestionMenu.addItem(menuItem);
 			}
@@ -616,15 +603,8 @@ public class GSuggestBox extends Composite
 
 		private Suggestion suggestion;
 
-		public SuggestionMenuItem(Suggestion suggestion, boolean asHTML) {
-			super(suggestion.getDisplayString(), asHTML,
-					new ScheduledCommand() {
-						@Override
-						public void execute() {
-							// TODO Auto-generated method stub
-
-						}
-					});
+		public SuggestionMenuItem(Suggestion suggestion, Scheduler.ScheduledCommand command) {
+			super(new InlineHTML(suggestion.getDisplayString()), command);
 			// Each suggestion should be placed in a single row in the
 			// suggestion
 			// menu. If the window is resized and the suggestion cannot fit on a
@@ -643,39 +623,6 @@ public class GSuggestBox extends Composite
 		public void setSuggestion(Suggestion suggestion) {
 			this.suggestion = suggestion;
 		}
-	}
-
-	/**
-	 * Creates a {@link GSuggestBox} widget that wraps an existing &lt;input
-	 * type='text'&gt; element.
-	 *
-	 * This element must already be attached to the document. If the element is
-	 * removed from the document, you must call
-	 * {@link RootPanel#detachNow(Widget)}.
-	 *
-	 * @param oracle
-	 *            the suggest box oracle to use
-	 * @param element
-	 *            the element to be wrapped
-	 * @param panel
-	 *            panel
-	 * @param app
-	 *            application
-	 * @return suggest box for given input
-	 */
-	public static GSuggestBox wrap(SuggestOracle oracle, Element element,
-			Panel panel, App app) {
-		// Assert that the element is attached.
-		assert Document.get().getBody().isOrHasChild(element);
-
-		GTextBox textBox = new GTextBox(element);
-		GSuggestBox suggestBox = new GSuggestBox(oracle, textBox, panel, app);
-
-		// Mark it attached and remember it for cleanup.
-		suggestBox.onAttach();
-		RootPanel.detachOnWindowClose(suggestBox);
-
-		return suggestBox;
 	}
 
 	/**
@@ -846,7 +793,7 @@ public class GSuggestBox extends Composite
 	}
 
 	/**
-	 * Check whether or not the {@link DefaultSuggestionDisplay} has animations
+	 * Check whether the {@link DefaultSuggestionDisplay} has animations
 	 * enabled. Note that this method only has a meaningful return value when
 	 * the {@link DefaultSuggestionDisplay} is used.
 	 *
@@ -860,7 +807,7 @@ public class GSuggestBox extends Composite
 	}
 
 	/**
-	 * Returns whether or not the first suggestion will be automatically
+	 * Returns whether the first suggestion will be automatically
 	 * selected. This behavior is on by default.
 	 *
 	 * @return true if the first suggestion will be automatically selected
@@ -923,7 +870,7 @@ public class GSuggestBox extends Composite
 	 * suggested item. This behavior is on by default.
 	 *
 	 * @param selectsFirstItem
-	 *            Whether or not to automatically select the first suggestion
+	 *            whether to automatically select the first suggestion
 	 */
 	public void setAutoSelectEnabled(boolean selectsFirstItem) {
 		this.selectsFirstItem = selectsFirstItem;

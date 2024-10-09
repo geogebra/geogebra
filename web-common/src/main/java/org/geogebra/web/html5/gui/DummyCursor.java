@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.gui;
 
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.inputfield.CursorOverlay;
+import org.geogebra.web.html5.gui.inputfield.CursorOverlayController;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.event.dom.client.BlurEvent;
@@ -9,6 +9,7 @@ import org.gwtproject.event.dom.client.BlurHandler;
 import org.gwtproject.event.dom.client.FocusEvent;
 import org.gwtproject.event.dom.client.FocusHandler;
 import org.gwtproject.event.dom.client.KeyDownEvent;
+import org.gwtproject.user.client.ui.TextArea;
 
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
@@ -22,16 +23,19 @@ public class DummyCursor implements FocusHandler, BlurHandler {
 	/** text field */
 	protected HasKeyboardTF textField;
 	private boolean dummyActive = false;
+	private final TextArea textArea;
 
 	/**
 	 * @param textField
 	 *            text field that needs dummy cursor
+	 * @param textArea multiline editing widget
 	 * @param app
 	 *            application
 	 */
-	public DummyCursor(HasKeyboardTF textField, AppW app) {
+	public DummyCursor(HasKeyboardTF textField, TextArea textArea, AppW app) {
 		this.textField = textField;
 		this.app = app;
+		this.textArea = textArea;
 	}
 
 	/**
@@ -73,7 +77,7 @@ public class DummyCursor implements FocusHandler, BlurHandler {
 
 	private void onArrowRight() {
 		int caretPos = textField.getCursorPos();
-		if (caretPos < textField.getText().length()) {
+		if (caretPos < textArea.getText().length()) {
 			textField.setCursorPos(caretPos + 1);
 		}
 	}
@@ -85,12 +89,9 @@ public class DummyCursor implements FocusHandler, BlurHandler {
 		if (dummyActive || Browser.isIPad()) {
 			return;
 		}
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				int caretPos = textField.getCursorPos();
-				addAt(caretPos);
-			}
+		Scheduler.get().scheduleDeferred(() -> {
+			int caretPos = textField.getCursorPos();
+			addAt(caretPos);
 		});
 	}
 
@@ -104,7 +105,7 @@ public class DummyCursor implements FocusHandler, BlurHandler {
 		if (dummyActive || Browser.isIPad()) {
 			return;
 		}
-		String text = textField.getText();
+		String text = textArea.getText();
 		text = text.substring(0, caretPos) + '|' + text.substring(caretPos);
 		textField.setValue(text);
 		textField.setCursorPos(caretPos);
@@ -120,7 +121,7 @@ public class DummyCursor implements FocusHandler, BlurHandler {
 		if (!dummyActive || Browser.isIPad()) {
 			return -1;
 		}
-		String text = textField.getText();
+		String text = textArea.getText();
 		int cpos = textField.getCursorPos();
 		text = text.substring(0, cpos) + text.substring(cpos + 1);
 		textField.setValue(text);
@@ -164,7 +165,7 @@ public class DummyCursor implements FocusHandler, BlurHandler {
 	public void onBlur(BlurEvent event) {
 		if (!app.isWhiteboardActive()) {
 			textField.endOnscreenKeyboardEditing();
-			CursorOverlay.hideKeyboard(app);
+			CursorOverlayController.hideKeyboard(app);
 		}
 	}
 }

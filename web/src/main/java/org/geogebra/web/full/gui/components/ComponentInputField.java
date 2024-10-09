@@ -5,6 +5,7 @@ import org.geogebra.common.gui.inputfield.Input;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
+import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
@@ -16,11 +17,11 @@ import org.gwtproject.user.client.ui.Label;
  * input field material design component
  */
 public class ComponentInputField extends FlowPanel implements SetLabels, Input {
-	private Localization loc;
+	private final Localization loc;
 	private String errorTextKey;
-	private String labelTextKey;
-	private String placeholderTextKey;
-	private String suffixTextKey;
+	private final String labelTextKey;
+	private final String placeholderTextKey;
+	private final String suffixTextKey;
 	private FlowPanel contentPanel;
 	private FormLabel labelText;
 	private InputPanelW inputTextField;
@@ -40,15 +41,13 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	 *            default text of input text field
 	 * @param width
 	 *            of input text field
-	 * @param height
-	 *            of input text field
 	 * @param suffixTxt
 	 *            suffix at end of text field
 	 */
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
-			String errorTxt, String defaultValue, int width, int height,
+			String errorTxt, String defaultValue, int width,
 			String suffixTxt) {
-		this(app, placeholder, labelTxt, errorTxt, defaultValue, width, height, suffixTxt, true);
+		this(app, placeholder, labelTxt, errorTxt, defaultValue, width, suffixTxt, true);
 	}
 
 	/**
@@ -64,22 +63,20 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	 *            default text of input text field
 	 * @param width
 	 *            of input text field
-	 * @param height
-	 *            of input text field
 	 * @param suffixTxt
 	 *            suffix at end of text field
 	 * @param hasKeyboardBtn
 	 *            whether to show keyboard button or not (disabled in Export3dDialog)
 	 */
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
-			String errorTxt, String defaultValue, int width, int height,
+			String errorTxt, String defaultValue, int width,
 			String suffixTxt, boolean hasKeyboardBtn) {
 		this.loc = app.getLocalization();
 		this.labelTextKey = labelTxt;
 		this.errorTextKey = errorTxt;
 		this.placeholderTextKey = placeholder;
 		this.suffixTextKey = suffixTxt;
-		buildGui(width, height, app, hasKeyboardBtn);
+		buildGui(width, app, hasKeyboardBtn);
 		if (!StringUtil.empty(defaultValue)) {
 			setInputText(defaultValue);
 		}
@@ -100,13 +97,11 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	 *            default text of input text field
 	 * @param width
 	 *            of input text field
-	 * @param height
-	 *            of input text field
 	 */
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
-			String errorTxt, String defaultValue, int width, int height) {
+			String errorTxt, String defaultValue, int width) {
 		this(app, placeholder, labelTxt, errorTxt, defaultValue,
-				width, height, null);
+				width, null);
 	}
 
 	/**
@@ -116,15 +111,16 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 		return contentPanel;
 	}
 
-	private void buildGui(int width, int height, AppW app, boolean hasKeyboardBtn) {
+	private void buildGui(int width, AppW app, boolean hasKeyboardBtn) {
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("inputTextField");
 		// input text field
-		inputTextField = new InputPanelW("", app, height, width, hasKeyboardBtn);
+		inputTextField = new InputPanelW("", app, width, hasKeyboardBtn);
 		inputTextField.addStyleName("textField");
 		// label of text field
 		labelText = new FormLabel().setFor(inputTextField.getTextComponent());
 		labelText.setStyleName("inputLabel");
+		labelText.addStyleName(Shades.NEUTRAL_700.getFgColName());
 		// placeholder if there is any
 		if (placeholderTextKey != null && !placeholderTextKey.isEmpty()) {
 			inputTextField.getTextComponent().getTextBox().getElement()

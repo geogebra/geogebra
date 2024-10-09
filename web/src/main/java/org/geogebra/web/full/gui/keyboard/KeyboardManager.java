@@ -13,30 +13,27 @@ import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.web.HasKeyboard;
+import org.geogebra.keyboard.web.KeyboardCloseListener;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.keyboard.web.TabbedKeyboard;
-import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.AlgebraMathFieldProcessing;
-import org.geogebra.web.full.gui.dialog.text.TextEditPanel;
+import org.geogebra.web.full.gui.dialog.text.GeoTextEditor;
 import org.geogebra.web.full.gui.dialog.text.TextEditPanelProcessing;
+import org.geogebra.web.full.gui.openfileview.HeaderFileView;
 import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.util.keyboard.AutocompleteProcessing;
-import org.geogebra.web.full.util.keyboard.GTextBoxProcessing;
 import org.geogebra.web.full.util.keyboard.ScriptAreaProcessing;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
-import org.gwtproject.dom.client.Element;
 import org.gwtproject.dom.client.Style;
-import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.RootPanel;
@@ -44,17 +41,16 @@ import org.gwtproject.user.client.ui.RootPanel;
 /**
  * Handles creating, showing and updating the keyboard
  */
-public class KeyboardManager
+public final class KeyboardManager
 		implements RequiresResize, KeyboardManagerInterface {
 
-	private static final int SWITCHER_HEIGHT = 42;
 	private final AppW app;
-	private RootPanel keyboardRoot;
 	private VirtualKeyboardGUI keyboard;
 
 	private String originalBodyPadding;
 	private final Style bodyStyle;
 	private KeyboardListener processing;
+	private final KeyboardDetachController detachController;
 
 	/**
 	 * Constructor
@@ -64,6 +60,10 @@ public class KeyboardManager
 	public KeyboardManager(AppW appWFull) {
 		this.app = appWFull;
 		this.bodyStyle = RootPanel.getBodyElement().getStyle();
+		detachController = new KeyboardDetachController(app.getAppletId(),
+				app.getAppletParameters().getDetachKeyboardParent(),
+				app.getGeoGebraElement().getParentElement(),
+				shouldDetach());
 	}
 
 	/**
@@ -114,13 +114,21 @@ public class KeyboardManager
 	}
 
 	/**
-	 *
+	 * OpenFileView width if open, app width (dockpanel width) otherwise
 	 * @return the preferred keyboard width
 	 */
-	public double getKeyboarWidth() {
-		return shouldDetach()
-				? NavigatorUtil.getWindowWidth()
-				: app.getWidth();
+	public double getKeyboardWidth() {
+		double appWidth = app.getWidth();
+		if (app.getGuiManager().isOpenFileViewLoaded()) {
+			HeaderFileView headerFileView = (HeaderFileView) app.getGuiManager().getBrowseView();
+			if (headerFileView != null && headerFileView.getPanel().getOffsetWidth() > 0) {
+				appWidth = headerFileView.getPanel().getOffsetWidth();
+			}
+		}
+
+		return detachController.isEnabled()
+				? detachController.getParentWidth()
+				: appWidth;
 	}
 
 	/**
@@ -137,9 +145,7 @@ public class KeyboardManager
 
 	@Override
 	public int estimateHiddenKeyboardHeight() {
-		int keyboardContentHeight = app.needsSmallKeyboard() ? TabbedKeyboard.SMALL_HEIGHT
-				: TabbedKeyboard.BIG_HEIGHT;
-		return keyboardContentHeight + SWITCHER_HEIGHT;
+		return TabbedKeyboard.TOTAL_HEIGHT;
 	}
 
 	/**
@@ -148,35 +154,22 @@ public class KeyboardManager
 	 */
 	public void addKeyboard(Panel appFrame) {
 		ensureKeyboardsExist();
-		if (!shouldDetach()) {
-			appFrame.add(keyboard);
+		if (detachController.isEnabled()) {
+			detachController.addAsDetached(keyboard);
+			app.addWindowResizeListener(this);
 		} else {
-			if (keyboardRoot == null) {
-				keyboardRoot = createKeyboardRoot();
-			}
-			keyboardRoot.add(keyboard);
+			appFrame.add(keyboard);
+
 		}
 		updateStyle();
 	}
 
-	private RootPanel createKeyboardRoot() {
-		Element detachedKeyboardParent = DOM.createDiv();
-		detachedKeyboardParent.setClassName("GeoGebraFrame");
-		Element container = getAppletContainer();
-		container.appendChild(detachedKeyboardParent);
-		String keyboardParentId = app.getAppletId() + "keyboard";
-		detachedKeyboardParent.setId(keyboardParentId);
-		app.addWindowResizeListener(this);
-		return RootPanel.get(keyboardParentId);
-	}
-
-	private Element getAppletContainer() {
-		Element scaler = app.getGeoGebraElement().getParentElement();
-		Element container = scaler == null ? null : scaler.getParentElement();
-		if (container == null) {
-			return RootPanel.getBodyElement();
-		}
-		return container;
+	/**
+	 *
+	 * @return true if the keyboard is not attached to the frame.
+	 */
+	public boolean isKeyboardOutsideFrame() {
+		return detachController.isEnabled();
 	}
 
 	@Override
@@ -195,7 +188,7 @@ public class KeyboardManager
 	 *            open/close listener
 	 */
 	public void setListeners(MathKeyboardListener textField,
-			UpdateKeyBoardListener listener) {
+			KeyboardCloseListener listener) {
 		ensureKeyboardsExist();
 		((OnscreenTabbedKeyboard) keyboard).clearAndUpdate();
 		if (textField != null) {
@@ -241,10 +234,7 @@ public class KeyboardManager
 
 	@Override
 	public void removeFromDom() {
-		if (keyboardRoot != null) {
-			// both clear and remove to save memory
-			keyboardRoot.removeFromParent();
-			keyboardRoot.clear();
+		if (detachController.removeKeyboardRootFromDom()) {
 			keyboard = null;
 		}
 	}
@@ -276,7 +266,7 @@ public class KeyboardManager
 	}
 
 	private boolean extraSpaceNeededForKeyboard() {
-		if (shouldDetach()) {
+		if (shouldDetach() && !detachController.hasCustomParent()) {
 			double appletBottom = app.getFrameElement().getAbsoluteBottom();
 			return NavigatorUtil.getWindowHeight() - appletBottom < estimateKeyboardHeight();
 		}
@@ -343,11 +333,8 @@ public class KeyboardManager
 		if (textField instanceof KeyboardListener) {
 			return (KeyboardListener) textField;
 		}
-		if (textField instanceof GTextBox) {
-			return new GTextBoxProcessing((GTextBox) textField);
-		}
-		if (textField instanceof TextEditPanel) {
-			return new TextEditPanelProcessing((TextEditPanel) textField);
+		if (textField instanceof GeoTextEditor) {
+			return new TextEditPanelProcessing((GeoTextEditor) textField);
 		}
 		if (textField instanceof AutoCompleteTextFieldW) {
 			return new AutocompleteProcessing(

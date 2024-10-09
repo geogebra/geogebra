@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * LCM[ &lt;Number>, &lt;Number> ] LCM[list]
+ * LCM[ &lt;Number&gt;, &lt;Number&gt; ] LCM[list]
  * 
  * adapted from CmdMax by Michael Borcherds 2008-01-03
  */
@@ -27,7 +27,7 @@ public class CmdLCM extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

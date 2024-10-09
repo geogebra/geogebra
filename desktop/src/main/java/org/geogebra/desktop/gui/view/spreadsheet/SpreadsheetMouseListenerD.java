@@ -12,16 +12,18 @@ import javax.swing.text.JTextComponent;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
-import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.spreadsheet.core.SelectionType;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
+import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.regexp.shared.MatchResult;
@@ -62,7 +64,7 @@ public class SpreadsheetMouseListenerD
 
 		boolean doubleClick = e.getClickCount() != 1;
 
-		GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
+		SpreadsheetCoords point = table.getIndexFromPixel(e.getX(), e.getY());
 		if (point != null) {
 
 			if (doubleClick) {
@@ -101,8 +103,8 @@ public class SpreadsheetMouseListenerD
 			if (text.startsWith("=")) {
 				point = table.getIndexFromPixel(e.getX(), e.getY());
 				if (point != null) {
-					int column = point.getX();
-					int row = point.getY();
+					int column = point.column;
+					int row = point.row;
 					GeoElement geo = RelativeCopy.getValue(app, column, row);
 					if (geo != null) {
 						e.consume();
@@ -193,7 +195,7 @@ public class SpreadsheetMouseListenerD
 	@Override
 	public void mousePressed(MouseEvent e) {
 
-		boolean rightClick = AppD.isRightClick(e);
+		boolean rightClick = MouseEventUtil.isRightClick(e);
 
 		if (!view.hasViewFocus()) {
 			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
@@ -221,15 +223,15 @@ public class SpreadsheetMouseListenerD
 		if (!rightClick) {
 
 			// memory testing
-			if (table.getSelectionType() != MyTableInterface.CELL_SELECT) {
-				table.setSelectionType(MyTableInterface.CELL_SELECT);
+			if (table.getSelectionType() != SelectionType.CELLS) {
+				table.setSelectionType(SelectionType.CELLS);
 			}
 
 			// force column selection
 			if (view.isColumnSelect()) {
-				GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
+				SpreadsheetCoords point = table.getIndexFromPixel(e.getX(), e.getY());
 				if (point != null) {
-					int column = point.getX();
+					int column = point.column;
 					table.setColumnSelectionInterval(column, column);
 				}
 			}
@@ -254,10 +256,10 @@ public class SpreadsheetMouseListenerD
 				String text = editor.getEditingValue();
 				if (text.startsWith("=")) {
 
-					GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
+					SpreadsheetCoords point = table.getIndexFromPixel(e.getX(), e.getY());
 					if (point != null) {
-						int column = point.getX();
-						int row = point.getY();
+						int column = point.column;
+						int row = point.row;
 
 						GeoElement geo = RelativeCopy.getValue(app, column,
 								row);
@@ -313,7 +315,7 @@ public class SpreadsheetMouseListenerD
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		boolean rightClick = AppD.isRightClick(e);
+		boolean rightClick = e.isMetaDown() && e.getButton() == MouseEvent.BUTTON3;
 
 		if (table.getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION) {
 			table.getSpreadsheetModeProcessor().stopAutoFunction();
@@ -324,10 +326,10 @@ public class SpreadsheetMouseListenerD
 			if (editor.isEditing()) {
 				String text = editor.getEditingValue();
 				if (text.startsWith("=")) {
-					GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
+					SpreadsheetCoords point = table.getIndexFromPixel(e.getX(), e.getY());
 					if (point != null) {
-						int column = point.getX();
-						int row = point.getY();
+						int column = point.column;
+						int row = point.row;
 						if (column != editor.column || row != editor.row) {
 							e.consume();
 						}
@@ -428,21 +430,21 @@ public class SpreadsheetMouseListenerD
 				return;
 			}
 
-			GPoint p = table.getIndexFromPixel(e.getX(), e.getY());
+			SpreadsheetCoords p = table.getIndexFromPixel(e.getX(), e.getY());
 
 			// change selection if right click is outside current selection
-			if (p.getY() < table.minSelectionRow
-					|| p.getY() > table.maxSelectionRow
-					|| p.getX() < table.minSelectionColumn
-					|| p.getX() > table.maxSelectionColumn) {
+			if (p.row < table.minSelectionRow
+					|| p.row > table.maxSelectionRow
+					|| p.column < table.minSelectionColumn
+					|| p.column > table.maxSelectionColumn) {
 				// switch to cell selection mode
 
-				if (table.getSelectionType() != MyTableInterface.CELL_SELECT) {
-					table.setSelectionType(MyTableInterface.CELL_SELECT);
+				if (table.getSelectionType() != SelectionType.CELLS) {
+					table.setSelectionType(SelectionType.CELLS);
 				}
 
 				// now change the selection
-				table.changeSelection(p.getY(), p.getX(), false, false);
+				table.changeSelection(p.row, p.column, false, false);
 			}
 
 			// create and show context menu
@@ -459,16 +461,15 @@ public class SpreadsheetMouseListenerD
 
 		if (table.getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION
 				|| table.getTableMode() == MyTable.TABLE_MODE_DROP) {
-			// System.out.println("drop is dragging ");
 			return;
 		}
 
 		// handle editing mode drag
 		if (editor.isEditing()) {
-			GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
+			SpreadsheetCoords point = table.getIndexFromPixel(e.getX(), e.getY());
 			if (point != null && selectedCellName != null) {
-				int column2 = point.getX();
-				int row2 = point.getY();
+				int column2 = point.column;
+				int row2 = point.row;
 
 				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
 						.exec(selectedCellName);
@@ -512,19 +513,19 @@ public class SpreadsheetMouseListenerD
 			e.consume();
 			int mouseX = e.getX();
 			int mouseY = e.getY();
-			GPoint mouseCell = table.getIndexFromPixel(mouseX, mouseY);
+			SpreadsheetCoords mouseCell = table.getIndexFromPixel(mouseX, mouseY);
 
 			// save the selected cell position so it can be re-selected if
 			// needed
-			CellRange oldSelection = table.getSelectedCellRanges().get(0);
+			TabularRange oldSelection = table.getFirstSelection();
 
 			if (mouseCell == null) { // user has dragged outside the table, to
 										// left or above
 				table.dragingToRow = -1;
 				table.dragingToColumn = -1;
 			} else {
-				table.dragingToRow = mouseCell.getY();
-				table.dragingToColumn = mouseCell.getX();
+				table.dragingToRow = mouseCell.row;
+				table.dragingToColumn = mouseCell.column;
 				Rectangle selRect = table.getSelectionRect();
 
 				// increase size if we're at the bottom of the spreadsheet
@@ -547,7 +548,7 @@ public class SpreadsheetMouseListenerD
 
 				// scroll to show "highest" selected cell
 				table.scrollRectToVisible(
-						table.getCellRect(mouseCell.y, mouseCell.x, true));
+						table.getCellRect(mouseCell.row, mouseCell.column, true));
 
 				if (!selRect.contains(e.getPoint())) {
 
@@ -599,12 +600,12 @@ public class SpreadsheetMouseListenerD
 						table.dragingToColumn = -1;
 						table.dragingToRow = -1;
 					} else if (Math.abs(rowOffset) > Math.abs(colOffset)) {
-						table.dragingToRow = mouseCell.y;
+						table.dragingToRow = mouseCell.row;
 						table.dragingToColumn = (colOffset > 0)
 								? table.maxSelectionColumn
 								: table.minSelectionColumn;
 					} else {
-						table.dragingToColumn = mouseCell.x;
+						table.dragingToColumn = mouseCell.column;
 						table.dragingToRow = (rowOffset > 0)
 								? table.maxSelectionRow : table.minSelectionRow;
 					}

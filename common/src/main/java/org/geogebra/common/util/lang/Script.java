@@ -10,65 +10,69 @@ package org.geogebra.common.util.lang;
 @SuppressWarnings("javadoc")
 public enum Script {
 
-	ARABIC("Arab", Direction.RIGHT_TO_LEFT),
+	ARABIC("Arab", null, Direction.RIGHT_TO_LEFT),
 
-	ARMENIAN("Armn"),
+	ARMENIAN("Armn", "\u0570"),
 
 	BENGALI("Beng"),
 
-	CYRILLIC("Cyrl"),
+	CYRILLIC("Cyrl", "\u0439"),
 
-	DEVANGARI("Deva"),
+	DEVANGARI("Deva", "\u0947"),
 
-	ETHIOPIAN("Ethi"),
+	ETHIOPIAN("Ethi", "\u134b\u12ed\u120d"),
 
-	GEORGIAN("Geor"),
+	GEORGIAN("Geor", "\u10d8"),
 
 	GREEK("Grek"),
 
-	HEBREW("Hebr", Direction.RIGHT_TO_LEFT),
+	HEBREW("Hebr", "\u05d9\u05b4", Direction.RIGHT_TO_LEFT),
 
 	/** Simplified Chinese */
-	HANS("Hans"),
+	HANS("Hans", "\u984F"),
 
 	/** Traditional Chinese */
-	HANT("Hant"),
+	HANT("Hant", "\u984F"),
 
-	JAPANESE("Jpan"),
+	JAPANESE("Jpan", "\uff9d"),
 
-	KANNADA("Knda"),
+	KANNADA("Knda", "\u0CAE"),
 
 	KHMER("Khmr"),
 
-	KOREAN("Kore"),
+	KOREAN("Kore", "\u1103"),
 
 	LATIN("Latn"),
 
-	MALAYALAM("Mlym"),
+	MALAYALAM("Mlym", "\u0D2E"),
 
 	MONG("Mong"),
 
 	MYANMAR("Mymr"),
 
-	SINHALA("Sinh"),
+	SINHALA("Sinh", "\u0d9a"),
 
-	TAMIL("Taml"),
+	TAMIL("Taml", "\u0be7"),
 
 	TELUGU("Telu"),
 
-	THAI("Thai");
+	THAI("Thai", "\u0E20\u0E32");
 
 	final public String iso15924;
 	final public Direction direction;
+	final public String testString;
 
 	Script(String iso15924) {
-
-		this(iso15924, Direction.LEFT_TO_RIGHT);
+		this(iso15924, null, Direction.LEFT_TO_RIGHT);
 	}
 
-	Script(String iso15924, Direction dir) {
+	Script(String iso15924, String testString) {
+		this(iso15924, testString, Direction.LEFT_TO_RIGHT);
+	}
+
+	Script(String iso15924, String testString, Direction dir) {
 		this.iso15924 = iso15924;
+		this.testString = testString;
 		this.direction = dir;
 	}
-
 }

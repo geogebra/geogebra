@@ -2,9 +2,6 @@ update_configs:
   - package_manager: "gradle"
     directory: "/"
     update_schedule: "daily"
-    ignored_updates:
-      - match:
-          dependency_name: "com.jogamp:*"
   - package_manager: "npm_and_yarn"
     directory: "/uitest"
     update_schedule: "weekly"

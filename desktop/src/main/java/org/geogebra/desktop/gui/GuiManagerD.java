@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -50,7 +51,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
 import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.VirtualKeyboardListener;
@@ -87,10 +87,9 @@ import org.geogebra.desktop.euclidian.event.MouseEventND;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.export.WorksheetExportDialog;
-import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
 import org.geogebra.desktop.export.pstricks.PstricksFrame;
+import org.geogebra.desktop.gui.app.FileExtensionFilter;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
-import org.geogebra.desktop.gui.app.MyFileFilter;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.dialog.DialogManagerD;
 import org.geogebra.desktop.gui.dialog.InputDialogD;
@@ -179,6 +178,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	private AbstractAction undoAction;
 	private AbstractAction redoAction;
 	private final LocalizationD loc;
+	ContextMenuGraphicsWindowD drawingPadpopupMenu;
+	ContextMenuGeoElementD popupMenu;
+	VirtualKeyboardListener currentKeyboardListener = null;
+	private InputBarHelpPanelD inputHelpPanel;
 
 	/**
 	 * Returns last filename that was used in save dialog (may be for .png,
@@ -194,7 +197,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		try {
 			return new DataFlavor(desc);
 		} catch (ClassNotFoundException cnfe) {
-			cnfe.printStackTrace();
+			Log.debug(cnfe);
 		}
 		return null;
 	}
@@ -749,7 +752,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			}
 			return layout.getDockManager().getPanel(viewId).isVisible();
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}
@@ -953,8 +956,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		GeoGebraMenuBar.showPrintPreview(getApp());
 	}
 
-	ContextMenuGraphicsWindowD drawingPadpopupMenu;
-
 	/**
 	 * Displays the Graphics View menu at the position p in the coordinate space
 	 * of euclidianView
@@ -968,8 +969,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				p.y);
 		drawingPadpopupMenu.getWrappedPopup().show(invoker, p.x, p.y);
 	}
-
-	ContextMenuGeoElementD popupMenu;
 
 	/**
 	 * Displays the popup menu for geo at the position p in the coordinate space
@@ -1201,7 +1200,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 			} catch (RuntimeException e) {
 				getApp().setDefaultCursor();
-				e.printStackTrace();
+				Log.debug(e);
 				getApp().showError(Errors.PasteImageFailed);
 				return null;
 			}
@@ -1249,16 +1248,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 							fileName));
 					imageFound = true;
 				}
-				// System.out.println(nameList.toString());
 
 			}
 
 			if (!imageFound && transfer
 					.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-				// java.util.List list = null;
-
-				// list = (java.util.List)
-				// transfer.getTransferData(DataFlavor.javaFileListFlavor);
 
 				List<File> list = (List<File>) transfer
 						.getTransferData(DataFlavor.javaFileListFlavor);
@@ -1270,7 +1264,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						imageFound = true;
 					}
 				}
-				// System.out.println(nameList.toString());
 
 			}
 
@@ -1279,9 +1272,18 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				String uris = (String) transfer.getTransferData(uriListFlavor);
 				StringTokenizer st = new StringTokenizer(uris, "\r\n");
 				while (st.hasMoreTokens()) {
-					URI uri = new URI(st.nextToken());
-					File f = new File(uri.toString());
-					fileName = f.getName();
+					URI uri;
+					File file;
+					String fullPath = st.nextToken();
+					// handle both "/Users/foo/bar.png" and "file:///Users/foo/bar.png"
+					if (fullPath.startsWith("/")) {
+						file = new File(fullPath);
+						uri = file.toURI();
+					} else {
+						uri = new URI(fullPath);
+						file = new File(uri);
+					}
+					fileName = file.getName();
 					img = ImageIO.read(uri.toURL());
 					if (img != null) {
 						nameList.add(getApp().createImage(new MyImageD(img),
@@ -1289,7 +1291,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						imageFound = true;
 					}
 				}
-				// System.out.println(nameList.toString());
 			}
 
 			if (!imageFound && transfer.isDataFlavorSupported(urlFlavor)) {
@@ -1309,8 +1310,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} catch (RuntimeException | IOException | UnsupportedFlavorException
 				| URISyntaxException | ClassNotFoundException e) {
 			getApp().setDefaultCursor();
-			e.printStackTrace();
-			return null;
+			Log.debug(e);
+			return new String[0];
 		}
 
 		getApp().setDefaultCursor();
@@ -1387,7 +1388,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					fileChooser.setCurrentDirectory(
 							getApp().getCurrentImagePath());
 
-					MyFileFilter fileFilter = new MyFileFilter();
+					FileExtensionFilter fileFilter = new FileExtensionFilter();
 					fileFilter.addExtension(FileExtensions.JPG);
 					fileFilter.addExtension(FileExtensions.JPEG);
 					fileFilter.addExtension(FileExtensions.PNG);
@@ -1431,7 +1432,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			return ret;
 		} catch (Exception e) {
 			getApp().setDefaultCursor();
-			e.printStackTrace();
+			Log.debug(e);
 			getApp().showError(Errors.LoadFileFailed);
 			return null;
 		}
@@ -1490,7 +1491,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			fileChooser.setMode(GeoGebraFileChooser.MODE_DATA);
 			fileChooser.setCurrentDirectory(getApp().getCurrentImagePath());
 
-			MyFileFilter fileFilter = new MyFileFilter();
+			FileExtensionFilter fileFilter = new FileExtensionFilter();
 			fileFilter.addExtension(FileExtensions.TXT);
 			fileFilter.addExtension(FileExtensions.CSV);
 			fileFilter.addExtension(FileExtensions.DAT);
@@ -1512,7 +1513,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			getApp().setDefaultCursor();
 		} catch (Exception e) {
 			getApp().setDefaultCursor();
-			e.printStackTrace();
+			Log.debug(e);
 			getApp().showError(Errors.LoadFileFailed);
 			return null;
 		}
@@ -1651,8 +1652,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		FileExtensions fileExtension = fileExtensions[0];
 
 		if (getApp().macsandbox) {
-			 // Mac OS X related code to work around JFileChooser problem on
-			 // sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
+			// Mac OS X related code to work around JFileChooser problem on
+			// sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
 			while (!done) {
 
 				NSSavePanel panel = new NSSavePanel();
@@ -1692,10 +1693,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			fileChooser.setSelectedFile(null);
 		}
 		fileChooser.resetChoosableFileFilters();
-		MyFileFilter fileFilter;
-		MyFileFilter mainFilter = null;
+		FileExtensionFilter fileFilter;
+		FileExtensionFilter mainFilter = null;
 		for (int i = 0; i < fileExtensions.length; i++) {
-			fileFilter = new MyFileFilter(fileExtensions[i]);
+			fileFilter = new FileExtensionFilter(fileExtensions[i]);
 			if (fileDescriptions.length >= i && fileDescriptions[i] != null) {
 				fileFilter.setDescription(fileDescriptions[i]);
 			}
@@ -1713,8 +1714,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				file = fileChooser.getSelectedFile();
 
-				if (fileChooser.getFileFilter() instanceof MyFileFilter) {
-					fileFilter = (MyFileFilter) fileChooser.getFileFilter();
+				if (fileChooser.getFileFilter() instanceof FileExtensionFilter) {
+					fileFilter = (FileExtensionFilter) fileChooser.getFileFilter();
 					fileExtension = fileFilter.getExtension();
 				} else {
 					fileExtension = fileExtensions[0];
@@ -1885,8 +1886,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			getApp().setWaitCursor();
 
 			if (getApp().macsandbox) {
-				 // Mac OS X related code to work around JFileChooser problem on
-				 // sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
+				// Mac OS X related code to work around JFileChooser problem on
+				// sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
 				FileDialog fd = new FileDialog(getApp().getFrame());
 				fd.setModal(true);
 				File currentPath;
@@ -1942,7 +1943,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			fileChooser.setSelectedFile(oldCurrentFile);
 
 			// GeoGebra File Filter
-			MyFileFilter fileFilter = new MyFileFilter();
+			FileExtensionFilter fileFilter = new FileExtensionFilter();
 			fileFilter.addExtension(FileExtensions.GEOGEBRA);
 			fileFilter.addExtension(FileExtensions.GEOGEBRA_TOOL);
 			fileFilter.addExtension(FileExtensions.HTML);
@@ -1952,17 +1953,17 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			fileChooser.resetChoosableFileFilters();
 			fileChooser.addChoosableFileFilter(fileFilter);
 
-			MyFileFilter insertFilter = new MyFileFilter();
+			FileExtensionFilter insertFilter = new FileExtensionFilter();
 			insertFilter.addExtension(FileExtensions.GEOGEBRA);
 			insertFilter.setDescription(loc.getMenu("InsertFile"));
 			fileChooser.addChoosableFileFilter(insertFilter);
 
-			MyFileFilter templateFilter = new MyFileFilter();
+			FileExtensionFilter templateFilter = new FileExtensionFilter();
 			templateFilter.addExtension(FileExtensions.GEOGEBRA);
 			templateFilter.setDescription(loc.getMenu("ApplyTemplate"));
 			fileChooser.addChoosableFileFilter(templateFilter);
 
-			MyFileFilter offFilter = new MyFileFilter(FileExtensions.OFF);
+			FileExtensionFilter offFilter = new FileExtensionFilter(FileExtensions.OFF);
 			// TODO: Localization
 			offFilter.setDescription("OFF file");
 			fileChooser.addChoosableFileFilter(offFilter);
@@ -1987,7 +1988,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			FileFilter filter = fileChooser.getFileFilter();
 
 			if (filter == fileFilter) {
-				fileFilter = (MyFileFilter) fileChooser.getFileFilter();
+				fileFilter = (FileExtensionFilter) fileChooser.getFileFilter();
 				doOpenFiles(files, true, fileFilter.getExtension());
 			} else if (filter == templateFilter) {
 				// #4403
@@ -2140,7 +2141,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 									wnd.toFront();
 									wnd.requestFocus();
 								} catch (Exception e) {
-									e.printStackTrace();
+									Log.debug(e);
 								}
 							}
 						} else if (counter == 0) {
@@ -2188,7 +2189,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	// See http://stackoverflow.com/questions/6198894/java-encode-url for an
 	// explanation
-	private static URL getEscapedUrl(String url0) throws Exception {
+	private static URL getEscapedUrl(String url0) throws URISyntaxException, MalformedURLException {
 		String url;
 		if (url0.startsWith("www")) {
 			url = "http://" + url0;
@@ -2409,7 +2410,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			showURLinBrowser(helpURL);
 		} catch (MyError e) {
 			getApp().showError(e);
-		} catch (Exception e) {
+		} catch (RuntimeException | URISyntaxException | MalformedURLException e) {
 			Log.debug("openHelp error: " + e + " " + e.getMessage()
 					+ " " + page + " " + type);
 			getApp().showGenericError(e);
@@ -2421,8 +2422,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		try {
 			URL url = getEscapedUrl(strURL);
 			showURLinBrowser(url);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (RuntimeException | MalformedURLException | URISyntaxException e) {
+			Log.debug(e);
 		}
 	}
 
@@ -2522,8 +2523,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		}
 	}
 
-	VirtualKeyboardListener currentKeyboardListener = null;
-
 	/**
 	 * @param keyboardListener current textfield
 	 * @param autoClose whether setting to null may hide the keyboard
@@ -2589,8 +2588,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			KeyboardSettings settings = (KeyboardSettings) getApp()
 					.getSettings().getKeyboard();
 			virtualKeyboard = new VirtualKeyboardD(getApp(),
-					settings.getKeyboardWidth(), settings.getKeyboardHeight(),
-					(float) settings.getKeyboardOpacity());
+					settings.getKeyboardWidth(), settings.getKeyboardHeight());
 			settings.addListener(virtualKeyboard);
 		}
 
@@ -2644,8 +2642,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			}
 		}
 	}
-
-	private InputBarHelpPanelD inputHelpPanel;
 
 	public boolean hasInputHelpPanel() {
 		return inputHelpPanel != null;
@@ -2899,9 +2895,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	@Override
 	public void showPSTricksExport() {
-		GeoGebraToPstricks export = new GeoGebraToPstricksD(getApp());
-		new PstricksFrame(export).setVisible(true);
-
+		app.newGeoGebraToPstricks(PstricksFrame::new);
 	}
 
 	@Override
@@ -2982,13 +2976,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public void login() {
-		getApp().getDialogManager().showLogInDialog();
-	}
-
-	@Override
 	public void logout() {
-		getApp().getDialogManager().showLogOutDialog();
+		// no login => no logout
 	}
 
 	@Override

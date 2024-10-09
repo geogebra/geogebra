@@ -10,11 +10,13 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.statistics.AlgoRandomList;
+import org.geogebra.common.kernel.statistics.AlgoRandomUniformList;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 
 /**
- * RandomBetween[a,b] RandomBetween[a,b,fixed]
+ * RandomBetween[a,b] RandomBetween[a,b,fixed] RandomBetween[a,b,samplesize]
  */
 public class CmdRandom extends CommandProcessor {
 	/**
@@ -28,7 +30,7 @@ public class CmdRandom extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
@@ -61,6 +63,12 @@ public class CmdRandom extends CommandProcessor {
 				}
 				// else fall through to case 2:
 
+			} else if (arg[2] instanceof GeoNumberValue) {
+				AlgoRandomUniformList algo = new AlgoRandomList(cons,
+						c.getLabel(), (GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+						(GeoNumberValue) arg[2]);
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
 			} else {
 				throw argErr(c, arg[2]);
 			}

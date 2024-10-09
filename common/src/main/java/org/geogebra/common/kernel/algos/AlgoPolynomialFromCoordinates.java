@@ -38,8 +38,8 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class AlgoPolynomialFromCoordinates extends AlgoElement {
 
-	private GeoList inputList; // input
-	private GeoFunction g; // output
+	private final GeoList inputList; // input
+	private final GeoFunction g; // output
 
 	/**
 	 * @param cons
@@ -71,8 +71,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = inputList;
 
-		super.setOutputLength(1);
-		super.setOutput(0, g);
+		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -213,8 +212,6 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 				continue; // this part vanished
 			}
 
-			boolean negativeCoeff = coeff < 0;
-
 			// build the expression x^k
 			ExpressionValue powerExp;
 			switch (k) {
@@ -231,44 +228,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 						new MyDouble(kernel, k));
 			}
 
-			// build the expression
-			// (coeff) * x^k
-			ExpressionValue partExp;
-			MyDouble coeffMyDouble = null;
-			// check for poly != null rather than k != n-1 in case the leading
-			// coefficient was 0, eg FitPoly[{(1,-1),(0,0),(-1,-1),(2,-4)},3]
-			if (DoubleUtil.isEqual(coeff, 1.0)
-					|| (poly != null && DoubleUtil.isEqual(coeff, -1.0))) {
-				if (powerExp == null) {
-					partExp = new MyDouble(kernel, 1.0);
-				} else {
-					partExp = powerExp;
-				}
-			} else {
-				coeffMyDouble = coeff == -1 ? new MinusOne(kernel) : new MyDouble(kernel, coeff);
-				if (powerExp == null) {
-					partExp = coeffMyDouble;
-				} else {
-					partExp = new ExpressionNode(kernel, coeffMyDouble,
-							Operation.MULTIPLY, powerExp);
-				}
-			}
-
-			// add part to series
-			if (poly == null) {
-				poly = partExp.wrap();
-			} else {
-				if (negativeCoeff) {
-					if (coeffMyDouble != null) {
-						coeffMyDouble.set(-coeff); // change sign
-					}
-					poly = new ExpressionNode(kernel, poly, Operation.MINUS,
-							partExp);
-				} else {
-					poly = new ExpressionNode(kernel, poly, Operation.PLUS,
-							partExp);
-				}
-			}
+			poly = addToPoly(poly, powerExp, coeff, kernel);
 		}
 
 		// all coefficients were 0, we've got f(x) = 0
@@ -276,8 +236,72 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			poly = new ExpressionNode(kernel, new MyDouble(kernel, 0));
 		}
 		// polynomial Function
-		Function polyFun = new Function(poly, fVar);
-		return polyFun;
+		return new Function(poly, fVar);
+	}
+
+	/**
+	 * @param poly polynomial or null (representing constant zero polynomial)
+	 * @param powerExp power of function variable(s)
+	 * @param coeff coefficient
+	 * @param kernel kernel
+	 * @return poly + powerExp * coeff (or just powerEexp * coeff if poly is null);
+	 */
+	public static ExpressionNode addToPoly(final ExpressionNode poly, ExpressionValue powerExp,
+			double coeff, Kernel kernel) {
+		boolean negativeCoeff = coeff < 0;
+		// build the expression
+		// (coeff) * x^k
+		ExpressionValue partExp;
+		MyDouble coeffMyDouble = null;
+		// check for poly != null rather than k != n-1 in case the leading
+		// coefficient was 0, eg FitPoly[{(1,-1),(0,0),(-1,-1),(2,-4)},3]
+		if (DoubleUtil.isEqual(coeff, 1.0)
+				|| (poly != null && DoubleUtil.isEqual(coeff, -1.0))) {
+			if (powerExp == null) {
+				partExp = new MyDouble(kernel, 1.0);
+			} else {
+				partExp = powerExp;
+			}
+		} else {
+			coeffMyDouble = coeff == -1 ? new MinusOne(kernel) : new MyDouble(kernel, coeff);
+			if (powerExp == null) {
+				partExp = coeffMyDouble;
+			} else {
+				if (coeff == -1 && powerExp.wrap().isOperation(Operation.MULTIPLY)) {
+					partExp = multiplyFirstOperandOnly(powerExp, kernel, coeffMyDouble);
+				} else {
+					partExp = new ExpressionNode(kernel, coeffMyDouble,
+							Operation.MULTIPLY, powerExp);
+				}
+			}
+		}
+
+		// add part to series
+		if (poly == null) {
+			return partExp.wrap();
+		} else {
+			if (negativeCoeff) {
+				if (coeffMyDouble != null) {
+					coeffMyDouble.set(-coeff); // change sign
+				}
+				return new ExpressionNode(kernel, poly, Operation.MINUS,
+						partExp);
+			} else {
+				return new ExpressionNode(kernel, poly, Operation.PLUS,
+						partExp);
+			}
+		}
+	}
+
+	private static ExpressionValue multiplyFirstOperandOnly(ExpressionValue powerExp, Kernel kernel,
+			MyDouble coeffMyDouble) {
+		ExpressionNode firstOperand = powerExp.wrap().getLeftTree();
+		ExpressionNode node =
+				new ExpressionNode(kernel, coeffMyDouble, Operation.MULTIPLY,
+						firstOperand
+				);
+		return new ExpressionNode(kernel, node,
+				Operation.MULTIPLY, powerExp.wrap().getRightTree());
 	}
 
 	private static void polcoeBig(double[] xx, double[] yy, int n,

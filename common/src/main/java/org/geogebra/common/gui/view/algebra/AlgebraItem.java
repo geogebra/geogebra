@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
@@ -22,6 +21,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.CoordinatesFormat;
 import org.geogebra.common.main.settings.Settings;
@@ -71,11 +71,8 @@ public class AlgebraItem {
 			GeoSymbolic symbolic = (GeoSymbolic) geo;
 			if (symbolic.shouldWrapInNumeric()) {
 				return true;
-			}
-			if (SymbolicUtil.isSolve(symbolic)) {
+			} else if (SymbolicUtil.isSolve(symbolic)) {
 				return SymbolicUtil.isSymbolicSolveDiffers(symbolic);
-			} else if (!(symbolic.getTwinGeo() instanceof HasSymbolicMode)) {
-				return false;
 			}
 		}
 
@@ -85,7 +82,7 @@ public class AlgebraItem {
 		if (geo.isGeoNumeric()) {
 			ExpressionNode def = geo.getDefinition() == null ? null
 					: geo.getDefinition().asFraction();
-			return def != null && def.unwrap().isExpressionNode();
+			return geo.isRecurringDecimal() || def != null && def.unwrap().isExpressionNode();
 		}
 		HasSymbolicMode sm = (HasSymbolicMode) geo;
 		boolean orig = sm.isSymbolicMode();
@@ -413,7 +410,7 @@ public class AlgebraItem {
 
 	/**
 	 * add geo to selection with its special points.
-	 *
+	 * TODO rename to selectGeo(WithSpecialPoints?)
 	 * @param geo
 	 *            The geo element to add.
 	 * @param app
@@ -422,6 +419,9 @@ public class AlgebraItem {
 	public static void addSelectedGeoWithSpecialPoints(GeoElementND geo,
 			App app) {
 		if (!app.getConfig().hasPreviewPoints()) {
+			return;
+		}
+		if (!app.getSelectionManager().isSelectionAllowed(geo)) {
 			return;
 		}
 		app.getSelectionManager().clearSelectedGeos(false, false);
@@ -630,8 +630,19 @@ public class AlgebraItem {
 	 */
 	public static boolean shouldShowSlider(GeoElement geo) {
 		return geo instanceof GeoNumeric
+				&& geo.getApp().getConfig().hasSlidersInAV()
 				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
-				&& MyDouble.isFinite(((GeoNumeric) geo).value);
+				&& Double.isFinite(((GeoNumeric) geo).value);
+	}
+
+	/**
+	 * Initializes the element for the Algebra View.
+	 * @param geo element to initialzie
+	 */
+	public static void initForAlgebraView(GeoElement geo) {
+		if (shouldShowSlider(geo) && !geo.isEuclidianVisible()) {
+			((GeoNumeric) geo).initAlgebraSlider();
+		}
 	}
 
 	/**
@@ -643,8 +654,12 @@ public class AlgebraItem {
 		if (geo instanceof GeoSymbolic) {
 			GeoSymbolic symbolic = (GeoSymbolic) geo;
 			ExpressionValue value = symbolic.getValue();
-			if (value instanceof ExpressionNode) {
-				return ((ExpressionNode) value).isFraction();
+			try {
+				if (value instanceof ExpressionNode) {
+					return ((ExpressionNode) value).isFraction();
+				}
+			} catch (MyError err) {
+				return false;
 			}
 		} else if (geo instanceof GeoNumeric) {
 			GeoNumeric numeric = (GeoNumeric) geo;

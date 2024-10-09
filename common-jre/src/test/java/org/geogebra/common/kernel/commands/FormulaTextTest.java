@@ -1,7 +1,10 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -30,6 +33,15 @@ public class FormulaTextTest extends BaseUnitTest {
 		// except when substitute variables is false
 		t("FormulaText(sin(ax+ax-ax), false)",
 				"\\operatorname{sin} \\left( a \\; x + a \\; x - a \\; x \\right)");
+	}
+
+	@Test
+	@Issue("APPS-5698")
+	public void formulaWithTextEquations() {
+		add("txt=\"3.14\"");
+		add("num=22");
+		add("eq:num/7=txt");
+		assertThat(add("FormulaText(eq)"), hasValue("\\frac{22}{7}\\, = \\,3.14"));
 	}
 
 }

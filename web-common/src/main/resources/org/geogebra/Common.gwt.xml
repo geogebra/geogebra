@@ -5,9 +5,8 @@
   <inherits name="org.apache.commons.Math" />
   <inherits name="org.apache.commons.Collections" />
   <inherits name="org.geogebra.regexp.RegExp" />
+  <inherits name="com.google.j2objc.Annotations"/>
 
   <source path='common' />
-
-  <super-source path='common-super' />
 
 </module>

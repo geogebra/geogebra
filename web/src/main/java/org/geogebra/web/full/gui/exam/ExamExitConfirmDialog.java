@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.exam;
 
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
@@ -24,8 +25,8 @@ public class ExamExitConfirmDialog extends ComponentDialog {
 	}
 
 	private void buildContent() {
-		Label confirmText = new Label(app.getLocalization().getMenu("exam_exit_confirmation"));
-		confirmText.addStyleName("exitConfText");
+		Label confirmText = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				app.getLocalization().getMenu("exam_exit_confirmation"), "exitConfText");
 		addDialogContent(confirmText);
 	}
 }

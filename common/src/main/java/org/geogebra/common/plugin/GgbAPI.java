@@ -25,6 +25,7 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.kernel.CircularDefinitionException;
+import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -41,6 +42,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -59,6 +61,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -74,8 +77,9 @@ import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
  * <pre>
  *    The Api the plugin program can use.
  * </pre>
- * <ul>
+ *
  * <h4>Interface:</h4>
+ * <ul>
  * <li>GgbAPI(Application) //Application owns it
  * <li>getApplication()
  * <li>getKernel()
@@ -101,6 +105,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	protected AlgebraProcessor algebraprocessor = null;
 	/** application */
 	protected App app = null;
+	private static final StringTemplate nonLocalizedTemplate = StringTemplate
+			.printDecimals(ExpressionNodeConstants.StringType.GEOGEBRA, 13, false);
+
+	static {
+		nonLocalizedTemplate.setLocalizeCmds(false);
+	}
 
 	/**
 	 * Returns reference to Construction
@@ -225,8 +235,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		// this is new in GeoGebra 4.2 and it will stop some files working
 		// but causes problems if the files are opened and edited
 		// and in the web project
-		boolean oldVal = kernel.isUsingInternalCommandNames();
-		kernel.setUseInternalCommandNames(true);
+		CommandLookupStrategy oldVal = kernel.getCommandLookupStrategy();
+		kernel.setCommandLookupStrategy(CommandLookupStrategy.XML);
 
 		StringBuilder ret = new StringBuilder();
 
@@ -245,7 +255,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				}
 			}
 		} finally {
-			kernel.setUseInternalCommandNames(oldVal);
+			kernel.setCommandLookupStrategy(oldVal);
 		}
 
 		if (ret.length() == 0) {
@@ -936,6 +946,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		geo.remove();
 		kernel.notifyRepaint();
+		kernel.getConstruction().getUndoManager().removeActionsWithLabel(objName);
 	}
 
 	@Override
@@ -1011,16 +1022,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return "";
 		}
 
-		if (geo.isGeoText()) {
-			return ((GeoText) geo).getTextString();
+		if (geo.isGeoText() || geo.isGeoInputBox()) {
+			return geo.toValueString(StringTemplate.defaultTemplate);
 		}
 
 		if (geo.isGeoCasCell()) {
 			return ((GeoCasCell) geo).getOutput(StringTemplate.numericDefault);
 		}
-		StringTemplate template =
-				localized ? StringTemplate.defaultTemplate : StringTemplate.noLocalDefault;
-
+		StringTemplate template = getOutputTemplate(localized);
 		return geo.getAlgebraDescriptionPublic(template);
 	}
 
@@ -1039,9 +1048,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null) {
 			return "";
 		}
-		return geo.getDefinitionDescription(
-				localize ? StringTemplate.defaultTemplate
-						: StringTemplate.noLocalDefault);
+		return geo.getDefinitionDescription(getOutputTemplate(localize));
 	}
 
 	/**
@@ -1058,7 +1065,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public void evalLaTeX(String input, int mode) {
-		app.getDrawEquation().checkFirstCall(app);
+		app.getDrawEquation().checkFirstCall();
 		TeXFormula tf = new TeXFormula(input);
 		// TeXParser tp = new TeXParser(input, tf);
 		// tp.parse();
@@ -1067,10 +1074,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * 
 	 * eg ggbApplet.evalMathML(
-	 * "<mrow><mi> x</mi><mo> +</mo><mrow><mi> 1</mi><mo>/</mo><mi> 2</mi></mrow></mrow>"
-	 * )
+	 *   "&lt;mrow&gt;&lt;mi&gt; x&lt;/mi&gt;&lt;mo&gt; +&lt;/mo&gt;&lt;mrow&gt;&lt;mi&gt;
+	 *   1&lt;/mi&gt;&lt;mo&gt;/&lt;/mo&gt;&lt;mi&gt; 2&lt;/mi&gt;&lt;/mrow&gt;&lt;/mrow&gt;")
 	 * 
 	 * @param input
 	 *            command as presentation mathml
@@ -1105,12 +1111,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return "";
 		}
 		if (geo instanceof GeoCasCell) {
-			return geo.getDefinitionDescription(
-					localize ? StringTemplate.defaultTemplate
-							: StringTemplate.noLocalDefault);
+			return geo.getDefinitionDescription(getOutputTemplate(localize));
 		}
-		return geo.getDefinition(localize ? StringTemplate.defaultTemplate
-				: StringTemplate.noLocalDefault);
+		return geo.getDefinition(getOutputTemplate(localize));
+	}
+
+	private StringTemplate getOutputTemplate(boolean localize) {
+		return localize ? StringTemplate.defaultTemplate
+				: nonLocalizedTemplate;
 	}
 
 	@Override
@@ -1210,13 +1218,16 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
-	public synchronized void setCoords(String objName, double x, double y,
-			double z) {
+	public synchronized void setCoords(String objName, double... coords) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) {
 			return;
 		}
-		CmdSetCoords.setCoords(geo, x, y, z);
+		if (geo instanceof GeoLocusStroke) {
+			((GeoLocusStroke) geo).setCoords(coords);
+		} else {
+			CmdSetCoords.setCoords(geo, coords[0], coords[1], coords[2]);
+		}
 	}
 
 	/**
@@ -1237,7 +1248,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * Sets the double value of the object with the given name. For a boolean 0
-	 * -> false, any other value -> true Note: if the specified object is not a
+	 * -&gt; false, any other value -&gt; true Note: if the specified object is not a
 	 * number, nothing happens.
 	 */
 	@Override
@@ -1465,14 +1476,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	final public void setPenColor(int red, int green, int blue) {
-		app.getActiveEuclidianView().getEuclidianController().getPen().defaultPenLine
-				.setObjColor(GColor.newColor(red, green, blue));
+		app.getActiveEuclidianView().getEuclidianController().getPen()
+				.setPenColor(GColor.newColor(red, green, blue));
 	}
 
 	@Override
 	final public void setPenSize(int size) {
-		app.getActiveEuclidianView().getEuclidianController().getPen().defaultPenLine
-				.setLineThickness(size);
+		app.getActiveEuclidianView().getEuclidianController().getPen()
+				.setPenSize(size);
 	}
 
 	@Override
@@ -1517,7 +1528,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * Mark state as saved
+	 * Mark state as (un)saved
+	 * @param saved whether construction state should be considered saved
 	 */
 	public void setSaved(boolean saved) {
 		if (saved) {
@@ -1690,8 +1702,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		if ("exam".equals(code)) {
-			app.setNewExam();
-			app.examWelcome();
+			app.showExamWelcomeMessage();
 			return;
 		}
 		
@@ -1729,8 +1740,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			}
 			return;
 		}
-		String allToolsNoMacros = ToolBar.getAllToolsNoMacros(app.isHTML5Applet(), app.isExam(),
-				app);
+		String allToolsNoMacros = ToolBar.getAllToolsNoMacros(app.isHTML5Applet(),
+				!GlobalScope.examController.isIdle(), app);
 		Perspective ps = PerspectiveDecoder.decode(code, kernel.getParser(),
 				allToolsNoMacros, app.getLayout());
 		if (app.getGuiManager() == null) {
@@ -2097,12 +2108,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			double ymax, double zmin, double zmax, double xyScale,
 			double xzScale, double xTickDistance, double yTickDistance,
 			double zTickDistance) {
-		if (app.is3D()) {
-			return app.getCompanion().exportCollada(xmin, xmax, ymin, ymax,
-					zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
-					zTickDistance);
-		}
-		return null;
+		return app.getCompanion().exportCollada(xmin, xmax, ymin, ymax,
+				zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
+				zTickDistance);
 	}
 
 	@Override
@@ -2110,11 +2118,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			double xmax, double ymin, double ymax, double zmin, double zmax,
 			double xyScale, double xzScale, double xTickDistance,
 			double yTickDistance, double zTickDistance) {
-		if (app.is3D()) {
-			app.getCompanion().exportGeometry3D(getter, xmin, xmax, ymin, ymax,
-					zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
-					zTickDistance);
-		}
+		app.getCompanion().exportGeometry3D(getter, xmin, xmax, ymin, ymax,
+				zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
+				zTickDistance);
 	}
 
 	@Override
@@ -2123,14 +2129,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			double ymax, double zmin, double zmax, double xyScale,
 			double xzScale, double xTickDistance, double yTickDistance,
 			double zTickDistance) {
-		if (app.is3D()) {
-			Geometry3DGetterSimple getter = new Geometry3DGetterSimple(name);
-			app.getCompanion().exportGeometry3D(getter, xmin, xmax, ymin, ymax,
-					zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
-					zTickDistance);
-			return getter.get().toString();
+		Geometry3DGetterSimple getter = new Geometry3DGetterSimple(name);
+		if (!app.getCompanion().exportGeometry3D(getter, xmin, xmax, ymin, ymax,
+				zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
+				zTickDistance)) {
+			return "";
 		}
-		return "";
+		return getter.get().toString();
 	}
 
 	/**
@@ -2241,7 +2246,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	public String getScreenReaderOutput(String label) {
 		GeoElement geo = kernel.lookupLabel(label);
-		return geo.toValueString(StringTemplate.screenReaderAscii);
+		return geo.toValueString(app.getScreenReaderTemplate());
 	}
 
 	/**
@@ -2545,6 +2550,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		AlgebraSettings settings = app.getSettings().getAlgebra();
 		opts.ifIntPropertySet("sortBy",
 				mode -> settings.setTreeMode(AlgebraView.SortMode.fromInt(mode)));
+	}
+
+	@Override
+	public void showAllObjects() {
+		app.setViewShowAllObjects();
 	}
 
 	protected JsObjectWrapper getAxisOptions(int axisNo, EuclidianSettings es) {

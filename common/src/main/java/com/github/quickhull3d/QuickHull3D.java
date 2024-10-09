@@ -82,7 +82,7 @@ import java.util.Vector;
  * As a convenience, there are also {@link #build(double[]) build} and
  * {@link #getVertices(double[]) getVertex} methods which pass point information
  * using an array of doubles.
- * <h3><a name=distTol>Robustness</h3> Because this algorithm uses floating
+ * <h3 id=distTol>Robustness</h3> Because this algorithm uses floating
  * point arithmetic, it is potentially vulnerable to errors arising from
  * numerical imprecision. We address this problem in the same way as <a
  * href=http://www.qhull.org>qhull</a>, by merging faces whose edges are not
@@ -101,7 +101,7 @@ import java.util.Vector;
  * QuickHull3D for such situations by computing the convex hull of a random
  * point set, then adding additional randomly chosen points which lie very close
  * to the hull vertices and edges, and computing the convex hull again. The hull
- * is deemed correct if {@link #check check} returns <code>true</code>. These
+ * is deemed correct if {@code check} returns <code>true</code>. These
  * tests have been successful for a large number of trials and so we are
  * confident that QuickHull3D is reasonably robust.
  * <h3>Merged Faces</h3> The merging of faces means that the faces returned by
@@ -111,7 +111,7 @@ import java.util.Vector;
  * thin and hence difficult to perform reliable convexity tests on. In other
  * words, triangulating a merged face is likely to restore the numerical
  * problems which the merging process removed. Hence is it possible that, after
- * triangulation, {@link #check check} will fail (the same behavior is observed
+ * triangulation, {@code check} will fail (the same behavior is observed
  * with triangulated output from <a href=http://www.qhull.org>qhull</a>).
  * <h3>Degenerate Input</h3>It is assumed that the input points are
  * non-degenerate in that they are not coincident, colinear, or colplanar, and

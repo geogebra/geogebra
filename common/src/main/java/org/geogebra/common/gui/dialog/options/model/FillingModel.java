@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoTransformation;
 import org.geogebra.common.kernel.algos.ChartStyle;
-import org.geogebra.common.kernel.algos.ChartStyleAlgo;
+import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -18,10 +18,10 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.ownership.GlobalScope;
 
 public class FillingModel extends MultipleOptionsModel {
 
-	private FillType fillType;
 	private Kernel kernel;
 	private boolean hasGeoButton;
 	private boolean hasGeoTurtle;
@@ -96,7 +96,7 @@ public class FillingModel extends MultipleOptionsModel {
 	@Override
 	public List<String> getChoices(Localization loc) {
 		List<FillType> types = fillTypes;
-		if (app.isExam()) {
+		if (GlobalScope.examController.isExamActive()) {
 			types = new ArrayList<>(fillTypes);
 			types.remove(FillType.IMAGE);
 		}
@@ -170,7 +170,7 @@ public class FillingModel extends MultipleOptionsModel {
 		IFillingListener fillListener = getFillingListener();
 		// set selected fill type to first geo's fill type
 		ChartStyle chartStyle = isChart() ?
-			((ChartStyleAlgo) geo0.getParentAlgorithm()).getStyle() : null;
+			((ChartStyleGeo) geo0).getStyle() : null;
 		if (chartStyle != null) {
 			setBarFillType(geo0);
 		} else {
@@ -183,7 +183,7 @@ public class FillingModel extends MultipleOptionsModel {
 
 		if (chartStyle != null) {
 			updateBarFillTypePanel(geo0, chartStyle);
-			fillListener.setBarChart(((ChartStyleAlgo) geo0.getParentAlgorithm()).getIntervals());
+			fillListener.setBarChart(((ChartStyleGeo) geo0).getIntervals());
 		} else {
 			updateFillType(geo0.getFillType());
 			fillListener.setBarChart(-1);
@@ -248,8 +248,6 @@ public class FillingModel extends MultipleOptionsModel {
 		} else {
 			type = style.getBarFillType(idx);
 		}
-
-		fillType = type;
 		updateFillType(type);
 	}
 
@@ -280,10 +278,10 @@ public class FillingModel extends MultipleOptionsModel {
 		if (idx == 0) {
 			getFillingListener().setSelectedIndex(geo.getFillType().ordinal());
 		} else {
-			ChartStyleAlgo algo = (ChartStyleAlgo) geo.getParentAlgorithm();
-			if (algo != null && algo.getStyle().getBarFillType(idx) != null) {
+			ChartStyleGeo chart = (ChartStyleGeo) geo;
+			if (chart != null && chart.getStyle().getBarFillType(idx) != null) {
 				getFillingListener()
-						.setSelectedIndex(algo.getStyle().getBarFillType(idx).ordinal());
+						.setSelectedIndex(chart.getStyle().getBarFillType(idx).ordinal());
 			}
 		}
 	}
@@ -317,11 +315,11 @@ public class FillingModel extends MultipleOptionsModel {
 			if (!"".equals(symbolText)) {
 				if (isChart()) {
 					if (!updateBarsFillType(geo, FillingProperty.SYMBOL, null)) {
-						geo.setFillType(fillType);
+						geo.setFillType(FillType.SYMBOLS);
 						geo.setFillSymbol(symbolText);
 					}
 				} else {
-					geo.setFillType(fillType);
+					geo.setFillType(FillType.SYMBOLS);
 					geo.setFillSymbol(symbolText);
 				}
 				geo.updateVisualStyleRepaint(GProperty.HATCHING);
@@ -381,7 +379,7 @@ public class FillingModel extends MultipleOptionsModel {
 	}
 
 	public void applyFillType(int index) {
-		fillType = getFillTypeAt(index);
+		FillType fillType = getFillTypeAt(index);
 		GeoElement geo0 = getGeoAt(0);
 		if (fillType == FillType.IMAGE && geo0.getFillImage() != null) {
 			getFillingListener().setFillingImage(geo0.getImageFileName());
@@ -396,10 +394,10 @@ public class FillingModel extends MultipleOptionsModel {
 			GeoElement geo = getGeoAt(i);
 			if (isChart()) {
 				if (!updateBarsFillType(geo, FillingProperty.FILL_TYPE, null)) {
-					updateGeoFillType(geo);
+					updateGeoFillType(geo, fillType);
 				}
 			} else {
-				updateGeoFillType(geo);
+				updateGeoFillType(geo, fillType);
 			}
 		}
 		kernel.notifyRepaint();
@@ -408,7 +406,7 @@ public class FillingModel extends MultipleOptionsModel {
 		updateFillType(fillType);
 	}
 
-	private void updateGeoFillType(GeoElement geo) {
+	private void updateGeoFillType(GeoElement geo, FillType fillType) {
 		if (fillType == FillType.SYMBOLS && geo.getFillSymbol() == null) {
 			geo.setFillSymbol("$");
 		}
@@ -428,9 +426,9 @@ public class FillingModel extends MultipleOptionsModel {
 	private boolean updateBarsFillType(GeoElement geo, FillingProperty type,
 			String fileName) {
 		int selectedBarIndex = getFillingListener().getSelectedBarIndex();
-		ChartStyle algo = ((ChartStyleAlgo) geo.getParentAlgorithm()).getStyle();
+		ChartStyle algo = ((ChartStyleGeo) geo).getStyle();
 		if (selectedBarIndex == 0) {
-			int numBar = ((ChartStyleAlgo) geo.getParentAlgorithm()).getIntervals();
+			int numBar = ((ChartStyleGeo) geo).getIntervals();
 			for (int i = 1; i < numBar + 1; i++) {
 				algo.setBarFillType(null, i);
 				algo.setBarHatchDistance(-1, i);
@@ -443,7 +441,7 @@ public class FillingModel extends MultipleOptionsModel {
 		switch (type) {
 		default:
 		case FILL_TYPE:
-			algo.setBarFillType(getFillType(), selectedBarIndex);
+			algo.setBarFillType(getSelectedFillType(), selectedBarIndex);
 			algo.setBarHatchDistance(getDistanceValue(), selectedBarIndex);
 			algo.setBarHatchAngle(getAngleValue(), selectedBarIndex);
 			algo.setBarImage(null, selectedBarIndex);
@@ -548,7 +546,7 @@ public class FillingModel extends MultipleOptionsModel {
 	}
 
 	public boolean isChart() {
-		return getGeoAt(0).getParentAlgorithm() instanceof ChartStyleAlgo;
+		return getGeoAt(0) instanceof ChartStyleGeo;
 	}
 
 	public boolean hasGeoButton() {
@@ -559,10 +557,6 @@ public class FillingModel extends MultipleOptionsModel {
 	public boolean hasGeoTurtle() {
 		// its function must be clarified.
 		return hasGeoTurtle;
-	}
-
-	public FillType getFillType() {
-		return fillType;
 	}
 
 	public FillType getFillTypeAt(int index) {

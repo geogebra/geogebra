@@ -44,9 +44,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/dialog-warning.png")
 	ImageResource dialog_warning();
 
-	@Source("org/geogebra/common/icons/png/web/icon-dialog-warning.png")
-	ImageResource icon_dialog_warning();
-
 	@Source("org/geogebra/common/icons/png/web/question-mark.png")
 	ImageResource questionMark();
 
@@ -157,6 +154,10 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/ruler_protractor/protractor.svg")
 	SVGResource protractor();
 
+	@Source("org/geogebra/common/icons/svg/web/ruler_protractor/triangle_protractor.svg")
+	SVGResource triangle_protractor();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/alpha.svg")
 	SVGResource alpha();
+
 }

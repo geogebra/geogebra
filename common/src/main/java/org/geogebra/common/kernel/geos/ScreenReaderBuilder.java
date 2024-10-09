@@ -25,7 +25,7 @@ public class ScreenReaderBuilder {
 	/**
 	 * Default constructor
 	 */
-	public  ScreenReaderBuilder(Localization loc) {
+	public ScreenReaderBuilder(Localization loc) {
 		this.loc = loc;
 	}
 
@@ -33,7 +33,7 @@ public class ScreenReaderBuilder {
 	 * Constructor
 	 * @param isMobile whether the user is on a mobile device or desktop
 	 */
-	public  ScreenReaderBuilder(Localization loc, boolean isMobile) {
+	public ScreenReaderBuilder(Localization loc, boolean isMobile) {
 		this.isMobile = isMobile;
 		this.loc = loc;
 	}
@@ -92,13 +92,15 @@ public class ScreenReaderBuilder {
 	 * @param root formula to append
 	 */
 	public void appendLaTeX(String root, App app) {
+		TeXAtomSerializer serializer = getTexAtomSerializer(app);
 		TeXFormula texFormula = new TeXFormula();
 		texFormula.setLaTeX(root);
-		append(getTexAtomSerializer(app).serialize(texFormula.root));
+		append(serializer.serialize(texFormula.root));
 	}
 
 	private TeXAtomSerializer getTexAtomSerializer(App app) {
 		if (texAtomSerializer == null) {
+			app.getDrawEquation().checkFirstCall();
 			texAtomSerializer = new TeXAtomSerializer(ScreenReader.getSerializationAdapter(app));
 		}
 		return texAtomSerializer;

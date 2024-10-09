@@ -9,7 +9,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * abstract class for Commands with one list argument eg Mean[ &lt;List> ]
+ * abstract class for Commands with one list argument eg Mean[ &lt;List&gt; ]
  * 
  * if more than one argument, then they are put into a list
  * 
@@ -27,7 +27,7 @@ public abstract class CmdOneOrTwoListsFunction extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);

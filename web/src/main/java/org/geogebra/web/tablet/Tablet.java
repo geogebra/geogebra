@@ -3,11 +3,11 @@ package org.geogebra.web.tablet;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.geogebra3D.AppletFactory3D;
+import org.geogebra.web.html5.bridge.AttributeProvider;
 import org.geogebra.web.html5.bridge.RenderGgbElement;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 import org.geogebra.web.tablet.main.TabletDevice;
-import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.RootPanel;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -24,8 +24,7 @@ public class Tablet implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		if (RootPanel.getBodyElement().getAttribute("data-param-laf") != null
-		        && !"".equals(RootPanel.getBodyElement().getAttribute(
-		                "data-param-laf"))) {
+				&& !"".equals(RootPanel.getBodyElement().getAttribute("data-param-laf"))) {
 			// loading touch, ignore.
 			return;
 		}
@@ -53,14 +52,14 @@ public class Tablet implements EntryPoint {
 	}
 
 	/**
-	 * @param el
+	 * @param options
 	 *            article element
 	 * @param clb
 	 *            rendering finished callback
 	 */
-	public void renderArticleElement(final Element el,
+	public void renderArticleElement(final Object options,
 			JsConsumer<Object> clb) {
-		GeoGebraFrameFull.renderArticleElement(el,
+		GeoGebraFrameFull.renderArticleElement(AttributeProvider.as(options),
 				new AppletFactory3D(), new TabletLookAndFeel(), clb);
 	}
 

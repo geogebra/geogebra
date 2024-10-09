@@ -82,7 +82,11 @@ public class JSONParserGGT {
 		material.setVisibility(getString(obj, "visibility"));
 		material.setMultiuser(getBoolean(obj, "multiuser", false)); // MOW
 		material.setSharedWithGroup(getBoolean(obj, "shared_with_group", false)); // MOW
-		material.setFileName(getString(obj, "fileUrl"));
+		String fileUrl = getString(obj, "fileUrl");
+		if (fileUrl.isEmpty()) {
+			fileUrl = getString(obj, "url");
+		}
+		material.setFileName(fileUrl);
 
 		material.setSharingKey(sharingKey);
 		material.setURL(getString(obj, "url"));
@@ -236,7 +240,7 @@ public class JSONParserGGT {
 		if (value == null || "".equals(value)) {
 			return def;
 		}
-		return "0".equals(value) ? false : true;
+		return !"0".equals(value);
 	}
 
 	private static boolean getBoolean(JSONObject obj, String name, boolean def) {

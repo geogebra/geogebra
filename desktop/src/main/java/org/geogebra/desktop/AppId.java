@@ -10,12 +10,6 @@ import com.sun.jna.ptr.PointerByReference;
 
 public class AppId {
 
-	public static void main(String[] args) throws Exception {
-		setCurrentProcessExplicitAppUserModelID("geogebra.AppId");
-
-		System.out.println(getCurrentProcessExplicitAppUserModelID());
-	}
-
 	// DO NOT DO THIS, IT'S JUST FOR TESTING PURPOSE AS I'M NOT FREEING THE
 	// MEMORY
 	// AS REQUESTED BY THE DOCUMENTATION:

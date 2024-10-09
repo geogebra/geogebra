@@ -113,6 +113,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 
 	/**
 	 * @param caretLocation position of caret relative to view
+	 * @param bounds input field bounds in view (in pixels)
 	 */
 	public void selectEntryAt(GPoint caretLocation, GRectangle2D bounds) {
 		if (caretLocation != null) {
@@ -128,11 +129,6 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	protected void setInputBox(GeoInputBox geoInputBox) {
 		this.geoInputBox = geoInputBox;
 		this.drawInputBox = (DrawInputBox) view.getDrawableFor(geoInputBox);
-	}
-
-	@Override
-	public void onInsertString() {
-		// nothing to do.
 	}
 
 	@Override

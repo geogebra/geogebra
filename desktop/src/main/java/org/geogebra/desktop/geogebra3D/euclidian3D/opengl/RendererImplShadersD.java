@@ -1,9 +1,6 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GL2ES2;
-import javax.media.opengl.GL2GL3;
-import javax.media.opengl.fixedfunc.GLLightingFunc;
+import java.nio.charset.StandardCharsets;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
@@ -16,9 +13,13 @@ import org.geogebra.common.geogebra3D.main.FragmentShader;
 import org.geogebra.common.geogebra3D.main.VertexShader;
 import org.geogebra.common.jre.openGL.GLBufferIndicesJre;
 import org.geogebra.common.jre.openGL.GLBufferJre;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
+
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL2ES2;
+import com.jogamp.opengl.GL2GL3;
+import com.jogamp.opengl.fixedfunc.GLLightingFunc;
 
 /**
  * Renderer using shaders
@@ -86,9 +87,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 		// Compile the vertexShader String into a program.
 		String[] vlines = new String[] { vertexShaderString };
 
-		// for (int i = 0; i < vlines.length; i++)
-		// System.out.println(vlines[i]);
-
 		int[] vlengths = new int[] { vlines[0].length() };
 		jogl.getGL2ES2().glShaderSource(vertShader, vlines.length,
 				vlines, vlengths, 0);
@@ -110,7 +108,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 					logLength[0], (int[]) null, 0, log, 0);
 
 			Log.error("Error compiling the vertex shader: "
-					+ new String(log, Charsets.getUtf8()));
+					+ new String(log, StandardCharsets.UTF_8));
 			AppD.exit(1);
 		}
 
@@ -136,7 +134,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 					logLength[0], (int[]) null, 0, log, 0);
 
 			Log.error("Error compiling the fragment shader: "
-					+ new String(log, Charsets.getUtf8()));
+					+ new String(log, StandardCharsets.UTF_8));
 			AppD.exit(1);
 		}
 
@@ -345,15 +343,11 @@ public class RendererImplShadersD extends RendererImplShaders {
 	@Override
 	public void setBufferLeft() {
 		jogl.getGL2().glDrawBuffer(GL2GL3.GL_BACK_LEFT);
-		// zspace seems to be swapped
-		// jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT);
 	}
 
 	@Override
 	public void setBufferRight() {
 		jogl.getGL2().glDrawBuffer(GL2GL3.GL_BACK_RIGHT);
-		// zspace seems to be swapped
-		// jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT);
 	}
 
 	@Override

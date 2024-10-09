@@ -17,7 +17,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -47,10 +46,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
 import javax.swing.text.StyleConstants;
@@ -59,9 +54,9 @@ import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.TextInputDialog;
+import org.geogebra.common.gui.dialog.handler.TextBuilder;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.gui.util.TableSymbolsLaTeX;
@@ -70,9 +65,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MyError;
@@ -102,14 +95,12 @@ public class TextInputDialogD extends InputDialogD
 		implements DocumentListener, TextInputDialog {
 
 	// editor and preview panels
-	private DynamicTextInputPane editor;
-	private TextPreviewPanelD textPreviewer;
+	private final DynamicTextInputPane editor;
+	private final TextPreviewPanelD textPreviewer;
 
 	// GUI
 	private JCheckBox cbLaTeX;
-	private JToolBar toolBar;
 	private JPanel previewPanel;
-	private JPanel editPanel;
 	private JPanel toolPanel;
 	private PopupMenuButtonD btInsertLaTeX;
 	private PopupMenuButtonD btInsertUnicode;
@@ -140,6 +131,16 @@ public class TextInputDialogD extends InputDialogD
 	// map to hold LatexButton menu titles
 	private HashMap<String, JMenuItem> laTexButtonTitleMap;
 	private boolean mayDetectLaTeX = true;
+
+	/**
+	 * used for update to avoid several updates
+	 */
+	private boolean handlingDocumentEventOff = false;
+
+	/**
+	 * false on init, become true when an edit occurs
+	 */
+	private boolean editOccurred = false;
 
 	/**
 	 * Input Dialog for a GeoText object
@@ -181,7 +182,7 @@ public class TextInputDialogD extends InputDialogD
 		editor.getDocument().addDocumentListener(this);
 
 		// add key listener to the editor
-		editor.addKeyListener(new MyKeyListener());
+		editor.addKeyListener(new TextInputKeyListener());
 
 		wrappedDialog.setResizable(true);
 
@@ -267,7 +268,7 @@ public class TextInputDialogD extends InputDialogD
 		// build toolbar
 		toolPanel = new JPanel(new BorderLayout());
 
-		toolBar = new JToolBar();
+		JToolBar toolBar = new JToolBar();
 		toolBar.add(cbLaTeX);
 		toolBar.add(btInsertLaTeX);
 		toolBar.add(Box.createRigidArea(new Dimension(5, 1)));
@@ -287,7 +288,7 @@ public class TextInputDialogD extends InputDialogD
 		editHeader = new JLabel();
 		editHeader.setBorder(BorderFactory.createEmptyBorder(2, 2, 0, 2));
 
-		editPanel = new JPanel(new BorderLayout(2, 2));
+		JPanel editPanel = new JPanel(new BorderLayout(2, 2));
 		editPanel.add(editHeader, BorderLayout.NORTH);
 		editPanel.add(inputPanel, BorderLayout.CENTER);
 		editPanel.add(toolPanel, BorderLayout.SOUTH);
@@ -677,7 +678,7 @@ public class TextInputDialogD extends InputDialogD
 
 		this.editGeo = geo;
 		boolean createText = geo == null;
-		isLaTeX = geo == null ? false : geo.isLaTeX();
+		isLaTeX = geo != null && geo.isLaTeX();
 
 		// TODO: not sure if this old code is needed anymore
 		if (createText) {
@@ -827,11 +828,11 @@ public class TextInputDialogD extends InputDialogD
 
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue
-			ex.printStackTrace();
+			Log.debug(ex);
 		}
 	}
 
-	private class MyKeyListener extends KeyAdapter {
+	private class TextInputKeyListener extends KeyAdapter {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if ((e.isControlDown() || AppD.isControlDown(e))
@@ -850,7 +851,7 @@ public class TextInputDialogD extends InputDialogD
 					Element elem;
 					int i;
 					for (i = editor.getCaretPosition() - 1; i >= 0; i--) {
-						elem = editor.doc.getCharacterElement(i);
+						elem = editor.getDoc().getCharacterElement(i);
 						// give focus to first dynamic text field
 						if (elem.getName().equals("component")) {
 							DynamicTextField tf = (DynamicTextField) StyleConstants
@@ -864,9 +865,9 @@ public class TextInputDialogD extends InputDialogD
 					editor.setCaretPosition(i + 1);
 					break;
 				case KeyEvent.VK_RIGHT:
-					for (i = editor.getCaretPosition(); i < editor.doc
+					for (i = editor.getCaretPosition(); i < editor.getDoc()
 							.getLength(); i++) {
-						elem = editor.doc.getCharacterElement(i);
+						elem = editor.getDoc().getCharacterElement(i);
 						// give focus to first dynamic text field
 						if (elem.getName().equals("component")) {
 							DynamicTextField tf = (DynamicTextField) StyleConstants
@@ -902,8 +903,8 @@ public class TextInputDialogD extends InputDialogD
 	public void exitTextField(DynamicTextField tf, boolean isLeft) {
 		Element elem;
 		int i;
-		for (i = 0; i < editor.doc.getLength(); i++) {
-			elem = editor.doc.getCharacterElement(i);
+		for (i = 0; i < editor.getDoc().getLength(); i++) {
+			elem = editor.getDoc().getCharacterElement(i);
 			// find elem corresponding the text field
 			if (elem.getName().equals("component")) {
 				if (tf == (DynamicTextField) StyleConstants
@@ -980,16 +981,6 @@ public class TextInputDialogD extends InputDialogD
 	public void removeUpdate(DocumentEvent e) {
 		handleDocumentEvent();
 	}
-
-	/**
-	 * used for update to avoid several updates
-	 */
-	private boolean handlingDocumentEventOff = false;
-
-	/**
-	 * false on init, become true when an edit occurs
-	 */
-	private boolean editOccurred = false;
 
 	/**
 	 * 
@@ -1120,11 +1111,9 @@ public class TextInputDialogD extends InputDialogD
 			boolean createText = editGeo == null;
 			handler.resetError();
 			if (createText) {
-				kernel.getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionHandling(inputValue,
-								false, handler, true, getCallback(callback));
+				new TextBuilder(app, startPoint, rw, isLaTeX)
+						.createText(inputValue, handler, callback);
 				return;
-
 			}
 
 			// change existing text
@@ -1170,97 +1159,6 @@ public class TextInputDialogD extends InputDialogD
 		app.setMoveMode();
 	}
 
-	protected AsyncOperation<GeoElementND[]> getCallback(
-			final AsyncOperation<Boolean> callback) {
-		return ret -> {
-			if (ret != null && ret[0] instanceof GeoText) {
-				Kernel kernel = ret[0].getKernel();
-				GeoText t = (GeoText) ret[0];
-				t.setLaTeX(isLaTeX, true);
-
-				// make sure for new LaTeX texts we get nice "x"s
-				if (isLaTeX) {
-					t.setSerifFont(true);
-				}
-
-				EuclidianViewInterfaceCommon activeView = kernel
-						.getApplication().getActiveEuclidianView();
-
-				if (startPoint.isLabelSet()) {
-					t.checkVisibleIn3DViewNeeded();
-					try {
-						t.setStartPoint(startPoint);
-					} catch (Exception e) {
-						// circular def: ignore
-					}
-				} else {
-
-					// changed to RealWorld
-					// not absolute
-					// startpoint contains mouse coords
-					// t.setAbsoluteScreenLoc(euclidianView.toScreenCoordX(startPoint.inhomX),
-					// euclidianView.toScreenCoordY(startPoint.inhomY));
-					// t.setAbsoluteScreenLocActive(true);
-					if (rw) {
-						Coords coords = startPoint.getInhomCoordsInD3();
-						t.setRealWorldLoc(
-								activeView.toRealWorldCoordX(coords.getX()),
-								activeView
-										.toRealWorldCoordY(coords.getY()));
-						t.setAbsoluteScreenLocActive(false);
-					} else {
-						Coords coords = startPoint.getInhomCoordsInD3();
-						t.setAbsoluteScreenLoc((int) coords.getX(),
-								(int) coords.getY());
-						t.setAbsoluteScreenLocActive(true);
-
-					}
-
-					// when not a point clicked, show text only in active
-					// view
-					if (activeView.isEuclidianView3D()) {
-						// we need to add it to 3D view since by default
-						// it may not
-						kernel.getApplication().addToViews3D(t);
-						app.removeFromEuclidianView(t);
-						t.setVisibleInViewForPlane(false);
-						kernel.getApplication().removeFromViewsForPlane(t);
-					} else if (activeView.isDefault2D()) {
-						if (kernel.getApplication()
-								.isEuclidianView3Dinited()) {
-							kernel.getApplication().removeFromViews3D(t);
-						} else {
-							t.removeViews3D();
-						}
-						t.setVisibleInViewForPlane(false);
-						kernel.getApplication().removeFromViewsForPlane(t);
-					} else { // view for plane
-						app.removeFromEuclidianView(t);
-						if (kernel.getApplication()
-								.isEuclidianView3Dinited()) {
-							kernel.getApplication().removeFromViews3D(t);
-						} else {
-							t.removeViews3D();
-						}
-						t.setVisibleInViewForPlane(true);
-						kernel.getApplication().addToViewsForPlane(t);
-					}
-				}
-
-				// make sure (only) the output of the text tool is selected
-				activeView.getEuclidianController()
-						.memorizeJustCreatedGeos(ret);
-
-				t.updateRepaint();
-				app.storeUndoInfo();
-				callback.callback(true);
-				return;
-			}
-			callback.callback(false);
-			return;
-
-		};
-	}
 
 	@Override
 	public void handleDialogVisibilityChange(boolean isVisible) {

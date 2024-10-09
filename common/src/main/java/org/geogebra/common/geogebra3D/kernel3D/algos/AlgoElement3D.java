@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
       //other outputs <br> &nbsp;&nbsp;
       //eventually remember the inputs in special members <br> &nbsp;&nbsp;
       setInputOutput(new GeoElement[] {... inputs}, new GeoElement[] {... outputs}); <br> 
-	}
+    }
     </code></li>
  * <li>Create a constructor with a label :
  * <p>
@@ -55,21 +55,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * <li>Create a <code>getGeo()</code> method for each output you want the kernel
  * be able to catch</li>
  * </ul>
- * 
- * <h3>See</h3>
- * <ul>
- * <li>algo2command.properties file in geogebra.kernel to create a key for
- * AlgoNew3D :
- * <p>
- * <code> 
-	     AlgoNew3D=New3D
-	     </code></li>
- * </ul>
- * 
- * 
- * 
- * @author ggb3D
- *
  */
 abstract public class AlgoElement3D extends AlgoElement {
 
@@ -105,7 +90,11 @@ abstract public class AlgoElement3D extends AlgoElement {
 	 *            elements in output
 	 */
 	protected void setInputOutput(GeoElement[] a_input, GeoElement[] a_output) {
-		setInputOutput(a_input, a_output, true);
+
+		input = a_input;
+		setOutput(a_output);
+		setInputOutput(true);
+
 	}
 
 	/**
@@ -116,34 +105,14 @@ abstract public class AlgoElement3D extends AlgoElement {
 	 *            elements in input
 	 * @param efficientInput
 	 *            input used for updating
-	 * @param a_output
-	 *            elements in output
+	 * @param singleOutput
+	 *            single output element
 	 */
 	protected void setInputOutput(GeoElement[] input,
-			GeoElement[] efficientInput, GeoElement[] a_output) {
+			GeoElement[] efficientInput, GeoElement singleOutput) {
 		this.input = input;
-		this.setOutput(a_output);
+		this.setOnlyOutput(singleOutput);
 		setEfficientDependencies(input, efficientInput);
-	}
-
-	/**
-	 * set the {@link GeoElement} in input and in output. call finally
-	 * {@link #setInputOutput()}
-	 * 
-	 * @param a_input
-	 *            elements in input
-	 * @param a_output
-	 *            elements in output
-	 * @param setDependencies
-	 *            says if the dependencies have to be set
-	 */
-	protected void setInputOutput(GeoElement[] a_input, GeoElement[] a_output,
-			boolean setDependencies) {
-
-		input = a_input;
-		setOutput(a_output);
-		setInputOutput(setDependencies);
-
 	}
 
 	/**

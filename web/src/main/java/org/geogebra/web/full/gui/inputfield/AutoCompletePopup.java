@@ -2,14 +2,18 @@ package org.geogebra.web.full.gui.inputfield;
 
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.main.localization.AutocompleteProvider;
+import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.util.MatchedString;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.html5.gui.Shades;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SharedResources;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.InlineHTML;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -17,7 +21,6 @@ public class AutoCompletePopup extends GPopupMenuW {
 
 	private final AutocompleteProvider suggestions;
 	private final AutoCompleteW component;
-	private int prefixLength = 0;
 
 	/**
 	 * constructor for the command autocomplete popup
@@ -33,7 +36,6 @@ public class AutoCompletePopup extends GPopupMenuW {
 	}
 
 	private void fillContent(final String curWord) {
-		prefixLength = curWord.length();
 		suggestions.getCompletions(curWord).forEach(this::addRow);
 	}
 
@@ -43,15 +45,16 @@ public class AutoCompletePopup extends GPopupMenuW {
 		submenu.addStyleName("customScrollbar");
 		for (String line: cpl.syntaxes) {
 			AriaMenuItem item = new AriaMenuItem(line.replaceAll("[<>]", ""),
-					false, () -> {
+					null, () -> {
 				component.insertString(line);
 				hide();
 			});
+			item.addStyleName(Shades.NEUTRAL_900.getFgColName());
 			item.setFocusable(false);
 			submenu.addItem(item);
 		}
-		AriaMenuItem menuItem = new AriaMenuItem(highlightSuffix(cpl.command),
-				true, submenu);
+		AriaMenuItem menuItem = new AriaMenuItem(highlightSuffix(cpl.match),
+				submenu);
 		menuItem.setSubmenuHeading(buildSubmenuHeading(cpl));
 		menuItem.addStyleName("no-image");
 		menuItem.setFocusable(false);
@@ -61,8 +64,8 @@ public class AutoCompletePopup extends GPopupMenuW {
 	private Widget buildSubmenuHeading(AutocompleteProvider.Completion command) {
 		FlowPanel heading = new FlowPanel();
 		heading.addStyleName("autocompleteSyntaxHeading");
-		heading.add(new Label(command.command));
-		if (!getApp().isExamStarted()) {
+		heading.add(new Label(command.getCommand()));
+		if (!GlobalScope.examController.isExamActive()) {
 			heading.add(createHelpButton(command));
 		}
 		return heading;
@@ -76,10 +79,9 @@ public class AutoCompletePopup extends GPopupMenuW {
 		return button;
 	}
 
-	private String highlightSuffix(String command) {
-		String prefix = command.substring(0, prefixLength);
-		String suffix = command.substring(prefixLength);
-		return prefix + "<strong>" + suffix + "</strong>";
+	private InlineHTML highlightSuffix(MatchedString command) {
+		String[] parts = command.getParts();
+		return new InlineHTML(parts[0] + "<strong>" + parts[1] + "</strong>" + parts[2]);
 	}
 
 	/**
@@ -175,6 +177,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 	protected void openSubmenu(AriaMenuItem item) {
 		super.openSubmenu(item);
 		item.getSubMenu().selectItem(0);
+		item.getSubMenu().getItemAt(0).addStyleName("fakeFocus");
 	}
 
 	/**

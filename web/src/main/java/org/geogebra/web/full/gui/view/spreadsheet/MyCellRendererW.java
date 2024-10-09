@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -10,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -385,35 +385,38 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		String latex = null;
 		if (geo.isEmptySpreadsheetCell()) {
 			text = "";
-		} else if (geo.isIndependent()) {
-			if (geo.isLaTeXDrawableGeo()
-					&& (!geo.isGeoText() || ((GeoText) geo).isLaTeX())) {
-
-				latex = geo.getLaTeXdescription();
-			}
-			text = geo.toValueString(StringTemplate.defaultTemplate);
 		} else {
-			switch (kernel.getAlgebraStyleSpreadsheet()) {
-			default:
-			case Kernel.ALGEBRA_STYLE_VALUE:
+			StringTemplate template = StringTemplate.defaultTemplate.deriveWithFractions(false);
+			if (geo.isIndependent()) {
 				if (geo.isLaTeXDrawableGeo()
 						&& (!geo.isGeoText() || ((GeoText) geo).isLaTeX())) {
 
 					latex = geo.getLaTeXdescription();
 				}
-				text = geo.toValueString(StringTemplate.defaultTemplate);
-				break;
+				text = geo.toValueString(template);
+			} else {
+				switch (kernel.getAlgebraStyleSpreadsheet()) {
+				default:
+				case Kernel.ALGEBRA_STYLE_VALUE:
+					if (geo.isLaTeXDrawableGeo()
+							&& (!geo.isGeoText() || ((GeoText) geo).isLaTeX())) {
 
-			case Kernel.ALGEBRA_STYLE_DESCRIPTION:
-				text = geo
-				        .getDefinitionDescription(StringTemplate.defaultTemplate);
-				break;
+						latex = geo.getLaTeXdescription();
+					}
+					text = geo.toValueString(template);
+					break;
 
-			case Kernel.ALGEBRA_STYLE_DEFINITION:
-				text = geo
-				        .getDefinition(StringTemplate.defaultTemplate);
-				break;
+				case Kernel.ALGEBRA_STYLE_DESCRIPTION:
+					text = geo
+							.getDefinitionDescription(template);
+					break;
 
+				case Kernel.ALGEBRA_STYLE_DEFINITION:
+					text = geo
+							.getDefinition(template);
+					break;
+
+				}
 			}
 		}
 		
@@ -534,7 +537,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 			lb.addChangeHandler(ce -> {
 				if (view.allowSpecialEditor()) {
-					list.setSelectedIndex(lb.getSelectedIndex(), true);
+					list.setSelectedIndexUpdate(lb.getSelectedIndex());
 				}
 			});
 

@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.statistics;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -25,7 +26,7 @@ public class CmdFrequency extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		GeoElement frequency = processFrequency(c);
 		frequency.setLabel(c.getLabel());
 		return new GeoElement[]{frequency};

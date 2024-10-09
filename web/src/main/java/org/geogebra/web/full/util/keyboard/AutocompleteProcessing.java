@@ -33,11 +33,6 @@ public class AutocompleteProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public void setKeyBoardModeText(boolean b) {
-		//
-	}
-
-	@Override
 	public void onEnter() {
 		NativeEvent event = Document.get().createKeyDownEvent(false, false,
 				false, false, ENTER);
@@ -79,11 +74,6 @@ public class AutocompleteProcessing implements KeyboardListener {
 		} else if (type == ArrowType.right) {
 			field.onArrowRight();
 		}
-	}
-
-	@Override
-	public boolean resetAfterEnter() {
-		return false;
 	}
 
 	@Override

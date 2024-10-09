@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.awt.GColor;
@@ -19,7 +20,6 @@ import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.MacroConstruction;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.ChartStyle;
-import org.geogebra.common.kernel.algos.ChartStyleAlgo;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
+import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAudio;
@@ -84,6 +85,7 @@ import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -441,7 +443,7 @@ public class ConsElementXMLHandler {
 							: Kernel.COORD_CARTESIAN);
 		} else if (geo instanceof GeoPolyLine) {
 			geo.setVisibleInView3D(false);
-		} else if (geo instanceof GeoFunction) {
+		} else if (geo instanceof GeoFunction || geo instanceof EquationValue) {
 			geo.setFixed(false);
 		} else if (geo instanceof GeoAngle) {
 			((GeoAngle) geo).setEmphasizeRightAngle(true);
@@ -452,7 +454,7 @@ public class ConsElementXMLHandler {
 			geo.setObjColor(GColor.BLACK);
 			((GeoButton) geo).setHeight(DEFAULT_BUTTON_HEIGHT);
 		} else if (geo instanceof GeoInputBox) {
-			geo.setObjColor(GColor.DEFAULT_INPUTBOX_TEXT);
+			geo.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
 		}
 	}
 
@@ -1133,7 +1135,7 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleExtraTag(LinkedHashMap<String, String> attrs) {
-		ChartStyle algo = ((ChartStyleAlgo) geo.getParentAlgorithm()).getStyle();
+		ChartStyle algo = ((ChartStyleGeo) geo).getStyle();
 		if (!"".equals(attrs.get("key")) && !"".equals(attrs.get("value"))
 				&& !"".equals(attrs.get("barNumber"))) {
 			switch (attrs.get("key")) {
@@ -1589,7 +1591,7 @@ public class ConsElementXMLHandler {
 		try {
 			if (geo.isGeoList()) {
 				((GeoList) geo).setSelectedIndex(
-						Integer.parseInt(attrs.get("val")), false);
+						Integer.parseInt(attrs.get("val")));
 			}
 			return true;
 		} catch (RuntimeException e) {
@@ -1666,7 +1668,7 @@ public class ConsElementXMLHandler {
 		try {
 			handleMatrixConicOrQuadric(attrs);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1676,11 +1678,8 @@ public class ConsElementXMLHandler {
 	 * 
 	 * @param attrs
 	 *            attributes
-	 * @throws Exception
-	 *             exception
 	 */
-	private void handleMatrixConicOrQuadric(LinkedHashMap<String, String> attrs)
-			throws Exception {
+	private void handleMatrixConicOrQuadric(LinkedHashMap<String, String> attrs) {
 		if (geo.isGeoQuadric()) {
 			if (geo.isDefaultGeo()) { // avoid setting for default geo
 				return;
@@ -1858,7 +1857,7 @@ public class ConsElementXMLHandler {
 
 	private void handleOrdering(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setOrdering(Integer.parseInt(attrs.get("val")));
+			geo.setOrdering(Double.parseDouble(attrs.get("val")));
 		} catch (RuntimeException e) {
 			// no or incorrect ordering
 		}
@@ -2048,7 +2047,7 @@ public class ConsElementXMLHandler {
 		if (pendingLabel != null) {
 			geo.setLoadedLabel(pendingLabel);
 			pendingLabel = null;
-		} else {
+		} else if (startPointList.stream().noneMatch(pair -> pair.locateable == geo)) {
 			xmlHandler.kernel.notifyUpdateVisualStyle(geo, GProperty.COMBINED);
 		}
 	}
@@ -2137,7 +2136,7 @@ public class ConsElementXMLHandler {
 	}
 
 	/**
-	 * Handle start tag inside &lt;element>
+	 * Handle start tag inside &lt;element&gt;
 	 * 
 	 * @param eName
 	 *            element name
@@ -2387,6 +2386,9 @@ public class ConsElementXMLHandler {
 			case "startStyle":
 				handleSegmentStartStyle(attrs);
 				break;
+			case "strokeCoords":
+				handleStrokeCoords(attrs);
+				break;
 			case "showTrimmed":
 				handleShowTrimmed(attrs);
 				break;
@@ -2434,6 +2436,19 @@ public class ConsElementXMLHandler {
 			}
 		}
 
+	}
+
+	private void handleStrokeCoords(LinkedHashMap<String, String> attrs) {
+		String coords = attrs.get("val");
+		if (!StringUtil.empty(coords) && geo instanceof GeoLocusStroke) {
+			String[] coordsRaw = coords.split(",");
+			double[] coordValues = new double[coordsRaw.length];
+			for (int i = 0; i < coordsRaw.length; i++) {
+				coordValues[i] = Double.parseDouble(coordsRaw[i]);
+			}
+			((GeoLocusStroke) geo).setDefined(true);
+			((GeoLocusStroke) geo).setCoords(coordValues);
+		}
 	}
 
 	private void handleDynamicCaption(LinkedHashMap<String, String> attrs) {
@@ -2505,13 +2520,15 @@ public class ConsElementXMLHandler {
 	private void processStartPointList() {
 		try {
 			AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
-
+			List<Locateable> changedLocateables = getLocateablesFromStartPointList();
 			for (LocateableExpPair pair : startPointList) {
 				GeoPointND P = pair.point != null ? pair.point
 						: algProc.evaluateToPoint(pair.exp,
 								ErrorHelper.silent(), true);
 				pair.locateable.setStartPoint(P, pair.number);
-
+			}
+			for (Locateable updated: changedLocateables) {
+				updated.updateVisualStyle(GProperty.COMBINED);
 			}
 		} catch (Exception e) {
 			startPointList.clear();
@@ -2519,6 +2536,18 @@ public class ConsElementXMLHandler {
 			addError("Invalid start point: " + e);
 		}
 		startPointList.clear();
+	}
+
+	private ArrayList<Locateable> getLocateablesFromStartPointList() {
+		ArrayList<Locateable> changedLocateables = new ArrayList<>(startPointList.size());
+		// use list instead of set to maintain order
+		for (LocateableExpPair pair: startPointList) {
+			if (changedLocateables.isEmpty()
+				|| changedLocateables.get(changedLocateables.size() - 1) != pair.locateable) {
+					changedLocateables.add(pair.locateable);
+			}
+		}
+		return changedLocateables;
 	}
 
 	private void processLinkedGeoList() {

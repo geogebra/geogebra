@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.inputbox.EditorContent;
@@ -90,6 +91,31 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		this(cons, linkedGeo);
 		this.labelOffsetX = labelOffsetX;
 		this.labelOffsetY = labelOffsetY;
+	}
+
+	/**
+	 *
+	 * @param geo to check.
+	 * @return if geo is linkable to inputBox.
+	 */
+	public static boolean isGeoLinkable(GeoElement geo) {
+		if (geo.isGeoImage() || geo.isGeoButton() || geo.isGeoBoolean()) {
+			return false;
+		}
+
+		if (hasCommand(geo.getDefinition())) {
+			return false;
+		}
+
+		return !geo.isCommandOutput();
+	}
+
+	private static boolean hasCommand(ExpressionNode node) {
+		return node != null && node.inspect(
+			t -> {
+				return t.isGeoElement() && ((GeoElement) t).isCommandOutput();
+			}
+		);
 	}
 
 	@Override

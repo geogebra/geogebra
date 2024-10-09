@@ -3,10 +3,9 @@ package org.geogebra.web.html5.gui.util;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.gwtproject.dom.client.Touch;
 import org.gwtproject.event.dom.client.MouseUpEvent;
-import org.gwtproject.event.dom.client.MouseUpHandler;
 import org.gwtproject.event.dom.client.TouchEndEvent;
-import org.gwtproject.event.dom.client.TouchEndHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
+import org.gwtproject.event.shared.HandlerRegistrations;
 import org.gwtproject.user.client.ui.Widget;
 
 /**
@@ -28,49 +27,34 @@ public abstract class ClickEndHandler {
 	public static HandlerRegistration init(Widget w,
 			final ClickEndHandler handler) {
 		final HandlerRegistration mouseReg = w.addDomHandler(
-				new MouseUpHandler() {
-			@Override
-			public void onMouseUp(MouseUpEvent event) {
-				if (handler.preventDefault) {
-					event.preventDefault();
-				}
-				if (handler.stopPropagation) {
-					event.stopPropagation();
-				}
-				if (!CancelEventTimer.cancelMouseEvent()) {
-					handler.onClickEnd(event.getX(), event.getY(),
-					        PointerEventType.MOUSE);
-				}
-			}
-		}, MouseUpEvent.getType());
+				event -> {
+					if (handler.preventDefault) {
+						event.preventDefault();
+					}
+					if (handler.stopPropagation) {
+						event.stopPropagation();
+					}
+					if (!CancelEventTimer.cancelMouseEvent()) {
+						handler.onClickEnd(event.getX(), event.getY(),
+								PointerEventType.MOUSE);
+					}
+				}, MouseUpEvent.getType());
 
-		final HandlerRegistration touchReg = w
-				.addBitlessDomHandler(
-				new TouchEndHandler() {
-			@Override
-			public void onTouchEnd(TouchEndEvent event) {
-				if (handler.preventDefault) {
-					event.preventDefault();
-				}
-				if (handler.stopPropagation) {
-					event.stopPropagation();
-				}
-				Touch removedTouch = event.getChangedTouches().get(0);
-				handler.onClickEnd(removedTouch.getClientX(),
-						removedTouch.getClientY(),
-				        PointerEventType.TOUCH);
-				CancelEventTimer.touchEventOccured();
-			}
-		}, TouchEndEvent.getType());
-		return new HandlerRegistration() {
-
-			@Override
-			public void removeHandler() {
-				mouseReg.removeHandler();
-				touchReg.removeHandler();
-
-			}
-		};
+		final HandlerRegistration touchReg = w.addBitlessDomHandler(
+				event -> {
+					if (handler.preventDefault) {
+						event.preventDefault();
+					}
+					if (handler.stopPropagation) {
+						event.stopPropagation();
+					}
+					Touch removedTouch = event.getChangedTouches().get(0);
+					handler.onClickEnd(removedTouch.getClientX(),
+							removedTouch.getClientY(),
+							PointerEventType.TOUCH);
+					CancelEventTimer.touchEventOccured();
+				}, TouchEndEvent.getType());
+		return HandlerRegistrations.compose(mouseReg, touchReg);
 	}
 
 	/** whether default browser behavior needs preventing */
@@ -90,10 +74,10 @@ public abstract class ClickEndHandler {
 	 * be called, if the handling-method is canceled for the event.
 	 * 
 	 * @param preventDefault
-	 *            whether or not event.preventDefault() should be called for
+	 *            whether event.preventDefault() should be called for
 	 *            MouseUpEvents and TouchEndEvents
 	 * @param stopPropagation
-	 *            whether or not event.stopPropagation() should be called for
+	 *            whether event.stopPropagation() should be called for
 	 *            MouseUpEvents and TouchEndEvents
 	 */
 	public ClickEndHandler(boolean preventDefault, boolean stopPropagation) {
@@ -118,7 +102,7 @@ public abstract class ClickEndHandler {
 	 * called, if the handling-method is canceled for the event.
 	 * 
 	 * @param preventDefault
-	 *            whether or not event.preventDefault() should be called for
+	 *            whether event.preventDefault() should be called for
 	 *            MouseUpEvents and TouchEndEvents
 	 */
 	public void setPreventDefault(boolean preventDefault) {
@@ -130,7 +114,7 @@ public abstract class ClickEndHandler {
 	 * called, if the handling-method is canceled for the event.
 	 * 
 	 * @param stopPropagation
-	 *            whether or not event.stopPropagation() should be called for
+	 *            whether event.stopPropagation() should be called for
 	 *            MouseUpEvents and TouchEndEvents
 	 */
 	public void setStopPropagation(boolean stopPropagation) {
@@ -144,10 +128,10 @@ public abstract class ClickEndHandler {
 	 * @param w
 	 *            Widget that the handlers are attached to
 	 * @param preventDefault
-	 *            whether or not event.preventDefault() should be called for
+	 *            whether event.preventDefault() should be called for
 	 *            MouseUpEvents and TouchEndEvents
 	 * @param stopPropagation
-	 *            whether or not event.stopPropagation() should be called for
+	 *            whether event.stopPropagation() should be called for
 	 *            MouseUpEvents and TouchEndEvents
 	 */
 	public static void initDefaults(Widget w, boolean preventDefault,

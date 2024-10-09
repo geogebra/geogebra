@@ -1,56 +1,43 @@
 package org.geogebra.common.properties.impl.algebra;
 
+import java.util.Arrays;
+
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
+import org.geogebra.common.main.settings.AlgebraSettings;
+import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 
 /**
  * Property for setting sort by in Algebra view.
  */
-public class SortByProperty extends AbstractEnumerableProperty {
+public class SortByProperty extends AbstractNamedEnumeratedProperty<AlgebraView.SortMode> {
 
-    private AlgebraView.SortMode[] sortModes = {
-            AlgebraView.SortMode.DEPENDENCY,
-            AlgebraView.SortMode.TYPE,
-            AlgebraView.SortMode.ORDER,
-            AlgebraView.SortMode.LAYER
-    };
+	private AlgebraSettings algebraSettings;
 
-    private AlgebraView algebraView;
+	/**
+	 * Constructs a sort by property object.
+	 * @param algebraSettings algebra view
+	 * @param localization localization
+	 */
+	public SortByProperty(AlgebraSettings algebraSettings, Localization localization) {
+		super(localization, "SortBy");
+		this.algebraSettings = algebraSettings;
+		setupValues();
+	}
 
-    /**
-     * Constructs a sort by property object.
-     *
-     * @param algebraView  algebra view
-     * @param localization localization
-     */
-    public SortByProperty(AlgebraView algebraView, Localization localization) {
-        super(localization, "SortBy");
-        this.algebraView = algebraView;
-        setupValues();
-    }
+	private void setupValues() {
+		setValues(AlgebraView.SortMode.DEPENDENCY, AlgebraView.SortMode.TYPE,
+				AlgebraView.SortMode.ORDER, AlgebraView.SortMode.LAYER);
+		setValueNames(Arrays.stream(values).map(v -> v.toString()).toArray(String[]::new));
+	}
 
-    private void setupValues() {
-        String[] values = new String[sortModes.length];
-        for (int i = 0; i < sortModes.length; i++) {
-            values[i] = sortModes[i].toString();
-        }
-        setValues(values);
-    }
+	@Override
+	public AlgebraView.SortMode getValue() {
+		return algebraSettings.getTreeMode();
+	}
 
-    @Override
-    public int getIndex() {
-        AlgebraView.SortMode sortMode = algebraView.getTreeMode();
-        for (int i = 0; i < sortModes.length; i++) {
-            if (sortModes[i] == sortMode) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    @Override
-    protected void setValueSafe(String value, int index) {
-        algebraView.setTreeMode(sortModes[index]);
-    }
+	@Override
+	protected void doSetValue(AlgebraView.SortMode value) {
+		algebraSettings.setTreeMode(value);
+	}
 }

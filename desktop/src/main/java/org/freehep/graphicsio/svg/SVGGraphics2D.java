@@ -30,6 +30,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -51,7 +52,6 @@ import org.freehep.util.io.Base64OutputStream;
 import org.freehep.util.io.WriterOutputStream;
 import org.freehep.xml.util.XMLWriter;
 import org.geogebra.common.jre.util.ScientificFormat;
-import org.geogebra.common.util.Charsets;
 
 /**
  * This class implements the Scalable Vector Graphics output. SVG specifications
@@ -264,7 +264,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			ros = new GZIPOutputStream(ros);
 		}
 
-		os = new PrintWriter(new OutputStreamWriter(ros, Charsets.getUtf8()),
+		os = new PrintWriter(new OutputStreamWriter(ros, StandardCharsets.UTF_8),
 				true);
 		fontTable = new SVGFontTable();
 

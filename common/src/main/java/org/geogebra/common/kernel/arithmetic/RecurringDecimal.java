@@ -1,28 +1,32 @@
 package org.geogebra.common.kernel.arithmetic;
 
+import java.util.Objects;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.util.StringUtil;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Class for recurring decimals e.g. 1.23\u03054\u0305
  */
 public class RecurringDecimal extends MyDouble {
 
-	private final String representation;
+	private RecurringDecimalModel model;
 
 	/**
 	 * @param kernel Kernel
-	 * @param val Value
-	 * @param representation Representation of the recurring decimal
+	 * @param model of the recurring decimal
 	 */
-	public RecurringDecimal(Kernel kernel, double val, String representation) {
-		super(kernel, val);
-		this.representation = representation;
+	public RecurringDecimal(Kernel kernel, RecurringDecimalModel model) {
+		super(kernel, model.toDouble());
+		this.model = model;
+		setImprecise(true);
+	}
+
+	public double toDouble() {
+		return model.toDouble();
 	}
 
 	/**
@@ -31,15 +35,38 @@ public class RecurringDecimal extends MyDouble {
 	 */
 	public RecurringDecimal(RecurringDecimal rd) {
 		super(rd);
-		this.representation = rd.representation;
+		this.model = rd.model;
+		this.setImprecise(true);
 	}
 
-	@Override
-	public String toString(StringTemplate tpl) {
-		if (tpl.isLatex()) {
-			return convertToLaTeX(this.representation);
-		}
-		return this.representation;
+	/**
+	 * @param tpl {@link StringTemplate}
+	 * @return the latex string of fraction.
+	 */
+	public String toFraction(StringTemplate tpl) {
+		return toFraction(wrap(), tpl);
+	}
+
+	/**
+	 * @param expression of the recurring decimal.
+	 * @param tpl {@link StringTemplate}
+	 * @return the latex string of fraction.
+	 */
+	public static String toFraction(ExpressionNode expression, StringTemplate tpl) {
+		return Fractions.getResolution(expression, expression.getKernel(),
+				false).toValueString(tpl);
+	}
+
+	/**
+	 *
+	 * @param parts for the result
+	 * @param expr to get as a fractiom.
+	 */
+	public static void asFraction(ExpressionValue[] parts, ExpressionNode expr) {
+		Kernel kernel = expr.getKernel();
+		RecurringDecimal rd = (RecurringDecimal) expr.unwrap();
+		parts[0] = new MyDouble(kernel, rd.model.numerator());
+		parts[1] = new MyDouble(kernel, rd.model.denominator());
 	}
 
 	@Override
@@ -58,71 +85,52 @@ public class RecurringDecimal extends MyDouble {
 	public boolean equals(Object o) {
 		if (o instanceof RecurringDecimal) {
 			return super.equals(o)
-					&& ((RecurringDecimal) o).representation.equals(this.representation);
+					&& ((RecurringDecimal) o).model.equals(this.model);
 		}
 		return false;
 	}
 
 	@Override
 	public int hashCode() {
-		return super.hashCode();
+		return Objects.hash(super.hashCode(), model);
 	}
 
 	/**
-	 * Removes all unicode overlines from a given string and returns its appropriate LaTeX notation
-	 * @param str String
-	 * @return Converted String
+	 * Parses RecuringDecimal from string.
+	 *
+	 * @param kernel {@link Kernel}
+	 * @param preperiod the preperiod part of the number (integer.nonrecurring)
+	 * @param recurring the recurring digits
+	 * @return the new, RecurringDecimal instance.
 	 */
-	private String convertToLaTeX(String str) {
-		StringBuilder sb = new StringBuilder(str);
-		int indexLastOverLine = sb.lastIndexOf("\u0305");
-		int indexFirstOverLine = sb.indexOf("\u0305");
-
-		sb.replace(indexLastOverLine, indexLastOverLine + 1, "}");
-		sb.insert(indexFirstOverLine - 1, "\\overline{");
-
-		return sb.toString().replaceAll("\u0305", "");
+	public static RecurringDecimal parse(Kernel kernel, String preperiod,
+			String recurring) {
+		return new RecurringDecimal(kernel, parseProperties(kernel.getLocalization(),
+				preperiod, recurring));
 	}
 
-	/**
-	 * extension of StringUtil.parseDouble() to cope with unicode digits e.g. Arabic <br>
-	 * Enables parsing of recurring decimals
-	 * @param str string to be parsed
-	 * @param app application for showing errors
-	 * @return value
-	 */
-	public static double parseDouble(Localization app, String str) {
-		StringBuilder sb = serializeDigits(str, true);
+	private static RecurringDecimalModel parseProperties(Localization loc, String preperiodUtf,
+			String recurringUtf) {
+		String preperiod = convertToLatinCharacters(preperiodUtf);
+		String recurring = convertToLatinCharacters(recurringUtf);
 		try {
-			return parseRecurringDecimal(sb);
+			return RecurringDecimalModel.parse(preperiod, recurring);
 		} catch (NumberFormatException e) {
-			// eg try to parse "1.2.3", "1..2"
-			throw new MyError(app, MyError.Errors.InvalidInput, str);
+			throw new MyError(loc, MyError.Errors.InvalidInput, preperiodUtf + recurringUtf);
 		}
 	}
 
-	/**
-	 * @param sb String to be parsed
-	 * @return Value of the recurring decimal as a fraction e.g. 1.3\u0305 -> 12/9 = 4/3
-	 * @throws NumberFormatException When trying to parse an invalid double e.g. 1.3.2\u0305
-	 */
-	private static double parseRecurringDecimal(StringBuilder sb) throws NumberFormatException {
-		int repeatingDigits = (int) sb.chars().filter(ch -> ch == Unicode.OVERLINE).count();
-		int nonRepeatingDigits = sb.substring(sb.indexOf("."), sb.indexOf("\u0305")).length() - 2;
-
-		// Might throw a NumberFormatException (e.g. 1.2.3\u0305)
-		double decimalValue = StringUtil.parseDouble(sb.toString().replaceAll("\u0305", ""));
-
-		if (nonRepeatingDigits == 0) {
-			return (decimalValue * Math.pow(10, repeatingDigits) - (int) decimalValue)
-					/ (Math.pow(10, repeatingDigits) - 1);
+	@Override
+	public String toString(StringTemplate tpl) {
+		if (tpl.hasType(StringType.GIAC)) {
+			return toFraction(tpl);
 		}
-
-		int scaledNonRepeatingPart = (int) (decimalValue * Math.pow(10, nonRepeatingDigits));
-		double scaledValue = decimalValue * Math.pow(10, repeatingDigits + nonRepeatingDigits);
-
-		return (scaledValue - scaledNonRepeatingPart)
-				/ (Math.pow(10, repeatingDigits + nonRepeatingDigits)
-				- Math.pow(10, nonRepeatingDigits));
+		return model.toString(tpl);
 	}
+
+	@Override
+	public boolean isRecurringDecimal() {
+		return true;
+	}
+
 }

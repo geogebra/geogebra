@@ -3,7 +3,6 @@ package org.geogebra.common.geogebra3D.input3D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPointWithZ;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.euclidian3D.Mouse3DEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -19,7 +18,7 @@ import org.geogebra.common.main.settings.EuclidianSettings3D;
  * @author mathieu
  *
  */
-abstract public class Input3D implements Input3DConstants {
+abstract public class Input3D {
 
 	public enum DeviceType {
 		HAND, PEN

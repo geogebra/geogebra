@@ -85,8 +85,7 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 		input = new GeoElement[1];
 		input[0] = (GeoElement) p;
 
-		setOutputLength(1);
-		setOutput(0, text);
+		setOnlyOutput(text);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -215,7 +214,7 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 
 		// eg 1 + sqrt(2)
 		// or -1 + sqrt(2)
-		// -sqrt(2) gets brackets, 
+		// -sqrt(2) gets brackets,
 		return str.contains("+") || str.contains("-");
 	}
 

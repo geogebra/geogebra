@@ -812,13 +812,12 @@ public class Coords implements AnimatableValue<Coords> {
 		return norm;
 	}
 
-    /**
-     *
-     * @return norm about x,y,z only
-     */
+	/**
+	 * @return norm about x,y,z only
+	 */
 	public double calcNorm3() {
-	    return Math.sqrt(this.dotproduct3(this));
-    }
+		return Math.sqrt(this.dotproduct3(this));
+	}
 
 	/**
 	 * calc the square norm
@@ -1249,7 +1248,6 @@ public class Coords implements AnimatableValue<Coords> {
 		if (vz.isDependentToOrtho(vx, vy)) {
 			// direction of projection is parallel to the plane : point is
 			// infinite
-			// Application.printStacktrace("infinity");
 			inPlaneCoords.setX(0);
 			inPlaneCoords.setY(0);
 			inPlaneCoords.setZ(-1);
@@ -1304,7 +1302,6 @@ public class Coords implements AnimatableValue<Coords> {
 		if (vz.isDependentToOrtho(vx, vy)) {
 			// direction of projection is parallel to the plane : point is
 			// infinite
-			// Application.printStacktrace("infinity");
 			globalCoords.set(vz);
 			return;
 		}
@@ -2784,10 +2781,10 @@ public class Coords implements AnimatableValue<Coords> {
 		}
 	}
 
-	/** @return false if at least one value is infinite */
+	/** @return false if all values are finite (no MaM or infinity) */
 	public boolean isFinite() {
 		for (int i = 0; i < rows; i++) {
-			if (Double.isInfinite(val[i])) {
+			if (!Double.isFinite(val[i])) {
 				return false;
 			}
 		}

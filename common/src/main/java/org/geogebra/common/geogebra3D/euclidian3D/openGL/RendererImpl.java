@@ -242,12 +242,12 @@ public abstract class RendererImpl {
 		clearDepthBuffer();
 	}
 
-    /**
-     * next geometries have no normal
-     */
-    public void setNormalToNone() {
-	    // used only with shaders
-    }
+	/**
+	 * next geometries have no normal
+	 */
+	public void setNormalToNone() {
+		// used only with shaders
+	}
 
 	/**
 	 * set dash texture
@@ -430,6 +430,9 @@ public abstract class RendererImpl {
 
 	public abstract void setLabelOrigin(float[] origin);
 
+	/**
+	 * @param location 3D coordinates of the currently drawn label
+	 */
 	public void setLabelLocation(float[] location) {
 		// Used for rotation in some shaders
 	}

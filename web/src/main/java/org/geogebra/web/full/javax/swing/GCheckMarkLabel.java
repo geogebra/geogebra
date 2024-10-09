@@ -24,35 +24,15 @@ public class GCheckMarkLabel extends GCheckMarkPanel {
 	 */
 	public GCheckMarkLabel(String text, SVGResource checkUrl, boolean checked,
 			ScheduledCommand cmd) {
-		super(text, checkUrl, checked, cmd);
-		ClickStartHandler.init(getPanel(), new ClickStartHandler() {
+		super(text, null, checkUrl, checked);
+		ClickStartHandler.init(this, new ClickStartHandler() {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				toggle();
+				setChecked(!isChecked());
+				cmd.execute();
 			}
 		});
-	}
-
-	/**
-	 * Checks/unchecks item.
-	 */
-	protected void toggle() {
-		setChecked(!isChecked());
-		if (getCmd() != null) {
-			getCmd().execute();
-		}
-	}
-
-	@Override
-	protected void createContents() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	protected void updateContents() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

@@ -50,9 +50,6 @@ public class TriangleDt {
 			c = B;
 		}
 		circumcircle();
-		// _id = _counter++;
-		// _counter++;_c2++;
-		// if(_counter%10000 ==0) System.out.println("Triangle: "+_counter);
 	}
 
 	/**
@@ -70,16 +67,6 @@ public class TriangleDt {
 		halfplane = true;
 		// _id = _counter++;
 	}
-	/*
-	 * protected void finalize() throws Throwable{ super.finalize(); _counter--;
-	 * }
-	 */
-
-	/**
-	 * remove all pointers (for debug)
-	 */
-	// public void clear() {
-	// this.abnext = null; this.bcnext=null; this.canext=null;}
 
 	/**
 	 * @return true iff this triangle is actually a half plane.

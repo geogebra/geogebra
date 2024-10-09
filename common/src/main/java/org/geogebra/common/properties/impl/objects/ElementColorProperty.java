@@ -1,13 +1,14 @@
 package org.geogebra.common.properties.impl.objects;
 
+import java.util.Arrays;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.ColorProperty;
-import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.aliases.ColorProperty;
+import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.ElementColorPropertyDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
@@ -15,38 +16,32 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 /**
  * Color property
  */
-public class ElementColorProperty extends AbstractProperty implements ColorProperty {
+public class ElementColorProperty extends AbstractEnumeratedProperty<GColor>
+		implements ColorProperty {
 
 	private final GeoElement element;
 	private final GeoElementDelegate delegate;
-	private GColor[] colors;
 
-	/***/
+	/**
+	 * @throws NotApplicablePropertyException when one of the elements has no color
+	 */
 	public ElementColorProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "stylebar.Color");
 		this.element = element;
 		delegate = new ElementColorPropertyDelegate(element);
+		setValues(createColorValues());
 	}
 
 	@Override
-	public GColor getColor() {
+	public GColor getValue() {
 		return element.getObjectColor();
 	}
 
 	@Override
-	public void setColor(GColor color) {
-		App app = element.getApp();
-		EuclidianStyleBarStatic.applyColor(
-				color, element.getAlphaValue(), app, app.getSelectionManager().getSelectedGeos());
-	}
-
-	@Override
-	public GColor[] getColors() {
-		if (colors == null) {
-			colors = createColorValues();
-		}
-		return colors;
+	public void doSetValue(GColor color) {
+		EuclidianStyleBarStatic.applyColor(color, element.getAlphaValue(), element.getApp(),
+				Arrays.asList(element));
 	}
 
 	@Override
@@ -60,10 +55,10 @@ public class ElementColorProperty extends AbstractProperty implements ColorPrope
 		return new GColor[]{primColor[0], primColor[2], primColor[4],
 				primColor[8], primColor[10], primColor[12], GColor.BLACK,
 				GeoGebraColorConstants.GEOGEBRA_OBJECT_RED,
-				GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE, scolors[19],
+				GeoGebraColorConstants.GGB_ORANGE, scolors[19],
 				GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN, scolors[43],
 				GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE,
-				GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE, scolors[0],
+				GeoGebraColorConstants.PURPLE_600, scolors[0],
 				scolors[8], scolors[16], scolors[32], scolors[40], scolors[48],
 				scolors[56], scolors[1], scolors[9], scolors[17], scolors[24],
 				scolors[41], scolors[49], scolors[57], scolors[3], scolors[11],

@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoMacro;
+import org.geogebra.common.kernel.algos.AlgoPointInRegion;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
@@ -64,7 +65,6 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -90,7 +90,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		ConicMirrorable, GeoPointND,
-		Transformable, SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
+		Transformable, SymbolicParametersAlgo, SymbolicParametersBotanaAlgo, HasCoordinates {
 	private static volatile Comparator<GeoPoint> comparatorX;
 
 	// don't set point size here as this would overwrite
@@ -268,11 +268,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	public static boolean isComplexNumber(GeoElementND geo) {
 		return geo.isGeoPoint()
 				&& ((GeoPointND) geo).getToStringMode() == Kernel.COORD_COMPLEX;
-	}
-
-	@Override
-	public void setZero() {
-		setCoords(0, 0, 1);
 	}
 
 	/**
@@ -778,12 +773,15 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		updateCoords();
 	}
 
-	/**
-	 * Returns true if this point's path is a circle or ellipse
-	 *
-	 * public boolean hasAnglePathParameter() { return (path != null) && (path
-	 * instanceof GeoConic) && (((GeoConic)path).isElliptic()); }
-	 */
+	@Override
+	public void updatePathParameter(double t) {
+		PathParameter parameter = getPathParameter();
+		parameter.t = t;
+
+		// update point relative to path
+		path.pathChanged(this);
+		updateCoords();
+	}
 
 	@Override
 	final public boolean isInfinite() {
@@ -1302,7 +1300,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		return (cC.getZ() - cA.getZ()) / ABz;
 	}
 
-	 /***********************************************************
+	/*
 	 * MOVEMENTS
 	 ***********************************************************/
 
@@ -1573,7 +1571,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 			return;
 		}
-		sb.append('(');
+		sb.append(tpl.leftBracket());
 		sb.append(kernel.format(x, tpl));
 		String separatorWithSpace = getValueSeparatorWithSpace(kernel, tpl);
 
@@ -1583,7 +1581,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		sb.append(separatorWithSpace);
 		sb.append(kernel.format(z, tpl));
 
-		sb.append(')');
+		sb.append(tpl.rightBracket());
 	}
 
 	/**
@@ -1686,13 +1684,13 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			StringBuilder sbBuildValueString) {
 		switch (toStringMode) {
 		case Kernel.COORD_POLAR:
-			sbBuildValueString.append('(');
+			sbBuildValueString.append(tpl.leftBracket());
 			sbBuildValueString.append(kernel.format(MyMath.length(x, y), tpl));
-			sbBuildValueString.append(";");
+			sbBuildValueString.append(tpl.polarSeparator());
 			tpl.appendOptionalSpace(sbBuildValueString);
 			sbBuildValueString
 					.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
-			sbBuildValueString.append(')');
+			sbBuildValueString.append(tpl.rightBracket());
 			break;
 
 		case Kernel.COORD_COMPLEX:
@@ -2059,6 +2057,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		}
 
 		return null;
+	}
+
+	@Override
+	public Coords getCoordsInD2IfInPlaneInRealCoords(CoordSys coordSys) {
+		return getCoordsInD2IfInPlane(coordSys);
 	}
 
 	@Override
@@ -2897,16 +2900,15 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
 		if (!geoPoint.addAuralCaption(sb)) {
 			geoPoint.addAuralLabel(sb);
+		} else {
+			return sb.toString();
 		}
-
 		ScreenReaderBuilder sbWithValue = new ScreenReaderBuilder(loc);
 		sbWithValue.appendDegreeIfNeeded(geoPoint,
-				ScreenReader.convertToReadable(geoPoint.getValueForInputBar(),
-						geoPoint.getKernel().getApplication()));
-		return loc.getPlain("PointAMovedToB",
+				geoPoint.toValueString(geoPoint.getApp().getScreenReaderTemplate()));
+		return loc.getPlainDefault("PointAMovedToB", "Point %0 moved to %1",
 				sb.toString(),
 				sbWithValue.toString());
-
 	}
 
 	@Override
@@ -2927,27 +2929,25 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 		// find closest point on each segment
 		PathParameter pp = getPathParameter();
-		GeoSegmentND[] segments = polygon.getSegments();
-		if (segments != null) {
 
-			for (int i = 0; i < segments.length; i++) {
-				setCoords2D(qx, qy, 1);
-				updateCoordsFrom2D(false);
-				segments[i].pointChanged(this);
-				coords = getCoordsInD2();
-				double x1 = coords.getX() / coords.getZ() - qx;
-				double y1 = coords.getY() / coords.getZ() - qy;
-				double dist = x1 * x1 + y1 * y1;
-				if (dist < minDist) {
-					minDist = dist;
-					// remember closest point
-					resx = coords.getX();
-					resy = coords.getY();
-					resz = coords.getZ();
-					param = i + pp.t;
-				}
+		for (int i = 0; i < polygon.getSegmentLength(); i++) {
+			setCoords2D(qx, qy, 1);
+			updateCoordsFrom2D(false);
+			polygon.getSegment(i).pointChanged(this);
+			coords = getCoordsInD2();
+			double x1 = coords.getX() / coords.getZ() - qx;
+			double y1 = coords.getY() / coords.getZ() - qy;
+			double dist = x1 * x1 + y1 * y1;
+			if (dist < minDist) {
+				minDist = dist;
+				// remember closest point
+				resx = coords.getX();
+				resy = coords.getY();
+				resz = coords.getZ();
+				param = i + pp.t;
 			}
 		}
+
 		setCoords2D(resx, resy, resz);
 		updateCoordsFrom2D(false);
 		pp.t = param;
@@ -2961,5 +2961,15 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	@Override
 	public void setVerticalIncrement(NumberValue step) {
 		this.verticalIncrement = step;
+	}
+
+	@Override
+	protected boolean isCommandOutput() {
+		if (algoParent != null
+				&& (algoParent.getClass() == AlgoPointOnPath.class
+				|| algoParent.getClass() == AlgoPointInRegion.class)) {
+			return false;
+		}
+		return super.isCommandOutput();
 	}
 }

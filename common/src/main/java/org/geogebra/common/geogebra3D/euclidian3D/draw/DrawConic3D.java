@@ -147,7 +147,7 @@ public class DrawConic3D extends Drawable3DCurves
 	 * 
 	 * @param x
 	 *            value
-	 * @return acosh(x) if x>=1; 0 otherwise
+	 * @return acosh(x) if x&gt;=1; 0 otherwise
 	 */
 	public static double acosh(double x) {
 		if (x <= 1) {
@@ -970,9 +970,9 @@ public class DrawConic3D extends Drawable3DCurves
 				globalCoords = new Coords(4);
 				inPlaneCoords = new Coords(4);
 			}
-			hitting.origin.projectPlaneThruVIfPossible(
+			hitting.getOrigin().projectPlaneThruVIfPossible(
 					conic.getCoordSys().getMatrixOrthonormal(),
-					hitting.direction, globalCoords, inPlaneCoords);
+					hitting.getDirection(), globalCoords, inPlaneCoords);
 
 			// try conic surface
 			if (getGeoElement()
@@ -1000,7 +1000,7 @@ public class DrawConic3D extends Drawable3DCurves
 				if (project == null) {
 					project = Coords.createInhomCoorsInD3();
 				}
-				p3d.projectLine(hitting.origin, hitting.direction, project,
+				p3d.projectLine(hitting.getOrigin(), hitting.getDirection(), project,
 						parameters); // check distance to hitting line
 				double d1 = getView3D().getScaledDistance(p3d, project);
 				if (d1 <= conic.getLineThickness() + hitting.getThreshold()) {

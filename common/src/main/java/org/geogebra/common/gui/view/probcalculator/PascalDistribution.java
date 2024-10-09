@@ -19,33 +19,24 @@ import org.geogebra.common.kernel.statistics.AlgoInversePascal;
 import org.geogebra.common.kernel.statistics.AlgoPascal;
 import org.geogebra.common.plugin.Operation;
 
-public class PascalDistribution implements DiscreteDistribution {
+public class PascalDistribution extends CachingDiscreteDistribution {
 
-	private final Kernel kernel;
-	private final GeoNumeric k;
-	private DiscreteProbability discreteProbability;
 	private final Construction cons;
-	private DistributionParameters oldParameters = null;
+	private final Kernel kernel;
 
 	/**
 	 *
 	 * @param cons The construction.
 	 */
 	public PascalDistribution(Construction cons) {
-		k = new GeoNumeric(cons);
 		this.cons = cons;
 		kernel = cons.getKernel();
 	}
 
 	@Override
-	public DiscreteProbability create(DistributionParameters parameters) {
-		if (parameters.equals(oldParameters)) {
-			return discreteProbability;
-		}
-
+	protected DiscreteProbability createProbability(DistributionParameters parameters) {
 		GeoNumberValue nGeo = parameters.at(0);
 		GeoNumberValue pGeo = parameters.at(1);
-		oldParameters = parameters;
 
 		AlgoInversePascal n2 = new AlgoInversePascal(cons, nGeo, pGeo,
 				new GeoNumeric(cons, nearlyOne));
@@ -57,6 +48,7 @@ public class PascalDistribution implements DiscreteDistribution {
 		cons.removeFromAlgorithmList(algoSeq);
 		GeoList values = (GeoList) algoSeq.getOutput(0);
 
+		GeoNumeric k = new GeoNumeric(cons);
 		AlgoListElement algo = new AlgoListElement(cons, values, k);
 		cons.removeFromConstructionList(algo);
 
@@ -76,7 +68,6 @@ public class PascalDistribution implements DiscreteDistribution {
 		cons.removeFromConstructionList(algoSeq2);
 
 		GeoList probs = (GeoList) algoSeq2.getOutput(0);
-		this.discreteProbability = new DiscreteProbability(values, probs);
-		return discreteProbability;
+		return new DiscreteProbability(values, probs);
 	}
 }

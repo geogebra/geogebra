@@ -3,21 +3,22 @@ package org.geogebra.common.kernel.statistics;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * ContingencyTable[ &lt;List of Text>, &lt;List of Text> ]
+ * ContingencyTable[ &lt;List of Text&gt;, &lt;List of Text&gt; ]
  * 
- * ContingencyTable[ &lt;List of Text>, &lt;List of Text>, &lt;Options> ]
+ * ContingencyTable[ &lt;List of Text&gt;, &lt;List of Text&gt;, &lt;Options&gt; ]
  * 
- * ContingencyTable[ &lt;List of Row Values>, &lt;List of Column Values>,
- * &lt;Frequency Table> ]
+ * ContingencyTable[ &lt;List of Row Values&gt;, &lt;List of Column Values&gt;,
+ * &lt;Frequency Table&gt; ]
  * 
- * ContingencyTable[ &lt;List of Row Values>, &lt;List of Column Values>,
- * &lt;Frequency Table>, &lt;Options> ]
+ * ContingencyTable[ &lt;List of Row Values&gt;, &lt;List of Column Values&gt;,
+ * &lt;Frequency Table&gt;, &lt;Options&gt; ]
  *
  */
 public class CmdContingencyTable extends CommandProcessor {
@@ -32,7 +33,7 @@ public class CmdContingencyTable extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

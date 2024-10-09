@@ -1,6 +1,7 @@
 @use 'colors';
 @use 'info-card';
 @use 'z-index';
+@use 'colorMap' as *;
 
 .GeoGebraFrame{
 	$pagecontrolpanelWidth: 269px;
@@ -56,8 +57,8 @@
 		}
 	}
 
-	.MyCanvasButton, .MyToggleButton {
-		border: colors.$tool-border solid 1px;
+	.IconButton, .ToggleButton {
+		border: neutral(500) solid 1px;
 
 		&:hover, &.active, &.selected, &.gwt-ToggleButton-down {
 			border: colors.$mow_primary solid 1px;
@@ -74,8 +75,7 @@
 *   STYLEBAR with Feature.MOW_COLOR_FILLING_LINE
 ******************/
 	.mowDynStyleBar {
-		.btnCrop,.btnBold,.btnItalic,.btnUnderline,
-		 {
+		.btnCrop,.btnBold,.btnItalic,.btnUnderline {
 			border-radius: 2px;
 			margin-left: 0px;
 			margin-right: 8px;
@@ -150,41 +150,6 @@
 /*****************
 *   BURGER MENU
 ******************/
-
-	.mowOpenMenuButton {
-		position: absolute;
-		top: 0px;
-		padding: 6px;
-		margin: 10px 6px 6px 10px;
-		left: 0px;
-		z-index: z-index.$z-on-top-of-graphics;
-		border-radius: 50%;
-		width: 24px;
-		height: 24px;
-		cursor: pointer;
-		transition: background-color 150ms ease 0ms;
-
-		img{
-			width: 24px;
-			height: 24px;
-		}
-
-		&:focus {
-			outline: colors.$focus-black 5px auto;
-		}
-
-		&.button-up img {
-			opacity: 0.54;
-		}
-
-		&.button-up-hovering {
-			img {
-				opacity: 1;
-			}
-			background-color: colors.$mow_card_background_hover;
-		}
-	}
-
 	.mowMenubar {
 		  position: absolute;
 		  width: 100%;
@@ -226,10 +191,7 @@
 		transition: $floatingbtn-hover-transition, $mowsubmenu-transition;
 
 		&:hover {
-			background-color: colors.$mow_primary_variant;
-		}
-		&.keyboardFocus:focus {
-			outline: colors.$focus-black 5px auto;
+			background-color: var(--ggb-dark-color);
 		}
 	}
 
@@ -260,6 +222,7 @@
 		height: 48px;
 		right: 16px;
 		margin-bottom: 16px;
+		bottom: 0px;
 		visibility: visible;
 		transition: $floatingbtn-hover-transition, $floatingbtn-appear-transition, $mowsubmenu-transition;
 
@@ -482,7 +445,7 @@
 			background: none;
 		}
 
-		.MyToggleButton {
+		.ToggleButton {
 			border-radius: 2px;
 			display: inline-block;
 			margin: 0 8px 0 0;
@@ -516,6 +479,10 @@
 
 	.embedContainer .EuclidianPanel {
 		z-index: 0;
+	}
+
+	.embedContainer {
+		--ggb-primary-color: #{purple(600)};
 	}
 
 	.h5pPreview {

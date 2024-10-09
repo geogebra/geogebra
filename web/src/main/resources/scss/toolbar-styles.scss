@@ -1,5 +1,6 @@
 @use 'colors';
 @use 'z-index';
+@use 'colorMap' as *;
 
 $tab-anim: 200ms ease;
 $tab-transition: opacity $tab-anim;
@@ -166,10 +167,9 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 
 			.catLabel {
 				cursor: default;
-			    line-height: 24px;
-			    font-size: 100%;
-                margin: 8px 0px;
-                color: colors.$text-primary;
+				line-height: 24px;
+				font-size: 100%;
+				margin: 8px 0px;
 			}
 
 			.categoryPanel {
@@ -210,44 +210,41 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 				margin: 0px;
 				vertical-align: top;
 				margin-bottom: 4px;
+				display: inline-block;
+				border-radius: 4px;
+				height: 72px;
+				cursor: pointer;
 
-				img, img:hover {
-					opacity: 1;
-                }
+				img {
+					padding: 4px 28px;
+				}
+
+				.gwt-Label {
+					color: neutral(700);
+					font-size: 12px;
+					width: 80px;
+					height: 28px;
+					text-align: center;
+					line-height: 14px;
+					position: relative;
+					overflow: hidden;
+				}
 
 				&[selected=true] .gwt-Label {
-                    color: colors.$purple-dark;
-                    font-weight: 600;
+					color: colors.$purple-dark;
+					font-weight: 600;
+				}
+
+				&[selected=false]:hover .gwt-Label {
+					color: neutral(900);
 				}
 			}
 
-			.moreLessBtn {
-				border-radius: 2px;
-				font-size: 90%;
-				min-width: 64px;
-				color: colors.$teal-default;
-				text-transform: uppercase;
-				text-align: center;
-				float: left;
-				margin: 16px 0px 16px 0px;
-				padding: 0px 16px 0px 16px;
-				cursor: pointer;
-				transition: background-color 0.3s ease-out;
-
-				.gwt-Label {
-					line-height: 36px;
-					height: 36px;
-					min-width: 64px;
-					text-align: center;
-					align-content: center;
-					font-family: Roboto,sans-serif;
-					font-weight: 400;
-					letter-spacing: .5px;
-				}
+			.materialTextButton {
+				margin-top: 16px;
 
 				&:hover {
-					background-color: colors.$black-10;
-					color: colors.$teal-dark;
+					background-color: purple(100);
 				}
 			}
 		}
@@ -262,7 +259,7 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 				border-radius: 50%;
 				width: 48px;
 				height: 48px;
-				background: colors.$purple-default;
+				background: purple(600);
 				box-shadow: 0px 2px 10px rgba(0,0,0,.3), 0px 0px 1px rgba(0,0,0,.1), inset 0px 1px 0px rgba(255,255,255,.25), inset 0px -1px 0px rgba(0,0,0,.15);
 				transition: background-color 150ms ease 0ms;
 
@@ -272,7 +269,7 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 				}
 
 				&:hover, &:focus {
-					background: colors.$purple-dark;
+					background: purple(700);
 				}
 			}
 
@@ -338,18 +335,6 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 			&.tab-hidden {
 				display: inline-block;
 			}
-		}
-		.algebra {
-			position: absolute;
-			background-color: colors.$white;
-		}
-
-		.tools {
-			position: absolute;
-		}
-
-		.table {
-			position: absolute;
 		}
 	}
 }

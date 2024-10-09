@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.properties.BorderType;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
@@ -44,6 +45,7 @@ public class InlineTableControllerW implements InlineTableController {
 	private Style style;
 
 	private CarotaTable tableImpl;
+	private Element textareaWrapper;
 
 	/**
 	 *
@@ -88,6 +90,11 @@ public class InlineTableControllerW implements InlineTableController {
 			tableImpl.load(Global.JSON.parse(table.getContent()));
 			updateSizes();
 		}
+	}
+
+	@Override
+	public GeoInline getInline() {
+		return table;
 	}
 
 	@Override
@@ -155,6 +162,7 @@ public class InlineTableControllerW implements InlineTableController {
 	public void toForeground(int x, int y) {
 		if (style != null) {
 			style.setVisibility(Visibility.VISIBLE);
+			tableElement.appendChild(textareaWrapper);
 			tableImpl.startEditing(x, y);
 		}
 	}
@@ -166,6 +174,7 @@ public class InlineTableControllerW implements InlineTableController {
 				table.unlockForMultiuser();
 			}
 			style.setVisibility(Visibility.HIDDEN);
+			textareaWrapper.removeFromParent();
 			tableImpl.stopEditing();
 			tableImpl.removeSelection();
 		}
@@ -175,7 +184,7 @@ public class InlineTableControllerW implements InlineTableController {
 	public void format(String key, Object val) {
 		tableImpl.setFormatting(key, val);
 		table.setContent(getContent());
-		table.updateVisualStyleRepaint(GProperty.COMBINED);
+		table.updateRepaint();
 		if ("font".equals(key)) {
 			FontLoader.loadFont(String.valueOf(val), getCallback());
 		}
@@ -404,10 +413,11 @@ public class InlineTableControllerW implements InlineTableController {
 		style.setProperty("transformOrigin", "0 0");
 		style.setVisibility(Visibility.HIDDEN);
 		tableImpl = Carota.get().getTable().create(tableElement);
+		tableImpl.addInsertFilter(s -> InlineTextControllerW.checkEncodedPaste(s, table));
 		tableImpl.setExternalPaint(true);
 		tableImpl.init(2, 2);
 		// re-parent the textarea to make sure focus stays in view (MOW-1330)
-		Element textareaWrapper = Dom.querySelectorForElement(tableElement, ".murokTextArea");
+		textareaWrapper = Dom.querySelectorForElement(tableElement, ".murokTextArea");
 		parent.appendChild(textareaWrapper);
 
 		updateContent();
@@ -430,6 +440,11 @@ public class InlineTableControllerW implements InlineTableController {
 			@Override
 			public void onSelectionChanged() {
 				table.getKernel().notifyUpdateVisualStyle(table, GProperty.TEXT_SELECTION);
+			}
+
+			@Override
+			public void onEscape() {
+				toBackground();
 			}
 		});
 		tableImpl.sizeChanged(() -> changeContent(getContent()));

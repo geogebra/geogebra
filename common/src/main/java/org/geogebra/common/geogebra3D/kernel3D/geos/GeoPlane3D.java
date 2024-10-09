@@ -551,8 +551,8 @@ public class GeoPlane3D extends GeoElement3D
 	private static boolean bothSidesDefined(ExpressionNode definition) {
 		ExpressionValue ev = definition.unwrap();
 		if (ev instanceof Equation) {
-			return MyDouble.isFinite(((Equation) ev).getLHS().evaluateDouble())
-					&& MyDouble.isFinite(
+			return Double.isFinite(((Equation) ev).getLHS().evaluateDouble())
+					&& Double.isFinite(
 							((Equation) ev).getRHS().evaluateDouble());
 		}
 		return false;

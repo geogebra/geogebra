@@ -19,7 +19,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.arithmetic;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.math3.util.Precision;
 import org.geogebra.common.kernel.Construction;
@@ -40,7 +40,6 @@ import org.geogebra.common.util.MyMath2;
 import org.geogebra.common.util.StringUtil;
 
 import com.google.j2objc.annotations.Weak;
-import com.himamis.retex.editor.share.util.Unicode;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -113,6 +112,17 @@ public class MyDouble extends ValidExpression
 	 */
 	public void set(double val) {
 		this.val = val;
+	}
+
+	/**
+	 * Set precise value
+	 * @param val value as BigDecimal
+	 */
+	public void set(BigDecimal val) {
+		if (val == null) {
+			throw new IllegalArgumentException();
+		}
+		set(val.doubleValue());
 	}
 
 	@Override
@@ -213,7 +223,7 @@ public class MyDouble extends ValidExpression
 	 */
 	final public static void add(MyDouble a, NumberValue b, MyDouble c) {
 		c.angleDim = a.angleDim == b.getAngleDim() ? a.angleDim : 0;
-		c.set(a.val + b.getDouble());
+		DoubleOperation.PLUS.apply(a, b, c);
 	}
 
 	/**
@@ -228,7 +238,7 @@ public class MyDouble extends ValidExpression
 	 */
 	final public static void sub(MyDouble a, NumberValue b, MyDouble c) {
 		c.angleDim = a.angleDim == b.getAngleDim() ? a.angleDim : 0;
-		c.set(a.val - b.getDouble());
+		DoubleOperation.MINUS.apply(a, b, c);
 	}
 
 	/**
@@ -253,40 +263,13 @@ public class MyDouble extends ValidExpression
 			c.set(Double.NaN);
 			return;
 		}
-		BigDecimal ba = a.toDecimal();
-		BigDecimal bb = b.toDecimal();
-		if (ba != null && bb != null) {
-			BigDecimal bc = ba.multiply(bb);
-			((MySpecialDouble) c).set(bc);
-			return;
-		}
-		c.set(a.val * bval);
+
+		DoubleOperation.MULTIPLY.apply(a, b, c);
 	}
 
-	/**
-	 * c = a * b
-	 * http://functions.wolfram.com/Constants/ComplexInfinity/introductions
-	 * /Symbols/ShowAll.html
-	 * 
-	 * https://tinyurl.com/ComplexMultiply
-	 * 
-	 * @param a
-	 *            1st factor
-	 * @param b
-	 *            2nd factor
-	 * @param c
-	 *            result
-	 */
-	final public static void mult(MyDouble a, double b, MyDouble c) {
-		c.angleDim = a.angleDim;
-
-		// ? * anything = ?
-		if (Double.isNaN(a.val) || Double.isNaN(b)) {
-			c.set(Double.NaN);
-			return;
-		}
-
-		c.set(a.val * b);
+	protected static boolean isNumberImprecise(NumberValue numberValue) {
+		return !Double.isFinite(numberValue.getDouble()) || numberValue instanceof ValidExpression
+				&& ((ValidExpression) numberValue).isImprecise();
 	}
 
 	/**
@@ -299,9 +282,14 @@ public class MyDouble extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void div(MyDouble a, MyDouble b, MyDouble c) {
-		c.angleDim = a.angleDim - b.angleDim;
-		c.set(a.val / b.val);
+	final public static void div(MyDouble a, NumberValue b, MyDouble c) {
+		c.angleDim = a.angleDim - b.getAngleDim();
+		if (b.getDouble() == 0) {
+			c.set(a.val / b.getDouble());
+			c.setImprecise(true);
+			return;
+		}
+		DoubleOperation.DIVIDE.apply(a, b, c);
 	}
 
 	/**
@@ -314,13 +302,18 @@ public class MyDouble extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void pow(MyDouble a, MyDouble b, MyDouble c) {
-		c.angleDim = b.angleDim > 0 ? 0 : a.angleDim;
-		c.set(pow(a.val, b.val));
+	final public static void pow(MyDouble a, NumberValue b, MyDouble c) {
+		c.angleDim = b.getAngleDim() > 0 ? 0 : a.angleDim;
+		double bVal = b.getDouble();
+		if (bVal >= 0 && bVal < 1E6 && DoubleUtil.isInteger(bVal)) {
+			DoubleOperation.INT_POWER.apply(a, b, c);
+		} else {
+			c.set(pow(a.val, bVal));
+		}
 	}
 
 	/**
-	 * Like Math.pow, but Infinity ^ 0 -> NaN
+	 * Like Math.pow, but Infinity ^ 0 -&gt; NaN
 	 * 
 	 * @param a
 	 *            base
@@ -489,15 +482,6 @@ public class MyDouble extends ValidExpression
 	 */
 	final public MyDouble erf() {
 		set(MyMath2.erf(0.0, 1.0, val));
-		angleDim = 0;
-		return this;
-	}
-
-	/**
-	 * @return inverf(this)
-	 */
-	final public MyDouble inverf() {
-		set(MyMath2.inverf(val));
 		angleDim = 0;
 		return this;
 	}
@@ -914,8 +898,8 @@ public class MyDouble extends ValidExpression
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
-		return null;
+	public void getVariables(Set<GeoElement> variables, SymbolicMode symbolicMode) {
+		// constant
 	}
 
 	@Override
@@ -945,7 +929,7 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
-	 * parse eg 3.45645% -> 3.45645/100
+	 * parse eg 3.45645% -&gt; 3.45645/100
 	 * 
 	 * @param app
 	 *            application for showing errors
@@ -965,15 +949,15 @@ public class MyDouble extends ValidExpression
 	 * If a given String cannot be parsed, e.g. because someone typed more than 1 decimal point,
 	 * an exception will be thrown and then 'converted' to an InvalidInput Error
 	 *
-	 * @see MyDouble#serializeDigits(String, boolean) 
+	 * @see MyDouble#convertToLatinCharacters(String)
 	 * @param str String to be parsed
 	 * @param app Localization (for showing errors)
 	 * @return The value from the input String, as double
 	 */
 	public static double parseDouble(Localization app, String str) {
-		StringBuilder sb = serializeDigits(str, false);
+		String latinCharacters = convertToLatinCharacters(str);
 		try {
-			return StringUtil.parseDouble(sb.toString());
+			return StringUtil.parseDouble(latinCharacters);
 		} catch (Exception e) {
 			// eg try to parse "1.2.3", "1..2"
 			throw new MyError(app, Errors.InvalidInput, str);
@@ -981,37 +965,24 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
-	 * Appends the characters from a given string to a StringBuilder that is then returned
+	 * Converts unicode characters from a string to Latin characters (=Arabic digits,
+	 * standard cecimal point). Characters that are neither digits nor localized decimal point
+	 * are mapped to other non-digit characters.
 	 * @param str String to be parsed (input)
-	 * @param isRecurringDecimal Whether we want to append Unicode.OVERLINE (\u0305)
-	 * @return StringBuilder
+	 * @return number translated to Latin characters;
+	 *         may contain non-ASCII characters if input was invalid
 	 */
-	public static StringBuilder serializeDigits(String str, boolean isRecurringDecimal) {
-		StringBuilder sb = new StringBuilder();
-		sb.setLength(0);
+	public static String convertToLatinCharacters(String str) {
+		StringBuilder sb = new StringBuilder(str.length());
 		for (int i = 0; i < str.length(); i++) {
 			int ch = str.charAt(i);
-			if (ch <= 0x30 || (isRecurringDecimal && ch == Unicode.OVERLINE)) {
-				sb.append(str.charAt(i)); // eg .
+			if (ch <= 0x100) {
+				sb.append(str.charAt(i)); // covers Arabic (=Latin) numerals, `.`, 'e', 'E'
 				continue;
 			}
 
-			// Unicode ranges for digits 0-9 in different languages
-			/*
-			 * "\u0030"-"\u0039", "\u0660"-"\u0669", "\u06f0"-"\u06f9",
-			 * "\u0966"-"\u096f", "\u09e6"-"\u09ef", "\u0a66"-"\u0a6f",
-			 * "\u0ae6"-"\u0aef", "\u0b66"-"\u0b6f", "\u0be7"-"\u0bef",
-			 * "\u0c66"-"\u0c6f", "\u0ce6"-"\u0cef", "\u0d66"-"\u0d6f",
-			 * "\u0e50"-"\u0e59", "\u0ed0"-"\u0ed9", "\u1040"-"\u1049"
-			 */
-
-			// check roman first (most common)
-			else if (ch <= 0x39) {
-				ch -= 0x30; // Roman (normal)
-			} else if (ch <= 0x100) {
-				sb.append(str.charAt(i)); // eg E
-				continue;
-			} else if (ch <= 0x669) {
+			// Unicode ranges below should match the <#DIGIT> token in Parser.jj
+			else if (ch <= 0x669) {
 				ch -= 0x660; // Arabic-Indic
 			} else if (ch == 0x66b) { // Arabic decimal point
 				sb.append(".");
@@ -1064,7 +1035,7 @@ public class MyDouble extends ValidExpression
 			}
 			sb.append(ch);
 		}
-		return sb;
+		return sb.toString();
 	}
 
 	/**
@@ -1192,15 +1163,6 @@ public class MyDouble extends ValidExpression
 		return new ExpressionNode(kernel0, this, Operation.MULTIPLY, fv);
 	}
 
-	/**
-	 * @param d
-	 *            number
-	 * @return whether d is valid finite real number
-	 */
-	public static boolean isFinite(double d) {
-		return !Double.isNaN(d) && !Double.isInfinite(d);
-	}
-
 	@Override
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
@@ -1324,5 +1286,4 @@ public class MyDouble extends ValidExpression
 	protected ExpressionValue unaryMinus(Kernel kernel2) {
 		return new MyDouble(kernel2, -getDouble());
 	}
-
 }

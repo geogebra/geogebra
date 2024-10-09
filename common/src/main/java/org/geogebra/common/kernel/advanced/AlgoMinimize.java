@@ -19,8 +19,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * AlgoMinimize Command Minimize[ &lt;dependent variable>, &lt;independent
- * variable> ] which searches for the independent variable which gives the
+ * AlgoMinimize Command Minimize[ &lt;dependent variable&gt;, &lt;independent
+ * variable&gt; ] which searches for the independent variable which gives the
  * smallest result for the dependent variable.
  * 
  * Extends abstract class AlgoOptimize

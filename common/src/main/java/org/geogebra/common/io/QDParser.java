@@ -19,6 +19,7 @@
 
 package org.geogebra.common.io;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.util.LinkedHashMap;
 import java.util.Stack;
@@ -84,10 +85,11 @@ public class QDParser {
 	 *            handler that receives document events
 	 * @param r
 	 *            source of XML data
-	 * @throws Exception
+	 * @throws XMLParseException
 	 *             if XML is not valid
+	 * @throws IOException if accessing data from reader fails
 	 */
-	final public void parse(DocHandler doc, Reader r) throws Exception {
+	final public void parse(DocHandler doc, Reader r) throws IOException, XMLParseException {
 		// Stack stack = new Stack();
 		stack.clear();
 
@@ -335,11 +337,13 @@ public class QDParser {
 					if (sb.toString().equals("!DOCTYP")) {
 						sb.setLength(0);
 						mode = DOCTYPE;
+					} else {
+						sb.append((char) c);
 					}
 					break;
 
 				default:
-					if (StringUtil.isWhitespace((char) c)) {
+					if (Character.isWhitespace((char) c)) {
 						tagName = sb.toString();
 						sb.setLength(0);
 						mode = IN_TAG;
@@ -382,13 +386,13 @@ public class QDParser {
 				if (c == '"' || c == '\'') {
 					quotec = c;
 					mode = QUOTE;
-				} else if (!StringUtil.isWhitespace((char) c)) {
+				} else if (!Character.isWhitespace((char) c)) {
 					exc("Error in attribute processing", line, col);
 				}
 				break;
 
 			case ATTRIBUTE_LVALUE:
-				if (StringUtil.isWhitespace((char) c)) {
+				if (Character.isWhitespace((char) c)) {
 					lvalue = sb.toString();
 					sb.setLength(0);
 					mode = ATTRIBUTE_EQUAL;
@@ -404,7 +408,7 @@ public class QDParser {
 			case ATTRIBUTE_EQUAL:
 				if (c == '=') {
 					mode = ATTRIBUTE_RVALUE;
-				} else if (!StringUtil.isWhitespace((char) c)) {
+				} else if (!Character.isWhitespace((char) c)) {
 					exc("Error in attribute processing.", line, col);
 				}
 				break;
@@ -425,7 +429,7 @@ public class QDParser {
 					break;
 
 				default:
-					if (!StringUtil.isWhitespace((char) c)) {
+					if (!Character.isWhitespace((char) c)) {
 						mode = ATTRIBUTE_LVALUE;
 						sb.append((char) c);
 					}
@@ -442,7 +446,7 @@ public class QDParser {
 
 	}
 
-	private static void exc(String s, int line, int col) throws Exception {
-		throw new Exception(s + " near line " + line + ", column " + col);
+	private static void exc(String s, int line, int col) throws XMLParseException {
+		throw new XMLParseException(s + " near line " + line + ", column " + col);
 	}
 }

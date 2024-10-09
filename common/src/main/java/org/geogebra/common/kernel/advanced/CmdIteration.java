@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoIteration;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -15,9 +16,9 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Iteration[ &lt;function>, &lt;start>, &lt;n> ]
- * 
- * Iteration[ &lt;function>, &lt;var_name>, &lt;var_value>, &lt;n> ]
+ * Iteration[ &lt;Function&gt;, &lt;start&gt;, &lt;n&gt; ]
+ *
+ * Iteration[ &lt;Function&gt;, &lt;var_name&gt;, &lt;var_value&gt;, &lt;n&gt; ]
  */
 public class CmdIteration extends CommandProcessor {
 
@@ -32,7 +33,7 @@ public class CmdIteration extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

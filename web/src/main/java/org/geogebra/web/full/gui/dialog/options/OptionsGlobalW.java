@@ -1,11 +1,16 @@
 package org.geogebra.web.full.gui.dialog.options;
 
+import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.main.settings.LabelVisibility;
+import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.properties.NamedEnumeratedProperty;
+import org.geogebra.common.properties.PropertyValueObserver;
+import org.geogebra.common.properties.ValuedProperty;
 import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.properties.impl.general.LabelingProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
-import org.geogebra.common.properties.impl.general.RoundingProperty;
+import org.geogebra.common.properties.impl.general.RoundingIndexProperty;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.main.GeoGebraPreferencesW;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -37,7 +42,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 	 * @author csilla
 	 *
 	 */
-	protected class GlobalTab extends FlowPanel implements SetLabels {
+	protected class GlobalTab extends FlowPanel implements SetLabels, PropertyValueObserver {
 		private FlowPanel optionsPanel;
 		private FormLabel lblRounding;
 		private CompDropDown roundingDropDown;
@@ -50,6 +55,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		private StandardButton saveSettingsBtn;
 		private StandardButton restoreSettingsBtn;
 		private FlowPanel saveRestoreRow;
+		private final ExamController examController = GlobalScope.examController;
 
 		/**
 		 * constructor
@@ -76,8 +82,9 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addRoundingItem() {
-			EnumerableProperty roundingProp = new RoundingProperty(app, app.getLocalization());
-			roundingDropDown = new CompDropDown(app, null, roundingProp);
+			NamedEnumeratedProperty<?> roundingProp =
+					new RoundingIndexProperty(app, app.getLocalization());
+			roundingDropDown = new CompDropDown(app, roundingProp);
 			lblRounding = new FormLabel(
 					app.getLocalization().getMenu("Rounding") + ":")
 							.setFor(roundingDropDown);
@@ -87,9 +94,17 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addLabelingItem() {
-			LabelingProperty property = new LabelingProperty(app.getLocalization(),
-					app.getSettings().getLabelSettings());
-			labelingDropDown = new CompDropDown(app, null, property);
+			LabelingProperty property;
+			if (app.isUnbundledOrWhiteboard()) {
+				property = new LabelingProperty(app.getLocalization(),
+						app.getSettings().getLabelSettings());
+			} else {
+				property = new LabelingProperty(app.getLocalization(),
+						app.getSettings().getLabelSettings(), LabelVisibility.Automatic,
+						LabelVisibility.AlwaysOn, LabelVisibility.AlwaysOff,
+						LabelVisibility.PointsOnly);
+			}
+			labelingDropDown = new CompDropDown(app, property);
 			lblLabeling = new FormLabel(
 					app.getLocalization().getMenu("Labeling") + ":")
 							.setFor(labelingDropDown);
@@ -99,11 +114,11 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addFontItem() {
-			EnumerableProperty fontSizeProperty = new FontSizeProperty(
+			NamedEnumeratedProperty<?> fontSizeProperty = new FontSizeProperty(
 					app.getLocalization(),
 					app.getSettings().getFontSettings(),
-					app.getSettingsUpdater().getFontSettingsUpdater());
-			fontSizeDropDown = new CompDropDown(app, null, fontSizeProperty);
+					app.getFontSettingsUpdater());
+			fontSizeDropDown = new CompDropDown(app, fontSizeProperty);
 			lblFontSize = new FormLabel(
 					app.getLocalization().getMenu("FontSize") + ":")
 							.setFor(fontSizeDropDown);
@@ -113,9 +128,11 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addLanguageItem() {
-			EnumerableProperty languageProperty = new LanguageProperty(app,
-					app.getLocalization(), this::storeLanguage);
-			languageDropDown = new CompDropDown(app, null, languageProperty);
+			NamedEnumeratedProperty<?> languageProperty = new LanguageProperty(app,
+					app.getLocalization());
+			languageProperty.addValueObserver(this);
+			//GlobalScope.propertiesRegistry.register(languageProperty);
+			languageDropDown = new CompDropDown(app, languageProperty);
 			lblLanguage = new FormLabel(
 					app.getLocalization().getMenu("Language") + ":")
 							.setFor(languageDropDown);
@@ -137,13 +154,13 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			restoreSettingsBtn.setStyleName("settingsBtn");
 			restoreSettingsBtn.addFastClickHandler(source -> {
 				resetDefault();
-				fontSizeDropDown.resetToDefault();
-				labelingDropDown.resetToDefault();
-				roundingDropDown.resetToDefault();
+				fontSizeDropDown.resetFromModel();
+				labelingDropDown.resetFromModel();
+				roundingDropDown.resetFromModel();
 			});
 			saveRestoreRow = LayoutUtilW
 					.panelRow(saveSettingsBtn, restoreSettingsBtn);
-			saveRestoreRow.setVisible(!app.isExam());
+			saveRestoreRow.setVisible(examController.isIdle());
 			optionsPanel.add(saveRestoreRow);
 		}
 
@@ -160,10 +177,12 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		 * update gui
 		 */
 		public void updateGUI() {
-			labelingDropDown.resetToDefault();
-			fontSizeDropDown.resetToDefault();
-			languageDropDown.resetToDefault();
-			saveRestoreRow.setVisible(!app.isExam());
+			labelingDropDown.resetFromModel();
+			fontSizeDropDown.resetFromModel();
+			languageDropDown.resetFromModel();
+			lblLanguage.setVisible(examController.isIdle());
+			languageDropDown.setVisible(examController.isIdle());
+			saveRestoreRow.setVisible(examController.isIdle());
 		}
 
 		/**
@@ -230,6 +249,15 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					.setText(app.getLocalization().getMenu("Settings.Save"));
 			restoreSettingsBtn
 					.setText(app.getLocalization().getMenu("RestoreSettings"));
+		}
+
+		// PropertyValueObserver
+
+		@Override
+		public void onDidSetValue(ValuedProperty property) {
+			if (property instanceof LanguageProperty) {
+				storeLanguage(((LanguageProperty) property).getValue());
+			}
 		}
 	}
 

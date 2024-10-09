@@ -3,6 +3,8 @@ package org.geogebra.common.gui.view.probcalculator;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
@@ -45,17 +47,11 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.statistics.AlgoCauchyDF;
-import org.geogebra.common.kernel.statistics.AlgoChiSquaredDF;
 import org.geogebra.common.kernel.statistics.AlgoDistributionDF;
-import org.geogebra.common.kernel.statistics.AlgoExponentialDF;
-import org.geogebra.common.kernel.statistics.AlgoFDistributionDF;
-import org.geogebra.common.kernel.statistics.AlgoGammaDF;
 import org.geogebra.common.kernel.statistics.AlgoLogNormalDF;
 import org.geogebra.common.kernel.statistics.AlgoLogisticDF;
 import org.geogebra.common.kernel.statistics.AlgoNormalDF;
-import org.geogebra.common.kernel.statistics.AlgoTDistributionDF;
-import org.geogebra.common.kernel.statistics.AlgoWeibullDF;
+import org.geogebra.common.kernel.statistics.CmdRealDistribution2Params;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
@@ -104,7 +100,7 @@ public abstract class ProbabilityCalculatorView
 
 	private EuclidianView plotPanel;
 
-	private ProbabilityTable table;
+	private @Nullable ProbabilityTable table;
 	/** enable/disable integral ---- use for testing */
 	protected boolean hasIntegral = true;
 
@@ -124,19 +120,14 @@ public abstract class ProbabilityCalculatorView
 	// GeoElements
 	protected ArrayList<GeoElementND> plotGeoList;
 	private final ProbabilityXAxis xAxis;
-	protected GeoPoint curvePoint;
-	protected GeoElement densityCurve;
-	protected GeoElement integral;
-	protected GeoElement ySegment;
-	protected GeoElement xSegment;
-	protected GeoElement discreteIntervalGraph;
-	protected GeoElement normalOverlay;
-	protected GeoElementND discreteGraph;
-	protected GeoList discreteValueList;
-	protected GeoList discreteProbList;
-	protected GeoList intervalProbList;
-	protected GeoList intervalValueList;
-	protected ArrayList<GeoElement> pointList;
+	private GeoFunction densityCurve;
+	private GeoElement integral;
+	private GeoElement discreteIntervalGraph;
+	private GeoElement normalOverlay;
+	private GeoElementND discreteGraph;
+	private GeoList discreteValueList;
+	private GeoList discreteProbList;
+	private ArrayList<GeoElement> pointList;
 
 	// initing
 	protected boolean isIniting;
@@ -161,6 +152,7 @@ public abstract class ProbabilityCalculatorView
 	// rounding
 	protected int printDecimals = 4;
 	protected int printFigures = -1;
+	protected StringTemplate stringTemplate;
 
 	// flags
 	protected boolean showProbGeos = true;
@@ -476,7 +468,7 @@ public abstract class ProbabilityCalculatorView
 
 	private void createCumulativeSegments() {
 		// point on curve
-		GeoFunction f = (GeoFunction) densityCurve;
+		GeoFunction f = densityCurve;
 		ExpressionNode highPointX = new ExpressionNode(kernel,
 				xAxis.highPoint(), Operation.XCOORD, null);
 		ExpressionNode curveY = new ExpressionNode(kernel, f,
@@ -491,7 +483,7 @@ public abstract class ProbabilityCalculatorView
 				curvePointNode, false);
 		cons.removeFromConstructionList(pAlgo);
 
-		curvePoint = (GeoPoint) pAlgo.getOutput(0);
+		GeoPoint curvePoint = (GeoPoint) pAlgo.getOutput(0);
 		curvePoint.setObjColor(COLOR_POINT);
 		curvePoint.setPointSize(4);
 		curvePoint.setLayer(f.getLayer() + 1);
@@ -513,7 +505,7 @@ public abstract class ProbabilityCalculatorView
 		AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons,
 				curvePoint, (GeoPoint) pointAlgo.getOutput(0), null,
 				false);
-		xSegment = seg1.getOutput(0);
+		GeoElement xSegment = seg1.getOutput(0);
 		xSegment.setObjColor(GColor.BLUE);
 		xSegment.setLineThickness(3);
 		xSegment.setLineType(
@@ -537,7 +529,7 @@ public abstract class ProbabilityCalculatorView
 		AlgoRayPointVector seg2 = new AlgoRayPointVector(cons,
 				curvePoint, v);
 		cons.removeFromConstructionList(seg2);
-		ySegment = seg2.getOutput(0);
+		GeoElement ySegment = seg2.getOutput(0);
 		ySegment.setObjColor(GColor.RED);
 		ySegment.setLineThickness(3);
 		ySegment.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
@@ -640,8 +632,8 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	private void createSimpleDiscreteGraph(GeoNumberValue xMin, GeoNumberValue xMax) {
-		intervalValueList = takeSubList(discreteValueList, xMin, xMax);
-		intervalProbList = takeSubList(discreteProbList, xMin, xMax);
+		GeoList intervalValueList = takeSubList(discreteValueList, xMin, xMax);
+		GeoList intervalProbList = takeSubList(discreteProbList, xMin, xMax);
 
 		discreteIntervalGraph = createIntervalGraph(intervalValueList, intervalProbList);
 		plotGeoList.add(discreteIntervalGraph);
@@ -853,7 +845,7 @@ public abstract class ProbabilityCalculatorView
 		f.setValue(false);
 
 		AlgoIntegralDefinite algoIntegral = new AlgoIntegralDefinite(
-				cons, (GeoFunction) densityCurve, low, high, f);
+				cons, densityCurve, low, high, f);
 		cons.removeFromConstructionList(algoIntegral);
 
 		GeoElement output = algoIntegral.getOutput(0);
@@ -1000,20 +992,21 @@ public abstract class ProbabilityCalculatorView
 	 * @return formatted number
 	 */
 	public String format(double x) {
-		StringTemplate highPrecision;
+		return kernel.format(x, getStringTemplate());
+	}
 
-		// override the default decimal place setting
-		if (printDecimals >= 0) {
-			int d = Math.max(printDecimals, 4);
-			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, d,
-					false);
-		} else {
-			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA,
-					printFigures, false);
+	private StringTemplate getStringTemplate() {
+		if (stringTemplate == null) {
+			// override the default decimal place setting
+			if (printDecimals >= 0) {
+				int decimals = Math.max(printDecimals, 4);
+				stringTemplate = StringTemplate.printDecimals(StringType.GEOGEBRA, decimals, false);
+			} else {
+				stringTemplate =
+						StringTemplate.printFigures(StringType.GEOGEBRA, printFigures, false);
+			}
 		}
-		// get the formatted string
-
-		return kernel.format(x, highPrecision);
+		return stringTemplate;
 	}
 
 	/**
@@ -1060,7 +1053,8 @@ public abstract class ProbabilityCalculatorView
 			// intervals
 			plotSettings.gridInterval[0] = 1;
 			plotSettings.gridIntervalAuto = false;
-			plotSettings.xAxesIntervalAuto = true;
+			plotSettings.xAxesIntervalAuto = false;
+			plotSettings.xAxesInterval = 1;
 		} else {
 			plotSettings.pointCaptureStyle = EuclidianStyleConstants.POINT_CAPTURING_OFF;
 			plotSettings.xAxesIntervalAuto = true;
@@ -1083,8 +1077,8 @@ public abstract class ProbabilityCalculatorView
 	public void setXAxisPoints() {
 		isSettingAxisPoints = true;
 
-		xAxis.lowPoint().setCoords(getLow(), 0.0, 1.0);
-		xAxis.highPoint().setCoords(getHigh(), 0.0, 1.0);
+		xAxis.lowPoint().setCoords(roundIfDiscrete(getLow()), 0.0, 1.0);
+		xAxis.highPoint().setCoords(roundIfDiscrete(getHigh()), 0.0, 1.0);
 		getPlotPanel().repaint();
 		GeoElement.updateCascade(pointList, getTempSet(), false);
 		tempSet.clear();
@@ -1447,12 +1441,14 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	protected void selectProbabilityTableRows() {
-		int start = (int) getLow();
-		int end = Math.min((int) getHigh(), getDiscreteXMax());
-		if (isTwoTailedMode()) {
-			table.setTwoTailedSelection(start, end);
-		} else {
-			table.setSelectionByRowValue(start, end);
+		int start = (int) roundToInt(getLow());
+		int end = Math.min((int) roundToInt(getHigh()), getDiscreteXMax());
+		if (table != null) {
+			if (isTwoTailedMode()) {
+				table.setTwoTailedSelection(start, end);
+			} else {
+				table.setSelectionByRowValue(start, end);
+			}
 		}
 	}
 
@@ -1467,22 +1463,32 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * Returns an interval probability for the currently selected distribution
-	 * and probability mode. If mode == PROB_INTERVAL then P(low <= X <= high)
-	 * is returned. If mode == PROB_LEFT then P(low <= X) is returned. If mode
-	 * == PROB_RIGHT then P(X <= high) is returned.
+	 * and probability mode. If mode == PROB_INTERVAL then P(low &lt;= X &lt;= high)
+	 * is returned. If mode == PROB_LEFT then P(low &lt;= X) is returned. If mode
+	 * == PROB_RIGHT then P(X &lt;= high) is returned.
 	 * @return probability of selected interval
 	 */
 	protected double intervalProbability() {
-		return probManager.intervalProbability(getLow(), getHigh(),
+		return probManager.intervalProbability(roundIfDiscrete(getLow()),
+				roundIfDiscrete(getHigh()),
 				selectedDist, parameters, probMode);
 	}
 
+	private double roundIfDiscrete(double value) {
+		return isDiscreteProbability() ? roundToInt(value) : value;
+	}
+
+	private static double roundToInt(double value) {
+		double decimalPat = value - (int) value;
+		return decimalPat < 0.5 ? Math.floor(value) : Math.ceil(value);
+	}
+
 	protected double rightProbability(double high) {
-		return probManager.rightProbability(high, parameters, selectedDist);
+		return probManager.rightProbability(roundIfDiscrete(high), parameters, selectedDist);
 	}
 
 	protected double leftProbability() {
-		return probManager.probability(getLow(), parameters, selectedDist, true);
+		return probManager.probability(roundIfDiscrete(getLow()), parameters, selectedDist, true);
 	}
 
 	/**
@@ -1546,9 +1552,9 @@ public abstract class ProbabilityCalculatorView
 	 * @param xHigh - interval max
 	 * @return whether interval is valid for given mode
 	 */
+	// TODO remove this method if discrete input rounding is OK.
 	public boolean isValidInterval(double xLow, double xHigh) {
-		return !(probManager.isDiscrete(selectedDist)
-				&& (Math.floor(xLow) != xLow || Math.floor(xHigh) != xHigh));
+		return true;
 	}
 
 	/**
@@ -1593,7 +1599,14 @@ public abstract class ProbabilityCalculatorView
 				isValid = xLow >= 0;
 			}
 			break;
-
+		case BETA:
+			if (probMode != PROB_LEFT) {
+				isValid = xLow >= 0;
+			}
+			if (probMode != PROB_RIGHT) {
+				isValid &= xHigh <= 1;
+			}
+			break;
 		case F:
 			if (probMode != PROB_LEFT) {
 				isValid = xLow > 0;
@@ -1709,10 +1722,12 @@ public abstract class ProbabilityCalculatorView
 			if (printFigures != kernel.getPrintFigures()) {
 				printFigures = kernel.getPrintFigures();
 				printDecimals = -1;
+				stringTemplate = null;
 				return true;
 			}
 		} else if (printDecimals != kernel.getPrintDecimals()) {
 			printDecimals = kernel.getPrintDecimals();
+			stringTemplate = null;
 			return true;
 		}
 		return false;
@@ -1814,10 +1829,12 @@ public abstract class ProbabilityCalculatorView
 	private GeoFunction buildDensityCurveExpression(Dist type,
 			boolean cumulative) {
 
-		GeoNumberValue param1 = null, param2 = null;
+		GeoNumberValue param1, param2 = null;
 
 		if (parameters.length > 0) {
 			param1 = parameters[0];
+		} else {
+			return null;
 		}
 		if (parameters.length > 1) {
 			param2 = parameters[1];
@@ -1827,28 +1844,15 @@ public abstract class ProbabilityCalculatorView
 		GeoBoolean cumulativeGeo = new GeoBoolean(cons, cumulative);
 		switch (type) {
 		case NORMAL:
-			ret = new AlgoNormalDF(cons, param1, param2, cumulativeGeo);
-			break;
 		case STUDENT:
-			ret = new AlgoTDistributionDF(cons, param1, cumulativeGeo);
-			break;
 		case CHISQUARE:
-			ret = new AlgoChiSquaredDF(cons, param1, cumulativeGeo);
-			break;
 		case F:
-			ret = new AlgoFDistributionDF(cons, param1, param2, cumulativeGeo);
-			break;
 		case CAUCHY:
-			ret = new AlgoCauchyDF(cons, param1, param2, cumulativeGeo);
-			break;
 		case EXPONENTIAL:
-			ret = new AlgoExponentialDF(cons, param1, cumulativeGeo);
-			break;
+		case BETA:
 		case GAMMA:
-			ret = new AlgoGammaDF(cons, param1, param2, cumulativeGeo);
-			break;
 		case WEIBULL:
-			ret = new AlgoWeibullDF(cons, param1, param2, cumulativeGeo);
+			ret = CmdRealDistribution2Params.getAlgoDF(type, param1, param2, cumulativeGeo);
 			break;
 		case LOGNORMAL:
 			ret = new AlgoLogNormalDF(cons, param1, param2, cumulativeGeo);
@@ -2183,7 +2187,7 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	/**
-	 * Sets > or >= on demand
+	 * Sets &gt; or &gt;= on demand
 	 * @param resultPanel to display.
 	 */
 	public void updateGreaterSign(ResultPanel resultPanel) {
@@ -2254,5 +2258,12 @@ public abstract class ProbabilityCalculatorView
 	public void onParameterUpdate() {
 		updateOutput(false);
 		updateResult();
+	}
+
+	/**
+	 * @param disable whether to disable or not
+	 */
+	public void disableInterval(boolean disable) {
+		// overridden for platform
 	}
 }

@@ -16,7 +16,7 @@ public class TTFGlyfTable extends TTFVersionTable {
 
 	/**
 	 * If this variable is set to false then the glyphs will not be read until
-	 * they are retrieved with <tt>getGlyph(int)</tt>.
+	 * they are retrieved with {@code getGlyph(int)}.
 	 */
 	private static final boolean READ_GLYPHS = false;
 

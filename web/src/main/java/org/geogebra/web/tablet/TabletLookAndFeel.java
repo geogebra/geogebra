@@ -4,8 +4,6 @@ import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.browser.TabletSignInController;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
-import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInController;
@@ -14,13 +12,6 @@ import org.geogebra.web.shared.SignInController;
  * Look and feel for tablet apps
  */
 public class TabletLookAndFeel extends GLookAndFeel {
-
-	/**
-	 * Creates tablet LAF
-	 */
-	public TabletLookAndFeel() {
-		ToolTipManagerW.setEnabled(false);
-	}
 
 	@Override
 	public void addWindowClosingHandler(AppW app) {
@@ -43,36 +34,13 @@ public class TabletLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public boolean copyToClipboardSupported() {
-		return true;
-	}
-
-	@Override
 	public SignInController getSignInController(final App app) {
 		return new TabletSignInController(app);
 	}
 
 	@Override
-	public boolean exportSupported() {
-		return true;
-	}
-
-	@Override
 	public boolean supportsGoogleDrive() {
 		return false;
-	}
-
-	/**
-	 * @return style name for app frame
-	 */
-	@Override
-	public String getFrameStyleName() {
-		return "Tablet";
-	}
-
-	@Override
-	public boolean examSupported() {
-		return Browser.isAndroid();
 	}
 
 	@Override

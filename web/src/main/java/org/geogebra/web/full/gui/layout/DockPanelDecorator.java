@@ -52,4 +52,6 @@ public interface DockPanelDecorator {
 	 */
 	void resizeTableSmallScreen(int tabHeight);
 
+	void setLabels();
+
 }

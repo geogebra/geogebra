@@ -10,9 +10,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.JsReference;
 import org.geogebra.common.plugin.ScriptManager;
+import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.main.scripting.Sandbox;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.JsRunnable;
 
 import elemental2.core.Function;
@@ -28,6 +31,8 @@ public class ScriptManagerW extends ScriptManager {
 
 	public static final String ASSESSMENT_APP_PREFIX = "ggbAssess";
 	private final JsPropertyMap<Object> exportedApi;
+	private Sandbox sandbox;
+	private static boolean mayExportDefaultApplet = true;
 
 	/**
 	 * @param app
@@ -41,6 +46,13 @@ public class ScriptManagerW extends ScriptManager {
 		if (!app.getAppletId().startsWith(ASSESSMENT_APP_PREFIX)) {
 			export(exportedApi);
 		}
+		if (app.getAppletId().equals(AppletParameters.DEFAULT_APPLET_ID)) {
+			preventExport();
+		}
+	}
+
+	private static void preventExport() {
+		mayExportDefaultApplet = false;
 	}
 
 	private JsPropertyMap<Object> bindMethods(ExportedApi exporter) {
@@ -68,7 +80,7 @@ public class ScriptManagerW extends ScriptManager {
 		}
 	}
 
-	public static void ggbOnInit(String arg, Object self) {
+	public static void ggbOnInitExternal(String arg, Object self) {
 		JsEval.callNativeGlobalFunction("ggbOnInit", arg, self);
 	}
 
@@ -76,16 +88,11 @@ public class ScriptManagerW extends ScriptManager {
 	public void ggbOnInit() {
 		try {
 			tryTabletOnInit();
-			boolean standardJS = app.getKernel().getLibraryJavaScript()
-					.equals(Kernel.defaultLibraryJavaScript);
-			if (!standardJS && !app.useBrowserForJavaScript()) {
-				app.evalJavaScript(app, app.getKernel().getLibraryJavaScript(),
-						null);
-			}
-			if (!standardJS || app.useBrowserForJavaScript()) {
-				final String param = ((AppW) app).getAppletId();
-
-				ggbOnInit(param, exportedApi);
+			final String param = ((AppW) app).getAppletId();
+			if (app.useBrowserForJavaScript()) {
+				ggbOnInitExternal(param, exportedApi);
+			} else if (!app.getEventDispatcher().isDisabled(ScriptType.JAVASCRIPT)) {
+				ggbOnInitInternal(param);
 			}
 		} catch (CommandNotLoadedError e) {
 			throw e;
@@ -100,11 +107,22 @@ public class ScriptManagerW extends ScriptManager {
 
 		GeoGebraFrameW appletFrame = ((AppW) app).getAppletFrame();
 		if (appletFrame != null
-		        && appletFrame.getOnLoadCallback() != null) {
+				&& appletFrame.getOnLoadCallback() != null
+				&& !appletFrame.appletOnLoadCalled()) {
 			JsEval.callNativeFunction(
 					appletFrame.getOnLoadCallback(), exportedApi);
 			// callback only needed on first file load, not switching slides
-			appletFrame.setOnLoadCallback(null);
+			appletFrame.appletOnLoadCalled(true);
+		}
+	}
+
+	private void ggbOnInitInternal(String param) {
+		String libraryJavaScript = app.getKernel().getLibraryJavaScript();
+		boolean standardJS = libraryJavaScript
+				.equals(Kernel.defaultLibraryJavaScript);
+		if (!standardJS) {
+			libraryJavaScript += ";ggbOnInit(\"" + param + "\",ggbApplet)";
+			app.evalJavaScript(app, libraryJavaScript, null);
 		}
 	}
 
@@ -116,12 +134,23 @@ public class ScriptManagerW extends ScriptManager {
 
 	@Override
 	protected void callListener(String listener, Object[] args) {
-		JsEval.callNativeGlobalFunction(listener, args);
+		if (((AppW) app).getAppletParameters().getParamSandbox()) {
+			if (!getSandbox().callByName(listener, args)) {
+				Log.error("global listeners not supported in sandbox");
+			}
+		} else {
+			updateGlobalApplet();
+			JsEval.callNativeGlobalFunction(listener, args);
+		}
 	}
 
 	@Override
 	protected void callNativeListener(Object listener, Object[] args) {
-		JsEval.callNativeFunction(listener, args);
+		if (!((AppW) app).getAppletParameters().getParamSandbox()
+				|| !getSandbox().call(listener, args)) {
+			updateGlobalApplet();
+			JsEval.callNativeFunction(listener, args);
+		}
 	}
 
 	@Override
@@ -134,7 +163,7 @@ public class ScriptManagerW extends ScriptManager {
 		// only the named parameters are documented. Maybe if
 		// you are reading this years in the future, you can remove them
 		JsArray<String> args = JsArray.of();
-		JsPropertyMap asMap = Js.asPropertyMap(args);
+		JsPropertyMap<Object> asMap = Js.asPropertyMap(args);
 		args.push(evt.type.getName());
 		asMap.set("type", evt.type.getName());
 
@@ -171,13 +200,19 @@ public class ScriptManagerW extends ScriptManager {
 	/**
 	 * @param jsMap js map object to be filled with data from Java map
 	 * @param map (String, Object) map to be converted to JavaScript,
-	 *            Object can be Integer, Double, String or String[],
+	 *            Object can be Integer, Double, String or String[] (used e.g. by mousedown hits).
 	 */
 	public static void addToJsObject(JsPropertyMap<Object> jsMap, Map<String, Object> map) {
 		for (Entry<String, Object> entry : map.entrySet()) {
 			Object object = entry.getValue();
 			if (object instanceof Integer) {
 				jsMap.set(entry.getKey(), unbox((Integer) object));
+			} if (object instanceof String[]) {
+				JsArray<String> clean = JsArray.of();
+				for (String s: (String[]) object) {
+					clean.push(s);
+				}
+				jsMap.set(entry.getKey(), clean);
 			} else {
 				jsMap.set(entry.getKey(), object);
 			}
@@ -213,5 +248,24 @@ public class ScriptManagerW extends ScriptManager {
 
 	public Object getApi() {
 		return exportedApi;
+	}
+
+	private void updateGlobalApplet() {
+		// if one applet has "ggbApplet" as ID, keep the global reference
+		// also only export it if it's already global (see ASSESSMENT_APP_PREFIX)
+		if (mayExportDefaultApplet
+				&& Js.asPropertyMap(DomGlobal.window).has("ggbApplet")) {
+			export("ggbApplet", exportedApi);
+		}
+	}
+
+	/**
+	 * @return JavaScript sandbox
+	 */
+	public Sandbox getSandbox() {
+		if (sandbox == null) {
+			sandbox = new Sandbox(getApi());
+		}
+		return sandbox;
 	}
 }

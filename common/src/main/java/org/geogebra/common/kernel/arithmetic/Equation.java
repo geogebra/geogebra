@@ -13,8 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.arithmetic;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.geogebra.common.kernel.Kernel;
@@ -364,28 +362,9 @@ public class Equation extends ValidExpression implements EquationValue {
 	 * @return GeoElement variables
 	 */
 	final public GeoElement[] getGeoElementVariables(SymbolicMode mode) {
-		Set<GeoElement> varSet;
-		Set<GeoElement> leftVars = lhs.getVariables(mode);
-		Set<GeoElement> rightVars = rhs.getVariables(mode);
-		if (leftVars == null) {
-			varSet = rightVars;
-		} else if (rightVars == null) {
-			varSet = leftVars;
-		} else {
-			leftVars.addAll(rightVars);
-			varSet = leftVars;
-		}
-		if (varSet == null) {
-			return new GeoElement[0];
-		}
-
-		Iterator<GeoElement> i = varSet.iterator();
-		GeoElement[] ret = new GeoElement[varSet.size()];
-		int j = 0;
-		while (i.hasNext()) {
-			ret[j++] = i.next();
-		}
-		return ret;
+		Set<GeoElement> varSet = lhs.getVariables(mode);
+		rhs.getVariables(varSet, mode);
+		return varSet.toArray(new GeoElement[0]);
 	}
 
 	/**
@@ -456,17 +435,9 @@ public class Equation extends ValidExpression implements EquationValue {
 	}
 
 	@Override
-	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
-		HashSet<GeoElement> leftVars = lhs.getVariables(mode);
-		HashSet<GeoElement> rightVars = rhs.getVariables(mode);
-		if (leftVars == null) {
-			return rightVars;
-		} else if (rightVars == null) {
-			return leftVars;
-		} else {
-			leftVars.addAll(rightVars);
-			return leftVars;
-		}
+	public void getVariables(Set<GeoElement> variables, SymbolicMode mode) {
+		lhs.getVariables(variables, mode);
+		rhs.getVariables(variables, mode);
 	}
 
 	@Override
@@ -662,7 +633,7 @@ public class Equation extends ValidExpression implements EquationValue {
 		if (v instanceof MyList) {
 			MyList list = (MyList) v;
 			for (int i = 0; i < list.size(); i++) {
-				if (containsVar(list.getListElement(i), var)) {
+				if (containsVar(list.get(i), var)) {
 					return true;
 				}
 			}
@@ -787,7 +758,7 @@ public class Equation extends ValidExpression implements EquationValue {
 					true, true).wrap();
 			return this;
 		}
-		if (!rhsConstant) {
+		if (!rhsConstant && kernel.getSymbolicMode() != SymbolicMode.SYMBOLIC_AV) {
 			return this;
 		}
 		rhs.setLabel(name);
@@ -899,7 +870,7 @@ public class Equation extends ValidExpression implements EquationValue {
 	}
 
 	/**
-	 * Converts equation ofthe form y=f(x) to a function
+	 * Converts equation of the form y=f(x) to a function
 	 * @return this as function of x or null if not possible
 	 */
 	public Function asFunction() {

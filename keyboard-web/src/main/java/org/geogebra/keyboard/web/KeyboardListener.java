@@ -32,6 +32,7 @@ public interface KeyboardListener {
 	 * enter
 	 */
 	int ENTER = '\r'; // 13;
+
 	/**
 	 * Focus/Blur the text field
 	 * 
@@ -65,17 +66,6 @@ public interface KeyboardListener {
 	 *            text to be inserted
 	 */
 	void insertString(String text);
-
-	/**
-	 * @return false
-	 */
-	boolean resetAfterEnter();
-
-	/**
-	 * @param text
-	 *            true if text
-	 */
-	void setKeyBoardModeText(boolean text);
 
 	/**
 	 * @return true if spreadsheet view

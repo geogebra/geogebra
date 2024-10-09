@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.menubar.action;
 
+import org.geogebra.common.exam.ExamController;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.exam.ExamStartDialog;
 import org.geogebra.web.full.gui.exam.classic.ExamClassicStartDialog;
@@ -10,42 +12,40 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 /**
  * Starts exam.
  */
-public class StartExamAction extends DefaultMenuAction<Void> {
+public class StartExamAction extends DefaultMenuAction<AppWFull> {
 
-	private AppWFull app;
-
-	/**
-	 * @param app app
-	 */
-	public StartExamAction(AppWFull app) {
-		this.app = app;
-	}
+	private final ExamController examController = GlobalScope.examController;
 
 	@Override
-	public void execute(Void item, AppWFull app) {
-		app.getSaveController().showDialogIfNeeded(createExamCallback(), false);
+	public void execute(AppWFull app) {
+		app.getSaveController().showDialogIfNeeded(createExamCallback(app), false);
 	}
 
 	/**
 	 * @return callback that shows the exam welcome message and prepares Exam
 	 * (goes fullscreen)
 	 */
-	private AsyncOperation<Boolean> createExamCallback() {
+	private AsyncOperation<Boolean> createExamCallback(AppWFull app) {
 		return startExam -> {
 			app.fileNew();
 			app.clearSubAppCons();
 			app.getLAF().toggleFullscreen(true);
-			String cancel = app.getAppletParameters().getParamLockExam() ? null : "Cancel";
+			String cancel = app.isLockedExam() ? null : "Cancel";
 			DialogData data = new DialogData("exam_menu_enter", cancel,
 					"exam_start_button");
 			ExamStartDialog examStartDialog = new ExamStartDialog(app, data);
-			examStartDialog.setOnNegativeAction(() -> app.getLAF().toggleFullscreen(false));
-			examStartDialog.setOnPositiveAction(() -> {
-				ExamClassicStartDialog.blockEscTab(app);
-				app.setNewExam(examStartDialog.getSelectedRegion());
-				app.startExam();
+			examStartDialog.setOnNegativeAction(() -> {
+				examController.cancelExam();
+				app.getLAF().toggleFullscreen(false);
 			});
+			examStartDialog.setOnPositiveAction(() -> startExam(app, examStartDialog));
+			examController.prepareExam();
 			examStartDialog.show();
 		};
+	}
+
+	private void startExam(AppWFull app, ExamStartDialog examStartDialog) {
+		ExamClassicStartDialog.blockEscTab(app);
+		app.startExam(examStartDialog.getSelectedRegion());
 	}
 }

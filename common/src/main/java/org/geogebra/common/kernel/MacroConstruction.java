@@ -14,6 +14,7 @@ package org.geogebra.common.kernel;
 
 import java.util.HashSet;
 
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -48,16 +49,11 @@ public class MacroConstruction extends Construction {
 	 * 
 	 * @param xmlString
 	 *            XML string of the construction
-	 * @throws Exception
-	 *             if there is a problem while reading XML
+	 * @throws XMLParseException
+	 *             if the xml is invalid
 	 */
-	public void loadXML(String xmlString) throws Exception {
-		if (undoManager == null) {
-			undoManager = kernel.getApplication().getUndoManager(this);
-		}
-		this.setFileLoading(true);
-		undoManager.processXML(xmlString, true);
-		this.setFileLoading(false);
+	public void loadXML(String xmlString) throws XMLParseException {
+		processXML(xmlString, true, null);
 	}
 
 	/**

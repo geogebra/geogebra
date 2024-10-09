@@ -290,7 +290,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		CASTableW table = view.getConsoleTable();
 		GPoint point = table.getPointForEvent(event);
 		if (point == null || point.getX() != CASTableW.COL_CAS_HEADER
-		        || startSelectRow < 0 || !mouseDown) {
+				|| startSelectRow < 0 || !mouseDown) {
 			return;
 		}
 		int currentRow = point.getY();
@@ -365,18 +365,18 @@ public class CASTableControllerW extends CASTableCellController implements
 			// insert output of previous row (not in parentheses)
 
 				GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(
-				        editingRow - 1);
+						editingRow - 1);
 				editor.setInput(selCellValue
-				        .getOutputRHS(StringTemplate.defaultTemplate) + " ");
+						.getOutputRHS(StringTemplate.defaultTemplate) + " ");
 			return true;
 
 		case ')':
 			// insert output of previous row in parentheses
 
 			selCellValue = view.getConsoleTable().getGeoCasCell(
-				        editingRow - 1);
+						editingRow - 1);
 				String prevOutput = selCellValue
-				        .getOutputRHS(StringTemplate.defaultTemplate);
+						.getOutputRHS(StringTemplate.defaultTemplate);
 				editor.setInput("(" + prevOutput + ")");
 			return true;
 
@@ -384,9 +384,9 @@ public class CASTableControllerW extends CASTableCellController implements
 			// insert input of previous row
 
 			selCellValue = view.getConsoleTable().getGeoCasCell(
-				        editingRow - 1);
+						editingRow - 1);
 				editor.setInput(selCellValue
-				        .getInput(StringTemplate.defaultTemplate));
+						.getLocalizedInput());
 			return true;
 		}
 		return false;

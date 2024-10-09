@@ -8,36 +8,50 @@ import org.geogebra.common.properties.Property;
  */
 public abstract class AbstractProperty implements Property {
 
-    private Localization localization;
-    private String name;
+	private Localization localization;
+	private String name;
+	private boolean frozen = false;
 
-    /**
-     * Constructs an abstract property.
-     *
-     * @param localization this is used to localize the name
-     * @param name         the name to be localized
-     */
-    public AbstractProperty(Localization localization, String name) {
-        this.localization = localization;
-        this.name = name;
-    }
+	/**
+	 * Constructs an abstract property.
+	 * @param localization this is used to localize the name
+	 * @param name the name to be localized
+	 */
+	public AbstractProperty(Localization localization, String name) {
+		this.localization = localization;
+		this.name = name;
+	}
+	
+	@Override
+	public String getName() {
+		return localization.getMenu(name);
+	}
 
-    @Override
-    public String getName() {
-        return localization.getMenu(name);
-    }
+	@Override
+	public String getRawName() {
+		return name;
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 
-    /**
-     * Returns the localization of the class.
-     *
-     * @return localization used
-     */
-    protected Localization getLocalization() {
-        return localization;
-    }
+	/**
+	 * Returns the localization of the class.
+	 * @return localization used
+	 */
+	protected Localization getLocalization() {
+		return localization;
+	}
+
+	@Override
+	public boolean isFrozen() {
+		return frozen;
+	}
+
+	@Override
+	public void setFrozen(boolean frozen) {
+		this.frozen = frozen;
+	}
 }

@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.statistics;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -25,7 +26,7 @@ public class CmdBinomialDist extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
@@ -87,10 +88,10 @@ public class CmdBinomialDist extends CommandProcessor {
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
 					&& (ok[3] = arg[3].isGeoBoolean())) {
 
-				AlgoBinomialDist algo = new AlgoBinomialDist(cons, c.getLabel(),
+				AlgoBinomialDist algo = new AlgoBinomialDist(cons,
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoNumberValue) arg[2], (GeoBoolean) arg[3]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

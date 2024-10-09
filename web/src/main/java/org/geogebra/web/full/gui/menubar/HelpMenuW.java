@@ -7,7 +7,8 @@ import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.item.LicenseItem;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SharedResources;
@@ -65,59 +66,59 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 		final String tutorialURL = app.getLocalization().getTutorialURL(app.getConfig());
 		if (!StringUtil.empty(tutorialURL)) {
 			tutorials = addItem(
-					MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.tutorial_black(),
-							loc.getMenu("Tutorials")),
-					true, new MenuCommand(app) {
+					MainMenu.getMenuBarItem(MaterialDesignResources.INSTANCE.tutorial_black(),
+							loc.getMenu("Tutorials"),
+					new MenuCommand(app) {
 
 						@Override
 						public void doExecute() {
 							app.getFileManager().open(tutorialURL);
 						}
-					});
+					}));
 		}
 	}
 
 	private void addManualItem(final AppW app, Localization loc) {
 		manual = addItem(
-				MainMenu.getMenuBarHtml(
+				MainMenu.getMenuBarItem(
 						MaterialDesignResources.INSTANCE.manual_black(),
-						loc.getMenu("Manual")),
-				true, new MenuCommand(app) {
+						loc.getMenu("Manual"),
+				new MenuCommand(app) {
 
 					@Override
 					public void doExecute() {
 						app.getGuiManager().openHelp(App.WIKI_MANUAL);
 
 					}
-				});
+				}));
 	}
 
 	private void addForumItem(final AppW app, Localization loc) {
 		forum = addItem(
-				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.forum_black(),
-						loc.getMenu("GeoGebraForum")),
-				true, new MenuCommand(app) {
+				MainMenu.getMenuBarItem(
+						SharedResources.INSTANCE.icon_help_black(),
+						loc.getMenu("Help"),
+				new MenuCommand(app) {
 
 					@Override
 					public void doExecute() {
 						app.getFileManager().open(GeoGebraConstants.FORUM_URL);
 					}
-				});
+				}));
 	}
 
 	private void addReportBugItem(final AppW app, Localization loc) {
 		bug = addItem(
-				MainMenu.getMenuBarHtml(
+				MainMenu.getMenuBarItem(
 						MaterialDesignResources.INSTANCE.bug_report_black(),
-						loc.getMenu("ReportBug")),
-				true, new MenuCommand(app) {
+						loc.getMenu("ReportBug"),
+				new MenuCommand(app) {
 
 					@Override
 					public void doExecute() {
-						app.getFileManager().open(GeoGebraConstants.FORUM_URL);
+						app.getFileManager().open(GeoGebraConstants.REPORT_BUG_URL);
 					}
-				});
+				}));
 	}
 
 	private void addAboutItem() {
@@ -125,11 +126,10 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 	}
 
 	private void addVersionNumber(AppW appW) {
-		String versionNr = GeoGebraConstants.VERSION_STRING.replace("5.0.", "6.0.");
+		String versionNr = GeoGebraConstants.getVersionString6();
 		String versionStr = appW.getLocalization().getPlainDefault("VersionA",
 				"Version %0", versionNr);
-		Label version = new Label(versionStr);
-		version.addStyleName("versionNr");
+		Label version = BaseWidgetFactory.INSTANCE.newDisabledText(versionStr, "versionNr");
 		add(version);
 	}
 

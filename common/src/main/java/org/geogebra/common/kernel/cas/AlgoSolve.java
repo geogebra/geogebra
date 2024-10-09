@@ -7,15 +7,16 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.traversing.DegreeVariableChecker;
+import org.geogebra.common.kernel.arithmetic.traversing.RegisterUndefinedVariables;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -33,11 +34,12 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AlgoSolve extends AlgoElement implements UsesCAS {
 
-	private GeoList solutions;
-	private GeoElement equations;
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+	private final GeoList solutions;
+	private final GeoElement equations;
+	private final ArbitraryConstantRegistry arbconst = new ArbitraryConstantRegistry(this);
 	private Commands type;
-	private GeoElement hint;
+	private final GeoElement hint;
+	private final RegisterUndefinedVariables registerUndefinedVariables;
 
 	/**
 	 * @param c
@@ -56,6 +58,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		this.equations = eq;
 		this.hint = hint;
 		this.solutions = new GeoList(cons);
+		registerUndefinedVariables = new RegisterUndefinedVariables(cons);
 		setInputOutput();
 		compute();
 		if (type != Commands.PlotSolve) {
@@ -218,7 +221,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		return rhs;
 	}
 
-	private static boolean printCAS(GeoElement equations2, StringBuilder sb) {
+	private boolean printCAS(GeoElement equations2, StringBuilder sb) {
 
 		String definition;
 		ExpressionValue definitionObject = null;
@@ -241,10 +244,16 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 			}
 		}
 		sb.append(definition);
-		if (equations2.getKernel().degreesMode()) {
-			return definitionObject.inspect(DegreeVariableChecker
-					.getInstance());
+
+		if (definitionObject != null)  {
+			definitionObject.inspect(registerUndefinedVariables);
+
+			if (equations2.getKernel().degreesMode()) {
+				return definitionObject.inspect(DegreeVariableChecker
+						.getInstance());
+			}
 		}
+
 		return false;
 	}
 

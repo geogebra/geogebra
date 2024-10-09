@@ -2,9 +2,10 @@ package org.geogebra.web.full.gui.view.probcalculator;
 
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.main.App;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
@@ -16,7 +17,7 @@ import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.TabLayoutPanel;
 
 public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
-	private final MyTabLayoutPanel tabbedPane;
+	private final ProbCalcTabLayoutPanel tabbedPane;
 	protected final StatisticsCalculatorW statCalculator;
 	protected FlowPanel plotSplitPane;
 	protected FlowPanel mainSplitPane;
@@ -38,7 +39,7 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 		buildProbCalcPanel();
 		isIniting = false;
 		statCalculator = new StatisticsCalculatorW(app);
-		tabbedPane = new MyTabLayoutPanel();
+		tabbedPane = new ProbCalcTabLayoutPanel();
 		tabbedPane.add(probCalcPanel, loc.getMenu("Distribution"));
 		tabbedPane.add(statCalculator.getWrappedPanel(),
 				loc.getMenu("Statistics"));
@@ -53,7 +54,7 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 		lblMeanSigma = new Label();
 		lblMeanSigma.addStyleName("lblMeanSigma");
 		plotPanelOptions.add(lblMeanSigma);
-		if (!getApp().isExam()) {
+		if (GlobalScope.examController.isIdle()) {
 			ToggleButton btnExport = createExportMenu();
 			btnExport.addStyleName("probCalcStylbarBtn");
 			plotPanelOptions.add(btnExport);
@@ -92,14 +93,14 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 
 	private void addExportItem(GPopupMenuW exportMenu, String title,
 			Scheduler.ScheduledCommand copyCmd) {
-		AriaMenuItem item = new AriaMenuItem(loc.getMenu(title), false, copyCmd);
+		AriaMenuItem item = new AriaMenuItem(loc.getMenu(title), null, copyCmd);
 		item.addStyleName("no-image");
 		exportMenu.addItem(item);
 	}
 
-	private class MyTabLayoutPanel extends TabLayoutPanel implements ClickHandler {
+	private class ProbCalcTabLayoutPanel extends TabLayoutPanel implements ClickHandler {
 
-		public MyTabLayoutPanel() {
+		public ProbCalcTabLayoutPanel() {
 			super(30, Unit.PX);
 			this.addDomHandler(this, ClickEvent.getType());
 		}
@@ -117,7 +118,8 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 
 	@Override
 	public void tabResized() {
-		int tableWidth = isDiscreteProbability() ? ((ProbabilityTableW) getTable()).getStatTable()
+		ProbabilityTableW table = (ProbabilityTableW) getTable();
+		int tableWidth = isDiscreteProbability() && table != null ? table.getStatTable()
 				.getTable().getOffsetWidth() + TABLE_PADDING_AND_SCROLLBAR : 0;
 		int width = mainSplitPane.getOffsetWidth()
 				- tableWidth
@@ -128,8 +130,8 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 			plotSplitPane.setWidth(width + "px");
 		}
 
-		if (height > 0 && isDiscreteProbability()) {
-			((ProbabilityTableW) getTable()).getWrappedPanel()
+		if (height > 0 && isDiscreteProbability() && table != null) {
+			table.getWrappedPanel()
 					.setPixelSize(tableWidth, height);
 		}
 	}
@@ -179,11 +181,14 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 
 	@Override
 	protected void addRemoveTable(boolean showTable) {
-		FlowPanel tablePanel = ((ProbabilityTableW) getTable()).getWrappedPanel();
-		if (showTable) {
-			mainSplitPane.add(tablePanel);
-		} else {
-			mainSplitPane.remove(tablePanel);
+		ProbabilityTableW table = (ProbabilityTableW) getTable();
+		if (table != null) {
+			FlowPanel tablePanel = table.getWrappedPanel();
+			if (showTable) {
+				mainSplitPane.add(tablePanel);
+			} else {
+				mainSplitPane.remove(tablePanel);
+			}
 		}
 		tabResized();
 	}

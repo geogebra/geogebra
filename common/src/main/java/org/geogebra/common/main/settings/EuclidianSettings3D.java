@@ -80,6 +80,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		xZero = EuclidianView3DInterface.XZERO_SCENE_STANDARD;
 		yZero = EuclidianView3DInterface.XZERO_SCENE_STANDARD;
 		dimension = 3;
+		axesLabels = new String[] {"x", "y", "z"};
 	}
 
 	/**
@@ -396,12 +397,15 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	/**
 	 * @param flag
 	 *            whether to show xOy plate
+	 * @return whether flag changed
 	 */
-	public void setShowPlate(boolean flag) {
+	public boolean setShowPlate(boolean flag) {
 		if (showPlate != flag) {
 			showPlate = flag;
 			settingChanged();
+			return true;
 		}
+		return false;
 	}
 
 	public boolean getShowPlate() {
@@ -583,6 +587,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 		hasColoredAxes = true;
 
+		axesLabels = new String[] {"x", "y", "z"};
 	}
 
 	/**

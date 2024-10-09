@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * RectangleSum[ &lt;GeoFunction>, &lt;Number>, &lt;Number>, &lt;Number> ]
+ * RectangleSum[ &lt;GeoFunction&gt;, &lt;Number&gt;, &lt;Number&gt;, &lt;Number&gt; ]
  */
 public class CmdRectangleSum extends CommandProcessor {
 
@@ -24,7 +24,7 @@ public class CmdRectangleSum extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

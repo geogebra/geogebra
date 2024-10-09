@@ -7,9 +7,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Vector[ &lt;GeoPoint>, &lt;GeoPoint> ]
+ * Vector[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
  * 
- * Vector[ &lt;GeoPoint> ]
+ * Vector[ &lt;GeoPoint&gt; ]
  */
 public class CmdVector extends CommandProcessor {
 	/**
@@ -23,7 +23,7 @@ public class CmdVector extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

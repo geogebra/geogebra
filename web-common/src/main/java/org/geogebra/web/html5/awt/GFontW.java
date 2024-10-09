@@ -154,6 +154,7 @@ public class GFontW extends GFont {
 		GFontW ret = new GFontW(fontStyle);
 		ret.setFontStyle(i);
 		ret.fontSize = fontSize;
+		ret.fontFamily = fontFamily;
 		return ret;
 	}
 
@@ -167,9 +168,9 @@ public class GFontW extends GFont {
 		if (font instanceof GFontW) {
 			GFontW fontW = (GFontW) font;
 			return fontFamily.equals(fontW.fontFamily)
-			        && fontSize.equals(fontW.fontSize)
-			        && fontStyle.equals(fontW.fontStyle)
-			        && fontVariant.equals(fontW.fontVariant)
+					&& fontSize.equals(fontW.fontSize)
+					&& fontStyle.equals(fontW.fontStyle)
+					&& fontVariant.equals(fontW.fontVariant)
 					&& fontWeight.equals(fontW.fontWeight);
 
 		}

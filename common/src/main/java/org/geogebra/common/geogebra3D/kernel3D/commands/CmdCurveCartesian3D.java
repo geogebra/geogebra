@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.commands.CmdCurveCartesian;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -26,7 +27,7 @@ public class CmdCurveCartesian3D extends CmdCurveCartesian {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -61,7 +62,7 @@ public class CmdCurveCartesian3D extends CmdCurveCartesian {
 
 		}
 
-		return super.process(c);
+		return super.process(c, info);
 	}
 
 	@Override

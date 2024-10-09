@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertArrayEquals;
@@ -140,7 +141,8 @@ public class GgbApiTest {
 	}
 
 	@Test
-	public void testEvalXML() {
+	public void testOldPolylineSyntaxRedirectoToPenstroke() {
+		app.setGraphingConfig();
 		// eval xml will mark the object as needing update
 		api.evalXML("<expression label=\"stroke1\" "
 						+ "exp=\"PolyLine[(-3.5800,2.7200), (NaN,NaN), true]\" />"
@@ -246,6 +248,26 @@ public class GgbApiTest {
 		assertEquals(40d, jsonArgument.get("yZero"));
 		assertEquals(5d, jsonArgument.get("scale"));
 		assertEquals(6d, jsonArgument.get("yscale"));
+	}
+
+	@Test
+	public void setCoordsTest2D() {
+		api.evalCommand("A=(1,2)");
+		api.setCoords("A", 3, 4);
+		assertEquals("A = (3, 4)", api.getValueString("A"));
+	}
+
+	@Test
+	public void setCoordsTest3D() {
+		api.evalCommand("A=(1,2,3)");
+		api.setCoords("A", 3, 4, 5);
+		assertEquals("A = (3, 4, 5)", api.getValueString("A"));
+
+		api.evalCommand("stroke=PenStroke()");
+		api.setCoords("stroke", 1, 2, 3 , 4, Double.NaN, Double.NaN,
+				5, 6, 7, 8);
+		assertEquals("PenStroke[1.0000E0,2.0000E0,3.0000E0,4.0000E0,NaN,NaN,"
+				+ "5.0000E0,6.0000E0,7.0000E0,8.0000E0]", api.getCommandString("stroke"));
 	}
 
 	@Test
@@ -391,6 +413,16 @@ public class GgbApiTest {
 	}
 
 	@Test
+	public void notLocalizedValueStringShouldHaveHighPrecision() {
+		api.evalCommand("A=(1/3,1/3)");
+		api.evalCommand("c=Circle(O,(2,2))");
+		assertThat(api.getValueString("A", false),
+				is("A = (0.3333333333333, 0.3333333333333)"));
+		assertThat(api.getValueString("A", true), is("A = (0.33, 0.33)"));
+		assertThat(api.getValueString("c", false), is(unicode("c: x^2 + y^2 = 8")));
+	}
+
+	@Test
 	public void testSetGraphicsOptions() throws JSONException {
 		String json = "{gridColor:\"#FF0000\", bgColor: \"#0000ff\", "
 				+ " gridDistance: {\"x\": 1.5, \"y\":0.5, \"theta\":0.1234}"
@@ -449,6 +481,15 @@ public class GgbApiTest {
 		api.evalCommand("b=2*a");
 		assertTrue(api.hasUnlabeledPredecessors("a"));
 		assertFalse(api.hasUnlabeledPredecessors("b"));
+	}
+
+	@Test
+	public void setFixedShouldNotTriggerSelection() {
+		api.evalCommand("a=42");
+		EventAcumulator acc = new EventAcumulator();
+		app.getEventDispatcher().addEventListener(acc);
+		api.setFixed("a", false, false);
+		assertEquals(List.of("UPDATE_STYLE a"), acc.getEvents());
 	}
 
 	private class MockScriptManager extends ScriptManagerJre {

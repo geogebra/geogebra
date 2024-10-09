@@ -22,6 +22,7 @@ public class VectorToMatrix {
 	 *
 	 * @param tpl StringTemplate to use.
 	 * @param definition vector definition.
+	 * @param coordinates vector coordinates
 	 *
 	 * @return the matrix-like string.
 	 */

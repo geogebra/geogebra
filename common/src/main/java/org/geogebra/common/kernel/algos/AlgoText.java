@@ -141,9 +141,9 @@ public class AlgoText extends AlgoElement {
 		if (horizontalAlign != null) {
 			text.setNeedsUpdatedBoundingBox(true);
 			text.update();
-			text.setHorizontalAlignment(horizontalAlign);
+			text.setHorizontalAlignment((int) horizontalAlign.getValue());
 			if (verticalAlign != null) {
-				text.setVerticalAlignment(verticalAlign);
+				text.setVerticalAlignment((int) verticalAlign.getValue());
 			}
 		}
 
@@ -218,8 +218,7 @@ public class AlgoText extends AlgoElement {
 			}
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, text);
+		setOnlyOutput(text);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -247,8 +246,13 @@ public class AlgoText extends AlgoElement {
 			// needed for eg Text commands eg Text[Text[
 			text.setTextString(((GeoText) geo).getTextString());
 		} else {
-			text.setTextString(
-					getGeoString(geo, text.getStringTemplate(), bool));
+			text.setTextString(getGeoString(geo, text.getStringTemplate(), bool));
+		}
+		if (horizontalAlign != null) {
+			text.setHorizontalAlignment((int) horizontalAlign.getValue());
+		}
+		if (verticalAlign != null) {
+			text.setVerticalAlignment((int) verticalAlign.getValue());
 		}
 		text.setLaTeX(formula, false);
 		text.update();

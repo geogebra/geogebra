@@ -67,6 +67,17 @@ public class LatexTreeItemController extends RadioTreeItemController
 				item.updateGUIfocus(true);
 			}
 		});
+		if (event == null) {
+			keepFocusInApp();
+		}
+	}
+
+	private void keepFocusInApp() {
+		if (item.geo != null) {
+			app.getAccessibilityManager().focusGeo(item.geo);
+		} else {
+			app.getActiveEuclidianView().requestFocus();
+		}
 	}
 
 	@Override
@@ -138,18 +149,12 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public boolean onArrowKeyPressed(int keyCode) {
-
 		if (isSuggesting()) {
 			autocomplete.onArrowKeyPressed(keyCode);
 			return true;
 		}
 		item.onCursorMove();
 		return false;
-	}
-
-	@Override
-	public void onInsertString() {
-		// nothing to do
 	}
 
 	/**
@@ -227,7 +232,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		retexListener = new RetexKeyboardListener(item.canvas, getMathField());
 		retexListener.setAcceptsCommandInserts(true);
 		if (show) {
-			app.getAppletFrame().showKeyBoard(true, item, false);
+			app.getAppletFrame().showKeyboard(true, item, false);
 		}
 	}
 
@@ -254,7 +259,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		}
 		if (item.geo != null || StringUtil.empty(item.getText())) {
 			onBlur(null);
-			app.getAccessibilityManager().focusGeo(item.geo);
+
 			return true;
 		}
 		return false;

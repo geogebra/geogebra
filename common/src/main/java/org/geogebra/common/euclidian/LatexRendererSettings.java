@@ -1,7 +1,7 @@
 package org.geogebra.common.euclidian;
 
 public class LatexRendererSettings implements TextRendererSettings {
-	public static final int BOTTOM_OFFSET = 6;
+	public static final int BOTTOM_OFFSET = 9;
 	private final int fixMargin;
 	private final int rightMargin;
 	private int bottomOffset;
@@ -30,6 +30,7 @@ public class LatexRendererSettings implements TextRendererSettings {
 	/**
 	 * Like create(baseFontSize), but no bottomOffset, as input boxes require it.
 	 * @param baseFontSize the base baseFontSize.
+	 * @param fontMultiplier font size multiplier
 	 * @return a new instance
 	 */
 	public static LatexRendererSettings createForInputBox(int baseFontSize, double fontMultiplier) {

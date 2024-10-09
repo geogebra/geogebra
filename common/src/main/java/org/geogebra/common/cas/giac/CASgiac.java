@@ -16,14 +16,14 @@ import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry.ArbconstReplacer;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant.ArbconstReplacer;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
@@ -114,7 +114,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				+ "when(evalf(subst(r,x=xcoord(b))-ycoord(b))==0,r,undef))))])[-1])"),
 
 		/**
-		 * test if "=" or "%=" or ">" or ">=" - needed for eg
+		 * test if "=" or "%=" or "&gt;" or "&gt;=" - needed for eg
 		 * LeftSide({a,b}={1,2})
 		 */
 		GGB_IS_GREATER_OR_GREATER_THAN_OR_EQUALS("ggb_is_gt_or_ge_or_equals", "ggb_is_gt_or_ge_or_equals(a):=when(a=='>'||a=='>='||a==equal||a=='%=',true,false)"),
@@ -459,7 +459,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	/** CAS parser */
-	public CASparser casParser;
+	protected CASparser casParser;
 
 	private static int nrOfReplacedConst = 0;
 	/**
@@ -473,14 +473,10 @@ public abstract class CASgiac implements CASGenericInterface {
 	// eg {(ggbtmpvarx>(-sqrt(110)/5)) && ((sqrt(110)/5)>ggbtmpvarx)}
 	// eg {(ggbtmpvarx>=(-sqrt(110)/5)) && ((sqrt(110)/5)>=ggbtmpvarx)}
 	// eg (ggbtmpvarx>3) && (4>ggbtmpvarx)
-	// private final static RegExp inequality =
-	// RegExp.compile("(.*)\\((ggbtmpvar[^,}\\(\\)]+)>(=*)(.+)\\) &&
-	// \\((.+)>(=*)(ggbtmpvar[^,}\\(\\)]+)\\)(.*)");
-	// works only for variables in form [A-Za-z]+
 	/** expression with at most 3 levels of brackets */
 	public final static String expression = "(([^\\(\\)]|\\([^\\(\\)]+\\)|\\(([^\\(\\)]|\\([^\\(\\)]+\\))+\\))+)";
 	/**
-	 * inequality a >=? ex1 && ex1 >=? b where a,b are literals and ex1, ex2 are
+	 * inequality a &gt;=? ex1 &amp;&amp; ex2 &gt;=? b where a,b are literals and ex1, ex2 are
 	 * expressions with at most 3 brackets
 	 */
 	public final static RegExp inequality = RegExp
@@ -586,7 +582,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	@Override
 	final public synchronized String evaluateGeoGebraCAS(
-			final ValidExpression inputExpression, MyArbitraryConstant arbconst,
+			final ValidExpression inputExpression, ArbitraryConstantRegistry arbconst,
 			StringTemplate tpl, GeoCasCell cell, Kernel kernel)
 			throws CASException {
 
@@ -677,7 +673,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	@Override
 	final public synchronized ExpressionValue evaluateToExpression(
-			final ValidExpression inputExpression, MyArbitraryConstant arbconst,
+			final ValidExpression inputExpression, ArbitraryConstantRegistry arbconst,
 			Kernel kernel) throws CASException {
 		String result = getPlainResult(inputExpression, kernel);
 		// standard case
@@ -791,9 +787,8 @@ public abstract class CASgiac implements CASGenericInterface {
 	 *             Throws if the underlying CAS produces an error
 	 */
 	final public synchronized String toGeoGebraString(String giacString,
-													  MyArbitraryConstant arbconst,
-													  final StringTemplate tpl,
-													  final Kernel kernel) throws CASException {
+			ArbitraryConstantRegistry arbconst,	final StringTemplate tpl,
+			final Kernel kernel) throws CASException {
 
 		ExpressionValue ve = replaceRoots(casParser.parseGiac(giacString),
 				arbconst, kernel);
@@ -833,7 +828,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	private static ExpressionValue replaceRoots(ExpressionValue ve0,
-			MyArbitraryConstant arbconst, Kernel kernel) {
+			ArbitraryConstantRegistry arbconst, Kernel kernel) {
 		ExpressionValue ve = ve0;
 		if (ve != null) {
 			boolean toRoot = kernel.getApplication().getSettings()
@@ -1277,11 +1272,11 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	/**
-	 * convert x>3 && x<7 into 3<x<7 convert 3>x into x<3 convert {3>x} into
-	 * {x<3} eg output from Solve[x (x-1)(x-2)(x-3)(x-4)(x-5) < 0]
+	 * convert x&gt;3 &amp;&amp; x&lt;7 into 3&lt;x&lt;7, convert 3&gt;x into x&lt;3,
+	 * convert {3&gt;x} into {x&lt;3} eg output from Solve[x (x-1)(x-2)(x-3)(x-4)(x-5) &lt; 0]
 	 * 
-	 * Giac's normal command converts inequalities to > or >= so we don't need
-	 * to check <, <=
+	 * Giac's normal command converts inequalities to &gt; or &gt;= so we don't need
+	 * to check &lt;, &lt;=
 	 * 
 	 * @param exp
 	 *            expression
@@ -1295,10 +1290,6 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		// swap 3>x into x<3
 		if (matcher != null && exp.startsWith(matcher.getGroup(1))) {
-			// Log.debug(matcher.getGroup(1));
-			// Log.debug(matcher.getGroup(2));
-			// Log.debug(matcher.getGroup(3));
-			// Log.debug(matcher.getGroup(4));
 			ret = matcher.getGroup(3) + "<" + matcher.getGroup(2)
 					+ matcher.getGroup(1);
 			Log.debug("giac output (with simple inequality converted): " + ret);

@@ -340,7 +340,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 							if (sb.length() > 0) {
 								sb.deleteCharAt(sb.length()-1); // removing last "+"
 							}
-						} 
+						}
 						sb.append(c);
 					} else {
 						// -1
@@ -472,7 +472,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		String vars = getVarsAsCommaSeparatedString(
 				new PPolynomial[] { p1, p2 }, null, null, null);
 		if (!"".equals(vars))
-			return "ring " + ringVariable + "=0,(" 
+			return "ring " + ringVariable + "=0,("
 				+ vars
 				+ "),dp;" // ring definition in Singular
 				
@@ -495,7 +495,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * @param fv6 y-coordinate of the third point
 	 * @return the polynomial
 	 */
-	public static PPolynomial collinear(PVariable fv1, PVariable fv2, PVariable fv3, 
+	public static PPolynomial collinear(PVariable fv1, PVariable fv2, PVariable fv3,
 			PVariable fv4, PVariable fv5, PVariable fv6) {
 		Log.trace("Setting up equation for collinear points " +
 			"(" + fv1 + "," + fv2 + "), " +
@@ -530,7 +530,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * @param v8 y-coordinate of the fourth point (D)
 	 * @return the polynomial
 	 */
-	public static PPolynomial perpendicular(PVariable v1, PVariable v2, PVariable v3, 
+	public static PPolynomial perpendicular(PVariable v1, PVariable v2, PVariable v3,
 			PVariable v4, PVariable v5, PVariable v6, PVariable v7, PVariable v8) {
 
 		Log.trace("Setting up equation for perpendicular lines " +
@@ -567,7 +567,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * @param v8 y-coordinate of the fourth point (D)
 	 * @return the polynomial
 	 */
-	public static PPolynomial parallel(PVariable v1, PVariable v2, PVariable v3, 
+	public static PPolynomial parallel(PVariable v1, PVariable v2, PVariable v3,
 			PVariable v4, PVariable v5, PVariable v6, PVariable v7, PVariable v8) {
 
 		Log.trace("Setting up equation for parallel lines " +
@@ -871,7 +871,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * Creates a Singular program for creating a ring to work with several
 	 * polynomials, and returns if the equation system has a solution. Uses
 	 * the Groebner basis w.r.t. the revgradlex order.
-	 * @param substitutions HashMap with variables and values, e.g. {v1->0},{v2->1}
+	 * @param substitutions HashMap with variables and values, e.g. {v1-&gt;0},{v2-&gt;1}
 	 * @param polys polynomials, e.g. "v1+v2-3*v4-10"
 	 * @param fieldVars field variables (comma separated) 
 	 * @param ringVars ring variables (comma separated)
@@ -886,7 +886,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		String idealVariable = "i";
 		String dummyVar = "d";
 		
-		String vars = ringVars + addLeadingComma(fieldVars); 
+		String vars = ringVars + addLeadingComma(fieldVars);
 		
 		String substCommand = "";
 		if (substitutions != null) {
@@ -905,7 +905,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		
 		ret += "),dp;" // ring definition in Singular, using revgradlex
 			+ "ideal " + idealVariable + "="
-		 	+ polys + ";"; // ideal definition in Singular
+			+ polys + ";"; // ideal definition in Singular
 
 		ret += substCommand;
 
@@ -942,7 +942,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
              1,1
 	 */
 	
-	public static String createEliminateFactorizedScript( 
+	public static String createEliminateFactorizedScript(
 			PPolynomial[] polys, PVariable[] pVariables, Set<PVariable> dependentVariables) {
 
 		String ringVariable = "r";
@@ -1093,7 +1093,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	public static PPolynomial equidistant(PVariable a1, PVariable a2,
 			PVariable o1, PVariable o2, PVariable b1,
 			PVariable b2) {
-		return sqrDistance(a1,a2,o1,o2).subtract(sqrDistance(o1,o2,b1,b2));  
+		return sqrDistance(a1,a2,o1,o2).subtract(sqrDistance(o1,o2,b1,b2));
 	}
 	
 	/**

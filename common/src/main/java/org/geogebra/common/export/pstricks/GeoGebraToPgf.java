@@ -71,7 +71,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * 
  * 
  */
-public abstract class GeoGebraToPgf extends GeoGebraExport {
+public class GeoGebraToPgf extends GeoGebraExport {
 	private static final int FORMAT_LATEX = 0;
 	private static final int FORMAT_PLAIN_TEX = 1;
 	private static final int FORMAT_CONTEXT = 2;
@@ -82,11 +82,11 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	private boolean hatchWarning = false;
 
 	/**
-	 * @param app
-	 *            application
+	 * @param app application
+	 * @param graphicsFactory export graphics factory
 	 */
-	public GeoGebraToPgf(App app) {
-		super(app);
+	public GeoGebraToPgf(App app, ExportGraphicsFactory graphicsFactory) {
+		super(app, graphicsFactory);
 	}
 
 	@Override
@@ -2482,8 +2482,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			if (drawGeo == null) {
 				return;
 			}
-			double xLabel = drawGeo.getxLabel();
-			double yLabel = drawGeo.getyLabel();
+			double xLabel = drawGeo.getLabelX();
+			double yLabel = drawGeo.getLabelY();
 			xLabel = euclidianView.toRealWorldCoordX(Math.round(xLabel));
 			yLabel = euclidianView.toRealWorldCoordY(Math.round(yLabel));
 			GColor geocolor = geo.getObjectColor();
@@ -2814,7 +2814,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			int grayscale = (red + green + blue) / 3;
 			GColor c = GColor.newColor(grayscale, grayscale, grayscale);
 			if (customColor.containsKey(c)) {
-				colorname = customColor.get(c).toString();
+				colorname = customColor.get(c);
 			} else {
 				if (c.equals(GColor.BLACK)) {
 					sb.append("black");
@@ -2861,7 +2861,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			}
 			String colorname = "";
 			if (customColor.containsKey(c0)) {
-				colorname = customColor.get(c0).toString();
+				colorname = customColor.get(c0);
 			} else {
 				int red = c0.getRed();
 				int green = c0.getGreen();
@@ -3048,17 +3048,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		return true;
 	}
 
-	/**
-	 * @param s
-	 *            shape
-	 * @param ineq
-	 *            inequality
-	 * @param geo
-	 *            function
-	 * @param ds
-	 *            view parameters
-	 */
-	public void superFill(GShape s, Inequality ineq, FunctionalNVar geo,
+	@Override
+	public void fillIneq(GShape s, Inequality ineq, FunctionalNVar geo,
 			double[] ds) {
 		((GeoElement) geo).setLineType(ineq.getBorder().lineType);
 		switch (ineq.getType()) {

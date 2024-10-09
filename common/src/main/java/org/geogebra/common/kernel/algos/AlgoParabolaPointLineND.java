@@ -91,8 +91,7 @@ public abstract class AlgoParabolaPointLineND extends AlgoElement {
 		input[0] = (GeoElement) F;
 		input[1] = (GeoElement) line;
 
-		super.setOutputLength(1);
-		super.setOutput(0, parabola);
+		setOnlyOutput(parabola);
 		setDependencies(); // done by AlgoElement
 	}
 

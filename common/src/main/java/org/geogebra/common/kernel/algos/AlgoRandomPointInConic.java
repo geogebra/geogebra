@@ -94,7 +94,7 @@ public class AlgoRandomPointInConic extends AlgoElement implements SetRandomValu
 		int type = conic.getType();
 		switch (type) {
 		case GeoConicNDConstants.CONIC_CIRCLE:
-			GeoVec2D center = conic.b;
+			GeoVec2D center = conic.getB();
 
 			double r = conic.getHalfAxis(0)
 					* Math.sqrt(cons.getApplication().getRandomNumber());
@@ -109,7 +109,7 @@ public class AlgoRandomPointInConic extends AlgoElement implements SetRandomValu
 			break;
 
 		case GeoConicNDConstants.CONIC_ELLIPSE:
-			center = conic.b;
+			center = conic.getB();
 
 			double a = conic.getHalfAxis(0);
 			double b = conic.getHalfAxis(1);

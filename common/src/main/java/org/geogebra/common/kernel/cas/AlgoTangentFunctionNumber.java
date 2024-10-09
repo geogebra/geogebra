@@ -92,8 +92,7 @@ public class AlgoTangentFunctionNumber extends AlgoElement
 		input[0] = ngeo;
 		input[1] = f.toGeoElement();
 
-		setOutputLength(1);
-		setOutput(0, tangent);
+		setOnlyOutput(tangent);
 		setDependencies(); // done by AlgoElement
 	}
 

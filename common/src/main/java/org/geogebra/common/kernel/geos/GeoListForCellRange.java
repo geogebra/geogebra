@@ -15,11 +15,8 @@ public class GeoListForCellRange extends GeoList {
 
 	/**
 	 * constructor
-	 * 
-	 * @param c
-	 *            construction
-	 * @param algo
-	 *            parent algo
+	 * @param c construction
+	 * @param algo parent algo
 	 */
 	public GeoListForCellRange(Construction c, AlgoCellRange algo) {
 		super(c);
@@ -39,4 +36,8 @@ public class GeoListForCellRange extends GeoList {
 		return added;
 	}
 
+	@Override
+	protected boolean isElementTypeXMLNeeded() {
+		return getTypeStringForXML() != null;
+	}
 }

@@ -11,7 +11,7 @@ import javax.swing.JToolBar;
 
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorStyleBar;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
-import org.geogebra.desktop.gui.util.MyToggleButtonD;
+import org.geogebra.desktop.gui.util.ToggleButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -30,11 +30,11 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 
 	JToolBar wrappedToolbar;
 
-	private MyToggleButtonD btnLineGraph;
-	private MyToggleButtonD btnStepGraph;
-	private MyToggleButtonD btnBarGraph;
-	private MyToggleButtonD btnExport;
-	private MyToggleButtonD btnNormalOverlay;
+	private ToggleButtonD btnLineGraph;
+	private ToggleButtonD btnStepGraph;
+	private ToggleButtonD btnBarGraph;
+	private ToggleButtonD btnExport;
+	private ToggleButtonD btnNormalOverlay;
 
 	private final LocalizationD loc;
 
@@ -81,17 +81,17 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 
 		wrappedToolbar.removeAll();
 
-		btnLineGraph = new MyToggleButtonD(
+		btnLineGraph = new ToggleButtonD(
 				getScaledIcon(GuiResourcesD.LINE_GRAPH),
 				iconHeight);
 		btnLineGraph.addActionListener(this);
 
-		btnStepGraph = new MyToggleButtonD(
+		btnStepGraph = new ToggleButtonD(
 				getScaledIcon(GuiResourcesD.STEP_GRAPH),
 				iconHeight);
 		btnStepGraph.addActionListener(this);
 
-		btnBarGraph = new MyToggleButtonD(
+		btnBarGraph = new ToggleButtonD(
 				getScaledIcon(GuiResourcesD.BAR_GRAPH),
 				iconHeight);
 		btnBarGraph.addActionListener(this);
@@ -102,13 +102,13 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 		gp.add(btnStepGraph);
 
 		// create export button
-		btnExport = new MyToggleButtonD(
+		btnExport = new ToggleButtonD(
 				getScaledIcon(GuiResourcesD.EXPORT16), iconHeight);
 		btnExport.setFocusable(false);
 		btnExport.addActionListener(this);
 
 		// create normal overlay button
-		btnNormalOverlay = new MyToggleButtonD(
+		btnNormalOverlay = new ToggleButtonD(
 				getScaledIcon(GuiResourcesD.NORMAL_OVERLAY),
 				iconHeight);
 		btnNormalOverlay.setFocusable(false);

@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.TransformDilate;
 import org.geogebra.common.kernel.TransformMirror;
 import org.geogebra.common.kernel.TransformRotate;
 import org.geogebra.common.kernel.TransformTranslate;
+import org.geogebra.common.kernel.advanced.AlgoAxis;
 import org.geogebra.common.kernel.advanced.AlgoCentroidPolygon;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -57,6 +58,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.MyError;
@@ -572,17 +574,15 @@ public class AlgoDispatcher {
 	}
 
 	/**
-	 * Creates a free list object with the given elements
-	 * 
-	 * @param label
-	 *            output label
+	 * Creates a free or dependent list object with the given elements
+	 *
 	 * @param geoElementList
 	 *            list of GeoElement objects
 	 * @param isIndependent
 	 *            whether to create independent list
 	 * @return list with given elements
 	 */
-	final public GeoList list(String label,
+	final public GeoList list(
 			ArrayList<GeoElement> geoElementList, boolean isIndependent) {
 		if (isIndependent) {
 			GeoList list = new GeoList(cons);
@@ -590,11 +590,9 @@ public class AlgoDispatcher {
 			for (int i = 0; i < size; i++) {
 				list.add(geoElementList.get(i));
 			}
-			list.setLabel(label);
 			return list;
 		}
-		AlgoDependentList algoList = new AlgoDependentList(cons, label,
-				geoElementList);
+		AlgoDependentList algoList = new AlgoDependentList(cons, geoElementList, false);
 		return algoList.getGeoList();
 	}
 
@@ -1810,6 +1808,7 @@ public class AlgoDispatcher {
 	 */
 	final public GeoElement[] intersectLineCurve(String[] labels, GeoLine g,
 			GeoCurveCartesian p) {
+
 		AlgoIntersectLineCurve algo = new AlgoIntersectLineCurve(cons, labels,
 				g, p);
 		return algo.getOutput();
@@ -2080,8 +2079,7 @@ public class AlgoDispatcher {
 		if (!a.isPolynomialFunction(false) || !b.isPolynomialFunction(false)) {
 
 			// dummy point
-			GeoPoint A = new GeoPoint(cons);
-			A.setZero();
+			GeoPoint A = createDummyPoint();
 			// we must check that getLabels() didn't return null
 			String label = labels == null ? null : labels[0];
 			AlgoIntersectFunctionsNewton algo = new AlgoIntersectFunctionsNewton(
@@ -2095,6 +2093,12 @@ public class AlgoDispatcher {
 		algo.setLabels(labels);
 		GeoPoint[] points = algo.getIntersectionPoints();
 		return points;
+	}
+
+	private GeoPoint createDummyPoint() {
+		GeoPoint pt = new GeoPoint(cons);
+		pt.setCoords(0, 0, 1);
+		return pt;
 	}
 
 	/**
@@ -2172,8 +2176,7 @@ public class AlgoDispatcher {
 		if (isConditionalFunction(f)) {
 			GeoPoint A = initPoint;
 			if (A == null) {
-				A = new GeoPoint(cons);
-				A.setZero();
+				A = createDummyPoint();
 			}
 			AlgoIntersectFunctionLineNewton algo = new AlgoIntersectFunctionLineNewton(
 					cons, labels == null ? null : labels[0], f,
@@ -2188,8 +2191,7 @@ public class AlgoDispatcher {
 			// dummy point
 			GeoPoint A = initPoint;
 			if (A == null) {
-				A = new GeoPoint(cons);
-				A.setZero();
+				A = createDummyPoint();
 			}
 			// we must check that getLabels() didn't return null
 			String label = labels == null ? null : labels[0];
@@ -3534,4 +3536,58 @@ public class AlgoDispatcher {
 		return (GeoElement) centroid;
 	}
 
+	/**
+	 * @param labels
+	 *            labels
+	 * @param c
+	 *            conic
+	 * @return axes algo
+	 */
+	public AlgoAxesQuadricND axesConic(GeoQuadricND c, String[] labels) {
+		return new AlgoAxes(cons, labels, (GeoConic) c);
+	}
+
+	/**
+	 * @param label
+	 *            label
+	 * @param conic
+	 *            conic
+	 * @return axis algo
+	 */
+	public AlgoAxis axis(String label, GeoConicND conic, int axisId) {
+		return new AlgoAxis(cons, label, conic, axisId);
+	}
+
+	/**
+	 * polar line to P relative to c
+	 *
+	 * @param label
+	 *            output label
+	 * @param P
+	 *            point
+	 * @param c
+	 *            conic
+	 * @return polar
+	 */
+	public GeoElement polarLine(String label, GeoPointND P, GeoConicND c) {
+		AlgoPolarLine algo = new AlgoPolarLine(cons, label, c, P);
+		return (GeoElement) algo.getLine();
+	}
+
+	/**
+	 * pole of line relative to c
+	 *
+	 * @param label
+	 *            output label
+	 * @param line
+	 *            line
+	 * @param c
+	 *            conic
+	 * @return pole line
+	 */
+	public GeoElement polarPoint(String label, GeoLineND line,
+			GeoConicND c) {
+		AlgoPolarPoint algo = new AlgoPolarPoint(cons, label, c, line);
+		return (GeoElement) algo.getPoint();
+	}
 }

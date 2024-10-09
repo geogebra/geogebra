@@ -6,6 +6,7 @@ import java.awt.RenderingHints;
 import java.awt.RenderingHints.Key;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.util.Stack;
 
 import org.geogebra.common.awt.GAffineTransform;
@@ -16,16 +17,12 @@ import org.geogebra.common.awt.GComposite;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.gui.MyImageD;
-
-import com.kitfox.svg.SVGException;
 
 /**
  * Desktop implementation of Graphics2D; wraps the java.awt.Graphics2D class
@@ -200,18 +197,7 @@ public class GGraphics2DD implements GGraphics2D {
 	@Override
 	public void drawImage(MyImage img, int x, int y) {
 		MyImageD imgD = (MyImageD) img;
-
-		if (imgD.isSVG()) {
-			try {
-				translate(x, y);
-				imgD.getDiagram().render(impl);
-				translate(-x, -y);
-			} catch (SVGException e) {
-				Log.debug(e);
-			}
-		} else {
-			impl.drawImage(imgD.getImage(), x, y, null);
-		}
+		imgD.render(impl, x, y);
 	}
 
 	@Override
@@ -370,11 +356,11 @@ public class GGraphics2DD implements GGraphics2D {
 		// TODO Auto-generated method stub
 	}
 
-	private GLine2D line;
+	private Line2D.Double line;
 
-	private GLine2D getLine() {
+	private Line2D.Double getLine() {
 		if (line == null) {
-			line = AwtFactory.getPrototype().newLine2D();
+			line = new Line2D.Double();
 		}
 
 		return line;
@@ -388,7 +374,7 @@ public class GGraphics2DD implements GGraphics2D {
 		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
 				RenderingHints.VALUE_STROKE_DEFAULT);
 
-		impl.draw(GGenericShapeD.getAwtShape(line));
+		impl.draw(line);
 
 		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
 				RenderingHints.VALUE_STROKE_PURE);
@@ -426,15 +412,11 @@ public class GGraphics2DD implements GGraphics2D {
 	 */
 	public void drawImageScaled(MyImageD img, int width, int height) {
 		if (img.isSVG()) {
-			try {
-				saveTransform();
-				scale((double) width / img.getWidth(),
-						(double) height / img.getHeight());
-				img.getDiagram().render(impl);
-				restoreTransform();
-			} catch (SVGException e) {
-				Log.debug(e);
-			}
+			saveTransform();
+			scale((double) width / img.getWidth(),
+					(double) height / img.getHeight());
+			img.render(impl, 0, 0);
+			restoreTransform();
 		} else {
 			impl.drawImage(img.getImage(), 0, 0, width, height, null);
 		}
@@ -459,23 +441,17 @@ public class GGraphics2DD implements GGraphics2D {
 	@Override
 	public void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
 			int dy, int dw, int dh) {
-		if (img.isSVG()) {
-			impl.translate(dx, dy);
-			try {
-				((MyImageD) img).getDiagram().render(impl);
-			} catch (SVGException e) {
-				Log.debug(e);
-			}
-			impl.translate(-dx, -dy);
-		} else {
-			impl.drawImage(((MyImageD) img).getImage(), dx, dy, dx + dw, dy + dh,
-					sx, sy, sx + sw, sy + sh, null);
-		}
+		MyImageD myImageD = (MyImageD) img;
+		myImageD.render(impl, sx, sy, sw, sh, dx, dy, dw, dh);
 	}
 
 	@Override
 	public void drawImage(MyImage img, int dx, int dy, int dw, int dh) {
 		impl.drawImage(((MyImageD) img).getImage(), dx, dy, dx, dy, null);
+	}
+
+	public Graphics2D getNativeImplementation() {
+		return impl;
 	}
 
 }

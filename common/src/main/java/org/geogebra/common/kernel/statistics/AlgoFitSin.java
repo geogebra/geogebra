@@ -46,15 +46,15 @@ import org.geogebra.common.util.debug.Log;
  * first two extremums are found by my "direction-changing-algorithm" (Ulven
  * nov-08), using a flank of three points as an indicator of monotonous
  * increasing or decreasing function. (Same effort as finding a local max as
- * y1&lt;y2>y3, but effectively equivalent to using 5 points:
- * y1&lt;y2&lt;y3>y4>y5) III simple iteration of d in &lt;-pi,pi> to find a good
+ * y1&lt;y2&gt;y3, but effectively equivalent to using 5 points:
+ * y1&lt;y2&lt;y3&gt;y4&gt;y5) III simple iteration of d in &lt;-pi,pi&gt; to find a good
  * d (Critical if c is a bit off, so better than pi/2-c*xmax) IV Simplified
  * Levenberg-Marquardt method. (Could be optimized if/when I am able to
  * understand the mathematics behind it and be able to check if this is of any
  * value.) (Perhaps Donald Knuth could have done all this in 50 lines, but this
- * is the best I can do...) Constraints: &lt;List of points> should have at
+ * is the best I can do...) Constraints: &lt;List of Points&gt; should have at
  * least 5 points. There should also be three points on the row steadily
- * increasing or decreasing(y1&lt;=y2&lt;=y3 or y1>=y2>=y3)on each side/flank of
+ * increasing or decreasing(y1&lt;=y2&lt;=y3 or y1&gt;=y2&gt;=y3)on each side/flank of
  * the first extremums. The points should cover at least two extremums of the
  * function. The two first extremums should not be too far from the extremums of
  * the solution curve. If more than one period, there should, at the very least,
@@ -193,8 +193,8 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 				expr);
 		Function f = new Function(node, X);
 		geofunction.setFunction(f);
-		geofunction.setDefined(MyDouble.isFinite(a) && MyDouble.isFinite(b)
-				&& MyDouble.isFinite(c) && MyDouble.isFinite(d));
+		geofunction.setDefined(Double.isFinite(a) && Double.isFinite(b)
+				&& Double.isFinite(c) && Double.isFinite(d));
 	}
 
 	// / ============= IMPLEMENTATION
@@ -229,8 +229,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			}
 		} // for
 		a = sum / size;
-		b = (max - min) / 2.0d; // System.out.println("a= "+a+" b= "+b+" max=
-								// "+max+" min= "+min);
+		b = (max - min) / 2.0d;
 
 		// Find c:
 		// This time first and second local max/min, between rise and fall and
@@ -299,15 +298,10 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 																					// period,
 																					// hopefully
 		} // if too few extrema
-		c = PI * numberofhalfperiods / min_max_distance; // debug("Final c:
-															// "+c);
-		// System.out.println("c="+c); //**************
+		c = PI * numberofhalfperiods / min_max_distance;
 		double c2 = 2 * Math.PI / ((xd[size - 1] - xd[0]) * 2 / changes);
-		// System.out.println("or..."+c2);
-		// System.out.println("changes: "+changes);
 		if (changes > 2) {
 			c = (c + c2) / 2; // compromise?
-		// System.out.println("final c: "+c);
 		}
 
 		// Find d
@@ -464,10 +458,8 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 					lambda = lambda * multfaktor; // Not going well :-(
 					multfaktor *= 2; // LM drives hard...
 				} // if going the right way
-			} // if(error)-else
-				// System.out.println( ""+da+"\t"+db+"\t"+dc+"\t"+dd+"\n"+
-				// ""+a+"\t"+b+"\t"+c+"\t"+d+"\n" );//out
-		} // while(da+db+dc>eps)
+			}
+		}
 
 		// Reduce d to interval <-pi,pi>
 		// d=Rdft.reduce(d);//put here not in rdft!

@@ -42,7 +42,7 @@ public class PlotterBrushSection {
 	double length;
 
 	/** normal (for caps) */
-	public Coords normal = null;
+	private final Coords normal;
 
 	/** normal deviation along direction */
 	private double normalDevD = 0;

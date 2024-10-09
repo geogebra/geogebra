@@ -71,7 +71,7 @@ public class ConstructionProtocolNavigationW
 
 		btPlay = new ToggleButton(GuiResourcesSimple.INSTANCE.play_circle(),
 				GuiResourcesSimple.INSTANCE.pause_circle());
-		btPlay.removeStyleName("MyToggleButton");
+		btPlay.removeStyleName("ToggleButton");
 		btPlay.addFastClickHandler(this);
 
 		spDelay.addChangeHandler(event -> {
@@ -98,7 +98,7 @@ public class ConstructionProtocolNavigationW
 		btOpenWindow.addFastClickHandler(event -> toggleConstructionProtocol());
 		btOpenWindow.setVisible(isConsProtButtonVisible());
 		addPaddingPlayPanel(showConsProtButton);
-		btOpenWindow.addStyleName("MyCanvasButton");
+		btOpenWindow.addStyleName("IconButton");
 		btOpenWindow.addStyleName("navbar_btOpenWindow");
 		implPanel.add(btOpenWindow);
 
@@ -228,10 +228,10 @@ public class ConstructionProtocolNavigationW
 	private class AutomaticPlayer {
 		Timer timer;
 
-	      /**
-         * Creates a new player to step through the construction
-         * automatically.
-         */
+		/**
+		 * Creates a new player to step through the construction
+		 * automatically.
+		 */
 		public AutomaticPlayer() {
 			timer = new Timer() {
 

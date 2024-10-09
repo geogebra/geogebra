@@ -2,12 +2,15 @@ package org.geogebra.common.gui.view.table;
 
 import java.util.Objects;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.gui.dialog.handler.DefineFunctionHandler;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.LabelManager;
 
 /**
  * Controller for the data table functionality in Scientific Calculator
@@ -55,12 +58,14 @@ public final class ScientificDataTableController {
 		} finally {
 			resetUndoInfo();
 		}
+		table.getTableValuesModel().setAllowsAddingColumns(false);
 	}
 
-	private GeoFunction createFunction(Construction construction, String label) {
+	private GeoFunction createFunction(Construction construction, String unprefixedLabel) {
 		GeoFunction function = new GeoFunction(construction);
 		function.setAuxiliaryObject(true);
-		function.rename(label);
+		function.rename(LabelManager.HIDDEN_PREFIX + unprefixedLabel);
+		function.setCaption(unprefixedLabel);
 		return function;
 	}
 
@@ -151,11 +156,8 @@ public final class ScientificDataTableController {
 		return getFunction("g", false);
 	}
 
-	private GeoFunction getFunction(String label, boolean returnNullIfUndefined) {
-		if (label == null) {
-			return null;
-		}
-		GeoElement element = kernel.lookupLabel(label);
+	private GeoFunction getFunction(@Nonnull String unprefixedLabel, boolean returnNullIfUndefined) {
+		GeoElement element = kernel.lookupLabel(LabelManager.HIDDEN_PREFIX + unprefixedLabel);
 		if (!(element instanceof GeoFunction)) {
 			return null;
 		}

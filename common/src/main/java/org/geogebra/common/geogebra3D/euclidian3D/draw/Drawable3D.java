@@ -13,6 +13,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
@@ -54,7 +55,7 @@ import org.geogebra.common.util.DoubleUtil;
             super(a_view3d, a_new3D); <br> 
          }
          </code></li>
- * <li>Eclipse will add auto-generated methods :
+ * <li>Your IDE will add auto-generated methods :
  * <ul>
  * <li>getPickOrder() : for picking objects order ; use
  * {@link #DRAW_PICK_ORDER_MAX} first
@@ -239,6 +240,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	/** visibility as intersection curve */
 	protected boolean intersectionCurveVisibility;
 	private @CheckForNull Caption3D caption = null;
+	private GGraphics2D updateLabelGraphics;
 	// /////////////////////////////////////////////////////////////////////////////
 	// constructors
 
@@ -391,9 +393,14 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	protected void updateLabel() {
 		if (caption != null) {
 			caption.update();
+			if (updateLabelGraphics == null) {
+				updateLabelGraphics = AwtFactory.getPrototype()
+						.newBufferedImage(1, 1, 1).createGraphics();
+			}
 			label.update(caption,
 					getView3D().getFontPoint(),
-					getLabelPosition(), getLabelOffsetX(), -getLabelOffsetY(), 0);
+					getLabelPosition(), getLabelOffsetX(), -getLabelOffsetY(), 0,
+					updateLabelGraphics);
 		}
 	}
 
@@ -2075,7 +2082,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 * 
 	 */
 	public void updateIntersectionCurveVisibility() {
-	    setGeometriesVisibility(intersectionCurveVisibility);
+		setGeometriesVisibility(intersectionCurveVisibility);
 	}
 
 	/**
@@ -2092,9 +2099,9 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 *            if curve is clipped
 	 */
 	final protected void setPackCurve(boolean clipped) {
-        getView3D().getRenderer().getGeometryManager().setPackCurve(
-                this, clipped);
-    }
+		getView3D().getRenderer().getGeometryManager().setPackCurve(
+				this, clipped);
+	}
 
 	/**
 	 * 
@@ -2134,7 +2141,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 * setup manager end packing
 	 */
 	protected void endPacking() {
-	    getView3D().getRenderer().getGeometryManager().endPacking();
+		getView3D().getRenderer().getGeometryManager().endPacking();
 	}
 
 	@Override

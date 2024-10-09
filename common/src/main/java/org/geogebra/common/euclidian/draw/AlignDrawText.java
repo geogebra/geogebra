@@ -89,15 +89,11 @@ public class AlignDrawText {
 	}
 
 	private int getVerticalAlignment() {
-		return text.getVerticalAlignment() != null
-				? (int) text.getVerticalAlignment().getValue()
-				: 1;
+		return text.getVerticalAlignment() != null ? text.getVerticalAlignment() : 1;
 	}
 
 	private int getHorizontalAlignment() {
-		return text.getHorizontalAlignment() != null
-				? (int) text.getHorizontalAlignment().getValue()
-				: 1;
+		return text.getHorizontalAlignment() != null ? text.getHorizontalAlignment() : 1;
 	}
 
 	void update() {

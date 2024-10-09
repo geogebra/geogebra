@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
 /**
- * Ray[ &lt;GeoPoint3D>, &lt;GeoPoint3D> ] or CmdRay
+ * Ray[ &lt;GeoPoint3D&gt;, &lt;GeoPoint3D&gt; ] or CmdRay
  */
 public class CmdRay3D extends CmdRay {
 	/**

@@ -1,5 +1,6 @@
 package org.geogebra.common.jre.headless;
 
+import java.util.HashMap;
 import java.util.Locale;
 
 import org.geogebra.common.GeoGebraConstants.Platform;
@@ -76,10 +77,11 @@ public class AppCommon extends App {
 	private CASFactory casFactory = new CASFactoryDummy();
 	private boolean appletFlag = false;
 	private ImageManager imageManager;
+	private final HashMap<String, MyImageCommon> externalImages = new HashMap<>();
 
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory) {
-	    this(loc, awtFactory, new AppConfigDefault());
-    }
+		this(loc, awtFactory, new AppConfigDefault());
+	}
 
 	/**
 	 * Construct an AppCommon.
@@ -88,15 +90,16 @@ public class AppCommon extends App {
 	 *            localization
 	 * @param awtFactory
 	 *            AWT factory
+	 * @param appConfig config
 	 */
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory, AppConfig appConfig) {
 		super(Platform.ANDROID);
 		config = appConfig;
 		AwtFactory.setPrototypeIfNull(awtFactory);
-        initFactories();
+		initFactories();
 		initKernel();
 		localization = loc;
-        initLocalization();
+		initLocalization();
 		getLocalization().initTranslateCommand();
 		initSettings();
 		initEuclidianViews();
@@ -113,7 +116,7 @@ public class AppCommon extends App {
 				}
 			}
 		});
-    }
+	}
 
 	@Override
 	public DefaultSettings getDefaultSettings() {
@@ -182,11 +185,6 @@ public class AppCommon extends App {
     @Override
     public CommandDispatcher newCommandDispatcher(Kernel cmdKernel) {
 		return new CommandDispatcherJre(cmdKernel);
-    }
-
-    @Override
-	public CommandDispatcher newCommand3DDispatcher(Kernel cmdKernel) {
-        return null;
     }
 
     @Override
@@ -263,7 +261,7 @@ public class AppCommon extends App {
 				}
 			}
 		}
-		return false;
+		return view == App.VIEW_EUCLIDIAN;
     }
 
     @Override
@@ -337,14 +335,14 @@ public class AppCommon extends App {
 
 			@Override
 			public MyImage getFillImage() {
-				return new MyImageCommon();
+				return image;
 			}
 
 			@Override
 			public void setImageFileName(String fileName) {
 				this.imageFileName = fileName;
 				if (fileName != null) {
-					setImageOnly(new MyImageCommon());
+					setImageOnly(getExternalImageAdapter(fileName, 0, 0));
 				}
 			}
 
@@ -526,11 +524,6 @@ public class AppCommon extends App {
     }
 
     @Override
-    public boolean loadXML(String xml) {
-        return false;
-    }
-
-    @Override
     public void copyGraphicsViewToClipboard() {
 		// not needed with no UI
     }
@@ -632,7 +625,10 @@ public class AppCommon extends App {
 
     @Override
     public MyImage getExternalImageAdapter(String filename, int width, int height) {
-        return null;
+		if (StringUtil.empty(filename)) {
+			return null;
+		}
+        return externalImages.computeIfAbsent(filename, foo -> new MyImageCommon(width, height));
     }
 
 	@Override
@@ -720,7 +716,7 @@ public class AppCommon extends App {
 	private void reInit() {
 		resetAlgebraOutputFilter();
 		kernel.setAlgebraProcessor(null);
-		getSettingsUpdater().resetSettingsOnAppStart();
+		initSettingsUpdater().resetSettingsOnAppStart();
 	}
 
 	public void setScriptManager(ScriptManager scriptManager) {
@@ -739,6 +735,10 @@ public class AppCommon extends App {
 	@Override
 	public Layout getLayout() {
 		return layout;
+	}
+
+	public void setPrerelease() {
+		prerelease = true;
 	}
 
 	private static class LayoutHeadless extends Layout {
@@ -792,5 +792,15 @@ public class AppCommon extends App {
 
 	public void setImageManager(ImageManager imgManager) {
 		imageManager = imgManager;
+	}
+
+	@Override
+	public boolean isUnbundled() {
+		return AppConfigDefault.isUnbundled(getConfig().getAppCode());
+	}
+
+	@Override
+	protected void getViewsXML(StringBuilder sb, boolean asPreference) {
+		getSettings().getAlgebra().getXML(sb, asPreference);
 	}
 }

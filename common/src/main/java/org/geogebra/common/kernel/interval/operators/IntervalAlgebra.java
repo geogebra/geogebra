@@ -2,7 +2,7 @@ package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
+import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.operators.RMath.powHigh;
 import static org.geogebra.common.kernel.interval.operators.RMath.powLow;
 
@@ -34,13 +34,15 @@ public class IntervalAlgebra {
 	 * @param other argument.
 	 * @return this as result
 	 */
-	Interval fmod(Interval interval, Interval other) {
+	void fmod(Interval interval, Interval other) {
 		if (interval.isUndefined() || other.isUndefined()) {
-			return undefined();
+			interval.setUndefined();
+			return;
 		}
 
 		if (interval.isUndefined()) {
-			return whole();
+			interval.setWhole();
+			return;
 		}
 
 		double yb = interval.getLow() < 0 ? other.getLow() : other.getHigh();
@@ -51,11 +53,9 @@ public class IntervalAlgebra {
 			n = Math.floor(n);
 		}
 
-		Interval result = new Interval(interval);
 		Interval multiplicand = new Interval(other);
 		// x mod y = x - n * y
-		result.subtract(evaluator.multiply(multiplicand, new Interval(n)));
-		return result;
+		interval.subtract(evaluator.multiply(multiplicand, new Interval(n)));
 	}
 
 	/**
@@ -153,19 +153,26 @@ public class IntervalAlgebra {
 	/**
 	 * Power of an interval where power is also an interval
 	 * that must be a singleton, ie [n, n]
-	 * @param other interval power.
+	 * @param base power base
+	 * @param exponent interval power.
 	 * @return this as result.
 	 */
-	Interval pow(Interval interval, Interval other) {
-		if (other.isZero()) {
-			return one();
+	Interval pow(Interval base, Interval exponent) {
+		if (exponent.isZero()) {
+			// x^0 should be 1 for x around 0, 0^x should be 0 for small x
+			return base.isZero() && base.isExactSingleton() && !exponent.isExactSingleton()
+					? undefined() : one();
 		}
 
-		if (!other.isSingleton()) {
-			return powerOfInterval(interval, other);
+		if (base.isZeroWithDelta(IntervalConstants.PRECISION / 2)) {
+			return exponent.isPositive() ? zero() : undefined();
 		}
 
-		return pow(interval, other.getLow());
+		if (!exponent.isSingleton()) {
+			return powerOfInterval(base, exponent);
+		}
+
+		return pow(base, exponent.getLow());
 	}
 
 	private Interval powerOfInterval(Interval interval, Interval other) {

@@ -31,30 +31,30 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Intersect[ &lt;GeoLine>, &lt;GeoLine> ]
+ * Intersect[ &lt;GeoLine&gt;, &lt;GeoLine&gt; ]
  * 
- * Intersect[ &lt;GeoLine>, &lt;GeoPolygon> ]
+ * Intersect[ &lt;GeoLine&gt;, &lt;GeoPolygon&gt; ]
  * 
- * Intersect[ &lt;GeoPolyLine>, &lt;GeoPolyLine> ]
+ * Intersect[ &lt;GeoPolyLine&gt;, &lt;GeoPolyLine&gt; ]
  * 
- * Intersect[ &lt;GeoLine>, &lt;GeoConic> ]
+ * Intersect[ &lt;GeoLine&gt;, &lt;GeoConic&gt; ]
  * 
- * Intersect[ &lt;GeoConic>, &lt;GeoLine> ]
+ * Intersect[ &lt;GeoConic&gt;, &lt;GeoLine&gt; ]
  * 
- * Intersect[ &lt;GeoConic>, &lt;GeoConic> ]
+ * Intersect[ &lt;GeoConic&gt;, &lt;GeoConic&gt; ]
  * 
- * Intersect[ &lt;GeoFunction>, &lt;GeoFunction> ]
+ * Intersect[ &lt;GeoFunction&gt;, &lt;GeoFunction&gt; ]
  * 
- * Intersect[ &lt;GeoFunction>, &lt;GeoLine> ]
+ * Intersect[ &lt;GeoFunction&gt;, &lt;GeoLine&gt; ]
  * 
- * Intersect[ &lt;GeoImplicitPoly>, &lt;GeoImplicitPoly> ]
+ * Intersect[ &lt;GeoImplicitPoly&gt;, &lt;GeoImplicitPoly&gt; ]
  * 
- * Intersect[ &lt;GeoImplicitPoly>, &lt;GeoLine> ]
+ * Intersect[ &lt;GeoImplicitPoly&gt;, &lt;GeoLine&gt; ]
  * 
- * Intersect[ &lt;GeoImplicitPoly>, &lt;GeoFunction(Polynomial)> ]
+ * Intersect[ &lt;GeoImplicitPoly&gt;, &lt;GeoFunction(Polynomial)&gt; ]
  * 
- * Intersect[ &lt;GeoFunction>, &lt;GeoFunction>, &lt;NumberValue>,
- * &lt;NumberValue> ] Intersect[ &lt;Path>, &lt;Point> ]
+ * Intersect[ &lt;GeoFunction&gt;, &lt;GeoFunction&gt;, &lt;NumberValue&gt;,
+ * &lt;NumberValue&gt; ] Intersect[ &lt;Path&gt;, &lt;Point&gt; ]
  */
 public class CmdIntersect extends CommandProcessor {
 
@@ -69,7 +69,7 @@ public class CmdIntersect extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
@@ -134,14 +134,14 @@ public class CmdIntersect extends CommandProcessor {
 			return ret;
 		}
 		// Line - Parametric Curve
-		else if ((ok[0] = (arg[0].isGeoLine()))
-				&& (ok[1] = (arg[1] instanceof GeoCurveCartesian))) {
+		else if ((ok[0] = (arg[0] instanceof GeoLine))
+				&& (ok[1] = (arg[1] instanceof GeoCurveCartesianND))) {
 			GeoElement[] ret = getAlgoDispatcher().intersectLineCurve(
 					c.getLabels(), (GeoLine) arg[0],
 					(GeoCurveCartesian) arg[1]);
 			return ret;
-		} else if ((ok[0] = (arg[0] instanceof GeoCurveCartesian))
-				&& (ok[1] = (arg[1].isGeoLine()))) {
+		} else if ((ok[0] = (arg[0] instanceof GeoCurveCartesianND))
+				&& (ok[1] = (arg[1] instanceof GeoLine))) {
 			GeoElement[] ret = getAlgoDispatcher().intersectLineCurve(
 					c.getLabels(), (GeoLine) arg[1],
 					(GeoCurveCartesian) arg[0]);

@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.commands;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdRotate;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -13,7 +14,7 @@ import org.geogebra.common.main.MyError;
 /**
  * Extends rotation for 3D objects.
  * 
- * Rotate[ &lt;GeoPoint>, &lt;NumberValue> ]
+ * Rotate[ &lt;GeoPoint&gt;, &lt;NumberValue&gt; ]
  * 
  * @author mathieu
  */
@@ -30,7 +31,7 @@ public class CmdRotate3D extends CmdRotate {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
@@ -76,7 +77,7 @@ public class CmdRotate3D extends CmdRotate {
 
 		}
 
-		return super.process(c);
+		return super.process(c, info);
 
 	}
 

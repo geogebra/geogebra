@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.properties.SliderPropertiesPanelD;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
@@ -134,7 +135,7 @@ public class SliderDialogD extends Dialog
 		radioPanel.add(rbInteger);
 
 		// label textfield
-		tfLabel = new InputPanelD(number.getDefaultLabel(), app, 1, 10, true);
+		tfLabel = new InputPanelD(number.getDefaultLabel(), app, 10, true, false);
 		tfLabel.getTextComponent().addKeyListener(this);
 		Border border = BorderFactory.createCompoundBorder(
 				BorderFactory.createTitledBorder(loc.getMenu("Name")),
@@ -219,7 +220,7 @@ public class SliderDialogD extends Dialog
 
 					geoNum.setValue(val);
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.debug(e);
 				}
 			}
 		}

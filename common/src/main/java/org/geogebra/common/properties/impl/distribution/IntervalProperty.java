@@ -1,19 +1,16 @@
 package org.geogebra.common.properties.impl.distribution;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.IconsEnumerableProperty;
+import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
-import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 
 /**
  * Interval property.
  */
-public class IntervalProperty extends AbstractEnumerableProperty implements
-		IconsEnumerableProperty {
+public class IntervalProperty extends AbstractEnumeratedProperty<Integer> implements
+		IconsEnumeratedProperty<Integer> {
 
 	private static final PropertyResource[] icons = {
 			PropertyResource.ICON_PROBABILITY_MODE_LEFT,
@@ -21,13 +18,6 @@ public class IntervalProperty extends AbstractEnumerableProperty implements
 			PropertyResource.ICON_PROBABILITY_MODE_TWO_TAILED,
 			PropertyResource.ICON_PROBABILITY_MODE_RIGHT
 	};
-
-	private static final List<Integer> values = Arrays.asList(
-			ProbabilityCalculatorView.PROB_LEFT,
-			ProbabilityCalculatorView.PROB_INTERVAL,
-			ProbabilityCalculatorView.PROB_TWO_TAILED,
-			ProbabilityCalculatorView.PROB_RIGHT
-	);
 
 	private final ProbabilityCalculatorView view;
 
@@ -39,24 +29,23 @@ public class IntervalProperty extends AbstractEnumerableProperty implements
 	public IntervalProperty(Localization localization, ProbabilityCalculatorView view) {
 		super(localization, "Interval");
 		this.view = view;
-		setValues(new String[icons.length]);
+		setValues(ProbabilityCalculatorView.PROB_LEFT, ProbabilityCalculatorView.PROB_INTERVAL,
+				ProbabilityCalculatorView.PROB_TWO_TAILED, ProbabilityCalculatorView.PROB_RIGHT);
 	}
 
 	@Override
-	public PropertyResource[] getIcons() {
+	public PropertyResource[] getValueIcons() {
 		return icons;
 	}
 
 	@Override
-	public int getIndex() {
-		int probabilityMode = view.getProbMode();
-		return values.indexOf(probabilityMode);
+	public Integer getValue() {
+		return view.getProbMode();
 	}
 
 	@Override
-	protected void setValueSafe(String value, int index) {
-		int probabilityMode = values.get(index);
-		view.setProbabilityMode(probabilityMode);
+	protected void doSetValue(Integer value) {
+		view.setProbabilityMode(value);
 	}
 
 	@Override

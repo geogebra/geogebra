@@ -1,7 +1,6 @@
 package org.geogebra.common.util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -20,6 +19,7 @@ import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
+import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.algos.AlgoDependentList;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPointND;
@@ -343,23 +343,24 @@ public abstract class CopyPaste {
 
 		ArrayList<ConstructionElement> ret = new ArrayList<>();
 
-		GeoElement geo, geo2;
+		GeoElement geo;
 		TreeSet<GeoElement> ts;
-		Iterator<GeoElement> it;
+
 		for (int i = 0; i < geos.size(); i++) {
 			geo = (GeoElement) geos.get(i);
 			if (geo instanceof GeoEmbed && geo.getParentAlgorithm() instanceof AlgoTableToChart) {
 				continue;
 			}
 			ts = geo.getAllPredecessors();
-			it = ts.iterator();
-			while (it.hasNext()) {
-				geo2 = it.next();
+			for (GeoElement geo2 : ts) {
 				if (!ret.contains(geo2) && !geos.contains(geo2)
 						&& geo2.getConstruction().isConstantElement(
-								geo2) == Construction.Constants.NOT) {
+						geo2) == Construction.Constants.NOT) {
 					ret.add(geo2);
 				}
+			}
+			if (geo.getParentAlgorithm() != null) {
+				ret.add(geo.getParentAlgorithm());
 			}
 		}
 		geos.addAll(ret);
@@ -426,27 +427,30 @@ public abstract class CopyPaste {
 				}
 
 				ret.add(geo);
-
-				if (Algos.isUsedFor(Commands.Sequence, geo)) {
-					// variable of AlgoSequence is not returned in
-					// lookupLabel!
-					// the old name of the variable may remain, as it is not
-					// part of the construction anyway
-					GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
-					if (pgeos.length > 1 && pgeos[1].getLabelSimple()
-							.length() > labelPrefix.length()) {
-						if (pgeos[1].getLabelSimple()
-								.substring(0, labelPrefix.length())
-								.equals(labelPrefix)) {
-							pgeos[1].setLabelSimple(pgeos[1].getLabelSimple()
-									.substring(labelPrefix.length()));
-						}
-					}
+				AlgoElement parent = geo.getParentAlgorithm();
+				if (parent != null) {
+					// local variable names in Sequence / Curve / Zip ... should be reset now
+					// as they cannot do not interfere with global label lookup
+					handleLocalVariableNames(parent);
 				}
 			}
 		}
 
 		return ret;
+	}
+
+	private static void handleLocalVariableNames(AlgoElement parent) {
+		for (GeoElement parentInput : parent.getInput()) {
+			if (parentInput.isLocalVariable()
+					&& parentInput.getLabelSimple().startsWith(labelPrefix)) {
+				parentInput.setLabelSimple(parentInput.getLabelSimple()
+						.substring(labelPrefix.length()));
+				// extra step needed for curve
+				if (parent instanceof AlgoCurveCartesian) {
+					((AlgoCurveCartesian) parent).updateVariableName();
+				}
+			}
+		}
 	}
 
 	public void paste(App app, AsyncOperation<String> stringAsyncOperation) {

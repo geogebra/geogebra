@@ -65,9 +65,11 @@ import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsV
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
-import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
+import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.CompDropDown;
@@ -202,8 +204,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			FlowPanel mainPanel = new FlowPanel();
 			mainPanel.setStyleName("optionsInput");
 			// non auto complete input panel
-			InputPanelW inputPanel = new InputPanelW(null, getAppW(), 1, -1,
-					true);
+			InputPanelW inputPanel = new InputPanelW(null, getAppW(), true);
 			tfCondition = inputPanel.getTextComponent();
 
 			title = new FormLabel().setFor(tfCondition);
@@ -373,13 +374,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			model = new ColorFunctionModel(app, this);
 			setModel(model);
 			// non auto complete input panel
-			InputPanelW inputPanelR = new InputPanelW(null, getAppW(), 1, -1,
-					true);
-			InputPanelW inputPanelG = new InputPanelW(null, getAppW(), 1, -1,
-					true);
-			InputPanelW inputPanelB = new InputPanelW(null, getAppW(), 1, -1,
-					true);
-			inputPanelA = new InputPanelW(null, getAppW(), 1, -1, true);
+			InputPanelW inputPanelR = new InputPanelW(null, getAppW(), true);
+			InputPanelW inputPanelG = new InputPanelW(null, getAppW(), true);
+			InputPanelW inputPanelB = new InputPanelW(null, getAppW(), true);
+			inputPanelA = new InputPanelW(null, getAppW(),  true);
 			tfRed = inputPanelR.getTextComponent();
 			tfGreen = inputPanelG.getTextComponent();
 			tfBlue = inputPanelB.getTextComponent();
@@ -657,16 +655,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	}
 
 	/**
-	 * 
-	 * @param app
-	 *            app
-	 * @param isDefaults
-	 *            whether it's for defaults
-	 * @param onTabSelection
-	 *            tab selection callback
+	 * @param app - app
+	 * @param isDefaults - whether it's for defaults
+	 * @param onTabSelection - tab selection callback
 	 */
-	public OptionsObjectW(AppW app, boolean isDefaults,
-			Runnable onTabSelection) {
+	public OptionsObjectW(AppW app, boolean isDefaults, Runnable onTabSelection) {
 		this.app = app;
 		this.isDefaults = isDefaults;
 		loc = app.getLocalization();
@@ -687,9 +680,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	}
 
 	private void updateJsEnabled() {
-		app.getScriptManager().setJsEnabled(!app.isMebis()
-				|| app.getLoginOperation().isTeacherLoggedIn());
-
+		boolean jsEnabled = !app.isMebis()
+				|| app.getLoginOperation().isTeacherLoggedIn();
+		app.getScriptManager().setJsEnabled(jsEnabled);
 	}
 
 	AppW getAppW() {
@@ -711,7 +704,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		});
 		tabPanel.setStyleName("propertiesPanel");
 		createBasicTab();
-		if (!(app.isExam())) {
+		if (GlobalScope.examController.isIdle()) {
 			tabs = Arrays.asList(basicTab, addTextTab(), addSliderTab(),
 					addColorTab(), addStyleTab(), addPositionTab(),
 					addAdvancedTab(), addAlgebraTab(), addScriptTab());
@@ -971,25 +964,28 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		return tabPanel;
 	}
 
-	private class LabelStyleProperty extends AbstractEnumerableProperty {
+	private class LabelStyleProperty extends AbstractNamedEnumeratedProperty<Integer> {
 		private final LabelPanel labelPanel;
-		private int index = 0;
+		private int value = 0;
 
 		public LabelStyleProperty(LabelPanel labelPanel) {
 			super(app.getLocalization(), "");
 			this.labelPanel = labelPanel;
-			setValues("Name", "NameAndValue", "Value", "Caption", "CaptionAndValue");
+			setValues(GeoElementND.LABEL_NAME, GeoElementND.LABEL_NAME_VALUE,
+					GeoElementND.LABEL_VALUE, GeoElementND.LABEL_CAPTION,
+					GeoElementND.LABEL_DEFAULT);
+			setValueNames("Name", "NameAndValue", "Value", "Caption", "CaptionAndValue");
 		}
 
 		@Override
-		protected void setValueSafe(String value, int index) {
-			this.index = index;
-			labelPanel.model.applyModeChanges(labelPanel.model.fromDropdown(index), true);
+		protected void doSetValue(Integer value) {
+			this.value = value;
+			labelPanel.model.applyModeChanges(labelPanel.model.fromDropdown(value), true);
 		}
 
 		@Override
-		public int getIndex() {
-			return index;
+		public Integer getValue() {
+			return value;
 		}
 	}
 }

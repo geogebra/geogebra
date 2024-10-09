@@ -205,7 +205,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 
 	/**
 	 * This method sets focus on this widget.
-	 * <p/>
+	 * <p>
 	 * But note that the combo box is not a focus event sourcer. It siply
 	 * delegtes this functionality to the text box.
 	 *
@@ -244,8 +244,8 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 
 	/**
 	 * Gets a number of visible rows.
-	 * <p/>
-	 * Values <= 0 interpreted as undefined.
+	 * <p>
+	 * Values &lt;= 0 interpreted as undefined.
 	 *
 	 * @return a visible rows to be displayed without scrolling.
 	 */
@@ -255,8 +255,8 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 
 	/**
 	 * Sets visible rows number.
-	 * <p/>
-	 * You can pass a value <= 0. It will mean that this parameter in undefined.
+	 * <p>
+	 * You can pass a value &lt;= 0. It will mean that this parameter in undefined.
 	 *
 	 * @param visibleRows
 	 *            is a number of rows to be displayed without scrolling.
@@ -267,7 +267,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 
 	/**
 	 * Sets an item index that must be displayed on top.
-	 * <p/>
+	 * <p>
 	 * If the item is outside the currently visible area the list will be
 	 * scrolled down to this item.
 	 *
@@ -380,7 +380,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 
 	/**
 	 * Gets a highlight row number.
-	 * <p/>
+	 * <p>
 	 * Note that sometimes this value is not equal to the selected row.
 	 *
 	 * @return a highlight row number or <code>-1</code> if nothing is
@@ -413,12 +413,12 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 
 	/**
 	 * Gets an item by its index
-	 * <p/>
-	 * If index < 0 or index >= {@link #getItemCount()} it throws an exception.
+	 * <p>
+	 * If index &lt; 0 or index &gt;= {@link #getItemCount()} it throws an exception.
 	 *
 	 * @param index
 	 *            is an index of the item to get.
-	 * @return a foudn item.
+	 * @return a found item.
 	 * @throws IndexOutOfBoundsException
 	 *             if index is invalid.
 	 */
@@ -428,7 +428,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 
 	/**
 	 * Gets an item index if it's displayed in the drop down list.
-	 * <p/>
+	 * <p>
 	 * Otherwise returns <code>-1</code>.
 	 *
 	 * @param item
@@ -536,13 +536,13 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 
 	/**
 	 * Enables or disables lazy rendering option.
-	 * <p/>
+	 * <p>
 	 * If this option is enabled the widget displays only several items on
 	 * lazily renders other ones on scroll down.
-	 * <p/>
+	 * <p>
 	 * By default lazy rendering is disabled. Switch it on for really large
 	 * (over 500 items) lists only.
-	 * <p/>
+	 * <p>
 	 * Note that <i>lazy rendering</i> is not <i>lazy data loading</i>. The
 	 * second one means that the data is loaded into the model on request where
 	 * as the first option assumes that all necessary data has already been
@@ -567,7 +567,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 
 	/**
 	 * Sets applied position of the drop down list.
-	 * <p/>
+	 * <p>
 	 * Being set the drop down is immediately applied if the list is opened.
 	 *
 	 * @param dropDownPosition
@@ -620,7 +620,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 	 * Adds a value change handler to the component that will be invoked only if
 	 * {@link #setValue(String, boolean)} has the second parameter =
 	 * {@code true}.
-	 * <p/>
+	 * <p>
 	 *
 	 * Note that the widget doesn't fire the event if you don't use the method
 	 * specified above.
@@ -931,12 +931,12 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 
 	/**
 	 * This is a keyboard manager implementation developed for the widget.
-	 * <p/>
+	 * <p>
 	 * It prevents default browser event handling for system keys like arrow up
 	 * / down, escape, enter and tab. This manager is activated on widget focus
 	 * and is used for opening / closing the drop down list and switching a
 	 * cursor position in the list.
-	 * <p/>
+	 * <p>
 	 * It also supports Shift+Tab combination but skips other modifiers.
 	 */
 	protected class ComboBoxKeyboardManager
@@ -989,6 +989,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 					} else if (button == KeyCodes.KEY_ESCAPE && !hasModifiers) {
 						hideList();
 						setKeyPressed(false);
+						nativeEvent.stopPropagation();
 					} else if (button == KeyCodes.KEY_TAB
 							&& (!hasModifiers || !alt && !ctrl)) {
 						hideList();
@@ -1009,7 +1010,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 		/**
 		 * This method cancels and prevents default actions of the specified
 		 * event.
-		 * <p/>
+		 * <p>
 		 * It's useful for stupid browsers like Opera.
 		 *
 		 * @param event

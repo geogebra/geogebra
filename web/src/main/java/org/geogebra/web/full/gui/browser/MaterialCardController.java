@@ -15,9 +15,11 @@ import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.openfileview.MaterialCard;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
+import org.geogebra.web.full.gui.openfileview.RemoveDialog;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.dialog.ComponentDialog;
+import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 /**
@@ -46,7 +48,7 @@ public class MaterialCardController implements OpenFileListener {
 	 * Load current material
 	 */
 	private void load() {
-		app.getViewW().processFileName(material.getFileName());
+		app.getArchiveLoader().processFileName(material.getFileName());
 		updateActiveMaterial();
 		app.getGuiManager().getBrowseView().close();
 		((GeoGebraFrameFull) app.getAppletFrame())
@@ -82,6 +84,7 @@ public class MaterialCardController implements OpenFileListener {
 	 * Load online file.
 	 */
 	public void loadOnlineFile() {
+		app.getShareController().setAssign(false);
 		if (!StringUtil.empty(getMaterial().getFileName())) {
 			app.resetUrl();
 			load();
@@ -121,7 +124,7 @@ public class MaterialCardController implements OpenFileListener {
 		if (getMaterial().getType() == MaterialType.csv) {
 			app.openCSV(Browser.decodeBase64(getMaterial().getBase64()));
 		} else {
-			app.getViewW().processFileName(material.getFileName());
+			app.getArchiveLoader().processFileName(material.getFileName());
 		}
 	}
 
@@ -172,7 +175,7 @@ public class MaterialCardController implements OpenFileListener {
 	}
 
 	private void showSnackbar(String message) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(message, app);
+		app.getToolTipManager().showBottomMessage(message, app);
 	}
 
 	private static boolean onlineFile(Material toDelete) {
@@ -280,6 +283,17 @@ public class MaterialCardController implements OpenFileListener {
 			app.getShareController().startMultiuser(material.getSharingKeySafe());
 		}
 		return true; // one time only
+	}
+
+	/**
+	 * show confirmation dialog for delete
+	 * @param card material/template/temporary card
+	 */
+	public void showDeleteConfirmDialog(MaterialCardI card) {
+		DialogData data = new DialogData(null, "Cancel", "Delete");
+		ComponentDialog removeDialog = new RemoveDialog(app, data, card);
+		removeDialog.show();
+		removeDialog.setOnPositiveAction(() -> onConfirmDelete(card));
 	}
 
 }

@@ -18,8 +18,8 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.gui.util.ToggleButton;
@@ -39,7 +39,7 @@ import org.gwtproject.user.client.ui.ScrollPanel;
  * Class to dynamically display plots and statistics in coordination with the
  * DataAnalysisView.
  */
-public class DataDisplayPanelW extends FlowPanel implements 
+public class DataDisplayPanelW extends FlowPanel implements
 		StatPanelInterfaceW, RequiresResize, IDataDisplayListener {
 	private static final int NUM_CLASSES_IDX = 0;
 	private static final int MANUAL_CLASSES_IDX = 1;
@@ -157,7 +157,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 			}
 		};
 		btnExport.getPopupMenu().addStyleName("gwt-ToggleButton");
-		btnExport.getPopupMenu().addStyleName("MyToggleButton");
+		btnExport.getPopupMenu().addStyleName("ToggleButton");
 
 		// create sub-control panels
 		createDisplayTypeComboBox();
@@ -372,7 +372,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private void createExportMenu() {
 		AriaMenuBar menu = new AriaMenuBar();
 		AriaMenuItem miToGraphich = new AriaMenuItem(
-				loc.getMenu("CopyToGraphics"), false,
+				loc.getMenu("CopyToGraphics"), null,
 				() -> {
 					exportToEV();
 					btnExport.removeSubPopup();
@@ -382,17 +382,15 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		if (app.getLAF().copyToClipboardSupported()) {
 			AriaMenuItem miAsPicture = new AriaMenuItem(
-					loc.getMenu("ExportAsPicture"), false,
+					loc.getMenu("ExportAsPicture"), null,
 					() -> {
 						exportAsPicture();
 						btnExport.removeSubPopup();
 					});
 			menu.addItem(miAsPicture);
 		}
-		String image = "<img src=\""
-				+ MaterialDesignResources.INSTANCE.prob_calc_export().getSafeUri()
-						.asString() + "\" >";
-		btnExport.addItem(new AriaMenuItem(image, true, menu));
+		btnExport.addItem(new AriaMenuItem("",
+				MaterialDesignResources.INSTANCE.prob_calc_export(), menu));
 	}
 
 	protected void exportAsPicture() {
@@ -401,9 +399,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 		app.updateSelection(false);
 
 		app.setWaitCursor();
-		app.copyEVtoClipboard(plotPanel);
+		app.exportView(plotPanel);
 		app.setDefaultCursor();
-    }
+	}
 
 	protected void exportToEV() {
 		// use EV1 unless shift is down, then use EV2
@@ -628,7 +626,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		int width = optionsPanel.isVisible() ? w - optionsPanel.getOffsetWidth() - PLOTPANEL_MARGIN
 				: w;
-		int height = (frequencyTable.isVisible() ? h - spFrequencyTable.getOffsetHeight() 
+		int height = (frequencyTable.isVisible() ? h - spFrequencyTable.getOffsetHeight()
 				: h) - lbDisplayType.getOffsetHeight() -  PLOTPANEL_MARGIN;
 
 		if (daModel.isRegressionMode()) {
@@ -666,18 +664,18 @@ public class DataDisplayPanelW extends FlowPanel implements
 	}
 
 	public void resize(boolean update) {
-	    resize(getOffsetWidth(), getOffsetHeight(), update);
-    }
+		resize(getOffsetWidth(), getOffsetHeight(), update);
+	}
 
 	@Override
 	public void resize() {
-	    resize(true);
-    }
+		resize(true);
+	}
 
 	@Override
 	public void onResize() {
-		resize(true);  
-    }
+		resize(true);
+	}
 
 	public void update() {
 		model.updatePlot(true);

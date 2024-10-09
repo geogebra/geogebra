@@ -32,8 +32,9 @@ public class AlgebraViewTransferHandler extends TransferHandler
 
 	private ArrayList<String> geoLabelList;
 
-	/****************************************
+	/**
 	 * Constructor
+	 * @param app application
 	 */
 	public AlgebraViewTransferHandler(AppD app) {
 		this.app = app;
@@ -89,9 +90,6 @@ public class AlgebraViewTransferHandler extends TransferHandler
 	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
 		for (int i = 0; i < supportedFlavors.length; i++) {
-			// System.out.println(flavor.getMimeType());
-			// System.out.println(supportedFlavors[i].getMimeType());
-			// System.out.println("------------");
 			if (supportedFlavors[i].equals(flavor)) {
 				return true;
 			}

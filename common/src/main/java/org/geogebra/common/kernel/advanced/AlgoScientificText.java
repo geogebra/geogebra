@@ -72,8 +72,7 @@ public class AlgoScientificText extends AlgoElement {
 			input[1] = (GeoElement) precision;
 		}
 
-		setOutputLength(1);
-		setOutput(0, text);
+		setOnlyOutput(text);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -144,28 +143,8 @@ public class AlgoScientificText extends AlgoElement {
 			sb.append("}");
 
 			/*
-			 * Unicode version. Doesn't work too well as Unicode.Superscript_0
-			 * is the wrong size sb.append(strs[0]);
-			 * sb.append(Unicode.multiply); sb.append("10"); //sb.append('^');
-			 * //sb.append(strs[1]);
-			 * 
-			 * for (int i = 0 ; i < strs[1].length() ; i++) { switch
-			 * (strs[1].charAt(i)) { case '0' :
-			 * sb.append(Unicode.Superscript_0); break; case '1' :
-			 * sb.append(Unicode.Superscript_1); break; case '2' :
-			 * sb.append(Unicode.Superscript_2); break; case '3' :
-			 * sb.append(Unicode.Superscript_3); break; case '4' :
-			 * sb.append(Unicode.Superscript_4); break; case '5' :
-			 * sb.append(Unicode.Superscript_5); break; case '6' :
-			 * sb.append(Unicode.Superscript_6); break; case '7' :
-			 * sb.append(Unicode.Superscript_7); break; case '8' :
-			 * sb.append(Unicode.Superscript_8); break; case '9' :
-			 * sb.append(Unicode.Superscript_9); break; case '-' :
-			 * sb.append(Unicode.Superscript_Minus); break;
-			 * 
-			 * default: AbstractApplication.warn(
-			 * "Unexpected character in ScientificText[]" );
-			 * text.setUndefined(); return; } }
+			 * Prefer LaTeX over unicode superscripts. Unicode doesn't work too well as
+			 * Unicode.Superscript_0 is the wrong size.
 			 */
 
 			text.setTextString(sb.toString());

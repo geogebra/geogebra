@@ -10,9 +10,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * AngularBisector[ &lt;GeoPoint>, &lt;GeoPoint>, &lt;GeoPoint> ]
+ * AngularBisector[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
  * 
- * AngularBisector[ &lt;GeoLine>, &lt;GeoLine> ]
+ * AngularBisector[ &lt;GeoLine&gt;, &lt;GeoLine&gt; ]
  */
 public class CmdAngularBisector extends CommandProcessor {
 
@@ -27,7 +27,7 @@ public class CmdAngularBisector extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 

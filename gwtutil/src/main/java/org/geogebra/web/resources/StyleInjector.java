@@ -19,6 +19,8 @@ package org.geogebra.web.resources;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.GeoGebraConstants;
+
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLLinkElement;
 import elemental2.dom.HTMLStyleElement;
@@ -35,7 +37,7 @@ public class StyleInjector {
 	private final String moduleBaseUrl;
 
 	public StyleInjector(String moduleBaseURL) {
-		this.moduleBaseUrl = devModeFix(moduleBaseURL);
+		this.moduleBaseUrl = normalizeUrl(moduleBaseURL);
 	}
 
 	/**
@@ -67,12 +69,16 @@ public class StyleInjector {
 	}
 
 	/**
-	 * when localhost:8888/dev is used as codebase, the styles are one level above
+	 * when localhost:8888/dev is used as codebase, the styles are one level above <br>
+	 * also, when using /apps/latest as codebase, make sure to load the styles by using the
+	 * (unique) ggb version
 	 * @param moduleBaseURL codebase
 	 * @return canonical codebase
 	 */
-	public static String devModeFix(String moduleBaseURL) {
-		return moduleBaseURL.replace(":8888/dev", ":8888");
+	public static String normalizeUrl(String moduleBaseURL) {
+		return moduleBaseURL.replace(":8888/dev", ":8888")
+				.replace("geogebra.org/apps/latest",
+						"geogebra.org/apps/" + GeoGebraConstants.VERSION_STRING);
 	}
 
 	private static void checkIfAllStylesLoaded() {

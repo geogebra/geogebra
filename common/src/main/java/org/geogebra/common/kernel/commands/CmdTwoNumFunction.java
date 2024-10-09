@@ -8,7 +8,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * abstract class for Commands with two numberical arguments eg Binomial[
- * &lt;Number>, &lt;Number> ]
+ * &lt;Number&gt;, &lt;Number&gt; ]
  * 
  * @author Michael Borcherds
  */
@@ -24,7 +24,7 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 

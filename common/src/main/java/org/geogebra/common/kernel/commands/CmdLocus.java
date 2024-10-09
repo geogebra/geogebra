@@ -12,8 +12,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Locus[ &lt;GeoPoint Q>, &lt;GeoPoint P> ] or Locus[ &lt;GeoPoint Q>,
- * &lt;GeoNumeric P> ]
+ * Locus[ &lt;GeoPoint Q&gt;, &lt;GeoPoint P&gt; ] or Locus[ &lt;GeoPoint Q&gt;,
+ * &lt;GeoNumeric P&gt; ]
  */
 public class CmdLocus extends CommandProcessor {
 
@@ -28,7 +28,7 @@ public class CmdLocus extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

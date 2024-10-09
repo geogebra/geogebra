@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -23,7 +24,7 @@ import org.geogebra.common.kernel.prover.AlgoIsTangent;
 import org.geogebra.common.main.MyError;
 
 /**
- * IsTangent[&lt;Line>, &lt;Conic>]
+ * IsTangent[&lt;Line&gt;, &lt;Conic&gt;]
  * 
  * @author Zoltan Kovacs
  *
@@ -40,7 +41,7 @@ public class CmdIsTangent extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c)
+	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];

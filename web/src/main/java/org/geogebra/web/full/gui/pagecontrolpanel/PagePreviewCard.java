@@ -72,7 +72,7 @@ public class PagePreviewCard extends FlowPanel
 	public static PagePreviewCard pasteAfter(PagePreviewCard source,
 			@Nonnull String targetID, String json) {
 		GgbFile file = new GgbFile(targetID);
-		source.app.getViewW().setFileFromJsonString(json, file);
+		source.app.getArchiveLoader().setFileFromJsonString(json, file);
 		return new PagePreviewCard(source.app, source.getPageIndex() + 1,
 				file);
 	}
@@ -283,5 +283,15 @@ public class PagePreviewCard extends FlowPanel
 
 	public String getID() {
 		return file.getID();
+	}
+
+	/**
+	 * Replace file with a new one
+	 * @param pageId id of the new file
+	 */
+	public void replaceId(String pageId) {
+		if (!file.getID().equals(pageId)) {
+			file = file.duplicate(pageId);
+		}
 	}
 }

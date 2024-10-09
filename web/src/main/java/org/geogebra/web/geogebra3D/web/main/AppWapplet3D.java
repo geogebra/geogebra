@@ -7,7 +7,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import org.geogebra.common.geogebra3D.io.OFFHandler;
 import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
-import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
@@ -34,6 +33,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
@@ -75,7 +75,7 @@ public class AppWapplet3D extends AppWFull {
 		if (this.euclidianView3D == null) {
 			euclidianController3D = App3DW.newEuclidianController3DW(kernel);
 			euclidianView3D = App3DW.newEuclidianView3DW(euclidianController3D,
-			        getSettings().getEuclidian(3));
+					getSettings().getEuclidian(3));
 		}
 		return euclidianView3D;
 	}
@@ -100,8 +100,7 @@ public class AppWapplet3D extends AppWFull {
 		super.recalculateEnvironments();
 
 		if (this.isEuclidianView3Dinited()) {
-			getEuclidianView3D().getEuclidianController()
-			        .calculateEnvironment();
+			getEuclidianView3D().getEuclidianController().calculateEnvironment();
 		}
 
 		((App3DCompanionW) companion).recalculateEnvironments();
@@ -119,9 +118,8 @@ public class AppWapplet3D extends AppWFull {
 	@Override
 	public void updateViewSizes() {
 		super.updateViewSizes();
-		if (((GuiManager3DW) getGuiManager()).getEuclidian3DPanel() != null) {
-			((GuiManager3DW) getGuiManager()).getEuclidian3DPanel()
-			        .deferredOnResize();
+		if (getGuiManager().getEuclidian3DPanel() != null) {
+			getGuiManager().getEuclidian3DPanel().deferredOnResize();
 		}
 		((App3DCompanionW) companion).updateViewSizes();
 	}
@@ -150,7 +148,7 @@ public class AppWapplet3D extends AppWFull {
 	@Override
 	public EuclidianViewW newEuclidianView(EuclidianPanelWAbstract evPanel,
 			EuclidianController ec, boolean[] evShowAxes, boolean evShowGrid,
-	        int id, EuclidianSettings evSettings) {
+			int id, EuclidianSettings evSettings) {
 		return new EuclidianViewFor3DW(evPanel, ec, id, evSettings);
 	}
 
@@ -164,7 +162,7 @@ public class AppWapplet3D extends AppWFull {
 	}
 
 	@Override
-	public CommandDispatcher3D newCommand3DDispatcher(Kernel kernel) {
+	public CommandDispatcherW newCommandDispatcher(Kernel kernel) {
 		return new CommandDispatcher3DW(kernel);
 	}
 
@@ -208,8 +206,7 @@ public class AppWapplet3D extends AppWFull {
 		}
 
 		// save euclidian views for plane settings
-		((App3DCompanion) companion).addCompleteUserInterfaceXMLForPlane(sb,
-		        asPreference);
+		((App3DCompanion) companion).addCompleteUserInterfaceXMLForPlane(sb, asPreference);
 
 		return sb.toString();
 	}

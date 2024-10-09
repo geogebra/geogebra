@@ -16,12 +16,10 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 
 /**
- * @author Michael
- * 
- *         http://en.wikipedia.org/w/index.php?title=Curvature&section=8#
- *         Local_expressions_2 Calculate Curvature Vector for curve: c(t) =
- *         ((a'(t)b''(t)-a''(t)b'(t))/T^4) * (-b'(t),a'(t)) T =
- *         sqrt(a'(t)^2+b'(t)^2)
+ * Calculate Curvature Vector for curve: c(t) =
+ * ((a'(t)b''(t)-a''(t)b'(t))/T^4) * (-b'(t),a'(t)) T =
+ * sqrt(a'(t)^2+b'(t)^2)
+ * <a href="http://en.wikipedia.org/w/index.php?title=Curvature&amp;section=8#Local_expressions_2">wiki</a>
  */
 
 public class AlgoCurvatureVectorCurve3D extends AlgoElement {
@@ -135,8 +133,7 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 			input[1] = f;
 		}
 
-		super.setOutputLength(1);
-		super.setOutput(0, v);
+		super.setOnlyOutput(v);
 		setDependencies(); // done by AlgoElement
 	}
 

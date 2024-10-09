@@ -5,13 +5,8 @@ import org.geogebra.common.plugin.Operation;
 
 /**
  * Convert expressions from Presentation MathML / LaTeX to simple ggb syntax
- * when pasting into the editor eg \sqrt{\frac{x}{2}} -> sqrt(x/2)
- * 
- * <mrow><mi> x</mi><mo> +</mo><mrow><mi> 1</mi><mo>/</mo>
- * <mi> 2</mi></mrow></mrow> -> x+1/2
- * 
- * @author michael
- *
+ * Compared to parent class, this adds awareness of existing GeoGebra objects
+ * and built-in functions.
  */
 public class SyntaxAdapterImpl extends AbstractSyntaxAdapter {
 
@@ -51,7 +46,7 @@ public class SyntaxAdapterImpl extends AbstractSyntaxAdapter {
 	@Override
 	protected String convertLaTeXtoGGB(String latexExpression) {
 		kernel.getApplication().getDrawEquation()
-				.checkFirstCall(kernel.getApplication());
+				.checkFirstCall();
 		return super.convertLaTeXtoGGB(latexExpression);
 	}
 
@@ -59,6 +54,10 @@ public class SyntaxAdapterImpl extends AbstractSyntaxAdapter {
 	public boolean isFunction(String casName) {
 		Operation operation = kernel.getApplication().getParserFunctions(true).get(casName, 1);
 		return operation != null && casName.length() > 1;
+	}
+
+	protected Kernel getKernel() {
+		return kernel;
 	}
 
 }

@@ -3,13 +3,14 @@ package org.geogebra.common.kernel.barycentric;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * TriangleCenter[<Point>,<Point>,<Point>,<Index>]
+ * TriangleCenter[&lt;Point&gt;,&lt;Point&gt;,&lt;Point&gt;,&lt;Index&gt;]
  * 
  * @author Zbynek Konecny
  *
@@ -27,7 +28,7 @@ public class CmdKimberling extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

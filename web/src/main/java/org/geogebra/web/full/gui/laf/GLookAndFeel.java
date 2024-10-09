@@ -6,11 +6,14 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.ResourceAction;
+import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.gwtutil.Cookies;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
+import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInController;
@@ -18,6 +21,7 @@ import org.geogebra.web.shared.SignInController;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;
 import elemental2.dom.EventListener;
+import elemental2.promise.Promise;
 import jsinterop.base.Js;
 
 /**
@@ -26,23 +30,17 @@ import jsinterop.base.Js;
 public class GLookAndFeel implements GLookAndFeelI {
 	/** width of menu */
 	public static final int MENUBAR_WIDTH = 270; //TODO make it smaller - wordWrap
-	/** height of header in browse gui */
-	public static final int BROWSE_HEADER_HEIGHT = 61;
-	/** width of panle with file sources in browse gui (GDrive, MAT) */
-	public static final int PROVIDER_PANEL_WIDTH = 70;
 	/** toolbar height + offset */
 	public static final int TOOLBAR_OFFSET = 61;
 	/** toolbar height */
 	public static final int TOOLBAR_HEIGHT = 53;
-	/** size of icons in view submenu of stylebar */
-	public static final int VIEW_ICON_SIZE = 20;
 	private EventListener windowClosingHandler;
 	private EventListener windowCloseHandler;
 
 	@Override
 	public boolean undoRedoSupported() {
-	    return true;
-    }
+		return true;
+	}
 
 	@Override
 	public boolean isSmart() {
@@ -61,20 +59,22 @@ public class GLookAndFeel implements GLookAndFeelI {
 	 */
 	@Override
 	public void addWindowClosingHandler(final AppW app) {
-		if (app.getExam() != null) {
+		if (GlobalScope.examController.isExamActive()) {
 			return;
 		}
 		// popup when the user wants to exit accidentally
 		if (windowClosingHandler == null) {
 			this.windowClosingHandler = this::askForSave;
-			DomGlobal.window.addEventListener("beforeunload", windowClosingHandler);
+			app.getGlobalHandlers().addEventListener(DomGlobal.window,
+					"beforeunload", windowClosingHandler);
 		}
 
 		if (this.windowCloseHandler == null) {
 			// onClose is called, if user leaves the page correct
 			// not called if browser crashes
 			this.windowCloseHandler = event -> app.getFileManager().deleteAutoSavedFile();
-			DomGlobal.window.addEventListener("unload", windowCloseHandler);
+			app.getGlobalHandlers().addEventListener(DomGlobal.window, "unload",
+					windowCloseHandler);
 		}
 	}
 
@@ -101,28 +101,28 @@ public class GLookAndFeel implements GLookAndFeelI {
 	 */
 	@Override
 	public String getType() {
-	    return "web";
-    }
+		return "web";
+	}
 
 	@Override
 	public boolean copyToClipboardSupported() {
-	    return true;
-    }
+		return true;
+	}
 
 	@Override
 	public String getLoginListener() {
-	    return null;
-    }
+		return null;
+	}
 
 	@Override
 	public boolean isEmbedded() {
-	    return false;
-    }
+		return false;
+	}
 
 	@Override
-	public SignInController getSignInController(App app) {
+	public SignInControllerI getSignInController(App app) {
 		return new SignInController(app, 0, null);
-    }
+	}
 
 	@Override
 	public String getClientId() {
@@ -140,28 +140,18 @@ public class GLookAndFeel implements GLookAndFeelI {
 	}
 
 	@Override
-    public boolean autosaveSupported() {
-	    return true;
-    }
-
-	@Override
-    public boolean exportSupported() {
-	    return true;
-    }
-
-	@Override
-	public boolean supportsGoogleDrive() {
+	public boolean autosaveSupported() {
 		return true;
 	}
 
 	@Override
-	public boolean supportsLocalSave() {
-		return false;
+	public boolean exportSupported() {
+		return true;
 	}
 
 	@Override
-	public boolean examSupported() {
-		return false;
+	public boolean supportsGoogleDrive() {
+		return true;
 	}
 
 	@Override
@@ -186,8 +176,9 @@ public class GLookAndFeel implements GLookAndFeelI {
 		if (Browser.isGeoGebraOrg()) {
 			Date exp = new Date(
 					System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 365);
+			Language language1 = Language.fromLanguageTagOrLocaleString(lang);
 			Cookies.setCookie("GeoGebraLangUI",
-					Language.getClosestGWTSupportedLanguage(lang).getLocaleGWT(), exp,
+					language1.toLanguageTag(), exp,
 					"geogebra.org", "/");
 		} else {
 			BrowserStorage.LOCAL.setItem("GeoGebraLangUI", lang);
@@ -195,8 +186,13 @@ public class GLookAndFeel implements GLookAndFeelI {
 	}
 
 	@Override
-	public String getFrameStyleName() {
-		return "GeoGebra";
+	public Promise<String> loadLanguage() {
+		String cookieLang = Cookies.getCookie("GeoGebraLangUI");
+		if (!StringUtil.empty(cookieLang)) {
+			return Promise.resolve(cookieLang);
+		} else {
+			return Promise.resolve(BrowserStorage.LOCAL.getItem("GeoGebraLangUI"));
+		}
 	}
 
 	@Override

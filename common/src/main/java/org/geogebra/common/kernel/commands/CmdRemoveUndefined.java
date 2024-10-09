@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * RemoveUndefined[ &lt;List> ]
+ * RemoveUndefined[ &lt;List&gt; ]
  * 
  * @author Michael Borcherds
  * @version 2008-03-06
@@ -25,7 +25,7 @@ public class CmdRemoveUndefined extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);

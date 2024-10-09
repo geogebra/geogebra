@@ -152,8 +152,7 @@ public class AlgoPolyLine extends AlgoElement {
 		}
 
 		// set output
-		setOutputLength(1);
-		setOutput(0, poly);
+		setOnlyOutput(poly);
 		setDependencies();
 	}
 

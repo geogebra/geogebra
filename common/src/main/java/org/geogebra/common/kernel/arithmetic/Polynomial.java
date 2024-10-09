@@ -33,7 +33,7 @@ import com.google.j2objc.annotations.Weak;
 
 public class Polynomial implements HasDebugString {
 
-	private static final int MAX_ALLOWED_DEGREE = 1000;
+	private static final int MAX_ALLOWED_DEGREE = 300;
 
 	private ArrayList<Term> terms = new ArrayList<>();
 	@Weak
@@ -528,33 +528,40 @@ public class Polynomial implements HasDebugString {
 	 * @return Coefficient matrix of this polynomial (in x and y)
 	 */
 	public ExpressionValue[][] getCoeff() {
+		return getCoeff("x", "y");
+	}
+
+	/**
+	 *
+	 * @return Coefficient matrix of this polynomial (in var1 and var2)
+	 */
+	public ExpressionValue[][] getCoeff(String... varNames) {
 		simplify(null, false);
 		Iterator<Term> it = terms.iterator();
 		// TODO implement support for z as var
-		int degX = 0;
-		int degY = 0;
+		char var1 = varNames[0].charAt(0);
+		char var2 = varNames[1].charAt(0);
+		int degVar1 = 0;
+		int degVar2 = 0;
+
 		while (it.hasNext()) {
 			Term t = it.next();
-			degX = Math.max(degX, t.degree('x'));
-			degY = Math.max(degY, t.degree('y'));
+			degVar1 = Math.max(degVar1, t.degree(var1));
+			degVar2 = Math.max(degVar2, t.degree(var2));
 		}
-		ExpressionValue[][] coeff = new ExpressionValue[degX + 1][degY + 1];
+		ExpressionValue[][] coeff = new ExpressionValue[degVar1 + 1][degVar2 + 1];
 		it = terms.iterator();
 		while (it.hasNext()) {
 			Term t = it.next();
-			coeff[t.degree('x')][t.degree('y')] = t.getCoefficient();
+			coeff[t.degree(var1)][t.degree(var2)] = t.getCoefficient();
 		}
 		return coeff;
 	}
 
 	private HashSet<GeoElement> getVariables(SymbolicMode mode) {
-		HashSet<GeoElement> temp, vars = new HashSet<>();
-		Iterator<Term> i = terms.iterator();
-		while (i.hasNext()) {
-			temp = i.next().getCoefficient().getVariables(mode);
-			if (temp != null) {
-				vars.addAll(temp);
-			}
+		HashSet<GeoElement> vars = new HashSet<>();
+		for (Term term : terms) {
+			term.getCoefficient().getVariables(vars, mode);
 		}
 		return vars;
 	}
@@ -584,10 +591,7 @@ public class Polynomial implements HasDebugString {
 	static Polynomial fromNode(ExpressionNode lhs, Equation eqn,
 			boolean keepFraction) {
 		ExpressionNode leftEN = lhs.getCopy(lhs.getKernel());
-		Polynomial poly = leftEN.makePolynomialTree(eqn, keepFraction);
-		// Log.debug("Coefficients:");
-		// Log.debug(poly);
-		return poly;
+		return leftEN.makePolynomialTree(eqn, keepFraction);
 	}
 
 	/**

@@ -12,8 +12,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Area[ &lt;GeoPoint>, ..., &lt;GeoPoint> ] Area[ &lt;GeoConic> ] Area[
- * &lt;Polygon> ] (returns Polygon directly)
+ * Area[ &lt;GeoPoint&gt;, ..., &lt;GeoPoint&gt; ] Area[ &lt;GeoConic&gt; ] Area[
+ * &lt;Polygon&gt; ] (returns Polygon directly)
  */
 public class CmdArea extends CommandProcessor {
 
@@ -28,7 +28,7 @@ public class CmdArea extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
@@ -44,7 +44,7 @@ public class CmdArea extends CommandProcessor {
 			// area of polygon = polygon variable
 			else if (arg[0].isGeoPolygon()) {
 
-				AlgoAreaPolygon algo = new AlgoAreaPolygon(cons, 
+				AlgoAreaPolygon algo = new AlgoAreaPolygon(cons,
 						(GeoPolygon) arg[0]);
 				algo.getArea().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getArea() };

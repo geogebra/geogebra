@@ -6,6 +6,8 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.text.Normalizer;
+
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -29,7 +31,7 @@ public class AuralTextTest {
 	private static void aural(String in, String... out) {
 		GeoElementND[] geos = add(in);
 		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot(app.getLocalization()));
-		String[] sentences = aural.split("\\.");
+		String[] sentences = Normalizer.normalize(aural, Normalizer.Form.NFC).split("\\.");
 		assertThat(aural, endsWith("."));
 		assertEquals(out.length, sentences.length);
 		for (int i = 0; i < out.length; i++) {
@@ -37,6 +39,13 @@ public class AuralTextTest {
 				assertEquals(out[i], sentences[i]);
 			}
 		}
+	}
+
+	private static void auralExact(String in, String expected) {
+		GeoElementND[] geos = add(in);
+		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot(app.getLocalization()));
+		String[] sentences = aural.split("\\.");
+		assertEquals(expected, sentences[0]);
 	}
 
 	private static GeoElementND[] add(String in) {
@@ -60,6 +69,9 @@ public class AuralTextTest {
 	public void numberAural() {
 		aural("sl=Slider(-5,5)", "Slider", "start animation", "increase",
 				"decrease", "edit");
+		app.setRightClickEnabled(false);
+		aural("sl=Slider(-5,5)", "Slider", "increase",
+				"decrease", "edit");
 		assertEquals("Slider sl equals 0",
 				((GeoNumeric) get("sl")).getAuralText());
 		aural("4", "Number");
@@ -73,9 +85,9 @@ public class AuralTextTest {
 	public void numberCaptionAural() {
 		add("vec=Slider(-5,5)");
 		add("SetCaption(vec,\"Vector v = %v\")");
-		aural("vec", "Slider Vector v  equals  0", "start animation", "increase",
+		aural("vec", "Vector v  equals  0", "start animation", "increase",
 				"decrease", "edit");
-		assertEquals("Slider Vector v  equals  0",
+		assertEquals("Vector v  equals  0",
 				((GeoNumeric) get("vec")).getAuralText());
 	}
 
@@ -111,6 +123,23 @@ public class AuralTextTest {
 	}
 
 	@Test
+	public void textAuralStroke() {
+		aural("LaTeX(\"\\dstrok\\Dstrok\\hstrok\\Hstrok\\l\\L\")",
+				"\u0111\u0110\u0127\u0126\u0142\u0141", "edit");
+		aural("LaTeX(\"\\tstroke\")", "\u0167", "edit");
+		aural("LaTeX(\"\\Tstroke\")", "\u0166", "edit");
+	}
+
+	@Test
+	public void textAuralAccent() {
+		aural("LaTeX(\"\\r{a}\\r{A}\\'{e}\")",
+				"\u00E5\u00C5\u00E9", "edit");
+		aural("LaTeX(\"\\ogonek{a}\")", "\u0105", "edit");
+		aural("LaTeX(\"\\cedilla{c}\")", "\u00E7", "edit");
+		aural("LaTeX(\"\\text{L\u00EDnea Uno}\")", "L\u00EDnea Uno", "edit");
+	}
+
+	@Test
 	public void textAural() {
 		aural("LaTeX(\"a\\geq b\\leq c\")", "a" + Unicode.GREATER_EQUAL + "b"
 				+ Unicode.LESS_EQUAL + "c", "edit");
@@ -124,8 +153,6 @@ public class AuralTextTest {
 		aural("LaTeX(\"\\sqrt[3]{x}\")", "start cube root x end root", "edit");
 		aural("LaTeX(\"\\frac{x}{2}\")", "start fraction x over 2 end fraction", "edit");
 		aural("LaTeX(\"\\vec{x}\")", " vector x", "edit");
-		aural("LaTeX(\"\\ogonek{x}\")", "x with ogonek", "edit");
-		aural("LaTeX(\"\\cedilla{x}\")", "x with cedilla", "edit");
 		aural("LaTeX(\"\\displaylines{x\\\\y}\")", "x y", "edit");
 		aural("LaTeX(\"\\overbrace{x}\")", "open brace  over x", "edit");
 		aural("LaTeX(\"\\fgcolor{red}{\\text{red text}}\")", "red text",
@@ -160,8 +187,18 @@ public class AuralTextTest {
 		aural("LaTeX(\"\\xleftrightarrow{p}j\")", "pj", "edit");
 		aural("LaTeX(\"\\underrightarrow{p}j\")", "pj", "edit");
 		aural("LaTeX(\"\\overrightarrow{p}j\")", "pj", "edit");
-		aural("LaTeX(\"\\widehat{p}\")", "p with \u0302", "edit");
+		aural("LaTeX(\"\\widehat{p}\")", "p̂", "edit");
 		aural("LaTeX(\"\\underline{p}j\")", "pj", "edit");
+		aural("LaTeX(x-y)", "x minus y", "edit");
+		aural("LaTeX(\"x-y\")", "x minus y", "edit");
+		aural("LaTeX(\"\\text{x-y}\")", "x\u2010y", "edit");
+		aural("LaTeX((-1,2))", "open parenthesis  minus 1 comma  2 close parenthesis", "edit");
+	}
+
+	@Test
+	public void testAuralDegree() {
+		auralExact("LaTeX(\"a \\text{7\\degree}\")", "a7 degrees");
+		auralExact("LaTeX(\"a \\text{1\\degree}\")", "a1 degree");
 	}
 
 	@Test

@@ -47,6 +47,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
@@ -82,10 +83,6 @@ import org.geogebra.desktop.util.ImageResourceD;
 public class EuclidianViewD extends EuclidianView
 		implements EuclidianViewInterfaceD, Printable {
 
-	// temp
-	// public static final int DRAW_MODE_DIRECT_DRAW = 0;
-	// public static final int DRAW_MODE_BACKGROUND_IMAGE = 1;
-
 	/** reset image in applets */
 	protected Image resetImage;
 	/** play image for animations */
@@ -103,6 +100,13 @@ public class EuclidianViewD extends EuclidianView
 
 	/** Java component for this view */
 	protected EuclidianViewJPanelD evjpanel;
+	private double pixelRatio = 1;
+	// temp image
+	private final GGraphics2D g2Dtemp = new GGraphics2DD(
+			new BufferedImage(5, 5, BufferedImage.TYPE_INT_RGB)
+					.createGraphics());
+	private boolean printScaleString;
+	private final ScreenReaderAdapter screenReader = new ScreenReaderAdapterD();
 
 	// set EuclidianView no - 2 for 2nd EulidianView, 1 for 1st EuclidianView
 	// and Applet
@@ -446,7 +450,7 @@ public class EuclidianViewD extends EuclidianView
 				GraphicExportDialog.sendToClipboard(file);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}
@@ -570,8 +574,36 @@ public class EuclidianViewD extends EuclidianView
 	}
 
 	@Override
-	public void paintBackground(GGraphics2D g2) {
-		g2.drawImage(bgImage, 0, 0);
+	public void paintBackground(GGraphics2D g2d) {
+		g2d.scale(1 / getPixelRatio(), 1 / getPixelRatio());
+		g2d.drawImage(bgImage, 0, 0);
+		g2d.scale(getPixelRatio(), getPixelRatio());
+	}
+
+	protected void drawBackgroundImage(GGraphics2D g2d) {
+		paintBackground(g2d);
+	}
+
+	@Override
+	protected void drawBackgroundWithImages(GGraphics2D g2d, boolean transparency) {
+		g2d.scale(getPixelRatio(), getPixelRatio());
+		super.drawBackgroundWithImages(g2d, transparency);
+		g2d.scale(1 / getPixelRatio(), 1 / getPixelRatio());
+	}
+
+	@Override
+	public void drawTrace(Drawable drawable) {
+		// SpotBugs assumes any method can reset bgGraphics to null => keep local copy
+		GGraphics2D graphics = bgGraphics;
+		if (graphics != null) {
+			graphics.scale(getPixelRatio(), getPixelRatio());
+			super.drawTrace(drawable);
+			graphics.scale(1 / getPixelRatio(), 1 / getPixelRatio());
+		}
+	}
+
+	public double getPixelRatio() {
+		return pixelRatio;
 	}
 
 	@Override
@@ -774,10 +806,10 @@ public class EuclidianViewD extends EuclidianView
 
 	// @Override
 	@Override
-	public void setToolTipText(String plain) {
+	public void setToolTipText(String plainText) {
 		if ((tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_ON)
 				|| (tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC)) {
-			evjpanel.setToolTipText(plain);
+			evjpanel.setToolTipText(plainText);
 		}
 	}
 
@@ -798,7 +830,7 @@ public class EuclidianViewD extends EuclidianView
 		if ((getWidth() <= 0) || (getHeight() <= 0)) {
 			return;
 		}
-
+		updatePixelRatio();
 		// real world values
 		companion.setXYMinMaxForUpdateSize();
 		if (app.getKernel().getConstruction() != null && !isPlotPanel()) {
@@ -825,10 +857,22 @@ public class EuclidianViewD extends EuclidianView
 		updateBackgroundImage();
 	}
 
+	private void updatePixelRatio() {
+		try {
+			GraphicsConfiguration gc = evjpanel.getGraphicsConfiguration();
+			if (gc != null) {
+				pixelRatio = gc.getDefaultTransform().getScaleX();
+			}
+		} catch (RuntimeException ex) {
+			Log.debug("Cannot update pixel ratio " + ex);
+		}
+	}
+
 	private void createImage(GraphicsConfiguration gc) {
 		if (gc != null) {
 			bgImage = new GBufferedImageD(
-					gc.createCompatibleImage(getWidth(), getHeight()));
+					gc.createCompatibleImage((int) (getWidth() * pixelRatio),
+							(int) (getHeight() * pixelRatio)));
 			bgGraphics = bgImage.createGraphics();
 			bgGraphics.setAntialiasing();
 		}
@@ -853,13 +897,6 @@ public class EuclidianViewD extends EuclidianView
 	public void setBackground(GColor bgColor) {
 		evjpanel.setBackground(GColorD.getAwtColor(bgColor));
 	}
-
-	// temp image
-	private final GGraphics2D g2Dtemp = new GGraphics2DD(
-			new BufferedImage(5, 5, BufferedImage.TYPE_INT_RGB)
-					.createGraphics());
-	private boolean printScaleString;
-	private ScreenReaderAdapter screenReader = new ScreenReaderAdapterD();
 
 	/**
 	 * @return temporary graphics that is stored in this view
@@ -893,8 +930,8 @@ public class EuclidianViewD extends EuclidianView
 	}
 
 	@Override
-	protected MyZoomerD newZoomer() {
-		return new MyZoomerD(this);
+	protected CoordSystemAnimationD newZoomer() {
+		return new CoordSystemAnimationD(this);
 	}
 
 	/**

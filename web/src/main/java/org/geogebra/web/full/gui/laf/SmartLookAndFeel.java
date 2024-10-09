@@ -4,7 +4,6 @@ import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.ResourceAction;
 import org.geogebra.web.full.gui.browser.SmartSignInController;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInController;
 
@@ -14,32 +13,26 @@ import org.geogebra.web.shared.SignInController;
  *
  */
 public class SmartLookAndFeel extends GLookAndFeel {
-	/**
-	 * Creates smart LAF
-	 */
-	public SmartLookAndFeel() {
-		ToolTipManagerW.setEnabled(false);
+
+	@Override
+	public boolean undoRedoSupported() {
+		return false;
 	}
-	
+
 	@Override
-    public boolean undoRedoSupported() {
-	    return false;
-    }
-	
-	@Override
-    public boolean isSmart() {
-		return true;
-	}
-	
-	@Override
-    public boolean isEmbedded() {
+	public boolean isSmart() {
 		return true;
 	}
 
 	@Override
-    public void addWindowClosingHandler(AppW app) {
+	public boolean isEmbedded() {
+		return true;
+	}
+
+	@Override
+	public void addWindowClosingHandler(AppW app) {
 		//no close message for SMART
-    }
+	}
 	
 	@Override
 	public void removeWindowClosingHandler() {
@@ -47,9 +40,9 @@ public class SmartLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-    public String getType() {
-	    return "smart";
-    }
+	public String getType() {
+		return "smart";
+	}
 
 	@Override
 	public boolean copyToClipboardSupported() {
@@ -57,24 +50,24 @@ public class SmartLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-    public String getLoginListener() {
-	    return "loginListener";
-    }
+	public String getLoginListener() {
+		return "loginListener";
+	}
 
 	@Override
-    public SignInController getSignInController(App app) {
-	    return new SmartSignInController(app);
-    }
+	public SignInController getSignInController(App app) {
+		return new SmartSignInController(app);
+	}
 
 	@Override
-    public boolean autosaveSupported() {
-	    return false;
-    }
-	
+	public boolean autosaveSupported() {
+		return false;
+	}
+
 	@Override
-    public boolean exportSupported() {
-	    return false;
-    }
+	public boolean exportSupported() {
+		return false;
+	}
 
 	@Override
 	public boolean supportsGoogleDrive() {

@@ -66,7 +66,7 @@ public class DefaultMenuActionHandlerFactory implements MenuActionHandlerFactory
 		actionHandler.setMenuAction(Action.DOWNLOAD_COLLADA_DAE, new DownloadColladaDaeAction());
 		actionHandler.setMenuAction(Action.DOWNLOAD_COLLADA_HTML, new DownloadColladaHtmlAction());
 		actionHandler.setMenuAction(Action.PREVIEW_PRINT, new ShowPrintPreviewAction());
-		actionHandler.setMenuAction(Action.START_EXAM_MODE, new StartExamAction(app));
+		actionHandler.setMenuAction(Action.START_EXAM_MODE, new StartExamAction());
 		return actionHandler;
 	}
 }

@@ -9,9 +9,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Segment[ &lt;GeoPoint>, &lt;GeoPoint> ]
+ * Segment[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
  * 
- * Segment[ &lt;GeoPoint>, &lt;Number> ]
+ * Segment[ &lt;GeoPoint&gt;, &lt;Number&gt; ]
  */
 public class CmdSegment extends CommandProcessor {
 	/**
@@ -25,7 +25,7 @@ public class CmdSegment extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

@@ -56,41 +56,38 @@ final public class StreamingMidiEventManager {
 		isActive = true;
 		currentTime = System.currentTimeMillis();
 
-		Thread timerThread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while (isActive) {
-					long checkTime = System.currentTimeMillis();
-					if (checkTime != currentTime) {
-						long tempBackTime = currentTime;
-						currentTime = System.currentTimeMillis(); // Do this
-																	// again to
-																	// get the
-																	// most
-																	// up-to-date
-																	// time
+		Thread timerThread = new Thread(() -> {
+			while (isActive) {
+				long checkTime = System.currentTimeMillis();
+				if (checkTime != currentTime) {
+					long tempBackTime = currentTime;
+					currentTime = System.currentTimeMillis(); // Do this
+																// again to
+																// get the
+																// most
+																// up-to-date
+																// time
 
-						// Get any TimerEvents that may have happened in the
-						// intervening time, and execute them
-						for (long time = tempBackTime; time < currentTime; time++) {
-							List<NoteOffTimerEvent> timerEvents = timerMap
-									.get(time);
-							if (null != timerEvents) {
-								for (NoteOffTimerEvent event : timerEvents) {
-									channels[event.track].noteOff(
-											event.noteValue,
-											event.decayVelocity);
-								}
+					// Get any TimerEvents that may have happened in the
+					// intervening time, and execute them
+					for (long time = tempBackTime; time < currentTime; time++) {
+						List<NoteOffTimerEvent> timerEvents = timerMap
+								.get(time);
+						if (null != timerEvents) {
+							for (NoteOffTimerEvent event : timerEvents) {
+								channels[event.track].noteOff(
+										event.noteValue,
+										event.decayVelocity);
 							}
-							timerMap.put(time, null);
 						}
+						timerMap.put(time, null);
 					}
+				}
 
-					try {
-						Thread.sleep(20); // Don't hog the CPU
-					} catch (InterruptedException e) {
-						throw new JFugueException(JFugueException.ERROR_SLEEP);
-					}
+				try {
+					Thread.sleep(20); // Don't hog the CPU
+				} catch (InterruptedException e) {
+					throw new JFugueException(JFugueException.ERROR_SLEEP);
 				}
 			}
 		});
@@ -131,7 +128,7 @@ final public class StreamingMidiEventManager {
 	 * Sets the current layer within the track to which new events will be
 	 * added.
 	 * 
-	 * @param track
+	 * @param layer
 	 *            the track to select
 	 */
 	public void setCurrentLayer(byte layer) {
@@ -173,12 +170,10 @@ final public class StreamingMidiEventManager {
 	/**
 	 * Adds a MetaMessage to the current track.
 	 *
-	 * @param definition
+	 * @param type
 	 *            the MIDI command represented by this message
-	 * @param data1
-	 *            the first data byte
-	 * @param data2
-	 *            the second data byte
+	 * @param bytes
+	 *            the data bytes
 	 */
 	public void addMetaMessage(int type, byte[] bytes) {
 		// NOP
@@ -237,12 +232,12 @@ final public class StreamingMidiEventManager {
 	 * Both the NOTE_ON and NOTE_OFF events can be suppressed. This is useful
 	 * when notes are tied to other notes.
 	 *
-	 * @param data1
+	 * @param noteValue
 	 *            the first data byte, which contains the note value
-	 * @param data2
+	 * @param attackVelocity
 	 *            the second data byte for the NOTE_ON event, which contains the
 	 *            attack velocity
-	 * @param data3
+	 * @param decayVelocity
 	 *            the second data byte for the NOTE_OFF event, which contains
 	 *            the decay velocity
 	 * @param duration

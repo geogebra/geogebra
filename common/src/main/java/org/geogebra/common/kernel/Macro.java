@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.algos.ConstructionElement;
@@ -68,12 +69,13 @@ public class Macro {
 	 *            Array of input objects
 	 * @param output
 	 *            Array of output objects
-	 * @throws Exception
+	 * @throws MacroException
 	 *             if macro initialization fails (unnecessary input, independent
 	 *             output)
+	 * @throws CircularDefinitionException if start points cannot be copied
 	 */
 	public Macro(Kernel kernel, String cmdName, GeoElement[] input,
-			GeoElement[] output) throws Exception {
+			GeoElement[] output) throws MacroException, CircularDefinitionException {
 		this(kernel, cmdName);
 		initMacro(input, output);
 	}
@@ -200,7 +202,7 @@ public class Macro {
 	}
 
 	private void initMacro(GeoElement[] input, GeoElement[] output)
-			throws Exception {
+			throws MacroException, CircularDefinitionException {
 		// check that every output object depends on an input object
 		// and that all input objects are really needed
 		for (int i = 0; i < output.length; i++) {
@@ -214,7 +216,7 @@ public class Macro {
 			}
 
 			if (!dependsOnInput) {
-				throw new Exception(kernel.getApplication().getLocalization()
+				throw new MacroException(kernel.getApplication().getLocalization()
 						.getError("Tool.OutputNotDependent") + ": "
 						+ output[i].getNameDescription());
 			}
@@ -363,7 +365,7 @@ public class Macro {
 	 * @param geo
 	 *            Element to be added (with parent and siblings)
 	 * @param consElementSet
-	 *            Set of geos & algos used in macro construction
+	 *            Set of geos and algos used in macro construction
 	 * @param usedAlgoIds
 	 *            Set of IDs of algorithms used in macro construction
 	 */
@@ -387,7 +389,7 @@ public class Macro {
 	 * @param algo
 	 *            Element to be added
 	 * @param consElementSet
-	 *            Set of geos & algos used in macro construction
+	 *            Set of geos and algos used in macro construction
 	 * @param usedAlgoIds
 	 *            Set of IDs of algorithms used in macro construction
 	 */
@@ -490,7 +492,7 @@ public class Macro {
 	 *            XML content
 	 */
 	private Construction createMacroConstruction(String macroConstructionXML)
-			throws Exception {
+			throws MacroException {
 		// build macro construction
 		MacroKernel mk = kernel.newMacroKernel();
 		mk.setContinuous(false);
@@ -505,10 +507,10 @@ public class Macro {
 			String msg = e.getLocalizedMessage();
 			Log.debug(msg);
 			Log.debug(e);
-			throw new Exception(msg);
-		} catch (Exception e) {
+			throw new MacroException(msg);
+		} catch (XMLParseException | RuntimeException e) {
 			Log.debug(e);
-			throw new Exception(e.getMessage());
+			throw new MacroException(e.getMessage());
 		}
 
 		return mk.getConstruction();

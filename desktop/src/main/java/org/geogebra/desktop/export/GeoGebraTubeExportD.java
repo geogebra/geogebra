@@ -2,16 +2,14 @@ package org.geogebra.desktop.export;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -25,7 +23,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.main.AppD;
@@ -150,7 +147,7 @@ public class GeoGebraTubeExportD {
 			urlConn.setRequestProperty("Content-Type",
 					"application/x-www-form-urlencoded");
 			urlConn.setRequestProperty("Accept-Language",
-					app.getLocalization().getLocaleStr());
+					app.getLocalization().getLanguageTag());
 
 			// send output
 			try {
@@ -210,7 +207,7 @@ public class GeoGebraTubeExportD {
 				if (responseCode == HttpURLConnection.HTTP_OK) {
 					// get response and read it into a string buffer
 					input = new BufferedReader(new InputStreamReader(
-							urlConn.getInputStream(), Charsets.getUtf8()));
+							urlConn.getInputStream(), StandardCharsets.UTF_8));
 
 					StringBuffer output = new StringBuffer();
 
@@ -262,7 +259,7 @@ public class GeoGebraTubeExportD {
 
 					BufferedReader errors = new BufferedReader(
 							new InputStreamReader(urlConn.getErrorStream(),
-									Charsets.getUtf8()));
+									StandardCharsets.UTF_8));
 					StringBuffer errorBuffer = new StringBuffer();
 
 					String line;
@@ -342,17 +339,12 @@ public class GeoGebraTubeExportD {
 		progressDialog.setVisible(false);
 	}
 
-	protected void statusLabelSetText(String plain) {
-		statusLabel.setText(plain);
+	protected void statusLabelSetText(String plainText) {
+		statusLabel.setText(plainText);
 	}
 
 	protected String encode(String str) {
-		try {
-			return URLEncoder.encode(str, Charsets.UTF_8);
-		} catch (UnsupportedEncodingException e) {
-			Log.debug("error from GeoGebraTubeExport.encode()");
-			return str;
-		}
+		return URLEncoder.encode(str, StandardCharsets.UTF_8);
 	}
 
 	/**

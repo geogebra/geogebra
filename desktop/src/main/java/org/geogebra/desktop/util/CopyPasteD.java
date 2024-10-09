@@ -15,11 +15,9 @@ package org.geogebra.desktop.util;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -27,14 +25,13 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.algos.AlgoInputBox;
 import org.geogebra.common.kernel.algos.AlgoMacro;
-import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.undo.AppState;
 import org.geogebra.common.util.CopyPaste;
+import org.geogebra.common.util.InternalClipboard;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -54,8 +51,8 @@ public class CopyPasteD extends CopyPaste {
 	protected StringBuilder copiedXMLforSameWindow;
 	protected ArrayList<String> copiedXMLlabelsforSameWindow;
 	protected EuclidianViewInterfaceCommon copySource;
-	protected Object copyObject;
-	protected Object copyObject2;
+	protected AppState copyObject;
+	protected AppState copyObject2;
 
 	/**
 	 * Returns whether the clipboard is empty
@@ -82,73 +79,28 @@ public class CopyPasteD extends CopyPaste {
 		}
 	}
 
-	/**
-	 * copyToXML - Step 1.5 (temporary) currently we remove all geos which
-	 * depend on the axes TODO: make geos dependent on GeoAxis objects copiable
-	 * again (this is not easy as there is a bug when copy & paste something
-	 * which depends on xAxis or yAxis, then copy & paste something else, points
-	 * may be repositioned)
-	 *
-	 * @param geos
-	 *            elements
-	 * @param app
-	 *            application
-	 */
-	protected void removeDependentFromAxes(ArrayList<ConstructionElement> geos,
-			App app) {
-		TreeSet<GeoElement> ancestors = new TreeSet<>();
-		ConstructionElement geo;
-		Construction cons = app.getKernel().getConstruction();
-		for (int i = geos.size() - 1; i >= 0; i--) {
-			geo = geos.get(i);
-			ancestors.clear();
-			geo.addPredecessorsToSet(ancestors, true);
-			if (contained(ancestors, app.getKernel().getXAxis())
-					|| contained(ancestors, app.getKernel().getYAxis())
-					|| contained(ancestors, app.getKernel().getZAxis3D())
-					|| contained(ancestors, cons.getXOYPlane())
-					|| contained(ancestors, cons.getClippingCube())
-					|| contained(ancestors, cons.getSpace())) {
-				geos.remove(i);
-			}
-		}
-	}
-
-	private static boolean contained(TreeSet<GeoElement> ancestors,
-			GeoElementND el) {
-		return el != null && ancestors.contains(el);
-	}
-
 	protected void removeHavingMacroPredecessors(
-			ArrayList<ConstructionElement> geos, boolean copymacro) {
-
-		GeoElement geo, geo2;
-		Iterator<GeoElement> it;
-		boolean found = false;
+			ArrayList<ConstructionElement> geos) {
+		boolean found;
 		for (int i = geos.size() - 1; i >= 0; i--) {
 			if (geos.get(i).isGeoElement()) {
-				geo = (GeoElement) geos.get(i);
-				found = checkMacros(geo, copymacro);
+				GeoElement geo = (GeoElement) geos.get(i);
+				found = checkMacros(geo);
 				if (!found) {
-					it = geo.getAllPredecessors().iterator();
+					Iterator<GeoElement> it = geo.getAllPredecessors().iterator();
 					while (it.hasNext() && !found) {
-						geo2 = it.next();
-						found = checkMacros(geo2, copymacro);
+						GeoElement geo2 = it.next();
+						found = checkMacros(geo2);
 					}
-				}
-				if (found && !copymacro) {
-					geos.remove(i);
 				}
 			}
 		}
 	}
 
-	private boolean checkMacros(GeoElement geo, boolean copymacro) {
-		if (Algos.isUsedFor(Algos.AlgoMacro, geo)) {
-			if (copymacro) {
-				copiedMacros
-						.add(((AlgoMacro) geo.getParentAlgorithm()).getMacro());
-			}
+	private boolean checkMacros(GeoElement geo) {
+		AlgoElement parent = geo.getParentAlgorithm();
+		if (parent instanceof AlgoMacro) {
+			copiedMacros.add(((AlgoMacro) parent).getMacro());
 			return true;
 		}
 		return false;
@@ -157,75 +109,12 @@ public class CopyPasteD extends CopyPaste {
 	/**
 	 * copyToXML - Step 4 Add the algos which belong to our selected geos Also
 	 * add the geos which might be side-effects of these algos
-	 *
-	 * @param conels
-	 *            input and output
+	 * @param conels input and output
 	 * @return the possible side-effect geos
 	 */
 	protected ArrayList<ConstructionElement> addAlgosDependentFromInside(
-			ArrayList<ConstructionElement> conels, boolean putdown,
-			boolean copymacro) {
-
-		ArrayList<ConstructionElement> ret = new ArrayList<>();
-
-		GeoElement geo;
-		ArrayList<AlgoElement> geoal;
-		AlgoElement ale;
-		ArrayList<ConstructionElement> ac;
-		GeoElement[] geos;
-		for (int i = conels.size() - 1; i >= 0; i--) {
-			geo = (GeoElement) conels.get(i);
-
-			// also doing this here, which is not about the name of the method,
-			// but making sure textfields (which require algos) are shown
-			if ((geo.getParentAlgorithm() instanceof AlgoInputBox)
-					&& (!ret.contains(geo.getParentAlgorithm()))
-					&& (!conels.contains(geo.getParentAlgorithm()))) {
-				// other algos will be added to this anyway,
-				// so we can handle this issue in this method
-				ret.add(geo.getParentAlgorithm());
-			}
-			// probably not needed? although corner number is NumberValue,
-			// it is converted to a GeoElement, so this might be Okay
-			/*
-			 * if ((geo.getParentAlgorithm() instanceof AlgoDrawingPadCorner) &&
-			 * (!ret.contains(geo.getParentAlgorithm())) &&
-			 * (!geos.contains(geo.getParentAlgorithm()))) { // other algos will
-			 * be added to this anyway, // so we can handle this issue in this
-			 * method ret.add(geo.getParentAlgorithm()); }
-			 */
-
-			geoal = geo.getAlgorithmList();
-
-			for (int j = 0; j < geoal.size(); j++) {
-				ale = geoal.get(j);
-
-				if (!(ale instanceof AlgoMacro) || putdown || copymacro) {
-
-					ac = new ArrayList<>();
-					ac.addAll(Arrays.asList(ale.getInput()));
-					if (conels.containsAll(ac) && !conels.contains(ale)) {
-
-						if ((ale instanceof AlgoMacro) && copymacro) {
-							copiedMacros.add(((AlgoMacro) ale).getMacro());
-						}
-
-						conels.add(ale);
-						geos = ale.getOutput();
-						if (geos != null) {
-							for (int k = 0; k < geos.length; k++) {
-								if (!ret.contains(geos[k])
-										&& !conels.contains(geos[k])) {
-									ret.add(geos[k]);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		conels.addAll(ret);
-		return ret;
+			ArrayList<ConstructionElement> conels) {
+		return InternalClipboard.addAlgosDependentFromInside(conels, copiedMacros);
 	}
 
 	/**
@@ -241,8 +130,7 @@ public class CopyPasteD extends CopyPaste {
 			List<ConstructionElement> conels,
 			List<GeoElement> selected) {
 
-		ArrayList<ConstructionElement> ret = new ArrayList<>();
-		ret.addAll(conels);
+		ArrayList<ConstructionElement> ret = new ArrayList<>(conels);
 		GeoElement geo;
 		for (int i = ret.size() - 1; i >= 0; i--) {
 			if (ret.get(i).isGeoElement()) {
@@ -347,7 +235,7 @@ public class CopyPasteD extends CopyPaste {
 									label.substring(labelPrefix.length()));
 						}
 					} catch (Exception e) {
-						e.printStackTrace();
+						Log.debug(e);
 					}
 				}
 			}
@@ -373,9 +261,6 @@ public class CopyPasteD extends CopyPaste {
 	 */
 	public void copyToXML(App app, List<GeoElement> geos,
 			boolean putdown) {
-
-		boolean copyMacrosPresume = true;
-
 		if (geos.isEmpty()) {
 			return;
 		}
@@ -392,8 +277,7 @@ public class CopyPasteD extends CopyPaste {
 		copiedMacros = new HashSet<>();
 
 		// create geoslocal and geostohide
-		ArrayList<ConstructionElement> geoslocal = new ArrayList<>();
-		geoslocal.addAll(geos);
+		ArrayList<ConstructionElement> geoslocal = new ArrayList<>(geos);
 
 		if (!putdown) {
 			removeFixedSliders(geoslocal);
@@ -404,15 +288,8 @@ public class CopyPasteD extends CopyPaste {
 			return;
 		}
 
-		removeDependentFromAxes(geoslocal, app);
-
-		if (geoslocal.isEmpty()) {
-			app.setBlockUpdateScripts(scriptsBlocked);
-			return;
-		}
-
 		if (!putdown) {
-			removeHavingMacroPredecessors(geoslocal, copyMacrosPresume);
+			removeHavingMacroPredecessors(geoslocal);
 
 			if (geoslocal.isEmpty()) {
 				app.setBlockUpdateScripts(scriptsBlocked);
@@ -438,8 +315,8 @@ public class CopyPasteD extends CopyPaste {
 		// too.
 		// it is okay to handle it after this, as algos are resistant to hiding
 
-		geostohide.addAll(addAlgosDependentFromInside(geoslocal, putdown,
-				copyMacrosPresume));
+		geostohide.addAll(addAlgosDependentFromInside(geoslocal
+		));
 
 		ArrayList<ConstructionElement> geoslocalsw = removeFreeNonselectedGeoNumerics(
 				geoslocal, geos);
@@ -471,7 +348,7 @@ public class CopyPasteD extends CopyPaste {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			copiedXML = new StringBuilder();
 		}
 		// restore kernel settings
@@ -501,7 +378,7 @@ public class CopyPasteD extends CopyPaste {
 					}
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 				copiedXMLforSameWindow = new StringBuilder();
 			}
 			// restore kernel settings
@@ -528,10 +405,7 @@ public class CopyPasteD extends CopyPaste {
 		if (app.getActiveEuclidianView() != copySource) {
 			return false;
 		}
-		if (copyObject != copyObject2) {
-			return false;
-		}
-		return true;
+		return copyObject == copyObject2;
 	}
 
 	/**
@@ -603,7 +477,7 @@ public class CopyPasteD extends CopyPaste {
 				} catch (Exception ex) {
 					Log.debug(
 							"Could not load any macros at \"Paste from XML\"");
-					ex.printStackTrace();
+					Log.debug(ex);
 				}
 			}
 
@@ -625,21 +499,6 @@ public class CopyPasteD extends CopyPaste {
 		app.setMode(EuclidianConstants.MODE_MOVE);
 
 		app.getKernel().notifyPasteComplete(createdGeos);
-	}
-
-	/**
-	 * Currently, we call this only if the pasted object is put down, but it
-	 * would be better if this were called every time when kernel.storeUndoInfo
-	 * called and there wasn't anything deleted
-	 *
-	 * @param app
-	 *            application
-	 */
-	public void pastePutDownCallback(App app) {
-		if (pasteFast(app)) {
-			copyObject = app.getUndoManager().getCurrentUndoInfo();
-			copyObject2 = null;
-		}
 	}
 
 	@Override
@@ -672,5 +531,20 @@ public class CopyPasteD extends CopyPaste {
 	public void copyTextToSystemClipboard(String text) {
 		Toolkit.getDefaultToolkit().getSystemClipboard()
 				.setContents(new StringSelection(text), null);
+	}
+
+	/**
+	 * Copy and paste all geos from source app to target app.
+	 * @param fromApp source app
+	 * @param toApp target app
+	 */
+	public void insertFrom(App fromApp, App toApp) {
+		copyToXML(fromApp,
+						new ArrayList<>(fromApp.getKernel()
+								.getConstruction().getGeoSetWithCasCellsConstructionOrder()),
+						true);
+
+		// and paste
+		pasteFromXML(toApp, true);
 	}
 }

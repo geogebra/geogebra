@@ -10,9 +10,9 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Perimeter[ &lt;GeoPolygon> ]
+ * Perimeter[ &lt;GeoPolygon&gt; ]
  * 
- * Perimeter[ &lt;Conic> ]
+ * Perimeter[ &lt;Conic&gt; ]
  */
 public class CmdPerimeter extends CommandProcessor {
 	/**
@@ -26,7 +26,7 @@ public class CmdPerimeter extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 

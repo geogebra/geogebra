@@ -14,7 +14,7 @@ import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.euclidian.EuclidianStyleBarD;
 import org.geogebra.desktop.geogebra3D.gui.GuiResources3D;
-import org.geogebra.desktop.gui.util.MyToggleButtonD;
+import org.geogebra.desktop.gui.util.ToggleButtonD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
 
@@ -34,7 +34,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	private PopupMenuButtonD btnRotateView;
 	private PopupMenuButtonD btnClipping;
 
-	private MyToggleButtonD btnShowPlane;
+	private ToggleButtonD btnShowPlane;
 
 	private PopupMenuButtonD btnViewProjection;
 	private PopupMenuButtonD btnViewDirection;
@@ -158,7 +158,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		getBtnPointStyle().getMyTable().setVisible(false);
 		// ========================================
 		// show grid button
-		btnShowPlane = new MyToggleButtonDforEV(
+		btnShowPlane = new ToggleButtonDforEV(
 				app.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_PLANE),
 				iconHeight);
 		btnShowPlane.addActionListener(this);
@@ -323,9 +323,9 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	}
 
 	@Override
-	protected MyToggleButtonD[] newToggleBtnList() {
-		MyToggleButtonD[] superList = super.newToggleBtnList();
-		MyToggleButtonD[] ret = new MyToggleButtonD[superList.length + 1];
+	protected ToggleButtonD[] newToggleBtnList() {
+		ToggleButtonD[] superList = super.newToggleBtnList();
+		ToggleButtonD[] ret = new ToggleButtonD[superList.length + 1];
 		for (int i = 0; i < superList.length; i++) {
 			ret[i] = superList[i];
 		}

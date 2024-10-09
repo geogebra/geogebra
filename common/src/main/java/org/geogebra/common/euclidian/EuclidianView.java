@@ -61,7 +61,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
@@ -174,12 +173,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * g2d of bgImage: used for axis, grid, background images and object traces
 	 */
-	protected GGraphics2D bgGraphics;
+	protected @CheckForNull GGraphics2D bgGraphics;
 	// selection rectangle colors
 	private static final GColor selRectBorder = GColor.newColor(200, 200, 230);
 	private static final GColor selRectFill = GColor.newColor(200, 200, 230, 50);
-	private static final GColor selRectBorderMebis = GColor.newColor(154, 218, 236);
-	private static final GColor selRectFillMebis = GColor.newColor(0, 168, 213, 12);
+	private static final GColor selRectBorderMebis = GColor.newColorRGB(0xC19FCB);
+	private static final GColor selRectFillMebis = GColor.newColor(193, 159, 203, 30);
 
 	// deletion square design
 	protected static final GColor colDeletionSquare = GColor
@@ -754,14 +753,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (mode == this.mode && mode != EuclidianConstants.MODE_IMAGE) {
 			return;
 		}
+		boolean shouldClearSelectedGeos = shouldClearSelectedGeos(mode);
 		this.mode = mode;
 		initCursor();
 		getEuclidianController().clearJustCreatedGeos();
 		getEuclidianController().setMode(mode, m);
-		if (clearRectangle(mode)) {
+		if (shouldClearRectangle(mode)) {
 			setSelectionRectangle(null);
 			if (hasDynamicStyleBar()) {
 				dynamicStyleBar.setVisible(false);
+			}
+			if (shouldClearSelectedGeos) {
+				getEuclidianController().clearSelections();
 			}
 		}
 		setStyleBarMode(mode);
@@ -775,26 +778,33 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * whether to clear selection rectangle when mode selected
+	 * @return True if selection rectangle should be cleared when a certain mode is being
+	 * selected, false else
 	 */
-	final private static boolean clearRectangle(int mode) {
+	final private static boolean shouldClearRectangle(int mode) {
 		switch (mode) {
-		// case EuclidianConstants.MODE_PENCIL:
-		case EuclidianConstants.MODE_PEN:
-			return true; // changed
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-			return false;
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-			return false;
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			return false;
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			return false;
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
 			return false;
 		default:
 			return true;
 		}
+	}
+
+	/**
+	 * When switching from{@link EuclidianConstants#MODE_SELECT} to
+	 * {@link EuclidianConstants#MODE_MOVE} the selected geos (and their bounding boxes)
+	 * should be cleared
+	 * @param newMode New Mode which is being set
+	 * @return True if the bounding boxes and selected geos should be cleared, false else
+	 */
+	final private boolean shouldClearSelectedGeos(int newMode) {
+		return (this.mode == EuclidianConstants.MODE_SELECT_MOW
+				|| this.mode == EuclidianConstants.MODE_SELECT)
+				&& newMode == EuclidianConstants.MODE_MOVE;
 	}
 
 	/**
@@ -1386,7 +1396,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * using min and max values for both axes in real world values.
 	 */
 	final public void setRealWorldCoordSystemVisible(double xmin2, double xmax2,
-											  double ymin2, double ymax2, boolean visible) {
+			double ymin2, double ymax2, boolean visible) {
 		double calcXscale = (visible ? getVisibleWidth() : getWidth()) / (xmax2 - xmin2);
 		double calcYscale = (visible ? getVisibleHeight() : getHeight()) / (ymax2 - ymin2);
 
@@ -2265,8 +2275,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 					&& (d.hit(x, y, app.getCapturingThreshold(type)) || d.hitLabel(x, y))) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible() && geo.isSelectionAllowed(this)) {
-					focusTextField((GeoInputBox) geo);
-					((DrawInputBox) d).setWidgetVisible(true);
+					focusTextField((GeoInputBox) geo, getEuclidianController().getMouseLoc());
 					return true;
 				}
 
@@ -2471,7 +2480,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				dynamicStyleBar.updateVisualStyle(geo);
 			}
 		}
-		if (app.hasSpecialPointsManager()) {
+		if (app.hasSpecialPointsManager() && prop == GProperty.VISIBLE) {
 			app.getSpecialPointsManager().updateSpecialPoints(null);
 		}
 	}
@@ -2690,6 +2699,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	@Override
+	public double getWidthd() {
+		return getWidth();
+	}
+
+	@Override
+	public double getHeightd() {
+		return getHeight();
+	}
+
+	@Override
 	public ArrayList<GeoElementND> getFreeInputPoints(AlgoElement algoParent) {
 		return companion.getFreeInputPoints(algoParent);
 	}
@@ -2777,7 +2796,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @return RW => EV transform; created (but not initialized) when null
+	 * @return RW =&gt; EV transform; created (but not initialized) when null
 	 */
 	public GAffineTransform getCoordTransform() {
 		if (coordTransform == null) {
@@ -2788,7 +2807,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * @param coordTransform
-	 *            RW => EV transform
+	 *            RW =&gt; EV transform
 	 */
 	protected void setCoordTransform(GAffineTransform coordTransform) {
 		this.coordTransform = coordTransform;
@@ -2841,7 +2860,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
 		case EuclidianConstants.MODE_PEN:
-			// case EuclidianConstants.MODE_PENCIL:
 			return true;
 
 		default:
@@ -3615,7 +3633,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		bgImageList.drawAll(g);
 		setBackgroundUpdating(false);
 
-		drawBackground(g, false);
+		drawBackground(g);
 	}
 
 	private void setBackgroundUpdating(boolean b) {
@@ -3709,10 +3727,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 					// g2.drawImage(bgImage, 0, 0, null);
 					firstPaint = false;
 				} else {
-					drawBackgroundWithImages(g2);
+					drawBackgroundWithImages(g2, false);
 				}
 			} else {
-				drawBackgroundWithImages(g2);
+				drawBackgroundWithImages(g2, false);
 			}
 		} else {
 			paintBackground(g2);
@@ -3723,6 +3741,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * Updates background image
 	 */
 	final public void updateBackgroundImage() {
+		tracing = false;
 		if (bgGraphics != null) {
 			drawBackgroundWithImages(bgGraphics, false);
 		}
@@ -3862,26 +3881,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @param g
-	 *            background graphics
-	 */
-	protected void drawBackgroundWithImages(GGraphics2D g) {
-		drawBackgroundWithImages(g, false);
-	}
-
-	/**
-	 * Draws axes, grid and background images
+	 * Draws axes, grid and background images. Does NOT clear background.
 	 * 
 	 * @param g
 	 *            graphics
-	 * @param clear
-	 *            clear traces before drawing
 	 */
-	final protected void drawBackground(GGraphics2D g, boolean clear) {
-		if (clear) {
-			clearBackground(g);
-		}
-
+	final protected void drawBackground(GGraphics2D g) {
 		g.setAntialiasing();
 
 		// handle drawing axes near the screen edge
@@ -4587,34 +4592,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Tells if there are any traces in the background image.
-	 * 
-	 * @return true if there are any traces in background
-	 */
-	protected boolean isTracing() {
-		for (Drawable drawable : allDrawableList) {
-			if (drawable.isTracing()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * Tells if there are any images in the background.
 	 * 
 	 * @return whether there are any images in the background.
 	 */
 	protected boolean hasBackgroundImages() {
 		return bgImageList.size() > 0;
-	}
-
-	/**
-	 * @return background graphics
-	 */
-	final public GGraphics2D getBackgroundGraphics() {
-		this.tracing = true;
-		return bgGraphics;
 	}
 
 	/**
@@ -4771,34 +4754,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				sbxml.append("/>\n");
 			}
 
-			if (app.getSaveController().savedAsTemplate()) {
-				// size of pen
-				sbxml.append("\t<penSize val=\"");
-				sbxml.append(settings.getLastPenThickness());
-				sbxml.append("\"/>\n");
-
-				// color of pen
-				sbxml.append("\t<penColor");
-				XMLBuilder.appendRGB(sbxml, settings.getLastSelectedPenColor());
-				sbxml.append("/>\n");
-
-				// size of highlighter
-				sbxml.append("\t<highlighterSize val=\"");
-				sbxml.append(settings.getLastHighlighterThinckness());
-				sbxml.append("\"/>\n");
-
-				// highlighter of pen
-				sbxml.append("\t<highlighterColor");
-				XMLBuilder.appendRGB(sbxml, settings.getLastSelectedHighlighterColor());
-				sbxml.append("/>\n");
-
-				// size of eraser
-				sbxml.append("\t<eraserSize val=\"");
-				sbxml.append(settings.getDeleteToolSize());
-				sbxml.append("\"/>\n");
-
+			if (app.getSaveController() != null && app.getSaveController().savedAsTemplate()) {
+				app.getSettings().getPenTools().getXML(sbxml);
 				sbxml.append("\t<language val=\"");
-				sbxml.append(app.getLocalization().getLocaleStr());
+				sbxml.append(app.getLocalization().getLanguageTag());
 				sbxml.append("\"/>\n");
 			}
 		}
@@ -4861,7 +4820,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * Keeps the zoom, but makes sure the bound objects are free. This is
-	 * necessary in File->New because there might have been dynamic xmin bounds
+	 * necessary in File &gt; New because there might have been dynamic xmin bounds
 	 */
 	public void resetXYMinMaxObjects() {
 		if ((evNo == 1) || (evNo == 2)) {
@@ -5698,7 +5657,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * changes style bold <> not bold as necessary
+	 * Adjusts the bold bit in axes line style
 	 * 
 	 * @param bold
 	 *            true for bold axes
@@ -5897,7 +5856,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 
 		// DRAWING
-		if (isTracing() || hasBackgroundImages()) {
+		if (isTraceDrawn() || hasBackgroundImages()) {
 			// draw background image to get the traces
 			if (bgImage == null) {
 				drawBackgroundWithImages(g2d, transparency);
@@ -5907,7 +5866,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		} else {
 			// just clear the background if transparency is disabled (clear =
 			// draw background color)
-			drawBackground(g2d, !transparency);
+			if (!transparency) {
+				clearBackground(g2d);
+			}
+			drawBackground(g2d);
 		}
 
 		g2d.setAntialiasing();
@@ -5959,7 +5921,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (exportFrame != null) {
 			return (int) exportFrame.getMaxX();
 		}
-		return getWidth();
+		return (int) Math.ceil(getWidthd());
 	}
 
 	/**
@@ -5982,7 +5944,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return (int) exportFrame.getMaxY();
 		}
 
-		return getHeight();
+		return (int) Math.ceil(getHeightd());
 	}
 
 	/**
@@ -6216,10 +6178,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @param inputBox
-	 *            input box
+	 * @param inputBox input box
 	 */
 	public void focusTextField(GeoInputBox inputBox) {
+		focusTextField(inputBox, null);
+	}
+
+	/**
+	 * Focus the editor, move caret to given position and select text around the caret
+	 * (caret ignored for non-symbolic input boxes).
+	 * @param inputBox input box
+	 * @param caretPos cursor position with respect to the view
+	 */
+	public void focusTextField(GeoInputBox inputBox, GPoint caretPos) {
 		DrawableND d = getDrawableFor(inputBox);
 		if (d != null) {
 			app.getAccessibilityManager().cancelReadCollectedAltTexts();
@@ -6227,9 +6198,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			DrawInputBox drawInputBox = (DrawInputBox) d;
 			ScreenReader.debug(inputBox.getAuralText() + " [editable]");
 			if (inputBox.isSymbolicMode()) {
-				drawInputBox.attachMathField(null);
+				drawInputBox.attachMathField(caretPos);
 			} else if (viewTextField != null) {
 				viewTextField.focusTo(drawInputBox);
+				drawInputBox.setWidgetVisible(true);
 			}
 		}
 	}
@@ -6254,7 +6226,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void refreshTextfieldFocus(GeoInputBox inputBox) {
 		focusTextField(inputBox);
 		if (!inputBox.isSymbolicMode()) {
-			viewTextField.getTextField().getDrawTextField().setWidgetVisible(true);
 			getTextField().setSelection(0, getTextField().getText().length());
 		}
 	}
@@ -6339,7 +6310,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param x
 	 *            x-coord
 	 * @param y
-	 *            y=coord
+	 *            y-coord
 	 * @param col
 	 *            text color
 	 */
@@ -6696,18 +6667,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	/**
-	 * adds ruler or protractor image to canvas
-	 * @return geoImage containing ruler or protractor
-	 */
-	public GeoImage addMeasurementTool(int mode, String fileName) {
-		return null;
-	}
-
-	public void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {
-		// do nothing
-	}
-
 	@Override
 	public EdgeInsets getSafeAreaInsets() {
 		return safeAreaInsets;
@@ -6726,5 +6685,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public IntervalPathPlotter createIntervalPathPlotter(GeneralPathClippedForCurvePlotter gp) {
 		return new IntervalPathPlotterImpl(gp);
+	}
+
+	/**
+	 * Paints drawable's trace to background graphics
+	 * @param drawable object to draw as trace
+	 */
+	public void drawTrace(Drawable drawable) {
+		this.tracing = true;
+		if (bgGraphics != null) {
+			drawable.drawTrace(bgGraphics);
+		}
 	}
 }

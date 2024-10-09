@@ -20,7 +20,6 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private final boolean createExamEntry;
 	private final boolean enableFileFeatures;
 	private final String versionNumber;
-	private boolean fileSystemSupported;
 
 	/**
 	 * Create a new DrawerMenuFactory.
@@ -117,17 +116,18 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private MenuItemGroup createMainMenuItemGroup() {
 		MenuItem clearConstruction = enableFileFeatures ? clearConstruction() : null;
 		MenuItem startExamMode = createExamEntry ? startExamMode() : null;
-		if (version == GeoGebraConstants.Version.SCIENTIFIC) {
+		if (isScientificCalc()) {
 			return new MenuItemGroupImpl(removeNulls(clearConstruction, startExamMode));
 		}
 		MenuItem openFile = enableFileFeatures ? openFile() : null;
 		MenuItem save = enableFileFeatures && logInOperation != null ? saveFileOnline() : null;
-		MenuItem saveOffline = enableFileFeatures && fileSystemSupported ? saveFileLocal() : null;
+		MenuItem saveOffline = enableFileFeatures && isWeb() ? saveFileLocal() : null;
 		MenuItem share = enableFileFeatures ? share() : null;
 		MenuItem downloadAs = isWeb() ? showDownloadAs() : null;
 		MenuItem printPreview = hasPrintPreview() ? previewPrint() : null;
+		MenuItem exportImage = isSuiteScientific() ? null : exportImage();
 		return new MenuItemGroupImpl(removeNulls(clearConstruction, openFile, save, saveOffline,
-				share, exportImage(), downloadAs, printPreview, startExamMode));
+				share, exportImage, downloadAs, printPreview, startExamMode));
 	}
 
 	protected MenuItem saveFileOnline() {
@@ -176,6 +176,20 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 				|| platform == GeoGebraConstants.Platform.IOS;
 	}
 
+	/**
+	 * @return true if scientific not in suite
+	 */
+	public boolean isScientificCalc() {
+		return version == GeoGebraConstants.Version.SCIENTIFIC && !isSuiteApp();
+	}
+
+	/**
+	 * @return true if scientific in suite
+	 */
+	public boolean isSuiteScientific() {
+		return isSuiteApp() && version == GeoGebraConstants.Version.SCIENTIFIC;
+	}
+
 	private boolean isWeb() {
 		return !isMobile();
 	}
@@ -212,8 +226,8 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private MenuItem showHelpAndFeedback() {
 		ActionableItem tutorials = new ActionableItemImpl(Icon.SCHOOL,
 				"Tutorial", Action.SHOW_TUTORIALS);
-		ActionableItem askQuestion = new ActionableItemImpl(Icon.QUESTION_ANSWER,
-				"AskAQuestion", Action.SHOW_FORUM);
+		ActionableItem askQuestion = new ActionableItemImpl(Icon.HELP,
+				"Help", Action.SHOW_FORUM);
 		ActionableItem reportProblem = new ActionableItemImpl(Icon.BUG_REPORT,
 				"ReportProblem", Action.REPORT_PROBLEM);
 		ActionableItem license = new ActionableItemImpl(Icon.INFO,
@@ -223,23 +237,25 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	protected MenuItem showDownloadAs() {
-		ActionableItem png = new ActionableItemImpl(null, "Download.PNGImage", Action.DOWNLOAD_PNG);
+		ActionableItem downloadPng = new ActionableItemImpl(null,
+				"Download.PNGImage", Action.DOWNLOAD_PNG);
 		ActionableItem svg = new ActionableItemImpl(null, "Download.SVGImage", Action.DOWNLOAD_SVG);
 		ActionableItem pdf = new ActionableItemImpl(null,
 				"Download.PDFDocument", Action.DOWNLOAD_PDF);
 		switch (version) {
 		case PROBABILITY:
-			return buildDownloadAs(createDownloadGgb(), png);
+			return buildDownloadAs(createDownloadGgb(), downloadPng);
 		case NOTES:
-			return buildDownloadAs(createDownloadSlides(), png, svg, pdf);
+			return buildDownloadAs(createDownloadSlides(), downloadPng, svg, pdf);
 		case GRAPHING_3D:
 			ActionableItem dae = new ActionableItemImpl(
 					"Download.ColladaDae", Action.DOWNLOAD_COLLADA_DAE);
 			ActionableItem html = new ActionableItemImpl(
 					"Download.ColladaHtml", Action.DOWNLOAD_COLLADA_HTML);
-			return buildDownloadAs(createDownloadGgb(), png, createDownloadStl(), dae, html);
+			return buildDownloadAs(createDownloadGgb(), downloadPng,
+					createDownloadStl(), dae, html);
 		default:
-			return buildDownloadAs(createDownloadGgb(), png, svg, pdf, createDownloadStl());
+			return buildDownloadAs(createDownloadGgb(), downloadPng, svg, pdf, createDownloadStl());
 		}
 	}
 
@@ -263,7 +279,4 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		return logInOperation;
 	}
 
-	public void setFileSystemSupported(boolean showOpenFilePicker) {
-		this.fileSystemSupported = showOpenFilePicker;
-	}
 }

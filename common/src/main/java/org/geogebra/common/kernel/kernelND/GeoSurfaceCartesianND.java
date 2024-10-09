@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoMacro;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -12,7 +13,6 @@ import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * Abstract class for cartesian curves in any dimension
@@ -248,7 +249,21 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	@Override
 	final public boolean isDefined() {
-		return isDefined && fun != null;
+		return isDefined && fun != null && (point == null || point.isDefined());
+	}
+
+	@Override
+	protected void getExpressionXML(StringBuilder sb) {
+		if (isIndependent() && getDefinition() == null && !isDefined && complexVariable != null) {
+			sb.append("<expression label=\"");
+			StringUtil.encodeXML(sb, label);
+			sb.append("\" exp=\"");
+			StringUtil.encodeXML(sb, getAssignmentLHS(StringTemplate.xmlTemplate));
+			sb.append(" = ?");
+			sb.append("\" type=\"surfacecartesian\"/>\n");
+		} else {
+			super.getExpressionXML(sb);
+		}
 	}
 
 	/**
@@ -850,7 +865,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	@Override
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
-			boolean symbolic, MyArbitraryConstant arbconst) {
+			boolean symbolic, ArbitraryConstantRegistry arbconst) {
 		GeoSurfaceCartesianND c = (GeoSurfaceCartesianND) f;
 
 		if (c.getDefinition() != null) {

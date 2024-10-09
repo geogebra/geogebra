@@ -12,14 +12,15 @@ import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.jre.headless.ApiDelegate;
 import org.geogebra.common.jre.headless.App3DCompanionHeadless;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.AppDI;
 import org.geogebra.common.jre.headless.EuclidianController3DNoGui;
 import org.geogebra.common.jre.headless.EuclidianView3DNoGui;
+import org.geogebra.common.jre.headless.GgbAPIHeadless;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.main.LocalizationJre;
-import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -27,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.plugin.GgbAPI;
+import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
@@ -41,9 +43,9 @@ import org.geogebra.desktop.factories.LoggingCASFactoryD;
 import org.geogebra.desktop.factories.UtilFactoryD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
-import org.geogebra.desktop.main.undo.UndoManagerD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
+import org.geogebra.desktop.plugin.ScriptManagerD;
 import org.geogebra.desktop.sound.SoundManagerD;
 import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.ImageManagerD;
@@ -57,7 +59,7 @@ import org.geogebra.desktop.util.ImageManagerD;
 public class AppDNoGui extends AppCommon implements AppDI {
 
 	private DrawEquationD drawEquation;
-	private GgbAPIJre ggbapi;
+	private GgbAPIHeadless ggbapi;
 	private SoundManager soundManager;
 	private boolean is3Dactive;
 	private EuclidianView3DNoGui ev3d;
@@ -79,10 +81,6 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	}
 
 	public void addExternalImage(String name, MyImageJre img) {
-		// TODO Auto-generated method stub
-	}
-
-	public void storeFrameCenter() {
 		// TODO Auto-generated method stub
 	}
 
@@ -127,7 +125,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	public DrawEquation getDrawEquation() {
 		if (drawEquation == null) {
 			LaTeXFactory.setPrototypeIfNull(new LaTeXFactoryD());
-			drawEquation = new DrawEquationD();
+			drawEquation = new DrawEquationD(null);
 		}
 		return drawEquation;
 	}
@@ -136,6 +134,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	public GgbAPI getGgbApi() {
 		if (ggbapi == null) {
 			ggbapi = new GgbAPIHeadless(this);
+			ggbapi.setImageExporter(new GgbApiDelegateHeadless());
 		}
 		return ggbapi;
 	}
@@ -164,24 +163,9 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	}
 
 	@Override
-	protected int getWindowWidth() {
-		return 800;
-	}
-
-	@Override
-	protected int getWindowHeight() {
-		return 600;
-	}
-
-	@Override
 	public MyImage getExternalImageAdapter(String filename, int width,
 			int height) {
 		return ImageManagerD.getExternalImage(filename);
-	}
-
-	@Override
-	public UndoManagerD getUndoManager(Construction cons) {
-		return new UndoManagerD(cons, true);
 	}
 
 	@Override
@@ -212,7 +196,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	}
 
 	@Override
-	public CommandDispatcher newCommand3DDispatcher(Kernel cmdKernel) {
+	public CommandDispatcher newCommandDispatcher(Kernel cmdKernel) {
 		return new CommandDispatcher3DJre(cmdKernel);
 	}
 
@@ -220,34 +204,18 @@ public class AppDNoGui extends AppCommon implements AppDI {
 		return true;
 	}
 
-	private static class GgbAPIHeadless extends GgbAPIJre {
+	public ScriptManager newScriptManager() {
+		return new ScriptManagerD(this);
+	}
 
-		public GgbAPIHeadless(App app) {
-			super(app);
-		}
-
-		@Override
-		public byte[] getGGBfile() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public void setErrorDialogsActive(boolean flag) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void refreshViews() {
-			// TODO Auto-generated method stub
-		}
+	private class GgbApiDelegateHeadless implements ApiDelegate {
 
 		@Override
 		public void openFile(String strURL) {
 			try {
 				String lowerCase = StringUtil.toLowerCaseUS(strURL);
 				URL url = new URL(strURL);
-				GFileHandler.loadXML(getApplication(), url.openStream(),
+				GFileHandler.loadXML(AppDNoGui.this, url.openStream(),
 						lowerCase.endsWith(FileExtensions.GEOGEBRA_TOOL
 								.toString()));
 			} catch (Exception e) {
@@ -256,20 +224,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 		}
 
 		@Override
-		protected void exportPNGClipboard(boolean transparent, int DPI,
-				double exportScale, EuclidianView ev) {
-			// stub
-
-		}
-
-		@Override
-		protected void exportPNGClipboardDPIisNaN(boolean transparent,
-				double exportScale, EuclidianView ev) {
-			// stub
-		}
-
-		@Override
-		protected String base64encodePNG(boolean transparent,
+		public String base64encodePNG(boolean transparent,
 				double DPI, double exportScale, EuclidianView ev) {
 			ev.updateBackground();
 			GBufferedImage img = ev
@@ -278,6 +233,5 @@ public class AppDNoGui extends AppCommon implements AppDI {
 			return GgbAPID.base64encode(
 					GBufferedImageD.getAwtBufferedImage(img), DPI);
 		}
-
 	}
 }

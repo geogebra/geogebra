@@ -35,7 +35,7 @@ import javax.swing.table.TableCellRenderer;
 
 import org.geogebra.common.cas.view.CASTable;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
@@ -56,6 +56,12 @@ public class CASTableD extends JTable implements CASTable {
 
 	/** column of the table containing CAS cells */
 	public final static int COL_CAS_CELLS = 0;
+
+	/** dash pattern for selection */
+	private final static float[] dash1 = { 2f, 1f };
+	/** dashed stroke for selection */
+	private final static BasicStroke dashed = new BasicStroke(1.0f,
+			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
 
 	private CASTableModel tableModel;
 	private Kernel kernel;
@@ -120,7 +126,7 @@ public class CASTableD extends JTable implements CASTable {
 		}
 
 		// listen to mouse pressed on table cells, make sure to start editing
-		addMouseListener(new MyMouseListener());
+		addMouseListener(new CASTableMouseListener());
 
 		// add listener for mouse roll over
 		RollOverListener rollOverListener = new RollOverListener();
@@ -191,7 +197,7 @@ public class CASTableD extends JTable implements CASTable {
 	 * listen to mouse pressed on table cells, make sure to start editing
 	 * 
 	 */
-	protected class MyMouseListener extends MouseAdapter {
+	protected class CASTableMouseListener extends MouseAdapter {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
@@ -435,7 +441,7 @@ public class CASTableD extends JTable implements CASTable {
 			}
 		}
 		// update keys (rows) in arbitrary constant table
-		updateAfterInsertArbConstTable(selectedRow);
+		view.updateAfterInsertArbConstTable(selectedRow);
 		tableModel.insertRow(selectedRow, new Object[] { toInsert });
 		// make sure the row is shown when at the bottom of the viewport
 		getTable().scrollRectToVisible(
@@ -444,33 +450,6 @@ public class CASTableD extends JTable implements CASTable {
 		// update height of new row
 		if (startEditing) {
 			startEditingRow(selectedRow);
-		}
-	}
-
-	/**
-	 * Updates arbitraryConstantTable in construction.
-	 * 
-	 * @param selectedRow
-	 *            row index (starting from 0) where cell insertion is done
-	 */
-	private void updateAfterInsertArbConstTable(int selectedRow) {
-		if (kernel.getConstruction().getArbitraryConsTable().size() > 0) {
-			// find last row number
-			Integer max = Collections.max(
-					kernel.getConstruction().getArbitraryConsTable().keySet());
-			for (int key = max; key >= selectedRow; key--) {
-				MyArbitraryConstant myArbConst = kernel.getConstruction()
-						.getArbitraryConsTable().get(key);
-				if (myArbConst != null
-						&& !kernel.getConstruction().isCasCellUpdate()
-						&& !kernel.getConstruction().isFileLoading()
-						&& kernel.getConstruction().isNotXmlLoading()) {
-					kernel.getConstruction().getArbitraryConsTable()
-							.remove(key);
-					kernel.getConstruction().getArbitraryConsTable()
-							.put(key + 1, myArbConst);
-				}
-			}
 		}
 	}
 
@@ -542,7 +521,7 @@ public class CASTableD extends JTable implements CASTable {
 	}
 
 	/**
-	 * For each row >= start and < end, the height of a row is set to the
+	 * For each row &gt;= start and &lt; end, the height of a row is set to the
 	 * preferred height of the tallest cell in that row.
 	 * 
 	 * @param start
@@ -630,7 +609,7 @@ public class CASTableD extends JTable implements CASTable {
 	 *            row index (starting from 0) where cell is deleted
 	 */
 	private void updateAfterDeleteArbConstTable(int row) {
-		MyArbitraryConstant arbConst = kernel.getConstruction()
+		ArbitraryConstantRegistry arbConst = kernel.getConstruction()
 				.getArbitraryConsTable().remove(row);
 		if (arbConst != null) {
 			for (GeoNumeric geoNum : arbConst.getConstList()) {
@@ -644,7 +623,7 @@ public class CASTableD extends JTable implements CASTable {
 			Integer max = Collections.max(
 					kernel.getConstruction().getArbitraryConsTable().keySet());
 			for (int key = row + 1; key <= max; key++) {
-				MyArbitraryConstant myArbConst = kernel.getConstruction()
+				ArbitraryConstantRegistry myArbConst = kernel.getConstruction()
 						.getArbitraryConsTable().get(key);
 				if (myArbConst != null) {
 					kernel.getConstruction().getArbitraryConsTable()
@@ -837,12 +816,6 @@ public class CASTableD extends JTable implements CASTable {
 		}
 		return getRowCount() - 1;
 	}
-
-	/** dash pattern for selection */
-	final static float[] dash1 = { 2f, 1f };
-	/** dashed stroke for selection */
-	final static BasicStroke dashed = new BasicStroke(1.0f,
-			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
 
 	/**
 	 * Highlights the selected row

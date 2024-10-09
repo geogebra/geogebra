@@ -10,11 +10,11 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Sequence[ &lt;expression>, &lt;number-var>, &lt;from>, &lt;to> ]
+ * Sequence[ &lt;expression&gt;, &lt;number-var&gt;, &lt;from&gt;, &lt;to&gt; ]
  * 
- * Sequence[ &lt;expression>, &lt;number-var>, &lt;from>, &lt;to>, &lt;step> ]
+ * Sequence[ &lt;expression&gt;, &lt;number-var&gt;, &lt;from&gt;, &lt;to&gt;, &lt;step&gt; ]
  * 
- * Sequence[ &lt;number-var>]
+ * Sequence[ &lt;number-var&gt;]
  */
 public class CmdSequence extends CommandProcessor {
 	/**
@@ -28,7 +28,7 @@ public class CmdSequence extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 
 		// avoid

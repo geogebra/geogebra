@@ -1,17 +1,6 @@
-/* ### onScreenKeyboard ### */
+@use 'colorMap' as *;
 
-/* ### keyboard color variables ### */
-$switcher-background: #f8f8f8;
-$new-functional-button: #dcdcdc;
-$old-functional-button: #afafaf;
-$old-keyboard-background: #666666;
-$new-keyboard-background: #eeeeee;
-$new-keyboard-button-border: #c7c7c7;
-$active-switcher: #6666ff;
-$black: #000000;
 $tab123-width: 644px;
-
-$purple-default: #6557D2;
 
 .GeoGebraFrame{
 
@@ -85,8 +74,7 @@ $purple-default: #6557D2;
 	.KeyBoard, .KeyBoard.gwt-PopupPanel {
 		border-radius: 0;
 		-webkit-border-radius: 0;
-		background-color: $old-keyboard-background;
-		color: $black;
+		color: neutral("900");
 		box-shadow: none;
 		font-family: geogebra-sans-serif, sans-serif;
 		padding: 5px 0;
@@ -98,7 +86,8 @@ $purple-default: #6557D2;
 
 	.TabbedKeyBoard.KeyBoard {
 		padding-top: 0;
-		background-color: $new-keyboard-background;
+		background-color: neutral("200");
+		box-shadow: 0px -2px 4px 0px #1C1C1F26;
 		font-family: greek, geogebra-sans-serif, sans-serif;
 		
 		&.detached {
@@ -143,7 +132,7 @@ $purple-default: #6557D2;
 		font-size: 120%;
 		cursor: pointer;
 		white-space: nowrap;
-		color: $black;
+		color: neutral("900");
 		display: block;
 		div {
 			text-align: center;
@@ -158,22 +147,11 @@ $purple-default: #6557D2;
 
 	.KeyBoard.TabbedKeyBoard .KeyBoardButton {
 		height: 40px;
-		box-sizing:border-box;
 		background-color: white;
-		border-radius: 5px;
-		border-bottom: 1px solid;
-		border-bottom-color: $new-keyboard-button-border; 
+		border-radius: 8px;
 		display: flex;
 		align-items: center;
 		justify-content: space-around;
-
-		&.sub {
-			padding: 6.5px;
-		}
-
-		&.sup {
-			padding: 5.5px;
-		}
 
 		img {
 			width: 24px;
@@ -185,18 +163,12 @@ $purple-default: #6557D2;
 		}
 
 		&.colored{
-			background-color: $new-functional-button;
+			background-color: neutral("400");
 		}
 
 		&.accentDown {
-			background-color: $new-functional-button;
+			background-color: neutral("400");
 		}
-	}
-
-	.lowerHeight .KeyBoardButton {
-		height: 10px;
-		padding-top: 3px;
-		padding-bottom: 13px;
 	}
 
 	.KeyBoardButton.supScript .gwt-Label {
@@ -215,18 +187,9 @@ $purple-default: #6557D2;
 		box-shadow: inset 0 0 0 1px #7C7C7C;
 	}
 
-	.KeyBoardButton.colored {
-		background-color: $old-functional-button;
-	}
-
 	.KeyBoardButton.backspace {
 		padding-top: 8px;
 		padding-bottom: 12px;
-	}
-
-	.lowerHeight .KeyBoardButton.backspace {
-		padding-top: 1px;
-		padding-bottom: 15px;
 	}
 
 	/* -- NUMBERS -- */
@@ -243,13 +206,6 @@ $purple-default: #6557D2;
 
 	.KeyBoardButton.enter {
 		height: 64px;
-	}
-
-	.lowerHeight .KeyBoardButton.enter {
-		height: 41px;
-		img {
-			padding-top: 15px;
-		}
 	}
 
 	.KeyBoardButton.enter img {
@@ -381,12 +337,8 @@ $purple-default: #6557D2;
 
 	.KeyboardSwitcher {
 		position: relative;
-		background-color: $switcher-background;
-		border: $new-functional-button solid;
-		border-width: 1px 0;
 		width: 100%;
 		height: 40px;
-		margin-bottom: 5px;
 
 		.switcherContents {
 			max-width: $tab123-width;
@@ -396,7 +348,8 @@ $purple-default: #6557D2;
 		}
 		
 		.gwt-Button {
-			color: $black;
+			color: neutral("900");
+			border-radius: 18px;
 			border: 0;
 			padding-left: 10px;
 			padding-right: 10px;
@@ -437,7 +390,11 @@ $purple-default: #6557D2;
 	}
 
 	.KeyboardSwitcher .switcherContents .gwt-Button.selected {
-		color: $purple-default;
+		background-color: purple("400");
+	}
+
+	.KeyboardSwitcher .switcherContents .gwt-Button.selected:hover {
+		color: neutral("900");
 	}
 
 	.KeyboardSwitcher .switcherContents > :first-child {
@@ -448,8 +405,8 @@ $purple-default: #6557D2;
 	}
 
 	.KeyboardSwitcher .gwt-Button:hover {
-		color: $purple-default;
-		background-color: $switcher-background;
+		color: purple("600");
+		background-color: transparent;
 	}
 
 	.TabbedKeyBoard { 

@@ -31,7 +31,7 @@ import org.gwtproject.user.client.ui.Widget;
  */
 public class TextPreviewPanelW extends TextPreviewer {
 
-	private MyEuclidianViewPanelForTextPreviewPanelW evPanel;
+	private TextPreviewEuclidianViewPanelW evPanel;
 
 	/**
 	 * @param kernel
@@ -70,9 +70,8 @@ public class TextPreviewPanelW extends TextPreviewer {
 		boolean serif = previewGeo.isSerifFont();
 		
 		int size = (int) (previewGeo.getFontSizeMultiplier() * getApp()
-		        .getFontSize());
-		GFont textFont = getApp().getFontCommon(serif, previewGeo.getFontStyle(),
-		        size);
+				.getFontSize());
+		GFont textFont = getApp().getFontCommon(serif, previewGeo.getFontStyle(), size);
 
 		GRectangle rect = AwtFactory.getPrototype().newRectangle();
 		if (isLatex) {
@@ -104,15 +103,15 @@ public class TextPreviewPanelW extends TextPreviewer {
 	@Override
 	protected EuclidianViewW getEuclidianView() {
 		if (ev == null) {
-			ev = new MyEuclidianView(getEVPanel(), new EuclidianControllerW(
+			ev = new PreviewEuclidianView(getEVPanel(), new EuclidianControllerW(
 					kernel), EuclidianView.EVNO_GENERAL, null);
 		}
 		return (EuclidianViewW) ev;
 	}
 
-	private MyEuclidianViewPanelForTextPreviewPanelW getEVPanel() {
+	private TextPreviewEuclidianViewPanelW getEVPanel() {
 		if (evPanel == null) {
-			evPanel = new MyEuclidianViewPanelForTextPreviewPanelW();
+			evPanel = new TextPreviewEuclidianViewPanelW();
 		}
 		return evPanel;
 	}
@@ -128,11 +127,10 @@ public class TextPreviewPanelW extends TextPreviewer {
 	 * Extension of EuclidianViewD for displaying preview text strings
 	 * 
 	 */
-	private static class MyEuclidianView extends EuclidianViewW {
+	private static class PreviewEuclidianView extends EuclidianViewW {
 
-		public MyEuclidianView(MyEuclidianViewPanelForTextPreviewPanelW panel,
-				EuclidianController ec, 
-		        int evno, EuclidianSettings settings) {
+		public PreviewEuclidianView(TextPreviewEuclidianViewPanelW panel,
+				EuclidianController ec, int evno, EuclidianSettings settings) {
 			super(panel, ec, evno, settings);
 
 			// the show axis and show grid parameters currently do nothing, so
@@ -165,12 +163,12 @@ public class TextPreviewPanelW extends TextPreviewer {
 	 * Panel for EuclidianView
 	 * 
 	 */
-	private class MyEuclidianViewPanelForTextPreviewPanelW extends AbsolutePanel implements
+	private class TextPreviewEuclidianViewPanelW extends AbsolutePanel implements
 	        EuclidianPanelWAbstract {
 
 		private Canvas canvas;
 
-		public MyEuclidianViewPanelForTextPreviewPanelW() {
+		public TextPreviewEuclidianViewPanelW() {
 			super();
 			canvas = Canvas.createIfSupported();
 			canvas.getElement().getStyle().setPosition(Position.ABSOLUTE);

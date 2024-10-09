@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel;
 
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -103,7 +102,7 @@ public class MyPoint extends GPoint2D {
 	 * @return true if coords are finite numbers
 	 */
 	public boolean isFinite() {
-		return MyDouble.isFinite(x) && MyDouble.isFinite(y);
+		return Double.isFinite(x) && Double.isFinite(y);
 	}
 
 	/**
@@ -163,7 +162,7 @@ public class MyPoint extends GPoint2D {
 	 * @return whether coordinates are not NaN (checks only x)
 	 */
 	public boolean isDefined() {
-		return MyDouble.isFinite(x);
+		return Double.isFinite(x);
 	}
 
 	/**

@@ -4,12 +4,13 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoIntersection;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * Intersection[ &lt;GeoList>, &lt;GeoList> ]
+ * Intersection[ &lt;GeoList&gt;, &lt;GeoList&gt; ]
  */
 public class CmdIntersection extends CommandProcessor {
 	/**
@@ -23,7 +24,7 @@ public class CmdIntersection extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

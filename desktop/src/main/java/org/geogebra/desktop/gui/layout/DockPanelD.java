@@ -361,7 +361,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	 *         the "checkbox bug"
 	 */
 	public ImageIcon getIcon() {
-		if (AppD.WINDOWS_VISTA_OR_LATER) {
+		if (AppD.WINDOWS) {
 			return null;
 		}
 		return app.getEmptyIcon();
@@ -503,7 +503,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		titlePanel.add(createFocusPanel(), loc.borderWest());
 		titlePanel.add(buttonPanel, loc.borderEast());
 		titlePanel.addMouseListener(this); // dragging to reconfigure
-		titlePanel.addMouseListener(new MyButtonHider());
+		titlePanel.addMouseListener(new ButtonHider());
 
 		// create toolbar panel
 		if (hasToolbar()) {
@@ -923,11 +923,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	 * Update fonts.
 	 */
 	public void updateFonts() {
-		if (hasFocus && dockManager.hasFullFocusSystem()) {
-			titleLabel.setFont(app.getBoldFont());
-		} else {
-			titleLabel.setFont(app.getPlainFont());
-		}
+		setTitleLabelFocus();
 		updateIcons();
 	}
 
@@ -1600,11 +1596,10 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		// only handle mousePressed
 	}
 
-	public class MyButtonHider extends MouseAdapter {
+	public class ButtonHider extends MouseAdapter {
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			// System.out.println("entered, not jpanel");
 			if (e.getSource() != titlePanel) {
 				e.consume();
 			} else if (!windowButton.isVisible()
@@ -1618,7 +1613,6 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			// System.out.println("exited:");
 			if (!titlePanel.getVisibleRect().contains(e.getPoint())) {
 				windowButton.setVisible(false);
 			}

@@ -16,7 +16,6 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -155,67 +154,41 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 		// 2D coords styles
 		case Kernel.COORD_POLAR:
-			action = new AbstractAction(loc.getMenu("CartesianCoords")) {
-				/**
-						 * 
-						 */
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					cartesianCoordsCmd();
-				}
-			};
+			action = getCoordAction("CartesianCoords", Kernel.COORD_CARTESIAN);
 			addAction(action);
 			break;
 
 		case Kernel.COORD_CARTESIAN:
-			action = new AbstractAction(loc.getMenu("PolarCoords")) {
-				/**
-						 * 
-						 */
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					polarCoorsCmd();
-				}
-			};
+			action = getCoordAction("PolarCoords", Kernel.COORD_POLAR);
 			addAction(action);
 			break;
 
 		// 3D coords styles
 		case Kernel.COORD_SPHERICAL:
-			action = new AbstractAction(loc.getMenu("CartesianCoords")) {
-				/**
-						 * 
-						 */
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					cartesianCoords3dCmd();
-				}
-			};
+			action = getCoordAction("CartesianCoords", Kernel.COORD_CARTESIAN_3D);
 			addAction(action);
 			break;
 
 		case Kernel.COORD_CARTESIAN_3D:
-			action = new AbstractAction(loc.getMenu("Spherical")) {
-				/**
-						 * 
-						 */
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					sphericalCoordsCmd();
-				}
-			};
+			action = getCoordAction("Spherical", Kernel.COORD_SPHERICAL);
 			addAction(action);
 			break;
 		}
 
+	}
+
+	private AbstractAction getCoordAction(String cartesian, int coordCartesian) {
+		return new AbstractAction(loc.getMenu(cartesian)) {
+			/**
+			 *
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setCoordStyle(coordCartesian);
+			}
+		};
 	}
 
 	private void addLineItems() {
@@ -693,7 +666,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			});
 		}
 
-		if (((AppD) app).letShowPropertiesDialog()
+		if (app.letShowPropertiesDialog()
 				&& getGeo().hasProperties()) {
 			wrappedPopup.addSeparator();
 
@@ -799,8 +772,9 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			geoRecordToSpreadSheet = getGeo();
 		} else {
 			geoRecordToSpreadSheet = app.getKernel().getAlgoDispatcher()
-					.list(null, getGeos(), false);
+					.list(getGeos(), false);
 			geoRecordToSpreadSheet.setAuxiliaryObject(true);
+			geoRecordToSpreadSheet.setLabel(null);
 		}
 
 		((GuiManagerD) app.getGuiManager()).getSpreadsheetView()

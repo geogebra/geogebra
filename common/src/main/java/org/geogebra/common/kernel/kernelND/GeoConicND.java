@@ -125,8 +125,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	/** old value of transform */
 	protected GAffineTransform oldTransform;
 
-	/** translation vector (midpoint, vertex) */
-	public GeoVec2D b = new GeoVec2D(kernel);
+	private GeoVec2D b = new GeoVec2D(kernel);
 	/** start points for lines in degenerate cases */
 	protected GeoPoint[] startPoints;
 	/** points on this conic */
@@ -141,7 +140,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	private double nx;
 	private double ny;
 	private double lambda;
-	private int index = 0;
 	private GeoVec2D c = new GeoVec2D(kernel);
 	/** error DetS */
 	public double errDetS = Kernel.STANDARD_PRECISION;
@@ -185,7 +183,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            toStroingMode, one of EQUATION_* constants
 	 */
 	public GeoConicND(Construction c, int dimension, boolean isIntersection,
-					  int stringMode) {
+			int stringMode) {
 		super(c, dimension, isIntersection);
 		setToStringMode(stringMode);
 	}
@@ -1134,12 +1132,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	@Override
 	final public void setMatrix(CoordMatrix m) {
 		setDefinition(null);
-		matrix[0] = m.get(1, 1);
-		matrix[1] = m.get(2, 2);
-		matrix[2] = m.get(3, 3);
-		matrix[3] = (m.get(1, 2) + m.get(2, 1)) / 2.0;
-		matrix[4] = (m.get(1, 3) + m.get(3, 1)) / 2.0;
-		matrix[5] = (m.get(2, 3) + m.get(3, 2)) / 2.0;
+		m.flattenTo(matrix);
 
 		classifyConic();
 	}
@@ -2828,6 +2821,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		ny = eigenvec[1].getY() - temp2;
 
 		// take line with smallest change of direction
+		int index;
 		if (Math.abs(nx * lines[0].x + ny * lines[0].y) < Math
 				.abs(nx * lines[1].x + ny * lines[1].y)) {
 			index = 1;
@@ -2835,20 +2829,14 @@ public abstract class GeoConicND extends GeoQuadricND
 			index = 0;
 		}
 
-		lines[index].x = nx;
-		lines[index].y = ny;
-		lines[index].z = -(nx * b.getX() + ny * b.getY());
+		lines[index].setCoords(nx, ny, -(nx * b.getX() + ny * b.getY()));
 
 		// n = T . (mu, 1)
 		nx = eigenvec[1].getX() + temp1;
 		ny = eigenvec[1].getY() + temp2;
-		index = 1 - index;
-		lines[index].x = nx;
-		lines[index].y = ny;
-		lines[index].z = -(nx * b.getX() + ny * b.getY());
+		lines[1 - index].setCoords(nx, ny, -(nx * b.getX() + ny * b.getY()));
 
 		setStartPointsForLines();
-		// lines[1]);
 	}
 
 	final private void ellipse(double[] mu1) {
@@ -3269,7 +3257,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * evaluates (p.x, p.y, 1) . A . (p.x, p.y, 1)
 	 * 
 	 * @param pt
-	 *            inhomogenous coords of a point
+	 *            inhomogeneous coords of a point
 	 * @return 0 iff (p.x, p.y, 1) lies on conic
 	 */
 	public final double evaluate(GeoVec2D pt) {
@@ -3280,12 +3268,23 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * evaluates (x, y, 1) . A . (x, y, 1)
 	 * 
 	 * @param x
-	 *            inhomogenous x-coord of a point
+	 *            inhomogeneous x-coord of a point
 	 * @param y
-	 *            inhomogenous y-coord of a point
+	 *            inhomogeneous y-coord of a point
 	 * @return 0 iff (p.x, p.y, 1) lies on conic
 	 */
 	public final double evaluate(double x, double y) {
+		return evaluate(matrix, x, y);
+	}
+
+	/**
+	 * Evaluate (x,y,1)*M*(x,y,1)^T for given matrix M
+	 * @param matrix flat matrix
+	 * @param x value of x
+	 * @param y value of y
+	 * @return (x,y,1)*M*(x,y,1)^T
+	 */
+	public static double evaluate(double[] matrix, double x, double y) {
 		return matrix[2] + matrix[4] * x + matrix[5] * y
 				+ y * (matrix[5] + matrix[3] * x + matrix[1] * y)
 				+ x * (matrix[4] + matrix[0] * x + matrix[3] * y);
@@ -3504,11 +3503,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	@Override
-	public void setZero() {
-		setCoeffs(1, 0, 1, 0, 0, 0);
-	}
-
-	@Override
 	protected void setMidpoint(double[] coords) {
 		b.setCoords(coords[0], coords[1]);
 
@@ -3544,13 +3538,17 @@ public abstract class GeoConicND extends GeoQuadricND
 	@Override
 	public boolean isInRegion(GeoPointND PI) {
 		Coords coords = PI.getCoordsInD2IfInPlane(getCoordSys());
+		return isInRegion(coords);
+	}
 
-		if (coords == null) { // point is not in plane containing the polygon
-			return false;
-		}
+	@Override
+	public boolean isInRegionInRealCoords(GeoPointND PI) {
+		Coords coords = PI.getCoordsInD2IfInPlaneInRealCoords(getCoordSys());
+		return isInRegion(coords);
+	}
 
-		return isInRegion(coords.getX(), coords.getY());
-
+	private boolean isInRegion(Coords coords) {
+		return coords != null && isInRegion(coords.getX(), coords.getY());
 	}
 
 	/**
@@ -4393,5 +4391,14 @@ public abstract class GeoConicND extends GeoQuadricND
 		if (type == GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED) {
 			classifyConic();
 		}
+	}
+
+	/** @return translation vector (midpoint, vertex) */
+	public GeoVec2D getB() {
+		return b;
+	}
+
+	public void setB(GeoVec2D b) {
+		this.b = b;
 	}
 }

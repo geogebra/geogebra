@@ -787,20 +787,6 @@ public interface EuclidianViewInterfaceCommon
 	public int getEuclidianViewNo();
 
 	/**
-	 * @param rwX
-	 *            real world x-coord
-	 * @return screen x-coord
-	 */
-	public double toScreenCoordXd(double rwX);
-
-	/**
-	 * @param rwY
-	 *            real world y-coord
-	 * @return screen y-coord
-	 */
-	public double toScreenCoordYd(double rwY);
-
-	/**
 	 * Zooms about P with given factor
 	 * 
 	 * @param originX
@@ -959,7 +945,7 @@ public interface EuclidianViewInterfaceCommon
 	public boolean hasFocus();
 
 	/**
-	 * added so that we can easily show/hide axes in 2D & 3D
+	 * added so that we can easily show/hide axes in 2D and 3D
 	 * 
 	 * @param b
 	 *            flag to show axes

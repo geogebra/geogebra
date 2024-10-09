@@ -3,12 +3,7 @@ package org.geogebra.web.tablet;
 import java.util.TreeMap;
 
 import org.geogebra.common.main.MaterialsManager;
-import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.move.ggtapi.models.MaterialFilter;
-import org.geogebra.common.move.ggtapi.models.json.JSONException;
-import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
@@ -23,13 +18,13 @@ public class TabletFileManager extends FileManagerT {
 
 	private static TabletFileManager INSTANCE;
 	private final static int NO_CALLBACK = 0;
-	private TreeMap<Integer, MyCallback> callbacks;
+	private TreeMap<Integer, NativeBridgeCallback> callbacks;
 	private int callbacksCount = NO_CALLBACK;
 
-	private abstract static class MyCallback {
+	private abstract static class NativeBridgeCallback {
 		private int id;
 
-		protected MyCallback() {
+		protected NativeBridgeCallback() {
 			// protected
 		}
 
@@ -68,7 +63,7 @@ public class TabletFileManager extends FileManagerT {
 		INSTANCE = this;
 	}
 
-	protected int addNewCallback(MyCallback callback) {
+	protected int addNewCallback(NativeBridgeCallback callback) {
 		callbacksCount++;
 		callbacks.put(callbacksCount, callback);
 		callback.setId(callbacksCount);
@@ -77,7 +72,7 @@ public class TabletFileManager extends FileManagerT {
 
 	private void runCallback(int id, boolean success, Object result) {
 		if (id != NO_CALLBACK) {
-			MyCallback cb = callbacks.remove(id);
+			NativeBridgeCallback cb = callbacks.remove(id);
 			if (success) {
 				cb.onSuccess(result);
 			} else {
@@ -86,73 +81,11 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}
 
-	@Override
-	protected void getFiles(final MaterialFilter filter) {
-		final int callbackParent = addNewCallback(new MyCallback() {
-			@Override
-			public void onSuccess(Object resultParent) {
-				int length = (Integer) resultParent;
-				for (int i = 0; i < length; i++) {
-					int callback = addNewCallback(new MyCallback() {
-						@Override
-						public void onSuccess(Object result) {
-							try {
-								String[] resultStrings = (String[]) result;
-								String name = resultStrings[0];
-								String data = resultStrings[1];
-								Material mat = JSONParserGGT.prototype
-										.toMaterial(new JSONObject(data));
-
-								if (mat == null) {
-									mat = new Material(MaterialType.ggb);
-									mat.setTitle(getTitleFromKey(name));
-								}
-
-								mat.setLocalID(
-										MaterialsManager.getIDFromKey(name));
-
-								if (filter.check(mat)) {
-									addMaterial(mat);
-								}
-							} catch (JSONException e) {
-								Log.debug(e);
-								}
-							}
-
-						@Override
-						public void onFailure(Object err) {
-							// not needed
-						}
-					});
-					getMetaDataNative(i, callback, getId());
-				}
-			}
-
-			@Override
-			public void onFailure(Object result) {
-				// not needed
-			}
-		});
-		listLocalFilesNative(callbackParent);
-	}
-
-	private void listLocalFilesNative(int callback) {
-		if (GeoGebraJSNativeBridge.get() != null) {
-			GeoGebraJSNativeBridge.get().listLocalFiles(callback);
-		}
-	}
-
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
 	 */
 	public void catchListLocalFiles(int length, int callback) {
 		runCallback(callback, true, length);
-	}
-
-	private void getMetaDataNative(int i, int callback, int callbackParent) {
-		if (GeoGebraJSNativeBridge.get() != null) {
-			GeoGebraJSNativeBridge.get().getMetaData(i, callback, callbackParent);
-		}
 	}
 
 	/**
@@ -173,7 +106,7 @@ public class TabletFileManager extends FileManagerT {
 	@Override
 	public void openMaterial(final Material material) {
 		String fileName = getFileKey(material);
-		int callback = addNewCallback(new MyCallback() {
+		int callback = addNewCallback(new NativeBridgeCallback() {
 			@Override
 			public void onSuccess(Object result) {
 				material.setBase64((String) result);
@@ -210,7 +143,7 @@ public class TabletFileManager extends FileManagerT {
 		final Material saveFileMaterial = material;
 		int callback;
 		if (cb != null) {
-			callback = addNewCallback(new MyCallback() {
+			callback = addNewCallback(new NativeBridgeCallback() {
 				@Override
 				public void onSuccess(Object result) {
 					saveFileMaterial.setLocalID((Integer) result);
@@ -243,24 +176,6 @@ public class TabletFileManager extends FileManagerT {
 		if (GeoGebraJSNativeBridge.get() != null) {
 			GeoGebraJSNativeBridge.get().saveFile(id, title, base64, metaDatas, callback);
 		}
-	}
-
-	@JsIgnore
-	@Override
-	public void upload(final Material mat) {
-		int callback = addNewCallback(new MyCallback() {
-			@Override
-			public void onSuccess(Object result) {
-				mat.setBase64((String) result);
-				doUpload(mat);
-			}
-
-			@Override
-			public void onFailure(Object result) {
-				// not needed
-			}
-		});
-		getBase64(getFileKey(mat), callback);
 	}
 
 	@Override
@@ -331,7 +246,7 @@ public class TabletFileManager extends FileManagerT {
 		final String oldKey = getFileKey(mat);
 		mat.setBase64("");
 		mat.setTitle(newTitle);
-		int callback1 = addNewCallback(new MyCallback() {
+		int callback1 = addNewCallback(new NativeBridgeCallback() {
 			@Override
 			public void onSuccess(Object result) {
 				if (callback != null) {
@@ -376,7 +291,7 @@ public class TabletFileManager extends FileManagerT {
 			return;
 		}
 
-		int callback = addNewCallback(new MyCallback() {
+		int callback = addNewCallback(new NativeBridgeCallback() {
 			@Override
 			public void onSuccess(Object result) {
 				removeFile(mat);

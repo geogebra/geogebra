@@ -39,8 +39,7 @@
     function toggleFullscreen() {
         try {
             // the CSS class is defined in https://git.geogebra.org/mow/mow-front/blob/master/app.php
-            window.parent.$(window.parent.document.body).toggleClass(
-                "fullscreen-app");
+            window.parent.document.body.classList.toggle("fullscreen-app");
         } catch (ex) {
             // possibly the Mebis iframe is embedded in some non-standard page
             window.console.log(ex);
@@ -51,13 +50,10 @@
         try {
             if (window.parent && window.parent.login) {
                 window.parent.login();
-                return true;
             }
-            return false;
         } catch (ex) {
-            //running in CORS iframe
+            console.log("Cannot login from this frame");
         }
-        return false;
     }
 
     function ggbMultiplayerChange(users) {
@@ -67,13 +63,55 @@
     function isEmbed() {
         return false;
     }
+        function getParentParam(name) {
+        return window.parent.document.body && window.parent.document.body.dataset[name];
+    }
+    const accessToken = window.accessToken || getParentParam("accesstoken");
+    if (accessToken) {
+       sessionStorage.setItem("token", accessToken);
+    }
+    let lastRefresh = new Date();
+    window.refreshToken = function(callback) {
+        if (new Date() - lastRefresh < 240_000) {
+            callback(null);
+            return;
+        }
+        const baseUrl = getParentParam("baseurl");
+        const refreshToken = getParentParam("refreshtoken");
+        fetch(`${baseUrl}/refresh`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: `refresh_token=${refreshToken}`
+        })
+        .then((response) => response.json())
+        .then(data => {
+            callback(data.access_token);
+            lastRefresh = new Date();
+        })
+        .catch(_ => callback(null));
+    }
+
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['disableCookies']);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function () {
+        var u = "<!--MATOMO_URL-->";
+        _paq.push(['setTrackerUrl', u + 'matomo.php']);
+        _paq.push(['setSiteId', '<!--MATOMO_SITE_ID-->']);
+        var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+        g.type = 'text/javascript'; g.async = true; g.src = u + '/matomo.js'; s.parentNode.insertBefore(g, s);
+    })();
 </script>
 <style>
 body {
-  --ggb-primary-color: #00a8d5;
-  --ggb-primary-variant-color: #0079a3;
-  --ggb-dark-color: #0079a3;
-  --ggb-light-color: #b7e4f1;
-  --ggb-selection-color: #00a8d533;
+  --ggb-primary-color: #975FA8;
+  --ggb-primary-variant-color: #C19FCB;
+  --ggb-dark-color: #723B86;
+  --ggb-light-color: #EADFEE;
+  --ggb-selection-color: rgba(151, 95, 168, 0.2);
 }
 </style>

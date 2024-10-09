@@ -1,12 +1,12 @@
 package com.himamis.retex.editor.android.event;
 
-import com.himamis.retex.editor.android.FormulaEditor;
-import com.himamis.retex.editor.share.event.ClickListener;
-
 import android.content.Context;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.himamis.retex.editor.android.FormulaEditor;
+import com.himamis.retex.editor.share.event.ClickListener;
 
 public class ClickListenerAdapter implements View.OnTouchListener, GestureDetector.OnGestureListener {
 
@@ -32,13 +32,13 @@ public class ClickListenerAdapter implements View.OnTouchListener, GestureDetect
 
         if (event.getAction() == MotionEvent.ACTION_DOWN){
             mClickListener.onPointerDown((int)(event.getX()-shiftX), (int) event.getY());
-        }else if (event.getAction() == MotionEvent.ACTION_UP){
+        } else if (event.getAction() == MotionEvent.ACTION_UP){
             mClickListener.onPointerUp((int) event.getX()-shiftX, (int) event.getY());
         }
 
         mGestureDetector.onTouchEvent(event);
 
-        return true;
+        return false;
     }
 
 

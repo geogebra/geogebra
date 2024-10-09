@@ -83,8 +83,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 		input[1] = a.toGeoElement();
 		input[2] = n.toGeoElement();
 
-		super.setOutputLength(1);
-		super.setOutput(0, g);
+		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 

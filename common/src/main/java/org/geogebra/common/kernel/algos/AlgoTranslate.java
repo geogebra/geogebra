@@ -114,8 +114,7 @@ public class AlgoTranslate extends AlgoTransformation
 		input[0] = inGeo;
 		input[1] = v;
 
-		setOutputLength(1);
-		setOutput(0, outGeo);
+		setOnlyOutput(outGeo);
 		setDependencies(); // done by AlgoElement
 	}
 

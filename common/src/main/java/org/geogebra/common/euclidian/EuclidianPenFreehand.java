@@ -131,7 +131,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 *            euclidian view
 	 */
 	public EuclidianPenFreehand(App app, EuclidianView view) {
-		super(app, view);
+		super(app, view, null);
 		for (int i = 0; i < recos.length; i++) {
 			recos[i] = new RecoSegment();
 		}
@@ -164,7 +164,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 	@Override
 	public void handleMouseReleasedForPenMode(boolean right, int x, int y,
-												 boolean isPinchZooming) {
+			boolean isPinchZooming) {
 		penPoints.add(new GPoint(x, y));
 
 		GeoElement shape = checkExpectedShape();
@@ -396,7 +396,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 				GeoElement[] result;
 				if (expected == ShapeType.rigidPolygon) {
-					 result = factory.rigidPolygon(null,
+					result = factory.rigidPolygon(null,
 							list.toArray(new GeoPoint[0]));
 				} else {
 					result = factory.vectorPolygon(null,

@@ -2,6 +2,7 @@ package org.geogebra.web.main;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.util.FocusUtil;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
@@ -10,7 +11,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.google.gwtmockito.WithClassesToStub;
+
 @RunWith(GgbMockitoTestRunner.class)
+@WithClassesToStub(FocusUtil.class)
 public class ThumbnailTest {
 
 	@Test

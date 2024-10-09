@@ -39,7 +39,7 @@ public class CmdParseToNumber extends CommandProcessor {
 			if (arg[0] instanceof GeoText) {
 				AlgoParseToNumberOrFunction
 						algo = new AlgoParseToNumberOrFunction(cons, (GeoText) arg[0], null,
-						Commands.ParseToNumber);
+						Commands.ParseToNumber, c.getLabel());
 				algo.getOutput(0).setLabel(c.getLabel());
 				return algo.getOutput();
 			}
@@ -48,7 +48,7 @@ public class CmdParseToNumber extends CommandProcessor {
 			if ((ok = arg[0].isGeoNumeric()) && arg[1].isGeoText()) {
 
 				GeoNumeric num = (GeoNumeric) arg[0];
-				String str = ((GeoText) arg[1]).getTextString();
+				String str = ((GeoText) arg[1]).getTextStringSafe();
 
 				try {
 					kernel.getAlgebraProcessor().evaluateToDouble(str, true,

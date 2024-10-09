@@ -320,18 +320,7 @@ public final class DrawPoint extends SetDrawable {
 		circleHighlight.setFrame(xUL - HIGHLIGHT_OFFSET, yUL - HIGHLIGHT_OFFSET,
 				hightlightDiameter, hightlightDiameter);
 
-		// draw trace
-		if (P.getTrace()) {
-			isTracing = true;
-			GGraphics2D g2 = view.getBackgroundGraphics();
-			if (g2 != null) {
-				drawTrace(g2);
-			}
-		} else {
-			if (isTracing) {
-				isTracing = false;
-			}
-		}
+		drawAndUpdateTraceIfNeeded(P.getTrace());
 
 		if (isVisible && labelVisible) {
 			labelDesc = getTopLevelGeo().getLabelDescription();

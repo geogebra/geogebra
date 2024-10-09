@@ -9,6 +9,7 @@ import org.geogebra.common.gui.menu.SubmenuItem;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.menu.action.MenuActionHandler;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.gwtproject.user.client.ui.Label;
 
 class MenuActionRouter {
@@ -39,19 +40,22 @@ class MenuActionRouter {
 	}
 
 	private void handleSubmenu(SubmenuItem submenuItem) {
-		final MenuView menuView = new MenuView();
+		final MenuView menuView = new MenuView(menuViewController);
 		menuViewController.setMenuItemGroups(menuView,
 				Collections.singletonList(submenuItem.getGroup()));
 		HeaderView headerView = menuViewController.createHeaderView();
 		headerView.setCaption(localization.getMenu(submenuItem.getLabel()));
-		headerView.getBackButton().addFastClickHandler(source -> menuViewController.hideSubmenu());
+		headerView.getBackButton().addFastClickHandler(source ->
+				menuViewController.hideSubmenuAndMoveFocus());
 		HeaderedMenuView submenu = new HeaderedMenuView(menuView);
 		if (submenuItem.getBottomText() != null) {
-			Label version = new Label(submenuItem.getBottomText());
-			version.addStyleName("versionNumber");
+			Label version = BaseWidgetFactory.INSTANCE.newDisabledText(
+					submenuItem.getBottomText(), "versionNumber");
 			submenu.add(version);
 		}
 		submenu.setHeaderView(headerView);
 		menuViewController.showSubmenu(submenu);
+		menuView.selectItem(0);
+		menuView.getSelectedItem().getElement().focus();
 	}
 }

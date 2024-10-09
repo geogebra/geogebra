@@ -15,6 +15,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.DoubleUtil;
@@ -28,9 +29,9 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.euclidian.EuclidianViewWrapperPanel;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
-import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
 import org.geogebra.web.html5.euclidian.PointerEventHandler;
 import org.geogebra.web.html5.euclidian.ReaderWidget;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -46,6 +47,8 @@ import org.gwtproject.event.dom.client.DomEvent;
 import org.gwtproject.event.dom.client.MouseDownEvent;
 import org.gwtproject.user.client.ui.RequiresResize;
 import org.gwtproject.user.client.ui.Widget;
+
+import com.google.gwt.core.client.Scheduler;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLCanvasElement;
@@ -87,6 +90,18 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 		getRenderer().init();
 		initAriaDefaults();
+		if (ec.getApplication().showToolBar()) {
+			Scheduler.get().scheduleDeferred(this::loadCommands);
+		}
+	}
+
+	private void loadCommands() {
+		try {
+			getKernel().getAlgebraProcessor().getCommandDispatcher()
+					.getSpatialCommandProcessorFactory();
+		} catch (CommandNotLoadedError ignore) {
+			// loading
+		}
 	}
 
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
@@ -104,7 +119,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 		registerKeyHandlers(canvas);
 		registerMouseTouchGestureHandlers(euclidianViewPanel,
-		        (EuclidianController3DW) euclidiancontroller);
+				(EuclidianController3DW) euclidiancontroller);
 
 		EuclidianSettings es = this.app.getSettings().getEuclidian(3);
 		settingsChanged(es);
@@ -167,8 +182,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	/**
 	 * @return EV panel
 	 */
-	protected MyEuclidianViewPanel newMyEuclidianViewPanel() {
-		return new MyEuclidianViewPanel3D(this);
+	protected EuclidianViewWrapperPanel newMyEuclidianViewPanel() {
+		return new EuclidianViewWrapperPanel3D(this);
 	}
 
 	/**
@@ -177,7 +192,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 * @author mathieu
 	 *
 	 */
-	private class MyEuclidianViewPanel3D extends MyEuclidianViewPanel implements
+	private class EuclidianViewWrapperPanel3D extends EuclidianViewWrapperPanel implements
 	        RequiresResize {
 
 		/**
@@ -186,7 +201,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		 * @param ev
 		 *            euclidian view
 		 */
-		public MyEuclidianViewPanel3D(EuclidianView ev) {
+		public EuclidianViewWrapperPanel3D(EuclidianView ev) {
 			super(ev);
 		}
 
@@ -249,7 +264,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	@Override
 	public final boolean isShowing() {
 		return g2p != null && g2p.getCanvas() != null
-		        && g2p.getCanvas().isAttached() && g2p.getCanvas().isVisible();
+				&& g2p.getCanvas().isAttached() && g2p.getCanvas().isVisible();
 	}
 
 	@Override
@@ -462,8 +477,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public void exportPaintPre(GGraphics2D g2d, double scale,
-	        boolean transparency) {
+	public void exportPaintPre(GGraphics2D g2d, double scale, boolean transparency) {
 		// TODO Auto-generated method stub
 
 	}

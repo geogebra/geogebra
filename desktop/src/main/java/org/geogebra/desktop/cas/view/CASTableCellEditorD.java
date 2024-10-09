@@ -67,7 +67,7 @@ public class CASTableCellEditorD extends CASTableCell
 			this.cellValue = (GeoCasCell) value;
 			this.table = casTable;
 			inputOnEditingStart = cellValue
-					.getInput(StringTemplate.defaultTemplate);
+					.getLocalizedInput();
 			isUseAsTextOnEditingStart = cellValue.isUseAsText();
 			setValue(cellValue);
 
@@ -324,7 +324,7 @@ public class CASTableCellEditorD extends CASTableCell
 		// should work on errors also
 		if ('=' == ch) {
 			inputArea.setText(
-					selCellValue.getInput(StringTemplate.defaultTemplate));
+					selCellValue.getLocalizedInput());
 			e.consume();
 		}
 	}

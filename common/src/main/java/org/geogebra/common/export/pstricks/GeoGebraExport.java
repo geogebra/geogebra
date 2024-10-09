@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawAngle;
@@ -38,6 +39,7 @@ import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
+import org.geogebra.common.kernel.geos.BarChartGeoNumeric;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -97,14 +99,16 @@ public abstract class GeoGebraExport {
 	protected int format = 0;
 	protected boolean isBeamer = false;
 	protected int barNumber;
-	private StringTemplate tpl;
+	private final StringTemplate tpl;
+	private final ExportGraphicsFactory graphicsFactory;
 
 	/**
 	 * @param app
 	 *            application
 	 */
-	public GeoGebraExport(App app) {
+	public GeoGebraExport(App app, ExportGraphicsFactory graphicsFactory) {
 		this.app = app;
+		this.graphicsFactory = graphicsFactory;
 		this.kernel = app.getKernel();
 		this.construction = kernel.getConstruction();
 		this.euclidianView = app.getActiveEuclidianView();
@@ -833,7 +837,7 @@ public abstract class GeoGebraExport {
 	 * @param geo
 	 *            The inequality function
 	 * @param e
-	 *            If is inequality with one variable eg. x>3
+	 *            If is inequality with one variable eg. x&gt;3
 	 */
 
 	protected void drawGeoInequalities(GeoFunctionNVar geo, GeoElementND e) {
@@ -849,28 +853,23 @@ public abstract class GeoGebraExport {
 
 		if (tree.getLeft() != null) {
 			for (int i = 0; i < tree.getLeft().getSize(); i++) {
-				g = createGraphics(ef, tree.getLeft().get(i));
+				g = graphicsFactory.createGraphics(ef, tree.getLeft().get(i), this);
 				drawable.draw(g);
 			}
 		}
 		if (tree.getRight() != null) {
 			for (int i = 0; i < tree.getLeft().getSize(); i++) {
-				g = createGraphics(ef, tree.getRight().get(i));
+				g = graphicsFactory.createGraphics(ef, tree.getRight().get(i), this);
 				drawable.draw(g);
 			}
 		}
 		if (tree.getIneq() != null) {
-			g = createGraphics(ef, tree.getIneq());
+			g = graphicsFactory.createGraphics(ef, tree.getIneq(), this);
 			drawable.draw(g);
 		}
 		// Only for syntax. Never throws
 
 	}
-
-	// Create the appropriate instance of MyGraphics of various implementations
-	// (pstricks,pgf,asymptote)
-	abstract protected GGraphics2D createGraphics(FunctionalNVar ef,
-			Inequality inequality);
 
 	abstract protected boolean fillSpline(GeoCurveCartesian[] curves);
 
@@ -1528,6 +1527,27 @@ public abstract class GeoGebraExport {
 		}
 	}
 
+	/**
+	 * @param s
+	 *            shape
+	 * @param ineq
+	 *            inequality
+	 * @param geo
+	 *            element
+	 */
+	public void fillIneq(GShape s, Inequality ineq, FunctionalNVar geo) {
+		double[] ds = geo.getKernel().getViewBoundsForGeo((GeoElement) geo);
+		fillIneq(s, ineq, geo, ds);
+	}
+
+	/**
+	 * @param s shape
+	 * @param ineq inequality
+	 * @param geo element
+	 * @param ds bounds, see getViewBoundsForGeo
+	 */
+	public abstract void fillIneq(GShape s, Inequality ineq, FunctionalNVar geo, double[] ds);
+
 	protected class Info {
 
 		private double alpha;
@@ -1544,11 +1564,11 @@ public abstract class GeoGebraExport {
 			fillType = geo.getFillType();
 			linecolor = geo.getObjectColor();
 
-			if (geo.getParentAlgorithm() instanceof AlgoBarChart) {
+			if (geo instanceof BarChartGeoNumeric) {
 
 				boolean setAlpha = false;
 
-				ChartStyle algo = ((AlgoBarChart) geo.getParentAlgorithm()).getStyle();
+				ChartStyle algo = ((BarChartGeoNumeric) geo).getStyle();
 				if (algo.getBarColor(barNumber) != null) {
 					linecolor = algo.getBarColor(barNumber);
 					setAlpha = true;
@@ -1603,7 +1623,7 @@ public abstract class GeoGebraExport {
 				double[] paramValues = new double[exl.size() + 2];
 				paramValues[0] = 0;
 				for (int i = 0; i < exl.size(); i++) {
-					paramValues[i + 1] = exl.getListElement(i).wrap().getRight()
+					paramValues[i + 1] = exl.get(i).wrap().getRight()
 							.evaluateDouble();
 				}
 
@@ -1616,14 +1636,14 @@ public abstract class GeoGebraExport {
 				GeoCurveCartesian[] curves = new GeoCurveCartesian[exr.size()];
 				for (int i = 0; i < exr.size(); i++) {
 					curves[i] = new GeoCurveCartesian(this.construction);
-					curves[i].setFunctionX(asFunction(exr.getListElement(i)));
+					curves[i].setFunctionX(asFunction(exr.get(i)));
 				}
 
 				f = curve.getFunY();
 				exr = (ListValue) f.getFunctionExpression().getRight();
 
 				for (int i = 0; i < exr.size(); i++) {
-					curves[i].setFunctionY(asFunction(exr.getListElement(i)));
+					curves[i].setFunctionY(asFunction(exr.get(i)));
 					curves[i].setInterval(paramValues[i], paramValues[i + 1]);
 					curves[i].setAllVisualProperties((GeoElement) geo, false);
 				}

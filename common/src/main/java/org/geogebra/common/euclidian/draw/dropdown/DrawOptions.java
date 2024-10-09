@@ -13,7 +13,6 @@ import org.geogebra.common.plugin.EventType;
 
 class DrawOptions implements MoveSelector, OptionsInterface {
 	static final int MARGIN = 5;
-
 	static final int ROUND = 8;
 	private final DrawDropDownList drawDropDownList;
 	private final DropDownModel model;
@@ -104,6 +103,7 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 
 		if (idx >= 0 && idx < items.size()) {
 			selector.setHovered(items.get(idx));
+			selector.setKeyboardFocus(true);
 			model.setSelected(idx);
 			drawDropDownList.update();
 			view.repaintView();
@@ -215,6 +215,7 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 		OptionItem item = items.at(x, y);
 
 		selector.setHovered(item);
+		selector.setKeyboardFocus(false);
 		view.repaintView();
 	}
 
@@ -247,6 +248,7 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 
 	private void updateHovering() {
 		selector.setHovered(model.isScrollBoundsValid() ? items.get(model.getSelected()) : null);
+		selector.setKeyboardFocus(true);
 	}
 
 	private void updateVisibleRange() {
@@ -265,7 +267,12 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 
 	void toggle() {
 		if (visible) {
-			chooseItem(selector.hoveredIndex());
+			int hoveredIndex = selector.hoveredIndex();
+			if (hoveredIndex > -1) {
+				chooseItem(hoveredIndex);
+			} else {
+				setVisible(false);
+			}
 			app.setActiveView(view.getViewID());
 		} else {
 			setVisible(true);
@@ -283,7 +290,7 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 	}
 
 	void selectCurrentItem() {
-		geoList.setSelectedIndex(range.getSelected(), true);
+		geoList.setSelectedIndexUpdate(range.getSelected());
 	}
 
 	int getMaxItemWidth() {

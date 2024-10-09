@@ -261,9 +261,8 @@ public abstract class GeoVec3D extends GeoElement
 	// END G.Sturr
 
 	/**
-	 * Yields true if this vector and v are linear dependent This is done by
-	 * calculating the cross product of this vector an v: this lin.dep. v
-	 * <=> this.cross(v) = nullvector.
+	 * Yields true if this vector and v are linear dependent. This is done by
+	 * checking that cross product of this and v is the 0 vector (using standard precision).
 	 * 
 	 * @param v
 	 *            other vector
@@ -295,16 +294,6 @@ public abstract class GeoVec3D extends GeoElement
 	final public boolean isZero() {
 		return DoubleUtil.isZero(x) && DoubleUtil.isZero(y) && DoubleUtil.isZero(z);
 	}
-
-	/**
-	 * Calculates the cross product of this vector and vector v. The result ist
-	 * returned as a new GeoVec3D.
-	 */
-	// final public GeoVec3D cross(GeoVec3D v) {
-	// GeoVec3D res = new GeoVec3D(v.cons);
-	// cross(this, v, res);
-	// return res;
-	// }
 
 	/**
 	 * Calculates the cross product of vectors u and v. The result is stored in
@@ -636,13 +625,6 @@ public abstract class GeoVec3D extends GeoElement
 	@Override
 	public boolean isNumberValue() {
 		return false;
-	}
-
-	@Override
-	public void setZero() {
-		x = 0;
-		y = 0;
-		z = 0;
 	}
 
 	/**

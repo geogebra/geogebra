@@ -66,7 +66,7 @@ public class ButtonDialogW extends ComponentDialog
 		String initString = model.getInitString();
 
 		captionInput = new ComponentInputField((AppW) app, "",
-				"Button.Caption", "", initString, -1, 1, null);
+				"Button.Caption", "", initString, -1, null);
 		captionInput.getTextField().getTextComponent().setAutoComplete(false);
 
 		Label scriptLabel = new Label(loc.getMenu("Script"));
@@ -87,7 +87,8 @@ public class ButtonDialogW extends ComponentDialog
 			List<String> optionNames = options.stream()
 					.map(geo -> geo == null ? "" : geo.toString(StringTemplate.defaultTemplate))
 					.collect(Collectors.toList());
-			CompDropDown linkedDropDown = new CompDropDown((AppW) app, "LinkedObject", optionNames);
+			CompDropDown linkedDropDown = new CompDropDown((AppW) app, "LinkedObject",
+					optionNames, 0);
 			linkedDropDown.addChangeHandler(() -> updateModel(linkedDropDown, options));
 			linkedDropDown.setDisabled(options.size() < 2);
 			linkedDropDown.setFullWidth(true);

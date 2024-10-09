@@ -16,18 +16,18 @@ public class KeyPanelBase extends FlowPanel {
 
 	private final TabbedKeyboard parent;
 	private final ArrayList<FlowPanel> rows;
-	private final ArrayList<KeyBoardButtonBase> buttons;
+	private final ArrayList<BaseKeyboardButton> buttons;
 	private Keyboard layout;
 
 	/**
-	 * @param keyBoardLayout
+	 * @param keyboardLayout
 	 *            {@link Keyboard}
 	 */
-	public KeyPanelBase(Keyboard keyBoardLayout, TabbedKeyboard parent) {
+	public KeyPanelBase(Keyboard keyboardLayout, TabbedKeyboard parent) {
 		rows = new ArrayList<>();
 		buttons = new ArrayList<>();
 		this.parent = parent;
-		this.layout = keyBoardLayout;
+		this.layout = keyboardLayout;
 	}
 
 	/**
@@ -36,9 +36,9 @@ public class KeyPanelBase extends FlowPanel {
 	 * @param index
 	 *            int
 	 * @param button
-	 *            {@link KeyBoardButtonBase}
+	 *            {@link BaseKeyboardButton}
 	 */
-	public void addToRow(int index, KeyBoardButtonBase button) {
+	public void addToRow(int index, BaseKeyboardButton button) {
 		if (rows.size() <= index) {
 			FlowPanel newRow = new FlowPanel();
 			newRow.addStyleName("KeyPanelRow");
@@ -71,7 +71,7 @@ public class KeyPanelBase extends FlowPanel {
 		for (Row row : layout.getModel().getRows()) {
 			for (WeightedButton wb : row.getButtons()) {
 				if (!Action.NONE.name().equals(wb.getPrimaryActionName())) {
-					KeyBoardButtonBase button = parent.makeButton(wb);
+					BaseKeyboardButton button = parent.makeButton(wb);
 					addSecondary(button, wb);
 					addToRow(index, button);
 				}
@@ -81,7 +81,7 @@ public class KeyPanelBase extends FlowPanel {
 		updatePanelSize();
 	}
 
-	private static void addSecondary(KeyBoardButtonBase btn,
+	private static void addSecondary(BaseKeyboardButton btn,
 			WeightedButton wb) {
 		if (wb.getActionsSize() > 1) {
 			btn.setSecondaryAction(wb.getActionName(1));
@@ -98,7 +98,7 @@ public class KeyPanelBase extends FlowPanel {
 		if (layout == null || buttons.isEmpty()) {
 			return;
 		}
-		KeyBoardButtonBase button = null;
+		BaseKeyboardButton button = null;
 		double weightSum = 6; // initial guess
 		for (Row row : layout.getModel().getRows()) {
 			weightSum = Math.max(row.getRowWeightSum(), weightSum);

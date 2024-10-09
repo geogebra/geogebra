@@ -15,7 +15,7 @@ package org.geogebra.common.kernel.cas;
 import org.geogebra.common.kernel.AsynchronousCommand;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -39,7 +39,7 @@ public class AlgoLimit extends AlgoElement
 	/** result */
 	protected GeoNumeric outNum;
 	private String limitString;
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+	private ArbitraryConstantRegistry arbconst = new ArbitraryConstantRegistry(this);
 
 	/**
 	 * @param cons
@@ -80,8 +80,7 @@ public class AlgoLimit extends AlgoElement
 		input[0] = f;
 		input[1] = num.toGeoElement();
 
-		setOutputLength(1);
-		setOutput(0, outNum);
+		setOnlyOutput(outNum);
 		setDependencies(); // done by AlgoElement
 	}
 

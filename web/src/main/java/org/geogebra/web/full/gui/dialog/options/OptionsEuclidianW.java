@@ -10,9 +10,8 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
-import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEuclidianOptionsListener;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.PointCapturingProperty;
 import org.geogebra.common.util.StringUtil;
@@ -20,10 +19,9 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentCombobox;
+import org.geogebra.web.full.gui.components.dropdown.grid.GridDataProvider;
 import org.geogebra.web.full.gui.components.dropdown.grid.GridDropdown;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
-import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.full.gui.images.PropertiesResources;
 import org.geogebra.web.full.gui.util.LineStylePopup;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -43,13 +41,12 @@ import org.gwtproject.user.client.ui.Widget;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
-	IEuclidianOptionsListener {
+public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW {
 
 	protected AppW app;
 	protected MultiRowsTabPanel tabPanel;
 	protected EuclidianView view;
-	public EuclidianOptionsModel model;
+	protected EuclidianOptionsModel model;
 	protected BasicTab basicTab;
 	AxisTab xAxisTab;
 	AxisTab yAxisTab;
@@ -71,7 +68,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 
 	protected class AxisTab extends EuclidianTab {
-		private AxisPanel axisPanel;
+		private final AxisPanel axisPanel;
 			
 		public AxisTab(int axis, boolean view3D) {
 			super();
@@ -91,9 +88,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		public void setLabels() {
 			axisPanel.setLabels();
 		}
+
+		public void updateGUI() {
+			axisPanel.updatePanel();
+		}
 	}
-		
-	protected class GridTab extends EuclidianTab {
+
+	protected class GridTab extends EuclidianTab implements EuclidianOptionsModel.IGridTab {
 		ComponentCheckbox cbShowGrid;
 		private FormLabel lbPointCapturing;
 		private CompDropDown pointCapturingStyle;
@@ -113,7 +114,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private Label lblColor;
 		private ComponentCheckbox cbBoldGrid;
 		private StandardButton btGridColor;
-		private FlowPanel mainPanel;
+		private final FlowPanel mainPanel;
 		/**
 		 * special grid types for mow (e.g. 3/4 or 1/2)
 		 */
@@ -151,7 +152,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				return;
 			}
 
-			EnumerableProperty pointCaptProperty = new PointCapturingProperty(app,
+			NamedEnumeratedProperty<?> pointCaptProperty = new PointCapturingProperty(app,
 					app.getLocalization());
 			pointCapturingStyle = new CompDropDown(app, pointCaptProperty);
 			pointCapturingStyle.addChangeHandler(() -> {
@@ -196,8 +197,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			if (!gridOptions) {
 				return;
 			}
-			EnumerableProperty gridTypeProperty = new GridStyleProperty(app.getLocalization(),
-					view.getSettings());
+			NamedEnumeratedProperty<?> gridTypeProperty = new GridStyleProperty(
+					app.getLocalization(), view.getSettings());
 			lbGridType = new CompDropDown(app, gridTypeProperty);
 			lblGridType = new FormLabel("").setFor(lbGridType);
 			mainPanel.add(lblGridType);
@@ -233,9 +234,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			});
 
 			cbGridTickAngle =  new ComponentCombobox(app, "",
-					Arrays.asList(Unicode.PI_STRING + "/12",
-					Unicode.PI_STRING + "/6", Unicode.PI_STRING + "/4",
-					Unicode.PI_STRING + "/3", Unicode.PI_STRING + "/2"));
+					model.getAngleOptions());
 			cbGridTickAngle.addChangeHandler(() -> {
 					model.applyGridTickAngle(cbGridTickAngle.getSelectedText());
 					updateView();
@@ -267,7 +266,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			ncbGridTickAnglePanel.add(gridLabel3);
 			ncbGridTickAnglePanel.add(cbGridTickAngle);
 		
-			FlowPanel tickPanel = LayoutUtilW.panelRow(cbGridManualTick, ncbGridTickXPanel, 
+			FlowPanel tickPanel = LayoutUtilW.panelRow(cbGridManualTick, ncbGridTickXPanel,
 					ncbGridTickYPanel, ncbGridTickAnglePanel);
 			mainPanel.add(tickPanel);
 			
@@ -291,9 +290,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lblRulerType = new FormLabel(loc.getMenu("Ruling"))
 					.setFor(lbRulerType);
 			for (BackgroundType type : BackgroundType.rulingOptions) {
-				addRulerTypeItem(model.getTransKeyForRulingType(type), type);
+				addRulerTypeItem(GridDataProvider.getTransKeyForRulingType(type), type);
 			}
-			lbRulerType.setListener((dropdown, index) -> {
+			lbRulerType.setListener((index) -> {
 				model.applyRulerType(BackgroundType.rulingOptions.get(index));
 				updateView();
 				((EuclidianViewW) view).doRepaint();
@@ -309,18 +308,19 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private void initGridStylePanel() {
 
 			// line style
-			btnGridStyle = LineStylePopup.create(app, false);
+			btnGridStyle = LineStylePopup.create(app);
 			
 			lblGridStyle = new Label();
 			addOnlyFor2D(lblGridStyle);
 			lblGridStyle.setStyleName("panelTitle");
-			btnGridStyle.addPopupHandler(actionButton -> {
-				int style = EuclidianView.getLineType(btnGridStyle.getSelectedIndex());
+			btnGridStyle.addPopupHandler(index -> {
+				int style = EuclidianView.getLineType(index);
 				if (gridOptions) {
 					model.applyGridStyle(style);
 				} else {
 					model.applyRulerStyle(style);
 				}
+				app.storeUndoInfo();
 			});
 			btnGridStyle.setKeepVisible(false);
 
@@ -405,10 +405,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				setTextColon(lbPointCapturing, "PointCapturing");
 				updatePointCapturingStyleList();
 				setGridTypeLabel();
-				model.fillGridTypeCombo();
 				lbGridType.setLabels();
-
-				model.fillAngleOptions();
 				cbGridManualTick.setLabels();
 			}
 
@@ -429,7 +426,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lblGridType.setText(loc.getMenu("GridType"));
 		}
 
-		public void update(GColor color, boolean isShown, boolean isBold) {
+		@Override
+		public void updateGrid(GColor color, boolean isShown, boolean isBold, int gridType) {
 			if (!gridOptions) {
 				return;
 			}
@@ -437,26 +435,19 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			enableGrid(isShown);
 			cbShowGrid.setSelected(isShown);
 			cbBoldGrid.setSelected(isBold);
-			lbGridType.resetToDefault();
+			lbGridType.resetFromModel();
 			lbGridType.setLabels();
 			btGridColor.getElement().getStyle().setColor(StringUtil.toHtmlColor(color));
 			updateGridColorButton(color);
 		}
 	
-		/**
-		 * @param isAutoGrid
-		 *            true if auto
-		 * @param gridTicks
-		 *            grid ticks
-		 * @param gridType
-		 *            type of grid
-		 */
-		public void updateTicks(boolean isAutoGrid, double[] gridTicks,
+		@Override
+		public void updateGridTicks(boolean isAutoGrid, double[] gridTicks,
 				int gridType) {
 			if (!gridOptions) {
 				return;
 			}
-
+			cbGridManualTick.setSelected(!isAutoGrid);
 			if (gridType != EuclidianView.GRID_POLAR) {
 				ncbGridTickY.setVisible(true);
 				gridLabel2.setVisible(true);
@@ -480,10 +471,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbGridTickAngle.setDisabled(isAutoGrid);
 		}
 
-		/**
-		 * @param style
-		 *            of grid lines
-		 */
+		@Override
 		public void selectGridStyle(int style) {
 			if (!gridOptions) {
 				return;
@@ -506,35 +494,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		private void addRulerTypeItem(String titleTransKey, BackgroundType type) {
-			ImageResource background = getResourceForBackgroundType(type);
+			ImageResource background = GridDataProvider.getResourceForBackgroundType(type);
 			lbRulerType.addItem(titleTransKey, background);
-		}
-
-		private ImageResource getResourceForBackgroundType(BackgroundType type) {
-			switch (type) {
-				case RULER:
-					return PropertiesResources.INSTANCE.linedRuling();
-				case SQUARE_SMALL:
-					return PropertiesResources.INSTANCE.squared5Ruling();
-				case SQUARE_BIG:
-					return PropertiesResources.INSTANCE.squared1Ruling();
-				case ELEMENTARY12_COLORED:
-					return PropertiesResources.INSTANCE.coloredRuling();
-				case ELEMENTARY12:
-					return PropertiesResources.INSTANCE.elementary12Ruling();
-				case ELEMENTARY12_HOUSE:
-					return PropertiesResources.INSTANCE.houseRuling();
-				case ELEMENTARY34:
-					return PropertiesResources.INSTANCE.elementary34Ruling();
-				case MUSIC:
-					return PropertiesResources.INSTANCE.musicRuling();
-				case ISOMETRIC:
-					return PropertiesResources.INSTANCE.isometricRuling();
-				case POLAR:
-					return PropertiesResources.INSTANCE.polarRuling();
-				default:
-					return AppResources.INSTANCE.empty();
-			}
 		}
 
 		/**
@@ -548,18 +509,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lbRulerType.setSelectedIndex(idx);
 		}
 
-		/**
-		 * Update ruler properties.
-		 * 
-		 * @param bgType
-		 *            The background type.
-		 * @param color
-		 *            to set.
-		 * @param lineStyle
-		 *            The line style.
-		 * @param bold
-		 *            true if the lines should be bold.
-		 */
+		@Override
 		public void updateRuler(BackgroundType bgType, GColor color, int lineStyle, boolean bold) {
 			if (gridOptions) {
 				return;
@@ -588,7 +538,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.view = (EuclidianView) activeEuclidianView;
-		model = new EuclidianOptionsModel(app, view, this);
+		model = new EuclidianOptionsModel(app, view);
 		initGUI();
 		view.setOptionPanel(this);
 		isIniting = false;
@@ -700,7 +650,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 
 	/**
-	 * Set & update UI
+	 * Set and update UI
 	 * 
 	 * @param euclidianView1
 	 *            graphics view
@@ -715,8 +665,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	@Override
 	public void updateGUI() {
 		setLabels(); // resets all comboboxes: call *before* properties update
-		model.updateProperties();
-		getGridTab().updateGUI();
+		model.updateBasicProperties(basicTab);
+		model.updateGridProperties(gridTab);
+		xAxisTab.updateGUI();
+		yAxisTab.updateGUI();
+		gridTab.updateGUI();
 	}
 
 	@Override
@@ -730,100 +683,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 	
 	protected AutoCompleteTextFieldW getTextField() {
-		InputPanelW input = new InputPanelW(null, app, 1, -1, true);
+		InputPanelW input = new InputPanelW(null, app, true);
 		AutoCompleteTextFieldW tf = input.getTextComponent();
 		tf.setStyleName("numberInput");
 		return tf;
-	}
-	
-	@Override
-	public GColor getEuclidianBackground(int viewNumber) {
-		return app.getSettings().getEuclidian(viewNumber).getBackground();
-	}
-
-	/**
-	 * @return grid tab
-	 */
-	public GridTab getGridTab() {
-		return gridTab;
-	}
-
-	@Override
-	public void enableAxesRatio(boolean value) {
-		basicTab.enableAxesRatio(value);
-	}
-
-	@Override
-	public void setMinMaxText(String minX, String maxX, String minY, String maxY, String minZ,
-			String maxZ) {
-		basicTab.setMinMaxText(minX, maxX, minY, maxY, minZ, maxZ);
-	}
-
-	@Override
-	public void updateAxes(GColor color, boolean isShown, boolean isBold) {
-		basicTab.updateAxes(color);
-	}
-
-	@Override
-	public void updateBackgroundColor(GColor color) {
-		basicTab.updateBackgroundColorButton(color);
-	}
-	
-	@Override
-	public void selectTooltipType(int index) {
-		basicTab.lbTooltips.setSelectedIndex(index);
-	}
-
-	@Override
-	public void updateConsProtocolPanel(boolean isVisible) {
-		basicTab.updateConsProtocolPanel(isVisible);
-	}
-
-	@Override
-	public void updateGrid(GColor color, boolean isShown, boolean isBold,
-			int gridType) {
-		gridTab.update(color, isShown, isBold);
-	}
-
-	@Override
-	public void showMouseCoords(boolean value) {
-		basicTab.showMouseCoords(value);
-	}
-
-	@Override
-	public void selectAxesStyle(int index) {
-	    basicTab.selectAxesStyle(index);
-	}
-
-	@Override
-	public void updateGridTicks(boolean isAutoGrid, double[] gridTicks,
-			int gridType) {
-		gridTab.updateTicks(isAutoGrid, gridTicks, gridType);
-	}
-
-	@Override
-	public void enableLock(boolean value) {
-		basicTab.enableLock(value);
-	}
-
-	@Override
-	public void selectGridStyle(int style) {
-		if (gridTab == null) {
-			return;
-		}
-		gridTab.selectGridStyle(style);
-	}
-
-	@Override
-	public void addAngleOptionItem(String item) {
-		// nothing to do here
-	}
-
-	@Override
-	public void addGridTypeItem(String item) {
-		if (gridTab == null) {
-			return;
-		}
 	}
 
 	protected void updateView() {
@@ -853,14 +716,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 
 	@Override
-	public void updateAxisFontStyle(boolean serif, boolean isBold,
-			boolean isItalic) {
-		basicTab.cbAxisLabelSerif.setSelected(serif);
-		basicTab.cbAxisLabelBold.setSelected(isBold);
-		basicTab.cbAxisLabelItalic.setSelected(isItalic);
-	}
-
-	@Override
 	public MultiRowsTabPanel getTabPanel() {
 		return tabPanel;
 	}
@@ -871,11 +726,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	public void setTextColon(FormLabel cb, String string) {
 		cb.setText(loc.getMenu(string) + ":");
-	}
-
-	@Override
-	public void updateRuler(BackgroundType typeIdx, GColor color, int lineStyle, boolean bold) {
-		gridTab.updateRuler(typeIdx, color, lineStyle, bold);
 	}
 
 	public EuclidianView getView() {

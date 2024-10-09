@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.gui;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.laf.LoadSpinner;
@@ -18,7 +17,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
 import jsinterop.base.Js;
 
 public class SplashDialog extends SimplePanel {
-
+	public static final int SPLASH_DIALOG_DELAY = 1000;
 	boolean appLoaded = false;
 	boolean timerEllapsed = false;
 	boolean previewExists = false;
@@ -60,7 +59,7 @@ public class SplashDialog extends SimplePanel {
 			style.setBackgroundColor("white");
 			if (showLogo) {
 				NoDragImage logo = new NoDragImage(GuiResourcesSimple.INSTANCE
-				        .ggb_logo_name(), 427 , 120);
+						.ggb_logo_name(), 427 , 120);
 				panel.add(logo);
 			}
 			LoadSpinner spinner = new LoadSpinner();
@@ -77,7 +76,7 @@ public class SplashDialog extends SimplePanel {
 		};
 		afterConstructor.schedule(0);
 
-		t.schedule(GeoGebraConstants.SPLASH_DIALOG_DELAY);
+		t.schedule(SPLASH_DIALOG_DELAY);
 	}
 
 	private void triggerImageLoaded() {

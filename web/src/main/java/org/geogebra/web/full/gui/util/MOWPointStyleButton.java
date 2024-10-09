@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.util;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawPoint;
-import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.web.html5.awt.GGraphics2DW;
@@ -36,11 +35,10 @@ public class MOWPointStyleButton extends PointStylePopup {
 	 * @param app
 	 *            GGB app.
 	 * @param data
-	 *            PointStyle icons.
+	 *            point style icons.
 	 */
 	public MOWPointStyleButton(AppW app, ImageOrText[] data) {
-		super(app, data, 2, SelectionTable.MODE_ICON, true, true,
-				new PointStyleModel(app));
+		super(app, data, 2, SelectionTable.MODE_ICON, true, true);
 
 		// Rearranging content.
 		VerticalPanel panel = ((ButtonPopupMenu) getMyPopup()).getPanel();
@@ -72,7 +70,6 @@ public class MOWPointStyleButton extends PointStylePopup {
 	 * @return Point style button for MOW
 	 */
 	public static MOWPointStyleButton create(AppW app) {
-
 		pointStyleMap.clear();
 		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
 			pointStyleMap.put(EuclidianView.getPointStyle(i), i);
@@ -112,7 +109,7 @@ public class MOWPointStyleButton extends PointStylePopup {
 		titleLabel = new Label();
 		titleLabel.addStyleName("pointSizeLabel");
 		sliderPanel.insert(titleLabel, 0);
-		getMySlider().setWidth("140px");
+		getSlider().setWidth("140px");
 		setLabels();
 	}
 

@@ -8,7 +8,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.euclidian.EuclidianStyleBarD;
-import org.geogebra.desktop.gui.util.MyToggleButtonD;
+import org.geogebra.desktop.gui.util.ToggleButtonD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
@@ -24,7 +24,7 @@ public class EuclidianStyleBarForPlaneD extends EuclidianStyleBarD {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private MyToggleButtonD btnCenterAndOrientation;
+	private ToggleButtonD btnCenterAndOrientation;
 
 	/**
 	 * Common constructor.
@@ -75,7 +75,7 @@ public class EuclidianStyleBarForPlaneD extends EuclidianStyleBarD {
 
 		// ========================================
 		// button
-		btnCenterAndOrientation = new MyToggleButtonD(
+		btnCenterAndOrientation = new ToggleButtonD(
 				app.getScaledIcon(GuiResourcesD.STANDARD_VIEW), iconHeight) {
 
 			private static final long serialVersionUID = 1L;

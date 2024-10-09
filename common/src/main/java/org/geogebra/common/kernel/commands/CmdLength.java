@@ -25,16 +25,16 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Length[ &lt;GeoVector> ] Length[ &lt;GeoPoint> ]
+ * Length[ &lt;GeoVector&gt; ] Length[ &lt;GeoPoint&gt; ]
  * 
- * Length[ &lt;GeoList> ]
+ * Length[ &lt;GeoList&gt; ]
  * 
- * Length[ &lt;Function>, &lt;Number>, &lt;Number> ]
+ * Length[ &lt;Function&gt;, &lt;Number&gt;, &lt;Number&gt; ]
  * 
- * Length[ &lt;Function>, &lt;Point>, &lt;Point> ] add Length[ &lt;Curve>,
- * &lt;Number>, &lt;Number> ]
+ * Length[ &lt;Function&gt;, &lt;Point&gt;, &lt;Point&gt; ] add Length[ &lt;Curve&gt;,
+ * &lt;Number&gt;, &lt;Number&gt; ]
  * 
- * Length[ &lt;Curve>, &lt;Point>, &lt;Point> ]
+ * Length[ &lt;Curve&gt;, &lt;Point&gt;, &lt;Point&gt; ]
  * 
  * @author Markus, Victor Franco
  */
@@ -51,7 +51,7 @@ public class CmdLength extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

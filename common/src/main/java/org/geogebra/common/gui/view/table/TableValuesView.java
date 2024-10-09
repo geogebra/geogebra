@@ -11,8 +11,10 @@ import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -92,6 +94,9 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	private void ensureHasLabel(GeoEvaluatable evaluatable) {
+		if (!evaluatable.getRawCaption().isEmpty() && evaluatable.isLabelSet()) {
+			return;
+		}
 		if (algebraLabelVisibleCheck) {
 			labelController.ensureHasLabel(evaluatable);
 		} else {
@@ -287,7 +292,8 @@ public class TableValuesView implements TableValues, SettingListener {
 			} else {
 				model.removeEvaluatable(evaluatable, false);
 			}
-		} else if (geo instanceof GeoNumeric || geo instanceof GeoText) {
+		} else if ((geo.isIndependent() || Algos.isUsedFor(Commands.ParseToNumber, geo))
+				&& (geo instanceof GeoNumeric || geo instanceof GeoText)) {
 			model.maybeUpdateListElement(geo);
 		}
 	}
@@ -459,6 +465,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	/**
 	 * @return whether all columns other than x are undefined
 	 */
+	@Override
 	public boolean hasNoDefinedFunctions() {
 		for (int i = 1; i < model.getColumnCount(); i++) {
 			if (model.getEvaluatable(i).isDefined()) {
@@ -474,5 +481,41 @@ public class TableValuesView implements TableValues, SettingListener {
 	 */
 	public void noAlgebraLabelVisibleCheck() {
 		this.algebraLabelVisibleCheck = false;
+	}
+
+	/**
+	 * Prepares for tabular data import.
+	 * @param nrRows The number of rows to import.
+	 * @param nrColumns The number of columns to import.
+	 * @param columnNames The column names from the CSV header row, if present. null otherwise.
+	 */
+	// Data import
+	public void startImport(int nrRows, int nrColumns, String[] columnNames) {
+		model.startImport(nrRows, nrColumns, columnNames);
+	}
+
+	/**
+	 * Collects a row of data during import.
+	 * @param values The numeric values for the current row. For any null entries in
+	 *               this array, rawValues will have the original string value.
+	 * @param rawValues The original strings behind the values.
+	 */
+	public void importRow(Double[] values, String[] rawValues) {
+		model.importRow(values, rawValues);
+	}
+
+	/**
+	 * Cancels import.
+	 */
+	public void cancelImport() {
+		model.cancelImport();
+	}
+
+	/**
+	 * Commits the imported data.
+	 */
+	public void commitImport() {
+		elements.clear();
+		model.commitImport();
 	}
 }

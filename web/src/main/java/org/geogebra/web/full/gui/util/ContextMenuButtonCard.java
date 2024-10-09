@@ -8,7 +8,7 @@ import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -74,8 +74,7 @@ public class ContextMenuButtonCard extends StandardButton
 	 */
 	protected AriaMenuItem addItem(SVGResource img, String text,
 			ScheduledCommand cmd) {
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, text), true, cmd);
+		AriaMenuItem mi = MainMenu.getMenuBarItem(img, text, cmd);
 		wrappedPopup.addItem(mi);
 		return mi;
 	}

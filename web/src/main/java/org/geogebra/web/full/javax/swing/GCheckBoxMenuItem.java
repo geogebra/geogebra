@@ -3,8 +3,8 @@ package org.geogebra.web.full.javax.swing;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.menubar.MainMenu;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -49,7 +49,7 @@ public class GCheckBoxMenuItem {
 	 *            command
 	 */
 	public void setCommand(ScheduledCommand cmd) {
-		menuItem = new AriaMenuItem(itemPanel.toString(), true, cmd);
+		menuItem = new AriaMenuItem(itemPanel, cmd);
 		menuItem.addStyleName("checkboxMenuItem");
 		AriaHelper.setRole(menuItem, "menuitemcheckbox");
 	}
@@ -59,8 +59,6 @@ public class GCheckBoxMenuItem {
 	 */
 	public void setSelected(boolean sel) {
 		checkBox.setSelected(sel);
-		String html = itemPanel.toString();
-		menuItem.setHTML(html);
 		AriaHelper.setChecked(menuItem, sel);
 	}
 

@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Polyline[ &lt;GeoPoint>, ..., &lt;GeoPoint> ]
+ * Polyline[ &lt;GeoPoint&gt;, ..., &lt;GeoPoint&gt; ]
  */
 public class CmdPolyLine extends CommandProcessor {
 	/**
@@ -41,7 +41,6 @@ public class CmdPolyLine extends CommandProcessor {
 				return polyLine(c.getLabel(), (GeoList) arg[0]);
 			}
 			throw argErr(c, arg[0]);
-
 		case 2:
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
@@ -65,13 +64,11 @@ public class CmdPolyLine extends CommandProcessor {
 		default:
 			GeoElement lastArg = resArgSilent(c, n - 1, info.withLabels(false));
 			return genericPolyline(lastArg, null, c);
-
 		}
 	}
 
 	private GeoElement[] genericPolyline(GeoElement lastArg, GeoElement[] arg0,
 			Command c) {
-
 		boolean penStroke = false;
 		int size = c.getArgumentNumber();
 		if (lastArg.isGeoBoolean()) {
@@ -121,7 +118,6 @@ public class CmdPolyLine extends CommandProcessor {
 	}
 
 	/**
-	 * 
 	 * @param is3D
 	 *            true if already 3D
 	 * @param geo
@@ -145,5 +141,4 @@ public class CmdPolyLine extends CommandProcessor {
 			boolean is3D) {
 		return kernel.polyLine(label, points);
 	}
-
 }

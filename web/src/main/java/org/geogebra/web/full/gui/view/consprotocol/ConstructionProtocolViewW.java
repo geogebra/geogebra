@@ -16,7 +16,6 @@ import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.awt.PrintableW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
@@ -53,7 +52,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	/**
 	 * contains a scrollPanel with the {@link #table constructionstep-table}
 	 **/
-	public FlowPanel cpPanel;
+	private final FlowPanel cpPanel;
 	/** table with constructionsteps **/
 	protected CellTable<RowData> table;
 	ScrollPanel scrollPane;
@@ -69,7 +68,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	GPopupMenuW popupMenu;
 
 	CellTable<RowData> headerTable;
-	MyPanel outerScrollPanel;
+	ConsProtocolScrollPanel outerScrollPanel;
 
 	/**
 	 * 
@@ -77,9 +76,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 *            {@link AppW}
 	 */
 	public ConstructionProtocolViewW(final AppW app) {
+		super(app);
 		cpPanel = new FlowPanel();
-		this.app = app;
-		kernel = app.getKernel();
 		data = new ConstructionTableDataW(this);
 
 		app.getGuiManager().registerConstructionProtocolView(this);
@@ -119,7 +117,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		cpPanel.add(holderPanel);
 
-		outerScrollPanel = new MyPanel(); // used for horizontal
+		outerScrollPanel = new ConsProtocolScrollPanel(); // used for horizontal
 											// scrolling
 		outerScrollPanel.addStyleName("outerScrollPanel");
 		outerScrollPanel.add(cpPanel);
@@ -185,7 +183,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 	}
 
-	public class MyPanel extends ScrollPanel {
+	public class ConsProtocolScrollPanel extends ScrollPanel {
 
 		@Override
 		public void onResize() {
@@ -253,7 +251,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				if (dropIndex < minIndex || dropIndex > maxIndex) {
 					// drop not possible
 					// TODO change cursor style before releasing mouse
-					ToolTipManagerW.sharedInstance().showBottomMessage(
+					((AppW) app).getToolTipManager().showBottomMessage(
 							app.getLocalization().getMenu("Drop not possible"), (AppW) app);
 					return;
 				}
@@ -366,7 +364,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 					initGUI();
 				};
 
-				GCheckmarkMenuItem columnItem = new GCheckmarkMenuItem(
+				GCheckmarkMenuItem columnItem = new GCheckmarkMenuItem(null,
 						data.columns[j].getTranslatedTitle(),
 						data.columns[j].isVisible(), com);
 				popupMenu.addItem(columnItem);
@@ -375,9 +373,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		popupMenu.addVerticalSeparator();
 
-		GCheckmarkMenuItem miShowOnlyBreakpoints = new GCheckmarkMenuItem(
+		GCheckmarkMenuItem miShowOnlyBreakpoints = new GCheckmarkMenuItem(null,
 				app.getLocalization().getMenu("ShowOnlyBreakpoints"),
-				app.getKernel().getConstruction().showOnlyBreakpoints());
+				app.getKernel().getConstruction().showOnlyBreakpoints(), null);
 
 		miShowOnlyBreakpoints.setCommand(() -> {
 			showOnlyBreakpointsAction();

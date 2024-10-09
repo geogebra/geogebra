@@ -88,7 +88,15 @@ public class KeyboardInputAdapter {
 		adapters.add(new StringInput("mixedNumber") {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {
-				commitFunction(mfi, "mixedNumber");
+				mfi.getInputController().mixedNumber(mfi.getEditorState());
+				mfi.notifyAndUpdate("mixedNumber");
+			}
+		});
+
+		adapters.add(new StringInput("recurringDecimal") {
+			@Override
+			public void commit(MathFieldInternal mfi, String input) {
+				commitFunction(mfi, "recurringDecimal");
 			}
 		});
 

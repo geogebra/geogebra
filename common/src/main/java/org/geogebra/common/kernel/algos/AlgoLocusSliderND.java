@@ -261,8 +261,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		standardInput[0] = locusPoint.toGeoElement();
 		standardInput[1] = movingSlider;
 
-		setOutputLength(1);
-		setOutput(0, locus);
+		setOnlyOutput(locus);
 
 		// handle dependencies
 		setEfficientDependencies(standardInput, efficientInput);
@@ -610,20 +609,6 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 				copyQ.setDefinition(qDef);
 			}
 		}
-
-		// if (Qcopy.isDefined() && !Qcopy.isInfinite()) {
-		// if (!foundDefined)
-		// System.out.print(locus.label + " FIRST DEFINED param: " +
-		// Pcopy.getPathParameter().t);
-		// else
-		// System.out.print(locus.label + " param: " +
-		// Pcopy.getPathParameter().t);
-		// System.out.println(", Qcopy: " + Qcopy);
-		// } else {
-		// System.out.print(locus.label + " param: " +
-		// Pcopy.getPathParameter().t);
-		// System.out.println(", Qcopy: NOT DEFINED");
-		// }
 
 		// check found defined
 		if (!foundDefined && copyQ.isDefined() && !copyQ.isInfinite()) {

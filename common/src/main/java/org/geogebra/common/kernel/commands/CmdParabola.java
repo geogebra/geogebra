@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Parabola[ &lt;GeoPoint>, &lt;GeoLine> ]
+ * Parabola[ &lt;GeoPoint&gt;, &lt;GeoLine&gt; ]
  */
 public class CmdParabola extends CommandProcessor {
 
@@ -23,7 +23,7 @@ public class CmdParabola extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

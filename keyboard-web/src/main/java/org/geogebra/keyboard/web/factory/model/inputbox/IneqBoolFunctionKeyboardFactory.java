@@ -17,22 +17,22 @@ public class IneqBoolFunctionKeyboardFactory implements KeyboardModelFactory {
 		KeyboardModelImpl functionKeyboard = new KeyboardModelImpl();
 		float width = 5.0f / 3;
 
-		RowImpl row = functionKeyboard.nextRow(9.2f);
+		RowImpl row = functionKeyboard.nextRow();
 		FunctionKeyUtil.addSinCosTan(row, buttonFactory, width);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		FunctionKeyUtil.addPowEPow10NRootAbs(row, buttonFactory);
 
-		row = functionKeyboard.nextRow(9.2f);
+		row = functionKeyboard.nextRow();
 		FunctionKeyUtil.addInverseSinCosTan(row, buttonFactory, width);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
-		MathKeyUtil.addImInfDegComma(row, buttonFactory);
+		MathKeyUtil.addPiEIDegree(row, buttonFactory);
 
-		row = functionKeyboard.nextRow(9.2f);
+		row = functionKeyboard.nextRow();
 		FunctionKeyUtil.addSecCscCot(row, buttonFactory, width);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		FunctionKeyUtil.addProcExclNotEqBack(row, buttonFactory);
 
-		row = functionKeyboard.nextRow(9.2f);
+		row = functionKeyboard.nextRow();
 		FunctionKeyUtil.addLnLog10LogB(row, buttonFactory, width);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		FunctionKeyUtil.addAnLeftRightEnter(row, buttonFactory);

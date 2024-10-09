@@ -26,13 +26,13 @@ public class AlgebraMenuItemCollection extends GeoElementMenuItemCollection {
 		addItems(new StatisticsItem());
 
 		if (app.getConfig().hasTableView()) {
-			addItems(new TableOfValuesItem());
+			addItems(new TableOfValuesItem(app.getGuiManager()));
 		}
 		addItems(new SpecialPointsItem());
 		if (!app.getConfig().hasAutomaticLabels()) {
-			addLabelingActions();
+			addLabelingActions(app::storeUndoInfo);
 		}
 		addItems(new DuplicateInputItem(algebraView), new DuplicateOutputItem(algebraView),
-				new DeleteItem(), new SettingsItem());
+				new DeleteItem(app::storeUndoInfo), new SettingsItem(app.getDialogManager()));
 	}
 }

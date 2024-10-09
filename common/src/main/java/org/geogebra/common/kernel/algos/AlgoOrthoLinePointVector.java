@@ -93,8 +93,7 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
 		input[0] = P;
 		input[1] = v;
 
-		super.setOutputLength(1);
-		super.setOutput(0, g);
+		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 

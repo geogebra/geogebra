@@ -31,7 +31,7 @@ public class GeoGebraColorChooser extends JColorChooser implements SetLabels {
 	 */
 	public GeoGebraColorChooser(AppD app) {
 		this.app = app;
-		setSelectionModel(new MyColorSelectionModel());
+		setSelectionModel(new NullableColorSelectionModel());
 
 		// remove default chooser panels and replace with our custom panel
 		AbstractColorChooserPanel[] panels = {
@@ -54,7 +54,7 @@ public class GeoGebraColorChooser extends JColorChooser implements SetLabels {
 		return isNullSelection;
 	}
 
-	protected class MyColorSelectionModel extends DefaultColorSelectionModel {
+	protected class NullableColorSelectionModel extends DefaultColorSelectionModel {
 		private static final long serialVersionUID = 1L;
 
 		@Override

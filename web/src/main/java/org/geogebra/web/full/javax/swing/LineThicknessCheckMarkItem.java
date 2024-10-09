@@ -1,6 +1,7 @@
 package org.geogebra.web.full.javax.swing;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -42,7 +43,7 @@ public class LineThicknessCheckMarkItem extends FlowPanel {
 		checkImg.addStyleName("checkImg");
 		add(checkImg);
 
-		Label text = new Label(itemText);
+		Label text = BaseWidgetFactory.INSTANCE.newPrimaryText(itemText);
 		this.text = text;
 		add(text);
 	}

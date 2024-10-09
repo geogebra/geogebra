@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.algos;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -61,6 +62,39 @@ public class AlgoTransformationTest extends BaseUnitTest {
 	public void reflectInLineOfDegenerate() {
 		String[] pts = createTransformedDegenerate("Reflect(%,x=y)");
 		assertArrayEquals(new String[]{"(0, 0)", "(2, 0)"}, pts);
+	}
+
+	@Test
+	public void circleInversionOfSegment() {
+		add("A=(2,2)");
+		// use point on path to check TRAC-3781
+		add("B=Point(Segment((2,0),(3,0)))");
+		GeoConicPart arc = add("Reflect(Segment(A,B),x^2+y^2=1)");
+		assertThat(arc, hasValue("0.39"));
+		assertFalse(getDirection(arc));
+		// segment mapped to quarter-circle
+		assertEquals(0.0, arc.getParameterStart(), 0.01);
+		assertEquals(Math.PI / 2, arc.getParameterEnd(),  0.01);
+	}
+
+	@Test
+	public void circleInversionOfRay() {
+		add("A=(2,2)");
+		add("B=Point(Segment((2,0),(3,0)))");
+		// with +0 we force the algo to transform ray directly
+		GeoConicPart arc = add("Reflect(Ray(B+0,(2,2)),x^2+y^2=1)");
+		assertThat(arc, hasValue("0.79"));
+		// ray mapped to semicircle
+		assertTrue(getDirection(arc));
+		assertEquals(0, arc.getParameterStart(), 0.01);
+		assertEquals(Math.PI, arc.getParameterEnd(), 0.01);
+		// when using point names we expand the definition, but should get equal result
+		GeoConicPart arc2 = add("Reflect(Ray(B,A),x^2+y^2=1)");
+		assertEquals(arc2.getDefinition(StringTemplate.defaultTemplate),
+				"CircumcircularArc(B', A', Reflect((∞, ∞), x² + y² = 1))");
+		assertTrue(getDirection(arc));
+		assertEquals(0, arc2.getParameterStart(), 0.01);
+		assertEquals(Math.PI, arc2.getParameterEnd(), 0.01);
 	}
 
 	private String[] createTransformedDegenerate(String s) {

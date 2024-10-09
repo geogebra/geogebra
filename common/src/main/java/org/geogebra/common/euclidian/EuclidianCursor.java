@@ -28,6 +28,8 @@ public enum EuclidianCursor {
 	RESIZE_EW,
 	/** ns resize */
 	RESIZE_NS,
+	/** Crosshair */
+	CROSSHAIR,
 	/** Eraser */
 	ERASER,
 	/** Pen */
@@ -35,5 +37,11 @@ public enum EuclidianCursor {
 	/** Highlighter */
 	HIGHLIGHTER,
 	/** Rotation */
-	ROTATION
+	ROTATION,
+	/** Mindmap */
+	MINDMAP,
+	/** Table */
+	TABLE,
+	/** Text */
+	TEXT
 }

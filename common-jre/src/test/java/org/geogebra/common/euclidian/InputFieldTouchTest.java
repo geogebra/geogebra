@@ -1,20 +1,16 @@
 package org.geogebra.common.euclidian;
 
-import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.test.euclidian.AutoCompleteTextFieldC;
 import org.geogebra.test.euclidian.TextFieldCommonJre;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class InputFieldTouchTest {
-
-	private static AppCommon3D app;
-	private static EuclidianView ev;
+public class InputFieldTouchTest extends BaseUnitTest  {
 
 	private GeoInputBox input1;
 	private GeoInputBox input2;
@@ -23,9 +19,7 @@ public class InputFieldTouchTest {
 
 	@Before
 	public void setUp() {
-		app = AppCommonFactory.create3D();
-		ev = app.getActiveEuclidianView();
-		ev.setViewTextField(viewTextField);
+		getApp().getActiveEuclidianView().setViewTextField(viewTextField);
 
 		input1 = addInputBox("inputbox1");
 		input2 = addInputBox("inputbox2");
@@ -34,8 +28,8 @@ public class InputFieldTouchTest {
 
 	@Test
 	public void applyOnSwitchInputBoxesTest() {
-		DrawInputBox drawInputBox1 = (DrawInputBox) ev.getDrawableFor(input1);
-		DrawInputBox drawInputBox2 = (DrawInputBox) ev.getDrawableFor(input2);
+		DrawInputBox drawInputBox1 = (DrawInputBox) getDrawable(input1);
+		DrawInputBox drawInputBox2 = (DrawInputBox) getDrawable(input2);
 		viewTextField.focusTo(drawInputBox1);
 		textField.setText("ABC");
 		viewTextField.focusTo(drawInputBox2);
@@ -47,7 +41,7 @@ public class InputFieldTouchTest {
 
 	@Test
 	public void applyOnClickOutOfInputBoxTest() {
-		DrawInputBox drawInputBox1 = (DrawInputBox) ev.getDrawableFor(input1);
+		DrawInputBox drawInputBox1 = (DrawInputBox) getDrawable(input1);
 		viewTextField.focusTo(drawInputBox1);
 		textField.setText("ABC");
 		textField.blur();
@@ -56,7 +50,7 @@ public class InputFieldTouchTest {
 
 	private GeoInputBox addInputBox(String name) {
 		String command = name + " = InputBox()";
-		GeoElementND[] results = app.getKernel().getAlgebraProcessor()
+		GeoElementND[] results = getApp().getKernel().getAlgebraProcessor()
 				.processAlgebraCommand(command, false);
 		return (GeoInputBox) results[0];
 	}

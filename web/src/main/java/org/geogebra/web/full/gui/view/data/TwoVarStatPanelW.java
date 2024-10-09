@@ -22,7 +22,7 @@ import org.gwtproject.user.client.ui.ListBox;
 public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 	private AppW app;
 	private DataAnalysisViewW statDialog;
-	private MyTable statTable;
+	private StatDataTable statTable;
 	private TwoVarStatModel model;
 	private TwoVarInferencePanelW listener;
 	

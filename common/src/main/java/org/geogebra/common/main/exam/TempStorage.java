@@ -16,7 +16,7 @@ public class TempStorage {
     private int tempMaterialId;
     private Map<Integer, Material> tempMaterials;
 
-    TempStorage() {
+    public TempStorage() {
         tempMaterials = new LinkedHashMap<>();
     }
 
@@ -53,6 +53,14 @@ public class TempStorage {
             materials.add(new Material(mat));
         }
         return materials;
+    }
+
+    /**
+     * delete material from temp storage
+     * @param material material
+     */
+    public void deleteTempMaterial(Material material) {
+        tempMaterials.remove(material.getLocalID());
     }
 
     /**

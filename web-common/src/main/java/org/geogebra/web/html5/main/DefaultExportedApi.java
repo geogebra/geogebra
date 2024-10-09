@@ -105,6 +105,7 @@ public class DefaultExportedApi implements ExportedApi {
 
 	public void evalXML(String xmlString) {
 		getGgbAPI().evalXML(xmlString + "");
+		ggbAPI.getApplication().getActiveEuclidianView().invalidateDrawableList();
 	}
 
 	public void setDisplayStyle(String objName, String style) {
@@ -413,11 +414,11 @@ public class DefaultExportedApi implements ExportedApi {
 		return getGgbAPI().getZcoord(objName + "");
 	}
 
-	public void setCoords(String objName, double x, double y, double z) {
-		if (JsEval.isUndefined(z)) {
-			getGgbAPI().setCoords(objName + "", x, y);
+	public void setCoords(String objName, double... coords) {
+		if (coords.length == 2) {
+			getGgbAPI().setCoords(objName + "", coords[0], coords[1]);
 		} else {
-			getGgbAPI().setCoords(objName + "", x, y, z);
+			getGgbAPI().setCoords(objName + "", coords);
 		}
 	}
 
@@ -835,6 +836,10 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().setInputBoxState(state, label);
 	}
 
+	public boolean isInteractive(String label) {
+		return getGgbAPI().isInteractive(label);
+	}
+
 	public String exportCollada(Object xmin, Object xmax, Object ymin, Object ymax, Object zmin,
 			Object zmax, Object xyScale, Object xzScale, Object xTickDistance,
 			Object yTickDistance, Object zTickDistance) {
@@ -1109,6 +1114,9 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().showAllObjects();
 	}
 
+	public Object getFileLoadingError() {
+		return getGgbAPI().getFileLoadingError();
+	}
 	private GgbAPIW getGgbAPI() {
 		if (ggbAPI == null) {
 			throw new IllegalStateException("app was already removed");

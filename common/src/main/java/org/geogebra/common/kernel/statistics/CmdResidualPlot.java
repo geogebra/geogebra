@@ -11,16 +11,18 @@ package org.geogebra.common.kernel.statistics;
  the Free Software Foundation.
 
  */
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * ResidualPlot[&lt;List of Points>,&lt;Funtion>]
+ * ResidualPlot[&lt;List of Points&gt;,&lt;Funtion&gt;]
  * 
  * @author G.Sturr
  * @version 2010-9-13
@@ -37,7 +39,7 @@ public class CmdResidualPlot extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c);
 		switch (n) {

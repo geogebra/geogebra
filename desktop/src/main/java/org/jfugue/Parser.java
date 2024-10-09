@@ -83,7 +83,7 @@ public class Parser {
 	/**
 	 * Displays the passed String.
 	 * 
-	 * @param s
+	 * @param sentenceFragments
 	 *            the String to display
 	 */
 	protected void trace(Object... sentenceFragments) {
@@ -111,8 +111,8 @@ public class Parser {
 	 * @param listener
 	 *            the listener that is to be notified of parser events
 	 */
-	public void addParserProgressListener(ParserProgressListener l) {
-		progressListenerList.add(ParserProgressListener.class, l);
+	public void addParserProgressListener(ParserProgressListener listener) {
+		progressListenerList.add(ParserProgressListener.class, listener);
 	}
 
 	/**
@@ -121,8 +121,8 @@ public class Parser {
 	 * @param listener
 	 *            the listener to remove
 	 */
-	public void removeParserProgressListener(ParserProgressListener l) {
-		progressListenerList.remove(ParserProgressListener.class, l);
+	public void removeParserProgressListener(ParserProgressListener listener) {
+		progressListenerList.remove(ParserProgressListener.class, listener);
 	}
 
 	protected void clearParserProgressListeners() {
@@ -163,8 +163,8 @@ public class Parser {
 	 * @param listener
 	 *            the listener that is to be notified of parser events
 	 */
-	public void addParserListener(ParserListener l) {
-		listenerList.add(ParserListener.class, l);
+	public void addParserListener(ParserListener listener) {
+		listenerList.add(ParserListener.class, listener);
 	}
 
 	/**
@@ -173,8 +173,8 @@ public class Parser {
 	 * @param listener
 	 *            the listener to remove
 	 */
-	public void removeParserListener(ParserListener l) {
-		listenerList.remove(ParserListener.class, l);
+	public void removeParserListener(ParserListener listener) {
+		listenerList.remove(ParserListener.class, listener);
 	}
 
 	protected void clearParserListeners() {

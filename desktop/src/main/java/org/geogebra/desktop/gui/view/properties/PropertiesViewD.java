@@ -81,6 +81,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	// private JButton restoreDefaultsButton, saveButton;
 
 	protected boolean isIniting = true;
+	private int mode = EuclidianConstants.MODE_MOVE;
 
 	/**************************************************
 	 * Constructor
@@ -191,9 +192,6 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 	@Override
 	protected void setOptionPanelWithoutCheck(OptionType type) {
-
-		// App.printStacktrace("\ntype="+type);
-
 		if (selectedOptionType != type && selectedOptionPanel != null) {
 			((OptionPanelD) selectedOptionPanel).applyModifications();
 			((OptionPanelD) selectedOptionPanel).setSelected(false);
@@ -313,9 +311,6 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	 * @return option panel
 	 */
 	public OptionPanelD getOptionPanel(OptionType type) {
-
-		// AbstractApplication.printStacktrace("type :"+type);
-
 		switch (type) {
 		case DEFAULTS:
 			if (defaultsPanel == null) {
@@ -573,8 +568,6 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		((OptionsObjectD) getObjectPanel()).getTree().clearView();
 
 	}
-
-	private int mode = EuclidianConstants.MODE_MOVE;
 
 	@Override
 	public void setMode(int mode, ModeSetter m) {

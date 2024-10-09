@@ -27,8 +27,8 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * AlgoFit A general linear curvefit: Fit[&lt;List of Points>,&lt;List of
- * Functions>] Example: f(x)=1, g(x)=x, h(x)=e^x L={A,B,...} c(x)=Fit[L,{f,g,h}]
+ * AlgoFit A general linear curvefit: Fit[&lt;List of Points&gt;,&lt;List of
+ * Functions&gt;] Example: f(x)=1, g(x)=x, h(x)=e^x L={A,B,...} c(x)=Fit[L,{f,g,h}]
  * will give a least square curvefit: c(x)= a+b*x+c*e^x
  * 
  * Simple test procedure: Make points A,B, ... L={A,B,...} f(x)=1, g(x)=x,
@@ -114,8 +114,8 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 		matY = new Array2DRowRealMatrix(datasize, 1);
 		matP = new Array2DRowRealMatrix(functionsize, 1); // Solution parameters
 
-		if (!pointlist.isDefined() || // Lot of things can go wrong...
-				!functionlist.isDefined() || (functionsize > datasize)) {
+		if (!pointlist.isDefined() // Lot of things can go wrong...
+				|| !functionlist.isDefined() || (functionsize > datasize)) {
 			// Perhaps a max restriction of functions and data?
 			// Even if noone would try 500 datapoints and 100 functions...
 			fitfunction.setUndefined();

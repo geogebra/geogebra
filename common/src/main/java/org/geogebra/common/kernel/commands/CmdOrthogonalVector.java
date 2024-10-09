@@ -10,9 +10,9 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.main.MyError;
 
 /**
- * OrthogonalVector[ &lt;GeoLine> ]
+ * OrthogonalVector[ &lt;GeoLine&gt; ]
  * 
- * OrthogonalVector[ &lt;GeoVector> ]
+ * OrthogonalVector[ &lt;GeoVector&gt; ]
  */
 public class CmdOrthogonalVector extends CommandProcessor {
 
@@ -27,7 +27,7 @@ public class CmdOrthogonalVector extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 

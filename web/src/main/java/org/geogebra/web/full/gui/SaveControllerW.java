@@ -26,12 +26,10 @@ import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.full.util.SaveCallback.SaveState;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
-import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 /**
@@ -50,6 +48,8 @@ public class SaveControllerW implements SaveController {
 	private AsyncOperation<Boolean> runAfterSave = null;
 	private AsyncOperation<Boolean> autoSaveCallback;
 
+	private final LocalSaveOptions localSaveOptions;
+
 	/**
 	 * Constructor
 	 * 
@@ -59,6 +59,7 @@ public class SaveControllerW implements SaveController {
 	public SaveControllerW(AppW app) {
 		this.app = app;
 		loc = app.getLocalization();
+		localSaveOptions = new LocalSaveOptions(app);
 	}
 
 	/**
@@ -104,6 +105,7 @@ public class SaveControllerW implements SaveController {
 
 	@Override
 	public void showDialogIfNeeded(AsyncOperation<Boolean> saveCallback, boolean addTempCheckBox) {
+		app.getShareController().setAssign(false);
 		SaveDialogI saveDialog = ((DialogManagerW) app.getDialogManager())
 				.getSaveCheckDialog();
 		AsyncOperation<Boolean> callback = saved -> {
@@ -119,19 +121,16 @@ public class SaveControllerW implements SaveController {
 	}
 
 	@Override
-	public void showLocalSaveDialog() {
+	public void showLocalSaveDialog(Runnable afterSave) {
 		if (!FileSystemAPI.isSupported()) {
 			app.getFileManager().export(app);
 			return;
 		}
-		JsPropertyMap<String> options = Js.uncheckedCast(JsPropertyMap.of());
-		String consTitle = app.getKernel().getConstruction().getTitle();
-		if (StringUtil.empty(consTitle)) {
-			consTitle = app.getLocalization().getMenu("Untitled");
-		}
-		options.set("suggestedName",  consTitle + ".ggb");
+
+		JsPropertyMap<Object> options = localSaveOptions.asPropertyMap();
+
 		FileSystemAPI.showSaveFilePicker(options).then(handle -> {
-			((FileManager) app.getFileManager()).saveAs(handle);
+			((FileManager) app.getFileManager()).saveAs(handle, afterSave);
 			return null;
 		});
 	}
@@ -176,9 +175,9 @@ public class SaveControllerW implements SaveController {
 		this.listener = l;
 		this.fileName = name;
 		if (app.isOffline()) {
-			ToolTipManagerW.sharedInstance().showBottomMessage(loc
+			app.getToolTipManager().showBottomMessage(loc
 					.getMenu("phone_loading_materials_offline"), app);
-			showLocalSaveDialog();
+			showLocalSaveDialog(() -> {});
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
 			uploadToDrive();
 		} else if (app.getLoginOperation().isLoggedIn()) {
@@ -241,7 +240,7 @@ public class SaveControllerW implements SaveController {
 			}
 		};
 
-		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), app);
+		app.getToolTipManager().showBottomMessage(loc.getMenu("Saving"), app);
 
 		app.getGgbApi().getBase64(true, handler);
 		if (listener != null) {
@@ -250,7 +249,7 @@ public class SaveControllerW implements SaveController {
 	}
 
 	private void uploadToDrive() {
-		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), app);
+		app.getToolTipManager().showBottomMessage(loc.getMenu("Saving"), app);
 		app.getGoogleDriveOperation().afterLogin(() -> doUploadToDrive());
 	}
 
@@ -433,7 +432,6 @@ public class SaveControllerW implements SaveController {
 				if (exception.getMessage().contains("auth")) {
 					getAppW().getLoginOperation().performTokenLogin();
 				}
-				getAppW().getGuiManager().exportGGB(true);
 				saveLocalIfNeeded(
 						SaveControllerW.getCurrentTimestamp(getAppW()),
 						SaveState.ERROR);

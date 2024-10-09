@@ -24,6 +24,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.TreeSet;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -31,7 +33,6 @@ import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.StringTemplate;
@@ -46,6 +47,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.RecurringDecimal;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefiniteInterface;
@@ -57,6 +59,7 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
+import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -95,7 +98,7 @@ public class GeoNumeric extends GeoElement
 	/**
 	 * Default width of angle slider in pixels
 	 * 
-	 * Should be a factor of 360 to work well 72 gives increment of 5 degrees
+	 * <p>Should be a factor of 360 to work well 72 gives increment of 5 degrees
 	 * 144 gives increment of 2.5 degrees (doesn't look good) 180 gives
 	 * increment of 2 degrees
 	 */
@@ -147,28 +150,18 @@ public class GeoNumeric extends GeoElement
 	private boolean showExtendedAV = true;
 	private static volatile Comparator<GeoNumberValue> comparator;
 	private BigDecimal exactValue;
-	private GeoPointND startPoint;
+	private @CheckForNull GeoPointND startPoint;
 
 	/**
-	 * Creates new GeoNumeric
+	 * Creates a new GeoNumeric.
 	 * 
-	 * @param c
-	 *            Construction
-	 */
-	public GeoNumeric(Construction c) {
-		this(c, true);
-	}
-
-	/**
-	 * Creates new numeric
-	 * 
-	 * @param c
+	 * @param construction
 	 *            construction
 	 * @param setDefaults
-	 *            true to set from defaults
+	 *            true to set construction defaults
 	 */
-	public GeoNumeric(Construction c, boolean setDefaults) {
-		super(c);
+	public GeoNumeric(Construction construction, boolean setDefaults) {
+		super(construction);
 
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
@@ -182,6 +175,42 @@ public class GeoNumeric extends GeoElement
 		// setAnimationStep(DEFAULT_SLIDER_INCREMENT);
 	}
 
+	/**
+	 * Creates a new GeoNumeric.
+	 *
+	 * Note: This will set construction defaults.
+	 *
+	 * @param construction
+	 *            Construction
+	 */
+	public GeoNumeric(Construction construction) {
+		this(construction, true);
+	}
+
+	/**
+	 * Creates a new GeoNumeric.
+	 *
+	 * Note: This will set construction defaults.
+	 *
+	 * @param construction Construction
+	 * @param value Numeric value
+	 */
+	public GeoNumeric(Construction construction, double value) {
+		this(construction, value, true);
+	}
+
+	/**
+	 * Creates a new GeoNumeric.
+	 *
+	 * @param construction Construction
+	 * @param value Numeric value
+	 * @param setDefaults If true, set contruction defaults
+	 */
+	public GeoNumeric(Construction construction, double value, boolean setDefaults) {
+		this(construction, setDefaults);
+		this.value = value;
+	}
+
 	@Override
 	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_SLIDER;
@@ -192,30 +221,11 @@ public class GeoNumeric extends GeoElement
 		return GeoClass.NUMERIC;
 	}
 
-	/**
-	 * Creates new number
-	 * 
-	 * @param c
-	 *            Cons
-	 * @param x
-	 *            Number value
-	 */
-	public GeoNumeric(Construction c, double x) {
-		this(c);
-
-		value = x;
-	}
-
 	@Override
 	public GeoNumeric copy() {
 		GeoNumeric copy = new GeoNumeric(cons, value);
 		copy.setDrawable(isDrawable, false);
 		return copy;
-	}
-
-	@Override
-	public void setZero() {
-		setValue(0);
 	}
 
 	@Override
@@ -407,7 +417,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	final public void setUndefined() {
+	public void setUndefined() {
 		value = Double.NaN;
 		exactValue = null;
 	}
@@ -607,8 +617,15 @@ public class GeoNumeric extends GeoElement
 			animationValue = value;
 		}
 
+		notifyScreenReader();
+	}
+
+	/**
+	 * Let screen reader announce the latest value update
+	 */
+	public void notifyScreenReader() {
 		if (isLabelSet() && isSliderable() && isSelected()) {
-			kernel.getApplication().readLater(this);
+			kernel.getApplication().getAccessibilityManager().readSliderUpdate(this);
 		}
 	}
 
@@ -661,11 +678,21 @@ public class GeoNumeric extends GeoElement
 			}
 			return StringUtil.wrapInExact(kernel.format(value, tpl), tpl);
 		}
+
+		if (isRecurringDecimal()) {
+			RecurringDecimal rd = asRecurringDecimal();
+			if (symbolicMode) {
+				return RecurringDecimal.toFraction(rd.wrap(), tpl);
+			} else {
+				return kernel.format(rd.toDouble(), tpl);
+			}
+		}
 		// in general toFractionString falls back to printing evaluation result if not a fraction
 		// do not rely on it for leaf nodes: MySpecialDouble overrides rounding
 		if ((symbolicMode || DoubleUtil.isInteger(value))
 				&& getDefinition() != null
-				&& !getDefinition().isLeaf() && tpl.supportsFractions()) {
+				&& !getDefinition().isLeaf()
+				&& tpl.supportsFractions()) {
 			return getDefinition().toFractionString(tpl);
 		}
 		return kernel.format(value, tpl);
@@ -676,13 +703,27 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	public MyDouble getNumber() {
-		if (toDecimal() == null) {
-			return new MyDouble(kernel, value);
+		if (hasExactConstantValue()) {
+			return getExactNumber();
 		} else {
-			MySpecialDouble val = new MySpecialDouble(kernel, value);
-			val.set(toDecimal());
-			return val;
+			return getImpreciseNumber();
 		}
+	}
+
+	private boolean hasExactConstantValue() {
+		return toDecimal() != null && getDefinition().isConstant();
+	}
+
+	private MySpecialDouble getExactNumber() {
+		MySpecialDouble val = new MySpecialDouble(kernel, value);
+		val.set(toDecimal());
+		return val;
+	}
+
+	private MyDouble getImpreciseNumber() {
+		MyDouble myDouble = new MyDouble(kernel, value);
+		myDouble.setImprecise(true);
+		return myDouble;
 	}
 
 	@Override
@@ -770,6 +811,13 @@ public class GeoNumeric extends GeoElement
 	 */
 	protected void getBasicStyleXML(StringBuilder sb) {
 		super.getStyleXML(sb);
+	}
+
+	@Override
+	protected void appendObjectColorXML(StringBuilder sb) {
+		if (isDefaultGeo() || isColorSet()) {
+			super.appendObjectColorXML(sb);
+		}
 	}
 
 	/**
@@ -970,10 +1018,17 @@ public class GeoNumeric extends GeoElement
 		if (!force && sliderFixed) {
 			return;
 		}
+		if (!hasAbsoluteScreenLocation && startPoint != null) {
+			startPoint.getLocateableList().unregisterLocateable(this);
+			startPoint = null;
+		}
 		if (startPoint == null) {
 			startPoint = new GeoPoint(cons);
+			startPoint.setCoords(x, y, 1);
+		} else {
+			startPoint.setCoords(x, y, 1);
+			startPoint.update();
 		}
-		startPoint.setCoords(x, y, 1);
 		if (origSliderX == null) {
 			origSliderX = x;
 			origSliderY = y;
@@ -1048,7 +1103,7 @@ public class GeoNumeric extends GeoElement
 	 * @return true if slider max value wasn't disabled
 	 */
 	public final boolean isIntervalMaxActive() {
-		return MyDouble.isFinite(getIntervalMax());
+		return Double.isFinite(getIntervalMax());
 	}
 
 	/**
@@ -1057,7 +1112,7 @@ public class GeoNumeric extends GeoElement
 	 * @return true if slider min value wasn't disabled
 	 */
 	public final boolean isIntervalMinActive() {
-		return MyDouble.isFinite(getIntervalMin());
+		return Double.isFinite(getIntervalMin());
 	}
 
 	/**
@@ -1134,6 +1189,12 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public void setRealWorldLoc(double x, double y) {
+		if (hasAbsoluteScreenLocation) {
+			if (startPoint != null) {
+				startPoint.getLocateableList().unregisterLocateable(this);
+			}
+			startPoint = null;
+		}
 		if (startPoint == null) {
 			startPoint = new GeoPoint(cons, true);
 		}
@@ -1152,6 +1213,9 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public void setAbsoluteScreenLocActive(boolean flag) {
+		if (flag == hasAbsoluteScreenLocation) {
+			return;
+		}
 		hasAbsoluteScreenLocation = flag;
 		if (flag) {
 			sliderWidth = this instanceof GeoAngle
@@ -1331,6 +1395,7 @@ public class GeoNumeric extends GeoElement
 		boolean okMin = isIntervalMinActive();
 		boolean okMax = isIntervalMaxActive();
 		boolean ok = getIntervalMin() <= getIntervalMax();
+		ExpressionNode oldDefinition = getDefinition();
 		if (ok && okMin && okMax) {
 			setValue(isDefined() ? value : 1.0);
 			isDrawable = true;
@@ -1340,6 +1405,7 @@ public class GeoNumeric extends GeoElement
 		if (oldValue != value) {
 			updateCascade();
 		} else {
+			setDefinition(oldDefinition); // no value change because of min/max, keep definition
 			// we want to make the slider visible again if it was not
 			// do what GeoElement.update does (no need to call listeners)
 			// also don't update the CAS
@@ -1647,11 +1713,6 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public boolean isLaTeXDrawableGeo() {
-		return false;
-	}
-
-	@Override
 	public boolean hasLineOpacity() {
 		return true;
 	}
@@ -1659,10 +1720,8 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public void addToSpreadsheetTraceList(
 			ArrayList<GeoNumeric> spreadsheetTraceList) {
-		GeoNumeric xx = this.copy(); // should handle GeoAngle
-		// too
-		spreadsheetTraceList.add(xx);
-
+		GeoNumeric copy = this.copy(); // should handle GeoAngle too
+		spreadsheetTraceList.add(copy);
 	}
 
 	@Override
@@ -1733,14 +1792,14 @@ public class GeoNumeric extends GeoElement
 
 		// label visibility
 		App app = getKernel().getApplication();
-		int labelingStyle = app == null
-				? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS
+		LabelVisibility labelingStyle = app == null
+				? LabelVisibility.UseDefaults
 				: app.getCurrentLabelingStyle();
 
 		// automatic labelling:
 		// if algebra window open -> all labels
 		// else -> no labels
-		boolean visible = labelingStyle != ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
+		boolean visible = labelingStyle != LabelVisibility.AlwaysOff;
 
 		if (visible) {
 			labelMode = LABEL_NAME_VALUE;
@@ -1965,14 +2024,13 @@ public class GeoNumeric extends GeoElement
 	}
 
 	private void addAuralSliderValue(ScreenReaderBuilder sb) {
-		sb.appendMenuDefault("Slider", "Slider");
-		sb.appendSpace();
-
 		if (!addAuralCaption(sb)) {
+			sb.appendMenuDefault("Slider", "Slider");
+			sb.appendSpace();
 			sb.append(ScreenReader.convertToReadable(getLabelSimple(), app));
 		}
 
-		if (!getRawCaption().contains("%v")) {
+		if (!getRawCaption().contains("%v") && !hasDynamicCaption()) {
 			sb.append(getLabelDelimiterWithSpace(getApp().getScreenReaderTemplate()));
 			String valueString = toValueString(StringTemplate.defaultTemplate);
 			sb.appendDegreeIfNeeded(this, valueString);
@@ -2000,15 +2058,16 @@ public class GeoNumeric extends GeoElement
 		if (!isSliderable()) {
 			return;
 		}
-
-		if (isAnimating()) {
-			sb.append(loc.getMenuDefault("PressSpaceStopAnimation",
-					"Press space to stop animation"));
-		} else {
-			sb.append(loc.getMenuDefault("PressSpaceStartAnimation",
-					"Press space to start animation"));
+		if (getApp().isRightClickEnabled()) {
+			if (isAnimating()) {
+				sb.append(loc.getMenuDefault("PressSpaceStopAnimation",
+						"Press space to stop animation"));
+			} else {
+				sb.append(loc.getMenuDefault("PressSpaceStartAnimation",
+						"Press space to start animation"));
+			}
+			sb.endSentence();
 		}
-		sb.endSentence();
 		if (getIntervalMax() != getValue()) {
 			sb.append(loc.getMenuDefault("PressUpToIncrease",
 					"Press up arrow to increase the value"));
@@ -2031,16 +2090,18 @@ public class GeoNumeric extends GeoElement
 
 		Localization loc = kernel.getLocalization();
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
-		if (isAnimating()) {
+		if (getApp().isRightClickEnabled()) {
+			if (isAnimating()) {
 
-			// don't need this for stopping as the value is read out afterwards
-			// anyway
-			addAuralCaption(sb);
-			sb.appendSpace();
-			sb.append(loc.getMenuDefault("AnimationStarted",
-					"animation is started"));
-		} else {
-			sb.append(loc.getMenuDefault("AnimationStopped", "animation is stopped"));
+				// don't need this for stopping as the value is read out afterwards
+				// anyway
+				addAuralCaption(sb);
+				sb.appendSpace();
+				sb.append(loc.getMenuDefault("AnimationStarted",
+						"animation is started"));
+			} else {
+				sb.append(loc.getMenuDefault("AnimationStopped", "animation is stopped"));
+			}
 		}
 		sb.endSentence();
 		return sb.toString();
@@ -2144,5 +2205,49 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public void updateLocation() {
 		update();
+	}
+
+	@Override
+	public String getFormulaString(StringTemplate tpl, boolean substituteNumbers) {
+		if (isRecurringDecimal()) {
+			RecurringDecimal rd = asRecurringDecimal();
+			if (substituteNumbers) {
+				return symbolicMode ? rd.toFraction(tpl) : kernel.format(rd.toDouble(), tpl);
+			} else {
+				return rd.toString(tpl);
+			}
+		}
+
+		return super.getFormulaString(tpl, substituteNumbers);
+	}
+
+	@Override
+	public boolean isRecurringDecimal() {
+		return getDefinition() != null && getDefinition().unwrap().isRecurringDecimal();
+	}
+
+	/**
+	 *
+	 * @return the RecurringDecimal object if it is one, null otherwise.
+	 */
+	public RecurringDecimal asRecurringDecimal() {
+		if (!isRecurringDecimal()) {
+			return null;
+		}
+		return (RecurringDecimal) getDefinition().unwrap();
+	}
+
+	/**
+	 * @param parts output array for [numerator,denominator]
+	 * @param expandPlus whether to expand + and - operations
+	 */
+	public void getFraction(ExpressionValue[] parts, boolean expandPlus) {
+		if (getDefinition() == null) {
+			parts[0] = getNumber();
+			parts[1] = null;
+			return;
+		}
+		getDefinition().isFraction(); // force fraction caching
+		getDefinition().getFraction(parts, expandPlus);
 	}
 }

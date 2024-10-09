@@ -75,8 +75,10 @@ public class AlgoRandomUniformList extends AlgoElement
 		return list;
 	}
 
-	private void ensureListSize(int n) {
-
+	/**
+	 * @param n - size of list
+	 */
+	public void ensureListSize(int n) {
 		// TODO: is suppress labels needed here?
 		boolean oldSuppressLabels = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
@@ -111,10 +113,18 @@ public class AlgoRandomUniformList extends AlgoElement
 		ensureListSize((int) length.getDouble());
 
 		for (int i = 0; i < list.size(); i++) {
-			((GeoNumeric) list.get(i)).setValue(cons.getApplication()
-					.randomUniform(a.getDouble(), b.getDouble()));
+			((GeoNumeric) list.get(i)).setValue(getRandomNumber(a.getDouble(),
+					b.getDouble()));
 		}
+	}
 
+	/**
+	 * @param a - low
+	 * @param b - high
+	 * @return random number between a and b
+	 */
+	public double getRandomNumber(double a, double b) {
+		return cons.getApplication().randomUniform(a, b);
 	}
 
 	@Override
@@ -124,7 +134,7 @@ public class AlgoRandomUniformList extends AlgoElement
 			int size = Math.min(list.size(), lv.size());
 			for (int i = 0; i < size; i++) {
 				((GeoNumeric) list.get(i)).setValue(Math.max(a.getDouble(),
-						Math.min(lv.getListElement(i).evaluateDouble(), b.getDouble())));
+						Math.min(lv.get(i).evaluateDouble(), b.getDouble())));
 			}
 			return true;
 		}

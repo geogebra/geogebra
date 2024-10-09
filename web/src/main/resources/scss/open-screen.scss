@@ -2,74 +2,41 @@
 @use 'shared';
 @use 'header';
 @use 'z-index';
+@use 'colorMap' as *;
 
 .GeoGebraFrame {
 	.profilePanel {
 		cursor: pointer;
 		text-align: center;
-		padding-right: 10px;
-		width: 40px;
-		height: 40px;
+		width: 48px;
+		height: 48px;
 		overflow: hidden;
+	}
+	.headerView .profilePanel {
+		margin: 0 20px;
 	}
 
 	.profilePanel .profileImage {
 		width: 40px;
+		height: 40px;
 		border-radius: 50%;
+		margin: 4px;
 	}
 
-	.profilePanel .optionsArrow {
+	.profilePanel .imageHolder {
+		width: 48px;
+		height: 48px;
 		position: absolute;
-		right: 0px;
-		bottom: 0px;
+		background: white;
+		border-radius: 50%;
+
+		&:hover {
+			background: neutral(200);
+		}
 	}
 
-	.profileOptionsPanel {
-		position: relative;
-		z-index: z-index.$z-profile-options-panel;
-	}
-
-	.profileOptionsPanel .arrow {
-		display: none;
-	}
-
-	.profileOptionsPanel .profileOptionsContent {
-		position: relative;
-		z-index: z-index.$z-profile-options-panel;
-		border-radius: 2px;
-		padding: 5px;
-		background-color: colors.$white;
-	
-		.username {
-			display: block;
-			padding: 4px;
-			margin: 4px;
-			line-height: 24px;
-			text-align: center;
-			color: colors.$purple-default;
-		}
-		 .editButton {
-			@extend %primaryButton;
-			border: 0;
-			display: block;
-			&:hover {
-				border: 0;
-			}
-		}
-		.logoutButton {
-			@extend %matButton;
-			display: block;
-			width: calc(100% - 48px);
-			color: colors.$black;
-			border: 0;
-
-			&:hover {			
-				background-color: colors.$white;
-			}
-			div {
-				text-align: center;
-			}
-		}
+	.profilePanel.selected .imageHolder {
+		background: neutral(200);
 	}
 
 	.openFileView {
@@ -148,7 +115,6 @@
 						
 						.cardTitle {
 							font-size: 125%;
-							color: colors.$text-primary;
 							line-height: 22px;
 							letter-spacing: 0.25px;
 							padding: 8px 16px 0 16px;
@@ -164,7 +130,6 @@
 					
 						.cardAuthor {
 							font-size: 87.5%;
-							color: colors.$text-secondary;
 							line-height: 24px;
 							letter-spacing: 0.25px;
 							padding: 0px 0px 12px 16px;
@@ -196,7 +161,6 @@
 						.visibilityPanel {
 							.gwt-Label {
 								font-size: 88%;
-								color: colors.$text-secondary;
 								line-height: 24px;
 								letter-spacing: 0.25px;
 								text-overflow: ellipsis;
@@ -334,7 +298,7 @@
 						opacity: 0.54;
 					}
 					.gwt-Label {
-						color: colors.$text-secondary;
+						color: neutral(700);
 					}
 				}
 		}

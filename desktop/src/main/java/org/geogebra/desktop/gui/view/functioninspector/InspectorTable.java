@@ -55,8 +55,8 @@ public class InspectorTable extends JTable {
 		// this.addKeyListener(this);
 
 		// set renderer and editor
-		setDefaultRenderer(Object.class, new MyCellRenderer(this));
-		setDefaultEditor(Object.class, new MyEditor());
+		setDefaultRenderer(Object.class, new InspectorCellRenderer(this));
+		setDefaultEditor(Object.class, new NumericInputCellEditor());
 
 		editableCell = new HashSet<Point>();
 	}
@@ -138,14 +138,14 @@ public class InspectorTable extends JTable {
 	}
 
 	public void setMyCellEditor(int colIndex) {
-		getColumnModel().getColumn(colIndex).setCellEditor(new MyEditor());
+		getColumnModel().getColumn(colIndex).setCellEditor(new NumericInputCellEditor());
 	}
 
 	// ====================================================
 	// Cell Renderer
 	// ====================================================
 
-	private class MyCellRenderer extends DefaultTableCellRenderer {
+	private class InspectorCellRenderer extends DefaultTableCellRenderer {
 
 		private static final long serialVersionUID = 1L;
 
@@ -154,7 +154,7 @@ public class InspectorTable extends JTable {
 		private JTable table;
 		private Border paddingBorder;
 
-		private MyCellRenderer(InspectorTable table) {
+		private InspectorCellRenderer(InspectorTable table) {
 			this.table = table;
 			tf = new JTextField();
 			paddingBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
@@ -198,11 +198,11 @@ public class InspectorTable extends JTable {
 	// Cell Editor
 	// ====================================================
 
-	private class MyEditor extends DefaultCellEditor {
+	private class NumericInputCellEditor extends DefaultCellEditor {
 
 		private static final long serialVersionUID = 1L;
 
-		public MyEditor() {
+		public NumericInputCellEditor() {
 			super(new MyTextFieldD(app));
 			this.setClickCountToStart(1);
 		}

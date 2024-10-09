@@ -14,6 +14,10 @@ import org.geogebra.common.util.debug.Log;
  */
 public class Derivative {
 
+	private static final Inspecting checkCoordOperations = v -> v.isOperation(Operation.XCOORD)
+			|| v.isOperation(Operation.YCOORD)
+			|| v.isOperation(Operation.ZCOORD);
+
 	/**
 	 * @param left
 	 *            left expression
@@ -90,6 +94,7 @@ public class Derivative {
 			return wrap(left).multiply(right.derivative(fv, kernel0))
 					.plus(wrap(right).multiply(left.derivative(fv, kernel0)));
 		case PLUS:
+		case INVISIBLE_PLUS:
 			return wrap(left.derivative(fv, kernel0))
 					.plus(right.derivative(fv, kernel0));
 		case MINUS:
@@ -228,7 +233,7 @@ public class Derivative {
 			MyList rt = (MyList) right;
 			for (int i = 0; i < rt.size(); i++) {
 				rtDiff.addListElement(
-						rt.getListElement(i).derivative(fv, kernel0));
+						rt.get(i).derivative(fv, kernel0));
 			}
 			return new ExpressionNode(kernel0, left, Operation.IF_LIST, rtDiff);
 
@@ -246,11 +251,15 @@ public class Derivative {
 
 		case LOGB:
 			if (left.isNumberValue() && !left.contains(fv)) {
-				return wrap(right.derivative(fv, kernel0)).divide(right)
-						.divide(Math.log(left.evaluateDouble()));
+				ExpressionNode natLogDerivative = wrap(right.derivative(fv, kernel0)).divide(right);
+				if (left.isConstant()) {
+					return natLogDerivative.divide(Math.log(left.evaluateDouble()));
+				} else {
+					return natLogDerivative.divide(log(left, kernel0));
+				}
 			}
-			return right.wrap().apply(Operation.LOG)
-					.divide(left.wrap().apply(Operation.LOG))
+			return log(right, kernel0)
+					.divide(log(left, kernel0))
 					.derivative(fv, kernel0);
 
 		case NROOT:
@@ -286,11 +295,9 @@ public class Derivative {
 				GeoFunction geoFun = new GeoFunction(kernel0.getConstruction(),
 						fun2);
 
-				ExpressionNode ret = new ExpressionNode(kernel0, geoFun,
+				return new ExpressionNode(kernel0, geoFun,
 						Operation.FUNCTION, right)
 								.multiply(right.derivative(fv, kernel0));
-
-				return ret;
 			}
 			break;
 		case ARCTAN2:
@@ -369,9 +376,9 @@ public class Derivative {
 				int index = (int) Math.round(right.evaluateDouble());
 				MyList list = ((ListValue) left).getMyList();
 
-				if (index >= 0 && index < list.getLength()) {
+				if (index >= 0 && index < list.size()) {
 
-					ExpressionValue element = list.getListElement(index);
+					ExpressionValue element = list.get(index);
 
 					ExpressionValue deriv = element.derivative(fv, kernel0);
 
@@ -442,21 +449,11 @@ public class Derivative {
 		}
 
 		Log.error("unhandled operation in derivative() (no CAS version): "
-				+ operation.toString());
+				+ operation);
 
 		// undefined
 		return wrap(kernel0, Double.NaN);
 	}
-
-	private static Inspecting checkCoordOperations = new Inspecting() {
-
-		@Override
-		public boolean check(ExpressionValue v) {
-			return v.isOperation(Operation.XCOORD)
-							|| v.isOperation(Operation.YCOORD)
-							|| v.isOperation(Operation.ZCOORD);
-		}
-	};
 
 	private static ExpressionNode coordDerivative(ExpressionValue left, int i,
 			FunctionVariable fv, Kernel kernel0) {
@@ -543,4 +540,7 @@ public class Derivative {
 		return exp.wrap();
 	}
 
+	private static ExpressionNode log(ExpressionValue exp, Kernel kernel) {
+		return new ExpressionNode(kernel, exp, Operation.LOG, null);
+	}
 }

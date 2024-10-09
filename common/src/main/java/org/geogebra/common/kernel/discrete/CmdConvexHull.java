@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * ConvexHull[ &lt; List of Points> ]
+ * ConvexHull[ &lt; List of Points&gt; ]
  * 
  * @author Michael
  *

@@ -6,9 +6,9 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.ggbjdk.java.awt.geom.Line2D;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.main.AppW;
@@ -38,7 +38,7 @@ public class TableCanvasExporter {
 	 * @param offsetHeight parent panel height
 	 * @param context2d context
 	 */
-	public TableCanvasExporter(MyTableW table, AppW app, int offsetWidth, int offsetHeight, 
+	public TableCanvasExporter(MyTableW table, AppW app, int offsetWidth, int offsetHeight,
 			CanvasRenderingContext2D context2d) {
 		this.table = table;
 		this.app = app;

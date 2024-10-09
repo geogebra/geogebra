@@ -29,7 +29,6 @@ import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -1244,6 +1243,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		private JLabel label;
 		private JComboBox cbLocation;
 		private DefaultComboBoxModel cbModel;
+		List<String> currentContent;
 
 		public StartPointPanel() {
 			// textfield for animation step
@@ -1283,14 +1283,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			cbLocation.removeActionListener(this);
 
 			// repopulate model with names of points from the geoList's model
-			// take all points from construction
-			// TreeSet points =
-			// kernel.getConstruction().getGeoSetLabelOrder(GeoElement.GEO_CLASS_POINT);
-			TreeSet<GeoElement> points = kernel.getPointSet();
-			if (points.size() != cbModel.getSize() - 1) {
+			List<String> points = new ArrayList<>(model.getChoices(loc));
+			if (!points.equals(currentContent)) {
 				cbModel.removeAllElements();
-				// cbModel.addElement(null);
 				model.fillModes(loc);
+				currentContent = points;
 			}
 			model.updateProperties();
 			cbLocation.addActionListener(this);
@@ -2243,9 +2240,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			if (e.getSource() == thicknessSlider) {
 				model.applyThickness(thicknessSlider.getValue());
 			} else if (e.getSource() == opacitySlider) {
-				int value = (int) ((opacitySlider.getValue() / 100.0f)
-						* 255);
-				model.applyOpacity(value);
+				model.applyOpacityPercentage(opacitySlider.getValue());
 			}
 		}
 
@@ -2816,7 +2811,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		}
 
 		@Override
-		public void addItem(String plain) {
+		public void addItem(String item) {
 			// nothing to do here
 		}
 
@@ -3043,8 +3038,8 @@ class TextFieldAlignmentPanel extends JPanel
 	}
 
 	@Override
-	public void addItem(String plain) {
-		comboBox.addItem(plain);
+	public void addItem(String item) {
+		comboBox.addItem(item);
 	}
 
 	@Override
@@ -3213,10 +3208,10 @@ class ColorFunctionPanel extends JPanel
 		this.propPanel = propPanel;
 		model = new ColorFunctionModel(app, this);
 		// non auto complete input panel
-		InputPanelD inputPanelR = new InputPanelD(null, app, 1, -1, true);
-		InputPanelD inputPanelG = new InputPanelD(null, app, 1, -1, true);
-		InputPanelD inputPanelB = new InputPanelD(null, app, 1, -1, true);
-		InputPanelD inputPanelA = new InputPanelD(null, app, 1, -1, true);
+		InputPanelD inputPanelR = new InputPanelD(null, app, -1, true, false);
+		InputPanelD inputPanelG = new InputPanelD(null, app, -1, true, false);
+		InputPanelD inputPanelB = new InputPanelD(null, app, -1, true, false);
+		InputPanelD inputPanelA = new InputPanelD(null, app, -1, true, false);
 		tfRed = (AutoCompleteTextFieldD) inputPanelR.getTextComponent();
 		tfGreen = (AutoCompleteTextFieldD) inputPanelG.getTextComponent();
 		tfBlue = (AutoCompleteTextFieldD) inputPanelB.getTextComponent();

@@ -18,7 +18,6 @@ import java.util.Locale;
 import java.util.prefs.Preferences;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
@@ -67,11 +66,6 @@ public class GeoGebraPreferencesD {
 	/** Last version shown in download notification */
 	private static final String VERSION_LAST_NOTIFICATION_SHOWN = "version_notification_shown";
 
-	/**
-	 * save what kind of 3D input we use (if one)
-	 */
-	public static final String INPUT_3D = "input_3d";
-
 	// picture export dialog
 	public static final String EXPORT_PIC_FORMAT = "export_pic_format";
 	public static final String EXPORT_PIC_DPI = "export_pic_dpi";
@@ -83,11 +77,14 @@ public class GeoGebraPreferencesD {
 
 	// user data
 	public static final String USER_LOGIN_TOKEN = "user_login_token";
-	public static final String USER_LOGIN_SKIP = "user_login_skip";
 
 	// preferences node name for GeoGebra
 	private Preferences ggbPrefs;
 	private Preferences ggbPrefsSystem;
+
+	private static class GeoGebraPreferencesInstalled extends GeoGebraPreferencesD {
+
+	}
 
 	protected GeoGebraPreferencesD() {
 
@@ -130,7 +127,7 @@ public class GeoGebraPreferencesD {
 	private static String PROPERTY_FILEPATH = null; // full path, null: no
 														// property file set
 
-	private static GeoGebraPreferencesD singleton;
+	private static GeoGebraPreferencesInstalled singleton;
 
 	/** Set in geogebra.gui.app.GeoGebraFrame before first call to getPref() */
 	public static void setPropertyFileName(String pfname) {
@@ -142,13 +139,11 @@ public class GeoGebraPreferencesD {
 	 * @return preferences singleton
 	 */
 	public synchronized static GeoGebraPreferencesD getPref() {
-		if (singleton == null) {
-			if (PROPERTY_FILEPATH != null) {
-				singleton = GeoGebraPortablePreferences.getPref();
-			}
+		if (PROPERTY_FILEPATH != null) {
+			return GeoGebraPortablePreferences.getPref();
 		}
 		if (singleton == null) {
-			singleton = new GeoGebraPreferencesD();
+			singleton = new GeoGebraPreferencesInstalled();
 		}
 		return singleton;
 	}
@@ -223,25 +218,6 @@ public class GeoGebraPreferencesD {
 	}
 
 	/**
-	 * set 3D input used
-	 * 
-	 * @param type
-	 *            type
-	 */
-	public void setInput3DType(String type) {
-		getPref().savePreference(GeoGebraPreferencesD.INPUT_3D, type);
-	}
-
-	/**
-	 * 
-	 * @return 3D input type currently used, "none" if none
-	 */
-	public String getInput3DType() {
-		return getPref().loadPreference(GeoGebraPreferencesD.INPUT_3D,
-				Input3DConstants.PREFS_NONE);
-	}
-
-	/**
 	 * @return the path of the first file in the file list
 	 */
 	public File getDefaultFilePath() {
@@ -277,7 +253,7 @@ public class GeoGebraPreferencesD {
 						imgPath.getCanonicalPath());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -610,7 +586,7 @@ public class GeoGebraPreferencesD {
 				UtilD.delete(new File(WINDOWS_USERS_PREFS));
 				UtilD.delete(new File(WINDOWS_MACROS_PREFS));
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 		try {

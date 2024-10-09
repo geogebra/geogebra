@@ -27,7 +27,11 @@ public class ScreenReader {
 	// we need)
 	final private static String TRANSLATION_PREFIX = "ScreenReader.";
 
-	private static GeoElement getSelectedGeo(App app) {
+	/**
+	 * @param app - application
+	 * @return first seleted geo
+	 */
+	public static GeoElement getSelectedGeo(App app) {
 		if (app.getSelectionManager().getSelectedGeos().size() > 0) {
 			return app.getSelectionManager().getSelectedGeos().get(0);
 		}
@@ -263,7 +267,20 @@ public class ScreenReader {
 		return app.getScreenReaderTemplate().getStringType()
 				== ExpressionNodeConstants.StringType.SCREEN_READER_ASCII
 				? new ScreenReaderSerializationAdapter(app.getLocalization())
-				: new DefaultSerializationAdapter();
+				: new UtfScreenReaderSerializationAdapter();
+	}
+
+	private static class UtfScreenReaderSerializationAdapter extends DefaultSerializationAdapter {
+
+		@Override
+		public String transformBrackets(String left, String base, String right) {
+			return left + " " + base + right;
+		}
+
+		@Override
+		public String transformWrapper(String baseString) {
+			return ",".equals(baseString) ? ", " : baseString;
+		}
 	}
 
 	/**
@@ -304,6 +321,10 @@ public class ScreenReader {
 
 	public static String getCloseBrace() {
 		return " close brace ";
+	}
+
+	public static String getPolarSeparator() {
+		return " semicolon ";
 	}
 
 	/**
@@ -391,7 +412,7 @@ public class ScreenReader {
 		try {
 			double indexVal = MyDouble.parseDouble(loc, index);
 			if (DoubleUtil.isInteger(indexVal)) {
-				index = loc.getOrdinalNumber((int) indexVal);
+				index = loc.getLanguage().getOrdinalNumber((int) indexVal);
 			}
 		} catch (MyError e) {
 			Log.trace("Not a number");

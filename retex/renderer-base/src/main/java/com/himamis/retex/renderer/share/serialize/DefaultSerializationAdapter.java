@@ -13,8 +13,8 @@ public class DefaultSerializationAdapter implements SerializationAdapter {
 			}
 		}
 		if (sup != null && !sup.isEmpty()) {
-			if (sup.equals("\u2218")) {
-				sb.append("°");
+			if (sup.equals("\u2218")) { // convert ^[circle] to degree symbol
+				sb.append("\u00b0");
 			} else {
 				sb.append("^(").append(sup).append(')');
 			}
@@ -35,6 +35,9 @@ public class DefaultSerializationAdapter implements SerializationAdapter {
 	public String convertCharacter(char character) {
 		if ('\u00b7' == character) {
 			return "\u00d7";
+		}
+		if ('-' == character) {
+			return "\u2212";
 		}
 		return String.valueOf(character);
 	}

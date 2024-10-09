@@ -4,13 +4,18 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
+import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.UndoRedoMode;
 import org.geogebra.common.main.settings.StyleSettings;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.gwtutil.NavigatorUtil;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.UserPreferredLanguage;
+
+import jsinterop.base.JsPropertyMap;
 
 /**
  * File loader for Web
@@ -24,33 +29,31 @@ public class LoadFilePresenter {
 	 *            applet parameters
 	 * @param app
 	 *            app
-	 * @param vv
-	 *            zip loader
 	 */
-	public void onPageLoad(final AppletParameters view, final AppW app,
-			ViewW vv) {
-
+	public void onPageLoad(final AppletParameters view, final AppW app) {
+		ArchiveLoader loader = app.getArchiveLoader();
 		String base64String;
 		String filename;
+		String jsonString;
 		app.checkScaleContainer();
 		boolean fileOpened = true;
 		app.setAllowSymbolTables(view.getDataParamAllowSymbolTable());
 		app.setErrorDialogsActive(view.getDataParamErrorDialogsActive());
 
-		if (!"".equals(filename = view.getDataParamJSON())) {
-			processJSON(filename, vv);
+		if (!"".equals(jsonString = view.getDataParamJSON())) {
+			processJSON(jsonString, loader);
 		} else if (!""
 				.equals(base64String = view.getDataParamBase64String())) {
-			vv.processBase64String(base64String);
+			loader.processBase64String(base64String);
 		} else if (!"".equals(filename = view.getDataParamFileName())) {
-			vv.processFileName(filename);
+			loader.processFileName(filename);
 		} else if (!"".equals(view.getDataParamTubeID())) {
 			app.openMaterial(view.getDataParamTubeID(),
 					err -> {
+						double status = MyError.Errors.NotAuthorized
+								.getKey().equals(err) ? 401 : 404;
 						openEmptyApp(app, view);
-						ToolTipManagerW.sharedInstance()
-								.showBottomMessage(app.getLocalization()
-										.getError(err), app);
+						loader.handleError(JsPropertyMap.of("status", status), err);
 					});
 		} else {
 			fileOpened = false;
@@ -66,36 +69,37 @@ public class LoadFilePresenter {
 		app.setShowAlgebraInput(showAlgebraInput, false);
 		app.setShowToolBar(showToolBar, view.getDataParamShowToolBarHelp(true));
 		app.getKernel().setShowAnimationButton(
-		        view.getDataParamShowAnimationButton());
+				view.getDataParamShowAnimationButton());
 		app.setCapturingThreshold(view.getDataParamCapturingThreshold());
 		if (!isApp) {
 			app.getAppletFrame().addStyleName("appletStyle");
 		}
-
-		boolean undoActive = (showToolBar || showMenuBar
-		        || view.getDataParamApp() || app.getScriptManager()
-						.getStoreUndoListeners().size() > 0)
-				&& view.getDataParamEnableUndoRedo();
-
+		UndoRedoMode undoRedoMode = UndoRedoMode.DISABLED;
+		if (view.getDataParamEnableUndoRedo()) {
+			if (showToolBar || showMenuBar) {
+				undoRedoMode = UndoRedoMode.GUI;
+			} else if (!app.getScriptManager()
+					.getStoreUndoListeners().isEmpty()) {
+				undoRedoMode = UndoRedoMode.EXTERNAL;
+			}
+		}
 		String language = view.getDataParamLanguage();
 		if (StringUtil.empty(language)) {
-			language = app.getLanguageFromCookie();
-		}
-
-		if (language != null) {
-			String country = view.getDataParamCountry();
-			if (StringUtil.empty(country)) {
-				app.setLanguage(language);
-			} else {
-				app.setLanguage(language, country);
-			}
+			UserPreferredLanguage.get(app).then(lang -> {
+				if (lang != null) {
+					setAppLanguage(app, view, lang);
+				}
+				return null;
+			});
+		} else {
+			setAppLanguage(app, view, language);
 		}
 		app.setUseBrowserForJavaScript(view.getDataParamUseBrowserForJS());
 		app.setLabelDragsEnabled(view.getDataParamEnableLabelDrags());
-		app.setUndoRedoEnabled(view.getDataParamEnableUndoRedo());
+		app.setUndoRedoMode(undoRedoMode);
 		app.setRightClickEnabled(view.getDataParamEnableRightClick());
 		app.setShiftDragZoomEnabled(view.getDataParamShiftDragZoomEnabled()
-		        || view.getDataParamApp());
+				|| view.getDataParamApp());
 		app.setShowResetIcon(view.getDataParamShowResetIcon());
 		app.setAllowStyleBar(view.getDataParamAllowStyleBar());
 
@@ -109,18 +113,29 @@ public class LoadFilePresenter {
 				app.updateToolBar();
 			}
 			// only do this after app initialized
-			app.setUndoActive(undoActive);
+			app.setUndoActive(undoRedoMode != UndoRedoMode.DISABLED);
 			if (app.isSuite() && view.getDataParamShowAppsPicker()) {
 				app.getDialogManager().showCalcChooser(false);
 			}
 			app.getAsyncManager().scheduleCallback(() -> app.getScriptManager().ggbOnInit());
 		} else {
 			// only do this after app initialized
-			app.setUndoActive(undoActive);
+			app.setUndoActive(undoRedoMode != UndoRedoMode.DISABLED);
 		}
 		app.getLocalization().setUseLocalizedDigits(view.getParamUseLocalizedDigits(), app);
 		app.getLocalization().setUseLocalizedLabels(view.getParamUseLocalizedPointNames());
 
+	}
+
+	private void setAppLanguage(AppW app, AppletParameters view, String language) {
+		if (language != null) {
+			String country = view.getDataParamCountry();
+			if (StringUtil.empty(country)) {
+				app.setLanguage(language);
+			} else {
+				app.setLanguage(language, country);
+			}
+		}
 	}
 
 	/**
@@ -194,7 +209,7 @@ public class LoadFilePresenter {
 	private static Perspective getPerspective(AppW app, String perspective) {
 		Perspective pd = PerspectiveDecoder.decode(perspective,
 				app.getKernel().getParser(),
-				ToolBar.getAllToolsNoMacros(true, app.isExam(), app),
+				ToolBar.getAllToolsNoMacros(true, !GlobalScope.examController.isIdle(), app),
 				app.getLayout());
 		if ("1".equals(perspective) || "2".equals(perspective)
 				|| "5".equals(perspective)) {
@@ -281,7 +296,7 @@ public class LoadFilePresenter {
 	 * @param view
 	 *            zip handler
 	 */
-	public void processJSON(final String json, final ViewW view) {
+	public void processJSON(final String json, final ArchiveLoader view) {
 		view.processJSON(json);
 	}
 

@@ -1,47 +1,12 @@
 package org.geogebra.web.html5.gui.tooltip;
 
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.dom.client.Style;
 import org.gwtproject.dom.style.shared.Unit;
-import org.gwtproject.user.client.Event;
 
 public final class ToolTipManagerW {
 	private ComponentSnackbar snackbar;
 	private boolean blockToolTip = true;
-	private static boolean enabled = true;
-
-	/** Singleton instance of ToolTipManager. */
-	final static ToolTipManagerW SHARED_INSTANCE = new ToolTipManagerW();
-
-	/**
-	 * Constructor
-	 */
-	private ToolTipManagerW() {
-		initTooltipManagerW();
-	}
-
-	/**
-	 * All methods are accessed from this instance.
-	 * @return Singleton instance of this class
-	 */
-	public static ToolTipManagerW sharedInstance() {
-		return SHARED_INSTANCE;
-	}
-
-	private void initTooltipManagerW() {
-		if (!enabled) {
-			return;
-		}
-		registerMouseListeners();
-	}
-
-	/**
-	 * @return whether tooltips are blocked
-	 */
-	public boolean isToolTipBlocked() {
-		return blockToolTip;
-	}
 
 	/**
 	 * @param blockToolTip
@@ -52,25 +17,21 @@ public final class ToolTipManagerW {
 	}
 
 	/**
-	 * @param title -title of snackbar
-	 * @param helpText - text of snackbar
-	 * @param buttonText - text of button
+	 * @param toolTip - data for the tooltip
 	 * @param appW - app for positioning
 	 * @param showDuration - how long should the tooltip be visible
 	 */
-	public void showBottomInfoToolTip(String title, final String helpText,
-			String buttonText, String url, final AppW appW, int showDuration) {
+	public void showBottomInfoToolTip(ToolTip toolTip, final AppW appW, int showDuration) {
 		if (blockToolTip || appW == null) {
 			return;
 		}
 
-		createSnackbar(appW, title, helpText, buttonText, showDuration, url);
+		createSnackbar(appW, toolTip, showDuration);
 
 		Style style = snackbar.getElement().getStyle();
 		if (appW.isWhiteboardActive()) {
 			style.setLeft((appW.getWidth() - snackbar.getOffsetWidth()) / 2, Unit.PX);
-		}
-		else {
+		} else {
 			if (appW.getAppletFrame().isKeyboardShowing()) {
 				style.setBottom(236, Unit.PX); // 8px higher then keyboard
 			} else if (appW.isUnbundled() || appW.isSuite()) {
@@ -86,36 +47,20 @@ public final class ToolTipManagerW {
 		}
 	}
 
-	private void createSnackbar(AppW appW, String title, String helpText, String buttonText,
-			int showDuration, String url) {
+	private void createSnackbar(AppW appW, ToolTip toolTip,
+			int showDuration) {
 		if (snackbar != null) {
 			appW.getAppletFrame().remove(snackbar);
 		}
-		snackbar = new ComponentSnackbar(appW, title, helpText, buttonText);
+		snackbar = new ComponentSnackbar(appW, toolTip);
 		snackbar.setShowDuration(showDuration);
 		snackbar.setButtonAction(() -> {
-			if ("Share".equals(buttonText)) {
+			if ("Share".equals(toolTip.buttonTransKey)) {
 				appW.share();
 			} else {
-				appW.getFileManager().open(url);
+				appW.getFileManager().open(toolTip.url);
 			}
 		});
-	}
-
-	/**
-	 * @param title
-	 *            title of snackbar
-	 * @param helpText
-	 *            text of snackbar
-	 * @param buttonText
-	 *           text of button
-	 * @param appW
-	 *            app for positioning
-	 */
-	public void showBottomInfoToolTip(String title, final String helpText,
-			String buttonText, String url, final AppW appW) {
-		showBottomInfoToolTip(title, helpText, buttonText, url, appW,
-				ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
 	}
 
 	/**
@@ -126,33 +71,21 @@ public final class ToolTipManagerW {
 	 *            application
 	 */
 	public void showBottomMessage(String text, AppW appW) {
+		showBottomMessage(text, appW, ToolTip.Role.INFO);
+	}
+
+	/**
+	 * displays the given message
+	 * @param text
+	 *            String
+	 * @param appW
+	 *            application
+	 */
+	public void showBottomMessage(String text, AppW appW, ToolTip.Role role) {
 		blockToolTip = false;
-		showBottomInfoToolTip(text, null, null, null, appW);
+		showBottomInfoToolTip(new ToolTip(text, role), appW,
+				ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
 		blockToolTip = true;
-	}
-
-	/**
-	 * Register mouse listeners to keep track of the mouse position and hide the
-	 * toolTip on a mouseDown event.
-	 */
-	private static void registerMouseListeners() {
-		if (!enabled) {
-			return;
-		}
-
-		Event.addNativePreviewHandler(event -> {
-			if (event.getTypeInt() == Event.ONTOUCHSTART) {
-				CancelEventTimer.touchEventOccured();
-			}
-		});
-	}
-
-	/**
-	 * @param allowToolTips
-	 *            global tooltips flag
-	 */
-	public static void setEnabled(boolean allowToolTips) {
-		enabled = allowToolTips;
 	}
 
 	/**

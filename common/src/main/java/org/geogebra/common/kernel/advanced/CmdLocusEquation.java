@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -15,12 +16,11 @@ import org.geogebra.common.kernel.prover.AlgoLocusEquation;
 import org.geogebra.common.main.MyError;
 
 /**
- * LocusEquation[ &lt;GeoLocus> ]
+ * LocusEquation[ &lt;GeoLocus&gt; ]
  * 
- * LocusEquation[ &lt;GeoPoint>, &lt;GeoPoint> ]
+ * LocusEquation[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
  * 
- * LocusEquation[ &lt;Boolean Expression>, &lt;Free Point> ] TODO: add this
- * syntax to command.properties
+ * LocusEquation[ &lt;Boolean Expression&gt;, &lt;Free Point&gt; ]
  */
 public class CmdLocusEquation extends CommandProcessor {
 	/**
@@ -34,7 +34,7 @@ public class CmdLocusEquation extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg = resArgs(c);

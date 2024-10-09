@@ -46,12 +46,7 @@ public class OfflineLoadingStrategy extends LoadingStrategyBase {
 	 */
 	protected static boolean loadWithPrefetch(final RequestData request) {
 		int fragment = request.getFragment();
-		AsyncOperation<String> callback = new AsyncOperation<String>() {
-			@Override
-			public void callback(String code) {
-				request.tryInstall(code);
-			}
-		};
+		AsyncOperation<String> callback = request::tryInstall;
 		FragmentPrefetcher prefetch = FragmentPrefetcher
 				.forSplitPoint(fragment);
 		if (prefetch != null) {

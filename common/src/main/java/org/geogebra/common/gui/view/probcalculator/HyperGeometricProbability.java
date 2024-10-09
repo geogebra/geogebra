@@ -10,12 +10,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.statistics.AlgoHyperGeometric;
 
-public class HyperGeometricProbability implements DiscreteDistribution {
+public class HyperGeometricProbability extends CachingDiscreteDistribution {
 
-	private GeoNumeric k;
-	private DiscreteProbability discreteProbability;
 	private final Construction cons;
-	private DistributionParameters oldParameters = null;
 
 	/**
 	 *
@@ -26,15 +23,10 @@ public class HyperGeometricProbability implements DiscreteDistribution {
 	}
 
 	@Override
-	public DiscreteProbability create(DistributionParameters parameters) {
-		if (parameters.equals(oldParameters)) {
-			return discreteProbability;
-		}
-
+	protected DiscreteProbability createProbability(DistributionParameters parameters) {
 		GeoNumberValue pGeo = parameters.at(0);
 		GeoNumberValue nGeo = parameters.at(1);
 		GeoNumberValue sGeo = parameters.at(2);
-		oldParameters = parameters;
 
 		double p = pGeo.getDouble(); // population size
 		double n = nGeo.getDouble(); // n
@@ -51,7 +43,7 @@ public class HyperGeometricProbability implements DiscreteDistribution {
 		GeoNumeric lowGeo = new GeoNumeric(cons, lowBound);
 		GeoNumeric highGeo = new GeoNumeric(cons, highBound);
 
-		k = new GeoNumeric(cons);
+		GeoNumeric k = new GeoNumeric(cons);
 		AlgoSequenceRange algoSeq = new AlgoSequenceRange(cons, lowGeo, highGeo, null);
 		cons.removeFromAlgorithmList(algoSeq);
 		GeoList values = (GeoList) algoSeq.getOutput(0);
@@ -70,15 +62,6 @@ public class HyperGeometricProbability implements DiscreteDistribution {
 				new GeoNumeric(cons, 1.0), lengthGeo, null);
 		cons.removeFromConstructionList(algoSeq2);
 		GeoList probs = (GeoList) algoSeq2.getOutput(0);
-		this.discreteProbability = new DiscreteProbability(values, probs);
-		return discreteProbability;
-	}
-
-	public GeoList probs() {
-		return discreteProbability.probabilities();
-	}
-
-	public GeoList values() {
-		return discreteProbability.values();
+		return new DiscreteProbability(values, probs);
 	}
 }

@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -44,10 +45,12 @@ import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.statistics.GeoPieChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -198,7 +201,7 @@ public class ConstructionDefaults implements SettingListener {
 	public static final GColor colPolygonG = GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE;
 
 	/** default color for pyramids and cones */
-	public static final GColor colPyramidAndCone = GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE;
+	public static final GColor colPyramidAndCone = GeoGebraColorConstants.GGB_ORANGE;
 
 	/** default color for prisms and cylinders */
 	public static final GColor colPrismAndCylinder = GeoGebraColorConstants.GEOGEBRA_OBJECT_PINK;
@@ -222,7 +225,7 @@ public class ConstructionDefaults implements SettingListener {
 	private static final GColor colFunction = GColor.BLACK;
 
 	// lists
-	private static final GColor colList = GeoGebraColorConstants.GGB_GREEN;
+	public static final GColor colList = GeoGebraColorConstants.GGB_GREEN;
 
 	// quadrics
 	/** default alpha for quadrics */
@@ -232,7 +235,7 @@ public class ConstructionDefaults implements SettingListener {
 	/** default color for quadrics */
 	public static final GColor colQuadric = GeoGebraColorConstants.GGB_RED;
 	/** new default color for quadrics */
-	public static final GColor colQuadricAndArchimedeanSolid = 
+	public static final GColor colQuadricAndArchimedeanSolid =
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED;
 
 	/** preview color */
@@ -633,7 +636,8 @@ public class ConstructionDefaults implements SettingListener {
 		 * we have to set min/max/increment/speed here because
 		 * SetEuclideanVisible takes these from default geo
 		 */
-		if (cons.getApplication().isUnbundledGeometry()) {
+		boolean useNotReflexAngles = cons.getApplication().isUnbundledGeometry();
+		if (useNotReflexAngles) {
 			angle.setIntervalMax(Math.PI);
 			angle.labelMode = GeoElementND.LABEL_VALUE;
 		} else {
@@ -650,7 +654,7 @@ public class ConstructionDefaults implements SettingListener {
 		angle.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE, true);
 		angle.setLineTypeHidden(
 				EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN);
-		if (angle.getIntervalMax() == Math.PI) { // in Geometry app
+		if (useNotReflexAngles) { // in Geometry app
 			angle.setAngleStyle(AngleStyle.NOTREFLEX);
 		}
 		defaultGeoElements.put(DEFAULT_ANGLE, angle);
@@ -698,6 +702,7 @@ public class ConstructionDefaults implements SettingListener {
 		// bool.setLocalVariableLabel(app.getPlain("Boolean"));
 		bool.setLocalVariableLabel("Boolean");
 		bool.setDefaultGeoType(DEFAULT_BOOLEAN);
+		bool.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
 		defaultGeoElements.put(DEFAULT_BOOLEAN, bool);
 
 		// list
@@ -965,6 +970,9 @@ public class ConstructionDefaults implements SettingListener {
 			if (geo instanceof GeoFunction) {
 				geo.setAlphaValue(defaultGeo.getAlphaValue());
 			}
+			if (geo instanceof GeoPieChart) {
+				geo.setAlphaValue(1);
+			}
 
 			if (geo instanceof GeoButton && !(geo instanceof GeoInputBox)
 					&& geo.getBackgroundColor() == null) {
@@ -973,11 +981,14 @@ public class ConstructionDefaults implements SettingListener {
 				((GeoButton) geo).setHeight(DEFAULT_BUTTON_HEIGHT);
 			}
 			if (geo instanceof GeoInputBox) {
-				geo.setObjColor(GColor.DEFAULT_INPUTBOX_TEXT);
+				geo.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
+			}
+			if (geo instanceof GeoInlineText) {
+				((GeoInlineText) geo).setVerticalAlignment(VerticalAlignment.TOP);
 			}
 
 			if (!isReset) {
-				// set to highest used layer
+				// set to the highest used layer
 				setMaxLayerUsed(geo, app);
 			}
 
@@ -988,7 +999,7 @@ public class ConstructionDefaults implements SettingListener {
 		if (defaultLabelMode) {
 			// label visibility
 			int labelingStyle = app == null ? LABEL_VISIBLE_USE_DEFAULTS
-					: app.getCurrentLabelingStyle();
+					: app.getCurrentLabelingStyle().getValue();
 
 			// automatic labelling:
 			// if algebra window open -> all labels
@@ -1000,14 +1011,14 @@ public class ConstructionDefaults implements SettingListener {
 				break;
 
 			case LABEL_VISIBLE_ALWAYS_OFF:
-				// we want sliders and angles to be labeled always
-				geo.setLabelVisible(geo.isGeoNumeric()
+				// we want sliders, angles, and checkboxes to be labeled always
+				geo.setLabelVisible(geo.isGeoBoolean() || geo.isGeoNumeric()
 						&& (geo.isGeoAngle() || geo.isIndependent()));
 				break;
 
 			case LABEL_VISIBLE_POINTS_ONLY:
-				// we want sliders and angles to be labeled always
-				geo.setLabelVisible(geo.isGeoPoint() || geo.isGeoNumeric());
+				// we want sliders, angles, and checkboxes to be labeled always
+				geo.setLabelVisible(geo.isGeoPoint() || geo.isGeoNumeric() || geo.isGeoBoolean());
 				break;
 
 			case LABEL_VISIBLE_USE_DEFAULTS:

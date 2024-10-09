@@ -2,9 +2,10 @@ package org.geogebra.common.scientific;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.table.ScientificDataTableController;
@@ -12,10 +13,9 @@ import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.App;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.undo.UndoManager;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,10 +27,8 @@ public final class ScientificDataTableControllerTests extends BaseUnitTest {
 
 	@Before
 	public void setUp() {
-		App app = getApp();
-		Kernel kernel = app.getKernel();
-		kernel.setUndoActive(true);
-		kernel.initUndoInfo();
+		Kernel kernel = getKernel();
+		activateUndo();
 		undoManager = kernel.getConstruction().getUndoManager();
 
 		tableValuesView = new TableValuesView(kernel);
@@ -62,14 +60,12 @@ public final class ScientificDataTableControllerTests extends BaseUnitTest {
 
 		// this should cause an exception / conflict
 		controller = new ScientificDataTableController(kernel);
-		try {
-			controller.setup(tableValuesView);
-		} catch (MyError error) {
-			assertEquals("NameUsed", error.getMessage());
-			assertTrue(error.toString().contains("This label is already in use"));
-		} catch (Exception exception) {
-			fail("unexpected exception: " + exception.toString());
-		}
+		controller.setup(tableValuesView); // setting up for the first time: no name conflict
+		assertNotNull(controller.getFunctionF());
+		add(LabelManager.HIDDEN_PREFIX + "f:3x");
+		MyError error = assertThrows(MyError.class, () -> controller.setup(tableValuesView));
+		assertEquals("NameUsed", error.getMessage());
+		assertTrue(error.toString().contains("This label is already in use"));
 	}
 
 	@Test

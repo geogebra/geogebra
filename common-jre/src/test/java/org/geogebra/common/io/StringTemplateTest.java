@@ -72,12 +72,14 @@ public class StringTemplateTest {
 	@Test
 	public void testLaTeX() {
 		tex("Mean(1,2)", "mean\\left(1, 2 \\right)");
-		tex("Mean({1,2})", "mean\\left(\\left\\{1, 2\\right\\} \\right)");
+		tex("Mean({1,2})", "mean\\left(\\left\\{1,\\;2\\right\\} \\right)");
 		tex("6*(4+3)", "6 \\; \\left(4 + 3 \\right)");
 		tex("69%", "69\\%");
 		tex("4*20%", "4 \\cdot 20\\%");
 		tex("13.37%", "13.37\\%");
 		tex("13*3.7%", "13 \\cdot 3.7\\%");
+		tex("(1,2)", "\\left(1,\\;2 \\right)");
+		tex("(1,2,3)", "\\left(1,\\;2,\\;3 \\right)");
 	}
 
 	@Test
@@ -116,13 +118,13 @@ public class StringTemplateTest {
 		tcl("If[x>1,x,If[x<=2,-x]]", caseImpossible);
 	}
 
-	private void tcl(String string, String string2) {
-		GeoElementND geo = add(string);
+	private void tcl(String command, String expected) {
+		GeoElementND geo = add(command);
 		assertThat(geo, instanceOf(GeoFunction.class));
 		assertEquals(
+				expected.replace("<=", Unicode.LESS_EQUAL + ""),
 				((GeoFunction) geo).conditionalLaTeX(false,
-						StringTemplate.latexTemplate),
-				string2.replace("<=", Unicode.LESS_EQUAL + ""));
+						StringTemplate.latexTemplate));
 	}
 
 	private void tex(String string, String string2) {
@@ -226,7 +228,8 @@ public class StringTemplateTest {
 	@Test
 	public void definitionShouldKeepSmallNumbersScientific() {
 		GeoElementND num = add("a=1E-20");
-		StringTemplate latexNoLocal = StringTemplate.defaultTemplate.deriveLaTeXTemplate();
+		StringTemplate latexNoLocal = StringTemplate.defaultTemplate
+				.derivePrecisionPreservingLaTeXTemplate();
 		latexNoLocal.setLocalizeCmds(false);
 		assertEquals("1 \\cdot 10^{-20}", num.getDefinition(latexNoLocal));
 	}
@@ -259,5 +262,40 @@ public class StringTemplateTest {
 		GeoElementND num = add("1/3E-20");
 		assertEquals("1 / (3*10^(-20))",
 				num.getDefinition(StringTemplate.editTemplate));
+	}
+
+	@Test
+	public void vectorMultiplicationShouldUseBrackets() {
+		add("u = Vector((1,2), (2,3))");
+		add("v = Vector((3,1), (5,2))");
+		add("w = Vector((0,2), (2,4))");
+		plain("a = u * (v * w)", "a = u (v w)");
+		plain("b = (u * v) * w", "b = (u v) w");
+		plain("c = v * v * 3", "c = (v v) * 3");
+	}
+
+	@Test
+	public void matrixVectorMultiplicationShouldUseBrackets() {
+		add("u = Vector((1,2), (2,3))");
+		add("v = Vector((3,1), (5,2))");
+		add("M = {{1,3},{2,4}}");
+		plain("a = M * (v * u)", "a = M (v u)");
+		plain("b = v * (u * M)", "b = v (u M)");
+	}
+
+	@Test
+	public void vectorMultiplicationShouldNotUseBrackets() {
+		add("u = Vector((1,2), (2,3))");
+		add("v = Vector((3,1), (5,2))");
+		plain("a = u * v", "a = u v");
+		plain("b = u * 3", "b = u * 3");
+	}
+
+	@Test
+	public void matrixMultiplicationShouldNotUseBrackets() {
+		add("M = {{1,3},{2,4}}");
+		add("N = {{0,-1},{1,0}}");
+		plain("m1 = (N * M) * M", "m1 = N M M");
+		plain("m2 = M * M * N", "m2 = M M N");
 	}
 }

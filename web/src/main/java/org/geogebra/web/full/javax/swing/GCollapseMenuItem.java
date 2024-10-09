@@ -1,8 +1,8 @@
 package org.geogebra.web.full.javax.swing;
 
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -75,7 +75,7 @@ public class GCollapseMenuItem {
 		itemPanel = new FlowPanel();
 		itemPanel.addStyleName("collapseMenuItem");
 		this.parentMenu = wrappedPopup;
-		menuItem = new AriaMenuItem(itemPanel.toString(), true,
+		menuItem = new AriaMenuItem(itemPanel,
 				this::toggle);
 		setExpanded(expanded);
 	}
@@ -91,7 +91,6 @@ public class GCollapseMenuItem {
 		itemPanel.clear();
 		itemPanel.add(new HTML(text));
 		itemPanel.add(expanded ? imgCollapse : imgExpand);
-		menuItem.setHTML(itemPanel.toString());
 		menuItem.getElement().setAttribute("aria-expanded",
 				String.valueOf(expanded));
 		if (items.getElement().getParentElement() != null) {
@@ -101,7 +100,7 @@ public class GCollapseMenuItem {
 					String.valueOf(!expanded));
 		}
 		menuItem.getElement().setAttribute("aria-label",
-				title + (value ? " collapsed" : " expanded"));
+				title + (value ? " expanded" : " collapsed"));
 		updateItems();
 
 		items.getElement().setTabIndex(-1);

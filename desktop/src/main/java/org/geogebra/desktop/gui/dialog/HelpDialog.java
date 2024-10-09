@@ -2,6 +2,7 @@ package org.geogebra.desktop.gui.dialog;
 
 import java.awt.Color;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -31,7 +32,7 @@ public class HelpDialog {
 	public void openToolHelp(int mode) {
 		String toolName = app.getToolName(mode);
 		String helpText = app.getToolHelp(mode);
-		ImageIcon icon;
+		Icon icon;
 		String modeTextInternal = null;
 
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
@@ -54,7 +55,7 @@ public class HelpDialog {
 
 		} else {
 
-			modeTextInternal = EuclidianConstants.getModeTextSimple(mode);
+			modeTextInternal = EuclidianConstants.getModeHelpPage(mode);
 			icon = app.getToolBarImage(modeTextInternal, Color.BLACK);
 		}
 		Localization loc = app.getLocalization();
@@ -70,7 +71,7 @@ public class HelpDialog {
 			if (modeTextInternal == null) {
 				// show help for custom tools?
 				((GuiManagerD) app.getGuiManager()).openHelp("Custom_Tools",
-						Help.GENERIC);
+						Help.TOOL);
 			} else {
 				((GuiManagerD) app.getGuiManager()).openHelp(modeTextInternal,
 						Help.TOOL);

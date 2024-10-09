@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian.plot;
 
-import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -13,7 +12,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * General path clipped with methods for CurvePlotter
- * 
+ *
  * @author mathieu
  *
  */
@@ -25,7 +24,8 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 	public static final double MIN_PIXEL_DISTANCE = 0.5; // pixels
 
 	private boolean lineDrawn;
-	private Coords tmpCoords = new Coords(4);
+	private final Coords tmpCoords = new Coords(4);
+	private final boolean default2dView;
 
 	/**
 	 * constructor
@@ -35,6 +35,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 	 */
 	public GeneralPathClippedForCurvePlotter(EuclidianViewInterfaceSlim view) {
 		super(view);
+		default2dView = view.isDefault2D();
 	}
 
 	@Override
@@ -49,9 +50,9 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 
 	@Override
 	public void drawTo(double[] pos, SegmentType segmentType) {
-		double[] p = Cloner.clone(pos);
-		((EuclidianView) view).toScreenCoords(p);
-		drawTo(p[0], p[1], segmentType);
+		double x = view.toScreenCoordXd(pos[0]);
+		double y = view.toScreenCoordYd(pos[1]);
+		drawTo(x, y, segmentType);
 	}
 
 	/**
@@ -119,9 +120,9 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 
 	@Override
 	public void corner(double[] pos) {
-		double[] p = Cloner.clone(pos);
-		((EuclidianView) view).toScreenCoords(p);
-		corner(p[0], p[1]);
+		double x = view.toScreenCoordXd(pos[0]);
+		double y = view.toScreenCoordYd(pos[1]);
+		corner(x, y);
 	}
 
 	private void corner(double x0, double y0) {
@@ -158,10 +159,8 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 
 	@Override
 	public void firstPoint(double[] pos, Gap moveToAllowed) {
-		double[] p = Cloner.clone(pos);
-		((EuclidianView) view).toScreenCoords(p);
-		final double x0 = p[0];
-		final double y0 = p[1];
+		double x0 = view.toScreenCoordXd(pos[0]);
+		double y0 = view.toScreenCoordYd(pos[1]);
 
 		// FIRST POINT
 		// c(t1) and c(t2) are defined, lets go ahead and move to our first
@@ -214,10 +213,15 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 	@Override
 	public boolean copyCoords(MyPoint point, double[] ret,
 			CoordSys transformSys) {
-
+		boolean noTransform = transformSys == CoordSys.XOY;
+		if (noTransform && default2dView) {
+			ret[0] = point.getX();
+			ret[1] = point.getY();
+			return point.getZ() == 0;
+		}
 		Coords coords = new Coords(point.x, point.y, point.getZ(), 1);
-		if (transformSys != CoordSys.XOY) {
-			transformSys.getPointFromOriginVectors(coords, tmpCoords);
+		if (!noTransform) {
+			transformSys.getPointFromOriginVectors(point.x, point.y, tmpCoords);
 			coords.set(tmpCoords);
 		}
 		Coords projection = ((EuclidianView) view).getCoordsForView(coords);

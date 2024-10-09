@@ -38,7 +38,6 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.InputKeyboardButton;
@@ -50,29 +49,6 @@ import org.geogebra.common.util.debug.Log;
 import com.google.j2objc.annotations.Weak;
 
 public abstract class GuiManager implements GuiManagerInterface {
-
-	/**
-	 * possible GeoGebraTube syntaxes
-	 * http://www.geogebratube.org/material/show/id/111
-	 * http://www.geogebratube.org/student/m111
-	 * http://www.geogebratube.org/student/cXX/m111/options
-	 * www.geogebratube.org/material/show/id/111
-	 * www.geogebratube.org/student/m111
-	 * www.geogebratube.org/student/cXX/m111/options
-	 * http://geogebratube.org/material/show/id/111
-	 * http://geogebratube.org/student/m111
-	 * http://geogebratube.org/student/cXX/m111/options http://ggbtu.be/m111
-	 * http://ggbtu.be/cXX/m111/options http://www.ggbtu.be/m111
-	 * http://www.ggbtu.be/cXX/options
-	 * 
-	 * in an iframe, src= http://www.geogebratube.org/material/iframe/id/111
-	 * http
-	 * ://www.geogebratube.org/material/iframe/id/111/param1/val1/param2/val2
-	 * /... http://ggbtu.be/e111 http://ggbtu.be/e111?param1=&param2=..
-	 * 
-	 * 
-	 * also can have ?mobile=true ?mobile=false on end
-	 */
 
 	@Weak
 	protected Kernel kernel;
@@ -194,7 +170,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 *            whether this is for preferences
 	 */
 	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
-		// TODO Auto-generated method stub
+		sb.append("<spreadsheetView>\n");
+		app.getSettings().getSpreadsheet().getSizeXML(sb);
+		app.getSettings().getSpreadsheet().getWidthsAndHeightsXML(sb);
+		sb.append("</spreadsheetView>\n");
 	}
 
 	@Override
@@ -657,42 +636,41 @@ public abstract class GuiManager implements GuiManagerInterface {
 	@Override
 	final public String getHelpURL(final Help type, String pageName) {
 		// try to get help for given language
-		// eg http://help.geogebra.org/en_GB/cmd/FitLogistic
+		// eg http://help.geogebra.org/en-GB/cmd/FitLogistic
 
 		final StringBuilder urlSB = new StringBuilder();
-
-		urlSB.append(GeoGebraConstants.GEOGEBRA_HELP_WEBSITE);
-		urlSB.append(getApp().getLocalization().getLanguage()); // eg en_GB
+		urlSB.append(GeoGebraConstants.GEOGEBRA_HELP_WEBSITE).append("en/");
 
 		switch (type) {
 		case COMMAND:
 			String cmdPageName = getApp().getLocalization().getEnglishCommand(
 					pageName);
-			urlSB.append("/cmd/");
-			urlSB.append(cmdPageName);
+			if ("".equals(cmdPageName)) {
+				urlSB.append("Commands");
+			} else {
+				urlSB.append("commands/");
+				urlSB.append(cmdPageName);
+			}
 			break;
 		case TOOL:
-			urlSB.append("/tool/");
+			urlSB.append("tools/");
 			urlSB.append(pageName);
 			break;
 		case GENERIC:
-			// eg openHelp("Custom_Tools", Help.GENERIC)
-			// returns http://help.geogebra.org/hu/article/Custom_Tools
-			// wiki redirects to correct page
-			// ie http://wiki.geogebra.org/hu/Egy%E9ni_eszk%F6z%F6k
-			urlSB.append("/article/");
 			urlSB.append(pageName);
 			break;
 		default:
 			Log.error("Bad getHelpURL call");
 		}
-
+		if (!app.getLocalization().languageIs("en")) {
+			urlSB.append("?redirect=").append(getApp().getLocalization().getLanguageTag());
+		}
 		return urlSB.toString();
 	}
 
 	@Override
 	public String getReportBugUrl() {
-		return GeoGebraConstants.FORUM_URL;
+		return GeoGebraConstants.REPORT_BUG_URL;
 	}
 
 	@Override
@@ -704,8 +682,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public void redo() {
 		getApp().setWaitCursor();
 		kernel.redo();
-		updateActions();
-		getApp().resetPen();
 		getApp().setDefaultCursor();
 	}
 
@@ -713,8 +689,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public void undo() {
 		getApp().setWaitCursor();
 		kernel.undo();
-		updateActions();
-		getApp().resetPen();
 		getApp().setDefaultCursor();
 	}
 
@@ -817,11 +791,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
-	public void buildStepGui(SolutionStep steps) {
-		// overridden in web
-	}
-
-	@Override
 	public TableValuesPoints getTableValuesPoints() {
 		return tableValuesPoints;
 	}
@@ -862,4 +831,5 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public InputKeyboardButton getInputKeyboardButton() {
 		return null;
 	}
+
 }

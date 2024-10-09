@@ -1,7 +1,5 @@
 package org.geogebra.keyboard.base.model.impl.factory;
 
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.GEQ;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEQ;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.ROOT;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUP2;
 import static org.geogebra.keyboard.base.model.impl.factory.NumberKeyUtil.addFirstRow;
@@ -32,7 +30,7 @@ public class MathKeyboardFactory implements KeyboardModelFactory {
     public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
         KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
 
-        RowImpl row = mathKeyboard.nextRow(9.2f);
+        RowImpl row = mathKeyboard.nextRow();
         addInputButton(row, buttonFactory,
                 charProvider.xForButton(), charProvider.xAsInput());
         addInputButton(row, buttonFactory,
@@ -44,7 +42,7 @@ public class MathKeyboardFactory implements KeyboardModelFactory {
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addFirstRow(row, buttonFactory);
 
-        row = mathKeyboard.nextRow(9.2f);
+        row = mathKeyboard.nextRow();
         addConstantInputButton(row, buttonFactory, Resource.POWA2, SUP2);
         addConstantInputButton(row, buttonFactory, Resource.POWAB, "^");
         addConstantInputButton(row, buttonFactory, Resource.ROOT, ROOT);
@@ -52,15 +50,15 @@ public class MathKeyboardFactory implements KeyboardModelFactory {
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addSecondRow(row, buttonFactory);
 
-        row = mathKeyboard.nextRow(9.2f);
+        row = mathKeyboard.nextRow();
         addInputButton(row, buttonFactory, "<");
         addInputButton(row, buttonFactory, ">");
-        addInputButton(row, buttonFactory, LEQ);
-        addInputButton(row, buttonFactory, GEQ);
+        addConstantInputButton(row, buttonFactory, Resource.RECURRING_DECIMAL, "recurringDecimal");
+        addConstantInputButton(row, buttonFactory, Resource.MIXED_NUMBER, "mixedNumber");
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addThirdRow(row, buttonFactory);
 
-        row = mathKeyboard.nextRow(9.2f);
+        row = mathKeyboard.nextRow();
         addCustomButton(row, buttonFactory, "ans", Action.ANS);
         addInputButton(row, buttonFactory, ",");
         addInputButton(row, buttonFactory, "(");

@@ -25,9 +25,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.main.App;
+import org.geogebra.common.spreadsheet.core.SelectionType;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
+import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 
@@ -38,7 +39,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	private AppD app;
 	private SpreadsheetViewD view;
 	private MyTableD table;
-	private MyListModel listModel;
+	private RowHeaderListModel listModel;
 
 	// note: MyTable uses its own minSelectionRow and maxSelectionRow.
 	// The selection listener keeps them in sync.
@@ -64,7 +65,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		this.table = table;
 		this.view = table.getView();
 
-		listModel = new MyListModel((DefaultTableModel) table.getModel());
+		listModel = new RowHeaderListModel((DefaultTableModel) table.getModel());
 		this.setModel(listModel);
 
 		setFocusable(true);
@@ -80,12 +81,12 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 	}
 
-	public static class MyListModel extends AbstractListModel {
+	public static class RowHeaderListModel extends AbstractListModel {
 
 		private static final long serialVersionUID = 1L;
 		protected DefaultTableModel model;
 
-		public MyListModel(DefaultTableModel model) {
+		public RowHeaderListModel(DefaultTableModel model) {
 			this.model = model;
 		}
 
@@ -143,7 +144,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 			setText((value == null) ? "" : value.toString());
 
-			if (table.getSelectionType() == MyTableInterface.COLUMN_SELECT) {
+			if (table.getSelectionType() == SelectionType.COLUMNS) {
 				setBackground(defaultBackground);
 			} else {
 				if (table.selectedRowSet.contains(index)
@@ -173,10 +174,10 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	// near a row boundary (within 3 pixels)
 	private int getResizingRow(Point p) {
 		int resizeRow = -1;
-		GPoint point = table.getIndexFromPixel(p.x, p.y);
+		SpreadsheetCoords point = table.getIndexFromPixel(p.x, p.y);
 		if (point != null) {
 			// test if mouse is 3 pixels from row boundary
-			int cellRow = point.getY();
+			int cellRow = point.row;
 			if (cellRow >= 0) {
 				Rectangle r = table.getCellRect(cellRow, 0, true);
 				// near row bottom
@@ -209,7 +210,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		// Double clicking on a row boundary auto-adjusts the
 		// height of the row above the boundary (the resizingRow)
 
-		if (resizingRow >= 0 && !AppD.isRightClick(e)
+		if (resizingRow >= 0 && !MouseEventUtil.isRightClick(e)
 				&& e.getClickCount() == 2) {
 			table.fitRow(resizingRow);
 			e.consume();
@@ -229,7 +230,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	@Override
 	public void mousePressed(MouseEvent e) {
 		boolean shiftPressed = e.isShiftDown();
-		boolean rightClick = AppD.isRightClick(e);
+		boolean rightClick = MouseEventUtil.isRightClick(e);
 
 		int x = e.getX();
 		int y = e.getY();
@@ -254,17 +255,17 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 				return;
 			}
 
-			GPoint point = table.getIndexFromPixel(x, y);
+			SpreadsheetCoords point = table.getIndexFromPixel(x, y);
 			if (point != null) {
 				// G.STURR 2010-1-29
-				if (table.getSelectionType() != MyTableInterface.ROW_SELECT) {
-					table.setSelectionType(MyTableInterface.ROW_SELECT);
+				if (table.getSelectionType() != SelectionType.ROWS) {
+					table.setSelectionType(SelectionType.ROWS);
 					requestFocusInWindow();
 				}
 
 				if (shiftPressed) {
 					if (row0 != -1) {
-						int row = point.getY();
+						int row = point.row;
 						table.setRowSelectionInterval(row0, row);
 					}
 				}
@@ -272,7 +273,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 				// ctrl-select is handled in table
 
 				else {
-					row0 = point.getY();
+					row0 = point.row;
 					table.setRowSelectionInterval(row0, row0);
 				}
 				table.repaint();
@@ -284,29 +285,29 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	@Override
 	public void mouseReleased(MouseEvent e) {
 
-		boolean rightClick = AppD.isRightClick(e);
+		boolean rightClick = MouseEventUtil.isRightClick(e);
 
 		if (rightClick) {
 			if (!app.letShowPopupMenu()) {
 				return;
 			}
 
-			GPoint p = table.getIndexFromPixel(e.getX(), e.getY());
+			SpreadsheetCoords p = table.getIndexFromPixel(e.getX(), e.getY());
 			if (p == null) {
 				return;
 			}
 
 			// if click is outside current selection then change selection
-			if (p.getY() < minSelectionRow || p.getY() > maxSelectionRow
-					|| p.getX() < table.minSelectionColumn
-					|| p.getX() > table.maxSelectionColumn) {
+			if (p.row < minSelectionRow || p.row > maxSelectionRow
+					|| p.column < table.minSelectionColumn
+					|| p.column > table.maxSelectionColumn) {
 
 				// switch to row selection mode and select row
-				if (table.getSelectionType() != MyTableInterface.ROW_SELECT) {
-					table.setSelectionType(MyTableInterface.ROW_SELECT);
+				if (table.getSelectionType() != SelectionType.ROWS) {
+					table.setSelectionType(SelectionType.ROWS);
 				}
 
-				table.setRowSelectionInterval(p.getY(), p.getY());
+				table.setRowSelectionInterval(p.row, p.row);
 			}
 
 			// show contextMenu
@@ -340,7 +341,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if (AppD.isRightClick(e)) {
+		if (MouseEventUtil.isRightClick(e)) {
 			return;
 		}
 
@@ -358,16 +359,16 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 			}
 
 		} else { // select row
-			GPoint point = table.getIndexFromPixel(x, y);
+			SpreadsheetCoords point = table.getIndexFromPixel(x, y);
 			if (point != null) {
-				int row = point.getY();
+				int row = point.row;
 				table.setRowSelectionInterval(row0, row);
 
 				// G.Sturr 2010-4-4
 				// keep the row header updated when drag selecting multiple rows
 				view.updateRowHeader();
 				table.scrollRectToVisible(
-						table.getCellRect(point.y, point.x, true));
+						table.getCellRect(point.row, point.column, true));
 				table.repaint();
 			}
 		}

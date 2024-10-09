@@ -57,7 +57,7 @@ import elemental2.dom.CanvasRenderingContext2D;
  * @author Florian Sonner
  */
 public abstract class DockPanelW extends ResizeComposite
-		implements DockPanel, DockComponent {
+		implements DockPanel, DockComponent, PaintToCanvas {
 
 	/** Dock manager */
 	protected DockManagerW dockManager;
@@ -143,7 +143,7 @@ public abstract class DockPanelW extends ResizeComposite
 	private boolean dialog = false;
 
 	/** dock panel */
-	MyDockLayoutPanel dockPanel;
+	InnerDockLayoutPanel dockPanel;
 	/** the main panel of this stylebar */
 	//protected TitleBarPanel titleBarPanel;
 	protected DockControlPanel dockControlPanel;
@@ -275,7 +275,7 @@ public abstract class DockPanelW extends ResizeComposite
 			return;
 		}
 
-		dockPanel = new MyDockLayoutPanel();
+		dockPanel = new InnerDockLayoutPanel();
 		initWidget(dockPanel);
 	}
 
@@ -438,7 +438,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 * @param controls top controls panel
 	 *
 	 */
-	protected void addZoomPanel(MyDockLayoutPanel dockLayoutPanel,
+	protected void addZoomPanel(InnerDockLayoutPanel dockLayoutPanel,
 			InsertPanel controls) {
 		if (zoomPanel != null) {
 			dockLayoutPanel.addSouth(zoomPanel, 0);
@@ -492,17 +492,15 @@ public abstract class DockPanelW extends ResizeComposite
 		return 0;
 	}
 
-	/***
-	 * @param context2d rendering context
-	 * @param callback to be called on both success and failure
-	 * @param left left offset in pixels
-	 * @param top top offset in pixels
-	 */
+	@Override
 	public void paintToCanvas(CanvasRenderingContext2D context2d,
-			Runnable callback, int left, int top) {
+			ViewCounter callback, int left, int top) {
+		if (callback == null) {
+			return;
+		}
 		getElement().addClassName("ggbScreenshot");
 		if (component == null) {
-			callback.run();
+			callback.decrement();
 			return;
 		}
 		Domvas.get().toImage(component.getElement(), (image) -> {
@@ -510,7 +508,7 @@ public abstract class DockPanelW extends ResizeComposite
 			drawWhiteBackground(context2d, left, top);
 			context2d.drawImage(image, left, top);
 			getElement().removeClassName("ggbScreenshot");
-			callback.run();
+			callback.decrement();
 		});
 	}
 
@@ -529,11 +527,11 @@ public abstract class DockPanelW extends ResizeComposite
 	 * TODO: move some code above into this class, e.g. setLayout(), or possibly
 	 * extend DockPanelW itself
 	 */
-	public static class MyDockLayoutPanel extends DockLayoutPanel {
+	public static class InnerDockLayoutPanel extends DockLayoutPanel {
 		/**
 		 * Create new dock panel
 		 */
-		public MyDockLayoutPanel() {
+		public InnerDockLayoutPanel() {
 			super(Unit.PX);
 			addStyleName("ggbdockpanelhack");
 			addAttachHandler(evt -> {

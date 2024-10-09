@@ -4,15 +4,9 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 
-public class TooltipProperty extends AbstractEnumerableProperty {
-
-	private int[] tooltipVisibility = {
-			EuclidianStyleConstants.TOOLTIPS_ON,
-			EuclidianStyleConstants.TOOLTIPS_AUTOMATIC,
-			EuclidianStyleConstants.TOOLTIPS_OFF
-	};
+public class TooltipProperty extends AbstractNamedEnumeratedProperty<Integer> {
 
 	private EuclidianSettings settings;
 	private EuclidianView view;
@@ -28,37 +22,23 @@ public class TooltipProperty extends AbstractEnumerableProperty {
 		super(localization, "Labeling");
 		this.settings = settings;
 		this.view = view;
-		setValues("On", "Automatic", "Off");
+		setValues(EuclidianStyleConstants.TOOLTIPS_ON,
+				EuclidianStyleConstants.TOOLTIPS_AUTOMATIC,
+				EuclidianStyleConstants.TOOLTIPS_OFF);
+		setValueNames("On", "Automatic", "Off");
 	}
 
 	@Override
-	protected void setValueSafe(String value, int index) {
-		int mode = index;
-		if (mode == 0) {
-			mode = EuclidianStyleConstants.TOOLTIPS_ON;
-		} else if (mode == 1) {
-			mode = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
-		} else if (mode == 2) {
-			mode = EuclidianStyleConstants.TOOLTIPS_OFF;
-		}
+	public Integer getValue() {
+		return settings.getAllowToolTips();
+	}
 
+	@Override
+	protected void doSetValue(Integer value) {
 		if (settings != null) {
-			settings.setAllowToolTips(mode);
+			settings.setAllowToolTips(value);
 			return;
 		}
-
-		view.setAllowToolTips(mode);
-	}
-
-	@Override
-	public int getIndex() {
-		int tooltipStyle = settings.getAllowToolTips();
-		for (int i = 0; i < tooltipVisibility.length; i++) {
-			if (tooltipStyle == tooltipVisibility[i]) {
-				return i;
-			}
-		}
-
-		return -1;
+		view.setAllowToolTips(value);
 	}
 }

@@ -88,8 +88,7 @@ public abstract class AlgoCasBase extends AlgoElement implements UsesCAS {
 		input = new GeoElement[1];
 		input[0] = f.toGeoElement();
 
-		setOutputLength(1);
-		setOutput(0, g.toGeoElement());
+		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 

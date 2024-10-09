@@ -15,6 +15,7 @@ import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.base.KeyboardFactory;
+import org.geogebra.keyboard.base.impl.DefaultKeyboardFactory;
 import org.geogebra.keyboard.base.model.KeyboardModel;
 import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.base.model.WeightedButton;
@@ -23,7 +24,7 @@ import org.junit.Test;
 public class KeyboardLayoutTest {
 	@Test
 	public void testSpecialTab() {
-		KeyboardFactory kbf = KeyboardFactory.INSTANCE;
+		KeyboardFactory kbf = new DefaultKeyboardFactory();
 		KeyboardModel kb = kbf.createSpecialSymbolsKeyboard().getModel();
 		StringBuilder actions = new StringBuilder();
 		StringBuilder resources = new StringBuilder();
@@ -35,11 +36,11 @@ public class KeyboardLayoutTest {
 		}
 
 		assertEquals("∞,≟,≠,∧,∨,→,¬,⊗,∥,⟂,∈,⊂,⊆,∠,FLOOR,CEIL,[,],:,&,@,#,"
-						+ "Translate.currency,BACKSPACE_DELETE,,,',\",′,"
+						+ "Translate.currency,BACKSPACE_DELETE,;,',\",′,"
 						+ "″,LEFT_ARROW,RIGHT_ARROW,RETURN_ENTER,",
 				resources.toString());
 		assertEquals("∞,≟,≠,∧,∨,→,¬,⊗,∥,⟂,∈,⊂,⊆,∠,⌊,⌈,[,],:,&,@,#,Translate.currency,"
-						+ "BACKSPACE_DELETE,,,',\",′,″,LEFT_CURSOR,RIGHT_CURSOR,RETURN_ENTER,",
+						+ "BACKSPACE_DELETE,;,',\",′,″,LEFT_CURSOR,RIGHT_CURSOR,RETURN_ENTER,",
 				actions.toString());
 	}
 
@@ -49,12 +50,12 @@ public class KeyboardLayoutTest {
 				(LocalizationCommon) AppCommonFactory.create().getLocalization();
 		KeyboardRowDefinitionProvider latinProvider = new KeyboardRowDefinitionProvider(
 				localization);
-		for (Language lang: Language.values()) {
+		for (Language lang : Language.values()) {
 			localization.setLocale(localization.convertToLocale(lang));
 			String[] rows = latinProvider.getLowerKeys();
 			List<Integer> lengths = Arrays.stream(rows).map(String::length)
 					.collect(Collectors.toList());
-			switch (lang.locale) {
+			switch (lang.toLanguageTag()) {
 			case "ne":
 				assertThat(lengths, is(Arrays.asList(18, 16, 14)));
 				break;
@@ -65,7 +66,7 @@ public class KeyboardLayoutTest {
 				assertThat(lengths, is(Arrays.asList(12, 14, 10)));
 				break;
 			default:
-				String loc = " (" + lang.locale + ")";
+				String loc = " (" + lang.toLanguageTag() + ")";
 				// 13 used for Icelandic, Thai and Yiddish
 				assertThat(rows[0] + loc, lengths.get(0), lessThanOrEqualTo(13));
 				assertThat(rows[1] + loc, lengths.get(1), lessThanOrEqualTo(lengths.get(0)));

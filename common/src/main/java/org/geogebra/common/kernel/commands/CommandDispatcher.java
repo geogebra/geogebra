@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -33,24 +34,25 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
 import org.geogebra.common.main.exam.restriction.Restrictable;
+import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
 /**
  * Runs commands and handles string to command processor conversion.
- *
  */
 public abstract class CommandDispatcher implements Restrictable {
 
-	/** kernel **/
+	@NonOwning
 	@Weak
 	protected Kernel kernel;
+
+	@NonOwning
 	@Weak
 	private Construction cons;
-	/**
-	 * Application
-	 */
+
+	@NonOwning
 	@Weak
 	protected App app;
 
@@ -62,27 +64,26 @@ public abstract class CommandDispatcher implements Restrictable {
 	 * terribly bad idea!
 	 **/
 	protected HashMap<String, CommandProcessor> cmdTable;
-	/** Similar to cmdTable, but for CAS */
 
-	/** dispatcher for discrete math */
-	protected static CommandDispatcherInterface discreteDispatcher = null;
-	/** dispatcher for scripting commands */
-	protected static CommandDispatcherInterface scriptingDispatcher = null;
-	/** dispatcher for CAS commands */
-	protected static CommandDispatcherInterface casDispatcher = null;
-	/** dispatcher for advanced commands */
-	protected static CommandDispatcherInterface advancedDispatcher = null;
-	/** dispatcher for stats commands */
-	protected static CommandDispatcherInterface statsDispatcher = null;
-	/** disptcher for prover commands */
-	protected static CommandDispatcherInterface proverDispatcher = null;
+	/** factory for discrete math command processors*/
+	protected static CommandProcessorFactory discreteFactory = null;
+	/** factory for scripting command processors */
+	protected static CommandProcessorFactory scriptingFactory = null;
+	/** factory for CAS command processors */
+	protected static CommandProcessorFactory casFactory = null;
+	/** factory for advanced command processors */
+	protected static CommandProcessorFactory advancedFactory = null;
+	/** factory for stats command processors */
+	protected static CommandProcessorFactory statsFactory = null;
+	/** factory for prover command processors */
+	protected static CommandProcessorFactory proverFactory = null;
 
-	private CommandDispatcherBasic basicDispatcher = null;
+	protected CommandProcessorFactory basicFactory = null;
 
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
 	private MacroProcessor macroProc;
-	private List<CommandFilter> commandFilters;
-	private List<CommandArgumentFilter> commandArgumentFilters;
+	private final List<CommandFilter> commandFilters = new ArrayList<>();
+	private final List<CommandArgumentFilter> commandArgumentFilters = new ArrayList<>();
 
 	/** number of visible tables */
 	public static final int tableCount = 20;
@@ -154,10 +155,14 @@ public abstract class CommandDispatcher implements Restrictable {
 		cons = kernel.getConstruction();
 		this.kernel = kernel;
 		app = kernel.getApplication();
-		commandFilters = new ArrayList<>();
-		commandArgumentFilters = new ArrayList<>();
-		addCommandFilter(app.getConfig().getCommandFilter());
-		addCommandArgumentFilter(app.getConfig().getCommandArgumentFilter());
+		CommandFilter commandFilter = app.getConfig().getCommandFilter();
+		if (commandFilter != null) {
+			addCommandFilter(commandFilter);
+		}
+		CommandArgumentFilter commandArgumentFilter = app.getConfig().getCommandArgumentFilter();
+		if (commandArgumentFilter != null) {
+			addCommandArgumentFilter(commandArgumentFilter);
+		}
 	}
 
 	/**
@@ -200,19 +205,22 @@ public abstract class CommandDispatcher implements Restrictable {
 	}
 
 	/**
-	 * @param command
-	 *            command
-	 * @return whether selector accepts it
+	 * Checks a command against the current set of command filters (which may change, e.g.
+	 * during an exam).
+	 *
+	 * @param command A command.
+	 * @return false if any of the current command filters rejects this command, true otherwise.
 	 */
-	public boolean isAllowedByNameFilter(Commands command) {
-		boolean allowed = true;
+	public boolean isAllowedByCommandFilters(Commands command) {
 		for (CommandFilter filter : commandFilters) {
-			allowed = allowed && filter.isCommandAllowed(command);
+			if (!filter.isCommandAllowed(command)) {
+				return false;
+			}
 		}
-		return allowed;
+		return true;
 	}
 
-	private void checkAllowedByArgumentFilter(Command command,
+	private void checkIsAllowedByCommandArgumentFilters(Command command,
 			CommandProcessor commandProcessor) throws MyError {
 		for (CommandArgumentFilter filter : commandArgumentFilters) {
 			filter.checkAllowed(command, commandProcessor);
@@ -220,7 +228,7 @@ public abstract class CommandDispatcher implements Restrictable {
 	}
 
 	private GeoElement[] process(@CheckForNull CommandProcessor cmdProc, Command c, EvalInfo info) {
-		checkAllowedByArgumentFilter(c, cmdProc);
+		checkIsAllowedByCommandArgumentFilters(c, cmdProc);
 		// switch on macro mode to avoid labeling of output if desired
 		// Solve[{e^-(x*x/2)=1,x>0},x]
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
@@ -322,10 +330,8 @@ public abstract class CommandDispatcher implements Restrictable {
 	public CommandProcessor commandTableSwitch(Command c) {
 		String cmdName = c.getName();
 		try {
-
 			Commands command = Commands.valueOf(cmdName);
-
-			if (!isAllowedByNameFilter(command)) {
+			if (!isAllowedByCommandFilters(command)) {
 				Log.info("The command is not allowed by the command filter");
 				return null;
 			}
@@ -399,11 +405,12 @@ public abstract class CommandDispatcher implements Restrictable {
 			case RunUpdateScript:
 			case SetImage:
 				// case DensityPlot:
-				return getScriptingDispatcher().dispatch(command, kernel);
+				return getScriptingCommandProcessorFactory().getProcessor(command, kernel);
 
 			// advanced
 			case IntersectPath:
-			case IntersectRegion:
+			case IntersectionPaths: // deprecated
+			case IntersectRegion: // deprecated
 			case IsVertexForm:
 			case Difference:
 
@@ -509,7 +516,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case FutureValue:
 			case PresentValue:
 			case SVD:
-				return getAdvancedDispatcher().dispatch(command, kernel);
+				return getAdvancedCommandProcessorFactory().getProcessor(command, kernel);
 
 			// prover
 			case Prove:
@@ -524,7 +531,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case IsTangent:
 			case LocusEquation:
 			case Envelope:
-				return getProverDispatcher().dispatch(command, kernel);
+				return getProverCommandProcessorFactory().getProcessor(command, kernel);
 
 			// basic
 
@@ -553,6 +560,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case nPr:
 			case PolyLine:
 			case Polyline:
+			case PenStroke:
 			case PointIn:
 			case Line:
 			case Ray:
@@ -675,7 +683,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case Textfield:
 			case Normalize:
 			case ExportImage:
-				return getBasicDispatcher().dispatch(command, kernel);
+				return getBasicCommandProcessorFactory().getProcessor(command, kernel);
 
 			case CFactor:
 			case CIFactor:
@@ -758,6 +766,8 @@ public abstract class CommandDispatcher implements Restrictable {
 			case InverseExponential:
 			case InverseFDistribution:
 			case InverseGamma:
+			case InverseBeta:
+			case BetaDist:
 			case InverseHyperGeometric:
 			case InverseLogNormal:
 			case InverseLogistic:
@@ -851,7 +861,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case BarChart:
 			case LineGraph:
 			case PieChart:
-				return getStatsDispatcher().dispatch(command, kernel);
+				return getStatsCommandProcessorFactory().getProcessor(command, kernel);
 
 			case TriangleCenter:
 			case Barycenter:
@@ -865,7 +875,7 @@ public abstract class CommandDispatcher implements Restrictable {
 			case DelauneyTriangulation:
 			case TravelingSalesman:
 			case ShortestDistance:
-				return getDiscreteDispatcher().dispatch(command, kernel);
+				return getDiscreteCommandProcessorFactory().getProcessor(command, kernel);
 			case NSolve:
 			case Solve:
 			case Solutions:
@@ -897,7 +907,41 @@ public abstract class CommandDispatcher implements Restrictable {
 			case NextPrime:
 			case PreviousPrime:
 			case CompleteSquare:
-				return getCASDispatcher().dispatch(command, kernel);
+				return getCASCommandProcessorFactory().getProcessor(command, kernel);
+			case Plane:
+			case PerpendicularPlane:
+			case OrthogonalPlane:
+			case PlaneBisector:
+			case Prism:
+			case Pyramid:
+			case Tetrahedron:
+			case Cube:
+			case Octahedron:
+			case Dodecahedron:
+			case Icosahedron:
+			case Polyhedron:
+			case Net:
+			case Sphere:
+			case Cone:
+			case InfiniteCone:
+			case ConeInfinite:
+			case Cylinder:
+			case InfiniteCylinder:
+			case CylinderInfinite:
+			case Side:
+			case QuadricSide:
+			case Bottom:
+			case Top:
+			case Ends:
+			case Volume:
+			case Height:
+			case SetSpinSpeed:
+			case SetViewDirection:
+			case ClosestPointRegion:
+			case CornerThreeD:
+			case IntersectConic:
+			case IntersectCircle:
+				return getSpatialCommandProcessorFactory().getProcessor(command, kernel);
 			default:
 				Log.error("missing case in CommandDispatcher " + cmdName);
 				return null;
@@ -908,37 +952,37 @@ public abstract class CommandDispatcher implements Restrictable {
 		return null;
 	}
 
-	/** @return dispatcher for stats commands */
-	public abstract CommandDispatcherInterface getStatsDispatcher();
+	/** @return factory for stats command processors */
+	public abstract CommandProcessorFactory getStatsCommandProcessorFactory();
 
-	/** @return dispatcher for discrete math */
-	public abstract CommandDispatcherInterface getDiscreteDispatcher();
+	/** @return factory for discrete math command processors */
+	public abstract CommandProcessorFactory getDiscreteCommandProcessorFactory();
 
-	/** @return dispatcher for CAS commands */
-	public abstract CommandDispatcherInterface getCASDispatcher();
+	/** @return factory for CAS command processors */
+	public abstract CommandProcessorFactory getCASCommandProcessorFactory();
 
-	/** @return dispatcher for scripting commands */
-	public abstract CommandDispatcherInterface getScriptingDispatcher();
+	/** @return factory for scripting command processors */
+	public abstract CommandProcessorFactory getScriptingCommandProcessorFactory();
 
-	/** @return dispatcher for advanced commands */
-	public abstract CommandDispatcherInterface getAdvancedDispatcher();
+	/** @return factory for advanced command processors */
+	public abstract CommandProcessorFactory getAdvancedCommandProcessorFactory();
 
-	/** @return dispatcher for prover commands */
-	public abstract CommandDispatcherInterface getProverDispatcher();
+	/** @return factory for prover command processors */
+	public abstract CommandProcessorFactory getProverCommandProcessorFactory();
 
-	/** @return dispatcher for 3D commands */
-	public CommandDispatcherInterface get3DDispatcher() {
+	/** @return factory for 3D command processors */
+	public CommandProcessorFactory getSpatialCommandProcessorFactory() {
 		return null;
 	}
 
 	/**
-	 * @return dispatcher for basic commands
+	 * @return factory for basic command processors
 	 */
-	protected CommandDispatcherBasic getBasicDispatcher() {
-		if (basicDispatcher == null) {
-			basicDispatcher = new CommandDispatcherBasic();
+	protected CommandProcessorFactory getBasicCommandProcessorFactory() {
+		if (basicFactory == null) {
+			basicFactory = new BasicCommandProcessorFactory();
 		}
-		return basicDispatcher;
+		return basicFactory;
 	}
 
 	/**
@@ -972,10 +1016,8 @@ public abstract class CommandDispatcher implements Restrictable {
 	 *            to add. only the commands that are allowed by all
 	 *            commandFilters will be added to the command table
 	 */
-	public void addCommandFilter(CommandFilter filter) {
-		if (filter != null) {
-			commandFilters.add(filter);
-		}
+	public void addCommandFilter(@Nonnull CommandFilter filter) {
+		commandFilters.add(filter);
 	}
 
 	/**
@@ -984,7 +1026,7 @@ public abstract class CommandDispatcher implements Restrictable {
 	 * @param filter
 	 *            to remove.
 	 */
-	public void removeCommandFilter(CommandFilter filter) {
+	public void removeCommandFilter(@Nonnull CommandFilter filter) {
 		commandFilters.remove(filter);
 	}
 
@@ -994,10 +1036,8 @@ public abstract class CommandDispatcher implements Restrictable {
 	 * @param filter
 	 *            to add.
 	 */
-	public void addCommandArgumentFilter(CommandArgumentFilter filter) {
-		if (filter != null) {
-			commandArgumentFilters.add(filter);
-		}
+	public void addCommandArgumentFilter(@Nonnull CommandArgumentFilter filter) {
+		commandArgumentFilters.add(filter);
 	}
 
 	/**
@@ -1006,7 +1046,7 @@ public abstract class CommandDispatcher implements Restrictable {
 	 * @param filter
 	 *            to remove.
 	 */
-	public void removeCommandArgumentFilter(CommandArgumentFilter filter) {
+	public void removeCommandArgumentFilter(@Nonnull CommandArgumentFilter filter) {
 		commandArgumentFilters.remove(filter);
 	}
 
@@ -1014,27 +1054,38 @@ public abstract class CommandDispatcher implements Restrictable {
 	 * @return whether CAS commands are allowed
 	 */
 	public boolean isCASAllowed() {
-		return isAllowedByNameFilter(Commands.Solve);
+		return isAllowedByCommandFilters(Commands.Solve);
 	}
 
+	@Deprecated // restrictions on the CommandDispatcher are now handled by ExamController
 	@Override
 	public boolean isExamRestrictionModelAccepted(ExamRestrictionModel model) {
 		return model.getCommandFilter() != null;
 	}
 
+	@Deprecated // restrictions on the CommandDispatcher are now handled by ExamController
 	@Override
 	public void setExamRestrictionModel(ExamRestrictionModel model) {
 		if (model == null) {
-			removeCommandFilter(examFilter);
+			if (examFilter != null) {
+				removeCommandFilter(examFilter);
+			}
 			examFilter = null;
 		} else {
 			examFilter = model.getCommandFilter();
-			addCommandFilter(model.getCommandFilter());
+			if (examFilter != null) {
+				addCommandFilter(examFilter);
+			}
 		}
 	}
 
+	@Deprecated
 	@Override
 	public void applyExamRestrictions() {
 		app.resetCommandDict();
+	}
+
+	public boolean hasProcessor(Command command) {
+		return getProcessor(command) != null;
 	}
 }

@@ -8,7 +8,7 @@ import jsinterop.annotations.JsType;
 import jsinterop.base.JsPropertyMap;
 
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
-public class FFlate {
+public final class FFlate {
 
 	@JsFunction
 	public interface ZipCallback {
@@ -28,6 +28,8 @@ public class FFlate {
 	public static native FFlate get();
 
 	public native Uint8Array zipSync(JsPropertyMap<Object> fflatePrepared);
+
+	public native JsPropertyMap<Uint8Array> unzipSync(Uint8Array uint8Array);
 
 	public native void zip(JsPropertyMap<Object> fflatePrepared, ZipCallback callback);
 

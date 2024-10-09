@@ -78,7 +78,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @author Andy Zhu
  */
 
-public abstract class GeoGebraToAsymptote extends GeoGebraExport {
+public class GeoGebraToAsymptote extends GeoGebraExport {
 
 	private boolean eurosym = false; // Use euro symbol
 	private boolean compact = false; // compact code
@@ -117,11 +117,11 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	public boolean fillInequality = false;
 
 	/**
-	 * @param app
-	 *            application
+	 * @param app application
+	 * @param graphicsFactory export graphics factory
 	 */
-	public GeoGebraToAsymptote(final App app) {
-		super(app);
+	public GeoGebraToAsymptote(final App app, ExportGraphicsFactory graphicsFactory) {
+		super(app, graphicsFactory);
 	}
 
 	/**
@@ -1239,7 +1239,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		// boolean warning=!("t".equals(variable));
 
 		int indexFunc = -1;
-		String tempFunctionCount = "f" + Integer.toString(functionCount + 1);
+		String tempFunctionCount = "f" + (functionCount + 1);
 		String returnCode = "(real " + variable + "){return (" + fx + "," + fy
 				+ ");} ";
 		// search for previous occurrences of function
@@ -1360,9 +1360,9 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 							400, template);
 				}
 
-				code.append(lineBuilder.toString()).append(";\n");
+				code.append(lineBuilder).append(";\n");
 			} else {
-				tempFunctionCount = "f" + Integer.toString(functionCount + 1);
+				tempFunctionCount = "f" + (functionCount + 1);
 				returnCode = "(real x){return " + value + ";} ";
 				// search for previous occurrences of function
 				if (compact) {
@@ -2175,7 +2175,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			sa.append("draw(");
 		}
 
-		s = s.replace("--\\(\\?,\\?\\)--", sb.toString() + sa.toString());
+		s = s.replace("--\\(\\?,\\?\\)--", sb + sa.toString());
 		code.append(s);
 	}
 
@@ -2331,8 +2331,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			if (drawGeo == null) {
 				return;
 			}
-			double xLabel = drawGeo.getxLabel();
-			double yLabel = drawGeo.getyLabel();
+			double xLabel = drawGeo.getLabelX();
+			double yLabel = drawGeo.getLabelY();
 			xLabel = euclidianView.toRealWorldCoordX(Math.round(xLabel));
 			yLabel = euclidianView.toRealWorldCoordY(Math.round(yLabel));
 
@@ -3016,7 +3016,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			int grayscale1 = (red + green + blue) / 3;
 			GColor c = GColor.newColor(grayscale1, grayscale1, grayscale1);
 			if (customColor.containsKey(c)) {
-				colorname = customColor.get(c).toString();
+				colorname = customColor.get(c);
 			} else {
 				// Not compact:
 				// "pen XXXXXX = rgb(0,0,0); pen YYYYYY = rgb(1,1,1);"
@@ -3066,7 +3066,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			} else {
 				String colorname = "";
 				if (customColor.containsKey(c0)) {
-					colorname = customColor.get(c0).toString();
+					colorname = customColor.get(c0);
 				} else {
 					colorname = createCustomColor(red, green, blue);
 					if (!compact) {
@@ -3112,7 +3112,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			int grayscale1 = (red + green + blue) / 3;
 			tempc = GColor.newColor(grayscale1, grayscale1, grayscale1);
 			if (customColor.containsKey(tempc)) {
-				colorname = customColor.get(tempc).toString();
+				colorname = customColor.get(tempc);
 			} else {
 				colorname = createCustomColor(grayscale1, grayscale1,
 						grayscale1);
@@ -3159,7 +3159,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			} else {
 				String colorname = "";
 				if (customColor.containsKey(tempc)) {
-					colorname = customColor.get(tempc).toString();
+					colorname = customColor.get(tempc);
 				} else {
 					colorname = createCustomColor(red, green, blue);
 					if (!compact) {
@@ -3852,17 +3852,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		return true;
 	}
 
-	/**
-	 * @param s
-	 *            shape
-	 * @param ineq
-	 *            inequality
-	 * @param geo
-	 *            element
-	 * @param ds
-	 *            bounds, see getViewBoundsForGeo
-	 */
-	public void superFill(GShape s, Inequality ineq, FunctionalNVar geo,
+	@Override
+	public void fillIneq(GShape s, Inequality ineq, FunctionalNVar geo,
 			double[] ds) {
 		importpackage.add("patterns");
 		GColor c = ((GeoElement) geo).getObjectColor();

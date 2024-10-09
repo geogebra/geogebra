@@ -3,6 +3,8 @@ package org.geogebra.common.kernel.commands;
 import static com.himamis.retex.editor.share.util.Unicode.INFINITY;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
 
@@ -20,6 +22,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.test.TestErrorHandler;
+import org.geogebra.test.annotation.Issue;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -72,7 +75,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@Before
 	public void resetSyntaxes() {
-		CommandsTest.resetSyntaxCounter();
+		CommandsTestCommon.resetSyntaxCounter();
 		app.getKernel().clearConstruction(true);
 		app.getKernel().setPrintDecimals(2);
 		app.setActiveView(App.VIEW_EUCLIDIAN);
@@ -81,7 +84,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@After
 	public void checkSyntaxes() {
-		CommandsTest.checkSyntaxesStatic();
+		CommandsTestCommon.checkSyntaxesStatic();
 	}
 
 	@Test
@@ -166,7 +169,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@Test
 	public void cmdSolveODETidyCas() {
-		t("SolveODE(2 x sqrt(y),(0,1))", "(1 / 4 * x^(4)) + x^(2) + 1");
+		t("SolveODE(2 x sqrt(y),(0,1))", "((1 / 2 * x^(2)) + 1)^(2)");
 	}
 
 	@Test
@@ -246,7 +249,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		t("Asymptote[ (2 - x) / ((x - 2) (x - 4)) ]", "{y = 0, x = 4}");
 
 		t("Asymptote[ 5+exp(-x^2) ]", "{y = 5}");
-		t("Asymptote[ (x^3-9+4)/(2x^3+6x+7) ]", "{y = 0.5}");
+		tRound("Asymptote[ (x^3-9+4)/(2x^3+6x+7) ]", "{y = 0.5, x = -0.91299}");
 		tRound("Asymptote[ 3 atan(2x) ]", "{y = 4.71239, y = -4.71239}");
 		tRound("Asymptote[ (9-4x^2)/(1+5x+5x^2)]",
 				"{y = -0.8, x = -0.72361, x = -0.27639}");
@@ -285,6 +288,15 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		// tRound("Asymptote[ sqrt(3x^2 - 2) / sqrt(2x + 1) ]", "{}");
 		// tRound("Asymptote[ sqrt((3x^2 - 2) / (2x + 1)) ]", "{x = -0.5}");
 
+	}
+
+	@Test
+	public void asymptoteVertical() {
+		add("f:(0.581550952232088x)/(0.03544522x+0.1996238)");
+		// discontinuity not removable
+		t("Asymptote(f)", "{y = 16.40703463632298, x = -5.631896204904357}");
+		// discontinuity removable, even though limit of f is very high
+		t("Asymptote((10^18*x)/x)", "{y = 1000000000000000000}");
 	}
 
 	/** Test for MOB-1667 */
@@ -538,5 +550,28 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	public void useApproxBoundsForDefiniteIntegral() {
 		t("a=1", "1");
 		t("Integral[sin(x) / (1 + a² - 2a cos(x)), 0, pi]", "NaN");
+	}
+
+	/**
+	 * Before the Giac syntax for the SolveODE command (SolveODEPoint.2) was changed,
+	 * the result of this expression was '?'. Furthermore, the old syntax led to crashes within
+	 * the browser.
+	 */
+	@Test
+	@Issue("APPS-5465")
+	public void testCmdSolveODE2() {
+		t("SolveODE((x / y) - x y, (1.71, -2))", anyOf(equalTo(
+				"(((-3 * sqrt(1 / 9)) * ℯ^(29241 / 10000)) * sqrt((3 * ℯ^(x^(2)) / ℯ^(29241 /"
+						+ " 10000)) + (ℯ^(x^(2)))^(2) / (ℯ^(29241 / 10000))^(2)) / ℯ^(x^(2)))"),
+				equalTo("(((-3 * sqrt(1 / 9)) * sqrt((ℯ^(x^(2)))^(2) / (ℯ^(29241 / 10000))^(2)"
+						+ " + (3 * ℯ^(x^(2)) / ℯ^(29241 / 10000))))"
+						+ " * ℯ^(29241 / 10000) / ℯ^(x^(2)))")));
+	}
+
+	@Test
+	@Issue("APPS-5496")
+	public void testCmdInvert() {
+		t("Invert((x + 4) / (2x - 5))", "((5 * x) + 4) / ((2 * x) - 1)");
+		t("Invert(sqrt(x)/x)", "(1 / x)^(2)");
 	}
 }

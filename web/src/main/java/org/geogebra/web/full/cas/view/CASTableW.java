@@ -5,8 +5,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.cas.view.CASTable;
-import org.geogebra.common.cas.view.CASTableCellEditor;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
@@ -31,12 +30,12 @@ public class CASTableW extends Grid implements CASTable {
 	public static final int COL_CAS_CELLS_WEB = 1;
 	/** column index of marbles */
 	public static final int COL_CAS_HEADER = 0;
-	private CASTableCellEditor editor;
+	private CASLaTeXEditor editor;
 	private CASTableCellW editing;
 	private AppW app;
 	private int[] selectedRows = new int[0];
 	private CASTableControllerW ml;
-	private CASViewW view;
+	private final CASViewW view;
 
 	/**
 	 * @param app
@@ -53,8 +52,8 @@ public class CASTableW extends Grid implements CASTable {
 		this.ml = controller;
 
 		addStyleName("CAS-table");
-		insertRow(0, null, false);
 		view = casViewW;
+		insertRow(0, null, false);
 	}
 
 	@Override
@@ -94,10 +93,10 @@ public class CASTableW extends Grid implements CASTable {
 			this.insertRow(n);
 		}
 		// update keys (rows) in arbitrary constant table
-		updateAfterInsertArbConstTable(rows);
+		view.updateAfterInsertArbConstTable(rows);
 		CASTableCellW cellWidget = new CASTableCellW(casCell, app);
 		Widget rowHeader = new RowHeaderWidget(this, n + 1, casCell,
-		        (AppW) getApplication());
+				(AppW) getApplication());
 
 		addOutputListener(cellWidget);
 
@@ -120,35 +119,6 @@ public class CASTableW extends Grid implements CASTable {
 		outputWidget.addDomHandler(ml, MouseUpEvent.getType());
 		outputWidget.addBitlessDomHandler(ml, TouchEndEvent.getType());
 		ClickStartHandler.initDefaults(outputWidget, true, true);
-	}
-
-	/**
-	 * Updates arbitraryConstantTable in construction.
-	 * 
-	 * @param row
-	 *            row index (starting from 0) where cell insertion is done
-	 */
-	private void updateAfterInsertArbConstTable(int row) {
-		if (app.getKernel().getConstruction().getArbitraryConsTable()
-				.size() > 0) {
-			// find last row number
-			Integer max = Collections.max(app.getKernel().getConstruction()
-					.getArbitraryConsTable().keySet());
-			for (int key = max; key >= row; key--) {
-				MyArbitraryConstant myArbConst = app.getKernel()
-						.getConstruction()
-					.getArbitraryConsTable().get(key);
-				if (myArbConst != null
-					&& !app.getKernel().getConstruction().isCasCellUpdate()
-					&& !app.getKernel().getConstruction().isFileLoading()
-					&& app.getKernel().getConstruction().isNotXmlLoading()) {
-					app.getKernel().getConstruction().getArbitraryConsTable()
-						.remove(key);
-					app.getKernel().getConstruction().getArbitraryConsTable()
-						.put(key + 1, myArbConst);
-				}
-			}
-		}
 	}
 
 	@Override
@@ -226,7 +196,7 @@ public class CASTableW extends Grid implements CASTable {
 	}
 
 	@Override
-	public CASTableCellEditor getEditor() {
+	public CASLaTeXEditor getEditor() {
 		if (editor == null) {
 			editor = new CASLaTeXEditor(app, ml);
 			editor.setPixelRatio(app.getPixelRatio());
@@ -249,7 +219,7 @@ public class CASTableW extends Grid implements CASTable {
 	 *            row index (starting from 0) where cell is deleted
 	 */
 	private void updateAfterDeleteArbConstTable(int row) {
-		MyArbitraryConstant arbConst = app.getKernel().getConstruction()
+		ArbitraryConstantRegistry arbConst = app.getKernel().getConstruction()
 				.getArbitraryConsTable().remove(row);
 		if (arbConst != null) {
 			for (GeoNumeric geoNum : arbConst.getConstList()) {
@@ -265,7 +235,7 @@ public class CASTableW extends Grid implements CASTable {
 			Integer max = Collections.max(app.getKernel().getConstruction()
 				.getArbitraryConsTable().keySet());
 			for (int key = row + 1; key <= max; key++) {
-				MyArbitraryConstant myArbConst = app.getKernel()
+				ArbitraryConstantRegistry myArbConst = app.getKernel()
 						.getConstruction()
 					.getArbitraryConsTable().get(key);
 				if (myArbConst != null) {
@@ -453,7 +423,7 @@ public class CASTableW extends Grid implements CASTable {
 		}
 
 		int row = TableRowElement.as(td.getParentElement())
-		        .getSectionRowIndex();
+				.getSectionRowIndex();
 		int column = TableCellElement.as(td).getCellIndex();
 		Widget widget = getWidget(row, column);
 		if (!(widget instanceof CASTableCellW)) {
@@ -469,14 +439,14 @@ public class CASTableW extends Grid implements CASTable {
 	/**
 	 * Return value for {@link HTMLTable#getCellForEvent}.
 	 */
-	public class MyCell extends HTMLTable.Cell {
+	public class CellCoordinates extends HTMLTable.Cell {
 		/**
 		 * @param rowIndex
 		 *            row
 		 * @param cellIndex
 		 *            column
 		 */
-		public MyCell(int rowIndex, int cellIndex) {
+		public CellCoordinates(int rowIndex, int cellIndex) {
 			super(rowIndex, cellIndex);
 		}
 	}
@@ -490,7 +460,7 @@ public class CASTableW extends Grid implements CASTable {
 	 *            A click event of indeterminate origin
 	 * @return The appropriate cell, or null
 	 */
-	public MyCell getCellForEvent(HumanInputEvent<?> event) {
+	public CellCoordinates getCellForEvent(HumanInputEvent<?> event) {
 		Element td = getEventTargetCell(Event.as(event.getNativeEvent()));
 		if (td == null) {
 			return null;
@@ -499,7 +469,7 @@ public class CASTableW extends Grid implements CASTable {
 		int row = TableRowElement.as(td.getParentElement())
 				.getSectionRowIndex();
 		int column = TableCellElement.as(td).getCellIndex();
-		return new MyCell(row, column);
+		return new CellCoordinates(row, column);
 	}
 
 	/**

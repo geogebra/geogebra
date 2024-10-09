@@ -12,8 +12,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Polygon[ &lt;GeoPoint>, ..., &lt;GeoPoint> ] Polygon[ &lt;GeoPoint>,
- * &lt;GeoPoint>, &lt;Number>] for regular polygon
+ * Polygon[ &lt;GeoPoint&gt;, ..., &lt;GeoPoint&gt; ] Polygon[ &lt;GeoPoint&gt;,
+ * &lt;GeoPoint&gt;, &lt;Number&gt;] for regular polygon
  */
 public class CmdPolygon extends CommandProcessor {
 	/**
@@ -27,7 +27,7 @@ public class CmdPolygon extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 

@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.commands;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdDistance;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -10,7 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Distance[ &lt;GeoLineND>, &lt;GeoLineND> ]
+ * Distance[ &lt;GeoLineND&gt;, &lt;GeoLineND&gt; ]
  */
 public class CmdDistance3D extends CmdDistance {
 
@@ -24,7 +25,7 @@ public class CmdDistance3D extends CmdDistance {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
@@ -63,7 +64,7 @@ public class CmdDistance3D extends CmdDistance {
 				}
 			}
 
-			return super.process(c);
+			return super.process(c, info);
 
 		default:
 			// return super.process(c);

@@ -4,6 +4,7 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.layout.DockPanelW;
+import org.geogebra.web.full.gui.layout.ViewCounter;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.gwtproject.core.client.Scheduler;
@@ -66,7 +67,7 @@ public class ToolbarDockPanelW extends DockPanelW
 
 	@Override
 	public MathKeyboardListener getKeyboardListener() {
-		return toolbar.getKeyboardListener(super::getKeyboardListener);
+		return toolbar.getKeyboardListener();
 	}
 
 	/**
@@ -123,6 +124,8 @@ public class ToolbarDockPanelW extends DockPanelW
 				toolbar.openTableView(false);
 			} else if (tabId == DockPanelData.TabIds.DISTRIBUTION) {
 				toolbar.openDistributionView(false);
+			} else if (tabId == DockPanelData.TabIds.SPREADSHEET) {
+				toolbar.openSpreadsheetView(false);
 			} else {
 				toolbar.openAlgebra(false);
 			}
@@ -153,6 +156,9 @@ public class ToolbarDockPanelW extends DockPanelW
 	public void setLabels() {
 		if (toolbar != null) {
 			toolbar.setLabels();
+		}
+		if (decorator != null) {
+			decorator.setLabels();
 		}
 	}
 
@@ -212,12 +218,12 @@ public class ToolbarDockPanelW extends DockPanelW
 
 	@Override
 	public void paintToCanvas(CanvasRenderingContext2D context2d,
-			Runnable callback, int left, int top) {
+			ViewCounter counter, int left, int top) {
 		if (toolbar != null) {
 			drawWhiteBackground(context2d, left, top);
-			toolbar.paintToCanvas(context2d, callback, left, top);
-		} else {
-			callback.run();
+			toolbar.paintToCanvas(context2d, counter, left, top);
+		} else if (counter != null) {
+			counter.decrement();
 		}
 	}
 }

@@ -3,6 +3,7 @@ package org.geogebra.common.plugin.script;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.SymbolicEditor;
+import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.inputbox.EditorContent;
@@ -40,9 +41,12 @@ public class GgbScript extends Script {
 	@Override
 	public boolean run(Event evt) throws ScriptError {
 		String scriptText;
+
 		if (text == null) {
 			return true;
 		}
+		CommandLookupStrategy lookupStrategy = app.getKernel().getCommandLookupStrategy();
+		app.getKernel().setCommandLookupStrategy(CommandLookupStrategy.SCRIPT);
 		scriptText = substitutePlaceholders(text, evt);
 		String[] lines = scriptText.split("\n");
 		boolean success = true;
@@ -61,6 +65,7 @@ public class GgbScript extends Script {
 				// error handler should actually catch it
 			}
 		}
+		app.getKernel().setCommandLookupStrategy(lookupStrategy);
 		return success;
 	}
 

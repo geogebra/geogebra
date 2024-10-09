@@ -36,8 +36,6 @@ import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.event.logical.shared.CloseEvent;
 import org.gwtproject.event.logical.shared.CloseHandler;
 import org.gwtproject.event.logical.shared.HasCloseHandlers;
-import org.gwtproject.event.logical.shared.ResizeEvent;
-import org.gwtproject.event.logical.shared.ResizeHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.timer.client.Timer;
 import org.gwtproject.user.client.DOM;
@@ -70,9 +68,6 @@ import jsinterop.base.Js;
  * {@link #setHeight(String)} will call these methods on the PopupPanel's
  * widget.
  * </p>
- * <p>
- * <img class='gallery' src='doc-files/PopupPanel.png'/>
- * </p>
  *
  * <p>
  * The PopupPanel can be optionally displayed with a "glass" element behind it,
@@ -82,7 +77,6 @@ import jsinterop.base.Js;
  * {@link #setGlassStyleName(String)}.
  * </p>
  *
- * </p>
  * <h3>CSS Style Rules</h3>
  * <dl>
  * <dt>.gwt-PopupPanel</dt>
@@ -113,33 +107,6 @@ public class GPopupPanel extends SimplePanel implements
 	 * Total of top + bottom paddings
 	 */
 	protected static final int VERTICAL_PADDING = 32;
-
-	/**
-	 * Window resize handler used to keep the glass the proper size.
-	 */
-	private final ResizeHandler glassResizer = new ResizeHandler() {
-		@Override
-		public void onResize(ResizeEvent event) {
-			if (glass == null) {
-				return;
-			}
-			Style style = glass.getStyle();
-
-			int winWidth = getRootPanel().getOffsetWidth();
-			int winHeight = getRootPanel().getOffsetHeight();
-
-			// Set the glass size to the larger of the window's client size or
-			// the
-			// document's scroll size.
-			int headerHeight = ((AppW) app).getAppletParameters().getDataParamMarginTop();
-			style.setWidth(winWidth, Unit.PX);
-			style.setHeight(winHeight + headerHeight, Unit.PX);
-			style.setTop(-headerHeight, Unit.PX);
-
-			// The size is set. Show the glass again.
-			style.setDisplay(Display.BLOCK);
-		}
-	};
 
 	private AnimationType animType = AnimationType.CENTER;
 
@@ -212,6 +179,30 @@ public class GPopupPanel extends SimplePanel implements
 	}
 
 	/**
+	 * Window resize handler used to keep the glass the proper size.
+	 */
+	protected final void resizeGlass() {
+		if (glass == null) {
+			return;
+		}
+		Style style = glass.getStyle();
+
+		int winWidth = getRootPanel().getOffsetWidth();
+		int winHeight = getRootPanel().getOffsetHeight();
+
+		// Set the glass size to the larger of the window's client size or
+		// the
+		// document's scroll size.
+		int headerHeight = ((AppW) app).getAppletParameters().getDataParamMarginTop();
+		style.setWidth(winWidth, Unit.PX);
+		style.setHeight(winHeight + headerHeight, Unit.PX);
+		style.setTop(-headerHeight, Unit.PX);
+
+		// The size is set. Show the glass again.
+		style.setDisplay(Display.BLOCK);
+	}
+
+	/**
 	 * The type of animation to use when opening the popup.
 	 *
 	 * <ul>
@@ -235,7 +226,7 @@ public class GPopupPanel extends SimplePanel implements
 		private final GPopupPanel curPanel;
 
 		/**
-		 * Indicates whether or not the {@link GPopupPanel} is in the process of
+		 * Indicates whether the {@link GPopupPanel} is in the process of
 		 * unloading. If the popup is unloading, then the animation just does
 		 * cleanup.
 		 */
@@ -431,10 +422,10 @@ public class GPopupPanel extends SimplePanel implements
 				if (curPanel.isGlassEnabled) {
 					getRootPanel().getElement().appendChild(curPanel.glass);
 
-					resizeRegistration = evt -> curPanel.glassResizer.onResize(null);
+					resizeRegistration = evt -> curPanel.resizeGlass();
 					((AppW) app).getGlobalHandlers().addEventListener(
 							DomGlobal.window, "resize", resizeRegistration);
-					curPanel.glassResizer.onResize(null);
+					curPanel.resizeGlass();
 
 					glassShowing = true;
 				}
@@ -582,7 +573,7 @@ public class GPopupPanel extends SimplePanel implements
 		childElement.getStyle().clearHeight();
 
 		center(keyboardHeight);
-		glassResizer.onResize(null);
+		resizeGlass();
 
 		int maxHeight = (int) Math.min(getRootPanel().getOffsetHeight() - keyboardHeight
 				- VERTICAL_PADDING, getMaxHeight());
@@ -777,7 +768,7 @@ public class GPopupPanel extends SimplePanel implements
 	}
 
 	/**
-	 * Determines whether or not this popup is showing.
+	 * Determines whether this popup is showing.
 	 *
 	 * @return <code>true</code> if the popup is showing
 	 * @see #show()
@@ -788,7 +779,7 @@ public class GPopupPanel extends SimplePanel implements
 	}
 
 	/**
-	 * Determines whether or not this popup is visible. Note that this just
+	 * Determines whether this popup is visible. Note that this just
 	 * checks the <code>visibility</code> style attribute, which is set in the
 	 * {@link #setVisible(boolean)} method. If you want to know if the popup is
 	 * attached to the page, use {@link #isShowing()} instead.

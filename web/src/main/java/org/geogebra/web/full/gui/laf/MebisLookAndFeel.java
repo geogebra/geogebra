@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.laf;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.browser.MebisSignInController;
-import org.geogebra.web.shared.SignInController;
+import org.geogebra.web.html5.gui.laf.SignInControllerI;
 
 /**
  * LAF for Mebis environment
@@ -10,8 +10,8 @@ import org.geogebra.web.shared.SignInController;
 public class MebisLookAndFeel extends GLookAndFeel {
 
 	@Override
-	public SignInController getSignInController(App app) {
-		return new MebisSignInController(app);
+	public SignInControllerI getSignInController(App app) {
+		return new MebisSignInController();
 	}
 
 	@Override

@@ -29,8 +29,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.MyMathExact.MyDecimal;
-import org.geogebra.common.util.MyMathExact.MyDecimalMatrix;
+import org.geogebra.common.util.MyMathExact.FixedScaleDecimal;
+import org.geogebra.common.util.MyMathExact.FixedScaleDecimalMatrix;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -119,8 +119,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			input[1] = list;
 		}
 
-		setOutputLength(1);
-		setOutput(0, text);
+		setOnlyOutput(text);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -417,25 +416,12 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		fitter0.setCoeffBound(coeffBound);
 		fitter0.compute(y);
 
-		// t2 = System.currentTimeMillis();
-		// System.out.println("time of algebraic fit compute: " + (t2-t1));
-		// t1 = t2;
-
 		ValidExpression ve0 = sbToCAS(fitter0.formalSolution);
-
-		// t2 = System.currentTimeMillis();
-		// System.out.println("time of sb to ve: " + (t2-t1));
-		// t1 = t2;
 
 		if (fitter0.formalSolution.length() > 0
 				&& DoubleUtil.isEqual(ve0.evaluateDouble(), y)) {
 			sb1.append(kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve0, null,
 					tpl, null, kernel));
-
-			// t2 = System.currentTimeMillis();
-			// System.out.println("time of ve to CAS: " + (t2-t1));
-			// t1 = t2;
-
 			return true;
 		}
 		return false;
@@ -940,13 +926,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			}
 		}
 
-		// test property of H: the n-1 columns are orthogonal
-		/*
-		 * for (int i =0 ; i<n-1; i++) { for (int j=0; j<n-1; j++) { double sum
-		 * = 0; for (int k=0; k<n; k++) { sum += H[k][i]*H[k][j]; }
-		 * System.out.println(sum); } }
-		 */
-
 		// matrix P = In - x.x
 		// P = new double[n][n];
 		// for (int i = 0; i < n; i++)
@@ -1238,9 +1217,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	private static class IntRelationFinder {
 
 		// constants (defined later)
-		private MyDecimal zero;
-		MyDecimal zeroLess;
-		private MyDecimal oneLess;
+		private FixedScaleDecimal zero;
+		FixedScaleDecimal zeroLess;
+		private FixedScaleDecimal oneLess;
 
 		// parameters
 		private double tau;
@@ -1251,26 +1230,26 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		// input
 		private int n;
 		private double[] x;
-		private MyDecimal[] x_full;
-		private MyDecimal[] x_double;
+		private FixedScaleDecimal[] x_full;
+		private FixedScaleDecimal[] x_double;
 
 		// working variables
 		private int fullScale1;
 		private int lessScale1;
-		private MyDecimal xNorm;
-		private MyDecimalMatrix mHfull;
-		private MyDecimalMatrix mH;
-		MyDecimalMatrix mI;
-		private MyDecimalMatrix mA;
-		private MyDecimalMatrix mB;
-		private MyDecimalMatrix mD;
+		private FixedScaleDecimal xNorm;
+		private FixedScaleDecimalMatrix mHfull;
+		private FixedScaleDecimalMatrix mH;
+		FixedScaleDecimalMatrix mI;
+		private FixedScaleDecimalMatrix mA;
+		private FixedScaleDecimalMatrix mB;
+		private FixedScaleDecimalMatrix mD;
 		// private Array2DRowFieldMatrix<Dfp> B_comp; //B_comp: *= new B_rest
 		// (B_rest is in IntRelation class)
-		private MyDecimalMatrix xB;
+		private FixedScaleDecimalMatrix xB;
 
-		private MyDecimal b;
-		private MyDecimal l;
-		private MyDecimal d;
+		private FixedScaleDecimal b;
+		private FixedScaleDecimal l;
+		private FixedScaleDecimal d;
 		private int r;
 
 		// results
@@ -1302,9 +1281,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			 * (needSizeChange) { fullScale = digitsAllocated; }
 			 */
 
-			zero = new MyDecimal(fullScale1, BigDecimal.ZERO);
-			zeroLess = new MyDecimal(lessScale1, BigDecimal.ZERO);
-			oneLess = new MyDecimal(lessScale1, BigDecimal.ONE);
+			zero = new FixedScaleDecimal(fullScale1, BigDecimal.ZERO);
+			zeroLess = new FixedScaleDecimal(lessScale1, BigDecimal.ZERO);
+			oneLess = new FixedScaleDecimal(lessScale1, BigDecimal.ONE);
 
 			if (n < 1) {
 				result.clear();
@@ -1317,9 +1296,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					return;
 				}
 
-				mB = new MyDecimalMatrix(lessScale1, 1, 1);
+				mB = new FixedScaleDecimalMatrix(lessScale1, 1, 1);
 				mB.setEntry(0, 0, oneLess);
-				xB = new MyDecimalMatrix(lessScale1, 1, 1);
+				xB = new FixedScaleDecimalMatrix(lessScale1, 1, 1);
 				xB.setEntry(0, 0, zeroLess);
 				IntRelation m = new IntRelation(n, mB, xB, 1);
 				result.add(m);
@@ -1327,14 +1306,14 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			}
 
 			this.x = new double[n];
-			this.x_full = new MyDecimal[n]; // normalized, full precision
-			this.x_double = new MyDecimal[n]; // normalized, double precision
+			this.x_full = new FixedScaleDecimal[n]; // normalized, full precision
+			this.x_double = new FixedScaleDecimal[n]; // normalized, double precision
 
 			// int[] orthoIndices = new int[n];
 
 			for (int i = 0; i < n; i++) {
 				this.x[i] = x[i];
-				this.x_full[i] = new MyDecimal(fullScale1, x[i]);
+				this.x_full[i] = new FixedScaleDecimal(fullScale1, x[i]);
 			}
 
 			rho = 2;
@@ -1342,9 +1321,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			gamma = 1 / Math.sqrt(1 / tau / tau - 1 / rho / rho);
 
 			initialize_full();
-			b = new MyDecimal(lessScale1);
-			l = new MyDecimal(lessScale1);
-			d = new MyDecimal(lessScale1);
+			b = new FixedScaleDecimal(lessScale1);
+			l = new FixedScaleDecimal(lessScale1);
+			d = new FixedScaleDecimal(lessScale1);
 
 			boolean loopTillExhausted = true;
 			int iterCount = 0;
@@ -1378,11 +1357,11 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					d = b.multiply(b).add(l.multiply(l)).sqrt();
 				}
 
-				MyDecimal temp2 = new MyDecimal(xB.getEntry(0, r));
+				FixedScaleDecimal temp2 = new FixedScaleDecimal(xB.getEntry(0, r));
 				xB.setEntry(0, r, xB.getEntry(0, r + 1));
 				xB.setEntry(0, r + 1, temp2);
 
-				MyDecimal[] temp3 = mH.getRow(r);
+				FixedScaleDecimal[] temp3 = mH.getRow(r);
 				mH.setRow(r, mH.getRow(r + 1));
 				mH.setRow(r + 1, temp3);
 
@@ -1395,7 +1374,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				mB.setColumn(r + 1, temp3);
 
 				// Corner
-				MyDecimal[] temp4;
+				FixedScaleDecimal[] temp4;
 				if (r < n - 2) {
 
 					temp3 = mH.getColumn(r);
@@ -1459,8 +1438,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					}
 				}
 
-				// System.out.println("");
-
 				if (relationFound && !loopTillExhausted || relationExhausted) {
 					break;
 				}
@@ -1471,7 +1448,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 		void initialize_full() {
 
-			xNorm = new MyDecimal(lessScale1);
+			xNorm = new FixedScaleDecimal(lessScale1);
 
 			// normalize x
 			Log.debug("normalizing " + n);
@@ -1482,20 +1459,18 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 			xNorm = xNorm.sqrt();
 
-			// System.out.println(xNorm.toFullString());
-
 			for (int i = 0; i < n; i++) {
 				if (xNorm.getImpl().compareTo(BigDecimal.ZERO) != 0) {
 					x_full[i] = x_full[i].divide(xNorm);
 				}
-				x_double[i] = new MyDecimal(lessScale1, x_full[i].getImpl());
+				x_double[i] = new FixedScaleDecimal(lessScale1, x_full[i].getImpl());
 
 			}
 
 			// partial sums of squares
-			MyDecimal[] ss = new MyDecimal[n];
+			FixedScaleDecimal[] ss = new FixedScaleDecimal[n];
 			for (int i = 0; i < n; i++) {
-				ss[i] = new MyDecimal(fullScale1);
+				ss[i] = new FixedScaleDecimal(fullScale1);
 			}
 
 			ss[n - 1] = x_full[n - 1].multiply(x_full[n - 1]);
@@ -1509,14 +1484,14 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			}
 
 			// pre-calculate ss[j]*ss[j+1]
-			MyDecimal[] Pss = new MyDecimal[n - 1];
+			FixedScaleDecimal[] Pss = new FixedScaleDecimal[n - 1];
 			for (int i = 0; i < n - 1; i++) {
-				Pss[i] = new MyDecimal(fullScale1,
+				Pss[i] = new FixedScaleDecimal(fullScale1,
 						ss[i].multiply(ss[i + 1]).getImpl());
 			}
 
 			// initialize Matrix H (lower trapezoidal
-			mHfull = new MyDecimalMatrix(fullScale1, n, n - 1);
+			mHfull = new FixedScaleDecimalMatrix(fullScale1, n, n - 1);
 
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < i; j++) {
@@ -1532,10 +1507,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					mHfull.setEntry(i, j, zero);
 				}
 			}
-
-			// test property of H: the n-1 columns are orthogonal
-
-			// System.out.println(H.transpose().multiply(H).toString());
 
 			// matrix P = In - x.x
 			/*
@@ -1558,10 +1529,10 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			 * //P = H.multiply( ((Array2DRowFieldMatrix<Dfp>) H.transpose()));
 			 */
 
-			mH = new MyDecimalMatrix(lessScale1, n, n - 1);
+			mH = new FixedScaleDecimalMatrix(lessScale1, n, n - 1);
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n - 1; j++) {
-					mH.setEntry(i, j, new MyDecimal(lessScale1,
+					mH.setEntry(i, j, new FixedScaleDecimal(lessScale1,
 							mHfull.getEntry(i, j).getImpl()));
 				}
 			}
@@ -1581,7 +1552,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			 * j=0; j<n; j++) B[i][j]=0; for (int i=0; i<n; i++) B[i][i]=1;
 			 */
 
-			mI = new MyDecimalMatrix(lessScale1, n, n);
+			mI = new FixedScaleDecimalMatrix(lessScale1, n, n);
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
 					if (i == j) {
@@ -1595,11 +1566,10 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 			mA = mI.copy();
 			mB = mI.copy();
-			xB = new MyDecimalMatrix(lessScale1, 1, n);
+			xB = new FixedScaleDecimalMatrix(lessScale1, 1, n);
 			for (int i = 0; i < n; i++) {
 				xB.setEntry(0, i, x_double[i]);
 			}
-			// System.out.println(A.toString());
 
 		}
 
@@ -1611,7 +1581,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					// MyDecimal q = new MyDecimal(H.getEntry(i,
 					// j).divide(H.getEntry(j, j)).divide(ONE, 0,
 					// BigDecimal.ROUND_DOWN));
-					MyDecimal q = new MyDecimal(lessScale1,
+					FixedScaleDecimal q = new FixedScaleDecimal(lessScale1,
 							Math.rint(mH.getEntry(i, j).doubleValue()
 									/ mH.getEntry(j, j).doubleValue()));
 					for (int k = 0; k <= j; k++) {
@@ -1644,13 +1614,13 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 			private int nilDim; // dimension of the nil-subspace corresponding
 								// to vector m, that is, the # cols of B_sol
-			private MyDecimalMatrix B1;
-			private MyDecimalMatrix B_sol;
-			private MyDecimalMatrix B_rest;
-			MyDecimalMatrix xB1;
+			private FixedScaleDecimalMatrix B1;
+			private FixedScaleDecimalMatrix B_sol;
+			private FixedScaleDecimalMatrix B_rest;
+			FixedScaleDecimalMatrix xB1;
 			int[] orthoIndices;
 
-			public IntRelation(int n, MyDecimalMatrix B, MyDecimalMatrix xB,
+			public IntRelation(int n, FixedScaleDecimalMatrix B, FixedScaleDecimalMatrix xB,
 					double sig) {
 
 				if (n == 0) {
@@ -1689,12 +1659,12 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 				// B_sol: solution columns of B; B_rest: non solution columns
 				if (nilDim > 0) {
-					B_sol = new MyDecimalMatrix(B.getScale(), size, nilDim);
+					B_sol = new FixedScaleDecimalMatrix(B.getScale(), size, nilDim);
 				} else {
 					B_sol = null;
 				}
 				if (nilDim < size) {
-					B_rest = new MyDecimalMatrix(B.getScale(), size,
+					B_rest = new FixedScaleDecimalMatrix(B.getScale(), size,
 							size - nilDim);
 				} else {
 					B_rest = null;
@@ -1713,18 +1683,18 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 			}
 
-			public MyDecimalMatrix getBMatrix() {
+			public FixedScaleDecimalMatrix getBMatrix() {
 				return B1.copy();
 			}
 
-			public MyDecimalMatrix getBSolMatrix() {
+			public FixedScaleDecimalMatrix getBSolMatrix() {
 				if (B_sol != null) {
 					return B_sol.copy();
 				}
 				return null;
 			}
 
-			public MyDecimalMatrix getBRestMatrix() {
+			public FixedScaleDecimalMatrix getBRestMatrix() {
 				if (B_rest != null) {
 					return B_rest.copy();
 				}
@@ -2238,7 +2208,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		private int[][] mPSLQ(int n, double[] x, double accuracyFactor,
 				int bound) {
 
-			MyDecimalMatrix r2;
+			FixedScaleDecimalMatrix r2;
 
 			int rCols = 0; // tracks the number of solutions globally
 
@@ -2275,9 +2245,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			// r2 stores all possible results. Numbers are initialized here
 			// because
 			// we need the correct field.
-			r2 = new MyDecimalMatrix(m.getBMatrix().getScale(), n, n);
+			r2 = new FixedScaleDecimalMatrix(m.getBMatrix().getScale(), n, n);
 
-			MyDecimalMatrix result2 = m.getBSolMatrix();
+			FixedScaleDecimalMatrix result2 = m.getBSolMatrix();
 			if (result2 != null) {
 				q = result2.getColumnDimension();
 			} else {
@@ -2302,7 +2272,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				}
 			}
 
-			MyDecimalMatrix B_comp = m.getBRestMatrix();
+			FixedScaleDecimalMatrix B_comp = m.getBRestMatrix();
 
 			// second and more cycles. If p<oldp means at least one solution has
 			// been found in the last cycle.
@@ -2576,49 +2546,10 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			return bestIndex1;
 		}
 
-		/*
-		 * 
-		 * void computeLinear(double num) {
-		 * 
-		 * }
-		 * 
-		 * void testZero(double num) {
-		 * 
-		 * }
-		 */
 		public void setCoeffBound(int b) {
 			coeffBound = b;
 		}
-		/*
-		 * public int getCoeffBound() { return coeffBound; }
-		 * 
-		 * public void setConsts(int n, String[] listOfNames, double[]
-		 * listOfValues) {
-		 * 
-		 * if (listOfNames.length < n || listOfValues.length !=
-		 * listOfNames.length) { Log.debug("error: size does not match");
-		 * return; } numOfConsts = n; constStrings = listOfNames.clone();
-		 * constValues = listOfValues.clone(); }
-		 */
-		/**
-		 * By default, it is just an identity function. User can change the
-		 * call() method according to the underlying function and the type T of
-		 * the argument. Requirements: the function should be an invertible one,
-		 * and the type of the values should also be T.
-		 * 
-		 * @author lightest
-		 *
-		 * @param <T>
-		 */
-		/*
-		 * public class FunctionForFit<T> implements Callable {
-		 * 
-		 * private T arg; public FunctionForFit(T arg) { this.arg = arg; }
-		 * 
-		 * public T call() throws Exception { return arg; }
-		 * 
-		 * }
-		 */
+
 	}
 
 }

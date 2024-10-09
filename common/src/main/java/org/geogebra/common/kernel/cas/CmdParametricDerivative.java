@@ -3,12 +3,13 @@ package org.geogebra.common.kernel.cas;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
- * ParametricDerivative[ &lt;GeoCurveCartesian> ]
+ * ParametricDerivative[ &lt;GeoCurveCartesian&gt; ]
  */
 public class CmdParametricDerivative extends CommandProcessor
 		implements UsesCAS {
@@ -24,7 +25,7 @@ public class CmdParametricDerivative extends CommandProcessor
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		String label = c.getLabel();
 		GeoElement[] arg;

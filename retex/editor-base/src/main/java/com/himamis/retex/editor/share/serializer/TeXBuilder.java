@@ -43,13 +43,14 @@ import com.himamis.retex.renderer.share.TextStyle;
 import com.himamis.retex.renderer.share.TextStyleAtom;
 import com.himamis.retex.renderer.share.UnderOverArrowAtom;
 import com.himamis.retex.renderer.share.UnderscoreAtom;
+import com.himamis.retex.renderer.share.Unit;
 import com.himamis.retex.renderer.share.commands.CommandOpName;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
  * Directly convert MathComponents into atoms
  * 
- * @author Zbynek & Agoston
+ * @author Zbynek, Agoston
  *
  */
 public class TeXBuilder {
@@ -131,6 +132,10 @@ public class TeXBuilder {
 			}
 
 			ra.add(argument);
+		}
+		MathComponent last = mathFormula.getArgument(mathFormula.size() - 1);
+		if (last instanceof MathCharacter && ((MathCharacter) last).isOperator()) {
+			ra.add(new SpaceAtom(Unit.EM, 0));
 		}
 
 		return ra;
@@ -452,13 +457,14 @@ public class TeXBuilder {
 			ScriptsAtom scriptsAtom = new ScriptsAtom(EmptyAtom.get(), arg1, arg2,
 					TeXConstants.Align.RIGHT);
 			return wrap(scriptsAtom, arg3);
-		case MIXED_NUMBER:
-			Atom whole = build(argument.getArgument(0));
-			Atom frac = new FractionAtom(build(argument.getArgument(1)),
-					build(argument.getArgument(2)));
-			return wrap(whole, frac);
 		case RECURRING_DECIMAL:
-			return new OverlinedAtom(build(argument.getArgument(0)));
+			Atom overline = new OverlinedAtom(build(argument.getArgument(0)));
+			MathComponent next = argument.nextSibling();
+			if (!(next instanceof MathCharacter) || !((MathCharacter) next).isWordBreak()) {
+				return wrap(overline, new SpaceAtom());
+			} else {
+				return overline;
+			}
 		default:
 			StringBuilder functionName = new StringBuilder();
 			teXSerializer.serialize(argument.getArgument(0), functionName);

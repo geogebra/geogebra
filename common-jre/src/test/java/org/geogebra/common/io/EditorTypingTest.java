@@ -505,7 +505,7 @@ public class EditorTypingTest {
 		MetaModel model = new MetaModel();
 		model.setForceBracketAfterFunction(true);
 		EditorChecker inputBoxChecker = new EditorChecker(app, model);
-		inputBoxChecker.setFormatConverter(new SyntaxAdapterImpl(app.kernel));
+		inputBoxChecker.setFormatConverter(new SyntaxAdapterImpl(app.getKernel()));
 
 		inputBoxChecker.type("sin9x").checkAsciiMath("sin(9x)");
 		inputBoxChecker.fromParser("");
@@ -590,6 +590,7 @@ public class EditorTypingTest {
 
 	@Test
 	public void gammaShouldBeRecognizedAsFunction() {
+		checker.add(Unicode.Gamma + "(x)=gamma(x)");
 		checker.type(Unicode.Gamma + "(1+y)").checkGGBMath(Unicode.Gamma + "(1 + y)");
 	}
 
@@ -906,5 +907,55 @@ public class EditorTypingTest {
 	public void collapseSelectionOnArrowRight() {
 		checker.insert("1+2+3+4").select(3, 5).right(1).type("x")
 				.checkAsciiMath("1+2+3+x4");
+	}
+
+	@Test
+	public void shouldNotSerializeEmptyIntPartOfMixedNumber() {
+		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+				.right(1).type("2").right(1).type("3")
+				.checkAsciiMath("((2)/(3))");
+		checker.type("1+")
+				.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+				.right(1).type("2").right(1).type("3")
+				.checkGGBMath("1 + 2 / 3");
+	}
+
+	@Test
+	public void shouldNotSerializeInvalidIntPartOfMixedNumber() {
+		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+				.type("1+")
+				.right(1).type("2").right(1).type("3")
+				.checkGGBMath("1 + 2 / 3");
+	}
+
+	@Test
+	public void shouldSerializeValidMixedNumber() {
+		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+				.type("1")
+				.right(1).type("2").right(1).type("3")
+				.checkGGBMath("1" + Unicode.INVISIBLE_PLUS + "2 / 3");
+		checker.type("(")
+				.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+				.type("1")
+				.right(1).type("2").right(1).type("3")
+				.right(1).type(",1")
+				.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+				.type("2").right(1).type("3")
+				.checkGGBMath("(1" + Unicode.INVISIBLE_PLUS
+						+ "2 / 3, 1" + Unicode.INVISIBLE_PLUS + "2 / 3)");
+	}
+
+	@Test
+	public void shouldSerializeAssignment() {
+		checker.type("a=")
+				.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+				.type("1")
+				.right(1).type("2").right(1).type("3")
+				.checkGGBMath("1" + Unicode.INVISIBLE_PLUS + "2 / 3");
+	}
+
+	@Test
+	public void operatorShouldBeFollowedByZeroSpace() {
+		checker.type("1+").checkPlaceholders("1+\u200b");
 	}
 }

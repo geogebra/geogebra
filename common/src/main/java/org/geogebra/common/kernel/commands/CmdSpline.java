@@ -15,7 +15,7 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * 
- * Spline [&lt;list of points>]
+ * Spline [&lt;List of Points&gt;]
  * 
  * @author Giuliano Bellucci
  * 
@@ -31,7 +31,7 @@ public class CmdSpline extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c)
+	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;

@@ -60,7 +60,6 @@ import org.geogebra.desktop.util.UtilD;
  *    The Api the plugin program can use.
  * </pre>
  * <ul>
- * <h4>Interface:</h4>
  * <li>GgbAPI(Application) //Application owns it
  * <li>getApplication()
  * <li>getKernel()
@@ -106,7 +105,7 @@ public class GgbAPID extends GgbAPIJre {
 			bos.flush();
 			return bos.toByteArray();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return null;
 		}
 	}
@@ -144,7 +143,7 @@ public class GgbAPID extends GgbAPIJre {
 		try {
 			openFileUnsafe(strURL);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -287,32 +286,19 @@ public class GgbAPID extends GgbAPIJre {
 
 			return ret;
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return null;
 		}
 	}
 
-	/**
-	 * JavaScript-like prompt
-	 * 
-	 * @param value0
-	 *            prompt text
-	 * @param value1
-	 *            default value
-	 * @return user's response
-	 */
-	public String prompt(Object value0, Object value1) {
+	@Override
+	public String prompt(Object promptText, Object initValue) {
 		return (String) JOptionPane.showInputDialog(((AppD) app).getFrame(),
-				value0, GeoGebraConstants.APPLICATION_NAME,
-				JOptionPane.PLAIN_MESSAGE, null, null, value1);
+				promptText, GeoGebraConstants.APPLICATION_NAME,
+				JOptionPane.PLAIN_MESSAGE, null, null, initValue);
 	}
 
-	/**
-	 * pops up message dialog with "OK" and "Stop Script"
-	 * 
-	 * @param message
-	 *            to display
-	 */
+	@Override
 	public void alert(String message) {
 		Localization loc = app.getLocalization();
 		Object[] options = { loc.getMenu("StopScript"), loc.getMenu("OK") };

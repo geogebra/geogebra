@@ -39,8 +39,9 @@ public class FocusableWidget implements MayHaveFocus {
 	public boolean focusIfVisible(boolean reverse) {
 		Widget btn = btns[0];
 		if (btn.isVisible() && btn.isAttached()
-				&& !"true".equals(btn.getElement().getAttribute("aria-hidden"))
-				&& !btn.getElement().hasClassName("hideButton")) {
+				&& notAriaHidderOrAriaDisabled(btn)
+				&& isButtonNotHidden(btn)
+				&& isParentVisible(btn)) {
 			if (reverse) {
 				focus(btns[btns.length - 1]);
 			} else {
@@ -50,6 +51,24 @@ public class FocusableWidget implements MayHaveFocus {
 		}
 
 		return false;
+	}
+
+	private boolean notAriaHidderOrAriaDisabled(Widget btn) {
+		return !"true".equals(btn.getElement().getAttribute("aria-hidden"))
+				&& !"true".equals(btn.getElement().getAttribute("aria-disabled"));
+	}
+
+	private boolean isButtonNotHidden(Widget btn) {
+		return !btn.getElement().hasClassName("hideButton")
+				&& !btn.getElement().getStyle().getVisibility().equals("hidden");
+	}
+
+	private boolean isParentVisible(Widget btn) {
+		if (btn.getParent() == null) {
+			return true;
+		} else {
+			return !btn.getParent().getElement().getStyle().getVisibility().equals("hidden");
+		}
 	}
 
 	protected void focus(Widget btn) {

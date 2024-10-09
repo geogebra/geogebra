@@ -152,17 +152,17 @@ public abstract class SerializerAdapter implements Serializer {
 	/**
 	 * Checks if the stringBuilder contains a mixed number e.g. 3 1/2
 	 * @param stringBuilder StringBuilder
-	 * @return Index >= 0 of where to put opening parentheses if there is a mixed number, -1 else
+	 * @return Index &gt;= 0 of where to put opening parentheses if there is a mixed number, -1 else
 	 */
 	public int isMixedNumber(StringBuilder stringBuilder) {
 		boolean isMixedNumber = false;
 		for (int i = stringBuilder.length() - 1; i >= 0; i--) {
 			if (stringBuilder.charAt(i) == ' ' && !isMixedNumber) {
 				continue; // Expecting a space preceding the fraction
-			} else if (stringBuilder.charAt(i) >= '0' && stringBuilder.charAt(i) <= '9') {
+			} else if (Character.isDigit(stringBuilder.charAt(i))) {
 				isMixedNumber = true; // Only allow digits 0 - 9 here
 			} else if (isMixedNumber // Square bracket "[" needed for the SolverSerializer
-					&& " +-*/([".contains(Character.toString(stringBuilder.charAt(i)))) {
+					&& " +-*/()[]{}=,;".contains(Character.toString(stringBuilder.charAt(i)))) {
 				return i + 1;
 			} else {
 				isMixedNumber = false;
@@ -183,7 +183,7 @@ public abstract class SerializerAdapter implements Serializer {
 		for (int i = 0; i < mathFunction.size(); i++) {
 			for (int j = 0; j < mathFunction.getArgument(i).size(); j++) {
 				compare = mathFunction.getArgument(i).getArgument(j).toString();
-				if (compare.compareTo("0") < 0 || compare.compareTo("9") > 0
+				if (!Character.isDigit(compare.charAt(0))
 						&& !compare.equals(Character.toString(Unicode.INVISIBLE_PLUS))) {
 					return false;
 				}

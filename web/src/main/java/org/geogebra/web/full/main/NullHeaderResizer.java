@@ -1,9 +1,11 @@
 package org.geogebra.web.full.main;
 
+import org.gwtproject.dom.client.Element;
+
 /**
  * Null Object implementation of header resizer.
  */
-public class NullHeaderResizer implements HeaderResizer {
+public final class NullHeaderResizer implements HeaderResizer {
 	private static NullHeaderResizer INSTANCE = null;
 
 	/**
@@ -18,6 +20,10 @@ public class NullHeaderResizer implements HeaderResizer {
 		return INSTANCE;
 	}
 
+	private NullHeaderResizer() {
+		// singleton constructor
+	}
+
 	@Override
 	public void resizeHeader() {
 		// nothing to do.
@@ -25,6 +31,16 @@ public class NullHeaderResizer implements HeaderResizer {
 
 	@Override
 	public int getSmallScreenHeight() {
+		return 0;
+	}
+
+	@Override
+	public void reset(Element header) {
+		// nothing to do
+	}
+
+	@Override
+	public int getHeaderHeight() {
 		return 0;
 	}
 }

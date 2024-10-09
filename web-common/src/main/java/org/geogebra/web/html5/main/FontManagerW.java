@@ -19,7 +19,7 @@ public class FontManagerW extends FontManager {
 
 	@Override
 	public GFont getFontCanDisplay(String testString, boolean serif,
-	        int fontStyle, int fontSize1) {
+			int fontStyle, int fontSize1) {
 		GFontW ret = new GFontW(
 				serif ? GFontW.GEOGEBRA_FONT_SERIF
 						: GFontW.GEOGEBRA_FONT_SANSERIF,

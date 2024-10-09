@@ -37,6 +37,7 @@ public class TimerSystemW {
 
 	private int idle;
 	private long browserSkipped = 0;
+	private boolean detached = false;
 
 	/**
 	 * Create new timer system
@@ -88,6 +89,9 @@ public class TimerSystemW {
 	 * Make sure the clock is ticking
 	 */
 	public void ensureRunning() {
+		if (detached) {
+			return;
+		}
 		if (!this.repaintTimer.isRunning()) {
 			repaintTimer.scheduleRepeating(MAIN_LOOP_DELAY);
 		} else {
@@ -101,7 +105,12 @@ public class TimerSystemW {
 		}
 	}
 
-	public void cancel() {
+	/**
+	 * Stop timer, make sure it's not revived from `ensureTimerRunning`
+	 * which may be called asynchronously
+	 */
+	public void detach() {
 		repaintTimer.cancel();
+		detached = true;
 	}
 }

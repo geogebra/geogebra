@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.dialog;
 
-import java.util.EnumSet;
+import java.util.Arrays;
+import java.util.List;
 
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.dialog.Export3dDialogInterface;
@@ -59,7 +60,7 @@ public class Export3dDialog extends ComponentDialog
 				String labelTxt, String errorTxt, String defaultValue,
 				int width, String suffixTxt) {
 			super(app, placeholder, labelTxt, errorTxt, defaultValue, width,
-					1, suffixTxt, false);
+					suffixTxt, false);
 			numberValidator = new NumberValidator(
 					app.getKernel().getAlgebraProcessor());
 			localization = app.getLocalization();
@@ -114,65 +115,66 @@ public class Export3dDialog extends ComponentDialog
 
 	}
 
-	private enum DimensionField {
-		WIDTH(dimensionNF) {
-			@Override
-			protected void createUpdateSet() {
-				updateSet = EnumSet.of(LENGTH, HEIGHT, SCALE_CM);
-			}
-		},
-		LENGTH(dimensionNF) {
-			@Override
-			protected void createUpdateSet() {
-				updateSet = EnumSet.of(WIDTH, HEIGHT, SCALE_CM);
-			}
-		},
-		HEIGHT(dimensionNF) {
-			@Override
-			protected void createUpdateSet() {
-				updateSet = EnumSet.of(WIDTH, LENGTH, SCALE_CM);
-			}
-		},
-		SCALE_UNIT(scaleNF) {
-			@Override
-			protected void createUpdateSet() {
-				updateSet = EnumSet.of(WIDTH, LENGTH, HEIGHT);
-			}
+	DimensionField WIDTH = new DimensionField(dimensionNF) {
+		@Override
+		protected void createUpdateSet() {
+			updateSet = Arrays.asList(LENGTH, HEIGHT, SCALE_CM);
+		}
+	};
+	DimensionField LENGTH = new DimensionField(dimensionNF) {
+		@Override
+		protected void createUpdateSet() {
+			updateSet = Arrays.asList(WIDTH, HEIGHT, SCALE_CM);
+		}
+	};
+	DimensionField HEIGHT = new DimensionField(dimensionNF) {
+		@Override
+		protected void createUpdateSet() {
+			updateSet = Arrays.asList(WIDTH, LENGTH, SCALE_CM);
+		}
+	};
+	DimensionField SCALE_UNIT = new DimensionField(scaleNF) {
+		@Override
+		protected void createUpdateSet() {
+			updateSet = Arrays.asList(WIDTH, LENGTH, HEIGHT);
+		}
 
-			@Override
-			protected double calcCurrentRatio() {
-				return SCALE_CM.calcCurrentRatio();
-			}
-		},
-		SCALE_CM(scaleNF) {
-			@Override
-			protected void createUpdateSet() {
-				updateSet = EnumSet.of(WIDTH, LENGTH, HEIGHT);
-			}
+		@Override
+		protected double calcCurrentRatio() {
+			return SCALE_CM.calcCurrentRatio();
+		}
+	};
+	DimensionField SCALE_CM = new DimensionField(scaleNF) {
+		@Override
+		protected void createUpdateSet() {
+			updateSet = Arrays.asList(WIDTH, LENGTH, HEIGHT);
+		}
 
-			@Override
-			protected void setValue(double v) {
-				if (v > 1) {
-					super.setValue(v);
-					SCALE_UNIT.setValue(1);
-				} else {
-					super.setValue(1);
-					SCALE_UNIT.setValue(1 / v);
-				}
+		@Override
+		protected void setValue(double v) {
+			if (v > 1) {
+				super.setValue(v);
+				SCALE_UNIT.setValue(1);
+			} else {
+				super.setValue(1);
+				SCALE_UNIT.setValue(1 / v);
 			}
+		}
 
-			@Override
-			protected double calcCurrentRatio() {
-				return super.calcCurrentRatio()
-						/ SCALE_UNIT.inputField.getParsedValue();
-			}
+		@Override
+		protected double calcCurrentRatio() {
+			return super.calcCurrentRatio()
+					/ SCALE_UNIT.inputField.getParsedValue();
+		}
 
-		};
+	};
+
+	private abstract static class DimensionField {
 
 		ParsableComponentInputField inputField;
 		double initValue;
 		final private NumberFormatAdapter nf;
-		protected EnumSet<DimensionField> updateSet;
+		protected List<DimensionField> updateSet;
 		private boolean isUsed;
 
 		DimensionField(NumberFormatAdapter nf) {
@@ -227,7 +229,7 @@ public class Export3dDialog extends ComponentDialog
 
 		abstract protected void createUpdateSet();
 		
-		private EnumSet<DimensionField> getUpdateSet() {
+		private List<DimensionField> getUpdateSet() {
 			if (updateSet == null) {
 				createUpdateSet();
 			}
@@ -238,15 +240,15 @@ public class Export3dDialog extends ComponentDialog
 			setValue(initValue * ratio);
 		}
 
-		static public double calcScale() {
-			return (SCALE_CM.inputField.getParsedValue()
-					/ SCALE_UNIT.inputField.getParsedValue())
-					/ MM_TO_CM;
-		}
-
 		public boolean parse() {
 			return !isUsed || inputField.parse(true, false, false);
 		}
+	}
+
+	private double calcScale() {
+		return (SCALE_CM.inputField.getParsedValue()
+				/ SCALE_UNIT.inputField.getParsedValue())
+				/ MM_TO_CM;
 	}
 
 	/**
@@ -282,11 +284,11 @@ public class Export3dDialog extends ComponentDialog
 	private void buildDimensionsPanel(FlowPanel root) {
 		FlowPanel dimensionsPanel = new FlowPanel();
 		dimensionsPanel.setStyleName("panelRow");
-		DimensionField.WIDTH
+		WIDTH
 				.setInputField(addTextField("Width", "cm", dimensionsPanel));
-		DimensionField.LENGTH
+		LENGTH
 				.setInputField(addTextField("Length", "cm", dimensionsPanel));
-		DimensionField.HEIGHT
+		HEIGHT
 				.setInputField(addTextField("Height", "cm", dimensionsPanel));
 		root.add(dimensionsPanel);
 	}
@@ -294,13 +296,13 @@ public class Export3dDialog extends ComponentDialog
 	private void buildScalePanel(FlowPanel root) {
 		FlowPanel scalePanel = new FlowPanel();
 		scalePanel.setStyleName("panelRow");
-		DimensionField.SCALE_UNIT
+		SCALE_UNIT
 				.setInputField(addTextField("Scale", "units", scalePanel));
 		Label equalLabel = new Label();
 		equalLabel.setText("=");
 		equalLabel.addStyleName("equal");
 		scalePanel.add(equalLabel);
-		DimensionField.SCALE_CM
+		SCALE_CM
 				.setInputField(addTextField(null, "cm", scalePanel));
 		root.add(scalePanel);
 	}
@@ -353,7 +355,7 @@ public class Export3dDialog extends ComponentDialog
 	public void onPositiveAction() {
 		// check if everything can be parsed ok
 		boolean ok = true;
-		for (DimensionField f : DimensionField.values()) {
+		for (DimensionField f : getDimensionFields()) {
 			ok = checkOkAndSetFocus(ok, f.parse(), f.inputField);
 
 		}
@@ -369,12 +371,16 @@ public class Export3dDialog extends ComponentDialog
 		}
 	}
 
+	private List<DimensionField> getDimensionFields() {
+		return Arrays.asList(WIDTH, LENGTH, HEIGHT, SCALE_UNIT, SCALE_CM);
+	}
+
 	private void initValues(double width, double length, double height,
 			double scale, double thickness) {
-		DimensionField.WIDTH.setInitValue(width);
-		DimensionField.LENGTH.setInitValue(length);
-		DimensionField.HEIGHT.setInitValue(height);
-		DimensionField.SCALE_CM.setInitValue(scale);
+		WIDTH.setInitValue(width);
+		LENGTH.setInitValue(length);
+		HEIGHT.setInitValue(height);
+		SCALE_CM.setInitValue(scale);
 		lineThicknessValue.setInputText(dimensionNF.format(thickness));
 	}
 
@@ -387,14 +393,14 @@ public class Export3dDialog extends ComponentDialog
 		super.show();
 	}
 
-	static private void createController() {
-		for (DimensionField dimension : DimensionField.values()) {
+	private void createController() {
+		for (DimensionField dimension : getDimensionFields()) {
 			dimension.setController();
 		}
 	}
 
 	private void updateScaleAndThickness() {
-		lastUpdatedScale = DimensionField.calcScale();
+		lastUpdatedScale = calcScale();
 		lastUpdatedThickness = lineThicknessValue.getParsedValue();
 	}
 

@@ -5,7 +5,8 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
+import org.geogebra.web.html5.gui.tooltip.ToolTip;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -51,10 +52,7 @@ public class SaveCallback {
 		if (!isMacro) {
 			app.setSaved();
 			String msg = state == SaveState.ERROR
-					? (app.getLocalization().getMenu("SaveAccountFailed")
-							+ "\n"
-							+ app.getLocalization()
-									.getMenu("SavedLocalCopySuccessfully"))
+					? app.getLocalization().getMenu("SaveAccountFailed")
 					: loc.getMenu("SavedSuccessfully");
 			Material activeMaterial = app.getActiveMaterial();
 			if (activeMaterial != null
@@ -64,16 +62,17 @@ public class SaveCallback {
 					msg += loc.getPlain("SeveralVersionsOf",
 							app.getKernel().getConstruction().getTitle());
 				}
-				ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-				ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-						msg, null, app.getLocalization().getMenu("Share"),
-						activeMaterial.getURL(), app);
+				app.getToolTipManager().setBlockToolTip(false);
+				ToolTip toolTip = new ToolTip(msg, null, "Share",
+						activeMaterial.getURL());
+				app.getToolTipManager().showBottomInfoToolTip(toolTip, app,
+						ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
 			} else {
-				ToolTipManagerW.sharedInstance().showBottomMessage(
+				app.getToolTipManager().showBottomMessage(
 						msg, app);
 			}
 		} else {
-			ToolTipManagerW.sharedInstance().showBottomMessage(
+			app.getToolTipManager().showBottomMessage(
 					loc.getMenu("SavedSuccessfully"), app);
 		}
 	}
@@ -91,7 +90,7 @@ public class SaveCallback {
 				|| mat.getType().equals(MaterialType.ggs)) {
 			app.setActiveMaterial(mat);
 			onSaved(app, state, false);
-			if (((GuiManagerW) app.getGuiManager()).browseGUIwasLoaded()) {
+			if (((GuiManagerW) app.getGuiManager()).isOpenFileViewLoaded()) {
 				if (!isLocal) {
 					mat.setSyncStamp(mat.getModified());
 				}

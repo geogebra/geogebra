@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.export.MathmlTemplate;
 import org.geogebra.common.factories.FormatFactory;
@@ -7,15 +9,18 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.MinusOne;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
+import org.geogebra.common.main.settings.GeneralSettings;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
@@ -60,6 +65,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	private boolean localizeCmds;
 	private boolean usePrefix;
+	/**
+	 * Using surd does not work in combination with the Solve command
+	 */
+	private boolean useSurdForFractionalPowers = true;
 	private boolean questionMarkForNaN = true;
 
 	private boolean numeric = true;
@@ -70,6 +79,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private boolean shouldPrintMethodsWithParenthesis;
 	private boolean forEditorParser = false;
 	private boolean allowShortLhs = true;
+	private boolean allowPiHack = true;
+	private boolean supportsFractions = true;
+	private char pointCoordBar = '|';
+	private boolean displayStyle;
 
 	/**
 	 * Default template, but do not localize commands
@@ -84,11 +97,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private static final double[] precisions = new double[] { 5E-1, 5E-2, 5E-3,
 			5E-4, 5E-5, 5E-6, 5E-7, 5E-8, 5E-9, 5E-10, 5E-11, 5E-12, 5E-13,
 			5E-14, 5E-15, 5E-16, 5E-17 };
-
-	private boolean allowPiHack = true;
-
-	private boolean supportsFractions = true;
-	private char pointCoordBar = '|';
 
 	/**
 	 * Template which prints numbers with maximal precision and adds prefix to
@@ -255,7 +263,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		giacTemplate.localizeCmds = false;
 		giacTemplate.setType(StringType.GIAC);
 		giacTemplate.nf = FormatFactory.getPrototype().getNumberFormat(15);
-
 	}
 
 	/**
@@ -543,8 +550,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		testNumeric.sf = FormatFactory.getPrototype().getScientificFormat(15,
 				20, false);
 	}
-
-	private boolean displayStyle;
 
 	/**
 	 * Creates default string template
@@ -929,6 +934,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 		result.pointCoordBar = pointCoordBar;
 		result.allowPiHack = allowPiHack;
 		result.displayStyle = displayStyle;
+		result.useSurdForFractionalPowers = useSurdForFractionalPowers;
+		result.changeArcTrig = changeArcTrig;
+		result.numeric = numeric;
+		result.niceQuotes = niceQuotes;
+		result.printsUnicodeSqrt = printsUnicodeSqrt;
+		result.shouldPrintMethodsWithParenthesis = shouldPrintMethodsWithParenthesis;
+		result.forEditorParser = forEditorParser;
+		result.allowShortLhs = allowShortLhs;
 		return result;
 	}
 
@@ -968,7 +981,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/**
 	 * Returns ExpressionNodeConstants.TMP_VARIABLE_PREFIX + label.
 	 *
-	 * important eg i -> ggbtmpvari, e -> ggbtmpvare so that they aren't
+	 * <p>important eg i -&gt; ggbtmpvari, e -&gt; ggbtmpvare so that they aren't
 	 * confused with the constants
 	 */
 	private static String addTempVariablePrefix(final String label) {
@@ -1006,16 +1019,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * @return copy of this, with string type set to StringType.LATEX
+	 * @return copy of this, with string type set to LATEX and more digits allowed
 	 */
-	public StringTemplate deriveLaTeXTemplate() {
-
-		if (stringType.equals(StringType.LATEX)) {
+	public StringTemplate derivePrecisionPreservingLaTeXTemplate() {
+		if (stringType.equals(StringType.LATEX) && allowMoreDigits) {
 			return this;
 		}
 
 		StringTemplate ret = this.copy();
-
+		ret.allowMoreDigits = true;
 		ret.setType(StringType.LATEX);
 
 		return ret;
@@ -1157,41 +1169,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 			} else if ((left.evaluatesToNumber(false)
 					|| left instanceof NumberValue)
 					&& right.evaluatesTo3DVector()) {
-				// Log.debug(left.getClass()+" "+right.getClass());
-				// eg 10 + (1,2,3)
-				sb.append("((");
-				sb.append(rightStr);
-				sb.append(")[0]+");
-				sb.append(leftStr);
-				sb.append(",(");
-				sb.append(rightStr);
-				sb.append(")[1]+");
-				sb.append(leftStr);
-				sb.append(",(");
-				sb.append(rightStr);
-				sb.append(")[2]+");
-				sb.append(leftStr);
-				sb.append(')');
+				vector3DNumberOperation(rightStr, leftStr, '+', sb);
 
 				// don't use isNumberValue() as that leads to an evaluate()
 			} else if (left.evaluatesTo3DVector()
 					&& (right.evaluatesToNumber(false)
 							|| right instanceof NumberValue)) {
-				// Log.debug(left.getClass()+" "+right.getClass());
-				// eg (1,2,3) + 10
-				sb.append("((");
-				sb.append(leftStr);
-				sb.append(")[0]+");
-				sb.append(rightStr);
-				sb.append(",(");
-				sb.append(leftStr);
-				sb.append(")[1]+");
-				sb.append(rightStr);
-				sb.append(",(");
-				sb.append(leftStr);
-				sb.append(")[2]+");
-				sb.append(rightStr);
-				sb.append(')');
+				vector3DNumberOperation(leftStr, rightStr, '+', sb);
 
 			} else if (left.evaluatesToVectorNotPoint()
 					&& right.evaluatesToVectorNotPoint()) {
@@ -1364,12 +1348,32 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	}
 
+	private void vector3DNumberOperation(String vectorStr, String numberStr,
+			char operation, StringBuilder sb) {
+		sb.append("(xcoord(");
+		sb.append(vectorStr);
+		sb.append(")").append(operation);
+		sb.append(numberStr);
+		sb.append(",ycoord(");
+		sb.append(vectorStr);
+		sb.append(")").append(operation);
+		sb.append(numberStr);
+		sb.append(",zcoord(");
+		sb.append(vectorStr);
+		sb.append(")").append(operation);
+		sb.append(numberStr);
+		sb.append(')');
+	}
+
 	/**
 	 * @param leftStr Left subtree as string
 	 * @param rightStr Right subtree as string
 	 * @return leftStr + rightStr
 	 */
 	public String invisiblePlusString(String leftStr, String rightStr) {
+		if (stringType == StringType.GIAC) {
+			return leftStr + "+" + rightStr;
+		}
 		return leftStr + Unicode.INVISIBLE_PLUS + rightStr;
 	}
 
@@ -1396,6 +1400,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public void getMinus(StringBuilder sb, Localization loc) {
 		if (stringType == StringType.SCREEN_READER_ASCII) {
 			sb.append(ScreenReader.getMinus(loc));
+		} else if (stringType == StringType.SCREEN_READER_UNICODE) {
+			sb.append(" ").append(Unicode.MINUS).append(" ");
 		} else {
 			appendOptionalSpace(sb);
 			sb.append("-");
@@ -1438,47 +1444,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Used for French and Hungarian open intervals (StepByStep)
-	 *
-	 * @return left ]
+	 * @return semicolon
 	 */
-	public String invertedLeftSquareBracket() {
-		return left() + "]";
-	}
-
-	/**
-	 * Used for French and Hungarian open intervals (StepByStep)
-	 *
-	 * @return right [
-	 */
-	public String invertedRightSquareBracket() {
-		return right() + "[";
-	}
-
-	/**
-	 * Used for Czech closed intervals (StepByStep)
-	 *
-	 * @return left <
-	 */
-	public String leftAngleBracket() {
-		if (stringType.equals(StringType.LATEX)) {
-			return " \\left \\langle";
+	public String polarSeparator() {
+		if (stringType.equals(StringType.SCREEN_READER_ASCII)) {
+			return ScreenReader.getPolarSeparator();
 		}
 
-		return "\u3008";
-	}
-
-	/**
-	 * Used for Czech closed intervals (StepByStep)
-	 *
-	 * @return right >
-	 */
-	public String rightAngleBracket() {
-		if (stringType.equals(StringType.LATEX)) {
-			return " \\right \\rangle";
-		}
-
-		return "\u3009";
+		return ";";
 	}
 
 	private String right() {
@@ -1582,19 +1555,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					|| left instanceof NumberValue)
 					&& right.evaluatesTo3DVector()) {
 				// eg 10 - (1,2,3)
-				sb.append("(");
-				sb.append(leftStr);
-				sb.append("-(");
-				sb.append(rightStr);
-				sb.append(")[0],");
-				sb.append(leftStr);
-				sb.append("-(");
-				sb.append(rightStr);
-				sb.append(")[1],");
-				sb.append(leftStr);
-				sb.append("-(");
-				sb.append(rightStr);
-				sb.append(")[2])");
+				vector3DNumberOperation(rightStr, leftStr, '-', sb);
 
 				// don't use isNumberValue(), isListValue as those lead to an
 				// evaluate()
@@ -1602,19 +1563,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					&& (right.evaluatesToNumber(false)
 							|| right instanceof NumberValue)) {
 				// eg (1,2,3) - 10
-				sb.append("((");
-				sb.append(leftStr);
-				sb.append(")[0]-(");
-				sb.append(rightStr);
-				sb.append("),(");
-				sb.append(leftStr);
-				sb.append(")[1]-(");
-				sb.append(rightStr);
-				sb.append("),(");
-				sb.append(leftStr);
-				sb.append(")[2]-(");
-				sb.append(rightStr);
-				sb.append("))");
+				vector3DNumberOperation(leftStr, rightStr, '-', sb);
 
 			} else if (left.evaluatesToVectorNotPoint()
 					&& right.evaluatesToVectorNotPoint()) {
@@ -1793,7 +1742,27 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return requiresBrackets(value.wrap().getLeft(), valueForm);
 		}
 
+		if (ExpressionNode.opID(value.unwrap()) == Operation.MULTIPLY.ordinal()) {
+			return isVectorMatrixMultiplication(value);
+		}
+
 		return ExpressionNode.opID(value.unwrap()) < Operation.MULTIPLY.ordinal();
+	}
+
+	/**
+	 * Multiplying a vector with another vector or a vector with a matrix should
+	 * append brackets left and right
+	 * @param value ExpressionValue
+	 * @return True if this is a vector * vector or vector * matrix multiplication, false else
+	 */
+	private boolean isVectorMatrixMultiplication(ExpressionValue value) {
+		ExpressionValue left = value.wrap().getLeft();
+		ExpressionValue right = value.wrap().getRight();
+		if (left != null && right != null) {
+			return ((left.evaluatesToList() || isNDvector(left)) && (isNDvector(right)))
+					|| (isNDvector(left) && (right.evaluatesToList() || isNDvector(right)));
+		}
+		return false;
 	}
 
 	/**
@@ -1849,8 +1818,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			// vector * (matrix * vector) needs brackets; always use brackets
 			// for internal templates
-			if (useExtensiveBrackets()
-					|| (left.evaluatesToList() && isNDvector(right))) {
+			if (useExtensiveBrackets()) {
 				sb.append(leftBracket());
 			}
 
@@ -1871,9 +1839,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					}
 				}
 			} else {
-				sb.append(leftBracket());
-				sb.append(leftStr);
-				sb.append(rightBracket());
+				appendWithBrackets(sb, leftStr);
 			}
 
 			// right wing
@@ -1997,15 +1963,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 						sb.append(multiplicationSpace());
 					}
 				}
-				sb.append(leftBracket());
-				sb.append(rightStr);
-				sb.append(rightBracket());
+				appendWithBrackets(sb, rightStr);
 			}
 
 			// vector * (matrix * vector) needs brackets; always use brackets
 			// for internal templates
-			if (useExtensiveBrackets()
-					|| (left.evaluatesToList() && isNDvector(right))) {
+			if (useExtensiveBrackets()) {
 				sb.append(rightBracket());
 			}
 
@@ -2675,12 +2638,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Serialize chained boolean operations, eg 2>x>1.
+	 * Serialize chained boolean operations, eg 2&gt;x&gt;1.
 	 *
 	 * @param left
-	 *            left expression eg 2>x
+	 *            left expression eg 2&gt;x
 	 * @param right
-	 *            right expression eg x>1
+	 *            right expression eg x&gt;1
 	 *
 	 * @param leftStr
 	 *            serialized left expression
@@ -2688,7 +2651,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 *            serialized right expression
 	 * @param valueForm
 	 *            whether to substitute variables
-	 * @return 2>x>1 with appropriate brackets
+	 * @return 2&gt;x&gt;1 with appropriate brackets
 	 *
 	 */
 	public String andIntervalString(ExpressionValue left, ExpressionValue right,
@@ -2848,8 +2811,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb = new StringBuilder();
 
 			// left wing
-			if ((leftStr.charAt(0) != '-') && // no unary
-					isSinglePowerArg(left) || left.isOperation(Operation.NROOT)
+			if ((leftStr.charAt(0) != '-')
+					&& isSinglePowerArg(left) || left.isOperation(Operation.NROOT)
 					|| left.isOperation(Operation.CBRT)) { // not +, -, *, /, ^,
 				// e^x
 
@@ -2968,18 +2931,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 				&& right.isConstant()) {
 			ExpressionNode enR = (ExpressionNode) right;
 
-			// was simplify(surd, causes problems
-			// GGB-321
-			sb.append("surd(");
-			sb.append(leftStr);
-			sb.append(',');
-			// #4186: make sure we send value string to CAS
-			sb.append(expToString(enR.getRight(), valueForm));
-			sb.append(")");
-			sb.append("^(");
-			sb.append(expToString(enR.getLeft(), valueForm));
-			sb.append(")");
-
+			if (containsVariable(left) && !useSurdForFractionalPowers) {
+				powerStringGiacWithCaret(sb, leftStr, enR, valueForm);
+			} else {
+				powerStringGiacWithSurd(sb, leftStr, enR, valueForm);
+			}
 		} else {
 
 			sb.append("(");
@@ -2998,6 +2954,41 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append(")");
 		}
 		return sb.toString();
+	}
+
+	/**
+	 * @param value ExpressionValue
+	 * @return True if the passed ExpressionValue contains a Variable, FunctionVariable,
+	 * or GeoDummyVariable
+	 */
+	private boolean containsVariable(ExpressionValue value) {
+		return value.inspect((v) -> v.isVariable()
+				|| v instanceof FunctionVariable
+				|| v instanceof GeoDummyVariable);
+	}
+
+	private void powerStringGiacWithCaret(StringBuilder sb, String leftStr,
+			ExpressionNode right, boolean valueForm) {
+		sb.append("((");
+		sb.append(leftStr);
+		sb.append(")^((");
+		sb.append(expToString(right.getLeft(), valueForm));
+		sb.append(")/(");
+		sb.append(expToString(right.getRight(), valueForm));
+		sb.append(")))");
+	}
+
+	private void powerStringGiacWithSurd(StringBuilder sb, String leftStr,
+			ExpressionNode right, boolean valueForm) {
+		// GGB-321
+		sb.append("surd(");
+		sb.append(leftStr);
+		sb.append(',');
+		// #4186: make sure we send value string to CAS
+		sb.append(expToString(right.getRight(), valueForm));
+		sb.append(")^(");
+		sb.append(expToString(right.getLeft(), valueForm));
+		sb.append(")");
 	}
 
 	/**
@@ -3035,12 +3026,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 *
 	 * @param sb
 	 *            builder
-	 * @param leftStr
-	 *            serialized expression
+	 * @param expression
+	 *            serialized expression (String)
 	 */
-	public void appendWithBrackets(StringBuilder sb, String leftStr) {
+	public void appendWithBrackets(StringBuilder sb, String expression) {
 		sb.append(leftBracket());
-		sb.append(leftStr);
+		sb.append(expression);
 		sb.append(rightBracket());
 	}
 
@@ -3645,7 +3636,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append(ScreenReader.getComma());
 		} else {
 			sb.append(localization.getComma());
-			appendOptionalSpace(sb);
+			if (isLatex()) {
+				sb.append("\\;");
+			} else {
+				appendOptionalSpace(sb);
+			}
 		}
 	}
 
@@ -3676,6 +3671,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
+	 * @return Copy of this that does not use surd for fractional powers
+	 */
+	public StringTemplate deriveWithoutSurds() {
+		assert stringType == StringType.GIAC;
+		StringTemplate copy = copy();
+		copy.useSurdForFractionalPowers = false;
+		return copy;
+	}
+
+	/**
 	 * @return whether to print matrices and vectors in display style (=multiple lines)
 	 */
 	public boolean isDisplayStyle() {
@@ -3690,5 +3695,30 @@ public class StringTemplate implements ExpressionNodeConstants {
 		StringTemplate copy = copy();
 		copy.printFormPI = piString;
 		return copy;
+	}
+
+	/**
+	 * @param strToString formatted number
+	 * @return number with - replaced for current string template
+	 */
+	public String fixMinus(String strToString) {
+		if (stringType == ExpressionNodeConstants.StringType.SCREEN_READER_UNICODE) {
+			return strToString.replace("-", String.valueOf(Unicode.MINUS));
+		}
+		return strToString;
+	}
+
+	/**
+	 * @param settings settings defining coordinate style
+	 * @return delimiter for cartesian coordinates
+	 */
+	public String getCartesianDelimiter(@CheckForNull GeneralSettings settings) {
+		if (isLatex()) {
+			return ",\\;";
+		}
+		String delimiter = settings != null
+				&& settings.getCoordFormat() == Kernel.COORD_STYLE_AUSTRIAN
+				? (getOptionalSpace() + getPointCoordBar()) : ",";
+		return delimiter + getOptionalSpace();
 	}
 }

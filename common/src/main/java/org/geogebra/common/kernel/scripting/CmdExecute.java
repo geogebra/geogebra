@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.scripting;
 
+import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -12,13 +13,13 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * Execute[&lt;list of commands>]
+ * Execute[&lt;list of commands&gt;]
  */
 public class CmdExecute extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,8 +48,8 @@ public class CmdExecute extends CmdScripting {
 		// this is new in GeoGebra 4.2 and it will stop some files working
 		// but causes problems if the files are opened and edited
 		// and in the web project
-		boolean oldVal = kernel.isUsingInternalCommandNames();
-		kernel.setUseInternalCommandNames(true);
+		CommandLookupStrategy oldVal = kernel.getCommandLookupStrategy();
+		kernel.setCommandLookupStrategy(CommandLookupStrategy.XML);
 
 		for (int i = 0; i < list.size(); i++) {
 			try {
@@ -69,11 +70,7 @@ public class CmdExecute extends CmdScripting {
 				break;
 			}
 		}
-
-		kernel.setUseInternalCommandNames(oldVal);
-
-		app.storeUndoInfo();
+		kernel.setCommandLookupStrategy(oldVal);
 		return arg;
-
 	}
 }

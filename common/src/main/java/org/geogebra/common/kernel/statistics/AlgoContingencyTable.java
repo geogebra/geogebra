@@ -182,8 +182,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		input = new GeoElement[outList.size()];
 		input = outList.toArray(input);
 
-		setOutputLength(1);
-		setOutput(0, table);
+		setOnlyOutput(table);
 		setDependencies(); // done by AlgoElement
 	}
 

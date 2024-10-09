@@ -19,6 +19,7 @@ import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.main.settings.LayoutSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -56,7 +57,7 @@ public abstract class Layout implements SettingListener {
 
 		DockSplitPaneData[] spData = getSPData(app, avPercent);
 		String defToolbar = ToolBar.getAllToolsNoMacros(app.isHTML5Applet(),
-				app.isExam(), app);
+				GlobalScope.examController.isExamActive(), app);
 
 		// algebra & graphics (default settings of GeoGebra < 3.2)
 		Perspective graphing = createGraphingPerspective(app, spData, defToolbar);
@@ -387,7 +388,7 @@ public abstract class Layout implements SettingListener {
 				SwingConstants.HORIZONTAL_SPLIT);
 
 		String defToolbar = ToolBar.getAllToolsNoMacros(app.isHTML5Applet(),
-				app.isExam(), app);
+				GlobalScope.examController.isExamActive(), app);
 
 		return new Perspective(Perspective.SCIENTIFIC, spData, dpData,
 				defToolbar, true, true, true, true, true,

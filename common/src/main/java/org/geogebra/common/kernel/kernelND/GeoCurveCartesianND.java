@@ -10,11 +10,12 @@ import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
+import org.geogebra.common.kernel.algos.AlgoSpline;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -337,7 +338,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	 */
 	@Override
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
-			boolean symbolic, MyArbitraryConstant arbconst) {
+			boolean symbolic, ArbitraryConstantRegistry arbconst) {
 		GeoCurveCartesianND c = (GeoCurveCartesianND) f;
 
 		if (c.isDefined() && getFun(0) != null) {
@@ -836,4 +837,11 @@ public abstract class GeoCurveCartesianND extends GeoElement
 		return geo.isGeoCurveCartesian() ? ExtendedBoolean.UNKNOWN : ExtendedBoolean.FALSE;
 	}
 
+	/**
+	 *
+	 * @return if curve was constructed as a spline.
+	 */
+	public boolean isSpline() {
+		return getParentAlgorithm() instanceof AlgoSpline;
+	}
 }

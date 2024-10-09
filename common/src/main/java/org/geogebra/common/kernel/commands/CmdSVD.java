@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * SVD.Syntax=[ &lt;Matrix> ]
+ * SVD.Syntax=[ &lt;Matrix&gt; ]
  * 
  * @author csilla
  *
@@ -26,7 +26,7 @@ public class CmdSVD extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c);
 		switch (n) {

@@ -58,7 +58,6 @@
 				height: 48px;
 				line-height: 48px;
 				display: inline-block;
-				color: colors.$text-primary;
 			}
 
 			.switch {
@@ -67,7 +66,6 @@
 		}
 
 		.intervalsLbl {
-			color: colors.$text-secondary;
 			font-size: 75%;
 			margin-top: 12px;
 		}
@@ -76,7 +74,7 @@
 			padding: 0;
 		}
 
-		.MyToggleButton {
+		.ToggleButton {
 			padding: 7px;
 			border-radius: 2px;
 			margin-left: 0;
@@ -94,7 +92,6 @@
 			.gwt-Label {
 				margin: 8px 0 0 0;
 				font-size: 75%;
-				color: colors.$text-secondary;
 				line-height: unset;
 			}
 

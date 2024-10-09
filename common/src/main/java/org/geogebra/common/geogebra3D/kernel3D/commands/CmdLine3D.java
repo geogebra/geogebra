@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.commands;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdLine;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -10,7 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Line[ &lt;GeoPoint3D>, &lt;GeoPoint3D> ] or CmdLine
+ * Line[ &lt;GeoPoint3D&gt;, &lt;GeoPoint3D&gt; ] or CmdLine
  */
 public class CmdLine3D extends CmdLine {
 	/**
@@ -22,7 +23,7 @@ public class CmdLine3D extends CmdLine {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -60,7 +61,7 @@ public class CmdLine3D extends CmdLine {
 			}
 		}
 
-		return super.process(c);
+		return super.process(c, info);
 	}
 
 }

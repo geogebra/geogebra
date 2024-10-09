@@ -43,16 +43,24 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class ConstructionProtocolView implements ConstructionStepper {
 
 	@Weak
-	public App app;
+	protected final App app;
 	@Weak
-	public Kernel kernel;
+	protected final Kernel kernel;
 	@SuppressFBWarnings
-	public ConstructionTableData data;
+	protected ConstructionTableData data;
 	protected boolean isViewAttached;
-	public ArrayList<ConstructionProtocolNavigation> navigationBars = new ArrayList<>();
+	protected ArrayList<ConstructionProtocolNavigation> navigationBars = new ArrayList<>();
 
 	protected boolean useColors;
 	protected boolean addIcons;
+
+	/**
+	 * @param app application
+	 */
+	public ConstructionProtocolView(App app) {
+		this.app = app;
+		kernel = app.getKernel();
+	}
 
 	protected static String getAlgebra(GeoElement geo) {
 		if (geo instanceof GeoText) {
@@ -246,9 +254,9 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			int prevIndex;
 
 			index1 = (rowNumber < 0) ? -1
-					: /* data. */getConstructionIndex(rowNumber);
-			prevIndex = (rowNumber < 1) ? -1 : /* data. */
-					getConstructionIndex(rowNumber - 1);
+					: getConstructionIndex(rowNumber);
+			prevIndex = (rowNumber < 1) ? -1
+					: getConstructionIndex(rowNumber - 1);
 
 			// TODO: This logic could be merged with the HTML export logic.
 			int m;
@@ -1224,11 +1232,11 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		for (int i = 0; i < n; i++) {
 			GeoCasCell cell = table.getGeoCasCell(i);
 
-			String input = cell.getInput(StringTemplate.casPrintTemplate);
+			String input = cell.getLocalizedInput();
 			sb.append("<tr>\n");
 
 			sb.append("<td>");
-			sb.append("#" + (i + 1));
+			sb.append("#").append(i + 1);
 			sb.append("</td>\n");
 			sb.append("<td>");
 			appendHTML(sb, input);
@@ -1247,7 +1255,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		sb.append(StringUtil.toHTMLString(s));
 	}
 
-	private static void addSpreadsheet(StringBuilder sb, 
+	private static void addSpreadsheet(StringBuilder sb,
 			Kernel kernel2) {
 		
 		GuiManagerInterface gm = kernel2.getApplication().getGuiManager();

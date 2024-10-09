@@ -40,11 +40,8 @@ import org.geogebra.ggbjdk.java.awt.geom.utils.GWTMath;
  * start angle, angular extent (length of the arc), and a closure type
  * (<CODE>OPEN</CODE>, <CODE>CHORD</CODE>, or <CODE>PIE</CODE>).
  * <p>
- * <a name="inscribes">
  * The arc is a partial section of a full ellipse which
  * inscribes the framing rectangle of its parent {@link RectangularShape}.
- * </a>
- * <a name="angles">
  * The angles are specified relative to the non-square
  * framing rectangle such that 45 degrees always falls on the line from
  * the center of the ellipse to the upper right corner of the framing
@@ -52,7 +49,6 @@ import org.geogebra.ggbjdk.java.awt.geom.utils.GWTMath;
  * As a result, if the framing rectangle is noticeably longer along one
  * axis than the other, the angles to the start and end of the arc segment
  * will be skewed farther along the longer axis of the frame.
- * </a>
  * <p>
  * The actual storage representation of the coordinates is left to
  * the subclass.
@@ -551,16 +547,16 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * @param y The Y coordinate of the center of the arc.
      * @param radius The radius of the arc.
      * @param angSt The starting angle of the arc in degrees.
-     * @param angExt The angular extent of the arc in degrees.
+     * @param angleExt The angular extent of the arc in degrees.
      * @param closure The closure type for the arc:
      * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
      * @since 1.2
      */
     @Override
 	public void setArcByCenter(double x, double y, double radius,
-                               double angSt, double angExt, int closure) {
+                               double angSt, double angleExt, int closure) {
         setArc(x - radius, y - radius, radius * 2.0, radius * 2.0,
-               angSt, angExt, closure);
+               angSt, angleExt, closure);
     }
 
     /**

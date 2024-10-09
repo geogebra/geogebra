@@ -3,11 +3,12 @@ package org.geogebra.web.full.cas.view;
 import java.util.Objects;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.popup.autocompletion.InputSuggestions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
+import org.geogebra.web.full.gui.util.SyntaxAdapterImplWithPaste;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -43,6 +44,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		MathKeyboardListener, MathFieldListener, BlurHandler {
 	/** suggestions */
 	AutoCompletePopup sug;
+	private final InputSuggestions inputSuggestions;
 	private final MathFieldW mf;
 	/** keyboard connector */
 	RetexKeyboardListener retexListener;
@@ -63,8 +65,9 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 			final CASTableControllerW controller) {
 		this.app = (AppWFull) app;
 		this.controller = controller;
+		inputSuggestions = new InputSuggestions(null);
 		canvas = Canvas.createIfSupported();
-		mf = new MathFieldW(new SyntaxAdapterImpl(app.getKernel()), this,
+		mf = new MathFieldW(new SyntaxAdapterImplWithPaste(app.getKernel()), this,
 				canvas, this);
 		retexListener = new RetexKeyboardListener(canvas, mf);
 		mf.setOnBlur(this);
@@ -277,7 +280,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 
 	@Override
 	public String getCommand() {
-		return mf == null ? "" : mf.getCurrentWord();
+		return inputSuggestions.getCommand(mf);
 	}
 
 	private AutoCompletePopup getInputSuggestions() {
@@ -317,11 +320,6 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		}
 		mf.scrollParentHorizontally(this);
 		return false;
-	}
-
-	@Override
-	public void onInsertString() {
-		// nothing to do
 	}
 
 	@Override

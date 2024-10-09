@@ -5,11 +5,6 @@ import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLEventListener;
-import javax.media.opengl.fixedfunc.GLLightingFunc;
-
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
@@ -25,6 +20,13 @@ import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.FrameCollector;
+
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.GLEventListener;
+import com.jogamp.opengl.fixedfunc.GLLightingFunc;
+
+import jogamp.nativewindow.jawt.JAWTUtil;
 
 /**
  * Renderer checking if we can use shaders or not
@@ -228,14 +230,13 @@ public class RendererCheckGLVersionD extends Renderer
 	 * 
 	 * openGL method called when the display is to be computed.
 	 * <p>
-	 * First, it calls {@link #doPick()} if a picking is to be done. Then, for
-	 * each {@link Drawable3D}, it calls:
+	 * For each {@link Drawable3D}, it calls:
 	 * <ul>
 	 * <li>{@link Drawable3D#drawHidden(Renderer)} to draw hidden
 	 * parts (dashed segments, lines, ...)</li>
 	 * <li>{@link Drawable3D#drawTransp(Renderer)} to draw
 	 * transparent objects (planes, spheres, ...)</li>
-	 * <li>{@link Drawable3D#drawSurfacesForHiding(Renderer)} to draw
+	 * <li>{@link Drawable3D#drawHiding(Renderer)} (Renderer)} to draw
 	 * in the z-buffer objects that hides others (planes, spheres, ...)</li>
 	 * <li>{@link Drawable3D#drawTransp(Renderer)} to re-draw
 	 * transparent objects for a better alpha-blending</li>
@@ -552,5 +553,12 @@ public class RendererCheckGLVersionD extends Renderer
 	@Override
 	protected void doStartAR() {
 		// used in AR implementations
+	}
+
+	@Override
+	public double getPixelRatio() {
+		float[] max = new float[2];
+		JAWTUtil.getPixelScale(canvas.getGraphicsConfiguration(), new float[]{1, 1}, max);
+		return max[0];
 	}
 }

@@ -3,12 +3,13 @@ package org.geogebra.common.kernel.statistics;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdOneOrTwoListsFunction;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * MeanX[ &lt;Number of points> ]
+ * MeanX[ &lt;List of points&gt; ]
  */
 public class CmdMeanY extends CmdOneOrTwoListsFunction {
 	/**
@@ -22,7 +23,7 @@ public class CmdMeanY extends CmdOneOrTwoListsFunction {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);

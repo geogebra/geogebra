@@ -5,13 +5,14 @@ import org.geogebra.common.kernel.algos.AlgoRoots;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdRoot;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * Roots[ &lt;GeoFunction>, &lt;Number> , &lt;Number> ] (Numerical version, more
+ * Roots[ &lt;GeoFunction&gt;, &lt;Number&gt; , &lt;Number&gt; ] (Numerical version, more
  * than one root.)
  */
 public class CmdRoots extends CommandProcessor {
@@ -27,7 +28,7 @@ public class CmdRoots extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

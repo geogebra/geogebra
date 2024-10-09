@@ -16,7 +16,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.MyError;
 
 /**
- * Extremum[ &lt;GeoFunction> ]
+ * Extremum[ &lt;GeoFunction&gt; ]
  */
 public class CmdExtremum extends CommandProcessor {
 
@@ -31,7 +31,7 @@ public class CmdExtremum extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

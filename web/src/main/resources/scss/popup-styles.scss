@@ -1,4 +1,5 @@
 @use 'colors';
+@use 'colorMap' as *;
 
 .GeoGebraFrame {
 	
@@ -157,7 +158,7 @@
 	.appPickerPopup {
 			min-width: 244px;
 			border-radius: 2px;
-			box-shadow: 0px 0px 12px 0px colors.$black-50;
+			box-shadow: 0px 2px 4px -1px colors.$black-20, 0px 4px 5px 0px colors.$black-14, 0px 1px 10px 0px colors.$black-12;
 			padding: 8px 0 8px 0;
 
 			.appPickerRow {
@@ -167,7 +168,7 @@
 				display: flex;
 
 				&:hover {
-					background-color: colors.$selected-menuitem-background;
+					background-color: neutral(200);
 				}
 			}
 
@@ -176,7 +177,6 @@
 				height: 24px;
 				line-height: 24px;
 				padding: 12px 24px 12px 20px;
-				color: colors.$text-primary;
 				cursor: pointer;
 			}
 
@@ -194,7 +194,6 @@
 
             .textItem {
             	.gwt-Label {
-            		color: colors.$text-primary;
             		line-height: 24px;
             	}
             }
@@ -248,14 +247,47 @@
 		font-size: 87.5%;
 		overflow: auto;
 		max-height: 257px - 80px;
-
-		.gwt-MenuItem {
-			color: colors.$text-primary;
-		}
 	}
 
 	.submenuWithHeading {
 		min-width: 192px;
 		max-width: 560px;
+	}
+
+	.profilePopup {
+		min-width: 160px;
+		max-width: 280px;
+
+		.profileItem {
+			height: 40px;
+			margin-bottom: 12px;
+			background: transparent;
+			cursor: default;
+
+			.profileImage {
+				width: 40px;
+				height: 40px;
+				padding: 0;
+				opacity: 1;
+				margin: 0 0 0 12px;
+				border-radius: 50%;
+			}
+
+			.gwt-Label {
+				height: 20px;
+				line-height: 20px;
+				padding: 10px 0 10px 8px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+		}
+
+		.menuSeparator {
+			width: 100%;
+		}
+	}
+
+	.gwt-PopupPanel.profilePopup .listMenuItem {
+		min-width: 160px;
 	}
 }

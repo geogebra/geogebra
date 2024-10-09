@@ -37,7 +37,7 @@ public class SelectionTableD extends JTable {
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
-	private MyCellRenderer renderer;
+	private SelectionCellRenderer renderer;
 	private DefaultTableModel model;
 
 	private int rollOverRow = -1;
@@ -49,6 +49,19 @@ public class SelectionTableD extends JTable {
 
 	private boolean showSelection = true;
 
+
+	private final Object[] data;
+	private final int numRows;
+	private final int numColumns;
+	private int columnWidth;
+
+	private Dimension iconSize;
+
+	private SelectionTable mode;
+
+	boolean useColorSwatchBorder = false;
+	private String[] toolTipArray = null;
+
 	public void setShowSelection(boolean showSelection) {
 		this.showSelection = showSelection;
 	}
@@ -57,20 +70,10 @@ public class SelectionTableD extends JTable {
 		this.horizontalAlignment = horizontalAlignment;
 	}
 
-	private final Object[] data;
-	private final int numRows;
-	private final int numColumns;
-	private int columnWidth;
-
 	public int getColumnWidth() {
 		return columnWidth;
 	}
 
-	private Dimension iconSize;
-
-	private SelectionTable mode;
-
-	boolean useColorSwatchBorder = false;
 
 	/**
 	 * @param useColorSwatchBorder to use border for swatch icons
@@ -79,8 +82,6 @@ public class SelectionTableD extends JTable {
 		this.useColorSwatchBorder = useColorSwatchBorder;
 		setCellDimensions();
 	}
-
-	private String[] toolTipArray = null;
 
 	/**
 	 * Sets the tooTip strings for the selection table; the toolTipArray should
@@ -144,7 +145,7 @@ public class SelectionTableD extends JTable {
 
 		// =======================================
 		// set cell renderer
-		renderer = new MyCellRenderer();
+		renderer = new SelectionCellRenderer();
 		this.setDefaultRenderer(Object.class, renderer);
 
 		// =======================================
@@ -367,7 +368,7 @@ public class SelectionTableD extends JTable {
 	// Cell Renderer
 	// ==============================================
 
-	class MyCellRenderer extends JLabel implements TableCellRenderer {
+	class SelectionCellRenderer extends JLabel implements TableCellRenderer {
 
 		private static final long serialVersionUID = 1L;
 
@@ -378,7 +379,7 @@ public class SelectionTableD extends JTable {
 		private final Color selectionColor;
 		private final Color rollOverColor;
 
-		public MyCellRenderer() {
+		public SelectionCellRenderer() {
 
 			// TODO --- selection color should be centralized, not from
 			// spreadsheet

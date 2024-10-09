@@ -4,12 +4,13 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * IsInRegion[&lt;Point>,&lt;Region>]
+ * IsInRegion[&lt;Point&gt;,&lt;Region&gt;]
  */
 public class CmdIsInRegion extends CommandProcessor {
 
@@ -24,7 +25,7 @@ public class CmdIsInRegion extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);

@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -12,7 +13,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Cube[ &lt;GeoPoint3D>, &lt;GeoPoint3D>, &lt;GeoDirectionND> ]
+ * Cube[ &lt;GeoPoint3D&gt;, &lt;GeoPoint3D&gt;, &lt;GeoDirectionND&gt; ]
  * 
  * or Icosahedron etc.
  */
@@ -32,7 +33,7 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];

@@ -82,10 +82,10 @@ public class DataSourcePanel extends JPanel
 	private JLabel lblTitle;
 	private JLabel lblStart;
 	private JLabel lblWidth;
-	private MyButton btnAdd;
-	private MyButton btnClear;
-	private MyButton btnDelete;
-	private MyButton btnOptions;
+	private ImageButton btnAdd;
+	private ImageButton btnClear;
+	private ImageButton btnDelete;
+	private ImageButton btnOptions;
 	private MyTextFieldD fldStart;
 	private MyTextFieldD fldWidth;
 
@@ -163,16 +163,16 @@ public class DataSourcePanel extends JPanel
 
 		lblTitle = new JLabel();
 
-		btnAdd = new MyButton(app.getScaledIcon(GuiResourcesD.LIST_ADD));
+		btnAdd = new ImageButton(app.getScaledIcon(GuiResourcesD.LIST_ADD));
 		btnAdd.addActionListener(this);
 
-		btnClear = new MyButton(app.getScaledIcon(GuiResourcesD.EDIT_CLEAR));
+		btnClear = new ImageButton(app.getScaledIcon(GuiResourcesD.EDIT_CLEAR));
 		btnClear.addActionListener(this);
 
-		btnDelete = new MyButton(app.getScaledIcon(GuiResourcesD.LIST_REMOVE));
+		btnDelete = new ImageButton(app.getScaledIcon(GuiResourcesD.LIST_REMOVE));
 		btnDelete.addActionListener(this);
 
-		btnOptions = new MyButton(
+		btnOptions = new ImageButton(
 				app.getScaledIcon(GuiResourcesD.VIEW_PROPERTIES_16));
 		btnOptions.addActionListener(this);
 
@@ -450,7 +450,7 @@ public class DataSourcePanel extends JPanel
 
 	private void setColumnHeaders(JTable table) {
 
-		MyTableHeaderRenderer headerRenderer = new MyTableHeaderRenderer();
+		HeaderTableCellRenderer headerRenderer = new HeaderTableCellRenderer();
 
 		for (int vColIndex = 0; vColIndex < table.getColumnModel()
 				.getColumnCount(); vColIndex++) {
@@ -477,7 +477,7 @@ public class DataSourcePanel extends JPanel
 			// adjust mouseLoc to the coordinate space of this column header
 			mouseLoc.x = mouseLoc.x - table().getCellRect(0, column, true).x;
 
-			boolean isOver = ((MyTableHeaderRenderer) table().getColumnModel()
+			boolean isOver = ((HeaderTableCellRenderer) table().getColumnModel()
 					.getColumn(column).getHeaderRenderer()).isOverTraceButton(
 					mouseLoc);
 
@@ -560,7 +560,7 @@ public class DataSourcePanel extends JPanel
 	 * button for a selected column.
 	 * 
 	 */
-	public class MyTableHeaderRenderer extends JPanel
+	public class HeaderTableCellRenderer extends JPanel
 			implements TableCellRenderer {
 
 		private static final long serialVersionUID = 1L;
@@ -576,7 +576,7 @@ public class DataSourcePanel extends JPanel
 		private final ImageIcon importIcon;
 		private final ImageIcon importIconRollover;
 
-		protected MyTableHeaderRenderer() {
+		protected HeaderTableCellRenderer() {
 			setLayout(new BorderLayout());
 			setOpaque(true);
 			setBorder(headerBorder);
@@ -764,8 +764,8 @@ public class DataSourcePanel extends JPanel
 			itmNumeric.setSelected(var.getGeoClass() == GeoClass.NUMERIC);
 			itmNumeric.addActionListener(arg0 -> {
 				ArrayList<DataItem> itemList = new ArrayList<>();
-				itemList.add(new DataItem());
-				itemList.add(new DataItem());
+				itemList.add(new DataItem(app));
+				itemList.add(new DataItem(app));
 				var.setDataVariableAsRawData(GeoClass.NUMERIC, itemList);
 				updatePanel(mode, false);
 			});
@@ -775,7 +775,7 @@ public class DataSourcePanel extends JPanel
 			itmPoint.setSelected(var.getGeoClass() == GeoClass.POINT);
 			itmPoint.addActionListener(arg0 -> {
 				ArrayList<DataItem> itemList = new ArrayList<>();
-				itemList.add(new DataItem());
+				itemList.add(new DataItem(app));
 				var.setDataVariableAsRawData(GeoClass.POINT, itemList);
 				updatePanel(mode, false);
 			});
@@ -812,14 +812,14 @@ public class DataSourcePanel extends JPanel
 		return menu;
 	}
 
-	private static class MyButton extends JButton {
+	private static class ImageButton extends JButton {
 
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public MyButton(ImageIcon imageIcon) {
+		public ImageButton(ImageIcon imageIcon) {
 			super(imageIcon);
 			setMargin(new Insets(0, 0, 0, 0));
 			setBorderPainted(false);
@@ -827,119 +827,5 @@ public class DataSourcePanel extends JPanel
 			setFocusable(false);
 		}
 	}
-
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	/*
-	 * private void updateClasses() {
-	 * 
-	 * int numClasses = 0;
-	 * 
-	 * if (dataSource.size() > 1) { DataItem frequencyData =
-	 * dataSource.getItem(1);
-	 * 
-	 * if (frequencyData != null) { numClasses = frequencyData.getGeoCount(); }
-	 * }
-	 * 
-	 * Double[] c = new Double[numClasses + 1]; c[0] = classStart; for (int i =
-	 * 1; i < c.length; i++) { c[i] = c[i - 1] + classWidth; }
-	 * 
-	 * // System.out.println("========> classes:" + Arrays.toString(c) );
-	 * dataSource.addItem(0, c, SourceType.CLASS); }
-	 * 
-	 * protected void addEditedColumnToDataSource(int colIndex) {
-	 * 
-	 * DefaultTableModel m = (DefaultTableModel) sourceTable.getTable()
-	 * .getModel();
-	 * 
-	 * String[] s = new String[m.getRowCount()];
-	 * 
-	 * for (int i = 0; i < m.getRowCount(); i++) { s[i] = (String)
-	 * m.getValueAt(i, colIndex); } // System.out.println(Arrays.toString(s));
-	 * //dataSource.addItem(colIndex, s, SourceType.INTERNAL); //
-	 * sourceTable.getTable().revalidate(); // sourceTable.getTable().repaint();
-	 * 
-	 * loadSourceTableFromDataSource();
-	 * 
-	 * }
-	 * 
-	 * 
-	 * 
-	 * 
-	 * /* private void updateSourceTableStructure() {
-	 * 
-	 * int columnCount = 1;
-	 * 
-	 * ArrayList<String> columnNameList = new ArrayList<String>();
-	 * 
-	 * switch (mode) {
-	 * 
-	 * case DataAnalysisModel.MODE_ONEVAR: if (dataSource.getGroupType() ==
-	 * GroupType.RAWDATA) { columnCount = 1;
-	 * columnNameList.add(loc.getMenu("Data")); } else if
-	 * (dataSource.getGroupType() == GroupType.FREQUENCY) { columnCount = 2;
-	 * columnNameList.add(loc.getMenu("Data"));
-	 * columnNameList.add(loc.getMenu("Frequency")); } else if
-	 * (dataSource.getGroupType() == GroupType.CLASS) { columnCount = 2;
-	 * columnNameList.add(loc.getMenu("Classes"));
-	 * columnNameList.add(loc.getMenu("Frequency")); } break;
-	 * 
-	 * case DataAnalysisModel.MODE_REGRESSION: if (dataSource.isPointList()) {
-	 * columnCount = 1; columnNameList.add("(" + loc.getMenu("Column.X") + "," +
-	 * loc.getMenu("Column.Y") + ")"); } else { columnCount = 2;
-	 * columnNameList.add(loc.getMenu("Column.X"));
-	 * columnNameList.add(loc.getMenu("Column.Y")); } break;
-	 * 
-	 * case DataAnalysisModel.MODE_MULTIVAR:
-	 * 
-	 * if (dataSource.size() > 2) { columnCount = dataSource.size(); } else {
-	 * columnCount = 2; dataSource.ensureMinimumSize(2); }
-	 * 
-	 * for (int i = 1; i <= columnCount; i++) { columnNameList.add("# " + i); }
-	 * 
-	 * break; }
-	 * 
-	 * DefaultTableModel m = (DefaultTableModel) sourceTable.getTable()
-	 * .getModel(); m.setColumnCount(columnCount);
-	 * 
-	 * for (int i = 0; i < columnCount; i++) {
-	 * sourceTable.getTable().getColumnModel().getColumn(i)
-	 * .setHeaderValue(columnNameList.get(i)); }
-	 * 
-	 * // sourceTable.getTable().setAutoResizeMode(JTable.AUTO_RESIZE_OFF); //
-	 * for (int i = 0; i < columnCount; i++) { //
-	 * sourceTable.autoFitColumnWidth(i, 3); // } sourceTable.getTable()
-	 * .setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-	 * 
-	 * sourceTable.getTable().setColumnSelectionInterval(0, 0);
-	 * sourceTable.getTable().getTableHeader().setReorderingAllowed(false);
-	 * 
-	 * setColumnHeaders(sourceTable.getTable());
-	 * 
-	 * sourceTable.getTable().getTableHeader() .addMouseListener(new
-	 * ColumnHeaderMouseListener()); sourceTable.getTable().getTableHeader()
-	 * .addMouseMotionListener(new ColumnHeaderMouseMotionListener());
-	 * 
-	 * for (int i = 0; i < columnCount; i++) {
-	 * sourceTable.getTable().getColumnModel().getColumn(i) .setCellEditor(new
-	 * MyCellEditor(app)); } sourceTable.updateFonts(app.getPlainFont());
-	 * 
-	 * setTableDimension(sourceTable.getTable());
-	 * 
-	 * this.revalidate(); this.repaint();
-	 * 
-	 * }
-	 */
-	/*
-	 * private void loadSourceTableFromDataSource() { sourceTable.clear(); int
-	 * numColumns = Math.min(dataSource.size(), sourceTable.getTable()
-	 * .getModel().getColumnCount()); for (int i = 0; i < numColumns; i++) {
-	 * setTableColumn(i); }
-	 * 
-	 * }
-	 */
 
 }

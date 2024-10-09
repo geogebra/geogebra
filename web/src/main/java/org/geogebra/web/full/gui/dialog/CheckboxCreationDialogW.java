@@ -143,7 +143,7 @@ public class CheckboxCreationDialogW extends ComponentDialog implements
 			}
 		}
 		availableObjectNames.add("");
-		gbObjects = new CompDropDown((AppW) app, "Tool.SelectObjects", availableObjectNames);
+		gbObjects = new CompDropDown((AppW) app, "Tool.SelectObjects", availableObjectNames, -1);
 		rebuildNames();
 	
 		// fill list with all selected geos
@@ -185,7 +185,7 @@ public class CheckboxCreationDialogW extends ComponentDialog implements
 				: geoBoolean.getCaption(StringTemplate.defaultTemplate);
 
 		tfCaption = new ComponentInputField((AppW) app, null, "Button.Caption",
-				null, initString, -1, 1);
+				null, initString, -1);
 		tfCaption.getTextField().getTextComponent().setAutoComplete(false);
 
 		FlowPanel listPanel = new FlowPanel();

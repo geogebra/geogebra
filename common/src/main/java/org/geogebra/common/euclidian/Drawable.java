@@ -218,12 +218,12 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	@Override
-	public double getxLabel() {
+	public double getLabelX() {
 		return xLabel;
 	}
 
 	@Override
-	public double getyLabel() {
+	public double getLabelY() {
 		return yLabel;
 	}
 
@@ -703,6 +703,7 @@ public abstract class Drawable extends DrawableND {
 	 *            graphics
 	 * @param fillShape
 	 *            shape to be filled
+	 * @param color hatching color
 	 */
 	public void fillWithHatchOrImage(GGraphics2D g2, GShape fillShape, GColor color) {
 		if (geo.getFillType() == FillType.IMAGE && geo.getFillImage() != null) {
@@ -845,7 +846,7 @@ public abstract class Drawable extends DrawableND {
 	 *            graphics
 	 * @return text layout
 	 */
-	public static GTextLayout getTextLayout(String text, GFont font, GGraphics2D g2) {
+	public static @CheckForNull GTextLayout getTextLayout(String text, GFont font, GGraphics2D g2) {
 		if (text == null || text.isEmpty()) {
 			return null;
 		}
@@ -1021,5 +1022,20 @@ public abstract class Drawable extends DrawableND {
 				(int) labelRectangle.getWidth() + HIGHLIGHT_OFFSET,
 				(int) labelRectangle.getHeight() + HIGHLIGHT_OFFSET,
 				HIGHLIGHT_DIAMETER, HIGHLIGHT_DIAMETER);
+	}
+
+	protected void drawAndUpdateTraceIfNeeded(boolean showTrace) {
+		isTracing = showTrace;
+		if (showTrace) {
+			view.drawTrace(this);
+		}
+	}
+
+	/**
+	 * Draw this to graphics if this is a stroke shape, do nothing otherwise
+	 * @param graphics target graphics
+	 */
+	public void drawStroke(GGraphics2D graphics) {
+		// implemented for segments and loci only
 	}
 }

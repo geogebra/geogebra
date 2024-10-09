@@ -446,10 +446,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			initDrawPlanes(quadric);
 			drawPlanes[0].updateForItSelf();
 			if (shouldBePackedForManager()) {
-			    if (drawPlanes[1] != null) {
-                    drawPlanes[1].setSurfaceIndexNotVisible();
-                    drawPlanes[1].setGeometryIndexNotVisible();
-                }
+				if (drawPlanes[1] != null) {
+					drawPlanes[1].setSurfaceIndexNotVisible();
+					drawPlanes[1].setGeometryIndexNotVisible();
+				}
 			}
 			hideSurface();
 			hideLineIfNotNull();
@@ -1370,10 +1370,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			}
 
 			// project with ortho matrix to get correct parameters
-			hitting.origin.projectPlaneThruVIfPossible(
+			hitting.getOrigin().projectPlaneThruVIfPossible(
 					quadric.getPlanes()[planeIndex].getCoordSys()
 							.getMatrixOrthonormal(),
-					hitting.direction, p1, project);
+					hitting.getDirection(), p1, project);
 
 			parameters1[0] = PathNormalizer.inverseInfFunction(project.getX())
 					+ 2 * planeIndex;
@@ -1400,7 +1400,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			return false;
 		}
 
-		quadric.getProjections(hitting.origin, hitting.direction, p1,
+		quadric.getProjections(hitting.getOrigin(), hitting.getDirection(), p1,
 				parameters1, p2, parameters2);
 
 		double z1 = Double.NEGATIVE_INFINITY, z2 = Double.NEGATIVE_INFINITY;
@@ -1409,7 +1409,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		if (hitting.isInsideClipping(p1)
 				&& arePossibleParameters(parameters1[0], parameters1[1])) {
 			// check distance to hitting line
-			p1.projectLine(hitting.origin, hitting.direction, project,
+			p1.projectLine(hitting.getOrigin(), hitting.getDirection(), project,
 					parameters);
 
 			double d = getView3D().getScaledDistance(p1, project);
@@ -1422,7 +1422,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		if (p2.isDefined() && hitting.isInsideClipping(p2)
 				&& arePossibleParameters(parameters2[0], parameters2[1])) {
 			// check distance to hitting line
-			p2.projectLine(hitting.origin, hitting.direction, project,
+			p2.projectLine(hitting.getOrigin(), hitting.getDirection(), project,
 					parameters);
 
 			double d = getView3D().getScaledDistance(p2, project);

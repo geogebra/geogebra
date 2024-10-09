@@ -1,6 +1,5 @@
 package org.geogebra.common.cas.view;
 
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.Localization;
 
@@ -64,7 +63,7 @@ public class CASCellProcessor {
 		}
 		// fix GGB-1593
 		if (cellValue.getTwinGeo() != null && !staticReferenceFound
-				&& !cellValue.getInput(StringTemplate.defaultTemplate)
+				&& !cellValue.getLocalizedInput()
 						.equals(fixedInput)) {
 			cellValue.setInput(fixedInput);
 		}

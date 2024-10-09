@@ -1,11 +1,12 @@
 package org.geogebra.web.html5.main;
 
+import java.util.function.Supplier;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawEquation;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -14,18 +15,17 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.style.shared.Unit;
 
+import com.himamis.retex.renderer.share.TeXFont;
 import com.himamis.retex.renderer.share.TeXIcon;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
-import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
-import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
-import com.himamis.retex.renderer.web.DrawingFinishedCallback;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.graphics.ColorW;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 /**
  * Web LaTeX helper class
@@ -35,6 +35,11 @@ public class DrawEquationW extends DrawEquation {
 	 * needed for avoid the pixelated appearance of LaTeX texts at printing
 	 */
 	private static double printScale = 1;
+	private final Supplier<Double> pixelRatio;
+
+	public DrawEquationW(Supplier<Double> pixelRatio) {
+		this.pixelRatio = pixelRatio;
+	}
 
 	@Override
 	public GDimension drawEquation(App app1, GeoElementND geo,
@@ -45,28 +50,17 @@ public class DrawEquationW extends DrawEquation {
 		String eqstring = latexString0;
 
 		TeXIcon icon = createIcon(eqstring, convertColor(fgColor), font,
-				font.getLaTeXStyle(serif), null, null, app1);
+				font.getLaTeXStyle(serif), null, null);
 
 		Graphics2DW g3 = new Graphics2DW(((GGraphics2DW) g2).getContext());
-		g3.setDrawingFinishedCallback(new DrawingFinishedCallback() {
-
-			@Override
-			public void onDrawingFinished(boolean async) {
-				((GGraphics2DW) g2).updateCanvasColor();
-				if (callback != null) {
-					callback.run();
-				}
+		g3.setDrawingFinishedCallback(async -> {
+			g2.updateCanvasColor();
+			if (callback != null) {
+				callback.run();
 			}
 		});
-		icon.paintIcon(new HasForegroundColor() {
-			@Override
-			public Color getForegroundColor() {
-				return FactoryProvider.getInstance().getGraphicsFactory()
-						.createColor(fgColor.getRed(), fgColor.getGreen(),
-								fgColor.getBlue());
-			}
-		}, g3, x, y);
-		((GGraphics2DW) g2).updateCanvasColor();
+		icon.paintIcon(() -> convertColor(fgColor), g3, x, y);
+		g2.updateCanvasColor();
 		g3.maybeNotifyDrawingFinishedCallback(false);
 		return new Dimension(icon.getIconWidth(), icon.getIconHeight());
 
@@ -93,7 +87,13 @@ public class DrawEquationW extends DrawEquation {
 	 */
 	public static Canvas paintOnCanvas(GeoElementND geo, String text0,
 			Canvas c0, int fontSize) {
-		return paintOnCanvas(geo, text0, c0, fontSize, GColor.BLACK);
+		Canvas c = makeCleanCanvas(c0);
+		if (geo != null) {
+			DrawEquationW current =
+					(DrawEquationW) geo.getKernel().getApplication().getDrawEquation();
+			current.paintOnCleanCanvas(text0, c, fontSize, GColor.BLACK, needsSerif(geo));
+		}
+		return c;
 	}
 
 	/**
@@ -110,63 +110,63 @@ public class DrawEquationW extends DrawEquation {
 	public static Canvas paintOnCanvasOutput(GeoElementND geo, String text0,
 			Canvas c0, int fontSize) {
 		final GColor fgColor = geo.getAlgebraColor();
-		return paintOnCanvas(geo, text0, c0, fontSize, fgColor);
+		Canvas c = makeCleanCanvas(c0);
+		DrawEquationW current = (DrawEquationW) geo.getKernel().getApplication().getDrawEquation();
+		current.paintOnCleanCanvas(text0, c, fontSize, fgColor, needsSerif(geo));
+		return c;
 	}
 
-	private static Canvas paintOnCanvas(GeoElementND geo, String text0,
-			Canvas c0, int fontSize, GColor fgColor) {
-		if (geo == null) {
-			return c0 == null ? Canvas.createIfSupported() : c0;
-		}
-		AppW app = (AppW) geo.getKernel().getApplication();
-
+	/**
+	 * @param geo element
+	 * @return whether serif is needed
+	 */
+	public static boolean needsSerif(GeoElementND geo) {
 		boolean serif = false;
 		if (geo instanceof TextProperties) {
 			serif = ((TextProperties) geo).isSerifFont();
 		}
-
-		return paintOnCanvas(app, text0, c0, fontSize, fgColor, serif);
+		return serif;
 	}
 
 	/**
-	 * @param app
-	 *            has access to LaTeX and pixel ratio
+	 * @param old old canvas
+	 * @return cleaned old canvas or a new instance
+	 */
+	public static Canvas makeCleanCanvas(Canvas old) {
+		Canvas c = old;
+		if (c == null) {
+			c = Canvas.createIfSupported();
+		} else {
+			c.getContext2d().fillRect(0, 0, c.getCoordinateSpaceWidth(),
+					c.getCoordinateSpaceHeight());
+		}
+		return c;
+	}
+
+	/**
 	 * @param text0
 	 *            LaTeX text
-	 * @param c0
-	 *            canvas (may be null)
+	 * @param c
+	 *            canvas
 	 * @param fontSize
 	 *            font size
 	 * @param fgColor
 	 *            color
 	 * @param serif
 	 *            whether to use serif font
-	 * @return canvas
+	 * @return graphics
 	 */
-	public static Canvas paintOnCanvas(AppW app, String text0, Canvas c0,
+	public Graphics2DW paintOnCleanCanvas(String text0, @NonNull Canvas c,
 			int fontSize, final GColor fgColor, boolean serif) {
-
-		Canvas c = c0;
-		if (c == null) {
-			c = Canvas.createIfSupported();
-			if (c == null) {
-				return null;
-			}
-		} else {
-			c.getContext2d().fillRect(0, 0, c.getCoordinateSpaceWidth(),
-					c.getCoordinateSpaceHeight());
-		}
 		JLMContext2d ctx = JLMContextHelper.as(c.getContext2d());
 
-		app.getDrawEquation().checkFirstCall(app);
-		GFont font = AwtFactory.getPrototype().newFont("geogebra", GFont.PLAIN,
-				fontSize - 3);
-		TeXIcon icon = app.getDrawEquation().createIcon(text0,
-				app.getDrawEquation().convertColor(fgColor), font,
-				font.getLaTeXStyle(serif), null, null, app);
-		Graphics2DInterface g3 = new Graphics2DW(ctx);
+		checkFirstCall();
+		TeXIcon icon = createIcon(text0,
+				convertColor(fgColor), fontSize,
+				serif ? 0 : TeXFont.SANSSERIF);
+		Graphics2DW g3 = new Graphics2DW(ctx);
 
-		double ratio = app.getPixelRatio() * printScale;
+		double ratio = pixelRatio.get() * printScale;
 		double width = roundUp(Math.min(icon.getIconWidth(), 20000), ratio);
 		double height = roundUp(icon.getIconHeight(), ratio);
 		c.setCoordinateSpaceWidth((int) (width * ratio));
@@ -177,15 +177,8 @@ public class DrawEquationW extends DrawEquation {
 		// c.getElement().getStyle().setMargin(4, Unit.PX);
 		ctx.scale2(ratio, ratio);
 
-		icon.paintIcon(new HasForegroundColor() {
-			@Override
-			public Color getForegroundColor() {
-				return FactoryProvider.getInstance().getGraphicsFactory()
-						.createColor(fgColor.getRed(), fgColor.getGreen(),
-								fgColor.getBlue());
-			}
-		}, g3, 0, 0);
-		return c;
+		icon.paintIcon(() -> convertColor(fgColor), g3, 0, 0);
+		return g3;
 	}
 
 	private static double roundUp(int w, double ratio) {
@@ -201,7 +194,7 @@ public class DrawEquationW extends DrawEquation {
 	}
 
 	@Override
-	public void checkFirstCall(App app) {
+	public void checkFirstCall() {
 		FactoryProviderGWT.ensureLoaded();
 		DrawEquation.checkFirstCallStatic();
 	}

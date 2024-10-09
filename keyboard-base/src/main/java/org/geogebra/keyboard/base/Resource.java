@@ -70,7 +70,9 @@ public enum Resource {
 
     ATOMIC_PRE("altText.AtomicPre"),
 
-    MIXED_NUMBER("altText.MixedNumber");
+    MIXED_NUMBER("altText.MixedNumber"),
+
+    RECURRING_DECIMAL("altText.RecurringDecimal");
 
     public final String altText;
 

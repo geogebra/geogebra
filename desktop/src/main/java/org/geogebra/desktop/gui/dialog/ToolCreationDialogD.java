@@ -197,7 +197,7 @@ public class ToolCreationDialogD extends Dialog
 
 			// show error message
 			app.showError(Errors.ToolCreationFailed, e.getMessage());
-			e.printStackTrace();
+			Log.debug(e);
 			newTool = null;
 			return false;
 		}
@@ -441,7 +441,7 @@ public class ToolCreationDialogD extends Dialog
 			// center
 			setLocationRelativeTo(app.getFrame());
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -594,7 +594,7 @@ public class ToolCreationDialogD extends Dialog
 				BorderLayout.CENTER);
 
 		// renderer to show long description of geos in list and combobox
-		MyCellRenderer rend = new MyCellRenderer();
+		GeoElementMaxLengthCellRenderer rend = new GeoElementMaxLengthCellRenderer();
 		list.setCellRenderer(rend);
 		cbAdd.setRenderer(rend);
 
@@ -745,10 +745,10 @@ public class ToolCreationDialogD extends Dialog
 	}
 
 	public static boolean isMyCellRenderer(ListCellRenderer renderer) {
-		return renderer instanceof MyCellRenderer;
+		return renderer instanceof GeoElementMaxLengthCellRenderer;
 	}
 
-	static class MyCellRenderer extends DefaultListCellRenderer {
+	static class GeoElementMaxLengthCellRenderer extends DefaultListCellRenderer {
 		private static final long serialVersionUID = 1L;
 
 		/*

@@ -27,6 +27,6 @@ public class InternalClipboardTest extends BaseUnitTest {
 		InternalClipboard.pasteGeoGebraXMLInternal(getApp(), Arrays.asList(labels.split(" ")),
 				clipboard.substring(clipboard.indexOf("\n")));
 		assertEquals("PASTE_ELMS_COMPLETE [A_{1} = (0, 0), B_{1} = (1, 1), s_{1} = 1.41]",
-				acu.getEvents().get(acu.getEvents().size() - 1));
+				acu.getEvents().get(acu.getEvents().size() - 2)); // last event is STOREUNDO
 	}
 }

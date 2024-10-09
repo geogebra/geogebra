@@ -14,7 +14,7 @@ package org.geogebra.common.kernel.cas;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -31,7 +31,7 @@ public class AlgoPolynomialCD extends AlgoElement {
 	private GeoFunction g; // output
 
 	private StringBuilder sb = new StringBuilder();
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+	private ArbitraryConstantRegistry arbconst = new ArbitraryConstantRegistry(this);
 
 	/**
 	 * @param cons
@@ -67,8 +67,7 @@ public class AlgoPolynomialCD extends AlgoElement {
 		input[0] = f1;
 		input[1] = f2;
 
-		setOutputLength(1);
-		setOutput(0, g);
+		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 

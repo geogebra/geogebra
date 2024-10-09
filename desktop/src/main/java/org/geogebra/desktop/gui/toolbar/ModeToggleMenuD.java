@@ -39,8 +39,8 @@ public class ModeToggleMenuD extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	ModeToggleButtonGroup bg;
-	private final MyJToggleButton tbutton;
-	private MyJToggleButton mouseOverButton;
+	private final ToolToggleButton tbutton;
+	private ToolToggleButton mouseOverButton;
 	private final JPopupMenu popMenu;
 	private ArrayList<JMenuItem> menuItemList;
 
@@ -64,7 +64,7 @@ public class ModeToggleMenuD extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.toolbar = toolbar;
 
-		tbutton = new MyJToggleButton(this, toolbar, app);
+		tbutton = new ToolToggleButton(this, toolbar, app);
 		tbutton.setAlignmentY(BOTTOM_ALIGNMENT);
 		add(tbutton);
 
@@ -214,7 +214,7 @@ public class ModeToggleMenuD extends JPanel {
 	/**
 	 * @param bt button
 	 */
-	public void setMouseOverButton(MyJToggleButton bt) {
+	public void setMouseOverButton(ToolToggleButton bt) {
 		mouseOverButton = bt;
 		repaint();
 	}

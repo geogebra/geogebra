@@ -22,6 +22,31 @@ public interface TableValuesModel {
 	void unregisterListener(TableValuesListener listener);
 
 	/**
+	 * @return true if this model allows users to add columns (by entering values) to the right
+	 * of existing columns. Defaults to true.
+	 */
+	boolean allowsAddingColumns();
+
+	/**
+	 * Enable or disable whether users can add columns (by entering values) to the right of
+	 * existing columns.
+	 * @param allowsAddingColumns Pass false to prevent new columns from being added
+	 *                               (e.g., in SciCalc).
+	 */
+	void setAllowsAddingColumns(boolean allowsAddingColumns);
+
+	/**
+	 * @return True if there are any editable columns in the table of values view.
+	 */
+	boolean hasEditableColumns();
+
+	/**
+	 * @param column The column index (0-based).
+	 * @return True if the given column is editable (i.e., is not a function).
+	 */
+	boolean isColumnEditable(int column);
+
+	/**
 	 * Sets an element.
 	 * @param element element
 	 * @param column column
@@ -115,4 +140,23 @@ public interface TableValuesModel {
 	 * @return The x values column with all the necessary settings set.
 	 */
 	GeoList setupXValues(GeoList xValues);
+
+	/**
+	 * This flag is set to true at the start of data import, and set back to false
+	 * after any change notifications caused by the data import have been sent out.
+	 * Registered TableValuesListeners can query this flag to detect if a change
+	 * notification was caused by a data import.
+	 * @return true during import.
+	 */
+	boolean isImportingData();
+
+	/**
+	 * @param onDataImported - when data imported, hide loading snackbar
+	 */
+	void setOnDataImportedRunnable(Runnable onDataImported);
+
+	/**
+	 * Remove all columns from construction
+	 */
+	void removeAllColumns();
 }

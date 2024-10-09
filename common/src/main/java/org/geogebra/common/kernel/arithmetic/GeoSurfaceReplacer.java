@@ -8,9 +8,13 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
  * surface
  *
  */
-public class GeoSurfaceReplacer implements Traversing {
+public final class GeoSurfaceReplacer implements Traversing {
 
 	private static final GeoSurfaceReplacer replacer = new GeoSurfaceReplacer();
+
+	private GeoSurfaceReplacer() {
+		// singleton constructor
+	}
 
 	@Override
 	public ExpressionValue process(ExpressionValue ev) {

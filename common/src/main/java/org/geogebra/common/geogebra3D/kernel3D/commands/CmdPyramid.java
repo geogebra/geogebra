@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.commands;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -10,7 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Pyramid[ &lt;GeoPoint3D>, &lt;GeoPoint3D>, &lt;GeoPoint3D>, ... ]
+ * Pyramid[ &lt;GeoPoint3D&gt;, &lt;GeoPoint3D&gt;, &lt;GeoPoint3D&gt;, ... ]
  */
 public class CmdPyramid extends CommandProcessor {
 	/**
@@ -23,7 +24,7 @@ public class CmdPyramid extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];

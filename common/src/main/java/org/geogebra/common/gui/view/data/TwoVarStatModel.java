@@ -113,7 +113,7 @@ public class TwoVarStatModel {
 	}
 
 	/**
-	 * Update & notify the the UI
+	 * Update and notify the the UI
 	 */
 	public void update() {
 		updateStat();

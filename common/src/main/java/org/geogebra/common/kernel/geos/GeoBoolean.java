@@ -12,8 +12,8 @@
 
 package org.geogebra.common.kernel.geos;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -49,7 +49,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	private boolean checkboxFixed;
 	private boolean showExtendedAV = true;
 
-	private final List<GeoElement> conditionals;
+	private List<GeoElement> conditionals;
 	private GeoPointND startPoint;
 
 	/**
@@ -63,6 +63,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		checkboxFixed = true;
 		setEuclidianVisible(false);
 		conditionals = new ArrayList<>();
+		setConstructionDefaults();
 	}
 
 	/**
@@ -124,7 +125,9 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	 *            geo which should use this boolean as condition to show
 	 */
 	public void registerConditionListener(GeoElement geo) {
-		conditionals.add(geo);
+		ArrayList<GeoElement> newConditionals = new ArrayList<>(conditionals);
+		newConditionals.add(geo);
+		conditionals = newConditionals;
 	}
 
 	/**
@@ -134,7 +137,9 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	 *            geo which uses this boolean as condition to show
 	 */
 	public void unregisterConditionListener(GeoElement geo) {
-		conditionals.remove(geo);
+		ArrayList<GeoElement> newConditionals = new ArrayList<>(conditionals);
+		newConditionals.remove(geo);
+		conditionals = newConditionals;
 	}
 
 	/**
@@ -145,15 +150,14 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	public void update(boolean drag) {
 		super.update(drag);
 
-		// update all registered locatables (they have this point as start
-		// point)
+		// update all registered conditionals (they have this boolean as condition to show object)
 		for (GeoElement geo: conditionals) {
 			geo.notifyUpdate();
 		}
 	}
 
 	/**
-	 * Tells conidition listeners that their condition is removed and calls
+	 * Tells condition listeners that their condition is removed and calls
 	 * super.remove()
 	 */
 	@Override
@@ -200,10 +204,10 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		}
 	}
 
-	@Override
 	/**
 	 * Changes value to false. See also GeoBoolean.setUndefinedProverOnly()
 	 */
+	@Override
 	final public void setUndefined() {
 		// don't change this, needed for compatibility
 		// eg SetValue[a,?] sets it to false
@@ -400,9 +404,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 		GeoBoolean geoBoolean = (GeoBoolean) oldGeo;
 		conditionals.clear();
-		for (GeoElement conditional : geoBoolean.conditionals) {
-			registerConditionListener(conditional);
-		}
+		conditionals.addAll(geoBoolean.conditionals);
 	}
 
 	@Override
@@ -434,13 +436,10 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		// get all number and angle sliders
 		TreeSet<GeoElement> bools = cons.getGeoSetLabelOrder(GeoClass.BOOLEAN);
 
-		if (bools != null) {
-			Iterator<GeoElement> it = bools.iterator();
-			while (it.hasNext()) {
-				GeoBoolean num = (GeoBoolean) it.next();
-				if (num.isIndependent() && num.isEuclidianVisible()) {
-					count++;
-				}
+		for (GeoElement bool : bools) {
+			GeoBoolean num = (GeoBoolean) bool;
+			if (num.isIndependent() && num.isEuclidianVisible()) {
+				count++;
 			}
 		}
 
@@ -588,5 +587,10 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	@Override
 	public void updateLocation() {
 		update();
+	}
+
+	@Override
+	public BigDecimal toDecimal() {
+		return value ? BigDecimal.ONE : BigDecimal.ZERO;
 	}
 }

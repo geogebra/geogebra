@@ -450,15 +450,12 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		return true;
 	}
 
-	// //////////////////////////////////
-	//
-
 	/**
-	 * return true if x is a valid coordinate (eg 0<=x<=1 for a segment)
+	 * return true if x is a valid coordinate (eg 0&lt;=x&lt;=1 for a segment)
 	 * 
 	 * @param x
 	 *            coordinate
-	 * @return true if x is a valid coordinate (eg 0<=x<=1 for a segment)
+	 * @return true if x is a valid coordinate (eg 0&lt;=x&lt;=1 for a segment)
 	 */
 	abstract public boolean isValidCoord(double x);
 

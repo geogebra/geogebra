@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.commands;
 import java.util.TreeMap;
 import java.util.function.Predicate;
 
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.ArbitraryConstantRegistry;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.redefinition.RuleCollection;
 
@@ -28,13 +28,15 @@ public class EvalInfo {
 	private boolean multipleUnassignedAllowed = false;
 	private boolean allowMultiLetterVariables = true;
 	private boolean keepDefinition = true;
+	private boolean allowAssignment = true;
 	private SymbolicMode symbolicMode = SymbolicMode.NONE;
 	private Predicate<String> labelFilter;
 	private RuleCollection redefinitionRule;
-	private MyArbitraryConstant constant;
+	private ArbitraryConstantRegistry constant;
 	private boolean isRedefinition = false;
 	private boolean useAnalytics;
 	private boolean forceFunctionsEnabled = false;
+	private boolean autoCreateObjects = true;
 
 	/**
 	 * Creates a default evaluation info
@@ -167,6 +169,8 @@ public class EvalInfo {
 		ret.isRedefinition = this.isRedefinition;
 		ret.useAnalytics = this.useAnalytics;
 		ret.forceFunctionsEnabled = this.forceFunctionsEnabled;
+		ret.allowAssignment = this.allowAssignment;
+		ret.autoCreateObjects = this.autoCreateObjects;
 		return ret;
 	}
 
@@ -451,13 +455,13 @@ public class EvalInfo {
 	 * @param constant const
 	 * @return eval info
 	 */
-	public EvalInfo withArbitraryConstant(MyArbitraryConstant constant) {
+	public EvalInfo withArbitraryConstant(ArbitraryConstantRegistry constant) {
 		EvalInfo info = copy();
 		info.constant = constant;
 		return info;
 	}
 
-	public MyArbitraryConstant getArbitraryConstant() {
+	public ArbitraryConstantRegistry getArbitraryConstant() {
 		return constant;
 	}
 
@@ -529,5 +533,33 @@ public class EvalInfo {
 		EvalInfo info = copy();
 		info.forceFunctionsEnabled = functionsEnabled;
 		return info;
+	}
+
+	/**
+	 * @param assignmentAllowed - whether to allow assignment
+	 * @return new eval info
+	 */
+	public EvalInfo withAssignments(boolean assignmentAllowed) {
+		EvalInfo info = copy();
+		info.allowAssignment = assignmentAllowed;
+		return info;
+	}
+
+	public boolean isAssignmentAllowed() {
+		return allowAssignment;
+	}
+
+	/**
+	 * @param autoCreate false to disable autocreation of elements (lengths, spreadsheet cells)
+	 * @return modified copy
+	 */
+	public EvalInfo withAutocreate(boolean autoCreate) {
+		EvalInfo info = copy();
+		info.autoCreateObjects = autoCreate;
+		return info;
+	}
+
+	public boolean isAutoCreateObjects() {
+		return autoCreateObjects;
 	}
 }

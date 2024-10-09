@@ -4,9 +4,9 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.properties.IconsEnumerableProperty;
+import org.geogebra.common.properties.IconsEnumeratedProperty;
 import org.geogebra.common.properties.PropertyResource;
-import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.LineStylePropertyDelegate;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
@@ -14,20 +14,14 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 /**
  * Line style
  */
-public class LineStyleProperty extends AbstractEnumerableProperty
-		implements IconsEnumerableProperty {
+public class LineStyleProperty extends AbstractEnumeratedProperty<Integer>
+		implements IconsEnumeratedProperty<Integer> {
 
 	private static final PropertyResource[] icons = {
 			PropertyResource.ICON_LINE_TYPE_FULL, PropertyResource.ICON_LINE_TYPE_DASHED_DOTTED,
 			PropertyResource.ICON_LINE_TYPE_DASHED_LONG, PropertyResource.ICON_LINE_TYPE_DOTTED,
 			PropertyResource.ICON_LINE_TYPE_DASHED_SHORT
 	};
-
-	private static final int[] lineTypes = new int[] { EuclidianStyleConstants.LINE_TYPE_FULL,
-			EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED,
-			EuclidianStyleConstants.LINE_TYPE_DASHED_LONG,
-			EuclidianStyleConstants.LINE_TYPE_DOTTED,
-			EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT};
 
 	private final GeoElementDelegate delegate;
 
@@ -36,37 +30,28 @@ public class LineStyleProperty extends AbstractEnumerableProperty
 			throws NotApplicablePropertyException {
 		super(localization, "Properties.Style");
 		delegate = new LineStylePropertyDelegate(element);
-		setValues(new String[icons.length]);
+		setValues(EuclidianStyleConstants.LINE_TYPE_FULL,
+				EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED,
+				EuclidianStyleConstants.LINE_TYPE_DASHED_LONG,
+				EuclidianStyleConstants.LINE_TYPE_DOTTED,
+				EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 	}
 
 	@Override
-	public PropertyResource[] getIcons() {
+	public PropertyResource[] getValueIcons() {
 		return icons;
 	}
 
 	@Override
-	protected void setValueSafe(String value, int index) {
+	protected void doSetValue(Integer value) {
 		GeoElement element = delegate.getElement();
-		element.setLineType(lineTypes[index]);
+		element.setLineType(value);
 		element.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 	}
 
 	@Override
-	public int getIndex() {
-		switch (delegate.getElement().getLineType()) {
-			case EuclidianStyleConstants.LINE_TYPE_FULL:
-				return 0;
-			case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
-				return 1;
-			case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
-				return 2;
-			case EuclidianStyleConstants.LINE_TYPE_DOTTED:
-				return 3;
-			case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT:
-				return 4;
-			default:
-				return 0;
-		}
+	public Integer getValue() {
+		return delegate.getElement().getLineType();
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public class ConvertToCanvas implements ImagePreprocessor {
 
 	/**
 	 * @param maxSize size to resize to
-	 * @param alwaysApply whether to convert alsso images < maxSize
+	 * @param alwaysApply whether to convert also images &lt; maxSize
 	 */
 	public ConvertToCanvas(int maxSize, boolean alwaysApply) {
 		canvas = (HTMLCanvasElement) DomGlobal.document.createElement("canvas");
@@ -29,7 +29,8 @@ public class ConvertToCanvas implements ImagePreprocessor {
 
 	@Override
 	public boolean match(FileExtensions extension, int size) {
-		return (matchExtension(extension) && alwaysApply) || size > maxSize;
+		return (matchExtension(extension) && alwaysApply)
+				|| (maxSize > 0 && size > maxSize);
 	}
 
 	private boolean matchExtension(FileExtensions extension) {

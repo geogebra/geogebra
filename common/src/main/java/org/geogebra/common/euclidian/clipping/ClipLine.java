@@ -115,10 +115,10 @@ public class ClipLine {
 			ret[0].setLocation(x1, y1);
 			ret[1].setLocation(x2, y2);
 			return ret;
-		} else if ((mask & (H_CENTER | LEFT)) == 0 || // everything's right
-				(mask & (H_CENTER | RIGHT)) == 0 || // everything's left
-				(mask & (V_CENTER | BELOW)) == 0 || // everything's above
-				(mask & (V_CENTER | ABOVE)) == 0) { // everything's below
+		} else if ((mask & (H_CENTER | LEFT)) == 0 // everything's right
+				|| (mask & (H_CENTER | RIGHT)) == 0 // everything's left
+				|| (mask & (V_CENTER | BELOW)) == 0 // everything's above
+				|| (mask & (V_CENTER | ABOVE)) == 0) { // everything's below
 			// nothing to do
 			return null;
 		} else {
@@ -162,10 +162,6 @@ public class ClipLine {
 		double p1x = Double.NaN;
 		double p1y = Double.NaN;
 
-		/*
-		 * System.out.println("mask1 = "+mask1); System.out.println("mask2 = "
-		 * +mask2); System.out.println("mask = "+mask);
-		 */
 		double xhack = 0;
 		double yhack = 0;
 
@@ -190,7 +186,6 @@ public class ClipLine {
 		}
 
 		if ((mask & LEFT) != 0) {
-			// System.out.println("Trying left");
 			// try to calculate intersection with left line
 			GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymin, xmin, ymax,
 					ret2[1]);
@@ -206,7 +201,6 @@ public class ClipLine {
 			}
 		}
 		if ((mask & RIGHT) != 0) {
-			// System.out.println("Trying right");
 			// try to calculate intersection with right line
 			GPoint2D p = intersect(x1, y1, x2, y2, xmax, ymin, xmax, ymax,
 					ret2[1]);
@@ -226,7 +220,6 @@ public class ClipLine {
 			// hit
 
 			if ((mask & ABOVE) != 0) {
-				// System.out.println("Trying top");
 				// try to calculate intersection with upper line
 				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymax, xmax, ymax,
 						ret2[1]);
@@ -237,7 +230,6 @@ public class ClipLine {
 				}
 			}
 			if ((mask & BELOW) != 0) {
-				// System.out.println("Trying bottom");
 				// try to calculate intersection with lower line
 				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymin, xmax, ymin,
 						ret2[1]);
@@ -249,7 +241,6 @@ public class ClipLine {
 			}
 		} else {
 			if ((mask & BELOW) != 0) {
-				// System.out.println("Trying bottom");
 				// try to calculate intersection with lower line
 				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymin, xmax, ymin,
 						ret2[1]);
@@ -265,7 +256,6 @@ public class ClipLine {
 				}
 			}
 			if ((mask & ABOVE) != 0) {
-				// System.out.println("Trying top");
 				// try to calculate intersection with upper line
 				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymax, xmax, ymax,
 						ret2[1]);
@@ -323,7 +313,6 @@ public class ClipLine {
 
 		if (det != 0.0) {
 			double mu = ((x11 - x21) * dy1 - (y11 - y21) * dx1) / det;
-			// System.out.println("mu = "+mu);
 			if (mu >= 0.0 && mu <= 1.0) {
 				ret.setLocation(x21 + mu * dx2 + xhack, y21 + mu * dy2 + yhack);
 				return ret;

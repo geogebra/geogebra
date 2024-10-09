@@ -16,7 +16,6 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.Base64ZipFile;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -44,18 +43,17 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.AnimationExporter;
 import org.geogebra.web.html5.util.ArchiveEntry;
+import org.geogebra.web.html5.util.ArchiveLoader;
 import org.geogebra.web.html5.util.Base64;
 import org.geogebra.web.html5.util.FFlate;
 import org.geogebra.web.html5.util.FileConsumer;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.StringConsumer;
-import org.geogebra.web.html5.util.ViewW;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.dom.client.Element;
 
@@ -74,6 +72,7 @@ import jsinterop.base.JsPropertyMap;
  */
 public class GgbAPIW extends GgbAPI {
 	private MathEditorAPI editor;
+	private JsPropertyMap<?> fileLoadingError;
 
 	/**
 	 * @param app
@@ -165,7 +164,7 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	public void openFile(String filename) {
 		resetPerspective();
-		ViewW view = ((AppW) app).getViewW();
+		ArchiveLoader view = ((AppW) app).getArchiveLoader();
 		view.processFileName(filename);
 	}
 
@@ -199,7 +198,7 @@ public class GgbAPIW extends GgbAPI {
 		// DPI ignored
 		url = ev.getExportImageDataUrl(exportScale, transparent, greyscale);
 
-		if (MyDouble.isFinite(dpi) && dpi > 0 && ev instanceof EuclidianViewW) {
+		if (Double.isFinite(dpi) && dpi > 0 && ev instanceof EuclidianViewW) {
 
 			JavaScriptInjector
 					.inject(GuiResourcesSimple.INSTANCE.rewritePHYS());
@@ -247,10 +246,10 @@ public class GgbAPIW extends GgbAPI {
 		if (value) {
 			str = geo.toValueString(StringTemplate.latexTemplate);
 		} else if (geo instanceof  GeoCasCell) {
-			str = ((GeoCasCell) geo).getLaTeXInput(StringTemplate.latexTemplate);
+			str = ((GeoCasCell) geo).getLaTeXInput();
 			if (str == null) {
 				// regexp should be good enough in most cases, avoids dependency on ReTeX
-				str = ((GeoCasCell) geo).getInput(StringTemplate.defaultTemplate)
+				str = ((GeoCasCell) geo).getLocalizedInput()
 						.replaceAll("([{}$])", "\\\\$1");
 			}
 		} else {
@@ -360,7 +359,7 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void setFileJSON(Object obj) {
 		resetPerspective();
-		ViewW view = ((AppW) app).getViewW();
+		ArchiveLoader view = ((AppW) app).getArchiveLoader();
 		view.processJSON(obj);
 	}
 
@@ -652,6 +651,25 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
+	 * Like getBase64, but only construction, no images
+	 * @return compressed XML
+	 */
+	public String zipXML(String plain) {
+		JsArray<Uint8Array> entry = new JsArray<>();
+		entry.push(FFlate.get().strToU8(plain));
+		return Base64.bytesToBase64(FFlate.get().zipSync(
+				JsPropertyMap.of("geogebra.xml", entry)));
+	}
+
+	private String unzipXML(String xml) {
+		if (StringUtil.empty(xml)) {
+			return xml;
+		}
+		JsPropertyMap<Uint8Array> archive = FFlate.get().unzipSync(Base64.base64ToBytes(xml));
+		return FFlate.get().strFromU8(archive.get("geogebra.xml"));
+	}
+
+	/**
 	 * Asynchronously zip archive and convert it to base64 string
 	 * @param arch archive
 	 * @param clb callback for handling the resulting base64 string
@@ -811,7 +829,7 @@ public class GgbAPIW extends GgbAPI {
 	 * Add external image to image manager. Allow passing SVGs as text
 	 * to be compatible with getFileJSON.
 	 * @param filename internal filename
-	 * @param urlOrSvgContent data URL or &lt;svg>content&lt;/svg>
+	 * @param urlOrSvgContent data URL or &lt;svg&gt;content&lt;/svg&gt;
 	 */
 	public void addImage(String filename, String urlOrSvgContent) {
 		ImageManagerW imageManager = ((AppW) app).getImageManager();
@@ -849,7 +867,7 @@ public class GgbAPIW extends GgbAPI {
 
 	@Override
 	public void showTooltip(String tooltip) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(tooltip, (AppW) app);
+		((AppW) app).getToolTipManager().showBottomMessage(tooltip, (AppW) app);
 	}
 
 	/**
@@ -1145,6 +1163,17 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
+	 * whether an object is interactive or not
+	 * @param label of the object
+	 * @return true, if object is interactive
+	 */
+	public boolean isInteractive(String label) {
+		GeoElement geo = StringUtil.empty(label) ? null
+				: kernel.lookupLabel(label);
+		return geo != null && app.getSelectionManager().isSelectableForEV(geo);
+	}
+
+	/**
 	 *
 	 * @return then embedded calculator apis.
 	 */
@@ -1204,7 +1233,7 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * @return list of page IDs in notes
+	 * @return array of page IDs in notes
 	 */
 	public String[] getPages() {
 		PageListControllerInterface pageController = ((AppW) app).getPageController();
@@ -1216,8 +1245,10 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public PageContent getPageContent(String pageId) {
 		PageListControllerInterface pageController = ((AppW) app).getPageController();
-		return pageController != null ? pageController.getPageContent(pageId)
+		PageContent ret = pageController != null ? pageController.getPageContent(pageId)
 				: PageContent.of(getXML(), getAllObjectNames(), null, null, 0);
+		ret.xml = zipXML(ret.xml);
+		return ret;
 	}
 
 	/**
@@ -1315,18 +1346,19 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void setPageContent(String pageId, PageContent content) {
 		PageListControllerInterface pc = ((AppW) app).getPageController();
+		content.xml = unzipXML(content.xml);
 		if (pc != null) {
 			pc.setPageContent(pageId, content);
-		} else {
-			setXML(content.xml);
+		} else if (!StringUtil.empty(content.xml)) {
+			super.setXML(content.xml);
 		}
 	}
 
-	/**
-	 * Show all objects in EuclidianView
-	 */
-	public void showAllObjects() {
-		app.setViewShowAllObjects();
+	public void setFileLoadingError(JsPropertyMap<?> error) {
+		this.fileLoadingError = error;
+	}
 
+	public Object getFileLoadingError() {
+		return this.fileLoadingError;
 	}
 }

@@ -263,7 +263,7 @@ public class GeoImplicitSurface extends GeoElement3D
 		r.val[1] = derivFunc[1].evaluate(normEval);
 		r.val[2] = derivFunc[2].evaluate(normEval);
 		for (int i = 0; i < 3; i++) {
-			if (!MyDouble.isFinite(r.val[i])) {
+			if (!Double.isFinite(r.val[i])) {
 				normEval[i] -= e;
 				lt = evaluateAt(normEval);
 				normEval[i] += e2;
@@ -874,7 +874,7 @@ public class GeoImplicitSurface extends GeoElement3D
 		 * @param e
 		 *            the edge number as per the convention
 		 * @param pts
-		 *            an array of length >= 3
+		 *            an array of length at least 3
 		 */
 		public void pointOfIntersection(int e, double[] pts) {
 			int[] v = EDGES[e];
@@ -911,7 +911,7 @@ public class GeoImplicitSurface extends GeoElement3D
 		 */
 		public int sign(int vertex) {
 			double v = eval(vertex);
-			if (MyDouble.isFinite(v)) {
+			if (Double.isFinite(v)) {
 				return v <= 0.0 ? 0 : 1;
 			}
 			return -1;

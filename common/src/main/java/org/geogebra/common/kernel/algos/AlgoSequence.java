@@ -145,8 +145,7 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 			input[4] = var_step.toGeoElement();
 		}
 
-		setOutputLength(1);
-		setOutput(0, list);
+		setOnlyOutput(list);
 
 		setDependencies(); // done by AlgoElement
 	}
@@ -187,7 +186,6 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 
 	@Override
 	public final void compute() {
-
 		if (updateRunning) {
 			return;
 		}
@@ -448,8 +446,12 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 			while ((step > 0 && currentVal <= to + Kernel.MIN_PRECISION)
 					|| (step < 0 && currentVal >= to - Kernel.MIN_PRECISION)) {
 				updateLocalVar(currentVal);
-				allGood = ((SetRandomValue) expressionParentAlgo)
-						.setRandomValue(((GeoList) d).get(counter)) && allGood;
+				GeoList d1 = (GeoList) d;
+				if (counter < d1.size()) {
+					GeoElement elem = d1.get(counter);
+					allGood = ((SetRandomValue) expressionParentAlgo)
+							.setRandomValue(elem) && allGood;
+				}
 				if (counter < list.size()) {
 					list.get(counter).set(expression);
 				}

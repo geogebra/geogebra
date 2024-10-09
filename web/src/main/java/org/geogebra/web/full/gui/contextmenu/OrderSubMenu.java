@@ -7,11 +7,9 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.LayerManager;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.plugin.Event;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.full.gui.ContextMenuFactory;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 
 public class OrderSubMenu extends AriaMenuBar {
@@ -41,8 +39,8 @@ public class OrderSubMenu extends AriaMenuBar {
 	}
 
 	private void addItem(String key, JsConsumer<List<GeoElement>> command) {
-		addItem(factory.newAriaMenuItem(app.getLocalization().getMenu(key),
-				false, wrap(command)));
+		addItem(factory.newAriaMenuItem(null, app.getLocalization().getMenu(key),
+				wrap(command)));
 	}
 
 	private ScheduledCommand wrap(final JsConsumer<List<GeoElement>> command) {
@@ -52,9 +50,6 @@ public class OrderSubMenu extends AriaMenuBar {
 			ev.getEuclidianController().widgetsToBackground();
 			command.accept(geos);
 			ev.invalidateDrawableList();
-			app.dispatchEvent(new Event(EventType.ORDERING_CHANGE, null,
-					layerManager.getOrder()));
-			app.getKernel().storeUndoInfo();
 		};
 	}
 }

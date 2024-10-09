@@ -6,7 +6,6 @@ import org.geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
-import org.geogebra.web.shared.ggtapi.StaticFileUrls;
 
 import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
@@ -38,7 +37,7 @@ public final class WindowReference implements EventRenderable {
 	/**
 	 * Login operation
 	 */
-	private static volatile LoginOperationW lOW;
+	private static volatile LoginOperationW loginOperation;
 
 	private final static Object lock = new Object();
 
@@ -70,14 +69,14 @@ public final class WindowReference implements EventRenderable {
 			synchronized (lock) {
 				if (instance == null) {
 					instance = new WindowReference();
-					lOW = (LoginOperationW) app.getLoginOperation();
+					loginOperation = (LoginOperationW) app.getLoginOperation();
 				}
 			}
 			instance.wnd = createWindowReference(
 					app.getLocalization().getMenu("GeoGebraMaterials"),
-					lOW.getLoginURL(app.getLocalization().getLanguage()),
+					loginOperation.getLoginURL(app.getLocalization().getLanguageTagForLogin()),
 					callback);
-			lOW.getView().add(instance);
+			loginOperation.getView().add(instance);
 			instance.initClosedCheck();
 		}
 
@@ -89,8 +88,9 @@ public final class WindowReference implements EventRenderable {
 			@Override
 			public void onInvoke(double timestamp) {
 				if (instance != null && instance.closed()) {
-					if (lOW != null) {
-						lOW.stayLoggedOut();
+					if (loginOperation != null) {
+						loginOperation.stayLoggedOut();
+						loginOperation.loginCanceled();
 					}
 					cleanWindowReferences();
 				} else {
@@ -136,12 +136,12 @@ public final class WindowReference implements EventRenderable {
 		DomGlobal.cancelAnimationFrame(requestAnimationFrame);
 		synchronized (lock) {
 			WindowReference.instance = null;
-			lOW = null;
+			loginOperation = null;
 		}
 	}
 
 	private static Window createWindowReference(String name,
-			String redirect, String callback) {
+			String loginUrl, String callback) {
 		HTMLHtmlElement documentElement = DomGlobal.document.documentElement;
 		int left = (documentElement.clientWidth / 2) - (WIDTH / 2);
 		int top = (documentElement.clientHeight / 2) - (HEIGHT / 2);
@@ -149,9 +149,9 @@ public final class WindowReference implements EventRenderable {
 				+ "statusbar=no, " + "titlebar=no, "
 				+ "width=" + WIDTH + "," + "height=" + HEIGHT + "," + "left="
 				+ left + ", " + "top=" + top;
-		String url = StaticFileUrls.getOpenerUrl()
-				+ "?redirect=" + Global.encodeURIComponent(redirect)
-				+ "&callback=" + Global.encodeURIComponent(callback);
+		String separator = loginUrl.contains("?") ? "&" : "?";
+		String url = loginUrl + separator
+				+ "url=" + Global.encodeURIComponent(callback);
 		return DomGlobal.window.open(url, name, settings);
 	}
 

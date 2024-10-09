@@ -6,7 +6,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.view.spreadsheet.CopyPasteCutW;
 import org.geogebra.web.full.html5.AttachedToDOM;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CopyPasteW;
 
@@ -42,48 +42,48 @@ public class RowHeaderPopupMenuW extends
 	private void initMenu() {
 		// "Insert Above" menuitem
 		AriaMenuItem miCopyInput = new AriaMenuItem(loc.getMenu("CopyInput"),
-				false,
+				null,
 				() -> actionPerformed(CellAction.COPY_INPUT));
 		rowHeaderPopupMenu.addItem(miCopyInput);
 
-		AriaMenuItem miPaste = new AriaMenuItem(loc.getMenu("Paste"), false,
+		AriaMenuItem miPaste = new AriaMenuItem(loc.getMenu("Paste"), null,
 				() -> actionPerformed(CellAction.PASTE));
 		rowHeaderPopupMenu.addItem(miPaste);
 		rowHeaderPopupMenu.addSeparator();
 
 		AriaMenuItem miInsertAbove = new AriaMenuItem(
 				loc.getMenu("InsertAbove"),
-				false,
+				null,
 				() -> actionPerformed(CellAction.INSERT_ABOVE));
 		rowHeaderPopupMenu.addItem(miInsertAbove);
 
 		// "Insert Below" menuitem
 		AriaMenuItem miInsertBelow = new AriaMenuItem(
-				loc.getMenu("InsertBelow"), false,
+				loc.getMenu("InsertBelow"), null,
 				() -> actionPerformed(CellAction.INSERT_BELOW));
 		rowHeaderPopupMenu.addItem(miInsertBelow);
 
 		int[] selRows = table.getSelectedRows();
 		String strRows = getDeleteString(selRows);
-		AriaMenuItem miDelete = new AriaMenuItem(strRows, false,
+		AriaMenuItem miDelete = new AriaMenuItem(strRows, null,
 				() -> actionPerformed(CellAction.DELETE));
 		rowHeaderPopupMenu.addItem(miDelete);
 
 		rowHeaderPopupMenu.addSeparator();
 
 		AriaMenuItem miUseAsText = new AriaMenuItem(
-				loc.getMenu("CasCellUseAsText"), false,
+				loc.getMenu("CasCellUseAsText"), null,
 				() -> actionPerformed(CellAction.TEXT));
 		rowHeaderPopupMenu.addItem(miUseAsText);
 
 		if (CopyPasteCutW.checkClipboardSupported()) {
 
-			AriaMenuItem copyItem = new AriaMenuItem(loc.getMenu("Copy"), false,
+			AriaMenuItem copyItem = new AriaMenuItem(loc.getMenu("Copy"), null,
 					() -> actionPerformed(CellAction.COPY));
 			rowHeaderPopupMenu.addItem(copyItem);
 
 			AriaMenuItem latexItem = new AriaMenuItem(
-					loc.getMenu("CopyAsLaTeX"), false,
+					loc.getMenu("CopyAsLaTeX"), null,
 					() -> actionPerformed(CellAction.COPY_LATEX));
 			rowHeaderPopupMenu.addItem(latexItem);
 		}
@@ -104,16 +104,14 @@ public class RowHeaderPopupMenuW extends
 
 		switch (ac) {
 		case INSERT_ABOVE:
-			GeoCasCell casCell = new GeoCasCell(app.getKernel()
-			        .getConstruction());
+			GeoCasCell casCell = new GeoCasCell(app.getKernel().getConstruction());
 			app.getKernel().getConstruction().setNotXmlLoading(true);
 			table.insertRow(selRows[0], casCell, true);
 			app.getKernel().getConstruction().setNotXmlLoading(false);
 			undoNeeded = true;
 			break;
 		case INSERT_BELOW:
-			casCell = new GeoCasCell(app.getKernel()
-			        .getConstruction());
+			casCell = new GeoCasCell(app.getKernel().getConstruction());
 			app.getKernel().getConstruction().setNotXmlLoading(true);
 			table.insertRow(selRows[selRows.length - 1] + 1, casCell, true);
 			app.getKernel().getConstruction().setNotXmlLoading(false);

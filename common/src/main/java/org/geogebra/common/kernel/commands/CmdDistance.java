@@ -8,13 +8,13 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Distance[ &lt;GeoPoint>, &lt;GeoPoint> ]
+ * Distance[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
  * 
- * Distance[ &lt;GeoPoint>, &lt;GeoLine> ]
+ * Distance[ &lt;GeoPoint&gt;, &lt;GeoLine&gt; ]
  * 
- * Distance[ &lt;GeoLine>, &lt;GeoPoint> ]
+ * Distance[ &lt;GeoLine&gt;, &lt;GeoPoint&gt; ]
  * 
- * Distance[ &lt;GeoLine>, &lt;GeoLine> ]
+ * Distance[ &lt;GeoLine&gt;, &lt;GeoLine&gt; ]
  */
 public class CmdDistance extends CommandProcessor {
 
@@ -29,7 +29,7 @@ public class CmdDistance extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.layout.scientific;
 import java.util.Arrays;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
@@ -72,9 +72,11 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 
 	private void buildPropertiesPanel(PropertiesArray properties, FlowPanel panel) {
 		for (Property property : properties.getProperties()) {
-			Widget cell = createPropertyCell(property);
-			if (cell != null) {
-				panel.add(cell);
+			if (property.isEnabled()) {
+				Widget cell = createPropertyCell(property);
+				if (cell != null) {
+					panel.add(cell);
+				}
 			}
 		}
 	}
@@ -89,12 +91,12 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 	}
 
 	private Widget createPropertyCell(Property property) {
-		if (property instanceof EnumerableProperty) {
-			final EnumerableProperty enumerableProperty = (EnumerableProperty) property;
-			final ComponentDropDown selector = new ComponentDropDown(app);
+		if (property instanceof NamedEnumeratedProperty) {
+			NamedEnumeratedProperty<?> enumerableProperty = (NamedEnumeratedProperty<?>) property;
+			ComponentDropDown selector = new ComponentDropDown(app);
 
 			selector.setTitleText(enumerableProperty.getName());
-			selector.setElements(Arrays.asList(enumerableProperty.getValues()));
+			selector.setElements(Arrays.asList(enumerableProperty.getValueNames()));
 			selector.setSelected(enumerableProperty.getIndex());
 			selector.setDropDownSelectionCallback(enumerableProperty::setIndex);
 			return selector;

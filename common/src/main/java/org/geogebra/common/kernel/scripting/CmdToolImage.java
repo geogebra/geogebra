@@ -80,27 +80,23 @@ public class CmdToolImage extends CmdScripting {
 				// TODO Fix me
 				final Construction cons1 = app.getKernel().getConstruction();
 				final GeoImage geoImage = new GeoImage(cons1);
-				AsyncOperation<String> callback = new AsyncOperation<String>() {
+				AsyncOperation<String> callback = fileName -> {
+					geoImage.setImageFileName(fileName);
+					geoImage.setTooltipMode(GeoElementND.TOOLTIP_OFF);
 
-					@Override
-					public void callback(String fileName) {
-						geoImage.setImageFileName(fileName);
-						geoImage.setTooltipMode(GeoElementND.TOOLTIP_OFF);
+					try {
+						geoImage.setStartPoint(corner == null
+								? new GeoPoint(cons1, 0, 0, 1) : corner);
 
-						try {
-							geoImage.setStartPoint(corner == null
-									? new GeoPoint(cons1, 0, 0, 1) : corner);
-
-							if (corner2 != null) {
-								geoImage.setCorner(corner2, 1);
-							}
-
-						} catch (CircularDefinitionException e) {
-							Log.debug(e);
+						if (corner2 != null) {
+							geoImage.setCorner(corner2, 1);
 						}
-						geoImage.setLabel(c.getLabel());
 
+					} catch (CircularDefinitionException e) {
+						Log.debug(e);
 					}
+					geoImage.setLabel(c.getLabel());
+
 				};
 				if (app.getGuiManager() != null) {
 					app.getGuiManager().getToolImageURL(mode,

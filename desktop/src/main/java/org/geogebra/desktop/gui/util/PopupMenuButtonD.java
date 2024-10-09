@@ -50,6 +50,19 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	private JPopupMenu myPopup;
 
 	private JSlider mySlider;
+	private SelectionTableD myTable;
+	private Dimension iconSize;
+
+	private final boolean hasTable;
+
+	// flag to determine if the popup should persist after a mouse click
+	private boolean keepVisible = true;
+
+	private boolean isDownwardPopup = true;
+	private boolean isFixedIcon = false;
+
+	private boolean isIniting = true;
+	protected boolean popupIsVisible;
 
 	/**
 	 * @param fgColor color
@@ -61,24 +74,13 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		updateGUI();
 	}
 
-	private SelectionTableD myTable;
-
 	public SelectionTableD getMyTable() {
 		return myTable;
 	}
 
-	private Dimension iconSize;
-
 	public void setIconSize(Dimension iconSize) {
 		this.iconSize = iconSize;
 	}
-
-	private boolean hasTable;
-
-	// flag to determine if the popup should persist after a mouse click
-	private boolean keepVisible = true;
-
-	private boolean isDownwardPopup = true;
 
 	public void setDownwardPopup(boolean isDownwardPopup) {
 		this.isDownwardPopup = isDownwardPopup;
@@ -89,11 +91,6 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	public void setStandardButton(boolean isStandardButton) {
 		this.isStandardButton = isStandardButton;
 	}
-
-	private boolean isFixedIcon = false;
-
-	private boolean isIniting = true;
-	protected boolean popupIsVisible;
 
 	/*
 	 * #*********************************** /** Button constructors
@@ -466,8 +463,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 				// Strings are converted to icons. We don't use setText so that
 				// the button size can be controlled
 				// regardless of the layout manager.
+				String content = getSelectedIndex() >= 0 ? (String) data[getSelectedIndex()] : " ";
 				icon = GeoGebraIconD.createStringIcon(
-						(String) data[getSelectedIndex()], app.getPlainFont(),
+						content, app.getPlainFont(),
 						false, false, true, iconSize, Color.BLACK, null);
 
 				break;

@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * Min[ &lt;Number>, &lt;Number> ]
+ * Min[ &lt;Number&gt;, &lt;Number&gt; ]
  */
 public class CmdMinMax extends CommandProcessor {
 	private final boolean isMin;
@@ -37,7 +37,7 @@ public class CmdMinMax extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

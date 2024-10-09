@@ -58,7 +58,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	 *            - application
 	 */
 	public LabelSettingsPopup(AppW app) {
-		super(app, null, -1, -1, null, false, false, null);
+		super(app, null, -1, -1, null, false, false);
 		this.app = app;
 		loc = app.getLocalization();
 		this.setIcon(
@@ -66,7 +66,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 						.mode_showhidelabel_32(), 24));
 		createPopup();
 
-		addStyleName("MyCanvasButton");
+		addStyleName("IconButton");
 		model = new NameValueModel(app, this);
 	}
 
@@ -131,8 +131,8 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 			namePanel = LayoutUtilW.panelRow(lblName, tfName);
 			main.add(namePanel);
 		}
-		main.add(cmName.getPanel());
-		main.add(cmValue.getPanel());
+		main.add(cmName);
+		main.add(cmValue);
 		main.setStyleName("labelPopupPanel");
 		getMyPopup().setWidget(main);
 		kbd = ((AppWFull) app).getKeyboardManager().getOnScreenKeyboard();

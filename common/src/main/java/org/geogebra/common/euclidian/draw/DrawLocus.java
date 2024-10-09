@@ -123,19 +123,8 @@ public class DrawLocus extends Drawable {
 			addLabelOffsetEnsureOnScreen(1.0, 1.0, view.getFontLine());
 		}
 
-		// draw trace
-		if (geo.isTraceable() && (geo instanceof Traceable) && ((Traceable) geo).getTrace()) {
-			isTracing = true;
-			GGraphics2D g2 = view.getBackgroundGraphics();
-			if (g2 != null) {
-				drawTrace(g2);
-			}
-		} else {
-			if (isTracing) {
-				isTracing = false;
-				// view.updateBackground();
-			}
-		}
+		drawAndUpdateTraceIfNeeded(geo.isTraceable()
+				&& (geo instanceof Traceable) && ((Traceable) geo).getTrace());
 		if (geo.isInverseFill()) {
 			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
@@ -243,9 +232,8 @@ public class DrawLocus extends Drawable {
 		}
 	}
 
-	private void drawHighlighted(GGraphics2D g2) {
-		g2.setPaint(geo.getSelColor());
-		g2.setStroke(selStroke);
+	@Override
+	public void drawStroke(GGraphics2D g2) {
 		if (partialHitClip != null) {
 			g2.setClip(partialHitClip, true);
 			g2.draw(gp);
@@ -253,6 +241,12 @@ public class DrawLocus extends Drawable {
 		} else {
 			g2.draw(gp);
 		}
+	}
+
+	private void drawHighlighted(GGraphics2D g2) {
+		g2.setPaint(geo.getSelColor());
+		g2.setStroke(selStroke);
+		drawStroke(g2);
 	}
 
 	/**

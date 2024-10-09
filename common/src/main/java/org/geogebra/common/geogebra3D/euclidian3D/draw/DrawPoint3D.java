@@ -266,7 +266,7 @@ public class DrawPoint3D extends Drawable3DCurves
 			int pointSize, Coords project, double[] parameters,
 			boolean checkRealPointSize) {
 
-		p.projectLine(hitting.origin, hitting.direction, project, parameters);
+		p.projectLine(hitting.getOrigin(), hitting.getDirection(), project, parameters);
 
 		if (!hitting.isInsideClipping(project)) {
 			return false;
@@ -303,12 +303,12 @@ public class DrawPoint3D extends Drawable3DCurves
 
 	@Override
 	public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
-	    if (dontExtend) {
-            Coords c = ((GeoPointND) getGeoElement()).getInhomCoordsInD3();
-            enlargeBounds(min, max, c, c);
-        } else {
-            enlargeBounds(min, max, boundsMin, boundsMax);
-        }
+		if (dontExtend) {
+			Coords c = ((GeoPointND) getGeoElement()).getInhomCoordsInD3();
+			enlargeBounds(min, max, c, c);
+		} else {
+			enlargeBounds(min, max, boundsMin, boundsMax);
+		}
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class CommandFilterFactoryTest {
 			Commands.Tangent, Commands.TriangleCenter, Commands.TriangleCurve, Commands.Trilinear,
 			Commands.Vertex, Commands.Polynomial, Commands.TaylorPolynomial, Commands.Asymptote,
 			Commands.OsculatingCircle, Commands.CommonDenominator, Commands.CompleteSquare,
-			Commands.Div, Commands.Mod, Commands.Division
+			Commands.Div, Commands.Mod, Commands.Division, Commands.Tetrahedron, Commands.Surface
 	};
 	private CommandFilter filter;
 
@@ -54,11 +54,17 @@ public class CommandFilterFactoryTest {
 	@Test
 	public void testCasCommandFilterForVectorCommands() {
 		Commands[] allowedVectorCommands = {Commands.PerpendicularVector,
-				Commands.UnitPerpendicularVector, Commands.UnitVector};
+				Commands.UnitPerpendicularVector, Commands.UnitVector, Commands.ParseToNumber};
 		filter = CommandFilterFactory.createCasCommandFilter();
 		for (Commands command : allowedVectorCommands) {
 			assertAllowed(true, command);
 		}
+	}
+
+	@Test
+	public void testCasCommandFilterForAsymptoteCommand() {
+		filter = CommandFilterFactory.createCasCommandFilter();
+		assertAllowed(true, Commands.Asymptote);
 	}
 
 	@Test
@@ -78,12 +84,32 @@ public class CommandFilterFactoryTest {
 		assertAllowed(false, Commands.MinorAxis);
 		assertAllowed(false, Commands.Side);
 		assertAllowed(false, Commands.Reflect);
+		assertAllowed(false, Commands.Asymptote);
 	}
 
 	@Test
 	public void testBayernCasCommandFilter() {
 		filter = CommandFilterFactory.createBayernCasFilter();
 		assertAllowed(false, Commands.Plane);
+	}
+
+	@Test
+	public void testVlaanderenCommandFilter() {
+		filter = CommandFilterFactory.createVlaanderenFilter();
+		assertAllowed(false, Commands.Derivative);
+		assertAllowed(false, Commands.NDerivative);
+		assertAllowed(false, Commands.Integral);
+		assertAllowed(false, Commands.IntegralSymbolic);
+		assertAllowed(false, Commands.IntegralBetween);
+		assertAllowed(false, Commands.NIntegral);
+		assertAllowed(false, Commands.Solve);
+		assertAllowed(false, Commands.SolveQuartic);
+		assertAllowed(false, Commands.SolveODE);
+		assertAllowed(false, Commands.SolveCubic);
+		assertAllowed(false, Commands.Solutions);
+		assertAllowed(false, Commands.NSolve);
+		assertAllowed(false, Commands.NSolveODE);
+		assertAllowed(false, Commands.NSolutions);
 	}
 
 	private void assertAllowed(boolean shouldAllow, Commands command) {

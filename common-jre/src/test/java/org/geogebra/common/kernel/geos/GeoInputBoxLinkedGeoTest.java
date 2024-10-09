@@ -1,13 +1,17 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.common.kernel.geos.GeoInputBox.isGeoLinkable;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.Collections;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
@@ -18,6 +22,7 @@ import org.geogebra.common.io.MathFieldCommon;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.junit.Assert;
@@ -675,6 +680,15 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testComplexMatrixEdit() {
+		setupInput("m", "{{?, ?},{?, ?}}");
+		updateInput("{{i, 1},{i, 2}}");
+		assertEquals("\\begin{pmatrix} i & 1 \\\\ i & 2 \\end{pmatrix}",
+				inputBox.getText());
+		assertThat(inputBox.hasError(), equalTo(false));
+	}
+
+	@Test
 	public void testEmpty2DPointShouldNotRaiseError() {
 		add("A = (?, ?)");
 		GeoInputBox inputBox = add("InputBox(A)");
@@ -722,5 +736,64 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 				+ "{" + TeXSerializer.PLACEHOLDER + "} \\\\ "
 				+ "{{\\frac{" + TeXSerializer.PLACEHOLDER + "}{" + TeXSerializer.PLACEHOLDER + "}}}"
 				+ " \\end{pmatrix}", inputBox.getText());
+	}
+
+	@Test
+	public void complexToRealFunctionShouldNotBeRedefined() {
+		add("h(x) = x + i");
+		GeoInputBox inputBox = add("InputBox(h)");
+		assertThat(inputBox.getLinkedGeo().getClass(), is(GeoSurfaceCartesian2D.class));
+		inputBox.updateLinkedGeo("2x/3");
+		assertThat(inputBox.getLinkedGeo().getClass(), is(GeoSurfaceCartesian2D.class));
+	}
+
+	@Test
+	public void testLinkableGeos() {
+		shouldBeLinkable("(1,1)");
+		add("a=1");
+		shouldBeLinkable("2*a+3");
+		shouldBeLinkable("Point(xAxis)");
+		add("poly = Polygon({(0,0),(0,1),(1,1)})");
+		shouldBeLinkable("PointIn(poly)");
+	}
+
+	private void shouldBeLinkable(String command) {
+		assertTrue(isGeoLinkable(add(command)));
+	}
+
+	@Test
+	public void testNonLinkableGeo() {
+		shouldNotBeLinkable("Circle((0,0), 5)");
+		shouldNotBeLinkable("3*Sequence[10]");
+	}
+
+	private void shouldNotBeLinkable(String command) {
+		assertFalse(isGeoLinkable(add(command)));
+	}
+
+	@Test
+	public void testHyphenMinusShouldBeReplaced() {
+		add("text1=\" \"");
+		GeoInputBox inputBox = add("InputBox(text1)");
+		inputBox.updateLinkedGeo("12" + Unicode.MINUS + "10");
+		assertThat(inputBox.getTextForEditor(), is("12-10"));
+	}
+
+	@Test
+	public void shouldKeepComplexFunction() {
+		add("f(w) = w + i");
+		inputBox = add("ib=InputBox(f)");
+		updateInput("w/");
+		assertThat(lookup("f"), not(isDefined()));
+		inputBox = (GeoInputBox) lookup("ib");
+		assertEquals(Collections.singletonList("w"), inputBox.getFunctionVars());
+		updateInput("w-i");
+		t("f", "w - " + Unicode.IMAGINARY);
+	}
+
+	@Test
+	public void shouldEscapeText() {
+		setupInput("txt", "\"--^\\\"");
+		assertEquals(inputBox.getText(), "\\text{-{}-{}\\^{} \\backslash{}}");
 	}
 }

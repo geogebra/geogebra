@@ -419,7 +419,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		else if (source == btnCumulative) {
 			setCumulative(btnCumulative.isSelected());
-
+			disableInterval(btnCumulative.isSelected());
 		} else if (source == btnIntervalLeft || source == btnIntervalBetween
 				|| source == btnIntervalTwoTailed || source == btnIntervalRight) {
 
@@ -697,7 +697,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		comboDistribution.removeActionListener(this);
 		comboDistribution.removeAllItems();
-		for (String distName: distributionType.getValues()) {
+		for (String distName: distributionType.getValueNames()) {
 			comboDistribution.addItem(distName);
 		}
 
@@ -788,5 +788,13 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	@Override
 	protected StatisticsCalculator getStatCalculator() {
 		return statCalculator;
+	}
+
+	@Override
+	public void disableInterval(boolean disable) {
+		btnIntervalLeft.setEnabled(!disable);
+		btnIntervalBetween.setEnabled(!disable);
+		btnIntervalTwoTailed.setEnabled(!disable);
+		btnIntervalRight.setEnabled(!disable);
 	}
 }

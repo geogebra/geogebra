@@ -3,13 +3,14 @@ package org.geogebra.common.kernel.statistics;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * ZProportion2Estimate[ &lt;Sample Proportion 1 >, &lt;Sample Size 1>,
- * &lt;Sample Proportion 2 >, &lt;Sample Size 2>, &lt;Level> ]
+ * ZProportion2Estimate[ &lt;Sample Proportion 1 &gt;, &lt;Sample Size 1&gt;,
+ * &lt;Sample Proportion 2 &gt;, &lt;Sample Size 2&gt;, &lt;Level&gt; ]
  */
 public class CmdZProportion2Estimate extends CommandProcessor {
 	/**
@@ -23,7 +24,7 @@ public class CmdZProportion2Estimate extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

@@ -1,15 +1,15 @@
 package org.geogebra.web.html5.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.commands.AdvancedCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.CASCommandProcessorFactory;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
-import org.geogebra.common.kernel.commands.CommandDispatcherAdvanced;
-import org.geogebra.common.kernel.commands.CommandDispatcherCAS;
-import org.geogebra.common.kernel.commands.CommandDispatcherDiscrete;
-import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
-import org.geogebra.common.kernel.commands.CommandDispatcherProver;
-import org.geogebra.common.kernel.commands.CommandDispatcherScripting;
-import org.geogebra.common.kernel.commands.CommandDispatcherStats;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
+import org.geogebra.common.kernel.commands.CommandProcessorFactory;
+import org.geogebra.common.kernel.commands.DiscreteCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.ProverCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.ScriptingCommandProcessorFactory;
+import org.geogebra.common.kernel.commands.StatsCommandProcessorFactory;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
@@ -19,8 +19,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 
 /**
- * For deferred loading of advanced algos
- *
+ * Command dispatcher with deferred loading of advanced commands.
  */
 public class CommandDispatcherW extends CommandDispatcher {
 
@@ -33,9 +32,9 @@ public class CommandDispatcherW extends CommandDispatcher {
 	}
 
 	@Override
-	public CommandDispatcherInterface getDiscreteDispatcher() {
-		if (discreteDispatcher == null) {
-			GWT.runAsync(CommandDispatcherDiscrete.class,
+	public CommandProcessorFactory getDiscreteCommandProcessorFactory() {
+		if (discreteFactory == null) {
+			GWT.runAsync(DiscreteCommandProcessorFactory.class,
 					new RunAsyncCallback() {
 						@Override
 						public void onFailure(Throwable reason) {
@@ -45,7 +44,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 						@Override
 						public void onSuccess() {
 							LoggerW.loaded("discrete commands");
-							discreteDispatcher = new CommandDispatcherDiscrete();
+							discreteFactory = new DiscreteCommandProcessorFactory();
 							initCmdTable();
 							((AppW) app).commandsLoaded();
 						}
@@ -53,13 +52,13 @@ public class CommandDispatcherW extends CommandDispatcher {
 			throw new CommandNotLoadedError("Discrete commands not loaded yet");
 		}
 
-		return discreteDispatcher;
+		return discreteFactory;
 	}
 
 	@Override
-	public CommandDispatcherInterface getScriptingDispatcher() {
-		if (scriptingDispatcher == null) {
-			GWT.runAsync(CommandDispatcherScripting.class,
+	public CommandProcessorFactory getScriptingCommandProcessorFactory() {
+		if (scriptingFactory == null) {
+			GWT.runAsync(ScriptingCommandProcessorFactory.class,
 					new RunAsyncCallback() {
 						@Override
 						public void onFailure(Throwable reason) {
@@ -69,7 +68,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 						@Override
 						public void onSuccess() {
 							LoggerW.loaded("scripting commands");
-							scriptingDispatcher = new CommandDispatcherScripting();
+							scriptingFactory = new ScriptingCommandProcessorFactory();
 							initCmdTable();
 							((AppW) app).commandsLoaded();
 						}
@@ -78,13 +77,13 @@ public class CommandDispatcherW extends CommandDispatcher {
 					"Scripting commands not loaded yet");
 		}
 
-		return scriptingDispatcher;
+		return scriptingFactory;
 	}
 
 	@Override
-	public CommandDispatcherInterface getAdvancedDispatcher() {
-		if (advancedDispatcher == null) {
-			GWT.runAsync(CommandDispatcherAdvanced.class,
+	public CommandProcessorFactory getAdvancedCommandProcessorFactory() {
+		if (advancedFactory == null) {
+			GWT.runAsync(AdvancedCommandProcessorFactory.class,
 					new RunAsyncCallback() {
 						@Override
 						public void onFailure(Throwable reason) {
@@ -94,7 +93,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 						@Override
 						public void onSuccess() {
 							LoggerW.loaded("advanced commands");
-							advancedDispatcher = new CommandDispatcherAdvanced();
+							advancedFactory = new AdvancedCommandProcessorFactory();
 							initCmdTable();
 							((AppW) app).commandsLoaded();
 						}
@@ -102,13 +101,13 @@ public class CommandDispatcherW extends CommandDispatcher {
 			throw new CommandNotLoadedError("Advanced commands not loaded yet");
 		}
 
-		return advancedDispatcher;
+		return advancedFactory;
 	}
 
 	@Override
-	public CommandDispatcherInterface getCASDispatcher() {
-		if (casDispatcher == null) {
-			GWT.runAsync(CommandDispatcherCAS.class, new RunAsyncCallback() {
+	public CommandProcessorFactory getCASCommandProcessorFactory() {
+		if (casFactory == null) {
+			GWT.runAsync(CASCommandProcessorFactory.class, new RunAsyncCallback() {
 				@Override
 				public void onFailure(Throwable reason) {
 					Log.error("Loading failed for CAS commands");
@@ -117,7 +116,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 				@Override
 				public void onSuccess() {
 					LoggerW.loaded("CAS commands");
-					casDispatcher = new CommandDispatcherCAS();
+					casFactory = new CASCommandProcessorFactory();
 					initCmdTable();
 					((AppW) app).commandsLoaded();
 				}
@@ -125,13 +124,13 @@ public class CommandDispatcherW extends CommandDispatcher {
 			throw new CommandNotLoadedError("CAS commands not loaded yet");
 		}
 
-		return casDispatcher;
+		return casFactory;
 	}
 
 	@Override
-	public CommandDispatcherInterface getStatsDispatcher() {
-		if (statsDispatcher == null) {
-			GWT.runAsync(CommandDispatcherStats.class, new RunAsyncCallback() {
+	public CommandProcessorFactory getStatsCommandProcessorFactory() {
+		if (statsFactory == null) {
+			GWT.runAsync(StatsCommandProcessorFactory.class, new RunAsyncCallback() {
 				@Override
 				public void onFailure(Throwable reason) {
 					Log.error("Loading failed for stats commands");
@@ -140,7 +139,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 				@Override
 				public void onSuccess() {
 					LoggerW.loaded("stats commands");
-					statsDispatcher = new CommandDispatcherStats();
+					statsFactory = new StatsCommandProcessorFactory();
 					initCmdTable();
 					((AppW) app).commandsLoaded();
 				}
@@ -148,12 +147,12 @@ public class CommandDispatcherW extends CommandDispatcher {
 			throw new CommandNotLoadedError("Stats commands not loaded yet");
 		}
 
-		return statsDispatcher;
+		return statsFactory;
 	}
 
 	@Override
-	public CommandDispatcherInterface getProverDispatcher() {
-		if (proverDispatcher == null) {
+	public CommandProcessorFactory getProverCommandProcessorFactory() {
+		if (proverFactory == null) {
 			GWT.runAsync(Prover.class, new RunAsyncCallback() {
 				@Override
 				public void onFailure(Throwable reason) {
@@ -163,7 +162,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 				@Override
 				public void onSuccess() {
 					LoggerW.loaded("prover");
-					proverDispatcher = new CommandDispatcherProver();
+					proverFactory = new ProverCommandProcessorFactory();
 					initCmdTable();
 					((AppW) app).commandsLoaded();
 				}
@@ -171,6 +170,6 @@ public class CommandDispatcherW extends CommandDispatcher {
 			throw new CommandNotLoadedError("Prover commands not loaded yet");
 		}
 
-		return proverDispatcher;
+		return proverFactory;
 	}
 }

@@ -21,18 +21,15 @@ package org.geogebra.desktop.util;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.KeyListener;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
 
 import javax.swing.JComponent;
@@ -40,8 +37,7 @@ import javax.swing.JDialog;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
 
-import org.geogebra.common.jre.util.StreamUtil;
-import org.geogebra.common.util.Charsets;
+import org.geogebra.common.jre.io.StreamUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -49,6 +45,9 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus Hohenwarter
  */
 public class UtilD {
+
+	private static String tempDir = null;
+	private static Comparator<File> comparator;
 
 	/**
 	 * Adds key listener recursively to all subcomponents of container.
@@ -68,30 +67,14 @@ public class UtilD {
 	}
 
 	/**
-	 * Writes all contents of the given InputStream to a byte array.
-	 * @return bytes from the stream
-	 * @throws IOException if I/O problem occurs
-	 */
-	public static byte[] loadIntoMemory(InputStream is) throws IOException {
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		copyStream(is, bos);
-		bos.close();
-		return bos.toByteArray();
-	}
-
-	/**
 	 * @param filename filename
 	 * @return file content
 	 */
 	public static String loadFileIntoString(String filename) {
-		InputStream ios = null;
-		try {
-			ios = new FileInputStream(filename);
-			return loadIntoString(ios);
+		try (FileInputStream ios = new FileInputStream(filename)) {
+			return StreamUtil.loadIntoString(ios);
 		} catch (Exception e) {
 			Log.error("problem loading " + filename);
-		} finally {
-			StreamUtil.closeSilent(ios);
 		}
 		return null;
 	}
@@ -103,9 +86,8 @@ public class UtilD {
 	public static byte[] loadFileIntoByteArray(String filename) {
 		File file = new File(filename);
 		byte[] buffer = new byte[(int) file.length()];
-		InputStream ios = null;
-		try {
-			ios = new FileInputStream(file);
+		try (InputStream ios = new FileInputStream(file)) {
+
 			if (ios.read(buffer) == -1) {
 				Log.error("problem loading " + filename);
 				return null;
@@ -113,51 +95,8 @@ public class UtilD {
 			return buffer;
 		} catch (RuntimeException | IOException e) {
 			Log.error("problem loading " + filename);
-		} finally {
-			try {
-				if (ios != null) {
-					ios.close();
-				}
-			} catch (IOException e) {
-				Log.error("problem loading " + filename);
-			}
 		}
 		return null;
-	}
-
-	/**
-	 * Writes all contents of the given InputStream to a String
-	 * @return stream content
-	 */
-	public static String loadIntoString(InputStream is) {
-		BufferedReader reader = new BufferedReader(
-				new InputStreamReader(is, Charsets.getUtf8()));
-		StringBuilder sb = new StringBuilder();
-
-		String line;
-		try {
-			while ((line = reader.readLine()) != null) {
-				sb.append(line).append("\n");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return sb.toString();
-	}
-
-	/**
-	 * @param in input stream
-	 * @param out output stream
-	 * @throws IOException if I/O error occurs
-	 */
-	public static void copyStream(InputStream in, OutputStream out)
-			throws IOException {
-		byte[] buf = new byte[4096];
-		int len;
-		while ((len = in.read(buf)) > -1) {
-			out.write(buf, 0, len);
-		}
 	}
 
 	/**
@@ -200,8 +139,6 @@ public class UtilD {
 		return sb.toString();
 	}
 
-	private static Comparator<File> comparator;
-
 	/**
 	 * Returns a comparator for GeoText objects. If equal, doesn't return zero
 	 * (otherwise TreeSet deletes duplicates)
@@ -224,22 +161,14 @@ public class UtilD {
 	 *            filename
 	 */
 	public static void writeStringToFile(String s, String filename) {
-
-		Writer out;
 		try {
-
-			out = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(filename), Charsets.getUtf8()));
-
-			try {
+			try (Writer out = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(filename), StandardCharsets.UTF_8))) {
 				out.write(s);
-			} finally {
-				out.close();
 			}
-
 		} catch (Exception e) {
 			Log.error("problem writing file " + filename);
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}
@@ -254,24 +183,15 @@ public class UtilD {
 	 *            filename
 	 */
 	public static void writeStringToFile(String s, File file) {
-
-		Writer out;
 		try {
-
-			out = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(file), Charsets.getUtf8()));
-
-			try {
+			try (Writer out = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(file), StandardCharsets.UTF_8))) {
 				out.write(s);
-			} finally {
-				out.close();
 			}
-
 		} catch (Exception e) {
 			Log.error("problem writing file " + file.getName());
-			e.printStackTrace();
+			Log.debug(e);
 		}
-
 	}
 
 	/**
@@ -285,11 +205,9 @@ public class UtilD {
 			out.write(bytes);
 		} catch (Exception e) {
 			Log.error("problem writing file " + filename);
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
-
-	private static String tempDir = null;
 
 	/**
 	 * @return temporary directory (ends with a separator)

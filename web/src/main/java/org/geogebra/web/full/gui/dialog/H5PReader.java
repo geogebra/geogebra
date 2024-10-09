@@ -9,7 +9,6 @@ import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
 import elemental2.dom.File;
@@ -73,7 +72,7 @@ public class H5PReader implements AjaxCallback {
 		if (embed != null) {
 			embed.remove();
 		}
-		ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization()
+		((AppW) app).getToolTipManager().showBottomMessage(app.getLocalization()
 				.getMenu("PdfErrorText"), (AppW) app);
 	}
 }

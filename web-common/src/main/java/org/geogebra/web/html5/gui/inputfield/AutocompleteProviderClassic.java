@@ -1,18 +1,20 @@
 package org.geogebra.web.html5.gui.inputfield;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.util.AutoCompleteDictionary;
+import org.geogebra.common.util.MatchedString;
 
 /**
  * Autocomplete provider for plain text editor
  */
 public class AutocompleteProviderClassic {
 	protected final AutocompleteProvider provider;
-	private List<String> completions;
+	private List<MatchedString> completions;
 	private AutoCompleteDictionary dict;
 	private App app;
 	private boolean forCAS;
@@ -32,7 +34,7 @@ public class AutocompleteProviderClassic {
 	/**
 	 * @return completions
 	 */
-	public List<String> getCompletions() {
+	public List<MatchedString> getCompletions() {
 		return completions;
 	}
 
@@ -41,45 +43,44 @@ public class AutocompleteProviderClassic {
 	 * 
 	 * @param currentWord
 	 *            sequence of alphanumeric characters around the cursor
-	 * 
-	 * @return completions for current word
 	 */
-	public List<String> resetCompletions(CharSequence currentWord) {
+	public void resetCompletions(CharSequence currentWord) {
 		completions = null;
 
 		boolean korean = false;
 		if (app.getLocalization() != null) {
-			korean = "ko".equals(app.getLocalization().getLanguage());
+			korean = app.getLocalization().languageIs("ko");
 		}
 
 		// start autocompletion only for words with at least two characters
 		if (!needsAutocomplete(currentWord)) {
 			completions = null;
-			return null;
+			return;
 		}
 
 		String cmdPrefix = currentWord.toString();
-
+		List<MatchedString> completionMatches;
 		if (korean) {
-			completions = getDictionary().getCompletionsKorean(cmdPrefix);
+			completionMatches = getDictionary().getCompletionsKorean(cmdPrefix);
 		} else {
-			completions = getDictionary().getCompletions(cmdPrefix);
+			completionMatches = getDictionary().getCompletions(cmdPrefix);
 		}
 
-		if (completions == null && provider.isFallbackCompletionAllowed()) {
-			completions = app.getEnglishCommandDictionary()
+		if (completionMatches == null && provider.isFallbackCompletionAllowed()) {
+			completionMatches = app.getEnglishCommandDictionary()
 					.getCompletions(cmdPrefix);
 		}
 
-		List<String> commandCompletions = provider.getSyntaxes(completions);
+		List<MatchedString> commandCompletions = provider.getSyntaxes(completionMatches);
 
 		// Start with the built-in function completions
-		completions = app.getParserFunctions().getCompletions(cmdPrefix);
+		completions = app.getParserFunctions().getCompletions(cmdPrefix).stream()
+				.map(c -> new MatchedString(c, 0, currentWord.length()))
+				.collect(Collectors.toList());
 		addToCompletions(commandCompletions);
-		return completions;
 	}
 
-	private void addToCompletions(List<String> commandCompletions) {
+	private void addToCompletions(List<MatchedString> commandCompletions) {
 		if (isNullOrEmpty(commandCompletions)) {
 			return;
 		}
@@ -90,8 +91,8 @@ public class AutocompleteProviderClassic {
 		}
 	}
 
-	private boolean isNullOrEmpty(List<String> list) {
-		return list == null || list.isEmpty() || (list.size() == 1 && list.get(0).isEmpty());
+	private boolean isNullOrEmpty(List<MatchedString> list) {
+		return list == null || list.isEmpty();
 	}
 
 	/**

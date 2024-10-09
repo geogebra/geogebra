@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+@Deprecated // use org.geogebra.common.exam API instead
 public class RestrictExamImpl implements RestrictExam {
 
 	private final ExamRestrictionModel model;

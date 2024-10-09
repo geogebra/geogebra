@@ -15,7 +15,6 @@ package org.geogebra.common.kernel.algos;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
@@ -23,7 +22,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
-import org.geogebra.common.util.ScientificFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -45,7 +43,9 @@ public class AlgoLocusStroke extends AlgoElement {
 	public AlgoLocusStroke(Construction cons, ArrayList<MyPoint> points) {
 		super(cons);
 		poly = new GeoLocusStroke(this.cons);
-		poly.appendPointArray(points);
+		if (!points.isEmpty()) {
+			poly.appendPointArray(points);
+		}
 
 		// updatePointArray already covered compute
 		input = new GeoElement[1];
@@ -58,7 +58,7 @@ public class AlgoLocusStroke extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.PolyLine;
+		return Commands.PenStroke;
 	}
 
 	@Override
@@ -79,8 +79,7 @@ public class AlgoLocusStroke extends AlgoElement {
 		}
 
 		// set output
-		setOutputLength(1);
-		setOutput(0, poly);
+		setOnlyOutput(poly);
 		setDependencies();
 	}
 
@@ -113,29 +112,7 @@ public class AlgoLocusStroke extends AlgoElement {
 				sb.append("\"");
 			}
 		}
-		StringBuilder xmlPoints = poly.getXMLPointBuilder();
-		if (xmlPoints == null) {
-			xmlPoints = new StringBuilder();
-			// add expression
-			xmlPoints.append(" exp=\"PolyLine[");
-			appendPoints(xmlPoints);
-			xmlPoints.append("]\" />\n");
-		}
-		poly.setXMLPointBuilder(xmlPoints);
-		sb.append(xmlPoints);
-	}
-
-	private void appendPoints(final StringBuilder sb) {
-		final ScientificFormatAdapter formatter = FormatFactory.getPrototype()
-				.getFastScientificFormat(5);
-		poly.processPointsWithoutControl(m -> {
-			sb.append("(");
-			sb.append(formatter.format(m.getX()));
-			sb.append(",");
-			sb.append(formatter.format(m.getY()));
-			sb.append("), ");
-		});
-		sb.append("true");
+		sb.append(" exp=\"PenStroke[]\" />");
 	}
 
 	@Override
@@ -145,7 +122,7 @@ public class AlgoLocusStroke extends AlgoElement {
 
 	@Override
 	public String getDefinition(StringTemplate tpl) {
-		String def = "PolyLine";
+		String def = "PenStroke";
 		// #2706
 		if (input == null) {
 			return null;
@@ -158,9 +135,7 @@ public class AlgoLocusStroke extends AlgoElement {
 		}
 
 		sbAE.append(tpl.leftSquareBracket());
-		// input legth is 0 for ConstructionStep[]
-		
-		appendPoints(sbAE);
+		poly.appendPoints(sbAE);
 		sbAE.append(tpl.rightSquareBracket());
 		return sbAE.toString();
 	}

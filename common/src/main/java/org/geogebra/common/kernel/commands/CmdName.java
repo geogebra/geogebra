@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
 /**
- * Name[ &lt;GeoElement> ]
+ * Name[ &lt;GeoElement&gt; ]
  */
 public class CmdName extends CommandProcessor {
 	/**
@@ -21,7 +21,7 @@ public class CmdName extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 

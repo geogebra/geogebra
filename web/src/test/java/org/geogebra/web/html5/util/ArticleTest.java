@@ -5,11 +5,11 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.TreeSet;
 
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
-import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.junit.Test;
@@ -37,7 +37,7 @@ public class ArticleTest {
 			huc.connect();
 			String answer = "", s;
 			BufferedReader in = new BufferedReader(new InputStreamReader(
-					huc.getInputStream(), Charsets.getUtf8()));
+					huc.getInputStream(), StandardCharsets.UTF_8));
 			answer = in.readLine(); // the last line will never get a "\n" on
 			// its end
 			while ((s = in.readLine()) != null) {

@@ -11,6 +11,8 @@ import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.util.ProbabilityModeGroup;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -20,7 +22,7 @@ import org.gwtproject.user.client.ui.Widget;
 public class DistributionPanel extends FlowPanel implements InsertHandler {
 	private ProbabilityCalculatorViewW view;
 	private Localization loc;
-	private CompDropDown comboDistribution;
+	private CompDropDown distributionDropDown;
 	private ToggleButton cumulativeWidget;
 	private Label[] lblParameterArray;
 	private MathTextFieldW[] fldParameterArray;
@@ -83,6 +85,16 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	}
 
 	/**
+	 * @param disable whether to disable or not
+	 */
+	public void disableInterval(boolean disable) {
+		if (modeGroup != null) {
+			modeGroup.disableButtons(disable);
+			Dom.toggleClass(modeGroup, "disabled", disable);
+		}
+	}
+
+	/**
 	 * add parameter label and input field to UI
 	 * @param parent - parent holder div
 	 */
@@ -107,7 +119,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 		fldParameterArray = new MathTextFieldW[ view.maxParameterCount];
 
 		for (int i = 0; i < view.maxParameterCount; i++) {
-			lblParameterArray[i] = new Label();
+			lblParameterArray[i] = BaseWidgetFactory.INSTANCE.newSecondaryText("");
 			fldParameterArray[i] = new MathTextFieldW(view.getApp());
 			resultPanel.addInsertHandler(fldParameterArray[i]);
 		}
@@ -152,8 +164,10 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	 */
 	public void initCumulativeWidget() {
 		cumulativeWidget = new ToggleButton(GuiResources.INSTANCE.cumulative_distribution());
-		cumulativeWidget.addFastClickHandler((e) ->
-				view.setCumulative(cumulativeWidget.isSelected()));
+		cumulativeWidget.addFastClickHandler((e) -> {
+				view.setCumulative(cumulativeWidget.isSelected());
+				disableInterval(cumulativeWidget.isSelected());
+		});
 	}
 
 	/**
@@ -163,12 +177,12 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	public void buildDistrComboBox(FlowPanel parent) {
 		DistributionTypeProperty distTypeProperty = new DistributionTypeProperty(loc, view);
 		String comboLbl = getApp().getConfig().hasDistributionView() ? "Distribution" : null;
-		comboDistribution = new CompDropDown(getApp(), comboLbl, distTypeProperty);
+		distributionDropDown = new CompDropDown(getApp(), comboLbl, distTypeProperty);
 		if (getApp().getConfig().hasDistributionView()) {
-			comboDistribution.setFullWidth(true);
+			distributionDropDown.setFullWidth(true);
 		}
-		comboDistribution.addStyleName("comboDistribution");
-		parent.add(comboDistribution);
+		distributionDropDown.addStyleName("comboDistribution");
+		parent.add(distributionDropDown);
 	}
 
 	private AppW getApp() {
@@ -181,6 +195,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	public void updateGUI() {
 		updateCumulative();
 		updateParameters();
+		distributionDropDown.resetFromModel();
 		modeGroup.setMode(view.getProbMode());
 	}
 
@@ -192,7 +207,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	 * update translation
 	 */
 	public void setLabels() {
-		comboDistribution.setLabels();
+		distributionDropDown.setLabels();
 		if (cumulativeWidget != null) {
 			cumulativeWidget.setTitle(loc.getMenu("Cumulative"));
 		}
@@ -284,17 +299,14 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	}
 
 	private void checkBounds(GeoNumberValue value, boolean intervalCheck, boolean high) {
-		boolean valid = high ? view.isValidInterval(view.getLow(), value.getDouble())
-				: view.isValidInterval(value.getDouble(), view.getHigh());
-
-		if (valid) {
-			if (high) {
-				view.setHigh(value);
-			} else {
-				view.setLow(value);
-			}
-			view.setXAxisPoints();
+		if (high) {
+			view.setHigh(value);
+		} else {
+			view.setLow(value);
 		}
+
+		view.setXAxisPoints();
+
 		if (intervalCheck) {
 			updateGUI();
 			if (view.isTwoTailedMode()) {

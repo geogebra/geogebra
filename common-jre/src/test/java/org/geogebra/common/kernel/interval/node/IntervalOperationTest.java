@@ -35,6 +35,8 @@ public class IntervalOperationTest {
 		assertTrue(support.isSupported(Operation.SQRT));
 		assertTrue(support.isSupported(Operation.TAN));
 		assertTrue(support.isSupported(Operation.TANH));
+		assertTrue(support.isSupported(Operation.LOGB));
+		assertTrue(support.isSupported(Operation.INVISIBLE_PLUS));
 	}
 
 	@Test

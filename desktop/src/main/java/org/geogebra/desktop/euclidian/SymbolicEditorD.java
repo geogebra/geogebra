@@ -37,9 +37,9 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 		box = Box.createHorizontalBox();
 
-		mathField = new MathFieldD(new SyntaxAdapterImpl(app.kernel), view::repaintView);
+		mathField = new MathFieldD(new SyntaxAdapterImpl(app.getKernel()), view::repaintView);
 
-		mathField.getInternal().setFieldListener(this);
+		mathField.getInternal().addMathFieldListener(this);
 		mathField.setVisible(true);
 		mathField.getInternal().setType(TeXFont.SANSSERIF);
 

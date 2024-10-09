@@ -276,7 +276,7 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 				padding: 0;
 			}
 
-			.MyToggleButton {
+			.ToggleButton {
 				padding: 0;
 				border: none;
 				background: none;
@@ -326,7 +326,7 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 		box-sizing: border-box;
 	}
 
-	.menubarSMART {
+	.menuBarClassic {
 		overflow-y: auto;
 		background-color: colors.$classic-toolbar-bg;
 		border-left: 1px;
@@ -374,7 +374,6 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 			}
 
 			.versionNr {
-				color: colors.$text-disabled;
 				height: 31px;
 				line-height: 31px;
 				padding-left: 35px;

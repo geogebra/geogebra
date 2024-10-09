@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * UnicodeToText[ &lt;List of numbers> ]
+ * UnicodeToText[ &lt;List of Numbers&gt; ]
  */
 public class CmdUnicodeToText extends CommandProcessor {
 	/**
@@ -22,7 +22,7 @@ public class CmdUnicodeToText extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 

@@ -11,7 +11,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * Conic[ &lt;List> ]
+ * Conic[ &lt;List&gt; ]
  * 
  * Conic[ five GeoPoints ]
  */
@@ -28,7 +28,7 @@ public class CmdConic extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c);
 		switch (n) {

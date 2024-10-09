@@ -3,7 +3,7 @@ package org.geogebra.web.full.html5;
 import org.geogebra.web.full.gui.menubar.GMenuBar;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
 
@@ -30,7 +30,7 @@ public class GPopupMenuWMock extends GPopupMenuW {
 
 	@Override
 	public void addItem(AriaMenuItem item) {
-		menuBarMock.add(item.getHTML());
+		menuBarMock.add(item.getText());
 	}
 
 	@Override

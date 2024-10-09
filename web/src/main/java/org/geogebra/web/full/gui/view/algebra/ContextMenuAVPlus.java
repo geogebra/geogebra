@@ -1,22 +1,16 @@
 package org.geogebra.web.full.gui.view.algebra;
 
-import java.util.Vector;
-
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.toolbar.ToolbarItem;
-import org.geogebra.common.gui.toolcategorization.AppType;
-import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SharedResources;
 import org.gwtproject.user.client.ui.Widget;
@@ -61,42 +55,17 @@ public class ContextMenuAVPlus implements SetLabels {
 		addExpressionItem();
 		if (app.getActiveEuclidianView().getViewID() != App.VIEW_EUCLIDIAN3D) {
 			addTextItem();
-			if (app.showToolBar() && !app.isExam() && toolbarHasImageMode()) {
+			if (GlobalScope.examController.isIdle() && app.getGuiManager().toolbarHasImageMode()) {
 				addImageItem();
 			}
 		}
 		addHelpItem();
 	}
 
-	private boolean toolbarHasImageMode() {
-		if (app.getConfig().getToolbarType().equals(AppType.CLASSIC)) {
-			Vector<ToolbarItem> toolbarItems =
-					ToolBar.parseToolbarString(app.getGuiManager().getToolbarDefinition());
-
-			for (ToolbarItem toolbarItem : toolbarItems) {
-				if (toolbarItem.getMode() == null) {
-					if (toolbarItem.getMenu().contains(EuclidianConstants.MODE_IMAGE)) {
-						return true;
-					}
-				} else {
-					if (toolbarItem.getMode() == EuclidianConstants.MODE_IMAGE) {
-						return true;
-					}
-				}
-			}
-		} else {
-			ToolCollection toolCollection =
-					app.createToolCollectionFactory().createToolCollection();
-			return toolCollection.contains(EuclidianConstants.MODE_IMAGE);
-		}
-
-		return false;
-	}
-
 	private void addExpressionItem() {
 		SVGResource img = MaterialDesignResources.INSTANCE.description();
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("Expression")), true, () -> {
+		AriaMenuItem mi =
+				MainMenu.getMenuBarItem(img, loc.getMenu("Expression"), () -> {
 					item.getController().setInputAsText(false);
 					item.ensureEditing();
 					kbd.selectTab(KeyboardType.NUMBERS);
@@ -106,8 +75,8 @@ public class ContextMenuAVPlus implements SetLabels {
 
 	private void addTextItem() {
 		SVGResource img = MaterialDesignResources.INSTANCE.icon_quote_black();
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("Text")), true, () -> {
+		AriaMenuItem mi =
+				MainMenu.getMenuBarItem(img, loc.getMenu("Text"), () -> {
 					item.getController().setInputAsText(true);
 					item.ensureEditing();
 					kbd.selectTab(KeyboardType.ABC);
@@ -117,8 +86,8 @@ public class ContextMenuAVPlus implements SetLabels {
 	
 	void addImageItem() {
 		SVGResource img = MaterialDesignResources.INSTANCE.insert_photo_black();
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("Image")), true, () -> {
+		AriaMenuItem mi =
+				MainMenu.getMenuBarItem(img, loc.getMenu("Image"), () -> {
 					item.getController().setInputAsText(false);
 					app.getImageManager().setPreventAuxImage(true);
 
@@ -130,8 +99,8 @@ public class ContextMenuAVPlus implements SetLabels {
 
 	private void addHelpItem() {
 		SVGResource img = SharedResources.INSTANCE.icon_help_black();
-		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("Help")), true, this::showHelp);
+		AriaMenuItem mi =
+				MainMenu.getMenuBarItem(img, loc.getMenu("Help"), this::showHelp);
 		wrappedPopup.addItem(mi);
 	}
 

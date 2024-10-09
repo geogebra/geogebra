@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
+import org.geogebra.common.main.AsyncManagerI;
 import org.geogebra.common.util.debug.Log;
 
 import elemental2.promise.Promise.PromiseExecutorCallbackFn.RejectCallbackFn;
@@ -15,7 +16,7 @@ import elemental2.promise.Promise.PromiseExecutorCallbackFn.ResolveCallbackFn;
  * 
  * @author Agoston
  */
-public class AsyncManager {
+public class AsyncManager implements AsyncManagerI {
 
 	/**
 	 * Preload all but discrete and steps
@@ -38,12 +39,9 @@ public class AsyncManager {
 		callbacks = new ArrayList<>();
 	}
 
-	/**
-	 * Try executing r until it succeeds
-	 * @param r code that requires modules that might've not been loaded yet
-	 */
-	public void scheduleCallback(Runnable r) {
-		callbacks.add(r);
+	@Override
+	public void scheduleCallback(Runnable callback) {
+		callbacks.add(callback);
 		onResourceLoaded();
 	}
 
@@ -56,12 +54,12 @@ public class AsyncManager {
 			final CommandDispatcher cmdDispatcher = app.getKernel()
 				.getAlgebraProcessor().getCmdDispatcher();
 
-			cmdDispatcher.getScriptingDispatcher();
-			cmdDispatcher.getAdvancedDispatcher();
-			cmdDispatcher.getStatsDispatcher();
-			cmdDispatcher.getProverDispatcher();
-			cmdDispatcher.getCASDispatcher();
-			cmdDispatcher.get3DDispatcher();
+			cmdDispatcher.getScriptingCommandProcessorFactory();
+			cmdDispatcher.getAdvancedCommandProcessorFactory();
+			cmdDispatcher.getStatsCommandProcessorFactory();
+			cmdDispatcher.getProverCommandProcessorFactory();
+			cmdDispatcher.getCASCommandProcessorFactory();
+			cmdDispatcher.getSpatialCommandProcessorFactory();
 		} catch (CommandNotLoadedError e) {
 			ensureModulesLoaded(null);
 			throw e;
@@ -72,47 +70,66 @@ public class AsyncManager {
 	 * Ensure that all the specified modules are loaded before
 	 * any other code inside async callback is run
 	 * @param modules modules to preload
-	 *                   (null -> preload all specified in defaultPreload)
+	 *                   (null -&gt; preload all specified in defaultPreload)
 	 */
 	public void ensureModulesLoaded(String[] modules) {
-		final CommandDispatcher cmdDispatcher = app.getKernel()
-				.getAlgebraProcessor().getCmdDispatcher();
 		final AsyncModule[] preload = modules == null ? defaultPreload
 				: parse(modules);
 		for (AsyncModule module : preload) {
 			module.prefetch();
 		}
-		Runnable r = () -> {
-			for (AsyncModule module : preload) {
-				switch (module) {
-				case DISCRETE:
-					cmdDispatcher.getDiscreteDispatcher();
-					break;
-				case SCRIPTING:
-					cmdDispatcher.getScriptingDispatcher();
-					break;
-				case ADVANCED:
-					cmdDispatcher.getAdvancedDispatcher();
-					break;
-				case STATS:
-					cmdDispatcher.getStatsDispatcher();
-					break;
-				case PROVER:
-					cmdDispatcher.getProverDispatcher();
-					break;
-				case CAS:
-					cmdDispatcher.getCASDispatcher();
-					break;
-				case SPATIAL:
-					cmdDispatcher.get3DDispatcher();
-					break;
-				default:
-					Log.debug("Tring to preload nonexistent module: " + module);
-				}
-			}
-		};
+		Runnable r = () -> ensureAvailable(preload, null);
 
 		callbacks.add(0, r);
+	}
+
+	private void ensureAvailable(AsyncModule[] modules, Runnable callback) {
+		for (AsyncModule module: modules) {
+			final CommandDispatcher cmdDispatcher = app.getKernel()
+					.getAlgebraProcessor().getCmdDispatcher();
+			switch (module) {
+			case DISCRETE:
+				cmdDispatcher.getDiscreteCommandProcessorFactory();
+				break;
+			case SCRIPTING:
+				cmdDispatcher.getScriptingCommandProcessorFactory();
+				break;
+			case ADVANCED:
+				cmdDispatcher.getAdvancedCommandProcessorFactory();
+				break;
+			case STATS:
+				cmdDispatcher.getStatsCommandProcessorFactory();
+				break;
+			case PROVER:
+				cmdDispatcher.getProverCommandProcessorFactory();
+				break;
+			case CAS:
+				cmdDispatcher.getCASCommandProcessorFactory();
+				break;
+			case SPATIAL:
+				cmdDispatcher.getSpatialCommandProcessorFactory();
+				break;
+			case GIAC:
+				app.getKernel().getGeoGebraCAS().initCurrentCAS();
+			default:
+				Log.debug("Trying to preload nonexistent module: " + module);
+			}
+		}
+		if (callback != null) {
+			callback.run();
+		}
+	}
+
+	/**
+	 * @param callback runs after all chunks are loaded
+	 * @param modules list of chunk names, see {@link AsyncModule}
+	 */
+	public void prefetch(Runnable callback, String... modules) {
+		final AsyncModule[] preload = parse(modules);
+		for (AsyncModule module : preload) {
+			module.prefetch();
+		}
+		runOrSchedule(() -> ensureAvailable(preload, callback));
 	}
 
 	private static AsyncModule[] parse(String[] modules) {

@@ -2,14 +2,14 @@ package org.geogebra.common.kernel.discrete;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Function;
 
-import org.apache.commons.collections15.Transformer;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.discrete.AlgoMinimumSpanningTree.MyLink;
+import org.geogebra.common.kernel.discrete.AlgoMinimumSpanningTree.TreeLink;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -84,9 +84,9 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 
 	// weighted Shortest Path
 	// use length of segments to weight
-	private Transformer<MyLink, Double> wtTransformer = new Transformer<MyLink, Double>() {
+	private Function<TreeLink, Double> wtTransformer = new Function<TreeLink, Double>() {
 		@Override
-		public Double transform(MyLink link) {
+		public Double apply(TreeLink link) {
 			return link.weight;
 		}
 	};
@@ -102,11 +102,11 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 
 		edgeCount = 0;
 
-		HashMap<GeoPointND, MyNode> nodes = new HashMap<>();
+		HashMap<GeoPointND, TreeNode> nodes = new HashMap<>();
 
-		SparseMultigraph<MyNode, MyLink> g = new SparseMultigraph<>();
+		SparseMultigraph<TreeNode, TreeLink> g = new SparseMultigraph<>();
 
-		MyNode node1, node2;
+		TreeNode node1, node2;
 		NodeMatcher startNode = new NodeMatcher(start);
 		NodeMatcher endNode = new NodeMatcher(end);
 
@@ -119,11 +119,11 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 				node1 = nodes.get(p1);
 				node2 = nodes.get(p2);
 				if (node1 == null) {
-					node1 = new MyNode(p1);
+					node1 = new TreeNode(p1);
 					nodes.put(p1, node1);
 				}
 				if (node2 == null) {
-					node2 = new MyNode(p2);
+					node2 = new TreeNode(p2);
 					nodes.put(p2, node2);
 				}
 
@@ -135,7 +135,7 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 
 				// add edge to graph
 				g.addEdge(
-						new MyLink(seg.getLength(), node1, node2, edgeCount++),
+						new TreeLink(seg.getLength(), node1, node2, edgeCount++),
 						node1,
 						node2, EdgeType.UNDIRECTED);
 
@@ -155,7 +155,7 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 			return;
 		}
 
-		DijkstraShortestPath<MyNode, MyLink> alg;
+		DijkstraShortestPath<TreeNode, TreeLink> alg;
 
 		if (weighted.getBoolean()) {
 			alg = new DijkstraShortestPath<>(g, wtTransformer);
@@ -164,11 +164,11 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 			alg = new DijkstraShortestPath<>(g);
 		}
 
-		List<MyLink> list = alg.getPath(startNode.node, endNode.node);
+		List<TreeLink> list = alg.getPath(startNode.node, endNode.node);
 
-		MyNode n1, n2;
+		TreeNode n1, n2;
 		if (!list.isEmpty()) {
-			MyLink link = list.get(0);
+			TreeLink link = list.get(0);
 			n1 = link.n1;
 			n2 = link.n2;
 
@@ -183,7 +183,7 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 		}
 		double[] inhom1 = new double[3];
 		double[] inhom2 = new double[3];
-		for (MyLink link : list) {
+		for (TreeLink link : list) {
 			link.n1.id.getInhomCoords(inhom1);
 			link.n2.id.getInhomCoords(inhom2);
 			// nodes may not be in the right order, might need n1 or n2
@@ -201,14 +201,14 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 
 	private static class NodeMatcher {
 		private final GeoPointND target;
-		public MyNode node;
+		public TreeNode node;
 		private boolean exactMatch;
 
 		public NodeMatcher(GeoPointND target) {
 			this.target = target;
 		}
 
-		public void check(GeoPointND p1, MyNode node2) {
+		public void check(GeoPointND p1, TreeNode node2) {
 			if (p1 == target) {
 				exactMatch = true;
 				node = node2;

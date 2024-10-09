@@ -16,6 +16,7 @@ import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.resources.SVGResourcePrototype;
 import org.geogebra.web.resources.StyleInjector;
+import org.geogebra.web.richtext.impl.CarotaEditor;
 import org.gwtproject.canvas.client.Canvas;
 import org.gwtproject.core.client.impl.SchedulerImpl;
 import org.gwtproject.dom.client.SelectElement;
@@ -63,6 +64,7 @@ import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
 
 import elemental2.core.JsDate;
 import elemental2.core.Uint8Array;
+import elemental2.dom.Document;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.XMLHttpRequest;
 import elemental2.webgl.WebGLRenderingContext;
@@ -139,7 +141,9 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         StubGenerator.replaceMethodWithMock(CancelEventTimer.class, "killTouch", Void.class);
         StubGenerator.replaceMethodWithMock(GPopupPanel.class, "getContainerElement", Void.class);
         StubGenerator.replaceMethodWithMock(MathFieldW.class, "addFocusListener", Void.class);
-
+        StubGenerator.replaceMethodWithMock(CarotaEditor.class, "addInsertFilter", Void.class);
+        StubGenerator.replaceMethodWithMock(MathFieldW.class, "checkCode", Void.class);
+        StubGenerator.replaceMethodWithMock(Document.class, "createTextNode", Void.class);
     }
 
     @Override

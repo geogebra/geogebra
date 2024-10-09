@@ -16,7 +16,6 @@ import org.geogebra.web.html5.euclidian.profiler.drawer.DrawingRecorder;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.main.AppW;
@@ -32,7 +31,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	private final LongTouchManager longTouchManager;
 
 	private boolean dragModeMustBeSelected = false;
-	private int deltaSum = 0;
 	private int moveCounter = 0;
 	private boolean dragModeIsRightClick = false;
 	private final LinkedList<PointerEvent> mousePool = new LinkedList<>();
@@ -97,22 +95,12 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		int x = (int) Math.round(event.offsetX / getZoomLevel());
 		int y = (int) Math.round(event.offsetY / getZoomLevel());
 		boolean shiftOrMeta = event.shiftKey || event.metaKey;
-		if (delta == 0) {
-			deltaSum += delta;
-			if (Math.abs(deltaSum) > 40) {
-				double ds = deltaSum;
-				deltaSum = 0;
-				ec.wrapMouseWheelMoved(x, y, ds,
-						shiftOrMeta, event.altKey);
-			}
-			// normal scrolling
-		} else {
-			deltaSum = 0;
-			ec.wrapMouseWheelMoved(x, y, delta,
-					shiftOrMeta,
-			        event.altKey);
+		boolean consumed = false;
+		if (delta != 0) {
+			consumed = ec.wrapMouseWheelMoved(x, y, delta,
+					shiftOrMeta, event.altKey);
 		}
-		if (ec.allowMouseWheel(shiftOrMeta)) {
+		if (consumed || ec.allowMouseWheel(shiftOrMeta)) {
 			event.preventDefault();
 		}
 	}
@@ -127,8 +115,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 * @param startCapture
 	 *            whether to start capturing
 	 */
-	public void onMouseMoveNow(PointerEvent event, long time,
-	        boolean startCapture) {
+	public void onMouseMoveNow(PointerEvent event, long time, boolean startCapture) {
 		if (!dragModeMustBeSelected) {
 			ec.wrapMouseMoved(event);
 		} else {
@@ -193,10 +180,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 */
 	public void onPointerEventStart(AbstractEvent event) {
 		app.getFpsProfiler().notifyTouchStart();
+		app.hideMenu();
 
-		if (((AppW) app).isMenuShowing()) {
-			((AppW) app).toggleMenu();
-		}
 		if (isRecording) {
 			drawingRecorder
 					.recordCoordinate(event.getX(), event.getY(), System.currentTimeMillis());
@@ -220,13 +205,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			ec.prepareModeForFreehand();
 		}
 		event.release();
-	}
-
-	/**
-	 * Initialize tooltip manager.
-	 */
-	public void initToolTipManager() {
-		ToolTipManagerW.sharedInstance();
 	}
 
 	public void resetToolTipManager() {

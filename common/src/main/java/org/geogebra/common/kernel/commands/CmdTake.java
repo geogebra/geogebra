@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
- * Take[ &lt;List>,m,n ]
+ * Take[ &lt;List&gt;,m,n ]
  * 
  * @author Michael Borcherds
  */
@@ -27,7 +27,7 @@ public class CmdTake extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;

@@ -436,11 +436,6 @@ public class AlgoIntersectRegionPlanePolyhedron
 			polyhedronVertices.clear();
 		}
 
-		/*
-		 * if (originalEdges==null) originalEdges = new TreeMap<GeoElement,
-		 * TreeMap<GeoElement,Segment>>(); else originalEdges.clear();
-		 */
-
 		for (GeoPolygon polygon : polyhedron.getPolygons()) {
 			p = polygon;
 			setNewCoordsList();
@@ -860,7 +855,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 	private void updateLabels(
 			@SuppressWarnings("rawtypes") OutputHandler outputHandler) {
-		if (hasLabels) {
+		if (this.hasLabels) {
 			outputHandler.updateLabels();
 		}
 	}
@@ -944,7 +939,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 			outputPoints.adjustOutputSize(
 					verticesList.cumulateSize + polyhedronVertices.size(),
 					false);
-			updateLabels(outputPoints);
+
 			int segmentIndex = 0;
 			for (ArrayList<Coords> vertices : verticesList) {
 				int length = vertices.size();
@@ -958,7 +953,6 @@ public class AlgoIntersectRegionPlanePolyhedron
 			// adjust output polygons size
 			outputPolygons.adjustOutputSize(
 					verticesList.size() + polyhedronVertices.size(), false);
-			updateLabels(outputPolygons);
 
 			// get points list
 			GeoPoint3D[] points = new GeoPoint3D[verticesList.cumulateSize];
@@ -968,7 +962,6 @@ public class AlgoIntersectRegionPlanePolyhedron
 			outputSegmentsPolyhedron.adjustOutputSize(
 					verticesList.cumulateSize + polyhedronVertices.size(),
 					false);
-			updateLabels(outputSegmentsPolyhedron);
 			int pointIndex = 0;
 			int polygonIndex = 0;
 			segmentIndex = 0;
@@ -1005,6 +998,10 @@ public class AlgoIntersectRegionPlanePolyhedron
 					segmentIndex);
 
 		}
+		updateLabels(outputPoints);
+		updateLabels(outputPolygons);
+		updateLabels(outputSegmentsPolyhedron);
+		hasLabels = false;
 	}
 
 	@Override

@@ -49,10 +49,10 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 
 	protected GeoPoint P; // input
 	protected Lineable2D l; // input
-	private GeoLine g; // output
+	private final GeoLine g; // output
 	private PPolynomial[] polynomials;
 	private OrthoLinePointLineAdapter proverAdapter;
-	private double[] normal = new double[3];
+	private final double[] normal = new double[3];
 
 	/**
 	 * Creates new AlgoOrthoLinePointLine.
@@ -114,10 +114,8 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 	// for AlgoElement
 	@Override
 	public void setInputOutput() {
-
 		setInput();
-		setOutputLength(1);
-		setOutput(0, g);
+		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -144,7 +142,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 		// (but keep nice answers for smaller numbers
 		// eg PerpendicularLine[ (1,2), Segment[(1,6),(6,1)]
 		// eg https://www.geogebra.org/m/wv8xnjnc
-		g.getnormalizedCoefficients(normal, 10E6);
+		g.getnormalizedCoefficients(normal, 10E6, 1E-2);
 		g.x = normal[0];
 		g.y = normal[1];
 		g.z = normal[2];

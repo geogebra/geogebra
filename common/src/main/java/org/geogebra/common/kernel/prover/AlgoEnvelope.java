@@ -21,9 +21,9 @@ import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * @author Zoltan Kovacs <zoltan@geogebra.org> The Singular computations are
+ * @author Zoltan Kovacs The Singular computations are
  *         provided by Francisco Botana and the grobcov library by Antonio
- *         Montes & al. Based on Sergio's LocusEquation. Works out the equation
+ *         Montes &amp; al. Based on Sergio's LocusEquation. Works out the equation
  *         for a given envelope.
  */
 public class AlgoEnvelope extends AlgoElement implements UsesCAS {
@@ -117,8 +117,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		standardInput[0] = this.path.toGeoElement();
 		standardInput[1] = this.movingPoint;
 
-		setOutputLength(1);
-		setOutput(0, this.geoPoly.toGeoElement());
+		setOnlyOutput(this.geoPoly);
 
 		setEfficientDependencies(standardInput, efficientInput);
 
@@ -279,15 +278,14 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		standardInput[0] = this.path.toGeoElement();
 		standardInput[1] = this.movingPoint;
 
-		setOutputLength(1);
-		setOutput(0, this.geoPoly.toGeoElement());
+		setOnlyOutput(this.geoPoly);
 
 		setEfficientDependencies(standardInput, efficientInput);
 		efficientInputFingerprint = fingerprint(efficientInput);
 
 	}
 
-	private String getImplicitPoly() throws Throwable {
+	private String getImplicitPoly() {
 		/*
 		 * First we create a virtual locus point on the path object. This is
 		 * done with AlgoPointOnPath. Then we retrieve the corresponding

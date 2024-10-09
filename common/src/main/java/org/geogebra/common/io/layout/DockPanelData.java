@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * A storage container with all information which need to be stored for a
@@ -39,7 +40,10 @@ final public class DockPanelData {
 		TABLE,
 
 		/** tab four */
-		DISTRIBUTION
+		DISTRIBUTION,
+
+		/** tab five */
+		SPREADSHEET
 	}
 
 	/**
@@ -265,19 +269,16 @@ final public class DockPanelData {
 	}
 
 	/**
-	 * @return string builder with tag name and basic parameters
+	 * Appends XML representation of the data stored in this class.
+	 * @param sb builder
 	 */
-	private StringBuilder getStartXml() {
-
-		StringBuilder sb = new StringBuilder();
+	public void getXml(StringBuilder sb) {
 		sb.append("<view id=\"");
 		sb.append(getViewIdForXML());
-
 		if (getToolbarString() != null) {
 			sb.append("\" toolbar=\"");
 			sb.append(getToolbarString());
 		}
-
 		sb.append("\" visible=\"");
 		sb.append(isVisible());
 		sb.append("\" inframe=\"");
@@ -293,6 +294,17 @@ final public class DockPanelData {
 			sb.append(tabId.name());
 		}
 		sb.append("\" window=\"");
+		appendBounds(sb);
+
+		if (plane != null) {
+			sb.append("\" plane=\"");
+			sb.append(getPlane());
+		}
+		sb.append("\" />\n");
+
+	}
+
+	private void appendBounds(StringBuilder sb) {
 		sb.append((int) getFrameBounds().getX());
 		sb.append(",");
 		sb.append((int) getFrameBounds().getY());
@@ -300,22 +312,6 @@ final public class DockPanelData {
 		sb.append((int) getFrameBounds().getWidth());
 		sb.append(",");
 		sb.append((int) getFrameBounds().getHeight());
-		return sb;
-	}
-
-	/**
-	 * @return An XML representation of the data stored in this class.
-	 */
-	public String getXml() {
-
-		StringBuilder sb = getStartXml();
-		if (plane != null) {
-			sb.append("\" plane=\"");
-			sb.append(getPlane());
-		}
-		sb.append("\" />\n");
-		return sb.toString();
-
 	}
 
 	/**
@@ -369,7 +365,11 @@ final public class DockPanelData {
 	 * @return this
 	 */
 	public DockPanelData setTabId(TabIds tabId) {
-		this.tabId = tabId;
+		if (tabId != null) {
+			this.tabId = tabId;
+		} else {
+			Log.error("Tab ID cannot be null");
+		}
 		return this;
 	}
 
@@ -378,5 +378,58 @@ final public class DockPanelData {
 	 */
 	public TabIds getTabId() {
 		return tabId;
+	}
+
+	/**
+	 * @return key for right-to-left, bottom-to-top sorting of the panels
+	 */
+	public String getRightToLeftSortingKey() {
+		if (embeddedDef.isEmpty()) {
+			// position missing: keep as last
+			return "5";
+		}
+		// already have (right=2) < (left=3)
+		// replace to get (bottom=2) < (top=4)
+		return getEmbeddedDef().replace('0', '4');
+	}
+
+	/**
+	 * Validate and tokenize given definition
+	 * @param embeddedDef location definition
+	 * @return location
+	 */
+	public static int[] parseLocation(String embeddedDef) {
+		String[] def = embeddedDef.split(",");
+		int[] locations = new int[def.length];
+
+		for (int i = 0; i < def.length; ++i) {
+			if (def[i].isEmpty()) {
+				def[i] = "1";
+			}
+
+			locations[i] = Integer.parseInt(def[i]);
+
+			if (locations[i] > 3 || locations[i] < 0) {
+				locations[i] = 3; // left as default direction
+			}
+		}
+
+		// We insert this panel at the left by default
+		if (locations.length == 0) {
+			locations = new int[] { 3 };
+		}
+		return locations;
+	}
+
+	/**
+	 * @return array of child selecting indices; 0 for left/top, 1 for right/bottom
+	 */
+	public int[] getChildSelectors() {
+		String[] def = embeddedDef.split(",");
+		int[] childSelectors = new int[def.length];
+		for (int i = 0; i < def.length; i++) {
+			childSelectors[i] = "0".equals(def[i]) || "3".equals(def[i]) ? 0 : 1;
+		}
+		return childSelectors;
 	}
 }

@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.MyError;
 
 /**
- * Stretch[&lt;Object>, &lt;Line>, &lt;Ratio>]
+ * Stretch[&lt;Object&gt;, &lt;Line&gt;, &lt;Ratio&gt;]
  */
 public class CmdStretch extends CommandProcessor {
 
@@ -27,7 +27,7 @@ public class CmdStretch extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		String label = c.getLabel();
 		int n = c.getArgumentNumber();
 

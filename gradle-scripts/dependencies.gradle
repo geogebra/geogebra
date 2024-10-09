@@ -18,19 +18,19 @@ allprojects {
             mavenCentral()
             maven { url 'https://plugins.gradle.org/m2/' }
             google()
-            maven { url 'https://dev.geogebra.org/maven2' }
+            maven { url 'https://repo.geogebra.net/releases' }
         }
     }
 
     repositories {
-        maven { url 'https://dev.geogebra.org/maven2' }
+        maven { url 'https://repo.geogebra.net/releases' }
         mavenCentral()
         google()
     }
 }
 
 
-ext.getGeogebraVersion = { root = ".."->
+ext.getGeogebraVersion = { root = ".." ->
     def version = "undef"
     file("$root/common/src/main/java/org/geogebra/common/GeoGebraConstants.java").eachLine { line ->
         def pattern = ~/ VERSION_STRING = "(.*)"/
@@ -41,11 +41,3 @@ ext.getGeogebraVersion = { root = ".."->
     }
     return version
 }
-
-ext.gwtCompilerVersion = '2.10.0'
-ext.gradleVersionGGB = "7.3.3"
-ext.joglVersion = '2.2.0'
-ext.junitVersion = '4.13.2'
-ext.mockitoVersion = '4.11.0'
-ext.hamcrestVersion = '2.2'
-ext.javaGiacVersion = '70109'

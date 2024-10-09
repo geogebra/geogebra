@@ -1,4 +1,5 @@
 @use 'colors';
+@use 'colorMap' as *;
 @use 'z-index';
 
 $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
@@ -58,10 +59,10 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		}
 
 		/*stylebar btn*/
-		.MyCanvasButton {
+		.IconButton {
 			text-align: center;
 			border-radius: 2px;
-			border: colors.$tool-border solid 1px;
+			border: neutral(500) solid 1px;
 			background-color: colors.$white;
 			width: 24px;
 			height: 24px;
@@ -113,7 +114,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	.mowDynStyleBar.matDynStyleBar.noContextBtn{
 		padding: 8px 0px 8px 8px;
 
-		.MyCanvasButton.delete{
+		.IconButton.delete {
 			margin-right: -12px;
 		}
 	}
@@ -291,23 +292,6 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		z-index: z-index.$z-spotlight-graphics;
 	}
 
-	.spotlightOffBtn {
-		position: absolute;
-		right: 8px;
-		top: 92px;
-		width: 40px;
-		height: 40px;
-		border-radius: 50%;
-		background-color: white;
-		cursor: pointer;
-		z-index: z-index.$z-spotlightOff-button;
-
-		img {
-			opacity: 0.54;
-			padding: 8px;
-		}
-	}
-
 	.pointerEventsNoneWhenDragging {
 		pointer-events: none;
 	}
@@ -339,19 +323,18 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			}
 
 			&:hover {
-				/*background-color: #666;*/
-				background-color: colors.$selected-menuitem-background;
+				background-color: neutral(200);
 
 				img {
 					opacity: 1;
 				}
 			}
 
-			&.keyboardFocus:focus {
-				img {
-					opacity: 1;
-					outline: colors.$focus-black 5px auto;
-				}
+			&.keyboardFocus:focus-visible {
+				outline-color: var(--ggb-dark-color);
+				outline-width: 2px;
+				outline-style: solid;
+				outline-offset: 3px;
 			}
 		}
 		.zoomPanelBtnSmall img {
@@ -374,8 +357,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			}
 
 			&:hover, &:focus {
-				/*background-color: #666;*/
-				background-color: colors.$selected-menuitem-background;
+				background-color: neutral(200);
 
 				img {
 					opacity: 0;
@@ -407,72 +389,6 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		transition: $fullscreenBtn-transition;
 	}
 
-	.mowZoomPanel {
-		will-change: transform;
-		top: -6px !important;
-		position: relative;
-
-		.zoomPanelBtn {
-			display: block;
-			position: relative;
-			margin: 6px;
-			padding: 6px;
-			cursor: pointer;
-			border-radius: 50%;
-			width: 24px;
-			height: 24px;
-			transition: background-color 150ms ease 0ms;
-
-			&.zoomPanelBtnSmall {
-				padding: 8px;
-				width: 20px;
-				height: 20px;
-
-				img {
-					width: 20px;
-					height: 20px;
-				}
-			}
-
-		   img {
-				width: 24px;
-				height: 24px;
-				opacity: 0.54;
-		   }
-
-			&:hover, &:focus, &.selected {
-				img {
-					opacity: 1;
-				}
-				background-color: colors.$mow_card_background_hover;
-			}
-		}
-		.zoomPanelHomeIn {
-			opacity: 1;
-			visibility: visible;
-			transition: all 0.2s ease;
-		}
-
-		.zoomPanelHomeOut {
-			cursor: default;
-			opacity: 0;
-			visibility: hidden;
-			transition: all 0.2s ease;
-
-			img {
-				opacity: 0;
-			}
-
-			&:hover, &:focus {
-				background-color: colors.$mow_card_background_hover;
-
-				img {
-					opacity: 1;
-				}
-			}
-
-		}
-	}
 	.zoomPanelWithPageControl {
 		margin-bottom: 64px;
 		right: 22px !important;
@@ -511,11 +427,6 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		}
 	}
 
-	.undoRedoPositionMebis {
-		@extend .undoRedoPosition;
-		left: 40px;
-	}
-
 	input[type="text"], input[type="number"], .gwt-TextBox,
 	select, textarea,
 	.gwt-TextArea, .gwt-SuggestBox,
@@ -523,7 +434,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		border: #DCDCDC solid 1px;
 		background: #FFFFFF;
 		padding: 4px 5px;
-		color: #666666;
+		color: neutral(900);
 		border-radius: 5px;
 		box-sizing: border-box;
 		font-size: 100%;
@@ -660,17 +571,13 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		overflow: hidden;
 	}
 
-	.mathTextField {
-		border: 1px #DCDCDC solid;
-	}
-
 	.mathTextField.disabled {
 		background-color: rgb(240,240,240);
 	}
 
 	.evInputEditor {
 		position: absolute;
-		border: 2px solid colors.$purple-default;
+		border: 2px solid purple(600);
 	}
 
 	.accessibilityView {
@@ -746,15 +653,29 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		align-items: center;
 		box-sizing: border-box;
 		overflow: hidden;
+		.gwt-InlineLabel {
+			color: inherit;
+			font-size: inherit;
+		}
 		.virtualCursor {
+			font-size: inherit;
 			margin-left: -2px;
 			animation: blink 1s steps(2) infinite;
+			color: purple(600);
 		}
+		.select-content {
+			background: colors.$cursor-overlay-select;
+		}
+
+		user-select: none;
 	}
 
 	.withCursorOverlay input {
 		color: transparent;
+		user-select: none; /* standard */
+		pointer-events: none;
 	}
+
 
 	@keyframes blink {
 		0% {opacity: 0}
