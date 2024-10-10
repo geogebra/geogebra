@@ -306,6 +306,9 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		dragStart(0, 0);
 		dragEnd(200, 150);
 		checkContent("A = (0, 0)", "B = (4, -3)", "f = 5");
+		dragStart(0, 0);
+		dragEnd(400, 300);
+		checkContent("A = (0, 0)", "B = (4, -3)", "f = 5", "C = (8, -6)", "g = 10");
 	}
 
 	@Test

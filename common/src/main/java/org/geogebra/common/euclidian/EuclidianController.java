@@ -10273,6 +10273,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		movedGeoImplicitCurve = null;
 		movedGeoText = null;
 		movedGeoImage = null;
+		movedGeoPoint = null;
 	}
 
 	private void focusGroupElement(GeoElement geo) {
