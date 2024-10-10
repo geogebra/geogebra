@@ -1,5 +1,10 @@
 package org.geogebra.common.properties.impl.general;
 
+import static java.util.Map.entry;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.LabelSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
@@ -13,14 +18,28 @@ public class LabelingProperty extends AbstractNamedEnumeratedProperty<LabelVisib
 	private LabelSettings labelSettings;
 
 	/**
+	 * Labeling property for all apps except for Classic
 	 * @param localization localization
 	 * @param labelSettings labelSettings
 	 */
 	public LabelingProperty(Localization localization, LabelSettings labelSettings) {
+		this(localization, labelSettings,
+				LabelVisibility.AlwaysOn, LabelVisibility.AlwaysOff, LabelVisibility.PointsOnly);
+	}
+
+	/**
+	 * Labeling property with custom values (needed for Classic)
+	 * @param localization localization
+	 * @param labelSettings labelSettings
+	 * @param values available values
+	 */
+	public LabelingProperty(Localization localization, LabelSettings labelSettings,
+			LabelVisibility... values) {
 		super(localization, "Labeling");
 		this.labelSettings = labelSettings;
-		setValues(LabelVisibility.AlwaysOn, LabelVisibility.AlwaysOff, LabelVisibility.PointsOnly);
-		setValueNames("Labeling.on", "Labeling.off", "Labeling.pointsOnly");
+		setNamedValues(Arrays.stream(values)
+				.map(labelVisibility -> entry(labelVisibility, labelVisibility.getTransKey()))
+				.collect(Collectors.toList()));
 	}
 
 	@Override

@@ -25,7 +25,6 @@ import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.gui.toolcategorization.AppType;
-import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
@@ -620,7 +619,7 @@ public class GuiManagerW extends GuiManager
 				return; // not in DOM yet => no reliable size
 			}
 			final DockSplitPaneW root = getLayout().getRootComponent();
-			int verticalSpace = borderThickness + getApp().getToolbarAndInputbarHeight();
+			int verticalSpace = borderThickness + getApp().getToolbarAndInputBarHeight();
 			int horizontalSpace = borderThickness;
 			if (mainMenuBar != null) {
 				horizontalSpace += mainMenuBar.getOffsetWidth();
@@ -980,12 +979,11 @@ public class GuiManagerW extends GuiManager
 	}
 
 	/**
-	 * close properties view
-	 *
+	 * Close properties view.
 	 */
 	public void closePropertiesView() {
 		if (propertiesView != null) {
-			getLayout().getDockManager().closePanel(App.VIEW_PROPERTIES, false);
+			((PropertiesViewW) propertiesView).close();
 		}
 	}
 
@@ -1354,7 +1352,7 @@ public class GuiManagerW extends GuiManager
 		if (euclidianView2.get(idx) == null) {
 			final boolean[] showAxis = { true, true };
 			final boolean showGrid = false;
-			final EuclidianViewW ev = newEuclidianView(showAxis, showGrid, 2);
+			final EuclidianViewW ev = newEuclidianView2(showAxis, showGrid);
 			euclidianView2.set(idx, ev);
 			ev.updateFonts();
 		}
@@ -1380,16 +1378,11 @@ public class GuiManagerW extends GuiManager
 		return null;
 	}
 
-	protected EuclidianViewW newEuclidianView(final boolean[] showAxis,
-			final boolean showGrid, final int id) {
-		if (id == 2) {
-			return getApp().newEuclidianView(getEuclidianView2DockPanel(1),
-					getApp().newEuclidianController(kernel), showAxis, showGrid, id,
-					getApp().getSettings().getEuclidian(id));
-		}
-		return getApp().newEuclidianView(getApp()
-				.getEuclidianViewpanel(), getApp().newEuclidianController(kernel),
-				showAxis, showGrid, id, getApp().getSettings().getEuclidian(id));
+	protected EuclidianViewW newEuclidianView2(final boolean[] showAxis,
+			final boolean showGrid) {
+		return getApp().newEuclidianView(getEuclidianView2DockPanel(1),
+				getApp().newEuclidianController(kernel), showAxis, showGrid, 2,
+				getApp().getSettings().getEuclidian(2));
 	}
 
 	@Override
@@ -1419,6 +1412,8 @@ public class GuiManagerW extends GuiManager
 			final boolean asPreference) {
 		if (spreadsheetView != null) {
 			spreadsheetView.getXML(sb, asPreference);
+		} else {
+			super.getSpreadsheetViewXML(sb, asPreference);
 		}
 	}
 
@@ -1625,7 +1620,7 @@ public class GuiManagerW extends GuiManager
 			if (show) {
 				frame.attachNotesUI(getApp());
 			} else {
-				frame.detachNotesToolbarAndUndo(getApp());
+				frame.detachNotesToolbar(getApp());
 			}
 			return;
 		}
@@ -1679,11 +1674,6 @@ public class GuiManagerW extends GuiManager
 				.setVisible(false);
 			}
 
-			return mode;
-		}
-
-		if (getApp().isWhiteboardActive()) {
-			(getApp().getAppletFrame()).setNotesMode(mode);
 			return mode;
 		}
 
@@ -1976,11 +1966,11 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public String getTooltipURL(int mode) {
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
-			return getHelpURL(Help.GENERIC, "Custom_Tools");
+			return getHelpURL(Help.TOOL, "Custom_Tools");
 		}
 
 		return getHelpURL(Help.TOOL,
-				EuclidianConstants.getModeTextSimple(mode));
+				EuclidianConstants.getModeHelpPage(mode));
 	}
 
 	@Override
@@ -2150,6 +2140,11 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
+	public void toggleTableValuesView() {
+		getUnbundledToolbar().toggleTableView();
+	}
+
+	@Override
 	public void removeGeoFromTV(String label) {
 		GeoElement geo = app.getKernel().lookupLabel(label);
 		if (getTableValuesView() != null && geo instanceof GeoEvaluatable) {
@@ -2241,7 +2236,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public boolean isAlgebraViewActive() {
-		return getUnbundledToolbar().getAlgebraTab().isActive();
+		return getUnbundledToolbar().getTab(DockPanelData.TabIds.ALGEBRA).isActive();
 	}
 
 	@Override
@@ -2250,6 +2245,15 @@ public class GuiManagerW extends GuiManager
 			inputKeyboardButton = new InputKeyboardButtonW(getApp());
 		}
 		return inputKeyboardButton;
+	}
+
+	@Override
+	public boolean isTableViewShowing() {
+		if (!app.getConfig().hasTableView() || !app.isUnbundled() || !showView(App.VIEW_ALGEBRA)) {
+			return false;
+		}
+		ToolbarPanel toolbar = getUnbundledToolbar();
+		return toolbar.getSelectedTabId() == DockPanelData.TabIds.TABLE;
 	}
 
 	@Override
@@ -2272,9 +2276,7 @@ public class GuiManagerW extends GuiManager
 				}
 			}
 		} else {
-			ToolCollection toolCollection =
-					app.createToolCollectionFactory().createToolCollection();
-			return toolCollection.contains(EuclidianConstants.MODE_IMAGE);
+			return app.getAvailableTools().contains(EuclidianConstants.MODE_IMAGE);
 		}
 
 		return false;

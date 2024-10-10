@@ -35,8 +35,6 @@ public interface GLookAndFeelI {
 
 	boolean isEmbedded();
 
-	boolean examSupported();
-
 	boolean printSupported();
 
 	Platform getPlatform(int dim, String appName);
@@ -72,4 +70,12 @@ public interface GLookAndFeelI {
 
 	ResourceAction getDisplayAction(ResourceAction action);
 
+	/**
+	 * Should be combined with app.isExamLocked() to check that the environment is
+	 * currently locked.
+	 * @return whether this environment supports locking
+	 */
+	default boolean hasLockedEnvironment() {
+		return false;
+	}
 }

@@ -1,8 +1,8 @@
 package org.geogebra.web.editor;
 
+import org.geogebra.keyboard.web.KeyboardCloseListener;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.keyboard.web.TabbedKeyboard;
-import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.html5.bridge.AttributeProvider;
 import org.geogebra.web.resources.StyleInjector;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -41,7 +41,7 @@ public class EditorKeyboard {
 		return tabbedKeyboard;
 	}
 
-	public void setListener(UpdateKeyBoardListener listener) {
+	public void setListener(KeyboardCloseListener listener) {
 		tabbedKeyboard.setListener(listener);
 	}
 }

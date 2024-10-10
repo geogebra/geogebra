@@ -13,6 +13,7 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SharedResources;
+import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
@@ -60,7 +61,7 @@ public class PerspectivesPopup {
 		addPerspectiveItem(pr.menu_icon_spreadsheet_transparent(), 2);
 		addPerspectiveItem(pr.menu_icon_probability_transparent(), 5);
 
-		if (app.getLAF().examSupported()) {
+		if (app.getLAF().isOfflineExamSupported()) {
 			addPerspectiveItem(pr.menu_icon_exam_transparent(), -1);
 		}
 
@@ -71,9 +72,6 @@ public class PerspectivesPopup {
 	}
 
 	private void addHeader() {
-		AriaMenuItem headerMenuItem = new AriaMenuItem();
-		headerMenuItem.addStyleName("headerItem");
-
 		FlowPanel headerPanel = new FlowPanel();
 		headerPanel.addStyleName("headerPanel");
 
@@ -89,21 +87,19 @@ public class PerspectivesPopup {
 			wrappedPopup.hide();
 		});
 		headerPanel.add(helpButton);
-
-		headerMenuItem.setWidget(headerPanel);
+		AriaMenuItem headerMenuItem = new AriaMenuItem(headerPanel,
+				(Scheduler.ScheduledCommand) null);
+		headerMenuItem.addStyleName("headerItem");
 		wrappedPopup.addItem(headerMenuItem);
 	}
 
 	private void addDownloadItem() {
-		AriaMenuItem downloadMenuItem = new AriaMenuItem();
 		FlowPanel download = new FlowPanel();
 		download.addStyleName("downloadItem");
 
 		download.add(new NoDragImage(GuiResources.INSTANCE.get_app(), 24));
 		download.add(new Label(app.getLocalization().getMenu("Download")));
-
-		downloadMenuItem.setWidget(download);
-		downloadMenuItem.setScheduledCommand(
+		AriaMenuItem downloadMenuItem = new AriaMenuItem(download,
 				() -> Browser.openWindow("https://www.geogebra.org/download"));
 		wrappedPopup.addItem(downloadMenuItem);
 	}
@@ -111,9 +107,8 @@ public class PerspectivesPopup {
 	private void addPerspectiveItem(SVGResource img, int perspectiveID) {
 		Perspective perspective = app.getLayout().getDefaultPerspectives(perspectiveID);
 		String text = perspective != null ? perspective.getId() : "exam_menu_entry";
-		AriaMenuItem mi = new AriaMenuItem(MainMenu.getMenuBarHtml(img,
-						app.getLocalization().getMenu(text)),
-				true,
+		AriaMenuItem mi = MainMenu.getMenuBarItem(img,
+						app.getLocalization().getMenu(text),
 				() -> {
 					if (perspective != null) {
 						PerspectivesMenuW.setPerspective(app, perspective);

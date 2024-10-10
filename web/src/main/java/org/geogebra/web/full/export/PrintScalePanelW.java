@@ -65,7 +65,8 @@ public class PrintScalePanelW extends FlowPanel {
 		tfScaleFixed = getNumberField(updateFixedSize);
 
 		exportModeDropDown = new CompDropDown(app, null,
-				Arrays.asList(loc.getMenu("ScaleInCentimeter"), loc.getMenu("FixedSize")));
+				Arrays.asList(loc.getMenu("ScaleInCentimeter"), loc.getMenu("FixedSize")),
+				0);
 		exportModeDropDown.setFullWidth(true);
 		add(exportModeDropDown);
 		exportModeDropDown.addChangeHandler(this::switchMode);

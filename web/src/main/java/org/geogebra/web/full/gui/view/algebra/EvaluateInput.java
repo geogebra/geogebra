@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.view.algebra;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
+import org.geogebra.common.gui.view.algebra.GeoSelectionCallback;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -19,6 +20,7 @@ import org.gwtproject.core.client.Scheduler;
  *
  */
 public class EvaluateInput {
+	private final GeoSelectionCallback selectionCallback;
 	RadioTreeItem item;
 	App app;
 	RadioTreeItemController ctrl;
@@ -30,11 +32,13 @@ public class EvaluateInput {
 	 * @param item to evaluate.
 	 * @param ctrl the controller.
 	 */
-	public EvaluateInput(RadioTreeItem item, RadioTreeItemController ctrl) {
+	public EvaluateInput(RadioTreeItem item, RadioTreeItemController ctrl,
+			GeoSelectionCallback callback) {
 		this.item = item;
 		this.app = item.getApplication();
 		this.ctrl = ctrl;
 		this.usingValidInput = true;
+		this.selectionCallback = callback;
 	}
 
 	/**
@@ -135,12 +139,10 @@ public class EvaluateInput {
 				if (AlgebraItem.isTextItem(geos[0]) && !(geos[0] instanceof AlgoFractionText)) {
 					geos[0].setEuclidianVisible(false);
 				}
-
-				AlgebraItem.addSelectedGeoWithSpecialPoints(geos[0], app);
 			}
-
 			InputHelper.updateProperties(geos, app.getActiveEuclidianView(),
 					oldStep);
+			selectionCallback.callback(geos);
 			app.storeUndoInfo();
 			app.setScrollToShow(false);
 

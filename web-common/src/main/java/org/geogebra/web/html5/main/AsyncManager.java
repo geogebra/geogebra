@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
+import org.geogebra.common.main.AsyncManagerI;
 import org.geogebra.common.util.debug.Log;
 
 import elemental2.promise.Promise.PromiseExecutorCallbackFn.RejectCallbackFn;
@@ -15,7 +16,7 @@ import elemental2.promise.Promise.PromiseExecutorCallbackFn.ResolveCallbackFn;
  * 
  * @author Agoston
  */
-public class AsyncManager {
+public class AsyncManager implements AsyncManagerI {
 
 	/**
 	 * Preload all but discrete and steps
@@ -38,12 +39,9 @@ public class AsyncManager {
 		callbacks = new ArrayList<>();
 	}
 
-	/**
-	 * Try executing r until it succeeds
-	 * @param r code that requires modules that might've not been loaded yet
-	 */
-	public void scheduleCallback(Runnable r) {
-		callbacks.add(r);
+	@Override
+	public void scheduleCallback(Runnable callback) {
+		callbacks.add(callback);
 		onResourceLoaded();
 	}
 

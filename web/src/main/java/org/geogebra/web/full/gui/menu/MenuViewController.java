@@ -32,6 +32,7 @@ import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
@@ -138,6 +139,8 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	public void resetMenuOnAppSwitch(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
 		defaultDrawerMenuFactory = createDefaultMenuFactory(app, version);
+		examDrawerMenuFactory = new ExamDrawerMenuFactory(version, app.isSuite());
+		examDrawerMenuFactory.setCreatesExitExam(!app.isLockedExam());
 		if (!GlobalScope.examController.isExamActive()) {
 			setDefaultMenu();
 		} else {
@@ -183,7 +186,8 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	}
 
 	private boolean hasLoginButton(AppW app) {
-		return app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC
+		return (app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC
+				|| app.isSuite())
 				&& !app.isMebis()
 				&& app.enableOnlineFileFeatures();
 	}
@@ -330,20 +334,20 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 
 	private void createMenuItemGroup(MenuView menuView, MenuItemGroup menuItemGroup) {
 		for (MenuItem menuItem : menuItemGroup.getMenuItems()) {
-			MenuItemView item = createMenuItemView(menuItem);
+			AriaMenuItem item = createMenuItemView(menuItem);
 			item.setScheduledCommand(() -> menuActionRouter.handleMenuItem(menuItem));
 			menuView.addItem(item);
 		}
 	}
 
-	private MenuItemView createMenuItemView(MenuItem menuItem) {
+	private AriaMenuItem createMenuItemView(MenuItem menuItem) {
 		if (menuItem.getIcon() == Icon.USER_ICON) {
-			return new MenuItemView(getUserImage(), menuItem.getLabel(), true);
+			return MenuItemView.create(getUserImage(), menuItem.getLabel(), true);
 		} else {
 			SVGResource icon = menuItem.getIcon() != null
 					? menuIconResource.getImageResource(menuItem.getIcon()) : null;
 			String label = localization.getMenu(menuItem.getLabel());
-			return new MenuItemView(icon, label);
+			return MenuItemView.create(icon, label, false);
 		}
 	}
 

@@ -15,6 +15,8 @@ import jsinterop.base.Js;
  */
 public class SVGResourcePrototype implements SVGResource {
 
+	public static final SVGResource EMPTY = new SVGResourcePrototype("empty",
+			"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1\" height=\"1\"/>");
 	private static DOMParser parser;
 
 	private static XMLSerializer serializer;
@@ -63,7 +65,9 @@ public class SVGResourcePrototype implements SVGResource {
 		Document doc = parser.parseFromString(svg, "image/svg+xml");
 		CSSStyleDeclaration style = Js.uncheckedCast(Js.asPropertyMap(doc)
 				.nestedGet("rootElement.style"));
-		style.setProperty("fill", color);
+		if (style != null) {
+			style.setProperty("fill", color);
+		}
 		return serializer.serializeToString(doc);
 	}
 

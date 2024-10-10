@@ -1,7 +1,6 @@
 package org.geogebra.common.properties.impl.general;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,20 +38,6 @@ public class AbstractValuedPropertyTests extends BaseUnitTest {
 		property.setValue(1);
 		property.setValue(2);
 		assertEquals(Arrays.asList(1, 2), observedValues);
-	}
-
-	@Test
-	public void testFreezing() {
-		DummyAbstractValuedProperty property =
-				new DummyAbstractValuedProperty(getLocalization(), "Dummy");
-		property.setValue(1);
-		property.freezeValue(2);
-		assertTrue(property.isFrozen());
-		property.setValue(3);
-		assertEquals(2, property.getValue());
-		property.unfreezeValue();
-		property.setValue(3);
-		assertEquals(3, property.getValue());
 	}
 
 	private static class DummyAbstractValuedProperty extends AbstractValuedProperty {

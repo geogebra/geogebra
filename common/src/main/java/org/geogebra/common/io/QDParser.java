@@ -337,11 +337,13 @@ public class QDParser {
 					if (sb.toString().equals("!DOCTYP")) {
 						sb.setLength(0);
 						mode = DOCTYPE;
+					} else {
+						sb.append((char) c);
 					}
 					break;
 
 				default:
-					if (StringUtil.isWhitespace((char) c)) {
+					if (Character.isWhitespace((char) c)) {
 						tagName = sb.toString();
 						sb.setLength(0);
 						mode = IN_TAG;
@@ -384,13 +386,13 @@ public class QDParser {
 				if (c == '"' || c == '\'') {
 					quotec = c;
 					mode = QUOTE;
-				} else if (!StringUtil.isWhitespace((char) c)) {
+				} else if (!Character.isWhitespace((char) c)) {
 					exc("Error in attribute processing", line, col);
 				}
 				break;
 
 			case ATTRIBUTE_LVALUE:
-				if (StringUtil.isWhitespace((char) c)) {
+				if (Character.isWhitespace((char) c)) {
 					lvalue = sb.toString();
 					sb.setLength(0);
 					mode = ATTRIBUTE_EQUAL;
@@ -406,7 +408,7 @@ public class QDParser {
 			case ATTRIBUTE_EQUAL:
 				if (c == '=') {
 					mode = ATTRIBUTE_RVALUE;
-				} else if (!StringUtil.isWhitespace((char) c)) {
+				} else if (!Character.isWhitespace((char) c)) {
 					exc("Error in attribute processing.", line, col);
 				}
 				break;
@@ -427,7 +429,7 @@ public class QDParser {
 					break;
 
 				default:
-					if (!StringUtil.isWhitespace((char) c)) {
+					if (!Character.isWhitespace((char) c)) {
 						mode = ATTRIBUTE_LVALUE;
 						sb.append((char) c);
 					}

@@ -51,7 +51,7 @@ public class SvgLoadTest extends BaseUnitTest {
 	@Test
 	public void testLoadSvgsGGB() {
 		inMaterial("svgs.ggb")
-				.shouldSupportAllBut("issue55.svg,issue82.svg,issue134.svg")
+				.shouldSupportAllBut("issue134.svg")
 				.ofSvgs(142);
 	}
 

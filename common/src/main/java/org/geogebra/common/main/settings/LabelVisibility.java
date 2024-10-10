@@ -5,17 +5,19 @@ package org.geogebra.common.main.settings;
  * and it replaces the old integer indexes in the ConstructionDefaults.
  */
 public enum LabelVisibility {
-	NotSet(-1),
-	Automatic(0),
-	AlwaysOn(1),
-	AlwaysOff(2),
-	PointsOnly(3),
-	UseDefaults(4);
+	NotSet(-1, null),
+	Automatic(0, "Labeling.automatic"),
+	AlwaysOn(1, "Labeling.on"),
+	AlwaysOff(2, "Labeling.off"),
+	PointsOnly(3, "Labeling.pointsOnly"),
+	UseDefaults(4, null);
 
 	private final int value;
+	private final String transKey;
 
-	LabelVisibility(int value) {
+	LabelVisibility(int value, String transKey) {
 		this.value = value;
+		this.transKey = transKey;
 	}
 
 	/**
@@ -51,5 +53,12 @@ public enum LabelVisibility {
 	 */
 	public int getValue() {
 		return value;
+	}
+
+	/**
+	 * @return translation key
+	 */
+	public String getTransKey() {
+		return transKey;
 	}
 }

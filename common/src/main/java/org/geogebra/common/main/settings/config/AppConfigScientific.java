@@ -27,6 +27,10 @@ import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
  */
 public class AppConfigScientific extends AppConfigGraphing {
 
+	public AppConfigScientific(String appCode) {
+		super(appCode, GeoGebraConstants.SCIENTIFIC_APPCODE);
+	}
+
 	public AppConfigScientific() {
 		super(GeoGebraConstants.SCIENTIFIC_APPCODE, null);
 	}
@@ -44,6 +48,11 @@ public class AppConfigScientific extends AppConfigGraphing {
 	@Override
 	public String getAppNameShort() {
 		return "ScientificCalculator.short";
+	}
+
+	@Override
+	public String getAppNameWithoutCalc() {
+		return  "Scientific";
 	}
 
 	@Override
@@ -114,7 +123,7 @@ public class AppConfigScientific extends AppConfigGraphing {
 
 	@Override
 	public boolean hasExam() {
-		return false;
+		return getSubAppCode() != null; // only suite scicalc has exam
 	}
 
 	@Override
@@ -179,6 +188,11 @@ public class AppConfigScientific extends AppConfigGraphing {
 
 	@Override
 	public boolean hasOneVarStatistics() {
+		return false;
+	}
+
+	@Override
+	public boolean hasSpreadsheetView() {
 		return false;
 	}
 

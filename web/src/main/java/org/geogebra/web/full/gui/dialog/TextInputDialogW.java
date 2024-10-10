@@ -266,13 +266,13 @@ public class TextInputDialogW extends ComponentDialog implements TextInputDialog
 	 */
 	protected void showKeyboard() {
 		((AppW) app).showKeyboard(editor.getTextArea(), true);
-		((AppW) app).updateKeyBoardField(editor.getTextArea());
+		((AppW) app).updateKeyboardField(editor.getTextArea());
 		KeyboardManagerInterface keyboardManager = ((AppW) app).getKeyboardManager();
 		if (keyboardManager != null) {
 			keyboardManager.setOnScreenKeyboardTextField(editor.getTextArea());
 		}
 		((AppWFull) app).getAppletFrame()
-				.showKeyBoard(true, editor.getTextArea(), false);
+				.showKeyboard(true, editor.getTextArea(), false);
 		CancelEventTimer.keyboardSetVisible();
 	}
 

@@ -41,7 +41,7 @@ public class FontSubMenu extends AriaMenuBar {
 				setFontName(font.cssName());
 			};
 
-			AriaMenuItem item = new AriaMenuItem(font.displayName(), false, command);
+			AriaMenuItem item = new AriaMenuItem(font.displayName(), null, command);
 			addItem(item);
 		}
 	}

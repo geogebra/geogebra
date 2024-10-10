@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.undo.UpdateContentActionStore;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.resources.SVGResource;
@@ -19,7 +18,6 @@ import org.gwtproject.user.client.ui.Widget;
  * Menu item that acts like a toolbar.
  */
 public class InlineTextToolbar implements FastClickHandler {
-	private AriaMenuItem item;
 	private final App app;
 	private List<HasTextFormat> formatters;
 	private FlowPanel panel;
@@ -34,9 +32,8 @@ public class InlineTextToolbar implements FastClickHandler {
 	 * @param formatters the formatters.
 	 *
 	 */
-	public InlineTextToolbar(List<HasTextFormat> formatters, AriaMenuItem item, App app) {
+	public InlineTextToolbar(List<HasTextFormat> formatters, App app) {
 		this.formatters = formatters;
-		this.item = item;
 		this.app = app;
 
 		createGui();
@@ -47,22 +44,12 @@ public class InlineTextToolbar implements FastClickHandler {
 	 * Creates the toolbar gui
 	 */
 	protected void createGui() {
-		item.setStyleName("inlineTextToolbar");
 		panel = new FlowPanel();
 		createSubscriptBtn();
 		createSuperscriptBtn();
 		createBulletListBtn();
 		createNumberedListBtn();
-		item.setWidget(panel);
 		updateState();
-	}
-
-	/**
-	 * Set item content as text
-	 * @param text to set
-	 */
-	protected void setContent(String text) {
-		item.setContent(text, false);
 	}
 
 	private void createSubscriptBtn() {
@@ -203,7 +190,7 @@ public class InlineTextToolbar implements FastClickHandler {
 	 *
 	 * @return the toolbar as a menu item
 	 */
-	public AriaMenuItem getItem() {
-		return item;
+	public FlowPanel getItem() {
+		return panel;
 	}
 }
