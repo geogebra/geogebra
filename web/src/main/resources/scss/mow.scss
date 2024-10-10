@@ -388,8 +388,11 @@
 		}
 	}
 
-	.mowPagePreviewCard.dragged {
-		z-index: z-index.$z-on-top-of-graphics;
+	.cardRow.dragged {
+		.mowPagePreviewCard {
+			z-index: z-index.$z-on-top-of-graphics;
+			box-shadow: 0px 6px 32px -2px rgba(133, 132, 138, 0.16), 0px 4px 12px -1px rgba(133, 132, 138, 0.06);
+		}
 	}
 
 /*****************
