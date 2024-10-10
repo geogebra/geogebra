@@ -23,7 +23,6 @@ public class CursorOverlay extends FlowPanel {
 	 * @param text textfield content
 	 */
 	public void update(int cursorPos, String text) {
-//		Log.debug("update text: " + text + " cursorPos: " + cursorPos);
 		if (text.equals(this.text) && cursorPos == this.cursorPos) {
 			return;
 		}
