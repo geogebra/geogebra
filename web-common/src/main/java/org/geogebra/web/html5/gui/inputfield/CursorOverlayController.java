@@ -121,11 +121,6 @@ public class CursorOverlayController implements TextFieldController,
 		cursorOverlay.update(textField.getCursorPos(), textField.getText());
 	}
 
-	private void reset() {
-		String text = textField.getText();
-		cursorOverlay.update(text.length(), text);
-	}
-
 	@Override
 	public void selectAll() {
 		stopBlinking();
