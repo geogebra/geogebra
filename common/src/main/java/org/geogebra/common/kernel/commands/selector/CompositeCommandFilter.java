@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.commands.Commands;
  * Makes a composition of CommandFilters. If any of the instances
  * filters a command, the composition will filter it as well.
  */
-class CompositeCommandFilter implements CommandFilter {
+final class CompositeCommandFilter implements CommandFilter {
 
 	private List<CommandFilter> filters;
 

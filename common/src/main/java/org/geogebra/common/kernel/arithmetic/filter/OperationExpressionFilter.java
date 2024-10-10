@@ -17,6 +17,10 @@ public class OperationExpressionFilter implements ExpressionFilter {
 		this.filteredOperations = Set.of(filteredOperations);
 	}
 
+	public OperationExpressionFilter(Set<Operation> filteredOperations) {
+		this.filteredOperations = filteredOperations;
+	}
+
 	private boolean isFilteredOperation(ExpressionValue expressionValue) {
 		return filteredOperations.stream().anyMatch(expressionValue::isOperation);
 	}

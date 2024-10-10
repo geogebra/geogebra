@@ -421,9 +421,6 @@ public class AlgebraItem {
 		if (!app.getConfig().hasPreviewPoints()) {
 			return;
 		}
-		if (!app.getSelectionManager().isSelectionAllowed(geo)) {
-			return;
-		}
 		app.getSelectionManager().clearSelectedGeos(false, false);
 		app.getSelectionManager().addSelectedGeo(geo, false, false);
 	}

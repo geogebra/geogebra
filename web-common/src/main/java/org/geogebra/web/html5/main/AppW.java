@@ -649,15 +649,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * differs from translateCommand somehow and either document it or remove
 	 * this method
 	 *
-	 * @param cmd
+	 * @param localizedCommandName
 	 *            localized command name
 	 * @return internal command name
 	 */
 	@Override
-	final public String getInternalCommand(String cmd) {
+	final public String getInternalCommand(String localizedCommandName) {
 		initTranslatedCommands();
 		String s;
-		String cmdLower = StringUtil.toLowerCaseUS(cmd);
+		String cmdLower = StringUtil.toLowerCaseUS(localizedCommandName);
 		Commands[] values = Commands.values();
 		if (revTranslateCommandTable.isEmpty()) { // we should clear this cache
 													// on language change!
@@ -1860,9 +1860,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected EuclidianView newEuclidianView(boolean[] showEvAxes,
 			boolean showEvGrid) {
 
-		return euclidianView = newEuclidianView(euclidianViewPanel,
+		euclidianView = newEuclidianView(euclidianViewPanel,
 				getEuclidianController(), showEvAxes, showEvGrid, 1,
 				getSettings().getEuclidian(1));
+		GlobalScope.examController.registerRestrictable(euclidianView);
+		return euclidianView;
 	}
 
 	/**

@@ -14,11 +14,14 @@ import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
  */
 public class GraphingToolCollectionFactory extends AbstractToolCollectionFactory {
 
+    public GraphingToolCollectionFactory(boolean isMobileApp) {
+        super(isMobileApp);
+    }
+
     @Override
     public ToolCollection createToolCollection() {
         ToolCollectionImpl impl = new ToolCollectionImpl();
         createTools(impl);
-
         return impl;
     }
 
@@ -42,7 +45,7 @@ public class GraphingToolCollectionFactory extends AbstractToolCollectionFactory
                 EuclidianConstants.MODE_SHOW_HIDE_OBJECT,
                 EuclidianConstants.MODE_COPY_VISUAL_STYLE);
 
-        if (!isPhoneApp) {
+        if (!isMobileApp) {
             impl.extendCategory(ToolCategory.MEDIA,
                     EuclidianConstants.MODE_TEXT);
         }
@@ -66,7 +69,7 @@ public class GraphingToolCollectionFactory extends AbstractToolCollectionFactory
                 EuclidianConstants.MODE_PEN,
                 EuclidianConstants.MODE_FREEHAND_FUNCTION));
 
-        if (!isPhoneApp) {
+        if (!isMobileApp) {
             others.addAll(Arrays.asList(
                     // EuclidianConstants.MODE_FUNCTION_INSPECTOR,
                     EuclidianConstants.MODE_BUTTON_ACTION,

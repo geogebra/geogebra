@@ -145,7 +145,6 @@ public class LowerCaseDictionary extends HashMap<String, String>
 		}
 
 		String currLowerCase = normalizer.transform(curr);
-		getGreatestCommonPrefix(currLowerCase);
 		try {
 			ArrayList<MatchedString> completions = new ArrayList<>();
 			int initialMatches = 0;

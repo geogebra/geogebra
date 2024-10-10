@@ -222,7 +222,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * @param forCAS
 	 *            whether this is for CAS
 	 */
-	@Override
 	public void setDictionary(boolean forCAS) {
 		this.dict = null;
 		this.forCAS = forCAS;

@@ -47,16 +47,17 @@ public interface ToolCollection {
     void setLevel(ToolsetLevel level);
 
     /**
-     * Filter this ToolCollection with the specified filter.
+     * Filter this ToolCollection with the specified filter. Removes any tools from this
+     * collection for which {@code filter.isIncluded(tool)} returns false.
      *
      * @param filter filter
      */
     void filter(ToolCollectionFilter filter);
 
     /**
-     *  Look for the given mode in the tools categorization
-     * @param mode - tool mode
-     * @return true if found mode in the categorization, false otherwise
+     * Look for the given tool in this collection.
+     * @param tool - tool (mode)
+     * @return true if tool is part of this collection, false otherwise
      */
-    boolean contains(int mode);
+    boolean contains(int tool);
 }

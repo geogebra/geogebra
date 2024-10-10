@@ -25,7 +25,6 @@ import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.gui.toolcategorization.AppType;
-import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
@@ -1353,7 +1352,7 @@ public class GuiManagerW extends GuiManager
 		if (euclidianView2.get(idx) == null) {
 			final boolean[] showAxis = { true, true };
 			final boolean showGrid = false;
-			final EuclidianViewW ev = newEuclidianView(showAxis, showGrid, 2);
+			final EuclidianViewW ev = newEuclidianView2(showAxis, showGrid);
 			euclidianView2.set(idx, ev);
 			ev.updateFonts();
 		}
@@ -1379,16 +1378,11 @@ public class GuiManagerW extends GuiManager
 		return null;
 	}
 
-	protected EuclidianViewW newEuclidianView(final boolean[] showAxis,
-			final boolean showGrid, final int id) {
-		if (id == 2) {
-			return getApp().newEuclidianView(getEuclidianView2DockPanel(1),
-					getApp().newEuclidianController(kernel), showAxis, showGrid, id,
-					getApp().getSettings().getEuclidian(id));
-		}
-		return getApp().newEuclidianView(getApp()
-				.getEuclidianViewpanel(), getApp().newEuclidianController(kernel),
-				showAxis, showGrid, id, getApp().getSettings().getEuclidian(id));
+	protected EuclidianViewW newEuclidianView2(final boolean[] showAxis,
+			final boolean showGrid) {
+		return getApp().newEuclidianView(getEuclidianView2DockPanel(1),
+				getApp().newEuclidianController(kernel), showAxis, showGrid, 2,
+				getApp().getSettings().getEuclidian(2));
 	}
 
 	@Override
@@ -2282,9 +2276,7 @@ public class GuiManagerW extends GuiManager
 				}
 			}
 		} else {
-			ToolCollection toolCollection =
-					app.createToolCollectionFactory().createToolCollection();
-			return toolCollection.contains(EuclidianConstants.MODE_IMAGE);
+			return app.getAvailableTools().contains(EuclidianConstants.MODE_IMAGE);
 		}
 
 		return false;

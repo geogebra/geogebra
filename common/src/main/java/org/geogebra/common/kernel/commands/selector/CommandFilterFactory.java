@@ -5,15 +5,12 @@ import org.geogebra.common.kernel.commands.CommandsConstants;
 
 /**
  * Creates CommandFilters for various apps.
- * 
  * @author laszlo
- *
  */
 public final class CommandFilterFactory {
 	/**
-	 *
 	 * @return Returns the CommandFilter that allows only the Scientific
-	 *         Calculator commands
+	 * Calculator commands
 	 */
 	public static CommandFilter createSciCalcCommandFilter() {
 		CommandNameFilter commandNameFilter = new CommandNameFilter(
@@ -27,18 +24,15 @@ public final class CommandFilterFactory {
 
 	/**
 	 * Creates a CommandFilter for the Graphing app (no cas: e.g. Solve).
-	 *
 	 * @return command filter
 	 */
 	public static CommandFilter createGraphingCommandFilter() {
 		CommandFilter noCasCommandFilter = createNoCasCommandFilter();
 		CommandFilter tableFilter = new CommandTableFilter(CommandsConstants.TABLE_CONIC,
-				CommandsConstants.TABLE_TRANSFORMATION,
-				CommandsConstants.TABLE_3D);
+				CommandsConstants.TABLE_TRANSFORMATION, CommandsConstants.TABLE_3D);
 		CommandFilter nameFilter = createGraphingNameFilter();
-		CommandFilter composite = new CompositeCommandFilter(noCasCommandFilter,
+		return new CompositeCommandFilter(noCasCommandFilter,
 				tableFilter, nameFilter);
-		return new EnglishCommandFilter(composite);
 	}
 
 	private static CommandFilter createGraphingNameFilter() {
@@ -60,7 +54,7 @@ public final class CommandFilterFactory {
 				Commands.Prove, Commands.ProveDetails, Commands.Radius, Commands.RigidPolygon,
 				Commands.Sector, Commands.Segment, Commands.Slope, Commands.Tangent,
 				Commands.TriangleCenter, Commands.TriangleCurve, Commands.Trilinear,
-				Commands.Vertex, Commands.Polynomial, Commands.PolyLine,
+				Commands.Vertex, Commands.Polynomial,
 				Commands.TaylorSeries, Commands.Asymptote, Commands.OsculatingCircle,
 				Commands.CommonDenominator, Commands.CompleteSquare, Commands.Div, Commands.Mod,
 				Commands.Division, Commands.IsVertexForm);
@@ -68,70 +62,24 @@ public final class CommandFilterFactory {
 		return nameFilter;
 	}
 
-	private static void addBooleanCommands(CommandNameFilter nameFilter) {
-        nameFilter.addCommands(Commands.AreCollinear, Commands.IsTangent,
+	/**
+	 * Add boolean commands to a filter
+	 * @param nameFilter filter
+	 */
+	public static void addBooleanCommands(CommandNameFilter nameFilter) {
+		nameFilter.addCommands(Commands.AreCollinear, Commands.IsTangent,
 				Commands.AreConcurrent, Commands.AreConcyclic, Commands.AreCongruent,
 				Commands.AreEqual, Commands.AreParallel, Commands.ArePerpendicular);
 	}
 
 	/**
-	 * @return filter for IQB MMS exam
+	 * @return filer for Bayern CAS exam
 	 */
-	@Deprecated // replaced by MmsExamRestrictions
-	public static CommandFilter createMmsFilter() {
-		CommandNameFilter nameFilter = new CommandNameFilter(true);
-		nameFilter.addCommands(Commands.Axes, Commands.Focus,
-				Commands.DelauneyTriangulation, Commands.Difference,
-				Commands.Rotate, Commands.TriangleCenter,
-				Commands.Envelope, Commands.Ends,
-				Commands.FirstAxisLength, Commands.SecondAxisLength,
-				Commands.FirstAxis, Commands.Height, Commands.InteriorAngles,
-				Commands.InverseBinomial, Commands.InverseBinomialMinimumTrials,
-				Commands.InverseCauchy, Commands.InverseChiSquared,
-				Commands.InverseExponential, Commands.InverseFDistribution,
-				Commands.InverseGamma, Commands.InverseHyperGeometric,
-				Commands.InverseLaplace, Commands.InverseLogistic, Commands.InverseLogNormal,
-				Commands.InverseNormal, Commands.InversePascal, Commands.InversePoisson,
-				Commands.InverseTDistribution, Commands.InverseWeibull, Commands.InverseZipf,
-				Commands.Diameter, Commands.ConvexHull, Commands.ShortestDistance,
-				Commands.CurveCartesian, Commands.Barycenter, Commands.MinimumSpanningTree,
-				Commands.Center, Commands.SecondAxis, Commands.Net, Commands.Top,
-				Commands.Surface, Commands.Prove, Commands.ProveDetails,
-				Commands.Point, Commands.PointIn, Commands.IntersectPath,
-				Commands.IntersectConic, Commands.Centroid, Commands.QuadricSide,
-				Commands.Sector, Commands.Mirror, Commands.Spline,
-				Commands.Stretch, Commands.Dilate, Commands.Bottom,
-				Commands.Translate, Commands.Shear, Commands.Polygon,
-				Commands.Arc, Commands.Circle, Commands.CircleSector,
-				Commands.CircleArc, Commands.OsculatingCircle, Commands.Cubic,
-				Commands.Line, Commands.Segment, Commands.Ray,
-				Commands.Ellipse, Commands.LineBisector, Commands.OrthogonalLine,
-				Commands.Asymptote, Commands.RigidPolygon, Commands.Tangent,
-				Commands.AngularBisector,
-				Commands.Pyramid, Commands.Prism, Commands.Cone, Commands.Cylinder,
-				Commands.Sphere, Commands.TriangleCurve, Commands.Semicircle,
-				Commands.ImplicitCurve, Commands.Conic, Commands.Icosahedron, Commands.Hyperbola,
-				Commands.Parabola, Commands.Incircle, Commands.Directrix, Commands.Octahedron,
-				Commands.Locus, Commands.LocusEquation, Commands.Polar,
-				Commands.PolyLine, Commands.ConeInfinite, Commands.CylinderInfinite,
-				Commands.Tetrahedron, Commands.CircumcircleArc, Commands.CircumcircleSector,
-				Commands.Cube, Commands.Roots, Commands.ComplexRoot, Commands.Root,
-				Commands.RootList, Commands.Volume, Commands.Plane,
-				Commands.OrthogonalPlane,
-				Commands.PlaneBisector, Commands.Angle, Commands.Distance, Commands.Relation,
-				Commands.IsInRegion);
-		addBooleanCommands(nameFilter);
-		return new EnglishCommandFilter(nameFilter);
-	}
-
-	/**
-	 * @return filter for Bayern CAS exam
-	 */
-    @Deprecated // replaced by BayernCasExamRestrictions
+	@Deprecated // replaced by BayernCasExamRestrictions
 	public static CommandFilter createBayernCasFilter() {
 		CommandNameFilter nameFilter = new CommandNameFilter(true);
 		nameFilter.addCommands(Commands.Plane);
-		return new EnglishCommandFilter(nameFilter);
+		return nameFilter;
 	}
 
 	/**
@@ -144,7 +92,7 @@ public final class CommandFilterFactory {
 				Commands.IntegralSymbolic, Commands.IntegralBetween, Commands.NIntegral,
 				Commands.Solve, Commands.SolveQuartic, Commands.SolveODE, Commands.SolveCubic,
 				Commands.Solutions, Commands.NSolve, Commands.NSolveODE, Commands.NSolutions);
-		return new EnglishCommandFilter(nameFilter);
+		return nameFilter;
 	}
 
 	/**
@@ -212,9 +160,8 @@ public final class CommandFilterFactory {
 				Commands.Histogram, Commands.HistogramRight, Commands.NormalQuantilePlot,
 				Commands.ResidualPlot, Commands.StemPlot, Commands.StepGraph,
 				Commands.StickGraph, Commands.LineGraph, Commands.PieChart,
-				// Barycentric Commands
-				Commands.TriangleCenter, Commands.Barycenter, Commands.Trilinear, Commands.Cubic,
-				Commands.TriangleCurve,
+				// Discrete Math Commands
+				Commands.ShortestDistance,
 				// GeoGebra Commands
 				Commands.DynamicCoordinates, Commands.Object, Commands.SlowPlot,
 				Commands.ToolImage,
@@ -226,7 +173,6 @@ public final class CommandFilterFactory {
 				Commands.Text, Commands.UnicodeToLetter,
 				// Logical Commands
 				Commands.Defined, Commands.Relation,
-				Commands.LocusEquation, Commands.Envelope, Commands.Prove, Commands.ProveDetails,
 				// Optimization Command
 				Commands.Maximize, Commands.Minimize,
 				// Scripting Commands
@@ -261,11 +207,10 @@ public final class CommandFilterFactory {
 				Commands.Cell, Commands.CellRange, Commands.Column,
 				Commands.ColumnName, Commands.FillCells, Commands.FillColumn,
 				Commands.FillRow, Commands.Row
-			);
+		);
 		addBooleanCommands(commandNameFilter);
-		CompositeCommandFilter composite = new CompositeCommandFilter(commandNameFilter,
+		return new CompositeCommandFilter(commandNameFilter,
 				new CommandTableFilter(Commands.TABLE_DISCRETE));
-		return new EnglishCommandFilter(composite);
 	}
 
 	/**

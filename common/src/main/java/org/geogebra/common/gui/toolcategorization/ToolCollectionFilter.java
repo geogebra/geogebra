@@ -6,11 +6,12 @@ package org.geogebra.common.gui.toolcategorization;
 public interface ToolCollectionFilter {
 
 	/**
-	 * Filter tools. This method should return true if the tool
-	 * should be filtered in (kept) in the collection.
+	 * Filter tools by ID.
 	 *
-	 * @param tool the id of the tool
-	 * @return true iff the tool should be kept
+	 * @param tool the id of the tool (aka mode). See the constants in
+	 * {@link org.geogebra.common.euclidian.EuclidianConstants EuclidianConstants} starting
+	 * with "MODE_" for a list of valid values.
+	 * @return true if the tool should be included.
 	 */
-	boolean filter(int tool);
+	boolean isIncluded(int tool);
 }
