@@ -370,6 +370,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				null,
 				createCommandFilters(),
 				createCommandArgumentFilters(),
+				null,
 				createSyntaxFilter(),
 				createToolCollectionFilter(),
 				createDistributionPropertyRestriction());

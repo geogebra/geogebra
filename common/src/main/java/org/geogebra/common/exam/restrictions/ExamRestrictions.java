@@ -142,31 +142,6 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.propertyRestrictions = propertyRestrictions != null ? propertyRestrictions : Map.of();
 	}
 
-	protected ExamRestrictions(@Nonnull ExamType examType,
-			@Nullable Set<SuiteSubApp> disabledSubApps,
-			@Nullable SuiteSubApp defaultSubApp,
-			@Nullable Set<ExamFeatureRestriction> featureRestrictions,
-			@Nullable Set<ExpressionFilter> inputExpressionFilters,
-			@Nullable Set<ExpressionFilter> outputExpressionFilters,
-			@Nullable Set<CommandFilter> commandFilters,
-			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
-			@Nullable SyntaxFilter syntaxFilter,
-			@Nullable ToolCollectionFilter toolsFilter,
-			@Nullable Map<String, PropertyRestriction> frozenProperties) {
-		this(examType,
-				disabledSubApps,
-				defaultSubApp,
-				featureRestrictions,
-				inputExpressionFilters,
-				outputExpressionFilters,
-				commandFilters,
-				commandArgumentFilters,
-				null,
-				syntaxFilter,
-				toolsFilter,
-				frozenProperties);
-	}
-
 	/**
 	 * @return The exam type.
 	 */

@@ -37,14 +37,14 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				Set.of(SuiteSubApp.CAS, SuiteSubApp.G3D, SuiteSubApp.GEOMETRY,
 						SuiteSubApp.PROBABILITY, SuiteSubApp.SCIENTIFIC),
 				SuiteSubApp.GRAPHING,
-				CvteExamRestrictions.createFeatureRestrictions(),
-				CvteExamRestrictions.createInputExpressionFilters(),
-				CvteExamRestrictions.createOutputExpressionFilters(),
-				CvteExamRestrictions.createCommandFilters(),
-				CvteExamRestrictions.createCommandArgumentFilters(),
-				CvteExamRestrictions.getFilteredOperations(),
-				CvteExamRestrictions.createSyntaxFilter(),
-				CvteExamRestrictions.createToolsFilter(),
+				createFeatureRestrictions(),
+				createInputExpressionFilters(),
+				createOutputExpressionFilters(),
+				createCommandFilters(),
+				createCommandArgumentFilters(),
+				getFilteredOperations(),
+				createSyntaxFilter(),
+				createToolsFilter(),
 				null);
 	}
 
