@@ -111,7 +111,6 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.exam.restriction.ExamRestrictionFactory;
-import org.geogebra.common.main.exam.restriction.FeatureRestriction;
 import org.geogebra.common.main.exam.restriction.RestrictExam;
 import org.geogebra.common.main.exam.restriction.Restrictable;
 import org.geogebra.common.main.provider.ExamProvider;
