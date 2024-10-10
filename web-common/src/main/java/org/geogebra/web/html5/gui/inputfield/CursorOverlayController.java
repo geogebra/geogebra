@@ -16,6 +16,7 @@ import org.gwtproject.event.dom.client.KeyDownEvent;
 import org.gwtproject.event.dom.client.KeyPressEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 
+import com.google.gwt.core.client.Scheduler;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import elemental2.dom.DomGlobal;
@@ -120,6 +121,11 @@ public class CursorOverlayController implements TextFieldController,
 		cursorOverlay.update(textField.getCursorPos(), textField.getText());
 	}
 
+	private void reset() {
+		String text = textField.getText();
+		cursorOverlay.update(text.length(), text);
+	}
+
 	@Override
 	public void selectAll() {
 		stopBlinking();
@@ -131,7 +137,7 @@ public class CursorOverlayController implements TextFieldController,
 		main.add(cursorOverlay);
 		main.addStyleName("withCursorOverlay");
 		app.showKeyboard(textField, true);
-		update();
+		Scheduler.get().scheduleDeferred(this::update);
 	}
 
 	@Override
