@@ -5,9 +5,10 @@ import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
-import org.gwtproject.user.client.ui.HTML;
 import org.gwtproject.user.client.ui.Image;
+import org.gwtproject.user.client.ui.InlineLabel;
 
 /**
  * Adds a menu item with a checkmark on its end.
@@ -21,32 +22,15 @@ public class GCollapseMenuItem {
 	private AriaMenuBar items;
 	private FlowPanel itemPanel;
 	private boolean expanded;
-	private String text;
+	private SVGResource icon;
 	private Image imgExpand;
 	private Image imgCollapse;
 	private GPopupMenuW parentMenu;
 	private String title;
 
 	/**
-	 * @param text
-	 *            HTML text
-	 * @param expandUrl
-	 *            image of expand
-	 * @param collapseUrl
-	 *            image of collapse
-	 * @param expanded
-	 *            initial value.
-	 * @param wrappedPopup
-	 *            The command to run.
-	 */
-	public GCollapseMenuItem(String text, String expandUrl, String collapseUrl,
-			boolean expanded, final GPopupMenuW wrappedPopup) {
-		this(text, "", expandUrl, collapseUrl, expanded, wrappedPopup);
-	}
-
-	/**
-	 * @param text
-	 *            HTML text
+	 * @param icon
+	 *            icon
 	 * @param title
 	 *            Title
 	 * @param expandUrl
@@ -58,10 +42,10 @@ public class GCollapseMenuItem {
 	 * @param wrappedPopup
 	 *            The command to run.
 	 */
-	public GCollapseMenuItem(String text, String title, String expandUrl,
+	public GCollapseMenuItem(SVGResource icon, String title, String expandUrl,
 			String collapseUrl,
 			boolean expanded, final GPopupMenuW wrappedPopup) {
-		this.text = text;
+		this.icon = icon;
 		this.title = title;
 		imgExpand = new NoDragImage(expandUrl);
 		imgExpand.setStyleName("expandImg");
@@ -89,7 +73,8 @@ public class GCollapseMenuItem {
 	public void setExpanded(boolean value) {
 		expanded = value;
 		itemPanel.clear();
-		itemPanel.add(new HTML(text));
+		itemPanel.add(new NoDragImage(icon, 24));
+		itemPanel.add(new InlineLabel(title));
 		itemPanel.add(expanded ? imgCollapse : imgExpand);
 		menuItem.getElement().setAttribute("aria-expanded",
 				String.valueOf(expanded));

@@ -10,7 +10,6 @@ import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -382,35 +381,6 @@ public class MainMenu extends FlowPanel
 	public static Element getImage(ResourcePrototype icon) {
 		NoDragImage img = new NoDragImage(icon, 20, 20);
 		return img.getElement();
-	}
-
-	/**
-	 * @param url
-	 *            image URL
-	 * @param str
-	 *            item text
-	 * @return menu item as HTML
-	 */
-	public static String getMenuBarHtml(String url, String str) {
-		String textContent = str.replace("\"", "'");
-		if (StringUtil.empty(url)) {
-			return textContent;
-		}
-		return "<img class=\"GeoGebraMenuImage menuImg\" alt=\"" + textContent + "\" src=\"" + url
-				+ "\" draggable=\"false\" aria-hidden=\"true\">" + textContent;
-	}
-
-	/**
-	 * @param url
-	 *            image URL
-	 * @param str
-	 *            item text
-	 * @return menu item as HTML
-	 */
-	public static String getMenuBarHtmlClassic(String url, String str) {
-		String text = str.replace("\"", "'");
-		return "<img class=\"menuImg\" width=\"16\" height=\"16\" alt=\"" + text + "\" src=\"" + url
-				+ "\" draggable=\"false\" aria-hidden=\"true\">" + text;
 	}
 
 	@Override
