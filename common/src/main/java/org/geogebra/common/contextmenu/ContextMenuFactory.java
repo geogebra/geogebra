@@ -379,24 +379,19 @@ public final class ContextMenuFactory {
 		// Remove unnecessary separators once some of the items are potentially removed
 		return IntStream.range(0, filteredItems.size()).filter(index -> {
 			// Remove separators
-			if (isSeparator(filteredItems.get(index))) {
+			if (Separator.isItemOf(filteredItems.get(index))) {
 				// If they are the first/last in the list
 				if (index == 0 || index == filteredItems.size() - 1) {
 					return false;
 				}
 
 				// Or if there are multiple separators after each other
-				if (isSeparator(filteredItems.get(index + 1))) {
+				if (Separator.isItemOf(filteredItems.get(index + 1))) {
 					return false;
 				}
 			}
 
 			return true;
 		}).mapToObj(filteredItems::get).collect(Collectors.toList());
-	}
-
-	private boolean isSeparator(ContextMenuItem contextMenuItem) {
-		return contextMenuItem instanceof TableValuesContextMenuItem
-				&& ((TableValuesContextMenuItem) contextMenuItem).getItem() == Separator;
 	}
 }

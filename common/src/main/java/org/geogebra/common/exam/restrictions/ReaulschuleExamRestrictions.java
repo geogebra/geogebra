@@ -1,8 +1,11 @@
 package org.geogebra.common.exam.restrictions;
 
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Regression;
+
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.exam.ExamType;
 
 final class ReaulschuleExamRestrictions extends ExamRestrictions {
@@ -18,9 +21,13 @@ final class ReaulschuleExamRestrictions extends ExamRestrictions {
 				null,
 				null,
 				null,
-				null,
+				createContextMenuItemFilters(),
 				null,
 				null,
 				null);
+	}
+
+	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
+		return Set.of(contextMenuItem -> !Regression.isItemOf(contextMenuItem));
 	}
 }

@@ -11,7 +11,6 @@ import javax.annotation.Nullable;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
-import org.geogebra.common.contextmenu.TableValuesContextMenuItem;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.cvte.CvteCommandArgumentFilter;
@@ -169,20 +168,8 @@ final class CvteExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
-		Set<TableValuesContextMenuItem.Item> restrictedContextMenuItems = Set.of(
-				Statistics1,
-				Statistics2,
-				Regression);
-
-		return Set.of(item -> {
-			if (item instanceof TableValuesContextMenuItem) {
-				TableValuesContextMenuItem tableValuesItem = (TableValuesContextMenuItem) item;
-				return restrictedContextMenuItems.stream().noneMatch(restrictedItem ->
-						restrictedItem == tableValuesItem.getItem());
-			}
-
-			return true;
-		});
+		return Set.of(contextMenuItem -> Set.of(Statistics1, Statistics2, Regression).stream()
+				.anyMatch(item -> item.isItemOf(contextMenuItem)));
 	}
 
 	private static ToolCollectionFilter createToolsFilter() {
