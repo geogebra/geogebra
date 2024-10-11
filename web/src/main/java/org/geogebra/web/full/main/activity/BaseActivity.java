@@ -113,11 +113,6 @@ public class BaseActivity implements GeoGebraActivity {
 	}
 
 	@Override
-	public SVGResource getExamIcon() {
-		return null;
-	}
-
-	@Override
 	public void markSearchOpen() {
 		// nothing to do
 	}
