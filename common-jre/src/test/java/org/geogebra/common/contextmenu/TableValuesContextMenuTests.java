@@ -92,7 +92,8 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 	}
 
 	@Test
-	public void testInExamModeWithRestrictedStatisticsAndRegressionItems() throws InvalidValuesException {
+	public void testInExamModeWithRestrictedStatisticsAndRegressionItems()
+			throws InvalidValuesException {
 		tableValuesView.setValues(0.0, 2.0, 1.0);
 		GeoList geoList = new GeoList(getConstruction());
 		geoList.add(new GeoNumeric(getConstruction(), 1.0));
