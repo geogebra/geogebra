@@ -1,6 +1,5 @@
 package org.geogebra.common.contextmenu;
 
-
 /**
  * Filter for context menu items.
  */
