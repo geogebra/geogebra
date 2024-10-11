@@ -23,6 +23,8 @@ import org.geogebra.test.TestErrorHandler;
 import org.junit.Test;
 
 public class AlgebraContextMenuTests {
+	private final ContextMenuFactory contextMenuFactory = new ContextMenuFactory();
+
 	private AlgebraProcessor algebraProcessor;
 	private String appCode;
 
@@ -31,7 +33,7 @@ public class AlgebraContextMenuTests {
 		setupApp(GeoGebraConstants.GRAPHING_APPCODE);
 		assertEquals(
 				List.of(Delete),
-				makeAlgebraContextMenu(null, algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(null, algebraProcessor, appCode)
 		);
 	}
 
@@ -45,7 +47,7 @@ public class AlgebraContextMenuTests {
 						DuplicateInput,
 						Delete,
 						Settings),
-				makeAlgebraContextMenu(add("x"), algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(add("x"), algebraProcessor, appCode)
 		);
 	}
 
@@ -57,7 +59,8 @@ public class AlgebraContextMenuTests {
 						DuplicateInput,
 						Delete,
 						Settings),
-				makeAlgebraContextMenu(add("{1, 2, 3}"), algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(
+						add("{1, 2, 3}"), algebraProcessor, appCode)
 		);
 	}
 
@@ -69,7 +72,7 @@ public class AlgebraContextMenuTests {
 						DuplicateOutput,
 						Delete,
 						Settings),
-				makeAlgebraContextMenu(add("1 + 2"), algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(add("1 + 2"), algebraProcessor, appCode)
 		);
 	}
 
@@ -84,7 +87,7 @@ public class AlgebraContextMenuTests {
 				List.of(AddLabel,
 						DuplicateInput,
 						Delete),
-				makeAlgebraContextMenu(geoElement, algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(geoElement, algebraProcessor, appCode)
 		);
 	}
 
@@ -97,7 +100,7 @@ public class AlgebraContextMenuTests {
 				List.of(RemoveLabel,
 						DuplicateInput,
 						Delete),
-				makeAlgebraContextMenu(geoElement, algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(geoElement, algebraProcessor, appCode)
 		);
 	}
 
@@ -110,7 +113,7 @@ public class AlgebraContextMenuTests {
 						DuplicateInput,
 						DuplicateOutput,
 						Delete),
-				makeAlgebraContextMenu(geoElement, algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(geoElement, algebraProcessor, appCode)
 		);
 	}
 
@@ -125,7 +128,7 @@ public class AlgebraContextMenuTests {
 						DuplicateInput,
 						Delete,
 						Settings),
-				makeAlgebraContextMenu(add("x"), algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(add("x"), algebraProcessor, appCode)
 		);
 	}
 
@@ -138,7 +141,8 @@ public class AlgebraContextMenuTests {
 						DuplicateInput,
 						Delete,
 						Settings),
-				makeAlgebraContextMenu(add("{1, 2, 3}"), algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(
+						add("{1, 2, 3}"), algebraProcessor, appCode)
 		);
 	}
 
@@ -153,7 +157,8 @@ public class AlgebraContextMenuTests {
 						DuplicateOutput,
 						Delete,
 						Settings),
-				makeAlgebraContextMenu(add("x^(2) - 5x + 6 = 0"), algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(
+						add("x^(2) - 5x + 6 = 0"), algebraProcessor, appCode)
 		);
 	}
 
@@ -165,7 +170,7 @@ public class AlgebraContextMenuTests {
 						DuplicateInput,
 						Delete,
 						Settings),
-				makeAlgebraContextMenu(add("x"), algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(add("x"), algebraProcessor, appCode)
 		);
 	}
 
@@ -177,7 +182,8 @@ public class AlgebraContextMenuTests {
 						DuplicateInput,
 						Delete,
 						Settings),
-				makeAlgebraContextMenu(add("{1, 2, 3}"), algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(
+						add("{1, 2, 3}"), algebraProcessor, appCode)
 		);
 	}
 
@@ -191,7 +197,7 @@ public class AlgebraContextMenuTests {
 						DuplicateInput,
 						Delete,
 						Settings),
-				makeAlgebraContextMenu(add("5"), algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(add("5"), algebraProcessor, appCode)
 		);
 	}
 
@@ -205,7 +211,7 @@ public class AlgebraContextMenuTests {
 						DuplicateInput,
 						Delete,
 						Settings),
-				makeAlgebraContextMenu(geoElement, algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(geoElement, algebraProcessor, appCode)
 		);
 	}
 
@@ -219,7 +225,8 @@ public class AlgebraContextMenuTests {
 						DuplicateInput,
 						Delete,
 						Settings),
-				makeAlgebraContextMenu(add("{1, 2, 3}"), algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(
+						add("{1, 2, 3}"), algebraProcessor, appCode)
 		);
 	}
 
@@ -233,7 +240,7 @@ public class AlgebraContextMenuTests {
 						DuplicateInput,
 						Delete,
 						Settings),
-				makeAlgebraContextMenu(add("x"), algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(add("x"), algebraProcessor, appCode)
 		);
 	}
 
