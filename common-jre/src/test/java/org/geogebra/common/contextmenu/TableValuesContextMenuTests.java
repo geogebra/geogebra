@@ -76,6 +76,44 @@ public class TableValuesContextMenuTests extends BaseUnitTest {
 	}
 
 	@Test
+	public void testFirstColumnInExamModeWithRestrictedStatisticsItem() {
+		GeoEvaluatable geoEvaluatable = new GeoLine(getConstruction());
+
+		contextMenuFactory.addFilter(contextMenuItem ->
+				!contextMenuItem.equals(Statistics1.toContextMenuItem(new String[]{ "x" })));
+
+		assertEquals(
+				List.of(Edit.toContextMenuItem(),
+						ClearColumn.toContextMenuItem(),
+						ImportData.toContextMenuItem()),
+				contextMenuFactory.makeTableValuesContextMenu(
+						geoEvaluatable, 0, tableValuesModel, false, false)
+		);
+	}
+
+	@Test
+	public void testInExamModeWithRestrictedStatisticsAndRegressionItems() throws InvalidValuesException {
+		tableValuesView.setValues(0.0, 2.0, 1.0);
+		GeoList geoList = new GeoList(getConstruction());
+		geoList.add(new GeoNumeric(getConstruction(), 1.0));
+		geoList.add(new GeoNumeric(getConstruction(), 2.0));
+		tableValuesView.addAndShow(geoList);
+
+		contextMenuFactory.addFilter(contextMenuItem -> !List.of(
+			Statistics1.toContextMenuItem(new String[]{ "y_{1}" }),
+			Statistics2.toContextMenuItem(new String[]{ "x y_{1}" }),
+			Regression.toContextMenuItem()
+		).contains(contextMenuItem));
+
+		assertEquals(
+				List.of(HidePoints.toContextMenuItem(),
+						RemoveColumn.toContextMenuItem()),
+				contextMenuFactory.makeTableValuesContextMenu(
+						geoList, 1, tableValuesModel, false, false)
+		);
+	}
+
+	@Test
 	public void testWithFunctionColumn() throws InvalidValuesException {
 		tableValuesView.setValues(-2.0, 2.0, 1.0);
 		GeoFunction geoFunction = new GeoFunction(getConstruction());
