@@ -19,7 +19,8 @@ public class DrawAxisTest extends BaseUnitTest {
 		assertEquals(Unicode.PI_STRING,
 				DrawAxis.tickDescription(view, 3, 0));
 	}
-@Test
+
+	@Test
 	public void testDegreeLabelsContainNoPi() {
 		EuclidianView view = getApp().getActiveEuclidianView();
 		GeoNumberValue distance = add("60deg");
