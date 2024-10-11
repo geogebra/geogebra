@@ -12,9 +12,10 @@ import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.syntax.suggestionfilter.LineSelector;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 
 final class RealschuleExamRestrictions extends ExamRestrictions {
 
@@ -25,13 +26,17 @@ final class RealschuleExamRestrictions extends ExamRestrictions {
 				SuiteSubApp.GRAPHING,
 				null,
 				null,
+				null,
 				createCommandFilters(),
 				createCommandArgumentFilters(),
+				null,
+				createSyntaxFilter(),
+				null,
 				null);
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
-		CommandNameFilter commandNameFilter = new CommandNameFilter(true,
+		return Set.of(new CommandNameFilter(true,
 				Volume, Bottom, Cone, Cube, Cylinder, Dodecahedron, Ends, Icosahedron, Octahedron,
 				Plane, QuadricSide, Surface, Tetrahedron, Top, Sphere, Prism, Pyramid,
 				PlaneBisector, OrthogonalPlane, ConeInfinite, CylinderInfinite, IntersectConic,
@@ -53,16 +58,18 @@ final class RealschuleExamRestrictions extends ExamRestrictions {
 				Polygon, Polyline, Prove, ProveDetails, Radius, RigidPolygon, Sector, Segment,
 				Slope, Tangent, TriangleCenter, TriangleCurve, Trilinear, Vertex, Polynomial,
 				TaylorPolynomial, Asymptote, OsculatingCircle, CommonDenominator, CompleteSquare,
-				Div, Mod, Division);
-		return Set.of(new EnglishCommandFilter(commandNameFilter));
+				Div, Mod, Division));
 	}
 
 	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {
 		return Set.of(new RealschuleCommandArgumentFilter());
 	}
 
-	private static class RealschuleCommandArgumentFilter extends BaseCommandArgumentFilter {
+	private static SyntaxFilter createSyntaxFilter() {
+		return new RealschuleSyntaxFilter();
+    }
 
+	private static class RealschuleCommandArgumentFilter extends BaseCommandArgumentFilter {
 		@Override
 		public void checkAllowed(Command command, CommandProcessor commandProcessor)
 				throws MyError {
@@ -108,6 +115,20 @@ final class RealschuleExamRestrictions extends ExamRestrictions {
 					throw commandProcessor.argNumErr(command, 2);
 				}
 			}
+		}
+	}
+
+	private static class RealschuleSyntaxFilter implements SyntaxFilter {
+		@Override
+		public String getFilteredSyntax(String internalCommandName, String syntax) {
+			if (Length.name().equals(internalCommandName)) {
+				// Allow only Length(<Object>)
+				return LineSelector.select(syntax, 0);
+			} else if (Line.name().equals(internalCommandName)) {
+				// Allow only Line(<Point>, <Point>) and Line(<Point>, <Direction Vector>)
+				return LineSelector.select(syntax, 0, 2);
+			}
+			return syntax;
 		}
 	}
 }
