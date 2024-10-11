@@ -978,29 +978,29 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		if (x < 0 || y < 0) {
 			return null;
 		}
-		int indexX = -1;
-		int indexY = -1;
+		int column = -1;
+		int row = -1;
 		for (int i = 0; i < getColumnCount(); ++i) {
 			GPoint point = getPixel(i, 0, false);
 			if (x < point.getX()) {
-				indexX = i;
+				column = i;
 				break;
 			}
 		}
-		if (indexX == -1) {
+		if (column == -1) {
 			return null;
 		}
 		for (int i = 0; i < getRowCount(); ++i) {
 			GPoint point = getPixel(0, i, false);
 			if (y < point.getY()) {
-				indexY = i;
+				row = i;
 				break;
 			}
 		}
-		if (indexY == -1) {
+		if (row == -1) {
 			return null;
 		}
-		return new SpreadsheetCoords(indexX, indexY);
+		return new SpreadsheetCoords(row, column);
 	}
 
 	/**
