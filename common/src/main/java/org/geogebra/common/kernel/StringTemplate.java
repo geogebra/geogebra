@@ -171,6 +171,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
+	 * GeoGebra string type for axes, internationalize digits, no pi hack
+	 */
+	public static final StringTemplate axesTemplate = new StringTemplate(
+			"axesTemplate");
+
+	static {
+		axesTemplate.allowPiHack = false;
+	}
+
+	/**
 	 * LaTeX string type, do not internationalize digits
 	 */
 	public static final StringTemplate latexTemplate = new StringTemplate(
