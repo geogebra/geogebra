@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -267,7 +268,10 @@ public class CmdSetValue extends CmdScripting {
 			}
 		} else if (geo.isGeoFunction() || geo.isGeoFunctionNVar()) {
 			ExpressionNode undefined = new ExpressionNode(kernel, Double.NaN);
-			((Evaluate2Var) geo).getFunction().setExpression(undefined);
+			FunctionNVar function = ((Evaluate2Var) geo).getFunction();
+			if (function != null) {
+				function.setExpression(undefined);
+			}
 			AlgoElement parentAlgo = geo.getParentAlgorithm();
 			if (parentAlgo != null) {
 				undefineInput(parentAlgo, undefined);
