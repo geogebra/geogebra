@@ -81,7 +81,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		case NIEDERSACHSEN:
 			return new NiedersachsenExamRestrictions();
 		case REALSCHULE:
-			return new ReaulschuleExamRestrictions();
+			return new RealschuleExamRestrictions();
 		case VLAANDEREN:
 			return new VlaanderenExamRestrictions();
 		case MMS:
