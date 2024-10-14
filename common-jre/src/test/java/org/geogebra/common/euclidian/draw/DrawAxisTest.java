@@ -16,7 +16,7 @@ public class DrawAxisTest extends BaseUnitTest {
 		EuclidianView view = getApp().getActiveEuclidianView();
 		GeoNumberValue distance = add(Unicode.PI_STRING);
 		view.getSettings().setAxisNumberingDistance(0, distance);
-		assertEquals(Unicode.PI_STRING,
+		assertEquals("3" + Unicode.PI_STRING,
 				DrawAxis.tickDescription(view, 3, 0));
 	}
 

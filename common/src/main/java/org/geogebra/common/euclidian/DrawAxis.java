@@ -1215,17 +1215,17 @@ public class DrawAxis {
 	}
 
 	/**
-	 * @param definition
-	 *            step definition
+	 * @param stepValue
+	 *            step as a number
 	 * @param labelno
 	 *            step coefficient
-	 * @return description of labelno*definition
+	 * @return description of labelno*stepValue
 	 */
-	public static String multiple(GeoNumberValue number, long labelno) {
-		StringTemplate tpl = number.getAngleDim() == 1
+	public static String multiple(GeoNumberValue stepValue, long labelno) {
+		StringTemplate tpl = stepValue.getAngleDim() == 1
 				? StringTemplate.axesTemplate
 				: StringTemplate.defaultTemplate;
-		return number.getDefinition().multiply(labelno)
+		return stepValue.getDefinition().multiply(labelno)
 				.toFractionString(tpl);
 	}
 
