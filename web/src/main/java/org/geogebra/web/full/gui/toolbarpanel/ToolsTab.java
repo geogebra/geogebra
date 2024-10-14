@@ -7,8 +7,7 @@ import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 import org.geogebra.common.io.layout.DockPanelData;
-import org.geogebra.common.main.App;
-import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.util.CustomScrollbar;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -45,7 +44,7 @@ public class ToolsTab extends ToolbarTab implements ExamListener {
 	 */
 	private ScrollPanel sp;
 
-	private final App app;
+	private final AppWFull app;
 
 	public boolean isCustomToolbar = false;
 
@@ -69,7 +68,7 @@ public class ToolsTab extends ToolbarTab implements ExamListener {
 		if (!isCustomToolbar) {
 			handleMoreLessButtons();
 		}
-		GlobalScope.examController.addListener(this);
+		app.getExamEventBus().add(this);
 	}
 
 	private void handleMoreLessButtons() {

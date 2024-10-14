@@ -43,7 +43,7 @@ public class ToolBar {
 			{ "4 3 8 9 13 44 58 47" }, { "16 51 64 70" },
 			{ "10 34 53 11 24 20 22 21 23" }, { "55 56 57 12" },
 			{ "36 46 38 49 50 71 14 68" }, { "30 29 54 32 31 33" },
-			{ "25 17 26 60 52 61", "25 60 52 61" }, { "40 41 42 27 28 35 6" } };
+			{ "25 17 26 60 52 61", "25 17 60 52 61", "25 60 52 61" }, { "40 41 42 27 28 35 6" } };
 
 	/**
 	 * any toolbar composed of a set of following menus should be considered as
@@ -96,7 +96,6 @@ public class ToolBar {
 	 * @return The default definition of the general tool bar without macros.
 	 */
 	public static String getAllToolsNoMacros(boolean html5, boolean exam, boolean appUnbundled) {
-
 		StringBuilder sb = new StringBuilder();
 
 		// move

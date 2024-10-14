@@ -752,9 +752,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		splash = null;
 		// this one should be scheduled, so that all scheduled things depending on app execute OK
 		Scheduler.get().scheduleDeferred(() -> app = null);
-		GlobalScope.examController.removeAllListeners();
 		GlobalScope.examController.unregisterRestrictable(app);
 		GlobalScope.examController.unregisterRestrictable(app.getEuclidianView1());
+		GlobalScope.examController.unregisterRestrictable(
+				app.getLocalization().getCommandErrorMessageBuilder());
+		GlobalScope.examController.removeActiveContext(getApp());
 	}
 
 	/**

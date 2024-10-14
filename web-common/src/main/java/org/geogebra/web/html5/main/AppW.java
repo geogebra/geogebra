@@ -3543,8 +3543,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return toolTipManager;
 	}
 
+	/**
+	 * @return whether the exam mode is set from the outside and we're in app mode
+	 */
 	public boolean isLockedExam() {
-		return !StringUtil.empty(getAppletParameters().getParamExamMode());
+		return !StringUtil.empty(getAppletParameters().getParamExamMode())
+				&& appletParameters.getDataParamApp();
 	}
 
 	/**

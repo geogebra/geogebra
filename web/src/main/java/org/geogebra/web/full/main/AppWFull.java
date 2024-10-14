@@ -35,6 +35,7 @@ import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.exam.ExamController;
+import org.geogebra.common.exam.ExamOptions;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.factories.CASFactory;
@@ -112,6 +113,7 @@ import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.H5PReader;
 import org.geogebra.web.full.gui.dialog.RelationPaneW;
 import org.geogebra.web.full.gui.exam.ExamControllerDelegateW;
+import org.geogebra.web.full.gui.exam.ExamEventBus;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.exam.classic.ExamClassicStartDialog;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
@@ -264,6 +266,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private CsvImportHandler csvImportHandler;
 	private final ExamController examController = GlobalScope.examController;
 	private AutocompleteProvider autocompleteProvider;
+	private ExamEventBus examEventBus;
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -332,11 +335,19 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				afterLocalizationLoaded(this::showExamWelcomeMessage);
 			} else {
 				String appCode = appletParameters.getDataParamAppName();
-				String supportedModes = isSuite() ? getSupportedExamModes(appCode) : appCode;
+				String supportedModes = hasExamModes() ? getSupportedExamModes(appCode) : appCode;
 				showErrorDialog("Invalid exam mode: "
 						+ appletParameters.getParamExamMode()
 						+ "\n Supported exam modes: " + supportedModes);
 				appletParameters.setAttribute("examMode", "");
+			}
+		} else if (!StringUtil.empty(appletParameters.getParamExamMode())) {
+			ExamType examType = ExamType.byName(appletParameters.getParamExamMode());
+			if (examType != null) {
+				initExamRestrictions();
+				if (examController.getState() == ExamState.IDLE) {
+					examController.startExam(examType, null);
+				}
 			}
 		}
 	}
@@ -362,10 +373,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			|| paramExamMode.equals(CHOOSE)) {
 			return ExamType.GENERIC;
 		}
-		if (isSuite()) {
+		if (hasExamModes()) {
 			return ExamType.byName(paramExamMode);
 		}
 		return null;
+	}
+
+	private boolean hasExamModes() {
+		return isSuite() || isWhiteboardActive();
 	}
 
 	private void setupSignInButton(GlobalHeader header) {
@@ -804,7 +819,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (examController.isIdle()) {
 			if (isUnbundled()) {
 				new StartExamAction().execute(this);
-			} else {
+			} else if (!isWhiteboardActive()) {
 				resetViewsEnabled();
 				String negativeKey = isLockedExam()
 						? null : "Cancel";
@@ -2346,23 +2361,15 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @param region {@link ExamType}
 	 */
 	public void startExam(ExamType region) {
-		examController.setActiveContext(this,
-				getKernel().getAlgebraProcessor().getCommandDispatcher(),
-				getKernel().getAlgebraProcessor(),
-				getLocalization(),
-				getSettings(),
-				getAutocompleteProvider(),
-				this);
-		examController.registerRestrictable(this);
-		examController.setDelegate(new ExamControllerDelegateW(this));
+		initExamRestrictions();
+
 		examController.startExam(region, null);
 		getLAF().toggleFullscreen(true);
 		if (guiManager != null) {
 			guiManager.resetBrowserGUI();
 			if (menuViewController != null) {
 				menuViewController.setExamMenu();
-				guiManager.setUnbundledHeaderStyle(
-						ExamUtil.hasExternalSecurityCheck(this) ? "examLock" : "examOk");
+				guiManager.updateUnbundledToolbarStyle();
 				guiManager.resetMenu();
 				guiManager.updateUnbundledToolbarContent();
 				GlobalHeader.INSTANCE.addExamTimer();
@@ -2370,6 +2377,23 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				guiManager.initInfoBtnAction();
 			}
 		}
+	}
+
+	/**
+	 * Prepare the app for exam. {@link ExamController#startExam(ExamType, ExamOptions)}
+	 * should be called afterward.
+	 */
+	public void initExamRestrictions() {
+		examController.addActiveContext(this,
+				getKernel().getAlgebraProcessor().getCommandDispatcher(),
+				getKernel().getAlgebraProcessor(),
+				getLocalization(),
+				getSettings(),
+				getAutocompleteProvider(),
+				this);
+		examController.registerRestrictable(this);
+		examController.registerRestrictable(getLocalization().getCommandErrorMessageBuilder());
+		examController.setDelegate(new ExamControllerDelegateW(this));
 	}
 
 	/**
@@ -2615,5 +2639,16 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			autocompleteProvider = new AutocompleteProvider(this, false);
 		}
 		return autocompleteProvider;
+	}
+
+	/**
+	 * @return listener forwarding exam change events to other listeners
+	 */
+	public ExamEventBus getExamEventBus() {
+		if (this.examEventBus == null) {
+			examEventBus = new ExamEventBus();
+			examController.addListener(examEventBus);
+		}
+		return examEventBus;
 	}
 }

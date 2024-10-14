@@ -38,7 +38,7 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 		addAutoHidePartner(appPickerButton.getElement());
 		setGlassEnabled(false);
 		addStyleName("appPickerPopup");
-		examController.addListener(this);
+		app.getExamEventBus().add(this);
 		buildGUI();
 		app.registerAutoclosePopup(this);
 	}

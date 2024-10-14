@@ -1,7 +1,9 @@
 package org.geogebra.common.exam;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -72,7 +74,7 @@ public final class ExamController {
 	private PropertiesRegistry propertiesRegistry;
 
 	private Set<ExamRestrictable> restrictables = new HashSet<>();
-	private ContextDependencies activeDependencies;
+	private final List<ContextDependencies> activeDependencies = new ArrayList<>();
 
 	private ExamType examType;
 	private ExamRestrictions examRestrictions;
@@ -128,20 +130,40 @@ public final class ExamController {
 			@CheckForNull AutocompleteProvider autocompleteProvider,
 			@CheckForNull ToolsProvider toolsProvider) {
 		// remove restrictions for current dependencies, if exam is active
-		if (examRestrictions != null && activeDependencies != null) {
-			removeRestrictionsFromContextDependencies(activeDependencies);
+		if (examRestrictions != null) {
+			activeDependencies.forEach(this::removeRestrictionsFromContextDependencies);
+			activeDependencies.clear();
 		}
-		activeDependencies = new ContextDependencies(context,
+		addActiveContext(context, commandDispatcher, algebraProcessor,
+				localization, settings, autocompleteProvider, toolsProvider);
+	}
+
+	/**
+	 * In Web multiple apps can be in restricted mode at the same time
+	 * -- this allows adding a new one. Semantics of the arguments are the same as for
+	 * {@link #setActiveContext(Object, CommandDispatcher, AlgebraProcessor,
+	 * Localization, Settings, AutocompleteProvider, ToolsProvider)}
+	 */
+	public void addActiveContext(Object context, CommandDispatcher commandDispatcher,
+			AlgebraProcessor algebraProcessor, Localization localization,
+			Settings settings, AutocompleteProvider autocompleteProvider,
+			ToolsProvider toolsProvider) {
+		ContextDependencies contextDependencies = new ContextDependencies(context,
 				commandDispatcher,
 				algebraProcessor,
 				localization,
 				settings,
 				autocompleteProvider,
 				toolsProvider);
+		activeDependencies.add(contextDependencies);
 		// apply restrictions to new dependencies, if exam is active
 		if (examRestrictions != null) {
-			applyRestrictionsToContextDependencies(activeDependencies);
+			applyRestrictionsToContextDependencies(contextDependencies);
 		}
+	}
+
+	public void removeActiveContext(Object context) {
+		activeDependencies.removeIf(deps -> deps.context == context);
 	}
 
 	/**
@@ -182,13 +204,6 @@ public final class ExamController {
 	 */
 	public void removeListener(@Nonnull ExamListener listener) {
 		listeners.remove(listener);
-	}
-
-	/**
-	 * Remove all the listeners
-	 */
-	public void removeAllListeners() {
-		listeners.clear();
 	}
 
 	/**
@@ -385,7 +400,7 @@ public final class ExamController {
 			throw new IllegalStateException("expected to be in IDLE or PREPARING state, "
 					+ "but is " + state);
 		}
-		if (activeDependencies == null) {
+		if (activeDependencies.isEmpty()) {
 			throw new IllegalStateException("no active context; "
 					+ "call setActiveContext() before attempting to start the exam");
 		}
@@ -395,7 +410,8 @@ public final class ExamController {
 			examRestrictions = ExamRestrictions.forExamType(examType);
 		}
 		propertiesRegistry.addListener(examRestrictions);
-		applyRestrictionsToContextDependencies(activeDependencies);
+		// copy the list: we might swap active contexts by applying restrictions
+		new ArrayList<>(activeDependencies).forEach(this::applyRestrictionsToContextDependencies);
 		applyRestrictionsToRestrictables();
 
 		if (delegate != null) {
@@ -440,7 +456,7 @@ public final class ExamController {
 		}
 		propertiesRegistry.removeListener(examRestrictions);
 		removeRestrictionsFromRestrictables();
-		removeRestrictionsFromContextDependencies(activeDependencies);
+		activeDependencies.forEach(this::removeRestrictionsFromContextDependencies);
 		tempStorage.clearTempMaterials();
 		if (delegate != null) {
 			delegate.examClearClipboard();

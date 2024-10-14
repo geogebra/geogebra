@@ -382,7 +382,7 @@ public class GlobalHeader implements EventRenderable {
 				if (examController.isExamActive()) {
 					if (examController.isCheating()) {
 						getApp().getGuiManager()
-								.setUnbundledHeaderStyle("examCheat");
+								.updateUnbundledToolbarStyle();
 						if (examTypeHolder != null) {
 							examTypeHolder.addStyleName("cheat");
 						}
