@@ -289,11 +289,26 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
+	@Issue("APPS-5779")
+	public void segmentWithDragPreExisting() {
+		add("B=(2,-2)");
+		setMode(EuclidianConstants.MODE_SEGMENT);
+		click(0, 0);
+		dragStart(100, 100);
+		pointerRelease(200, 150);
+		checkContent("B = (4, -3)", "A = (0, 0)",  "f = 5");
+		events.clear();
+	}
+
+	@Test
 	public void segmentWithDrag() {
 		setMode(EuclidianConstants.MODE_SEGMENT);
 		dragStart(0, 0);
 		dragEnd(200, 150);
 		checkContent("A = (0, 0)", "B = (4, -3)", "f = 5");
+		dragStart(0, 0);
+		dragEnd(400, 300);
+		checkContent("A = (0, 0)", "B = (4, -3)", "f = 5", "C = (8, -6)", "g = 10");
 	}
 
 	@Test

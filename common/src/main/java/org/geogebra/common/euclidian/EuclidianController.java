@@ -9907,17 +9907,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				return;
 			}
 
-			wrapMouseReleasedND(event, true);
-
-			this.view.setHits(new GPoint(eventX, eventY),
-					event.getType());
-			Hits hits = view.getHits();
 			if (movedGeoPoint != null && movedGeoPoint != firstPoint) {
 				movedGeoPoint.setCoords(view.toRealWorldCoordX(eventX),
 						view.toRealWorldCoordY(eventY), 1);
 				movedGeoPoint.updateRepaint();
-				hits.add(movedGeoPoint.toGeoElement());
 			}
+			wrapMouseReleasedND(event, true);
+
+			this.view.setHits(new GPoint(eventX, eventY), event.getType());
+			Hits hits = view.getHits();
 			if (firstPoint != null && hits.getFirstHit(TestGeo.GEOPOINTND) == null) {
 				if (!getSelectedPointList().contains(firstPoint)) {
 					this.getSelectedPointList().add(firstPoint);
@@ -10279,6 +10277,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		movedGeoImplicitCurve = null;
 		movedGeoText = null;
 		movedGeoImage = null;
+		movedGeoPoint = null;
 	}
 
 	private void focusGroupElement(GeoElement geo) {

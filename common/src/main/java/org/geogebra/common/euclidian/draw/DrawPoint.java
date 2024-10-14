@@ -485,6 +485,9 @@ public final class DrawPoint extends SetDrawable {
 	 */
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
+		if (needsUpdate()) {
+			update();
+		}
 		int threshold = isPreview ? hitThreshold * 2 : hitThreshold;
 		int r = Math.max(pointSize,
 				getSelectionThreshold(threshold));
