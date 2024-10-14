@@ -46,8 +46,8 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 		 * {@code TableValuesContextMenuItem} and their item/type are equal,
 		 * {@code false} otherwise
 		 */
-		// TODO better name? Maybe rename Item -> Type, isItemOf -> isTypeOf,
-		public boolean isItemOf(ContextMenuItem contextMenuItem) {
+		// TODO better name? Maybe matches/is/isItemOf/isTypeOf/isSameAs/isSameTypeAs/...
+		public boolean isSameItemAs(ContextMenuItem contextMenuItem) {
 			return contextMenuItem instanceof TableValuesContextMenuItem
 					&& ((TableValuesContextMenuItem) contextMenuItem).getItem().equals(this);
 		}

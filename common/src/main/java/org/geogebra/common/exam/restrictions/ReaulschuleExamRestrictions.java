@@ -28,6 +28,6 @@ final class ReaulschuleExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
-		return Set.of(contextMenuItem -> !Regression.isItemOf(contextMenuItem));
+		return Set.of(contextMenuItem -> !Regression.isSameItemAs(contextMenuItem));
 	}
 }

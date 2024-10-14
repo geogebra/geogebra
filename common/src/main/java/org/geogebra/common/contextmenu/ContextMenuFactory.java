@@ -379,14 +379,14 @@ public final class ContextMenuFactory {
 		// Remove unnecessary separators once some of the items are potentially removed
 		return IntStream.range(0, filteredItems.size()).filter(index -> {
 			// Remove separators
-			if (Separator.isItemOf(filteredItems.get(index))) {
+			if (Separator.isSameItemAs(filteredItems.get(index))) {
 				// If they are the first/last in the list
 				if (index == 0 || index == filteredItems.size() - 1) {
 					return false;
 				}
 
 				// Or if there are multiple separators after each other
-				if (Separator.isItemOf(filteredItems.get(index + 1))) {
+				if (Separator.isSameItemAs(filteredItems.get(index + 1))) {
 					return false;
 				}
 			}
