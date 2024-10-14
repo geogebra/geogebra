@@ -346,14 +346,17 @@ import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
+import org.geogebra.common.kernel.commands.CmdCircle;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
@@ -373,7 +376,11 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				null,
 				createSyntaxFilter(),
 				createToolCollectionFilter(),
-				createDistributionPropertyRestriction());
+				Map.ofEntries(
+						createDistributionPropertyRestriction(),
+						createShowObjectPropertyRestriction()),
+				null
+		);
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
@@ -456,13 +463,16 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				MODE_MIRROR_AT_CIRCLE, MODE_FREEHAND_SHAPE, MODE_RELATION);
 	}
 
-	private static Map<String, PropertyRestriction> createDistributionPropertyRestriction() {
+	private static Map.Entry<String, PropertyRestriction> createDistributionPropertyRestriction() {
 		Set<ProbabilityCalculatorSettings.Dist> restrictedDistributions = Set.of(
 				EXPONENTIAL, CAUCHY, WEIBULL, GAMMA, BETA, LOGNORMAL, LOGISTIC, PASCAL
 		);
-		return Map.of("Distribution", new PropertyRestriction(false, value ->
-				!restrictedDistributions.contains(value)
-		));
+		return Map.entry("Distribution", new PropertyRestriction(false, value ->
+						!restrictedDistributions.contains(value)));
+	}
+
+	private static Map.Entry<String, PropertyRestriction> createShowObjectPropertyRestriction() {
+		return Map.entry("Show", new PropertyRestriction(false, null));
 	}
 
 	private static class IBExamCommandFilter extends BaseCommandArgumentFilter {

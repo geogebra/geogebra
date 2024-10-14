@@ -26,6 +26,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 
 /**
  * Represents restrictions that apply during exams.
@@ -34,7 +35,7 @@ import org.geogebra.common.properties.Property;
  * of this class.
  * Restrictions that apply to all exam types should be implemented in this class
  * (in {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,
- * Localization, Settings, AutocompleteProvider, ToolsProvider)}).
+ * Localization, Settings, AutocompleteProvider, ToolsProvider, GeoElementPropertiesFactory)}).
  * <p/>
  * Any restrictions to be applied during exams should be implemented in here (so that
  * everything is one place):
@@ -63,6 +64,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final SyntaxFilter syntaxFilter;
 	private final ToolCollectionFilter toolsFilter;
 	private final Map<String, PropertyRestriction> propertyRestrictions;
+	private final Set<Property.Filter> propertyFilters;
 
 	/**
 	 * Factory for ExamRestrictions.
@@ -114,7 +116,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * @param propertyRestrictions An optional map of properties and restrictions
 	 * to be applied to them during the exam.
 	 */
-	protected ExamRestrictions(@Nonnull ExamType examType,
+	protected ExamRestrictions(
+			@Nonnull ExamType examType,
 			@Nullable Set<SuiteSubApp> disabledSubApps,
 			@Nullable SuiteSubApp defaultSubApp,
 			@Nullable Set<ExamFeatureRestriction> featureRestrictions,
@@ -125,7 +128,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Set<Operation> filteredOperations,
 			@Nullable SyntaxFilter syntaxFilter,
 			@Nullable ToolCollectionFilter toolsFilter,
-			@Nullable Map<String, PropertyRestriction> propertyRestrictions) {
+			@Nullable Map<String, PropertyRestriction> propertyRestrictions,
+			@Nullable Set<Property.Filter> propertyFilters) {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
@@ -142,6 +146,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.toolsFilter = toolsFilter != null ? toolsFilter
 				: new ToolCollectionSetFilter(EuclidianConstants.MODE_IMAGE);
 		this.propertyRestrictions = propertyRestrictions != null ? propertyRestrictions : Map.of();
+		this.propertyFilters = propertyFilters != null ? propertyFilters : Set.of();
 	}
 
 	/**
@@ -178,14 +183,16 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	/**
 	 * Apply the exam restrictions.
 	 */
-	public void applyTo(@Nullable CommandDispatcher commandDispatcher,
+	public void applyTo(
+			@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
 			@Nullable Object context,
 			@Nullable Localization localization,
 			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
-			@Nullable ToolsProvider toolsProvider) {
+			@Nullable ToolsProvider toolsProvider,
+			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.addCommandFilter(commandFilter);
@@ -226,21 +233,28 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		if (toolsProvider != null && toolsFilter != null) {
 			toolsProvider.addToolsFilter(toolsFilter);
 		}
+		if (geoElementPropertiesFactory != null) {
+			for (Property.Filter propertyFilter : propertyFilters) {
+				geoElementPropertiesFactory.addFilter(propertyFilter);
+			}
+		}
 	}
 
 	/**
 	 * Remove the exam restrictions (i.e., undo the changes from
 	 * {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,
-	 * Localization, Settings, AutocompleteProvider, ToolsProvider)} ).
+	 * Localization, Settings, AutocompleteProvider, ToolsProvider, GeoElementPropertiesFactory)}).
 	 */
-	public void removeFrom(@Nullable CommandDispatcher commandDispatcher,
+	public void removeFrom(
+			@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
 			@Nullable Object context,
 			@Nullable Localization localization,
 			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
-			@Nullable ToolsProvider toolsProvider) {
+			@Nullable ToolsProvider toolsProvider,
+			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.removeCommandFilter(commandFilter);
@@ -280,6 +294,11 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		}
 		if (toolsProvider != null && toolsFilter != null) {
 			toolsProvider.removeToolsFilter(toolsFilter);
+		}
+		if (geoElementPropertiesFactory != null) {
+			for (Property.Filter propertyFilter : propertyFilters) {
+				geoElementPropertiesFactory.removeFilter(propertyFilter);
+			}
 		}
 	}
 

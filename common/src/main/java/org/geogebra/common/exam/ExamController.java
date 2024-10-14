@@ -27,6 +27,7 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.NonOwning;
 import org.geogebra.common.properties.PropertiesRegistry;
+import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.util.TimeFormatAdapter;
 
 import com.google.j2objc.annotations.Weak;
@@ -71,6 +72,9 @@ public final class ExamController {
 	@NonOwning
 	private PropertiesRegistry propertiesRegistry;
 
+	@NonOwning
+	private GeoElementPropertiesFactory geoElementPropertiesFactory;
+
 	private Set<ExamRestrictable> restrictables = new HashSet<>();
 	private ContextDependencies activeDependencies;
 
@@ -93,8 +97,10 @@ public final class ExamController {
 	 * @param propertiesRegistry The properties registry.
 	 * @implNote The ExamController will register itself as a listener on the properties registry.
 	 */
-	public ExamController(@Nonnull PropertiesRegistry propertiesRegistry) {
+	public ExamController(@Nonnull PropertiesRegistry propertiesRegistry,
+						  @Nonnull GeoElementPropertiesFactory geoElementPropertiesFactory) {
 		this.propertiesRegistry = propertiesRegistry;
+		this.geoElementPropertiesFactory = geoElementPropertiesFactory;
 	}
 
 	/**
@@ -501,7 +507,8 @@ public final class ExamController {
 					dependencies.localization,
 					dependencies.settings,
 					dependencies.autoCompleteProvider,
-					dependencies.toolsProvider);
+					dependencies.toolsProvider,
+					geoElementPropertiesFactory);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.addCommandFilter(noCASFilter);
 			}
@@ -520,7 +527,8 @@ public final class ExamController {
 					dependencies.localization,
 					dependencies.settings,
 					dependencies.autoCompleteProvider,
-					dependencies.toolsProvider);
+					dependencies.toolsProvider,
+					geoElementPropertiesFactory);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.removeCommandFilter(noCASFilter);
 			}

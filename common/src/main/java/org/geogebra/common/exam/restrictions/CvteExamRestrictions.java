@@ -27,6 +27,9 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.PropertiesRegistry;
+import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
+import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 
 final class CvteExamRestrictions extends ExamRestrictions {
 
@@ -45,18 +48,21 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				getFilteredOperations(),
 				createSyntaxFilter(),
 				createToolsFilter(),
-				null);
+				null,
+				createPropertyFilters());
 	}
 
 	@Override
-	public void applyTo(@Nullable CommandDispatcher commandDispatcher,
+	public void applyTo(
+			@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
 			@Nullable Object context,
 			@Nullable Localization localization,
 			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
-			@Nullable ToolsProvider toolsProvider) {
+			@Nullable ToolsProvider toolsProvider,
+			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory) {
 		if (settings != null) {
 			casEnabled = settings.getCasSettings().isEnabled();
 			// Note: The effect we want to acchieve here is disable the symbolic versions of the
@@ -70,20 +76,24 @@ final class CvteExamRestrictions extends ExamRestrictions {
 			settings.getCasSettings().setEnabled(false);
 		}
 		super.applyTo(commandDispatcher, algebraProcessor, propertiesRegistry, context,
-				localization, settings, autoCompleteProvider, toolsProvider);
+				localization, settings, autoCompleteProvider, toolsProvider,
+				geoElementPropertiesFactory);
 	}
 
 	@Override
-	public void removeFrom(@Nullable CommandDispatcher commandDispatcher,
+	public void removeFrom(
+			@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
 			@Nullable Object context,
 			@Nullable Localization localization,
 			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
-			@Nullable ToolsProvider toolsProvider) {
+			@Nullable ToolsProvider toolsProvider,
+			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory) {
 		super.removeFrom(commandDispatcher, algebraProcessor, propertiesRegistry, context,
-				localization, settings, autoCompleteProvider, toolsProvider);
+				localization, settings, autoCompleteProvider, toolsProvider,
+				geoElementPropertiesFactory);
 		if (settings != null) {
 			settings.getCasSettings().setEnabled(casEnabled);
 		}
@@ -225,5 +235,9 @@ final class CvteExamRestrictions extends ExamRestrictions {
 
 	private static Set<ExpressionFilter> createOutputExpressionFilters() {
 		return Set.of(new MatrixExpressionFilter());
+	}
+
+	private static Set<Property.Filter> createPropertyFilters() {
+		return Set.of(property -> !(property instanceof ShowObjectProperty));
 	}
 }

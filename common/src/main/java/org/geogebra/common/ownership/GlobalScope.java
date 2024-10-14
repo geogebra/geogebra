@@ -2,6 +2,7 @@ package org.geogebra.common.ownership;
 
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.properties.PropertiesRegistry;
+import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -23,8 +24,11 @@ public final class GlobalScope {
 
 	public static final PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
 
+	public static final GeoElementPropertiesFactory geoElementPropertiesFactory =
+			new GeoElementPropertiesFactory();
+
 	// intentionally assignable (for testing)
-	public static ExamController examController = new ExamController(propertiesRegistry);
+	public static ExamController examController = new ExamController(propertiesRegistry, geoElementPropertiesFactory);
 
 	/**
 	 * Prevent instantiation.
