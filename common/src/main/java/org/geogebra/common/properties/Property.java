@@ -6,10 +6,6 @@ import javax.annotation.Nonnull;
  * A settings property of the GeoGebra App.
  */
 public interface Property {
-    interface Filter {
-        boolean isAllowed(Property property);
-    }
-
     /**
      * Returns the localized name of the property.
      *

@@ -23,6 +23,7 @@ import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.properties.GeoElementPropertyFilter;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
@@ -64,7 +65,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final SyntaxFilter syntaxFilter;
 	private final ToolCollectionFilter toolsFilter;
 	private final Map<String, PropertyRestriction> propertyRestrictions;
-	private final Set<Property.Filter> propertyFilters;
+	private final Set<GeoElementPropertyFilter> geoElementPropertyFilters;
 
 	/**
 	 * Factory for ExamRestrictions.
@@ -129,7 +130,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable SyntaxFilter syntaxFilter,
 			@Nullable ToolCollectionFilter toolsFilter,
 			@Nullable Map<String, PropertyRestriction> propertyRestrictions,
-			@Nullable Set<Property.Filter> propertyFilters) {
+			@Nullable Set<GeoElementPropertyFilter> geoElementPropertyFilters) {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
@@ -146,7 +147,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.toolsFilter = toolsFilter != null ? toolsFilter
 				: new ToolCollectionSetFilter(EuclidianConstants.MODE_IMAGE);
 		this.propertyRestrictions = propertyRestrictions != null ? propertyRestrictions : Map.of();
-		this.propertyFilters = propertyFilters != null ? propertyFilters : Set.of();
+		this.geoElementPropertyFilters = geoElementPropertyFilters != null ? geoElementPropertyFilters : Set.of();
 	}
 
 	/**
@@ -234,8 +235,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			toolsProvider.addToolsFilter(toolsFilter);
 		}
 		if (geoElementPropertiesFactory != null) {
-			for (Property.Filter propertyFilter : propertyFilters) {
-				geoElementPropertiesFactory.addFilter(propertyFilter);
+			for (GeoElementPropertyFilter geoElementPropertyFilter : geoElementPropertyFilters) {
+				geoElementPropertiesFactory.addFilter(geoElementPropertyFilter);
 			}
 		}
 	}
@@ -296,8 +297,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			toolsProvider.removeToolsFilter(toolsFilter);
 		}
 		if (geoElementPropertiesFactory != null) {
-			for (Property.Filter propertyFilter : propertyFilters) {
-				geoElementPropertiesFactory.removeFilter(propertyFilter);
+			for (GeoElementPropertyFilter geoElementPropertyFilter : geoElementPropertyFilters) {
+				geoElementPropertiesFactory.removeFilter(geoElementPropertyFilter);
 			}
 		}
 	}
