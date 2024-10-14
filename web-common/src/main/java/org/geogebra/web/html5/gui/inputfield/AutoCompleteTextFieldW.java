@@ -179,7 +179,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 *
 	 */
 	public AutoCompleteTextFieldW(int columns, App app) {
-		this(columns, (AppW) app, true, null, false);
+		this(columns, (AppW) app, true, null);
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 */
 	public AutoCompleteTextFieldW(int columns, App app,
 			Drawable drawTextField) {
-		this(columns, (AppW) app, true, null, false);
+		this(columns, (AppW) app, true, null);
 		this.drawTextField = (DrawInputBox) drawTextField;
 		addStyleName("FromDrawTextFieldNew");
 	}
@@ -210,12 +210,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 *            whether escape key should be handled
 	 * @param keyHandler
 	 *            key handler
-	 * @param forCAS
-	 *            whether to use CAS autocompletion
 	 */
 	public AutoCompleteTextFieldW(int columns, final AppW app,
-			boolean handleEscapeKey, KeyEventsHandler keyHandler,
-			boolean forCAS) {
+			boolean handleEscapeKey, KeyEventsHandler keyHandler) {
 		this.app = app;
 		this.loc = app.getLocalization();
 		setAutoComplete(true);
@@ -224,7 +221,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		historyIndex = 0;
 		history = new ArrayList<>(50);
-		inputSuggestions = new AutocompleteProviderClassic(app, forCAS);
+		inputSuggestions = new AutocompleteProviderClassic(app);
 
 		addStyleName("AutoCompleteTextFieldW");
 		main.addStyleName("fieldContainer");
@@ -532,11 +529,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	public int removeDummyCursor() {
 		textFieldController.removeCursor();
 		return getCaretPosition();
-	}
-
-	@Override
-	public void setDictionary(boolean forCAS) {
-		inputSuggestions.setDictionary(forCAS);
 	}
 
 	/**

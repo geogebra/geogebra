@@ -6,12 +6,16 @@ import static org.geogebra.common.GeoGebraConstants.GEOMETRY_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.PROBABILITY_APPCODE;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
-import org.geogebra.common.main.exam.restriction.FeatureRestriction;
 
 public enum ExamType {
 
@@ -41,28 +45,6 @@ public enum ExamType {
 		}
 	},
 
-	REALSCHULE() {
-		@Override
-		public String getDisplayName(Localization loc, AppConfig config) {
-			return "Bayern Realschulrechner";
-		}
-
-		@Override
-		public String getShortDisplayName(Localization loc, AppConfig config) {
-			return "Realschule";
-		}
-
-		@Override
-		public void applyRestrictions(ExamRestrictionModel model) {
-			// deprecated, will be removed
-		}
-
-		@Override
-		public void setDefaultSubAppCode(ExamRestrictionModel model) {
-			// deprecated, will be removed
-		}
-	},
-
 	CVTE() {
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
@@ -85,7 +67,30 @@ public enum ExamType {
 		}
 	},
 
+	REALSCHULE() {
+		@Override
+		public String getDisplayName(Localization loc, AppConfig config) {
+			return "Bayern Realschulrechner";
+		}
+
+		@Override
+		public String getShortDisplayName(Localization loc, AppConfig config) {
+			return "Realschule";
+		}
+
+		@Override
+		public void applyRestrictions(ExamRestrictionModel model) {
+			// deprecated, will be removed
+		}
+
+		@Override
+		public void setDefaultSubAppCode(ExamRestrictionModel model) {
+			// deprecated, will be removed
+		}
+	},
+
 	MMS() {
+
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
 			return "Deutschland IQB MMS Abitur";
@@ -98,14 +103,12 @@ public enum ExamType {
 
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
-			model.setRestrictedSubAppCodes(GRAPHING_APPCODE, GEOMETRY_APPCODE, G3D_APPCODE);
-			model.setCommandFilter(CommandFilterFactory.createMmsFilter());
-			model.setFeatureRestrictions(FeatureRestriction.DATA_TABLE_REGRESSION);
+			// deprecated, will be removed
 		}
 
 		@Override
 		public void setDefaultSubAppCode(ExamRestrictionModel model) {
-			model.setDefaultAppCode(CAS_APPCODE);
+			// deprecated, will be removed
 		}
 	},
 
@@ -228,4 +231,28 @@ public enum ExamType {
 
 	@Deprecated
 	public abstract void setDefaultSubAppCode(ExamRestrictionModel model);
+
+	/**
+	 * List of exam types sorted by localized names (except GENERIC goes first)
+	 * @param loc localization
+	 * @param config app config
+	 * @return available types
+	 */
+	public static List<ExamType> getAvailableValues(Localization loc, AppConfig config) {
+		Comparator<ExamType> genericFirst = Comparator.comparing(type -> !GENERIC.equals(type));
+		return Arrays.stream(values()).filter(ExamType::isAvailable)
+				.sorted(genericFirst.thenComparing(type -> type.getDisplayName(loc, config)))
+				.collect(Collectors.toList());
+	}
+
+	private boolean isAvailable() {
+		switch (this) {
+		case CVTE:
+		case MMS:
+		case IB:
+		case REALSCHULE:
+			return false; // TODO feature flag goes here
+		default: return true;
+		}
+	}
 }

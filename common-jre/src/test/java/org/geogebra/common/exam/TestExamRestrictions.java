@@ -39,6 +39,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 				null,
 				createCommandFilters(),
 				createCommandArgumentFilter(),
+				null,
 				createSyntaxFilter(),
 				createToolCollectionFilter(),
 				createPropertyRestrictions());

@@ -72,10 +72,10 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 */
 	public static ExamRestrictions forExamType(ExamType examType) {
 		switch (examType) {
-		case CVTE:
-			return new CvteExamRestrictions();
 		case BAYERN_CAS:
 			return new BayernCasExamRestrictions();
+		case CVTE:
+			return new CvteExamRestrictions();
 		case IB:
 			return new IBExamRestrictions();
 		case NIEDERSACHSEN:
@@ -84,6 +84,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			return new ReaulschuleExamRestrictions();
 		case VLAANDEREN:
 			return new VlaanderenExamRestrictions();
+		case MMS:
+			return new MmsExamRestrictions();
 		default:
 			return new GenericExamRestrictions();
 		}
@@ -140,31 +142,6 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.toolsFilter = toolsFilter != null ? toolsFilter
 				: new ToolCollectionSetFilter(EuclidianConstants.MODE_IMAGE);
 		this.propertyRestrictions = propertyRestrictions != null ? propertyRestrictions : Map.of();
-	}
-
-	protected ExamRestrictions(@Nonnull ExamType examType,
-			@Nullable Set<SuiteSubApp> disabledSubApps,
-			@Nullable SuiteSubApp defaultSubApp,
-			@Nullable Set<ExamFeatureRestriction> featureRestrictions,
-			@Nullable Set<ExpressionFilter> inputExpressionFilters,
-			@Nullable Set<ExpressionFilter> outputExpressionFilters,
-			@Nullable Set<CommandFilter> commandFilters,
-			@Nullable Set<CommandArgumentFilter> commandArgumentFilters,
-			@Nullable SyntaxFilter syntaxFilter,
-			@Nullable ToolCollectionFilter toolsFilter,
-			@Nullable Map<String, PropertyRestriction> propertyRestrictions) {
-		this(examType,
-				disabledSubApps,
-				defaultSubApp,
-				featureRestrictions,
-				inputExpressionFilters,
-				outputExpressionFilters,
-				commandFilters,
-				commandArgumentFilters,
-				null,
-				syntaxFilter,
-				toolsFilter,
-				propertyRestrictions);
 	}
 
 	/**

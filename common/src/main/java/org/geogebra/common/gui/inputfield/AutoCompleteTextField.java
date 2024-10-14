@@ -40,8 +40,6 @@ public interface AutoCompleteTextField
 
 	void setCaretPosition(int caretPos);
 
-	void setDictionary(boolean forCAS);
-
 	void setUsedForInputBox(GeoInputBox geoTextField);
 
 	boolean hasFocus();

@@ -31,17 +31,17 @@ public class AutocompleteProvider {
 	@Weak
 	@Nonnull
 	private final App app;
-	private final boolean forCAS;
+	private final boolean isForClassicCAS;
 	private LocalizedCommandSyntax englishCommandSyntax;
 	private @CheckForNull Set<Operation> filteredOperations;
 
 	/**
 	 * @param app application
-	 * @param forCAS whether this is for the classic CAS
+	 * @param isForClassicCAS whether this is for the classic CAS
 	 */
-	public AutocompleteProvider(@Nonnull App app, boolean forCAS) {
+	public AutocompleteProvider(@Nonnull App app, boolean isForClassicCAS) {
 		this.app = app;
-		this.forCAS = forCAS;
+		this.isForClassicCAS = isForClassicCAS;
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class AutocompleteProvider {
 		if (syntaxString.endsWith(Localization.syntaxCAS)
 				|| syntaxString.endsWith(Localization.syntaxStr)) {
 			// command not found, check for macros
-			Macro macro = forCAS ? null
+			Macro macro = isCas() ? null
 					: app.getKernel().getMacro(internalCommandName);
 			if (macro != null) {
 				return macro.toString();
@@ -201,7 +201,7 @@ public class AutocompleteProvider {
 	}
 
 	private boolean isCas() {
-		return forCAS || app.getConfig().getVersion() == GeoGebraConstants.Version.CAS;
+		return isForClassicCAS || app.getConfig().getVersion() == GeoGebraConstants.Version.CAS;
 	}
 
 	private LowerCaseDictionary getCommandDictionary() {

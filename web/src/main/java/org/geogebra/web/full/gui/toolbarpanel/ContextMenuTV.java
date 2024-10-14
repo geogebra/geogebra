@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.gui.view.table.RegressionSpecification;
 import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValuesPoints;
@@ -15,7 +16,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.exam.restriction.FeatureRestriction;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -126,7 +126,8 @@ public class ContextMenuTV {
 		addStats(getStatisticsTitleHTML("x " + headerHTMLName),
 				view::getStatistics2Var, twoVarStat, "StatsDialog.NoDataMsg2VarStats");
 
-		if (!app.doesRestrictionApply(FeatureRestriction.DATA_TABLE_REGRESSION)) {
+		if (!GlobalScope.examController
+				.isFeatureRestricted(ExamFeatureRestriction.DATA_TABLE_REGRESSION)) {
 			DialogData regressionData = new DialogData("Regression",
 					getColumnTitleHTML(headerHTMLName), "Close", "Plot");
 			addCommand(() -> showRegression(regressionData), "Regression",

@@ -5,6 +5,7 @@ import java.util.Objects;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.popup.autocompletion.InputSuggestions;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
@@ -285,7 +286,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 
 	private AutoCompletePopup getInputSuggestions() {
 		if (sug == null) {
-			sug = new AutoCompletePopup(app, true, this);
+			sug = new AutoCompletePopup(app, new AutocompleteProvider(app, true), this);
 		}
 		return sug;
 	}

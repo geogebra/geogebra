@@ -12,7 +12,6 @@ import static org.geogebra.common.exam.ExamType.CHOOSE;
 import static org.geogebra.common.gui.Layout.findDockPanelData;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -71,6 +70,7 @@ import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.main.undo.UndoHistory;
@@ -261,6 +261,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private OpenSearch search;
 	private CsvImportHandler csvImportHandler;
 	private final ExamController examController = GlobalScope.examController;
+	private AutocompleteProvider autocompleteProvider;
 
 	/**
 	 * @param geoGebraElement GeoGebra element
@@ -343,7 +344,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @return list of supported mode IDs
 	 */
 	private String getSupportedExamModes(String appCode) {
-		return Stream.concat(Stream.of(appCode, CHOOSE), Arrays.stream(ExamType.values())
+		List<ExamType> examTypes = ExamType.getAvailableValues(getLocalization(), getConfig());
+		return Stream.concat(Stream.of(appCode, CHOOSE), examTypes.stream()
 						.filter(r -> r != ExamType.GENERIC)
 						.map(r -> r.name().toLowerCase(Locale.ROOT)))
 				.collect(Collectors.joining(", "));
@@ -2344,7 +2346,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				getKernel().getAlgebraProcessor(),
 				getLocalization(),
 				getSettings(),
-				null, // TODO inject AutoCompleteProvider
+				getAutocompleteProvider(),
 				this);
 		examController.registerRestrictable(this);
 		examController.setDelegate(new ExamControllerDelegateW(this));
@@ -2598,5 +2600,15 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	public Command getCsvHandler() {
 		return getCsvImportHandler().getCsvHandler();
+	}
+
+	/**
+	 * @return autocomplete provider for AV and classic input bar
+	 */
+	public AutocompleteProvider getAutocompleteProvider() {
+		if (autocompleteProvider == null) {
+			autocompleteProvider = new AutocompleteProvider(this, false);
+		}
+		return autocompleteProvider;
 	}
 }
