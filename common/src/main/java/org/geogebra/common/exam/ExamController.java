@@ -1,7 +1,9 @@
 package org.geogebra.common.exam;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -72,7 +74,10 @@ public final class ExamController {
 	private PropertiesRegistry propertiesRegistry;
 
 	private Set<ExamRestrictable> restrictables = new HashSet<>();
+	/** this is only for the mobile use case (1 Suite app instance) */
 	private ContextDependencies activeDependencies;
+	/** this is only for the Web use case (multiple Suite app instances) */
+	private List<ContextDependencies> registeredDependencies;
 
 	private ExamType examType;
 	private ExamRestrictions examRestrictions;
@@ -108,6 +113,21 @@ public final class ExamController {
 	}
 
 	/**
+	 * Register multiple app contexts (Web use case).
+	 *
+	 * @param contextDependencies A list of {@link ContextDependencies} representing multiple
+	 * concurrently active apps (Web use case).
+	 * @apiNote This method is intended for the Web use case, and must be called once on app
+	 * initialization, before any attempts to start an exam.
+	 */
+	public void registerContexts(List<ContextDependencies> contextDependencies) {
+		if (activeDependencies != null) {
+			throw new IllegalStateException("registerContexts() must not be mixed with calls to setActiveContext()");
+		}
+		registeredDependencies = contextDependencies;
+	}
+
+	/**
 	 * Set the active context and associated dependencies.
 	 * <p/>
 	 * The context can be <i>any object</i>, but it should correspond to or identify the current
@@ -119,6 +139,8 @@ public final class ExamController {
 	 * This method needs to be called before an exam starts, and also when the active app
 	 * changes during an exam, so what we can remove the restrictions on the current dependencies,
 	 * and apply the restrictions on the new dependencies.
+	 * @apiNote This method is intended for the mobile use case, and must not be mixed with
+	 * calls to {@link #registerContexts(List)}.
 	 */
 	public void setActiveContext(@Nonnull Object context,
 			@Nonnull CommandDispatcher commandDispatcher,
@@ -127,6 +149,9 @@ public final class ExamController {
 			@Nonnull Settings settings,
 			@CheckForNull AutocompleteProvider autocompleteProvider,
 			@CheckForNull ToolsProvider toolsProvider) {
+		if (registeredDependencies != null) {
+			throw new IllegalStateException("setActiveContext() must not be mixed with calls to registerContexts()");
+		}
 		// remove restrictions for current dependencies, if exam is active
 		if (examRestrictions != null && activeDependencies != null) {
 			removeRestrictionsFromContextDependencies(activeDependencies);
@@ -385,9 +410,9 @@ public final class ExamController {
 			throw new IllegalStateException("expected to be in IDLE or PREPARING state, "
 					+ "but is " + state);
 		}
-		if (activeDependencies == null) {
-			throw new IllegalStateException("no active context; "
-					+ "call setActiveContext() before attempting to start the exam");
+		if (activeDependencies == null && registeredDependencies == null) {
+			throw new IllegalStateException("no active context(s); "
+					+ "call setActiveContext() or registerContexts() before attempting to start the exam");
 		}
 		this.examType = examType;
 		this.options = options;
@@ -395,7 +420,11 @@ public final class ExamController {
 			examRestrictions = ExamRestrictions.forExamType(examType);
 		}
 		propertiesRegistry.addListener(examRestrictions);
-		applyRestrictionsToContextDependencies(activeDependencies);
+		if (activeDependencies != null) {
+			applyRestrictionsToContextDependencies(activeDependencies);
+		} else if (registeredDependencies != null) {
+			registeredDependencies.forEach(this::applyRestrictionsToContextDependencies);
+		}
 		applyRestrictionsToRestrictables();
 
 		if (delegate != null) {
@@ -440,7 +469,11 @@ public final class ExamController {
 		}
 		propertiesRegistry.removeListener(examRestrictions);
 		removeRestrictionsFromRestrictables();
-		removeRestrictionsFromContextDependencies(activeDependencies);
+		if (activeDependencies != null) {
+			removeRestrictionsFromContextDependencies(activeDependencies);
+		} else if (registeredDependencies != null) {
+			registeredDependencies.forEach(this::removeRestrictionsFromContextDependencies);
+		}
 		tempStorage.clearTempMaterials();
 		if (delegate != null) {
 			delegate.examClearClipboard();
@@ -482,7 +515,9 @@ public final class ExamController {
 		if (examRestrictions == null) {
 			return; // log/throw?
 		}
-		if (delegate != null) {
+		if (delegate != null && activeDependencies != null) {
+			// switching away from restricted subapp only possible in mobile use case;
+			// in Web, there may be several Suite intances, so there's no "current subapp"
 			SuiteSubApp currentSubApp = delegate.examGetCurrentSubApp();
 			Set<SuiteSubApp> disabledSubApps = examRestrictions.getDisabledSubApps();
 			if (currentSubApp == null
