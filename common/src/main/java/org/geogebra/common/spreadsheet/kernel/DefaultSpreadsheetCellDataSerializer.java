@@ -1,7 +1,6 @@
 package org.geogebra.common.spreadsheet.kernel;
 
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.commands.Commands;
@@ -35,7 +34,7 @@ public final class DefaultSpreadsheetCellDataSerializer implements SpreadsheetCe
 		}
 		String redefineString = geo.getRedefineString(true, false,
 				StringTemplate.editorTemplate);
-		return geo.isGeoText() && !(parentAlgorithm instanceof AlgoDependentText)
+		return geo.isGeoText() && parentAlgorithm == null
 				? redefineString
 				: "=" + redefineString;
 	}

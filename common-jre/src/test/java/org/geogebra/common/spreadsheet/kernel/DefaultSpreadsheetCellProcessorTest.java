@@ -246,5 +246,7 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		assertSerializedAs("=$A1", "B3");
 		processor.process("=$A$1", "B4");
 		assertSerializedAs("=$A$1", "B4");
+		processor.process("=First(A1,3)", "B5");
+		assertSerializedAs("=First(A1,3)", "B5");
 	}
 }
