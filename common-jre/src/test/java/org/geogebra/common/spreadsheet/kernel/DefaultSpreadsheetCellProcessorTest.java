@@ -101,7 +101,7 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	@Test
 	public void testSerializeText() {
 		processor.process("(1, 1)", "A1");
-		assertSerializedAs("(1, 1)");
+		assertSerializedAs("(1, 1)", "A1");
 		assertIsAuxiliary();
 		assertIsEuclidianInvisible();
 	}
@@ -109,7 +109,7 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	@Test
 	public void testSerializePoint() {
 		processor.process("=(1,1)", "A1");
-		assertSerializedAs("=(1,1)");
+		assertSerializedAs("=(1,1)", "A1");
 		assertIsAuxiliary();
 		assertIsEuclidianInvisible();
 	}
@@ -117,14 +117,14 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	@Test
 	public void testSerializeComputation() {
 		processor.process("=1+ 2", "A1");
-		assertSerializedAs("=1+2");
+		assertSerializedAs("=1+2", "A1");
 		assertIsAuxiliary();
 		assertIsEuclidianInvisible();
 	}
 
-	private void assertSerializedAs(String value) {
+	private void assertSerializedAs(String value, String cellName) {
 		assertEquals("The values do not match!", value,
-				serializer.getStringForEditor(lookup("A1")));
+				serializer.getStringForEditor(lookup(cellName)));
 	}
 
 	private void assertIsAuxiliary() {
@@ -235,5 +235,18 @@ public class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	private GetCommand getCommand(GeoElement a1) {
 		return a1.getParentAlgorithm() == null ? null
 				: a1.getParentAlgorithm().getClassName();
+	}
+
+	@Test
+	public void handleTextReferences() {
+		add("A1=\"foobar\"");
+		processor.process("=A1", "B2");
+		assertSerializedAs("=A1", "B2");
+		processor.process("=$A1", "B3");
+		assertSerializedAs("=$A1", "B3");
+		processor.process("=$A$1", "B4");
+		assertSerializedAs("=$A$1", "B4");
+		processor.process("=First(A1,3)", "B5");
+		assertSerializedAs("=First(A1,3)", "B5");
 	}
 }

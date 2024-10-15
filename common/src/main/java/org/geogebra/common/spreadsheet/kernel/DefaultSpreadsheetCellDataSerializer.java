@@ -34,6 +34,8 @@ public final class DefaultSpreadsheetCellDataSerializer implements SpreadsheetCe
 		}
 		String redefineString = geo.getRedefineString(true, false,
 				StringTemplate.editorTemplate);
-		return geo.isGeoText() ? redefineString : "=" + redefineString;
+		return geo.isGeoText() && parentAlgorithm == null
+				? redefineString
+				: "=" + redefineString;
 	}
 }
