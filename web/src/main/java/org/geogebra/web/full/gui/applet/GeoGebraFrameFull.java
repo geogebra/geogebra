@@ -996,9 +996,7 @@ public class GeoGebraFrameFull
 		ggwToolBar = null;
 		ggwMenuBar = null;
 		showKeyboardButton = null;
-		if (getApp().getExamEventBus() != null) {
-			GlobalScope.examController.removeListener(getApp().getExamEventBus());
-		}
+		GlobalScope.examController.removeListener(getApp().getExamEventBus());
 		AlgebraView algebraView = app.getAlgebraView();
 		if (algebraView != null) {
 			GlobalScope.examController.unregisterRestrictable(

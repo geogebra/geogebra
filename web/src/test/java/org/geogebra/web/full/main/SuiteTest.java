@@ -24,7 +24,7 @@ public class SuiteTest {
 	public void examMode() {
 		app = AppMocker.mockApplet(new AppletParameters("suite"));
 		GlobalHeader.INSTANCE.setApp(app);
-		app.startExam(ExamType.GENERIC);
+		app.startExam(ExamType.GENERIC, null);
 		app.switchToSubapp("geometry");
 		GlobalScope.examController.finishExam();
 		app.endExam();

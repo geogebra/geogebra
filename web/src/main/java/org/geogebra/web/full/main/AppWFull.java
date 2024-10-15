@@ -341,13 +341,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						+ "\n Supported exam modes: " + supportedModes);
 				appletParameters.setAttribute("examMode", "");
 			}
-		} else if (!StringUtil.empty(appletParameters.getParamExamMode())) {
+		} else {
 			ExamType examType = ExamType.byName(appletParameters.getParamExamMode());
 			if (examType != null) {
-				initExamRestrictions();
-				if (examController.getState() == ExamState.IDLE) {
-					examController.startExam(examType, null);
-				}
+				startExam(examType, null);
 			}
 		}
 	}
@@ -2358,12 +2355,16 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	/**
 	 * Starts the exam mode
-	 * @param region {@link ExamType}
+	 * @param examType {@link ExamType}
+	 * @param options exam options used for Classic
 	 */
-	public void startExam(ExamType region) {
-		initExamRestrictions();
+	public void startExam(ExamType examType, ExamOptions options) {
+		prepareExamController();
 
-		examController.startExam(region, null);
+		if (examController.getState() == ExamState.IDLE
+				|| examController.getState() == ExamState.PREPARING) {
+			examController.startExam(examType, options);
+		}
 		getLAF().toggleFullscreen(true);
 		if (guiManager != null) {
 			guiManager.resetBrowserGUI();
@@ -2372,18 +2373,16 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				guiManager.updateUnbundledToolbarStyle();
 				guiManager.resetMenu();
 				guiManager.updateUnbundledToolbarContent();
-				GlobalHeader.INSTANCE.addExamTimer();
-				new ExamUtil(this).addVisibilityAndBlurHandlers();
-				guiManager.initInfoBtnAction();
+				if (getAppletParameters().getDataParamApp()) {
+					new ExamUtil(this).addVisibilityAndBlurHandlers();
+					GlobalHeader.INSTANCE.addExamTimer();
+					guiManager.initInfoBtnAction();
+				}
 			}
 		}
 	}
 
-	/**
-	 * Prepare the app for exam. {@link ExamController#startExam(ExamType, ExamOptions)}
-	 * should be called afterward.
-	 */
-	public void initExamRestrictions() {
+	public void prepareExamController() {
 		examController.addActiveContext(this,
 				getKernel().getAlgebraProcessor().getCommandDispatcher(),
 				getKernel().getAlgebraProcessor(),
@@ -2644,7 +2643,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	/**
 	 * @return listener forwarding exam change events to other listeners
 	 */
-	public ExamEventBus getExamEventBus() {
+	public @Nonnull ExamEventBus getExamEventBus() {
 		if (this.examEventBus == null) {
 			examEventBus = new ExamEventBus();
 			examController.addListener(examEventBus);

@@ -11,6 +11,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.AppConfig;
@@ -209,11 +211,11 @@ public enum ExamType {
 	public static final String CHOOSE = "choose";
 
 	/**
-	 * Case-insensitive version of valueOf
+	 * Case-insensitive version of valueOf, returns null if name is invalid or null
 	 * @param shortName exam name
-	 * @return exam region
+	 * @return exam type or null
 	 */
-	public static ExamType byName(String shortName) {
+	public static ExamType byName(@Nullable String shortName) {
 		for (ExamType region: values()) {
 			if (region.name().equalsIgnoreCase(shortName)) {
 				return region;

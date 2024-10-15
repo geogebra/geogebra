@@ -117,8 +117,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		((LayoutW) app.getGuiManager().getLayout()).resetPerspectives(app);
 
 		app.getKernel().getAlgebraProcessor().reinitCommands();
-		((AppWFull) app).initExamRestrictions();
-		examController.startExam(ExamType.GENERIC,
+		((AppWFull) app).startExam(ExamType.GENERIC,
 				new ExamOptions(app.getSettings().getCasSettings().isEnabled()));
 
 		app.fireViewsChangedEvent();
