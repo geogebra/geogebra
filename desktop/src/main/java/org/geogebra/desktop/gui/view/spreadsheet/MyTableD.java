@@ -616,24 +616,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		}
 
-		// update the selection list
-
-		if (!app.getControlDown()) {
-			selectedRanges.clear();
-			selectedColumnSet.clear();
-			selectedRowSet.clear();
-			selectedRanges.add(0, newSelection);
-
-		} else { // ctrl-select
-			// handle dragging
-			if (selectedRanges.get(0).hasSameAnchor(newSelection)) {
-				selectedRanges.remove(0);
-			}
-
-			// add the selection to the list
-			selectedRanges.add(0, newSelection);
-		}
-
 		// update sets of selected rows/columns (used for rendering in the
 		// headers)
 		if (selectionType == SelectionType.COLUMNS) {
@@ -656,8 +638,23 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				- newSelection.getMinColumn() != 0
 				|| minSelectionRow - newSelection.getMinRow() != 0;
 
-		// update internal selection variables
+		// update selection list and internal variables
 		newSelection = CellRangeUtil.getActual(newSelection, app);
+		if (!app.getControlDown()) {
+			selectedRanges.clear();
+			selectedColumnSet.clear();
+			selectedRowSet.clear();
+			selectedRanges.add(0, newSelection);
+
+		} else { // ctrl-select
+			// handle dragging
+			if (selectedRanges.get(0).hasSameAnchor(newSelection)) {
+				selectedRanges.remove(0);
+			}
+
+			// add the selection to the list
+			selectedRanges.add(0, newSelection);
+		}
 		minSelectionColumn = newSelection.getMinColumn();
 		maxSelectionColumn = newSelection.getMaxColumn();
 		minSelectionRow = newSelection.getMinRow();

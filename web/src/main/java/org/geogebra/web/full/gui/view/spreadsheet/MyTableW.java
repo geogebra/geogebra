@@ -932,23 +932,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 					-1, -1);
 		}
 
-		// update the selection list
-
-		if (!GlobalKeyDispatcherW.getControlDown()) {
-			selectedRanges.clear();
-			selectedColumnSet.clear();
-			selectedRowSet.clear();
-			selectedRanges.add(0, newSelection);
-		} else { // ctrl-select
-			// handle dragging
-			if (!selectedRanges.isEmpty() && selectedRanges.get(0).hasSameAnchor(newSelection)) {
-				selectedRanges.remove(0);
-			}
-
-			// add the selection to the list
-			selectedRanges.add(0, newSelection);
-		}
-
 		// update sets of selected rows/columns (used for rendering in the
 		// headers)
 		if (selectionType == SelectionType.COLUMNS) {
@@ -965,8 +948,23 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			}
 		}
 
-		// update internal selection variables
+		// update the selection list and internal variables
 		newSelection = CellRangeUtil.getActual(newSelection, app);
+
+		if (!GlobalKeyDispatcherW.getControlDown()) {
+			selectedRanges.clear();
+			selectedColumnSet.clear();
+			selectedRowSet.clear();
+			selectedRanges.add(0, newSelection);
+		} else { // ctrl-select
+			// handle dragging
+			if (!selectedRanges.isEmpty() && selectedRanges.get(0).hasSameAnchor(newSelection)) {
+				selectedRanges.remove(0);
+			}
+			// add the selection to the list
+			selectedRanges.add(0, newSelection);
+		}
+
 		minSelectionRow = newSelection.getMinRow();
 		minSelectionColumn = newSelection.getMinColumn();
 		maxSelectionColumn = newSelection.getMaxColumn();
