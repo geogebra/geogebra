@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.test.TestEvent;
@@ -39,9 +40,10 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 
 	@Before
 	public void clearEvents() {
-		// TODO AlgebraTest.enableCAS(app, true);
 		events.clear();
 		getApp().setAppletFlag(false);
+		getApp().getSettings().getEuclidian(1)
+				.setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
 	}
 
 	/**
@@ -284,6 +286,19 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(0, 0);
 		dragStart(100, 100);
 		pointerRelease(200, 150);
+		checkContent("A = (0, 0)", "B = (4, -3)", "f = 5");
+		events.clear();
+	}
+
+	@Test
+	@Issue("APPS-5779")
+	public void segmentWithDrag3PointsFixed() {
+		getApp().getSettings().getEuclidian(1).setPointCapturing(
+				EuclidianStyleConstants.POINT_CAPTURING_ON_GRID);
+		setMode(EuclidianConstants.MODE_SEGMENT);
+		click(10, 10);
+		dragStart(110, 110);
+		pointerRelease(210, 160);
 		checkContent("A = (0, 0)", "B = (4, -3)", "f = 5");
 		events.clear();
 	}

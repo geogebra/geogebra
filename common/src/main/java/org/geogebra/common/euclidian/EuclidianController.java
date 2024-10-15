@@ -5642,11 +5642,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected void movePointWithOffset() {
-		movedGeoPoint.setCoords(
-				DoubleUtil.checkDecimalFraction(xRW - transformCoordsOffset[0]),
-				DoubleUtil.checkDecimalFraction(yRW - transformCoordsOffset[1]),
-				1.0);
+		movedGeoPoint.setCoords(getSnappedRealCoordX(), getSnappedRealCoordY(), 1.0);
 		movedGeoPoint.updateCascade();
+	}
+
+	private double getSnappedRealCoordY() {
+		return DoubleUtil.checkDecimalFraction(yRW - transformCoordsOffset[1]);
+	}
+
+	private double getSnappedRealCoordX() {
+		return DoubleUtil.checkDecimalFraction(xRW - transformCoordsOffset[0]);
 	}
 
 	protected void moveLine() {
@@ -9904,9 +9909,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 
 			if (movedGeoPoint != null && movedGeoPoint != firstPoint) {
-				movedGeoPoint.setCoords(view.toRealWorldCoordX(eventX),
-						view.toRealWorldCoordY(eventY), 1);
-				movedGeoPoint.updateRepaint();
+				setMouseLocation(event.isAltDown(), eventX, eventY);
+				transformCoords();
+				movePointWithOffset();
+				eventX = view.toScreenCoordX(getSnappedRealCoordX());
+				eventY = view.toScreenCoordY(getSnappedRealCoordY());
 			}
 			wrapMouseReleasedND(event, true);
 
