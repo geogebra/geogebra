@@ -518,7 +518,9 @@ public class DialogManagerW extends DialogManager
 		}
 
 		// show the view
-		if (app.isUnbundledOrWhiteboard()) {
+		if (app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC) {
+			((GuiManagerW) app.getGuiManager()).showSciSettingsView();
+		} else if (app.isUnbundledOrWhiteboard()) {
 			((PropertiesViewW) pv).open();
 		} else {
 			app.getGuiManager().setShowView(true,
