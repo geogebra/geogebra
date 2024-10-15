@@ -169,7 +169,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 
 	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
 		return Set.of(contextMenuItem -> Set.of(Statistics1, Statistics2, Regression).stream()
-				.anyMatch(item -> item.isSameItemAs(contextMenuItem)));
+				.noneMatch(item -> item.isSameItemAs(contextMenuItem)));
 	}
 
 	private static ToolCollectionFilter createToolsFilter() {
