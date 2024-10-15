@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -87,24 +88,48 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 
 	@Test
 	public void casListShouldNotBeMoveable() {
-		MockCASGiac mockGiac = new MockCASGiac(
-				(CASparser) getKernel().getGeoGebraCAS().getCASparser());
+		MockCASGiac mockGiac = setupGiac();
 		mockGiac.memmorize("{(1, -1), (1, 1)}");
+		GeoCasCell f = new GeoCasCell(getConstruction());
+		getConstruction().addToConstructionList(f, false);
+		f.setInput("l5:=Intersect(x^2+y^2=2,(x-2)^2+y^2=2)");
+		f.computeOutput();
+		GeoList list = (GeoList) f.getTwinGeo();
+		list.setLabel("l5");
+		assertThat(list, hasValue("{(1, -1), (1, 1)}"));
+		moveObjectWithArrowKey(list, 1, -2);
+		assertThat(list, hasValue("{(1, -1), (1, 1)}"));
+	}
+
+	@Test
+	public void casFreeListShouldNotBeMoveable() {
+		MockCASGiac mockGiac = setupGiac();
+		mockGiac.memmorize("{(1, -1), (1, 1)}");
+		GeoCasCell f = new GeoCasCell(getConstruction());
+		getConstruction().addToConstructionList(f, false);
+		f.setInput("l5:={(1, -1), (1, 1)}");
+		f.computeOutput();
+		GeoList list = (GeoList) f.getTwinGeo();
+		list.setLabel("l5");
+		assertThat(list, hasValue("{(1, -1), (1, 1)}"));
+		moveObjectWithArrowKey(list, 1, -2);
+		assertThat(list, hasValue("{(1, -1), (1, 1)}"));
+		dragStart(50, 50);
+		assertThat(list.isSelected(), equalTo(true));
+		dragEnd(100, 50);
+		assertThat(list, hasValue("{(1, -1), (1, 1)}"));
+	}
+
+	private MockCASGiac setupGiac() {
+		MockCASGiac mockGiac = new MockCASGiac((CASparser) getKernel()
+				.getGeoGebraCAS().getCASparser());
 		getApp().setCASFactory(new CASFactory() {
 			@Override
 			public CASGenericInterface newGiac(CASparser parser, Kernel kernel) {
 				return mockGiac;
 			}
 		});
-		GeoCasCell f = new GeoCasCell(getConstruction());
-		getConstruction().addToConstructionList(f, false);
-		f.setInput("l5:=Intersect(x^2+y^2=2,(x-2)^2+y^2=2)");
-		f.computeOutput();
-		f.plot();
-		GeoElement list = f.getTwinGeo();
-		assertThat(list, hasValue("{(1, -1), (1, 1)}"));
-		moveObjectWithArrowKey(list, 1, -2);
-		assertThat(list, hasValue("{(1, -1), (1, 1)}"));
+		return mockGiac;
 	}
 
 	@Test
