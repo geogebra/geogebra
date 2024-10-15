@@ -173,6 +173,7 @@ final class RealschuleExamRestrictions extends ExamRestrictions {
 				createCommandFilters(),
 				createCommandArgumentFilters(),
 				null,
+				null,
 				createSyntaxFilter(),
 				createToolsFilter(),
 				null);

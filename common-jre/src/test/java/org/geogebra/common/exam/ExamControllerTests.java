@@ -1,5 +1,7 @@
 package org.geogebra.common.exam;
 
+import static org.geogebra.common.contextmenu.InputContextMenuItem.Help;
+import static org.geogebra.common.contextmenu.InputContextMenuItem.Text;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -17,6 +19,7 @@ import java.util.Optional;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
@@ -53,6 +56,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 	private ExamController examController;
 	private PropertiesRegistry propertiesRegistry;
+	private ContextMenuFactory contextMenuFactory;
 	private AppCommon app;
 	private CommandDispatcher commandDispatcher;
 	private CommandDispatcher previousCommandDispatcher;
@@ -72,8 +76,9 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		commandDispatcher = null;
 
 		propertiesRegistry = new DefaultPropertiesRegistry();
+		contextMenuFactory = new ContextMenuFactory();
 
-		examController = new ExamController(propertiesRegistry);
+		examController = new ExamController(propertiesRegistry, contextMenuFactory);
 		examController.setDelegate(this);
 		examController.addListener(examStates::add);
 		examStates.clear();
@@ -268,6 +273,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertTrue(angleUnit.isFrozen());
 		assertEquals(List.of(Kernel.ANGLE_DEGREE, Kernel.ANGLE_RADIANT),
 				((NamedEnumeratedProperty<?>) angleUnit).getValues());
+		// context menu restrictions
+		assertEquals(List.of(Text, Help), contextMenuFactory.makeInputContextMenu(true));
 
 		examController.finishExam();
 		assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
