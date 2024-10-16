@@ -21,6 +21,9 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.Settings;
@@ -28,6 +31,7 @@ import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.properties.GeoElementPropertyFilter;
 import org.geogebra.common.properties.PropertiesRegistry;
+import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 
@@ -238,6 +242,19 @@ final class CvteExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<GeoElementPropertyFilter> createPropertyFilters() {
-		return Set.of();
+		return Set.of((property, geoElement) -> {
+			// Restrict
+			if (
+					// show object property
+					property instanceof ShowObjectProperty
+					// for any cone section
+					&& geoElement.isGeoConic()
+					// created manually (without command or tool)
+					&& geoElement.getParentAlgorithm() == null
+			) {
+				return false;
+			}
+			return true;
+		});
 	}
 }
