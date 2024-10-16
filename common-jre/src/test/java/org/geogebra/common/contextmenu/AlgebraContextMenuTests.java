@@ -11,7 +11,6 @@ import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Settings;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Solve;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.SpecialPoints;
 import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Statistics;
-import static org.geogebra.common.contextmenu.ContextMenuFactory.makeAlgebraContextMenu;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
