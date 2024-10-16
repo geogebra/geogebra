@@ -616,24 +616,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		}
 
-		// update the selection list
-
-		if (!app.getControlDown()) {
-			selectedRanges.clear();
-			selectedColumnSet.clear();
-			selectedRowSet.clear();
-			selectedRanges.add(0, newSelection);
-
-		} else { // ctrl-select
-			// handle dragging
-			if (selectedRanges.get(0).hasSameAnchor(newSelection)) {
-				selectedRanges.remove(0);
-			}
-
-			// add the selection to the list
-			selectedRanges.add(0, newSelection);
-		}
-
 		// update sets of selected rows/columns (used for rendering in the
 		// headers)
 		if (selectionType == SelectionType.COLUMNS) {
@@ -656,8 +638,23 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				- newSelection.getMinColumn() != 0
 				|| minSelectionRow - newSelection.getMinRow() != 0;
 
-		// update internal selection variables
+		// update selection list and internal variables
 		newSelection = CellRangeUtil.getActual(newSelection, app);
+		if (!app.getControlDown()) {
+			selectedRanges.clear();
+			selectedColumnSet.clear();
+			selectedRowSet.clear();
+			selectedRanges.add(0, newSelection);
+
+		} else { // ctrl-select
+			// handle dragging
+			if (selectedRanges.get(0).hasSameAnchor(newSelection)) {
+				selectedRanges.remove(0);
+			}
+
+			// add the selection to the list
+			selectedRanges.add(0, newSelection);
+		}
 		minSelectionColumn = newSelection.getMinColumn();
 		maxSelectionColumn = newSelection.getMaxColumn();
 		minSelectionRow = newSelection.getMinRow();
@@ -978,29 +975,29 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		if (x < 0 || y < 0) {
 			return null;
 		}
-		int indexX = -1;
-		int indexY = -1;
+		int column = -1;
+		int row = -1;
 		for (int i = 0; i < getColumnCount(); ++i) {
 			GPoint point = getPixel(i, 0, false);
 			if (x < point.getX()) {
-				indexX = i;
+				column = i;
 				break;
 			}
 		}
-		if (indexX == -1) {
+		if (column == -1) {
 			return null;
 		}
 		for (int i = 0; i < getRowCount(); ++i) {
 			GPoint point = getPixel(0, i, false);
 			if (y < point.getY()) {
-				indexY = i;
+				row = i;
 				break;
 			}
 		}
-		if (indexY == -1) {
+		if (row == -1) {
 			return null;
 		}
-		return new SpreadsheetCoords(indexX, indexY);
+		return new SpreadsheetCoords(row, column);
 	}
 
 	/**
