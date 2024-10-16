@@ -104,7 +104,7 @@ public class MoveGeos {
 	 * @return True if list contains of only movable objects and the list can therefore be added
 	 * as a whole to the GeoElements that need to be moved, false else
 	 */
-	private static boolean shouldAddListAsWhole(GeoList list, EuclidianView view) {
+	public static boolean shouldAddListAsWhole(GeoList list, EuclidianView view) {
 		return list.elements().allMatch(geo -> !geo.isLocked() && geo.isMoveable(view)
 				&& (containsFreeInputPoints(geo, view) || geo.isGeoPoint()))
 				|| list.getElementType() == GeoClass.NUMERIC

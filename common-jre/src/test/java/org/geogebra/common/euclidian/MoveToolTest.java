@@ -120,6 +120,19 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 		assertThat(list, hasValue("{(1, -1), (1, 1)}"));
 	}
 
+	@Test
+	public void freeListShouldBeDraggable() {
+		GeoList list  = add("{(1, -1), (1, 1)}");
+		list.setEuclidianVisible(true);
+		list.updateRepaint();
+		EventAcumulator acumulator = new EventAcumulator();
+		getApp().getEventDispatcher().addEventListener(acumulator);
+		dragStart(50, 50);
+		dragEnd(100, 50);
+		assertThat(list, hasValue("{(2, -1), (2, 1)}"));
+		assertTrue("List should have been updated", acumulator.getEvents().contains("UPDATE l1"));
+	}
+
 	private MockCASGiac setupGiac() {
 		MockCASGiac mockGiac = new MockCASGiac((CASparser) getKernel()
 				.getGeoGebraCAS().getCASparser());
