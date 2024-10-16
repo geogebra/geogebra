@@ -55,11 +55,9 @@ public class EvaluateInput {
 	/**
 	 * @param keepFocus
 	 *          whether the focus should stay afterwards
-	 * @param forceSliders
-	 *          whether to override default creating sliders
 	 */
-	public void createGeoFromInput(final boolean keepFocus, boolean forceSliders) {
-		evaluate(keepFocus, forceSliders, evaluationCallback(keepFocus));
+	public void createGeoFromInput(final boolean keepFocus) {
+		evaluate(keepFocus, evaluationCallback(keepFocus));
 	}
 
 	/**
@@ -67,7 +65,7 @@ public class EvaluateInput {
 	 *            additional callback that runs after creation.
 	 */
 	public void createGeoFromInput(final AsyncOperation<GeoElementND[]> afterCb) {
-		evaluate(true, false, createEvaluationCallback(afterCb));
+		evaluate(true, createEvaluationCallback(afterCb));
 	}
 
 	/**
@@ -93,12 +91,12 @@ public class EvaluateInput {
 		return textInput ? "\"" + input + "\"" : input;
 	}
 
-	private void evaluate(final boolean keepFocus, boolean forceSliders,
+	private void evaluate(final boolean keepFocus,
 			AsyncOperation<GeoElementND[]> cbEval) {
 		String userInput = getUserInput();
 		String validInput = getValidInput(userInput);
 		String input = getInput(userInput, validInput);
-		boolean withSliders = forceSliders || app.getConfig().hasAutomaticSliders();
+		boolean withSliders = app.getConfig().hasAutomaticSliders();
 
 		ctrl.setInputAsText(false);
 		app.setScrollToShow(true);

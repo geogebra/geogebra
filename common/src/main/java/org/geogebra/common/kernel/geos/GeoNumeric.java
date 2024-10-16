@@ -147,7 +147,7 @@ public class GeoNumeric extends GeoElement
 	private Double origSliderY = null;
 	private ArrayList<EuclidianViewInterfaceSlim> evListeners = null;
 
-	private boolean showExtendedAV = true;
+	private boolean showExtendedAV = false;
 	private static volatile Comparator<GeoNumberValue> comparator;
 	private BigDecimal exactValue;
 	private @CheckForNull GeoPointND startPoint;
@@ -1784,7 +1784,6 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public void setShowExtendedAV(boolean showExtendedAV) {
 		this.showExtendedAV = showExtendedAV;
-		notifyUpdate();
 	}
 
 	@Override
@@ -2146,17 +2145,7 @@ public class GeoNumeric extends GeoElement
 		isDrawable = true;
 		setShowExtendedAV(true);
 		initAlgebraSlider();
-	}
-
-	/**
-	 * Removes the slider.
-	 */
-	public void removeSlider() {
-		isDrawable = false;
-		setShowExtendedAV(false);
-		intervalMax = null;
-		intervalMin = null;
-		setEuclidianVisible(false);
+		notifyUpdate();
 	}
 
 	@Override

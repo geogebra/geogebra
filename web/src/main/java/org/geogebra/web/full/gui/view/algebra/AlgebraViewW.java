@@ -1639,7 +1639,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	private void stopCurrentEditor() {
 		if (getActiveTreeItem() != null) {
-			getActiveTreeItem().getController().onEnter(false, false);
+			getActiveTreeItem().getController().onEnter(false);
 		}
 	}
 

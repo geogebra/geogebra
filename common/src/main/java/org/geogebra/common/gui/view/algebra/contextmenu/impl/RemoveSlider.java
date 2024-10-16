@@ -28,13 +28,22 @@ public class RemoveSlider implements MenuAction<GeoElement>, AsyncOperation<GeoE
 	public boolean isAvailable(GeoElement element) {
 		if (element instanceof GeoNumeric) {
 			GeoNumeric numeric = (GeoNumeric) element;
-			return !numeric.isDependentConst();
+			return !numeric.isDependentConst() && numeric.isShowingExtendedAV();
 		}
 		return false;
 	}
 
 	@Override
 	public void execute(GeoElement element) {
+		if (processor.getKernel().getSymbolicMode() == SymbolicMode.NONE) {
+			GeoNumeric numeric = (GeoNumeric) element;
+			numeric.setShowExtendedAV(false);
+			numeric.setEuclidianVisible(false);
+			numeric.setIntervalMin(null);
+			numeric.setIntervalMax(null);
+			numeric.notifyUpdate();
+			return;
+		}
 		String newValue = element.toString(StringTemplate.defaultTemplate);
 		EvalInfo info = new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC_AV);
 		processor.changeGeoElementNoExceptionHandling(element, newValue, info, false, this,

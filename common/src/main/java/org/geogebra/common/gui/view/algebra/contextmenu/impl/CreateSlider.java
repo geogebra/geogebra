@@ -36,11 +36,17 @@ public class CreateSlider implements MenuAction<GeoElement>,
 			GeoSymbolic symbolic = (GeoSymbolic) element;
 			return symbolic.getDefinition().isSimpleNumber();
 		}
-		return false;
+		return element instanceof GeoNumeric
+				&& !((GeoNumeric) element).isShowingExtendedAV()
+				&& element.isSimple();
 	}
 
 	@Override
 	public void execute(GeoElement element) {
+		if (element instanceof GeoNumeric) {
+			callback(element);
+			return;
+		}
 		GeoSymbolic symbolic = (GeoSymbolic) element;
 		symbolic.setEuclidianVisible(false);
 		processor.changeGeoElementNoExceptionHandling(symbolic, symbolic.getDefinition(),
