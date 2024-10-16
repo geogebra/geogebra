@@ -528,6 +528,31 @@ public class DialogManagerW extends DialogManager
 		}
 	}
 
+	protected boolean isPropertiesViewShowing() {
+		return super.isPropertiesViewShowing()
+				|| isFloatingPropertiesViewShowing()
+				|| ((AppWFull) app).getAppletFrame().isSciSettingsOpen();
+	}
+
+	private boolean isFloatingPropertiesViewShowing() {
+		return app.getGuiManager() != null
+				&& ((GuiManagerW) app.getGuiManager()).isPropertiesViewShowing();
+	}
+
+	protected void hidePropertiesView() {
+		if (app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC) {
+			((AppWFull) app).getAppletFrame().hidePanel(null);
+			((AppWFull) app).onBrowserClose();
+		} else if (app.isUnbundledOrWhiteboard()) {
+			PropertiesView pv = ((GuiManagerW) app.getGuiManager())
+					.getPropertiesView(OptionType.OBJECTS);
+			((PropertiesViewW) pv).close();
+		} else {
+			app.getGuiManager().setShowView(false,
+					App.VIEW_PROPERTIES);
+		}
+	}
+
 	@Override
 	public void openToolHelp() {
 		// only desktop

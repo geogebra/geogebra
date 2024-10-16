@@ -756,7 +756,7 @@ public abstract class GlobalKeyDispatcher {
 		// Ctrl + E: open object properties (needed here for spreadsheet)
 		case E:
 			if (app.isUsingFullGui() && app.getGuiManager() != null) {
-				app.getDialogManager().showPropertiesDialog(null);
+				app.getDialogManager().togglePropertiesView();
 			}
 			consumed = true;
 			break;
