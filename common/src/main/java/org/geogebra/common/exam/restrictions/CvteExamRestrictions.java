@@ -13,6 +13,8 @@ import org.geogebra.common.exam.restrictions.cvte.MatrixExpressionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -242,19 +244,29 @@ final class CvteExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<GeoElementPropertyFilter> createPropertyFilters() {
-		return Set.of((property, geoElement) -> {
-			// Restrict
-			if (
-					// show object property
-					property instanceof ShowObjectProperty
-					// for any cone section
-					&& geoElement.isGeoConic()
-					// created manually (without command or tool)
-					&& geoElement.getParentAlgorithm() == null
-			) {
-				return false;
-			}
-			return true;
-		});
+		return Set.of(createConicSectionShowObjectPropertyFilter(),
+				createNonLinearEquationShowObjectPropertyFilter());
+	}
+
+	private static GeoElementPropertyFilter createConicSectionShowObjectPropertyFilter() {
+		return (property, geoElement) -> !(
+				// Restrict show object property
+				property instanceof ShowObjectProperty
+				// for any cone section
+				&& geoElement.isGeoConic()
+				// created manually (without command or tool)
+				&& geoElement.getParentAlgorithm() == null
+		);
+	}
+
+	private static GeoElementPropertyFilter createNonLinearEquationShowObjectPropertyFilter() {
+		return (property, geoElement) -> !(
+				// Restrict show object property
+				property instanceof ShowObjectProperty
+				// for equations
+				&& geoElement instanceof EquationValue
+				// with more than one exponent (non-linear equations)
+				&& ((EquationValue) geoElement).getEquationVariables().length > 1
+		);
 	}
 }
