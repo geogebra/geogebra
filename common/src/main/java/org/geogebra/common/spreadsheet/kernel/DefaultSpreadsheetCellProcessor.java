@@ -73,10 +73,13 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 			processInput(buildProperInput(input, cellName), errorHandler,
 					(geos) -> {
 						if (geos != null && geos.length > 0) {
-							((GeoElement) geos[0]).setEmptySpreadsheetCell(false);
+							if (geos[0] == null) {
+								processInput(buildProperInput(input, cellName), errorHandler, null);
+							} else {
+								((GeoElement) geos[0]).setEmptySpreadsheetCell(false);
+							}
+							kernel.getApplication().storeUndoInfo();
 						}
-
-						kernel.getApplication().storeUndoInfo();
 					});
 		} catch (Exception e) {
 			Log.debug("error " + e.getLocalizedMessage());
