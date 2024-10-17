@@ -73,10 +73,7 @@
        sessionStorage.setItem("token", accessToken);
     }
 
-    const refreshToken = getParentParam("refreshtoken");
-    if (refreshToken) {
-        sessionStorage.setItem("refreshToken", refreshToken);
-    }
+    let refreshToken = getParentParam("refreshtoken");
 
     let lastRefresh = new Date();
     window.refreshToken = function(callback) {
@@ -85,7 +82,6 @@
             return;
         }
         const baseUrl = getParentParam("baseurl");
-        const refreshToken = sessionStorage.getItem("refreshToken");
         fetch(`${baseUrl}/refresh`, {
             method: "POST",
             headers: {
@@ -97,7 +93,7 @@
         .then(data => {
             callback(data.access_token);
             sessionStorage.setItem("token", data.access_token);
-            sessionStorage.setItem("refreshToken", data.refresh_token);
+            refreshToken = data.refresh_token;
             lastRefresh = new Date();
         })
         .catch(_ => callback(null));
