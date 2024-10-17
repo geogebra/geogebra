@@ -480,12 +480,9 @@ public class PropertiesViewW extends PropertiesView
 	}
 
 	/**
-	 * Opens floating settings.
+	 * Opens floating settings, assumes it's available for current app.
 	 */
 	public void open() {
-		if (!app.isUnbundledOrWhiteboard()) {
-			return;
-		}
 		if (!isFloatingAttached()) {
 			wrappedPanel.setVisible(true);
 			wrappedPanel.addStyleName("floatingSettings");

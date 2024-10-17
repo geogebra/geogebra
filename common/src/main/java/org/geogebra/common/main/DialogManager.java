@@ -241,6 +241,25 @@ public abstract class DialogManager {
 		// only in Web
 	}
 
+	/**
+	 * Show or hide properties view
+	 */
+	public final void togglePropertiesView() {
+		if (isPropertiesViewShowing()) {
+			hidePropertiesView();
+		} else {
+			showPropertiesDialog(null);
+		}
+	}
+
+	protected boolean isPropertiesViewShowing() {
+		return app.showView(App.VIEW_PROPERTIES);
+	}
+
+	protected void hidePropertiesView() {
+		app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
+	}
+
 	public interface CreateGeoForRotate {
 		public GeoElement[] createGeos(EuclidianController ec, GeoElement geo,
 				GeoNumberValue num);
