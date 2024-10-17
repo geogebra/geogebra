@@ -244,29 +244,36 @@ final class CvteExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<GeoElementPropertyFilter> createPropertyFilters() {
-		return Set.of(createConicSectionShowObjectPropertyFilter(),
-				createNonLinearEquationShowObjectPropertyFilter());
+		return Set.of(new ConicSectionShowObjectPropertyFilter(),
+                new NonLinearEquationShowObjectPropertyFilter());
 	}
 
-	private static GeoElementPropertyFilter createConicSectionShowObjectPropertyFilter() {
-		return (property, geoElement) -> !(
-				// Restrict show object property
-				property instanceof ShowObjectProperty
-				// for any cone section
-				&& geoElement.isGeoConic()
-				// created manually (without command or tool)
-				&& geoElement.getParentAlgorithm() == null
-		);
+	private static class ConicSectionShowObjectPropertyFilter implements GeoElementPropertyFilter {
+		@Override
+		public boolean isAllowed(Property property, GeoElement geoElement) {
+			return !(
+					// Restrict show object property
+					property instanceof ShowObjectProperty
+					// for any cone section
+					&& geoElement.isGeoConic()
+					// created manually (without command or tool)
+					&& geoElement.getParentAlgorithm() == null
+			);
+		}
 	}
 
-	private static GeoElementPropertyFilter createNonLinearEquationShowObjectPropertyFilter() {
-		return (property, geoElement) -> !(
-				// Restrict show object property
-				property instanceof ShowObjectProperty
-				// for equations
-				&& geoElement instanceof EquationValue
-				// with more than one exponent (non-linear equations)
-				&& ((EquationValue) geoElement).getEquationVariables().length > 1
-		);
+	private static class NonLinearEquationShowObjectPropertyFilter
+			implements GeoElementPropertyFilter {
+		@Override
+		public boolean isAllowed(Property property, GeoElement geoElement) {
+			return !(
+					// Restrict show object property
+					property instanceof ShowObjectProperty
+					// for equations
+					&& geoElement instanceof EquationValue
+					// with more than one exponent (non-linear equations)
+					&& ((EquationValue) geoElement).getEquationVariables().length > 1
+			);
+		}
 	}
 }
