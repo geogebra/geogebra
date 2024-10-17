@@ -1949,12 +1949,11 @@ public class GeoList extends GeoElement
 			final EuclidianViewInterfaceSlim view) {
 		// we don't want e.g. DotPlots to be dragged
 		if (!((getParentAlgorithm() == null)
-				|| (getParentAlgorithm() instanceof AlgoDependentList))) {
+				|| (getParentAlgorithm() instanceof AlgoDependentList))
+				|| getCorrespondingCasCell() != null) {
 			return false;
 		}
-		for (int i = 0; i < elements.size(); i++) {
-			final GeoElement geo = elements.get(i);
-
+		for (final GeoElement geo : elements) {
 			if (geo.isGeoPoint()) {
 				if (!geo.isMoveable()) {
 					return false;
