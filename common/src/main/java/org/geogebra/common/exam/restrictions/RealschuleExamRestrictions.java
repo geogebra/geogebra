@@ -68,7 +68,7 @@ final class RealschuleExamRestrictions extends ExamRestrictions {
 				EuclidianConstants.MODE_MIRROR_AT_LINE,
 				EuclidianConstants.MODE_MIRROR_AT_POINT,
 				EuclidianConstants.MODE_TRANSLATE_BY_VECTOR,
-				EuclidianConstants.MODE_MOVE_ROTATE,
+				EuclidianConstants.MODE_ROTATE_BY_ANGLE,
 				EuclidianConstants.MODE_DILATE_FROM_POINT,
 				EuclidianConstants.MODE_MIRROR_AT_CIRCLE,
 				EuclidianConstants.MODE_RELATION,
