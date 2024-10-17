@@ -93,34 +93,13 @@ public class GeoElementPropertiesFactory {
 						element -> new AnimationStepProperty(processor, localization, element),
 						properties -> new StringPropertyCollection<>(
 								properties.toArray(new AnimationStepProperty[0]))),
-				createPropertyCollection(elements,
-						element -> new ShowObjectProperty(localization, element),
-						properties -> new BooleanPropertyCollection<>(
-								properties.toArray(new ShowObjectProperty[0]))),
-				createPropertyCollection(elements,
-						element -> new ElementColorProperty(localization, element),
-						properties -> new ColorPropertyCollection<>(
-								properties.toArray(new ElementColorProperty[0]))),
-				createPropertyCollection(elements,
-						element -> new PointStyleProperty(localization, element),
-						properties -> new IconsEnumeratedPropertyCollection<>(
-								properties.toArray(new PointStyleProperty[0]))),
-				createPropertyCollection(elements,
-						element -> new PointSizeProperty(localization, element),
-						properties -> new RangePropertyCollection<>(
-								properties.toArray(new PointSizeProperty[0]))),
-				createPropertyCollection(elements,
-						element -> new OpacityProperty(localization, element),
-						properties -> new RangePropertyCollection<>(
-								properties.toArray(new OpacityProperty[0]))),
-				createPropertyCollection(elements,
-						element -> new LineStyleProperty(localization, element),
-						properties -> new IconsEnumeratedPropertyCollection<>(
-								properties.toArray(new LineStyleProperty[0]))),
-				createPropertyCollection(elements,
-						element -> new ThicknessProperty(localization, element),
-						properties -> new RangePropertyCollection<>(
-								properties.toArray(new ThicknessProperty[0]))),
+				createShowObjectProperty(localization, elements),
+				createColorProperty(localization, elements),
+				createPointStyleProperty(localization, elements),
+				createPointSizeProperty(localization, elements),
+				createOpacityProperty(localization, elements),
+				createLineStyleProperty(localization, elements),
+				createThicknessProperty(localization, elements),
 				createPropertyCollection(elements,
 						element -> new SlopeSizeProperty(localization, element),
 						properties -> new RangePropertyCollection<>(
@@ -137,10 +116,7 @@ public class GeoElementPropertiesFactory {
 						element -> new ShowTraceProperty(localization, element),
 						properties -> new BooleanPropertyCollection<>(
 								properties.toArray(new ShowTraceProperty[0]))),
-				createPropertyCollection(elements,
-						element -> new IsFixedObjectProperty(localization, element),
-						properties -> new BooleanPropertyCollection<>(
-								properties.toArray(new IsFixedObjectProperty[0]))),
+				createFixObjectProperty(localization, elements),
 				createPropertyCollection(elements,
 						element -> new ShowInAVProperty(localization, element),
 						properties -> new BooleanPropertyCollection<>(
@@ -157,14 +133,8 @@ public class GeoElementPropertiesFactory {
 	public PropertiesArray createPointStyleProperties(
 			Localization localization, List<GeoElement> elements) {
 		return createPropertiesArray(localization, elements, Stream.<Property>of(
-				createPropertyCollection(elements,
-						element -> new PointStyleProperty(localization, element),
-						properties -> new IconsEnumeratedPropertyCollection<>(
-								properties.toArray(new PointStyleProperty[0]))),
-				createPropertyCollection(elements,
-						element -> new PointSizeProperty(localization, element),
-						properties -> new RangePropertyCollection<>(
-								properties.toArray(new PointSizeProperty[0])))
+				createPointStyleProperty(localization, elements),
+				createPointSizeProperty(localization, elements)
 		).filter(Objects::nonNull).collect(Collectors.toList()));
 	}
 
@@ -177,14 +147,8 @@ public class GeoElementPropertiesFactory {
 	public PropertiesArray createLineStyleProperties(
 			Localization localization, List<GeoElement> elements) {
 		return createPropertiesArray(localization, elements, Stream.<Property>of(
-				createPropertyCollection(elements,
-						element -> new LineStyleProperty(localization, element),
-						properties -> new IconsEnumeratedPropertyCollection<>(
-								properties.toArray(new LineStyleProperty[0]))),
-				createPropertyCollection(elements,
-						element -> new ThicknessProperty(localization, element),
-						properties -> new RangePropertyCollection<>(
-								properties.toArray(new ThicknessProperty[0])))
+				createLineStyleProperty(localization, elements),
+				createThicknessProperty(localization, elements)
 		).filter(Objects::nonNull).collect(Collectors.toList()));
 	}
 
@@ -256,6 +220,36 @@ public class GeoElementPropertiesFactory {
 				element -> new OpacityProperty(localization, element),
 				properties -> new RangePropertyCollection<>(
 						properties.toArray(new OpacityProperty[0])));
+	}
+
+	/**
+	 * Creates a {@link BooleanPropertyCollection} to control the visibility of the elements.
+	 * @param localization localization for the property name
+	 * @param elements elements for which the property should be created
+	 * @return the property or null if the property couldn't be created or it is filtered
+	 */
+	public BooleanProperty createShowObjectProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new ShowObjectProperty(localization, element),
+				properties -> new BooleanPropertyCollection<>(
+						properties.toArray(new ShowObjectProperty[0])));
+	}
+
+	private RangeProperty<Integer> createPointSizeProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new PointSizeProperty(localization, element),
+				properties -> new RangePropertyCollection<>(
+						properties.toArray(new PointSizeProperty[0])));
+	}
+
+	private RangeProperty<Integer> createThicknessProperty(
+			Localization localization, List<GeoElement> elements) {
+		return createPropertyCollection(elements,
+				element -> new ThicknessProperty(localization, element),
+				properties -> new RangePropertyCollection<>(
+						properties.toArray(new ThicknessProperty[0])));
 	}
 
 	private static PropertiesArray createPropertiesArray(
