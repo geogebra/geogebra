@@ -2359,13 +2359,15 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @param options exam options used for Classic
 	 */
 	public void startExam(ExamType examType, ExamOptions options) {
-		prepareExamController();
+		attachToExamController();
 
 		if (examController.getState() == ExamState.IDLE
 				|| examController.getState() == ExamState.PREPARING) {
 			examController.startExam(examType, options);
 		}
-		getLAF().toggleFullscreen(true);
+		if (getAppletParameters().getDataParamApp() && !isWhiteboardActive()) {
+			getLAF().toggleFullscreen(true);
+		}
 		if (guiManager != null) {
 			guiManager.resetBrowserGUI();
 			if (menuViewController != null) {
@@ -2382,8 +2384,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 	}
 
-	public void prepareExamController() {
-		examController.addActiveContext(this,
+	private void attachToExamController() {
+		examController.registerContext(this,
 				getKernel().getAlgebraProcessor().getCommandDispatcher(),
 				getKernel().getAlgebraProcessor(),
 				getLocalization(),
@@ -2391,8 +2393,21 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				getAutocompleteProvider(),
 				this);
 		examController.registerRestrictable(this);
-		examController.registerRestrictable(getLocalization().getCommandErrorMessageBuilder());
-		examController.setDelegate(new ExamControllerDelegateW(this));
+		examController.registerRestrictable(getEuclidianView1());
+		examController.registerDelegate(new ExamControllerDelegateW(this));
+		examController.addListener(getExamEventBus());
+	}
+
+	@Override
+	public void detachFromExamController() {
+		examController.unregisterContext(this);
+		examController.unregisterRestrictable(this);
+		examController.unregisterRestrictable(getEuclidianView1());
+		examController.removeListener(getExamEventBus());
+		if (getGuiManager() != null && getGuiManager().hasAlgebraView()) {
+			GlobalScope.examController.unregisterRestrictable(
+					getAlgebraView().getSelectionCallback());
+		}
 	}
 
 	/**
@@ -2646,7 +2661,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public @Nonnull ExamEventBus getExamEventBus() {
 		if (this.examEventBus == null) {
 			examEventBus = new ExamEventBus();
-			examController.addListener(examEventBus);
 		}
 		return examEventBus;
 	}

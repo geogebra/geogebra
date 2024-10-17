@@ -1863,7 +1863,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		euclidianView = newEuclidianView(euclidianViewPanel,
 				getEuclidianController(), showEvAxes, showEvGrid, 1,
 				getSettings().getEuclidian(1));
-		GlobalScope.examController.registerRestrictable(euclidianView);
 		return euclidianView;
 	}
 
@@ -3558,5 +3557,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public boolean isToolboxCategoryEnabled(String category) {
 		List<String> tools = getAppletParameters().getDataParamCustomToolbox();
 		return tools.contains(category) || tools.isEmpty();
+	}
+
+	/**
+	 * Remove all connections to the global exam controller
+	 */
+	public void detachFromExamController() {
+		// only with UI
 	}
 }

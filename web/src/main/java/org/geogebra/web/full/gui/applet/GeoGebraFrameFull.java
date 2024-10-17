@@ -7,11 +7,9 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.layout.DockManager;
-import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
@@ -996,11 +994,5 @@ public class GeoGebraFrameFull
 		ggwToolBar = null;
 		ggwMenuBar = null;
 		showKeyboardButton = null;
-		GlobalScope.examController.removeListener(getApp().getExamEventBus());
-		AlgebraView algebraView = app.getAlgebraView();
-		if (algebraView != null) {
-			GlobalScope.examController.unregisterRestrictable(
-					((AlgebraViewW) algebraView).getSelectionCallback());
-		}
 	}
 }
