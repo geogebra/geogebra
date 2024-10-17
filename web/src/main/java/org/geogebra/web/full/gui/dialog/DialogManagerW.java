@@ -528,6 +528,7 @@ public class DialogManagerW extends DialogManager
 		}
 	}
 
+	@Override
 	protected boolean isPropertiesViewShowing() {
 		return super.isPropertiesViewShowing()
 				|| isFloatingPropertiesViewShowing()
@@ -539,6 +540,7 @@ public class DialogManagerW extends DialogManager
 				&& ((GuiManagerW) app.getGuiManager()).isPropertiesViewShowing();
 	}
 
+	@Override
 	protected void hidePropertiesView() {
 		if (app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC) {
 			((AppWFull) app).getAppletFrame().hidePanel(null);
