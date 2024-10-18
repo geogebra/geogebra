@@ -1444,14 +1444,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	/**
-	 * Closes the page control panel
-	 * @return whether it was closed
-	 */
-	public boolean closePageControlPanel() {
-		return frame.getPageControlPanel() != null && frame.getPageControlPanel().close();
-	}
-
-	/**
 	 * Empty the construction but don't initialize undo
 	 */
 	public void loadEmptySlide() {
