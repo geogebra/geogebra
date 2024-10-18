@@ -284,11 +284,8 @@ class DragController {
 
 	/**
 	 * Called at pointer (mouse or touch) down.
-	 * 
-	 * @param x
-	 *            coordinate.
-	 * @param y
-	 *            coordinate.
+	 * @param x - coordinate.
+	 * @param y - coordinate.
 	 */
 	public void start(int x, int y) {
 		if (clicked != null || isValid()) {
@@ -301,6 +298,7 @@ class DragController {
 		} else {
 			clicked = cards.cardAt(idx);
 			cards.selectCard(clicked);
+
 			CancelEventTimer.dragCanStart();
 
 			Timer dragStyleTimer = new Timer() {
@@ -349,11 +347,15 @@ class DragController {
 
 	/**
 	 * Called at pointer (mouse or touch) up.
+	 * @param isCtrlKeyDown - whether control key down is
 	 */
-	void stop() {
+	void stop(boolean isCtrlKeyDown) {
 		if (clicked != null) {
 			cards.clickPage(clicked.getPageIndex(), true);
 			clicked.addDragStartStyle(false);
+			if (isCtrlKeyDown) {
+				clicked.showContextMenu();
+			}
 		} else if (CancelEventTimer.isDragging()) {
 			if (canDrop()) {
 				createDropAnimation();

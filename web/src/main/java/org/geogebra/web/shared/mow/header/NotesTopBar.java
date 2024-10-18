@@ -24,6 +24,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
+import org.gwtproject.event.dom.client.TouchStartEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 
@@ -67,6 +68,8 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 		addZoomButtons();
 		addFullscreenButton();
 		addSettingsButton();
+
+		addPageOverviewButton();
 	}
 
 	private void addMenuButton() {
@@ -163,6 +166,20 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 
 			settingsBtn.addFastClickHandler(source -> controller.onSettingsOpen(settingsBtn,
 					focusableSettingsBtn));
+		}
+	}
+
+	private void addPageOverviewButton() {
+		if (controller.getApp().isMultipleSlidesOpen() || appletParams.getParamShowSlides()) {
+			IconButton pageOverviewBtn = addSmallPressButton(MaterialDesignResources.INSTANCE
+							.mow_page_control(), "PageControl", null, null);
+			pageOverviewBtn.addStyleName("pageOverview");
+			pageOverviewBtn.addFastClickHandler(source -> {
+				controller.togglePagePanel();
+				pageOverviewBtn.setActive(!pageOverviewBtn.isActive());
+			});
+			pageOverviewBtn.addBitlessDomHandler(event -> controller
+					.setTouchStyleForPagePreviewCards(), TouchStartEvent.getType());
 		}
 	}
 
