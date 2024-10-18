@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.pagecontrolpanel;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.undo.UndoInfoStoredListener;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
@@ -29,7 +30,7 @@ import jsinterop.base.Js;
  * Page Control Panel for navigating through multiple pages
  */
 public class PageListPanel
-		extends PersistablePanel implements SetLabels, CardListInterface {
+		extends PersistablePanel implements SetLabels, CardListInterface, UndoInfoStoredListener {
 
 	public static final int PAGE_OVERVIEW_WIDTH = 240;
 	private final AppWFull app;
@@ -52,6 +53,7 @@ public class PageListPanel
 				.getDockManager().getPanel(App.VIEW_EUCLIDIAN));
 		pageController = new PageListController(app, this);
 		app.setPageController(pageController);
+		app.getUndoManager().addUndoInfoStoredListener(this);
 		initGUI();
 	}
 
@@ -318,6 +320,13 @@ public class PageListPanel
 				PagePreviewCard.computeTop(count) + "px");
 		contentPanel.getElement().getStyle().setProperty("maxHeight",
 				PagePreviewCard.computeTop(count) + "px");
+	}
+
+	@Override
+	public void onUndoInfoStored() {
+		if (pageController != null) {
+			pageController.updatePreviewImage();
+		}
 	}
 }
 
