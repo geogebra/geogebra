@@ -48,7 +48,9 @@ public final class Spreadsheet implements TabularDataChangeListener, Spreadsheet
 		controller.addRepaintListener(this);
 		controller.getSelectionController().addRepaintListener(this);
 		controller.getLayout().addRepaintListener(this);
-		tabularData.getCellDragPasteHandler().addRepaintListener(this);
+		if (tabularData.getCellDragPasteHandler() != null) {
+			tabularData.getCellDragPasteHandler().addRepaintListener(this);
+		}
 	}
 
 	// layout
