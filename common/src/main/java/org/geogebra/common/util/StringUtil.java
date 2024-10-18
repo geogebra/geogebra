@@ -524,12 +524,10 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * @return string without " " chaacters
 	 */
 	public static String removeSpaces(String str) {
-		if (str == null || str.length() == 0) {
+		if (str == null || str.isEmpty()) {
 			return "";
 		}
-
 		StringBuilder sb = new StringBuilder(str.length());
-
 		char c;
 
 		for (int i = 0; i < str.length(); i++) {
@@ -538,7 +536,26 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 				sb.append(c);
 			}
 		}
+		return sb.toString();
+	}
 
+	/**
+	 * @param str Input String
+	 * @return String without whitespaces
+	 */
+	public static String removeWhitespaces(String str) {
+		if (str == null || str.isEmpty()) {
+			return "";
+		}
+		StringBuilder sb = new StringBuilder(str.length());
+		char c;
+
+		for (int i = 0; i < str.length(); i++) {
+			c = str.charAt(i);
+			if (!Character.isWhitespace(c)) {
+				sb.append(c);
+			}
+		}
 		return sb.toString();
 	}
 

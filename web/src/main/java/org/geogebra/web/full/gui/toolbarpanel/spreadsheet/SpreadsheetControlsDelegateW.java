@@ -44,6 +44,7 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		private final MathFieldEditor mathField;
 		private final SpreadsheetPanel parent;
 		private final AppW app;
+		private DefaultSpreadsheetCellProcessor cellProcessor;
 
 		public SpreadsheetCellEditorW(AppW app, SpreadsheetPanel parent, MathTextFieldW mathField) {
 			this.mathField = mathField;
@@ -94,7 +95,10 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 
 		@Override
 		public @Nonnull DefaultSpreadsheetCellProcessor getCellProcessor() {
-			return new DefaultSpreadsheetCellProcessor(app.getKernel().getAlgebraProcessor());
+			if (cellProcessor == null) {
+				cellProcessor = new DefaultSpreadsheetCellProcessor(app.getKernel().getAlgebraProcessor());
+			}
+			return cellProcessor;
 		}
 
 		@Nonnull
