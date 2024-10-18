@@ -17,11 +17,13 @@ import org.geogebra.common.util.shape.Rectangle;
  *
  * @Note: This type is not designed to be thread-safe.
  */
-public final class Spreadsheet implements TabularDataChangeListener {
+public final class Spreadsheet implements TabularDataChangeListener, SpreadsheetRepaintListener {
 
 	private final SpreadsheetController controller;
 
 	private final SpreadsheetRenderer renderer;
+
+	private boolean repaintNeeded = true;
 
 	/**
 	 * @param tabularData data source
@@ -31,6 +33,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	public Spreadsheet(@Nonnull TabularData<?> tabularData,
 			@Nonnull CellRenderableFactory rendererFactory, @CheckForNull UndoProvider undoProvider) {
 		controller = new SpreadsheetController(tabularData);
+		addRepaintListener(tabularData);
 		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
 				controller.getStyle(), tabularData);
 		setViewport(new Rectangle(0, 0, 0, 0));
@@ -39,6 +42,13 @@ public final class Spreadsheet implements TabularDataChangeListener {
 			controller.setUndoProvider(undoProvider);
 		}
 		tabularData.setCustomRowAndColumnSizeProvider(controller.getLayout());
+	}
+
+	private void addRepaintListener(TabularData<?> tabularData) {
+		controller.addRepaintListener(this);
+		controller.getSelectionController().addRepaintListener(this);
+		controller.getLayout().addRepaintListener(this);
+		tabularData.getCellDragPasteHandler().addRepaintListener(this);
 	}
 
 	// layout
@@ -52,6 +62,9 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	 * @param graphics graphics to draw to
 	 */
 	public void draw(GGraphics2D graphics) {
+		if (!repaintNeeded) {
+			return;
+		}
 		graphics.setPaint(GColor.WHITE);
 		Rectangle viewport = controller.getViewport();
 		graphics.fillRect(0, 0, (int) viewport.getWidth(), (int) viewport.getHeight());
@@ -81,6 +94,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 		if (editorBounds != null) {
 			renderer.drawEditorBorder(editorBounds, graphics);
 		}
+		repaintNeeded = false;
 	}
 
 	void drawCells(GGraphics2D graphics, Rectangle viewport) {
@@ -206,11 +220,18 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	@Override
 	public void tabularDataDidChange(int row, int column) {
 		renderer.invalidate(row, column);
+		notifyRepaintNeeded();
 	}
 
 	@Override
 	public void tabularDataSizeDidChange(SpreadsheetDimensions dimensions) {
 		controller.tabularDataSizeDidChange(dimensions);
+		notifyRepaintNeeded();
+	}
+
+	@Override
+	public void notifyRepaintNeeded() {
+		repaintNeeded = true;
 	}
 
 	public void setWidthForColumns(double width, int minColumn, int maxColumn) {

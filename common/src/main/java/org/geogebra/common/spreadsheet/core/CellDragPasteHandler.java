@@ -1,5 +1,8 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
@@ -28,6 +31,8 @@ public class CellDragPasteHandler {
 	private int toColumn;
 	private PasteDirection pasteDirection;
 
+	private final List<SpreadsheetRepaintListener> repaintListeners = new ArrayList<>();
+
 	/**
 	 * @param tabularData {@link TabularData}
 	 * @param kernel {@link Kernel} - Needed for {@link RelativeCopy}
@@ -36,6 +41,10 @@ public class CellDragPasteHandler {
 		this.tabularData = tabularData;
 		this.kernel = kernel;
 		this.relativeCopy = new RelativeCopy(kernel);
+	}
+
+	void addRepaintListener(SpreadsheetRepaintListener listener) {
+		repaintListeners.add(listener);
 	}
 
 	/**
@@ -67,6 +76,7 @@ public class CellDragPasteHandler {
 	 * @param destinationColumn Column index
 	 */
 	public void setDestinationForPaste(int destinationRow, int destinationColumn) {
+		notifyPasteDestinationChanged();
 		if (rangeToCopy == null) {
 			return;
 		}
@@ -329,5 +339,9 @@ public class CellDragPasteHandler {
 	private boolean destinationColumnIsWithinOriginalSelection() {
 		return fromColumn >= getMinColumnIndexFromOrigin()
 				&& fromColumn <= getMaxColumnIndexFromOrigin();
+	}
+
+	private void notifyPasteDestinationChanged() {
+		repaintListeners.forEach(SpreadsheetRepaintListener::notifyRepaintNeeded);
 	}
 }

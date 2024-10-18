@@ -1,7 +1,9 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.geogebra.common.util.MouseCursor;
@@ -25,6 +27,8 @@ public final class TableLayout implements CustomRowAndColumnSizeProvider {
 	private double rowHeaderWidth = DEFAULT_ROW_HEADER_WIDTH;
 	private double columnHeaderHeight = DEFAULT_CELL_HEIGHT;
 
+	private final List<SpreadsheetRepaintListener> repaintListeners = new ArrayList<>();
+
 	public double getWidth(int column) {
 		return columnWidths[column];
 	}
@@ -47,6 +51,10 @@ public final class TableLayout implements CustomRowAndColumnSizeProvider {
 
 	public int numberOfColumns() {
 		return columnWidths.length;
+	}
+
+	void addRepaintListener(SpreadsheetRepaintListener listener) {
+		repaintListeners.add(listener);
 	}
 
 	Rectangle getBounds(int row, int column) {
@@ -246,6 +254,7 @@ public final class TableLayout implements CustomRowAndColumnSizeProvider {
 		for (int column = minColumn; column < columnWidths.length; column++) {
 			cumulativeWidths[column + 1] = cumulativeWidths[column] + columnWidths[column];
 		}
+		notifyLayoutChanged();
 	}
 
 	/**
@@ -265,6 +274,7 @@ public final class TableLayout implements CustomRowAndColumnSizeProvider {
 		for (int row = minRow; row < rowHeights.length; row++) {
 			cumulativeHeights[row + 1] = cumulativeHeights[row] + rowHeights[row];
 		}
+		notifyLayoutChanged();
 	}
 
 	void makeFirstRowSticky(boolean stickyFirstRow) {
@@ -383,5 +393,9 @@ public final class TableLayout implements CustomRowAndColumnSizeProvider {
 		for (int column = numberOfColumns - 1; column > resizeUntil; column--) {
 			setWidthForColumns(getWidth(column - 1), column, column);
 		}
+	}
+
+	private void notifyLayoutChanged() {
+		repaintListeners.forEach(SpreadsheetRepaintListener::notifyRepaintNeeded);
 	}
 }

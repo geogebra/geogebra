@@ -1,5 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,6 +51,8 @@ public final class SpreadsheetController {
 	private boolean autoscrollRow;
 	private boolean autoscrollColumn;
 
+	private final List<SpreadsheetRepaintListener> repaintListeners = new ArrayList<>();
+
 	/**
 	 * @param tabularData underlying data for the spreadsheet
 	 */
@@ -90,6 +93,11 @@ public final class SpreadsheetController {
 
 	void setViewport(Rectangle viewport) {
 		this.viewport = viewport;
+		notifyViewportChanged();
+	}
+
+	void addRepaintListener(SpreadsheetRepaintListener listener) {
+		repaintListeners.add(listener);
 	}
 
 	Rectangle getViewport() {
@@ -102,6 +110,10 @@ public final class SpreadsheetController {
 
 	SpreadsheetStyle getStyle() {
 		return style;
+	}
+
+	SpreadsheetSelectionController getSelectionController() {
+		return selectionController;
 	}
 
 	@CheckForNull Rectangle getEditorBounds() {
@@ -258,7 +270,7 @@ public final class SpreadsheetController {
 		int row = findRowOrHeader(y);
 
 		if (viewportAdjuster != null) {
-			viewport = viewportAdjuster.adjustViewportIfNeeded(row, column, viewport);
+			setViewport(viewportAdjuster.adjustViewportIfNeeded(row, column, viewport));
 		}
 
 		if (modifiers.secondaryButton && controlsDelegate != null) {
@@ -294,7 +306,8 @@ public final class SpreadsheetController {
 
 	void scrollEditorIntoView() {
 		if (viewportAdjuster != null && editor != null && editor.isVisible()) {
-			viewport = viewportAdjuster.adjustViewportIfNeeded(editor.row, editor.column, viewport);
+			setViewport(viewportAdjuster.adjustViewportIfNeeded(
+					editor.row, editor.column, viewport));
 			editor.updatePosition();
 		}
 	}
@@ -609,10 +622,9 @@ public final class SpreadsheetController {
 	private void adjustViewportIfNeeded() {
 		Selection lastSelection = getLastSelection();
 		if (lastSelection != null && viewportAdjuster != null) {
-			viewport = viewportAdjuster.adjustViewportIfNeeded(
+			setViewport(viewportAdjuster.adjustViewportIfNeeded(
 					lastSelection.getRange().getToRow(),
-					lastSelection.getRange().getToColumn(),
-					viewport);
+					lastSelection.getRange().getToColumn(), viewport));
 		}
 	}
 
@@ -696,7 +708,7 @@ public final class SpreadsheetController {
 				autoscrollRow = true;
 			}
 			if (pointerUp && viewportAdjuster != null) {
-				viewport = viewportAdjuster.adjustViewportIfNeeded(row, column, viewport);
+				setViewport(viewportAdjuster.adjustViewportIfNeeded(row, column, viewport));
 			}
 		}
 	}
@@ -920,16 +932,16 @@ public final class SpreadsheetController {
 				&& cellDragPasteHandler.getDragPasteDestinationRange() != null) {
 			double oldViewportX = viewport.getMinX();
 			double oldViewportY = viewport.getMinY();
-			viewport = viewportAdjuster.scrollForDrag(
+			setViewport(viewportAdjuster.scrollForDrag(
 					lastPointerPositionX, lastPointerPositionY, viewport,
 					cellDragPasteHandler.destinationShouldExtendVertically(
-							findRowOrHeader(lastPointerPositionY)));
+							findRowOrHeader(lastPointerPositionY))));
 			setDestinationForDragPaste(lastPointerPositionX + viewport.getMinX() - oldViewportX,
 					lastPointerPositionY + viewport.getMinY() - oldViewportY);
 		} else if (autoscrollRow  || autoscrollColumn) {
-			viewport = viewportAdjuster.scrollForDrag(
+			setViewport(viewportAdjuster.scrollForDrag(
 					lastPointerPositionX, lastPointerPositionY, viewport,
-					autoscrollRow);
+					autoscrollRow));
 			extendSelectionByDrag(Math.max(lastPointerPositionX, layout.getRowHeaderWidth()),
 					Math.max(lastPointerPositionY, layout.getColumnHeaderHeight()), false, false);
 		}
@@ -1017,5 +1029,9 @@ public final class SpreadsheetController {
 
 	public boolean hasError(int row, int column) {
 		return tabularData.hasError(row, column);
+	}
+
+	private void notifyViewportChanged() {
+		repaintListeners.forEach(SpreadsheetRepaintListener::notifyRepaintNeeded);
 	}
 }

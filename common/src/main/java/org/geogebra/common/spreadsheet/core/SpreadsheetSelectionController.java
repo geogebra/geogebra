@@ -19,8 +19,15 @@ final class SpreadsheetSelectionController {
 	 */
 	private final List<Selection> selections = new ArrayList<>();
 
+	private final List<SpreadsheetRepaintListener> repaintListeners = new ArrayList<>();
+
+	void addRepaintListener(SpreadsheetRepaintListener listener) {
+		repaintListeners.add(listener);
+	}
+
 	void clearSelections() {
 		selections.clear();
+		notifySelectionChanged();
 	}
 
 	void selectAll() {
@@ -46,6 +53,7 @@ final class SpreadsheetSelectionController {
 	public void setSelection(Selection selection) {
 		this.selections.clear();
 		this.selections.add(selection);
+		notifySelectionChanged();
 	}
 
 	/**
@@ -156,6 +164,7 @@ final class SpreadsheetSelectionController {
 		clearSelections();
 		selections.addAll(independent);
 		selections.add(merged);
+		notifySelectionChanged();
 	}
 
 	/**
@@ -346,5 +355,9 @@ final class SpreadsheetSelectionController {
 			}
 		}
 		return index;
+	}
+
+	private void notifySelectionChanged() {
+		repaintListeners.forEach(SpreadsheetRepaintListener::notifyRepaintNeeded);
 	}
 }
