@@ -9,7 +9,6 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
@@ -386,7 +385,7 @@ public final class ExamController {
 	 *
 	 * @apiNote Make sure to call {@link #setActiveContext(Object, CommandDispatcher,
 	 * AlgebraProcessor, Localization, Settings, AutocompleteProvider, ToolsProvider,
-	 * EuclidianView)} before attempting to start an exam.
+	 * Construction)} before attempting to start an exam.
 	 *
 	 * @param examType The exam type.
 	 * @param options Additional options (optional).
