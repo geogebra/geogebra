@@ -226,7 +226,7 @@ public class GeoElementPropertiesFactory {
 	 * Creates a {@link BooleanPropertyCollection} to control the visibility of the elements.
 	 * @param localization localization for the property name
 	 * @param elements elements for which the property should be created
-	 * @return the property or null if the property couldn't be created or it is filtered
+	 * @return the property or {@code null} if it couldn't be created or is filtered
 	 */
 	public BooleanProperty createShowObjectProperty(
 			Localization localization, List<GeoElement> elements) {
@@ -236,7 +236,13 @@ public class GeoElementPropertiesFactory {
 						properties.toArray(new ShowObjectProperty[0])));
 	}
 
-	private RangeProperty<Integer> createPointSizeProperty(
+	/**
+	 * Creates a {@link RangePropertyCollection} to control the size of the points.
+	 * @param localization localization for the property name
+	 * @param elements elements for which the property should be created
+	 * @return the property or {@code null} if it couldn't be created or is filtered
+	 */
+	public RangeProperty<Integer> createPointSizeProperty(
 			Localization localization, List<GeoElement> elements) {
 		return createPropertyCollection(elements,
 				element -> new PointSizeProperty(localization, element),
@@ -244,7 +250,13 @@ public class GeoElementPropertiesFactory {
 						properties.toArray(new PointSizeProperty[0])));
 	}
 
-	private RangeProperty<Integer> createThicknessProperty(
+	/**
+	 * Creates a {@link RangePropertyCollection} to control the thickness of lines.
+	 * @param localization localization for the property name
+	 * @param elements elements for which the property should be created
+	 * @return the property or {@code null} if it couldn't be created or is filtered
+	 */
+	public RangeProperty<Integer> createThicknessProperty(
 			Localization localization, List<GeoElement> elements) {
 		return createPropertyCollection(elements,
 				element -> new ThicknessProperty(localization, element),
