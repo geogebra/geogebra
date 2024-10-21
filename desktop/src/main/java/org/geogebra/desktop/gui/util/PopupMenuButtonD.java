@@ -463,8 +463,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 				// Strings are converted to icons. We don't use setText so that
 				// the button size can be controlled
 				// regardless of the layout manager.
+				String content = getSelectedIndex() >= 0 ? (String) data[getSelectedIndex()] : " ";
 				icon = GeoGebraIconD.createStringIcon(
-						(String) data[getSelectedIndex()], app.getPlainFont(),
+						content, app.getPlainFont(),
 						false, false, true, iconSize, Color.BLACK, null);
 
 				break;

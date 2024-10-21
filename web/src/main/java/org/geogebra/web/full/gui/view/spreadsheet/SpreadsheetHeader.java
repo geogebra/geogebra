@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
-import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.gwtproject.event.dom.client.KeyDownHandler;
 
@@ -16,5 +16,5 @@ public interface SpreadsheetHeader extends KeyDownHandler {
 
 	boolean isResizing();
 
-	void updateSelection(GPoint p);
+	void updateSelection(SpreadsheetCoords p);
 }

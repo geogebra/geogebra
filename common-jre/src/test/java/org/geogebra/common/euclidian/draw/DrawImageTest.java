@@ -31,11 +31,11 @@ public class DrawImageTest extends BaseEuclidianControllerTest {
 	public void translateShouldChangeCenter() {
 		add("ZoomIn(0,0,800,600)");
 		GeoImage img = createImage();
-		GeoPoint pt = (GeoPoint) add("(100,100)");
+		GeoPoint pt = add("(100,100)");
 		img.setCorner(pt, 0);
 		img.setCentered(true);
 		img.setLabel("pic1");
-		GeoImage translated = (GeoImage) add("Translate(pic1, (100,0))");
+		GeoImage translated = add("Translate(pic1, (100,0))");
 		DrawImage drawImage = (DrawImage) getDrawable(img);
 		DrawImage drawTranslated = (DrawImage) getDrawable(translated);
 		// width 50px, centered at 100 -> x from 75 to 125

@@ -1,6 +1,9 @@
 package org.geogebra.web.html5.main.scripting;
 
+import java.util.Arrays;
+
 import org.geogebra.common.util.InjectJsInterop;
+import org.geogebra.common.util.debug.Log;
 
 import elemental2.core.Function;
 import elemental2.core.JsArray;
@@ -88,25 +91,52 @@ public class QuickJS {
 		return QuickJS.get().getQuickJS().then(factory -> {
 			QuickJSContext vm = Js.<QuickJS.ContextFactory>uncheckedCast(factory).newContext();
 			QuickJSHandle ggbApplet = vm.newObject();
-			QuickJSHandle window = vm.newObject();
-			vm.setProp(vm.global, "window", window);
+			QuickJSHandle console = vm.newObject();
+			vm.setProp(vm.global, "window", vm.global);
+			vm.setProp(vm.global, "console", console);
 			vm.setProp(vm.global, "ggbApplet", ggbApplet);
-			vm.setProp(window, "ggbApplet", ggbApplet);
 			JsPropertyMap<?> methods = Js.asPropertyMap(exportedApi);
-			methods.forEach(method -> {
-				Function methodFn = (Function) bundle.get(method);
-				MethodWrapper methodWrapper = (sandboxArgs) -> {
-					JsArray<Object> realArgs = new JsArray<>();
-					for (Object sandboxArg : sandboxArgs) {
-						realArgs.push(converter.fromSandboxObject(sandboxArg, vm));
-					}
-					Object rawResult = methodFn.apply(bundle, realArgs);
-					return converter.toSandboxObject(rawResult, vm);
-				};
-				vm.setProp(ggbApplet, method, vm.newFunction("", methodWrapper));
-			});
+			methods.forEach(method ->
+					addWrappedMethod(ggbApplet, method, bundle, method, vm, converter));
+			JsPropertyMap<Object> consoleBundle = Js.asPropertyMap(DomGlobal.console);
+			Arrays.asList("error", "info", "log", "warn").forEach(method ->
+				addWrappedMethod(console, method, consoleBundle, method, vm, converter)
+			);
+			vm.setProp(vm.global, "open", vm.newFunction("", getWindowOpen(converter, vm)));
+			addWrappedMethod(vm.global, "alert", bundle, "showTooltip", vm, converter);
 			return Promise.resolve(vm);
 		});
+	}
+
+	@JsOverlay
+	private static MethodWrapper getWindowOpen(SandboxConverter converter, QuickJSContext vm) {
+		return (sandboxArgs) -> {
+			Object url = sandboxArgs.length > 0 ? converter.fromSandboxObject(sandboxArgs[0], vm)
+					: Js.undefined();
+			if (url instanceof String && ((String) url).startsWith("https://")) {
+				DomGlobal.window.open((String) url);
+				// do not return the new window handle
+				return converter.toSandboxObject(JsPropertyMap.of(), vm);
+			}
+			Log.warn("HTTPS protocol expected: " + url);
+			return converter.toSandboxObject(Js.undefined(), vm);
+		};
+	}
+
+	@JsOverlay
+	private static void addWrappedMethod(QuickJSHandle sanboxed, String method,
+			JsPropertyMap<Object> bundle, String bundleMethod,
+			QuickJSContext vm, SandboxConverter converter) {
+		Function methodFn = (Function) bundle.get(bundleMethod);
+		MethodWrapper methodWrapper = (sandboxArgs) -> {
+			JsArray<Object> realArgs = new JsArray<>();
+			for (Object sandboxArg : sandboxArgs) {
+				realArgs.push(converter.fromSandboxObject(sandboxArg, vm));
+			}
+			Object rawResult = methodFn.apply(bundle, realArgs);
+			return converter.toSandboxObject(rawResult, vm);
+		};
+		vm.setProp(sanboxed, method, vm.newFunction("", methodWrapper));
 	}
 
 	@JsFunction

@@ -25,9 +25,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.main.App;
+import org.geogebra.common.spreadsheet.core.SelectionType;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
@@ -144,7 +144,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 			setText((value == null) ? "" : value.toString());
 
-			if (table.getSelectionType() == MyTableInterface.COLUMN_SELECT) {
+			if (table.getSelectionType() == SelectionType.COLUMNS) {
 				setBackground(defaultBackground);
 			} else {
 				if (table.selectedRowSet.contains(index)
@@ -174,10 +174,10 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	// near a row boundary (within 3 pixels)
 	private int getResizingRow(Point p) {
 		int resizeRow = -1;
-		GPoint point = table.getIndexFromPixel(p.x, p.y);
+		SpreadsheetCoords point = table.getIndexFromPixel(p.x, p.y);
 		if (point != null) {
 			// test if mouse is 3 pixels from row boundary
-			int cellRow = point.getY();
+			int cellRow = point.row;
 			if (cellRow >= 0) {
 				Rectangle r = table.getCellRect(cellRow, 0, true);
 				// near row bottom
@@ -255,17 +255,17 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 				return;
 			}
 
-			GPoint point = table.getIndexFromPixel(x, y);
+			SpreadsheetCoords point = table.getIndexFromPixel(x, y);
 			if (point != null) {
 				// G.STURR 2010-1-29
-				if (table.getSelectionType() != MyTableInterface.ROW_SELECT) {
-					table.setSelectionType(MyTableInterface.ROW_SELECT);
+				if (table.getSelectionType() != SelectionType.ROWS) {
+					table.setSelectionType(SelectionType.ROWS);
 					requestFocusInWindow();
 				}
 
 				if (shiftPressed) {
 					if (row0 != -1) {
-						int row = point.getY();
+						int row = point.row;
 						table.setRowSelectionInterval(row0, row);
 					}
 				}
@@ -273,7 +273,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 				// ctrl-select is handled in table
 
 				else {
-					row0 = point.getY();
+					row0 = point.row;
 					table.setRowSelectionInterval(row0, row0);
 				}
 				table.repaint();
@@ -292,22 +292,22 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 				return;
 			}
 
-			GPoint p = table.getIndexFromPixel(e.getX(), e.getY());
+			SpreadsheetCoords p = table.getIndexFromPixel(e.getX(), e.getY());
 			if (p == null) {
 				return;
 			}
 
 			// if click is outside current selection then change selection
-			if (p.getY() < minSelectionRow || p.getY() > maxSelectionRow
-					|| p.getX() < table.minSelectionColumn
-					|| p.getX() > table.maxSelectionColumn) {
+			if (p.row < minSelectionRow || p.row > maxSelectionRow
+					|| p.column < table.minSelectionColumn
+					|| p.column > table.maxSelectionColumn) {
 
 				// switch to row selection mode and select row
-				if (table.getSelectionType() != MyTableInterface.ROW_SELECT) {
-					table.setSelectionType(MyTableInterface.ROW_SELECT);
+				if (table.getSelectionType() != SelectionType.ROWS) {
+					table.setSelectionType(SelectionType.ROWS);
 				}
 
-				table.setRowSelectionInterval(p.getY(), p.getY());
+				table.setRowSelectionInterval(p.row, p.row);
 			}
 
 			// show contextMenu
@@ -359,16 +359,16 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 			}
 
 		} else { // select row
-			GPoint point = table.getIndexFromPixel(x, y);
+			SpreadsheetCoords point = table.getIndexFromPixel(x, y);
 			if (point != null) {
-				int row = point.getY();
+				int row = point.row;
 				table.setRowSelectionInterval(row0, row);
 
 				// G.Sturr 2010-4-4
 				// keep the row header updated when drag selecting multiple rows
 				view.updateRowHeader();
 				table.scrollRectToVisible(
-						table.getCellRect(point.y, point.x, true));
+						table.getCellRect(point.row, point.column, true));
 				table.repaint();
 			}
 		}

@@ -35,23 +35,23 @@ public class ToolsMenuW extends Submenu {
 	protected void initActions() {
 		Localization loc = getApp().getLocalization();
 		if (examController.isIdle()) {
-			addItem(MainMenu.getMenuBarHtml(
+			addItem(MainMenu.getMenuBarItem(
 					MaterialDesignResources.INSTANCE.tools_customize_black(),
-					loc.getMenu("Toolbar.Customize")), true,
+					loc.getMenu("Toolbar.Customize"),
 					new MenuCommand(getApp()) {
 
 						@Override
 						public void doExecute() {
 							getApp().showCustomizeToolbarGUI();
 						}
-					});
+					}));
 		}
 
-		addItem(MainMenu.getMenuBarHtml(
+		addItem(MainMenu.getMenuBarItem(
 				MaterialDesignResources.INSTANCE.tools_create_black(),
 				loc.getMenu(getApp().isOpenedForMacroEditing() ? "Tool.SaveAs"
-						: "Tool.CreateNew")),
-				true, new MenuCommand(getApp()) {
+						: "Tool.CreateNew"),
+				new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
@@ -59,14 +59,14 @@ public class ToolsMenuW extends Submenu {
 								getApp());
 						toolCreationDialog.center();
 					}
-				});
+				}));
 
 		if (examController.isIdle()) {
 			addItem(MainMenu
-					.getMenuBarHtml(
+					.getMenuBarItem(
 							MaterialDesignResources.INSTANCE.tools_black(),
-							loc.getMenu("Tool.Manage")),
-					true, new MenuCommand(getApp()) {
+							loc.getMenu("Tool.Manage"),
+					new MenuCommand(getApp()) {
 
 						@Override
 						public void doExecute() {
@@ -75,7 +75,7 @@ public class ToolsMenuW extends Submenu {
 									getApp(), data);
 							toolManageDialog.show();
 						}
-					});
+					}));
 		}
 	}
 

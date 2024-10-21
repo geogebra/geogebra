@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.arithmetic;
 
-import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -71,10 +70,16 @@ public final class FunctionVarCollector implements Traversing {
 	 */
 	public FunctionVariable[] buildVariables(Kernel kernel) {
 		FunctionVariable[] fvArray = new FunctionVariable[variableNames.size()];
-		Iterator<String> it = variableNames.iterator();
 		int i = 0;
-		while (it.hasNext()) {
-			fvArray[i++] = new FunctionVariable(kernel, it.next());
+		for (String known: kernel.getConstruction().getRegisteredFunctionVariables()) {
+			if (variableNames.contains(known)) {
+				fvArray[i++] = new FunctionVariable(kernel, known);
+			}
+		}
+		for (String variableName : variableNames) {
+			if (!kernel.getConstruction().isRegisteredFunctionVariable(variableName)) {
+				fvArray[i++] = new FunctionVariable(kernel, variableName);
+			}
 		}
 		return fvArray;
 	}

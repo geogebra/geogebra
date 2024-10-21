@@ -3,15 +3,16 @@ package org.geogebra.web.full.gui.view.spreadsheet;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
-import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.spreadsheet.core.SelectionType;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.regexp.shared.MatchResult;
@@ -135,7 +136,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		return getAbsoluteY(e, app);
 	}
 
-	private GPoint getIndexFromEvent(DomEvent<?> event) {
+	private SpreadsheetCoords getIndexFromEvent(DomEvent<?> event) {
 		return table
 		        .getIndexFromPixel(getAbsoluteX(event), getAbsoluteY(event));
 	}
@@ -147,29 +148,27 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			return;
 		}
 		// otherwise, doubleClick edits cell
-		GPoint point = getIndexFromEvent(doubleClickEvent);
+		SpreadsheetCoords point = getIndexFromEvent(doubleClickEvent);
 		tryEditCellAt(point);
 	}
 
-	private void tryEditCellAt(GPoint point) {
+	private void tryEditCellAt(SpreadsheetCoords point) {
 		if (canEditCellAt(point) && !isEditingCellAt(point)) {
 			editCellAt(point);
 		}
 	}
 
-	private boolean canEditCellAt(GPoint point) {
+	private boolean canEditCellAt(SpreadsheetCoords point) {
 		return !(table.getOneClickEditMap().containsKey(point) && view
 		        .allowSpecialEditor());
 	}
 
-	private boolean isEditingCellAt(GPoint point) {
-		int column = point.getX();
-		int row = point.getY();
-		return editor.isEditing() && editor.row == row
-		        && editor.column == column;
+	private boolean isEditingCellAt(SpreadsheetCoords coords) {
+		return editor.isEditing() && editor.row == coords.row
+		        && editor.column == coords.column;
 	}
 
-	private void editCellAt(GPoint point) {
+	private void editCellAt(SpreadsheetCoords point) {
 		table.setAllowEditing(true);
 		table.editCellAt(point);
 		table.setAllowEditing(false);
@@ -204,7 +203,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 		setActiveToolbarIfNecessary();
 		//event.preventDefault();
-		GPoint point = getIndexFromEvent(event);
+		SpreadsheetCoords point = getIndexFromEvent(event);
 		if (point == null) {
 			return;
 		}
@@ -245,15 +244,15 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			}
 			// force column selection
 			if (view.isColumnSelect()) {
-				int column = point.getX();
+				int column = point.column;
 				table.setColumnSelectionInterval(column, column);
 			}
 		}
 	}
 
-	private void changeSelection(GPoint point, boolean extend) {
-		if (table.getSelectionType() != MyTableInterface.CELL_SELECT) {
-			table.setSelectionType(MyTableInterface.CELL_SELECT);
+	private void changeSelection(SpreadsheetCoords point, boolean extend) {
+		if (table.getSelectionType() != SelectionType.CELLS) {
+			table.setSelectionType(SelectionType.CELLS);
 		}
 		table.changeSelection(point, extend);
 	}
@@ -266,9 +265,9 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		}
 	}
 
-	private boolean copyIntoEditorFromCellAt(GPoint pointOnMouseDown) {
-		int column = pointOnMouseDown.getX();
-		int row = pointOnMouseDown.getY();
+	private boolean copyIntoEditorFromCellAt(SpreadsheetCoords pointOnMouseDown) {
+		int column = pointOnMouseDown.column;
+		int row = pointOnMouseDown.row;
 		GeoClass cellType = table.getCellEditorType(row, column);
 		if (column == editor.column && row == editor.row
 				|| cellType == GeoClass.BUTTON
@@ -313,7 +312,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		table.finishEditing(false);
 	}
 
-	private boolean isCurrentSelection(GPoint point) {
+	private boolean isCurrentSelection(SpreadsheetCoords point) {
 		return isInsideCurrentSelection(point) && singleCellSelected();
 	}
 
@@ -339,7 +338,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		pointerIsDown = false;
 
 		event.preventDefault();
-		GPoint point = getIndexFromEvent(event);
+		SpreadsheetCoords point = getIndexFromEvent(event);
 
 		if (table.getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION) {
 			table.getSpreadsheetModeProcessor().stopAutoFunction();
@@ -360,7 +359,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		// Alt click: copy definition to input field
 		if (!table.isEditing() && event.getNativeEvent().getAltKey()
 		        && app.showAlgebraInput()) {
-			GeoElement geo = RelativeCopy.getValue(app, point);
+			GeoElement geo = RelativeCopy.getValue(app, point.column, point.row);
 			if (geo != null) {
 				// F3 key: copy definition to input bar
 				app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(
@@ -439,12 +438,12 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		table.draggingToColumn = -1;
 	}
 
-	private boolean isInsideCurrentSelection(GPoint point) {
-		ArrayList<CellRange> cellRanges = table.getSelectedCellRanges();
+	private boolean isInsideCurrentSelection(SpreadsheetCoords point) {
+		ArrayList<TabularRange> tabularRanges = table.getSelectedRanges();
 		boolean inside = false;
 		int idx = 0;
-		while (!inside && idx < cellRanges.size()) {
-			inside = cellRanges.get(idx).contains(point);
+		while (!inside && idx < tabularRanges.size()) {
+			inside = tabularRanges.get(idx).contains(point);
 			idx++;
 		}
 		return inside;
@@ -505,7 +504,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	}
 
 	private void handlePointerMove(boolean touch, int mouseX, int mouseY) {
-		GPoint point = table.getIndexFromPixel(mouseX, mouseY, -1);
+		SpreadsheetCoords point = table.getIndexFromPixel(mouseX, mouseY, -1);
 
 		if (pointerIsDown) {
 			if (table.getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION
@@ -520,8 +519,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			// handle editing mode drag
 			if (editor.isEditing()) {
 				if (selectedCellName != null) {
-					int column2 = point.getX();
-					int row2 = point.getY();
+					int column2 = point.column;
+					int row2 = point.row;
 
 					MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
 					        .exec(selectedCellName);
@@ -556,8 +555,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 			// handle dot drag
 			if (isDragingDot) {
-				table.draggingToRow = point.getY();
-				table.draggingToColumn = point.getX();
+				table.draggingToRow = point.row;
+				table.draggingToColumn = point.column;
 
 				// increase size if we're at the bottom of the spreadsheet
 				if (table.draggingToRow + 1 == table.getRowCount()
@@ -574,11 +573,11 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 				}
 
 				// scroll to show "highest" selected cell
-				table.scrollRectToVisible(point.x, point.y);
+				table.scrollRectToVisible(point.column, point.row);
 
-				int rowOffset = getOffset(point.y, table.minSelectionRow,
+				int rowOffset = getOffset(point.row, table.minSelectionRow,
 						table.maxSelectionRow);
-				int colOffset = getOffset(point.x, table.minSelectionColumn,
+				int colOffset = getOffset(point.column, table.minSelectionColumn,
 						table.maxSelectionColumn);
 
 				// get column distance
@@ -586,11 +585,11 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 					table.draggingToColumn = -1;
 					table.draggingToRow = -1;
 				} else if (Math.abs(rowOffset) > Math.abs(colOffset)) {
-					table.draggingToRow = point.y;
+					table.draggingToRow = point.row;
 					table.draggingToColumn = (colOffset > 0) ? table.maxSelectionColumn
 							: table.minSelectionColumn;
 				} else {
-					table.draggingToColumn = point.x;
+					table.draggingToColumn = point.column;
 					table.draggingToRow = (rowOffset > 0) ? table.maxSelectionRow
 							: table.minSelectionRow;
 				}
@@ -603,11 +602,11 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			// Web e.g. here
 
 			// change selection if right click is outside current selection
-			if (point.getY() != table.leadSelectionRow
-			        || point.getX() != table.leadSelectionColumn) {
+			if (point.row != table.leadSelectionRow
+			        || point.column != table.leadSelectionColumn) {
 				// switch to cell selection mode
 
-				if (point.getY() >= 0 && point.getX() >= 0) {
+				if (point.row >= 0 && point.column >= 0) {
 					changeSelection(point, true);
 					table.repaint();
 				}

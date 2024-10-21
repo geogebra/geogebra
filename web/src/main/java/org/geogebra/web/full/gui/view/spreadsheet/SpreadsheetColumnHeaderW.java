@@ -3,8 +3,9 @@ package org.geogebra.web.full.gui.view.spreadsheet;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.spreadsheet.core.SelectionType;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -174,7 +175,7 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 			/*Style s = grid.getCellFormatter().getElement(0, colIndex)
 			        .getStyle();*/
 
-			if (table.getSelectionType() == MyTableInterface.ROW_SELECT) {
+			if (table.getSelectionType() == SelectionType.ROWS) {
 				//setBgColorIfNeeded(s, defaultBackground);
 				updateCellSelection(false, colIndex);
 			} else {
@@ -232,10 +233,10 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 	 */
 	private int getResizingColumn(GPoint p, int boundary) {
 		int resizeColumn = -1;
-		GPoint point = table.getIndexFromPixel(p.x, 0);
+		SpreadsheetCoords point = table.getIndexFromPixel(p.x, 0);
 		if (point != null) {
 			// test if mouse is 3 pixels from column boundary
-			int cellColumn = point.getX();
+			int cellColumn = point.column;
 			if (cellColumn >= 0) {
 				GRectangle r = table.getCellRect(0, cellColumn, false);
 				// near column left ?
@@ -267,7 +268,7 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 		boolean shiftDown = e.isShiftDown();
 		boolean rightClick = e.isRightClick();
 		if (!rightClick) {
-			GPoint point = table.getIndexFromPixel(x, y);
+			SpreadsheetCoords point = table.getIndexFromPixel(x, y);
 
 			if (point == null) {
 				return;
@@ -283,32 +284,26 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 			else {
 
 				// launch trace dialog if over a trace button
-				if (point.x == this.overTraceButtonColumn) {
-					int column = point.getX();
+				if (point.column == this.overTraceButtonColumn) {
+					int column = point.column;
 					table.setColumnSelectionInterval(column, column);
-					// ?//view.showTraceDialog(null,
-					// ?// table.selectedCellRanges.get(0));
-					// ?//e.consume();
 					return;
 				}
 
 				// otherwise handle column selection
 				if (table
-						.getSelectionType() != MyTableInterface.COLUMN_SELECT) {
-					table.setSelectionType(MyTableInterface.COLUMN_SELECT);
-					// ?//if (table.getTableHeader() != null) {
-					// ?// table.getTableHeader().requestFocusInWindow();
-					// ?//}
+						.getSelectionType() != SelectionType.COLUMNS) {
+					table.setSelectionType(SelectionType.COLUMNS);
 				}
 
 				if (shiftDown) {
 					if (column0 != -1) {
-						int column = point.getX();
+						int column = point.column;
 						table.setColumnSelectionInterval(column0, column);
 					}
 				} else {
 
-					column0 = point.getX();
+					column0 = point.column;
 					table.setColumnSelectionInterval(column0, column0);
 				}
 				renderSelection();
@@ -391,9 +386,9 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 
 			else {
 				// Select a column
-				GPoint point = table.getIndexFromPixel(x, y);
+				SpreadsheetCoords point = table.getIndexFromPixel(x, y);
 				if (point != null) {
-					int column = point.getX();
+					int column = point.column;
 					if (column0 == -1) {
 						column0 = column;
 					}
@@ -430,15 +425,15 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 	}
 
 	@Override
-	public void updateSelection(GPoint p) {
+	public void updateSelection(SpreadsheetCoords p) {
 		// switch to column selection mode and select column
 		if (table
-				.getSelectionType() != MyTableInterface.COLUMN_SELECT) {
-			table.setSelectionType(MyTableInterface.COLUMN_SELECT);
+				.getSelectionType() != SelectionType.COLUMNS) {
+			table.setSelectionType(SelectionType.COLUMNS);
 		}
 
 		// selectNone();
-		table.setColumnSelectionInterval(p.getX(), p.getX());
+		table.setColumnSelectionInterval(p.column, p.column);
 		renderSelection();
 	}
 

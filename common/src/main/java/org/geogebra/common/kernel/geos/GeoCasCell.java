@@ -1516,39 +1516,26 @@ public class GeoCasCell extends GeoElement
 		// so we need to add f(x,y) := if it is missing
 		boolean isFunctionDeclaration = isAssignmentVariableDefined()
 				&& functionvars != null && !functionvars.isEmpty();
-		// note: MPReduce returns "f" for a function definition "f(x) := x^2"
-		// && !output.startsWith(assignmentVar);
 		if (nativeOutput) {
-			String res = output;
-
+			ValidExpression parsed;
 			if (isFunctionDeclaration && prependLabel) {
 				// removing y from expressions y = x! and
-				outputVE = (ValidExpression) parseGeoGebraCASInputAndResolveDummyVars(
-						res).traverse(Traversing.FunctionCreator.getCreator());
-
-				StringBuilder sb = new StringBuilder();
-				sb.append(getInputVE().getLabelForAssignment());
-
-				switch (getAssignmentType()) {
-				case DEFAULT:
-					sb.append(getInputVE().getAssignmentOperator());
-					break;
-				case DELAYED:
-					sb.append(getInputVE().getDelayedAssignmentOperator());
-					break;
-				case NONE:
-					break;
+				parsed = (ValidExpression) parseGeoGebraCASInputAndResolveDummyVars(
+						output).traverse(Traversing.FunctionCreator.getCreator());
+				// wrap expression in function to add f(vars)=
+				if (!(parsed instanceof FunctionNVar) && getInputVE() instanceof FunctionNVar) {
+					FunctionNVar copy = ((FunctionNVar) getInputVE()).deepCopy(kernel);
+					copy.setLabel(getInputVE().getLabel());
+					copy.setExpression(parsed.wrap());
+					parsed = copy;
 				}
-				// #5119 / TRAC-4213 make sure internally the result does not
-				// depend on rounding
-				sb.append(outputVE.toString(StringTemplate.numericNoLocal));
-				res = sb.toString();
-			}
+			} else {
 
-			// parse output into valid expression
-			ValidExpression parsed = parseGeoGebraCASInputAndResolveDummyVars(
-					res);
-			if ((evalCmd != null && "NSolve".equals(evalCmd))
+				// parse output into valid expression
+				parsed = parseGeoGebraCASInputAndResolveDummyVars(
+						output);
+			}
+			if (("NSolve".equals(evalCmd))
 					|| (inputVE != null && inputVE.getTopLevelCommand() != null
 							&& inputVE.getTopLevelCommand().getName()
 									.equals("NSolve"))) {

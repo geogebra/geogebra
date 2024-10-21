@@ -5,6 +5,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.ResourceAction;
 import org.geogebra.web.html5.main.AppW;
 
+import elemental2.promise.Promise;
+
 public interface GLookAndFeelI {
 	int COMMAND_LINE_HEIGHT = 43;
 	int TOOLBAR_HEIGHT = 53;
@@ -33,13 +35,13 @@ public interface GLookAndFeelI {
 
 	boolean isEmbedded();
 
-	boolean examSupported();
-
 	boolean printSupported();
 
 	Platform getPlatform(int dim, String appName);
 
 	void storeLanguage(String language);
+
+	Promise<String> loadLanguage();
 
 	void toggleFullscreen(boolean b);
 
@@ -67,4 +69,13 @@ public interface GLookAndFeelI {
 	boolean isExternalLoginAllowed();
 
 	ResourceAction getDisplayAction(ResourceAction action);
+
+	/**
+	 * Should be combined with app.isExamLocked() to check that the environment is
+	 * currently locked.
+	 * @return whether this environment supports locking
+	 */
+	default boolean hasLockedEnvironment() {
+		return false;
+	}
 }

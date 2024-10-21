@@ -24,9 +24,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
+import org.geogebra.common.spreadsheet.core.SelectionType;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.gui.layout.LayoutD;
@@ -78,10 +79,10 @@ public class SpreadsheetColumnControllerD
 			// get column to adjust
 			int x = e.getX();
 			int y = e.getY();
-			GPoint point = table.getIndexFromPixel(x, y);
-			GPoint testPoint = table.getIndexFromPixel(x - 4, y);
-			int col = point.getX();
-			if (point.getX() != testPoint.getX()) {
+			SpreadsheetCoords point = table.getIndexFromPixel(x, y);
+			SpreadsheetCoords testPoint = table.getIndexFromPixel(x - 4, y);
+			int col = point.column;
+			if (point.column != testPoint.column) {
 				col = col - 1;
 			}
 
@@ -121,14 +122,14 @@ public class SpreadsheetColumnControllerD
 		table.getTableHeader().requestFocus();
 
 		if (!rightClick) {
-			GPoint point = table.getIndexFromPixel(x, y);
+			SpreadsheetCoords point = table.getIndexFromPixel(x, y);
 			if (point != null) {
 
 				// check if the cursor is within the resizing region (i.e.
 				// border +- 3pixels)
-				GPoint point2 = table.getPixel(point.getX(), point.getY(),
+				GPoint point2 = table.getPixel(point.column, point.row,
 						true);
-				GPoint point3 = table.getPixel(point.getX(), point.getY(),
+				GPoint point3 = table.getPixel(point.column, point.row,
 						false);
 				int x2 = point2.getX();
 				int x3 = point3.getX();
@@ -137,8 +138,8 @@ public class SpreadsheetColumnControllerD
 				if (!isResizing) {
 
 					// launch trace dialog if over a trace button
-					if (point.x == this.overTraceButtonColumn) {
-						int column = point.getX();
+					if (point.column == this.overTraceButtonColumn) {
+						int column = point.column;
 						app.getTraceManager().togglePauseTraceGeo(column);
 						view.repaintView();
 						e.consume();
@@ -147,8 +148,8 @@ public class SpreadsheetColumnControllerD
 
 					// otherwise handle column selection
 					if (table
-							.getSelectionType() != MyTableInterface.COLUMN_SELECT) {
-						table.setSelectionType(MyTableInterface.COLUMN_SELECT);
+							.getSelectionType() != SelectionType.COLUMNS) {
+						table.setSelectionType(SelectionType.COLUMNS);
 						if (table.getTableHeader() != null) {
 							table.getTableHeader().requestFocusInWindow();
 						}
@@ -156,7 +157,7 @@ public class SpreadsheetColumnControllerD
 
 					if (shiftDown) {
 						if (column0 != -1) {
-							int column = point.getX();
+							int column = point.column;
 							table.setColumnSelectionInterval(column0, column);
 						}
 						// } else if (metaDown) {
@@ -165,7 +166,7 @@ public class SpreadsheetColumnControllerD
 						// // table.changeSelection
 						// table.setColumnSelectionInterval(column0, column0);
 					} else {
-						column0 = point.getX();
+						column0 = point.column;
 						table.setColumnSelectionInterval(column0, column0);
 					}
 					// repaint();
@@ -189,24 +190,24 @@ public class SpreadsheetColumnControllerD
 				return;
 			}
 
-			GPoint p = table.getIndexFromPixel(e.getX(), e.getY());
+			SpreadsheetCoords p = table.getIndexFromPixel(e.getX(), e.getY());
 			if (p == null) {
 				return;
 			}
 
 			// if click is outside current selection then change selection
-			if (p.getY() < table.minSelectionRow
-					|| p.getY() > table.maxSelectionRow
-					|| p.getX() < table.minSelectionColumn
-					|| p.getX() > table.maxSelectionColumn) {
+			if (p.row < table.minSelectionRow
+					|| p.row > table.maxSelectionRow
+					|| p.column < table.minSelectionColumn
+					|| p.column > table.maxSelectionColumn) {
 				// switch to column selection mode and select column
 				if (table
-						.getSelectionType() != MyTableInterface.COLUMN_SELECT) {
-					table.setSelectionType(MyTableInterface.COLUMN_SELECT);
+						.getSelectionType() != SelectionType.COLUMNS) {
+					table.setSelectionType(SelectionType.COLUMNS);
 				}
 
 				// selectNone();
-				table.setColumnSelectionInterval(p.getX(), p.getX());
+				table.setColumnSelectionInterval(p.column, p.column);
 			}
 
 			// show contextMenu
@@ -223,12 +224,12 @@ public class SpreadsheetColumnControllerD
 
 			int x = e.getX();
 			int y = e.getY();
-			GPoint point = table.getIndexFromPixel(x, y);
+			SpreadsheetCoords point = table.getIndexFromPixel(x, y);
 			if (point == null) {
 				return;
 			}
-			GPoint point2 = table.getPixel(point.getX(), point.getY(), false);
-			int column = point.getX();
+			GPoint point2 = table.getPixel(point.column, point.row, false);
+			int column = point.column;
 			if (x < point2.getX() - 3) {
 				--column;
 			}
@@ -277,9 +278,9 @@ public class SpreadsheetColumnControllerD
 		}
 		int x = e.getX();
 		int y = e.getY();
-		GPoint point = table.getIndexFromPixel(x, y);
+		SpreadsheetCoords point = table.getIndexFromPixel(x, y);
 		if (point != null) {
-			int column = point.getX();
+			int column = point.column;
 			if (column0 == -1) {
 				column0 = column;
 			}
@@ -296,9 +297,9 @@ public class SpreadsheetColumnControllerD
 		int column = -1;
 		boolean isOver = false;
 		Point mouseLoc = e.getPoint();
-		GPoint cellLoc = table.getIndexFromPixel(mouseLoc.x, mouseLoc.y);
+		SpreadsheetCoords cellLoc = table.getIndexFromPixel(mouseLoc.x, mouseLoc.y);
 		if (cellLoc != null) {
-			column = cellLoc.x;
+			column = cellLoc.column;
 			if (app.getTraceManager().isTraceColumn(column)) {
 				// adjust mouseLoc to the coordinate space of this column header
 				mouseLoc.x = mouseLoc.x - table.getCellRect(0, column, true).x;
@@ -503,7 +504,7 @@ public class SpreadsheetColumnControllerD
 
 			lblHeader.setText(value.toString());
 
-			if (table1.getSelectionType() == MyTableInterface.ROW_SELECT) {
+			if (table1.getSelectionType() == SelectionType.ROWS) {
 				setBackground(defaultBackground);
 			} else {
 				if (table1.selectedColumnSet.contains(colIndex)

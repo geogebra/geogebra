@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.spreadsheet;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -35,7 +36,7 @@ public interface SpreadsheetViewInterface extends View {
 
 	public void scrollIfNeeded(GeoElement geo, String labelNew);
 
-	public void showTraceDialog(GeoElement geo, CellRange traceCell);
+	public void showTraceDialog(GeoElement geo, TabularRange traceCell);
 
 	public void setKeyboardEnabled(boolean enable);
 

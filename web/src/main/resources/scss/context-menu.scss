@@ -15,11 +15,12 @@
 
 			padding: 0 16px 0 56px;
 
-			&.keyboardFocus:focus-visible {
+			&.fakeFocus, &.keyboardFocus:focus-visible {
 				outline-color: var(--ggb-dark-color);
 				outline-width: 2px;
 				outline-style: solid;
 				background: var(--ggb-light-color);
+				outline-offset: -2px;
 			}
 
 			&.no-image {

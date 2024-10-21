@@ -12,6 +12,7 @@
 
 package org.geogebra.common.kernel.geos;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
@@ -586,5 +587,10 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	@Override
 	public void updateLocation() {
 		update();
+	}
+
+	@Override
+	public BigDecimal toDecimal() {
+		return value ? BigDecimal.ONE : BigDecimal.ZERO;
 	}
 }

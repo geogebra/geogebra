@@ -257,8 +257,6 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_shape_rectangle_32();
 
-	ResourcePrototype mode_shape_rectangle_round_edges_32();
-
 	ResourcePrototype mode_shape_pentagon_32();
 
 	ResourcePrototype mode_shape_freeform_32();

@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.commands.selector;
 
 import static org.junit.Assert.assertEquals;
 
+import org.geogebra.common.exam.restrictions.MmsExamRestrictions;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.junit.Test;
@@ -54,7 +55,7 @@ public class CommandFilterFactoryTest {
 	@Test
 	public void testCasCommandFilterForVectorCommands() {
 		Commands[] allowedVectorCommands = {Commands.PerpendicularVector,
-				Commands.UnitPerpendicularVector, Commands.UnitVector};
+				Commands.UnitPerpendicularVector, Commands.UnitVector, Commands.ParseToNumber};
 		filter = CommandFilterFactory.createCasCommandFilter();
 		for (Commands command : allowedVectorCommands) {
 			assertAllowed(true, command);
@@ -69,11 +70,11 @@ public class CommandFilterFactoryTest {
 
 	@Test
 	public void testMmsCommandFilter() {
-		filter = CommandFilterFactory.createMmsFilter();
+		filter = MmsExamRestrictions.createCommandFilter();
 		assertAllowed(false, Commands.AreEqual);
 		assertAllowed(false, Commands.Hyperbola);
-		assertAllowed(true, Commands.Slope);
-		assertAllowed(true, Commands.Intersect);
+		assertAllowed(false, Commands.Slope);
+		assertAllowed(false, Commands.Intersect);
 		// disabled commands that have different english and internal name
 		assertAllowed(false, Commands.DelaunayTriangulation);
 		assertAllowed(false, Commands.SemiMajorAxisLength);

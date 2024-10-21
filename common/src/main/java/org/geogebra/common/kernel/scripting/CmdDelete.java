@@ -1,8 +1,6 @@
 package org.geogebra.common.kernel.scripting;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
-import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoDependentGeoCopy;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -12,6 +10,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.statistics.AlgoCellRange;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.spreadsheet.core.SelectionType;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 
 /**
  * Delete[ &lt;GeoElement&gt; ]
@@ -49,12 +49,12 @@ public class CmdDelete extends CmdScripting {
 			} else if (algoParent instanceof AlgoCellRange) {
 				// delete cells
 				AlgoCellRange algo = (AlgoCellRange) algoParent;
-				GPoint startCoords = GeoElementSpreadsheet
+				SpreadsheetCoords startCoords = GeoElementSpreadsheet
 						.getSpreadsheetCoordsForLabel(algo.getStart());
-				GPoint endCoords = GeoElementSpreadsheet
+				SpreadsheetCoords endCoords = GeoElementSpreadsheet
 						.getSpreadsheetCoordsForLabel(algo.getEnd());
-				CopyPasteCut.delete(app, startCoords.x, startCoords.y,
-						endCoords.x, endCoords.y, MyTableInterface.CELL_SELECT);
+				CopyPasteCut.delete(app, startCoords.column, startCoords.row,
+						endCoords.column, endCoords.row, SelectionType.CELLS);
 
 			} else if (geo.isLabelSet()) {
 				// delete object

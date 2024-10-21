@@ -4,6 +4,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.test.TestStringUtil;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,9 +28,12 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue({"WLY-122", "APPS-5781"})
 	public void testDecimal() {
 		shouldReplaceAs("pi8.1",
 				Unicode.PI_STRING + " * 8.1");
+		add("C_{0}=3");
+		shouldReplaceAs("C_{0}8.1", "C_{0} * 8.1");
 	}
 
 	@Test
@@ -121,6 +125,16 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	@Test
 	public void testParseReverse() {
 		shouldReplaceAs("ax", "a * x");
+	}
+
+	@Test
+	@Issue("APPS-5781")
+	public void shouldNotSimplify() {
+		add("c=3");
+		shouldReplaceAs("c0deg", "(c * 0)" + Unicode.DEGREE_STRING);
+		shouldReplaceAs("c1deg", "(c * 1)" + Unicode.DEGREE_STRING);
+		shouldReplaceAs("c0c", "c * 0 * c");
+		shouldReplaceAs("c1c", "c * 1 * c");
 	}
 
 	private void shouldReplaceAs(String in, String out) {

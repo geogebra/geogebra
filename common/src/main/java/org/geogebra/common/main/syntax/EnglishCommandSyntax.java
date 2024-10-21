@@ -1,7 +1,6 @@
 package org.geogebra.common.main.syntax;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 
 /**
  * Class to get the syntax of the command
@@ -13,10 +12,9 @@ public class EnglishCommandSyntax extends LocalizedCommandSyntax {
 
 	/**
 	 * @param localization the localization.
-	 * @param syntaxFilter syntax filter
 	 */
-	public EnglishCommandSyntax(Localization localization, SyntaxFilter syntaxFilter) {
-		super(localization, syntaxFilter);
+	public EnglishCommandSyntax(Localization localization) {
+		super(localization);
 	}
 
 	@Override

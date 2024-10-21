@@ -152,8 +152,7 @@ public final class TextFieldUtil {
 	 * @return whether it's close bracket or whitespace
 	 */
 	public static boolean isCloseBracketOrWhitespace(char c) {
-		// Character.isWhiteSpace not supported in GWT
-		return StringUtil.isWhitespace(c) || c == ')' || c == ']' || c == '}';
+		return Character.isWhitespace(c) || c == ')' || c == ']' || c == '}';
 	}
 
 }

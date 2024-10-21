@@ -2,9 +2,8 @@ package org.geogebra.common.gui.view.data;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.data.DataItem.SourceType;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
+import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoDependentList;
@@ -19,6 +18,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -30,6 +31,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class DataVariable {
+
+	private final App app;
 
 	/**
 	 * Identifier for the data grouping type
@@ -60,6 +63,7 @@ public class DataVariable {
 	 */
 	public DataVariable(App app) {
 		this.loc = app.getLocalization();
+		this.app = app;
 	}
 
 	// =============================================
@@ -125,13 +129,13 @@ public class DataVariable {
 			frequency = null;
 			classes = null;
 			if (values.size() == 0) {
-				values.add(new DataItem());
+				values.add(new DataItem(app));
 			}
 			break;
 
 		case FREQUENCY:
 			if (frequency == null) {
-				frequency = new DataItem();
+				frequency = new DataItem(app);
 				frequency.setGeoClass(GeoClass.NUMERIC);
 				frequency.setDescription(loc.getMenu("Frequency"));
 			}
@@ -140,12 +144,12 @@ public class DataVariable {
 
 		case CLASS:
 			if (frequency == null) {
-				frequency = new DataItem();
+				frequency = new DataItem(app);
 				frequency.setGeoClass(GeoClass.NUMERIC);
 				frequency.setDescription(loc.getMenu("Frequency"));
 			}
 			if (classes == null) {
-				classes = new DataItem(new Double[0]);
+				classes = new DataItem(new Double[0], app);
 				classes.setDescription(loc.getMenu("Classes"));
 			}
 
@@ -323,7 +327,7 @@ public class DataVariable {
 			values = new ArrayList<>();
 		}
 
-		DataItem item = new DataItem();
+		DataItem item = new DataItem(app);
 		item.setGeoClass(geoClass);
 		values.add(item);
 	}
@@ -623,18 +627,18 @@ public class DataVariable {
 		}
 
 		// CASE 2: spreadsheet cell
-		GPoint location = geo.getSpreadsheetCoords();
+		SpreadsheetCoords location = geo.getSpreadsheetCoords();
 		boolean isCell = location != null
-				&& location.x < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP
-				&& location.y < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP;
+				&& location.column < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP
+				&& location.row < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP;
 
 		if (isCell) {
 			for (DataItem dataItem : itemList) {
 				if (dataItem.getType() == SourceType.SPREADSHEET) {
 					try {
 						if (dataItem.getRangeList() != null) {
-							for (CellRange cr : dataItem.getRangeList()) {
-								if (cr.contains(geo)) {
+							for (TabularRange cr : dataItem.getRangeList()) {
+								if (cr.contains(geo.getSpreadsheetCoords())) {
 									return true;
 								}
 							}
@@ -663,16 +667,16 @@ public class DataVariable {
 		for (DataItem item : values) {
 
 			sb.append("<item ranges=\"");
-			ArrayList<CellRange> crList = item.getRangeList();
+			ArrayList<TabularRange> crList = item.getRangeList();
 			if (crList != null) {
-				appendCellRanges(sb, crList);
+				appendTabularRanges(sb, crList);
 			}
 			sb.append("\"/>\n");
 		}
 		if (frequency != null) {
 			// save the frequencies to XML
 			sb.append("<item frequencies=\"");
-			appendCellRanges(sb, frequency.getRangeList());
+			appendTabularRanges(sb, frequency.getRangeList());
 			sb.append("\"/>\n");
 		}
 		if (classes != null) {
@@ -684,12 +688,12 @@ public class DataVariable {
 		sb.append("</variable>\n");
 	}
 
-	private void appendCellRanges(StringBuilder sb, ArrayList<CellRange> crList) {
+	private void appendTabularRanges(StringBuilder sb, ArrayList<TabularRange> crList) {
 		boolean first = true;
-		for (CellRange cr : crList) {
+		for (TabularRange cr : crList) {
 			if (cr != null) {
 				sb.append(first ? "" : ",");
-				sb.append(cr.getLabel());
+				sb.append(CellRangeUtil.getLabel(cr));
 				first = false;
 			}
 		}

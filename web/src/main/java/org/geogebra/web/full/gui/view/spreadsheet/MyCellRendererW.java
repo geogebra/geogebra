@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -10,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;

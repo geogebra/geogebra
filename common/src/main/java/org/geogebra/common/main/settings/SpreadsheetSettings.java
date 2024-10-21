@@ -2,16 +2,19 @@ package org.geogebra.common.main.settings;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.spreadsheet.core.CustomRowAndColumnSizeProvider;
+import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
 
 /**
  * Settings for the spreadsheet view.
  */
-public class SpreadsheetSettings extends AbstractSettings {
+public class SpreadsheetSettings extends AbstractSettings implements SpreadsheetDimensions {
 
 	public static final int TABLE_CELL_WIDTH = 70;
 	public static final int TABLE_CELL_HEIGHT = 21; // G.Sturr (old height 20) +
@@ -34,8 +37,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 	private boolean enableAutoComplete = Defaults.ENABLE_AUTOCOMPLETE;
 
 	// row and column size
-	private HashMap<Integer, Integer> widthMap;
-	private HashMap<Integer, Integer> heightMap;
+	private Map<Integer, Integer> widthMap;
+	private Map<Integer, Integer> heightMap;
 	private int preferredColumnWidth = TABLE_CELL_WIDTH;
 	private int preferredRowHeight = TABLE_CELL_HEIGHT;
 
@@ -50,6 +53,9 @@ public class SpreadsheetSettings extends AbstractSettings {
 	private GDimension preferredSize;
 	private int hScrollBarValue;
 	private int vScrollBarValue;
+	private int rows = 100;
+	private int columns = 26;
+	private CustomRowAndColumnSizeProvider customRowAndColumnSizeProvider;
 
 	public static class Defaults {
 		public static final boolean SHOW_FORMULA_BAR = false;
@@ -90,10 +96,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 		preferredSize = AwtFactory.getPrototype().newDimension(0, 0);
 	}
 
-	/**
-	 * @return column widths
-	 */
-	public HashMap<Integer, Integer> getWidthMap() {
+	@Override
+	public Map<Integer, Integer> getWidthMap() {
 		if (widthMap == null) {
 			widthMap = new HashMap<>();
 		}
@@ -109,6 +113,10 @@ public class SpreadsheetSettings extends AbstractSettings {
 	public void addWidth(int index, int width) {
 		getWidthMap().put(index, width);
 		settingChanged();
+	}
+
+	public void addWidthNoFire(int index, int width) {
+		getWidthMap().put(index, width);
 	}
 
 	/**
@@ -127,10 +135,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 		settingChanged();
 	}
 
-	/**
-	 * @return row heights
-	 */
-	public HashMap<Integer, Integer> getHeightMap() {
+	@Override
+	public Map<Integer, Integer> getHeightMap() {
 		if (heightMap == null) {
 			heightMap = new HashMap<>();
 		}
@@ -146,6 +152,10 @@ public class SpreadsheetSettings extends AbstractSettings {
 	public void addHeight(int index, int height) {
 		getHeightMap().put(index, height);
 		settingChanged();
+	}
+
+	public void addHeightNoFire(int row, int height) {
+		getHeightMap().put(row, height);
 	}
 
 	/**
@@ -738,8 +748,12 @@ public class SpreadsheetSettings extends AbstractSettings {
 	 *            XML string builder
 	 */
 	public void getWidthsAndHeightsXML(StringBuilder sb) {
+		if (customRowAndColumnSizeProvider != null) {
+			widthMap = customRowAndColumnSizeProvider.getCustomColumnWidths();
+			heightMap = customRowAndColumnSizeProvider.getCustomRowHeights();
+		}
 		// column widths
-		HashMap<Integer, Integer> widthMap1 = getWidthMap();
+		Map<Integer, Integer> widthMap1 = getWidthMap();
 		for (Entry<Integer, Integer> entry : widthMap1.entrySet()) {
 			Integer col = entry.getKey();
 			int colWidth = entry.getValue();
@@ -750,7 +764,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 		}
 
 		// row heights
-		HashMap<Integer, Integer> heightMap1 = getHeightMap();
+		Map<Integer, Integer> heightMap1 = getHeightMap();
 		for (Entry<Integer, Integer> entry : heightMap1.entrySet()) {
 			Integer row = entry.getKey();
 			int rowHeight = entry.getValue();
@@ -760,6 +774,65 @@ public class SpreadsheetSettings extends AbstractSettings {
 			}
 		}
 
+	}
+
+	@Override
+	public int getColumns() {
+		return columns;
+	}
+
+	@Override
+	public int getRows() {
+		return rows;
+	}
+
+	/**
+	 * Print size XML tag to a builder
+	 * @param sb output string builder
+	 */
+	public void getSizeXML(StringBuilder sb) {
+		sb.append("<dimensions rows=\"").append(rows)
+				.append("\" columns=\"").append(columns).append("\"/>");
+	}
+
+	/**
+	 * @param rows number of rows
+	 * @param columns number of columns
+	 */
+	public void setDimensions(int rows, int columns) {
+		this.rows = rows;
+		this.columns = columns;
+		settingChanged();
+	}
+
+	public void setRowsNoFire(int rows) {
+		this.rows  = rows;
+	}
+
+	public void setColumnsNoFire(int columns) {
+		this.columns  = columns;
+	}
+
+	public void setCustomRowAndColumnSizeProvider(CustomRowAndColumnSizeProvider provider) {
+		this.customRowAndColumnSizeProvider = provider;
+	}
+
+	/**
+	 * Remove all custom heights
+	 */
+	public void clearHeights() {
+		if (heightMap != null) {
+			heightMap.clear();
+		}
+	}
+
+	/**
+	 * Remove all custom widths
+	 */
+	public void clearWidths() {
+		if (widthMap != null) {
+			widthMap.clear();
+		}
 	}
 
 }

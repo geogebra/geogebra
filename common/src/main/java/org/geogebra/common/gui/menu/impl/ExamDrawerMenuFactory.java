@@ -45,8 +45,8 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	public DrawerMenu createDrawerMenu() {
 		boolean isScientific = version == GeoGebraConstants.Version.SCIENTIFIC;
 		MenuItem clearConstruction = clearConstruction();
-		MenuItem openFile = isScientific ? null : openFile();
-		MenuItem saveFile = isScientific ? null : saveFile();
+		MenuItem openFile = isScientific && !isSuiteApp() ? null : openFile();
+		MenuItem saveFile = isScientific && !isSuiteApp() ? null : saveFile();
 		MenuItem switchCalculator = showSwitchCalculator();
 		MenuItem examLog = showExamLog();
 		MenuItem exitExam = createsExitExam ? exitExamMode() : null;

@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
@@ -161,10 +162,34 @@ public class Variable extends ValidExpression {
 	 */
 	final public ExpressionValue resolveAsExpressionValue(SymbolicMode mode,
 				boolean multipleUnassignedAllowed, boolean allowMultiLetterVariables) {
-		variableReplacerAlgorithm.setMultipleUnassignedAllowed(multipleUnassignedAllowed);
 		boolean allowAutoCreateGeoElement = (mode == SymbolicMode.NONE)
-					&& !multipleUnassignedAllowed;
-		GeoElement geo = resolve(allowAutoCreateGeoElement, false, mode, allowMultiLetterVariables);
+				&& !multipleUnassignedAllowed;
+		return resolveAsExpressionValue(mode, multipleUnassignedAllowed,
+				allowMultiLetterVariables, allowAutoCreateGeoElement);
+	}
+
+	/**
+	 * Looks up the name of this variable in the kernel and returns the
+	 * according GeoElement object. For absolute spreadsheet reference names
+	 * like A$1 or $A$1 a special ExpressionNode wrapper object is returned that
+	 * preserves this special name for displaying of the expression.
+	 * @param info contains flags defining how to handle automatic creation of objects
+	 * @return element with matching label or expression
+	 */
+	final public ExpressionValue resolveAsExpressionValue(EvalInfo info) {
+		boolean autoCreateObjects = info.isAutoCreateObjects()
+				&& (info.getSymbolicMode() == SymbolicMode.NONE);
+		return resolveAsExpressionValue(info.getSymbolicMode(),
+				info.isMultipleUnassignedAllowed(), info.isMultiLetterVariablesAllowed(),
+				autoCreateObjects);
+	}
+
+	private ExpressionValue resolveAsExpressionValue(SymbolicMode mode,
+		boolean multipleUnassignedAllowed, boolean allowMultiLetterVariables,
+		boolean autoCreateObjects) {
+		variableReplacerAlgorithm.setMultipleUnassignedAllowed(multipleUnassignedAllowed);
+
+		GeoElement geo = resolve(autoCreateObjects, false, mode, allowMultiLetterVariables);
 		if (geo == null) {
 			if (kernel.getConstruction().isRegisteredFunctionVariable(name)) {
 				return new FunctionVariable(kernel, name);
@@ -184,9 +209,9 @@ public class Variable extends ValidExpression {
 				return replacement;
 			}
 			if (mode == SymbolicMode.SYMBOLIC_AV) {
-				return new GeoDummyVariable(kernel.getConstruction(), name);
+				return resolveUnknownForCAS();
 			}
-			return resolve(allowAutoCreateGeoElement, true, mode, allowMultiLetterVariables);
+			return resolve(autoCreateObjects, true, mode, allowMultiLetterVariables);
 		}
 
 		// spreadsheet dollar sign reference
@@ -212,6 +237,14 @@ public class Variable extends ValidExpression {
 
 		// standard case: no dollar sign
 		return geo;
+	}
+
+	private ExpressionValue resolveUnknownForCAS() {
+		if (GeoElementSpreadsheet.isSpreadsheetLabel(name)) {
+			return kernel.getConstruction()
+					.createSpreadsheetGeoElement(null, name);
+		}
+		return new GeoDummyVariable(kernel.getConstruction(), name);
 	}
 
 	/**

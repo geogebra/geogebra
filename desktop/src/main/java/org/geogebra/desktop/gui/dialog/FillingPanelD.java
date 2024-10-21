@@ -1,19 +1,17 @@
 package org.geogebra.desktop.gui.dialog;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -23,13 +21,9 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JToggleButton;
-import javax.swing.MenuElement;
-import javax.swing.MenuSelectionManager;
-import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -43,18 +37,13 @@ import org.geogebra.common.kernel.geos.ChartStyleGeo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.statistics.GeoPieChart;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
-import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.gui.util.SliderUtil;
-import org.geogebra.desktop.gui.view.spreadsheet.MyTableD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageResourceD;
@@ -109,6 +98,7 @@ class FillingPanelD extends JPanel
 	/** application */
 	AppD app;
 	private final Localization loc;
+	List<String> fancy;
 
 	/**
 	 * New filling panel
@@ -120,8 +110,7 @@ class FillingPanelD extends JPanel
 		// For filling whit unicode char
 		model = new FillingModel(app);
 		model.setListener(this);
-		btInsertUnicode = new PopupMenuButtonD(app);
-		buildInsertUnicodeButton();
+		btInsertUnicode = buildInsertUnicodeButton(app);
 		btInsertUnicode.addActionListener(this);
 		btInsertUnicode.setVisible(false);
 		lblMsgSelected = new JLabel(loc.getMenu("Filling.CurrentSymbol") + ":");
@@ -594,8 +583,7 @@ class FillingPanelD extends JPanel
 			model.applyImage(fileName);
 
 		} else if (source == btInsertUnicode) {
-			model.applyUnicode(lblSelectedSymbol.getText());
-
+			model.applyUnicode((String) btInsertUnicode.getSelectedValue());
 		}
 	}
 
@@ -648,133 +636,24 @@ class FillingPanelD extends JPanel
 		}
 	}
 
-	private void buildInsertUnicodeButton() {
-		btInsertUnicode.removeAllMenuItems();
-
-		btInsertUnicode.setKeepVisible(false);
-		btInsertUnicode.setStandardButton(true);
-		btInsertUnicode.setFixedIcon(GeoGebraIconD.createDownTriangleIcon(10));
-
+	private PopupMenuButtonD buildInsertUnicodeButton(AppD app) {
 		// Suits and music
-		String[] fancy = StringUtil.getSetOfSymbols(0x2660, 16);
-		btInsertUnicode.addPopupMenuItem(createMenuItem(fancy));
-
+		fancy = StringUtil.getSetOfSymbols(0x2660, 16);
 		// Chess
-		fancy = StringUtil.getSetOfSymbols(0x2654, 12);
-		btInsertUnicode.addPopupMenuItem(createMenuItem(fancy));
-
+		fancy.addAll(StringUtil.getSetOfSymbols(0x2654, 12));
 		// Stars
-		fancy = StringUtil.getSetOfSymbols(0x2725, 3);
-		String[] fancy2 = StringUtil.getSetOfSymbols(0x2729, 23);
-		String[] union = new String[26];
-		System.arraycopy(fancy, 0, union, 0, 3);
-		System.arraycopy(fancy2, 0, union, 3, 23);
-		btInsertUnicode.addPopupMenuItem(createMenuItem(union));
-
+		fancy.addAll(StringUtil.getSetOfSymbols(0x2725, 3));
+		fancy.addAll(StringUtil.getSetOfSymbols(0x2729, 23));
+		fancy.add("$");
+		fancy.add("#");
 		// Squares
-		fancy = StringUtil.getSetOfSymbols(0x2b12, 8);
-		btInsertUnicode.addPopupMenuItem(createMenuItem(fancy));
-	}
+		fancy.addAll(StringUtil.getSetOfSymbols(0x2b12, 8));
 
-	private JMenu createMenuItem(String[] table) {
-
-		StringBuilder sb = new StringBuilder(7);
-		sb.append(table[0]);
-		sb.append(' ');
-		sb.append(table[1]);
-		sb.append(' ');
-		sb.append(table[2]);
-		sb.append("  ");
-
-		JMenu menu = new JMenu(sb.toString());
-		menu.add(new LatexTableFill(app, btInsertUnicode, table));
-
-		menu.setFont(app.getFontCanDisplayAwt(sb.toString()));
-
-		return menu;
-	}
-
-	/**
-	 * Latex table for filling symbols
-	 */
-	class LatexTableFill extends SelectionTableD implements MenuElement {
-
-		/**
-		 *
-		 */
-		private static final long serialVersionUID = 1L;
-		private final Object[] latexArray;
-		private final PopupMenuButtonD popupButton;
-
-		/**
-		 * @param app application
-		 * @param popupButton popup
-		 * @param data icons
-		 */
-		public LatexTableFill(AppD app, PopupMenuButtonD popupButton, Object[] data) {
-			super(app, data, -1, 4, new Dimension(24, 24),
-					SelectionTable.MODE_TEXT);
-			this.latexArray = data;
-			this.popupButton = popupButton;
-			setHorizontalAlignment(SwingConstants.CENTER);
-			super.setSelectedIndex(0);
-			this.setShowGrid(true);
-			this.setGridColor(GColorD
-					.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
-			this.setBorder(
-					BorderFactory.createLineBorder(MyTableD.TABLE_GRID_COLOR));
-			this.setShowSelection(false);
-		}
-
-		@Override
-		public Component getComponent() {
-			return this;
-		}
-
-		@Override
-		public MenuElement[] getSubElements() {
-			return new MenuElement[0];
-		}
-
-		@Override
-		public void menuSelectionChanged(boolean arg0) {
-			// do nothing
-		}
-
-		@Override
-		public void processKeyEvent(KeyEvent arg0, MenuElement[] arg1,
-				MenuSelectionManager arg2) {
-			// do nothing
-		}
-
-		@Override
-		public void processMouseEvent(MouseEvent arg0, MenuElement[] arg1,
-				MenuSelectionManager arg2) {
-
-			if (this.getSelectedIndex() >= latexArray.length) {
-				return;
-			}
-
-			if (arg0.getID() == MouseEvent.MOUSE_RELEASED) {
-
-				// get the selected string
-				Log.debug(
-						"processMouseEvent, index: " + this.getSelectedIndex());
-				String s = (String) latexArray[this.getSelectedIndex()];
-				// if LaTeX string, adjust the string to include selected
-				// text within braces
-
-				if (s != null) {
-
-					Log.debug("processMouseEvent, S: " + s);
-					lblSelectedSymbol.setText(s);
-					lblSelectedSymbol.setFont(app.getFontCanDisplayAwt(s));
-				}
-				Log.debug("handlePopupActionEvent begin");
-				popupButton.handlePopupActionEvent();
-				Log.debug("handlePopupActionEvent end");
-			}
-		}
+		PopupMenuButtonD popupButton = new PopupMenuButtonD(app, fancy.toArray(new String[0]),
+				-1, 8, new Dimension(32, 32), SelectionTable.MODE_TEXT);
+		popupButton.setKeepVisible(false);
+		popupButton.setStandardButton(true);
+		return popupButton;
 	}
 
 	@Override
@@ -851,7 +730,7 @@ class FillingPanelD extends JPanel
 
 	@Override
 	public void selectSymbol(String symbol) {
-		lblSelectedSymbol.setText(symbol);
+		btInsertUnicode.setSelectedIndex(fancy.indexOf(symbol));
 	}
 
 	@Override

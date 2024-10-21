@@ -90,7 +90,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 
 	private void addAction(final MenuItem<GeoElement> menuItem) {
 		AriaMenuItem mi = new AriaMenuItem(menuItem.getTitle(loc),
-				false, () -> select(menuItem));
+				null, () -> select(menuItem));
 		TestHarness.setAttr(mi, "menu" + menuItem.getTitle());
 		mi.addStyleName("no-image");
 		wrappedPopup.addItem(mi);

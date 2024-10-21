@@ -97,11 +97,6 @@ public class ScriptAreaProcessing implements KeyboardListener {
 	}
 
 	@Override
-	public void setKeyBoardModeText(boolean text) {
-		// not needed
-	}
-
-	@Override
 	public boolean isSVCell() {
 		return false;
 	}

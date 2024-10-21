@@ -6,6 +6,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.components.radiobutton.ComponentRadioButton;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
+import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.user.client.Command;
 
@@ -37,7 +38,7 @@ public class RadioButtonMenuBarW extends AriaMenuBar {
 				pos, texts.length);
 		radioButton.setSelected(selected);
 		radioButton.addStyleName("RadioButtonMenuItem");
-		super.addItem(radioButton.toString(), true, com);
+		super.addItem(new AriaMenuItem(radioButton, com));
 	}
 
 	/**

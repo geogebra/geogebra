@@ -42,6 +42,7 @@
        }
     }
 
+	&.compact,
     &.smallScreen {
        .undoRedoSettingsPanelScientific {
            max-width: calc(100% - 36px);
@@ -49,6 +50,7 @@
        }
     }
 
+	&.compact,
     &.portrait, &.smallScreen {
         .undoRedoSettingsPanelScientific {
             padding-left: 0;

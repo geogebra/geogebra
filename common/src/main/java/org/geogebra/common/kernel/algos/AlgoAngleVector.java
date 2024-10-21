@@ -50,7 +50,12 @@ public class AlgoAngleVector extends AlgoAngleVectorND {
 		if (coords == null) {
 			coords = new double[2];
 		}
-		((GeoVec3D) vec).getInhomCoords(coords);
+		if (vec instanceof GeoPoint && ((GeoPoint) vec).getZ() == 0) {
+			coords[0] = ((GeoPoint) vec).getX();
+			coords[1] = ((GeoPoint) vec).getY();
+		} else {
+			((GeoVec3D) vec).getInhomCoords(coords);
+		}
 		angle.setValue(Math.atan2(coords[1], coords[0]));
 	}
 

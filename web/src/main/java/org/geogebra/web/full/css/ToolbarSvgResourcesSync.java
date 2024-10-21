@@ -15,7 +15,7 @@ public interface ToolbarSvgResourcesSync extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_tool.svg")
 	SVGResource mode_tool_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_showcheckbox.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_checkbox.svg")
 	SVGResource mode_showcheckbox_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_slider.svg")
@@ -24,7 +24,7 @@ public interface ToolbarSvgResourcesSync extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_showhidelabel.svg")
 	SVGResource mode_showhidelabel_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_extension.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_web.svg")
 	SVGResource mode_extension();
 
 	// ONLY ADD FILES HERE IF THEY NEED SYNC LOADING

@@ -26,6 +26,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.annotation.CheckForNull;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -48,12 +49,12 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.SpreadsheetTraceManager;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
@@ -115,7 +116,7 @@ public class TraceDialog extends Dialog
 	private int mode = MODE_NORMAL;
 
 	// misc
-	private CellRange newTraceLocation;
+	private TabularRange newTraceLocation;
 	private boolean isIniting = false;
 	private JLabel lblStartRow;
 	private final LocalizationD loc;
@@ -130,7 +131,7 @@ public class TraceDialog extends Dialog
 	 * @param traceCell
 	 *            trce range
 	 */
-	public TraceDialog(AppD app, GeoElement selectedGeo, CellRange traceCell) {
+	public TraceDialog(AppD app, GeoElement selectedGeo, TabularRange traceCell) {
 		super(app.getFrame());
 
 		this.app = app;
@@ -172,7 +173,7 @@ public class TraceDialog extends Dialog
 	 * 
 	 */
 	public void setTraceDialogSelection(GeoElement selectedGeo0,
-			CellRange traceCell) {
+			TabularRange traceCell) {
 		GeoElement selectedGeo = selectedGeo0;
 		// if the traceCell column is tracing a geo then set selectedGeo to this
 		// geo
@@ -849,30 +850,31 @@ public class TraceDialog extends Dialog
 	 *            row
 	 * @return range
 	 */
-	public CellRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
+	public @CheckForNull TabularRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
 
-		CellRange cr = new CellRange(app);
+		TabularRange tr;
 
 		switch (mode) {
 		default:
+			tr = null;
 			// do nothing
 			break;
 		case MODE_NORMAL:
 			if (getSettings() == null) {
-				cr.setCellRange(-1, -1, -1, -1);
+				tr = new TabularRange(-1, -1, -1, -1);
 			} else {
-				cr.setCellRange(getSettings().traceColumn1,
-						getSettings().traceRow1, getSettings().traceColumn2,
+				tr = new TabularRange(getSettings().traceRow1, getSettings().traceColumn1,
 						(getSettings().doRowLimit) ? getSettings().traceRow2
-								: app.getMaxSpreadsheetRowsVisible());
+								: app.getMaxSpreadsheetRowsVisible(), getSettings().traceColumn2
+				);
 			}
 			break;
 
 		case MODE_ADD:
 			if (newTraceLocation != null) {
-				cr = newTraceLocation;
+				tr = newTraceLocation;
 			} else {
-				cr = new CellRange(app, traceManager.getNextTraceColumn(), 0);
+				tr = new TabularRange(0, traceManager.getNextTraceColumn());
 			}
 			break;
 
@@ -883,12 +885,12 @@ public class TraceDialog extends Dialog
 					: app.getMaxSpreadsheetRowsVisible())
 					- getSettings().traceRow1;
 
-			cr.setCellRange(anchorColumn, anchorRow, anchorColumn + w,
-					anchorRow + h);
+			tr = new TabularRange(anchorRow, anchorColumn, anchorRow + h, anchorColumn + w
+			);
 			break;
 		}
 
-		return cr;
+		return tr;
 	}
 
 	@Override

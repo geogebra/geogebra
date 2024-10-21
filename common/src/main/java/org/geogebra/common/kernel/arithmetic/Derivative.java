@@ -94,6 +94,7 @@ public class Derivative {
 			return wrap(left).multiply(right.derivative(fv, kernel0))
 					.plus(wrap(right).multiply(left.derivative(fv, kernel0)));
 		case PLUS:
+		case INVISIBLE_PLUS:
 			return wrap(left.derivative(fv, kernel0))
 					.plus(right.derivative(fv, kernel0));
 		case MINUS:

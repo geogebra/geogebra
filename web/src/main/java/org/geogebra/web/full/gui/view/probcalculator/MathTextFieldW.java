@@ -5,27 +5,39 @@ import java.util.ArrayList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.util.JsRunnable;
 import org.gwtproject.dom.style.shared.Unit;
 
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.meta.MetaModel;
 
 public class MathTextFieldW extends MathFieldEditor implements MathFieldListener, ErrorHandler {
 	private final ArrayList<JsRunnable> inputHandlers = new ArrayList<>();
-	private final ArrayList<JsRunnable> changeHandlers = new ArrayList<>();
+	private final ArrayList<JsConsumer<Boolean>> changeHandlers = new ArrayList<>();
 
 	/**
 	 * Constructor
 	 * @param app The application.
 	 */
 	public MathTextFieldW(App app) {
+		this(app, getDefaultModel());
+	}
+
+	/**
+	 * Constructor
+	 * @param app The application.
+	 * @param model editor model
+	 */
+	public MathTextFieldW(App app, MetaModel model) {
 		super(app);
-		createMathField(this);
+		createMathField(this, model);
 		addBlurHandler(event -> {
 			this.asWidget().getParent().removeStyleName("focusState");
-			onEnter();
+			scrollCursorVisibleHorizontally();
+			notifyListeners(false);
 		});
 		addStyleName("mathTextField");
 		setUseKeyboardButton(!NavigatorUtil.isMobile());
@@ -33,15 +45,19 @@ public class MathTextFieldW extends MathFieldEditor implements MathFieldListener
 
 	@Override
 	public void onEnter() {
-		scrollHorizontally();
-		for (JsRunnable listener: changeHandlers) {
-			listener.run();
+		scrollCursorVisibleHorizontally();
+		notifyListeners(true);
+	}
+
+	private void notifyListeners(boolean isEnter) {
+		for (JsConsumer<Boolean> listener: changeHandlers) {
+			listener.accept(isEnter);
 		}
 	}
 
 	@Override
 	public void onKeyTyped(String key) {
-		scrollHorizontally();
+		scrollCursorVisibleHorizontally();
 		for (JsRunnable listener: inputHandlers) {
 			listener.run();
 		}
@@ -49,13 +65,8 @@ public class MathTextFieldW extends MathFieldEditor implements MathFieldListener
 
 	@Override
 	public boolean onArrowKeyPressed(int keyCode) {
-		scrollHorizontally();
+		scrollCursorVisibleHorizontally();
 		return false;
-	}
-
-	@Override
-	public void onInsertString() {
-		// nothing to do
 	}
 
 	@Override
@@ -85,7 +96,7 @@ public class MathTextFieldW extends MathFieldEditor implements MathFieldListener
 		this.inputHandlers.add(inputHandler);
 	}
 
-	public void addChangeHandler(JsRunnable inputHandler) {
+	public void addChangeHandler(JsConsumer<Boolean> inputHandler) {
 		this.changeHandlers.add(inputHandler);
 	}
 

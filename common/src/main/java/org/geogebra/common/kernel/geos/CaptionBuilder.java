@@ -1,10 +1,10 @@
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 
 public class CaptionBuilder {
 
@@ -34,11 +34,11 @@ public class CaptionBuilder {
 					String cText = "";
 					String label = geo.getLabelSimple();
 					if (label != null) {
-						GPoint p = GeoElementSpreadsheet
+						SpreadsheetCoords p = GeoElementSpreadsheet
 								.spreadsheetIndices(label);
-						if (p.x > -1 && p.y > -1) {
+						if (p.column > -1 && p.row > -1) {
 							String labelR1 = GeoElementSpreadsheet
-									.getSpreadsheetCellName(p.x + 1, p.y);
+									.getSpreadsheetCellName(p.column + 1, p.row);
 							GeoElement geoR1 = kernel.lookupLabel(labelR1);
 							if (geoR1 != null) {
 								cText = geoR1.toValueString(tpl);

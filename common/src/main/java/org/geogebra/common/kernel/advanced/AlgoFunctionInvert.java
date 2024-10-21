@@ -387,6 +387,7 @@ public class AlgoFunctionInvert extends AlgoElement implements UsesCAS {
 				break;
 
 			case PLUS:
+			case INVISIBLE_PLUS:
 			case MULTIPLY:
 				if ((fvLeft = left.contains(oldFV))
 						&& (right.contains(oldFV))) {

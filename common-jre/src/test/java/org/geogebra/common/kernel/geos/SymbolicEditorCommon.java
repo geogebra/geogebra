@@ -23,7 +23,7 @@ public class SymbolicEditorCommon extends SymbolicEditor {
 	public SymbolicEditorCommon(MathFieldCommon mf, App app) {
 		super(app, app.getActiveEuclidianView());
 		this.mf = mf;
-		mf.getInternal().setFieldListener(this);
+		mf.getInternal().addMathFieldListener(this);
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.algebra.contextmenu.impl;
 import org.geogebra.common.gui.view.algebra.contextmenu.MenuAction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
@@ -51,7 +52,8 @@ public class CreateSlider implements MenuAction<GeoElement>,
 		((GeoNumeric) result).createSlider();
 		labelController.ensureHasLabel(result);
 		result.setEuclidianVisible(true);
+		// updateVisualStyle may trigger thickness/color change -- do it before undo point
+		result.updateVisualStyleRepaint(GProperty.COMBINED);
 		result.getKernel().storeUndoInfo();
-		result.updateRepaint();
 	}
 }

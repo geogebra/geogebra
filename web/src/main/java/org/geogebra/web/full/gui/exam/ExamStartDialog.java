@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
@@ -34,18 +35,19 @@ public class ExamStartDialog extends ComponentDialog {
 	}
 
 	private void buildContent() {
+		Localization localization = app.getLocalization();
 		Label startText = BaseWidgetFactory.INSTANCE.newSecondaryText(
-				app.getLocalization().getMenu("exam_start_dialog_text"), "examStartText");
+				localization.getMenu("exam_start_dialog_text"), "examStartText");
 		addDialogContent(startText);
 		if (mayChoseType((AppW) app)) {
 			ArrayList<RadioButtonData<ExamType>> data = new ArrayList<>();
-			for (ExamType region : ExamType.values()) {
-				String displayName = region.getDisplayName(app.getLocalization(),
+			for (ExamType region : ExamType.getAvailableValues(localization, app.getConfig())) {
+				String displayName = region.getDisplayName(localization,
 						app.getConfig());
 				data.add(new RadioButtonData<>(displayName, region));
 			}
 			RadioButtonPanel<ExamType> regionPicker = new RadioButtonPanel<>(
-					app.getLocalization(), data, ExamType.GENERIC, (selectedRegion) ->
+					localization, data, ExamType.GENERIC, (selectedRegion) ->
 				this.selectedRegion = selectedRegion);
 			addDialogContent(regionPicker);
 		} else if (app.isSuite()) {

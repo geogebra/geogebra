@@ -92,14 +92,16 @@ public class VariableReplacerAlgorithm {
 	private ExpressionValue buildReverseProduct(String expressionString, int suffixLength) {
 		int length = expressionString.length() - suffixLength;
 		ExpressionValue left = parseReverse(expressionString.substring(0, length));
-		return left.wrap().multiplyR(replaceToken(expressionString.substring(length)));
+		return new ExpressionNode(kernel, left, Operation.MULTIPLY,
+				replaceToken(expressionString.substring(length)));
 	}
 
 	private ExpressionNode leftProduct(ExpressionValue v1, ExpressionValue v2) {
 		if (isProduct(v2)) {
-			return leftProduct(v1, v2.wrap().getLeft()).multiplyR(v2.wrap().getRight());
+			return new ExpressionNode(kernel, leftProduct(v1, v2.wrap().getLeft()),
+					Operation.MULTIPLY, v2.wrap().getRight());
 		}
-		return v1.wrap().multiplyR(v2);
+		return new ExpressionNode(kernel, v1, Operation.MULTIPLY, v2);
 	}
 
 	private boolean isProduct(ExpressionValue value) {

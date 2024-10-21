@@ -39,7 +39,7 @@ public class InputKeyboardButtonW implements InputKeyboardButton, IsWidget {
 
 	private void showKeyboard(GeoGebraFrameFull listener) {
 		BrowserStorage.LOCAL.setItem(BrowserStorage.KEYBOARD_WANTED, "true");
-		listener.doShowKeyBoard(true, textField);
+		listener.doShowKeyboard(true, textField);
 		Scheduler.get().scheduleDeferred(textField::requestFocus);
 	}
 

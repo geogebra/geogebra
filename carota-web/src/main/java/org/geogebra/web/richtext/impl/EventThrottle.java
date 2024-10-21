@@ -33,6 +33,8 @@ public class EventThrottle {
 		});
 
 		editor.selectionChanged(listener::onSelectionChanged);
+
+		editor.onEscape(listener::onEscape);
 	}
 
 }

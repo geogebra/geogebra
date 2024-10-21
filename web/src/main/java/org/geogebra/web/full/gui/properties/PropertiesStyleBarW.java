@@ -7,13 +7,13 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
-import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
+import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.Event;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -141,14 +141,13 @@ public class PropertiesStyleBarW extends
 				GuiResourcesSimple.INSTANCE.close(), 24, 24);
 		closeImage.addStyleName("closeButton");
 		TestHarness.setAttr(closeImage, "closeButton");
-		toolbar.addItem(new AriaMenuItem(closeImage.getElement().getString(),
-				true, propertiesView::close));
+		toolbar.addItem(new AriaMenuItem(closeImage, propertiesView::close));
 		buttonMap = new HashMap<>();
 		
 		for (final OptionType type : OPTION_TYPE_IMPL) {
 			if (typeAvailable(type)) {
 				final PropertiesButton btn = new PropertiesButton(app,
-						getMenuHtml(type), () -> {
+						getTypeIcon(type), () -> {
 							propertiesView.setOptionPanel(type, 0);
 							selectButton(type);
 						});
@@ -181,36 +180,30 @@ public class PropertiesStyleBarW extends
 		currentButton.addStyleName("selected");
 	}
 
-	private String getMenuHtml(OptionType type) {
-		String typeString = ""; // propertiesView.getTypeString(type);
-		return MainMenu.getMenuBarHtmlClassic(getTypeIcon(type), typeString);
-    }
-
 	/**
 	 * @param type
 	 *            option type
 	 * @return icon URL
 	 */
-	protected String getTypeIcon(OptionType type) {
+	protected ResourcePrototype getTypeIcon(OptionType type) {
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		switch (type) {
 		case GLOBAL:
 		case LAYOUT:
 		case DEFAULTS: // layout,defaults not implemented in Web => no special icon
-			return MaterialDesignResources.INSTANCE.gear().getSafeUri()
-					.asString();
+			return MaterialDesignResources.INSTANCE.gear();
 		case SPREADSHEET:
-			return pr.menu_icon_spreadsheet_transparent().getSafeUri().asString();
+			return pr.menu_icon_spreadsheet_transparent();
 		case EUCLIDIAN:
-			return pr.menu_icon_graphics().getSafeUri().asString();
+			return pr.menu_icon_graphics();
 		case EUCLIDIAN2:
-			return pr.menu_icon_graphics2_transparent().getSafeUri().asString();
+			return pr.menu_icon_graphics2_transparent();
 		case CAS:
-			return pr.menu_icon_cas_transparent().getSafeUri().asString();
+			return pr.menu_icon_cas_transparent();
 		case ALGEBRA:
-			return pr.menu_icon_algebra_transparent().getSafeUri().asString();
+			return pr.menu_icon_algebra_transparent();
 		case OBJECTS:
-			return GuiResources.INSTANCE.properties_object().getSafeUri().asString();
+			return GuiResources.INSTANCE.properties_object();
 		}
 		return null;
     }

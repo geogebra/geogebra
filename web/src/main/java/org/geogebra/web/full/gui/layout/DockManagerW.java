@@ -23,6 +23,7 @@ import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
+import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
@@ -49,8 +50,7 @@ import jsinterop.base.Js;
  * Based on desktop implementation by Florian Sonner
  */
 public class DockManagerW extends DockManager {
-	/** default keyboard height */
-	public static final int DEFAULT_KEYBOARD_HEIGHT = 228;
+
 	/** application */
 	AppW app;
 	private LayoutW layout;
@@ -1691,7 +1691,7 @@ public class DockManagerW extends DockManager {
 	private void calculateKeyboardHeight() {
 		double kh = app.getAppletFrame().getKeyboardHeight();
 		if (kh == 0) {
-			kh = DEFAULT_KEYBOARD_HEIGHT;
+			kh = TabbedKeyboard.TOTAL_HEIGHT;
 		}
 
 		if (kbHeight < kh) {
@@ -1708,7 +1708,7 @@ public class DockManagerW extends DockManager {
 			layout.getDockManager().unRegisterPanel(old);
 		}
 		layout.registerPanel(
-					((AppWFull) app).getActivity().createAVPanel());
+					((AppWFull) app).getCurrentActivity().createAVPanel());
 
 	}
 

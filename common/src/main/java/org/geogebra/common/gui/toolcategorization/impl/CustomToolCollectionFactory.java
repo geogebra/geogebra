@@ -26,6 +26,7 @@ public class CustomToolCollectionFactory extends AbstractToolCollectionFactory {
      * @param toolbarDefinition toolbar definition
      */
     public CustomToolCollectionFactory(App app, String toolbarDefinition) {
+        super(false);
         this.app = app;
         this.toolbarDefinition = toolbarDefinition;
     }

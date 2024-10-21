@@ -1,8 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
-import java.util.function.Supplier;
-
 import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
@@ -66,6 +65,11 @@ public class TableTab extends ToolbarTab {
 			setWidget(table);
 			table.setHeight(getTabHeight());
 		}
+	}
+
+	@Override
+	public DockPanelData.TabIds getID() {
+		return DockPanelData.TabIds.TABLE;
 	}
 
 	private int getTabHeight() {
@@ -134,15 +138,12 @@ public class TableTab extends ToolbarTab {
 		}
 	}
 
-	/**
-	 * @param fallback fallback
-	 * @return keyboard listener if editable, fallback otherwise
-	 */
-	public MathKeyboardListener getKeyboardListener(Supplier<MathKeyboardListener> fallback) {
+	@Override
+	public MathKeyboardListener getKeyboardListener() {
 		if (table instanceof StickyValuesTable) {
 			return ((StickyValuesTable) table).getKeyboardListener();
 		}
-		return fallback.get();
+		return null;
 	}
 
 	/**

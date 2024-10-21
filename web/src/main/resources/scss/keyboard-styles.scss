@@ -171,12 +171,6 @@ $tab123-width: 644px;
 		}
 	}
 
-	.lowerHeight .KeyBoardButton {
-		height: 10px;
-		padding-top: 3px;
-		padding-bottom: 13px;
-	}
-
 	.KeyBoardButton.supScript .gwt-Label {
 		margin-top: -4px;
 	}
@@ -198,11 +192,6 @@ $tab123-width: 644px;
 		padding-bottom: 12px;
 	}
 
-	.lowerHeight .KeyBoardButton.backspace {
-		padding-top: 1px;
-		padding-bottom: 15px;
-	}
-
 	/* -- NUMBERS -- */
 	.normal .KeyBoardButton.backspace,
 	.normal .KeyBoardButton.enter {
@@ -217,13 +206,6 @@ $tab123-width: 644px;
 
 	.KeyBoardButton.enter {
 		height: 64px;
-	}
-
-	.lowerHeight .KeyBoardButton.enter {
-		height: 41px;
-		img {
-			padding-top: 15px;
-		}
 	}
 
 	.KeyBoardButton.enter img {

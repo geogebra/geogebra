@@ -3,12 +3,13 @@ package org.geogebra.web.full.gui.view.spreadsheet;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.gui.view.spreadsheet.CellFormat;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
+import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
@@ -130,7 +131,7 @@ public class SpreadsheetStyleBarW extends StyleBarW {
 	}
 
 	private void handleAlignment(ToggleButton button) {
-		ArrayList<CellRange> selectedCells = table.getSelectedCellRanges();
+		ArrayList<TabularRange> selectedCells = table.getSelectedRanges();
 		Integer align = null;
 		if (button.isSelected()) {
 			if (button == btnLeftAlign) {
@@ -158,7 +159,7 @@ public class SpreadsheetStyleBarW extends StyleBarW {
 	}
 
 	private void handleFormatting() {
-		ArrayList<CellRange> selectedCells = table.getSelectedCellRanges();
+		ArrayList<TabularRange> selectedCells = table.getSelectedRanges();
 		int fontStyle = CellFormat.STYLE_PLAIN;
 		if (btnBold.isSelected()) {
 			fontStyle += CellFormat.STYLE_BOLD;
@@ -177,7 +178,8 @@ public class SpreadsheetStyleBarW extends StyleBarW {
 			return;
 		}
 
-		ArrayList<CellRange> selectedCells = table.getSelectedCellRanges();
+		ArrayList<TabularRange> selectedCells = table.getSelectedRanges();
+
 		// set color in table (needed as geos can be renamed, deleted etc)
 		GColor bgCol = btnBgColor.getSelectedColor();
 		formatHandler.setFormat(selectedCells, CellFormat.FORMAT_BGCOLOR, bgCol);
@@ -189,8 +191,8 @@ public class SpreadsheetStyleBarW extends StyleBarW {
 
 		// set color for the actual geos
 		for (int i = 0; i < selectedCells.size(); i++) {
-			CellRange cr = selectedCells.get(i);
-			ArrayList<GeoElement> ar = cr.toGeoList();
+			TabularRange tr = selectedCells.get(i);
+			ArrayList<GeoElement> ar = CellRangeUtil.toGeoList(tr, app);
 			for (int j = 0; j < ar.size(); j++) {
 				GeoElement geo = ar.get(i);
 				geo.setBackgroundColor(bgCol);
@@ -208,7 +210,7 @@ public class SpreadsheetStyleBarW extends StyleBarW {
 
 		allowActionPerformed = false;
 
-		CellRange range = table.getSelectedCellRanges().get(0);
+		TabularRange range = table.getFirstSelection();
 
 		// update font style buttons
 		Integer fontStyle = (Integer) formatHandler.getCellFormat(range,

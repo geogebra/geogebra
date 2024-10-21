@@ -50,6 +50,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -331,7 +332,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 		factorExpression = new FunctionNVar[1];
 		factorExpression[0] = expression.deepCopy(kernel);
-		factorExpression[0].traverse(SIMPLIFY_CONST);
+		try {
+			factorExpression[0].traverse(SIMPLIFY_CONST);
+		} catch (MyError err) {
+			// if simplification failed, leave as is
+		}
 	}
 
 	/*

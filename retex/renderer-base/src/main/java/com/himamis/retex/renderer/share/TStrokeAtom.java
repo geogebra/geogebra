@@ -85,7 +85,7 @@ public class TStrokeAtom extends Atom implements HasCharacter {
 
 	@Override
 	public String getCharacter() {
-		return upper ? "T" : "t";
+		return upper ? "\u0166" : "\u0167";
 	}
 }
 /*

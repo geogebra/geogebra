@@ -32,13 +32,13 @@ public class ClickListenerAdapter implements View.OnTouchListener, GestureDetect
 
         if (event.getAction() == MotionEvent.ACTION_DOWN){
             mClickListener.onPointerDown((int)(event.getX()-shiftX), (int) event.getY());
-        }else if (event.getAction() == MotionEvent.ACTION_UP){
+        } else if (event.getAction() == MotionEvent.ACTION_UP){
             mClickListener.onPointerUp((int) event.getX()-shiftX, (int) event.getY());
         }
 
         mGestureDetector.onTouchEvent(event);
 
-        return true;
+        return false;
     }
 
 

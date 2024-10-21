@@ -1,5 +1,9 @@
 package org.geogebra.common.properties.impl.general;
 
+import static java.util.Map.entry;
+
+import java.util.List;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
@@ -22,8 +26,11 @@ public class AngleUnitProperty extends AbstractNamedEnumeratedProperty<Integer> 
 	public AngleUnitProperty(Kernel kernel, Localization localization) {
 		super(localization, "AngleUnit");
 		this.kernel = kernel;
-		setValues(Kernel.ANGLE_DEGREE, Kernel.ANGLE_RADIANT, Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
-		setValueNames("Degree", "Radiant", "DegreesMinutesSeconds");
+		setNamedValues(List.of(
+				entry(Kernel.ANGLE_DEGREE, "Degree"),
+				entry(Kernel.ANGLE_RADIANT, "Radiant"),
+				entry(Kernel.ANGLE_DEGREES_MINUTES_SECONDS, "DegreesMinutesSeconds")
+		));
 	}
 
 	@Override

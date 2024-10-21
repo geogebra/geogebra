@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
+import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.PropertiesFactory;
@@ -156,7 +157,7 @@ public interface AppConfig extends Serializable {
 	/**
 	 * @return labeling style
 	 */
-	int getDefaultLabelingStyle();
+	LabelVisibility getDefaultLabelingStyle();
 
 	/**
 	 * @return the Command filter for the app.
@@ -234,6 +235,7 @@ public interface AppConfig extends Serializable {
 	 *
 	 * @return operation argument filter
 	 */
+	@CheckForNull
 	OperationArgumentFilter createOperationArgumentFilter();
 
 	/**
@@ -355,5 +357,11 @@ public interface AppConfig extends Serializable {
 
 	boolean hasOneVarStatistics();
 
+	/**
+	 * @return true, if app has spreadsheet view
+	 */
+	boolean hasSpreadsheetView();
+
 	boolean hasDataImport();
+
 }

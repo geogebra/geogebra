@@ -76,11 +76,6 @@ public class BundleLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public boolean examSupported() {
-		return true;
-	}
-
-	@Override
 	public boolean isExternalLoginAllowed() {
 		return !NavigatorUtil.isMacOS();
 	}

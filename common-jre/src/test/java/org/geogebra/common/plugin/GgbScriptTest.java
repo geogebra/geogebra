@@ -110,6 +110,18 @@ public class GgbScriptTest extends BaseUnitTest {
 		assertThat(lookup("f").getObjectColor(), equalTo(GColor.RED));
 	}
 
+	@Test
+	@Issue("APPS-5701")
+	public void commandExecuteShouldNotStoreUndoPoint() {
+		activateUndo();
+		GeoElement pt = add("A = (1, 1)");
+		add("B = (2, 2)");
+		pt.setUpdateScript(makeScript("Execute[{\"SetValue(B,B)\"}]"));
+		pt.update();
+		assertThat(getApp().getKernel().getConstruction()
+				.getUndoManager().undoPossible(), equalTo(false));
+	}
+
 	private GgbScript makeScript(String... lines) {
 		String script = String.join("\n", Arrays.asList(lines));
 		return new GgbScript(getApp(), script);

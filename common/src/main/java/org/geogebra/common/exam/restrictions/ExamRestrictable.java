@@ -1,5 +1,7 @@
 package org.geogebra.common.exam.restrictions;
 
+import java.util.Set;
+
 import javax.annotation.Nonnull;
 
 /**
@@ -10,14 +12,14 @@ public interface ExamRestrictable {
 	/**
 	 * Apply the restrictions when the exam starts.
 	 *
-	 * @param examRestrictions The restrictions for the current exam.
+	 * @param featureRestrictions The feature restrictions for the exam.
 	 */
-	void applyRestrictions(@Nonnull ExamRestrictions examRestrictions);
+	void applyRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions);
 
 	/**
-	 * Reverse the effects of {@link #applyRestrictions(ExamRestrictions)}.
+	 * Reverse the effects of {@link #applyRestrictions(Set)}.
 	 *
-	 * @param examRestrictions The restrictions for the current exam.
+	 * @param featureRestrictions The feature restrictions for the exam.
 	 */
-	void removeRestrictions(@Nonnull ExamRestrictions examRestrictions);
+	void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions);
 }

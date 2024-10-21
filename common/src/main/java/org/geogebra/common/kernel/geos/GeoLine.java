@@ -1202,10 +1202,14 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 */
 	public void pathChanged(Coords P, PathParameter pp) {
 		// calc point for given parameter
-		if (startPoint != null) {
-			P.setX(startPoint.inhomX + pp.t * y);
-			P.setY(startPoint.inhomY - pp.t * x);
-			P.setZ(1.0);
+		// if t is infinite and x or y is 0, avoid multiplication 0*inf
+		double dx = MyDouble.exactEqual(0, y) ? 0 : pp.t * y;
+		double dy = MyDouble.exactEqual(0, x) ? 0 : -pp.t * x;
+		if (Double.isInfinite(dx) && Double.isInfinite(dy)) {
+			int sgn = pp.t > 0 ? 1 : -1;
+			P.set(sgn * y, -sgn * x, 0);
+		} else if (startPoint != null) {
+			P.set(startPoint.inhomX + dx, startPoint.inhomY + dy, 1.0);
 		} else {
 			double inhomX = 0;
 			double inhomY = 0;
@@ -1217,9 +1221,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			} else if (y != 0) {
 				inhomY = -z / y;
 			}
-			P.setX(inhomX + pp.t * y);
-			P.setY(inhomY - pp.t * x);
-			P.setZ(1.0);
+			P.set(inhomX + dx, inhomY + dy, 1.0);
 		}
 	}
 

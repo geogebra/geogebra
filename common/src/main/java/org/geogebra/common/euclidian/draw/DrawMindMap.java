@@ -195,7 +195,7 @@ public class DrawMindMap extends DrawInlineText {
 		GPoint2D newLocation = computeNewLocation(newAlignment);
 		GeoMindMapNode child = new GeoMindMapNode(node.getConstruction(), newLocation);
 		child.setContentHeight(GeoMindMapNode.CHILD_HEIGHT);
-		child.setSize(GeoMindMapNode.MIN_WIDTH, GeoMindMapNode.CHILD_HEIGHT);
+		child.setSize(GeoMindMapNode.DEFAULT_WIDTH, GeoMindMapNode.CHILD_HEIGHT);
 		child.setParent(node, newAlignment);
 		child.setVerticalAlignment(VerticalAlignment.MIDDLE);
 		child.setBackgroundColor(child.getKernel().getApplication().isMebis()
@@ -233,7 +233,7 @@ public class DrawMindMap extends DrawInlineText {
 				+ (1 - 2 * newAlignment.dy1) * DISTANCE_TO_ROOT;
 
 			if (newAlignment.isVertical()) {
-				left -= GeoMindMapNode.MIN_WIDTH / 2;
+				left -= GeoMindMapNode.DEFAULT_WIDTH / 2;
 			} else {
 				top -= GeoMindMapNode.CHILD_HEIGHT / 2;
 			}
@@ -282,7 +282,7 @@ public class DrawMindMap extends DrawInlineText {
 			top -= GeoMindMapNode.CHILD_HEIGHT;
 			break;
 		case LEFT:
-			left -= GeoMindMapNode.MIN_WIDTH;
+			left -= GeoMindMapNode.DEFAULT_WIDTH;
 			break;
 		default:
 			break;
@@ -316,7 +316,8 @@ public class DrawMindMap extends DrawInlineText {
 			TransformableRectangle rect = intersectableChild.rectangle;
 
 			if (newAlignment.isVertical()) {
-				if (rect.getLeft() < left + GeoMindMapNode.MIN_WIDTH && left < rect.getRight()) {
+				if (rect.getLeft() < left + GeoMindMapNode.DEFAULT_WIDTH
+						&& left < rect.getRight()) {
 					if (newAlignment == NodeAlignment.BOTTOM
 							&& rect.getBottom() + MIN_DISTANCE_BETWEEN_NODES > top) {
 						return rect.getBottom() + MIN_DISTANCE_BETWEEN_NODES - top;
@@ -382,7 +383,7 @@ public class DrawMindMap extends DrawInlineText {
 
 		if (newAlignment.isVertical()) {
 			double toMove = marginLeft(newAlignment, children.size())
-					+ GeoMindMapNode.MIN_WIDTH - spaceGained;
+					+ GeoMindMapNode.DEFAULT_WIDTH - spaceGained;
 			MoveGeos.moveObjects(childGeos, new Coords(-view.getInvXscale() * toMove / 2, 0, 0),
 					null, null, view);
 		} else {

@@ -4,6 +4,7 @@ import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.main.App;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.web.html5.util.CopyPasteW;
 
 import elemental2.core.Function;
@@ -127,7 +128,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 			boolean isCSV = false;
 
 			String[][] data = DataImport.parseExternalData(app, contents, isCSV);
-			succ = pasteExternalMultiple(data, column1, row1, column2, row2);
+			succ = pasteExternalMultiple(data, new TabularRange(row1, column1, row2, column2));
 		}
 
 		return succ;

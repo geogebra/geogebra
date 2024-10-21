@@ -8,7 +8,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
@@ -30,7 +29,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAxis;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
@@ -1530,28 +1528,4 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
-	@Override
-	public void setMeasurementTool(GeoImage tool, int left, int width, int height) {
-		kernel.getConstruction().removeFromConstructionList(tool);
-		setToolLocation(tool, left, height);
-		tool.setSize(width, height);
-	}
-
-	private void removeMeasurementTool(GeoImage tool) {
-		kernel.getConstruction().removeFromConstructionList(tool);
-	}
-
-	private void setToolLocation(GeoImage tool, int left, double height) {
-		GPoint2D loc =
-				new GPoint2D(toRealWorldCoordX(left),
-						toRealWorldCoordY(getHeight() / 2. - height / 2.));
-		tool.setLocation(loc);
-		tool.update();
-	}
-
-	@Override
-	public void setMeasurementTool(GeoImage tool, int left) {
-		removeMeasurementTool(tool);
-		setToolLocation(tool, left, tool.getHeight());
-	}
 }

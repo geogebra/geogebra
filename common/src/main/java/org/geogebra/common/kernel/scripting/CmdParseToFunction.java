@@ -88,7 +88,7 @@ public class CmdParseToFunction extends CommandProcessor {
 
 	private GeoElement[] getParseAlgoResult(GeoText text, Command c, GeoList vars) {
 		AlgoParseToNumberOrFunction parseAlgo = new AlgoParseToNumberOrFunction(cons, text, vars,
-				Commands.ParseToFunction);
+				Commands.ParseToFunction, c.getLabel());
 		parseAlgo.getOutput(0).setLabel(c.getLabel());
 		return parseAlgo.getOutput();
 	}

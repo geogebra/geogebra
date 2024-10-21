@@ -1,9 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.CellFormat;
-import org.geogebra.common.gui.view.spreadsheet.CellFormatInterface;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -11,6 +8,9 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
+import org.geogebra.common.spreadsheet.style.CellFormat;
+import org.geogebra.common.spreadsheet.style.CellFormatInterface;
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
 
@@ -98,13 +98,13 @@ public class GeoElementSpreadsheet {
 	 *            given cell name
 	 * @return coordinates of spreadsheet cell as (column index,row index)
 	 */
-	public static GPoint spreadsheetIndices(String cellName) {
+	public static SpreadsheetCoords spreadsheetIndices(String cellName) {
 
 		MatchResult matcher = spreadsheetPattern.exec(cellName);
 
 		// return (-1,-1) if not a spreadsheet cell name
-		return new GPoint(getSpreadsheetColumn(matcher),
-				getSpreadsheetRow(matcher));
+		return new SpreadsheetCoords(getSpreadsheetRow(matcher),
+				getSpreadsheetColumn(matcher));
 	}
 
 	/**
@@ -208,11 +208,11 @@ public class GeoElementSpreadsheet {
 	 * @return spreadsheet coordinates as (column index,row index); null for
 	 *         non-spreadsheet names
 	 */
-	public static GPoint getSpreadsheetCoordsForLabel(String inputLabel) {
+	public static SpreadsheetCoords getSpreadsheetCoordsForLabel(String inputLabel) {
 		// we need to also support wrapped GeoElements like
 		// $A4 that are implemented as dependent geos (using ExpressionNode)
-		GPoint p = spreadsheetIndices(inputLabel);
-		if (p.x >= 0 && p.y >= 0) {
+		SpreadsheetCoords p = spreadsheetIndices(inputLabel);
+		if (p.column >= 0 && p.row >= 0) {
 			return p;
 		}
 		return null;
@@ -336,14 +336,14 @@ public class GeoElementSpreadsheet {
 		String label = geo.getLabelSimple();
 
 		if (GeoElementSpreadsheet.isSpreadsheetLabel(label)) {
-			GPoint coords = GeoElementSpreadsheet.spreadsheetIndices(label);
+			SpreadsheetCoords coords = GeoElementSpreadsheet.spreadsheetIndices(label);
 
 			SpreadsheetViewInterface spreadsheet = guiManager
 					.getSpreadsheetView();
 			CellFormatInterface formatHandler = spreadsheet
 					.getSpreadsheetTable().getCellFormatHandler();
 
-			Object c = formatHandler.getCellFormat(coords.x, coords.y,
+			Object c = formatHandler.getCellFormat(coords.column, coords.row,
 					CellFormat.FORMAT_BGCOLOR);
 
 			if (c instanceof GColor) {

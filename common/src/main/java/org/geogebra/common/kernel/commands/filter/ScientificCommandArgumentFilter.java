@@ -15,27 +15,23 @@ public class ScientificCommandArgumentFilter extends BaseCommandArgumentFilter {
 	@Override
 	public void checkAllowed(Command command,
 			CommandProcessor commandProcessor) {
-		if (!check(command, commandProcessor)) {
+		if (!isFilteredCommand(command)) {
 			return;
 		}
 		GeoElement[] arguments = commandProcessor.resArgs(command);
 
-		if (areEqual(command, Commands.BinomialDist)) {
+		if (isCommand(command, Commands.BinomialDist)) {
 			checkBinomial(command, arguments, commandProcessor);
-		} else if (areEqual(command, Commands.Normal)) {
+		} else if (isCommand(command, Commands.Normal)) {
 			checkNormal(command, arguments, commandProcessor);
 		}
-	}
-
-	private boolean areEqual(Command command, Commands commandsValue) {
-		return command.getName().equals(commandsValue.name());
 	}
 
 	private void checkBinomial(Command command, GeoElement[] arguments,
 			CommandProcessor commandProcessor) {
 
 		if (arguments.length == 3 || arguments.length == 4) {
-				return;
+			return;
 		} else {
 			throw commandProcessor.argNumErr(command, arguments.length);
 		}

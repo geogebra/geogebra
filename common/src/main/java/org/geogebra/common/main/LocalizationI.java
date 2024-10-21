@@ -129,4 +129,12 @@ public abstract class LocalizationI {
 	public String getKeyboardRow(int row) {
 		return getMenu("Keyboard.row" + row);
 	}
+
+	/**
+	 * During language switch the actual and preferred language can differ
+	 * @return preferred language as a tag
+	 */
+	public String getPreferredLanguageTag() {
+		return getLanguageTag();
+	}
 }

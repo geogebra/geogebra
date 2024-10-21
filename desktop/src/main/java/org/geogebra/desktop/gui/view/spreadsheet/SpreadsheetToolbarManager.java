@@ -1,6 +1,7 @@
 package org.geogebra.desktop.gui.view.spreadsheet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.desktop.main.AppD;
@@ -38,7 +39,7 @@ public class SpreadsheetToolbarManager {
 		switch (mode) {
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
-			if (!table.getSelectedCellRanges().get(0).isEmpty()) {
+			if (!CellRangeUtil.isEmpty(table.getFirstSelection(), app)) {
 				id = new CreateObjectDialog(app, view,
 						CreateObjectModel.TYPE_LIST);
 				id.setVisible(true);
@@ -47,7 +48,7 @@ public class SpreadsheetToolbarManager {
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS:
 			if (table.getCellRangeProcessor()
-					.isCreatePointListPossible(table.getSelectedCellRanges())) {
+					.isCreatePointListPossible(table.getSelectedRanges())) {
 				id = new CreateObjectDialog(app, view,
 						CreateObjectModel.TYPE_LISTOFPOINTS);
 				id.setVisible(true);
@@ -57,7 +58,7 @@ public class SpreadsheetToolbarManager {
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX:
 			if (table.getCellRangeProcessor()
-					.isCreateMatrixPossible(table.getSelectedCellRanges())) {
+					.isCreateMatrixPossible(table.getSelectedRanges())) {
 				id = new CreateObjectDialog(app, view,
 						CreateObjectModel.TYPE_MATRIX);
 				id.setVisible(true);
@@ -66,7 +67,7 @@ public class SpreadsheetToolbarManager {
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT:
 			if (table.getCellRangeProcessor()
-					.isCreateMatrixPossible(table.getSelectedCellRanges())) {
+					.isCreateMatrixPossible(table.getSelectedRanges())) {
 				id = new CreateObjectDialog(app, view,
 						CreateObjectModel.TYPE_TABLETEXT);
 				id.setVisible(true);
@@ -75,7 +76,7 @@ public class SpreadsheetToolbarManager {
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE:
 			if (table.getCellRangeProcessor()
-					.isCreatePointListPossible(table.getSelectedCellRanges())) {
+					.isCreatePointListPossible(table.getSelectedRanges())) {
 				id = new CreateObjectDialog(app, view,
 						CreateObjectModel.TYPE_POLYLINE);
 				id.setVisible(true);

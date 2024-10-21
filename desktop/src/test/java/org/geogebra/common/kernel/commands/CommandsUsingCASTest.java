@@ -249,7 +249,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		t("Asymptote[ (2 - x) / ((x - 2) (x - 4)) ]", "{y = 0, x = 4}");
 
 		t("Asymptote[ 5+exp(-x^2) ]", "{y = 5}");
-		t("Asymptote[ (x^3-9+4)/(2x^3+6x+7) ]", "{y = 0.5}");
+		tRound("Asymptote[ (x^3-9+4)/(2x^3+6x+7) ]", "{y = 0.5, x = -0.91299}");
 		tRound("Asymptote[ 3 atan(2x) ]", "{y = 4.71239, y = -4.71239}");
 		tRound("Asymptote[ (9-4x^2)/(1+5x+5x^2)]",
 				"{y = -0.8, x = -0.72361, x = -0.27639}");
@@ -288,6 +288,15 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		// tRound("Asymptote[ sqrt(3x^2 - 2) / sqrt(2x + 1) ]", "{}");
 		// tRound("Asymptote[ sqrt((3x^2 - 2) / (2x + 1)) ]", "{x = -0.5}");
 
+	}
+
+	@Test
+	public void asymptoteVertical() {
+		add("f:(0.581550952232088x)/(0.03544522x+0.1996238)");
+		// discontinuity not removable
+		t("Asymptote(f)", "{y = 16.40703463632298, x = -5.631896204904357}");
+		// discontinuity removable, even though limit of f is very high
+		t("Asymptote((10^18*x)/x)", "{y = 1000000000000000000}");
 	}
 
 	/** Test for MOB-1667 */

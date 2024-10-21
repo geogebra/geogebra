@@ -4,7 +4,6 @@ import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.browser.TabletSignInController;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInController;
@@ -42,11 +41,6 @@ public class TabletLookAndFeel extends GLookAndFeel {
 	@Override
 	public boolean supportsGoogleDrive() {
 		return false;
-	}
-
-	@Override
-	public boolean examSupported() {
-		return Browser.isAndroid();
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.util;
 
 import org.gwtproject.event.dom.client.DomEvent;
-import org.gwtproject.event.legacy.shared.EventHandler;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.gwtproject.user.client.ui.IsWidget;
 
@@ -14,7 +13,7 @@ public interface AdvancedFocusPanelI extends IsWidget {
 	 *            event type
 	 * @return registration
 	 */
-	<H extends EventHandler> HandlerRegistration addDomHandler(
+	<H> HandlerRegistration addDomHandler(
 			H handler, DomEvent.Type<H> type);
 
 	int getOffsetHeight();

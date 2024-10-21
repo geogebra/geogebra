@@ -29,7 +29,6 @@ import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -1244,6 +1243,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		private JLabel label;
 		private JComboBox cbLocation;
 		private DefaultComboBoxModel cbModel;
+		List<String> currentContent;
 
 		public StartPointPanel() {
 			// textfield for animation step
@@ -1283,14 +1283,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			cbLocation.removeActionListener(this);
 
 			// repopulate model with names of points from the geoList's model
-			// take all points from construction
-			// TreeSet points =
-			// kernel.getConstruction().getGeoSetLabelOrder(GeoElement.GEO_CLASS_POINT);
-			TreeSet<GeoElement> points = kernel.getPointSet();
-			if (points.size() != cbModel.getSize() - 1) {
+			List<String> points = new ArrayList<>(model.getChoices(loc));
+			if (!points.equals(currentContent)) {
 				cbModel.removeAllElements();
-				// cbModel.addElement(null);
 				model.fillModes(loc);
+				currentContent = points;
 			}
 			model.updateProperties();
 			cbLocation.addActionListener(this);

@@ -30,8 +30,15 @@
 	box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.20);
 }
 
+.compact.GeoGebraHeader.scientificHeader,
 .smallScreen.GeoGebraHeader.scientificHeader {
   	height: 80px;
+}
+
+.GeoGebraHeader.notesHeader {
+	box-shadow: none;
+	border-bottom: 1px solid neutral(300);
+	box-sizing: border-box;
 }
 
 .GeoGebraHeader .signIn {
@@ -50,7 +57,7 @@
 .GeoGebraHeader .appName {
 	font-size: 24px;
     font-weight: normal;
-    margin: 22px 24px 18px 0px;
+    margin: 21px 24px 19px 0px;
     width: fit-content;
     height: 24px;
     line-height: 24px;
@@ -60,6 +67,7 @@
     white-space: nowrap;
 }
 
+.compact.GeoGebraHeader .appName,
 .smallScreen.GeoGebraHeader .appName {
     display: none;
 }
@@ -153,7 +161,6 @@ img.profileImage {
 .GeoGebraHeader .examType {
 	font-size: 20px;
 	margin: 8px 32px 8px 8px;
-	max-width: 300px;
 }
 
 .GeoGebraHeader .examTypeIcon {
@@ -188,8 +195,13 @@ img.profileImage {
     float: left;
 }
 
-.GeoGebraFrame.GeoGebraHeader.suiteHeader {
+.GeoGebraFrame.GeoGebraHeader.suiteHeader .upperHeader {
 	display: flex;
+}
+
+.GeoGebraFrame.GeoGebraHeader.suiteHeader.compact .upperHeader,
+.GeoGebraFrame.GeoGebraHeader.suiteHeader.smallScreen .upperHeader {
+	height: 44px;
 }
 
 .GeoGebraHeader .suiteAppPickerButton {
@@ -233,6 +245,10 @@ img.profileImage {
 	margin: 5px 16px 5px 12px;
 	opacity: 54%;
 	transition: transform 200ms ease-in-out;
+}
+
+.GeoGebraHeader.suiteHeader .undoRedoSettingsPanelScientific {
+	display: none;
 }
 
 .GeoGebraHeader.mobile{
@@ -282,10 +298,6 @@ img.profileImage {
 .startscreen.notes-mebis {
 	top: 0;
 	height: 100%;
-}
-
-.startscreen.notes .mowOpenMenuButton {
-	display: none;
 }
 
 .startscreen .logo{
@@ -356,6 +368,12 @@ svg.icon.left {
 .compact.GeoGebraFrame .shareBtn, .compact.GeoGebraFrame .signIn {
     display: none;
 }
+
+.compact.GeoGebraFrame .undoRedoSettingsPanelScientific .settingsBtnScientific,
+.compact.GeoGebraFrame .undoRedoSettingsPanelScientific .undoRedoCntScientific {
+	margin: 0px;
+}
+
 .GeoGebraHeader .signInIcon {
     display: none;
 }
@@ -368,6 +386,7 @@ svg.icon.left {
     margin: 6px 0px 6px 18px;
 }
 
+.compact.GeoGebraFrame.scientificHeader .menuBtn,
 .smallScreen.GeoGebraFrame.scientificHeader .menuBtn {
   	margin-top: 4px;
   	margin-bottom: 4px;
@@ -386,6 +405,7 @@ svg.icon.left {
 }
 
 .compact.GeoGebraFrame .headerLogo,
+.compact.GeoGebraFrame.scientificHeader .headerLogo,
 .smallScreen.GeoGebraFrame.scientificHeader .headerLogo {
     margin: 0px ;
     height: 36px;

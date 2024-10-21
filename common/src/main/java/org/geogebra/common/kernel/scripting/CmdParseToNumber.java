@@ -39,7 +39,7 @@ public class CmdParseToNumber extends CommandProcessor {
 			if (arg[0] instanceof GeoText) {
 				AlgoParseToNumberOrFunction
 						algo = new AlgoParseToNumberOrFunction(cons, (GeoText) arg[0], null,
-						Commands.ParseToNumber);
+						Commands.ParseToNumber, c.getLabel());
 				algo.getOutput(0).setLabel(c.getLabel());
 				return algo.getOutput();
 			}

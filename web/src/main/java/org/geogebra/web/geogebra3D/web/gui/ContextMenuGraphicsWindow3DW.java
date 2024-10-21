@@ -88,7 +88,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		ResourcePrototype img = MaterialDesignResources.INSTANCE.plane_black();
 
 		final GCheckmarkMenuItem showPlane = new GCheckmarkMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowPlane")),
+				img, loc.getMenu("ShowPlane"),
 				((Kernel3D) app.getKernel()).getXOYPlane().isPlateVisible(),
 				((GuiManager3DW) app.getGuiManager()).getShowPlane3DAction()
 		);
@@ -99,7 +99,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		ResourcePrototype img = MaterialDesignResources.INSTANCE.grid_black();
 
 		final GCheckmarkMenuItem showGrid = new GCheckmarkMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowGrid")),
+				img, loc.getMenu("ShowGrid"),
 				((Kernel3D) app.getKernel()).getXOYPlane().isGridVisible(),
 				((GuiManager3DW) app.getGuiManager()).getShowGrid3DAction()
 		);
@@ -108,9 +108,8 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 	private void addStandardViewMenuItem() {
 		ResourcePrototype img = MaterialDesignResources.INSTANCE.home_black();
-		AriaMenuItem miStandardView = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("StandardView")),
-				true,
+		AriaMenuItem miStandardView =
+				MainMenu.getMenuBarItem(img, loc.getMenu("StandardView"),
 				() -> app.getEuclidianView3D().setStandardView(true)
 		);
 		wrappedPopup.addItem(miStandardView);
@@ -118,9 +117,8 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 	private void addShowAllObjectsViewMenuItem() {
 		ResourcePrototype img = MaterialDesignResources.INSTANCE.show_all_objects_black();
-		AriaMenuItem miShowAllObjectsView = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAllObjects")),
-				true,
+		AriaMenuItem miShowAllObjectsView =
+				MainMenu.getMenuBarItem(img, loc.getMenu("ShowAllObjects"),
 				this::setViewShowAllObject
 		);
 		wrappedPopup.addItem(miShowAllObjectsView);
@@ -206,8 +204,8 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 				return;
 			}
 			boolean isSelected = isProjectionType(projectionType);
-			addItem(MainMenu.getMenuBarHtmlClassic(img.getSafeUri().asString(),
-					app.getLocalization().getMenu(text)),
+			addItem(img,
+					app.getLocalization().getMenu(text),
 					isSelected, () -> setProjectionType(projectionType), true);
 		}
 

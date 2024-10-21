@@ -1,11 +1,9 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
-import java.util.HashMap;
+import java.util.Map;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
@@ -18,6 +16,8 @@ import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.util.AdvancedFocusPanel;
 import org.geogebra.web.html5.awt.PrintableW;
@@ -39,7 +39,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	// ggb fields
 	protected AppW app;
-	private Kernel kernel;
+	private final Kernel kernel;
 
 	// spreadsheet table and row header
 	MyTableW table;
@@ -58,9 +58,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	// current toolbar mode
 	private int mode = -1;
-
-	boolean repaintScheduled = false; // to repaint less often, make it
-										// quicker
 
 	// panel that contains the spreadsheet table and headers
 	private AbsolutePanel spreadsheet;
@@ -226,15 +223,15 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	@Override
 	public void scrollIfNeeded(GeoElement geo, String labelNew) {
-		GPoint location = geo.getSpreadsheetCoords();
+		SpreadsheetCoords location = geo.getSpreadsheetCoords();
 
 		if (labelNew != null && location == null) {
 			location = GeoElementSpreadsheet.spreadsheetIndices(labelNew);
 		}
 
-		if (scrollToShow && location != null && (location.x > -1) && (location.y > -1)) {
+		if (scrollToShow && location != null && (location.column > -1) && (location.row > -1)) {
 			// autoscroll to new cell's location
-			table.scrollRectToVisible(location.x, location.y);
+			table.scrollRectToVisible(location.column, location.row);
 		}
 	}
 
@@ -246,7 +243,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 			// TODO traceDialog.updateTraceDialog();
 		}
 
-		GPoint location = geo.getSpreadsheetCoords();
+		SpreadsheetCoords location = geo.getSpreadsheetCoords();
 
 		switch (geo.getGeoClassType()) {
 		default:
@@ -259,8 +256,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		}
 
 		if (location != null) {
-			table.updateCellFormat(location.y, location.x);
-			table.syncRowHeaderHeight(location.y);
+			table.updateCellFormat(location.row, location.column);
+			table.syncRowHeaderHeight(location.row);
 		}
 
 		// update the rowHeader height in case an oversized element has been
@@ -337,29 +334,23 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	public void update(GeoElement geo) {
 
 		// table.setRepaintAll();
-		GPoint location = geo.getSpreadsheetCoords();
+		SpreadsheetCoords location = geo.getSpreadsheetCoords();
 		if (location != null
-				&& location.x < app.getMaxSpreadsheetColumnsVisible()
-				&& location.y < app.getMaxSpreadsheetRowsVisible()) {
+				&& location.column < app.getMaxSpreadsheetColumnsVisible()
+				&& location.row < app.getMaxSpreadsheetRowsVisible()) {
 
 			// TODO: rowHeader and column
 			// changes should be handled by a table model listener
 
-			if (location.y >= tableModel.getRowCount()) {
-				tableModel.setRowCount(location.y + 1);
-				// TODO//spreadsheet.getRowHeader().revalidate();
+			if (location.row >= tableModel.getRowCount()) {
+				tableModel.setRowCount(location.row + 1);
 			}
-			if (location.x >= tableModel.getColumnCount()) {
-				tableModel.setColumnCount(location.x + 1);
-				// TODO//JViewport cH = spreadsheet.getColumnHeader();
-
-				// bugfix: double-click to load ggb file gives cH = null
-				// TODO//if (cH != null)
-				// TODO cH.revalidate();
+			if (location.column >= tableModel.getColumnCount()) {
+				tableModel.setColumnCount(location.column + 1);
 			}
 
 			// Mark this cell to be resized by height
-			table.addResizeHeight(new GPoint(location.x, location.y));
+			table.addResizeHeight(new GPoint(location.column, location.row));
 
 			// put geos with special editors in the oneClickEditMap
 			if (geo.isGeoBoolean() || geo.isGeoButton() || geo.isGeoList()) {
@@ -367,7 +358,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 			}
 
 			// Update the cell format, it may change with this geo's properties
-			table.updateCellFormat(location.y, location.x);
+			table.updateCellFormat(location.row, location.column);
 		}
 	}
 
@@ -395,22 +386,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// =====================================================
 
 	@Override
-	public void showTraceDialog(GeoElement geo, CellRange traceCell) {
+	public void showTraceDialog(GeoElement geo, TabularRange traceCell) {
 		// not implemented yet
-	}
-
-	/**
-	 * @param enableMode
-	 *            whether trace dialog is active
-	 */
-	public void setTraceDialogMode(boolean enableMode) {
-		if (enableMode) {
-			table.setSelectionRectangleColor(GColor.GRAY);
-			// table.setFocusable(false);
-		} else {
-			table.setSelectionRectangleColor(MyTableW.SELECTED_RECTANGLE_COLOR);
-			// table.setFocusable(true);
-		}
 	}
 
 	// ===============================================================
@@ -513,7 +490,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	public void setColumnWidthsFromSettings() {
 
 		int prefWidth = table.preferredColumnWidth();
-		HashMap<Integer, Integer> widthMap = settings().getWidthMap();
+		Map<Integer, Integer> widthMap = settings().getWidthMap();
 
 		for (int col = 0; col < table.getColumnCount(); ++col) {
 			if (widthMap.containsKey(col)) {
@@ -534,7 +511,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		table.setRowHeight(prefHeight, false);
 
 		// now set custom row heights
-		HashMap<Integer, Integer> heightMap = settings().getHeightMap();
+		Map<Integer, Integer> heightMap = settings().getHeightMap();
 		Log.debug("height map size: " + heightMap.size());
 		for (int row = 0; row < table.getRowCount(); ++row) {
 			if (heightMap.containsKey(row)) {
@@ -588,18 +565,10 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	 *            whether to show grid
 	 */
 	public void setShowGrid(boolean showGrid) {
-		if (showGrid) {
-			table.getGrid().getElement().removeClassName("off");
-		} else {
-			table.getGrid().getElement().addClassName("off");
-		}
+		table.getGrid().setStyleName("off", !showGrid);
 		if (this.isVisibleStyleBar()) {
 			getSpreadsheetStyleBar().updateStyleBar();
 		}
-	}
-
-	public boolean getAllowToolTips() {
-		return settings().allowToolTips();
 	}
 
 	public boolean getShowFormulaBar() {
@@ -650,45 +619,14 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		settings().addListener(this);
 	}
 
-	protected void updateRowHeightSetting(int row, int height) {
-		if (!allowSettingUpdate) {
-			return;
-		}
-
-		settings().removeListener(this);
-		settings().getHeightMap().put(row, height);
-		settings().addListener(this);
-	}
-
 	protected void updatePreferredRowHeight(int preferredRowHeight) {
 		if (!allowSettingUpdate) {
 			return;
 		}
 
 		settings().removeListener(this);
-		settings().getHeightMap().clear();
+		settings().clearHeights();
 		settings().setPreferredRowHeight(preferredRowHeight);
-		settings().addListener(this);
-	}
-
-	protected void updateColumnWidth(int col, int colWidth) {
-		if (!allowSettingUpdate) {
-			return;
-		}
-
-		settings().removeListener(this);
-		settings().getWidthMap().put(col, colWidth);
-		settings().addListener(this);
-	}
-
-	protected void updatePreferredColumnWidth() {
-		if (!allowSettingUpdate) {
-			return;
-		}
-
-		settings().removeListener(this);
-		settings().getWidthMap().clear();
-		settings().setPreferredColumnWidth(table.preferredColumnWidth());
 		settings().addListener(this);
 	}
 
@@ -723,7 +661,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		// cell format
 		getSpreadsheetTable().getCellFormatHandler()
 				.processXMLString(settings().cellFormat());
-
+		table.repaintAll();
 		// preferredSize
 		setPreferredSize(settings().preferredSize().getWidth(),
 				settings().preferredSize().getHeight());
@@ -789,13 +727,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 				&& table.getGrid().isAttached();
 	}
 
-	protected void onLoad() {
-		// this may be important if the view is added/removed from the DOM
-		// TODO: is this needed with stand alone spreadsheetView?
-		// super.onLoad();
-		repaintView();
-	}
-
 	/**
 	 * This method is called from timers. Only call this method if you really
 	 * know what you're doing. Otherwise just call repaint().
@@ -823,21 +754,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 		waitForRepaint--;
 		return true;
-	}
-
-	/**
-	 * This method is used from add and remove, to ensure it is executed after
-	 * the loop is executed - so in theory, if there is a loop with add methods,
-	 * all the add methods come first, and repaint is called only afterwards
-	 */
-	public void scheduleRepaint() {
-		if (!repaintScheduled) {
-			repaintScheduled = true;
-			Scheduler.get().scheduleDeferred(() -> {
-				repaintScheduled = false;
-				repaintView();
-			});
-		}
 	}
 
 	public Widget getFocusPanel() {

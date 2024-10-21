@@ -16,7 +16,7 @@ public class ScreenReaderBuilderDot extends ScreenReaderBuilder {
 			if (sb.charAt(idx) == ' ') {
 				sb.setLength(idx--);
 			}
-			if (idx > 0 && sb.charAt(idx) != '.') {
+			if (idx >= 0 && sb.charAt(idx) != '.') {
 				sb.append(".");
 			}
 		}

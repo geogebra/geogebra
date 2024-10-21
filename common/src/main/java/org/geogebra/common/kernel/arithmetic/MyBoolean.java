@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 import org.geogebra.common.kernel.Construction;
@@ -197,5 +198,10 @@ public class MyBoolean extends ValidExpression
 	@Override
 	public ValueType getValueType() {
 		return ValueType.BOOLEAN;
+	}
+
+	@Override
+	public BigDecimal toDecimal() {
+		return value ? BigDecimal.ONE : BigDecimal.ZERO;
 	}
 }

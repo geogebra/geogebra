@@ -1,10 +1,7 @@
 package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.gui.view.spreadsheet.CellFormat;
-import org.geogebra.common.gui.view.spreadsheet.CellFormatInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -19,6 +16,9 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
+import org.geogebra.common.spreadsheet.style.CellFormat;
+import org.geogebra.common.spreadsheet.style.CellFormatInterface;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -66,7 +66,7 @@ public class CmdSetColor extends CmdScripting {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		c.getArgument(0).resolveVariables(argInfo);
-		target = resArg(c.getArgument(0), argInfo)[0];
+		target = resArg(c.getArgument(0), argInfo);
 		cons.setSuppressLabelCreation(oldMacroMode);
 
 		switch (n) {
@@ -80,7 +80,7 @@ public class CmdSetColor extends CmdScripting {
 					&& LabelManager.isValidLabel(label, kernel, null)
 					&& GeoElementSpreadsheet.isSpreadsheetLabel(label)) {
 
-				GPoint coords = GeoElementSpreadsheet.spreadsheetIndices(label);
+				SpreadsheetCoords coords = GeoElementSpreadsheet.spreadsheetIndices(label);
 
 				CellFormatInterface formatHandler = kernel.getApplication()
 						.getSpreadsheetTableModel().getCellFormat(null);
@@ -119,7 +119,7 @@ public class CmdSetColor extends CmdScripting {
 					&& LabelManager.isValidLabel(label, kernel, null)
 					&& GeoElementSpreadsheet.isSpreadsheetLabel(label)) {
 
-				GPoint coords = GeoElementSpreadsheet.spreadsheetIndices(label);
+				SpreadsheetCoords coords = GeoElementSpreadsheet.spreadsheetIndices(label);
 
 				CellFormatInterface formatHandler = kernel.getApplication()
 						.getSpreadsheetTableModel().getCellFormat(null);
@@ -152,9 +152,9 @@ public class CmdSetColor extends CmdScripting {
 
 		try {
 			cons.setSuppressLabelCreation(true);
-			GeoElement r = resArg(c.getArgument(offset), argInfo)[0];
-			GeoElement g = resArg(c.getArgument(offset + 1), argInfo)[0];
-			GeoElement b = resArg(c.getArgument(offset + 2), argInfo)[0];
+			GeoElement r = resArg(c.getArgument(offset), argInfo);
+			GeoElement g = resArg(c.getArgument(offset + 1), argInfo);
+			GeoElement b = resArg(c.getArgument(offset + 2), argInfo);
 
 			int red, blue, green;
 			if (r.isNumberValue()) {
@@ -189,14 +189,14 @@ public class CmdSetColor extends CmdScripting {
 			// resolve second argument
 			cons.setSuppressLabelCreation(true);
 			args[offset].resolveVariables(argInfo);
-			color = resArg(args[offset], argInfo)[0];
+			color = resArg(args[offset], argInfo);
 
 		} catch (Error e) {
-		// if there's a problem with the second argument, just wrap in
-		// quotes in case it's a color
-		// eg SetColor[A,blue] rather than SetColor[A,"blue"]
-		color = new GeoText(cons,
-				args[offset].toString(StringTemplate.defaultTemplate));
+			// if there's a problem with the second argument, just wrap in
+			// quotes in case it's a color
+			// eg SetColor[A,blue] rather than SetColor[A,"blue"]
+			color = new GeoText(cons,
+					args[offset].toString(StringTemplate.defaultTemplate));
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}

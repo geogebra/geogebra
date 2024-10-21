@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -17,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.error.ErrorHelper;
 
 public class AlgoParseToNumberOrFunction extends AlgoElement {
 
@@ -24,6 +26,7 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 	private final GeoElement result;
 	private final Commands cmd;
 	private final GeoList vars;
+	private final String label;
 	private GeoElement[] inputForUpdateSetPropagation;
 	private final Set<GeoElement> referencedObjects = new HashSet<>();
 
@@ -34,12 +37,13 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 	 * @param cmd ParseToNumber or ParseToFunction
 	 */
 	public AlgoParseToNumberOrFunction(Construction cons, GeoText text,
-			GeoList vars, Commands cmd) {
+			GeoList vars, Commands cmd, String label) {
 		super(cons);
 		this.cmd = cmd;
 		this.text = text;
 		this.vars = vars;
 		this.result = initResult();
+		this.label = label;
 		setInputOutput();
 		compute();
 	}
@@ -64,7 +68,9 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 		AlgebraProcessor ap = kernel.getAlgebraProcessor();
 		String textToParse = text.getTextStringSafe();
 		if (cmd == Commands.ParseToNumber) {
-			num = ap.evaluateToNumeric(textToParse, true);
+			EvalInfo evalInfo = new EvalInfo(!cons.isSuppressLabelsActive(), true)
+					.withAutocreate(false);
+			num = ap.evaluateToNumeric(textToParse, ErrorHelper.silent(), evalInfo);
 			if (num != null) {
 				updateReferences(num.getDefinition());
 			}
@@ -85,7 +91,7 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 				updateReferences(((GeoFunctionNVar) num).getFunctionExpression());
 			}
 		}
-		if (num == null) {
+		if (num == null || num.toGeoElement().isEmptySpreadsheetCell()) {
 			result.setUndefined();
 		} else {
 			result.set(num);
@@ -96,6 +102,9 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 		referencedObjects.clear();
 		if (definition != null) {
 			definition.getVariables(referencedObjects, SymbolicMode.NONE);
+		}
+		if (label != null && referencedObjects.remove(kernel.lookupLabel(label))) {
+			result.setUndefined();
 		}
 		if (!referencedObjects.isEmpty()) {
 			inputForUpdateSetPropagation = new GeoElement[referencedObjects.size() + 1];

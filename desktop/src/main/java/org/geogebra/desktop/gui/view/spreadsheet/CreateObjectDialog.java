@@ -85,13 +85,8 @@ public class CreateObjectDialog extends InputDialogD
 		this.table = (MyTableD) view.getSpreadsheetTable();
 		coModel = new CreateObjectModel(app, objectType, this);
 		coModel.setCellRangeProcessor(table.getCellRangeProcessor());
-		coModel.setSelectedCellRanges(table.getSelectedCellRanges());
+		coModel.setSelectedRanges(table.getSelectedRanges());
 		this.app = app;
-		// cp = table.getCellRangeProcessor();
-		// selectedCellRanges = table.selectedCellRanges;
-		//
-		// boolean showApply = false;
-		//
 		createGUI(coModel.getTitle(), "", false, 16, 1, false, false, false,
 				showApply, DialogType.GeoGebraEditor);
 

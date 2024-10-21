@@ -5,6 +5,8 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamSummary;
 import org.geogebra.common.exam.ExamType;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
@@ -67,11 +69,11 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 	protected void exitAndResetExam() {
 		app.getLAF().toggleFullscreen(false);
 		saveScreenshot(app.getLocalization().getMenu("exam_log_header")
-				+ " " + app.getVersionString(), null);
+				+ " " + app.getVersionString());
 		app.endExam();
 	}
 
-	private void saveScreenshot(String title, StringBuilder settings) {
+	private void saveScreenshot(String title) {
 		Canvas canvas = Canvas.createIfSupported();
 		final GGraphics2DW g2 = new GGraphics2DW(canvas);
 		ExamSummary examSummary = examController.getExamSummary(
@@ -80,19 +82,42 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 
 		addHeaderToScreenshot(g2, canvas, title);
 
+		String deactivatedViews = getDeactivatedViewsText();
+		if (!app.isUnbundled() && !deactivatedViews.isEmpty()) {
+			yOffset = addLineToScreenshot(g2, deactivatedViews, yOffset);
+		}
 		if (examSummary != null) {
 			yOffset = addStartDateToScreenshot(g2, examSummary, yOffset);
 			yOffset = addStartTimeToScreenshot(g2, examSummary, yOffset);
 			yOffset = addEndTimeToScreenshot(g2, examSummary, yOffset);
 			yOffset = addActivityToScreenshot(g2, yOffset);
-			yOffset = addLogTimesToScreenshot(g2, examSummary, yOffset);
-		}
-
-		if (settings != null) {
-			addLineToScreenshot(g2, settings.toString(), yOffset);
+			addLogTimesToScreenshot(g2, examSummary, yOffset);
 		}
 
 		Browser.exportImage(canvas.toDataUrl(), "ExamLog.png");
+	}
+
+	private String getDeactivatedViewsText() {
+		Settings settings = app.getSettings();
+		Localization loc = app.getLocalization();
+		boolean supportsCAS = settings.getCasSettings().isEnabled();
+		boolean supports3D = settings.supports3D();
+
+		StringBuilder sb = new StringBuilder();
+		if (!supportsCAS || !supports3D) {
+			sb.append(loc.getMenu("exam_views_deactivated"));
+			sb.append(": ");
+		}
+		if (!supportsCAS) {
+			sb.append(loc.getMenu("Perspective.CAS"));
+		}
+		if (!supportsCAS && !supports3D) {
+			sb.append(", ");
+		}
+		if (!supports3D) {
+			sb.append(loc.getMenu("Perspective.3DGraphics"));
+		}
+		return sb.toString();
 	}
 
 	private void addHeaderToScreenshot(GGraphics2DW g2, Canvas canvas, String title) {
@@ -131,18 +156,17 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 				null, yOffset);
 	}
 
-	private int addLogTimesToScreenshot(GGraphics2DW g2, ExamSummary examSummary, int yOffset) {
-		return addCheatingEventsLogTimesToScreenshot(g2, examSummary,
+	private void addLogTimesToScreenshot(GGraphics2DW g2, ExamSummary examSummary, int yOffset) {
+		addCheatingEventsLogTimesToScreenshot(g2, examSummary,
 				yOffset);
 	}
 
-	private int addCheatingEventsLogTimesToScreenshot(GGraphics2DW g2,
+	private void addCheatingEventsLogTimesToScreenshot(GGraphics2DW g2,
 			ExamSummary examSummary, int yOffset) {
 		int yOffsetForNextEntry = yOffset;
 		for (String line : examSummary.getActivityLabelText().split("\n")) {
 			yOffsetForNextEntry = addLineToScreenshot(g2, line, yOffsetForNextEntry);
 		}
-		return yOffsetForNextEntry;
 	}
 
 	private int addFieldToScreenshot(GGraphics2DW g2, String name, String value, int yOffset) {
@@ -173,7 +197,7 @@ public class ExitExamAction extends DefaultMenuAction<AppWFull> {
 		if (examType != null) {
 			title = examType.getDisplayName(app.getLocalization(), app.getConfig());
 		}
-		saveScreenshot(title, null);
+		saveScreenshot(title);
 		app.endExam();
 		app.fileNew();
 		app.clearSubAppCons();

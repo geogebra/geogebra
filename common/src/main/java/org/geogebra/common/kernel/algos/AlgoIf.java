@@ -15,7 +15,9 @@ package org.geogebra.common.kernel.algos;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.commands.Commands;
@@ -197,6 +199,22 @@ public class AlgoIf extends AlgoElement {
 
 		}
 		return false;
+	}
+
+	@Override
+	protected boolean hasExpXML(String cmdName) {
+		return result instanceof FunctionalNVar;
+	}
+
+	@Override
+	protected String toExpString(StringTemplate tpl) {
+		if (result instanceof FunctionalNVar && result.isLabelSet()) {
+			FunctionalNVar functionalNVar = (FunctionalNVar) result;
+			String rhs = toString(tpl);
+			return result.getLabel(tpl) + "("
+					+ functionalNVar.getVarString(tpl) + ") = " + rhs;
+		}
+		return super.toExpString(tpl);
 	}
 
 }

@@ -1,5 +1,6 @@
 package org.geogebra.common.main.exam.restriction;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class ExamRestrictionModel {
 	private List<String> restrictedSubAppCodes = Collections.emptyList();
 	private String defaultAppCode;
 	private CommandFilter commandFilter;
+	private List<FeatureRestriction> featureRestrictions = Collections.emptyList();
 
 	public void setRestrictedSubAppCodes(String... subAppCodes) {
 		restrictedSubAppCodes = List.of(subAppCodes);
@@ -58,5 +60,22 @@ public class ExamRestrictionModel {
 
 	public void setCommandFilter(CommandFilter graphingCommandFilter) {
 		this.commandFilter = graphingCommandFilter;
+	}
+
+	/**
+	 * UI elements which should be disabled
+	 * @param featureRestrictions - restriction to be added
+	 */
+	public void setFeatureRestrictions(FeatureRestriction... featureRestrictions) {
+		this.featureRestrictions = Arrays.asList(featureRestrictions);
+	}
+
+	/**
+	 * is certain feature restricted
+	 * @param featureRestriction - UI element
+	 * @return true, if UI element should be restricted
+	 */
+	public boolean isFeatureRestricted(FeatureRestriction featureRestriction) {
+		return featureRestrictions.contains(featureRestriction);
 	}
 }

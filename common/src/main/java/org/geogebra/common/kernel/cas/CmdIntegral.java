@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.advanced.AlgoIntegralNumericInterval;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.commands.CommandNotFoundError;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -23,12 +22,12 @@ import org.geogebra.common.main.MyError;
  *
  * Integral[ &lt;GeoFunction f&gt;, &lt;GeoFunction g&gt;, &lt;Number a&gt;, &lt;Number b&gt; ]
  */
-public class CmdIntegral extends CommandProcessor implements UsesCAS {
+public final class CmdIntegral extends CommandProcessor implements UsesCAS {
 
 	// from GeoGebra 4.0, Integral has been split into Integral and
 	// IntegralBetween
 	// old syntax and files will still work
-	private String internalCommandName;
+	private Commands command;
 
 	/**
 	 * Create new command processor
@@ -40,15 +39,11 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 	 */
 	public CmdIntegral(Kernel kernel, Commands command) {
 		super(kernel);
-		internalCommandName = command.name();
+		this.command = command;
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
-		if (c.getArgumentNumber() < 3
-				&& !app.getSettings().getCasSettings().isEnabled()) {
-			throw new CommandNotFoundError(app.getLocalization(), c);
-		}
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
@@ -87,7 +82,7 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 						c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
-						"NIntegral".equals(internalCommandName));
+						isNIntegral());
 
 				return algo.getIntegral().asArray();
 			}
@@ -163,7 +158,7 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 	}
 
 	private boolean isNIntegral() {
-		return "NIntegral".equals(internalCommandName);
+		return command == Commands.NIntegral;
 	}
 
 	/**
@@ -177,9 +172,10 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 	 *            variable
 	 * @return integral of given function wrt given variable
 	 */
-	final public GeoElement integral(CasEvaluableFunction f, GeoNumeric var, EvalInfo info) {
-		AlgoIntegral algo = new AlgoIntegral(cons, f, var, true, info,
-				isNIntegral());
+	public GeoElement integral(CasEvaluableFunction f, GeoNumeric var, EvalInfo info) {
+		boolean numeric = command == Commands.NIntegral
+				|| !app.getSettings().getCasSettings().isEnabled();
+		AlgoIntegral algo = new AlgoIntegral(cons, f, var, true, info, numeric);
 		return algo.getResult();
 	}
 }

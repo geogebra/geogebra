@@ -1,7 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -27,10 +26,11 @@ public abstract class MultipleGeosModel extends MultipleOptionsModel {
 		TreeSet<GeoElement> points = app.getKernel().getPointSet();
 		List<GeoElement> choices2 = new ArrayList<>();
 		choices2.add(null);
-		Iterator<GeoElement> it = points.iterator();
 		int count = 0;
-		while (it.hasNext() || ++count > MAX_CHOICES) {
-			GeoElement p = it.next();
+		for (GeoElement p: points) {
+			if (++count > MAX_CHOICES) {
+				break;
+			}
 			choices2.add(p);
 		}
 		return choices2;
@@ -41,10 +41,11 @@ public abstract class MultipleGeosModel extends MultipleOptionsModel {
 		TreeSet<GeoElement> points = app.getKernel().getPointSet();
 		choices.clear();
 		choices.add("");
-		Iterator<GeoElement> it = points.iterator();
 		int count = 0;
-		while (it.hasNext() || ++count > MAX_CHOICES) {
-			GeoElement p = it.next();
+		for (GeoElement p: points) {
+			if (++count > MAX_CHOICES) {
+				break;
+			}
 			choices.add(p.getLabel(StringTemplate.editTemplate));
 		}
 		return choices;

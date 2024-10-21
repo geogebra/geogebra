@@ -154,6 +154,7 @@ public class GFontW extends GFont {
 		GFontW ret = new GFontW(fontStyle);
 		ret.setFontStyle(i);
 		ret.fontSize = fontSize;
+		ret.fontFamily = fontFamily;
 		return ret;
 	}
 

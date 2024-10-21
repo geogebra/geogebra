@@ -18,6 +18,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.AxisModel;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.gui.NumberComboBox;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
@@ -39,25 +40,25 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 	protected JCheckBox cbDrawAtBorder;
 	protected JCheckBox cbAllowSelection;
 	protected NumberComboBox ncbTickDist;
-	protected JComboBox cbTickStyle;
-	protected JComboBox cbAxisLabel;
-	protected JComboBox cbUnitLabel;
+	protected JComboBox<String> cbTickStyle;
+	protected JComboBox<String> cbAxisLabel;
+	protected JComboBox<String> cbUnitLabel;
 	protected JTextField tfCross;
 
 	private final JLabel crossAt;
 
-	private JLabel axisTicks;
+	private final JLabel axisTicks;
 
-	private JLabel axisLabel;
+	private final JLabel axisLabel;
 
-	private JLabel axisUnitLabel;
+	private final JLabel axisUnitLabel;
 
-	private JLabel stickToEdge;
+	private final JLabel stickToEdge;
 
-	private AppD app;
+	private final AppD app;
 	protected EuclidianView view;
 
-	private LocalizationD loc;
+	private final LocalizationD loc;
 
 	/**
 	 * @param app application
@@ -94,9 +95,9 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 
 		// ticks
 		axisTicks = new JLabel(loc.getMenu("AxisTicks") + ":");
-		cbTickStyle = new JComboBox();
+		cbTickStyle = new JComboBox<>();
 
-		model.fillTicksCombo();
+		model.getTickOptions().forEach(cbTickStyle::addItem);
 
 		cbTickStyle.addActionListener(this);
 		cbTickStyle.setEditable(false);
@@ -108,16 +109,16 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		ncbTickDist.addItemListener(this);
 
 		// axis and unit label
-		cbAxisLabel = new JComboBox();
-		model.fillAxisCombo();
+		cbAxisLabel = new JComboBox<>();
+		model.getAxisLabelOptions().forEach(cbAxisLabel::addItem);
 		cbAxisLabel.addActionListener(this);
 		cbAxisLabel.setEditable(true);
 		axisLabel = new JLabel(loc.getMenu("AxisLabel") + ":");
 
 		axisUnitLabel = new JLabel(loc.getMenu("AxisUnitLabel") + ":");
-		cbUnitLabel = new JComboBox();
+		cbUnitLabel = new JComboBox<>();
 		cbUnitLabel.setEditable(true);
-		model.fillUnitLabel();
+		model.getUnitLabelOptions().forEach(cbUnitLabel::addItem);
 		cbUnitLabel.addActionListener(this);
 
 		// cross at and stick to edge
@@ -332,7 +333,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 	}
 
 	protected double parseDouble(String text) {
-		if (text == null || "".equals(text)) {
+		if (StringUtil.empty(text)) {
 			return Double.NaN;
 		}
 		return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);
@@ -367,21 +368,6 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		cbUnitLabel.setFont(font);
 
 		tfCross.setFont(font);
-	}
-
-	@Override
-	public void addTickItem(String item) {
-		cbTickStyle.addItem(item);
-	}
-
-	@Override
-	public void addAxisLabelItem(String item) {
-		cbAxisLabel.addItem(item);
-	}
-
-	@Override
-	public void addUnitLabelItem(String item) {
-		cbUnitLabel.addItem(item);
 	}
 
 	@Override

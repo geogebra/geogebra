@@ -64,4 +64,8 @@ abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 		}
 		return list;
 	}
+
+	public boolean isSuiteApp() {
+		return isSuiteApp;
+	}
 }

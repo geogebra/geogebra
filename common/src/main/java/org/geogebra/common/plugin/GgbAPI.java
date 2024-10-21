@@ -2552,6 +2552,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				mode -> settings.setTreeMode(AlgebraView.SortMode.fromInt(mode)));
 	}
 
+	@Override
+	public void showAllObjects() {
+		app.setViewShowAllObjects();
+	}
+
 	protected JsObjectWrapper getAxisOptions(int axisNo, EuclidianSettings es) {
 		JsObjectWrapper axisOptions = createWrapper();
 		axisOptions.setProperty("visible", es.getShowAxis(axisNo));

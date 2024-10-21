@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoSymbolicI;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
@@ -1501,9 +1502,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case XCOORD:
 			if (!stringType.isGiac() && valueForm && !left.wrap().containsFunctionVariable()
-					&& (leftEval = left.evaluate(tpl)) instanceof VectorNDValue) {
+					&& (leftEval = safeEvaluate(left, tpl)) instanceof VectorNDValue) {
 				sb.append(kernel.format(((VectorNDValue) leftEval).getVector().getX(), tpl));
-			} else if (valueForm && ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
+			} else if (valueForm && ((leftEval = safeEvaluate(left, tpl)) instanceof GeoLine)) {
 				sb.append(kernel.format(((GeoLine) leftEval).getX(), tpl));
 			} else {
 				switch (stringType) {
@@ -1532,9 +1533,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case YCOORD:
 			if (!stringType.isGiac() && valueForm && !left.wrap().containsFunctionVariable()
-					&& (leftEval = left.evaluate(tpl)) instanceof VectorNDValue) {
+					&& (leftEval = safeEvaluate(left, tpl)) instanceof VectorNDValue) {
 				sb.append(kernel.format(((VectorNDValue) leftEval).getVector().getY(), tpl));
-			} else if (valueForm && ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
+			} else if (valueForm && ((leftEval = safeEvaluate(left, tpl)) instanceof GeoLine)) {
 				sb.append(kernel.format(((GeoLine) leftEval).getY(), tpl));
 			} else {
 				switch (stringType) {
@@ -1563,9 +1564,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case ZCOORD:
 			if (!stringType.isGiac() && valueForm && !left.wrap().containsFunctionVariable()
-					&& (leftEval = left.evaluate(tpl)) instanceof Vector3DValue) {
+					&& (leftEval = safeEvaluate(left, tpl)) instanceof Vector3DValue) {
 				sb.append(kernel.format(((Vector3DValue) leftEval).getPointAsDouble()[2], tpl));
-			} else if (valueForm && ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
+			} else if (valueForm && ((leftEval = safeEvaluate(left, tpl)) instanceof GeoLine)) {
 				sb.append(kernel.format(((GeoLine) leftEval).getZ(), tpl));
 			} else {
 				switch (stringType) {
@@ -2082,6 +2083,16 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			sb.append(operation);
 		}
 		return sb.toString();
+	}
+
+	private static ExpressionValue safeEvaluate(ExpressionValue ev, StringTemplate tpl) {
+		ExpressionValue result = null;
+		try {
+			result = ev.evaluate(tpl);
+		} catch (MyError e) {
+			Log.debug(e);
+		}
+		return result;
 	}
 
 	private static void appendRightIfDefined(String rightStr, StringBuilder sb) {

@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.TestHarness;
 import org.gwtproject.dom.style.shared.Unit;
@@ -26,6 +27,7 @@ import org.gwtproject.dom.style.shared.Unit;
 public class DynamicStyleBar extends EuclidianStyleBarW {
 
 	private GPoint oldPos = null;
+	private GeoElement oldPosFor = null;
 
 	/**
 	 * @param ev
@@ -55,6 +57,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 					updateStyleBar();
 				});
 		EventUtil.stopPointer(getElement());
+		ClickStartHandler.initDefaults(this, false, true);
 	}
 
 	private GPoint calculatePosition(GRectangle2D gRectangle2D, boolean isPoint,
@@ -124,7 +127,10 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		// make sure it reflects selected geos
 		setMode(EuclidianConstants.MODE_MOVE);
 		super.updateStyleBar();
-
+		if (activeGeoList == null || !activeGeoList.contains(oldPosFor)) {
+			oldPos = null;
+			oldPosFor = null;
+		}
 		if (activeGeoList == null || activeGeoList.size() == 0) {
 			setVisible(false);
 			return;
@@ -142,19 +148,18 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		}
 
 		GPoint newPos = null, nextPos;
-		boolean hasVisibleGeo = false;
 
 		for (int i = 0; i < activeGeoList.size(); i++) {
 			GeoElement geo = activeGeoList.get(i);
 			// it's possible if a non visible geo is in activeGeoList, if we
 			// duplicate a geo, which has descendant.
 			if (geo.isEuclidianVisible()) {
-				hasVisibleGeo = true;
 				if (geo instanceof GeoFunction || (geo.isGeoLine()
 						&& !geo.isGeoSegment())) {
 					if (getView().getHits().contains(geo)) {
 						nextPos = calculatePosition(null, false, true);
 						oldPos = nextPos;
+						oldPosFor = geo;
 					} else {
 						nextPos = null;
 					}
@@ -174,7 +179,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		// function selected, but dyn stylebar hit
 		// do not calculate the new position of stylebar
 		// set the current position instead
-		if (hasVisibleGeo && newPos == null && oldPos != null) {
+		if (newPos == null && oldPos != null) {
 			newPos = oldPos;
 		}
 

@@ -1355,14 +1355,6 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
-	/**
-	 * Show all objects in EuclidianView
-	 */
-	public void showAllObjects() {
-		app.setViewShowAllObjects();
-
-	}
-
 	public void setFileLoadingError(JsPropertyMap<?> error) {
 		this.fileLoadingError = error;
 	}

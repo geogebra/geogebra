@@ -716,7 +716,7 @@ public class AppCommon extends App {
 	private void reInit() {
 		resetAlgebraOutputFilter();
 		kernel.setAlgebraProcessor(null);
-		getSettingsUpdater().resetSettingsOnAppStart();
+		initSettingsUpdater().resetSettingsOnAppStart();
 	}
 
 	public void setScriptManager(ScriptManager scriptManager) {
@@ -792,6 +792,11 @@ public class AppCommon extends App {
 
 	public void setImageManager(ImageManager imgManager) {
 		imageManager = imgManager;
+	}
+
+	@Override
+	public boolean isUnbundled() {
+		return AppConfigDefault.isUnbundled(getConfig().getAppCode());
 	}
 
 	@Override

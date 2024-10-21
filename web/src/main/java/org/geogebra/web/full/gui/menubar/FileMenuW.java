@@ -1,11 +1,7 @@
 package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.move.events.BaseEvent;
-import org.geogebra.common.move.ggtapi.events.LogOutEvent;
-import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
-import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ShareControllerW;
@@ -28,10 +24,9 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Web implementation of FileMenu
  */
-public class FileMenuW extends Submenu implements BooleanRenderable, EventRenderable {
+public class FileMenuW extends Submenu implements BooleanRenderable {
 
 	private AriaMenuItem shareItem;
-	private AriaMenuItem openFileItem;
 
 	private final Localization loc;
 
@@ -58,9 +53,6 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		if (!getApp().getNetworkOperation().isOnline()) {
 			render(false);
 		}
-		if (getApp().getLoginOperation() != null) {
-			getApp().getLoginOperation().getView().add(this);
-		}
 	}
 
 	private void buildFileMenu() {
@@ -76,12 +68,6 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		}
 		addDownloadAsItem();
 		addPrintItem();
-	}
-
-	private void updateOpenFileButton() {
-		openFileItem.setHTML(MainMenu.getMenuBarHtml(
-				MaterialDesignResources.INSTANCE.openFileMenu(),
-				loc.getMenu("Open")));
 	}
 
 	/**
@@ -114,13 +100,6 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 			shareItem.setTitle(loc.getMenu("Offline"));
 		} else {
 			shareItem.setTitle("");
-		}
-	}
-
-	@Override
-	public void renderEvent(BaseEvent event) {
-		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
-			updateOpenFileButton();
 		}
 	}
 
@@ -165,41 +144,39 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	}
 
 	private void addOpenFileItem() {
-		openFileItem =
-				addItem(MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.openFileMenu(),
-						loc.getMenu("Open")),
-						true, new MenuCommand(getApp()) {
+		addItem(MainMenu.getMenuBarItem(
+				MaterialDesignResources.INSTANCE.openFileMenu(),
+				loc.getMenu("Open"),
+				new MenuCommand(getApp()) {
 
-					@Override
-					public void doExecute() {
-						app.openSearch(null);
-					}
-				});
+			@Override
+			public void doExecute() {
+				app.openSearch(null);
+			}
+		}));
 	}
 
 	private void addDownloadAsItem() {
 		if (getApp().getLAF().exportSupported()) {
-			addItem(MainMenu.getMenuBarHtml(
+			AriaMenuItem export = addItem(new AriaMenuItem(
+					loc.getMenu("DownloadAs") + Unicode.ELLIPSIS,
 					MaterialDesignResources.INSTANCE.file_download_black(),
-					loc.getMenu("DownloadAs") + Unicode.ELLIPSIS), true,
-					new ExportMenuW(getApp()), true);
+								new ExportMenuW(getApp())));
+			export.setScheduledCommand(getSubmenuCommand(export, true));
 		}
 	}
 
 	private void addPrintItem() {
 		if (getApp().getLAF().printSupported()) {
-			AriaMenuItem printItem = new AriaMenuItem(
-					MainMenu.getMenuBarHtml(
+			AriaMenuItem printItem = MainMenu.getMenuBarItem(
 							MaterialDesignResources.INSTANCE.print_black(),
-							loc.getMenu("PrintPreview")),
-					true, new MenuCommand(getApp()) {
-
-				@Override
-				public void doExecute() {
-					getApp().getDialogManager()
-							.showPrintPreview();
-				}
+							loc.getMenu("PrintPreview"),
+					new MenuCommand(getApp()) {
+						@Override
+						public void doExecute() {
+							getApp().getDialogManager()
+									.showPrintPreview();
+						}
 			});
 			// updatePrintMenu();
 			addItem(printItem);

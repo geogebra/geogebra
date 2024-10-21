@@ -43,14 +43,14 @@ public class CmdFromBase extends CommandProcessor {
 			GeoElement[] arg = new GeoElement[2];
 
 			argE[1].resolveVariables(info.withLabels(false));
-			arg[1] = resArg(argE[1], argInfo)[0];
+			arg[1] = resArg(argE[1], argInfo);
 			if (!(arg[1] instanceof GeoNumberValue)) {
 				throw argErr(c, arg[1]);
 			}
 			String str = argE[0].toString(StringTemplate.defaultTemplate);
 			try {
 				argE[0].resolveVariables(info.withLabels(false));
-				arg[0] = resArg(argE[0], argInfo)[0];
+				arg[0] = resArg(argE[0], argInfo);
 			} catch (Throwable t) {
 				// do nothing
 			}

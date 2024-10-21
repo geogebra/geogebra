@@ -22,7 +22,6 @@ import org.gwtproject.user.client.ui.Label;
 public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 
 	SuiteHeaderAppPicker appPickerButton;
-	private final static int X_COORDINATE_OFFSET = 8;
 	private FlowPanel contentPanel;
 	private final ExamController examController = GlobalScope.examController;
 
@@ -51,8 +50,7 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 		if (isShowing()) {
 			hide();
 		} else {
-			setPopupPosition(getLeft(), 0);
-			super.show();
+			showRelativeTo(appPickerButton);
 			updateLanguage(app);
 		}
 	}
@@ -75,6 +73,7 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 			addElement(SuiteSubApp.CAS);
 		}
 		addElement(SuiteSubApp.PROBABILITY);
+		//addElement(SuiteSubApp.SCIENTIFIC);
 	}
 
 	private void addElement(final SuiteSubApp subAppCode) {
@@ -106,10 +105,6 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 		GlobalHeader.onResize();
 		Analytics.logEvent(Analytics.Event.APP_SWITCHED, Analytics.Param.SUB_APP,
 				Analytics.Param.convertToSubAppParam(subAppCode));
-	}
-
-	private int getLeft() {
-		return appPickerButton.getAbsoluteLeft() - X_COORDINATE_OFFSET ;
 	}
 
 	private void updateLanguage(App app) {

@@ -57,6 +57,8 @@ import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
+import org.geogebra.web.html5.gui.tooltip.ComponentSnackbar;
+import org.geogebra.web.html5.gui.tooltip.ToolTip;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -260,10 +262,19 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected void addMarble() {
 		main.addStyleName("elem");
 
-		marblePanel = app.getActivity().createAVItemHeader(this);
+		marblePanel = app.getCurrentActivity().createAVItemHeader(this,
+				getAV().isInputActive() && getGeo() == null);
 		setIndexLast();
 		updateDataTest();
 		main.add(marblePanel);
+	}
+
+	protected void resetItemHeader() {
+		if (marblePanel != null) {
+			marblePanel.asWidget().removeFromParent();
+		}
+		marblePanel = app.getCurrentActivity().createAVItemHeader(this, true);
+		main.insert(marblePanel, 0);
 	}
 
 	/**
@@ -271,6 +282,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	protected void setIndexLast() {
 		index = getAV().getItemCount();
+		if (marblePanel != null) {
+			marblePanel.setIndex(index);
+		}
 	}
 
 	public int getIndex() {
@@ -745,7 +759,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	private boolean useValidInput() {
-		return app.getActivity().useValidInput();
+		return app.getCurrentActivity().useValidInput();
 	}
 
 	protected String getTextForEditing(boolean substituteNumbers,
@@ -943,7 +957,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected final ErrorHandler getErrorHandler(final boolean valid,
 			final boolean allowSliders, final boolean withSliders) {
 		clearErrorLabel();
-		return app.getActivity().createAVErrorHandler(this, valid, allowSliders, withSliders);
+		return app.getCurrentActivity()
+						.createAVErrorHandler(this, valid, allowSliders, withSliders);
 	}
 
 	/**
@@ -970,19 +985,21 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			Element snackbar = DOM.getElementById("snackbarID");
 			if (snackbar == null) {
 				app.getToolTipManager().setBlockToolTip(false);
-				app.getToolTipManager().showBottomInfoToolTip(
-						errorMessage, null, app.getLocalization().getMenu("Help"),
-						app.getGuiManager().getHelpURL(Help.COMMAND, commandError), app);
+				ToolTip toolTip = new ToolTip(errorMessage, null, "Help",
+						app.getGuiManager().getHelpURL(Help.COMMAND, commandError),
+						ToolTip.Role.ALERT);
+				app.getToolTipManager().showBottomInfoToolTip(toolTip, app,
+						ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
 				app.getToolTipManager().setBlockToolTip(true);
 			}
 			return true;
 		}
 
 		if (errorMessage != null) {
-			if (app.isUnbundled() && app.getActivity().useValidInput()) {
+			if (app.isUnbundled() && app.getCurrentActivity().useValidInput()) {
 				return false;
 			}
-			app.getToolTipManager().showBottomMessage(errorMessage, app);
+			app.getToolTipManager().showBottomMessage(errorMessage, app, ToolTip.Role.ALERT);
 			return true;
 
 		}
@@ -1177,8 +1194,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * cast method with no 'instanceof' check.
 	 *
 	 * @param item
-	 *            TreeItem to be casted
-	 * @return Casted item to RadioTreeItem
+	 *            TreeItem to be cast
+	 * @return Cast item to RadioTreeItem
 	 */
 	public static RadioTreeItem as(TreeItem item) {
 		return (RadioTreeItem) item;

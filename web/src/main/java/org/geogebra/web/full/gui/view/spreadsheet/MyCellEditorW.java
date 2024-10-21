@@ -73,7 +73,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		app = (AppW) kernel.getApplication();
 		keyListener = new SpreadsheetCellEditorKeyListener(false);
 		autoCompleteTextField = new AutoCompleteTextFieldW(0,
-		        (AppW) kernel.getApplication(), false, keyListener, false);
+		        (AppW) kernel.getApplication(), false, keyListener);
 		autoCompleteTextField.addInsertHandler(text -> {
 			if (!editing) {
 				((SpreadsheetViewW) app.getGuiManager().getSpreadsheetView())
@@ -169,10 +169,6 @@ public class MyCellEditorW implements BaseCellEditor {
 		return autoCompleteTextField.isEqualsRequired();
 	}
 
-	public void setLabels() {
-		autoCompleteTextField.setDictionary(false);
-	}
-	
 	/**
 	 * @return whether editor text starts with "="
 	 */
@@ -383,6 +379,7 @@ public class MyCellEditorW implements BaseCellEditor {
 
 			if (keyCode == KeyCodes.KEY_ESCAPE) {
 				e.preventDefault();
+				e.stopPropagation();
 				GeoElement oldGeo = kernel.getGeoAt(column, row);
 				cancelCellEditing();
 

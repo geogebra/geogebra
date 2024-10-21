@@ -14,12 +14,16 @@ import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.spreadsheet.core.CopyPasteCutTabularData;
+import org.geogebra.common.spreadsheet.core.SelectionType;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
 public abstract class CopyPasteCut {
 
+	protected final CopyPasteAdapter adapter;
 	// ggb support classes
 	@Weak
 	protected Kernel kernel;
@@ -65,6 +69,7 @@ public abstract class CopyPasteCut {
 		tableModel = app.getSpreadsheetTableModel();
 		this.app = app;
 		kernel = app.getKernel();
+		adapter = new CopyPasteAdapter(app, tableModel);
 	}
 
 	private SpreadsheetViewInterface getView() {
@@ -144,7 +149,7 @@ public abstract class CopyPasteCut {
 	 *            the target cell range
 	 * @return true if successful
 	 */
-	public boolean paste(CellRange cr) {
+	public boolean paste(TabularRange cr) {
 		return paste(cr.getMinColumn(), cr.getMinRow(), cr.getMaxColumn(),
 				cr.getMaxRow());
 	}
@@ -356,76 +361,19 @@ public abstract class CopyPasteCut {
 	 * 
 	 * @param data
 	 *            data
-	 * @param cr
+	 * @param destination
 	 *            cell range
 	 * @return whether all cells were pasted successfully
 	 */
-	protected boolean pasteExternalMultiple(String[][] data, CellRange cr) {
-		return pasteExternalMultiple(data, cr.getMinColumn(), cr.getMinRow(),
-				cr.getMaxColumn(), cr.getMaxRow());
-	}
-
-	/**
-	 * Pastes data from 2D String array into a given set of cells. The data may
-	 * be pasted multiple times to fill in an oversized target rectangle (and
-	 * maybe overflow a bit).
-	 * 
-	 * @param data
-	 *            pasted data
-	 * @param column1
-	 *            minimum target column
-	 * @param row1
-	 *            minimum target row
-	 * @param column2
-	 *            maximum target column
-	 * @param row2
-	 *            maximum target row
-	 * @return whether all cells were pasted successfully
-	 */
-	protected boolean pasteExternalMultiple(String[][] data, int column1,
-			int row1, int column2, int row2) {
-
+	protected boolean pasteExternalMultiple(String[][] data, TabularRange destination) {
 		boolean oldEqualsSetting = app.getSettings().getSpreadsheet()
 				.equalsRequired();
 		app.getSettings().getSpreadsheet().setEqualsRequired(true);
-
-		boolean succ = true;
-
-		// Fixing NPE in chrome:
-		if (data == null) {
-			return false;
-		} else if (data[0] == null) {
-			return false;
-		}
-
-		int rowStep = data.length;
-		int columnStep = data[0].length;
-
-		if (columnStep == 0) {
-			return false;
-		}
-
-		int maxColumn = column2;
-		int maxRow = row2;
-
-		// paste all data if just one cell selected
-		// ie overflow selection rectangle
-		if (row2 == row1 && column2 == column1) {
-			maxColumn = column1 + columnStep;
-			maxRow = row1 + rowStep;
-		}
-
-		// paste data multiple times to fill in the selection rectangle (and
-		// maybe overflow a bit)
-		for (int c = column1; c <= column2; c += columnStep) {
-			for (int r = row1; r <= row2; r += rowStep) {
-				succ = succ && pasteExternal(data, c, r, maxColumn, maxRow);
-			}
-		}
-
+		TabularRange tiledRange = CopyPasteCutTabularData.getTiledRange(destination, data);
+		boolean success = tiledRange != null
+				&& adapter.pasteExternalMultiple(data, tiledRange);
 		app.getSettings().getSpreadsheet().setEqualsRequired(oldEqualsSetting);
-
-		return succ;
+		return success;
 	}
 
 	/**
@@ -448,73 +396,7 @@ public abstract class CopyPasteCut {
 	 */
 	public boolean pasteExternal(String[][] data, int column1, int row1,
 			int maxColumn, int maxRow) {
-		app.setWaitCursor();
-		boolean succ = false;
-
-		try {
-			if (tableModel.getRowCount() < row1 + data.length) {
-				tableModel.setRowCount(row1 + data.length);
-			}
-			GeoElementND[][] values2 = new GeoElement[data.length][];
-			int maxLen = -1;
-			RelativeCopy relativeCopy = new RelativeCopy(kernel);
-			for (int row = row1; row < row1 + data.length; ++row) {
-				if (row < 0 || row > maxRow) {
-					continue;
-				}
-				int iy = row - row1;
-				values2[iy] = new GeoElement[data[iy].length];
-				if (maxLen < data[iy].length) {
-					maxLen = data[iy].length;
-				}
-				if (tableModel.getColumnCount() < column1 + data[iy].length) {
-					tableModel.setColumnCount(column1 + data[iy].length);
-				}
-				for (int column = column1; column < column1
-						+ data[iy].length; ++column) {
-					if (column < 0 || column > maxColumn) {
-						continue;
-					}
-					int ix = column - column1;
-					// "]");
-					if (data[iy][ix] == null) {
-						continue;
-					}
-					data[iy][ix] = data[iy][ix].trim();
-					if (data[iy][ix].length() == 0) {
-						GeoElement value0 = RelativeCopy.getValue(app, column,
-								row);
-						if (value0 != null) {
-							value0.removeOrSetUndefinedIfHasFixedDescendent();
-						}
-					} else {
-						GeoElement value0 = RelativeCopy.getValue(app, column,
-								row);
-						values2[iy][ix] = relativeCopy
-								.prepareAddingValueToTableNoStoringUndoInfo(
-										data[iy][ix], value0, column, row, true);
-						// values2[iy][ix].setAuxiliaryObject(values2[iy][ix].isGeoNumeric());
-						values2[iy][ix].setAuxiliaryObject(true);
-
-					}
-				}
-			}
-			app.repaintSpreadsheet();
-
-			/*
-			 * if (values2.length == 1 || maxLen == 1) {
-			 * createPointsAndAList1(values2); } if (values2.length == 2 ||
-			 * maxLen == 2) { createPointsAndAList2(values2); }
-			 */
-
-			succ = true;
-		} catch (Exception ex) {
-			Log.debug(ex);
-		} finally {
-			app.setDefaultCursor();
-		}
-
-		return succ;
+		return adapter.pasteExternal(data, column1, row1, maxColumn, maxRow);
 	}
 
 	/**
@@ -553,7 +435,7 @@ public abstract class CopyPasteCut {
 	 * @return if at least one object was deleted
 	 */
 	public static boolean delete(App app, int column1, int row1, int column2,
-			int row2, int selectionType) {
+			int row2, SelectionType selectionType) {
 		boolean succ = false;
 		TreeSet<GeoElement> toRemove = new TreeSet<>();
 		for (int column = column1; column <= column2; ++column) {
@@ -575,7 +457,7 @@ public abstract class CopyPasteCut {
 
 		// Let the trace manager know about the delete
 		// TODO add SelectAll
-		if (selectionType == MyTableInterface.COLUMN_SELECT) {
+		if (selectionType == SelectionType.COLUMNS) {
 			app.getTraceManager().handleColumnDelete(column1, column2);
 		} else {
 			app.getTraceManager().handleColumnDelete(column1, row1, column2,

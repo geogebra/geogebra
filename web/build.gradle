@@ -66,7 +66,8 @@ ext.appSpecs = [
         [id           : 'suite', title: 'Calculator Suite', transKey: 'CalculatorSuite',
          firebaseAppId: '1:895270214636:web:7daf432883a8464084fec9', icon: 'ggb.ico',
          measurementId: 'G-FXVLXMD21Y', appStoreId: '1504416652',
-         pkg          : 'GeoGebra_Calculator', exe: 'GeoGebraCalculator', releases: 'Releases-suite'],
+         pkg          : 'GeoGebra_Calculator', exe: 'GeoGebraCalculator', releases: 'Releases-suite',
+         partials     : ["share-button", "signin-button", "undo-redo"]],
         [id           : 'notes', title: 'Notes', transKey: 'Notes', exe: 'GeoGebraNotes', pkg: 'GeoGebra_Notes',
          releases     : 'Releases-notes', icon: 'notes.ico', measurementId: 'G-MWHBRQSXTL',
          firebaseAppId: '1:895270214636:web:aece5066924cacb084fec9'],
@@ -113,6 +114,7 @@ gwt {
     }
 
     devModules devModule
+    sourceLevel = "11"
 
     dev {
         bindAddress = project.findProperty("gbind") ?: 'localhost'
@@ -154,8 +156,8 @@ def createHtml = { inlineCss ->
 
     appSpecs.each { app ->
         def replaceHtml = app.id == "classic" ? classicHtml : appHtml
-        file("war/${app.id}-offline.html").text = english(replaceHtml(app, false, true, inlineCss), app.title)
-        file("war/${app.id}.html").text = english(replaceHtml(app, true, false, inlineCss), app.title)
+        file("war/${app.id}-offline.html").text = english(replaceHtml(app, false, true, inlineCss), app.title, "")
+        file("war/${app.id}.html").text = english(replaceHtml(app, true, false, inlineCss), app.title, "en")
         if (app.vendor == "Mebis") {
             file("war/${app.id}-template.html").text = replaceHtml(app, false).replace("<!--CODEBASE-->", "/")
         }

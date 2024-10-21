@@ -57,11 +57,6 @@ public class EditorListener implements MathFieldListener {
 	}
 
 	@Override
-	public void onInsertString() {
-		// not needed
-	}
-
-	@Override
 	public boolean onEscape() {
 		return false;
 	}

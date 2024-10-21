@@ -13,6 +13,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SharedResources;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.InlineHTML;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
 
@@ -24,11 +25,13 @@ public class AutoCompletePopup extends GPopupMenuW {
 	/**
 	 * constructor for the command autocomplete popup
 	 * @param app - see {@link AppW}
+	 * @param provider completions provider
+	 * @param component text input field
 	 */
-	public AutoCompletePopup(AppW app, boolean forCAS,
+	public AutoCompletePopup(AppW app, AutocompleteProvider provider,
 			AutoCompleteW component) {
 		super(app);
-		this.suggestions = new AutocompleteProvider(app, forCAS);
+		this.suggestions = provider;
 		this.component = component;
 		getPopupPanel().addStyleName("autoCompletePopup");
 		getPopupPanel().addStyleName("customScrollbar");
@@ -44,7 +47,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 		submenu.addStyleName("customScrollbar");
 		for (String line: cpl.syntaxes) {
 			AriaMenuItem item = new AriaMenuItem(line.replaceAll("[<>]", ""),
-					false, () -> {
+					null, () -> {
 				component.insertString(line);
 				hide();
 			});
@@ -53,7 +56,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 			submenu.addItem(item);
 		}
 		AriaMenuItem menuItem = new AriaMenuItem(highlightSuffix(cpl.match),
-				true, submenu);
+				submenu);
 		menuItem.setSubmenuHeading(buildSubmenuHeading(cpl));
 		menuItem.addStyleName("no-image");
 		menuItem.setFocusable(false);
@@ -78,9 +81,9 @@ public class AutoCompletePopup extends GPopupMenuW {
 		return button;
 	}
 
-	private String highlightSuffix(MatchedString command) {
+	private InlineHTML highlightSuffix(MatchedString command) {
 		String[] parts = command.getParts();
-		return parts[0] + "<strong>" + parts[1] + "</strong>" + parts[2];
+		return new InlineHTML(parts[0] + "<strong>" + parts[1] + "</strong>" + parts[2]);
 	}
 
 	/**
@@ -176,6 +179,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 	protected void openSubmenu(AriaMenuItem item) {
 		super.openSubmenu(item);
 		item.getSubMenu().selectItem(0);
+		item.getSubMenu().getItemAt(0).addStyleName("fakeFocus");
 	}
 
 	/**

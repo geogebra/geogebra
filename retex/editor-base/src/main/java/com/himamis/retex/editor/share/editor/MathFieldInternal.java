@@ -32,7 +32,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.controller.CursorController;
@@ -90,12 +92,8 @@ public class MathFieldInternal
 
 	private boolean selectionDrag;
 
-	private MathFieldListener listener;
+	private final List<MathFieldListener> listeners = new ArrayList<>();
 	private UnhandledArrowListener unhandledArrowListener;
-
-	private boolean enterPressed;
-
-	private Runnable enterCallback;
 
 	private boolean scrollOccured = false;
 
@@ -297,9 +295,11 @@ public class MathFieldInternal
 	@Override
 	public boolean onKeyPressed(KeyEvent keyEvent) {
 		if (keyEvent.getKeyCode() == 13 || keyEvent.getKeyCode() == 10) {
-			if (listener != null) {
-				this.enterPressed = true;
-				listener.onEnter();
+			if (!listeners.isEmpty()) {
+				notifyListeners(l -> {
+					l.onEnter();
+					return true;
+				});
 				return true;
 			}
 		}
@@ -307,8 +307,7 @@ public class MathFieldInternal
 		if (keyEvent.getKeyCode() >= 37 && keyEvent.getKeyCode() <= 40) {
 			// move cursor
 			arrow = true;
-			if (listener != null
-					&& listener.onArrowKeyPressed(keyEvent.getKeyCode())) {
+			if (notifyListeners(l -> l.onArrowKeyPressed(keyEvent.getKeyCode()))) {
 				return true;
 			}
 		}
@@ -316,7 +315,7 @@ public class MathFieldInternal
 			return false;
 		}
 		if (keyEvent.getKeyCode() == JavaKeyCodes.VK_ESCAPE) {
-			if (listener != null && listener.onEscape()) {
+			if (notifyListeners(MathFieldListener::onEscape)) {
 				return true;
 			}
 		}
@@ -324,8 +323,10 @@ public class MathFieldInternal
 		boolean handled = keyListener.onKeyPressed(keyEvent, editorState);
 		if (handled && !tab) {
 			update();
-			if (!arrow && listener != null) {
-				listener.onKeyTyped(null);
+			if (!arrow) {
+				for (MathFieldListener listener: listeners) {
+					listener.onKeyTyped(null);
+				}
 			}
 		}
 		if (arrow && !handled && unhandledArrowListener != null) {
@@ -338,14 +339,6 @@ public class MathFieldInternal
 
 	@Override
 	public boolean onKeyReleased(KeyEvent keyEvent) {
-		enterPressed = false;
-		if (keyEvent.getKeyCode() == 13 || keyEvent.getKeyCode() == 10) {
-			if (enterCallback != null) {
-				enterCallback.run();
-				enterCallback = null;
-				return true;
-			}
-		}
 		boolean alt = (keyEvent.getKeyModifiers() & KeyEvent.ALT_MASK) > 0
 				&& (keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) == 0;
 		if (alt) {
@@ -407,7 +400,7 @@ public class MathFieldInternal
 	 * @param key key name
 	 */
 	public void notifyAndUpdate(String key) {
-		if (listener != null) {
+		for (MathFieldListener listener: listeners) {
 			listener.onKeyTyped(key);
 		}
 		update();
@@ -599,11 +592,34 @@ public class MathFieldInternal
 	}
 
 	/**
+	 * If listener is null, this removes all listeners.
+	 * Otherwise, it replaces all listeners with the new one.
+	 * @param listener
+	 *            listener
+	 * @deprecated use addMathFieldListener / removeMathFieldListener instead
+	 */
+	@Deprecated
+	public void setFieldListener(MathFieldListener listener) {
+		listeners.clear();
+		if (listener != null) {
+			listeners.add(listener);
+		}
+	}
+
+	/**
 	 * @param listener
 	 *            listener
 	 */
-	public void setFieldListener(MathFieldListener listener) {
-		this.listener = listener;
+	public void addMathFieldListener(MathFieldListener listener) {
+		listeners.add(listener);
+	}
+
+	/**
+	 * @param listener
+	 *            listener
+	 */
+	public void removeMathFieldListener(MathFieldListener listener) {
+		listeners.remove(listener);
 	}
 
 	/**
@@ -786,7 +802,7 @@ public class MathFieldInternal
 		}
 		reverse(path);
 		setFormula(GeoGebraSerializer.reparse(getFormula()));
-		if (listener != null) {
+		for (MathFieldListener listener: listeners) {
 			listener.onInsertString();
 		}
 		getMathFieldController().setSelectedPath(getFormula(), path,
@@ -808,7 +824,7 @@ public class MathFieldInternal
 	 * Trigger the listener
 	 */
 	protected void onKeyTyped() {
-		if (listener != null) {
+		for (MathFieldListener listener: listeners) {
 			listener.onKeyTyped(null);
 		}
 	}
@@ -822,20 +838,6 @@ public class MathFieldInternal
 	public void insertFunction(String text) {
 		inputController.newFunction(editorState, text, false, null);
 		onKeyTyped();
-	}
-
-	/**
-	 * Run callback after enter is released.
-	 * 
-	 * @param r
-	 *            callback
-	 */
-	public void checkEnterReleased(Runnable r) {
-		if (this.enterPressed) {
-			this.enterCallback = r;
-		} else {
-			r.run();
-		}
 	}
 
 	/**
@@ -858,10 +860,16 @@ public class MathFieldInternal
 				return true;
 			}
 		} while (jumpTo < currentField.size() && jumpTo >= 0);
-		if (listener != null) {
-			return listener.onTab(shiftDown);
+		return notifyListeners(l -> l.onTab(shiftDown));
+	}
+
+	private boolean notifyListeners(Predicate<MathFieldListener> eventDispatcher) {
+		boolean handled = false;
+		List<MathFieldListener> listenersCopy = new ArrayList<>(listeners);
+		for (MathFieldListener listener: listenersCopy) {
+			handled = eventDispatcher.test(listener) || handled;
 		}
-		return true;
+		return handled;
 	}
 
 	/**
@@ -910,14 +918,6 @@ public class MathFieldInternal
 	public String getText() {
 		GeoGebraSerializer s = new GeoGebraSerializer();
 		return s.serialize(getFormula());
-	}
-
-	public boolean isEnterPressed() {
-		return enterPressed;
-	}
-
-	public void setEnterPressed(boolean enterPressed) {
-		this.enterPressed = enterPressed;
 	}
 
 	public void setUnhandledArrowListener(UnhandledArrowListener arrowListener) {

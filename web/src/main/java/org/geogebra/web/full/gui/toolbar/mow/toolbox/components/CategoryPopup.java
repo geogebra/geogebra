@@ -16,7 +16,7 @@ public class CategoryPopup extends GPopupPanel implements SetLabels {
 	private FlowPanel contentPanel;
 	private final List<IconButton> buttons = new ArrayList<>();
 	private final Integer defaultTool;
-	private boolean preventHide;
+	private final boolean preventHide;
 
 	/**
 	 * Constructor
@@ -73,8 +73,8 @@ public class CategoryPopup extends GPopupPanel implements SetLabels {
 	private IconButton createButton(Integer mode) {
 		IconButton button = new IconButton(mode, (AppW) app);
 		button.addFastClickHandler(source -> {
-			app.setMode(mode);
 			updateButtonSelection(button);
+			app.setMode(mode);
 			updateParentCallback.accept(mode);
 			if (!preventHide) {
 				hide();

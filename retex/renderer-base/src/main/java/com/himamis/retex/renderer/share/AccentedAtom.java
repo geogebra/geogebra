@@ -58,13 +58,21 @@ public class AccentedAtom extends Atom implements IsAccentedAtom {
 
 	// base atom
 	protected final Atom base;
+	private final String command;
 
 	// extra skew
 	protected double skew = Double.NaN;
 
+	public AccentedAtom(Atom base, SymbolAtom accent, String command) {
+		this.base = base;
+		this.accent = accent;
+		this.command = command;
+	}
+
 	public AccentedAtom(Atom base, SymbolAtom accent) {
 		this.base = base;
 		this.accent = accent;
+		command = null;
 	}
 
 	/**
@@ -77,7 +85,7 @@ public class AccentedAtom extends Atom implements IsAccentedAtom {
 	 *            name of the accent symbol to be put over the base atom
 	 */
 	public AccentedAtom(Atom base, String accentName) {
-		this(base, SymbolAtom.get(accentName));
+		this(base, SymbolAtom.get(accentName), null);
 	}
 
 	public void setSkew(final double skew) {
@@ -167,6 +175,11 @@ public class AccentedAtom extends Atom implements IsAccentedAtom {
 	@Override
 	public boolean setAddItalicCorrection(boolean b) {
 		return base.setAddItalicCorrection(b);
+	}
+
+	@Override
+	public String getCommand() {
+		return command;
 	}
 
 	@Override

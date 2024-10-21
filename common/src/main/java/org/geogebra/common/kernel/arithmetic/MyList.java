@@ -651,11 +651,45 @@ public class MyList extends ValidExpression
 		ExpressionValue singleValue = list.get(col)
 				.evaluate(StringTemplate.defaultTemplate);
 		if (singleValue instanceof ListValue) {
-			return (((ListValue) singleValue).getMyList()
-					.get(row))
-							.evaluate(StringTemplate.defaultTemplate);
+			ExpressionValue ev = ((ListValue) singleValue).getMyList().get(row);
+			if (ev.inspect(v -> v instanceof FunctionVariable)) {
+				return convertToFunction(ev, list.getKernel());
+			}
+			return ev.evaluate(StringTemplate.defaultTemplate);
 		}
 		return null;
+	}
+
+	/**
+	 * @param list
+	 *            matrix
+	 * @param row
+	 *            row number (starts with 0)
+	 * @param col
+	 *            col number (starts with 0)
+	 * @return numeric value of the cell at given position in given list
+	 */
+	public static double getCellAsDouble(MyList list, int row, int col) {
+		ExpressionValue singleValue = list.get(col)
+				.evaluate(StringTemplate.defaultTemplate);
+		if (singleValue instanceof ListValue) {
+			ExpressionValue ev = ((ListValue) singleValue).getMyList().get(row);
+			return ev.evaluateDouble();
+		}
+		return Double.NaN;
+	}
+
+	/**
+	 * @param ev ExpressionValue
+	 * @param kernel Kernel
+	 * @return The passed ExpressionValue as either a {@link FunctionNVar} or {@link Function}
+	 */
+	private static ExpressionValue convertToFunction(ExpressionValue ev, Kernel kernel) {
+		FunctionVarCollector fun = FunctionVarCollector.getCollector();
+		ev.traverse(fun);
+		FunctionVariable[] fVars = fun.buildVariables(kernel);
+		return fVars.length == 1
+				? new Function(ev.wrap(), fVars) : new FunctionNVar(ev.wrap(), fVars);
 	}
 
 	@Override

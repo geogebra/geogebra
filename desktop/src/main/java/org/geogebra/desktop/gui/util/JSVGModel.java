@@ -12,6 +12,7 @@ import java.util.Objects;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.svg.SVGDocument;
 import org.w3c.dom.svg.SVGSVGElement;
 
@@ -83,8 +84,21 @@ public class JSVGModel implements SVGModel {
 		GVTBuilder builder = new GVTBuilder();
 		node = builder.build(ctx, doc);
 		SVGSVGElement root = doc.getRootElement();
+		checkLinks(root);
 		this.width = (int) root.getWidth().getBaseVal().getValue();
 		this.height = (int) root.getHeight().getBaseVal().getValue();
+	}
+
+	private void checkLinks(Node root) {
+		if ("link".equals(root.getLocalName())
+				&& root.getAttributes().getNamedItem("href") != null) {
+			throw new IllegalStateException();
+		}
+		Node child = root.getFirstChild();
+		while (child != null) {
+			checkLinks(child);
+			child = child.getNextSibling();
+		}
 	}
 
 	public void tidyContent() {

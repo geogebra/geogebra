@@ -198,7 +198,7 @@ public class Ggb2giac {
 		// needed for eg ComplexRoot[sqrt(3)*x^2+sqrt(5)*x+sqrt(7)]
 		String csolutions = "ggbsort([[[ggbcsans:=0/0],[ggbcsans:=%0],[ggbvars:=lname(ggbcsans)]],"
 				+ "normal(cZeros(%0,when(size(ggbvars)==1,ggbvars[0],x)))][1])";
-		p("ComplexRoot.1", csolutions.replace("normal", "evalf"));
+		p("ComplexRoot.1", "cfsolve(%0)");
 
 		p("CSolutions.1", csolutions);
 		p("CSolutions.2", "ggbsort(normal(cZeros(%0,%1)))");
@@ -270,7 +270,8 @@ public class Ggb2giac {
 						+ GGBVECT_TYPE + "," +
 						// eg lists length 4 (and not ggbvect)
 						// max -> error for different size lists
-						"sum(seq(ggbdotarg0[j] * ggbdotarg1[j], j, 0, max(length(ggbdotarg0), length(ggbdotarg1))-1))"
+						"[[flatarg0:=flatten(ggbdotarg0)],[flatarg1:=flatten(ggbdotarg1)],"
+						+ "sum(seq(flatarg0[j] * flatarg1[j], j, 0, max(length(flatarg0), length(flatarg1))-1))][2]"
 						+ ","
 						+ " regroup(xcoord(ggbdotarg0)*xcoord(ggbdotarg1)+ycoord(ggbdotarg0)*ycoord(ggbdotarg1)+zcoord(ggbdotarg0)*zcoord(ggbdotarg1))"
 						+ ")][1]");

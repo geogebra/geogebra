@@ -18,7 +18,6 @@ import org.geogebra.common.euclidian.EuclidianStyleBarSelection;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
@@ -70,7 +69,6 @@ import org.geogebra.web.full.gui.util.PointStylePopup;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.StyleBarW2;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.ToggleButton;
@@ -559,12 +557,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 		StandardButton btnDelete = new StandardButton(
 				MaterialDesignResources.INSTANCE.delete_black(), null, 24);
 		btnDelete.setStyleName("IconButton");
-		ClickStartHandler.init(btnDelete, new ClickStartHandler(true, true) {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				app.splitAndDeleteSelectedObjects();
-			}
-		});
+		btnDelete.addFastClickHandler((widget) ->
+				app.splitAndDeleteSelectedObjects());
 		add(btnDelete);
 	}
 

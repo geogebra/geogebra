@@ -202,6 +202,7 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 			if (algo != null) {
 				for (GeoElement geo : algo.getInput()) {
 					if (!geo.isDefined()) {
+						surface.setIntervals(min, max);
 						surface.setUndefined();
 						return;
 					}

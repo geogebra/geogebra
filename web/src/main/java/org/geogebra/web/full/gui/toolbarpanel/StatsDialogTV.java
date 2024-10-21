@@ -84,7 +84,7 @@ public class StatsDialogTV extends ComponentDialog {
 		available.forEach(spec -> items.add(app.getLocalization().getMenu(spec.getLabel())));
 
 		CompDropDown regressionChooser = new CompDropDown((AppW) app,
-				app.getLocalization().getMenu("RegressionModel"), items);
+				app.getLocalization().getMenu("RegressionModel"), items, 0);
 		regressionChooser.setFullWidth(true);
 		regressionChooser.addChangeHandler(() -> {
 			RegressionSpecification regression = available

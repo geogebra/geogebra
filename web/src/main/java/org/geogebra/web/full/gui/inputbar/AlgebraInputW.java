@@ -145,7 +145,6 @@ public class AlgebraInputW extends FlowPanel
 			app.getGuiManager().getInputHelpPanel().setLabels();
 		}
 
-		inputField.setDictionary(false);
 		inputField.getTextField().getElement().setAttribute("placeholder",
 				loc.getMenu("InputLabel") + Unicode.ELLIPSIS);
 	}

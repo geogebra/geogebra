@@ -209,12 +209,17 @@ public final class DrawBoolean extends Drawable {
 	/**
 	 * Replacement for Swing component
 	 */
-	private static class CheckBoxIcon {
+	public static class CheckBoxIcon {
 
 		private static final int BORDER_DIAMETER = 4;
 		private static GBasicStroke stroke26 = null;
 		private static GGeneralPath gp;
 
+		/**
+		 * @param g graphics
+		 * @param x x-coordinate of the icon
+		 * @param y y-coordinate of the icon
+		 */
 		public static void highlightIcon(GGraphics2D g, int x, int y) {
 			g.setColor(GColor.HIGHLIGHT_GRAY);
 			g.setStroke(AwtFactory.getPrototype()

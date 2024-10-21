@@ -18,7 +18,7 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_anglefixed_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_angularbisector.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_anglebisector.svg")
 	@Override
 	SVGResource mode_angularbisector_32();
 
@@ -30,7 +30,7 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_attachdetachpoint_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_buttonaction.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_button.svg")
 	@Override
 	SVGResource mode_buttonaction_32();
 
@@ -42,7 +42,7 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_circle3_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circlearc3.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circulararc.svg")
 	@Override
 	SVGResource mode_circlearc3_32();
 
@@ -50,19 +50,19 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_circlepointradius_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circlesector3.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circularsector.svg")
 	@Override
 	SVGResource mode_circlesector3_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circumcirclearc3.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circumcirculararc.svg")
 	@Override
 	SVGResource mode_circumcirclearc3_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circumcirclesector3.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circumcircularsector.svg")
 	@Override
 	SVGResource mode_circumcirclesector3_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_compasses.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_compass.svg")
 	@Override
 	SVGResource mode_compasses_32();
 
@@ -78,7 +78,7 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_copyvisualstyle_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_createlist.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_list.svg")
 	@Override
 	SVGResource mode_createlist_32();
 
@@ -94,7 +94,7 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_distance_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_ellipse3.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_ellipse.svg")
 	@Override
 	SVGResource mode_ellipse3_32();
 
@@ -114,7 +114,7 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_functioninspector_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_hyperbola3.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_hyperbola.svg")
 	@Override
 	SVGResource mode_hyperbola3_32();
 
@@ -130,7 +130,7 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_join_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_linebisector.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_perpendicularbisector.svg")
 	@Override
 	SVGResource mode_linebisector_32();
 
@@ -142,15 +142,15 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_midpoint_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_mirroratcircle.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_reflectaboutcircle.svg")
 	@Override
 	SVGResource mode_mirroratcircle_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_mirroratline.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_reflectaboutline.svg")
 	@Override
 	SVGResource mode_mirroratline_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_mirroratpoint.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_reflectaboutpoint.svg")
 	@Override
 	SVGResource mode_mirroratpoint_32();
 
@@ -158,11 +158,11 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_move_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_moverotate.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_movearoundpoint.svg")
 	@Override
 	SVGResource mode_moverotate_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_orthogonal.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_perpendicularline.svg")
 	@Override
 	SVGResource mode_orthogonal_32();
 
@@ -170,11 +170,11 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_parabola_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_parallel.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_parallelline.svg")
 	@Override
 	SVGResource mode_parallel_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pen_black.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pen.svg")
 	@Override
 	SVGResource mode_pen();
 
@@ -226,7 +226,7 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_roots_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_rotatebyangle.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_rotatearoundpoint.svg")
 	@Override
 	SVGResource mode_rotatebyangle_32();
 
@@ -254,7 +254,7 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_slope_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_tangent.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_tangents.svg")
 	@Override
 	SVGResource mode_tangent_32();
 
@@ -266,7 +266,7 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_media_text();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_textfieldaction.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_inputbox.svg")
 	@Override
 	SVGResource mode_textfieldaction_32();
 
@@ -274,7 +274,7 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_translatebyvector_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_translateview.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_movegraphicsview.svg")
 	@Override
 	SVGResource mode_translateview_32();
 
@@ -298,15 +298,15 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_zoomout_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_countcells.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_count.svg")
 	@Override
 	SVGResource mode_countcells_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_createlistofpoints.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_listofpoints.svg")
 	@Override
 	SVGResource mode_createlistofpoints_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_creatematrix.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_matrix.svg")
 	@Override
 	SVGResource mode_creatematrix_32();
 
@@ -338,7 +338,7 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_integral_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_intersectioncurve.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_intersecttwosurfaces.svg")
 	@Override
 	SVGResource mode_intersectioncurve_32();
 
@@ -346,15 +346,15 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_keepinput_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_maxcells.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_maximum.svg")
 	@Override
 	SVGResource mode_maxcells_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_meancells.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_mean.svg")
 	@Override
 	SVGResource mode_meancells_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_mincells.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_minimum.svg")
 	@Override
 	SVGResource mode_mincells_32();
 
@@ -382,7 +382,7 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_substitute_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_sumcells.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_sum.svg")
 	@Override
 	SVGResource mode_sumcells_32();
 
@@ -424,7 +424,7 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_extrusion_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_mirroratplane.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_reflectaboutplane.svg")
 	@Override
 	SVGResource mode_mirroratplane_32();
 
@@ -432,7 +432,7 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_net_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_orthogonalplane.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_perpendicularplane.svg")
 	@Override
 	SVGResource mode_orthogonalplane_32();
 
@@ -488,50 +488,46 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_orthogonalthreed_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_surface_of_revolution.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_surfaceofrevolution.svg")
 	@Override
 	SVGResource mode_surface_of_revolution();
 
 	/** Whiteboard icons */
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_line_black.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_line.svg")
 	SVGResource mode_shape_line_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_triangle_black.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shapetriangle.svg")
 	SVGResource mode_shape_triangle_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_square_black.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shapesquare.svg")
 	SVGResource mode_shape_square_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_rectangle_black.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shaperectangle.svg")
 	SVGResource mode_shape_rectangle_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_rounded_rectangle_black.svg")
-	SVGResource mode_shape_rectangle_round_edges_32();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_pentagon_black.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pentagon.svg")
 	SVGResource mode_shape_pentagon_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_freeform_black.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shapefreeform.svg")
 	SVGResource mode_shape_freeform_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_circle_black.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circle.svg")
 	SVGResource mode_shape_circle_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_ellipse_black.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shapeellipse.svg")
 	SVGResource mode_shape_ellipse_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_eraser_black.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_eraser.svg")
 	SVGResource mode_eraser_32();
 
 	/**
@@ -542,19 +538,19 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	SVGResource mode_image_mow_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_geogebra_black.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_geogebra.svg")
 	SVGResource mode_calculator();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_video_black.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_video.svg")
 	SVGResource mode_video_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_camera_black.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_camera.svg")
 	SVGResource mode_camera_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_audio_black.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_audio.svg")
 	SVGResource mode_audio_32();
 
 	@Override
@@ -566,7 +562,7 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	SVGResource mode_pdf_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_mask.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_masktool.svg")
 	SVGResource mode_mask();
 
 	@Override

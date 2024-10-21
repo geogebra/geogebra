@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * A storage container with all information which need to be stored for a
@@ -39,7 +40,10 @@ final public class DockPanelData {
 		TABLE,
 
 		/** tab four */
-		DISTRIBUTION
+		DISTRIBUTION,
+
+		/** tab five */
+		SPREADSHEET
 	}
 
 	/**
@@ -361,7 +365,11 @@ final public class DockPanelData {
 	 * @return this
 	 */
 	public DockPanelData setTabId(TabIds tabId) {
-		this.tabId = tabId;
+		if (tabId != null) {
+			this.tabId = tabId;
+		} else {
+			Log.error("Tab ID cannot be null");
+		}
 		return this;
 	}
 

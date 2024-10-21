@@ -13,12 +13,16 @@ import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
  * ToolCollectionFactory for the Graphing Calculator app.
  */
 public class SuiteToolCollectionFactory extends AbstractToolCollectionFactory {
+
+    public SuiteToolCollectionFactory(boolean isMobileApp) {
+        super(isMobileApp);
+    }
+
     @Override
     public ToolCollection createToolCollection() {
         ToolCollectionImpl impl = new ToolCollectionImpl();
         createStandardLevel(impl);
         createAdvancedLevel(impl);
-
         impl.setLevel(ToolsetLevel.STANDARD);
         return impl;
     }
@@ -139,7 +143,7 @@ public class SuiteToolCollectionFactory extends AbstractToolCollectionFactory {
                 EuclidianConstants.MODE_FREEHAND_SHAPE,
                 EuclidianConstants.MODE_RELATION));
 
-        if (!isPhoneApp) {
+        if (!isMobileApp) {
             others.addAll(Arrays.asList(
                     // EuclidianConstants.MODE_FUNCTION_INSPECTOR,
                     EuclidianConstants.MODE_BUTTON_ACTION,

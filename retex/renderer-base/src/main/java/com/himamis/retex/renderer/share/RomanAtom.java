@@ -52,10 +52,17 @@ import com.himamis.retex.renderer.share.serialize.HasTrueBase;
  */
 public class RomanAtom extends Atom implements HasTrueBase {
 
+	private final String unicode;
 	protected Atom base;
 
 	public RomanAtom(Atom base) {
 		this.base = base;
+		this.unicode = null;
+	}
+
+	public RomanAtom(Atom base, String unicode) {
+		this.base = base;
+		this.unicode = unicode;
 	}
 
 	@Override
@@ -83,4 +90,7 @@ public class RomanAtom extends Atom implements HasTrueBase {
 		return box.setAtom(this);
 	}
 
+	public String getUnicode() {
+		return unicode;
+	}
 }

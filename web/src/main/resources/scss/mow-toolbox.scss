@@ -17,6 +17,10 @@
 			left: 16px;
 		}
 
+		&.withTopBar {
+			transform: translateY(calc(-50% + 24px));
+		}
+
 		.divider {
 			height: 1px;
 			margin: 8px 0 7px;
@@ -108,6 +112,7 @@
 		height: 144px;
 		display:inline-flex;
 		padding: 8px;
+		z-index: z-index.$z-dialog-under-keyboard;
 	}
 
 	.gwt-PopupPanel.categoryPopup.penCategory {

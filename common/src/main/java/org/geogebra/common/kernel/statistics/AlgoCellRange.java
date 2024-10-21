@@ -15,8 +15,6 @@ package org.geogebra.common.kernel.statistics;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -25,6 +23,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoListForCellRange;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
+import org.geogebra.common.spreadsheet.core.TabularRange;
 
 /**
  * Algorithm to create a GeoList with GeoElement objects of a given range in
@@ -41,10 +41,10 @@ public class AlgoCellRange extends AlgoElement {
 	private String endCell; // end cell name
 	private String toStringOutput;
 
-	private CellRange cellRange;
+	private TabularRange tabularRange;
 	private ArrayList<GeoElement> listItems;
-	private GPoint startCoords;
-	private GPoint endCoords;
+	private SpreadsheetCoords startCoords;
+	private SpreadsheetCoords endCoords;
 	/**
 	 * max column location for existing values
 	 */
@@ -164,12 +164,12 @@ public class AlgoCellRange extends AlgoElement {
 	 * @param loc
 	 *            location on spreadsheet
 	 */
-	public void addToList(GeoElement geo, GPoint loc) {
+	public void addToList(GeoElement geo, SpreadsheetCoords loc) {
 
 		// check if we just add at the end of the list
-		if (loc.x >= maxExistingCol && loc.y > maxExistingRow) {
-			maxExistingCol = loc.x;
-			maxExistingRow = loc.y;
+		if (loc.column >= maxExistingCol && loc.row > maxExistingRow) {
+			maxExistingCol = loc.column;
+			maxExistingRow = loc.row;
 			addToList(geo);
 		} else { // recompute the list
 			updateList(geo, false);
@@ -195,8 +195,8 @@ public class AlgoCellRange extends AlgoElement {
 		endCoords = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(endCell);
 		toStringOutput = startCell + ":" + endCell;
 
-		cellRange = new CellRange(cons.getApplication(), startCoords.x,
-				startCoords.y, endCoords.x, endCoords.y);
+		tabularRange = new TabularRange(startCoords.row, startCoords.column,
+				endCoords.row, endCoords.column);
 
 		// build list with cells in range
 		listItems = initCellRangeList(startCoords, endCoords);
@@ -232,8 +232,8 @@ public class AlgoCellRange extends AlgoElement {
 	 * @param rangeEnd
 	 *            range end point
 	 */
-	private ArrayList<GeoElement> initCellRangeList(GPoint rangeStart,
-			GPoint rangeEnd) {
+	private ArrayList<GeoElement> initCellRangeList(SpreadsheetCoords rangeStart,
+			SpreadsheetCoords rangeEnd) {
 		ArrayList<GeoElement> listItems1 = new ArrayList<>();
 
 		// check if we have valid spreadsheet coordinates
@@ -243,10 +243,10 @@ public class AlgoCellRange extends AlgoElement {
 		}
 
 		// min and max column and row of range
-		int minCol = Math.min(rangeStart.x, rangeEnd.x);
-		int maxCol = Math.max(rangeStart.x, rangeEnd.x);
-		int minRow = Math.min(rangeStart.y, rangeEnd.y);
-		int maxRow = Math.max(rangeStart.y, rangeEnd.y);
+		int minCol = Math.min(rangeStart.column, rangeEnd.column);
+		int maxCol = Math.max(rangeStart.column, rangeEnd.column);
+		int minRow = Math.min(rangeStart.row, rangeEnd.row);
+		int maxRow = Math.max(rangeStart.row, rangeEnd.row);
 
 		maxExistingCol = minCol - 1;
 		maxExistingRow = minRow - 1;
@@ -285,8 +285,8 @@ public class AlgoCellRange extends AlgoElement {
 		return geoList;
 	}
 
-	public CellRange getCellRange() {
-		return cellRange;
+	public TabularRange getRange() {
+		return tabularRange;
 	}
 
 	@Override
@@ -323,13 +323,13 @@ public class AlgoCellRange extends AlgoElement {
 	/**
 	 * @return {start point, end point}
 	 */
-	public GPoint[] getRectangle() {
-		GPoint startCoords1 = GeoElementSpreadsheet
+	public SpreadsheetCoords[] getRectangle() {
+		SpreadsheetCoords startCoords1 = GeoElementSpreadsheet
 				.getSpreadsheetCoordsForLabel(startCell);
-		GPoint endCoords1 = GeoElementSpreadsheet
+		SpreadsheetCoords endCoords1 = GeoElementSpreadsheet
 				.getSpreadsheetCoordsForLabel(endCell);
 
-		GPoint[] ret = { startCoords1, endCoords1 };
+		SpreadsheetCoords[] ret = { startCoords1, endCoords1 };
 		return ret;
 	}
 

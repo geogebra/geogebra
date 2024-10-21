@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -17,13 +20,14 @@ import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.spreadsheet.core.UndoProvider;
 
 import com.google.j2objc.annotations.Weak;
 
 /**
  * Undo manager common to Desktop and Web
  */
-public abstract class UndoManager {
+public abstract class UndoManager implements UndoProvider {
 
 	/**
 	 * maximum capacity of undo info list: you can undo MAX_CAPACITY - 1 steps
@@ -66,10 +70,10 @@ public abstract class UndoManager {
 	 */
 	public UndoCommand getCheckpoint(String slideID) {
 		UndoCommand state = null;
-		int steps = 0;
-		while (iterator.hasPrevious()) {
-			UndoCommand cmd = iterator.previous();
-			steps++;
+		ListIterator<UndoCommand> undoIterator = undoInfoList.listIterator(iterator.nextIndex());
+
+		while (undoIterator.hasPrevious()) {
+			UndoCommand cmd = undoIterator.previous();
 			if (cmd.getAppState() != null && (cmd.getSlideID() == null
 					|| cmd.getSlideID().equals(slideID))) {
 				state = cmd;
@@ -81,9 +85,6 @@ public abstract class UndoManager {
 				state = cmd;
 				break;
 			}
-		}
-		for (int i = 0; i < steps; i++) {
-			iterator.next();
 		}
 		return state;
 	}
@@ -251,6 +252,7 @@ public abstract class UndoManager {
 	/**
 	 * Stores undo info
 	 */
+	@Override
 	final public void storeUndoInfo() {
 		storeUndoInfo(construction.getCurrentUndoXML(true));
 		storeUndoInfoNeededForProperties = false;
@@ -266,7 +268,8 @@ public abstract class UndoManager {
 	 */
 	protected abstract void loadUndoInfo(AppState state, String slideID);
 
-	protected void loadUndoInfo(UndoCommand cmd, String slideId, UndoCommand until) {
+	protected void loadUndoInfo(UndoCommand cmd, @Nullable String slideId,
+			@Nonnull UndoCommand until) {
 		loadUndoInfo(extractFromCommand(cmd), slideId);
 		replayActions(cmd, slideId, until);
 	}
@@ -285,23 +288,24 @@ public abstract class UndoManager {
 		}
 	}
 
-	public void replayActions(final String slideID, final UndoCommand until) {
+	public void replayActions(String slideID, @Nonnull UndoCommand until) {
 		replayActions(getCheckpoint(slideID), slideID, until);
 	}
 
-	private void replayActions(UndoCommand from, String slideID, UndoCommand until) {
-		boolean afterCheckpoint = from == null;
+	private void replayActions(@Nullable UndoCommand checkpoint, @Nullable String slideID,
+			@Nonnull UndoCommand until) {
+		boolean checkpointReached = checkpoint == null;
 
-		for (UndoCommand cmd: undoInfoList) {
-			if (cmd == until) {
+		for (UndoCommand undoCommand : undoInfoList) {
+			if (undoCommand == until) {
 				return;
 			}
-			if (afterCheckpoint && cmd.getAction() != null
-					&& Objects.equals(slideID, cmd.getSlideID())) {
-				executeAction(cmd.getAction(), cmd.getArgs());
-			} else if (from != null && cmd == from) {
-				afterCheckpoint = true;
+
+			if (checkpointReached && undoCommand.getAction() != null
+					&& Objects.equals(slideID, undoCommand.getSlideID())) {
+				executeAction(undoCommand.getAction(), undoCommand.getArgs());
 			}
+			checkpointReached |= checkpoint == undoCommand;
 		}
 	}
 

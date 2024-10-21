@@ -51,11 +51,11 @@ def getCss = { ->
     return css("bundles", "simple-bundle") + css("", "keyboard-styles") + css("bundles", "bundle")
 }
 
-ext.english = { raw, appName ->
+ext.english = { raw, appName, languageTag ->
     return raw.replace("<!--SIGN IN-->", "Sign in")
             .replace("<!--APP NAME-->", appName)
             .replace("<!--CODEBASE-->", "")
-            .replace("<!--LANG-->", "en")
+            .replace("<!--LANG-->", languageTag)
 }
 
 ext.handlebars = { raw ->

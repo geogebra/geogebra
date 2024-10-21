@@ -3,7 +3,11 @@ package org.geogebra.common.main.localization;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
+
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Macro;
@@ -11,30 +15,70 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.syntax.EnglishCommandSyntax;
+import org.geogebra.common.main.syntax.LocalizedCommandSyntax;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
+import org.geogebra.common.ownership.NonOwning;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.MatchedString;
 import org.geogebra.common.util.debug.Log;
 
+import com.google.j2objc.annotations.Weak;
+
 public class AutocompleteProvider {
+	@NonOwning
+	@Weak
+	@Nonnull
 	private final App app;
-	private final boolean forCAS;
+	private final boolean isForClassicCAS;
+	private LocalizedCommandSyntax englishCommandSyntax;
+	private @CheckForNull Set<Operation> filteredOperations;
 
 	/**
 	 * @param app application
-	 * @param forCAS whether this is for the classic CAS
+	 * @param isForClassicCAS whether this is for the classic CAS
 	 */
-	public AutocompleteProvider(App app, boolean forCAS) {
+	public AutocompleteProvider(@Nonnull App app, boolean isForClassicCAS) {
 		this.app = app;
-		this.forCAS = forCAS;
+		this.isForClassicCAS = isForClassicCAS;
 	}
 
 	/**
-	 * @param command localized command
+	 * Adds a syntax filter.
+	 * @param syntaxFilter a syntax filter.
+	 */
+	public void addSyntaxFilter(@Nonnull SyntaxFilter syntaxFilter) {
+		if (syntaxFilter != null) {
+			getEnglishCommandSyntax().addSyntaxFilter(syntaxFilter);
+		}
+	}
+
+	/**
+	 * Removes a previously added syntax filter.
+	 * @param syntaxFilter a syntax filter.
+	 */
+	public void removeSyntaxFilter(@Nonnull SyntaxFilter syntaxFilter) {
+		if (syntaxFilter != null) {
+			getEnglishCommandSyntax().removeSyntaxFilter(syntaxFilter);
+		}
+	}
+
+	/**
+	 * Sets operations to be filtered out from the results.
+	 * @param filteredOperations An optional set of operations to filter out from the results.
+	 */
+	public void setFilteredOperations(@CheckForNull Set<Operation> filteredOperations) {
+		this.filteredOperations = filteredOperations;
+	}
+
+	/**
+	 * @param localizedCommandName localized command
 	 * @return syntaxes of a single command
 	 */
-	public List<String> getSyntaxes(String command) {
+	public List<String> getSyntaxes(String localizedCommandName) {
 		ArrayList<String> syntaxes = new ArrayList<>();
-		addSyntaxes(command, syntaxes);
+		addSyntaxes(localizedCommandName, syntaxes);
 		return syntaxes;
 	}
 
@@ -51,8 +95,8 @@ public class AutocompleteProvider {
 			return null;
 		}
 		ArrayList<MatchedString> syntaxes = new ArrayList<>();
-		for (MatchedString cmd : commands) {
-			addSyntaxes(cmd, syntaxes);
+		for (MatchedString command : commands) {
+			addSyntaxes(command, syntaxes);
 		}
 		return syntaxes;
 	}
@@ -64,32 +108,31 @@ public class AutocompleteProvider {
 		}
 	}
 
-	private void addSyntaxes(String cmd, ArrayList<String> syntaxes) {
-		String syntaxString = getSyntaxString(cmd);
+	private void addSyntaxes(String localizedCommandName, ArrayList<String> syntaxes) {
+		String syntaxString = getSyntaxString(localizedCommandName);
 		for (String syntax : syntaxString.split("\\n")) {
 			syntaxes.add(syntax);
 		}
 	}
 
-	private String getSyntaxString(String cmd) {
-		String cmdInt = app.getInternalCommand(cmd);
-		boolean englishOnly = cmdInt == null
+	private String getSyntaxString(String localizedCommandName) {
+		String internalCommandName = app.getInternalCommand(localizedCommandName);
+		boolean englishOnly = internalCommandName == null
 				&& isFallbackCompletionAllowed();
-
 		if (englishOnly) {
-			cmdInt = app.englishToInternal(cmd);
+			internalCommandName = app.englishToInternal(localizedCommandName);
 		}
+
 		String syntaxString;
 		if (isCas()) {
-			app.getLocalization().getCommandSyntax()
-					.setSyntaxFilter(app.getConfig().newCommandSyntaxFilter());
-			syntaxString = app.getLocalization()
-					.getCommandSyntaxCAS(cmdInt);
+			LocalizedCommandSyntax commandSyntax = app.getLocalization().getCommandSyntax();
+			syntaxString = commandSyntax.getCommandSyntaxCAS(internalCommandName);
 		} else {
-			AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
-			syntaxString = englishOnly
-					? ap.getEnglishSyntax(cmdInt, app.getSettings())
-					: ap.getSyntax(cmdInt, app.getSettings());
+			LocalizedCommandSyntax commandSyntax = englishOnly
+					? getEnglishCommandSyntax() : app.getLocalization().getCommandSyntax();
+			AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
+			syntaxString = algebraProcessor.getSyntax(commandSyntax, internalCommandName,
+					app.getSettings());
 		}
 
 		if (syntaxString == null || syntaxString.isEmpty()) {
@@ -99,18 +142,24 @@ public class AutocompleteProvider {
 		if (syntaxString.endsWith(Localization.syntaxCAS)
 				|| syntaxString.endsWith(Localization.syntaxStr)) {
 			// command not found, check for macros
-			Macro macro = forCAS ? null
-					: app.getKernel().getMacro(cmd);
+			Macro macro = isCas() ? null
+					: app.getKernel().getMacro(internalCommandName);
 			if (macro != null) {
 				return macro.toString();
 			} else {
 				// syntaxes.add(cmdInt + "[]");
-				Log.debug("Can't find syntax for: " + cmd);
+				Log.debug("Can't find syntax for: " + internalCommandName);
 			}
-
 			return "";
 		}
 		return syntaxString;
+	}
+
+	private LocalizedCommandSyntax getEnglishCommandSyntax() {
+		if (englishCommandSyntax == null) {
+			englishCommandSyntax = new EnglishCommandSyntax(app.getLocalization());
+		}
+		return englishCommandSyntax;
 	}
 
 	/**
@@ -125,19 +174,23 @@ public class AutocompleteProvider {
 	 * @return stream of suggestions
 	 */
 	public Stream<Completion> getCompletions(String curWord) {
-		Stream<Completion> completions = app.getParserFunctions().getCompletions(curWord).stream()
+		List<String> functionResults = app.getParserFunctions().getCompletions(curWord,
+				filteredOperations);
+		Stream<Completion> completions = functionResults.stream()
 				.map(function -> new Completion(getMatch(function, curWord),
-						Collections.singletonList(function), App.WIKI_OPERATORS,
+						Collections.singletonList(function),
+						App.WIKI_OPERATORS,
 						GuiManagerInterface.Help.GENERIC));
-		List<MatchedString> cmdDict = getDictionary()
-				.getCompletions(curWord.toLowerCase());
 
-		if (cmdDict != null) {
-			Stream<Completion> commands = cmdDict.stream()
-					.map(command -> new Completion(command, getSyntaxes(command.content),
+		List<MatchedString> commandResults = getCommandDictionary()
+				.getCompletions(curWord.toLowerCase());
+		if (commandResults != null) {
+			Stream<Completion> commandCompletions = commandResults.stream()
+					.map(command -> new Completion(command,
+							getSyntaxes(command.content),
 							app.getInternalCommand(command.content),
 							GuiManagerInterface.Help.COMMAND));
-			completions = Stream.concat(completions, commands);
+			completions = Stream.concat(completions, commandCompletions);
 		}
 
 		return completions.filter(completion -> !completion.syntaxes.isEmpty());
@@ -148,10 +201,10 @@ public class AutocompleteProvider {
 	}
 
 	private boolean isCas() {
-		return forCAS || app.getConfig().getVersion() == GeoGebraConstants.Version.CAS;
+		return isForClassicCAS || app.getConfig().getVersion() == GeoGebraConstants.Version.CAS;
 	}
 
-	private LowerCaseDictionary getDictionary() {
+	private LowerCaseDictionary getCommandDictionary() {
 		return isCas() ? app.getCommandDictionaryCAS() : app.getCommandDictionary();
 	}
 

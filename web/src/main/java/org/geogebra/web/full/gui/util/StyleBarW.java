@@ -13,7 +13,6 @@ import org.geogebra.web.full.gui.view.Views;
 import org.geogebra.web.full.gui.view.Views.ViewType;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -133,11 +132,8 @@ public abstract class StyleBarW extends HorizontalPanel implements
 
 		if (numberOfOpenViews > 1) {
 			// show close button if there are more than 1 views open
-			String html = MainMenu.getMenuBarHtml(
-					GuiResourcesSimple.INSTANCE.close(),
-					app.getLocalization().getMenu("Close")
-			);
-			popup.addItem(new AriaMenuItem(html, true, () -> {
+			popup.addItem(MainMenu.getMenuBarItem(GuiResourcesSimple.INSTANCE.close(),
+					app.getLocalization().getMenu("Close"), () -> {
 				app.hideKeyboard();
 				app.updateMenubar();
 				app.getGuiManager().setShowView(false, viewID);
@@ -149,12 +145,8 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		for (ViewType view : Views.getAll()) {
 			if (app.supportsView(view.getID())
 					&& !app.getGuiManager().showView(view.getID())) {
-				String html = MainMenu.getMenuBarHtml(
-						view.getIcon(),
-						app.getLocalization().getMenu(view.getKey())
-				);
-
-				popup.addItem(new AriaMenuItem(html, true, () -> {
+				popup.addItem(MainMenu.getMenuBarItem(view.getIcon(),
+						app.getLocalization().getMenu(view.getKey()), () -> {
 					app.hideKeyboard();
 					app.updateMenubar();
 					app.getGuiManager().setShowView(true, view.getID());

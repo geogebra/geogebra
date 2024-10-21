@@ -27,6 +27,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 	private final AbsolutePanel widget;
 	private final Style style;
+	private final AppW app;
 
 	private final Timer saveTimer = new Timer() {
 		@Override
@@ -44,6 +45,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	 */
 	public InlineFormulaControllerW(GeoFormula formula, AppW app, Panel parent) {
 		this.formula = formula;
+		this.app = app;
 		this.mathFieldEditor = new MathFieldEditor(app, new FormulaMathFieldListener());
 		mathFieldEditor.getMathField().setUseSimpleScripts(false);
 		mathFieldEditor.getMathField().setFocus(false);
@@ -204,12 +206,9 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		}
 
 		@Override
-		public void onInsertString() {
-			// do nothing
-		}
-
-		@Override
 		public boolean onEscape() {
+			app.hideKeyboard();
+			app.getAccessibilityManager().focusGeo(formula);
 			return false;
 		}
 

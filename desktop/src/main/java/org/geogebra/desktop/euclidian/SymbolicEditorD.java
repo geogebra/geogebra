@@ -39,7 +39,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 		mathField = new MathFieldD(new SyntaxAdapterImpl(app.getKernel()), view::repaintView);
 
-		mathField.getInternal().setFieldListener(this);
+		mathField.getInternal().addMathFieldListener(this);
 		mathField.setVisible(true);
 		mathField.getInternal().setType(TeXFont.SANSSERIF);
 
