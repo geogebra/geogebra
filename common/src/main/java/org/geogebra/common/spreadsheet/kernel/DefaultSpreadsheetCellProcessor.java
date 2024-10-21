@@ -18,7 +18,6 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -62,9 +61,6 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	 * @param cellName Identifies the cell to receive the input.
 	 */
 	protected void process(String input, String cellName) {
-		if (containsEqualInputAndCellName(input, cellName)) {
-			return;
-		}
 		this.cellName = cellName;
 		this.input = input;
 		Kernel kernel = algebraProcessor.getKernel();
@@ -84,14 +80,6 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 		} catch (Exception e) {
 			Log.debug("error " + e.getLocalizedMessage());
 		}
-	}
-
-	private boolean containsEqualInputAndCellName(String input, String cellName) {
-		if (this.input == null || this.cellName == null) {
-			return false;
-		}
-		return StringUtil.removeWhitespaces(this.input).equals(StringUtil.removeWhitespaces(input))
-				&& this.cellName.equals(cellName);
 	}
 
 	private boolean checkCircularDefinition(String input, Kernel kernel) {

@@ -96,7 +96,8 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 		@Override
 		public @Nonnull DefaultSpreadsheetCellProcessor getCellProcessor() {
 			if (cellProcessor == null) {
-				cellProcessor = new DefaultSpreadsheetCellProcessor(app.getKernel().getAlgebraProcessor());
+				cellProcessor = new DefaultSpreadsheetCellProcessor(
+						app.getKernel().getAlgebraProcessor());
 			}
 			return cellProcessor;
 		}

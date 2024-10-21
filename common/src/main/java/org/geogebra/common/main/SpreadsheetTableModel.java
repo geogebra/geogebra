@@ -222,9 +222,6 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 
 	@Override
 	public void update(GeoElement geo) {
-		if (geo.isEmptySpreadsheetCell() && geo.isDefined()) {
-			geo.setEmptySpreadsheetCell(false);
-		}
 		updateWithoutTrace(geo);
 
 		// trace value
