@@ -13,7 +13,8 @@ import org.geogebra.common.exam.restrictions.cvte.MatrixExpressionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
-import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
@@ -23,9 +24,8 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoQuadricND;
+import org.geogebra.common.kernel.geos.ConstructionElementSetup;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.Settings;
@@ -55,7 +55,8 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				createSyntaxFilter(),
 				createToolsFilter(),
 				null,
-				createPropertyFilters());
+				createPropertyFilters(),
+				createGeoElementSetups());
 	}
 
 	@Override
@@ -68,7 +69,8 @@ final class CvteExamRestrictions extends ExamRestrictions {
 			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider,
-			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory) {
+			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
+			@Nullable Construction construction) {
 		if (settings != null) {
 			casEnabled = settings.getCasSettings().isEnabled();
 			// Note: The effect we want to acchieve here is disable the symbolic versions of the
@@ -83,7 +85,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 		}
 		super.applyTo(commandDispatcher, algebraProcessor, propertiesRegistry, context,
 				localization, settings, autoCompleteProvider, toolsProvider,
-				geoElementPropertiesFactory);
+				geoElementPropertiesFactory, construction);
 	}
 
 	@Override
@@ -96,10 +98,11 @@ final class CvteExamRestrictions extends ExamRestrictions {
 			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider,
-			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory) {
+			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
+			@Nullable Construction construction) {
 		super.removeFrom(commandDispatcher, algebraProcessor, propertiesRegistry, context,
 				localization, settings, autoCompleteProvider, toolsProvider,
-				geoElementPropertiesFactory);
+				geoElementPropertiesFactory, construction);
 		if (settings != null) {
 			settings.getCasSettings().setEnabled(casEnabled);
 		}
@@ -248,15 +251,20 @@ final class CvteExamRestrictions extends ExamRestrictions {
                 new NonLinearEquationShowObjectPropertyFilter());
 	}
 
+	private static Set<ConstructionElementSetup> createGeoElementSetups() {
+		return Set.of(new ConicSectionVisibilitySetup(),
+				new NonLinearEquationVisibilitySetup());
+	}
+
 	private static class ConicSectionShowObjectPropertyFilter implements GeoElementPropertyFilter {
 		@Override
 		public boolean isAllowed(Property property, GeoElement geoElement) {
 			return !(
-					// Restrict show object property
+					// Filter the show object property
 					property instanceof ShowObjectProperty
-					// for any cone section
+					// for any conic element
 					&& geoElement.isGeoConic()
-					// created manually (without command or tool)
+					// created manually (without command/tool)
 					&& geoElement.getParentAlgorithm() == null
 			);
 		}
@@ -267,13 +275,53 @@ final class CvteExamRestrictions extends ExamRestrictions {
 		@Override
 		public boolean isAllowed(Property property, GeoElement geoElement) {
 			return !(
-					// Restrict show object property
+					// Filter the show object property
 					property instanceof ShowObjectProperty
 					// for equations
 					&& geoElement instanceof EquationValue
-					// with more than one exponent (non-linear equations)
+					// that are non-linear
 					&& ((EquationValue) geoElement).getEquationVariables().length > 1
+					// with the exception of conics
+					&& !geoElement.isGeoConic()
 			);
+		}
+	}
+
+	private static class ConicSectionVisibilitySetup implements ConstructionElementSetup {
+		@Override
+		public void setup(ConstructionElement constructionElement) {
+			if (constructionElement instanceof GeoElement) {
+				GeoElement geoElement = (GeoElement) constructionElement;
+				if (
+						// For every conic
+						geoElement.isGeoConic()
+						// created manually (without command/tool)
+						&& geoElement.getParentAlgorithm() == null
+				) {
+					// set the initial visibility to false in the euclidian view
+					geoElement.setEuclidianVisible(false);
+				}
+			}
+		}
+	}
+
+	private static class NonLinearEquationVisibilitySetup implements ConstructionElementSetup {
+		@Override
+		public void setup(ConstructionElement constructionElement) {
+			if (constructionElement instanceof GeoElement) {
+				GeoElement geoElement = (GeoElement) constructionElement;
+				if (
+						// For every equation
+						geoElement instanceof EquationValue
+						// that are non-linear
+						&& ((EquationValue) geoElement).getEquationVariables().length > 1
+						// with the exception of conics
+						&& !geoElement.isGeoConic()
+				) {
+					// set the initial visibility to false in the euclidian view
+					geoElement.setEuclidianVisible(false);
+				}
+			}
 		}
 	}
 }

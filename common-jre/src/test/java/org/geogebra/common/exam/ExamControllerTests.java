@@ -41,6 +41,7 @@ import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
@@ -53,6 +54,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 	private ExamController examController;
 	private PropertiesRegistry propertiesRegistry;
+	private GeoElementPropertiesFactory geoElementPropertiesFactory;
 	private AppCommon app;
 	private CommandDispatcher commandDispatcher;
 	private CommandDispatcher previousCommandDispatcher;
@@ -72,8 +74,9 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		commandDispatcher = null;
 
 		propertiesRegistry = new DefaultPropertiesRegistry();
+		geoElementPropertiesFactory = new GeoElementPropertiesFactory();
 
-		examController = new ExamController(propertiesRegistry);
+		examController = new ExamController(propertiesRegistry, geoElementPropertiesFactory);
 		examController.setDelegate(this);
 		examController.addListener(examStates::add);
 		examStates.clear();
@@ -94,7 +97,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization()),
 				app);
 		examController.setActiveContext(app, commandDispatcher, algebraProcessor,
-				app.getLocalization(), app.getSettings(), autocompleteProvider, app);
+				app.getLocalization(), app.getSettings(), autocompleteProvider, app,
+				app.getKernel().getConstruction());
 	}
 
 	private void switchApp(SuiteSubApp subApp) {
@@ -110,7 +114,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization()),
 				app);
 		examController.setActiveContext(app, commandDispatcher, algebraProcessor,
-				app.getLocalization(), app.getSettings(), autocompleteProvider, app);
+				app.getLocalization(), app.getSettings(), autocompleteProvider, app,
+				app.getKernel().getConstruction());
 	}
 
 	private AppConfig createConfig(SuiteSubApp subApp) {

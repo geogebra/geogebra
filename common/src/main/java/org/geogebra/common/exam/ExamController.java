@@ -9,11 +9,13 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
@@ -126,13 +128,15 @@ public final class ExamController {
 	 * changes during an exam, so what we can remove the restrictions on the current dependencies,
 	 * and apply the restrictions on the new dependencies.
 	 */
-	public void setActiveContext(@Nonnull Object context,
+	public void setActiveContext(
+			@Nonnull Object context,
 			@Nonnull CommandDispatcher commandDispatcher,
 			@Nonnull AlgebraProcessor algebraProcessor,
 			@Nonnull Localization localization,
 			@Nonnull Settings settings,
 			@CheckForNull AutocompleteProvider autocompleteProvider,
-			@CheckForNull ToolsProvider toolsProvider) {
+			@CheckForNull ToolsProvider toolsProvider,
+			@CheckForNull Construction construction) {
 		// remove restrictions for current dependencies, if exam is active
 		if (examRestrictions != null && activeDependencies != null) {
 			removeRestrictionsFromContextDependencies(activeDependencies);
@@ -143,7 +147,8 @@ public final class ExamController {
 				localization,
 				settings,
 				autocompleteProvider,
-				toolsProvider);
+				toolsProvider,
+				construction);
 		// apply restrictions to new dependencies, if exam is active
 		if (examRestrictions != null) {
 			applyRestrictionsToContextDependencies(activeDependencies);
@@ -380,8 +385,8 @@ public final class ExamController {
 	 * {@link ExamState#IDLE} or {@link ExamState#PREPARING PREPARING} state.
 	 *
 	 * @apiNote Make sure to call {@link #setActiveContext(Object, CommandDispatcher,
-	 * AlgebraProcessor, Localization, Settings, AutocompleteProvider, ToolsProvider)}
-	 * before attempting to start an exam.
+	 * AlgebraProcessor, Localization, Settings, AutocompleteProvider, ToolsProvider,
+	 * EuclidianView)} before attempting to start an exam.
 	 *
 	 * @param examType The exam type.
 	 * @param options Additional options (optional).
@@ -508,7 +513,8 @@ public final class ExamController {
 					dependencies.settings,
 					dependencies.autoCompleteProvider,
 					dependencies.toolsProvider,
-					geoElementPropertiesFactory);
+					geoElementPropertiesFactory,
+					dependencies.construction);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.addCommandFilter(noCASFilter);
 			}
@@ -528,7 +534,8 @@ public final class ExamController {
 					dependencies.settings,
 					dependencies.autoCompleteProvider,
 					dependencies.toolsProvider,
-					geoElementPropertiesFactory);
+					geoElementPropertiesFactory,
+					dependencies.construction);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.removeCommandFilter(noCASFilter);
 			}
@@ -603,6 +610,9 @@ public final class ExamController {
 		@NonOwning
 		@CheckForNull
 		final ToolsProvider toolsProvider;
+		@NonOwning
+		@CheckForNull
+		final Construction construction;
 
 		ContextDependencies(@Nonnull Object context,
 				@Nonnull CommandDispatcher commandDispatcher,
@@ -610,7 +620,8 @@ public final class ExamController {
 				@Nonnull Localization localization,
 				@Nonnull Settings settings,
 				@CheckForNull AutocompleteProvider autoCompleteProvider,
-				@CheckForNull ToolsProvider toolsProvider) {
+				@CheckForNull ToolsProvider toolsProvider,
+				@CheckForNull Construction construction) {
 			this.context = context;
 			this.commandDispatcher = commandDispatcher;
 			this.algebraProcessor = algebraProcessor;
@@ -618,6 +629,7 @@ public final class ExamController {
 			this.settings = settings;
 			this.autoCompleteProvider = autoCompleteProvider;
 			this.toolsProvider = toolsProvider;
+			this.construction = construction;
 		}
 	}
 }

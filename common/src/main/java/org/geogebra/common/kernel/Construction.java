@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.ConstructionElementSetup;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -201,6 +202,8 @@ public class Construction {
 
 	private LayerManager layerManager;
 
+	private final Set<ConstructionElementSetup> constructionElementSetups = new HashSet<>();
+
 	/**
 	 * Creates a new Construction.
 	 * @param k Kernel
@@ -243,6 +246,27 @@ public class Construction {
 		geoTable = new HashMap<>(200);
 		initGeoTables();
 		groups = new ArrayList<>();
+	}
+
+	/**
+	 * Adds a {@link ConstructionElementSetup} which can modify the initial setup of elements when
+	 * adding them to the {@code Construction} with {@link Construction#addToConstructionList}.
+	 *
+	 * @param constructionElementSetup The {@link ConstructionElementSetup} to be added
+	 */
+	public void addGeoElementSetup(ConstructionElementSetup constructionElementSetup) {
+		constructionElementSetups.add(constructionElementSetup);
+	}
+
+	/**
+	 * Removes the previously added {@link ConstructionElementSetup} from this {@code Construction}.
+	 * Once removed, it will no longer affect the initial setup of elements added to the
+	 * {@code Construction}.
+	 *
+	 * @param constructionElementSetup The {@link ConstructionElementSetup} to be removed
+	 */
+	public void removeGeoElementSetup(ConstructionElementSetup constructionElementSetup) {
+		constructionElementSetups.remove(constructionElementSetup);
 	}
 
 	/**
@@ -784,6 +808,7 @@ public class Construction {
 	 * @param index index
 	 */
 	public void addToConstructionList(ConstructionElement ce, int index) {
+		constructionElementSetups.forEach(setup -> setup.setup(ce));
 		++step;
 		ceList.add(index, ce);
 		updateConstructionIndex(index);

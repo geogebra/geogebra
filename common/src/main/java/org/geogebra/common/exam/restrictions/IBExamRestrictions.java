@@ -379,8 +379,8 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				Map.ofEntries(
 						createDistributionPropertyRestriction(),
 						createShowObjectPropertyRestriction()),
-				null
-		);
+				null,
+				null);
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters() {

@@ -12,12 +12,14 @@ import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.geos.ConstructionElementSetup;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.Settings;
@@ -66,6 +68,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final ToolCollectionFilter toolsFilter;
 	private final Map<String, PropertyRestriction> propertyRestrictions;
 	private final Set<GeoElementPropertyFilter> geoElementPropertyFilters;
+	private final Set<ConstructionElementSetup> constructionElementSetups;
 
 	/**
 	 * Factory for ExamRestrictions.
@@ -130,7 +133,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable SyntaxFilter syntaxFilter,
 			@Nullable ToolCollectionFilter toolsFilter,
 			@Nullable Map<String, PropertyRestriction> propertyRestrictions,
-			@Nullable Set<GeoElementPropertyFilter> geoElementPropertyFilters) {
+			@Nullable Set<GeoElementPropertyFilter> geoElementPropertyFilters,
+			@Nullable Set<ConstructionElementSetup> constructionElementSetups) {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
@@ -147,7 +151,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.toolsFilter = toolsFilter != null ? toolsFilter
 				: new ToolCollectionSetFilter(EuclidianConstants.MODE_IMAGE);
 		this.propertyRestrictions = propertyRestrictions != null ? propertyRestrictions : Map.of();
-		this.geoElementPropertyFilters = geoElementPropertyFilters != null ? geoElementPropertyFilters : Set.of();
+		this.geoElementPropertyFilters = geoElementPropertyFilters != null
+				? geoElementPropertyFilters : Set.of();
+		this.constructionElementSetups = constructionElementSetups != null ? constructionElementSetups : Set.of();
 	}
 
 	/**
@@ -193,7 +199,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider,
-			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory) {
+			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
+			@Nullable Construction construction) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.addCommandFilter(commandFilter);
@@ -235,16 +242,18 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			toolsProvider.addToolsFilter(toolsFilter);
 		}
 		if (geoElementPropertiesFactory != null) {
-			for (GeoElementPropertyFilter geoElementPropertyFilter : geoElementPropertyFilters) {
-				geoElementPropertiesFactory.addFilter(geoElementPropertyFilter);
-			}
+			geoElementPropertyFilters.forEach(geoElementPropertiesFactory::addFilter);
+		}
+		if (construction != null) {
+			constructionElementSetups.forEach(construction::addGeoElementSetup);
 		}
 	}
 
 	/**
 	 * Remove the exam restrictions (i.e., undo the changes from
 	 * {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,
-	 * Localization, Settings, AutocompleteProvider, ToolsProvider, GeoElementPropertiesFactory)}).
+	 * Localization, Settings, AutocompleteProvider, ToolsProvider, GeoElementPropertiesFactory,
+	 * Construction)}).
 	 */
 	public void removeFrom(
 			@Nullable CommandDispatcher commandDispatcher,
@@ -255,7 +264,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider,
-			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory) {
+			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
+			@Nullable Construction construction) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.removeCommandFilter(commandFilter);
@@ -297,9 +307,10 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			toolsProvider.removeToolsFilter(toolsFilter);
 		}
 		if (geoElementPropertiesFactory != null) {
-			for (GeoElementPropertyFilter geoElementPropertyFilter : geoElementPropertyFilters) {
-				geoElementPropertiesFactory.removeFilter(geoElementPropertyFilter);
-			}
+			geoElementPropertyFilters.forEach(geoElementPropertiesFactory::removeFilter);
+		}
+		if (construction != null) {
+			constructionElementSetups.forEach(construction::removeGeoElementSetup);
 		}
 	}
 
