@@ -129,7 +129,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		}, KeyDownEvent.getType());
 		updateTotalSize();
 		DomGlobal.setInterval((ignore) -> {
-			repaint();
+			repaintIfNeeded();
 		}, 200);
 		DomGlobal.setInterval((ignore) -> {
 			spreadsheet.scrollForDragIfNeeded();
@@ -225,9 +225,18 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	}
 
 	private void repaint() {
+		applyPixelRatioTransform();
+		spreadsheet.draw(graphics);
+	}
+
+	private void repaintIfNeeded() {
+		applyPixelRatioTransform();
+		spreadsheet.repaintIfNeeded(graphics);
+	}
+
+	private void applyPixelRatioTransform() {
 		double ratio = app.getPixelRatio();
 		graphics.getContext().setTransform2(ratio, 0, 0, ratio, 0, 0);
-		spreadsheet.draw(graphics);
 	}
 
 	private void updateViewport() {

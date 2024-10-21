@@ -64,9 +64,6 @@ public final class Spreadsheet implements TabularDataChangeListener, Spreadsheet
 	 * @param graphics graphics to draw to
 	 */
 	public void draw(GGraphics2D graphics) {
-		if (!repaintNeeded) {
-			return;
-		}
 		graphics.setPaint(GColor.WHITE);
 		Rectangle viewport = controller.getViewport();
 		graphics.fillRect(0, 0, (int) viewport.getWidth(), (int) viewport.getHeight());
@@ -97,6 +94,16 @@ public final class Spreadsheet implements TabularDataChangeListener, Spreadsheet
 			renderer.drawEditorBorder(editorBounds, graphics);
 		}
 		repaintNeeded = false;
+	}
+
+	/**
+	 * Draws current viewport of the spreadsheet only if the {@link #repaintNeeded} flag is true
+	 * @param graphics Graphics to draw to
+	 */
+	public void repaintIfNeeded(GGraphics2D graphics) {
+		if (repaintNeeded) {
+			draw(graphics);
+		}
 	}
 
 	void drawCells(GGraphics2D graphics, Rectangle viewport) {
