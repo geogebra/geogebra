@@ -28,7 +28,8 @@ public final class GlobalScope {
 			new GeoElementPropertiesFactory();
 
 	// intentionally assignable (for testing)
-	public static ExamController examController = new ExamController(propertiesRegistry, geoElementPropertiesFactory);
+	public static ExamController examController = new ExamController(
+			propertiesRegistry, geoElementPropertiesFactory);
 
 	/**
 	 * Prevent instantiation.

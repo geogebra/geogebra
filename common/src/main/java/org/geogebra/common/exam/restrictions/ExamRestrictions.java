@@ -153,7 +153,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.propertyRestrictions = propertyRestrictions != null ? propertyRestrictions : Map.of();
 		this.geoElementPropertyFilters = geoElementPropertyFilters != null
 				? geoElementPropertyFilters : Set.of();
-		this.constructionElementSetups = constructionElementSetups != null ? constructionElementSetups : Set.of();
+		this.constructionElementSetups = constructionElementSetups != null
+				? constructionElementSetups : Set.of();
 	}
 
 	/**

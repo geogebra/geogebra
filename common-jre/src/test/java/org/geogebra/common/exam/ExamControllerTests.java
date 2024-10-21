@@ -17,6 +17,7 @@ import java.util.Optional;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
@@ -28,6 +29,8 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.localization.AutocompleteProvider;
@@ -45,6 +48,7 @@ import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
+import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 import org.geogebra.test.annotation.Issue;
 import org.geogebra.test.commands.ErrorAccumulator;
 import org.junit.Before;
@@ -273,6 +277,13 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertTrue(angleUnit.isFrozen());
 		assertEquals(List.of(Kernel.ANGLE_DEGREE, Kernel.ANGLE_RADIANT),
 				((NamedEnumeratedProperty<?>) angleUnit).getValues());
+		// geo element property filters
+		assertNull(geoElementPropertiesFactory.createShowObjectProperty(
+				app.getLocalization(),
+				List.of(new GeoPoint(app.getKernel().getConstruction()))));
+		// construction element setup
+		assertEquals(GColor.RED.deriveWithAlpha(0),
+				Arrays.stream(evaluate("(1, 1)")).findFirst().get().getFillColor());
 
 		examController.finishExam();
 		assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));

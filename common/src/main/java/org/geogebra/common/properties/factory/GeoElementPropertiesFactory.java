@@ -252,8 +252,8 @@ public class GeoElementPropertiesFactory {
 						properties.toArray(new ThicknessProperty[0])));
 	}
 
-	private static PropertiesArray createPropertiesArray(
-			Localization localization, List<GeoElement> geoElements, List<Property> properties) {
+	private static PropertiesArray createPropertiesArray(Localization localization,
+			List<GeoElement> geoElements, List<Property> properties) {
 		if (properties.isEmpty()) {
 			return new PropertiesArray("");
 		}
@@ -298,7 +298,9 @@ public class GeoElementPropertiesFactory {
 	 * @param <PropertyType> the type of individual properties that will be collected
 	 * @param <PropertyCollection> the type of the resulting collection of properties
 	 */
-	private interface PropertyCollector<PropertyType extends Property, PropertyCollection extends Property> {
+	private interface PropertyCollector<
+			PropertyType extends Property,
+			PropertyCollection extends Property> {
 		/**
 		 * Collects a list of individual properties into a single {@link PropertyCollection}.
 		 *
@@ -325,7 +327,10 @@ public class GeoElementPropertiesFactory {
 	 * @return a collection of properties of type {@link PropCollection}, or {@code null}
 	 * if a property cannot be created for one of the {@link GeoElement}s.
 	 */
-	private <Prop extends Property, PropCollection extends Property> PropCollection createPropertyCollection(
+	private <
+			Prop extends Property,
+			PropCollection extends Property
+	> PropCollection createPropertyCollection(
 			List<GeoElement> geoElements,
 			PropertyFactory<Prop> propertyFactory,
 			PropertyCollector<Prop, PropCollection> propertyCollector
@@ -334,7 +339,7 @@ public class GeoElementPropertiesFactory {
 			ArrayList<Prop> properties = new ArrayList<>();
 			for (GeoElement geoElement : geoElements) {
 				Prop property = propertyFactory.create(geoElement);
-				if (property != null && propertyFilters.stream().allMatch(filter -> filter.isAllowed(property, geoElement))) {
+				if (property != null && isAllowedByFilters(property, geoElement)) {
 					properties.add(property);
 				}
 			}
@@ -347,5 +352,9 @@ public class GeoElementPropertiesFactory {
 		} catch (IllegalArgumentException ignored) {
 			return null;
 		}
+	}
+
+	private boolean isAllowedByFilters(Property property, GeoElement geoElement) {
+		return propertyFilters.stream().allMatch(filter -> filter.isAllowed(property, geoElement));
 	}
 }
