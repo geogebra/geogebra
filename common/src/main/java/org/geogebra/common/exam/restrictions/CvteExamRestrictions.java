@@ -14,6 +14,8 @@ import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
@@ -56,7 +58,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				createToolsFilter(),
 				null,
 				createPropertyFilters(),
-				createGeoElementSetups());
+				createConstructionElementSetups());
 	}
 
 	@Override
@@ -70,7 +72,8 @@ final class CvteExamRestrictions extends ExamRestrictions {
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@Nullable Construction construction) {
+			@Nullable Construction construction,
+			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar) {
 		if (settings != null) {
 			casEnabled = settings.getCasSettings().isEnabled();
 			// Note: The effect we want to acchieve here is disable the symbolic versions of the
@@ -85,7 +88,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 		}
 		super.applyTo(commandDispatcher, algebraProcessor, propertiesRegistry, context,
 				localization, settings, autoCompleteProvider, toolsProvider,
-				geoElementPropertiesFactory, construction);
+				geoElementPropertiesFactory, construction, scheduledPreviewFromInputBar);
 	}
 
 	@Override
@@ -99,10 +102,11 @@ final class CvteExamRestrictions extends ExamRestrictions {
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@Nullable Construction construction) {
+			@Nullable Construction construction,
+			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar) {
 		super.removeFrom(commandDispatcher, algebraProcessor, propertiesRegistry, context,
 				localization, settings, autoCompleteProvider, toolsProvider,
-				geoElementPropertiesFactory, construction);
+				geoElementPropertiesFactory, construction, scheduledPreviewFromInputBar);
 		if (settings != null) {
 			settings.getCasSettings().setEnabled(casEnabled);
 		}
@@ -251,7 +255,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
                 new NonLinearEquationShowObjectPropertyFilter());
 	}
 
-	private static Set<ConstructionElementSetup> createGeoElementSetups() {
+	private static Set<ConstructionElementSetup> createConstructionElementSetups() {
 		return Set.of(new ConicSectionVisibilitySetup(),
 				new NonLinearEquationVisibilitySetup());
 	}

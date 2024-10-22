@@ -18,7 +18,7 @@ public class CvteExamRestrictionsTest extends BaseUnitTest {
 		examController.setActiveContext(this, getKernel().getAlgebraProcessor()
 						.getCommandDispatcher(), getKernel().getAlgebraProcessor(),
 				getLocalization(), getSettings(), null, null,
-				getConstruction());
+				getConstruction(), getKernel().getInputPreviewHelper());
 		examController.startExam(ExamType.CVTE, null);
 	}
 

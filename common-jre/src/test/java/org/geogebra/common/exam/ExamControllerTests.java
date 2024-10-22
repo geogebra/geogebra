@@ -102,7 +102,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 				app);
 		examController.setActiveContext(app, commandDispatcher, algebraProcessor,
 				app.getLocalization(), app.getSettings(), autocompleteProvider, app,
-				app.getKernel().getConstruction());
+				app.getKernel().getConstruction(), app.getKernel().getInputPreviewHelper());
 	}
 
 	private void switchApp(SuiteSubApp subApp) {
@@ -119,7 +119,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 				app);
 		examController.setActiveContext(app, commandDispatcher, algebraProcessor,
 				app.getLocalization(), app.getSettings(), autocompleteProvider, app,
-				app.getKernel().getConstruction());
+				app.getKernel().getConstruction(), app.getKernel().getInputPreviewHelper());
 	}
 
 	private AppConfig createConfig(SuiteSubApp subApp) {

@@ -13,6 +13,8 @@ import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -201,7 +203,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@Nullable Construction construction) {
+			@Nullable Construction construction,
+			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.addCommandFilter(commandFilter);
@@ -248,13 +251,16 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		if (construction != null) {
 			constructionElementSetups.forEach(construction::addGeoElementSetup);
 		}
+		if (scheduledPreviewFromInputBar != null) {
+			constructionElementSetups.forEach(scheduledPreviewFromInputBar::addGeoElementSetup);
+		}
 	}
 
 	/**
 	 * Remove the exam restrictions (i.e., undo the changes from
 	 * {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,
 	 * Localization, Settings, AutocompleteProvider, ToolsProvider, GeoElementPropertiesFactory,
-	 * Construction)}).
+	 * Construction, ScheduledPreviewFromInputBar)}).
 	 */
 	public void removeFrom(
 			@Nullable CommandDispatcher commandDispatcher,
@@ -266,7 +272,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider,
 			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
-			@Nullable Construction construction) {
+			@Nullable Construction construction,
+			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
 				commandDispatcher.removeCommandFilter(commandFilter);
@@ -312,6 +319,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		}
 		if (construction != null) {
 			constructionElementSetups.forEach(construction::removeGeoElementSetup);
+		}
+		if (scheduledPreviewFromInputBar != null) {
+			constructionElementSetups.forEach(scheduledPreviewFromInputBar::removeGeoElementSetup);
 		}
 	}
 
