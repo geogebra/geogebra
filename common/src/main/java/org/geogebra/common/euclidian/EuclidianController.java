@@ -4951,13 +4951,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				intersectPossible, true, complexPoint);
 	}
 
-	protected boolean createNewPointND(Hits hits, boolean onPathPossible,
+	protected GeoPointND createNewPointND(Hits hits, boolean onPathPossible,
 			boolean inRegionPossible, boolean intersectPossible,
 			boolean doSingleHighlighting, boolean complexPoint) {
 		pointCreated = null;
 
 		if (!allowPointCreation()) {
-			return false;
+			return null;
 		}
 
 		GeoPointND point = getNewPoint(hits, onPathPossible, inRegionPossible,
@@ -4974,11 +4974,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				doSingleHighlighting(getMovedGeoPoint());
 			}
 
-			return true;
+			return point;
 		}
 
 		moveMode = MOVE_NONE;
-		return false;
+		return null;
 	}
 
 	/**
@@ -4998,7 +4998,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// inRegionpossible must be false so that the Segment Tool creates a
 		// point on the edge of a circle
 		return createNewPoint(hits, onPathPossible, false, intersectPossible,
-				doSingleHighlighting, false);
+				doSingleHighlighting, false) != null;
 	}
 
 	protected final boolean button(boolean textfield, boolean selPreview) {
@@ -8718,8 +8718,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	protected void createNewPointForModeOther(Hits hits) {
-		createNewPoint(hits, true, false, true, true, false);
+	protected GeoPointND createNewPointForModeOther(Hits hits) {
+		return createNewPoint(hits, true, false, true, true, false);
 	}
 
 	protected boolean circleRadiusDrag(AbstractEvent event) {
@@ -9664,14 +9664,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				.getSelectionThreshold(app.getCapturingThreshold(q.getType()));
 	}
 
-	protected boolean createNewPoint(Hits hits, boolean onPathPossible,
+	protected GeoPointND createNewPoint(Hits hits, boolean onPathPossible,
 			boolean inRegionPossible, boolean intersectPossible,
 			boolean doSingleHighlighting, boolean complexPoint) {
-		boolean newPointCreated = createNewPointND(hits, onPathPossible,
+		GeoPointND newPoint = createNewPointND(hits, onPathPossible,
 				inRegionPossible, intersectPossible, doSingleHighlighting,
 				complexPoint);
 		GeoElement point = this.view.getHits().getFirstHit(TestGeo.GEOPOINT);
-		if (point != null && !newPointCreated && this.selPoints() == 1
+		if (point != null && newPoint == null && this.selPoints() == 1
 				&& (this.mode == EuclidianConstants.MODE_JOIN
 						|| this.mode == EuclidianConstants.MODE_SEGMENT
 						|| this.mode == EuclidianConstants.MODE_RAY
@@ -9682,7 +9682,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			handleMovedElement(point, false, PointerEventType.MOUSE);
 		}
 
-		return newPointCreated;
+		return newPoint;
 	}
 
 	protected boolean isDraggingOccuredBeyondThreshold() {
@@ -9923,10 +9923,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (!getSelectedPointList().contains(firstPoint)) {
 					this.getSelectedPointList().add(firstPoint);
 				}
-				createNewPointForModeOther(hits);
-				this.view.setHits(new GPoint(eventX, eventY),
-						event.getType());
-				hits = view.getHits();
+				GeoPointND newPoint = createNewPointForModeOther(hits);
+				hits.clear();
+				hits.add(newPoint.toGeoElement());
 				boolean kernelChange = switchModeForProcessMode(hits,
 						event.isControlDown(), null, false);
 				if (kernelChange) {
