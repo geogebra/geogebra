@@ -40,7 +40,7 @@ public class SuiteTest {
 		algebraProcessor.processAlgebraCommand("l={1}*2", false);
 		assertThat(getValueString("h"), equalTo("h(x) = x"));
 		assertThat(getValueString("l"), equalTo("l = {2}"));
-		app.switchToSubapp("scientific");
+		app.switchToSubapp(SuiteSubApp.SCIENTIFIC);
 		algebraProcessor.processAlgebraCommand("h(x)=x", false);
 		algebraProcessor.processAlgebraCommand("l={1}*2", false);
 		assertThat(app.getKernel().lookupLabel("h"), nullValue());

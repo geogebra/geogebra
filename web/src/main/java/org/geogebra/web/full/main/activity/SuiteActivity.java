@@ -51,7 +51,7 @@ public class SuiteActivity extends BaseActivity {
 			return new AppConfigGraphing3D(GeoGebraConstants.SUITE_APPCODE);
 		case PROBABILITY:
 			return new AppConfigProbability(GeoGebraConstants.SUITE_APPCODE);
-		case GeoGebraConstants.SCIENTIFIC_APPCODE:
+		case SCIENTIFIC:
 			return new AppConfigScientific(GeoGebraConstants.SUITE_APPCODE);
 		}
 	}
