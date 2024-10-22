@@ -15,7 +15,6 @@ import org.geogebra.common.exam.restrictions.ExamRestrictions;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -100,8 +99,9 @@ public final class ExamController {
 	 * @param propertiesRegistry The properties registry.
 	 * @implNote The ExamController will register itself as a listener on the properties registry.
 	 */
-	public ExamController(@Nonnull PropertiesRegistry propertiesRegistry,
-						  @Nonnull GeoElementPropertiesFactory geoElementPropertiesFactory) {
+	public ExamController(
+			@Nonnull PropertiesRegistry propertiesRegistry,
+			@Nonnull GeoElementPropertiesFactory geoElementPropertiesFactory) {
 		this.propertiesRegistry = propertiesRegistry;
 		this.geoElementPropertiesFactory = geoElementPropertiesFactory;
 	}

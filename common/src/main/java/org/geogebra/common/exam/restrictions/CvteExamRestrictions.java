@@ -14,7 +14,6 @@ import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -252,7 +251,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 
 	private static Set<GeoElementPropertyFilter> createPropertyFilters() {
 		return Set.of(new ConicSectionShowObjectPropertyFilter(),
-                new NonLinearEquationShowObjectPropertyFilter());
+				new NonLinearEquationShowObjectPropertyFilter());
 	}
 
 	private static Set<ConstructionElementSetup> createConstructionElementSetups() {
@@ -293,7 +292,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 
 	private static class ConicSectionVisibilitySetup implements ConstructionElementSetup {
 		@Override
-		public void setup(ConstructionElement constructionElement) {
+		public void applyTo(ConstructionElement constructionElement) {
 			if (constructionElement instanceof GeoElement) {
 				GeoElement geoElement = (GeoElement) constructionElement;
 				if (
@@ -311,7 +310,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 
 	private static class NonLinearEquationVisibilitySetup implements ConstructionElementSetup {
 		@Override
-		public void setup(ConstructionElement constructionElement) {
+		public void applyTo(ConstructionElement constructionElement) {
 			if (constructionElement instanceof GeoElement) {
 				GeoElement geoElement = (GeoElement) constructionElement;
 				if (

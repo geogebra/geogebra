@@ -10,5 +10,5 @@ public interface ConstructionElementSetup {
      * Sets up or configures the given {@link ConstructionElement}.
      * @param constructionElement The {@link ConstructionElement} to be configured
      */
-    void setup(ConstructionElement constructionElement);
+    void applyTo(ConstructionElement constructionElement);
 }

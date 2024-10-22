@@ -23,7 +23,6 @@ public final class GlobalScope {
 	// https://stackoverflow.com/questions/4446088/java-in-what-order-are-static-final-fields-initialized
 
 	public static final PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
-
 	public static final GeoElementPropertiesFactory geoElementPropertiesFactory =
 			new GeoElementPropertiesFactory();
 

@@ -373,9 +373,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				null,
 				createSyntaxFilter(),
 				createToolCollectionFilter(),
-				Map.ofEntries(
-						createDistributionPropertyRestriction(),
-						createShowObjectPropertyRestriction()),
+				createDistributionPropertyRestriction(),
 				null,
 				null);
 	}
@@ -460,16 +458,12 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				MODE_MIRROR_AT_CIRCLE, MODE_FREEHAND_SHAPE, MODE_RELATION);
 	}
 
-	private static Map.Entry<String, PropertyRestriction> createDistributionPropertyRestriction() {
+	private static Map<String, PropertyRestriction> createDistributionPropertyRestriction() {
 		Set<ProbabilityCalculatorSettings.Dist> restrictedDistributions = Set.of(
 				EXPONENTIAL, CAUCHY, WEIBULL, GAMMA, BETA, LOGNORMAL, LOGISTIC, PASCAL
 		);
-		return Map.entry("Distribution", new PropertyRestriction(false, value ->
+		return Map.of("Distribution", new PropertyRestriction(false, value ->
 						!restrictedDistributions.contains(value)));
-	}
-
-	private static Map.Entry<String, PropertyRestriction> createShowObjectPropertyRestriction() {
-		return Map.entry("Show", new PropertyRestriction(false, null));
 	}
 
 	private static class IBExamCommandFilter extends BaseCommandArgumentFilter {

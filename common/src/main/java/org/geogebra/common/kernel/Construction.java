@@ -254,7 +254,8 @@ public class Construction {
 	 *
 	 * @param constructionElementSetup The {@link ConstructionElementSetup} to be added
 	 */
-	public void addGeoElementSetup(ConstructionElementSetup constructionElementSetup) {
+	public void addConstructionElementSetup(
+			ConstructionElementSetup constructionElementSetup) {
 		constructionElementSetups.add(constructionElementSetup);
 	}
 
@@ -265,7 +266,7 @@ public class Construction {
 	 *
 	 * @param constructionElementSetup The {@link ConstructionElementSetup} to be removed
 	 */
-	public void removeGeoElementSetup(ConstructionElementSetup constructionElementSetup) {
+	public void removeConstructionElementSetup(ConstructionElementSetup constructionElementSetup) {
 		constructionElementSetups.remove(constructionElementSetup);
 	}
 
@@ -808,7 +809,7 @@ public class Construction {
 	 * @param index index
 	 */
 	public void addToConstructionList(ConstructionElement ce, int index) {
-		constructionElementSetups.forEach(setup -> setup.setup(ce));
+		constructionElementSetups.forEach(setup -> setup.applyTo(ce));
 		++step;
 		ceList.add(index, ce);
 		updateConstructionIndex(index);

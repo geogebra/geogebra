@@ -13,7 +13,6 @@ import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -40,7 +39,8 @@ import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
  * of this class.
  * Restrictions that apply to all exam types should be implemented in this class
  * (in {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,
- * Localization, Settings, AutocompleteProvider, ToolsProvider, GeoElementPropertiesFactory)}).
+ * Localization, Settings, AutocompleteProvider, ToolsProvider, GeoElementPropertiesFactory,
+ * Construction, ScheduledPreviewFromInputBar)}).
  * <p/>
  * Any restrictions to be applied during exams should be implemented in here (so that
  * everything is one place):
@@ -249,10 +249,10 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			geoElementPropertyFilters.forEach(geoElementPropertiesFactory::addFilter);
 		}
 		if (construction != null) {
-			constructionElementSetups.forEach(construction::addGeoElementSetup);
+			constructionElementSetups.forEach(construction::addConstructionElementSetup);
 		}
 		if (scheduledPreviewFromInputBar != null) {
-			constructionElementSetups.forEach(scheduledPreviewFromInputBar::addGeoElementSetup);
+			constructionElementSetups.forEach(scheduledPreviewFromInputBar::addConstructionElementSetup);
 		}
 	}
 
@@ -318,10 +318,10 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			geoElementPropertyFilters.forEach(geoElementPropertiesFactory::removeFilter);
 		}
 		if (construction != null) {
-			constructionElementSetups.forEach(construction::removeGeoElementSetup);
+			constructionElementSetups.forEach(construction::removeConstructionElementSetup);
 		}
 		if (scheduledPreviewFromInputBar != null) {
-			constructionElementSetups.forEach(scheduledPreviewFromInputBar::removeGeoElementSetup);
+			constructionElementSetups.forEach(scheduledPreviewFromInputBar::removeConstructionElementSetup);
 		}
 	}
 
