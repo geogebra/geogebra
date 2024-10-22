@@ -106,11 +106,6 @@ public interface GeoGebraActivity {
 	ExportedApi getExportedApi();
 
 	/**
-	 * @return icon for menu
-	 */
-	SVGResource getExamIcon();
-
-	/**
 	 * mark search view was open before login
 	 */
 	void markSearchOpen();
