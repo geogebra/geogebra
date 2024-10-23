@@ -27,6 +27,8 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.ConstructionElementSetup;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.Settings;
@@ -283,7 +285,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 					// for equations
 					&& geoElement instanceof EquationValue
 					// that are non-linear
-					&& ((EquationValue) geoElement).getEquationVariables().length > 1
+					&& !(geoElement instanceof GeoLine || geoElement instanceof GeoPlaneND)
 					// with the exception of conics
 					&& !geoElement.isGeoConic()
 			);
@@ -317,7 +319,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 						// For every equation
 						geoElement instanceof EquationValue
 						// that are non-linear
-						&& ((EquationValue) geoElement).getEquationVariables().length > 1
+						&& !(geoElement instanceof GeoLine || geoElement instanceof GeoPlaneND)
 						// with the exception of conics
 						&& !geoElement.isGeoConic()
 				) {
