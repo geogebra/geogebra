@@ -118,7 +118,7 @@ public class FocusableWidget implements MayHaveFocus {
 
 	/**
 	 * Register this component to enable tabbing
-	 * @param app application
+	 * @param app Application
 	 */
 	public void attachTo(AppW app) {
 		app.getAccessibilityManager().register(this);
@@ -131,6 +131,14 @@ public class FocusableWidget implements MayHaveFocus {
 				}
 			});
 		}
+	}
+
+	/**
+	 * Unregister this component to disable tabbing
+	 * @param app Application
+	 */
+	public void detachFrom(AppW app) {
+		app.getAccessibilityManager().unregister(this);
 	}
 
 	@Override
