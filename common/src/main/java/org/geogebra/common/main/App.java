@@ -5224,4 +5224,16 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
 		// probably nothing to do here
 	}
+
+	/**
+	 * @return True if the Algebra View is currently focused, false else
+	 */
+	public boolean isAlgebraViewFocused() {
+		GuiManagerInterface guiManager = getGuiManager();
+		if (guiManager == null || guiManager.getLayout() == null
+				|| guiManager.getLayout().getDockManager() == null) {
+			return false;
+		}
+		return guiManager.getLayout().getDockManager().getFocusedViewId() == VIEW_ALGEBRA;
+	}
 }

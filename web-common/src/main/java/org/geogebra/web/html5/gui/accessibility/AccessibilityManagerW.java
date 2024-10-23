@@ -74,7 +74,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 				return true;
 			}
 		}
-
 		return focusFirstVisible(components.first());
 	}
 
