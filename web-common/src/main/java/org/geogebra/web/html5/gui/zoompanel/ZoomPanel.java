@@ -150,7 +150,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	/**
 	 * Handler that runs on exiting to fullscreen.
 	 */
-	void onExitFullscreen() {
+	public void onExitFullscreen() {
 		// we may have multiple zoom panels; if this one doesn't have FS button,
 		// it shouldn't handle FS
 		if (fullscreenBtn != null) {

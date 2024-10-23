@@ -62,6 +62,13 @@ public class FullScreenState {
 		container.getStyle().setProperty(propName, value);
 	}
 
+	/**
+	 * @return True if full screen is active, false else
+	 */
+	public boolean isFullScreenActive() {
+		return fullScreenActive;
+	}
+
 	protected void store(Element container, AppW app, double scale) {
 		String containerPositionBefore = container.getStyle()
 				.getPosition();
