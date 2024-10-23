@@ -119,9 +119,7 @@ public class ToolbarPanel extends FlowPanel
 	 * this.
 	 */
 	public void setMoveMode() {
-		if (tabTools != null) {
-			tabTools.setMoveMode();
-		}
+		app.setMoveMode();
 	}
 
 	/**
@@ -959,6 +957,7 @@ public class ToolbarPanel extends FlowPanel
 		if (!app.getConfig().hasSpreadsheetView()) {
 			return;
 		}
+		setMoveMode();
 		switchTab(TabIds.SPREADSHEET, fade);
 		dispatchEvent(EventType.SPREADSHEET_PANEL_SELECTED);
 	}
