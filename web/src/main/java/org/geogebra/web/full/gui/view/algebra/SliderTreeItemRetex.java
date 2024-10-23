@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 import org.gwtproject.core.client.Scheduler;
 
@@ -95,6 +96,12 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 				@Override
 				public void onClickEnd(int x, int y, PointerEventType type) {
 					getSliderController().storeUndoInfoIfChanged();
+				}
+			});
+			ClickStartHandler.init(getSlider(), new ClickStartHandler() {
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					getController().stopEdit();
 				}
 			});
 
