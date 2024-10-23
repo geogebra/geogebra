@@ -2119,7 +2119,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				&& getInputPosition() != InputPosition.algebraView) {
 			height += GLookAndFeel.COMMAND_LINE_HEIGHT;
 		}
-		if (getToolbar() != null && getToolbar().isShown()) {
+		if (showToolBar() && !isUnbundledOrWhiteboard()) {
 			height += GLookAndFeel.TOOLBAR_HEIGHT;
 		}
 		if (isWhiteboardActive()) {
@@ -2311,12 +2311,20 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public @Nonnull
-	KeyboardManager getKeyboardManager() {
+	public @Nonnull KeyboardManager getKeyboardManager() {
 		if (keyboardManager == null) {
 			keyboardManager = new KeyboardManager(this);
 		}
 		return keyboardManager;
+	}
+
+	/**
+	 * Updates the keyboard size
+	 */
+	public void resizeKeyboard() {
+		if (keyboardManager != null) {
+			keyboardManager.resizeKeyboard();
+		}
 	}
 
 	@Override
