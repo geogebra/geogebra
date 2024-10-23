@@ -45,7 +45,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 /**
  * Creates the list of properties for a GeoElement or for a list of GeoElements.
  */
-public class GeoElementPropertiesFactory {
+public final class GeoElementPropertiesFactory {
 	private final Set<GeoElementPropertyFilter> propertyFilters = new HashSet<>();
 
 	/**

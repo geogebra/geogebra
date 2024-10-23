@@ -110,6 +110,7 @@ final class TestExamRestrictions extends ExamRestrictions {
 			if (constructionElement instanceof GeoPoint) {
 				GeoPoint geoPoint = (GeoPoint) constructionElement;
 				geoPoint.setObjColor(GColor.RED);
+				geoPoint.setAlphaValue(1.0);
 			}
 		});
 	}

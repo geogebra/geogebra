@@ -282,7 +282,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 				app.getLocalization(),
 				List.of(new GeoPoint(app.getKernel().getConstruction()))));
 		// construction element setup
-		assertEquals(GColor.RED.deriveWithAlpha(0),
+		assertEquals(GColor.RED,
 				Arrays.stream(evaluate("(1, 1)")).findFirst().get().getFillColor());
 
 		examController.finishExam();
