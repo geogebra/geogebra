@@ -81,6 +81,11 @@ public final class AccessibilityManagerNoGui
 	}
 
 	@Override
+	public void unregister(MayHaveFocus focusable) {
+		// not needed
+	}
+
+	@Override
 	public void setTabOverGeos() {
 		app.getSelectionManager().resetKeyboardSelection();
 	}
@@ -103,4 +108,8 @@ public final class AccessibilityManagerNoGui
 		}
 	}
 
+	@Override
+	public void preloadAltText(GeoText geoText) {
+		// not used
+	}
 }

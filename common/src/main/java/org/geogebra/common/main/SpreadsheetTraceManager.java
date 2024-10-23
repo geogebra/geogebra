@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
-import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -19,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.SpreadsheetTraceable;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.spreadsheet.core.SelectionType;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.common.util.debug.Log;
 
@@ -161,7 +161,7 @@ public class SpreadsheetTraceManager {
 		// clearGeoTraceColumns(geo);
 		CopyPasteCut.delete(app, t.traceColumn1, t.traceRow1, t.traceColumn2,
 				app.getMaxSpreadsheetRowsVisible(),
-				MyTableInterface.CELL_SELECT);
+				SelectionType.CELLS);
 
 		addSpreadsheetTraceGeo(geo);
 	}
@@ -432,7 +432,7 @@ public class SpreadsheetTraceManager {
 
 		CopyPasteCut.delete(app, t.traceColumn1, row1, t.traceColumn2,
 				app.getMaxSpreadsheetRowsVisible(),
-				MyTableInterface.CELL_SELECT);
+				SelectionType.CELLS);
 		// t.tracingRow = t.traceRow1;
 		// t.lastTrace.clear();
 	}
@@ -925,7 +925,7 @@ public class SpreadsheetTraceManager {
 			// delete old cell geo
 			if (cell != null) {
 				CopyPasteCut.delete(app, column, row, column, row,
-						MyTableInterface.CELL_SELECT);
+						SelectionType.CELLS);
 			}
 
 			String cellName = GeoElementSpreadsheet
@@ -965,7 +965,7 @@ public class SpreadsheetTraceManager {
 		GeoElement cell = RelativeCopy.getValue(app, column, row);
 		if (cell != null) {
 			CopyPasteCut.delete(app, column, row, column, row,
-					MyTableInterface.CELL_SELECT);
+					SelectionType.CELLS);
 		}
 
 		try {

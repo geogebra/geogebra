@@ -9,6 +9,8 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.test.annotation.Issue;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -36,17 +38,17 @@ public class CellFormatTest {
 	@Test
 	@Issue("APPS-5552")
 	public void testGetCellFormatRange() {
-		CellRange fullRange = new CellRange(app, -1, -1, -1, -1);
-		CellFormat format = new CellFormat(null, app);
-		CellRange rectRange = new CellRange(app, 1, 2, 3, 4);
+		TabularRange fullRange = new TabularRange(-1, -1, -1, -1);
+		CellFormat format = new CellFormat(null);
+		TabularRange rectRange = new TabularRange(1, 2, 3, 4);
 		format.setFormat(fullRange, CellFormat.FORMAT_ALIGN, CellFormat.ALIGN_LEFT);
 		format.setFormat(rectRange, CellFormat.FORMAT_ALIGN, CellFormat.ALIGN_CENTER);
-		CellRange subrange = new CellRange(app, 1, 2, 1, 2);
+		TabularRange subrange = new TabularRange(1, 2, 1, 2);
 		assertThat(format.getCellFormat(subrange, CellFormat.FORMAT_ALIGN),
 				equalTo(CellFormat.ALIGN_CENTER));
-		CellRange superRange = new CellRange(app, 1, 2, 4, 5);
+		TabularRange superRange = new TabularRange(1, 2, 4, 5);
 		assertThat(format.getCellFormat(superRange, CellFormat.FORMAT_ALIGN), nullValue());
-		// in this case return value is not important, just
+		// in this case return value is not important, just check there is no runtime exception
 		assertThat(format.getCellFormat(fullRange, CellFormat.FORMAT_ALIGN),
 				equalTo(CellFormat.ALIGN_LEFT));
 	}

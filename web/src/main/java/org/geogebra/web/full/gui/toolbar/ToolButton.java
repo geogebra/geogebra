@@ -2,11 +2,11 @@ package org.geogebra.web.full.gui.toolbar;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.web.full.gui.app.GGWToolBar;
-import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.resources.SVGResourcePrototype;
 
 /**
  * @author csilla
@@ -25,7 +25,7 @@ public class ToolButton extends StandardButton {
 	 *            see {@link AppW}
 	 */
 	public ToolButton(int mode, AppW app) {
-		super(AppResources.INSTANCE.empty(), app.getToolName(mode), 24);
+		super(SVGResourcePrototype.EMPTY, app.getToolName(mode), 24);
 		this.mode = mode;
 		this.appW = app;
 		this.selectedColor = app.getGeoGebraElement().getPrimaryColor(app.getFrameElement());

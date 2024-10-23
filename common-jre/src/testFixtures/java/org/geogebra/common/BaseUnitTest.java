@@ -39,6 +39,7 @@ public class BaseUnitTest {
 	private Construction construction;
 	private AppCommon app;
 	private GeoElementFactory elementFactory;
+	private ErrorHandler errorHandler = TestErrorHandler.INSTANCE;
 	private static TypeSafeMatcher<GeoElementND> isDefined;
 
     /**
@@ -93,6 +94,15 @@ public class BaseUnitTest {
         return app;
     }
 
+	/**
+	 * Get the algebra processor.
+	 *
+	 * @return algebra processor
+	 */
+	protected AlgebraProcessor getAlgebraProcessor() {
+		return kernel.getAlgebraProcessor();
+	}
+
 	protected Settings getSettings() {
 		return app.getSettings();
 	}
@@ -115,6 +125,16 @@ public class BaseUnitTest {
 		return app.getLocalization();
 	}
 
+	/** Set the error handler used for processing algebra input */
+	protected void setErrorHandler(ErrorHandler errorHandler) {
+		this.errorHandler = errorHandler;
+	}
+
+	/** Resets the error handler to the original instance */
+	protected void resetErrorHandler() {
+		errorHandler = TestErrorHandler.INSTANCE;
+	}
+
 	/**
 	 * Use this method when you want to test the commands as if those were read from file.
 	 *
@@ -125,12 +145,8 @@ public class BaseUnitTest {
 	protected <T extends GeoElementND> T add(String command) {
 		GeoElementND[] geoElements =
 				getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(command, false,
-						TestErrorHandler.INSTANCE, false, null);
+						errorHandler, false, null);
 		return getFirstElement(geoElements);
-	}
-
-	private AlgebraProcessor getAlgebraProcessor() {
-		return getApp().getKernel().getAlgebraProcessor();
 	}
 
 	private <T extends GeoElementND> T getFirstElement(GeoElementND[] geoElements) {

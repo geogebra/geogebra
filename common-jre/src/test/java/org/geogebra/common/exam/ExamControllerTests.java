@@ -1,5 +1,7 @@
 package org.geogebra.common.exam;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -10,32 +12,40 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
+import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
-import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigProbability;
+import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.GlobalScope;
+import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
+import org.geogebra.test.annotation.Issue;
+import org.geogebra.test.commands.ErrorAccumulator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,11 +58,12 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	private CommandDispatcher previousCommandDispatcher;
 	private AlgebraProcessor algebraProcessor;
 	private SuiteSubApp currentSubApp;
+	private AutocompleteProvider autocompleteProvider;
 	private final List<ExamState> examStates = new ArrayList<>();
 	private boolean didRequestClearApps;
 	private boolean didRequestClearClipboard;
-	private SuiteSubApp didRequestSwitchToSubApp;
 	private Material activeMaterial;
+	private ErrorAccumulator errorAccumulator = new ErrorAccumulator();
 
 	@Before
 	public void setUp() {
@@ -68,8 +79,8 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examStates.clear();
 		didRequestClearApps = false;
 		didRequestClearClipboard = false;
-		didRequestSwitchToSubApp = null;
 		activeMaterial = null;
+		errorAccumulator.resetError();
 	}
 
 	// Helpers
@@ -79,9 +90,11 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		app = AppCommonFactory.create(createConfig(subApp));
 		algebraProcessor = app.getKernel().getAlgebraProcessor();
 		commandDispatcher = algebraProcessor.getCommandDispatcher();
+		autocompleteProvider = new AutocompleteProvider(app, false);
 		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization()),
 				app);
-		examController.setActiveContext(app, commandDispatcher, algebraProcessor);
+		examController.setActiveContext(app, commandDispatcher, algebraProcessor,
+				app.getLocalization(), app.getSettings(), autocompleteProvider, app);
 	}
 
 	private void switchApp(SuiteSubApp subApp) {
@@ -93,9 +106,11 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		activeMaterial = null;
 		algebraProcessor = app.getKernel().getAlgebraProcessor();
 		commandDispatcher = algebraProcessor.getCommandDispatcher();
+		autocompleteProvider = new AutocompleteProvider(app, false);
 		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization()),
 				app);
-		examController.setActiveContext(app, commandDispatcher, algebraProcessor);
+		examController.setActiveContext(app, commandDispatcher, algebraProcessor,
+				app.getLocalization(), app.getSettings(), autocompleteProvider, app);
 	}
 
 	private AppConfig createConfig(SuiteSubApp subApp) {
@@ -103,7 +118,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		case CAS:
 			return new AppConfigCas(GeoGebraConstants.SUITE_APPCODE);
 		case GRAPHING:
-			return new AppConfigGraphing(GeoGebraConstants.SUITE_APPCODE);
+			return new AppConfigUnrestrictedGraphing(GeoGebraConstants.SUITE_APPCODE);
 		case GEOMETRY:
 			return new AppConfigGeometry(GeoGebraConstants.SUITE_APPCODE);
 		case SCIENTIFIC:
@@ -119,7 +134,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	private GeoElementND[] evaluate(String expression) {
 		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(app, false);
 		return algebraProcessor.processAlgebraCommandNoExceptionHandling(
-				expression, false, null, evalInfo, null);
+				expression, false, errorAccumulator, evalInfo, null);
 	}
 
 	// State & duration
@@ -136,7 +151,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertEquals(List.of(ExamState.PREPARING), examStates);
 		assertFalse(didRequestClearApps);
 		assertFalse(didRequestClearClipboard);
-		assertNull(didRequestSwitchToSubApp);
 		assertNull(activeMaterial);
 	}
 
@@ -152,7 +166,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertEquals(Arrays.asList(ExamState.PREPARING, ExamState.ACTIVE), examStates);
 		assertTrue(didRequestClearApps);
 		assertTrue(didRequestClearClipboard);
-		assertNull(didRequestSwitchToSubApp);
 		assertNotNull(activeMaterial);
 	}
 
@@ -197,7 +210,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.finishExam();
 		didRequestClearApps = false;
 		didRequestClearClipboard = false;
-		didRequestSwitchToSubApp = null;
 		examController.exitExam();
 
 		assertNull(examController.getStartDate());
@@ -210,7 +222,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 				ExamState.IDLE), examStates);
 		assertTrue(didRequestClearApps);
 		assertTrue(didRequestClearClipboard);
-		assertNull(didRequestSwitchToSubApp);
 		assertNull(activeMaterial);
 	}
 
@@ -221,7 +232,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		setInitialApp(SuiteSubApp.CAS);
 		examController.prepareExam();
 		examController.startExam(ExamType.VLAANDEREN, null); // doesn't allow CAS
-		assertEquals(SuiteSubApp.GRAPHING, didRequestSwitchToSubApp);
+		assertEquals(SuiteSubApp.GRAPHING, currentSubApp);
 		assertNotNull(activeMaterial);
 	}
 
@@ -230,7 +241,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.startExam(ExamType.VLAANDEREN, null);
-		assertNull(didRequestSwitchToSubApp);
+		assertEquals(SuiteSubApp.GRAPHING, currentSubApp);
 		assertNotNull(activeMaterial);
 	}
 
@@ -254,12 +265,16 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		// property restrictions
 		Property angleUnit = propertiesRegistry.lookup("AngleUnit", app);
 		assertNotNull(angleUnit);
-		assertTrue("Angle unit should be frozen", angleUnit.isFrozen());
+		assertTrue(angleUnit.isFrozen());
+		assertEquals(List.of(Kernel.ANGLE_DEGREE, Kernel.ANGLE_RADIANT),
+				((NamedEnumeratedProperty<?>) angleUnit).getValues());
 
 		examController.finishExam();
 		assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
 		examController.exitExam();
 		assertTrue(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
+		assertFalse(examController
+				.isFeatureRestricted(ExamFeatureRestriction.DATA_TABLE_REGRESSION));
 	}
 
 	@Test
@@ -270,7 +285,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.setExamRestrictionsForTesting(
 				ExamRestrictions.forExamType(ExamType.BAYERN_CAS)); // only allows CAS app
 		examController.startExam(ExamType.BAYERN_CAS, null);
-		assertEquals(SuiteSubApp.CAS, didRequestSwitchToSubApp);
+		assertEquals(SuiteSubApp.CAS, currentSubApp);
 		assertNotNull(activeMaterial);
 	}
 
@@ -298,6 +313,90 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		GlobalScope.examController = examController;
 		LanguageProperty languageProperty = new LanguageProperty(app, app.getLocalization());
 		assertFalse(languageProperty.isEnabled()); // should be disabled during exam
+	}
+
+	@Test
+	public void testToolsExcludedDuringExam() {
+		setInitialApp(SuiteSubApp.GEOMETRY);
+		examController.prepareExam();
+		examController.setExamRestrictionsForTesting(
+				new TestExamRestrictions(ExamType.GENERIC));
+		examController.startExam(ExamType.GENERIC, null);
+
+		assertFalse(app.getAvailableTools().contains(EuclidianConstants.MODE_POINT));
+	}
+
+	@Test
+	public void testCommandArgumentFilter() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+		examController.prepareExam();
+		examController.setExamRestrictionsForTesting(
+				new TestExamRestrictions(ExamType.GENERIC));
+		examController.startExam(ExamType.GENERIC, null);
+
+		assertNull(evaluate("Max(1, 2)"));
+	}
+
+	@Test
+	public void testSyntaxFilter() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+		examController.prepareExam();
+		examController.setExamRestrictionsForTesting(
+				new TestExamRestrictions(ExamType.GENERIC));
+		examController.startExam(ExamType.GENERIC, null);
+
+		AutocompleteProvider provider = new AutocompleteProvider(app, false);
+		Optional<AutocompleteProvider.Completion> completion =
+				provider.getCompletions("Max").filter(it -> it.getCommand().equals("Max"))
+						.findFirst();
+		assertTrue(completion.isPresent());
+		assertEquals(1, completion.get().syntaxes.size());
+	}
+
+	@Test
+	@Issue("APPS-5912")
+	public void testCommandRestrictionsWhenStartingDifferentExams() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+
+		examController.prepareExam();
+		examController.startExam(ExamType.GENERIC, null);
+		assertNotNull(evaluate("f(x) = x"));
+		assertNotNull(evaluate("Derivative(f)"));
+		examController.finishExam();
+		examController.exitExam();
+
+		examController.prepareExam();
+		examController.startExam(ExamType.IB, null);
+		assertNotNull(evaluate("f(x) = x"));
+		assertNull(evaluate("Derivative(f)"));
+		examController.finishExam();
+		examController.exitExam();
+	}
+
+	@Test
+	public void testCvteExam() {
+		setInitialApp(SuiteSubApp.GEOMETRY);
+		examController.prepareExam();
+		examController.startExam(ExamType.CVTE, null);
+		// check syntax restrictions on CommandDispatcher
+		// - (indirectly) via checkIsAllowedByCommandArgumentFilters
+		evaluate("A=(1,1)");
+		evaluate("B=(2,2)");
+		GeoElementND[] circlePointPoint = evaluate("Circle(A, B)");
+		assertNull(circlePointPoint);
+		assertThat(errorAccumulator.getErrorsSinceReset(),
+				containsString("Illegal argument: Point B"));
+		errorAccumulator.resetError();
+		GeoElementND[] circlePointRadius = evaluate("Circle(A, 1)");
+		assertNotNull(circlePointRadius);
+		assertEquals("", errorAccumulator.getErrorsSinceReset());
+
+		// check tool restrictions
+		ToolCollection availableTools = app.getAvailableTools();
+		assertTrue(availableTools.contains(EuclidianConstants.MODE_MOVE));
+		assertFalse(availableTools.contains(EuclidianConstants.MODE_POINT));
+		assertTrue(commandDispatcher.isAllowedByCommandFilters(Commands.Curve));
+		assertTrue(commandDispatcher.isAllowedByCommandFilters(Commands.CurveCartesian));
 	}
 
 	@Test
@@ -339,7 +438,6 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 	@Override
 	public void examSwitchSubApp(SuiteSubApp subApp) {
-		didRequestSwitchToSubApp = subApp;
 		if (!subApp.equals(currentSubApp)) {
 			switchApp(subApp);
 		}

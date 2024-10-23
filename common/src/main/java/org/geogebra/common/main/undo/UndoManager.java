@@ -20,13 +20,14 @@ import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.spreadsheet.core.UndoProvider;
 
 import com.google.j2objc.annotations.Weak;
 
 /**
  * Undo manager common to Desktop and Web
  */
-public abstract class UndoManager {
+public abstract class UndoManager implements UndoProvider {
 
 	/**
 	 * maximum capacity of undo info list: you can undo MAX_CAPACITY - 1 steps
@@ -251,6 +252,7 @@ public abstract class UndoManager {
 	/**
 	 * Stores undo info
 	 */
+	@Override
 	final public void storeUndoInfo() {
 		storeUndoInfo(construction.getCurrentUndoXML(true));
 		storeUndoInfoNeededForProperties = false;

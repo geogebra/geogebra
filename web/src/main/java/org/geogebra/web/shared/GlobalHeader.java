@@ -3,9 +3,13 @@ package org.geogebra.web.shared;
 import static org.geogebra.common.gui.AccessibilityGroup.SIGN_IN_ICON;
 import static org.geogebra.common.gui.AccessibilityGroup.SIGN_IN_TEXT;
 
+import java.util.ArrayList;
+
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.exam.ExamController;
+import org.geogebra.common.exam.ExamListener;
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.main.undo.UndoRedoButtonsController;
@@ -46,7 +50,7 @@ import elemental2.dom.DomGlobal;
 /**
  * Singleton representing external header bar of unbundled apps.
  */
-public class GlobalHeader implements EventRenderable {
+public final class GlobalHeader implements EventRenderable, ExamListener {
 	/**
 	 * Singleton instance.
 	 */
@@ -60,9 +64,21 @@ public class GlobalHeader implements EventRenderable {
 	private StandardButton examInfoBtn;
 
 	private boolean shareButtonInitialized;
+	private ActionButton undoButton;
+	private ActionButton redoButton;
+	private ActionButton settingsButton;
 	private boolean assignButtonInitialized;
 	private @CheckForNull FlowPanel examTypeHolder;
 	private final ExamController examController = GlobalScope.examController;
+
+	private final ArrayList<FocusableWidget> focusableWidgets = new ArrayList<>();
+
+	/**
+	 * Singleton constructor
+	 */
+	private GlobalHeader() {
+		GlobalScope.examController.addListener(this);
+	}
 
 	/**
 	 * Activate sign in button in external header
@@ -272,55 +288,41 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	private void initSettingButtonIfOnHeader() {
-		ActionButton settingsButton = getActionButton("settingsButton");
-		if (settingsButton != null) {
-			setTitle(settingsButton, "Settings");
-			settingsButton.setAction(() -> app.getGuiManager().showSciSettingsView());
+		if (settingsButton == null) {
+			settingsButton = getActionButton("settingsButton", "Settings");
+			if (settingsButton != null) {
+				settingsButton.setAction(() -> app.getGuiManager().showSciSettingsView());
+			}
 		}
 	}
 
-	private void setTitle(ActionButton settingsButton, String string) {
-		settingsButton.setTitle(string);
-		app.getLocalization().registerLocalizedUI(settingsButton);
-	}
-
 	private void initUndoRedoButtonsIfOnHeader() {
-		ActionButton undoButton = getUndoButton();
-		ActionButton redoButton = getRedoButton();
-		if (undoButton != null && redoButton != null) {
-			UndoRedoButtonsController.addUndoRedoFunctionality(undoButton,
-					redoButton, app.getKernel());
+		if (undoButton == null || redoButton == null) {
+			undoButton = getUndoButton();
+			redoButton = getRedoButton();
+			if (undoButton != null && redoButton != null) {
+				UndoRedoButtonsController.addUndoRedoFunctionality(undoButton,
+						redoButton, app.getKernel());
+			}
 		}
 	}
 
 	private ActionButton getUndoButton() {
-		ActionButton undoButton = getActionButton("undoButton");
-		if (undoButton != null) {
-			setTitle(undoButton, "Undo");
-		}
-		return undoButton;
+		return getActionButton("undoButton", "Undo");
 	}
 
 	private ActionButton getRedoButton() {
-		ActionButton undoButton = getDisappearingActionButton("redoButton");
-		if (undoButton != null) {
-			setTitle(undoButton, "Redo");
-		}
-		return undoButton;
-	}
-
-	private ActionButton getActionButton(String viewId) {
-		RootPanel view = getViewById(viewId);
+		RootPanel view = getViewById("redoButton");
 		if (view != null) {
-			return new ActionButton(app, view);
+			return new DisappearingActionButton(app, view, "Redo");
 		}
 		return null;
 	}
 
-	private DisappearingActionButton getDisappearingActionButton(String viewId) {
+	private ActionButton getActionButton(String viewId, String title) {
 		RootPanel view = getViewById(viewId);
 		if (view != null) {
-			return new DisappearingActionButton(app, view);
+			return new ActionButton(app, view, title);
 		}
 		return null;
 	}
@@ -434,19 +436,6 @@ public class GlobalHeader implements EventRenderable {
 	}
 
 	/**
-	 * Update style of share button, NPE safe.
-	 *
-	 * @param selected
-	 *            whether to mark share button as selected
-	 */
-	public void selectShareButton(boolean selected) {
-		final RootPanel rp = getShareButton();
-		if (rp != null) {
-			Dom.toggleClass(rp, "selected", selected);
-		}
-	}
-
-	/**
 	 * Initialize without creating any buttons.
 	 *
 	 * @param app
@@ -502,7 +491,18 @@ public class GlobalHeader implements EventRenderable {
 
 	private void registerFocusable(AppW app, AccessibilityGroup group, Widget widget) {
 		if (widget != null && app != null) {
-			new FocusableWidget(group, null, widget).attachTo(app);
+			FocusableWidget focusableWidget = new FocusableWidget(group, null, widget);
+			focusableWidgets.add(focusableWidget);
+			focusableWidget.attachTo(app);
+		}
+	}
+
+	@Override
+	public void examStateChanged(ExamState newState) {
+		if (newState == ExamState.ACTIVE) {
+			focusableWidgets.forEach(widget -> widget.detachFrom(app));
+		} else if (newState == ExamState.FINISHED) {
+			focusableWidgets.forEach(widget -> widget.attachTo(app));
 		}
 	}
 }

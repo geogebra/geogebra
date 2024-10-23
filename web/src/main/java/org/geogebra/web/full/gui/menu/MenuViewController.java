@@ -139,6 +139,8 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	public void resetMenuOnAppSwitch(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
 		defaultDrawerMenuFactory = createDefaultMenuFactory(app, version);
+		examDrawerMenuFactory = new ExamDrawerMenuFactory(version, app.isSuite());
+		examDrawerMenuFactory.setCreatesExitExam(!app.isLockedExam());
 		if (!GlobalScope.examController.isExamActive()) {
 			setDefaultMenu();
 		} else {
@@ -184,7 +186,8 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	}
 
 	private boolean hasLoginButton(AppW app) {
-		return app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC
+		return (app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC
+				|| app.isSuite())
 				&& !app.isMebis()
 				&& app.enableOnlineFileFeatures();
 	}

@@ -63,9 +63,16 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	 */
 	public MathFieldEditor(App app, MathFieldListener listener) {
 		this(app);
-		createMathField(listener);
+		createMathField(listener, getDefaultModel());
 		mathField.getInputTextArea().getElement().setAttribute("data-test", "mathFieldTextArea");
 		main.getElement().setAttribute("data-test", "mathFieldEditor");
+	}
+
+	protected static MetaModel getDefaultModel() {
+		MetaModel model = new MetaModel();
+		model.enableSubstitutions();
+		model.setForceBracketAfterFunction(true);
+		return model;
 	}
 
 	/**
@@ -77,13 +84,10 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		this.frame = this.app.getAppletFrame();
 	}
 
-	protected void createMathField(MathFieldListener listener) {
+	protected void createMathField(MathFieldListener listener, MetaModel model) {
 		main = new KeyboardFlowPanel();
 		Canvas canvas = Canvas.createIfSupported();
 
-		MetaModel model = new MetaModel();
-		model.enableSubstitutions();
-		model.setForceBracketAfterFunction(true);
 		mathField = new MathFieldW(new SyntaxAdapterImplWithPaste(kernel), main,
 				canvas, listener, model);
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
@@ -155,9 +159,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	}
 
 	/**
-	 * Scroll content horizontally if needed.
+	 * Scroll horizontally if needed to bring the cursor into view.
 	 */
-	public void scrollHorizontally() {
+	public void scrollCursorVisibleHorizontally() {
 		mathField.scrollParentHorizontally(main);
 	}
 
@@ -382,7 +386,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	}
 
 	public void adjustCaret(double x, double y) {
-		mathField.adjustCaret((int) x, (int) y);
+		mathField.adjustCaret((int) x, (int) y, 1);
 	}
 
 	public void selectEntryAt(int x, int y) {

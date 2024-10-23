@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.EnglishCommandFilter;
 import org.geogebra.common.plugin.Operation;
 
 final class VlaanderenExamRestrictions extends ExamRestrictions {
@@ -19,8 +18,12 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 				Set.of(SuiteSubApp.CAS),
 				SuiteSubApp.GRAPHING,
 				null,
-				VlaanderenExamRestrictions.createExpressionFilters(),
-				VlaanderenExamRestrictions.createCommandFilters(),
+				createExpressionFilters(),
+				createExpressionFilters(),
+				createCommandFilters(),
+				null,
+				null,
+				null,
 				null,
 				null);
 	}
@@ -31,7 +34,7 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 				Commands.IntegralSymbolic, Commands.IntegralBetween, Commands.NIntegral,
 				Commands.Solve, Commands.SolveQuartic, Commands.SolveODE, Commands.SolveCubic,
 				Commands.Solutions, Commands.NSolve, Commands.NSolveODE, Commands.NSolutions);
-		return Set.of(new EnglishCommandFilter(nameFilter));
+		return Set.of(nameFilter);
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters() {

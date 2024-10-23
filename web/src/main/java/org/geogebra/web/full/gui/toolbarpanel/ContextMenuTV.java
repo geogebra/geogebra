@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.gui.view.table.RegressionSpecification;
 import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValuesPoints;
@@ -36,9 +37,6 @@ import org.gwtproject.user.client.ui.InlineHTML;
 
 /**
  * Context menu which is opened with the table of values header 3dot button
- * 
- * @author csilla
- *
  */
 public class ContextMenuTV {
 	private final TableValuesView view;
@@ -128,10 +126,13 @@ public class ContextMenuTV {
 		addStats(getStatisticsTitleHTML("x " + headerHTMLName),
 				view::getStatistics2Var, twoVarStat, "StatsDialog.NoDataMsg2VarStats");
 
-		DialogData regressionData = new DialogData("Regression",
-				getColumnTitleHTML(headerHTMLName), "Close", "Plot");
-		addCommand(() -> showRegression(regressionData), "Regression",
-				"regression");
+		if (!GlobalScope.examController
+				.isFeatureRestricted(ExamFeatureRestriction.DATA_TABLE_REGRESSION)) {
+			DialogData regressionData = new DialogData("Regression",
+					getColumnTitleHTML(headerHTMLName), "Close", "Plot");
+			addCommand(() -> showRegression(regressionData), "Regression",
+					"regression");
+		}
 	}
 
 	private void addOneVarStats(String headerHTMLName) {

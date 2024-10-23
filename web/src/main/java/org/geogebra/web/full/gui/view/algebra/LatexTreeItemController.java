@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import java.util.HashMap;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -35,7 +34,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 */
 	public LatexTreeItemController(RadioTreeItem item) {
 		super(item);
-		evalInput = new EvaluateInput(item, this);
+		evalInput = new EvaluateInput(item, this, item.getAV().getSelectionCallback());
 		evalInput.setUsingValidInput(app.getActivity().useValidInput());
 	}
 
@@ -157,11 +156,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 		return false;
 	}
 
-	@Override
-	public void onInsertString() {
-		// nothing to do
-	}
-
 	/**
 	 * @return whether suggestions are open
 	 */
@@ -250,8 +244,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 */
 	AutoCompletePopup getAutocompletePopup() {
 		if (autocomplete == null) {
-			boolean forCas = getApp().getConfig().getVersion() == GeoGebraConstants.Version.CAS;
-			autocomplete = new AutoCompletePopup(app, forCas, item);
+			autocomplete = new AutoCompletePopup(app, app.getAutocompleteProvider(), item);
 		}
 		return autocomplete;
 	}
@@ -263,8 +256,11 @@ public class LatexTreeItemController extends RadioTreeItemController
 			return true;
 		}
 		if (item.geo != null || StringUtil.empty(item.getText())) {
+			boolean isAlgebraViewFocused = app.isAlgebraViewFocused();
 			onBlur(null);
-
+			if (isAlgebraViewFocused) {
+				setAlgebraViewAsFocusedPanel();
+			}
 			return true;
 		}
 		return false;

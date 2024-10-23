@@ -734,6 +734,10 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().removeMultiuserSelections(clientId);
 	}
 
+	public void setLabelSuffixForMultiuser(int labelPrefixIndex) {
+		getGgbAPI().setLabelSuffixForMultiuser(labelPrefixIndex);
+	}
+
 	// APPS-646 deprecated, needs changing to getValue("correct")
 	public double getExerciseFraction() {
 		return getGgbAPI().getExerciseFraction();
@@ -1117,6 +1121,15 @@ public class DefaultExportedApi implements ExportedApi {
 	public Object getFileLoadingError() {
 		return getGgbAPI().getFileLoadingError();
 	}
+
+	public void exitFullScreen() {
+		getGgbAPI().exitFullScreen();
+	}
+
+	public boolean isFullScreenActive() {
+		return getGgbAPI().isFullScreenActive();
+	}
+
 	private GgbAPIW getGgbAPI() {
 		if (ggbAPI == null) {
 			throw new IllegalStateException("app was already removed");

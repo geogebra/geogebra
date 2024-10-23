@@ -67,7 +67,7 @@ public class GeoVideo extends GeoMedia {
 	 */
 	public GeoVideo(Construction c, String url, MediaFormat format) {
 		super(c, url, format);
-		setLabel("video");
+		setLabel("video" + c.getLabelManager().getMultiuserSuffix());
 		setSize(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_WIDTH : -1,
 				format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_HEIGHT : -1);
 	}

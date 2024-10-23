@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.web.html5.main.AppW;
@@ -48,35 +49,35 @@ public class SpreadsheetToolbarManagerW {
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
 			//if(!app.getSelectedGeos().isEmpty() && prevMode == mode){
-			if (!table.getSelectedCellRanges().get(0).isEmpty()) {
+			if (!CellRangeUtil.isEmpty(table.getFirstSelection(), app)) {
 				openDialog(CreateObjectModel.TYPE_LIST);
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS:
 			if (table.getCellRangeProcessor()
-					.isCreatePointListPossible(table.getSelectedCellRanges())) {
+					.isCreatePointListPossible(table.getSelectedRanges())) {
 				openDialog(CreateObjectModel.TYPE_LISTOFPOINTS);
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX:
 			if (table.getCellRangeProcessor()
-					.isCreateMatrixPossible(table.getSelectedCellRanges())) {
+					.isCreateMatrixPossible(table.getSelectedRanges())) {
 				openDialog(CreateObjectModel.TYPE_MATRIX);
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT:
 			if (table.getCellRangeProcessor()
-					.isCreateMatrixPossible(table.getSelectedCellRanges())) {
+					.isCreateMatrixPossible(table.getSelectedRanges())) {
 				openDialog(CreateObjectModel.TYPE_TABLETEXT);
 			}
 			break;
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE:
 			if (table.getCellRangeProcessor()
-					.isCreatePointListPossible(table.getSelectedCellRanges())) {
+					.isCreatePointListPossible(table.getSelectedRanges())) {
 				openDialog(CreateObjectModel.TYPE_POLYLINE);
 			}
 			break;

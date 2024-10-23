@@ -43,6 +43,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.zoompanel.ZoomController;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.AnimationExporter;
@@ -892,6 +893,21 @@ public class GgbAPIW extends GgbAPI {
 		MultiuserManager.INSTANCE.deselect(app, clientId);
 	}
 
+	/**
+	 * Sets a suffix that is used to label objects within multiuser<br/>
+	 * Calling this method with an argument < 0 resets the label prefix
+	 * @param labelPrefixIndex Index
+	 */
+	public void setLabelSuffixForMultiuser(int labelPrefixIndex) {
+		String labelPrefix = "";
+		int index = labelPrefixIndex;
+		while (index > 0) {
+			labelPrefix = (char) ('a' + (index - 1) % 26) + labelPrefix;
+			index = (index - 1) / 26;
+		}
+		construction.getLabelManager().setMultiuserSuffix(labelPrefix);
+	}
+
 	public void asyncEvalCommand(String command, ResolveCallbackFn<String> onSuccess,
 			RejectCallbackFn onFailure) {
 		((AppW) app).getAsyncManager().asyncEvalCommand(command, onSuccess, onFailure);
@@ -1360,5 +1376,23 @@ public class GgbAPIW extends GgbAPI {
 
 	public Object getFileLoadingError() {
 		return this.fileLoadingError;
+	}
+
+	/**
+	 * If this app is in fullscreen mode (emulated or native), leave that mode
+	 */
+	public void exitFullScreen() {
+		AppW appW = (AppW) app;
+		if (isFullScreenActive()) {
+			if (ZoomController.useEmulatedFullscreen(appW) && appW.getZoomPanel() != null) {
+				appW.getZoomPanel().onExitFullscreen();
+			} else {
+				Browser.toggleFullscreen(false, null);
+			}
+		}
+	}
+
+	public boolean isFullScreenActive() {
+		return ((AppW) app).getFullscreenState().isFullScreenActive();
 	}
 }

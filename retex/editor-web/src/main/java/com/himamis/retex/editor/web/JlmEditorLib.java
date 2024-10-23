@@ -42,11 +42,6 @@ public class JlmEditorLib extends JlmLib {
 					}
 
 					@Override
-					public void onInsertString() {
-						// TODO Auto-generated method stub
-					}
-
-					@Override
 					public boolean onEscape() {
 						// TODO Auto-generated method stub
 						return false;

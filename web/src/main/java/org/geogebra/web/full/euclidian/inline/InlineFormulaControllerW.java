@@ -206,11 +206,6 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		}
 
 		@Override
-		public void onInsertString() {
-			// do nothing
-		}
-
-		@Override
 		public boolean onEscape() {
 			app.hideKeyboard();
 			app.getAccessibilityManager().focusGeo(formula);

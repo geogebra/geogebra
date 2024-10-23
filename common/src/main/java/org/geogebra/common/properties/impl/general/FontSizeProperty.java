@@ -1,5 +1,12 @@
 package org.geogebra.common.properties.impl.general;
 
+import static java.util.Map.entry;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
@@ -30,17 +37,12 @@ public class FontSizeProperty extends AbstractNamedEnumeratedProperty<Integer> {
 	}
 
 	private void setupValues(Localization localization) {
-		Integer[] values = new Integer[Util.menuFontSizesLength()];
-		for (int i = 0; i < Util.menuFontSizesLength(); i++) {
-			values[i] = Util.menuFontSizes(i);
-		}
-		setValues(values);
-
-		String[] valueNames = new String[values.length];
-		for (int i = 0; i < values.length; i++) {
-			valueNames[i] = localization.getPlain("Apt", Integer.toString(values[i]));
-		}
-		setValueNames(valueNames);
+		List<Map.Entry<Integer, String>> values = IntStream.range(0, Util.menuFontSizesLength())
+				.boxed()
+				.map(fontIndex -> entry(Util.menuFontSizes(fontIndex), localization
+						.getPlain("Apt", String.valueOf(Util.menuFontSizes(fontIndex)))))
+				.collect(Collectors.toList());
+		setNamedValues(values);
 	}
 
 	@Override

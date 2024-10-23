@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.gwtproject.dom.client.Element;
 
@@ -165,6 +166,8 @@ public class PointerEventHandler {
 			return;
 		}
 		setCapture(element);
+		// APPS-5639 In mobile Safari copy only works from pointerup: collect now & run later
+		CopyPasteW.startCollectingCopyCalls();
 		if (first != null && second != null) {
 			third = new PointerState(e);
 			return;
@@ -208,6 +211,7 @@ public class PointerEventHandler {
 		}
 		singleUp(convertEvent(event));
 		setPointerType(event.getPointerType(), false);
+		CopyPasteW.stopCollectingCopyCalls();
 	}
 
 	private void onPointerOut(NativePointerEvent event) {
