@@ -338,22 +338,35 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 
 	/**
 	 * Submenu is placed to the left by default,
-	 * to the right if it would go offscreen.
-	 * @return x where submenu should placed
+	 * to the right if it would go off-screen.
+	 * @return x where submenu should be placed
 	 */
 	private int getPopupXCoord() {
-		int xCoord = getRightSubPopupXCord();
-		int leftMargin = app.getAppletFrame().getAbsoluteLeft()
-					+ app.getAppletFrame().getOffsetWidth();
-		return (xCoord + getSubPopupWidth()
-				> leftMargin)
-				? getLeftSubPopupXCord() : xCoord;
+		int xCoordRightSide = getRightSubPopupXCord();
+		int rightSideMargin = app.getAppletFrame().getOffsetWidth();
+		int spaceOnTheRightSide = rightSideMargin - xCoordRightSide;
+
+		int xCoordLeftSide = getLeftSubPopupXCord();
+		int spaceOnTheLeftSide = (int) ((getPopupLeft()
+				- app.getAppletFrame().getAbsoluteLeft()) / getScaleX());
+
+		if (spaceOnTheRightSide >= getSubPopupWidth()) {
+			return xCoordRightSide;
+		} else if (spaceOnTheLeftSide >= getSubPopupWidth()) {
+			return xCoordLeftSide;
+		} else {
+			if (spaceOnTheRightSide >= spaceOnTheLeftSide) {
+				return Math.max(rightSideMargin - getSubPopupWidth(), 0);
+			} else {
+				return Math.max(xCoordLeftSide, 0);
+			}
+		}
 	}
 
 	/**
 	 * Submenu is placed to the right by default,
-	 * to the left if it would go offscreen. (RTL)
-	 * @return x where submenu should placed
+	 * to the left if it would go off-screen. (RTL)
+	 * @return x where submenu should be placed
 	 */
 	private int getPopupXCoordRTL() {
 		return getLeftSubPopupXCord() < 0 ? getRightSubPopupXCord() : getLeftSubPopupXCord();
