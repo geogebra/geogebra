@@ -31,7 +31,7 @@ public class CasPropertiesFactory extends DefaultPropertiesFactory {
 						new FontSizeProperty(
 								localization,
 								settings.getFontSettings(),
-								app.getSettingsUpdater().getFontSettingsUpdater()),
+								app.getFontSettingsUpdater()),
 						new LanguageProperty(app, localization)));
 	}
 }

@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 
 import java.util.List;
 
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.NotesToolbox;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -20,9 +21,10 @@ public class IconButtonWithMenu extends IconButton {
 	 * @param ariaLabel - aria label
 	 * @param tools - list of tools showing in the popup
 	 * @param deselectButtons - deselect button callback
+	 * @param toolbox - notes toolbox
 	 */
 	public IconButtonWithMenu(AppW appW, SVGResource icon, String ariaLabel,
-			List<Integer> tools, Runnable deselectButtons) {
+			List<Integer> tools, Runnable deselectButtons, NotesToolbox toolbox) {
 		super(appW, icon, ariaLabel, ariaLabel, "", () -> {}, null);
 		this.appW = appW;
 		this.tools = tools;
@@ -30,14 +32,14 @@ public class IconButtonWithMenu extends IconButton {
 		AriaHelper.setAriaHasPopup(this);
 		addFastClickHandler((event) -> {
 			deselectButtons.run();
-			initPopupAndShow();
-			addCloseHandler();
+			initPopupAndShow(toolbox);
 		});
 	}
 
-	private void initPopupAndShow() {
+	private void initPopupAndShow(NotesToolbox toolbox) {
 		if (iconButtonPopup == null) {
 			iconButtonPopup = new CategoryMenuPopup(appW, tools);
+			addCloseHandler(toolbox);
 		}
 
 		showHideMenu();
@@ -52,15 +54,15 @@ public class IconButtonWithMenu extends IconButton {
 	private void showHideMenu() {
 		if (getPopup().isShowing()) {
 			iconButtonPopup.hide();
-			appW.setMode(appW.getMode());
 		} else {
 			ToolboxPopupPositioner.showRelativeToToolbox(getPopup(), this, appW);
 		}
 	}
 
-	private void addCloseHandler() {
+	private void addCloseHandler(NotesToolbox toolbox) {
 		iconButtonPopup.getPopupPanel().addCloseHandler(e -> {
 			deactivate();
+			toolbox.onModeChange(appW.getMode());
 			AriaHelper.setAriaExpanded(this, false);
 		});
 	}

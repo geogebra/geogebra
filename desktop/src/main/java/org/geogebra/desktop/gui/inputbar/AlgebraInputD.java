@@ -342,7 +342,9 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		case KeyEvent.VK_C:
 		case KeyEvent.VK_X:
 		case KeyEvent.VK_V:
-			// make sure eg Ctrl-A not passed on
+		case KeyEvent.VK_SPACE:
+			// do not use global handling for Ctrl-A/C/X/V (selection,clipboard)
+			// and <space> (animation)
 			return;
 		case KeyEvent.VK_ENTER:
 			onEnterPressed(true);

@@ -13,8 +13,7 @@ import org.geogebra.common.plugin.GeoClass;
 public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextFormatter,
 		HasVerticalAlignment {
 
-	public static final double MIN_WIDTH = 200;
-
+	public static final double DEFAULT_WIDTH = 200;
 	public static final double ROOT_HEIGHT = 72;
 	public static final double CHILD_HEIGHT = 48;
 	private boolean parentPending = false;
@@ -65,7 +64,7 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 		super(cons);
 		setLocation(location);
 		setLineThickness(1);
-		setContentWidth(MIN_WIDTH);
+		setContentWidth(DEFAULT_WIDTH);
 		setContentHeight(ROOT_HEIGHT);
 		setContent("[{\"text\":\"\\n\",\"align\":\"center\"}]");
 	}
@@ -149,12 +148,12 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 
 	@Override
 	public double getMinWidth() {
-		return MIN_WIDTH;
+		return GeoInlineText.MIN_WIDTH;
 	}
 
 	@Override
 	public double getMinHeight() {
-		return Math.max(minHeight, parent == null ? ROOT_HEIGHT : CHILD_HEIGHT);
+		return Math.max(minHeight, GeoInlineText.MIN_HEIGHT);
 	}
 
 	@Override

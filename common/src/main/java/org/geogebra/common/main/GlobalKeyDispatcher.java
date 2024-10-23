@@ -460,7 +460,7 @@ public abstract class GlobalKeyDispatcher {
 
 					ArrayList<GeoElement> selectedGeos = app
 							.getSelectionManager().getSelectedGeos();
-					if (selectedGeos != null && selectedGeos.size() > 0) {
+					if (selectedGeos != null && !selectedGeos.isEmpty()) {
 
 						GeoElement geo = selectedGeos.get(0);
 						DrawableND drawable = view.getDrawableFor(geo);
@@ -477,10 +477,15 @@ public abstract class GlobalKeyDispatcher {
 							GPoint p = new GPoint((int) bounds.getMinX(),
 									(int) bounds.getMinY());
 
-							app.getGuiManager().showPopupChooseGeo(
-									app.getSelectionManager().getSelectedGeos(),
-									app.getSelectionManager().getSelectedGeoList(),
-									app.getActiveEuclidianView(), p);
+							GuiManagerInterface guiManager = app.getGuiManager();
+							if (isFocusOnAlgebraView()) {
+								guiManager.openMenuInAVFor(geo);
+							} else {
+								guiManager.showPopupChooseGeo(
+										selectedGeos,
+										app.getSelectionManager().getSelectedGeoList(),
+										app.getActiveEuclidianView(), p);
+							}
 						}
 					} else {
 						// open in corner
@@ -503,6 +508,11 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		return consumed;
+	}
+
+	private boolean isFocusOnAlgebraView() {
+		return app.getGuiManager().getLayout().getDockManager().getFocusedViewId()
+				== App.VIEW_ALGEBRA;
 	}
 
 	protected boolean handleTabDesktop(boolean isControlDown, boolean isShiftDown) {
@@ -613,9 +623,7 @@ public abstract class GlobalKeyDispatcher {
 		case A:
 			if (isShiftDown) {
 				if (app.isUsingFullGui() && app.getGuiManager() != null) {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(App.VIEW_ALGEBRA),
-							App.VIEW_ALGEBRA);
+					toggleAlgebraView();
 					consumed = true;
 				}
 			} else {
@@ -670,12 +678,6 @@ public abstract class GlobalKeyDispatcher {
 			}
 			consumed = true;
 
-			break;
-		case T: // File -> Export -> PSTricks
-			if (isShiftDown && app.getGuiManager() != null) {
-				app.getGuiManager().showPSTricksExport();
-				consumed = true;
-			}
 			break;
 		case W: // File -> Export -> Webpage
 			if (isShiftDown && app.getGuiManager() != null) {
@@ -764,9 +766,7 @@ public abstract class GlobalKeyDispatcher {
 		// Ctrl + E: open object properties (needed here for spreadsheet)
 		case E:
 			if (app.isUsingFullGui() && app.getGuiManager() != null) {
-				app.getGuiManager().setShowView(
-						!app.getGuiManager().showView(App.VIEW_PROPERTIES),
-						App.VIEW_PROPERTIES, false);
+				app.getDialogManager().togglePropertiesView();
 			}
 			consumed = true;
 			break;
@@ -802,14 +802,12 @@ public abstract class GlobalKeyDispatcher {
 			}
 			consumed = true;
 			break;
-
 		case U:
 			if (isShiftDown && app.getGuiManager() != null) {
-				app.getGuiManager().showGraphicExport();
+				toggleTableView();
 				consumed = true;
 			}
 			break;
-
 		case V:
 			// check not spreadsheet, not inputbar
 			if (!fromSpreadsheet) {
@@ -948,6 +946,19 @@ public abstract class GlobalKeyDispatcher {
 			break;
 		}
 		return consumed;
+	}
+
+	private void toggleAlgebraView() {
+		// if there is no EV we cannot really close the side panel
+		if (app.getConfig().hasEuclidianView()) {
+			app.getGuiManager().setShowView(
+					!app.getGuiManager().showView(App.VIEW_ALGEBRA),
+					App.VIEW_ALGEBRA);
+		}
+	}
+
+	protected void toggleTableView() {
+		// web only
 	}
 
 	private boolean isUndoRedoEnabled() {
@@ -1216,7 +1227,7 @@ public abstract class GlobalKeyDispatcher {
 			base = 100;
 		}
 
-		if (geos == null || geos.size() == 0) {
+		if (geos == null || geos.isEmpty()) {
 			return moveCoordSystem(key, base, isShiftDown);
 		}
 
@@ -1272,6 +1283,15 @@ public abstract class GlobalKeyDispatcher {
 			if (!isControlDown
 					&& (!app.isApplet() || keyboardShortcutsEnabled())) {
 				app.splitAndDeleteSelectedObjects();
+				return true;
+			}
+			break;
+
+		case CONTEXT_MENU:
+		case F10:
+			if ((isShiftDown || key == KeyCodes.CONTEXT_MENU) && keyboardShortcutsEnabled()
+					&& app.isAlgebraViewFocused()) {
+				app.getGuiManager().openMenuInAVFor(geos.get(0));
 				return true;
 			}
 			break;

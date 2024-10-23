@@ -134,8 +134,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		@Override
 		public void onBrowserEvent(Event event) {
 			if (CopyPasteW.incorrectTarget(event.getEventTarget().cast())
-					&& !isGlobalEvent(event)) {
-				return;
+						&& !isGlobalEvent(event)) {
+					return;
 			}
 
 			if (DOM.eventGetType(event) == Event.ONKEYDOWN) {
@@ -159,11 +159,11 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				handleIosKeyboard((char) event.getCharCode());
 				handled = true;
 			}
-			if (event.getCtrlKey()) {
-				handled = handleCtrlKeys(KeyCodes.translateGWTcode(event.getKeyCode()),
+			if (isControlKeyDown(event)) {
+				handled = handleCtrlKeys(NavigatorUtil.translateGWTcode(event.getKeyCode()),
 						event.getShiftKey(), false, true);
 			}
-			KeyCodes kc = KeyCodes.translateGWTcode(event.getKeyCode());
+			KeyCodes kc = NavigatorUtil.translateGWTcode(event.getKeyCode());
 			if (kc == KeyCodes.TAB) {
 				if (!escPressed) {
 					handled = handleTab(event.getShiftKey());
@@ -182,6 +182,15 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			}
 			return handled;
 		}
+	}
+
+	@Override
+	protected void toggleTableView() {
+		if (!app.getConfig().hasTableView()) {
+			return;
+		}
+
+		((GuiManagerInterfaceW) app.getGuiManager()).toggleTableValuesView();
 	}
 
 	private void handleCtrlAltX() {
@@ -211,7 +220,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	@Override
 	public void onKeyPress(KeyPressEvent event) {
 		setDownKeys(event);
-		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeEvent()
+		KeyCodes kc = NavigatorUtil.translateGWTcode(event.getNativeEvent()
 				.getKeyCode());
 		// Do not prevent default for the v key, otherwise paste events are not fired
 		if (kc != KeyCodes.TAB && event.getCharCode() != 'v'
@@ -240,7 +249,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 *            event
 	 */
 	public void handleGeneralKeys(KeyUpEvent event) {
-		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
+		KeyCodes kc = NavigatorUtil.translateGWTcode(event.getNativeKeyCode());
 
 		boolean handled = handleGeneralKeys(kc,
 				event.isShiftKeyDown(),
@@ -252,8 +261,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	}
 
 	private static boolean isControlKeyDown(NativeEvent event) {
-		return event.getCtrlKey()
-				|| (NavigatorUtil.isMacOS() || NavigatorUtil.isiOS()) && event.getMetaKey();
+		return (NavigatorUtil.isMacOS() || NavigatorUtil.isiOS()) ? event.getMetaKey()
+				: event.getCtrlKey();
 	}
 
 	/**
@@ -264,7 +273,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 */
 	public boolean handleSelectedGeosKeys(NativeEvent event) {
 		return handleSelectedGeosKeys(
-				KeyCodes.translateGWTcode(event
+				NavigatorUtil.translateGWTcode(event
 						.getKeyCode()), selection.getSelectedGeos(),
 				event.getShiftKey(), event.getCtrlKey(), event.getAltKey(),
 				false);
@@ -272,7 +281,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
-		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
+		KeyCodes kc = NavigatorUtil.translateGWTcode(event.getNativeKeyCode());
 		setDownKeys(event);
 
 		boolean handled = handleSelectedGeosKeys(event.getNativeEvent());

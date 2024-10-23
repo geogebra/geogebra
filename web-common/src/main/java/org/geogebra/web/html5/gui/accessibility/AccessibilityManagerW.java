@@ -74,7 +74,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 				return true;
 			}
 		}
-
 		return focusFirstVisible(components.first());
 	}
 
@@ -136,6 +135,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	public void register(MayHaveFocus focusable) {
 		components.removeIf(c -> componentComparator.compare(focusable, c) == 0);
 		components.add(focusable);
+	}
+
+	@Override
+	public void unregister(MayHaveFocus focusable) {
+		components.removeIf(c -> componentComparator.compare(focusable, c) == 0);
 	}
 
 	@Override

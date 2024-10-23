@@ -39,9 +39,8 @@ public class FocusableWidget implements MayHaveFocus {
 	public boolean focusIfVisible(boolean reverse) {
 		Widget btn = btns[0];
 		if (btn.isVisible() && btn.isAttached()
-				&& !"true".equals(btn.getElement().getAttribute("aria-hidden"))
-				&& !btn.getElement().hasClassName("hideButton")
-				&& !btn.getElement().getStyle().getVisibility().equals("hidden")
+				&& notAriaHidderOrAriaDisabled(btn)
+				&& isButtonNotHidden(btn)
 				&& isParentVisible(btn)) {
 			if (reverse) {
 				focus(btns[btns.length - 1]);
@@ -52,6 +51,16 @@ public class FocusableWidget implements MayHaveFocus {
 		}
 
 		return false;
+	}
+
+	private boolean notAriaHidderOrAriaDisabled(Widget btn) {
+		return !"true".equals(btn.getElement().getAttribute("aria-hidden"))
+				&& !"true".equals(btn.getElement().getAttribute("aria-disabled"));
+	}
+
+	private boolean isButtonNotHidden(Widget btn) {
+		return !btn.getElement().hasClassName("hideButton")
+				&& !btn.getElement().getStyle().getVisibility().equals("hidden");
 	}
 
 	private boolean isParentVisible(Widget btn) {
@@ -109,7 +118,7 @@ public class FocusableWidget implements MayHaveFocus {
 
 	/**
 	 * Register this component to enable tabbing
-	 * @param app application
+	 * @param app Application
 	 */
 	public void attachTo(AppW app) {
 		app.getAccessibilityManager().register(this);
@@ -122,6 +131,14 @@ public class FocusableWidget implements MayHaveFocus {
 				}
 			});
 		}
+	}
+
+	/**
+	 * Unregister this component to disable tabbing
+	 * @param app Application
+	 */
+	public void detachFrom(AppW app) {
+		app.getAccessibilityManager().unregister(this);
 	}
 
 	@Override

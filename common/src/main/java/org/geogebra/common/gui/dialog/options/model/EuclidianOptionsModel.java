@@ -605,31 +605,4 @@ public class EuclidianOptionsModel {
 		EuclidianSettings settings = view.getSettings();
 		settings.setBackgroundType(type);
 	}
-
-	public String getTransKeyForRulingType(BackgroundType rulingType) {
-		switch (rulingType) {
-			case RULER:
-				return "Ruled";
-			case SQUARE_SMALL:
-				return "Squared5";
-			case SQUARE_BIG:
-				return "Squared1";
-			case ELEMENTARY12:
-				return "Elementary12";
-			case ELEMENTARY12_COLORED:
-				return "Elementary12Colored";
-			case ELEMENTARY12_HOUSE:
-				return "Elementary12WithHouse";
-			case ELEMENTARY34:
-				return "Elementary34";
-			case MUSIC:
-				return "Music";
-			case ISOMETRIC:
-				return "Isometric";
-			case POLAR:
-				return "Polar";
-			default:
-				return "NoRuling";
-		}
-	}
 }

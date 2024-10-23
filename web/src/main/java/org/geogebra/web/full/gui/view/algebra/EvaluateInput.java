@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.view.algebra;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
+import org.geogebra.common.gui.view.algebra.GeoSelectionCallback;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -10,6 +11,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.AsyncManager;
 import org.gwtproject.core.client.Scheduler;
 
 /**
@@ -19,6 +22,7 @@ import org.gwtproject.core.client.Scheduler;
  *
  */
 public class EvaluateInput {
+	private final GeoSelectionCallback selectionCallback;
 	RadioTreeItem item;
 	App app;
 	RadioTreeItemController ctrl;
@@ -30,11 +34,13 @@ public class EvaluateInput {
 	 * @param item to evaluate.
 	 * @param ctrl the controller.
 	 */
-	public EvaluateInput(RadioTreeItem item, RadioTreeItemController ctrl) {
+	public EvaluateInput(RadioTreeItem item, RadioTreeItemController ctrl,
+			GeoSelectionCallback callback) {
 		this.item = item;
 		this.app = item.getApplication();
 		this.ctrl = ctrl;
 		this.usingValidInput = true;
+		this.selectionCallback = callback;
 	}
 
 	/**
@@ -97,20 +103,30 @@ public class EvaluateInput {
 		ctrl.setInputAsText(false);
 		app.setScrollToShow(true);
 
-		ErrorHandler err = null;
-		if (!ctrl.isInputAsText()) {
-			boolean valid = input.equals(userInput);
-			err = item.getErrorHandler(valid, keepFocus, withSliders);
-		}
+		final ErrorHandler err = getErrorHandler(input, keepFocus, withSliders);
 		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(app, withSliders);
 
 		// undo point stored in callback
-		app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommandNoExceptionHandling(input, false, err,
-						info, cbEval);
+		AsyncManager asyncManager = ((AppW) app).getAsyncManager();
+		asyncManager.scheduleCallback(() -> processAlgebraInput(input, err, info, cbEval));
 		if (!keepFocus) {
 			item.setFocus(false);
 		}
+	}
+
+	ErrorHandler getErrorHandler(String input, boolean keepFocus, boolean withSliders) {
+		if (ctrl.isInputAsText()) {
+			return null;
+		}
+		boolean valid = input.equals(getUserInput());
+		return item.getErrorHandler(valid, keepFocus, withSliders);
+	}
+
+	private void processAlgebraInput(String input, ErrorHandler err, EvalInfo info,
+			AsyncOperation<GeoElementND[]> cbEval) {
+		app.getKernel().getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(input, false, err,
+						info, cbEval);
 	}
 
 	private AsyncOperation<GeoElementND[]> evaluationCallback(final boolean keepFocus) {
@@ -135,12 +151,10 @@ public class EvaluateInput {
 				if (AlgebraItem.isTextItem(geos[0]) && !(geos[0] instanceof AlgoFractionText)) {
 					geos[0].setEuclidianVisible(false);
 				}
-
-				AlgebraItem.addSelectedGeoWithSpecialPoints(geos[0], app);
 			}
-
 			InputHelper.updateProperties(geos, app.getActiveEuclidianView(),
 					oldStep);
+			selectionCallback.callback(geos);
 			app.storeUndoInfo();
 			app.setScrollToShow(false);
 

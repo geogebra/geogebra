@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.dialog.options;
 
+import static java.util.Map.entry;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -655,19 +657,17 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	}
 
 	/**
-	 * 
-	 * @param app
-	 *            app
-	 * @param isDefaults
-	 *            whether it's for defaults
+	 * @param app - app
+	 * @param isDefaults - whether it's for defaults
+	 * @param onTabSelection - tab selection callback
 	 */
-	public OptionsObjectW(AppW app, boolean isDefaults) {
+	public OptionsObjectW(AppW app, boolean isDefaults, Runnable onTabSelection) {
 		this.app = app;
 		this.isDefaults = isDefaults;
 		loc = app.getLocalization();
 		// build GUI
 		initPermissions();
-		initGUI();
+		initGUI(onTabSelection);
 	}
 
 	private void initPermissions() {
@@ -691,7 +691,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		return app;
 	}
 
-	private void initGUI() {
+	private void initGUI(final Runnable onTabSelection) {
 		wrappedPanel = new FlowPanel();
 		wrappedPanel.setStyleName("propertiesPanel");
 		tabPanel = new MultiRowsTabPanel();
@@ -702,6 +702,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 				tab.setFocused(false);
 			}
 			tabs.get(event.getSelectedItem()).initGUI();
+			onTabSelection.run();
 		});
 		tabPanel.setStyleName("propertiesPanel");
 		createBasicTab();
@@ -972,10 +973,13 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		public LabelStyleProperty(LabelPanel labelPanel) {
 			super(app.getLocalization(), "");
 			this.labelPanel = labelPanel;
-			setValues(GeoElementND.LABEL_NAME, GeoElementND.LABEL_NAME_VALUE,
-					GeoElementND.LABEL_VALUE, GeoElementND.LABEL_CAPTION,
-					GeoElementND.LABEL_DEFAULT);
-			setValueNames("Name", "NameAndValue", "Value", "Caption", "CaptionAndValue");
+			setNamedValues(List.of(
+					entry(GeoElementND.LABEL_NAME, "Name"),
+					entry(GeoElementND.LABEL_NAME_VALUE, "NameAndValue"),
+					entry(GeoElementND.LABEL_VALUE, "Value"),
+					entry(GeoElementND.LABEL_CAPTION, "Caption"),
+					entry(GeoElementND.LABEL_DEFAULT, "CaptionAndValue")
+			));
 		}
 
 		@Override

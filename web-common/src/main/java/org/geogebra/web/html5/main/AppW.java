@@ -481,6 +481,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * parts of the code that have been split by the GWT compiler
 	 * @return the instance of the AsyncManager
 	 */
+	@Override
 	public final AsyncManager getAsyncManager() {
 		if (asyncManager == null) {
 			asyncManager = new AsyncManager(this);
@@ -648,15 +649,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * differs from translateCommand somehow and either document it or remove
 	 * this method
 	 *
-	 * @param cmd
+	 * @param localizedCommandName
 	 *            localized command name
 	 * @return internal command name
 	 */
 	@Override
-	final public String getInternalCommand(String cmd) {
+	final public String getInternalCommand(String localizedCommandName) {
 		initTranslatedCommands();
 		String s;
-		String cmdLower = StringUtil.toLowerCaseUS(cmd);
+		String cmdLower = StringUtil.toLowerCaseUS(localizedCommandName);
 		Commands[] values = Commands.values();
 		if (revTranslateCommandTable.isEmpty()) { // we should clear this cache
 													// on language change!
@@ -755,7 +756,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getAppletParameters().setAttribute("appName", "notes");
 			getAppletFrame().initPageControlPanel(this);
 			euclidianController.clearMeasurementTools();
-			getAppletFrame().setNotesMode(getMode());
 			if (getPageController() != null) {
 				getPageController().loadSlides(archiveContent);
 				return;
@@ -1860,9 +1860,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected EuclidianView newEuclidianView(boolean[] showEvAxes,
 			boolean showEvGrid) {
 
-		return euclidianView = newEuclidianView(euclidianViewPanel,
+		euclidianView = newEuclidianView(euclidianViewPanel,
 				getEuclidianController(), showEvAxes, showEvGrid, 1,
 				getSettings().getEuclidian(1));
+		GlobalScope.examController.registerRestrictable(euclidianView);
+		return euclidianView;
 	}
 
 	/**
@@ -2334,24 +2336,21 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public int getHeightForSplitPanel(int fallback) {
 		// border excluded
-		int windowHeight = getAppletHeight() - getAppletParameters().getBorderThickness();
-		// but we want to know the available height for the rootPane
-		// so we either use the above as a heuristic,
-		// or we should substract the height(s) of
-		// toolbar, menubar, and input bar;
-		// heuristics come from GeoGebraAppFrame
-		if (showAlgebraInput()
-				&& getInputPosition() != InputPosition.algebraView) {
-			windowHeight -= GLookAndFeelI.COMMAND_LINE_HEIGHT;
-		}
-		if (showToolBar() && !isUnbundledOrWhiteboard()) {
-			windowHeight -= GLookAndFeelI.TOOLBAR_HEIGHT;
-		}
+		int windowHeight = getAppletHeight() - getAppletParameters().getBorderThickness()
+				- getToolbarAndInputBarHeight();
+
 		// menubar height is always 0
 		if (windowHeight <= 0) {
 			windowHeight = fallback;
 		}
 		return windowHeight;
+	}
+
+	/**
+	 * @return toolbar height (if toolbar visible) + input bar height (if visible)
+	 */
+	protected int getToolbarAndInputBarHeight() {
+		return 0; // overridden with UI
 	}
 
 	/**
@@ -2879,7 +2878,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public boolean allowStylebar() {
 		return !isApplet()
 				|| getAppletParameters().getDataParamShowMenuBar(false)
-				|| getAppletParameters().getDataParamAllowStyleBar(false);
+				|| getAppletParameters().getDataParamAllowStyleBar();
 	}
 
 	@Override
@@ -3230,6 +3229,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public String getSlideID() {
+		if (!isWhiteboardActive()) {
+			return super.getSlideID();
+		}
 		return getPageController() == null
 				? GgbFile.SLIDE_PREFIX + GgbFile.getCounter()
 				: getPageController().getSlideID();

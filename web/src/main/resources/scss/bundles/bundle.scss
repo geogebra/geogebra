@@ -1,5 +1,6 @@
 @use '../mow';
 @use '../mow-toolbox';
+@use '../mow-topbar';
 @use '../spreadsheet';
 @use '../open-screen';
 @use '../web-styles';
@@ -7,6 +8,7 @@
 @use '../toolbar-styles';
 @use '../context-menu';
 @use '../tableview';
+@use '../spreadsheet-tab';
 @use '../menu-styles';
 @use '../popup-styles';
 @use '../component-styles';

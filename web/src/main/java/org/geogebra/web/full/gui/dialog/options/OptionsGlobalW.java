@@ -117,7 +117,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			NamedEnumeratedProperty<?> fontSizeProperty = new FontSizeProperty(
 					app.getLocalization(),
 					app.getSettings().getFontSettings(),
-					app.getSettingsUpdater().getFontSettingsUpdater());
+					app.getFontSettingsUpdater());
 			fontSizeDropDown = new CompDropDown(app, fontSizeProperty);
 			lblFontSize = new FormLabel(
 					app.getLocalization().getMenu("FontSize") + ":")

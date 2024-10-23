@@ -4,7 +4,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
-import org.gwtproject.user.client.Command;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 /**
  * Adds a menu item with a checkmark on its end.
@@ -12,8 +12,9 @@ import org.gwtproject.user.client.Command;
  * @author laszlo
  * 
  */
-public class GCheckmarkMenuItem extends GCheckMarkPanel {
+public class GCheckmarkMenuItem {
 
+	protected final GCheckMarkPanel panel;
 	private AriaMenuItem menuItem;
 
 	/**
@@ -24,55 +25,33 @@ public class GCheckmarkMenuItem extends GCheckMarkPanel {
 	 * @param cmd
 	 *            The command to run.
 	 */
-	public GCheckmarkMenuItem(String text, boolean checked, final ScheduledCommand cmd) {
-		super(text, MaterialDesignResources.INSTANCE.check_black(), checked, cmd);
+	public GCheckmarkMenuItem(ResourcePrototype img, String text, boolean checked,
+			final ScheduledCommand cmd) {
+		panel = new GCheckMarkPanel(text, img,
+				MaterialDesignResources.INSTANCE.check_black(), checked);
+		menuItem = newMenuItem();
+		menuItem.getElement().setAttribute("role", "checkbox");
+		AriaHelper.setChecked(menuItem, checked);
+		setCommand(cmd);
 	}
 
-	/**
-	 * @param text
-	 *            Title
-	 * @param checked
-	 *            initial value.
-	 */
-	public GCheckmarkMenuItem(String text, boolean checked) {
-		this(text, checked, null);
-	}
-
-	/**
-	 * 
-	 * @return The standard menu item with checkmark.
-	 */
-	public AriaMenuItem getMenuItem() {
-		return menuItem;
+	protected AriaMenuItem newMenuItem() {
+		return new AriaMenuItem(panel, (ScheduledCommand) null);
 	}
 
 	/**
 	 * @param command
 	 *            - command to execute
 	 */
-	public void setCommand(Command command) {
+	public void setCommand(ScheduledCommand command) {
 		menuItem.setScheduledCommand(command);
 	}
 
-	@Override
-	protected void createContents() {
-		menuItem = newMenuItem();
-		menuItem.getElement().setAttribute("role", "checkbox");
+	public AriaMenuItem getMenuItem() {
+		return menuItem;
 	}
 
-	protected AriaMenuItem newMenuItem() {
-		return new AriaMenuItem(getHTML(), true, getCmd());
+	public void setChecked(boolean b) {
+		panel.setChecked(b);
 	}
-
-	@Override
-	protected void updateContents() {
-		menuItem.setHTML(getHTML());
-	}
-
-	@Override
-	public void setChecked(boolean value) {
-		super.setChecked(value);
-		AriaHelper.setChecked(menuItem, isChecked());
-	}
-
 }
