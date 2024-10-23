@@ -95,4 +95,10 @@ public interface AccessibilityManagerInterface {
 	 * Cancels reading the view alt texts
 	 */
 	void cancelReadCollectedAltTexts();
+
+	/**
+	 * Preloads an alt text so it is only read upon change or selection
+	 * @param geoText {@link GeoText}
+	 */
+	void preloadAltText(GeoText geoText);
 }

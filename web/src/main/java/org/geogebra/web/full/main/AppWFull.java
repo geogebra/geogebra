@@ -56,7 +56,6 @@ import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
@@ -1669,12 +1668,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public void afterLoadFileAppOrNot(boolean asSlide) {
-		for (GeoElement geo : kernel.getConstruction().getGeoSetConstructionOrder()) {
-			if (geo.hasScripts()) {
-				getAsyncManager().loadAllCommands();
-				break;
-			}
-		}
+		super.afterLoadFileAppOrNot(asSlide);
 
 		if (!getLAF().isSmart()) {
 			removeSplash();

@@ -228,6 +228,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
+	public void preloadAltText(GeoText geoText) {
+		timer.preload(geoText);
+	}
+
+	@Override
 	public void readSliderUpdate(GeoNumeric geo) {
 		if (!app.getKernel().getConstruction().isFileLoading()
 				&& (!app.getAppletParameters().preventFocus()
