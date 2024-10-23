@@ -287,8 +287,6 @@ public interface ToolbarResources {
 
 	SVGResource mode_table();
 
-	SVGResource mode_h5p();
-
 	SVGResource mode_mindmap();
 
 	SVGResource mode_ruler();

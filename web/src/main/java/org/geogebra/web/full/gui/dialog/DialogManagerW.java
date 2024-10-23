@@ -329,12 +329,6 @@ public class DialogManagerW extends DialogManager
 		embedDialog.show();
 	}
 
-	@Override
-	public void showH5PDialog() {
-		H5PInputDialog embedDialog = new H5PInputDialog((AppWFull) app);
-		embedDialog.show();
-	}
-
 	/**
 	 * show export image dialog
 	 */

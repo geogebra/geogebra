@@ -74,11 +74,6 @@ public class GgbSettings implements VendorSettings {
 	}
 
 	@Override
-	public boolean isH5PEnabled() {
-		return false;
-	}
-
-	@Override
 	public List<Integer> getProtractorTools(Language language) {
 		return "en".equals(language.language)
 				? Collections.singletonList(EuclidianConstants.MODE_PROTRACTOR)

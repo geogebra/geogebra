@@ -78,12 +78,6 @@ public interface VendorSettings {
 	boolean hasBitmapSecurity();
 
 	/**
-	 *
-	 * @return whether inserting H5P content is enabled
-	 */
-	boolean isH5PEnabled();
-
-	/**
 	 * @param language active language
 	 * @return list of protractor tools for given language
 	 */

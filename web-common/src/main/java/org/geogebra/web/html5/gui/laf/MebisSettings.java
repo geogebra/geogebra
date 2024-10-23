@@ -87,11 +87,6 @@ public class MebisSettings implements VendorSettings {
 	}
 
 	@Override
-	public boolean isH5PEnabled() {
-		return true;
-	}
-
-	@Override
 	public List<Integer> getProtractorTools(Language language) {
 		return Collections.singletonList(EuclidianConstants.MODE_TRIANGLE_PROTRACTOR);
 	}

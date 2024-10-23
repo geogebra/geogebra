@@ -5,7 +5,6 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_CALCULATOR;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_CAMERA;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_EXTENSION;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_GRASPABLE_MATH;
-import static org.geogebra.common.euclidian.EuclidianConstants.MODE_H5P;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_IMAGE;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MASK;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MIND_MAP;
@@ -36,10 +35,6 @@ public class ToolboxConstants {
 			MODE_SHAPE_PENTAGON, MODE_SHAPE_LINE, MODE_SHAPE_FREEFORM, MODE_MASK);
 	static List<Integer> appsCategory = Arrays.asList(
 			MODE_CALCULATOR, MODE_MIND_MAP, MODE_TABLE);
-
-	static List<Integer> getLinkCategory(boolean hasH5P) {
-		return hasH5P ? concat(linkCategory, MODE_H5P) : linkCategory;
-	}
 
 	static List<Integer> getAppsCategory(boolean hasGraspableMath) {
 		return hasGraspableMath ? concat(appsCategory, MODE_GRASPABLE_MATH) : appsCategory;
