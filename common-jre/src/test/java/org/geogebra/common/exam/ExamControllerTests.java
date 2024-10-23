@@ -44,7 +44,9 @@ import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
+import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
@@ -413,6 +415,20 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertFalse(availableTools.contains(EuclidianConstants.MODE_POINT));
 		assertTrue(commandDispatcher.isAllowedByCommandFilters(Commands.Curve));
 		assertTrue(commandDispatcher.isAllowedByCommandFilters(Commands.CurveCartesian));
+
+		// check object visibility
+		GeoElement linearFunction = (GeoElement) evaluate("f=x")[0];
+		assertTrue(linearFunction.isEuclidianVisible());
+		GeoElement quadraticFunction = (GeoElement) evaluate("g=xx")[0];
+		assertFalse(quadraticFunction.isEuclidianVisible());
+
+		// check property restrictions
+		BooleanProperty linearShowObjectProperty = geoElementPropertiesFactory.createShowObjectProperty(
+				app.getLocalization(), List.of(linearFunction));
+		assertNotNull(linearShowObjectProperty);
+		BooleanProperty quadraticShowObjectProperty = geoElementPropertiesFactory.createShowObjectProperty(
+				app.getLocalization(), List.of(linearFunction));
+		assertNull(quadraticShowObjectProperty);
 	}
 
 	@Test
