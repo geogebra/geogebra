@@ -167,7 +167,7 @@ public class GuiManagerW extends GuiManager
 	private GGWToolBar toolbarPanel = null;
 	private InputBarHelpPanelW inputHelpPanel;
 	private AlgebraInputW algebraInput;
-	private PropertiesView propertiesView;
+	private PropertiesViewW propertiesView;
 	private DataAnalysisViewW dataAnalysisView = null;
 	private boolean listeningToLogin = false;
 	private ToolBarW toolbarForUpdate = null;
@@ -1306,7 +1306,7 @@ public class GuiManagerW extends GuiManager
 			}
 		}
 		if (propertiesView != null) {
-			((PropertiesViewW) propertiesView).setLabels();
+			propertiesView.setLabels();
 		}
 
 		getApp().getDialogManager().setLabels();
@@ -2281,5 +2281,9 @@ public class GuiManagerW extends GuiManager
 		}
 
 		return false;
+	}
+
+	public boolean isPropertiesViewShowing() {
+		return propertiesView != null && propertiesView.isFloatingAttached();
 	}
 }

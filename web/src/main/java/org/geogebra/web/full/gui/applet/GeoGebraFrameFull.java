@@ -27,6 +27,7 @@ import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
+import org.geogebra.web.full.gui.layout.scientific.ScientificSettingsView;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
@@ -994,5 +995,9 @@ public class GeoGebraFrameFull
 		ggwToolBar = null;
 		ggwMenuBar = null;
 		showKeyboardButton = null;
+	}
+
+	public boolean isSciSettingsOpen() {
+		return panelTransitioner.getCurrentPanel() instanceof ScientificSettingsView;
 	}
 }
