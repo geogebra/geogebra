@@ -9,12 +9,24 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.RecurringDecimal;
 import org.geogebra.common.main.settings.config.AppConfigCas;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.test.annotation.Issue;
+import org.junit.Before;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 public class GeoNumericTest extends BaseUnitTest {
+
+	private StringTemplate scientificTemplate;
+
+	@Before
+	public void setupTemplate() {
+		scientificTemplate = StringTemplate.printFigures(StringType.GEOGEBRA, 3, false);
+	}
 
 	@Test
 	public void euclidianShowabilityOfOperationResult() {
@@ -175,5 +187,20 @@ public class GeoNumericTest extends BaseUnitTest {
 		slider.setEuclidianVisible(true);
 		slider.updateRepaint();
 		assertThat(slider.getLineThickness(), is(10));
+	}
+
+	@Test
+	public void shouldPrintUnicodePowerOf10() {
+		GeoNumeric a = addAvInput("a=1E30+1E30");
+
+		assertThat(a.toValueString(scientificTemplate),
+				is("2.00 " + Unicode.CENTER_DOT + " 10" + StringUtil.numberToIndex(30)));
+	}
+
+	@Test
+	public void shouldPrintUnicodeNegativePowerOf10() {
+		GeoNumeric a = addAvInput("a=1E-30+1E-30");
+		assertThat(a.toValueString(scientificTemplate),
+				is("2.00 " + Unicode.CENTER_DOT + " 10" + StringUtil.numberToIndex(-30)));
 	}
 }
