@@ -358,7 +358,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	@Override
 	public void adjustCaret(HumanInputEvent<?> event) {
 		mf.adjustCaret(EventUtil.getTouchOrClickClientX(event),
-				EventUtil.getTouchOrClickClientY(event));
+				EventUtil.getTouchOrClickClientY(event), app.getGeoGebraElement().getScaleX());
 	}
 
 	@Override
