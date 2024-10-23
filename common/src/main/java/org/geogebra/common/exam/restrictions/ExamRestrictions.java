@@ -252,7 +252,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			constructionElementSetups.forEach(construction::addConstructionElementSetup);
 		}
 		if (scheduledPreviewFromInputBar != null) {
-			constructionElementSetups.forEach(scheduledPreviewFromInputBar::addConstructionElementSetup);
+			constructionElementSetups.forEach(
+					scheduledPreviewFromInputBar::addConstructionElementSetup);
 		}
 	}
 
@@ -321,7 +322,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			constructionElementSetups.forEach(construction::removeConstructionElementSetup);
 		}
 		if (scheduledPreviewFromInputBar != null) {
-			constructionElementSetups.forEach(scheduledPreviewFromInputBar::removeConstructionElementSetup);
+			constructionElementSetups.forEach(
+					scheduledPreviewFromInputBar::removeConstructionElementSetup);
 		}
 	}
 
