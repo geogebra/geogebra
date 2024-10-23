@@ -6763,7 +6763,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				translateableGeos.clear();
 			}
 
-			if (movedGeoElement.hasMoveableInputPoints(view)) {
+			if (movedGeoElement.hasMoveableInputPoints(view)
+					&& canMoveElementByPoints()) {
 				addMovedGeoElementFreeInputPointsToTranslateableGeos();
 			} else {
 				translateableGeos.add(movedGeoElement);
@@ -6771,6 +6772,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		handleMovedElementDependentInitMode();
+	}
+
+	private boolean canMoveElementByPoints() {
+		return !movedGeoElement.isGeoList()
+				|| !MoveGeos.shouldAddListAsWhole((GeoList) movedGeoElement, view);
 	}
 
 	private void addMovedGeoElementFreeInputPointsToTranslateableGeos() {
@@ -6825,24 +6831,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected void handleMovedElementDependentInitMode() {
 		// init move dependent mode if we have something to move ;-)
-		if (translateableGeos != null && translateableGeos.size() > 0) {
+		if (translateableGeos != null && !translateableGeos.isEmpty()) {
 			moveMode = MOVE_DEPENDENT;
 
-			if (translateableGeos.get(0).isGeoPoint()) {
-				GeoPointND point = (GeoPointND) translateableGeos.get(0);
-				if (point.getParentAlgorithm() != null) {
-					// make sure snap-to-grid works for dragging
-					// (a + x(A), b + x(B))
-					transformCoordsOffset[0] = 0;
-					transformCoordsOffset[1] = 0;
-
-				} else {
-					// snap to grid when dragging polygons, segments, images
-					// etc use first point
-					point.getInhomCoords(transformCoordsOffset);
-					transformCoordsOffset[0] -= xRW;
-					transformCoordsOffset[1] -= yRW;
-				}
+			GeoElement geoElement = translateableGeos.get(0);
+			if (geoElement.isGeoPoint()) {
+				GeoPointND point = (GeoPointND) geoElement;
+				initOffsetFrom(point);
+			} else if (geoElement.isGeoList() && !((GeoList) geoElement).isEmptyList()
+				&& ((GeoList) geoElement).get(0).isGeoPoint()) {
+				initOffsetFrom((GeoPointND) ((GeoList) geoElement).get(0));
 			}
 
 			setStartPointLocation();
@@ -6853,6 +6851,22 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		} else {
 			moveMode = MOVE_NONE;
+		}
+	}
+
+	private void initOffsetFrom(GeoPointND point) {
+		if (point.getParentAlgorithm() != null) {
+			// make sure snap-to-grid works for dragging
+			// (a + x(A), b + x(B))
+			transformCoordsOffset[0] = 0;
+			transformCoordsOffset[1] = 0;
+
+		} else {
+			// snap to grid when dragging polygons, segments, images
+			// etc use first point
+			point.getInhomCoords(transformCoordsOffset);
+			transformCoordsOffset[0] -= xRW;
+			transformCoordsOffset[1] -= yRW;
 		}
 	}
 

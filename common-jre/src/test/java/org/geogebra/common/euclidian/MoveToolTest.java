@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -12,10 +13,16 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.geogebra.common.cas.CASparser;
+import org.geogebra.common.cas.MockCASGiac;
+import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenPositionModel;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
+import org.geogebra.common.kernel.CASGenericInterface;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -77,6 +84,65 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 		GeoElement list = add("list = {Vector((1,-1))}");
 		moveObjectWithArrowKey(list, 1, -2);
 		checkContent("list = {(2, -3)}");
+	}
+
+	@Test
+	public void casListShouldNotBeMoveable() {
+		MockCASGiac mockGiac = setupGiac();
+		mockGiac.memmorize("{(1, -1), (1, 1)}");
+		GeoCasCell f = new GeoCasCell(getConstruction());
+		getConstruction().addToConstructionList(f, false);
+		f.setInput("l5:=Intersect(x^2+y^2=2,(x-2)^2+y^2=2)");
+		f.computeOutput();
+		GeoList list = (GeoList) f.getTwinGeo();
+		list.setLabel("l5");
+		assertThat(list, hasValue("{(1, -1), (1, 1)}"));
+		moveObjectWithArrowKey(list, 1, -2);
+		assertThat(list, hasValue("{(1, -1), (1, 1)}"));
+	}
+
+	@Test
+	public void casFreeListShouldNotBeMoveable() {
+		MockCASGiac mockGiac = setupGiac();
+		mockGiac.memmorize("{(1, -1), (1, 1)}");
+		GeoCasCell f = new GeoCasCell(getConstruction());
+		getConstruction().addToConstructionList(f, false);
+		f.setInput("l5:={(1, -1), (1, 1)}");
+		f.computeOutput();
+		GeoList list = (GeoList) f.getTwinGeo();
+		list.setLabel("l5");
+		assertThat(list, hasValue("{(1, -1), (1, 1)}"));
+		moveObjectWithArrowKey(list, 1, -2);
+		assertThat(list, hasValue("{(1, -1), (1, 1)}"));
+		dragStart(50, 50);
+		assertThat(list.isSelected(), equalTo(true));
+		dragEnd(100, 50);
+		assertThat(list, hasValue("{(1, -1), (1, 1)}"));
+	}
+
+	@Test
+	public void freeListShouldBeDraggable() {
+		GeoList list  = add("{(1, -1), (1, 1)}");
+		list.setEuclidianVisible(true);
+		list.updateRepaint();
+		EventAcumulator acumulator = new EventAcumulator();
+		getApp().getEventDispatcher().addEventListener(acumulator);
+		dragStart(50, 50);
+		dragEnd(100, 50);
+		assertThat(list, hasValue("{(2, -1), (2, 1)}"));
+		assertTrue("List should have been updated", acumulator.getEvents().contains("UPDATE l1"));
+	}
+
+	private MockCASGiac setupGiac() {
+		MockCASGiac mockGiac = new MockCASGiac((CASparser) getKernel()
+				.getGeoGebraCAS().getCASparser());
+		getApp().setCASFactory(new CASFactory() {
+			@Override
+			public CASGenericInterface newGiac(CASparser parser, Kernel kernel) {
+				return mockGiac;
+			}
+		});
+		return mockGiac;
 	}
 
 	@Test
