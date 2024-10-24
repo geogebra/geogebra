@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CvteExamTests extends BaseExamTests {
+public final class CvteExamTests extends BaseExamTests {
     @Before
     public void setupCvteExam() {
         setInitialApp(SuiteSubApp.GRAPHING);
@@ -61,21 +61,26 @@ public class CvteExamTests extends BaseExamTests {
     @Test
     public void testConicRestrictions() {
         GeoElement circleCreatedByCommand = evaluateGeoElement("Circle((0, 0), 2)");
-        GeoElement circleCreatedManually = evaluateGeoElement("x^2 + y^2 = 4");
         GeoElement linearFunction = evaluateGeoElement("x");
         GeoElement quadraticFunction = evaluateGeoElement("x^2");
+        GeoElement circleCreatedManually = evaluateGeoElement("x^2 + y^2 = 4");
 
         assertTrue(circleCreatedByCommand.isEuclidianVisible());
-        assertFalse(circleCreatedManually.isEuclidianVisible());
         assertTrue(linearFunction.isEuclidianVisible());
+        assertFalse(circleCreatedManually.isEuclidianVisible());
         assertFalse(quadraticFunction.isEuclidianVisible());
+
+        assertTrue(circleCreatedByCommand.isEuclidianToggleable());
+        assertTrue(linearFunction.isEuclidianToggleable());
+        assertFalse(circleCreatedManually.isEuclidianToggleable());
+        assertFalse(quadraticFunction.isEuclidianToggleable());
 
         assertNotNull(geoElementPropertiesFactory.createShowObjectProperty(
                 app.getLocalization(), List.of(circleCreatedByCommand)));
-        assertNull(geoElementPropertiesFactory.createShowObjectProperty(
-                app.getLocalization(), List.of(circleCreatedManually)));
         assertNotNull(geoElementPropertiesFactory.createShowObjectProperty(
                 app.getLocalization(), List.of(linearFunction)));
+        assertNull(geoElementPropertiesFactory.createShowObjectProperty(
+                app.getLocalization(), List.of(circleCreatedManually)));
         assertNull(geoElementPropertiesFactory.createShowObjectProperty(
                 app.getLocalization(), List.of(quadraticFunction)));
     }

@@ -26,7 +26,7 @@ import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
-public class ExamControllerTests extends BaseExamTests {
+public final class ExamControllerTests extends BaseExamTests {
 
     // State & duration
 

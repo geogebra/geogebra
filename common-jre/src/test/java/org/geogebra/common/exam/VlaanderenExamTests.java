@@ -7,7 +7,7 @@ import org.geogebra.common.SuiteSubApp;
 import org.junit.Before;
 import org.junit.Test;
 
-public class VlaanderenExamTests extends BaseExamTests {
+public final class VlaanderenExamTests extends BaseExamTests {
     @Before
     public void setupVlaanderenExam() {
         setInitialApp(SuiteSubApp.GRAPHING);

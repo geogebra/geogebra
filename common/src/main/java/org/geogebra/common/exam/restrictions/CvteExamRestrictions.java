@@ -304,8 +304,8 @@ final class CvteExamRestrictions extends ExamRestrictions {
 						// created manually (without command/tool)
 						&& geoElement.getParentAlgorithm() == null
 				) {
-					// set the initial visibility to false in the euclidian view
-					geoElement.setEuclidianVisible(false);
+					// restrict the visibility of the element in the euclidian view
+					geoElement.setRestrictedEuclidianVisibility(true);
 				}
 			}
 		}
@@ -324,8 +324,8 @@ final class CvteExamRestrictions extends ExamRestrictions {
 						// with the exception of conics
 						&& !isConic(geoElement)
 				) {
-					// set the initial visibility to false in the euclidian view
-					geoElement.setEuclidianVisible(false);
+					// restrict the visibility of the element in the euclidian view
+					geoElement.setRestrictedEuclidianVisibility(true);
 				}
 			}
 		}

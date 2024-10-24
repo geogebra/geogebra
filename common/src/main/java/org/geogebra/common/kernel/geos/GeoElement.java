@@ -158,6 +158,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private boolean localVarLabelSet = false;
 	private boolean euclidianVisible = true;
+	private boolean restrictedEuclidianVisibility = false;
 	private boolean forceEuclidianVisible = false;
 	private boolean algebraVisible = true;
 	private boolean labelVisible = true;
@@ -342,6 +343,20 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (app != null) {
 			initWith(app);
 		}
+	}
+
+	/**
+	 * Sets the visibility restriction for the element in the Euclidian view.
+	 * <p>
+	 * When {@code restrictedEuclidianVisibility} is set to {@code true}, the element is not visible
+	 * in any form in the Euclidian view. This means that neither the element nor the highlight of
+	 * the element for the "Show/Hide Object" tool should be visible.
+	 *
+	 * @param restrictedEuclidianVisibility {@code true} to restrict the element's visibility in the
+	 *  Euclidian view, {@code false} to allow it to be visible
+	 */
+	public final void setRestrictedEuclidianVisibility(boolean restrictedEuclidianVisibility) {
+		this.restrictedEuclidianVisibility = restrictedEuclidianVisibility;
 	}
 
 	/**
@@ -971,7 +986,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *         because Show/Hide tool selected
 	 */
 	public boolean isHideShowGeo() {
-		return isSelected() && (app.getMode() == EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
+		return isSelected() && (app.getMode() == EuclidianConstants.MODE_SHOW_HIDE_OBJECT)
+				&& !restrictedEuclidianVisibility;
 	}
 
 	/**
@@ -1411,6 +1427,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			return false;
 		}
 
+		if (restrictedEuclidianVisibility) {
+			return false;
+		}
+
 		if (condShowObject == null) {
 			return euclidianVisible;
 		}
@@ -1803,7 +1823,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	final public boolean isEuclidianToggleable() {
 		return isEuclidianShowable() && getShowObjectCondition() == null
-				&& (!isGeoBoolean() || isIndependent());
+				&& (!isGeoBoolean() || isIndependent()) && !restrictedEuclidianVisibility;
 	}
 
 	/**
