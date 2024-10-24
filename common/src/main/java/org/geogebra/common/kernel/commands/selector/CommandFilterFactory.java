@@ -73,7 +73,7 @@ public final class CommandFilterFactory {
 	}
 
 	/**
-	 * @return filer for Bayern CAS exam
+	 * @return filter for Bayern CAS exam
 	 */
 	@Deprecated // replaced by BayernCasExamRestrictions
 	public static CommandFilter createBayernCasFilter() {

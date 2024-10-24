@@ -119,7 +119,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 				MainMenu.getMenuBarItem(
 						MaterialDesignResources.INSTANCE.minor_gridlines(),
 						loc.getMenu("Ruling"),
-				 () -> {
+				() -> {
 					DialogData data = new DialogData("Ruling", "Cancel", "Save");
 					GridDialog gridDialog = new GridDialog((AppW) app, data,
 							app.getActiveEuclidianView());

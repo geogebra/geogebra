@@ -20,12 +20,6 @@ public class BaseEuclidianControllerTest extends BaseUnitTest {
 
 	private EuclidianController ec;
 
-	@Before
-	public void clear() {
-		ec = getApp().getActiveEuclidianView().getEuclidianController();
-		reset();
-	}
-
 	@Override
 	public AppCommon createAppCommon() {
 		return AppCommonFactory.create3D();
@@ -35,7 +29,7 @@ public class BaseEuclidianControllerTest extends BaseUnitTest {
 	 * Setup the app
 	 */
 	@Before
-	public void setupEV() {
+	public void setupController() {
 		ec = getApp().getActiveEuclidianView().getEuclidianController();
 		reset();
 	}

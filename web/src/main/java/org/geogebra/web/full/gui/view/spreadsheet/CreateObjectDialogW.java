@@ -37,6 +37,7 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 
 	private ComponentCheckbox ckTranspose;
 	private RadioButtonPanel<Boolean> objValRadioButtonPanel;
+
 	/** switch scan between rows and columns */
 	ListBox cbScanOrder;
 

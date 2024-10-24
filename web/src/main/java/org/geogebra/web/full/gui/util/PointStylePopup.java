@@ -79,9 +79,8 @@ public class PointStylePopup extends PopupMenuButtonW
 			this.setVisible(false);
 			return;
 		}
-		
-		boolean geosOK = geos.stream().allMatch(PointStyleModel::match);
 
+		boolean geosOK = geos.stream().allMatch(PointStyleModel::match);
 		this.setVisible(geosOK);
 
 		if (geosOK) {

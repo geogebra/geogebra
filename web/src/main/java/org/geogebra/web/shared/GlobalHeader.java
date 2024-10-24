@@ -64,6 +64,7 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 	private StandardButton examInfoBtn;
 
 	private boolean shareButtonInitialized;
+
 	private ActionButton undoButton;
 	private ActionButton redoButton;
 	private ActionButton settingsButton;

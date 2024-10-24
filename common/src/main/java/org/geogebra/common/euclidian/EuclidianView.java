@@ -505,7 +505,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	protected double lockedAxesRatio = -1;
 	private boolean updateBackgroundOnNextRepaint;
-	
+
 	private List<GeoElement> specPoints;
 	private GRectangle exportFrame;
 	private GRectangle tempFrame;
@@ -1969,16 +1969,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 
 			axesNumberFormat[axis] = axesNumberFormatsExponential[maxFractionDigits];
-			
+
 			// avoid 4.00000000000004E-11 due to rounding error when
-			// computing
-			// tick mark numbers
+			// computing tick mark numbers
 		} else {
 			if (axesNumberFormatsNormal[maxFractionDigits] == null) {
 				axesNumberFormatsNormal[maxFractionDigits] = FormatFactory.getPrototype()
 						.getNumberFormat("###0.##", maxFractionDigits);
 			}
-			
+
 			axesNumberFormat[axis] = axesNumberFormatsNormal[maxFractionDigits];
 		}
 
@@ -2561,13 +2560,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (fontCoords == null) {
 			initFontCoords();
 		}
-		
+
 		// default while initing
 		if (fontCoords == null) {
 			return getApplication().getFontCommon(false, GFont.PLAIN,
 					(int) Math.max(Math.round(getFontSize() * 0.75), 10));
 		}
-		
+
 		return fontCoords;
 	}
 
@@ -5748,7 +5747,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		addDynamicStylebarToEV(dynamicStyleBar);
 		return dynamicStyleBar;
 	}
-	
+
 	/**
 	 * @return whether dynamic stylebar is visible
 	 */
@@ -5984,7 +5983,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public GBufferedImage getExportImage(double scale, boolean transparency,
 			ExportType exportType) {
-		
+
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
 		try {

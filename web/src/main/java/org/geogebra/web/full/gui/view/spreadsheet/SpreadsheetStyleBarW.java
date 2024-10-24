@@ -177,7 +177,6 @@ public class SpreadsheetStyleBarW extends StyleBarW {
 		if (!allowActionPerformed) {
 			return;
 		}
-
 		ArrayList<TabularRange> selectedCells = table.getSelectedRanges();
 
 		// set color in table (needed as geos can be renamed, deleted etc)
