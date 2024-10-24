@@ -16,15 +16,15 @@ public class UserSubmenu extends Submenu {
 	 */
 	public UserSubmenu(AppW app) {
 		super("user", app);
-		addItem(MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.signout_black(),
-				app.getLocalization().getMenu("SignOut")), true, new MenuCommand(app) {
+		addItem(MainMenu.getMenuBarItem(MaterialDesignResources.INSTANCE.signout_black(),
+				app.getLocalization().getMenu("SignOut"), new MenuCommand(app) {
 
 					@Override
 					public void doExecute() {
 						app.getLoginOperation().showLogoutUI();
 						app.getLoginOperation().performLogOut();
 					}
-				});
+				}));
 		if (app.isUnbundledOrWhiteboard()) {
 			addStyleName("matStackPanel");
 		} else {

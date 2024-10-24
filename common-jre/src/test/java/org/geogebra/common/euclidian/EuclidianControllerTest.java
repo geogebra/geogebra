@@ -876,7 +876,7 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(30, 40);
 		setMode(EuclidianConstants.MODE_MEDIA_TEXT);
 		dragStart(70, 80);
-		dragEnd(140, 220);
+		dragEnd(80, 220); // try to make the text 10x140px
 		events.clear();
 
 		checkContent("a", "b");
@@ -892,9 +892,9 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		Assert.assertEquals(b.getLocation().getY(), -1.6, Kernel.MAX_PRECISION);
 
 		Assert.assertEquals(100, a.getWidth(), Kernel.MAX_PRECISION);
-		Assert.assertEquals(30, a.getHeight(), Kernel.MAX_PRECISION);
+		Assert.assertEquals(36, a.getHeight(), Kernel.MAX_PRECISION);
 
-		Assert.assertEquals(100, b.getWidth(), Kernel.MAX_PRECISION);
+		Assert.assertEquals(36, b.getWidth(), Kernel.MAX_PRECISION);
 		Assert.assertEquals(140, b.getHeight(), Kernel.MAX_PRECISION);
 	}
 

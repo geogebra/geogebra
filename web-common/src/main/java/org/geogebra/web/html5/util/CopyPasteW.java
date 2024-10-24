@@ -3,6 +3,7 @@ package org.geogebra.web.html5.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.DrawableND;
@@ -30,13 +31,10 @@ import org.geogebra.web.html5.main.Clipboard;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
 
-import com.himamis.retex.editor.web.DocumentUtil;
-
 import elemental2.core.Global;
 import elemental2.core.JsArray;
 import elemental2.dom.Blob;
 import elemental2.dom.BlobPropertyBag;
-import elemental2.dom.CSSProperties;
 import elemental2.dom.ClipboardEvent;
 import elemental2.dom.DataTransfer;
 import elemental2.dom.DomGlobal;
@@ -44,7 +42,6 @@ import elemental2.dom.EventListener;
 import elemental2.dom.EventTarget;
 import elemental2.dom.FileReader;
 import elemental2.dom.HTMLImageElement;
-import elemental2.dom.HTMLTextAreaElement;
 import elemental2.dom.Response;
 import elemental2.dom.URL;
 import elemental2.promise.Promise;
@@ -56,6 +53,8 @@ public class CopyPasteW extends CopyPaste {
 	private static final String pastePrefix = "ggbpastedata";
 
 	private static final int defaultTextWidth = 300;
+	private static boolean collectCopyCalls = false;
+	private static final List<String> copyQueue = new ArrayList<>();
 
 	/**
 	 * @param data copied data
@@ -104,6 +103,24 @@ public class CopyPasteW extends CopyPaste {
 		}
 	}
 
+	/**
+	 * Start collecting copy actions triggered by a click
+	 */
+	public static void startCollectingCopyCalls() {
+		collectCopyCalls = true;
+	}
+
+	/**
+	 * Execute all collected copy actions that happened since last pointer down
+	 */
+	public static void stopCollectingCopyCalls() {
+		if (collectCopyCalls) {
+			collectCopyCalls = false;
+			copyQueue.forEach(CopyPasteW::writeToExternalClipboard);
+			copyQueue.clear();
+		}
+	}
+
 	@Override
 	public void copyToXML(App app, List<GeoElement> geos) {
 		String textToSave = InternalClipboard.getTextToSave(app, geos, Global::escape);
@@ -127,8 +144,12 @@ public class CopyPasteW extends CopyPaste {
 	 * @param toWrite string to be copied
 	 */
 	public static void writeToExternalClipboard(String toWrite) {
+		if (collectCopyCalls) {
+			copyQueue.add(toWrite);
+			return;
+		}
 		if (copyToExternalSupported()) {
-			// Supported in Chrome
+			// Supported in Chrome, Safari
 			BlobPropertyBag bag =
 					BlobPropertyBag.create();
 			bag.setType("text/plain");
@@ -155,40 +176,24 @@ public class CopyPasteW extends CopyPaste {
 				return null;
 			});
 		} else {
-			// Supported in Safari
-
-			HTMLTextAreaElement copyFrom = getHiddenTextArea();
-			copyFrom.value = toWrite;
-			copyFrom.select();
-			DocumentUtil.copySelection();
-			DomGlobal.setTimeout((ignore) -> DomGlobal.document.body.focus(), 0);
+			Log.debug("Copy not supported");
 		}
-	}
-
-	private static HTMLTextAreaElement getHiddenTextArea() {
-		HTMLTextAreaElement hiddenTextArea = Js.uncheckedCast(
-				DomGlobal.document.getElementById("hiddenCopyPasteTextArea"));
-		if (Js.isFalsy(hiddenTextArea)) {
-			hiddenTextArea = Js.uncheckedCast(DomGlobal.document.createElement("textarea"));
-			hiddenTextArea.id = "hiddenCopyPasteTextArea";
-			hiddenTextArea.style.position = "absolute";
-			hiddenTextArea.style.width = CSSProperties.WidthUnionType.of("10px");
-			hiddenTextArea.style.height = CSSProperties.HeightUnionType.of("10px");
-			hiddenTextArea.style.zIndex = CSSProperties.ZIndexUnionType.of(100);
-			hiddenTextArea.style.left = "-1000px";
-			hiddenTextArea.style.top = "0px";
-			DomGlobal.document.body.appendChild(hiddenTextArea);
-		}
-		return Js.uncheckedCast(hiddenTextArea);
 	}
 
 	private static void saveToClipboard(String toSave) {
 		String escapedContent = Global.escape(toSave);
-		String encoded = pastePrefix + DomGlobal.btoa(escapedContent);
+		writeToExternalClipboardWithFallback(pastePrefix + DomGlobal.btoa(escapedContent));
+	}
+
+	/**
+	 * Copies to external clipboard, adding a fallback based on local storage
+	 * @param content clipboard content
+	 */
+	public static void writeToExternalClipboardWithFallback(String content) {
 		if (!NavigatorUtil.isiOS() || copyToExternalSupported()) {
-			writeToExternalClipboard(encoded);
+			writeToExternalClipboard(content);
 		}
-		BrowserStorage.LOCAL.setItem(pastePrefix, asBlobURL(encoded));
+		BrowserStorage.LOCAL.setItem(pastePrefix, asBlobURL(content));
 	}
 
 	private static boolean copyToExternalSupported() {
@@ -200,10 +205,10 @@ public class CopyPasteW extends CopyPaste {
 		paste(app, text -> pasteText(app, text));
 	}
 
-	private static void handleStorageFallback(AsyncOperation<String> callback) {
+	private static void handleStorageFallback(Consumer<String> callback) {
 		DomGlobal.fetch(BrowserStorage.LOCAL.getItem(pastePrefix)).then(Response::text)
 				.then(text -> {
-					callback.callback(text);
+					callback.accept(text);
 					return null;
 				});
 	}
@@ -223,7 +228,15 @@ public class CopyPasteW extends CopyPaste {
 	 * @param app application
 	 * @param callback consumer for the pasted string
 	 */
-	public static void pasteNative(App app, AsyncOperation<String> callback) {
+	public static void pasteNative(App app, Consumer<String> callback) {
+		pasteNative(callback, image -> pasteImage(app, image));
+	}
+
+	/**
+	 * @param callback consumer for the pasted string
+	 * @param imageCallback consumer for base64-encoded image
+	 */
+	public static void pasteNative(Consumer<String> callback, Consumer<String> imageCallback) {
 		if (navigatorSupports("clipboard.read")) {
 			// supported in Chrome
 			Clipboard
@@ -236,7 +249,7 @@ public class CopyPasteW extends CopyPaste {
 									FileReader reader = new FileReader();
 
 									reader.addEventListener("load", (ignore) ->
-											pasteImage(app, reader.result.asString()), false);
+											imageCallback.accept(reader.result.asString()), false);
 
 									data.getAt(i).getType("image/png").then((item) -> {
 										reader.readAsDataURL(item);
@@ -263,8 +276,7 @@ public class CopyPasteW extends CopyPaste {
 			// not sure if any browser enters this at the time of writing
 			Clipboard.readText().then(
 				(text) -> {
-					app.getActiveEuclidianView().requestFocus();
-					pasteText(app, text);
+					callback.accept(text);
 					return null;
 				},
 				(reason) -> {
@@ -370,9 +382,12 @@ public class CopyPasteW extends CopyPaste {
 		String content = tokens[2];
 		if (InternalClipboard.imagePrefix.equals(prefix)) {
 			ImageManagerW imageManager = ((AppW) app).getImageManager();
-			imageManager.addExternalImage(name, content);
-			HTMLImageElement img = imageManager.getExternalImage(name, true);
-			img.src = content;
+			// only add images if they come from a different app
+			if (imageManager.getExternalImage(name, false) == null) {
+				imageManager.addExternalImage(name, content);
+				HTMLImageElement img = imageManager.getExternalImage(name, true);
+				img.src = content;
+			}
 		} else {
 			EmbedManager embedManager = app.getEmbedManager();
 			if (embedManager != null) {
@@ -463,13 +478,13 @@ public class CopyPasteW extends CopyPaste {
 				|| "BR".equalsIgnoreCase(target.tagName) || target.hasAttribute("contenteditable");
 	}
 
-	private static void readBlob(Blob blob, AsyncOperation<String> callback) {
+	private static void readBlob(Blob blob, Consumer<String> callback) {
 		// in Chrome one could use blob.text().then(callback)
 		// but the FileReader code is also compatible with Safari 13.1
 		FileReader reader = new FileReader();
 		reader.addEventListener("loadend", evt -> {
 			if (reader.result != null) {
-				callback.callback(reader.result.asString());
+				callback.accept(reader.result.asString());
 			}
 		});
 		reader.readAsText(blob);

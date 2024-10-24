@@ -104,10 +104,11 @@ public class MoveGeos {
 	 * @return True if list contains of only movable objects and the list can therefore be added
 	 * as a whole to the GeoElements that need to be moved, false else
 	 */
-	private static boolean shouldAddListAsWhole(GeoList list, EuclidianView view) {
+	public static boolean shouldAddListAsWhole(GeoList list, EuclidianView view) {
 		return list.elements().allMatch(geo -> !geo.isLocked() && geo.isMoveable(view)
 				&& (containsFreeInputPoints(geo, view) || geo.isGeoPoint()))
-				|| list.getElementType() == GeoClass.NUMERIC;
+				|| list.getElementType() == GeoClass.NUMERIC
+				|| list.getCorrespondingCasCell() != null;
 	}
 
 	/* visible for tests */
@@ -196,7 +197,8 @@ public class MoveGeos {
 		if (geo1.isMoveable()) {
 			movedGeo = moveMoveableGeo(geo1, rwTransVec, endPosition,
 					view);
-		} else if (geo1.isGeoList() && !geo1.isLocked() && !geo1.isRandomGeo()) {
+		} else if (geo1.isGeoList() && !geo1.isLocked() && !geo1.isRandomGeo()
+				&& geo1.getCorrespondingCasCell() == null) {
 			((GeoList) geo1).elements().forEach(el -> moveMoveableGeo(el, rwTransVec, null,
 					view));
 			moveObjectsUpdateList.add(geo1);

@@ -2467,7 +2467,9 @@ public class Construction {
 		}
 
 		// set result as empty cell geo
-		result.setUndefined();
+		if (!kernel.getApplication().isUnbundled()) {
+			result.setUndefined();
+		}
 		result.setEmptySpreadsheetCell(true);
 
 		// make sure that label creation is turned on

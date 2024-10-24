@@ -1,5 +1,8 @@
 package org.geogebra.common.euclidian;
 
+import java.util.Locale;
+import java.util.stream.Stream;
+
 /**
  * Mode numbers
  */
@@ -417,9 +420,6 @@ public final class EuclidianConstants {
 	/** Equation */
 	public static final int MODE_EQUATION = 124;
 
-	/** H5P tool */
-	public static final int MODE_H5P = 125;
-
 	public static final int MODE_MIND_MAP = 126;
 	/** Ruler */
 	public static final int MODE_RULER = 127;
@@ -471,7 +471,7 @@ public final class EuclidianConstants {
 	public static final int MAX_PEN_HIGHLIGHTER_SIZE = 30;
 
 	public static String getModeIconName(int mode) {
-		return mode == EuclidianConstants.MODE_DELETE ? "erase" : getModeTextSimple(mode);
+		return mode == EuclidianConstants.MODE_DELETE ? "eraser" : getModeTextSimple(mode);
 	}
 
 	/**
@@ -906,8 +906,6 @@ public final class EuclidianConstants {
 			return "PDF";
 		case EuclidianConstants.MODE_EXTENSION:
 			return "Web";
-		case EuclidianConstants.MODE_H5P:
-			return "H5P";
 		case EuclidianConstants.MODE_SELECT:
 			return "Select";
 		case EuclidianConstants.MODE_SELECT_MOW:
@@ -987,7 +985,6 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_AUDIO:
 		case EuclidianConstants.MODE_CALCULATOR:
 		case EuclidianConstants.MODE_EXTENSION:
-		case EuclidianConstants.MODE_H5P:
 		case EuclidianConstants.MODE_TABLE:
 		case EuclidianConstants.MODE_EQUATION:
 		case EuclidianConstants.MODE_CAMERA:
@@ -1016,9 +1013,9 @@ public final class EuclidianConstants {
 
 	/**
 	 * @param mode mode ID
-	 * @return name of the manual page for given tool
+	 * @return name of the manual page for the given tool
 	 */
-	public static String getModeHelpPageSimple(int mode) {
+	public static String getModeHelpPage(int mode) {
 		switch (mode) {
 			case MODE_JOIN:
 				return "Line"; // Join
@@ -1036,8 +1033,6 @@ public final class EuclidianConstants {
 				return "Circle_with_Center_and_Radius"; // CirclePointRadius
 			case MODE_DISTANCE:
 				return "Distance_or_Length"; // Distance
-			case MODE_SELECTION_LISTENER:
-				return "Select_Objects"; // Select
 			case MODE_POLAR_DIAMETER:
 				return "Polar_or_Diameter_Line"; // PolarDiameter
 			case MODE_SEGMENT_FIXED:
@@ -1046,6 +1041,7 @@ public final class EuclidianConstants {
 				return "Angle_with_Given_Size"; // AngleFixed
 			case MODE_FITLINE:
 				return "Best_Fit_Line"; // FitLine
+			case MODE_SELECTION_LISTENER:
 			case MODE_SELECT:
 				return "Select_Objects"; // Select
 			case MODE_PLANE_THREE_POINTS:
@@ -1078,9 +1074,17 @@ public final class EuclidianConstants {
 				return "Two_Variable_Regression_Analysis"; // TwoVarStats
 			case MODE_SPREADSHEET_MULTIVARSTATS:
 				return "Multiple_Variable_Analysis"; // MultiVarStats
-			default: return getModeTextSimple(mode)
-					.replaceAll("(.)([A-Z])", "$1_$2").replace("_/_", "_");
+			case MODE_VIEW_IN_FRONT_OF:
+				return "View_in_front_of";
+			default: return toTitleCase(getModeTextSimple(mode)
+					.replaceAll("(.)([A-Z])", "$1_$2").replace("_/_", "_"));
 		}
+	}
+
+	private static String toTitleCase(String name) {
+		return Stream.of("About", "Around", "From", "By", "In", "On", "Of")
+				.reduce(name, (ret, prop) ->
+						ret.replace(prop + "_", prop.toLowerCase(Locale.ROOT) + "_"));
 	}
 
 	public static String getHelpTransKey(int mode) {

@@ -15,7 +15,9 @@ public class AddPlaceholders {
 	 * @param mathComponent to add in possible placeholders.
 	 */
 	public void process(MathComponent mathComponent) {
-		questionMarkRemover.process(mathComponent);
+		if (mathComponent != null) {
+			mathComponent.traverse(questionMarkRemover);
+		}
 		if (mathComponent instanceof MathArray) {
 			MathArray array = (MathArray) mathComponent;
 			if (array.columns() >= 1) {

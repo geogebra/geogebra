@@ -1,8 +1,5 @@
 package org.geogebra.common.main;
 
-import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.CellFormat;
-import org.geogebra.common.gui.view.spreadsheet.CellFormatInterface;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UpdateLocationView;
@@ -10,6 +7,9 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
+import org.geogebra.common.spreadsheet.style.CellFormat;
+import org.geogebra.common.spreadsheet.style.CellFormatInterface;
 
 /**
  * Abstract class for managing spreadsheet GeoElement cells in a table model
@@ -198,18 +198,18 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 
 	@Override
 	public void remove(GeoElement geo) {
-		GPoint location = geo.getSpreadsheetCoords();
+		SpreadsheetCoords location = geo.getSpreadsheetCoords();
 		if (location != null) {
-			doRemove(location.y, location.x);
+			doRemove(location.row, location.column);
 			cellRangeManager.updateCellRangeAlgos(geo, location, true);
 		}
 	}
 
 	@Override
 	public void rename(GeoElement geo) {
-		GPoint location = geo.getOldSpreadsheetCoords();
+		SpreadsheetCoords location = geo.getOldSpreadsheetCoords();
 		if (location != null) {
-			doRemove(location.y, location.x);
+			doRemove(location.row, location.column);
 			cellRangeManager.updateCellRangeAlgos(geo, location, true);
 		}
 		addWithoutTrace(geo);
@@ -235,7 +235,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	}
 
 	private void addToCellRangeAlgos(GeoElement geo) {
-		GPoint location = geo.getSpreadsheetCoords();
+		SpreadsheetCoords location = geo.getSpreadsheetCoords();
 		if (location != null) {
 			cellRangeManager.addToCellRangeAlgos(geo, location);
 		}
@@ -243,27 +243,19 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	}
 
 	private void updateWithoutTrace(GeoElement geo) {
-		GPoint location = geo.getSpreadsheetCoords();
+		SpreadsheetCoords location = geo.getSpreadsheetCoords();
 
 		if (location != null
-				&& location.x < app.getMaxSpreadsheetColumnsVisible()
-				&& location.y < app.getMaxSpreadsheetRowsVisible()) {
+				&& location.column < app.getMaxSpreadsheetColumnsVisible()
+				&& location.row < app.getMaxSpreadsheetRowsVisible()) {
 
-			highestUsedColumn = Math.max(highestUsedColumn, location.x);
-			highestUsedRow = Math.max(highestUsedRow, location.y);
+			highestUsedColumn = Math.max(highestUsedColumn, location.column);
+			highestUsedRow = Math.max(highestUsedRow, location.row);
 
-			if (location.y >= getRowCount()) {
-				setRowCount(location.y + 1);
+			if (location.row >= getRowCount()) {
+				setRowCount(location.row + 1);
 			}
-
-			if (location.x >= getColumnCount()) {
-				// table.setMyColumnCount(location.x + 1);
-				// JViewport cH = spreadsheet.getColumnHeader();
-
-				// bugfix: double-click to load ggb file gives cH = null
-				// if (cH != null) cH.revalidate();
-			}
-			setValueAt(geo, location.y, location.x);
+			setValueAt(geo, location.row, location.column);
 
 			/*
 			 * DONE ELSEWHERE // add tracing geos to the trace collection if
@@ -295,7 +287,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	@Override
 	public final void updateVisualStyle(GeoElement geo, GProperty prop) {
 		if (prop == GProperty.FONT && geo instanceof TextProperties) {
-			GPoint pt = geo.getSpreadsheetCoords();
+			SpreadsheetCoords pt = geo.getSpreadsheetCoords();
 			if (pt != null) {
 				getCellFormat(null).setFormat(pt, CellFormat.FORMAT_FONTSTYLE,
 						((TextProperties) geo).getFontStyle());
@@ -358,7 +350,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	 */
 	public CellFormatInterface getCellFormat(MyTableInterface table) {
 		if (formatHandler == null) {
-			formatHandler = new CellFormat(table, app);
+			formatHandler = new CellFormat(table);
 		} else if (table != null) {
 			formatHandler.setTable(table);
 		}

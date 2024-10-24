@@ -14,7 +14,7 @@ describe('Ruler and protractor tool test', () => {
         cy.document().then((doc) => {
             before = doc.querySelector("[data-test=euclidianView]").toDataURL();
             selectors.rulerButton.click();
-            selectors.protractorButton.click();
+            cy.get("li").contains("Protractor").click();
         });
 
         cy.wait(3000);

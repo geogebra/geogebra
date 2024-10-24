@@ -170,7 +170,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 *            whether this is for preferences
 	 */
 	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
-		// TODO Auto-generated method stub
+		sb.append("<spreadsheetView>\n");
+		app.getSettings().getSpreadsheet().getSizeXML(sb);
+		app.getSettings().getSpreadsheet().getWidthsAndHeightsXML(sb);
+		sb.append("</spreadsheetView>\n");
 	}
 
 	@Override
@@ -636,36 +639,32 @@ public abstract class GuiManager implements GuiManagerInterface {
 		// eg http://help.geogebra.org/en-GB/cmd/FitLogistic
 
 		final StringBuilder urlSB = new StringBuilder();
-		urlSB.append(GeoGebraConstants.GEOGEBRA_HELP_WEBSITE);
-		urlSB.append(getApp().getLocalization().getLanguageTag()); // eg en-GB
+		urlSB.append(GeoGebraConstants.GEOGEBRA_HELP_WEBSITE).append("en/");
 
 		switch (type) {
 		case COMMAND:
 			String cmdPageName = getApp().getLocalization().getEnglishCommand(
 					pageName);
 			if ("".equals(cmdPageName)) {
-				urlSB.append("/article/Category:Commands");
+				urlSB.append("Commands");
 			} else {
-				urlSB.append("/cmd/");
+				urlSB.append("commands/");
 				urlSB.append(cmdPageName);
 			}
 			break;
 		case TOOL:
-			urlSB.append("/tool/");
+			urlSB.append("tools/");
 			urlSB.append(pageName);
 			break;
 		case GENERIC:
-			// eg openHelp("Custom_Tools", Help.GENERIC)
-			// returns http://help.geogebra.org/hu/article/Custom_Tools
-			// wiki redirects to correct page
-			// ie http://wiki.geogebra.org/hu/Egy%E9ni_eszk%F6z%F6k
-			urlSB.append("/article/");
 			urlSB.append(pageName);
 			break;
 		default:
 			Log.error("Bad getHelpURL call");
 		}
-
+		if (!app.getLocalization().languageIs("en")) {
+			urlSB.append("?redirect=").append(getApp().getLocalization().getLanguageTag());
+		}
 		return urlSB.toString();
 	}
 
@@ -832,4 +831,5 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public InputKeyboardButton getInputKeyboardButton() {
 		return null;
 	}
+
 }

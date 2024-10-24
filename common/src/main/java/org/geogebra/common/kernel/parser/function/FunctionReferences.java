@@ -6,7 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
+
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.plugin.Operation;
 
@@ -16,7 +17,7 @@ class FunctionReferences {
 
 	private final List<Map<String, Operation>> functionMap = new ArrayList<>();
 	private final Set<String> reservedFunctions = new HashSet<>();
-	private final TreeSet<String> syntaxes = new TreeSet<>();
+	private final List<OperationSyntax> syntaxes = new ArrayList<>();
 
 	FunctionReferences() {
 		initFunctionMap();
@@ -31,7 +32,7 @@ class FunctionReferences {
 	void put(int size, String name, Operation op, String arg) {
 		reservedFunctions.add(name);
 		if (arg != null) {
-			syntaxes.add(name + arg);
+			syntaxes.add(new OperationSyntax(op, name + arg));
 		}
 		if (size <= MAX_ARGS && size >= 0) {
 			functionMap.get(size).put(name, op);
@@ -53,12 +54,25 @@ class FunctionReferences {
 		return reservedFunctions.contains(s);
 	}
 
-	void getCompletions(String prefix, Set<String> completions) {
-		for (String candidate : syntaxes.tailSet(prefix)) {
-			if (!candidate.startsWith(prefix)) {
-				break;
+	void getCompletions(String prefix, Set<String> completions,
+						@CheckForNull Set<Operation> filteredOperations) {
+		for (OperationSyntax operationSyntax : syntaxes) {
+			if (filteredOperations != null && filteredOperations.contains(operationSyntax.operation)) {
+				continue;
 			}
-			completions.add(candidate);
+			if (operationSyntax.syntax.startsWith(prefix)) {
+				completions.add(operationSyntax.syntax);
+			}
 		}
 	}
+
+	private static class OperationSyntax {
+		final Operation operation;
+		final String syntax;
+
+        private OperationSyntax(Operation operation, String syntax) {
+            this.operation = operation;
+            this.syntax = syntax;
+        }
+    }
 }

@@ -338,22 +338,35 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 
 	/**
 	 * Submenu is placed to the left by default,
-	 * to the right if it would go offscreen.
-	 * @return x where submenu should placed
+	 * to the right if it would go off-screen.
+	 * @return x where submenu should be placed
 	 */
 	private int getPopupXCoord() {
-		int xCoord = getRightSubPopupXCord();
-		int leftMargin = app.getAppletFrame().getAbsoluteLeft()
-					+ app.getAppletFrame().getOffsetWidth();
-		return (xCoord + getSubPopupWidth()
-				> leftMargin)
-				? getLeftSubPopupXCord() : xCoord;
+		int xCoordRightSide = getRightSubPopupXCord();
+		int rightSideMargin = app.getAppletFrame().getOffsetWidth();
+		int spaceOnTheRightSide = rightSideMargin - xCoordRightSide;
+
+		int xCoordLeftSide = getLeftSubPopupXCord();
+		int spaceOnTheLeftSide = (int) ((getPopupLeft()
+				- app.getAppletFrame().getAbsoluteLeft()) / getScaleX());
+
+		if (spaceOnTheRightSide >= getSubPopupWidth()) {
+			return xCoordRightSide;
+		} else if (spaceOnTheLeftSide >= getSubPopupWidth()) {
+			return xCoordLeftSide;
+		} else {
+			if (spaceOnTheRightSide >= spaceOnTheLeftSide) {
+				return Math.max(rightSideMargin - getSubPopupWidth(), 0);
+			} else {
+				return Math.max(xCoordLeftSide, 0);
+			}
+		}
 	}
 
 	/**
 	 * Submenu is placed to the right by default,
-	 * to the left if it would go offscreen. (RTL)
-	 * @return x where submenu should placed
+	 * to the left if it would go off-screen. (RTL)
+	 * @return x where submenu should be placed
 	 */
 	private int getPopupXCoordRTL() {
 		return getLeftSubPopupXCord() < 0 ? getRightSubPopupXCord() : getLeftSubPopupXCord();
@@ -483,7 +496,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	 *            command
 	 */
 	public void addItem(String s, ScheduledCommand c) {
-		addItem(new AriaMenuItem(s, false, c));
+		addItem(new AriaMenuItem(s, null, c));
 	}
 
 	/**
@@ -497,7 +510,11 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 		AccessibilityManagerInterface am = getApp()
 				.getAccessibilityManager();
 		MayHaveFocus anchor = am.getAnchor();
-		popupPanel.hide();
+		if (subPopup != null && subPopup.isMenuShown()) {
+			removeSubPopup();
+		} else {
+			popupPanel.hide();
+		}
 		if (anchor != null) {
 			anchor.focusIfVisible(true);
 		}
@@ -561,8 +578,10 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 					&& target.getSelectedItem().getSubMenu() != null) {
 				openSubmenu(target.getSelectedItem());
 				target.getSelectedItem().getSubMenu().selectItem(0);
+				target.getSelectedItem().getSubMenu().getItemAt(0).addStyleName("fakeFocus");
 			}
 		} else if (keyCode == JavaKeyCodes.VK_LEFT) {
+			target.getSelectedItem().removeStyleName("fakeFocus");
 			removeSubPopup();
 		}
 	}
@@ -611,6 +630,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 				AriaMenuItem item = findItem(DOM.eventGetTarget(event));
 				if (item != null) {
 					if (item.getSubMenu() != null) {
+						removeFakeFocus();
 						openSubmenu(item);
 					} else {
 						GPopupMenuW.this.onItemHover();
@@ -685,6 +705,15 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 				return null;
 			}
 			return expandItems.get(getItemAt(idx));
+		}
+	}
+
+	/**
+	 * clear out fake focus
+	 */
+	public void removeFakeFocus() {
+		for (AriaMenuItem item : popupMenu.getItems()) {
+			item.removeStyleName("fakeFocus");
 		}
 	}
 }

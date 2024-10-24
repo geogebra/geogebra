@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.CoordinatesFormat;
 import org.geogebra.common.main.settings.Settings;
@@ -420,9 +421,6 @@ public class AlgebraItem {
 		if (!app.getConfig().hasPreviewPoints()) {
 			return;
 		}
-		if (!app.getSelectionManager().isSelectionAllowed(geo)) {
-			return;
-		}
 		app.getSelectionManager().clearSelectedGeos(false, false);
 		app.getSelectionManager().addSelectedGeo(geo, false, false);
 	}
@@ -653,8 +651,12 @@ public class AlgebraItem {
 		if (geo instanceof GeoSymbolic) {
 			GeoSymbolic symbolic = (GeoSymbolic) geo;
 			ExpressionValue value = symbolic.getValue();
-			if (value instanceof ExpressionNode) {
-				return ((ExpressionNode) value).isFraction();
+			try {
+				if (value instanceof ExpressionNode) {
+					return ((ExpressionNode) value).isFraction();
+				}
+			} catch (MyError err) {
+				return false;
 			}
 		} else if (geo instanceof GeoNumeric) {
 			GeoNumeric numeric = (GeoNumeric) geo;

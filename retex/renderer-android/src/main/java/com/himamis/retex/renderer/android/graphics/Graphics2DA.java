@@ -76,6 +76,10 @@ public class Graphics2DA implements Graphics2DInterface {
 		setView(view);
 	}
 
+	public Canvas getCanvas() {
+		return mCanvas;
+	}
+
 	public void setCanvas(Canvas canvas) {
 		mCanvas = canvas;
 	}

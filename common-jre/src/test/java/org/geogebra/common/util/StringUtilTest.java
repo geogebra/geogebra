@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assume.assumeTrue;
 
 import org.geogebra.common.media.GeoGebraURLParser;
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -72,19 +71,6 @@ public class StringUtilTest {
 	}
 
 	@Test
-	public void isWhitespaceShouldComplyWithJava() {
-		assumeTrue(IS_JAVA_8);
-		for (int cc = 0; cc < 65536; ++cc) {
-			char c = (char) cc;
-			if (Character.isWhitespace(c) != StringUtil.isWhitespace(c)) {
-				Assert.fail("isWhitespace failed " + c + " "
-						+ StringUtil.toHexString(c) + Character.isWhitespace(c)
-						+ " " + StringUtil.isWhitespace(c));
-			}
-		}
-	}
-
-	@Test
 	public void checkURIparser() {
 		assertEquals("k89JtCqY", GeoGebraURLParser
 				.getIDfromURL("https://www.geogebra.org/m/k89JtCqY"));
@@ -137,6 +123,22 @@ public class StringUtilTest {
 		assertEquals(-27, StringUtil.indexToNumber("" + Unicode.SUPERSCRIPT_MINUS
 						+ Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_7));
 		assertEquals(0, StringUtil.indexToNumber("" + Unicode.SUPERSCRIPT_0));
+	}
+
+	@Test
+	public void testRemoveFileExtension() {
+		assertEquals("foo", StringUtil.removeFileExtension("foo.bar"));
+		assertEquals("bar", StringUtil.removeFileExtension("bar"));
+		assertEquals("", StringUtil.removeFileExtension(""));
+	}
+
+	@Test
+	public void testRemoveFolder() {
+		assertEquals("foo.bar", StringUtil.removeFolderName("C:/my/foo.bar"));
+		assertEquals("foo.bar", StringUtil.removeFolderName("C:\\my\\foo.bar"));
+		assertEquals("foo.bar", StringUtil.removeFolderName("foo.bar"));
+		assertEquals("foo.bar", StringUtil.removeFolderName("/foo.bar"));
+		assertEquals("", StringUtil.removeFolderName(""));
 	}
 
 	private static void compatibleNewlines(String in, String out) {

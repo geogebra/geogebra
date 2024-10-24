@@ -35,6 +35,7 @@ public class TopbarController {
 	 * on menu pressed
 	 */
 	public void onMenuToggle() {
+		appW.closePopups();
 		appW.hideKeyboard();
 		appW.toggleMenu();
 	}
@@ -43,6 +44,7 @@ public class TopbarController {
 	 * on undo pressed
 	 */
 	public void onUndo() {
+		appW.closePopups();
 		appW.getGuiManager().undo();
 	}
 
@@ -50,6 +52,7 @@ public class TopbarController {
 	 * on redo pressed
 	 */
 	public void onRedo() {
+		appW.closePopups();
 		appW.getGuiManager().redo();
 	}
 
@@ -57,6 +60,7 @@ public class TopbarController {
 	 * on zoom in press
 	 */
 	public void onZoomIn() {
+		appW.closePopups();
 		setSelectMode();
 		zoomController.onZoomInPressed();
 	}
@@ -65,6 +69,7 @@ public class TopbarController {
 	 * on zoom out press
 	 */
 	public void onZoomOut() {
+		appW.closePopups();
 		setSelectMode();
 		zoomController.onZoomOutPressed();
 	}
@@ -79,6 +84,7 @@ public class TopbarController {
 	 * on home press
 	 */
 	public void onHome() {
+		appW.closePopups();
 		zoomController.onHomePressed();
 	}
 
@@ -128,6 +134,7 @@ public class TopbarController {
 	 * @param fullscreenBtn - fullscreen button
 	 */
 	public void onFullscreenOn(IconButton fullscreenBtn) {
+		appW.closePopups();
 		zoomController.onFullscreenPressed(null, getFullscreenBtnSelectCB(fullscreenBtn));
 	}
 
@@ -136,6 +143,7 @@ public class TopbarController {
 	 * @param fullscreenBtn - fullscreen button
 	 */
 	public void onFullscreenExit(IconButton fullscreenBtn) {
+		appW.closePopups();
 		zoomController.onExitFullscreen(null, getFullscreenBtnSelectCB(fullscreenBtn));
 	}
 
@@ -160,11 +168,9 @@ public class TopbarController {
 	}
 
 	private void initSettingsContextMenu(IconButton anchor) {
-		if (settingsContextMenu == null) {
-			settingsContextMenu = new ContextMenuGraphicsWindowW(appW, 0, 0, false);
-			getSettingsContextMenu().setAutoHideEnabled(false);
-			getSettingsContextMenu().addCloseHandler(event -> anchor.setActive(false));
-		}
+		settingsContextMenu = new ContextMenuGraphicsWindowW(appW, 0, 0, false);
+		getSettingsContextMenu().setAutoHideEnabled(false);
+		getSettingsContextMenu().addCloseHandler(event -> anchor.setActive(false));
 	}
 
 	private void toggleSettingsContextMenu(IconButton anchor) {

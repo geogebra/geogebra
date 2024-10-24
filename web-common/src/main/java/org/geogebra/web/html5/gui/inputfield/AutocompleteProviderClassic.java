@@ -15,20 +15,15 @@ import org.geogebra.common.util.MatchedString;
 public class AutocompleteProviderClassic {
 	protected final AutocompleteProvider provider;
 	private List<MatchedString> completions;
-	private AutoCompleteDictionary dict;
 	private App app;
-	private boolean forCAS;
 
 	/**
 	 * @param app
 	 *            application
-	 * @param isForCas
-	 *            whether to use CAS view dictionary
 	 */
-	public AutocompleteProviderClassic(App app, boolean isForCas) {
+	public AutocompleteProviderClassic(App app) {
 		this.app = app;
-		this.forCAS = isForCas;
-		this.provider = new AutocompleteProvider(app, isForCas);
+		this.provider = new AutocompleteProvider(app, false);
 	}
 
 	/**
@@ -110,11 +105,7 @@ public class AutocompleteProviderClassic {
 	 * @return dictionary of completions
 	 */
 	public AutoCompleteDictionary getDictionary() {
-		if (this.dict == null) {
-			this.dict = forCAS ? app.getCommandDictionaryCAS()
-					: app.getCommandDictionary();
-		}
-		return dict;
+		return app.getCommandDictionary();
 	}
 
 	/**
@@ -122,15 +113,6 @@ public class AutocompleteProviderClassic {
 	 */
 	public void cancelAutoCompletion() {
 		completions = null;
-	}
-
-	/**
-	 * @param forCAS
-	 *            whether the dictionary is for CAS view
-	 */
-	public void setDictionary(boolean forCAS) {
-		this.forCAS = forCAS;
-		this.dict = null;
 	}
 
 }

@@ -1,10 +1,10 @@
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.StringUtil;
 
@@ -18,6 +18,7 @@ public class LabelManager {
 	
 	private char[] angleLabels;
 	private final Construction cons;
+	private String multiuserSuffix = "";
 
 	/**
 	 * @param construction
@@ -162,13 +163,13 @@ public class LabelManager {
 
 		default:
 			// is this a spreadsheet label?
-			final GPoint p = GeoElementSpreadsheet
+			final SpreadsheetCoords p = GeoElementSpreadsheet
 					.spreadsheetIndices(labelPrefix);
-			if ((p.x >= 0) && (p.y >= 0)) {
+			if ((p.column >= 0) && (p.row >= 0)) {
 				// more than one visible geo and it's a spreadsheet cell
 				// use D1, E1, F1, etc as names
-				final int col = p.x;
-				final int row = p.y;
+				final int col = p.column;
+				final int row = p.row;
 				for (int i = 0; i < geos.length; i++) {
 					geos[i].setLabel(geos[i].getFreeLabel(GeoElementSpreadsheet
 							.getSpreadsheetCellName(col + i, row)));
@@ -241,11 +242,13 @@ public class LabelManager {
 			q = counter / chars.length; // quotient
 			r = counter % chars.length; // remainder
 
-			String labelBase = chars[r] + "";
+			String labelBase;
 
 			// this arabic letter is two Unicode chars
 			if (chars[r] == '\u0647') {
-				labelBase += "\u0640";
+				labelBase = "\u0647\u0640" + getMultiuserSuffix();
+			} else {
+				labelBase = chars[r] + getMultiuserSuffix();
 			}
 
 			String index1;
@@ -317,5 +320,20 @@ public class LabelManager {
 					StringTemplate.defaultTemplate);
 		} while (!cons.isFreeLabel(str));
 		return str;
+	}
+
+	/**
+	 * Sets a suffix that is used for labeling newly created objects within multiuser
+	 * @param multiuserSuffix User Suffix
+	 */
+	public void setMultiuserSuffix(String multiuserSuffix) {
+		this.multiuserSuffix = multiuserSuffix;
+	}
+
+	/**
+	 * @return The user suffix used to label objects in multiuser
+	 */
+	public String getMultiuserSuffix() {
+		return multiuserSuffix;
 	}
 }

@@ -2140,8 +2140,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			} else {
 				name = getLoc().getPlainLabel("polygon", "poly");
 			}
-
 		}
+		name += cons.getLabelManager().getMultiuserSuffix();
 		do {
 			counter++;
 			str = name + kernel.internationalizeDigits(counter + "",

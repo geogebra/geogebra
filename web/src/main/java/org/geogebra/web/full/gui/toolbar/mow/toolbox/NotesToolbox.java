@@ -81,7 +81,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 	private void addToggleButtonWithMenuPopup(SVGResource image, String ariaLabel,
 			List<Integer> tools) {
 		IconButton iconButton = new IconButtonWithMenu(appW, image, ariaLabel, tools,
-				this::deselectButtons);
+				this::deselectButtons, this);
 		add(iconButton);
 		buttons.add(iconButton);
 	}
@@ -156,8 +156,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 			return;
 		}
 
-		List<Integer> linkTools = ToolboxConstants.getLinkCategory(
-				appW.getVendorSettings().isH5PEnabled());
+		List<Integer> linkTools = ToolboxConstants.linkCategory;
 		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.resource_card_shared(),
 				"Link", linkTools);
 	}

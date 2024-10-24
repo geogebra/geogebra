@@ -42,48 +42,48 @@ public class RowHeaderPopupMenuW extends
 	private void initMenu() {
 		// "Insert Above" menuitem
 		AriaMenuItem miCopyInput = new AriaMenuItem(loc.getMenu("CopyInput"),
-				false,
+				null,
 				() -> actionPerformed(CellAction.COPY_INPUT));
 		rowHeaderPopupMenu.addItem(miCopyInput);
 
-		AriaMenuItem miPaste = new AriaMenuItem(loc.getMenu("Paste"), false,
+		AriaMenuItem miPaste = new AriaMenuItem(loc.getMenu("Paste"), null,
 				() -> actionPerformed(CellAction.PASTE));
 		rowHeaderPopupMenu.addItem(miPaste);
 		rowHeaderPopupMenu.addSeparator();
 
 		AriaMenuItem miInsertAbove = new AriaMenuItem(
 				loc.getMenu("InsertAbove"),
-				false,
+				null,
 				() -> actionPerformed(CellAction.INSERT_ABOVE));
 		rowHeaderPopupMenu.addItem(miInsertAbove);
 
 		// "Insert Below" menuitem
 		AriaMenuItem miInsertBelow = new AriaMenuItem(
-				loc.getMenu("InsertBelow"), false,
+				loc.getMenu("InsertBelow"), null,
 				() -> actionPerformed(CellAction.INSERT_BELOW));
 		rowHeaderPopupMenu.addItem(miInsertBelow);
 
 		int[] selRows = table.getSelectedRows();
 		String strRows = getDeleteString(selRows);
-		AriaMenuItem miDelete = new AriaMenuItem(strRows, false,
+		AriaMenuItem miDelete = new AriaMenuItem(strRows, null,
 				() -> actionPerformed(CellAction.DELETE));
 		rowHeaderPopupMenu.addItem(miDelete);
 
 		rowHeaderPopupMenu.addSeparator();
 
 		AriaMenuItem miUseAsText = new AriaMenuItem(
-				loc.getMenu("CasCellUseAsText"), false,
+				loc.getMenu("CasCellUseAsText"), null,
 				() -> actionPerformed(CellAction.TEXT));
 		rowHeaderPopupMenu.addItem(miUseAsText);
 
 		if (CopyPasteCutW.checkClipboardSupported()) {
 
-			AriaMenuItem copyItem = new AriaMenuItem(loc.getMenu("Copy"), false,
+			AriaMenuItem copyItem = new AriaMenuItem(loc.getMenu("Copy"), null,
 					() -> actionPerformed(CellAction.COPY));
 			rowHeaderPopupMenu.addItem(copyItem);
 
 			AriaMenuItem latexItem = new AriaMenuItem(
-					loc.getMenu("CopyAsLaTeX"), false,
+					loc.getMenu("CopyAsLaTeX"), null,
 					() -> actionPerformed(CellAction.COPY_LATEX));
 			rowHeaderPopupMenu.addItem(latexItem);
 		}

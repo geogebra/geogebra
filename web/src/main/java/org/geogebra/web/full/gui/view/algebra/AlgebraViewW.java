@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.gui.view.algebra.AlgebraController;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.gui.view.algebra.GeoSelectionCallback;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -32,6 +33,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
@@ -103,7 +105,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private AnimationCallback repaintCallback = ts -> doRepaint();
 
 	private AnimationCallback repaintSlidersCallback = ts -> doRepaintSliders();
-
+	private GeoSelectionCallback selectionCallback = new GeoSelectionCallback();
 	/**
 	 * The mode of the tree, see MODE_DEPENDENCY, MODE_TYPE
 	 */
@@ -174,7 +176,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (algCtrl instanceof AlgebraControllerW) {
 			initGUI((AlgebraControllerW) algCtrl);
 		}
-
+		GlobalScope.examController.registerRestrictable(selectionCallback);
 		app.getSelectionManager()
 				.addSelectionListener((geo, addToSelection) -> updateSelection());
 		app.getGgbApi().setEditor(new AlgebraMathEditorAPI(this));
@@ -2293,4 +2295,16 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		return app;
 	}
 
+	public GeoSelectionCallback getSelectionCallback() {
+		return selectionCallback;
+	}
+
+	/**
+	 * Reset the header (+ in graphing, number in scientific) after app switch
+	 */
+	public void resetInputItemHeader() {
+		if (inputPanelLatex != null) {
+			inputPanelLatex.resetItemHeader();
+		}
+	}
 }

@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.view.probcalculator;
 
+import org.geogebra.common.exam.ExamListener;
+import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import org.geogebra.common.kernel.Kernel;
@@ -7,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.components.CompDropDown;
@@ -19,7 +22,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
 
-public class DistributionPanel extends FlowPanel implements InsertHandler {
+public class DistributionPanel extends FlowPanel implements InsertHandler, ExamListener {
 	private ProbabilityCalculatorViewW view;
 	private Localization loc;
 	private CompDropDown distributionDropDown;
@@ -28,6 +31,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	private MathTextFieldW[] fldParameterArray;
 	protected ProbabilityModeGroup modeGroup;
 	protected ResultPanelW resultPanel;
+	private DistributionTypeProperty distTypeProperty;
 
 	/**
 	 * costructor
@@ -38,6 +42,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 		this.view = view;
 		this.loc = loc;
 		addStyleName("distrPanel");
+		GlobalScope.examController.addListener(this);
 		buildGUI();
 	}
 
@@ -175,7 +180,8 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 	 * @param parent - parent panel
 	 */
 	public void buildDistrComboBox(FlowPanel parent) {
-		DistributionTypeProperty distTypeProperty = new DistributionTypeProperty(loc, view);
+		distTypeProperty = new DistributionTypeProperty(loc, view);
+		GlobalScope.propertiesRegistry.register(distTypeProperty, getApp());
 		String comboLbl = getApp().getConfig().hasDistributionView() ? "Distribution" : null;
 		distributionDropDown = new CompDropDown(getApp(), comboLbl, distTypeProperty);
 		if (getApp().getConfig().hasDistributionView()) {
@@ -329,5 +335,13 @@ public class DistributionPanel extends FlowPanel implements InsertHandler {
 
 	public ResultPanelW getResultPanel() {
 		return resultPanel;
+	}
+
+	@Override
+	public void examStateChanged(ExamState newState) {
+		if (newState == ExamState.ACTIVE || newState == ExamState.IDLE) {
+			distributionDropDown.setProperty(distTypeProperty);
+			distributionDropDown.resetFromModel();
+		}
 	}
 }

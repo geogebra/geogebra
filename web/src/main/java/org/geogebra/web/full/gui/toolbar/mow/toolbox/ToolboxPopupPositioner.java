@@ -16,9 +16,12 @@ public final class ToolboxPopupPositioner {
 	 */
 	public static void showRelativeToToolbox(GPopupPanel popup, UIObject anchor, AppW app) {
 		closePopupsRegisterNewPopup(popup, app);
-		popup.setPopupPosition((int) (anchor.getAbsoluteLeft() + anchor.getOffsetWidth()
-						+ TOOLBOX_PADDING - app.getAbsLeft()),
-				(int) (anchor.getAbsoluteTop() - app.getAbsTop()));
+
+		int left = (int) (anchor.getAbsoluteLeft() + anchor.getOffsetWidth()
+						+ TOOLBOX_PADDING - app.getAbsLeft());
+		int top = (int) (anchor.getAbsoluteTop() - app.getAbsTop());
+
+		popup.setPopupPosition(left, (int) (top / app.getGeoGebraElement().getScaleY()));
 		popup.show();
 	}
 

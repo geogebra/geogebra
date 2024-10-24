@@ -12,15 +12,16 @@ import javax.swing.JToolBar;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.gui.view.spreadsheet.CellFormat;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
+import org.geogebra.common.gui.view.spreadsheet.CellRangeUtil;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.spreadsheet.core.TabularRange;
+import org.geogebra.common.spreadsheet.style.CellFormat;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
-import org.geogebra.desktop.gui.util.ToggleButtonD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
+import org.geogebra.desktop.gui.util.ToggleButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -37,7 +38,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener, Set
 	private final AppD app;
 	private final MyTableD table;
 	private final CellFormat formatHandler;
-	private final ArrayList<CellRange> selectedCells;
+	private final ArrayList<TabularRange> selectedCells;
 
 	private ToggleButtonD btnFormulaBar;
 	private ToggleButtonD btnLeftAlign;
@@ -62,7 +63,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener, Set
 		this.loc = app.getLocalization();
 		this.table = (MyTableD) view.getSpreadsheetTable();
 		this.formatHandler = (CellFormat) table.getCellFormatHandler();
-		this.selectedCells = table.getSelectedCellRanges();
+		this.selectedCells = table.getSelectedRanges();
 
 		// toolbar settings
 		setFloatable(false);
@@ -263,8 +264,8 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener, Set
 
 			// set color for the actual geos
 			for (int i = 0; i < selectedCells.size(); i++) {
-				CellRange cr = selectedCells.get(i);
-				ArrayList<GeoElement> ar = cr.toGeoList();
+				TabularRange tr = selectedCells.get(i);
+				ArrayList<GeoElement> ar = CellRangeUtil.toGeoList(tr, app);
 				for (int j = 0; j < ar.size(); j++) {
 					GeoElement geo = ar.get(j);
 					geo.setBackgroundColor(bgCol);
@@ -306,7 +307,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener, Set
 	public void updateStyleBar() {
 		allowActionPerformed = false;
 
-		CellRange range = table.getSelectedCellRanges().get(0);
+		TabularRange range = table.getFirstSelection();
 
 		// update font style buttons
 		Integer fontStyle = (Integer) formatHandler.getCellFormat(range,

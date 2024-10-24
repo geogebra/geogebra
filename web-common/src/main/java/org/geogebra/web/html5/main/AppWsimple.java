@@ -2,7 +2,6 @@ package org.geogebra.web.html5.main;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -55,7 +54,7 @@ public class AppWsimple extends AppW {
 		initCoreObjects();
 		setUndoActive(undoActive);
 		afterCoreObjectsInited();
-		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
+		getFontSettingsUpdater().resetFonts();
 		Browser.removeDefaultContextMenu(getGeoGebraElement().getElement());
 	}
 
@@ -87,13 +86,7 @@ public class AppWsimple extends AppW {
 
 	@Override
 	public void afterLoadFileAppOrNot(boolean asSlide) {
-		for (GeoElement geo : kernel.getConstruction()
-				.getGeoSetConstructionOrder()) {
-			if (geo.hasScripts()) {
-				getAsyncManager().loadAllCommands();
-				break;
-			}
-		}
+		super.afterLoadFileAppOrNot(asSlide);
 
 		buildApplicationPanel();
 		getScriptManager().ggbOnInit(); // put this here from Application

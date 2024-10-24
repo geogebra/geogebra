@@ -425,8 +425,7 @@ public class ExpressionNode extends ValidExpression
 	private void doResolveVariables(EvalInfo info) {
 		// resolve left wing
 		if (left.isVariable()) {
-			left = ((Variable) left).resolveAsExpressionValue(info.getSymbolicMode(),
-					info.isMultipleUnassignedAllowed(), info.isMultiLetterVariablesAllowed());
+			left = ((Variable) left).resolveAsExpressionValue(info);
 			if (operation == Operation.POWER
 					|| operation == Operation.FACTORIAL) {
 				fixPowerFactorial(Operation.MULTIPLY);
@@ -444,8 +443,7 @@ public class ExpressionNode extends ValidExpression
 		// resolve right wing
 		if (right != null) {
 			if (right.isVariable()) {
-				right = ((Variable) right).resolveAsExpressionValue(info.getSymbolicMode(),
-						info.isMultipleUnassignedAllowed(), info.isMultiLetterVariablesAllowed());
+				right = ((Variable) right).resolveAsExpressionValue(info);
 				right = groupPowers(right);
 			} else {
 				right.resolveVariables(info);
@@ -489,7 +487,8 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private static ExpressionValue buildProduct(ExpressionNode power, ExpressionValue product) {
-		return product == null ? power : power.multiply(product);
+		return product == null ? power
+				: new ExpressionNode(power.kernel, product, Operation.MULTIPLY, power);
 	}
 
 	/**
