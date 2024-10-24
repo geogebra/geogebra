@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.ConstructionElementSetup;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.Localization;
@@ -268,7 +269,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 					// Filter the show object property
 					property instanceof ShowObjectProperty
 					// for any conic element
-					&& geoElement.isGeoConic()
+					&& isConic(geoElement)
 					// created manually (without command/tool)
 					&& geoElement.getParentAlgorithm() == null
 			);
@@ -287,7 +288,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 					// that are non-linear
 					&& !(geoElement instanceof GeoLine || geoElement instanceof GeoPlaneND)
 					// with the exception of conics
-					&& !geoElement.isGeoConic()
+					&& !isConic(geoElement)
 			);
 		}
 	}
@@ -299,7 +300,7 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				GeoElement geoElement = (GeoElement) constructionElement;
 				if (
 						// For every conic
-						geoElement.isGeoConic()
+						isConic(geoElement)
 						// created manually (without command/tool)
 						&& geoElement.getParentAlgorithm() == null
 				) {
@@ -321,12 +322,17 @@ final class CvteExamRestrictions extends ExamRestrictions {
 						// that are non-linear
 						&& !(geoElement instanceof GeoLine || geoElement instanceof GeoPlaneND)
 						// with the exception of conics
-						&& !geoElement.isGeoConic()
+						&& !isConic(geoElement)
 				) {
 					// set the initial visibility to false in the euclidian view
 					geoElement.setEuclidianVisible(false);
 				}
 			}
 		}
+	}
+
+	private static boolean isConic(GeoElement geoElement) {
+		return geoElement.isGeoConic()
+				|| (geoElement instanceof GeoFunction && !geoElement.isGeoLine());
 	}
 }
