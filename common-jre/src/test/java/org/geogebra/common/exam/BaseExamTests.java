@@ -54,7 +54,6 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
     protected AutocompleteProvider autocompleteProvider;
     protected Material activeMaterial;
 
-
     private AppConfig createConfig(SuiteSubApp subApp) {
         switch (subApp) {
             case CAS:
