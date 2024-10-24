@@ -856,8 +856,10 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		}
 
 		else if (source == cbGridStyle) {
-			model.applyGridStyle(
-					(Integer) cbGridStyle.getSelectedItem());
+			Object selectedItem = cbGridStyle.getSelectedItem();
+			if (selectedItem instanceof Integer) {
+				model.applyGridStyle((Integer) selectedItem);
+			}
 
 		} else if (source == cbGridManualTick) {
 			model.applyGridManualTick(cbGridManualTick.isSelected());
