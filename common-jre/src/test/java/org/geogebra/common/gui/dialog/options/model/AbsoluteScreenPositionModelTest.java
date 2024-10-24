@@ -82,6 +82,21 @@ public class AbsoluteScreenPositionModelTest extends BaseUnitTest {
 		assertAllHaveXCoord(geos, 150);
 	}
 
+	@Test
+	public void shouldSwitchFromDynamicToStatic() {
+		GeoText txt = add("\"move me\"");
+		add("a=42");
+		txt.setAbsoluteScreenLocActive(true);
+		AbsoluteScreenPositionModel model = new AbsoluteScreenPositionModel.ForX(getApp());
+		model.setGeos(new GeoElement[]{txt});
+		model.applyChanges("1+a");
+		assertThat(txt.getStartPoint().getDefinition(StringTemplate.defaultTemplate),
+				is("(1 + a, 0)"));
+		model.applyChanges("50");
+		assertThat(txt.getStartPoint(), nullValue());
+		assertThat(txt.getAbsoluteScreenLocX(), is(50));
+	}
+
 	private Integer getScreenLocX(AbsoluteScreenLocateable geo) {
 		return geo.isAbsoluteScreenLocActive() ? geo.getAbsoluteScreenLocX()
 				: getApp().getActiveEuclidianView().toScreenCoordX(geo.getRealWorldLocX());
@@ -101,18 +116,4 @@ public class AbsoluteScreenPositionModelTest extends BaseUnitTest {
 		return geos;
 	}
 
-	@Test
-	public void shouldSwitchFromDynamicToStatic() {
-		GeoText txt = add("\"move me\"");
-		add("a=42");
-		txt.setAbsoluteScreenLocActive(true);
-		AbsoluteScreenPositionModel model = new AbsoluteScreenPositionModel.ForX(getApp());
-		model.setGeos(new GeoElement[]{txt});
-		model.applyChanges("1+a");
-		assertThat(txt.getStartPoint().getDefinition(StringTemplate.defaultTemplate),
-				is("(1 + a, 0)"));
-		model.applyChanges("50");
-		assertThat(txt.getStartPoint(), nullValue());
-		assertThat(txt.getAbsoluteScreenLocX(), is(50));
-	}
 }
