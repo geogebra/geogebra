@@ -521,7 +521,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected SymbolicEditor symbolicEditor = null;
 	private final CoordSystemInfo coordSystemInfo;
 
-	private Rectangle visibleRect;
+	private Rectangle visibleRect = new Rectangle();
 	private EdgeInsets safeAreaInsets = new EdgeInsets(MINIMUM_SAFE_AREA);
 
 	/** @return line types */
@@ -1977,7 +1977,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				axesNumberFormatsNormal[maxFractionDigits] = FormatFactory.getPrototype()
 						.getNumberFormat("###0.##", maxFractionDigits);
 			}
-
 			axesNumberFormat[axis] = axesNumberFormatsNormal[maxFractionDigits];
 		}
 
@@ -2560,13 +2559,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (fontCoords == null) {
 			initFontCoords();
 		}
-
 		// default while initing
 		if (fontCoords == null) {
 			return getApplication().getFontCommon(false, GFont.PLAIN,
 					(int) Math.max(Math.round(getFontSize() * 0.75), 10));
 		}
-
 		return fontCoords;
 	}
 
