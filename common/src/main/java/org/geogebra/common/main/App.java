@@ -450,7 +450,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private ArrayList<String> mLastCommandsSelectedFromHelp;
 	// TODO: move following methods somewhere else
 	private String tubeID = null;
-	private boolean isAutoSaved = true;
 	private AdjustViews adjustViews = null;
 	private AdjustScreen adjustScreen = null;
 	private AdjustScreen adjustScreen2 = null;
@@ -1540,7 +1539,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void setUnsaved() {
 		isSaved = false;
-		isAutoSaved = false;
 		for (SavedStateListener sl : savedListeners) {
 			sl.stateChanged(false);
 		}
@@ -1553,18 +1551,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public final boolean isSaved() {
 		return isSaved || kernel.getConstruction() == null
 				|| !kernel.getConstruction().isStarted();
-	}
-
-	public final boolean isAutoSaved() {
-		return isAutoSaved;
-	}
-
-	public final void setAutoSaved() {
-		isAutoSaved = true;
-	}
-
-	public final void setUnAutoSaved() {
-		isAutoSaved = false;
 	}
 
 	/**
