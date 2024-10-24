@@ -2250,4 +2250,9 @@ public class GeoNumeric extends GeoElement
 		getDefinition().isFraction(); // force fraction caching
 		getDefinition().getFraction(parts, expandPlus);
 	}
+
+	@Override
+	public void setZero() {
+		setValue(0);
+	}
 }

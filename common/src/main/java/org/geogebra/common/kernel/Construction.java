@@ -2460,9 +2460,7 @@ public class Construction {
 		// found neighbouring cell: create geo of same type
 		if (neighbourCell != null) {
 			result = neighbourCell.copy();
-			if (result.isGeoNumeric()) {
-				((GeoNumeric) result).setValue(0);
-			}
+			result.setZero();
 		}
 		// no neighbouring cell: create number with value 0
 		else {

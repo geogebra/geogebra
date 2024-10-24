@@ -66,4 +66,11 @@ public class DefaultSpreadsheetCellProcessorSymbolicTest extends BaseSymbolicTes
 		processor.process("=1", "A1");
 		assertThat(lookup("B1"), hasValue("2"));
 	}
+
+	@Test
+	public void shouldNotChangeReferencingCellAfterReEditing() {
+		processor.process("=B1", "A1");
+		processor.process("=B1", "A1");
+		assertThat(lookup("A1"), hasValue("0"));
+	}
 }
