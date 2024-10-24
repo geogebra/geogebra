@@ -62,16 +62,20 @@ public class CvteExamTests extends BaseExamTests {
     public void testConicRestrictions() {
         GeoElement circleCreatedByCommand = evaluateGeoElement("Circle((0, 0), 2)");
         GeoElement circleCreatedManually = evaluateGeoElement("x^2 + y^2 = 4");
+        GeoElement linearFunction = evaluateGeoElement("x");
         GeoElement quadraticFunction = evaluateGeoElement("x^2");
 
         assertTrue(circleCreatedByCommand.isEuclidianVisible());
         assertFalse(circleCreatedManually.isEuclidianVisible());
+        assertTrue(linearFunction.isEuclidianVisible());
         assertFalse(quadraticFunction.isEuclidianVisible());
 
         assertNotNull(geoElementPropertiesFactory.createShowObjectProperty(
                 app.getLocalization(), List.of(circleCreatedByCommand)));
         assertNull(geoElementPropertiesFactory.createShowObjectProperty(
                 app.getLocalization(), List.of(circleCreatedManually)));
+        assertNotNull(geoElementPropertiesFactory.createShowObjectProperty(
+                app.getLocalization(), List.of(linearFunction)));
         assertNull(geoElementPropertiesFactory.createShowObjectProperty(
                 app.getLocalization(), List.of(quadraticFunction)));
     }
