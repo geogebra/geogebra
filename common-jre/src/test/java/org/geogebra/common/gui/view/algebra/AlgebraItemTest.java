@@ -158,4 +158,11 @@ public class AlgebraItemTest extends BaseUnitTest {
         String definition = element.getAlgebraDescriptionForPreviewOutput();
         assertThat(definition, is("355687428096000"));
     }
+
+    @Test
+    public void shouldShowEqualSignPrefixTest() {
+        assertThat(AlgebraItem.shouldShowEqualSignPrefix(add("1/2")), equalTo(true));
+        assertThat(AlgebraItem.shouldShowEqualSignPrefix(add("1/3")), equalTo(false));
+        assertThat(AlgebraItem.shouldShowEqualSignPrefix(add("sqrt(3)+1")), equalTo(true));
+    }
 }
