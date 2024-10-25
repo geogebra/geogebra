@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.arithmetic;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -191,6 +192,51 @@ public class Fractions {
 		default:
 			parts[0] = expr;
 			parts[1] = null;
+		}
+	}
+
+	/**
+	 * Whether given element can be printed as exact fraction with current rounding
+	 * @param geo element
+	 * @param kernel used to determine rounding
+	 * @return whether the fraction has exact decimal value
+	 */
+	public static boolean isExactFraction(GeoElementND geo, Kernel kernel) {
+		return geo instanceof GeoNumeric && geo.getDefinition() != null
+				&& isExactFraction(geo.getDefinition().asFraction(), kernel);
+	}
+
+	private static boolean isExactFraction(ExpressionNode fraction, Kernel kernel) {
+		if (!fraction.isOperation(Operation.DIVIDE)
+				|| fraction.getLeft().unwrap().isExpressionNode()
+				|| fraction.getLeft().unwrap() instanceof MySpecialDouble) {
+			return false;
+		}
+		ExpressionValue denominator = fraction.getRight();
+		int denominatorValue = (int) denominator.evaluateDouble();
+		int deg2 = 0;
+		while (denominatorValue % 2 == 0) {
+			denominatorValue /= 2;
+			deg2++;
+		}
+		int deg5 = 0;
+		while (denominatorValue % 5 == 0) {
+			denominatorValue /= 5;
+			deg5++;
+		}
+		if (denominatorValue != 1) {
+			return false;
+		}
+		int maxDeg = Math.max(deg2, deg5);
+		if (kernel.useSignificantFigures) {
+			double numerator = fraction.getLeft().evaluateDouble();
+			// expand the fraction
+			// num / (2^deg2*5^deg5) = (num * 2^(maxDeg-deg2)*5^(maxDeg-deg5)) / 10^maxDeg
+			double expandedNumerator = Math.abs(numerator)
+					* Math.pow(2, maxDeg - deg2) * Math.pow(5, maxDeg - deg5);
+			return Math.log10(expandedNumerator) < kernel.getPrintFigures();
+		} else {
+			return maxDeg <= kernel.getPrintDecimals();
 		}
 	}
 
