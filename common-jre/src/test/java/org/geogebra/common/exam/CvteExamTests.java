@@ -91,6 +91,7 @@ public final class CvteExamTests extends BaseExamTests {
                 evaluateGeoElement("x + y = 0")
         ).forEach(linearEquation -> {
             assertTrue(linearEquation.isEuclidianVisible());
+            assertTrue(linearEquation.isEuclidianToggleable());
             assertNotNull(geoElementPropertiesFactory.createShowObjectProperty(
                     app.getLocalization(), List.of(linearEquation)));
         });
@@ -102,6 +103,7 @@ public final class CvteExamTests extends BaseExamTests {
                 evaluateGeoElement("|x - 3| = 0")
         ).forEach(nonLinearEquation -> {
             assertFalse(nonLinearEquation.isEuclidianVisible());
+            assertFalse(nonLinearEquation.isEuclidianToggleable());
             assertNull(geoElementPropertiesFactory.createShowObjectProperty(
                     app.getLocalization(), List.of(nonLinearEquation)));
         });
