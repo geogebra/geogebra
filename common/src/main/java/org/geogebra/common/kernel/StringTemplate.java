@@ -3078,6 +3078,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return sb.toString();
 	}
 
+	/**
+	 * Converts e.g. 3E + 222 to 3.00 * 10²²² - only for {@link StringType#GEOGEBRA}
+	 * @param scientificStr String in scientific notation
+	 * @return Formatted string in scientific notation using m*10^n
+	 */
 	public String convertScientificNotationForDisplay(String scientificStr) {
 		if (stringType == StringType.LATEX) {
 			return convertScientificNotation(scientificStr);
