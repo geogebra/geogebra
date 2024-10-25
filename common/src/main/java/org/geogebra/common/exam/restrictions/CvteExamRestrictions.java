@@ -17,6 +17,9 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -332,7 +335,25 @@ final class CvteExamRestrictions extends ExamRestrictions {
 	}
 
 	private static boolean isConic(GeoElement geoElement) {
-		return geoElement.isGeoConic()
-				|| (geoElement instanceof GeoFunction && !geoElement.isGeoLine());
+		if (geoElement.isGeoConic()) {
+			return true;
+		}
+		if (!(geoElement instanceof GeoFunction)) {
+			return false;
+		}
+		GeoFunction geoFunction = (GeoFunction) geoElement;
+		Function function = geoFunction.getFunction();
+		if (function == null) {
+			return false;
+		}
+		ExpressionNode expressionNode = geoFunction.getFunctionExpression();
+		if (expressionNode == null) {
+			return false;
+		}
+		PolyFunction polyFunction = function.expandToPolyFunction(expressionNode, false, true);
+		if (polyFunction == null) {
+			return false;
+		}
+		return polyFunction.getDegree() >= 2;
 	}
 }
