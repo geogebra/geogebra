@@ -30,14 +30,14 @@ public class ConvertToCanvas implements ImagePreprocessor {
 	@Override
 	public boolean match(FileExtensions extension, int size) {
 		return (matchExtension(extension) && alwaysApply)
-				|| (maxSize > 0 && size > maxSize);
+				|| (maxSize > 0 && size > maxSize)
+				|| !extension.isAllowedImage();
 	}
 
 	private boolean matchExtension(FileExtensions extension) {
 		return FileExtensions.PNG.equals(extension)
 				|| FileExtensions.JPG.equals(extension)
-				|| FileExtensions.JPEG.equals(extension)
-				|| FileExtensions.BMP.equals(extension);
+				|| FileExtensions.JPEG.equals(extension);
 	}
 
 	@Override
