@@ -967,7 +967,7 @@ public class GeoImplicitSurface extends GeoElement3D
 	}
 
 	@Override
-	public boolean setTypeFromXML(String style, String parameter, boolean force) {
+	public boolean setEquationFormFromXML(String style, String parameter) {
 		return false;
 	}
 
