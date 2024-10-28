@@ -19,6 +19,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -61,8 +62,15 @@ public class AlgoLinePointVector extends AlgoElement {
 		// compute line through P, Q
 		compute();
 
-		g.setLabel(label);
 		addIncidence();
+
+		// note: GeoLine's equation form is initialized from construction defaults
+		EquationBehaviour equationBehaviour = kernel.getEquationBehaviour();
+		if (equationBehaviour != null) {
+			g.setEquationForm(equationBehaviour.getLineCommandEquationForm());
+		}
+
+		g.setLabel(label);
 	}
 
 	/**

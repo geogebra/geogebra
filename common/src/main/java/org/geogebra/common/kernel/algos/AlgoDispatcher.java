@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
+import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.KernelCAS;
 import org.geogebra.common.kernel.Path;
@@ -896,7 +897,15 @@ public class AlgoDispatcher {
 		AlgoCircleThreePoints algo = new AlgoCircleThreePoints(cons, A,
 				B, C);
 		GeoConic circle = (GeoConic) algo.getCircle();
-		circle.setToSpecific();
+		// TODO APPS-5867 move this to algo
+		if (circle.isSpecificPossible()) {
+			circle.setToSpecific(); 
+		} else {
+			EquationBehaviour equationBehaviour = cons.getKernel().getEquationBehaviour();
+			if (equationBehaviour != null) {
+				circle.setEquationForm(equationBehaviour.getConicCommandEquationForm());
+			}
+		}
 		circle.setLabel(label);
 		return circle;
 	}
@@ -999,7 +1008,14 @@ public class AlgoDispatcher {
 		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons,
 				(GeoPoint) M, r);
 		GeoConic circle = algo.getCircle();
-		circle.setToSpecific();
+		if (circle.isSpecificPossible()) {
+			circle.setToSpecific(); // TODO APPS-5867 why is this not in the algo?
+		} else {
+			EquationBehaviour equationBehaviour = cons.getKernel().getEquationBehaviour();
+			if (equationBehaviour != null) {
+				circle.setEquationForm(equationBehaviour.getConicCommandEquationForm());
+			}
+		}
 		circle.setLabel(label);
 		return circle;
 	}
@@ -1018,7 +1034,15 @@ public class AlgoDispatcher {
 	final public GeoConic circle(String label, GeoPoint A, GeoSegment segment) {
 		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, A, segment);
 		GeoConic circle = algo.getCircle();
-		circle.setToSpecific();
+		// TODO APPS-5867 move this to algo
+		if (circle.isSpecificPossible()) {
+			circle.setToSpecific();
+		} else {
+			EquationBehaviour equationBehaviour = cons.getKernel().getEquationBehaviour();
+			if (equationBehaviour != null) {
+				circle.setEquationForm(equationBehaviour.getConicCommandEquationForm());
+			}
+		}
 		circle.setLabel(label);
 		return circle;
 	}
@@ -1037,7 +1061,15 @@ public class AlgoDispatcher {
 	final public GeoConic circle(String label, GeoPoint M, GeoPoint P) {
 		AlgoCircleTwoPoints algo = new AlgoCircleTwoPoints(cons, M, P);
 		GeoConic circle = algo.getCircle();
-		circle.setToSpecific();
+		// TODO APPS-5867 move this to algo
+		if (circle.isSpecificPossible()) {
+			circle.setToSpecific();
+		} else {
+			EquationBehaviour equationBehaviour = cons.getKernel().getEquationBehaviour();
+			if (equationBehaviour != null) {
+				circle.setEquationForm(equationBehaviour.getConicCommandEquationForm());
+			}
+		}
 		circle.setLabel(label);
 		return circle;
 	}

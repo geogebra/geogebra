@@ -19,6 +19,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
@@ -50,6 +51,11 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();
+
+		EquationBehaviour equationBehaviour = kernel.getEquationBehaviour();
+		if (equationBehaviour != null) {
+			sphereND.setEquationForm(equationBehaviour.getConicCommandEquationForm());
+		}
 	}
 
 	abstract protected GeoQuadricND createSphereND(Construction cons1);

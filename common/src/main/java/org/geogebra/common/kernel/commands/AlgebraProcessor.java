@@ -25,6 +25,8 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationBehaviour;
+import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.KernelCAS;
 import org.geogebra.common.kernel.StringTemplate;
@@ -3024,44 +3026,68 @@ public class AlgebraProcessor {
 		} else {
 			line = dependentLine(equ);
 		}
-		line.setDefinition(def);
+
 		if (isExplicit) {
 			line.setToExplicit();
 		}
+
 		line.showUndefinedInAlgebraView(true);
+		line.setDefinition(def);
 		setEquationLabelAndVisualStyle(line, label, info);
 
 		return array(line);
 	}
 
 	/**
-	 * @param line
+	 * @param geo
 	 *            line or conic
 	 * @param label
 	 *            new label
 	 * @param info
 	 *            evaluation flags
 	 */
-	protected void setEquationLabelAndVisualStyle(GeoElementND line,
+	protected void setEquationLabelAndVisualStyle(GeoElementND geo,
 			String label, EvalInfo info) {
 		if (kernel.getApplication().isUnbundledGraphing()) {
-			line.setObjColor(line.getAutoColorScheme()
+			geo.setObjColor(geo.getAutoColorScheme()
 					.getNext(!cons.getKernel().isSilentMode()));
-			line.setLineOpacity(
+			geo.setLineOpacity(
 					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_EQUATION_GEOMETRY);
 		}
-		if ((info.isForceUserEquation()
-				|| !app.getSettings().getCasSettings().isEnabled())
-				&& line instanceof EquationValue) {
-			((EquationValue) line).setToUser();
+		if (geo.isFunctionOrEquationFromUser()) {
+			geo.setFixed(true);
 		}
 
-		if (line.isFunctionOrEquationFromUser()) {
-			line.setFixed(true);
-		}
+		// TODO APPS-5867 also needed in processList?
+		customizeEquationForm(geo);
 
 		if (info.isLabelOutput()) {
-			line.setLabel(label);
+			geo.setLabel(label);
+		}
+	}
+
+	private void customizeEquationForm(GeoElementND geo) {
+		if (geo instanceof GeoLine) {
+			EquationForm.Linear equationForm = kernel.getEquationBehaviour().getLinearAlgebraInputEquationForm();
+			if (equationForm != null) {
+				((GeoLine) geo).setEquationForm(equationForm);
+			}
+		} else if (geo instanceof GeoConic) {
+			EquationForm.Quadric equationForm = kernel.getEquationBehaviour().getConicAlgebraInputEquationForm();
+			if (equationForm != null) {
+				((GeoConic) geo).setEquationForm(equationForm);
+			}
+		} else if (geo instanceof EquationValue) {
+			EquationForm.Other equationForm = kernel.getEquationBehaviour().getOtherAlgebraInputEquationForm();
+			if (equationForm != null) {
+				switch (equationForm) {
+				case USER:
+					((EquationValue) geo).setToUser();
+					break;
+				default:
+					break;
+				}
+			}
 		}
 	}
 
@@ -3433,11 +3459,15 @@ public class AlgebraProcessor {
 				GeoElement[] results = processExpressionNode(en,
 						new EvalInfo(false));
 				GeoElement geo = results[0];
-				if ((info.isForceUserEquation()
-						|| !app.getSettings().getCasSettings().isEnabled())
-						&& Equation.isAlgebraEquation(geo)) {
-					((EquationValue) geo).setToUser();
+				// TODO APPS-5867 implement forceUserEquation behaviour using EquationBehaviour
+				if (Equation.isAlgebraEquation(geo)) {
+					customizeEquationForm(geo);
 				}
+//				if ((info.isForceUserEquation()
+//						|| !app.getSettings().getCasSettings().isEnabled())
+//						&& Equation.isAlgebraEquation(geo)) {
+//					((EquationValue) geo).setToUser();
+//				}
 				// add to list
 				geoElements.add(geo);
 				if (geo.isLabelSet() || geo.isLocalVariable()

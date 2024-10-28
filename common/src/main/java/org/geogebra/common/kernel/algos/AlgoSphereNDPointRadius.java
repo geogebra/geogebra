@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -75,6 +76,11 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 			if (r.getLabelSimple() != null || r.getParentAlgorithm() instanceof AlgoRadius) {
 				autoColor();
 			}
+		}
+
+		EquationBehaviour equationBehaviour = kernel.getEquationBehaviour();
+		if (equationBehaviour != null) {
+			sphereND.setEquationForm(equationBehaviour.getConicCommandEquationForm());
 		}
 	}
 
