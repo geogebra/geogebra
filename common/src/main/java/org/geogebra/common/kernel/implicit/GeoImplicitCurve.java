@@ -11,6 +11,7 @@ import org.apache.commons.math3.linear.DecompositionSolver;
 import org.apache.commons.math3.linear.LUDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathMover;
@@ -702,7 +703,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
-		return getToStringMode() == GeoLine.EQUATION_USER || coeff == null;
+		return getToStringMode() == EquationForm.Linear.USER.rawValue || coeff == null;
 	}
 
 	/**
@@ -1955,7 +1956,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public void setToUser() {
-		toStringMode = GeoLine.EQUATION_USER;
+	        // TODO APPS-5867 use setEquationForm
+		toStringMode = EquationForm.Linear.USER.rawValue;
 	}
 
 	@Override
@@ -1971,12 +1973,12 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public boolean isInputForm() {
-		return getToStringMode() == GeoLine.EQUATION_USER;
+		return getToStringMode() == EquationForm.Linear.USER.rawValue;
 	}
 
 	@Override
 	public void setToImplicit() {
-		toStringMode = GeoLine.EQUATION_IMPLICIT;
+		toStringMode = EquationForm.Linear.IMPLICIT.rawValue;
 	}
 
 	@Override
@@ -2445,14 +2447,14 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-		if (toStringMode == GeoLine.EQUATION_USER) {
+		if (toStringMode == EquationForm.Linear.USER.rawValue) {
 			return DescriptionMode.VALUE;
 		}
 		return super.getDescriptionMode();
 	}
 
 	@Override
-	public boolean setTypeFromXML(String style, String parameter, boolean force) {
+	public boolean setEquationFormFromXML(String style, String parameter) {
 		return false;
 	}
 

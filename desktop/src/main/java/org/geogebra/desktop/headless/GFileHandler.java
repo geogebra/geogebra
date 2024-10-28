@@ -36,6 +36,11 @@ public class GFileHandler {
 			// make sure objects are displayed in the correct View
 			app.setActiveView(App.VIEW_EUCLIDIAN);
 
+			// reset equation behaviour to app defaults (to clear out any overrides applied
+			// from construction defaults in previously opened files)
+			// TODO either call this from non-desktop specific code, or add
+			app.getKernel().setEquationBehaviour(app.getConfig().getEquationBehaviour());
+
 			// reset unique id (for old files, in case they don't have one)
 			app.resetUniqueId();
 

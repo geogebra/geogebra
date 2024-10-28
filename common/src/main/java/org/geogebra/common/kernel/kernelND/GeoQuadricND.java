@@ -14,7 +14,11 @@ package org.geogebra.common.kernel.kernelND;
 
 import java.util.Arrays;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.Algos;
@@ -110,7 +114,7 @@ public abstract class GeoQuadricND extends GeoElement
 	 */
 	public GeoQuadricND(Construction c) {
 		super(c);
-		toStringMode = GeoConicND.EQUATION_IMPLICIT;
+		toStringMode = EquationForm.Quadric.IMPLICIT.rawValue;
 	}
 
 	/**
@@ -125,7 +129,7 @@ public abstract class GeoQuadricND extends GeoElement
 	 */
 	public GeoQuadricND(Construction c, int dimension, boolean isIntersection) {
 		this(c);
-		this.toStringMode = GeoConicND.EQUATION_IMPLICIT;
+		this.toStringMode = EquationForm.Quadric.IMPLICIT.rawValue;
 		this.isIntersection = isIntersection;
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
@@ -627,7 +631,7 @@ public abstract class GeoQuadricND extends GeoElement
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-		if (toStringMode == GeoConicND.EQUATION_USER
+		if (toStringMode == EquationForm.Quadric.USER.rawValue
 				&& (isIndependent() || getParentAlgorithm().getClassName() == Algos.Expression)) {
 			return DescriptionMode.VALUE;
 		}
@@ -682,11 +686,38 @@ public abstract class GeoQuadricND extends GeoElement
 		return null;
 	}
 
+	public void setToUser() {
+		setEquationForm(EquationForm.Quadric.USER);
+	}
+
+	public void setToImplicit() {
+		setEquationForm(EquationForm.Quadric.IMPLICIT);
+	}
+
 	/**
 	 * Make this specific eg. (x-a)^2+(y-b)^2+(z-c)^2
 	 */
-	public final void setToSpecific() {
-		toStringMode = GeoConicND.EQUATION_SPECIFIC;
+	public void setToSpecific() {
+		setEquationForm(EquationForm.Quadric.SPECIFIC);
+	}
+
+	public void setEquationForm(@Nullable EquationForm.Quadric equationForm) {
+		if (equationForm == null) {
+			return;
+		}
+		setEquationForm(equationForm.rawValue);
+	}
+
+	public void setEquationForm(int toStringMode) {
+		EquationForm.Quadric equationForm = EquationForm.Quadric.valueOf(toStringMode);
+		if (equationForm != null) {
+			this.toStringMode = equationForm.rawValue;
+		}
+	}
+
+	@CheckForNull
+	public EquationForm.Quadric getEquationForm() {
+		return EquationForm.Quadric.valueOf(toStringMode);
 	}
 
 	protected boolean hasEqualMatrix(GeoQuadricND conic) {

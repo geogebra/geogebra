@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -19,9 +20,9 @@ public class LineEqnModel extends MultipleOptionsModel {
 	public LineEqnModel(App app) {
 		super(app);
 
-		eqnValues = Arrays.asList(GeoLine.EQUATION_IMPLICIT,
-				GeoLine.EQUATION_EXPLICIT, GeoLine.PARAMETRIC,
-				GeoLine.EQUATION_GENERAL, GeoLine.EQUATION_USER);
+		eqnValues = Arrays.asList(EquationForm.Linear.IMPLICIT.rawValue,
+				EquationForm.Linear.EXPLICIT.rawValue, EquationForm.Linear.PARAMETRIC.rawValue,
+				EquationForm.Linear.GENERAL.rawValue, EquationForm.Linear.USER.rawValue);
 
 	}
 
@@ -50,6 +51,7 @@ public class LineEqnModel extends MultipleOptionsModel {
 	 * @return whether to force input form
 	 */
 	public static boolean forceInputForm(App app, GeoElementND geo) {
+		// TODO APPS-5867 replace with kernel.getEquationBehaviour()
 		boolean isEnforcedLineEquationForm =
 				geo instanceof GeoLine && app.getConfig().getEnforcedLineEquationForm() != -1;
 		boolean isEnforcedConicEquationForm =

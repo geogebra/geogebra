@@ -27,6 +27,7 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -1854,33 +1855,27 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 
 		if (geo instanceof GeoLine) {
-
 			GeoLine line = (GeoLine) geo;
-
 			if ("parametric".equals(style)) {
-				line.setMode(GeoLine.PARAMETRIC);
+				line.setEquationForm(EquationForm.Linear.PARAMETRIC);
 			} else if ("explicit".equals(style)) {
-				line.setMode(GeoLine.EQUATION_EXPLICIT);
+				line.setEquationForm(EquationForm.Linear.EXPLICIT);
 			} else if ("implicit".equals(style)) {
-				line.setMode(GeoLine.EQUATION_IMPLICIT);
+				line.setEquationForm(EquationForm.Linear.IMPLICIT);
 			}
-
 			geo.updateRepaint();
 
 		} else if (geo instanceof GeoConic) {
-
 			GeoConic conic = (GeoConic) geo;
-
 			if ("parametric".equals(style)) {
-				conic.setToStringMode(GeoConicND.EQUATION_PARAMETRIC);
+				conic.setEquationForm(EquationForm.Quadric.PARAMETRIC);
 			} else if ("explicit".equals(style)) {
-				conic.setToStringMode(GeoConicND.EQUATION_EXPLICIT);
+				conic.setEquationForm(EquationForm.Quadric.EXPLICIT);
 			} else if ("implicit".equals(style)) {
-				conic.setToStringMode(GeoConicND.EQUATION_IMPLICIT);
+				conic.setEquationForm(EquationForm.Quadric.IMPLICIT);
 			} else if ("specific".equals(style)) {
-				conic.setToStringMode(GeoConicND.EQUATION_SPECIFIC);
+				conic.setEquationForm(EquationForm.Quadric.SPECIFIC);
 			}
-
 			geo.updateRepaint();
 		}
 	}

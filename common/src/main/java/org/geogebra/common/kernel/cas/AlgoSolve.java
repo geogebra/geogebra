@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
@@ -163,10 +164,11 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 
 			GeoElement el = solutions2.get(i);
 			if (el instanceof GeoLine) {
-				((GeoLine) el).setMode(GeoLine.EQUATION_USER);
+				((GeoLine) el).setEquationForm(EquationForm.Linear.USER);
 			}
 			if (el instanceof GeoPlaneND) {
-				((GeoPlaneND) el).setMode(GeoLine.EQUATION_USER);
+			        // TODO APPS-5867 use setEquationForm
+				((GeoPlaneND) el).setMode(EquationForm.Linear.USER.rawValue);
 			}
 
 			if (el instanceof GeoList) {

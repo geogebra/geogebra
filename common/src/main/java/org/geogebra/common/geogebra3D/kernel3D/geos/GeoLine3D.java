@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoLinePoint;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.StringTemplate;
@@ -213,7 +214,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 	@Override
 	protected void getStyleXML(StringBuilder sb) {
 		super.getStyleXML(sb);
-		XMLBuilder.appendEquationTypeLine(sb, GeoLine.PARAMETRIC, parameter);
+		XMLBuilder.appendEquationTypeLine(sb, EquationForm.Linear.PARAMETRIC.rawValue, parameter);
 	}
 
 	/**

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoTriangulatedSurface3D;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -962,7 +963,7 @@ public class GeoImplicitSurface extends GeoElement3D
 
 	@Override
 	final public void setToUser() {
-		toStringMode = GeoLine.EQUATION_USER;
+		toStringMode = EquationForm.Linear.USER.rawValue;
 	}
 
 	@Override

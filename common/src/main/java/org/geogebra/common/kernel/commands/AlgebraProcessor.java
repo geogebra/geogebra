@@ -3105,15 +3105,13 @@ public class AlgebraProcessor {
 
 			double[] coeffs = { a, b, c, d, e, f };
 			conic = new GeoConic(cons, coeffs);
-
 		} else {
 			conic = dependentConic(equ);
 		}
 
 		if (isExplicit) {
 			conic.setToExplicit();
-		} else if (isSpecific
-				|| conic.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
+		} else if (isSpecific || conic.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
 			conic.setToSpecific();
 		}
 		conic.setDefinition(def);

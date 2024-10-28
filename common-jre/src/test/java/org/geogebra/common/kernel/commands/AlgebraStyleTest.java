@@ -12,6 +12,7 @@ import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.gui.view.algebra.SuggestionSolve;
 import org.geogebra.common.gui.view.algebra.SuggestionStatistics;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -175,120 +176,120 @@ public class AlgebraStyleTest extends BaseUnitTest {
 
 	@Test
 	public void checkEquationExplicit() {
-		checkEquation("x^2+4*y^2=1", GeoConicND.EQUATION_EXPLICIT,
+		checkEquation("x^2+4*y^2=1", EquationForm.Quadric.EXPLICIT.rawValue,
 				"x^2 + 4y^2 = 1");
-		checkEquation("x^2+4*y^2-y+x*y=x +x -1", GeoConicND.EQUATION_EXPLICIT,
+		checkEquation("x^2+4*y^2-y+x*y=x +x -1", EquationForm.Quadric.EXPLICIT.rawValue,
 				"x^2 + x y + 4y^2 - 2x - y = -1");
-		checkEquation("-x^2=x +x -1", GeoConicND.EQUATION_EXPLICIT,
+		checkEquation("-x^2=x +x -1", EquationForm.Quadric.EXPLICIT.rawValue,
 				"-x^2 - 2x = -1");
 	}
 
 	@Test
 	public void checkEquationVertex() {
 		// ellipse: fallback to explicit
-		checkNonParabolaFallback(GeoConicND.EQUATION_VERTEX);
+		checkNonParabolaFallback(EquationForm.Quadric.VERTEX.rawValue);
 		// three actual parabolas
-		checkEquation("-x^2=x +x -1+y", GeoConicND.EQUATION_VERTEX,
+		checkEquation("-x^2=x +x -1+y", EquationForm.Quadric.VERTEX.rawValue,
 				"y = -(x + 1)^2 +2");
-		checkEquation("x^2=x +x -1+y", GeoConicND.EQUATION_VERTEX,
+		checkEquation("x^2=x +x -1+y", EquationForm.Quadric.VERTEX.rawValue,
 				"y = (x - 1)^2");
-		checkEquation("y^2=y +y -1+x", GeoConicND.EQUATION_VERTEX,
+		checkEquation("y^2=y +y -1+x", EquationForm.Quadric.VERTEX.rawValue,
 				"(x - 0) = (y - 1)^2");
 	}
 
 	@Test
 	public void checkEquationSpecific() {
 		// ellipse
-		checkEquation("x^2+4*y^2=1", GeoConicND.EQUATION_SPECIFIC,
+		checkEquation("x^2+4*y^2=1", EquationForm.Quadric.SPECIFIC.rawValue,
 				"x^2 / 1 + y^2 / 0.25 = 1");
 		// hyperbola
-		checkEquation("x^2-4*y^2=2x+2y+1", GeoConicND.EQUATION_SPECIFIC,
+		checkEquation("x^2-4*y^2=2x+2y+1", EquationForm.Quadric.SPECIFIC.rawValue,
 				"(x - 1)^2 / 1.75 - (y + 0.25)^2 / 0.44 = 1");
 		// double line
-		checkEquation("-x^2=x +x -1", GeoConicND.EQUATION_SPECIFIC,
+		checkEquation("-x^2=x +x -1", EquationForm.Quadric.SPECIFIC.rawValue,
 				"(-x - 2.41) (-x + 0.41) = 0");
 		// parabolas
-		checkEquation("-x^2-x=x -1+y", GeoConicND.EQUATION_SPECIFIC,
+		checkEquation("-x^2-x=x -1+y", EquationForm.Quadric.SPECIFIC.rawValue,
 				"x^2 = -2x - y + 1");
-		checkEquation("y^2=x +x -1+y", GeoConicND.EQUATION_SPECIFIC,
+		checkEquation("y^2=x +x -1+y", EquationForm.Quadric.SPECIFIC.rawValue,
 				"y^2 = 2x + y - 1");
-		checkEquation("(x+y)^2=x +x -1+y", GeoConicND.EQUATION_SPECIFIC,
+		checkEquation("(x+y)^2=x +x -1+y", EquationForm.Quadric.SPECIFIC.rawValue,
 				"x^2 + 2x y + y^2 - 2x - y = -1");
 	}
 
 	@Test
 	public void checkEquationConicform() {
-		checkNonParabolaFallback(GeoConicND.EQUATION_CONICFORM);
+		checkNonParabolaFallback(EquationForm.Quadric.CONICFORM.rawValue);
 		// parabolas
-		checkEquation("-x^2-x=x -1+y", GeoConicND.EQUATION_CONICFORM,
+		checkEquation("-x^2-x=x -1+y", EquationForm.Quadric.CONICFORM.rawValue,
 				"-(y - 2) = (x + 1)^2");
-		checkEquation("y^2=x +x -1+y", GeoConicND.EQUATION_CONICFORM,
+		checkEquation("y^2=x +x -1+y", EquationForm.Quadric.CONICFORM.rawValue,
 				"2(x - 0.38) = (y - 0.5)^2");
-		checkEquation("(x+y)^2=x +x -1+y", GeoConicND.EQUATION_CONICFORM,
+		checkEquation("(x+y)^2=x +x -1+y", EquationForm.Quadric.CONICFORM.rawValue,
 				"x^2 + 2x y + y^2 - 2x - y = -1");
 	}
 
 	@Test
 	public void checkEquationParametric() {
 		// ellipse
-		checkEquation("x^2+4*y^2=1", GeoConicND.EQUATION_PARAMETRIC,
+		checkEquation("x^2+4*y^2=1", EquationForm.Quadric.PARAMETRIC.rawValue,
 				"X = (0, 0) + (cos(t), 0.5 sin(t))");
 		// hyperbola
-		checkEquation("x^2-4*y^2=2x+2y+1", GeoConicND.EQUATION_PARAMETRIC,
+		checkEquation("x^2-4*y^2=2x+2y+1", EquationForm.Quadric.PARAMETRIC.rawValue,
 				"X = (1, -0.25) + (" + Unicode.PLUSMINUS
 						+ " 1.32 cosh(t), 0.66 sinh(t))");
 		// parallel lines
-		checkEquation("-x^2=x +x -1", GeoConicND.EQUATION_PARAMETRIC,
+		checkEquation("-x^2=x +x -1", EquationForm.Quadric.PARAMETRIC.rawValue,
 				"X = (-1 " + Unicode.PLUSMINUS + " 1.41, 0, 0) + "
 						+ Unicode.lambda + " (0, 1, 0)");
 		// double line
-		checkEquation("-x^2=x +x +1", GeoConicND.EQUATION_PARAMETRIC,
+		checkEquation("-x^2=x +x +1", EquationForm.Quadric.PARAMETRIC.rawValue,
 				"X = (-1, 0, 0) + " + Unicode.lambda + " (0, 1, 0)");
 		// parabolas
-		checkEquation("-x^2-x=x -1+y", GeoConicND.EQUATION_PARAMETRIC,
+		checkEquation("-x^2-x=x -1+y", EquationForm.Quadric.PARAMETRIC.rawValue,
 				"X = (-1, 2) + (-0.5 t, -0.25 t^2)");
-		checkEquation("y^2=x +x -1+y", GeoConicND.EQUATION_PARAMETRIC,
+		checkEquation("y^2=x +x -1+y", EquationForm.Quadric.PARAMETRIC.rawValue,
 				"X = (0.38, 0.5) + (0.5 t^2, t)");
-		checkEquation("(x+y)^2=x +x -1+y", GeoConicND.EQUATION_PARAMETRIC,
+		checkEquation("(x+y)^2=x +x -1+y", EquationForm.Quadric.PARAMETRIC.rawValue,
 				"X = (0.81, -0.06) + (0.06 t^2 + 0.13 t, -0.06 t^2 + 0.13 t)");
 	}
 
 	@Test
 	public void checkEquationImplicit() {
 		// ellipse
-		checkEquation("x^2+4*y^2=1", GeoConicND.EQUATION_IMPLICIT,
+		checkEquation("x^2+4*y^2=1", EquationForm.Quadric.IMPLICIT.rawValue,
 				"x^2 + 4y^2 = 1");
 		// hyperbola
-		checkEquation("x^2-4*y^2=2x+2y+1", GeoConicND.EQUATION_IMPLICIT,
+		checkEquation("x^2-4*y^2=2x+2y+1", EquationForm.Quadric.IMPLICIT.rawValue,
 				"x^2 - 4y^2 - 2x - 2y = 1");
 		// parallel lines
-		checkEquation("-x^2=x +x -1", GeoConicND.EQUATION_IMPLICIT,
+		checkEquation("-x^2=x +x -1", EquationForm.Quadric.IMPLICIT.rawValue,
 				"-x^2 - 2x = -1");
 		// double line
-		checkEquation("-x^2=x +x +1", GeoConicND.EQUATION_IMPLICIT,
+		checkEquation("-x^2=x +x +1", EquationForm.Quadric.IMPLICIT.rawValue,
 				"-x^2 - 2x = 1");
 		// parabolas
-		checkEquation("-x^2-x=x -1+y", GeoConicND.EQUATION_IMPLICIT,
+		checkEquation("-x^2-x=x -1+y", EquationForm.Quadric.IMPLICIT.rawValue,
 				"-x^2 - 2x - y = -1");
-		checkEquation("y^2=x +x -1+y", GeoConicND.EQUATION_IMPLICIT,
+		checkEquation("y^2=x +x -1+y", EquationForm.Quadric.IMPLICIT.rawValue,
 				"y^2 - 2x - y = -1");
-		checkEquation("(x+y)^2=x +x -1+y", GeoConicND.EQUATION_IMPLICIT,
+		checkEquation("(x+y)^2=x +x -1+y", EquationForm.Quadric.IMPLICIT.rawValue,
 				"x^2 + 2x y + y^2 - 2x - y = -1");
 	}
 
 	@Test
 	public void checkEquationReload() {
-		checkEquationReload("x^2+4*y^2=1", GeoConicND.EQUATION_EXPLICIT,
+		checkEquationReload("x^2+4*y^2=1", EquationForm.Quadric.EXPLICIT.rawValue,
 				"x^2 + 4y^2 = 1");
-		checkEquationReload("-x^2=x +x -1+y", GeoConicND.EQUATION_VERTEX,
+		checkEquationReload("-x^2=x +x -1+y", EquationForm.Quadric.VERTEX.rawValue,
 				"y = -(x + 1)^2 +2");
-		checkEquationReload("x^2+4*y^2=1", GeoConicND.EQUATION_SPECIFIC,
+		checkEquationReload("x^2+4*y^2=1", EquationForm.Quadric.SPECIFIC.rawValue,
 				"x^2 / 1 + y^2 / 0.25 = 1");
-		checkEquationReload("-x^2-x=x -1+y", GeoConicND.EQUATION_CONICFORM,
+		checkEquationReload("-x^2-x=x -1+y", EquationForm.Quadric.CONICFORM.rawValue,
 				"-(y - 2) = (x + 1)^2");
-		checkEquation("x^2+4*y^2=1", GeoConicND.EQUATION_PARAMETRIC,
+		checkEquation("x^2+4*y^2=1", EquationForm.Quadric.PARAMETRIC.rawValue,
 				"X = (0, 0) + (cos(t), 0.5 sin(t))");
-		checkEquation("x^2+4*y^2=1", GeoConicND.EQUATION_IMPLICIT,
+		checkEquation("x^2+4*y^2=1", EquationForm.Quadric.IMPLICIT.rawValue,
 				"x^2 + 4y^2 = 1");
 	}
 

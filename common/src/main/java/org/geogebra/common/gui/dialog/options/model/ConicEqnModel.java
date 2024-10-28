@@ -2,6 +2,7 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.List;
 
+import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -140,33 +141,33 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			mode = -1;
 		}
 		switch (mode) {
-		case GeoConicND.EQUATION_SPECIFIC:
+		case EquationForm.Quadric.CONST_SPECIFIC:
 			if (specificIndex > -1) {
 				getListener().setSelectedIndex(specificIndex);
 			}
 			break;
 
-		case GeoConicND.EQUATION_EXPLICIT:
+		case EquationForm.Quadric.CONST_EXPLICIT:
 			if (explicitIndex > -1) {
 				getListener().setSelectedIndex(explicitIndex);
 			}
 			break;
 
-		case GeoConicND.EQUATION_IMPLICIT:
+		case EquationForm.Quadric.CONST_IMPLICIT:
 			getListener().setSelectedIndex(implicitIndex);
 			break;
-		case GeoConicND.EQUATION_PARAMETRIC:
+		case EquationForm.Quadric.CONST_PARAMETRIC:
 			getListener().setSelectedIndex(parametricIndex);
 			break;
-		case GeoConicND.EQUATION_USER:
+		case EquationForm.Quadric.CONST_USER:
 			getListener().setSelectedIndex(userIndex);
 			break;
-		case GeoConicND.EQUATION_VERTEX:
+		case EquationForm.Quadric.CONST_VERTEX:
 			if (vertexformIndex > -1) {
 				getListener().setSelectedIndex(vertexformIndex);
 			}
 			break;
-		case GeoConicND.EQUATION_CONICFORM:
+		case EquationForm.Quadric.CONST_CONICFORM:
 			if (conicformIndex > -1) {
 				getListener().setSelectedIndex(conicformIndex);
 			}

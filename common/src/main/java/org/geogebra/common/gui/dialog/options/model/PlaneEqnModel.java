@@ -3,8 +3,8 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -16,8 +16,8 @@ public class PlaneEqnModel extends MultipleOptionsModel {
 	public PlaneEqnModel(App app) {
 		super(app);
 
-		eqnValues = Arrays.asList(GeoLine.EQUATION_IMPLICIT,
-				GeoLine.EQUATION_USER);
+		eqnValues = Arrays.asList(EquationForm.Linear.IMPLICIT.rawValue,
+				EquationForm.Linear.USER.rawValue);
 	}
 
 	@Override
