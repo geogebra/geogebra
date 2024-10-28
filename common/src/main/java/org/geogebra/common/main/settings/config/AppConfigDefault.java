@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.settings.LabelVisibility;
-import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.settings.config.equationforms.DefaultEquationBehaviour;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.DefaultPropertiesFactory;
@@ -240,11 +239,6 @@ public class AppConfigDefault extends AbstractAppConfig {
 	@Override
 	public boolean showToolsPanel() {
 		return true;
-	}
-
-	@Override
-	public SettingsUpdater createSettingsUpdater() {
-		return new SettingsUpdater();
 	}
 
 	@Override

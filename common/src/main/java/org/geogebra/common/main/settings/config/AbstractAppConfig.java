@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.config.equationforms.DefaultEquationBehaviour;
+import org.geogebra.common.main.settings.updater.SettingsUpdater;
 
 abstract class AbstractAppConfig implements AppConfig {
 
@@ -40,6 +41,11 @@ abstract class AbstractAppConfig implements AppConfig {
     @Override
     public EquationBehaviour getEquationBehaviour() {
         return new DefaultEquationBehaviour();
+    }
+
+    @Override
+    public SettingsUpdater createSettingsUpdater() {
+        return new SettingsUpdater();
     }
 
     @Override
