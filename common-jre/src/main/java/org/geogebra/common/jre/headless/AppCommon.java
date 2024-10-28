@@ -50,6 +50,7 @@ import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.common.main.settings.config.AppConfigScientific;
+import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.geogebra.common.main.undo.DefaultUndoManager;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.GgbAPI;
@@ -73,7 +74,6 @@ public class AppCommon extends App {
 	private DialogManagerNoGui dialogManager;
 	private DefaultSettings defaultSettings;
 	private SpreadsheetTableModel tableModel;
-	private AppConfig config;
 	private CASFactory casFactory = new CASFactoryDummy();
 	private boolean appletFlag = false;
 	private ImageManager imageManager;
@@ -94,7 +94,7 @@ public class AppCommon extends App {
 	 */
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory, AppConfig appConfig) {
 		super(Platform.ANDROID);
-		config = appConfig;
+		this.appConfig = appConfig;
 		AwtFactory.setPrototypeIfNull(awtFactory);
 		initFactories();
 		initKernel();
@@ -652,13 +652,12 @@ public class AppCommon extends App {
 		dialogManager = clear ? null : new DialogManagerNoGui(this, inputs);
 	}
 
-	@Override
-	public AppConfig getConfig() {
-		return config;
-	}
-
+	/**
+	 * For testing only
+	 */
 	public void setConfig(AppConfig config) {
-		this.config = config;
+		this.appConfig = config;
+		this.kernel.setEquationBehaviour(config.getEquationBehaviour());
 	}
 
 	public void setCASFactory(CASFactory casFactory) {
@@ -666,10 +665,18 @@ public class AppCommon extends App {
 	}
 
 	/**
-	 * Sets Graphing config and reinitializes the app.
+	 * Sets restricted/standalone Graphing config and reinitializes the app.
 	 */
 	public void setGraphingConfig() {
 		setConfig(new AppConfigGraphing());
+		reInit();
+	}
+
+	/**
+	 * Sets unrestricted/Suite Graphing config and reinitializes the app.
+	 */
+	public void setUnrestrictedGraphingConfig() {
+		setConfig(new AppConfigUnrestrictedGraphing());
 		reInit();
 	}
 
@@ -706,7 +713,7 @@ public class AppCommon extends App {
 	}
 
 	/**
-	 * Sets Geometry config and reinitializes the app.
+	 * Sets Classic config and reinitializes the app.
 	 */
 	public void setDefaultConfig() {
 		setConfig(new AppConfigDefault());
