@@ -12,6 +12,7 @@ import org.geogebra.common.io.MathFieldCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.main.ScreenReader;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.test.LocalizationCommonUTF;
 import org.junit.Test;
@@ -26,7 +27,8 @@ public class AuralTextUnicodeTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon3D createAppCommon() {
-		return new AppCommon3D(new LocalizationCommonUTF(3), new AwtFactoryCommon()) {
+		return new AppCommon3D(new LocalizationCommonUTF(3), new AwtFactoryCommon(),
+				new AppConfigDefault()) {
 			@Override
 			public StringTemplate getScreenReaderTemplate() {
 				return StringTemplate.screenReaderUnicode;
