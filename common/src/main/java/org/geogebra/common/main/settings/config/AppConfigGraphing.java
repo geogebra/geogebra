@@ -67,11 +67,6 @@ public class AppConfigGraphing extends AbstractAppConfig {
 	}
 
 	@Override
-	public int getLineDisplayStyle() {
-		return GeoLine.EQUATION_EXPLICIT;
-	}
-
-	@Override
 	public String getAppTitle() {
 		return "GraphingCalculator";
 	}

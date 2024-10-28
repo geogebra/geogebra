@@ -28,8 +28,6 @@ public interface AppConfig extends Serializable {
 
 	String getAVTitle();
 
-	int getLineDisplayStyle();
-
 	/**
 	 * @return translation key for short app name (Scientific Calculator)
 	 */

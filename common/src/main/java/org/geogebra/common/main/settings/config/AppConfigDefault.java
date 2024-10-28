@@ -58,11 +58,6 @@ public class AppConfigDefault extends AbstractAppConfig {
 	}
 
 	@Override
-	public int getLineDisplayStyle() {
-		return -1;
-	}
-
-	@Override
 	public String getAppTitle() {
 		return "math_apps";
 	}
