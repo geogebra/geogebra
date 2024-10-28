@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.settings.config.equationforms.EquationBehaviourStandaloneGraphing;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.test.TestErrorHandler;
@@ -81,13 +82,12 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		}
 	}
 
+	// TODO change to
+	//  private static void checkDescriptionMode(String def, DescriptionMode mode) {
 	private static void checkRows(String def, int rows) {
-		checkRows(def, rows, new EvalInfo(true));
-	}
-
-	private static void checkRows(String def, int rows, EvalInfo info) {
+		EvalInfo evalInfo = new EvalInfo(true);
 		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(def,
-				false, TestErrorHandler.INSTANCE, info, null);
+				false, TestErrorHandler.INSTANCE, evalInfo, null);
 		assertEquals(DescriptionMode.values()[rows],
 				el[0].getDescriptionMode());
 		el[0].toString(StringTemplate.defaultTemplate);
@@ -95,6 +95,8 @@ public class AlgebraStyleTest extends BaseUnitTest {
 				el[0].getDescriptionMode());
 	}
 
+	// TODO change to
+	//  checkEquationValue(String def, EquationForm.Linear/Quadrid equationForm, String expectedValue)
 	private static String checkEquation(String def, int mode, String check) {
 		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(def,
 				false, TestErrorHandler.INSTANCE, false, null);
@@ -104,6 +106,8 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		return el[0].getLabelSimple();
 	}
 
+	// TODO change to
+	//  checkEquationValueAfterReload(String def, EquationForm.Linear/Quadrid equationForm, String expectedValue)
 	private static void checkEquationReload(String def, int mode,
 			String check) {
 		String label = checkEquation(def, mode, check);
@@ -144,8 +148,8 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		checkRows("{{a}}+{{1}}", 2);
 		checkRows("{x=y}", 1);
 		checkRows("x=y", 2);
-		EvalInfo graphingFlags = new EvalInfo(true).withUserEquation(true);
-		checkRows("x=y", 1, graphingFlags);
+		getKernel().setEquationBehaviour(new EquationBehaviourStandaloneGraphing());
+		checkRows("x=y", 1);
 		checkRows("{y=x}", 1);
 		checkRows("Sequence[100]", 2);
 		checkRows("Line((0,0),(0,1))", 2);
@@ -155,6 +159,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	@Test
 	public void twoRowsAlgebraGraphing() {
 		AlgebraTestHelper.enableCAS(app, false);
+		getKernel().setEquationBehaviour(new EquationBehaviourStandaloneGraphing());
 		checkRows("Line((0,0),(0,1))", 2);
 		checkRows("Circle((0,0),(0,1))", 2);
 		checkRows("x=y", 1);
@@ -163,6 +168,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	@Test
 	public void twoRowsAlgebraGraphingDerivative() {
 		AlgebraTestHelper.enableCAS(app, false);
+		getKernel().setEquationBehaviour(new EquationBehaviourStandaloneGraphing());
 		checkRows("f(x)=x^2", 1);
 		checkRows("f'", 1);
 	}
@@ -170,6 +176,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	@Test
 	public void twoRowsAlgebraGraphingDerivativeArg() {
 		AlgebraTestHelper.enableCAS(app, false);
+		getKernel().setEquationBehaviour(new EquationBehaviourStandaloneGraphing());
 		checkRows("f(x)=x^2", 1);
 		checkRows("f'(x)", 1);
 	}
