@@ -49,6 +49,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	private final elemental2.dom.Element spreadsheetElement;
 	double moveTimeout;
 	int viewportChanges;
+	boolean isPointerDown = false;
 
 	/**
 	 * @param app application
@@ -91,6 +92,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			if (ptr.getButton() == 2 || (NavigatorUtil.isMacOS() && ptr.getCtrlKey())) {
 				event.preventDefault();
 			}
+			isPointerDown = true;
 			repaint();
 		});
 		registry.addEventListener(spreadsheetElement, "pointerup", event -> {
@@ -100,6 +102,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			if (!spreadsheet.isEditorActive()) {
 				app.hideKeyboard();
 			}
+			isPointerDown = false;
 			repaint();
 		});
 		registry.addEventListener(spreadsheetElement, "pointermove", event -> {
@@ -109,7 +112,6 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			Modifiers modifiers = getModifiers(ptr);
 			DomGlobal.clearTimeout(moveTimeout);
 			handlePointerMoved(offsetX, offsetY, modifiers);
-			repaint();
 		});
 		registry.addEventListener(DomGlobal.window, "pointerup", event -> {
 			elemental2.dom.Element target = Js.uncheckedCast(event.target);
@@ -129,6 +131,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 					getKeyboardModifiers(evt));
 			evt.stopPropagation(); // do not let global event handler interfere
 			evt.preventDefault(); // do not scroll the view
+			repaint();
 		}, KeyDownEvent.getType());
 		updateTotalSize();
 		DomGlobal.setInterval((ignore) -> {
@@ -151,6 +154,9 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 		spreadsheet.handlePointerMove(offsetX, offsetY,
 					modifiers);
+		if (isPointerDown) {
+			repaint();
+		}
 	}
 
 	private void setPointerCapture(Event event) {
