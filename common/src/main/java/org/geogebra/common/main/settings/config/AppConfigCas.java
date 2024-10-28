@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
@@ -16,6 +17,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
+import org.geogebra.common.main.settings.config.equationforms.DefaultEquationBehaviour;
 import org.geogebra.common.main.settings.updater.CasSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.syntax.suggestionfilter.CASSyntaxFilter;
@@ -175,5 +177,10 @@ public class AppConfigCas extends AppConfigGraphing {
 	@Override
 	public boolean hasLabelForDescription() {
 		return false;
+	}
+
+	@Override
+	public EquationBehaviour getEquationBehaviour() {
+		return new DefaultEquationBehaviour();
 	}
 }

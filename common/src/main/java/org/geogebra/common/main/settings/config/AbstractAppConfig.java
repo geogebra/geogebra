@@ -1,11 +1,14 @@
 package org.geogebra.common.main.settings.config;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.settings.config.equationforms.DefaultEquationBehaviour;
 
 abstract class AbstractAppConfig implements AppConfig {
 
@@ -31,6 +34,12 @@ abstract class AbstractAppConfig implements AppConfig {
     @Override
     public String getSubAppCode() {
         return subAppCode;
+    }
+
+    @Nonnull
+    @Override
+    public EquationBehaviour getEquationBehaviour() {
+        return new DefaultEquationBehaviour();
     }
 
     @Override

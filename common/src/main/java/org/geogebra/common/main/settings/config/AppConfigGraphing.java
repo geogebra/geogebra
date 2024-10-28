@@ -5,11 +5,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.kernel.EquationBehaviour;
+import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
@@ -19,8 +22,6 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.GraphingCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
-import org.geogebra.common.kernel.geos.GeoConic;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.App;
@@ -28,6 +29,7 @@ import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.updater.GraphingSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.main.settings.config.equationforms.EquationBehaviourStandaloneGraphing;
 import org.geogebra.common.main.syntax.suggestionfilter.GraphingSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.DefaultPropertiesFactory;
@@ -312,14 +314,22 @@ public class AppConfigGraphing extends AbstractAppConfig {
 		return ParserFunctionsFactory.createGraphingParserFunctionsFactory();
 	}
 
+	@Nonnull
 	@Override
-	public int getEnforcedLineEquationForm() {
-		return GeoLine.EQUATION_USER;
+	public EquationBehaviour getEquationBehaviour() {
+		return new EquationBehaviourStandaloneGraphing();
 	}
 
+	@Deprecated // replaced by getEquationBehaviour()
+	@Override
+	public int getEnforcedLineEquationForm() {
+		return EquationForm.Quadric.CONST_USER;
+	}
+
+	@Deprecated // replaced by getEquationBehaviour()
 	@Override
 	public int getEnforcedConicEquationForm() {
-		return GeoConic.EQUATION_USER;
+		return EquationForm.Quadric.CONST_USER;
 	}
 
 	@Override

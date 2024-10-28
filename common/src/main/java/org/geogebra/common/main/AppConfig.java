@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
+import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
@@ -248,11 +250,19 @@ public interface AppConfig extends Serializable {
 	Set<FillType> getAvailableFillTypes();
 
 	/**
+	 * This replaces the previous, semantically unclear {@code getLineDisplayStyle()},
+	 * {@code getEnforcedLineEquationForm()}, {@code getEnforcedConicEquationForm()}.
+	 */
+	@Nonnull
+	EquationBehaviour getEquationBehaviour();
+
+	/**
 	 * Returns an equation form constant declared in the GeoLine class,
 	 * or -1 if it's not set
 	 *
 	 * @return equation form or -1
 	 */
+	@Deprecated // replaced by getEquationBehaviour()
 	int getEnforcedLineEquationForm();
 
 	/**
@@ -261,6 +271,7 @@ public interface AppConfig extends Serializable {
 	 *
 	 * @return equation form or -1
 	 */
+	@Deprecated // replaced by getEquationBehaviour()
 	int getEnforcedConicEquationForm();
 
 	/**
