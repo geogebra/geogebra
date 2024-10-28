@@ -99,9 +99,9 @@ public class ForceInputFormTest extends BaseUnitTest {
 
 		GeoElementFactory factory = getElementFactory();
 		GeoLine geoLine = factory.createGeoLine();
+		GeoRay ray = getElementFactory().createGeoRay();
 		GeoConic parabola = (GeoConic) factory.create("y=xx");
 		GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
-		GeoRay ray = getElementFactory().createGeoRay();
 
 		GeoElement[] geos = new GeoElement[]{geoLine, parabola, hyperbola, ray};
 
