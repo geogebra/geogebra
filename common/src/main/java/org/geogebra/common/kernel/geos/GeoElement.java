@@ -170,7 +170,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	/** label, value, caption, label+value */
 	public int labelMode = LABEL_DEFAULT;
 	/** cartesian, polar or complex */
-	protected int toStringMode = Kernel.COORD_CARTESIAN;
+	protected int toStringMode = Kernel.COORD_CARTESIAN; // TODO APPS-5867 this default doesn't make sense for most elements (lines, circles, etc)
 	/** default (foreground) color */
 	protected GColor objColor = GColor.BLACK;
 	/** background color */
@@ -771,6 +771,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	/**
 	 * Set visual style from defaults
+	 * TODO APPS-5867: rename to setVisualStyleFromConstructionDefaults?
 	 */
 	final public void setConstructionDefaults() {
 		setConstructionDefaults(true, true);
@@ -1182,7 +1183,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * set visual style to geo, except for
+	 * Set visual style from geo, except for
 	 *  * auxiliary flag
 	 *  * fixed flag
 	 *  * selection allowed flag
@@ -1198,7 +1199,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		// style of equation, coordinates, ...
 		if (getGeoClassType() == geo.getGeoClassType()
 				&& (app.getSettings() == null
-						|| app.getSettings()
+						|| app.getSettings() // TODO APPS-5867 this condition needs explanation
 								.getCasSettings().isEnabled())) {
 			toStringMode = geo.toStringMode;
 		}

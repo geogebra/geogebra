@@ -32,6 +32,7 @@ public class EquationFormDelegate extends AbstractGeoElementDelegate {
 
 	private boolean isEnforcedEquationForm(GeoElement element) {
 		App app = element.getApp();
+		// TODO APPS-5867 replace with appConfig.getEquationBehaviour()
 		boolean isEnforcedLineEquationForm = element instanceof GeoLine
 				&& app.getConfig().getEnforcedLineEquationForm() != -1;
 		boolean isEnforcedConicEquationForm = element instanceof GeoConicND

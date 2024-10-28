@@ -114,6 +114,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * @param propertyRestrictions An optional map of properties and restrictions
 	 * to be applied to them during the exam.
 	 */
+    // TODO APPS-5867: add EquationBehaviour
 	protected ExamRestrictions(@Nonnull ExamType examType,
 			@Nullable Set<SuiteSubApp> disabledSubApps,
 			@Nullable SuiteSubApp defaultSubApp,
