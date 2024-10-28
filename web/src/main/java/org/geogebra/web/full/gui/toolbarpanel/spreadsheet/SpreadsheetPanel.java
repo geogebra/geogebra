@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.spreadsheet.core.SpreadsheetRepaintListener;
 import org.geogebra.common.spreadsheet.core.ViewportAdjusterDelegate;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
@@ -49,6 +50,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	private final elemental2.dom.Element spreadsheetElement;
 	double moveTimeout;
 	int viewportChanges;
+	private boolean repaintNeeded = true;
 
 	/**
 	 * @param app application
@@ -71,6 +73,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		mathField = new MathTextFieldW(app, new MetaModel());
 
 		spreadsheet.setControlsDelegate(initDelegate());
+		spreadsheet.setRepaintListener(initRepaintListener());
 
 		FlowPanel scrollContent = new FlowPanel();
 		scrollOverlay.setWidget(scrollContent);
@@ -128,8 +131,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		}, KeyDownEvent.getType());
 		updateTotalSize();
 		DomGlobal.setInterval((ignore) -> {
-			repaint();
-		}, 200);
+			repaintIfNeeded();
+		}, 16);
 		DomGlobal.setInterval((ignore) -> {
 			spreadsheet.scrollForDragIfNeeded();
 		}, 20);
@@ -165,6 +168,10 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 	private SpreadsheetControlsDelegateW initDelegate() {
 		return new SpreadsheetControlsDelegateW(app, this, mathField);
+	}
+
+	private SpreadsheetRepaintListener initRepaintListener() {
+		return () -> repaintNeeded = true;
 	}
 
 	public void requestFocus() {
@@ -221,6 +228,13 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		updateViewport();
 		spreadsheet.scrollEditorIntoView();
 		repaint();
+	}
+
+	private void repaintIfNeeded() {
+		if (repaintNeeded) {
+			repaint();
+			repaintNeeded = false;
+		}
 	}
 
 	private void repaint() {
