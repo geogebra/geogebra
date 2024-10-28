@@ -91,6 +91,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			if (ptr.getButton() == 2 || (NavigatorUtil.isMacOS() && ptr.getCtrlKey())) {
 				event.preventDefault();
 			}
+			repaint();
 		});
 		registry.addEventListener(spreadsheetElement, "pointerup", event -> {
 			NativePointerEvent ptr = Js.uncheckedCast(event);
@@ -99,6 +100,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			if (!spreadsheet.isEditorActive()) {
 				app.hideKeyboard();
 			}
+			repaint();
 		});
 		registry.addEventListener(spreadsheetElement, "pointermove", event -> {
 			NativePointerEvent ptr = Js.uncheckedCast(event);
@@ -107,6 +109,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			Modifiers modifiers = getModifiers(ptr);
 			DomGlobal.clearTimeout(moveTimeout);
 			handlePointerMoved(offsetX, offsetY, modifiers);
+			repaint();
 		});
 		registry.addEventListener(DomGlobal.window, "pointerup", event -> {
 			elemental2.dom.Element target = Js.uncheckedCast(event.target);
@@ -114,6 +117,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 				return;
 			}
 			spreadsheet.clearSelectionOnly();
+			repaint();
 		});
 
 		ClickStartHandler.initDefaults(scrollContent, false, true);
