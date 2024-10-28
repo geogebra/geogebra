@@ -50,7 +50,6 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	private final elemental2.dom.Element spreadsheetElement;
 	double moveTimeout;
 	int viewportChanges;
-	private boolean repaintNeeded = true;
 
 	/**
 	 * @param app application
@@ -131,8 +130,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		}, KeyDownEvent.getType());
 		updateTotalSize();
 		DomGlobal.setInterval((ignore) -> {
-			repaintIfNeeded();
-		}, 16);
+			repaint();
+		}, 200);
 		DomGlobal.setInterval((ignore) -> {
 			spreadsheet.scrollForDragIfNeeded();
 		}, 20);
@@ -171,7 +170,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	}
 
 	private SpreadsheetRepaintListener initRepaintListener() {
-		return () -> repaintNeeded = true;
+		return this::repaint;
 	}
 
 	public void requestFocus() {
@@ -228,13 +227,6 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		updateViewport();
 		spreadsheet.scrollEditorIntoView();
 		repaint();
-	}
-
-	private void repaintIfNeeded() {
-		if (repaintNeeded) {
-			repaint();
-			repaintNeeded = false;
-		}
 	}
 
 	private void repaint() {
