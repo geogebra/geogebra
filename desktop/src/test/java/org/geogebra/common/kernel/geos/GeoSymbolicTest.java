@@ -25,7 +25,7 @@ import static org.junit.Assert.assertTrue;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.Suggestion;
-import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
+import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.StringTemplate;
@@ -1029,18 +1029,18 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testCASSpecialPoints() {
 		t("f:x", "x");
 		GeoSymbolic line = (GeoSymbolic) app.getKernel().lookupLabel("f");
-		Suggestion suggestion = SuggestionRootExtremum.get(line);
+		Suggestion suggestion = SuggestionIntersectExtremum.get(line);
 		Assert.assertNotNull(suggestion);
 		suggestion.execute(line);
-		Assert.assertNull(SuggestionRootExtremum.get(line));
+		Assert.assertNull(SuggestionIntersectExtremum.get(line));
 		Object[] list = app.getKernel().getConstruction().getGeoSetConstructionOrder().toArray();
 		((GeoElement) list[list.length - 1]).remove();
-		Assert.assertNotNull(SuggestionRootExtremum.get(line));
+		Assert.assertNotNull(SuggestionIntersectExtremum.get(line));
 	}
 
 	@Test
 	public void testCASSpecialPointsForNumbers() {
-		Assert.assertNull(SuggestionRootExtremum.get(add("1+2")));
+		Assert.assertNull(SuggestionIntersectExtremum.get(add("1+2")));
 	}
 
 	@Test
