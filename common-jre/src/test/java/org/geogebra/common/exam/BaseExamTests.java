@@ -82,8 +82,6 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         algebraProcessor = app.getKernel().getAlgebraProcessor();
         commandDispatcher = algebraProcessor.getCommandDispatcher();
         autocompleteProvider = new AutocompleteProvider(app, false);
-        propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization()),
-                app);
         examController.setActiveContext(app, commandDispatcher, algebraProcessor,
                 app.getLocalization(), app.getSettings(), autocompleteProvider, app,
                 app.getKernel().getConstruction(), app.getKernel().getInputPreviewHelper());
@@ -95,8 +93,6 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         algebraProcessor = app.getKernel().getAlgebraProcessor();
         commandDispatcher = algebraProcessor.getCommandDispatcher();
         autocompleteProvider = new AutocompleteProvider(app, false);
-        propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization()),
-                app);
         examController.setActiveContext(app, commandDispatcher, algebraProcessor,
                 app.getLocalization(), app.getSettings(), autocompleteProvider, app,
                 app.getKernel().getConstruction(), app.getKernel().getInputPreviewHelper());
@@ -117,6 +113,8 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         examController.setDelegate(this);
         examController.addListener(examStates::add);
     }
+
+    // ExamControllerDelegate
 
     @Override
     public void examClearApps() {

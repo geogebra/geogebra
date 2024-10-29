@@ -30,7 +30,7 @@ public final class CvteExamTests extends BaseExamTests {
         evaluate("l2={1,2}");
 
         assertNull(evaluate("{l1, l2}"));
-        assertNull(evaluate("{If(true, l1}}"));
+        assertNull(evaluate("{If(true, l1)}"));
         assertNull(evaluate("{IterationList(x^2,3,2)}"));
         assertNull(evaluate("{Sequence(k,k,1,3)}"));
     }

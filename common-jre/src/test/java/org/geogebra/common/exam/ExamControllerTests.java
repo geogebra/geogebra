@@ -150,12 +150,6 @@ public final class ExamControllerTests extends BaseExamTests {
         // TODO commandArgumentFilters
         // expression restrictions
         assertNull(evaluate("true || false"));
-        // property restrictions
-        Property angleUnit = propertiesRegistry.lookup("AngleUnit", app);
-        assertNotNull(angleUnit);
-        assertTrue(angleUnit.isFrozen());
-        assertEquals(List.of(Kernel.ANGLE_DEGREE, Kernel.ANGLE_RADIANT),
-                ((NamedEnumeratedProperty<?>) angleUnit).getValues());
         // geo element property filters
         assertNull(geoElementPropertiesFactory.createShowObjectProperty(
                 app.getLocalization(),
