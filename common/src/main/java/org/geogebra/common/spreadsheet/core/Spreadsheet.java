@@ -22,7 +22,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	private final SpreadsheetController controller;
 
 	private final SpreadsheetRenderer renderer;
-	private @CheckForNull SpreadsheetRepaintListener repaintListener;
+	private @CheckForNull SpreadsheetDelegate spreadsheetDelegate;
 
 	/**
 	 * @param tabularData data source
@@ -172,10 +172,10 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	/**
-	 * @param repaintListener {@link SpreadsheetRepaintListener}
+	 * @param spreadsheetDelegate {@link SpreadsheetDelegate}
 	 */
-	public void setRepaintListener(SpreadsheetRepaintListener repaintListener) {
-		this.repaintListener = repaintListener;
+	public void setSpreadsheetDelegate(SpreadsheetDelegate spreadsheetDelegate) {
+		this.spreadsheetDelegate = spreadsheetDelegate;
 	}
 
 	/**
@@ -224,8 +224,8 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	private void notifyRepaintNeeded() {
-		if (repaintListener != null) {
-			repaintListener.notifyRepaintNeeded();
+		if (spreadsheetDelegate != null) {
+			spreadsheetDelegate.notifyRepaintNeeded();
 		}
 	}
 
