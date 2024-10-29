@@ -376,7 +376,7 @@ public enum Language {
 			"ug", "Uyghur", Script.ARABIC, ""),
 
 	Uzbek(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, true,
-			"uz", "Uzbek", Script.CYRILLIC, ',', ""),
+			"uz", "Uzbek / O'zbek", Script.CYRILLIC, ',', ""),
 
 	Vietnamese(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_DONG + "", true, "vi",
