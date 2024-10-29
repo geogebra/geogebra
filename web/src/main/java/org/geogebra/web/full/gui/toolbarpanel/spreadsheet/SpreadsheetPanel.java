@@ -174,8 +174,11 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		return new SpreadsheetControlsDelegateW(app, this, mathField);
 	}
 
+	/**
+	 * Focuses and repaints the spreadsheet
+	 */
 	public void requestFocus() {
-		Scheduler.get().scheduleDeferred(() -> spreadsheetElement.focus());
+		Scheduler.get().scheduleDeferred(spreadsheetElement::focus);
 		repaint();
 	}
 
