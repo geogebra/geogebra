@@ -15,6 +15,7 @@ import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
+import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -256,85 +257,63 @@ final class CvteExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<GeoElementPropertyFilter> createPropertyFilters() {
-		return Set.of(new ConicSectionShowObjectPropertyFilter(),
-				new NonLinearEquationShowObjectPropertyFilter());
+		return Set.of(new ShowObjectPropertyFilter());
 	}
 
 	private static Set<ConstructionElementSetup> createConstructionElementSetups() {
-		return Set.of(new ConicSectionVisibilitySetup(),
-				new NonLinearEquationVisibilitySetup());
+		return Set.of(new EquationVisibilitySetup());
 	}
 
-	private static class ConicSectionShowObjectPropertyFilter implements GeoElementPropertyFilter {
+	private static class ShowObjectPropertyFilter implements GeoElementPropertyFilter {
 		@Override
 		public boolean isAllowed(Property property, GeoElement geoElement) {
-			return !(
-					// Filter the show object property
-					property instanceof ShowObjectProperty
-					// for any conic element
-					&& isConic(geoElement)
-					// created manually (without command/tool)
-					&& geoElement.getParentAlgorithm() == null
-			);
+			if (property instanceof ShowObjectProperty) {
+				// For conic sections
+				if (isConicSection(geoElement)) {
+					// Allow only circles created by command "Circle(<Center>, <Radius>)"
+					// or tool "Circle: Center & Radius"
+                    return geoElement.getParentAlgorithm() instanceof AlgoCirclePointRadius;
+				}
+
+				// For equations
+				if (geoElement instanceof EquationValue) {
+					// Allow only linear equations
+                    return geoElement instanceof GeoLine || geoElement instanceof GeoPlaneND;
+				}
+			}
+			return true;
 		}
 	}
 
-	private static class NonLinearEquationShowObjectPropertyFilter
-			implements GeoElementPropertyFilter {
-		@Override
-		public boolean isAllowed(Property property, GeoElement geoElement) {
-			return !(
-					// Filter the show object property
-					property instanceof ShowObjectProperty
-					// for equations
-					&& geoElement instanceof EquationValue
-					// that are non-linear
-					&& !(geoElement instanceof GeoLine || geoElement instanceof GeoPlaneND)
-					// with the exception of conics
-					&& !isConic(geoElement)
-			);
-		}
-	}
-
-	private static class ConicSectionVisibilitySetup implements ConstructionElementSetup {
+	private static class EquationVisibilitySetup implements ConstructionElementSetup {
 		@Override
 		public void applyTo(ConstructionElement constructionElement) {
 			if (constructionElement instanceof GeoElement) {
 				GeoElement geoElement = (GeoElement) constructionElement;
-				if (
-						// For every conic
-						isConic(geoElement)
-						// created manually (without command/tool)
-						&& geoElement.getParentAlgorithm() == null
-				) {
-					// restrict the visibility of the element in the euclidian view
+
+				if (geoElement instanceof EquationValue) {
+					// Allow linear equations
+					if (geoElement instanceof GeoLine || geoElement instanceof GeoPlaneND) {
+						return;
+					}
+					// Restrict the euclidian visibility for every other equation
+					geoElement.setRestrictedEuclidianVisibility(true);
+				}
+
+				if (isConicSection(geoElement)) {
+					// Allow circles created by command "Circle(<Center>, <Radius>)"
+					// or tool "Circle: Center & Radius"
+					if (geoElement.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
+						return;
+					}
+					// Restrict the euclidian visibility for every other conic section
 					geoElement.setRestrictedEuclidianVisibility(true);
 				}
 			}
 		}
 	}
 
-	private static class NonLinearEquationVisibilitySetup implements ConstructionElementSetup {
-		@Override
-		public void applyTo(ConstructionElement constructionElement) {
-			if (constructionElement instanceof GeoElement) {
-				GeoElement geoElement = (GeoElement) constructionElement;
-				if (
-						// For every equation
-						geoElement instanceof EquationValue
-						// that are non-linear
-						&& !(geoElement instanceof GeoLine || geoElement instanceof GeoPlaneND)
-						// with the exception of conics
-						&& !isConic(geoElement)
-				) {
-					// restrict the visibility of the element in the euclidian view
-					geoElement.setRestrictedEuclidianVisibility(true);
-				}
-			}
-		}
-	}
-
-	private static boolean isConic(GeoElement geoElement) {
+	private static boolean isConicSection(GeoElement geoElement) {
 		if (geoElement.isGeoConic()) {
 			return true;
 		}

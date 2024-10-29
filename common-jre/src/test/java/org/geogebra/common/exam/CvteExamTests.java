@@ -60,52 +60,54 @@ public final class CvteExamTests extends BaseExamTests {
 
     @Test
     public void testConicRestrictions() {
-        GeoElement circleCreatedByCommand = evaluateGeoElement("Circle((0, 0), 2)");
-        GeoElement linearFunction = evaluateGeoElement("x");
-        GeoElement quadraticFunction = evaluateGeoElement("x^2");
-        GeoElement circleCreatedManually = evaluateGeoElement("x^2 + y^2 = 4");
+        // Check visible elements
+        List.of("Circle((0, 0), 2)",
+                "x"
+        ).forEach(expression -> {
+            GeoElement geoElement = evaluateGeoElement(expression);
+            assertTrue(expression, geoElement.isEuclidianVisible());
+            assertTrue(expression, geoElement.isEuclidianToggleable());
+            assertNotNull(expression, geoElementPropertiesFactory.createShowObjectProperty(
+                    app.getLocalization(), List.of(geoElement)));
+        });
 
-        assertTrue(circleCreatedByCommand.isEuclidianVisible());
-        assertTrue(linearFunction.isEuclidianVisible());
-        assertFalse(circleCreatedManually.isEuclidianVisible());
-        assertFalse(quadraticFunction.isEuclidianVisible());
-
-        assertTrue(circleCreatedByCommand.isEuclidianToggleable());
-        assertTrue(linearFunction.isEuclidianToggleable());
-        assertFalse(circleCreatedManually.isEuclidianToggleable());
-        assertFalse(quadraticFunction.isEuclidianToggleable());
-
-        assertNotNull(geoElementPropertiesFactory.createShowObjectProperty(
-                app.getLocalization(), List.of(circleCreatedByCommand)));
-        assertNotNull(geoElementPropertiesFactory.createShowObjectProperty(
-                app.getLocalization(), List.of(linearFunction)));
-        assertNull(geoElementPropertiesFactory.createShowObjectProperty(
-                app.getLocalization(), List.of(circleCreatedManually)));
-        assertNull(geoElementPropertiesFactory.createShowObjectProperty(
-                app.getLocalization(), List.of(quadraticFunction)));
+        // Check elements with restricted visibility
+        List.of("x^2",
+                "x^2 + y^2 = 4"
+        ).forEach(expression -> {
+            GeoElement geoElement = evaluateGeoElement(expression);
+            assertFalse(expression, geoElement.isEuclidianVisible());
+            assertFalse(expression, geoElement.isEuclidianToggleable());
+            assertNull(expression, geoElementPropertiesFactory.createShowObjectProperty(
+                    app.getLocalization(), List.of(geoElement)));
+        });
     }
 
     @Test
     public void testEquationRestrictions() {
-        List.of(evaluateGeoElement("x = 0"),
-                evaluateGeoElement("x + y = 0")
-        ).forEach(linearEquation -> {
-            assertTrue(linearEquation.isEuclidianVisible());
-            assertTrue(linearEquation.isEuclidianToggleable());
+        // Check linear equations
+        List.of("x = 0",
+                "x + y = 0"
+        ).forEach(expression -> {
+            GeoElement geoElement = evaluateGeoElement(expression);
+            assertTrue(geoElement.isEuclidianVisible());
+            assertTrue(geoElement.isEuclidianToggleable());
             assertNotNull(geoElementPropertiesFactory.createShowObjectProperty(
-                    app.getLocalization(), List.of(linearEquation)));
+                    app.getLocalization(), List.of(geoElement)));
         });
 
-        List.of(evaluateGeoElement("x^2 = 0"),
-                evaluateGeoElement("2^x = 0"),
-                evaluateGeoElement("sin(x) = 0"),
-                evaluateGeoElement("ln(x) = 0"),
-                evaluateGeoElement("|x - 3| = 0")
-        ).forEach(nonLinearEquation -> {
-            assertFalse(nonLinearEquation.isEuclidianVisible());
-            assertFalse(nonLinearEquation.isEuclidianToggleable());
+        // Check non-linear equations
+        List.of("x^2 = 0",
+                "2^x = 0",
+                "sin(x) = 0",
+                "ln(x) = 0",
+                "|x - 3| = 0"
+        ).forEach(expression -> {
+            GeoElement geoElement = evaluateGeoElement(expression);
+            assertFalse(geoElement.isEuclidianVisible());
+            assertFalse(geoElement.isEuclidianToggleable());
             assertNull(geoElementPropertiesFactory.createShowObjectProperty(
-                    app.getLocalization(), List.of(nonLinearEquation)));
+                    app.getLocalization(), List.of(geoElement)));
         });
     }
 }
