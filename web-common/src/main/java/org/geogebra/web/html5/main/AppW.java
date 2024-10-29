@@ -3547,7 +3547,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public boolean isLockedExam() {
 		return !StringUtil.empty(getAppletParameters().getParamExamMode())
-				&& appletParameters.getDataParamApp();
+				&& supportsExamUI();
+	}
+
+	protected boolean supportsExamUI() {
+		return appletParameters.getDataParamApp() && !isWhiteboardActive();
 	}
 
 	/**

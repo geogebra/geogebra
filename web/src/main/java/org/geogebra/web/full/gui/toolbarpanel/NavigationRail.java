@@ -578,8 +578,7 @@ class NavigationRail extends FlowPanel {
 
 	public void resetExamStyle() {
 		resetHeaderClasses();
-		boolean examStyle = GlobalScope.examController.isExamActive()
-				&& app.getAppletParameters().getDataParamApp();
+		boolean examStyle = useExamStyle();
 		updateIcons(examStyle);
 		if (examStyle) {
 			ExamUtil.makeRed(getElement(), examController.isCheating());

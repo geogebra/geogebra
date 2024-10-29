@@ -816,7 +816,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (examController.isIdle()) {
 			if (isUnbundled()) {
 				new StartExamAction().execute(this);
-			} else if (!isWhiteboardActive()) {
+			} else {
 				resetViewsEnabled();
 				String negativeKey = isLockedExam()
 						? null : "Cancel";
@@ -2365,7 +2365,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				|| examController.getState() == ExamState.PREPARING) {
 			examController.startExam(examType, options);
 		}
-		if (getAppletParameters().getDataParamApp() && !isWhiteboardActive()) {
+		if (supportsExamUI()) {
 			getLAF().toggleFullscreen(true);
 		}
 		if (guiManager != null) {
@@ -2375,7 +2375,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				guiManager.updateUnbundledToolbarStyle();
 				guiManager.resetMenu();
 				guiManager.updateUnbundledToolbarContent();
-				if (getAppletParameters().getDataParamApp()) {
+				if (supportsExamUI()) {
 					new ExamUtil(this).addVisibilityAndBlurHandlers();
 					GlobalHeader.INSTANCE.addExamTimer();
 					guiManager.initInfoBtnAction();
