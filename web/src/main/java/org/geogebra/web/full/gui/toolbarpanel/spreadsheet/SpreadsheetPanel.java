@@ -176,6 +176,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 	public void requestFocus() {
 		Scheduler.get().scheduleDeferred(() -> spreadsheetElement.focus());
+		repaint();
 	}
 
 	private Modifiers getKeyboardModifiers(KeyEvent<?> evt) {
