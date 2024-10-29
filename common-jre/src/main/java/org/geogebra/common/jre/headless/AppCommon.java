@@ -73,7 +73,6 @@ public class AppCommon extends App {
 	private DialogManagerNoGui dialogManager;
 	private DefaultSettings defaultSettings;
 	private SpreadsheetTableModel tableModel;
-	private AppConfig config;
 	private CASFactory casFactory = new CASFactoryDummy();
 	private boolean appletFlag = false;
 	private ImageManager imageManager;
@@ -94,7 +93,7 @@ public class AppCommon extends App {
 	 */
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory, AppConfig appConfig) {
 		super(Platform.ANDROID);
-		config = appConfig;
+		this.appConfig = appConfig;
 		AwtFactory.setPrototypeIfNull(awtFactory);
 		initFactories();
 		initKernel();
@@ -652,13 +651,8 @@ public class AppCommon extends App {
 		dialogManager = clear ? null : new DialogManagerNoGui(this, inputs);
 	}
 
-	@Override
-	public AppConfig getConfig() {
-		return config;
-	}
-
 	public void setConfig(AppConfig config) {
-		this.config = config;
+		this.appConfig = config;
 	}
 
 	public void setCASFactory(CASFactory casFactory) {
@@ -669,7 +663,7 @@ public class AppCommon extends App {
 	 * Sets Graphing config and reinitializes the app.
 	 */
 	public void setGraphingConfig() {
-		setConfig(new AppConfigGraphing());
+		appConfig = new AppConfigGraphing();
 		reInit();
 	}
 
@@ -677,7 +671,7 @@ public class AppCommon extends App {
 	 * Sets Scientific config and reinitializes the app.
 	 */
 	public void setScientificConfig() {
-		setConfig(new AppConfigScientific());
+		appConfig = new AppConfigScientific();
 		reInit();
 	}
 
@@ -685,7 +679,7 @@ public class AppCommon extends App {
 	 * Sets Geometry config and reinitializes the app.
 	 */
 	public void setGeometryConfig() {
-		setConfig(new AppConfigGeometry());
+		appConfig = new AppConfigGeometry();
 		reInit();
 	}
 
@@ -693,23 +687,31 @@ public class AppCommon extends App {
 	 * Sets 3D config and reinitializes the app.
 	 */
 	public void set3dConfig() {
-		setConfig(new AppConfigGraphing3D());
+		appConfig = new AppConfigGraphing3D();
 		reInit();
 	}
 
 	/**
-	 * Sets Geometry config and reinitializes the app.
+	 * Sets CAS config and reinitializes the app.
 	 */
 	public void setCasConfig() {
-		setConfig(new AppConfigCas());
+		appConfig = new AppConfigCas();
 		reInit();
 	}
 
 	/**
-	 * Sets Geometry config and reinitializes the app.
+	 * Sets Classic config and reinitializes the app.
 	 */
 	public void setDefaultConfig() {
-		setConfig(new AppConfigDefault());
+		appConfig = new AppConfigDefault();
+		reInit();
+	}
+
+	/**
+	 * Sets Notes config and reinitializes the app.
+	 */
+	public void setNotesConfig() {
+		appConfig = new AppConfigNotes();
 		reInit();
 	}
 
