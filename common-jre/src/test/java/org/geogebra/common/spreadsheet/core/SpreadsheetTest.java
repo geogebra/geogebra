@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GFont;
@@ -29,7 +28,7 @@ public class SpreadsheetTest extends BaseUnitTest {
 	private final int rowHeader = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 	private Spreadsheet spreadsheet;
 	private TabularData<?> tabularData;
-	private boolean spreadsheetRepainted;
+	private SpreadsheetDelegate delegate;
 
 	@Before
 	public void setupSpreadsheet() {
@@ -55,8 +54,8 @@ public class SpreadsheetTest extends BaseUnitTest {
 				// no UI to update
 			}
 		});
-		spreadsheetRepainted = false;
-		spreadsheet.setSpreadsheetDelegate(mockSpreadsheetDelegate());
+		delegate = mockSpreadsheetDelegate();
+		spreadsheet.setSpreadsheetDelegate(delegate);
 	}
 
 	private void resetViewport() {
@@ -162,14 +161,16 @@ public class SpreadsheetTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void spreadsheetShouldRepaintAfterUpdatingSliderValue() {
+	public void spreadsheetShouldRepaintAfterUpdatingSlider() {
 		tabularData = new KernelTabularDataAdapter(getSettings().getSpreadsheet(), getKernel());
 		tabularData.addChangeListener(spreadsheet);
 		getKernel().attach((KernelTabularDataAdapter) tabularData);
-		GeoNumeric slider = add("a = 2");
+
+		GeoNumeric slider = add("a = 3");
 		tabularData.setContent(0, 0, slider);
-		slider.setValue(3);
-		assertTrue("The spreadsheet should have been repainted!", spreadsheetRepainted);
+		Mockito.verify(delegate, Mockito.times(2)).notifyRepaintNeeded();
+		slider.update();
+		Mockito.verify(delegate, Mockito.times(3)).notifyRepaintNeeded();
 	}
 
 	private static class TestCellRenderableFactory implements CellRenderableFactory {
@@ -182,9 +183,6 @@ public class SpreadsheetTest extends BaseUnitTest {
 	}
 
 	private SpreadsheetDelegate mockSpreadsheetDelegate() {
-		SpreadsheetDelegate delegate = Mockito.mock(SpreadsheetDelegate.class);
-		Mockito.doAnswer(ignore -> spreadsheetRepainted = true)
-				.when(delegate).notifyRepaintNeeded();
-		return delegate;
+		return Mockito.mock(SpreadsheetDelegate.class);
 	}
 }
