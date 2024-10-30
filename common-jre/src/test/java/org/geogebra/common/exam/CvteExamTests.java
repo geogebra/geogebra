@@ -65,10 +65,13 @@ public final class CvteExamTests extends BaseExamTests {
                 "x"
         ).forEach(expression -> {
             GeoElement geoElement = evaluateGeoElement(expression);
-            assertTrue(expression, geoElement.isEuclidianVisible());
-            assertTrue(expression, geoElement.isEuclidianToggleable());
-            assertNotNull(expression, geoElementPropertiesFactory.createShowObjectProperty(
-                    app.getLocalization(), List.of(geoElement)));
+            assertTrue(expression + " should be visible in the euclidian view.",
+                    geoElement.isEuclidianVisible());
+            assertTrue(expression + " should be toggleable in the algebra input.",
+                    geoElement.isEuclidianToggleable());
+            assertNotNull(expression + " should have a show object property.",
+                    geoElementPropertiesFactory.createShowObjectProperty(
+                            app.getLocalization(), List.of(geoElement)));
         });
 
         // Check elements with restricted visibility
@@ -76,10 +79,13 @@ public final class CvteExamTests extends BaseExamTests {
                 "x^2 + y^2 = 4"
         ).forEach(expression -> {
             GeoElement geoElement = evaluateGeoElement(expression);
-            assertFalse(expression, geoElement.isEuclidianVisible());
-            assertFalse(expression, geoElement.isEuclidianToggleable());
-            assertNull(expression, geoElementPropertiesFactory.createShowObjectProperty(
-                    app.getLocalization(), List.of(geoElement)));
+            assertFalse(expression + " shouldn't be visible in the euclidian view.",
+                    geoElement.isEuclidianVisible());
+            assertFalse(expression + " shouldn't be toggleable in the algebra input.",
+                    geoElement.isEuclidianToggleable());
+            assertNull(expression + " shouldn't have a show object property.",
+                    geoElementPropertiesFactory.createShowObjectProperty(
+                            app.getLocalization(), List.of(geoElement)));
         });
     }
 
@@ -90,10 +96,13 @@ public final class CvteExamTests extends BaseExamTests {
                 "x + y = 0"
         ).forEach(expression -> {
             GeoElement geoElement = evaluateGeoElement(expression);
-            assertTrue(geoElement.isEuclidianVisible());
-            assertTrue(geoElement.isEuclidianToggleable());
-            assertNotNull(geoElementPropertiesFactory.createShowObjectProperty(
-                    app.getLocalization(), List.of(geoElement)));
+            assertTrue(expression + " should be visible in the euclidian view.",
+                    geoElement.isEuclidianVisible());
+            assertTrue(expression + " should be toggleable in the algebra input.",
+                    geoElement.isEuclidianToggleable());
+            assertNotNull(expression + " should have a show object property.",
+                    geoElementPropertiesFactory.createShowObjectProperty(
+                            app.getLocalization(), List.of(geoElement)));
         });
 
         // Check non-linear equations
@@ -104,10 +113,13 @@ public final class CvteExamTests extends BaseExamTests {
                 "|x - 3| = 0"
         ).forEach(expression -> {
             GeoElement geoElement = evaluateGeoElement(expression);
-            assertFalse(geoElement.isEuclidianVisible());
-            assertFalse(geoElement.isEuclidianToggleable());
-            assertNull(geoElementPropertiesFactory.createShowObjectProperty(
-                    app.getLocalization(), List.of(geoElement)));
+            assertFalse(expression + " shouldn't be visible in the euclidian view.",
+                    geoElement.isEuclidianVisible());
+            assertFalse(expression + " shouldn't be toggleable in the algebra input.",
+                    geoElement.isEuclidianToggleable());
+            assertNull(expression + " shouldn't have a show object property.",
+                    geoElementPropertiesFactory.createShowObjectProperty(
+                            app.getLocalization(), List.of(geoElement)));
         });
     }
 }
