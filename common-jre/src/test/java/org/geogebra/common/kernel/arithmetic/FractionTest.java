@@ -11,10 +11,10 @@ public class FractionTest extends SymbolicArithmeticTest {
 
 	@Test
 	public void functionWithFractions() {
-		t("frac(x)=(3/2)^x", "(3 / 2)^x");
-		t("frac(2)", "9 / 4");
-		t("frac(-1)", "2 / 3");
-		t("frac(-2)", "4 / 9");
+		add("fracPower(x)=(3/2)^x");
+		t("fracPower(2)", "9 / 4");
+		t("fracPower(-1)", "2 / 3");
+		t("fracPower(-2)", "4 / 9");
 	}
 
 	@Test

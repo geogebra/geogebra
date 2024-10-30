@@ -26,10 +26,10 @@ public class BaseEuclidianControllerTest extends BaseUnitTest {
 	}
 
 	/**
-	 * Setup the app
+	 * Set up the controller
 	 */
 	@Before
-	public void setupController() {
+	public void setUpController() {
 		ec = getApp().getActiveEuclidianView().getEuclidianController();
 		reset();
 	}
