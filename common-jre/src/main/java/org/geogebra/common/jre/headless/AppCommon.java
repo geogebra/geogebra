@@ -651,68 +651,65 @@ public class AppCommon extends App {
 		dialogManager = clear ? null : new DialogManagerNoGui(this, inputs);
 	}
 
-	public void setConfig(AppConfig config) {
-		this.appConfig = config;
-	}
-
 	public void setCASFactory(CASFactory casFactory) {
 		this.casFactory = casFactory;
+	}
+
+	/**
+	 * Set the app config and reinitialize the app.
+	 */
+	public void setConfig(AppConfig config) {
+		this.appConfig = config;
+		reInit();
 	}
 
 	/**
 	 * Sets Graphing config and reinitializes the app.
 	 */
 	public void setGraphingConfig() {
-		appConfig = new AppConfigGraphing();
-		reInit();
+		setConfig(new AppConfigGraphing());
 	}
 
 	/**
 	 * Sets Scientific config and reinitializes the app.
 	 */
 	public void setScientificConfig() {
-		appConfig = new AppConfigScientific();
-		reInit();
+		setConfig(new AppConfigScientific());
 	}
 
 	/**
 	 * Sets Geometry config and reinitializes the app.
 	 */
 	public void setGeometryConfig() {
-		appConfig = new AppConfigGeometry();
-		reInit();
+		setConfig(new AppConfigGeometry());
 	}
 
 	/**
 	 * Sets 3D config and reinitializes the app.
 	 */
 	public void set3dConfig() {
-		appConfig = new AppConfigGraphing3D();
-		reInit();
+		setConfig(new AppConfigGraphing3D());
 	}
 
 	/**
 	 * Sets CAS config and reinitializes the app.
 	 */
 	public void setCasConfig() {
-		appConfig = new AppConfigCas();
-		reInit();
+		setConfig(new AppConfigCas());
 	}
 
 	/**
 	 * Sets Classic config and reinitializes the app.
 	 */
 	public void setDefaultConfig() {
-		appConfig = new AppConfigDefault();
-		reInit();
+		setConfig(new AppConfigDefault());
 	}
 
 	/**
 	 * Sets Notes config and reinitializes the app.
 	 */
 	public void setNotesConfig() {
-		appConfig = new AppConfigNotes();
-		reInit();
+		setConfig(new AppConfigNotes());
 	}
 
 	private void reInit() {
