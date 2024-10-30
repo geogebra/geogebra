@@ -173,14 +173,11 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				Statistics1,
 				Statistics2,
 				Regression);
-
 		return Set.of(item -> {
 			if (item instanceof TableValuesContextMenuItem) {
 				TableValuesContextMenuItem tableValuesItem = (TableValuesContextMenuItem) item;
-				return restrictedContextMenuItems.stream().noneMatch(restrictedItem ->
-						restrictedItem == tableValuesItem.getItem());
+				return !restrictedContextMenuItems.contains(tableValuesItem.getItem());
 			}
-
 			return true;
 		});
 	}
