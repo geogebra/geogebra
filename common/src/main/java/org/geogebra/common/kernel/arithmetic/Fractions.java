@@ -202,40 +202,52 @@ public class Fractions {
 	 * @return whether the fraction has exact decimal value
 	 */
 	public static boolean isExactFraction(GeoElementND geo, Kernel kernel) {
-		return geo instanceof GeoNumeric && geo.getDefinition() != null
-				&& isExactFraction(geo.getDefinition().asFraction(), kernel);
+		if (!(geo instanceof GeoNumeric) || geo.getDefinition() == null) {
+			return false;
+		}
+		ExpressionNode fractionOrMultipleOfPi = geo.getDefinition().asFraction();
+		return isSimpleFraction(fractionOrMultipleOfPi)
+				&& isExactFraction(fractionOrMultipleOfPi, kernel);
+	}
+
+	private static boolean isSimpleFraction(ExpressionNode fractionOrMultipleOfPi) {
+		return fractionOrMultipleOfPi.isOperation(Operation.DIVIDE)
+				&& !fractionOrMultipleOfPi.getLeft().unwrap().isExpressionNode()
+				&& !(fractionOrMultipleOfPi.getLeft().unwrap() instanceof MySpecialDouble);
 	}
 
 	private static boolean isExactFraction(ExpressionNode fraction, Kernel kernel) {
-		if (!fraction.isOperation(Operation.DIVIDE)
-				|| fraction.getLeft().unwrap().isExpressionNode()
-				|| fraction.getLeft().unwrap() instanceof MySpecialDouble) {
-			return false;
-		}
 		ExpressionValue denominator = fraction.getRight();
-		int denominatorValue = (int) denominator.evaluateDouble();
+		// For any denominator we have unique (q, deg2, deg5) such that
+		// denominator = q * 2^deg2 * 5^deg5, gcd(q,2) = 1, gcd(q,5) = 1.
+		// The fraction has finite number of decimal digits if and only if q==1.
+		int q = (int) denominator.evaluateDouble();
 		int deg2 = 0;
-		while (denominatorValue % 2 == 0) {
-			denominatorValue /= 2;
+		while (q % 2 == 0) {
+			q /= 2;
 			deg2++;
 		}
 		int deg5 = 0;
-		while (denominatorValue % 5 == 0) {
-			denominatorValue /= 5;
+		while (q % 5 == 0) {
+			q /= 5;
 			deg5++;
 		}
-		if (denominatorValue != 1) {
+		if (q != 1) {
 			return false;
 		}
+		// Now we know the fraction is of the form num / (2^deg2*5^deg5),
+		// that can also be written as expandedNum / 10^maxDeg,
+		// where maxDeg = max(deg2, deg5) and expandedNum = num * 2^(maxDeg-deg2) * 5^(maxDeg-deg5).
+		// That is a decimal fraction with log10(expandedNum) digits, maxDeg of them after the ".".
 		int maxDeg = Math.max(deg2, deg5);
 		if (kernel.useSignificantFigures) {
-			double numerator = fraction.getLeft().evaluateDouble();
-			// expand the fraction
-			// num / (2^deg2*5^deg5) = (num * 2^(maxDeg-deg2)*5^(maxDeg-deg5)) / 10^maxDeg
-			double expandedNumerator = Math.abs(numerator)
+			// here we care about total digits; assume no trailing zeros since fraction is not int
+			double num = fraction.getLeft().evaluateDouble();
+			double expandedNum = Math.abs(num)
 					* Math.pow(2, maxDeg - deg2) * Math.pow(5, maxDeg - deg5);
-			return Math.log10(expandedNumerator) < kernel.getPrintFigures();
+			return Math.log10(expandedNum) < kernel.getPrintFigures();
 		} else {
+			// here we only care about digits after the "."
 			return maxDeg <= kernel.getPrintDecimals();
 		}
 	}
