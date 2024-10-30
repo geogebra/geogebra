@@ -1,17 +1,31 @@
 package org.geogebra.common.contextmenu;
 
-import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.*;
-import static org.geogebra.common.contextmenu.ContextMenuFactory.*;
+import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.AddLabel;
+import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.CreateSlider;
+import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.CreateTableValues;
+import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Delete;
+import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.DuplicateInput;
+import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.DuplicateOutput;
+import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.RemoveLabel;
+import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.RemoveSlider;
+import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Settings;
+import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Solve;
+import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.SpecialPoints;
+import static org.geogebra.common.contextmenu.AlgebraContextMenuItem.Statistics;
+import static org.geogebra.common.contextmenu.ContextMenuFactory.makeAlgebraContextMenu;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.cas.MockCASGiac;
+import org.geogebra.common.gui.view.algebra.contextmenu.impl.CreateSlider;
+import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
@@ -25,6 +39,8 @@ import org.junit.Test;
 public class AlgebraContextMenuTests {
 	private AlgebraProcessor algebraProcessor;
 	private String appCode;
+	private MockCASGiac mockCASGiac;
+	private Kernel kernel;
 
 	@Test
 	public void testAlgebraContextMenuWithInvalidGeoElement() {
@@ -186,22 +202,42 @@ public class AlgebraContextMenuTests {
 	@Test
 	public void testForSimpleInputWithSliderInCasApp() {
 		setupApp(GeoGebraConstants.CAS_APPCODE);
+		mockCASGiac.memorize("5");
+		GeoElement slider = add("slider=5");
+		new CreateSlider(algebraProcessor, new LabelController()).execute(slider);
 		assertEquals(
 				List.of(RemoveSlider,
 						DuplicateInput,
 						Delete,
 						Settings),
-				makeAlgebraContextMenu(add("5"), algebraProcessor, appCode)
+				makeAlgebraContextMenu(kernel.lookupLabel("slider"), algebraProcessor, appCode)
 		);
 	}
 
 	@Test
 	public void testForSimpleInputWithoutLabelInCasApp() {
 		setupApp(GeoGebraConstants.CAS_APPCODE);
+		mockCASGiac.memorize("5");
 		GeoElement geoElement = add("5");
 		new LabelController().hideLabel(geoElement);
 		assertEquals(
-				List.of(RemoveSlider,
+				List.of(AddLabel,
+						CreateSlider,
+						DuplicateInput,
+						Delete,
+						Settings),
+				makeAlgebraContextMenu(geoElement, algebraProcessor, appCode)
+		);
+	}
+
+	@Test
+	public void testForSimpleInputWithoutSliderInCasApp() {
+		setupApp(GeoGebraConstants.CAS_APPCODE);
+		mockCASGiac.memorize("5");
+		GeoElement geoElement = add("5");
+		assertEquals(
+				List.of(RemoveLabel,
+						CreateSlider,
 						DuplicateInput,
 						Delete,
 						Settings),
@@ -212,6 +248,7 @@ public class AlgebraContextMenuTests {
 	@Test
 	public void testForInputWithStatisticsInCasApp() {
 		setupApp(GeoGebraConstants.CAS_APPCODE);
+		mockCASGiac.memorize("{1, 2, 3}");
 		assertEquals(
 				List.of(CreateTableValues,
 						RemoveLabel,
@@ -226,6 +263,7 @@ public class AlgebraContextMenuTests {
 	@Test
 	public void testForInputWithSpecialPointsInCasApp() {
 		setupApp(GeoGebraConstants.CAS_APPCODE);
+		mockCASGiac.memorize("x");
 		assertEquals(
 				List.of(CreateTableValues,
 						RemoveLabel,
@@ -239,10 +277,11 @@ public class AlgebraContextMenuTests {
 
 	private void setupApp(String appCode) {
 		this.appCode = appCode;
-		App app = AppCommonFactory.create(makeAppConfig(appCode));
+		AppCommon app = AppCommonFactory.create(makeAppConfig(appCode));
+		mockCASGiac = MockCASGiac.init(app);
 		algebraProcessor = app.getKernel().getAlgebraProcessor();
+		kernel = app.getKernel();
 		app.getSettingsUpdater().resetSettingsOnAppStart();
-
 	}
 
 	private AppConfig makeAppConfig(String appCode) {
