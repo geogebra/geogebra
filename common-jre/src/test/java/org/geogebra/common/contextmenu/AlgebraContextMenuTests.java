@@ -278,7 +278,7 @@ public class AlgebraContextMenuTests {
 	private void setupApp(String appCode) {
 		this.appCode = appCode;
 		AppCommon app = AppCommonFactory.create(makeAppConfig(appCode));
-		mockCASGiac = MockCASGiac.init(app);
+		mockCASGiac = new MockCASGiac(app);
 		algebraProcessor = app.getKernel().getAlgebraProcessor();
 		kernel = app.getKernel();
 		app.getSettingsUpdater().resetSettingsOnAppStart();

@@ -9,21 +9,37 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 
-public class MockCASGiac extends CASgiac {
+/**
+ * If the {@link Kernel}'s evaluation mode is symbolic ({@code SymbolicMode.SYMBOLIC_AV}) (e.g.
+ * in the CAS app), all inputs have to go through Giac. We cannot really instantiate Giac in
+ * {@code common-jre}, so having a mock of Giac allows us to use the symbolic evaluation in
+ * {@code common-jre}, keep related tests together and only use desktop tests for features that
+ * are heavily depending on CAS.
+ */
+public final class MockCASGiac extends CASgiac {
 
-	private final List<String> answers = new ArrayList<>();
+	private final List<String> responses = new ArrayList<>();
 
 	/**
-	 * Creates new Giac CAS
-	 * @param casParser parser
+	 * Creates a Giac CAS mock that registers itself as the CAS factory for the app.
 	 */
+	public MockCASGiac(AppCommon app) {
+		super((CASparser) app.getKernel().getGeoGebraCAS().getCASparser());
+		app.setCASFactory(new CASFactory() {
+			@Override
+			public CASGenericInterface newGiac(CASparser parser, Kernel kernel) {
+				return MockCASGiac.this;
+			}
+		});
+	}
+
 	public MockCASGiac(CASparser casParser) {
 		super(casParser);
 	}
 
 	@Override
 	public String evaluateCAS(String exp) {
-		return answers.remove(0);
+		return responses.remove(0);
 	}
 
 	@Override
@@ -42,28 +58,11 @@ public class MockCASGiac extends CASgiac {
 	}
 
 	/**
-	 * Add response to a queue. These will be dequeued by {@link #evaluateCAS(String)}
-	 * in the order they were memorized.
+	 * Add {@code response} to the internal queue of responses. These will be returned and
+	 * dequeued by {@link #evaluateCAS(String)} in the order they were memorized.
 	 * @param response mocked Giac response
 	 */
 	public void memorize(String response) {
-		this.answers.add(response);
-	}
-
-	/**
-	 * Creates a mock and registers the necessary factory in the test app
-	 * @param app application
-	 * @return new mock of Giac CAS
-	 */
-	public static MockCASGiac init(AppCommon app) {
-		MockCASGiac
-				giac = new MockCASGiac((CASparser) app.getKernel().getGeoGebraCAS().getCASparser());
-		app.setCASFactory(new CASFactory() {
-			@Override
-			public CASGenericInterface newGiac(CASparser parser, Kernel kernel) {
-				return giac;
-			}
-		});
-		return giac;
+		responses.add(response);
 	}
 }
