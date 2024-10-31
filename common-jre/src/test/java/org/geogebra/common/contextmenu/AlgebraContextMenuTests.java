@@ -203,8 +203,8 @@ public class AlgebraContextMenuTests {
 	public void testForSimpleInputWithSliderInCasApp() {
 		setupApp(GeoGebraConstants.CAS_APPCODE);
 		mockCASGiac.memorize("5");
-		GeoElement slider = add("slider=5");
-		new CreateSlider(algebraProcessor, new LabelController()).execute(slider);
+		GeoElement number = add("slider=5");
+		new CreateSlider(algebraProcessor, new LabelController()).execute(number);
 		assertEquals(
 				List.of(RemoveSlider,
 						DuplicateInput,
