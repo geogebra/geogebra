@@ -537,38 +537,23 @@ public class AlgoMacro extends AlgoElement
 	final public void initFunction(FunctionNVar fun) {
 		// geoFun was created as a copy of macroFun,
 		// make sure all referenced GeoElements are from the algo-construction
-		replaceReferencedMacroObjects(fun.getExpression());
+		fun.getExpression().traverse(this::replaceReferencedMacroObjects);
 	}
 
 	/**
 	 * Replaces all references to macroGeos in expression exp by references to
 	 * the corresponding algoGeos
 	 */
-	private void replaceReferencedMacroObjects(ExpressionNode exp) {
-		ExpressionValue left = exp.getLeft();
-		ExpressionValue right = exp.getRight();
+	private ExpressionValue replaceReferencedMacroObjects(ExpressionValue left) {
 
 		// left tree
 		if (left.isGeoElement()) {
 			GeoElement referencedGeo = (GeoElement) left;
 			if (macro.isInMacroConstruction(referencedGeo)) {
-				exp.setLeft(getAlgoGeo(referencedGeo));
+				return getAlgoGeo(referencedGeo);
 			}
-		} else if (left.isExpressionNode()) {
-			replaceReferencedMacroObjects((ExpressionNode) left);
 		}
-
-		// right tree
-		if (right == null) {
-			return;
-		} else if (right.isGeoElement()) {
-			GeoElement referencedGeo = (GeoElement) right;
-			if (macro.isInMacroConstruction(referencedGeo)) {
-				exp.setRight(getAlgoGeo(referencedGeo));
-			}
-		} else if (right.isExpressionNode()) {
-			replaceReferencedMacroObjects((ExpressionNode) right);
-		}
+		return left;
 	}
 
 	@Override

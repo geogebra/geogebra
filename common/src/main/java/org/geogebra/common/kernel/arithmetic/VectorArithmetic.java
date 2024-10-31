@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Functions for csymbolic computation with vectors
@@ -95,6 +96,7 @@ public class VectorArithmetic {
 				ExpressionNode parent = ((GeoCurveCartesianND) exp.getLeft())
 						.getFun(i)
 					.getExpression().deepCopy(kernel);
+				Log.debug("expand");
 				return parent.replace(
 						((GeoCurveCartesianND) exp.getLeft()).getFun(i)
 								.getFunctionVariable(), exp.getRight()).wrap();
@@ -105,6 +107,14 @@ public class VectorArithmetic {
 		case IF_SHORT:
 			return new ExpressionNode(kernel, exp.getLeft().deepCopy(kernel),
 					Operation.IF, computeCoord(exp.getRightTree(), i));
+		case IF_LIST:
+			MyList values = (MyList) exp.getRight().unwrap();
+			MyList expandedValues = new MyList(kernel);
+			for (int idx = 0; idx < values.size(); idx++) {
+				expandedValues.addListElement(computeCoord(values.get(idx).wrap(), i));
+			}
+			return new ExpressionNode(kernel, exp.getLeft().deepCopy(kernel),
+					Operation.IF_LIST, expandedValues);
 		case PLUS:
 			if (exp.getRight().evaluatesToNDVector()) {
 				return computeCoord(exp.getLeftTree(), i).plus(
