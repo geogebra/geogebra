@@ -652,24 +652,24 @@ public class AppCommon extends App {
 		dialogManager = clear ? null : new DialogManagerNoGui(this, inputs);
 	}
 
-	/**
-	 * For testing only
-	 */
-	public void setConfig(AppConfig config) {
-		this.appConfig = config;
-		this.kernel.setEquationBehaviour(config.getEquationBehaviour());
-	}
-
 	public void setCASFactory(CASFactory casFactory) {
 		this.casFactory = casFactory;
 	}
 
 	/**
-	 * Sets restricted/standalone Graphing config and reinitializes the app.
+	 * Set the app config and reinitialize the app.
+	 */
+	public void setConfig(AppConfig config) {
+		this.appConfig = config;
+        this.kernel.setEquationBehaviour(config.getEquationBehaviour());
+		reInit();
+	}
+
+	/**
+	 * Sets Graphing config and reinitializes the app.
 	 */
 	public void setGraphingConfig() {
 		setConfig(new AppConfigGraphing());
-		reInit();
 	}
 
 	/**
@@ -677,7 +677,6 @@ public class AppCommon extends App {
 	 */
 	public void setUnrestrictedGraphingConfig() {
 		setConfig(new AppConfigUnrestrictedGraphing());
-		reInit();
 	}
 
 	/**
@@ -685,7 +684,6 @@ public class AppCommon extends App {
 	 */
 	public void setScientificConfig() {
 		setConfig(new AppConfigScientific());
-		reInit();
 	}
 
 	/**
@@ -693,7 +691,6 @@ public class AppCommon extends App {
 	 */
 	public void setGeometryConfig() {
 		setConfig(new AppConfigGeometry());
-		reInit();
 	}
 
 	/**
@@ -701,15 +698,13 @@ public class AppCommon extends App {
 	 */
 	public void set3dConfig() {
 		setConfig(new AppConfigGraphing3D());
-		reInit();
 	}
 
 	/**
-	 * Sets Geometry config and reinitializes the app.
+	 * Sets CAS config and reinitializes the app.
 	 */
 	public void setCasConfig() {
 		setConfig(new AppConfigCas());
-		reInit();
 	}
 
 	/**
@@ -717,7 +712,13 @@ public class AppCommon extends App {
 	 */
 	public void setDefaultConfig() {
 		setConfig(new AppConfigDefault());
-		reInit();
+	}
+
+	/**
+	 * Sets Notes config and reinitializes the app.
+	 */
+	public void setNotesConfig() {
+		setConfig(new AppConfigNotes());
 	}
 
 	private void reInit() {

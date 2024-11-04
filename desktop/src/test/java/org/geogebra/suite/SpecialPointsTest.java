@@ -14,9 +14,15 @@ import org.geogebra.common.main.SpecialPointsManager;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
+import org.junit.Before;
 import org.junit.Test;
 
 public class SpecialPointsTest extends BaseSuiteTest {
+
+	@Before
+	public void setRounding() {
+		getKernel().setPrintDecimals(2);
+	}
 
 	@Test
 	public void testRemovableDiscontinuity1() {
