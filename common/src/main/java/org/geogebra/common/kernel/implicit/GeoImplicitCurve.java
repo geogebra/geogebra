@@ -1972,7 +1972,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override // GeoImplicit
 	public void setToUser() {
-		// TODO APPS-5867 do we need an EquationForm.ImplicitObject enum?
 		toStringMode = EquationForm.Linear.USER.rawValue;
 	}
 

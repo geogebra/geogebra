@@ -3081,18 +3081,6 @@ public class AlgebraProcessor {
 			}
 		}
 		// TODO APPS-5867 do we need to handle implicit functions/surfaces here?
-//		} else if (geo instanceof EquationValue) {
-//			EquationForm.Other equationForm = kernel.getEquationBehaviour().getOtherAlgebraInputEquationForm();
-//			if (equationForm != null) {
-//				switch (equationForm) {
-//				case USER:
-//					((EquationValue) geo).setToUser();
-//					break;
-//				default:
-//					break;
-//				}
-//			}
-//		}
 	}
 
 	/**
@@ -3463,15 +3451,10 @@ public class AlgebraProcessor {
 				GeoElement[] results = processExpressionNode(en,
 						new EvalInfo(false));
 				GeoElement geo = results[0];
-				// TODO APPS-5867 implement forceUserEquation behaviour using EquationBehaviour
+				// TODO APPS-5867 do we need more conditions here?
 				if (Equation.isAlgebraEquation(geo)) {
 					customizeEquationForm(geo);
 				}
-//				if ((info.isForceUserEquation()
-//						|| !app.getSettings().getCasSettings().isEnabled())
-//						&& Equation.isAlgebraEquation(geo)) {
-//					((EquationValue) geo).setToUser();
-//				}
 				// add to list
 				geoElements.add(geo);
 				if (geo.isLabelSet() || geo.isLocalVariable()

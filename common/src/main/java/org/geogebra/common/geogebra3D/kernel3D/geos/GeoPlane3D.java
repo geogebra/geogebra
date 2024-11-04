@@ -459,9 +459,7 @@ public class GeoPlane3D extends GeoElement3D
 		}
 		// we need to keep 0z in equation to be sure that y+0z=1 will be loaded
 		// as a plane
-		// TODO APPS-5867 replace with getEquationForm() == EquationForm.Linear.USER
-		if (getToStringMode() == EquationForm.Linear.USER.rawValue
-				&& getDefinition() != null) {
+		if (getEquationForm() == EquationForm.Linear.USER && getDefinition() != null) {
 			return getDefinition().toValueString(tpl);
 		}
 		return buildValueString(tpl, kernel, getCoordSys().getEquationVector(),
@@ -489,7 +487,7 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public void setToParametric(String parameter) {
-		// TODO APPS-5867 parametric form of plane (will need 2 parameters)
+		// if we want parametric form for plane, we will need 2 parameters
 	}
 
 	/**

@@ -1892,15 +1892,13 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return new StringBuilder("?");
 		}
 		StringBuilder sbToValueString = new StringBuilder();
-		// TODO APPS-5867 replace with getEquationForm() == EquationForm.Quadric...
 		if (getDefinition() != null
-				&& (getToStringMode() == EquationForm.Quadric.USER.rawValue)) {
+				&& (getEquationForm() == EquationForm.Quadric.USER)) {
 			return sbToValueString.append(getDefinition().toString(tpl));
 		}
 		switch (type) {
 		case QUADRIC_SPHERE:
-		        // TODO APPS-5867 replace with getEquationForm() == EquationForm.Quadric...
-			if (getToStringMode() == EquationForm.Quadric.IMPLICIT.rawValue) {
+			if (getEquationForm() == EquationForm.Quadric.IMPLICIT) {
 				return buildImplicitEquation(tpl);
 			}
 			buildSphereNDString(sbToValueString, tpl);

@@ -25,8 +25,8 @@ public final class EquationForm {
 		public static final int CONST_EXPLICIT = 1;
 		public static final int CONST_PARAMETRIC = 2;
 		// TODO APPS-5867 This constant is only left in here (for now) because some code in GeoLine
-		//  (e.g., toValueString) uses it, but it seems that the numeric value (3) it checks against
-		//  is the default value of GeoElement.toStringMode, which is Kernel.COORD_CARTESIAN (also 3).
+		//  (e.g., toValueString) uses it in switch cases, but the numeric value (3) in these cases is
+		//  the default value of GeoElement.toStringMode, which is Kernel.COORD_CARTESIAN (also 3).
 		public static final int CONST_IMPLICIT_NON_CANONICAL = 3;
 		public static final int CONST_GENERAL = 4;
 		public static final int CONST_USER = 5;

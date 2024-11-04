@@ -47,7 +47,6 @@ public interface GeoPlaneND extends GeoCoordSys2D, EquationValue, EquationFormLi
 	 */
 	public double distanceWithSign(GeoPlaneND h3d);
 
-	// TODO APPS-5867 change to setEquationForm(EquationForm.Linear equationForm)
 	/**
 	 * @param toStringMode
 	 *            equation style

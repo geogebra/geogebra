@@ -32,8 +32,8 @@ public class FitTests extends BaseUnitTest {
         String outputString = fitCommand.toOutputValueString(StringTemplate.editTemplate);
         assertThat(outputString, equalTo("0.625x² - 0.25x"));
         Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitCommand.getDescriptionMode());
-        // TODO APPS-5867 this is just checking against Kernel.COORD_CARTESIAN default value
-        //  introduce enum for GeoFunctions, use in Fit algos
+        // TODO APPS-5867 this is bogus check against the Kernel.COORD_CARTESIAN(=3) default value
+        //  -> introduce enum for GeoFunctions, use in Fit algos
 //        Assert.assertEquals(GeoLine.EQUATION_IMPLICIT_NON_CANONICAL, fitCommand.getToStringMode());
     }
 

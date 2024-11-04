@@ -751,7 +751,7 @@ public abstract class ContextMenuGeoElement {
 	 */
 	public boolean needsInputFormItem(GeoElement geo) {
 		if (Equation.isAlgebraEquation(geo)) {
-			// TODO APPS-5867 replace with instanceof EqationFormLinear/Quadric checks?
+			// TODO APPS-5867 replace with instanceof EquationFormLinear/Quadric checks?
 			if (geo.isGeoLine()) {
 				return geo.getToStringMode() != EquationForm.Linear.USER.rawValue;
 			}
