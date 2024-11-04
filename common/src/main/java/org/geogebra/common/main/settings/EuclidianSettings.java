@@ -1657,5 +1657,4 @@ public class EuclidianSettings extends AbstractSettings {
 	public int getVisibleUntilY() {
 		return visibleUntilY > Integer.MIN_VALUE ? visibleUntilY : getHeight();
 	}
-
 }

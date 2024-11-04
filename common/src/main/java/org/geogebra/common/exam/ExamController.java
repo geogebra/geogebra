@@ -404,6 +404,7 @@ public final class ExamController {
 		}
 		tempStorage.clearTempMaterials();
 		createNewTempMaterial();
+
 		examRestrictions.applySettinsTo(activeDependencies.settings);
 		cheatingEvents = new CheatingEvents();
 		cheatingEvents.delegate = (cheatingEvent) -> {
