@@ -3142,8 +3142,9 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public boolean containsFreeFunctionVariable(String name) {
 		return checkForFreeVars(left, name)
-				|| (left instanceof MyList && ((ValidExpression) left)
-					.containsFunctionVariable(name))
+				|| (operation == Operation.IF_LIST
+						&& left instanceof MyList && ((ValidExpression) left)
+								.containsFunctionVariable(name))
 				|| (right != null && checkForFreeVars(right, name))
 				|| ((operation == Operation.FUNCTION_NVAR
 						|| operation == Operation.ELEMENT_OF

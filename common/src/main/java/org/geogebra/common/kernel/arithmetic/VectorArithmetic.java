@@ -4,10 +4,9 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 /**
- * Functions for csymbolic computation with vectors
+ * Functions for symbolic computation with vectors
  */
 public class VectorArithmetic {
 	private static final Operation[] COMPLEX_OPS = new Operation[] { Operation.REAL,
@@ -96,7 +95,6 @@ public class VectorArithmetic {
 				ExpressionNode parent = ((GeoCurveCartesianND) exp.getLeft())
 						.getFun(i)
 					.getExpression().deepCopy(kernel);
-				Log.debug("expand");
 				return parent.replace(
 						((GeoCurveCartesianND) exp.getLeft()).getFun(i)
 								.getFunctionVariable(), exp.getRight()).wrap();

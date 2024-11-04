@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.geos.GeoAngle;
