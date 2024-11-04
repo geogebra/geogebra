@@ -450,9 +450,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}, KeyDownEvent.getType());
 	}
 
-	private void redirectToKeyTyped(KeyListener keyListener, char typedEvent, KeyUpEvent event) {
+	private void redirectToKeyTyped(KeyListener keyListener, char typedChar, KeyUpEvent event) {
 		keyListener.onKeyTyped(new KeyEvent(0, 0,
-				typedEvent));
+				event.isShiftKeyDown() ? typedChar : Character.toLowerCase(typedChar)));
 		onFocusTimer(); // refocus to remove the half-written letter
 		updateAltForKeyUp(event);
 		event.preventDefault();
