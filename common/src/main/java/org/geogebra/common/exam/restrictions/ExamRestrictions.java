@@ -228,6 +228,10 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		}
 	}
 
+	public void applySettinsTo(Settings settings) {
+		// Set custom settings here
+	}
+
 	/**
 	 * Remove the exam restrictions (i.e., undo the changes from
 	 * {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,

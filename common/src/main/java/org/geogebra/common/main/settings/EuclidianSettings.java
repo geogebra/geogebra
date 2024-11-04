@@ -565,6 +565,12 @@ public class EuclidianSettings extends AbstractSettings {
 		return axisNumberingDistances[i];
 	}
 
+
+	public void setAxisNumberingDistance(int i, double distValue) {
+		GeoNumeric dist = new GeoNumeric(app.getKernel().getConstruction(), distValue);
+		setAxisNumberingDistance(i, dist, true);
+	}
+
 	public void setAxisNumberingDistance(int i, GeoNumberValue dist) {
 		setAxisNumberingDistance(i, dist, true);
 	}
@@ -1651,4 +1657,5 @@ public class EuclidianSettings extends AbstractSettings {
 	public int getVisibleUntilY() {
 		return visibleUntilY > Integer.MIN_VALUE ? visibleUntilY : getHeight();
 	}
+
 }
