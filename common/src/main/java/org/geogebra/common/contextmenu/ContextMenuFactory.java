@@ -47,6 +47,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.scientific.LabelController;
 
@@ -89,6 +90,10 @@ public final class ContextMenuFactory {
 		boolean showCreateSlider = createSlider.isAvailable(geoElement);
 		boolean showRemoveSlider = removeSlider.isAvailable(geoElement);
 		boolean showSolveSuggestion = solveSuggestion != null;
+		// not the same as showRemoveSlider: arbitrary constants from integral
+		// are sliders but do NOT allow removing sliders
+		boolean isSlider = geoElement.isGeoNumeric()
+				&& ((GeoNumeric) geoElement).isAVSliderOrCheckboxVisible();
 
 		switch (appCode) {
 		case GeoGebraConstants.CAS_APPCODE:
@@ -100,7 +105,8 @@ public final class ContextMenuFactory {
 					isAlgebraLabelVisible,
 					showCreateSlider,
 					showRemoveSlider,
-					showSolveSuggestion);
+					showSolveSuggestion,
+					isSlider);
 		case GeoGebraConstants.SCIENTIFIC_APPCODE:
 			return makeScientificAlgebraContextMenu(
 					isAlgebraLabelVisible,
@@ -253,8 +259,8 @@ public final class ContextMenuFactory {
 			boolean isAlgebraLabelVisible,
 			boolean showCreateSlider,
 			boolean showRemoveSlider,
-			boolean showSolveSuggestion
-	) {
+			boolean showSolveSuggestion,
+			boolean isSlider) {
 		List<AlgebraContextMenuItem> items = new ArrayList<>();
 		if (showSolveSuggestion) {
 			items.add(Solve);
@@ -262,7 +268,7 @@ public final class ContextMenuFactory {
 		if (showCreateTableValues) {
 			items.add(CreateTableValues);
 		}
-		if (!showRemoveSlider) {
+		if (!isSlider) {
 			items.add(isAlgebraLabelVisible ? RemoveLabel : AddLabel);
 		}
 		if (showSpecialPointsSuggestion) {
