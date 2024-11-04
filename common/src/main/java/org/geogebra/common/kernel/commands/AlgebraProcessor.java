@@ -25,8 +25,9 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.EquationForm;
+import org.geogebra.common.kernel.EquationFormLinear;
+import org.geogebra.common.kernel.EquationFormQuadric;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.KernelCAS;
 import org.geogebra.common.kernel.StringTemplate;
@@ -3067,28 +3068,31 @@ public class AlgebraProcessor {
 	}
 
 	private void customizeEquationForm(GeoElementND geo) {
-		if (geo instanceof GeoLine) {
+		if (geo instanceof EquationFormLinear) {
 			EquationForm.Linear equationForm = kernel.getEquationBehaviour().getLinearAlgebraInputEquationForm();
 			if (equationForm != null) {
-				((GeoLine) geo).setEquationForm(equationForm);
+				((EquationFormLinear) geo).setEquationForm(equationForm);
 			}
-		} else if (geo instanceof GeoConic) {
-			EquationForm.Quadric equationForm = kernel.getEquationBehaviour().getConicAlgebraInputEquationForm();
+		} else if (geo instanceof EquationFormQuadric) {
+			EquationForm.Quadric equationForm =
+					kernel.getEquationBehaviour().getConicAlgebraInputEquationForm();
 			if (equationForm != null) {
-				((GeoConic) geo).setEquationForm(equationForm);
-			}
-		} else if (geo instanceof EquationValue) {
-			EquationForm.Other equationForm = kernel.getEquationBehaviour().getOtherAlgebraInputEquationForm();
-			if (equationForm != null) {
-				switch (equationForm) {
-				case USER:
-					((EquationValue) geo).setToUser();
-					break;
-				default:
-					break;
-				}
+				((EquationFormQuadric) geo).setEquationForm(equationForm);
 			}
 		}
+		// TODO APPS-5867 do we need to handle implicit functions/surfaces here?
+//		} else if (geo instanceof EquationValue) {
+//			EquationForm.Other equationForm = kernel.getEquationBehaviour().getOtherAlgebraInputEquationForm();
+//			if (equationForm != null) {
+//				switch (equationForm) {
+//				case USER:
+//					((EquationValue) geo).setToUser();
+//					break;
+//				default:
+//					break;
+//				}
+//			}
+//		}
 	}
 
 	/**

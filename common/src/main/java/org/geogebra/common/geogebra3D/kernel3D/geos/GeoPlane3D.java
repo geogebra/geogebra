@@ -2,6 +2,8 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import java.util.ArrayList;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInterface;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
@@ -471,16 +473,23 @@ public class GeoPlane3D extends GeoElement3D
 		return label + ": " + toValueString(tpl);
 	}
 
-	@Override
-	final public void setToUser() {
-		// TODO APPS-5867 use setEquationForm
-		setMode(EquationForm.Linear.USER.rawValue);
+	@Override // EquationFormLinear
+	@CheckForNull
+	public EquationForm.Linear getEquationForm() {
+		return EquationForm.Linear.valueOf(toStringMode);
+	}
+
+	@Override // EquationFormLinear
+	public void setEquationForm(int toStringMode) {
+		EquationForm.Linear equationForm = EquationForm.Linear.valueOf(toStringMode);
+		if (equationForm != null) {
+			this.toStringMode = toStringMode;
+		}
 	}
 
 	@Override
-	final public void setToImplicit() {
-	        // TODO APPS-5867 use setEquationForm
-		setMode(EquationForm.Linear.IMPLICIT.rawValue);
+	public void setToParametric(String parameter) {
+		// TODO APPS-5867 parametric form of plane (will need 2 parameters)
 	}
 
 	/**

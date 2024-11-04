@@ -1955,12 +1955,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	public void setToUser() {
-	        // TODO APPS-5867 use setEquationForm
-		toStringMode = EquationForm.Linear.USER.rawValue;
-	}
-
-	@Override
 	public synchronized void preventPathCreation() {
 		calcPath = false;
 
@@ -1971,12 +1965,18 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		return getDefinition() != null;
 	}
 
-	@Override
+	@Override // GeoImplicit
 	public boolean isInputForm() {
 		return getToStringMode() == EquationForm.Linear.USER.rawValue;
 	}
 
-	@Override
+	@Override // GeoImplicit
+	public void setToUser() {
+		// TODO APPS-5867 do we need an EquationForm.ImplicitObject enum?
+		toStringMode = EquationForm.Linear.USER.rawValue;
+	}
+
+	@Override // GeoImplicit
 	public void setToImplicit() {
 		toStringMode = EquationForm.Linear.IMPLICIT.rawValue;
 	}
@@ -2451,11 +2451,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			return DescriptionMode.VALUE;
 		}
 		return super.getDescriptionMode();
-	}
-
-	@Override
-	public boolean setEquationFormFromXML(String style, String parameter) {
-		return false;
 	}
 
 	@Override

@@ -4,6 +4,9 @@ import javax.annotation.CheckForNull;
 
 public final class EquationForm {
 
+	/**
+	 * Equation forms for linear equations.
+	 */
 	public enum Linear {
 		/** implicit equation a x + b y = c */
 		IMPLICIT(Linear.CONST_IMPLICIT),
@@ -53,6 +56,9 @@ public final class EquationForm {
 		}
 	}
 
+	/**
+	 * Equation forms for conics/quadrics.
+	 */
 	public enum Quadric {
 		/** ax^2+bxy+cy^2+dx+ey+f=0 */
 		IMPLICIT(Quadric.CONST_IMPLICIT),
@@ -109,7 +115,6 @@ public final class EquationForm {
 		}
 	}
 
-	public enum Other {
-		USER
-	}
+	// TODO APPS-5867 do we need a third enum for implicit curves/surfaces?
+	//  (previously EquationValue had setToUser/setToImplicit)
 }

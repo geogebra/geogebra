@@ -753,26 +753,4 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	public boolean isPolynomialFunction(boolean forRoot) {
 		return true;
 	}
-
-	@Override
-	public boolean setEquationFormFromXML(String style, String parameter) {
-		if ("implicit".equals(style)) {
-			setToImplicit();
-		} else if ("specific".equals(style)) {
-			setToSpecific();
-		} else if ("explicit".equals(style)) {
-			setToExplicit();
-		} else if ("parametric".equals(style)) {
-			setToParametric(parameter);
-		} else if ("user".equals(style)) {
-			setToUser();
-		} else if ("vertex".equals(style)) {
-			setToVertexform();
-		} else if ("conic".equals(style)) {
-			setToConicform();
-		} else {
-			return false;
-		}
-		return true;
-	}
 }

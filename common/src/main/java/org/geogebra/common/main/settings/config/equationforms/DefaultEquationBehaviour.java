@@ -43,11 +43,6 @@ public class DefaultEquationBehaviour implements EquationBehaviour {
 	}
 
 	@Override
-	public EquationForm.Other getOtherAlgebraInputEquationForm() {
-		return null;
-	}
-
-	@Override
 	public boolean allowsChangingEquationFormsByUser() {
 		return true;
 	}

@@ -15,6 +15,8 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.EquationFormLinear;
+import org.geogebra.common.kernel.EquationFormQuadric;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.MacroConstruction;
@@ -77,7 +79,6 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
@@ -1403,17 +1404,15 @@ public class ConsElementXMLHandler {
 	private boolean handleEqnStyle(LinkedHashMap<String, String> attrs) {
 		String style = attrs.get("style");
 		String parameter = attrs.get("parameter");
-		if (geo instanceof EquationValue) {
-			// GeoLine, GeoConic handled here
-			if (!((EquationValue) geo).setEquationFormFromXML(style, parameter)) {
-				Log.error("unknown style for conic in <eqnStyle>: " + style);
+		if (geo instanceof EquationFormLinear) {
+			// e.g., GeoLine
+			if (!((EquationFormLinear) geo).setEquationFormFromXML(style, parameter)) {
+				Log.error("unknown style for linear object in <eqnStyle>: " + style);
 			}
-		} else if (geo instanceof GeoLineND && "parametric".equals(style)) {
-			((GeoLineND) geo).setToParametric(parameter);
-		} else if (geo instanceof GeoConicND) {
-			// GeoConic3D handled here
-			if ("parametric".equals(style)) {
-				((GeoConicND) geo).setToParametric(parameter);
+		} else if (geo instanceof EquationFormQuadric) {
+			// e.g., GeoConic
+			if (!((EquationFormQuadric) geo).setEquationFormFromXML(style, parameter)) {
+				Log.error("unknown style for conic in <eqnStyle>: " + style);
 			}
 		} else {
 			Log.error("wrong element type for <eqnStyle>: " + geo.getClass());

@@ -2,9 +2,12 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import java.util.ArrayList;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoLinePoint;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.Path;
@@ -613,24 +616,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		return dist;
 	}
 
-	@Override
-	public void setToImplicit() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setToExplicit() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setToParametric(String parameter) {
-		// TODO Auto-generated method stub
-
-	}
-
 	// ///////////////////////////
 	// MATRIX TRANSFORMABLE
 	// ///////////////////////////
@@ -927,17 +912,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	}
 
 	@Override
-	public void setToUser() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setToGeneral() {
-		// no general line type in 3D
-	}
-
-	@Override
 	public ExpressionValue evaluateCurve(double t) {
 		Coords O = coordsys.getOrigin(); // TODO inhom coords, also copied from
 										// toString
@@ -961,5 +935,24 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		}
 		return new Geo3DVec(kernel, O.get(1) + t * V.get(1),
 				O.get(2) + t * V.get(2), O.get(3) + t * V.get(3));
+	}
+
+	@Override // EquationFormLinear
+	@CheckForNull
+	public EquationForm.Linear getEquationForm() {
+		return EquationForm.Linear.valueOf(toStringMode);
+	}
+
+	@Override // EquationFormLinear
+	public void setEquationForm(int toStringMode) {
+		EquationForm.Linear equationForm = EquationForm.Linear.valueOf(toStringMode);
+		if (equationForm != null) {
+			this.toStringMode = toStringMode;
+		}
+	}
+
+	@Override // EquationFormLinear
+	public void setToGeneral() {
+		// no general line type in 3D
 	}
 }

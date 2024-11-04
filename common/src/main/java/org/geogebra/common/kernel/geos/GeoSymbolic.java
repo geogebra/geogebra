@@ -572,9 +572,10 @@ public class GeoSymbolic extends GeoElement
 		}
 		GeoElementND newTwin = createTwinGeo();
 
-		if (newTwin instanceof EquationValue) {
-			((EquationValue) newTwin).setToUser();
-		}
+		// TODO APPS-5867 do we need this?
+//		if (newTwin instanceof EquationValue) {
+//			((EquationValue) newTwin).setToUser();
+//		}
 
 		if (newTwin instanceof GeoList) {
 			newTwin.setEuclidianVisible(true);

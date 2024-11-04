@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
@@ -22,6 +23,8 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * 
  * Class for 3D segments.
@@ -40,6 +43,8 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	private ChangeableParent changeableParent = null;
 	private boolean forceSimpleTransform;
 	private GeoElement meta = null;
+
+	private String parameter = Unicode.lambda + "";
 
 	/**
 	 * constructor with no points
@@ -614,4 +619,11 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
         return super.isDefined() || coordsys.hasZeroVx();
     }
 
+	@Override
+	public void setToParametric(String parameter) {
+		setEquationForm(EquationForm.Linear.PARAMETRIC);
+		if (parameter != null) {
+			this.parameter = parameter;
+		}
+	}
 }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoTriangulatedSurface3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -19,7 +18,6 @@ import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
@@ -959,21 +957,6 @@ public class GeoImplicitSurface extends GeoElement3D
 			}
 		}
 		return vars.toArray(new String[0]);
-	}
-
-	@Override
-	final public void setToUser() {
-		toStringMode = EquationForm.Linear.USER.rawValue;
-	}
-
-	@Override
-	public boolean setEquationFormFromXML(String style, String parameter) {
-		return false;
-	}
-
-	@Override
-	public void setToImplicit() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

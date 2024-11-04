@@ -76,8 +76,6 @@ public interface EquationBehaviour {
 	 */
 	EquationForm.Quadric getConicCommandEquationForm();
 
-	EquationForm.Other getOtherAlgebraInputEquationForm();
-
 	/**
 	 * Whether this EquationBehaviour allows the equation forms to be changed by the user.
 	 * Since this is currently an all-or-none property (see spreadsheet linked in header)

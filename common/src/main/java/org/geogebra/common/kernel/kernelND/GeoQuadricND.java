@@ -15,10 +15,10 @@ package org.geogebra.common.kernel.kernelND;
 import java.util.Arrays;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationForm;
+import org.geogebra.common.kernel.EquationFormQuadric;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.Algos;
@@ -40,7 +40,7 @@ import org.geogebra.common.util.DoubleUtil;
  *
  */
 public abstract class GeoQuadricND extends GeoElement
-		implements GeoQuadricNDConstants, Traceable {
+		implements GeoQuadricNDConstants, EquationFormQuadric, Traceable {
 
 	private int dimension;
 	/** matrix dimension */
@@ -72,6 +72,8 @@ public abstract class GeoQuadricND extends GeoElement
 	public double eccentricity;
 	/** parabola parameter */
 	public double p;
+
+	protected String parameter = "t";
 
 	/** flag for isDefined() */
 	protected boolean defined = true;
@@ -686,28 +688,13 @@ public abstract class GeoQuadricND extends GeoElement
 		return null;
 	}
 
-	public void setToUser() {
-		setEquationForm(EquationForm.Quadric.USER);
+	@Override // EquationFormQuadric
+	@CheckForNull
+	public EquationForm.Quadric getEquationForm() {
+		return EquationForm.Quadric.valueOf(toStringMode);
 	}
 
-	public void setToImplicit() {
-		setEquationForm(EquationForm.Quadric.IMPLICIT);
-	}
-
-	/**
-	 * Make this specific eg. (x-a)^2+(y-b)^2+(z-c)^2
-	 */
-	public void setToSpecific() {
-		setEquationForm(EquationForm.Quadric.SPECIFIC);
-	}
-
-	public void setEquationForm(@Nullable EquationForm.Quadric equationForm) {
-		if (equationForm == null) {
-			return;
-		}
-		setEquationForm(equationForm.rawValue);
-	}
-
+	@Override // EquationFormQuadric
 	public void setEquationForm(int toStringMode) {
 		EquationForm.Quadric equationForm = EquationForm.Quadric.valueOf(toStringMode);
 		if (equationForm != null) {
@@ -715,9 +702,12 @@ public abstract class GeoQuadricND extends GeoElement
 		}
 	}
 
-	@CheckForNull
-	public EquationForm.Quadric getEquationForm() {
-		return EquationForm.Quadric.valueOf(toStringMode);
+	@Override // EquationFormQuadric
+	public void setToParametric(String parameter) {
+		setEquationForm(EquationForm.Quadric.PARAMETRIC);
+		if (parameter != null) {
+			this.parameter = parameter;
+		}
 	}
 
 	protected boolean hasEqualMatrix(GeoQuadricND conic) {

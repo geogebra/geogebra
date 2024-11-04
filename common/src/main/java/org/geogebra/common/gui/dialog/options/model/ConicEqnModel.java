@@ -219,18 +219,19 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			} else if (value == parametricIndex) {
 				geo.setToParametric(null);
 			} else if (value == vertexformIndex) {
-				geo.setToVertexform();
+				geo.setToVertex();
 			} else if (value == conicformIndex) {
-				geo.setToConicform();
+				geo.setToConic();
 			}
 		} else if (quad instanceof EquationValue) {
-			if (value == implicitIndex) {
-				((EquationValue) quad).setToImplicit();
-			} else if (value == userIndex) {
-				((EquationValue) quad).setToUser();
-			} else if (value == specificIndex) {
-				quad.setToSpecific();
-			}
+			// TODO what types are possible here? GeoImplicitSurface?
+//			if (value == implicitIndex) {
+//				((EquationValue) quad).setToImplicit();
+//			} else if (value == userIndex) {
+//				((EquationValue) quad).setToUser();
+//			} else if (value == specificIndex) {
+//				quad.setToSpecific();
+//			}
 		}
 		quad.updateRepaint();
 	}

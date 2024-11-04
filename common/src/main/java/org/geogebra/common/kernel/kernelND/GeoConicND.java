@@ -140,7 +140,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	private Coords labelPosition3D;
 	private PathParameter labelParameter;
 	private TreeSet<GeoElement> metas;
-	private String parameter = "t";
 	private Coords tmpCoords1;
 	private Coords tmpCoords2;
 
@@ -1305,44 +1304,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	public boolean isDoubleLine() {
 		return type == CONIC_DOUBLE_LINE;
-	}
-
-	/** Changes equation mode to Implicit */
-	final public void setToImplicit() {
-		setEquationForm(EquationForm.Quadric.IMPLICIT);
-	}
-
-	/** Changes equation mode to Explicit */
-	final public void setToExplicit() {
-		setEquationForm(EquationForm.Quadric.EXPLICIT);
-	}
-
-	/**
-	 * Changes equation mode to Parametric
-	 * 
-	 * @param parameter
-	 *            new parameter name
-	 */
-	final public void setToParametric(String parameter) {
-		setEquationForm(EquationForm.Quadric.PARAMETRIC);
-		if (parameter != null) {
-			this.parameter = parameter;
-		}
-	}
-
-	/** Changes equation mode to User/Input */
-	final public void setToUser() {
-		setEquationForm(EquationForm.Quadric.USER);
-	}
-
-	/** Changes equation mode to Vertex form */
-	final public void setToVertexform() {
-		setEquationForm(EquationForm.Quadric.VERTEX);
-	}
-
-	/** Changes equation mode to Conic form */
-	final public void setToConicform() {
-		setEquationForm(EquationForm.Quadric.CONICFORM);
 	}
 
 	// TODO APPS-5867 clean up mode/toStringMode naming inconsistencies

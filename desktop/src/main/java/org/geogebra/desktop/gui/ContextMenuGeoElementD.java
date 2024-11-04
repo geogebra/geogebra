@@ -397,8 +397,9 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 	}
 
 	private void addUserInputItem() {
-		if (getGeo() instanceof GeoImplicit) {
-			final GeoImplicit inputElement = (GeoImplicit) getGeo();
+		GeoElement geo = getGeo();
+		if (geo instanceof GeoImplicit) {
+			final GeoImplicit inputElement = (GeoImplicit) geo;
 			if (inputElement.isValidInputForm()) {
 				AbstractAction action;
 				if (inputElement.isInputForm()) {
@@ -418,14 +419,13 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							inputFormCmd(inputElement);
+							inputFormCmd(geo);
 						}
 					};
 				}
 				addAction(action);
 			}
-		} else if (needsInputFormItem(getGeo())) {
-			final EquationValue inputElement = (EquationValue) getGeo();
+		} else if (needsInputFormItem(geo)) {
 			AbstractAction action = new AbstractAction(
 					loc.getMenu("InputForm")) {
 
@@ -433,7 +433,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					inputFormCmd(inputElement);
+					inputFormCmd(geo);
 				}
 			};
 

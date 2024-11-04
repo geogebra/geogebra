@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationForm;
@@ -867,28 +866,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		}
 	}
 
-	/** change equation mode to explicit */
-	@Override
-	final public void setToExplicit() {
-		setEquationForm(EquationForm.Linear.EXPLICIT);
-	}
-
-	/** set equation mode to implicit */
-	@Override
-	final public void setToImplicit() {
-		setEquationForm(EquationForm.Linear.IMPLICIT);
-	}
-
-	@Override
-	final public void setToUser() {
-		setEquationForm(EquationForm.Linear.USER);
-	}
-
-	@Override
-	final public void setToGeneral() {
-		setEquationForm(EquationForm.Linear.GENERAL);
-	}
-
 	/**
 	 * Code like {@code line.setMode(EquationForm.Linear....)} is used in a few places,
 	 * so we have this override here to forward to {@link #setEquationForm(int)}.
@@ -898,23 +875,18 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		setEquationForm(mode);
 	}
 
-	public void setEquationForm(@Nullable EquationForm.Linear equationForm) {
-		if (equationForm == null) {
-			return;
-		}
-		setEquationForm(equationForm.rawValue);
+	@Override // EquationFormLinear
+	@CheckForNull
+	public EquationForm.Linear getEquationForm() {
+		return EquationForm.Linear.valueOf(toStringMode);
 	}
 
+	@Override // EquationFormLinear
 	public void setEquationForm(int toStringMode) {
 		EquationForm.Linear equationForm = EquationForm.Linear.valueOf(toStringMode);
 		if (equationForm != null) {
 			this.toStringMode = toStringMode;
 		}
-	}
-
-	@CheckForNull
-	public EquationForm.Linear getEquationForm() {
-		return EquationForm.Linear.valueOf(toStringMode);
 	}
 
 	/** output depends on mode: PARAMETRIC or EQUATION */
@@ -1827,41 +1799,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			return DescriptionMode.VALUE;
 		}
 		return super.getDescriptionMode();
-	}
-
-	/**
-	 * Sets the equation style (aka equation form) for a line loaded from XML.
-	 *
-	 * @param style
-	 *            equation style (aka equation form)
-	 * @param parameter
-	 *            parameter name
-	 * @return true if style was accepted as valid, or false otherwise.
-	 */
-	@Override
-	public boolean setEquationFormFromXML(String style, String parameter) {
-		if ("implicit".equals(style)) {
-			setToImplicit();
-		} else if ("explicit".equals(style)) {
-			setToExplicit();
-		} else if ("parametric".equals(style)) {
-			setToParametric(parameter);
-		} else if ("user".equals(style)) {
-			setToUser();
-		} else if ("general".equals(style)) {
-			setToGeneral();
-		} else {
-			return false;
-		}
-		return true;
-	}
-
-	private void ignoreLineModeFromXML(String style) {
-		if ("user".equals(style)) {
-			setToUser();
-		} else {
-			setToExplicit();
-		}
 	}
 
 	@Override
