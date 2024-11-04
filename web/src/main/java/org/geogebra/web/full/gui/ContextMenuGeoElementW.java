@@ -63,7 +63,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 */
 	protected Localization loc;
 	private LabelController labelController;
-	private final ContextMenuFactory factory;
+	private final ContextMenuItemFactory factory;
 
 	/**
 	 * Creates new context menu
@@ -72,7 +72,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 * @param factory
 	 *            widget factory
 	 */
-	ContextMenuGeoElementW(AppW app, ContextMenuFactory factory) {
+	ContextMenuGeoElementW(AppW app, ContextMenuItemFactory factory) {
 		super(app);
 		this.factory = factory;
 		this.app = app;
@@ -89,7 +89,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *            selected elements
 	 */
 	public ContextMenuGeoElementW(AppW app, ArrayList<GeoElement> geos,
-								  ContextMenuFactory factory) {
+								  ContextMenuItemFactory factory) {
 		this(app, factory);
 		initPopup(geos);
 	}

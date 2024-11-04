@@ -6,7 +6,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.menubar.item.LicenseItem;
+import org.geogebra.web.full.gui.menubar.action.ShowLicenseAction;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
@@ -122,7 +122,8 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 	}
 
 	private void addAboutItem() {
-		about = addItem(new LicenseItem());
+		about = addItem("AboutLicense",
+				new ShowLicenseAction(), MaterialDesignResources.INSTANCE.info_black());
 	}
 
 	private void addVersionNumber(AppW appW) {

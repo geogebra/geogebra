@@ -49,7 +49,7 @@ public class InlineFormattingItems {
 	private final App app;
 	private final Localization loc;
 	private final GPopupMenuW menu;
-	private final ContextMenuFactory factory;
+	private final ContextMenuItemFactory factory;
 
 	private final ArrayList<GeoElement> geos;
 	private final List<HasTextFormat> inlines;
@@ -60,7 +60,7 @@ public class InlineFormattingItems {
 	 *@param menu to add the items to.
 	 */
 	public InlineFormattingItems(App app, ArrayList<GeoElement> geos, GPopupMenuW menu,
-						   ContextMenuFactory factory) {
+						   ContextMenuItemFactory factory) {
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.geos = geos;
