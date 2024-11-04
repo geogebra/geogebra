@@ -538,7 +538,7 @@ public class ArithmeticTest extends BaseUnitTest {
 	@Test
 	public void testImpreciseForDivisionIncludingSlider() {
 		GeoNumeric a = add("a = 1");
-		a.setShowExtendedAV(true);
+		a.setAVSliderOrCheckboxVisible(true);
 		a.initAlgebraSlider();
 		assertTrue(a.getNumber().isImprecise());
 		GeoNumeric b = add("a/7.01");

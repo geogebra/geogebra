@@ -7,9 +7,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.RecurringDecimal;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
@@ -175,5 +177,12 @@ public class GeoNumericTest extends BaseUnitTest {
 		slider.setEuclidianVisible(true);
 		slider.updateRepaint();
 		assertThat(slider.getLineThickness(), is(10));
+	}
+
+	@Test
+	public void testAutoCreatedSliderAlgebraVisibility() {
+		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(getApp(), true);
+		assertThat(((GeoNumeric) add("a", info)).isAVSliderOrCheckboxVisible(), equalTo(true));
+		assertThat(((GeoNumeric) add("3", info)).isAVSliderOrCheckboxVisible(), equalTo(false));
 	}
 }

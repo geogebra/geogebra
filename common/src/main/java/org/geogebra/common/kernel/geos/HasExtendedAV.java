@@ -9,11 +9,11 @@ public interface HasExtendedAV {
 	/**
 	 * @return whether checkbox / slider is visible in AV
 	 */
-	boolean isShowingExtendedAV();
+	boolean isAVSliderOrCheckboxVisible();
 
 	/**
-	 * @param showExtendedAV
+	 * @param showSliderOrCheckbox
 	 *            set whether slider / checkbox should be shown
 	 */
-	void setShowExtendedAV(boolean showExtendedAV);
+	void setAVSliderOrCheckboxVisible(boolean showSliderOrCheckbox);
 }
