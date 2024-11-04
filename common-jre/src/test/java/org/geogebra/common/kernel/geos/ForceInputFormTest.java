@@ -30,8 +30,8 @@ public class ForceInputFormTest extends BaseUnitTest {
         Assert.assertEquals(EquationForm.Linear.USER, geoLine.getEquationForm());
         Assert.assertEquals(EquationForm.Linear.EXPLICIT, geoLineWithCommand.getEquationForm());
 		Assert.assertEquals(EquationForm.Linear.USER, geoRay.getEquationForm());
-		Assert.assertEquals(EquationForm.Quadric.USER, parabola.getEquationForm());
-		Assert.assertEquals(EquationForm.Quadric.USER, hyperbola.getEquationForm());
+		Assert.assertEquals(EquationForm.Quadric.IMPLICIT, parabola.getEquationForm());
+		Assert.assertEquals(EquationForm.Quadric.IMPLICIT, hyperbola.getEquationForm());
     }
 
     @Test

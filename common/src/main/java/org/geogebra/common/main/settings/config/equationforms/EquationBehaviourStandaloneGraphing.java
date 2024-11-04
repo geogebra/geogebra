@@ -32,7 +32,7 @@ public final class EquationBehaviourStandaloneGraphing extends DefaultEquationBe
 
 	@Override
 	public EquationForm.Quadric getConicAlgebraInputEquationForm() {
-		return EquationForm.Quadric.USER;
+		return EquationForm.Quadric.IMPLICIT;
 	}
 
 	@Override
