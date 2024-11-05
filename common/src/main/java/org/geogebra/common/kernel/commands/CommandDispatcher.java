@@ -85,7 +85,6 @@ public abstract class CommandDispatcher {
 
 	/** number of visible tables */
 	public static final int tableCount = 20;
-	private CommandFilter examFilter;
 
 	/**
 	 * Returns localized name of given command set
