@@ -27,26 +27,27 @@ public class FitTests extends BaseUnitTest {
     @Test
     public void testFitListOfPointsAndListOfFunction() {
         getApp().setGraphingConfig();
-        GeoElement fitCommand =
+        GeoElement fit =
                 addAvInput("Fit({(-2, 3), (0, 1), (2, 1), (2, 3)}, {x^2, x})");
-        String outputString = fitCommand.toOutputValueString(StringTemplate.editTemplate);
+        String outputString = fit.toOutputValueString(StringTemplate.editTemplate);
         assertThat(outputString, equalTo("0.625x² - 0.25x"));
-        Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitCommand.getDescriptionMode());
-        // TODO APPS-5867 this is bogus check against the Kernel.COORD_CARTESIAN(=3) default value
-        //  -> introduce enum for GeoFunctions, use in Fit algos
-//        Assert.assertEquals(GeoLine.EQUATION_IMPLICIT_NON_CANONICAL, fitCommand.getToStringMode());
+        Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fit.getDescriptionMode());
+        // TODO APPS-5867 this is a bogus check against the Kernel.COORD_CARTESIAN(=3) default value
+        //  -> introduce enum for GeoFunctions as created by Fit algos
+        //  (see https://geogebra-jira.atlassian.net/wiki/spaces/A/pages/836141057/Standalone+Graphing)
+//        Assert.assertEquals(EquationForm.Linear.CONST_IMPLICIT_NON_CANONICAL, fit.getToStringMode());
     }
 
     @Test
     public void testFitListOfPointsAndFunction() {
         getApp().setGraphingConfig();
         addAvInput("a = 0");
-        GeoElement fitCommand =
+        GeoElement fit =
                 addAvInput("Fit({(-2, 3), (0, 1), (2, 1), (2, 3)}, a + x^2)");
-        String outputString = fitCommand.toOutputValueString(StringTemplate.editTemplate);
+        String outputString = fit.toOutputValueString(StringTemplate.editTemplate);
         assertThat(outputString, equalTo("-0.9999900000095 + x²"));
-        Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitCommand.getDescriptionMode());
-//        Assert.assertEquals(GeoLine.EQUATION_IMPLICIT_NON_CANONICAL, fitCommand.getToStringMode());
+        Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fit.getDescriptionMode());
+//        Assert.assertEquals(GeoLine.EQUATION_IMPLICIT_NON_CANONICAL, fit.getToStringMode());
     }
 
     @Test

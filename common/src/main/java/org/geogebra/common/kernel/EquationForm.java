@@ -25,8 +25,11 @@ public final class EquationForm {
 		public static final int CONST_EXPLICIT = 1;
 		public static final int CONST_PARAMETRIC = 2;
 		// TODO APPS-5867 This constant is only left in here (for now) because some code in GeoLine
-		//  (e.g., toValueString) uses it in switch cases, but the numeric value (3) in these cases is
-		//  the default value of GeoElement.toStringMode, which is Kernel.COORD_CARTESIAN (also 3).
+		//  (e.g., toValueString) uses it in switch cases. However, the numeric value (=3) in these
+		//  use cases is just the *default value* of GeoElement.toStringMode, which is initialized
+		//  to Kernel.COORD_CARTESIAN (also 3). So, it doesn't make sense, this is purely coincidental,
+		//  but I left it in to not break existing behaviour in this first stage of equation form
+		//  cleanup.
 		public static final int CONST_IMPLICIT_NON_CANONICAL = 3;
 		public static final int CONST_GENERAL = 4;
 		public static final int CONST_USER = 5;
@@ -115,6 +118,9 @@ public final class EquationForm {
 		}
 	}
 
-	// TODO APPS-5867 do we need a third enum for implicit curves/surfaces?
+	// TODO APPS-5867 do we need an enum for implicit curves/surfaces?
 	//  (previously EquationValue had setToUser/setToImplicit)
+
+	// TODO APPS-5867 introduce an enum for the equation forms of functions produced by FitXx algos?
+	//  (see https://geogebra-jira.atlassian.net/wiki/spaces/A/pages/836141057/Standalone+Graphing)
 }
