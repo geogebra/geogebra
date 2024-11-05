@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathParameter;

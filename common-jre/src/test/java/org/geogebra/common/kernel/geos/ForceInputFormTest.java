@@ -53,7 +53,8 @@ public class ForceInputFormTest extends BaseUnitTest {
         GeoLine loadedLineWithCommand = (GeoLine) lookup("lineCmd");
 
         Assert.assertEquals(EquationForm.Linear.USER, loadedLine.getEquationForm());
-        Assert.assertEquals(EquationForm.Linear.PARAMETRIC, loadedLineWithCommand.getEquationForm());
+        Assert.assertEquals(EquationForm.Linear.PARAMETRIC,
+				loadedLineWithCommand.getEquationForm());
     }
 
     @Test

@@ -35,28 +35,50 @@ public interface EquationFormQuadric {
 	 */
 	void setEquationForm(int equationForm);
 
+	/**
+	 * Set the equation form to {@code IMPLICIT}.
+	 */
 	default void setToImplicit() {
 		setEquationForm(EquationForm.Quadric.IMPLICIT);
 	}
 
+	/**
+	 * Set the equation form to {@code EXPLICIT}.
+	 */
 	default void setToExplicit() {
 		setEquationForm(EquationForm.Quadric.EXPLICIT);
 	}
 
+	/**
+	 * Set the equation form to {@code SPECIFIC}.
+	 */
 	default void setToSpecific() {
 		setEquationForm(EquationForm.Quadric.SPECIFIC);
 	}
 
+	/**
+	 * Set the equation form to {@code PARAMETRIC}.
+	 * @param parameter The parameter name.
+	 */
 	void setToParametric(String parameter);
 
+	/**
+	 * Set the equation form to {@code USER}.
+	 */
 	default void setToUser() {
 		setEquationForm(EquationForm.Quadric.USER);
 	}
 
+	/**
+	 * Set the equation form to {@code VERTEX}.
+	 */
 	default void setToVertex() {
 		setEquationForm(EquationForm.Quadric.VERTEX);
 	}
 
+	/**
+	 * Set the equation form to {@code CONIC}.
+	 */
 	default void setToConic() {
 		setEquationForm(EquationForm.Quadric.CONICFORM);
 	}

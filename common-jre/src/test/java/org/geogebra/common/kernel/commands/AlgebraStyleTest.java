@@ -96,7 +96,8 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	// TODO change to
-	//  checkEquationValue(String def, EquationForm.Linear/Quadrid equationForm, String expectedValue)
+	//  checkEquationValue(String def, EquationForm.Linear/Quadrid equationForm,
+	//  String expectedValue)
 	private static String checkEquation(String def, int mode, String check) {
 		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(def,
 				false, TestErrorHandler.INSTANCE, false, null);
@@ -107,7 +108,8 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	// TODO change to
-	//  checkEquationValueAfterReload(String def, EquationForm.Linear/Quadrid equationForm, String expectedValue)
+	//  checkEquationValueAfterReload(String def, EquationForm.Linear/Quadrid equationForm,
+	//  String expectedValue)
 	private static void checkEquationReload(String def, int mode,
 			String check) {
 		String label = checkEquation(def, mode, check);

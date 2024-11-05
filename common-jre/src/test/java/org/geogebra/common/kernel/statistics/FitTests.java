@@ -34,8 +34,8 @@ public class FitTests extends BaseUnitTest {
         Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fit.getDescriptionMode());
         // TODO APPS-5867 this is a bogus check against the Kernel.COORD_CARTESIAN(=3) default value
         //  -> introduce enum for GeoFunctions as created by Fit algos
-        //  (see https://geogebra-jira.atlassian.net/wiki/spaces/A/pages/836141057/Standalone+Graphing)
-//        Assert.assertEquals(EquationForm.Linear.CONST_IMPLICIT_NON_CANONICAL, fit.getToStringMode());
+//        Assert.assertEquals(EquationForm.Linear.CONST_IMPLICIT_NON_CANONICAL,
+//        fit.getToStringMode());
     }
 
     @Test
@@ -150,7 +150,8 @@ public class FitTests extends BaseUnitTest {
         assertThat(outputString,
                 equalTo("1.9758703744321 / (1 - 0.0255090128073ℯ^(0.9956097809388x))"));
         Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitLogistic.getDescriptionMode());
-//        Assert.assertEquals(GeoLine.EQUATION_IMPLICIT_NON_CANONICAL, fitLogistic.getToStringMode());
+//        Assert.assertEquals(GeoLine.EQUATION_IMPLICIT_NON_CANONICAL,
+//        fitLogistic.getToStringMode());
     }
 
     @Test

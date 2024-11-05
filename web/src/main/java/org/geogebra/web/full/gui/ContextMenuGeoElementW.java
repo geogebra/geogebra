@@ -600,7 +600,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 			}
 		} else if (needsInputFormItem(geo)) {
-			final EquationValue inputElement = (EquationValue) geo;
 			Command action = () -> inputFormCmd(geo);
 			addAction(action, loc.getMenu("InputForm"));
 		} else if (geo instanceof GeoPlaneND && geo.getDefinition() != null) {

@@ -13,7 +13,6 @@ public final class EquationBehaviourStandaloneGraphing extends DefaultEquationBe
 	 * From <a href="https://geogebra-jira.atlassian.net/wiki/spaces/A/pages/836141057/Standalone+Graphing">Wiki</a>:
 	 * "When manually entered, Lines, Conics, Implicit Equations and Functions are restricted to
 	 * user/input form."
-	 * @return
 	 */
 	@Override
 	public EquationForm.Linear getLinearAlgebraInputEquationForm() {

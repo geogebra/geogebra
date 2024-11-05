@@ -35,20 +35,36 @@ public interface EquationFormLinear {
 	 */
 	void setEquationForm(int equationForm);
 
+	/**
+	 * Set the equation form to {@code IMPLICIT}.
+	 */
 	default void setToImplicit() {
 		setEquationForm(EquationForm.Linear.IMPLICIT);
 	}
 
+	/**
+	 * Set the equation form to {@code EXPLICIT}.
+	 */
 	default void setToExplicit() {
 		setEquationForm(EquationForm.Linear.EXPLICIT);
 	}
 
+	/**
+	 * Set the equation form to {@code PARAMETRIC}.
+	 * @param parameter The parameter name.
+	 */
 	void setToParametric(String parameter);
 
+	/**
+	 * Set the equation form to {@code GENERAL}.
+	 */
 	default void setToGeneral() {
 		setEquationForm(EquationForm.Linear.GENERAL);
 	}
 
+	/**
+	 * Set the equation form to {@code USER}.
+	 */
 	default void setToUser() {
 		setEquationForm(EquationForm.Linear.USER);
 	}

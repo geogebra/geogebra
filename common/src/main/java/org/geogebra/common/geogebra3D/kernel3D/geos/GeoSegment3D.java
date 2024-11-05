@@ -23,8 +23,6 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 
-import com.himamis.retex.editor.share.util.Unicode;
-
 /**
  * 
  * Class for 3D segments.
@@ -44,7 +42,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	private boolean forceSimpleTransform;
 	private GeoElement meta = null;
 
-	private String parameter = Unicode.lambda + "";
+	//private String parameter = Unicode.lambda + "";
 
 	/**
 	 * constructor with no points
@@ -623,7 +621,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	public void setToParametric(String parameter) {
 		setEquationForm(EquationForm.Linear.PARAMETRIC);
 		if (parameter != null) {
-			this.parameter = parameter;
+			//this.parameter = parameter;
 		}
 	}
 }

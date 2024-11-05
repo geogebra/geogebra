@@ -2,6 +2,9 @@ package org.geogebra.common.kernel;
 
 import javax.annotation.CheckForNull;
 
+/**
+ * Equation forms.
+ */
 public final class EquationForm {
 
 	/**
@@ -27,13 +30,21 @@ public final class EquationForm {
 		// TODO APPS-5867 This constant is only left in here (for now) because some code in GeoLine
 		//  (e.g., toValueString) uses it in switch cases. However, the numeric value (=3) in these
 		//  use cases is just the *default value* of GeoElement.toStringMode, which is initialized
-		//  to Kernel.COORD_CARTESIAN (also 3). So, it doesn't make sense, this is purely coincidental,
-		//  but I left it in to not break existing behaviour in this first stage of equation form
-		//  cleanup.
+		//  to Kernel.COORD_CARTESIAN (also 3). So, it doesn't make sense, this is purely
+		//  coincidental, but I left it in to not break existing behaviour in this first stage of
+		//  equation form cleanup.
 		public static final int CONST_IMPLICIT_NON_CANONICAL = 3;
 		public static final int CONST_GENERAL = 4;
 		public static final int CONST_USER = 5;
 
+		public final int rawValue;
+
+		/**
+		 * Map raw values to enum cases.
+		 * @param rawValue An integer.
+		 * @return The enum case whose rawValue matches the passed-in rawValue, or {@code null}
+		 * if no such enum case was found.
+		 */
 		@CheckForNull
 		public static Linear valueOf(int rawValue) {
 			switch (rawValue) {
@@ -51,8 +62,6 @@ public final class EquationForm {
 				return null;
 			}
 		}
-
-		public final int rawValue;
 
 		private Linear(int rawValue) {
 			this.rawValue = rawValue;
@@ -89,6 +98,14 @@ public final class EquationForm {
 		public static final int CONST_VERTEX = 5;
 		public static final int CONST_CONICFORM = 6;
 
+		public final int rawValue;
+
+		/**
+		 * Map raw values to enum cases.
+		 * @param rawValue An integer.
+		 * @return The enum case whose rawValue matches the passed-in rawValue, or {@code null}
+		 * if no such enum case was found.
+		 */
 		@CheckForNull
 		public static Quadric valueOf(int rawValue) {
 			switch (rawValue) {
@@ -110,8 +127,6 @@ public final class EquationForm {
 				return null;
 			}
 		}
-
-		public final int rawValue;
 
 		private Quadric(int rawValue) {
 			this.rawValue = rawValue;

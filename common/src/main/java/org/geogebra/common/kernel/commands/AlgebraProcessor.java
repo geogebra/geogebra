@@ -25,6 +25,7 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.EquationFormLinear;
 import org.geogebra.common.kernel.EquationFormQuadric;
@@ -3067,14 +3068,19 @@ public class AlgebraProcessor {
 	}
 
 	private void customizeEquationForm(GeoElementND geo) {
+		EquationBehaviour equationBehaviour = kernel.getEquationBehaviour();
+		if (equationBehaviour == null) {
+			return;
+		}
 		if (geo instanceof EquationFormLinear) {
-			EquationForm.Linear equationForm = kernel.getEquationBehaviour().getLinearAlgebraInputEquationForm();
+			EquationForm.Linear equationForm =
+					equationBehaviour.getLinearAlgebraInputEquationForm();
 			if (equationForm != null) {
 				((EquationFormLinear) geo).setEquationForm(equationForm);
 			}
 		} else if (geo instanceof EquationFormQuadric) {
 			EquationForm.Quadric equationForm =
-					kernel.getEquationBehaviour().getConicAlgebraInputEquationForm();
+					equationBehaviour.getConicAlgebraInputEquationForm();
 			if (equationForm != null) {
 				((EquationFormQuadric) geo).setEquationForm(equationForm);
 			}

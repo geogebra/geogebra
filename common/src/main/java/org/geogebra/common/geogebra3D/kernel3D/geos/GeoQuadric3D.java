@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.geos.XMLBuilder;
-import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -3464,7 +3463,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if ("implicit".equals(style)) {
 			setToImplicit();
 		} else if ("specific".equals(style)) {
-		 	setToSpecific();
+			setToSpecific();
 		} else if ("user".equals(style)) {
 			setToUser();
 		} else {

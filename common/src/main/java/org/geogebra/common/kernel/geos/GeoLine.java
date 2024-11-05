@@ -990,11 +990,13 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			g[2] = z;
 			if (DoubleUtil.isZero(x) || DoubleUtil.isZero(y)) {
 				return kernel.buildExplicitEquation(g, vars, tpl,
-						EquationForm.Linear.CONST_IMPLICIT_NON_CANONICAL == getToStringMode()).toString();
+						EquationForm.Linear.CONST_IMPLICIT_NON_CANONICAL
+								== getToStringMode()).toString();
 			}
 			return kernel.buildImplicitEquation(g, vars,
 					false, false, tpl,
-					EquationForm.Linear.CONST_IMPLICIT_NON_CANONICAL == getToStringMode()).toString();
+					EquationForm.Linear.CONST_IMPLICIT_NON_CANONICAL
+							== getToStringMode()).toString();
 		case EquationForm.Linear.CONST_USER:
 			if (getDefinition() != null) {
 				return getDefinition().toValueString(tpl);
