@@ -517,7 +517,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testFactorCommand() {
 		t("Factor(x^2-1)", "(x + 1) * (x - 1)");
-		t("Factor(x^2-a^2 y^2)", "(-a * y + x) * (a * y + x)");
+		t("Factor(x^2-a^2 y^2)", "(a * y + x) * (-a * y + x)");
 	}
 
 	@Test
