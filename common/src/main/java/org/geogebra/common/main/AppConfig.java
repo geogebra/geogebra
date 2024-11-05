@@ -250,6 +250,7 @@ public interface AppConfig extends Serializable {
 	/**
 	 * This replaces the previous, semantically unclear {@code getLineDisplayStyle()},
 	 * {@code getEnforcedLineEquationForm()}, {@code getEnforcedConicEquationForm()}.
+	 * @return This app config's equation behaviour
 	 */
 	@Nonnull
 	EquationBehaviour getEquationBehaviour();

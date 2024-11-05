@@ -177,5 +177,6 @@ public interface GeoImplicit extends Path, EquationValue {
 
 	// TODO APPS-5867 mend implicit curves/surfaces into equation form concept
 	void setToUser();
+
 	void setToImplicit();
 }
