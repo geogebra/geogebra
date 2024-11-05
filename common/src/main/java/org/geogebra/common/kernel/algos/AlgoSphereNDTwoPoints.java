@@ -52,9 +52,13 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
 
 		compute();
 
-		EquationBehaviour equationBehaviour = kernel.getEquationBehaviour();
-		if (equationBehaviour != null) {
-			sphereND.setEquationForm(equationBehaviour.getConicCommandEquationForm());
+		if (sphereND.isSpecificPossible()) {
+			sphereND.setToSpecific();
+		} else {
+			EquationBehaviour equationBehaviour = cons.getKernel().getEquationBehaviour();
+			if (equationBehaviour != null) {
+				sphereND.setEquationForm(equationBehaviour.getConicCommandEquationForm());
+			}
 		}
 	}
 

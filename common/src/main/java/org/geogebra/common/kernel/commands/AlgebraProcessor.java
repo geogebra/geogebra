@@ -3059,7 +3059,6 @@ public class AlgebraProcessor {
 			geo.setFixed(true);
 		}
 
-		// TODO APPS-5867 also needed in processList?
 		customizeEquationForm(geo);
 
 		if (info.isLabelOutput()) {

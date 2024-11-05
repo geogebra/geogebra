@@ -29,7 +29,6 @@ public interface EquationBehaviour {
 	 * {@link org.geogebra.common.kernel.EquationForm.Linear}, or null if the equation form
 	 * should be taken from the construction defaults (see note in header).
 	 * @see EquationBehaviour#getConicAlgebraInputEquationForm()
-	 * @see EquationBehaviour#getOtherAlgebraInputEquationForm()
 	 */
 	EquationForm.Linear getLinearAlgebraInputEquationForm();
 
