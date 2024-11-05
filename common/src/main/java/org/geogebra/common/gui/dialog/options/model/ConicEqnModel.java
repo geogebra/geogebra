@@ -224,7 +224,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 				geo.setToConic();
 			}
 		} else if (quad instanceof EquationValue) {
-			// TODO what types are possible here? GeoImplicitSurface?
+			// TODO APPS-5867 what types are possible here? GeoImplicitSurface?
 //			if (value == implicitIndex) {
 //				((EquationValue) quad).setToImplicit();
 //			} else if (value == userIndex) {

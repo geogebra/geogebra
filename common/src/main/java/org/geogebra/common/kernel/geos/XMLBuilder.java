@@ -223,8 +223,10 @@ public class XMLBuilder {
 		case EquationForm.Linear.CONST_USER:
 			appendType(sb, "user");
 			break;
+		case EquationForm.Linear.CONST_IMPLICIT_NON_CANONICAL:
+			// don't want anything here
+			break;
 		default:
-			appendType(sb, "implicit");
 			break;
 		}
 

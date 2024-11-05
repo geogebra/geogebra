@@ -8,10 +8,6 @@ import org.geogebra.common.kernel.commands.EvalInfo;
  * Provides a way to customize (override) the default behavior of line- and conic-creating
  * code (e.g., {@link org.geogebra.common.kernel.algos.AlgoJoinPoints AlgoJoinPoints},
  * {@link org.geogebra.common.kernel.commands.AlgebraProcessor#processLine(Equation, ExpressionNode, EvalInfo) AlgebraProcessor's processLine}, etc).
- * <p/>
- * If an app (or exam type) requires certain equation forms to be enforced, return one of the
- * documented valid values from the corresponding method(s).
- * <p/>
  * @apiNote If we need more fine-grained overrides, we can add methods for specific cases here.
  * @implNote The equation form for {@link org.geogebra.common.kernel.geos.GeoLine GeoLine} and
  * subclasses is initalized from the construction defaults (via the call to
@@ -25,7 +21,7 @@ public interface EquationBehaviour {
 
 	/**
 	 * Customize the equation form for lines, implicit equations and functions (e.g., "y = x").
-	 * @return One of the constants defined in
+	 * @return One of the values defined in
 	 * {@link org.geogebra.common.kernel.EquationForm.Linear}, or null if the equation form
 	 * should be taken from the construction defaults (see note in header).
 	 * @see EquationBehaviour#getConicAlgebraInputEquationForm()
@@ -34,7 +30,7 @@ public interface EquationBehaviour {
 
 	/**
 	 * Customize the equation form for lines created from a command or tool.
-	 * @return One of the constants defined in
+	 * @return One of the values defined in
 	 * {@link org.geogebra.common.kernel.EquationForm.Linear}, or null if the equation form
 	 * should be taken from the construction defaults (see note in header).
 	 * @see org.geogebra.common.kernel.algos.AlgoJoinPoints
@@ -43,7 +39,7 @@ public interface EquationBehaviour {
 
 	/**
 	 * Customize the equation form for lines created from a FitLine command.
-	 * @return One of the constants defined in
+	 * @return One of the values defined in
 	 * {@link org.geogebra.common.kernel.EquationForm.Linear}, or null if the equation form
 	 * should be taken from the construction defaults (see note in header).
 	 * @see org.geogebra.common.kernel.algos.AlgoJoinPoints
@@ -52,7 +48,7 @@ public interface EquationBehaviour {
 
 	/**
 	 * Customize the equation form for rays created from a command or tool.
-	 * @return One of the constants defined in
+	 * @return One of the values defined in
 	 * {@link org.geogebra.common.kernel.EquationForm.Linear}, or null if the equation form
 	 * should be taken from the construction defaults (see note in header).
 	 * @see org.geogebra.common.kernel.algos.AlgoJoinPointsRay
@@ -61,7 +57,7 @@ public interface EquationBehaviour {
 
 	/**
 	 * Customize the equation form for conics created from user input (e.g., "y = xx").
-	 * @return One of the constants defined in
+	 * @return One of the values defined in
 	 * {@link org.geogebra.common.kernel.EquationForm.Quadric}, or null if the default equation form
 	 * should be used.
 	 */
@@ -69,7 +65,7 @@ public interface EquationBehaviour {
 
 	/**
 	 * Customize the equation form for conics created from a (Parabola, etc) command or tool.
-	 * @return One of the constants defined in
+	 * @return One of the values defined in
 	 * {@link org.geogebra.common.kernel.EquationForm.Quadric}, or null if the default equation form
 	 * should be used.
 	 */
@@ -81,7 +77,6 @@ public interface EquationBehaviour {
 	 * there's only one method for all equation forms. If we need finer granularity, we can
 	 * split this into multiple methods.
 	 * @return true if the equation forms can be changed, false otherwise.
-	 * TODO could this be overriden for certain exams?
 	 */
 	boolean allowsChangingEquationFormsByUser();
 }

@@ -922,13 +922,13 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
-		return getToStringMode() == EquationForm.Linear.USER.rawValue;
+		return getEquationForm() == EquationForm.Linear.USER;
 	}
 
 	@Override
 	public boolean setEquationFormFromXML(String style, String parameter) {
 		if ("implicit".equals(style)) {
-			toStringMode = EquationForm.Linear.IMPLICIT.rawValue;
+			setToImplicit();
 		} else if ("user".equals(style)) {
 			setToUser();
 		} else {

@@ -89,7 +89,6 @@ public final class EquationForm {
 
 		// These constants are provided for use in case statements.
 		// (values originally defined in GeoConicND).
-
 		public static final int CONST_IMPLICIT = 0;
 		public static final int CONST_EXPLICIT = 1;
 		public static final int CONST_SPECIFIC = 2;

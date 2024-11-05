@@ -461,6 +461,8 @@ public abstract class ContextMenuGeoElement {
 			((EquationFormQuadric) inputElement).setToUser();
 		} else if (inputElement instanceof GeoImplicit) {
 			((GeoImplicit) inputElement).setToUser();
+		} else {
+			return;
 		}
 		inputElement.updateRepaint();
 		app.storeUndoInfo();

@@ -661,7 +661,7 @@ public class AppCommon extends App {
 	 */
 	public void setConfig(AppConfig config) {
 		this.appConfig = config;
-        this.kernel.setEquationBehaviour(config.getEquationBehaviour());
+        kernel.setEquationBehaviour(config.getEquationBehaviour());
 		reInit();
 	}
 

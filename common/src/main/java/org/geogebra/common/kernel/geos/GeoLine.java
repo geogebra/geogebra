@@ -869,6 +869,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/**
 	 * Code like {@code line.setMode(EquationForm.Linear....)} is used in a few places,
 	 * so we have this override here to forward to {@link #setEquationForm(int)}.
+	 * TODO clean up mode/toStringMode naming mix in a separate MR
 	 */
 	@Override
 	final public void setMode(int mode) {
@@ -946,8 +947,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		double[] g = new double[3];
 
 		if (!coefficientsDefined() || (DoubleUtil.isZero(x) && DoubleUtil.isZero(y)
-				&& toStringMode != EquationForm.Linear.USER.rawValue)) {
-			if (toStringMode == EquationForm.Linear.PARAMETRIC.rawValue) {
+				&& getEquationForm() != EquationForm.Linear.USER)) {
+			if (getEquationForm() == EquationForm.Linear.PARAMETRIC) {
 				return "X" + tpl.getEqualsWithSpace() + "(?, ?)";
 			} else {
 				// eg list = {x = ?}
@@ -1675,12 +1676,12 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public boolean isParametric() {
-		return toStringMode == EquationForm.Linear.PARAMETRIC.rawValue;
+		return getEquationForm() == EquationForm.Linear.PARAMETRIC;
 	}
 
 	@Override
 	public ValueType getValueType() {
-		return toStringMode == EquationForm.Linear.PARAMETRIC.rawValue ? ValueType.PARAMETRIC2D
+		return getEquationForm() == EquationForm.Linear.PARAMETRIC ? ValueType.PARAMETRIC2D
 				: ValueType.EQUATION;
 	}
 
@@ -1743,8 +1744,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
-		return toStringMode == EquationForm.Linear.USER.rawValue
-				&& getDefinition() != null;
+		return getEquationForm() == EquationForm.Linear.USER && getDefinition() != null;
 	}
 
 	@Override
@@ -1795,7 +1795,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-		if (toStringMode == EquationForm.Linear.USER.rawValue
+		if (getEquationForm() == EquationForm.Linear.USER
 				&& (isIndependent() || (getParentAlgorithm().getClassName() == Algos.Expression
 				&& isAllowedToShowValue()))) {
 			return DescriptionMode.VALUE;

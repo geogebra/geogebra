@@ -1558,11 +1558,11 @@ public abstract class GeoConicND extends GeoQuadricND
 			sb.append("=0");
 			return sb;
 		}
-		if (getToStringMode() == EquationForm.Quadric.PARAMETRIC.rawValue) {
+		if (getEquationForm() == EquationForm.Quadric.PARAMETRIC) {
 			return this.buildParametricValueString(tpl, 2);
 		}
 		if (getDefinition() != null
-				&& getToStringMode() == EquationForm.Quadric.USER.rawValue) {
+				&& getEquationForm() == EquationForm.Quadric.USER) {
 			return sbToValueString.append(getDefinition().toValueString(tpl));
 		}
 		if (type == CONIC_LINE) {

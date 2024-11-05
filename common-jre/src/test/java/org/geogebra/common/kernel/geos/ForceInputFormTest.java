@@ -16,64 +16,64 @@ import org.junit.Test;
 
 public class ForceInputFormTest extends BaseUnitTest {
 
-    @Test
-    public void testLinesConicsRaysToStringModeInGraphing() {
-        getApp().setConfig(new AppConfigGraphing());
+	@Test
+	public void testLinesConicsRaysToStringModeInGraphing() {
+		getApp().setConfig(new AppConfigGraphing());
 
-        GeoElementFactory factory = getElementFactory();
-        GeoLine geoLine = factory.createGeoLine();
-        GeoLine geoLineWithCommand = factory.createGeoLineWithCommand();
-        GeoConic parabola = (GeoConic) factory.create("y=xx");
-        GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
-        GeoRay geoRay = factory.createGeoRay();
+		GeoElementFactory factory = getElementFactory();
+		GeoLine geoLine = factory.createGeoLine();
+		GeoLine geoLineWithCommand = factory.createGeoLineWithCommand();
+		GeoConic parabola = (GeoConic) factory.create("y=xx");
+		GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
+		GeoRay geoRay = factory.createGeoRay();
 
-        Assert.assertEquals(EquationForm.Linear.USER, geoLine.getEquationForm());
-        Assert.assertEquals(EquationForm.Linear.EXPLICIT, geoLineWithCommand.getEquationForm());
+		Assert.assertEquals(EquationForm.Linear.USER, geoLine.getEquationForm());
+		Assert.assertEquals(EquationForm.Linear.EXPLICIT, geoLineWithCommand.getEquationForm());
 		Assert.assertEquals(EquationForm.Linear.USER, geoRay.getEquationForm());
 		Assert.assertEquals(EquationForm.Quadric.IMPLICIT, parabola.getEquationForm());
 		Assert.assertEquals(EquationForm.Quadric.IMPLICIT, hyperbola.getEquationForm());
-    }
+	}
 
-    @Test
-    public void testLinesLoadedFromXMLGraphing() {
-        getApp().setConfig(new AppConfigGraphing());
+	@Test
+	public void testLinesLoadedFromXMLGraphing() {
+		getApp().setConfig(new AppConfigGraphing());
 
-        GeoElementFactory factory = getElementFactory();
-        GeoLine geoLine = factory.createGeoLine();
-        geoLine.setLabel("line");
+		GeoElementFactory factory = getElementFactory();
+		GeoLine geoLine = factory.createGeoLine();
+		geoLine.setLabel("line");
 
-        GeoLine geoLineWithCommand = factory.createGeoLineWithCommand();
-        geoLineWithCommand.setLabel("lineCmd");
-        geoLineWithCommand.setEquationForm(EquationForm.Linear.PARAMETRIC);
-        Assert.assertEquals(EquationForm.Linear.PARAMETRIC, geoLineWithCommand.getEquationForm());
+		GeoLine geoLineWithCommand = factory.createGeoLineWithCommand();
+		geoLineWithCommand.setLabel("lineCmd");
+		geoLineWithCommand.setEquationForm(EquationForm.Linear.PARAMETRIC);
+		Assert.assertEquals(EquationForm.Linear.PARAMETRIC, geoLineWithCommand.getEquationForm());
 
-        getApp().setXML(getApp().getXML(), true);
+		getApp().setXML(getApp().getXML(), true);
 
-        GeoLine loadedLine = (GeoLine) lookup("line");
-        GeoLine loadedLineWithCommand = (GeoLine) lookup("lineCmd");
+		GeoLine loadedLine = (GeoLine) lookup("line");
+		GeoLine loadedLineWithCommand = (GeoLine) lookup("lineCmd");
 
-        Assert.assertEquals(EquationForm.Linear.USER, loadedLine.getEquationForm());
-        Assert.assertEquals(EquationForm.Linear.PARAMETRIC,
+		Assert.assertEquals(EquationForm.Linear.USER, loadedLine.getEquationForm());
+		Assert.assertEquals(EquationForm.Linear.PARAMETRIC,
 				loadedLineWithCommand.getEquationForm());
-    }
+	}
 
-    @Test
-    public void testLinesConicsRaysToStringModeInGeometry() {
-        getApp().setConfig(new AppConfigGeometry());
+	@Test
+	public void testLinesConicsRaysToStringModeInGeometry() {
+		getApp().setConfig(new AppConfigGeometry());
 
-        GeoElementFactory factory = getElementFactory();
-        GeoLine geoLine = factory.createGeoLine();
+		GeoElementFactory factory = getElementFactory();
+		GeoLine geoLine = factory.createGeoLine();
 		GeoLine geoLineWithCommand = factory.createGeoLineWithCommand();
 		GeoRay geoRay = factory.createGeoRay();
-        GeoConic parabola = (GeoConic) factory.create("y=xx");
-        GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
+		GeoConic parabola = (GeoConic) factory.create("y=xx");
+		GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
 
-        Assert.assertEquals(EquationForm.Linear.USER, geoLine.getEquationForm());
+		Assert.assertEquals(EquationForm.Linear.USER, geoLine.getEquationForm());
 		Assert.assertEquals(EquationForm.Linear.EXPLICIT, geoLineWithCommand.getEquationForm());
 		Assert.assertEquals(EquationForm.Linear.EXPLICIT, geoRay.getEquationForm());
 		Assert.assertEquals(EquationForm.Quadric.USER, parabola.getEquationForm());
 		Assert.assertEquals(EquationForm.Quadric.USER, hyperbola.getEquationForm());
-    }
+	}
 
 	@Test
 	public void testHideOutputRowGraphing() {
