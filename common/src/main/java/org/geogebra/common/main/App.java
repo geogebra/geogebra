@@ -2,7 +2,6 @@ package org.geogebra.common.main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -40,7 +39,6 @@ import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
@@ -109,11 +107,6 @@ import org.geogebra.common.kernel.statistics.AlgoTableToChart;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
-import org.geogebra.common.main.exam.ExamEnvironment;
-import org.geogebra.common.main.exam.restriction.ExamRestrictionFactory;
-import org.geogebra.common.main.exam.restriction.RestrictExam;
-import org.geogebra.common.main.exam.restriction.Restrictable;
-import org.geogebra.common.main.provider.ExamProvider;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
@@ -158,7 +151,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Represents an application window, gives access to views and system stuff
  */
 public abstract class App implements UpdateSelection, AppInterface, EuclidianHost,
-		ExamRestrictable, ExamProvider, ToolsProvider {
+		ExamRestrictable, ToolsProvider {
 
 	/** Url for wiki article about functions */
 	public static final String WIKI_OPERATORS = "Predefined_Functions_and_Operators";
@@ -399,12 +392,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private ParserFunctions pf;
 	private ParserFunctions pfInputBox;
 	private SpreadsheetTraceManager traceManager;
-
-	// Exam
-	@Deprecated // use ExamController instead
-	private ExamEnvironment exam;
-	@Deprecated // use ExamController instead
-	protected RestrictExam restrictions;
 
 	// moved to Application from EuclidianView as the same value is used across
 	// multiple EVs
@@ -3991,106 +3978,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return true;
 	}
 
-	@Deprecated // use ExamController instead
-	@Override // from deprecated ExamProvider
-	public ExamEnvironment getExam() {
-		return exam;
-	}
-
-	@Deprecated // use ExamController instead
-	public boolean isExam() {
-		return getExam() != null;
-	}
-
-	@Deprecated // use ExamController instead
-	public boolean isExamStarted() {
-		return isExam() && getExam().isStarted();
-	}
-
-	@Deprecated // use ExamController instead
-	public void setExam(ExamEnvironment exam) {
-		this.exam = exam;
-	}
-
-	@Deprecated // use ExamController instead
-	public void setNewExam() {
-		setNewExam(ExamType.GENERIC);
-	}
-
-	/**
-	 * Initializes a new ExamEnvironment instance.
-	 */
-	@Deprecated // use ExamController instead
-	public void setNewExam(ExamType region) {
-		ExamEnvironment examEnvironment = newExamEnvironment();
-		examEnvironment.setExamRegion(region);
-		initRestrictions(region);
-		examEnvironment.setRestrictionModel(restrictions.getModel());
-		setExam(examEnvironment);
-		examEnvironment.setConfig(getConfig());
-		CommandDispatcher commandDispatcher =
-				getKernel().getAlgebraProcessor().getCommandDispatcher();
-		examEnvironment.setCommandDispatcher(commandDispatcher);
-		examEnvironment.setCopyPaste(getCopyPaste());
-	}
-
-	@Deprecated // use ExamController instead
-	protected ExamEnvironment newExamEnvironment() {
-		return new ExamEnvironment(getLocalization());
-	}
-
-	@Deprecated // use ExamController instead
-	private void initRestrictions(ExamType region) {
-		RestrictExam oldRestrictions = restrictions;
-		restrictions = ExamRestrictionFactory.create(region);
-		if (oldRestrictions != null) {
-			oldRestrictions.getRestrictables().forEach(restrictions::register);
-		}
-	}
-
-	/**
-	 * Register a component to be restriced during exam
-	 *
-	 * @param restrictable the component to restrict.
-	 */
-	@Deprecated // use ExamController instead
-	public void registerRestrictable(Restrictable restrictable) {
-		if (restrictions == null) {
-			ExamEnvironment exam = getExam();
-			ExamType region = exam != null && exam.isStarted() ? exam.getExamRegion() : null;
-			restrictions = ExamRestrictionFactory.create(region);
-		}
-		restrictions.register(restrictable);
-	}
-
-	/**
-	 * Start exam with current timestamp.
-	 */
-	@Deprecated // use ExamController instead
-	public void startExam() {
-		getExam().prepareExamForStarting();
-		getExam().setStart((new Date()).getTime());
-		restrictions.enable();
-	}
-
-	/**
-	 * If an exam is active, re-enable any exam restrictions.
-	 */
-	@Deprecated // use ExamController instead
-	public void reEnableExamRestrictions() {
-		if (getExam() != null && isExamStarted() && restrictions != null) {
-			restrictions.enable();
-		}
-	}
-
-	/**
-	 * Show exam welcome message.
-	 */
-	@Deprecated // use ExamController instead
-	public void examWelcome() {
-		// overridden in platforms supporting exam
-	}
-
 	/**
 	 * Prepares the exam mode and shows the exam welcome message<br/>
 	 * Note: Only implemented within AppWFull, method still declared here so it can also be
@@ -4188,11 +4075,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public StringTemplate getScreenReaderTemplate() {
 		return StringTemplate.screenReaderAscii;
-	}
-
-	@Deprecated // restrictions are handled by ExamController
-	public void clearRestrictions() {
-		restrictions.disable();
 	}
 
 	/**
@@ -5144,20 +5026,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public void closeMenuHideKeyboard() {
 		// nothing here
-	}
-
-	/**
-	 * Updates the objects that depend on the command dispatcher.
-	 *
-	 * @param commandDispatcher command dispatcher
-	 */
-	@Deprecated
-	public void onCommandDispatcherSet(CommandDispatcher commandDispatcher) {
-		ExamEnvironment examEnvironment = getExam();
-		if (examEnvironment != null) {
-			examEnvironment.setCommandDispatcher(commandDispatcher);
-			examEnvironment.setCopyPaste(getCopyPaste());
-		}
 	}
 
 	@Override

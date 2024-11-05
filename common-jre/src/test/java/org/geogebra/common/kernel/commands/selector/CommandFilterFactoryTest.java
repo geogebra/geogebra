@@ -88,31 +88,6 @@ public class CommandFilterFactoryTest {
 		assertAllowed(false, Commands.Asymptote);
 	}
 
-	@Test
-	public void testBayernCasCommandFilter() {
-		filter = CommandFilterFactory.createBayernCasFilter();
-		assertAllowed(false, Commands.Plane);
-	}
-
-	@Test
-	public void testVlaanderenCommandFilter() {
-		filter = CommandFilterFactory.createVlaanderenFilter();
-		assertAllowed(false, Commands.Derivative);
-		assertAllowed(false, Commands.NDerivative);
-		assertAllowed(false, Commands.Integral);
-		assertAllowed(false, Commands.IntegralSymbolic);
-		assertAllowed(false, Commands.IntegralBetween);
-		assertAllowed(false, Commands.NIntegral);
-		assertAllowed(false, Commands.Solve);
-		assertAllowed(false, Commands.SolveQuartic);
-		assertAllowed(false, Commands.SolveODE);
-		assertAllowed(false, Commands.SolveCubic);
-		assertAllowed(false, Commands.Solutions);
-		assertAllowed(false, Commands.NSolve);
-		assertAllowed(false, Commands.NSolveODE);
-		assertAllowed(false, Commands.NSolutions);
-	}
-
 	private void assertAllowed(boolean shouldAllow, Commands command) {
 		assertEquals(command + (shouldAllow ? " should" : " should not") + " be allowed",
 				shouldAllow, filter.isCommandAllowed(command));
