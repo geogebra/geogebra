@@ -3696,6 +3696,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            feature
 	 * @return whether it's supported
 	 */
+	// TODO move the check for LOCALSTORAGE_FILES to Web code
+	@Deprecated // use PreviewFeature instead
 	public final boolean has(Feature f) {
 		switch (f) {
 		// **********************************************************************
