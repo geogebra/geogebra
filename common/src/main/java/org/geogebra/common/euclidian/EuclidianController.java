@@ -4864,27 +4864,20 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						} else if (region.isGeoConic()) {
 							if (createNewPointInRegionPossible(
 									(GeoConicND) region)) {
-								createPoint = true;
 								hits.remove(region); // conic won't be treated
 								// as a path
-							} else {
-								createPoint = true;
 							}
 						} else if (region instanceof GeoFunction) {
 							// eg x<4, y<4 (check not needed here for x+y<4)
 							if (((GeoFunction) region).isInequality()) {
-								createPoint = true;
 								hits.remove(region); // inequality won't be
 								// treated as a path
-							} else {
-								createPoint = true;
 							}
 						}
 
 						// if no polygon side in hits, then remove all polygons
 						// for path (use it also when region is conic, etc.)
 						if (!sideInHits) {
-							createPoint = true;
 							hits.removeHasSegmentsIfSideNotPresent(); // if a
 							// polygon is a region, need only polygons
 							// that should be a path
@@ -4895,13 +4888,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							}
 
 						}
-					} else {
-						createPoint = true;
 					}
-				} else {
-					createPoint = true;
-					// if inRegionPossible is false, the point is created as a
-					// free point
 				}
 			}
 
@@ -4963,13 +4950,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				intersectPossible, true, complexPoint);
 	}
 
-	protected boolean createNewPointND(Hits hits, boolean onPathPossible,
+	protected GeoPointND createNewPointND(Hits hits, boolean onPathPossible,
 			boolean inRegionPossible, boolean intersectPossible,
 			boolean doSingleHighlighting, boolean complexPoint) {
 		pointCreated = null;
 
 		if (!allowPointCreation()) {
-			return false;
+			return null;
 		}
 
 		GeoPointND point = getNewPoint(hits, onPathPossible, inRegionPossible,
@@ -4986,11 +4973,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				doSingleHighlighting(getMovedGeoPoint());
 			}
 
-			return true;
+			return point;
 		}
 
 		moveMode = MOVE_NONE;
-		return false;
+		return null;
 	}
 
 	/**
@@ -5010,7 +4997,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// inRegionpossible must be false so that the Segment Tool creates a
 		// point on the edge of a circle
 		return createNewPoint(hits, onPathPossible, false, intersectPossible,
-				doSingleHighlighting, false);
+				doSingleHighlighting, false) != null;
 	}
 
 	protected final boolean button(boolean textfield, boolean selPreview) {
@@ -5654,11 +5641,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected void movePointWithOffset() {
-		movedGeoPoint.setCoords(
-				DoubleUtil.checkDecimalFraction(xRW - transformCoordsOffset[0]),
-				DoubleUtil.checkDecimalFraction(yRW - transformCoordsOffset[1]),
-				1.0);
+		movedGeoPoint.setCoords(getSnappedRealCoordX(), getSnappedRealCoordY(), 1.0);
 		movedGeoPoint.updateCascade();
+	}
+
+	private double getSnappedRealCoordY() {
+		return DoubleUtil.checkDecimalFraction(yRW - transformCoordsOffset[1]);
+	}
+
+	private double getSnappedRealCoordX() {
+		return DoubleUtil.checkDecimalFraction(xRW - transformCoordsOffset[0]);
 	}
 
 	protected void moveLine() {
@@ -6561,7 +6553,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private void wrapMouseclicked(boolean control, int clickCount,
 			PointerEventType type) {
 		if (!app.showMenuBar() || control || penMode(this.mode)
-				|| isDragTool()) {
+				|| isModeCreatingObjectsByDrag()) {
 			return;
 		}
 		// double-click on object selects MODE_MOVE and opens redefine dialog
@@ -8743,8 +8735,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	protected void createNewPointForModeOther(Hits hits) {
-		createNewPoint(hits, true, false, true, true, false);
+	protected GeoPointND createNewPointForModeOther(Hits hits) {
+		return createNewPoint(hits, true, false, true, true, false);
 	}
 
 	protected boolean circleRadiusDrag(AbstractEvent event) {
@@ -9689,14 +9681,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				.getSelectionThreshold(app.getCapturingThreshold(q.getType()));
 	}
 
-	protected boolean createNewPoint(Hits hits, boolean onPathPossible,
+	protected GeoPointND createNewPoint(Hits hits, boolean onPathPossible,
 			boolean inRegionPossible, boolean intersectPossible,
 			boolean doSingleHighlighting, boolean complexPoint) {
-		boolean newPointCreated = createNewPointND(hits, onPathPossible,
+		GeoPointND newPoint = createNewPointND(hits, onPathPossible,
 				inRegionPossible, intersectPossible, doSingleHighlighting,
 				complexPoint);
 		GeoElement point = this.view.getHits().getFirstHit(TestGeo.GEOPOINT);
-		if (point != null && !newPointCreated && this.selPoints() == 1
+		if (point != null && newPoint == null && this.selPoints() == 1
 				&& (this.mode == EuclidianConstants.MODE_JOIN
 						|| this.mode == EuclidianConstants.MODE_SEGMENT
 						|| this.mode == EuclidianConstants.MODE_RAY
@@ -9707,7 +9699,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			handleMovedElement(point, false, PointerEventType.MOUSE);
 		}
 
-		return newPointCreated;
+		return newPoint;
 	}
 
 	protected boolean isDraggingOccuredBeyondThreshold() {
@@ -9845,7 +9837,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		boolean newSelection = getAppSelectedGeos() == null || getAppSelectedGeos().isEmpty();
 		EuclidianBoundingBoxHandler handler = view.getHitHandler();
 
-		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)
+		GeoPointND firstPoint = this.selPoints() == 1 ? getSelectedPointList().get(0)
 				: null;
 
 		DrawDropDownList dl = view.getOpenedComboBox();
@@ -9918,34 +9910,40 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			handleMowSelectionRelease();
 		}
 
-		if (!event.isRightClick() && isDragTool()) {
+		if (!event.isRightClick() && isModeCreatingObjectsByDrag()) {
+			int eventX = event.getX();
+			int eventY = event.getY();
 			if (withinPointSelectionDistance(startPosition, event)) {
-				this.view.setHits(new GPoint(event.getX(), event.getY()),
+				this.view.setHits(new GPoint(eventX, eventY),
 						event.getType());
 
-				if (this.selPoints() == 1 && !view.getHits().contains(p)) {
+				if (this.selPoints() == 1 && !view.getHits().contains(firstPoint)) {
 					wrapMouseReleasedND(event, true);
 				} else {
-					checkResetOrAnimationHit(event.getX(), event.getY());
+					checkResetOrAnimationHit(eventX, eventY);
 				}
 
 				return;
 			}
 
+			if (movedGeoPoint != null && movedGeoPoint != firstPoint) {
+				setMouseLocation(event.isAltDown(), eventX, eventY);
+				transformCoords();
+				movePointWithOffset();
+				eventX = view.toScreenCoordX(getSnappedRealCoordX());
+				eventY = view.toScreenCoordY(getSnappedRealCoordY());
+			}
 			wrapMouseReleasedND(event, true);
 
-			this.view.setHits(new GPoint(event.getX(), event.getY()),
-					event.getType());
+			this.view.setHits(new GPoint(eventX, eventY), event.getType());
 			Hits hits = view.getHits();
-
-			if (p != null && hits.getFirstHit(TestGeo.GEOPOINTND) == null) {
-				if (!getSelectedPointList().contains(p)) {
-					this.getSelectedPointList().add(p);
+			if (firstPoint != null && hits.getFirstHit(TestGeo.GEOPOINTND) == null) {
+				if (!getSelectedPointList().contains(firstPoint)) {
+					this.getSelectedPointList().add(firstPoint);
 				}
-				createNewPointForModeOther(hits);
-				this.view.setHits(new GPoint(event.getX(), event.getY()),
-						event.getType());
-				hits = view.getHits();
+				GeoPointND newPoint = createNewPointForModeOther(hits);
+				hits.clear();
+				hits.add(newPoint.toGeoElement());
 				boolean kernelChange = switchModeForProcessMode(hits,
 						event.isControlDown(), null, false);
 				if (kernelChange) {
@@ -10047,16 +10045,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		geoElement.setHighlighted(true);
 		geoElement.updateRepaint();
-	}
-
-	private boolean isDragTool() {
-		return this.mode == EuclidianConstants.MODE_JOIN
-				|| this.mode == EuclidianConstants.MODE_SEGMENT
-				|| this.mode == EuclidianConstants.MODE_RAY
-				|| this.mode == EuclidianConstants.MODE_VECTOR
-				|| this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-				|| this.mode == EuclidianConstants.MODE_SEMICIRCLE
-				|| this.mode == EuclidianConstants.MODE_REGULAR_POLYGON;
 	}
 
 	/**
@@ -10309,6 +10297,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		movedGeoImplicitCurve = null;
 		movedGeoText = null;
 		movedGeoImage = null;
+		movedGeoPoint = null;
 	}
 
 	private void focusGroupElement(GeoElement geo) {

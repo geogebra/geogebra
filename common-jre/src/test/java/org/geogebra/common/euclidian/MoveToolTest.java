@@ -149,6 +149,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	public void moveWithMouseShouldChangePolygon1() {
 		add("A = (0,0)");
 		add("q = Polygon(A, (0,-1), 4)");
+		add("SetVisibleInView(B,1,false)");
 		dragStart(50, 50);
 		dragEnd(100, 150);
 		checkContent("A = (1, -2)", "q = 1", "f = 1", "g = 1", "B = (2, -3)",
