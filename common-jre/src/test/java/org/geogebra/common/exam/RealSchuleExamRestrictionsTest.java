@@ -67,7 +67,7 @@ public class RealSchuleExamRestrictionsTest extends BaseUnitTest {
 		assertEquals(expected, evSettings.getGridType());
 	}
 
-	private void axisLabelsShouldBe(String ...labels) {
+	private void axisLabelsShouldBe(String... labels) {
 		if (labels.length != 2) {
 			fail();
 		}

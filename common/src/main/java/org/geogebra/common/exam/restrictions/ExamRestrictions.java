@@ -229,8 +229,6 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		}
 
 		if (settings != null) {
-			savedSettings = createSavedSettings();
-			savedSettings.save(settings);
 			applySettingsRestrictions(settings);
 		}
 	}
@@ -251,7 +249,10 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * @param settings {@link Settings}
 	 */
 	protected void applySettingsRestrictions(@Nonnull Settings settings) {
-		// Empty by default
+		savedSettings = createSavedSettings();
+		if (savedSettings != null) {
+			savedSettings.save(settings);
+		}
 	}
 
 	/**
@@ -261,7 +262,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * @param settings {@link Settings}
 	 */
 	protected void removeSettingsRestrictions(@Nonnull Settings settings) {
-		savedSettings.restore(settings);
+		if (savedSettings != null) {
+			savedSettings.restore(settings);
+		}
 	}
 
 	/**

@@ -12,8 +12,6 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
 
 final class ReaulschuleExamRestrictions extends ExamRestrictions {
-	private RestorableSettings originalSettings = new RealschuleSettings();
-
 	ReaulschuleExamRestrictions() {
 		super(ExamType.REALSCHULE,
 				Set.of(SuiteSubApp.CAS, SuiteSubApp.GEOMETRY, SuiteSubApp.G3D,
@@ -37,7 +35,7 @@ final class ReaulschuleExamRestrictions extends ExamRestrictions {
 
 	@Override
 	public void applySettingsRestrictions(@Nonnull Settings settings) {
-		originalSettings.save(settings);
+		super.applySettingsRestrictions(settings);
 		EuclidianSettings euclidian = settings.getEuclidian(1);
 		settings.getGeneral().setCoordFormat(Kernel.COORD_STYLE_AUSTRIAN);
 		euclidian.beginBatch();
@@ -47,10 +45,5 @@ final class ReaulschuleExamRestrictions extends ExamRestrictions {
 		euclidian.setAxisNumberingDistance(0, 0.5);
 		euclidian.setAxisNumberingDistance(1, 0.5);
 		euclidian.endBatch();
-	}
-
-	@Override
-	protected void removeSettingsRestrictions(@Nonnull Settings settings) {
-		originalSettings.restore(settings);
 	}
 }
