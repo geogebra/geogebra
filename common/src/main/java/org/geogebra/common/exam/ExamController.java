@@ -389,8 +389,14 @@ public final class ExamController {
 			throw new IllegalStateException("no active context; "
 					+ "call setActiveContext() before attempting to start the exam");
 		}
+
 		this.examType = examType;
 		this.options = options;
+		if (delegate != null) {
+			delegate.examClearClipboard();
+			delegate.examClearApps();
+		}
+
 		if (examRestrictions == null) {
 			examRestrictions = ExamRestrictions.forExamType(examType);
 		}
@@ -398,14 +404,9 @@ public final class ExamController {
 		applyRestrictionsToContextDependencies(activeDependencies);
 		applyRestrictionsToRestrictables();
 
-		if (delegate != null) {
-			delegate.examClearClipboard();
-			delegate.examClearApps();
-		}
 		tempStorage.clearTempMaterials();
 		createNewTempMaterial();
 
-		examRestrictions.applySettinsTo(activeDependencies.settings);
 		cheatingEvents = new CheatingEvents();
 		cheatingEvents.delegate = (cheatingEvent) -> {
 			if (cheatingEvents.size() == 1) {

@@ -226,10 +226,31 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		if (toolsProvider != null && toolsFilter != null) {
 			toolsProvider.addToolsFilter(toolsFilter);
 		}
+
+		if (settings != null) {
+			applySettingsRestrictions(settings);
+		}
 	}
 
-	public void applySettinsTo(Settings settings) {
-		// Set custom settings here
+	/**
+	 * Here comes all the settings changes, that need to be applied for the exam.
+	 * Override this only if the given exam needs custom settings and make sure overriding
+	 * removeSettingsRestrictions(settings) too.
+	 *
+	 * @param settings {@link Settings}
+	 */
+	protected void applySettingsRestrictions(@Nonnull Settings settings) {
+		// Empty by default
+	}
+
+	/**
+	 * Remove customized settings.
+	 * Override this together only with applySettingsRestrictions(settings).
+	 *
+	 * @param settings {@link Settings}
+	 */
+	protected void removeSettingsRestrictions(@Nonnull Settings settings) {
+		// Empty by default
 	}
 
 	/**
@@ -284,6 +305,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		}
 		if (toolsProvider != null && toolsFilter != null) {
 			toolsProvider.removeToolsFilter(toolsFilter);
+		}
+		if (settings != null) {
+			removeSettingsRestrictions(settings);
 		}
 	}
 
