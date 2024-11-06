@@ -62,9 +62,6 @@ public enum PreviewFeature {
 	 * {@link #enableFeaturePreviews} is {@code true} as well; {@code false} otherwise.
 	 */
 	public static boolean isAvailable(PreviewFeature previewFeature) {
-		if (!enableFeaturePreviews) {
-			return false;
-		}
-		return previewFeature.isEnabled;
+		return enableFeaturePreviews && previewFeature.isEnabled;
 	}
 }
