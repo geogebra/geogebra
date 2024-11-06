@@ -11,9 +11,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 @SuppressFBWarnings("MS_SHOULD_BE_FINAL")
 public enum PreviewFeature {
 
-	ANALYTICS,
 	ALL_LANGUAGES,
-	TUBE_BETA,
+	RESOURCES_API_BETA,
 	IMPLICIT_SURFACES,
 	/** MOB-1537 */
 	MOB_PREVIEW_WHEN_EDITING,

@@ -12,6 +12,7 @@ public enum Feature {
 
 	LOG_AXES,
 
+	@Deprecated
 	ANALYTICS,
 
 	/** GGB-334, TRAC-3401 */
