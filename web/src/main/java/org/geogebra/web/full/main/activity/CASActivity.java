@@ -2,7 +2,6 @@ package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.config.AppConfigCas;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MenuItemCollection;
@@ -41,10 +40,5 @@ public class CASActivity extends BaseActivity {
 	public void start(AppW app) {
 		app.getAsyncManager().prefetch(null,
 				"giac", "cas", "advanced", "scripting", "stats");
-	}
-
-	@Override
-	public SVGResource getExamIcon() {
-		return MaterialDesignResources.INSTANCE.exam_cas();
 	}
 }

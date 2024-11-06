@@ -542,7 +542,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}
 
 		// eg Delete has a different code
-		KeyCodes keyCode = KeyCodes.translateGWTcode(keyCodeGWT);
+		KeyCodes keyCode = NavigatorUtil.translateGWTcode(keyCodeGWT);
 
 		return keyCode.getJavaKeyCode();
 	}
@@ -1041,13 +1041,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            abs x-coord of the event
 	 * @param absY
 	 *            abs y-coord of the event
+	 * @param extScale external scaling factor
 	 */
-	public void adjustCaret(int absX, int absY) {
+	public void adjustCaret(int absX, int absY, double extScale) {
 		if (SelectionBox.touchSelection) {
 			return;
 		}
-		int x = mouseX(absX - asWidget().getAbsoluteLeft());
-		int y = mouseY(absY - asWidget().getAbsoluteTop());
+		int x = toCanvasPixels(absX - asWidget().getAbsoluteLeft(), extScale);
+		int y = toCanvasPixels(absY - asWidget().getAbsoluteTop(), extScale);
 		if (x > asWidget().getOffsetWidth()) {
 			CursorController.lastField(mathFieldInternal.getEditorState());
 			mathFieldInternal.update();
@@ -1079,16 +1080,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}
 	}
 
-	public int mouseX(int x) {
-		return (int) (x / scale);
-	}
-
-	public int mouseY(int y) {
-		return (int) (y / scale);
-	}
-
-	public void setScale(double scaleX) {
-		this.scale = scaleX;
+	public int toCanvasPixels(int x, double extScale) {
+		return (int) (x / scale / extScale);
 	}
 
 	@Override

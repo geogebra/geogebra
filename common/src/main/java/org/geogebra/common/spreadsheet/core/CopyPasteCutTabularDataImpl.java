@@ -125,7 +125,7 @@ final class CopyPasteCutTabularDataImpl<T>
 	private void pasteInternalOnce(TabularRange destination) {
 		tabularData.ensureCapacity(destination.getMaxRow(), destination.getMaxColumn());
 		insertRowsAndColumnsIfNeeded();
-		destination.forEach(this::resetCell);
+		destination.forEach(tabularData::removeContentAt);
 		paste.pasteInternal(tabularData, internalClipboard, destination);
 	}
 
@@ -198,33 +198,8 @@ final class CopyPasteCutTabularDataImpl<T>
 	@Override
 	public void cut(TabularRange range) {
 		copyDeep(range);
-		if (range.isRow()) {
-			clearRows(range);
-		} else if (range.isColumn()) {
-			clearColumns(range);
-		} else if (range.areAllCellsSelected()) {
-			clearAllCells();
-		} else {
-			range.forEach(this::resetCell);
-		}
-	}
-
-	private void clearRows(TabularRange range) {
-		TabularRange.range(range.getFromRow(), range.getToRow(),
-				0, tabularData.numberOfColumns() - 1).forEach(this::resetCell);
-	}
-
-	private void clearColumns(TabularRange range) {
-		TabularRange.range(0, tabularData.numberOfRows() - 1,
-				range.getFromColumn(), range.getToColumn()).forEach(this::resetCell);
-	}
-
-	private void clearAllCells() {
-		TabularRange.range(0, tabularData.numberOfRows() - 1,
-				0, tabularData.numberOfColumns() - 1).forEach(this::resetCell);
-	}
-
-	private void resetCell(int row, int column) {
-		tabularData.removeContentAt(row, column);
+		TabularRange visibleRange = range.restrictTo(tabularData.numberOfRows(),
+				tabularData.numberOfColumns());
+		visibleRange.forEach(tabularData::removeContentAt);
 	}
 }

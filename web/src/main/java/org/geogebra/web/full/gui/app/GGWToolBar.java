@@ -19,7 +19,6 @@ import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.exam.ExamUtil;
-import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbar.ToolbarSubmenuP;
@@ -31,6 +30,8 @@ import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.resources.SVGResourcePrototype;
 import org.gwtproject.animation.client.AnimationScheduler;
 import org.gwtproject.animation.client.AnimationScheduler.AnimationCallback;
 import org.gwtproject.dom.client.Element;
@@ -487,7 +488,7 @@ public class GGWToolBar extends Composite
 	 *            see {@link AppW}
 	 * @return toolbar icon resource
 	 */
-	public static ResourcePrototype getImageURLNotMacro(
+	public static SVGResource getImageURLNotMacro(
 			ToolbarResources resourceBundle, int mode, AppW app) {
 		switch (mode) {
 		case EuclidianConstants.MODE_ANGLE:
@@ -916,9 +917,6 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_EXTENSION:
 			return ToolbarSvgResourcesSync.INSTANCE.mode_extension();
 
-		case EuclidianConstants.MODE_H5P:
-			return resourceBundle.mode_h5p();
-
 		case EuclidianConstants.MODE_PDF:
 			return resourceBundle.mode_pdf_32();
 
@@ -944,7 +942,7 @@ public class GGWToolBar extends Composite
 			return resourceBundle.mode_triangle_protractor();
 
 		default:
-			return AppResources.INSTANCE.empty();
+			return SVGResourcePrototype.EMPTY;
 		}
 
 	}

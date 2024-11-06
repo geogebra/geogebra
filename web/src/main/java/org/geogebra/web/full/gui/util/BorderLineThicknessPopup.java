@@ -16,7 +16,6 @@ public class BorderLineThicknessPopup extends GPopupPanel {
 	public static final int BORDER_THICK = 3;
 	private LineThicknessCheckMarkItem thin;
 	private LineThicknessCheckMarkItem thick;
-
 	private final BorderStylePopup parentPopup;
 	private EuclidianStyleBarW popupHandler;
 

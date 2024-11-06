@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 
 /**
@@ -77,13 +78,8 @@ public interface VendorSettings {
 	boolean hasBitmapSecurity();
 
 	/**
-	 *
-	 * @return whether inserting H5P content is enabled
+	 * @param language active language
+	 * @return list of protractor tools for given language
 	 */
-	boolean isH5PEnabled();
-
-	/**
-	 * @return whether has both round and triangle shaped protractor
-	 */
-	boolean hasBothProtractor();
+	List<Integer> getProtractorTools(Language language);
 }

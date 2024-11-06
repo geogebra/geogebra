@@ -329,12 +329,6 @@ public class DialogManagerW extends DialogManager
 		embedDialog.show();
 	}
 
-	@Override
-	public void showH5PDialog() {
-		H5PInputDialog embedDialog = new H5PInputDialog((AppWFull) app);
-		embedDialog.show();
-	}
-
 	/**
 	 * show export image dialog
 	 */
@@ -518,10 +512,39 @@ public class DialogManagerW extends DialogManager
 		}
 
 		// show the view
-		if (app.isUnbundledOrWhiteboard()) {
+		if (app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC) {
+			((GuiManagerW) app.getGuiManager()).showSciSettingsView();
+		} else if (app.isUnbundledOrWhiteboard()) {
 			((PropertiesViewW) pv).open();
 		} else {
 			app.getGuiManager().setShowView(true,
+					App.VIEW_PROPERTIES);
+		}
+	}
+
+	@Override
+	protected boolean isPropertiesViewShowing() {
+		return super.isPropertiesViewShowing()
+				|| isFloatingPropertiesViewShowing()
+				|| ((AppWFull) app).getAppletFrame().isSciSettingsOpen();
+	}
+
+	private boolean isFloatingPropertiesViewShowing() {
+		return app.getGuiManager() != null
+				&& ((GuiManagerW) app.getGuiManager()).isPropertiesViewShowing();
+	}
+
+	@Override
+	protected void hidePropertiesView() {
+		if (app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC) {
+			((AppWFull) app).getAppletFrame().hidePanel(null);
+			((AppWFull) app).onBrowserClose();
+		} else if (app.isUnbundledOrWhiteboard()) {
+			PropertiesView pv = ((GuiManagerW) app.getGuiManager())
+					.getPropertiesView(OptionType.OBJECTS);
+			((PropertiesViewW) pv).close();
+		} else {
+			app.getGuiManager().setShowView(false,
 					App.VIEW_PROPERTIES);
 		}
 	}

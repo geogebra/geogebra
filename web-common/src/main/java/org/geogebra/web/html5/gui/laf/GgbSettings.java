@@ -1,12 +1,15 @@
 package org.geogebra.web.html5.gui.laf;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 
 /**
@@ -71,12 +74,10 @@ public class GgbSettings implements VendorSettings {
 	}
 
 	@Override
-	public boolean isH5PEnabled() {
-		return false;
-	}
-
-	@Override
-	public boolean hasBothProtractor() {
-		return true;
+	public List<Integer> getProtractorTools(Language language) {
+		return "en".equals(language.language)
+				? Collections.singletonList(EuclidianConstants.MODE_PROTRACTOR)
+				: Arrays.asList(EuclidianConstants.MODE_PROTRACTOR,
+					EuclidianConstants.MODE_TRIANGLE_PROTRACTOR);
 	}
 }

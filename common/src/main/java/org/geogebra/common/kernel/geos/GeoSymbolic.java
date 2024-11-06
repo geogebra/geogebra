@@ -638,7 +638,31 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private boolean useOutputAsMainTwin() {
-		return constant != null && constant.getTotalNumberOfConsts() > 0;
+		return (constant != null && constant.getTotalNumberOfConsts() > 0)
+				|| (getDefinition() != null && isCasForwardingCommand(getDefinition().unwrap()));
+	}
+
+	/**
+	 * @param unwrappedDefinition unwrapped definition of this element
+	 * @return whether running the input through AlgebraProcessor brings no value compared to
+	 * just processing output of the CAS computation
+	 */
+	private boolean isCasForwardingCommand(ExpressionValue unwrappedDefinition) {
+		Commands cmd = unwrappedDefinition instanceof Command
+				? Commands.stringToCommand(((Command) unwrappedDefinition).getName()) : null;
+		if (cmd == null) {
+			return false;
+		}
+		switch (cmd) {
+		case Simplify:
+		case Expand:
+		case Factor:
+		case TrigSimplify:
+		case TrigCombine:
+		case TrigExpand:
+			return true;
+		default: return false;
+		}
 	}
 
 	private ExpressionNode getNodeFromOutput() throws ParseException {

@@ -1297,17 +1297,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *         finished already.
 	 */
 	public boolean doOpenFile(File fileToHandle) {
-		String ggbRegEx = ".*\\.(ggb|ggt|ggs|csv|off|pdf|h5p)$";
+		String ggbRegEx = ".*\\.(ggb|ggt|ggs|csv|off|pdf)$";
 		String fileName = fileToHandle.name.toLowerCase();
 		if (!fileName.matches(ggbRegEx)) {
 			return false;
 		}
 		if (fileName.endsWith(".pdf")) {
 			openPDF(fileToHandle);
-			return true;
-		}
-		if (fileName.endsWith(".h5p")) {
-			openH5P(fileToHandle);
 			return true;
 		}
 
@@ -2164,7 +2160,19 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @param asSlide
 	 *            whether jus a slide is loaded
 	 */
-	public abstract void afterLoadFileAppOrNot(boolean asSlide);
+	public void afterLoadFileAppOrNot(boolean asSlide) {
+		boolean commandsLoaded = false;
+		for (GeoElement geo : kernel.getConstruction().getGeoSetConstructionOrder()) {
+			if (!commandsLoaded && geo.hasScripts()) {
+				getAsyncManager().loadAllCommands();
+				commandsLoaded = true;
+			}
+			if (geo instanceof GeoText && geo.getLabelSimple() != null
+					&& geo.getLabelSimple().startsWith("altText")) {
+				getAccessibilityManager().preloadAltText((GeoText) geo);
+			}
+		}
+	}
 
 	/**
 	 * Recalculate offsets/transforms for graphics events
@@ -2834,10 +2842,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            PDF file
 	 */
 	public void openPDF(File pdfFile) {
-		// only makes sense in GUI
-	}
-
-	public void openH5P(File pdfFile) {
 		// only makes sense in GUI
 	}
 

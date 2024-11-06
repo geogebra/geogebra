@@ -131,7 +131,6 @@ public class JSONParserGGT {
 		material.setViewerID(getInt(obj, "viewerID", -1));
 		if (setLocalValues) {
 			material.setLocalID(getInt(obj, "localID", -1));
-			material.setAutosaveTimestamp(getInt(obj, "autoSaveTimestamp", 0));
 		}
 		if (obj.has("creator")) {
 			setCreator(material, obj);

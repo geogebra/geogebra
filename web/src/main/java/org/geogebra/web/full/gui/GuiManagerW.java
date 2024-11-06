@@ -167,7 +167,7 @@ public class GuiManagerW extends GuiManager
 	private GGWToolBar toolbarPanel = null;
 	private InputBarHelpPanelW inputHelpPanel;
 	private AlgebraInputW algebraInput;
-	private PropertiesView propertiesView;
+	private PropertiesViewW propertiesView;
 	private DataAnalysisViewW dataAnalysisView = null;
 	private boolean listeningToLogin = false;
 	private ToolBarW toolbarForUpdate = null;
@@ -648,7 +648,7 @@ public class GuiManagerW extends GuiManager
 				AwtFactory.getPrototype().newDimension(width, height));
 		Scheduler.get().scheduleDeferred(() -> {
 			getApp().centerAndResizeViews();
-			getApp().getKeyboardManager().resizeKeyboard();
+			getApp().resizeKeyboard();
 		});
 	}
 
@@ -1306,7 +1306,7 @@ public class GuiManagerW extends GuiManager
 			}
 		}
 		if (propertiesView != null) {
-			((PropertiesViewW) propertiesView).setLabels();
+			propertiesView.setLabels();
 		}
 
 		getApp().getDialogManager().setLabels();
@@ -2078,8 +2078,9 @@ public class GuiManagerW extends GuiManager
 	 */
 	@Override
 	public void openMenuInAVFor(GeoElement geo) {
-		if (getApp().isUnbundled() && hasAlgebraView()) {
+		if (hasAlgebraView()) {
 			getAlgebraView().openMenuFor(geo);
+			getAlgebraView().getNode(geo).focusFirstMoreMenuElement();
 		}
 	}
 
@@ -2280,5 +2281,9 @@ public class GuiManagerW extends GuiManager
 		}
 
 		return false;
+	}
+
+	public boolean isPropertiesViewShowing() {
+		return propertiesView != null && propertiesView.isFloatingAttached();
 	}
 }

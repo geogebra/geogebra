@@ -54,7 +54,7 @@ public final class CommandFilterFactory {
 				Commands.Prove, Commands.ProveDetails, Commands.Radius, Commands.RigidPolygon,
 				Commands.Sector, Commands.Segment, Commands.Slope, Commands.Tangent,
 				Commands.TriangleCenter, Commands.TriangleCurve, Commands.Trilinear,
-				Commands.Vertex, Commands.Polynomial,
+				Commands.Vertex, Commands.Polynomial, Commands.PolyLine,
 				Commands.TaylorSeries, Commands.Asymptote, Commands.OsculatingCircle,
 				Commands.CommonDenominator, Commands.CompleteSquare, Commands.Div, Commands.Mod,
 				Commands.Division, Commands.IsVertexForm);
@@ -73,7 +73,7 @@ public final class CommandFilterFactory {
 	}
 
 	/**
-	 * @return filer for Bayern CAS exam
+	 * @return filter for Bayern CAS exam
 	 */
 	@Deprecated // replaced by BayernCasExamRestrictions
 	public static CommandFilter createBayernCasFilter() {
@@ -142,7 +142,7 @@ public final class CommandFilterFactory {
 				Commands.Envelope, Commands.IntersectPath,
 				Commands.Locus, Commands.LocusEquation, Commands.Midpoint,
 				Commands.Point, Commands.Polygon,
-				Commands.PolyLine, Commands.ProveDetails, Commands.Ray,
+				Commands.PolyLine, Commands.Prove, Commands.ProveDetails, Commands.Ray,
 				Commands.RigidPolygon, Commands.Sector, Commands.Segment,
 				Commands.Slope, Commands.TriangleCurve, Commands.Vertex,
 				// Transformation Commands
@@ -160,8 +160,9 @@ public final class CommandFilterFactory {
 				Commands.Histogram, Commands.HistogramRight, Commands.NormalQuantilePlot,
 				Commands.ResidualPlot, Commands.StemPlot, Commands.StepGraph,
 				Commands.StickGraph, Commands.LineGraph, Commands.PieChart,
-				// Discrete Math Commands
-				Commands.ShortestDistance,
+				// Barycentric Commands
+				Commands.TriangleCenter, Commands.Barycenter, Commands.Trilinear, Commands.Cubic,
+				Commands.TriangleCurve,
 				// GeoGebra Commands
 				Commands.DynamicCoordinates, Commands.Object, Commands.SlowPlot,
 				Commands.ToolImage,

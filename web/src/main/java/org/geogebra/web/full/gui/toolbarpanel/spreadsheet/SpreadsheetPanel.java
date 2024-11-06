@@ -28,7 +28,6 @@ import org.gwtproject.user.client.ui.ScrollPanel;
 
 import com.google.gwt.core.client.Scheduler;
 import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.util.KeyCodes;
 
 import elemental2.core.Function;
 import elemental2.dom.DomGlobal;
@@ -120,7 +119,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		ClickStartHandler.initDefaults(scrollContent, false, true);
 		scrollContent.getElement().setTabIndex(0);
 		scrollContent.addDomHandler(evt -> {
-			spreadsheet.handleKeyPressed(KeyCodes.translateGWTcode(
+			spreadsheet.handleKeyPressed(NavigatorUtil.translateGWTcode(
 					evt.getNativeKeyCode()).getJavaKeyCode(),
 					getKey(evt.getNativeEvent()),
 					getKeyboardModifiers(evt));

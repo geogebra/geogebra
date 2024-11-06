@@ -315,7 +315,7 @@ public abstract class CasTestJsonCommon {
 
 	@Test
 	public void testComplexRootSquareRoots() {
-		testCatNoWindows("ComplexRootSquareRoots");
+		testCat("ComplexRootSquareRoots");
 	}
 
 	@Test
@@ -1379,7 +1379,7 @@ public abstract class CasTestJsonCommon {
 
 	@Test
 	public void testSolveLambertIneq() {
-		testCatNoClang("SolveLambertIneq");
+		testCat("SolveLambertIneq");
 	}
 
 	@Test

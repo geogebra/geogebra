@@ -111,7 +111,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		CHECK_DERIVATIVE("check_derivative", "check_derivative(a,b):="
 				+ "when(size(a)==1,a[0],flatten1([revlist(a),sort(remove(undef,map(a,r->"
-				+ "when(evalf(subst(r,x=xcoord(b))-ycoord(b))==0,r,undef))))])[-1])"),
+				+ "when(isAlmostZero(evalf(subst(r,x=xcoord(b))-ycoord(b))),r,undef))))])[-1])"),
 
 		/**
 		 * test if "=" or "%=" or "&gt;" or "&gt;=" - needed for eg
@@ -264,6 +264,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * eg sin(x)^2+cos(x)^2==1
 		 */
 		IS_ZERO("ggbIsZero", "ggbIsZero(ggbx):=when(ggbx==0 || simplify(texpand(ggbx))==0 || exp2pow(lin(pow2exp(ggbx)))==0,true,when(type(ggbx)=='DOM_LIST',max(flatten({ggbx,0}))==min(flatten({ggbx,0}))&&min(flatten({ggbx,0}))==0,when(ggbx[0]==equal,lhs(ggbx)==0&&rhs(ggbx)==0,ggbx[0]=='pnt' && ggbx[1] == ggbvect[0,0,0])))"),
+		IS_ALMOST_ZERO("isAlmostZero", "isAlmostZero(a):=len(lname(a))==0 && evalf(a) < 10^-8"),
 		/**
 		 * Convert the polys into primitive polys in the input list (contains
 		 * temporary fix for primpart also):
@@ -432,6 +433,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			setDependency(COS_2PI_OVER_N_MINPOLY, FACTOR_SQR_FREE);
 			setDependency(CHECK_DERIVATIVE, XCOORD);
 			setDependency(CHECK_DERIVATIVE, YCOORD);
+			setDependency(CHECK_DERIVATIVE, IS_ALMOST_ZERO);
 		}
 
 		/**
