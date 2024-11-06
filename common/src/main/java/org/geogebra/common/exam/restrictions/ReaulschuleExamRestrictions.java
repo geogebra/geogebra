@@ -31,6 +31,11 @@ final class ReaulschuleExamRestrictions extends ExamRestrictions {
 	}
 
 	@Override
+	protected RestorableSettings createSavedSettings() {
+		return new RealschuleSettings();
+	}
+
+	@Override
 	public void applySettingsRestrictions(@Nonnull Settings settings) {
 		originalSettings.save(settings);
 		EuclidianSettings euclidian = settings.getEuclidian(1);

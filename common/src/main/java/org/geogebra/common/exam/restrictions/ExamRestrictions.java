@@ -63,6 +63,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final SyntaxFilter syntaxFilter;
 	private final ToolCollectionFilter toolsFilter;
 	private final Map<String, PropertyRestriction> propertyRestrictions;
+	private RestorableSettings savedSettings;
 
 	/**
 	 * Factory for ExamRestrictions.
@@ -228,14 +229,24 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		}
 
 		if (settings != null) {
+			savedSettings = createSavedSettings();
+			savedSettings.save(settings);
 			applySettingsRestrictions(settings);
 		}
 	}
 
 	/**
+	 * Creates an object that settings can be saved in exam start, and can be easily restored
+	 * at exam exit
+	 * @return {@link RestorableSettings}
+	 */
+	protected RestorableSettings createSavedSettings() {
+		return null;
+	}
+
+	/**
 	 * Here comes all the settings changes, that need to be applied for the exam.
-	 * Override this only if the given exam needs custom settings and make sure overriding
-	 * removeSettingsRestrictions(settings) too.
+	 * Override this only if the given exam needs custom settings.
 	 *
 	 * @param settings {@link Settings}
 	 */
@@ -245,12 +256,12 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 
 	/**
 	 * Remove customized settings.
-	 * Override this together only with applySettingsRestrictions(settings).
+	 * Override is not needed by default.
 	 *
 	 * @param settings {@link Settings}
 	 */
 	protected void removeSettingsRestrictions(@Nonnull Settings settings) {
-		// Empty by default
+		savedSettings.restore(settings);
 	}
 
 	/**
