@@ -263,6 +263,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	protected void removeSettingsRestrictions(@Nonnull Settings settings) {
 		if (savedSettings != null) {
 			savedSettings.restore(settings);
+			savedSettings = null;
 		}
 	}
 

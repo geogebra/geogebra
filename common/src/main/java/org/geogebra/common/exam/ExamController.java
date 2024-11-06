@@ -392,10 +392,13 @@ public final class ExamController {
 
 		this.examType = examType;
 		this.options = options;
+
 		if (delegate != null) {
 			delegate.examClearClipboard();
 			delegate.examClearApps();
 		}
+		tempStorage.clearTempMaterials();
+		createNewTempMaterial();
 
 		if (examRestrictions == null) {
 			examRestrictions = ExamRestrictions.forExamType(examType);
@@ -403,9 +406,6 @@ public final class ExamController {
 		propertiesRegistry.addListener(examRestrictions);
 		applyRestrictionsToContextDependencies(activeDependencies);
 		applyRestrictionsToRestrictables();
-
-		tempStorage.clearTempMaterials();
-		createNewTempMaterial();
 
 		cheatingEvents = new CheatingEvents();
 		cheatingEvents.delegate = (cheatingEvent) -> {
