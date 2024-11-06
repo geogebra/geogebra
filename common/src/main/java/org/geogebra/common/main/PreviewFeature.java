@@ -34,6 +34,14 @@ public enum PreviewFeature {
 	REALSCHULE_EXAM;
 
 	/**
+	 * Global flag to activate feature previews.
+	 *
+	 * @apiNote Set the {@code true} at run time (early in the app startup code) to enable
+	 * feature previews in test builds.
+	 */
+	public static boolean enableFeaturePreviews = false;
+	
+	/**
 	 * Whether a preview feature is enabled (the default), or not. The latter case can be used
 	 * during development, i.e., when an internal feature is being worked on, but not yet considered
 	 * ready for internal preview.
@@ -47,14 +55,6 @@ public enum PreviewFeature {
 	PreviewFeature(boolean isEnabled) {
 		this.isEnabled = isEnabled;
 	}
-
-	/**
-	 * Global flag to activate feature previews.
-	 *
-	 * @apiNote Set the {@code true} at run time (early in the app startup code) to enable
-	 * feature previews in test builds.
-	 */
-	public static boolean enableFeaturePreviews = false;
 
 	/**
 	 * Checks whether a preview feature is available.
