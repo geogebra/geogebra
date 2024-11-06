@@ -41,7 +41,9 @@ import org.geogebra.web.html5.main.PageContent;
 import org.geogebra.web.html5.main.PageListControllerInterface;
 import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.PDFEncoderW;
+import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.client.Touch;
+import org.gwtproject.event.dom.client.HumanInputEvent;
 import org.gwtproject.event.dom.client.MouseDownEvent;
 import org.gwtproject.event.dom.client.MouseDownHandler;
 import org.gwtproject.event.dom.client.MouseMoveEvent;
@@ -725,13 +727,13 @@ public class PageListController implements PageListControllerInterface,
 		if (NavigatorUtil.isMobile()) {
 			return;
 		}
-		dragCtrl.stop(event.isControlKeyDown());
+		dragCtrl.stop(isRightClick(event), event.getNativeEvent());
 	}
 
 	@Override
 	public void onMouseOut(MouseOutEvent event) {
 		dragCtrl.cancelClick();
-		dragCtrl.stop(event.isControlKeyDown());
+		dragCtrl.stop(isRightClick(event), event.getNativeEvent());
 	}
 
 	@Override
@@ -751,7 +753,7 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
-		dragCtrl.stop(event.isControlKeyDown());
+		dragCtrl.stop(isRightClick(event), event.getNativeEvent());
 	}
 
 	// Cards Interface
@@ -980,4 +982,8 @@ public class PageListController implements PageListControllerInterface,
 		}
 	}
 
+	private boolean isRightClick(HumanInputEvent<?> event) {
+		return event.isControlKeyDown()
+				|| event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT;
+	}
 }
