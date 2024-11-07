@@ -146,7 +146,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void nestedCommands() {
 		t("Derivative(Derivative(a*x^3))", "6 * a * x");
-		t("Factor(Expand((x-aaa)^2+4x aaa))", "(x + aaa)^(2)");
+		t("Factor(Expand((x-aaa)^2+4x aaa))", "(aaa + x)^(2)");
 	}
 
 	@Test
@@ -516,8 +516,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	
 	@Test
 	public void testFactorCommand() {
-		t("Factor(x^2-1)", "(x - 1) * (x + 1)");
-		t("Factor(x^2-a^2 y^2)", "(x - a * y) * (x + a * y)");
+		t("Factor(x^2-1)", "(x + 1) * (x - 1)");
+		t("Factor(x^2-a^2 y^2)", "(a * y + x) * (-a * y + x)");
 	}
 
 	@Test
