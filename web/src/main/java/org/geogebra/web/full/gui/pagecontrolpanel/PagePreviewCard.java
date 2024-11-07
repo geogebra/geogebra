@@ -299,7 +299,12 @@ public class PagePreviewCard extends FlowPanel
 		}
 	}
 
-	public void showContextMenu() {
-		contextMenu.show();
+	/**
+	 * Show context menu at x,y position
+	 * @param x - horizontal position
+	 * @param y - vertical position
+	 */
+	public void showContextMenuAt(int x, int y) {
+		contextMenu.showAt(x, y);
 	}
 }
