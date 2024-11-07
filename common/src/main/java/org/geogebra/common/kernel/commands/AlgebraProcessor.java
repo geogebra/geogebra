@@ -26,9 +26,8 @@ import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationBehaviour;
-import org.geogebra.common.kernel.EquationForm;
-import org.geogebra.common.kernel.EquationFormLinear;
-import org.geogebra.common.kernel.EquationFormQuadric;
+import org.geogebra.common.kernel.EquationLinear;
+import org.geogebra.common.kernel.EquationQuadric;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.KernelCAS;
 import org.geogebra.common.kernel.StringTemplate;
@@ -3072,17 +3071,17 @@ public class AlgebraProcessor {
 		if (equationBehaviour == null) {
 			return;
 		}
-		if (geo instanceof EquationFormLinear) {
-			EquationForm.Linear equationForm =
+		if (geo instanceof EquationLinear) {
+			EquationLinear.Form equationForm =
 					equationBehaviour.getLinearAlgebraInputEquationForm();
 			if (equationForm != null) {
-				((EquationFormLinear) geo).setEquationForm(equationForm);
+				((EquationLinear) geo).setEquationForm(equationForm);
 			}
-		} else if (geo instanceof EquationFormQuadric) {
-			EquationForm.Quadric equationForm =
+		} else if (geo instanceof EquationQuadric) {
+			EquationQuadric.Form equationForm =
 					equationBehaviour.getConicAlgebraInputEquationForm();
 			if (equationForm != null) {
-				((EquationFormQuadric) geo).setEquationForm(equationForm);
+				((EquationQuadric) geo).setEquationForm(equationForm);
 			}
 		}
 		// TODO APPS-5867 do we need to handle implicit functions/surfaces here?

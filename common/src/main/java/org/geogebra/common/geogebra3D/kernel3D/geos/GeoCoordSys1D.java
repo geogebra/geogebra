@@ -7,7 +7,6 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoLinePoint;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.Path;
@@ -937,21 +936,21 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 				O.get(2) + t * V.get(2), O.get(3) + t * V.get(3));
 	}
 
-	@Override // EquationFormLinear
+	@Override // EquationLinear
 	@CheckForNull
-	public EquationForm.Linear getEquationForm() {
-		return EquationForm.Linear.valueOf(toStringMode);
+	public Form getEquationForm() {
+		return Form.valueOf(toStringMode);
 	}
 
-	@Override // EquationFormLinear
+	@Override // EquationLinear
 	public void setEquationForm(int toStringMode) {
-		EquationForm.Linear equationForm = EquationForm.Linear.valueOf(toStringMode);
+		Form equationForm = Form.valueOf(toStringMode);
 		if (equationForm != null) {
 			this.toStringMode = toStringMode;
 		}
 	}
 
-	@Override // EquationFormLinear
+	@Override // EquationLinear
 	public void setToGeneral() {
 		// no general line type in 3D
 	}

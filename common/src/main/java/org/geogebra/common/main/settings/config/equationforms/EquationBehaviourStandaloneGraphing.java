@@ -1,6 +1,7 @@
 package org.geogebra.common.main.settings.config.equationforms;
 
-import org.geogebra.common.kernel.EquationForm;
+import org.geogebra.common.kernel.EquationLinear;
+import org.geogebra.common.kernel.EquationQuadric;
 
 /**
  * Equation behaviour for the standalone Graphing app.
@@ -15,28 +16,28 @@ public final class EquationBehaviourStandaloneGraphing extends DefaultEquationBe
 	 * user/input form."
 	 */
 	@Override
-	public EquationForm.Linear getLinearAlgebraInputEquationForm() {
-		return EquationForm.Linear.USER;
+	public EquationLinear.Form getLinearAlgebraInputEquationForm() {
+		return EquationLinear.Form.USER;
 	}
 
 	@Override
-	public EquationForm.Linear getLineCommandEquationForm() {
-		return EquationForm.Linear.EXPLICIT;
+	public EquationLinear.Form getLineCommandEquationForm() {
+		return EquationLinear.Form.EXPLICIT;
 	}
 
 	@Override
-	public EquationForm.Linear getRayCommandEquationForm() {
-		return EquationForm.Linear.USER;
+	public EquationLinear.Form getRayCommandEquationForm() {
+		return EquationLinear.Form.USER;
 	}
 
 	@Override
-	public EquationForm.Quadric getConicAlgebraInputEquationForm() {
-		return EquationForm.Quadric.IMPLICIT;
+	public EquationQuadric.Form getConicAlgebraInputEquationForm() {
+		return EquationQuadric.Form.IMPLICIT;
 	}
 
 	@Override
-	public EquationForm.Quadric getConicCommandEquationForm() {
-		return EquationForm.Quadric.USER;
+	public EquationQuadric.Form getConicCommandEquationForm() {
+		return EquationQuadric.Form.USER;
 	}
 
 	@Override

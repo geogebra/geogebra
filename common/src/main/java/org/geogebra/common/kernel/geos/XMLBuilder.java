@@ -4,7 +4,8 @@ import java.util.Locale;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.kernel.EquationForm;
+import org.geogebra.common.kernel.EquationLinear;
+import org.geogebra.common.kernel.EquationQuadric;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
@@ -206,24 +207,24 @@ public class XMLBuilder {
 	public static void appendEquationTypeLine(StringBuilder sb, int toStringMode,
 			String parameter) {
 		switch (toStringMode) {
-		case EquationForm.Linear.CONST_PARAMETRIC:
+		case EquationLinear.Form.CONST_PARAMETRIC:
 			sb.append("\t<eqnStyle style=\"parametric\" parameter=\"");
 			sb.append(parameter);
 			sb.append("\"/>\n");
 			break;
-		case EquationForm.Linear.CONST_IMPLICIT:
+		case EquationLinear.Form.CONST_IMPLICIT:
 			appendType(sb, "implicit");
 			break;
-		case EquationForm.Linear.CONST_EXPLICIT:
+		case EquationLinear.Form.CONST_EXPLICIT:
 			appendType(sb, "explicit");
 			break;
-		case EquationForm.Linear.CONST_GENERAL:
+		case EquationLinear.Form.CONST_GENERAL:
 			appendType(sb, "general");
 			break;
-		case EquationForm.Linear.CONST_USER:
+		case EquationLinear.Form.CONST_USER:
 			appendType(sb, "user");
 			break;
-		case EquationForm.Linear.CONST_IMPLICIT_NON_CANONICAL:
+		case EquationLinear.Form.CONST_IMPLICIT_NON_CANONICAL:
 			// don't want anything here
 			break;
 		default:
@@ -256,22 +257,22 @@ public class XMLBuilder {
 			int toStringMode, String parameter) {
 		// implicit or specific mode
 		switch (toStringMode) {
-		case EquationForm.Quadric.CONST_SPECIFIC:
+		case EquationQuadric.Form.CONST_SPECIFIC:
 			XMLBuilder.appendType(sb, "specific");
 			break;
-		case EquationForm.Quadric.CONST_EXPLICIT:
+		case EquationQuadric.Form.CONST_EXPLICIT:
 			XMLBuilder.appendType(sb, "explicit");
 			break;
-		case EquationForm.Quadric.CONST_USER:
+		case EquationQuadric.Form.CONST_USER:
 			XMLBuilder.appendType(sb, "user");
 			break;
-		case EquationForm.Quadric.CONST_VERTEX:
+		case EquationQuadric.Form.CONST_VERTEX:
 			XMLBuilder.appendType(sb, "vertex");
 			break;
-		case EquationForm.Quadric.CONST_CONICFORM:
+		case EquationQuadric.Form.CONST_CONICFORM:
 			XMLBuilder.appendType(sb, "conic");
 			break;
-		case EquationForm.Quadric.CONST_PARAMETRIC:
+		case EquationQuadric.Form.CONST_PARAMETRIC:
 			sb.append("\t<eqnStyle style=\"parametric\"/>\n");
 			break;
 

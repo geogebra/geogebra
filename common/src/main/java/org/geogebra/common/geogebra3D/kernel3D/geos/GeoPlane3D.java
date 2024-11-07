@@ -7,7 +7,6 @@ import javax.annotation.CheckForNull;
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInterface;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.RegionParameters;
@@ -459,7 +458,7 @@ public class GeoPlane3D extends GeoElement3D
 		}
 		// we need to keep 0z in equation to be sure that y+0z=1 will be loaded
 		// as a plane
-		if (getEquationForm() == EquationForm.Linear.USER && getDefinition() != null) {
+		if (getEquationForm() == Form.USER && getDefinition() != null) {
 			return getDefinition().toValueString(tpl);
 		}
 		return buildValueString(tpl, kernel, getCoordSys().getEquationVector(),
@@ -471,15 +470,15 @@ public class GeoPlane3D extends GeoElement3D
 		return label + ": " + toValueString(tpl);
 	}
 
-	@Override // EquationFormLinear
+	@Override // EquationLinear
 	@CheckForNull
-	public EquationForm.Linear getEquationForm() {
-		return EquationForm.Linear.valueOf(toStringMode);
+	public Form getEquationForm() {
+		return Form.valueOf(toStringMode);
 	}
 
-	@Override // EquationFormLinear
+	@Override // EquationLinear
 	public void setEquationForm(int toStringMode) {
-		EquationForm.Linear equationForm = EquationForm.Linear.valueOf(toStringMode);
+		Form equationForm = Form.valueOf(toStringMode);
 		if (equationForm != null) {
 			this.toStringMode = toStringMode;
 		}
@@ -922,7 +921,7 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
-		return getEquationForm() == EquationForm.Linear.USER;
+		return getEquationForm() == Form.USER;
 	}
 
 	@Override

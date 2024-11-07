@@ -35,14 +35,14 @@ public class EquationBehaviourTest extends BaseUnitTest {
 
 		// Line created from equation
 		GeoLine algebraLine = getElementFactory().createGeoLine(); // "x = y"
-		assertEquals(EquationForm.Linear.USER, algebraLine.getEquationForm());
+		assertEquals(EquationLinear.Form.USER, algebraLine.getEquationForm());
 
 		// Line created with Line command from two points
 		GeoPoint a = new GeoPoint(getConstruction(), 0, 0, 0);
 		GeoPoint b = new GeoPoint(getConstruction(), 1, 1, 0);
 		AlgoJoinPoints algoJoinPoints = new AlgoJoinPoints(getConstruction(), a, b);
 		GeoLine lineTwoPoints = algoJoinPoints.getLine();
-		assertEquals(EquationForm.Linear.EXPLICIT, lineTwoPoints.getEquationForm());
+		assertEquals(EquationLinear.Form.EXPLICIT, lineTwoPoints.getEquationForm());
 
 		// Line created with FitLineX/Y command
 		GeoList points = new GeoList(getConstruction());
@@ -50,11 +50,11 @@ public class EquationBehaviourTest extends BaseUnitTest {
 		points.add(b);
 		AlgoFitLineX algoFitLineX = new AlgoFitLineX(getConstruction(), points);
 		GeoLine fitLineX = algoFitLineX.getFitLineX();
-		assertEquals(EquationForm.Linear.EXPLICIT, fitLineX.getEquationForm());
+		assertEquals(EquationLinear.Form.EXPLICIT, fitLineX.getEquationForm());
 
 		AlgoFitLineY algoFitLineY = new AlgoFitLineY(getConstruction(), points);
 		GeoLine fitLineY = algoFitLineY.getFitLineY();
-		assertEquals(EquationForm.Linear.EXPLICIT, fitLineY.getEquationForm());
+		assertEquals(EquationLinear.Form.EXPLICIT, fitLineY.getEquationForm());
 	}
 
 	@Test
@@ -66,13 +66,13 @@ public class EquationBehaviourTest extends BaseUnitTest {
 		GeoPoint b = new GeoPoint(getConstruction(), 1, 1, 0);
 		AlgoJoinPointsRay algoJoinPointsRay = new AlgoJoinPointsRay(getConstruction(), "ray", a, b);
 		GeoRay ray1 = algoJoinPointsRay.getRay();
-		assertEquals(EquationForm.Linear.USER, ray1.getEquationForm());
+		assertEquals(EquationLinear.Form.USER, ray1.getEquationForm());
 
 		// Ray created with Ray command from point and vector
 		GeoVector vec = new GeoVector(getConstruction(), "vec", 1, 1, 0);
 		AlgoRayPointVector algoRayPointVector = new AlgoRayPointVector(getConstruction(), a, vec);
 		GeoRay ray2 = algoRayPointVector.getRay();
-		assertEquals(EquationForm.Linear.USER, ray2.getEquationForm());
+		assertEquals(EquationLinear.Form.USER, ray2.getEquationForm());
 	}
 
 	// no test for Segment command in standalone Graphing (disabled)
@@ -83,7 +83,7 @@ public class EquationBehaviourTest extends BaseUnitTest {
 
 		// Parabola created from equation
 		GeoConic algebraParabola = (GeoConic) getElementFactory().create("y=xx");
-		assertEquals(EquationForm.Quadric.IMPLICIT, algebraParabola.getEquationForm());
+		assertEquals(EquationQuadric.Form.IMPLICIT, algebraParabola.getEquationForm());
 
 		// Parbola command disabled in standalone Graphing
 	}
@@ -95,10 +95,10 @@ public class EquationBehaviourTest extends BaseUnitTest {
 		// change the equation form for lines in the construction defaults
 		GeoLine constructionDefaultsLine = (GeoLine) getConstruction().getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_LINE);
-		constructionDefaultsLine.setEquationForm(EquationForm.Linear.GENERAL);
+		constructionDefaultsLine.setEquationForm(EquationLinear.Form.GENERAL);
 
 		GeoLine algebraLine = new GeoLine(getConstruction());
-		assertEquals(EquationForm.Linear.GENERAL, algebraLine.getEquationForm());
+		assertEquals(EquationLinear.Form.GENERAL, algebraLine.getEquationForm());
 
 		// check if the Graphing equation forms are still satisfied (i.e., overriding the changes
 		// to the construction defaults above)
@@ -106,7 +106,7 @@ public class EquationBehaviourTest extends BaseUnitTest {
 		GeoPoint pointB = new GeoPoint(getConstruction(), 1, 1, 0);
 		AlgoJoinPoints algoJoinPoints = new AlgoJoinPoints(getConstruction(), pointA, pointB);
 		GeoLine toolLine = algoJoinPoints.getLine();
-		assertEquals(EquationForm.Linear.EXPLICIT, toolLine.getEquationForm());
+		assertEquals(EquationLinear.Form.EXPLICIT, toolLine.getEquationForm());
 	}
 
 	// Unrestricted Graphing (Suite)
@@ -117,7 +117,7 @@ public class EquationBehaviourTest extends BaseUnitTest {
 
 		// Parabola created from equation
 		GeoConic algebraParabola = (GeoConic) getElementFactory().create("y=xx");
-		assertEquals(EquationForm.Quadric.EXPLICIT, algebraParabola.getEquationForm());
+		assertEquals(EquationQuadric.Form.EXPLICIT, algebraParabola.getEquationForm());
 
 		// Parabola created from point and line
 		GeoPoint center = new GeoPoint(getConstruction(), 0, 1, 0);
@@ -129,7 +129,7 @@ public class EquationBehaviourTest extends BaseUnitTest {
 		AlgoParabolaPointLine algoParabola = new AlgoParabolaPointLine(getConstruction(),
 				"parabola", center, line);
 		GeoConicND parabola = algoParabola.getParabola();
-		assertEquals(EquationForm.Quadric.IMPLICIT, parabola.getEquationForm());
+		assertEquals(EquationQuadric.Form.IMPLICIT, parabola.getEquationForm());
 	}
 
 	// Classic
@@ -139,14 +139,14 @@ public class EquationBehaviourTest extends BaseUnitTest {
 		getApp().setDefaultConfig(); // default app config = Classic
 
 		GeoLine algebraLine = new GeoLine(getConstruction());
-		assertEquals(EquationForm.Linear.IMPLICIT, algebraLine.getEquationForm());
+		assertEquals(EquationLinear.Form.IMPLICIT, algebraLine.getEquationForm());
 
 		// Line created with Line command from two points
 		GeoPoint pointA = new GeoPoint(getConstruction(), 0, 0, 0);
 		GeoPoint pointB = new GeoPoint(getConstruction(), 1, 1, 0);
 		AlgoJoinPoints algoJoinPoints = new AlgoJoinPoints(getConstruction(), pointA, pointB);
 		GeoLine toolLine = algoJoinPoints.getLine();
-		assertEquals(EquationForm.Linear.IMPLICIT, toolLine.getEquationForm());
+		assertEquals(EquationLinear.Form.IMPLICIT, toolLine.getEquationForm());
 	}
 
 	@Test
@@ -156,10 +156,10 @@ public class EquationBehaviourTest extends BaseUnitTest {
 		// change the equation form for lines in the construction defaults
 		GeoLine constructionDefaultsLine = (GeoLine) getConstruction().getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_LINE);
-		constructionDefaultsLine.setEquationForm(EquationForm.Linear.GENERAL);
+		constructionDefaultsLine.setEquationForm(EquationLinear.Form.GENERAL);
 
 		GeoLine defaultLine = new GeoLine(getConstruction());
-		assertEquals(EquationForm.Linear.GENERAL, defaultLine.getEquationForm());
+		assertEquals(EquationLinear.Form.GENERAL, defaultLine.getEquationForm());
 
 		// check if lines created with a tool or command have the equation form as defined in
 		// the construction defaults
@@ -167,6 +167,6 @@ public class EquationBehaviourTest extends BaseUnitTest {
 		GeoPoint pointB = new GeoPoint(getConstruction(), 1, 1, 0);
 		AlgoJoinPoints algoJoinPoints = new AlgoJoinPoints(getConstruction(), pointA, pointB);
 		GeoLine toolLine = algoJoinPoints.getLine();
-		assertEquals(EquationForm.Linear.GENERAL, toolLine.getEquationForm());
+		assertEquals(EquationLinear.Form.GENERAL, toolLine.getEquationForm());
 	}
 }

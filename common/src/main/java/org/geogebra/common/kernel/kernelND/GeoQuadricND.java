@@ -17,8 +17,7 @@ import java.util.Arrays;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.EquationForm;
-import org.geogebra.common.kernel.EquationFormQuadric;
+import org.geogebra.common.kernel.EquationQuadric;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.Algos;
@@ -40,7 +39,7 @@ import org.geogebra.common.util.DoubleUtil;
  *
  */
 public abstract class GeoQuadricND extends GeoElement
-		implements GeoQuadricNDConstants, EquationFormQuadric, Traceable {
+		implements GeoQuadricNDConstants, EquationQuadric, Traceable {
 
 	private int dimension;
 	/** matrix dimension */
@@ -116,7 +115,7 @@ public abstract class GeoQuadricND extends GeoElement
 	 */
 	public GeoQuadricND(Construction c) {
 		super(c);
-		toStringMode = EquationForm.Quadric.IMPLICIT.rawValue;
+		toStringMode = Form.IMPLICIT.rawValue;
 	}
 
 	/**
@@ -131,7 +130,7 @@ public abstract class GeoQuadricND extends GeoElement
 	 */
 	public GeoQuadricND(Construction c, int dimension, boolean isIntersection) {
 		this(c);
-		this.toStringMode = EquationForm.Quadric.IMPLICIT.rawValue;
+		this.toStringMode = Form.IMPLICIT.rawValue;
 		this.isIntersection = isIntersection;
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
@@ -633,7 +632,7 @@ public abstract class GeoQuadricND extends GeoElement
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-		if (toStringMode == EquationForm.Quadric.USER.rawValue
+		if (toStringMode == Form.USER.rawValue
 				&& (isIndependent() || getParentAlgorithm().getClassName() == Algos.Expression)) {
 			return DescriptionMode.VALUE;
 		}
@@ -688,23 +687,23 @@ public abstract class GeoQuadricND extends GeoElement
 		return null;
 	}
 
-	@Override // EquationFormQuadric
+	@Override // EquationQuadric
 	@CheckForNull
-	public EquationForm.Quadric getEquationForm() {
-		return EquationForm.Quadric.valueOf(toStringMode);
+	public Form getEquationForm() {
+		return Form.valueOf(toStringMode);
 	}
 
-	@Override // EquationFormQuadric
+	@Override // EquationQuadric
 	public void setEquationForm(int toStringMode) {
-		EquationForm.Quadric equationForm = EquationForm.Quadric.valueOf(toStringMode);
+		Form equationForm = Form.valueOf(toStringMode);
 		if (equationForm != null) {
 			this.toStringMode = equationForm.rawValue;
 		}
 	}
 
-	@Override // EquationFormQuadric
+	@Override // EquationQuadric
 	public void setToParametric(String parameter) {
-		setEquationForm(EquationForm.Quadric.PARAMETRIC);
+		setEquationForm(Form.PARAMETRIC);
 		if (parameter != null) {
 			this.parameter = parameter;
 		}

@@ -10,8 +10,8 @@ import javax.annotation.Nullable;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.EquationFormLinear;
-import org.geogebra.common.kernel.EquationFormQuadric;
+import org.geogebra.common.kernel.EquationLinear;
+import org.geogebra.common.kernel.EquationQuadric;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
@@ -573,10 +573,10 @@ public class GeoSymbolic extends GeoElement
 		}
 		GeoElementND newTwin = createTwinGeo();
 
-		if (newTwin instanceof EquationFormLinear) {
-			((EquationFormLinear) newTwin).setToUser();
-		} else if (newTwin instanceof EquationFormQuadric) {
-			((EquationFormQuadric) newTwin).setToUser();
+		if (newTwin instanceof EquationLinear) {
+			((EquationLinear) newTwin).setToUser();
+		} else if (newTwin instanceof EquationQuadric) {
+			((EquationQuadric) newTwin).setToUser();
 		}
 
 		if (newTwin instanceof GeoList) {

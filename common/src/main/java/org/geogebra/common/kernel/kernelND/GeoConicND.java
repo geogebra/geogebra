@@ -19,7 +19,6 @@ import java.util.function.Consumer;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
@@ -152,7 +151,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            dimension
 	 */
 	public GeoConicND(Construction c, int dimension) {
-		this(c, dimension, false, EquationForm.Quadric.IMPLICIT.rawValue);
+		this(c, dimension, false, Form.IMPLICIT.rawValue);
 	}
 
 	/**
@@ -165,7 +164,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param isIntersection
 	 *            if this is an intersection curve
 	 * @param stringMode
-	 *            toStringMode, one of EquationForm.Quadric.* constants
+	 *            toStringMode, one of EquationQuadric.Type.* constants
 	 */
 	public GeoConicND(Construction c, int dimension, boolean isIntersection,
 			int stringMode) {
@@ -1558,11 +1557,11 @@ public abstract class GeoConicND extends GeoQuadricND
 			sb.append("=0");
 			return sb;
 		}
-		if (getEquationForm() == EquationForm.Quadric.PARAMETRIC) {
+		if (getEquationForm() == Form.PARAMETRIC) {
 			return this.buildParametricValueString(tpl, 2);
 		}
 		if (getDefinition() != null
-				&& getEquationForm() == EquationForm.Quadric.USER) {
+				&& getEquationForm() == Form.USER) {
 			return sbToValueString.append(getDefinition().toValueString(tpl));
 		}
 		if (type == CONIC_LINE) {
@@ -1587,7 +1586,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 
 		switch (getToStringMode()) {
-		case EquationForm.Quadric.CONST_SPECIFIC:
+		case Form.CONST_SPECIFIC:
 			if (!isSpecificPossible()) {
 				return kernel.buildImplicitEquation(coeffs, myVars,
 						true, false, tpl, true);
@@ -1728,17 +1727,17 @@ public abstract class GeoConicND extends GeoQuadricND
 
 			}
 
-		case EquationForm.Quadric.CONST_EXPLICIT:
+		case Form.CONST_EXPLICIT:
 			if (isExplicitPossible()) {
 				return kernel.buildExplicitConicEquation(coeffs, myVars, 4, tpl);
 			}
 
-		case EquationForm.Quadric.CONST_VERTEX:
+		case Form.CONST_VERTEX:
 			if (isVertexformPossible()) {
 				return kernel.buildVertexformEquation(coeffs, myVars, tpl);
 			}
 
-		case EquationForm.Quadric.CONST_CONICFORM:
+		case Form.CONST_CONICFORM:
 			if (isConicformPossible()) {
 				return kernel.buildConicformEquation(coeffs, myVars, tpl);
 			}

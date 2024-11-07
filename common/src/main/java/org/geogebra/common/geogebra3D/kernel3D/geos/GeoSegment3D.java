@@ -3,7 +3,6 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
@@ -617,7 +616,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	@Override
 	public void setToParametric(String parameter) {
-		setEquationForm(EquationForm.Linear.PARAMETRIC);
+		setEquationForm(Form.PARAMETRIC);
 		if (parameter != null) {
 			//this.parameter = parameter;
 		}

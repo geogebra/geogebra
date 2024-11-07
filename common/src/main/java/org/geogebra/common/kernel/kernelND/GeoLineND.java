@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.kernelND;
 
-import org.geogebra.common.kernel.EquationFormLinear;
+import org.geogebra.common.kernel.EquationLinear;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.matrix.Coords;
  *
  *         Interface for lines (lines, segments, ray, ...) in any dimension
  */
-public interface GeoLineND extends GeoDirectionND, EquationFormLinear {
+public interface GeoLineND extends GeoDirectionND, EquationLinear {
 
 	/**
 	 * returns the point at position lambda on the coord sys in the dimension

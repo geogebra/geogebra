@@ -10,7 +10,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
@@ -1892,12 +1891,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 		StringBuilder sbToValueString = new StringBuilder();
 		if (getDefinition() != null
-				&& (getEquationForm() == EquationForm.Quadric.USER)) {
+				&& (getEquationForm() == Form.USER)) {
 			return sbToValueString.append(getDefinition().toString(tpl));
 		}
 		switch (type) {
 		case QUADRIC_SPHERE:
-			if (getEquationForm() == EquationForm.Quadric.IMPLICIT) {
+			if (getEquationForm() == Form.IMPLICIT) {
 				return buildImplicitEquation(tpl);
 			}
 			buildSphereNDString(sbToValueString, tpl);

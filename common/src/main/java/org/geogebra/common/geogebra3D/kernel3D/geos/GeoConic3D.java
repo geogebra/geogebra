@@ -4,7 +4,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInterface;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.EquationForm;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -81,7 +80,7 @@ public class GeoConic3D extends GeoConicND
 	 *            if this is an intersection curve
 	 */
 	public GeoConic3D(Construction c, boolean isIntersection) {
-		super(c, 2, isIntersection, EquationForm.Quadric.CONST_PARAMETRIC);
+		super(c, 2, isIntersection, Form.CONST_PARAMETRIC);
 	}
 
 	@Override

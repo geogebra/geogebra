@@ -500,7 +500,7 @@ public class ConstructionDefaults implements SettingListener {
 		line.setDefaultGeoType(DEFAULT_LINE);
 		// note: at runtime (i.e., after createDefaultGeoElements() finishes), this default
 		// equation form also applies to subclasses of GeoLine (GeoRay, GeoSegment, etc)
-		line.setEquationForm(EquationForm.Linear.IMPLICIT);
+		line.setEquationForm(EquationLinear.Form.IMPLICIT);
 		setDefaultLineStyle(line);
 		defaultGeoElements.put(DEFAULT_LINE, line);
 

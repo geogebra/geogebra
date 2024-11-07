@@ -2,34 +2,35 @@ package org.geogebra.common.main.settings.config.equationforms;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.kernel.EquationForm;
+import org.geogebra.common.kernel.EquationLinear;
+import org.geogebra.common.kernel.EquationQuadric;
 
 public class EquationBehaviourGeometry extends DefaultEquationBehaviour {
 
 	@Override
-	public EquationForm.Linear getLinearAlgebraInputEquationForm() {
-		return EquationForm.Linear.USER;
+	public EquationLinear.Form getLinearAlgebraInputEquationForm() {
+		return EquationLinear.Form.USER;
 	}
 
 	@Nonnull
 	@Override
-	public EquationForm.Linear getLineCommandEquationForm() {
-		return EquationForm.Linear.EXPLICIT;
+	public EquationLinear.Form getLineCommandEquationForm() {
+		return EquationLinear.Form.EXPLICIT;
 	}
 
 	@Nonnull
 	@Override
-	public EquationForm.Linear getRayCommandEquationForm() {
-		return EquationForm.Linear.EXPLICIT;
+	public EquationLinear.Form getRayCommandEquationForm() {
+		return EquationLinear.Form.EXPLICIT;
 	}
 
 	@Override
-	public EquationForm.Quadric getConicAlgebraInputEquationForm() {
-		return EquationForm.Quadric.USER;
+	public EquationQuadric.Form getConicAlgebraInputEquationForm() {
+		return EquationQuadric.Form.USER;
 	}
 
 	@Override
-	public EquationForm.Quadric getConicCommandEquationForm() {
-		return EquationForm.Quadric.IMPLICIT;
+	public EquationQuadric.Form getConicCommandEquationForm() {
+		return EquationQuadric.Form.IMPLICIT;
 	}
 }

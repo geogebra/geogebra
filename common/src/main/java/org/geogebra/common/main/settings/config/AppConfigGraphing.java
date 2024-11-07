@@ -12,7 +12,7 @@ import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.EquationBehaviour;
-import org.geogebra.common.kernel.EquationForm;
+import org.geogebra.common.kernel.EquationQuadric;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
@@ -311,13 +311,13 @@ public class AppConfigGraphing extends AbstractAppConfig {
 	@Deprecated // replaced by getEquationBehaviour()
 	@Override
 	public int getEnforcedLineEquationForm() {
-		return EquationForm.Quadric.CONST_USER;
+		return EquationQuadric.Form.CONST_USER;
 	}
 
 	@Deprecated // replaced by getEquationBehaviour()
 	@Override
 	public int getEnforcedConicEquationForm() {
-		return EquationForm.Quadric.CONST_USER;
+		return EquationQuadric.Form.CONST_USER;
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.kernelND;
 
-import org.geogebra.common.kernel.EquationFormLinear;
+import org.geogebra.common.kernel.EquationLinear;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.matrix.Coords;
 
@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.matrix.Coords;
  * @author mathieu
  *
  */
-public interface GeoPlaneND extends GeoCoordSys2D, EquationValue, EquationFormLinear {
+public interface GeoPlaneND extends GeoCoordSys2D, EquationValue, EquationLinear {
 
 	/**
 	 * sets the fading for the "ends" of the plane
