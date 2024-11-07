@@ -3,10 +3,8 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.List;
 
 import org.geogebra.common.kernel.EquationForm;
-import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;

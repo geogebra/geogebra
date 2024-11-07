@@ -135,7 +135,4 @@ public final class EquationForm {
 	// TODO APPS-5867 introduce an enum for implicit curves/surfaces?
 	//  (previously EquationValue had setToUser/setToImplicit)
 	//  currently the code uses EquationForm.Linear for this
-//	public enum ImplicitCurveOrSurface {
-//		IMPLICIT, USER;
-//	}
 }
