@@ -13,6 +13,7 @@ import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.Command;
+import org.gwtproject.user.client.ui.InlineHTML;
 
 /**
  * Subclass of SpreadsheetContextMenu, implements the spreadsheet context menu
@@ -49,10 +50,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu<AriaMenuItem
 
 	@Override
 	public void setTitle(String str) {
-
-		AriaMenuItem title = MainMenu.getMenuBarItem(
-		        AppResources.INSTANCE.empty(), str,
-		        this::hidePopup);
+		AriaMenuItem title = new AriaMenuItem(new InlineHTML(str), this::hidePopup);
 		title.addStyleName("menuTitle");
 		popup.addItem(title);
 	}

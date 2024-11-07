@@ -44,6 +44,7 @@ import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.user.client.Command;
+import org.gwtproject.user.client.ui.InlineHTML;
 
 /**
  * @author gabor
@@ -822,8 +823,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *            title of menu (first menu item)
 	 */
 	protected void setTitle(String str) {
-		AriaMenuItem title = factory.newAriaMenuItem(
-				AppResources.INSTANCE.empty(), str,
+		AriaMenuItem title = new AriaMenuItem(new InlineHTML(str),
 				() -> wrappedPopup.setVisible(false));
 		title.addStyleName("menuTitle");
 
