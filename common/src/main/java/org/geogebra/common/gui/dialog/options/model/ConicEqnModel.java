@@ -206,32 +206,20 @@ public class ConicEqnModel extends MultipleOptionsModel {
 	protected void apply(int index, int value) {
 		GeoQuadricND quad = getConicAt(index);
 		Log.debug(value + ":" + parametricIndex);
-		if (quad instanceof GeoConicND) {
-			GeoConicND geo = (GeoConicND) quad;
-			if (value == specificIndex) {
-				geo.setToSpecific();
-			} else if (value == explicitIndex) {
-				geo.setToExplicit();
-			} else if (value == implicitIndex) {
-				geo.setToImplicit();
-			} else if (value == userIndex) {
-				geo.setToUser();
-			} else if (value == parametricIndex) {
-				geo.setToParametric(null);
-			} else if (value == vertexformIndex) {
-				geo.setToVertex();
-			} else if (value == conicformIndex) {
-				geo.setToConic();
-			}
-		} else if (quad instanceof EquationValue) {
-			// TODO APPS-5867 what types are possible here? GeoImplicitSurface?
-//			if (value == implicitIndex) {
-//				((EquationValue) quad).setToImplicit();
-//			} else if (value == userIndex) {
-//				((EquationValue) quad).setToUser();
-//			} else if (value == specificIndex) {
-//				quad.setToSpecific();
-//			}
+		if (value == specificIndex) {
+			quad.setToSpecific();
+		} else if (value == explicitIndex) {
+			quad.setToExplicit();
+		} else if (value == implicitIndex) {
+			quad.setToImplicit();
+		} else if (value == userIndex) {
+			quad.setToUser();
+		} else if (value == parametricIndex) {
+			quad.setToParametric(null);
+		} else if (value == vertexformIndex) {
+			quad.setToVertex();
+		} else if (value == conicformIndex) {
+			quad.setToConic();
 		}
 		quad.updateRepaint();
 	}

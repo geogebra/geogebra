@@ -63,7 +63,7 @@ public final class EquationForm {
 			}
 		}
 
-		private Linear(int rawValue) {
+		Linear(int rawValue) {
 			this.rawValue = rawValue;
 		}
 	}
@@ -127,14 +127,15 @@ public final class EquationForm {
 			}
 		}
 
-		private Quadric(int rawValue) {
+		Quadric(int rawValue) {
 			this.rawValue = rawValue;
 		}
 	}
 
-	// TODO APPS-5867 do we need an enum for implicit curves/surfaces?
+	// TODO APPS-5867 introduce an enum for implicit curves/surfaces?
 	//  (previously EquationValue had setToUser/setToImplicit)
-
-	// TODO APPS-5867 introduce an enum for the equation forms of functions produced by FitXx algos?
-	//  (see https://geogebra-jira.atlassian.net/wiki/spaces/A/pages/836141057/Standalone+Graphing)
+	//  currently the code uses EquationForm.Linear for this
+//	public enum ImplicitCurveOrSurface {
+//		IMPLICIT, USER;
+//	}
 }

@@ -751,15 +751,11 @@ public abstract class ContextMenuGeoElement {
 	 */
 	public boolean needsInputFormItem(GeoElement geo) {
 		if (Equation.isAlgebraEquation(geo)) {
-			// TODO APPS-5867 replace with instanceof EquationFormLinear/Quadric checks?
-			if (geo.isGeoLine()) {
-				return geo.getToStringMode() != EquationForm.Linear.USER.rawValue;
+			if (geo instanceof EquationFormLinear) {
+				return ((EquationFormLinear) geo).getEquationForm() != EquationForm.Linear.USER;
 			}
-			if (geo.isGeoPlane()) {
-				return geo.getToStringMode() != EquationForm.Linear.USER.rawValue;
-			}
-			if (geo.isGeoConic() || geo.isGeoQuadric()) {
-				return geo.getToStringMode() != EquationForm.Quadric.USER.rawValue;
+			if (geo instanceof EquationFormQuadric) {
+				return ((EquationFormQuadric) geo).getEquationForm() != EquationForm.Quadric.USER;
 			}
 			if (geo instanceof GeoImplicit) {
 				return !((GeoImplicit) geo).isInputForm();
