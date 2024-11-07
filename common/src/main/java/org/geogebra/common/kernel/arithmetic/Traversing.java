@@ -733,7 +733,7 @@ public interface Traversing {
 	public class ReplaceUndefinedVariables implements Traversing {
 		private final Kernel kernel;
 		private String[] except;
-		private TreeSet<GeoNumeric> undefined;
+		private Set<GeoNumeric> undefined;
 		private VariableReplacerAlgorithm variableReplacerAlgorithm;
 
 		/**
@@ -748,7 +748,7 @@ public interface Traversing {
 		 *
 		 */
 		public ReplaceUndefinedVariables(Kernel kernel,
-				TreeSet<GeoNumeric> undefined, String[] skip) {
+				Set<GeoNumeric> undefined, String[] skip) {
 			this.kernel = kernel;
 			this.undefined = undefined;
 			this.except = skip;
