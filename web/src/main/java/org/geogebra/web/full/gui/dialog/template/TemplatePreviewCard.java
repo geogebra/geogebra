@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.dialog.template;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.browser.MaterialCardController;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
@@ -18,12 +19,15 @@ import org.gwtproject.user.client.ui.Label;
 
 public class TemplatePreviewCard extends FlowPanel
         implements SetLabels, MaterialCardI {
-    private MaterialCardController controller;
+    private final MaterialCardController controller;
     private FlowPanel imgPanel;
-    private AsyncOperation<TemplatePreviewCard> callback;
+    private final AsyncOperation<TemplatePreviewCard> callback;
 
     /**
-     * @param app       parent application
+     * @param app - application
+     * @param material - current material
+     * @param hasMoreButton - context menu button
+     * @param callback - callback
      */
     public TemplatePreviewCard(final AppW app, final Material material, boolean hasMoreButton,
                                final AsyncOperation<TemplatePreviewCard> callback) {
@@ -59,15 +63,18 @@ public class TemplatePreviewCard extends FlowPanel
     }
 
     private void buildGUI(AppW app, boolean hasMoreButton) {
-        this.addStyleName("templateCard");
+        addStyleName("mowPreviewCard");
+        if (!(NavigatorUtil.isMobile())) {
+            addStyleName("desktop");
+        }
         // panel containing the preview image of material
         imgPanel = new FlowPanel();
-        imgPanel.setStyleName("cardImgPanel");
+        imgPanel.setStyleName("cardImagePanel");
         setBackgroundImgPanel(getMaterial());
         this.add(imgPanel);
         // panel containing the info regarding the material
         FlowPanel infoPanel = new FlowPanel();
-        infoPanel.setStyleName("cardInfoPanel");
+        infoPanel.setStyleName("cardInfoPanel mowTitlePanel");
         String text = getMaterial() == null ? app.getLocalization().getMenu(
                 "blankFile") : getMaterial().getTitle();
         Label cardTitle = BaseWidgetFactory.INSTANCE.newPrimaryText(text, "cardTitle");
@@ -95,7 +102,7 @@ public class TemplatePreviewCard extends FlowPanel
 
     private void setBackgroundImgPanel(Material m) {
         final String thumb = m == null ? "" : m.getThumbnail();
-        if (thumb != null && thumb.length() > 0) {
+        if (thumb != null && !thumb.isEmpty()) {
             imgPanel.getElement().getStyle().setBackgroundImage(
                     "url(" + Browser.normalizeURL(thumb) + ")");
         } else {
