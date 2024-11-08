@@ -4807,17 +4807,19 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	public void exportStringToFile(String ext, String content, boolean showDialog) {
 		try {
-			StringBuilder fileName = new StringBuilder();
-			fileName.append("test.");
-			fileName.append(ext);
+			File exportFile = getGuiManager().showSaveDialog(FileExtensions.get(ext),
+					null, ext + " " + loc.getMenu("Files"), true, false);
+			if (exportFile == null) {
+				return;
+			}
 			BufferedWriter objBufferedWriter = new BufferedWriter(
-					new OutputStreamWriter(new FileOutputStream(fileName.toString()),
+					new OutputStreamWriter(new FileOutputStream(exportFile),
 							StandardCharsets.UTF_8));
-			Log.debug("Export to " + fileName);
+			Log.debug("Export to " + exportFile.getName());
 			objBufferedWriter.write(content);
 			objBufferedWriter.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 	

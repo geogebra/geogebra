@@ -1,5 +1,7 @@
 package org.geogebra.desktop.gui.menubar;
 
+import static org.geogebra.common.main.PreviewFeature.ALL_LANGUAGES;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.util.Iterator;
@@ -17,8 +19,8 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
@@ -136,7 +138,7 @@ public class OptionsMenuD extends BaseMenu
 		StringBuilder sb = new StringBuilder(20);
 
 		Language[] supportedLanguages = app.getLocalization()
-				.getSupportedLanguages(app.has(Feature.ALL_LANGUAGES));
+				.getSupportedLanguages(PreviewFeature.isAvailable(ALL_LANGUAGES));
 		for (Language loc : supportedLanguages) {
 
 			// enforce to show specialLanguageNames first

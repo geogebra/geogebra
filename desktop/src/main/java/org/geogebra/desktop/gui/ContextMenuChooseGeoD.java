@@ -97,7 +97,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 			if (geo.getMetasLength() > 0) {
 				for (GeoElement meta : ((FromMeta) geo).getMetas()) {
 					if (!metas.contains(meta)
-							&& (meta != geoSelected || !app.has(Feature.G3D_SELECT_META))) {
+							&& (meta != geoSelected || !Feature.G3D_SELECT_META.isAvailable())) {
 						addGeo(meta);
 					}
 				}

@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.PreviewFeature;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -1560,7 +1560,7 @@ public class Ggb2giac {
 		// http://en.wikipedia.org/wiki/Quartic_function
 
 		// GGB-1635
-		if (app.has(Feature.SOLVE_QUARTIC)) {
+		if (PreviewFeature.isAvailable(PreviewFeature.SOLVE_QUARTIC)) {
 			p("SolveQuartic.1", "[" + "[ggbsqans:={}]," + "[ggbfun:=%0],"
 					+ "[ggbcoeffs:=coeffs(ggbfun)]," + "[a:=ggbcoeffs[0]],"
 					+ "[b:=ggbcoeffs[1]]," + "[c:=ggbcoeffs[2]],"

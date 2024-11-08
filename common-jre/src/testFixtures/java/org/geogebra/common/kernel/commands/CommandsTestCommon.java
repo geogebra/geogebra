@@ -36,8 +36,8 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCommon3D;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
@@ -1923,7 +1923,7 @@ public class CommandsTestCommon {
 
 	@Test
 	public void cmdImplicitSurface() {
-		if (app.has(Feature.IMPLICIT_SURFACES)) {
+		if (PreviewFeature.isAvailable(PreviewFeature.IMPLICIT_SURFACES)) {
 			t("ImplicitSurface[sin(x)+sin(y)+sin(z)]",
 					"sin(x) + sin(y) + sin(z) = 0");
 		}
@@ -2030,7 +2030,7 @@ public class CommandsTestCommon {
 				false, "(1, 1)");
 		intersect("Segment((0,0),(0,5))", "x^2+y^2+z^2=4",
 				false, "(?, ?, ?)", "(0, 2, 0)");
-		if (app.has(Feature.IMPLICIT_SURFACES)) {
+		if (PreviewFeature.isAvailable(PreviewFeature.IMPLICIT_SURFACES)) {
 			intersect("x^4+y^4+z^4=2", "x=y", false, "(-1, -1, 0)",
 					"(1, 1, 0)");
 		}

@@ -113,7 +113,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 			TreeSet<GeoElement> metaElements) {
 		for (GeoElement meta : ((FromMeta) geo1).getMetas()) {
 			if (!metaElements.contains(meta) && (meta != geoSelected
-					|| !app.has(Feature.G3D_SELECT_META))) {
+					|| !Feature.G3D_SELECT_META.isAvailable())) {
 				tmpAnotherMenuItemList.add(meta);
 			}
 		}

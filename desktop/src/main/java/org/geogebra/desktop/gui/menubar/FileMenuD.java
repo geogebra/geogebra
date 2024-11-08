@@ -150,9 +150,9 @@ class FileMenuD extends BaseMenu {
 
 		submenu.add(exportPgfAction);
 		submenu.add(exportAsymptoteAction);
-		if (app.isPrerelease()) {
+		//if (app.isPrerelease()) {
 			submenu.add(exportSTLaction);
-		}
+		//}
 		if (app.is3D()) {
 			submenu.add(exportColladaAction);
 			submenu.add(exportColladaHTMLAction);
@@ -472,7 +472,7 @@ class FileMenuD extends BaseMenu {
 			}
 		};
 
-		if (app.isPrerelease()) {
+		//if (app.isPrerelease()) {
 			exportSTLaction = new AbstractAction("STL" + Unicode.ELLIPSIS,
 					app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
@@ -487,7 +487,7 @@ class FileMenuD extends BaseMenu {
 					}
 				}
 			};
-		}
+		//}
 
 		if (app.is3D()) {
 			exportColladaAction = new AbstractAction("Collada" + Unicode.ELLIPSIS,

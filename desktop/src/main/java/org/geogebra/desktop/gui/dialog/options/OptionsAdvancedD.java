@@ -1,5 +1,7 @@
 package org.geogebra.desktop.gui.dialog.options;
 
+import static org.geogebra.common.main.PreviewFeature.ALL_LANGUAGES;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -33,8 +35,8 @@ import javax.swing.event.ChangeListener;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathRegionHandling;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError.Errors;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Util;
@@ -875,7 +877,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 
 	private List<Language> getSupportedLanguages() {
 		return Arrays.asList(app.getLocalization()
-				.getSupportedLanguages(app.has(Feature.ALL_LANGUAGES)));
+				.getSupportedLanguages(PreviewFeature.isAvailable(ALL_LANGUAGES)));
 	}
 
 	/**

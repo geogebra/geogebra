@@ -39,4 +39,9 @@ public enum Feature {
 	/** G3D-343 */
 	@Deprecated // dead code -> remove
 	G3D_SELECT_META,
+	;
+
+	public boolean isAvailable() {
+		return false;
+	}
 }

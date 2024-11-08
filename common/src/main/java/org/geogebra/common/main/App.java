@@ -4343,7 +4343,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public String getURLforID(String id) {
 		String url;
-		if (has(Feature.TUBE_BETA)) {
+		if (PreviewFeature.isAvailable(PreviewFeature.RESOURCES_API_BETA)) {
 			url = GeoGebraConstants.GEOGEBRA_WEBSITE_BETA;
 		} else {
 			url = GeoGebraConstants.GEOGEBRA_WEBSITE;
@@ -4454,7 +4454,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            whether to reset the stored offsets
 	 */
 	public void adjustScreen(boolean reset) {
-		if (!kernel.getApplication().has(Feature.ADJUST_WIDGETS)) {
+		if (!Feature.ADJUST_WIDGETS.isAvailable()) {
 			return;
 		}
 		if (adjustScreen == null) {

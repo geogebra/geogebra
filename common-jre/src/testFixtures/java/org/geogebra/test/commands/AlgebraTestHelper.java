@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.matcher.MultipleResultsMatcher;
@@ -207,7 +207,7 @@ public class AlgebraTestHelper {
 		return a == Commands.MatrixPlot || a == Commands.DensityPlot
 				|| a == Commands.Polyhedron
 				|| (a == Commands.ImplicitSurface
-				&& !app.has(Feature.IMPLICIT_SURFACES));
+				&& !PreviewFeature.isAvailable(PreviewFeature.IMPLICIT_SURFACES));
 	}
 
 }
