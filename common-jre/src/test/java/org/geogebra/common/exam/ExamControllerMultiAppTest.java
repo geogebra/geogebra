@@ -39,6 +39,11 @@ public class ExamControllerMultiAppTest {
 		assertNotNull(secondDelegate.examGetActiveMaterial());
 		assertNotSame(firstDelegate.examGetActiveMaterial(),
 				secondDelegate.examGetActiveMaterial());
+		firstDelegate.examSetActiveMaterial(null);
+		secondDelegate.examSetActiveMaterial(null);
+		controller.createNewTempMaterial();
+		assertNotNull(firstDelegate.examGetActiveMaterial());
+		assertNotNull(secondDelegate.examGetActiveMaterial());
 	}
 
 }

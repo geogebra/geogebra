@@ -624,10 +624,21 @@ public final class ExamController {
 	 * {@link ExamControllerDelegate#examSetActiveMaterial(Material)} method.
 	 */
 	public void createNewTempMaterial() {
-		Material material = tempStorage.newMaterial();
-		if (delegate != null) {
-			delegate.examSetActiveMaterial(material);
-		}
+		forEachDelegate(delegate -> {
+			Material material = tempStorage.newMaterial();
+			if (delegate != null) {
+				delegate.examSetActiveMaterial(material);
+			}
+		});
+	}
+
+	/**
+	 * Creates a new temporary material, does not notify any delegates.
+	 *
+	 * @return the created material
+	 */
+	public Material getNewTempMaterial() {
+		return tempStorage.newMaterial();
 	}
 
 	/**
