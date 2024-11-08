@@ -10,13 +10,11 @@ import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class RemoveLabelActionTest extends BaseSymbolicTest {
 
 	@Test
-	@Ignore("Should be fixed in APPS-6003")
 	public void shouldForceLabelsForSliders() {
 		GeoElement integral = add("Integral(sin(x))");
 		GeoNumeric constant = (GeoNumeric) lookup("c_{1}");

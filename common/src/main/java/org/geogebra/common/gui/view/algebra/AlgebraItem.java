@@ -628,7 +628,7 @@ public class AlgebraItem {
 	public static boolean shouldShowSlider(GeoElement geo) {
 		return geo instanceof GeoNumeric
 				&& geo.getApp().getConfig().hasSlidersInAV()
-				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
+				&& ((GeoNumeric) geo).isAVSliderOrCheckboxVisible() && geo.isSimple()
 				&& Double.isFinite(((GeoNumeric) geo).value);
 	}
 

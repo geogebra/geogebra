@@ -372,7 +372,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	@Test
 	public void testGeoNumericExtendsMinMaxInSymbolic() {
 		GeoNumeric numeric = add("a = 5");
-		numeric.setShowExtendedAV(true);
+		numeric.setAVSliderOrCheckboxVisible(true);
 		numeric.initAlgebraSlider();
 		assertFalse(numeric.getIntervalMax() >= 20);
 		assertFalse(numeric.getIntervalMin() <= -20);
@@ -389,7 +389,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	@Test
 	public void testGeoNumericIsClampedToMinMaxInNonSymbolic() {
 		GeoNumeric numeric = add("a = 0");
-		numeric.setShowExtendedAV(true);
+		numeric.setAVSliderOrCheckboxVisible(true);
 		numeric.initAlgebraSlider();
 
 		Assert.assertEquals(-5, numeric.getIntervalMin(), Kernel.MAX_PRECISION);
