@@ -14,12 +14,6 @@ public class EquationBehaviourGeometry extends DefaultEquationBehaviour {
 
 	@Nonnull
 	@Override
-	public EquationLinear.Form getLineCommandEquationForm() {
-		return EquationLinear.Form.EXPLICIT;
-	}
-
-	@Nonnull
-	@Override
 	public EquationLinear.Form getRayCommandEquationForm() {
 		return EquationLinear.Form.EXPLICIT;
 	}

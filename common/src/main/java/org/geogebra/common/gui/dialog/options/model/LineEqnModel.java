@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.EquationLinear;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -13,6 +14,9 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
+import org.geogebra.common.kernel.statistics.AlgoFit;
+import org.geogebra.common.kernel.statistics.AlgoFitLineX;
+import org.geogebra.common.kernel.statistics.AlgoFitLineY;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
@@ -48,10 +52,19 @@ public class LineEqnModel extends MultipleOptionsModel {
 	 */
 	public static boolean forceInputForm(GeoElementND geo) {
 		EquationBehaviour equationBehaviour = geo.getKernel().getEquationBehaviour();
-		boolean isUserInput = geo.getParentAlgorithm() == null;
 		if (geo instanceof EquationLinear) {
+			boolean isUserInput = geo.getParentAlgorithm() == null;
 			if (isUserInput) {
 				return equationBehaviour.getLinearAlgebraInputEquationForm() != null;
+			}
+			if (geo instanceof GeoLine) {
+				AlgoElement algo = geo.getParentAlgorithm();
+				boolean isFitLineOuput = (algo instanceof AlgoFitLineX)
+						|| (algo instanceof AlgoFitLineY);
+				if (isFitLineOuput) {
+					return equationBehaviour.getFitLineCommandEquationForm() != null;
+				}
+				return equationBehaviour.getLineCommandEquationForm() != null;
 			}
 		}
 		return false;
