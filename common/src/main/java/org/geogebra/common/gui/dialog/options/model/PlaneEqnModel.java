@@ -38,7 +38,8 @@ public class PlaneEqnModel extends MultipleOptionsModel {
 		boolean isUserInput = geo.getParentAlgorithm() == null;
 		if (geo instanceof EquationLinear) {
 			if (isUserInput) {
-				return equationBehaviour.getLinearAlgebraInputEquationForm() != null;
+				return equationBehaviour.getLinearAlgebraInputEquationForm() != null
+						&& !equationBehaviour.allowsChangingEquationFormsByUser();
 			}
 		}
 		return false;

@@ -106,7 +106,7 @@ public class ForceInputFormTest extends BaseUnitTest {
 		GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
 
 		Assert.assertTrue(LineEqnModel.forceInputForm(line));
-		Assert.assertFalse(LineEqnModel.forceInputForm(rayWithCommand));
+		Assert.assertTrue(LineEqnModel.forceInputForm(rayWithCommand));
 		Assert.assertTrue(ConicEqnModel.forceInputForm(parabola));
 		Assert.assertTrue(ConicEqnModel.forceInputForm(hyperbola));
 	}
@@ -124,8 +124,8 @@ public class ForceInputFormTest extends BaseUnitTest {
 
 		Assert.assertFalse(LineEqnModel.forceInputForm(line));
 		Assert.assertFalse(LineEqnModel.forceInputForm(rayWithCommand));
-		Assert.assertTrue(ConicEqnModel.forceInputForm(parabola));
-		Assert.assertTrue(ConicEqnModel.forceInputForm(hyperbola));
+		Assert.assertFalse(ConicEqnModel.forceInputForm(parabola));
+		Assert.assertFalse(ConicEqnModel.forceInputForm(hyperbola));
 
 		try {
 			new EquationFormProperty(getLocalization(), line);

@@ -46,7 +46,8 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		boolean isUserInput = geo.getParentAlgorithm() == null;
 		if (geo instanceof EquationQuadric) {
 			if (isUserInput) {
-				return equationBehaviour.getConicAlgebraInputEquationForm() != null;
+				return equationBehaviour.getConicAlgebraInputEquationForm() != null
+						&& !equationBehaviour.allowsChangingEquationFormsByUser();
 			}
 		}
 		return false;

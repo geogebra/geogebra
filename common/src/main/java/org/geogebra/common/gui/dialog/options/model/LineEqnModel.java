@@ -55,16 +55,19 @@ public class LineEqnModel extends MultipleOptionsModel {
 		if (geo instanceof EquationLinear) {
 			boolean isUserInput = geo.getParentAlgorithm() == null;
 			if (isUserInput) {
-				return equationBehaviour.getLinearAlgebraInputEquationForm() != null;
+				return equationBehaviour.getLinearAlgebraInputEquationForm() != null
+						&& !equationBehaviour.allowsChangingEquationFormsByUser();
 			}
 			if (geo instanceof GeoLine) {
 				AlgoElement algo = geo.getParentAlgorithm();
 				boolean isFitLineOuput = (algo instanceof AlgoFitLineX)
 						|| (algo instanceof AlgoFitLineY);
 				if (isFitLineOuput) {
-					return equationBehaviour.getFitLineCommandEquationForm() != null;
+					return equationBehaviour.getFitLineCommandEquationForm() != null
+							&& !equationBehaviour.allowsChangingEquationFormsByUser();
 				}
-				return equationBehaviour.getLineCommandEquationForm() != null;
+				return equationBehaviour.getLineCommandEquationForm() != null
+						&& !equationBehaviour.allowsChangingEquationFormsByUser();
 			}
 		}
 		return false;
