@@ -164,9 +164,7 @@ public class ItemControls extends FlowPanel
 			return;
 		}
 
-		MenuItemCollection<GeoElement> avMenuItems = radioTreeItem.getApplication()
-				.getCurrentActivity().getAVMenuItems(radioTreeItem.getAV());
-		cmMore = new ContextMenuAVItemMore(radioTreeItem, avMenuItems);
+		cmMore = new ContextMenuAVItemMore(radioTreeItem);
 	}
 
 	/**

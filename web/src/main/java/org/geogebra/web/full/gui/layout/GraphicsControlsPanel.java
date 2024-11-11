@@ -52,6 +52,7 @@ public class GraphicsControlsPanel extends FlowPanel implements DockControlPanel
 				? "graphicsContextMenuBtn mow" : "graphicsContextMenuBtn");
 		graphicsContextMenuBtn.getElement().setTabIndex(0);
 		TestHarness.setAttr(graphicsContextMenuBtn, "graphicsViewContextMenu");
+		graphicsContextMenuBtn.setTooltipPositionRight();
 		add(graphicsContextMenuBtn);
 	}
 

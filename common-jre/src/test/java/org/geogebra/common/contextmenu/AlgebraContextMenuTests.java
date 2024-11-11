@@ -146,6 +146,30 @@ public class AlgebraContextMenuTests {
 	}
 
 	@Test
+	public void testForInputWithSliderInGraphingApp() {
+		setupApp(GeoGebraConstants.GRAPHING_APPCODE);
+		assertEquals(
+				List.of(CreateSlider,
+						DuplicateInput,
+						Delete,
+						Settings),
+				makeAlgebraContextMenu(add("1"), algebraProcessor, appCode)
+		);
+	}
+
+	@Test
+	public void testForSliderCommandInGraphingApp() {
+		setupApp(GeoGebraConstants.GRAPHING_APPCODE);
+		assertEquals(
+				List.of(RemoveSlider,
+						DuplicateInput,
+						Delete,
+						Settings),
+				makeAlgebraContextMenu(add("Slider(-5,5,1)"), algebraProcessor, appCode)
+		);
+	}
+
+	@Test
 	public void testForInputWithStatisticsInGraphingApp() {
 		setupApp(GeoGebraConstants.GRAPHING_APPCODE);
 		assertEquals(
@@ -155,6 +179,30 @@ public class AlgebraContextMenuTests {
 						Delete,
 						Settings),
 				makeAlgebraContextMenu(add("{1, 2, 3}"), algebraProcessor, appCode)
+		);
+	}
+
+	@Test
+	public void testForPotentialSliderGraphingApp() {
+		setupApp(GeoGebraConstants.GRAPHING_APPCODE);
+		assertEquals(
+				List.of(CreateSlider,
+						DuplicateInput,
+						Delete,
+						Settings),
+				makeAlgebraContextMenu(add("1"), algebraProcessor, appCode)
+		);
+	}
+
+	@Test
+	public void testForSliderGraphingApp() {
+		setupApp(GeoGebraConstants.GRAPHING_APPCODE);
+		assertEquals(
+				List.of(RemoveSlider,
+						DuplicateInput,
+						Delete,
+						Settings),
+				makeAlgebraContextMenu(add("Slider(0, 5, 1)"), algebraProcessor, appCode)
 		);
 	}
 

@@ -1,12 +1,14 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 
 @RunWith(GgbMockitoTestRunner.class)
 public class ContextMenuAVPlusTest {
@@ -20,11 +22,9 @@ public class ContextMenuAVPlusTest {
 
         RadioTreeItem radioTreeItem = new RadioTreeItem(app.getKernel());
 
-        ContextMenuAVPlus contextMenuAVPlus
-                = Mockito.spy(new ContextMenuAVPlus(radioTreeItem));
-
+        ContextMenuAVPlus contextMenuAVPlus = new ContextMenuAVPlus(radioTreeItem);
         contextMenuAVPlus.setLabels();
-        Mockito.verify(contextMenuAVPlus, Mockito.times(1)).addImageItem();
+        assertThat(contextMenuAVPlus.hasImageItem(), equalTo(true));
     }
 
     @Test
@@ -36,11 +36,9 @@ public class ContextMenuAVPlusTest {
 
         RadioTreeItem radioTreeItem = new RadioTreeItem(app.getKernel());
 
-        ContextMenuAVPlus contextMenuAVPlus
-                = Mockito.spy(new ContextMenuAVPlus(radioTreeItem));
-
+        ContextMenuAVPlus contextMenuAVPlus = new ContextMenuAVPlus(radioTreeItem);
         contextMenuAVPlus.setLabels();
-        Mockito.verify(contextMenuAVPlus, Mockito.never()).addImageItem();
+        assertThat(contextMenuAVPlus.hasImageItem(), equalTo(false));
     }
 
     @Test
@@ -52,10 +50,8 @@ public class ContextMenuAVPlusTest {
 
         RadioTreeItem radioTreeItem = new RadioTreeItem(app.getKernel());
 
-        ContextMenuAVPlus contextMenuAVPlus
-                = Mockito.spy(new ContextMenuAVPlus(radioTreeItem));
-
+        ContextMenuAVPlus contextMenuAVPlus = new ContextMenuAVPlus(radioTreeItem);
         contextMenuAVPlus.setLabels();
-        Mockito.verify(contextMenuAVPlus, Mockito.never()).addImageItem();
+        assertThat(contextMenuAVPlus.hasImageItem(), equalTo(false));
     }
 }

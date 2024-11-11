@@ -8,7 +8,7 @@ import org.geogebra.common.euclidian.LayerManager;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.gwtutil.JsConsumer;
-import org.geogebra.web.full.gui.ContextMenuFactory;
+import org.geogebra.web.full.gui.ContextMenuItemFactory;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 
@@ -16,7 +16,7 @@ public class OrderSubMenu extends AriaMenuBar {
 
 	private App app;
 	private LayerManager layerManager;
-	private ContextMenuFactory factory;
+	private ContextMenuItemFactory factory;
 
 	private ArrayList<GeoElement> geos;
 
@@ -25,7 +25,7 @@ public class OrderSubMenu extends AriaMenuBar {
 	 * GeoElements on the graphics view
 	 * @param geos GeoElements to apply the order-changing operations on
 	 */
-	public OrderSubMenu(App app, ArrayList<GeoElement> geos, ContextMenuFactory factory) {
+	public OrderSubMenu(App app, ArrayList<GeoElement> geos, ContextMenuItemFactory factory) {
 		this.geos = geos;
 
 		this.app = app;

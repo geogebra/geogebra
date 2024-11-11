@@ -54,6 +54,7 @@ public class NotesLayout implements SetLabels, ModeChangeListener {
 		pageControlButton.addBitlessDomHandler(event -> setTouchStyleForCards(),
 				TouchStartEvent.getType());
 		pageControlButton.addFastClickHandler(this::openPagePanel);
+		pageControlButton.setTooltipPositionRight();
 	}
 
 	/**
