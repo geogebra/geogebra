@@ -3,8 +3,12 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.EquationLinear;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -23,11 +27,25 @@ public class PlaneEqnModel extends MultipleOptionsModel {
 	@Override
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
-		if (LineEqnModel.forceInputForm(app, geo)) {
+		if (forceInputForm(geo)) {
 			return false;
 		}
-		return (geo instanceof GeoPlaneND)
-				&& (geo.getDefinition() != null);
+		return isValid(geo);
+	}
+
+	public static boolean forceInputForm(GeoElementND geo) {
+		EquationBehaviour equationBehaviour = geo.getKernel().getEquationBehaviour();
+		boolean isUserInput = geo.getParentAlgorithm() == null;
+		if (geo instanceof EquationLinear) {
+			if (isUserInput) {
+				return equationBehaviour.getLinearAlgebraInputEquationForm() != null;
+			}
+		}
+		return false;
+	}
+
+	public static boolean isValid(GeoElement geo) {
+		return (geo instanceof GeoPlaneND) && (geo.getDefinition() != null);
 	}
 
 	private GeoPlaneND getLineAt(int index) {

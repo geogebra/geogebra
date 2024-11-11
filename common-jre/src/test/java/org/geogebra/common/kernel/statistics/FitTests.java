@@ -184,7 +184,6 @@ public class FitTests extends BaseUnitTest {
         for (GeoElement geo : geos) {
             assertThrows(NotApplicablePropertyException.class,
                     () -> new EquationFormProperty(getLocalization(), geo));
-            Assert.assertTrue(LineEqnModel.forceInputForm(getApp(), geo));
         }
     }
 
@@ -197,7 +196,6 @@ public class FitTests extends BaseUnitTest {
 
         try {
             for (GeoElement geo : geos) {
-                Assert.assertFalse(LineEqnModel.forceInputForm(getApp(), geo));
                 new EquationFormProperty(getLocalization(), geo);
             }
         } catch (NotApplicablePropertyException e) {

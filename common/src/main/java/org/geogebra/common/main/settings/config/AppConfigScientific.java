@@ -149,16 +149,6 @@ public class AppConfigScientific extends AppConfigGraphing {
 	}
 
 	@Override
-	public int getEnforcedLineEquationForm() {
-		return -1;
-	}
-
-	@Override
-	public int getEnforcedConicEquationForm() {
-		return -1;
-	}
-
-	@Override
 	public OperationArgumentFilter createOperationArgumentFilter() {
 		return new ScientificOperationArgumentFilter();
 	}

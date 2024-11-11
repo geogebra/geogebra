@@ -256,24 +256,6 @@ public interface AppConfig extends Serializable {
 	EquationBehaviour getEquationBehaviour();
 
 	/**
-	 * Returns an equation form constant declared in the GeoLine class,
-	 * or -1 if it's not set
-	 *
-	 * @return equation form or -1
-	 */
-	@Deprecated // replaced by getEquationBehaviour()
-	int getEnforcedLineEquationForm();
-
-	/**
-	 * Returns an equation form constant declared in the GeoConicND class,
-	 * or -1 if it's not set
-	 *
-	 * @return equation form or -1
-	 */
-	@Deprecated // replaced by getEquationBehaviour()
-	int getEnforcedConicEquationForm();
-
-	/**
 	 * Whether it shows the equation in AV.
 	 *
 	 * @return true if equation should be hidden in AV

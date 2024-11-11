@@ -3,13 +3,16 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.EquationLinear;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
@@ -28,38 +31,37 @@ public class LineEqnModel extends MultipleOptionsModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		boolean valid = true;
 		GeoElement geo = getGeoAt(index);
-		if (forceInputForm(app, geo)) {
+		if (forceInputForm(geo)) {
 			return false;
 		}
-		if (!(geo instanceof GeoLine) || geo instanceof GeoSegment) {
-			valid = false;
-		}
-
-		return valid;
+		return isValid(geo);
 	}
 
 	/**
 	 * For user equations force input form, for command equations
 	 * either don't show them (conic) or force command output (line)
 	 * 
-	 * @param app
-	 *            app
 	 * @param geo
 	 *            equation
 	 * @return whether to force input form
 	 */
-	public static boolean forceInputForm(App app, GeoElementND geo) {
-		// TODO APPS-5867 replace with kernel.getEquationBehaviour()
-		boolean isEnforcedLineEquationForm =
-				geo instanceof GeoLine && app.getConfig().getEnforcedLineEquationForm() != -1;
-		boolean isEnforcedConicEquationForm =
-				geo instanceof GeoConicND && app.getConfig().getEnforcedConicEquationForm() != -1;
-		boolean isEnforcedEquationForm = isEnforcedLineEquationForm || isEnforcedConicEquationForm;
-		boolean isCasDisabled = !app.getSettings().getCasSettings().isEnabled();
-		boolean isEquationValue = geo instanceof EquationValue;
-		return (isCasDisabled && isEquationValue) && isEnforcedEquationForm;
+	public static boolean forceInputForm(GeoElementND geo) {
+		EquationBehaviour equationBehaviour = geo.getKernel().getEquationBehaviour();
+		boolean isUserInput = geo.getParentAlgorithm() == null;
+		if (geo instanceof EquationLinear) {
+			if (isUserInput) {
+				return equationBehaviour.getLinearAlgebraInputEquationForm() != null;
+			}
+		}
+		return false;
+	}
+
+	public static boolean isValid(GeoElement geo) {
+		if (geo instanceof GeoSegment) {
+			return false;
+		}
+		return geo instanceof GeoLine;
 	}
 
 	private GeoLine getLineAt(int index) {

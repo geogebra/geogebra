@@ -2,9 +2,12 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.List;
 
+import org.geogebra.common.kernel.EquationBehaviour;
+import org.geogebra.common.kernel.EquationLinear;
 import org.geogebra.common.kernel.EquationQuadric;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
@@ -32,10 +35,21 @@ public class ConicEqnModel extends MultipleOptionsModel {
 	@Override
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
-		if (LineEqnModel.forceInputForm(app, geo)) {
+		if (forceInputForm(geo)) {
 			return false;
 		}
-		return isValid(getObjectAt(index));
+		return isValid(geo);
+	}
+
+	public static boolean forceInputForm(GeoElementND geo) {
+		EquationBehaviour equationBehaviour = geo.getKernel().getEquationBehaviour();
+		boolean isUserInput = geo.getParentAlgorithm() == null;
+		if (geo instanceof EquationQuadric) {
+			if (isUserInput) {
+				return equationBehaviour.getConicAlgebraInputEquationForm() != null;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -43,7 +57,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 	 *            element
 	 * @return whether given geo is a quadric with different equation types
 	 */
-	public static boolean isValid(Object geo) {
+	public static boolean isValid(GeoElement geo) {
 		return geo instanceof GeoConic || geo instanceof GeoQuadric3DInterface;
 	}
 

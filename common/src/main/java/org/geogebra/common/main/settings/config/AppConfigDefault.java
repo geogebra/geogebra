@@ -312,18 +312,6 @@ public class AppConfigDefault extends AbstractAppConfig {
 		return new DefaultEquationBehaviour();
 	}
 
-	@Deprecated // replaced by getEquationBehaviour()
-	@Override
-	public int getEnforcedLineEquationForm() {
-		return -1;
-	}
-
-	@Deprecated // replaced by getEquationBehaviour()
-	@Override
-	public int getEnforcedConicEquationForm() {
-		return -1;
-	}
-
 	@Override
 	public boolean shouldHideEquations() {
 		return false;

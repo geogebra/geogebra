@@ -40,16 +40,6 @@ public class AppConfigNotes extends AppConfigDefault {
 	}
 
 	@Override
-	public int getEnforcedLineEquationForm() {
-		return -1;
-	}
-
-	@Override
-	public int getEnforcedConicEquationForm() {
-		return -1;
-	}
-
-	@Override
 	public boolean shouldHideEquations() {
 		return false;
 	}

@@ -1,5 +1,6 @@
 package org.geogebra.common.properties.impl.objects.delegate;
 
+import org.geogebra.common.gui.dialog.options.model.LineEqnModel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -31,12 +32,6 @@ public class EquationFormDelegate extends AbstractGeoElementDelegate {
 	}
 
 	private boolean isEnforcedEquationForm(GeoElement element) {
-		App app = element.getApp();
-		// TODO APPS-5867 replace with appConfig.getEquationBehaviour()
-		boolean isEnforcedLineEquationForm = element instanceof GeoLine
-				&& app.getConfig().getEnforcedLineEquationForm() != -1;
-		boolean isEnforcedConicEquationForm = element instanceof GeoConicND
-				&& app.getConfig().getEnforcedConicEquationForm() != -1;
-		return isEnforcedLineEquationForm || isEnforcedConicEquationForm;
+		return LineEqnModel.forceInputForm(element);
 	}
 }
