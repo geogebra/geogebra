@@ -83,13 +83,13 @@ public class PagePreviewCard extends FlowPanel
 		add(number);
 
 		FlowPanel cardPanel = new FlowPanel();
-		cardPanel.addStyleName("mowPagePreviewCard");
+		cardPanel.addStyleName("mowPreviewCard");
 		if (!(NavigatorUtil.isMobile())) {
 			cardPanel.addStyleName("desktop");
 		}
 
 		imagePanel = new FlowPanel();
-		imagePanel.addStyleName("mowImagePanel");
+		imagePanel.addStyleName("cardImagePanel");
 		infoPanel = new CardInfoPanel();
 		infoPanel.addStyleName("mowTitlePanel");
 
@@ -122,7 +122,7 @@ public class PagePreviewCard extends FlowPanel
 	}
 
 	private boolean setPreviewImage(ArchiveEntry image) {
-		if (image != null && image.createUrl().length() > 0) {
+		if (image != null && !image.createUrl().isEmpty()) {
 			imagePanel.getElement().getStyle().setBackgroundImage(
 					"url(" + image.createUrl() + ")");
 			return true;
@@ -247,14 +247,6 @@ public class PagePreviewCard extends FlowPanel
 
 	public static int clampTop(int top, int cardCount) {
 		return Math.max(MARGIN, Math.min(top, computeTop(cardCount - 1)));
-	}
-
-	/**
-	 * 
-	 * @return the middle line of the card horizontally.
-	 */
-	public int getMiddleX() {
-		return getAbsoluteLeft() + getOffsetWidth() / 2;
 	}
 
 	/**

@@ -299,7 +299,7 @@
         color: neutral(900);
     }
 
-	.mowPagePreviewCard {
+	.mowPreviewCard {
 		width: 192px;
 		height: 128px;
 		margin-left: 8px;
@@ -310,7 +310,7 @@
 		transition: box-shadow .25s;
 		cursor: pointer;
 
-		.mowImagePanel {
+		.cardImagePanel {
 			width: 100%;
 			height: 124px;
 			background-repeat: no-repeat;
@@ -362,7 +362,7 @@
 	}
 
 	.cardRow.selected {
-		.mowPagePreviewCard {
+		.mowPreviewCard {
 			border-color: var(--ggb-primary-color);
 			box-sizing: border-box;
 
@@ -382,14 +382,14 @@
 		}
 	}
 
-	.mowPagePreviewCard.desktop {
+	.mowPreviewCard.desktop {
 		&:hover {
 			border-color: neutral(500);
 		}
 	}
 
 	.cardRow.dragged {
-		.mowPagePreviewCard {
+		.mowPreviewCard {
 			z-index: z-index.$z-on-top-of-graphics;
 			box-shadow: 0px 6px 32px -2px rgba(133, 132, 138, 0.16), 0px 4px 12px -1px rgba(133, 132, 138, 0.06);
 		}
