@@ -171,9 +171,6 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		});
 		String jsonContent = content.get(drawEmbed.getEmbedID());
 		if (SUITE_APPCODE.equals(drawEmbed.getGeoEmbed().getAppName())) {
-			if (jsonContent == null) {
-				parameters.setAttribute("showAppsPicker", "true");
-			}
 			parameters.setAttribute("preventFocus", "true");
 		}
 		fr.runAsyncAfterSplash();
@@ -204,13 +201,11 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		Style evPanelStyle = ((EuclidianViewWInterface) app.getActiveEuclidianView())
 				.getCanvasElement().getParentElement().getStyle();
 
-		element.addEventListener("dragstart", (event) -> {
-			evPanelStyle.setProperty("pointerEvents", "none");
-		});
+		element.addEventListener("dragstart", (event) ->
+				evPanelStyle.setProperty("pointerEvents", "none"));
 
-		element.addEventListener("dragend", (event) -> {
-			evPanelStyle.setProperty("pointerEvents", "initial");
-		});
+		element.addEventListener("dragend", (event) ->
+				evPanelStyle.setProperty("pointerEvents", "initial"));
 	}
 
 	private boolean hasWidgetWithId(int embedId) {
@@ -684,5 +679,21 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			el = (CalcEmbedElement) cache.get(embed.getEmbedID());
 		}
 		return el.getFrame().getApp();
+	}
+
+	@Override
+	public void addSuiteCalcWithPreselectedAppCode(String appCode) {
+		final GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
+		ge.setAppName(appCode);
+		EuclidianView view = app.getActiveEuclidianView();
+		ge.initDefaultPosition(view);
+		initAppEmbed(ge);
+		ge.setLabel(null);
+		app.storeUndoInfo();
+		app.invokeLater(() -> {
+			view.getEuclidianController().selectAndShowSelectionUI(ge);
+			ge.setBackground(false);
+			view.update(ge); // force painting in the foreground
+		});
 	}
 }
