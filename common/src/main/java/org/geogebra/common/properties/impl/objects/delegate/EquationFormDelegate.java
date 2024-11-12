@@ -4,8 +4,6 @@ import org.geogebra.common.gui.dialog.options.model.LineEqnModel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.kernelND.GeoConicND;
-import org.geogebra.common.main.App;
 
 public class EquationFormDelegate extends AbstractGeoElementDelegate {
 

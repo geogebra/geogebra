@@ -6,8 +6,6 @@ import java.util.List;
 import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.EquationLinear;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.App;

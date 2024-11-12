@@ -3,7 +3,6 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.List;
 
 import org.geogebra.common.kernel.EquationBehaviour;
-import org.geogebra.common.kernel.EquationLinear;
 import org.geogebra.common.kernel.EquationQuadric;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
