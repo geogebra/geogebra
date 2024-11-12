@@ -276,6 +276,6 @@ public abstract class FileManager extends MaterialsManager {
 	}
 
 	public boolean isOfflinePlatform() {
-		return app.getPlatform() != GeoGebraConstants.Platform.OFFLINE;
+		return app.getPlatform() == GeoGebraConstants.Platform.OFFLINE;
 	}
 }

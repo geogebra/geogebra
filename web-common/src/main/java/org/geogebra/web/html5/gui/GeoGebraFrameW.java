@@ -105,8 +105,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		this(laf, appletParameters.getDataParamFitToScreen());
 		this.geoGebraElement = geoGebraElement;
 		this.appletParameters = appletParameters;
+		boolean prereleaseParameter = appletParameters.getDataParamPrerelease();
+		// flag should only be considered for the first instance
 		if (instances.size() == 1) {
-			PreviewFeature.setPreviewFeaturesEnabled(appletParameters.getDataParamPrerelease());
+			PreviewFeature.setPreviewFeaturesEnabled(prereleaseParameter);
+		} else if (PreviewFeature.enableFeaturePreviews != prereleaseParameter) {
+			Log.warn("Availability of preview features can only be set once.");
 		}
 	}
 

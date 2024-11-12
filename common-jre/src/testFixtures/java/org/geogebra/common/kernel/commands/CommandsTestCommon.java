@@ -11,7 +11,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
-import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
@@ -31,7 +30,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
@@ -40,7 +38,6 @@ import org.hamcrest.core.StringContains;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -56,10 +53,6 @@ public class CommandsTestCommon extends BaseCommandTest {
 		GeoImplicitCurve.setFastDrawThreshold(10000);
 	}
 
-	public static void resetSyntaxCounter() {
-		syntaxes = -1000;
-	}
-
 	@After
 	public void checkSyntaxes() {
 		checkSyntaxesStatic();
@@ -72,8 +65,8 @@ public class CommandsTestCommon extends BaseCommandTest {
 	 * Assert that there are no unchecked syntaxes left
 	 */
 	public static void checkSyntaxesStatic() {
-		assertTrue("unchecked syntaxes: " + syntaxes + signature,
-				syntaxes <= 0);
+		assertTrue("unchecked syntaxes: " + uncheckedSyntaxesCount + signature,
+				uncheckedSyntaxesCount <= 0);
 	}
 
 	protected static String deg(String string) {
@@ -496,60 +489,60 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void yLHSFunctions() {
 		t("f:y=sin(x)", "sin(x)");
-		assertEquals(GeoClass.FUNCTION, get("f").getGeoClassType());
+		assertEquals(GeoClass.FUNCTION, lookup("f").getGeoClassType());
 		t("SetValue(f, x^2)");
-		assertEquals(GeoClass.FUNCTION, get("f").getGeoClassType());
-		assertEquals(GeoClass.FUNCTION, get("f").getGeoClassType());
+		assertEquals(GeoClass.FUNCTION, lookup("f").getGeoClassType());
+		assertEquals(GeoClass.FUNCTION, lookup("f").getGeoClassType());
 	}
 
 	@Test
 	public void yLHSImplicitCurves() {
 		t("f:y^2=sin(x)", "y^(2) = sin(x)");
-		assertEquals(GeoClass.IMPLICIT_POLY, get("f").getGeoClassType());
+		assertEquals(GeoClass.IMPLICIT_POLY, lookup("f").getGeoClassType());
 		t("SetValue(f, y = sin(x))");
-		assertEquals(GeoClass.IMPLICIT_POLY, get("f").getGeoClassType());
+		assertEquals(GeoClass.IMPLICIT_POLY, lookup("f").getGeoClassType());
 		app.setXML(app.getXML(), true);
-		assertEquals(GeoClass.IMPLICIT_POLY, get("f").getGeoClassType());
+		assertEquals(GeoClass.IMPLICIT_POLY, lookup("f").getGeoClassType());
 	}
 
 	@Test
 	public void yLHSLines() {
 		t("l: y = 2x", "y = 2x");
-		assertEquals(GeoClass.LINE, get("l").getGeoClassType());
+		assertEquals(GeoClass.LINE, lookup("l").getGeoClassType());
 		t("SetValue(l, y = 2x - 3)");
-		assertEquals(GeoClass.LINE, get("l").getGeoClassType());
+		assertEquals(GeoClass.LINE, lookup("l").getGeoClassType());
 		app.setXML(app.getXML(), true);
-		assertEquals(GeoClass.LINE, get("l").getGeoClassType());
+		assertEquals(GeoClass.LINE, lookup("l").getGeoClassType());
 	}
 
 	@Test
 	public void yLHSConics() {
 		t("c: y = 2x^2", "y = 2x²");
-		assertEquals(GeoClass.CONIC, get("c").getGeoClassType());
+		assertEquals(GeoClass.CONIC, lookup("c").getGeoClassType());
 		t("SetValue(c, y = 2x - 3)");
-		assertEquals(GeoClass.CONIC, get("c").getGeoClassType());
+		assertEquals(GeoClass.CONIC, lookup("c").getGeoClassType());
 		app.setXML(app.getXML(), true);
-		assertEquals(GeoClass.CONIC, get("c").getGeoClassType());
+		assertEquals(GeoClass.CONIC, lookup("c").getGeoClassType());
 	}
 
 	@Test
 	public void yLHSPlanes() {
 		t("a: y = 2x + 3z", "-2x + y - 3z = 0");
-		assertEquals(GeoClass.PLANE3D, get("a").getGeoClassType());
+		assertEquals(GeoClass.PLANE3D, lookup("a").getGeoClassType());
 		t("SetValue(a, y = 2x - 3z + 4)");
-		assertEquals(GeoClass.PLANE3D, get("a").getGeoClassType());
+		assertEquals(GeoClass.PLANE3D, lookup("a").getGeoClassType());
 		app.setXML(app.getXML(), true);
-		assertEquals(GeoClass.PLANE3D, get("a").getGeoClassType());
+		assertEquals(GeoClass.PLANE3D, lookup("a").getGeoClassType());
 	}
 
 	@Test
 	public void yLHSQuadrics() {
 		t("q: y = 2x^2 + 3z", "-2x² + 0z² + y - 3z = 0");
-		assertEquals(GeoClass.QUADRIC, get("q").getGeoClassType());
+		assertEquals(GeoClass.QUADRIC, lookup("q").getGeoClassType());
 		t("SetValue(q, y = 2x² - 3z² + 4)");
-		assertEquals(GeoClass.QUADRIC, get("q").getGeoClassType());
+		assertEquals(GeoClass.QUADRIC, lookup("q").getGeoClassType());
 		app.setXML(app.getXML(), true);
-		assertEquals(GeoClass.QUADRIC, get("q").getGeoClassType());
+		assertEquals(GeoClass.QUADRIC, lookup("q").getGeoClassType());
 	}
 
 	@Test
@@ -564,10 +557,10 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("mul=4", "4");
 		tpm("prod=pm mul 3", "{12, -12}");
 		assertEquals("(" + Unicode.PLUSMINUS + "mul) * 3",
-				get("prod").getDefinition(StringTemplate.editTemplate));
+				lookup("prod").getDefinition(StringTemplate.editTemplate));
 		tpm("prod2=pm sqrt 4", "{2, -2}");
 		assertEquals(Unicode.PLUSMINUS + "sqrt(4)",
-				get("prod2").getDefinition(StringTemplate.editTemplate));
+				lookup("prod2").getDefinition(StringTemplate.editTemplate));
 	}
 
 	@Test
@@ -600,11 +593,11 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void expandedFractionIsNotUsedForEvaluation() {
 		t("a=(1+1/143)^143", "2.7088378687594363");
-		((GeoNumeric) get("a")).setSymbolicMode(true, true);
+		((GeoNumeric) lookup("a")).setSymbolicMode(true, true);
 		t("a", "2.708837868759473");
 
 		t("b=(1+1/400)^400", "2.714891744381287");
-		((GeoNumeric) get("b")).setSymbolicMode(true, true);
+		((GeoNumeric) lookup("b")).setSymbolicMode(true, true);
 		t("b", "2.7148917443812293");
 	}
 
@@ -612,9 +605,9 @@ public class CommandsTestCommon extends BaseCommandTest {
 	public void numIntTest() {
 		t("F(t,x)=NIntegral(sin(x)+sin(t-x), x)",
 				"NIntegral[sin(x) + sin(t - x), x]");
-		((FunctionalNVar) get("F")).setSecret(null);
+		((FunctionalNVar) lookup("F")).setSecret(null);
 		assertEquals("-cos(x) - (-cos(t - x))",
-				get("F").toValueString(StringTemplate.testTemplate));
+				lookup("F").toValueString(StringTemplate.testTemplate));
 	}
 
 	@Test
@@ -1312,7 +1305,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("Dilate[ (4,5), 2,(1,1) ]", "(7, 9)");
 		t("Dilate[ (4,5), 2 ]", "(8, 10)");
 		t("r=Dilate(y=-3x-6,2)", "y = -3x - 12");
-		((GeoLine) get("r")).setToUser();
+		((GeoLine) lookup("r")).setToUser();
 		t("r", "3x + y = -12");
 	}
 
@@ -2219,7 +2212,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 	public void cmdKeepIf() {
 		t("KeepIf[ x > 3, {1,2,3,4,5} ]", "{4, 5}");
 		t("KeepIf[ A > 3,A, {1,2,3,4,5} ]", "{4, 5}");
-		syntaxes++;
+		uncheckedSyntaxesCount++;
 		t("KeepIf[ Distance[A,(0,0)]>4,A, {(1,1)} ]", "{}");
 	}
 
@@ -2325,7 +2318,7 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("P=Point(xAxis)", "(0, 0)");
 		t("Q=P+(1,0)", "(1, 0)");
 		t("loc = Locus(Q,P)", "Locus[Q, P]");
-		assertThat(get("loc"), isDefined());
+		assertThat(lookup("loc"), isDefined());
 	}
 
 	@Test
@@ -2722,7 +2715,6 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("PerpendicularVector[Vector((3,4))  ]", "(-4, 3)");
 		t("PerpendicularVector[(3,4)  ]", "(-4, 3)");
 		t("PerpendicularVector[ 2x+2y+z=1 ]", "(2, 2, 1)");
-		syntaxes -= 2;
 	}
 
 	@Test
@@ -3156,27 +3148,27 @@ public class CommandsTestCommon extends BaseCommandTest {
 	public void cmdRename() {
 		t("Rename[ 6*7, \"a\" ]");
 		assertEquals(
-				get("a").toValueString(StringTemplate.defaultTemplate), "42");
+				lookup("a").toValueString(StringTemplate.defaultTemplate), "42");
 		t("Rename[ a, \"b\" ]");
 		assertEquals(
-				get("b").toValueString(StringTemplate.defaultTemplate), "42");
-		Assert.assertNull(get("a"));
+				lookup("b").toValueString(StringTemplate.defaultTemplate), "42");
+		Assert.assertNull(lookup("a"));
 		t("Rename[ b, \"  cc  d  \" ]");
 		assertEquals(
-				get("cc").toValueString(StringTemplate.defaultTemplate), "42");
-		Assert.assertNull(get("b"));
+				lookup("cc").toValueString(StringTemplate.defaultTemplate), "42");
+		Assert.assertNull(lookup("b"));
 		AlgebraTestHelper.shouldFail("Rename[ cc, \"\" ]", "Illegal", app);
-		assertNotNull(get("cc"));
+		assertNotNull(lookup("cc"));
 		AlgebraTestHelper.shouldFail("Rename[ cc, \"42\" ]", "Illegal", app);
-		assertNotNull(get("cc"));
+		assertNotNull(lookup("cc"));
 		AlgebraTestHelper.shouldFail("Rename[ cc, \"A_{}\" ]", "Illegal", app);
-		assertNotNull(get("cc"));
+		assertNotNull(lookup("cc"));
 		AlgebraTestHelper.shouldFail("Rename[ cc, \"A_{\" ]", "Illegal", app);
-		assertNotNull(get("cc"));
+		assertNotNull(lookup("cc"));
 		t("Rename[ cc, \"A_\" ]");
-		Assert.assertNull(get("cc"));
+		Assert.assertNull(lookup("cc"));
 		assertEquals(
-				get("A").toValueString(StringTemplate.defaultTemplate), "42");
+				lookup("A").toValueString(StringTemplate.defaultTemplate), "42");
 	}
 
 	@Test
@@ -3541,17 +3533,17 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("A=(0,0,1)", "(0, 0, 1)");
 		t("SetColor[ A, \"lime\" ]");
 		assertEquals(GeoGebraColorConstants.LIME.toString(),
-				get("A").getObjectColor().toString());
+				lookup("A").getObjectColor().toString());
 		t("SetColor[ A, \"orange\"^z(A) ]");
 		assertEquals(GColor.ORANGE.toString(),
-				get("A").getObjectColor().toString());
+				lookup("A").getObjectColor().toString());
 		t("SetColor[ A1, \"orange\"^z(A) ]");
 		t("SetColor[ A, 1, 0, 0 ]");
 		assertEquals(GColor.RED.toString(),
-				get("A").getObjectColor().toString());
+				lookup("A").getObjectColor().toString());
 		t("SetColor[ A, x(A), y(A), z(A) ]");
 		assertEquals(GColor.BLUE.toString(),
-				get("A").getObjectColor().toString());
+				lookup("A").getObjectColor().toString());
 		assertEquals("A,A1",
 				StringUtil.join(",", app.getGgbApi().getAllObjectNames()));
 		assertEquals(2, app.getKernel().getConstruction().steps());
@@ -3599,13 +3591,13 @@ public class CommandsTestCommon extends BaseCommandTest {
 				GColor.BLUE.toString());
 		t("SetBackgroundColor[ txt, \"lime\" ]");
 		assertEquals(GeoGebraColorConstants.LIME.toString(),
-				get("txt").getBackgroundColor().toString());
+				lookup("txt").getBackgroundColor().toString());
 		t("SetBackgroundColor[txt, 0, 1, 0 ]");
 		assertEquals(GColor.GREEN.toString(),
-				get("txt").getBackgroundColor().toString());
+				lookup("txt").getBackgroundColor().toString());
 		t("SetBackgroundColor[ txt, x(A), y(A), z(A) ]");
 		assertEquals(GColor.BLUE.toString(),
-				get("txt").getBackgroundColor().toString());
+				lookup("txt").getBackgroundColor().toString());
 		t("SetBackgroundColor[ A1, \"orange\"^z(A) ]");
 		t("SetBackgroundColor[ A1, 0, 1, 1 ]");
 		assertEquals("txt,A,A1",
@@ -3615,13 +3607,13 @@ public class CommandsTestCommon extends BaseCommandTest {
 	@Test
 	public void cmdSetLevelOfDetail() {
 		t("a:x+y", "x + y");
-		assertEquals(((GeoFunctionNVar) get("a")).getLevelOfDetail(),
+		assertEquals(((GeoFunctionNVar) lookup("a")).getLevelOfDetail(),
 				SurfaceEvaluable.LevelOfDetail.SPEED);
 		t("SetLevelOfDetail(a,0)");
-		assertEquals(((GeoFunctionNVar) get("a")).getLevelOfDetail(),
+		assertEquals(((GeoFunctionNVar) lookup("a")).getLevelOfDetail(),
 				SurfaceEvaluable.LevelOfDetail.SPEED);
 		t("SetLevelOfDetail(a,1)");
-		assertEquals(((GeoFunctionNVar) get("a")).getLevelOfDetail(),
+		assertEquals(((GeoFunctionNVar) lookup("a")).getLevelOfDetail(),
 				SurfaceEvaluable.LevelOfDetail.QUALITY);
 	}
 
@@ -3887,11 +3879,11 @@ public class CommandsTestCommon extends BaseCommandTest {
 
 		t("g3=Surface[(u,v,u),u,-1,1,v,1,3]", "(u, v, u)");
 		assertEquals("\\left(u,\\;v,\\;u \\right)",
-				get("g3").toLaTeXString(false, StringTemplate.latexTemplate));
+				lookup("g3").toLaTeXString(false, StringTemplate.latexTemplate));
 
 		t("g2=Surface[(u,v),u,-1,1,v,1,3]", "(u, v)");
 		assertEquals("\\left(u,\\;v \\right)",
-				get("g2").toLaTeXString(false, StringTemplate.latexTemplate));
+				lookup("g2").toLaTeXString(false, StringTemplate.latexTemplate));
 	}
 
 	@Test
@@ -4173,13 +4165,13 @@ public class CommandsTestCommon extends BaseCommandTest {
 		// the "value" of pie chart is just the command name (no sensible way to define it)
 		t("p1=PieChart({1,2,3})", "PieChart");
 		t("p2=PieChart({1,2,3}, (1,1), 2)", "PieChart");
-		assertThat(get("p2"), isDefined());
+		assertThat(lookup("p2"), isDefined());
 		t("p3=PieChart({1,2,-3})", "PieChart");
-		assertThat(get("p3"), not(isDefined()));
+		assertThat(lookup("p3"), not(isDefined()));
 	}
 
 	private static void checkSize(String string, int cols, int rows) {
-		AlgoTableText parentAlgorithm = (AlgoTableText) get(string).getParentAlgorithm();
+		AlgoTableText parentAlgorithm = (AlgoTableText) lookup(string).getParentAlgorithm();
 		assertNotNull(parentAlgorithm);
 		GDimension d = parentAlgorithm.getSize();
 		if (parentAlgorithm.getAlignment() == 'h') {
@@ -4239,7 +4231,6 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("UnitPerpendicularVector[ Vector((3,4)) ]", "(-0.8, 0.6)");
 		t("UnitPerpendicularVector[ (3,4) ]", "(-0.8, 0.6)");
 		t("UnitPerpendicularVector[ 2x+2y+z=1 ]*3", "(2, 2, 1)");
-		syntaxes -= 2;
 	}
 
 	@Test

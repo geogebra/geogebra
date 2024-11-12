@@ -197,16 +197,4 @@ public class AlgebraTestHelper {
 		return cmd0 == Commands.SolveQuartic || cmd0 == Commands.Evaluate;
 	}
 
-	/**
-	 * @param a
-	 *            command
-	 * @return whether only is in beta
-	 */
-	public static boolean betaCommand(Commands a, boolean includePreviewCommands) {
-		return a == Commands.MatrixPlot || a == Commands.DensityPlot
-				|| a == Commands.Polyhedron
-				|| (a == Commands.ImplicitSurface
-				&& includePreviewCommands);
-	}
-
 }
