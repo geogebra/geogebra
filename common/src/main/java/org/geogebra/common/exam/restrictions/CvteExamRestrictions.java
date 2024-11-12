@@ -285,10 +285,14 @@ final class CvteExamRestrictions extends ExamRestrictions {
 		public boolean isAllowed(Property property, GeoElement geoElement) {
 			if (property instanceof ShowObjectProperty) {
 				// For conic sections
-				if (isConicSection(geoElement)) {
-					// Allow only circles created by command "Circle(<Center>, <Radius>)"
-					// or tool "Circle: Center & Radius"
-                    return geoElement.getParentAlgorithm() instanceof AlgoCirclePointRadius;
+				if (geoElement.isGeoConic()) {
+                    return
+							// Allow circles created by command "Circle(<Center>, <Radius>)"
+							// or tool "Circle: Center & Radius"
+							geoElement.getParentAlgorithm() instanceof AlgoCirclePointRadius
+							// Allow function-like equations like y = x^2 which is equivalent
+							// with f(x) = x^2
+							|| geoElement.hasTableOfValues();
 				}
 
 				// For equations
@@ -312,11 +316,15 @@ final class CvteExamRestrictions extends ExamRestrictions {
 					if (geoElement instanceof GeoLine || geoElement instanceof GeoPlaneND) {
 						return;
 					}
+					// Allow equations that can be described as functions
+					if (geoElement.hasTableOfValues()) {
+						return;
+					}
 					// Restrict the euclidian visibility for every other equation
 					geoElement.setRestrictedEuclidianVisibility(true);
 				}
 
-				if (isConicSection(geoElement)) {
+				if (geoElement.isGeoConic()) {
 					// Allow circles created by command "Circle(<Center>, <Radius>)"
 					// or tool "Circle: Center & Radius"
 					if (geoElement.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
@@ -329,26 +337,26 @@ final class CvteExamRestrictions extends ExamRestrictions {
 		}
 	}
 
-	private static boolean isConicSection(GeoElement geoElement) {
-		if (geoElement.isGeoConic()) {
-			return true;
-		}
-		if (!(geoElement instanceof GeoFunction)) {
-			return false;
-		}
-		GeoFunction geoFunction = (GeoFunction) geoElement;
-		Function function = geoFunction.getFunction();
-		if (function == null) {
-			return false;
-		}
-		ExpressionNode expressionNode = geoFunction.getFunctionExpression();
-		if (expressionNode == null) {
-			return false;
-		}
-		PolyFunction polyFunction = function.expandToPolyFunction(expressionNode, false, true);
-		if (polyFunction == null) {
-			return false;
-		}
-		return polyFunction.getDegree() >= 2;
-	}
+//	private static boolean isConicSection(GeoElement geoElement) {
+//		if (geoElement.isGeoConic()) {
+//			return true;
+//		}
+//		if (!(geoElement instanceof GeoFunction)) {
+//			return false;
+//		}
+//		GeoFunction geoFunction = (GeoFunction) geoElement;
+//		Function function = geoFunction.getFunction();
+//		if (function == null) {
+//			return false;
+//		}
+//		ExpressionNode expressionNode = geoFunction.getFunctionExpression();
+//		if (expressionNode == null) {
+//			return false;
+//		}
+//		PolyFunction polyFunction = function.expandToPolyFunction(expressionNode, false, true);
+//		if (polyFunction == null) {
+//			return false;
+//		}
+//		return polyFunction.getDegree() >= 2;
+//	}
 }
