@@ -101,6 +101,9 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 		ArrayList<ImagePreprocessor> preprocessors = new ArrayList<>();
 
 		int maxImageSize = app.getAppletParameters().getParamMaxImageSize();
+		if (app.getAppletParameters().getDataParamApp() && maxImageSize == 0) {
+			maxImageSize = 1024;
+		}
 		preprocessors.add(new ConvertToCanvas(maxImageSize, vendor.hasBitmapSecurity()));
 		preprocessors.add(new SVGPreprocessor());
 
