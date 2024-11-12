@@ -1,7 +1,14 @@
 package org.geogebra.web.html5.gui.menu;
 
-import javax.annotation.CheckForNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+
+import org.geogebra.common.util.AttributedString;
+import org.geogebra.common.util.Range;
 import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
@@ -11,7 +18,9 @@ import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 
 import elemental2.dom.DomGlobal;
+import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
+import elemental2.dom.Node;
 import elemental2.dom.Text;
 import jsinterop.base.Js;
 
@@ -25,7 +34,7 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	private boolean enabled = true;
 	private boolean focusable = true;
 	private Widget submenuHeading;
-	private Text textNode;
+	private Node textNode;
 	private HTMLElement img;
 
 	/**
@@ -40,6 +49,46 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 		this();
 		setContent(text, icon);
 		this.cmd = cmd;
+	}
+
+	/**
+	 * @param text formatted text
+	 * @param icon icon
+	 * @param cmd item action
+	 */
+	public AriaMenuItem(AttributedString text, @Nullable ResourcePrototype icon,
+			ScheduledCommand cmd) {
+		this();
+		Set<Range> attribute = text.getAttribute(AttributedString.Attribute.Subscript);
+		if (attribute == null) {
+			setContent(text.getRawValue(), icon);
+		} else {
+			setHTMLContent(addSubscript(text.getRawValue(), attribute), icon);
+		}
+		this.cmd = cmd;
+	}
+
+	private Node addSubscript(String rawValue, Set<Range> attribute) {
+		List<Integer> splits = new ArrayList<>();
+		splits.add(0);
+		for (Range range: attribute) {
+			splits.add(range.getStart());
+			splits.add(range.getEnd());
+		}
+		Node span = DomGlobal.document.createElement("span");
+		for (int i = 0; i + 2 < splits.size(); i += 2) {
+			addPlainText(span, rawValue.substring(splits.get(i), splits.get(i + 1)));
+			Element subscript = DomGlobal.document.createElement("sub");
+			subscript.textContent = rawValue.substring(splits.get(i + 1), splits.get(i + 2));
+			span.appendChild(subscript);
+		}
+		addPlainText(span, rawValue.substring(splits.get(splits.size() - 1)));
+		return span;
+	}
+
+	private void addPlainText(Node span, String s) {
+		Text plain = DomGlobal.document.createTextNode(s);
+		span.appendChild(plain);
 	}
 
 	/**
@@ -93,8 +142,12 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	 *            icon
 	 */
 	private void setContent(String text, @CheckForNull ResourcePrototype icon) {
-		getElement().removeAllChildren();
 		this.textNode = DomGlobal.document.createTextNode(text == null ? "" : text);
+		setHTMLContent(textNode, icon);
+	}
+
+	private void setHTMLContent(Node textNode, ResourcePrototype icon) {
+		getElement().removeAllChildren();
 		try {
 			elemental2.dom.Element el = Js.uncheckedCast(getElement());
 			if (icon != null) {

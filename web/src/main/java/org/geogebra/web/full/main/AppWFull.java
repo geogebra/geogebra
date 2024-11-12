@@ -56,7 +56,6 @@ import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
@@ -109,7 +108,6 @@ import org.geogebra.web.full.gui.app.GGWCommandLine;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
-import org.geogebra.web.full.gui.dialog.H5PReader;
 import org.geogebra.web.full.gui.dialog.RelationPaneW;
 import org.geogebra.web.full.gui.exam.ExamControllerDelegateW;
 import org.geogebra.web.full.gui.exam.ExamUtil;
@@ -1669,12 +1667,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public void afterLoadFileAppOrNot(boolean asSlide) {
-		for (GeoElement geo : kernel.getConstruction().getGeoSetConstructionOrder()) {
-			if (geo.hasScripts()) {
-				getAsyncManager().loadAllCommands();
-				break;
-			}
-		}
+		super.afterLoadFileAppOrNot(asSlide);
 
 		if (!getLAF().isSmart()) {
 			removeSplash();
@@ -2119,7 +2112,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				&& getInputPosition() != InputPosition.algebraView) {
 			height += GLookAndFeel.COMMAND_LINE_HEIGHT;
 		}
-		if (getToolbar() != null && getToolbar().isShown()) {
+		if (showToolBar() && !isUnbundledOrWhiteboard()) {
 			height += GLookAndFeel.TOOLBAR_HEIGHT;
 		}
 		if (isWhiteboardActive()) {
@@ -2274,11 +2267,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public void openH5P(File file) {
-		new H5PReader(this).load(file);
-	}
-
-	@Override
 	public SaveController getSaveController() {
 		if (saveController == null) {
 			saveController = new SaveControllerW(this);
@@ -2311,12 +2299,20 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public @Nonnull
-	KeyboardManager getKeyboardManager() {
+	public @Nonnull KeyboardManager getKeyboardManager() {
 		if (keyboardManager == null) {
 			keyboardManager = new KeyboardManager(this);
 		}
 		return keyboardManager;
+	}
+
+	/**
+	 * Updates the keyboard size
+	 */
+	public void resizeKeyboard() {
+		if (keyboardManager != null) {
+			keyboardManager.resizeKeyboard();
+		}
 	}
 
 	@Override

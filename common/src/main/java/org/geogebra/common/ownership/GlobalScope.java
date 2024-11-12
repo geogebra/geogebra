@@ -1,5 +1,6 @@
 package org.geogebra.common.ownership;
 
+import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
@@ -25,10 +26,11 @@ public final class GlobalScope {
 	public static final PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
 	public static final GeoElementPropertiesFactory geoElementPropertiesFactory =
 			new GeoElementPropertiesFactory();
+	public static final ContextMenuFactory contextMenuFactory = new ContextMenuFactory();
 
 	// intentionally assignable (for testing)
 	public static ExamController examController = new ExamController(
-			propertiesRegistry, geoElementPropertiesFactory);
+			propertiesRegistry, geoElementPropertiesFactory, contextMenuFactory);
 
 	/**
 	 * Prevent instantiation.

@@ -27,15 +27,17 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 				null,
 				null,
 				null,
+				null,
 				null);
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
 		CommandNameFilter nameFilter = new CommandNameFilter(true,
 				Commands.Derivative, Commands.NDerivative, Commands.Integral,
-				Commands.IntegralSymbolic, Commands.IntegralBetween, Commands.NIntegral,
-				Commands.Solve, Commands.SolveQuartic, Commands.SolveODE, Commands.SolveCubic,
-				Commands.Solutions, Commands.NSolve, Commands.NSolveODE, Commands.NSolutions);
+				Commands.ImplicitDerivative, Commands.IntegralSymbolic, Commands.IntegralBetween,
+				Commands.NIntegral, Commands.Solve, Commands.SolveQuartic, Commands.SolveODE,
+				Commands.SolveCubic, Commands.Solutions, Commands.NSolve, Commands.NSolveODE,
+				Commands.NSolutions);
 		return Set.of(nameFilter);
 	}
 

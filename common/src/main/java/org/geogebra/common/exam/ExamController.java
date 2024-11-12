@@ -9,6 +9,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
@@ -77,6 +78,9 @@ public final class ExamController {
 	@NonOwning
 	private GeoElementPropertiesFactory geoElementPropertiesFactory;
 
+	@NonOwning
+	private ContextMenuFactory contextMenuFactory;
+
 	private Set<ExamRestrictable> restrictables = new HashSet<>();
 	private ContextDependencies activeDependencies;
 
@@ -97,13 +101,17 @@ public final class ExamController {
 	/**
 	 * Creates a new ExamController.
 	 * @param propertiesRegistry The properties registry.
+	 * @param geoElementPropertiesFactory The properties factory for geo elements.
+	 * @param contextMenuFactory The context menu factory.
 	 * @implNote The ExamController will register itself as a listener on the properties registry.
 	 */
 	public ExamController(
 			@Nonnull PropertiesRegistry propertiesRegistry,
-			@Nonnull GeoElementPropertiesFactory geoElementPropertiesFactory) {
+			@Nonnull GeoElementPropertiesFactory geoElementPropertiesFactory,
+			@Nonnull ContextMenuFactory contextMenuFactory) {
 		this.propertiesRegistry = propertiesRegistry;
 		this.geoElementPropertiesFactory = geoElementPropertiesFactory;
+		this.contextMenuFactory = contextMenuFactory;
 	}
 
 	/**
@@ -518,7 +526,8 @@ public final class ExamController {
 					dependencies.toolsProvider,
 					geoElementPropertiesFactory,
 					dependencies.construction,
-					dependencies.scheduledPreviewFromInputBar);
+					dependencies.scheduledPreviewFromInputBar,
+					contextMenuFactory);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.addCommandFilter(noCASFilter);
 			}
@@ -540,7 +549,8 @@ public final class ExamController {
 					dependencies.toolsProvider,
 					geoElementPropertiesFactory,
 					dependencies.construction,
-					dependencies.scheduledPreviewFromInputBar);
+					dependencies.scheduledPreviewFromInputBar,
+					contextMenuFactory);
 			if (options != null && !options.casEnabled) {
 				dependencies.commandDispatcher.removeCommandFilter(noCASFilter);
 			}

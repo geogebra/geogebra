@@ -85,7 +85,6 @@ import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -449,12 +448,12 @@ public class ConsElementXMLHandler {
 			((GeoAngle) geo).setEmphasizeRightAngle(true);
 		} else if (geo instanceof GeoText) {
 			geo.setBackgroundColor(null);
+		} else if (geo instanceof GeoInputBox) {
+			geo.setBackgroundColor(null);
 		} else if (geo instanceof GeoButton) {
 			geo.setBackgroundColor(GColor.WHITE);
 			geo.setObjColor(GColor.BLACK);
 			((GeoButton) geo).setHeight(DEFAULT_BUTTON_HEIGHT);
-		} else if (geo instanceof GeoInputBox) {
-			geo.setObjColor(GeoGebraColorConstants.NEUTRAL_900);
 		}
 	}
 
@@ -1484,7 +1483,7 @@ public class ConsElementXMLHandler {
 			num.setSliderWidth(StringUtil.parseDouble(attrs.get("width")),
 					true);
 			num.setSliderFixed(MyXMLHandler.parseBoolean(attrs.get("fixed")));
-			num.setShowExtendedAV(
+			num.setAVSliderOrCheckboxVisible(
 					MyXMLHandler.parseBoolean(attrs.get("showAlgebra")));
 
 			num.setSliderHorizontal(
@@ -2023,7 +2022,7 @@ public class ConsElementXMLHandler {
 
 	protected void finish() {
 		if (!sliderTagProcessed && geo.isGeoNumeric()) {
-			((GeoNumeric) geo).setShowExtendedAV(false);
+			((GeoNumeric) geo).setAVSliderOrCheckboxVisible(false);
 		} else if (!fontTagProcessed && geo.isGeoText()) {
 			((TextProperties) geo).setFontSizeMultiplier(1);
 			((TextProperties) geo).setSerifFont(false);

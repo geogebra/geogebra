@@ -259,14 +259,6 @@ public class GeoEmbed extends GeoWidget {
 		return url != null && url.contains("graspablemath.com");
 	}
 
-	/**
-	 *
-	 * @return if it is a H5P content.
-	 */
-	public boolean isH5P() {
-		return "h5p".equals(appName);
-	}
-
 	public Set<Map.Entry<String, String>> getSettings() {
 		return settings.entrySet();
 	}

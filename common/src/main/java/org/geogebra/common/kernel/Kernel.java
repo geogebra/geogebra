@@ -4165,7 +4165,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			storeStateForModeStarting();
 			app.getEventDispatcher()
 					.dispatchEvent(new Event(EventType.REDO));
-			app.setUnAutoSaved();
 		}
 	}
 
@@ -4218,7 +4217,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		notifyReset();
 		app.getCompanion().recallViewCreators();
 		app.batchUpdateEnd();
-		app.setUnAutoSaved();
 	}
 
 	/**
@@ -4249,7 +4247,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				storeStateForModeStarting();
 				app.getEventDispatcher()
 						.dispatchEvent(new Event(EventType.UNDO));
-				app.setUnAutoSaved();
 			}
 		}
 	}

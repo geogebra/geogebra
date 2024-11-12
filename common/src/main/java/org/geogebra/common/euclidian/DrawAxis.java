@@ -13,8 +13,8 @@ import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
@@ -1181,7 +1181,7 @@ public class DrawAxis {
 			// multiplying by 1 does not return a localized number,
 			// so such product needs to be localized here
 			String productLabelNoAxesDist =
-					multiple(view.getAxesDistanceObjects()[axis].getDefinition(), labelno);
+					multiple(view.getAxesDistanceObjects()[axis], labelno);
 			if (shouldBeLocalizedOne(view, labelno)) {
 				return view.kernel.internationalizeDigits(productLabelNoAxesDist,
 						StringTemplate.defaultTemplate);
@@ -1191,7 +1191,7 @@ public class DrawAxis {
 		return view.kernel.formatPiE(
 				DoubleUtil.checkDecimalFraction(
 						labelno * view.axesNumberingDistances[axis]),
-				view.axesNumberFormat[axis], StringTemplate.defaultTemplate);
+				view.axesNumberFormat[axis], StringTemplate.axesTemplate);
 	}
 
 	private static boolean shouldBeLocalizedOne(EuclidianView view, long labelNo) {
@@ -1215,15 +1215,18 @@ public class DrawAxis {
 	}
 
 	/**
-	 * @param definition
-	 *            step definition
+	 * @param stepValue
+	 *            step as a number
 	 * @param labelno
 	 *            step coefficient
-	 * @return description of labelno*definition
+	 * @return description of labelno*stepValue
 	 */
-	public static String multiple(ExpressionNode definition, long labelno) {
-		return definition.multiply(labelno)
-				.toFractionString(StringTemplate.defaultTemplate);
+	public static String multiple(GeoNumberValue stepValue, long labelno) {
+		StringTemplate tpl = stepValue.getAngleDim() == 1
+				? StringTemplate.axesTemplate
+				: StringTemplate.defaultTemplate;
+		return stepValue.getDefinition().multiply(labelno)
+				.toFractionString(tpl);
 	}
 
 	private boolean isCurrencyUnit(int axis) {

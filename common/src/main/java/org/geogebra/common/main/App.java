@@ -393,6 +393,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected HashMap<Integer, Boolean> showConstProtNavigationNeedsUpdate = null;
 	protected HashMap<Integer, Boolean> showConsProtNavigation = null;
 	protected AppCompanion companion;
+	@Deprecated // use PreviewFeature instead
 	protected boolean prerelease;
 
 	private boolean showResetIcon = false;
@@ -450,7 +451,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private ArrayList<String> mLastCommandsSelectedFromHelp;
 	// TODO: move following methods somewhere else
 	private String tubeID = null;
-	private boolean isAutoSaved = true;
 	private AdjustViews adjustViews = null;
 	private AdjustScreen adjustScreen = null;
 	private AdjustScreen adjustScreen2 = null;
@@ -1540,7 +1540,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void setUnsaved() {
 		isSaved = false;
-		isAutoSaved = false;
 		for (SavedStateListener sl : savedListeners) {
 			sl.stateChanged(false);
 		}
@@ -1553,18 +1552,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public final boolean isSaved() {
 		return isSaved || kernel.getConstruction() == null
 				|| !kernel.getConstruction().isStarted();
-	}
-
-	public final boolean isAutoSaved() {
-		return isAutoSaved;
-	}
-
-	public final void setAutoSaved() {
-		isAutoSaved = true;
-	}
-
-	public final void setUnAutoSaved() {
-		isAutoSaved = false;
 	}
 
 	/**
@@ -3710,6 +3697,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            feature
 	 * @return whether it's supported
 	 */
+	// TODO move the check for LOCALSTORAGE_FILES to Web code
+	@Deprecated // use PreviewFeature instead
 	public final boolean has(Feature f) {
 		switch (f) {
 		// **********************************************************************
@@ -4966,6 +4955,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *
 	 * @return true if is prerelease
 	 */
+	@Deprecated // use PreviewFeature instead
 	public boolean isPrerelease() {
 		return prerelease;
 	}
@@ -5223,5 +5213,17 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	@Override
 	public void removeRestrictions(@Nonnull Set<ExamFeatureRestriction> featureRestrictions) {
 		// probably nothing to do here
+	}
+
+	/**
+	 * @return True if the Algebra View is currently focused, false else
+	 */
+	public boolean isAlgebraViewFocused() {
+		GuiManagerInterface guiManager = getGuiManager();
+		if (guiManager == null || guiManager.getLayout() == null
+				|| guiManager.getLayout().getDockManager() == null) {
+			return false;
+		}
+		return guiManager.getLayout().getDockManager().getFocusedViewId() == VIEW_ALGEBRA;
 	}
 }

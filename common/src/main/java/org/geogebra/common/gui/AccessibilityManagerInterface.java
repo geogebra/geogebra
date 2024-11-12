@@ -80,6 +80,8 @@ public interface AccessibilityManagerInterface {
 
 	void register(MayHaveFocus focusable);
 
+	void unregister(MayHaveFocus focusable);
+
 	void setTabOverGeos();
 
 	void readSliderUpdate(GeoNumeric geo);
@@ -93,4 +95,10 @@ public interface AccessibilityManagerInterface {
 	 * Cancels reading the view alt texts
 	 */
 	void cancelReadCollectedAltTexts();
+
+	/**
+	 * Preloads an alt text so it is only read upon change or selection
+	 * @param geoText {@link GeoText}
+	 */
+	void preloadAltText(GeoText geoText);
 }

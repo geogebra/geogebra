@@ -26,6 +26,7 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 	@Test
 	public void testDoesNotFilterCaption() {
 		getApp().setConfig(new AppConfigGraphing());
+		getApp().getKernel().setPrintDecimals(2);
 		String functionString = "g(x) = x";
 		GeoFunction function = addAvInput(functionString);
 		checkCaption(function, GeoElementND.LABEL_NAME_VALUE, functionString);

@@ -89,6 +89,11 @@ public class ItemControls extends FlowPanel
 		}
 	}
 
+	void focusFirstMoreMenuElement() {
+		Scheduler.get().scheduleDeferred(
+				() -> cmMore.wrappedPopup.getPopupMenu().moveSelectionDown());
+	}
+
 	private void showMoreMenuForInput() {
 		GeoElement geo = (GeoElement) ctrl.evaluateToGeo();
 		if (geo == null || geo.isInTree()) {
@@ -159,9 +164,7 @@ public class ItemControls extends FlowPanel
 			return;
 		}
 
-		MenuItemCollection<GeoElement> avMenuItems = radioTreeItem.getApplication()
-				.getCurrentActivity().getAVMenuItems(radioTreeItem.getAV());
-		cmMore = new ContextMenuAVItemMore(radioTreeItem, avMenuItems);
+		cmMore = new ContextMenuAVItemMore(radioTreeItem);
 	}
 
 	/**

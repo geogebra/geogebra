@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -28,7 +29,6 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
-import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.test.commands.ErrorAccumulator;
 import org.junit.Before;
 
@@ -38,8 +38,10 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
             new DefaultPropertiesRegistry();
     protected final GeoElementPropertiesFactory geoElementPropertiesFactory =
             new GeoElementPropertiesFactory();
+    protected final ContextMenuFactory contextMenuFactory =
+            new ContextMenuFactory();
     protected final ExamController examController =
-            new ExamController(propertiesRegistry, geoElementPropertiesFactory);
+            new ExamController(propertiesRegistry, geoElementPropertiesFactory, contextMenuFactory);
 
     protected final List<ExamState> examStates = new ArrayList<>();
     protected final ErrorAccumulator errorAccumulator = new ErrorAccumulator();

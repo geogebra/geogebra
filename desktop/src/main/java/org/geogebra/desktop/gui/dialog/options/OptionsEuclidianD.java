@@ -22,7 +22,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.NumberFormat;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -637,7 +636,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		cbBoldGrid.addActionListener(this);
 
 		cbGridType.removeActionListener(this);
-		cbGridType.setSelectedIndex(Arrays.asList(gridProperty.getValues()).indexOf(gridType));
+		cbGridType.setSelectedIndex(gridProperty.getValues().indexOf(gridType));
 		cbGridType.addActionListener(this);
 	}
 
@@ -856,8 +855,10 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		}
 
 		else if (source == cbGridStyle) {
-			model.applyGridStyle(
-					(Integer) cbGridStyle.getSelectedItem());
+			Object selectedItem = cbGridStyle.getSelectedItem();
+			if (selectedItem instanceof Integer) {
+				model.applyGridStyle((Integer) selectedItem);
+			}
 
 		} else if (source == cbGridManualTick) {
 			model.applyGridManualTick(cbGridManualTick.isSelected());

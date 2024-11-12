@@ -115,7 +115,11 @@ public class RadioTreeItemController implements ClickHandler,
 	}
 
 	protected boolean isMarbleHit(int x, int y) {
-		return item.marblePanel != null && item.marblePanel.isHit(x, y);
+		boolean marbleHit = item.marblePanel != null && item.marblePanel.isHit(x, y);
+		if (marbleHit) {
+			setAlgebraViewAsFocusedPanel();
+		}
+		return marbleHit;
 	}
 
 	protected static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
@@ -171,7 +175,7 @@ public class RadioTreeItemController implements ClickHandler,
 			return;
 		}
 
-		app.getGuiManager().getLayout().getDockManager().setFocusedPanel(App.VIEW_ALGEBRA);
+		setAlgebraViewAsFocusedPanel();
 
 		if (checkEditing()) {
 			// keep focus in editor
@@ -193,6 +197,10 @@ public class RadioTreeItemController implements ClickHandler,
 
 		handleAVItem(event);
 		item.updateButtonPanelPosition();
+	}
+
+	protected void setAlgebraViewAsFocusedPanel() {
+		app.getGuiManager().getLayout().getDockManager().setFocusedPanel(App.VIEW_ALGEBRA);
 	}
 
 	@Override
@@ -673,10 +681,8 @@ public class RadioTreeItemController implements ClickHandler,
 	/**
 	 * @param keepFocus
 	 *            whether focus should stay
-	 * @param createSliders
-	 *            whether to create sliders
 	 */
-	public void onEnter(boolean keepFocus, boolean createSliders) {
+	public void onEnter(boolean keepFocus) {
 		// overridden in subclass
 	}
 

@@ -558,21 +558,20 @@ public class RelativeCopy {
 			}
 			return null;
 		}
-		String text = null;
+		String text;
 
 		// make sure a/0.001 doesn't become a/0
 
 		StringTemplate highPrecision = StringTemplate.maxPrecision;
-		if (value.isPointOnPath() || value.isPointInRegion()) {
+		if ((value.getDefinition() != null && value.getDefinition(highPrecision) != null)
+				|| value.isPointInRegion() || value.isPointOnPath()) {
 			text = value.getDefinition(highPrecision);
-		} else if (value.isChangeable()) {
-			text = value.toValueString(highPrecision);
 		} else {
-			text = value.getDefinition(highPrecision);
+			text = value.toValueString(highPrecision);
 		}
 
 		// handle GeoText source value
-		if (value.isGeoText() && !((GeoText) value).isTextCommand()) {
+		if (value.isGeoText() && !value.isTextCommand()) {
 			// enclose text in quotes if we are copying an independent GeoText,
 			// e.g. "2+3"
 			if (value.isIndependent()) {

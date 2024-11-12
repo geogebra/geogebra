@@ -11,6 +11,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.AsyncManager;
 import org.gwtproject.core.client.Scheduler;
 
 /**
@@ -53,11 +55,9 @@ public class EvaluateInput {
 	/**
 	 * @param keepFocus
 	 *          whether the focus should stay afterwards
-	 * @param forceSliders
-	 *          whether to override default creating sliders
 	 */
-	public void createGeoFromInput(final boolean keepFocus, boolean forceSliders) {
-		evaluate(keepFocus, forceSliders, evaluationCallback(keepFocus));
+	public void createGeoFromInput(final boolean keepFocus) {
+		evaluate(keepFocus, evaluationCallback(keepFocus));
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class EvaluateInput {
 	 *            additional callback that runs after creation.
 	 */
 	public void createGeoFromInput(final AsyncOperation<GeoElementND[]> afterCb) {
-		evaluate(true, false, createEvaluationCallback(afterCb));
+		evaluate(true, createEvaluationCallback(afterCb));
 	}
 
 	/**
@@ -91,30 +91,40 @@ public class EvaluateInput {
 		return textInput ? "\"" + input + "\"" : input;
 	}
 
-	private void evaluate(final boolean keepFocus, boolean forceSliders,
+	private void evaluate(final boolean keepFocus,
 			AsyncOperation<GeoElementND[]> cbEval) {
 		String userInput = getUserInput();
 		String validInput = getValidInput(userInput);
 		String input = getInput(userInput, validInput);
-		boolean withSliders = forceSliders || app.getConfig().hasAutomaticSliders();
+		boolean withSliders = app.getConfig().hasAutomaticSliders();
 
 		ctrl.setInputAsText(false);
 		app.setScrollToShow(true);
 
-		ErrorHandler err = null;
-		if (!ctrl.isInputAsText()) {
-			boolean valid = input.equals(userInput);
-			err = item.getErrorHandler(valid, keepFocus, withSliders);
-		}
+		final ErrorHandler err = getErrorHandler(input, keepFocus, withSliders);
 		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(app, withSliders);
 
 		// undo point stored in callback
-		app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommandNoExceptionHandling(input, false, err,
-						info, cbEval);
+		AsyncManager asyncManager = ((AppW) app).getAsyncManager();
+		asyncManager.scheduleCallback(() -> processAlgebraInput(input, err, info, cbEval));
 		if (!keepFocus) {
 			item.setFocus(false);
 		}
+	}
+
+	ErrorHandler getErrorHandler(String input, boolean keepFocus, boolean withSliders) {
+		if (ctrl.isInputAsText()) {
+			return null;
+		}
+		boolean valid = input.equals(getUserInput());
+		return item.getErrorHandler(valid, keepFocus, withSliders);
+	}
+
+	private void processAlgebraInput(String input, ErrorHandler err, EvalInfo info,
+			AsyncOperation<GeoElementND[]> cbEval) {
+		app.getKernel().getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(input, false, err,
+						info, cbEval);
 	}
 
 	private AsyncOperation<GeoElementND[]> evaluationCallback(final boolean keepFocus) {

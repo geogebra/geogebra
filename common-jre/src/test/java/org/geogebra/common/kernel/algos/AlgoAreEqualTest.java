@@ -22,10 +22,10 @@ public class AlgoAreEqualTest {
 	private static Construction cons;
 
 	/**
-	 * Setup the app
+	 * Set up the app
 	 */
 	@BeforeClass
-	public static void setup() {
+	public static void setUp() {
 		app = AppCommonFactory.create();
 		cons = app.getKernel().getConstruction();
 	}

@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.algebra;
 
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.algos.GetCommand;
@@ -22,9 +23,9 @@ import org.geogebra.common.util.DoubleUtil;
  * @author Mathieu
  *
  */
-public class SuggestionRootExtremum extends Suggestion {
+public class SuggestionIntersectExtremum extends Suggestion {
 
-	private static Suggestion INSTANCE = new SuggestionRootExtremum();
+	private static Suggestion INSTANCE = new SuggestionIntersectExtremum();
 
 	@Override
 	public String getCommand(Localization loc) {
@@ -44,15 +45,9 @@ public class SuggestionRootExtremum extends Suggestion {
 		AlgebraProcessor algebraProcessor = geo.getKernel().getAlgebraProcessor();
 
 		if (neededAlgos[0]) {
-			if (!isSymbolicMode) {
-				processCommand(algebraProcessor, "Root[" + geo.getLabelSimple() + "]", false);
-			} else {
-				cmd = "Intersect[" + geo.getLabelSimple() + ","
-						+ geo.getKernel().getLocalization().getMenu("xAxis")
-						+ "]";
-				processCommand(algebraProcessor, cmd, true);
-			}
+			intersect(geo);
 		}
+
 		if (neededAlgos[1]) {
 			cmd = "Extremum[" + geo.getLabelSimple() + "]";
 			processCommand(algebraProcessor, cmd, isSymbolicMode);
@@ -63,6 +58,42 @@ public class SuggestionRootExtremum extends Suggestion {
 					+ "]";
 			processCommand(algebraProcessor, cmd, isSymbolicMode);
 		}
+	}
+
+	private void intersect(GeoElementND geo) {
+		PolyFunction polynomial = getPolynomial(geo);
+		AlgebraProcessor algebraProcessor = geo.getKernel().getAlgebraProcessor();
+		StringBuilder sb = new StringBuilder();
+		sb.append("Intersect[");
+		sb.append(geo.getLabelSimple());
+		sb.append(", ");
+		if (polynomial != null) {
+			sb.append(geo.getKernel().getLocalization().getMenu("xAxis"));
+		} else {
+			GRectangle bounds =
+					geo.getKernel().getApplication().getActiveEuclidianView().getBounds();
+			sb.append("y = 0, ");
+			sb.append(bounds.getMinX());
+			sb.append(", ");
+			sb.append(bounds.getMaxX());
+		}
+		sb.append("]");
+		processCommand(algebraProcessor, sb.toString(), false);
+
+	}
+
+	private PolyFunction getPolynomial(GeoElementND geo) {
+		if (!(geo instanceof GeoFunctionable)) {
+			return null;
+		}
+		Function function = ((GeoFunctionable) geo).getFunction();
+		if (function == null) {
+			return null;
+		}
+
+		PolyFunction poly = function.expandToPolyFunction(
+				function.getFunctionExpression(), false, true);
+		return poly;
 	}
 
 	protected void processCommand(AlgebraProcessor algebraProcessor, String cmd,
@@ -141,14 +172,14 @@ public class SuggestionRootExtremum extends Suggestion {
 	@Override
 	protected boolean allAlgosExist(GetCommand className, GeoElement[] input,
 			boolean[] algosMissing) {
-		if (className == Commands.Roots || className == Commands.Root
-				|| (className == Commands.Intersect && containsLabel(input, "xAxis"))) {
+		boolean withYAxis = containsLabel(input, "yAxis");
+		if (className == Commands.Intersect && !withYAxis) {
 			algosMissing[0] = false;
 		}
 		if (className == Commands.Extremum) {
 			algosMissing[1] = false;
 		}
-		if (className == Commands.Intersect && containsLabel(input, "yAxis")) {
+		if (className == Commands.Intersect && withYAxis) {
 			algosMissing[2] = false;
 		}
 		return !algosMissing[0] && !algosMissing[1] && !algosMissing[2];

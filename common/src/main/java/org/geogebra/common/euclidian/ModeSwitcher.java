@@ -57,10 +57,6 @@ public class ModeSwitcher {
 			getDialogManager().showEmbedDialog();
 			break;
 
-		case EuclidianConstants.MODE_H5P:
-			getDialogManager().showH5PDialog();
-			break;
-
 		case EuclidianConstants.MODE_RULER:
 		case EuclidianConstants.MODE_PROTRACTOR:
 		case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:

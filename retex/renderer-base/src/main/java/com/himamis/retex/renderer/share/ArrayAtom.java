@@ -169,7 +169,8 @@ public class ArrayAtom extends Atom {
 
 		final double[] seps = getColumnSep(env, 0. /* not used */);
 		final double[] hseps = getSepForColumns(seps);
-
+		final double baselineskip = env.lengthSettings().getLength("baselineskip",
+				env);
 		for (int j = 0; j < col; ++j) {
 			TeXLength length = options.getMinWidth(j);
 			if (length != null) {
@@ -181,10 +182,12 @@ public class ArrayAtom extends Atom {
 			rowHeight[i] = hinit;
 			for (int j = 0; j < col; ++j) {
 				final Atom at = matrix.get(i, j);
-				final Box b = (at == null) ? StrutBox.getEmpty()
+				Box b = (at == null) ? StrutBox.getEmpty()
 						: at.createBox(env);
+				if (options.isFlowText(j) && b.type != TeXConstants.TYPE_MULTICOLUMN) {
+					b = BreakFormula.split(b, colWidth[j], baselineskip, TeXConstants.Align.LEFT);
+				}
 				boxarr[i][j] = b;
-
 				rowDepth[i] = Math.max(b.getDepth(), rowDepth[i]);
 				rowHeight[i] = Math.max(b.getHeight(), rowHeight[i]);
 

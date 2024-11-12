@@ -13,8 +13,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 
-public class MmsExamRestrictions
-		extends ExamRestrictions {
+public class MmsExamRestrictions extends ExamRestrictions {
 
 	/**
 	 * Restrictions for IQB MMS
@@ -27,6 +26,7 @@ public class MmsExamRestrictions
 				null,
 				null,
 				Set.of(createCommandFilter()),
+				null,
 				null,
 				null,
 				null,

@@ -31,13 +31,10 @@ import org.geogebra.web.html5.main.Clipboard;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.dom.client.Element;
 
-import com.himamis.retex.editor.web.DocumentUtil;
-
 import elemental2.core.Global;
 import elemental2.core.JsArray;
 import elemental2.dom.Blob;
 import elemental2.dom.BlobPropertyBag;
-import elemental2.dom.CSSProperties;
 import elemental2.dom.ClipboardEvent;
 import elemental2.dom.DataTransfer;
 import elemental2.dom.DomGlobal;
@@ -45,7 +42,6 @@ import elemental2.dom.EventListener;
 import elemental2.dom.EventTarget;
 import elemental2.dom.FileReader;
 import elemental2.dom.HTMLImageElement;
-import elemental2.dom.HTMLTextAreaElement;
 import elemental2.dom.Response;
 import elemental2.dom.URL;
 import elemental2.promise.Promise;
@@ -57,6 +53,8 @@ public class CopyPasteW extends CopyPaste {
 	private static final String pastePrefix = "ggbpastedata";
 
 	private static final int defaultTextWidth = 300;
+	private static boolean collectCopyCalls = false;
+	private static final List<String> copyQueue = new ArrayList<>();
 
 	/**
 	 * @param data copied data
@@ -105,6 +103,24 @@ public class CopyPasteW extends CopyPaste {
 		}
 	}
 
+	/**
+	 * Start collecting copy actions triggered by a click
+	 */
+	public static void startCollectingCopyCalls() {
+		collectCopyCalls = true;
+	}
+
+	/**
+	 * Execute all collected copy actions that happened since last pointer down
+	 */
+	public static void stopCollectingCopyCalls() {
+		if (collectCopyCalls) {
+			collectCopyCalls = false;
+			copyQueue.forEach(CopyPasteW::writeToExternalClipboard);
+			copyQueue.clear();
+		}
+	}
+
 	@Override
 	public void copyToXML(App app, List<GeoElement> geos) {
 		String textToSave = InternalClipboard.getTextToSave(app, geos, Global::escape);
@@ -128,8 +144,12 @@ public class CopyPasteW extends CopyPaste {
 	 * @param toWrite string to be copied
 	 */
 	public static void writeToExternalClipboard(String toWrite) {
+		if (collectCopyCalls) {
+			copyQueue.add(toWrite);
+			return;
+		}
 		if (copyToExternalSupported()) {
-			// Supported in Chrome
+			// Supported in Chrome, Safari
 			BlobPropertyBag bag =
 					BlobPropertyBag.create();
 			bag.setType("text/plain");
@@ -156,31 +176,8 @@ public class CopyPasteW extends CopyPaste {
 				return null;
 			});
 		} else {
-			// Supported in Safari
-
-			HTMLTextAreaElement copyFrom = getHiddenTextArea();
-			copyFrom.value = toWrite;
-			copyFrom.select();
-			DocumentUtil.copySelection();
-			DomGlobal.setTimeout((ignore) -> DomGlobal.document.body.focus(), 0);
+			Log.debug("Copy not supported");
 		}
-	}
-
-	private static HTMLTextAreaElement getHiddenTextArea() {
-		HTMLTextAreaElement hiddenTextArea = Js.uncheckedCast(
-				DomGlobal.document.getElementById("hiddenCopyPasteTextArea"));
-		if (Js.isFalsy(hiddenTextArea)) {
-			hiddenTextArea = Js.uncheckedCast(DomGlobal.document.createElement("textarea"));
-			hiddenTextArea.id = "hiddenCopyPasteTextArea";
-			hiddenTextArea.style.position = "absolute";
-			hiddenTextArea.style.width = CSSProperties.WidthUnionType.of("10px");
-			hiddenTextArea.style.height = CSSProperties.HeightUnionType.of("10px");
-			hiddenTextArea.style.zIndex = CSSProperties.ZIndexUnionType.of(100);
-			hiddenTextArea.style.left = "-1000px";
-			hiddenTextArea.style.top = "0px";
-			DomGlobal.document.body.appendChild(hiddenTextArea);
-		}
-		return Js.uncheckedCast(hiddenTextArea);
 	}
 
 	private static void saveToClipboard(String toSave) {

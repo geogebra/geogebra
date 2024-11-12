@@ -1773,7 +1773,6 @@ public class Construction {
 		int pos = consXML.indexOf(oldXML);
 		if (pos < 0) {
 			Log.debug("replace failed: oldXML string not found:\n" + oldXML);
-			// Application.debug("consXML=\n" + consXML);
 			return false;
 		}
 
