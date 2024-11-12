@@ -157,7 +157,7 @@ public interface EmbedManager {
 
 	/**
 	 * Add embedded suite calc
-	 * @param appCode - preselected app
+	 * @param subApp - preselected app
 	 */
-	void addSuiteCalcWithPreselectedAppCode(String appCode);
+	void addSuiteCalcWithPreselectedApp(String subApp);
 }

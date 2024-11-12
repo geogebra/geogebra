@@ -682,9 +682,9 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	@Override
-	public void addSuiteCalcWithPreselectedAppCode(String appCode) {
+	public void addSuiteCalcWithPreselectedApp(String subApp) {
 		final GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
-		ge.setAppName(appCode);
+		ge.setAppName(subApp);
 		EuclidianView view = app.getActiveEuclidianView();
 		ge.initDefaultPosition(view);
 		initAppEmbed(ge);
