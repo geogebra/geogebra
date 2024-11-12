@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import java.util.List;
 
-import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.InputContextMenuItem;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;

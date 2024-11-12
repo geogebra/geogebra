@@ -167,7 +167,8 @@ public class AlgebraContextMenuTests {
 						DuplicateInput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(add("Slider(-5,5,1)"), algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(
+						add("Slider(-5,5,1)"), algebraProcessor, appCode)
 		);
 	}
 
@@ -205,7 +206,8 @@ public class AlgebraContextMenuTests {
 						DuplicateInput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(add("Slider(0, 5, 1)"), algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(
+						add("Slider(0, 5, 1)"), algebraProcessor, appCode)
 		);
 	}
 

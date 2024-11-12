@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.TableValuesContextMenuItem;
 import org.geogebra.common.gui.view.table.RegressionSpecification;
 import org.geogebra.common.gui.view.table.TableUtil;
