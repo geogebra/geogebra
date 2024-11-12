@@ -31,6 +31,7 @@ public class IconButtonWithMenu extends IconButton {
 
 		AriaHelper.setAriaHasPopup(this);
 		addFastClickHandler((event) -> {
+			toolbox.setLastSelectedButtonWithMenu(isActive() ? this : null);
 			deselectButtons.run();
 			initPopupAndShow(toolbox);
 		});
