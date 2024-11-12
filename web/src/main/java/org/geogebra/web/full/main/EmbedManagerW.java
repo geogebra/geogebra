@@ -41,6 +41,7 @@ import org.geogebra.web.full.main.embed.CalcEmbedElement;
 import org.geogebra.web.full.main.embed.EmbedElement;
 import org.geogebra.web.full.main.embed.GraspableEmbedElement;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.ScriptManagerW;
@@ -684,7 +685,8 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	@Override
 	public void addSuiteCalcWithPreselectedApp(String subApp) {
 		final GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
-		ge.setAppName(subApp);
+		ge.setAppName(SUITE_APPCODE);
+		BrowserStorage.LOCAL.setItem(BrowserStorage.LAST_USED_SUB_APP, subApp);
 		EuclidianView view = app.getActiveEuclidianView();
 		ge.initDefaultPosition(view);
 		initAppEmbed(ge);
