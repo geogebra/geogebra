@@ -265,7 +265,8 @@ public class AlgebraContextMenuTests {
 						DuplicateInput,
 						Delete,
 						Settings),
-				contextMenuFactory.makeAlgebraContextMenu(kernel.lookupLabel("slider"), algebraProcessor, appCode)
+				contextMenuFactory.makeAlgebraContextMenu(
+						kernel.lookupLabel("slider"), algebraProcessor, appCode)
 		);
 	}
 
