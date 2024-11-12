@@ -52,8 +52,8 @@ public class ContextMenuAVPlus implements SetLabels {
 
 	private void buildGUI() {
 		wrappedPopup.clearItems();
-		List<InputContextMenuItem> items = ContextMenuFactory.makeInputContextMenu(true,
-				hasImageItem());
+		List<InputContextMenuItem> items = GlobalScope.contextMenuFactory
+				.makeInputContextMenu(true, hasImageItem());
 		for (InputContextMenuItem item: items) {
 			wrappedPopup.addItem(new AriaMenuItem(item.getLocalizedTitle(loc),
 					ImageMap.get(item.getIcon()), () -> execute(item)));
