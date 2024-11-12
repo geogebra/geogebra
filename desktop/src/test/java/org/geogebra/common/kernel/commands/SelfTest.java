@@ -32,7 +32,7 @@ public class SelfTest {
 							.getTable() != CommandsConstants.TABLE_ENGLISH
 					&& Commands.englishToInternal(a)
 							.getTable() != CommandsConstants.TABLE_CAS
-					&& !AlgebraTestHelper.betaCommand(a, app)) {
+					&& !AlgebraTestHelper.betaCommand(a, true)) {
 				missing.append(a.getCommand());
 				missing.append("\n");
 			}

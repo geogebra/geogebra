@@ -11,9 +11,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
@@ -22,11 +19,9 @@ import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
-import org.geogebra.common.kernel.algos.AlgoIntersectPolyLines;
 import org.geogebra.common.kernel.algos.AlgoTableText;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -35,16 +30,12 @@ import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.commands.AlgebraTestHelper;
-import org.geogebra.test.commands.CommandSignatures;
-import org.hamcrest.Matcher;
 import org.hamcrest.core.StringContains;
 import org.junit.After;
 import org.junit.Assert;
@@ -55,52 +46,7 @@ import org.mockito.Mockito;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class CommandsTestCommon {
-	static AppCommon3D app;
-	static AlgebraProcessor ap;
-	static List<Integer> signature;
-	protected static int syntaxes = -1000;
-
-	protected static void tRound(String s, String... expected) {
-		t(s, StringTemplate.editTemplate, expected);
-	}
-
-	protected static void t(String s, String... expected) {
-		testSyntax(s, AlgebraTestHelper.getMatchers(expected), app, ap,
-				StringTemplate.xmlTemplate);
-	}
-
-	protected static void t(String s, StringTemplate tpl, String... expected) {
-		testSyntax(s, AlgebraTestHelper.getMatchers(expected), app, ap,
-				tpl);
-	}
-
-	protected static void t(String s, Matcher<String> expected) {
-		testSyntax(s, Collections.singletonList(expected), app, ap,
-				StringTemplate.xmlTemplate);
-	}
-
-	protected static void testSyntax(String s, List<Matcher<String>> expected,
-			App app1, AlgebraProcessor proc, StringTemplate tpl) {
-		app1.getEuclidianView1().getEuclidianController().clearZoomerAnimationListeners();
-		if (syntaxes == -1000) {
-			Throwable t = new Throwable();
-			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);
-			try {
-				Commands.valueOf(cmdName);
-			} catch (Exception e) {
-				cmdName = t.getStackTrace()[3].getMethodName().substring(3);
-			}
-
-			signature = CommandSignatures.getSignature(cmdName, app1);
-			if (signature != null) {
-				syntaxes = signature.size();
-			}
-			Log.debug(cmdName);
-		}
-		syntaxes--;
-		AlgebraTestHelper.checkSyntaxSingle(s, expected, proc, tpl);
-	}
+public class CommandsTestCommon extends BaseCommandTest {
 
 	@Before
 	public void resetSyntaxes() {
@@ -128,20 +74,6 @@ public class CommandsTestCommon {
 	public static void checkSyntaxesStatic() {
 		assertTrue("unchecked syntaxes: " + syntaxes + signature,
 				syntaxes <= 0);
-	}
-
-	/**
-	 * Create the app
-	 */
-	@BeforeClass
-	public static void setupApp() {
-		app = AppCommonFactory.create3D();
-		ap = app.getKernel().getAlgebraProcessor();
-		app.setRandomSeed(42);
-	}
-
-	protected static GeoElement get(String label) {
-		return app.getKernel().lookupLabel(label);
 	}
 
 	protected static String deg(String string) {
@@ -273,37 +205,6 @@ public class CommandsTestCommon {
 		t("SetValue(e2,X = (0, 0, 0) + t (0, 1, 0))");
 		t("g", "X = (0, 0, 0) + "
 				+ Unicode.lambda + " (1, -1, 0)");
-	}
-
-	private static void intersect(String arg1, String arg2, boolean num,
-			String... results) {
-		intersect(arg1, arg2, num, num, results);
-	}
-
-	private static void intersect(String arg1, String arg2, boolean num,
-			boolean closest, String... results) {
-		app.getKernel().clearConstruction(true);
-		app.getKernel().getConstruction().setSuppressLabelCreation(false);
-		tRound("its:=Intersect(" + arg1 + "," + arg2 + ")", results);
-		GeoElement geo = get("its") == null ? get("its_1") : get("its");
-		boolean symmetric = geo != null
-				&& !(geo.getParentAlgorithm() instanceof AlgoIntersectPolyLines
-				&& geo.getParentAlgorithm().getOutput(0)
-				.getGeoClassType() == geo.getParentAlgorithm()
-				.getOutput(1).getGeoClassType());
-		if (symmetric) {
-			tRound("Intersect(" + arg2 + "," + arg1 + ")", results);
-		}
-		if (num) {
-			tRound("Intersect(" + arg1 + "," + arg2 + ",1)", results[0]);
-			if (symmetric) {
-				tRound("Intersect(" + arg2 + "," + arg1 + ",1)", results[0]);
-			}
-		}
-		if (closest) {
-			tRound("Intersect(" + arg1 + "," + arg2 + "," + results[0] + ")",
-					results[0]);
-		}
 	}
 
 	@Test
@@ -1922,14 +1823,6 @@ public class CommandsTestCommon {
 	}
 
 	@Test
-	public void cmdImplicitSurface() {
-		if (PreviewFeature.isAvailable(PreviewFeature.IMPLICIT_SURFACES)) {
-			t("ImplicitSurface[sin(x)+sin(y)+sin(z)]",
-					"sin(x) + sin(y) + sin(z) = 0");
-		}
-	}
-
-	@Test
 	public void cmdIncircle() {
 		t("Incircle[ (1,1),(2,1/2),(3,1/3) ]",
 				"(x - 2.0245848862665516)² + (y - 0.575603044305899)² = 0.006180493369736152");
@@ -2030,10 +1923,6 @@ public class CommandsTestCommon {
 				false, "(1, 1)");
 		intersect("Segment((0,0),(0,5))", "x^2+y^2+z^2=4",
 				false, "(?, ?, ?)", "(0, 2, 0)");
-		if (PreviewFeature.isAvailable(PreviewFeature.IMPLICIT_SURFACES)) {
-			intersect("x^4+y^4+z^4=2", "x=y", false, "(-1, -1, 0)",
-					"(1, 1, 0)");
-		}
 	}
 
 	@Test

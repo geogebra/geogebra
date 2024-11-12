@@ -22,7 +22,7 @@ public class SyntaxLocalizationTest {
 					.getSignature(cmd.name(), app);
 			int size = signature == null ? 0 : signature.size();
 			if (cmd.getTable() == CommandsConstants.TABLE_CAS
-					|| AlgebraTestHelper.betaCommand(cmd, app)) {
+					|| AlgebraTestHelper.betaCommand(cmd, false)) {
 				continue;
 			}
 			if (cmd.getTable() == CommandsConstants.TABLE_ENGLISH) {
