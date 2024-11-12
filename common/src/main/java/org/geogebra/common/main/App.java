@@ -393,6 +393,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected HashMap<Integer, Boolean> showConstProtNavigationNeedsUpdate = null;
 	protected HashMap<Integer, Boolean> showConsProtNavigation = null;
 	protected AppCompanion companion;
+	@Deprecated // use PreviewFeature instead
 	protected boolean prerelease;
 
 	private boolean showResetIcon = false;
@@ -3696,6 +3697,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            feature
 	 * @return whether it's supported
 	 */
+	// TODO move the check for LOCALSTORAGE_FILES to Web code
+	@Deprecated // use PreviewFeature instead
 	public final boolean has(Feature f) {
 		switch (f) {
 		// **********************************************************************
@@ -4952,6 +4955,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *
 	 * @return true if is prerelease
 	 */
+	@Deprecated // use PreviewFeature instead
 	public boolean isPrerelease() {
 		return prerelease;
 	}

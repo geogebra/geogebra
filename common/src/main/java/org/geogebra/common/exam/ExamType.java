@@ -15,6 +15,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
 
 public enum ExamType {
@@ -248,11 +249,15 @@ public enum ExamType {
 	private boolean isAvailable() {
 		switch (this) {
 		case CVTE:
-		case MMS:
+			return PreviewFeature.isAvailable(PreviewFeature.CVTE_EXAM);
 		case IB:
+			return PreviewFeature.isAvailable(PreviewFeature.IB_EXAM);
+		case MMS:
+			return PreviewFeature.isAvailable(PreviewFeature.MMS_EXAM);
 		case REALSCHULE:
-			return false; // TODO feature flag goes here
-		default: return true;
+			return PreviewFeature.isAvailable(PreviewFeature.REALSCHULE_EXAM);
+		default:
+			return true;
 		}
 	}
 }
