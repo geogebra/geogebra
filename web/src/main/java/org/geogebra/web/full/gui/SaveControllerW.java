@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui;
 
 import java.util.List;
 
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.MaterialsManager;
@@ -441,12 +440,13 @@ public class SaveControllerW implements SaveController {
 			}
 
 			private void saveLocalIfNeeded(long modified, SaveState state) {
-				if (isWorksheet() && (getAppW().getFileManager().shouldKeep(0)
-						|| getAppW().has(Feature.LOCALSTORAGE_FILES)
+				FileManager fileManager = (FileManager) getAppW().getFileManager();
+				if (isWorksheet() && (fileManager.shouldKeep(0)
+						|| fileManager.isOfflinePlatform()
 						|| state == SaveState.ERROR)) {
 					getAppW().getKernel().getConstruction()
 							.setTitle(getFileName());
-					((FileManager) getAppW().getFileManager()).saveFile(base64,
+					fileManager.saveFile(base64,
 							modified, new SaveCallback(getAppW(), state));
 				} else {
 					SaveCallback.onSaved(getAppW(), state, false);

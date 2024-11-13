@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.PreviewFeature;
 
 /**
  * 
@@ -71,7 +71,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 
 		compute();
 
-		if (kernel.getApplication().has(Feature.GEOMETRIC_DISCOVERY)) {
+		if (PreviewFeature.isAvailable(PreviewFeature.GEOMETRIC_DISCOVERY)) {
 			if (r.getLabelSimple() != null || r.getParentAlgorithm() instanceof AlgoRadius) {
 				autoColor();
 			}

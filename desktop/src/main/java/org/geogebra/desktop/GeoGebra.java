@@ -16,6 +16,7 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.net.URL;
 
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.main.AppD;
@@ -41,8 +42,11 @@ public class GeoGebra {
 		if (!args.getBooleanValue("showSplash", true)) {
 			showSplash = false;
 		}
+		if (args.containsArg("prerelease")) {
+			PreviewFeature.setPreviewFeaturesEnabled(true);
+			Log.warn("!!! Running with --prerelease");
+		}
 		if (args.containsArg("startHttpServer")) {
-			Log.error("startHttpServer");
 			new GeoGebraServer().start();
 			return;
 		}
