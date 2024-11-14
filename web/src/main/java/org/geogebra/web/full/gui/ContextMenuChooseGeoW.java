@@ -111,7 +111,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	private void addMetas(GeoElement geo1, GeoElement geoSelected,
 			TreeSet<GeoElement> metaElements) {
 		for (GeoElement meta : ((FromMeta) geo1).getMetas()) {
-			if (!metaElements.contains(meta) && (meta != geoSelected)) {
+			if (!metaElements.contains(meta)) {
 				tmpAnotherMenuItemList.add(meta);
 			}
 		}

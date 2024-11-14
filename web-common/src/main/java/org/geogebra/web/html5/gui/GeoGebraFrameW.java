@@ -222,9 +222,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		} else {
 			setHeightWithTallHeader();
 		}
-		if (app != null) {
-			app.adjustScreen(false);
-		}
 	}
 
 	/**

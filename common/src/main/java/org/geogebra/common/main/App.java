@@ -4350,31 +4350,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Adjust widgets on screen.
-	 *
-	 * @param reset
-	 *            whether to reset the stored offsets
-	 */
-	public void adjustScreen(boolean reset) {
-		if (adjustScreen == null) {
-			adjustScreen = new AdjustScreen(getEuclidianView1());
-		}
-		if (!reset) {
-			adjustScreen.restartButtons();
-		}
-		adjustScreen.apply(reset);
-		if (this.hasEuclidianView2(1)) {
-			if (adjustScreen2 == null) {
-				adjustScreen2 = new AdjustScreen(getEuclidianView2(1));
-			}
-			if (!reset) {
-				adjustScreen2.restartButtons();
-			}
-			adjustScreen2.apply(reset);
-		}
-	}
-
-	/**
 	 * Adjusts Algebra and Euclidian View next to or bellow each other
 	 * (Portrait) according to app size.
 	 *
@@ -4387,10 +4362,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (adjustViews == null) {
 			adjustViews = new AdjustViews(this);
 		}
-
 		adjustViews.apply(force);
-		adjustScreen(reset);
-
 		return adjustViews.isPortait();
 	}
 
