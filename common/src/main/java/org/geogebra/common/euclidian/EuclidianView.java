@@ -6145,6 +6145,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public void screenChanged() {
+		// ignore
 	}
 
 	public AutoCompleteTextField getTextField() {
