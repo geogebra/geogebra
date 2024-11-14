@@ -450,8 +450,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// TODO: move following methods somewhere else
 	private String tubeID = null;
 	private AdjustViews adjustViews = null;
-	private AdjustScreen adjustScreen = null;
-	private AdjustScreen adjustScreen2 = null;
 	final static public long CE_ID_COUNTER_START = 1;
 	private long ceIDcounter = CE_ID_COUNTER_START;
 	private int nextVariableID = 1;

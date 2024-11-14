@@ -101,15 +101,14 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 			if (geo1 != geoSelected && geo1 != app.getKernel().getXOYPlane()) {
 				tmpAnotherMenuItemList.add(geo1);
 				if (geo1.getMetasLength() > 0) {
-					addMetas(geo1, geoSelected, metaElements);
+					addMetas(geo1, metaElements);
 				}
 			}
 		}
 
 	}
 
-	private void addMetas(GeoElement geo1, GeoElement geoSelected,
-			TreeSet<GeoElement> metaElements) {
+	private void addMetas(GeoElement geo1, TreeSet<GeoElement> metaElements) {
 		for (GeoElement meta : ((FromMeta) geo1).getMetas()) {
 			if (!metaElements.contains(meta)) {
 				tmpAnotherMenuItemList.add(meta);
