@@ -3142,9 +3142,13 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public boolean containsFreeFunctionVariable(String name) {
 		return checkForFreeVars(left, name)
+				|| (operation == Operation.IF_LIST
+						&& left instanceof MyList && ((ValidExpression) left)
+								.containsFunctionVariable(name))
 				|| (right != null && checkForFreeVars(right, name))
 				|| ((operation == Operation.FUNCTION_NVAR
-						|| operation == Operation.ELEMENT_OF)
+						|| operation == Operation.ELEMENT_OF
+						|| operation == Operation.IF_LIST)
 						&& right instanceof MyList && ((ValidExpression) right)
 								.containsFunctionVariable(name));
 	}
@@ -3449,7 +3453,7 @@ public class ExpressionNode extends ValidExpression
 	 * @return this as fraction
 	 */
 	public String toFractionString(StringTemplate tpl) {
-		initFraction();
+		initFraction(tpl.allowPiHack());
 		return ((ExpressionNode) resolve).toFractionStringFlat(tpl,
 				kernel.getLocalization());
 	}
@@ -3458,7 +3462,7 @@ public class ExpressionNode extends ValidExpression
 	 * @return Whether this is a fraction (also true for 1/2+1/3)
 	 */
 	public boolean isFraction() {
-		initFraction();
+		initFraction(true);
 		return resolve.isOperation(Operation.DIVIDE);
 	}
 	
@@ -3469,9 +3473,9 @@ public class ExpressionNode extends ValidExpression
 		return isFraction() && !resolve.inspect(Inspecting.SpecialDouble.INSTANCE);
 	}
 
-	private void initFraction() {
+	private void initFraction(boolean allowPi) {
 		if (resolve == null || !resolve.isExpressionNode()) {
-			resolve = Fractions.getResolution(this, kernel, true);
+			resolve = Fractions.getResolution(this, kernel, allowPi);
 		}
 	}
 
@@ -3487,10 +3491,11 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
+	 * May return a simple fraction or a fraction (a*pi)/b, where a,b are integers.
 	 * @return simplified fraction if this is one; null otherwise
 	 */
 	public ExpressionNode asFraction() {
-		initFraction();
+		initFraction(true);
 		if (resolve.isExpressionNode()) {
 			return resolve.wrap();
 		}

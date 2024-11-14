@@ -28,7 +28,7 @@ public class StrokeSplittingTest extends BaseEuclidianControllerTest {
 
 	@Before
 	public void setupApp() {
-		getApp().setConfig(new AppConfigNotes());
+		getApp().setNotesConfig();
 		getApp().setUndoActive(true);
 	}
 

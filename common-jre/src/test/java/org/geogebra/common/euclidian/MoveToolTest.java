@@ -89,7 +89,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	@Test
 	public void casListShouldNotBeMoveable() {
 		MockCASGiac mockGiac = setupGiac();
-		mockGiac.memmorize("{(1, -1), (1, 1)}");
+		mockGiac.memorize("{(1, -1), (1, 1)}");
 		GeoCasCell f = new GeoCasCell(getConstruction());
 		getConstruction().addToConstructionList(f, false);
 		f.setInput("l5:=Intersect(x^2+y^2=2,(x-2)^2+y^2=2)");
@@ -104,7 +104,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	@Test
 	public void casFreeListShouldNotBeMoveable() {
 		MockCASGiac mockGiac = setupGiac();
-		mockGiac.memmorize("{(1, -1), (1, 1)}");
+		mockGiac.memorize("{(1, -1), (1, 1)}");
 		GeoCasCell f = new GeoCasCell(getConstruction());
 		getConstruction().addToConstructionList(f, false);
 		f.setInput("l5:={(1, -1), (1, 1)}");
@@ -149,6 +149,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	public void moveWithMouseShouldChangePolygon1() {
 		add("A = (0,0)");
 		add("q = Polygon(A, (0,-1), 4)");
+		add("SetVisibleInView(B,1,false)");
 		dragStart(50, 50);
 		dragEnd(100, 150);
 		checkContent("A = (1, -2)", "q = 1", "f = 1", "g = 1", "B = (2, -3)",

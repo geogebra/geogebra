@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewBoundsImp;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -164,6 +165,9 @@ public class CurveSegmentPlotter {
 		do {
 			info.update(evalLeft, evalRight, params.diff, params.prevDiff, curve);
 			// bisect interval as long as max bisection depth not reached & ...
+			if (curve instanceof GeoCurveCartesianND) {
+				curve.updateExpandedFunctions();
+			}
 			while (params.hasNotReachedMaxDepth()
 					&& info.hasNotReachedMinStep()
 					&& (info.isDistanceOrAngleInvalid()

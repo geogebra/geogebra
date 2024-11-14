@@ -171,6 +171,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
+	 * GeoGebra string type for axes, internationalize digits, no pi hack
+	 */
+	public static final StringTemplate axesTemplate = new StringTemplate(
+			"axesTemplate");
+
+	static {
+		axesTemplate.allowPiHack = false;
+	}
+
+	/**
 	 * LaTeX string type, do not internationalize digits
 	 */
 	public static final StringTemplate latexTemplate = new StringTemplate(
@@ -758,6 +768,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				+ ",Decimals:" + decimals + "," + allowMore);
 		tpl.forceSF = true;
 		tpl.allowMoreDigits = allowMore;
+		tpl.localizeCmds = false;
 		tpl.setType(type);
 		tpl.sf = FormatFactory.getPrototype().getScientificFormat(decimals, 20,
 				true);
@@ -3056,25 +3067,54 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 
 		StringBuilder sb = new StringBuilder(scientificStr.length() * 2);
-		boolean Efound = false;
+		char bracket = '\0';
 		for (int i = 0; i < scientificStr.length(); i++) {
 			char ch = scientificStr.charAt(i);
 			if (ch == 'E') {
 				if (hasType(StringType.LATEX)) {
 					sb.append(" \\cdot 10^{");
+					bracket = '}';
 				} else {
 					sb.append("*10^(");
+					bracket = ')';
 				}
-				Efound = true;
 			} else if (ch != '+') {
 				sb.append(ch);
 			}
 		}
-		if (Efound) {
-			if (hasType(StringType.LATEX)) {
-				sb.append("}");
-			} else {
-				sb.append(")");
+		if (bracket != '\0') {
+			sb.append(bracket);
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * Converts e.g. 3E + 222 to 3.00 * 10²²² - only for {@link StringType#GEOGEBRA}
+	 * @param scientificStr String in scientific notation
+	 * @return Formatted string in scientific notation using m*10^n
+	 */
+	public String convertScientificNotationForDisplay(String scientificStr) {
+		if (stringType == StringType.LATEX) {
+			return convertScientificNotation(scientificStr);
+		}
+		// non-display types like Giac, PSTRICKS, XML, ... preserved
+		if (stringType != StringType.GEOGEBRA || !localizeCmds) {
+			return scientificStr;
+		}
+
+		StringBuilder sb = new StringBuilder(scientificStr.length() * 2);
+		boolean eFound = false;
+		for (int i = 0; i < scientificStr.length(); i++) {
+			char ch = scientificStr.charAt(i);
+			if (ch == 'E') {
+				sb.append(" ").append(Unicode.CENTER_DOT).append(" 10");
+				eFound = true;
+			} else if (eFound && ch >= '0' && ch <= '9') {
+				sb.append(Unicode.numberToSuperscript(ch - '0'));
+			} else if (eFound && ch == '-') {
+				sb.append(Unicode.SUPERSCRIPT_MINUS);
+			} else if (ch != '+') {
+				sb.append(ch);
 			}
 		}
 		return sb.toString();

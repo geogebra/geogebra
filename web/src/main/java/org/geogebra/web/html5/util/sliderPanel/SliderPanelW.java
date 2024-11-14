@@ -88,7 +88,7 @@ public class SliderPanelW extends FlowPanel implements HasDataTest  {
 		if (parts[1] == null) {
 			label.setText(parts[0]);
 		} else {
-			label.setText(parts[0] + Unicode.MULTIPLY + " 10");
+			label.setText(parts[0] + " " + Unicode.CENTER_DOT + " 10");
 			Element exponent = DOM.createElement("sup");
 			exponent.setInnerText(parts[1]);
 			label.getElement().appendChild(exponent);

@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
-import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -255,7 +255,8 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	public GeoElement[] processImplicitPoly(Equation equ,
 			ExpressionNode definition, EvalInfo info, ExpressionValue evaluatedDef) {
 
-		if (app.has(Feature.IMPLICIT_SURFACES) || equ.isForcedQuadric() || equ.isForcedPlane()) {
+		if (PreviewFeature.isAvailable(PreviewFeature.IMPLICIT_SURFACES)
+				|| equ.isForcedQuadric() || equ.isForcedPlane()) {
 			Polynomial lhs = equ.getNormalForm();
 			boolean isIndependent = !equ.isFunctionDependent()
 					&& lhs.isConstant(info) && !equ.hasVariableDegree();

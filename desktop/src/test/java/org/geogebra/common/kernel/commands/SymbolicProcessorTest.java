@@ -23,9 +23,9 @@ public class SymbolicProcessorTest {
 	private static SymbolicProcessor processor;
 	private static Kernel kernel;
 
-	/** setup the app */
+	/** Set up the app */
 	@BeforeClass
-	public static void setup() {
+	public static void setUp() {
 		AppDNoGui app = AlgebraTest.createApp();
 		kernel = app.getKernel();
 		processor = new SymbolicProcessor(kernel);

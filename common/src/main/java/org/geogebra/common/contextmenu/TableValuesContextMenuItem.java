@@ -35,6 +35,22 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 		public TableValuesContextMenuItem toContextMenuItem(String[] translationPlaceholderValues) {
 			return new TableValuesContextMenuItem(this, translationPlaceholderValues);
 		}
+
+		/**
+		 * Checks if the given {@link ContextMenuItem} is equals with this
+		 * {@code TableValuesContextMenuItem} ignoring the
+		 * {@link TableValuesContextMenuItem#translationPlaceholderValues}
+		 *
+		 * @param contextMenuItem The context menu item to compare to
+		 * @return {@code true} if the given {@code ContextMenuItem} is a
+		 * {@code TableValuesContextMenuItem} and their item/type are equal,
+		 * {@code false} otherwise
+		 */
+		// TODO better name? Maybe matches/is/isItemOf/isTypeOf/isSameAs/isSameTypeAs/...
+		public boolean isSameItemAs(ContextMenuItem contextMenuItem) {
+			return contextMenuItem instanceof TableValuesContextMenuItem
+					&& ((TableValuesContextMenuItem) contextMenuItem).getItem().equals(this);
+		}
 	}
 
 	private final Item item;

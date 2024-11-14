@@ -28,7 +28,7 @@
 				min-width: 208px;
 			}
 
-			.gwt-HTML {
+			.gwt-HTML, .gwt-InlineLabel {
 				display: inline-block;
 				line-height: 32px;
 			}
@@ -58,7 +58,7 @@
 
 		.collapseSubMenu {
 			.listMenuItem {
-				.menuImg {
+				.gwt-Image:not(.checkImg) {
 					position: relative;
 					vertical-align: bottom;
 					margin-left: 0;

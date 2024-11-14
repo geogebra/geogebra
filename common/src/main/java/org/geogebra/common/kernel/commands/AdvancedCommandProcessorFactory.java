@@ -77,7 +77,7 @@ import org.geogebra.common.kernel.advanced.CmdUnion;
 import org.geogebra.common.kernel.advanced.CmdUnique;
 import org.geogebra.common.kernel.advanced.CmdVerticalText;
 import org.geogebra.common.kernel.advanced.CmdZip;
-import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.PreviewFeature;
 
 /**
  * Factory for command processors that are not used very often
@@ -141,7 +141,7 @@ public class AdvancedCommandProcessorFactory implements CommandProcessorFactory 
 		case ImplicitCurve:
 			return new CmdImplicitPoly(kernel);
 		case ImplicitSurface:
-			return !kernel.getApplication().has(Feature.IMPLICIT_SURFACES)
+			return !PreviewFeature.isAvailable(PreviewFeature.IMPLICIT_SURFACES)
 					? null : new CmdImplicitSurface(kernel);
 		case Roots:
 			return new CmdRoots(kernel);

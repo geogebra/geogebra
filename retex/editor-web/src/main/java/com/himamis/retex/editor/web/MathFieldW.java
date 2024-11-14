@@ -137,6 +137,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private int bottomOffset = 10;
 	private double maxHeight = -1;
 	private ClickAdapterW adapter;
+	private boolean powerHappened;
 
 	/**
 	 * @param converter
@@ -375,6 +376,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 					|| isLeftAltDown()) {
 				event.stopPropagation();
 			} else {
+				powerHappened = false;
 				if (event.getUnicodeCharCode() > 31) {
 					keyListener.onKeyTyped(
 							new KeyEvent(event.getNativeEvent().getKeyCode(), 0,
@@ -386,14 +388,19 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 		}, KeyPressEvent.getType());
 		html2.addDomHandler(event -> {
-			if (checkPowerKeyInput(html2.getElement())) {
-				keyListener.onKeyTyped(new KeyEvent(0, 0, '^'));
-				onFocusTimer(); // refocus to remove the half-written letter
-				updateAltForKeyUp(event);
-				event.preventDefault();
+			int code = convertToJavaKeyCode(event.getNativeEvent());
+			// on Mac, the key event right after ^ is a KeyUpEvent,
+			// so it must be redirected to the onKeyTyped() handler.
+			if (powerHappened && isAlphanumeric(event.getNativeEvent())) {
+				powerHappened = false;
+				redirectToKeyTyped(keyListener, (char) event.getNativeKeyCode(), event);
 				return;
 			}
-			int code = convertToJavaKeyCode(event.getNativeEvent());
+			if (checkPowerKeyInput(html2.getElement())) {
+				powerHappened = true;
+				redirectToKeyTyped(keyListener, '^', event);
+				return;
+			}
 			keyListener.onKeyReleased(new KeyEvent(code,
 					getModifiers(event), getChar(event.getNativeEvent())));
 			updateAltForKeyUp(event);
@@ -441,6 +448,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			}
 
 		}, KeyDownEvent.getType());
+	}
+
+	private void redirectToKeyTyped(KeyListener keyListener, char typedChar, KeyUpEvent event) {
+		keyListener.onKeyTyped(new KeyEvent(0, 0,
+				event.isShiftKeyDown() ? typedChar : Character.toLowerCase(typedChar)));
+		onFocusTimer(); // refocus to remove the half-written letter
+		updateAltForKeyUp(event);
+		event.preventDefault();
 	}
 
 	/**
@@ -513,6 +528,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public static boolean checkCode(Object evt, String check) {
 		return check.equals(Js.<KeyboardEvent>uncheckedCast(evt).code);
+	}
+
+	private static boolean isAlphanumeric(Object evt) {
+		KeyboardEvent nativeEvt = Js.uncheckedCast(evt);
+		return nativeEvt.key != null && nativeEvt.key.length() == 1;
 	}
 
 	/**
@@ -950,6 +970,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	protected void resetFlags() {
 		this.setRightAltDown(false);
 		this.setLeftAltDown(false);
+		powerHappened = false;
 	}
 
 	public void setOnBlur(BlurHandler run) {

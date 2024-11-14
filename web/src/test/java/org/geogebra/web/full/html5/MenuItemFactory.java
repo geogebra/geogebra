@@ -5,7 +5,7 @@ import java.util.List;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.AriaMenuItemMock;
-import org.geogebra.web.full.gui.ContextMenuFactory;
+import org.geogebra.web.full.gui.ContextMenuItemFactory;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
@@ -14,8 +14,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.core.client.Scheduler;
 import org.gwtproject.resources.client.ResourcePrototype;
 
-public class MenuFactory extends ContextMenuFactory {
-	public MenuFactory(AppW app) {
+public class MenuItemFactory extends ContextMenuItemFactory {
+	public MenuItemFactory(AppW app) {
 		super();
 	}
 

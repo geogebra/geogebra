@@ -44,7 +44,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 *            application
 	 */
 	protected ContextMenuGraphicsWindowW(AppW app) {
-		super(app, new ContextMenuFactory());
+		super(app, new ContextMenuItemFactory());
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 				MainMenu.getMenuBarItem(
 						MaterialDesignResources.INSTANCE.minor_gridlines(),
 						loc.getMenu("Ruling"),
-				 () -> {
+				() -> {
 					DialogData data = new DialogData("Ruling", "Cancel", "Save");
 					GridDialog gridDialog = new GridDialog((AppW) app, data,
 							app.getActiveEuclidianView());
@@ -214,10 +214,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	}
 
 	private void addGridMenuItem() {
-		String htmlString = MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.grid_black().getSafeUri().asString(),
-						loc.getMenu("ShowGrid"));
-		gridCollapseItem = new GCollapseMenuItem(htmlString,
+		gridCollapseItem = new GCollapseMenuItem(MaterialDesignResources.INSTANCE.grid_black(),
 				loc.getMenu("ShowGrid"),
 				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
 						.asString(),

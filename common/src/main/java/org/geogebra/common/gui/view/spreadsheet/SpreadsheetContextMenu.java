@@ -340,9 +340,9 @@ public class SpreadsheetContextMenu<T> {
 		// title = geo description if single geo in cell
 		else if (geos != null && geos.size() == 1) {
 			GeoElement geo0 = geos.get(0);
-			title = geo0.getLongDescriptionHTML(false, true);
+			title = geo0.getLongDescriptionHTML(false, false);
 			if (title.length() > 80) {
-				title = geo0.getNameDescriptionHTML(false, true);
+				title = geo0.getNameDescriptionHTML(false, false);
 			}
 		}
 

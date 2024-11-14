@@ -106,7 +106,7 @@ public class CreateSliderTest extends BaseSymbolicTest {
 
 		app.setXML(app.getXML(), true);
 		GeoNumeric element = (GeoNumeric) lookup("a");
-		assertTrue(element.isShowingExtendedAV());
+		assertTrue(element.isAVSliderOrCheckboxVisible());
 	}
 
 	@Test
