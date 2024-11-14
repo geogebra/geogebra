@@ -293,6 +293,37 @@ public class MySpecialDouble extends MyDouble {
 	}
 
 	public boolean isDecimal() {
-		return strToString != null && strToString.contains(".");
+		return strToString != null && strToString.contains(".")
+				&& strToString.indexOf('.') < strToString.length() - 4;
+	}
+
+	/**
+	 * Converts decimal to a fraction
+	 * @param fraction output array [numerator, denominator]
+	 * @return whether this could be converted
+	 */
+	public boolean asFraction(ExpressionValue[] fraction) {
+		int ePosition = strToString.contains("E") ? strToString.indexOf('E') : strToString.length();
+		int dotPosition = strToString.indexOf('.');
+		int shift = 0;
+		if (dotPosition != -1) {
+			if (ePosition < strToString.length()) {
+				shift = Integer.parseInt(strToString.substring(ePosition));
+			}
+			if (ePosition - dotPosition > 3 || ePosition > 8 || shift > 8) {
+				fraction[0] = this;
+				fraction[1] = null;
+				return false;
+			}
+			int numerator = Integer.parseInt(strToString.substring(0, dotPosition)
+					+ strToString.substring(dotPosition + 1, ePosition));
+			int denominator = (int) Math.pow(10, (ePosition - dotPosition) + shift);
+			fraction[0] = new MyDouble(kernel, numerator);
+			fraction[1] = new MyDouble(kernel, denominator);
+			return true;
+		}
+		fraction[0] = this;
+		fraction[1] = null;
+		return false;
 	}
 }
