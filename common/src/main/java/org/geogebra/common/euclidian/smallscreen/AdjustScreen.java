@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -216,8 +215,7 @@ public class AdjustScreen {
 		int fileHeight = viewApp.getSettings()
 				.getEuclidian(view.getEuclidianViewNo()).getFileHeight();
 
-		if (!Feature.ADJUST_WIDGETS.isAvailable() || fileWidth == 0
-				|| fileHeight == 0) {
+		if (fileWidth == 0 || fileHeight == 0) {
 			return false;
 		}
 

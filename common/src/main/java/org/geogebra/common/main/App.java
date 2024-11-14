@@ -393,8 +393,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected HashMap<Integer, Boolean> showConstProtNavigationNeedsUpdate = null;
 	protected HashMap<Integer, Boolean> showConsProtNavigation = null;
 	protected AppCompanion companion;
-	@Deprecated // use PreviewFeature instead
-	protected boolean prerelease;
 
 	private boolean showResetIcon = false;
 	private ParserFunctions pf;
@@ -3690,16 +3688,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return false;
 	}
 
-	/**
-	 * @param f unused
-	 * @return false
-	 * @deprecated use {@link PreviewFeature}
-	 */
-	@Deprecated // to be removed in APPS-6110
-	public final boolean has(Feature f) {
-		return false;
-	}
-
 	public boolean isUnbundled() {
 		return false;
 	}
@@ -4368,9 +4356,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            whether to reset the stored offsets
 	 */
 	public void adjustScreen(boolean reset) {
-		if (!Feature.ADJUST_WIDGETS.isAvailable()) {
-			return;
-		}
 		if (adjustScreen == null) {
 			adjustScreen = new AdjustScreen(getEuclidianView1());
 		}
@@ -4863,15 +4848,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void updateKeyboardSettings(LinkedHashMap<String, String> attrs) {
 		// only desktop
-	}
-
-	/**
-	 *
-	 * @return true if is prerelease
-	 */
-	@Deprecated // use PreviewFeature instead
-	public boolean isPrerelease() {
-		return prerelease;
 	}
 
 	/**
