@@ -374,15 +374,19 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				null,
 				createCommandFilters(),
 				createCommandArgumentFilters(),
-				null,
+				createFilteredOperations(),
 				createSyntaxFilter(),
 				createToolCollectionFilter(),
 				createDistributionPropertyRestriction());
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
-		return Set.of(new PointDerivativeFilter(), new OperationExpressionFilter(
-				Operation.FRACTIONAL_PART));
+		return Set.of(new PointDerivativeFilter(),
+				new OperationExpressionFilter(createFilteredOperations()));
+	}
+
+	private static Set<Operation> createFilteredOperations() {
+		return Set.of(Operation.FRACTIONAL_PART, Operation.RANDOM);
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
