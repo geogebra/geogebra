@@ -771,9 +771,14 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 		return geo.getLaTeXAlgebraDescriptionWithFallback(
 				substituteNumbers
-						|| (geo instanceof GeoNumeric && geo.isSimple()),
+						|| isSimpleNumber(),
 				tpl, true);
 
+	}
+
+	private boolean isSimpleNumber() {
+		return geo instanceof GeoNumeric && geo.isSimple()
+				&& !((GeoNumeric) geo).isDecimalFraction();
 	}
 
 	private boolean isAlgebraStyleDefAndValue() {
