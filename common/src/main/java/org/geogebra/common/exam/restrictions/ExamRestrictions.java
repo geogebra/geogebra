@@ -64,6 +64,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final ToolCollectionFilter toolsFilter;
 	private final Map<String, PropertyRestriction> propertyRestrictions;
 	private RestorableSettings savedSettings;
+	private Settings restrictedSettings = null ;
 
 	/**
 	 * Factory for ExamRestrictions.
@@ -228,6 +229,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			toolsProvider.addToolsFilter(toolsFilter);
 		}
 		if (settings != null) {
+			this.restrictedSettings = settings;
+			saveSettings(settings);
 			applySettingsRestrictions(settings);
 		}
 	}
@@ -242,12 +245,24 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	}
 
 	/**
+	 * Re-apply settings changes for this exam type (for ClearAll during exam).
+	 */
+	public void reapplySettingsRestrictions() {
+		if (restrictedSettings != null) {
+			applySettingsRestrictions(restrictedSettings);
+		}
+	}
+
+	/**
 	 * Apply settings changes for this exam type.
-	 * @apiNote Override this only if the given exam needs custom settings, and call
-	 * @{code super.applySettingsRestrictions(settings)} before modifying any values in settings.
+	 * @apiNote Override this only if the given exam needs custom settings.
 	 * @param settings {@link Settings}
 	 */
-	protected void applySettingsRestrictions(@Nonnull Settings settings) {
+	public void applySettingsRestrictions(@Nonnull Settings settings) {
+		// empty by default
+	}
+
+	private void saveSettings(Settings settings) {
 		savedSettings = createSavedSettings();
 		if (savedSettings != null) {
 			savedSettings.save(settings);
@@ -264,6 +279,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		if (savedSettings != null) {
 			savedSettings.restore(settings);
 			savedSettings = null;
+			settings = null;
 		}
 	}
 

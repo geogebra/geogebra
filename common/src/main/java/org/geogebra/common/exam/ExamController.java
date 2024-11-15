@@ -542,6 +542,13 @@ public final class ExamController {
 	}
 
 	/**
+	 * Re-apply settings restrictions for ClearAll during exam.
+	 */
+	public void reapplySettingsRestrictions() {
+		examRestrictions.reapplySettingsRestrictions();
+	}
+
+	/**
 	 * Unfortunately we need to expose this - some (iOS) client code currently needs access.
 	 * @return The temporary material storage for exams.
 	 */

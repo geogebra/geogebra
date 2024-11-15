@@ -1023,6 +1023,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		resetUrl();
 		if (examController.isExamActive()) {
 			examController.createNewTempMaterial();
+			examController.reapplySettingsRestrictions();
 		}
 		setSaved();
 	}

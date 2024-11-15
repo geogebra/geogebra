@@ -30,28 +30,36 @@ public class RealSchuleExamRestrictionsTest extends BaseUnitTest {
 
 	@Test
 	public void testSettingsRestrictions() {
+		createDefaultSetting();
+		startExam();
+		realSchuleRestrictionsShouldBeApplied();
+		finishExam();
+		defaultSettingsShouldBeRestored();
+	}
+
+	private void defaultSettingsShouldBeRestored() {
+		coordFormatShouldBe(Kernel.COORD_CARTESIAN);
+		axisLabelsShouldBe("xAxis", "yAxis");
+		gridShouldBe(EuclidianView.GRID_ISOMETRIC);
+		axisNumberDistanceShouldBe(1.5, 0);
+		axisNumberDistanceShouldBe(4.1, 1);
+	}
+
+	private void createDefaultSetting() {
 		settings.getGeneral().setCoordFormat(Kernel.COORD_CARTESIAN);
 		evSettings.setAxisLabel(0, "xAxis");
 		evSettings.setAxisLabel(1, "yAxis");
 		evSettings.setAxisNumberingDistance(0, 1.5);
 		evSettings.setAxisNumberingDistance(1, 4.1);
 		evSettings.setGridType(EuclidianView.GRID_ISOMETRIC);
+	}
 
-		startExam();
-
+	private void realSchuleRestrictionsShouldBeApplied() {
 		coordFormatShouldBe(Kernel.COORD_STYLE_AUSTRIAN);
 		axisLabelsShouldBe("x", "y");
 		gridShouldBe(EuclidianView.GRID_CARTESIAN);
 		axisNumberDistanceShouldBe(0.5, 0);
 		axisNumberDistanceShouldBe(0.5, 1);
-
-		finishExam();
-
-		coordFormatShouldBe(Kernel.COORD_CARTESIAN);
-		axisLabelsShouldBe("xAxis", "yAxis");
-		gridShouldBe(EuclidianView.GRID_ISOMETRIC);
-		axisNumberDistanceShouldBe(1.5, 0);
-		axisNumberDistanceShouldBe(4.1, 1);
 	}
 
 	private void startExam() {
@@ -83,5 +91,17 @@ public class RealSchuleExamRestrictionsTest extends BaseUnitTest {
 	private void axisNumberDistanceShouldBe(double expected, int axisNumber) {
 		assertEquals(expected, evSettings.getAxisNumberingDistance(axisNumber).evaluateDouble(),
 				0);
+	}
+
+	@Test
+	public void testSettingsRestrictionsAfterFileNew() {
+		startExam();
+		realSchuleRestrictionsShouldBeApplied();
+
+		// emulating AppW.fileNew(), which is not reachable from common.
+		evSettings.reset();
+		examController.reapplySettingsRestrictions();
+
+		realSchuleRestrictionsShouldBeApplied();
 	}
 }
