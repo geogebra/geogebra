@@ -1,5 +1,7 @@
 package org.geogebra.common.gui.view.spreadsheet;
 
+import static org.geogebra.test.TestStringUtil.unicode;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -56,6 +58,18 @@ public class RelativeCopyTest extends BaseUnitTest {
 				3, 2, 3, 2);
 		getApp().setRounding("3");
 		assertThat(lookup("D3"), hasValue("0.125"));
+	}
+
+	@Test
+	public void copyPowerHasCorrectPrecision() {
+		add("A1=5");
+		add("B1=6");
+		add("A2=A1^2");
+		getApp().setRounding("2");
+		newRelativeCopy().doDragCopy(0, 1, 0, 1,
+				1, 1, 1, 1);
+		getApp().setRounding("3");
+		assertThat(lookup("B2").getDefinitionForEditor(), equalTo(unicode("B2=B1^2")));
 	}
 
 	@Test
