@@ -279,7 +279,7 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		if (savedSettings != null) {
 			savedSettings.restore(settings);
 			savedSettings = null;
-			settings = null;
+			restrictedSettings = null;
 		}
 	}
 
