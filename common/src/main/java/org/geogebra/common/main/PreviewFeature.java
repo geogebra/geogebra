@@ -8,7 +8,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @apiNote When an internal feature is released, the corresponding enum case has to be removed,
  * together with any if/guard statements.
  */
-@SuppressFBWarnings("MS_SHOULD_BE_FINAL")
 public enum PreviewFeature {
 
 	ALL_LANGUAGES,
@@ -22,7 +21,8 @@ public enum PreviewFeature {
 	LOG_AXES,
 	/** GGB-2255 */
 	GEOMETRIC_DISCOVERY,
-
+	/** APPS-6011 */
+	SCICALC_IN_SUITE,
 	/** APPS-4961 */
 	CVTE_EXAM,
 	/** APPS-4867 */
@@ -38,8 +38,9 @@ public enum PreviewFeature {
 	 * @apiNote Set the {@code true} at run time (early in the app startup code) to enable
 	 * feature previews in test builds.
 	 */
+	@SuppressFBWarnings({"MS_SHOULD_BE_FINAL", "MS_PKGPROTECT"})
 	public static boolean enableFeaturePreviews = false;
-	
+
 	/**
 	 * Whether a preview feature is enabled (the default), or not. The latter case can be used
 	 * during development, i.e., when an internal feature is being worked on, but not yet considered
@@ -53,6 +54,13 @@ public enum PreviewFeature {
 
 	PreviewFeature(boolean isEnabled) {
 		this.isEnabled = isEnabled;
+	}
+
+	/**
+	 * Enables preview features. May be called at startup.
+	 */
+	public static void setPreviewFeaturesEnabled(boolean enabled) {
+		enableFeaturePreviews = enabled;
 	}
 
 	/**

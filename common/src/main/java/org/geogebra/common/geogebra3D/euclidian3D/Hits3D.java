@@ -260,8 +260,7 @@ public class Hits3D extends Hits {
 
 	private void addToHits(Drawable3D d, Hits hits) {
 		GeoElement geo = d.getGeoElement();
-		if (geo.getMetasLength() > 0 && geo.getKernel().getApplication()
-				.has(Feature.G3D_SELECT_META)) {
+		if (geo.getMetasLength() > 0 && Feature.G3D_SELECT_META.isAvailable()) {
 			hits.addAll(Arrays.asList(((FromMeta) geo).getMetas()));
 		}
 		hits.add(geo);

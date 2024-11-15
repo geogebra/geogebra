@@ -3491,6 +3491,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
+	 * May return a simple fraction or a fraction (a*pi)/b, where a,b are integers.
 	 * @return simplified fraction if this is one; null otherwise
 	 */
 	public ExpressionNode asFraction() {

@@ -960,10 +960,10 @@ public class RelativeCopy {
 			// cell B1 -> A1 disappears
 			if (StringUtil.toLowerCaseUS(text)
 					.equals(newValues[0]
-							.getLabel(StringTemplate.defaultTemplate))
+							.getLabelSimple())
 					// also need eg =a to work
 					|| text.equals(newValues[0]
-							.getLabel(StringTemplate.defaultTemplate))) {
+							.getLabelSimple())) {
 				// make sure we create a copy of this existing or auto-created
 				// geo
 				// by providing the new cell name in the beginning

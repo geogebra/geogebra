@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.SymbolicEditor;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -104,6 +105,13 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		this(laf, appletParameters.getDataParamFitToScreen());
 		this.geoGebraElement = geoGebraElement;
 		this.appletParameters = appletParameters;
+		boolean prereleaseParameter = appletParameters.getDataParamPrerelease();
+		// flag should only be considered for the first instance
+		if (instances.size() == 1) {
+			PreviewFeature.setPreviewFeaturesEnabled(prereleaseParameter);
+		} else if (PreviewFeature.enableFeaturePreviews != prereleaseParameter) {
+			Log.warn("Availability of preview features can only be set once.");
+		}
 	}
 
 	/**

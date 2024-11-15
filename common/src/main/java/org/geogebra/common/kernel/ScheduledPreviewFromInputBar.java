@@ -13,8 +13,8 @@ import org.geogebra.common.kernel.geos.ConstructionElementSetup;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.StringUtil;
@@ -219,7 +219,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 					}
 
 					this.kernel.notifyUpdatePreviewFromInputBar(previewGeos);
-				} else if (kernel.getApplication().has(Feature.MOB_PREVIEW_WHEN_EDITING)
+				} else if (PreviewFeature.isAvailable(PreviewFeature.MOB_PREVIEW_WHEN_EDITING)
 						&& !existingGeo.hasChildren() && existingGeo.isIndependent()) {
 					previewRedefine(ve, existingGeo, info);
 				} else {
