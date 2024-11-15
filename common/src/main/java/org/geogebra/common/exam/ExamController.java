@@ -80,7 +80,7 @@ public final class ExamController {
 	/** this is only for the mobile use case (1 Suite app instance) */
 	private ContextDependencies activeDependencies;
 	/** this is only for the Web use case (multiple Suite app instances) */
-	private List<ContextDependencies> registeredDependencies = null;
+	private @CheckForNull List<ContextDependencies> registeredDependencies = null;
 
 	private ExamType examType;
 	private ExamRestrictions examRestrictions;
@@ -206,7 +206,9 @@ public final class ExamController {
 	 * @param context exam context
 	 */
 	public void unregisterContext(Object context) {
-		registeredDependencies.removeIf(deps -> deps.context == context);
+		if (registeredDependencies != null) {
+			registeredDependencies.removeIf(deps -> deps.context == context);
+		}
 	}
 
 	/**
