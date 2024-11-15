@@ -4,6 +4,8 @@ import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Re
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics1;
 import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics2;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -23,10 +25,11 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.ConstructionElement;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.PolyFunction;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -37,7 +40,6 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.ConstructionElementSetup;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.Localization;
@@ -277,86 +279,121 @@ final class CvteExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<ConstructionElementSetup> createConstructionElementSetups() {
-		return Set.of(new EquationVisibilitySetup());
+		return Set.of(new EuclidianVisibilitySetup());
 	}
 
-	private static class ShowObjectPropertyFilter implements GeoElementPropertyFilter {
+	private static final class ShowObjectPropertyFilter implements GeoElementPropertyFilter {
 		@Override
 		public boolean isAllowed(Property property, GeoElement geoElement) {
 			if (property instanceof ShowObjectProperty) {
-				// For conic sections
-				if (geoElement.isGeoConic()) {
-                    return
-							// Allow circles created by command "Circle(<Center>, <Radius>)"
-							// or tool "Circle: Center & Radius"
-							geoElement.getParentAlgorithm() instanceof AlgoCirclePointRadius
-							// Allow function-like equations like y = x^2 which is equivalent
-							// with f(x) = x^2
-							|| geoElement.hasTableOfValues();
-				}
-
-				// For equations
-				if (geoElement instanceof EquationValue) {
-					// Allow only linear equations
-                    return geoElement instanceof GeoLine || geoElement instanceof GeoPlaneND;
-				}
+				return isVisibilityEnabled(geoElement);
 			}
 			return true;
 		}
 	}
 
-	private static class EquationVisibilitySetup implements ConstructionElementSetup {
+	private static final class EuclidianVisibilitySetup implements ConstructionElementSetup {
 		@Override
 		public void applyTo(ConstructionElement constructionElement) {
 			if (constructionElement instanceof GeoElement) {
 				GeoElement geoElement = (GeoElement) constructionElement;
 
-				if (geoElement instanceof EquationValue) {
-					// Allow linear equations
-					if (geoElement instanceof GeoLine || geoElement instanceof GeoPlaneND) {
-						return;
-					}
-					// Allow equations that can be described as functions
-					if (geoElement.hasTableOfValues()) {
-						return;
-					}
-					// Restrict the euclidian visibility for every other equation
-					geoElement.setRestrictedEuclidianVisibility(true);
-				}
-
-				if (geoElement.isGeoConic()) {
-					// Allow circles created by command "Circle(<Center>, <Radius>)"
-					// or tool "Circle: Center & Radius"
-					if (geoElement.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
-						return;
-					}
-					// Restrict the euclidian visibility for every other conic section
+				if (!isVisibilityEnabled(geoElement)) {
 					geoElement.setRestrictedEuclidianVisibility(true);
 				}
 			}
 		}
 	}
 
-//	private static boolean isConicSection(GeoElement geoElement) {
-//		if (geoElement.isGeoConic()) {
-//			return true;
-//		}
-//		if (!(geoElement instanceof GeoFunction)) {
-//			return false;
-//		}
-//		GeoFunction geoFunction = (GeoFunction) geoElement;
-//		Function function = geoFunction.getFunction();
-//		if (function == null) {
-//			return false;
-//		}
-//		ExpressionNode expressionNode = geoFunction.getFunctionExpression();
-//		if (expressionNode == null) {
-//			return false;
-//		}
-//		PolyFunction polyFunction = function.expandToPolyFunction(expressionNode, false, true);
-//		if (polyFunction == null) {
-//			return false;
-//		}
-//		return polyFunction.getDegree() >= 2;
-//	}
+	private static boolean isVisibilityEnabled(GeoElement geoElement) {
+		// Allow any explicit equation
+		if (isExplicitEquation(geoElement)) {
+			return true;
+		}
+
+		// Allow circles created by "Circle(<Center>, <Radius>)" command
+		// or "Circle: Center & Radius" tool
+		if (isCircleCreatedWithPointRadiusAlgorithm(geoElement)) {
+			return true;
+		}
+
+		// Restrict the visibility of equations with the exception of linear equations
+		if (geoElement instanceof EquationValue && !isLinearEquation(geoElement)) {
+			return false;
+		}
+
+		// Restrict the visibility of any other conic
+		if (geoElement.isGeoConic()) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private static Map<String, Integer> getVariableCount(ExpressionValue equation) {
+		Map<String, Integer> variableCount = new HashMap<>();
+		equation.inspect(expressionValue -> {
+            if (expressionValue instanceof FunctionVariable) {
+                String variable = ((FunctionVariable) expressionValue).getSetVarString();
+                if (!variableCount.containsKey(variable)) {
+                    variableCount.put(variable, 1);
+                } else {
+                    variableCount.put(variable, variableCount.get(variable) + 1);
+                }
+            }
+            return false;
+        });
+		return variableCount;
+	}
+
+	private static boolean isFunctionVariable(ExpressionNode expressionNode) {
+		return expressionNode.getRight() == null
+				&& expressionNode.getLeft() != null
+				&& expressionNode.getLeft() instanceof FunctionVariable
+				&& expressionNode.isOperation(Operation.NO_OPERATION);
+	}
+
+	@Nullable
+	private static String unwrapVariable(ExpressionNode expressionNode) {
+		if (isFunctionVariable(expressionNode)) {
+			return ((FunctionVariable) expressionNode.getLeft()).getSetVarString();
+		}
+		return null;
+	}
+
+	private static boolean isEquation(GeoElement geoElement) {
+		ExpressionNode definition = geoElement.getDefinition();
+		return definition != null && definition.unwrap() instanceof Equation;
+	}
+
+	private static boolean isExplicitEquation(GeoElement geoElement) {
+		return isEquation(geoElement) && isExplicitEquation(unwrapEquation(geoElement));
+	}
+
+	private static boolean isCircleCreatedWithPointRadiusAlgorithm(GeoElement geoElement) {
+		return geoElement.isGeoConic()
+				&& geoElement.getParentAlgorithm() instanceof AlgoCirclePointRadius;
+	}
+
+	@Nullable
+	private static Equation unwrapEquation(GeoElement geoElement) {
+		if (isEquation(geoElement)) {
+			return (Equation) geoElement.getDefinition().unwrap();
+		}
+		return null;
+	}
+
+	private static boolean isExplicitEquation(Equation equation) {
+		Map<String, Integer> variableCount = getVariableCount(equation);
+		// An equation is explicit if it has a single "y" variable
+		return variableCount.get("y") != null && variableCount.get("y") == 1
+				// which is on the left side of the equation alone
+				&& "y".equals(unwrapVariable(equation.getLHS()))
+				// and all other variables are either "x" or none
+				&& Set.of("x", "y").containsAll(variableCount.keySet());
+	}
+
+	private static boolean isLinearEquation(GeoElement geoElement) {
+		return geoElement instanceof GeoLine || geoElement instanceof GeoPlaneND;
+	}
 }
