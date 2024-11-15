@@ -87,7 +87,7 @@ public class ContextMenuTV {
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("tvContextMenu");
 		GeoEvaluatable column = view.getEvaluatable(getColumnIdx());
-		List<TableValuesContextMenuItem> items = ContextMenuFactory
+		List<TableValuesContextMenuItem> items = GlobalScope.contextMenuFactory
 				.makeTableValuesContextMenu(column, columnIdx, view.getTableValuesModel(),
 				app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC,
 				GlobalScope.examController.isExamActive());
