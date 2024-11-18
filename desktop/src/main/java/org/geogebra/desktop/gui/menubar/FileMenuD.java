@@ -150,9 +150,8 @@ class FileMenuD extends BaseMenu {
 
 		submenu.add(exportPgfAction);
 		submenu.add(exportAsymptoteAction);
-		if (app.isPrerelease()) {
-			submenu.add(exportSTLaction);
-		}
+		submenu.add(exportSTLaction);
+
 		if (app.is3D()) {
 			submenu.add(exportColladaAction);
 			submenu.add(exportColladaHTMLAction);
@@ -472,22 +471,20 @@ class FileMenuD extends BaseMenu {
 			}
 		};
 
-		if (app.isPrerelease()) {
-			exportSTLaction = new AbstractAction("STL" + Unicode.ELLIPSIS,
-					app.getEmptyIcon()) {
-				private static final long serialVersionUID = 1L;
+		exportSTLaction = new AbstractAction("STL" + Unicode.ELLIPSIS,
+				app.getEmptyIcon()) {
+			private static final long serialVersionUID = 1L;
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					try {
-						app.setExport3D(new FormatSTL());
-					} catch (Exception ex) {
-						ex.printStackTrace();
-						Log.debug("Problem exporting to STL");
-					}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					app.setExport3D(new FormatSTL());
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					Log.debug("Problem exporting to STL");
 				}
-			};
-		}
+			}
+		};
 
 		if (app.is3D()) {
 			exportColladaAction = new AbstractAction("Collada" + Unicode.ELLIPSIS,

@@ -4,7 +4,7 @@ mockito = "5.14.2"
 hamcrest = "3.0"
 jogl = "2.5.0"
 javagiac = "70363"
-gwt = "2.11.0"
+gwt = "2.12.1"
 gwtTreblereel = "202408061"
 elemental2 = "1.2.1"
 murok = "1.0.202408230914"
@@ -62,7 +62,7 @@ hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 
 gwt-plugin = {module = "org.docstr:gwt-gradle-plugin", version = "1.1.31" }
 spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.0.26" }
-javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "3.0.2"}
+javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "3.0.3"}
 
 [plugins]
 cpd = "de.aaschmid.cpd:3.4"

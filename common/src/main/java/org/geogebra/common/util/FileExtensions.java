@@ -42,6 +42,10 @@ public enum FileExtensions {
 
 	DAT("dat", false, false),
 
+	COLLADA("dae", false, false),
+
+	STL("stl", false, false),
+
 	UNKNOWN("?", false, false),
 
 	GEOGEBRA("ggb", false, false),

@@ -393,6 +393,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected HashMap<Integer, Boolean> showConstProtNavigationNeedsUpdate = null;
 	protected HashMap<Integer, Boolean> showConsProtNavigation = null;
 	protected AppCompanion companion;
+	@Deprecated // use PreviewFeature instead
 	protected boolean prerelease;
 
 	private boolean showResetIcon = false;
@@ -2983,7 +2984,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public String getVersionString() {
 		if (platform != null) {
-			return platform.getVersionString(prerelease, getConfig().getAppCode());
+			return platform.getVersionString(PreviewFeature.enableFeaturePreviews,
+					getConfig().getAppCode());
 		}
 
 		// fallback in case version not set properly
@@ -3689,98 +3691,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Check if featue is supported; depends on prerelease/ canary flags and
-	 * platform / app name.
-	 *
-	 * @param f
-	 *            feature
-	 * @return whether it's supported
+	 * @param f unused
+	 * @return false
+	 * @deprecated use {@link PreviewFeature}
 	 */
+	@Deprecated // to be removed in APPS-6110
 	public final boolean has(Feature f) {
-		switch (f) {
-		// **********************************************************************
-		// MOBILE START
-		// note: please use prefix MOB
-		// *********************************************************
-		// **********************************************************************
-
-		case ANALYTICS:
-			return prerelease;
-
-		// MOB-1319
-		case MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11:
-			return false;
-
-		// MOB-1537
-		case MOB_PREVIEW_WHEN_EDITING:
-			return prerelease;
-
-		// AND-887 and IGR-732
-		case MOB_PROPERTY_SORT_BY:
-			return false;
-
-		// **********************************************************************
-		// MOBILE END
-		// *********************************************************
-		// **********************************************************************
-
-		// **********************************************************************
-		// MOW END
-		// *********************************************************
-		// **********************************************************************
-
-		// leave as prerelease
-		case TUBE_BETA:
-			return prerelease;
-
-		// leave as prerelease
-		case ALL_LANGUAGES:
-			return prerelease;
-
-		case SOLVE_QUARTIC:
-			return prerelease;
-
-		// when moved to stable, move ImplicitSurface[] from TABLE_ENGLISH
-		// in Command.Java
-		case IMPLICIT_SURFACES:
-			return prerelease;
-
-		case LOCALSTORAGE_FILES:
-			return Platform.OFFLINE.equals(getPlatform());
-
-		// TRAC-4845
-		case LOG_AXES:
-			return prerelease;
-
-		// GGB-334, TRAC-3401
-		case ADJUST_WIDGETS:
-			return false;
-
-		/* GGB-2255 */
-		case GEOMETRIC_DISCOVERY:
-			return prerelease;
-
-		// **********************************************************************
-       // G3D START
-       //
-       // *********************************************************
-       // **********************************************************************
-
-		/* G3D-343 */
-		case G3D_SELECT_META:
-			return false;
-
-		// **********************************************************************
-        // G3D END
-        //
-        // *********************************************************
-        // **********************************************************************
-
-		default:
-			Log.debug("missing case in Feature: " + f);
-			return false;
-
-		}
+		return false;
 	}
 
 	public boolean isUnbundled() {
@@ -4340,7 +4257,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public String getURLforID(String id) {
 		String url;
-		if (has(Feature.TUBE_BETA)) {
+		if (PreviewFeature.isAvailable(PreviewFeature.RESOURCES_API_BETA)) {
 			url = GeoGebraConstants.GEOGEBRA_WEBSITE_BETA;
 		} else {
 			url = GeoGebraConstants.GEOGEBRA_WEBSITE;
@@ -4451,7 +4368,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            whether to reset the stored offsets
 	 */
 	public void adjustScreen(boolean reset) {
-		if (!kernel.getApplication().has(Feature.ADJUST_WIDGETS)) {
+		if (!Feature.ADJUST_WIDGETS.isAvailable()) {
 			return;
 		}
 		if (adjustScreen == null) {
@@ -4952,6 +4869,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *
 	 * @return true if is prerelease
 	 */
+	@Deprecated // use PreviewFeature instead
 	public boolean isPrerelease() {
 		return prerelease;
 	}

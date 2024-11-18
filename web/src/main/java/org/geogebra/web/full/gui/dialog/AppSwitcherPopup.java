@@ -5,6 +5,7 @@ import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.exam.ExamListener;
 import org.geogebra.common.exam.ExamState;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
@@ -73,7 +74,9 @@ public class AppSwitcherPopup extends GPopupPanel implements ExamListener {
 			addElement(GeoGebraConstants.CAS_APPCODE);
 		}
 		addElement(GeoGebraConstants.PROBABILITY_APPCODE);
-		//addElement(GeoGebraConstants.SCIENTIFIC_APPCODE);
+		if (PreviewFeature.isAvailable(PreviewFeature.SCICALC_IN_SUITE)) {
+			addElement(GeoGebraConstants.SCIENTIFIC_APPCODE);
+		}
 	}
 
 	private void addElement(final String subAppCode) {

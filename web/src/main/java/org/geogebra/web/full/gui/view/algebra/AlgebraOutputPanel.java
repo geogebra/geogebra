@@ -45,13 +45,10 @@ public class AlgebraOutputPanel extends FlowPanel {
 	}
 
 	/**
-	 * @param text
-	 *            prefix
-	 * @param isLaTeX
-	 *            whether output is LaTeX
+	 * @param isLaTeX whether output is LaTeX
 	 */
-	void addPrefixLabel(String text, boolean isLaTeX) {
-		final Label label = new Label(text);
+	void addApproximateValuePrefix(boolean isLaTeX) {
+		final Label label = new Label(Unicode.CAS_OUTPUT_NUMERIC + "");
 		if (!isLaTeX) {
 			label.addStyleName("prefix");
 		} else {
@@ -63,7 +60,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 	/**
 	 * add arrow prefix for av output
 	 */
-	void addArrowPrefix() {
+	void addEqualSignPrefix() {
 		final Image arrow = new NoDragImage(
 				MaterialDesignResources.INSTANCE.equal_sign_black(), 24);
 		arrow.setStyleName("arrowOutputImg");
@@ -164,14 +161,10 @@ public class AlgebraOutputPanel extends FlowPanel {
 			return false;
 		}
 		clear();
-		if (AlgebraItem.shouldShowSymbolicOutputButton(geo1)) {
-			if (AlgebraItem.getCASOutputType(geo1) == AlgebraItem.CASOutputType.NUMERIC) {
-				addPrefixLabel(getNumericPrefix(), latex);
-			} else {
-				addArrowPrefix();
-			}
+		if (AlgebraItem.shouldShowEqualSignPrefix(geo1)) {
+			addEqualSignPrefix();
 		} else {
-			addArrowPrefix();
+			addApproximateValuePrefix(latex);
 		}
 
 		valuePanel.clear();
@@ -198,10 +191,6 @@ public class AlgebraOutputPanel extends FlowPanel {
 		}
 
 		return true;
-	}
-
-	private String getNumericPrefix() {
-		return Unicode.CAS_OUTPUT_NUMERIC + "";
 	}
 
 	/*
