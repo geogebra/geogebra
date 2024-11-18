@@ -81,7 +81,7 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 		AlgebraSettings algebraSettings = app.getSettings().getAlgebra();
 		Kernel kernel = app.getKernel();
 		String name = localization.getMenu("Algebra");
-		if (app.has(Feature.MOB_PROPERTY_SORT_BY)) {
+		if (Feature.MOB_PROPERTY_SORT_BY.isAvailable()) {
 			return new PropertiesArray(name,
 					registerProperties(propertiesRegistry,
 							new AlgebraDescriptionProperty(kernel, localization),

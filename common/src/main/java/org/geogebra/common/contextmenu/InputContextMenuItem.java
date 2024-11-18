@@ -8,7 +8,8 @@ import org.geogebra.common.util.AttributedString;
 public enum InputContextMenuItem implements ContextMenuItem {
 	Expression("Expression", ContextMenuIcon.Expression),
 	Text("Text", ContextMenuIcon.Text),
-	Help("Help", ContextMenuIcon.Help);
+	Help("Help", ContextMenuIcon.Help),
+	Image("Image", ContextMenuIcon.Image);
 
 	private final String translationKey;
 	private final ContextMenuIcon icon;

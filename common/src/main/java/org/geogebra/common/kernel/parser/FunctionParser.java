@@ -584,7 +584,8 @@ public class FunctionParser {
 	 * @return number
 	 */
 	final public MyDouble convertIndexToNumber(String str) {
-		return new MyDouble(kernel, StringUtil.indexToNumber(str));
+		int val = StringUtil.indexToNumber(str);
+		return new MySpecialDouble(kernel, val, String.valueOf(val));
 	}
 
 	/**

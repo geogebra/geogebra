@@ -87,4 +87,11 @@ public interface CurveEvaluable {
 	default double getMinDistX() {
 		return 0;
 	}
+
+	/**
+	 * Update simplified expressions to speed up plotting
+	 */
+	default void updateExpandedFunctions() {
+		// only for curves
+	}
 }

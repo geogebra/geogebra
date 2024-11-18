@@ -500,7 +500,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			String text = previewGeo
 					.getAlgebraDescriptionForPreviewOutput();
 			outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
-			outputPanel.addArrowPrefix();
+			outputPanel.addEqualSignPrefix();
 			outputPanel.addValuePanel();
 
 			if (content.getWidgetIndex(definitionValuePanel) == -1) {

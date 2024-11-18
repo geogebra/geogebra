@@ -182,6 +182,7 @@ public class ArbitraryConstantRegistry {
 	private GeoNumeric createNumericConstant(Construction cons,
 			String label, double initialValue, double increment) {
 		GeoNumeric numeric = new GeoNumeric(cons, initialValue);
+		numeric.setAVSliderOrCheckboxVisible(true);
 		numeric.setSendValueToCas(false);
 		if (!getKernel().getApplication().showAutoCreatedSlidersInEV()
 				&& !getKernel().getConstruction().isFileLoading()) {

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
@@ -254,6 +255,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 	final public void translate(Coords v) {
 		getFun(0).translateY(v.getX());
 		getFun(1).translateY(v.getY());
+		Arrays.fill(funExpanded, null);
 	}
 
 	@Override
@@ -277,6 +279,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 	final public void translate(double vx, double vy) {
 		getFun(0).translateY(vx);
 		getFun(1).translateY(vy);
+		Arrays.fill(funExpanded, null);
 	}
 
 	@Override
@@ -612,8 +615,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 	 */
 	@Override
 	public void evaluateCurve(double paramVal, double[] out) {
-		out[0] = getFun(0).value(paramVal);
-		out[1] = getFun(1).value(paramVal);
+		out[0] = getFunExpanded(0).value(paramVal);
+		out[1] = getFunExpanded(1).value(paramVal);
 	}
 
 	@Override

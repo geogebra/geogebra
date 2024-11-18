@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.plugin.Operation;
 
 /**
- * Functions for csymbolic computation with vectors
+ * Functions for symbolic computation with vectors
  */
 public class VectorArithmetic {
 	private static final Operation[] COMPLEX_OPS = new Operation[] { Operation.REAL,
@@ -105,6 +105,14 @@ public class VectorArithmetic {
 		case IF_SHORT:
 			return new ExpressionNode(kernel, exp.getLeft().deepCopy(kernel),
 					Operation.IF, computeCoord(exp.getRightTree(), i));
+		case IF_LIST:
+			MyList values = (MyList) exp.getRight().unwrap();
+			MyList expandedValues = new MyList(kernel);
+			for (int idx = 0; idx < values.size(); idx++) {
+				expandedValues.addListElement(computeCoord(values.get(idx).wrap(), i));
+			}
+			return new ExpressionNode(kernel, exp.getLeft().deepCopy(kernel),
+					Operation.IF_LIST, expandedValues);
 		case PLUS:
 			if (exp.getRight().evaluatesToNDVector()) {
 				return computeCoord(exp.getLeftTree(), i).plus(

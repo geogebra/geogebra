@@ -90,6 +90,7 @@ public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 			}
 		};
 		toggleStyleBarButton.addClickHandler(app.getGlobalHandlers(), toggleStyleBarHandler);
+		toggleStyleBarButton.setTooltipPositionRight();
 		titleBarPanelContent.add(toggleStyleBarButton);
 	}
 

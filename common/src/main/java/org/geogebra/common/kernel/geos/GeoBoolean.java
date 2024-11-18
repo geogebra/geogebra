@@ -47,7 +47,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	private boolean value = false;
 	private boolean isDefined = true;
 	private boolean checkboxFixed;
-	private boolean showExtendedAV = true;
+	private boolean showAVCheckbox = true;
 
 	private List<GeoElement> conditionals;
 	private GeoPointND startPoint;
@@ -452,14 +452,13 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	@Override
-	public boolean isShowingExtendedAV() {
-		return showExtendedAV;
+	public boolean isAVSliderOrCheckboxVisible() {
+		return showAVCheckbox;
 	}
 
 	@Override
-	public void setShowExtendedAV(boolean showExtendedAV) {
-		this.showExtendedAV = showExtendedAV;
-		notifyUpdate();
+	public void setAVSliderOrCheckboxVisible(boolean showSliderOrCheckbox) {
+		this.showAVCheckbox = showSliderOrCheckbox;
 	}
 
 	@Override
