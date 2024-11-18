@@ -210,7 +210,6 @@ public class AlgebraProcessor {
 
 		this.cmdDispatcher = commandDispatcher;
 		app = kernel.getApplication();
-		app.onCommandDispatcherSet(cmdDispatcher);
 		loc = app.getLocalization();
 		parser = kernel.getParser();
 		setEnableStructures(app.getConfig().isEnableStructures());
