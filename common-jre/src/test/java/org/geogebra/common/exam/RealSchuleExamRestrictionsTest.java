@@ -20,7 +20,7 @@ public class RealSchuleExamRestrictionsTest extends BaseUnitTest {
 
 	@Before
 	public void setupExam() {
-		examController = new ExamController(new DefaultPropertiesRegistry());
+		examController = new ExamController(new DefaultPropertiesRegistry(), null);
 		examController.setActiveContext(this, getKernel().getAlgebraProcessor()
 						.getCommandDispatcher(), getKernel().getAlgebraProcessor(),
 				getLocalization(), getSettings(), null, null);
