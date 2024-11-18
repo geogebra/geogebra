@@ -65,7 +65,7 @@ spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", v
 javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "3.0.3"}
 
 [plugins]
-cpd = "de.aaschmid.cpd:3.4"
+cpd = "de.aaschmid.cpd:3.5"
 sass = "io.miret.etienne.sass:1.5.1"
 
 # Plugins defined by this project
