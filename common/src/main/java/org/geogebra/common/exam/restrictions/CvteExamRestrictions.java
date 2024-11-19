@@ -51,7 +51,7 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 
-@SuppressWarnings("PMD.SimplifyBooleanReturns")
+@SuppressWarnings({"PMD.SimplifyBooleanReturns", "checkstyle:regexpsinglelinecheck"})
 public final class CvteExamRestrictions extends ExamRestrictions {
 
 	private boolean casEnabled = true;
@@ -304,6 +304,20 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 		}
 	}
 
+	/**
+	 * Determines whether the visibility of a {@code GeoElement} is enabled during CVTE exam.
+	 * <p>
+	 * This method is used to decide whether an element's visibility is restricted during CVTE exam.
+	 * <p>
+	 * If the visibility is enabled, it means that nothing should change after entering exam mode.
+	 * <p>
+	 * If the visibility is restricted, it means that
+	 * the element should never be shown in the Euclidean view,
+	 * it shouldn't have a show object property in its settings.
+	 * and the visibility toggle button should be disabled in the Algebra view.
+	 * @param geoElement the {@code GeoElement} to evaluate
+	 * @return {@code true} if the visibility is enabled, {@code false} if it is restricted.
+	 */
 	public static boolean isVisibilityEnabled(GeoElement geoElement) {
 		// Allow explicit equations
 		// E.g.: y = 2x
