@@ -2,34 +2,34 @@ package org.geogebra.common.main.settings.config.equationforms;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.kernel.EquationLinear;
-import org.geogebra.common.kernel.EquationQuadric;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
+import org.geogebra.common.kernel.ConicEquationRepresentable;
 
 public class EquationBehaviourGeometry extends DefaultEquationBehaviour {
 
 	@Override
-	public EquationLinear.Form getLinearAlgebraInputEquationForm() {
-		return EquationLinear.Form.USER;
+	public LinearEquationRepresentable.Form getLinearAlgebraInputEquationForm() {
+		return LinearEquationRepresentable.Form.USER;
 	}
 
 	@Override
-	public EquationLinear.Form getLineCommandEquationForm() {
-		return EquationLinear.Form.EXPLICIT;
+	public LinearEquationRepresentable.Form getLineCommandEquationForm() {
+		return LinearEquationRepresentable.Form.EXPLICIT;
 	}
 
 	@Nonnull
 	@Override
-	public EquationLinear.Form getRayCommandEquationForm() {
-		return EquationLinear.Form.EXPLICIT;
+	public LinearEquationRepresentable.Form getRayCommandEquationForm() {
+		return LinearEquationRepresentable.Form.EXPLICIT;
 	}
 
 	@Override
-	public EquationQuadric.Form getConicAlgebraInputEquationForm() {
-		return EquationQuadric.Form.USER;
+	public ConicEquationRepresentable.Form getConicAlgebraInputEquationForm() {
+		return ConicEquationRepresentable.Form.USER;
 	}
 
 	@Override
-	public EquationQuadric.Form getConicCommandEquationForm() {
-		return EquationQuadric.Form.IMPLICIT;
+	public ConicEquationRepresentable.Form getConicCommandEquationForm() {
+		return ConicEquationRepresentable.Form.IMPLICIT;
 	}
 }

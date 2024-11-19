@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.kernel.EquationBehaviour;
-import org.geogebra.common.kernel.EquationLinear;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -22,9 +22,9 @@ public class LineEqnModel extends MultipleOptionsModel {
 	public LineEqnModel(App app) {
 		super(app);
 
-		eqnValues = Arrays.asList(EquationLinear.Form.IMPLICIT.rawValue,
-				EquationLinear.Form.EXPLICIT.rawValue, EquationLinear.Form.PARAMETRIC.rawValue,
-				EquationLinear.Form.GENERAL.rawValue, EquationLinear.Form.USER.rawValue);
+		eqnValues = Arrays.asList(LinearEquationRepresentable.Form.IMPLICIT.rawValue,
+				LinearEquationRepresentable.Form.EXPLICIT.rawValue, LinearEquationRepresentable.Form.PARAMETRIC.rawValue,
+				LinearEquationRepresentable.Form.GENERAL.rawValue, LinearEquationRepresentable.Form.USER.rawValue);
 
 	}
 
@@ -47,7 +47,7 @@ public class LineEqnModel extends MultipleOptionsModel {
 	 */
 	public static boolean forceInputForm(GeoElementND geo) {
 		EquationBehaviour equationBehaviour = geo.getKernel().getEquationBehaviour();
-		if (geo instanceof EquationLinear) {
+		if (geo instanceof LinearEquationRepresentable) {
 			boolean isUserInput = geo.getParentAlgorithm() == null;
 			if (isUserInput) {
 				return equationBehaviour.getLinearAlgebraInputEquationForm() != null

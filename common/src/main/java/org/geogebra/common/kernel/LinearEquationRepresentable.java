@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 /**
  * An umbrella for objects described by linear equations.
  */
-public interface EquationLinear {
+public interface LinearEquationRepresentable {
 
 	/**
 	 * Equation forms for linear equations.

@@ -27,8 +27,8 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.EquationLinear;
-import org.geogebra.common.kernel.EquationQuadric;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
+import org.geogebra.common.kernel.ConicEquationRepresentable;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -1857,24 +1857,24 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo instanceof GeoLine) {
 			GeoLine line = (GeoLine) geo;
 			if ("parametric".equals(style)) {
-				line.setEquationForm(EquationLinear.Form.PARAMETRIC);
+				line.setEquationForm(LinearEquationRepresentable.Form.PARAMETRIC);
 			} else if ("explicit".equals(style)) {
-				line.setEquationForm(EquationLinear.Form.EXPLICIT);
+				line.setEquationForm(LinearEquationRepresentable.Form.EXPLICIT);
 			} else if ("implicit".equals(style)) {
-				line.setEquationForm(EquationLinear.Form.IMPLICIT);
+				line.setEquationForm(LinearEquationRepresentable.Form.IMPLICIT);
 			}
 			geo.updateRepaint();
 
 		} else if (geo instanceof GeoConic) {
 			GeoConic conic = (GeoConic) geo;
 			if ("parametric".equals(style)) {
-				conic.setEquationForm(EquationQuadric.Form.PARAMETRIC);
+				conic.setEquationForm(ConicEquationRepresentable.Form.PARAMETRIC);
 			} else if ("explicit".equals(style)) {
-				conic.setEquationForm(EquationQuadric.Form.EXPLICIT);
+				conic.setEquationForm(ConicEquationRepresentable.Form.EXPLICIT);
 			} else if ("implicit".equals(style)) {
-				conic.setEquationForm(EquationQuadric.Form.IMPLICIT);
+				conic.setEquationForm(ConicEquationRepresentable.Form.IMPLICIT);
 			} else if ("specific".equals(style)) {
-				conic.setEquationForm(EquationQuadric.Form.SPECIFIC);
+				conic.setEquationForm(ConicEquationRepresentable.Form.SPECIFIC);
 			}
 			geo.updateRepaint();
 		}

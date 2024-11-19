@@ -52,14 +52,14 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
 
 		compute();
 
-		if (sphereND.isSpecificPossible()) {
+//		if (sphereND.isSpecificPossible()) {
 			sphereND.setToSpecific();
-		} else {
-			EquationBehaviour equationBehaviour = cons.getKernel().getEquationBehaviour();
-			if (equationBehaviour != null) {
-				sphereND.setEquationForm(equationBehaviour.getConicCommandEquationForm());
-			}
-		}
+//		} else {
+//			EquationBehaviour equationBehaviour = cons.getKernel().getEquationBehaviour();
+//			if (equationBehaviour != null) {
+//				sphereND.setEquationForm(equationBehaviour.getConicCommandEquationForm());
+//			}
+//		}
 	}
 
 	abstract protected GeoQuadricND createSphereND(Construction cons1);

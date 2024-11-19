@@ -4,8 +4,8 @@ import java.util.Locale;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.kernel.EquationLinear;
-import org.geogebra.common.kernel.EquationQuadric;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
+import org.geogebra.common.kernel.ConicEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
@@ -207,24 +207,24 @@ public class XMLBuilder {
 	public static void appendEquationTypeLine(StringBuilder sb, int toStringMode,
 			String parameter) {
 		switch (toStringMode) {
-		case EquationLinear.Form.CONST_PARAMETRIC:
+		case LinearEquationRepresentable.Form.CONST_PARAMETRIC:
 			sb.append("\t<eqnStyle style=\"parametric\" parameter=\"");
 			sb.append(parameter);
 			sb.append("\"/>\n");
 			break;
-		case EquationLinear.Form.CONST_IMPLICIT:
+		case LinearEquationRepresentable.Form.CONST_IMPLICIT:
 			appendType(sb, "implicit");
 			break;
-		case EquationLinear.Form.CONST_EXPLICIT:
+		case LinearEquationRepresentable.Form.CONST_EXPLICIT:
 			appendType(sb, "explicit");
 			break;
-		case EquationLinear.Form.CONST_GENERAL:
+		case LinearEquationRepresentable.Form.CONST_GENERAL:
 			appendType(sb, "general");
 			break;
-		case EquationLinear.Form.CONST_USER:
+		case LinearEquationRepresentable.Form.CONST_USER:
 			appendType(sb, "user");
 			break;
-		case EquationLinear.Form.CONST_IMPLICIT_NON_CANONICAL:
+		case LinearEquationRepresentable.Form.CONST_IMPLICIT_NON_CANONICAL:
 			// don't want anything here
 			break;
 		default:
@@ -257,22 +257,22 @@ public class XMLBuilder {
 			int toStringMode, String parameter) {
 		// implicit or specific mode
 		switch (toStringMode) {
-		case EquationQuadric.Form.CONST_SPECIFIC:
+		case ConicEquationRepresentable.Form.CONST_SPECIFIC:
 			XMLBuilder.appendType(sb, "specific");
 			break;
-		case EquationQuadric.Form.CONST_EXPLICIT:
+		case ConicEquationRepresentable.Form.CONST_EXPLICIT:
 			XMLBuilder.appendType(sb, "explicit");
 			break;
-		case EquationQuadric.Form.CONST_USER:
+		case ConicEquationRepresentable.Form.CONST_USER:
 			XMLBuilder.appendType(sb, "user");
 			break;
-		case EquationQuadric.Form.CONST_VERTEX:
+		case ConicEquationRepresentable.Form.CONST_VERTEX:
 			XMLBuilder.appendType(sb, "vertex");
 			break;
-		case EquationQuadric.Form.CONST_CONICFORM:
+		case ConicEquationRepresentable.Form.CONST_CONICFORM:
 			XMLBuilder.appendType(sb, "conic");
 			break;
-		case EquationQuadric.Form.CONST_PARAMETRIC:
+		case ConicEquationRepresentable.Form.CONST_PARAMETRIC:
 			sb.append("\t<eqnStyle style=\"parametric\"/>\n");
 			break;
 

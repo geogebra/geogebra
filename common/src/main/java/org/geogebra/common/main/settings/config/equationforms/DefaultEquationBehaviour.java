@@ -1,8 +1,8 @@
 package org.geogebra.common.main.settings.config.equationforms;
 
 import org.geogebra.common.kernel.EquationBehaviour;
-import org.geogebra.common.kernel.EquationLinear;
-import org.geogebra.common.kernel.EquationQuadric;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
+import org.geogebra.common.kernel.ConicEquationRepresentable;
 
 /**
  * Equation behavior that doesn't apply any customization to the default equation forms.
@@ -14,32 +14,32 @@ import org.geogebra.common.kernel.EquationQuadric;
 public class DefaultEquationBehaviour implements EquationBehaviour {
 
 	@Override
-	public EquationLinear.Form getLinearAlgebraInputEquationForm() {
+	public LinearEquationRepresentable.Form getLinearAlgebraInputEquationForm() {
 		return null;
 	}
 
 	@Override
-	public EquationLinear.Form getLineCommandEquationForm() {
+	public LinearEquationRepresentable.Form getLineCommandEquationForm() {
 		return null;
 	}
 
 	@Override
-	public EquationLinear.Form getFitLineCommandEquationForm() {
-		return EquationLinear.Form.EXPLICIT;
+	public LinearEquationRepresentable.Form getFitLineCommandEquationForm() {
+		return LinearEquationRepresentable.Form.EXPLICIT;
 	}
 
 	@Override
-	public EquationLinear.Form getRayCommandEquationForm() {
+	public LinearEquationRepresentable.Form getRayCommandEquationForm() {
 		return null;
 	}
 
 	@Override
-	public EquationQuadric.Form getConicAlgebraInputEquationForm() {
+	public ConicEquationRepresentable.Form getConicAlgebraInputEquationForm() {
 		return null;
 	}
 
 	@Override
-	public EquationQuadric.Form getConicCommandEquationForm() {
+	public ConicEquationRepresentable.Form getConicCommandEquationForm() {
 		return null;
 	}
 

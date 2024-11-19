@@ -4,7 +4,7 @@ import static java.util.Map.entry;
 
 import java.util.List;
 
-import org.geogebra.common.kernel.EquationLinear;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.main.Localization;
@@ -26,11 +26,11 @@ public class EquationFormProperty extends AbstractNamedEnumeratedProperty<Intege
 		super(localization, "Equation");
 		delegate = new EquationFormDelegate(element);
 		setNamedValues(List.of(
-                               entry(EquationLinear.Form.IMPLICIT.rawValue, "ImplicitLineEquation"),
-                               entry(EquationLinear.Form.EXPLICIT.rawValue, "ExplicitLineEquation"),
-                               entry(EquationLinear.Form.PARAMETRIC.rawValue, "ParametricForm"),
-                               entry(EquationLinear.Form.GENERAL.rawValue, "GeneralLineEquation"),
-                               entry(EquationLinear.Form.USER.rawValue, "InputForm")
+                               entry(LinearEquationRepresentable.Form.IMPLICIT.rawValue, "ImplicitLineEquation"),
+                               entry(LinearEquationRepresentable.Form.EXPLICIT.rawValue, "ExplicitLineEquation"),
+                               entry(LinearEquationRepresentable.Form.PARAMETRIC.rawValue, "ParametricForm"),
+                               entry(LinearEquationRepresentable.Form.GENERAL.rawValue, "GeneralLineEquation"),
+                               entry(LinearEquationRepresentable.Form.USER.rawValue, "InputForm")
 		));
 	}
 

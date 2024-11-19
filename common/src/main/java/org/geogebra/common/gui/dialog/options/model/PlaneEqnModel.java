@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.kernel.EquationBehaviour;
-import org.geogebra.common.kernel.EquationLinear;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -18,8 +18,8 @@ public class PlaneEqnModel extends MultipleOptionsModel {
 	public PlaneEqnModel(App app) {
 		super(app);
 
-		eqnValues = Arrays.asList(EquationLinear.Form.IMPLICIT.rawValue,
-				EquationLinear.Form.USER.rawValue);
+		eqnValues = Arrays.asList(LinearEquationRepresentable.Form.IMPLICIT.rawValue,
+				LinearEquationRepresentable.Form.USER.rawValue);
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class PlaneEqnModel extends MultipleOptionsModel {
 	public static boolean forceInputForm(GeoElementND geo) {
 		EquationBehaviour equationBehaviour = geo.getKernel().getEquationBehaviour();
 		boolean isUserInput = geo.getParentAlgorithm() == null;
-		if (geo instanceof EquationLinear) {
+		if (geo instanceof LinearEquationRepresentable) {
 			if (isUserInput) {
 				return equationBehaviour.getLinearAlgebraInputEquationForm() != null
 						&& !equationBehaviour.allowsChangingEquationFormsByUser();

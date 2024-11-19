@@ -107,14 +107,14 @@ public class AlgoCircleThreePoints extends AlgoElement
 		compute();
 		setIncidence();
 
-		if (circle.isSpecificPossible()) {
+//		if (circle.isSpecificPossible()) {
 			circle.setToSpecific();
-		} else {
-			EquationBehaviour equationBehaviour = cons.getKernel().getEquationBehaviour();
-			if (equationBehaviour != null) {
-				circle.setEquationForm(equationBehaviour.getConicCommandEquationForm());
-			}
-		}
+//		} else {
+//			EquationBehaviour equationBehaviour = cons.getKernel().getEquationBehaviour();
+//			if (equationBehaviour != null) {
+//				circle.setEquationForm(equationBehaviour.getConicCommandEquationForm());
+//			}
+//		}
 	}
 
 	private void setIncidence() {

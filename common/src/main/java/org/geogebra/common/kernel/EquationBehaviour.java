@@ -22,54 +22,54 @@ public interface EquationBehaviour {
 	/**
 	 * Customize the equation form for lines, implicit equations and functions (e.g., "y = x").
 	 * @return One of the values defined in
-	 * {@link EquationLinear.Form}, or null if the equation form
+	 * {@link LinearEquationRepresentable.Form}, or null if the equation form
 	 * should be taken from the construction defaults (see note in header).
 	 * @see EquationBehaviour#getConicAlgebraInputEquationForm()
 	 */
-	EquationLinear.Form getLinearAlgebraInputEquationForm();
+	LinearEquationRepresentable.Form getLinearAlgebraInputEquationForm();
 
 	/**
 	 * Customize the equation form for lines created from a command or tool.
 	 * @return One of the values defined in
-	 * {@link EquationLinear.Form}, or null if the equation form
+	 * {@link LinearEquationRepresentable.Form}, or null if the equation form
 	 * should be taken from the construction defaults (see note in header).
 	 * @see org.geogebra.common.kernel.algos.AlgoJoinPoints
 	 */
-	EquationLinear.Form getLineCommandEquationForm();
+	LinearEquationRepresentable.Form getLineCommandEquationForm();
 
 	/**
 	 * Customize the equation form for lines created from a FitLine command.
 	 * @return One of the values defined in
-	 * {@link EquationLinear.Form}, or null if the equation form
+	 * {@link LinearEquationRepresentable.Form}, or null if the equation form
 	 * should be taken from the construction defaults (see note in header).
 	 * @see org.geogebra.common.kernel.algos.AlgoJoinPoints
 	 */
-	EquationLinear.Form getFitLineCommandEquationForm();
+	LinearEquationRepresentable.Form getFitLineCommandEquationForm();
 
 	/**
 	 * Customize the equation form for rays created from a command or tool.
 	 * @return One of the values defined in
-	 * {@link EquationLinear.Form}, or null if the equation form
+	 * {@link LinearEquationRepresentable.Form}, or null if the equation form
 	 * should be taken from the construction defaults (see note in header).
 	 * @see org.geogebra.common.kernel.algos.AlgoJoinPointsRay
 	 */
-	EquationLinear.Form getRayCommandEquationForm();
+	LinearEquationRepresentable.Form getRayCommandEquationForm();
 
 	/**
 	 * Customize the equation form for conics created from user input (e.g., "y = xx").
 	 * @return One of the values defined in
-	 * {@link EquationQuadric.Form}, or null if the default equation form
+	 * {@link ConicEquationRepresentable.Form}, or null if the default equation form
 	 * should be used.
 	 */
-	EquationQuadric.Form getConicAlgebraInputEquationForm();
+	ConicEquationRepresentable.Form getConicAlgebraInputEquationForm();
 
 	/**
 	 * Customize the equation form for conics created from a (Parabola, etc) command or tool.
 	 * @return One of the values defined in
-	 * {@link EquationQuadric.Form}, or null if the default equation form
+	 * {@link ConicEquationRepresentable.Form}, or null if the default equation form
 	 * should be used.
 	 */
-	EquationQuadric.Form getConicCommandEquationForm();
+	ConicEquationRepresentable.Form getConicCommandEquationForm();
 
 	/**
 	 * Whether this EquationBehaviour allows the equation forms to be changed by the user.

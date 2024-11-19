@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 /**
  * An umbrella for objects described by conic/quadric equations.
  */
-public interface EquationQuadric {
+public interface ConicEquationRepresentable {
 
 	/**
 	 * Equation forms for conics/quadrics.

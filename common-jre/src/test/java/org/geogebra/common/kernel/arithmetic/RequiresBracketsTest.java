@@ -3,8 +3,8 @@ package org.geogebra.common.kernel.arithmetic;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.kernel.EquationLinear;
-import org.geogebra.common.kernel.EquationQuadric;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
+import org.geogebra.common.kernel.ConicEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class RequiresBracketsTest extends BaseUnitTest {
 
 		add("eq1: f - g = 0");
 
-		lookup("eq1").setToStringMode(EquationLinear.Form.USER.rawValue);
+		lookup("eq1").setToStringMode(LinearEquationRepresentable.Form.USER.rawValue);
 
 		assertEquals("3x - 1 - (-2 x + 4) = 0",
 				lookup("eq1").toValueString(StringTemplate.algebraTemplate));
@@ -33,10 +33,10 @@ public class RequiresBracketsTest extends BaseUnitTest {
 		add("eq2: g * f = 0");
 		add("eq3: g * g = 0");
 
-		lookup("eq0").setToStringMode(EquationQuadric.Form.USER.rawValue);
-		lookup("eq1").setToStringMode(EquationQuadric.Form.USER.rawValue);
-		lookup("eq2").setToStringMode(EquationQuadric.Form.USER.rawValue);
-		lookup("eq3").setToStringMode(EquationQuadric.Form.USER.rawValue);
+		lookup("eq0").setToStringMode(ConicEquationRepresentable.Form.USER.rawValue);
+		lookup("eq1").setToStringMode(ConicEquationRepresentable.Form.USER.rawValue);
+		lookup("eq2").setToStringMode(ConicEquationRepresentable.Form.USER.rawValue);
+		lookup("eq3").setToStringMode(ConicEquationRepresentable.Form.USER.rawValue);
 
 		assertEquals("(3x - 1) (3x - 1) = 0",
 				lookup("eq0").toValueString(StringTemplate.algebraTemplate));

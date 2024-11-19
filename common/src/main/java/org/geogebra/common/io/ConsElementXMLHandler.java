@@ -15,8 +15,8 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.EquationLinear;
-import org.geogebra.common.kernel.EquationQuadric;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
+import org.geogebra.common.kernel.ConicEquationRepresentable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.MacroConstruction;
@@ -1404,14 +1404,14 @@ public class ConsElementXMLHandler {
 	private boolean handleEqnStyle(LinkedHashMap<String, String> attrs) {
 		String style = attrs.get("style");
 		String parameter = attrs.get("parameter");
-		if (geo instanceof EquationLinear) {
+		if (geo instanceof LinearEquationRepresentable) {
 			// e.g., GeoLine
-			if (!((EquationLinear) geo).setEquationFormFromXML(style, parameter)) {
+			if (!((LinearEquationRepresentable) geo).setEquationFormFromXML(style, parameter)) {
 				Log.error("unknown style for linear object in <eqnStyle>: " + style);
 			}
-		} else if (geo instanceof EquationQuadric) {
+		} else if (geo instanceof ConicEquationRepresentable) {
 			// e.g., GeoConic
-			if (!((EquationQuadric) geo).setEquationFormFromXML(style, parameter)) {
+			if (!((ConicEquationRepresentable) geo).setEquationFormFromXML(style, parameter)) {
 				Log.error("unknown style for conic in <eqnStyle>: " + style);
 			}
 		} else {

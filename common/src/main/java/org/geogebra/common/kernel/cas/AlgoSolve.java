@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.EquationLinear;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
@@ -164,10 +164,10 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 
 			GeoElement el = solutions2.get(i);
 			if (el instanceof GeoLine) {
-				((GeoLine) el).setEquationForm(EquationLinear.Form.USER);
+				((GeoLine) el).setEquationForm(LinearEquationRepresentable.Form.USER);
 			}
 			if (el instanceof GeoPlaneND) {
-				((GeoPlaneND) el).setEquationForm(EquationLinear.Form.USER);
+				((GeoPlaneND) el).setEquationForm(LinearEquationRepresentable.Form.USER);
 			}
 
 			if (el instanceof GeoList) {
