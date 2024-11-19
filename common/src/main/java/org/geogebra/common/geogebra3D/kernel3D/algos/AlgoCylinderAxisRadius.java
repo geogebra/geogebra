@@ -80,7 +80,7 @@ public class AlgoCylinderAxisRadius extends AlgoQuadric {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.InfiniteCylinder;
+		return Commands.CylinderInfinite;
 	}
 
 }

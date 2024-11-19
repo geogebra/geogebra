@@ -53,7 +53,7 @@ public class AlgoConePointLineAngle extends AlgoQuadricPointNumber {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.InfiniteCone;
+		return Commands.ConeInfinite;
 	}
 
 }
