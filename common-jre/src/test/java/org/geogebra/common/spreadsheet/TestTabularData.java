@@ -126,7 +126,7 @@ public class TestTabularData implements TabularData<String> {
 	}
 
 	@Override
-	public CellDragPasteHandler getCellDragPasteHandler() {
+	public CellDragPasteHandler<String> getCellDragPasteHandler() {
 		return null;
 	}
 }

@@ -6,7 +6,6 @@ import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.io.XMLParseException;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.util.debug.Log;
 
@@ -14,12 +13,12 @@ import org.geogebra.common.util.debug.Log;
  * Utility class designed to handle dragging a selection in order to copy its content to adjacent
  * cells
  */
-public class CellDragPasteHandler {
+public class CellDragPasteHandler<T> {
 
 	private enum PasteDirection { UP, RIGHT, DOWN, LEFT }
 
 	private TabularRange rangeToCopy;
-	private final TabularData<GeoElement> tabularData;
+	private final TabularData<T> tabularData;
 	private final Kernel kernel;
 	private final RelativeCopy relativeCopy;
 	private int fromRow;
@@ -32,7 +31,7 @@ public class CellDragPasteHandler {
 	 * @param tabularData {@link TabularData}
 	 * @param kernel {@link Kernel} - Needed for {@link RelativeCopy}
 	 */
-	public CellDragPasteHandler(TabularData tabularData, Kernel kernel) {
+	public CellDragPasteHandler(TabularData<T> tabularData, Kernel kernel) {
 		this.tabularData = tabularData;
 		this.kernel = kernel;
 		this.relativeCopy = new RelativeCopy(kernel);
