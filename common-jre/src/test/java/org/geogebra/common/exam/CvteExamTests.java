@@ -1,5 +1,6 @@
 package org.geogebra.common.exam;
 
+import static org.geogebra.common.exam.restrictions.CvteExamRestrictions.isVisibilityEnabled;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
@@ -59,98 +60,67 @@ public final class CvteExamTests extends BaseExamTests {
     }
 
     @Test
-    public void testConicRestrictions() {
-        // Check visible elements
-        List.of("Circle((0, 0), 2)",
-                "Circle((1, 1), 4)"
-        ).forEach(expression -> {
-            GeoElement geoElement = evaluateGeoElement(expression);
-            assertTrue(expression + " should be visible in the euclidian view.",
-                    geoElement.isEuclidianVisible());
-            assertTrue(expression + " should be toggleable in the algebra input.",
-                    geoElement.isEuclidianToggleable());
-            assertNotNull(expression + " should have a show object property.",
-                    geoElementPropertiesFactory.createShowObjectProperty(
-                            app.getLocalization(), List.of(geoElement)));
-        });
+    public void testUnrestrictedVisibility() {
+        // Enabled conics
+        assertTrue(isVisibilityEnabled(evaluateGeoElement("Circle((0, 0), 2)")));
 
-        // Check elements with restricted visibility
-        List.of("x^2 + y^2 = 4",
-                "x^2 / 9 + y^2 / 4 = 1",
-                "x^2 - y^2 = 4"
-        ).forEach(expression -> {
-            GeoElement geoElement = evaluateGeoElement(expression);
-            assertFalse(expression + " shouldn't be visible in the euclidian view.",
-                    geoElement.isEuclidianVisible());
-            assertFalse(expression + " shouldn't be toggleable in the algebra input.",
-                    geoElement.isEuclidianToggleable());
-            assertNull(expression + " shouldn't have a show object property.",
-                    geoElementPropertiesFactory.createShowObjectProperty(
-                            app.getLocalization(), List.of(geoElement)));
-        });
+        // Enabled equations
+        assertTrue(isVisibilityEnabled(evaluateGeoElement("x = 0")));
+        assertTrue(isVisibilityEnabled(evaluateGeoElement("y = 5")));
+        assertTrue(isVisibilityEnabled(evaluateGeoElement("x + y = 0")));
+        assertTrue(isVisibilityEnabled(evaluateGeoElement("x = y")));
+        assertTrue(isVisibilityEnabled(evaluateGeoElement("2x - 3y = 4")));
+        assertTrue(isVisibilityEnabled(evaluateGeoElement("2x = y")));
+        assertTrue(isVisibilityEnabled(evaluateGeoElement("y = 2x")));
+        assertTrue(isVisibilityEnabled(evaluateGeoElement("y = x^2")));
+        assertTrue(isVisibilityEnabled(evaluateGeoElement("y = x^3")));
+        assertTrue(isVisibilityEnabled(evaluateGeoElement("y = x^2 - 5x + 2")));
+
+        // Other enabled inputs
+        assertTrue(isVisibilityEnabled(evaluateGeoElement("x")));
+        assertTrue(isVisibilityEnabled(evaluateGeoElement("f(x) = x^2")));
+        assertTrue(isVisibilityEnabled(evaluateGeoElement("x^2")));
+        assertTrue(isVisibilityEnabled(evaluateGeoElement("A = (1, 2)")));
     }
 
     @Test
-    public void testEquationRestrictions() {
-        List.of("x = 0",
-                "x + y = 0",
-                "2x - 3y = 4",
-                "y = 2x",
-                "y = x^2",
-                "y = x^3"
-        ).forEach(expression -> {
-            GeoElement geoElement = evaluateGeoElement(expression);
-            assertTrue(expression + " should be visible in the euclidian view.",
-                    geoElement.isEuclidianVisible());
-            assertTrue(expression + " should be toggleable in the algebra input.",
-                    geoElement.isEuclidianToggleable());
-            assertNotNull(expression + " should have a show object property.",
-                    geoElementPropertiesFactory.createShowObjectProperty(
-                            app.getLocalization(), List.of(geoElement)));
-        });
+    public void testRestrictedVisibility() {
+        // Restricted conics
+        assertFalse(isVisibilityEnabled(evaluateGeoElement("x^2 + y^2 = 4")));
+        assertFalse(isVisibilityEnabled(evaluateGeoElement("x^2 / 9 + y^2 / 4 = 1")));
+        assertFalse(isVisibilityEnabled(evaluateGeoElement("x^2 - y^2 = 4")));
 
-        List.of("x^2 = 0",
-                "x^2 = 1",
-                "2^x = 0",
-                "sin(x) = 0",
-                "ln(x) = 0",
-                "|x - 3| = 0",
-                "y - x^2 = 0",
-                "x^2 = y",
-                "x^3 = y",
-                "y^2 = x",
-                "x^2 + y^2 = 4",
-                "x^2 / 9 + y^2 / 4 = 1",
-                "x^2 - y^2 = 4",
-                "x^3 + y^2 = 2",
-                "y^3 = x"
-        ).forEach(expression -> {
-            GeoElement geoElement = evaluateGeoElement(expression);
-            assertFalse(expression + " shouldn't be visible in the euclidian view.",
-                    geoElement.isEuclidianVisible());
-            assertFalse(expression + " shouldn't be toggleable in the algebra input.",
-                    geoElement.isEuclidianToggleable());
-            assertNull(expression + " shouldn't have a show object property.",
-                    geoElementPropertiesFactory.createShowObjectProperty(
-                            app.getLocalization(), List.of(geoElement)));
-        });
+        // Restricted equations
+        assertFalse(isVisibilityEnabled(evaluateGeoElement("x^2 = 0")));
+        assertFalse(isVisibilityEnabled(evaluateGeoElement("x^2 = 1")));
+        assertFalse(isVisibilityEnabled(evaluateGeoElement("2^x = 0")));
+        assertFalse(isVisibilityEnabled(evaluateGeoElement("sin(x) = 0")));
+        assertFalse(isVisibilityEnabled(evaluateGeoElement("ln(x) = 0")));
+        assertFalse(isVisibilityEnabled(evaluateGeoElement("|x - 3| = 0")));
+        assertFalse(isVisibilityEnabled(evaluateGeoElement("y - x^2 = 0")));
+        assertFalse(isVisibilityEnabled(evaluateGeoElement("x^2 = y")));
+        assertFalse(isVisibilityEnabled(evaluateGeoElement("x^3 = y")));
+        assertFalse(isVisibilityEnabled(evaluateGeoElement("y^2 = x")));
+        assertFalse(isVisibilityEnabled(evaluateGeoElement("x^3 + y^2 = 2")));
+        assertFalse(isVisibilityEnabled(evaluateGeoElement("y^3 = x")));
     }
-
+    
     @Test
-    public void testOtherUnrestrictedInputs() {
-        List.of("x",
-                "f(x) = x^2",
-                "x^2",
-                "A = (1, 2)"
-        ).forEach(expression -> {
-            GeoElement geoElement = evaluateGeoElement(expression);
-            assertTrue(expression + " should be visible in the euclidian view.",
-                    geoElement.isEuclidianVisible());
-            assertTrue(expression + " should be toggleable in the algebra input.",
-                    geoElement.isEuclidianToggleable());
-            assertNotNull(expression + " should have a show object property.",
-                    geoElementPropertiesFactory.createShowObjectProperty(
-                            app.getLocalization(), List.of(geoElement)));
-        });
+    public void testRestrictedVisibilityInEuclidianView() {
+        GeoElement allowedGeoElement = evaluateGeoElement("x = 0");
+        assertTrue(isVisibilityEnabled(allowedGeoElement));
+
+        GeoElement restrictedGeoElement = evaluateGeoElement("x^2 = 0");
+        assertFalse(isVisibilityEnabled(restrictedGeoElement));
+
+        assertTrue(allowedGeoElement.isEuclidianVisible());
+        assertTrue(allowedGeoElement.isEuclidianToggleable());
+        assertNotNull(geoElementPropertiesFactory.createShowObjectProperty(
+                app.getLocalization(), List.of(allowedGeoElement)));
+
+        assertFalse(restrictedGeoElement.isEuclidianVisible());
+        assertFalse(restrictedGeoElement.isEuclidianToggleable());
+        assertNull(geoElementPropertiesFactory.createShowObjectProperty(
+                app.getLocalization(), List.of(restrictedGeoElement)));
     }
 }
