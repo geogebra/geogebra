@@ -51,7 +51,7 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 
-@SuppressWarnings({"PMD.SimplifyBooleanReturns", "checkstyle:regexpsinglelinecheck"})
+@SuppressWarnings({"PMD.SimplifyBooleanReturns", "checkstyle:RegexpSinglelineCheck"})
 public final class CvteExamRestrictions extends ExamRestrictions {
 
 	private boolean casEnabled = true;
