@@ -51,7 +51,6 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 
-@SuppressWarnings({"PMD.SimplifyBooleanReturns", "checkstyle:RegexpSinglelineCheck"})
 public final class CvteExamRestrictions extends ExamRestrictions {
 
 	private boolean casEnabled = true;
@@ -318,13 +317,14 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 	 * @param geoElement the {@code GeoElement} to evaluate
 	 * @return {@code true} if the visibility is enabled, {@code false} if it is restricted.
 	 */
+	@SuppressWarnings({"PMD.SimplifyBooleanReturns", "checkstyle:RegexpSinglelineCheck"})
 	public static boolean isVisibilityEnabled(GeoElement geoElement) {
 		// Allow explicit equations
 		// E.g.: y = 2x
-		//		 y = 5
-		// 		 y = x^2
-		// 		 y = x^3
-		//		 y = x^2 - 5x + 2
+		//       y = 5
+		//       y = x^2
+		//       y = x^3
+		//       y = x^2 - 5x + 2
 		if (isExplicitEquation(geoElement)) {
 			return true;
 		}
@@ -332,46 +332,46 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 		// Allow circles created by "Circle(<Center>, <Radius>)" command
 		// or "Circle: Center & Radius" tool
 		// E.g.: Circle((0, 0), 2)
-		// 		 Circle(A, 4)
+		//       Circle(A, 4)
 		if (geoElement.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
 			return true;
 		}
 
 		// Restrict the visibility of any other conic
 		// E.g.: x^2 + y^2 = 4
-		// 	     x^2 / 9 + x^2 / 4 = 1
-		// 	     x^2 - y^2 = 4
+		//       x^2 / 9 + x^2 / 4 = 1
+		//       x^2 - y^2 = 4
 		if (geoElement.isGeoConic()) {
 			return false;
 		}
 
 		// Allow linear equations
 		// E.g.: x = 0
-		// 	     x + y = 0
-		// 	     2x - 3y = 4
-		//		 x = y
-		//	     2x = y
-		// 	     y = 2x
+		//       x + y = 0
+		//       2x - 3y = 4
+		//       x = y
+		//       2x = y
+		//       y = 2x
 		if (isLinearEquation(geoElement)) {
 			return true;
 		}
 
 		// Restrict the visibility of any other equation
 		// E.g.: x^2 = 0
-		//		 x^2 = 1
-		//		 2^x = 0
-		//		 sin(x) = 0
-		//		 ln(x) = 0
-		//		 |x - 3| = 0
-		//		 x^2 = y
-		//		 x^3 = y
-		//		 y^2 = x
-		//		 y^3 = x
-		//		 x^3 + y^2 = 2
+		//       x^2 = 1
+		//       2^x = 0
+		//       sin(x) = 0
+		//       ln(x) = 0
+		//       |x - 3| = 0
+		//       x^2 = y
+		//       x^3 = y
+		//       y^2 = x
+		//       y^3 = x
+		//       x^3 + y^2 = 2
 		if (isEquation(geoElement)) {
 			return false;
 		}
-
+		
 		return true;
 	}
 
