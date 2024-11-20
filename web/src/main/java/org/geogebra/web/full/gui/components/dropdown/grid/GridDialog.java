@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.components.dropdown.grid;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
@@ -46,8 +45,6 @@ public class GridDialog extends ComponentDialog {
 			settings.setBackgroundType(selectedRuling);
 
 			view.updateBackground();
-			((EuclidianViewW) view).doRepaint();
-
 			app.storeUndoInfo();
 		}
 	}
