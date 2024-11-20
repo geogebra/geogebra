@@ -8,6 +8,7 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.geogebra.common.AppCommonFactory;
@@ -91,6 +92,12 @@ public class ParserTest {
 		checkSameStructure("A(1|2)", "(1,2)");
 		checkSameStructure("A(1|2|3)", "(1,2,3)");
 		checkSameStructure("A(1;pi/2)", "(1;pi/2)");
+	}
+
+	@Test
+	public void testUnicodeWhitespace() {
+		List.of("2\t3", "2\u20003", "2\u20083").forEach(x ->
+				shouldReparseAs(x, "2 * 3"));
 	}
 
 	@Test

@@ -307,13 +307,13 @@ public class Parser implements ParserInterface {
 PARSER_END(Parser)
 
 
-
-SKIP : {
-    " "
-  | "\r"
-  | "\t"
-  | "\n"
-}
+// Note: compatible with Java 11's Character.isWhitespace
+SKIP : { <(["\u0009" - "\u000E", // ASCII spaces, \u000E added to work around JavaCC bug
+  "\u001C" - "\u0020", // separators
+  "\u1680", // Ogham space mark
+  "\u2000" - "\u2006", "\u2008" - "\u200A", "\u2028" , "\u2029", "\u205F", // various width spaces
+  "\u3000" // ideographic space
+  ])> }
 
 /* OPERATORS */
 TOKEN :  {
