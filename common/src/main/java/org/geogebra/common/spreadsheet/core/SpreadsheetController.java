@@ -935,10 +935,12 @@ public final class SpreadsheetController {
 			double oldViewportX = viewport.getMinX();
 			double oldViewportY = viewport.getMinY();
 			adjustDataDimensionsForDrag();
-			viewport = viewportAdjuster.scrollForDrag(
-					lastPointerPositionX, lastPointerPositionY, viewport,
-					cellDragPasteHandler.destinationShouldExtendVertically(
-							findRowOrHeader(lastPointerPositionY)));
+			if (viewportAdjuster != null) {
+				viewport = viewportAdjuster.scrollForDrag(
+						lastPointerPositionX, lastPointerPositionY, viewport,
+						cellDragPasteHandler.destinationShouldExtendVertically(
+								findRowOrHeader(lastPointerPositionY)));
+			}
 			setDestinationForDragPaste(lastPointerPositionX + viewport.getMinX() - oldViewportX,
 					lastPointerPositionY + viewport.getMinY() - oldViewportY);
 		} else if (autoscrollRow  || autoscrollColumn) {
