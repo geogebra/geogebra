@@ -1037,7 +1037,8 @@ public class RelativeCopy {
 		// always redefine objects in spreadsheet, don't store undo info
 		// here
 		EvalInfo info = new EvalInfo(
-				!kernel.getConstruction().isSuppressLabelsActive(), true);
+				!kernel.getConstruction().isSuppressLabelsActive(), true)
+				.withSymbolicMode(kernel.getSymbolicMode());
 		kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(
 				oldValue, text, info, false,
 				new AsyncOperation<GeoElementND>() {

@@ -134,8 +134,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	private MockCASGiac setupGiac() {
-		MockCASGiac mockGiac = new MockCASGiac((CASparser) getKernel()
-				.getGeoGebraCAS().getCASparser());
+		MockCASGiac mockGiac = new MockCASGiac(getApp());
 		getApp().setCASFactory(new CASFactory() {
 			@Override
 			public CASGenericInterface newGiac(CASparser parser, Kernel kernel) {
