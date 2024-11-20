@@ -2351,4 +2351,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(simplify.getTwinGeo().getGeoClassType(), is(GeoClass.NUMERIC));
 	}
 
+	@Test
+	@Issue("APPS-6033")
+	public void maxShouldUseCASForTwinGeo() {
+		GeoSymbolic max = add("Max(x^3-6x-1, -2, 3)");
+		assertThat(max.getTwinGeo(), hasValue("(3, 8)"));
+	}
+
 }

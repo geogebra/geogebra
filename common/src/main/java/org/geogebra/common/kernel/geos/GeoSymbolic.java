@@ -660,6 +660,8 @@ public class GeoSymbolic extends GeoElement
 		case TrigSimplify:
 		case TrigCombine:
 		case TrigExpand:
+		case Min:
+		case Max:
 			return true;
 		default: return false;
 		}
