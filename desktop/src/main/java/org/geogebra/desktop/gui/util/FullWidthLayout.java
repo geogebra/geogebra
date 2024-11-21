@@ -12,7 +12,8 @@ import java.awt.LayoutManager;
  * at the bottom of the container.
  */
 public class FullWidthLayout implements LayoutManager {
-	private int vgap;
+	private final boolean fullHeight;
+	private final int vgap;
 	private int minWidth = 0;
 	private int minHeight = 0;
 	private int preferredWidth = 0;
@@ -23,7 +24,7 @@ public class FullWidthLayout implements LayoutManager {
 	 * Creates a new instance of the layout manager with a vertical gap of 5px.
 	 */
 	public FullWidthLayout() {
-		this(5);
+		this(5, false);
 	}
 
 	/**
@@ -32,8 +33,9 @@ public class FullWidthLayout implements LayoutManager {
 	 * @param vgap
 	 *            gap between two components in px
 	 */
-	public FullWidthLayout(int vgap) {
+	public FullWidthLayout(int vgap, boolean fullHeight) {
 		this.vgap = vgap;
+		this.fullHeight = fullHeight;
 	}
 
 	/**
@@ -54,6 +56,12 @@ public class FullWidthLayout implements LayoutManager {
 			if (c.isVisible()) {
 				pref = c.getPreferredSize();
 				min = c.getMinimumSize();
+				if (fullHeight && i == parent.getComponentCount() - 1) {
+					pref.height = Math.max(min.height,
+							parent.getParent().getHeight() - preferredHeight - 16);
+					c.setPreferredSize(pref);
+					c.revalidate();
+				}
 
 				preferredHeight += (i > 0 ? vgap : 0) + pref.height;
 				preferredWidth = Math.max(pref.width, preferredWidth);
