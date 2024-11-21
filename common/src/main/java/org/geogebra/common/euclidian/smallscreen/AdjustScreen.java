@@ -216,7 +216,7 @@ public class AdjustScreen {
 		int fileHeight = viewApp.getSettings()
 				.getEuclidian(view.getEuclidianViewNo()).getFileHeight();
 
-		if (!viewApp.has(Feature.ADJUST_WIDGETS) || fileWidth == 0
+		if (!Feature.ADJUST_WIDGETS.isAvailable() || fileWidth == 0
 				|| fileHeight == 0) {
 			return false;
 		}

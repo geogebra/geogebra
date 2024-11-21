@@ -29,9 +29,9 @@ public class PstricksTest {
 		t("ShowGrid(false)");
 	}
 
-	/** Setup the app */
+	/** Set up the app */
 	@BeforeClass
-	public static void setup() {
+	public static void setUp() {
 		app = AppCommonFactory.create3D();
 		inputs = new ArrayList<>();
 		createObjects();

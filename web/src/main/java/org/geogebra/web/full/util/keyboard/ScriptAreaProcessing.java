@@ -4,9 +4,6 @@ import org.geogebra.keyboard.web.KeyboardConstants;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.html5.Browser;
-import org.gwtproject.dom.client.Document;
-import org.gwtproject.dom.client.NativeEvent;
-import org.gwtproject.user.client.Event;
 
 /**
  * Connector for keyboard and scripting editor
@@ -34,10 +31,12 @@ public class ScriptAreaProcessing implements KeyboardListener {
 
 	@Override
 	public void onEnter() {
-		// TODO: why don't work
-		NativeEvent event2 = Document.get().createKeyDownEvent(false, false,
-				false, false, ENTER);
-		field.onBrowserEvent(Event.as(event2));
+		int cursorPosition = field.getCursorPos();
+		String text = field.getText();
+		String firstHalf = text.substring(0, cursorPosition);
+		String secondHalf = text.substring(cursorPosition + field.getSelectionLength());
+		field.setText(firstHalf + "\r" + secondHalf);
+		field.setCursorPos(cursorPosition + 1);
 	}
 
 	@Override

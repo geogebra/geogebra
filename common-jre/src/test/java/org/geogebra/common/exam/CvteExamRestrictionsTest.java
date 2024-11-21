@@ -3,6 +3,7 @@ package org.geogebra.common.exam;
 import static org.junit.Assert.assertNull;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.junit.Before;
@@ -12,7 +13,8 @@ public class CvteExamRestrictionsTest extends BaseUnitTest {
 
 	@Before
 	public void setupExam() {
-		ExamController examController = new ExamController(new DefaultPropertiesRegistry());
+		ExamController examController = new ExamController(
+				new DefaultPropertiesRegistry(), new ContextMenuFactory());
 		examController.setActiveContext(this, getKernel().getAlgebraProcessor()
 						.getCommandDispatcher(), getKernel().getAlgebraProcessor(),
 				getLocalization(), getSettings(), null, null);

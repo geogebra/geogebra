@@ -223,6 +223,13 @@ public class StandardButton extends Widget implements HasResource {
 	}
 
 	/**
+	 * Sets the tooltip-position attribute to 'right' (used for showing tooltips on hover)
+	 */
+	public void setTooltipPositionRight() {
+		this.getElement().setAttribute("tooltip-position", "right");
+	}
+
+	/**
 	 * @param altText
 	 *            - alt text
 	 */

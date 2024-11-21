@@ -3,15 +3,15 @@ junit = "4.13.2"
 mockito = "5.14.2"
 hamcrest = "3.0"
 jogl = "2.5.0"
-javagiac = "70320"
-gwt = "2.11.0"
+javagiac = "70363"
+gwt = "2.12.1"
 gwtTreblereel = "202408061"
-elemental2 = "1.2.1"
+elemental2 = "1.2.3"
 murok = "1.0.202408230914"
 # built from ef18cb9206; switch to upstream when https://github.com/mozilla/rhino/pull/1385 is released
 mozilla-rhino = "1.7.15"
 quickJs = '1.0.202403131629-SNAPSHOT'
-multiplayer = "1.0.202410021310"
+multiplayer = "1.0.202411120834"
 spotbugs = "4.8.6"
 
 [libraries]
@@ -61,11 +61,11 @@ mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 
 gwt-plugin = {module = "org.docstr:gwt-gradle-plugin", version = "1.1.31" }
-spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.0.25" }
-javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "3.0.2"}
+spotbugs-plugin = {module = "com.github.spotbugs.snom:spotbugs-gradle-plugin", version = "6.0.26" }
+javacc-plugin = {module = "org.javacc.plugin:javacc-gradle-plugin", version = "3.0.3"}
 
 [plugins]
-cpd = "de.aaschmid.cpd:3.4"
+cpd = "de.aaschmid.cpd:3.5"
 sass = "io.miret.etienne.sass:1.5.1"
 
 # Plugins defined by this project

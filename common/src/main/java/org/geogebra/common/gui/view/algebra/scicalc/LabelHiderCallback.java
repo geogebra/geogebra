@@ -36,7 +36,7 @@ public class LabelHiderCallback implements AsyncOperation<GeoElementND[]> {
 
     private boolean shouldHideLabel(GeoElement element) {
         boolean isShowingExtendedAv = element instanceof GeoNumeric
-                && ((GeoNumeric) element).isShowingExtendedAV();
+                && ((GeoNumeric) element).isAVSliderOrCheckboxVisible();
         boolean isIndependent = element.isIndependent();
         ExpressionNode definition = element.getDefinition();
         return !(isShowingExtendedAv && isIndependent)

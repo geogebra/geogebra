@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.CommandSignatures;
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,7 +21,7 @@ public class SyntaxLocalizationTest {
 					.getSignature(cmd.name(), app);
 			int size = signature == null ? 0 : signature.size();
 			if (cmd.getTable() == CommandsConstants.TABLE_CAS
-					|| AlgebraTestHelper.betaCommand(cmd, app)) {
+					|| cmd == Commands.Polyhedron) {
 				continue;
 			}
 			if (cmd.getTable() == CommandsConstants.TABLE_ENGLISH) {

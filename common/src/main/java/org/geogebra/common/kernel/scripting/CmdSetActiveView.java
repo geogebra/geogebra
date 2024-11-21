@@ -27,85 +27,83 @@ public class CmdSetActiveView extends CmdScripting {
 	@Override
 	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-
-		if (!app.isUsingFullGui() && n == 1) {
+		if (n != 1) {
+			throw argNumErr(c);
+		}
+		GeoElement[] arg = resArgs(c);
+		if (!app.isUsingFullGui() && n == 1
+				&& (arg[0] instanceof ViewCreator || arg[0].isGeoNumeric() || arg[0].isGeoText())) {
 			return new GeoElement[0];
 		}
 
-		switch (n) {
-		case 1:
-			GeoElement[] arg = resArgs(c);
-			if (arg[0].isGeoNumeric()) {
-				GeoNumeric numGeo = (GeoNumeric) arg[0];
+		if (arg[0].isGeoNumeric()) {
+			GeoNumeric numGeo = (GeoNumeric) arg[0];
 
-				int view = (int) numGeo.getDouble();
+			int view = (int) numGeo.getDouble();
 
-				// ignore all errors (eg when a view is not available etc)
-				switch (view) {
+			// ignore all errors (eg when a view is not available etc)
+			switch (view) {
+			default:
+				// do nothing for now
+				// might be needed when support for more than 2
+				// Euclidian Views added
+				break;
+			case 1:
+				app.setActiveView(App.VIEW_EUCLIDIAN);
+				break;
+			case 2:
+				app.setActiveView(App.VIEW_EUCLIDIAN2);
+				break;
+			case -1:
+				app.setActiveView(App.VIEW_EUCLIDIAN3D);
+				break;
+			}
+
+			return arg;
+
+		} else if (arg[0].isGeoText()) {
+			String code = arg[0]
+					.toValueString(StringTemplate.defaultTemplate);
+			if (code.length() == 1) {
+				char letter = code.charAt(0);
+				switch (letter) {
 				default:
-					// do nothing for now
-					// might be needed when support for more than 2
-					// Euclidian Views added
+					// do nothing
 					break;
-				case 1:
+				case 'G':
 					app.setActiveView(App.VIEW_EUCLIDIAN);
 					break;
-				case 2:
+				case 'D':
 					app.setActiveView(App.VIEW_EUCLIDIAN2);
 					break;
-				case -1:
+				case 'T':
 					app.setActiveView(App.VIEW_EUCLIDIAN3D);
 					break;
-				}
+				case 'S':
+					app.setActiveView(App.VIEW_SPREADSHEET);
+					break;
+				case 'A':
+					app.setActiveView(App.VIEW_ALGEBRA);
+					break;
+				case 'C':
+					app.setActiveView(App.VIEW_CAS);
+					break;
 
-				return arg;
-
-			} else if (arg[0].isGeoText()) {
-				String code = arg[0]
-						.toValueString(StringTemplate.defaultTemplate);
-				if (code.length() == 1) {
-					char letter = code.charAt(0);
-					switch (letter) {
-					default:
-						// do nothing
-						break;
-					case 'G':
-						app.setActiveView(App.VIEW_EUCLIDIAN);
-						break;
-					case 'D':
-						app.setActiveView(App.VIEW_EUCLIDIAN2);
-						break;
-					case 'T':
-						app.setActiveView(App.VIEW_EUCLIDIAN3D);
-						break;
-					case 'S':
-						app.setActiveView(App.VIEW_SPREADSHEET);
-						break;
-					case 'A':
-						app.setActiveView(App.VIEW_ALGEBRA);
-						break;
-					case 'C':
-						app.setActiveView(App.VIEW_CAS);
-						break;
-
-					}
-				}
-
-				return arg;
-			} else {
-				GeoElement geo = arg[0];
-				if (geo instanceof ViewCreator) {
-					ViewCreator plane = (ViewCreator) geo;
-					if (plane.hasView2DVisible()) {
-						app.setActiveView(plane.getViewID());
-					}
-					return arg;
 				}
 			}
-			throw argErr(c, arg[0]);
 
-		default:
-			throw argNumErr(c);
+			return arg;
+		} else {
+			GeoElement geo = arg[0];
+			if (geo instanceof ViewCreator) {
+				ViewCreator plane = (ViewCreator) geo;
+				if (plane.hasView2DVisible()) {
+					app.setActiveView(plane.getViewID());
+				}
+				return arg;
+			}
 		}
+		throw argErr(c, arg[0]);
+
 	}
 }

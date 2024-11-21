@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.matcher.MultipleResultsMatcher;
@@ -72,51 +71,6 @@ public class AlgebraTestHelper {
 				);
 		assertNotNull(elements);
 		assertEquals("", errorStore.getErrors());
-	}
-
-	/**
-	 * @param cmdName
-	 *            command name
-	 * @param signature
-	 *            numbers of agruments supported by the command
-	 * @param app
-	 *            application
-	 */
-	public static void dummySyntaxesShouldFail(String cmdName,
-			List<Integer> signature, App app) {
-		for (int args : signature) {
-			StringBuilder withArgs = new StringBuilder(cmdName).append("(");
-			for (int i = 0; i < args - 1; i++) {
-				withArgs.append("space,");
-			}
-			withArgs.append("space)");
-			if (args > 0 && !"Delete".equals(cmdName)
-					&& !"ConstructionStep".equals(cmdName)
-					&& !"Text".equals(cmdName) && !"LaTeX".equals(cmdName)
-					&& !"RunClickScript".equals(cmdName)
-					&& !"RunUpdateScript".equals(cmdName)
-					&& !"Defined".equals(cmdName)
-					&& !"AreEqual".equals(cmdName)
-					&& !"AreCongruent".equals(cmdName)
-					&& !"Textfield".equals(cmdName)
-					&& !"SetViewDirection".equals(cmdName)
-					&& !"GetTime".equals(cmdName)
-					&& !"CopyFreeObject".equals(cmdName)
-					&& !"SetActiveView".equals(cmdName)
-					&& !"Name".equals(cmdName)
-					&& !"SelectObjects".equals(cmdName)
-					&& !"Dot".equals(cmdName) && !"Cross".equals(cmdName)
-					&& !"SetConstructionStep".equals(cmdName)
-					&& !"TableText".equals(cmdName) && !"Q1".equals(cmdName)
-					&& !"Q3".equals(cmdName) && !"SetValue".equals(cmdName)) {
-
-				shouldFail(withArgs.toString(), "arg", "IllegalArgument:", app);
-			}
-		}
-		if (!signature.contains(0)) {
-			shouldFail(cmdName + "()", "Illegal number of arguments: 0",
-					"IllegalArgumentNumber", app);
-		}
 	}
 
 	/**
@@ -241,18 +195,6 @@ public class AlgebraTestHelper {
 	 */
 	public static boolean internalCAScommand(Commands cmd0) {
 		return cmd0 == Commands.SolveQuartic || cmd0 == Commands.Evaluate;
-	}
-
-	/**
-	 * @param a
-	 *            command
-	 * @return whether only is in beta
-	 */
-	public static boolean betaCommand(Commands a, App app) {
-		return a == Commands.MatrixPlot || a == Commands.DensityPlot
-				|| a == Commands.Polyhedron
-				|| (a == Commands.ImplicitSurface
-				&& !app.has(Feature.IMPLICIT_SURFACES));
 	}
 
 }

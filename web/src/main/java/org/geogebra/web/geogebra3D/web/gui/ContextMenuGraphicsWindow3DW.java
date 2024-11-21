@@ -66,13 +66,8 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 	}
 
 	private void addProjectionMenuItem() {
-		String htmlString = MainMenu
-				.getMenuBarHtmlClassic(
-						MaterialDesignResources.INSTANCE
-								.projection_orthographic()
-								.getSafeUri().asString(),
-						loc.getMenu("Projection"));
-		final GCollapseMenuItem ci = new GCollapseMenuItem(htmlString,
+		final GCollapseMenuItem ci = new GCollapseMenuItem(MaterialDesignResources.INSTANCE
+				.projection_orthographic(), loc.getMenu("Projection"),
 				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
 						.asString(),
 				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()

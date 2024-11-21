@@ -46,7 +46,7 @@ public class Metrics {
 		for (V v : graph.getVertices()) {
 			int n = graph.getNeighborCount(v);
 			if (n < 2) {
-				coefficients.put(v, new Double(0));
+				coefficients.put(v, 0.0);
 			} else {
 				// how many of v's neighbors are connected to each other?
 				ArrayList<V> neighbors = new ArrayList<V>(
@@ -60,7 +60,7 @@ public class Metrics {
 					}
 				}
 				double possible_edges = (n * (n - 1)) / 2.0;
-				coefficients.put(v, new Double(edge_count / possible_edges));
+				coefficients.put(v, edge_count / possible_edges);
 			}
 		}
 

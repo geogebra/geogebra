@@ -30,4 +30,8 @@ public enum AlgebraContextMenuItem implements ContextMenuItem {
 	public AttributedString getLocalizedTitle(@Nonnull Localization localization) {
 		return new AttributedString(localization.getMenu(translationKey));
 	}
+
+	public String getTranslationKey() {
+		return translationKey;
+	}
 }

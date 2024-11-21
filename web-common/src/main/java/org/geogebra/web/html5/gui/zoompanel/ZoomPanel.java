@@ -244,16 +244,8 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 			sb.appendMenuDefault("FullscreenButtonSelected",
 					"Full screen button selected (currently not full screen)");
 		}
-		if (!Browser.needsAccessibilityView()) {
-			addFullscreenKeyboardControls(sb);
-		}
-		setButtonTitleAndAltText(fullscreenBtn, loc.getMenu("Fullscreen"), sb.toString());
-	}
 
-	private void addFullscreenKeyboardControls(ScreenReaderBuilder sb) {
-		addSpaceControl(sb);
-		sb.append(loc.getMenuDefault("PressTabToSelectNext", "Press tab to select next object"));
-		sb.endSentence();
+		setButtonTitleAndAltText(fullscreenBtn, loc.getMenu("Fullscreen"), sb.toString());
 	}
 
 	private void setZoomAuralText(StandardButton btn, String transKey, String auralDefault) {
@@ -265,16 +257,11 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		setButtonTitleAndAltText(btn, title, title);
 	}
 
-	private void addSpaceControl(ScreenReaderBuilder sb) {
-		sb.appendSpace();
-		sb.appendMenuDefault("PressSpaceToActivate", "press space to activate");
-		sb.endSentence();
-	}
-
 	private static void setButtonTitleAndAltText(Widget btn, String dataTitle,
 			String ariaLabel) {
 		if (btn != null) {
 			btn.getElement().setAttribute("data-title", dataTitle);
+			btn.getElement().setAttribute("tooltip-position", "right");
 			btn.getElement().setAttribute("aria-label", ariaLabel);
 		}
 	}

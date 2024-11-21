@@ -810,6 +810,7 @@ public interface Traversing {
 				GeoNumeric slider = geoClass == GeoClass.ANGLE
 						? new GeoAngle(kernel.getConstruction(), Math.PI / 4)
 						: new GeoNumeric(kernel.getConstruction(), 1);
+				slider.setAVSliderOrCheckboxVisible(true);
 				undefined.add(slider);
 				boolean visible = !kernel.getApplication()
 						.showView(App.VIEW_ALGEBRA)

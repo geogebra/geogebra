@@ -26,10 +26,10 @@ public class BaseEuclidianControllerTest extends BaseUnitTest {
 	}
 
 	/**
-	 * Setup the app
+	 * Set up the controller
 	 */
 	@Before
-	public void setupController() {
+	public void setUpController() {
 		ec = getApp().getActiveEuclidianView().getEuclidianController();
 		reset();
 	}
@@ -88,6 +88,11 @@ public class BaseEuclidianControllerTest extends BaseUnitTest {
 		TestEvent evt = new TestEvent(x, y, null, right);
 		ec.wrapMouseDragged(evt, true);
 		ec.wrapMouseDragged(evt, true);
+		ec.wrapMouseReleased(evt);
+	}
+
+	protected void pointerRelease(int x, int y) {
+		TestEvent evt = new TestEvent(x, y, null, false);
 		ec.wrapMouseReleased(evt);
 	}
 

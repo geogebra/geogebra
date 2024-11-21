@@ -25,7 +25,7 @@ import static org.junit.Assert.assertTrue;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.Suggestion;
-import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
+import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.StringTemplate;
@@ -39,7 +39,6 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.SymbolicUtil;
-import org.geogebra.desktop.main.AppD;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.UndoRedoTester;
@@ -50,7 +49,6 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
-import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -69,6 +67,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		app.getKernel().clearConstruction(true);
 		app.setCasConfig();
 		app.getKernel().setAngleUnit(app.getConfig().getDefaultAngleUnit());
+		app.getKernel().setPrintDecimals(13);
 	}
 
 	@Test
@@ -147,7 +146,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void nestedCommands() {
 		t("Derivative(Derivative(a*x^3))", "6 * a * x");
-		t("Factor(Expand((x-aaa)^2+4x aaa))", "(x + aaa)^(2)");
+		t("Factor(Expand((x-aaa)^2+4x aaa))", "(aaa + x)^(2)");
 	}
 
 	@Test
@@ -415,7 +414,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solve(f'(x)=tan(30deg))", Matchers.in(new String[]{
 				"{x = 0.94465136117983, x = 5.126711116934559}",
 				"{x = 0.9446513611798301, x = 5.12671111693456}",
-				"{x = 0.9446513611798, x = 5.126711116935}"}));
+				"{x = 0.9446513611798, x = 5.126711116935}",
+				"{x = 0.9446513611798302, x = 5.126711116934559}"}));
 		t("Tangent(2,f)", "y = -15 * sqrt(2) / 4 * x + 33 * sqrt(2) / 2");
 	}
 
@@ -516,8 +516,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	
 	@Test
 	public void testFactorCommand() {
-		t("Factor(x^2-1)", "(x - 1) * (x + 1)");
-		t("Factor(x^2-a^2 y^2)", "(x - a * y) * (x + a * y)");
+		t("Factor(x^2-1)", "(x + 1) * (x - 1)");
+		t("Factor(x^2-a^2 y^2)", anyOf(equalTo("(a * y + x) * (-a * y + x)"),
+				equalTo("(-a * y + x) * (a * y + x)")));
 	}
 
 	@Test
@@ -1029,18 +1030,18 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testCASSpecialPoints() {
 		t("f:x", "x");
 		GeoSymbolic line = (GeoSymbolic) app.getKernel().lookupLabel("f");
-		Suggestion suggestion = SuggestionRootExtremum.get(line);
+		Suggestion suggestion = SuggestionIntersectExtremum.get(line);
 		Assert.assertNotNull(suggestion);
 		suggestion.execute(line);
-		Assert.assertNull(SuggestionRootExtremum.get(line));
+		Assert.assertNull(SuggestionIntersectExtremum.get(line));
 		Object[] list = app.getKernel().getConstruction().getGeoSetConstructionOrder().toArray();
 		((GeoElement) list[list.length - 1]).remove();
-		Assert.assertNotNull(SuggestionRootExtremum.get(line));
+		Assert.assertNotNull(SuggestionIntersectExtremum.get(line));
 	}
 
 	@Test
 	public void testCASSpecialPointsForNumbers() {
-		Assert.assertNull(SuggestionRootExtremum.get(add("1+2")));
+		Assert.assertNull(SuggestionIntersectExtremum.get(add("1+2")));
 	}
 
 	@Test
@@ -1084,7 +1085,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testSliderCommandCreatesSlider() {
 		GeoNumeric element = add("Slider(1, 10)");
-		Assert.assertTrue(element.isShowingExtendedAV());
+		Assert.assertTrue(element.isAVSliderOrCheckboxVisible());
 		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMin(), 1));
 		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMax(), 10));
 	}
@@ -1918,7 +1919,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void numericAlternativeCommand() {
-		Assume.assumeTrue(!AppD.WINDOWS);
 		add("f(x) = -x^2 * e^(-x)");
 		add("g(x) = 1 + (f'(x))^2");
 		t("Integral(sqrt(g),0,20)", "20.12144888423");
@@ -1936,8 +1936,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testApproxResultForLargePowers() {
-		String result = AppD.MAC_OS ? "0.9794246092973" : "0.979424609317";
-		t("0.99999874^16500", result);
+		t("0.99999874^16500", "0.9794246092973");
 	}
 
 	@Test

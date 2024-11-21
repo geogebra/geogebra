@@ -563,11 +563,12 @@ public class RelativeCopy {
 		// make sure a/0.001 doesn't become a/0
 
 		StringTemplate highPrecision = StringTemplate.maxPrecision;
-		if ((value.getDefinition() != null && value.getDefinition(highPrecision) != null)
-				|| value.isPointInRegion() || value.isPointOnPath()) {
+		if (value.isPointOnPath() || value.isPointInRegion()) {
 			text = value.getDefinition(highPrecision);
-		} else {
+		} else if (value.isChangeable() && value.getDefinition() == null) {
 			text = value.toValueString(highPrecision);
+		} else {
+			text = value.getDefinition(highPrecision);
 		}
 
 		// handle GeoText source value
@@ -960,10 +961,10 @@ public class RelativeCopy {
 			// cell B1 -> A1 disappears
 			if (StringUtil.toLowerCaseUS(text)
 					.equals(newValues[0]
-							.getLabel(StringTemplate.defaultTemplate))
+							.getLabelSimple())
 					// also need eg =a to work
 					|| text.equals(newValues[0]
-							.getLabel(StringTemplate.defaultTemplate))) {
+							.getLabelSimple())) {
 				// make sure we create a copy of this existing or auto-created
 				// geo
 				// by providing the new cell name in the beginning

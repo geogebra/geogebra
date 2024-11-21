@@ -94,8 +94,9 @@ public class SliderDialogW extends ComponentDialog implements HasKeyboardPopup {
 		angle.setValue(45 * Math.PI / 180);
 
 		number.setSliderLocation(x, y, true);
+		number.setAVSliderOrCheckboxVisible(true);
 		angle.setSliderLocation(x, y, true);
-
+		angle.setAVSliderOrCheckboxVisible(true);
 		geoResult = null;
 
 		Object [] geos = { getSelGeo() };

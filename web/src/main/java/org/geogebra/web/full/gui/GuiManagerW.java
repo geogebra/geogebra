@@ -300,7 +300,7 @@ public class GuiManagerW extends GuiManager
 			final ArrayList<GeoElement> geos) {
 		removePopup();
 		currentPopup = new ContextMenuGeoElementW(getApp(), geos,
-				new ContextMenuFactory());
+				new ContextMenuItemFactory());
 		((ContextMenuGeoElementW) currentPopup).addOtherItems();
 		return (ContextMenuGeoElementW) currentPopup;
 	}
@@ -338,7 +338,7 @@ public class GuiManagerW extends GuiManager
 			final EuclidianView view, final ArrayList<GeoElement> selectedGeos,
 			final ArrayList<GeoElement> geos, final GPoint p) {
 		currentPopup = new ContextMenuChooseGeoW(getApp(), view,
-				selectedGeos, geos, p, new ContextMenuFactory());
+				selectedGeos, geos, p, new ContextMenuItemFactory());
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 
