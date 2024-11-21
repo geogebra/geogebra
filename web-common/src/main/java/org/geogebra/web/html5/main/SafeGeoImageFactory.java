@@ -3,12 +3,15 @@ package org.geogebra.web.html5.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.safeimage.ConvertToCanvas;
@@ -71,10 +74,12 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	 * @param content of the image
 	 * @return the corresponding GeoImage object
 	 */
-	public GeoImage create(String fileName, String content) {
+	public GeoImage create(String fileName, String content,
+			@Nullable FileExtensions originalExtension) {
 		ensureResultImageExists();
 		ArchiveEntry imageFile = new ArchiveEntry(fileName, content);
-		SafeImage safeImage = new SafeImage(imageFile, this, getPreprocessors());
+		SafeImage safeImage = new SafeImage(imageFile, this,
+				getPreprocessors(), originalExtension);
 		safeImage.process();
 		return geoImage;
 	}
@@ -96,6 +101,9 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 		ArrayList<ImagePreprocessor> preprocessors = new ArrayList<>();
 
 		int maxImageSize = app.getAppletParameters().getParamMaxImageSize();
+		if (app.getAppletParameters().getDataParamApp() && maxImageSize == 0) {
+			maxImageSize = 1024;
+		}
 		preprocessors.add(new ConvertToCanvas(maxImageSize, vendor.hasBitmapSecurity()));
 		preprocessors.add(new SVGPreprocessor());
 

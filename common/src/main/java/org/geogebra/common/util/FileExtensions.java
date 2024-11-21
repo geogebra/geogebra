@@ -26,6 +26,8 @@ public enum FileExtensions {
 
 	EMF("emf", false, false),
 
+	HEIC("heic", false, true),
+
 	HTML("html", false, false),
 
 	HTM("htm", false, false),
@@ -73,7 +75,7 @@ public enum FileExtensions {
 	 *            string file extension
 	 * @return corresponding enum value or UNDEFINED
 	 */
-	final public static FileExtensions get(String ext0) {
+	public static FileExtensions get(String ext0) {
 		for (FileExtensions fe : FileExtensions.values()) {
 			if (fe.ext.equals(ext0)) {
 				return fe;
@@ -83,6 +85,9 @@ public enum FileExtensions {
 		return UNKNOWN;
 	}
 
+	/**
+	 * @return whether file may be saved in GGB without renaming or converting
+	 */
 	final public boolean isAllowedImage() {
 		return allowedImage;
 	}
