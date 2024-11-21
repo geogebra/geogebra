@@ -2,6 +2,7 @@ package org.geogebra.common.kernel;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 
 import java.util.Arrays;
 
@@ -9,9 +10,11 @@ import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.dialog.ToolCreationDialogModel;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +45,7 @@ public class MacroTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-1496")
 	public void surfacesShouldWorkInMacros() {
 		GeoElement a = add("A=(0,1,0)");
 		add("f(u,v)=x(A)*u+y(A)*v");
@@ -58,6 +62,7 @@ public class MacroTest extends BaseUnitTest {
 	}
 
 	@Test
+	@Issue("APPS-1496")
 	public void curvesShouldWorkInMacros() {
 		GeoElement a = add("A=(0,1,0)");
 		add("f(u)=x(A)*u+y(A)");
@@ -134,6 +139,39 @@ public class MacroTest extends BaseUnitTest {
 		assertThat(allXML, containsString("label=\"C\""));
 		assertThat(allXML, containsString("label=\"D\""));
 		assertThat(allXML, containsString("label=\"g\""));
+	}
+
+	@Test
+	@Issue("APPS-5988")
+	public void macroWithParametricCurves() {
+		GeoElement angle = add("angle=0");
+		GeoElement width = add("width=10");
+		GeoElement length = add("length=30");
+		GeoElement pt = add("Pt=(0,-11)");
+		add("edge1=Curve(Pt + 0.5 * (width;angle+90deg) + (t;angle),t,-length / 2, length/2)");
+		add("edge2=Curve(Pt + 0.5 * (width;angle-90deg) + (t;angle),t,-length / 2, length/2)");
+		GeoElement out = add("Curve(If(0 ≤ t ≤ length, edge1(t - 0.5length), length ≤ t ≤ 2length,"
+				+ " edge2(length * 1.5 - t)), t, 0, length * 2)");
+		createMacro(getApp(), "rect", out, pt, angle, width, length);
+		getKernel().clearConstruction(true);
+		GeoCurveCartesian gc1 = add("rect((1,1),2,3,4)");
+		GeoCurveCartesian gc2 = add("rect((1,1),2,5,6)");
+		assertThat(gc1, hasValue("(If(0 ≤ t ≤ 4, 1 + 0.5cos(2 + 90°) * 3 + cos(2) (t - 0.5 * 4),"
+				+ " 4 ≤ t ≤ 2 * 4, 1 + 0.5cos(2 - 90°) * 3 + cos(2) (4 * 1.5 - t)), "
+				+ "If(0 ≤ t ≤ 4, 1 + 0.5sin(2 + 90°) * 3 + sin(2) (t - 0.5 * 4), 4 ≤ t ≤ 2 * 4,"
+				+ " 1 + 0.5sin(2 - 90°) * 3 + sin(2) (4 * 1.5 - t)))"));
+		assertThat(gc2, hasValue("(If(0 ≤ t ≤ 6, 1 + 0.5cos(2 + 90°) * 5 + cos(2) (t - 0.5 * 6), "
+				+ "6 ≤ t ≤ 2 * 6, 1 + 0.5cos(2 - 90°) * 5 + cos(2) (6 * 1.5 - t)),"
+				+ " If(0 ≤ t ≤ 6, 1 + 0.5sin(2 + 90°) * 5 + sin(2) (t - 0.5 * 6), 6 ≤ t ≤ 2 * 6, "
+				+ "1 + 0.5sin(2 - 90°) * 5 + sin(2) (6 * 1.5 - t)))"));
+		gc1.update();
+		// verify that all used variables are in main construction rather than macro construction
+		gc1.getFun(0).getFunctionExpression().inspect(val -> {
+			if (val instanceof GeoElement) {
+				assertThat(((GeoElement) val).getConstruction(), equalTo(getConstruction()));
+			}
+			return false;
+		});
 	}
 
 	private void createMacro(AppCommon app, String name, GeoElement output, GeoElement... input) {

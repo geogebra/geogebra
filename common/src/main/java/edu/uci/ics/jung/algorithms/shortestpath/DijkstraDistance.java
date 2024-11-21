@@ -525,7 +525,7 @@ public class DijkstraDistance<V, E> implements Distance<V> {
 			sourceMap.put(source, this);
 
 			// initialize priority queue
-			estimatedDistances.put(source, new Double(0)); // distance from
+			estimatedDistances.put(source, 0.0); // distance from
 															// source to itself
 															// is 0
 			unknownVertices.add(source);

@@ -272,9 +272,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 		p[3] = getTopPoint(index - 1);
 		polygon.modifyInputPoints(p); // don't create segments
 		GeoSegmentND[] s = new GeoSegmentND[4];
-		if (index <= bottomSegments.length) {
-			s[0] = bottomSegments[index - 1];
-		}
+		s[0] = index <= bottomSegments.length ? bottomSegments[index - 1] : null;
 		s[1] = outputSegmentsSide.getElement(index);
 		s[2] = outputSegmentsTop.getElement(index - 1);
 		s[3] = outputSegmentsSide.getElement(index - 1);

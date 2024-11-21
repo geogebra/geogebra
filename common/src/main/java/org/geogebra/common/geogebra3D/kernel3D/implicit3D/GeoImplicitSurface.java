@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.matrix.Coords3;
 import org.geogebra.common.kernel.matrix.CoordsDouble3;
-import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -982,7 +982,7 @@ public class GeoImplicitSurface extends GeoElement3D
 
 	@Override
 	public boolean hasDrawable3D() {
-		return kernel.getApplication().has(Feature.IMPLICIT_SURFACES);
+		return PreviewFeature.isAvailable(PreviewFeature.IMPLICIT_SURFACES);
 	}
 
 	/**

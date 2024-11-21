@@ -35,7 +35,12 @@
 		color: white;
 		opacity: 0.9;
 		z-index: z-index.$z-snackbar;
-	} 
+	}
+
+	div[tooltip-position=right]:hover:after,
+	button[tooltip-position=right]:hover:after {
+		transform: translateX(-50%);
+	}
 
 	.matDragger {
 		.splitPaneDragger {

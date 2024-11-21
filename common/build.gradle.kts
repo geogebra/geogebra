@@ -35,11 +35,15 @@ tasks.compileJava {
     options.encoding = "UTF-8"
 }
 
-tasks.register("versionBump") {
-    doLast {
+open class Bump : DefaultTask() {
+    @Input
+    var buildOnly = false
+
+    @TaskAction
+    fun bump() {
         var version = "undef"
         val pattern = " VERSION_STRING = \"(.*)\"".toRegex()
-        val constants = file("../common/src/main/java/org/geogebra/common/GeoGebraConstants.java")
+        val constants = project.file("../common/src/main/java/org/geogebra/common/GeoGebraConstants.java")
 
         constants.useLines { lines ->
             for (line in lines) {
@@ -51,8 +55,12 @@ tasks.register("versionBump") {
             }
         }
         val parts = version.split(".").map { it.toInt() }.toMutableList()
-        parts[2]++
-        parts[3] = 0
+        if (buildOnly) {
+            parts[3]++
+        } else {
+            parts[2]++
+            parts[3] = 0
+        }
         version = parts.joinToString(".")
 
         var text = constants.readText()
@@ -62,11 +70,18 @@ tasks.register("versionBump") {
         constants.writeText(text)
 
         // version.txt for Jenkins build number
-        file("build/").mkdirs()
-        file("build/version.txt").writeText(version)
+        project.file("build/").mkdirs()
+        project.file("build/version.txt").writeText(version)
     }
 }
 
+tasks.register<Bump>("versionBump") {
+    buildOnly = false;
+}
+
+tasks.register<Bump>("buildNumberBump") {
+    buildOnly = true;
+}
 
 tasks.test {
     ignoreFailures = true

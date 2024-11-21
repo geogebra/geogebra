@@ -44,7 +44,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 *            application
 	 */
 	protected ContextMenuGraphicsWindowW(AppW app) {
-		super(app, new ContextMenuFactory());
+		super(app, new ContextMenuItemFactory());
 	}
 
 	/**

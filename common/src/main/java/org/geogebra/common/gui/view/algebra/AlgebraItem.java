@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Fractions;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
@@ -49,7 +50,7 @@ public class AlgebraItem {
 		if (geo instanceof HasSymbolicMode
 				&& !((HasSymbolicMode) geo).isSymbolicMode()) {
 			if (!(geo.getParentAlgorithm() instanceof AlgoSolve)
-					|| ((AlgoSolve) geo.getParentAlgorithm())
+					|| geo.getParentAlgorithm()
 							.getClassName() == Commands.NSolve) {
 				return CASOutputType.NUMERIC;
 			}
@@ -409,6 +410,16 @@ public class AlgebraItem {
 	}
 
 	/**
+	 * @param geo element
+	 * @return whether equal sign prefix should be shown (rather than approx sign)
+	 */
+	public static boolean shouldShowEqualSignPrefix(GeoElement geo) {
+		return !AlgebraItem.shouldShowSymbolicOutputButton(geo)
+				|| AlgebraItem.getCASOutputType(geo) == CASOutputType.SYMBOLIC
+				|| Fractions.isExactFraction(geo.unwrapSymbolic(), geo.getKernel());
+	}
+
+	/**
 	 * add geo to selection with its special points.
 	 * TODO rename to selectGeo(WithSpecialPoints?)
 	 * @param geo
@@ -628,7 +639,7 @@ public class AlgebraItem {
 	public static boolean shouldShowSlider(GeoElement geo) {
 		return geo instanceof GeoNumeric
 				&& geo.getApp().getConfig().hasSlidersInAV()
-				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
+				&& ((GeoNumeric) geo).isAVSliderOrCheckboxVisible() && geo.isSimple()
 				&& Double.isFinite(((GeoNumeric) geo).value);
 	}
 

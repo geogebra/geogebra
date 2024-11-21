@@ -3142,9 +3142,13 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public boolean containsFreeFunctionVariable(String name) {
 		return checkForFreeVars(left, name)
+				|| (operation == Operation.IF_LIST
+						&& left instanceof MyList && ((ValidExpression) left)
+								.containsFunctionVariable(name))
 				|| (right != null && checkForFreeVars(right, name))
 				|| ((operation == Operation.FUNCTION_NVAR
-						|| operation == Operation.ELEMENT_OF)
+						|| operation == Operation.ELEMENT_OF
+						|| operation == Operation.IF_LIST)
 						&& right instanceof MyList && ((ValidExpression) right)
 								.containsFunctionVariable(name));
 	}
@@ -3487,6 +3491,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
+	 * May return a simple fraction or a fraction (a*pi)/b, where a,b are integers.
 	 * @return simplified fraction if this is one; null otherwise
 	 */
 	public ExpressionNode asFraction() {

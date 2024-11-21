@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
+import org.geogebra.common.gui.view.algebra.contextmenu.impl.RemoveSlider;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.main.App;
@@ -30,8 +31,9 @@ public class SliderTest extends BaseUnitTest {
 	@Test
 	public void setShowExtendedAV() {
 		GeoNumeric slider = add("a = 1", info);
+		slider.setAVSliderOrCheckboxVisible(true);
 		slider.initAlgebraSlider();
-		slider.setShowExtendedAV(false);
+		slider.setAVSliderOrCheckboxVisible(false);
 		assertThat(slider.showInEuclidianView(), is(true));
 	}
 
@@ -43,9 +45,10 @@ public class SliderTest extends BaseUnitTest {
 
 		GeoNumeric slider = add("a = 1", info);
 		app.storeUndoInfo();
+		slider.setAVSliderOrCheckboxVisible(true);
 		slider.setEuclidianVisible(true);
 		app.storeUndoInfo();
-		slider.setShowExtendedAV(false);
+		slider.setAVSliderOrCheckboxVisible(false);
 		app.storeUndoInfo();
 		slider.setEuclidianVisible(false);
 		app.storeUndoInfo();
@@ -59,10 +62,10 @@ public class SliderTest extends BaseUnitTest {
 		assertThat(slider.isEuclidianVisible(), is(true));
 
 		slider = undoRedo.getAfterUndo("a");
-		assertThat(slider.isShowingExtendedAV(), is(true));
+		assertThat(slider.isAVSliderOrCheckboxVisible(), is(true));
 
 		slider = undoRedo.getAfterRedo("a");
-		assertThat(slider.isShowingExtendedAV(), is(false));
+		assertThat(slider.isAVSliderOrCheckboxVisible(), is(false));
 
 		slider = undoRedo.getAfterRedo("a");
 		assertThat(slider.isEuclidianVisible(), is(false));
@@ -83,7 +86,7 @@ public class SliderTest extends BaseUnitTest {
 		app.storeUndoInfo();
 		slider.setEuclidianVisible(true);
 		app.storeUndoInfo();
-		slider.removeSlider();
+		new RemoveSlider(getAlgebraProcessor()).execute(slider);
 		app.storeUndoInfo();
 		assertThat(slider.isSetEuclidianVisible(), is(false));
 

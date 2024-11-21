@@ -20,14 +20,14 @@ public class ExtendedAVModel extends BooleanOptionModel {
 	@Override
 	public boolean getValueAt(int index) {
 		return isValidAt(index)
-				&& ((HasExtendedAV) getGeoAt(index)).isShowingExtendedAV();
+				&& ((HasExtendedAV) getGeoAt(index)).isAVSliderOrCheckboxVisible();
 	}
 
 	@Override
 	public void apply(int index, boolean value) {
 		if (isValidAt(index)) {
 			GeoElement geo = getGeoAt(index);
-			((HasExtendedAV) geo).setShowExtendedAV(value);
+			((HasExtendedAV) geo).setAVSliderOrCheckboxVisible(value);
 			geo.updateVisualStyleRepaint(GProperty.COMBINED);
 		}
 	}

@@ -154,6 +154,7 @@ import static org.geogebra.common.kernel.commands.Commands.InfiniteCylinder;
 import static org.geogebra.common.kernel.commands.Commands.Insert;
 import static org.geogebra.common.kernel.commands.Commands.IntegralBetween;
 import static org.geogebra.common.kernel.commands.Commands.IntegralSymbolic;
+import static org.geogebra.common.kernel.commands.Commands.InteriorAngles;
 import static org.geogebra.common.kernel.commands.Commands.IntersectConic;
 import static org.geogebra.common.kernel.commands.Commands.IntersectPath;
 import static org.geogebra.common.kernel.commands.Commands.Intersection;
@@ -233,6 +234,7 @@ import static org.geogebra.common.kernel.commands.Commands.Prove;
 import static org.geogebra.common.kernel.commands.Commands.ProveDetails;
 import static org.geogebra.common.kernel.commands.Commands.Pyramid;
 import static org.geogebra.common.kernel.commands.Commands.Radius;
+import static org.geogebra.common.kernel.commands.Commands.Random;
 import static org.geogebra.common.kernel.commands.Commands.RandomBetween;
 import static org.geogebra.common.kernel.commands.Commands.RandomBinomial;
 import static org.geogebra.common.kernel.commands.Commands.RandomDiscrete;
@@ -346,6 +348,7 @@ import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
@@ -358,6 +361,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
+import org.geogebra.common.plugin.Operation;
 
 public final class IBExamRestrictions extends ExamRestrictions {
 
@@ -370,6 +374,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				null,
 				createCommandFilters(),
 				createCommandArgumentFilters(),
+				createFilteredOperations(),
 				null,
 				createSyntaxFilter(),
 				createToolCollectionFilter(),
@@ -377,7 +382,12 @@ public final class IBExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
-		return Set.of(new PointDerivativeFilter());
+		return Set.of(new PointDerivativeFilter(),
+				new OperationExpressionFilter(createFilteredOperations()));
+	}
+
+	private static Set<Operation> createFilteredOperations() {
+		return Set.of(Operation.FRACTIONAL_PART, Operation.RANDOM);
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
@@ -425,7 +435,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				Dilate, Reflect, Rotate, Shear, Stretch, Translate, MatrixRank,
 				PerpendicularVector, UnitPerpendicularVector, UnitVector, Vector, CFactor,
 				GroebnerDegRevLex, GroebnerLexDeg, GroebnerLex, Substitute, NDerivative, BetaDist,
-				InverseBeta);
+				InverseBeta, InteriorAngles, Random);
 		return Set.of(nameFilter);
 	}
 

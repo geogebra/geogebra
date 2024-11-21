@@ -271,9 +271,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		super(getPlatform(appletParameters, dimension, laf));
 		this.geoGebraElement = geoGebraElement;
 		this.appletParameters = appletParameters;
-
-		setPrerelease(appletParameters.getDataParamPrerelease());
-
 		// laf = null in webSimple
 		boolean hasUndo = appletParameters.getDataParamEnableUndoRedo()
 				&& (laf == null || laf.undoRedoSupported());
@@ -2779,16 +2776,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return this.appletParameters.getDataParamEnableFileFeatures();
 	}
 
-	/**
-	 * Update prerelease flag
-	 *
-	 * @param prerelease
-	 *            prerelease parameter
-	 */
-	public void setPrerelease(boolean prerelease) {
-		this.prerelease = prerelease;
-	}
-
 	@Override
 	public void hideMenu() {
 		// for applets with menubar
@@ -3144,7 +3131,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @return the sub app code, if it exists, or the app code
 	 */
-	private String getSubAppCode() {
+	public String getSubAppCode() {
 		return getConfig().getSubAppCode() != null
 				? getConfig().getSubAppCode()
 				: getConfig().getAppCode();
