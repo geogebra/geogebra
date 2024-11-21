@@ -94,7 +94,8 @@ public class FitTests extends BaseUnitTest {
         String outputString = loadedFitLine.toOutputValueString(StringTemplate.editTemplate);
         assertThat(outputString, equalTo("y = x"));
         Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, loadedFitLine.getDescriptionMode());
-        Assert.assertEquals(LinearEquationRepresentable.Form.EXPLICIT, loadedFitLine.getEquationForm());
+        Assert.assertEquals(LinearEquationRepresentable.Form.EXPLICIT,
+                loadedFitLine.getEquationForm());
     }
 
     @Test
@@ -119,7 +120,8 @@ public class FitTests extends BaseUnitTest {
         String outputString = loadedFitLine.toOutputValueString(StringTemplate.editTemplate);
         assertThat(outputString, equalTo("y = 0.5666666666667x + 1.6666666666667"));
         Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, loadedFitLine.getDescriptionMode());
-        Assert.assertEquals(LinearEquationRepresentable.Form.EXPLICIT, loadedFitLine.getEquationForm());
+        Assert.assertEquals(LinearEquationRepresentable.Form.EXPLICIT,
+                loadedFitLine.getEquationForm());
     }
 
     @Test

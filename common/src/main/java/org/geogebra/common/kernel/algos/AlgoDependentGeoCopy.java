@@ -107,7 +107,8 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 		// make sure X=(1,2)+t(3,4) does not go to XML as "expression" argument value
 		if (tpl.hasType(StringType.GEOGEBRA_XML) && !origGeo.isLabelSet()
 				&& origGeo instanceof GeoLine
-				&& ((GeoLine) origGeo).getEquationForm() == LinearEquationRepresentable.Form.PARAMETRIC) {
+				&& ((GeoLine) origGeo).getEquationForm() ==
+				LinearEquationRepresentable.Form.PARAMETRIC) {
 			((GeoLine) origGeo).setEquationForm(LinearEquationRepresentable.Form.EXPLICIT);
 			String ret = origGeo.getLabel(tpl);
 			((GeoLine) origGeo).setEquationForm(LinearEquationRepresentable.Form.PARAMETRIC);

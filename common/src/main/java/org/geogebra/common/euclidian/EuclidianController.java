@@ -58,11 +58,11 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
@@ -7007,7 +7007,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// make sure when a circle is dragged it stays in
 			// (x+2)^2+(y-3)^2=25 form
 			if (movedGeoConic.getType() == GeoConicNDConstants.CONIC_CIRCLE
-					&& movedGeoConic.getEquationForm() == QuadraticEquationRepresentable.Form.USER) {
+					&& movedGeoConic.getEquationForm() ==
+					QuadraticEquationRepresentable.Form.USER) {
 				movedGeoConic.setEquationForm(QuadraticEquationRepresentable.Form.SPECIFIC);
 			}
 

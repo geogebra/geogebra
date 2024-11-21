@@ -751,10 +751,12 @@ public abstract class ContextMenuGeoElement {
 	public boolean needsInputFormItem(GeoElement geo) {
 		if (Equation.isAlgebraEquation(geo)) {
 			if (geo instanceof LinearEquationRepresentable) {
-				return ((LinearEquationRepresentable) geo).getEquationForm() != LinearEquationRepresentable.Form.USER;
+				return ((LinearEquationRepresentable) geo).getEquationForm()
+						!= LinearEquationRepresentable.Form.USER;
 			}
 			if (geo instanceof QuadraticEquationRepresentable) {
-				return ((QuadraticEquationRepresentable) geo).getEquationForm() != QuadraticEquationRepresentable.Form.USER;
+				return ((QuadraticEquationRepresentable) geo).getEquationForm()
+						!= QuadraticEquationRepresentable.Form.USER;
 			}
 			if (geo instanceof GeoImplicit) {
 				return !((GeoImplicit) geo).isInputForm();

@@ -25,11 +25,16 @@ public class EquationFormProperty extends AbstractNamedEnumeratedProperty<Intege
 			throws NotApplicablePropertyException {
 		super(localization, "Equation");
 		delegate = new EquationFormDelegate(element);
-		setNamedValues(List.of(
-                               entry(LinearEquationRepresentable.Form.IMPLICIT.rawValue, "ImplicitLineEquation"),
-                               entry(LinearEquationRepresentable.Form.EXPLICIT.rawValue, "ExplicitLineEquation"),
-                               entry(LinearEquationRepresentable.Form.PARAMETRIC.rawValue, "ParametricForm"),
-                               entry(LinearEquationRepresentable.Form.GENERAL.rawValue, "GeneralLineEquation"),
+		setNamedValues(
+				List.of(
+						entry(LinearEquationRepresentable.Form.IMPLICIT.rawValue,
+								"ImplicitLineEquation"),
+						entry(LinearEquationRepresentable.Form.EXPLICIT.rawValue,
+								"ExplicitLineEquation"),
+						entry(LinearEquationRepresentable.Form.PARAMETRIC.rawValue,
+								"ParametricForm"),
+						entry(LinearEquationRepresentable.Form.GENERAL.rawValue,
+								"GeneralLineEquation"),
                                entry(LinearEquationRepresentable.Form.USER.rawValue, "InputForm")
 		));
 	}

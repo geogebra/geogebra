@@ -10,9 +10,9 @@ import javax.annotation.Nullable;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.QuadraticEquationRepresentable;
-import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoElement;

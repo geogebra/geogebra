@@ -83,7 +83,8 @@ public class EquationBehaviourTest extends BaseUnitTest {
 
 		// Parabola created from equation
 		GeoConic algebraParabola = (GeoConic) getElementFactory().create("y=xx");
-		assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT, algebraParabola.getEquationForm());
+		assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT,
+				algebraParabola.getEquationForm());
 
 		// Parbola command disabled in standalone Graphing
 	}
@@ -117,7 +118,8 @@ public class EquationBehaviourTest extends BaseUnitTest {
 
 		// Parabola created from equation
 		GeoConic algebraParabola = (GeoConic) getElementFactory().create("y=xx");
-		assertEquals(QuadraticEquationRepresentable.Form.EXPLICIT, algebraParabola.getEquationForm());
+		assertEquals(QuadraticEquationRepresentable.Form.EXPLICIT,
+				algebraParabola.getEquationForm());
 
 		// Parabola created from point and line
 		GeoPoint center = new GeoPoint(getConstruction(), 0, 1, 0);

@@ -17,8 +17,8 @@ import java.util.Arrays;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.geos.ChangeableParent;

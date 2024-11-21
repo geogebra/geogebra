@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;

@@ -28,11 +28,16 @@ public class ForceInputFormTest extends BaseUnitTest {
 		GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
 		GeoRay geoRay = factory.createGeoRayWithCommand();
 
-		Assert.assertEquals(LinearEquationRepresentable.Form.USER, line.getEquationForm());
-		Assert.assertEquals(LinearEquationRepresentable.Form.EXPLICIT, lineWithCommand.getEquationForm());
-		Assert.assertEquals(LinearEquationRepresentable.Form.USER, geoRay.getEquationForm());
-		Assert.assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT, parabola.getEquationForm());
-		Assert.assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT, hyperbola.getEquationForm());
+		Assert.assertEquals(LinearEquationRepresentable.Form.USER,
+				line.getEquationForm());
+		Assert.assertEquals(LinearEquationRepresentable.Form.EXPLICIT,
+				lineWithCommand.getEquationForm());
+		Assert.assertEquals(LinearEquationRepresentable.Form.USER,
+				geoRay.getEquationForm());
+		Assert.assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT,
+				parabola.getEquationForm());
+		Assert.assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT,
+				hyperbola.getEquationForm());
 	}
 
 	@Test
@@ -46,7 +51,8 @@ public class ForceInputFormTest extends BaseUnitTest {
 		GeoLine lineWithCommand = factory.createGeoLineWithCommand();
 		lineWithCommand.setLabel("lineCmd");
 		lineWithCommand.setEquationForm(LinearEquationRepresentable.Form.PARAMETRIC);
-		Assert.assertEquals(LinearEquationRepresentable.Form.PARAMETRIC, lineWithCommand.getEquationForm());
+		Assert.assertEquals(LinearEquationRepresentable.Form.PARAMETRIC,
+				lineWithCommand.getEquationForm());
 
 		getApp().setXML(getApp().getXML(), true);
 
@@ -69,11 +75,16 @@ public class ForceInputFormTest extends BaseUnitTest {
 		GeoConic parabola = (GeoConic) factory.create("y=xx");
 		GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
 
-		Assert.assertEquals(LinearEquationRepresentable.Form.USER, line.getEquationForm());
-		Assert.assertEquals(LinearEquationRepresentable.Form.EXPLICIT, lineWithCommand.getEquationForm());
-		Assert.assertEquals(LinearEquationRepresentable.Form.EXPLICIT, ray.getEquationForm());
-		Assert.assertEquals(QuadraticEquationRepresentable.Form.USER, parabola.getEquationForm());
-		Assert.assertEquals(QuadraticEquationRepresentable.Form.USER, hyperbola.getEquationForm());
+		Assert.assertEquals(LinearEquationRepresentable.Form.USER,
+				line.getEquationForm());
+		Assert.assertEquals(LinearEquationRepresentable.Form.EXPLICIT,
+				lineWithCommand.getEquationForm());
+		Assert.assertEquals(LinearEquationRepresentable.Form.EXPLICIT,
+				ray.getEquationForm());
+		Assert.assertEquals(QuadraticEquationRepresentable.Form.USER,
+				parabola.getEquationForm());
+		Assert.assertEquals(QuadraticEquationRepresentable.Form.USER,
+				hyperbola.getEquationForm());
 	}
 
 	@Test
