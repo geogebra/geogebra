@@ -7007,8 +7007,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// make sure when a circle is dragged it stays in
 			// (x+2)^2+(y-3)^2=25 form
 			if (movedGeoConic.getType() == GeoConicNDConstants.CONIC_CIRCLE
-					&& movedGeoConic.getEquationForm() ==
-					QuadraticEquationRepresentable.Form.USER) {
+					&& movedGeoConic.getEquationForm()
+					== QuadraticEquationRepresentable.Form.USER) {
 				movedGeoConic.setEquationForm(QuadraticEquationRepresentable.Form.SPECIFIC);
 			}
 

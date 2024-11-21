@@ -187,7 +187,8 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	public void checkEquationExplicit() {
 		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.EXPLICIT.rawValue,
 				"x^2 + 4y^2 = 1");
-		checkEquation("x^2+4*y^2-y+x*y=x +x -1", QuadraticEquationRepresentable.Form.EXPLICIT.rawValue,
+		checkEquation("x^2+4*y^2-y+x*y=x +x -1",
+				QuadraticEquationRepresentable.Form.EXPLICIT.rawValue,
 				"x^2 + x y + 4y^2 - 2x - y = -1");
 		checkEquation("-x^2=x +x -1", QuadraticEquationRepresentable.Form.EXPLICIT.rawValue,
 				"-x^2 - 2x = -1");
