@@ -16,7 +16,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
-import org.geogebra.common.kernel.ConicEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.MacroConstruction;
@@ -1409,9 +1409,9 @@ public class ConsElementXMLHandler {
 			if (!((LinearEquationRepresentable) geo).setEquationFormFromXML(style, parameter)) {
 				Log.error("unknown style for linear object in <eqnStyle>: " + style);
 			}
-		} else if (geo instanceof ConicEquationRepresentable) {
+		} else if (geo instanceof QuadraticEquationRepresentable) {
 			// e.g., GeoConic
-			if (!((ConicEquationRepresentable) geo).setEquationFormFromXML(style, parameter)) {
+			if (!((QuadraticEquationRepresentable) geo).setEquationFormFromXML(style, parameter)) {
 				Log.error("unknown style for conic in <eqnStyle>: " + style);
 			}
 		} else {

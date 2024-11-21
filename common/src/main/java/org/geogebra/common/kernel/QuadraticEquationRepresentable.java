@@ -4,12 +4,12 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 /**
- * An umbrella for objects described by conic/quadric equations.
+ * An umbrella for objects representable by quadratic equations (e.g., conics, quadrics).
  */
-public interface ConicEquationRepresentable {
+public interface QuadraticEquationRepresentable {
 
 	/**
-	 * Equation forms for conics/quadrics.
+	 * Equation forms for quadratic equations.
 	 */
 	enum Form {
 		/** ax^2+bxy+cy^2+dx+ey+f=0 */

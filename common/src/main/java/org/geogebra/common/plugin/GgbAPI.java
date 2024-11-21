@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
-import org.geogebra.common.kernel.ConicEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -1868,13 +1868,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		} else if (geo instanceof GeoConic) {
 			GeoConic conic = (GeoConic) geo;
 			if ("parametric".equals(style)) {
-				conic.setEquationForm(ConicEquationRepresentable.Form.PARAMETRIC);
+				conic.setEquationForm(QuadraticEquationRepresentable.Form.PARAMETRIC);
 			} else if ("explicit".equals(style)) {
-				conic.setEquationForm(ConicEquationRepresentable.Form.EXPLICIT);
+				conic.setEquationForm(QuadraticEquationRepresentable.Form.EXPLICIT);
 			} else if ("implicit".equals(style)) {
-				conic.setEquationForm(ConicEquationRepresentable.Form.IMPLICIT);
+				conic.setEquationForm(QuadraticEquationRepresentable.Form.IMPLICIT);
 			} else if ("specific".equals(style)) {
-				conic.setEquationForm(ConicEquationRepresentable.Form.SPECIFIC);
+				conic.setEquationForm(QuadraticEquationRepresentable.Form.SPECIFIC);
 			}
 			geo.updateRepaint();
 		}

@@ -5,7 +5,7 @@ import java.util.Locale;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
-import org.geogebra.common.kernel.ConicEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
@@ -257,22 +257,22 @@ public class XMLBuilder {
 			int toStringMode, String parameter) {
 		// implicit or specific mode
 		switch (toStringMode) {
-		case ConicEquationRepresentable.Form.CONST_SPECIFIC:
+		case QuadraticEquationRepresentable.Form.CONST_SPECIFIC:
 			XMLBuilder.appendType(sb, "specific");
 			break;
-		case ConicEquationRepresentable.Form.CONST_EXPLICIT:
+		case QuadraticEquationRepresentable.Form.CONST_EXPLICIT:
 			XMLBuilder.appendType(sb, "explicit");
 			break;
-		case ConicEquationRepresentable.Form.CONST_USER:
+		case QuadraticEquationRepresentable.Form.CONST_USER:
 			XMLBuilder.appendType(sb, "user");
 			break;
-		case ConicEquationRepresentable.Form.CONST_VERTEX:
+		case QuadraticEquationRepresentable.Form.CONST_VERTEX:
 			XMLBuilder.appendType(sb, "vertex");
 			break;
-		case ConicEquationRepresentable.Form.CONST_CONICFORM:
+		case QuadraticEquationRepresentable.Form.CONST_CONICFORM:
 			XMLBuilder.appendType(sb, "conic");
 			break;
-		case ConicEquationRepresentable.Form.CONST_PARAMETRIC:
+		case QuadraticEquationRepresentable.Form.CONST_PARAMETRIC:
 			sb.append("\t<eqnStyle style=\"parametric\"/>\n");
 			break;
 

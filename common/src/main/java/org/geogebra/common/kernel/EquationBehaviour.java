@@ -58,18 +58,18 @@ public interface EquationBehaviour {
 	/**
 	 * Customize the equation form for conics created from user input (e.g., "y = xx").
 	 * @return One of the values defined in
-	 * {@link ConicEquationRepresentable.Form}, or null if the default equation form
+	 * {@link QuadraticEquationRepresentable.Form}, or null if the default equation form
 	 * should be used.
 	 */
-	ConicEquationRepresentable.Form getConicAlgebraInputEquationForm();
+	QuadraticEquationRepresentable.Form getConicAlgebraInputEquationForm();
 
 	/**
 	 * Customize the equation form for conics created from a (Parabola, etc) command or tool.
 	 * @return One of the values defined in
-	 * {@link ConicEquationRepresentable.Form}, or null if the default equation form
+	 * {@link QuadraticEquationRepresentable.Form}, or null if the default equation form
 	 * should be used.
 	 */
-	ConicEquationRepresentable.Form getConicCommandEquationForm();
+	QuadraticEquationRepresentable.Form getConicCommandEquationForm();
 
 	/**
 	 * Whether this EquationBehaviour allows the equation forms to be changed by the user.

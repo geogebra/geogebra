@@ -12,7 +12,7 @@ import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
-import org.geogebra.common.kernel.ConicEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -177,8 +177,8 @@ public abstract class ContextMenuGeoElement {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof ConicEquationRepresentable) {
-				((ConicEquationRepresentable) geo1).setToImplicit();
+			if (geo1 instanceof QuadraticEquationRepresentable) {
+				((QuadraticEquationRepresentable) geo1).setToImplicit();
 			} else if (geo1 instanceof GeoImplicit) {
 				((GeoImplicit) geo1).setToImplicit();
 			} else {
@@ -456,8 +456,8 @@ public abstract class ContextMenuGeoElement {
 	public void inputFormCmd(GeoElement inputElement) {
 		if (inputElement instanceof LinearEquationRepresentable) {
 			((LinearEquationRepresentable) inputElement).setToUser();
-		} else if (inputElement instanceof ConicEquationRepresentable) {
-			((ConicEquationRepresentable) inputElement).setToUser();
+		} else if (inputElement instanceof QuadraticEquationRepresentable) {
+			((QuadraticEquationRepresentable) inputElement).setToUser();
 		} else if (inputElement instanceof GeoImplicit) {
 			((GeoImplicit) inputElement).setToUser();
 		} else {
@@ -753,8 +753,8 @@ public abstract class ContextMenuGeoElement {
 			if (geo instanceof LinearEquationRepresentable) {
 				return ((LinearEquationRepresentable) geo).getEquationForm() != LinearEquationRepresentable.Form.USER;
 			}
-			if (geo instanceof ConicEquationRepresentable) {
-				return ((ConicEquationRepresentable) geo).getEquationForm() != ConicEquationRepresentable.Form.USER;
+			if (geo instanceof QuadraticEquationRepresentable) {
+				return ((QuadraticEquationRepresentable) geo).getEquationForm() != QuadraticEquationRepresentable.Form.USER;
 			}
 			if (geo instanceof GeoImplicit) {
 				return !((GeoImplicit) geo).isInputForm();

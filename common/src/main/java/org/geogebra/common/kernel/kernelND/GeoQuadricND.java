@@ -17,7 +17,7 @@ import java.util.Arrays;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.ConicEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.Algos;
@@ -39,7 +39,7 @@ import org.geogebra.common.util.DoubleUtil;
  *
  */
 public abstract class GeoQuadricND extends GeoElement
-		implements GeoQuadricNDConstants, ConicEquationRepresentable, Traceable {
+		implements GeoQuadricNDConstants, QuadraticEquationRepresentable, Traceable {
 
 	private int dimension;
 	/** matrix dimension */

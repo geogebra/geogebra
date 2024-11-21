@@ -12,7 +12,7 @@ import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
 import org.geogebra.common.gui.view.algebra.SuggestionSolve;
 import org.geogebra.common.gui.view.algebra.SuggestionStatistics;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.kernel.ConicEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -185,120 +185,120 @@ public class AlgebraStyleTest extends BaseUnitTest {
 
 	@Test
 	public void checkEquationExplicit() {
-		checkEquation("x^2+4*y^2=1", ConicEquationRepresentable.Form.EXPLICIT.rawValue,
+		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.EXPLICIT.rawValue,
 				"x^2 + 4y^2 = 1");
-		checkEquation("x^2+4*y^2-y+x*y=x +x -1", ConicEquationRepresentable.Form.EXPLICIT.rawValue,
+		checkEquation("x^2+4*y^2-y+x*y=x +x -1", QuadraticEquationRepresentable.Form.EXPLICIT.rawValue,
 				"x^2 + x y + 4y^2 - 2x - y = -1");
-		checkEquation("-x^2=x +x -1", ConicEquationRepresentable.Form.EXPLICIT.rawValue,
+		checkEquation("-x^2=x +x -1", QuadraticEquationRepresentable.Form.EXPLICIT.rawValue,
 				"-x^2 - 2x = -1");
 	}
 
 	@Test
 	public void checkEquationVertex() {
 		// ellipse: fallback to explicit
-		checkNonParabolaFallback(ConicEquationRepresentable.Form.VERTEX.rawValue);
+		checkNonParabolaFallback(QuadraticEquationRepresentable.Form.VERTEX.rawValue);
 		// three actual parabolas
-		checkEquation("-x^2=x +x -1+y", ConicEquationRepresentable.Form.VERTEX.rawValue,
+		checkEquation("-x^2=x +x -1+y", QuadraticEquationRepresentable.Form.VERTEX.rawValue,
 				"y = -(x + 1)^2 +2");
-		checkEquation("x^2=x +x -1+y", ConicEquationRepresentable.Form.VERTEX.rawValue,
+		checkEquation("x^2=x +x -1+y", QuadraticEquationRepresentable.Form.VERTEX.rawValue,
 				"y = (x - 1)^2");
-		checkEquation("y^2=y +y -1+x", ConicEquationRepresentable.Form.VERTEX.rawValue,
+		checkEquation("y^2=y +y -1+x", QuadraticEquationRepresentable.Form.VERTEX.rawValue,
 				"(x - 0) = (y - 1)^2");
 	}
 
 	@Test
 	public void checkEquationSpecific() {
 		// ellipse
-		checkEquation("x^2+4*y^2=1", ConicEquationRepresentable.Form.SPECIFIC.rawValue,
+		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.SPECIFIC.rawValue,
 				"x^2 / 1 + y^2 / 0.25 = 1");
 		// hyperbola
-		checkEquation("x^2-4*y^2=2x+2y+1", ConicEquationRepresentable.Form.SPECIFIC.rawValue,
+		checkEquation("x^2-4*y^2=2x+2y+1", QuadraticEquationRepresentable.Form.SPECIFIC.rawValue,
 				"(x - 1)^2 / 1.75 - (y + 0.25)^2 / 0.44 = 1");
 		// double line
-		checkEquation("-x^2=x +x -1", ConicEquationRepresentable.Form.SPECIFIC.rawValue,
+		checkEquation("-x^2=x +x -1", QuadraticEquationRepresentable.Form.SPECIFIC.rawValue,
 				"(-x - 2.41) (-x + 0.41) = 0");
 		// parabolas
-		checkEquation("-x^2-x=x -1+y", ConicEquationRepresentable.Form.SPECIFIC.rawValue,
+		checkEquation("-x^2-x=x -1+y", QuadraticEquationRepresentable.Form.SPECIFIC.rawValue,
 				"x^2 = -2x - y + 1");
-		checkEquation("y^2=x +x -1+y", ConicEquationRepresentable.Form.SPECIFIC.rawValue,
+		checkEquation("y^2=x +x -1+y", QuadraticEquationRepresentable.Form.SPECIFIC.rawValue,
 				"y^2 = 2x + y - 1");
-		checkEquation("(x+y)^2=x +x -1+y", ConicEquationRepresentable.Form.SPECIFIC.rawValue,
+		checkEquation("(x+y)^2=x +x -1+y", QuadraticEquationRepresentable.Form.SPECIFIC.rawValue,
 				"x^2 + 2x y + y^2 - 2x - y = -1");
 	}
 
 	@Test
 	public void checkEquationConicform() {
-		checkNonParabolaFallback(ConicEquationRepresentable.Form.CONICFORM.rawValue);
+		checkNonParabolaFallback(QuadraticEquationRepresentable.Form.CONICFORM.rawValue);
 		// parabolas
-		checkEquation("-x^2-x=x -1+y", ConicEquationRepresentable.Form.CONICFORM.rawValue,
+		checkEquation("-x^2-x=x -1+y", QuadraticEquationRepresentable.Form.CONICFORM.rawValue,
 				"-(y - 2) = (x + 1)^2");
-		checkEquation("y^2=x +x -1+y", ConicEquationRepresentable.Form.CONICFORM.rawValue,
+		checkEquation("y^2=x +x -1+y", QuadraticEquationRepresentable.Form.CONICFORM.rawValue,
 				"2(x - 0.38) = (y - 0.5)^2");
-		checkEquation("(x+y)^2=x +x -1+y", ConicEquationRepresentable.Form.CONICFORM.rawValue,
+		checkEquation("(x+y)^2=x +x -1+y", QuadraticEquationRepresentable.Form.CONICFORM.rawValue,
 				"x^2 + 2x y + y^2 - 2x - y = -1");
 	}
 
 	@Test
 	public void checkEquationParametric() {
 		// ellipse
-		checkEquation("x^2+4*y^2=1", ConicEquationRepresentable.Form.PARAMETRIC.rawValue,
+		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.PARAMETRIC.rawValue,
 				"X = (0, 0) + (cos(t), 0.5 sin(t))");
 		// hyperbola
-		checkEquation("x^2-4*y^2=2x+2y+1", ConicEquationRepresentable.Form.PARAMETRIC.rawValue,
+		checkEquation("x^2-4*y^2=2x+2y+1", QuadraticEquationRepresentable.Form.PARAMETRIC.rawValue,
 				"X = (1, -0.25) + (" + Unicode.PLUSMINUS
 						+ " 1.32 cosh(t), 0.66 sinh(t))");
 		// parallel lines
-		checkEquation("-x^2=x +x -1", ConicEquationRepresentable.Form.PARAMETRIC.rawValue,
+		checkEquation("-x^2=x +x -1", QuadraticEquationRepresentable.Form.PARAMETRIC.rawValue,
 				"X = (-1 " + Unicode.PLUSMINUS + " 1.41, 0, 0) + "
 						+ Unicode.lambda + " (0, 1, 0)");
 		// double line
-		checkEquation("-x^2=x +x +1", ConicEquationRepresentable.Form.PARAMETRIC.rawValue,
+		checkEquation("-x^2=x +x +1", QuadraticEquationRepresentable.Form.PARAMETRIC.rawValue,
 				"X = (-1, 0, 0) + " + Unicode.lambda + " (0, 1, 0)");
 		// parabolas
-		checkEquation("-x^2-x=x -1+y", ConicEquationRepresentable.Form.PARAMETRIC.rawValue,
+		checkEquation("-x^2-x=x -1+y", QuadraticEquationRepresentable.Form.PARAMETRIC.rawValue,
 				"X = (-1, 2) + (-0.5 t, -0.25 t^2)");
-		checkEquation("y^2=x +x -1+y", ConicEquationRepresentable.Form.PARAMETRIC.rawValue,
+		checkEquation("y^2=x +x -1+y", QuadraticEquationRepresentable.Form.PARAMETRIC.rawValue,
 				"X = (0.38, 0.5) + (0.5 t^2, t)");
-		checkEquation("(x+y)^2=x +x -1+y", ConicEquationRepresentable.Form.PARAMETRIC.rawValue,
+		checkEquation("(x+y)^2=x +x -1+y", QuadraticEquationRepresentable.Form.PARAMETRIC.rawValue,
 				"X = (0.81, -0.06) + (0.06 t^2 + 0.13 t, -0.06 t^2 + 0.13 t)");
 	}
 
 	@Test
 	public void checkEquationImplicit() {
 		// ellipse
-		checkEquation("x^2+4*y^2=1", ConicEquationRepresentable.Form.IMPLICIT.rawValue,
+		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.IMPLICIT.rawValue,
 				"x^2 + 4y^2 = 1");
 		// hyperbola
-		checkEquation("x^2-4*y^2=2x+2y+1", ConicEquationRepresentable.Form.IMPLICIT.rawValue,
+		checkEquation("x^2-4*y^2=2x+2y+1", QuadraticEquationRepresentable.Form.IMPLICIT.rawValue,
 				"x^2 - 4y^2 - 2x - 2y = 1");
 		// parallel lines
-		checkEquation("-x^2=x +x -1", ConicEquationRepresentable.Form.IMPLICIT.rawValue,
+		checkEquation("-x^2=x +x -1", QuadraticEquationRepresentable.Form.IMPLICIT.rawValue,
 				"-x^2 - 2x = -1");
 		// double line
-		checkEquation("-x^2=x +x +1", ConicEquationRepresentable.Form.IMPLICIT.rawValue,
+		checkEquation("-x^2=x +x +1", QuadraticEquationRepresentable.Form.IMPLICIT.rawValue,
 				"-x^2 - 2x = 1");
 		// parabolas
-		checkEquation("-x^2-x=x -1+y", ConicEquationRepresentable.Form.IMPLICIT.rawValue,
+		checkEquation("-x^2-x=x -1+y", QuadraticEquationRepresentable.Form.IMPLICIT.rawValue,
 				"-x^2 - 2x - y = -1");
-		checkEquation("y^2=x +x -1+y", ConicEquationRepresentable.Form.IMPLICIT.rawValue,
+		checkEquation("y^2=x +x -1+y", QuadraticEquationRepresentable.Form.IMPLICIT.rawValue,
 				"y^2 - 2x - y = -1");
-		checkEquation("(x+y)^2=x +x -1+y", ConicEquationRepresentable.Form.IMPLICIT.rawValue,
+		checkEquation("(x+y)^2=x +x -1+y", QuadraticEquationRepresentable.Form.IMPLICIT.rawValue,
 				"x^2 + 2x y + y^2 - 2x - y = -1");
 	}
 
 	@Test
 	public void checkEquationReload() {
-		checkEquationReload("x^2+4*y^2=1", ConicEquationRepresentable.Form.EXPLICIT.rawValue,
+		checkEquationReload("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.EXPLICIT.rawValue,
 				"x^2 + 4y^2 = 1");
-		checkEquationReload("-x^2=x +x -1+y", ConicEquationRepresentable.Form.VERTEX.rawValue,
+		checkEquationReload("-x^2=x +x -1+y", QuadraticEquationRepresentable.Form.VERTEX.rawValue,
 				"y = -(x + 1)^2 +2");
-		checkEquationReload("x^2+4*y^2=1", ConicEquationRepresentable.Form.SPECIFIC.rawValue,
+		checkEquationReload("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.SPECIFIC.rawValue,
 				"x^2 / 1 + y^2 / 0.25 = 1");
-		checkEquationReload("-x^2-x=x -1+y", ConicEquationRepresentable.Form.CONICFORM.rawValue,
+		checkEquationReload("-x^2-x=x -1+y", QuadraticEquationRepresentable.Form.CONICFORM.rawValue,
 				"-(y - 2) = (x + 1)^2");
-		checkEquation("x^2+4*y^2=1", ConicEquationRepresentable.Form.PARAMETRIC.rawValue,
+		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.PARAMETRIC.rawValue,
 				"X = (0, 0) + (cos(t), 0.5 sin(t))");
-		checkEquation("x^2+4*y^2=1", ConicEquationRepresentable.Form.IMPLICIT.rawValue,
+		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.IMPLICIT.rawValue,
 				"x^2 + 4y^2 = 1");
 	}
 

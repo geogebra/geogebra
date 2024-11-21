@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
-import org.geogebra.common.kernel.ConicEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
@@ -575,8 +575,8 @@ public class GeoSymbolic extends GeoElement
 
 		if (newTwin instanceof LinearEquationRepresentable) {
 			((LinearEquationRepresentable) newTwin).setToUser();
-		} else if (newTwin instanceof ConicEquationRepresentable) {
-			((ConicEquationRepresentable) newTwin).setToUser();
+		} else if (newTwin instanceof QuadraticEquationRepresentable) {
+			((QuadraticEquationRepresentable) newTwin).setToUser();
 		}
 
 		if (newTwin instanceof GeoList) {

@@ -2,7 +2,7 @@ package org.geogebra.common.main.settings.config.equationforms;
 
 import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
-import org.geogebra.common.kernel.ConicEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 
 /**
  * Equation behavior that doesn't apply any customization to the default equation forms.
@@ -34,12 +34,12 @@ public class DefaultEquationBehaviour implements EquationBehaviour {
 	}
 
 	@Override
-	public ConicEquationRepresentable.Form getConicAlgebraInputEquationForm() {
+	public QuadraticEquationRepresentable.Form getConicAlgebraInputEquationForm() {
 		return null;
 	}
 
 	@Override
-	public ConicEquationRepresentable.Form getConicCommandEquationForm() {
+	public QuadraticEquationRepresentable.Form getConicCommandEquationForm() {
 		return null;
 	}
 

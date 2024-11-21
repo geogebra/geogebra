@@ -4,7 +4,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 /**
- * An umbrella for objects described by linear equations.
+ * An umbrella for objects representable by linear equations (e.g., lines, planes).
  */
 public interface LinearEquationRepresentable {
 

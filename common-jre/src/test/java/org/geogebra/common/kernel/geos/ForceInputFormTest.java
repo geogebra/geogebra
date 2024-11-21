@@ -7,7 +7,7 @@ import org.geogebra.common.GeoElementFactory;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import org.geogebra.common.gui.dialog.options.model.LineEqnModel;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
-import org.geogebra.common.kernel.ConicEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.properties.impl.objects.EquationFormProperty;
@@ -31,8 +31,8 @@ public class ForceInputFormTest extends BaseUnitTest {
 		Assert.assertEquals(LinearEquationRepresentable.Form.USER, line.getEquationForm());
 		Assert.assertEquals(LinearEquationRepresentable.Form.EXPLICIT, lineWithCommand.getEquationForm());
 		Assert.assertEquals(LinearEquationRepresentable.Form.USER, geoRay.getEquationForm());
-		Assert.assertEquals(ConicEquationRepresentable.Form.IMPLICIT, parabola.getEquationForm());
-		Assert.assertEquals(ConicEquationRepresentable.Form.IMPLICIT, hyperbola.getEquationForm());
+		Assert.assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT, parabola.getEquationForm());
+		Assert.assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT, hyperbola.getEquationForm());
 	}
 
 	@Test
@@ -72,8 +72,8 @@ public class ForceInputFormTest extends BaseUnitTest {
 		Assert.assertEquals(LinearEquationRepresentable.Form.USER, line.getEquationForm());
 		Assert.assertEquals(LinearEquationRepresentable.Form.EXPLICIT, lineWithCommand.getEquationForm());
 		Assert.assertEquals(LinearEquationRepresentable.Form.EXPLICIT, ray.getEquationForm());
-		Assert.assertEquals(ConicEquationRepresentable.Form.USER, parabola.getEquationForm());
-		Assert.assertEquals(ConicEquationRepresentable.Form.USER, hyperbola.getEquationForm());
+		Assert.assertEquals(QuadraticEquationRepresentable.Form.USER, parabola.getEquationForm());
+		Assert.assertEquals(QuadraticEquationRepresentable.Form.USER, hyperbola.getEquationForm());
 	}
 
 	@Test

@@ -8,7 +8,7 @@ import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
-import org.geogebra.common.kernel.ConicEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -635,13 +635,13 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		Command action;
 		StringBuilder sb = new StringBuilder();
 
-		if (mode != ConicEquationRepresentable.Form.CONST_IMPLICIT) {
+		if (mode != QuadraticEquationRepresentable.Form.CONST_IMPLICIT) {
 			sb.append(ConicEqnModel.getImplicitEquation(conic, loc, true));
 			action = () -> implicitConicEquationCmd();
 			addAction(action, sb.toString());
 		}
 
-		if (specificPossible && mode != ConicEquationRepresentable.Form.CONST_SPECIFIC) {
+		if (specificPossible && mode != QuadraticEquationRepresentable.Form.CONST_SPECIFIC) {
 			// specific conic string
 			String conicEqn = conic.getSpecificEquation();
 			if (conicEqn != null) {
@@ -654,7 +654,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			}
 		}
 
-		if (explicitPossible && mode != ConicEquationRepresentable.Form.CONST_EXPLICIT) {
+		if (explicitPossible && mode != QuadraticEquationRepresentable.Form.CONST_EXPLICIT) {
 			sb.setLength(0);
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
@@ -663,7 +663,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			addAction(action, sb.toString());
 		}
 
-		if (vertexformPossible && mode != ConicEquationRepresentable.Form.CONST_VERTEX) {
+		if (vertexformPossible && mode != QuadraticEquationRepresentable.Form.CONST_VERTEX) {
 			sb.setLength(0);
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
@@ -672,7 +672,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			addAction(action, sb.toString());
 		}
 
-		if (conicformPossible && mode != ConicEquationRepresentable.Form.CONST_CONICFORM) {
+		if (conicformPossible && mode != QuadraticEquationRepresentable.Form.CONST_CONICFORM) {
 			sb.setLength(0);
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');

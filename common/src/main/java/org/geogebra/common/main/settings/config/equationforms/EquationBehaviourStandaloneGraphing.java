@@ -1,7 +1,7 @@
 package org.geogebra.common.main.settings.config.equationforms;
 
 import org.geogebra.common.kernel.LinearEquationRepresentable;
-import org.geogebra.common.kernel.ConicEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 
 /**
  * Equation behaviour for the standalone Graphing app.
@@ -31,13 +31,13 @@ public final class EquationBehaviourStandaloneGraphing extends DefaultEquationBe
 	}
 
 	@Override
-	public ConicEquationRepresentable.Form getConicAlgebraInputEquationForm() {
-		return ConicEquationRepresentable.Form.IMPLICIT;
+	public QuadraticEquationRepresentable.Form getConicAlgebraInputEquationForm() {
+		return QuadraticEquationRepresentable.Form.IMPLICIT;
 	}
 
 	@Override
-	public ConicEquationRepresentable.Form getConicCommandEquationForm() {
-		return ConicEquationRepresentable.Form.USER;
+	public QuadraticEquationRepresentable.Form getConicCommandEquationForm() {
+		return QuadraticEquationRepresentable.Form.USER;
 	}
 
 	@Override

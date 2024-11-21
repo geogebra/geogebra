@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.LinearEquationRepresentable;
-import org.geogebra.common.kernel.ConicEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.KernelCAS;
 import org.geogebra.common.kernel.StringTemplate;
@@ -3077,11 +3077,11 @@ public class AlgebraProcessor {
 			if (equationForm != null) {
 				((LinearEquationRepresentable) geo).setEquationForm(equationForm);
 			}
-		} else if (geo instanceof ConicEquationRepresentable) {
-			ConicEquationRepresentable.Form equationForm =
+		} else if (geo instanceof QuadraticEquationRepresentable) {
+			QuadraticEquationRepresentable.Form equationForm =
 					equationBehaviour.getConicAlgebraInputEquationForm();
 			if (equationForm != null) {
-				((ConicEquationRepresentable) geo).setEquationForm(equationForm);
+				((QuadraticEquationRepresentable) geo).setEquationForm(equationForm);
 			}
 		}
 		// TODO APPS-5867 do we need to handle implicit functions/surfaces here?

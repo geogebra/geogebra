@@ -3,7 +3,7 @@ package org.geogebra.common.main.settings.config.equationforms;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.LinearEquationRepresentable;
-import org.geogebra.common.kernel.ConicEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 
 public class EquationBehaviourGeometry extends DefaultEquationBehaviour {
 
@@ -24,12 +24,12 @@ public class EquationBehaviourGeometry extends DefaultEquationBehaviour {
 	}
 
 	@Override
-	public ConicEquationRepresentable.Form getConicAlgebraInputEquationForm() {
-		return ConicEquationRepresentable.Form.USER;
+	public QuadraticEquationRepresentable.Form getConicAlgebraInputEquationForm() {
+		return QuadraticEquationRepresentable.Form.USER;
 	}
 
 	@Override
-	public ConicEquationRepresentable.Form getConicCommandEquationForm() {
-		return ConicEquationRepresentable.Form.IMPLICIT;
+	public QuadraticEquationRepresentable.Form getConicCommandEquationForm() {
+		return QuadraticEquationRepresentable.Form.IMPLICIT;
 	}
 }
