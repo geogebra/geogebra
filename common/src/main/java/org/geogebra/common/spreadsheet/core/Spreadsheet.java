@@ -22,6 +22,7 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	private final SpreadsheetController controller;
 
 	private final SpreadsheetRenderer renderer;
+	private @CheckForNull SpreadsheetDelegate spreadsheetDelegate;
 
 	/**
 	 * @param tabularData data source
@@ -171,6 +172,13 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	}
 
 	/**
+	 * @param spreadsheetDelegate {@link SpreadsheetDelegate}
+	 */
+	public void setSpreadsheetDelegate(SpreadsheetDelegate spreadsheetDelegate) {
+		this.spreadsheetDelegate = spreadsheetDelegate;
+	}
+
+	/**
 	 * @param x screen coordinate of event
 	 * @param y screen coordinate of event
 	 * @param modifiers alt/ctrl/shift
@@ -206,11 +214,19 @@ public final class Spreadsheet implements TabularDataChangeListener {
 	@Override
 	public void tabularDataDidChange(int row, int column) {
 		renderer.invalidate(row, column);
+		notifyRepaintNeeded();
 	}
 
 	@Override
 	public void tabularDataSizeDidChange(SpreadsheetDimensions dimensions) {
 		controller.tabularDataSizeDidChange(dimensions);
+		notifyRepaintNeeded();
+	}
+
+	private void notifyRepaintNeeded() {
+		if (spreadsheetDelegate != null) {
+			spreadsheetDelegate.notifyRepaintNeeded();
+		}
 	}
 
 	public void setWidthForColumns(double width, int minColumn, int maxColumn) {
