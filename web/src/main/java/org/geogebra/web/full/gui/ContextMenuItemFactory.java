@@ -20,7 +20,7 @@ import org.gwtproject.resources.client.ResourcePrototype;
  * Factory to create popup menus.
  * @author laszlo
  */
-public class ContextMenuFactory {
+public class ContextMenuItemFactory {
 
 	/**
 	 * @return list box, to be mocked

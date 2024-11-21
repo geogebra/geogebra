@@ -1482,7 +1482,7 @@ public class ConsElementXMLHandler {
 			num.setSliderWidth(StringUtil.parseDouble(attrs.get("width")),
 					true);
 			num.setSliderFixed(MyXMLHandler.parseBoolean(attrs.get("fixed")));
-			num.setShowExtendedAV(
+			num.setAVSliderOrCheckboxVisible(
 					MyXMLHandler.parseBoolean(attrs.get("showAlgebra")));
 
 			num.setSliderHorizontal(
@@ -2021,7 +2021,7 @@ public class ConsElementXMLHandler {
 
 	protected void finish() {
 		if (!sliderTagProcessed && geo.isGeoNumeric()) {
-			((GeoNumeric) geo).setShowExtendedAV(false);
+			((GeoNumeric) geo).setAVSliderOrCheckboxVisible(false);
 		} else if (!fontTagProcessed && geo.isGeoText()) {
 			((TextProperties) geo).setFontSizeMultiplier(1);
 			((TextProperties) geo).setSerifFont(false);

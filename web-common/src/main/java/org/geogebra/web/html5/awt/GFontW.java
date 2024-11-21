@@ -11,7 +11,7 @@ public class GFontW extends GFont {
 	private String fontStyle = NORMAL_STR;
 	private String fontVariant = NORMAL_STR;
 	private String fontWeight = NORMAL_STR;
-	private String fontSize = "12";
+	private int fontSize = 12;
 	private String fontFamily = GEOGEBRA_FONT_SANSERIF;
 
 	/**
@@ -50,7 +50,7 @@ public class GFontW extends GFont {
 		} else {
 			fontFamily = name;
 		}
-		fontSize = size + "";
+		fontSize = size;
 		setFontStyle(style);
 
 	}
@@ -79,7 +79,7 @@ public class GFontW extends GFont {
 		return fontWeight;
 	}
 
-	public String getFontSize() {
+	public int getFontSize() {
 		return fontSize;
 	}
 
@@ -117,7 +117,7 @@ public class GFontW extends GFont {
 
 	@Override
 	public int getSize() {
-		return Integer.parseInt(fontSize);
+		return fontSize;
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public class GFontW extends GFont {
 		GFontW ret = new GFontW(fontStyle);
 		ret.fontFamily = fontFamily;
 		ret.setFontStyle(plain2);
-		ret.fontSize = newFontSize + "";
+		ret.fontSize = newFontSize;
 		return ret;
 	}
 
@@ -168,7 +168,7 @@ public class GFontW extends GFont {
 		if (font instanceof GFontW) {
 			GFontW fontW = (GFontW) font;
 			return fontFamily.equals(fontW.fontFamily)
-					&& fontSize.equals(fontW.fontSize)
+					&& fontSize == fontW.fontSize
 					&& fontStyle.equals(fontW.fontStyle)
 					&& fontVariant.equals(fontW.fontVariant)
 					&& fontWeight.equals(fontW.fontWeight);
@@ -182,7 +182,7 @@ public class GFontW extends GFont {
 	public int hashCode() {
 		// any arbitrary
 		// constant will do
-		return fontSize.hashCode() | fontStyle.hashCode();
+		return fontSize | fontStyle.hashCode();
 	}
 
 }

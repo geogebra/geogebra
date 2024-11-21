@@ -88,6 +88,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		} else {
 			btnNormalOverlay.setTitle(loc.getMenu("OverlayNormalCurve"));
 		}
+		btnNormalOverlay.getElement().setAttribute("tooltip-position", "right");
 	}
 
 	/**

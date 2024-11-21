@@ -82,8 +82,6 @@ run {
 
 tasks {
     test {
-        systemProperty("ggb.prerelease", project.findProperty("prerelease") ?: "true")
-
         ignoreFailures = true
         outputs.upToDateWhen { false }
     }

@@ -1,10 +1,16 @@
 package org.geogebra.common.exam.restrictions;
 
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Regression;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics1;
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Statistics2;
+
 import java.util.Set;
 
 import javax.annotation.Nullable;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.contextmenu.ContextMenuFactory;
+import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.cvte.CvteCommandArgumentFilter;
@@ -43,20 +49,23 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				createCommandFilters(),
 				createCommandArgumentFilters(),
 				getFilteredOperations(),
+				createContextMenuItemFilters(),
 				createSyntaxFilter(),
 				createToolsFilter(),
 				null);
 	}
 
 	@Override
-	public void applyTo(@Nullable CommandDispatcher commandDispatcher,
+	public void applyTo(
+			@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
 			@Nullable Object context,
 			@Nullable Localization localization,
 			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
-			@Nullable ToolsProvider toolsProvider) {
+			@Nullable ToolsProvider toolsProvider,
+			@Nullable ContextMenuFactory contextMenuFactory) {
 		if (settings != null) {
 			casEnabled = settings.getCasSettings().isEnabled();
 			// Note: The effect we want to acchieve here is disable the symbolic versions of the
@@ -70,20 +79,22 @@ final class CvteExamRestrictions extends ExamRestrictions {
 			settings.getCasSettings().setEnabled(false);
 		}
 		super.applyTo(commandDispatcher, algebraProcessor, propertiesRegistry, context,
-				localization, settings, autoCompleteProvider, toolsProvider);
+				localization, settings, autoCompleteProvider, toolsProvider, contextMenuFactory);
 	}
 
 	@Override
-	public void removeFrom(@Nullable CommandDispatcher commandDispatcher,
+	public void removeFrom(
+			@Nullable CommandDispatcher commandDispatcher,
 			@Nullable AlgebraProcessor algebraProcessor,
 			@Nullable PropertiesRegistry propertiesRegistry,
 			@Nullable Object context,
 			@Nullable Localization localization,
 			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
-			@Nullable ToolsProvider toolsProvider) {
+			@Nullable ToolsProvider toolsProvider,
+			@Nullable ContextMenuFactory contextMenuFactory) {
 		super.removeFrom(commandDispatcher, algebraProcessor, propertiesRegistry, context,
-				localization, settings, autoCompleteProvider, toolsProvider);
+				localization, settings, autoCompleteProvider, toolsProvider, contextMenuFactory);
 		if (settings != null) {
 			settings.getCasSettings().setEnabled(casEnabled);
 		}
@@ -154,6 +165,11 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				Operation.GAMMA_INCOMPLETE_REGULARIZED,
 				Operation.POLYGAMMA,
 				Operation.RANDOM);
+	}
+
+	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
+		return Set.of(contextMenuItem -> Set.of(Statistics1, Statistics2, Regression).stream()
+				.noneMatch(item -> item.isSameItemAs(contextMenuItem)));
 	}
 
 	private static ToolCollectionFilter createToolsFilter() {

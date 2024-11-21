@@ -33,7 +33,7 @@ import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.gui.view.data.StatPanelSettings;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
@@ -545,7 +545,7 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 		Box vBox = Box.createVerticalBox();
 		vBox.add(graphOptionsPanel);
 		vBox.add(dimPanel);
-		if (app.has(Feature.LOG_AXES)) {
+		if (PreviewFeature.isAvailable(PreviewFeature.LOG_AXES)) {
 			vBox.add(coordPanel);
 		}
 

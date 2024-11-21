@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.kernelND;
 
+import java.util.Arrays;
 import java.util.TreeMap;
 
 import org.geogebra.common.kernel.Construction;
@@ -17,6 +18,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.traversing.ConstantSimplifier;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -127,6 +129,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 			} else {
 				this.fun[i].setExpression(fun[i].getExpression());
 			}
+			funExpanded[i] = null;
 		}
 	}
 
@@ -318,9 +321,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	@Override
 	public final void update(boolean drag) {
 		super.update(drag);
-		for (int i = 0; i < this.funExpanded.length; i++) {
-			this.funExpanded[i] = null;
-		}
+		Arrays.fill(this.funExpanded, null);
 	}
 
 	@Override
@@ -403,19 +404,33 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	 * @return function with expanded function calls
 	 */
 	protected Function getFunExpanded(int i) {
+		if (funExpanded[i] != null) {
+			return funExpanded[i];
+		}
 		if (!this.containsFunctions[i]) {
 			return getFun(i);
 		}
-		if (this.funExpanded[i] == null) {
-			this.funExpanded[i] = new Function(getFun(i), this.kernel);
-			ExpressionNode expr = AlgoDependentFunction
-					.expandFunctionDerivativeNodes(
-							getFun(i).getExpression().deepCopy(this.kernel),
-							false)
-					.wrap();
-			this.funExpanded[i].setExpression(expr);
-		}
+		this.funExpanded[i] = new Function(getFun(i), this.kernel);
+		ExpressionNode expr = AlgoDependentFunction
+				.expandFunctionDerivativeNodes(
+						getFun(i).getExpression().deepCopy(this.kernel),
+						false)
+				.traverse(ConstantSimplifier.INSTANCE)
+				.wrap();
+		this.funExpanded[i].setExpression(expr);
 		return this.funExpanded[i];
+	}
+
+	@Override
+	public void updateExpandedFunctions() {
+		for (int i = 0; i < fun.length; i++) {
+			if (containsFunctions[i]) {
+				getFunExpanded(i);
+			} else if (fun[i] != null && funExpanded[i] == null) {
+				funExpanded[i] = (Function) fun[i].deepCopy(kernel)
+						.traverse(ConstantSimplifier.INSTANCE);
+			}
+		}
 	}
 
 	/**

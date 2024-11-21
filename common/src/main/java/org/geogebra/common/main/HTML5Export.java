@@ -29,15 +29,7 @@ public class HTML5Export {
 		// make sure translation files loaded OK
 		sb.append("<meta charset=\"utf-8\"/>\n");
 
-		if (app.has(Feature.TUBE_BETA)) {
-			sb.append(
-					"<script src=\"https://beta.geogebra.org/scripts/deployggb.js\"></script>\n\n");
-
-		} else {
-			sb.append(
-					"<script src=\"https://cdn.geogebra.org/apps/deployggb.js\"></script>\n\n");
-
-		}
+		sb.append("<script src=\"https://www.geogebra.org/apps/deployggb.js\"></script>\n\n");
 		sb.append("</head>\n");
 		sb.append("<body>\n");
 

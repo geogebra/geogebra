@@ -1,5 +1,6 @@
 package org.geogebra.common.ownership;
 
+import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.exam.ExamController;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
@@ -22,9 +23,11 @@ public final class GlobalScope {
 	// https://stackoverflow.com/questions/4446088/java-in-what-order-are-static-final-fields-initialized
 
 	public static final PropertiesRegistry propertiesRegistry = new DefaultPropertiesRegistry();
+	public static final ContextMenuFactory contextMenuFactory = new ContextMenuFactory();
 
 	// intentionally assignable (for testing)
-	public static ExamController examController = new ExamController(propertiesRegistry);
+	public static ExamController examController = new ExamController(propertiesRegistry,
+			contextMenuFactory);
 
 	/**
 	 * Prevent instantiation.

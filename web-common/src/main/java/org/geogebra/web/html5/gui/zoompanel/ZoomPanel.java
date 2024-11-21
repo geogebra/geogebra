@@ -261,6 +261,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 			String ariaLabel) {
 		if (btn != null) {
 			btn.getElement().setAttribute("data-title", dataTitle);
+			btn.getElement().setAttribute("tooltip-position", "right");
 			btn.getElement().setAttribute("aria-label", ariaLabel);
 		}
 	}

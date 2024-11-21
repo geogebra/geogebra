@@ -745,10 +745,6 @@ public class AppCommon extends App {
 		return layout;
 	}
 
-	public void setPrerelease() {
-		prerelease = true;
-	}
-
 	private static class LayoutHeadless extends Layout {
 
 		@Override

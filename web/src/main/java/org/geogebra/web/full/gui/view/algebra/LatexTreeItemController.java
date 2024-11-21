@@ -55,7 +55,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 				return;
 			}
 
-			onEnter(false, false);
+			onEnter(false);
 			if (item.isEmpty() && item.isInputTreeItem()) {
 				item.addDummyLabel();
 				item.setItemWidth(item.getAV().getFullWidth());
@@ -80,7 +80,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	}
 
 	@Override
-	public void onEnter(final boolean keepFocus, boolean createSliders) {
+	public void onEnter(final boolean keepFocus) {
 		if (isEditing()) {
 			dispatchEditEvent(EventType.EDITOR_STOP);
 		}
@@ -96,7 +96,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 				return;
 			}
 			item.getAV().setLaTeXLoaded();
-			createGeoFromInput(keepFocus, createSliders);
+			evalInput.createGeoFromInput(keepFocus);
 			setEditing(false);
 			return;
 		}
@@ -120,7 +120,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		}
 		// make sure editing flag is up to date e.g. after failed redefine
 		setEditing(true);
-		onEnter(true, false);
+		onEnter(true);
 		item.getAV().clearActiveItem();
 		dispatchKeyTypeEvent("\n");
 	}
@@ -161,17 +161,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 */
 	public boolean isSuggesting() {
 		return autocomplete != null && autocomplete.isSuggesting();
-	}
-
-	/**
-	 * @param keepFocus
-	 *            whether the focus should stay afterwards
-	 * @param withSliders
-	 *            whether to create sliders
-	 */
-	public void createGeoFromInput(final boolean keepFocus,
-			boolean withSliders) {
-		evalInput.createGeoFromInput(keepFocus, withSliders);
 	}
 
 	/**
@@ -268,7 +257,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public boolean onTab(boolean shiftDown) {
-		onEnter(false, false);
+		onEnter(false);
 		if (item.isInputTreeItem()) {
 			item.addDummyLabel();
 			item.setItemWidth(item.getAV().getFullWidth());

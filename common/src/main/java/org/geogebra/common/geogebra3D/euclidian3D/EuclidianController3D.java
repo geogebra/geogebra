@@ -2206,8 +2206,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected void createNewPointForModeOther(Hits hits) {
-		createNewPoint(hits, true, true, true, true, false);
+	protected GeoPointND createNewPointForModeOther(Hits hits) {
+		return createNewPoint(hits, true, true, true, true, false);
 	}
 
 	@Override
