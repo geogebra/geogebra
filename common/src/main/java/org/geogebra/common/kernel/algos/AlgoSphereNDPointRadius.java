@@ -78,14 +78,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 			}
 		}
 
-//		if (sphereND.isSpecificPossible()) {
-			sphereND.setToSpecific();
-//		} else {
-//			EquationBehaviour equationBehaviour = cons.getKernel().getEquationBehaviour();
-//			if (equationBehaviour != null) {
-//				sphereND.setEquationForm(equationBehaviour.getConicCommandEquationForm());
-//			}
-//		}
+		sphereND.setToSpecific();
 	}
 
 	private void autoColor() {
@@ -166,14 +159,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 
 		compute();
 
-//		if (sphereND.isSpecificPossible()) {
-			sphereND.setToSpecific();
-//		} else {
-//			EquationBehaviour equationBehaviour = cons.getKernel().getEquationBehaviour();
-//			if (equationBehaviour != null) {
-//				sphereND.setEquationForm(equationBehaviour.getConicCommandEquationForm());
-//			}
-//		}
+		sphereND.setToSpecific();
 	}
 
 	/**
