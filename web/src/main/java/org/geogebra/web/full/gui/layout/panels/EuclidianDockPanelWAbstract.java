@@ -166,8 +166,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 									.getPageControlPanel();
 					if (pageControlPanel != null && pageControlPanel.isVisible()) {
 						w = w - PAGE_OVERVIEW_WIDTH;
-					} else {
-						w = w + PAGE_OVERVIEW_WIDTH;
 					}
 				}
 				// TODO handle this better?
