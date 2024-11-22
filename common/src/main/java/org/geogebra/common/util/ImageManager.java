@@ -176,13 +176,28 @@ abstract public class ImageManager {
 	}
 
 	/**
-	 * GGB-1419
+	 * Update width/height based on viewBox to ensure correct rendering (GGB-1419)
 	 * 
 	 * @param fileStr
 	 *            SVG to check as string
-	 * @return SVG with
+	 * @return SVG with width and height
 	 */
 	public static String fixSVG(String fileStr) {
+		return fixSVG(fileStr, false);
+	}
+
+	/**
+	 * Like {@link #fixSVG(String)}, but also removes aspect ratio
+	 *
+	 * @param fileStr
+	 *            SVG to check as string
+	 * @return SVG with width and height
+	 */
+	public static String fixAndRemoveAspectRatio(String fileStr) {
+		return fixSVG(fileStr, true);
+	}
+
+	private static String fixSVG(String fileStr, boolean removeAspectRatio) {
 		int svgStart = fileStr.indexOf("<svg");
 		int svgEnd = fileStr.indexOf(">", svgStart);
 		String svgTag = fileStr.substring(svgStart, svgEnd + 1) + "</svg>";
@@ -193,11 +208,14 @@ abstract public class ImageManager {
 		svgTag = svgTag.replace("width='100%'", "");
 		svgTag = svgTag.replace("height='100%'", "");
 
-		if (svgTag.contains("width") && svgTag.contains("height")) {
+		if (!removeAspectRatio && svgTag.contains("width") && svgTag.contains("height")) {
 			return fileStr;
 		}
 		QDParser qd = new QDParser();
 		SVGDocHandler handler = new SVGDocHandler();
+		if (removeAspectRatio) {
+			handler.removeAspectRatio();
+		}
 		try {
 			qd.parse(handler, new StringReader(svgTag));
 			return fileStr.substring(0, svgStart) + handler.getSVGTag()
@@ -207,7 +225,6 @@ abstract public class ImageManager {
 		}
 
 		return fileStr;
-
 	}
 
 	/**
