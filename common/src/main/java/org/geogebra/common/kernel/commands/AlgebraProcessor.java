@@ -15,12 +15,14 @@ package org.geogebra.common.kernel.commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -210,7 +212,6 @@ public class AlgebraProcessor {
 
 		this.cmdDispatcher = commandDispatcher;
 		app = kernel.getApplication();
-		app.onCommandDispatcherSet(cmdDispatcher);
 		loc = app.getLocalization();
 		parser = kernel.getParser();
 		setEnableStructures(app.getConfig().isEnableStructures());
@@ -983,16 +984,15 @@ public class AlgebraProcessor {
 				undefinedVariables, callback0,
 				new EvalInfo(!cons.isSuppressLabelsActive())
 						.withSliders(info.isAutocreateSliders()));
-		final int step = cons.getStep();
 		if (ret != null) {
 			if (storeUndo) {
 				app.storeUndoInfo();
 			}
-			runCallback(callback0, ret, step);
-			return ret;
+			return postProcessCreatedElements(callback0, ret, handler, null);
 		}
 		EvalInfo newInfo = info;
-		if (undefinedVariables.size() > 0) {
+		Set<GeoNumeric> sliders = null;
+		if (!undefinedVariables.isEmpty()) {
 
 			// ==========================
 			// step0: check if there's an error on processing
@@ -1013,12 +1013,7 @@ public class AlgebraProcessor {
 			}
 			if (geoElements != null) {
 				kernel.getConstruction().registerFunctionVariable(null);
-
-				// this was forgotten to do here, added by Arpad
-				// TODO: maybe need to add this to more places here?
-				runCallback(callback0, geoElements, step);
-
-				return geoElements;
+				return postProcessCreatedElements(callback0, geoElements, handler, null);
 			}
 
 			StringBuilder sb = new StringBuilder();
@@ -1027,11 +1022,8 @@ public class AlgebraProcessor {
 			// step3: make a list of undefined variables so we can ask the
 			// user
 			// ==========================
-			Iterator<String> it = undefinedVariables.iterator();
-			while (it.hasNext()) {
-				String label = it.next();
+			for (String label : undefinedVariables) {
 				if (kernel.lookupLabel(label) == null) {
-					// Log.debug("not found: " + label);
 					sb.append(label);
 					sb.append(", ");
 				}
@@ -1049,57 +1041,27 @@ public class AlgebraProcessor {
 				if (!info.isAutocreateSliders()) {
 					GeoElementND[] rett = tryReplacingProducts(ve, handler,
 							info);
-					runCallback(callback0, rett, step);
-					return rett;
+					return postProcessCreatedElements(callback0, rett, handler, null);
 				}
-
-				// boolean autoCreateSlidersAnswer = false;
 
 				// "Create sliders for a, b?" Create Sliders / Cancel
 				// Yes: create sliders and draw line
 				// No: go back into input bar and allow user to change input
-				final Localization loc2 = loc;
 
-				AsyncOperation<String[]> callback = null;
-
-				// final FunctionVariable fvX2 = fvX;
 				final ValidExpression ve2 = ve;
 
-				callback = new AsyncOperation<String[]>() {
-
-					@Override
-					public void callback(String[] dialogResult) {
-						GeoElement[] geos = null;
-
-						// TODO: need we to catch the Exception
-						// here,
-						// which can throw the
-						// processAlgebraInputCommandNoExceptionHandling
-						// function?
-						if (CREATE_SLIDER.equals(dialogResult[0])) {
-							// insertStarIfNeeded(undefinedVariables,
-							// ve2, fvX2);
-							replaceUndefinedVariables(ve2,
-									new TreeSet<>(), null,
-									info.isMultipleUnassignedAllowed());
-						}
-						try {
-							geos = processValidExpression(storeUndo, handler,
-									ve2, info);
-						} catch (MyError ee) {
-							ErrorHelper.handleError(ee,
-									ve2.toString(
-											StringTemplate.defaultTemplate),
-									loc2, handler);
-							return;
-						} catch (Exception ee) {
-							ErrorHelper.handleException(ee, app, handler);
-							return;
-						}
-
-						runCallback(callback0, geos, step);
+				AsyncOperation<String[]> callback = dialogResult -> {
+					Set<GeoNumeric> asyncSliders = new HashSet<>();
+					if (CREATE_SLIDER.equals(dialogResult[0])) {
+						replaceUndefinedVariables(ve2,
+								asyncSliders, null,
+								info.isMultipleUnassignedAllowed());
 					}
 
+					GeoElement[] geos = processValidExpression(storeUndo, handler,
+								ve2, info, asyncSliders);
+
+					postProcessCreatedElements(callback0, geos, handler, asyncSliders);
 				};
 				boolean autoCreateSlidersAnswer = handler
 						.onUndefinedVariables(sb.toString(), callback);
@@ -1109,12 +1071,11 @@ public class AlgebraProcessor {
 				}
 			}
 
-			// Log.debug("list of variables: "+sb.toString());
-
 			// ==========================
 			// step5: replace undefined variables
 			// ==========================
-			replaceUndefinedVariables(ve, new TreeSet<>(), null,
+			sliders = new HashSet<>();
+			replaceUndefinedVariables(ve, sliders, null,
 					info.isMultipleUnassignedAllowed());
 
 			// Do not copy plain variables, as
@@ -1125,22 +1086,11 @@ public class AlgebraProcessor {
 		// process ValidExpression (built by parser)
 
 		GeoElement[] geos = processValidExpression(storeUndo, handler, ve,
-				newInfo);
+				newInfo, sliders);
 
 		// Test output for filtered expression
-		if (geos != null) {
-			boolean containsRestrictedExpressions = Arrays.stream(geos)
-					.map(geo -> geo.wrap())
-					.anyMatch(geo -> !isExpressionAllowed(geo, outputExpressionFilters));
-			if (containsRestrictedExpressions) {
-				// Remove filtered geos
-				Arrays.stream(geos).forEach(geo -> geo.remove());
-				throw new MyError(loc, MyError.Errors.InvalidInput);
-			}
-		}
 
-		runCallback(callback0, geos, step);
-		return geos;
+		return postProcessCreatedElements(callback0, geos, handler, sliders);
 	}
 
 	private GeoElement evalSymbolic(final ValidExpression ve, EvalInfo info) {
@@ -1201,19 +1151,41 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * Run callbackl on new geos if there are any or empty array otherwise
+	 * Run callback on new geos if there are any or empty array otherwise
 	 *
 	 * @param callback0
 	 *            callback
-	 * @param ret
+	 * @param geos
 	 *            possible new geos
-	 * @param step
-	 *            construction step before geos were created
+	 * @param sliders
+	 *            auto-created sliders
 	 */
-	void runCallback(AsyncOperation<GeoElementND[]> callback0,
-			GeoElementND[] ret, int step) {
+	GeoElementND[] postProcessCreatedElements(AsyncOperation<GeoElementND[]> callback0,
+			GeoElementND[] geos, ErrorHandler handler, @Nullable Set<GeoNumeric> sliders) {
+		GeoElementND[] filteredGeos = geos;
+		if (geos != null) {
+			boolean containsRestrictedExpressions = Arrays.stream(geos)
+					.map(ExpressionValue::wrap)
+					.anyMatch(geo -> !isExpressionAllowed(geo, outputExpressionFilters));
+			if (containsRestrictedExpressions) {
+				// Remove filtered geos
+				Arrays.stream(geos).forEach(GeoElementND::remove);
+				filteredGeos = null;
+				MyError myError = new MyError(loc, Errors.InvalidInput);
+				ErrorHelper.handleError(myError, null, loc, handler);
+				removeSliders(sliders);
+			}
+		}
 		if (callback0 != null) {
-			callback0.callback(ret);
+			callback0.callback(filteredGeos);
+		}
+		return filteredGeos;
+	}
+
+	private void removeSliders(Set<GeoNumeric> sliders) {
+		if (sliders != null) {
+			sliders.forEach(GeoElementND::remove);
+			sliders.clear();
 		}
 	}
 
@@ -1371,7 +1343,7 @@ public class AlgebraProcessor {
 	 * @return processed expression
 	 */
 	public synchronized GeoElement[] processValidExpression(boolean storeUndo,
-			ErrorHandler handler, ValidExpression ve, EvalInfo info) {
+			ErrorHandler handler, ValidExpression ve, EvalInfo info, Set<GeoNumeric> sliders) {
 		GeoElement[] geoElements = null;
 		try {
 			geoElements = processValidExpression(ve, info);
@@ -1379,11 +1351,13 @@ public class AlgebraProcessor {
 				app.storeUndoInfo();
 			}
 		} catch (MyError e) {
+			removeSliders(sliders);
 			ErrorHelper.handleError(e,
 					ve == null ? null
 							: ve.toString(StringTemplate.defaultTemplate),
 					loc, handler);
 		} catch (Exception ex) {
+			removeSliders(sliders);
 			Log.debug("Exception" + ex.getLocalizedMessage());
 			ErrorHelper.handleException(ex, app, handler);
 		} finally {
@@ -1407,7 +1381,7 @@ public class AlgebraProcessor {
 	 *     more variables
 	 */
 	public void replaceUndefinedVariables(ValidExpression ve,
-			TreeSet<GeoNumeric> undefined, String[] except, boolean multiplication) {
+			Set<GeoNumeric> undefined, String[] except, boolean multiplication) {
 		ReplaceUndefinedVariables replacer = new Traversing.ReplaceUndefinedVariables(
 				this.kernel, undefined, except);
 		replacer.setSimplifyMultiplication(multiplication);

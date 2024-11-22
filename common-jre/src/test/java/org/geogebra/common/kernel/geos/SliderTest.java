@@ -4,6 +4,8 @@ import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
@@ -14,6 +16,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.geogebra.test.UndoRedoTester;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -117,6 +120,14 @@ public class SliderTest extends BaseUnitTest {
 		assertThat(((GeoNumeric) lookup("b")).isSlider(), equalTo(true));
 		assertThat(((GeoNumeric) lookup("c")).isSlider(), equalTo(true));
 		assertThat(f, hasValue(unicode("1 x^2 + 1 x + 1 (x + 3)")));
+	}
+
+	@Test
+	@Issue("APPS-6015")
+	public void autocreateSliderShouldNotCreateAnythingOnError() {
+		assertThrows(AssertionError.class, () -> add("f(x)=f(x)+1", info));
+		assertThrows(AssertionError.class, () -> add("g(x)=g(x)+a", info));
+		assertEquals(0, getConstruction().getGeoSetConstructionOrder().size());
 	}
 
 	private GeoAngle autocreateAngle() {
