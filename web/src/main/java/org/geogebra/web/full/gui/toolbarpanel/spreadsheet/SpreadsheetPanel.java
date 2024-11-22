@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.spreadsheet.core.SpreadsheetDelegate;
 import org.geogebra.common.spreadsheet.core.ViewportAdjusterDelegate;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
@@ -71,7 +72,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		scrollOverlay = new ScrollPanel();
 		mathField = new MathTextFieldW(app, new MetaModel());
 
-		spreadsheet.setControlsDelegate(initDelegate());
+		spreadsheet.setControlsDelegate(initControlsDelegate());
+		spreadsheet.setSpreadsheetDelegate(initSpreadsheetDelegate());
 
 		FlowPanel scrollContent = new FlowPanel();
 		scrollOverlay.setWidget(scrollContent);
@@ -170,8 +172,12 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		return key.length() > 1  ? "" : key;
 	}
 
-	private SpreadsheetControlsDelegateW initDelegate() {
+	private SpreadsheetControlsDelegateW initControlsDelegate() {
 		return new SpreadsheetControlsDelegateW(app, this, mathField);
+	}
+
+	private SpreadsheetDelegate initSpreadsheetDelegate() {
+		return this::repaint;
 	}
 
 	/**

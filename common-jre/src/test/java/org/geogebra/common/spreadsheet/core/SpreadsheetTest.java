@@ -7,8 +7,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.spreadsheet.StringCapturingGraphics;
 import org.geogebra.common.spreadsheet.TestTabularData;
+import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
 import org.geogebra.common.spreadsheet.rendering.SelfRenderable;
 import org.geogebra.common.spreadsheet.rendering.StringRenderer;
 import org.geogebra.common.spreadsheet.style.CellFormat;
@@ -18,13 +20,15 @@ import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class SpreadsheetTest extends BaseUnitTest {
 
 	private final int colHeader = TableLayout.DEFAULT_CELL_HEIGHT;
 	private final int rowHeader = TableLayout.DEFAULT_ROW_HEADER_WIDTH;
 	private Spreadsheet spreadsheet;
-	private TestTabularData tabularData;
+	private TabularData<?> tabularData;
+	private SpreadsheetDelegate delegate;
 
 	@Before
 	public void setupSpreadsheet() {
@@ -50,6 +54,8 @@ public class SpreadsheetTest extends BaseUnitTest {
 				// no UI to update
 			}
 		});
+		delegate = mockSpreadsheetDelegate();
+		spreadsheet.setSpreadsheetDelegate(delegate);
 	}
 
 	private void resetViewport() {
@@ -154,6 +160,19 @@ public class SpreadsheetTest extends BaseUnitTest {
 		assertThat(graphics.toString(), endsWith(",3"));
 	}
 
+	@Test
+	public void spreadsheetShouldRepaintAfterUpdatingSlider() {
+		tabularData = new KernelTabularDataAdapter(getSettings().getSpreadsheet(), getKernel());
+		tabularData.addChangeListener(spreadsheet);
+		getKernel().attach((KernelTabularDataAdapter) tabularData);
+
+		GeoNumeric slider = add("a = 3");
+		tabularData.setContent(0, 0, slider);
+		Mockito.verify(delegate, Mockito.times(2)).notifyRepaintNeeded();
+		slider.update();
+		Mockito.verify(delegate, Mockito.times(3)).notifyRepaintNeeded();
+	}
+
 	private static class TestCellRenderableFactory implements CellRenderableFactory {
 		@Override
 		public SelfRenderable getRenderable(Object data, SpreadsheetStyle style,
@@ -161,5 +180,9 @@ public class SpreadsheetTest extends BaseUnitTest {
 			return data == null ? null : new SelfRenderable(new StringRenderer(),
 					GFont.PLAIN, CellFormat.ALIGN_LEFT, data);
 		}
+	}
+
+	private SpreadsheetDelegate mockSpreadsheetDelegate() {
+		return Mockito.mock(SpreadsheetDelegate.class);
 	}
 }
