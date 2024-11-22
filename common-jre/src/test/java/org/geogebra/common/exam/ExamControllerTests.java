@@ -416,6 +416,16 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertNull(evaluate("f'"));
 	}
 
+	@Test
+	public void testRestrictedOperatorInsideFunction() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+		examController.prepareExam();
+		examController.startExam(ExamType.IB, null);
+
+		assertNotNull(evaluate("f(x) = x^2"));
+		assertNull(evaluate("g(x) = f'"));
+	}
+
 	// -- ExamControllerDelegate --
 
 	@Override

@@ -1088,6 +1088,12 @@ public class AlgebraProcessor {
 		GeoElement[] geos = processValidExpression(storeUndo, handler, ve,
 				newInfo, sliders);
 
+		// Check for allowed expressions again, as resolving variables might end up creating
+		// expressions that otherwise are not allowed. See APPS-5138
+		if (!isExpressionAllowed(ve, inputExpressionFilters)) {
+			return null;
+		}
+
 		// Test output for filtered expression
 
 		return postProcessCreatedElements(callback0, geos, handler, sliders);
@@ -3195,11 +3201,6 @@ public class AlgebraProcessor {
 		// ELSE: resolve variables and evaluate expressionnode
 		n.resolveVariables(info);
 
-		// Check for allowed expressions again, as resolving variables might end up creating
-		// expressions that otherwise are not allowed. See APPS-5138
-		if (!isExpressionAllowed(n, inputExpressionFilters)) {
-			return null;
-		}
 		if (n.isLeaf() && n.getLeft().isExpressionNode()) {
 			// we changed f' to f'(x) -> clean double wrap
 			ExpressionNode unwrapped = n.getLeft().wrap();
