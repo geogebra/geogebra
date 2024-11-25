@@ -36,7 +36,6 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
-import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
@@ -386,8 +385,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected HashMap<Integer, Boolean> showConstProtNavigationNeedsUpdate = null;
 	protected HashMap<Integer, Boolean> showConsProtNavigation = null;
 	protected AppCompanion companion;
-	@Deprecated // use PreviewFeature instead
-	protected boolean prerelease;
 
 	private boolean showResetIcon = false;
 	private ParserFunctions pf;
@@ -439,8 +436,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// TODO: move following methods somewhere else
 	private String tubeID = null;
 	private AdjustViews adjustViews = null;
-	private AdjustScreen adjustScreen = null;
-	private AdjustScreen adjustScreen2 = null;
 	final static public long CE_ID_COUNTER_START = 1;
 	private long ceIDcounter = CE_ID_COUNTER_START;
 	private int nextVariableID = 1;
@@ -3677,16 +3672,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return false;
 	}
 
-	/**
-	 * @param f unused
-	 * @return false
-	 * @deprecated use {@link PreviewFeature}
-	 */
-	@Deprecated // to be removed in APPS-6110
-	public final boolean has(Feature f) {
-		return false;
-	}
-
 	public boolean isUnbundled() {
 		return false;
 	}
@@ -4244,34 +4229,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Adjust widgets on screen.
-	 *
-	 * @param reset
-	 *            whether to reset the stored offsets
-	 */
-	public void adjustScreen(boolean reset) {
-		if (!Feature.ADJUST_WIDGETS.isAvailable()) {
-			return;
-		}
-		if (adjustScreen == null) {
-			adjustScreen = new AdjustScreen(getEuclidianView1());
-		}
-		if (!reset) {
-			adjustScreen.restartButtons();
-		}
-		adjustScreen.apply(reset);
-		if (this.hasEuclidianView2(1)) {
-			if (adjustScreen2 == null) {
-				adjustScreen2 = new AdjustScreen(getEuclidianView2(1));
-			}
-			if (!reset) {
-				adjustScreen2.restartButtons();
-			}
-			adjustScreen2.apply(reset);
-		}
-	}
-
-	/**
 	 * Adjusts Algebra and Euclidian View next to or bellow each other
 	 * (Portrait) according to app size.
 	 *
@@ -4284,10 +4241,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (adjustViews == null) {
 			adjustViews = new AdjustViews(this);
 		}
-
 		adjustViews.apply(force);
-		adjustScreen(reset);
-
 		return adjustViews.isPortait();
 	}
 
@@ -4745,15 +4699,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void updateKeyboardSettings(LinkedHashMap<String, String> attrs) {
 		// only desktop
-	}
-
-	/**
-	 *
-	 * @return true if is prerelease
-	 */
-	@Deprecated // use PreviewFeature instead
-	public boolean isPrerelease() {
-		return prerelease;
 	}
 
 	/**
