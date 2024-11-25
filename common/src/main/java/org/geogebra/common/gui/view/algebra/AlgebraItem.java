@@ -30,6 +30,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
 import org.geogebra.common.util.SymbolicUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Utitlity class for AV items
@@ -71,6 +72,7 @@ public class AlgebraItem {
 		if (geo instanceof GeoSymbolic) {
 			GeoSymbolic symbolic = (GeoSymbolic) geo;
 			if (symbolic.shouldWrapInNumeric()) {
+				Log.warn("button needed");
 				return true;
 			} else if (SymbolicUtil.isSolve(symbolic)) {
 				return SymbolicUtil.isSymbolicSolveDiffers(symbolic);
@@ -101,19 +103,26 @@ public class AlgebraItem {
 				&& !GeoFunction.isUndefined(text1) && !GeoFunction.isUndefined(text2);
 	}
 
+	public static boolean checkAllRHSareIntegers(GeoElementND geo) {
+		return geo instanceof GeoList && allRHSareIntegers((GeoList) geo);
+	}
+
 	private static boolean allRHSareIntegers(GeoList geo) {
 		for (int i = 0; i < geo.size(); i++) {
-			if (geo.get(i) instanceof GeoLine
-					&& !DoubleUtil.isInteger(((GeoLine) geo.get(i)).getZ())) {
-				return false;
-			}
-			if (geo.get(i) instanceof GeoPlaneND
-					&& !DoubleUtil.isInteger(((GeoPlaneND) geo.get(i))
-							.getCoordSys().getEquationVector().getW())) {
-				return false;
-			}
-			if (geo.get(i) instanceof GeoList
-					&& !allRHSareIntegers((GeoList) geo.get(i))) {
+			if (geo.get(i) instanceof GeoLine) {
+				if (!DoubleUtil.isInteger(((GeoLine) geo.get(i)).getZ())) {
+					return false;
+				}
+			} else  if (geo.get(i) instanceof GeoPlaneND) {
+				if (!DoubleUtil.isInteger(((GeoPlaneND) geo.get(i))
+						.getCoordSys().getEquationVector().getW())) {
+					return false;
+				}
+			} else if (geo.get(i) instanceof GeoList) {
+				if (!allRHSareIntegers((GeoList) geo.get(i))) {
+					return false;
+				}
+			} else {
 				return false;
 			}
 		}

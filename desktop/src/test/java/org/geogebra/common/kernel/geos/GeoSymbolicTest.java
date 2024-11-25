@@ -1468,6 +1468,15 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void shouldNotAddInitialGuessToSolve() {
+		GeoSymbolic nsolve = add("NSolve(x^(2)=2,x=1)");
+		SymbolicUtil.toggleSymbolic(nsolve);
+		assertEquals(nsolve.getDefinitionForEditor(), "l1=Solve(x²=2)");
+		SymbolicUtil.toggleSymbolic(nsolve);
+		assertEquals(nsolve.getDefinitionForEditor(), "l1=NSolve(x²=2,x=1)");
+	}
+
+	@Test
 	public void testSolveNSolveCase2a() {
 		GeoSymbolic symbolic = add("Solve({x²+y=10, x²-y=8},{x,y})");
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),

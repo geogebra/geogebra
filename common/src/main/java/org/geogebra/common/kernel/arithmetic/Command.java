@@ -915,4 +915,8 @@ public class Command extends ValidExpression
 	public void setAllowEvaluationForTypeCheck(boolean allowEvaluationForTypeCheck) {
 		this.allowEvaluationForTypeCheck = allowEvaluationForTypeCheck;
 	}
+
+	public ExpressionNode removeLastArgument() {
+		return args.remove(args.size() - 1);
+	}
 }
