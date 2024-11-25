@@ -2,8 +2,11 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 
 import java.util.List;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
+import org.geogebra.web.full.gui.contextmenu.CalculatorSubMenu;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
@@ -29,7 +32,12 @@ public class CategoryMenuPopup extends GPopupMenuW implements SetLabels {
 		clearItems();
 
 		for (Integer mode : tools) {
-			addItem(mode);
+			if (mode == EuclidianConstants.MODE_CALCULATOR) {
+				addItem(new AriaMenuItem("GeoGebra", MaterialDesignResources.INSTANCE
+						.geogebra_black(), new CalculatorSubMenu(getApp())));
+			} else {
+				addItem(mode);
+			}
 		}
 	}
 
