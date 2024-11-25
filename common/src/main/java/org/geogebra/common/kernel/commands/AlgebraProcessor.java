@@ -988,7 +988,7 @@ public class AlgebraProcessor {
 			if (storeUndo) {
 				app.storeUndoInfo();
 			}
-			return postProcessCreatedElements(callback0, ret, handler, null);
+			return postProcessCreatedElements(ve, callback0, ret, handler, null);
 		}
 		EvalInfo newInfo = info;
 		Set<GeoNumeric> sliders = null;
@@ -1013,7 +1013,7 @@ public class AlgebraProcessor {
 			}
 			if (geoElements != null) {
 				kernel.getConstruction().registerFunctionVariable(null);
-				return postProcessCreatedElements(callback0, geoElements, handler, null);
+				return postProcessCreatedElements(ve, callback0, geoElements, handler, null);
 			}
 
 			StringBuilder sb = new StringBuilder();
@@ -1041,7 +1041,7 @@ public class AlgebraProcessor {
 				if (!info.isAutocreateSliders()) {
 					GeoElementND[] rett = tryReplacingProducts(ve, handler,
 							info);
-					return postProcessCreatedElements(callback0, rett, handler, null);
+					return postProcessCreatedElements(ve, callback0, rett, handler, null);
 				}
 
 				// "Create sliders for a, b?" Create Sliders / Cancel
@@ -1061,7 +1061,7 @@ public class AlgebraProcessor {
 					GeoElement[] geos = processValidExpression(storeUndo, handler,
 								ve2, info, asyncSliders);
 
-					postProcessCreatedElements(callback0, geos, handler, asyncSliders);
+					postProcessCreatedElements(ve, callback0, geos, handler, asyncSliders);
 				};
 				boolean autoCreateSlidersAnswer = handler
 						.onUndefinedVariables(sb.toString(), callback);
@@ -1096,7 +1096,7 @@ public class AlgebraProcessor {
 
 		// Test output for filtered expression
 
-		return postProcessCreatedElements(callback0, geos, handler, sliders);
+		return postProcessCreatedElements(ve, callback0, geos, handler, sliders);
 	}
 
 	private GeoElement evalSymbolic(final ValidExpression ve, EvalInfo info) {
@@ -1159,6 +1159,8 @@ public class AlgebraProcessor {
 	/**
 	 * Run callback on new geos if there are any or empty array otherwise
 	 *
+	 * @param input
+	 *            input expression
 	 * @param callback0
 	 *            callback
 	 * @param geos
@@ -1166,14 +1168,17 @@ public class AlgebraProcessor {
 	 * @param sliders
 	 *            auto-created sliders
 	 */
-	GeoElementND[] postProcessCreatedElements(AsyncOperation<GeoElementND[]> callback0,
-			GeoElementND[] geos, ErrorHandler handler, @Nullable Set<GeoNumeric> sliders) {
+	GeoElementND[] postProcessCreatedElements(ValidExpression input,
+			AsyncOperation<GeoElementND[]> callback0, GeoElementND[] geos,
+			ErrorHandler handler, @Nullable Set<GeoNumeric> sliders) {
 		GeoElementND[] filteredGeos = geos;
 		if (geos != null) {
-			boolean containsRestrictedExpressions = Arrays.stream(geos)
+			boolean containsRestrictedInputExpression =
+					!isExpressionAllowed(input, inputExpressionFilters);
+			boolean containsRestrictedOutputExpressions = Arrays.stream(geos)
 					.map(ExpressionValue::wrap)
 					.anyMatch(geo -> !isExpressionAllowed(geo, outputExpressionFilters));
-			if (containsRestrictedExpressions) {
+			if (containsRestrictedInputExpression || containsRestrictedOutputExpressions) {
 				// Remove filtered geos
 				Arrays.stream(geos).forEach(GeoElementND::remove);
 				filteredGeos = null;

@@ -27,6 +27,7 @@ import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
@@ -424,6 +425,19 @@ public class ExamControllerTests implements ExamControllerDelegate {
 
 		assertNotNull(evaluate("f(x) = x^2"));
 		assertNull(evaluate("g(x) = f'"));
+	}
+
+	@Test
+	public void testRestrictedOperationsAreFreeFromSideEffect() {
+		setInitialApp(SuiteSubApp.GRAPHING);
+		examController.prepareExam();
+		examController.startExam(ExamType.IB, null);
+
+		assertNotNull(evaluate("f(x) = x^3"));
+		assertNotNull(evaluate("l1 = {x}"));
+		assertNull(evaluate("SetValue(l1, 1, f')"));
+		assertEquals(app.getKernel().getConstruction().lookupLabel("l1")
+				.toString(StringTemplate.defaultTemplate), "l1 = {x}");
 	}
 
 	// -- ExamControllerDelegate --
