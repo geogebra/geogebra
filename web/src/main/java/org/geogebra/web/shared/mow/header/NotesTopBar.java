@@ -174,6 +174,7 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 			IconButton pageOverviewBtn = addSmallPressButton(MaterialDesignResources.INSTANCE
 							.mow_page_control(), "PageControl", null, null);
 			pageOverviewBtn.addStyleName("pageOverview");
+			pageOverviewBtn.setTooltipPositionRight();
 			pageOverviewBtn.addFastClickHandler(source -> {
 				controller.togglePagePanel();
 				pageOverviewBtn.setActive(!pageOverviewBtn.isActive());
