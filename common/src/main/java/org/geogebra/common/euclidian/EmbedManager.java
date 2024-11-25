@@ -22,7 +22,7 @@ public interface EmbedManager {
 	 * @param drawEmbed
 	 *            embedded applet
 	 */
-	public void add(DrawEmbed drawEmbed);
+	void add(DrawEmbed drawEmbed);
 
 	/**
 	 * Update an embedded applet.
@@ -30,17 +30,17 @@ public interface EmbedManager {
 	 * @param drawEmbed
 	 *            embedded applet
 	 */
-	public void update(DrawEmbed drawEmbed);
+	void update(DrawEmbed drawEmbed);
 
 	/**
 	 * Remove all widgets.
 	 */
-	public void removeAll();
+	void removeAll();
 
 	/**
 	 * @return unused ID for new embed
 	 */
-	public int nextID();
+	int nextID();
 
 	/**
 	 * Add base64 of embedded files into an archive
@@ -154,4 +154,10 @@ public interface EmbedManager {
 	void setGraphAxis(GeoEmbed chart, int axis, double crossing);
 
 	App getEmbedApp(GeoEmbed embed);
+
+	/**
+	 * Add embedded suite calc
+	 * @param subApp - preselected app
+	 */
+	void addSuiteCalcWithPreselectedApp(String subApp);
 }

@@ -1465,7 +1465,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		SafeGeoImageFactory factory =
 				new SafeGeoImageFactory(this).withAutoCorners(corner1 == null)
 						.withCorners(corner1, corner2, corner4);
-		GeoImage geoImage = factory.create(imgFileName, url);
+		GeoImage geoImage = factory.create(imgFileName, url, null);
 		if (insertImageCallback != null) {
 			this.insertImageCallback.run();
 		}
@@ -1483,7 +1483,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void imageDropHappened(String fileName, String content) {
 		SafeGeoImageFactory factory = new SafeGeoImageFactory(this);
 		String path = ImageManagerW.getMD5FileName(fileName, content);
-		factory.create(path, content);
+		factory.create(path, content, StringUtil.getFileExtension(fileName));
 	}
 
 	/**
@@ -1497,7 +1497,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		SafeGeoImageFactory factory =
 				new SafeGeoImageFactory(this, imageOld).withAutoCorners(c1 == null)
 						.withCorners(c1, c2);
-		return factory.create(imgFileName, imageAsString);
+		return factory.create(imgFileName, imageAsString, null);
 	}
 
 	/**
@@ -1510,8 +1510,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *         file opening was successful, and the opening finished already.
 	 */
 	public boolean openFileAsImage(File fileToHandle) {
-		String imageRegEx = ".*(png|jpg|jpeg|gif|bmp|svg)$";
-		if (!fileToHandle.name.toLowerCase().matches(imageRegEx)) {
+		if (!StringUtil.getFileExtension(fileToHandle.name).isImage()) {
 			return false;
 		}
 		if (getGuiManager() == null || !getGuiManager().toolbarHasImageMode()) {

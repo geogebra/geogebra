@@ -13,13 +13,9 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.MockCASGiac;
-import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenPositionModel;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
-import org.geogebra.common.kernel.CASGenericInterface;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -134,15 +130,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 	}
 
 	private MockCASGiac setupGiac() {
-		MockCASGiac mockGiac = new MockCASGiac((CASparser) getKernel()
-				.getGeoGebraCAS().getCASparser());
-		getApp().setCASFactory(new CASFactory() {
-			@Override
-			public CASGenericInterface newGiac(CASparser parser, Kernel kernel) {
-				return mockGiac;
-			}
-		});
-		return mockGiac;
+		return new MockCASGiac(getApp());
 	}
 
 	@Test
