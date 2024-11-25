@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
+import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
 public class AlgoSequenceTest extends BaseUnitTest {
@@ -84,6 +85,16 @@ public class AlgoSequenceTest extends BaseUnitTest {
 		GGraphicsCommon graphics = createGraphicsWithDrawable(
 				"s2=Sequence(BarChart({1,2,3},{4,5,6}/k),k,1,3)");
 		verify(graphics, atLeast(5)).fill(any());
+	}
+
+	@Test
+	@Issue("APPS-6096")
+	public void shouldNotKeepDefinitionsWithVariableReference() {
+		add("l1={{{1,2},{3,4}},{{5,6},{7,8}},{{9,10},{11,12}}}");
+		GeoList seq = add("Sequence(Sequence(Element(l1,p)+m Identity(2),p,1,3),m,-1,1)");
+		assertThat(seq, hasValue("{{{{0, 2}, {3, 3}}, {{4, 6}, {7, 7}}, {{8, 10}, {11, 11}}},"
+				+ " {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}, {{9, 10}, {11, 12}}}, {{{2, 2}, {3, 5}},"
+				+ " {{6, 6}, {7, 9}}, {{10, 10}, {11, 13}}}}"));
 	}
 
 	private GGraphicsCommon createGraphicsWithDrawable(String def) {
