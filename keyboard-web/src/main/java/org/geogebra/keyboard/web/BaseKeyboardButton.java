@@ -13,6 +13,8 @@ import org.gwtproject.event.dom.client.MouseOutHandler;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 
+import com.himamis.retex.editor.share.util.Greek;
+
 /**
  * A button of the {@link TabbedKeyboard}.
  */
@@ -46,6 +48,9 @@ public class BaseKeyboardButton extends SimplePanel implements MouseOutHandler {
 		this.label = new Label();
 		setWidget(label);
 		setCaption(checkThai(caption), altText);
+		if (Greek.getLaTeX(caption.charAt(0)) != null) {
+			addStyleName("greek");
+		}
 		this.feedback = feedback;
 	}
 
