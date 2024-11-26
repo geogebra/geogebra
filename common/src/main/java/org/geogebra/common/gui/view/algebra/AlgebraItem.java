@@ -30,7 +30,6 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
 import org.geogebra.common.util.SymbolicUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Utitlity class for AV items
@@ -72,7 +71,6 @@ public class AlgebraItem {
 		if (geo instanceof GeoSymbolic) {
 			GeoSymbolic symbolic = (GeoSymbolic) geo;
 			if (symbolic.shouldWrapInNumeric()) {
-				Log.warn("button needed");
 				return true;
 			} else if (SymbolicUtil.isSolve(symbolic)) {
 				return SymbolicUtil.isSymbolicSolveDiffers(symbolic);
