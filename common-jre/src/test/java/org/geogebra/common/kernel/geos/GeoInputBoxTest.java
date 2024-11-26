@@ -908,4 +908,13 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		assertNull(input.getBackgroundColor());
 	}
 
+	@Test
+	@Issue("APPS-6107")
+	public void pointShouldStayPoint() {
+		add("A=(?,?)");
+		GeoInputBox input = add("ib=InputBox(A)");
+		input.updateLinkedGeo("3");
+		assertThat(lookup("A").getDefinitionForEditor(), equalTo("A=(3,0)"));
+	}
+
 }

@@ -664,7 +664,7 @@ public abstract class GeoVec3D extends GeoElement
 
 	@Override
 	public boolean hasSpecialEditor() {
-		return toStringMode != Kernel.COORD_COMPLEX && (isIndependent()
+		return toStringMode != Kernel.COORD_COMPLEX && (isIndependent() && getDefinition() == null
 				|| getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode);
 	}
 }
