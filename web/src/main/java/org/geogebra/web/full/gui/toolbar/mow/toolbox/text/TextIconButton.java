@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox.text;
 
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_EQUATION;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MEDIA_TEXT;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -59,6 +60,11 @@ public class TextIconButton extends IconButton {
 	public int getMode() {
 		return textCategoryPopup != null ? textCategoryPopup.getLastSelectedMode()
 				: MODE_MEDIA_TEXT;
+	}
+
+	@Override
+	public boolean containsMode(int mode) {
+		return mode == MODE_MEDIA_TEXT || mode == MODE_EQUATION;
 	}
 
 	@Override

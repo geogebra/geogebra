@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.geogebra.web.full.gui.app.GGWToolBar;
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.NotesToolbox;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
@@ -24,7 +23,7 @@ public class IconButtonWithPopup extends IconButton {
 	 * @param deselectButtons - deselect button callback
 	 */
 	public IconButtonWithPopup(AppW appW, SVGResource icon, String ariaLabel, List<Integer> tools,
-			Runnable deselectButtons, NotesToolbox toolbox) {
+			Runnable deselectButtons) {
 		super(appW, icon, ariaLabel, ariaLabel, () -> {}, null);
 		this.appW = appW;
 		this.tools = tools;
