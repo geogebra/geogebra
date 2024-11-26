@@ -1,6 +1,6 @@
 package org.geogebra.web.shared.ggtapi;
 
-import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.move.ggtapi.models.MarvlService;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.models.MowService;
@@ -73,7 +73,7 @@ public class BackendAPIFactory {
 
 	private GeoGebraTubeAPIW newTubeAPI() {
 		return new GeoGebraTubeAPIW(app.getClientInfo(),
-				app.has(Feature.TUBE_BETA),
+				PreviewFeature.isAvailable(PreviewFeature.RESOURCES_API_BETA),
 				articleElement);
 	}
 }

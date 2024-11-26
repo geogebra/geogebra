@@ -9,8 +9,8 @@ import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.gui.view.data.StatPanelSettings;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
@@ -478,7 +478,7 @@ public class OptionsPanelW extends FlowPanel
 		graphPanel = new FlowPanel();
 		graphPanel.add(graphOptionsPanel);
 		graphPanel.add(dimPanel);
-		if (app.has(Feature.LOG_AXES)) {
+		if (PreviewFeature.isAvailable(PreviewFeature.LOG_AXES)) {
 			cbLogAxes.addItem("Standard To Standard");
 			cbLogAxes.addItem("Logarithmic To Standard");
 			cbLogAxes.addItem("Standard To Logarithmic");

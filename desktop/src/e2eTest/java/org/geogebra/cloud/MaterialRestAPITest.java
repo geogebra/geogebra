@@ -49,7 +49,7 @@ public class MaterialRestAPITest {
 	}
 
 	private LoginOperationD buildLoginOperation() {
-		return new LoginOperationD(new AppDNoGui(new LocalizationD(3), false));
+		return new LoginOperationD();
 	}
 
 	private static void authorise(GeoGebraTubeUser usr,

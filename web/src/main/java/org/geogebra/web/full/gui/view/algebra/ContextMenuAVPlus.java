@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import java.util.List;
 
-import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.InputContextMenuItem;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
@@ -52,8 +51,8 @@ public class ContextMenuAVPlus implements SetLabels {
 
 	private void buildGUI() {
 		wrappedPopup.clearItems();
-		List<InputContextMenuItem> items = ContextMenuFactory.makeInputContextMenu(true,
-				hasImageItem());
+		List<InputContextMenuItem> items = GlobalScope.contextMenuFactory
+				.makeInputContextMenu(true, hasImageItem());
 		for (InputContextMenuItem item: items) {
 			wrappedPopup.addItem(new AriaMenuItem(item.getLocalizedTitle(loc),
 					ImageMap.get(item.getIcon()), () -> execute(item)));

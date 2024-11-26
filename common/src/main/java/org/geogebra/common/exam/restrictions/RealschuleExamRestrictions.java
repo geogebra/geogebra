@@ -1,10 +1,12 @@
 package org.geogebra.common.exam.restrictions;
 
+import static org.geogebra.common.contextmenu.TableValuesContextMenuItem.Item.Regression;
 import static org.geogebra.common.kernel.commands.Commands.*;
 
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
@@ -33,6 +35,7 @@ final class RealschuleExamRestrictions extends ExamRestrictions {
 				createCommandFilters(),
 				createCommandArgumentFilters(),
 				null,
+				createContextMenuItemFilters(),
 				createSyntaxFilter(),
 				createToolsFilter(),
 				null);
@@ -66,6 +69,10 @@ final class RealschuleExamRestrictions extends ExamRestrictions {
 
 	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {
 		return Set.of(new RealschuleCommandArgumentFilter());
+	}
+
+	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
+		return Set.of(contextMenuItem -> !Regression.isSameItemAs(contextMenuItem));
 	}
 
 	private static SyntaxFilter createSyntaxFilter() {

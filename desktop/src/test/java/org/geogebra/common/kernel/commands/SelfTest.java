@@ -6,7 +6,6 @@ import java.util.TreeSet;
 
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
-import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -29,10 +28,10 @@ public class SelfTest {
 			if (!methodNames
 					.contains("cmd" + Commands.englishToInternal(a).name())
 					&& Commands.englishToInternal(a)
-							.getTable() != CommandsConstants.TABLE_ENGLISH
+					.getTable() != CommandsConstants.TABLE_ENGLISH
 					&& Commands.englishToInternal(a)
-							.getTable() != CommandsConstants.TABLE_CAS
-					&& !AlgebraTestHelper.betaCommand(a, app)) {
+					.getTable() != CommandsConstants.TABLE_CAS && !(a == Commands.Polyhedron
+					|| a == Commands.ImplicitSurface)) {
 				missing.append(a.getCommand());
 				missing.append("\n");
 			}

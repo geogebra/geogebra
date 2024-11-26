@@ -1124,10 +1124,6 @@ public enum Commands implements CommandsConstants,
 
 	// these are currently disabled (unfinished)
 	// change TABLE_ENGLISH when adding
-	MatrixPlot(TABLE_ENGLISH),
-
-	DensityPlot(TABLE_ENGLISH),
-
 	Polyhedron(TABLE_ENGLISH),
 
 	// ==

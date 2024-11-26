@@ -73,29 +73,6 @@ public final class CommandFilterFactory {
 	}
 
 	/**
-	 * @return filter for Bayern CAS exam
-	 */
-	@Deprecated // replaced by BayernCasExamRestrictions
-	public static CommandFilter createBayernCasFilter() {
-		CommandNameFilter nameFilter = new CommandNameFilter(true);
-		nameFilter.addCommands(Commands.Plane);
-		return nameFilter;
-	}
-
-	/**
-	 * @return filter for Vlaanderen exam
-	 */
-	@Deprecated // replaced by VlaanderenExamRestrictions
-	public static CommandFilter createVlaanderenFilter() {
-		CommandNameFilter nameFilter = new CommandNameFilter(true);
-		nameFilter.addCommands(Commands.Derivative, Commands.NDerivative, Commands.Integral,
-				Commands.IntegralSymbolic, Commands.IntegralBetween, Commands.NIntegral,
-				Commands.Solve, Commands.SolveQuartic, Commands.SolveODE, Commands.SolveCubic,
-				Commands.Solutions, Commands.NSolve, Commands.NSolveODE, Commands.NSolutions);
-		return nameFilter;
-	}
-
-	/**
 	 * @return name filter for apps with no CAS
 	 */
 	public static CommandFilter createNoCasCommandFilter() {

@@ -2,7 +2,6 @@ package org.geogebra.common.main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -37,10 +36,8 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
-import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictable;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
@@ -109,11 +106,6 @@ import org.geogebra.common.kernel.statistics.AlgoTableToChart;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
-import org.geogebra.common.main.exam.ExamEnvironment;
-import org.geogebra.common.main.exam.restriction.ExamRestrictionFactory;
-import org.geogebra.common.main.exam.restriction.RestrictExam;
-import org.geogebra.common.main.exam.restriction.Restrictable;
-import org.geogebra.common.main.provider.ExamProvider;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
@@ -158,7 +150,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Represents an application window, gives access to views and system stuff
  */
 public abstract class App implements UpdateSelection, AppInterface, EuclidianHost,
-		ExamRestrictable, ExamProvider, ToolsProvider {
+		ExamRestrictable, ToolsProvider {
 
 	/** Url for wiki article about functions */
 	public static final String WIKI_OPERATORS = "Predefined_Functions_and_Operators";
@@ -393,18 +385,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected HashMap<Integer, Boolean> showConstProtNavigationNeedsUpdate = null;
 	protected HashMap<Integer, Boolean> showConsProtNavigation = null;
 	protected AppCompanion companion;
-	protected boolean prerelease;
 
 	private boolean showResetIcon = false;
 	private ParserFunctions pf;
 	private ParserFunctions pfInputBox;
 	private SpreadsheetTraceManager traceManager;
-
-	// Exam
-	@Deprecated // use ExamController instead
-	private ExamEnvironment exam;
-	@Deprecated // use ExamController instead
-	protected RestrictExam restrictions;
 
 	// moved to Application from EuclidianView as the same value is used across
 	// multiple EVs
@@ -451,8 +436,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// TODO: move following methods somewhere else
 	private String tubeID = null;
 	private AdjustViews adjustViews = null;
-	private AdjustScreen adjustScreen = null;
-	private AdjustScreen adjustScreen2 = null;
 	final static public long CE_ID_COUNTER_START = 1;
 	private long ceIDcounter = CE_ID_COUNTER_START;
 	private int nextVariableID = 1;
@@ -2983,7 +2966,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public String getVersionString() {
 		if (platform != null) {
-			return platform.getVersionString(prerelease, getConfig().getAppCode());
+			return platform.getVersionString(PreviewFeature.enableFeaturePreviews,
+					getConfig().getAppCode());
 		}
 
 		// fallback in case version not set properly
@@ -3688,101 +3672,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return false;
 	}
 
-	/**
-	 * Check if featue is supported; depends on prerelease/ canary flags and
-	 * platform / app name.
-	 *
-	 * @param f
-	 *            feature
-	 * @return whether it's supported
-	 */
-	public final boolean has(Feature f) {
-		switch (f) {
-		// **********************************************************************
-		// MOBILE START
-		// note: please use prefix MOB
-		// *********************************************************
-		// **********************************************************************
-
-		case ANALYTICS:
-			return prerelease;
-
-		// MOB-1319
-		case MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11:
-			return false;
-
-		// MOB-1537
-		case MOB_PREVIEW_WHEN_EDITING:
-			return prerelease;
-
-		// AND-887 and IGR-732
-		case MOB_PROPERTY_SORT_BY:
-			return false;
-
-		// **********************************************************************
-		// MOBILE END
-		// *********************************************************
-		// **********************************************************************
-
-		// **********************************************************************
-		// MOW END
-		// *********************************************************
-		// **********************************************************************
-
-		// leave as prerelease
-		case TUBE_BETA:
-			return prerelease;
-
-		// leave as prerelease
-		case ALL_LANGUAGES:
-			return prerelease;
-
-		case SOLVE_QUARTIC:
-			return prerelease;
-
-		// when moved to stable, move ImplicitSurface[] from TABLE_ENGLISH
-		// in Command.Java
-		case IMPLICIT_SURFACES:
-			return prerelease;
-
-		case LOCALSTORAGE_FILES:
-			return Platform.OFFLINE.equals(getPlatform());
-
-		// TRAC-4845
-		case LOG_AXES:
-			return prerelease;
-
-		// GGB-334, TRAC-3401
-		case ADJUST_WIDGETS:
-			return false;
-
-		/* GGB-2255 */
-		case GEOMETRIC_DISCOVERY:
-			return prerelease;
-
-		// **********************************************************************
-       // G3D START
-       //
-       // *********************************************************
-       // **********************************************************************
-
-		/* G3D-343 */
-		case G3D_SELECT_META:
-			return false;
-
-		// **********************************************************************
-        // G3D END
-        //
-        // *********************************************************
-        // **********************************************************************
-
-		default:
-			Log.debug("missing case in Feature: " + f);
-			return false;
-
-		}
-	}
-
 	public boolean isUnbundled() {
 		return false;
 	}
@@ -3991,106 +3880,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return true;
 	}
 
-	@Deprecated // use ExamController instead
-	@Override // from deprecated ExamProvider
-	public ExamEnvironment getExam() {
-		return exam;
-	}
-
-	@Deprecated // use ExamController instead
-	public boolean isExam() {
-		return getExam() != null;
-	}
-
-	@Deprecated // use ExamController instead
-	public boolean isExamStarted() {
-		return isExam() && getExam().isStarted();
-	}
-
-	@Deprecated // use ExamController instead
-	public void setExam(ExamEnvironment exam) {
-		this.exam = exam;
-	}
-
-	@Deprecated // use ExamController instead
-	public void setNewExam() {
-		setNewExam(ExamType.GENERIC);
-	}
-
-	/**
-	 * Initializes a new ExamEnvironment instance.
-	 */
-	@Deprecated // use ExamController instead
-	public void setNewExam(ExamType region) {
-		ExamEnvironment examEnvironment = newExamEnvironment();
-		examEnvironment.setExamRegion(region);
-		initRestrictions(region);
-		examEnvironment.setRestrictionModel(restrictions.getModel());
-		setExam(examEnvironment);
-		examEnvironment.setConfig(getConfig());
-		CommandDispatcher commandDispatcher =
-				getKernel().getAlgebraProcessor().getCommandDispatcher();
-		examEnvironment.setCommandDispatcher(commandDispatcher);
-		examEnvironment.setCopyPaste(getCopyPaste());
-	}
-
-	@Deprecated // use ExamController instead
-	protected ExamEnvironment newExamEnvironment() {
-		return new ExamEnvironment(getLocalization());
-	}
-
-	@Deprecated // use ExamController instead
-	private void initRestrictions(ExamType region) {
-		RestrictExam oldRestrictions = restrictions;
-		restrictions = ExamRestrictionFactory.create(region);
-		if (oldRestrictions != null) {
-			oldRestrictions.getRestrictables().forEach(restrictions::register);
-		}
-	}
-
-	/**
-	 * Register a component to be restriced during exam
-	 *
-	 * @param restrictable the component to restrict.
-	 */
-	@Deprecated // use ExamController instead
-	public void registerRestrictable(Restrictable restrictable) {
-		if (restrictions == null) {
-			ExamEnvironment exam = getExam();
-			ExamType region = exam != null && exam.isStarted() ? exam.getExamRegion() : null;
-			restrictions = ExamRestrictionFactory.create(region);
-		}
-		restrictions.register(restrictable);
-	}
-
-	/**
-	 * Start exam with current timestamp.
-	 */
-	@Deprecated // use ExamController instead
-	public void startExam() {
-		getExam().prepareExamForStarting();
-		getExam().setStart((new Date()).getTime());
-		restrictions.enable();
-	}
-
-	/**
-	 * If an exam is active, re-enable any exam restrictions.
-	 */
-	@Deprecated // use ExamController instead
-	public void reEnableExamRestrictions() {
-		if (getExam() != null && isExamStarted() && restrictions != null) {
-			restrictions.enable();
-		}
-	}
-
-	/**
-	 * Show exam welcome message.
-	 */
-	@Deprecated // use ExamController instead
-	public void examWelcome() {
-		// overridden in platforms supporting exam
-	}
-
 	/**
 	 * Prepares the exam mode and shows the exam welcome message<br/>
 	 * Note: Only implemented within AppWFull, method still declared here so it can also be
@@ -4188,11 +3977,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public StringTemplate getScreenReaderTemplate() {
 		return StringTemplate.screenReaderAscii;
-	}
-
-	@Deprecated // restrictions are handled by ExamController
-	public void clearRestrictions() {
-		restrictions.disable();
 	}
 
 	/**
@@ -4340,7 +4124,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public String getURLforID(String id) {
 		String url;
-		if (has(Feature.TUBE_BETA)) {
+		if (PreviewFeature.isAvailable(PreviewFeature.RESOURCES_API_BETA)) {
 			url = GeoGebraConstants.GEOGEBRA_WEBSITE_BETA;
 		} else {
 			url = GeoGebraConstants.GEOGEBRA_WEBSITE;
@@ -4445,34 +4229,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Adjust widgets on screen.
-	 *
-	 * @param reset
-	 *            whether to reset the stored offsets
-	 */
-	public void adjustScreen(boolean reset) {
-		if (!kernel.getApplication().has(Feature.ADJUST_WIDGETS)) {
-			return;
-		}
-		if (adjustScreen == null) {
-			adjustScreen = new AdjustScreen(getEuclidianView1());
-		}
-		if (!reset) {
-			adjustScreen.restartButtons();
-		}
-		adjustScreen.apply(reset);
-		if (this.hasEuclidianView2(1)) {
-			if (adjustScreen2 == null) {
-				adjustScreen2 = new AdjustScreen(getEuclidianView2(1));
-			}
-			if (!reset) {
-				adjustScreen2.restartButtons();
-			}
-			adjustScreen2.apply(reset);
-		}
-	}
-
-	/**
 	 * Adjusts Algebra and Euclidian View next to or bellow each other
 	 * (Portrait) according to app size.
 	 *
@@ -4485,10 +4241,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (adjustViews == null) {
 			adjustViews = new AdjustViews(this);
 		}
-
 		adjustViews.apply(force);
-		adjustScreen(reset);
-
 		return adjustViews.isPortait();
 	}
 
@@ -4949,14 +4702,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 *
-	 * @return true if is prerelease
-	 */
-	public boolean isPrerelease() {
-		return prerelease;
-	}
-
-	/**
 	 * If the settingsUpdater is already initialized then returns this field,
 	 * otherwise
 	 * creates a new SettingsUpdaterBuilder,
@@ -5144,20 +4889,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public void closeMenuHideKeyboard() {
 		// nothing here
-	}
-
-	/**
-	 * Updates the objects that depend on the command dispatcher.
-	 *
-	 * @param commandDispatcher command dispatcher
-	 */
-	@Deprecated
-	public void onCommandDispatcherSet(CommandDispatcher commandDispatcher) {
-		ExamEnvironment examEnvironment = getExam();
-		if (examEnvironment != null) {
-			examEnvironment.setCommandDispatcher(commandDispatcher);
-			examEnvironment.setCopyPaste(getCopyPaste());
-		}
 	}
 
 	@Override

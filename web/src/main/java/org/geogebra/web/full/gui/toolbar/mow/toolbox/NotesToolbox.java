@@ -227,7 +227,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 			if (button instanceof RulerIconButton) {
 				continue;
 			}
-			if (button.getMode() == mode && lastSelectedButtonWithMenu == null) {
+			if (button.containsMode(mode)  && lastSelectedButtonWithMenu == null) {
 				button.setActive(true);
 			} else {
 				button.deactivate();

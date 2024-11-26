@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.contextmenu.TableValuesContextMenuItem;
 import org.geogebra.common.gui.view.table.RegressionSpecification;
 import org.geogebra.common.gui.view.table.TableUtil;
@@ -87,7 +86,7 @@ public class ContextMenuTV {
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("tvContextMenu");
 		GeoEvaluatable column = view.getEvaluatable(getColumnIdx());
-		List<TableValuesContextMenuItem> items = ContextMenuFactory
+		List<TableValuesContextMenuItem> items = GlobalScope.contextMenuFactory
 				.makeTableValuesContextMenu(column, columnIdx, view.getTableValuesModel(),
 				app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC,
 				GlobalScope.examController.isExamActive());

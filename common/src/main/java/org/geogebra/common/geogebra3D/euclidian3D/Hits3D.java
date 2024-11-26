@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -10,11 +9,9 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D.DrawableComparator;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
-import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -260,10 +257,6 @@ public class Hits3D extends Hits {
 
 	private void addToHits(Drawable3D d, Hits hits) {
 		GeoElement geo = d.getGeoElement();
-		if (geo.getMetasLength() > 0 && geo.getKernel().getApplication()
-				.has(Feature.G3D_SELECT_META)) {
-			hits.addAll(Arrays.asList(((FromMeta) geo).getMetas()));
-		}
 		hits.add(geo);
 	}
 

@@ -232,6 +232,10 @@ public class IconButton extends StandardButton implements SetLabels {
 		return mode;
 	}
 
+	public boolean containsMode(int mode) {
+		return getMode() == mode;
+	}
+
 	private String getSelectionColor(AppW appW) {
 		return appW.getGeoGebraElement().getDarkColor(appW.getFrameElement());
 	}

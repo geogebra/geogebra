@@ -77,7 +77,7 @@ public class TestGraphs {
 			for (int i = 1; i < chain_length; i++) {
 				v[i] = "v" + i;
 				g.addVertex(v[i]);
-				g.addEdge(new Double(Math.random()), v[i], v[i - 1]);
+				g.addEdge(Math.random(), v[i], v[i - 1]);
 			}
 		}
 		for (int i = 0; i < isolate_count; i++) {
@@ -111,7 +111,7 @@ public class TestGraphs {
 				// for each previous node...
 				for (String v2 : previousLayers) {
 					if (Math.random() < linkprob) {
-						Double de = new Double(Math.random());
+						Double de = Math.random();
 						dag.addEdge(de, v, v2);
 					}
 				}
@@ -125,7 +125,7 @@ public class TestGraphs {
 
 	private static void createEdge(Graph<String, Number> g, String v1Label,
 			String v2Label) {
-		g.addEdge(new Double(Math.random()), v1Label, v2Label);
+		g.addEdge(Math.random(), v1Label, v2Label);
 	}
 
 	/**
@@ -219,13 +219,13 @@ public class TestGraphs {
 			v[i] = String.valueOf(i);
 			graph.addVertex(v[i]);
 		}
-		graph.addEdge(new Double(0), v[0], v[1], EdgeType.DIRECTED);
-		graph.addEdge(new Double(.1), v[0], v[1], EdgeType.DIRECTED);
-		graph.addEdge(new Double(.2), v[0], v[1], EdgeType.DIRECTED);
-		graph.addEdge(new Double(.3), v[1], v[0], EdgeType.DIRECTED);
-		graph.addEdge(new Double(.4), v[1], v[0], EdgeType.DIRECTED);
-		graph.addEdge(new Double(.5), v[1], v[2]);
-		graph.addEdge(new Double(.6), v[1], v[2]);
+		graph.addEdge(.0, v[0], v[1], EdgeType.DIRECTED);
+		graph.addEdge(.1, v[0], v[1], EdgeType.DIRECTED);
+		graph.addEdge(.2, v[0], v[1], EdgeType.DIRECTED);
+		graph.addEdge(.3, v[1], v[0], EdgeType.DIRECTED);
+		graph.addEdge(.4, v[1], v[0], EdgeType.DIRECTED);
+		graph.addEdge(.5, v[1], v[2]);
+		graph.addEdge(.6, v[1], v[2]);
 
 		return graph;
 	}

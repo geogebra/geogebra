@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbarpanel.spreadsheet;
 
 import org.geogebra.common.spreadsheet.core.Modifiers;
 import org.geogebra.common.spreadsheet.core.Spreadsheet;
+import org.geogebra.common.spreadsheet.core.SpreadsheetDelegate;
 import org.geogebra.common.spreadsheet.core.ViewportAdjusterDelegate;
 import org.geogebra.common.spreadsheet.kernel.GeoElementCellRendererFactory;
 import org.geogebra.common.spreadsheet.kernel.KernelTabularDataAdapter;
@@ -49,6 +50,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	private final elemental2.dom.Element spreadsheetElement;
 	double moveTimeout;
 	int viewportChanges;
+	boolean isPointerDown = false;
 
 	/**
 	 * @param app application
@@ -70,7 +72,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		scrollOverlay = new ScrollPanel();
 		mathField = new MathTextFieldW(app, new MetaModel());
 
-		spreadsheet.setControlsDelegate(initDelegate());
+		spreadsheet.setControlsDelegate(initControlsDelegate());
+		spreadsheet.setSpreadsheetDelegate(initSpreadsheetDelegate());
 
 		FlowPanel scrollContent = new FlowPanel();
 		scrollOverlay.setWidget(scrollContent);
@@ -91,6 +94,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			if (ptr.getButton() == 2 || (NavigatorUtil.isMacOS() && ptr.getCtrlKey())) {
 				event.preventDefault();
 			}
+			isPointerDown = true;
+			repaint();
 		});
 		registry.addEventListener(spreadsheetElement, "pointerup", event -> {
 			NativePointerEvent ptr = Js.uncheckedCast(event);
@@ -99,6 +104,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 			if (!spreadsheet.isEditorActive()) {
 				app.hideKeyboard();
 			}
+			isPointerDown = false;
+			repaint();
 		});
 		registry.addEventListener(spreadsheetElement, "pointermove", event -> {
 			NativePointerEvent ptr = Js.uncheckedCast(event);
@@ -114,6 +121,7 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 				return;
 			}
 			spreadsheet.clearSelectionOnly();
+			repaint();
 		});
 
 		ClickStartHandler.initDefaults(scrollContent, false, true);
@@ -125,11 +133,9 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 					getKeyboardModifiers(evt));
 			evt.stopPropagation(); // do not let global event handler interfere
 			evt.preventDefault(); // do not scroll the view
+			repaint();
 		}, KeyDownEvent.getType());
 		updateTotalSize();
-		DomGlobal.setInterval((ignore) -> {
-			repaint();
-		}, 200);
 		DomGlobal.setInterval((ignore) -> {
 			spreadsheet.scrollForDragIfNeeded();
 		}, 20);
@@ -147,6 +153,9 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 
 		spreadsheet.handlePointerMove(offsetX, offsetY,
 					modifiers);
+		if (isPointerDown) {
+			repaint();
+		}
 	}
 
 	private void setPointerCapture(Event event) {
@@ -163,12 +172,20 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		return key.length() > 1  ? "" : key;
 	}
 
-	private SpreadsheetControlsDelegateW initDelegate() {
+	private SpreadsheetControlsDelegateW initControlsDelegate() {
 		return new SpreadsheetControlsDelegateW(app, this, mathField);
 	}
 
+	private SpreadsheetDelegate initSpreadsheetDelegate() {
+		return this::repaint;
+	}
+
+	/**
+	 * Focuses and repaints the spreadsheet
+	 */
 	public void requestFocus() {
-		Scheduler.get().scheduleDeferred(() -> spreadsheetElement.focus());
+		Scheduler.get().scheduleDeferred(spreadsheetElement::focus);
+		repaint();
 	}
 
 	private Modifiers getKeyboardModifiers(KeyEvent<?> evt) {
@@ -224,9 +241,11 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 	}
 
 	private void repaint() {
-		double ratio = app.getPixelRatio();
-		graphics.getContext().setTransform2(ratio, 0, 0, ratio, 0, 0);
-		spreadsheet.draw(graphics);
+		DomGlobal.requestAnimationFrame((ignore) -> {
+			double ratio = app.getPixelRatio();
+			graphics.getContext().setTransform2(ratio, 0, 0, ratio, 0, 0);
+			spreadsheet.draw(graphics);
+		});
 	}
 
 	private void updateViewport() {

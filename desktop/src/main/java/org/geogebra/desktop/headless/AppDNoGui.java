@@ -72,11 +72,9 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	 */
 	public AppDNoGui(LocalizationJre loc, boolean silent) {
 		super(loc, new AwtFactoryD());
-		String prop = System.getProperty("ggb.prerelease");
-		prerelease = !"false".equals(prop);
 
 		UtilFactory.setPrototypeIfNull(new UtilFactoryD());
-		loginOperation = new LoginOperationD(this);
+		loginOperation = new LoginOperationD();
 		setCASFactory(new LoggingCASFactoryD());
 	}
 

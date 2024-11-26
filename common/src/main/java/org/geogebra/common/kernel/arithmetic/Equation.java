@@ -877,8 +877,9 @@ public class Equation extends ValidExpression implements EquationValue {
 		if ("y".equals(lhs.toString(StringTemplate.defaultTemplate))
 				&& !rhs.containsFreeFunctionVariable("y")) {
 			FunctionVariable x = new FunctionVariable(kernel);
-			rhs.replaceVariables("x", x);
-			return new Function(rhs, x);
+			ExpressionNode rhsCopy = rhs.deepCopy(kernel);
+			rhsCopy.replaceVariables("x", x);
+			return new Function(rhsCopy, x);
 		}
 		return null;
 	}

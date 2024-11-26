@@ -178,8 +178,10 @@ public class ImageManagerW extends ImageManager {
 	}
 
 	static void onError(GeoImage gi) {
-		gi.getStartPoint(0).remove();
-		gi.getStartPoint(1).remove();
+		if (gi.getStartPoint(0) != null) {
+			gi.getStartPoint(0).remove();
+			gi.getStartPoint(1).remove();
+		}
 		gi.remove();
 		gi.getKernel().notifyRepaint();
 	}

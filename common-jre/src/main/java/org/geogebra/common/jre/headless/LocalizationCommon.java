@@ -8,7 +8,6 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.geogebra.common.jre.main.LocalizationJre;
-import org.geogebra.common.main.Feature;
 
 /**
  * Common Localization class, used for testing.
@@ -49,7 +48,7 @@ public class LocalizationCommon extends LocalizationJre {
 	@Override
 	protected ArrayList<Locale> getSupportedLocales() {
 		return getSupportedLocales(
-				app != null && app.has(Feature.ALL_LANGUAGES));
+				app != null && hasAllLanguages());
 	}
 
 	@Override

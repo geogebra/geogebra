@@ -35,7 +35,6 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.test.LocalizationCommonUTF;
 import org.junit.Assert;
@@ -111,8 +110,7 @@ public class DrawablesTest extends BaseUnitTest {
 		XmlTestUtil.checkCurrentXML(getApp());
 		for (GeoClass type : GeoClass.values()) {
 			Assert.assertTrue(type + "", types.contains(type)
-					|| (GeoClass.IMPLICIT_SURFACE_3D == type
-							&& !getApp().has(Feature.IMPLICIT_SURFACES))
+					|| GeoClass.IMPLICIT_SURFACE_3D == type
 					|| GeoClass.SURFACECARTESIAN == type
 					|| GeoClass.CAS_CELL == type || GeoClass.SPACE == type
 					|| GeoClass.DEFAULT == type
