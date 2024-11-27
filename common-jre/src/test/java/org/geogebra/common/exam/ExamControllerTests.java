@@ -2,8 +2,6 @@ package org.geogebra.common.exam;
 
 import static org.geogebra.common.contextmenu.InputContextMenuItem.Help;
 import static org.geogebra.common.contextmenu.InputContextMenuItem.Text;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -11,136 +9,25 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.geogebra.common.AppCommonFactory;
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.contextmenu.ContextMenuFactory;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
-import org.geogebra.common.gui.toolcategorization.ToolCollection;
-import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
-import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.localization.AutocompleteProvider;
-import org.geogebra.common.main.settings.config.AppConfigCas;
-import org.geogebra.common.main.settings.config.AppConfigGeometry;
-import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
-import org.geogebra.common.main.settings.config.AppConfigProbability;
-import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
-import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.NamedEnumeratedProperty;
-import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.Property;
-import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
-import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.test.annotation.Issue;
-import org.geogebra.test.commands.ErrorAccumulator;
-import org.junit.Before;
 import org.junit.Test;
 
-public class ExamControllerTests implements ExamControllerDelegate {
-
-	private ExamController examController;
-	private PropertiesRegistry propertiesRegistry;
-	private ContextMenuFactory contextMenuFactory;
-	private AppCommon app;
-	private CommandDispatcher commandDispatcher;
-	private CommandDispatcher previousCommandDispatcher;
-	private AlgebraProcessor algebraProcessor;
-	private SuiteSubApp currentSubApp;
-	private AutocompleteProvider autocompleteProvider;
-	private final List<ExamState> examStates = new ArrayList<>();
-	private boolean didRequestClearApps;
-	private boolean didRequestClearClipboard;
-	private Material activeMaterial;
-	private ErrorAccumulator errorAccumulator = new ErrorAccumulator();
-
-	@Before
-	public void setUp() {
-		app = null;
-		algebraProcessor = null;
-		commandDispatcher = null;
-
-		propertiesRegistry = new DefaultPropertiesRegistry();
-		contextMenuFactory = new ContextMenuFactory();
-
-		examController = new ExamController(propertiesRegistry, contextMenuFactory);
-		examController.setDelegate(this);
-		examController.addListener(examStates::add);
-		examStates.clear();
-		didRequestClearApps = false;
-		didRequestClearClipboard = false;
-		activeMaterial = null;
-		errorAccumulator.resetError();
-	}
-
-	// Helpers
-
-	private void setInitialApp(SuiteSubApp subApp) {
-		currentSubApp = subApp;
-		app = AppCommonFactory.create(createConfig(subApp));
-		algebraProcessor = app.getKernel().getAlgebraProcessor();
-		commandDispatcher = algebraProcessor.getCommandDispatcher();
-		autocompleteProvider = new AutocompleteProvider(app, false);
-		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization()),
-				app);
-		examController.setActiveContext(app, commandDispatcher, algebraProcessor,
-				app.getLocalization(), app.getSettings(), autocompleteProvider, app);
-	}
-
-	private void switchApp(SuiteSubApp subApp) {
-		// keep references so that we can check if restrictions have been reverted correctly
-		previousCommandDispatcher = commandDispatcher;
-
-		currentSubApp = subApp;
-		app = AppCommonFactory.create(createConfig(subApp));
-		activeMaterial = null;
-		algebraProcessor = app.getKernel().getAlgebraProcessor();
-		commandDispatcher = algebraProcessor.getCommandDispatcher();
-		autocompleteProvider = new AutocompleteProvider(app, false);
-		propertiesRegistry.register(new AngleUnitProperty(app.getKernel(), app.getLocalization()),
-				app);
-		examController.setActiveContext(app, commandDispatcher, algebraProcessor,
-				app.getLocalization(), app.getSettings(), autocompleteProvider, app);
-	}
-
-	private AppConfig createConfig(SuiteSubApp subApp) {
-		switch (subApp) {
-		case CAS:
-			return new AppConfigCas(GeoGebraConstants.SUITE_APPCODE);
-		case GRAPHING:
-			return new AppConfigUnrestrictedGraphing(GeoGebraConstants.SUITE_APPCODE);
-		case GEOMETRY:
-			return new AppConfigGeometry(GeoGebraConstants.SUITE_APPCODE);
-		case SCIENTIFIC:
-			break;
-		case G3D:
-			return new AppConfigGraphing3D(GeoGebraConstants.SUITE_APPCODE);
-		case PROBABILITY:
-			return new AppConfigProbability(GeoGebraConstants.SUITE_APPCODE);
-		}
-		return null;
-	}
-
-	private GeoElementND[] evaluate(String expression) {
-		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(app, false);
-		return algebraProcessor.processAlgebraCommandNoExceptionHandling(
-				expression, false, errorAccumulator, evalInfo, null);
-	}
+public class ExamControllerTests extends BaseExamTests {
 
 	// State & duration
 
@@ -378,75 +265,5 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		assertNull(evaluate("Derivative(f)"));
 		examController.finishExam();
 		examController.exitExam();
-	}
-
-	@Test
-	public void testCvteExam() {
-		setInitialApp(SuiteSubApp.GEOMETRY);
-		examController.prepareExam();
-		examController.startExam(ExamType.CVTE, null);
-		// check syntax restrictions on CommandDispatcher
-		// - (indirectly) via checkIsAllowedByCommandArgumentFilters
-		evaluate("A=(1,1)");
-		evaluate("B=(2,2)");
-		GeoElementND[] circlePointPoint = evaluate("Circle(A, B)");
-		assertNull(circlePointPoint);
-		assertThat(errorAccumulator.getErrorsSinceReset(),
-				containsString("Illegal argument: Point B"));
-		errorAccumulator.resetError();
-		GeoElementND[] circlePointRadius = evaluate("Circle(A, 1)");
-		assertNotNull(circlePointRadius);
-		assertEquals("", errorAccumulator.getErrorsSinceReset());
-
-		// check tool restrictions
-		ToolCollection availableTools = app.getAvailableTools();
-		assertTrue(availableTools.contains(EuclidianConstants.MODE_MOVE));
-		assertFalse(availableTools.contains(EuclidianConstants.MODE_POINT));
-		assertTrue(commandDispatcher.isAllowedByCommandFilters(Commands.Curve));
-		assertTrue(commandDispatcher.isAllowedByCommandFilters(Commands.CurveCartesian));
-	}
-
-	@Test
-	public void testDerivativeOperatorDisabledForVlaanderen() {
-		setInitialApp(SuiteSubApp.GRAPHING);
-		examController.prepareExam();
-		examController.startExam(ExamType.VLAANDEREN, null);
-
-		assertNotNull(evaluate("f(x) = x^2"));
-		assertNull(evaluate("f'"));
-	}
-
-	// -- ExamControllerDelegate --
-
-	@Override
-	public void examClearApps() {
-		activeMaterial = null;
-		didRequestClearApps = true;
-	}
-
-	public void examClearClipboard() {
-		didRequestClearClipboard = true;
-	}
-
-	@Override
-	public Material examGetActiveMaterial() {
-		return activeMaterial;
-	}
-
-	@Override
-	public void examSetActiveMaterial(Material material) {
-		activeMaterial = material;
-	}
-
-	@Override
-	public SuiteSubApp examGetCurrentSubApp() {
-		return currentSubApp;
-	}
-
-	@Override
-	public void examSwitchSubApp(SuiteSubApp subApp) {
-		if (!subApp.equals(currentSubApp)) {
-			switchApp(subApp);
-		}
 	}
 }
