@@ -397,14 +397,9 @@ public final class ExamController {
 			throw new IllegalStateException("no active context; "
 					+ "call setActiveContext() before attempting to start the exam");
 		}
+
 		this.examType = examType;
 		this.options = options;
-		if (examRestrictions == null) {
-			examRestrictions = ExamRestrictions.forExamType(examType);
-		}
-		propertiesRegistry.addListener(examRestrictions);
-		applyRestrictionsToContextDependencies(activeDependencies);
-		applyRestrictionsToRestrictables();
 
 		if (delegate != null) {
 			delegate.examClearClipboard();
@@ -412,6 +407,13 @@ public final class ExamController {
 		}
 		tempStorage.clearTempMaterials();
 		createNewTempMaterial();
+
+		if (examRestrictions == null) {
+			examRestrictions = ExamRestrictions.forExamType(examType);
+		}
+		propertiesRegistry.addListener(examRestrictions);
+		applyRestrictionsToContextDependencies(activeDependencies);
+		applyRestrictionsToRestrictables();
 
 		cheatingEvents = new CheatingEvents();
 		cheatingEvents.delegate = (cheatingEvent) -> {
@@ -547,6 +549,13 @@ public final class ExamController {
 		for (ExamRestrictable restrictable : restrictables) {
 			restrictable.removeRestrictions(examRestrictions.getFeatureRestrictions());
 		}
+	}
+
+	/**
+	 * Re-apply settings restrictions for ClearAll during exam.
+	 */
+	public void reapplySettingsRestrictions() {
+		examRestrictions.reapplySettingsRestrictions();
 	}
 
 	/**
