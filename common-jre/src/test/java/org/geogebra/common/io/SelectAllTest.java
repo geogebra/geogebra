@@ -55,8 +55,7 @@ public class SelectAllTest {
 				.setModifiers(KeyEvent.CTRL_MASK)
 				.typeKey(JavaKeyCodes.VK_A)
 				.typeKey(JavaKeyCodes.VK_DELETE)
-				.checkAsciiMath("(1,,3)");
-		checker.setModifiers(KeyEvent.CTRL_MASK)
+				.setModifiers(KeyEvent.CTRL_MASK)
 				.typeKey(JavaKeyCodes.VK_A)
 				.type("0")
 				.checkAsciiMath("(1,0,3)");

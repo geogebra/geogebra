@@ -17,11 +17,13 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 class InputBoxCallback implements AsyncOperation<GeoElementND> {
 
-	private GeoInputBox inputBox;
+	private final GeoInputBox inputBox;
+	private final boolean hasSpecialEditor;
 	private int toStringMode;
 
 	InputBoxCallback(GeoInputBox inputBox) {
 		this.inputBox = inputBox;
+		this.hasSpecialEditor = inputBox.getLinkedGeo().hasSpecialEditor();
 		saveToStringMode();
 	}
 
@@ -51,8 +53,7 @@ class InputBoxCallback implements AsyncOperation<GeoElementND> {
 				obj.updateRepaint();
 			}
 		}
-		if (linkedGeo instanceof GeoPointND && linkedGeo.hasSpecialEditor()
-				&& !GeoPoint.isComplexNumber(linkedGeo)) {
+		if (hasSpecialEditor && linkedGeo instanceof GeoPointND) {
 			ExpressionNode def = linkedGeo.getDefinition();
 			if (def != null && !(def.unwrap() instanceof MyVecNDNode)) {
 				MyVecNDNode wrappedDef = asVecNode(def, linkedGeo);
