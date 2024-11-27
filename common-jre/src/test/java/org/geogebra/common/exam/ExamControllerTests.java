@@ -418,7 +418,7 @@ public class ExamControllerTests implements ExamControllerDelegate {
 	}
 
 	@Test
-	public void testRestrictedOperatorInsideFunction() {
+	public void testPointDerivativeFiltering() {
 		setInitialApp(SuiteSubApp.GRAPHING);
 		examController.prepareExam();
 		examController.startExam(ExamType.IB, null);
