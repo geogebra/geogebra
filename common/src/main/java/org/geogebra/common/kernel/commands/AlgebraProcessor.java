@@ -1088,14 +1088,6 @@ public class AlgebraProcessor {
 		GeoElement[] geos = processValidExpression(storeUndo, handler, ve,
 				newInfo, sliders);
 
-		// Check for allowed expressions again, as resolving variables might end up creating
-		// expressions that otherwise are not allowed. See APPS-5138
-		if (!isExpressionAllowed(ve, inputExpressionFilters)) {
-			return null;
-		}
-
-		// Test output for filtered expression
-
 		return postProcessCreatedElements(ve, callback0, geos, handler, sliders);
 	}
 

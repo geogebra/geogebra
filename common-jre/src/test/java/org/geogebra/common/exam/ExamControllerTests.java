@@ -423,8 +423,17 @@ public class ExamControllerTests implements ExamControllerDelegate {
 		examController.prepareExam();
 		examController.startExam(ExamType.IB, null);
 
-		assertNotNull(evaluate("f(x) = x^2"));
+		evaluate("f(x) = x^2");
+		evaluate("p = 2");
+
+		assertNotNull(evaluate("f'(1)"));
+		assertNotNull(evaluate("f'(p)"));
+
+		assertNull(evaluate("f'"));
+		assertNull(evaluate("f'(x)"));
+		assertNull(evaluate("g = f'"));
 		assertNull(evaluate("g(x) = f'"));
+		assertNull(evaluate("g(x) = f'(x)"));
 	}
 
 	@Test
