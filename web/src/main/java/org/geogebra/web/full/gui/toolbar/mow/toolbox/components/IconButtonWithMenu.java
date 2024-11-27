@@ -63,7 +63,7 @@ public class IconButtonWithMenu extends IconButton {
 	private void addCloseHandler(NotesToolbox toolbox) {
 		iconButtonPopup.getPopupPanel().addCloseHandler(e -> {
 			deactivate();
-			toolbox.setLastSelectedButtonWithMenu(null);
+			toolbox.removeSelectedButtonWithMenu(this);
 			toolbox.onModeChange(appW.getMode());
 			AriaHelper.setAriaExpanded(this, false);
 		});

@@ -238,4 +238,14 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 	public void setLastSelectedButtonWithMenu(IconButton button) {
 		lastSelectedButtonWithMenu = button;
 	}
+
+	/**
+	 * Notify toolbox about deselecting a tool button
+	 * @param button deselected tool button
+	 */
+	public void removeSelectedButtonWithMenu(IconButton button) {
+		if (lastSelectedButtonWithMenu == button) {
+			lastSelectedButtonWithMenu = null;
+		}
+	}
 }
