@@ -97,4 +97,7 @@ public class SVGDocHandler implements DocHandler {
 		}
 	}
 
+	public void removeAspectRatio() {
+		attrs.put("preserveAspectRatio", "none");
+	}
 }

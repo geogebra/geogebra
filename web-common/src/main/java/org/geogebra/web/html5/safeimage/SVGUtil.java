@@ -2,6 +2,7 @@ package org.geogebra.web.html5.safeimage;
 
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.ImageManager;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 
 /**
@@ -25,6 +26,9 @@ public class SVGUtil {
 	 * @return the fixed, encoded content.
 	 */
 	public static String fixAndEncode(String content) {
+		if (NavigatorUtil.isFirefox()) {
+			return Browser.encodeSVG(ImageManager.fixAndRemoveAspectRatio(content));
+		}
 		return Browser.encodeSVG(ImageManager.fixSVG(content));
 	}
 }
