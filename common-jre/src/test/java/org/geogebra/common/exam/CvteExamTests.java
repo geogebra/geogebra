@@ -15,43 +15,43 @@ import org.junit.Before;
 import org.junit.Test;
 
 public final class CvteExamTests extends BaseExamTests {
-	@Before
-	public void setupCvteExam() {
-		setInitialApp(SuiteSubApp.GRAPHING);
-		examController.startExam(ExamType.CVTE, null);
-	}
+    @Before
+    public void setupCvteExam() {
+        setInitialApp(SuiteSubApp.GRAPHING);
+        examController.startExam(ExamType.CVTE, null);
+    }
 
-	@Test
-	public void testMatrixOutputRestrictions() {
-		evaluate("l1={1,2}");
-		evaluate("l2={1,2}");
+    @Test
+    public void testMatrixOutputRestrictions() {
+        evaluate("l1={1,2}");
+        evaluate("l2={1,2}");
 
-		assertNull(evaluate("{l1, l2}"));
-		assertNull(evaluate("{If(true, l1)}"));
-		assertNull(evaluate("{IterationList(x^2,3,2)}"));
-		assertNull(evaluate("{Sequence(k,k,1,3)}"));
-	}
+        assertNull(evaluate("{l1, l2}"));
+        assertNull(evaluate("{If(true, l1)}"));
+        assertNull(evaluate("{IterationList(x^2,3,2)}"));
+        assertNull(evaluate("{Sequence(k,k,1,3)}"));
+    }
 
-	@Test
-	public void testSyntaxRestrictions() {
-		evaluate("A=(1,1)");
-		evaluate("B=(2,2)");
+    @Test
+    public void testSyntaxRestrictions() {
+        evaluate("A=(1,1)");
+        evaluate("B=(2,2)");
 
-		errorAccumulator.resetError();
-		assertNull(evaluate("Circle(A, B)"));
-		assertThat(errorAccumulator.getErrorsSinceReset(),
-				containsString("Illegal argument: Point B"));
+        errorAccumulator.resetError();
+        assertNull(evaluate("Circle(A, B)"));
+        assertThat(errorAccumulator.getErrorsSinceReset(),
+                containsString("Illegal argument: Point B"));
 
-		errorAccumulator.resetError();
-		assertNotNull(evaluate("Circle(A, 1)"));
-		assertEquals("", errorAccumulator.getErrorsSinceReset());
-	}
+        errorAccumulator.resetError();
+        assertNotNull(evaluate("Circle(A, 1)"));
+        assertEquals("", errorAccumulator.getErrorsSinceReset());
+    }
 
-	@Test
-	public void testToolRestrictions() {
-		assertTrue(app.getAvailableTools().contains(EuclidianConstants.MODE_MOVE));
-		assertFalse(app.getAvailableTools().contains(EuclidianConstants.MODE_POINT));
-		assertTrue(commandDispatcher.isAllowedByCommandFilters(Commands.Curve));
-		assertTrue(commandDispatcher.isAllowedByCommandFilters(Commands.CurveCartesian));
-	}
+    @Test
+    public void testToolRestrictions() {
+        assertTrue(app.getAvailableTools().contains(EuclidianConstants.MODE_MOVE));
+        assertFalse(app.getAvailableTools().contains(EuclidianConstants.MODE_POINT));
+        assertTrue(commandDispatcher.isAllowedByCommandFilters(Commands.Curve));
+        assertTrue(commandDispatcher.isAllowedByCommandFilters(Commands.CurveCartesian));
+    }
 }
