@@ -1,8 +1,11 @@
 package org.geogebra.common.util;
 
+import static org.geogebra.common.gui.view.algebra.AlgebraItem.checkAllRHSareIntegers;
+
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -89,17 +92,15 @@ public class SymbolicUtil {
 			if (containsUndefinedOrIsEmpty(symbolic)
 					&& !containsUndefinedOrIsEmpty(getOpposite(symbolic))) {
 				toggleNumericSolve(symbolic);
-				if (Commands.Solve.name()
-						.equals(symbolic.getDefinition().getTopLevelCommand().getName())) {
-					symbolic.setWrapInNumeric(true);
+				if (symbolic.getDefinition().isTopLevelCommand(Commands.Solve.name())) {
+					symbolic.setWrapInNumeric(!checkAllRHSareIntegers(symbolic.getTwinGeo()));
 				}
 			}
 
 			if (!containsUndefinedOrIsEmpty(symbolic)
 					&& containsUndefinedOrIsEmpty(getOpposite(symbolic))) {
-				if (Commands.Solve.name()
-						.equals(symbolic.getDefinition().getTopLevelCommand().getName())) {
-					symbolic.setWrapInNumeric(true);
+				if (symbolic.getDefinition().isTopLevelCommand(Commands.Solve.name())) {
+					symbolic.setWrapInNumeric(!checkAllRHSareIntegers(symbolic.getTwinGeo()));
 				}
 			}
 		}
@@ -112,11 +113,19 @@ public class SymbolicUtil {
 	 *            GeoSymbolic that we want to change
 	 */
 	public static void toggleNumericSolve(GeoSymbolic symbolic) {
-		Commands opposite = Commands.NSolve.getCommand()
-				.equals(symbolic.getDefinition().getTopLevelCommand().getName())
+		Command topLevelCommand = symbolic.getDefinition().getTopLevelCommand();
+		boolean isNSolve = Commands.NSolve.getCommand().equals(topLevelCommand.getName());
+		Commands opposite = isNSolve
 				? Commands.Solve : Commands.NSolve;
 
-		symbolic.getDefinition().getTopLevelCommand().setName(opposite.getCommand());
+		topLevelCommand.setName(opposite.getCommand());
+		if (isNSolve && topLevelCommand.getArgumentNumber() == 2
+				&& topLevelCommand.getArgument(1).unwrap() instanceof Equation) {
+			ExpressionNode eqn = topLevelCommand.removeLastArgument();
+			symbolic.setExcludedEquation(eqn);
+		} else if (!isNSolve && symbolic.getExcludedEquation() != null) {
+			topLevelCommand.addArgument(symbolic.getExcludedEquation());
+		}
 		symbolic.computeOutput();
 	}
 
