@@ -2436,7 +2436,7 @@ var __giac = [
 { cat:"NSolve", cmd:"NSolve(x/sqrt(x))", result:"{x = 0}"},
 { cat:"NSolve", cmd:"NSolve(ln(x)*sin(x)=1,x=1)", result:"{x = ?}"},
 { cat:"NSolve", cmd:"NSolve(((sin((39)*(pi/180)))/(x)=(sin((59)*(pi/180)))/(3)))", result:"{x = 2.2}"},
-{ cat:"NSolve", cmd:"{NSolve({x^y=5, x-y=3},{x,y}),NSolve({x^y=5, x-y=3},{x,y}),NSolve({x^y=5, x-y=3},{x,y}),NSolve({x^y=5, x-y=3},{x,y}),NSolve({x^y=5, x-y=3},{x,y})}", result:"{{x = 4.13, y = 1.13}, {x = 4.13, y = 1.13}, {x = 4.13, y = 1.13}, {x = ?}, {x = 4.13, y = 1.13}}"},
+{ cat:"NSolve", cmd:"{NSolve({x^y=5, x-y=3},{x,y}),NSolve({x^y=5, x-y=3},{x,y}),NSolve({x^y=5, x-y=3},{x,y}),NSolve({x^y=5, x-y=3},{x,y}),NSolve({x^y=5, x-y=3},{x,y})}", result:"{{x = 4.13, y = 1.13}, {x = 4.13, y = 1.13}, {x = 4.13, y = 1.13}, {x = ?}, {x = 4.13, y = 1.13}}|OR|{{x=0.52,y=-2.48},{x=0.52,y=-2.48},{x=4.13,y=1.13},{x=0.52,y=-2.48},{x=4.13,y=1.13}}"},
 { cat:"Solutions", cmd:"Solutions({Q+r v+s u=P+t a + k b},{r,s,t,k})", result:"{{(P - Q + a t + b k - s u) / v, s, t, k}}"},
 { cat:"Evaluate", cmd:"Evaluate({{1,2},{3,4}}*{{-1,4},{5,-2}})", result:"{{9, 0}, {17, 4}}" },
 { cat:"Product", cmd:"Product({{{1,2},{3,4}},{{-1,4},{5,-2}}})", result:"{{9, 0}, {17, 4}}" },
