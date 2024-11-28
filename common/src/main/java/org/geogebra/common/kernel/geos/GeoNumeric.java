@@ -691,11 +691,19 @@ public class GeoNumeric extends GeoElement
 		// do not rely on it for leaf nodes: MySpecialDouble overrides rounding
 		if ((symbolicMode || DoubleUtil.isInteger(value))
 				&& getDefinition() != null
-				&& !getDefinition().isLeaf()
-				&& tpl.supportsFractions()) {
+				&& tpl.supportsFractions()
+				&& (!getDefinition().isLeaf() || isDecimalFraction())) {
 			return getDefinition().toFractionString(tpl);
 		}
 		return kernel.format(value, tpl);
+	}
+
+	/**
+	 * @return whether this is a decimal that can be converted to a fraction, e.g. 0.25
+	 */
+	public boolean isDecimalFraction() {
+		return getDefinition() != null && getDefinition().unwrap() instanceof MySpecialDouble
+				&& ((MySpecialDouble) getDefinition().unwrap()).isFraction();
 	}
 
 	/**
@@ -1924,7 +1932,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-		boolean simple = isSimple();
+		boolean simple = isSimple() && !isDecimalFraction();
 		if (getDefinition() != null
 				&& !simple
 				&& !"?".equals(getDefinition(StringTemplate.defaultTemplate))) {

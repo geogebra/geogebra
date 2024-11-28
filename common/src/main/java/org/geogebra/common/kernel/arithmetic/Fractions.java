@@ -101,6 +101,8 @@ public class Fractions {
 		} else if (left1.isRecurringDecimal()) {
 			RecurringDecimal.asFraction(parts, left1.wrap());
 			return true;
+		} else if (left1 instanceof MySpecialDouble) {
+			return ((MySpecialDouble) left1).asFraction(parts);
 		}
 		return false;
 	}
@@ -117,6 +119,10 @@ public class Fractions {
 			boolean expandPlus) {
 		if (expr.unwrap().isRecurringDecimal()) {
 			RecurringDecimal.asFraction(parts, expr);
+			return;
+		}
+		if (expr.unwrap() instanceof MySpecialDouble) {
+			((MySpecialDouble) expr.unwrap()).asFraction(parts);
 			return;
 		}
 		ExpressionValue numL, numR, denL = null, denR = null;

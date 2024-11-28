@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.commands.CmdOneListFunction;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -38,6 +39,10 @@ public class CmdRandomElement extends CmdOneListFunction {
 
 	private void initSymbolicMode(GeoElement element, EvalInfo info) {
 		if (info != null && info.isSymbolic() && element instanceof HasSymbolicMode) {
+			if (element.getDefinition() != null
+					&& element.getDefinition().unwrap() instanceof MySpecialDouble) {
+				return;
+			}
 			((HasSymbolicMode) element).setSymbolicMode(true, false);
 		}
 	}

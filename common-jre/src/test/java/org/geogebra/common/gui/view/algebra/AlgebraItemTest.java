@@ -34,6 +34,8 @@ public class AlgebraItemTest extends BaseUnitTest {
 
         checkShouldShowBothRowsFor(line);
         checkShouldShowBothRowsFor(fitLine);
+        checkShouldShowBothRowsFor("0.6");
+        checkShouldShowBothRowsFor("0.6+2");
     }
 
     private void checkShouldShowBothRowsFor(String definition) {
