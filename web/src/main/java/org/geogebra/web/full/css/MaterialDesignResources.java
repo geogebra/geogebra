@@ -475,7 +475,7 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/file.svg")
 	SVGResource file();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_view_module_white_24px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_view_module_24px.svg")
 	SVGResource mow_page_control();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_add_white_24px.svg")

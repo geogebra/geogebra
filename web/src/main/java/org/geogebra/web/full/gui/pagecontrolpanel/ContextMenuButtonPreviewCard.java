@@ -25,7 +25,7 @@ import elemental2.dom.Response;
  */
 public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 
-	private PagePreviewCard card;
+	private final PagePreviewCard card;
 	private AriaMenuItem paste;
 
 	/**
@@ -151,5 +151,29 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 		if (paste != null) {
 			paste.setEnabled(!StringUtil.empty(slideContent));
 		}
+	}
+
+	/**
+	 * position context menu
+	 * @param x - horizontal position
+	 * @param y - vertical position
+	 */
+	public void showAt(int x, int y) {
+		wrappedPopup.showAtPoint(0, 0);
+
+		int popupWidth = wrappedPopup.getPopupPanel().getOffsetWidth();
+		int popupHeight = wrappedPopup.getPopupPanel().getOffsetHeight();
+
+		int horPos = x - app.getAppletFrame().getAbsoluteLeft();
+		if (horPos + popupWidth > app.getAppletWidth()) {
+			horPos = app.getAppletWidth() - popupWidth;
+		}
+
+		int vertPos = y - app.getAppletFrame().getAbsoluteTop();
+		if (vertPos + popupHeight > app.getAppletHeight()) {
+			vertPos = app.getAppletHeight() - popupHeight;
+		}
+
+		wrappedPopup.showAtPoint(horPos, vertPos);
 	}
 }

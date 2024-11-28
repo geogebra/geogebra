@@ -1,16 +1,14 @@
 package org.geogebra.web.full.gui.pagecontrolpanel;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.undo.UndoInfoStoredListener;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
-import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -32,8 +30,9 @@ import jsinterop.base.Js;
  * Page Control Panel for navigating through multiple pages
  */
 public class PageListPanel
-		extends PersistablePanel implements SetLabels, CardListInterface {
+		extends PersistablePanel implements SetLabels, CardListInterface, UndoInfoStoredListener {
 
+	public static final int PAGE_OVERVIEW_WIDTH = 240;
 	private final AppWFull app;
 	private final GeoGebraFrameFull frame;
 	private final EuclidianDockPanelW dockPanel;
@@ -42,9 +41,6 @@ public class PageListPanel
 	private StandardButton plusButton;
 	private final PageListController pageController;
 	private boolean isTouch = false;
-
-	@Nonnull
-	private final NotesLayout notesLayout;
 
 	/**
 	 * @param app
@@ -55,9 +51,9 @@ public class PageListPanel
 		this.frame = app.getAppletFrame();
 		this.dockPanel = (EuclidianDockPanelW) (app.getGuiManager().getLayout()
 				.getDockManager().getPanel(App.VIEW_EUCLIDIAN));
-		this.notesLayout = frame.getNotesLayoutSafe(app);
 		pageController = new PageListController(app, this);
 		app.setPageController(pageController);
+		app.getUndoManager().addUndoInfoStoredListener(this);
 		initGUI();
 	}
 
@@ -138,10 +134,10 @@ public class PageListPanel
 			return;
 		}
 
-		dockPanel.hideZoomPanel();
-		notesLayout.showPageControlButton(false);
-
 		setVisible(true);
+		int dockPanelWidth = dockPanel.getWidth() - PAGE_OVERVIEW_WIDTH;
+		dockPanel.resizeView(dockPanelWidth, dockPanel.getHeight());
+
 		setLabels();
 		removeStyleName("animateOut");
 		addStyleName("animateIn");
@@ -157,6 +153,7 @@ public class PageListPanel
 		if (!isVisible()) {
 			return false;
 		}
+		dockPanel.resizeView(dockPanel.getWidth(), dockPanel.getHeight());
 		showPlusButton(false);
 		addStyleName("animateOut");
 		CSSEvents.runOnAnimation(this::onClose, getElement(), "animateOut");
@@ -167,10 +164,6 @@ public class PageListPanel
 	 * handles close actions after animation
 	 */
 	protected void onClose() {
-		if (app.isWhiteboardActive()) {
-			notesLayout.showPageControlButton(true);
-			dockPanel.showZoomPanel();
-		}
 		setVisible(false);
 	}
 
@@ -327,6 +320,13 @@ public class PageListPanel
 				PagePreviewCard.computeTop(count) + "px");
 		contentPanel.getElement().getStyle().setProperty("maxHeight",
 				PagePreviewCard.computeTop(count) + "px");
+	}
+
+	@Override
+	public void onUndoInfoStored() {
+		if (pageController != null) {
+			pageController.updatePreviewImage();
+		}
 	}
 }
 

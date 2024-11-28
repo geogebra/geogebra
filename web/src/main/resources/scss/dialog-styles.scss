@@ -1441,7 +1441,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.dialogComponent.templateChooser {
-		max-width: 680px;
+		max-width: 656px;
 
 		.dialogTitle {
 			margin-bottom: 0px;
@@ -1456,67 +1456,25 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				border-bottom: 1px solid colors.$black-12;
 
 				.templatesPanel {
-					max-width: 665px;
-					padding-right: 0px;
-					padding-left: 15px;
-					padding-bottom: 0px;
+					padding-right: 4px;
 				}
 			}
 		}
 
 		.templatesPanel {
-			max-width: 649px;
-			display: inline-block;
-			padding-left: 16px;
-			margin-top: 12px;
-			padding-bottom: 12px;
+			display: flex;
+			gap: 16px;
+			padding: 12px 24px;
+			flex-wrap: wrap;
 
-			.templateCard {
-				width: 200px;
-				border-radius: 2px;
-				background-color: #fff;
-				box-shadow: $shadow-card-default;
-				transition: box-shadow .25s;
+			.mowPreviewCard {
 				position: relative;
 				display: inline-block;
-				margin: 8px 8px 8px 8px;
-				cursor: pointer;
-
-				&:hover {
-					box-shadow: $shadow-card-hover;
-				}
+				margin: 0;
 
 				&.selected {
-					outline: 2px solid colors.$mow_primary;
-					box-shadow: $shadow-card-default;
-					transition: box-shadow .25s;
-				}
-
-				&.selected:hover {
-					box-shadow: $shadow-card-hover;
-				}
-
-				.cardImgPanel {
-					width: 100%;
-					height: 120px;
-					background-position: center;
-				}
-
-				.cardInfoPanel {
-					@extend .cardInfo;
-
-					.mowMoreButton {
-						width: 24px;
-						height: 24px;
-						padding: 10px 6px 10px 10px;
-						position: relative;
-						opacity: 0.54;
-						cursor: pointer;
-
-						&.gwt-ToggleButton-up-hovering {
-							opacity: 1;
-						}
-					}
+					border-color: var(--ggb-primary-color);
+					box-sizing: border-box;
 				}
 			 }
 		}

@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.layout.panels;
 
+import static org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel.PAGE_OVERVIEW_WIDTH;
+
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.EuclidianView;
@@ -7,7 +9,9 @@ import org.geogebra.common.euclidian.GetViewId;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.ViewCounter;
+import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -37,7 +41,7 @@ import jsinterop.base.Js;
 public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		implements GetViewId {
 	private ConstructionProtocolNavigationW consProtNav;
-	private boolean mayHaveZoomButtons;
+	private final boolean mayHaveZoomButtons;
 
 	/**
 	 * default constructor
@@ -156,6 +160,14 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 				int h = dockPanel.getComponentInteriorHeight()
 						- dockPanel.navHeightIfShown();
 				int w = dockPanel.getComponentInteriorWidth();
+				if (dockPanel.getApp().isWhiteboardActive()) {
+					PageListPanel pageControlPanel =
+							((AppWFull) dockPanel.getApp()).getAppletFrame()
+									.getPageControlPanel();
+					if (pageControlPanel != null && pageControlPanel.isVisible()) {
+						w = w - PAGE_OVERVIEW_WIDTH;
+					}
+				}
 				// TODO handle this better?
 				// exit if new size cannot be determined
 				// one dimension may be intentionally 0, resize to avoid DOM

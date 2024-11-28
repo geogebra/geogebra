@@ -41,7 +41,9 @@ import org.geogebra.web.html5.main.PageContent;
 import org.geogebra.web.html5.main.PageListControllerInterface;
 import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.PDFEncoderW;
+import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.dom.client.Touch;
+import org.gwtproject.event.dom.client.HumanInputEvent;
 import org.gwtproject.event.dom.client.MouseDownEvent;
 import org.gwtproject.event.dom.client.MouseDownHandler;
 import org.gwtproject.event.dom.client.MouseMoveEvent;
@@ -64,9 +66,6 @@ import jsinterop.base.JsPropertyMap;
 
 /**
  * controller for page actions, such as delete or add slide
- * 
- * @author csilla
- *
  */
 public class PageListController implements PageListControllerInterface,
 		MouseDownHandler, MouseMoveHandler, MouseUpHandler, TouchStartHandler, MouseOutHandler,
@@ -81,10 +80,10 @@ public class PageListController implements PageListControllerInterface,
 	final ArrayList<PagePreviewCard> slides;
 	private PagePreviewCard selectedCard;
 
-	private DragController dragCtrl;
-	private CardListInterface listener;
+	private final DragController dragCtrl;
+	private final CardListInterface listener;
 	private Material activeMaterial = null;
-	private UndoManager undoManager;
+	private final UndoManager undoManager;
 	private boolean selectedCardChangedAfterLoad;
 
 	/**
@@ -728,13 +727,13 @@ public class PageListController implements PageListControllerInterface,
 		if (NavigatorUtil.isMobile()) {
 			return;
 		}
-		dragCtrl.stop();
+		dragCtrl.stop(isRightClick(event), event.getNativeEvent());
 	}
 
 	@Override
 	public void onMouseOut(MouseOutEvent event) {
 		dragCtrl.cancelClick();
-		dragCtrl.stop();
+		dragCtrl.stop(isRightClick(event), event.getNativeEvent());
 	}
 
 	@Override
@@ -754,7 +753,7 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
-		dragCtrl.stop();
+		dragCtrl.stop(isRightClick(event), event.getNativeEvent());
 	}
 
 	// Cards Interface
@@ -983,4 +982,8 @@ public class PageListController implements PageListControllerInterface,
 		}
 	}
 
+	private boolean isRightClick(HumanInputEvent<?> event) {
+		return event.isControlKeyDown()
+				|| event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT;
+	}
 }

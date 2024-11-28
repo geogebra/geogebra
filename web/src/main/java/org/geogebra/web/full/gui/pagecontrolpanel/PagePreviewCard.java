@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.main.Localization;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.CardInfoPanel;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
@@ -13,12 +12,10 @@ import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.util.ArchiveEntry;
 import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
+import org.gwtproject.user.client.ui.Label;
 
 /**
  * Page Preview Card showing preview of EuclidianView
- * 
- * @author Alicia Hofstaetter
- *
  */
 public class PagePreviewCard extends FlowPanel
 		implements SetLabels {
@@ -27,14 +24,14 @@ public class PagePreviewCard extends FlowPanel
 	static final int MARGIN = 16;
 
 	/** Height of a card without margins */
-	static final int CARD_HEIGHT = 184;
+	static final int CARD_HEIGHT = 128;
 
 	/** Height of one card with the bottom margin */
 	static final int TOTAL_HEIGHT = CARD_HEIGHT + MARGIN;
 
-	private AppW app;
-	private Localization loc;
+	private final AppW app;
 	private int pageIndex;
+	private Label number;
 	private FlowPanel imagePanel;
 	private CardInfoPanel infoPanel;
 	private ContextMenuButtonPreviewCard contextMenu;
@@ -56,7 +53,6 @@ public class PagePreviewCard extends FlowPanel
 		this.app = app;
 		this.pageIndex = pageIndex;
 		this.file = file;
-		this.loc = app.getLocalization();
 		initGUI();
 	}
 
@@ -79,26 +75,35 @@ public class PagePreviewCard extends FlowPanel
 	
 	private void initGUI() {
 		resetTop();
-		addStyleName("mowPagePreviewCard");
+		addStyleName("cardRow");
+		addStyleName("noTitle");
+
+		number = new Label(String.valueOf(pageIndex + 1));
+		number.addStyleName("number");
+		add(number);
+
+		FlowPanel cardPanel = new FlowPanel();
+		cardPanel.addStyleName("mowPreviewCard");
 		if (!(NavigatorUtil.isMobile())) {
-			addStyleName("desktop");
+			cardPanel.addStyleName("desktop");
 		}
 
 		imagePanel = new FlowPanel();
-		imagePanel.addStyleName("mowImagePanel");
-
+		imagePanel.addStyleName("cardImagePanel");
 		infoPanel = new CardInfoPanel();
 		infoPanel.addStyleName("mowTitlePanel");
 
 		contextMenu = new ContextMenuButtonPreviewCard(app, this);
 		infoPanel.add(contextMenu);
 
-		add(imagePanel);
-		add(infoPanel);
+		cardPanel.add(imagePanel);
+		cardPanel.add(infoPanel);
 		if (!updatePreviewFromFile()) {
 			updatePreviewImage();
 		}
 		updateLabel();
+
+		add(cardPanel);
 	}
 
 	/**
@@ -117,7 +122,7 @@ public class PagePreviewCard extends FlowPanel
 	}
 
 	private boolean setPreviewImage(ArchiveEntry image) {
-		if (image != null && image.createUrl().length() > 0) {
+		if (image != null && !image.createUrl().isEmpty()) {
 			imagePanel.getElement().getStyle().setBackgroundImage(
 					"url(" + image.createUrl() + ")");
 			return true;
@@ -136,7 +141,7 @@ public class PagePreviewCard extends FlowPanel
 	}
 
 	private void updateLabel() {
-		infoPanel.setCardId(loc.getMenu("page") + " " + (pageIndex + 1));
+		number.setText(String.valueOf(pageIndex + 1));
 	}
 
 	/**
@@ -150,7 +155,6 @@ public class PagePreviewCard extends FlowPanel
 
 	/**
 	 * set index of page
-	 * 
 	 * note: this will also update the title of the page
 	 * 
 	 * @param index
@@ -246,14 +250,6 @@ public class PagePreviewCard extends FlowPanel
 	}
 
 	/**
-	 * 
-	 * @return the middle line of the card horizontally.
-	 */
-	public int getMiddleX() {
-		return getAbsoluteLeft() + getOffsetWidth() / 2;
-	}
-
-	/**
 	 * @param add
 	 *            true to apply drag style
 	 */
@@ -293,5 +289,14 @@ public class PagePreviewCard extends FlowPanel
 		if (!file.getID().equals(pageId)) {
 			file = file.duplicate(pageId);
 		}
+	}
+
+	/**
+	 * Show context menu at x,y position
+	 * @param x - horizontal position
+	 * @param y - vertical position
+	 */
+	public void showContextMenuAt(int x, int y) {
+		contextMenu.showAt(x, y);
 	}
 }

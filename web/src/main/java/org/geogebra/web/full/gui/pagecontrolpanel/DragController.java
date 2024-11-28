@@ -8,6 +8,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.timer.client.Timer;
 
 class DragController {
@@ -284,11 +285,8 @@ class DragController {
 
 	/**
 	 * Called at pointer (mouse or touch) down.
-	 * 
-	 * @param x
-	 *            coordinate.
-	 * @param y
-	 *            coordinate.
+	 * @param x - coordinate.
+	 * @param y - coordinate.
 	 */
 	public void start(int x, int y) {
 		if (clicked != null || isValid()) {
@@ -301,6 +299,7 @@ class DragController {
 		} else {
 			clicked = cards.cardAt(idx);
 			cards.selectCard(clicked);
+
 			CancelEventTimer.dragCanStart();
 
 			Timer dragStyleTimer = new Timer() {
@@ -349,11 +348,16 @@ class DragController {
 
 	/**
 	 * Called at pointer (mouse or touch) up.
+	 * @param isCtrlKeyDown - whether control key down is
+	 * @param event - native event
 	 */
-	void stop() {
+	void stop(boolean isCtrlKeyDown, NativeEvent event) {
 		if (clicked != null) {
 			cards.clickPage(clicked.getPageIndex(), true);
 			clicked.addDragStartStyle(false);
+			if (isCtrlKeyDown) {
+				clicked.showContextMenuAt(event.getClientX(), event.getClientY());
+			}
 		} else if (CancelEventTimer.isDragging()) {
 			if (canDrop()) {
 				createDropAnimation();

@@ -4,18 +4,13 @@
 @use 'colorMap' as *;
 
 .GeoGebraFrame{
-	$pagecontrolpanelWidth: 269px;
+	$pagecontrolpanelWidth: 240px;
 	$always_on_top: 60;
 
 	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
-	$pagecontrol-transition: right 0.25s cubic-bezier(0.4, 0, 1, 1);
 	$floatingbtn-hover-transition: background-color 0.15s;
 	$floatingbtn-appear-transition: width 0.2s, height 0.2s, right 0.2s, margin-bottom 0.2s, visibility 0.2s;
 	$floatingbtn-img-appear-transition: width 0.2s, height 0.2s, padding 0.2s;
-
-	$shadow-elevation-2: 0px 3px 1px -2px colors.$black-20, 0px 2px 2px 0px colors.$black-14, 0px 1px 5px 0px colors.$black-12;
-	$shadow-elevation-8: 0px 5px 5px -3px colors.$black-20, 0px 8px 10px 1px colors.$black-14, 0px 3px 14px 2px colors.$black-12;
-	$shadow-elevation-16: 0px 8px 10px -5px colors.$black-20, 0px 16px 24px 2px colors.$black-14, 0px 6px 30px 5px colors.$black-12;
 
 	.SelectionTable {
 		border-collapse: collapse;
@@ -239,12 +234,12 @@
 ******************/
 	.mowPageControlPanel {
 		position: absolute;
-		top: 0px;
+		top: 48px;
 		right: 0px;
-		box-shadow: $shadow-elevation-16;
+		border-left: 1px solid neutral(300);
 		background-color: colors.$white;
 		z-index: z-index.$z-page-control-panel;
-		height: 100%;
+		height: calc(100% - 48px);
 		width: $pagecontrolpanelWidth;
 		overflow: hidden;
 
@@ -257,78 +252,100 @@
 		.mowPageControlContentPanel {
 			width: 100%;
 			margin-bottom: 64px;
+			padding: 16px 0;
 		}
 	}
 	.mowPageControlPanel.animateIn {
-		animation-duration: 0.25s;
+		animation-duration: 0.3s;
 		animation-name: pCPanimateIn;
+		animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 		overflow: auto;
 	}
 
 	@keyframes pCPanimateIn {
-		0% {right: -$pagecontrolpanelWidth; top: 0px;}
-		100% {right: 0px; top: 0px;}
+		0% {right: -$pagecontrolpanelWidth; top: 48px;}
+		100% {right: 0px; top: 48px;}
 	}
 
 	.mowPageControlPanel.animateOut {
-		animation-duration: 0.25s;
+		animation-duration: 0.3s;
 		animation-name: pCPanimateOut;
+		animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 		overflow-y: auto;
 	}
 
 	@keyframes pCPanimateOut {
-		0% {right: 0px; top: 0px;}
-		100% {right: -$pagecontrolpanelWidth; top: 0px;}
+		0% {right: 0px; top: 48px;}
+		100% {right: -$pagecontrolpanelWidth; top: 48px;}
 	}
 
 /*****************
 *   PAGE PREVIEW CARD
 ******************/
 
-	.mowPagePreviewCard {
+	.cardRow {
 		position: absolute;
-		width: calc(100% - 32px);
-		margin-left: 16px;
-		border-radius: 2px;
+		display: flex;
+		margin-bottom: 16px;
+	}
+
+	.number {
+        display: flex;
+        flex-direction: column;
+        width: 24px;
+        height: 24px;
+        align-items: flex-end;
+        justify-content: center;
+        color: neutral(900);
+    }
+
+	.mowPreviewCard {
+		width: 192px;
+		height: 128px;
+		margin-left: 8px;
+		border-radius: 12px;
+		box-sizing: border-box;
+		border: 2px solid neutral(300);
 		background-color: colors.$white;
-		box-shadow: $shadow-elevation-2;
 		transition: box-shadow .25s;
 		cursor: pointer;
 
-		.mowImagePanel {
+		.cardImagePanel {
 			width: 100%;
-			height: 124px; /* 220px*9/16 */
-			border: 2px solid transparent;
-			border-bottom: none;
-			box-sizing: border-box;
-			border-radius: 2px 2px 0 0 ;
+			height: 124px;
 			background-repeat: no-repeat;
 			background-position: center;
 			background-size: 110%;
+			border-radius: 12px;
 		}
 
 		.mowTitlePanel {
 			@extend .cardInfo;
-			height: 60px;
+			width: 100%;
+			height: 48px;
+			position: relative;
+			bottom: 48px;
 			flex-direction: column;
+			border-bottom-right-radius: 12px;
+			border-bottom-left-radius: 12px;
+			background-color: colors.$white-80;
 
 			.cardTitle {
-				padding-bottom: 4px;
-				height: 20px;
-				line-height: 20px;
+				width: 134px;
+				padding: 12px 0 12px 16px;
+				height: 24px;
+				line-height: 24px;
 			}
 
 			.cardAuthor {
-				padding-top: 4px;
-				padding-bottom: 8px;
-				position: inherit;
-				display: block;
+				display: none;
 			}
 
 			.mowMoreButton {
 				width: 24px;
 				height: 24px;
-				padding: 8px 6px 12px 16px;
+				padding: 6px;
+				margin: 6px 2px 6px 0;
 				right: 0;
 				position: absolute;
 				opacity: 0.54;
@@ -344,39 +361,38 @@
 		}
 	}
 
-	.mowPagePreviewCard.selected {
-		box-shadow: $shadow-elevation-2;
-		transition: box-shadow .25s;
+	.cardRow.selected {
+		.mowPreviewCard {
+			border-color: var(--ggb-primary-color);
+			box-sizing: border-box;
 
-		.mowImagePanel {
-			border: 2px solid colors.$mow_primary;
-			border-bottom: none;
+			&:hover {
+				border-color: var(--ggb-primary-color);
+            }
 		}
+	}
+
+	.cardRow.noTitle {
 		.mowTitlePanel {
-			border: 2px solid colors.$mow_primary;
-			border-top: none;
+			background-color: transparent;
 		}
-		.gwt-Label {
-			padding-bottom: 14px;
-			padding-left: 14px;
-		}
-		.mowMoreButton {
-			padding-bottom: 10px;
+
+		.cardTitle {
+			display: none;
 		}
 	}
 
-	.mowPagePreviewCard.desktop {
+	.mowPreviewCard.desktop {
 		&:hover {
-			box-shadow: $shadow-elevation-8;
+			border-color: neutral(500);
 		}
 	}
 
-	.mowPagePreviewCard.dragged {
-		z-index: z-index.$z-on-top-of-graphics;
-	}
-
-	.mowPagePreviewCard.dragCanStart {
-		box-shadow: $shadow-elevation-8 !important;
+	.cardRow.dragged {
+		.mowPreviewCard {
+			z-index: z-index.$z-on-top-of-graphics;
+			box-shadow: 0px 6px 32px -2px rgba(133, 132, 138, 0.16), 0px 4px 12px -1px rgba(133, 132, 138, 0.06);
+		}
 	}
 
 /*****************
