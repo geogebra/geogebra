@@ -24,7 +24,6 @@ import org.geogebra.web.full.gui.components.dropdown.grid.GridDropdown;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.util.LineStylePopup;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.ImageOrText;
@@ -295,7 +294,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 			lbRulerType.setListener((index) -> {
 				model.applyRulerType(BackgroundType.rulingOptions.get(index));
 				updateView();
-				((EuclidianViewW) view).doRepaint();
 				app.storeUndoInfo();
 			});
 			panel.add(LayoutUtilW.panelRowIndent(lblRulerType, lbRulerType));
