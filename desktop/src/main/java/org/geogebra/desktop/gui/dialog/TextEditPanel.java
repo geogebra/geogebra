@@ -2,8 +2,6 @@ package org.geogebra.desktop.gui.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -18,7 +16,7 @@ import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 /**
  * panel for text editingA
  */
-public class TextEditPanel extends JPanel implements ActionListener,
+public class TextEditPanel extends JPanel implements
 		UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 	/**
 	 * 
@@ -34,12 +32,11 @@ public class TextEditPanel extends JPanel implements ActionListener,
 
 	/**
 	 * New text edit panel
-	 * @param propertiesPanelD TODO
+	 * @param propertiesPanelD parent panel
 	 */
 	public TextEditPanel(PropertiesPanelD propertiesPanelD) {
 		this.propertiesPanelD = propertiesPanelD;
 		initGUI();
-
 	}
 
 	private void initGUI() {
@@ -62,9 +59,7 @@ public class TextEditPanel extends JPanel implements ActionListener,
 		sp.setBorder(BorderFactory.createEmptyBorder());
 
 		add(sp, BorderLayout.CENTER);
-		// add(td.getPreviewPanel(), BorderLayout.NORTH);
 		add(td.getButtonPanel(), BorderLayout.SOUTH);
-
 	}
 
 	/**
@@ -76,8 +71,6 @@ public class TextEditPanel extends JPanel implements ActionListener,
 
 	@Override
 	public void setLabels() {
-		// editPanel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("Edit")));
-		// td.getPreviewPanel().setBorder(BorderFactory.createTitledBorder(loc.getMenu("Preview")));
 		td.setLabels(this.propertiesPanelD.loc.getMenu("Text"));
 	}
 
@@ -99,15 +92,6 @@ public class TextEditPanel extends JPanel implements ActionListener,
 		return geos.length == 1 && geos[0] instanceof GeoText
 				&& !((GeoText) geos[0]).isTextCommand()
 				&& !((GeoText) geos[0]).isProtected(EventType.UPDATE);
-	}
-
-	/**
-	 * handle textfield changes
-	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// if (e.getSource() == btEdit)
-		// app.showTextDialog((GeoText) geos[0]);
 	}
 
 	@Override
