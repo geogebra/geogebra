@@ -32,6 +32,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 	private final ToolboxController controller;
 	private @CheckForNull IconButton spotlightButton;
 	private final List<IconButton> buttons = new ArrayList<>();
+	private IconButton lastSelectedButtonWithMenu;
 
 	/**
 	 * MOW toolbox
@@ -226,11 +227,25 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 			if (button instanceof RulerIconButton) {
 				continue;
 			}
-			if (button.containsMode(mode)) {
+			if (button.containsMode(mode)  && lastSelectedButtonWithMenu == null) {
 				button.setActive(true);
 			} else {
 				button.deactivate();
 			}
+		}
+	}
+
+	public void setLastSelectedButtonWithMenu(IconButton button) {
+		lastSelectedButtonWithMenu = button;
+	}
+
+	/**
+	 * Notify toolbox about deselecting a tool button
+	 * @param button deselected tool button
+	 */
+	public void removeSelectedButtonWithMenu(IconButton button) {
+		if (lastSelectedButtonWithMenu == button) {
+			lastSelectedButtonWithMenu = null;
 		}
 	}
 }

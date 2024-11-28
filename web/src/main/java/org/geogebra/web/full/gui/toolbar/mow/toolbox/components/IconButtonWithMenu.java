@@ -31,6 +31,7 @@ public class IconButtonWithMenu extends IconButton {
 
 		AriaHelper.setAriaHasPopup(this);
 		addFastClickHandler((event) -> {
+			toolbox.setLastSelectedButtonWithMenu(isActive() ? this : null);
 			deselectButtons.run();
 			initPopupAndShow(toolbox);
 		});
@@ -62,9 +63,15 @@ public class IconButtonWithMenu extends IconButton {
 	private void addCloseHandler(NotesToolbox toolbox) {
 		iconButtonPopup.getPopupPanel().addCloseHandler(e -> {
 			deactivate();
+			toolbox.removeSelectedButtonWithMenu(this);
 			toolbox.onModeChange(appW.getMode());
 			AriaHelper.setAriaExpanded(this, false);
 		});
+	}
+
+	@Override
+	public boolean containsMode(int mode) {
+		return tools.contains(mode);
 	}
 
 	private GPopupPanel getPopup() {
