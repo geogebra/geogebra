@@ -1,6 +1,7 @@
 package org.geogebra.keyboard.web;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.keyboard.base.model.impl.factory.Characters;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.gwtproject.dom.client.Document;
@@ -46,6 +47,11 @@ public class BaseKeyboardButton extends SimplePanel implements MouseOutHandler {
 		this.label = new Label();
 		setWidget(label);
 		setCaption(checkThai(caption), altText);
+		char firstChar = Character.toLowerCase(caption.charAt(0));
+		if (firstChar >= Characters.ALPHA && firstChar <= Characters.OMEGA
+				|| firstChar == Characters.PHI) {
+			addStyleName("greek");
+		}
 		this.feedback = feedback;
 	}
 

@@ -65,12 +65,6 @@ $tab123-width: 644px;
 		}
 	}
 
-	/* special css for Springboard */
-	.KeyBoard table {
-		border-collapse: separate;
-		clear: both;
-	}
-
 	.KeyBoard, .KeyBoard.gwt-PopupPanel {
 		border-radius: 0;
 		-webkit-border-radius: 0;
@@ -88,7 +82,6 @@ $tab123-width: 644px;
 		padding-top: 0;
 		background-color: neutral("200");
 		box-shadow: 0px -2px 4px 0px #1C1C1F26;
-		font-family: greek, geogebra-sans-serif, sans-serif;
 		
 		&.detached {
 			position: fixed;
@@ -96,27 +89,6 @@ $tab123-width: 644px;
 			will-change: transform;
 			z-index: 3000; /* more than $z-fullscreen-container in GGB */
 		}
-	}
-
-	.KeyBoard .SymbolTable {
-		display: none;
-	}
-
-	.KeyBoardContentNumbers,
-	.KeyBoardContentSpecialChars {
-		margin: 0 auto;
-		max-width: 745px !important;
-	}
-
-	.KeyPanelLetters {
-		margin: 0 auto;
-		position: relative;
-	}
-
-	.KeyPanelFunction,
-	.KeyPanelNum, 
-	.normal .contentLetters {
-		padding-right: 20px;
 	}
 
 	.KeyPanelRow {
@@ -175,10 +147,6 @@ $tab123-width: 644px;
 		margin-top: -4px;
 	}
 
-	.KeyBoard td.hidden {
-		display: none;
-	}
-
 	.normal .KeyBoardButton {
 		width: 50px;
 	}
@@ -204,46 +172,8 @@ $tab123-width: 644px;
 		padding-right: 11px;
 	}
 
-	.KeyBoardButton.enter {
-		height: 64px;
-	}
-
-	.KeyBoardButton.enter img {
-		padding-top: 23px;
-	}
-
-	/* -- LETTERS -- */
-	.normal .KeyBoardButton.shift {
-		width: 80px;
-		position: absolute;
-		left: 0;
-	}
-
-	.normal .KeyBoardButton.delete {
-		width: 80px;
-		position: absolute;
-		right: 0;
-	}
-
-	.normal .KeyBoardButton.delete.small, 
-	.normal .KeyBoardButton.shift.small {
-		width: 50px;
-	}
-
-	/* last row */
-	.KeyPanelLetters > tbody > tr:nth-child(4) .KeyPanelRow {
-		width: 100%;
-	}
-
-	/* cell of space button */
-	.KeyPanelLetters > tbody > tr:nth-child(4) > td > table > tbody > tr > td:nth-child(4) {
-		width: 100%
-	}
-
-	.normal .KeyBoardButton.space {
-		width: 99%;
-		padding: 0 0 20px 0;
-		margin: 2px 2px 0 2px;
+	.KeyBoardButton.greek {
+		font-family: greek, geogebra-sans-serif, sans-serif;
 	}
 
 	/* 
@@ -255,24 +185,6 @@ $tab123-width: 644px;
 		right: 0;
 		width: 35px;
 		height: 25px;
-	}
-
-	.scale .KeyPanelRow, 
-	.scale .KeyBoardContentNumbers, 
-	.scale .KeyBoardContentSpecialChars,
-	.scale .KeyPanelControl,
-	.scale .KeyPanelLetters,
-	.scale .KeyPanelFunction,
-	.scale .KeyPanelNum {
-		width: 100% !important;
-	}
-
-	.scale .KeyPanelRow td {
-		width: 25%;
-	}
-
-	.scale .KeyPanelLetters .KeyPanelRow td {
-		width: 7%;
 	}
 
 	.scale .KeyBoardButton {
@@ -305,34 +217,9 @@ $tab123-width: 644px;
 		margin-top: -5px;
 	}
 
-	.scale .KeyPanelFunction,
-	.scale .KeyPanelNum {
-		padding-right: 2%;
-	}
-
-	.scale .KeyBoardContentSpecialChars>tbody>tr>td,
-	.scale .KeyBoardContentSpecialChars>tbody>tr>td:nth-child(2),
-	.scale .KeyBoardContentNumbers>tbody>tr>td, 
-	.scale .KeyBoardContentNumbers>tbody>tr>td:nth-child(2) {
-		width: 45%;
-	}
-
-	/* -- LETTERS -- */
-
-	/* space */
-	.scale .KeyPanelLetters tr:nth-child(4) > td td:nth-child(4) {
-		width: 50%;
-	}
-	/* width of panel with enter, delete, left, right */
-	.scale .KeyPanelLetters .KeyPanelRow td {
-		width: 9%;
-	}
 	/** tabbed keyboard */
 	.KeyPanel{
 		margin: auto;
-	}
-
-	.scale .KeyPanel{
 	}
 
 	.KeyboardSwitcher {
