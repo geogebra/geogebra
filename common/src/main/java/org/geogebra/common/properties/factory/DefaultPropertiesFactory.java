@@ -8,15 +8,12 @@ import java.util.List;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
 import org.geogebra.common.properties.impl.algebra.ShowAuxiliaryProperty;
-import org.geogebra.common.properties.impl.algebra.SortByProperty;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.CoordinatesProperty;
 import org.geogebra.common.properties.impl.general.FontSizeProperty;
@@ -78,22 +75,12 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 	 */
 	protected PropertiesArray createAlgebraProperties(App app, Localization localization,
 			PropertiesRegistry propertiesRegistry) {
-		AlgebraSettings algebraSettings = app.getSettings().getAlgebra();
 		Kernel kernel = app.getKernel();
 		String name = localization.getMenu("Algebra");
-		if (Feature.MOB_PROPERTY_SORT_BY.isAvailable()) {
-			return new PropertiesArray(name,
-					registerProperties(propertiesRegistry,
-							new AlgebraDescriptionProperty(kernel, localization),
-							new SortByProperty(algebraSettings, localization),
-							new ShowAuxiliaryProperty(app, localization))
-			);
-		} else {
-			return new PropertiesArray(name,
-					registerProperties(propertiesRegistry,
-							new AlgebraDescriptionProperty(kernel, localization),
-							new ShowAuxiliaryProperty(app, localization)));
-		}
+		return new PropertiesArray(name,
+				registerProperties(propertiesRegistry,
+						new AlgebraDescriptionProperty(kernel, localization),
+						new ShowAuxiliaryProperty(app, localization)));
 	}
 
 	/**

@@ -1,17 +1,12 @@
 package org.geogebra.common.euclidian;
 
-import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
-
 import org.geogebra.common.euclidian.measurement.MeasurementController;
-import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 
 public class ModeSwitcher {
 
 	private final App app;
-	private final Construction cons;
 	private final MeasurementController measurementController;
 
 	/**
@@ -20,7 +15,6 @@ public class ModeSwitcher {
 	 */
 	public ModeSwitcher(App app, MeasurementController measurementController) {
 		this.app = app;
-		cons = app.getKernel().getConstruction();
 		this.measurementController = measurementController;
 	}
 
@@ -66,29 +60,9 @@ public class ModeSwitcher {
 		default:
 			break;
 		}
-		if (embedManager != null
-				&& newMode == EuclidianConstants.MODE_CALCULATOR) {
-			setUpEmbedManager(embedManager);
-		}
-
 	}
 
 	private DialogManager getDialogManager() {
 		return app.getDialogManager();
-	}
-
-	private void setUpEmbedManager(EmbedManager embedManager) {
-		final GeoEmbed ge = new GeoEmbed(cons);
-		ge.setAppName(SUITE_APPCODE);
-		EuclidianView view = app.getActiveEuclidianView();
-		ge.initDefaultPosition(view);
-		embedManager.initAppEmbed(ge);
-		ge.setLabel(null);
-		app.storeUndoInfo();
-		app.invokeLater(() -> {
-			view.getEuclidianController().selectAndShowSelectionUI(ge);
-			ge.setBackground(false);
-			view.update(ge); // force painting in the foreground
-		});
 	}
 }

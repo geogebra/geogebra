@@ -565,6 +565,21 @@ public class EuclidianSettings extends AbstractSettings {
 		return axisNumberingDistances[i];
 	}
 
+	/**
+	 * Sets axis numbering distance from double value
+	 * @param i the index of the axis
+	 * @param distValue the distance
+	 */
+	public void setAxisNumberingDistance(int i, double distValue) {
+		GeoNumeric dist = new GeoNumeric(app.getKernel().getConstruction(), distValue);
+		setAxisNumberingDistance(i, dist, true);
+	}
+
+	/**
+	 * Sets axis numbering distance
+	 * @param i the index of the axis
+	 * @param dist the distance
+	 */
 	public void setAxisNumberingDistance(int i, GeoNumberValue dist) {
 		setAxisNumberingDistance(i, dist, true);
 	}

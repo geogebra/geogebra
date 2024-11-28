@@ -8,6 +8,7 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.geogebra.common.AppCommonFactory;
@@ -23,6 +24,7 @@ import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.BracketsError;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigScientific;
 import org.geogebra.common.plugin.Operation;
@@ -91,6 +93,32 @@ public class ParserTest {
 		checkSameStructure("A(1|2)", "(1,2)");
 		checkSameStructure("A(1|2|3)", "(1,2,3)");
 		checkSameStructure("A(1;pi/2)", "(1;pi/2)");
+	}
+
+	@Test
+	public void testUnicodeWhitespace() {
+		List.of("\u0020",
+				"\u00A0",
+				"\u1680",
+				"\u2000",
+				"\u2001",
+				"\u2002",
+				"\u2003",
+				"\u2004",
+				"\u2005",
+				"\u2006",
+				"\u2007",
+				"\u2008",
+				"\u2009",
+				"\u200A",
+				"\u200B",
+				"\u202F",
+				"\u205F",
+				"\u3000",
+				"\uFEFF",
+				"\t",
+				"\r").forEach(x ->
+				shouldReparseAs("2" + x + "3", "2 * 3"));
 	}
 
 	@Test
@@ -169,9 +197,9 @@ public class ParserTest {
 			v1.wrap().replaceXYZnodes(xVar, yVar, zVar);
 			app.getKernel().getConstruction().registerFunctionVariable(null);
 			reparse1 = v1.toString(tpl);
-		} catch (ParseException e) {
+		} catch (ParseException | MyParseError e) {
 			Log.debug(e);
-			fail(e.getMessage());
+			fail(e.getMessage() + " for " + string);
 		}
 		return reparse1;
 	}

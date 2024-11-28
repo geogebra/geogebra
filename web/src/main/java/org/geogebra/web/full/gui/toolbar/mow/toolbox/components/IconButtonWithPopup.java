@@ -75,6 +75,11 @@ public class IconButtonWithPopup extends IconButton {
 	}
 
 	@Override
+	public boolean containsMode(int mode) {
+		return tools.contains(mode);
+	}
+
+	@Override
 	public void setLabels() {
 		super.setLabels();
 		if (categoryPopup != null) {

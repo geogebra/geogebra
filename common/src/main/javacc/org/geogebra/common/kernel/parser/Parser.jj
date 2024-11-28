@@ -307,13 +307,15 @@ public class Parser implements ParserInterface {
 PARSER_END(Parser)
 
 
-
-SKIP : {
-    " "
-  | "\r"
-  | "\t"
-  | "\n"
-}
+// Note: includes all Unicode whitespaces (incl. non-breaking), separators and ZWSP
+SKIP : { <(["\u0009" - "\u000E", // ASCII spaces, \u000E added to work around JavaCC bug
+  "\u001C" - "\u0020", // separators
+  "\u1680",
+  "\u2000" - "\u200B", "\u2028" , "\u2029", "\u205F", // various width spaces, including ZWSP
+  "\u00A0", "\u202F", // non-breaking spaces
+  "\u3000", // ideographic space
+  "\uFEFF" // BOM
+  ])> }
 
 /* OPERATORS */
 TOKEN :  {
@@ -446,7 +448,7 @@ TOKEN : {
         "\u038e"-"\u03f5",      // Greek
         "\u0401"-"\u0481",      // Cyrillic
         "\u0490"-"\u04f9",      // Cyrillic
-        "\u0531"-"\u1ffc",      // a lot of signs (Arabic, accentuated, ...)
+        "\u0531"-"\u167F", "\u1681"-"\u1ffc",      // a lot of signs (Arabic, accentuated, ...)
         "\u3041"-"\u3357",      // Asian letters
         "\u4e00"-"\ud7a3",      // Asian letters
         "\uf71d"-"\ufa2d",      // Asian letters
