@@ -9,7 +9,9 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.StyleInjector;
 import org.gwtproject.dom.client.Element;
 
+import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLStyleElement;
+import elemental2.dom.ScrollToOptions;
 
 public class FullScreenState {
 	private HTMLStyleElement transformOverride;
@@ -18,6 +20,8 @@ public class FullScreenState {
 	protected boolean emulated;
 	private GDimension oldSize;
 	private double cssScale = 0;
+	private double scrollTop;
+	private double scrollLeft;
 
 	/**
 	 * @return css scale
@@ -45,6 +49,11 @@ public class FullScreenState {
 		if (oldSize != null && app.isUnbundled()) {
 			app.getGgbApi().setSize(oldSize.getWidth(), oldSize.getHeight());
 		}
+		ScrollToOptions scrollToOptions = ScrollToOptions.create();
+		scrollToOptions.setLeft(scrollLeft);
+		scrollToOptions.setTop(scrollTop);
+		scrollToOptions.setBehavior("instant");
+		DomGlobal.document.documentElement.scrollTo(scrollToOptions);
 	}
 
 	/**
@@ -84,7 +93,8 @@ public class FullScreenState {
 		setContainerProp(container, "marginLeft", "0");
 		setContainerProp(container, "marginTop", "0");
 		oldSize = app.getPreferredSize();
-
+		scrollTop = DomGlobal.document.documentElement.scrollTop;
+		scrollLeft = DomGlobal.document.documentElement.scrollLeft;
 		cssScale = scale;
 		if (emulated) {
 			overrideParentTransform();
