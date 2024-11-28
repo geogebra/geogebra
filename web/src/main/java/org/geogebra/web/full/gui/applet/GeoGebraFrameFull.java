@@ -585,7 +585,6 @@ public class GeoGebraFrameFull
 				} else {
 					refreshKeyboardButton(null);
 					getOnScreenKeyboard(null).showOnFocus();
-					app.adjustScreen(true);
 				}
 			} else if (app != null && appNeedsKeyboard()) {
 				if (!isKeyboardWantedFromStorage()) {

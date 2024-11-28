@@ -52,6 +52,7 @@ describe('Quick stylebar test', () => {
         cy.get('[data-title="More"]').click();
         selectors.dynamicStyleBar.get().should('not.exist');
         cy.get('li').contains("GeoGebra").click();
+        cy.get('.contextSubMenu li').contains("Graphing").click();
         // cypress view too small to se the whole stylebar here
         cy.get(".matDynStyleContextButton").should('be.visible');
     });
