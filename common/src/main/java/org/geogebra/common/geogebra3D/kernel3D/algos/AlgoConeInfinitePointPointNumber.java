@@ -39,7 +39,7 @@ public class AlgoConeInfinitePointPointNumber
 
 	@Override
 	public Commands getClassName() {
-		return Commands.InfiniteCone;
+		return Commands.ConeInfinite;
 	}
 
 }

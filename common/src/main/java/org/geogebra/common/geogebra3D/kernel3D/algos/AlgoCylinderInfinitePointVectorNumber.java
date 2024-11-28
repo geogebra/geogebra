@@ -40,7 +40,7 @@ public class AlgoCylinderInfinitePointVectorNumber
 
 	@Override
 	public Commands getClassName() {
-		return Commands.InfiniteCylinder;
+		return Commands.CylinderInfinite;
 	}
 
 }

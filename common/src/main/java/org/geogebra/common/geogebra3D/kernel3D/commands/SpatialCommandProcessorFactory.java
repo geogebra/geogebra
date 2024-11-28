@@ -54,17 +54,13 @@ public class SpatialCommandProcessorFactory implements CommandProcessorFactory {
 			case Cone:
 				return new CmdCone(kernel);
 			case InfiniteCone:
-				return new CmdConeInfinite(kernel);
 			case ConeInfinite:
-				return new CmdConeInfinite(kernel); // removed for release
-			// candidate
-
+				return new CmdConeInfinite(kernel);
 			case Cylinder:
 				return new CmdCylinder(kernel);
 			case InfiniteCylinder:
-				return new CmdCylinderInfinite(kernel);
 			case CylinderInfinite:
-				return new CmdCylinderInfinite(kernel); // removed for release
+				return new CmdCylinderInfinite(kernel);
 			// candidate
 			case Side:
 			case QuadricSide:
