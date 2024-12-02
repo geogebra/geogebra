@@ -1494,12 +1494,21 @@ public abstract class GlobalKeyDispatcher {
 
 			// update all geos together
 			GeoElement.updateCascade(geos, getTempSet(), true);
+			readMovedPoints(geos);
 			app.getKernel().notifyRepaint();
 
 			return true;
 		}
 
 		return false;
+	}
+
+	private void readMovedPoints(List<GeoElement> geos) {
+		for (GeoElement geo: geos) {
+			if (geo.isPointerChangeable() && geo.isPointOnPath()) {
+				ScreenReader.readGeoMoved(geo);
+			}
+		}
 	}
 
 	private void moveSliderPointOrRandomGeo(GeoElement geo,
@@ -1522,7 +1531,6 @@ public abstract class GlobalKeyDispatcher {
 					} else {
 						p.addToPathParameter(changeVal * p.getAnimationStep());
 					}
-					ScreenReader.readGeoMoved((GeoElement) p);
 					hasUnsavedGeoChanges = true;
 				}
 			}
