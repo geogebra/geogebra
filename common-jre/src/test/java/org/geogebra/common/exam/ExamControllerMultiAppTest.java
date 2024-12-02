@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNotSame;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +19,8 @@ public class ExamControllerMultiAppTest {
 
 	@Before
 	public void setup() {
-		controller = new ExamController(new DefaultPropertiesRegistry());
+		controller = new ExamController(new DefaultPropertiesRegistry(),
+				GlobalScope.contextMenuFactory);
 		app = AppCommonFactory.create3D();
 	}
 
