@@ -86,7 +86,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 				tpl.append(sb, leftStr, left, operation);
 
-				sb.append(' ');
+				tpl.appendOptionalSpace(sb);
 				switch (stringType) {
 				case LATEX:
 					if (tpl.isInsertLineBreaks()) {
@@ -103,9 +103,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				default:
 					sb.append(strIMPLIES);
 				}
-				sb.append(' ');
+				tpl.appendOptionalSpace(sb);
 
-				tpl.append(sb, rightStr, right, operation);
+				tpl.append(sb, rightStr, right, Operation.OR);
 			}
 			break;
 
