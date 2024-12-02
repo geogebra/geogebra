@@ -156,6 +156,7 @@ public class SliderBuilder {
 		slider.setEuclidianVisible(true);
 		slider.setLabelMode(GeoElement.LABEL_NAME_VALUE);
 		slider.setLabelVisible(true);
+		slider.setAVSliderOrCheckboxVisible(true);
 		slider.update();
 	}
 }
