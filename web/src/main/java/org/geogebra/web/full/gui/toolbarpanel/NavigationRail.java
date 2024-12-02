@@ -12,6 +12,7 @@ import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
+import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -229,11 +230,16 @@ class NavigationRail extends FlowPanel {
 	}
 
 	protected void onClose(boolean snap, int time) {
-		updateIcons(null, examController.isExamActive());
+		updateIcons(null, useExamStyle());
 		addCloseOrientationStyles();
 		toolbarPanel.setMoveMode();
 		toolbarPanel.close(snap, time);
 		app.getAccessibilityManager().focusAnchorOrMenu();
+	}
+
+	private boolean useExamStyle() {
+		return examController.isExamActive()
+				&& app.getAppletParameters().getDataParamApp();
 	}
 
 	private void addCloseOrientationStyles() {
@@ -277,7 +283,7 @@ class NavigationRail extends FlowPanel {
 		if (center == null) {
 			return;
 		}
-		updateIcons(tabId, examController.isExamActive());
+		updateIcons(tabId, useExamStyle());
 		toolbarPanel.setSelectedTabId(tabId);
 	}
 
@@ -563,5 +569,28 @@ class NavigationRail extends FlowPanel {
 			}
 		}
 		context2d.globalAlpha = 1;
+	}
+
+	private void resetHeaderClasses() {
+		removeStyleName("examOk");
+		removeStyleName("examCheat");
+	}
+
+	public void resetExamStyle() {
+		resetHeaderClasses();
+		boolean examStyle = useExamStyle();
+		updateIcons(examStyle);
+		if (examStyle) {
+			ExamUtil.makeRed(getElement(), examController.isCheating());
+			if (examController.isCheating()) {
+				addStyleName("examCheat");
+			} else if (ExamUtil.hasExternalSecurityCheck(app)) {
+				addStyleName("examLock");
+			} else {
+				addStyleName("examOk");
+			}
+		} else {
+			ExamUtil.makeRed(getElement(), false);
+		}
 	}
 }

@@ -153,6 +153,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 				.setAttribute("width", drawEmbed.getGeoEmbed().getContentWidth() + "")
 				.setAttribute("height", drawEmbed.getGeoEmbed().getContentHeight() + "")
 				.setAttribute("appName", drawEmbed.getGeoEmbed().getAppName())
+				.setAttribute("examMode", app.getAppletParameters().getParamExamMode())
 				.setAttribute("borderColor", "#CCC");
 		for (Entry<String, String> entry: drawEmbed.getGeoEmbed().getSettings()) {
 			parameters.setAttribute(entry.getKey(), entry.getValue());

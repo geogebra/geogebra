@@ -7,10 +7,10 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
-import org.geogebra.web.full.gui.exam.ExamControllerDelegateW;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.LayoutW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
@@ -117,16 +117,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		((LayoutW) app.getGuiManager().getLayout()).resetPerspectives(app);
 
 		app.getKernel().getAlgebraProcessor().reinitCommands();
-		examController.setActiveContext(app,
-				app.getKernel().getAlgebraProcessor().getCommandDispatcher(),
-				app.getKernel().getAlgebraProcessor(),
-				app.getLocalization(),
-				app.getSettings(),
-				null, // TODO inject AutoCompleteProvider
-				app);
-		examController.registerRestrictable(app);
-		examController.setDelegate(new ExamControllerDelegateW(app));
-		examController.startExam(ExamType.GENERIC,
+		((AppWFull) app).startExam(ExamType.GENERIC,
 				new ExamOptions(app.getSettings().getCasSettings().isEnabled()));
 
 		app.fireViewsChangedEvent();

@@ -24,7 +24,6 @@ import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
-import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.layout.DockPanelW;
@@ -346,12 +345,8 @@ public class ToolbarPanel extends FlowPanel
 		}
 		add(main);
 		hideDragger();
-		if (examController.isExamActive() && !examController.isCheating()) {
-			if (ExamUtil.hasExternalSecurityCheck(app)) {
-				setHeaderStyle("examLock");
-			} else {
-				setHeaderStyle("examOk");
-			}
+		if (examController.isExamActive()) {
+			navRail.resetExamStyle();
 		}
 	}
 
@@ -1112,19 +1107,6 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	/**
-	 * @param style style to change color of header (teal = ok, red = cheating)
-	 */
-	public void setHeaderStyle(String style) {
-		resetHeaderClasses();
-		navRail.addStyleName(style);
-		boolean cheat = "examCheat".equals(style);
-		if (!cheat) {
-			navRail.updateIcons(true);
-		}
-		ExamUtil.makeRed(navRail.getElement(), cheat);
-	}
-
-	/**
 	 *
 	 */
 	public void initInfoBtnAction() {
@@ -1135,14 +1117,7 @@ public class ToolbarPanel extends FlowPanel
 	 * remove exam style
 	 */
 	public void resetHeaderStyle() {
-		resetHeaderClasses();
-		navRail.updateIcons(false);
-	}
-
-	private void resetHeaderClasses() {
-		ExamUtil.makeRed(navRail.getElement(), false);
-		navRail.removeStyleName("examOk");
-		navRail.removeStyleName("examCheat");
+		navRail.resetExamStyle();
 	}
 
 	/**
@@ -1223,7 +1198,7 @@ public class ToolbarPanel extends FlowPanel
 	/**
 	 * @return application
 	 */
-	public AppW getApp() {
+	public AppWFull getApp() {
 		return app;
 	}
 

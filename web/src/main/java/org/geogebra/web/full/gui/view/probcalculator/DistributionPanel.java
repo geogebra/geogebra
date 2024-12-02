@@ -14,6 +14,7 @@ import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.util.ProbabilityModeGroup;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.ToggleButton;
@@ -42,7 +43,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler, ExamL
 		this.view = view;
 		this.loc = loc;
 		addStyleName("distrPanel");
-		GlobalScope.examController.addListener(this);
+		((AppWFull) view.getApp()).getExamEventBus().add(this);
 		buildGUI();
 	}
 

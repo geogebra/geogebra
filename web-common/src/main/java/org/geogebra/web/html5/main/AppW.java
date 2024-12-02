@@ -1019,7 +1019,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		resetUI();
 		resetUrl();
 		if (examController.isExamActive()) {
-			examController.createNewTempMaterial();
+			setActiveMaterial(examController.getNewTempMaterial());
 			examController.reapplySettingsRestrictions();
 		}
 		setSaved();
@@ -1856,7 +1856,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		euclidianView = newEuclidianView(euclidianViewPanel,
 				getEuclidianController(), showEvAxes, showEvGrid, 1,
 				getSettings().getEuclidian(1));
-		GlobalScope.examController.registerRestrictable(euclidianView);
 		return euclidianView;
 	}
 
@@ -3534,8 +3533,16 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return toolTipManager;
 	}
 
+	/**
+	 * @return whether the exam mode is set from the outside and we're in app mode
+	 */
 	public boolean isLockedExam() {
-		return !StringUtil.empty(getAppletParameters().getParamExamMode());
+		return !StringUtil.empty(getAppletParameters().getParamExamMode())
+				&& supportsExamUI();
+	}
+
+	protected boolean supportsExamUI() {
+		return appletParameters.getDataParamApp() && !isWhiteboardActive();
 	}
 
 	/**
@@ -3545,5 +3552,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public boolean isToolboxCategoryEnabled(String category) {
 		List<String> tools = getAppletParameters().getDataParamCustomToolbox();
 		return tools.contains(category) || tools.isEmpty();
+	}
+
+	/**
+	 * Remove all connections to the global exam controller
+	 */
+	public void detachFromExamController() {
+		// only with UI
 	}
 }

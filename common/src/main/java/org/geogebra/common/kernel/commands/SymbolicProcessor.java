@@ -201,7 +201,7 @@ public class SymbolicProcessor {
 
 	private MyError buildArgNumberError(Command cmd) {
 		CommandErrorMessageBuilder builder =
-				new CommandErrorMessageBuilder(kernel.getLocalization());
+				kernel.getLocalization().getCommandErrorMessageBuilder();
 		return MyError.forCommand(kernel.getLocalization(),
 				builder.buildArgumentNumberError(cmd.getName(), cmd.getArgumentNumber()),
 				cmd.getName(),

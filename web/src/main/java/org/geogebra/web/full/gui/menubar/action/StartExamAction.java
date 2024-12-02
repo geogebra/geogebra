@@ -46,6 +46,6 @@ public class StartExamAction extends DefaultMenuAction<AppWFull> {
 
 	private void startExam(AppWFull app, ExamStartDialog examStartDialog) {
 		ExamClassicStartDialog.blockEscTab(app);
-		app.startExam(examStartDialog.getSelectedRegion());
+		app.startExam(examStartDialog.getSelectedRegion(), null);
 	}
 }

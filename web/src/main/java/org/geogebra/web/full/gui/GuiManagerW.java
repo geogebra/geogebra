@@ -2105,9 +2105,9 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void setUnbundledHeaderStyle(String style) {
+	public void updateUnbundledToolbarStyle() {
 		if (getUnbundledToolbar() != null) {
-			getUnbundledToolbar().setHeaderStyle(style);
+			getUnbundledToolbar().resetHeaderStyle();
 		}
 	}
 
