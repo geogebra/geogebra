@@ -35,7 +35,8 @@ jna = "net.java.dev.jna:jna:5.15.0"
 
 gwt-user = { module = "org.gwtproject:gwt-user", version.ref = "gwt" }
 gwt-dev = { module = "org.gwtproject:gwt-dev", version.ref = "gwt" }
-gwt-core = "org.gwtproject.core:gwt-core:1.0.0-RC2"
+# https://github.com/gwtproject/gwt-core/pull/23
+gwt-core = "org.gwtproject.core:gwt-core:1.0.1-GGB"
 gwt-dom = "org.gwtproject.dom:gwt-dom:1.0.0-RC2"
 gwt-timer = "org.gwtproject.timer:gwt-timer:1.0.0-RC1"
 gwt-mockito = "com.google.gwt.gwtmockito:gwtmockito:1.1.10-SNAPSHOT"
