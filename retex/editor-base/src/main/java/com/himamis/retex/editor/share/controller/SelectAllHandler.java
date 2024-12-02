@@ -47,10 +47,6 @@ public class SelectAllHandler {
 		MathComponent first = editorState.getRootComponent().getArgument(0);
 		MathComponent selectionStart = editorState.getCurrentField().getArgument(0);
 
-		if (isCharPlaceholder(selectionStart)) {
-			return;
-		}
-
 		setSelectionStart(selectionStart);
 		if (first instanceof MathArray) {
 			MathArray array = (MathArray) first;
@@ -84,9 +80,12 @@ public class SelectAllHandler {
 			selectAllCompositeElement(sequence);
 		} else {
 			MathSequence content = sequenceWithoutBrackets(sequence);
-			setSelectionStart(content.getArgument(firstSeparatorOnLeft(content)));
-			setSelectionEnd(content.getArgument(firstSeparatorOnRight(content)));
-			if (isCharPlaceholder(editorState.getSelectionStart())) {
+			int left = firstSeparatorOnLeft(content);
+			setSelectionStart(content.getArgument(left));
+			int right = firstSeparatorOnRight(content);
+			setSelectionEnd(content.getArgument(right));
+
+			if (isCharPlaceholder(editorState.getSelectionStart()) || right < left) {
 				editorState.setSelectionStart(null);
 			}
 		}
@@ -141,7 +140,9 @@ public class SelectAllHandler {
 		while (charIndex > 0 && !isSeparatorAt(sequence, charIndex)) {
 			charIndex--;
 		}
-
+		if (charIndex == 0 && isSeparatorAt(sequence, 0)) {
+			return 1;
+		}
 		return charIndex == 0 ? 0 : charIndex + 1;
 	}
 }

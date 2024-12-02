@@ -47,6 +47,34 @@ public class SelectAllTest {
 	}
 
 	@Test
+	public void testPoint3DCoordinateDeleteMiddle() {
+		EditorChecker checker = new EditorChecker(app);
+		checker.fromParser("(1,2,3)")
+				.protect()
+				.left(4)
+				.setModifiers(KeyEvent.CTRL_MASK)
+				.typeKey(JavaKeyCodes.VK_A)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.setModifiers(KeyEvent.CTRL_MASK)
+				.typeKey(JavaKeyCodes.VK_A)
+				.type("0")
+				.checkAsciiMath("(1,0,3)");
+	}
+
+	@Test
+	public void testPointDeleteLast() {
+		EditorChecker checker = new EditorChecker(app);
+		checker.fromParser("(,)")
+				.protect()
+				.left(1)
+				.insert("3")
+				.setModifiers(KeyEvent.CTRL_MASK)
+				.typeKey(JavaKeyCodes.VK_A)
+				.typeKey(JavaKeyCodes.VK_DELETE)
+				.checkAsciiMath("(,)");
+	}
+
+	@Test
 	public void listShouldSelectAllElements() {
 		EditorChecker checker = new EditorChecker(app);
 		checker.fromParser("{1,2,3}")
