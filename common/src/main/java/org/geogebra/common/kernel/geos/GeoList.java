@@ -2815,27 +2815,17 @@ public class GeoList extends GeoElement
 	 *            sequence variable that should be replaced by its free copy
 	 */
 	public void replaceChildrenByValues(GeoElement vars) {
-		if (this.elementType != GeoClass.FUNCTION
-				&& this.elementType != GeoClass.CURVE_CARTESIAN
-				&& this.elementType != GeoClass.CURVE_CARTESIAN3D
-				&& this.elementType != GeoClass.FUNCTION_NVAR
-				&& this.elementType != GeoClass.SURFACECARTESIAN
-				&& this.elementType != GeoClass.SURFACECARTESIAN3D
-				&& this.elementType != GeoClass.LIST
-				&& this.elementType != ELEMENT_TYPE_MIXED) {
-			return;
-		}
 		for (GeoElement listElement : this.elements) {
 			if (listElement instanceof CasEvaluableFunction) {
 				CasEvaluableFunction f = (CasEvaluableFunction) listElement;
 				f.replaceChildrenByValues(vars);
-			}
-
-			else if (listElement.isGeoList()) {
+			} else if (listElement.isGeoList()) {
 				((GeoList) listElement).replaceChildrenByValues(vars);
+			} else {
+				// definition may contain references to local variable -> discard
+				listElement.resetDefinition();
 			}
 		}
-
 	}
 
 	@Override
