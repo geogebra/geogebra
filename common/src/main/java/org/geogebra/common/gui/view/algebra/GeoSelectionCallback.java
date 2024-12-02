@@ -29,7 +29,7 @@ public class GeoSelectionCallback implements AsyncOperation<GeoElementND[]>, Exa
 		if (restrictGraphSelectionForFunctions) {
 			return;
 		}
-		if (geoElements != null && geoElements.length == 1) {
+		if (geoElements != null && geoElements.length == 1 && geoElements[0] != null) {
 			GeoElementND geoElement = geoElements[0];
 			AlgebraItem.addSelectedGeoWithSpecialPoints(geoElement, geoElement.getApp());
 		}
