@@ -45,7 +45,7 @@ public class AlgoRealDistribution1Param extends AlgoDistribution {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.ChiSquared;
+		return command.command;
 	}
 
 	@Override
