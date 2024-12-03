@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
 
 /**
- * Interface for iplicit curves
+ * Interface for implicit curves
  */
 public interface GeoImplicit extends Path, EquationValue {
 
@@ -174,4 +174,9 @@ public interface GeoImplicit extends Path, EquationValue {
 	 * @param equationExpanded expanded form of definition
 	 */
 	void setExpanded(Equation equationExpanded);
+
+	// TODO APPS-5867 mend implicit curves/surfaces into equation form concept
+	void setToUser();
+
+	void setToImplicit();
 }

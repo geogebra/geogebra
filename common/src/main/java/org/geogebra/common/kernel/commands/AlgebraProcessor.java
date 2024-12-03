@@ -27,8 +27,11 @@ import javax.annotation.Nullable;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.KernelCAS;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentBoolean;
 import org.geogebra.common.kernel.algos.AlgoDependentConic;
@@ -2997,45 +3000,64 @@ public class AlgebraProcessor {
 		} else {
 			line = dependentLine(equ);
 		}
-		line.setDefinition(def);
+
 		if (isExplicit) {
 			line.setToExplicit();
 		}
+
 		line.showUndefinedInAlgebraView(true);
+		line.setDefinition(def);
 		setEquationLabelAndVisualStyle(line, label, info);
 
 		return array(line);
 	}
 
 	/**
-	 * @param line
+	 * @param geo
 	 *            line or conic
 	 * @param label
 	 *            new label
 	 * @param info
 	 *            evaluation flags
 	 */
-	protected void setEquationLabelAndVisualStyle(GeoElementND line,
+	protected void setEquationLabelAndVisualStyle(GeoElementND geo,
 			String label, EvalInfo info) {
 		if (kernel.getApplication().isUnbundledGraphing()) {
-			line.setObjColor(line.getAutoColorScheme()
+			geo.setObjColor(geo.getAutoColorScheme()
 					.getNext(!cons.getKernel().isSilentMode()));
-			line.setLineOpacity(
+			geo.setLineOpacity(
 					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_EQUATION_GEOMETRY);
 		}
-		if ((info.isForceUserEquation()
-				|| !app.getSettings().getCasSettings().isEnabled())
-				&& line instanceof EquationValue) {
-			((EquationValue) line).setToUser();
+		if (geo.isFunctionOrEquationFromUser()) {
+			geo.setFixed(true);
 		}
 
-		if (line.isFunctionOrEquationFromUser()) {
-			line.setFixed(true);
-		}
+		customizeEquationForm(geo);
 
 		if (info.isLabelOutput()) {
-			line.setLabel(label);
+			geo.setLabel(label);
 		}
+	}
+
+	private void customizeEquationForm(GeoElementND geo) {
+		EquationBehaviour equationBehaviour = kernel.getEquationBehaviour();
+		if (equationBehaviour == null) {
+			return;
+		}
+		if (geo instanceof LinearEquationRepresentable) {
+			LinearEquationRepresentable.Form equationForm =
+					equationBehaviour.getLinearAlgebraInputEquationForm();
+			if (equationForm != null) {
+				((LinearEquationRepresentable) geo).setEquationForm(equationForm);
+			}
+		} else if (geo instanceof QuadraticEquationRepresentable) {
+			QuadraticEquationRepresentable.Form equationForm =
+					equationBehaviour.getConicAlgebraInputEquationForm();
+			if (equationForm != null) {
+				((QuadraticEquationRepresentable) geo).setEquationForm(equationForm);
+			}
+		}
+		// TODO APPS-5867 do we need to handle implicit functions/surfaces here?
 	}
 
 	/**
@@ -3078,15 +3100,13 @@ public class AlgebraProcessor {
 
 			double[] coeffs = { a, b, c, d, e, f };
 			conic = new GeoConic(cons, coeffs);
-
 		} else {
 			conic = dependentConic(equ);
 		}
 
 		if (isExplicit) {
 			conic.setToExplicit();
-		} else if (isSpecific
-				|| conic.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
+		} else if (isSpecific || conic.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
 			conic.setToSpecific();
 		}
 		conic.setDefinition(def);
@@ -3405,10 +3425,9 @@ public class AlgebraProcessor {
 				GeoElement[] results = processExpressionNode(en,
 						new EvalInfo(false));
 				GeoElement geo = results[0];
-				if ((info.isForceUserEquation()
-						|| !app.getSettings().getCasSettings().isEnabled())
-						&& Equation.isAlgebraEquation(geo)) {
-					((EquationValue) geo).setToUser();
+				// TODO APPS-5867 do we need more conditions here?
+				if (Equation.isAlgebraEquation(geo)) {
+					customizeEquationForm(geo);
 				}
 				// add to list
 				geoElements.add(geo);

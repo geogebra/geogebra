@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.test.LocalizationCommonUTF;
 import org.junit.Assert;
@@ -48,7 +49,7 @@ public class DrawablesTest extends BaseUnitTest {
 	public AppCommon createAppCommon() {
 		graphics = spy(new GGraphicsCommon());
 		return new AppCommon3D(new LocalizationCommonUTF(3),
-				new AwtFactoryCommon()) {
+				new AwtFactoryCommon(), new AppConfigDefault()) {
 			@Override
 			protected GGraphics2D createGraphics() {
 				return graphics;

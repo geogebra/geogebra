@@ -167,16 +167,6 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	}
 
 	@Override
-	public int getEnforcedLineEquationForm() {
-		return -1;
-	}
-
-	@Override
-	public int getEnforcedConicEquationForm() {
-		return -1;
-	}
-
-	@Override
 	public OperationArgumentFilter createOperationArgumentFilter() {
 		return null;
 	}

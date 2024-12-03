@@ -2,6 +2,8 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import java.util.ArrayList;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInterface;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
@@ -456,8 +458,7 @@ public class GeoPlane3D extends GeoElement3D
 		}
 		// we need to keep 0z in equation to be sure that y+0z=1 will be loaded
 		// as a plane
-		if (getToStringMode() == GeoLine.EQUATION_USER
-				&& getDefinition() != null) {
+		if (getEquationForm() == Form.USER && getDefinition() != null) {
 			return getDefinition().toValueString(tpl);
 		}
 		return buildValueString(tpl, kernel, getCoordSys().getEquationVector(),
@@ -469,14 +470,23 @@ public class GeoPlane3D extends GeoElement3D
 		return label + ": " + toValueString(tpl);
 	}
 
-	@Override
-	final public void setToUser() {
-		setMode(GeoLine.EQUATION_USER);
+	@Override // EquationLinear
+	@CheckForNull
+	public Form getEquationForm() {
+		return Form.valueOf(toStringMode);
+	}
+
+	@Override // EquationLinear
+	public void setEquationForm(int toStringMode) {
+		Form equationForm = Form.valueOf(toStringMode);
+		if (equationForm != null) {
+			this.toStringMode = toStringMode;
+		}
 	}
 
 	@Override
-	final public void setToImplicit() {
-		setMode(GeoLine.EQUATION_IMPLICIT);
+	public void setToParametric(String parameter) {
+		// if we want parametric form for plane, we will need 2 parameters
 	}
 
 	/**
@@ -911,13 +921,13 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
-		return getToStringMode() == GeoLine.EQUATION_USER;
+		return getEquationForm() == Form.USER;
 	}
 
 	@Override
-	public boolean setTypeFromXML(String style, String parameter, boolean force) {
+	public boolean setEquationFormFromXML(String style, String parameter) {
 		if ("implicit".equals(style)) {
-			toStringMode = GeoLine.EQUATION_IMPLICIT;
+			setToImplicit();
 		} else if ("user".equals(style)) {
 			setToUser();
 		} else {

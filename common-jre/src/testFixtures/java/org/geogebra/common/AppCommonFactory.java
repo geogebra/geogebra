@@ -20,10 +20,14 @@ public class AppCommonFactory {
 		return new AppCommon(new LocalizationCommonUTF(2), new AwtFactoryCommon(), appConfig);
 	}
 
+	public static AppCommon3D create3D() {
+		return create3D(new AppConfigDefault());
+	}
+
 	/**
 	 * @return app instance for 3d testing
 	 */
-	public static AppCommon3D create3D() {
-		return new AppCommon3D(new LocalizationCommonUTF(3), new AwtFactoryCommon());
+	public static AppCommon3D create3D(AppConfig appConfig) {
+		return new AppCommon3D(new LocalizationCommonUTF(3), new AwtFactoryCommon(), appConfig);
 	}
 }

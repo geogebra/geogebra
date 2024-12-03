@@ -105,6 +105,8 @@ public class AlgoCircleThreePoints extends AlgoElement
 
 		compute();
 		setIncidence();
+
+		circle.setToSpecific();
 	}
 
 	private void setIncidence() {

@@ -50,6 +50,7 @@ import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.common.main.settings.config.AppConfigScientific;
+import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.geogebra.common.main.undo.DefaultUndoManager;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.GgbAPI;
@@ -660,6 +661,7 @@ public class AppCommon extends App {
 	 */
 	public void setConfig(AppConfig config) {
 		this.appConfig = config;
+        kernel.setEquationBehaviour(config.getEquationBehaviour());
 		reInit();
 	}
 
@@ -668,6 +670,13 @@ public class AppCommon extends App {
 	 */
 	public void setGraphingConfig() {
 		setConfig(new AppConfigGraphing());
+	}
+
+	/**
+	 * Sets unrestricted/Suite Graphing config and reinitializes the app.
+	 */
+	public void setUnrestrictedGraphingConfig() {
+		setConfig(new AppConfigUnrestrictedGraphing());
 	}
 
 	/**

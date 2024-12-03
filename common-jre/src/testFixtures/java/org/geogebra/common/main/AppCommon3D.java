@@ -19,8 +19,8 @@ public class AppCommon3D extends AppCommon {
 	private boolean is3Dactive;
 	private EuclidianView3DNoGui ev3d;
 
-	public AppCommon3D(LocalizationJre loc, AwtFactory awtFactory) {
-		super(loc, awtFactory);
+	public AppCommon3D(LocalizationJre loc, AwtFactory awtFactory, AppConfig appConfig) {
+		super(loc, awtFactory, appConfig);
 	}
 
 	@Override

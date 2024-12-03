@@ -29,6 +29,8 @@ import org.geogebra.common.kernel.CommandLookupStrategy;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -52,7 +54,6 @@ import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
-import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.scripting.CmdSetCoords;
@@ -1854,33 +1855,27 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 
 		if (geo instanceof GeoLine) {
-
 			GeoLine line = (GeoLine) geo;
-
 			if ("parametric".equals(style)) {
-				line.setMode(GeoLine.PARAMETRIC);
+				line.setEquationForm(LinearEquationRepresentable.Form.PARAMETRIC);
 			} else if ("explicit".equals(style)) {
-				line.setMode(GeoLine.EQUATION_EXPLICIT);
+				line.setEquationForm(LinearEquationRepresentable.Form.EXPLICIT);
 			} else if ("implicit".equals(style)) {
-				line.setMode(GeoLine.EQUATION_IMPLICIT);
+				line.setEquationForm(LinearEquationRepresentable.Form.IMPLICIT);
 			}
-
 			geo.updateRepaint();
 
 		} else if (geo instanceof GeoConic) {
-
 			GeoConic conic = (GeoConic) geo;
-
 			if ("parametric".equals(style)) {
-				conic.setToStringMode(GeoConicND.EQUATION_PARAMETRIC);
+				conic.setEquationForm(QuadraticEquationRepresentable.Form.PARAMETRIC);
 			} else if ("explicit".equals(style)) {
-				conic.setToStringMode(GeoConicND.EQUATION_EXPLICIT);
+				conic.setEquationForm(QuadraticEquationRepresentable.Form.EXPLICIT);
 			} else if ("implicit".equals(style)) {
-				conic.setToStringMode(GeoConicND.EQUATION_IMPLICIT);
+				conic.setEquationForm(QuadraticEquationRepresentable.Form.IMPLICIT);
 			} else if ("specific".equals(style)) {
-				conic.setToStringMode(GeoConicND.EQUATION_SPECIFIC);
+				conic.setEquationForm(QuadraticEquationRepresentable.Form.SPECIFIC);
 			}
-
 			geo.updateRepaint();
 		}
 	}

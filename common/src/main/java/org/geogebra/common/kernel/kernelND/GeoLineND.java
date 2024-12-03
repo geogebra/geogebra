@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.kernelND;
 
+import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -9,7 +10,7 @@ import org.geogebra.common.kernel.matrix.Coords;
  *
  *         Interface for lines (lines, segments, ray, ...) in any dimension
  */
-public interface GeoLineND extends GeoDirectionND {
+public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 
 	/**
 	 * returns the point at position lambda on the coord sys in the dimension
@@ -146,20 +147,6 @@ public interface GeoLineND extends GeoDirectionND {
 	 */
 	public double distance(GeoLineND g);
 
-	/** set equation mode to implicit */
-	public void setToImplicit();
-
-	/** change equation mode to explicit */
-	public void setToExplicit();
-
-	/**
-	 * Switch to parametric mode and set parameter name
-	 * 
-	 * @param parameter
-	 *            name
-	 */
-	public void setToParametric(String parameter);
-
 	/**
 	 * 
 	 * @return copy
@@ -200,12 +187,6 @@ public interface GeoLineND extends GeoDirectionND {
 	 * @return line origin (in 2D the same as start point)
 	 */
 	public Coords getOrigin();
-
-	/** Force user input form */
-	public void setToUser();
-
-	/** set to general equation */
-	public void setToGeneral();
 
 	/**
 	 * @param t

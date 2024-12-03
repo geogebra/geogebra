@@ -14,8 +14,11 @@ package org.geogebra.common.kernel.kernelND;
 
 import java.util.Arrays;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.geos.ChangeableParent;
@@ -36,7 +39,7 @@ import org.geogebra.common.util.DoubleUtil;
  *
  */
 public abstract class GeoQuadricND extends GeoElement
-		implements GeoQuadricNDConstants, Traceable {
+		implements GeoQuadricNDConstants, QuadraticEquationRepresentable, Traceable {
 
 	private int dimension;
 	/** matrix dimension */
@@ -68,6 +71,8 @@ public abstract class GeoQuadricND extends GeoElement
 	public double eccentricity;
 	/** parabola parameter */
 	public double p;
+
+	protected String parameter = "t";
 
 	/** flag for isDefined() */
 	protected boolean defined = true;
@@ -110,7 +115,7 @@ public abstract class GeoQuadricND extends GeoElement
 	 */
 	public GeoQuadricND(Construction c) {
 		super(c);
-		toStringMode = GeoConicND.EQUATION_IMPLICIT;
+		toStringMode = Form.IMPLICIT.rawValue;
 	}
 
 	/**
@@ -125,7 +130,7 @@ public abstract class GeoQuadricND extends GeoElement
 	 */
 	public GeoQuadricND(Construction c, int dimension, boolean isIntersection) {
 		this(c);
-		this.toStringMode = GeoConicND.EQUATION_IMPLICIT;
+		this.toStringMode = Form.IMPLICIT.rawValue;
 		this.isIntersection = isIntersection;
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
@@ -627,7 +632,7 @@ public abstract class GeoQuadricND extends GeoElement
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-		if (toStringMode == GeoConicND.EQUATION_USER
+		if (toStringMode == Form.USER.rawValue
 				&& (isIndependent() || getParentAlgorithm().getClassName() == Algos.Expression)) {
 			return DescriptionMode.VALUE;
 		}
@@ -682,11 +687,26 @@ public abstract class GeoQuadricND extends GeoElement
 		return null;
 	}
 
-	/**
-	 * Make this specific eg. (x-a)^2+(y-b)^2+(z-c)^2
-	 */
-	public final void setToSpecific() {
-		toStringMode = GeoConicND.EQUATION_SPECIFIC;
+	@Override // EquationQuadric
+	@CheckForNull
+	public Form getEquationForm() {
+		return Form.valueOf(toStringMode);
+	}
+
+	@Override // EquationQuadric
+	public void setEquationForm(int toStringMode) {
+		Form equationForm = Form.valueOf(toStringMode);
+		if (equationForm != null) {
+			this.toStringMode = equationForm.rawValue;
+		}
+	}
+
+	@Override // EquationQuadric
+	public void setToParametric(String parameter) {
+		setEquationForm(Form.PARAMETRIC);
+		if (parameter != null) {
+			this.parameter = parameter;
+		}
 	}
 
 	protected boolean hasEqualMatrix(GeoQuadricND conic) {

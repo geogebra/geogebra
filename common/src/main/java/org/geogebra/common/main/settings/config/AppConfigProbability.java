@@ -3,7 +3,9 @@ package org.geogebra.common.main.settings.config;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.config.equationforms.DefaultEquationBehaviour;
 import org.geogebra.common.properties.factory.ProbabilityPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 
@@ -106,5 +108,10 @@ public class AppConfigProbability extends AppConfigGraphing {
 	@Override
 	public boolean hasSpreadsheetView() {
 		return false;
+	}
+
+	@Override
+	public EquationBehaviour getEquationBehaviour() {
+		return new DefaultEquationBehaviour();
 	}
 }

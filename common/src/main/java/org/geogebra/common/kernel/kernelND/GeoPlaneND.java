@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.kernelND;
 
+import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.matrix.Coords;
 
@@ -10,7 +11,7 @@ import org.geogebra.common.kernel.matrix.Coords;
  * @author mathieu
  *
  */
-public interface GeoPlaneND extends GeoCoordSys2D, EquationValue {
+public interface GeoPlaneND extends GeoCoordSys2D, EquationValue, LinearEquationRepresentable {
 
 	/**
 	 * sets the fading for the "ends" of the plane

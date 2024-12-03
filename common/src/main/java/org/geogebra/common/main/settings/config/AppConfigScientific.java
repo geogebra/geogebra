@@ -8,6 +8,7 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ScientificOperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
@@ -17,6 +18,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.AppKeyboardType;
+import org.geogebra.common.main.settings.config.equationforms.DefaultEquationBehaviour;
 import org.geogebra.common.main.syntax.suggestionfilter.ScientificSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.PropertiesFactory;
@@ -142,13 +144,8 @@ public class AppConfigScientific extends AppConfigGraphing {
 	}
 
 	@Override
-	public int getEnforcedLineEquationForm() {
-		return -1;
-	}
-
-	@Override
-	public int getEnforcedConicEquationForm() {
-		return -1;
+	public EquationBehaviour getEquationBehaviour() {
+		return new DefaultEquationBehaviour();
 	}
 
 	@Override

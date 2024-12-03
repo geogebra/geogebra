@@ -13,6 +13,7 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
@@ -696,7 +697,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
-		return getToStringMode() == GeoLine.EQUATION_USER || coeff == null;
+		return getToStringMode() == LinearEquationRepresentable.Form.USER.rawValue || coeff == null;
 	}
 
 	/**
@@ -1948,11 +1949,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	public void setToUser() {
-		toStringMode = GeoLine.EQUATION_USER;
-	}
-
-	@Override
 	public synchronized void preventPathCreation() {
 		calcPath = false;
 
@@ -1963,14 +1959,19 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		return getDefinition() != null;
 	}
 
-	@Override
+	@Override // GeoImplicit
 	public boolean isInputForm() {
-		return getToStringMode() == GeoLine.EQUATION_USER;
+		return getToStringMode() == LinearEquationRepresentable.Form.USER.rawValue;
 	}
 
-	@Override
+	@Override // GeoImplicit
+	public void setToUser() {
+		toStringMode = LinearEquationRepresentable.Form.USER.rawValue;
+	}
+
+	@Override // GeoImplicit
 	public void setToImplicit() {
-		toStringMode = GeoLine.EQUATION_IMPLICIT;
+		toStringMode = LinearEquationRepresentable.Form.IMPLICIT.rawValue;
 	}
 
 	@Override
@@ -2439,15 +2440,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-		if (toStringMode == GeoLine.EQUATION_USER) {
+		if (toStringMode == LinearEquationRepresentable.Form.USER.rawValue) {
 			return DescriptionMode.VALUE;
 		}
 		return super.getDescriptionMode();
-	}
-
-	@Override
-	public boolean setTypeFromXML(String style, String parameter, boolean force) {
-		return false;
 	}
 
 	@Override

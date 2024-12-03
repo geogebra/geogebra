@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.geos.XMLBuilder;
-import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -1864,11 +1863,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 	}
 
-	@Override
-	final public void setToUser() {
-		toStringMode = GeoConicND.EQUATION_USER;
-	}
-
 	/**
 	 * Set whether this line should be visible in AV when undefined
 	 * 
@@ -1897,12 +1891,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 		StringBuilder sbToValueString = new StringBuilder();
 		if (getDefinition() != null
-				&& (getToStringMode() == GeoConicND.EQUATION_USER)) {
+				&& (getEquationForm() == Form.USER)) {
 			return sbToValueString.append(getDefinition().toString(tpl));
 		}
 		switch (type) {
 		case QUADRIC_SPHERE:
-			if (getToStringMode() == GeoConicND.EQUATION_IMPLICIT) {
+			if (getEquationForm() == Form.IMPLICIT) {
 				return buildImplicitEquation(tpl);
 			}
 			buildSphereNDString(sbToValueString, tpl);
@@ -3464,22 +3458,17 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 
 	@Override
-	public boolean setTypeFromXML(String style, String parameter, boolean force) {
+	public boolean setEquationFormFromXML(String style, String parameter) {
 		if ("implicit".equals(style)) {
 			setToImplicit();
 		} else if ("specific".equals(style)) {
-			toStringMode = GeoConicND.EQUATION_SPECIFIC;
+			setToSpecific();
 		} else if ("user".equals(style)) {
 			setToUser();
 		} else {
 			return false;
 		}
 		return true;
-	}
-
-	@Override
-	public void setToImplicit() {
-		toStringMode = GeoConicND.EQUATION_IMPLICIT;
 	}
 
 	@Override

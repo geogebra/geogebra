@@ -50,7 +50,7 @@ public class GeoElementFactory {
 	 *
 	 * @return ray
 	 */
-	public GeoRay createGeoRay() {
+	public GeoRay createGeoRayWithCommand() {
 		return (GeoRay) create("Ray((1,1),(2,2))");
 	}
 

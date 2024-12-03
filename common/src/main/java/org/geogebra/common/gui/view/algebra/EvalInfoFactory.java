@@ -11,7 +11,6 @@ public class EvalInfoFactory {
 
 	private static final EvalInfo baseAVInfo = new EvalInfo(true, true)
 			.withSymbolic(true)
-			.withUserEquation(true)
 			.withAnalytics(true)
 			.withCopyingPlainVariables(true);
 

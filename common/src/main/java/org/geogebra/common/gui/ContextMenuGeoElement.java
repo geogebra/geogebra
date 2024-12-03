@@ -11,8 +11,9 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.arithmetic.Equation;
-import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -25,7 +26,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
-import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
@@ -112,7 +112,7 @@ public abstract class ContextMenuGeoElement {
 			GeoElement geo1 = geos2.get(i);
 			if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
 				GeoLine line1 = (GeoLine) geo1;
-				line1.setMode(GeoLine.EQUATION_IMPLICIT);
+				line1.setEquationForm(LinearEquationRepresentable.Form.IMPLICIT);
 				line1.updateRepaint();
 			}
 		}
@@ -129,7 +129,7 @@ public abstract class ContextMenuGeoElement {
 			GeoElement geo1 = geos2.get(i);
 			if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
 				GeoLine line1 = (GeoLine) geo1;
-				line1.setMode(GeoLine.EQUATION_EXPLICIT);
+				line1.setEquationForm(LinearEquationRepresentable.Form.EXPLICIT);
 				line1.updateRepaint();
 			}
 		}
@@ -146,7 +146,7 @@ public abstract class ContextMenuGeoElement {
 			GeoElement geo1 = geos2.get(i);
 			if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
 				GeoLine line1 = (GeoLine) geo1;
-				line1.setMode(GeoLine.EQUATION_GENERAL);
+				line1.setEquationForm(LinearEquationRepresentable.Form.GENERAL);
 				line1.updateRepaint();
 			}
 		}
@@ -163,7 +163,7 @@ public abstract class ContextMenuGeoElement {
 			GeoElement geo1 = geos2.get(i);
 			if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
 				GeoLine line1 = (GeoLine) geo1;
-				line1.setMode(GeoLine.PARAMETRIC);
+				line1.setEquationForm(LinearEquationRepresentable.Form.PARAMETRIC);
 				line1.updateRepaint();
 			}
 		}
@@ -177,11 +177,14 @@ public abstract class ContextMenuGeoElement {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof EquationValue) {
-				EquationValue conic1 = (EquationValue) geo1;
-				conic1.setToImplicit();
-				geo1.updateRepaint();
+			if (geo1 instanceof QuadraticEquationRepresentable) {
+				((QuadraticEquationRepresentable) geo1).setToImplicit();
+			} else if (geo1 instanceof GeoImplicit) {
+				((GeoImplicit) geo1).setToImplicit();
+			} else {
+				continue;
 			}
+			geo1.updateRepaint();
 		}
 		app.storeUndoInfo();
 	}
@@ -213,7 +216,7 @@ public abstract class ContextMenuGeoElement {
 			GeoElement geo1 = geos2.get(i);
 			if (geo1.getClass() == GeoConic.class) {
 				GeoConic conic1 = (GeoConic) geo1;
-				conic1.setToVertexform();
+				conic1.setToVertex();
 				conic1.updateRepaint();
 			}
 		}
@@ -230,7 +233,7 @@ public abstract class ContextMenuGeoElement {
 			GeoElement geo1 = geos2.get(i);
 			if (geo1.getClass() == GeoConic.class) {
 				GeoConic conic1 = (GeoConic) geo1;
-				conic1.setToConicform();
+				conic1.setToConic();
 				conic1.updateRepaint();
 			}
 		}
@@ -450,9 +453,17 @@ public abstract class ContextMenuGeoElement {
 	 * @param inputElement
 	 *            equation
 	 */
-	public void inputFormCmd(final EquationValue inputElement) {
-		inputElement.setToUser();
-		((GeoElement) inputElement).updateRepaint();
+	public void inputFormCmd(GeoElement inputElement) {
+		if (inputElement instanceof LinearEquationRepresentable) {
+			((LinearEquationRepresentable) inputElement).setToUser();
+		} else if (inputElement instanceof QuadraticEquationRepresentable) {
+			((QuadraticEquationRepresentable) inputElement).setToUser();
+		} else if (inputElement instanceof GeoImplicit) {
+			((GeoImplicit) inputElement).setToUser();
+		} else {
+			return;
+		}
+		inputElement.updateRepaint();
 		app.storeUndoInfo();
 	}
 
@@ -739,17 +750,13 @@ public abstract class ContextMenuGeoElement {
 	 */
 	public boolean needsInputFormItem(GeoElement geo) {
 		if (Equation.isAlgebraEquation(geo)) {
-			if (geo.isGeoLine()) {
-				return geo
-						.getToStringMode() != GeoLine.EQUATION_USER;
+			if (geo instanceof LinearEquationRepresentable) {
+				return ((LinearEquationRepresentable) geo).getEquationForm()
+						!= LinearEquationRepresentable.Form.USER;
 			}
-			if (geo.isGeoPlane()) {
-				return geo
-						.getToStringMode() != GeoLine.EQUATION_USER;
-			}
-			if (geo.isGeoConic() || geo.isGeoQuadric()) {
-				return geo
-						.getToStringMode() != GeoConicND.EQUATION_USER;
+			if (geo instanceof QuadraticEquationRepresentable) {
+				return ((QuadraticEquationRepresentable) geo).getEquationForm()
+						!= QuadraticEquationRepresentable.Form.USER;
 			}
 			if (geo instanceof GeoImplicit) {
 				return !((GeoImplicit) geo).isInputForm();

@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationBehaviour;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -44,7 +45,14 @@ public class AlgoRayPointVector extends AlgoElement {
 
 		// compute line through P, Q
 		compute();
+
 		setIncidence();
+
+		// note: GeoRay's equation form is initialized from construction defaults
+		EquationBehaviour equationBehaviour = kernel.getEquationBehaviour();
+		if (equationBehaviour != null) {
+			ray.setEquationForm(equationBehaviour.getRayCommandEquationForm());
+		}
 	}
 
 	private void setIncidence() {

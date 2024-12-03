@@ -2,10 +2,11 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.List;
 
-import org.geogebra.common.kernel.arithmetic.EquationValue;
+import org.geogebra.common.kernel.EquationBehaviour;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
@@ -33,10 +34,22 @@ public class ConicEqnModel extends MultipleOptionsModel {
 	@Override
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
-		if (LineEqnModel.forceInputForm(app, geo)) {
+		if (forceInputForm(geo)) {
 			return false;
 		}
-		return isValid(getObjectAt(index));
+		return isValid(geo);
+	}
+
+	public static boolean forceInputForm(GeoElementND geo) {
+		EquationBehaviour equationBehaviour = geo.getKernel().getEquationBehaviour();
+		boolean isUserInput = geo.getParentAlgorithm() == null;
+		if (geo instanceof QuadraticEquationRepresentable) {
+			if (isUserInput) {
+				return equationBehaviour.getConicAlgebraInputEquationForm() != null
+						&& !equationBehaviour.allowsChangingEquationFormsByUser();
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -44,7 +57,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 	 *            element
 	 * @return whether given geo is a quadric with different equation types
 	 */
-	public static boolean isValid(Object geo) {
+	public static boolean isValid(GeoElement geo) {
 		return geo instanceof GeoConic || geo instanceof GeoQuadric3DInterface;
 	}
 
@@ -140,33 +153,33 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			mode = -1;
 		}
 		switch (mode) {
-		case GeoConicND.EQUATION_SPECIFIC:
+		case QuadraticEquationRepresentable.Form.CONST_SPECIFIC:
 			if (specificIndex > -1) {
 				getListener().setSelectedIndex(specificIndex);
 			}
 			break;
 
-		case GeoConicND.EQUATION_EXPLICIT:
+		case QuadraticEquationRepresentable.Form.CONST_EXPLICIT:
 			if (explicitIndex > -1) {
 				getListener().setSelectedIndex(explicitIndex);
 			}
 			break;
 
-		case GeoConicND.EQUATION_IMPLICIT:
+		case QuadraticEquationRepresentable.Form.CONST_IMPLICIT:
 			getListener().setSelectedIndex(implicitIndex);
 			break;
-		case GeoConicND.EQUATION_PARAMETRIC:
+		case QuadraticEquationRepresentable.Form.CONST_PARAMETRIC:
 			getListener().setSelectedIndex(parametricIndex);
 			break;
-		case GeoConicND.EQUATION_USER:
+		case QuadraticEquationRepresentable.Form.CONST_USER:
 			getListener().setSelectedIndex(userIndex);
 			break;
-		case GeoConicND.EQUATION_VERTEX:
+		case QuadraticEquationRepresentable.Form.CONST_VERTEX:
 			if (vertexformIndex > -1) {
 				getListener().setSelectedIndex(vertexformIndex);
 			}
 			break;
-		case GeoConicND.EQUATION_CONICFORM:
+		case QuadraticEquationRepresentable.Form.CONST_CONICFORM:
 			if (conicformIndex > -1) {
 				getListener().setSelectedIndex(conicformIndex);
 			}
@@ -205,31 +218,20 @@ public class ConicEqnModel extends MultipleOptionsModel {
 	protected void apply(int index, int value) {
 		GeoQuadricND quad = getConicAt(index);
 		Log.debug(value + ":" + parametricIndex);
-		if (quad instanceof GeoConicND) {
-			GeoConicND geo = (GeoConicND) quad;
-			if (value == specificIndex) {
-				geo.setToSpecific();
-			} else if (value == explicitIndex) {
-				geo.setToExplicit();
-			} else if (value == implicitIndex) {
-				geo.setToImplicit();
-			} else if (value == userIndex) {
-				geo.setToUser();
-			} else if (value == parametricIndex) {
-				geo.setToParametric(null);
-			} else if (value == vertexformIndex) {
-				geo.setToVertexform();
-			} else if (value == conicformIndex) {
-				geo.setToConicform();
-			}
-		} else if (quad instanceof EquationValue) {
-			if (value == implicitIndex) {
-				((EquationValue) quad).setToImplicit();
-			} else if (value == userIndex) {
-				((EquationValue) quad).setToUser();
-			} else if (value == specificIndex) {
-				quad.setToSpecific();
-			}
+		if (value == specificIndex) {
+			quad.setToSpecific();
+		} else if (value == explicitIndex) {
+			quad.setToExplicit();
+		} else if (value == implicitIndex) {
+			quad.setToImplicit();
+		} else if (value == userIndex) {
+			quad.setToUser();
+		} else if (value == parametricIndex) {
+			quad.setToParametric(null);
+		} else if (value == vertexformIndex) {
+			quad.setToVertex();
+		} else if (value == conicformIndex) {
+			quad.setToConic();
 		}
 		quad.updateRepaint();
 	}

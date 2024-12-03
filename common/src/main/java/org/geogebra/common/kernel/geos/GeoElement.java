@@ -170,6 +170,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	/** label, value, caption, label+value */
 	public int labelMode = LABEL_DEFAULT;
 	/** cartesian, polar or complex */
+	// Note: This default value doesn't make sense for most elements (lines, circles, etc)
+	// but some code still relies on this initial value and would break if we'd change it.
 	protected int toStringMode = Kernel.COORD_CARTESIAN;
 	/** default (foreground) color */
 	protected GColor objColor = GColor.BLACK;
@@ -772,6 +774,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	/**
 	 * Set visual style from defaults
 	 */
+	// TODO rename to setVisualStyleFromConstructionDefaults?
 	final public void setConstructionDefaults() {
 		setConstructionDefaults(true, true);
 	}
@@ -1182,7 +1185,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * set visual style to geo, except for
+	 * Set visual style from geo, except for
 	 *  * auxiliary flag
 	 *  * fixed flag
 	 *  * selection allowed flag

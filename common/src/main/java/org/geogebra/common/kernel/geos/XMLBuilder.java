@@ -4,11 +4,12 @@ import java.util.Locale;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
-import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -206,28 +207,28 @@ public class XMLBuilder {
 	public static void appendEquationTypeLine(StringBuilder sb, int toStringMode,
 			String parameter) {
 		switch (toStringMode) {
-		case GeoLine.PARAMETRIC:
+		case LinearEquationRepresentable.Form.CONST_PARAMETRIC:
 			sb.append("\t<eqnStyle style=\"parametric\" parameter=\"");
 			sb.append(parameter);
 			sb.append("\"/>\n");
 			break;
-
-		case GeoLine.EQUATION_EXPLICIT:
+		case LinearEquationRepresentable.Form.CONST_IMPLICIT:
+			appendType(sb, "implicit");
+			break;
+		case LinearEquationRepresentable.Form.CONST_EXPLICIT:
 			appendType(sb, "explicit");
 			break;
-		case GeoLine.EQUATION_GENERAL:
+		case LinearEquationRepresentable.Form.CONST_GENERAL:
 			appendType(sb, "general");
 			break;
-		case GeoLine.EQUATION_USER:
+		case LinearEquationRepresentable.Form.CONST_USER:
 			appendType(sb, "user");
 			break;
-
-		case GeoLine.EQUATION_IMPLICIT_NON_CANONICAL:
+		case LinearEquationRepresentable.Form.CONST_IMPLICIT_NON_CANONICAL:
 			// don't want anything here
 			break;
-
 		default:
-			appendType(sb, "implicit");
+			break;
 		}
 
 	}
@@ -256,23 +257,22 @@ public class XMLBuilder {
 			int toStringMode, String parameter) {
 		// implicit or specific mode
 		switch (toStringMode) {
-		case GeoConicND.EQUATION_SPECIFIC:
+		case QuadraticEquationRepresentable.Form.CONST_SPECIFIC:
 			XMLBuilder.appendType(sb, "specific");
 			break;
-
-		case GeoConicND.EQUATION_EXPLICIT:
+		case QuadraticEquationRepresentable.Form.CONST_EXPLICIT:
 			XMLBuilder.appendType(sb, "explicit");
 			break;
-		case GeoConicND.EQUATION_USER:
+		case QuadraticEquationRepresentable.Form.CONST_USER:
 			XMLBuilder.appendType(sb, "user");
 			break;
-		case GeoConicND.EQUATION_VERTEX:
+		case QuadraticEquationRepresentable.Form.CONST_VERTEX:
 			XMLBuilder.appendType(sb, "vertex");
 			break;
-		case GeoConicND.EQUATION_CONICFORM:
+		case QuadraticEquationRepresentable.Form.CONST_CONICFORM:
 			XMLBuilder.appendType(sb, "conic");
 			break;
-		case GeoConicND.EQUATION_PARAMETRIC:
+		case QuadraticEquationRepresentable.Form.CONST_PARAMETRIC:
 			sb.append("\t<eqnStyle style=\"parametric\"/>\n");
 			break;
 

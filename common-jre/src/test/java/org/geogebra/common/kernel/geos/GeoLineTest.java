@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 
@@ -31,7 +32,7 @@ public class GeoLineTest extends BaseUnitTest {
 	public void testCoefficientRounding() {
 		GeoLine line = add("Line((0,11.25), (1,11.259))");
 		assertThat(line, hasValue("-0.01x + y = 11.25"));
-		line.setToStringMode(GeoLine.EQUATION_EXPLICIT);
+		line.setEquationForm(LinearEquationRepresentable.Form.EXPLICIT);
 		assertThat(line, hasValue("y = 0.01x + 11.25"));
 	}
 
@@ -39,7 +40,7 @@ public class GeoLineTest extends BaseUnitTest {
 	public void testCoefficientRoundingSmall() {
 		GeoLine line = add("Line((0,11.25), (1,11.2509))");
 		assertThat(line, hasValue("0x + y = 11.25"));
-		line.setToStringMode(GeoLine.EQUATION_EXPLICIT);
+		line.setEquationForm(LinearEquationRepresentable.Form.EXPLICIT);
 		assertThat(line, hasValue("y = 11.25"));
 	}
 

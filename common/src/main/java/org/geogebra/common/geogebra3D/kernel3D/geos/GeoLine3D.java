@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -73,8 +72,8 @@ public class GeoLine3D extends GeoCoordSys1D {
 	}
 
 	@Override
-	public void setToParametric(String s) {
-		this.parameter = s;
+	public void setToParametric(String parameter) {
+		this.parameter = parameter;
 	}
 
 	@Override
@@ -213,7 +212,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 	@Override
 	protected void getStyleXML(StringBuilder sb) {
 		super.getStyleXML(sb);
-		XMLBuilder.appendEquationTypeLine(sb, GeoLine.PARAMETRIC, parameter);
+		XMLBuilder.appendEquationTypeLine(sb, Form.PARAMETRIC.rawValue, parameter);
 	}
 
 	/**

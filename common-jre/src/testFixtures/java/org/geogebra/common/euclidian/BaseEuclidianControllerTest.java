@@ -12,6 +12,7 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.TestEvent;
 import org.junit.Before;
@@ -22,7 +23,7 @@ public class BaseEuclidianControllerTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
-		return AppCommonFactory.create3D();
+		return AppCommonFactory.create3D(new AppConfigDefault());
 	}
 
 	/**
@@ -172,7 +173,7 @@ public class BaseEuclidianControllerTest extends BaseUnitTest {
 				i++;
 			}
 		}
-		assertEquals(desc.length, i);
+		assertEquals("length mismatch between object names and argument", desc.length, i);
 	}
 
 	protected void checkContentLabels(String... labels) {

@@ -50,6 +50,8 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();
+
+		sphereND.setToSpecific();
 	}
 
 	abstract protected GeoQuadricND createSphereND(Construction cons1);

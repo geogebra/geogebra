@@ -76,6 +76,8 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 				autoColor();
 			}
 		}
+
+		sphereND.setToSpecific();
 	}
 
 	private void autoColor() {
@@ -155,6 +157,8 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute();
+
+		sphereND.setToSpecific();
 	}
 
 	/**

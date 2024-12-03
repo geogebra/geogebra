@@ -112,7 +112,6 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(0, 0);
 		click(100, 100);
 		checkContent("A = (0, 0)", "B = (2, -2)", "f: x + y = 0");
-
 	}
 
 	@Test
@@ -348,6 +347,9 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		setMode(EuclidianConstants.MODE_RAY);
 		click(0, 0);
 		click(100, 100);
+		// On master, the initial value of toStringMode = Kernel.COORD_CARTESIAN (=3)
+		// is interpreted as equation form IMPLICIT_NON_CANONICAL (=3), which gives
+		// 2x + 2y = 0; so this outcome is entirely coincidental, not by design!
 		checkContent("A = (0, 0)", "B = (2, -2)", "f: 2x + 2y = 0");
 	}
 
@@ -433,12 +435,12 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	@Test
 	public void mirrorAtPointTool() {
 		setMode(EuclidianConstants.MODE_MIRROR_AT_POINT);
-		click(0, 0);
-		click(100, 100);
-		String circle = "c: x^2 + y^2 = 25";
+		click(0, 0);  // A
+		click(100, 100); // reflection point B, reflected point A'
+		String circle = "c: x^2 + y^2 = 25"; // c: circle of radius 5 around origin
 		t(circle);
-		click(150, 200);
-		click(100, 100);
+		click(150, 200); // point on circle D
+		click(100, 100); // reflection point E
 		checkContent("A = (0, 0)", "B = (2, -2)", "A' = (4, -4)",
 				unicode(circle),
 				unicode("c': (x - 4)^2 + (y + 4)^2 = 25"));

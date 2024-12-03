@@ -614,4 +614,11 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
         return super.isDefined() || coordsys.hasZeroVx();
     }
 
+	@Override
+	public void setToParametric(String parameter) {
+		setEquationForm(Form.PARAMETRIC);
+		if (parameter != null) {
+			//this.parameter = parameter;
+		}
+	}
 }

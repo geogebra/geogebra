@@ -11,6 +11,8 @@ import javax.annotation.Nullable;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
+import org.geogebra.common.kernel.QuadraticEquationRepresentable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -20,7 +22,6 @@ import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ConditionalSerializer;
 import org.geogebra.common.kernel.arithmetic.Equation;
-import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -568,8 +569,10 @@ public class GeoSymbolic extends GeoElement
 		}
 		GeoElementND newTwin = createTwinGeo();
 
-		if (newTwin instanceof EquationValue) {
-			((EquationValue) newTwin).setToUser();
+		if (newTwin instanceof LinearEquationRepresentable) {
+			((LinearEquationRepresentable) newTwin).setToUser();
+		} else if (newTwin instanceof QuadraticEquationRepresentable) {
+			((QuadraticEquationRepresentable) newTwin).setToUser();
 		}
 
 		if (newTwin instanceof GeoList) {
