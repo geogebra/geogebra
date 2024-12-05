@@ -1302,11 +1302,10 @@ public class Ggb2giac {
 
 		p("PlotSolve.1", pointList.replace("%0", root1));
 
-
-
 		SolveODEGiac.add(Ggb2giac::p);
 		p("Substitute.2", "regroup(subst(%0,%1))");
 		p("Substitute.3", "regroup(subst(%0,%1,%2))");
+		p("Substitute.N", "regroup(subst(%0,%[1..]))");
 		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else
 		// sub(%1,!*hold(%0))");
 
