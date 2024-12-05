@@ -16,6 +16,7 @@ import org.junit.Assert;
 
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
+import com.himamis.retex.editor.share.editor.AddPlaceholders;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
@@ -205,6 +206,12 @@ class EditorChecker {
 		} catch (Exception e) {
 			Assert.fail("Problem parsing: " + input);
 		}
+		return this;
+	}
+
+	public EditorChecker withPlaceholders() {
+		new AddPlaceholders().process(mathField.getInternal().getFormula()
+				.getRootComponent().getArgument(0));
 		return this;
 	}
 
