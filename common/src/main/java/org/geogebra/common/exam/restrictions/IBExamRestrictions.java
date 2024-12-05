@@ -378,7 +378,9 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				null,
 				createSyntaxFilter(),
 				createToolCollectionFilter(),
-				createDistributionPropertyRestriction());
+				createDistributionPropertyRestriction(),
+				null,
+				null);
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
@@ -471,8 +473,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				EXPONENTIAL, CAUCHY, WEIBULL, GAMMA, BETA, LOGNORMAL, LOGISTIC, PASCAL
 		);
 		return Map.of("Distribution", new PropertyRestriction(false, value ->
-				!restrictedDistributions.contains(value)
-		));
+						!restrictedDistributions.contains(value)));
 	}
 
 	private static class IBExamCommandFilter extends BaseCommandArgumentFilter {

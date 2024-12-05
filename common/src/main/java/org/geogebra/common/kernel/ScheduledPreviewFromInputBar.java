@@ -1,11 +1,15 @@
 package org.geogebra.common.kernel;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.ConstructionElementSetup;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -38,6 +42,8 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	private GeoElement[] previewGeos;
 	private String[] sliders;
 
+	private final Set<ConstructionElementSetup> constructionElementSetups = new HashSet<>();
+
 	/**
 	 * @param kernel
 	 *            kernel
@@ -50,6 +56,28 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		this.kernel = kernel;
 		notFirstInput = false;
 		this.timeoutMs = timeoutMs;
+	}
+
+	/**
+	 * Adds a {@link ConstructionElementSetup} which can modify the initial setup of elements
+	 * for the preview.
+	 *
+	 * @param constructionElementSetup The {@link ConstructionElementSetup} to be added
+	 */
+	public void addConstructionElementSetup(
+			ConstructionElementSetup constructionElementSetup) {
+		constructionElementSetups.add(constructionElementSetup);
+	}
+
+	/**
+	 * Removes the previously added {@link ConstructionElementSetup} from this
+	 * {@code ScheduledPreviewFromInputBar}. Once removed, it will no longer affect
+	 * the initial setup of elements for the preview.
+	 *
+	 * @param constructionElementSetup The {@link ConstructionElementSetup} to be removed
+	 */
+	public void removeConstructionElementSetup(ConstructionElementSetup constructionElementSetup) {
+		constructionElementSetups.remove(constructionElementSetup);
 	}
 
 	private void setInput(String str, ErrorHandler validation) {
@@ -181,7 +209,10 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 						int i = 0;
 						for (GeoElementND geo : inputGeos) {
 							if (!geo.isLabelSet()) {
-								previewGeos[i++] = geo.toGeoElement();
+								GeoElement geoElement = geo.toGeoElement();
+								constructionElementSetups.forEach(setup ->
+										setup.applyTo(geoElement));
+								previewGeos[i++] = geoElement;
 							}
 						}
 					}

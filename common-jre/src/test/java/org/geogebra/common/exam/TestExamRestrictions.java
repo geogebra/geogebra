@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.contextmenu.ContextMenuItemFilter;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
@@ -25,10 +26,14 @@ import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.geos.ConstructionElementSetup;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.syntax.suggestionfilter.LineSelectorSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.properties.GeoElementPropertyFilter;
+import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 
 final class TestExamRestrictions extends ExamRestrictions {
 
@@ -45,7 +50,9 @@ final class TestExamRestrictions extends ExamRestrictions {
 				createContextMenuItemFilters(),
 				createSyntaxFilter(),
 				createToolCollectionFilter(),
-				createPropertyRestrictions());
+				createPropertyRestrictions(),
+				createGeoElementPropertyFilters(),
+				createConstructionElementSetups());
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
@@ -96,5 +103,22 @@ final class TestExamRestrictions extends ExamRestrictions {
 	private static Map<String, PropertyRestriction> createPropertyRestrictions() {
 		return Map.of("AngleUnit", new PropertyRestriction(true, value ->
 						value != Integer.valueOf(Kernel.ANGLE_DEGREES_MINUTES_SECONDS)));
+	}
+
+	private static Set<GeoElementPropertyFilter> createGeoElementPropertyFilters() {
+		return Set.of((property, geoElement) -> !(
+				property instanceof ShowObjectProperty
+				&& geoElement.isGeoPoint())
+		);
+	}
+
+	private static Set<ConstructionElementSetup> createConstructionElementSetups() {
+		return Set.of(constructionElement -> {
+			if (constructionElement instanceof GeoPoint) {
+				GeoPoint geoPoint = (GeoPoint) constructionElement;
+				geoPoint.setObjColor(GColor.RED);
+				geoPoint.setAlphaValue(1.0);
+			}
+		});
 	}
 }

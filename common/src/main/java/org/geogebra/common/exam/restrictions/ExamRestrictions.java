@@ -14,20 +14,25 @@ import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.geos.ConstructionElementSetup;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.properties.GeoElementPropertyFilter;
 import org.geogebra.common.properties.PropertiesRegistry;
 import org.geogebra.common.properties.PropertiesRegistryListener;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 
 /**
  * Represents restrictions that apply during exams.
@@ -36,7 +41,8 @@ import org.geogebra.common.properties.Property;
  * of this class.
  * Restrictions that apply to all exam types should be implemented in this class
  * (in {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,
- * Localization, Settings, AutocompleteProvider, ToolsProvider, ContextMenuFactory)}).
+ * Localization, Settings, AutocompleteProvider, ToolsProvider, GeoElementPropertiesFactory,
+ * Construction, ScheduledPreviewFromInputBar, ContextMenuFactory)}).
  * <p/>
  * Any restrictions to be applied during exams should be implemented in here (so that
  * everything is one place):
@@ -66,8 +72,10 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	private final SyntaxFilter syntaxFilter;
 	private final ToolCollectionFilter toolsFilter;
 	private final Map<String, PropertyRestriction> propertyRestrictions;
+	private final Set<GeoElementPropertyFilter> geoElementPropertyFilters;
+	private final Set<ConstructionElementSetup> constructionElementSetups;
 	private RestorableSettings savedSettings;
-	private Settings restrictedSettings = null ;
+	private Settings restrictedSettings = null;
 
 	/**
 	 * Factory for ExamRestrictions.
@@ -120,7 +128,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	 * to be applied to them during the exam.
 	 */
 	// TODO APPS-5867: add EquationBehaviour to exam
-	protected ExamRestrictions(@Nonnull ExamType examType,
+	protected ExamRestrictions(
+			@Nonnull ExamType examType,
 			@Nullable Set<SuiteSubApp> disabledSubApps,
 			@Nullable SuiteSubApp defaultSubApp,
 			@Nullable Set<ExamFeatureRestriction> featureRestrictions,
@@ -132,7 +141,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Set<ContextMenuItemFilter> contextMenuItemFilters,
 			@Nullable SyntaxFilter syntaxFilter,
 			@Nullable ToolCollectionFilter toolsFilter,
-			@Nullable Map<String, PropertyRestriction> propertyRestrictions) {
+			@Nullable Map<String, PropertyRestriction> propertyRestrictions,
+			@Nullable Set<GeoElementPropertyFilter> geoElementPropertyFilters,
+			@Nullable Set<ConstructionElementSetup> constructionElementSetups) {
 		this.examType = examType;
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
@@ -151,6 +162,10 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		this.toolsFilter = toolsFilter != null ? toolsFilter
 				: new ToolCollectionSetFilter(EuclidianConstants.MODE_IMAGE);
 		this.propertyRestrictions = propertyRestrictions != null ? propertyRestrictions : Map.of();
+		this.geoElementPropertyFilters = geoElementPropertyFilters != null
+				? geoElementPropertyFilters : Set.of();
+		this.constructionElementSetups = constructionElementSetups != null
+				? constructionElementSetups : Set.of();
 	}
 
 	/**
@@ -196,6 +211,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider,
+			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
+			@Nullable Construction construction,
+			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
 			@Nullable ContextMenuFactory contextMenuFactory) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
@@ -236,6 +254,16 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		}
 		if (toolsProvider != null && toolsFilter != null) {
 			toolsProvider.addToolsFilter(toolsFilter);
+		}
+		if (geoElementPropertiesFactory != null) {
+			geoElementPropertyFilters.forEach(geoElementPropertiesFactory::addFilter);
+		}
+		if (construction != null) {
+			constructionElementSetups.forEach(construction::addConstructionElementSetup);
+		}
+		if (scheduledPreviewFromInputBar != null) {
+			constructionElementSetups.forEach(
+					scheduledPreviewFromInputBar::addConstructionElementSetup);
 		}
 		if (contextMenuFactory != null) {
 			for (ContextMenuItemFilter contextMenuItemFilter : contextMenuItemFilters) {
@@ -300,7 +328,8 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 	/**
 	 * Remove the exam restrictions (i.e., undo the changes from
 	 * {@link #applyTo(CommandDispatcher, AlgebraProcessor, PropertiesRegistry, Object,
-	 * Localization, Settings, AutocompleteProvider, ToolsProvider, ContextMenuFactory)} ).
+	 * Localization, Settings, AutocompleteProvider, ToolsProvider, GeoElementPropertiesFactory,
+	 * Construction, ScheduledPreviewFromInputBar, ContextMenuFactory)}).
 	 */
 	public void removeFrom(
 			@Nullable CommandDispatcher commandDispatcher,
@@ -311,6 +340,9 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider,
+			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
+			@Nullable Construction construction,
+			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
 			@Nullable ContextMenuFactory contextMenuFactory) {
 		if (commandDispatcher != null) {
 			for (CommandFilter commandFilter : commandFilters) {
@@ -351,6 +383,16 @@ public class ExamRestrictions implements PropertiesRegistryListener {
 		}
 		if (toolsProvider != null && toolsFilter != null) {
 			toolsProvider.removeToolsFilter(toolsFilter);
+		}
+		if (geoElementPropertiesFactory != null) {
+			geoElementPropertyFilters.forEach(geoElementPropertiesFactory::removeFilter);
+		}
+		if (construction != null) {
+			constructionElementSetups.forEach(construction::removeConstructionElementSetup);
+		}
+		if (scheduledPreviewFromInputBar != null) {
+			constructionElementSetups.forEach(
+					scheduledPreviewFromInputBar::removeConstructionElementSetup);
 		}
 		if (contextMenuFactory != null) {
 			for (ContextMenuItemFilter contextMenuItemFilter : contextMenuItemFilters) {

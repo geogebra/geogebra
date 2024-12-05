@@ -19,6 +19,15 @@ import org.geogebra.common.exam.restrictions.cvte.MatrixExpressionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.ToolsProvider;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
+import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
+import org.geogebra.common.kernel.algos.ConstructionElement;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -27,14 +36,22 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.geos.ConstructionElementSetup;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.properties.GeoElementPropertyFilter;
 import org.geogebra.common.properties.PropertiesRegistry;
+import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
+import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
 
-final class CvteExamRestrictions extends ExamRestrictions {
+public final class CvteExamRestrictions extends ExamRestrictions {
 
 	private boolean casEnabled = true;
 
@@ -52,7 +69,9 @@ final class CvteExamRestrictions extends ExamRestrictions {
 				createContextMenuItemFilters(),
 				createSyntaxFilter(),
 				createToolsFilter(),
-				null);
+				null,
+				createPropertyFilters(),
+				createConstructionElementSetups());
 	}
 
 	@Override
@@ -65,6 +84,9 @@ final class CvteExamRestrictions extends ExamRestrictions {
 			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider,
+			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
+			@Nullable Construction construction,
+			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
 			@Nullable ContextMenuFactory contextMenuFactory) {
 		if (settings != null) {
 			casEnabled = settings.getCasSettings().isEnabled();
@@ -79,7 +101,9 @@ final class CvteExamRestrictions extends ExamRestrictions {
 			settings.getCasSettings().setEnabled(false);
 		}
 		super.applyTo(commandDispatcher, algebraProcessor, propertiesRegistry, context,
-				localization, settings, autoCompleteProvider, toolsProvider, contextMenuFactory);
+				localization, settings, autoCompleteProvider, toolsProvider,
+				geoElementPropertiesFactory, construction, scheduledPreviewFromInputBar,
+				contextMenuFactory);
 	}
 
 	@Override
@@ -92,9 +116,14 @@ final class CvteExamRestrictions extends ExamRestrictions {
 			@Nullable Settings settings,
 			@Nullable AutocompleteProvider autoCompleteProvider,
 			@Nullable ToolsProvider toolsProvider,
+			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
+			@Nullable Construction construction,
+			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
 			@Nullable ContextMenuFactory contextMenuFactory) {
 		super.removeFrom(commandDispatcher, algebraProcessor, propertiesRegistry, context,
-				localization, settings, autoCompleteProvider, toolsProvider, contextMenuFactory);
+				localization, settings, autoCompleteProvider, toolsProvider,
+				geoElementPropertiesFactory, construction, scheduledPreviewFromInputBar,
+				contextMenuFactory);
 		if (settings != null) {
 			settings.getCasSettings().setEnabled(casEnabled);
 		}
@@ -241,5 +270,150 @@ final class CvteExamRestrictions extends ExamRestrictions {
 
 	private static Set<ExpressionFilter> createOutputExpressionFilters() {
 		return Set.of(new MatrixExpressionFilter());
+	}
+
+	private static Set<GeoElementPropertyFilter> createPropertyFilters() {
+		return Set.of(new ShowObjectPropertyFilter());
+	}
+
+	private static Set<ConstructionElementSetup> createConstructionElementSetups() {
+		return Set.of(new EuclidianVisibilitySetup());
+	}
+
+	private static final class ShowObjectPropertyFilter implements GeoElementPropertyFilter {
+		@Override
+		public boolean isAllowed(Property property, GeoElement geoElement) {
+			if (property instanceof ShowObjectProperty) {
+				return isVisibilityEnabled(geoElement);
+			}
+			return true;
+		}
+	}
+
+	private static final class EuclidianVisibilitySetup implements ConstructionElementSetup {
+		@Override
+		public void applyTo(ConstructionElement constructionElement) {
+			if (constructionElement instanceof GeoElement) {
+				GeoElement geoElement = (GeoElement) constructionElement;
+
+				if (!isVisibilityEnabled(geoElement)) {
+					geoElement.setRestrictedEuclidianVisibility(true);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Determines whether the visibility of a {@code GeoElement} is enabled during CVTE exam.
+	 * <p>
+	 * This method is used to decide whether an element's visibility is restricted during CVTE exam.
+	 * <p>
+	 * If the visibility is enabled, it means that nothing should change after entering exam mode.
+	 * <p>
+	 * If the visibility is restricted, it means that
+	 * the element should never be shown in the Euclidean view,
+	 * it shouldn't have a show object property in its settings.
+	 * and the visibility toggle button should be disabled in the Algebra view.
+	 * @param geoElement the {@code GeoElement} to evaluate
+	 * @return {@code true} if the visibility is enabled, {@code false} if it is restricted.
+	 */
+	@SuppressWarnings({"PMD.SimplifyBooleanReturns", "checkstyle:RegexpSinglelineCheck"})
+	public static boolean isVisibilityEnabled(GeoElement geoElement) {
+		// Allow explicit equations
+		// E.g.: y = 2x
+		//       y = 5
+		//       y = x^2
+		//       y = x^3
+		//       y = x^2 - 5x + 2
+		if (isExplicitEquation(geoElement)) {
+			return true;
+		}
+
+		// Allow circles created by "Circle(<Center>, <Radius>)" command
+		// or "Circle: Center & Radius" tool
+		// E.g.: Circle((0, 0), 2)
+		//       Circle(A, 4)
+		if (geoElement.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
+			return true;
+		}
+
+		// Restrict the visibility of any other conic
+		// E.g.: x^2 + y^2 = 4
+		//       x^2 / 9 + x^2 / 4 = 1
+		//       x^2 - y^2 = 4
+		if (geoElement.isGeoConic()) {
+			return false;
+		}
+
+		// Allow linear equations
+		// E.g.: x = 0
+		//       x + y = 0
+		//       2x - 3y = 4
+		//       x = y
+		//       2x = y
+		//       y = 2x
+		if (isLinearEquation(geoElement)) {
+			return true;
+		}
+
+		// Restrict the visibility of any other equation
+		// E.g.: x^2 = 0
+		//       x^2 = 1
+		//       2^x = 0
+		//       sin(x) = 0
+		//       ln(x) = 0
+		//       |x - 3| = 0
+		//       x^2 = y
+		//       x^3 = y
+		//       y^2 = x
+		//       y^3 = x
+		//       x^3 + y^2 = 2
+		if (isEquation(geoElement)) {
+			return false;
+		}
+		
+		return true;
+	}
+
+	@Nullable
+	private static String unwrapVariable(ExpressionValue expressionValue) {
+		if (expressionValue instanceof FunctionVariable) {
+			return ((FunctionVariable) expressionValue).getSetVarString();
+		}
+		return null;
+	}
+
+	@Nullable
+	private static Equation unwrapEquation(GeoElement geoElement) {
+		ExpressionNode definition = geoElement.getDefinition();
+		if (definition != null && definition.unwrap() instanceof Equation) {
+			return (Equation) definition.unwrap();
+		}
+		if (geoElement instanceof EquationValue) {
+			return ((EquationValue) geoElement).getEquation();
+		}
+		return null;
+	}
+
+	private static boolean isEquation(GeoElement geoElement) {
+		ExpressionNode definition = geoElement.getDefinition();
+		return (definition != null && definition.unwrap() instanceof Equation)
+				|| geoElement instanceof EquationValue;
+	}
+
+	private static boolean isExplicitEquation(GeoElement geoElement) {
+		Equation equation = unwrapEquation(geoElement);
+		// A GeoElement is an explicit equation if
+		return
+				// it is an equation
+				equation != null
+				// with a single "y" variable on the left-hand side
+				&& "y".equals(unwrapVariable(equation.getLHS().unwrap()))
+				// and any variables on the right-hand side (if any) are all "x".
+				&& equation.getRHS().inspect(value -> "x".equals(unwrapVariable(value)));
+	}
+
+	private static boolean isLinearEquation(GeoElement geoElement) {
+		return geoElement instanceof GeoLine || geoElement instanceof GeoPlaneND;
 	}
 }

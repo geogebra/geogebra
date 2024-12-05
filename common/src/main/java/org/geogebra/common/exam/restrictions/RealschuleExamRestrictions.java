@@ -44,6 +44,8 @@ final class RealschuleExamRestrictions extends ExamRestrictions {
 				createContextMenuItemFilters(),
 				createSyntaxFilter(),
 				createToolsFilter(),
+				null,
+				null,
 				null);
 	}
 

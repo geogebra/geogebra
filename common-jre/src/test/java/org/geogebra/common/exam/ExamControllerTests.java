@@ -9,20 +9,18 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import org.geogebra.common.SuiteSubApp;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.exam.restrictions.ExamFeatureRestriction;
 import org.geogebra.common.exam.restrictions.ExamRestrictions;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.ownership.GlobalScope;
-import org.geogebra.common.properties.NamedEnumeratedProperty;
-import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
@@ -55,7 +53,7 @@ public final class ExamControllerTests extends BaseExamTests {
         assertNotNull(examController.getStartDate()); // started
         assertNull(examController.getFinishDate()); // not yet ended
         assertEquals(ExamState.ACTIVE, examController.getState());
-        assertEquals(Arrays.asList(ExamState.PREPARING, ExamState.ACTIVE), examStates);
+        assertEquals(List.of(ExamState.PREPARING, ExamState.ACTIVE), examStates);
         assertTrue(didRequestClearApps);
         assertTrue(didRequestClearClipboard);
         assertNotNull(activeMaterial);
@@ -88,7 +86,7 @@ public final class ExamControllerTests extends BaseExamTests {
         assertNotNull(examController.getFinishDate()); // ended
         assertNotNull(examController.getExamSummary(app.getConfig(), app.getLocalization()));
         assertEquals(ExamState.FINISHED, examController.getState());
-        assertEquals(Arrays.asList(
+        assertEquals(List.of(
                 ExamState.PREPARING,
                 ExamState.ACTIVE,
                 ExamState.FINISHED), examStates);
@@ -100,14 +98,12 @@ public final class ExamControllerTests extends BaseExamTests {
         examController.prepareExam();
         examController.startExam(ExamType.VLAANDEREN, null);
         examController.finishExam();
-        didRequestClearApps = false;
-        didRequestClearClipboard = false;
         examController.exitExam();
 
         assertNull(examController.getStartDate());
         assertNull(examController.getFinishDate());
         assertEquals(ExamState.IDLE, examController.getState()); // back to initial state
-        assertEquals(Arrays.asList(
+        assertEquals(List.of(
                 ExamState.PREPARING,
                 ExamState.ACTIVE,
                 ExamState.FINISHED,
@@ -141,9 +137,7 @@ public final class ExamControllerTests extends BaseExamTests {
     public void testRestrictions() {
         setInitialApp(SuiteSubApp.GRAPHING);
         examController.prepareExam();
-
-        examController.setExamRestrictionsForTesting(
-                new TestExamRestrictions(ExamType.VLAANDEREN));
+        examController.setExamRestrictionsForTesting(new TestExamRestrictions(ExamType.VLAANDEREN));
         examController.startExam(ExamType.VLAANDEREN, null);
 
         // feature restrictions
@@ -156,6 +150,12 @@ public final class ExamControllerTests extends BaseExamTests {
         assertNull(evaluate("true || false"));
         // context menu restrictions
         assertEquals(List.of(Text, Help), contextMenuFactory.makeInputContextMenu(true));
+        // geo element property filters
+        assertNull(geoElementPropertiesFactory.createShowObjectProperty(
+                app.getLocalization(),
+                List.of(new GeoPoint(app.getKernel().getConstruction()))));
+        // construction element setup
+        assertEquals(GColor.RED, evaluate("(1, 1)")[0].getFillColor());
 
         examController.finishExam();
         assertFalse(commandDispatcher.isAllowedByCommandFilters(Commands.Derivative));
@@ -207,8 +207,7 @@ public final class ExamControllerTests extends BaseExamTests {
     public void testToolsExcludedDuringExam() {
         setInitialApp(SuiteSubApp.GEOMETRY);
         examController.prepareExam();
-        examController.setExamRestrictionsForTesting(
-                new TestExamRestrictions(ExamType.GENERIC));
+        examController.setExamRestrictionsForTesting(new TestExamRestrictions(ExamType.GENERIC));
         examController.startExam(ExamType.GENERIC, null);
 
         assertFalse(app.getAvailableTools().contains(EuclidianConstants.MODE_POINT));
@@ -218,8 +217,7 @@ public final class ExamControllerTests extends BaseExamTests {
     public void testCommandArgumentFilter() {
         setInitialApp(SuiteSubApp.GRAPHING);
         examController.prepareExam();
-        examController.setExamRestrictionsForTesting(
-                new TestExamRestrictions(ExamType.GENERIC));
+        examController.setExamRestrictionsForTesting(new TestExamRestrictions(ExamType.GENERIC));
         examController.startExam(ExamType.GENERIC, null);
 
         assertNull(evaluate("Max(1, 2)"));

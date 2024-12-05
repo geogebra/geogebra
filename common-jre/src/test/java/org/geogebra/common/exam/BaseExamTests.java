@@ -27,6 +27,7 @@ import org.geogebra.common.main.settings.config.AppConfigProbability;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.properties.PropertiesRegistry;
+import org.geogebra.common.properties.factory.GeoElementPropertiesFactory;
 import org.geogebra.common.properties.impl.DefaultPropertiesRegistry;
 import org.geogebra.test.commands.ErrorAccumulator;
 import org.junit.Before;
@@ -35,10 +36,12 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
 
     protected final PropertiesRegistry propertiesRegistry =
             new DefaultPropertiesRegistry();
+    protected final GeoElementPropertiesFactory geoElementPropertiesFactory =
+            new GeoElementPropertiesFactory();
     protected final ContextMenuFactory contextMenuFactory =
             new ContextMenuFactory();
     protected final ExamController examController =
-            new ExamController(propertiesRegistry, contextMenuFactory);
+            new ExamController(propertiesRegistry, geoElementPropertiesFactory, contextMenuFactory);
 
     protected final List<ExamState> examStates = new ArrayList<>();
     protected final ErrorAccumulator errorAccumulator = new ErrorAccumulator();
@@ -82,7 +85,8 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         commandDispatcher = algebraProcessor.getCommandDispatcher();
         autocompleteProvider = new AutocompleteProvider(app, false);
         examController.setActiveContext(app, commandDispatcher, algebraProcessor,
-                app.getLocalization(), app.getSettings(), autocompleteProvider, app);
+                app.getLocalization(), app.getSettings(), autocompleteProvider, app,
+                app.getKernel().getConstruction(), app.getKernel().getInputPreviewHelper());
     }
 
     protected void setInitialApp(SuiteSubApp subApp) {
@@ -92,7 +96,8 @@ public abstract class BaseExamTests implements ExamControllerDelegate {
         commandDispatcher = algebraProcessor.getCommandDispatcher();
         autocompleteProvider = new AutocompleteProvider(app, false);
         examController.setActiveContext(app, commandDispatcher, algebraProcessor,
-                app.getLocalization(), app.getSettings(), autocompleteProvider, app);
+                app.getLocalization(), app.getSettings(), autocompleteProvider, app,
+                app.getKernel().getConstruction(), app.getKernel().getInputPreviewHelper());
     }
 
     protected GeoElementND[] evaluate(String expression) {

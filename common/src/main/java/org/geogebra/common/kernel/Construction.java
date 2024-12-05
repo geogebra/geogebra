@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.ConstructionElementSetup;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -201,6 +202,8 @@ public class Construction {
 
 	private LayerManager layerManager;
 
+	private final Set<ConstructionElementSetup> constructionElementSetups = new HashSet<>();
+
 	/**
 	 * Creates a new Construction.
 	 * @param k Kernel
@@ -243,6 +246,28 @@ public class Construction {
 		geoTable = new HashMap<>(200);
 		initGeoTables();
 		groups = new ArrayList<>();
+	}
+
+	/**
+	 * Adds a {@link ConstructionElementSetup} which can modify the initial setup of elements when
+	 * adding them to the {@code Construction} with {@link Construction#addToConstructionList}.
+	 *
+	 * @param constructionElementSetup The {@link ConstructionElementSetup} to be added
+	 */
+	public void addConstructionElementSetup(
+			ConstructionElementSetup constructionElementSetup) {
+		constructionElementSetups.add(constructionElementSetup);
+	}
+
+	/**
+	 * Removes the previously added {@link ConstructionElementSetup} from this {@code Construction}.
+	 * Once removed, it will no longer affect the initial setup of elements added to the
+	 * {@code Construction}.
+	 *
+	 * @param constructionElementSetup The {@link ConstructionElementSetup} to be removed
+	 */
+	public void removeConstructionElementSetup(ConstructionElementSetup constructionElementSetup) {
+		constructionElementSetups.remove(constructionElementSetup);
 	}
 
 	/**
@@ -784,6 +809,7 @@ public class Construction {
 	 * @param index index
 	 */
 	public void addToConstructionList(ConstructionElement ce, int index) {
+		constructionElementSetups.forEach(setup -> setup.applyTo(ce));
 		++step;
 		ceList.add(index, ce);
 		updateConstructionIndex(index);
