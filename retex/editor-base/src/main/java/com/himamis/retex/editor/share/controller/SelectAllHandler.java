@@ -87,6 +87,7 @@ public class SelectAllHandler {
 
 			if (isCharPlaceholder(editorState.getSelectionStart()) || right < left) {
 				editorState.setSelectionStart(null);
+				editorState.setSelectionEnd(null);
 			}
 		}
 	}

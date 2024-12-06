@@ -75,6 +75,20 @@ public class SelectAllTest {
 	}
 
 	@Test
+	public void testPointSelectFirst() {
+		EditorChecker checker = new EditorChecker(app);
+		checker.fromParser("(,,)")
+				.protect()
+				.withPlaceholders()
+				.left(20)
+				.setModifiers(KeyEvent.CTRL_MASK)
+				.typeKey(JavaKeyCodes.VK_A)
+				.right(1)
+				.type("4")
+				.checkAsciiMath("(,4,)");
+	}
+
+	@Test
 	public void listShouldSelectAllElements() {
 		EditorChecker checker = new EditorChecker(app);
 		checker.fromParser("{1,2,3}")
