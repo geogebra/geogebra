@@ -3252,15 +3252,15 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * @param parts
 	 *            output parameter
-	 * @param expandPlus
-	 *            whether to expand a/b+c/d to (ad+bc)/bd
+	 * @param expandPlusAndDecimals
+	 *            whether to expand a/b+c/d to (ad+bc)/bd and convert 0.5 to 1/2
 	 */
-	public void getFraction(ExpressionValue[] parts, boolean expandPlus) {
+	public void getFraction(ExpressionValue[] parts, boolean expandPlusAndDecimals) {
 		if (this.resolve != null && this.resolve.isExpressionNode()) {
-			this.resolve.wrap().getFraction(parts, expandPlus);
+			this.resolve.wrap().getFraction(parts, expandPlusAndDecimals);
 			return;
 		}
-		Fractions.getFraction(parts, this, expandPlus);
+		Fractions.getFraction(parts, this, expandPlusAndDecimals);
 	}
 
 	/**

@@ -87,21 +87,21 @@ public class Fractions {
 	}
 
 	private static boolean checkFraction(ExpressionValue[] parts, ExpressionValue lt,
-			boolean expandPlus) {
+			boolean expandPlusAndDecimals) {
 		if (lt == null) {
 			return false;
 		}
 		ExpressionValue left1 = lt.unwrap();
 		if (left1 instanceof ExpressionNode) {
-			((ExpressionNode) left1).getFraction(parts, expandPlus);
+			((ExpressionNode) left1).getFraction(parts, expandPlusAndDecimals);
 			return true;
 		} else if (left1 instanceof GeoNumeric && ((GeoNumeric) left1).getDefinition() != null) {
-			((GeoNumeric) left1).getFraction(parts, expandPlus);
+			((GeoNumeric) left1).getFraction(parts, expandPlusAndDecimals);
 			return true;
 		} else if (left1.isRecurringDecimal()) {
 			RecurringDecimal.asFraction(parts, left1.wrap());
 			return true;
-		} else if (left1 instanceof MySpecialDouble) {
+		} else if (left1 instanceof MySpecialDouble && expandPlusAndDecimals) {
 			return ((MySpecialDouble) left1).asFraction(parts);
 		}
 		return false;
@@ -112,21 +112,21 @@ public class Fractions {
 	 *            output: [numerator, denominator]
 	 * @param expr
 	 *            expression
-	 * @param expandPlus
-	 *            whether to expand a/d+b/c to a single fraction
+	 * @param expandPlusAndDecimals
+	 *            whether to expand a/d+b/c to a single fraction and convert 0.5 to 1/2
 	 */
 	protected static void getFraction(ExpressionValue[] parts, ExpressionNode expr,
-			boolean expandPlus) {
+			boolean expandPlusAndDecimals) {
 		if (expr.unwrap().isRecurringDecimal()) {
 			RecurringDecimal.asFraction(parts, expr);
 			return;
 		}
-		if (expr.unwrap() instanceof MySpecialDouble) {
+		if (expr.unwrap() instanceof MySpecialDouble && expandPlusAndDecimals) {
 			((MySpecialDouble) expr.unwrap()).asFraction(parts);
 			return;
 		}
 		ExpressionValue numL, numR, denL = null, denR = null;
-		if (checkFraction(parts, expr.getLeft(), expandPlus)) {
+		if (checkFraction(parts, expr.getLeft(), expandPlusAndDecimals)) {
 
 			numL = parts[0];
 			denL = parts[1];
@@ -140,7 +140,7 @@ public class Fractions {
 			return;
 		}
 
-		if (checkFraction(parts, expr.getRight(), expandPlus)) {
+		if (checkFraction(parts, expr.getRight(), expandPlusAndDecimals)) {
 			numR = parts[0];
 			denR = parts[1];
 		} else {
@@ -172,26 +172,26 @@ public class Fractions {
 			return;
 		case PLUS:
 		case INVISIBLE_PLUS:
-			if (expandPlus) {
+			if (expandPlusAndDecimals) {
 				parts[0] = multiplyCheck(denR, numL).wrap().plus(multiplyCheck(denL, numR));
 				parts[1] = multiplyCheck(denR, denL);
 				return;
 			}
 		case MINUS:
-			if (expandPlus) {
+			if (expandPlusAndDecimals) {
 				parts[0] = multiplyCheck(denR, numL).wrap().subtract(multiplyCheck(denL, numR));
 				parts[1] = multiplyCheck(denR, denL);
 				return;
 			}
 		case FUNCTION:
-			if (expandPlus && expr.getLeft() instanceof Functional) {
+			if (expandPlusAndDecimals && expr.getLeft() instanceof Functional) {
 				Function fn = ((Functional) expr.getLeft()).getFunction();
 				ExpressionValue at = denR == null ? numR : numR.wrap().divide(denR);
 				if (fn != null && at instanceof NumberValue) {
 					ExpressionNode expCopy = fn.getExpression().deepCopy(fn.getKernel());
 
 					expCopy.replace(fn.getFunctionVariables()[0], at);
-					expCopy.getFraction(parts, expandPlus);
+					expCopy.getFraction(parts, expandPlusAndDecimals);
 					return;
 				}
 			}
