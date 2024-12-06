@@ -425,7 +425,9 @@ public class DrawBarGraph extends Drawable {
 			coords[0] = xVal[N - 1] + halfWidth;
 			coords[1] = yVal[N - 1];
 			view.toScreenCoords(coords);
-			gp[gp.length - 1].lineTo(coords[0], coords[1]);
+			if (gp.length > 0) {
+				gp[gp.length - 1].lineTo(coords[0], coords[1]);
+			}
 
 			break;
 
@@ -480,18 +482,16 @@ public class DrawBarGraph extends Drawable {
 		} else {
 			n = barChart.getIntervals();
 		}
-
 		// adjust the lists
-		if (n > pts.size()) {
+		int pointCount = pts.size();
+		if (n > pointCount) {
 			// add
-			for (int i = pts.size(); i < n; i++) {
+			for (int i = pointCount; i < n; i++) {
 				addPt();
 			}
-		} else if (n < pts.size()) {
-			// remove
-			// for (int i = n; n < pts.size(); i++) {
+		} else if (n < pointCount && pointCount > 0) {
 			// remove in reverse order!
-			for (int i = pts.size() - 1; i >= n; i--) {
+			for (int i = pointCount - 1; i >= n; i--) {
 				pts.remove(i);
 				drawPoints.remove(i);
 			}

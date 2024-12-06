@@ -3834,6 +3834,9 @@ public class CommandsTestCommon extends BaseCommandTest {
 		t("StepGraph[{(1,1),(2,2),(3,3),(4,1/4),(5,1/5)},true]", "6.45");
 		t("StepGraph[{1,2,3,4,5}, {2,3,4},true,42]", "NaN");
 		t("StepGraph[{(1,1),(2,2),(3,3),(4,1/4),(5,1/5)},true,4]", "6.45");
+		t("StepGraph[{},{}]", "0");
+		t("StepGraph[{},{1}]", "0");
+		t("StepGraph[{1},{}]", "NaN");
 	}
 
 	@Test
