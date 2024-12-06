@@ -146,6 +146,16 @@ public class GeoGebraSerializer extends SerializerAdapter {
 			stringBuilder.append(mathFunction.getName().getFunction());
 			serializeArgs(mathFunction, stringBuilder, 0);
 			break;
+		case POINT:
+			stringBuilder.append("(");
+			serializeArgs(mathFunction, stringBuilder, 0);
+			stringBuilder.append(")");
+			break;
+		case POINT_AT:
+			stringBuilder.append("(");
+			serializeArgs(mathFunction, stringBuilder, 0, '|');
+			stringBuilder.append(")");
+			break;
 		case ABS: // no special handling for || so that invalid input saving works
 		default:
 			generalFunction(mathFunction, stringBuilder);
@@ -170,10 +180,14 @@ public class GeoGebraSerializer extends SerializerAdapter {
 
 	private void serializeArgs(MathFunction mathFunction,
 			StringBuilder stringBuilder, int offset) {
+		serializeArgs(mathFunction, stringBuilder, offset, ',');
+	}
+	private void serializeArgs(MathFunction mathFunction,
+			StringBuilder stringBuilder, int offset, char divider) {
 		stringBuilder.append(mathFunction.getOpeningBracket());
 		for (int i = offset; i < mathFunction.size(); i++) {
 			serialize(mathFunction.getArgument(i), stringBuilder);
-			stringBuilder.append(',');
+			stringBuilder.append(divider);
 		}
 		if (mathFunction.size() > offset) {
 			stringBuilder.deleteCharAt(stringBuilder.length() - 1);

@@ -43,6 +43,7 @@
  */
 package com.himamis.retex.renderer.web.geom;
 
+import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
 
 public class RoundRectangle2DW implements RoundRectangle2D {
@@ -122,6 +123,11 @@ public class RoundRectangle2DW implements RoundRectangle2D {
 		this.height = height;
 		this.arcW = arcW;
 		this.arcH = arcH;
+	}
+
+	@Override
+	public Rectangle2D getBounds2DX() {
+		return new Rectangle2DW(getX(), getY(), getWidth(), getHeight());
 	}
 
 }

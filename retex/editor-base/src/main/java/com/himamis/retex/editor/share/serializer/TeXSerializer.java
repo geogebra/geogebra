@@ -320,6 +320,12 @@ public class TeXSerializer extends SerializerAdapter {
 			serialize(function.getArgument(2), stringBuilder);
 			stringBuilder.append("}");
 			break;
+		case POINT:
+			point(function, stringBuilder, ",");
+			break;
+		case POINT_AT:
+			point(function, stringBuilder, "\\vert");
+			break;
 		case MIXED_NUMBER:
 			stringBuilder.append("{");
 			serialize(function.getArgument(0), stringBuilder);
@@ -348,6 +354,15 @@ public class TeXSerializer extends SerializerAdapter {
 		if (function == currentSelEnd) {
 			stringBuilder.append(selection_end);
 		}
+	}
+
+	private void point(MathFunction function, StringBuilder stringBuilder, String s) {
+
+		stringBuilder.append("\\left(");
+		serialize(function.getArgument(0), stringBuilder);
+		stringBuilder.append(s);
+		serialize(function.getArgument(1), stringBuilder);
+		stringBuilder.append("\\right)");
 	}
 
 	/**

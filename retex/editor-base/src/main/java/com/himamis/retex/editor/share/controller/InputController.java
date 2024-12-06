@@ -881,7 +881,8 @@ public class InputController {
 		return function.getName() == Tag.DEF_INT || function.getName() == Tag.SUM_EQ
 				|| function.getName() == Tag.PROD_EQ || function.getName() == Tag.LIM_EQ
 				|| function.getName() == Tag.ATOMIC_POST || function.getName() == Tag.ATOMIC_PRE
-				|| function.getName() == Tag.RECURRING_DECIMAL;
+				|| function.getName() == Tag.RECURRING_DECIMAL
+				|| function.getName() == Tag.POINT || function.getName() == Tag.POINT_AT;
 	}
 
 	private void deleteSingleArg(EditorState editorState) {

@@ -45,6 +45,10 @@ public enum Tag {
 
 	ATOMIC_POST("$atomicpost"),
 
+	POINT("$point"),
+
+	POINT_AT("$pointAt"),
+
 	MIXED_NUMBER("mixedNumber"),
 
 	RECURRING_DECIMAL("recurringDecimal"),
