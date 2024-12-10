@@ -45,14 +45,6 @@ tasks.register<GwtDev>("run") {
     description = "Starts a codeserver, and a simple webserver for development"
 }
 
-tasks.register<Jar>("jarAll") {
-    archiveClassifier = "all"
-    from(project.sourceSets.main.get().java)
-    from(project.sourceSets.main.get().output)
-    from(project(":renderer-base").sourceSets.main.get().java)
-    from(project(":renderer-base").sourceSets.main.get().output)
-}
-
 tasks.register<Jar>("jarSources") {
     dependsOn(tasks.classes)
     archiveClassifier = "sources"
