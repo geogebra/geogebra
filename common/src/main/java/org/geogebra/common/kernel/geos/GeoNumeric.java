@@ -2248,15 +2248,15 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * @param parts output array for [numerator,denominator]
-	 * @param expandPlus whether to expand + and - operations
+	 * @param expandPlusAndDecimals whether to expand + and - operations and convert decimal numbers
 	 */
-	public void getFraction(ExpressionValue[] parts, boolean expandPlus) {
+	public void getFraction(ExpressionValue[] parts, boolean expandPlusAndDecimals) {
 		if (getDefinition() == null) {
 			parts[0] = getNumber();
 			parts[1] = null;
 			return;
 		}
 		getDefinition().isFraction(); // force fraction caching
-		getDefinition().getFraction(parts, expandPlus);
+		getDefinition().getFraction(parts, expandPlusAndDecimals);
 	}
 }
