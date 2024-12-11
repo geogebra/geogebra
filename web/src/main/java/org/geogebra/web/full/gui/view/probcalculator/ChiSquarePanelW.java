@@ -113,7 +113,7 @@ public class ChiSquarePanelW extends ChiSquarePanel
 			cell[getSc().rows + 1][c].setMarginCell(true);
 		}
 
-		// row headers adn margins
+		// row headers and margins
 		for (int r = 0; r < getSc().rows + 1; r++) {
 			cell[r][0].setHeaderCell(true);
 			cell[r][getSc().columns + 1].setMarginCell(true);

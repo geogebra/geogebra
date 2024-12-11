@@ -220,7 +220,7 @@ public final class GeoGebraElement {
 	 */
 
 	public double getScaleY() {
-		// no instance fields in subclasses of Element, so no way to asign it to
+		// no instance fields in subclasses of Element, so no way to assign it to
 		// a simple field
 		if ("".equals(el.getAttribute("data-scaley"))) {
 			el.setAttribute("data-scaley", String.valueOf(envScale("y")));

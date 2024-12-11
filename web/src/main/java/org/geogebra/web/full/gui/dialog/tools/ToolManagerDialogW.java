@@ -43,7 +43,7 @@ import elemental2.dom.DomGlobal;
 import elemental2.dom.URL;
 
 public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDialogListener,
-		ToolNameIconPanelW.MacroChangeListener, MultiSelectButtonsPannel.ButtonsListener {
+		ToolNameIconPanelW.MacroChangeListener, MultiSelectButtonsPanel.ButtonsListener {
 
 	AppW appw;
 	final LocalizationW loc;
@@ -231,7 +231,7 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 	}
 
 	private FlowPanel createListUpDownRemovePanel() {
-		return new MultiSelectButtonsPannel(this);
+		return new MultiSelectButtonsPanel(this);
 	}
 
 	private StandardButton addStyledButton(SVGResource img, FlowPanel rootPanel,

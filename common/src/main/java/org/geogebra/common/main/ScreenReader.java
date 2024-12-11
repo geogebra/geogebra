@@ -29,7 +29,7 @@ public class ScreenReader {
 
 	/**
 	 * @param app - application
-	 * @return first seleted geo
+	 * @return first selected geo
 	 */
 	public static GeoElement getSelectedGeo(App app) {
 		if (app.getSelectionManager().getSelectedGeos().size() > 0) {
@@ -450,7 +450,7 @@ public class ScreenReader {
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
 		sb.append(loc.getMenu("PlayButton"));
 		sb.endSentence();
-		if (app.getKernel().getAnimatonManager().isRunning()) {
+		if (app.getKernel().getAnimationManager().isRunning()) {
 			sb.append(
 					loc.getMenuDefault("PressSpaceStopAnimation", "Press space to stop animation"));
 		} else {
@@ -470,7 +470,7 @@ public class ScreenReader {
 	public static void readAnimationState(App app) {
 		String text;
 		Localization loc = app.getLocalization();
-		if (app.getKernel().getAnimatonManager().isRunning()) {
+		if (app.getKernel().getAnimationManager().isRunning()) {
 			text = loc.getMenuDefault("AnimationStarted", "animation is started");
 		} else {
 			text = loc.getMenuDefault("AnimationStopped", "animation is stopped");

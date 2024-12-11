@@ -306,7 +306,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
 					img, loc.getMenu("Animation"),
 					getGeo().isAnimating()
-							&& app.getKernel().getAnimatonManager().isRunning(),
+							&& app.getKernel().getAnimationManager().isRunning(),
 					this::animationCmd
 			);
 			wrappedPopup.addItem(cmItem);

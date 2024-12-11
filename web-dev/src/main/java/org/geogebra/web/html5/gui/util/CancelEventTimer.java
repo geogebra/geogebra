@@ -62,7 +62,7 @@ public class CancelEventTimer {
 	/**
 	 * called at the end of any touch event
 	 */
-	public static void touchEventOccured() {
+	public static void touchEventOccurred() {
 		lastTouchEvent = System.currentTimeMillis();
 	}
 

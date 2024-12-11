@@ -665,9 +665,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	}
 
 	/**
-	 * Make all currrent rows draggable
+	 * Make all current rows draggable
 	 */
-	void makeTableRowsDragable() {
+	void makeTableRowsDraggable() {
 		for (int i = 0; i < table.getRowCount(); i++) {
 			try {
 				table.getRowElement(i).setDraggable(Element.DRAGGABLE_TRUE);
@@ -689,7 +689,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	}
 
 	void rowCountChanged() {
-		app.invokeLater(this::makeTableRowsDragable);
+		app.invokeLater(this::makeTableRowsDraggable);
 		scrollToConstructionStep();
 	}
 

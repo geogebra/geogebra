@@ -64,12 +64,12 @@ public class AlgebraControllerW extends AlgebraController
 
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
-		CancelEventTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccurred();
 	}
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
-		CancelEventTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccurred();
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class AlgebraControllerW extends AlgebraController
 				ZeroOffset.INSTANCE);
 
 		mousePressed(e);
-		CancelEventTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccurred();
 	}
 
 	@Override

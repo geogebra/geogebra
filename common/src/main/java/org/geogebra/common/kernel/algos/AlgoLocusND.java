@@ -472,7 +472,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		pathMover.init(copyP, minStepsInstance);
 
 		if (continuous) {
-			// continous constructions may need several parameter run throughs
+			// continuous constructions may need several parameter run throughs
 			// to draw all parts of the locus
 			max_runs = GeoLocusND.MAX_PATH_RUNS;
 		} else {
@@ -646,17 +646,17 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	}
 
 	/**
-	 * Calls Pcopy.updateCascade() to compute Qcopy. For non-continous
+	 * Calls Pcopy.updateCascade() to compute Qcopy. For non-continuous
 	 * constructions caching of previous paramater positions is used.
 	 */
 	private void pcopyUpdateCascade() {
 		if (continuous) {
-			// CONTINOUS construction
+			// Continuous construction:
 			// don't use caching for continuous constructions:
 			// the same position of Pcopy can have different results for Qcopy
 			copyP.updateCascade();
 		} else {
-			// NON-CONTINOUS construction
+			// Non-continuous construction:
 			// check if the path parameter's resulting Qcopy is already in cache
 			double param = copyP.getPathParameter().t;
 			GPoint2D cachedPoint = getCachedPoint(param);

@@ -147,7 +147,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	}
 
 	/**
-	 * Show this for the new drawbale after redefine; overriden to be async in desktop
+	 * Show this for the new drawbale after redefine; overridden to be async in desktop
 	 * @param drawable input box drawable
 	 */
 	protected void showRedefinedBox(DrawInputBox drawable) {

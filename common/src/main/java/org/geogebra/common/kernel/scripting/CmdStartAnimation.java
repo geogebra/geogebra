@@ -31,24 +31,24 @@ public class CmdStartAnimation extends CmdScripting {
 		switch (n) {
 		case 0:
 
-			app.getKernel().getAnimatonManager().startAnimation();
+			app.getKernel().getAnimationManager().startAnimation();
 			return new GeoElement[0];
 
 		case 1:
 			GeoElement[] arg = resArgs(c);
 			if (arg[0].isAnimatable()) {
 				arg[0].setAnimating(true);
-				app.getKernel().getAnimatonManager().startAnimation();
+				app.getKernel().getAnimationManager().startAnimation();
 				return arg;
 			} else if (arg[0].isGeoBoolean()) {
 
 				GeoBoolean geo = (GeoBoolean) arg[0];
 
 				if (geo.getBoolean()) {
-					app.getKernel().getAnimatonManager().startAnimation();
+					app.getKernel().getAnimationManager().startAnimation();
 
 				} else {
-					app.getKernel().getAnimatonManager().stopAnimation();
+					app.getKernel().getAnimationManager().stopAnimation();
 				}
 				return arg;
 			} else {
@@ -73,7 +73,7 @@ public class CmdStartAnimation extends CmdScripting {
 					arg[i].setAnimating(start);
 				}
 				if (start) {
-					app.getKernel().getAnimatonManager().startAnimation();
+					app.getKernel().getAnimationManager().startAnimation();
 				}
 			}
 

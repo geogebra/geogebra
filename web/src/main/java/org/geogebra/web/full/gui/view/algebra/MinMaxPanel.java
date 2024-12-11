@@ -32,7 +32,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	private static volatile MinMaxPanel openedMinMaxPanel = null;
 	private SliderTreeItemRetex sliderTreeItem;
 	/** min width of the panel */
-	public static final int MINMAX_MIN_WIDHT = 326;
+	public static final int MINMAX_MIN_WIDTH = 326;
 	private MinMaxAVField tfMin;
 	private MinMaxAVField tfMax;
 	private MinMaxAVField tfStep;
@@ -163,7 +163,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	 */
 	public void show() {
 		num.setAnimating(false);
-		this.sliderTreeItem.expandSize(MINMAX_MIN_WIDHT);
+		this.sliderTreeItem.expandSize(MINMAX_MIN_WIDTH);
 		this.sliderTreeItem.setSliderVisible(false);
 		setVisible(true);
 		setKeepOpen(true);

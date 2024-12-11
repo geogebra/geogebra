@@ -11,10 +11,10 @@ import org.geogebra.common.util.ScientificFormatAdapter;
 
 /**
  * This code formats numbers in Scientific Notation. The input Number object is
- * returned as a ScientificFormated string. There are two output styles: Pure
+ * returned as a string in a scientific format. There are two output styles: Pure
  * and Standard scientific notation. Pure formatted numbers have precisely the
  * number of digits specified by the significant digits (sigDig) parameter and
- * always specify a Base 10 Exponential(E). Standard formated numbers have the
+ * always specify a Base 10 Exponential(E). Standard formatted numbers have the
  * number of digits specified by the significant digits (sigDig) parameter but
  * will not have a Base 10 Exponential(E) if the number of digits in the
  * mantissa &lt;= maxWidth.
@@ -115,7 +115,7 @@ public class ScientificFormat extends Format
 	 * Sets the format style used. There are two output styles: Pure and
 	 * Standard scientific notation. Pure formatted numbers have precisely the
 	 * number of digits specified by the significant digits (sigDig) parameter
-	 * and always specify a Base 10 Exponential(E). Standard formated numbers
+	 * and always specify a Base 10 Exponential(E). Standard formatted numbers
 	 * have the number of digits specified by the significant digits (sigDig)
 	 * parameter but will not have a Base 10 Exponential(E) if the number of
 	 * digits in the mantissa &lt;= maxWidth.

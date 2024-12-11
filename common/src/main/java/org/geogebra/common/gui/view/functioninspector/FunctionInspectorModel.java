@@ -465,7 +465,7 @@ public class FunctionInspectorModel {
 	/**
 	 * @param x
 	 *            number
-	 * @return formated number
+	 * @return formatted number
 	 */
 	public String format(Double x) {
 		if (x == null) {
@@ -1080,7 +1080,7 @@ public class FunctionInspectorModel {
 	/**
 	 * HIde min/max points, show integral
 	 */
-	public void updateIntervalGeoVisiblity() {
+	public void updateIntervalGeoVisibility() {
 		minPoint.setEuclidianVisible(false);
 		minPoint.update();
 		maxPoint.setEuclidianVisible(false);

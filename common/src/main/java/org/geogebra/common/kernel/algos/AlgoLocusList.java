@@ -128,8 +128,8 @@ public class AlgoLocusList extends AlgoElement {
 		}
 
 		// AlgoLocusList should be called only when the path is a GeoList
-		GeoElement actel, pathp;
-		AlgoElement actal;
+		GeoElement actEl, pathPart;
+		AlgoElement actAlgo;
 		Path oldel;
 		// however...
 		try {
@@ -143,8 +143,8 @@ public class AlgoLocusList extends AlgoElement {
 			}
 			arrLocusSize = arrLocus.size();
 			for (int i = 0; i < ((GeoList) path).size(); i++) {
-				actel = ((GeoList) path).get(i);
-				if (actel instanceof Path) {
+				actEl = ((GeoList) path).get(i);
+				if (actEl instanceof Path) {
 					if (i < arrLocusSize) {
 						if (arrLocus.get(i) instanceof AlgoLocusList) {
 							oldel = ((AlgoLocusList) arrLocus.get(i))
@@ -155,7 +155,7 @@ public class AlgoLocusList extends AlgoElement {
 						} else {
 							oldel = null;
 						}
-						if (oldel == actel) {
+						if (oldel == actEl) {
 							if (shouldUpdateScreenBorders) {
 								if (arrLocus.get(i) instanceof AlgoLocus) {
 									((AlgoLocus) arrLocus.get(i))
@@ -170,33 +170,31 @@ public class AlgoLocusList extends AlgoElement {
 							continue;
 						}
 					}
-					P.setPath((Path) actel);
+					P.setPath((Path) actEl);
 
 					// new AlgoLocus(List) does not need updateScreenBorders and
 					// compute
 
-					if (actel instanceof GeoList) {
-						if (((GeoList) actel).shouldUseAlgoLocusList(true)) {
-							actal = new AlgoLocusList(cons, Q, P,
+					if (actEl instanceof GeoList) {
+						if (((GeoList) actEl).shouldUseAlgoLocusList(true)) {
+							actAlgo = new AlgoLocusList(cons, Q, P,
 									false);
-							pathp = ((AlgoLocusList) actal).getLocus();
+							pathPart = ((AlgoLocusList) actAlgo).getLocus();
 						} else {
-							actal = new AlgoLocus(cons, Q, P, try_steps, false);
-							pathp = ((AlgoLocus) actal).getLocus();
+							actAlgo = new AlgoLocus(cons, Q, P, try_steps, false);
+							pathPart = ((AlgoLocus) actAlgo).getLocus();
 						}
 					} else {
-						actal = new AlgoLocus(cons, Q, P, try_steps, false);
-						pathp = ((AlgoLocus) actal).getLocus();
+						actAlgo = new AlgoLocus(cons, Q, P, try_steps, false);
+						pathPart = ((AlgoLocus) actAlgo).getLocus();
 					}
-					cons.removeFromAlgorithmList(actal);
-					// cons.removeFromConstructionList(actal);
-					// cons.unregisterEuclidianViewCE(actal);
-					cons.removeFromConstructionList(pathp);
+					cons.removeFromAlgorithmList(actAlgo);
+					cons.removeFromConstructionList(pathPart);
 					P.setPath(path);
 					if (i < arrLocusSize) {
-						arrLocus.set(i, actal);
+						arrLocus.set(i, actAlgo);
 					} else {
-						arrLocus.add(actal);
+						arrLocus.add(actAlgo);
 					}
 				} else {
 					if (i < arrLocusSize) {

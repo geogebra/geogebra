@@ -228,7 +228,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		        EventUtil.getTouchOrClickClientX(event),
 		        EventUtil.getTouchOrClickClientY(event));
 		handleTouchMoveSelection(event);
-		CancelEventTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccurred();
 	}
 
 	@Override
@@ -240,7 +240,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		} else {
 			contextOpened = false;
 		}
-		CancelEventTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccurred();
 	}
 
 	@Override
@@ -252,7 +252,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		        EventUtil.getTouchOrClickClientX(event),
 		        EventUtil.getTouchOrClickClientY(event));
 		onPointerDown();
-		CancelEventTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccurred();
 	}
 
 	private void handleMouseDownSelection(MouseDownEvent event) {
@@ -334,7 +334,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		}
 		CASTableCellEditor editor = table.getEditor();
 		String text = editor.getInput();
-		// if closing paranthesis is typed and there is no opening parenthesis
+		// if closing parenthesis is typed and there is no opening parenthesis
 		// for it
 		// add one in the beginning
 		if (editingRow > 0 && text.length() == 0) {

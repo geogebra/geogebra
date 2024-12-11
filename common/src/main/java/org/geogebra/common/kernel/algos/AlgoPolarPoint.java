@@ -42,7 +42,7 @@ public class AlgoPolarPoint extends AlgoPolarPointND {
 		return new GeoPoint(cons1);
 	}
 
-	// calc polar line of P relativ to c
+	// calc polar line of P relative to c
 	@Override
 	public final void compute() {
 		c.polarPoint((GeoLine) line, (GeoPoint) polar);

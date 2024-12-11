@@ -1069,11 +1069,11 @@ public class Hits extends ArrayList<GeoElement> {
 	}
 
 	/**
-	 * Get hits only that are groupped together or have no group
+	 * Get hits only that are grouped together or have no group
 	 *
-	 *  @return the groupped geos.
+	 *  @return the grouped geos.
 	 */
-	public Hits getHitsGroupped() {
+	public Hits getHitsGrouped() {
 		Hits ret = new Hits();
 		for (int i = 0; i < size(); i++) {
 			GeoElement geo = get(i);

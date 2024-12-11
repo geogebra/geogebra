@@ -108,7 +108,7 @@ public class AppletParameters {
 	}
 
 	/**
-	 * @return data-param-json (string encoded ZIP file stucture)
+	 * @return data-param-json (string encoded ZIP file structure)
 	 */
 	public String getDataParamJSON() {
 		return getStringDataParam("json", "");
@@ -176,7 +176,7 @@ public class AppletParameters {
 	/**
 	 * @return rounding; consists of integer and suffix that determines whether
 	 *         significant figures are used (s) and whether fractions are
-	 *         prefered (r)
+	 *         preferred (r)
 	 */
 	public String getDataParamRounding() {
 		return getStringDataParam("rounding", "");
@@ -343,7 +343,7 @@ public class AppletParameters {
 	}
 
 	/**
-	 * @return wheter the applet should fit to screen
+	 * @return whether the applet should fit to screen
 	 */
 	public boolean getDataParamFitToScreen() {
 		return getBoolDataParam("fittoscreen", false) || getDataParamApp();
@@ -631,7 +631,7 @@ public class AppletParameters {
 	}
 
 	/**
-	 * @return value of data-param-fullscreeenContainer
+	 * @return value of data-param-fullscreenContainer
 	 */
 	public String getParamFullscreenContainer() {
 		return getStringDataParam("fullscreenContainer", "");

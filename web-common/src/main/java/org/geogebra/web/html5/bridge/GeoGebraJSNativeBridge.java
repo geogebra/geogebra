@@ -42,13 +42,13 @@ public final class GeoGebraJSNativeBridge {
 
 	@JsMethod
 	public native void saveFile(int materialId, String title, String base64,
-			String metaDatas, int callbackId);
+			String metaData, int callbackId);
 
 	@JsMethod
-	public native void createFileFromTube(String title, String base64, String metaDatas);
+	public native void createFileFromTube(String title, String base64, String metaData);
 
 	@JsMethod
-	public native void updateFileFromTube(String title, String base64, String metaDatas);
+	public native void updateFileFromTube(String title, String base64, String metaData);
 
 	@JsMethod
 	public native void openUrlInBrowser(String url);

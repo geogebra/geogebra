@@ -238,8 +238,8 @@ public class AlgebraTreeController extends AlgebraController
 		// if (app.selectedGeosSize() < 2) {
 		if (geo == null) {
 
-			ArrayList<GeoElement> childs = AlgebraTree.getGeoChildsForPath(tp);
-			if (childs == null || childs.size() == 0) { // if click on e.g.
+			ArrayList<GeoElement> children = AlgebraTree.getGeoChildrenForPath(tp);
+			if (children == null || children.size() == 0) { // if click on e.g.
 														// object type (like
 														// "Point"), then select
 														// all and popup menu
@@ -249,8 +249,8 @@ public class AlgebraTreeController extends AlgebraController
 				contextMenu.show(tree, e.getPoint().x, e.getPoint().y);
 			} else { // popup algebra menu
 				selection.clearSelectedGeos(false);
-				selection.addSelectedGeos(childs, true);
-				((GuiManagerD) app.getGuiManager()).showPopupMenu(childs, tree,
+				selection.addSelectedGeos(children, true);
+				((GuiManagerD) app.getGuiManager()).showPopupMenu(children, tree,
 						mouseCoords);
 			}
 

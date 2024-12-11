@@ -170,7 +170,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	}
 
 	/**
-	 * Apply settings to seleted geo(s).
+	 * Apply settings to selected geo(s).
 	 */
 	void applyCheckboxes() {
 		boolean name = cmName.isChecked();

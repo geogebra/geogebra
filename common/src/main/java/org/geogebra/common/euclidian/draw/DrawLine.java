@@ -159,7 +159,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 	 * @param functions
 	 *            preview functions
 	 * @param parallel
-	 *            true for paralel, false for perpendicular
+	 *            true for parallel, false for perpendicular
 	 */
 	public DrawLine(EuclidianView view, ArrayList<GeoPointND> points,
 					ArrayList<GeoLineND> lines, ArrayList<GeoFunction> functions,

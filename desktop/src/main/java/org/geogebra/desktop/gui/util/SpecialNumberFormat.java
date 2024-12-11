@@ -64,7 +64,7 @@ public class SpecialNumberFormat implements ActionListener {
 	 * 
 	 * @param x
 	 *            number
-	 * @return formated string
+	 * @return formatted string
 	 */
 	public String format(double x) {
 		StringTemplate highPrecision;

@@ -8,7 +8,7 @@ import org.geogebra.keyboard.base.Button;
 public interface WeightedButton extends Button {
 
     /**
-     * Returns the weight. Used to calculate the widht of the button relative to the
+     * Returns the weight. Used to calculate the width of the button relative to the
      * total width of the row. See {@link Row#getRowWeightSum()}.
      *
      * @return weight

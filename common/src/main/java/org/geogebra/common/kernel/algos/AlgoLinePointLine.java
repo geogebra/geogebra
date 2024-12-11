@@ -125,7 +125,7 @@ public class AlgoLinePointLine extends AlgoElement
 	// calc the line g through P and parallel to l
 	@Override
 	public final void compute() {
-		// homogenous:
+		// homogeneous:
 		GeoVec3D.cross(P, l.getY(), -l.getX(), 0.0, g);
 	}
 

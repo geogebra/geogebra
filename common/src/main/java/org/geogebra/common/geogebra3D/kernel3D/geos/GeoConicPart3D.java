@@ -187,7 +187,7 @@ public class GeoConicPart3D extends GeoConic3D
 	}
 
 	/**
-	 * Returns wheter c is equal to this conic part
+	 * Returns whether c is equal to this conic part
 	 */
 	@Override
 	final public ExtendedBoolean isEqualExtended(GeoElementND geo) {
@@ -321,7 +321,7 @@ public class GeoConicPart3D extends GeoConic3D
 	}
 
 	/**
-	 * states wheter P lies on this conic part or not
+	 * states whether P lies on this conic part or not
 	 */
 	@Override
 	public boolean isOnPath(GeoPointND PI, double precision) {

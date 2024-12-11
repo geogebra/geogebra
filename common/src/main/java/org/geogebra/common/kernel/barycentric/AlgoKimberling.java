@@ -11,7 +11,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
 /**
- * @author Zbynek Konecny, credit goes to Jason Cantarella of the Univerity of
+ * @author Zbynek Konecny, credit goes to Jason Cantarella of the University of
  *         Georgia for creating a perl script which was used to create this
  *         class.
  * @version 30-09-2011

@@ -23,7 +23,7 @@ public interface RectangleTransformable extends GeoElementND {
 	double getHeight();
 
 	/**
-	 * Get the widht of the element.
+	 * Get the width of the element.
 	 *
 	 * @return width
 	 */

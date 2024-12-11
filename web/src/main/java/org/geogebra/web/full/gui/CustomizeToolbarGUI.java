@@ -46,9 +46,9 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
         CustomizeToolbarListener {
 	private static final int PANEL_GAP = 30;
 	private static final int MARGIN_Y = 21;
-	private static final int ALLTOOLS_SCROLLPANEL_PADDING = 17;
-	private static final int DRAGABLE_TOOLS_PADDING = 55;
-	private static final int DRAGABLE_TOOLS_CHILD_PADDING = 16;
+	private static final int ALL_TOOLS_SCROLL_PANEL_PADDING = 17;
+	private static final int DRAGGABLE_TOOLS_PADDING = 55;
+	private static final int DRAGGABLE_TOOLS_CHILD_PADDING = 16;
 
 	/** application **/
 	AppW app;
@@ -71,7 +71,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	ToolTree toolTree;
 	/** element for dragging **/
 	static DraggableTool draggingTool = null;
-	private StandardButton btDefalutToolbar;
+	private StandardButton btDefaultToolbar;
 	private StandardButton btApply;
 	private String oldToolbarString;
 	private DockPanelW dockPanel;
@@ -326,7 +326,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			btn.addStyleName("toolbar_button");
 			setMode(mode);
 			int width = usedToolsPanelContent.getOffsetWidth()
-					- DRAGABLE_TOOLS_PADDING;
+					- DRAGGABLE_TOOLS_PADDING;
 			if (width > 0) {
 				setWidth(width + "px");
 			}
@@ -581,8 +581,8 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	}
 
 	private void addFooter() {
-		btDefalutToolbar = new StandardButton("");
-		btDefalutToolbar.addFastClickHandler(event -> {
+		btDefaultToolbar = new StandardButton("");
+		btDefaultToolbar.addFastClickHandler(event -> {
 			Log.debug("[Customize] reset");
 			resetDefaultToolbar();
 
@@ -596,7 +596,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 		FlowPanel btPanel = new FlowPanel();
 		btPanel.setStyleName("customizeToolbarButtonPanel");
-		btPanel.add(btDefalutToolbar);
+		btPanel.add(btDefaultToolbar);
 		btPanel.add(btApply);
 		setFooterWidget(btPanel);
 	}
@@ -810,7 +810,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		}
 		lblUsedTools.setText(loc.getMenu("Toolbar"));
 		lblAllTools.setText(loc.getMenu("Tools"));
-		btDefalutToolbar.setText(loc.getMenu("Toolbar.ResetDefault"));
+		btDefaultToolbar.setText(loc.getMenu("Toolbar.ResetDefault"));
 		btApply.setText(loc.getMenu("Apply"));
 	}
 
@@ -914,18 +914,18 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 		allToolsPanelContent.getElement().setAttribute(
 				"style",
-				"min-height: " + (h - ALLTOOLS_SCROLLPANEL_PADDING)
-						+ "px; width: " + (w - ALLTOOLS_SCROLLPANEL_PADDING)
+				"min-height: " + (h - ALL_TOOLS_SCROLL_PANEL_PADDING)
+						+ "px; width: " + (w - ALL_TOOLS_SCROLL_PANEL_PADDING)
 						+ "px");
 
 		// elements of usedTools
 		for (int i = 0; i < toolTree.getItemCount(); i++) {
 			final TreeItem branch = toolTree.getItem(i);
 			((DraggableTool) (branch.getUserObject()))
-					.setWidth((w - DRAGABLE_TOOLS_PADDING) + "px");
+					.setWidth((w - DRAGGABLE_TOOLS_PADDING) + "px");
 			for (int j = 0; j < branch.getChildCount(); j++) {
 				((DraggableTool) branch.getChild(j).getUserObject())
-						.setWidth((w - DRAGABLE_TOOLS_PADDING - DRAGABLE_TOOLS_CHILD_PADDING)
+						.setWidth((w - DRAGGABLE_TOOLS_PADDING - DRAGGABLE_TOOLS_CHILD_PADDING)
 								+ "px");
 			}
 		}
@@ -933,7 +933,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		// elements of allTools
 		for (int k = 0; k < allToolsPanelContent.getWidgetCount(); k++) {
 			allToolsPanelContent.getWidget(k).setWidth(
-					(w - DRAGABLE_TOOLS_PADDING) + "px");
+					(w - DRAGGABLE_TOOLS_PADDING) + "px");
 		}
 
 	}

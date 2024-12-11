@@ -56,7 +56,7 @@ public abstract class ClickStartHandler {
 			handler.onClickStart(event.getTouches().get(0).getClientX(),
 					event.getTouches().get(0).getClientY(),
 					PointerEventType.TOUCH);
-			CancelEventTimer.touchEventOccured();
+			CancelEventTimer.touchEventOccurred();
 		}, TouchStartEvent.getType());
 		return HandlerRegistrations.compose(mouseReg, touchReg);
 	}

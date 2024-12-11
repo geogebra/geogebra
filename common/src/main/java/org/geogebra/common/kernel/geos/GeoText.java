@@ -97,7 +97,7 @@ public class GeoText extends GeoElement
 	private ExpressionValue spreadsheetTraceableValue;
 	private ExpressionNode spreadsheetTraceableLeftTree;
 
-	/** index of exra small modifier */
+	/** index of extra small modifier */
 	final public static int FONTSIZE_EXTRA_SMALL = 0;
 	/** index of very small modifier */
 	final public static int FONTSIZE_VERY_SMALL = 1;
@@ -109,7 +109,7 @@ public class GeoText extends GeoElement
 	final public static int FONTSIZE_LARGE = 4;
 	/** index of very large modifier */
 	final public static int FONTSIZE_VERY_LARGE = 5;
-	/** index of exra large modifier */
+	/** index of extra large modifier */
 	final public static int FONTSIZE_EXTRA_LARGE = 6;
 
 	// for absolute screen location

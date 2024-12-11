@@ -30,7 +30,7 @@ public class Paths extends ArrayList<Path> {
 	public static Paths openPathsFromPolyTree(PolyTree polytree) {
 		final Paths result = new Paths();
 		// result.Capacity = polytree.ChildCount;
-		for (final PolyNode c : polytree.getChilds()) {
+		for (final PolyNode c : polytree.getChildren()) {
 			if (c.isOpen()) {
 				result.add(c.getPolygon());
 			}
@@ -61,7 +61,7 @@ public class Paths extends ArrayList<Path> {
 		if (polynode.getPolygon().size() > 0 && match) {
 			add(polynode.getPolygon());
 		}
-		for (final PolyNode pn : polynode.getChilds()) {
+		for (final PolyNode pn : polynode.getChildren()) {
 			addPolyNode(pn, nt);
 		}
 	}

@@ -70,7 +70,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 	private int numberOfTouches = 0;
 	private boolean isOverDot = false;
-	private boolean isDragingDot = false;
+	private boolean isDraggingDot = false;
 
 	private int lastMouseX;
 	private int lastMouseY;
@@ -194,7 +194,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			longTouchManager.scheduleTimer(this, mouseX, mouseY);
 		} // else there are double (or more) touches
 		  // and we are scrolling
-		CancelEventTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccurred();
 	}
 
 	private void handlePointerDown(DomEvent<?> event) {
@@ -232,7 +232,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 		if (isOverDot) {
 			if (table.showCanDragBlueDot()) {
-				isDragingDot = true;
+				isDraggingDot = true;
 			}
 		} else {
 			if (!isCurrentSelection(point)) {
@@ -331,7 +331,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		if (numberOfTouches == 1) {
 			handlePointerUp(event);
 		}
-		CancelEventTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccurred();
 	}
 
 	private void handlePointerUp(DomEvent<?> event) {
@@ -348,7 +348,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			showContextMenu(event);
 		}
 
-		if (isDragingDot) {
+		if (isDraggingDot) {
 			boolean success = doDragCopy();
 			if (success) {
 				app.storeUndoInfo();
@@ -433,7 +433,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 	private void resetDraggingFlags() {
 		isOverDot = false;
-		isDragingDot = false;
+		isDraggingDot = false;
 		table.draggingToRow = -1;
 		table.draggingToColumn = -1;
 	}
@@ -481,7 +481,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		} else {
 			longTouchManager.cancelTimer();
 		}
-		CancelEventTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccurred();
 	}
 
 	@Override
@@ -554,7 +554,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			}
 
 			// handle dot drag
-			if (isDragingDot) {
+			if (isDraggingDot) {
 				table.draggingToRow = point.row;
 				table.draggingToColumn = point.column;
 

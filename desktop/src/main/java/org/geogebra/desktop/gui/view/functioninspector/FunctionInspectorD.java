@@ -40,8 +40,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -258,7 +256,7 @@ public class FunctionInspectorD extends FunctionInspector
 		modelInterval.setRowCount(pointCount);
 		tableInterval.setModel(modelInterval);
 		tableInterval.getSelectionModel()
-				.addListSelectionListener(e -> getModel().updateIntervalGeoVisiblity());
+				.addListSelectionListener(e -> getModel().updateIntervalGeoVisibility());
 
 		lblGeoName = new JLabel(getModel().getTitleString());
 		lblGeoName.setFont(getAppD().getBoldFont());

@@ -371,7 +371,7 @@ public class ModeToggleMenuW extends ListItem
 	public void onTouchStart(TouchStartEvent event) {
 		if (event.getSource() == tbutton) {
 			onStart(event);
-			CancelEventTimer.touchEventOccured();
+			CancelEventTimer.touchEventOccurred();
 		} else { // clicked on a submenu list item
 			event.stopPropagation(); // the submenu doesn't close as a popup,
 										// see GeoGebraAppFrame init()
@@ -382,7 +382,7 @@ public class ModeToggleMenuW extends ListItem
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
 		onEnd(event);
-		CancelEventTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccurred();
 	}
 
 	@Override

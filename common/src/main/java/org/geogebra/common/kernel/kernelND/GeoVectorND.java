@@ -75,7 +75,7 @@ public interface GeoVectorND
 	 * @param z
 	 *            z-coord
 	 * @param w
-	 *            inhomogenous w for 3D vectors
+	 *            inhomogeneous w for 3D vectors
 	 */
 	public void setCoords(double x, double y, double z, double w);
 

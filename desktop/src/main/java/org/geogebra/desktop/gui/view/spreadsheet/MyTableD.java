@@ -105,7 +105,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	private boolean allowEditing = false;
 
-	private SpreadsheetModeProcessor spredsheetModeProcessor;
+	private SpreadsheetModeProcessor spreadsheetModeProcessor;
 
 	/**
 	 * All currently selected cell ranges are held in this list. Cell ranges are
@@ -134,9 +134,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	private Color selectionRectangleColor = SELECTED_RECTANGLE_COLOR;
 
 	// Dragging vars
-	protected boolean isDragingDot = false;
-	protected int dragingToRow = -1;
-	protected int dragingToColumn = -1;
+	protected boolean isDraggingDot = false;
+	protected int draggingToRow = -1;
+	protected int draggingToColumn = -1;
 	protected boolean isOverDot = false;
 	protected boolean isDragging2 = false;
 
@@ -1115,13 +1115,13 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		}
 
 		// draw dragging frame
-		if (dragingToRow != -1 && dragingToColumn != -1) {
+		if (draggingToRow != -1 && draggingToColumn != -1) {
 			// -|1|-
 			// 2|-|3
 			// -|4|-
 			graphics.setColor(Color.gray);
-			if (dragingToColumn < minSelectionColumn) { // 2
-				GPoint point1 = getPixel(dragingToColumn, minSelectionRow,
+			if (draggingToColumn < minSelectionColumn) { // 2
+				GPoint point1 = getPixel(draggingToColumn, minSelectionRow,
 						true);
 				GPoint point2 = getPixel(minSelectionColumn - 1,
 						maxSelectionRow, false);
@@ -1133,10 +1133,10 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
 				graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1,
 						LINE_THICKNESS1);
-			} else if (dragingToRow > maxSelectionRow) { // 4
+			} else if (draggingToRow > maxSelectionRow) { // 4
 				GPoint point1 = getPixel(minSelectionColumn,
 						maxSelectionRow + 1, true);
-				GPoint point2 = getPixel(maxSelectionColumn, dragingToRow,
+				GPoint point2 = getPixel(maxSelectionColumn, draggingToRow,
 						false);
 				int x1 = point1.getX();
 				int y1 = point1.getY();
@@ -1147,8 +1147,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 						LINE_THICKNESS1);
 				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1,
 						y2 - y1);
-			} else if (dragingToRow < minSelectionRow) { // 1
-				GPoint point1 = getPixel(minSelectionColumn, dragingToRow,
+			} else if (draggingToRow < minSelectionRow) { // 1
+				GPoint point1 = getPixel(minSelectionColumn, draggingToRow,
 						true);
 				GPoint point2 = getPixel(maxSelectionColumn,
 						minSelectionRow - 1, false);
@@ -1160,10 +1160,10 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
 				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1,
 						y2 - y1);
-			} else if (dragingToColumn > maxSelectionColumn) { // 3
+			} else if (draggingToColumn > maxSelectionColumn) { // 3
 				GPoint point1 = getPixel(maxSelectionColumn + 1,
 						minSelectionRow, true);
-				GPoint point2 = getPixel(dragingToColumn, maxSelectionRow,
+				GPoint point2 = getPixel(draggingToColumn, maxSelectionRow,
 						false);
 				int x1 = point1.getX();
 				int y1 = point1.getY();
@@ -1813,11 +1813,11 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * @return spreadsheet mode processor
 	 */
 	public SpreadsheetModeProcessor getSpreadsheetModeProcessor() {
-		if (this.spredsheetModeProcessor == null) {
-			this.spredsheetModeProcessor = new SpreadsheetModeProcessor(app,
+		if (this.spreadsheetModeProcessor == null) {
+			this.spreadsheetModeProcessor = new SpreadsheetModeProcessor(app,
 					this);
 		}
-		return this.spredsheetModeProcessor;
+		return this.spreadsheetModeProcessor;
 	}
 
 }

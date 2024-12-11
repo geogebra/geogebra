@@ -13,7 +13,7 @@ the Free Software Foundation.
 /*
  * GeoVector.java
  *
- * The vector (x,y) has homogenous coordinates (x,y,0)
+ * The vector (x,y) has homogeneous coordinates (x,y,0)
  *
  * Created on 30. August 2001, 17:39
  */
@@ -713,7 +713,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 				pathStartPoint.inhomY + y, 1.0);
 
 		GeoVec3D.lineThroughPoints(pathStartPoint, pathEndPoint, pathSegment);
-		// length is used in GeoSement.pointChanged() and
+		// length is used in GeoSegment.pointChanged() and
 		// GeoSegment.pathChanged()
 		pathSegment.calcLength();
 	}

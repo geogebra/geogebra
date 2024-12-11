@@ -2092,15 +2092,15 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		}
 
 		try {
-			String verticalAsymptotes = transformedVericalAsymptotes(
+			String verticalAsymptotes = transformedVerticalAsymptotes(
 					"Numerator(Simplify(1/(", ")))", funVarStr);
 
 			// eg f(x):=2^x / (2^x - 3^x) gives "{?}"
 			if (GeoFunction.isInvalidForAsymptote(verticalAsymptotes)) {
-				verticalAsymptotes = transformedVericalAsymptotes(
+				verticalAsymptotes = transformedVerticalAsymptotes(
 						"Denominator(", ")", funVarStr);
 			}
-			String expAsymptotes = transformedVericalAsymptotes(
+			String expAsymptotes = transformedVerticalAsymptotes(
 					"ExpSimplify(exp(Numerator(",
 					")))", funVarStr);
 			if (GeoFunction.isInvalidForAsymptote(verticalAsymptotes)
@@ -2186,7 +2186,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				/ closeByValue) > 1E8;
 	}
 
-	private String transformedVericalAsymptotes(String transform, String suffix,
+	private String transformedVerticalAsymptotes(String transform, String suffix,
 			String[] funVarStr) {
 		sbCasCommand.setLength(0);
 

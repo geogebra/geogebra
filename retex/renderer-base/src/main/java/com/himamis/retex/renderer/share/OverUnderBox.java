@@ -50,7 +50,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 
 /**
  * A box representing another box with a delimiter box and a script box above or
- * under it, with script and delimiter seperated by a kern.
+ * under it, with script and delimiter separated by a kern.
  */
 public class OverUnderBox extends Box {
 

@@ -277,7 +277,7 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 
 	@Override
 	protected int getWidthForEdit() {
-		return MinMaxPanel.MINMAX_MIN_WIDHT;
+		return MinMaxPanel.MINMAX_MIN_WIDTH;
 	}
 
 	@Override

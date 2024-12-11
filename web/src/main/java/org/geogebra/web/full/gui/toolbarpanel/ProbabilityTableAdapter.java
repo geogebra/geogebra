@@ -43,11 +43,11 @@ public class ProbabilityTableAdapter extends ProbabilityTable {
 	}
 
 	@Override
-	public void setTable(ProbabilityCalculatorSettings.Dist distType, GeoNumberValue[] parms,
+	public void setTable(ProbabilityCalculatorSettings.Dist distType, GeoNumberValue[] params,
 			int xMin, int xMax) {
 		rows.clear();
-		setTableModel(distType, parms, xMin, xMax);
-		fillRows(distType, parms, xMin, xMax);
+		setTableModel(distType, params, xMin, xMax);
+		fillRows(distType, params, xMin, xMax);
 		table.refresh();
 	}
 

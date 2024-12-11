@@ -23,10 +23,10 @@ import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
 
 public class ScientificDefaultKeyboardFactory implements KeyboardModelFactory {
 
-    private final boolean showAnsButtton;
+    private final boolean showAnsButton;
 
     public ScientificDefaultKeyboardFactory(boolean showAnsButton) {
-        this.showAnsButtton = showAnsButton;
+        this.showAnsButton = showAnsButton;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ScientificDefaultKeyboardFactory implements KeyboardModelFactory {
                 Action.BACKSPACE_DELETE);
 
         row = mathKeyboard.nextRow();
-        if (showAnsButtton) {
+        if (showAnsButton) {
             addCustomButton(row, buttonFactory, "ans", Action.ANS);
         } else {
             addConstantInputButton(row, buttonFactory, Resource.MIXED_NUMBER, "mixedNumber");

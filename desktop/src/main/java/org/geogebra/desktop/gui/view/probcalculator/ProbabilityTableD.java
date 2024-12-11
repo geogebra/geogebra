@@ -58,15 +58,15 @@ public class ProbabilityTableD extends ProbabilityTable
 	}
 
 	@Override
-	public void setTable(Dist distType, GeoNumberValue[] parms, int xMin, int xMax) {
+	public void setTable(Dist distType, GeoNumberValue[] params, int xMin, int xMax) {
 
 		setIniting(true);
 
-		this.setTableModel(distType, parms, xMin, xMax);
+		this.setTableModel(distType, params, xMin, xMax);
 
 		statTable.setStatTable(xMax - xMin + 1, null, 2, getColumnNames());
 
-		fillRows(distType, parms, xMin, xMax);
+		fillRows(distType, params, xMin, xMax);
 
 		updateFonts(((AppD) getApp()).getPlainFont());
 

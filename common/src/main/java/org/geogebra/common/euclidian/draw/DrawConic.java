@@ -112,7 +112,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	/** transform for ellipse, hyperbola, parabola */
 	protected GAffineTransform transform = AwtFactory.getPrototype()
 			.newAffineTransform();
-	/** shape to be filled (eg. ellipse, space between paralel lines) */
+	/** shape to be filled (eg. ellipse, space between parallel lines) */
 	protected GShape fillShape;
 
 	// CONIC_ELLIPSE

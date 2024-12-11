@@ -374,7 +374,7 @@ public class DataItem {
 	 * Converts DataItem into a GeoList
 	 * 
 	 * @param app
-	 *            appliction
+	 *            application
 	 * @param enableHeader
 	 *            whether to enable header
 	 * @param leftToRight

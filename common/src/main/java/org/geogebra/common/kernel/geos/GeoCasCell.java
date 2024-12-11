@@ -829,7 +829,7 @@ public class GeoCasCell extends GeoElement
 	 * 
 	 * @param newInput
 	 *            new input
-	 * @return whether newInput and current input have same stucture
+	 * @return whether newInput and current input have same structure
 	 */
 	public boolean isStructurallyEqualToLocalizedInput(final String newInput) {
 		if (localizedInput != null && localizedInput.equals(newInput)) {

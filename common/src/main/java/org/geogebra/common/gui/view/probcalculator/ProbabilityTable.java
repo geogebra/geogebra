@@ -31,7 +31,7 @@ public abstract class ProbabilityTable {
 	private int xMin;
 	private int xMax;
 	private boolean isIniting;
-	private GeoNumberValue[] parms;
+	private GeoNumberValue[] params;
 
 	/**
 	 * @param app
@@ -86,10 +86,10 @@ public abstract class ProbabilityTable {
 	}
 
 	public final void setLabels() {
-		setTable(distType, parms, xMin, xMax);
+		setTable(distType, params, xMin, xMax);
 	}
 
-	public abstract void setTable(Dist distType2, GeoNumberValue[] parms2, int xMin2,
+	public abstract void setTable(Dist distType2, GeoNumberValue[] params, int xMin2,
 			int xMax2);
 
 	protected ProbabilityManager getProbManager() {
@@ -120,8 +120,8 @@ public abstract class ProbabilityTable {
 		return xMin;
 	}
 
-	protected GeoNumberValue[] getParms() {
-		return parms;
+	protected GeoNumberValue[] getParams() {
+		return params;
 	}
 
 	protected boolean isIniting() {
@@ -139,12 +139,12 @@ public abstract class ProbabilityTable {
 		return columnNames;
 	}
 
-	protected void setTableModel(Dist distType1, GeoNumberValue[] parms1, int xMin1,
+	protected void setTableModel(Dist distType1, GeoNumberValue[] params1, int xMin1,
 			int xMax1) {
 		this.distType = distType1;
 		this.xMin = xMin1;
 		this.xMax = xMax1;
-		this.parms = parms1;
+		this.params = params1;
 		setColumnNames();
 	}
 
@@ -155,7 +155,7 @@ public abstract class ProbabilityTable {
 		}
 		GeoNumeric xValue = new GeoNumeric(app.getKernel().getConstruction(), xMin);
 		AlgoDistribution algoDistribution =
-				getProbManager().getDistributionAlgorithm(xValue, parms, distType, isCumulative());
+				getProbManager().getDistributionAlgorithm(xValue, this.params, distType, isCumulative());
 
 		for (@AutoreleasePool int x = xMin; x <= xMax; x++) {
 			xValue.setValue(x);

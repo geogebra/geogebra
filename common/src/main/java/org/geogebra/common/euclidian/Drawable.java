@@ -231,7 +231,7 @@ public abstract class Drawable extends DrawableND {
 	 * Updates font size
 	 */
 	public void updateFontSize() {
-		// do nothing, overriden in drawables
+		// do nothing, overridden in drawables
 	}
 
 	/**

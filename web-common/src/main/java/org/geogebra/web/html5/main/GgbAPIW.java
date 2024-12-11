@@ -751,7 +751,7 @@ public class GgbAPIW extends GgbAPI {
 	/**
 	 * @param show
 	 * 
-	 *            wheter show the toolbar in geogebra-web applets or not
+	 *            whether to show the toolbar in geogebra-web applets or not
 	 */
 	public void showToolBar(boolean show) {
 		if (app.getGuiManager() != null) {
@@ -762,7 +762,7 @@ public class GgbAPIW extends GgbAPI {
 	/**
 	 * @param show
 	 * 
-	 *            wheter show the menubar in geogebra-web applets or not
+	 *            whether to show the menubar in geogebra-web applets or not
 	 */
 	public void showMenuBar(boolean show) {
 		if (app.getGuiManager() != null) {
@@ -799,7 +799,7 @@ public class GgbAPIW extends GgbAPI {
 	/**
 	 * @param show
 	 * 
-	 *            wheter show the reseticon in geogebra-web applets or not
+	 *            whether to show the reseticon in geogebra-web applets or not
 	 */
 	public void showResetIcon(boolean show) {
 		((AppW) app).getAppletFrame().showResetIcon(show);

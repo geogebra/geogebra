@@ -71,7 +71,7 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue,
 	public void modifyInputPoints(GeoPointND P, GeoPointND Q);
 
 	/**
-	 * set the segment throught the two points
+	 * set the segment through the two points
 	 * 
 	 * @param locusPoint
 	 *            first point

@@ -52,7 +52,7 @@ public abstract class ClickEndHandler {
 					handler.onClickEnd(removedTouch.getClientX(),
 							removedTouch.getClientY(),
 							PointerEventType.TOUCH);
-					CancelEventTimer.touchEventOccured();
+					CancelEventTimer.touchEventOccurred();
 				}, TouchEndEvent.getType());
 		return HandlerRegistrations.compose(mouseReg, touchReg);
 	}

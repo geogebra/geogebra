@@ -73,7 +73,7 @@ public class AuxiliaryHeaderPanel extends FlowPanel {
 
 	/** Update header */
 	public void setLabels() {
-		// overriden in subclasses
+		// overridden in subclasses
 	}
 
 	/**

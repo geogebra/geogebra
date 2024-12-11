@@ -99,7 +99,7 @@ public class ConstructionProtocolNavigationD
 
 		/*
 		 * //next 3 rows moved into EuclidianDockPanel.loadComponent //because
-		 * it not neccessary for all Contruction protocol navigation issue
+		 * it is not necessary for all Contruction protocol navigation issue
 		 * ConstructionProtocolSettings cps =
 		 * app.getSettings().getConstructionProtocol(); settingsChanged(cps);
 		 * cps.addListener(this);

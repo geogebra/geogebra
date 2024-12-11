@@ -1042,7 +1042,7 @@ public abstract class DialogManager {
 	 * Show print preview
 	 */
 	public void showPrintPreview() {
-		// overriden in web
+		// overridden in web
 	}
 
 	/**

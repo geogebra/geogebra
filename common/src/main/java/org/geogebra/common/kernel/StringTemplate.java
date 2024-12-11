@@ -3052,7 +3052,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 *
 	 * @param scientificStr
 	 *            string in scientific notation
-	 * @return formated string in scientific notation (except for Giac)
+	 * @return formatted string in scientific notation (except for Giac)
 	 */
 	public String convertScientificNotation(String scientificStr) {
 

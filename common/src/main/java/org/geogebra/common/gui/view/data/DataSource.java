@@ -707,7 +707,7 @@ public class DataSource {
 	}
 
 	/**
-	 * Frequency data for One-variable analysis is stored as a seperate entry in the rangeList,
+	 * Frequency data for One-variable analysis is stored as a separate entry in the rangeList,
 	 * this method checks whether the list actually contains frequency data or not by checking
 	 * if the first and last list entry are neighbors
 	 * @param rangeList rangeList

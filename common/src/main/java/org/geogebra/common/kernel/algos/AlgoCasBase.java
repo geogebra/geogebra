@@ -34,7 +34,7 @@ public abstract class AlgoCasBase extends AlgoElement implements UsesCAS {
 
 	/**
 	 * Creates CAS algo and sets input, output and label. Do not use if
-	 * compute() or setInputOutput() are overriden.
+	 * compute() or setInputOutput() are overridden.
 	 * 
 	 * @param cons
 	 *            construction

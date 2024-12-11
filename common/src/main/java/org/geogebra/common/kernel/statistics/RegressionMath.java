@@ -183,7 +183,7 @@ public final class RegressionMath {
 		if (error) {
 			return false;
 		}
-		doSums(LINEAR); // calculate neccessary sigmas
+		doSums(LINEAR); // calculate necessary sigmas
 		if (error) {
 			return false;
 		}
@@ -215,7 +215,7 @@ public final class RegressionMath {
 		if (error) {
 			return false;
 		}
-		doSums(QUAD); // calculate neccessary sigmas
+		doSums(QUAD); // calculate necessary sigmas
 		if (error) {
 			return false;
 		}
@@ -254,7 +254,7 @@ public final class RegressionMath {
 		if (error) {
 			return false;
 		}
-		doSums(CUBIC); // calculate neccessary sigmas
+		doSums(CUBIC); // calculate necessary sigmas
 		if (error) {
 			return false;
 		}
@@ -352,7 +352,7 @@ public final class RegressionMath {
 			}
 			xlist[i] = Math.log(xlist[i]);
 		} // for all x
-		doSums(LINEAR); // calculate neccessary sigmas
+		doSums(LINEAR); // calculate necessary sigmas
 		if (error) {
 			return false;
 		}
@@ -363,7 +363,7 @@ public final class RegressionMath {
 		}
 		p1 = det22(sigmay, sigmax, sigmaxy, sigmax2) / n;
 		p2 = det22(size, sigmay, sigmax, sigmaxy) / n;
-		// No transformation of p1 or p2 neccessary
+		// No transformation of p1 or p2 necessary
 		// r=corrCoeff();
 		return true;
 	}
@@ -398,7 +398,7 @@ public final class RegressionMath {
 			xlist[i] = Math.log(x);
 			ylist[i] = Math.log(y);
 		} // for all x
-		doSums(LINEAR); // calculate neccessary sigmas
+		doSums(LINEAR); // calculate necessary sigmas
 		if (error) {
 			return false;
 		}
@@ -520,8 +520,8 @@ public final class RegressionMath {
 
 	// / --- Private --- ///
 
-	/* Do whatever sums neccessary */
-	private void doSums(int degree) { // do whatever sums neccessary
+	/* Do whatever sums necessary */
+	private void doSums(int degree) { // do whatever sums necessary
 		double x, y, xx, xy;
 		sigmax = sigmax2 = sigmax3 = sigmax4 = sigmax5 = sigmax6 = 0.0d;
 		sigmaxy = sigmax2y = sigmax3y = sigmay = sigmay2 = 0.0d;

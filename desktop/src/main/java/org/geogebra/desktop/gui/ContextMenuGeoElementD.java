@@ -565,7 +565,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				cbItem = new JCheckBoxMenuItem(loc.getMenu("Animating"));
 				((AppD) app).setEmptyIcon(cbItem);
 				cbItem.setSelected(((Animatable) getGeo()).isAnimating()
-						&& app.getKernel().getAnimatonManager().isRunning());
+						&& app.getKernel().getAnimationManager().isRunning());
 				cbItem.addActionListener(e -> animationCmd());
 				addItem(cbItem);
 			}

@@ -112,7 +112,7 @@ public abstract class FunctionInspector
 
 	protected void updateIntervalTab() {
 		updateIntervalTable();
-		getModel().updateIntervalGeoVisiblity();
+		getModel().updateIntervalGeoVisibility();
 	}
 
 	protected abstract void updatePointsTab();

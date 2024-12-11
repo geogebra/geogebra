@@ -164,8 +164,8 @@ public class ToolCreationDialogW extends ComponentDialog implements
 		FlowPanel objectMultiselectPanel = new FlowPanel();
 		objectMultiselectPanel.addStyleName("multiSelectList");
 		objectMultiselectPanel.add(objectMultiselect);
-		objectMultiselectPanel.add(new MultiSelectButtonsPannel(
-				new MultiSelectButtonsPannel.ButtonsListener() {
+		objectMultiselectPanel.add(new MultiSelectButtonsPanel(
+				new MultiSelectButtonsPanel.ButtonsListener() {
 					@Override
 					public void moveSelection(boolean up) {
 						if (up) {

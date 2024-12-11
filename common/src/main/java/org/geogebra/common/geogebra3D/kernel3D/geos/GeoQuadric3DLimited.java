@@ -875,8 +875,8 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	}
 
 	@Override
-	public CoordMatrix getSymetricMatrix() {
-		return side.getSymetricMatrix();
+	public CoordMatrix getSymmetricMatrix() {
+		return side.getSymmetricMatrix();
 	}
 
 	@Override
@@ -913,9 +913,9 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	public boolean setHighlighted(final boolean flag) {
 		boolean ret = super.setHighlighted(flag);
 		if (ret && bottom != null) {
-			kernel.notifyUpdateHightlight(side);
-			kernel.notifyUpdateHightlight(bottom);
-			kernel.notifyUpdateHightlight(top);
+			kernel.notifyUpdateHighlight(side);
+			kernel.notifyUpdateHighlight(bottom);
+			kernel.notifyUpdateHighlight(top);
 		}
 		return ret;
 	}
@@ -924,9 +924,9 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	public boolean setSelected(final boolean flag) {
 		boolean ret = super.setSelected(flag);
 		if (ret && bottom != null) {
-			kernel.notifyUpdateHightlight(side);
-			kernel.notifyUpdateHightlight(bottom);
-			kernel.notifyUpdateHightlight(top);
+			kernel.notifyUpdateHighlight(side);
+			kernel.notifyUpdateHighlight(bottom);
+			kernel.notifyUpdateHighlight(top);
 		}
 		return ret;
 	}

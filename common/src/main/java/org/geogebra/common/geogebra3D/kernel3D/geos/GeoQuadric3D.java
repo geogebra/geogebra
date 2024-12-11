@@ -472,7 +472,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
-		tmpMatrix4x4.setMul(semiDiagMatrix, getSymetricMatrix());
+		tmpMatrix4x4.setMul(semiDiagMatrix, getSymmetricMatrix());
 		semiDiagMatrix.setMul(tmpMatrix4x4, eigenvecNDMatrix);
 	}
 
@@ -2567,7 +2567,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			Coords willingDirection) {
 
 		// compute intersection
-		CoordMatrix qm = getSymetricMatrix();
+		CoordMatrix qm = getSymmetricMatrix();
 		// Log.debug("qm=\n"+qm);
 		if (tmpMatrix4x2 == null) {
 			tmpMatrix4x2 = new CoordMatrix(4, 2);
@@ -2631,7 +2631,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			double[] parameters2) {
 
 		// compute intersection
-		CoordMatrix qm = getSymetricMatrix();
+		CoordMatrix qm = getSymmetricMatrix();
 		// Log.debug("qm=\n"+qm);
 		if (tmpMatrix4x2 == null) {
 			tmpMatrix4x2 = new CoordMatrix(4, 2);
@@ -2738,7 +2738,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	public boolean isInRegion(Coords coords) {
 		// calc tP.S.P
 		return DoubleUtil
-				.isZero(coords.dotproduct(getSymetricMatrix().mul(coords)));
+				.isZero(coords.dotproduct(getSymmetricMatrix().mul(coords)));
 	}
 
 	@Override
@@ -2986,11 +2986,11 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setMidpoint(m.get());
 
 		// current symetric matrix
-		CoordMatrix sm = getSymetricMatrix();
+		CoordMatrix sm = getSymmetricMatrix();
 		// transformation matrix
 		CoordMatrix tm = CoordMatrix.identity(4);
 		tm.subToOrigin(v);
-		// set new symetric matrix
+		// set new symmetric matrix
 		setMatrix((tm.transposeCopy()).mul(sm).mul(tm));
 
 		// eigen matrix
@@ -3071,9 +3071,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			eigenvecND[i] = tm.mul(eigenvecND[i]);
 		}
 
-		// symetric matrix
+		// symmetric matrix
 		CoordMatrix tmInv = tm.inverse();
-		setMatrix((tmInv.transposeCopy()).mul(getSymetricMatrix()).mul(tmInv));
+		setMatrix((tmInv.transposeCopy()).mul(getSymmetricMatrix()).mul(tmInv));
 
 	}
 
@@ -3121,7 +3121,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			eigenvecND[i].mulInside(-1);
 		}
 
-		// symetric matrix
+		// symmetric matrix
 		setMatrixFromEigen();
 
 		// planes
@@ -3159,7 +3159,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			v.addInsideMul(direction, a);
 		}
 
-		// symetric matrix
+		// symmetric matrix
 		setMatrixFromEigen();
 
 		// set eigen matrix
@@ -3198,7 +3198,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			v.addInside(vn.mul(a));
 		}
 
-		// symetric matrix
+		// symmetric matrix
 		setMatrixFromEigen();
 
 		// set eigen matrix
@@ -3249,7 +3249,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			diagonal[i] *= r;
 		}
 
-		// symetric matrix
+		// symmetric matrix
 		setMatrixFromEigen();
 
 		// set eigen matrix

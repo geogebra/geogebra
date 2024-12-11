@@ -939,14 +939,14 @@ public class GuiManagerW extends GuiManager
 	/**
 	 * Get the properties view and initilize the right tab.
 	 *
-	 * @param ot
+	 * @param optionType
 	 *            initial tab
 	 * @return properties view
 	 */
-	public PropertiesView getPropertiesView(OptionType ot) {
+	public PropertiesView getPropertiesView(OptionType optionType) {
 		if (propertiesView == null) {
 			// initPropertiesDialog();
-			propertiesView = newPropertiesViewW(getApp(), ot);
+			propertiesView = newPropertiesViewW(getApp(), optionType);
 		}
 		return propertiesView;
 	}

@@ -13,7 +13,7 @@ the Free Software Foundation.
 /*
  * GeoPoint.java
  *
- * The point (x,y) has homogenous coordinates (x,y,1)
+ * The point (x,y) has homogeneous coordinates (x,y,1)
  *
  * Created on 30. August 2001, 17:39
  */
@@ -256,7 +256,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	/**
-	 * Sets homogenous coordinates and updates inhomogenous coordinates
+	 * Sets homogeneous coordinates and updates inhomogeneous coordinates
 	 * 
 	 * @param v
 	 *            coords
@@ -350,7 +350,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 					}
 				}
 
-				// update inhomogenous coords
+				// update inhomogeneous coords
 				if (v.get(4) == 1.0) {
 					inhom.set(1, v.get(1));
 					inhom.set(2, v.get(2));
@@ -748,7 +748,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	/**
-	 * @return inhomogenous 2D z
+	 * @return inhomogeneous 2D z
 	 */
 	public double getZ2D() {
 		return z2D;

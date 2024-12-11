@@ -39,7 +39,7 @@ public class AnimationExporter {
 			String filename, double scale, double rotate,
 			ExportType frameFormat) {
 
-		app.getKernel().getAnimatonManager().stopAnimation();
+		app.getKernel().getAnimationManager().stopAnimation();
 
 		int type = slider.getAnimationType();
 		double min = slider.getIntervalMin();

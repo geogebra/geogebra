@@ -101,7 +101,7 @@ public class GeoImplicitSurface extends GeoElement3D
 						new ExpressionNode(kernel, normal, Operation.DIVIDE,
 								coef),
 						Operation.PLUS, fVars[i]);
-				m.simplifyLeafs();
+				m.simplifyLeaves();
 				FunctionNVar fun = new FunctionNVar(m,
 						new FunctionVariable[] { fVars[complement[i][0]],
 								fVars[complement[i][1]] });

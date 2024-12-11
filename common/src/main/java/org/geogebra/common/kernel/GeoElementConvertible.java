@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  * Can be converted to GeoElement
  */
-public interface GeoElementConvertable {
+public interface GeoElementConvertible {
 
     /**
      * @param cons construction for the new GeoElement

@@ -11,7 +11,7 @@ public interface HasAppletProperties {
 	/**
 	 * @param width
 	 * 
-	 *            sets the geogebra-web applet widht
+	 *            sets the geogebra-web applet width
 	 */
 	void setWidth(int width);
 
@@ -40,7 +40,7 @@ public interface HasAppletProperties {
 	/**
 	 * @param show
 	 * 
-	 *            wheter show the reseticon in geogebra-web applets or not
+	 *            whether to show the reseticon in geogebra-web applets or not
 	 */
 	void showResetIcon(boolean show);
 

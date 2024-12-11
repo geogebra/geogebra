@@ -308,7 +308,7 @@ public abstract class ConstructionElement
 	 * @param set
 	 *            set of predecessors
 	 * @param onlyIndependent
-	 *            whether only indpendent geos should be added
+	 *            whether only independent geos should be added
 	 */
 	abstract public void addPredecessorsToSet(TreeSet<GeoElement> set,
 			boolean onlyIndependent);

@@ -235,7 +235,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private boolean undoRedoPanelAllowed = true;
 	private TimerSystemW timers;
 	HashMap<String, String> revTranslateCommandTable = new HashMap<>();
-	private Runnable closeBroserCallback;
+	private Runnable closeBrowserCallback;
 	private Runnable insertImageCallback;
 	private final ArrayList<RequiresResize> euclidianHandlers = new ArrayList<>();
 	private ArchiveLoader archiveLoader;
@@ -1575,7 +1575,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * Load Google Drive APIs
 	 */
 	protected void initGoogleDriveEventFlow() {
-		// overriden in AppWFull
+		// overridden in AppWFull
 	}
 
 	/**
@@ -2659,7 +2659,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            keyboard listener
 	 * @param forceShow
 	 *            whether it must appear now
-	 * @return whether keybaord is shown
+	 * @return whether keyboard is shown
 	 */
 	public boolean showKeyboard(MathKeyboardListener textField,
 			boolean forceShow) {
@@ -2708,16 +2708,16 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            callback for closing a header panel
 	 */
 	public void setCloseBrowserCallback(Runnable runnable) {
-		this.closeBroserCallback = runnable;
+		this.closeBrowserCallback = runnable;
 	}
 
 	/**
 	 * Run callback for closing a header panel
 	 */
 	public void onBrowserClose() {
-		if (this.closeBroserCallback != null) {
-			this.closeBroserCallback.run();
-			this.closeBroserCallback = null;
+		if (this.closeBrowserCallback != null) {
+			this.closeBrowserCallback.run();
+			this.closeBrowserCallback = null;
 		}
 	}
 

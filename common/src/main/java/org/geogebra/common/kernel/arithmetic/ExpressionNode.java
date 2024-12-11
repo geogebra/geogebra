@@ -351,12 +351,12 @@ public class ExpressionNode extends ValidExpression
 	 * Replaces all ExpressionNodes in tree that are leafs (=wrappers) by their
 	 * leaf objects (of type ExpressionValue).
 	 */
-	final public void simplifyLeafs() {
+	final public void simplifyLeaves() {
 		if (left.isExpressionNode()) {
 			ExpressionNode node = (ExpressionNode) left;
 			if (node.leaf) {
 				left = node.left;
-				simplifyLeafs();
+				simplifyLeaves();
 			}
 		}
 
@@ -365,7 +365,7 @@ public class ExpressionNode extends ValidExpression
 				ExpressionNode node = (ExpressionNode) right;
 				if (node.leaf) {
 					right = node.left;
-					simplifyLeafs();
+					simplifyLeaves();
 				}
 			}
 		}
@@ -419,7 +419,7 @@ public class ExpressionNode extends ValidExpression
 	public final void resolveVariables(EvalInfo info) {
 		doResolveVariables(info);
 		simplifyAndEvalCommands(info);
-		simplifyLeafs();
+		simplifyLeaves();
 	}
 
 	private void doResolveVariables(EvalInfo info) {
@@ -3568,7 +3568,7 @@ public class ExpressionNode extends ValidExpression
 
 	/**
 	 * Check if the fraction is a proper fraction
-	 * @return Wheter it is a proper fraction like 3/5 or -2/3
+	 * @return whether it is a proper fraction like 3/5 or -2/3
 	 */
 	public boolean isProperFraction() {
 		ExpressionValue unsigned = getUnsigned(this);

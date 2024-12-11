@@ -1495,7 +1495,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 
 	@Override
 	protected void drawSingleCurveCartesian(GeoCurveCartesian geo,
-			boolean trasparency) {
+			boolean transparency) {
 		// \parametricplot[algebraic=true,linecolor=red]
 		// {-3.14}{3.14}{cos(3*t)|sin(2*t)}
 		// Only done using gnuplot
@@ -1929,7 +1929,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	 * StringBuilder PointCode
 	 * 
 	 * @param gp
-	 *            The choosen GeoPoint
+	 *            The chosen GeoPoint
 	 */
 	@Override
 	protected void drawGeoPoint(GeoPointND gp) {
@@ -2269,7 +2269,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		double c = geo.getZ();
 		startBeamer(code);
 		/*
-		 * To prevent "dimension too large" prblem with TikZ Eg: \draw [line
+		 * To prevent "dimension too large" problem with TikZ Eg: \draw [line
 		 * width=1.6pt,color=qqcctt,domain=-2.097:9.585]
 		 * plot(\x,{(-7.657--2.392*\x)/-0.007});
 		 * 
@@ -2324,7 +2324,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	 * StringBuilder code
 	 * 
 	 * @param geo
-	 *            The choosen GeoPoint
+	 *            The chosen GeoPoint
 	 */
 
 	@Override
@@ -2796,7 +2796,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	 * if this color hasn't be defined yet
 	 * 
 	 * @param c0
-	 *            The Choosen color
+	 *            The chosen color
 	 * @param sb
 	 *            The StringBuilder where the color has to be added
 	 */

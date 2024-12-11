@@ -41,7 +41,7 @@ import org.geogebra.common.util.debug.Log;
  * A cleaner implementation would be to rewrite GeoGebraPreferences to an
  * abstract class, as an interface for GeoGebraSystemPreferences and
  * GeoGebraPropertyFile, but as there probably never will be a demand for a
- * third class later, I chose a solution which makes it unneccessary to change
+ * third class later, I chose a solution which makes it unnecessary to change
  * too many calling classes, by just making this one and do a small rewrite of
  * getPrefs() and add a setPropertyFile() in GeoGebraPreferences which then
  * behaves like a kind of "singleton factory".

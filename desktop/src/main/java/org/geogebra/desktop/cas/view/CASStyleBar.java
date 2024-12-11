@@ -81,7 +81,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	/**
 	 * 
 	 * @param targetGeos
-	 *            list of seleted cells
+	 *            list of selected cells
 	 */
 	public void setSelectedRows(ArrayList<GeoElement> targetGeos) {
 		if (targetGeos != null) {

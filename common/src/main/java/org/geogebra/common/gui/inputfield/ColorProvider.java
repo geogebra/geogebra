@@ -21,7 +21,7 @@ import org.geogebra.regexp.shared.RegExp;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class ColorProvider {
 
-	private static final int TEXT_LENGHT_LIMIT = 1000;
+	private static final int TEXT_LENGTH_LIMIT = 1000;
 
 	/** Regular expression strings */
 	private static final String LABEL_REGEX_STRING = "((\\p{L}\\p{M}*)(\\p{L}\\p{M}*|\\p{Nd})*'?"
@@ -80,7 +80,7 @@ public class ColorProvider {
 	 */
 	public void setText(String text1) {
 		text = text1;
-		if (text1.length() > TEXT_LENGHT_LIMIT) {
+		if (text1.length() > TEXT_LENGTH_LIMIT) {
 			return;
 		}
 		getIntervals();

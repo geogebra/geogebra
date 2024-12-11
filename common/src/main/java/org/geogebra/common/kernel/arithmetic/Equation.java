@@ -780,7 +780,7 @@ public class Equation extends ValidExpression implements EquationValue {
 	}
 
 	/**
-	 * @return degree; overriden by forcedLine, forceConic, forceImplicitPoly
+	 * @return degree; overridden by forcedLine, forceConic, forceImplicitPoly
 	 */
 	public int preferredDegree() {
 		if (isForcedLine() || isForcedPlane()) {

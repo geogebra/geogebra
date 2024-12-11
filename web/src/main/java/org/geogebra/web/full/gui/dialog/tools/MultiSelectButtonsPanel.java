@@ -6,7 +6,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.FlowPanel;
 
-class MultiSelectButtonsPannel extends FlowPanel {
+class MultiSelectButtonsPanel extends FlowPanel {
 	public interface ButtonsListener {
 
 		void moveSelection(boolean b);
@@ -14,7 +14,7 @@ class MultiSelectButtonsPannel extends FlowPanel {
 		void deleteSelection();
 	}
 
-	public MultiSelectButtonsPannel(ButtonsListener widgets) {
+	public MultiSelectButtonsPanel(ButtonsListener widgets) {
 		addStyleName("toolListButtons");
 
 		addIconButton(MaterialDesignResources.INSTANCE.arrow_drop_up(),

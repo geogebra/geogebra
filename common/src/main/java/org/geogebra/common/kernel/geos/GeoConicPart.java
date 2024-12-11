@@ -184,7 +184,7 @@ public class GeoConicPart extends GeoConic
 	}
 
 	/**
-	 * Returns wheter c is equal to this conic part
+	 * Returns whether c is equal to this conic part
 	 */
 	// Michael Borcherds 2008-05-01
 	@Override
@@ -312,7 +312,7 @@ public class GeoConicPart extends GeoConic
 	}
 
 	/**
-	 * states wheter P lies on this conic part or not
+	 * states whether P lies on this conic part or not
 	 */
 	@Override
 	public boolean isOnPath(GeoPointND PI, double precision) {

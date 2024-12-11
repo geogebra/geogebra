@@ -1035,7 +1035,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 
 	@Override
 	protected void drawSingleCurveCartesian(GeoCurveCartesian geo,
-			boolean trasparency) {
+			boolean transparency) {
 		// boolean isClosed=geo.isClosedPath();
 		String fx = geo.getFunX(getStringTemplate());
 		fx = killSpace(StringUtil.toLaTeXString(fx, true));
@@ -1049,7 +1049,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 					"% WARNING: You have to use the special variable t in parametric plot");
 		}
 		code.append("\\parametricplot");
-		code.append(lineOptionCode(geo, trasparency));
+		code.append(lineOptionCode(geo, transparency));
 		int index = code.lastIndexOf("]");
 		if (index == code.length() - 1) {
 			code.deleteCharAt(index);

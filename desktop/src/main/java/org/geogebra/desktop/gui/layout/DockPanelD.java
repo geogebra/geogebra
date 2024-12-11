@@ -1496,7 +1496,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	/**
 	 * Set the toolbar string of this view. If the toolbar string is null but
 	 * this panel has a panel normally the default toolbar string is used. This
-	 * is used for backward compability. Has no visible effect.
+	 * is used for backward compatibility. Has no visible effect.
 	 * 
 	 * @param toolbarString toolbar definition
 	 */

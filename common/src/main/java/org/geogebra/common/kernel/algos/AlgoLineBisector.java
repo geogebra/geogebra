@@ -101,7 +101,7 @@ public class AlgoLineBisector extends AlgoElement
 	// line through P normal to v
 	@Override
 	public final void compute() {
-		// get inhomogenous coords
+		// get inhomogeneous coords
 		double ax = A.inhomX;
 		double ay = A.inhomY;
 		double bx = B.inhomX;

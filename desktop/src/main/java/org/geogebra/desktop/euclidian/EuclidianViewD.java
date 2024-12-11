@@ -667,7 +667,7 @@ public class EuclidianViewD extends EuclidianView
 	/**
 	 * @see JPanel#setPreferredSize(Dimension)
 	 * @param preferredSize
-	 *            prefered size
+	 *            preferred size
 	 */
 	public void setPreferredSize(Dimension preferredSize) {
 		evjpanel.setPreferredSize(preferredSize);
@@ -778,7 +778,7 @@ public class EuclidianViewD extends EuclidianView
 	}
 
 	/**
-	 * @return prefered size
+	 * @return preferred size
 	 */
 	public Dimension getPreferredSize() {
 		return evjpanel.getPreferredSize();

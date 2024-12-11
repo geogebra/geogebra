@@ -40,12 +40,12 @@ public class CmdRandom extends CommandProcessor {
 			GeoNumeric num = new GeoNumeric(cons, 0);
 			cons.addRandomGeo(num);
 			num.setValue(app.getRandomNumber());
-			AlgoDependentNumber adn = new AlgoDependentNumber(cons,
+			AlgoDependentNumber algoDepNumber = new AlgoDependentNumber(cons,
 					new ExpressionNode(kernel, num,
 							Operation.RANDOM, null),
 					false);
-			adn.getOutput(0).setLabel(c.getLabel());
-			return adn.getOutput();
+			algoDepNumber.getOutput(0).setLabel(c.getLabel());
+			return algoDepNumber.getOutput();
 		case 3:
 			arg = resArgs(c);
 			if (arg[2] instanceof BooleanValue) {

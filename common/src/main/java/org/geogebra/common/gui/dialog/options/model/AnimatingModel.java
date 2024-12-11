@@ -16,7 +16,7 @@ public class AnimatingModel extends BooleanOptionModel {
 	public void applyChanges(boolean value) {
 		super.applyChanges(value);
 		if (value) {
-			kernel.getAnimatonManager().startAnimation();
+			kernel.getAnimationManager().startAnimation();
 		}
 		storeUndoInfo();
 	}

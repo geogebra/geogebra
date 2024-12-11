@@ -105,7 +105,7 @@ public class GoogleDriveOperationW implements GoogleDriveOperation {
 	 * logs in the user to Google
 	 * 
 	 * @param immediate
-	 *            wheter to force login popup open
+	 *            whether to force login popup open
 	 */
 	public void login(boolean immediate) {
 		JsPropertyMap<Object> config = JsPropertyMap.of(

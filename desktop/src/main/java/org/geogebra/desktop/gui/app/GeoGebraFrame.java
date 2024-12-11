@@ -869,7 +869,7 @@ public class GeoGebraFrame extends JFrame
 					AppD.exit(0);
 				}
 
-				app.getKernel().getAnimatonManager().stopAnimation();
+				app.getKernel().getAnimationManager().stopAnimation();
 				GeoNumeric num = (GeoNumeric) slider;
 
 				int type = num.getAnimationType();
@@ -932,7 +932,7 @@ public class GeoGebraFrame extends JFrame
 					gifEncoder.setQuality(1);
 					gifEncoder.start(new File(filename + ".gif"));
 
-					gifEncoder.setDelay(delay); // miliseconds
+					gifEncoder.setDelay(delay); // milliseconds
 					if (!"false".equals(loop)) {
 						// repeat forever
 						gifEncoder.setRepeat(0);

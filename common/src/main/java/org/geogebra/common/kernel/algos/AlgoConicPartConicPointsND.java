@@ -109,7 +109,7 @@ public abstract class AlgoConicPartConicPointsND extends AlgoConicPart {
 	@Override
 	public final void compute() {
 
-		computeParemeters();
+		computeParameters();
 
 		// now take the parameters from the temp points
 		conicPart.set(conic);
@@ -121,7 +121,7 @@ public abstract class AlgoConicPartConicPointsND extends AlgoConicPart {
 	/**
 	 * compute start and end parameters
 	 */
-	abstract protected void computeParemeters();
+	abstract protected void computeParameters();
 
 	/**
 	 * 

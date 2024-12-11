@@ -618,8 +618,8 @@ public abstract class ProbabilityCalculatorView
 							new ExpressionNode(kernel,
 									xLow, Operation.EQUAL_BOOLEAN, xHigh.getNumber()),
 							xminPlusOne), Operation.IF_ELSE, xMax);
-			AlgoDependentNumber adn = getDependentNumber(ex);
-			createTwoTailedDiscreteGraph(capMax(xMin), capMax(adn.getNumber()));
+			AlgoDependentNumber algoDepNumber = getDependentNumber(ex);
+			createTwoTailedDiscreteGraph(capMax(xMin), capMax(algoDepNumber.getNumber()));
 		} else {
 			createSimpleDiscreteGraph(capMax(xMin), capMax(xMax));
 		}

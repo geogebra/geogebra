@@ -6005,7 +6005,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// stop all animation if slider dragged
 		if (movedGeoNumeric.isAnimating()) {
-			kernel.getAnimatonManager().stopAnimation();
+			kernel.getAnimationManager().stopAnimation();
 		}
 
 		movedGeoNumeric.setValue(newVal);
@@ -8557,7 +8557,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		 * Conintuity handling
 		 *
 		 * If the mouse is moved wildly we take intermediate steps to get a more
-		 * continous behaviour
+		 * continuous behaviour
 		 */
 		if (kernel.isContinuous() && (lastMouseLoc != null)) {
 			double dx = mouseLoc.x - lastMouseLoc.x;
@@ -9510,7 +9510,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					view.setSelectionRectangle(null);
 					// hit found
 					if (hits != null && hits.size() > 0) {
-						selection.addSelectedGeos(hits.getHitsGroupped(), true);
+						selection.addSelectedGeos(hits.getHitsGrouped(), true);
 						updateBoundingBoxFromSelection(false);
 					}
 				}
@@ -10383,9 +10383,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				|| this.animationButtonPressed) {
 			this.animationButtonPressed = false;
 			if (kernel.isAnimationRunning()) {
-				kernel.getAnimatonManager().stopAnimation();
+				kernel.getAnimationManager().stopAnimation();
 			} else {
-				kernel.getAnimatonManager().startAnimation();
+				kernel.getAnimationManager().startAnimation();
 			}
 
 			// make sure geo.updateRepaint(); doesn't trigger update scripts

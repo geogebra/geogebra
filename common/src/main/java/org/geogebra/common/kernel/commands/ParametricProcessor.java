@@ -228,7 +228,7 @@ public class ParametricProcessor {
 	 *            label for output
 	 * @param info
 	 *            processing information
-	 * @return paramteric curve (or line, conic)
+	 * @return parametric curve (or line, conic)
 	 */
 	protected GeoElement[] processParametricFunction(ExpressionNode exp,
 			ExpressionValue ev, FunctionVariable[] fv, String label,

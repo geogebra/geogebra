@@ -491,11 +491,11 @@ public abstract class AreaOp {
                 nextchain = endlist[curchain+1];
             }
             if (connectlinks) {
-                ChainEnd openend = new ChainEnd(link, null);
-                ChainEnd closeend = new ChainEnd(nextlink, openend);
-                openend.setOtherEnd(closeend);
-                chains.add(openend);
-                chains.add(closeend);
+                ChainEnd openEnd = new ChainEnd(link, null);
+                ChainEnd closeEnd = new ChainEnd(nextlink, openEnd);
+                openEnd.setOtherEnd(closeEnd);
+                chains.add(openEnd);
+                chains.add(closeEnd);
                 curlink += 2;
                 link = linklist[curlink];
                 nextlink = linklist[curlink+1];

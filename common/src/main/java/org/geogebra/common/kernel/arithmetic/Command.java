@@ -73,7 +73,7 @@ public class Command extends ValidExpression
 
 	/**
 	 * for commands with different output types and that need to know each
-	 * lenght to set labels correctly
+	 * length to set labels correctly
 	 */
 	private int[] outputSizes;
 

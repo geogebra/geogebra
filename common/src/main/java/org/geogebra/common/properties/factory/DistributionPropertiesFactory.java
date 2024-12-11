@@ -46,7 +46,7 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 
 		ProbabilityCalculatorSettings.Dist distribution =
 				probabilityCalculatorView.getSelectedDist();
-		int count = ProbabilityManager.getParmCount(distribution);
+		int count = ProbabilityManager.getParamCount(distribution);
 		for (int parameterIndex = 0; parameterIndex < count; parameterIndex++) {
 			ParameterProperty property = new ParameterProperty(
 					localization,

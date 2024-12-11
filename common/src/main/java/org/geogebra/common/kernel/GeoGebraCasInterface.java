@@ -141,7 +141,7 @@ public interface GeoGebraCasInterface {
 	 *            string tmplate for result
 	 * @param mode
 	 *            symbolic mode
-	 * @return command formated for current CAS
+	 * @return command formatted for current CAS
 	 */
 	String getCASCommand(String name,
 			ArrayList<ExpressionNode> args, boolean symbolic,

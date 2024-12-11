@@ -511,13 +511,12 @@ public class InputDialogD extends InputDialog
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		// this one is actually useful, overriden in subclass(es)
+		// this one is actually useful, overridden in subclass(es)
 	}
 
 	@Override
 	public void windowIconified(WindowEvent e) {
 		// not needed
-
 	}
 
 	@Override

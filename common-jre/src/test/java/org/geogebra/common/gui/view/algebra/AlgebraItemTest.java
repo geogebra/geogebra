@@ -23,7 +23,7 @@ import org.junit.Test;
 
 public class AlgebraItemTest extends BaseUnitTest {
 
-    private static final int LATEX_MAX_EDIT_LENGHT = 1500;
+    private static final int LATEX_MAX_EDIT_LENGTH = 1500;
     private static final String line = "Line((0,0), (1,1))";
     private static final String fitLine = "FitLine((0,0), (1,1))";
     private static final String circle = "Circle((0,0), (1,1))";
@@ -71,7 +71,7 @@ public class AlgebraItemTest extends BaseUnitTest {
         addAvInput("a = ?");
         GeoVector vector = addAvInput("v = (a, 1)");
         String latexString =
-                AlgebraItem.getLatexString(vector, LATEX_MAX_EDIT_LENGHT, false);
+                AlgebraItem.getLatexString(vector, LATEX_MAX_EDIT_LENGTH, false);
         assertThat(latexString, equalTo("v\\, = \\,?"));
     }
 

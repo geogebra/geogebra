@@ -1709,7 +1709,7 @@ public abstract class GlobalKeyDispatcher {
 
 		// stop all animation if slider dragged
 		if (num.isAnimating()) {
-			num.getKernel().getAnimatonManager().stopAnimation();
+			num.getKernel().getAnimationManager().stopAnimation();
 		}
 
 		num.setValue(newValue);

@@ -1308,7 +1308,7 @@ public class SelectionManager {
 	 */
 	public void updateSelectionHighlight() {
 		for (GeoElement geo : selectedGeos) {
-			kernel.notifyUpdateHightlight(geo);
+			kernel.notifyUpdateHighlight(geo);
 		}
 	}
 

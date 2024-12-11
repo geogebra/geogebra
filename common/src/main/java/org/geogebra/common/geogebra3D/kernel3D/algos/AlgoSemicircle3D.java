@@ -47,7 +47,7 @@ public class AlgoSemicircle3D extends AlgoElement {
 	private Coords p2d;
 
 	/**
-	 * Creates new semicircle algoritm
+	 * Creates new semicircle algorithm
 	 * 
 	 * @param cons
 	 *            construction
@@ -65,7 +65,7 @@ public class AlgoSemicircle3D extends AlgoElement {
 	}
 
 	/**
-	 * Creates new unlabeled semicircle algoritm
+	 * Creates new unlabeled semicircle algorithm
 	 * 
 	 * @param cons
 	 *            construction

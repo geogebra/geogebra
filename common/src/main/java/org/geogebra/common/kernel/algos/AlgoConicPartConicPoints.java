@@ -53,7 +53,7 @@ public class AlgoConicPartConicPoints extends AlgoConicPartConicPointsND {
 	}
 
 	@Override
-	protected void computeParemeters() {
+	protected void computeParameters() {
 		// the temp points P and Q should lie on the conic
 		P.setCoords((GeoPoint) startPoint);
 		conic.pointChanged(P);

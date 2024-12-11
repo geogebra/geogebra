@@ -264,7 +264,7 @@ public class AnimationManager implements GTimerListener {
 
 	/**
 	 * @param i
-	 *            delay in miliseconds
+	 *            delay in milliseconds
 	 */
 
 	protected void setTimerDelay(int i) {

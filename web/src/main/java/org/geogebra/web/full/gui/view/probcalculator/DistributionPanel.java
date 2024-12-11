@@ -137,12 +137,12 @@ public class DistributionPanel extends FlowPanel implements InsertHandler, ExamL
 	public void updateParameters() {
 		for (int i = 0; i < view.maxParameterCount; ++i) {
 
-			boolean hasParm = i < ProbabilityManager.getParmCount(view.getSelectedDist());
+			boolean hasParam = i < ProbabilityManager.getParamCount(view.getSelectedDist());
 
-			lblParameterArray[i].setVisible(hasParm);
-			fldParameterArray[i].setVisible(hasParm);
+			lblParameterArray[i].setVisible(hasParam);
+			fldParameterArray[i].setVisible(hasParam);
 
-			if (hasParm) {
+			if (hasParam) {
 				// set label
 				lblParameterArray[i].setVisible(true);
 				lblParameterArray[i].setText(getParamLabel(i));
@@ -218,7 +218,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler, ExamL
 		if (cumulativeWidget != null) {
 			cumulativeWidget.setTitle(loc.getMenu("Cumulative"));
 		}
-		for (int i = 0; i < ProbabilityManager.getParmCount(view.getSelectedDist()); i++) {
+		for (int i = 0; i < ProbabilityManager.getParamCount(view.getSelectedDist()); i++) {
 			lblParameterArray[i]
 					.setText(getParamLabel(i));
 		}

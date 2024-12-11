@@ -18,22 +18,22 @@ class PolyNode {
 	private int index;
 	private JoinType joinType;
 	private EndType endType;
-	protected final List<PolyNode> childs = new ArrayList<>();
+	protected final List<PolyNode> children = new ArrayList<>();
 	private boolean isOpen;
 
 	public void addChild(PolyNode child) {
-		final int cnt = childs.size();
-		childs.add(child);
+		final int cnt = children.size();
+		children.add(child);
 		child.parent = this;
 		child.index = cnt;
 	}
 
 	public int getChildCount() {
-		return childs.size();
+		return children.size();
 	}
 
-	public List<PolyNode> getChilds() {
-		return Collections.unmodifiableList(childs);
+	public List<PolyNode> getChildren() {
+		return Collections.unmodifiableList(children);
 	}
 
 	/**
@@ -52,8 +52,8 @@ class PolyNode {
 	}
 
 	public PolyNode getNext() {
-		if (!childs.isEmpty()) {
-			return childs.get(0);
+		if (!children.isEmpty()) {
+			return children.get(0);
 		}
 		return getNextSiblingUp();
 	}
@@ -61,10 +61,10 @@ class PolyNode {
 	private PolyNode getNextSiblingUp() {
 		if (parent == null) {
 			return null;
-		} else if (index == parent.childs.size() - 1) {
+		} else if (index == parent.children.size() - 1) {
 			return parent.getNextSiblingUp();
 		} else {
-			return parent.childs.get(index + 1);
+			return parent.children.get(index + 1);
 		}
 	}
 

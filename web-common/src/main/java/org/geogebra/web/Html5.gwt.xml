@@ -11,7 +11,7 @@
   <!-- Specify the paths for translatable code                    -->
   <source path='html5'/>
   <source path='resources'/>
-  <!-- resources is both in source and resource bacause of SVGResource, SassResource classes -->
+  <!-- resources is both in source and resource because of SVGResource, SassResource classes -->
   <resource path='resources'/>
   <resource path='pub/js'/>
   <resource path='exam'/>

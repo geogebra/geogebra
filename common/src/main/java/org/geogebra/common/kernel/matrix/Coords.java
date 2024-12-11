@@ -1844,7 +1844,7 @@ public class Coords implements AnimatableValue<Coords> {
 	/**
 	 * @param i
 	 *            index
-	 * @return inhomogenous coord at given index
+	 * @return inhomogeneous coord at given index
 	 */
 	public double getInhom(int i) {
 		int r = rows;

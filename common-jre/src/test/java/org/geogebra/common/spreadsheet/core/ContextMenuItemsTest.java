@@ -337,14 +337,14 @@ public final class ContextMenuItemsTest {
 		assertEquals("cell12", data.contentAt(10, 2));
 		assertEquals("cell11", data.contentAt(10, 3));
 		assertEquals("cell12", data.contentAt(10, 4));
-		shoudStayDefault(10, 5);
-		shoudStayDefault(11, 5);
+		shouldStayDefault(10, 5);
+		shouldStayDefault(11, 5);
 		assertEquals("cell21", data.contentAt(11, 1));
 		assertEquals("cell22", data.contentAt(11, 2));
 		assertEquals("cell21", data.contentAt(11, 3));
 		assertEquals("cell22", data.contentAt(11, 4));
 
-		shoudStayDefault(12, 5);
+		shouldStayDefault(12, 5);
 		assertEquals("cell11", data.contentAt(12, 1));
 		assertEquals("cell12", data.contentAt(12, 2));
 		assertEquals("cell11", data.contentAt(12, 3));
@@ -354,11 +354,11 @@ public final class ContextMenuItemsTest {
 		assertEquals("cell21", data.contentAt(13, 3));
 		assertEquals("cell22", data.contentAt(13, 4));
 
-		shoudStayDefault(13, 5);
-		shoudStayDefault(14, 1);
-		shoudStayDefault(14, 2);
-		shoudStayDefault(14, 3);
-		shoudStayDefault(14, 4);
+		shouldStayDefault(13, 5);
+		shouldStayDefault(14, 1);
+		shouldStayDefault(14, 2);
+		shouldStayDefault(14, 3);
+		shouldStayDefault(14, 4);
 	}
 
 	@Test
@@ -384,7 +384,7 @@ public final class ContextMenuItemsTest {
 				item -> item.getIdentifier() == INSERT_ROW_ABOVE));
 	}
 
-	private void shoudStayDefault(int row, int column) {
+	private void shouldStayDefault(int row, int column) {
 		assertEquals(cellData(row, column), data.contentAt(row, column));
 	}
 }

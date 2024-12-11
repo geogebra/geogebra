@@ -172,9 +172,9 @@ public class TabletFileManager extends FileManagerT {
 	}
 
 	private void saveFileNative(int id, String title, String base64,
-			String metaDatas, int callback) {
+			String metaData, int callback) {
 		if (GeoGebraJSNativeBridge.get() != null) {
-			GeoGebraJSNativeBridge.get().saveFile(id, title, base64, metaDatas, callback);
+			GeoGebraJSNativeBridge.get().saveFile(id, title, base64, metaData, callback);
 		}
 	}
 
@@ -207,15 +207,15 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}
 
-	private void createFileFromTubeNative(String title, String base64, String metaDatas) {
+	private void createFileFromTubeNative(String title, String base64, String metaData) {
 		if (GeoGebraJSNativeBridge.get() != null) {
-			GeoGebraJSNativeBridge.get().createFileFromTube(title, base64, metaDatas);
+			GeoGebraJSNativeBridge.get().createFileFromTube(title, base64, metaData);
 		}
 	}
 
-	private void updateFileFromTubeNative(String title, String base64, String metaDatas) {
+	private void updateFileFromTubeNative(String title, String base64, String metaData) {
 		if (GeoGebraJSNativeBridge.get() != null) {
-			GeoGebraJSNativeBridge.get().updateFileFromTube(title, base64, metaDatas);
+			GeoGebraJSNativeBridge.get().updateFileFromTube(title, base64, metaData);
 		}
 	}
 

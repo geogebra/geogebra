@@ -62,7 +62,7 @@ public class GroupTest {
 	}
 
 	@Test
-	public void testGrouppedGeos() {
+	public void testGroupedGeos() {
 		ArrayList<GeoElement> geos = withGivenNumberOfGeos(5);
 		Group group = new Group(geos);
 		List<GeoElement> result = group.getGroupedGeos();

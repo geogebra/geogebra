@@ -257,7 +257,7 @@ public class DrawPoint3D extends Drawable3DCurves
 	 * @param project
 	 *            temp coords for projection
 	 * @param parameters
-	 *            temp values for paramters
+	 *            temp values for parameters
 	 * @param checkRealPointSize
 	 *            true if we check point size (and not threshold)
 	 * @return true if the hitting hits the point

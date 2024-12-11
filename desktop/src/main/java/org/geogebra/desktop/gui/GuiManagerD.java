@@ -2252,7 +2252,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			getApp().updateContentPane();
 		}
 		if (kernel.wantAnimationStarted()) {
-			kernel.getAnimatonManager().startAnimation();
+			kernel.getAnimationManager().startAnimation();
 			kernel.setWantAnimationStarted(false);
 		}
 		if (getApp().isEuclidianView3Dinited()) {

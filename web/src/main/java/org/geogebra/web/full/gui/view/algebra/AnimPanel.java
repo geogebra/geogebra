@@ -159,7 +159,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler, HasDataTest {
 			return;
 		}
 		getGeo().setAnimating(value);
-		getGeo().getKernel().getAnimatonManager().startAnimation();
+		getGeo().getKernel().getAnimationManager().startAnimation();
 	}
 
 	/**
@@ -254,7 +254,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler, HasDataTest {
 	 */
 	boolean isGeoAnimating() {
 		return this.radioTreeItem.geo.isAnimating()
-				&& this.radioTreeItem.kernel.getAnimatonManager().isRunning();
+				&& this.radioTreeItem.kernel.getAnimationManager().isRunning();
 	}
 
 	/**

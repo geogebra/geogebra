@@ -64,7 +64,7 @@ final class Order3 extends Curve {
     {
         int numparams = getHorizontalParams(y0, cy0, cy1, y1, tmp);
         if (numparams == 0) {
-            // We are using addInstance here to avoid inserting horisontal
+            // We are using addInstance here to avoid inserting horizontal
             // segments
             addInstance(curves, x0, y0, cx0, cy0, cx1, cy1, x1, y1, direction);
             return;

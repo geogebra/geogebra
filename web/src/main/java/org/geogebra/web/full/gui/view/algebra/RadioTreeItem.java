@@ -109,7 +109,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private static final int DEFINITION_ROW_EDIT_MARGIN = 5;
 	private static final int MARGIN_RESIZE = 50;
 
-	protected static final int LATEX_MAX_EDIT_LENGHT = 1500;
+	protected static final int LATEX_MAX_EDIT_LENGTH = 1500;
 
 	Boolean stylebarShown;
 	/** Help popup */
@@ -531,7 +531,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			outputPanel.reset();
 		}
 		// LaTeX
-		String text = getLatexString(LATEX_MAX_EDIT_LENGHT,
+		String text = getLatexString(LATEX_MAX_EDIT_LENGTH,
 				geo.getDescriptionMode() != DescriptionMode.DEFINITION);
 		latex = text != null;
 
@@ -631,7 +631,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				|| (geo != null && geo.getParentAlgorithm() instanceof AlgoFractionText)) {
 			String text = "";
 			if (geo != null) {
-				text = getLatexString(LATEX_MAX_EDIT_LENGHT, true);
+				text = getLatexString(LATEX_MAX_EDIT_LENGTH, true);
 				latexAfterEdit = (text != null);
 			} else {
 				latexAfterEdit = true;

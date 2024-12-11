@@ -557,16 +557,16 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		// set visibility and text of the parameter labels and fields
 		for (int i = 0; i < maxParameterCount; ++i) {
 
-			boolean hasParm = i < ProbabilityManager.getParmCount(selectedDist);
+			boolean hasParam = i < ProbabilityManager.getParamCount(selectedDist);
 
-			lblParameterArray[i].setVisible(hasParm);
-			fldParameterArray[i].setVisible(hasParm);
+			lblParameterArray[i].setVisible(hasParam);
+			fldParameterArray[i].setVisible(hasParam);
 
 			// hide sliders for now ... need to work out slider range for each
-			// parm (tricky)
+			// param (tricky)
 			// sliderArray[i].setVisible(false);
 
-			if (hasParm) {
+			if (hasParam) {
 				// set label
 				lblParameterArray[i].setVisible(true);
 				lblParameterArray[i]
@@ -687,7 +687,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		btnIntervalTwoTailed.setToolTipText(loc.getMenu("TwoTailedProb"));
 
 		for (int i = 0; i < ProbabilityManager
-				.getParmCount(selectedDist); i++) {
+				.getParamCount(selectedDist); i++) {
 			lblParameterArray[i]
 					.setText(getParameterLabels()[selectedDist.ordinal()][i]);
 		}

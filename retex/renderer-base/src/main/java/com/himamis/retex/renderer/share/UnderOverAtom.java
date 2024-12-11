@@ -48,8 +48,8 @@ package com.himamis.retex.renderer.share;
 
 /**
  * An atom representing another atom with an atom above it (if not null)
- * seperated by a kern and in a smaller size depending on "overScriptSize"
- * and/or an atom under it (if not null) seperated by a kern and in a smaller
+ * separated by a kern and in a smaller size depending on "overScriptSize"
+ * and/or an atom under it (if not null) separated by a kern and in a smaller
  * size depending on "underScriptSize"
  */
 public class UnderOverAtom extends Atom implements HasUnderOver {

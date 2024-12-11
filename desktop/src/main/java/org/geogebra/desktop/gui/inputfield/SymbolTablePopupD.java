@@ -144,7 +144,7 @@ public class SymbolTablePopupD {
 	}
 
 	// =======================================================
-	// Handle popup visiblilty
+	// Handle popup visibility
 	// =======================================================
 
 	/**

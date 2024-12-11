@@ -138,7 +138,7 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 		if (parametricMatrix == null) {
 			parametricMatrix = new CoordMatrix(4, 3);
 		}
-		CoordMatrix qm = inputQuad.getSymetricMatrix();
+		CoordMatrix qm = inputQuad.getSymmetricMatrix();
 		CoordMatrix pm = inputPlane.getCoordSys()
 				.getParametricMatrix(parametricMatrix);
 

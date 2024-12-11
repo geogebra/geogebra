@@ -382,7 +382,7 @@ public class ProbabilityManager {
 	 *
 	 * @return number of parameters
 	 */
-	public static int getParmCount(Dist dist) {
+	public static int getParamCount(Dist dist) {
 
 		switch (dist) {
 		case BETA:
@@ -493,7 +493,7 @@ public class ProbabilityManager {
 
 		double xMin = 0, xMax = 0, yMin = 0, yMax = 0;
 
-		// retrieve the parameter values from the parmList geo
+		// retrieve the parameter values from the param geos
 		double mean, sigma, v, v2, k, median, scale, shape, mode, sd;
 
 		switch (selectedDist) {
@@ -615,17 +615,17 @@ public class ProbabilityManager {
 			break;
 
 		case LOGNORMAL:
-			double meanParm = params[0].getDouble();
-			double sdParm = params[1].getDouble();
-			double varParm = sdParm * sdParm;
+			double meanParam = params[0].getDouble();
+			double sdParam = params[1].getDouble();
+			double varParam = sdParam * sdParam;
 
-			mean = Math.exp(meanParm + varParm / 2);
+			mean = Math.exp(meanParam + varParam / 2);
 
-			double var = (Math.exp(varParm) - 1)
-					* Math.exp(2 * meanParm + varParm);
+			double var = (Math.exp(varParam) - 1)
+					* Math.exp(2 * meanParam + varParam);
 			sigma = Math.sqrt(var);
 
-			mode = Math.exp(meanParm - varParm);
+			mode = Math.exp(meanParam - varParam);
 			xMin = 0;
 			xMax = mean + 5 * sigma;
 

@@ -229,7 +229,8 @@ var GGBApplet = function() {
             applet.removeExistingApplet(appletElem, false);
 
             // Read the applet dimensions from the container, if they were not defined in the params
-            //it is okay, but sadly no height of the container, so we must take care of this too - geogebraweb won't wet widht and height if one if it 0
+            //it is okay, but sadly no height of the container, so we must take care of this too
+            //- geogebraweb won't get width and height if one of them is 0
             if (parameters.width === undefined && appletElem.clientWidth) {
                 parameters.width = appletElem.clientWidth;
             }

@@ -2411,7 +2411,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * @param type
-	 *            what properties pannel should be showing (object, defults,
+	 *            what properties panel should be showing (object, defults,
 	 *            advanced, ...)
 	 */
 	public void setPropertiesViewPanel(OptionType type) {
@@ -3138,7 +3138,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * This should not be used, just overriden in AppW
+	 * This should not be used, just overridden in AppW
 	 */
 	public void scheduleUpdateConstruction() {
 		kernel.getConstruction().updateConstructionLaTeX();
@@ -3497,8 +3497,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return icon
 	 */
 	public GImageIcon wrapGetModeIcon(int mode) {
-		// TODO: debug message commented out from Trunk version, probably loops
-		// Log.debug("App.wrapGetModeIcon must be overriden");
 		return null;
 	}
 
@@ -3771,7 +3769,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return false;
 		}
 
-		AnimationManager animMgr = kernel.getAnimatonManager();
+		AnimationManager animMgr = kernel.getAnimationManager();
 		if (animMgr.isRunning()) {
 			animMgr.stopAnimation();
 		} else {
@@ -3837,7 +3835,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 					getActiveEuclidianView().repaint();
 
 					if (num.isAnimating()) {
-						num.getKernel().getAnimatonManager().startAnimation();
+						num.getKernel().getAnimationManager().startAnimation();
 					}
 				}
 

@@ -66,7 +66,7 @@ public class AlgoDiameterVector3D extends AlgoDiameterVectorND {
 		diameterCoords = new double[3];
 	}
 
-	// calc diameter line of v relativ to c
+	// calc diameter line of v relative to c
 	@Override
 	public final void compute() {
 

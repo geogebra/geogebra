@@ -883,7 +883,7 @@ public class MathMLParser {
 	 * @param result
 	 *            builder to which we append the string
 	 * @param appendSpace
-	 *            whether space shoud be appended after the block content
+	 *            whether space should be appended after the block content
 	 * @throws XMLParseException
 	 *             if an error occurs while parsing
 	 */

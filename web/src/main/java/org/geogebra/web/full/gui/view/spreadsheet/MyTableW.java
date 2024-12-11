@@ -173,7 +173,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	private HashMap<SpreadsheetCoords, GeoElement> oneClickEditMap = new HashMap<>();
 	private boolean allowEditing = false;
 
-	private SpreadsheetModeProcessor spredsheetModeProcessor;
+	private SpreadsheetModeProcessor spreadsheetModeProcessor;
 
 	protected Grid ssGrid;
 
@@ -2480,11 +2480,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * @return spreadsheet mode processor
 	 */
 	public SpreadsheetModeProcessor getSpreadsheetModeProcessor() {
-		if (this.spredsheetModeProcessor == null) {
-			this.spredsheetModeProcessor = new SpreadsheetModeProcessor(app,
+		if (this.spreadsheetModeProcessor == null) {
+			this.spreadsheetModeProcessor = new SpreadsheetModeProcessor(app,
 					this);
 		}
-		return this.spredsheetModeProcessor;
+		return this.spreadsheetModeProcessor;
 	}
 
 	public void addResizeHeight(GPoint gPoint) {

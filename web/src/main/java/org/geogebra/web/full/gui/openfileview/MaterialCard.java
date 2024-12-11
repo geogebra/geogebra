@@ -134,35 +134,35 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		if (material.isSharedWithGroup()) {
 			visibility = "S";
 		}
-		NoDragImage visibiltyImg;
+		NoDragImage visibilityImg;
 		String visibilityTxt;
 		if (material.isMultiuser()) {
-			visibiltyImg = getMultiuserIcon();
+			visibilityImg = getMultiuserIcon();
 			if (isOwnMaterial()) {
 				visibilityTxt = app.getLocalization().getMenu("Collaborative");
 			} else {
 				visibilityTxt = getCardAuthor();
 			}
 		} else if (!isOwnMaterial()) {
-			visibiltyImg = null;
+			visibilityImg = null;
 			visibilityTxt = getCardAuthor();
 		} else {
 			switch (visibility) {
 			case "P":
-				visibiltyImg = new NoDragImage(res.mow_card_private(), 24);
+				visibilityImg = new NoDragImage(res.mow_card_private(), 24);
 				visibilityTxt = app.getLocalization().getMenu("Private");
 				break;
 			case "S":
 				if (app.isMebis()) {
-					visibiltyImg = new NoDragImage(res.mow_card_shared(), 24);
+					visibilityImg = new NoDragImage(res.mow_card_shared(), 24);
 				} else {
-					visibiltyImg = new NoDragImage(res.resource_card_shared(), 24);
+					visibilityImg = new NoDragImage(res.resource_card_shared(), 24);
 				}
 				visibilityTxt = app.getLocalization().getMenu("Shared");
 				break;
 			case "O":
 			default:
-				visibiltyImg = new NoDragImage(res.mow_card_public(), 24);
+				visibilityImg = new NoDragImage(res.mow_card_public(), 24);
 				visibilityTxt = app.getLocalization().getMenu("Public");
 				break;
 			}
@@ -171,10 +171,10 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		infoPanelContent.clear();
 		Label visibilityLbl = BaseWidgetFactory.INSTANCE.newSecondaryText(visibilityTxt);
 
-		if (visibiltyImg != null) {
+		if (visibilityImg != null) {
 			infoPanelContent.setStyleName("visibilityPanel");
 			infoPanelContent
-					.add(LayoutUtilW.panelRow(visibiltyImg, visibilityLbl));
+					.add(LayoutUtilW.panelRow(visibilityImg, visibilityLbl));
 		} else {
 			infoPanelContent.setStyleName("cardAuthor");
 			infoPanelContent.add(visibilityLbl);

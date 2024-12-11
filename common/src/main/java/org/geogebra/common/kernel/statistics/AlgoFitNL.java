@@ -33,7 +33,7 @@ the Free Software Foundation.
  * give a function g(x)=p1+p2/(x-p3) where p1, p2 and p3 are calculated to give
  * the least sum of squared errors.
  * 
- * The nonlinear curve-fitting is done with an iteration algortithm, which is
+ * The nonlinear curve-fitting is done with an iteration algorithm, which is
  * not guaranteed to work. The values of a, b and c are taken as starting points
  * for the iteration algorithm. If the iteration does not converge or the number
  * of iterations is getting to large, the result is undefined, a signal for the

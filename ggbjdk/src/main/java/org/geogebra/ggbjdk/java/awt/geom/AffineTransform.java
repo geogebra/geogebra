@@ -3565,7 +3565,7 @@ public class AffineTransform implements GAffineTransform {
                 (m10 == a.m10) && (m11 == a.m11) && (m12 == a.m12));
     }
 
-    /* Serialization support.  A readObject method is neccessary because
+    /* Serialization support.  A readObject method is necessary because
      * the state field is part of the implementation of this particular
      * AffineTransform and not part of the public specification.  The
      * state variable's value needs to be recalculated on the fly by the

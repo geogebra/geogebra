@@ -519,7 +519,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// user authentication handling
 		initSignInEventFlow();
 		if (kernel.wantAnimationStarted()) {
-			kernel.getAnimatonManager().startAnimation();
+			kernel.getAnimationManager().startAnimation();
 			kernel.setWantAnimationStarted(false);
 		}
 	}

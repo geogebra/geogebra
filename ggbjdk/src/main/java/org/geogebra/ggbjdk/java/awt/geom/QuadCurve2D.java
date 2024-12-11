@@ -734,7 +734,7 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
 
         /*
          * We have a convex shape bounded by quad curve Pc(t)
-         * and ine Pl(t).
+         * and line Pl(t).
          *
          *     P1 = (x1, y1) - start point of curve
          *     P2 = (x2, y2) - end point of curve
@@ -929,7 +929,7 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
      */
     @Override
 	public boolean intersects(double x, double y, double w, double h) {
-        // Trivially reject non-existant rectangles
+        // Trivially reject non-existent rectangles
         if (w <= 0 || h <= 0) {
             return false;
         }

@@ -1245,7 +1245,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	/**
-	 * Scrolls content verically, based on the cursor position
+	 * Scrolls content vertically, based on the cursor position
 	 *
 	 * @param parentPanel
 	 *            panel to be scrolled

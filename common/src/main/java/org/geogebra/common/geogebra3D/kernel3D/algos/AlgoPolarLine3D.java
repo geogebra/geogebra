@@ -71,7 +71,7 @@ public class AlgoPolarLine3D extends AlgoPolarLineND {
 		return new GeoLine3D(cons1);
 	}
 
-	// calc polar line of P relativ to c
+	// calc polar line of P relative to c
 	@Override
 	public final void compute() {
 

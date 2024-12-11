@@ -199,7 +199,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 							RelationNumerical rn = new RelationNumerical(kernel);
 							String cond = ndgc.getCondition();
 							if ("AreParallel".equals(cond)) {
-								// non-parallism in 2D means intersecting
+								// non-parallelism in 2D means intersecting
 								// FIXME: this is not true for 3D
 								s = sb(rn.intersectString(
 										ndgc.getGeos()[0], ndgc.getGeos()[1],

@@ -249,7 +249,7 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	 * Prepares the popup before it is shown. Override this if the popup needs
 	 * special handling before opening.
 	 * 
-	 * @return true if not overriden
+	 * @return true if not overridden
 	 */
 	public boolean prepareToShowPopup() {
 		return true;

@@ -356,7 +356,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	}
 
 	/**
-	 * Default implementation does not work, overriden in desktop TODO make sure
+	 * Default implementation does not work, overridden in desktop TODO make sure
 	 * we override this in Web as well
 	 * 
 	 * @param c
@@ -1781,16 +1781,16 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 				&& string.startsWith("$\\math");
 	}
 
-        /**
-         * Append number formated to fixed number of significant digits to a builder.
-         *
-         * @param sbFormatSF
-         *            output builder
+	/**
+	 * Append number formatted to fixed number of significant digits to a builder.
+	 *
+	 * @param sbFormatSF
+	 *            output builder
 	 * @param x
 	 *            number
 	 * @param sfa
 	 *            format
-         */
+	 */
 	public static void appendFormat(StringBuilder sbFormatSF, double x,
 			ScientificFormatAdapter sfa) {
 		String absStr;

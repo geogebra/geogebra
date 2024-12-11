@@ -55,7 +55,7 @@ public class AlgoDiameterLine extends AlgoDiameterLineND {
 		v = new GeoVector(cons1);
 	}
 
-	// calc diameter line of v relativ to c
+	// calc diameter line of v relative to c
 	@Override
 	public final void compute() {
 		((GeoLine) g).getDirection(v);

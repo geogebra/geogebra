@@ -923,7 +923,7 @@ public class JSONObject {
 	 * @param number
 	 *            a finite value. May not be {@link Double#isNaN() NaNs} or
 	 *            {@link Double#isInfinite() infinities}.
-	 * @return formated number
+	 * @return formatted number
 	 * @throws JSONException
 	 *             if number is null or not JSON permissible
 	 */

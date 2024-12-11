@@ -561,7 +561,7 @@ public class SpreadsheetSettings extends AbstractSettings implements Spreadsheet
 	}
 
 	/**
-	 * @return whether prefered cell size is default
+	 * @return whether preferred cell size is default
 	 */
 	public boolean isDefaultPreferredSize() {
 		int w = preferredSize.getWidth();

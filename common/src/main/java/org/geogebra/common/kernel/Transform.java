@@ -242,7 +242,7 @@ public abstract class Transform {
 	/**
 	 * True if the transformation is affine
 	 * 
-	 * @return true by default, overriden e.g. for circle inverse
+	 * @return true by default, overridden e.g. for circle inverse
 	 */
 
 	public boolean isAffine() {

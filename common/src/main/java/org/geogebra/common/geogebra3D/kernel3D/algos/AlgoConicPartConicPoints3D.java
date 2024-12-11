@@ -58,7 +58,7 @@ public class AlgoConicPartConicPoints3D extends AlgoConicPartConicPointsND {
 	}
 
 	@Override
-	protected void computeParemeters() {
+	protected void computeParameters() {
 
 		CoordSys cs = conic.getCoordSys();
 

@@ -235,7 +235,7 @@ public class Base64 {
 	}
 
 	/**
-	 * Decodes a BASE64 encoded char array that is known to be resonably well
+	 * Decodes a BASE64 encoded char array that is known to be reasonably well
 	 * formatted. The method is about twice as fast as {@link #decode(char[])}.
 	 * The preconditions are:<br>
 	 * + The array must have a line length of 76 chars OR no line separators at
@@ -455,7 +455,7 @@ public class Base64 {
 	}
 
 	/**
-	 * Decodes a BASE64 encoded byte array that is known to be resonably well
+	 * Decodes a BASE64 encoded byte array that is known to be reasonably well
 	 * formatted. The method is about twice as fast as {@link #decode(byte[])}.
 	 * The preconditions are:<br>
 	 * + The array must have a line length of 76 chars OR no line separators at
@@ -637,7 +637,7 @@ public class Base64 {
 	}
 
 	/**
-	 * Decodes a BASE64 encoded string that is known to be resonably well
+	 * Decodes a BASE64 encoded string that is known to be reasonably well
 	 * formatted. The method is about twice as fast as {@link #decode(String)}.
 	 * The preconditions are:<br>
 	 * + The array must have a line length of 76 chars OR no line separators at

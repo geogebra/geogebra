@@ -620,7 +620,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * look at the current location of their output points.
 	 */
 	public void initForNearToRelationship() {
-		// overriden in subclasses
+		// overridden in subclasses
 	}
 
 	/**
@@ -1114,7 +1114,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param set
 	 *            set of geos to be added
 	 * @param onlyIndependent
-	 *            whether only indpendent geos should be added
+	 *            whether only independent geos should be added
 	 */
 	@Override
 	public final void addPredecessorsToSet(TreeSet<GeoElement> set,

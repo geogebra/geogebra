@@ -48,7 +48,7 @@ public class AlgoCurvatureVector extends AlgoElement {
 		try {
 			v.setStartPoint(A);
 		} catch (CircularDefinitionException e) {
-			// can't happen with new vecors
+			// can't happen with new vectors
 		}
 		EvalInfo info = new EvalInfo(false);
 		// First derivative of function f

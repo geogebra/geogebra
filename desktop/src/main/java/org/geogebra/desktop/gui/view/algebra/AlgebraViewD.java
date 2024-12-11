@@ -164,7 +164,7 @@ public class AlgebraViewD extends AlgebraTree
 			// set the root
 			model.setRoot(rootDependency);
 
-			// add auxiliary node if neccessary
+			// add auxiliary node if necessary
 			if (app.showAuxiliaryObjects) {
 				if (!auxiliaryNode.isNodeChild(rootDependency)) {
 					model.insertNodeInto(auxiliaryNode, rootDependency,
@@ -965,7 +965,7 @@ public class AlgebraViewD extends AlgebraTree
 
 		settingsChanged = false;
 
-		// auxilliary objects
+		// auxiliary objects
 		setShowAuxiliaryObjects(showAuxiliaryObjectsSettings);
 
 		// collapsed nodes

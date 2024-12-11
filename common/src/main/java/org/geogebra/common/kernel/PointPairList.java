@@ -6,7 +6,7 @@
 package org.geogebra.common.kernel;
 
 /**
- * sorted list of point pairs (sorted by distance) used in AlgoInteresectConics
+ * sorted list of point pairs (sorted by distance) used in AlgoIntersectConics
  * and AlgoIntersecLineConic
  * 
  * @author HOHENWARTER

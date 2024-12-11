@@ -88,7 +88,7 @@ public class CmdGetTime extends CommandProcessor {
 	}
 
 	/**
-	 * @return formated date
+	 * @return formatted date
 	 * @param format
 	 *            date format
 	 * @param cal

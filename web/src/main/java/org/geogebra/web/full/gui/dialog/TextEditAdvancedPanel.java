@@ -142,9 +142,10 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 	 */
 	public void updateGeoList() {
 		geoPanel.clear();
-		Object[] datas = getGeoObjectList(editPanel.getEditGeo());
-		String[] geoLabels = (String[]) datas[0];
-		GColor[] geoColors = (GColor[]) datas[1];
+		// TODO avoid magic casts
+		Object[] data = getGeoObjectList(editPanel.getEditGeo());
+		String[] geoLabels = (String[]) data[0];
+		GColor[] geoColors = (GColor[]) data[1];
 
 		final SymbolTableW symTable = newSymbolTable(geoLabels, false, 2,
 				s -> insertGeo(s), geoColors);

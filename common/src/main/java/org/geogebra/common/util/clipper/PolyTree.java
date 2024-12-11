@@ -8,7 +8,7 @@ class PolyTree extends PolyNode {
 
 	public void clear() {
 		allPolys.clear();
-		childs.clear();
+		children.clear();
 	}
 
 	public List<PolyNode> getAllPolys() {
@@ -19,8 +19,8 @@ class PolyTree extends PolyNode {
 	 * @return first child
 	 */
 	public PolyNode getFirst() {
-		if (!childs.isEmpty()) {
-			return childs.get(0);
+		if (!children.isEmpty()) {
+			return children.get(0);
 		}
 		return null;
 	}
@@ -31,7 +31,7 @@ class PolyTree extends PolyNode {
 	public int getTotalSize() {
 		int result = allPolys.size();
 		// with negative offsets, ignore the hidden outer polygon ...
-		if (result > 0 && childs.get(0) != allPolys.get(0)) {
+		if (result > 0 && children.get(0) != allPolys.get(0)) {
 			result--;
 		}
 		return result;

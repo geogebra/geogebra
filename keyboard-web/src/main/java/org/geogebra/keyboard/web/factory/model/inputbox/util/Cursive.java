@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 public final class Cursive {
 
-	public static final int MAX_CAPTION_LENGHT = 3;
+	public static final int MAX_CAPTION_LENGTH = 3;
 	private static final Map<String, String> map;
 
 	static {
@@ -90,7 +90,7 @@ public final class Cursive {
 		if (varName.length() > 2) {
 			return getCursiveBoldText(varName);
 		} else if (subscript != null) {
-			int remaining = 2 * (MAX_CAPTION_LENGHT - varName.length());
+			int remaining = 2 * (MAX_CAPTION_LENGTH - varName.length());
 			if (remaining >= subscript.length()) {
 				return toCursiveBold(varName) + "_" + toCursiveBold(subscript);
 			} else {
@@ -106,8 +106,8 @@ public final class Cursive {
 	}
 
 	private static String truncate(String name) {
-		return name.length() > Cursive.MAX_CAPTION_LENGHT
-				? name.substring(0, Cursive.MAX_CAPTION_LENGHT)
+		return name.length() > Cursive.MAX_CAPTION_LENGTH
+				? name.substring(0, Cursive.MAX_CAPTION_LENGTH)
 				: name;
 	}
 

@@ -96,7 +96,7 @@ public class EuclidianViewCompanion {
 	}
 
 	/**
-	 * tranform in view coords
+	 * transform in view coords
 	 * 
 	 * @param coords
 	 *            point
@@ -459,7 +459,7 @@ public class EuclidianViewCompanion {
 	}
 
 	/**
-	 * tranform point coords in view coords
+	 * transform point coords in view coords
 	 * 
 	 * @param point
 	 *            point

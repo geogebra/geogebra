@@ -2679,7 +2679,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * tranform in view coords
+	 * transform in view coords
 	 * 
 	 * @param coords
 	 *            point
@@ -4275,7 +4275,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * @param preferredSize
-	 *            prefered size
+	 *            preferred size
 	 */
 	public abstract void setPreferredSize(GDimension preferredSize);
 

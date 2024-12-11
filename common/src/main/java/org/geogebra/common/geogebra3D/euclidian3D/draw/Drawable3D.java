@@ -549,7 +549,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * set geomeotry visibility
+	 * set geometry visibility
 	 * 
 	 * @param visible
 	 *            geometry visibility flag
@@ -1860,7 +1860,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 * 
 	 * @return if the label is pickable
 	 */
-	public boolean hasPickableLable() {
+	public boolean hasPickableLabel() {
 		return true;
 	}
 

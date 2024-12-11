@@ -268,13 +268,13 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 			}
 		}
 
-		// continous: use near-to-heuristic between old and new intersection
+		// continuous: use near-to-heuristic between old and new intersection
 		// points
-		// non-continous: use computeContinous() to init a permutation and then
+		// non-continuous: use computeContinuous() to init a permutation and then
 		// always use this permutation
-		boolean continous = isPermutationNeeded || kernel.isContinuous()
+		boolean continuous = isPermutationNeeded || kernel.isContinuous()
 				|| kernel.getLoadingMode();
-		if (continous) {
+		if (continuous) {
 			computeContinuous();
 		} else {
 			computeNonContinuous();
@@ -530,7 +530,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 			// init points in order P[0], P[1]
 			int count = 0;
 			for (int i = 0; i < Q.length; i++) {
-				// make sure interesection points lie on limited paths
+				// make sure intersection points lie on limited paths
 				if (Q[i].isDefined() && pointLiesOnBothPaths(Q[i])) {
 					P[count].setCoords(Q[i]);
 					D[count].setCoords(P[count]);
@@ -558,7 +558,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 				pointList, permutation, !isPermutationNeeded, 0.000001);
 		isPermutationNeeded = false;
 
-		// make sure interesection points lie on limited paths
+		// make sure intresection points lie on limited paths
 		if (isLimitedPathSituation) {
 			handleLimitedPaths();
 		}
@@ -580,7 +580,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 					// on both (limited) paths. However, we want to keep the
 					// information
 					// of P[i]'s position for our near-to-approach to achieve
-					// continous movements.
+					// continuous movements.
 					// That's why we remember D[i] now
 					if (noSingularity && P[i].isFinite()) {
 						D[i].setCoords(P[i]);

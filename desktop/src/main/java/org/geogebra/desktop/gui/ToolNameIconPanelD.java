@@ -354,7 +354,7 @@ public class ToolNameIconPanelD extends JPanel {
 	}
 
 	/**
-	 * Returns true if the macro shoud be dispalayed in toolbar
+	 * Returns true if the macro should be displayed in toolbar
 	 * 
 	 * @return true if "Show in toolbar" checkbox is selected
 	 */

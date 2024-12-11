@@ -227,9 +227,9 @@ public class AlgebraTree extends JTree {
 	/**
 	 * @param tp
 	 *            tree path
-	 * @return geos as childs under this path
+	 * @return geos as children under this path
 	 */
-	public static ArrayList<GeoElement> getGeoChildsForPath(TreePath tp) {
+	public static ArrayList<GeoElement> getGeoChildrenForPath(TreePath tp) {
 		if (tp == null) {
 			return null;
 		}
@@ -242,7 +242,7 @@ public class AlgebraTree extends JTree {
 		}
 
 		ArrayList<GeoElement> ret = new ArrayList<>();
-		addChilds(ret, node, 0, node.getChildCount());
+		addChildren(ret, node, 0, node.getChildCount());
 		return ret;
 	}
 
@@ -523,7 +523,7 @@ public class AlgebraTree extends JTree {
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) root
 						.getChildAt(p1);
 				ArrayList<GeoElement> ret = new ArrayList<>();
-				addChilds(ret, node, c1, c2 + 1);
+				addChildren(ret, node, c1, c2 + 1);
 				return ret;
 			} // else, all geos between the two categories
 
@@ -531,16 +531,16 @@ public class AlgebraTree extends JTree {
 
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root
 					.getChildAt(p1);
-			addChilds(ret, node, c1, node.getChildCount());
+			addChildren(ret, node, c1, node.getChildCount());
 			for (int i = p1 + 1; i < p2; i++) {
 				node = (DefaultMutableTreeNode) root.getChildAt(i);
-				// add childs only if node is expanded
+				// add children only if node is expanded
 				if (!isCollapsed(new TreePath(node.getPath()))) {
-					addChilds(ret, node, 0, node.getChildCount());
+					addChildren(ret, node, 0, node.getChildCount());
 				}
 			}
 			node = (DefaultMutableTreeNode) root.getChildAt(p2);
-			addChilds(ret, node, 0, c2 + 1);
+			addChildren(ret, node, 0, c2 + 1);
 
 			return ret;
 
@@ -550,7 +550,7 @@ public class AlgebraTree extends JTree {
 
 	}
 
-	private static void addChilds(ArrayList<GeoElement> list,
+	private static void addChildren(ArrayList<GeoElement> list,
 			DefaultMutableTreeNode node, int start, int end) {
 		Object ob;
 		for (int i = start; i < end; i++) {

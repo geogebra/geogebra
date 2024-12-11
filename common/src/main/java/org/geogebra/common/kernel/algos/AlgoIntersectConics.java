@@ -257,9 +257,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 			}
 		}
 
-		// continous: use near-to-heuristic between old and new intersection
+		// continuous: use near-to-heuristic between old and new intersection
 		// points
-		// non-continous: use computeContinous() to init a permutation and then
+		// non-continuous: use computeContinuous() to init a permutation and then
 		// always use this permutation
 		boolean continuous = isPermutationNeeded || kernel.isContinuous();
 		if (continuous) {
@@ -565,7 +565,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 					// on both (limited) paths. However, we want to keep the
 					// information
 					// of P[i]'s position for our near-to-approach to achieve
-					// continous movements.
+					// continuous movements.
 					// That's why we remember D[i] now
 					if (noSingularity && P[i].isFinite()) {
 						D[i].setCoords(P[i]);
@@ -594,7 +594,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	}
 
 	/**
-	 * Returns wheter we are in a singularity situation. This is the case whenever
+	 * Returns whether we are in a singularity situation. This is the case whenever
 	 * there are only two points P[i] that are defined and equal.
 	 */
 	private boolean isSingularitySituation() {
@@ -675,7 +675,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 			}
 		}
 
-		// for non-continous kernel: move defined intersection points to front
+		// for non-continuous kernel: move defined intersection points to front
 		else if (!kernel.isContinuous()) {
 			moveDefinedPointsToFront(points);
 		}
@@ -815,7 +815,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		 * all intersection points of A and B.
 		 */
 
-		// test wheter conics A and B have proportional submatrix S
+		// test whether conics A and B have proportional submatrix S
 		// => degnerate is single line
 		// (e.g. for circles)
 

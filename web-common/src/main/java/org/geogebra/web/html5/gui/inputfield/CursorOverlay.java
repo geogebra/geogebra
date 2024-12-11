@@ -12,7 +12,7 @@ public class CursorOverlay extends FlowPanel {
 
 	private String text = "";
 	int cursorPos = -1;
-	private boolean seleted = false;
+	private boolean selected = false;
 
 	public CursorOverlay() {
 		setStyleName("cursorOverlay");
@@ -63,7 +63,7 @@ public class CursorOverlay extends FlowPanel {
 	 * Adds the non-native selection widget.
 	 */
 	public void addFakeSelection() {
-		seleted = true;
+		selected = true;
 		InlineLabel selectedText = new InlineLabel(text);
 		selectedText.addStyleName("select-content");
 		clear();
@@ -74,7 +74,7 @@ public class CursorOverlay extends FlowPanel {
 	 * Removes the non-native selection widget.
 	 */
 	public void removeFakeSelection() {
-		seleted = false;
+		selected = false;
 		update();
 	}
 
@@ -83,6 +83,6 @@ public class CursorOverlay extends FlowPanel {
 	 * @return if the selection widget is present.
 	 */
 	public boolean hasFakeSelection() {
-		return seleted;
+		return selected;
 	}
 }

@@ -11,7 +11,7 @@ the Free Software Foundation.
  */
 
 /*
- * DrawSlider: draws a slider to change a number continously
+ * DrawSlider: draws a slider to change a number continuously
  */
 
 package org.geogebra.common.euclidian.draw;
@@ -334,7 +334,7 @@ public class DrawSlider extends Drawable {
 
 		diameter = 2 * (int) number.getSliderBlobSize() + 1;
 		int HIGHLIGHT_OFFSET = (int) number.getSliderBlobSize() / 2 + 1;
-		int hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
+		int highlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
 		// circle might be needed at least for tracing
 		circle.setFrame(xUL, yUL, diameter, diameter);
 		if (xUL + diameter < 0 || xUL > view.getWidth() || yUL + diameter < 0
@@ -344,11 +344,11 @@ public class DrawSlider extends Drawable {
 		// selection area
 		circleHighlight.setFrame(xUL - 2 * HIGHLIGHT_OFFSET,
 				yUL - HIGHLIGHT_OFFSET * 2,
-				hightlightDiameter + 2 * HIGHLIGHT_OFFSET,
-				hightlightDiameter + 2 * HIGHLIGHT_OFFSET);
+				highlightDiameter + 2 * HIGHLIGHT_OFFSET,
+				highlightDiameter + 2 * HIGHLIGHT_OFFSET);
 
 		circleOuter.setFrame(xUL - HIGHLIGHT_OFFSET, yUL - HIGHLIGHT_OFFSET,
-				hightlightDiameter, hightlightDiameter);
+				highlightDiameter, highlightDiameter);
 
 		// draw trace
 

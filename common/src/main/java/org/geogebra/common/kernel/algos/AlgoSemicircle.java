@@ -43,7 +43,7 @@ public class AlgoSemicircle extends AlgoElement
 	private PVariable[] botanaVars;
 
 	/**
-	 * Creates new semicircle algoritm
+	 * Creates new semicircle algorithm
 	 * 
 	 * @param cons
 	 *            construction
@@ -61,7 +61,7 @@ public class AlgoSemicircle extends AlgoElement
 	}
 
 	/**
-	 * Creates new unlabeled semicircle algoritm
+	 * Creates new unlabeled semicircle algorithm
 	 * 
 	 * @param cons
 	 *            construction

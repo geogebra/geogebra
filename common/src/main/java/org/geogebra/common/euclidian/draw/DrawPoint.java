@@ -55,7 +55,7 @@ public final class DrawPoint extends SetDrawable {
 	private final GeoPointND P;
 
 	private int diameter;
-	private int hightlightDiameter;
+	private int highlightDiameter;
 	private int pointSize;
 	private boolean isVisible;
 	private boolean labelVisible;
@@ -318,7 +318,7 @@ public final class DrawPoint extends SetDrawable {
 
 		// selection area
 		circleHighlight.setFrame(xUL - HIGHLIGHT_OFFSET, yUL - HIGHLIGHT_OFFSET,
-				hightlightDiameter, hightlightDiameter);
+				highlightDiameter, highlightDiameter);
 
 		drawAndUpdateTraceIfNeeded(P.getTrace());
 
@@ -336,7 +336,7 @@ public final class DrawPoint extends SetDrawable {
 
 		HIGHLIGHT_OFFSET = pointSize + 1;
 
-		hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
+		highlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
 	}
 
 	private void drawClippedSection(GeoElement path1, GeoElement path2, GGraphics2D g2) {

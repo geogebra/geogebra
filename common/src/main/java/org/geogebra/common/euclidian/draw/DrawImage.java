@@ -155,7 +155,7 @@ public class DrawImage extends Drawable {
 						isVisible = false;
 						return;
 					}
-					// rotate to coord system (-ADn, AD)
+					// rotate to coord system (-normal(AD), AD)
 					double ADx = D.inhomX - ax;
 					double ADy = D.inhomY - ay;
 					tempAT.setTransform(ADy, -ADx, ADx, ADy, 0, 0);

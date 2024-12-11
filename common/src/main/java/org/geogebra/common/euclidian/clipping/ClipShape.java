@@ -61,7 +61,7 @@ public class ClipShape {
 	 * when you call getBounds() on it.
 	 * <P>
 	 * Note that there are still some far fetched examples (involving
-	 * discontinous shapes) where getBounds() may be inaccurate, though. 2. This
+	 * discontinuous shapes) where getBounds() may be inaccurate, though. 2. This
 	 * can take a Function (either quadratic or cubic) and split it over a
 	 * smaller interval from an arbitary [t0,t1].
 	 */

@@ -90,7 +90,7 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 	}
 
 	/**
-	 * Inits the helping interesection algorithm to take the current position of
+	 * Inits the helping intersection algorithm to take the current position of
 	 * the lines into account. This is important so the the tangent lines are
 	 * not switched after loading a file
 	 */
@@ -103,7 +103,7 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 	}
 
 	/**
-	 * Inits the helping interesection algorithm to take the current position of
+	 * Inits the helping intersection algorithm to take the current position of
 	 * the lines into account. This is important so the the tangent lines are
 	 * not switched after loading a file
 	 *

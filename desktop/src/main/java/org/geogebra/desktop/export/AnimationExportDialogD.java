@@ -283,7 +283,7 @@ public class AnimationExportDialogD extends Dialog {
 		cbLoop.setEnabled(false);
 		tfTimeBetweenFrames.setEnabled(false);
 		this.setEnabled(false);
-		app.getKernel().getAnimatonManager().stopAnimation();
+		app.getKernel().getAnimationManager().stopAnimation();
 
 		File file = ((GuiManagerD) app.getGuiManager()).showSaveDialog(
 				FileExtensions.GIF, null,
@@ -341,7 +341,7 @@ public class AnimationExportDialogD extends Dialog {
 		gifEncoder.setQuality(1);
 		gifEncoder.start(file);
 
-		gifEncoder.setDelay(timeBetweenFrames); // miliseconds
+		gifEncoder.setDelay(timeBetweenFrames); // milliseconds
 		if (cbLoop.isSelected()) {
 			gifEncoder.setRepeat(0);
 		}

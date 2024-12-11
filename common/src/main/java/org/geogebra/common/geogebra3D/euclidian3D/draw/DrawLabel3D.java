@@ -701,7 +701,7 @@ public class DrawLabel3D {
 	 * @return whether the drawable can be picked
 	 */
 	public boolean isPickable() {
-		return drawable.hasPickableLable();
+		return drawable.hasPickableLabel();
 	}
 
 	/**

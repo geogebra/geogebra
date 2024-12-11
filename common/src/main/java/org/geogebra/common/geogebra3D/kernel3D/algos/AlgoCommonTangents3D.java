@@ -79,7 +79,7 @@ public class AlgoCommonTangents3D extends AlgoCommonTangentsND {
 	}
 
 	/**
-	 * Inits the helping interesection algorithm to take the current position of
+	 * Inits the helping intersection algorithm to take the current position of
 	 * the lines into account. This is important so the the tangent lines are
 	 * not switched after loading a file
 	 */
@@ -108,9 +108,9 @@ public class AlgoCommonTangents3D extends AlgoCommonTangentsND {
 	@Override
 	public void compute() {
 		AlgoIntersectConics3D.transformConics(c, d, c2d, d2d);
-		CoordMatrix nm = c2d.getSymetricMatrix()
-				.mul(d2d.getSymetricMatrix().inverse())
-				.mul(c2d.getSymetricMatrix());
+		CoordMatrix nm = c2d.getSymmetricMatrix()
+				.mul(d2d.getSymmetricMatrix().inverse())
+				.mul(c2d.getSymmetricMatrix());
 		tg.setMatrix(nm);
 		tg.update();
 		if (algoIntersect == null) {

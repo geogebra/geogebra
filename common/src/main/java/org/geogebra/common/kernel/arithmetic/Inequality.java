@@ -155,7 +155,7 @@ public class Inequality {
 			isAboveBorder = coefY > 0;
 			ExpressionNode m = new ExpressionNode(kernel,
 					replaceDummy(normal, 1), Operation.DIVIDE, coef);
-			m.simplifyLeafs();
+			m.simplifyLeaves();
 			fun = new Function(m, fv[0]);
 			type = IneqType.INEQUALITY_PARAMETRIC_Y;
 		} else if (coefX != null && !DoubleUtil.isZero(coefX)
@@ -164,7 +164,7 @@ public class Inequality {
 			isAboveBorder = coefX > 0;
 			ExpressionNode m = new ExpressionNode(kernel,
 					replaceDummy(normal, 0), Operation.DIVIDE, coef);
-			m.simplifyLeafs();
+			m.simplifyLeaves();
 			fun = new Function(m, fv[1]);
 			type = IneqType.INEQUALITY_PARAMETRIC_X;
 		} else if (coefX != null && DoubleUtil.isZero(coefX) && coefY == null) {
@@ -270,7 +270,7 @@ public class Inequality {
 
 	private void init1varFunction(int varIndex) {
 		Construction cons = kernel.getConstruction();
-		boolean supress = cons.isSuppressLabelsActive();
+		boolean suppress = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		// funBorder for inequality f(x)>g(x) is function f(x)-g(x)
 		funBorder = new GeoFunction(cons, false);
@@ -281,7 +281,7 @@ public class Inequality {
 		// Log.debug(i + ":" + zeros[i]);
 		// }
 
-		cons.setSuppressLabelCreation(supress);
+		cons.setSuppressLabelCreation(suppress);
 		border = funBorder;
 		if (isStrict()) {
 			border.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);

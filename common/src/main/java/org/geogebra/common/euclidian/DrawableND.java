@@ -164,7 +164,7 @@ public abstract class DrawableND {
 	}
 
 	/**
-	 * By default create new drawable from view, overriden for composite
+	 * By default create new drawable from view, overridden for composite
 	 * drawable to avoid deep nesting.
 	 * 
 	 * @param listElement

@@ -53,7 +53,7 @@ import org.geogebra.common.util.debug.Log;
  * "good" points on each branch of the curve. (Positive a, b and c is quite
  * robust though. :-) ) Problems: Non-linear regression is difficult, and the
  * choice of initial values for the parameters are highly critical. The
- * algorithm here might converge to a local minimum. The algoritm might diverge,
+ * algorithm here might converge to a local minimum. The algorithm might diverge,
  * so after MAXITERATIONS the result will be unusable
  * 
  * Possible future solution: Make more commands where you give both a list and

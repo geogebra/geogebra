@@ -548,8 +548,8 @@ final public class GeoSegment extends GeoLine
 	}
 
 	/**
-	 * returns the paramter for the closest point to P on the Segment
-	 * (extrapolated) so answers can be returned outside the range [0,1]
+	 * Returns the parameter for the closest point to P on the Segment
+	 * (extrapolated) so answers can be returned outside the range [0,1].
 	 * 
 	 * @param ptx
 	 *            point x-coord

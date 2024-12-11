@@ -177,7 +177,7 @@ public class ArcClipper {
 		for (double[] edge : edges) {
 			edgeCounter++;
 			if (conic.isGeoElement3D()) {
-				CoordMatrix rwMatrix = conic.getSymetricMatrix();
+				CoordMatrix rwMatrix = conic.getSymmetricMatrix();
 				CoordMatrix viewMatrix = viewTrans.transposeCopy().mul(rwMatrix.mul(viewTrans));
 				viewMatrix.flattenTo(conicCoeffsForIntersect);
 			} else {

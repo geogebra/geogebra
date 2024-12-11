@@ -31,7 +31,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 	private StringBuilder sb;
 	private int topLevelBars;
 	private boolean forward;
-	private int braketLevel;
+	private int bracketLevel;
 	private int bars;
 	private final ParserInfo info;
 
@@ -86,7 +86,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 		boolean comment = false;
 		bars = 0;
 		Character lastNonWhitespace = ' ';
-		braketLevel = 0;
+		bracketLevel = 0;
 
 		for (int i = 0; i < ignoredIndices.length(); i++) {
 			Character ch = ignoredIndices.charAt(i);
@@ -98,7 +98,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 				sb.append(write == Unicode.MICRO ? Unicode.mu : write);
 			}
 
-			if (ch.equals(',') && info.isInputBox() && braketLevel == 0) {
+			if (ch.equals(',') && info.isInputBox() && bracketLevel == 0) {
 				handleComma(i);
 			}
 
@@ -137,16 +137,16 @@ import com.himamis.retex.editor.share.util.Unicode;
 			sb.append(' ');
 		}
 		bars++;
-		if (braketLevel == 0) {
+		if (bracketLevel == 0) {
 			topLevelBars++;
 		}
 	}
 
 	private void preprocessBrackets(Character ch) {
 		if (isOpenBracket(ch)) {
-			braketLevel++;
+			bracketLevel++;
 		} else if (isCloseBracket(ch)) {
-			braketLevel--;
+			bracketLevel--;
 		}
 	}
 

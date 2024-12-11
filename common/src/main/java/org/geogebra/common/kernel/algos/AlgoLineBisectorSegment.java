@@ -96,7 +96,7 @@ public class AlgoLineBisectorSegment extends AlgoElement
 		GeoPoint A = s.getStartPoint();
 		GeoPoint B = s.getEndPoint();
 
-		// get inhomogenous coords
+		// get inhomogeneous coords
 		double ax = A.inhomX;
 		double ay = A.inhomY;
 		double bx = B.inhomX;

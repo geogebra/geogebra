@@ -196,7 +196,7 @@ public class ModeToggleMenuP extends ModeToggleMenuW
 			tbutton.removeStyleName("touched");
 		}
 		onEnd(event);
-		CancelEventTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccurred();
 	}
 
 	@Override

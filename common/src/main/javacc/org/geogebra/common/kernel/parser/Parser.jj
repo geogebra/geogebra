@@ -840,8 +840,9 @@ ExpressionNode expressionnode():
         en = new ExpressionNode(kernel, ret);
 
       //en.expandEquationExpressions();
-      if (externalCASParsing)
-        en.simplifyLeafs();
+      if (externalCASParsing) {
+        en.simplifyLeaves();
+      }
       return en;
     }
 }
@@ -1048,7 +1049,6 @@ ExpressionValue plusminusnode():
       }
     )*
     {
-      //ret.simplifyLeafs();
       return ret;
     }
 }
@@ -1065,7 +1065,6 @@ ExpressionValue sequencenode():
         }
     )*
     {
-      //ret.simplifyLeafs();
       return ret;
     }
 }
@@ -1082,7 +1081,6 @@ ExpressionValue setdifferencenode():
         }
     )*
     {
-      //ret.simplifyLeafs();
       return ret;
     }
 }
@@ -1099,7 +1097,6 @@ ExpressionValue listopnode():
         }
     )*
     {
-      //ret.simplifyLeafs();
       return ret;
     }
 }

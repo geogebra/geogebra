@@ -28,7 +28,7 @@ class ProbabilityTableMock extends ProbabilityTable {
 	}
 
 	@Override
-	public void setTable(ProbabilityCalculatorSettings.Dist distType2, GeoNumberValue[] parms2,
+	public void setTable(ProbabilityCalculatorSettings.Dist distType2, GeoNumberValue[] params2,
 			int xMin2, int xMax2) {
 	}
 

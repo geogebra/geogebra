@@ -304,7 +304,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	}
 
 	/**
-	 * Axial symetry matrix around line
+	 * Axial symmetry matrix around line
 	 * 
 	 * @param u
 	 *            direction of line
@@ -312,7 +312,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 *            point on line
 	 * @return matrix
 	 */
-	public static final CoordMatrix4x4 axialSymetry(Coords u, Coords center) {
+	public static final CoordMatrix4x4 axialSymmetry(Coords u, Coords center) {
 
 		double ux = u.getX();
 		double uy = u.getY();
@@ -341,7 +341,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	}
 
 	/**
-	 * Plane symetry matrix
+	 * Plane symmetry matrix
 	 * 
 	 * @param n
 	 *            direction of line
@@ -349,7 +349,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 *            point on plane
 	 * @return matrix
 	 */
-	public static final CoordMatrix4x4 planeSymetry(Coords n, Coords center) {
+	public static final CoordMatrix4x4 planeSymmetry(Coords n, Coords center) {
 
 		double nx = n.getX();
 		double ny = n.getY();

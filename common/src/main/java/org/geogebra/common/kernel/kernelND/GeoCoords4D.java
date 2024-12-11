@@ -19,7 +19,7 @@ public interface GeoCoords4D {
 	 * @param z
 	 *            z-coord
 	 * @param w
-	 *            w-coord (homogenous)
+	 *            w-coord (homogeneous)
 	 */
 	public void setCoords(double x, double y, double z, double w);
 

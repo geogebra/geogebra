@@ -491,7 +491,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 	 * Scroll to current step
 	 */
 	public void scrollToConstructionStep() {
-		// overriden in platforms
+		// overridden in platforms
 	}
 
 	public class ConstructionTableData implements View, SetLabels {
@@ -892,7 +892,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		}
 
 		protected void fireTableRowsInserted(int firstRow, int lastRow) {
-			Log.debug("fireTableRowsInserted - must be overriden");
+			Log.debug("fireTableRowsInserted - must be overridden");
 		}
 
 		/**

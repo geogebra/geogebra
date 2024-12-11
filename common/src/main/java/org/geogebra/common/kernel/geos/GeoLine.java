@@ -195,7 +195,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	/**
-	 * States wheter P lies on this line or not.
+	 * States whether P lies on this line or not.
 	 * 
 	 * @return true iff P lies on this line
 	 * @param P
@@ -390,7 +390,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	/**
 	 * Calculates the euclidian distance between this GeoLine and GeoPoint P.
-	 * Here the inhomogenouse coords of p are calculated and p.inhomX, p.inhomY
+	 * Here the inhomogeneous coords of p are calculated and p.inhomX, p.inhomY
 	 * are not used.
 	 * 
 	 * @param p

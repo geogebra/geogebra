@@ -6,7 +6,7 @@ public class MatchedString {
 	public final int to;
 
 	/**
-	 * Note: This is neccessary for Objective-C.
+	 * Note: This is necessary for Objective-C.
 	 * @return content
 	 */
 	public String getContent() {

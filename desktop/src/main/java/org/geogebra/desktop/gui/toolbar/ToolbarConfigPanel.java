@@ -290,7 +290,7 @@ public class ToolbarConfigPanel extends JPanel
 						newNode = new DefaultMutableTreeNode();
 						newNode.add(new DefaultMutableTreeNode(modeInt));
 					} else {
-						continue; // no seperator in root
+						continue; // no separator in root
 					}
 				} else {
 					// parent is submenu

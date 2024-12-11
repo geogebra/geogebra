@@ -176,7 +176,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public void setCoords(double x, double y, double z, double w);
 
 	/**
-	 * Sets homogenous coordinates and updates inhomogenous coordinates
+	 * Sets homogeneous coordinates and updates inhomogeneous coordinates
 	 * 
 	 * @param v
 	 *            coords
@@ -286,7 +286,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public int getMoveMode();
 
 	/**
-	 * Update inhomogenous coords based on homegenous
+	 * Update inhomogeneous coords based on homegenous
 	 */
 	public void updateCoords();
 

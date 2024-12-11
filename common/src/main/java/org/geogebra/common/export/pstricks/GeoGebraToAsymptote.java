@@ -1229,7 +1229,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 
 	@Override
 	protected void drawSingleCurveCartesian(GeoCurveCartesian geo,
-			boolean trasparency) {
+			boolean transparency) {
 		importpackage.add("graph");
 
 		// boolean isClosed=geo.isClosedPath();
@@ -3101,7 +3101,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 	 *            StringBuilder to attach code to.
 	 */
 	protected void colorLightCode(GColor c, double opacity, StringBuilder sb) {
-		// new Color object so that c is not overriden.
+		// new Color object so that c is not overridden.
 		GColor tempc;
 		int red = c.getRed(), green = c.getGreen(), blue = c.getBlue();
 		red = (int) (255 * (1 - opacity) + red * opacity);

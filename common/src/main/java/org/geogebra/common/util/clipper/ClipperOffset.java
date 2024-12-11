@@ -104,7 +104,7 @@ public class ClipperOffset {
 		if (lowest.getX() < 0) {
 			lowest = new DoublePoint(polyNodes.getChildCount() - 1, k);
 		} else {
-			final DoublePoint ip = polyNodes.getChilds()
+			final DoublePoint ip = polyNodes.getChildren()
 					.get((int) lowest.getX()).getPolygon()
 					.get((int) lowest.getY());
 			if (newNode.getPolygon().get(k).getY() > ip.getY()
@@ -125,7 +125,7 @@ public class ClipperOffset {
 	 * modified to be compatible with double
 	 */
 	public void clear() {
-		polyNodes.getChilds().clear();
+		polyNodes.getChildren().clear();
 		lowest.setX(-1d);
 	}
 
@@ -152,7 +152,7 @@ public class ClipperOffset {
 		// if Zero offset, just copy any CLOSED polygons to m_p and return ...
 		if (nearZero(delta)) {
 			for (int i = 0; i < polyNodes.getChildCount(); i++) {
-				final PolyNode node = polyNodes.getChilds().get(i);
+				final PolyNode node = polyNodes.getChildren().get(i);
 				if (node.getEndType() == EndType.CLOSED_POLYGON) {
 					destPolys.add(node.getPolygon());
 				}
@@ -185,7 +185,7 @@ public class ClipperOffset {
 		}
 
 		for (int i = 0; i < polyNodes.getChildCount(); i++) {
-			final PolyNode node = polyNodes.getChilds().get(i);
+			final PolyNode node = polyNodes.getChildren().get(i);
 			srcPoly = node.getPolygon();
 
 			final int len = srcPoly.size();
@@ -447,12 +447,12 @@ public class ClipperOffset {
 					PolyFillType.NEGATIVE);
 			// remove the outer PolyNode rectangle ...
 			if (solution.getChildCount() == 1
-					&& solution.getChilds().get(0).getChildCount() > 0) {
-				final PolyNode outerNode = solution.getChilds().get(0);
-				solution.getChilds().set(0, outerNode.getChilds().get(0));
-				solution.getChilds().get(0).setParent(solution);
+					&& solution.getChildren().get(0).getChildCount() > 0) {
+				final PolyNode outerNode = solution.getChildren().get(0);
+				solution.getChildren().set(0, outerNode.getChildren().get(0));
+				solution.getChildren().get(0).setParent(solution);
 				for (int i = 1; i < outerNode.getChildCount(); i++) {
-					solution.addChild(outerNode.getChilds().get(i));
+					solution.addChild(outerNode.getChildren().get(i));
 				}
 			} else {
 				solution.clear();
@@ -465,10 +465,10 @@ public class ClipperOffset {
 	private void fixOrientations() {
 		// fixup orientations of all closed paths if the orientation of the
 		// closed path with the lowermost vertex is wrong ...
-		if (lowest.getX() >= 0 && !polyNodes.childs.get((int) lowest.getX())
+		if (lowest.getX() >= 0 && !polyNodes.children.get((int) lowest.getX())
 				.getPolygon().orientation()) {
 			for (int i = 0; i < polyNodes.getChildCount(); i++) {
-				final PolyNode node = polyNodes.childs.get(i);
+				final PolyNode node = polyNodes.children.get(i);
 				if (node.getEndType() == EndType.CLOSED_POLYGON
 						|| node.getEndType() == EndType.CLOSED_LINE
 								&& node.getPolygon().orientation()) {
@@ -478,7 +478,7 @@ public class ClipperOffset {
 			}
 		} else {
 			for (int i = 0; i < polyNodes.getChildCount(); i++) {
-				final PolyNode node = polyNodes.childs.get(i);
+				final PolyNode node = polyNodes.children.get(i);
 				if (node.getEndType() == EndType.CLOSED_LINE
 						&& !node.getPolygon().orientation()) {
 					Collections.reverse(node.getPolygon());

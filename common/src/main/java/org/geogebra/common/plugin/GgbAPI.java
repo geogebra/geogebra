@@ -739,12 +739,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public void startAnimation() {
-		kernel.getAnimatonManager().startAnimation();
+		kernel.getAnimationManager().startAnimation();
 	}
 
 	@Override
 	public void stopAnimation() {
-		kernel.getAnimatonManager().stopAnimation();
+		kernel.getAnimationManager().stopAnimation();
 	}
 
 	@Override
@@ -755,7 +755,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public boolean isAnimationRunning() {
-		return kernel.getAnimatonManager().isRunning();
+		return kernel.getAnimationManager().isRunning();
 	}
 
 	@Override
@@ -1905,7 +1905,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * @param enable
-	 *            wheter labels draggable in geogebra-web applets or not
+	 *            whether labels draggable in geogebra-web applets or not
 	 */
 	@Override
 	public void enableLabelDrags(boolean enable) {
@@ -1914,7 +1914,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * @param enable
-	 *            wheter shift - drag - zoom enabled in geogebra-web applets or
+	 *            whether shift - drag - zoom enabled in geogebra-web applets or
 	 *            not
 	 */
 	@Override

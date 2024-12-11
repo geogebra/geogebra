@@ -99,7 +99,7 @@ public interface PathMover {
 	public boolean hasPositiveOrientation();
 
 	/**
-	 * Decreases the step width. Returns wheter this was possible.
+	 * Decreases the step width. Returns whether this was possible.
 	 * 
 	 * @return true if it was possible
 	 */

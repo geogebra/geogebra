@@ -21,7 +21,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * Drawable class for Audio elemens.
+ * Drawable class for Audio elements.
  *
  * @author laszlo
  *

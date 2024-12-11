@@ -91,7 +91,7 @@ public class CmdSlowPlot extends CmdScripting {
 					throw new MyError(loc, Errors.InvalidFunction);
 				}
 
-				kernel.getAnimatonManager().startAnimation();
+				kernel.getAnimationManager().startAnimation();
 				return new GeoElement[] { g };
 			}
 			throw argErr(c, arg[0]);

@@ -295,7 +295,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 				.mul(csA.getMatrixOrthonormal())).mul(AUGMENT_DIM);
 		// Log.debug("\nBtoA=\n"+BtoA);
 
-		CoordMatrix sB = B.getSymetricMatrix();
+		CoordMatrix sB = B.getSymmetricMatrix();
 		CoordMatrix sBinA = BtoA.transposeCopy().mul(sB).mul(BtoA);
 
 		A2d.setMatrix(A.getMatrix());

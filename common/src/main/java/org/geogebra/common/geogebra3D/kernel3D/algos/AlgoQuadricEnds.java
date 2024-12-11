@@ -158,7 +158,7 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 			}
 		}
 
-		CoordMatrix qm = quadric.getSymetricMatrix();
+		CoordMatrix qm = quadric.getSymmetricMatrix();
 
 		pm.setOrigin(o1);
 		v.setSub3(o2, o1);

@@ -196,9 +196,9 @@ public class Colors {
 		final double m2 = l + (l <= 0.5 ? ls : (s - ls));
 		final double m1 = l * 2. - m2;
 		final double h1 = normH(h);
-		final float R = (float) HUEtoRGB(m1, m2, h1 + 1. / 3.);
-		final float G = (float) HUEtoRGB(m1, m2, h1);
-		final float B = (float) HUEtoRGB(m1, m2, h1 - 1. / 3.);
+		final float R = (float) hueToRGB(m1, m2, h1 + 1. / 3.);
+		final float G = (float) hueToRGB(m1, m2, h1);
+		final float B = (float) hueToRGB(m1, m2, h1 - 1. / 3.);
 
 		return FactoryProvider.getInstance().getGraphicsFactory().createColor(R,
 				G, B, (float) a);
@@ -209,7 +209,7 @@ public class Colors {
 		return convHSL(h, s, l, 1f);
 	}
 
-	private static double HUEtoRGB(final double m1, final double m2, double h) {
+	private static double hueToRGB(final double m1, final double m2, double h) {
 		if (h < 0.) {
 			h += 1.;
 		} else if (h > 1.) {

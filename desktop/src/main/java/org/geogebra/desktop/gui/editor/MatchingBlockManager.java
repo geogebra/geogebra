@@ -243,7 +243,7 @@ public class MatchingBlockManager {
 	}
 
 	/**
-	 * Inner class used to retriev infos from scinotesConfiguration.xml
+	 * Inner class used to retrieve infos from scinotesConfiguration.xml
 	 */
 	public static class Parameters {
 

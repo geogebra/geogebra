@@ -189,7 +189,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	/**
-	 * @return the associated app; overriden to avoid classcast
+	 * @return the associated app; overridden to avoid classcast
 	 */
 	protected App getApp() {
 		return app;

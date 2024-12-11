@@ -23,7 +23,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.GeoElementConvertable;
+import org.geogebra.common.kernel.GeoElementConvertible;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -56,7 +56,7 @@ import org.geogebra.common.util.LaTeXCache;
  * @author Zbynek
  *
  */
-public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
+public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/** label mode: name */
 	public static final int LABEL_NAME = 0;
@@ -530,10 +530,10 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	GeoClass getGeoClassType();
 
 	/**
-	 * @param auxilliary
+	 * @param auxiliary
 	 *            whether this is auxiliary object (not shown in AV by default)
 	 */
-	void setAuxiliaryObject(boolean auxilliary);
+	void setAuxiliaryObject(boolean auxiliary);
 
 	/**
 	 * @param fix

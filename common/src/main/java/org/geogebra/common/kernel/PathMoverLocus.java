@@ -175,7 +175,7 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 	/**
 	 * @param new_param
 	 *            param of next point
-	 * @return true if there is not continous line from cur_param to new_param
+	 * @return true if there is not continuous line from cur_param to new_param
 	 */
 	protected boolean noLineTo(double new_param) {
 

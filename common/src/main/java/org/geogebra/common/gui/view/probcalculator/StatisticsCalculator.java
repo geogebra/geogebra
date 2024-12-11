@@ -94,7 +94,7 @@ public abstract class StatisticsCalculator {
 	 * 
 	 * @param x
 	 *            number
-	 * @return formated number
+	 * @return formatted number
 	 */
 	public String format(double x) {
 		StringTemplate highPrecision;

@@ -50,13 +50,13 @@ Default naming, if appropriate...
 
 ## XML loading
 
-```
+```java
  GeoFactory.createGeoElement()
-    		case "polygon"': // point, polygon
+    		case "polygon":
     			...
     			return new GeoPolygon(cons, null);
 ```
 
 ## Default settings
 
-You can consider adding the defult to Options -> Defaults (`OptionsDefaultsD` in Classic 5).
+You can consider adding the default to Options -> Defaults (`OptionsDefaultsD` in Classic 5).

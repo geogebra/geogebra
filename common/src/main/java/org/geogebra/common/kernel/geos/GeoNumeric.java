@@ -1144,7 +1144,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	/**
-	 * Returns whether slider shoud be horizontal or vertical
+	 * Returns whether slider should be horizontal or vertical
 	 * 
 	 * @return true iff should be horizontal
 	 */

@@ -270,7 +270,7 @@ public class RadioTreeItemController implements ClickHandler,
 
 		if (editOnTap(active, wrappedEvent)) {
 			onPointerUp(wrappedEvent);
-			CancelEventTimer.touchEventOccured();
+			CancelEventTimer.touchEventOccurred();
 			return;
 		}
 
@@ -288,7 +288,7 @@ public class RadioTreeItemController implements ClickHandler,
 		}
 		getLongTouchManager().cancelTimer();
 		onPointerUp(wrappedEvent);
-		CancelEventTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccurred();
 	}
 
 	private void setFocusDeferred() {
@@ -319,7 +319,7 @@ public class RadioTreeItemController implements ClickHandler,
 		if (item.isInputTreeItem()) {
 			event.preventDefault();
 		}
-		CancelEventTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccurred();
 	}
 
 	@Override
@@ -358,7 +358,7 @@ public class RadioTreeItemController implements ClickHandler,
 		handleAVItem(event);
 
 		onPointerDownMainButton(wrappedEvent);
-		CancelEventTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccurred();
 	}
 
 	protected void onPointerDown(AbstractEvent event, MouseDownEvent nativeEvt) {
@@ -615,21 +615,21 @@ public class RadioTreeItemController implements ClickHandler,
 	 * Update selection with this geo.
 	 * 
 	 * @param separated
-	 *            wehther to keep previously selected geos (ctrl pressed)
-	 * @param continous
-	 *            whether tokeep it continuous (shift pressed)
+	 *            whether to keep previously selected geos (ctrl pressed)
+	 * @param continuous
+	 *            whether to keep it continuous (shift pressed)
 	 */
-	public void updateSelection(boolean separated, boolean continous) {
+	public void updateSelection(boolean separated, boolean continuous) {
 		GeoElement geo = item.geo;
 		if (geo == null) {
 			selectionCtrl.clear();
 			getAV().updateSelection();
 		} else {
-			selectionCtrl.select(geo, separated, continous);
+			selectionCtrl.select(geo, separated, continuous);
 			if (separated && !selectionCtrl.contains(geo)) {
 				selectionCtrl.setSelectHandled(true);
 				getAV().selectRow(geo, false);
-			} else if (continous) {
+			} else if (continuous) {
 				getAV().updateSelection();
 			}
 		}

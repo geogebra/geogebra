@@ -60,7 +60,7 @@ public class SurfaceTransform {
 			GeoCoordSys2D plane) {
 		CoordMatrix4x4 m = plane.getCoordSys().getMatrixOrthonormal();
 		transform(fun, kernel,
-				CoordMatrix4x4.planeSymetry(m.getVz(), m.getOrigin()));
+				CoordMatrix4x4.planeSymmetry(m.getVz(), m.getOrigin()));
 
 	}
 
@@ -75,7 +75,7 @@ public class SurfaceTransform {
 	public static void mirror(FunctionNVar[] fun, Kernel kernel,
 			GeoLineND line) {
 		transform(fun, kernel,
-				CoordMatrix4x4.axialSymetry(
+				CoordMatrix4x4.axialSymmetry(
 						line.getDirectionInD3().normalized(),
 						line.getStartInhomCoords()));
 

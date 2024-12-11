@@ -40,7 +40,7 @@ import org.geogebra.common.util.debug.Log;
  * calcSingleRoot(GeoFunction f, double l, double r);
  *
  * Extends AlgoGeoPointsFunction (abstract), with the label methods, which again
- * extens AlgoElement.
+ * extends AlgoElement.
  *
  * @author Hans-Petter Ulven
  * @version 2011-03-08

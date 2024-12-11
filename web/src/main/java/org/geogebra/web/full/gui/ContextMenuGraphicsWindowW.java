@@ -63,7 +63,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 		this.py = py;
 
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		OptionType ot = ev.getEuclidianViewNo() == 1
+		OptionType optionType = ev.getEuclidianViewNo() == 1
 				? OptionType.EUCLIDIAN : OptionType.EUCLIDIAN2;
 
 		if (!app.isWhiteboardActive()) {
@@ -91,7 +91,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 			addBackgroundMenuItem();
 		}
 
-		addMiProperties("DrawingPad", ot);
+		addMiProperties("DrawingPad", optionType);
 	}
 
 	private void addCheckboxes() {

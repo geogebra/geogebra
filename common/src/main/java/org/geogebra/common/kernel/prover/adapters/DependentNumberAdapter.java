@@ -37,13 +37,13 @@ public class DependentNumberAdapter extends ProverAdapter {
 	private ArrayList<Entry<GeoElement, PVariable>> segVarPairs = new ArrayList<>();
 	private int nrOfMaxDecimals = 0;
 
-	public PPolynomial[] getBotanaPolynomials(AlgoDependentNumber adn, GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(AlgoDependentNumber algoDepNumber, GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
-		Kernel kernel = adn.getKernel();
-		ExpressionNode definition = adn.getExpression();
+		Kernel kernel = algoDepNumber.getKernel();
+		ExpressionNode definition = algoDepNumber.getExpression();
 		traverseExpression(definition, kernel);
 
 		if (botanaVars == null) {
@@ -86,8 +86,8 @@ public class DependentNumberAdapter extends ProverAdapter {
 					.replaceAll(Kernel.TMP_VARIABLE_PREFIX2, "");
 			// also decrypting variable names
 
-			ValidExpression resultVE = (adn.getKernel().getGeoGebraCAS()).getCASparser()
-					.parseGeoGebraCASInputAndResolveDummyVars(giacOutput, adn.getKernel(), null);
+			ValidExpression resultVE = (algoDepNumber.getKernel().getGeoGebraCAS()).getCASparser()
+					.parseGeoGebraCASInputAndResolveDummyVars(giacOutput, algoDepNumber.getKernel(), null);
 
 			polyNode = new PolynomialNode();
 			buildPolynomialTree((ExpressionNode) resultVE, polyNode);
@@ -115,7 +115,7 @@ public class DependentNumberAdapter extends ProverAdapter {
 
 			allSegmentsFromExpression = new HashSet<>();
 			// remove variables as geoSegment names
-			if (adn.isRewriteFormula() && !segVarPairs.isEmpty()) {
+			if (algoDepNumber.isRewriteFormula() && !segVarPairs.isEmpty()) {
 				Iterator<Entry<GeoElement, PVariable>> it = segVarPairs.iterator();
 				while (it.hasNext()) {
 					Entry<GeoElement, PVariable> curr = it.next();

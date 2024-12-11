@@ -97,14 +97,14 @@ public class AlgoVector extends AlgoElement
 	}
 
 	/**
-	 * @return new vector (overriden in 3D)
+	 * @return new vector (overridden in 3D)
 	 */
 	protected GeoVectorND createNewVector() {
 		return new GeoVector(cons);
 	}
 
 	/**
-	 * @return copy of P (overriden in 3D)
+	 * @return copy of P (overridden in 3D)
 	 */
 	protected GeoPointND newStartPoint() {
 

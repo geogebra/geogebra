@@ -351,7 +351,7 @@ public class DrawAxis3D extends DrawLine3D {
 	 * @param minMax
 	 *            x,y,z min/max
 	 */
-	public void setDrawMinMaxImmediatly(double[][] minMax) {
+	public void setDrawMinMaxImmediately(double[][] minMax) {
 
 		int type = ((GeoAxisND) getGeoElement()).getType();
 
@@ -415,7 +415,7 @@ public class DrawAxis3D extends DrawLine3D {
 	}
 
 	@Override
-	public boolean hasPickableLable() {
+	public boolean hasPickableLabel() {
 		return false;
 	}
 

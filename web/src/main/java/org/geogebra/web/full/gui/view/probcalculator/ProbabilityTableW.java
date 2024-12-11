@@ -41,16 +41,16 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 	}
 	
 	@Override
-	public void setTable(Dist distType, GeoNumberValue[] parms, int xMin, int xMax) {
+	public void setTable(Dist distType, GeoNumberValue[] params, int xMin, int xMax) {
 
 		setIniting(true);
 
-		setTableModel(distType, parms, xMin, xMax);
+		setTableModel(distType, params, xMin, xMax);
 		
 		statTable.setStatTable(xMax - xMin + 1, null, 2, getColumnNames());
 
 		// set the table model with the prob. values for this distribution
-		fillRows(distType, parms, xMin, xMax);
+		fillRows(distType, params, xMin, xMax);
 		setIniting(false);
 	}
 

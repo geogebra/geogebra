@@ -215,7 +215,7 @@ public class AlgoIntersectPlaneQuadricLimited
 							// set "midpoint"
 							topParameters[0] = midParameter;
 						} else {
-							// set symetric "midpoint"
+							// set symmetric "midpoint"
 							topParameters[0] = midParameter + Math.PI;
 							if (midParameter < 0) {
 								topParameters[0] = midParameter + Math.PI;

@@ -500,7 +500,7 @@ public abstract class VectorGraphics extends Graphics2D
 	 * @param frameColor
 	 *            color of the frame
 	 * @param frameWidth
-	 *            witdh of the frame
+	 *            width of the frame
 	 * @param banner
 	 *            true if the frame is filled by a banner
 	 * @param bannerColor
@@ -528,7 +528,7 @@ public abstract class VectorGraphics extends Graphics2D
 	 * @param frameColor
 	 *            color of the frame
 	 * @param frameWidth
-	 *            witdh of the frame
+	 *            width of the frame
 	 * @param banner
 	 *            true if the frame is filled by a banner
 	 * @param bannerColor

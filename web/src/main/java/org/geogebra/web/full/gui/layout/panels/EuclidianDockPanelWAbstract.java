@@ -366,7 +366,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	/**
 	 * Enables / disables interaction with the zoom panel (dragging)
-	 * @param enable Wheter to enable or disable
+	 * @param enable Whether to enable or disable
 	 */
 	public void enableZoomPanelEvents(boolean enable) {
 		if (zoomPanel != null) {

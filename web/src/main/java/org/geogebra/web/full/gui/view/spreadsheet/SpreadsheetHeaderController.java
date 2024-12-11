@@ -124,7 +124,7 @@ public class SpreadsheetHeaderController
 		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.INSTANCE);
 		longTouchManager.scheduleTimer(this, e.getX(), e.getY());
 		onPointerDown(e);
-		CancelEventTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccurred();
 	}
 
 	@Override
@@ -133,7 +133,7 @@ public class SpreadsheetHeaderController
 		event.preventDefault();
 		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.INSTANCE);
 		onPointerUp(e);
-		CancelEventTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccurred();
 	}
 
 	@Override
@@ -148,7 +148,7 @@ public class SpreadsheetHeaderController
 					false);
 		}
 		header.onPointerMove(e);
-		CancelEventTimer.touchEventOccured();
+		CancelEventTimer.touchEventOccurred();
 	}
 
 	@Override

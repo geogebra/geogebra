@@ -748,7 +748,7 @@ public class EuclidianControllerCompanion {
 	}
 
 	/**
-	 * polar line to P relativ to c
+	 * polar line to P relative to c
 	 * 
 	 * @param P
 	 *            point
@@ -810,7 +810,7 @@ public class EuclidianControllerCompanion {
 	/**
 	 * @param points
 	 *            points
-	 * @return conic throught 5 points
+	 * @return conic through 5 points
 	 */
 	protected GeoConicND conic5(GeoPointND[] points) {
 		GeoPoint[] p = new GeoPoint[5];

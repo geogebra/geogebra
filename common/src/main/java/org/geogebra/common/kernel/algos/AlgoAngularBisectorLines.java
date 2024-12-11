@@ -279,7 +279,7 @@ public class AlgoAngularBisectorLines extends AlgoElement
 				}
 
 				// check orientations: take smallest change!!!
-				// first bisector: relativ to (wx, wy)
+				// first bisector: relative to (wx, wy)
 				if (wv[0].x * wx + wv[0].y * wy >= 0) {
 					wv[0].x = wx;
 					wv[0].y = wy;
@@ -287,7 +287,7 @@ public class AlgoAngularBisectorLines extends AlgoElement
 					wv[0].x = -wx;
 					wv[0].y = -wy;
 				}
-				// second bisector: relativ to (-wy, wx)
+				// second bisector: relative to (-wy, wx)
 				if (wv[1].y * wx - wv[1].x * wy >= 0) {
 					wv[1].x = -wy;
 					wv[1].y = wx;

@@ -380,7 +380,7 @@ public abstract class GeoGebraExport {
 			else if (g.isGeoNumeric()) {
 				AlgoElement algo = g.getParentAlgorithm();
 				if (algo == null) {
-					// indpendent number may be shown as slider
+					// independent number may be shown as slider
 					drawSlider((GeoNumeric) g);
 				} else if (algo instanceof AlgoSlope) {
 					drawSlope((GeoNumeric) g);
@@ -709,7 +709,7 @@ public abstract class GeoGebraExport {
 	 *            The function to export
 	 */
 	abstract protected void drawSingleCurveCartesian(GeoCurveCartesian geo,
-			boolean trasparency);
+			boolean transparency);
 
 	/**
 	 * Export as PSTricks or PGF/TikZ Text on euclidian view

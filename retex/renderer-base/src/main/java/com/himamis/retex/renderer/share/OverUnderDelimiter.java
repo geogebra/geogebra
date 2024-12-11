@@ -48,7 +48,7 @@ package com.himamis.retex.renderer.share;
 
 /**
  * A box representing another atom with a delimiter and a script above or under
- * it, with script and delimiter seperated by a kern.
+ * it, with script and delimiter separated by a kern.
  */
 public class OverUnderDelimiter extends Atom implements HasUnderOver {
 
