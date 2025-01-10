@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='webSimple'>
+  <inherits name='org.geogebra.web.Html5'/>
+  <inherits name='fr.grenoble.ujf.Giac'/>
+
+  <entry-point class='org.geogebra.web.simple.WebSimple'/>
+
+  <source path='plugin'/>
+  <source path='simple'/>
+  <public path='pub' />
+  <source path='cas/giac'/>
+
+ <set-configuration-property name="devModeRedirectEnabled" value="false"/>
+
+    <!-- Compile only one permutation -->
+  <collapse-all-properties />
+</module>

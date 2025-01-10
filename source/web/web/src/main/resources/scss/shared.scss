@@ -1,0 +1,234 @@
+@use 'colors';
+@use 'z-index';
+@use 'colorMap' as *;
+$keyboard_button_transition: opacity .3s ease;
+%matButton {
+	margin: 8px !important;
+	padding: 0 16px;
+	border: 1px solid colors.$purple-default;
+	border-radius: 2px;
+	box-shadow: 0 3px 1px -2px colors.$black-20, 0px 2px 2px 0px colors.$black-14, 0px 1px 5px 0px colors.$black-12;
+	min-width: 44px;
+	height: 28px;
+	vertical-align: middle;
+	line-height: 200%;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 90%;
+	cursor: pointer;
+	transition: background-color 150ms ease 0ms;
+	&:hover {
+		box-shadow: 0 3px 3px 0 rgba(0,0,0,.14), 0 1px 7px 0 rgba(0,0,0,.12), 0 3px 1px -1px rgba(0,0,0,.2);
+	}
+}
+
+%primaryButton {	
+	@extend %matButton;
+	background-color: colors.$purple-default;
+	color: colors.$white;
+	&:hover {
+		background-color: colors.$purple-dark;
+		border: 1px solid colors.$purple-dark;
+	}
+}
+
+
+.GeoGebraFrame {
+	.gwt-DialogBox {
+		z-index: z-index.$z-dialog-over-keyboard;
+
+		background-color: rgba(255,255,255,0.9);
+		border-radius: 2px;
+
+		box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
+
+		padding: 15px;
+	}
+
+	.gwt-DialogBox .Caption {
+		cursor: default;
+		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+		font-size: 110%;
+		/*padding: 10px;*/
+		padding-bottom: 5px;
+		color: #333333;
+		border-bottom: 1px solid #DCDCDC;
+		margin-bottom: 15px;
+	}
+
+	.dialogContent {
+		color: neutral(700);
+	}
+
+	.dialogContent table {
+		width: 100%;
+	}
+
+	.dialogContent input[type="text"],
+	.dialogContent select {
+		margin-top: 5px;
+		margin-bottom: 10px;
+		/* width: 98%; */
+		width: 100%;
+	}
+
+	.dialogContent textarea {
+		margin-top: 5px;
+	}
+
+	.dialogContent .optionsPanel > * {
+		margin: 3px 0px;
+	}
+
+	.panelRow.rows > * {
+		width: 100%;
+		display: block;
+	}
+
+	.dialogContent .gwt-CheckBox {
+		margin-right: 10px;
+	}
+	
+	/*---------------- SHARE DIALOG -------------*/
+	.shareDialog, .shareLink, .shareLinkMebis {
+		min-width: 320px;
+		&>div>table {
+			width: 100%;
+			padding-right: 16px;
+		}
+		
+		.dialogContent input[type="text"] {
+			width: 350px;
+		}
+	}
+	.GeoGebraTabLayout {
+		width: 500px;
+		.gwt-TabPanelBottom {
+			min-height: 220px;
+			margin-bottom: 8px;
+		}
+	}
+	.GeoGebraLinkPanel {
+		height: 100%;
+
+	}
+	.GeoGebraCopyLinkPanel img {
+		margin-top: 10px;
+		margin-left: 5px;
+		margin-bottom: 10px;
+	}
+
+	.GeoGebraIconPanel {
+		display: block;
+	}
+	.GeoGebraIconPanel img, .GeoGebraShareOnGClassroom {
+		margin: 5px;
+	}
+	.GeoGebraEmailPanel {
+		height: 100%;
+	}
+	.GeoGebraEmailPanel textarea {
+		resize: none;
+		width: 100%;
+	}
+
+	.GeoGebraImagePanel{
+		height: 100%;
+	}
+
+	.AutoCompleteTextFieldW {
+		input {
+			width: 100%;
+		}
+
+		button {
+			visibility: hidden;
+			position: absolute;
+			float: right;
+			right: 0px;
+			opacity: 1;
+			margin-left: 8px;
+			img {
+				opacity: 0.54;
+				transition: $keyboard_button_transition;
+				&:hover, &:active {
+					opacity: 1;
+				}
+			}
+		}
+	}
+
+	.AutoCompleteTextFieldW.kbdInput {
+		// !optional is a suggestion from SASS preprocessor avoid error would thrown here.
+
+		@extend .matOpenKeyboardBtn !optional;
+		input[type=text].gwt-SuggestBox {
+			// as width is often overridden from code,
+			// !important is necessary here.
+			width: calc(100% - 32px) !important;
+			border: 0px;
+		}
+
+		.cursorOverlay {
+			width: calc(100% - 32px) !important;
+		}
+
+		button {
+			visibility: visible;
+		}
+	}
+
+	.AutoCompleteTextFieldW.noKeyboard {
+		input[type=text].gwt-SuggestBox {
+			border: 0px;
+		}
+
+		input {
+			border: 0px;
+		}
+	}
+
+	.AutoCompleteTextFieldW.FromDrawTextFieldNew {
+		.fieldContainer {
+			border: 2px solid;
+			border-radius: 5px;
+		}
+
+		&.errorStyle {
+			.fieldContainer {
+				background-color: colors.$error-background;
+				border: 2px dashed colors.$error-border;
+			}
+		}
+
+		input, .cursorOverlay {
+			background-color: rgba(0, 0, 0, 0);
+			line-height: 26px;
+		}
+
+		button {
+			top: 50%;
+			transform: translate(-50%, -50%);
+		}
+	}
+
+	.gwt-Button, .buttonPanel .button, .headerbar .headerSecond .signInButton, .gwt-DialogBox .gwt-Button,
+	.inputHelp-detailPanelTitle .button, .optionsPopup .gwt-Button, .customizeToolbarButtonPanel .button,
+	.buttonSpreadsheet {
+		border-radius: 5px;
+		border: 1px solid #6161FF;
+		color: #6161FF;
+		background: none;
+		font-size: 110%;
+		padding: 4px 15px;
+		box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0 0 2px rgba(204, 204, 204, 0.5);
+		cursor: pointer;
+		margin-left: 5px;
+		min-height: 0;
+
+		&.downloadBtn {
+			float: right;
+			width: 64px;
+		}
+	}
+}

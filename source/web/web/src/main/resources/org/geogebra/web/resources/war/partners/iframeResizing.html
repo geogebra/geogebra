@@ -1,0 +1,35 @@
+<html>
+    <body>
+        <script>
+        function autoResize() {
+            const OFFSET = 5
+            const $win = document.getElementById("ifr").contentWindow;
+            const $doc = $win.document;
+            const getAllElements = () => $doc.querySelectorAll('body *')
+ 
+            const mostBottomAbsoluteElement = [...getAllElements()].reduce((mostBottom, el) => {
+               if ($win.getComputedStyle(el).position === 'absolute') {
+                   const bottom = el.getBoundingClientRect().bottom
+                   return bottom > mostBottom ? bottom : mostBottom
+               }
+                return mostBottom
+            }, 0)
+            const bodyMarginTop = parseInt($win.getComputedStyle($doc.body).marginTop)
+            const bodyMarginBottom = parseInt($win.getComputedStyle($doc.body).marginBottom)
+            const bodyHeight = $doc.body.offsetHeight + bodyMarginTop + bodyMarginBottom
+            const height = Math.max(bodyHeight, mostBottomAbsoluteElement) + OFFSET;
+            document.getElementById("ifr").style.height = height + "px";
+        }
+
+        function updateAutoscale() {
+            var frame = document.getElementById('ifr');
+            frame.src = frame.src.replace(/&.*/,"") + "&disableAutoscale=" + document.getElementById("disableAutoscale").checked;
+        }
+        </script>
+        <iframe id="ifr" scrolling="no" title="GeoGebra Exercise" 
+          src="../frameContent.html?filename=https://cdn.geogebra.org/resource/sr2wsuxg/EU4WIh3K4xQjzgN2/material-sr2wsuxg.ggb" width="100%" style="border:0px;"> 
+        </iframe>
+        <input type="checkbox" id="disableAutoscale" onchange="updateAutoscale()"/>Disable autoscale
+        <button onclick="window.setInterval(autoResize, 200)">Start size synchronizing</button>
+    </body>
+</html>

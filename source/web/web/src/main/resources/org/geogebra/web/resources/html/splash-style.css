@@ -1,0 +1,306 @@
+.application #ggbPage{
+ display:none;
+}
+
+.startScreen{
+    line-height: 120%;
+}
+
+.startScreen td{
+padding:0;
+}
+.startScreen table{
+border-spacing:0;
+}
+
+.perspectivesCaption{
+	color: #6161FF !important;
+}
+.perspectivesMainPanel{
+	width: 250px;
+}
+.perspectivesRow{
+	float: left;
+	padding-top: 7px;
+    padding-bottom: 7px;
+    text-align: left;
+	cursor: pointer;
+	display: block;
+}
+.perspectivesRow img{
+	padding-right: 10px;
+	padding-left: 5px;
+}
+
+.perspectiveHighlighted{
+	background-color: #F0F0FF;
+}
+.perspectivesMargin{
+	margin-bottom: 15px;
+}
+.perspectivesRow:hover{
+	background-color: #CCCCFF;
+}
+.perspectivesHelp{
+	position: absolute;
+    right: 10px;
+	cursor: pointer;
+	width: 20px;
+    height: 20px;
+}
+
+.dialogContent table {
+    width: 100%;
+}
+
+.upperBorder{
+    padding-top: 10px;
+    padding-bottom: 0px;
+    border-top: 1px solid #DCDCDC;
+}
+.upperBorder div{
+	padding-top: 3px;
+}
+
+.DialogBox, .gwt-DialogBox {
+    z-index: 501;
+    /* box-shadow: 1px 1px 6px 1px #666666; */
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+    padding: 15px;
+}
+
+.gwt-DialogBox .Caption {
+    cursor: default;
+    font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+    font-size: 110%;
+    /* padding: 10px; */
+    padding-bottom: 5px;
+    color: #333333;
+    border-bottom: 1px solid #DCDCDC;
+    margin-bottom: 15px;
+}
+
+.storeIconHolder {
+	width: 100%;
+}
+
+.storeIconHolder a, .storeIconHolder a:visited {
+	display: inline-block;
+	vertical-align: middle;
+	padding-top: 10px;
+	color:#666;
+	font-size:16px;
+	text-decoration: none;
+}
+
+.storeIconHolder .separatorDiv {
+	clear: both;
+}
+
+.storeIconHolder a img:hover {
+	background-color: #FFFFFF;
+	opacity: 0.7;
+}
+
+.storeIconHolder .separatorDiv {
+	clear: both;
+	border-top: 1px solid #DCDCDC;
+}
+.downloadimg{
+	position: absolute;
+	left: 20px;
+	opacity: 0.7;
+}
+.downloadlink{
+	margin-left: 39px;
+	vertical-align: middle;
+	line-height: 24px;
+}
+
+/** TOOLBAR */
+.GeoGebraFrame .toolbarPanel .toolBPanel ul{
+margin:0;
+padding:0;
+}
+.GeoGebraFrame .toolbarPanel .toolBPanel li.toolbar_item{
+margin: 0px 5px 0px 0px;
+    text-align: center;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: block;
+    float: left;
+    float: left;
+    float: left;
+    list-style-type: none;
+    cursor: pointer;
+}
+
+.GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button {
+     -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    background-color: #ffffff;
+    padding: 3px;
+    width: 32px;
+    height: 32px;
+}
+
+.GeoGebraFrame .toolbarPanel {
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #dcdcdc;
+    -webkit-box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
+    -moz-box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
+    box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
+    -webkit-box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
+    -moz-box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
+    box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
+    -webkit-box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
+    -moz-box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
+    box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
+    padding: 5px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    z-index: 100;
+}
+
+.GeoGebraFrame .toolbarPanel{
+ height:53px;
+}
+.ggbPageContent{
+	bottom: 0;
+    position: absolute !important;
+    right: 0;
+    top: 53px;
+    left: 0;
+}
+/** KEYBOARD */
+
+/* ### onScreenKeyboard ### */
+
+
+/** input */
+.startScreen .clearButtonWrapper{
+	float:right;
+	margin-top:18px;
+	margin-right:10px;
+	opacity:0.3;
+}
+
+.newRadioButtonTreeItemParent.startScreen {
+position:absolute;
+top:53px;
+border-bottom:1px #dcdcdc solid;
+width:20%;
+}
+
+.rightButtonPanel{
+ float:right;
+}
+
+.rightButtonPanel.startScreen img{
+ margin-top:6px;
+ margin-right:11px;
+}
+
+.toolbarPanel.startScreen img{
+ opacity:0.3;
+}
+/** Start scren splitter**/
+.startScreen.splitter{
+position: absolute; 
+overflow: hidden; 
+left: 20%; 
+top: 53px; 
+bottom: 0px; 
+width: 8px; 
+background-color:#f8f8f8; 
+border:1px solid #dcdcdc
+}
+
+.toolBPanel.cas{
+ display:none;
+}
+
+/** perspective specific */
+.exam-simple .startScreen .toolBPanel, .exam-simple .startScreen.splitter  {
+    display: none;
+}
+
+.exam-simple  .newRadioButtonTreeItemParent.startScreen  {
+    width: 100%;
+}
+
+.cas  .newRadioButtonTreeItemParent.startScreen, .exam-cas  .newRadioButtonTreeItemParent.startScreen  {
+    width: 50%;
+}
+
+.cas .startScreen.splitter, .exam-cas .startScreen.splitter  {
+    left: 50%;
+}
+
+.geometry .startScreen.splitter,
+.geometry .startScreen.gwt-TreeItem   {
+    display: none;
+}
+
+.whiteboard .startScreen.splitter,
+.whiteboard .startScreen.gwt-TreeItem,
+.whiteboard #appsPicker {
+    display: none;
+}
+.cas .toolBPanel.cas, .exam-cas .toolBPanel.cas{
+ display:block;
+}
+
+.cas .startScreen .toolBPanel.graphics, .exam-cas .startScreen .toolBPanel.graphics{
+ display:none;
+}
+
+.exam-simple .startScreen .rightButtonPanel img:nth-child(1),
+.exam-cas .startScreen .rightButtonPanel img:nth-child(1),
+.exam-graphing .startScreen .rightButtonPanel img:nth-child(1),
+.exam .startScreen .rightButtonPanel img:nth-child(1){
+  display: none;
+}
+
+.tablet3d .examPerspectiveRow, .tablet .examPerspectiveRow{
+  display:none;
+}
+
+/** OLD STUFF */
+
+
+#ggbPage {
+  background-color: #ffffff;
+}
+
+#ggbsplash {
+  text-align:center;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:100%;
+}
+
+div.SymbolTablePopup{
+  z-index:501;
+}
+
+.perspectivesBox .perspectivesRow .perspImage{
+	width:24px;
+	height:24px;
+}

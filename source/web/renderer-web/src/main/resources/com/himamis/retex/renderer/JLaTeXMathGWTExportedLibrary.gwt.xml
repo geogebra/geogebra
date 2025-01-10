@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to="jlatexmath">
+  <inherits name="com.himamis.retex.renderer.JLaTeXMathGWT" />
+  <entry-point class='com.himamis.retex.renderer.web.CreateLibrary' />
+  <set-property name="gwt.uncaughtexceptionhandler.windowonerror" value="IGNORE"/>
+  <collapse-all-properties />
+  <!-- Single Script Linker -->
+  <add-linker name="sso" />
+</module>

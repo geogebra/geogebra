@@ -1,0 +1,659 @@
+@use 'colors';
+@use 'z-index';
+@use "menu-styles";
+
+$shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+
+.GeoGebraFrame {
+
+	.floatingSettings {
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		/*box-shadow: 0 0 16px $black-28;*/
+		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+		background-color: colors.$white;
+		/* keep shadow under keyboard */
+		z-index: z-index.$z-dialog-under-keyboard;
+		height: 100%;
+		width: 500px;
+		overflow: hidden;
+	}
+
+	/* properties panel without tabs (spreadsheet, CAS) */
+	.simplePropertiesPanel {
+		padding: 8px;
+		border-right: 1px solid #DCDCDC;
+		box-sizing: border-box;
+	}
+
+	.propertiesPanel {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-flow: column;
+
+		.optionsSlider {
+			display: flex;
+		}
+
+		.gwt-TabBar {
+			cursor: pointer;
+		}
+
+		textarea {
+			border-radius: 2px;
+			box-shadow: none;
+		}
+
+		.numberInput {
+			border: none;
+			box-shadow: none;
+			width: 70px;
+			margin-right: 20px;
+			position: relative;
+
+			.matKeyboardOpenBtn {
+				display: none;
+			}
+		}
+
+		.optionsPanel.inlineOption {
+			display: inline-block;
+			.fieldContainer {
+				width: 112px;
+			}
+		}
+
+		.panelRowIndent,
+		.panelRowCell,
+		.panelRow,
+		.listBoxPanel,
+		.optionsPanel, .optionsPanelIndent {
+			margin-bottom: 10px;
+
+			.gwt-Label {
+				font-size: 90%;
+			}
+
+			.gwt-CheckBox {
+				margin-bottom: 0px;
+
+				input[type="checkbox"] {
+					margin-right: 0px;
+				}
+			}
+		}
+
+		.colorChooserPreview canvas {
+			border-radius: 2px;
+			cursor: pointer;
+		}
+
+		.listBoxPanel {
+			margin-bottom: 0px;
+		}
+
+		.panelIndent {
+			padding-left: 25px;
+		}
+
+		input[type="range"] {
+			cursor: pointer;
+		}
+
+		input[type="checkbox"] {
+			cursor: pointer;
+			display: inline-block;
+			vertical-align: middle;
+			margin-bottom: 2px;
+		}
+
+		.gwt-CheckBox label {
+			font-size: 90%;
+			margin-left: 8px;
+			margin-right: 16px;
+		}
+
+		.checkboxHolder {
+			display: flex;
+			min-height: 40px;
+			flex-wrap: wrap;
+
+			.dropDown {
+				height: 40px;
+				.optionLabelHolder.noLabel .selectedOption {
+					margin-top: 8px;
+				}
+
+				.arrow {
+					margin-top: 6px;
+				}
+			}
+		}
+
+		.gwt-ToggleButton, .button {
+			cursor: pointer;
+			padding: 4px;
+			margin: 0px;
+
+			img {
+				opacity: 0.54;
+			}
+
+			&:hover {
+				img {
+					opacity: 1;
+				}
+			}
+		}
+
+		.advanced-TextButtonPanel {
+			.choice-button {
+				position: absolute;
+				right: 16px;
+				top: 2px;
+				cursor: pointer;
+
+				img {
+					opacity: 0.54;
+				}
+
+				&:hover {
+					img {
+						opacity: 1;
+					}
+				}
+
+				&.choice-button-up-disabled {
+					cursor: default;
+
+					img {
+						opacity: 0.3;
+					}
+				}
+			}
+		}
+
+		input[type="text"] {
+			width: 100%;
+			font-size: 90%;
+			border-radius: 0px;
+			border: none;
+			box-shadow: none;
+			border-bottom: 1px solid colors.$tool-border;
+			padding: 4px;
+			padding-left: 8px;
+			margin-bottom: 2px;
+			transition: border-bottom 0.3s ease-out;
+
+			&:hover, &:focus {
+				border: none;
+				border-bottom: 1px solid colors.$teal-default;
+			}
+
+			&:disabled {
+				background-color: colors.$transparent-white;
+				opacity: 0.42;
+
+				&:hover {
+					border-bottom: 1px solid colors.$tool-border;
+				}
+			}
+		}
+
+		.cursorOverlay span {
+			font-size: 90%;
+		}
+
+		.AutoCompleteTextFieldW {
+			.SymbolToggleButton {
+				top: 0%;
+				right: 20px;
+
+				&.shown:hover {
+					color: colors.$teal-default;
+				}
+			}
+		}
+
+		.optionsPanelCell {
+			.gwt-Label {
+				font-size: 90%;
+				min-width: 64px;
+			}
+
+			.AutoCompleteTextFieldW {
+				.SymbolToggleButton {
+					right: -8px;
+				}
+			}
+		}
+
+		.optionsInput, .sliderIntervalPanel {
+			margin-bottom: 10px;
+
+			.gwt-Label {
+				color: colors.$teal-default;
+				font-size: 80%;
+			}
+
+			.AutoCompleteTextFieldW {
+				.SymbolToggleButton {
+					position: relative;
+				}
+			}
+
+			input[type="text"].gwt-SuggestBox {
+				width: 80%;
+			}
+		}
+
+		.sliderWidthPanel {
+			.gwt-Label {
+				font-size: 80%;
+				color: colors.$teal-default;
+			}
+
+			select {
+				display: block;
+				width: 100%;
+			}
+
+			.AutoCompleteTextFieldW {
+				display: flex;
+
+				.unitLabel {
+					font-size: 90%;
+				}
+			}
+		}
+
+		.optionsPanel, .optionsPanelIndent {
+			display: flex;
+			flex-wrap: wrap;
+
+			.optionsSlider {
+				display: flex;
+			}
+
+			.gwt-Label {
+				vertical-align: middle;
+				line-height: 250%;
+			}
+
+			.gwt-CheckBox {
+				margin-top: 11px !important;
+			}
+
+			input[type="range"] {
+				padding-top: 0px !important;
+			}
+
+			.optionsSlider {
+				.gwt-Label {
+					margin-bottom: 3px;
+				}
+			}
+		}
+
+		.listBoxPanel {
+			.gwt-Label {
+				min-width: 64px;
+			}
+
+			.imageCorner {
+				font-size: 90%;
+			}
+		}
+
+		.settingsBtn, .textButton, .openFileBtn {
+			height: 36px;
+			width: 136px;
+			padding: 0px 16px;
+			text-align: center;
+			text-transform: uppercase;
+			border: none;
+			margin-top: 16px;
+			margin-right: 16px;
+			border-radius: 2px;
+			font-size: 100%;
+			box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+			transition: box-shadow 0.3s ease-out;
+
+			.gwt-Label {
+				text-align: center;
+				height: 36px;
+				line-height: 36px;
+			}
+
+			&:hover {
+				box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2);
+				cursor: pointer;
+			}
+		}
+
+		.textButton, .okBtn, .cancelBtn {
+			width: 100% !important;
+			min-width: 64px;
+			max-width: 128px;
+			color: colors.$black;
+			margin-top: 0px;
+			margin-left: 16px;
+
+			&:hover {
+				background-color: colors.$white;
+				text-decoration: none;
+			}
+		}
+
+		.openFileBtn {
+			width: 150px;
+			color: colors.$black;
+			margin-top: 0px;
+			margin-left: 16px;
+
+			&:hover {
+				text-decoration: none;
+				background-color: colors.$white;
+			}
+		}
+
+		.settingsBtn {
+			width: 100% !important;
+			max-width: 256px;
+			min-width: 136px;
+		}
+
+		.clearImgBtn {
+			padding: 4px;
+
+			img {
+				opacity: 0.54;
+			}
+
+			img:hover {
+				opacity: 1;
+			}
+		}
+
+		.btnBold, .btnItalic, .btnUnderline, .btnLatex {
+			border-radius: 2px;
+			margin-left: 0px;
+			margin-right: 8px;
+
+			img {
+				opacity: 0.7;
+			}
+
+			&:hover {
+				border: colors.$teal-default solid 1px;
+			}
+
+			&.gwt-ToggleButton-down {
+				border: colors.$teal-default solid 1px;
+			}
+		}
+
+		.gwt-ToggleButton {
+			cursor: pointer;
+			padding: 4px;
+			margin: 0px;
+
+			img {
+				opacity: 0.54;
+			}
+
+			&:hover {
+				img {
+					opacity: 1;
+				}
+			}
+		}
+
+		.BackgroundColorPanel {
+			.gwt-RadioButton {
+				input[type="radio"] {
+					margin-right: 10px;
+				}
+
+				label {
+					font-size: 90%;
+				}
+			}
+
+			.clearBackgroundButton {
+				cursor: pointer;
+				padding: 4px;
+				margin: 0px;
+
+				img {
+					opacity: 0.54;
+				}
+
+				&:hover {
+					img {
+						opacity: 1;
+					}
+				}
+			}
+		}
+
+		.panelTitle:first-child {
+			margin-top: 8px !important;
+		}
+
+		.objectPropertiesTextEditor {
+			border: colors.$tool-border solid 1px;
+			background: colors.$white;
+			padding: 4px 5px;
+			color: #666;
+			border-radius: 2px;
+			box-sizing: border-box;
+			margin-bottom: 10px;
+			width: 100%;
+			height: 100px;
+			overflow: auto;
+			&:focus:not([readonly]) {
+				border: 1px colors.$teal-default solid;
+			}
+		}
+	}
+
+	.propertiesTab {
+		overflow: auto;
+		padding-right: 8px;
+		padding-left: 16px;
+		box-sizing: border-box;
+	}
+
+	.dropDownLabel {
+		vertical-align: sub;
+	}
+
+	.propertiesStyleBar {
+		overflow: visible;
+		position: absolute;
+		right: 0;
+		top: 0;
+
+		.selected,
+		.gwt-MenuItem.selected:hover {
+			background-image: linear-gradient(right, colors.$tool-border, #f8f8f8);
+		}
+
+		.menuProperties {
+			position: relative;
+			width: 40px;
+
+			.gwt-MenuItem {
+				padding: 0px;
+
+				img {
+					width: 24px;
+					height: 24px;
+					padding: 8px;
+				}
+			}
+		}
+
+		.closeButton {
+			opacity: 0.54;
+
+			&:hover {
+				opacity: 1;
+			}
+		}
+	}
+
+	.dropdownButton, .gwt-ListBox {
+		font-size: 90%;
+		color: #666666;
+		cursor: pointer;
+		box-shadow: none;
+		padding: 8px;
+		border-radius: 0;
+		border: none;
+		border-bottom: 1px solid colors.$tool-border;
+		transition: border-bottom 0.3s ease-out;
+		background-color: transparent;
+
+		&:hover {
+			background-color: transparent;
+			border-bottom: 1px solid colors.$teal-default;
+		}
+	}
+
+	.listBoxPanel-noLabel {
+		margin-top: 4px;
+		margin-bottom: 0px;
+		margin-left: 20px;
+	}
+
+	.grid {
+		.cell {
+			padding: 8px;
+			vertical-align: top;
+			cursor: pointer;
+
+			.image {
+				width: 104px;
+				height: 64px;
+				margin-bottom: 8px;
+				border-radius: 4px;
+				border: 1px solid #e4e4e4;
+			}
+
+			.title {
+				text-align: center;
+				font-size: 75%;
+				width: 104px;
+				min-height: 40px;
+			}
+
+			&-active {
+				.image {
+					border: 1px solid colors.$mow_primary;
+				}
+
+				.title {
+					color: colors.$mow_primary;
+				}
+			}
+		}
+	}
+
+	.animateInFromRight {
+		animation-duration: 0.25s;
+		animation-name: settingsIn;
+		overflow: auto;
+	}
+
+	.floatingSettings.animateIn {
+		@extend .animateInFromRight;
+	}
+
+	@keyframes settingsIn {
+		0% {
+			right: -500px;
+			top: 0px;
+		}
+		100% {
+			right: 0px;
+			top: 0px;
+		}
+	}
+
+	.animateOutToRight {
+		animation-duration: 0.2s;
+		animation-name: settingsOut;
+		overflow-y: auto;
+		right: -500px;
+	}
+
+	.floatingSettings.animateOut {
+		@extend .animateOutToRight;
+	}
+
+	@keyframes settingsOut {
+		0% {
+			right: 0px;
+			top: 0px;
+		}
+		50% {
+			right: -250;
+			top: 0px;
+		}
+		100% {
+			right: -500px;
+			top: 0px;
+		}
+	}
+
+	.propertiesPanel .radioButtonPanel {
+		display: block;
+
+		.radioButton {
+			margin-right: 40px;
+		}
+
+		.gwt-Label {
+			font-size: 90%;
+			margin-left: 8px;
+		}
+	}
+
+	.propertiesPanel .checkboxLbl {
+		font-size: 90%;
+		min-height: 18px;
+		line-height: 18px;
+		margin-left: 8px;
+	}
+
+	.propertiesPanel .checkboxPanel,
+	 .optionsPanel .checkboxPanel {
+		margin-right: 30px;
+
+		&.block {
+			display: block;
+
+			.checkbox {
+				display: inline-block;
+			}
+
+			.checkboxLbl {
+				display: inline-block;
+				vertical-align: top;
+			}
+		}
+	}
+
+	.tickPanel {
+		.combobox {
+			width: 80px;
+		}
+		.checkboxPanel {
+			margin: 12px 30px 0 0;
+		}
+	}
+}

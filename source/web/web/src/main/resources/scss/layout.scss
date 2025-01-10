@@ -1,0 +1,247 @@
+@use 'colors';
+@use 'z-index';
+@use 'colorMap' as *;
+
+.GeoGebraFrame {
+
+	&.appletStyle {
+		overflow: hidden;
+		box-sizing: border-box;
+		position: relative;
+	}
+
+	div[data-title]:after,
+	button[data-title]:after {
+		opacity: 0;
+		content: "";
+	}
+
+	div[data-title]:hover:after,
+	button[data-title]:hover:after {
+		transition: opacity 0s linear 1s;
+		content: attr(data-title);
+		font-size: 65%;
+		white-space: nowrap; 
+		position: absolute;
+		top: 30px;
+		left: -8px;
+		height: 22px;
+		line-height: 21px !important;
+		padding-left: 8px !important;
+		padding-right: 8px !important;
+		vertical-align: middle;
+		border-radius: 2px;
+		background: #616161;
+		color: white;
+		opacity: 0.9;
+		z-index: z-index.$z-snackbar;
+	}
+
+	div[tooltip-position=right]:hover:after,
+	button[tooltip-position=right]:hover:after {
+		transform: translateX(-50%);
+	}
+
+	.matDragger {
+		.splitPaneDragger {
+			background-color: colors.$white;
+		}
+
+		.gwt-SplitLayoutPanel-HDragger {
+			z-index: z-index.$z-on-top-of-graphics; /* for MOW double canvas */
+			cursor: ew-resize;
+			border-left: none;
+			padding-right: 8px;
+		}
+
+		.gwt-SplitLayoutPanel-VDragger {
+			border-bottom: none;
+		}
+
+		.splitPaneDragger:after {
+			content: "";
+			position: absolute;
+			background-color: #dadbdf;
+			border-radius: 2px;
+		}
+
+		.gwt-SplitLayoutPanel-HDragger:after {
+			top: calc(50% - 14px);
+			left: 2px;
+			height: 28px;
+			width: 4px;
+			transition: top 0.2s;
+		}
+
+		.gwt-SplitLayoutPanel-VDragger:after {
+			left: calc(50% - 14px);
+			bottom: 2px;
+			width: 28px;
+			height: 4px;
+			transition: left 0.2s;
+		}
+
+		&.singlePanel .gwt-SplitLayoutPanel-HDragger:after {
+			top: 12px;
+		}
+
+		&.singlePanel .gwt-SplitLayoutPanel-VDragger:after {
+			left: calc(100% - 48px);
+		}
+
+		.draggerParentHorizontal {
+			border-top-right-radius: 8px;
+			border-bottom-right-radius: 8px;
+			z-index: 1;
+			box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 4px 5px 0 rgba(0, 0, 0, 0.14);
+		}
+
+		.draggerParentVertical {
+			border-top-left-radius: 8px;
+			border-top-right-radius: 8px;
+			z-index: 1;
+			box-shadow: 2px 0 4px -1px rgba(0,0,0,0.2), 1px 0 10px 0 rgba(0,0,0,0.12), 4px 0 5px 0 rgba(0,0,0,0.14);
+		}
+	}
+
+	.dockPanelParent {
+		overflow: visible !important;
+	}
+
+	.hideDragger {
+		.draggerParent {
+			overflow-x: hidden !important;
+		}
+
+		.draggerParentHorizontal {
+			display: none;
+		}
+	}
+
+	.moveUpDragger {
+		.toolbar {
+			overflow: visible;
+		}
+
+		.splitPaneDragger {
+			display: none;
+		}
+	}
+
+	.hideDragger .hiddenHDraggerRightPanel {
+		left: -16px !important;
+	}
+
+	.hidden, .temporarilyHidden {
+	 	display: none;
+	 }
+
+	.menu {
+		position: absolute;
+		top: 4px;
+		left: 0px;
+	}
+
+	.menu:hover, .menu:focus {
+		img {
+			opacity: 1.0;
+		}
+	}
+
+	.flatButton {
+		margin: 6px;
+		padding: 6px;
+		width: 24px;
+		height: 24px;
+		cursor: pointer;
+
+		img {
+			opacity: 0.85;
+		}
+		z-index: z-index.$z-flat-button;
+	}
+	.tabButton {
+		position: relative;
+		box-sizing: border-box;
+		min-width: 24px;
+		cursor: pointer;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		opacity: 0.54;
+		.gwt-Label {
+			width: 100%;
+			line-height: 12px;
+			min-height: 28px;
+			font-size: 10px;
+			text-align: center;
+			word-break: break-word;
+			margin-left: 4px;
+			margin-right: 4px;
+		}
+		.gwt-Image {
+			height: 24px;
+		}
+		&.selected .gwt-Label {
+			color: purple(600);
+		}
+		&:hover {
+			background-color: neutral(200);
+		}
+		&.selected:hover {
+			background-color: purple(100);
+		}
+		&.selected  {
+			opacity: 1;
+		}
+	}
+
+	.textWrap{
+		white-space: normal;
+	}
+
+	.advanced-ListPopupPanel {
+		z-index: z-index.$z-dialog;
+		background: colors.$white;
+		border: 1px solid #dcdcdc;
+		cursor: pointer;
+		border-radius: 2px;
+		padding: 0px;
+		box-shadow: none;
+
+		.item:hover {
+			color: colors.$teal-default;
+			background: colors.$white;
+		}
+
+		.gwt-Label {
+			position: relative;
+			left: 8px;
+		}
+	}
+
+	.verticalScroll {
+		overflow-y: auto;
+	}
+
+	.mowColorPlusButton img {
+		padding: 3px;
+	}
+
+	.matDynStyleBar {
+		will-change: transform;
+	}
+ }
+
+.screenReaderStyle {
+	position: fixed;
+	bottom: 20px;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	outline-width: 0;
+	overflow: hidden;
+	margin: 0;
+	border-width: 0;
+	clip: rect(0 0 0 0);
+}

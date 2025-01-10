@@ -1,0 +1,2018 @@
+@use 'colors';
+@use 'text-styles';
+@use 'info-card';
+@use 'z-index';
+@use 'sass:math';
+@use 'colorMap' as *;
+
+$duration: 0.2s;
+$shadow-card-default: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px
+ 5px 0px rgba(0,0,0,0.12);
+$shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
+
+
+.GeoGebraFrame {
+
+	.MaterialDialogBox, .dialogComponent {
+		input[type="number"]:focus,
+		textarea:focus,
+		input[type="number"]:focus:not([readonly]),
+		.gwt-TextBox:focus:not([readonly]),
+		textarea:focus:not([readonly]),
+		.gwt-TextArea:focus:not([readonly]),
+		.textEditor:focus:not([readonly]) {
+			border: 1px colors.$teal-default solid;
+		}
+		select:focus:not([readonly]) {
+			border-bottom: 1px colors.$teal-default solid;
+		}
+	}
+
+	.dialogComponent .gwt-TextBox:focus:not([readonly]) {
+		border: none;
+		padding-bottom: 3px;
+		border-bottom: 1px colors.$teal-default solid;
+	}
+
+	.MaterialDialogBox {
+		.gwt-Label {
+			cursor: default;
+		}
+
+		.message {
+			margin-right: 16px;
+			margin-bottom: 28px;
+		}
+
+		.Caption:empty {
+			display: none;
+		}
+	}
+
+	.dialogComponent.colorChooser {
+		max-width: 432px;
+	}
+
+	.dialogComponent.printPreview {
+		max-width: 370px;
+
+		.dropDown {
+			width: 100%;
+		}
+	}
+
+	.dialogComponent.customColor {
+		max-width: 340px;
+
+		.ggbSpinner {
+			border-radius: 2px;
+			box-shadow: none;
+		}
+
+		.CustomColorPreview {
+			canvas {
+				width: 266px;
+				border-radius: 2px;
+			}
+		}
+	}
+
+	.dialogComponent.relationDialog {
+		width: 384px;
+		max-height: 364px;
+		height: 90%;
+
+		.dialogContent {
+			font-size: 85%;
+			height: calc(100% - 118px);
+
+			.relationContent {
+				height: 100%;
+			}
+		}
+
+		&.numericOnly {
+			max-height: 260px;
+		}
+
+		.headerLbl {
+			font-size: 85%;
+			font-weight: bold;
+			margin-bottom: 16px;
+		}
+
+		.checkSymBtn {
+			display: block;
+			margin: 32px auto 0 auto;
+		}
+
+		.divider {
+			height: 1px;
+			margin: 16px 0;
+			background-color: colors.$disabled-contained-btn-bg;
+		}
+	}
+
+	/* checkbox tool dialog */
+	.dialogComponent.Checkbox {
+		max-width: 391px;
+
+		.panelTitle {
+			display: block;
+			cursor: default;
+			color: colors.$teal-default;
+			border-bottom: 1px solid colors.$teal-default;
+		}
+
+		.panelRow {
+			display: flex;
+		}
+
+		.button img {
+			opacity: 0.54;
+		}
+
+		.dropDown {
+			width: 100%;
+		}
+
+		.gwt-ListBox {
+			min-height: 140px;
+		}
+	}
+
+	/* button tool dialog*/
+	.dialogComponent.buttonDialog {
+		max-width: 448px;
+	}
+
+	.dialogComponent.inputboxDialog {
+		max-width: 430px;
+
+		.dropDown {
+			width: 100%;
+		}
+	}
+
+	.dialogComponent.RecoverAutoSavedDialog {
+			max-width: 450px;
+
+			.infoText {
+				font-size: 100%;
+				margin-bottom: 24px;
+			}
+	}
+
+	.dialogComponent.GeoGebraFileChooser {
+		max-width: 530px;
+
+		.titlePanel .coloredLabel {
+			font-size: 80%;
+		}
+
+		.titlePanel input[type="text"] {
+			border: none;
+			box-shadow: none;
+			border-bottom: 1px solid colors.$teal-default;
+			border-radius: 0px;
+			margin-bottom: 8px;
+
+		}
+
+		.checkboxPanel {
+			margin-top: 4px;
+			margin-bottom: 28px;
+
+			.checkbox {
+				&.selected {
+					.background {
+						border-color: colors.$teal-default;
+						background-color: colors.$teal-default;
+					}
+				}
+			}
+		}
+
+		.visibilityPanel {
+			.visibility {
+				position: absolute;
+				bottom: 12px;
+				width: 131px;
+				left: 76px;
+				top: auto;
+			 }
+
+			.IconButton {
+				border-radius: 2px;
+				bottom: 15px;
+				left: 24px !important;
+			}
+		}
+	}
+
+	/* text tool dialog */
+	.TextInputDialog {
+
+		.ToggleButton {
+			border-radius: 2px;
+			line-height: 24px;
+			vertical-align: middle;
+			text-align: center;
+			min-width: 24px;
+			height: 24px;
+			font-size: 90%;
+			line-height: 24px;
+			text-align: center;
+			text-decoration: none;
+			overflow: hidden;
+			vertical-align: middle;
+			box-shadow: none;
+			padding: 3px;
+			margin-right: 8px;
+
+			img {
+				opacity: 0.54;
+			}
+		 }
+
+		.textEditor {
+			margin-right: 16px;
+			margin-top: 10px;
+			padding: 4px;
+		}
+
+		.gwt-DisclosurePanel {
+			.textEditorAdvancedPanel.textEditorDisclosurePanelContent {
+				.latexPanel canvas:hover {
+					cursor: pointer;
+				}
+			}
+
+			.gwt-TabLayoutPanelTab {
+				padding-top: 6px;
+				height: 28px;
+			}
+
+			.SymbolTable td:hover, .GeoGebraFrame .SymbolTable td.focus {
+				background: colors.$white;
+				color: colors.$teal-default;
+			}
+		}
+
+		.gwt-TabLayoutPanelTabInner:hover {
+			color: colors.$teal-light;
+		}
+	}
+
+	.flatDialogBtn {
+		display: inline-block;
+		position: relative;
+		min-width: 64px;
+		height: 36px;
+		border: none;
+		outline: none;
+		background: transparent;
+		color: colors.$teal-default;
+		font-size: 90%;
+		font-weight: 500;
+		letter-spacing: .04em;
+		line-height: 36px;
+		text-align: center;
+		text-decoration: none;
+		text-transform: uppercase;
+		overflow: hidden;
+		vertical-align: middle;
+		border-radius: 2px;
+		padding: 0px 8px;
+		margin-left: 8px;
+		box-shadow: none;
+		font-family: Roboto,sans-serif;
+		font-weight: 400 !important;
+
+		.html-face {
+			text-align: center;
+		}
+
+		&:hover {
+			background: colors.$mow_card_background_hover !important;
+			color: colors.$teal-dark;
+		}
+	}
+
+	.dialogComponent {
+		z-index: z-index.$z-dialog-over-keyboard;
+		background-color: colors.$white;
+		border-radius: 2px;
+		padding-left: 24px;
+		padding-right: 8px;
+		padding-top: 24px;
+		box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+		-webkit-box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+
+		.SymbolToggleButton:hover, .SymbolToggleButton:focus {
+			color: colors.$teal-default;
+		}
+
+		.Dialog-messagePanel {
+			margin-bottom: 0px;
+
+			.gwt-Label {
+				margin-top: 0px;
+				color: colors.$teal-default;
+			}
+		}
+
+		.coloredLabel {
+			font-size: 80%;
+			color: colors.$teal-default;
+		}
+
+		.gwt-RadioButton label {
+			padding-left: 8px;
+		}
+
+		.gwt-CheckBox label {
+			padding-left: 8px;
+		}
+
+		.gwt-CheckBox {
+			margin-right: 16px;
+		}
+
+		.gwt-ListBox {
+			border-radius: 2px;
+			box-shadow: none;
+		}
+
+		input[type="text"] {
+			border: none;
+			box-shadow: none;
+			margin-bottom: 0px;
+			padding-left: 4px;
+			border-radius: 0px;
+
+			&:focus {
+				border:none;
+			}
+		}
+
+		.sliderIntervalPanel {
+			margin-top: 10px;
+
+			.gwt-TextBox {
+				border-bottom: 1px solid colors.$teal-default !important;
+				border-radius: 0px;
+			}
+
+			.gwt-Label {
+				margin-top: 0px;
+			}
+		}
+
+		.gwt-TabBar {
+			.gwt-Label {
+				font-size: 100% !important;
+			}
+		}
+
+		.gwt-TabPanelBottom {
+			padding: 0px 16px;
+
+			.optionsPanel {
+				margin-top: 8px;
+				margin-bottom: 0px;
+				.gwt-ListBox {
+					border-radius: 2px;
+					box-shadow: none;
+				}
+			}
+
+			.sliderWidthPanel {
+				.AutoCompleteTextFieldW {
+					 display: block;
+
+					 .unitLabel {
+						float: right;
+					 }
+				}
+			}
+		}
+
+		:not(.textField)>.AutoCompleteTextFieldW {
+			margin-right: 16px;
+			margin-bottom: 10px;
+			border-radius: 0px;
+			border: none;
+			border-bottom: 1px solid colors.$teal-default;
+		}
+
+		.DialogRbPanel {
+			padding-right: 16px;
+			margin-top: 16px;
+		}
+
+		.sliderPanelWidget {
+			padding-right: 16px;
+			margin-top: 16px;
+		}
+
+		.scriptArea {
+			padding-right: 16px;
+		}
+
+		.moreBtn {
+			@extend .flatDialogBtn;
+		}
+
+		.dialogBtn {
+			@extend .flatDialogBtn;
+			float: right;
+		}
+	}
+
+	.dialogComponent {
+		padding: 0px;
+
+		.gwt-Label-highlighted {
+			color: colors.$toolbar-header;
+		}
+
+		:not(.textField)>.AutoCompleteTextFieldW {
+			border-bottom: 1px solid colors.$mow-primary;
+		}
+	}
+
+	.dialogComponent.removeMaterial {
+		max-width: 472px;
+
+		.dialogContent {
+			height: calc(100% - 52px);
+		}
+
+		.message {
+			margin-bottom: 24px;
+		}
+	}
+
+	.dialogComponent.materialRename {
+		max-width: 448px;
+
+		.dialogContent .AutoCompleteTextFieldW {
+			margin-bottom: 16px;
+			display: inline-block;
+			width: 100%;
+		}
+
+		.mowInputPanelContent {
+
+			&.hoverState, &.focusState, &.focusState:hover {
+
+				.AutoCompleteTextFieldW {
+					margin-bottom: 15px;
+				}
+			}
+		}
+	}
+
+	.mediaDialog {
+		&.hyperLink {
+			max-width: 448px;
+
+			.dialogContent {
+				height: calc(100% - 52px); //no title
+			}
+		}
+
+		&.Video, &.Audio, &.Web {
+			max-width: 448px;
+		}
+	}
+
+	.dialogContent .mowInputPanelContent {
+		.AutoCompleteTextFieldW {
+			margin: 8px 0 8px 0;
+		}
+
+		&.emptyState {
+			.inputLabel {
+				color: neutral(700);
+				font-size: 75%;
+			}
+
+			.AutoCompleteTextFieldW {
+				border-bottom: 1px solid colors.$black-42;
+				.TextField {
+					border: none;
+					box-shadow: none;
+					padding: 0px;
+					margin-bottom: 8px;
+					margin-top: 0px;
+					font-size: 100%;
+					color: neutral(900);
+					&::placeholder {
+						color: neutral(700);
+					}
+				}
+			}
+
+			.errorLabel {
+				opacity: 0;
+			}
+
+			.msgLabel {
+				margin-top: 0;
+				font-size: 75%;
+				min-height: 20px;
+				line-height: 20px;
+				max-width: math.div(25em * 4, 3);
+			}
+
+			&.hoverState {
+				.inputLabel {
+					color: colors.$black-87;
+				}
+
+				.AutoCompleteTextFieldW {
+					border-bottom: 2px solid colors.$black-87;
+				}
+
+				.errorLabel {
+					line-height: 19px;
+					min-height: 19px;
+				}
+			}
+		}
+
+		&.errorState, &.errorState:hover {
+			@extend .emptyState;
+			.inputLabel {
+				color: colors.$red-A400-87;
+			}
+
+			.AutoCompleteTextFieldW {
+				border-bottom: 2px solid colors.$red;
+			}
+
+			.errorLabel {
+				line-height: 19px;
+				min-height: 19px;
+				color: colors.$red-A400-87;
+				opacity: 1;
+			}
+		}
+
+		&.focusState, &.focusState:hover {
+			@extend .emptyState;
+			.inputLabel {
+				opacity: 0.87;
+				color: colors.$mow_dark;
+			}
+
+			.AutoCompleteTextFieldW {
+				border-bottom: 2px solid colors.$mow_dark;
+			}
+
+			.errorLabel {
+				line-height: 19px;
+				min-height: 19px;
+			}
+		}
+	}
+
+	.dialogComponent {
+		.globalErrorLabel {
+			color: colors.$error;
+			max-width: math.div(20em * 4, 3);
+			font-size: 75%;
+			line-height: 16px;
+			min-height: 32px;
+			margin-bottom: 4px;
+		}
+	}
+
+	.dialogComponent.exportImgDialog {
+		max-width: unset;
+		max-height: unset;
+		height: unset;
+		width: unset;
+
+		.expImgContent {
+			margin-bottom: 20px;
+		}
+
+		.rightClickHelpText {
+			font-size: 80%;
+			margin-bottom: 20px;
+		}
+
+		.prevImg {
+			max-width: 420px;
+			max-height: 420px;
+			border: 1px solid colors.$black-20;
+			border-radius: 2px 2px 0 0 ;
+			cursor: pointer;
+		}
+   }
+
+	.dialogComponent.pdfDialog {
+		max-width: 506px;
+		max-height: 546px;
+		width: 80%;
+		height: 90%;
+
+		&.hasBorder .dialogContent {
+			border: none;
+		}
+
+		 .pdfDialogContent {
+			height: 100%;
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: column;
+			-webkit-flex-direction: column;
+		 }
+
+		.pdfContainer {
+			border: 4px dashed colors.$mow_pdf_dialog_border;
+			box-sizing: border-box;
+			border-radius: 8px;
+			height: 100%;
+
+			&.withPdf {
+				border-color: transparent;
+				display: flex;
+				flex-direction: column;
+			}
+		}
+
+		.imgTextElement {
+			justify-content: center;
+			-webkit-justify-content: center;
+			height: 100%;
+			align-items: center;
+			-webkit-align-items: center;
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: column;
+			-webkit-flex-direction: column;
+		}
+
+		.folderImg {
+			opacity: 0.54;
+		}
+
+		.pdfDialogText {
+			margin-top: 20px;
+			text-align: center;
+			max-width: 190px;
+		}
+
+		.clickOrDragText {
+			font-size: 100% !important;
+		}
+
+		.errorText {
+			font-size: 12px;
+			color: colors.$red-A400;
+		}
+
+		.loadText {
+			font-size: 12px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		.pdfPreview {
+			display: inline-flex;
+			display: -webkit-inline-flex;
+			width: 80%;
+			flex-grow: 1;
+			position: relative;
+
+			.leftBtn,.rightBtn {
+				width: 24px;
+				height: 24px;
+				padding: 12px;
+				opacity: 0.54;
+				border-radius: 24px;
+				top: 40%;
+				position: absolute;
+			}
+
+			.rightBtn {
+				right: -25%;
+			}
+
+			.leftBtn {
+				left: 0%;
+				z-index: z-index.$z-pdf-dialog-arrow;
+			}
+
+			.leftBtn:hover, .rightBtn:hover {
+				background: colors.$mow_pdf_left_right_hover;
+				opacity: 1;
+			}
+
+			.previewImage {
+				position: absolute;
+				left: 63%;
+				top: 46%;
+				max-height: 90%;
+				max-width: 90%;
+				transform: translate(-50%, -50%);
+			}
+		}
+
+		.pdfPageText {
+				display: flex;
+				display: -webkit-flex;
+				flex-direction: row;
+				-webkit-flex-direction: row;
+				width: fit-content;
+				height: fit-content;
+				margin: 20px auto;
+
+				.gwt-Label {
+					margin: 0px;
+					font-size: 100%;
+					height: fit-content;
+				}
+
+				.curPageField {
+					margin-left: 16px;
+					margin-bottom: 0px;
+					border-bottom-color: colors.$black-42;
+
+					.TextField {
+						margin: 0px;
+						text-align: center;
+						font-size: 100%;
+						padding: 0px;
+						box-shadow: none;
+						border: none;
+						border-radius: 0px;
+					}
+
+					&.default {
+						border-bottom: 1px solid colors.$black-42;
+						margin-bottom: 1px;
+					}
+
+					&.hover {
+						border-bottom: 2px solid colors.$black-87;
+					}
+
+					&.focus, &.focus:hover {
+						border-bottom: 2px solid colors.$mow_dark;
+					}
+				}
+
+				&.hidden {
+					visibility: hidden;
+				}
+		}
+
+		.progressBar {
+			margin-left: auto;
+			margin-right: auto;
+			max-width: 300px;
+			width: 80%;
+
+			.indicator {
+				transition: none;
+			}
+		}
+	}
+
+	.dialogComponent.shareLink {
+		padding-bottom: 24px;
+		max-width: 510px;
+
+		>div>table {
+			padding-right: 0px;
+		}
+		.linkLabel {
+			font-size: 75%;
+			line-height: 1;
+		}
+		.linkPanel {
+			display: flex;
+
+			.linkBox {
+				padding: 8px 0 8px 0;
+				margin: 0;
+				border: none;
+				box-shadow: none;
+				border-bottom: 2px solid colors.$teal-default;
+				border-radius: 0;
+			}
+			.linkBox::selection {
+				background: colors.$teal-default-20;
+			}
+			.copyButton {
+				cursor: pointer;
+				min-width: 64px;
+				height: 36px;
+				border-radius: 2px;
+				padding: 0 8px;
+				margin-left: 32px;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				vertical-align: middle;
+				color: neutral(900);
+				text-transform: uppercase;
+				transition: background-color 0.15s;
+
+				&:hover {
+					background-color: colors.$mow_card_background_hover;
+				}
+			}
+		}
+
+		.buttonPanel {
+			padding-top: 20px;
+
+			.roundButton {
+				cursor: pointer;
+				display: inline-flex;
+				height: 36px;
+				min-width: 88px;
+				margin-right: 24px;
+				justify-content: center;
+				vertical-align: middle;
+				transition: background-color, color 0.15s;
+				img {
+					opacity: 1;
+					background-color: colors.$teal-default;
+					border-radius: 50%;
+					padding: 6px;
+				}
+				.gwt-Label {
+					color: neutral(900);
+					font-size: 100%;
+					margin: 10px auto 0px 12px;
+					cursor: pointer;
+				}
+				&:hover {
+					img {
+						background-color: colors.$teal-default-hover;
+					}
+					.gwt-Label {
+						color: colors.$black;
+					}
+				}
+			}
+		}
+	}
+
+	.dialogComponent.classicExamStartDialog {
+		.description {
+			margin-bottom: 10px;
+		}
+
+		.checkboxPanel {
+			margin-left: 30px;
+			min-height: 32px;
+		}
+	}
+
+	.dialogComponent.examStartDialog {
+		max-width: 427px;
+
+		.examStartText {
+			font-size: 100%;
+			margin: 0px;
+			padding-bottom: 24px;
+		}
+
+		.radioButton {
+			margin: 6px 0;
+		}
+	}
+
+	.dialogComponent.examExitConfDialog {
+		max-width: 326px;
+
+		.dialogContent {
+			// no title
+			height: calc(100% - 52px);
+		}
+
+		.exitConfText {
+			font-size: 100%;
+			margin: 0px;
+			padding-bottom: 24px;
+		}
+	}
+
+	.examExitDialog {
+		padding: 0px;
+		max-width: 316px;
+
+		.titlePanel {
+			background-color: colors.$teal-default;
+			padding: 20px 24px;
+			&.locked {
+				background-color: colors.$exam-lock;
+			}
+			&.cheating {
+				background-color: colors.$exam-red;
+
+				.panelRowIndent {
+					padding: 0px;
+
+					.examTitle {
+						margin-left: 8px;
+					}
+				}
+
+				.panelRowIndent>* {
+					margin: 0px;
+				}
+			}
+
+			.calcType {
+				font-size: 75%;
+				color: colors.$text-light-secondary;
+			}
+
+			.examTitle {
+				font-size: 100%;
+				color: colors.$text-light-primary;
+			}
+		}
+
+		.withDivider {
+			border-bottom: 1px solid colors.$black-12;
+		}
+
+		.contentPanel {
+			height: 252px;
+			padding: 20px 24px 24px 24px;
+
+			.captionStyle {
+				margin-top: 20px;
+				font-size: 75%;
+				color: neutral(700);
+
+				&.noMargin {
+					margin-top: 0px;
+				}
+			}
+		}
+
+		.dialogPanel {
+			padding: 8px;
+			float: right;
+		}
+	}
+
+	.dialogComponent.errorDialog {
+		max-width: 320px;
+
+		.mainPanel {
+			display: flex;
+
+			img {
+				margin-right: 10px;
+				margin-top: auto;
+				margin-bottom: auto;
+			}
+		}
+	}
+
+	.examLogDialog {
+		@extend .examExitDialog;
+
+		max-width: 316px;
+
+		.contentPanel {
+			min-height: 0;
+			height: unset;
+
+			&.cheating {
+				min-height: 0px;
+				max-height: 252px;
+				height: unset;
+			}
+
+			div:first-of-type > .captionStyle:first-child {
+				margin: 0px;
+			}
+		}
+	}
+
+	.dialogComponent.shareLinkMebis {
+		@extend .shareLink;
+
+		padding: 24px 8px 0px 24px;
+
+		.linkPanel {
+			margin-right: 16px;
+
+			.linkBox {
+				border-bottom: 2px solid colors.$mow_dark;
+			}
+			.linkBox::selection {
+				background: rgba(colors.$mow_primary, 0.2)
+			}
+		}
+
+		.shareHelpTxt {
+			font-size: 100%;
+			margin-top: 12px;
+			width: 478px;
+		}
+	}
+
+	.saveDialog {
+
+		max-width: 448px;
+
+		.mowInputPanelContent {
+				.AutoCompleteTextFieldW {
+					margin-bottom: 16px;
+				}
+		}
+
+		.mowInputPanelContent.hoverState,
+			.mowInputPanelContent.focusState {
+				.AutoCompleteTextFieldW {
+					margin-bottom: 15px;
+				}
+		}
+
+		.checkboxPanel {
+			margin-top: 4px;
+			margin-bottom: 20px;
+		}
+
+		.locationHolder {
+			display: flex;
+
+			.imageHolder {
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+				background-color: neutral(200);
+				margin: auto 12px auto 0;
+
+				img {
+					width: 20px;
+					height: 20px;
+					padding: 10px;
+				}
+			}
+
+			.dropDown {
+				width: 100%;
+			}
+		}
+	}
+
+/****************************************************
+*   WEBCAM DIALOGS: permission dialog + camera dialog
+*****************************************************/
+	.mowPermissionDialog {
+		max-width: 500px;
+		.dialogContent .gwt-Label {
+			font-size: 80%;
+			margin-bottom: 20px;
+		}
+		&.narrowDialog {
+			max-width: 376px; // 400px - (8px + 16px) padding
+			width: fit-content;
+		}
+	}
+
+	.dialogComponent.camera {
+		max-width: 530px;
+
+		.mowCameraSimplePanel {
+			margin-left: 16px;
+			margin-right: 16px;
+			width: 94%;
+			height: 100%;
+		}
+		.webcamInputPanel {
+			min-height: 160px;
+			min-width: 213px;
+			max-width: 100%;
+			max-height: calc(100vh - 320px);
+			text-align: center;
+		}
+	}
+
+	.dialogComponent {
+		button.CustomColorButton:hover {
+			border: 2px solid colors.$mow_dark;
+		}
+	}
+
+	.MaterialDialogBox.mow {
+		.AutoCompleteTextFieldW {
+			border-bottom: 1px solid colors.$mow_dark;
+		}
+	}
+
+	.dialogComponent.shareDialogMow {
+		max-width: 510px;
+
+		&.hasBorder {
+			.groupPanel {
+				overflow: unset;
+				max-height: unset;
+				border-top: unset;
+			}
+		}
+
+		.dialogTitle {
+			margin-left: 24px;
+		}
+
+		.dialogMainPanel {
+			padding-left: 0px;
+		}
+
+		.dialogContent {
+			padding: 0px 0px 24px 0px;
+		}
+
+		.selGrLbl {
+			font-size: 100%;
+			margin-top: 0px;
+			margin-bottom: 20px;
+			margin-left: 24px;
+		}
+
+		.groupPanel {
+			border-top: 1px solid colors.$black-12;
+			border-bottom: 1px solid colors.$black-12;
+			max-height: 200px;
+			overflow: auto;
+			padding: 16px 0px 0px 20px;
+		}
+
+		.noGroupPanel {
+			border-bottom: 1px solid colors.$black-12;
+
+			.groupImgHolder {
+				width: 48px;
+				height: 48px;
+				padding: 12px;
+				border-radius: 50%;
+				background-color: colors.$mow_grey_button;
+				display: block;
+				margin: 0px auto;
+				margin-top: 16px;
+
+				img {
+					opacity: 0.38;
+				}
+			}
+
+			.noGroupsLbl {
+				font-size: 100%;
+				width: fit-content;
+				display: block;
+				margin: 0px auto;
+				margin-top: 16px;
+			}
+
+			.noGroupsHelpLbl {
+				width: 262px;
+				height: fit-content;
+				display: block;
+				margin: 0px auto;
+				margin-top: 8px;
+				margin-bottom: 20px;
+				font-size: 87%;
+				text-align: center;
+			}
+
+		}
+
+		.shareByLink {
+			margin: 16px 24px 0px 24px;
+
+			.linkImg {
+				opacity: 0.54;
+				margin: auto 32px auto 0px;
+			}
+
+			.switcherPanel {
+				display: flex;
+
+				.switch {
+					margin: auto 0px auto auto;
+				}
+			}
+
+			.textPanel {
+				position: relative;
+				max-width: 356px;
+				margin-right: 8px;
+				display: inline-block;
+
+				.linkShareOnOff {
+					margin-top: 0px;
+					font-size: 100%;
+					line-height: 16px;
+				}
+
+				.linkShareHelp {
+					margin-top: 0px;
+					font-size: 87%;
+					line-height: 16px;
+				}
+			}
+
+			.linkPanel {
+				margin-top: 16px;
+				display: flex;
+
+				.linkBox {
+					width: 362px;
+					padding: 8px 0 8px 0;
+					margin: 0;
+					border-radius: 0;
+					box-shadow: none;
+					border: none;
+					border-bottom: 2px solid colors.$mow_dark;
+				}
+				.linkBox::selection {
+					background: rgba(colors.$mow_primary, 0.2);
+				}
+
+				.copyButton {
+					cursor: pointer;
+					min-width: 64px;
+					height: 36px;
+					border-radius: 2px;
+					padding: 0 8px;
+					margin-left: 32px;
+					display: inline-flex;
+					align-items: center;
+					justify-content: center;
+					vertical-align: middle;
+					color: neutral(900);
+					text-transform: uppercase;
+					transition: background-color 0.15s;
+
+					&:hover {
+						background-color: colors.$mow_card_background_hover;
+					}
+				}
+			}
+
+			&.disabled {
+				.linkImg {
+					opacity: 0.38;
+				}
+
+				.textPanel {
+					.linkShareOnOff {
+						color: neutral(500);
+					}
+					.linkShareHelp {
+						color: neutral(500);
+					}
+				}
+
+				.switch {
+					cursor: default;
+					opacity: 0.38;
+				}
+			}
+		}
+
+		.shareLinkAvailableInfo {
+			max-width: 474px;
+			margin: 16px 24px 0px 24px;
+			font-size: 87%;
+		}
+	}
+
+	.groupButton {
+		cursor: pointer;
+		height: 96px;
+		width: 90px;
+		margin: 0px 2px 4px 2px;
+		display: inline-flex;
+
+		.content {
+			height: 96px;
+			width: 90px;
+			overflow: hidden;
+		}
+
+		.groupImgHolder {
+			width: 24px;
+			height: 24px;
+			padding: 10px;
+			border-radius: 50%;
+			border: 2px solid colors.$black-24;
+			display: block;
+			margin: 0px auto;
+			margin-top: 4px;
+
+			.groupImg {
+				opacity: 0.54;
+			}
+		}
+
+		.groupName {
+			margin-top: 8px;
+			padding-bottom: 4px;
+			font-size: 75%;
+			height: 32px;
+			text-align: center;
+			line-height: 16px;
+			overflow: hidden;
+			cursor: pointer;
+			position: relative;
+			top: -20px;
+		}
+
+		.checkMark {
+			padding: 1px;
+			border-radius: 50%;
+			background-color: colors.$mow_primary;
+			position: relative;
+			top: -44px;
+			right: -56px;
+			visibility: hidden;
+		}
+
+		&.selected {
+			.groupImgHolder {
+				border: 2px solid colors.$mow_primary;
+			}
+			.checkMark {
+				visibility: visible;
+			}
+		}
+	}
+
+	.dialogComponent.tableOfValuesDialog {
+		max-width: 368px;
+
+		.dialogTitle {
+			// with the extra 8px from the top
+			// of input field is 20px as supposed to
+			margin-bottom: 12px;
+		}
+
+		.dialogMainPanel {
+			height: calc(100% - 12px);
+		}
+	}
+
+	.dialogComponent.export3dDialog {
+		max-width: 384px;
+		padding-right: 0px;
+
+		.dialogContent {
+			padding-right: 0px;
+		}
+
+		.panelRow>* {
+			margin: 0px;
+		}
+		.inputTextField {
+			margin-left: 0px;
+			margin-right: 24px;
+			margin-top: 8px;
+			margin-bottom: 8px;
+			width: 96px;
+			.textField {
+				.AutoCompleteTextFieldW {
+					margin: 0px;
+					// enforces baseline alignment (needed for mac osx)
+					display: flex;
+					align-items: baseline;
+					.suffix {
+						margin: 0px;
+						padding-left: 8px;
+						font-size: 100%;
+					}
+				}
+			}
+			.errorLabel {
+				max-width: 96px;
+			}
+		}
+
+		.checkboxPanel {
+				padding-left: 16px;
+		}
+		.equal {
+			// margin top and bottom set to center it with text field
+			margin-top: 0px;
+			margin-bottom: 8px;
+			// we already have 24px margin from text field
+			margin-left: -8px;
+			margin-right: 16px;
+		}
+	}
+
+	.dialogComponent.whatsNewDialog {
+		max-width: 592px;
+		height: auto;
+
+		.messagePanel {
+			padding-right: 16px;
+			.message {
+				@extend .subtitle1;
+				margin-right: 4px;
+			}
+			.link {
+				cursor: pointer;
+				@extend .subtitle1-link;
+			}
+		}
+	}
+
+	.mowInputPanelContent  {
+		.TextField::selection {
+			background: colors.$mow_selection_color;
+		}
+	}
+
+	.dialogComponent.templateChooser {
+		max-width: 656px;
+
+		.dialogTitle {
+			margin-bottom: 0px;
+		}
+
+		.dialogContent {
+			padding: 0px;
+			max-height: 386px;
+			height: calc(100% - 72px);
+
+			&.withBorder {
+				border-bottom: 1px solid colors.$black-12;
+
+				.templatesPanel {
+					padding-right: 4px;
+				}
+			}
+		}
+
+		.templatesPanel {
+			display: flex;
+			gap: 16px;
+			padding: 12px 24px;
+			flex-wrap: wrap;
+
+			.mowPreviewCard {
+				position: relative;
+				display: inline-block;
+				margin: 0;
+
+				&.selected {
+					border-color: var(--ggb-primary-color);
+					box-sizing: border-box;
+				}
+			 }
+		}
+	}
+
+	.sessionExpireNotifyDialog {
+		max-width: 448px;
+		height: unset;
+
+		.sessionExpireTxt {
+			max-width: 400px;
+			margin-bottom: 20px;
+		}
+	}
+
+	.dialogComponent.sliderDialog {
+		max-width: 504px;
+
+		.radioButtonPanel {
+			display: flex;
+
+			.radioButton {
+				margin-right: 20px;
+			}
+		}
+
+		.AutoCompleteTextFieldW {
+			// ignore this for now, we need new design
+			border-bottom: 1px solid colors.$teal-default !important;
+		}
+	}
+
+	.inputDialogComponent {
+
+		.inputTextField {
+			max-width: 456px;
+			width: 100%;
+
+			.AutoCompleteTextFieldW {
+				margin-right: 0px;
+			}
+		}
+	}
+
+	.inputDialogComponent.angleInputDialog {
+		.radioButtonPanel {
+			display: flex;
+
+			.radioButton {
+				margin-right: 20px;
+			}
+		}
+	}
+
+	.dialogComponent.createObjDialog {
+		max-width: 579px;
+
+		.dialogContent {
+			padding-right: 0px;
+		}
+
+		.radioButtonPanel {
+			display: flex;
+
+			.radioButton {
+				margin-right: 20px;
+			}
+		}
+	}
+
+	.TextInputDialog {
+		max-width: 430px;
+		height: auto;
+
+		.textEditorDisclosurePanelContent .gwt-Label {
+			font-size: 100%;
+			margin-top: 0px;
+		}
+	}
+
+	.calcChooser {
+			 max-width: 984px;
+			 min-height: 232px;
+			 left: 0px;
+			 padding: 48px 36px;
+			 border-radius: 2px;
+			 box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+			 box-sizing: border-box;
+
+			.title {
+				height: 48px;
+				font-size: 175%;
+				line-height: 48px;
+				max-width: 912px;
+				margin-bottom: 32px;
+				text-align: center;
+			}
+
+			.calcBtn {
+				max-width: 120px;
+				max-height: 152px;
+				width: 100%;
+				height: 100%;
+				margin: 0px 16px;
+				display: inline-table;
+				cursor: pointer;
+				transition: background-color 0.15s;
+
+				.imgHolder {
+					border-radius: 50%;
+					background-color: neutral(200);
+					width: 120px;
+					height: 120px;
+				}
+
+				img {
+					padding: 24px;
+				}
+
+				.gwt-Label {
+					text-align: center;
+					max-width: 120px;
+					margin-top: 4px;
+					min-height: 24px;
+					height: fit-content;
+					line-height: 150%;
+					font-weight: 500;
+				}
+
+				&:hover .imgHolder {
+					background-color: neutral(300);
+				}
+
+				&.selected .imgHolder {
+					background-color: purple(100);
+				}
+			}
+		}
+
+	.calcChooser.twoRows {
+		width: 480px;
+		padding: 24px 12px;
+	}
+
+	.calcChooser.threeRows {
+		width: 376px;
+	}
+
+	.calcChooser.twoRows, .calcChooser.threeRows {
+		.title {
+			height: 36px;
+			font-size: 140%;
+			line-height: 36px;
+			margin-bottom: 24px;
+		}
+	}
+
+	.dialogComponent.statistics {
+		.dialogTitle {
+			height: 24px;
+			font-size: 125%;
+			line-height: 1.2;
+		}
+
+		&.error {
+			max-width: 468px;
+			.dialogContent {
+				border: none;
+			}
+		}
+
+		.dialogContent {
+			max-height: 426px;
+			height: calc(100% - 114px);
+			box-sizing: border-box;
+			border-top: 1px solid colors.$black-12;
+			border-bottom: 1px solid colors.$black-12;
+
+			select:focus:not([readonly]) {
+				border: none;
+				border-bottom: 1px colors.$teal-default solid;
+			}
+
+			.group {
+				margin-bottom: 22px;
+
+				.heading {
+					margin-top: 8px;
+					margin-bottom: 4px;
+					height: 14px;
+					font-size: 12px;
+				}
+			}
+
+			.dropDown {
+				width: 100%;
+			}
+		}
+	}
+
+	.manageTools {
+		max-width: 560px;
+
+		select:focus:not([readonly]) {
+			border: none;
+			border-bottom: 1px colors.$teal-default solid;
+		}
+
+		.toolButtons {
+			display: inline-block;
+			margin-bottom: 16px;
+		}
+
+		.containedButton {
+			margin-right: 8px;
+		}
+	}
+
+	.multiSelectList {
+		position: relative;
+
+		option {
+			height:20px;
+		}
+		.gwt-ListBox {
+			max-width: calc(100% - 52px);
+			margin-right: 16px;
+		}
+
+		.toolListButtons {
+			position: absolute;
+			top: 8px;
+			display: inline-block;
+
+			.IconButton {
+				margin-bottom: 8px;
+			}
+		}
+	}
+
+	.iconSelectShowPanel {
+		display: flex;
+
+		.iconPanel {
+			display: inline-flex;
+			margin-right: 66px;
+
+			img {
+				border-radius: 5px;
+				border: colors.$tool-border solid 1px;
+				margin-right: 12px;
+			}
+		}
+
+		.templatePanel {
+			display: flex;
+			padding-top: 4px;
+			padding-bottom: 4px;
+
+			.checkbox {
+				margin-right: 12px;
+			}
+
+			.checkboxLbl {
+				line-height: 26px;
+			}
+		}
+	}
+
+	.toolCreationDialog {
+		max-width: 560px;
+		.toolSelectObjectLabel {
+			margin-top: 8px;
+		}
+		.iconSelectShowPanel {
+			margin-bottom: 8px;
+		}
+		.dialogNavigation {
+			margin-top: 16px;
+			text-align: center;
+
+			.materialOutlinedButton {
+				min-width: 94px;
+			}
+
+			.materialOutlinedButton:disabled {
+				color: colors.$black-38;
+				opacity: 1;
+
+				&:hover {
+					background: white;
+				}
+
+			}
+		}
+	}
+
+	.dialogThreeTabs .gwt-TabBarItem {
+		min-width: 30%;
+	}
+
+	.perspectivePopup {
+		width: 280px;
+
+		.listMenuItem img {
+			opacity: 1;
+		}
+
+		.listMenuItem {
+			height: 48px;
+			line-height: 36px;
+			padding: 8px 16px 8px 56px;
+		}
+
+		.menuSeparator {
+			width: 100%;
+		}
+
+		.downloadItem {
+			img {
+				opacity: 0.54;
+			}
+
+			.gwt-Label {
+				line-height: 32px;
+			}
+		}
+
+		.headerItem {
+			padding-left: 24px;
+
+			.headerPanel {
+				display: inline-flex;
+
+				.gwt-Label {
+					width: 200px;
+				}
+
+				.helpBtn {
+					position: relative;
+					display: inline-flex;
+					opacity: 0.54;
+				}
+			}
+
+			&.selectedItem {
+				background: white;
+				cursor: default;
+			}
+		}
+	}
+
+	.imageDialog {
+		.infoErrorPanel {
+			min-width: 100%;
+			width: auto;
+			margin: auto;
+		}
+
+		.cameraPanel {
+			height: 367px;
+			min-width: 100%;
+			width: auto;
+
+			&.error {
+				height: 367px;
+				display: inline-flex;
+			}
+		}
+
+		.webcamInputPanel {
+			display: block;
+			margin: auto;
+			min-height: 40px;
+			min-width: 53px;
+			max-width: 100%;
+			max-height: calc(100vh - 320px);
+			text-align: center;
+		}
+
+		.mowFloatingButton {
+			position: relative;
+			left: calc(50% - 24px);
+			bottom: 30px;
+			padding: 12px;
+			height: 24px;
+
+			&:hover, &:focus {
+				background: purple(700);
+			}
+		}
+	}
+
+	.substituteDialog {
+		max-width: 384px;
+
+		.dialogContent {
+			height: calc(100% - 110px);
+			max-height: 390px;
+			min-height: 390px;
+		}
+
+		.flexGroup {
+			display: flex;
+			margin-bottom: 8px;
+
+			.gwt-Label {
+				max-width: 168px;
+				width: 100%;
+				font-size: 87%;
+				font-weight: bold;
+				margin-top: 16px;
+
+				&.with {
+					margin-left: 16px;
+				}
+			}
+
+			.AutoCompleteTextFieldW {
+				height: 40px;
+				border: 1px solid colors.$input-field-border;
+				border-radius: 4px;
+				margin-bottom: 0px;
+
+				input[type=text] {
+					margin-bottom: 8px;
+					margin-top: 8px;
+				}
+
+				&.focused,
+				&.focused.hover {
+					border-color: colors.$purple-default;
+					border-width: 2px;
+
+					input[type=text] {
+						margin-bottom: 7px;
+						margin-top: 7px;
+					}
+				}
+
+				&.hover {
+					border-color: colors.$black-54;
+				}
+
+				&.with {
+					margin-right: 0px;
+				}
+			}
+		}
+	}
+
+	.defineFunctionsDialog {
+		.functionPanel {
+			display: flex;
+
+			.gwt-Label {
+				height: 20px;
+				margin: 20px 4px 16px 0;
+				color: colors.$text-primary;
+				white-space: nowrap;
+			}
+
+			.mathTextField {
+				border: none;
+				border-bottom: 1px colors.$black-42 solid;
+				margin-bottom: 1px;
+				border-radius: 0;
+				cursor: pointer;
+				padding-top: 0;
+				width: 100%;
+				margin-top: 16px;
+
+				&:hover {
+					border-bottom-color: colors.$black-87;
+				}
+			}
+		}
+
+		.functionPanel.focusState {
+			.mathTextField {
+				margin-bottom: 0;
+				border-bottom: 2px solid colors.$purple-default;
+			}
+		}
+
+		.functionPanel.error {
+			.mathTextField {
+				border-bottom: 2px solid colors.$error;
+			}
+		}
+	}
+
+	.dynamicText {
+		border: 2px lightgray solid;
+		background: wheat;
+		cursor: pointer;
+		margin-left: 1px;
+		margin-right: 1px;
+		vertical-align: middle;
+		min-width: 10px;
+	}
+
+	.textEditPopup {
+		box-shadow: none;
+	}
+
+	.overwriteDialog {
+		.dialogContent .gwt-Label {
+			margin-bottom: 8px;
+			line-height: 24px;
+		}
+	}
+
+	.assignOption {
+		display: flex;
+		padding: 8px 0;
+		cursor: pointer;
+		&:hover {
+			background-color:neutral(200)
+		}
+		.subtitle {
+			font-size: 87.5%;
+			line-height: 20px;
+		}
+		.title {
+			line-height: 24px;
+		}
+		.icon {
+			border-radius: 50%;
+			margin-right: 16px;
+			min-width: 24px;
+			height: 24px;
+			background-size: 24px;
+			background-repeat: no-repeat;
+		}
+	}
+
+	.rulingDialog {
+		max-width: 536px;
+	}
+}

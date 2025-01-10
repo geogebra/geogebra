@@ -1,0 +1,231 @@
+body.application[dir=rtl] .gwt-Label {
+	text-align: right;
+}
+
+body.application[dir=rtl] .TitleBarPanelContent {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 5px;
+	padding-right: 5px;
+	padding-left: 40px;
+}
+
+body.application[dir=rtl] .DragPanel {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 5px;
+}
+
+body.application[dir=rtl] .TitleBarPanel .toggleStyleBar {
+	right: auto;
+	left: 0;
+}
+
+body.application[dir=rtl] .StyleBarPanel {
+	padding-left: 0;
+	padding-right: 31px;
+}
+
+body.application[dir=rtl] .StyleBarPanel {
+	float: right;
+	margin-left: 0;
+	margin-right: -4px;
+}
+
+body.application[dir=rtl] .VerticalSeparator {
+	margin: 0 5px 0 2px;
+}
+
+body.application[dir=rtl] .ToggleButton,
+body.application[dir=rtl] .IconButton {
+	margin-left: 0;
+	margin-right: 4px;
+}
+
+body.application[dir=rtl] .gwt-Label.textIconButton {
+	padding-left: 0;
+	padding-right: 28px;
+	text-align: right;
+	background-position: center right;
+}
+
+body.application[dir=rtl] .dialogContent .gwt-CheckBox {
+	margin-right: 0;
+	margin-left: 10px;
+}
+
+body.application[dir=rtl] .Dialog-messagePanel img {
+	margin-left: 10px;
+	margin-right: 0;
+}
+
+body.application[dir=rtl] .DialogRbPanel td {
+	padding-right: 0;
+	padding-left: 20px;
+}
+
+body.application[dir=rtl] .dialogContent .sliderIntervalPanel div,
+body.application[dir=rtl] .dialogContent .sliderWidthPanel div {
+	margin-right: 0;
+	margin-left: 10px;
+	float: right;
+}
+
+body.application[dir=rtl] .GeoGebraFileChooser .titlePanel input {
+	float: left;
+}
+
+body.application[dir=rtl] .GeoGebraFileChooser .titlePanel .gwt-Label {
+	padding-right: 0;
+	padding-left: 10px;
+}
+
+body.application[dir=rtl] .GeoGebraMenuBar table {
+	margin-left: auto;
+}
+
+body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
+	right: auto;
+	left: -5px;
+}
+
+body.application[dir=rtl] .inputHelp-cmdSyntax {
+	padding-left: 0;
+	padding-right: 35px;
+}
+
+body.application[dir=rtl] .elemHeadingName {
+	padding: 15px 40px 10px 10px;
+}
+
+body.application[dir=rtl] .algebraOpenButton {
+	left: auto;
+	right: 0;
+}
+
+body.application[dir=rtl] .imageCorner {
+	align: right;
+	padding-left: 0;
+	padding-right: 20px;
+}
+
+body.application[dir=rtl] .AutoCompleteTextFieldW.SymbolCanBeShown .TextField,
+body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShown.FromDrawTextFieldNew input[type="text"].TextField {
+	padding-right: 0;
+	padding-left: 40px;
+}
+
+body.application[dir=rtl] .GeoGebraFrame .algebraViewObjectStylebar {
+	right: auto;
+	left: 0;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 0;
+}
+
+body.application[dir=rtl] .TitleBarPanel {
+	left: 0 !important;
+	right: auto !important;
+}
+
+body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
+	right: auto;
+	left: 0.6em;
+}
+
+* html .gwt-DecoratedPopupPanel .popupTopLeftInner {
+	width: 6px;
+	height: 5px;
+	overflow: hidden;
+}
+
+* html .gwt-DecoratedPopupPanel .popupTopRightInner {
+	width: 6px;
+	height: 5px;
+	overflow: hidden;
+}
+
+* html .gwt-DecoratedPopupPanel .popupBottomLeftInner {
+	width: 6px;
+	height: 6px;
+	overflow: hidden;
+}
+
+* html .gwt-DecoratedPopupPanel .popupBottomRightInner {
+	width: 6px;
+	height: 6px;
+	overflow: hidden;
+}
+
+* html .gwt-TreeItem .gwt-RadioButton input, * html .gwt-TreeItem .gwt-CheckBox input {
+	margin-left: -4px;
+}
+
+/*
+   ########################################
+   ###       Printing                   ###
+   ######################################## */
+
+.printScalePanel div {
+	display: inline-block;
+}
+
+.printScalePanel input {
+	width: 60px !important;
+	margin: 10px;
+}
+
+.printScalePanel select {
+	width: auto;
+}
+
+.aPixelsOnScreen {
+	margin: 10px;
+}
+
+/** applets */
+.geogebraweb {
+	display: inline-block;
+	-ms-touch-action: none;
+	/* Direct all pointer events to JavaScript code. */
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+	/* avoid flash on Android http://stackoverflow.com/questions/5210481/*/
+}
+
+.geogebraweb .splash {
+	position: absolute;
+}
+
+@keyframes a{
+	0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}
+	to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
+}
+
+.startscreen .mk-spinner-ring, .GeoGebraFrame .mk-spinner-ring{
+	height:50px;
+	margin-top:-25px;
+	border-radius:50%;
+	border:3px solid var(--ggb-primary-color);
+	border-left-color:transparent;
+	background:transparent;
+	-webkit-animation:a 1s infinite linear;
+	animation:a 1s infinite linear
+}
+
+.startscreen .mk-spinner-ring, .GeoGebraFrame .mk-spinner-ring{
+	content:"";
+	display:inline-block;
+	position:absolute;
+	width:50px;
+	top:50%;
+	left:50%;
+	margin-left:-25px;
+	z-index:1
+}
+
+.startscreen .mk-spinner-wrap, .GeoGebraFrame .mk-spinner-wrap{
+	min-height:100px;
+	width:100%;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 1000;
+}
+

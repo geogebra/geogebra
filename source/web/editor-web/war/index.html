@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>JLaTeXMath with javascript</title>
+    <script type="text/javascript" language="javascript" src="jlatexmath/jlatexmath.nocache.js"></script>
+    <script>
+        function drawAll(){
+        	jlmlib.edit(document.getElementById("editor"));
+        }
+    </script>
+  </head>
+
+ 
+  <!-- Maybe a callback from the library would be good to signal the availability of the library -->
+  <body onload="setTimeout(drawAll, 2500)">
+    <h1>JLaTeXMath Editor test</h1>
+    <!-- Important to set no just the height/width in style, but the height/width property of canvas also. -->
+    <div id="editor"></div>
+    
+  </body>
+</html>

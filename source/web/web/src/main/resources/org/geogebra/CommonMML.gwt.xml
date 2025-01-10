@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='common'>
+
+  <source path='common'/>
+  <inherits name="edu.uci.ics.JUNG" />
+  <inherits name="org.apache.commons.Math" />
+  <inherits name="org.apache.commons.Collections" />
+
+</module>

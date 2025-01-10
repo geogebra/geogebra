@@ -1,0 +1,504 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <title>Dandelin's theorem - GeoGebra</title>        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+
+                <!-- Chrome, Firefox OS and Opera -->
+        <meta name="theme-color" content="#6161FF">
+        <!-- Windows Phone -->
+        <meta name="msapplication-navbutton-color" content="#6161FF">
+        <!-- iOS Safari -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="#6161FF">
+
+        <meta property="og:title" content="Dandelin's theorem" />
+<meta property="og:description" content="Illustration for Dandelin's theorem" />
+<meta property="og:site_name" content="GeoGebra" />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="https://cdn.geogebra.org/material/RSqpeafhxljgAaHGDbgcNo8per2q8MdM/material-uMNKYJgB.png" />
+<meta property="twitter:card" content="summary" />
+<meta property="twitter:site" content="@geogebra" />
+<meta property="fb:app_id" content="185307058177853" />
+<meta property="article:published_time" content="2014-06-02" />
+<meta property="article:publisher" content="https://www.facebook.com/geogebra" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.geogebra.org/static/css/structure.ltr.css?v=1506521450" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.geogebra.org/static/css/screen.ltr.css?v=1506521450" media="screen and (min-width: 769px)" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.geogebra.org/static/css/tablet.ltr.css?v=1506521450" media="screen and (min-width: 641px) and (max-width: 768px)" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.geogebra.org/static/css/phone.ltr.css?v=1506521450" media="screen and (min-width: 0px) and (max-width: 640px)" />
+        <link rel="stylesheet" type="text/css" href="https://www.geogebra.org/css/general.ltr.css?v=1506521450" />
+                    <link rel="stylesheet" type="text/css" href="https://www.geogebra.org/css/general_image_preload.css?v=1506521450" />
+                <link rel="stylesheet" type="text/css" href="https://www.geogebra.org/css/worksheet/ws.view.ltr.css?v=1506521450" />
+
+        <link href="https://www.geogebra.org/css/wysibb/default/wbbtheme.css?v=1506521450" media="screen" rel="stylesheet" type="text/css" />
+<link href="https://www.geogebra.org/css/wysibb/wysibb.css?v=1506521450" media="screen" rel="stylesheet" type="text/css" />
+<link href="https://www.geogebra.org/css/compiled.css?v=1506521450" media="screen" rel="stylesheet" type="text/css" />
+                    
+    <!-- GEOGEBRA COMMON STYLE INFORMATION -->
+
+    <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css"/>
+    <link rel="shortcut icon" type="image/x-icon" href="https://cdn.geogebra.org/static/img/favicon.ico" />
+    <link rel="apple-touch-icon" href="https://cdn.geogebra.org/static//img/geogebra152.png?v=1506521450"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.geogebra.org/static/css/structure.ltr.css?v=1506521450" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.geogebra.org/static/css/screen.ltr.css?v=1506521450" media="screen and (min-width: 801px)" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.geogebra.org/static/css/tablet.ltr.css?v=1506521450" media="screen and (min-width: 481px) and (max-width: 800px)" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.geogebra.org/static/css/phone.ltr.css?v=1506521450" media="screen and (min-width: 0px) and (max-width: 480px)" />
+
+    <!-- FONTS -->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Muli:400" />
+    <link href='https://fonts.googleapis.com/css?family=Poppins:300,400,600|Asap:400,700' rel='stylesheet' type='text/css'>
+
+
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" type="text/css" href="https://cdn.geogebra.org/static/css/screen.ltr.css?v=1506521450" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.geogebra.org/static/css/ie8-down.ltr.css?v=1506521450" />
+    <![endif]-->
+
+    <!-- GEOGEBRA COMMON STYLE INFORMATION END -->                <!-- GEOGEBRA COMMON SCRIPT INFORMATION -->
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdn.geogebra.org/static/js/styling.js?v=1506521450"></script>
+    <script type="text/javascript" src="https://cdn.geogebra.org/static/js/ggbJS.js?v=1506521450"></script>
+
+    <!-- Script for Fonts -->
+    <script type="text/javascript">
+        WebFontConfig = {
+            google: { families: [ 'Poppins:300,400,600:latin', 'Asap:400,700:latin' ] }
+        };
+        (function() {
+            var wf = document.createElement('script');
+            wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+            wf.type = 'text/javascript';
+            wf.async = 'true';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(wf, s);
+        })(); </script>
+
+    <!-- GEOGEBRA COMMON SCRIPT INFORMATION END -->
+            <link rel="shortcut icon" type="image/x-icon" href="https://cdn.geogebra.org/static/img/favicon.ico" />
+            <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        
+        <script type="text/javascript" src="https://www.geogebra.org/scripts/jquery.simplemodal.js?v=1506521450"></script>
+        <script type="text/javascript" src="https://www.geogebra.org/scripts/worksheet/ws-header-footer.js?v=1506521450"></script>
+
+                    
+<script type="text/javascript">
+    //<![CDATA[
+                var ga_domainName = 'geogebra.org';
+        var ga_trackingId = 'UA-1780044-1';
+    var ga_userId = 5;
+    //]]>
+</script>
+<script type="text/javascript" src="https://www.geogebra.org/scripts/gastats.js?v=1506521450"></script>
+
+        
+        <script type="text/javascript" src="https://www.geogebra.org/scripts/clipboard.min.js?v=1506521450"></script>
+<script type="text/javascript">
+    //<![CDATA[
+    var lang_copy_clipboard_successful = "Copied to the clipboard successfully.";    //]]>
+</script>
+<script type="text/javascript">
+    //<![CDATA[
+    
+            var ga_material_id = 122750;
+            gaTrackMaterialView(ga_material_id, GA_MATERIAL_VIEW_SIMPLE);
+
+            $(function($) {
+                $("#close-student-view").click(function() {
+                   window.close();
+                });
+            });
+            //]]>
+</script>
+<script type="text/javascript" src="https://www.geogebra.org/scripts/jlatexmath/texthandlers.js?v=1506521450"></script>
+<script type="text/javascript" src="https://www.geogebra.org/scripts/jlatexmath/jlatexmath.js?v=1506521450"></script>
+<script type="text/javascript" src="https://www.geogebra.org/scripts/jlatexmath/jlatexmath-tube.js?v=1506521450"></script>
+<script type="text/javascript">
+    //<![CDATA[
+    window.GGBT_texthandlers.setLatexRenderer("jlatexmath");    //]]>
+</script>
+<script type="text/javascript">
+    //<![CDATA[
+    
+                function escapeHtml(text) {
+                  return text
+                      .replace(/(&)/g, "&amp;")
+                      .replace(/(<)/g, "&lt;") 
+                      .replace(/(>)/g, "&gt;")
+                      .replace(/(")/g, "&quot;")
+                      .replace(/(')/g, "&#039;");
+                }
+
+                function GGBT_parseLatexes() {
+                  if (window.GGBT_texthandlers.isLatexRenderer("mathquill")) {
+                        $(".mathquill-embedded-latex").mathquill();
+                    } else {
+                        window.GGBT_jlatexmath.drawLatexOnjQuery($(".jlatexmath"));
+                    }
+                }
+                jQuery(document).ready(function(e) {
+                    var content = $(".bbcode-text");
+                    content.each(function(index) {
+                        var html = window.GGBT_texthandlers.getHTMLFromBBCode(escapeHtml($(this).text())),
+                            t = $(this);
+                            t.removeClass("bbcode-text");
+                            t.html(html);
+                    });
+                    if (window.GGBT_ws_header_footer) {
+                        window.GGBT_ws_header_footer.setWsScrollerHeight();
+                    }
+                });
+                 jQuery(window).on("resize",function(e) {
+                    GGBT_parseLatexes();
+                });
+                document.addEventListener("DOMContentLoaded", function(e) {
+                    window.GGBT_parseLatexes();
+                });
+                //]]>
+</script>
+<script type="text/javascript" src="https://www.geogebra.org/scripts/general.original.js?v=1506521450"></script>
+<script type="text/javascript" src="https://www.geogebra.org/scripts/worksheet/general.js?v=1506521450"></script>
+<script type="text/javascript" src="https://www.geogebra.org/scripts/worksheet/view.js?v=1506521450"></script>
+<script type="text/javascript">
+    //<![CDATA[
+    
+                    window.GGBT_wsf_view.setDefaults({
+                        input: {
+                            text: {
+                                toolbar: {"math":{"text":"Math","title":"Insert Math"},"icons":{"text":"Icons","title":"Insert icons of GeoGebra tools"},"text":{"title":"Text tools"}},
+                                dlg_math: {"title":"Edit Math","btn_basic":"Basic","btn_greek":"Greek","btn_operators":"Operators","btn_relationships":"Relationships","btn_arrows":"Arrows","btn_delimiters":"Delimiters","btn_misc":"Misc"},
+                                dlg_icons: {"title":"Choose an Icon"},
+                                wysibb_lang: ""
+                            }
+                        },
+                        useplaybutton: true
+                    });
+    
+                    //]]>
+</script>
+<script type="text/javascript" src="https://www.geogebra.org/scripts/spin.js?v=1506521450"></script>
+<script type="text/javascript" src="https://www.geogebra.org/scripts/spinner.js?v=1506521450"></script>
+<script type="text/javascript" src="https://www.geogebra.org/scripts/deployggb.js?v=1506521450"></script>
+<script type="text/javascript" src="https://www.geogebra.org/scripts/objects/timeago/jquery.timeago.js?v=1506521450"></script>
+<script type="text/javascript">
+    //<![CDATA[
+    
+            jQuery.timeago.settings.cutoff = 7*24*60*60*1000;
+            jQuery.timeago.settings.allowFuture = true;
+            //]]>
+</script>
+<script type="text/javascript" src="https://www.geogebra.org/scripts/objects/timeago/locales/jquery.timeago.en.js?v=1506521450"></script>
+<script type="text/javascript" src="https://www.geogebra.org/scripts/objects/general.js?v=1506521450"></script>
+<script type="text/javascript" src="https://www.geogebra.org/scripts/objects/social_share.js?v=1506521450"></script>
+<script type="text/javascript" src="https://www.geogebra.org/scripts/collaboration/shareoptions.js?v=1506521450"></script>
+<script type="text/javascript" src="https://www.geogebra.org/scripts/tabs.js?v=1506521450"></script>        <script type="text/javascript">
+            //<![CDATA[
+            var ROOT_URL = 'https://www.geogebra.org';
+            var BASE_URL = 'https://www.geogebra.org';
+            var lang_confirm = "Are you sure you want to carry out this operation? It probably can not be undone!";
+            var age_label = "Age:";
+            //]]>
+        </script>
+
+    </head>
+
+    <body class="book scrolling">
+
+    
+<div class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <div style="direction: ltr">
+
+                    
+<div class="j-ws-header sWs-header " data-title="Dandelin's theorem">
+
+<ul class="sWs-title">
+        <li>
+            <a class="icon icon-navigate-back jCancel jClose"
+               href=""
+               title="Close worksheet"
+               data-backhandler
+               data-confirm="">
+            </a>
+        </li>
+    <li>
+        <a class="sWs-logo icon icon-header-logo jCancel jClose"
+           href="https://www.geogebra.org"
+           title="Close worksheet"
+           data-confirm="">
+        </a>
+    </li>
+</ul>
+
+
+    <ul class="sWs-tools jWs-tools" data-id="122750" data-pe_id=""
+        data-user_id="5"
+        data-loginmsg=""
+        data-loginurl=""
+        data-inbook=""
+        data-saveurl=""
+        data-yes="Yes" data-no="No" data-cancel="Cancel">
+
+
+    
+                
+                    <li class="hiddenOnPhone">
+                <a class="active-icon icon-search" href="https://www.geogebra.org/search"></a>
+            </li>
+        
+                                                                <li><a class="active-icon jKeep icon-favorite"
+                       href="/material/favorite/id/uMNKYJgB"
+                        title="Add to Favorites"></a>
+                </li>
+            
+                    
+
+    
+                <li><a class="active-icon icon-share btn_social_share_popup"
+           data-url="https://www.geogebra.org/material/socialshare/id/uMNKYJgB/type/m"
+                             data-id="uMNKYJgB"
+                             data-type="m"
+                             data-title="Share"           title="Share this Material with Others"
+           ></a></li>
+    
+        
+            <li class="submenu-popup-container">
+                <a class="submenu-toggle-btn active-icon icon-menu">
+                </a>
+
+                
+<div class="submenu-popup">
+    <div class="submenu-arrow"></div>
+    <ul class="submenu-content">
+
+                    <li class="visibleOnPhone">
+                <a class="menu-icon icon-search" href="https://www.geogebra.org/search">
+                    Search Materials                </a>
+            </li>
+
+            <li class="visibleOnPhone separator"></li>
+        
+                <li>
+            <a class="menu-icon icon-share btn_social_share_popup"
+               data-url="/material/socialshare/id/uMNKYJgB/type/m"
+               data-id="uMNKYJgB"
+               data-type="m"
+               data-is-book="false"
+               data-title="Share"
+                >
+                Share            </a>
+        </li>
+
+        
+        
+                                <li class="separator"></li>
+            
+            
+                                                                        <li>
+                            <a class="menu-icon icon-edit-worksheet jEdit j-ws-view-edit"
+                               href="/material/edit/id/uMNKYJgB"
+                               data-copy=""
+                               data-owner-username="Mathieu Blossier"
+                               title="Edit Worksheet">
+                                Edit Worksheet                            </a>
+                        </li>
+                        
+                            
+                            <li>
+                    <a class="menu-icon icon-applet" href="https://www.geogebra.org/o/uMNKYJgB" target="_blank">
+                        Open with GeoGebra App                    </a>
+                </li>
+                <li class="visibleOnPhone" style="display: none;">
+                    <a class="menu-icon icon-applet" href="">
+                        Open with GeoGebra App                    </a>
+                </li>
+                            
+                        <li>
+                <a class="menu-icon icon-add-to-book collection-add"
+                   data-url="/book/list/id/uMNKYJgB"
+                   data-closebtntxt="Done"
+                   data-error="An error occurred. Please try again."
+                   data-title="Add Material to Book">
+                    Add to Book                </a>
+            </li>
+            
+                            <li>
+                    <a class="menu-icon icon-copy-worksheet j-copy"
+                       href="/material/copy/id/uMNKYJgB"
+                       title="Copy a material if you want to enhance or translate it. A reference to the original material is automatically added."
+                       >
+                            Copy Worksheet                    </a>
+                </li>
+            
+        
+        
+        <li class="separator"></li>
+
+        
+        <li>
+            <a class="menu-icon icon-about j-about"
+               href="/material/show/id/uMNKYJgB"
+               title="Details"
+                                >
+                Details            </a>
+        </li>
+
+        <li>
+            <a class="menu-icon icon-download jDownloadObject"
+               href="/material/show/id/uMNKYJgB#download-popup" >
+                Download            </a>
+        </li>
+
+                    <li>
+                <a class="menu-icon icon-options btn_mng_user_access"
+                   data-url="/material/advancedAccess/id/uMNKYJgB/type/m"
+                   data-id="uMNKYJgB"
+                   data-type="m"
+                   data-title="Access Settings"
+                    >
+                    Access Settings                </a>
+            </li>
+        
+        
+
+        
+                    <li class="separator"></li>
+
+            <li>
+                <a class="menu-icon icon-delete jDelete"
+                   data-confirm="Are you sure you want to delete this material?"
+                   data-confirm-yes="Delete"
+                   data-confirm-no="Cancel"
+                   href="/material/delete/id/uMNKYJgB"
+                   title="Delete"
+                                        >
+                    Delete                </a>
+            </li>
+        
+        
+            </ul>
+</div>            </li>
+
+        </ul>
+
+
+    
+    <div class="clear"></div>
+</div>
+
+
+    
+    <!-- Popup dialog for editing materials that are used in other books -->
+    <div id="popup-edit-inotherbook" class="message-dialog" style="display:none;">
+        <div class="message-text">
+            This worksheet is also part of one or more other Books. Modifications will be visible in all these Books. Do you want to modify the original worksheet or create your own copy for this Book instead?        </div>
+        <br/>
+        <span class="button-bar">
+        <button class="button edit-original-edit">Edit this worksheet</button>
+        <button class="button edit-original-copy">Create a copy</button>
+    </span>
+    </div>
+    <!-- Popup dialog for editing materials that are used in other books END -->
+
+    <!-- Popup dialog for editing materials owned by other users -->
+    <div id="popup-edit-hasotherowner" class="message-dialog" style="display:none;">
+        <div class="message-text">
+            This worksheet was created by '{$1}'. Do you want to modify the original worksheet or create your own copy instead?        </div>
+        <br/><br/>
+        <span class="button-bar">
+        <button class="button edit-original-edit">Edit this worksheet</button>
+        <button class="button edit-original-copy">Create a copy</button>
+    </span>
+    </div>
+    <!-- Popup dialog for editing materials owned by other users END -->
+
+    <!-- Popup dialog for editing materials without edit rights -->
+    <div id="popup-edit-noeditrights" class="message-dialog" style="display:none;">
+        <div class="message-text">
+            This worksheet was created by '{$1}' and you lack the permission to edit it. Do you want to create your own copy instead and add it to the book?        </div>
+        <br/><br/>
+        <span class="button-bar">
+        <button class="button edit-original-copy">Create a copy</button>
+        <button class="button cancel">Cancel</button>
+    </span>
+    </div>
+    <!-- Popup dialog for editing materials without edit rights END -->    <script>
+        window.GGBT_ws_header_footer.setDefaults({
+            msg_favorite_add: "The material &#39;{$1}&#39; was added to your favorites.",
+            msg_favorite_remove: "The material &#39;{$1}&#39; was removed from your favorites.",
+            btn_favorite_view: "View favorite materials",
+            btn_ok: "OK",
+            favorites_url: "/user/profile/id/5/p/favorites"
+        });
+    </script>
+        <div class="wsf-ws-scroller">
+            <div class="wsf-wrapper worksheet_tbl">
+
+                            <h1 itemprop="headline" class="wsf-worksheet-title">
+				Dandelin's theorem				</h1>
+            
+
+                            <p class="bbcode-text" itemprop="articleBody">* Move points A and B to change section of the cone
+* Spheres are tangent to the plane and to the cone
+* Move point P on the conic
+* When the conic is an ellipse, why is MP+PH constant ?</p>
+            
+                    <div id="applet_container" class="applet_container">
+    </div>
+<script type="text/javascript">
+    var parameters = {"id":"ggbApplet","width":1465,"height":723,"showToolBar":false,"showMenuBar":false,"showAlgebraInput":false,"allowStyleBar":false,"showResetIcon":true,"enableLabelDrags":false,"enableShiftDragZoom":true,"enableRightClick":false,"showToolBarHelp":false,"errorDialogsActive":true,"useBrowserForJS":false,"filename":"https://cdn.geogebra.org/material/RSqpeafhxljgAaHGDbgcNo8per2q8MdM/material-uMNKYJgB.ggb","language":"en","isPreloader":false,"screenshotGenerator":false,"preventFocus":false,"fixApplet":false,"prerelease":false,"playButtonAutoDecide":true,"playButton":false,"allowUpscale":false};
+    parameters.appletOnLoad = function() {
+        if (typeof $ === "function" && window.GGBT_wsf_view !== undefined) {
+            var container =  $("#applet_container_122750");
+            window.GGBT_wsf_view.postProcessApplet(container.parents('.content-added-content'));
+        }
+    };
+    /** is3D=is 3D applet using 3D view, AV=Algebra View, SV=Spreadsheet View, CV=CAS View, EV2=Graphics View 2, CP=Construction Protocol, PC=Probability Calculator, DA=Data Analysis, FI=Function Inspector, macro=Macro View */
+    var views = {"is3D":1,"AV":0,"SV":0,"CV":0,"EV2":0,"CP":0,"PC":0,"DA":0,"FI":0,"PV":0,"macro":1};
+    var applet = new GGBApplet('5.0', parameters, views, true);
+
+    applet.setHTML5Codebase('./web3d');
+    applet.setPreviewImage('https://cdn.geogebra.org/material/RSqpeafhxljgAaHGDbgcNo8per2q8MdM/material-uMNKYJgB.png', 'https://www.geogebra.org/images/GeoGebra_loading.png?v=1506521450', 'https://www.geogebra.org/images/applet_play.png?v=1506521450');
+    var appletType_122750 = 'auto';
+    window.addEventListener("load", function() {
+        applet.inject('applet_container', 'auto');
+    });
+</script>
+                
+                
+                                    
+<div id="save-info-inprogress" class="msg-box" style="display: none">
+    <div class="message">Saving&hellip;</div>
+</div>
+<div id="save-info-successful" class="msg-box" style="display: none">
+    <div class="message">All changes saved</div>
+</div>
+<div id="save-info-error" class="msg-box" style="display: none">
+    <div class="message general">Error</div>
+    <div class="message error_timeout_retry" style="display: none">A timeout occurred. Trying to re-save &hellip;</div>
+    <div class="message error_timeout" style="display: none">Sorry, but the server is not responding. Please wait a few minutes and then try to save again.</div>
+</div>
+                
+            </div>
+
+            
+
+
+<div class="jWS-footer sWs-footer">
+    <div class="sWs-footer-content">
+        <a class="sWs-GeoGebra" href="https://www.geogebra.org"></a>
+            &#0150;
+        <span itemprop="creator" class="sWs-footer-contributors" itemscope itemtype="http://schema.org/Person"> <a href="https://www.geogebra.org/mathieu+blossier"><span class="notranslate" itemprop="name">Mathieu Blossier</span></a></span>    
+
+        </div>
+</div>
+
+
+        </div>
+
+            </div>
+
+</div>
+        <div class="ajax-loading-glass"></div>
+    </body>
+</html>

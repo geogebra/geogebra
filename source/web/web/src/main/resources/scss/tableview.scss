@@ -1,0 +1,419 @@
+@use 'colors';
+@use 'z-index';
+@use 'colorMap' as *;
+$emptyHeight: 212px;
+$deleteAddTime: 250ms;
+$deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
+
+.GeoGebraFrame {
+	.tableViewParent {
+		height: 100%;
+		min-height: $emptyHeight + 56px;
+	}
+
+	.main >* {
+		position: absolute !important;
+		display: inline-block;
+	}
+
+	.tableViewMain {
+		margin-top: 8px;
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+
+	// we want upper border when we are in portrait mode, but the table of
+	// values view is not in fullscreen (.withShadow is set on the header
+	// in fullscreen mode, we need the neighbouring .main component)
+	&.portrait .toolPanelHeading:not(.withShadow) ~ .main .tvTable {
+		td, th {
+			border-width: 1px 1px 0 0;
+		}
+	}
+
+	.tableEditorWrap {
+		display: flex;
+		flex-direction: row-reverse;
+		align-items: center;
+		min-height: 51px;
+		box-sizing: border-box;
+		border: 1px colors.$purple-default solid;
+	}
+
+	.tableEditor {
+		background-color: colors.$white;
+		overflow: hidden;
+		text-align: right;
+		padding-left: 16px;
+	}
+
+	.editableCell {
+		cursor: text;
+	}
+
+	.tvTable {
+		@mixin textSelect($type) {
+			user-select: $type;
+			-moz-user-select: $type;
+			-webkit-user-select: $type;
+		}
+
+		th {
+			min-width: 120px;
+		}
+
+		td, th {
+			border-width: 0 1px 1px 0;
+			border-color: neutral(300);
+			border-style: solid;
+			box-sizing: border-box;
+			max-width: 180px;
+			transition: min-width $deleteAddTime $deleteAddTransition;
+			.content {
+				transition: width $deleteAddTime, opacity $deleteAddTime, margin $deleteAddTime $deleteAddTransition;
+			}
+
+			&.deleteCol {
+				min-width: 0;
+
+				.content {
+					overflow: hidden !important;
+					width: 0px !important;
+					margin-left: -350px !important;
+					text-align: right;
+					opacity: 0;
+				}
+			}
+
+			&.errorCell {
+				cursor: pointer;
+				border-width: 1px;
+				border-color: colors.$tableview-error;
+
+				.content {
+					height: 50px;
+				}
+			}
+
+			&.notEditable {
+				cursor: default;
+			}
+
+			&.addColumnAut {
+				min-width: 120px;
+				animation-duration: $deleteAddTime;
+				animation-name: addColumn;
+				animation-timing-function: $deleteAddTransition;
+			}
+
+			&.deleteColumnAut {
+				min-width: 0px;
+				animation-duration: $deleteAddTime;
+				animation-name: removeColumn;
+				animation-timing-function: $deleteAddTransition;
+			}
+		}
+
+		@-webkit-keyframes addColumn {
+			0% {min-width: 0px;}
+			100% {min-width: 120px;}
+		}
+
+		@-moz-keyframes addColumn {
+			0% {min-width: 0px;}
+			100% {min-width: 120px;}
+		}
+
+		@keyframes addColumn {
+			0% {min-width: 0px;}
+			100% {min-width: 120px;}
+		}
+
+		@-webkit-keyframes removeColumn {
+			0% {min-width: 120px;}
+			100% {min-width: 0px;}
+		}
+
+		@-moz-keyframes removeColumn {
+			0% {min-width: 120px;}
+			100% {min-width: 0px;}
+		}
+
+		@keyframes removeColumn {
+			0% {min-width: 120px;}
+			100% {min-width: 0px;}
+		}
+
+		.shaded:after {
+				content: '';
+				display: block;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				width: 100%;
+				pointer-events: none;
+				background: linear-gradient(to left, #fff 70px, colors.$transparent-white 120px, colors.$transparent-white),
+					linear-gradient(to top, #fff 20px, colors.$transparent-white 52px, colors.$transparent-white);
+		}
+
+		.fullWidth {
+			width: 100%;
+		}
+
+		.highlighted {
+			background-color: purple(100);
+		}
+
+		.values {
+			@include textSelect(text);
+			position: relative;
+
+			thead {
+
+				@include textSelect(none);
+
+				th {
+					height: 56px;
+					padding: 0;
+					position: sticky;
+					top: 0;
+					background: neutral(200);
+
+					.content {
+						text-align: center;
+						padding: 12px 0 12px 16px;
+						display: inline-flex;
+						margin: auto;
+						float: right;
+
+						.gwt-Label {
+							font-size: 100%;
+							font-weight: bold;
+							line-height: 32px;
+							height: 24px;
+						}
+
+						.noMenu {
+							margin-right: 24px;
+						}
+
+						.button {
+							margin: auto 0 auto 0;
+							padding: 4px 4px 4px 0;
+							border: 0;
+							background-color: transparent;
+
+							img {
+								opacity: 0.54;
+							}
+
+							&:hover img {
+								opacity: 1;
+							}
+						}
+					}
+
+					&.deleteColumnAut {
+						.content {
+							padding-left: 0px;
+						}
+					}
+
+					&.emptyColumn {
+						.content {
+							padding-left: 0px;
+							padding-right: 0px;
+						}
+					}
+				}
+			}
+
+			td {
+				height: 52px;
+				text-align: right;
+
+				.content {
+					font-size: 100%;
+					font-family: 'mathsans';
+					text-align: right;
+					float: left;
+					padding: 16px 8px 16px 16px;
+					text-overflow: ellipsis;
+					overflow: hidden;
+					width: calc(100% - 16px);
+					box-sizing: border-box;
+				}
+
+				.errorStyle {
+					border-top: 16px solid colors.$tableview-error;
+					border-left: 16px solid transparent;
+					display: inline-block;
+				}
+
+				&.deleteCol .content {
+					margin-left: 16px;
+					margin-right: 32px;
+				}
+
+				&.notEditable .content {
+					color: colors.$black-54;
+				}
+
+				&.deleteColumnAut .content {
+					padding-left: 0px;
+					padding-right: 0px;
+				}
+			}
+		}
+
+		.mainScrollPanel {
+			width: 100%;
+		}
+
+		.mainScrollPanel .valueScroller {
+			flex-grow: 1;
+			overflow-y: auto !important;
+		}
+	
+		.outerScrollPanel {
+			overflow: hidden !important;
+		}
+	
+		.outerScrollPanel > div {
+			height: 100%;
+		}
+	
+		/*needed for vertical scrolling*/
+		.valueScroller div, .mainScrollPanel{
+			height: 100%;
+		}
+		
+		.headerScroller {
+			width: 100%;
+			overflow: hidden !important;
+		}
+
+		.addRowAuto {
+			td {
+				height: 52px;
+				animation-duration: $deleteAddTime;
+				animation-name: addRow;
+				animation-timing-function: $deleteAddTransition;
+
+				.content {
+					padding-top: 0px;
+					padding-bottom: 0px;
+				}
+			}
+		}
+
+		.deleteRowAut {
+			td {
+				border-width: 0 1px 0 0;
+				height: 0px;
+				animation-duration: $deleteAddTime;
+				animation-name: deleteRow;
+				animation-timing-function: $deleteAddTransition;
+
+				.content {
+					padding-top: 0px;
+					padding-bottom: 0px;
+				}
+			}
+		}
+
+		@-webkit-keyframes addRow {
+			0% {height: 0px;}
+			100% {height: 52px;}
+		}
+
+		@-moz-keyframes addRow {
+			0% {height: 0px;}
+			100% {height: 52px;}
+		}
+
+		@keyframes addRow {
+			0% {height: 0px;}
+			100% {height: 52px;}
+		}
+
+		@-webkit-keyframes deleteRow {
+			0% {height: 52px;}
+			100% {height: 0px;}
+		}
+
+		@-moz-keyframes deleteRow {
+			0% {height: 52px;}
+			100% {height: 0px;}
+		}
+
+		@keyframes deleteRow {
+			0% {height: 52px;}
+			100% {height: 0px;}
+		}
+	}
+
+	.errorToast {
+		position: absolute;
+		height: 22px;
+		line-height: 22px;
+		padding-left: 8px;
+		padding-right: 8px;
+		vertical-align: middle;
+		border-radius: 2px;
+		color: white;
+		opacity: 0.9;
+		z-index: z-index.$z-snackbar;
+		font-size: 80%;
+	}
+
+	.tvContextMenu {
+		.menuSeparator {
+			width: 100%;
+		}
+	}
+
+	.toolbar .infoErrorPanel {
+		width: 100%;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	.scientific.tvTable {
+		table {
+			width: 100%;
+		th:first-child {
+			.content {
+				button {
+					visibility: visible;
+				}
+			}
+		}
+		th {
+			.content {
+				button {
+					visibility: hidden;
+				}
+			}
+		}
+	}
+	.shaded:after {
+				content: '';
+				display: block;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				width: 100%;
+				pointer-events: none;
+				background: none,
+					linear-gradient(to top, #fff 20px, colors.$transparent-white 52px, colors.$transparent-white);
+		}
+	}
+
+	.btnRow {
+		height: 44px;
+	}
+}

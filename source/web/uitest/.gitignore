@@ -1,0 +1,7 @@
+/node_modules/
+/.project
+/cypress/videos/
+/cypress/screenshots/
+/results/
+/content/
+lighthouse.*

@@ -1,0 +1,18 @@
+<euclidianView>
+	<viewNumber viewNo="1"/>
+	<coordSystem xZero="0.0" yZero="0.0" scale="50.0" yscale="50.0"/>
+	<evSettings axes="false" grid="false" gridIsBold="false" pointCapturing="3" rightAngleStyle="1" checkboxSize="26" gridType="3"/>
+	<bgColor r="255" g="255" b="255"/>
+	<axesColor r="37" g="37" b="37"/>
+	<gridColor r="192" g="192" b="192"/>
+	<rulerType val="0" bold="false"/>
+	<penSize val="30"/>
+	<penColor r="204" g="0" b="153"/>
+	<highlighterSize val="1"/>
+	<highlighterColor r="219" g="97" b="20"/>
+	<eraserSize val="61"/>
+	<language val="en"/>
+	<lineStyle axes="1" grid="0" ruler="0"/>
+	<axis id="0" show="false" label="" unitLabel="" tickStyle="1" showNumbers="true"/>
+	<axis id="1" show="false" label="" unitLabel="" tickStyle="1" showNumbers="true"/>
+</euclidianView>

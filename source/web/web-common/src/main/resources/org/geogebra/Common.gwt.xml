@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='common' >
+  <inherits name="com.github.Quickhull3D" />
+  <inherits name="edu.uci.ics.JUNG" />
+  <inherits name="org.apache.commons.Math" />
+  <inherits name="org.apache.commons.Collections" />
+  <inherits name="org.geogebra.regexp.RegExp" />
+  <inherits name="com.google.j2objc.Annotations"/>
+
+  <source path='common' />
+
+</module>

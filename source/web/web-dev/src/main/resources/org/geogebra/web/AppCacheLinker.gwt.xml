@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>  
+
+  <define-linker name="appcachelinker" class="org.geogebra.web.linker.AppCacheLinker" />
+  <add-linker name="appcachelinker" />
+  <define-linker name="standardxsi" class="org.geogebra.web.linker.StandardIframeLinker" />
+  <add-linker name="standardxsi" />
+  <define-configuration-property is-multi-valued="true" name="es6export"/>
+</module>

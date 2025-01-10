@@ -1,0 +1,110 @@
+def template = { fileName ->
+    String templateDir = "src/main/resources/org/geogebra/web/resources/html/"
+    return file(templateDir + fileName).text
+}
+
+def css = { directory, fileName ->
+    String text
+    def relPath = (directory ? directory + "/" : "") + fileName + ".css"
+    if (project.hasProperty("downloadStyles")) {
+        def ggbVersion = ProjectExtensionsKt.getCommonVersion(project)
+        text = new URL("https://www.geogebra.org/apps/$ggbVersion/css/$relPath").withReader { reader ->
+            reader.readLines().join("\n")
+        }
+    } else {
+        String fileDir = "war/css/" + relPath
+        text = file(fileDir).text
+    }
+    return "<style id=\"ggbstyle_" + fileName + "\">" + text + "</style>\n";
+}
+
+String html = template("app-template.html")
+String splash = template("classic-splash.html")
+
+["algebra", "graphics", "spreadsheet", "cas", "probability", "3d", "exam"].each {
+    def iconText = file("../../shared/common/src/nonfree/resources/org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_" + it + ".svg").text
+    splash = splash.replace("<!--ICON:" + it.toUpperCase() + "-->",
+            "data:image/svg+xml;base64," + iconText.bytes.encodeBase64().toString())
+}
+
+String.metaClass.injectPartial = { partialId ->
+    delegate.replace("<!--${partialId.toUpperCase()}-->", template("partials/${partialId}.html"))
+}
+
+def partials = { code, appPartials ->
+    def partials = appPartials ?: ["share-button", "signin-button"]
+    partials.each({
+        code = code.injectPartial(it)
+    })
+    return code
+}
+
+def replaceVendor = { htmlContent, vendor, offline ->
+    htmlContent = htmlContent.replace("<!--VENDOR-->", vendor)
+    if (vendor == "Mebis") {
+        return htmlContent.replace("<!--VENDOR SCRIPTS-->", template("partials/vendor-scripts-mebis.html"))
+    }
+    return htmlContent.replace("<!--VENDOR SCRIPTS-->", template("partials/vendor-scripts-geogebra.html"))
+}
+
+def getCss = { ->
+    return css("bundles", "simple-bundle") + css("", "keyboard-styles") + css("bundles", "bundle")
+}
+
+ext.english = { raw, appName, languageTag ->
+    return raw.replace("<!--SIGN IN-->", "Sign in")
+            .replace("<!--APP NAME-->", appName)
+            .replace("<!--CODEBASE-->", "")
+            .replace("<!--LANG-->", languageTag)
+}
+
+ext.handlebars = { raw ->
+    return raw.replace("<!--SIGN IN-->", "{{signIn}}")
+            .replace("<!--APP NAME-->", "{{appName}}")
+            .replace("<!--LANG-->", "{{lang}}")
+            .replace("<!--CODEBASE-->", "{{codebase}}")
+            .replace("<!--LANGUAGE LINKS-->", "{{{languageLinks}}}")
+}
+
+ext.classicHtml = { app, prerelease, offline = false, inlineCss = false ->
+    def platformSpecific = offline ? "<!--PLATFORM SPECIFIC CODE--><script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
+    def inlinedCss = inlineCss ? getCss() : ""
+    return replaceVendor(html, "GeoGebra", offline)
+            .replace("<!--SPLASH-->", splash)
+            .replace("<!--SPLASH STYLE-->", '<style>' + template("splash-style.css") + '</style>')
+            .replace("<!--PRELOADED CSS-->", inlinedCss)
+            .replace("<!--MATOMO-->", template("partials/matomo.html"))
+            .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/geogebra.ico")
+            .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
+}
+
+ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
+    def vendor = app.vendor ?: "GeoGebra"
+    def appID = app.id.split("-")[0]
+    def appTransKey = app.transKey
+    def header = vendor == "Mebis" ? "" : template("app-header-beta.html")
+            .replace("<!--LOGO-LINK-->", offline ? "#" : "https://www.geogebra.org")
+    header = partials(header, app.partials)
+    def inlinedCss = inlineCss ? getCss() : ""
+    def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
+    def startscreenStyle = "startscreen " + app.id + (offline ? " offline" : "")
+    def appStoreBanner = app.appStoreId ? "<meta name=\"apple-itunes-app\" " +
+            "content=\"app-id=${app.appStoreId}\"><link rel=\"manifest\" href=\"https://www.geogebra.org/apps/manifest/${appID}.json\">" : ""
+    def splashContent = template("${app.id}-splash.html")
+    def splashStyle = "<style>" + file("war/css/app-header.css").text + "</style>"
+    if (!inlineCss && vendor != "Mebis") {
+       splashStyle = "<link rel=stylesheet href=\"css/app-header.css\"/>"
+    }
+    def matomo = vendor == "Mebis" ? "" : template("partials/matomo.html")
+    return replaceVendor(html, vendor, offline)
+            .replace("<!--MATOMO-->", matomo)
+            .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">$splashContent</div>")
+            .replace("<!--SPLASH STYLE-->", splashStyle)
+            .replace("<!--PRELOADED CSS-->", inlinedCss)
+            .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
+            .replace("<!--ICON-->", vendor == "Mebis" ? "/public/assets/tafel.ico" : "https://www.geogebra.org/apps/icons/${appID}.ico")
+            .replace("<!--APP ID-->", appID)
+            .replace("<!--APP TRANSKEY-->", appTransKey)
+            .replace("<!--APPSTORE BANNER-->", appStoreBanner)
+            .replace("\r\n", "\n") // generate the same on Win and Unix
+}

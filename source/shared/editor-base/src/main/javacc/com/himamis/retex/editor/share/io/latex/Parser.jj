@@ -1,0 +1,566 @@
+options {
+   STATIC = false;
+   JAVA_TEMPLATE_TYPE = "modern";
+}
+
+PARSER_BEGIN(Parser)
+package com.himamis.retex.editor.share.io.latex;
+
+import com.himamis.retex.editor.share.model.*;
+import com.himamis.retex.editor.share.meta.*;
+import com.himamis.retex.editor.share.controller.*;
+import com.himamis.retex.editor.share.editor.FractionBracketRemover;import com.himamis.retex.editor.share.util.Unicode;
+
+public class Parser {
+
+	private MetaModel metaModel;
+	private EditorState editorState;
+	private InputController inputController;
+
+	private int absoluteValueDepth;
+	private int absoluteValueCount;
+
+	public Parser(MetaModel metaModel) {
+		this(new StringProvider(""));
+		this.metaModel = metaModel;
+		this.editorState = new EditorState(metaModel);
+		this.inputController = new InputController(metaModel);
+	}
+
+	/**
+	 * Needed to prevent memory leaks in Web
+	 * @return the static exception instance
+	 */
+	public static Throwable getLookaheadSuccess() {
+	   return jj_ls;
+	}
+
+	private static MathComponent convertSuperscriptToNormal(MetaModel metaModel, char sup) {
+		if (sup >= '\u2070' && sup <= '\u2079' && sup != '\u2071' && sup != '\u2072' && sup != '\u2073') {
+			return createCharacter(Character.toString((char) (sup - '\u2070' + '0')), metaModel);
+		} else if (sup == '\u00b9') {
+			return createCharacter("1", metaModel);
+		} else if (sup == '\u00b2') {
+			return createCharacter("2", metaModel);
+		} else if (sup == '\u00b3') {
+			return createCharacter("3", metaModel);
+		} else if (sup == '\u207a') {
+			return createOperator("+", metaModel);
+		} else if (sup == '\u207b') {
+			return createOperator("-", metaModel);
+		} else {
+			throw new UnsupportedOperationException("Not a supported superscript");
+		}
+	}
+
+	private static MathComponent createCharacter(String character, MetaModel metaModel) {
+		return new MathCharacter(metaModel.getCharacter(character));
+	}
+
+	private static MathComponent createOperator(String operator, MetaModel metaModel) {
+		return new MathCharacter(metaModel.getOperator(operator));
+	}
+
+	private static MetaCharacter createMetaCharacter(String character, MetaModel metaModel) {
+		MetaCharacter metaCharacter;
+		if (metaModel.isOperator(character)) {
+			metaCharacter = metaModel.getOperator(character);
+		} else if (metaModel.isSymbol(character)) {
+			metaCharacter = metaModel.getSymbol(character);
+		} else {
+			metaCharacter = metaModel.getCharacter(character);
+		}
+		return metaCharacter;
+	}
+
+	private int countVerticalBars(String text) {
+		int count = 0;
+		for (int i = 0; i < text.length(); i++) {
+			if (text.charAt(i) == '|') {
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+	private boolean shouldStartAbsoluteValue() {
+		return absoluteValueDepth == 0 || (token.kind == OPERATOR || token.kind == VERTICAL_BAR
+				|| token.kind == PARENTHESES_OPEN) && absoluteValueDepth < absoluteValueCount;
+	}
+
+	public MathFormula parse(String text) throws ParseException {
+		absoluteValueCount = countVerticalBars(text);
+		if (absoluteValueCount % 2 != 0) {
+			text += "|";
+			absoluteValueCount++;
+		}
+
+		ReInit(new StringProvider(text));
+		MathFormula mathFormula = new MathFormula(metaModel);
+		MathSequence mathSequence = new MathSequence();
+		mathFormula.setRootComponent(mathSequence);
+		editorState.setRootComponent(mathSequence);
+		mathContainerWithCommas(mathSequence);
+		mathFormula.getRootComponent().traverse(new FractionBracketRemover());
+		return mathFormula;
+	}
+}
+PARSER_END(Parser)
+
+<DEFAULT> SKIP : {
+	 "\r"
+   | "\t"
+   | "\n"
+}
+
+<DEFAULT> TOKEN : {
+	  < POWER : "^" >
+	| < SUPERSCRIPT_MINUS: "\u207b" >
+	| < POWERN: (<SUPERSCRIPT_MINUS>)? ( <INDEXDIGIT> )+ >
+	| < #INDEXDIGIT:                                     // unicode digits
+	   [ "\u2070","\u2074"-"\u2079","\u00b9","\u00b2","\u00b3","\u207a"] >
+	| < SUBSCRIPT : "_" >
+	| < FRACTION : "/" >
+	| < PARENTHESES_OPEN : "(" >
+	| < PARENTHESES_CLOSE : ")" >
+	| < SQUARE_BRACKETS_OPEN : "[" >
+	| < SQUARE_BRACKETS_CLOSE : "]" >
+	| < CURLY_BRACKETS_OPEN : "{" >
+	| < CURLY_BRACKETS_CLOSE : "}" >
+	| < OVERLINE : "\u0305" >
+	| < LCEIL : "\u2308" >
+	| < RCEIL : "\u2309" >
+	| < LFLOOR : "\u230a" >
+	| < RFLOOR : "\u230b" >
+	| < QUOTE_START : "\""> : IN_QUOTE
+	| < SQRT : "sqrt(" | "\u221A(" >
+	| < CBRT : "cbrt(" >
+	| < NROOT : "nroot(" >
+	| < LOG : "log(" >
+	| < ABS : "abs(" >
+	| < DEF_INT : "$defint" >
+	| < PROD_EQ : "$prodeq" >
+	| < SUM_EQ : "$sumeq" >
+	| < LIM_EQ : "$limeq(" >
+	| < VEC : "$vec(" >
+	| < ATOMIC_POST : "$atomicpost" >
+	| < ATOMIC_PRE : "$atomicpre" >
+	| < COMMA : "," >
+	| < SPACE : " " >
+	| < VERTICAL_BAR : "|" >
+	| < OPERATOR : ["*", "+", "-", "/", "=", ";", "<", ">", "\u2264", "\u2265",
+					"\u2227", "\u2228", "\u2192", "\u225f", "\u2208", "\u2286",
+					"\u2282", "\u2297", "\u22c5", "\u2219", "\u00D7"] >
+	| < ELSE : ~[] >
+}
+
+<IN_QUOTE> TOKEN : {
+	  < QUOTE_END : "\""> : DEFAULT
+	| <CHAR : ~[]>
+}
+
+void mathContainer(MathContainer currentField) : {}
+{
+	(
+		atomicWrapper(currentField)
+	|
+		mathCharacter(currentField)
+	)*
+}
+
+void atomicWrapper(MathContainer currentField) : {}
+{
+
+	power(currentField)
+	|
+	superscript(currentField)
+	|
+	subscript(currentField)
+	|
+	fraction(currentField)
+	|
+	recurringDecimal(currentField)
+	|
+	nroot(currentField)
+	|
+	log(currentField)
+	|
+	defintSumProduct(currentField)
+	|
+	atomicPrePost(currentField)
+	|
+	absVecLimeq(currentField)
+	|
+	LOOKAHEAD(<VERTICAL_BAR>, { shouldStartAbsoluteValue() })
+	absVerticalBar(currentField)
+	|
+	arrayParentheses(currentField)
+	|
+	arrayFloorCeil(currentField)
+	|
+	arrayCurly(currentField)
+	|
+	quotes(currentField)
+
+}
+
+void mathContainerWithCommas(MathContainer currentField) : {}
+{
+	(
+		atomicWrapper(currentField)
+	|
+		mathCharacterOrComma(currentField)
+	)*
+}
+
+/**
+* Adds an atomic expression to the current field. Atomic expression does not have operator on top level,
+* i.e. must be wrapped in brackets (1+1) or be a simple number 12 or special function eg. -sqrt(5)
+* @param currentField parent field 
+*/
+void mathAtomOrPower(MathContainer currentField) : {
+	Token t = null;
+}
+{
+
+	(<SPACE>)*
+  
+	(t= <OPERATOR>)? {
+		if (t != null) {
+			currentField.addArgument(new MathCharacter(createMetaCharacter(t.image, metaModel)));
+		}
+	}
+	(
+		atomicWrapper(currentField)
+	|
+		(
+		  (mathAtomCharacter(currentField))+
+		  (power(currentField) | superscript(currentField) | subscript(currentField))?
+		  (arrayParentheses(currentField))?
+		)
+	) (power(currentField) | superscript(currentField) | subscript(currentField))?
+}
+
+void superscript(MathContainer currentField) :
+{
+	Token t = null;
+	MathSequence mathSequence = null;
+}
+{
+	(t = <POWERN>) {
+		MathFunction power = new MathFunction(metaModel.getGeneral(Tag.SUPERSCRIPT));
+		mathSequence = new MathSequence();
+		power.setArgument(0, mathSequence);
+		currentField.addArgument(power);
+		for (int i = 0; i < t.image.length(); i++) {
+			MathComponent mathCharacter = convertSuperscriptToNormal(metaModel, t.image.charAt(i));
+			mathSequence.addArgument(mathCharacter);
+		}
+	}
+}
+
+void power(MathContainer currentField) : { }
+{
+	<POWER> {
+		MathFunction power = new MathFunction(metaModel.getGeneral(Tag.SUPERSCRIPT));
+		MathSequence mathSequence = new MathSequence();
+		mathAtomOrPower(mathSequence);
+		mathSequence.removeBrackets();
+		power.setArgument(0, mathSequence);
+		currentField.addArgument(power);
+	}
+}
+
+void fraction(MathContainer currentField) :
+{
+	MathFunction fraction;
+}
+{
+	<FRACTION> {
+	fraction = new MathFunction(metaModel.getGeneral(Tag.FRAC));
+   	//handle numerator
+   	MathSequence passArgs = new MathSequence();
+   	editorState.setCurrentField((MathSequence) currentField);
+   	editorState.setCurrentOffset(currentField.size());
+   	fraction.setArgument(0, passArgs);
+   	ArgumentHelper.passArgument(editorState, fraction);
+   	//handle denominator
+   	MathSequence mathSequence = new MathSequence();
+   	mathAtomOrPower(mathSequence);
+   	mathSequence.removeBrackets();
+   	fraction.setArgument(1, mathSequence);
+	if (currentField.getArgument(currentField.size() - 1) != null
+			&& currentField.getArgument(currentField.size() - 1).toString().equals(Unicode.INVISIBLE_PLUS + "")) {
+		currentField.removeArgument(currentField.size() -1);
+		editorState.setCurrentOffset(currentField.size());
+		fraction.setPreventingNestedFractions(true);
+	}
+   	currentField.addArgument(fraction);
+}
+}
+
+void recurringDecimal(MathContainer currentField) :
+{
+	MathFunction recurringDecimal;
+}
+{
+	<OVERLINE> {
+		MathSequence passArg = new MathSequence();
+		editorState.setCurrentField((MathSequence) currentField);
+		editorState.setCurrentOffset(currentField.size());
+		if (currentField.size() > 1
+				&& currentField.getArgument(currentField.size() - 2).hasTag(Tag.RECURRING_DECIMAL)) {
+			// There is already a recurring decimal - just append the 2nd, 3rd, ... repeating digit
+			recurringDecimal = (MathFunction) currentField.getArgument(currentField.size() - 2);
+			ArgumentHelper.passSingleCharacter(editorState, recurringDecimal.getArgument(0));
+		} else {
+			// Create a new MathFunction
+			recurringDecimal = new MathFunction(metaModel.getGeneral(Tag.RECURRING_DECIMAL));
+			recurringDecimal.setArgument(0, passArg);
+			ArgumentHelper.passSingleCharacter(editorState, recurringDecimal.getArgument(0));
+			currentField.addArgument(recurringDecimal);
+		}
+	}
+}
+
+void subscript(MathContainer currentField) :
+{
+	MathSequence subscript = null;
+}
+{
+	<SUBSCRIPT> {
+		MathFunction subscriptFunction = new MathFunction(metaModel.getGeneral(Tag.SUBSCRIPT));
+		subscript = new MathSequence();
+	}
+	((<CURLY_BRACKETS_OPEN> mathContainerWithCommas(subscript) <CURLY_BRACKETS_CLOSE>)
+	|
+	mathCharacter(subscript)) {
+		subscriptFunction.setArgument(0, subscript);
+		currentField.addArgument(subscriptFunction);
+	}
+}
+
+void nroot(MathContainer currentField) : {}
+{
+	<NROOT> {
+		MathFunction nroot = new MathFunction(metaModel.getGeneral(Tag.NROOT));
+		MathSequence param1 = new MathSequence();
+		mathContainer(param1);
+	} <COMMA> {
+		MathSequence param2 = new MathSequence();
+		mathContainer(param2);
+		nroot.setArgument(1, param1);
+		nroot.setArgument(0, param2);
+		currentField.addArgument(nroot);
+	} <PARENTHESES_CLOSE>
+}
+
+void defintSumProduct(MathContainer currentField) : {
+	Token symbol;
+}
+{
+	(symbol = <DEF_INT> | symbol = <SUM_EQ> | symbol = <PROD_EQ>) <PARENTHESES_OPEN> {
+		MathFunction defint = new MathFunction(metaModel.getGeneral(Tag.lookup(symbol.image)));
+		MathSequence param0 = new MathSequence();
+		mathContainer(param0);
+	} <COMMA> {
+		MathSequence param1 = new MathSequence();
+		mathContainer(param1);
+		defint.setArgument(0, param0);
+		defint.setArgument(1, param1);
+		currentField.addArgument(defint);
+	} <PARENTHESES_CLOSE>
+}
+
+void atomicPrePost(MathContainer currentField) : {
+	Token symbol;
+}
+{
+	(symbol = <ATOMIC_POST> | symbol = <ATOMIC_PRE>) <PARENTHESES_OPEN> {
+		MathFunction atomic = new MathFunction(metaModel.getGeneral(Tag.lookup(symbol.image)));
+		MathSequence param0 = new MathSequence();
+		mathContainer(param0);
+	} <COMMA> {
+		MathSequence param1 = new MathSequence();
+		mathContainer(param1);
+	} <COMMA> {
+		MathSequence param2 = new MathSequence();
+		mathContainer(param2);
+		atomic.setArgument(0, param0);
+		atomic.setArgument(1, param1);
+		atomic.setArgument(2, param2);
+		currentField.addArgument(atomic);
+	} <PARENTHESES_CLOSE>
+}
+
+void absVecLimeq(MathContainer currentField) : {
+	Token symbol;
+}
+{
+	(symbol = <ABS> | symbol = <VEC> | symbol = <LIM_EQ> | symbol = <SQRT> | symbol = <CBRT>) {
+		// cut off the parentheses from the end
+		String image = symbol.image.substring(0, symbol.image.length() - 1);
+		if (image.equals("\u221A")) {
+			image = "sqrt";
+		}
+		MathFunction vec = new MathFunction(metaModel.getGeneral(Tag.lookup(image)));
+		MathSequence param1 = new MathSequence();
+		mathContainerWithCommas(param1);
+		vec.setArgument(0, param1);
+		currentField.addArgument(vec);
+	} <PARENTHESES_CLOSE>
+}
+
+void log(MathContainer currentField) : { }
+{
+	<LOG> {
+		MathFunction nroot = new MathFunction(metaModel.getGeneral(Tag.LOG));
+		MathSequence param1 = new MathSequence();
+		MathSequence param2 = new MathSequence();
+		mathContainer(param1);
+		nroot.setArgument(0, param2); // base empty
+		nroot.setArgument(1, param1);
+	} (<COMMA> {
+		mathContainer(param2);
+		nroot.setArgument(0, param1);
+		nroot.setArgument(1, param2);
+	})? <PARENTHESES_CLOSE>
+	{
+	  currentField.addArgument(nroot);
+	}
+}
+
+void arrayParentheses(MathContainer currentField) :
+{
+	MathContainer mathArrayOrFunction = null;
+	MathSequence mathSequence = null;
+	Token open = null;
+}
+{
+	(open = <PARENTHESES_OPEN> | open = <SQUARE_BRACKETS_OPEN>)
+	{
+		editorState.setCurrentField((MathSequence) currentField);
+		editorState.setCurrentOffset(currentField.size());
+		inputController.newBraces(editorState, open.image.charAt(0));
+
+		mathSequence = editorState.getCurrentField();
+		mathArrayOrFunction = mathSequence.getParent();
+	}
+	mathContainerWithCommas(mathSequence)
+
+	(<PARENTHESES_CLOSE> | <SQUARE_BRACKETS_CLOSE>)
+}
+
+void arrayFloorCeil(MathContainer currentField) : {
+	MathArray mathArray = null;
+	MathSequence mathSequence = null;
+	Token open = null;
+}
+{
+	(open = <LFLOOR > | open = <LCEIL>) {
+		Tag arrayType = LCEIL == open.kind ? Tag.CEIL : Tag.FLOOR;
+		mathArray = new MathArray(metaModel.getArray(arrayType), 0);
+		currentField.addArgument(mathArray);
+		mathSequence = new MathSequence();
+		mathContainer(mathSequence);
+		mathArray.addArgument(mathSequence);
+	} (<RFLOOR > | <RCEIL>)
+}
+
+void absVerticalBar(MathContainer currentField) : { }
+{
+	<VERTICAL_BAR> {
+		absoluteValueDepth++;
+		absoluteValueCount--;
+		MathFunction abs = new MathFunction(metaModel.getGeneral(Tag.ABS));
+		MathSequence param1 = new MathSequence();
+		mathContainer(param1);
+		abs.setArgument(0, param1);
+		currentField.addArgument(abs);
+	} <VERTICAL_BAR> {
+		absoluteValueDepth--;
+		absoluteValueCount--;
+	}
+}
+
+void arrayCurly(MathContainer currentField) :
+{
+	MathArray mathArray = null;
+	MathSequence mathSequence = null;
+	int matrixWidth = -1;
+}
+{
+	<CURLY_BRACKETS_OPEN>
+	{
+		mathSequence = new MathSequence();
+
+		mathArray = new MathArray(metaModel.getArray(Tag.CURLY), 0);
+		currentField.addArgument(mathArray);
+	}
+	mathContainer(mathSequence)
+	{
+		mathArray.addArgument(mathSequence);
+		mathSequence = new MathSequence();
+	}
+	(LOOKAHEAD(2147483647)  <COMMA> mathContainer(mathSequence)
+		{
+			mathArray.addArgument(mathSequence);
+			mathSequence = new MathSequence();
+
+		}
+	)*
+
+	<CURLY_BRACKETS_CLOSE>
+	{
+		mathArray.checkMatrix(metaModel);
+	}
+}
+
+void quotes(MathContainer currentField) :
+{
+	MathArray mathArray = null;
+	MathSequence mathSequence = null;
+	Token t = null;
+}
+{
+	<QUOTE_START> {
+		mathSequence = new MathSequence();
+		mathArray = new MathArray(metaModel.getArray(Tag.APOSTROPHES), 0);
+		mathArray.addArgument(mathSequence);
+		currentField.addArgument(mathArray);
+	} ((t = <CHAR>) {
+		MathCharacter mathCharacter = new MathCharacter(metaModel.getCharacter(t.image));
+		mathSequence.addArgument(mathCharacter);
+	})* <QUOTE_END>
+}
+
+void mathCharacter(MathContainer currentField) :
+{
+	Token t = null;
+}
+{
+	(t = <ELSE> | t = <OPERATOR> | t = <SPACE>) {
+		currentField.append(createMetaCharacter(t.image, metaModel));
+	}
+}
+
+void mathCharacterOrComma(MathContainer currentField) :
+{
+	Token t = null;
+}
+{
+	(t = <ELSE> | t = <OPERATOR> | t = <SPACE> | t = <COMMA>) {
+		currentField.append(createMetaCharacter(t.image, metaModel));
+	}
+}
+
+void mathAtomCharacter(MathContainer currentField) :
+{
+	Token t = null;
+}
+{
+	(t = <ELSE>) {
+		currentField.append(createMetaCharacter(t.image, metaModel));
+	}
+}

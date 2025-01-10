@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>JLaTeXMath with javascript</title>
+    <script type="text/javascript" language="javascript" src="jlatexmath/jlatexmath.nocache.js"></script>
+    <script>
+        var drawLatex = function() {
+          var canvas = document.getElementById('latex')
+
+          // jlmlib.drawLatex(...) params
+          var ctx = canvas.getContext('2d');                            // Context 2d of canvas
+          
+          
+          var latexString = "\\fbox{\\text{3|1 means 3.1}}"
+          
+          
+          var size = 40;
+          var x = 5;
+          var y = 5;
+          var style = 0;
+          var fgColor = '#FF0000';
+          var coords = jlmlib.drawLatex(ctx, latexString, size, x, y, style, fgColor, function() {console.log("yo")});
+        }
+    </script>
+  </head>
+
+ 
+  <!-- Maybe a callback from the library would be good to signal the availability of the library -->
+  <body onload="setTimeout(drawLatex, 2000)">
+    <h1>JLaTeXMath test</h1>
+    <!-- Important to set no just the height/width in style, but the height/width property of canvas also. -->
+    <canvas id="latex" style="height: 500px; width: 500px" width="500px" height="500px"></canvas>
+  </body>
+</html>

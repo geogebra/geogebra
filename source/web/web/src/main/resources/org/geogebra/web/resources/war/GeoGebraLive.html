@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <meta charset="utf-8"/>
+    <script src="https://cdn.geogebra.org/apps/deployggb.js"></script>
+    <script src="./geogebra-live.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+
+<body>
+<div class="container">
+    <div class="mt-2 mb-2">
+        Switch app:
+        <div class="btn-group">
+            <a href="?app=classic" class="btn btn-secondary">Classic</a>
+            <a href="?app=notes" class="btn btn-secondary">Notes</a>
+            <a href="?app=graphing" class="btn btn-secondary">Graphing</a>
+            <a href="?app=cas" class="btn btn-secondary">CAS</a>
+        </div>
+    </div>
+    <div id="ggbApplet1"></div>
+    <div class="row align-items-center gx-3 mt-4">
+        <button onclick="window.open(location.href)" class="btn btn-primary">Local test</button>
+        <div class="col-auto">
+            <div>
+                <label for="delay">Delay for incoming events</label>
+                <input type="text" id="delay" class="form-control"/>
+
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-danger d-none mt-4" id="warning">
+        Something went wrong!
+    </div>
+    <script>
+        var userDatabase = [
+            {id:"7", name:'Hypatia', color: '#2E7D3280'},
+            {id:"13", name:'Ada', color: '#1565C080'},
+            {id:"17", name:'Sophie', color: '#D32F2F80'},
+            {id:"23", name:'Emmy', color: '#DB611480'},
+            {id:"29", name:'Helge', color: '#6557D280'},
+            {id:"31", name:'Florence', color: '#61616180'},
+            {id:"37", name:'Maryam', color: '#D81B6080'},
+        ]
+        var updatingOn = true;
+
+        var dispatchNext = 0;
+        var api1, live;
+        function getUrlParam(param) {
+            var parts = location.href.split("?");
+            if(parts.length<2){
+                return null;
+            }
+            params=parts[1].split("&");
+            for(var i=0;i<params.length;i++){
+                if(params[i].indexOf(param + "=")==0){
+                    return params[i].substring(param.length + 1);
+                }
+            }
+            return null;
+        }
+        window.addEventListener('storage', function(e) {
+            const delay = parseInt(document.getElementById("delay").value);
+            setTimeout(() => {
+                if (api1) {
+                    var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
+                    for (var index = dispatchNext; index < events.length; index++) {
+                        var last = events[index];
+                        live.dispatch(last);
+                    }
+                    if (events.length > 0) {
+                        api1.setUndoPoint();
+                    }
+                    dispatchNext = events.length;
+                }
+            }, delay);
+        });
+
+        var storageEventBus = function(event) {
+                var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
+                events.push(event);
+                localStorage.setItem("ggbEvents", JSON.stringify(events));
+            };
+        var parameters1 = {
+            "id": "ggbApplet1",
+            "width": 800,
+            "height": 700,
+            "showMenuBar": true,
+            "showAlgebraInput": true,
+            "showToolBar": true,
+            "customToolBar": "0 39 73 62 | 1 501 67 , 5 19 , 72 75 76 | 2 15 45 , 18 65 , 7 37 | 4 3 8 9 , 13 44 , 58 , 47 | 16 51 64 , 70 | 10 34 53 11 , 24  20 22 , 21 23 | 55 56 57 , 12 | 36 46 , 38 49  50 , 71  14  68 | 30 29 54 32 31 33 | 25 17 26 60 52 61 | 40 41 42 , 27 28 35 , 6",
+            "showToolBarHelp": false,
+            "showResetIcon": false,
+            "enableFileFeatures": false,
+            "enableLabelDrags": false,
+            "enableShiftDragZoom": true,
+            "enableRightClick": true,
+            "errorDialogsActive": false,
+            "useBrowserForJS": false,
+            "allowStyleBar": false,
+            "preventFocus": false,
+            // add code here to run when the applet starts
+            //"appletOnLoad":function(api){ /* api.evalCommand('Segment((1,2),(3,4))');*/ },
+            "showFullscreenButton": true,
+            "appName": getUrlParam("app") || "classic",
+            "language": "en",
+            "multiuserApplet": true,
+        };
+
+        parameters1.appletOnLoad = function(api) {
+            if (api1) {
+               return;
+            }
+            var userCount = parseInt(localStorage.getItem('ggbUserCount') || '0');
+            localStorage.setItem('ggbUserCount', userCount + 1);
+            console.log("applet1 loaded");
+            api1 = api;
+            live = new GeoGebraLive(api, userDatabase[userCount % userDatabase.length].id);
+            userDatabase.forEach(function(user) {
+                live.addUser(user);
+            });
+            live.addEventListener("construction", storageEventBus);
+            live.addEventListener("error", e => document.getElementById("warning").classList.remove("d-none"));
+        }
+
+        var applet1 = new GGBApplet(parameters1, '5.0');
+        if (location.href.indexOf("https://test.geogebra.org") == -1 && location.href.indexOf("cb=")==-1) {
+            var codebase = location.href.replace(/\/[^\/]*$/, "/web3d");
+            applet1.setHTML5Codebase(codebase);
+        }
+
+        window.onload = function() {
+            localStorage.removeItem('ggbEvents');
+            applet1.inject('ggbApplet1');
+        };
+
+</script>
+</div>
+</body>
+
+</html>

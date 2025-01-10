@@ -1,0 +1,186 @@
+@use 'colors';
+@use 'z-index';
+@use 'colorMap' as *;
+
+$shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+$classicToolbar: 50px;
+// Copied from Flutter CupertinoPageTransition
+$submenuTimingFunction: cubic-bezier(.35, .91, .33, .97);
+$submenuTransitionDuration: 0.25s;
+$menuWidth: 320px;
+
+.GeoGebraFrame {
+
+	.floatingMenuView {
+		position: absolute;
+		top: 0px;
+		box-shadow: 0 6px 16px rgba(0,0,0,0.28);
+		z-index: z-index.$z-main-menu-floating;
+		height: 100%;
+		width: $menuWidth;
+		background-color: colors.$white;
+		transition-property: left;
+		overflow: auto;
+		overflow-x: hidden;
+		pointer-events: initial;
+
+		&.transitionIn {
+			transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+			transition-duration: 0.25s;
+			left: 0px;
+		}
+		&.transitionOut {
+			transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+			transition-duration: 0.2s;
+			left: -$menuWidth;
+			box-shadow: none;
+		}
+		.headerCaption {
+			font-weight: 500;
+			letter-spacing: -0.65px;
+		}
+	}
+
+	.menuView {
+		width: 100%;
+		padding: 8px 0px;
+		.groupLabel {
+			font-size: 75%;
+			text-transform: uppercase;
+			margin: 8px 16px 8px 16px;
+			}
+			.menuItemView {
+				display: flex;
+				width: calc(100% - 10px);
+				height: 48px;
+				line-height: 48px;
+				border-radius: 0px 24px 24px 0px;
+				white-space: nowrap;
+				font-size: 87%;
+				&:hover {
+					background-color: neutral(200);
+				}
+				&.keyboardFocus:focus-visible {
+					outline-color: var(--ggb-dark-color);
+					outline-width: 2px;
+					outline-style: solid;
+					background: var(--ggb-light-color);
+				}
+				.menuImg {
+					vertical-align: bottom;
+					display: inline-block;
+					width: 24px;
+					height: 24px;
+					margin: 12px 16px;
+					opacity: 0.54;
+					padding: 0;
+				}
+				.fa-light {
+					display: inline-flex;
+					margin: 12px 16px;
+					opacity: .54;
+					width: 24px;
+					height: 24px;
+					font-size: 24px;
+					justify-content: center;
+				}
+				.html-face {
+					display: inline-block;
+					font-size: 87%;
+					vertical-align: middle;
+				}
+				&.userMenuItemView {
+					.menuImg {
+						border-radius: 50%;
+						object-fit: cover;
+						opacity: 1;
+						margin: 2px 8px 6px 12px;
+						width: 36px;
+						height: 36px;
+					}
+				}
+				&.noImage {
+					padding-left: 16px;
+					width: calc(100% - 26px);
+				}
+			}
+		.divider {
+			height: 1px;
+			margin: 8px 0px 8px 56px;
+		}
+	}
+
+	.headerDivider {
+		border-bottom: solid #E4E4E4 1px;
+	}
+
+	.titleHeader {
+		> div {
+			color: neutral(700);
+		}
+	}
+
+	.headeredMenuView {
+		background-color: white;
+		width: 100%;
+		height: 100%;
+
+		.versionNumber {
+			position: absolute;
+			bottom: 0px;
+			font-size: 87%;
+			margin-bottom: 16px;
+			width: 100%;
+			text-align: center;
+		}
+	}
+
+	.mainMenu {
+		position: absolute;
+		&.transitionIn {
+			transition-timing-function: $submenuTimingFunction;
+			transition-duration: $submenuTransitionDuration;
+			left: 0px;
+		}
+		&.transitionOut {
+			overflow: hidden;
+			transition-timing-function: $submenuTimingFunction;
+			transition-duration: $submenuTransitionDuration;
+			left: -100px;
+		}
+	}
+
+	.subMenu {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		z-index: z-index.$z-main-menu-submenu;
+		&.transitionIn {
+			overflow: auto;
+			transition-timing-function: $submenuTimingFunction;
+			transition-duration: $submenuTransitionDuration;
+			box-shadow: -2px 0px 20px 0px colors.$black-30;
+			left: 0px;
+		}
+		&.transitionOut {
+			transition-timing-function: $submenuTimingFunction;
+			transition-duration: $submenuTransitionDuration;
+			left: $menuWidth;
+		}
+	}
+
+	.menuPanelContainer {
+		width: 100%;
+		height: 100%;
+	}
+
+	.menuPanelGlass {
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		position: absolute;
+		top: 0;
+		pointer-events: none;
+	}
+}
+

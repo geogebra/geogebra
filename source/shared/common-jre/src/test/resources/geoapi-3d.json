@@ -1,0 +1,61 @@
+{
+    "type": "ws",
+    "date_created": 1481498604,
+    "date_modified": 1481498604,
+    "date_published": 1481498604,
+    "visibility": "O",
+    "deleted": true,
+    "thumbUrl": "https:\/\/www.geogebra.org\/resource\/Xsjejd9Q\/Sse8BEEfloHR17hz\/material-Xsjejd9Q-thumb$1.png",
+    "creator_id": 1936702,
+    "displayReason": null,
+    "supportsLesson": true,
+    "id": "PB9Npbe7",
+    "title": "3D Coordinate Systems",
+    "elements": [
+        {
+            "id": 2463661,
+            "order": 0,
+            "type": "T",
+            "title": "Description",
+            "text": "Here you can choose a coordinate system of Cartesian, Cylindrical or Spherical.  3 surfaces are shown for each system choice.  For Cartesian the surfaces are constant x, y and z values that are adjustable with the sliders.  For cylindrical coordinates the sliders change to constant r, \\theta and z.  Switching to spherical coordinates changes the sliders to r_0, \\theta_0 and \\phi_0.\nA yellow point is also shown where all three surfaces intersect along with its dimensions in the current coordinate system."
+        },
+        {
+            "id": 2463659,
+            "order": 1,
+            "type": "G",
+            "title": "3D Coordinate Systems",
+            "url": "https:\/\/www.geogebra.org\/resource\/Xsjejd9Q\/Sse8BEEfloHR17hz\/material-Xsjejd9Q.ggb",
+            "thumbUrl": "https:\/\/www.geogebra.org\/resource\/Xsjejd9Q\/Sse8BEEfloHR17hz\/material-Xsjejd9Q-thumb$1.png",
+            "previewUrl": "https:\/\/www.geogebra.org\/resource\/Xsjejd9Q\/Sse8BEEfloHR17hz\/material-Xsjejd9Q.png",
+            "settings": {
+                "enableUndoRedo": true,
+                "showResetIcon": true,
+                "enableShiftDragZoom": true,
+                "enableRightClick": false,
+                "enableLabelDrags": false,
+                "showMenuBar": false,
+                "showToolBar": false,
+                "showAlgebraInput": false,
+                "allowStyleBar": false,
+                "showZoomButtons": false,
+                "preferredAppletType": "auto",
+                "width": 575,
+                "height": 642,
+                "scale": 1
+            },
+            "views": {
+                "is3D": true,
+                "AV": false,
+                "SV": false,
+                "CV": false,
+                "EV2": false,
+                "CP": false,
+                "PC": false,
+                "DA": false,
+                "FI": false,
+                "PV": false,
+                "macro": false
+            }
+        }
+    ]
+}

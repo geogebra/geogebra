@@ -1,0 +1,2700 @@
+/**
+ * The file contains some styles.
+ */
+@use 'colors';
+@use 'z-index';
+@use 'colorMap' as *;
+
+.GeoGebraFrame {
+	display: block;
+
+	button {
+		border: none;
+		background: none;
+		padding: 0;
+		margin: 0;
+		color: inherit;
+	}
+
+	.gwt-Tree .gwt-TreeItem .elem {
+		position: relative;
+	}
+
+	.InputTreeItem {
+		overflow-x: scroll;
+		overflow-y: hidden;
+		direction: ltr;
+		/* force editing cursor */
+		cursor: text;
+		/* push the scrollbar down so that ::after can kill it*/
+		padding-bottom: 18px;
+		/* may need to hide blue selected background */
+		background-color: white;
+	}
+
+	.InputTreeItem * {
+		/* some of its descendants would not naturally get it */
+		/* probably because of GWT or web-styles.css */
+		cursor: text !important;
+	}
+
+	.AdvancedFocusPanelsTextarea {
+		/* all the tricks to hide this without font-size=0 or display=none which kill keyboard/paste.
+		Width needed for safari. */
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 500px;
+		height: 1px;
+		z-index: z-index.$z-hidden;
+		clip: rect(1em 1em 1em 1em);
+		padding: 0;
+		resize: none;
+		user-select: text;
+	}
+
+	&.minWidth > div {
+		overflow-x: auto !important;
+	}
+
+	/* end */
+
+	input[type="range"] {
+		padding: 5px 0;
+		-webkit-padding-before: 10px;
+		-webkit-padding-after: 10px;
+		margin: 0 10px;
+	}
+
+	.gwt-TextBox-readonly, .gwt-TextArea-readonly {
+		color: #CCC;
+	}
+
+	hr {
+		height: 0;
+		border: none;
+		border-bottom: 1px solid #DCDCDC;
+	}
+
+	.clear {
+		clear: both;
+		margin: 0;
+		padding: 0;
+	}
+
+	.gwt-Reference-clean {
+		height: 5px;
+		width: 5px;
+		zoom: 1;
+	}
+
+	.gwt-FileUpload {
+		margin-bottom: 10px;
+		font-size: 80%;
+	}
+
+	/* Pop-up Exam Mode Dialog */
+
+	.ExamCheckboxPanel {
+		margin: 10px 20px;
+	}
+
+	.examCheckbox {
+		line-height: 2em;
+		display: block;
+	}
+
+	.examInfo {
+		margin-left: 5px;
+		cursor: pointer;
+	}
+
+	.webkitFullscreen:-webkit-full-screen {
+		width: 100%;
+		height: 100%;
+	}
+
+	.gwt-Button.minor {
+		border-radius: 5px;
+		border: 1px solid #999999;
+		color: #666666;
+		background: none;
+		font-size: 110%;
+		padding: 4px 15px;
+		box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0 0 2px rgba(204, 204, 204, 0.5);
+		cursor: pointer;
+	}
+
+	.gwt-Button.minor:hover {
+		color: #666666 !important;
+		background-color: rgba(204, 204, 204, 0.2);
+	}
+
+	.gwt-Button.minor:active {
+		border: 1px inset #999999;
+		background-color: rgba(204, 204, 204, 0.2);
+	}
+
+	.gwt-Button.minor[disabled="disabled"]:hover,
+	.gwt-Button.minor[disabled="disabled"]:active {
+		border: 1px solid #999999;
+		background-color: transparent;
+	}
+
+	.buttonPanel .button:active,
+	.headerbar .headerSecond .signInButton:active {
+		border: 1px inset #6666FF;
+		background-color: rgba(204, 204, 255, 0.2);
+	}
+
+	.gwt-Button:hover,
+	.confirmDelete .button:hover,
+	.buttonPanel .button:hover,
+	.headerbar .headerSecond .signInButton:hover {
+		background-color: rgba(204, 204, 255, 0.2);
+	}
+
+	.gwt-Button[disabled="disabled"],
+	.buttonPanel .button[disabled="disabled"] {
+		cursor: default;
+		opacity: .5;
+		zoom: 1;
+	}
+
+	.gwt-Button[disabled="disabled"]:hover,
+	.buttonPanel .button[disabled="disabled"]:hover,
+	.gwt-Button[disabled="disabled"]:active,
+	.buttonPanel .button[disabled="disabled"]:active {
+		background-color: transparent;
+		border: 1px solid #6161FF;
+	}
+
+	.buttonPanel .button {
+		float: right;
+	}
+
+	.textButton {
+		color: #6161FF;
+		cursor: pointer;
+	}
+
+	.textButton:hover {
+		text-decoration: underline;
+	}
+
+	.gwt-DisclosurePanel {
+		margin-top: 5px;
+	}
+
+	.gwt-DisclosurePanel .header, .gwt-DisclosurePanel .header a,
+	.gwt-DisclosurePanel .header td {
+		text-decoration: none; /* Remove underline from header */
+		cursor: pointer;
+		color: #666666;
+	}
+
+	.gwt-DisclosurePanel .content {
+		border-left: 3px solid #e7e7e7;
+		padding: 4px 0 4px 8px;
+		margin-left: 6px;
+	}
+
+	.gwt-Frame {
+		border-top: 2px solid #666;
+		border-left: 2px solid #666;
+		border-right: 2px solid #bbb;
+		border-bottom: 2px solid #bbb;
+	}
+
+	.gwt-HorizontalSplitPanel .hsplitter {
+		cursor: move;
+		border: 0;
+		background: #e7e7e7;
+		line-height: 0;
+	}
+
+	.gwt-VerticalSplitPanel .vsplitter {
+		cursor: move;
+		border: 0;
+		background: #e7e7e7;
+		line-height: 0;
+	}
+
+	.gwt-HTML {
+		padding: 0 0;
+	}
+
+	.gwt-Image {
+		border: none;
+	}
+
+	.gwt-Label-highlighted {
+		color: #6161FF;
+	}
+
+	.selectedItem, .highlighted {
+		background: neutral(200);
+	}
+
+	.gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
+		width: 1px;
+		padding: 0;
+		margin: 0;
+		border: 0;
+		background: white;
+	}
+
+	.gwt-MenuBar-horizontal .gwt-MenuItemSeparator .menuSeparatorInner {
+		width: 1px;
+		height: 1px;
+		background: white;
+	}
+
+	.gwt-MenuBarPopup {
+		margin: 0 0 0 3px;
+		z-index: z-index.$z-menubar-popup;
+	}
+
+	.gwt-PasswordTextBox {
+		padding: 5px 4px;
+		border: 1px solid #ccc;
+		border-top: 1px solid #999;
+		font-size: 100%;
+	}
+
+	.gwt-PasswordTextBox-readonly {
+		color: #888;
+	}
+
+	.gwt-PopupPanel {
+		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
+		z-index: z-index.$z-dialog-over-keyboard;
+		will-change: transform;
+
+		&.loadinganimation {
+			background-color: rgba(255, 255, 255, 0);
+			box-shadow: none;
+			border-color: transparent;
+		}
+
+		&.subMenuLeftSidePopup {
+			box-shadow: none;
+		}
+
+		&.optionsPopup {
+			margin-top: 5px;
+			padding: 0px;
+		}
+	}
+
+	.gwt-DecoratedPopupPanel .popupMiddleCenter {
+		padding: 3px;
+		background: #f1f1f1;
+	}
+
+	.gwt-DecoratedPopupPanel .popupTopLeftInner {
+		width: 6px;
+		height: 5px;
+		zoom: 1;
+	}
+
+	.gwt-DecoratedPopupPanel .popupTopRightInner {
+		width: 6px;
+		height: 5px;
+		zoom: 1;
+	}
+
+	.gwt-DecoratedPopupPanel .popupBottomLeftInner {
+		width: 6px;
+		height: 6px;
+		zoom: 1;
+	}
+
+	.gwt-DecoratedPopupPanel .popupBottomRightInner {
+		width: 6px;
+		height: 6px;
+		zoom: 1;
+	}
+
+	.gwt-PopupPanelGlass {
+		background-color: colors.$black;
+		opacity: 0.32;
+		z-index: z-index.$z-dialog;
+	}
+
+	.gwt-RadioButton-disabled {
+		color: #888;
+	}
+
+	.gwt-StackPanel .gwt-StackPanelItem {
+		cursor: pointer;
+		font-size: 100%;
+		padding: 7px 5px;
+		border-bottom: 1px solid #DCDCDC;
+		border-top: 1px solid #DCDCDC;
+		margin-bottom: -1px;
+		background: #F8F8F8;
+		width: 100%;
+		box-sizing: border-box;
+		line-height: normal;
+		text-align: left;
+	}
+
+	.menuBarClassic .GeoGebraMenuBar .gwt-MenuItem.checkboxMenuItem {
+		padding: 0 4px;
+	}
+
+	.checkboxItem {
+		img {
+			margin-right: 8px;
+			padding: 4px 0px;
+		}
+
+		.checkboxPanel {
+			.checkbox {
+				width: 30px;
+				height: 30px;
+			}
+
+			.background {
+				top: 6px;
+				left: 6px;
+				width: 18px;
+				height: 18px;
+			}
+
+			.hoverBg {
+				display: none;
+			}
+
+			.checkmark {
+				left: 8px;
+				top: 6px;
+				width: 14px;
+				height: 14px;
+			}
+
+			.checkboxLbl {
+				margin: 6px 0 0 8px;
+			}
+		}
+	}
+
+	.gwt-StackPanel .gwt-StackPanelItem:hover {
+		background: #EFEFEF;
+	}
+
+	.gwt-StackPanel .gwt-StackPanelItem-selected {
+		background: #EFEFEF;
+	}
+
+	.gwt-StackPanel .gwt-StackPanelItem img {
+		float: left;
+		margin-right: 10px;
+		opacity: 0.40; /** compatible with pngs */
+		width: 20px;
+		height: 20px;
+	}
+
+	.gwt-StackPanel .gwt-StackPanelContent {
+		background: #FFFFFF;
+	}
+
+	.gwt-DecoratedStackPanel {
+		border-bottom: 1px solid #bbbbbb;
+	}
+
+	.gwt-DecoratedStackPanel .gwt-StackPanelContent {
+		border: 1px solid #bbbbbb;
+		border-bottom: 0;
+		background: white;
+		padding: 2px 2px 10px 5px;
+	}
+
+	input[type="text"].gwt-SuggestBox {
+		padding: 2px;
+		/* temporary fix for the CAS input field --- if it is too wide, this percentage is too small */
+		width: 100%; /* I think 100% works also fine */
+	}
+
+	.gwt-SuggestBoxPopup {
+		border-radius: 2px;
+		padding: 5px;
+		background-color: rgba(255, 255, 255, 0.9);
+		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
+	}
+
+	.gwt-SuggestBoxPopup .item {
+		padding: 5px 5px;
+		cursor: default;
+	}
+
+	.gwt-SuggestBoxPopup .selectedItem {
+		color: #6666FF;
+	}
+
+	.button:disabled, .ToggleButton.gwt-ToggleButton-up-disabled, .ToggleButton.gwt-ToggleButton-down-disabled,
+	.IconButton:disabled {
+		cursor: default !important;
+		opacity: .5;
+		zoom: 1;
+	}
+
+	.IconButton:disabled:hover {
+		border: neutral(500) solid 1px;
+	}
+
+	.ToggleButton, .IconButton {
+		img {
+			width: 24px;
+			opacity: 0.7;
+		}
+	}
+
+	.button:disabled, .ToggleButton.gwt-ToggleButton-up-disabled:focus, .ToggleButton.gwt-ToggleButton-down-disabled:focus {
+		outline: none;
+	}
+
+	.gwt-Tree .gwt-TreeItem {
+		margin: 0;
+		white-space: nowrap;
+		cursor: pointer;
+	}
+
+	.gwt-TreeItem .gwt-RadioButton input, .gwt-TreeItem .gwt-CheckBox input {
+		margin-left: 0;
+	}
+
+	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs {
+		border-bottom: 1px solid #DCDCDC;
+	}
+
+	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab, .gwt-TabBar .gwt-TabBarItem {
+		position: relative;
+		bottom: -1px;
+		margin-right: 4px;
+		padding: 8px;
+		height: 36px;
+		cursor: pointer;
+		font-size: 100%;
+		font-weight: normal;
+		text-align: center;
+		background: colors.$white;
+		border-radius: 3px 3px 0 0;
+		border: 1px solid colors.$tool-border;
+		box-sizing: border-box;
+
+		&:hover {
+			color: colors.$teal-light;
+		}
+	}
+
+	.gwt-TabBarItem div.gwt-Label {
+		margin: 0;
+	}
+
+	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab img {
+		height: 16px;
+		margin: -2px 0;
+	}
+
+	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected, .gwt-TabBar .gwt-TabBarItem-selected {
+		cursor: default;
+		background: white;
+		color: colors.$teal-default;
+		border-bottom: 1px solid white;
+	}
+
+	.gwt-TabBar .gwt-TabBarItem-disabled {
+		display: none;
+	}
+
+	.gwt-TabPanelBottom {
+		clear: both;
+		box-sizing: border-box;
+	}
+
+	.gwt-TabPanelBottom,
+	.gwt-TabLayoutPanelContent {
+		padding: 8px;
+		border: 1px solid #DCDCDC;
+	}
+
+	.gwt-TabBar .gwt-TabBarFirst,
+	.gwt-TabBar .gwt-TabBarRest {
+		width: 0;
+	}
+
+	.gwt-SplitLayoutPanel-HDragger {
+		cursor: col-resize;
+		background: #F8F8F8;
+		border-left: 1px solid #DCDCDC;
+		border-right: 1px solid #DCDCDC;
+		box-sizing: border-box;
+	}
+
+	.splitterFixed {
+		.gwt-SplitLayoutPanel-HDragger, .gwt-SplitLayoutPanel-VDragger {
+			cursor: default;
+		}
+
+		.splitPaneDragger:after {
+			display: none;
+		}
+	}
+
+	.gwt-SplitLayoutPanel-VDragger {
+		cursor: ns-resize;
+		background: #F8F8F8;
+		border-top: 1px solid #DCDCDC;
+		border-bottom: 1px solid #DCDCDC;
+		box-sizing: border-box;
+		box-shadow: 0 0 2px rgba(204, 204, 204, 0.5);
+	}
+
+	.highlightDraggers {
+		.gwt-SplitLayoutPanel-HDragger:active, .gwt-SplitLayoutPanel-Dragger-ACTIVE {
+			background: #6161FF;
+			border-left: 1px solid #C6C6C6;
+			border-right: 1px solid #C6C6C6;
+		}
+
+		.gwt-SplitLayoutPanel-HDragger.disabled:active {
+			background: #F8F8F8;
+			border-left: 1px solid #DCDCDC;
+			border-right: 1px solid #DCDCDC;
+		}
+
+		.gwt-SplitLayoutPanel-VDragger:active {
+			background: #6161FF;
+			border-top: 1px solid #C6C6C6;
+			border-bottom: 1px solid #C6C6C6;
+		}
+	}
+
+	/* Selector used for android chrome */
+
+	.gwt-SplitLayoutPanel-Dragger-ACTIVE {
+		border-top: 1px solid #C6C6C6;
+		border-bottom: 1px solid #C6C6C6;
+	}
+
+	/*************************************************************/
+	/*           GeoGebraWeb styles from here                    */
+	/*============ App common styles ============*/
+
+	&, .GeoGebraPopup, .gwt-PopupPanel, .gwt-SuggestBoxPopup, .ToolTip {
+		font: 100%/120% geogebra-sans-serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+
+	*:focus, .GeoGebraPopup *:focus {
+		outline: none; /* Fixing Chrome's default outline on focus */
+	}
+
+	&.applet-focused {
+		border-color: #000000;
+	}
+
+	&.applet-unfocused {
+		border-color: #D3D3D3;
+	}
+
+	/*not let user select the canvas*/
+
+	canvas {
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+
+	.EuclidianPanel {
+		left: 0;
+		top: 0;
+	}
+
+	/*#####################################################################################
+	###      CURSORS
+	#####################################################################################*/
+
+	.cursor_wait {
+		cursor: wait;
+	}
+
+	.cursor_default {
+		cursor: crosshair;
+	}
+
+	.cursor_hit {
+		cursor: default;
+	}
+
+	.cursor_drag {
+		cursor: pointer;
+	}
+
+	.cursor_resizeNESW {
+		cursor: nesw-resize;
+	}
+
+	.cursor_resizeNWSE {
+		cursor: nwse-resize;
+	}
+
+	.cursor_resizeEW {
+		cursor: ew-resize;
+	}
+
+	.cursor_resizeNS {
+		cursor: ns-resize;
+	}
+
+	.cursor_move {
+		cursor: move;
+	}
+
+	.cursor_transparent {
+		cursor: none;
+	}
+
+	.cursor_text {
+		cursor: text;
+	}
+
+	.cursor_crosshair {
+		cursor: crosshair;
+	}
+
+	.cursor_eraser {
+		cursor: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0ibm9uZSI+PGcgY2xpcC1wYXRoPSJ1cmwoI2EpIiBmaWx0ZXI9InVybCgjYikiPjxwYXRoIGZpbGw9IiNmZmYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE2LjE0NiA0LjIzNGExIDEgMCAwIDEgMS40MDkuMTIzbDUuMTQyIDYuMTI5YTEgMSAwIDAgMS0uMTIzIDEuNDA4bC01LjIxMyA0LjM3NGg0Ljc5NXY0LjQ2Mkg1bC0yLjc2Ni0zLjUxN2ExIDEgMCAwIDEgLjEyMy0xLjQwOWwxMy43ODktMTEuNTdaTTEzLjUgMTkuNTgxaDcuNjkydi0yLjIyM2gtNS4xM0wxMy41IDE5LjU4MVoiIGNsaXAtcnVsZT0iZXZlbm9kZCIvPjxwYXRoIGZpbGw9IiMwMDAiIGQ9Ik0yMS4xOTIgMTcuMzU4djIuMjIzSDEzLjVsMi41NjMtMi4yMjNoNS4xMjlaTTE2LjQwNiA1LjMyMWEuNS41IDAgMCAxIC43MDQuMDYybDQuNSA1LjM2MmEuNS41IDAgMCAxLS4wNjIuNzA1TDEyIDE5LjU4SDUuNWwtMi4xNzktMi42MjhhLjUuNSAwIDAgMSAuMDYyLS43MDRMMTYuNDA2IDUuMzJaIi8+PC9nPjxkZWZzPjxjbGlwUGF0aCBpZD0iYSI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTAgMGgyNHYyNEgweiIvPjwvY2xpcFBhdGg+PGZpbHRlciBpZD0iYiIgd2lkdGg9IjI4LjkzMSIgaGVpZ2h0PSIyNC43MyIgeD0iLTIiIHk9IjEiIGNvbG9yLWludGVycG9sYXRpb24tZmlsdGVycz0ic1JHQiIgZmlsdGVyVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48ZmVGbG9vZCBmbG9vZC1vcGFjaXR5PSIwIiByZXN1bHQ9IkJhY2tncm91bmRJbWFnZUZpeCIvPjxmZUNvbG9yTWF0cml4IGluPSJTb3VyY2VBbHBoYSIgcmVzdWx0PSJoYXJkQWxwaGEiIHZhbHVlcz0iMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMTI3IDAiLz48ZmVPZmZzZXQgZHk9IjEiLz48ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSIxIi8+PGZlQ29tcG9zaXRlIGluMj0iaGFyZEFscGhhIiBvcGVyYXRvcj0ib3V0Ii8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuNTIxNTY5IDAgMCAwIDAgMC41MTc2NDcgMCAwIDAgMCAwLjU0MTE3NiAwIDAgMCAwLjE0IDAiLz48ZmVCbGVuZCBpbjI9IkJhY2tncm91bmRJbWFnZUZpeCIgcmVzdWx0PSJlZmZlY3QxX2Ryb3BTaGFkb3dfMTk0NV8xNzA1MiIvPjxmZUNvbG9yTWF0cml4IGluPSJTb3VyY2VBbHBoYSIgcmVzdWx0PSJoYXJkQWxwaGEiIHZhbHVlcz0iMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMTI3IDAiLz48ZmVPZmZzZXQgZHk9IjEiLz48ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSIyIi8+PGZlQ29tcG9zaXRlIGluMj0iaGFyZEFscGhhIiBvcGVyYXRvcj0ib3V0Ii8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuNTIxNTY5IDAgMCAwIDAgMC41MTc2NDcgMCAwIDAgMCAwLjU0MTE3NiAwIDAgMCAwLjEgMCIvPjxmZUJsZW5kIGluMj0iZWZmZWN0MV9kcm9wU2hhZG93XzE5NDVfMTcwNTIiIHJlc3VsdD0iZWZmZWN0Ml9kcm9wU2hhZG93XzE5NDVfMTcwNTIiLz48ZmVCbGVuZCBpbj0iU291cmNlR3JhcGhpYyIgaW4yPSJlZmZlY3QyX2Ryb3BTaGFkb3dfMTk0NV8xNzA1MiIgcmVzdWx0PSJzaGFwZSIvPjwvZmlsdGVyPjwvZGVmcz48L3N2Zz4=
+		) 12 12, crosshair;
+	}
+
+	.cursor_pen {
+		cursor: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNiIgaGVpZ2h0PSIyNyIgZmlsbD0ibm9uZSI+PGcgZmlsdGVyPSJ1cmwoI2EpIj48cGF0aCBmaWxsPSIjZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Im0xOC40OTYgNC4yOTMgMi44MjggMi44MjhhMSAxIDAgMCAxIDAgMS40MTVMOC4yNDMgMjEuNjE3SDR2LTQuMjQzTDE3LjA4MSA0LjI5M2ExIDEgMCAwIDEgMS40MTUgMFpNMTcuNDM5IDUuMzUgMTYuMDIgNi43NjhsMi44MjggMi44MjggMS40MTgtMS40MTdhLjQ5Ni40OTYgMCAwIDAtLjAwMy0uNzA0TDE4LjE0NiA1LjM1YS41LjUgMCAwIDAtLjcwNyAwWk01LjA2IDIwLjU1NnYtMi44MjhMMTUuMzE0IDcuNDc1bDIuODI4IDIuODI4TDcuODkgMjAuNTU2SDUuMDYxWiIgY2xpcC1ydWxlPSJldmVub2RkIi8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTE2LjAyIDYuNzY4IDE3LjQ0IDUuMzVhLjUuNSAwIDAgMSAuNzA3IDBsMi4xMTcgMi4xMjVhLjQ5Ni40OTYgMCAwIDEgLjAwNC43MDRsLTEuNDE4IDEuNDE3LTIuODI4LTIuODI4Wk01LjA2IDE3LjcyOHYyLjgyOGgyLjgzbDEwLjI1Mi0xMC4yNTMtMi44MjgtMi44MjhMNS4wNiAxNy43MjhaIi8+PC9nPjxkZWZzPjxmaWx0ZXIgaWQ9ImEiIHdpZHRoPSIyNS42MTciIGhlaWdodD0iMjUuNjE3IiB4PSIwIiB5PSIxIiBjb2xvci1pbnRlcnBvbGF0aW9uLWZpbHRlcnM9InNSR0IiIGZpbHRlclVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PGZlRmxvb2QgZmxvb2Qtb3BhY2l0eT0iMCIgcmVzdWx0PSJCYWNrZ3JvdW5kSW1hZ2VGaXgiLz48ZmVDb2xvck1hdHJpeCBpbj0iU291cmNlQWxwaGEiIHJlc3VsdD0iaGFyZEFscGhhIiB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDEyNyAwIi8+PGZlT2Zmc2V0IGR5PSIxIi8+PGZlR2F1c3NpYW5CbHVyIHN0ZERldmlhdGlvbj0iMSIvPjxmZUNvbXBvc2l0ZSBpbjI9ImhhcmRBbHBoYSIgb3BlcmF0b3I9Im91dCIvPjxmZUNvbG9yTWF0cml4IHZhbHVlcz0iMCAwIDAgMCAwLjUyMTU2OSAwIDAgMCAwIDAuNTE3NjQ3IDAgMCAwIDAgMC41NDExNzYgMCAwIDAgMC4xNCAwIi8+PGZlQmxlbmQgaW4yPSJCYWNrZ3JvdW5kSW1hZ2VGaXgiIHJlc3VsdD0iZWZmZWN0MV9kcm9wU2hhZG93XzE2MzA5XzMiLz48ZmVDb2xvck1hdHJpeCBpbj0iU291cmNlQWxwaGEiIHJlc3VsdD0iaGFyZEFscGhhIiB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDEyNyAwIi8+PGZlT2Zmc2V0IGR5PSIxIi8+PGZlR2F1c3NpYW5CbHVyIHN0ZERldmlhdGlvbj0iMiIvPjxmZUNvbXBvc2l0ZSBpbjI9ImhhcmRBbHBoYSIgb3BlcmF0b3I9Im91dCIvPjxmZUNvbG9yTWF0cml4IHZhbHVlcz0iMCAwIDAgMCAwLjUyMTU2OSAwIDAgMCAwIDAuNTE3NjQ3IDAgMCAwIDAgMC41NDExNzYgMCAwIDAgMC4xIDAiLz48ZmVCbGVuZCBpbjI9ImVmZmVjdDFfZHJvcFNoYWRvd18xNjMwOV8zIiByZXN1bHQ9ImVmZmVjdDJfZHJvcFNoYWRvd18xNjMwOV8zIi8+PGZlQmxlbmQgaW49IlNvdXJjZUdyYXBoaWMiIGluMj0iZWZmZWN0Ml9kcm9wU2hhZG93XzE2MzA5XzMiIHJlc3VsdD0ic2hhcGUiLz48L2ZpbHRlcj48L2RlZnM+PC9zdmc+
+		) 3 21, crosshair;
+	}
+
+	.cursor_highlighter {
+		cursor: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0ibm9uZSI+PGcgY2xpcC1wYXRoPSJ1cmwoI2EpIiBmaWx0ZXI9InVybCgjYikiPjxwYXRoIGZpbGw9IiNmZmYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE3LjI3NiAyLjIzNUMxNC40NzcgNC42MTUgNC4xODIgMTMuNDA5IDQuMTgyIDE0LjAyYzAgLjM1My4wODguNjE4LjE3Ny44ODMuMDg4LjI2Ni4xNzcuNTMuMTc3Ljg4NEM0LjUzNiAxNi40OTQgMSAyMC4wMyAxIDIwLjAzbDQuOTUgMS40MTRzMS43NjgtMS43NjggMi40NzUtMS43NjhjLjM1MyAwIC42MTguMDg5Ljg4NC4xNzcuMjY1LjA4OC41My4xNzcuODgzLjE3Ny42MTEgMCA5LjQwNi0xMC4yOTUgMTEuNzg1LTEzLjA5NGEuOTkuOTkgMCAwIDAtLjA2LTEuMzQ1TDE4LjYyIDIuMjk2YS45OS45OSAwIDAgMC0xLjM0NS0uMDYxWm0uMzM0IDEuMTc3YS41MzkuNTM5IDAgMCAxIC4zNjctLjEzLjU3LjU3IDAgMCAxIC4zNjguMTUybDIuNDAyIDIuNDAxYy4xODkuMTkuMi41MDMuMDIxLjcxNGwtOC44MDUgMTAuMjEyLTQuNTQzLTQuNTY1IDEwLjE5LTguNzg0Wk01LjM4NiAxNC4yM2wxLjUzNi0xLjUxNSA0LjU0MyA0LjU0NC0xLjUxNCAxLjUxNGMtLjIyOC4yMjgtLjUwNi4xNDYtLjgxLjA1N2E0LjQ5IDQuNDkgMCAwIDAtLjIwNy0uMDU3bC0uMS0uMDI2Yy0uNDY2LS4xMjQtMS41MDctLjQtMi40MzEuNTIzbC0xLjUxNS0xLjUxNGMuOTY4LS45NjcuNzA5LTEuODE3LjUyNS0yLjQybC0uMDI3LS4wOS0uMDQ1LS4xNDRjLS4xMDMtLjMyOC0uMTk4LS42My4wNDUtLjg3MlpNMy4wNSAxOS41OTVsMS4zNC0xLjMyIDEuNTE1IDEuNTE1LS41MTkuNDk3LTIuMzM2LS42OTJaIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiLz48cGF0aCBmaWxsPSIjMDAwIiBkPSJNMTcuOTc3IDMuMjgzYS41MzkuNTM5IDAgMCAwLS4zNjcuMTNMNy40MiAxMi4xOTVsNC41NDMgNC41NjUgOC44MDUtMTAuMjEyYS41My41MyAwIDAgMC0uMDIxLS43MTRsLTIuNDAyLTIuNDAxYS41NjguNTY4IDAgMCAwLS4zNjgtLjE1MVpNNi45MjIgMTIuNzE1IDUuMzg2IDE0LjIzYy0uMjc4LjI3OC0uMTE0LjYzMyAwIDEuMDE2LjE4MS42MDYuNTIgMS40OTMtLjQ5OCAyLjUxbDEuNTE1IDEuNTE0Yy45OTgtLjk5NyAyLjEzNC0uNTk0IDIuNTMxLS40OTcuMzg0LjA5NS43MzguMjc5IDEuMDE3IDBsMS41MTQtMS41MTQtNC41NDMtNC41NDRabS0yLjUzMSA1LjU2LTEuMzQxIDEuMzIgMi4zMzYuNjkyLjUyLS40OTctMS41MTUtMS41MTVaIi8+PC9nPjxkZWZzPjxjbGlwUGF0aCBpZD0iYSI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTAgMGgyNHYyNEgweiIvPjwvY2xpcFBhdGg+PGZpbHRlciBpZD0iYiIgd2lkdGg9IjI5LjIxMiIgaGVpZ2h0PSIyNy40NDQiIHg9Ii0zIiB5PSItMSIgY29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzPSJzUkdCIiBmaWx0ZXJVbml0cz0idXNlclNwYWNlT25Vc2UiPjxmZUZsb29kIGZsb29kLW9wYWNpdHk9IjAiIHJlc3VsdD0iQmFja2dyb3VuZEltYWdlRml4Ii8+PGZlQ29sb3JNYXRyaXggaW49IlNvdXJjZUFscGhhIiByZXN1bHQ9ImhhcmRBbHBoYSIgdmFsdWVzPSIwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAxMjcgMCIvPjxmZU9mZnNldCBkeT0iMSIvPjxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjEiLz48ZmVDb21wb3NpdGUgaW4yPSJoYXJkQWxwaGEiIG9wZXJhdG9yPSJvdXQiLz48ZmVDb2xvck1hdHJpeCB2YWx1ZXM9IjAgMCAwIDAgMC41MjE1NjkgMCAwIDAgMCAwLjUxNzY0NyAwIDAgMCAwIDAuNTQxMTc2IDAgMCAwIDAuMTQgMCIvPjxmZUJsZW5kIGluMj0iQmFja2dyb3VuZEltYWdlRml4IiByZXN1bHQ9ImVmZmVjdDFfZHJvcFNoYWRvd18xOTQ4XzE2MzE3Ii8+PGZlQ29sb3JNYXRyaXggaW49IlNvdXJjZUFscGhhIiByZXN1bHQ9ImhhcmRBbHBoYSIgdmFsdWVzPSIwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAxMjcgMCIvPjxmZU9mZnNldCBkeT0iMSIvPjxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjIiLz48ZmVDb21wb3NpdGUgaW4yPSJoYXJkQWxwaGEiIG9wZXJhdG9yPSJvdXQiLz48ZmVDb2xvck1hdHJpeCB2YWx1ZXM9IjAgMCAwIDAgMC41MjE1NjkgMCAwIDAgMCAwLjUxNzY0NyAwIDAgMCAwIDAuNTQxMTc2IDAgMCAwIDAuMSAwIi8+PGZlQmxlbmQgaW4yPSJlZmZlY3QxX2Ryb3BTaGFkb3dfMTk0OF8xNjMxNyIgcmVzdWx0PSJlZmZlY3QyX2Ryb3BTaGFkb3dfMTk0OF8xNjMxNyIvPjxmZUJsZW5kIGluPSJTb3VyY2VHcmFwaGljIiBpbjI9ImVmZmVjdDJfZHJvcFNoYWRvd18xOTQ4XzE2MzE3IiByZXN1bHQ9InNoYXBlIi8+PC9maWx0ZXI+PC9kZWZzPjwvc3ZnPg==
+		) 2 20, crosshair;
+	}
+
+	.cursor_mindmap {
+		cursor: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0ibm9uZSI+PGcgZmlsdGVyPSJ1cmwoI2EpIj48cGF0aCBmaWxsPSIjZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yOCA3YTMuNSAzLjUgMCAwIDEtNi4zNzMgMkgyMHY0aDEuNjI3YTMuNSAzLjUgMCAxIDEgMCA0SDIwdjRoMS42MjdhMy41IDMuNSAwIDEgMSAwIDRIMTdhMSAxIDAgMCAxLTEtMXYtNmEyIDIgMCAwIDEtMiAySDZhMiAyIDAgMCAxLTItMnYtNmEyIDIgMCAwIDEgMi0yaDhhMiAyIDAgMCAxIDIgMlY2YTEgMSAwIDAgMSAxLTFoNC42MjdBMy41IDMuNSAwIDAgMSAyOCA3Wk04IDE0aDR2Mkg4di0yWiIgY2xpcC1ydWxlPSJldmVub2RkIi8+PC9nPjxwYXRoIGZpbGw9IiMwMDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTI3IDdhMi41IDIuNSAwIDAgMS00Ljc5MiAxSDE5djZoMy4yMDhhMi41IDIuNSAwIDEgMSAwIDJIMTl2NmgzLjIwOGEyLjUgMi41IDAgMSAxIDAgMkgxOGExIDEgMCAwIDEtMS0xdi03aC0ydjFhMiAyIDAgMCAxLTIgMkg3YTIgMiAwIDAgMS0yLTJ2LTRhMiAyIDAgMCAxIDItMmg2YTIgMiAwIDAgMSAyIDJ2MWgyVjdhMSAxIDAgMCAxIDEtMWg0LjIwOEEyLjUgMi41IDAgMCAxIDI3IDdabS0xLjUgMGExIDEgMCAxIDEtMiAwIDEgMSAwIDAgMSAyIDBaTTcgMTMuNWEuNS41IDAgMCAxIC41LS41aDVhLjUuNSAwIDAgMSAuNS41djNhLjUuNSAwIDAgMS0uNS41aC01YS41LjUgMCAwIDEtLjUtLjV2LTNaTTI0LjUgMTZhMSAxIDAgMSAwIDAtMiAxIDEgMCAwIDAgMCAyWm0xIDdhMSAxIDAgMSAxLTIgMCAxIDEgMCAwIDEgMiAwWiIgY2xpcC1ydWxlPSJldmVub2RkIi8+PGRlZnM+PGZpbHRlciBpZD0iYSIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMxIiB4PSIwIiB5PSIuNSIgY29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzPSJzUkdCIiBmaWx0ZXJVbml0cz0idXNlclNwYWNlT25Vc2UiPjxmZUZsb29kIGZsb29kLW9wYWNpdHk9IjAiIHJlc3VsdD0iQmFja2dyb3VuZEltYWdlRml4Ii8+PGZlQ29sb3JNYXRyaXggaW49IlNvdXJjZUFscGhhIiByZXN1bHQ9ImhhcmRBbHBoYSIgdmFsdWVzPSIwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAxMjcgMCIvPjxmZU9mZnNldCBkeT0iMSIvPjxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjEiLz48ZmVDb21wb3NpdGUgaW4yPSJoYXJkQWxwaGEiIG9wZXJhdG9yPSJvdXQiLz48ZmVDb2xvck1hdHJpeCB2YWx1ZXM9IjAgMCAwIDAgMC41MjE1NjkgMCAwIDAgMCAwLjUxNzY0NyAwIDAgMCAwIDAuNTQxMTc2IDAgMCAwIDAuMTQgMCIvPjxmZUJsZW5kIGluMj0iQmFja2dyb3VuZEltYWdlRml4IiByZXN1bHQ9ImVmZmVjdDFfZHJvcFNoYWRvd18yMDAwXzE2NTE4Ii8+PGZlQ29sb3JNYXRyaXggaW49IlNvdXJjZUFscGhhIiByZXN1bHQ9ImhhcmRBbHBoYSIgdmFsdWVzPSIwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAxMjcgMCIvPjxmZU9mZnNldCBkeT0iMSIvPjxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjIiLz48ZmVDb21wb3NpdGUgaW4yPSJoYXJkQWxwaGEiIG9wZXJhdG9yPSJvdXQiLz48ZmVDb2xvck1hdHJpeCB2YWx1ZXM9IjAgMCAwIDAgMC41MjE1NjkgMCAwIDAgMCAwLjUxNzY0NyAwIDAgMCAwIDAuNTQxMTc2IDAgMCAwIDAuMSAwIi8+PGZlQmxlbmQgaW4yPSJlZmZlY3QxX2Ryb3BTaGFkb3dfMjAwMF8xNjUxOCIgcmVzdWx0PSJlZmZlY3QyX2Ryb3BTaGFkb3dfMjAwMF8xNjUxOCIvPjxmZUJsZW5kIGluPSJTb3VyY2VHcmFwaGljIiBpbjI9ImVmZmVjdDJfZHJvcFNoYWRvd18yMDAwXzE2NTE4IiByZXN1bHQ9InNoYXBlIi8+PC9maWx0ZXI+PC9kZWZzPjwvc3ZnPg==
+		) 14 14, crosshair;
+	}
+
+	.cursor_table {
+		cursor: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMCIgaGVpZ2h0PSIyOSIgZmlsbD0ibm9uZSI+PGcgZmlsdGVyPSJ1cmwoI2EpIj48cGF0aCBmaWxsPSIjZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik02LjA2NCAzLjVhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDE3YTIgMiAwIDAgMCAyLTJ2LTE2YTIgMiAwIDAgMC0yLTJoLTE3Wm0xMSA4LjAyaC01VjIyLjVoNVYxMS41MlptNSAxMC45OGgtM3YtMTFoNXY5YzAgMS4xLS45IDItMiAyWm0tMTUtMThoMTVjMS4xIDAgMiAuOSAyIDJ2M2gtMTl2LTNjMC0xLjEuOS0yIDItMlptMCAxOGMtMS4xIDAtMi0uOS0yLTJ2LTloNXYxMWgtM1oiIGNsaXAtcnVsZT0iZXZlbm9kZCIvPjxwYXRoIGZpbGw9IiMxQzFDMUYiIGQ9Ik0xMi4wNjQgMTEuNTJoNVYyMi41aC01VjExLjUyWm03IDEwLjk4aDNjMS4xIDAgMi0uOSAyLTJ2LTloLTV2MTFabTMtMThoLTE1Yy0xLjEgMC0yIC45LTIgMnYzaDE5di0zYzAtMS4xLS45LTItMi0yWm0tMTcgMTZjMCAxLjEuOSAyIDIgMmgzdi0xMWgtNXY5WiIvPjwvZz48ZGVmcz48ZmlsdGVyIGlkPSJhIiB3aWR0aD0iMjkiIGhlaWdodD0iMjgiIHg9Ii4wNjQiIHk9Ii41IiBjb2xvci1pbnRlcnBvbGF0aW9uLWZpbHRlcnM9InNSR0IiIGZpbHRlclVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PGZlRmxvb2QgZmxvb2Qtb3BhY2l0eT0iMCIgcmVzdWx0PSJCYWNrZ3JvdW5kSW1hZ2VGaXgiLz48ZmVDb2xvck1hdHJpeCBpbj0iU291cmNlQWxwaGEiIHJlc3VsdD0iaGFyZEFscGhhIiB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDEyNyAwIi8+PGZlT2Zmc2V0IGR5PSIxIi8+PGZlR2F1c3NpYW5CbHVyIHN0ZERldmlhdGlvbj0iMSIvPjxmZUNvbXBvc2l0ZSBpbjI9ImhhcmRBbHBoYSIgb3BlcmF0b3I9Im91dCIvPjxmZUNvbG9yTWF0cml4IHZhbHVlcz0iMCAwIDAgMCAwLjUyMTU2OSAwIDAgMCAwIDAuNTE3NjQ3IDAgMCAwIDAgMC41NDExNzYgMCAwIDAgMC4xNCAwIi8+PGZlQmxlbmQgaW4yPSJCYWNrZ3JvdW5kSW1hZ2VGaXgiIHJlc3VsdD0iZWZmZWN0MV9kcm9wU2hhZG93XzE2MzM2XzYzNiIvPjxmZUNvbG9yTWF0cml4IGluPSJTb3VyY2VBbHBoYSIgcmVzdWx0PSJoYXJkQWxwaGEiIHZhbHVlcz0iMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMTI3IDAiLz48ZmVPZmZzZXQgZHk9IjEiLz48ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSIyIi8+PGZlQ29tcG9zaXRlIGluMj0iaGFyZEFscGhhIiBvcGVyYXRvcj0ib3V0Ii8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuNTIxNTY5IDAgMCAwIDAgMC41MTc2NDcgMCAwIDAgMCAwLjU0MTE3NiAwIDAgMCAwLjEgMCIvPjxmZUJsZW5kIGluMj0iZWZmZWN0MV9kcm9wU2hhZG93XzE2MzM2XzYzNiIgcmVzdWx0PSJlZmZlY3QyX2Ryb3BTaGFkb3dfMTYzMzZfNjM2Ii8+PGZlQmxlbmQgaW49IlNvdXJjZUdyYXBoaWMiIGluMj0iZWZmZWN0Ml9kcm9wU2hhZG93XzE2MzM2XzYzNiIgcmVzdWx0PSJzaGFwZSIvPjwvZmlsdGVyPjwvZGVmcz48L3N2Zz4=
+		) 14 14, crosshair;
+    }
+
+	.cursor_rotation {
+		cursor: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxwYXRoIGQ9Ik0xNy42NSA2LjM1QzE2LjIgNC45IDE0LjIxIDQgMTIgNGMtNC40MiAwLTcuOTkgMy41OC03Ljk5IDhzMy41NyA4IDcuOTkgOGMzLjczIDAgNi44NC0yLjU1IDcuNzMtNmgtMi4wOGMtLjgyIDIuMzMtMy4wNCA0LTUuNjUgNC0zLjMxIDAtNi0yLjY5LTYtNnMyLjY5LTYgNi02YzEuNjYgMCAzLjE0LjY5IDQuMjIgMS43OEwxMyAxMWg3VjRsLTIuMzUgMi4zNXoiLz4KICAgIDxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+Cg==
+		) 16 16, crosshair;
+	}
+
+	.cursor_grabbing {
+		cursor: grabbing;
+	}
+
+	.cursor_grab {
+		cursor: grab;
+	}
+
+	/*#####################################################################################
+	###       CONTEXT MENU
+	#####################################################################################*/
+	/*
+	Paddings for menuitems.
+	*/
+
+	.gwt-MenuItem {
+		white-space: nowrap;
+		list-style: none;
+	}
+
+	.menuSeparator {
+		height: 1px;
+		width: calc(100% - 56px);
+		list-style: none;
+		margin: 6px 0 6px auto;
+	}
+
+	.menuImg {
+		padding-right: 4px;
+	}
+
+	/*#####################################################################################
+	###       STYLEBAR
+	#####################################################################################*/
+
+	.closeButtonPanel {
+		padding: 7px;
+		opacity: 0.7;
+	}
+
+	.ButtonPopupMenu {
+		outline: 0 none;
+	}
+
+	.ButtonPopupMenu .panelRow2 {
+		padding-bottom: 8px;
+		padding-top: 4px;
+	}
+
+	.ButtonPopupMenu div:focus {
+		border: 1px solid transparent;
+	}
+
+	.TitleBarPanel {
+		left: auto !important;
+		bottom: auto !important;
+		max-width: calc(100% - 4px);
+		overflow: hidden;
+	}
+
+	.TitleBarClassic {
+		padding: 0 0 4px 4px;
+	}
+
+	.TitleBarPanel.TitleBarPanel-open {
+		padding-left: 0;
+		left: 0 !important;
+	}
+
+	.TitleBarPanelContent {
+		height: 32px;
+		border-bottom-left-radius: 5px;
+		background-color: rgba(255, 255, 255, 1);
+		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
+		padding: 5px 40px 5px 5px;
+		overflow: hidden;
+	}
+
+	.DragPanel {
+		height: 32px;
+		padding: 5px;
+		border-bottom-left-radius: 5px;
+		background-color: rgba(255, 255, 255, 0.9);
+		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
+	}
+
+	.TitleBarPanel .toggleStyleBar {
+		border: none;
+		position: absolute;
+		right: 0;
+		background-color: white;
+		padding-right: 5px;
+		padding-top: 4px;
+		padding-left: 5px;
+	}
+
+	.TitleBarPanel .dragPanel {
+		padding-top: 1px;
+		opacity: 0.7;
+	}
+
+	.StyleBarPanel {
+		padding-left: 31px;
+	}
+
+	.StyleBarPanel_ {
+		float: left;
+		margin-left: -4px;
+	}
+
+	.button.IconButton.IconButton-borderless.matDynStyleContextButton img {
+		opacity: 0.54;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	.DynamicStyleBar {
+		position: absolute;
+		border-radius: 2px;
+		padding: 5px 0 5px 2px;
+		background-color: #fff;
+		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
+	}
+
+	.dynStyleContextButton {
+		margin-right: 0 !important;
+		margin-left: 10px !important;
+		border: none !important;
+		opacity: 0.6;
+	}
+
+	.Separator {
+		height: 1px;
+		background-color: #DCDCDC;
+	}
+
+	.CloseButton {
+		padding: 5px;
+		margin: 0;
+		width: 15px;
+		height: 15px;
+	}
+
+	.DockGlassPane,
+	.TitleBarPanel {
+		cursor: pointer;
+		-moz-user-focus: ignore;
+		-moz-user-input: disabled;
+		-moz-user-select: none;
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		will-change: transform;
+		overflow: visible;
+	}
+
+	.VerticalSeparator {
+		margin: 0 2px 0 5px;
+		width: 1px;
+		background-color: #DCDCDC;
+	}
+
+	.ToggleButton, .IconButton {
+		text-align: center;
+		border-radius: 5px;
+		border: neutral(500) solid 1px;
+		background-color: #FFFFFF;
+		padding: 3px;
+		width: 24px;
+		height: 24px;
+		margin-left: 4px;
+		cursor: pointer;
+	}
+
+	.IconButton.IconButton-borderless {
+		border: none;
+		padding: 4px; /* more padding for the missing border*/
+		margin-right: 15px;
+	}
+
+	.IconButton .buttonContent {
+		background-repeat: no-repeat;
+		background-position: center center;
+		width: 24px;
+		height: 24px;
+
+		&.stylebarButton {
+			opacity: 0.7;
+		}
+	}
+
+	.IconButton.btnTextColor .buttonContent,
+	.btnUseAsText .html-face {
+		line-height: 22px;
+		font-size: 22px;
+	}
+
+	.btnSerif {
+		width: auto;
+	}
+
+	.btnLatex {
+		width: auto;
+	}
+
+	.pointSizeSlider input[type=range] {
+		width: 169px;
+	}
+
+	.gwt-Label.stylebarButton {
+		height: 24px;
+		width: 24px;
+		opacity: 0.7;
+	}
+
+	.gwt-Label.border {
+		border-radius: 5px;
+		border: #DCDCDC solid 1px;
+		height: 24px;
+		width: 24px;
+	}
+
+	.gwt-Label.textIconButton {
+		background-position: center left;
+		padding-left: 28px;
+		border: none;
+		text-align: left;
+	}
+
+	/**
+	 * The view buttons for these stylebars should take all the remaining place
+	 * so that they will be right aligned
+	 */
+
+
+	.CASStyleBar td:last-child {
+		width: 100%;
+	}
+
+	/*#####################################################################################
+	###       ALGEBRA INPUT
+	#####################################################################################*/
+
+	.AlgebraInput {
+		background-color: #F8F8F8;
+		border-top: 1px solid #DCDCDC;
+		display: table;
+		box-shadow: 0 0 2px rgba(204, 204, 204, 0.5);
+		box-sizing: border-box;
+		width: 100%;
+		height: 43px; /* 100% breaks applets */
+	}
+
+	.AlgebraInput > * {
+		display: table-cell;
+		vertical-align: middle;
+		text-align: center;
+	}
+
+	.InputPanel {
+		overflow: hidden;
+		padding-left: 20px;
+	}
+
+	.AlgebraInput2 .InputPanel {
+		padding-left: 50px;
+	}
+
+	.InputPanel .TextField {
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	.inputHelp-toggleButton {
+		padding: 5px 10px 0 10px;
+	}
+
+	.inputHelp-toggleButton img {
+		cursor: pointer;
+		padding-top: 4px;
+	}
+
+	.historyList {
+		min-width: 200px;
+		font-size: inherit;
+		border: none;
+		margin: 0;
+	}
+
+	/*#####################################################################################
+	###       TOOLTIP
+	#####################################################################################*/
+
+	.ToolTip {
+		display: block;
+		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+		border-radius: 10px;
+		padding: 5px 10px;
+		background-color: rgba(255, 255, 255, 0.9);
+		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
+		z-index: z-index.$z-tooltip-classic;
+	}
+
+	.toolTipHTML {
+		font-size: 80%;
+	}
+
+	/* don't hardcode position here, must work in applets */
+
+	.infoTooltip {
+		display: block;
+		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+		border-radius: 10px;
+		padding: 3px;
+		background-color: rgba(51, 51, 51, 0.7);
+		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
+		z-index: z-index.$z-tooltip-classic;
+		position: absolute;
+		color: #FFFFFF;
+	}
+
+	.infoTooltip .infoText {
+		padding: 5px 50px;
+		display: inline-block;
+		cursor: default;
+		color: #FFFFFF;
+	}
+
+	.infoTooltip .manualLink {
+		border-left: 1px solid #FFFFFF;
+		padding: 10px 20px;
+		display: inline-block;
+		background-repeat: no-repeat;
+		background-position: center center;
+		padding-top: 20%;
+		color: #FFFFFF;
+		cursor: pointer;
+	}
+
+	.captionPanel td {
+		vertical-align: middle;
+	}
+
+	.buttonPanel {
+		margin: auto;
+	}
+
+	/*#####################################################################################
+	###       DIALOGS
+	#####################################################################################*/
+
+	.TextInputDialog .gwt-ToggleButton {
+		padding-right: 6px;
+		cursor: pointer;
+	}
+
+	/*-------- RECOVER AUTO SAVED DIALOG ------------*/
+
+	.RecoverAutoSavedDialog .buttonPanel {
+		float: right;
+	}
+
+	.RecoverAutoSavedDialog {
+		max-width: 500px;
+	}
+
+	/*-------- SLIDER DIALOG ------------------------*/
+
+	.dialogContent .sliderIntervalPanel .inlineOption,
+	.dialogContent .sliderWidthPanel .inlineOption {
+		margin: 8px 8px 0 0;
+		display: inline-block;
+		width: 30%;
+	}
+
+	.dialogContent .sliderWidthPanel .AutoCompleteTextFieldW .fieldContainer {
+		@extends .dialogContent .sliderWidthPanel div;
+		width: 100%;
+	}
+
+	.dialogContent .sliderIntervalPanel .gwt-Label {
+		display: block;
+	}
+
+	.dialogContent .sliderWidthPanel .gwt-Label {
+		padding-top: 8px;
+		display: block;
+	}
+
+	.dialogContent .sliderPanelWidget {
+		min-width: 400px;
+		margin-top: 10px;
+	}
+
+	.sliderDialog .dialogContent .gwt-TabPanelBottom {
+		min-height: 150px;
+		margin-bottom: 15px;
+	}
+
+	/* ----------- BUTTON DIALOG -------------*/
+
+	.buttonDialog .dialogContent {
+		min-width: 400px;
+	}
+
+	.buttonDialog .scriptArea {
+		width: 100%;
+		height: 200px;
+		border-radius: 2px;
+	}
+
+	/* ------------ IMAGE DIALOG -------------*/
+
+	.GeoGebraPopup.image .dialogContent .gwt-Label {
+		cursor: pointer;
+	}
+
+	.GeoGebraPopup.image .dialogContent .gwt-Label.gwt-Label-highlighted {
+		cursor: default;
+	}
+
+	/* Touch */
+
+	.GeoGebraPopup.image .inputPanel {
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: cover;
+	}
+
+	/*========= End Dialogs ===========*/
+
+
+	/*========= FileChooser ===========*/
+
+	.GeoGebraFileChooser .titlePanel {
+		width: 100%;
+		padding: 5px;
+	}
+
+	.GeoGebraFileChooser .titlePanel input {
+		float: right;
+	}
+
+	.GeoGebraFileChooser .titlePanel .gwt-Label {
+		padding-right: 10px;
+	}
+
+	.GeoGebraFileChooser .buttonPanel {
+		float: right;
+	}
+
+	.GeoGebraFileChooser .buttonPanel button {
+		float: right;
+		margin-left: 5px;
+	}
+
+	.GeoGebraFileChooser .buttonPanel a {
+		float: right;
+		margin-left: 5px;
+	}
+
+	.GoogleFileDescriptors {
+		font-size: 80%;
+	}
+
+	.GoogleFileDescriptors .fileLabel {
+		padding-right: 3px;
+		font-weight: bold;
+	}
+
+	.GoogleFileDescriptors .fileName {
+		text-decoration: underline;
+	}
+
+	.menuTitle span {
+		font-weight: bold;
+	}
+
+	.GeoGebraFileChooser {
+		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+	}
+
+	.GeoGebraFileChooser .buttonPanel .save, .GeoGebraFileChooser .buttonPanel .cancel {
+		width: 60px;
+		text-align: center;
+		margin: auto;
+	}
+
+	/*========= End FileChooser ===========*/
+	/*#####################################################################################
+	###       CAS
+	#####################################################################################*/
+
+	.casView table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	.CAS_commentLabel {
+		display: inline;
+		vertical-align: middle;
+		color: gray;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+
+	.CAS_outputPanel {
+		position: relative;
+	}
+
+	.CAS_outputPanel canvas {
+		display: inline;
+		vertical-align: middle;
+	}
+
+	.CAS_outputPanel {
+		position: relative;
+	}
+
+	.CAS_inputPanel {
+		padding: 5px;
+		overflow: hidden;
+		height: 100%;
+	}
+
+	.CAS-table > tbody > tr > td {
+		border-bottom: 1px solid #DCDCDC;
+	}
+
+	.CAS-table .AutoCompleteTextFieldW {
+		margin: 4px;
+	}
+
+	.casRowHeader {
+		width: 30px;
+
+		.gwt-Label, .gwt-Image {
+			text-align: center;
+		}
+	}
+
+	.cas_header {
+		width: 1px;
+		height: 2.5em;
+		background-color: #F8F8F8;
+	}
+
+	.cas_header.selected {
+		background-color: #CCCCFF;
+		color: #333333;
+	}
+
+	.cas_header table td {
+		text-align: center;
+		padding-left: 2px;
+		padding-right: 2px;
+	}
+
+	.CAS_substitute_editTextCell input[type="text"] {
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	.CAS_table_first_row_selected {
+		background-color: white;
+		position: relative;
+		z-index: z-index.$z-cas-table-first-row-selected;
+	}
+
+	.CAS_subDialog .gwt-Button {
+		width: 40px;
+		margin: 3px;
+	}
+
+	.CAS_dummyLabel {
+		margin-left: 5px;
+		line-height: 120%;
+	}
+
+	/*#####################################################################################
+	###       NAVIGATION BAR
+	#####################################################################################*/
+
+	.consProtNav {
+		position: absolute;
+		background-color: #F8F8F8;
+		width: 100%;
+		bottom: 0;
+		box-shadow: 0 0 2px rgba(204, 204, 204, 0.3);
+		border-top: 1px solid #EDEDED;
+		cursor: default;
+		display: table;
+		box-sizing: border-box;
+		padding: 3px;
+
+		.gwt-Label {
+			display: inline;
+			padding: 0 8px;
+		}
+
+		img.gwt-Image {
+			vertical-align: middle;
+			draggable: false;
+		}
+	}
+
+	/* no border-color for touch */
+
+	&.Tablet .consProtNav button.gwt-Button:hover {
+		border: 1px solid #CDCDCD;
+	}
+
+	.navbar_leftPanel {
+		text-align: center;
+		white-space: nowrap;
+		display: table-cell;
+
+		.button img {
+			opacity: 0.54;
+
+			&:hover {
+				opacity: 1;
+			}
+		}
+	}
+
+	.navbar_playPanel {
+		text-align: center;
+		white-space: nowrap;
+		display: table-cell;
+
+		.button img {
+			opacity: 0.54;
+
+			&:hover {
+				opacity: 1;
+			}
+		}
+	}
+
+	.navbar_playPanel.navbar_playPanel_padding {
+		padding-right: 50px;
+	}
+
+	.consProtNav .navbar_playPanel img.gwt-Image {
+		padding-right: 5px;
+	}
+
+	.navbar_btOpenWindow {
+		position: absolute;
+		right: 8px;
+		top: 2px;
+	}
+
+	.consProtNav .navbar_btOpenWindow.consProtIsOpen,
+	&.Tablet .consProtNav button.navbar_btOpenWindow.consProtIsOpen {
+		border-color: #6666FF;
+	}
+
+	.ggbSpinner {
+		max-width: 60px;
+	}
+
+	/*#####################################################################################
+	###       CONSTRUCTION PROTOCOL
+	#####################################################################################*/
+
+	.cpTable {
+		width: 100%
+	}
+
+	.cpTable th:FIRST-CHILD, .cpTable td:FIRST-CHILD {
+		max-width: 35px;
+		min-width: 35px;
+	}
+
+	.cpTable .isDragging {
+		background: #CCCCFF;
+		cursor: move;
+	}
+
+	.cpTable input[type="text"] {
+		width: 100%;
+	}
+
+	.cpTable img {
+		width: 24px;
+	}
+
+	.cpScrollPanel {
+		width: 100%;
+		height: 90%;
+		cursor: default;
+		background-color: #FFFFFF;
+	}
+
+	.cpTable thead th {
+		text-shadow: none;
+		color: #666666;
+		border-bottom: 2px solid #666666;
+		text-align: center;
+		background-color: #f8f8f8;
+		border-right: 1px solid #DDDDDD;
+		border-bottom: 1px solid #DDDDDD;
+		padding-left: 2px;
+		padding-right: 2px;
+		font-weight: normal;
+	}
+
+	.cpScrollPanel tbody tr:hover {
+		background: #CCCCFF;
+		cursor: move;
+	}
+
+	.cpScrollPanel tbody tr {
+		background-color: transparent;
+		opacity: 0.9;
+	}
+
+	.cpTable td {
+		border: none;
+		border-bottom: 1px solid #DDDDDD;
+		border-right: 1px solid #DDDDDD;
+		padding-left: 2px;
+		padding-right: 2px;
+	}
+
+	.cpScrollPanel tbody tr td:FIRST-CHILD {
+		background-color: #f8f8f8;
+		text-align: center;
+	}
+
+	.cpTable input[type="text"] {
+		background-color: transparent;
+		border: none;
+		box-shadow: none;
+	}
+
+	.headerTable tbody {
+		display: none;
+	}
+
+	.hiddenheader {
+		position: relative;
+		top: -30px;
+	}
+
+	.hiddenheader thead {
+		visibility: hidden;
+	}
+
+	.cpPanel {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.cpPanel .cpScrollPanel {
+		flex-grow: 1;
+		overflow-y: auto !important;
+	}
+
+	.outerScrollPanel {
+		overflow: hidden !important;
+	}
+
+	.outerScrollPanel > div {
+		height: 100%;
+	}
+
+	/*needed for vertical scrolling*/
+
+	.cpScrollPanel div, .cpPanel {
+		height: 100%;
+	}
+
+	.cpHeaderHolderPanel {
+		background-color: #F8F8F8;
+		overflow: hidden !important;
+	}
+
+	/* TOUCH */
+
+	.dummyDragElem div {
+		padding: 10px 15px 10px 15px;
+	}
+
+	/*=========== Construction protocol end =============*/
+	/*#####################################################################################
+	###       TEXT EDITOR
+	#####################################################################################*/
+
+	.textEditor {
+		border: 1px solid #DCDCDC;
+		background-color: #FFFFFF;
+		width: 380px;
+		height: 100px;
+		overflow: auto;
+	}
+
+	.textEditorAdvancedPanel {
+		width: 380px;
+		height: 180px;
+	}
+
+	.textEditorDisclosurePanelContent {
+		margin: 0;
+		padding: 0;
+		font-size: 80%;
+	}
+
+	.textEditorDisclosurePanelHeader {
+		margin-bottom: 3px;
+	}
+
+	/* ========== Text Editor end ============ */
+	/*#####################################################################################
+	###      INPUT HELP
+	#####################################################################################*/
+
+	.inputHelp-tree {
+		border: none;
+		line-height: 100%;
+		padding: 10px 4px;
+	}
+
+	.inputHelp-treeItem {
+		padding: 0 8px;
+		font-weight: bold
+	}
+
+	.inputHelp-leaf {
+		font-weight: normal;
+	}
+
+	.inputHelp-leaf:hover {
+		background: #CCCCFF;
+	}
+
+	.inputHelp-detailPanelTitle {
+		width: 100%;
+		font-weight: bold;
+		padding: 1px 10px;
+		border-bottom: 1px solid lightgray;
+		cursor: default;
+	}
+
+	.inputHelp-cmdSyntax {
+		margin: 4px;
+		padding-top: 10px;
+		padding-left: 35px;
+		text-indent: -25px;
+		line-height: 120%;
+		word-wrap: normal;
+		cursor: pointer;
+	}
+
+	.inputHelp-CAScmdSyntax {
+		font-style: italic;
+		color: darkred;
+	}
+
+	.inputHelp-OnlineHelpBtn {
+		text-align: right;
+		font-size: 100%;
+		margin: 3px;
+	}
+
+	.inputHelp-CancelBtn {
+		font-size: 110%;
+		margin: 3px;
+		color: #666666;
+		border: none;
+		background: none;
+		text-decoration: underline;
+		padding: 5px 15px;
+		box-shadow: none;
+		font-weight: normal;
+	}
+
+	.inputHelp-CancelBtn:hover,
+	.inputHelp-CancelBtn:active {
+		color: #6161FF;
+		background: none;
+		border: none;
+		box-shadow: none;
+	}
+
+	.inputHelp-headerCAS {
+		font-style: italic;
+		color: darkred;
+		text-decoration: underline;
+	}
+
+	.inputHelp-functionTable {
+		padding: 10px;
+		cursor: pointer;
+	}
+
+	.inputHelp-functionTable td {
+		padding: 0 4px;
+		line-height: 160%;
+		white-space: nowrap;
+	}
+
+	.inputHelp-toggleButton {
+		background: none;
+		text-decoration: none;
+		border: none;
+	}
+
+	.algebraHelpButton {
+		display: inline-block;
+		padding: 1px 3px 0 5px;
+	}
+
+	.algebraHelpButton img {
+		width: 24px;
+		padding: 15px 2px 0 0;
+	}
+
+	.AVHelpDetailScroller {
+		max-height: 500px;
+	}
+
+
+	/* ========== Input Help  end ============ */
+	/* first td of heading table should have width: 0% */
+
+	.elemHeading {
+		border-bottom: 1px solid #EDEDED;
+		position: relative;
+	}
+
+	.elemHeadingName {
+		padding: 15px 10px 10px 40px;
+	}
+
+	&.Tablet .elemHeadingName,
+	&.Tablet .gwt-InlineHTML {
+		font-size: 115%;
+	}
+
+	.algebraOpenButton {
+		position: absolute;
+		top: 17px;
+		left: 10px;
+	}
+
+	label {
+		display: inline;
+		font-weight: normal;
+	}
+
+	.bold {
+		font-weight: bold;
+	}
+
+	.italic {
+		font-style: italic;
+	}
+
+	/* Colors will be overwritten in java code
+	** see: org.geogebra.web.web.gui.view.algebra.Marble.java
+	*/
+
+	.imageCorner {
+		background-repeat: no-repeat;
+		align: left;
+		display: inline-block;
+		padding-left: 20px;
+	}
+
+	.ggb-AlgebraViewSuggestionPopup {
+		/* overcoming the z-index of the onScreen keyboard PopupPanel */
+		z-index: z-index.$z-dialog-over-keyboard;
+	}
+
+	.ggb-AlgebraViewSuggestionList {
+		overflow-x: hidden !important;
+		overflow-y: auto !important;
+	}
+
+	/*#################################################################
+		PROPERTIES
+	###################################################################*/
+
+	.contentsPanel {
+		overflow-x: hidden;
+		overflow-y: hidden;
+		height: 100%;
+	}
+
+	.contentsPanel > table.gwt-TabPanel {
+		width: 100%;
+	}
+
+	.ggb-MultiRowsTabPanel > * {
+		float: left;
+	}
+
+	/* OBJECT PROPERTIES */
+
+	.settingsBtn {
+		min-width: 160px;
+	}
+
+	.propView_deckPanel {
+		flex: 1;
+		overflow-x: hidden;
+	}
+
+	.panelTitle {
+		margin-bottom: 8px;
+		margin-top: 16px;
+		padding-bottom: 0px;
+		display: block;
+		color: colors.$black;
+		font-size: 95%;
+		opacity: 0.7;
+		border-bottom: 1px solid colors.$tool-border;
+	}
+
+	.panelRow, .panelRowIndent, .panelIndent, .listBoxPanel, .optionsInput, .optionsPanel,
+	.optionsPanel .optionsPanelIndent {
+		display: block;
+	}
+
+	.panelIndent, .panelRowIndent, .optionsPanelIndent {
+		padding-left: 25px;
+	}
+
+	.optionsInput, .optionsPanel, .textPropertiesTab > * {
+		margin-bottom: 10px;
+	}
+
+	.panelRow > *, .listBoxPanel > *, .panelRowIndent > *, .panelRowCell > *,
+	.panelRowCell > *, .optionsPanel > *, .optionsPanelIndent > *, .optionsPanelCell > *,
+	.textOptionsToolBar > *, .BackgroundColorPanel > * {
+		display: inline-block;
+		vertical-align: middle;
+		margin: 3px 10px 3px 0;
+	}
+
+	.optionsInput > *, .CustomColorPreview > * {
+		display: block;
+		margin: 3px 0 3px 0;
+	}
+
+	.panelRowCell {
+		white-space: nowrap;
+		margin-right: 20px;
+	}
+
+	.optionsPanelCell {
+		display: block;
+	}
+
+	.optionsPanelCell .gwt-Label {
+		min-width: 100px;
+	}
+
+	.optionsInput table {
+		display: inline-table;
+		button {
+				display: none;
+			}
+	}
+
+	.textOptionsToolBar {
+		display: inline-block;
+	}
+
+	.colorChooserPreview, .optionsSlider {
+		display: table-row;
+		margin-top: 5px;
+	}
+
+	.colorChooserPreview > *, .optionsSlider > * {
+		display: table-cell;
+		vertical-align: middle;
+		margin-right: 20px;
+	}
+
+	.CustomColorPreview canvas, .colorChooserPreview canvas {
+		padding: 3px;
+		border-radius: 5px;
+		border: 1px solid #DCDCDC;
+	}
+
+	.gwt-PopupPanel .panelTitle {
+		padding: 5px 10px 10px 10px;
+	}
+
+	.textOptionsToolBar .gwt-ToggleButton {
+		display: inline-block;
+	}
+
+	.colorComponent {
+		display: block;
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+
+	.colorComponent > * {
+		display: inline-block;
+	}
+
+	.colorSlider {
+		margin-right: 20px;
+		display: inline-block;
+	}
+
+	.colorSlider > * {
+		display: inline-block;
+		vertical-align: middle;
+	}
+
+	.CustomColorButtonParent {
+		width: 100%;
+	}
+
+	button.CustomColorButton {
+		position: relative;
+		left: 227px;
+		top: 1px;
+		border: 2px solid #555555;
+		cursor: pointer;
+		background-color: #ffffff;
+		width: 14px;
+		height: 14px;
+		text-align: center;
+
+		&:hover {
+			border: 2px solid colors.$teal-default;
+		}
+	}
+
+	button.CustomColorButton:active {
+		border: 2px inset #555555 !important;
+	}
+
+	.scriptArea {
+		height: 300px;
+		width: 100%;
+	}
+
+	.scriptTabPanel {
+		width: 100%;
+	}
+
+	/* disabled styles */
+
+	.disabled > .panelIndent, .disabled > div > .panelRowIndent {
+		color: #CCCCCC;
+	}
+
+	.disabled .gwt-ListBox {
+		opacity: 0.4;
+		cursor: default;
+	}
+
+	/*++++++++++++++++ ADVANCED LIST ++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+	.advanced-TextButtonPanel {
+		position: relative;
+		margin: 3px 0;
+
+		.matKeyboardOpenBtn {
+			display: none;
+		}
+	}
+
+	.advanced-TextButtonPanel input[disabled=""] {
+		opacity: 1;
+		cursor: default;
+	}
+
+	.geoSelectFirst {
+		width: 50%;
+	}
+
+	/*#####################################################################################
+	###       PROPABILITY CALCULATOR
+	#####################################################################################*/
+
+	.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent.ProbCalcPanel {
+		// no scrollbar for main panel, only for value table
+		overflow: hidden;
+	}
+	.plotSplitPane {
+		float: left;
+	}
+	.ProbCalcPanel .PlotPanelPlus {
+		margin: 0;
+		margin-top: 6px;
+		padding: 0;
+	}
+
+	.ProbCalcPanel .ProbabilityTableW {
+		float: right;
+		margin: 0;
+		padding: 0;
+		padding-left: 10px;
+		overflow: auto;
+		box-sizing: border-box;
+	}
+
+	.ProbCalcPanel .ProbabilityTableW table {
+		border-collapse: collapse;
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none
+	}
+
+	.ProbCalcPanel .ProbabilityTableW td {
+		border: 1px solid #DCDCDC;
+		padding: 2px;
+	}
+
+	.ProbCalcPanel .ProbabilityTableW td.headercell {
+		font-weight: bold;
+	}
+
+	.ProbCalcPanel .ProbabilityTableW tr:hover,
+	.ProbCalcPanel .ProbabilityTableW tr.selected {
+		background: #CCCCFF;
+	}
+
+	.plotPanelOptions {
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	.lblMeanSigma {
+		padding: 5px;
+		float: left;
+	}
+
+	.probCalcStylbarBtn {
+		float: right;
+	}
+
+	.distrPanel {
+		display: grid;
+	}
+
+	.comboParamPanel, .resultPanel {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.resultPanel {
+		.gwt-Label {
+			line-height: 52px;
+		}
+	}
+
+	.comboParamPanel .comboDistribution {
+		line-height: 20px
+	}
+
+	.comboParamPanel .parameterPanel {
+		margin-top: 12px;
+	}
+
+	.comboParamPanel, .intervalPanel {
+		padding: 8px 0;
+		float: left;
+		white-space: nowrap;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+
+	.intervalPanel.disabled {
+		opacity: 0.36;
+
+		button {
+			cursor: default;
+			border-color: neutral(500);
+		}
+	}
+
+	.parameterPanel, .resultPanel {
+		display: flex;
+		align-items: center;
+
+		.mathTextField {
+			min-width: 64px;
+			width: 64px;
+		}
+
+		.holder .gwt-Label {
+			line-height: 36px;
+		}
+	}
+
+	.comboParamPanel .ToggleButton, .comboParamPanel .gwt-ListBox {
+		display: inline-block;
+		margin-right: 10px;
+	}
+
+	.parameterPanel > *, .resultPanel > *, .parameterPanel .holder > * {
+		margin: 0 5px;
+	}
+
+	.distrPanelClassic .holder {
+		display: flex;
+	}
+
+	/* --------- STATISTICS CALCULATOR --------------- */
+
+	.StatisticsCalculatorW .panelControl {
+		margin: 5px 0 5px 0;
+	}
+
+	.StatisticsCalculatorW .scroller {
+		overflow: auto;
+		padding-bottom: 8px;
+	}
+
+	.StatisticsCalculatorW .lineBreak {
+		height: 0;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+	}
+
+	.StatisticsCalculatorW .gwt-RadioButton label,
+	.StatisticsCalculatorW .gwt-CheckBox label {
+		margin: 0 20px 0 5px;
+	}
+
+	.StatisticsCalculatorW span.gwt-CheckBox {
+		margin-top: 10px;
+		min-width: 170px;
+	}
+
+	.StatisticsCalculatorW .lblSampleStat {
+		min-width: 80px;
+		text-align: right;
+	}
+
+	.StatisticsCalculatorW .checkboxPanel .checkboxLbl {
+        margin-right: 30px;
+        margin-left: 8px;
+    }
+
+	.StatisticsCalculatorW .gwt-Label, .StatisticsCalculatorW .AutoCompleteTextFieldW,
+	.StatisticsCalculatorW .gwt-ListBox, .StatisticsCalculatorW .gwt-RadioButton {
+		display: inline-block;
+		margin: 3px 5px;
+	}
+
+	.StatisticsCalculatorW .AutoCompleteTextFieldW, .daRegressionPanel .AutoCompleteTextFieldW{
+		border-bottom: 1px solid colors.$black-36;
+
+		input[type=text].gwt-SuggestBox {
+			border: none;
+			box-shadow: none;
+			padding-left: 4px;
+			border-radius: 0px;
+		}
+
+		&.kbdInput {
+			border-color: colors.$teal-default;
+		}
+	}
+
+	.StatisticsCalculatorW .radioButtonPanel {
+		display: inline;
+		position: relative;
+		top: 12px;
+
+		.gwt-Label {
+			margin: 0 24px 0 4px;
+		}
+	}
+
+	.StatisticsCalculatorW .panelSample1, .StatisticsCalculatorW .panelSample2 {
+		text-align: center;
+		max-width: 50%;
+		margin-right: 20px;
+		display: inline-block;
+		margin-top: 10px;
+		white-space: nowrap;
+	}
+
+	.StatisticsCalculatorW .panelSample1 .gwt-Label:first-child,
+	.StatisticsCalculatorW .panelSample2 .gwt-Label:first-child {
+		display: block;
+	}
+
+	.StatisticsCalculatorW .pnlControl .gwt-Label {
+		min-width: 80px;
+	}
+
+	.StatisticsCalculatorW .pnlCount {
+		overflow: auto;
+		text-align: right;
+		display: table;
+		border-collapse: collapse;
+	}
+
+	.StatisticsCalculatorW .chirow {
+		display: table-row;
+	}
+
+	.StatisticsCalculatorW .chirow .ChiSquarePanelW {
+		display: table-cell;
+		margin: 5px;
+		vertical-align: middle;
+	}
+
+	.StatisticsCalculatorW .chirow .inputcell {
+		border: 1px solid #DCDCDC;
+	}
+
+	.StatisticsCalculatorW .chirow .ChiSquarePanelW > * {
+		display: block;
+		text-align: center;
+	}
+
+	.StatisticsCalculatorW .chirow input {
+		text-align: center;
+	}
+
+	.StatisticsCalculatorW .chirow .headercell input {
+		background: #CCCCFF;
+		border: 1px solid #6666FF;
+	}
+
+	.StatisticsCalculatorW .chirow .headercell input:focus {
+		background: white;
+	}
+
+	.StatisticsCalculatorW .resultPane {
+		margin: 5px;
+	}
+
+	.resultPane table td {
+		padding: 3px;
+		padding-right: 40px;
+	}
+
+	.StatisticsCalculatorW .gwt-Label.lblHeading {
+		margin-top: 20px;
+		padding-bottom: 5px;
+		color: #6666FF;
+		border-bottom: 1px solid #CCCCFF;
+	}
+
+	/*=========== Probability Calculator End =============*/
+
+	/*###################################################################################################################
+	###		OPEN SCREEN FROM TOUCH
+	###################################################################################################################*/
+
+	.headerbar {
+		background-color: #F8F8F8;
+		border-bottom: 1px solid #EDEDED;
+		box-shadow: 0 0 2px rgba(204, 204, 204, 0.5);
+		color: #666666;
+		height: 61px;
+		box-sizing: border-box;
+		position: relative;
+		z-index: z-index.$z-open-screen-header-bar;
+		width: 100%;
+		margin-bottom: 1px;
+	}
+
+	.headerFirst {
+		padding-top: 15px;
+		cursor: pointer;
+		float: left;
+		width: 80px;
+	}
+
+	.headerFirst .ggbLogoPanel, .headerFirst .backButton {
+		float: left;
+	}
+
+	.ggbLogoPanel {
+		margin-right: 5px;
+	}
+
+	.locationTitle {
+		font-size: 150%;
+		color: #6666FF;
+		float: left;
+		padding-top: 22px;
+	}
+
+	.headerSecond {
+		padding-top: 10px;
+		padding-right: 10px;
+		float: right;
+	}
+
+	.backButton {
+		cursor: pointer;
+		padding: 8px 10px 10px 10px;
+	}
+
+	.backButton img {
+		height: 20px;
+		width: 11px;
+	}
+
+	.selectedButton {
+		border: 2px #6666FF solid;
+		border-radius: 5px;
+	}
+
+	.bookDecoration {
+		background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAAB50RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNS4xqx9I6wAAABZ0RVh0Q3JlYXRpb24gVGltZQAwMS8yMC8xNNwcSuwAAAJ4SURBVDiNvZPdS5NhGMZ/7zv37qO94twU50fMnMoMIWjSSYRhEBIWQkcWJESOAqGog4jATgr/hLaDyqM68ajoJESjsMKFJvg1QiWn0+l81TmbM10HtZj6OjJH19nDfd2/53pu7kdIJBK0eHwPgDYyo9Net6snK0OwVDW3eHy1GQdfqCm68n50AfH3edJm1gcMkubAYEeBCassIbZ4fD1Ac1CJdZXmH5rfq8EoaTDu4+Is4CZQ6SzKtodX45fVTBZZR9vFKgRB4En3OP6ZVaLrP9KCRa/bNQA4R6ZX2ueWYrsiWWQdt85VoJc06LQip6ryedRUTWt9OaIgpE28pxwFJlrry3naPUFy/h/8YYyShutnHbRfqubd6AIvfTN/By6xGLlzvhKdVuRh5whT4bVt9bX4JhOhKJWFMg3HC1XBYovHdwwYdRZn3y3I0W8CHCvNwSBp0j617+siiQS8HQqp1kV+/Tj3SGDFmWuSFgG6BucIKjG6h0K70qamFgR43julDva6XY1Ah82sPzMRiuYlm/onFeaX11WbLLKOppOHeTM4x9ZWQtWTnLE9qMSKUgsf/WHuNTqxyDp6xxb+JD/hyOVq3RESwIveb6rQVPAuzS7FUKJx6qrzqT2ax+v+IFZZh6vMDIAA6LP2/jBp1204sILNbECJxglH4swuxej8FKCmLJdwZH3P+QMI1x73PQPswEBVcXbTcGAlL9VQYjGmBezU7YZKXn2eQQS6gf5Cs0Eb29g07TTuB5oq0et2dQDLM8r3G+NzUcM/UdTAmQL9N3ByK6w2s15xleWaDwq0ytI28H0lulH+ZXKpQq/V2A8CHpuO4A9G+Am1Bdt+iFiXBAAAAABJRU5ErkJggg==);
+		width: 22px;
+		height: 22px;
+		opacity: 0.8;
+		left: 115px;
+		top: 85px;
+		float: left;
+	}
+
+	.syncDecoration {
+		background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAA0AAAANABeWPPlAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAPoSURBVEiJxZZNaFxVFMd/576PVEI6k5pYPwoqiiC4KCjd6MJk68pCqvi5EHEnSk3RphDUpFKsC12pW93oXoVCMi1WjW1K0ja2ZmrTNElNGDPfSaczmXnHxZtJMzMvM5NG8MDjDvfed37n/M+5942oKv+H2c029BwJvSzKZyiCIICUlxr8lq9Hh1OHtgUWtB9kt3EDlJH6KV0TVLUf2B64Qm9/IB+Aqbebiy6lvGm6rzVwYCwC4qsvUpkRRJpDWwYLYMSqAfhlXR/LAQgKNG/YVqXGtpz13vIBtzNezxwBKfyHYMA2Tg0gSGZBWGvNX2tYwbYcgmSuVcFfa26tdQJgG9d/LAfbONWj5ZTX3HIgAaGLyFNviSPlyERV6R0IvQvsB1xE20TFVWgDaQPdbYxYDz/RJfUZsyFjf202GiO3mgfIgtigtoCllSRVzo8eTe21ARSeF3jGj8yoGDAiIsZ3uOuedr/GG+Wtqvdtme/dczeLc8sAHSKVfZDPr1EqlgAvDuUai9E38WRcRNoffKxb2nY4TQH1R8kfw2GXznCoKshcLs+lC38pkNCS8/q61AC9A+EDoN+5Oxx95PH7xDJWQwABMgcFqZ5y8cK05m7eQuC5keH0T1VggN7Doc8R3g7v6uChR+/fEqA2uMr+K9MzxGLLCHpsZDjzfmBXZ+KZ94CxVCJLIpbBqnRrUDeb6m6u7nB/XI4licWWAX7x3OyRjawq8PhXulYS+wAQn7++pLdWCwEAtw7gj+W18lw+V+DKlasqQkKL9ouRQS1uCgY4NRSfF09eQlWj09dUPak/tw1VcBG1mLp0WT3PQz1ejRyLL9RyAi+QkU9SJzz4qJAvSHT6KpbZmszT0SirK6uCyKejR9M/BjE2vbmedTMfI5xIJJLMzS1sWsdamReXllj4+wbAr+qkBzbzL43+c/V8uLNLCmYCdM++J/fR3dW9fiXWdjgIK6tZTp6OqKelZBF776mh+Pxmvhve1ZHBzLKK9gHFyYuTulYo+rKXM7QqKhgHwXB24oyWvBKqvNYI2hQMEBlKjyEcLBQKcm5yHGOsepktl/NTE2SyGQE5Pjqc/qGZ35a+TqND6S+A7+PJOH9cnqqr8dyN61ybn0HgN3XTh1vx2fJnUd22N4BodOZPFhYXEDEIQiab5szEmIIki2K/UHtetw2ODMZWsLz9ILmxc6c1u5KhWCry89mTWvKKqHpN67rRGnZ1kPUMhF4R+CYc6tTwzk6ZnZ9BRY5HhlL9W/HTcsYViwynv1X4MpVOymy5rjjpD7bqZ8tggLuymXeA34F/TMmqu4dbMlW9o6evD+vpQ10dd/r+v3wi10dmzgk1AAAAAElFTkSuQmCC);
+		background-size: 22px 22px;
+		width: 22px;
+		height: 22px;
+		opacity: 0.8;
+		left: 115px;
+		top: 85px;
+	}
+
+	/*#####################################################################################
+	###       FUNCTION INSPECTOR
+	#####################################################################################*/
+
+	.functionInspectorMainPanel {
+		background-color: #f8f8f8;
+	}
+
+	.functionInspectorMainPanel .gwt-TabPanelBottom {
+		height: 100%;
+		padding-right: 0;
+	}
+
+	.functionInspectorMainPanel .propertiesTab {
+		padding-right: 0;
+	}
+
+	.functionInspectorMainPanel .panelRow > .panelRow {
+		float: right;
+		top: 32px;
+		right: 15px;
+		position: relative;
+	}
+
+	.functionInspectorMainPanel img.gwt-Image {
+		vertical-align: middle;
+	}
+
+	.functionInspectorMainPanel > .panelRow .gwt-Label {
+		padding: 10px;
+		font-size: 115%;
+		width: calc(100% - 150px);
+	}
+
+	.functionInspectorMainPanel .panelRowIndent .ToggleButton {
+		/* bigger buttons needed, because of wrong size of images */
+		width: 30px;
+		height: 30px;
+	}
+
+	.inspectorTable {
+		border-collapse: collapse;
+		min-width: 200px;
+	}
+
+	.inspectorTable tr {
+		background-color: white;
+	}
+
+	.inspectorTable tr.selected,
+	.inspectorTable tr:hover {
+		background-color: #CCCCFF;
+	}
+
+	.inspectorTable td {
+		border: 1px solid;
+		padding: 5px;
+		min-width: 105px;
+		height: 18px;
+	}
+
+	.inspectorTableHeader, .inspectorTableHeader:hover {
+		background-color: #CCCCCC;
+		color: #666666;
+		font-weight: bold;
+	}
+
+	.inspectorTableData {
+		min-width: 50px;
+	}
+
+	.inspectorTableEditor {
+		width: 50px;
+	}
+
+	/* Spreadseet tools */
+
+	.createObjectsPreview {
+		min-width: 200px;
+		vertical-align: top;
+		height: 110px;
+	}
+
+	.createObjectsScrollArea {
+		width: 100%;
+		height: 100%;
+	}
+
+	/* ########################################
+	   ###        DATA ANALYSIS VIEW        ###
+	   ######################################## */
+
+	.daOptionButtons {
+		width: 100px;
+	}
+
+	.daImagePanel {
+		width: 100%;
+		height: 100%;
+	}
+
+	.daEquationScrollPane {
+		padding: 5px;
+		max-width: 500px;
+	}
+
+	.daOptionsTabPanel {
+		width: 505px;
+	}
+
+	.daScrollPanel {
+		height: 300px;
+	}
+
+	.frequencyTable table {
+		width: 100%;
+		border: 1px solid;
+		border-collapse: collapse;
+	}
+
+	.frequencyTable table td,
+	.frequencyTable table th,
+	.frequencyTable table tr {
+		border: 1px dotted;
+	}
+
+	.frequencyTable table .headercell {
+		background-color: #acacac;
+		color: #545454;
+		font-weight: bold;
+	}
+
+	.spFrequencyTable {
+		width: 100%;
+		height: 150px;
+	}
+
+	.daMultiVarStatistics {
+		overflow: auto;
+	}
+
+	.daTwoVarInference table,
+	.daANNOVA table,
+	.daMultiVarStatistics table,
+	.daStatistics table {
+		width: 100%;
+		border: 1px solid;
+		border-collapse: collapse;
+	}
+
+	.daMainSplit {
+		width: 100%;
+		height: 100%;
+	}
+
+	.daData table {
+		width: 100%;
+		min-width: 100px;
+		max-width: 100px;
+		border: 1px solid;
+		border-collapse: collapse;
+
+		.checkboxPanel .checkboxLbl {
+			margin-left: 0;
+		}
+	}
+
+	.daRegressionData table {
+		width: 100%;
+		min-width: 200px;
+		max-width: 200px;
+		border: 1px solid;
+		border-collapse: collapse;
+	}
+
+	.daTwoVarInference table td,
+	.daTwoVarInference table th,
+	.daTwoVarInference table tr,
+	.daData table td,
+	.daData table th,
+	.daData table tr,
+	.daANNOVA table td,
+	.daANNOVA table th,
+	.daANNOVA table tr,
+	.daMultiVarStatistics table td,
+	.daMultiVarStatistics table th,
+	.daMultiVarStatistics table tr,
+	.daStatistics table td,
+	.daStatistics table th,
+	.daStatistics table tr {
+		border: 1px dotted;
+	}
+
+	.daTwoVarInference table tr td:first-child,
+	.daANNOVA table tr td:first-child,
+	.daData table tr td:first-child,
+	.daStatistics table tr td:first-child {
+		width: 40px;
+		background-color: #acacac;
+		color: #545454;
+		font-weight: bold;
+	}
+
+	.daTwoVarInference table tr:first-child,
+	.daTwoVarInference table tr td:first-child,
+	.daANNOVA table tr:first-child,
+	.daANNOVA table tr td:first-child,
+	.daMultiVarStatistics table tr:first-child,
+	.daMultiVarStatistics table tr td:first-child {
+		width: 150px;
+		background-color: #acacac;
+		color: #545454;
+		font-weight: bold;
+	}
+
+	.daTwoVarInference table tr:first-child,
+	.daTwoVarInference table tr td:first-child {
+		width: 180px;
+	}
+
+	.daTwoVarInference table tr td:first-child .gwt-ListBox {
+		background: #acacac;
+	}
+
+	.daRegressionData table tr td:first-child {
+		width: 60px;
+		background-color: #acacac;
+		color: #545454;
+		font-weight: bold;
+	}
+
+	.comboSplitLayout .panelRow {
+		vertical-align: top;
+	}
+
+	.dataDisplayMain {
+		min-width: 1000px;
+	}
+
+	.dataDisplayMain .panelRow > * {
+		margin: 0 0 0 0;
+	}
+
+	.daRegressionPanel {
+		width: 100%;
+		min-height: 50px;
+	}
+
+	.daRegEquation {
+		width: 100%;
+		color: red;
+	}
+
+	.daSwapXYButton {
+		width: 48px;
+		height: 24px;
+	}
+
+	/* ########################################
+	   ###    END OF DATA ANALYSIS VIEW     ###
+	   ######################################## */
+
+	.cbCreationList {
+		width: 80%;
+		overflow: auto;
+	}
+
+	.RelationTool {
+		list-style-position: inside;
+		padding-left: 2em;
+		text-indent: -1em;
+	}
+
+
+	/* ########################################
+	   ###       CUSTOMIZE TOOLBAR GUI      ###
+	   ######################################## */
+
+	.usedToolsPanel {
+		float: left;
+		padding: 20px 0 0 20px;
+	}
+
+
+	.allToolsPanel {
+		padding: 20px 0 0 20px;
+		position: absolute;
+		right: 20px;
+	}
+
+	.allToolsPanelContent .customizableToolbarItem {
+		padding-left: 5px;
+		margin-left: 20px;
+	}
+
+	.usedToolsPanel:first-child,
+	.allToolsPanel:first-child {
+		overflow-y: hidden;
+	}
+
+	.usedToolsPanel .panelTitle, .allToolsPanel .panelTitle {
+		cursor: default;
+	}
+
+	.toolBarDropping {
+		background-color: rgba(204, 204, 255, 0.3);
+	}
+
+	.insertBeforeBorder {
+		border-top: 1px solid transparent;
+	}
+
+	.insertAfterBorder {
+		border-bottom: 1px solid transparent;
+	}
+
+	.insertBeforeLeaf {
+		width: 99%;
+		border-top-color: #6161FF;
+	}
+
+	.insertAfterLeaf {
+		width: 99%;
+		border-bottom-color: #6161FF;
+	}
+
+	.insertBeforeBranch {
+		border-top-color: #6161FF;
+	}
+
+	.insertAfterBranch {
+		border-bottom-color: #6161FF;
+	}
+
+	.customizableToolbarItem {
+		cursor: pointer;
+		padding-left: 5px;
+	}
+
+	.customizableToolbarItem:hover {
+		background-color: #CCCCFF;
+	}
+
+	.insertAfterBranch > *,
+	.insertAfterBranch > * > *,
+	.insertBeforeBranch > *,
+	.insertBeforeBranch > * > * {
+		pointer-events: none;
+	}
+
+	.customizeToolbarButtonPanel {
+		text-align: right;
+		padding: 10px;
+		background-color: #F8F8F8;
+		border-top: 1px solid #EDEDED;
+		box-shadow: 0 0 2px rgba(204, 204, 204, 0.5);
+	}
+
+	.customizeToolbarButtonPanel .gwt-Button {
+		margin-left: 10px;
+	}
+
+	/*
+	  ########################################
+	  ###   END OF CUSTOMIZE TOOLBAR GUI   ###
+	  ######################################## */
+
+	.popupSliderLabel {
+		float: right;
+	}
+
+	/* AV Extensions */
+
+	.avPlayButton {
+		height: 24px;
+		border: none;
+		outline: none;
+		cursor: pointer;
+	}
+
+	/* Options Slider */
+
+	.penSubMenu .optionsSlider .ui-slider {
+		margin: 0;
+	}
+
+	.penSubMenu .optionsSlider .ui-slider {
+		background: none;
+		border: none;
+
+		/* overwrite background-color with real color of the slider */
+		background-color: rgba(0, 0, 0, 0.4);
+
+		/* white outline for better contrast */
+		box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.4);
+	}
+
+	.ggbScreenshot {
+		.InputTreeItem {
+			overflow-x: hidden;
+		}
+		.algebraPanel {
+			overflow: hidden !important;
+		}
+	}
+
+	.cpScrollPanel td {
+		color: inherit;
+	}
+
+	/* CAS Context menu */
+
+	.gwt-PopupPanel td.gwt-MenuItemSeparator {
+		height: 0;
+		padding: 0;
+		border: 0;
+		border-top: 1px solid #dcdcdc;
+		overflow: hidden
+	}
+
+	.stepTree {
+		td:first-child {
+			width: 30px;
+		}
+	}
+
+	/*
+	   ########################################
+	   ###       New Start Screen           ###
+	   ######################################## */
+
+	.menuBarClassic {
+		.menuImg {
+			opacity: 0.54;
+		}
+
+		.noTransparency .menuImg {
+			opacity: 1;
+		}
+	}
+
+	.fiButton img {
+		opacity: 0.54;
+	}
+
+	.materialPopupPanel {
+		border-radius: 4px;
+		padding: 8px;
+		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+	}
+
+	.panelRow .optionsSlider input[type=range] {
+		display: inline-block;
+	}
+
+	.mk-spinner-wrap.spinnerForLogo {
+		position:static;
+	}
+}

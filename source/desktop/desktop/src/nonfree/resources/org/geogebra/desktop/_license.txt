@@ -1,0 +1,339 @@
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org/
+
+LICENSE
+  You are free to copy, distribute and transmit GeoGebra free of charge
+  for non-commercial purposes (see conditions and details below).
+
+PROJECT DIRECTOR
+  * Markus Hohenwarter (Austria & USA 2001-)
+
+LEAD DEVELOPER
+  * Michael Borcherds (UK 2007-)
+
+DEVELOPERS
+  * Balazs Bencze (Romania 2012-)
+  * Mathieu Blossier (France 2008-)
+  * Judit Elias (Hungary 2009-)
+  * Laszlo Gal (Hungary 2013-)
+  * Alicia Hofstaetter (Austria 2016-)
+  * Zbynek Konecny (Czech Republic 2010-)
+  * Zoltan Kovacs (Hungary 2010-)
+  * Thomas Krismayer (Austria 2012-)
+  * Wolfgang Kuellinger (Austria 2014-)
+  * Stefan Lizelfelner (Austria 2013-)
+  * Bernard Parisse (France 2013-)
+  * Csilla Solyom-Gecse (Austria 2015-)
+  * Melanie Tomaschko (Austria 2011-)
+
+CONTRIBUTORS
+  * Shamshad Alam (GSoC 2015)
+  * Gabor Ancsin (Hungary 2009-20)
+  * Lucas Binter (Austria 2011-12)
+  * Philipp Birklbauer (Austria 2010-13)
+  * Giuliano Bellucci (Italy 2013-)
+  * Stefanie Bogner (Austria 2013-16)
+  * Loic Le Coq (France 2006-11)
+  * Arnaud Delobelle (UK 2011-)
+  * Calixte Denizet (France 2010-15)
+  * Damien Desfontaines (France 2012)
+  * Darko Drakulic (Bosnia and Herzegovina 2011-)
+  * Martin Ennemoser (Austria 2011-12)
+  * Andre Eriksson (Sweden 2010-12)
+  * Vincent Everaert (France 2013-)
+  * Arpad Fekete (Hungary 2010-15)
+  * Victor Franco (Spain 2007)
+  * Claudia Gollner (Austria 2011)
+  * Alexander Hartl (Austria 2011-)
+  * Guy Hed (Israel 2008-11)
+  * Ralf Hemmecke (Germany 2011)
+  * Ann-Christin Holzinger (Austria 2015)
+  * Henrietta Hoszu (Romania 2016)
+  * Rana Issa (Austria 2011-12)
+  * Fabian Jordan (Austria 2016-20)
+  * Hunor Karaman (Romania 2018-)
+  * Ted Kosan (USA 2008-09)
+  * Thomas Krismayer (Austria 2012-16)
+  * Yi-Chun (Jacky) Kuo (GSoC 2015)
+  * Dominik Kreil (Austria 2011-12)
+  * Yves Kreis (Luxembourg 2005-10)
+  * Corinna Kroehn (Austria 2011-12)
+  * Cong Liu (USA 2007-09)
+  * Julian Lettner (Austria 2011)
+  * Elena Lettner (Austria 2016-23)
+  * Thilina Madumal (GSoC 2015)
+  * Matthias Meisinger (Austria 2011-13)
+  * Joan Carles Naranjo (Spain 2007)
+  * Georgios Ouzounis (GSoC 2015)
+  * Eloi Puertas (Spain 2007)
+  * Peter Rathgeb (Austria 2015-16)
+  * Johannes Renner (Austria 2011-12)
+  * Sergio Arbeo Rodriguez (Spain 2010-12)
+  * Christian Schott (Germany 2011-13)
+  * Neel Shah (India 2012)
+  * Florian Sonner (Germany 2008-12)
+  * Christoph Stadlbauer (Austria 2011-16)
+  * George Sturr (USA 2009-15)
+  * Don Sun (USA 2011)
+  * Kai Chung Tam (USA 2011-12)
+  * Sara Arjona Tellez (Spain 2011)
+  * Hans-Petter Ulven (Norway 2008-12)
+  * Thomas Unterthiner (Austria 2010-11)
+  * Amy Varkey (USA 2007-09)
+  * Philipp Weissenbacher (Austria 2007)
+  * Simon Weitzhofer (Austria 2011-13)
+  * Quan Yuan (USA 2007-09)
+  * Andy Zhu (USA 2010-11)
+
+TRANSLATORS
+  * Afrikaans: Rika Grobler (South Africa)
+  * Albanian: Pellumb Klogjeri (Albania), Teuta Iljazi (Macedonia)
+  * Arabic: Brahim Boulakbech, Haboubi Abdessalem,  Boulifa Mehdi (Tunisia),
+      Maha Ahmed (Egypt), Kamal Dkhissi (Morocco), Rana Issa (Spain)
+  * Armenian: Gagik Aghekyan (Armenia)
+  * Basque: Gonzalo Elcano Vizcay, Aitzol Lasa, Ander Mariezkurrena,
+      Asier Ruiz Guinea (Spain)
+  * Bosnian: Maja Hrbat, Jelena Arnaut, Mirko Capara,
+      Vesna Miletic (Bosnia and Herzegovina)
+  * Bulgarian: Nadezhda Aplakova, Nadezhda Konstantinova, Galina Lyutskanova,
+      Hristo Stoyanov, Dessislava Dimkova, Hristov, Magdalena Petkova (Bulgaria)
+  * Catalan: Jaume Bartroli, Pep Bujosa, Josep Lluis Canadilla,
+      Carlos Gimenez, Antoni Goma, Jorge Sanchez,
+      Roser Sebastian, David Obrador Sala (Spain)
+  * Chinese (Simplified): Lee Ying, Chen Xing, Tom King, Ran Tao, Oldnew (China)
+  * Chinese (Traditional): Fu-Kwun Hwang, Chen-Hui Lin, Pegasus Roe,
+      Joe Chen (Taiwan)
+  * Croatian: Sime Suljic, Ela Rac-Marinic-Kragic, Josip Klicinovic,
+      Zeljko Vrabec, Damir Belavic (Croatia)
+  * Czech: Zuzana Bouchalova, Michaela Norulakova, Marketa Tomanova,
+      Marie Pokorna, Jiri Srubar, Roman Hasek (Czech Republic)
+  * Danish: Steen Grode, Martin Thun Klausen (Denmark)
+  * Dutch: Ivan De Winne, Chris Cambre, Jozef Van Remoortere,
+      Roger Van Nieuwenhuyze, Pedro Tytgat, Riggy Van de Wiele,
+      Beatrijs Versichel (Belgium),
+      Anton Geijer, Toon Rekkers (The Netherlands)
+  * English: Markus Hohenwarter, Judith Hohenwarter (Austria),
+      Yves Kreis (Luxembourg), Michael Borcherds (UK)
+  * Estonian: Jane Albre-Andersen (Estonia)
+  * Filipino: Guillermo Bautista, Jr., Jose Abelardo Torio,
+      Erlina Ronda (The Philippines)
+  * Finnish: Juha Leino, Mikko Rahikka, Erkki Luoma-aho,
+      Teemu Hinkula, Tero Pirinen, Vadim Gurkalov, Aleksi Matsi,
+      Jani Hannula, Rami Nuotio (Finland)
+  * French: Noel Lambert (France)
+  * Galician: Debora Pereiro Carbajo, Esperanza Gesteira Losada,
+      Enrique de la Torre Fernandez, Fernando Zacarias Maceiras,
+      Ignacio Larrosa Canestro, Jesus Garcia Otero, Irene Arias Lopez (Spain)
+  * Georgian: Lasha Kokilashvili (Georgia)
+  * German: Markus Hohenwarter, Judith Hohenwarter, Andreas Lindner,
+      Sandra Reichenberger, Christina Biermair, Andrea Duringer,
+      Barbara Kimeswenger, Corinna Kroehn, Kurt Soeser,
+      Johanna Zoechbauer, Alexander Hartl, Sarah Starlinger,
+      Sabrina Wallner, Magdalena Freudenhalter (Austria),
+      Yves Kreis (Luxembourg), Birgit Lachner (Germany)
+  * Greek: Nicholas Mousoulides, Constantinos Christou (Cyprus),
+      Spiros Mavrogiannis, Manolis Koutlis,
+      Fergadiotis Athanasios, Alkeos Souyoul (Greece)
+  * Hebrew: Guy Hed (Israel)
+  * Hindi: Sanjay Gulati, Parth Bhattacharya, Vikrant Dubey,
+      Girish Belkar (India)
+  * Hungarian: Zsuzsanna Papp-Varga, Andras Hrasko, Peter Csiba,
+      Zoltan Major, Maria Sz. Fekete, Ildiko Kezer, Viktoria Kmecs,
+      Szabolcs Sulik, Lajos Szilassi, Zoltan Kovacs, Agnes Tamcsu,
+      Tamas Kalcza, Judit Elias, Gabriela Ferenczy (Hungary)
+  * Icelandic: Freyja Hreinsdottir (Iceland)
+  * Indonesian: Aam Sudrajat (Indonesia)
+  * Irish: Maurice O'Reilly (Ireland)
+  * Italian: Simona Riva, Alessandra Tomasi (Italy)
+  * Japanese: Akihito Wachi, Kazuhiro Hasegawa (Japan)
+  * Kazakh: Talgat Bainazarov (Kazakhstan)
+  * Korean: Kyeongsik Choi (Korea)
+  * Lithuanian: Rokas Tamosiunas, Antanas Apynis (Lithuania)
+  * Macedonian: Linda Fahlberg-Stojanovska, Jasmina Markoska,
+      Zoran Trifunov, Alexandar Momirovski (FYR Macedonia)
+  * Malay: Daniel Leong Chee Kin (Malaysia)
+  * Marathi: Smita Patil, Aparna Lalingkar (India)
+  * Mongolian: Navchaa Tserendorj, Amarzaya Amartuvshin,
+    Gerelchimeg Batdelger, Otgonnaran Ochirbat, Batnasan Davaa (Mongolia)
+  * Nepali: Bhesh Raj Mainali, Keshab Prasad (Nepal)
+  * Norwegian: Sigbjorn Hals (Norway)
+  * Persian: Saeed Aminorroaya, Ali SafarNavadeh, Azam Zabihi,
+      Amir MirSaeed (Iran)
+  * Polish: Ania Borkowska, Marzanna Miasko, Malgorzata Paliga
+      Ewa Piwek, Edyta Pobiega, Kasia Winkowska-Nowak, Jerzy Mil,
+      Przemyslaw Kajetanowicz, Malgorzata Labuda (Poland)
+  * Portuguese (Brazil): Humberto Bortolossi, Celina A. A. P. Abar,
+    Gerson Pastre de Oliveira, Lisbete Madsen Barbosa,
+    Herminio Borges Neto, Alana Paula Araujo Freitas, Luciana de Lima,
+    Alana Souza de Oliveira, Jorge Cássio Costa Nóbriga (Brazil)
+  * Portuguese (Portugal): Jorge Geraldes, Antonio Ribeiro (Portugal)
+  * Romanian: Alexandra Fortis, Casian Colcher, Valerian Antohe,
+      Moni Ungvari (Romania)
+  * Russian: Anatoly Scherbakov, Beatrice Versichel,
+      Bugaevsky Vladimir (Russia)
+  * Serbian: Djordje Herceg, Dragoslav Herceg (Serbia), Jelena Arnaut,
+      Mirko Capara, Vesna Miletic (Bosnia and Herzegovina)
+  * Sinhala: Dakshila Kamalsooriya, Dinithi Weerasekara, Kalumi Probodya
+  * Slovak: Peter Csiba, Iveta Kohanova (Slovakia)
+  * Slovenian: Stanislav Senveter (Slovenia)
+  * Spanish: Liliana Saidon (Argentina), Rafael Losada Liste (Spain),
+    Fabian Vitabar (Uruguay)
+  * Swedish: Jonas Enlund (Finland), Thomas Lingefjard, Jonas Hall (Sweden)
+  * Tamil: Kengatharaiyer Sarveswaran, Balanithy Murugaiah,
+      Vasuraj Dhamodharan
+  * Tajik: Yusuf Balkas (Tajikistan)
+  * Thai: Rachaya Srisurichan, Alongkot Maiduang, Donny Passary (Thailand) 
+  * Turkish: Erol Karakirik, Mustafa Dogan, Suleyman Cengiz (Turkey)
+  * Ukrainian: Valentyna Pikalova, Valera Rakuta (Ukraine)
+  * Uyghur: Tuniyaz Ablikim (China)
+  * Uzbek: Shavkat Shaimardanov (Uzbekistan)
+  * Valencian: Pilar Embid Giner, Vicente Balaguer (Spain)
+  * Vietnamese: Nguyen Thanh Trung, Quang Nguyen,
+      Nguyen Danh Nam (Vietnam)
+  * Welsh: Uned Gyfieithu Translation Unit, Prifysgol Bangor University,
+      Gwyn Jones, Sera Roberts, Geraint Rowlands (Wales)
+  * Yiddish: Eliezer Niborski (France, Israel)
+  * Xhosa: Vuyani Matsha (South Africa)
+
+
+
+
+                                LICENSE
+
+             GeoGebra Non-Commercial License Agreement
+
+The International GeoGebra Institute is a non-profit organization
+registered in Austria and having its office in Linz, Austria ("we",
+"our" or "us"). We develop and support the GeoGebra dynamic mathematics
+software application, including its source code, installers, web
+applications and services, language files and associated documentation
+("GeoGebra" or "the Software"). We operate GeoGebra (and publish its
+related resources) through our websites located at
+http://www.geogebra.org/ and http://www.geogebratube.org.
+
+The terms of this License form a binding agreement between you, an
+individual user or non-commercial organization ("you" or "your"), and us
+regarding your non-commercial use of GeoGebra. By downloading, accessing
+or otherwise using GeoGebra you indicate your agreement to be bound by
+these License terms.
+
+PLEASE NOTE THAT THIS LICENSE IS INTENDED FOR NON-COMMERCIAL USE OF
+GEOGEBRA ONLY. IF YOU INTEND TO USE GEOGEBRA FOR A COMMERCIAL PURPOSE,
+PLEASE CONTACT office@geogebra.org TO ARRANGE A COLLABORATION AGREEMENT
+WITH US BASED ON OUR COMMERCIAL LICENSE TERMS.
+
+If you would like to help with developing GeoGebra please find all
+details on how to get involved (including GeoGebra's source code) via
+this link: http://dev.geogebra.org.
+
+Non-commercial License Terms
+
+1. This License incorporates (by reference) additional license terms
+published by the Free Software Foundation and the Creative Commons
+Corporation. In the event of any conflict between those additional terms
+and the terms of this License, the latter shall prevail.
+
+2. The GeoGebra installers, web services and various copyright materials,
+graphics and resources made available are licensed to you on a limited,
+non-exclusive, personal, non-transferable and royalty-free license under
+which you are free to use, copy, distribute, modify and transmit the GeoGebra
+installers, web services and the copyright materials PROVIDED THAT you only
+do so for non-commercial purposes (without charging a fee to any third party)
+and PROVIDED THAT you attribute the work to us by (at least) mentioning our
+name, including an appropriate copyright notice and providing a link to our
+website located at http://www.geogebra.org
+
+3. The GeoGebra source code is licensed to you under the terms of the
+GNU General Public License (version 3 or later) as published by the Free
+Software Foundation, the current text of which can be found via this
+link: http://www.gnu.org/licenses/gpl.html ("GPL"). Attribution (as
+required by the GPL) should take the form of (at least) a mention of our
+name, an appropriate copyright notice and a link to our website located
+at http://www.geogebra.org.
+
+4. The GeoGebra language files (including all user interface "translation"
+files in the GeoGebra application and applets), all GeoGebra documentation
+(including  "GeoGebra Help", "GeoGebra Quickstart" and all other
+documentation files found on the GeoGebra webservers) and all GeoGebra
+user interface image and style files (including logos, icons and style
+sheets) are licensed to you under the terms of the Creative Commons
+Attribution-NonCommercial-ShareAlike licence (version 3.0 or later), the
+current text of which can be found via this link:
+http://creativecommons.org/licenses/by-nc-sa/3.0/legalcode. Attribution
+(as required by that Creative Commons license) should take the form of (at
+least) a mention of our name, an appropriate copyright notice and a link
+to our website located at http://www.geogebra.org.
+
+5. The Software (and all related materials and resources) are licensed
+to you WITHOUT ANY WARRANTY and on an AS IS basis including without
+limitation the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. We accept no liability for your use of the Software
+(save to the extent such liability cannot be excluded as a matter of
+law).
+
+6. The Software (and all related materials and resources) are licensed
+to you without any offer or promise of support or future development by
+the International GeoGebra Institute or any third party. Please note
+that support services are available under the terms of our Collaboration
+Agreement - please contact office@geogebra.org for more information.
+
+7. You may install GeoGebra on multiple devices in multiple locations
+PROVIDED THAT you always use the Software for non-commercial purposes
+and otherwise in accordance with these License terms.
+
+8. The copyright and other intellectual property rights (including any
+trade marks) of whatever nature (arising anywhere in the world) in the
+GeoGebra software (and all related resources) are and will remain our
+property (or in the case of third party materials (including software
+libraries) which we have the right of use, the property of the third
+party licensor), and we reserve the right to grant licenses to use the
+GeoGebra software (and all related resources) to third parties.
+
+9. An "appropriate copyright notice" for the purposes of this License
+shall take the following form:
+Copyright (C) International GeoGebra Institute, 2013
+
+10. This License is personal to you and you must not assign it to a
+third party or permit any third party to benefit from it without our
+prior written consent.
+
+11. You will notify us immediately if you become aware of any
+unauthorised use of the whole or any part of the GeoGebra software (and
+all related resources).
+
+12. If any of the provisions of this License (including the additional
+terms incorporated by reference) are held to be invalid or unenforceable
+under any applicable statute or rule of law, it is to that extent to be
+deemed omitted from the License. Such an omission will not affect the
+validity of the remaining provisions of the License, which will remain
+in full force and effect.
+
+13. This License shall be governed by and interpreted in accordance with
+Austrian law.
+
+These License terms were last updated in December 2014.
+
+------------------------------------------------------------------------
+Libraries used by GeoGebra:
+  * The Apache Commons Mathematics Library,
+    http://commons.apache.org/math/ (Apache Software License)
+  * EPS Graphics, http://epsgraphics.sf.net (GPL)
+  * FreeHEP Java Libraries, http://java.freehep.org (LGPL)
+  * Giac, http://www-fourier.ujf-grenoble.fr/~parisse/giac.html (GPL3)
+  * Gluegen, http://java.net/projects/gluegen/sources/svn/show and
+    http://kenai.com/projects/gluegen/sources/gluegen-git/show (BSD)
+  * JFugue 2.1 (LGPL), http://www.jfugue.org/ (LGPL)
+  * JLaTeXMath, https://github.com/opencollab/jlatexmath (GPL2+)
+  * JOGL 2, https://github.com/sgothel/jogl (BSD),
+  * JUNG, https://jung.sourceforge.net (BSD)
+  * OpenCSV, https://opencsv.sourceforge.net/ (Apache 2.0)
+  * OpenGeoProver, https://github.com/ivan-z-petrovic/open-geo-prover (GPL3)
+  * Tango Icon Gallery, http://tango.freedesktop.org (Public Domain)
+  
+For other tools used for running or building GeoGebra please see
+https://github.com/geogebra/geogebra/blob/main/doc/Libraries.md
+
+------------------------------------------------------------------------
+International GeoGebra Institute
+Wolfauerstr 90, 4040 Linz, Austria
+office@geogebra.org

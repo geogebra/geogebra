@@ -1,0 +1,480 @@
+@use 'colors';
+@use 'dimens';
+@use 'shared';
+@use 'z-index';
+
+.GeoGebraFrame {
+	.algebraView {
+		top: -2px;
+	}
+
+	.algebraView .avItem, .algebraView .avInputItem {
+		/* to override default padding and margin coming from GWT */
+		padding: 0 !important;
+		margin: 0 !important;
+	}
+
+	.algebraViewObjectStylebar {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		padding-right: 12px;
+
+		.symbolicButton {
+			display: inline-block;
+			position: absolute;
+			padding: 2px;
+			bottom: 10px;
+			right: 44px;
+			width: 22px;
+			height: 22px;
+			background-color: colors.$purple-default;
+			border-radius: 2px;
+			border: none;
+			box-shadow: 0px 3px 1px -2px colors.$black-20, 0px 2px 2px 0px colors.$black-14, 0px 1px 5px 0px colors.$black-12;
+			transition: background-color 150ms ease 0ms;
+
+			&:hover {
+				background-color: colors.$purple-dark;
+			}
+			img {
+				opacity: 1;
+			}
+		}
+
+        .symbolicButton.hasOutputRow {
+            right: 12px;
+        }
+	}
+
+	.customScrollbarSafari, .customScrollbar {
+		&::-webkit-scrollbar {
+			height: 4px;
+			width: 4px;
+		}
+		&:hover::-webkit-scrollbar-thumb {
+			border-radius: 2px;
+		}
+	}
+
+	.customScrollbarSafari {
+		&::-webkit-scrollbar-thumb {
+			background-color: colors.$transparent-white;
+		}
+		&:hover::-webkit-scrollbar-thumb {
+			background-color: colors.$black-38;
+		}
+	}
+
+	.customScrollbar {
+		scrollbar-width: thin;
+		scrollbar-color: colors.$white colors.$white;
+		color: colors.$transparent-white;
+		transition: color .25s;
+
+		&::-webkit-scrollbar-track {
+			background: colors.$white;
+		}
+		&::-webkit-scrollbar-thumb {
+			box-shadow: inset 0 0 0 10px;
+		}
+
+		&:hover {
+			scrollbar-color: colors.$black-38 colors.$white;
+			color: colors.$black-38;
+		}
+
+		&>div {
+			// we are overriding color for the whole container (to be used for scrollbar),
+			// so we have to override back for child elements
+			color: colors.$black-87;
+		}
+	}
+
+	.textOverMarble {
+		height: 20px;
+		width: 20px;
+		position: absolute;
+		margin-left: -1px !important;
+		opacity: 0.54;
+	}
+
+	.avItem.avSelectedRow .marblePanel {
+		background-color: colors.$tool-border;
+	}
+
+	.marblePanel {
+		border-right: 1px solid colors.$tool-border;
+		position: absolute;
+		min-width: 58px;
+		box-sizing: border-box;
+		height: 100%;
+		padding: 0 18px;
+
+		> * {
+			// vertically center everything inside the marble panel
+			position: relative;
+			transform: translateY(-50%);
+			top: 50%;
+		}
+
+		img {
+			display: block;
+			height: 24px;
+			width: 24px;
+			opacity: 0.54;
+		}
+	}
+
+	.marblePanel.error {
+		padding: 0 16px;
+	}
+
+	.marblePanel.plus {
+		padding: 0 4px;
+		min-height: 47px;
+
+		.button {
+			margin: 0px;
+			padding: 12px;
+		}
+	}
+
+	.marblePanel.plus :hover{
+		img {
+			opacity: 1;
+		}
+	}
+
+	.marblePanel.error :hover{
+		cursor: default;
+
+		img {
+			opacity: .54;
+		}
+	}
+
+	.marble {
+		height: 18px;
+		width: 18px;
+		background-color: colors.$purple-default;
+		border: 1px solid colors.$black;
+		border-radius: 24px;
+	}
+
+	.marbleHidden {
+		visibility: hidden;
+	}
+
+	div[data-title="Input Help"]:hover:after {
+		top: 48px;
+	}
+
+	.avInputItem .scrollableTextBox,
+	.avItem .elemText.scrollableTextBox {
+		padding-top: 8px;
+		padding-left: 68px;
+		padding-bottom: 0px;
+		div {
+			overflow: hidden;
+		}
+	}
+
+	.algebraPanelScientific {
+		.avItem, .avInputItem {
+			border-top: none;
+
+			.newRadioButtonTreeItemParent {
+				&.focused {
+					border-top: none;
+					border-bottom: none;
+				}
+			}
+
+			.elem .elemText, .scrollableTextBox {
+				padding-left: 0;
+				margin-left: dimens.$scientificHeaderWidth;
+				border-bottom: 1px colors.$tool-border solid;
+				width: calc(100% - #{dimens.$scientificHeaderWidth});
+				box-sizing: border-box;
+				min-height: 48px;
+			}
+		}
+	}
+
+	.avItem {
+		border-top: 1px solid colors.$tool-border;
+	}
+
+	.avItem .elemText.noPadding {
+		padding-left: 0;
+		padding-top: 6px;
+	}
+
+	.avItem .elem .elemText.additionalRow {
+		display: flex;
+		padding-top: 16px !important;
+	}
+
+	.avItem .elemText.avPlainText.avOutput {
+		line-height: 30px;
+	}
+
+	.avOutput {
+		display: flex;
+		align-items: center;
+		min-height: 36px;
+	}
+
+	.avItem .elemText {
+		padding-top: 12px;
+		padding-bottom: 0px;
+		padding-left: 68px;
+
+		.avPlainText {
+			padding: 2px;
+		}
+	}
+
+	.avValue {
+		display: flex;
+	}
+
+	.canvasVal {
+		padding: 2px 0;
+	}
+
+	.avItem .checkboxPanel {
+		padding-left: 68px;
+		padding-top: 8px;
+	}
+
+	.playOnly {
+		position: absolute;
+		bottom: 4px;
+
+		img {
+			opacity: 0.54;
+		}
+
+		&:hover {
+			img {
+				opacity: 1;
+			}
+		}
+	}
+
+	.speedPanel {
+		position: absolute;
+		top: 12px;
+		right: 12px;
+		opacity: 1;
+		transition: 0.3s ease;
+		z-index: z-index.$z-algebra-speed-panel;
+		cursor: default;
+
+		.flatButton {
+			margin: 0px;
+			padding: 0px;
+			width: 24px;
+			height: 24px;
+			cursor: pointer;
+			img {
+				opacity: 0.54;
+			}
+
+			&:hover {
+				img {
+					opacity: 0.84;
+				}
+			}
+		}
+
+		.value {
+			display: inline-block;
+			width: 40px;
+			font-size: 0.8em;
+			text-align: center;
+			vertical-align: top;
+			border: none;
+			outline: none;
+			overflow: hidden;
+			height: 19px;
+			margin-right: 0px;
+			line-height: 200%;
+		}
+
+	}
+
+	.speedPanel-hidden {
+		@extend .speedPanel;
+		opacity: 0;
+		transition: 0.2s ease;
+		z-index: z-index.$z-hidden;
+	}
+
+	.speedPanel-hidden >* {
+		display: none;
+	}
+
+	.speedPanel >* {
+		display: inline-block;
+	}
+
+	.more {
+		background: colors.$white;
+		margin-top: 12px;
+		opacity: 0.54;
+		transition: 0.3s ease;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	.more-hidden {
+		margin-top: 12px;
+		opacity: 0 !important;
+		transition: 0.3s ease;
+	}
+
+	.avNameLogo {
+		opacity: 0.36;
+		text-align: center;
+		margin-top: 24px;
+		margin-bottom: 48px;
+		&>div {
+			text-align: center;
+		}
+	}
+
+	.avNameLogoScientific {
+		margin-bottom: 0;
+	}
+
+	.newRadioButtonTreeItemParent {
+		/* to override GWT nonsense */
+		display: block !important;
+		background-color: colors.$white;
+		border-top: colors.$tool-border solid 1px;
+		border-bottom: colors.$tool-border solid 1px;
+
+		&.focused {
+			border-top: colors.$purple-default solid 1px;
+			border-bottom: colors.$purple-default solid 1px;
+		}
+	}
+
+	.gwt-Tree .gwt-TreeItem .elem {
+		font-family: mathsans, calibri, sans-serif;
+		display: block;
+		min-height: 48px;
+		position: relative;
+
+		&.avSliderElem {
+			min-height: 72px;
+		}
+
+		&.checkboxElem > * {
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		> * {
+			display: block;
+		}
+
+		.optionsSlider, .minMaxPanel {
+			display: flex;
+			left: 72px;
+			bottom: 0;
+			position: absolute;
+		}
+
+		.optionsSlider {
+			.gwt-Label {
+				line-height: 2;
+
+				&:first-child {
+					padding-right: 15px;
+				}
+
+				&:last-child {
+					padding-left: 15px;
+				}
+			}
+
+			> * {
+				margin: 0;
+			}
+		}
+
+		.minMaxPanel {
+			.AutoCompleteTextFieldW {
+				width: initial;
+				margin: 0px !important;
+				border-radius: 2px;
+
+				.TextField {
+					padding: 0 0 0 8px;
+					margin-bottom: 2px;
+					border: none;
+					border-bottom: 1px solid colors.$tool-border;
+					background: transparent;
+					box-shadow: none;
+					border-radius: 0px !important;
+
+					&:focus {
+						border: none;
+						border-bottom: 1px solid colors.$tool-border;
+					}
+				}
+			}
+		}
+	}
+
+	.arrowOutputImg {
+		margin-right: 4px;
+		opacity: 0.54;
+		width: 24px !important;
+		height: 24px !important;
+	}
+
+	.show-fraction {
+		img {
+			display: block;
+			margin: auto;
+			width: 20px !important;
+			height: 20px !important;
+		}
+	}
+
+    .algebraPanel {
+        height: 100%;
+
+		input[type="checkbox"] {
+			width: 24px;
+			height: 24px;
+			margin: 5px 7px 5px 0;
+		}
+	}
+
+	.elemText .prefix, .elemText .prefixLatex {
+		position: relative;
+		transform: translateY(-5%) scale(1.3);
+		margin-left: 4px;
+		opacity: 0.54;
+	}
+
+	.avDefinition, .avDefinitionPlain {
+		display: inline-block; // needed for view expanding
+		min-height: 28px;
+	}
+
+	.avDummyLabel {
+		display: inline-block;
+		line-height: 2;
+	}
+}
+

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='web'>
+  <inherits name="org.geogebra.web.Web3D" />
+
+  <!-- Compile only one permutation -->
+  <collapse-all-properties />
+</module>

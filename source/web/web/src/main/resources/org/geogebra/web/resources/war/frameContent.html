@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>GeoGebra Dynamic Worksheet</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+        <script src="web3d/js/webfont.js?v=1.15"></script>
+        <script>
+        function getURLparam(param){
+            var parts = location.href.split("?");
+            if (parts.length<2) {
+            return null;
+            }
+            params=parts[1].split("&");
+            for (var i = 0; i < params.length; i++) {
+                if(params[i].indexOf(param + "=") == 0){
+                    return params[i].substring(param.length + 1);
+                }
+            }
+            return null;
+        }
+
+        function loadggb(){
+            var filename = getURLparam("filename") || "https://cdn.geogebra.org/resource/jYTNR7uJ/zuJ2pQo7dBVOFYld/material-jYTNR7uJ.ggb";
+            document.getElementsByClassName("geogebraweb")[0].setAttribute("data-param-filename", filename);
+            if (getURLparam("disableAutoscale")) {
+                document.getElementsByClassName("geogebraweb")[0].setAttribute("data-param-scaleContainerClass", "container");
+            }
+            webScript = document.createElement("script");
+            webScript.src="web3d/web3d.nocache.js";
+            document.body.appendChild(webScript);
+        }
+        </script>
+    </head>
+    <body onload=loadggb()>
+        <div id="parent" class="container">
+            <div class="scaleme" style="height:100%">
+                <div>
+                    <article class="geogebraweb" data-param-showLogging="true"
+                      data-param-scale="1"
+                      data-param-enableRightClick="false"
+                      data-param-showResetIcon="true"
+                      data-param-showTutorialLink="true"
+                      data-param-width="917"
+                      data-param-height="600"
+                      data-param-allowUpscale="false"
+                      data-param-allowScale="true"
+                      data-param-materialsApi="null"
+                      data-param-showfullscreenbutton="true"
+                      data-param-height="588"></article>
+                </div>
+            </div>
+        </div>
+    </body >
+</html>

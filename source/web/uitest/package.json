@@ -1,0 +1,23 @@
+{
+  "name": "@geogebra/uitest",
+  "version": "0.1.0",
+  "description": "Test automation suite for testing GeoGebra",
+  "author": "GeoGebra Group",
+  "files": [
+    "*.js"
+  ],
+  "devDependencies": {
+    "@geogebra/web-test-harness": "0.1.17",
+    "cypress": "^10.8.0",
+    "cypress-image-snapshot": "4.0.1",
+    "del": "^6.0.0",
+    "eslint": "^8.24.0",
+    "http-server": "14.1.1",
+    "jest-image-snapshot": "5.2.0",
+    "wait-on": "6.0.0"
+  },
+  "dependencies": {
+    "lighthouse": "^10.2.0",
+    "xml2js": "0.4.23"
+  }
+}

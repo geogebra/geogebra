@@ -1,0 +1,360 @@
+@use 'colors';
+$slider-diameter: 15px;
+
+.GeoGebraFrame {
+	box-sizing: content-box;
+	/* if set explicitly by parent style, text-size-adjust may break applet scaling on iOS */
+	-webkit-text-size-adjust: auto;
+
+	* {
+		margin: initial;
+		padding: initial;
+		border: initial;
+		outline: initial;
+		height: initial;
+		width: initial;
+		border-collapse: initial;
+		border-spacing: initial;
+		letter-spacing: normal;
+		font-weight: normal;
+		font-variant: normal;
+		font-stretch: normal;
+		font-kerning: auto;
+		text-decoration: none;
+		box-sizing: content-box;
+		text-shadow: none;
+		box-shadow: none;
+		min-height: initial;
+		min-width: initial;
+		text-align: initial;
+		background: initial;
+		line-height: initial;
+	}
+
+	.gwt-Button {
+		height: initial;
+		text-shadow: initial;
+	}
+
+	table tr, table td, img, li, input, button, input[type="number"], input[type="text"], ul {
+		margin: 0;
+		padding: 0;
+		margin: initial;
+		padding: initial;
+		border: initial;
+		outline: initial;
+		height: initial;
+		width: initial;
+		max-width: initial;
+		background-color: initial;
+		box-sizing: initial;
+		text-shadow: initial;
+		transition: initial;
+	}
+
+	strong {
+		font-weight: bold;
+	}
+
+	select, img {
+		display: initial;
+	}
+
+	div {
+		box-sizing: initial;
+	}
+
+	input[type="checkbox"] {
+		position: initial;
+		left: initial;
+		opacity: initial;
+		pointer-events: initial;
+	}
+
+	input[type="checkbox"] + label {
+		&:after, &:before {
+			content: none;
+		}
+		position: initial;
+		padding-left: initial;
+		cursor: initial;
+		display: initial;
+		height: initial;
+		line-height: initial;
+		font-size: initial;
+	}
+
+	table {
+		border-collapse: initial;
+		border-spacing: initial;
+		border-width: 0px;
+		background: initial;
+		table-layout: initial;
+	}
+
+	.thumb {
+		display: none;
+	}
+
+	.btn {
+		text-transform: initial;
+		line-height: initial;
+		box-shadow: initial;
+	}	
+
+	input:not([type]),
+	input[type=text],
+	input[type=password],
+	input[type=email],
+	input[type=url],
+	input[type=time],
+	input[type=date],
+	input[type=datetime],
+	input[type=datetime-local],
+	input[type=tel],
+	input[type=number],
+	input[type=search] {
+		&:focus:not([readonly]) {
+			border: initial;
+			box-shadow: initial;
+		}
+	}
+	
+	input[type=range]{
+		-webkit-appearance: none;
+		width: 129px; //default in Edge and Chrome
+	}
+	
+	input[type=range]::-webkit-slider-runnable-track {
+		height: 5px;
+		background-color: colors.$slider-track;
+		border: none;
+	}
+	
+	input[type=range]::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		border: none;
+		height: $slider-diameter;
+		width: $slider-diameter;
+		border-radius: 50%;
+		background-color: colors.$black;
+		transform-origin: 50% 50%;
+		margin: -5px 0 0 0;
+		transition: initial;
+		cursor: pointer;
+	}
+	
+	input[type=range]::-webkit-slider-thumb:hover {
+		height: 19px;
+		width: 19px;
+		margin: -7px 0 0 0;
+	}
+	
+	input[type=range]::-moz-range-thumb:hover {
+		height: 19px;
+		width: 19px;
+		margin: -7px 0 0 0;
+	}
+		
+	input[type=range]::-moz-range-track {
+		height: 5px;
+		background: colors.$slider-track;
+		border: none;
+	}
+	
+	input[type=range]::-moz-range-thumb {
+		border: none;
+		height: $slider-diameter;
+		width: $slider-diameter;
+		border-radius: 50%;
+		background: colors.$black;
+		margin-top: -5px;
+		cursor: pointer;
+	}
+	
+	// hide the outline behind the border
+	input[type=range]:-moz-focusring {
+		outline: 1px solid colors.$white;
+		outline-offset: -1px;
+	}
+	
+	input[type=range]:focus::-moz-range-track {
+		background: colors.$slider-track-focus;
+	}
+	
+	input[type=range]::-ms-track {
+		height: 5px;
+	
+		// remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead
+		background: transparent;
+	
+		// leave room for the larger thumb to overflow with a transparent border */
+		border-color: transparent;
+		border-width: 5px 0;
+	
+		/*remove default tick marks*/
+		color: transparent;
+	}
+	
+	input[type=range]::-ms-fill-lower {
+		background: colors.$slider-track;
+	}
+	
+	input[type=range]::-ms-fill-upper {
+		background: colors.$slider-track;
+	}
+
+	input[type=range]::-ms-thumb {
+		border: none;
+		height: $slider-diameter;
+		width: $slider-diameter;
+		border-radius: 50%;
+		background: colors.$black;
+	}
+	
+	input[type=range]:focus::-ms-fill-lower {
+		background: colors.$slider-track-focus;
+	}
+	
+	input[type=range]:focus::-ms-fill-upper {
+		background: colors.$slider-track-focus;
+	}
+	
+	/* Radio Buttons
+   ========================================================================== */
+
+// Remove default Radio Buttons
+[type="radio"]:not(:checked),
+[type="radio"]:checked {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
+
+.MaterialDialogBox .gwt-RadioButton [type="radio"] + label {
+	padding-left: 35px;
+}
+
+[type="radio"]:not(:checked) + label,
+[type="radio"]:checked + label {
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+  display: inline-block;
+  height: 25px;
+  line-height: 25px;
+  font-size: 1rem;
+  transition: .28s ease;
+
+  -khtml-user-select: none; /* webkit (konqueror) browsers */
+  user-select: none;
+}
+
+[type="radio"] + label:before,
+[type="radio"] + label:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 4px;
+  width: 16px;
+  box-sizing: border-box;
+  height: 16px;
+  z-index: 0;
+  transition: .28s ease;
+}
+
+/* Unchecked styles */
+[type="radio"]:not(:checked) + label:before,
+[type="radio"]:not(:checked) + label:after,
+[type="radio"]:checked + label:before,
+[type="radio"]:checked + label:after,
+[type="radio"].with-gap:checked + label:before,
+[type="radio"].with-gap:checked + label:after {
+  border-radius: 50%;
+}
+
+[type="radio"]:not(:checked) + label:before,
+[type="radio"]:not(:checked) + label:after {
+  border: 2px solid colors.$gray;
+}
+
+[type="radio"]:not(:checked) + label:after {
+  transform: scale(0);
+}
+
+/* Checked styles */
+[type="radio"]:checked + label:before {
+  border: 2px solid transparent;
+}
+
+[type="radio"]:checked + label:after,
+[type="radio"].with-gap:checked + label:before,
+[type="radio"].with-gap:checked + label:after {
+  border: #66f;
+}
+
+[type="radio"]:checked + label:after,
+[type="radio"].with-gap:checked + label:after {
+  background-color: #66f;
+}
+
+.MaterialDialogBox {
+	[type="radio"]:checked + label:after,
+[type="radio"].with-gap:checked + label:before,
+[type="radio"].with-gap:checked + label:after {
+  border: colors.$teal-light;
+}
+
+[type="radio"]:checked + label:after,
+[type="radio"].with-gap:checked + label:after {
+  background-color: colors.$teal-default;
+}
+}
+
+[type="radio"]:checked + label:after {
+  transform: scale(1.02);
+}
+
+/* Radio With gap */
+[type="radio"].with-gap:checked + label:after {
+  transform: scale(.5);
+}
+
+/* Focused styles */
+[type="radio"].tabbed:focus + label:before {
+  box-shadow: 0 0 0 10px rgba(0,0,0,.1);
+}
+
+/* Disabled Radio With gap */
+[type="radio"].with-gap:disabled:checked + label:before {
+  border: 2px solid colors.$gray;
+}
+
+[type="radio"].with-gap:disabled:checked + label:after {
+  border: none;
+  background-color: colors.$gray;
+}
+
+/* Disabled style */
+[type="radio"]:disabled:not(:checked) + label:before,
+[type="radio"]:disabled:checked + label:before {
+  background-color: transparent;
+  border-color: colors.$gray;
+}
+
+[type="radio"]:disabled + label {
+  color: colors.$gray;
+}
+
+[type="radio"]:disabled:not(:checked) + label:before {
+  border-color: colors.$gray;
+}
+
+[type="radio"]:disabled:checked + label:after {
+  background-color: colors.$gray;
+  border-color: colors.$gray;
+}
+	
+
+}

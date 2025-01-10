@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='web'>
+
+  <inherits name='org.geogebra.web.WebND'/>
+
+  <!-- Specify the app entry point class.                         -->
+  <entry-point class='org.geogebra.web.full2d.Web2D'/>
+  <source path='simple'/>
+  <source path='full2d'/>
+  <!-- Compile only one permutation -->
+  <collapse-all-properties />
+</module>

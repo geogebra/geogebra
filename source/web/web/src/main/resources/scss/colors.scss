@@ -1,0 +1,146 @@
+@use 'colorMap' as *;
+// PURPLE
+$purple-light: purple(100);
+$purple-default: purple(600);
+$purple-dark: purple(700);
+$purple-dark-26: rgba($purple-dark, 0.26);
+$purple-dark-87: rgba($purple-dark, 0.87);
+$purple-default-12: rgba($purple-default, 0.12);
+$purple-default-20: rgba($purple-default, 0.2);
+
+// CARROT
+$carrot-light: #EA9143;
+$carrot-default: #E67E22;
+$carrot-dark: #DB6114;
+// TEAL
+$teal-light: #4cb4a4;
+/* #59DAD9;*/
+$teal-default: #008475;
+/* #00A8A8;*/
+$teal-dark: #006758;
+/*#008475;*/
+$gray: #CCCCCC;
+$classic-toolbar-bg: #F8F8F8;
+$selected-tool-text: #333333;
+/* toolbar color in exam mode by cheating */
+$exam-red: #D32F2F;
+$exam-lock: #007AFF;
+
+$black: #000000;
+$transparent-white: rgba(255,255,255,0); // transparent white != transparent black when used in shadow
+$toolbar-header: #6161ff;
+$toolbar-header-dark10: #4848e6;
+$toolbar-header-light5: #6e6eff;
+$toolbar-header-light5-dark10: #5555e6;
+$toolbar-header-54: rgba(97,97,255,0.54);
+$toolbar-menu-hover: #ffff00;
+$tool-border: #dcdcdc;
+$burger-menu-border: #cccccc;
+$button-border: rgb(169, 169, 169);
+$marble-border: #ccccff;
+$input-border: #6161ff;
+$selected-menuitem-background: #eeeeee;
+$zoomBtnBckg: #525659;/*#777*/
+$snackbar-background: #212121;
+$toast-background: #757575;
+$popup-shadow: rgba(102,102,102,0.3); // used for dyn stylebar and preview point popup
+$material-black900: #212121;
+$focus-black: $material-black900;
+$white-5-overlay: #F5F5F5;
+$dialog-text-btn-hover: #6b6b6b;
+$disabled-contained-btn-bg: #E4E4E4;
+$disabled-contained-btn-col: rgba(0,0,0,0.38);
+$disabled-text-btn-col: rgba(0,0,0,0.38);
+$purple-highlight: #ebe7f8;
+$hover-calc-btn-bg: #e5e5e5;
+$mebis-text-btn-col: #277ea6;
+
+$red: rgb(255,0,0);
+$red-87: rgba(255,0,0,.87);
+$red-A400: #FF1744;
+$red-A400-87: rgba(255, 23, 68,.87);
+$error: rgb(176,0,32);
+$error-border: #ce5c71;
+$error-background: #F1D1D7;
+$white: rgb(255, 255, 255);
+$white-12: rgba(255,255,255,0.12);
+$white-25: rgba(255,255,255,0.25);
+$white-30: rgba(255, 255, 255, 0.3);
+$white-60: rgba(255, 255, 255, 0.6);
+$white-70: rgba(255, 255, 255, 0.7);
+$white-80: rgba(255, 255, 255, 0.8);
+$white-87: rgba(255, 255, 255, 0.87);
+$white-90: rgba(255, 255, 255, 0.9);
+$white-95: rgba(255, 255, 255, 0.95);
+
+$black-87: rgba(0,0,0,0.87);
+$black-60: rgba(0,0,0,0.60);
+$black-54: rgba(0,0,0,0.54);
+$black-50: rgba(0,0,0,0.50);
+$black-42: rgba(0,0,0,0.42);
+$black-38: rgba(0,0,0,0.38);
+$black-36: rgba(0,0,0,0.36);
+$black-30: rgba(0,0,0,0.3);
+$black-28: rgba(0,0,0,0.28);
+$black-24: rgba(0,0,0,0.24);
+$black-20: rgba(0,0,0,0.2);
+$black-19: rgba(0,0,0,0.19);
+$black-15: rgba(0,0,0,0.15);
+$black-14: rgba(0,0,0,0.14);
+$black-12: rgba(0,0,0,0.12);
+$black-10: rgba(0,0,0,0.1);
+$black-08: rgba(0,0,0,0.08);
+$black-04: rgba(0,0,0,0.04);
+
+$preview-border: rgba(51,51,51,.2);
+
+$text-primary: $black-87;
+$text-secondary: $black-54;
+$text-disabled: rgba(0,0,0,0.38);
+
+$text-light-primary: $white;
+$text-light-secondary: $white-70;
+
+$mow_purple: #a388d4;
+$mow_purple_dark: #673AB7;
+
+$slider-track: rgba(0, 0, 0, 0.4);
+$slider-track-focus: rgba(0, 0, 0, 0.6);
+
+// Customizable MOW colors
+:root {
+ --ggb-primary-color: #{$purple-default};
+ --ggb-primary-variant-color: #{$purple-light};
+ --ggb-dark-color: #{$purple-dark};
+ --ggb-light-color: #{$purple-light};
+ --ggb-selection-color: #{$purple-default-20};
+}
+
+$mow_primary: var(--ggb-primary-color);
+$mow_primary_variant:  var(--ggb-primary-variant-color);
+$mow_dark: var(--ggb-dark-color);
+$mow_light: var(--ggb-light-color);
+$mow_selection_color: var(--ggb-selection-color);
+
+$mow_grey_button: #f5f5f5;
+$mow_card_background: #fafafa;
+$mow_card_background_hover: #e5e5e5;
+
+$menu-focus-default: #ccf;
+
+$mow_pdf_dialog_border: #999999;
+$mow_pdf_left_right_hover: $mow_card_background_hover;
+
+$mow_material_card_bgd: $mow_card_background;
+$mow_white_hover: #f5f5f5;
+$teal-default-hover: #3DA196;
+$teal-default-20: rgba(0, 132, 117, 0.2);
+$tableview-header: #f5f5f5;
+$tableview-error: #b00020;
+$tableview-toast: #616161;
+$input-field-border: #d7d7d7;
+
+$switcher-off-track: #c5c5c5;
+$switcher-off-thumb: #f1f1f1;
+
+$cursor-overlay-select: #accef7;

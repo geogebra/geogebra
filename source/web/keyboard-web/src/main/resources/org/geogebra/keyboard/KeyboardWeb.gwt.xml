@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='mathkeyboard' >
+<inherits name='org.geogebra.Util'/>
+  <inherits name="org.gwtproject.user.Widgets"/>
+  <inherits name='org.geogebra.keyboard.KeyboardBase'/>
+  <inherits name='org.geogebra.Common'/>
+  <inherits name='org.geogebra.keyboard.KeyboardScientific'/>
+  <source path='web' />
+  <resource path='css' />
+  <resource path='common/icons' />
+  <collapse-all-properties />
+</module>

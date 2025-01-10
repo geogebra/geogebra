@@ -1,0 +1,356 @@
+@use 'colorMap' as *;
+
+$tab123-width: 644px;
+
+.GeoGebraFrame{
+
+	.matOpenKeyboardBtn {
+		position: absolute;
+		bottom: 8px;
+		height: 22px;
+		cursor: pointer;
+		text-align: center;
+		z-index: 99;
+
+		img {
+			width: 36px;
+			opacity: 0.54;
+		}
+	}
+
+	&.portrait.newToolbar .matOpenKeyboardBtn {
+		bottom: 64px;
+
+		&.cornerPosition {
+			bottom: 8px;
+		}
+	}
+
+	&.landscape.newToolbar .matOpenKeyboardBtn {
+		left: 72px;
+
+		&.cornerPosition {
+			left: 0;
+		}
+	}
+
+	&.landscape.newToolbar.small .matOpenKeyboardBtn {
+		left: 56px;
+
+		&.cornerPosition {
+			left: 0;
+		}
+	}
+
+	.matOpenKeyboardBtn:hover {
+		img {
+			opacity: 0.84;
+		}
+	}
+
+	.closeTabbedKeyboardButton {
+		position: relative;
+		float: right;
+		width: 24px;
+		height: 24px;
+		padding: 4px;
+		top: 0px;
+		margin: 4px 4px 4px 5px;
+		right: 0px;
+		cursor: pointer !important;
+		opacity: 0.54;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	.KeyBoard, .KeyBoard.gwt-PopupPanel {
+		border-radius: 0;
+		-webkit-border-radius: 0;
+		color: neutral("900");
+		box-shadow: none;
+		font-family: geogebra-sans-serif, sans-serif;
+		padding: 5px 0;
+	}
+
+	.KeyBoard {
+		position: relative;
+	}
+
+	.TabbedKeyBoard.KeyBoard {
+		padding-top: 0;
+		background-color: neutral("200");
+		box-shadow: 0px -2px 4px 0px #1C1C1F26;
+		
+		&.detached {
+			position: fixed;
+			left: 0;
+			will-change: transform;
+			z-index: 3000; /* more than $z-fullscreen-container in GGB */
+		}
+	}
+
+	.KeyPanelRow {
+		margin: 0 auto;
+		display: flex;
+		justify-content: center;
+	}
+
+	.KeyBoard .KeyBoardButton {
+		text-align: center;
+		line-height: inherit;
+		margin: 2px;
+		font-size: 120%;
+		cursor: pointer;
+		white-space: nowrap;
+		color: neutral("900");
+		display: block;
+		div {
+			text-align: center;
+			line-height: 24px;
+			max-height: 24px; /** needed for log_10 */
+		}
+
+		&.ripple:after {
+			background-image: radial-gradient(circle, #aaa 10%, transparent 10.01%);
+		}
+	}
+
+	.KeyBoard.TabbedKeyBoard .KeyBoardButton {
+		height: 40px;
+		background-color: white;
+		border-radius: 8px;
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+
+		img {
+			width: 24px;
+			height: 24px;
+		}
+
+		.small {
+			font-size: 80%;
+		}
+
+		&.colored{
+			background-color: neutral("400");
+		}
+
+		&.accentDown {
+			background-color: neutral("400");
+		}
+	}
+
+	.KeyBoardButton.supScript .gwt-Label {
+		margin-top: -4px;
+	}
+
+	.normal .KeyBoardButton {
+		width: 50px;
+	}
+
+	.KeyBoardButton:active {
+		box-shadow: inset 0 0 0 1px #7C7C7C;
+	}
+
+	.KeyBoardButton.backspace {
+		padding-top: 8px;
+		padding-bottom: 12px;
+	}
+
+	/* -- NUMBERS -- */
+	.normal .KeyBoardButton.backspace,
+	.normal .KeyBoardButton.enter {
+		width: 64px;
+	}
+
+	.normal .KeyBoardButton.arrow {
+		width: 20px;
+		padding-left: 9px;
+		padding-right: 11px;
+	}
+
+	.KeyBoardButton.greek {
+		font-family: greek, geogebra-sans-serif, sans-serif;
+	}
+
+	/* 
+	 * SCALE CONTENT OF KEYBOARD
+	 */
+
+	.scale .keyBoardClosePanel {
+		top: -25px;
+		right: 0;
+		width: 35px;
+		height: 25px;
+	}
+
+	.scale .KeyBoardButton {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.scale .KeyPanelControl {
+		padding-right: 0;
+	}
+
+	.scale.smallerFont {
+		font-size: 100% !important;
+	}
+
+	.scale.smallerFont .switchKeyboard {
+		font-size: 10pt;
+	}
+
+	.scale.smallerFont .KeyBoardContentNumbers .KeyBoardButton.colored {
+		font-size: 86% !important;
+	}
+
+
+	.scale.smallerFont .KeyBoardContentSpecialChars .KeyPanelFunction {
+		font-size: 75% !important;
+	}
+
+	.scale.smallerFont .KeyBoardButton.supScript .gwt-Label {
+		margin-top: -5px;
+	}
+
+	/** tabbed keyboard */
+	.KeyPanel{
+		margin: auto;
+	}
+
+	.KeyboardSwitcher {
+		position: relative;
+		width: 100%;
+		height: 40px;
+
+		.switcherContents {
+			max-width: $tab123-width;
+			margin-left: auto;
+			margin-right: auto;
+			white-space: nowrap;
+		}
+		
+		.gwt-Button {
+			color: neutral("900");
+			border-radius: 18px;
+			border: 0;
+			padding-left: 10px;
+			padding-right: 10px;
+			margin: 7px 4px 6px;
+			box-shadow: none;
+		}
+
+		.gwt-Button:active {
+			border: none;
+			background-color: transparent;
+		}
+	}
+
+	.scale.normal .KeyboardSwitcher .switcherContents {
+		font-size: 100% !important;
+	}
+	
+	.scale .KeyboardSwitcher .switcherContents {
+		padding: 0;
+	}
+
+	.scale .KeyboardSwitcher .gwt-Button {
+	}
+
+	.KeyboardSwitcher .switcherContents .moreKeyboardButton {
+		position: relative;
+		float: right;
+		width: 24px;
+		height: 24px;
+		padding: 4px;
+		margin: 4px 0px 4px 4px;
+		cursor: pointer !important;
+		opacity: 0.54;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	.KeyboardSwitcher .switcherContents .gwt-Button.selected {
+		background-color: purple("400");
+	}
+
+	.KeyboardSwitcher .switcherContents .gwt-Button.selected:hover {
+		color: neutral("900");
+	}
+
+	.KeyboardSwitcher .switcherContents > :first-child {
+		margin-left: -6px;
+	}
+
+	.scale .KeyboardSwitcher .switcherContents > :first-child {
+	}
+
+	.KeyboardSwitcher .gwt-Button:hover {
+		color: purple("600");
+		background-color: transparent;
+	}
+
+	.TabbedKeyBoard { 
+		z-index: 500; /* same as $z-dialog in GGB */
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+	}
+
+	.TabbedKeyBoard.animating {
+		animation-duration: 0.2s;
+		animation-name: addKeyBoard;
+		overflow: hidden;
+	}
+
+	.TabbedKeyBoard.animatingOut {
+		animation-duration: 0.2s;
+		animation-name: removeKeyBoard;
+		overflow: hidden;
+	}
+	
+	/* from https://github.com/Kvaibhav01/Ripple-without-JS */
+	.ripple {
+		position: relative;
+		overflow: hidden;
+		transform-style: preserve-3d;
+	}
+
+	.ripple:after {
+		content: "";
+		display: block;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		pointer-events: none;
+		background-repeat: no-repeat;
+		background-position: 50%;
+		transform: scale(10, 10);
+		opacity: 0;
+		transition: transform .1s, opacity 1s;
+	}
+
+	.ripple:active:after {
+		transform: scale(0, 0);
+		opacity: .3;
+		transition: 0s;
+	}
+
+	@keyframes addKeyBoard {
+		0% {max-height: 0px;}
+		100% {max-height: 228px;}
+	}
+
+	@keyframes removeKeyBoard {
+		0% {max-height: 228px;}
+		100% {max-height: 0px;}
+	}
+}

@@ -1,0 +1,14 @@
+<svg id="vector" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>vector</title>
+  <g>
+    <rect x="7" y="10" width="2" height="2"/>
+    <rect x="11" y="10" width="2" height="2"/>
+    <rect x="15" y="10" width="2" height="2"/>
+    <rect x="15" y="14" width="2" height="2"/>
+    <rect x="7" y="14" width="2" height="2"/>
+    <rect x="7" y="18" width="2" height="2"/>
+    <rect x="11" y="18" width="2" height="2"/>
+    <rect x="15" y="18" width="2" height="2"/>
+  </g>
+  <polygon points="21 4 17 1 17 3 5 3 5 5 17 5 17 7 21 4"/>
+</svg>

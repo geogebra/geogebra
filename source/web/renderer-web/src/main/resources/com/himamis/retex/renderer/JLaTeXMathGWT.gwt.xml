@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to="jlatexmath">
+
+  <inherits name="org.gwtproject.resources.Resources" />
+  <inherits name="org.gwtproject.user.Widgets" />
+  <inherits name="org.gwtproject.i18n.I18N" />
+  <inherits name="com.google.gwt.core.Core"/>
+  <inherits name="com.google.gwt.user.Excludes"/>
+  <inherits name="com.himamis.retex.renderer.JLaTeXMath" />
+  <inherits name='org.geogebra.GwtUtil'/>
+  <source path="web" />
+  <public path="web/jlatexmath/public" />
+  <define-property name="gwt.enableDebugId" values="true, false"/>
+  <set-property name="gwt.enableDebugId" value="false"/>
+  <define-property name="gwt.cspCompatModeEnabled" values="true, false"/>
+  <set-property name="gwt.cspCompatModeEnabled" value="false"/>
+</module>

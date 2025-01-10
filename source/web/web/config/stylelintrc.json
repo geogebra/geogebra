@@ -1,0 +1,19 @@
+{
+  "rules": {
+    "block-no-empty": true,
+    "color-no-invalid-hex": true,
+    "declaration-colon-space-after": "always",
+    "max-empty-lines": 2,
+    "unit-whitelist": ["em", "rem", "%", "s", "px", "ms", "vw", "cm"],
+    "rule-empty-line-before": [ "always", {
+      "except": ["first-nested"],
+      "ignore": ["after-comment", "inside-block"]
+    } ],
+    "property-no-unknown": true,
+    "no-extra-semicolons": true,
+    "selector-pseudo-class-no-unknown": true,
+    "selector-pseudo-element-no-unknown": true,
+    "selector-type-no-unknown": true,
+    "string-no-newline": true
+  }
+}

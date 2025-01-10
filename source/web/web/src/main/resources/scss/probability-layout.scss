@@ -1,0 +1,134 @@
+@use 'colors';
+@use 'z-index';
+
+.GeoGebraFrame {
+	.distrPanel {
+		.mathTextField {
+			border: none;
+			border-bottom: 1px colors.$black-42 solid;
+			margin-bottom: 1px;
+			border-radius: 0;
+			cursor: pointer;
+			padding-top: 0;
+
+			&:hover {
+				border-bottom-color: colors.$black-87;
+			}
+		}
+
+		.holder.focusState {
+			.mathTextField {
+				margin-bottom: 0;
+				border-bottom: 2px solid colors.$purple-default;
+			}
+			.gwt-Label {
+				color: colors.$purple-default;
+			}
+		}
+
+		.holder:hover:not(.focusState) {
+			.mathTextField {
+				border-bottom-color: colors.$black-87;
+			}
+
+			.gwt-Label {
+				color: colors.$black-87;
+			}
+		}
+
+		.holder.errorStyle,
+		.holder.errorStyle.focusState,
+		.holder.errorStyle:hover {
+			.gwt-Label {
+				color: colors.$error;
+			}
+
+			.mathTextField {
+				border-bottom-color: colors.$error;
+			}
+		}
+	}
+	.suiteDistrTab {
+		padding: 16px 0 0 16px;
+
+		.row {
+			margin-top: 20px;
+
+			.gwt-Label {
+				height: 48px;
+				line-height: 48px;
+				display: inline-block;
+			}
+
+			.switch {
+				margin: 12px 0;
+			}
+		}
+
+		.intervalsLbl {
+			font-size: 75%;
+			margin-top: 12px;
+		}
+
+		.intervalPanel {
+			padding: 0;
+		}
+
+		.ToggleButton {
+			padding: 7px;
+			border-radius: 2px;
+			margin-left: 0;
+			margin-right: 8px;
+			margin-bottom: 12px;
+		}
+
+		.parameterPanel {
+			display: inherit;
+
+			.holder {
+				margin: 0;
+			}
+
+			.gwt-Label {
+				margin: 8px 0 0 0;
+				font-size: 75%;
+				line-height: unset;
+			}
+
+			.mathTextField {
+				width: 100%;
+				margin: 8px 0 20px 0;
+				box-sizing: border-box;
+			}
+
+			.holder.focusState {
+				 .mathTextField {
+					margin-bottom: 19px;
+				}
+			}
+		}
+	}
+
+	.probCalcStylbarBtn.suite {
+		position: absolute;
+		right: 0px;
+		z-index: z-index.$z-on-top-of-graphics;
+		margin-top: 16px;
+		margin-right: 16px;
+		height: 24px;
+		padding: 6px;
+		border-radius: 50%;
+		transition: background-color 150ms ease 0ms;
+
+		&.selected, &:hover {
+			background-color: colors.$hover-calc-btn-bg;
+			img {
+				opacity: 0.84;
+			}
+		}
+
+		img {
+			opacity: 0.54;
+		}
+	}
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.geogebra.org/apps/deployggb.js"></script>
+    <script src="./geogebra-live.js"></script>
+    <title>GeoGebra Live conflict tester utility</title>
+</head>
+<body style="display: flex">
+<div id="ggbApplet0"></div>
+<div id="ggbApplet1"></div>
+<div id="ggbApplet2"></div>
+
+<script>
+    const userDatabase = [
+        {id:"0", name:'A', color: '#2E7D3280'},
+        {id:"1", name:'B', color: '#1565C080'},
+        {id:"2", name:'C', color: '#D32F2F80'},
+    ]
+
+    window.onload = function() {
+        window.liveApis = [];
+        window.apis = [];
+
+        let loaded = 0;
+
+        [0, 1, 2].forEach((n) => {
+            let eventBus = function(event) {
+                // dispatch events with a 1 second delay
+                setTimeout(() => {
+                    [0, 1, 2].filter(i => i !== n).forEach((i) => {
+                        liveApis[i].dispatch(event);
+                    })
+                }, 1000);
+            };
+
+            let parameters = {
+                "id": "ggbApplet" + n,
+                "width": 400,
+                "height": 400,
+                "showMenuBar": true,
+                "showAlgebraInput": true,
+                "showToolBar": true,
+                "customToolBar": "0 39 73 62 | 1 501 67 , 5 19 , 72 75 76 | 2 15 45 , 18 65 , 7 37 | 4 3 8 9 , 13 44 , 58 , 47 | 16 51 64 , 70 | 10 34 53 11 , 24  20 22 , 21 23 | 55 56 57 , 12 | 36 46 , 38 49  50 , 71  14  68 | 30 29 54 32 31 33 | 25 17 26 60 52 61 | 40 41 42 , 27 28 35 , 6",
+                "showToolBarHelp": false,
+                "showResetIcon": false,
+                "enableFileFeatures": false,
+                "enableLabelDrags": false,
+                "enableShiftDragZoom": true,
+                "enableRightClick": true,
+                "errorDialogsActive": false,
+                "useBrowserForJS": false,
+                "allowStyleBar": false,
+                "preventFocus": false,
+                "showFullscreenButton": true,
+                "appName": "notes",
+                "language": "en",
+                "multiuserApplet": true,
+                "showLogging": true,
+            };
+
+            parameters.appletOnLoad = function(api) {
+                console.log(`applet${n} loaded`);
+                apis[n] = api;
+                liveApis[n] = new GeoGebraLive(api, n);
+                userDatabase.forEach(function(user) {
+                    liveApis[n].addUser(user);
+                });
+                liveApis[n].addEventListener("construction", eventBus);
+
+                loaded++;
+                if (loaded == 3 && typeof onAppletsLoaded == "function") {
+                    onAppletsLoaded();
+                }
+            }
+
+            const applet = new GGBApplet(parameters, '5.0');
+            const codebase = location.href.replace(/\/[^\/]*$/, "/web3d");
+            applet.setHTML5Codebase(codebase);
+            applet.inject('ggbApplet' + n);
+        });
+    };
+</script>
+</body>
+</html>

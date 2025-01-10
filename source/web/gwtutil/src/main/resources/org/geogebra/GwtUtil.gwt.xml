@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+    <source path='gwtutil' />
+    <inherits name="elemental2.dom.Dom"/>
+    <inherits name="elemental2.core.Core"/>
+    <inherits name="elemental2.webstorage.WebStorage" />
+    <inherits name="elemental2.media.Media" />
+</module>

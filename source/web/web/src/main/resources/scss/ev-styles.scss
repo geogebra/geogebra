@@ -1,0 +1,702 @@
+@use 'colors';
+@use 'colorMap' as *;
+@use 'z-index';
+
+$fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
+
+.GeoGebraFrame {
+
+	.TitleBarPanel {
+		z-index: z-index.$z-on-top-of-graphics;
+	}
+
+	.graphicsControlsPanel {
+		left: auto !important;
+		z-index: z-index.$z-on-top-of-graphics;
+	}
+
+	.flatButton.graphicsContextMenuBtn {
+		margin-top: 10px;
+		margin-right: 10px;
+		position: relative;
+		right: 0px;
+		border-radius: 50%;
+		transition: background-color 150ms ease 0ms;
+		img {
+			opacity: 0.54;
+		}
+
+		&:hover {
+			img {
+				opacity: 0.84;
+			}
+		}
+
+		&.mow:hover {
+			background-color: colors.$mow_card_background_hover;
+			img {
+				opacity: 1;
+			}
+		}
+	}
+
+	.flatButton.keyboardFocus:focus{
+		outline: colors.$focus-black 5px auto;
+	}
+
+	/*dyn stylebar*/
+	.matDynStyleBar {
+		// popup has 500
+		z-index: z-index.$z-dialog-under-keyboard;
+		position: absolute;
+		border-radius: 2px;
+		padding: 8px 4px 8px 16px;
+		background-color: colors.$white;
+		box-shadow: 0 0 2px 1px colors.$popup-shadow;
+
+		&.noContextBtn {
+			padding: 8px 0px 8px 8px;
+		}
+
+		/*stylebar btn*/
+		.IconButton {
+			text-align: center;
+			border-radius: 2px;
+			border: neutral(500) solid 1px;
+			background-color: colors.$white;
+			width: 24px;
+			height: 24px;
+			margin-left: 0px;
+			margin-right: 8px;
+			cursor: pointer;
+
+			img , .buttonContent {
+				opacity: 0.7;
+			}
+		}
+
+		.btnBold,.btnItalic {
+			border-radius: 2px;
+			margin-left: 0px;
+			margin-right: 8px;
+
+			img {
+				opacity: 0.7;
+			}
+
+			&:hover, &:focus {
+				border: colors.$purple-default solid 1px;
+			}
+
+			&.gwt-ToggleButton-down {
+				border: colors.$purple-default solid 1px;
+			}
+		}
+
+		.matDynStyleContextButton {
+			margin-right: 0px !important;
+			margin-left: 0px !important;
+			border: none !important;
+
+			&.noOpacity, &.noOpacity:hover {
+				img {
+					opacity: 1 !important;
+				}
+			}
+
+			&:hover img {
+				opacity: 1 !important;
+			}
+
+		}
+	}
+
+	.mowDynStyleBar.matDynStyleBar.noContextBtn{
+		padding: 8px 0px 8px 8px;
+
+		.IconButton.delete {
+			margin-right: -12px;
+		}
+	}
+
+	/* text size popup */
+	.textSizePopupPanel {
+		border-radius: 2px;
+		padding: 8px 0px 8px 0px;
+		margin: 0px;
+
+		.matSelectionTable {
+			border-collapse: separate;
+			border-spacing: 0px 0px;
+
+			.gwt-Label {
+				padding: 0px 16px 0px 16px;
+				height: 24px;
+				line-height: 24px;
+
+				&:hover {
+					background-color: colors.$selected-menuitem-background;
+				}
+			}
+		}
+
+	}
+
+	/*dyn stylebar popup panel*/
+	.matPopupPanel {
+		border-radius: 2px;
+		padding: 5px !important;
+		background-color: colors.$white;
+		box-shadow: 0 0 2px 1px colors.$tool-border;
+		z-index: z-index.$z-dialog-over-keyboard;
+		min-height: 30px;
+
+		.ButtonPopupMenu .panelRow2.showSlider {
+			display: inline-block;
+			 width: 144px;
+		}
+
+		.ButtonPopupMenu .panelRow2.hideSlider {
+			display: none;
+		}
+
+		/*slider panel*/
+		.ButtonPopupMenu .panelRow2 {
+			padding-bottom: 8px;
+			padding-top: 8px;
+
+			/*slider label*/
+			.popupSliderLabel {
+				margin: 0px 10px;
+				cursor: default;
+			}
+			/*slider*/
+			input[type=range] {
+				padding: 5px 0;
+				margin: 0px 0px 0px 8px;
+				width: calc(100% - 56px);
+				cursor: pointer;
+			}
+			.opacityLabel {
+				display: block;
+				margin-bottom: 15px;
+				margin-left: 5px;
+				margin-top: 5px;
+				cursor: default;
+			}
+			.thicknessLabel {
+				display: block;
+				margin-bottom: 10px;
+				margin-left: 5px;
+				margin-top: 5px;
+				cursor: default;
+			}
+			.pointSizeLabel {
+				display: block;
+				margin-left: 5px;
+				margin-top: 5px;
+				cursor: default;
+			}
+			.preview{
+				margin: 3px 0px 3px 12px;
+			}
+		}
+
+		.labelPopupPanel {
+			padding: 8px 8px;
+			width: 192px;
+
+			.panelRow {
+				height: 32px !important;
+				display: flex;
+				.gwt-Label {
+					line-height: 30px;
+					cursor: default;
+				}
+
+				.AutoCompleteTextFieldW {
+					width: 134px;
+					margin: 0px !important;
+					border-radius: 2px;
+
+					.TextField {
+						padding: 2px;
+						padding-left: 8px;
+						margin-bottom: 2px;
+						border: none;
+						border-bottom: 1px solid #dcdcdc;
+						background: transparent;
+						box-shadow: none;
+						border-radius: 0px !important;
+					}
+				}
+			}
+
+			.checkMarkMenuItem {
+				cursor: pointer;
+				display: flex;
+				.gwt-HTML {
+					line-height: 32px;
+				}
+				img {
+					opacity: 0.54;
+					position: absolute;
+					right: 8px;
+					padding: 4px;
+				}
+			}
+		}
+	}
+
+	/*point/line style table*/
+	.matSelectionTable {
+
+			border-collapse: separate;
+			border-spacing: 8px 8px;
+
+			td {
+				padding: 0px;
+			}
+
+			.gwt-Label {
+				margin: 0px;
+			}
+
+			.gwt-Label.border {
+				border-radius: 2px;
+			}
+
+			 .gwt-Label.borderButton {
+				border: 1px solid;
+				border-radius: 2px;
+				height: 24px;
+				width: 24px;
+
+				&:hover {
+					opacity: 0.65;
+				}
+
+				&.plusButton {
+					border: colors.$black-30 solid 1px;
+					opacity: 0.54;
+
+					&:hover {
+						opacity: 1;
+						background-color: colors.$white-90;
+					}
+				}
+			 }
+	}
+
+	.graphicsWithSpotlight .overlayGraphics {
+		z-index: z-index.$z-spotlight-graphics;
+	}
+
+	.pointerEventsNoneWhenDragging {
+		pointer-events: none;
+	}
+
+	.zoomPanel {
+		position: absolute;
+		cursor: default;
+		top: auto !important;
+		left: auto !important;
+		z-index: z-index.$z-on-top-of-graphics;
+		will-change: transform;
+		user-select: none;
+
+		.zoomPanelBtn {
+			display: block;
+			position: relative;
+			width: 36px;
+			height: 36px;
+			margin-bottom: 8px;
+			background-color: colors.$white;
+			border-radius: 50%;
+			box-shadow: 0 1px 3px 0 colors.$black-20, 0 1px 1px 0 colors.$black-14, 0 2px 1px -1px colors.$black-12;
+			cursor: pointer;
+			transition: background-color 150ms ease 0ms;
+
+			img {
+				padding: 6px;
+				opacity: 0.54;
+			}
+
+			&:hover {
+				background-color: neutral(200);
+
+				img {
+					opacity: 1;
+				}
+			}
+
+			&.keyboardFocus:focus-visible {
+				outline-color: var(--ggb-dark-color);
+				outline-width: 2px;
+				outline-style: solid;
+				outline-offset: 3px;
+			}
+		}
+		.zoomPanelBtnSmall img {
+			padding: 8px;
+		}
+		.zoomPanelHomeIn {
+			opacity: 1;
+			visibility: visible;
+			transition: all 0.2s ease;
+		}
+
+		.zoomPanelHomeOut {
+			cursor: default;
+			opacity: 0;
+			visibility: hidden;
+			transition: all 0.2s ease;
+
+			img {
+				opacity: 0;
+			}
+
+			&:hover, &:focus {
+				background-color: neutral(200);
+
+				img {
+					opacity: 0;
+				}
+			}
+
+		}
+	}
+	.zoomPanelPosition {
+		bottom: 8px !important;
+		right: 16px !important;
+	}
+
+	.zoomPanelForFullscreenAV {
+		bottom: 60px !important;
+		right: 16px !important;
+		transition: $fullscreenBtn-transition;
+	}
+
+	.zoomPanelForFullscreenAVMoveUpNoMoveBtn {
+		bottom: 80px !important;
+		right: 16px !important;
+		transition: $fullscreenBtn-transition;
+	}
+
+	.zoomPanelForFullscreenAVMoveUp {
+		bottom: 140px !important;
+		right: 16px !important;
+		transition: $fullscreenBtn-transition;
+	}
+
+	.zoomPanelWithPageControl {
+		margin-bottom: 64px;
+		right: 22px !important;
+	}
+
+	.undoRedoPanel {
+		padding-left: 12px;
+		margin-top: 4px;
+		position: absolute;
+		z-index: z-index.$z-on-top-of-graphics;
+		&.withTransition {
+			transition: left 0.2s;
+		}
+
+		.flatButton {
+			display: inline-block;
+		}
+
+		.hideButton {
+			display: none;
+		}
+	}
+
+	.undoRedoPosition {
+		top: 0px;
+		.flatButton {
+			border-radius: 50%;
+			transition: background-color 150ms ease 0ms;
+
+			&.buttonActive:hover {
+				img {
+					opacity: 1;
+				}
+				background-color: colors.$mow_card_background_hover;
+			}
+		}
+	}
+
+	input[type="text"], input[type="number"], .gwt-TextBox,
+	select, textarea,
+	.gwt-TextArea, .gwt-SuggestBox,
+	.objectPropertiesTextEditor {
+		border: #DCDCDC solid 1px;
+		background: #FFFFFF;
+		padding: 4px 5px;
+		color: neutral(900);
+		border-radius: 5px;
+		box-sizing: border-box;
+		font-size: 100%;
+		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+		box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
+	}
+
+	input[type="text"],
+	input[type="number"],
+	.gwt-TextBox,
+	textarea,
+	.gwt-TextArea {
+		&:focus,&:focus:not([readonly]){
+			border: 1px #6161FF solid;
+		}
+	}
+
+	/*============ AutocompleteTextFieldW =======*/
+
+	.InputPanel .html-face, .AutoCompleteTextFieldW .html-face {
+		cursor: hand;
+		cursor: pointer;
+	}
+
+	.AutoCompleteTextFieldW {
+		box-sizing: border-box;
+		position: relative;
+	}
+
+	.AutoCompleteTextFieldW .TextField {
+		display: inline-block;
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		padding-left: 5px;
+		padding-right: 5px;
+		/*width: 100% !important;*/
+	}
+
+	.AutoCompleteTextFieldW.FromDrawTextFieldNew {
+		line-height: 70%;
+	}
+
+	.AutoCompleteTextFieldW.FromDrawTextFieldNew input[type="text"].TextField {
+		padding-left: 2px;
+		padding-right: 2px;
+		height: inherit;
+	}
+
+	.mathTextField.errorStyle {
+		border: 2px colors.$error dashed;
+	}
+
+	.evInputEditor.errorStyle {
+		border: 2px colors.$error-border dashed;
+		background-color: colors.$error-background;
+	}
+
+	.AutoCompleteTextFieldW.FromDrawTextField .TextField {
+		margin: 0px;
+	}
+
+	.InputTreeItem .hasCursorPermanent {
+		border-color: #DCDCDC;
+	}
+
+	/* Slider top row: no extra padding*/
+	.gwt-TreeItem .noPadding{
+		padding-left: 0;
+	}
+
+	.NoHorizontalScroll .InputTreeItem .hasCursorPermanent {
+		border-color: #6161FF;
+	}
+
+	.SymbolToggleButton {
+		width: 20px;
+		height: 20px;
+		line-height: 20px;
+		text-align: center;
+		display: none;
+	}
+
+	.AutoCompleteTextFieldW .SymbolToggleButton {
+		position: absolute;
+		right: 0.6em;
+		top: 50%;
+		margin-top: -0.66em;
+	}
+
+	.advanced-TextButtonPanel .AutoCompleteTextFieldW .SymbolToggleButton {
+		right: 1.6em;
+	}
+
+	.AutoCompleteTextFieldW.SymbolCanBeShown input:focus+.SymbolToggleButton {
+		display: inline-block;
+	}
+
+	.AutoCompleteTextFieldW.SymbolCanBeShown input:focus.TextField {
+		padding-right: 40px;
+	}
+
+	/* avoid 'x' in IE */
+	input[type="text"]::-ms-clear {
+		display: none;
+	}
+
+	.SymbolTablePopup {
+		z-index: z-index.$z-dialog-over-keyboard;
+		background-color: colors.$white;
+		border-radius: 0px;
+		padding: 16px;
+		-webkit-box-shadow: 0 2px 10px rgba(0,0,0,.2);
+		box-shadow: 0 2px 10px rgba(0,0,0,.2);
+
+		.SymbolTable tr {
+			cursor: pointer;
+		}
+
+		.SymbolTable td {
+			padding: 8px;
+			text-align: center;
+		}
+
+		.SymbolTable td:hover, .GeoGebraFrame .SymbolTable td.focus {
+			background: colors.$white;
+			color: colors.$teal-light;
+		}
+	}
+
+	.mathTextField, .evInputEditor {
+		padding-top: 0px;
+		padding-left: 0px;
+		border-radius: 4px;
+		overflow: hidden;
+	}
+
+	.mathTextField.disabled {
+		background-color: rgb(240,240,240);
+	}
+
+	.evInputEditor {
+		position: absolute;
+		border: 2px solid purple(600);
+	}
+
+	.accessibilityView {
+		position: absolute;
+		top: 0;
+		pointer-events: none;
+
+		.gwt-Button, .gwt-Label {
+			color: transparent;
+			border: transparent;
+		}
+	}
+
+	.accessibilityControl {
+		opacity: 0.01;
+		position: fixed;
+		width: 1px;
+		height: 1px;
+		overflow: scroll;
+	 }
+
+	.accessibleInput {
+		width: 20px;
+		height: 20px;
+		z-index: z-index.$z-accessible-input;
+		position: absolute;
+	}
+
+	input[type="text"].accessibleInput {
+		max-width: 5px;
+		padding: 0;
+	}
+
+	.invisible {
+		visibility: hidden;
+	}
+
+	.tooltipChip {
+		position: absolute;
+		display: inline-flex;
+		padding: 2px 4px;
+		border-radius: 16px;
+		font-size: 12px;
+		align-items: center;
+		cursor: default;
+		height: 18px;
+		box-sizing: border-box;
+		z-index: z-index.$z-on-top-of-graphics;
+	}
+	.mathFieldEditor {
+		will-change: transform;
+	}
+
+	.graphicsResetIcon {
+		padding-top: 10px;
+		padding-right: 10px;
+	}
+
+	.cursorOverlay {
+		z-index: z-index.$z-on-top-of-graphics;
+		padding: 2px;
+		width: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
+		pointer-events: none;
+		display: flex;
+		align-items: center;
+		box-sizing: border-box;
+		overflow: hidden;
+		.gwt-InlineLabel {
+			color: inherit;
+			font-size: inherit;
+		}
+		.virtualCursor {
+			font-size: inherit;
+			margin-left: -2px;
+			animation: blink 1s steps(2) infinite;
+			color: purple(600);
+		}
+		.select-content {
+			background: colors.$cursor-overlay-select;
+		}
+
+		user-select: none;
+	}
+
+	.withCursorOverlay input {
+		color: transparent;
+		user-select: none; /* standard */
+		pointer-events: none;
+	}
+
+
+	@keyframes blink {
+		0% {opacity: 0}
+	}
+}
+
+/* Outside of GeoGebraFrame */
+.GeoGebraFullscreenContainer {
+	background-color: black;
+	top: 0px;
+	left: 0px;
+	z-index: z-index.$z-fullscreen-container;
+}
+
+.gbox {
+	will-change: transform;
+	z-index: z-index.$z-on-top-of-graphics;
+}
+
+.ggbLightBox {
+	width: 80%;
+	height: 80%;
+	position: fixed;
+	top: 10%;
+	left: 10%;
+	border: 7px solid rgba(0, 0, 0, 0.5);
+	background: #FFF;
+	z-index: 100000000;
+}

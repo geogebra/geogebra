@@ -1,0 +1,293 @@
+@use 'colors';
+@use 'colorMap' as *;
+
+.GeoGebraFrame {
+	
+	// command suggestion popup in AV
+	.gwt-SuggestBoxPopup.ggb-AlgebraViewSuggestionPopup.matDesign {
+		border-radius: 2px;
+		padding: 8px 16px;
+		font-size: 80%;
+		background-color: white;
+		box-shadow: 0 0 2px 1px colors.$popup-shadow;
+
+		.item {
+			height: 16px;
+			padding: 8px 0px;
+			cursor: pointer;
+
+			&.selectedItem {
+				color: colors.$teal-default;
+			}
+		}
+	}
+	
+	// help popup with command list
+	.gwt-PopupPanel.helpPopupAV.GeoGebraPopup.matDesign,
+		.gwt-PopupPanel.GeoGebraPopup.matDesign.helpPopupAVBottom {
+		border-radius: 2px;
+		padding: 8px;
+		font-size: 80%;
+		background-color: white;
+		box-shadow: 0 0 2px 1px colors.$popup-shadow;
+
+		.inputHelp-CancelBtn,
+			.inputHelp-OnlineHelpBtn {
+			text-decoration: none;
+			text-align: center;
+			color: colors.$teal-default;
+			min-width: 64px;
+			height: 36px;
+			border-radius: 2px;
+			padding: 0px 8px;
+			border: none;
+			box-shadow: none;
+			font-size: 100%;
+			cursor: pointer;
+
+			&:hover,&:active {
+				background: colors.$black-10 !important;
+				color: colors.$teal-dark;
+			}
+		}
+
+		.inputHelp-leaf {
+			font-size: 90%;
+
+			&:hover {
+				background: colors.$selected-menuitem-background;
+			}
+		}
+
+		.inputHelp-functionTable {
+			.gwt-Label {
+				font-size: 90%;
+			}
+		}
+
+	}
+
+	// preview point popup
+	.previewPointsPopup {
+		background: white;
+		border-radius: 2px;
+		padding-left: 8px;
+		padding-right: 8px;
+		font-size: 90%; // 14px
+		box-shadow: 0 0 2px 1px colors.$popup-shadow;
+		white-space: nowrap;
+		
+		.gwt-Label {
+			text-align: center;
+		}
+	}
+
+	.lineThicknessPopup {
+		width: 152px;
+		padding: 8px 0px;
+	}
+
+	.lineThicknessItem {
+				display: flex;
+				height: 24px;
+
+				&:hover {
+					background-color: colors.$selected-menuitem-background;
+					cursor: pointer;
+				}
+
+				.checkImg {
+					opacity: 0;
+					margin: 0px 16px;
+
+					&.selected {
+						opacity: 0.7;
+					}
+				}
+
+				.linePreview {
+					width: 80px;
+					background-color: #757575;
+
+					&.thin {
+						height: 1px;
+						margin: 12px 0px;
+					}
+
+					&.thick {
+						height: 3px;
+						margin: 11px 0px;
+					}
+				}
+			}
+
+	.borderStylePopup {
+		tbody {
+			display: flex;
+		}
+
+		.divider {
+			width: 1px;
+			background-color: colors.$tool-border;
+			height: 24px;
+			margin: 6px 0px 6px 4px;
+		}
+
+		.borderThicknessBtn {
+			width: 44px;
+			height: 32px;
+			margin: 2px 0px 0px 8px;
+			cursor: pointer;
+			border-radius: 2px;
+
+			&:hover, &.active {
+				background-color: colors.$selected-menuitem-background;
+			}
+
+			.penImg {
+				margin: 4px 0px;
+			}
+
+			img {
+				opacity: 0.7;
+			}
+		}
+	}
+
+	//suite app picker popup
+	.appPickerPopup {
+			min-width: 244px;
+			border-radius: 2px;
+			box-shadow: 0px 2px 4px -1px colors.$black-20, 0px 4px 5px 0px colors.$black-14, 0px 1px 10px 0px colors.$black-12;
+			padding: 8px 0 8px 0;
+
+			.appPickerRow {
+				height: 48px;
+				min-width: 244px;
+				cursor: pointer;
+				display: flex;
+
+				&:hover {
+					background-color: neutral(200);
+				}
+			}
+
+			.appPickerLabel {
+				font-size: 100%;
+				height: 24px;
+				line-height: 24px;
+				padding: 12px 24px 12px 20px;
+				cursor: pointer;
+			}
+
+			.appIcon {
+				margin: 12px 0 12px 24px;
+			}
+	}
+
+	.borderColPopup {
+		padding: 8px 0px;
+
+		.thicknessPanel {
+            padding-bottom: 8px;
+            border-bottom: 1px solid colors.$tool-border;
+
+            .textItem {
+            	.gwt-Label {
+            		line-height: 24px;
+            	}
+            }
+
+            .linePreview {
+            	width: 112px;
+            }
+		}
+
+		.matSelectionTable {
+			margin: 8px 8px 0px 8px;
+		}
+	}
+
+	.autoCompletePopup {
+		max-height: 232px;
+		min-width: 192px;
+		max-width: 320px;
+		overflow-y: auto;
+	}
+
+	.autocompleteSyntaxHeading {
+		display: flex;
+		border-bottom: 1px colors.$black-12 solid;
+		padding: 4px 8px 4px 16px;
+		align-items: center;
+
+		.gwt-Label {
+			flex-grow: 1;
+			line-height: 24px;
+			height: 24px;
+		}
+
+		.button {
+			padding: 4px;
+			margin-left: 16px;
+			height: 32px;
+			box-sizing: border-box;
+		}
+
+		.gwt-Image {
+			opacity: 0.54;
+			&:hover {
+				opacity: 0.87;
+			}
+		}
+	}
+
+	.autocompleteSyntaxContent {
+		padding-top: 8px;
+		font-size: 87.5%;
+		overflow: auto;
+		max-height: 257px - 80px;
+	}
+
+	.submenuWithHeading {
+		min-width: 192px;
+		max-width: 560px;
+	}
+
+	.profilePopup {
+		min-width: 160px;
+		max-width: 280px;
+
+		.profileItem {
+			height: 40px;
+			margin-bottom: 12px;
+			background: transparent;
+			cursor: default;
+
+			.profileImage {
+				width: 40px;
+				height: 40px;
+				padding: 0;
+				opacity: 1;
+				margin: 0 0 0 12px;
+				border-radius: 50%;
+			}
+
+			.gwt-Label {
+				height: 20px;
+				line-height: 20px;
+				padding: 10px 0 10px 8px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+		}
+
+		.menuSeparator {
+			width: 100%;
+		}
+	}
+
+	.gwt-PopupPanel.profilePopup .listMenuItem {
+		min-width: 160px;
+	}
+}

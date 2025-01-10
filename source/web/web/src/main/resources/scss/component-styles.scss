@@ -1,0 +1,1311 @@
+@use 'colors';
+@use 'z-index';
+@use 'header';
+@use 'colorMap' as *;
+
+.GeoGebraFrame {
+
+	.floatingActionButton.keyboardFocus:focus-visible {
+		outline-color: var(--ggb-dark-color);
+		outline-width: 2px;
+		outline-style: solid;
+		outline-offset: 3px;
+	}
+
+	/* CHECKBOX COMPONENT */
+	@mixin checkboxBg($color) {
+		.background {
+			border-color: $color;
+			background-color: $color;
+		}
+	}
+
+	.checkboxPanel {
+		display: inline-flex;
+		width: fit-content;
+		cursor: pointer;
+
+		.checkboxLbl {
+			height: auto;
+			min-height: 20px;
+			line-height: 20px;
+			margin-left: 20px;
+			margin-top: 8px;
+			margin-bottom: 8px;
+			font-size: 100%;
+
+			&.disabled {
+				cursor: default;
+				color: neutral(500);
+			}
+		}
+	}
+
+	.checkbox {
+		width: 36px;
+		height: 36px;
+		position: relative;
+		cursor: pointer;
+
+		.background {
+			position: absolute;
+			top: 9px;
+			left: 9px;
+			width: 18px;
+			height: 18px;
+			box-sizing: border-box;
+			border: 2px solid;
+			border-radius: 2px;
+			border-color: neutral(700);
+			background-color: transparent;
+			transition: border-color 180ms cubic-bezier(0,0,.2,1) 0ms,background-color 180ms cubic-bezier(0,0,.2,1) 0ms;
+		}
+
+		.checkmark {
+			position: absolute;
+			left: 11px;
+			top: 10px;
+			width: 14px;
+			height: 14px;
+			visibility: hidden;
+
+			.checkmarkSvg {
+				-webkit-transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
+				transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
+				-o-transition: opacity .18s 0ms cubic-bezier(0,0,.2,1),transform .18s 0ms cubic-bezier(0,0,.2,1);
+				transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,transform .18s cubic-bezier(0,0,.2,1) 0ms;
+				transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,transform .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
+				opacity: 1;
+			}
+
+			.checkmarkPath {
+				-webkit-transition: stroke-dashoffset .18s cubic-bezier(.4,0,.6,1) 0ms;
+				-o-transition: stroke-dashoffset .18s 0ms cubic-bezier(.4,0,.6,1);
+				transition: stroke-dashoffset .18s cubic-bezier(.4,0,.6,1) 0ms;
+				stroke: white;
+				stroke-width: 3.12px;
+				stroke-dashoffset: 29.7833385;
+				stroke-dasharray: 29.7833385;
+			}
+		}
+
+		.hoverBg {
+			display: inline-block;
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			background-color: white;
+			opacity: 0;
+
+			&:after {
+				background-image: radial-gradient(circle, black 10%, transparent 10.01%);
+			}
+		}
+
+		&.selected {
+			@include checkboxBg(colors.$mow_primary);
+
+			.hoverBg {
+				&:after {
+					background-image: radial-gradient(circle, colors.$purple-default 10%, transparent 10.01%);
+				}
+			}
+
+			&:hover {
+				.hoverBg {
+					opacity: 1;
+					background-color: var(--ggb-selection-color);
+				}
+			}
+
+			.checkmark {
+				visibility: visible;
+
+				.checkmarkPath {
+					stroke-dashoffset: 0;
+				}
+			}
+		}
+
+		&:hover {
+			.hoverBg {
+				opacity: 1;
+				background-color: colors.$black-08;
+			}
+		}
+
+		&.disabled {
+			cursor: default;
+
+			.hoverBg {
+				&:after {
+					background-image: none;
+				}
+			}
+
+			&:hover {
+				.hoverBg {
+					background-color: transparent;
+				}
+			}
+
+			.background {
+				border-color: neutral(500);
+			}
+
+			&.selected {
+				.background {
+					background-color: neutral(500);
+					border-color: transparent;
+				}
+			}
+		}
+	}
+
+	.accented .checkbox.selected {
+		@include checkboxBg(colors.$teal-default);
+	}
+
+	/* SWITCHER COMPONENT */
+	@mixin switcherBg($colTrack, $colThumb) {
+		.track {
+			background-color: $colTrack;
+		}
+		.thumb {
+			background-color: $colThumb;
+		}
+	}
+
+	.switch {
+		width: 40px;
+		height: 24px;
+		margin-right: 16px;
+		position: relative;
+		float: right;
+		cursor: pointer;
+
+		.track {
+			content: "";
+			display: inline-block;
+			position: relative;
+			width: 36px;
+			height: 14px;
+			border-radius: 15px;
+			-webkit-transition: background 0.3s ease;
+			transition: background 0.3s ease;
+			vertical-align: middle;
+		}
+
+		.thumb {
+			width: 20px;
+			height: 20px;
+			position: relative;
+			top: -18px;
+			border-radius: 50%;
+			display: block;
+			box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+			transition: left 0.3s ease, background 0.3s ease;
+		}
+
+		&.on {
+			@include switcherBg(colors.$mow_light, colors.$mow_primary);
+
+			.thumb {
+				left: 16px;
+			}
+		}
+
+		&.off {
+			@include switcherBg(colors.$switcher-off-track, colors.$switcher-off-thumb);
+
+			.thumb {
+				left: 0px;
+			}
+		}
+	}
+
+	/* INPUT TEXT FIELD COMPONENT */
+	.inputTextField {
+		width: 100%;
+		margin-top: 8px;
+		margin-bottom: 8px;
+		display: inline-block;
+		min-height: 68px;
+
+		.inputLabel {
+			font-size: 75%;
+			height: 12px;
+			line-height: 100%;
+			display: block;
+		}
+
+		&.error {
+			.inputLabel {
+				color: colors.$error;
+			}
+
+			.AutoCompleteTextFieldW {
+				border-bottom-color: colors.$error;
+			}
+		}
+
+		.textField {
+			margin-top: 8px;
+		}
+
+		.AutoCompleteTextFieldW {
+			margin-bottom: 7px; // 8 - border
+			border-radius: 0px;
+			border: none;
+			border-bottom: 1px solid neutral(500);
+
+			input[type="text"] {
+				border: none !important;
+				box-shadow: none !important;
+				height: 28px; // 20px text container + 8px bottom padding
+				margin: 0px;
+				padding: 0px 0px 8px 0px;
+			}
+		}
+
+		.errorLabel {
+			color: colors.$error;
+			font-size: 75%;
+			height: 12px;
+			line-height: 100%;
+		}
+
+		&.focusState {
+			.AutoCompleteTextFieldW {
+				margin-bottom: 6px; // 8 - border
+				border-bottom-width: 2px;
+			}
+		}
+
+		&.focusState:not(.error), &.focusState:not(.error):hover {
+
+			.inputLabel {
+				color: purple(600);
+			}
+			.AutoCompleteTextFieldW {
+				border-bottom-color: purple(600);
+			}
+		}
+
+		&.hoverState:not(.error) {
+
+			.inputLabel {
+				color: neutral(900);
+			}
+
+			.AutoCompleteTextFieldW {
+				border-bottom: 2px solid neutral(900);
+			}
+		}
+	}
+
+	// in case the last input field shouldn't have any bottom margin
+	.noBottomMarg {
+		.inputTextField {
+			margin-bottom: 0px;
+		}
+	}
+
+	.buttonActive {
+		position: relative;
+
+		img {
+			opacity: 0.54;
+		}
+
+		&:hover {
+			img {
+				opacity: 0.84;
+			}
+		}
+	}
+
+	/* DROPDOWN COMPONENT */
+	.dropDownSelectorContainer {
+		max-width: 200px;
+   }
+
+	.dropDownSelector {
+		position: relative;
+		height: 64px;
+
+		.titleLabel {
+			font-size: 100%;
+			width: 100%;
+			height: 24px;
+			padding-top: 10px;
+			white-space: nowrap;
+		}
+
+		.selectedOptionLabel {
+			font-size: 87.5%;
+			height: 20px;
+			padding-bottom: 10px;
+			color: colors.$black-60;
+		}
+	}
+
+	.dropDownPopup {
+		overflow-y: auto;
+		opacity: 0;
+		transform: scale(0.8);
+		will-change: transform, opacity;
+		transition: opacity .03s linear,transform .12s cubic-bezier(0,0,.2,1);
+
+		.dropDownElement {
+			padding-left: 24px;
+			padding-right: 24px;
+			height: 32px;
+			line-height: 32px;
+		}
+
+		.dropDownElement:hover {
+			cursor: pointer;
+		}
+
+		.selectedDropDownElement, .selectedDropDownElement:hover {
+			background: neutral(300);
+		}
+
+		&.show {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+
+	.dialogComponent.hasBorder .dialogContent {
+		box-sizing: border-box;
+		border-top: 1px solid colors.$black-12;
+		border-bottom: 1px solid colors.$black-12;
+	}
+
+	.dialogComponent {
+		z-index: z-index.$z-dialog;
+		background-color: white;
+		border-radius: 4px;
+		box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0,0,0,.12);
+		max-width: 500px;
+		width: 90%;
+
+		.popupContent {
+			height: 100%;
+		}
+
+		.dialogMainPanel {
+			padding-top: 20px;
+			height: calc(100% - 20px);
+			overflow: hidden;
+
+			.dialogTitle {
+				min-height: 20px;
+				font-size: 125%;
+				margin-bottom: 20px;
+				margin-left: 24px;
+			}
+
+			.dialogContent {
+				// 112px = 20px title + 20px margin + 52px button panel
+				// NOTE: this needs to be adjusted according what is added to the dialog
+				// (e.g. if no buttons do not add button panel height)
+				height: calc(100% - 92px);
+				padding: 0px 24px;
+				overflow-y: auto;
+			}
+
+			.dialogBtnPanel {
+				display: inline-flex;
+				padding: 8px 8px 8px 24px;
+				position: relative;
+				float: right;
+			}
+		}
+
+		&.withSubtitle {
+			.dialogTitle {
+				margin-bottom: 8px;
+			}
+
+			.dialogSubTitle {
+				margin-bottom: 24px;
+				margin-left: 24px;
+				height: 14px;
+				font-size: 75%;
+				line-height: 1.2;
+			}
+		}
+	}
+
+	/** Material Design TEXT BUTTON **/
+	.materialTextButton {
+		display: inline-block;
+		min-width: 64px;
+		height: 36px;
+		background: transparent;
+		color: var(--ggb-primary-color);
+		font-size: 90%;
+		letter-spacing: .04em;
+		line-height: 36px;
+		text-transform: uppercase;
+		border-radius: 4px;
+		padding: 0px 8px;
+		margin-left: 8px;
+		cursor: pointer;
+		transition: background 280ms cubic-bezier(0.4, 0, 0.2, 1);
+
+		&:hover {
+			background: neutral(200);
+		}
+
+		.gwt-Label {
+			text-align: center;
+		}
+
+		&.disabled {
+			color: neutral(500);
+
+			&:hover {
+				background: transparent;
+				cursor: default;
+			}
+		}
+	}
+
+	/** Material Design CONTAINED BUTTON **/
+	.materialContainedButton {
+		@extend .materialTextButton;
+
+		padding: 0px 16px;
+		background-color: var(--ggb-primary-color);
+		color: white;
+		box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
+		transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+		text-align: center;
+
+		&:hover {
+			background: var(--ggb-primary-color);
+			box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0,0,0,.12);
+		}
+
+		&.disabled {
+			background-color: neutral(300);
+			color: neutral(500);
+
+			&:hover {
+				cursor: default;
+				background: neutral(300);
+				box-shadow: none;
+			}
+		}
+	}
+
+	/** Material Design OUTLINED BUTTON **/
+	.materialOutlinedButton {
+		@extend .materialTextButton;
+
+		border: 1px solid colors.$black-12;
+	}
+
+	/** Material TEXT BUTTON used for dialogs negative action **/
+	.dialogTextButton {
+		@extend .materialTextButton;
+
+		color: neutral(700);
+
+		&:hover {
+			color: neutral(700);
+			background-color: neutral(200);
+		}
+
+		&:focus-visible {
+			outline-color: var(--ggb-dark-color);
+			outline-width: 2px;
+			outline-style: solid;
+			outline-offset: 3px;
+			background: var(--ggb-light-color);
+		}
+	}
+
+	/** Material CONTAINED BUTTON used for dialogs positive action **/
+	.dialogContainedButton {
+		@extend .materialContainedButton;
+
+		box-shadow: none;
+
+		&:focus-visible {
+			outline-color: var(--ggb-dark-color);
+			outline-width: 2px;
+			outline-style: solid;
+			outline-offset: 3px;
+		}
+	}
+
+   .orDividerComponent {
+		display: flex;
+
+		.divider {
+			height: 1px;
+			background-color: colors.$black-87;
+			opacity: 0.12;
+			margin: 7px 0px 6px 0px;
+			flex-grow: 1;
+		}
+
+		.orLbl {
+			height: 14px;
+			line-height: 14px;
+			font-size: 75%;
+			margin: 0px 24px;
+			flex-basis: auto;
+			text-transform: uppercase;
+		}
+	}
+
+	.containedButton {
+		cursor: pointer;
+		float: left;
+		min-width: 64px;
+		height: header.$button_height;
+		border-radius: 4px;
+		background-color: neutral(200);
+		transition: header.$button_hover_transition;
+		&:hover {
+			background-color: neutral(300);
+		}
+
+		img {
+			float: left;
+			width: 18px;
+			height: 18px;
+			padding: 9px 8px 9px 12px;
+			opacity: 0.54;
+		}
+
+		.gwt-Label {
+			float: left;
+			padding: 11px 16px 11px 0px;
+			text-transform: uppercase;
+			font-size: 87.5%; // (=14px)
+			line-height: 1;
+			color: neutral(700);
+		}
+
+		&.disabled {
+			.gwt-Label {
+				color: neutral(500);
+				background-color: neutral(200);
+			}
+		}
+	}
+
+	/** TAB COMPONENT */
+	.componentTab {
+		width: 100%;
+		overflow: hidden;
+		.indicator {
+			height: 2px;
+			width: 90px;
+			background-color: purple(600);
+			top: 49px;
+			position: relative;
+			border-radius: 2px 2px 0 0;
+			left: 0px;
+			z-index: 1;
+			transition: all .25s cubic-bezier(.35,0,.25,1);
+		}
+
+		.header {
+			border-bottom: 1px solid neutral(300);
+			.tabBtn {
+				min-width: 90px;
+				height: 48px;
+				border-radius: 2px;
+				.gwt-Label {
+					height: 20px;
+					line-height: 20px;
+					margin: 14px 16px;
+					text-align: center;
+					color: neutral(900);
+				}
+
+				&:hover {
+					background-color: neutral(200);
+				}
+
+				&.selected {
+					.gwt-Label {
+						color: purple(600);
+					}
+					&:hover {
+						background-color: colors.$white;
+					}
+				}
+
+				&.ripple:after {
+					background-image: radial-gradient(circle, colors.$purple-default 10%, transparent 10.01%);
+				}
+			}
+		}
+
+			.panelContainer {
+				position: relative;
+				display: inline-flex;
+				right: 0px;
+
+				&.transition {
+					transition: right 0.25s cubic-bezier(.35,0,.25,1);
+				}
+			}
+	}
+
+	.infoErrorPanel {
+		img {
+			padding: 28px;
+			margin-left: calc(50% - 56px); // (56+2*28)/2=56
+			margin-bottom: 16px;
+			opacity: 0.54;
+			background-color: neutral(200);
+			border-radius: 50%;
+		}
+
+		.title {
+			margin-bottom: 8px;
+			font-size: 100%;
+			min-height: 20px;
+			line-height: 20px;
+			letter-spacing: 0.25px;
+			text-align: center;
+		}
+
+		.subtext {
+			font-size: 87%;
+			min-height: 20px;
+			line-height: 20px;
+			text-align: center;
+			letter-spacing: 0.2px;
+		}
+
+		.dialogContainedButton {
+			display: block;
+			margin: 24px auto 0 auto;
+		}
+	}
+
+	.radioButton {
+		cursor: pointer;
+		display: inline-flex;
+
+		.radioBg {
+			display: inline-block;
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			background-color: white;
+
+			.outerCircle {
+				width: 16px;
+				height: 16px;
+				margin: 8px;
+				border: 2px solid;
+				border-color: colors.$black-54;
+				border-radius: 50%;
+				transition: border-color .12s cubic-bezier(0,0,.2,1) 0ms;
+			}
+
+			.innerCircle {
+				background-color: transparent;
+				transform: scale(0);
+				transition: transform .12s cubic-bezier(0,0,.2,1) 0ms,background-color .12s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .12s cubic-bezier(0,0,.2,1) 0ms;
+			}
+		}
+
+		.gwt-Label {
+			line-height: 36px;
+			margin-left: 16px;
+			font-size: 100%;
+		}
+
+		&:hover {
+			.radioBg {
+				background-color: colors.$black-08;
+			}
+		}
+
+		&.selected {
+			.radioBg {
+				&:after {
+					background-image: radial-gradient(circle, colors.$purple-default 10%, transparent 10.01%);
+				}
+			}
+
+			.outerCircle {
+				border-color: colors.$purple-default;
+			}
+
+			.innerCircle {
+				transform: scale(1);
+				width: 10px;
+				height: 10px;
+				background-color: colors.$purple-default;
+				position: relative;
+				bottom: 23px;
+				left: 13px;
+				border-radius: 50%;
+			}
+
+			&.disabled {
+				.radioBg {
+					&:after {
+						background-image: none;
+					}
+				}
+
+				.innerCircle {
+					background-color: colors.$black-36;
+				}
+
+				.outerCircle {
+					border-color: colors.$black-36;
+				}
+
+				&:hover {
+					.radioBg {
+						background-color: white;
+					}
+				}
+			}
+
+			&:hover {
+				.radioBg {
+					background-color: colors.$purple-default-12;
+				}
+			}
+		}
+
+		&.disabled {
+			cursor: default;
+
+			.radioBg {
+				background-color: white;
+			}
+
+			.outerCircle {
+				border-color: colors.$black-36;
+			}
+
+			.gwt-Label {
+				color: colors.$black-36;
+			}
+
+			&:hover {
+				background-color: white;
+			}
+		}
+	}
+
+	.radioButtonPanel {
+		display: inline-grid;
+	}
+
+	.searchBar {
+		display: inline-flex;
+		height: 44px;
+		flex-grow: 1;
+		max-width: 720px;
+		background-color: neutral(200);
+		margin: 10px auto;
+		box-sizing: border-box;
+		border-radius: 22px;
+		border: 2px solid transparent;
+		transition: border 200ms ease-in-out, background-color 200ms ease-in-out;
+
+		.flatButtonHeader {
+			margin: auto 2px;
+
+			&:hover {
+				background-color: neutral(300);
+
+				img {
+					opacity: 1;
+				}
+			}
+		}
+
+		.searchInputField {
+			width: 100%;
+			margin-right: 10px;
+
+			.TextField {
+				margin: 10px 0 10px 14px;
+				padding: 0px;
+				width: calc(100% - 14px) !important;
+				border: none;
+				border-radius: 0;
+				box-shadow: unset;
+				background-color: transparent;
+				height: 20px;
+				display: flex;
+				color: neutral(900);
+			}
+
+			.withCursorOverlay .TextField {
+				color: transparent;
+				user-select: none; /* standard */
+				pointer-events: none;
+			}
+
+			input[type=text]:focus:not([readonly]) {
+				border: none;
+			}
+		}
+
+		&.focusState {
+			border-sizing: box;
+			border: solid 2px colors.$mow_dark;
+			background-color: white;
+		}
+	}
+
+	.flatButtonHeader {
+		padding: 6px;
+		cursor: pointer;
+		height: 36px;
+		float: left;
+		box-sizing: border-box;
+		border-radius: 50%;
+		transition: background-color 150ms ease 0ms;
+		position: relative;
+
+		img {
+			opacity: 0.54;
+		}
+
+		&:focus, &:hover, &.selected {
+			background-color: neutral(200);
+		}
+	 }
+
+	 .buttonInactive {
+		cursor: default;
+
+		img {
+			opacity: 0.26;
+		}
+
+		&:hover {
+			background-color: transparent;
+		}
+	}
+
+	.searchBar.compact {
+		max-width: 488px;
+		height: 36px;
+		margin: 6px auto;
+
+		.flatButtonHeader {
+			height: 32px;
+			padding: 4px;
+			margin: 0px;
+		}
+
+		.TextField {
+			margin: 6px 0 6px 14px;
+		}
+	}
+
+	.toast {
+		position: absolute;
+		max-width: fit-content;
+		border-radius: 4px;
+		padding: 8px 12px;
+		box-shadow: 0 3px 5px -1px colors.$black-20,0 6px 10px 0 colors.$black-14,0 1px 18px 0 colors.$black-12;
+		transition: opacity 0.1s cubic-bezier(0, 0, 0.2, 1) 0ms,transform 0.1s cubic-bezier(0, 0, 0.2, 1) 0ms,-webkit-transform 0.1s cubic-bezier(0, 0, 0.2, 1) 0ms;
+		transform: scale(.8);
+		opacity: 0;
+
+		.content {
+			color: white;
+			min-height: 20px;
+			line-height: 20px;
+			text-align: center;
+			font-size: 87%;
+			letter-spacing: 0.25px;
+		}
+
+		&.fadeIn {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+
+	.dropDown {
+		min-width: 64px;
+		height: 48px;
+		cursor: pointer;
+		display: inline-flex;
+		box-sizing: border-box;
+		border-bottom: 1px solid neutral(500);
+
+		.optionLabelHolder {
+			.label {
+				font-size: 75%;
+				height: 12px;
+				line-height: 12px;
+			}
+
+			.selectedOption {
+				height: 20px;
+				margin: 8px 8px 0 0;
+			}
+
+			&.noLabel {
+				.selectedOption {
+					margin-top: 20px;
+				}
+			}
+		}
+
+		.arrow {
+			width: 20px;
+			height: 20px;
+			margin: 18px 0 10px auto;
+			opacity: 0.54;
+
+			svg {
+				width: 20px;
+				height: 20px;
+			}
+		}
+
+		&:hover {
+			border-bottom: 2px solid neutral(900);
+
+			.arrow {
+				opacity: 0.87;
+			}
+
+			.optionLabelHolder {
+				.label {
+					color: neutral(900);
+				}
+			}
+		}
+
+		&.active {
+			border-bottom: 2px solid colors.$mow_dark;
+
+			.optionLabelHolder {
+				.label {
+					color: colors.$mow_dark;
+				}
+			}
+
+			.arrow {
+				opacity: 0.87;
+			}
+		}
+
+		&.disabled {
+			cursor: default;
+			border-bottom: 1px solid colors.$black-36;
+
+			.optionLabelHolder {
+				.label {
+					color: colors.$black-36;
+				}
+
+				.selectedOption {
+					color: colors.$black-36;
+				}
+			}
+
+			.arrow {
+				opacity: 0.36;
+			}
+		}
+	}
+
+	.combobox {
+		width: fit-content;
+		min-width: 64px;
+		height: 50px;
+
+		.inputLabel {
+			font-size: 75%;
+			height: 12px;
+			line-height: 100%;
+			display: block;
+		}
+
+		.inputPanel {
+			display: flex;
+			box-sizing: border-box;
+			border-bottom: 1px solid colors.$black-42;
+
+			.AutoCompleteTextFieldW {
+				margin: 8px 8px 8px 0;
+				border: none;
+
+				input[type="text"] {
+					height: 20px;
+					line-height: 20px;
+					margin: 0;
+					padding: 0;
+				}
+
+				.TextField {
+					border: none;
+					box-shadow: none;
+				}
+
+				.TextField::selection {
+					background: colors.$mow_selection_color;
+				}
+			}
+		}
+
+		.arrow {
+			cursor: pointer;
+			width: 24px;
+			height: 24px;
+			margin: 6px 0;
+			opacity: 0.54;
+			transition: transform 200ms ease-in-out;
+		}
+
+		&:not(.disabled):hover {
+			.inputLabel {
+				color: neutral(900);
+			}
+
+			.inputPanel {
+				border-bottom: 2px solid neutral(900);
+
+				.AutoCompleteTextFieldW {
+					margin-bottom: 7px;
+				}
+			}
+
+			.arrow {
+				opacity: 0.87;
+			}
+		}
+
+		&.active, &.active:hover {
+			.inputLabel {
+				color: colors.$mow_dark;
+			}
+
+			.inputPanel {
+				border-bottom: 2px solid colors.$mow_dark;
+
+				.AutoCompleteTextFieldW {
+					margin-bottom: 7px;
+				}
+			}
+
+			.arrow {
+				opacity: 0.87;
+				transform: rotate(-180deg);
+			}
+		}
+
+		&.disabled, &.disabled:hover {
+			cursor: default;
+
+			.inputLabel {
+				color: colors.$black-36;
+			}
+
+			.inputPanel {
+				border-bottom: 1px solid colors.$black-36;
+
+				input[type="text"] {
+					cursor: default;
+					color: colors.$black-36;
+					background-color: colors.$white;
+					border: none;
+				}
+			}
+
+			.arrow {
+				cursor: default;
+				opacity: 0.36;
+			}
+		}
+	}
+
+	.iconButton {
+		position: relative;
+		width: 24px;
+		height: 24px;
+		padding: 12px;
+		border-radius: 50%;
+		transition: background-color 150ms ease 0ms;
+
+		&.small {
+			padding: 6px;
+		}
+
+		img {
+			opacity: 0.54;
+		}
+
+		.fa-light {
+			display: flex;
+			opacity: .54;
+			font-size: 20px;
+			justify-content: center;
+		}
+
+		&:hover {
+			background-color: neutral(200);
+		}
+
+		&.active {
+			background-color: var(--ggb-light-color);
+
+			img, .fa-light {
+				opacity: 1;
+			}
+
+			.fa-light {
+				color: var(--ggb-dark-color);
+			}
+		}
+
+		&.disabled {
+			pointer-events: none;
+			cursor: default;
+			opacity: 0.38;
+
+			&:hover {
+				background-color: white;
+			}
+		}
+
+		&.focused, &:focus-visible {
+			outline-color: var(--ggb-dark-color);
+			outline-width: 2px;
+			outline-style: solid;
+			outline-offset: 3px;
+			background: var(--ggb-light-color);
+		}
+	}
+
+	.progressBar {
+		height: 4px;
+		border-radius: 4px;
+		position: relative;
+		overflow: hidden;
+
+		.track {
+			position: absolute;
+			background-color: purple("100");
+			height: 4px;
+			width: 100%;
+		}
+
+		.indicator {
+			position: absolute;
+			background-color: purple("600");
+			height: 4px;
+			border-radius: 4px;
+			left: 0px;
+			bottom: 0px;
+			top: 0px;
+			transition: transform 0.2s linear;
+			transform-origin: left;
+			transition: width 750ms cubic-bezier(0.3, 0.4, 0.5, 0.9) 0ms;
+
+			&.animBar1 {
+				width: 100%;
+				animation: animBar1 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+			}
+
+			&.animBar2 {
+				width: 100%;
+				animation: animBar2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
+			}
+		}
+
+		&.dark {
+			.track {
+				background-color: neutral("800");
+			}
+			.indicator {
+				background-color: purple("400");
+			}
+		}
+	}
+
+	@keyframes animBar1 {
+		0% {
+			transform: translateX(-35%);
+		}
+
+		60% {
+			transform: translateX(100%);
+		}
+
+		100% {
+			transform: translateX(100%);
+		}
+	}
+
+	@keyframes animBar2 {
+		0% {
+			transform: translateX(-200%);
+		}
+
+		60% {
+			transform: translateX(107%);
+		}
+
+		100% {
+			transform: translateX(107%);
+		}
+	}
+
+	.sliderComponent {
+		.sliderLabel {
+			height: 20px;
+			line-height: 20px;
+			margin: 5px 8px;
+			font-size: 90%;
+		}
+	}
+
+	input[type=range].slider {
+		-webkit-appearance: none;
+		width: 100%;
+    }
+
+    input[type=range].slider::-webkit-slider-runnable-track {
+    	width: 100%;
+    	height: 4px;
+        background: var(--ggb-selection-color);
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    input[type=range].slider::-webkit-slider-thumb {
+    	height: 18px;
+    	width: 18px;
+    	border-radius: 50%;
+    	background: var(--ggb-primary-color);
+    	cursor: pointer;
+    	-webkit-appearance: none;
+    	margin-top: -7px
+    }
+
+	input[type=range].slider:hover::-webkit-slider-thumb {
+		outline: 8px solid var(--ggb-selection-color);
+		height: 18px;
+		width: 18px;
+	}
+}

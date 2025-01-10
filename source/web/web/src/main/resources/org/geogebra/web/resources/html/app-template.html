@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="<!--LANG-->">
+<head>
+	<meta charset="utf-8" />
+	<title><!--APP NAME--> - <!--VENDOR--></title>
+	<link rel="shortcut icon" href="<!--ICON-->" type="image/x-icon">
+	<link rel="icon" href="<!--ICON-->" type="image/x-icon">
+	<meta property="og:title" content="<!--APP NAME--> - <!--VENDOR-->" />
+	<!--APPSTORE BANNER-->
+	<!--PRECONNECT-->
+<script type="text/javascript">
+
+// for IE9
+if (!window.console) window.console = {};
+if (!window.console.log) window.console.log = function () { };
+
+var latestVersion="5.0.580.0";
+var module = "web3d";
+var defaultParams = {"vendor":"<!--VENDOR-->", "preloadModules":""};
+var prerelease = false;
+var debug = false;
+var startDelay = 0;
+var marginTop = 0;
+var appOnline=true;
+var translation = {};
+var codebase = "<!--CODEBASE-->";
+</script>
+<!--PLATFORM SPECIFIC CODE-->
+<script>
+	function $e(id){
+		return document.getElementById(id);
+	}
+	function c(className){
+		return document.getElementsByClassName(className)[0];
+	}
+	var finalLang = null;
+	
+	function setParamFromURL(paramName){
+		if (getURLparam(paramName)) {
+			$e("ggw").setAttribute("data-param-"+paramName,getURLparam(paramName));
+		}
+	}
+
+	function changeMetaTitle(titleBase){
+		var title = titleBase.match(/<!--VENDOR-->/) ? titleBase : titleBase + " - <!--VENDOR-->";
+		var tag = document.querySelector("meta[property='og:title']");
+		if (tag && tag.setAttribute) {
+			tag.setAttribute("content", title);
+		}
+		document.title = title;
+	}
+
+	function isAppSupportingPerspective(idString){
+		if (!window.appID || window.appID == "classic") {
+			return true;
+		}
+		// only search supported in unbundled apps & notes
+		return idString.substring(0,6) == "search";
+	}
+
+	function perspective(id, name){
+		var unbundled = ["graphing", "geometry", "whiteboard", "notes", "3d", "cas",
+				"scientific", "calculator", "suite"].indexOf(name) >= 0;
+		if($e("ggw")){
+			$e("ggw").className="geogebraweb";
+
+			$e("ggw").setAttribute("data-param-appname", window.appID || "classic");
+			if (getURLparam("examMode")) {
+				setParamFromURL("examMode");
+			} else if(id){
+				if (isAppSupportingPerspective(id + "")) {
+					$e("ggw").setAttribute("data-param-perspective", id);
+					if (c("mowToolbar")) {
+						c("mowToolbar").style.display = "none";
+					}
+				}
+			}
+			setParamFromURL("filename");
+			setParamFromURL("rounding");
+			setParamFromURL("ggbbase64");
+			if (isEmbed() || unbundled) {
+				$e("ggw").setAttribute("data-param-showAppsPicker","false");
+				$e("appsPicker") && $e("appsPicker").style.setProperty("display", "none");
+			}
+		} else if (id && ggbApplet.setPerspective) {
+			ggbApplet.setPerspective(id+"");
+		} else if (id && window.renderGGBElement) {
+			if (isAppSupportingPerspective(id + "")) {
+				c("geogebraweb").setAttribute("data-param-perspective", id);
+			}
+			renderGGBElement(c("geogebraweb"));
+		}
+		var label = $e(name);
+		if(label){
+			parentTable(label).className += " perspectiveHighlighted";
+		}
+		if (name && window.history && window.history.pushState && name != "picker" && location.host.indexOf("geogebra") >= 0 &&
+				location.href.indexOf("?") < 0 && !location.pathname.match(/\/.*\/.+/) && !isLocalhost()){
+			if (name != "classic" && (location.pathname.indexOf("classic") > 0 || !unbundled)) {
+				name = "classic#" + name;
+			}
+			history.pushState({}, "GeoGebra", "/"+name);
+		}
+		return false;
+	}
+
+	function div(styleName){
+		var ret = document.createElement("div");
+		ret.className = styleName;
+		return ret;
+	}
+
+	function getLocalStorage(key){
+		try{
+			if(location.host && window.localStorage){
+				return localStorage.getItem(key);
+			}
+		} catch(e){
+			//local storage not supported
+		}
+		return false;
+	}
+
+	function setLocalStorage(key, value){
+		try{
+			if(location.host && window.localStorage){
+				return localStorage.setItem(key, value);
+			}
+		} catch(e){
+			//local storage not supported
+		}
+	}
+
+	function getCookieUnsafe(cookieName){
+		var crumbs = document.cookie.split(';');
+		for (var i = 0; i < crumbs.length; ++i) {
+			var nameAndValue = crumbs[i].trim().split("=");
+			if (nameAndValue[0] == cookieName) {
+				//may throw an exception
+				return decodeURIComponent(nameAndValue[1]);
+			}
+		}
+		return false;
+	}
+
+	function getCookie(cookieName){
+		try {
+			return getCookieUnsafe(cookieName);
+		} catch (e) {
+			// ignore error, keep undecoded value
+		}
+		return false;
+	}
+
+	function parentTable(ret){
+		var parent = ret;
+		while(parent = parent.parentElement){
+			if(parent.tagName == "TABLE"){
+				return parent;
+			}
+		}
+		return ret;
+	}
+
+	function button(id, perspectiveId, caption){
+		var shortId = id.replace("perspective","");
+		if(getPerspective() == shortId){
+			changeMetaTitle(caption);
+		}
+		var ret = $e(id);
+		if (!ret) {
+			return;
+		}
+		var parent = parentTable(ret);
+
+		parent.addEventListener("click",function(){
+			if($e("ggw")){
+				$e("ggw").setAttribute("data-param-showAppsPicker","false");
+			}
+			changeMetaTitle(ret.innerText);
+			perspective(perspectiveId,id.replace("perspective",""));
+		});
+
+		ret.innerHTML = caption;
+	}
+
+	function setPickerLabels(dict){
+		button("graphing", 1, dict["Graphing"] || "Graphing");
+		button("geometry", 2, dict["Perspective.Geometry"] || "Geometry");
+		button("cas", 4, dict["Perspective.CAS"] || "CAS Calculator");
+		button("spreadsheet",  3, dict["Perspective.Spreadsheet"] || "Spreadsheet Calc");
+		button("perspective3d", 5, dict["GeoGebra3DGrapher.short"] || "3D Calculator");
+		button("probability", 6, dict["Perspective.Probability"] || "Probability Calc");
+
+		button("exam","exam", dict["exam_menu_entry"] || "Exam Calculator");
+		if($e("download")){
+			$e("download").innerHTML = dict["Download"] || "Download";
+		}
+		if($e("tutorialLink")){
+			$e("tutorialLink").href = "https://www.geogebra.org/m/"+dict["TutorialClassic"];
+		}
+	}
+
+	function showInLang(lang){
+		var props = __GGB__keysVar[lang];
+		if (window.appID === "suite") {
+			changeMetaTitle(props.menu["CalculatorSuite"] || "Calculator Suite")
+		}
+		if(window.appID === "graphing"){
+			changeMetaTitle(props.menu["GraphingCalculator"] || "Graphing Calculator");
+		}
+		if(window.appID === "geometry"){
+			changeMetaTitle(props.menu["Geometry"]  || "Geometry");
+		}
+		if(window.appID === "CAS"){
+			changeMetaTitle(props.menu["CASCalcultor"]  || "CAS Calculator");
+		}
+		if(window.appID === "3D"){
+			changeMetaTitle(props.menu["Graphing3D"]  || "3D Graphing Calculator");
+		}
+		if(!window.appID && !getPerspective()){
+			changeMetaTitle(props.menu["math_apps"]  || "GeoGebra Classic");
+		}
+		document.body.parentNode.style.overflow = "auto";
+		if($e("ggbPage")){
+			$e("ggbPage").style.display = "";
+		}
+
+		if(finalLang && finalLang != lang){
+			console.log("wrong lang");
+			return;
+		}
+		if($e("ggbPage")){
+			setPickerLabels(props.menu);
+		}
+	}
+
+	function showInEnglish(){
+			if(!window.__GGB__keysVar && $e("ggbPage")){
+				setPickerLabels({});
+
+				$e("ggbPage").style.display="";
+			}
+
+		}
+	var langs = ["af",  "ar",  "ar-MA",  "ar-TN",  "bg",  "bs",  "ca",  "ca-XV",  "cs",  "cy",  "da",
+	"de-AT",  "de",  "el",  "en-AU",  "en-GB",  "en",  "eo",  "es-ES",  "es",  "es-UY",  "et",  "eu",
+	"fa",  "fi",  "fr",  "gl",  "hi",  "hr",  "hu",  "hy",  "in",  "is",  "it",  "he",
+	"ja",  "yi",  "ka",  "kk",  "km",  "kn",  "ko",  "lt",  "lv",  "mk",  "ml",  "mn",  "mr",  "ms",
+	"ne",  "nl-NL",  "nl",  "no",  "nb",  "nn",  "pl",  "pt",  "pt-PT",  "ro",  "ru",  "si",
+	"sk",  "sl",  "sq",  "sr",  "sv",  "ta",  "tg",  "th",  "fil",  "tr",  "ty",  "ug",  "uk",
+	"ur",  "vi",  "xh",  "zh-CN", "zh-TW"];
+
+	function validLang(lang){
+		lang=lang.replace("_","-").replace("tl","fil").replace("ji","yi").replace("no-NO-NY","nn");
+		if(lang.substring(0,2) == "no"){
+			lang = "nb";
+		}
+		if(lang.substring(0,2) == "zh"){
+			lang = lang.indexOf("TW") > 0 || lang.indexOf("Hant") > 0 ? "zh-TW" : "zh-CN";
+		}
+		if(langs.indexOf(lang) >= 0){
+			return lang;
+		}
+		lang = lang.substring(0,2);
+		if(langs.indexOf(lang) >= 0){
+			return lang;
+		}
+		return "en";
+	}
+	function getURLparam(param){
+		return new URLSearchParams(location.search).get(param);
+	}
+	function switchLang(lang){
+		var storedTranslation = {};
+		if(getLocalStorage("translation")){
+			try {
+				storedTranslation = JSON.parse(localStorage.translation);
+			}
+			catch(e){
+				console.log(e.message);
+			}
+		}
+		if(storedTranslation[lang] && storedTranslation["version"] == latestVersion){
+			window.__GGB__keysVar = {};
+			window.__GGB__keysVar[lang] = storedTranslation[lang];
+			window.__GGB__keysVar["version"] = storedTranslation["version"];
+			showInLang(lang);
+		}
+		else{
+			var l10n = document.createElement("script");
+			document.head.appendChild(l10n);
+			l10n.onload = function(){
+
+
+				showInLang(lang);
+				if(window.__GGB__keysVar[lang]){
+					var obj = {};
+					obj["version"] = latestVersion;
+					obj[lang] = window.__GGB__keysVar[lang];
+					setLocalStorage("translation", JSON.stringify(obj));
+				}
+
+			}
+			var propertiesCodebase = codebase.replace("/latest", "/"+latestVersion);
+			l10n.setAttribute("src", propertiesCodebase + module+"/js/properties_keys_" + lang + ".js");
+		}
+	}
+
+	function insertScript(){
+		if (window.loadFontScript) {
+			window.loadFontScript(codebase + module);
+		}
+		if (window.loadFontAwesome) {
+			window.loadFontAwesome();
+		}
+		app = document.createElement("script");
+		app.setAttribute("src",codebase+module+"/"+module+".nocache.js");
+		window.setTimeout(function(){
+			document.head.appendChild(app);
+		}, startDelay);
+	}
+
+	function isLocalhost(){
+		return location.protocol.match(/(chrome|app|file:)/) || location.host.match(/^([0-9.]*|(autotest|deploy).*geogebra.org|localhost|apps-builds.s3.*.amazonaws.com)(:.+)?$/);
+	}
+
+	function showStartScreen(){
+		var lang = getURLparam("lang") || getCookie("GeoGebraLangUI") || getLocalStorage("GeoGebraLangUI") || navigator.language || "en";
+		window.setTimeout(showInEnglish, 1000);
+		switchLang(validLang(lang));
+	}
+
+	function setPrerelease(prereleaseParam){
+		document.body.className += "prerelease";
+		$e("ggw").setAttribute("data-param-prerelease",prereleaseParam);
+		$e("ggw").setAttribute("data-param-showlogging",true);
+	}
+
+	function setDebug(debugParam){
+		$e("ggw").setAttribute("data-param-showlogging",debugParam);
+	}
+
+	function getPerspective(){
+		if (getURLparam("perspective")) {
+			return getURLparam("perspective");
+		}
+		var parts = location.pathname.split("/");
+		var path = parts.length == 1 || parts[parts.length-1].length? parts[parts.length-1] : parts[parts.length-2] ;
+		if (location.hash.length || (path != '/apps' && path != '/apps/' && !path.match(/\.html$/))) {
+			return location.hash.length ? location.hash.replace('#','') : path;
+		}
+		return window.appID;
+	}
+
+	function resizeStart(){
+		if($e("perspectivesBox")){
+			if(window.innerHeight < 650 || window.innerWidth < 650){
+				$e("perspectivesBox").style.display = "none";
+			} else {
+				$e("perspectivesBox").style.top= (Math.max(0,Math.round(window.innerHeight/2 -250))-53)+"px";
+			}
+		}
+	}
+
+	function updateAppletParams(){
+		for (var key in defaultParams) {
+			$e("ggw").setAttribute("data-param-" + key, defaultParams[key]);
+		}
+		if (isEmbed()) {
+			$e("ggw").setAttribute("data-param-enableFileFeatures", false);
+		}
+		if (location.host.indexOf("beta") == 0 || getURLparam("prerelease") || prerelease) {
+			setPrerelease(prerelease || "true");
+		}
+		if (getURLparam("debug") || debug || isLocalhost()) {
+			setDebug(debug || true);
+		}
+	}
+
+	function loadMaterial(tubeid){
+		$e("ggw").setAttribute("data-param-tubeid", tubeid);
+		if(window.addAppletPreview){
+			window.addAppletPreview(tubeid);
+		}
+		perspective(false);
+		insertScript();
+	}
+
+	/** @return array [whole URL, appName, sandbox, material ID]*/
+	function getParametersFromPath(){
+		return location.pathname.match(/^\/(o|classic|graphing|suite|geometry|3d|([a-z]+\/)?frame|notes|cas|calculator)\/([a-zA-Z0-9]+)/);
+	}
+
+	function loadApp(){
+		if(isLocalhost()) {
+			defaultParams.backendURL = "https://api-beta.geogebra.org/v1.0";
+		}
+
+		var names = {'geometry':2, 'spreadsheet':3, 'cas':4, '3d':5, 'probability':6, 'graphing':1, 'whiteboard':7,'calculator':8};
+		var tubeid = getURLparam("id");
+		var checkId = getParametersFromPath();
+		if(checkId && !names[checkId[3]]){
+			tubeid = checkId[3];
+			if (checkId[1] == "o") {
+				appID = "auto";
+			}
+		}
+
+		var skipAppsPicker = getURLparam("command") || getURLparam("state") || getURLparam("filename");
+		resizeStart();
+		window.addEventListener && window.addEventListener("resize", resizeStart);
+		if ($e("ggw")) {
+			updateAppletParams();
+		}
+
+		if (window.loadUnsavedWork && window.loadUnsavedWork($e("ggw"))) {
+			return;
+		}
+
+		if (tubeid) {
+			if ($e("ggw")) {
+				loadMaterial(tubeid);
+				return;
+			}
+		} else if (getPerspective()) {
+			var pName = getPerspective();
+			if (pName.substring(0,6) == "search" || pName.substring(0,4) == "exam") {
+				if ($e("perspectivesBox")) {
+					$e("perspectivesBox").style.display = "none";
+				}
+				perspective(pName);
+			} else {
+				perspective(names[pName], pName);
+			}
+			document.body.className += " " + pName;
+			document.body.className += " " + module;
+			insertScript();
+			showStartScreen();
+			return;
+		} else if(skipAppsPicker) {
+			perspective(false);
+			insertScript();
+			return;
+		}
+
+		showStartScreen();
+		insertScript();
+		perspective(false, "picker"); //TODO
+	}
+
+</script>
+<script type="text/javascript">
+// test to see if the app is running as a chrome webapp
+document.isChromeWebapp = function isChromeWebapp() {
+	if (typeof chrome === 'object' &&
+			typeof chrome.app === 'object' &&
+			typeof chrome.app.isInstalled === 'boolean' &&
+			chrome.app.isInstalled) {
+			return true;
+		}
+		return false;
+	};
+</script>
+
+    <!--VENDOR SCRIPTS-->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <style>
+    body {
+        touch-action: none;
+        -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
+        -ms-user-select: none;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* avoid flash on Android http://stackoverflow.com/questions/5210481/*/
+        color: #666666;
+        font-size: 14px;
+        font-family: sans-serif;
+        margin: 0px;
+        padding: 0px;
+        position: fixed;
+        top:0;
+        width:100%;
+        height:100%;
+    }
+    </style>
+	<!--SPLASH STYLE-->
+	<!--PRELOADED CSS-->
+</head>
+<body dir="ltr" tabindex="-1" onload="loadApp()">
+	<!--MATOMO-->
+	<!--SPLASH-->
+    <div id="ggw"
+    data-param-useBrowserForJS="false"
+    data-param-app="true" data-param-showAppsPicker="true" ></div>
+</body>
+</html>
+

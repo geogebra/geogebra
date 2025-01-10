@@ -1,0 +1,179 @@
+@use 'colors';
+@use 'z-index';
+@use 'colorMap' as *;
+
+.GeoGebraFrame {
+	.snackbarComponent {
+		max-width: 664px;
+		min-width: 320px;
+		width: fit-content;
+		width: -moz-fit-content;
+		position: absolute;
+		bottom: 8px;
+		left: 8px;
+		right: 8px;
+		margin-right: 16px;
+		padding: 6px 8px 6px 16px;
+		z-index: z-index.$z-snackbar;
+		border-radius: 4px;
+		background-color: neutral(800);
+		box-shadow: 0 3px 5px -1px colors.$black-20, 0 1px 18px 0 colors.$black-12, 0 6px 10px 0 colors.$black-14;
+		transition: opacity 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,-webkit-transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms;
+		transform: scale(.8);
+		opacity: 0;
+		display: flex;
+
+		&.landscape {
+			// 72px (width of rail) + 8px padding
+			left: 80px;
+		}
+
+		&.portrait {
+			left: 8px;
+			// 56px (height of rail) + 8px padding
+			bottom: 64px;
+		}
+
+		&.fadeIn {
+			opacity: 1;
+			transform: scale(1);
+		}
+
+		.txtContainer {
+			margin-right: 8px;
+			margin-top: auto;
+			margin-bottom: auto;
+			padding: 8px 0px;
+
+			.title {
+				min-height: 20px;
+				color: colors.$white-87;
+				font-size: 88%;
+				font-weight: 500;
+			}
+
+			.text {
+				font-size: 88%;
+				min-height: 20px;
+				color: colors.$white-60;
+			}
+		}
+
+		.materialTextButton {
+			color: purple(400);
+			font-size: 88%;
+			margin: auto 0px auto auto;
+
+			&:hover {
+				background: none;
+			}
+		}
+	}
+
+	@media screen and (max-width: 420px) {
+		.snackbarComponent {
+			width: calc(100% - 40px);
+			min-width: unset;
+		}
+	}
+
+	.dataImporter {
+		max-width: 664px;
+		min-width: 320px;
+		width: fit-content;
+		background-color: neutral(900);
+		position: absolute;
+		bottom: 8px;
+		left: 8px;
+		right: 8px;
+		z-index: z-index.$z-snackbar;
+		border-radius: 4px;
+		box-shadow: 0px 1px 1px 0px rgba(47, 47, 51, 0.14), 0px 2px 1px -1px rgba(47, 47, 51, 0.12), 0px 1px 3px 0px rgba(47, 47, 51, 0.20);
+		transition: opacity 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms;
+		transform: scale(.8);
+		opacity: 0;
+
+		&.fadeIn {
+			opacity: 1;
+			transform: scale(1);
+		}
+
+		&.landscape {
+			// 72px (width of rail) + 8px padding
+			left: 80px;
+		}
+
+        &.portrait {
+        	left: 8px;
+        	// 56px (height of rail) + 8px padding
+        	bottom: 64px;
+        }
+
+		.titleHolder {
+			height: 48px;
+			display: flex;
+
+			.gwt-Image {
+				margin: 12px 8px 12px 12px;
+			}
+
+			.gwt-Label {
+				font-size: 16px;
+				color: neutral(0);
+				line-height: 48px;
+				margin-right: 56px;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: nowrap;
+			}
+
+			.button {
+				position: absolute;
+				right: 0px;
+				padding: 12px;
+
+				.gwt-Image {
+					margin: 0px;
+				}
+			}
+		}
+
+		.progressBar {
+			margin: 8px 16px 20px 16px;
+		}
+	}
+
+	.dataImporter.error {
+		.titleHolder {
+			.gwt-Label {
+				color: neutral(700);
+			}
+		}
+
+		.errorHolder {
+			display: flex;
+			height: 36px;
+
+        	.errorMsg {
+        		color: neutral(0);
+        		font-size: 14px;
+        		height: 20px;
+        		margin: 4px auto 8px 16px;
+        	}
+
+        	.button {
+        		position: absolute;
+        		right: 0px;
+        		color: purple(400);
+        		font-size: 14px;
+        		margin: 0 16px 8px 0;
+        		padding: 6px 0;
+        		text-transform: uppercase;
+
+        		&:hover {
+        			background: none;
+        		}
+        	}
+        }
+	}
+}

@@ -1,0 +1,36 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY>
+<p> PDF (Portable Document File) Output Format.</p>
+<p> It is based on the
+"PDF Reference: Second Edition, version 1.4&quot;, July 2001 by "Addison-Wesley".</p>
+<p>It currently contains all classes
+  for all PDF objects available in PDF. These are lower level classes
+  such as PDFName, PDFObject, PDFRef, PDFDictionary and PDFStream.
+  For the classes PDFString and PDFArray one should use the java String class and
+  the java array respectively.</p>
+<p>The user typically interacts with the PDFWriter class to create a PDF file.
+  He can then create pages, open streams and use the latter to create the actual
+  content of the page. The PDFWriter in combination with the PDFByteWriter takes
+  care of keeping &quot;logical&quot; object references, building the cross-reference
+  table and do some error checking.</p>
+
+<p>An implementation of VectorGraphics also exist:</p>
+
+<ul>
+  <li>PDFGraphics2D</li>
+</ul>
+<p>The following Limitations exist:</p>
+
+<ul>
+  <li>drawFrameAndBanner not implemented.</li>
+  <li>TestTaggedString all the same font.</li>
+  <li>TestFonts no MonoType Corsiva.</li>
+  <li>TestAll no impact font</li>
+</ul>
+
+@status Stable.
+</BODY>
+</HTML>

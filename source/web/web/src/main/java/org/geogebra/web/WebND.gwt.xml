@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+
+    <inherits name='org.geogebra.web.Html5'/>
+    <inherits name='org.geogebra.keyboard.KeyboardWeb'/>
+    <inherits name='fr.grenoble.ujf.Giac'/>
+    <inherits name='org.geogebra.web.Carota'/>
+    <inherits name='org.geogebra.Multiplayer'/>
+
+    <!-- Specify the paths for translatable code                    -->
+    <source path="full"/>
+    <source path="editor"/>
+    <public path="pub"/>
+    <source path='cas'/>
+    <source path='shared'/>
+
+    <set-configuration-property name="devModeRedirectEnabled" value="false"/>
+    <set-configuration-property name="es6export" value="mathApps:div"/>
+
+    <!-- Compile only one permutation -->
+    <collapse-all-properties/>
+</module>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='editor'>
+    <inherits name='org.geogebra.keyboard.KeyboardWeb'/>
+    <inherits name="com.himamis.retex.editor.JLMEditorDev" />
+
+    <!-- Specify the paths for translatable code                    -->
+    <source path='editor'/>
+    <source path='html5/bridge'/>
+    <source path='html5/export'>
+        <exclude name="**/GeoGebra*"/>
+        <exclude name="**/*Graphics*"/>
+    </source>
+    <source path='simple'>
+        <exclude name="**/WebSimple*"/>
+    </source>
+    <public path="pub"/>
+    <entry-point class='org.geogebra.web.editor.EditorEntry'/>
+    <!-- #3511 -->
+    <inherits name="org.gwtproject.resources.Resources" />
+    <inherits name="com.google.gwt.core.Core"/>
+    <inherits name='org.geogebra.Common'/>
+    <inherits name='org.geogebra.GgbJdk'/>
+    <inherits name="com.himamis.retex.editor.JLMEditorDev" />
+
+    <!-- Specify the paths for translatable code                    -->
+    <!-- resources is both in source and resource because of SVGResource classes -->
+    <source path='resources'/>
+    <!-- not using any browser-specific overrides: only compile for one browser -->
+    <set-property name="user.agent" value="safari" />
+    <set-property-fallback name="user.agent" value="safari"/>
+    <set-configuration-property name="user.agent.runtimeWarning" value="false"/>
+    <!-- #3511 -->
+    <set-property name="compiler.stackMode" value="strip"/>
+    <set-property name="gwt.uncaughtexceptionhandler.windowonerror" value="IGNORE"/>
+    <set-property name="gwt.logging.enabled" value="FALSE"/>
+    <set-configuration-property name="org.gwtproject.safecss.ForceCheckValidStyles" value="false"/>
+    <inherits name='org.geogebra.web.AppCacheLinker' />
+    <set-configuration-property name="installCode" value="false" />
+    <set-configuration-property name="es6export" value="editor:div,formula:canvas" />
+</module>

@@ -1,0 +1,14 @@
+<body>
+Base classes for VectorGraphics, useful to implement different output formats.
+<p>The VectorGraphics interface allows users to draw in a vector graphics mode.
+It defines all the methods available in java.awt.Graphics2D and augments this
+set by some extra methods to draw pre defined symbols and marked-up (tagged)
+strings.</p>
+<p>The VectorGraphics2D class implements this interface and inherits from the
+standard java.awt.Graphics2D. This allows users who normally draw using
+java.awt.Graphics2D to use VectorGraphics2D instead.&nbsp;</p>
+<p>PixelGraphics2D implements VectorGraphics on top of the standard
+java.awt.Graphics2D.&nbsp;</p>
+<p>Other implementations of VectorGraphics for various output formats can be
+found in org.freehep.graphicsio.</p>
+</body>

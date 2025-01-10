@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='web3d'>
+
+  <inherits name="elemental2.webgl.WebGl"/>
+  <inherits name='org.geogebra.web.WebND'/>
+    
+  <!-- Specify the app entry point class.                         -->
+  <entry-point class='org.geogebra.web.geogebra3D.Web3D'/>
+  
+  <!-- Specify the paths for translatable code                    -->
+  <source path='geogebra3D'/>
+
+  <define-configuration-property is-multi-valued="true" name="beforeRenderJS"/>
+  <set-configuration-property name="beforeRenderJS" value="org/geogebra/web/resources/js/materialFetcher.js" />
+
+  <!-- Compile only one permutation -->
+  <collapse-all-properties />
+</module>

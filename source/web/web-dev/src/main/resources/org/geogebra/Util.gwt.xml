@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+  <inherits name='org.geogebra.GwtUtil'/>
+  <source path='web/html5/gui/util' />
+  <source path='web/resources' />
+  <source path='common/util/lang' />
+  <source path='common/util/debug' />
+  <source path='common/awt' />
+  <source path='common/euclidian/event' />
+</module>

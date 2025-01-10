@@ -1,0 +1,111 @@
+/** Created by stefanie.bogner
+*	14.09.2015
+*	contains general styles for web
+*
+*	Make sure everything is placed in .GeoGebraFrame!
+**/
+
+@use 'colors';
+@use 'colorMap' as *;
+
+.GeoGebraFrame {
+	background-color: colors.$white;
+	&.transparent {
+		background-color: transparent;
+	}
+	color: neutral(900);
+	font-size: 16px;
+
+	label,
+	span,
+	td,
+	th {
+		color: neutral(900);
+		font-size: 16px;
+	}
+
+	img {
+		vertical-align: baseline;
+	}
+
+	button {
+		font-family: geogebra-sans-serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-size: 16px;
+	}
+
+	.button,
+	.gwt-MenuItem {
+		cursor: pointer;
+
+		&.button-up-disabled {
+			cursor: default;
+			opacity: 0.3;
+		}
+	}
+
+	.SpreadsheetEditorCell input[type="text"]:disabled {
+		background-color: #FFFFFF;
+		opacity: 1;
+	}
+
+	input[type="text"]:disabled {
+		background-color: rgb(235, 235, 228);
+	}
+
+	.disabledTextfieldEditing input[type="text"] {
+		background-color: #FFFFFF;
+	}
+
+	.gwt-MenuBar {
+		cursor: default;
+	}
+
+	input[type="text"], input[type="number"], select {
+		min-height: 0;
+		min-width: 0;
+	}
+
+	.Dialog-messagePanel {
+		margin-bottom: 10px;
+	}
+
+	.Dialog-errorPanel, .Dialog-errorPanel td {
+		color: red;
+	}
+
+	.Dialog-errorPanel {
+		color: red;
+		display: block;
+	}
+
+	.Dialog-messagePanel img {
+		margin-right: 10px;
+	}
+
+
+	.DialogRbPanel {
+		margin-top: 10px;
+	}
+
+	.DialogRbPanel td {
+		padding-right: 20px;
+	}
+
+	@each $colorname, $color in $neutrals {
+		.neutral-#{$colorname} {
+		   background-color: $color;
+		}
+	}
+
+	@each $colorname, $color in $purples {
+		.purple-#{$colorname} {
+			background-color: $color;
+		}
+	}
+
+	@each $colorname, $color in $neutrals {
+		.fg-neutral-#{$colorname} {
+			color: $color;
+		}
+	}
+}

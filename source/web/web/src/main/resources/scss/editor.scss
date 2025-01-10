@@ -1,0 +1,15 @@
+@use "reset";
+@use "shared";
+@use "keyboard-styles";
+
+.GeoGebraFrame.editor {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.GeoGebraFrame {
+   .TabbedKeyBoard.detached {
+		position: fixed;
+	}
+}

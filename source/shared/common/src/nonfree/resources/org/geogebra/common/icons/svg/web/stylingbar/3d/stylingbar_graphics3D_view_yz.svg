@@ -1,0 +1,14 @@
+<svg id="stylingbar_graphics3D_view_yz" xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #b3b3b3;
+      }
+    </style>
+  </defs>
+  <title>stylingbar_graphics3D_view_yz</title>
+  <g>
+    <polygon class="cls-1" points="344 453 449.04 349 449.04 63.03 344.83 167.24 344 453"/>
+    <path d="M458.17,53H159L53.09,159H53V459H353L458.91,353H459V53ZM167.31,73H424.9L339,159H81.38ZM333,439H73V179H333Zm20-8.26V173.22l0,0L439,87.18V344.61Z"/>
+  </g>
+</svg>

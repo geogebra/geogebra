@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='web3d'>
+  <inherits name='org.geogebra.web.Web3D'/>
+  <set-configuration-property name="devModeRedirectEnabled" value="true"/>
+  <set-property name="compiler.useSourceMaps" value="true" />
+  <set-configuration-property name="includeSourceMapUrl" 
+      value="https://apps-builds.s3-eu-central-1.amazonaws.com/geogebra/sourcemaps/__MODULE__/__HASH___sourceMap__FRAGMENT__.json"/>
+  <collapse-all-properties />
+</module>

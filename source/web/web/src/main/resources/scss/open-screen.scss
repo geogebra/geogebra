@@ -1,0 +1,429 @@
+@use 'colors';
+@use 'shared';
+@use 'header';
+@use 'z-index';
+@use 'colorMap' as *;
+
+.GeoGebraFrame {
+	.profilePanel {
+		cursor: pointer;
+		text-align: center;
+		width: 48px;
+		height: 48px;
+		overflow: hidden;
+	}
+	.headerView .profilePanel {
+		margin: 0 20px;
+	}
+
+	.profilePanel .profileImage {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		margin: 4px;
+	}
+
+	.profilePanel .imageHolder {
+		width: 48px;
+		height: 48px;
+		position: absolute;
+		background: white;
+		border-radius: 50%;
+
+		&:hover {
+			background: neutral(200);
+		}
+	}
+
+	.profilePanel.selected .imageHolder {
+		background: neutral(200);
+	}
+
+	.openFileView {
+		background-color: white;
+	
+		.fileViewContentPanel {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			padding-top: 24px;
+			overflow-y: auto;
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
+
+			.infoErrorPanel {
+				margin-bottom: 60px;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				flex-grow: 1;
+			}
+
+			.center {
+				margin: 0px auto;
+			}
+			.gwt-ListBox {
+				cursor: pointer;
+				position: absolute;
+				right: 24px;
+				//margin-top: 36px;
+				border-radius: 0px;
+				box-shadow: none;
+				border: none;
+				padding: 8px;
+				font-size: 90%;
+				border-bottom: 1px solid colors.$tool-border;
+				transition: border-bottom 0.3s ease-out;
+
+				&:hover {
+					border-bottom: 1px solid colors.$mow_primary !important;
+				}
+			}
+			.materialPanel {
+				position: absolute;
+				top: 98px;
+				padding: 8px 8px 8px 24px;
+				box-sizing: border-box;
+				width: 100%;
+
+				.materialCard {
+					float: left;
+					border-radius: 2px;
+					margin: 0 16px 16px 0;
+					height: 220px;
+					width: 232px;
+					background-color: colors.$mow_material_card_bgd;
+					box-shadow: 0 1px 1px 0 colors.$black-14, 0 2px 1px -1px colors.$black-12, 0 1px 3px 0 colors.$black-20;
+					transition: box-shadow .25s;
+					cursor: pointer;
+
+					&:hover {
+						box-shadow: 0 8px 10px 1px colors.$black-14, 0 3px 14px 2px colors.$black-12, 0 5px 5px -3px colors.$black-20;
+					}
+
+					.cardImgPanel {
+						height: 120px;
+						margin: 0px;
+						background-repeat: no-repeat;
+						background-position: center;
+					}
+				
+					.cardInfoPanel {
+						position: relative;
+						height: 100px;
+						
+						.cardTitle {
+							font-size: 125%;
+							line-height: 22px;
+							letter-spacing: 0.25px;
+							padding: 8px 16px 0 16px;
+							margin-bottom: 12px;
+							text-overflow: ellipsis;
+							font-weight: 500;
+							height: 44px;
+							overflow: hidden;
+							-webkit-line-clamp: 2;
+							display: -webkit-box;
+							-webkit-box-orient: vertical;
+						}	
+					
+						.cardAuthor {
+							font-size: 87.5%;
+							line-height: 24px;
+							letter-spacing: 0.25px;
+							padding: 0px 0px 12px 16px;
+							text-overflow: ellipsis;
+							font-weight: 400;
+							overflow: hidden;
+							white-space: nowrap;
+							width: 182px;
+						}
+						
+						.mowMoreButton {
+							position: absolute;
+							right: 0;
+							bottom: 0;
+							height: 24px;
+							width: 24px;
+							padding: 0px 6px 12px 8px;
+							opacity: 0.54;
+							cursor: pointer;
+
+							&:hover {
+								opacity: 1;
+							}
+						}
+						.mowMoreButton.active {
+							opacity: 1;
+						}
+					
+						.visibilityPanel {
+							.gwt-Label {
+								font-size: 88%;
+								line-height: 24px;
+								letter-spacing: 0.25px;
+								text-overflow: ellipsis;
+								font-weight: 400;
+								margin: 0 0px 12px 0px;
+							}
+
+							img {
+								opacity: 0.54;
+								margin: 0 8px 12px 16px;
+							}
+						}
+					}
+				}
+				.loadMoreFilesPanel {
+					float: left;
+					// .materialPanel has different side padding, make sure is centered
+					width: calc(100% - 16px);
+					margin-bottom: 16px;
+
+					.dialogContainedButton {
+						display: block;
+						margin: auto;
+						min-width: 140px;
+						text-align: center;
+
+						.spinner-border {
+							display: inline-block;
+							text-align: left;
+							width: 10px;
+							height: 10px;
+							border: 3px solid colors.$white;
+							border-right-color: transparent;
+							border-radius: 50%;
+							margin-top: 10px;
+							-webkit-animation: spinner-border .75s linear infinite;
+							animation: rotate 1s linear infinite;
+						}
+
+						.gwt-Label {
+							letter-spacing: 1.07px;
+						}
+
+						@keyframes rotate {
+							to {transform: rotate(360deg);}
+						}
+					}
+
+					.spinner-button {
+						.gwt-Label {
+							display: inline-block;
+							vertical-align: top;
+							padding-left: 9px;
+							letter-spacing: 1.07px;
+						}
+					}
+
+					.loadMoreFilesLabel {
+						min-height: 14px;
+						line-height: 14px;
+						text-align: center;
+						margin: 8px 0px 8px 0px;
+						font-size: 12px;
+						color: colors.$black-54;
+						letter-spacing: 1.07px;
+					}
+				}
+			}
+
+				.fileViewButtonPanel {
+					display: table;
+					border-collapse: separate;
+				}
+				.extendedFAB {
+					cursor: pointer;
+					min-width: 64px;
+					height: 48px;
+					border-radius: 2px;
+					box-shadow: 0 1px 3px 0px colors.$black-20;
+					transition: header.$button_hover_transition;
+					vertical-align: middle;
+					display: table-cell;
+
+					img {
+						float: left;
+						width: 24px !important;
+						height: 24px;
+						padding: 12px 8px 12px 16px;
+						background: none;
+						margin: 0;
+						border-radius: 0;
+					}
+					.gwt-Label {
+						cursor: pointer;
+						float: left;
+						padding: 16px 20px 16px 0px;
+						text-transform: uppercase;
+						line-height: 1;
+						white-space: nowrap;
+					}
+					form {
+						height: 0;
+						
+						input {
+							cursor: pointer;
+							position: relative;
+							top: -60px;
+							right: 0px; 
+							width: 100%; 
+							height: 48px;
+							font-size: 0px;
+							opacity: 0; 
+						}
+					}	
+				}
+				.FABteal {
+					background-color: colors.$mow_primary;
+					&:hover {
+						background-color: colors.$mow_primary_variant;
+					}
+					img {
+						opacity: 1;
+						filter: invert(100%);
+					}
+					.gwt-Label {
+						color: colors.$white;
+					}
+				}
+				.FABwhite {
+					background-color: colors.$white;
+					&:hover {
+						background-color: colors.$mow_white_hover;
+					}
+					img {
+						opacity: 0.54;
+					}
+					.gwt-Label {
+						color: neutral(700);
+					}
+				}
+		}
+	}
+
+	.openFileView .fileViewContentPanel.mebisEmptyFileView {
+		display: inline;
+		top: calc(50% - 166px); // 284 / 2 + 24
+	}
+
+	.openFileView .fileViewContentPanel.compact {
+		.materialPanel {
+			padding-left: 8px;
+		}
+
+		.materialCard {
+			width: 168px;
+			height: 174px;
+			margin: 0 8px 8px 0;
+
+			.cardImgPanel {
+				height: 94px;
+			}
+
+			.cardInfoPanel {
+				height: 80px;
+
+				.cardTitle {
+					height: 36px;
+					padding: 8px 12px 0 12px;
+					margin-bottom: 4px;
+					font-size: 100%;
+					line-height: 18px;
+				}
+
+				.cardAuthor {
+					height: 20px;
+					line-height: 20px;
+					padding: 0px 0px 12px 12px;
+					width: 122px;
+				}
+
+				.visibilityPanel {
+					img {
+						margin: 0 4px 8px 12px;
+					}
+					.gwt-Label {
+						line-height: 20px;
+						margin: 2px 0 10px 0;
+					}
+				}
+
+				.mowMoreButton {
+					padding: 0px 6px 8px 4px;
+				}
+			}
+		}
+	}
+
+	.openFileView.examTemporaryFiles {
+		.materialPanel {
+			top: 16px;
+
+			.materialCard {
+				height: 188px;
+
+				.cardInfoPanel {
+					height: 68px;
+
+					.cardTitle {
+						padding: 8px 16px 0px 16px;
+					}
+
+					.cardAuthor {
+						display: none;
+					}
+				}
+			}
+		}
+	}
+
+	.openFileView.examTemporaryFiles .compact {
+		.materialPanel {
+			.materialCard {
+				height: 146px;
+
+				.cardInfoPanel {
+					height: 52px;
+
+					.cardTitle {
+						padding: 8px 12px 0 12px;
+					}
+				}
+			}
+		}
+	}
+
+	.fileViewButtonPanel {
+		margin-left: 24px;
+		.containedButton {
+			form {
+				height: 0;
+				input {
+					cursor: pointer;
+					position: relative;
+					top: -48px;
+					right: 0px;
+					width: 100%;
+					height: header.$button_height;
+					font-size: 0px;
+					opacity: 0;
+				}
+			}
+		}
+
+		.buttonMargin16 {
+			margin-left: 16px;
+		}
+
+		.buttonMargin24 {
+			margin-left: 24px;
+		}
+
+		.hover {
+			background-color: colors.$mow_card_background_hover;
+		}
+	}
+}

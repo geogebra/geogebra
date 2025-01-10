@@ -1,0 +1,340 @@
+@use 'colors';
+@use 'z-index';
+@use 'colorMap' as *;
+
+$tab-anim: 200ms ease;
+$tab-transition: opacity $tab-anim;
+
+$movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
+$floatingbtn-appear-transition: width 0.25s, height 0.25s, right 0.25s, margin-bottom 0.25s, visibility 0.25s;
+$floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
+
+.GeoGebraFrame {
+	.flatButton.menu {
+		margin-left: 18px;
+		&:focus {
+			outline: colors.$focus-black 5px auto;
+		}
+	}
+	&.small .flatButton.menu.landscapeMenuBtn {
+		margin-left: 10px;
+	}
+	.flatButton.menu {
+		img {
+			opacity: 0.54;
+		}
+	}
+
+	.flatButton.menu:hover {
+		img {
+			opacity: 0.8;
+		}
+	}
+
+	.closeLandscape.toolbar {
+		box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 4px 5px 0 rgba(0, 0, 0, 0.14);
+	}
+	.toolbar {
+		overflow: hidden;
+		z-index: 2;
+		background: colors.$white;
+
+		.header {
+			z-index: 5; /* above AV input (4) */
+			background-color: colors.$white;
+			.flatButton:focus {
+				outline: colors.$focus-black 5px auto;
+			}
+
+			.center {
+				position: absolute;
+				display: inline-flex;
+				left: 50%;
+				transform: translateX(-50%);
+				max-width: 100%;
+			}
+
+			.hidden.center >* {
+				display: none !important;
+			}
+
+			&.examOk {
+				background-color: colors.$teal-default;
+			}
+
+			&.examCheat {
+				background-color: colors.$exam-red;
+			}
+
+			&.examLock {
+				background-color: colors.$exam-lock;
+			}
+		}
+
+		.header-open-portrait,
+		.header-close-portrait {
+			box-shadow: 2px 0 4px -1px rgba(0, 0, 0, 0.2), 1px 0 10px 0 rgba(0, 0, 0, 0.12), 4px 0 5px 0 rgba(0, 0, 0, 0.14);
+			height: 56px;
+			width: 100%;
+
+			.menu {
+				margin-right: 10px;
+				margin-left: 10px;
+			}
+			.tabButton {
+				height: 56px;
+				width: 168px;
+				.gwt-Image {
+					margin-top: 8px;
+				}
+			}
+
+			.center.singleButton {
+				left: calc(50% - 42px);
+			}
+		}
+
+		.examOk, .examCheat, .examLock {
+			.gwt-Label {
+				color: colors.$white;
+			}
+			.tabButton.selected:hover,
+			 .tabButton:hover{
+				background-color: colors.$white-12;
+			}
+		}
+
+		.header-open-portrait {
+			position: absolute;
+			bottom: 0;
+		}
+
+		.header-open-landscape {
+			box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 4px 5px 0 rgba(0, 0, 0, 0.14);
+		}
+
+		.header-open-landscape,
+		.header-close-landscape {
+
+			width: 72px;
+
+			min-width: 56px;
+			height: 100%;
+			position: absolute;
+
+
+			&.compact {
+				width: 56px;
+			}
+			.center {
+				display: block;
+				width: 100%;
+				top: 24px;
+				&.withMenu {
+					top: 56px;
+				}
+			}
+
+			.flatButton, .menu {
+				margin-left: 10px;
+				margin-right: 10px;
+			}
+			.tabButton {
+				width: 100%;
+				height: 72px;
+				.gwt-Image {
+					margin-top: 14px;
+					margin-bottom: 6px;
+				}
+			}
+			.selected {
+				border-bottom: none;
+			}
+		}
+
+		.header-close-portrait	{
+			position: absolute;
+			bottom: 0;
+			height: 56px;
+		}
+
+		.toolsPanel {
+			padding: 8px 16px 14px 16px;
+
+			&.customToolbar {
+				padding: 16px 16px 14px 16px;
+			}
+
+			.catLabel {
+				cursor: default;
+				line-height: 24px;
+				font-size: 100%;
+				margin: 8px 0px;
+			}
+
+			.categoryPanel {
+				position: relative;
+				line-height: 31px !important;
+			}
+
+			.button {
+				position: relative;
+				display: inline-block;
+				border-radius: 5px;
+				border: 1px solid colors.$tool-border;
+				background-color: colors.$white;
+				padding: 3px;
+				margin: 3px;
+				width: 32px;
+				height: 32px;
+			}
+
+			.button.plusPadding img {
+				padding: 4px;
+			}
+
+			.button[selected=true] {
+				padding: 2px;
+				border: 2px solid colors.$purple-default;
+			}
+
+			.button[selected=false] {
+				border: 1px solid colors.$tool-border;
+
+				&:hover, &:focus {
+					border: 1px solid colors.$purple-default;
+				}
+			}
+
+			.toolButton {
+				margin: 0px;
+				vertical-align: top;
+				margin-bottom: 4px;
+				display: inline-block;
+				border-radius: 4px;
+				height: 72px;
+				cursor: pointer;
+
+				img {
+					padding: 4px 28px;
+				}
+
+				.gwt-Label {
+					color: neutral(700);
+					font-size: 12px;
+					width: 80px;
+					height: 28px;
+					text-align: center;
+					line-height: 14px;
+					position: relative;
+					overflow: hidden;
+				}
+
+				&[selected=true] .gwt-Label {
+					color: colors.$purple-dark;
+					font-weight: 600;
+				}
+
+				&[selected=false]:hover .gwt-Label {
+					color: neutral(900);
+				}
+			}
+
+			.materialTextButton {
+				margin-top: 16px;
+
+				&:hover {
+					background-color: purple(100);
+				}
+			}
+		}
+
+		.main  {
+			position: absolute;
+
+			.moveFloatingBtn {
+				cursor: pointer;
+				position: absolute;
+				right: 12px;
+				border-radius: 50%;
+				width: 48px;
+				height: 48px;
+				background: purple(600);
+				box-shadow: 0px 2px 10px rgba(0,0,0,.3), 0px 0px 1px rgba(0,0,0,.1), inset 0px 1px 0px rgba(255,255,255,.25), inset 0px -1px 0px rgba(0,0,0,.15);
+				transition: background-color 150ms ease 0ms;
+
+				img {
+					width: 24px !important;
+					padding: 12px;
+				}
+
+				&:hover, &:focus {
+					background: purple(700);
+				}
+			}
+
+			.showMoveBtn {
+				@extend .moveFloatingBtn;
+				opacity: 1;
+				visibility: visible;
+				transition: opacity 0.2s ease, $floatingbtn-appear-transition, $movebtn-transition !important;
+
+				img {
+					width: 24px !important;
+					height: 24px !important;
+					padding: 12px;
+					transition: $floatingbtn-img-appear-transition;
+				}
+			}
+
+			.hideMoveBtn {
+				@extend .moveFloatingBtn;
+				cursor: default;
+				opacity: 1;
+				visibility: hidden;
+				transition: opacity 0.2s ease, $floatingbtn-appear-transition !important;
+				width: 0px !important;
+				height: 0px !important;
+				right: 36px;
+
+				img {
+					opacity: 0;
+					width: 0px !important;
+					height: 0px !important;
+					padding: 0px;
+					transition: $floatingbtn-img-appear-transition;
+				}
+
+				&:hover, &:focus {
+					background-color: colors.$selected-menuitem-background;
+
+					img {
+						opacity: 0;
+					}
+				}
+			}
+
+			.moveMoveBtnDown {
+				bottom: 12px;
+				transition: $movebtn-transition;
+			}
+
+			.tab-hidden {
+				opacity: 0;
+				display: none;
+			}
+
+			.tab {
+				opacity: 1;
+				right: 0;
+			}
+
+		}
+		.tabFade {
+			transition: $tab-transition;
+			&.tab-hidden {
+				display: inline-block;
+			}
+		}
+	}
+}

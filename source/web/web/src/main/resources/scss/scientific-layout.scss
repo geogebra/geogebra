@@ -1,0 +1,191 @@
+@use 'colors';
+@use 'dimens';
+@use 'colorMap' as *;
+
+.GeoGebraFrame {
+
+	.tab.scientific {
+		background-color: neutral(100);
+	}
+
+    .algebraPanelScientificSmallScreen {
+        padding-top: 8px;
+        box-sizing: border-box;
+    }
+
+    .undoBtnScientific {
+        margin-right: 12px;
+    }
+
+    .undoRedoCntScientific {
+        margin: 6px;
+        float: left;
+        position: relative;
+     }
+
+     &.smallScreen .undoRedoCntScientific, &.smallScreen .settingsBtnScientific {
+         margin: 0;
+     }
+
+    .undoRedoSettingsPanelScientific {
+        @extend %paperWidth;
+        position: relative;
+        clear: both;
+        height: 48px;
+        margin: auto;
+        padding-left: 72px;
+    }
+
+    &.landscape {
+       .undoRedoSettingsPanelScientific {
+           max-width: calc(100% - 120px);
+       }
+    }
+
+	&.compact,
+    &.smallScreen {
+       .undoRedoSettingsPanelScientific {
+           max-width: calc(100% - 36px);
+           height: 36px;
+       }
+    }
+
+	&.compact,
+    &.portrait, &.smallScreen {
+        .undoRedoSettingsPanelScientific {
+            padding-left: 0;
+        }
+    }
+
+    .scientificSettingsView {
+        background-color: neutral(100);
+    }
+
+    .scientificSettingsViewSmall {
+        background-color: white;
+    }
+
+    %sheetOfPaper {
+        background-color: neutral(100);
+         &>div {
+            @extend %paperWidth;
+            min-height: calc(100% - 24px);
+            box-sizing: border-box;
+            /** padding to make sure shadow goes to the very bottom when keyboard is open */
+            padding-bottom: 52px;
+            background: colors.$white;
+            margin-top: 24px;
+            margin-bottom: 24px;
+            padding-top: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 2px 0 colors.$black-14, 0 3px 1px -2px colors.$black-12, 0 1px 5px 0 colors.$black-20;
+            overflow-x: hidden;
+        }
+    }
+
+    %paperWidth {
+        width: 800px;
+        max-width: calc(100% - 48px);
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .panelScientificDefaults {
+        @extend %sheetOfPaper;
+        position: absolute;
+        top: 0;
+        &>div {
+            margin-bottom: 0;
+            border-bottom-right-radius: 0px;
+            border-bottom-left-radius: 0px;
+        }
+    }
+
+    .settingsPanelScientificNoHeader {
+        @extend %sheetOfPaper;
+        &>div {
+            padding-left: 16px;
+            padding-right: 128px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+    }
+
+    .settingsPanelScientificSmallScreen {
+        @extend .settingsPanelScientificNoHeader;
+        &>div {
+            width: 100%;
+            max-width: 100%;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            box-shadow: none;
+        }
+    }
+
+    .avItemHeaderScientific {
+        position: absolute;
+        height: 100%;
+        width: dimens.$scientificHeaderWidth;
+        cursor: default;
+    }
+
+    .algebraPanelScientific .newRadioButtonTreeItemParent {
+        border-width: 0;
+    }
+
+    .avItemNumber, .avWarningScientific {
+        font-size: 75%;
+        top: 14px;
+        left: 16px;
+        position: absolute;
+    }
+
+    .avWarningScientific {
+        top: 12px;
+        opacity: .54;
+    }
+
+    %panelFadeAnimation {
+        opacity: 1;
+        animation-iteration-count: 1;
+        animation-duration: 0.2s;
+    }
+
+    .panelFadeIn {
+        @extend %panelFadeAnimation;
+        & {
+            animation-name: fadeInOpacity;
+            animation-timing-function: ease-in;
+        }
+    }
+
+    .panelFadeOut {
+        @extend %panelFadeAnimation;
+        & {
+            animation-name: fadeOutOpacity;
+            animation-timing-function: ease-out;
+        }
+    }
+
+    .avNameLogo {
+    	margin-bottom: 0;
+    }
+}
+
+@keyframes fadeInOpacity {
+   	0% {
+   		opacity: 0;
+   	}
+   	100% {
+   		opacity: 1;
+   	}
+}
+
+@keyframes fadeOutOpacity {
+   	0% {
+   		opacity: 1;
+   	}
+   	100% {
+   		opacity: 0;
+   	}
+}

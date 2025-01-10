@@ -1,0 +1,1029 @@
+<?xml version="1.0" encoding="utf-8"?>
+<geogebra format="5.0" version="5.0.791.0" app="classic" platform="w"  xsi:noNamespaceSchemaLocation="http://www.geogebra.org/apps/xsd/ggt.xsd" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+    <macro cmdName="PixelsToPoint" toolName="PixelsToPoint" toolHelp="PixelsToPoint(Corner1,Corner3,Corner5,PixelCoords)" iconFile="" showInToolBar="true" copyCaptions="true" viewId="1">
+        <macroInput a0="Corner1" a1="Corner3" a2="Corner5" a3="InputPixels"/>
+        <macroOutput a0="OutputPoint"/>
+        <construction title="" author="" date="">
+            <expression label="InputPixels" exp="(100, 200)" type="point"/>
+            <element type="point" label="InputPixels">
+                <show object="true" label="true" ev="4"/>
+                <objColor r="77" g="77" b="255" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="100" y="200" z="1"/>
+            </element>
+            <element type="point" label="Corner5">
+                <show object="true" label="true" ev="4"/>
+                <objColor r="77" g="77" b="255" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="685" y="508" z="1"/>
+            </element>
+            <element type="point" label="Corner3">
+                <show object="true" label="true"/>
+                <objColor r="77" g="77" b="255" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="8.980000000000018" y="6.100000000000002" z="1"/>
+            </element>
+            <expression label="xRight" exp="x(Corner3)" />
+            <element type="numeric" label="xRight">
+                <value val="8.980000000000018"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <element type="point" label="Corner1">
+                <show object="true" label="true"/>
+                <objColor r="77" g="77" b="255" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="-4.760000000000007" y="-4.099999999999998" z="1"/>
+            </element>
+            <expression label="xLeft" exp="x(Corner1)" />
+            <element type="numeric" label="xLeft">
+                <value val="-4.760000000000007"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="yTop" exp="y(Corner3)" />
+            <element type="numeric" label="yTop">
+                <value val="6.100000000000002"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="yBottom" exp="y(Corner1)" />
+            <element type="numeric" label="yBottom">
+                <value val="-4.099999999999998"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="yCoord" exp="yTop - (y(InputPixels) / y(Corner5) * (yTop - yBottom))" />
+            <element type="numeric" label="yCoord">
+                <value val="2.0842519685039393"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="xCoord" exp="(x(InputPixels) / x(Corner5) * (xRight - xLeft)) + xLeft" />
+            <element type="numeric" label="xCoord">
+                <value val="-2.7541605839416095"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="OutputPoint" exp="(xCoord, yCoord)" type="point" />
+            <element type="point" label="OutputPoint">
+                <show object="true" label="true" ev="4"/>
+                <objColor r="68" g="68" b="68" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <pointSize val="4"/>
+                <pointStyle val="0"/>
+                <coords x="-2.7541605839416095" y="2.0842519685039393" z="1"/>
+            </element>
+        </construction>
+    </macro>
+    <macro cmdName="makeBox" toolName="makeBox" toolHelp="makeBox(point, width,height)" iconFile="" showInToolBar="true" copyCaptions="true" viewId="1">
+        <macroInput a0="PointText1" a1="boxWidth" a2="boxHeight"/>
+        <macroOutput a0="BoxText1"/>
+        <construction title="" author="" date="">
+            <element type="numeric" label="boxWidth">
+                <value val="3.3600000000000003"/>
+                <symbolic val="true" />
+                <show object="true" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+                <layer val="4"/>
+                <labelMode val="1"/>
+                <animation speed="1" type="0" playing="false"/>
+            </element>
+            <element type="numeric" label="boxHeight">
+                <value val="1.344"/>
+                <symbolic val="true" />
+                <show object="true" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+                <layer val="4"/>
+                <labelMode val="1"/>
+                <animation speed="1" type="0" playing="false"/>
+            </element>
+            <element type="point" label="PointText1">
+                <show object="false" label="true" ev="4"/>
+                <objColor r="82" g="82" b="82" alpha="0"/>
+                <layer val="4"/>
+                <labelMode val="0"/>
+                <animation step="1" speed="1" type="1" playing="false"/>
+                <pointSize val="7"/>
+                <pointStyle val="0"/>
+                <coords x="13.2825" y="9.7965" z="1"/>
+            </element>
+            <expression label="PointText2" exp="PointText1 + (boxWidth, 0)" type="point" />
+            <element type="point" label="PointText2">
+                <show object="false" label="true" ev="4"/>
+                <objColor r="82" g="82" b="82" alpha="0"/>
+                <layer val="4"/>
+                <labelMode val="0"/>
+                <pointSize val="7"/>
+                <pointStyle val="0"/>
+                <coords x="16.642500000000002" y="9.7965" z="1"/>
+            </element>
+            <expression label="PointText3" exp="PointText2 - (0, boxHeight)" type="point" />
+            <element type="point" label="PointText3">
+                <show object="false" label="true" ev="4"/>
+                <objColor r="82" g="82" b="82" alpha="0"/>
+                <layer val="4"/>
+                <labelMode val="0"/>
+                <pointSize val="7"/>
+                <pointStyle val="0"/>
+                <coords x="16.642500000000002" y="8.4525" z="1"/>
+            </element>
+            <expression label="PointText4" exp="PointText1 - (0, boxHeight)" type="point" />
+            <element type="point" label="PointText4">
+                <show object="false" label="true" ev="4"/>
+                <objColor r="82" g="82" b="82" alpha="0"/>
+                <layer val="4"/>
+                <labelOffset x="14" y="-79"/>
+                <labelMode val="0"/>
+                <pointSize val="7"/>
+                <pointStyle val="0"/>
+                <coords x="13.2825" y="8.4525" z="1"/>
+            </element>
+            <command name="Polygon">
+                <input a0="{PointText1, PointText2, PointText3, PointText4}"/>
+                <output a0="BoxText1"/>
+            </command>
+            <element type="polygon" label="BoxText1">
+                <lineStyle thickness="7" type="0" typeHidden="1"/>
+                <show object="true" label="false" ev="4"/>
+                <objColor r="21" g="101" b="192" alpha="0.10000000149011612"/>
+                <layer val="4"/>
+                <labelMode val="0"/>
+            </element>
+        </construction>
+    </macro>
+
+    <macro cmdName="closestFraction" toolName="closestFraction" toolHelp="closestFraction(decimal,listOfDenominators)" iconFile="" showInToolBar="true" copyCaptions="true" viewId="1">
+        <macroInput a0="decimalPart" a1="dens"/>
+        <macroOutput a0="roundedFrac"/>
+        <construction title="" author="" date="">
+            <element type="numeric" label="decimalPart">
+                <value val="0.6881645616624041"/>
+                <show object="true" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+                <layer val="0"/>
+                <labelMode val="1"/>
+                <animation speed="1" type="0" playing="false"/>
+            </element>
+            <expression label="dens" exp="{8, 5, 7, 9, 20, 2}"/>
+            <element type="list" label="dens">
+                <objColor r="0" g="100" b="0" alpha="0.10000000149011612"/>
+                <animation step="1" speed="1" type="0" playing="false"/>
+                <lineStyle thickness="5" type="0" typeHidden="1"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <angleStyle val="0"/>
+                <symbolic val="true" />
+            </element>
+            <expression label="l1" exp="round((decimalPart * dens), 0) / dens" />
+            <element type="list" label="l1">
+                <objColor r="0" g="100" b="0" alpha="0.10000000149011612"/>
+                <lineStyle thickness="5" type="0" typeHidden="1"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <angleStyle val="0"/>
+            </element>
+            <expression label="l2" exp="abs(l1 - decimalPart)" />
+            <element type="list" label="l2">
+                <objColor r="0" g="100" b="0" alpha="0.10000000149011612"/>
+                <lineStyle thickness="5" type="0" typeHidden="1"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <angleStyle val="0"/>
+            </element>
+            <command name="IndexOf">
+                <input a0="Min[l2]" a1="l2"/>
+                <output a0="e"/>
+            </command>
+            <element type="numeric" label="e">
+                <value val="5"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="roundedFrac" exp="l1(e)" />
+            <element type="numeric" label="roundedFrac">
+                <value val="0.7"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+        </construction>
+    </macro>
+    <macro cmdName="sideLabelNew" toolName="sideLabelNew" toolHelp="sideLabelNew(P1,P2,width,height,thirdPoint)" iconFile="" showInToolBar="true" copyCaptions="true" viewId="1">
+        <macroInput a0="s1A" a1="s1B" a2="width" a3="height" a4="opposite"/>
+        <macroOutput a0="q2"/>
+        <construction title="" author="" date="">
+            <element type="numeric" label="width">
+                <value val="2.8"/>
+                <show object="true" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+                <layer val="0"/>
+                <labelOffset x="-17" y="-60"/>
+                <labelMode val="1"/>
+                <animation step="0.1" speed="1" type="0" playing="false"/>
+            </element>
+            <element type="point" label="s1A">
+                <show object="true" label="true" ev="4"/>
+                <objColor r="77" g="77" b="255" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="8" y="21" z="1"/>
+            </element>
+            <element type="point" label="s1B">
+                <show object="true" label="true" ev="4"/>
+                <objColor r="77" g="77" b="255" alpha="0"/>
+                <layer val="0"/>
+                <labelOffset x="1" y="-12"/>
+                <labelMode val="0"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="13" y="22" z="1"/>
+            </element>
+            <command name="Angle">
+                <input a0="s1A - s1B"/>
+                <output a0="rightSideAngle"/>
+            </command>
+            <element type="angle" label="rightSideAngle">
+                <angleStyle val="0"/>
+                <value val="3.3389882134396736"/>
+                <lineStyle thickness="5" type="0" typeHidden="2" opacity="178"/>
+                <arcSize val="30"/>
+                <show object="true" label="true"/>
+                <objColor r="0" g="100" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+                <layer val="4"/>
+                <labelMode val="1"/>
+            </element>
+            <expression label="REFcotRight" exp="cot(rightSideAngle)" />
+            <element type="numeric" label="REFcotRight">
+                <value val="5.0000000000000115"/>
+                <symbolic val="true" />
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="REFtanAngle" exp="tan(rightSideAngle)" />
+            <element type="numeric" label="REFtanAngle">
+                <value val="0.19999999999999954"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="same" exp="REFcotRight ≟ REFtanAngle" />
+            <element type="boolean" label="same">
+                <value val="false"/>
+                <show object="false" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <checkbox fixed="true"/>
+            </element>
+            <expression label="sinRight" exp="sin(rightSideAngle)" />
+            <element type="numeric" label="sinRight">
+                <value val="-0.1961161351381836"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="cosRight" exp="cos(rightSideAngle)" />
+            <element type="numeric" label="cosRight">
+                <value val="-0.9805806756909202"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="vertical" exp="x(s1A) ≟ x(s1B)" />
+            <element type="boolean" label="vertical">
+                <value val="false"/>
+                <show object="false" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <checkbox fixed="true"/>
+            </element>
+            <command name="Line">
+                <input a0="s1A" a1="s1B"/>
+                <output a0="referenceLine"/>
+            </command>
+            <element type="line" label="referenceLine">
+                <show object="false" label="true" ev="4"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelOffset x="24" y="76"/>
+                <labelMode val="0"/>
+                <lineStyle thickness="5" type="0" typeHidden="1" opacity="178"/>
+                <eqnStyle style="implicit"/>
+                <coords x="-1" y="5" z="-97"/>
+            </element>
+            <expression label="p" exp="p(x) = If[Defined[Invert[referenceLine(x)]], Invert[referenceLine(x)], 0]" />
+            <element type="function" label="p">
+                <show object="false" label="true" ev="4"/>
+                <objColor r="153" g="51" b="255" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <fixed val="true"/>
+                <lineStyle thickness="5" type="0" typeHidden="1" opacity="178"/>
+            </element>
+            <command name="Distance">
+                <input a0="s1A" a1="s1B"/>
+                <output a0="lengthS1"/>
+            </command>
+            <element type="numeric" label="lengthS1">
+                <value val="5.0990195135927845"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <element type="numeric" label="height">
+                <value val="1.8"/>
+                <show object="true" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+                <layer val="0"/>
+                <labelMode val="1"/>
+                <animation step="0.1" speed="1" type="0" playing="false"/>
+            </element>
+            <expression label="yMove" exp="(REFtanAngle * width / 2) - height / 2" />
+            <element type="numeric" label="yMove">
+                <value val="-0.6200000000000007"/>
+                <symbolic val="true" />
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="xMove" exp="(REFcotRight * height / 2) - width / 2" />
+            <element type="numeric" label="xMove">
+                <value val="3.1000000000000107"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="referencePoint" exp="s1B + (((-width)) / 2, height / 2) + ((cosRight * lengthS1 / 2), (sinRight * lengthS1 / 2))" type="point" />
+            <element type="point" label="referencePoint">
+                <show object="true" label="true" ev="4"/>
+                <objColor r="68" g="68" b="68" alpha="0"/>
+                <layer val="4"/>
+                <labelOffset x="-80" y="2"/>
+                <labelMode val="0"/>
+                <pointSize val="4"/>
+                <pointStyle val="0"/>
+                <coords x="9.1" y="22.4" z="1"/>
+            </element>
+            <element type="point" label="opposite">
+                <show object="true" label="true" ev="4"/>
+                <objColor r="77" g="77" b="255" alpha="0"/>
+                <layer val="0"/>
+                <labelOffset x="-22" y="-7"/>
+                <labelMode val="0"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="9" y="18" z="1"/>
+            </element>
+            <expression label="bottom" exp="referenceLine(x(opposite)) &lt; y(opposite)" />
+            <element type="boolean" label="bottom">
+                <value val="false"/>
+                <show object="false" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <checkbox fixed="true"/>
+            </element>
+            <expression label="yMoveDownRight" exp="0 ≤ REFtanAngle &lt; 1 ∧ bottom" />
+            <element type="boolean" label="yMoveDownRight">
+                <value val="false"/>
+                <show object="false" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <checkbox fixed="true"/>
+            </element>
+            <expression label="yMoveDownLeft" exp="-1 ≤ REFtanAngle ≤ 0 ∧ bottom" />
+            <element type="boolean" label="yMoveDownLeft">
+                <value val="false"/>
+                <show object="false" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <checkbox fixed="true"/>
+            </element>
+            <expression label="top" exp="¬bottom" />
+            <element type="boolean" label="top">
+                <value val="true"/>
+                <show object="false" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <checkbox fixed="true"/>
+            </element>
+            <expression label="ySame" exp="(If[same ∧ top, 0.5, same, -0.5] * height)" />
+            <element type="numeric" label="ySame">
+                <value val="NaN"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="yMoveUpLeft" exp="0 ≤ REFtanAngle &lt; 1 ∧ top" />
+            <element type="boolean" label="yMoveUpLeft">
+                <value val="true"/>
+                <show object="false" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <checkbox fixed="true"/>
+            </element>
+            <expression label="yMoveUpRight" exp="-1 ≤ REFtanAngle &lt; 0 ∧ top" />
+            <element type="boolean" label="yMoveUpRight">
+                <value val="false"/>
+                <show object="false" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <checkbox fixed="true"/>
+            </element>
+            <command name="If">
+                <input a0="same" a1="ySame" a2="yMoveUpLeft" a3="height + yMove" a4="yMoveDownLeft" a5="yMove" a6="yMoveUpRight" a7="(-yMove)" a8="yMoveDownRight" a9="(-(height + yMove))" a10="0"/>
+                <output a0="yAdd2"/>
+            </command>
+            <element type="numeric" label="yAdd2">
+                <value val="1.1799999999999993"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="leftS1B" exp="x(opposite) &lt; x(s1B)" />
+            <element type="boolean" label="leftS1B">
+                <value val="true"/>
+                <show object="false" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <checkbox fixed="true"/>
+            </element>
+            <expression label="right_{1}" exp="vertical ∧ leftS1B" />
+            <element type="boolean" label="right_{1}">
+                <value val="false"/>
+                <show object="false" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <checkbox fixed="true"/>
+            </element>
+            <expression label="right" exp="p(y(opposite)) &gt; x(opposite) ∨ right_{1}" />
+            <element type="boolean" label="right">
+                <value val="false"/>
+                <show object="false" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <checkbox fixed="true"/>
+            </element>
+            <expression label="xSame" exp="(If[same ∧ (¬right), -0.5, same, 0.5] * width)" />
+            <element type="numeric" label="xSame">
+                <value val="NaN"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="xMoveLeftBottom" exp="-1 ≤ REFcotRight &lt; 0 ∧ (¬right)" />
+            <element type="boolean" label="xMoveLeftBottom">
+                <value val="false"/>
+                <show object="false" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <checkbox fixed="true"/>
+            </element>
+            <expression label="xMoveLeftTop" exp="0 ≤ REFcotRight &lt; 1 ∧ (¬right)" />
+            <element type="boolean" label="xMoveLeftTop">
+                <value val="false"/>
+                <show object="false" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <checkbox fixed="true"/>
+            </element>
+            <expression label="xMoveRightBottom" exp="0 ≤ REFcotRight ≤ 1 ∧ right" />
+            <element type="boolean" label="xMoveRightBottom">
+                <value val="false"/>
+                <show object="false" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <checkbox fixed="true"/>
+            </element>
+            <expression label="xMoveRightTop" exp="-1 &lt; REFcotRight &lt; 0 ∧ right" />
+            <element type="boolean" label="xMoveRightTop">
+                <value val="false"/>
+                <show object="false" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <checkbox fixed="true"/>
+            </element>
+            <command name="If">
+                <input a0="same" a1="xSame" a2="xMoveRightBottom" a3="width + xMove" a4="xMoveRightTop" a5="(-xMove)" a6="xMoveLeftTop" a7="(-width) - xMove" a8="xMoveLeftBottom" a9="xMove" a10="0"/>
+                <output a0="xAdd2"/>
+            </command>
+            <element type="numeric" label="xAdd2">
+                <value val="0"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="MovedXT2" exp="referencePoint + (xAdd2, yAdd2)" type="point" />
+            <element type="point" label="MovedXT2">
+                <show object="true" label="true" ev="4"/>
+                <objColor r="68" g="68" b="68" alpha="0"/>
+                <layer val="4"/>
+                <labelOffset x="-1" y="-80"/>
+                <labelMode val="0"/>
+                <pointSize val="4"/>
+                <pointStyle val="0"/>
+                <coords x="9.1" y="23.58" z="1"/>
+            </element>
+            <command name="makeBox">
+                <input a0="MovedXT2" a1="width" a2="height"/>
+                <output a0="q2"/>
+            </command>
+            <element type="polygon" label="q2">
+                <lineStyle thickness="7" type="0" typeHidden="1"/>
+                <show object="true" label="false" ev="4"/>
+                <objColor r="21" g="101" b="192" alpha="0.10000000149011612"/>
+                <layer val="4"/>
+                <labelMode val="0"/>
+            </element>
+        </construction>
+    </macro>
+    <macro cmdName="triPointLabelPosition" toolName="triPointLabelPosition" toolHelp="triPointLabelPosition(Point, B, C, distance)" iconFile="" showInToolBar="true" copyCaptions="true" viewId="1">
+        <macroInput a0="A" a1="B" a2="C" a3="radius"/>
+        <macroOutput a0="J"/>
+        <construction title="" author="" date="">
+            <element type="point" label="A">
+                <show object="true" label="false" ev="4"/>
+                <objColor r="77" g="77" b="255" alpha="0"/>
+                <layer val="2"/>
+                <labelMode val="0"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="2.718" y="2.694" z="1"/>
+            </element>
+            <element type="point" label="C">
+                <show object="true" label="true" ev="4"/>
+                <objColor r="77" g="77" b="255" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="2.4" y="1.18" z="1"/>
+            </element>
+            <element type="point" label="B">
+                <show object="true" label="true" ev="4"/>
+                <objColor r="77" g="77" b="255" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="1.96" y="2.64" z="1"/>
+            </element>
+            <expression label="Middle" exp="(A + B + C) / 3" type="point" />
+            <element type="point" label="Middle">
+                <show object="false" label="true"/>
+                <objColor r="68" g="68" b="68" alpha="0"/>
+                <layer val="5"/>
+                <labelMode val="0"/>
+                <pointSize val="4"/>
+                <pointStyle val="0"/>
+                <coords x="2.3593333333333333" y="2.171333333333333" z="1"/>
+            </element>
+            <command name="Ray">
+                <input a0="Middle" a1="A"/>
+                <output a0="f"/>
+            </command>
+            <element type="ray" label="f">
+                <show object="false" label="true" ev="4"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <lineStyle thickness="5" type="0" typeHidden="1" opacity="178"/>
+                <outlyingIntersections val="false"/>
+                <keepTypeOnTransform val="true"/>
+                <coords x="-0.5226666666666668" y="0.3586666666666667" z="0.4543600000000003"/>
+            </element>
+            <element type="numeric" label="radius">
+                <value val="0.5"/>
+                <show object="true" label="true"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+                <layer val="5"/>
+                <labelMode val="1"/>
+                <animation speed="1" type="0" playing="false"/>
+            </element>
+            <command name="Circle">
+                <input a0="A" a1="radius"/>
+                <output a0="g"/>
+            </command>
+            <element type="conic" label="g">
+                <show object="false" label="true" ev="4"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="5"/>
+                <labelOffset x="-80" y="-1"/>
+                <labelMode val="0"/>
+                <lineStyle thickness="5" type="0" typeHidden="1" opacity="178"/>
+                <eqnStyle style="specific"/>
+                <eigenvectors x0="1" y0="0" z0="1.0" x1="0" y1="1" z1="1.0"/>
+                <matrix A0="1" A1="1" A2="14.39516" A3="0" A4="-2.718" A5="-2.694"/>
+            </element>
+            <command name="Intersect">
+                <input a0="g" a1="f"/>
+                <output a0="H" a1="I"/>
+            </command>
+            <element type="point" label="H">
+                <show object="false" label="true"/>
+                <objColor r="68" g="68" b="68" alpha="0"/>
+                <layer val="5"/>
+                <labelMode val="0"/>
+                <pointSize val="4"/>
+                <pointStyle val="0"/>
+                <coords x="2.435092770705439" y="2.2817337030354357" z="1"/>
+            </element>
+            <element type="point" label="I">
+                <show object="false" label="true"/>
+                <objColor r="68" g="68" b="68" alpha="0"/>
+                <layer val="5"/>
+                <labelMode val="0"/>
+                <pointSize val="4"/>
+                <pointStyle val="0"/>
+                <coords x="3.0009072292945604" y="3.1062662969645642" z="1"/>
+            </element>
+            <expression label="l3" exp="{H}" />
+            <element type="list" label="l3">
+                <show object="false" label="true"/>
+                <objColor r="0" g="100" b="0" alpha="0"/>
+                <layer val="5"/>
+                <labelMode val="0"/>
+                <lineStyle thickness="5" type="0" typeHidden="1"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <angleStyle val="0"/>
+            </element>
+            <command name="KeepIf">
+                <input a0="Defined[n]" a1="n" a2="l3"/>
+                <output a0="l1"/>
+            </command>
+            <element type="list" label="l1">
+                <show object="false" label="true"/>
+                <objColor r="0" g="100" b="0" alpha="0"/>
+                <layer val="5"/>
+                <labelMode val="0"/>
+                <lineStyle thickness="5" type="0" typeHidden="1"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <angleStyle val="0"/>
+            </element>
+            <command name="If">
+                <input a0="Length[l1] &gt; 1" a1="Mirror[ClosestPoint[l1, Middle], A]" a2="l1(1)"/>
+                <output a0="J"/>
+            </command>
+            <element type="point" label="J">
+                <show object="true" label="true" ev="4"/>
+                <objColor r="125" g="125" b="255" alpha="0"/>
+                <layer val="5"/>
+                <labelMode val="0"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="3.000907229294561" y="3.1062662969645642" z="1"/>
+            </element>
+        </construction>
+    </macro>
+    <macro cmdName="VHCenter" toolName="VHCenter" toolHelp="VHCenter(P1,P2,P3)" iconFile="" showInToolBar="true" copyCaptions="true" viewId="1">
+        <macroInput a0="answerTriangleD" a1="answerTriangleE" a2="SimMove"/>
+        <macroOutput a0="MidDEFFinal"/>
+        <construction title="" author="" date="">
+            <element type="point" label="answerTriangleD">
+                <show object="true" label="false" ev="4"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="5"/>
+                <labelOffset x="-27" y="7"/>
+                <labelMode val="3"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <ggbscript val="#this is an answer point for the dilated triangle&#xa;#it is always shown because the coordinates of D and E never change"/>
+                <caption val="$\textbf{\mathsf{D}}$"/>
+                <pointSize val="1"/>
+                <pointStyle val="10"/>
+                <coords x="11.510253001455107" y="-2.4472886697615848" z="1"/>
+            </element>
+            <element type="point" label="answerTriangleE">
+                <show object="true" label="false" ev="4"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="5"/>
+                <labelOffset x="-2" y="13"/>
+                <labelMode val="3"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <ggbscript val="#this is an answer point for the dilated triangle&#xa;#it is always shown because the coordinates of D and E never change"/>
+                <caption val="$\textbf{\mathsf{E}}$"/>
+                <pointSize val="1"/>
+                <pointStyle val="10"/>
+                <coords x="11.84508407542691" y="2.341018771485573" z="1"/>
+            </element>
+            <element type="polygon" label="answerTriangle">
+                <lineStyle thickness="7" type="0" typeHidden="1"/>
+                <show object="true" label="false" ev="4"/>
+                <objColor r="58" g="110" b="214" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <fixed val="true"/>
+            </element>
+            <element type="segment" label="answerTriangleDE">
+                <show object="true" label="false" ev="4"/>
+                <objColor r="58" g="110" b="214" alpha="0"/>
+                <layer val="1"/>
+                <labelMode val="3"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <auxiliary val="false"/>
+                <ggbscript val="#updated answer triangle side"/>
+                <lineStyle thickness="7" type="0" typeHidden="1"/>
+                <outlyingIntersections val="false"/>
+                <keepTypeOnTransform val="true"/>
+                <startStyle val="default"/>
+                <endStyle val="default"/>
+                <coords x="-4.788307441247158" y="0.3348310739718041" z="55.93405839112022"/>
+            </element>
+            <element type="segment" label="answerTriangleEF">
+                <show object="true" label="false" ev="4"/>
+                <objColor r="218" g="37" b="112" alpha="0"/>
+                <layer val="1"/>
+                <labelMode val="3"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <auxiliary val="false"/>
+                <ggbscript val="#updated answer triangle side"/>
+                <lineStyle thickness="7" type="0" typeHidden="1"/>
+                <outlyingIntersections val="false"/>
+                <keepTypeOnTransform val="true"/>
+                <startStyle val="default"/>
+                <endStyle val="default"/>
+                <coords x="5.234748873209561" y="6.049578847691073" z="-76.16821815894039"/>
+            </element>
+            <element type="segment" label="answerTriangleFD">
+                <show object="true" label="false" ev="4"/>
+                <objColor r="15" g="133" b="56" alpha="0"/>
+                <layer val="1"/>
+                <labelMode val="3"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <auxiliary val="false"/>
+                <ggbscript val="#updated answer triangle side"/>
+                <lineStyle thickness="7" type="0" typeHidden="1"/>
+                <outlyingIntersections val="false"/>
+                <keepTypeOnTransform val="true"/>
+                <startStyle val="default"/>
+                <endStyle val="default"/>
+                <coords x="-0.44644143196240327" y="-6.384409921662877" z="-10.485840232179832"/>
+            </element>
+            <element type="list" label="thirdPointPossibilities">
+                <show object="false" label="true" ev="4"/>
+                <objColor r="82" g="82" b="82" alpha="0"/>
+                <layer val="4"/>
+                <labelMode val="0"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <ggbscript val="#this translates the possible solutions to the region that we start in"/>
+                <lineStyle thickness="5" type="0" typeHidden="1"/>
+                <pointSize val="7"/>
+                <pointStyle val="0"/>
+                <angleStyle val="0"/>
+            </element>
+            <element type="line" label="bisectDE">
+                <show object="false" label="true" ev="4"/>
+                <objColor r="21" g="101" b="192" alpha="0"/>
+                <layer val="5"/>
+                <labelMode val="0"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <ggbscript val="#this is used to generate the typical error points which are a reflection over the perpendicular bisector of DE"/>
+                <lineStyle thickness="7" type="0" typeHidden="1"/>
+                <eqnStyle style="implicit"/>
+                <coords x="-0.3348310739718041" y="-4.788307441247158" z="3.6556198258651476"/>
+            </element>
+            <command name="Mirror">
+                <input a0="thirdPointPossibilities" a1="bisectDE"/>
+                <output a0="thirdPointPossibilitiesError"/>
+            </command>
+            <element type="list" label="thirdPointPossibilitiesError">
+                <show object="false" label="true" ev="4"/>
+                <objColor r="0" g="100" b="0" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <lineStyle thickness="5" type="0" typeHidden="1"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <angleStyle val="0"/>
+            </element>
+            <command name="Flatten">
+                <input a0="{Sequence[RandomPointIn[-1, 20, -8, 7], n, 1, 400], thirdPointPossibilities, thirdPointPossibilitiesError}"/>
+                <output a0="snapPoints"/>
+            </command>
+            <element type="list" label="snapPoints">
+                <show object="false" label="true" ev="4"/>
+                <objColor r="0" g="100" b="0" alpha="0"/>
+                <layer val="5"/>
+                <labelMode val="0"/>
+                <fixed val="true"/>
+                <selectionAllowed val="false"/>
+                <ggbscript val="#points that the solution will snap to&#xa;#this includes the possible solutions as well as other random points"/>
+                <ggbscript onUpdate="#this is a random list of points that the movable point will snap to. This also includes the 2 possible solution points"/>
+                <lineStyle thickness="5" type="0" typeHidden="1"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <angleStyle val="0"/>
+            </element>
+            <element type="point" label="SimMove">
+                <show object="true" label="false" ev="4"/>
+                <objColor r="0" g="0" b="0" alpha="0"/>
+                <layer val="8"/>
+                <labelOffset x="22" y="15"/>
+                <labelMode val="3"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <ggbscript val="#this is a point that is movable. It snaps to points in snapPoints which includes the possible solutions"/>
+                <ggbscript onUpdate="#SetCoords(AnswerPoint, x(SimMove), y(SimMove))&#xa;SetCoords(SimMoveCopy, x(SimMove), y(SimMove))&#xa;&#xa;#SetValue(moved, 1)&#xa;#SetValue(enableBtnValidate, true)"/>
+                <caption val="$\textbf{\mathsf{F}}$"/>
+                <pointSize val="9"/>
+                <pointStyle val="10"/>
+                <coords x="17.23212136292765" y="-3.2042417354536177" z="1"/>
+            </element>
+            <expression label="MidDEFFinal" exp="((Max[Zip[x(n), n, {answerTriangleD, answerTriangleE, SimMove}]] + Min[Zip[x(n), n, {answerTriangleD, answerTriangleE, SimMove}]]) / 2, (Max[Zip[y(n), n, {answerTriangleD, answerTriangleE, SimMove}]] + Min[Zip[y(n), n, {answerTriangleD, answerTriangleE, SimMove}]]) / 2)" type="point" />
+            <element type="point" label="MidDEFFinal">
+                <show object="false" label="true"/>
+                <objColor r="82" g="82" b="82" alpha="0"/>
+                <layer val="8"/>
+                <labelMode val="0"/>
+                <pointSize val="7"/>
+                <pointStyle val="0"/>
+                <coords x="14.371187182191377" y="-0.43161148198402244" z="1"/>
+            </element>
+        </construction>
+    </macro>
+    <macro cmdName="VertHorCenter" toolName="VertHorCenter" toolHelp="VertHorCenter(P1,P2,P3)" iconFile="" showInToolBar="true" copyCaptions="true" viewId="1">
+        <macroInput a0="A" a1="B" a2="C"/>
+        <macroOutput a0="D"/>
+        <construction title="" author="" date="">
+            <element type="point" label="A">
+                <show object="true" label="true"/>
+                <objColor r="77" g="77" b="255" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="2.56" y="3" z="1"/>
+            </element>
+            <element type="point" label="B">
+                <show object="true" label="true"/>
+                <objColor r="77" g="77" b="255" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="-0.24" y="0.62" z="1"/>
+            </element>
+            <element type="point" label="C">
+                <show object="true" label="true"/>
+                <objColor r="125" g="125" b="255" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="6" y="2" z="1"/>
+            </element>
+            <expression label="D" exp="((Max[Zip[x(n), n, {A, B, C}]] + Min[Zip[x(n), n, {A, B, C}]]) / 2, (Max[Zip[y(n), n, {A, B, C}]] + Min[Zip[y(n), n, {A, B, C}]]) / 2)" type="point" />
+            <element type="point" label="D">
+                <show object="true" label="true"/>
+                <objColor r="68" g="68" b="68" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <pointSize val="4"/>
+                <pointStyle val="0"/>
+                <coords x="2.88" y="1.81" z="1"/>
+            </element>
+        </construction>
+    </macro>
+    <macro cmdName="PointToPixels" toolName="PointToPixels" toolHelp="PointToPixels(Corner1,Corner3,Corner5,InputPoint)" iconFile="" showInToolBar="true" copyCaptions="true" viewId="1">
+        <macroInput a0="Corner1" a1="Corner3" a2="Corner5" a3="InputPoint"/>
+        <macroOutput a0="OutputPixels"/>
+        <construction title="" author="" date="">
+            <expression label="Corner1" exp="(-5, -5)" type="point"/>
+            <element type="point" label="Corner1">
+                <show object="true" label="true"/>
+                <objColor r="77" g="77" b="255" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="-5" y="-5" z="1"/>
+            </element>
+            <expression label="Corner3" exp="(16, 6)" type="point"/>
+            <element type="point" label="Corner3">
+                <show object="true" label="true"/>
+                <objColor r="77" g="77" b="255" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="16" y="6" z="1"/>
+            </element>
+            <expression label="Corner5" exp="(300, 200)" type="point"/>
+            <element type="point" label="Corner5">
+                <show object="true" label="true" ev="4"/>
+                <objColor r="77" g="77" b="255" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="300" y="200" z="1"/>
+            </element>
+            <element type="point" label="InputPoint">
+                <show object="true" label="true" ev="4"/>
+                <objColor r="77" g="77" b="255" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <animation step="0.1" speed="1" type="1" playing="false"/>
+                <pointSize val="5"/>
+                <pointStyle val="0"/>
+                <coords x="0.88" y="2.68" z="1"/>
+            </element>
+            <expression label="xLeft" exp="x(Corner1)" />
+            <element type="numeric" label="xLeft">
+                <value val="-5"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="xRight" exp="x(Corner3)" />
+            <element type="numeric" label="xRight">
+                <value val="16"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="yTop" exp="y(Corner3)" />
+            <element type="numeric" label="yTop">
+                <value val="6"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="yBottom" exp="y(Corner1)" />
+            <element type="numeric" label="yBottom">
+                <value val="-5"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="yPixels" exp="(y(Corner5) * (yTop - y(InputPoint)) / (yTop - yBottom))" />
+            <element type="numeric" label="yPixels">
+                <value val="60.36363636363637"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="xPixels" exp="(x(Corner5) * (x(InputPoint) - xLeft) / (xRight - xLeft))" />
+            <element type="numeric" label="xPixels">
+                <value val="83.99999999999999"/>
+                <objColor r="0" g="0" b="0" alpha="0.10000000149011612"/>
+                <bgColor r="0" g="0" b="0" alpha="255"/>
+            </element>
+            <expression label="OutputPixels" exp="(xPixels, yPixels)" type="point" />
+            <element type="point" label="OutputPixels">
+                <show object="true" label="true" ev="4"/>
+                <objColor r="68" g="68" b="68" alpha="0"/>
+                <layer val="0"/>
+                <labelMode val="0"/>
+                <pointSize val="4"/>
+                <pointStyle val="0"/>
+                <coords x="83.99999999999999" y="60.36363636363637" z="1"/>
+            </element>
+        </construction>
+    </macro>
+</geogebra>

@@ -1,0 +1,4 @@
+<module rename-to="editor">
+    <inherits name='org.geogebra.web.Editor'/>
+    <add-linker name="sso"/>
+</module>

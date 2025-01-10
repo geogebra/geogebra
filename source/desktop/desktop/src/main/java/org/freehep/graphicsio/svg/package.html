@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<META NAME="GENERATOR" Content="Microsoft FrontPage 4.0">
+<TITLE></TITLE>
+</HEAD>
+<BODY>
+
+<p>SVG (Scalable Vector Graphics) Output Format.</p>
+
+<p>SVG version implemented is REC-SVG-20010904, see <a href="http://www.w3.org"> www.w3.org</a></p>
+
+<p>Adobe's SVGView plugin version 3.0 can be used as viewer</p>
+
+<p>The following Limitations exist:</p>
+<ul>
+  <li>TestClipping, one pixel offset and only rectangular clipping</li>
+  <li>TestTaggedString last font not Courier</li>
+  <li>TestText2D vertical offset ignored</li>
+  <li>TestShapes no dingbats</li>
+  <li>TestShapes no symbols</li>
+  <li>TestPaint TexturePaint is not implemented</li>
+  <li>TestFonts real unicode problems</li>
+  <li>TestAll no Impact font.</li>
+  <li>TestAll no special characters for impact.</li>
+  <li>TestAll no sky.</li>
+  <li>FontMetrics is implemented using the JDK fonts rather than the SVG fonts.</li>
+  <li>The TestColorMap is not properly exported (linewidth or insets) to SVG. The surrounding boxes<br>
+  are too thick.</li>
+  <li>The setTextPosition call is implemented, but viewers do not yet support "alignment-baseline"</li>
+  <li>The symbol font is not displayed</li>
+  <li>The zapfdingbats font is displayed as Helvetica</li>
+  <li>Compressed svg files (svgz) were never tested, since no viewers accepts them.</li>
+  <li>drawString(attributedCharIter) is unimplemented.</li>
+  <li>The tagstring &lt;v> tag is ignored. This should be implemented using &lt;glyphRun> which is not supported yet in
+    SVGView 3.0</li>
+</ul>
+<p>
+
+@status Stable.</p>
+</BODY>
+</HTML>

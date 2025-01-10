@@ -1,0 +1,507 @@
+@use 'colors';
+@use 'info-card';
+@use 'z-index';
+@use 'colorMap' as *;
+
+.GeoGebraFrame{
+	$pagecontrolpanelWidth: 240px;
+	$always_on_top: 60;
+
+	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
+	$floatingbtn-hover-transition: background-color 0.15s;
+	$floatingbtn-appear-transition: width 0.2s, height 0.2s, right 0.2s, margin-bottom 0.2s, visibility 0.2s;
+	$floatingbtn-img-appear-transition: width 0.2s, height 0.2s, padding 0.2s;
+
+	.SelectionTable {
+		border-collapse: collapse;
+
+		td {
+			padding: 2px;
+		}
+
+		.gwt-Label.borderButton {
+			border: 1px solid;
+			border-radius: 5px;
+			height: 24px;
+			width: 24px;
+		}
+
+		.gwt-Label {
+			background-repeat: no-repeat;
+			background-position: center center;
+			padding: 3px;
+			cursor: pointer;
+
+			&.selected {
+				color: colors.$mow-primary;
+			}
+
+			&:hover {
+				background-color: colors.$menu-focus-default;
+			}
+
+			&.border.selected, &.border:hover {
+				background-color: transparent !important;
+				border: 1px solid colors.$mow_primary;
+			}
+		}
+
+		.plusButton {
+			text-align: center;
+			font-size: larger;
+		}
+	}
+
+	.IconButton, .ToggleButton {
+		border: neutral(500) solid 1px;
+
+		&:hover, &.active, &.selected, &.gwt-ToggleButton-down {
+			border: colors.$mow_primary solid 1px;
+		}
+	}
+
+	&.withIcon {
+		.buttonContent {
+			opacity: 0.7;
+		}
+	}
+
+/*****************
+*   STYLEBAR with Feature.MOW_COLOR_FILLING_LINE
+******************/
+	.mowDynStyleBar {
+		.btnCrop,.btnBold,.btnItalic,.btnUnderline {
+			border-radius: 2px;
+			margin-left: 0px;
+			margin-right: 8px;
+
+			img {
+				opacity: 0.7;
+			}
+
+			&:hover, &:focus {
+				border: colors.$mow_primary solid 1px !important;
+			}
+
+			&.gwt-ToggleButton-down {
+				border: colors.$mow_primary solid 1px !important;
+			}
+		}
+
+		.matDynStyleContextButton:hover {
+			margin-right: 0px !important;
+			margin-left: 0px !important;
+			border: none !important;
+		}
+	}
+
+	.mowPopup{
+		.gwt-Label.border.selected,
+		.gwt-Label.border:hover,
+		.gwt-Label.border.active{
+			border: 1px solid colors.$mow_primary !important;
+		}
+		.plusButton:hover {
+			border: 1px solid colors.$mow_primary !important;
+		}
+
+		.panelRow.panelRow2.showSlider {
+			 width: 180px !important;
+
+			 input[type=range] {
+				width: calc(100% - 74px);
+			 }
+		}
+
+		.noColBtn {
+			display: inline-flex;
+			cursor: pointer;
+			margin: 1px 1px 4px 1px;
+			width: calc(100% - 2px);
+
+			&:hover {
+				background-color: colors.$black-04;
+			}
+
+			img {
+				opacity: 0.54;
+				padding: 2px 0px 2px 2px;
+			}
+
+			.gwt-Label {
+				font-size: 14px;
+				margin: 4px 0px 4px 12px;
+				height: 20px;
+				line-height: 20px;
+				cursor: pointer;
+			}
+		}
+
+		.gwt-Label.stylebarButton {
+			opacity: 0.7;
+		}
+	}
+
+/*****************
+*   BURGER MENU
+******************/
+	.mowMenubar {
+		  position: absolute;
+		  width: 100%;
+		  top: 45px;
+		  background-color: colors.$white !important;
+
+		  .menuPanel {
+			width: 267px !important;
+			border: 1px solid colors.$tool-border;
+		}
+	}
+	.subMenuRightSidePopup {
+		box-shadow: none;
+		padding: 0px;
+		border-radius: 0px;
+		left: 280px;
+	}
+	.subMenuRightSide {
+		left: -15px;
+
+		.arrowSubmenu {
+			position: absolute;
+			top: 0px;
+			left: -15px;
+		}
+	}
+/*****************
+*   FLOATING ACTION BUTTONS
+******************/
+	.mowFloatingButton {
+		cursor: pointer;
+		position: absolute;
+		border-radius: 50%;
+		will-change: transform;
+		z-index: z-index.$z-page-control-button;
+
+		background-color: colors.$mow_primary;
+		box-shadow: 0px 2px 10px colors.$black-30, 0px 0px 1px colors.$black-10, inset 0px 1px 0px colors.$white-25, inset 0px -1px 0px colors.$black-15;
+		transition: $floatingbtn-hover-transition, $mowsubmenu-transition;
+
+		&:hover {
+			background-color: var(--ggb-dark-color);
+		}
+	}
+
+	.mowPlusButton{
+		bottom: 0px;
+	}
+
+	.hideMowFloatingButton {
+		@extend .mowFloatingButton;
+		cursor: default;
+		width: 0px !important;
+		height: 0px !important;
+		right: 40px;
+		margin-bottom: 40px;
+		visibility: hidden;
+		transition: $floatingbtn-appear-transition;
+
+		img {
+			width: 0px !important;
+			height: 0px !important;
+			padding: 0px;
+			transition: $floatingbtn-img-appear-transition;
+		}
+	}
+	.showMowFloatingButton {
+		@extend .mowFloatingButton;
+		width: 48px;
+		height: 48px;
+		right: 16px;
+		margin-bottom: 16px;
+		bottom: 0px;
+		visibility: visible;
+		transition: $floatingbtn-hover-transition, $floatingbtn-appear-transition, $mowsubmenu-transition;
+
+		img {
+			width: 24px !important;
+			height: 24px !important;
+			padding: 12px;
+			transition: $floatingbtn-img-appear-transition;
+		}
+	}
+
+/*****************
+*   PAGE CONTROL PANEL
+******************/
+	.mowPageControlPanel {
+		position: absolute;
+		top: 48px;
+		right: 0px;
+		border-left: 1px solid neutral(300);
+		background-color: colors.$white;
+		z-index: z-index.$z-page-control-panel;
+		height: calc(100% - 48px);
+		width: $pagecontrolpanelWidth;
+		overflow: hidden;
+
+		.mowPageControlScrollPanel{
+			height: 100%;
+			overflow-x: hidden;
+			overflow-y: auto;
+		}
+
+		.mowPageControlContentPanel {
+			width: 100%;
+			margin-bottom: 64px;
+			padding: 16px 0;
+		}
+	}
+	.mowPageControlPanel.animateIn {
+		animation-duration: 0.3s;
+		animation-name: pCPanimateIn;
+		animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+		overflow: auto;
+	}
+
+	@keyframes pCPanimateIn {
+		0% {right: -$pagecontrolpanelWidth; top: 48px;}
+		100% {right: 0px; top: 48px;}
+	}
+
+	.mowPageControlPanel.animateOut {
+		animation-duration: 0.3s;
+		animation-name: pCPanimateOut;
+		animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+		overflow-y: auto;
+	}
+
+	@keyframes pCPanimateOut {
+		0% {right: 0px; top: 48px;}
+		100% {right: -$pagecontrolpanelWidth; top: 48px;}
+	}
+
+/*****************
+*   PAGE PREVIEW CARD
+******************/
+
+	.cardRow {
+		position: absolute;
+		display: flex;
+		margin-bottom: 16px;
+	}
+
+	.number {
+        display: flex;
+        flex-direction: column;
+        width: 24px;
+        height: 24px;
+        align-items: flex-end;
+        justify-content: center;
+        color: neutral(900);
+    }
+
+	.mowPreviewCard {
+		width: 192px;
+		height: 128px;
+		margin-left: 8px;
+		border-radius: 12px;
+		box-sizing: border-box;
+		border: 2px solid neutral(300);
+		background-color: colors.$white;
+		transition: box-shadow .25s;
+		cursor: pointer;
+
+		.cardImagePanel {
+			width: 100%;
+			height: 124px;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: 110%;
+			border-radius: 12px;
+		}
+
+		.mowTitlePanel {
+			@extend .cardInfo;
+			width: 100%;
+			height: 48px;
+			position: relative;
+			bottom: 48px;
+			flex-direction: column;
+			border-bottom-right-radius: 12px;
+			border-bottom-left-radius: 12px;
+			background-color: colors.$white-80;
+
+			.cardTitle {
+				width: 134px;
+				padding: 12px 0 12px 16px;
+				height: 24px;
+				line-height: 24px;
+			}
+
+			.cardAuthor {
+				display: none;
+			}
+
+			.mowMoreButton {
+				width: 24px;
+				height: 24px;
+				padding: 6px;
+				margin: 6px 2px 6px 0;
+				right: 0;
+				position: absolute;
+				opacity: 0.54;
+
+				&:hover {
+					opacity: 0.85;
+				}
+			}
+
+			.mowMoreButton.active {
+				opacity: 1;
+			}
+		}
+	}
+
+	.cardRow.selected {
+		.mowPreviewCard {
+			border-color: var(--ggb-primary-color);
+			box-sizing: border-box;
+
+			&:hover {
+				border-color: var(--ggb-primary-color);
+            }
+		}
+	}
+
+	.cardRow.noTitle {
+		.mowTitlePanel {
+			background-color: transparent;
+		}
+
+		.cardTitle {
+			display: none;
+		}
+	}
+
+	.mowPreviewCard.desktop {
+		&:hover {
+			border-color: neutral(500);
+		}
+	}
+
+	.cardRow.dragged {
+		.mowPreviewCard {
+			z-index: z-index.$z-on-top-of-graphics;
+			box-shadow: 0px 6px 32px -2px rgba(133, 132, 138, 0.16), 0px 4px 12px -1px rgba(133, 132, 138, 0.06);
+		}
+	}
+
+/*****************
+*   PAGE PREVIEW CARD CONTEXT MENU
+******************/
+	.mowMatMenu.gwt-PopupPanel {
+		width: 168px;
+		min-width: 112px !important;
+		z-index: z-index.$z-dialog-context-menu;
+		.gwt-MenuItem {
+			width: 168px;
+			min-width: 112px !important;
+			padding-left: 56px !important;
+		}
+	}
+
+	.mowCalcLabel{
+		font-size: 16px;
+		width: fit-content;
+		visibility: hidden;
+	}
+
+
+// widgets: video, audio
+	.mowWidget {
+		position: absolute;
+		border-style: none;
+		overflow: hidden;
+		z-index: z-index.$z-mow-video;
+		.gwt-Frame{
+			box-sizing: border-box;
+			width: 100%;
+			height: 100%;
+		}
+		&.mowVideo {
+			border-style: none;
+		}
+	}
+
+	.mowWidget.background {
+		@extend .mowVideo;
+	}
+
+	.mowVideo video {
+		width: 100%;
+		height: 100%;
+		object-fit: fill;
+	}
+
+	.mowWidget.error {
+		@extend .mowVideo;
+		div {
+			width: 50%;
+			margin: auto;
+			text-align: center;
+			padding: 33% 0;
+		}
+		box-sizing: border-box;
+		border: 1px solid;
+	}
+
+	.inlineTextToolbar {
+		padding: 0 16px 6px 16px;
+
+		&.selectedItem {
+			background: none;
+		}
+
+		.ToggleButton {
+			border-radius: 2px;
+			display: inline-block;
+			margin: 0 8px 0 0;
+
+			.gwt-Image {
+				opacity: 0.7;
+				margin-left: 0;
+				position: relative;
+			}
+
+			&.selected {
+				border-color: colors.$mow_primary;
+			}
+
+			&:hover {
+				border-color: colors.$mow_primary;
+			}
+		}
+	}
+
+	 // unit rectangle for mask to transform with matrix
+	 .maskWidget {
+		position: absolute;
+		z-index: z-index.$z-mask;
+		top: 0;
+		left: 0;
+		width: 100px;
+		height: 100px;
+		transform-origin: left top;
+	}
+
+	.embedContainer .EuclidianPanel {
+		z-index: 0;
+	}
+
+	.embedContainer {
+		--ggb-primary-color: #{purple(600)};
+	}
+
+	.infoErrorPanel.browserNotSupported {
+		margin-top: 88px;
+	}
+}

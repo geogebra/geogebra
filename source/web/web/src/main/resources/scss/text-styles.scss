@@ -1,0 +1,25 @@
+@use 'colors';
+
+.GeoGebraFrame {
+
+    .headline6 {
+        font-size: 125%;
+        font-weight: 500;
+        letter-spacing: 0.25px;
+        color: colors.$black-87;
+    }
+
+    .subtitle1 {
+        font-size: 100%;
+        font-weight: 400;
+        letter-spacing: 0.15px;
+        line-height: 1.5em;
+        color: colors.$black-54;
+    }
+
+    .subtitle1-link {
+        @extend .subtitle1;
+        color: colors.$black-87;
+        font-weight: 500;
+    }
+}

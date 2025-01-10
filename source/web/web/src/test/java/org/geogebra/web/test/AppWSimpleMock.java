@@ -1,0 +1,39 @@
+package org.geogebra.web.test;
+
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
+import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
+import org.geogebra.web.html5.main.AppWsimple;
+import org.geogebra.web.html5.util.AppletParameters;
+import org.geogebra.web.html5.util.ArchiveLoader;
+
+/**
+ * Like production, mock async loading of commands
+ *
+ */
+public class AppWSimpleMock extends AppWsimple {
+	private ArchiveLoader view;
+
+	/**
+	 * @param article article element
+	 * @param frame GeoGebraFrame
+	 * @param undoActive if true you can undo by CTRL+Z and redo by CTRL+Y
+	 */
+	public AppWSimpleMock(AppletParameters article, GeoGebraFrameSimple frame,
+			boolean undoActive) {
+		super(DomMocker.getGeoGebraElement(), article, frame, undoActive);
+	}
+
+	@Override
+	public ArchiveLoader getArchiveLoader() {
+		if (view == null) {
+			view = new ArchiveLoaderMock(this);
+		}
+		return view;
+	}
+
+	@Override
+	public CommandDispatcherW newCommandDispatcher(Kernel cmdKernel) {
+		return new CommandDispatcherWSync(cmdKernel);
+	}
+}
