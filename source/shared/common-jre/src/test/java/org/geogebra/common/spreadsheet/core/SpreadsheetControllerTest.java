@@ -367,14 +367,15 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
     }
 
     @Test
-    public void testReturnCommitsCellEditorChanges() {
+    public void testReturnCommitsCellEditorChangesAndMovesSelection() {
         tabularData.setContent(0, 0, "1");
         simulateCellMouseClick(0, 0, 2);
         assertTrue(controller.isEditorActive());
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_0);
         simulateKeyPressInCellEditor(JavaKeyCodes.VK_ENTER);
-        assertFalse(controller.isEditorActive());
         assertEquals("10", tabularData.contentAt(0, 0));
+        assertTrue(controller.isEditorActive());
+        assertTrue(controller.isOnlyCellSelected(1, 0));
     }
 
     @Test
