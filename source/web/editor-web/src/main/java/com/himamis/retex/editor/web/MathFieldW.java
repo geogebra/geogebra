@@ -393,7 +393,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			// so it must be redirected to the onKeyTyped() handler.
 			if (powerHappened && isAlphanumeric(event.getNativeEvent())) {
 				powerHappened = false;
-				redirectToKeyTyped(keyListener, (char) event.getNativeKeyCode(), event);
+				char key = (char) event.getNativeKeyCode();
+				key = com.himamis.retex.editor.share.input.Character.isLetterOrDigit(key) ? key
+						: (char) convertToJavaKeyCode(event.getNativeEvent());
+				redirectToKeyTyped(keyListener, key, event);
 				return;
 			}
 			if (checkPowerKeyInput(html2.getElement())) {
