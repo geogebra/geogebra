@@ -1,3 +1,7 @@
+plugins {
+    alias(libs.plugins.geogebra.idea)
+}
+
 description = "GeoGebra"
 
 subprojects {
