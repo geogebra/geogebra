@@ -424,9 +424,9 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
         tabularData.setContent(1, 0, "2");
         tabularData.setContent(2, 0, "3");
         selectCells(0, 0, 2, 0);
-        controller.calculate(SpreadsheetCommand.SUM);
+        controller.calculate(SpreadsheetCommand.MEAN);
 
-        assertEquals("=SUM(A1:A3)", tabularData.contentAt(3, 0));
+        assertEquals("=mean(A1:A3)", tabularData.contentAt(3, 0));
     }
 
     @Test
@@ -441,7 +441,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
 
         assertNull(tabularData.contentAt(3, 0));
         assertNull(tabularData.contentAt(3, 1));
-        assertEquals("=SUM(A1:C3)", tabularData.contentAt(3, 2));
+        assertEquals("=Sum(A1:C3)", tabularData.contentAt(3, 2));
     }
 
     @Test
@@ -452,7 +452,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
         selectCells(0, 0, tabularData.numberOfRows() - 2, 0);
         controller.calculate(SpreadsheetCommand.SUM);
 
-        assertEquals("=SUM(A1:A99)", tabularData.contentAt(tabularData.numberOfRows() - 1, 0));
+        assertEquals("=Sum(A1:A99)", tabularData.contentAt(tabularData.numberOfRows() - 1, 0));
     }
 
     @Test
@@ -461,9 +461,9 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
         tabularData.setContent(0, 1, "2");
         tabularData.setContent(0, 2, "3");
         selectCells(0, 0, 0, 2);
-        controller.calculate(SpreadsheetCommand.SUM);
+        controller.calculate(SpreadsheetCommand.MEAN);
 
-        assertEquals("=SUM(A1:C1)", tabularData.contentAt(0, 3));
+        assertEquals("=mean(A1:C1)", tabularData.contentAt(0, 3));
     }
 
     // Helpers

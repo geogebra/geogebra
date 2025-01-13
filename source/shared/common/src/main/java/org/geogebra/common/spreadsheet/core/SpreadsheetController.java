@@ -1113,7 +1113,7 @@ public final class SpreadsheetController {
 			int toRow, int toCol) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("=");
-		sb.append(command.toString());
+		sb.append(command.getCommand());
 		sb.append("(");
 		if (fromRow > -1 && fromCol > -1 && toRow > -1 && toCol > -1) {
 			sb.append(GeoElementSpreadsheet.getSpreadsheetCellName(fromCol, fromRow));
