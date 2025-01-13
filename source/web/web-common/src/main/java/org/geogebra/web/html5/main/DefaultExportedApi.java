@@ -1,10 +1,5 @@
 package org.geogebra.web.html5.main;
 
-import org.geogebra.common.gui.view.table.InvalidValuesException;
-import org.geogebra.web.html5.util.JsRunnable;
-import org.geogebra.web.html5.util.StringConsumer;
-import org.gwtproject.dom.client.Element;
-
 import elemental2.core.Global;
 import elemental2.core.JsArray;
 import elemental2.dom.DomGlobal;
@@ -13,6 +8,10 @@ import jsinterop.annotations.JsIgnore;
 import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
+import org.geogebra.common.gui.view.table.InvalidValuesException;
+import org.geogebra.web.html5.util.JsRunnable;
+import org.geogebra.web.html5.util.StringConsumer;
+import org.gwtproject.dom.client.Element;
 
 /**
  * Maps GeoGebra functions to exported JS api
@@ -92,7 +91,7 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public void login(String token, Object ui) {
-		getGgbAPI().login(token  + "", Js.isTruthy(ui));
+		getGgbAPI().login(token + "", Js.isTruthy(ui));
 	}
 
 	public void logout() {
@@ -355,7 +354,7 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public boolean renameObject(String oldName, String newName,
-			@TS(TS.OPTIONAL_BOOL) Object force) {
+								@TS(TS.OPTIONAL_BOOL) Object force) {
 		return getGgbAPI().renameObject(oldName + "", newName + "", Js.isTruthy(force));
 	}
 
@@ -378,7 +377,7 @@ public class DefaultExportedApi implements ExportedApi {
 
 	public String getDefinitionString(String objName, @TS(TS.OPTIONAL_BOOL) Object localized) {
 		boolean localizedB = JsEval.isUndefined(localized) || Js.isTruthy(localized);
-		return getGgbAPI().getDefinitionString(objName + "",  localizedB);
+		return getGgbAPI().getDefinitionString(objName + "", localizedB);
 	}
 
 	public String getLaTeXString(String objName) {
@@ -495,7 +494,7 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public void setCoordSystem(double xmin, double xmax, double ymin, double ymax, Object zmin,
-			Object zmax, Object verticalY) {
+							   Object zmax, Object verticalY) {
 		if (!"number".equals(Js.typeof(zmin))) {
 			getGgbAPI().setCoordSystem(xmin, xmax, ymin, ymax);
 		} else {
@@ -699,13 +698,13 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public String getPNGBase64(double exportScale, Object transparent, double dpi,
-			Object copyToClipboard, Object greyscale) {
+							   Object copyToClipboard, Object greyscale) {
 		return getGgbAPI().getPNGBase64(exportScale, Js.isTruthy(transparent), dpi,
 				Js.isTruthy(copyToClipboard), Js.isTruthy(greyscale));
 	}
 
 	public void exportGIF(String sliderLabel, double scale, double timeBetweenFrames,
-			Object isLoop, String filename, Object rotate) {
+						  Object isLoop, String filename, Object rotate) {
 		getGgbAPI().exportGIF(sliderLabel, scale, timeBetweenFrames, Js.isTruthy(isLoop),
 				filename, Js.coerceToInt(rotate));
 	}
@@ -758,7 +757,7 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public boolean writePNGtoFile(String filename, double exportScale, Object transparent,
-			double DPI, Object greyscale) {
+								  double DPI, Object greyscale) {
 		return getGgbAPI().writePNGtoFile(filename + "", exportScale, Js.isTruthy(transparent),
 				DPI, Js.isTruthy(greyscale));
 	}
@@ -845,8 +844,8 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public String exportCollada(Object xmin, Object xmax, Object ymin, Object ymax, Object zmin,
-			Object zmax, Object xyScale, Object xzScale, Object xTickDistance,
-			Object yTickDistance, Object zTickDistance) {
+								Object zmax, Object xyScale, Object xzScale, Object xTickDistance,
+								Object yTickDistance, Object zTickDistance) {
 		return getGgbAPI().exportCollada(doubleOrDefault(xmin, -5), doubleOrDefault(xmax, 5),
 				doubleOrDefault(ymin, -5), doubleOrDefault(ymax, 5),
 				doubleOrDefault(zmin, -5), doubleOrDefault(zmax, 5),
@@ -856,11 +855,11 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public String exportSimple3d(String name, double xmin, double xmax, double ymin, double ymax,
-			double zmin, double zmax, double xyScale, double xzScale, double xTickDistance,
-			double yTickDistance, double zTickDistance) {
+								 double zmin, double zmax, double xyScale, double xzScale, double xTickDistance,
+								 double yTickDistance, double zTickDistance) {
 		return getGgbAPI().exportSimple3d(
-			name + "", xmin, xmax, ymin, ymax, zmin, zmax, xyScale,
-			xzScale, xTickDistance, yTickDistance, zTickDistance);
+				name + "", xmin, xmax, ymin, ymax, zmin, zmax, xyScale,
+				xzScale, xTickDistance, yTickDistance, zTickDistance);
 	}
 
 	public String translate(String arg1, StringConsumer callback) {
@@ -981,7 +980,7 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public void registerObjectUpdateListener(String objName,
-			@TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
+											 @TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
 		getGgbAPI().registerObjectUpdateListener(objName + "", JSFunctionName);
 	}
 
@@ -990,7 +989,7 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public void registerObjectClickListener(String objName,
-			@TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
+											@TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
 		getGgbAPI().registerObjectClickListener(objName + "", JSFunctionName);
 	}
 
@@ -1135,5 +1134,17 @@ public class DefaultExportedApi implements ExportedApi {
 			throw new IllegalStateException("app was already removed");
 		}
 		return ggbAPI;
+	}
+
+	/**
+	 * Add a custom tool with given properties
+	 *
+	 * @param iconUrl the URL of the tool icon.
+	 * @param name The name of the tool.
+	 * @param category to put the tool in.
+	 * @param callback the action of the tool.
+	 */
+	public void addCustomTool(String iconUrl, String name, String category, Object callback) {
+		getGgbAPI().addCustomTool(iconUrl, name, category, callback);
 	}
 }

@@ -4,12 +4,15 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_RULER;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_SELECT_MOW;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithMenu;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithPopup;
@@ -33,6 +36,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 	private final List<IconButton> buttons = new ArrayList<>();
 	private final ToolboxIconResource toolboxIconResource;
 	private IconButton lastSelectedButtonWithMenu;
+	private final Map<ToolboxCategory, IconButtonWithMenu> buttonsWithMenu = new HashMap<>();
 
 	/**
 	 * MOW toolbox
@@ -80,12 +84,13 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 		return iconButton;
 	}
 
-	private void addToggleButtonWithMenuPopup(IconSpec image, String ariaLabel,
-			List<Integer> tools) {
-		IconButton iconButton = new IconButtonWithMenu(appW, image, ariaLabel, tools,
+	private void addToggleButtonWithMenuPopup(ToolboxCategory category, IconSpec image,
+											  String ariaLabel, List<Integer> tools) {
+		IconButtonWithMenu iconButton = new IconButtonWithMenu(appW, image, ariaLabel, tools,
 				this::deselectButtons, this);
 		add(iconButton);
 		buttons.add(iconButton);
+		buttonsWithMenu.put(category, iconButton);
 	}
 
 	private void addToggleButtonWithPopup(IconSpec image, String ariaLabel,
@@ -158,7 +163,8 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 			return;
 		}
 
-		addToggleButtonWithMenuPopup(toolboxIconResource.getImageResource(ToolboxIcon.UPLOAD),
+		addToggleButtonWithMenuPopup(ToolboxCategory.UPLOAD,
+				toolboxIconResource.getImageResource(ToolboxIcon.UPLOAD),
 				"Upload", ToolboxConstants.uploadCategory);
 	}
 
@@ -168,7 +174,8 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 		}
 
 		List<Integer> linkTools = ToolboxConstants.linkCategory;
-		addToggleButtonWithMenuPopup(toolboxIconResource.getImageResource(ToolboxIcon.LINK),
+		addToggleButtonWithMenuPopup(ToolboxCategory.LINK,
+				toolboxIconResource.getImageResource(ToolboxIcon.LINK),
 				"Link", linkTools);
 	}
 
@@ -214,7 +221,8 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 
 		List<Integer> appsTools
 				= ToolboxConstants.getAppsCategory(Browser.isGraspableMathEnabled());
-		addToggleButtonWithMenuPopup(toolboxIconResource.getImageResource(ToolboxIcon.APPS),
+		addToggleButtonWithMenuPopup(ToolboxCategory.MORE,
+				toolboxIconResource.getImageResource(ToolboxIcon.APPS),
 				"Tools.More", appsTools);
 	}
 
@@ -267,6 +275,24 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 	public void removeSelectedButtonWithMenu(IconButton button) {
 		if (lastSelectedButtonWithMenu == button) {
 			lastSelectedButtonWithMenu = null;
+		}
+	}
+
+	/**
+	 * Add a custom tool with given properties
+	 *
+	 * @param url the URL of the tool icon.
+	 * @param name The name of the tool.
+	 * @param category to put the tool in.
+	 * @param callback the action of the tool.
+	 */
+	public void addCustomTool(String url, String name, String category, Object callback) {
+		IconButtonWithMenu button = buttonsWithMenu.get(ToolboxCategory.byName(category));
+        if (button != null) {
+			button.addCustomTool(url, name, callback);
+        } else {
+			Log.debug("Category " + category.toLowerCase()
+					+ " is not allowed to have a custom tool");
 		}
 	}
 }

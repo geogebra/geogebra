@@ -68,4 +68,18 @@ public class NotesLayout implements SetLabels, ModeChangeListener {
 	public int getTopBarHeight() {
 		return topBar != null && topBar.wasAttached() ? TOP_BAR_HEIGHT : 0;
 	}
+
+	/**
+	 * Add a custom tool with given properties
+	 *
+	 * @param iconUrl the URL of the tool icon.
+	 * @param name The name of the tool.
+	 * @param category to put the tool in.
+	 * @param callback the action of the tool.
+	 */
+	public void addCustomTool(String iconUrl, String name, String category, Object callback) {
+		if (toolbar != null) {
+			toolbar.addCustomTool(iconUrl, name, category, callback);
+		}
+	}
 }

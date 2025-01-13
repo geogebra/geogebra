@@ -92,6 +92,7 @@ import org.geogebra.web.full.gui.openfileview.OpenFileViewMebis;
 import org.geogebra.web.full.gui.openfileview.OpenTemporaryFileView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
+import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.toolbarpanel.ShowableTab;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
@@ -1282,8 +1283,7 @@ public class GuiManagerW extends GuiManager
 			toolbarPanel.getToolBar().buildGui();
 			toolbarPanel.setLabels();
 		}
-		SetLabels notesLayout = (((AppWFull) app).getAppletFrame())
-				.getNotesLayout();
+		SetLabels notesLayout = getNotesLayout();
 		if (notesLayout != null) {
 			notesLayout.setLabels();
 		}
@@ -1315,6 +1315,11 @@ public class GuiManagerW extends GuiManager
 		}
 
 		GlobalHeader.INSTANCE.setLabels();
+	}
+
+	private NotesLayout getNotesLayout() {
+		AppWFull appWFull = (AppWFull) app;
+		return (appWFull.getAppletFrame()).getNotesLayoutSafe(appWFull);
 	}
 
 	@Override
@@ -2286,4 +2291,11 @@ public class GuiManagerW extends GuiManager
 	public boolean isPropertiesViewShowing() {
 		return propertiesView != null && propertiesView.isFloatingAttached();
 	}
+
+	@Override
+	public void addToolToNotesToolbox(String icon, String name, String category, Object callback) {
+		NotesLayout notesLayout = getNotesLayout();
+		notesLayout.addCustomTool(icon, name, category, callback);
+	}
+
 }

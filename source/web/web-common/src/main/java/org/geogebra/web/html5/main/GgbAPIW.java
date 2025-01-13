@@ -1398,4 +1398,25 @@ public class GgbAPIW extends GgbAPI {
 	public boolean isFullScreenActive() {
 		return ((AppW) app).getFullscreenState().isFullScreenActive();
 	}
+
+	/**
+	 * Add a custom tool with given properties
+	 *
+	 * @param iconUrl the URL of the tool icon.
+	 * @param name The name of the tool.
+	 * @param category to put the tool in (optional) .
+	 * @param callback the action of the tool.
+	 */
+	public void addCustomTool(String iconUrl, String name, Object category, Object callback) {
+		GuiManagerInterfaceW guiManagerW = (GuiManagerInterfaceW) app.getGuiManager();
+        if (guiManagerW == null) {
+			return;
+		}
+
+		boolean hasCategory = category instanceof String;
+		String categoryName = hasCategory ? (String) category : "";
+		Object toolCallback = hasCategory ? callback : category;
+
+		guiManagerW.addToolToNotesToolbox(iconUrl, name, categoryName, toolCallback);
+	}
 }

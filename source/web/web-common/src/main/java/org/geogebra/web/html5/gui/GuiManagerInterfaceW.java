@@ -79,7 +79,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	EuclidianStyleBar newDynamicStylebar(EuclidianView ev);
 
 	void addStylebar(EuclidianView ev,
-			EuclidianStyleBar dynamicStylebar);
+					 EuclidianStyleBar dynamicStylebar);
 
 	void recalculateEnvironments();
 
@@ -122,8 +122,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	void updateGlobalOptions();
 
 	/**
-	 * @param fallback
-	 *            fallback value
+	 * @param fallback fallback value
 	 * @return whether root panel is split vertically
 	 */
 	boolean isVerticalSplit(boolean fallback);
@@ -143,8 +142,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * If table was empty before, min/max/step
 	 * dialog shows up.
 	 *
-	 * @param geo
-	 *            {@link GeoElement}
+	 * @param geo {@link GeoElement}
 	 */
 	void showTableValuesView(GeoElement geo);
 
@@ -173,13 +171,13 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	SymbolicEditor createSymbolicEditor(EuclidianViewW view, TextRendererSettings settings);
 
 	/**
-	 *
 	 * @return templates controller
 	 */
 	TemplateChooserControllerI getTemplateController();
 
 	/**
 	 * callback for save after successful login
+	 *
 	 * @param runAfterLogin - callback
 	 */
 	void setRunAfterLogin(Runnable runAfterLogin);
@@ -202,8 +200,8 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	void toggleTableValuesView();
 
 	/**
-	 * @param min - starting value of table
-	 * @param max - ending value of table
+	 * @param min  - starting value of table
+	 * @param max  - ending value of table
 	 * @param step - step value of table
 	 * @throws InvalidValuesException if ((max - min) / step) is out of range
 	 */
@@ -211,7 +209,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	/**
 	 * @param column - index of column in the table of values
-	 * @param show - true if point should be shown, false otherwise
+	 * @param show   - true if point should be shown, false otherwise
 	 */
 	void showPointsTV(int column, boolean show);
 
@@ -227,4 +225,14 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * @return whether toolbar (classic or unbundled) is showing and contains image tool
 	 */
 	boolean toolbarHasImageMode();
+
+	/**
+	 * Add a custom tool with given properties
+	 *
+	 * @param iconUrl the URL of the tool icon.
+	 * @param name The name of the tool.
+	 * @param category to put the tool in.
+	 * @param callback the action of the tool.
+	 */
+	void addToolToNotesToolbox(String iconUrl, String name, String category, Object callback);
 }

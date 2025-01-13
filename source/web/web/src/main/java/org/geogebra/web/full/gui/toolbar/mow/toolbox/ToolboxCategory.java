@@ -17,6 +17,15 @@ public enum ToolboxCategory {
 		this.category = category;
 	}
 
+	static ToolboxCategory byName(String category) {
+		for (ToolboxCategory item: values()) {
+			if (item.getName().equalsIgnoreCase(category)) {
+				return item;
+			}
+		}
+		return MORE;
+	}
+
 	public String getName() {
 		return category;
 	}
