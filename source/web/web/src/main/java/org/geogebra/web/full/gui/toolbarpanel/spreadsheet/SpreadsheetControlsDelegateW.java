@@ -22,6 +22,7 @@ import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.util.ClipboardW;
+import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -137,8 +138,21 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			} else {
 				SVGResource image = getActionIcon(item.getIdentifier());
 				String itemText = loc.getMenu(item.getLocalizationKey());
+				AriaMenuItem menuItem;
 
-				AriaMenuItem menuItem = new AriaMenuItem(itemText, image, item::performAction);
+				if (!item.getSubMenuItems().isEmpty()) {
+					AriaMenuBar subMenu = new AriaMenuBar();
+					for (int i = 0; i < item.getSubMenuItems().size(); i++) {
+						ContextMenuItem subMenuItem = item.getSubMenuItems().get(i);
+						subMenu.addItem(new AriaMenuItem(loc.getMenu(subMenuItem
+								.getLocalizationKey()), null, subMenuItem::performAction));
+					}
+
+					menuItem = new AriaMenuItem(itemText, image, subMenu);
+				} else {
+					menuItem = new AriaMenuItem(itemText, image, item::performAction);
+				}
+
 				contextMenu.addItem(menuItem);
 			}
 		}
@@ -213,6 +227,8 @@ public class SpreadsheetControlsDelegateW implements SpreadsheetControlsDelegate
 			return res.paste_black();
 		case DELETE:
 			return res.delete_black();
+		case CALCULATE:
+			return res.calculate();
 		case INSERT_ROW_ABOVE:
 		case INSERT_ROW_BELOW:
 		case DELETE_ROW:

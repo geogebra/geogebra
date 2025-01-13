@@ -150,6 +150,20 @@ public final class TabularRange {
 		return !isSingleCell() && !isColumn() && (maxColumn - minColumn == 0);
 	}
 
+	/**
+	 * @return true if cell range is entire column/s
+	 */
+	public boolean isEntireColumn() {
+		return minRow == -1 && maxRow == -1;
+	}
+
+	/**
+	 * @return true if cell range is entire row/s
+	 */
+	public boolean isEntireRow() {
+		return minColumn == -1 && maxColumn == -1;
+	}
+
 	public TabularRange duplicate() {
 		return new TabularRange(anchorRow, anchorColumn, minRow, minColumn, maxRow, maxColumn);
 	}

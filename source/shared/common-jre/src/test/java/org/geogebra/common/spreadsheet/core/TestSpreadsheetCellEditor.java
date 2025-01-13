@@ -13,17 +13,6 @@ final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 
 	private final MathFieldCommon mathField = new MathFieldCommon(new MetaModel(), null);
 
-	private final SpreadsheetCellProcessor cellProcessor = new SpreadsheetCellProcessor() {
-		@Override
-		public void process(String input, int row, int column) {
-			tabularData.setContent(row, column, input);
-		}
-
-		@Override
-		public void markError() {
-			// nothing to do here
-		}
-	};
 	private final SpreadsheetCellDataSerializer cellDataSerializer =
 			new DefaultSpreadsheetCellDataSerializer();
 
@@ -55,7 +44,7 @@ final class TestSpreadsheetCellEditor implements SpreadsheetCellEditor {
 	@Nonnull
 	@Override
 	public SpreadsheetCellProcessor getCellProcessor() {
-		return cellProcessor;
+		return tabularData.getCellProcessor();
 	}
 
 	@Nonnull

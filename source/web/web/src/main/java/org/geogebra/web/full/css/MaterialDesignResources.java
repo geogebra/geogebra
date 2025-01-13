@@ -126,6 +126,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_delete_black_24px.svg")
 	SVGResource delete_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/functions.svg")
+	SVGResource calculate();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_label_outline_black_24px.svg")
 	SVGResource label_black();
 

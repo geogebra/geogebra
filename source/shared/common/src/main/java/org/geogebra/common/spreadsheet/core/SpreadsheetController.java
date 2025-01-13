@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
+import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.spreadsheet.style.SpreadsheetStyle;
 import org.geogebra.common.util.MouseCursor;
 import org.geogebra.common.util.StringUtil;
@@ -1044,5 +1045,78 @@ public final class SpreadsheetController {
 
 	public boolean hasError(int row, int column) {
 		return tabularData.hasError(row, column);
+	}
+
+	// Calculations
+
+	void calculate(SpreadsheetCommand command) {
+		Selection last = getLastSelection();
+		TabularRange range = last == null ? null : last.getRange();
+
+		if (range == null) {
+			return;
+		}
+
+		if (range.isSingleCell()) {
+			processCalculate(command, -1, -1, -1, -1, range.getMinRow(), range.getMinColumn(),
+					true);
+		} else if (range.isEntireColumn()) {
+			processCalculate(command, 0, range.getMinColumn(), getLayout().numberOfRows() - 2,
+					range.getMaxColumn(), getLayout().numberOfRows() - 1,
+					range.getMaxColumn(), false);
+		} else if (range.isEntireRow()) {
+			processCalculate(command, range.getMinRow(), 0, range.getMaxRow(),
+					getLayout().numberOfColumns() - 2, range.getMaxRow(),
+					getLayout().numberOfColumns() - 1, false);
+		} else if (range.isPartialColumn()) {
+			processCalculate(command, range.getFromRow(), range.getFromColumn(),
+					range.getToRow(), range.getToColumn(), range.getToRow() + 1,
+					range.getFromColumn(), false);
+		} else if (range.isPartialRow()) {
+			processCalculate(command, range.getFromRow(), range.getFromColumn(),
+					range.getToRow(), range.getToColumn(), range.getFromRow(),
+					range.getToColumn() + 1, false);
+		} else {
+			// multiple part of columns and rows
+			processCalculate(command, range.getFromRow(), range.getMinColumn(),
+					range.getToRow(), range.getMaxColumn(), range.getMaxRow() + 1,
+					range.getMaxColumn(), false);
+		}
+	}
+
+	private void processCalculate(SpreadsheetCommand command, int fromRow, int fromCol, int toRow,
+			int toCol, int destRow, int destCol, boolean showEditor) {
+		String curCommand = getCalculateString(command, fromRow, fromCol, toRow, toCol);
+		tabularData.getCellProcessor().process(curCommand, destRow, destCol);
+		updateSelectionAndScroll(destRow, destCol);
+		if (showEditor) {
+			showCellEditor(destRow, destCol);
+		}
+	}
+
+	private void updateSelectionAndScroll(int destinationRow, int destinationCol) {
+		Selection selection = Selection.getSingleCellSelection(destinationRow, destinationCol);
+		selectionController.select(selection, false, false);
+
+		if (viewport != null && viewportAdjuster != null) {
+			viewport = viewportAdjuster.adjustViewportIfNeeded(destinationRow,
+					destinationCol, viewport);
+		}
+	}
+
+	private String getCalculateString(SpreadsheetCommand command, int fromRow, int fromCol,
+			int toRow, int toCol) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("=");
+		sb.append(command.toString());
+		sb.append("(");
+		if (fromRow > -1 && fromCol > -1 && toRow > -1 && toCol > -1) {
+			sb.append(GeoElementSpreadsheet.getSpreadsheetCellName(fromCol, fromRow));
+			sb.append(":");
+			sb.append(GeoElementSpreadsheet.getSpreadsheetCellName(toCol, toRow));
+		}
+		sb.append(")");
+
+		return sb.toString();
 	}
 }

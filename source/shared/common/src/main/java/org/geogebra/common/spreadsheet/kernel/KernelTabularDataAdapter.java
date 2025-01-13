@@ -19,6 +19,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
 import org.geogebra.common.spreadsheet.core.CustomRowAndColumnSizeProvider;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 import org.geogebra.common.spreadsheet.core.SpreadsheetDimensions;
 import org.geogebra.common.spreadsheet.core.TabularData;
@@ -38,20 +39,33 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	private final CellFormat cellFormat;
 	private final SpreadsheetSettings spreadsheetSettings;
 	private final Kernel kernel;
+	private final SpreadsheetCellProcessor cellProcessor;
 
 	/**
-	 * @param spreadsheetSettings spreadsheet settings
+	 * @param spreadsheetSettings - spreadsheet settings
+	 * @param kernel - kernel
 	 */
 	public KernelTabularDataAdapter(SpreadsheetSettings spreadsheetSettings, Kernel kernel) {
+		this(spreadsheetSettings, kernel, null);
+	}
+
+	/**
+	 * @param spreadsheetSettings - spreadsheet settings
+	 * @param kernel - kernel
+	 * @param cellProcessor - cell processor
+	 */
+	public KernelTabularDataAdapter(SpreadsheetSettings spreadsheetSettings, Kernel kernel,
+			SpreadsheetCellProcessor cellProcessor) {
 		this.cellFormat = new CellFormat(null);
 		this.spreadsheetSettings = spreadsheetSettings;
 		this.kernel = kernel;
 		cellFormat.processXMLString(spreadsheetSettings.cellFormat());
 		spreadsheetSettings.addListener((settings) -> {
-				notifySizeChanged(spreadsheetSettings);
-				cellFormat.processXMLString(spreadsheetSettings.cellFormat());
+			notifySizeChanged(spreadsheetSettings);
+			cellFormat.processXMLString(spreadsheetSettings.cellFormat());
 		});
 		this.processor = new KernelTabularDataProcessor(this);
+		this.cellProcessor = cellProcessor;
 	}
 
 	private void notifySizeChanged(SpreadsheetDimensions spreadsheetDimensions) {
@@ -314,5 +328,10 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		if (geo != null) {
 			geo.setEmptySpreadsheetCell(false);
 		}
+	}
+
+	@Override
+	public SpreadsheetCellProcessor getCellProcessor() {
+		return cellProcessor;
 	}
 }

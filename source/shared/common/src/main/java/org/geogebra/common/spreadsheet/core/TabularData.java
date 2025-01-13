@@ -85,4 +85,6 @@ public interface TabularData<T> extends HasTabularValues<T> {
 	default void markNonEmpty(int row, int column) {
 		// not needed in tests
 	}
+
+	SpreadsheetCellProcessor getCellProcessor();
 }

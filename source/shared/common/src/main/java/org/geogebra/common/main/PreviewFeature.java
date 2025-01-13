@@ -36,7 +36,11 @@ public enum PreviewFeature {
 	/** APPS-6004 */
 	ENGINEERING_BUTTON,
 	/** APPS-6134 */
-	REALSCHULE_TEMPLATES;
+	REALSCHULE_TEMPLATES,
+	/**
+	 * APPS-6237
+	 */
+	CALCULATE_MENU_ITEM;
 
 	/**
 	 * Global flag to activate feature previews.

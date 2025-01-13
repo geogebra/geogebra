@@ -1,16 +1,6 @@
 package org.geogebra.common.spreadsheet.core;
 
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.COPY;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.CUT;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE_COLUMN;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DELETE_ROW;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.DIVIDER;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_COLUMN_LEFT;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_COLUMN_RIGHT;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_ABOVE;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.INSERT_ROW_BELOW;
-import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.PASTE;
+import static org.geogebra.common.spreadsheet.core.ContextMenuItem.Identifier.*;
 import static org.geogebra.common.spreadsheet.core.ContextMenuItems.HEADER_INDEX;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -67,9 +57,9 @@ public final class ContextMenuItemsTest {
 	@Test
 	public void testCellMenuOrder() {
 		testMenuOrder(1, 1,
-				Arrays.asList(CUT, COPY, PASTE, DIVIDER, INSERT_ROW_ABOVE, INSERT_ROW_BELOW,
-						INSERT_COLUMN_LEFT, INSERT_COLUMN_RIGHT, DIVIDER, DELETE_ROW,
-						DELETE_COLUMN));
+				Arrays.asList(CUT, COPY, PASTE, DIVIDER, INSERT_ROW_ABOVE,
+						INSERT_ROW_BELOW, INSERT_COLUMN_LEFT, INSERT_COLUMN_RIGHT, DIVIDER,
+						DELETE_ROW, DELETE_COLUMN));
 	}
 
 	private void testMenuOrder(int row, int column, List<Identifier> identifiers) {
@@ -83,15 +73,15 @@ public final class ContextMenuItemsTest {
 	@Test
 	public void testRowMenuOrder() {
 		testMenuOrder(1, HEADER_INDEX,
-				Arrays.asList(CUT, COPY, PASTE, DIVIDER, INSERT_ROW_ABOVE, INSERT_ROW_BELOW,
-						DIVIDER, DELETE_ROW));
+				Arrays.asList(CUT, COPY, PASTE, DIVIDER, INSERT_ROW_ABOVE,
+						INSERT_ROW_BELOW, DIVIDER, DELETE_ROW));
 	}
 
 	@Test
 	public void testColumnMenuOrder() {
 		testMenuOrder(HEADER_INDEX, 1,
-				Arrays.asList(CUT, COPY, PASTE, DIVIDER, INSERT_COLUMN_LEFT, INSERT_COLUMN_RIGHT,
-						DIVIDER, DELETE_COLUMN));
+				Arrays.asList(CUT, COPY, PASTE, DIVIDER, INSERT_COLUMN_LEFT,
+						INSERT_COLUMN_RIGHT, DIVIDER, DELETE_COLUMN));
 	}
 
 	@Ignore

@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.io.FactoryProviderCommon;
+import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.geogebra.common.spreadsheet.TestTabularData;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
@@ -73,6 +74,7 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
                 // not needed
             }
         });
+        UtilFactoryJre.setupRegexFactory();
     }
 
     @Test
@@ -413,6 +415,54 @@ public class SpreadsheetControllerTest implements SpreadsheetControlsDelegate {
         selectCells(1, 3, 1, 3);
         controller.handleKeyPressed(JavaKeyCodes.VK_DELETE, "", Modifiers.NONE);
         assertNull(tabularData.contentAt(1, 3));
+    }
+
+    @Test
+    public void testCalculatePartOfColumn() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(1, 0, "2");
+        tabularData.setContent(2, 0, "3");
+        selectCells(0, 0, 2, 0);
+        controller.calculate(SpreadsheetCommand.SUM);
+
+        assertEquals("=SUM(A1:A3)", tabularData.contentAt(3, 0));
+    }
+
+    @Test
+    public void testCalculateMoreColumns() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(1, 0, "2");
+        tabularData.setContent(2, 0, "3");
+        tabularData.setContent(1, 1, "4");
+        tabularData.setContent(2, 2, "5");
+        selectCells(0, 0, 2, 2);
+        controller.calculate(SpreadsheetCommand.SUM);
+
+        assertNull(tabularData.contentAt(3, 0));
+        assertNull(tabularData.contentAt(3, 1));
+        assertEquals("=SUM(A1:C3)", tabularData.contentAt(3, 2));
+    }
+
+    @Test
+    public void testCalculateWholeColumn() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(1, 0, "2");
+        tabularData.setContent(2, 0, "3");
+        selectCells(0, 0, tabularData.numberOfRows() - 2, 0);
+        controller.calculate(SpreadsheetCommand.SUM);
+
+        assertEquals("=SUM(A1:A99)", tabularData.contentAt(tabularData.numberOfRows() - 1, 0));
+    }
+
+    @Test
+    public void testCalculatePartOfRow() {
+        tabularData.setContent(0, 0, "1");
+        tabularData.setContent(0, 1, "2");
+        tabularData.setContent(0, 2, "3");
+        selectCells(0, 0, 0, 2);
+        controller.calculate(SpreadsheetCommand.SUM);
+
+        assertEquals("=SUM(A1:C1)", tabularData.contentAt(0, 3));
     }
 
     // Helpers

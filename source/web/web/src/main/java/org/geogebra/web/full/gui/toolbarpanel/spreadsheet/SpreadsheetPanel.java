@@ -61,8 +61,13 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		graphics = new GGraphics2DW(spreadsheetWidget);
 		this.app = app;
 		addStyleName("spreadsheetPanel");
+
+		mathField = new MathTextFieldW(app, new MetaModel());
+		SpreadsheetControlsDelegateW controlsDelegate = initControlsDelegate();
+
 		KernelTabularDataAdapter tabularData = new KernelTabularDataAdapter(
-				app.getSettings().getSpreadsheet(), app.getKernel());
+				app.getSettings().getSpreadsheet(), app.getKernel(),
+				controlsDelegate.getCellEditor().getCellProcessor());
 		app.getKernel().notifyAddAll(tabularData);
 		spreadsheet = new Spreadsheet(tabularData, new GeoElementCellRendererFactory(
 				new AwtReTexGraphicsBridgeW()), app.getUndoManager());
@@ -70,9 +75,8 @@ public class SpreadsheetPanel extends FlowPanel implements RequiresResize {
 		app.getKernel().attach(tabularData);
 		add(spreadsheetWidget);
 		scrollOverlay = new ScrollPanel();
-		mathField = new MathTextFieldW(app, new MetaModel());
 
-		spreadsheet.setControlsDelegate(initControlsDelegate());
+		spreadsheet.setControlsDelegate(controlsDelegate);
 		spreadsheet.setSpreadsheetDelegate(initSpreadsheetDelegate());
 
 		FlowPanel scrollContent = new FlowPanel();

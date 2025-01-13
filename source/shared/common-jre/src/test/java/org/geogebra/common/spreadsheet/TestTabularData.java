@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.spreadsheet.core.CellDragPasteHandler;
+import org.geogebra.common.spreadsheet.core.SpreadsheetCellProcessor;
 import org.geogebra.common.spreadsheet.core.TabularData;
 import org.geogebra.common.spreadsheet.core.TabularDataChangeListener;
 import org.geogebra.common.spreadsheet.core.TabularDataPasteInterface;
@@ -11,7 +12,17 @@ import org.geogebra.common.spreadsheet.core.TabularDataPasteText;
 import org.geogebra.common.spreadsheet.style.CellFormat;
 
 public class TestTabularData implements TabularData<String> {
+	private final SpreadsheetCellProcessor cellProcessor = new SpreadsheetCellProcessor() {
+		@Override
+		public void process(String input, int row, int column) {
+			setContent(row, column, input);
+		}
 
+		@Override
+		public void markError() {
+			// nothing to do here
+		}
+	};
 	List<List<String>> data = new ArrayList<>();
 
 	/**
@@ -128,5 +139,10 @@ public class TestTabularData implements TabularData<String> {
 	@Override
 	public CellDragPasteHandler<String> getCellDragPasteHandler() {
 		return null;
+	}
+
+	@Override
+	public SpreadsheetCellProcessor getCellProcessor() {
+		return cellProcessor;
 	}
 }
