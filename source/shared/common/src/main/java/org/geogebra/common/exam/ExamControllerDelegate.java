@@ -5,14 +5,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.SuiteSubApp;
-import org.geogebra.common.gui.toolcategorization.ToolsProvider;
-import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.ScheduledPreviewFromInputBar;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.commands.CommandDispatcher;
-import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.localization.AutocompleteProvider;
-import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.move.ggtapi.models.Material;
 
 /**
@@ -63,9 +55,9 @@ public interface ExamControllerDelegate {
 	 *
 	 * @param subApp The sub-app to switch to.
 	 *
-	 * @apiNote For the mobile use case, this method is expected to call {@link ExamController#setActiveContext(Object, CommandDispatcher, AlgebraProcessor, Localization, Settings, AutocompleteProvider, ToolsProvider, Construction, ScheduledPreviewFromInputBar)}
+	 * @apiNote For the mobile use case, this method is expected to call {@link ExamController#setActiveContext}
 	 * after switching to the new subapp.
-	 * For the Web use case, this method must not call {@link ExamController#setActiveContext(Object, CommandDispatcher, AlgebraProcessor, Localization, Settings, AutocompleteProvider, ToolsProvider, Construction, ScheduledPreviewFromInputBar)}.
+	 * For the Web use case, this method must not call {@link ExamController#setActiveContext}.
 	 */
 	void examSwitchSubApp(@Nonnull SuiteSubApp subApp);
 }

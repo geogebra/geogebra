@@ -7,9 +7,11 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
- * Class that creates an engineering notation based on a numeric input<br/>
+ * Class that creates an engineering notation based on a numeric input.
+ * <p>
  * The engineering notation is similar to the scientific notation (m*10^n), with n
- * being restricted to multiples of three (3) only. <br/>
+ * being restricted to multiples of three (3) only.
+ * </p>
  */
 public final class EngineeringNotationString {
 

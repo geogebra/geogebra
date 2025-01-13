@@ -160,7 +160,7 @@ tasks.register('copyHandlebars') {
     dependsOn 'compileSass'
     doLast {
         def handlebarsDir = project.getProperty("handlebarsDir")
-        appSpecs.each { app ->
+        appSpecs.forEach { app ->
             def replaceHtml = app.id == "classic" ? classicHtml : appHtml
 
             def templatePath = "${handlebarsDir}/${app.id}-template.handlebars"

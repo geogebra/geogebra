@@ -3,14 +3,18 @@ def template = { fileName ->
     return file(templateDir + fileName).text
 }
 
+def downloadAsString = { url ->
+    return new URL(url).withReader { reader ->
+        reader.readLines().join("\n")
+    }
+}
+
 def css = { directory, fileName ->
     String text
     def relPath = (directory ? directory + "/" : "") + fileName + ".css"
     if (project.hasProperty("downloadStyles")) {
-        def ggbVersion = ProjectExtensionsKt.getCommonVersion(project)
-        text = new URL("https://www.geogebra.org/apps/$ggbVersion/css/$relPath").withReader { reader ->
-            reader.readLines().join("\n")
-        }
+        def ggbVersion = downloadAsString("https://apps-builds.s3-eu-central-1.amazonaws.com/geogebra/tags/version.txt")
+        text = downloadAsString("https://www.geogebra.org/apps/$ggbVersion/css/$relPath")
     } else {
         String fileDir = "war/css/" + relPath
         text = file(fileDir).text

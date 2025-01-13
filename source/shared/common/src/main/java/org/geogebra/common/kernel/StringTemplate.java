@@ -3094,7 +3094,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Converts e.g. 3E + 222 to 3.00 * 10²²² - only for {@link StringType#GEOGEBRA}<br/>
+	 * Converts e.g. 3E+222 to 3.00 * 10^222 - only for {@link StringType#GEOGEBRA}
 	 * @param scientificStr String in scientific notation
 	 * @return Formatted string in scientific notation using m*10^n
 	 */
