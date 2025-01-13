@@ -43,7 +43,7 @@ def partials = { code, appPartials ->
     return code
 }
 
-def replaceVendor = { htmlContent, vendor, offline ->
+def replaceVendor = { htmlContent, vendor ->
     htmlContent = htmlContent.replace("<!--VENDOR-->", vendor)
     if (vendor == "Mebis") {
         return htmlContent.replace("<!--VENDOR SCRIPTS-->", template("partials/vendor-scripts-mebis.html"))
@@ -73,13 +73,24 @@ ext.handlebars = { raw ->
 ext.classicHtml = { app, prerelease, offline = false, inlineCss = false ->
     def platformSpecific = offline ? "<!--PLATFORM SPECIFIC CODE--><script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
     def inlinedCss = inlineCss ? getCss() : ""
-    return replaceVendor(html, "GeoGebra", offline)
+    def inMobiTag = file("src/main/resources/org/geogebra/web/pub/html/inmobitag.html").text
+    return replaceVendor(html, "GeoGebra")
             .replace("<!--SPLASH-->", splash)
             .replace("<!--SPLASH STYLE-->", '<style>' + template("splash-style.css") + '</style>')
             .replace("<!--PRELOADED CSS-->", inlinedCss)
-            .replace("<!--MATOMO-->", template("partials/matomo.html"))
             .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/geogebra.ico")
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
+            .replace("<!--INMOBI TAG-->", inMobiTag)
+            .injectFirebaseTemplate(app.firebaseAppId, app.measurementId)
+}
+
+String.metaClass.injectFirebaseTemplate = { firebaseAppId, measurementId ->
+    if (firebaseAppId != "" && measurementId != "") {
+        return delegate.injectPartial("firebase")
+                .replace("<!--FIREBASE APP ID-->", firebaseAppId)
+                .replace("<!--MEASUREMENT ID-->", measurementId)
+    }
+    return delegate;
 }
 
 ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
@@ -99,9 +110,10 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
     if (!inlineCss && vendor != "Mebis") {
        splashStyle = "<link rel=stylesheet href=\"css/app-header.css\"/>"
     }
-    def matomo = vendor == "Mebis" ? "" : template("partials/matomo.html")
-    return replaceVendor(html, vendor, offline)
-            .replace("<!--MATOMO-->", matomo)
+    def inMobiTag = file("src/main/resources/org/geogebra/web/pub/html/inmobitag.html").text
+    def firebaseAppId = app.firebaseAppId ?: ""
+    def measurementId = app.measurementId ?: ""
+    return replaceVendor(html, vendor)
             .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">$splashContent</div>")
             .replace("<!--SPLASH STYLE-->", splashStyle)
             .replace("<!--PRELOADED CSS-->", inlinedCss)
@@ -110,5 +122,7 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
             .replace("<!--APP ID-->", appID)
             .replace("<!--APP TRANSKEY-->", appTransKey)
             .replace("<!--APPSTORE BANNER-->", appStoreBanner)
+            .replace("<!--INMOBI TAG-->", vendor == "Mebis" ? "" : inMobiTag)
+            .injectFirebaseTemplate(firebaseAppId, measurementId)
             .replace("\r\n", "\n") // generate the same on Win and Unix
 }
