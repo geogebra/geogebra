@@ -2,7 +2,11 @@ package org.geogebra.web.full.main;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
+import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.html5.main.AppW;
@@ -20,12 +24,20 @@ public class GraphingTest {
 
 	@Before
 	public void setup() {
+		FormatFactory.setPrototypeIfNull(new TestFormatFactory());
 		app = AppMocker.mockApplet(new AppletParameters("graphing"));
 	}
 
 	@Test
 	public void startApp() {
 		assertThat(app.getGuiManager().toolbarHasImageMode(), equalTo(false));
+	}
+
+	@Test
+	public void equationFormInitialized() {
+		GeoElementND line = app.getKernel().getAlgebraProcessor()
+				.processAlgebraCommand("2x + 4 = 6", false)[0];
+		assertEquals(line.toValueString(StringTemplate.defaultTemplate), "2x + 4 = 6");
 	}
 
 	@Test

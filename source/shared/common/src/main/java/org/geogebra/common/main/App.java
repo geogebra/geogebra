@@ -4480,6 +4480,19 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * Set the app config and reinitialize the app.
+	 */
+	public void setConfig(AppConfig config) {
+		this.appConfig = config;
+		if (kernel != null) {
+			kernel.setEquationBehaviour(config.getEquationBehaviour());
+			kernel.getAlgebraProcessor().setEnableStructures(config.isEnableStructures());
+			initSettingsUpdater().resetSettingsOnAppStart();
+		}
+		resetAlgebraOutputFilter();
+	}
+
+	/**
 	 *
 	 * @return the AccessibilityManager.
 	 */

@@ -657,15 +657,6 @@ public class AppCommon extends App {
 	}
 
 	/**
-	 * Set the app config and reinitialize the app.
-	 */
-	public void setConfig(AppConfig config) {
-		this.appConfig = config;
-        kernel.setEquationBehaviour(config.getEquationBehaviour());
-		reInit();
-	}
-
-	/**
 	 * Sets Graphing config and reinitializes the app.
 	 */
 	public void setGraphingConfig() {
@@ -719,12 +710,6 @@ public class AppCommon extends App {
 	 */
 	public void setNotesConfig() {
 		setConfig(new AppConfigNotes());
-	}
-
-	private void reInit() {
-		resetAlgebraOutputFilter();
-		kernel.setAlgebraProcessor(null);
-		initSettingsUpdater().resetSettingsOnAppStart();
 	}
 
 	public void setScriptManager(ScriptManager scriptManager) {

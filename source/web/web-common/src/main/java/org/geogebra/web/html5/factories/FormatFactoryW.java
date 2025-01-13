@@ -52,7 +52,7 @@ public class FormatFactoryW extends FormatFactory {
 
 	@Override
 	public NumberFormatAdapter getNumberFormat(int digits) {
-		return new NumberFormatW("", digits);
+		return getNumberFormat("", digits);
 	}
 
 	@Override

@@ -65,7 +65,6 @@ import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
@@ -301,6 +300,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		this.euclidianViewPanel = new EuclidianDockPanelW(this,
 				allowStylebar());
+		initActivity();
 		initCoreObjects();
 		checkExamPerspective();
 		afterCoreObjectsInited();
@@ -385,15 +385,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		header.addSignIn(this);
 	}
 
-	@Override
-	public AppConfig getConfig() {
-		initActivity();
-		if (activity == null) {
-			return super.getConfig();
-		}
-		return activity.getConfig();
-	}
-
 	/**
 	 * @return current activity (graphing, geometry, 3D, ...)
 	 */
@@ -442,6 +433,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		default:
 			activity = new ClassicActivity(new AppConfigDefault());
 		}
+		setConfig(activity.getConfig());
 	}
 
 	/**
@@ -464,7 +456,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * Initialize the activity
 	 */
 	private void startActivity() {
-		initActivity();
 		preloadAdvancedCommandsForSuiteCAS();
 		activity.start(this);
 	}
@@ -2193,6 +2184,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			if (appCode != null && !appCode.equals(subApp)) {
 				this.activity = new SuiteActivity(subApp,
 						!getSettings().getCasSettings().isEnabled());
+				setConfig(activity.getConfig());
 				setPerspective(p);
 				updateSidebarAndMenu(subApp);
 				reinitAlgebraView();
@@ -2483,6 +2475,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		storeCurrentMaterial();
 		getGuiManager().closePropertiesView();
 		activity = new SuiteActivity(subApp, !getSettings().getCasSettings().isEnabled());
+		setConfig(activity.getConfig());
 		preloadAdvancedCommandsForSuiteCAS();
 		activity.start(this);
 		getKernel().removeAllMacros();

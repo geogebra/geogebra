@@ -1,5 +1,6 @@
 package org.geogebra.web.full.main;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -19,20 +20,20 @@ public class AppWFullTest {
 	public void graphingUsesProtectiveFilter() {
 		ToStringConverter<GeoElement> outputFilter =
 				AppMocker.mockGraphing().getLabelDescriptionConverter();
-		assertThat(outputFilter instanceof ProtectiveLabelDescriptionConverter, is(true));
+		assertThat(outputFilter, instanceOf(ProtectiveLabelDescriptionConverter.class));
 	}
 
 	@Test
 	public void geometryUsesNoFilter() {
 		ToStringConverter<GeoElement> outputFilter =
 				AppMocker.mockGeometry().getLabelDescriptionConverter();
-		assertThat(outputFilter instanceof DefaultLabelDescriptionConverter, is(true));
+		assertThat(outputFilter, instanceOf(DefaultLabelDescriptionConverter.class));
 	}
 
 	@Test
 	public void casUsesNoFilter() {
 		ToStringConverter<GeoElement> outputFilter =
 				AppMocker.mockCas().getLabelDescriptionConverter();
-		assertThat(outputFilter instanceof DefaultLabelDescriptionConverter, is(true));
+		assertThat(outputFilter, instanceOf(DefaultLabelDescriptionConverter.class));
 	}
 }
