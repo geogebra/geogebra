@@ -1,4 +1,5 @@
 import de.aaschmid.gradle.plugins.cpd.Cpd
+import groovy.json.JsonOutput
 import io.miret.etienne.gradle.sass.CompileSass
 import org.apache.tools.ant.taskdefs.condition.Os
 import org.docstr.gradle.plugins.gwt.AbstractGwtActionTask
@@ -293,6 +294,40 @@ tasks.register('declareAppSpecs') {
         oos.writeObject(appSpecs)
         oos.close()
         fos.close()
+    }
+}
+
+tasks.register('collectFaIcons') {
+    description 'Collect all parameters of the instantiations of the FaIconSpec class'
+    doLast {
+        def srcDirs = [file('src/main/java'), file('../web-common/src/main/java')]
+        def pattern = /new\s+FaIconSpec\((['"])(.*?)\1\)/
+        def parameters = []
+
+        srcDirs.each { srcDir ->
+            srcDir.eachFileRecurse { file ->
+                if (file.name.endsWith('.java')) {
+                    def content = file.text
+                    def matcher = content =~ pattern
+                    matcher.each { match ->
+                        def param = match[2] as String
+                        if (param.startsWith("fa-")) {
+                            param = param.substring(3)
+                        }
+                        parameters << param
+                    }
+                }
+            }
+        }
+
+        if (parameters.isEmpty()) {
+            logger.error("No instances for FaIconSpec found!")
+        } else {
+            def styles = ["light", "regular", "solid", "thin"]
+            def file = new File("$projectDir/build/fontAwesomeIcons.txt")
+            file.text = JsonOutput.prettyPrint(JsonOutput.toJson(["${styles[0]}":parameters]).toString())
+            logger.lifecycle("File \"fontAwesomeIcons.txt\" created at: ${file.absolutePath}")
+        }
     }
 }
 
