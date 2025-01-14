@@ -8,6 +8,10 @@ import static org.geogebra.common.GeoGebraConstants.PROBABILITY_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.geogebra.common.main.PreviewFeature;
 
 public enum SuiteSubApp {
 	GRAPHING(GRAPHING_APPCODE),
@@ -18,6 +22,22 @@ public enum SuiteSubApp {
 	SCIENTIFIC(SCIENTIFIC_APPCODE);
 
 	public final String appCode;
+
+	/**
+	 * Returns the available sub-apps for Suite, taking into account feature flags.
+	 * @return available sub-apps
+	 */
+	public static List<SuiteSubApp> availableValues() {
+		return Arrays.stream(values())
+				.filter(subApp -> subApp != SuiteSubApp.SCIENTIFIC
+						|| PreviewFeature.isAvailable(PreviewFeature.SCICALC_IN_SUITE))
+				.collect(Collectors.toList());
+	}
+
+	// for ObjC
+	public String getAppCode() {
+		return appCode;
+	}
 
 	SuiteSubApp(String appCode) {
 		this.appCode = appCode;
