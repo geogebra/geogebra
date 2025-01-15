@@ -118,7 +118,7 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 			// paste data from previous session -> delete
 			BrowserStorage.LOCAL.removeItem(BrowserStorage.COPY_SLIDE);
 			BrowserStorage.LOCAL.removeItem(BrowserStorage.COPY_SLIDE_OBJECTS);
-			paste.setEnabled(false);
+			setPasteEnabled(false);
 			return null;
 		});
 	}
@@ -147,10 +147,7 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 	protected void show() {
 		super.show();
 		wrappedPopup.show(this, -122, 36);
-		String slideContent = BrowserStorage.LOCAL.getItem(BrowserStorage.COPY_SLIDE);
-		if (paste != null) {
-			paste.setEnabled(!StringUtil.empty(slideContent));
-		}
+		updatePasteVisibility();
 	}
 
 	/**
@@ -174,6 +171,29 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 			vertPos = app.getAppletHeight() - popupHeight;
 		}
 
+		updatePasteVisibility();
 		wrappedPopup.showAtPoint(horPos, vertPos);
+	}
+
+	private void updatePasteVisibility() {
+		String slideContent = BrowserStorage.LOCAL.getItem(BrowserStorage.COPY_SLIDE);
+		if (StringUtil.empty(slideContent)) {
+			setPasteEnabled(false);
+			return;
+		}
+
+		DomGlobal.fetch(slideContent).then(text -> {
+			setPasteEnabled(true);
+			return null;
+		}).catch_(error -> {
+			setPasteEnabled(false);
+			return null;
+		});
+	}
+
+	private void setPasteEnabled(boolean enabled) {
+		if (paste != null) {
+			paste.setEnabled(enabled);
+		}
 	}
 }
