@@ -213,7 +213,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 	private static boolean shouldSelectToggleButton(ToggleButton toggleButton, GeoElement geo) {
 		return (toggleButton.getText().equals("symbolicToggleButton")
-				&& AlgebraItem.getCASOutputType(geo) == AlgebraItem.CASOutputType.NUMERIC)
+				&& AlgebraItem.getCASOutputType(geo) == AlgebraItem.CASOutputType.SYMBOLIC)
 				|| (toggleButton.getText().equals("engineeringToggleButton")
 				&& SymbolicUtil.isEngineeringNotationMode(geo));
 	}
