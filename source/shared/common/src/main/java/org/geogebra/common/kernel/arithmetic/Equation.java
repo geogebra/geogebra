@@ -374,6 +374,9 @@ public class Equation extends ValidExpression implements EquationValue {
 	 *         not contain var) or (rhs is "+1var" and lhs does not contain var)
 	 */
 	public boolean isExplicit(String var) {
+		if (leftPoly == null || rightPoly == null) {
+			initEquation();
+		}
 		Polynomial lhsp = leftPoly;
 		Polynomial rhsp = rightPoly;
 

@@ -2332,7 +2332,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			return null;
 		}
 		return new ConstructionItemProvider(getKernel().getConstruction(), getAlgebraView(),
-				createGeoElementValueConverter());
+				getGeoElementValueConverter());
 	}
 
 	/**
