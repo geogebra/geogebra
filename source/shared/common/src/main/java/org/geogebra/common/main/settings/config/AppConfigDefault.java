@@ -257,7 +257,7 @@ public class AppConfigDefault extends AbstractAppConfig {
 	}
 
 	@Override
-	public ExpressionFilter createOperationArgumentFilter() {
+	public ExpressionFilter createExpressionFilter() {
 		return null;
 	}
 

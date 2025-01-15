@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.filter.ComplexExpressionFilter;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
-import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilterFactory;
 import org.geogebra.common.kernel.arithmetic.filter.RadianExpressionFilter;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
@@ -66,7 +66,8 @@ final class TestExamRestrictions extends ExamRestrictions {
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
 		return Set.of(
-				new OperationExpressionFilter(Operation.OR, Operation.AND),
+				ExpressionFilterFactory.createOperationsExpressionFilter(Operation.OR,
+						Operation.AND),
 				new ComplexExpressionFilter(),
 				new RadianExpressionFilter());
 	}
@@ -102,13 +103,13 @@ final class TestExamRestrictions extends ExamRestrictions {
 
 	private static Map<String, PropertyRestriction> createPropertyRestrictions() {
 		return Map.of("AngleUnit", new PropertyRestriction(true, value ->
-						value != Integer.valueOf(Kernel.ANGLE_DEGREES_MINUTES_SECONDS)));
+				value != Integer.valueOf(Kernel.ANGLE_DEGREES_MINUTES_SECONDS)));
 	}
 
 	private static Set<GeoElementPropertyFilter> createGeoElementPropertyFilters() {
 		return Set.of((property, geoElement) -> !(
 				property instanceof ShowObjectProperty
-				&& geoElement.isGeoPoint())
+						&& geoElement.isGeoPoint())
 		);
 	}
 

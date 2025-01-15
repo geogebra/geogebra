@@ -5,7 +5,7 @@ import java.util.Set;
 import org.geogebra.common.SuiteSubApp;
 import org.geogebra.common.exam.ExamType;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
-import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilterFactory;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
@@ -42,8 +42,7 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
-		OperationExpressionFilter operationFilter = new OperationExpressionFilter(
-				Operation.DERIVATIVE);
-		return Set.of(operationFilter);
+		return Set.of(
+				ExpressionFilterFactory.createOperationsExpressionFilter(Operation.DERIVATIVE));
 	}
 }

@@ -348,7 +348,7 @@ import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
 import org.geogebra.common.gui.toolcategorization.impl.ToolCollectionSetFilter;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
-import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilterFactory;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
@@ -385,7 +385,8 @@ public final class IBExamRestrictions extends ExamRestrictions {
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
 		return Set.of(new PointDerivativeFilter(),
-				new OperationExpressionFilter(createFilteredOperations()));
+				ExpressionFilterFactory.createOperationsExpressionFilter(
+						createFilteredOperations()));
 	}
 
 	private static Set<Operation> createFilteredOperations() {
@@ -473,7 +474,7 @@ public final class IBExamRestrictions extends ExamRestrictions {
 				EXPONENTIAL, CAUCHY, WEIBULL, GAMMA, BETA, LOGNORMAL, LOGISTIC, PASCAL
 		);
 		return Map.of("Distribution", new PropertyRestriction(false, value ->
-						!restrictedDistributions.contains(value)));
+				!restrictedDistributions.contains(value)));
 	}
 
 	private static class IBExamCommandFilter extends BaseCommandArgumentFilter {

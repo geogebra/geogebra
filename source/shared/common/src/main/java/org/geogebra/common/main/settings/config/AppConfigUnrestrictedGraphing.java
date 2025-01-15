@@ -68,7 +68,7 @@ public class AppConfigUnrestrictedGraphing extends AppConfigGraphing {
 	}
 
 	@Override
-	public ExpressionFilter createOperationArgumentFilter() {
+	public ExpressionFilter createExpressionFilter() {
 		return null;
 	}
 

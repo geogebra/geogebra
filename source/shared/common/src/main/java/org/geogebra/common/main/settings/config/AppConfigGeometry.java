@@ -298,7 +298,7 @@ public class AppConfigGeometry extends AbstractAppConfig {
 	}
 
 	@Override
-	public ExpressionFilter createOperationArgumentFilter() {
+	public ExpressionFilter createExpressionFilter() {
 		return null;
 	}
 

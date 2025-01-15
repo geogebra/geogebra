@@ -130,7 +130,7 @@ public class AppConfigCas extends AppConfigGraphing {
 	}
 
 	@Override
-	public ExpressionFilter createOperationArgumentFilter() {
+	public ExpressionFilter createExpressionFilter() {
 		return null;
 	}
 

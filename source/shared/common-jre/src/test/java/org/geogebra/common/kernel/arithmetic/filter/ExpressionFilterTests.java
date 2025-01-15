@@ -24,7 +24,9 @@ public class ExpressionFilterTests extends BaseUnitTest {
 
 	@Test
 	public void testOperationExpression() throws Exception {
-		ExpressionFilter filter = new OperationExpressionFilter(Operation.OR, Operation.AND);
+		ExpressionFilter filter =
+				ExpressionFilterFactory.createOperationsExpressionFilter(Operation.OR,
+						Operation.AND);
 		ValidExpression expression = parse("true || false");
 		assertFalse(filter.isAllowed(expression));
 	}

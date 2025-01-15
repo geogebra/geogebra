@@ -18,8 +18,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
-import org.geogebra.common.kernel.arithmetic.filter.GraphingOperationArgumentFilter;
-import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilterFactory;
+import org.geogebra.common.kernel.arithmetic.filter.graphing.GraphingExpressionFilterFactory;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.filter.BaseCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
@@ -95,7 +95,7 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 
 	private static SyntaxFilter createSyntaxFilter() {
 		return new RealschuleSyntaxFilter();
-    }
+	}
 
 	private static ToolCollectionFilter createToolsFilter() {
 		return new ToolCollectionSetFilter(
@@ -177,37 +177,37 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 			GeoElement[] arguments = commandProcessor.resArgs(command);
 			if (isCommand(command, Length)) {
 				switch (command.getArgumentNumber()) {
-					case 1:
-						// Length(<Vector>) or Length(<Point>)
-						if (arguments[0].isGeoVector() || arguments[0].isGeoPoint()) {
-							throw commandProcessor.argErr(command, arguments[0]);
-						}
-						break;
-					case 3:
-						if (
-								// Length(<Function>, <Start x-Value>, <End x-Value>)
-								(arguments[0].isRealValuedFunction()
-								&& arguments[1].isGeoNumeric()
-								&& arguments[2].isGeoNumeric())
+				case 1:
+					// Length(<Vector>) or Length(<Point>)
+					if (arguments[0].isGeoVector() || arguments[0].isGeoPoint()) {
+						throw commandProcessor.argErr(command, arguments[0]);
+					}
+					break;
+				case 3:
+					if (
+						// Length(<Function>, <Start x-Value>, <End x-Value>)
+							(arguments[0].isRealValuedFunction()
+									&& arguments[1].isGeoNumeric()
+									&& arguments[2].isGeoNumeric())
 
-								// Length(<Function>, <Start point>, <End point>)
-								|| (arguments[0].isRealValuedFunction()
-								&& arguments[1].isGeoPoint()
-								&& arguments[2].isGeoPoint())
+									// Length(<Function>, <Start point>, <End point>)
+									|| (arguments[0].isRealValuedFunction()
+									&& arguments[1].isGeoPoint()
+									&& arguments[2].isGeoPoint())
 
-								// Length(<Curve>, <Start t-Value>, <End t-Value>)
-								|| (arguments[0].isGeoCurveCartesian()
-								&& arguments[1].isGeoNumeric()
-								&& arguments[2].isGeoNumeric())
+									// Length(<Curve>, <Start t-Value>, <End t-Value>)
+									|| (arguments[0].isGeoCurveCartesian()
+									&& arguments[1].isGeoNumeric()
+									&& arguments[2].isGeoNumeric())
 
-								// Length(<Curve>, <Start point>, <End point>)
-								|| (arguments[0].isGeoCurveCartesian()
-								&& arguments[1].isGeoPoint()
-								&& arguments[2].isGeoPoint())
-						) {
-							throw commandProcessor.argNumErr(command, 3);
-						}
-						break;
+									// Length(<Curve>, <Start point>, <End point>)
+									|| (arguments[0].isGeoCurveCartesian()
+									&& arguments[1].isGeoPoint()
+									&& arguments[2].isGeoPoint())
+					) {
+						throw commandProcessor.argNumErr(command, 3);
+					}
+					break;
 				}
 			} else if (isCommand(command, Line)) {
 				// Line(<Point>, <Parallel line>)
@@ -262,8 +262,9 @@ public final class RealschuleExamRestrictions extends ExamRestrictions {
 	}
 
 	private static Set<ExpressionFilter> getInputExpressionFilter() {
-		return Set.of(new OperationExpressionFilter(getFilteredOperations()),
-				GraphingOperationArgumentFilter.INSTANCE);
+		return Set.of(
+				ExpressionFilterFactory.createOperationsExpressionFilter(getFilteredOperations()),
+				GraphingExpressionFilterFactory.createFilter());
 	}
 
 	private static Set<Operation> getFilteredOperations() {

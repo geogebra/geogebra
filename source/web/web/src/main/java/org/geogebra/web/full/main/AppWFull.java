@@ -2467,7 +2467,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (commandFilter != null) {
 			getKernel().getAlgebraProcessor().getCmdDispatcher().removeCommandFilter(commandFilter);
 		}
-		ExpressionFilter expressionFilter = getConfig().createOperationArgumentFilter();
+		ExpressionFilter expressionFilter = getConfig().createExpressionFilter();
 		if (expressionFilter != null) {
 			getKernel().getAlgebraProcessor().removeInputExpressionFilter(expressionFilter);
 		}

@@ -236,7 +236,7 @@ public interface AppConfig extends Serializable {
 	 * @return operation argument filter
 	 */
 	@CheckForNull
-	ExpressionFilter createOperationArgumentFilter();
+	ExpressionFilter createExpressionFilter();
 
 	/**
 	 * @return creates app specific parser functions

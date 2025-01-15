@@ -27,7 +27,9 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
-import org.geogebra.common.kernel.arithmetic.filter.OperationExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilterFactory;
+import org.geogebra.common.kernel.arithmetic.filter.InspectingExpressionFilter;
+import org.geogebra.common.kernel.arithmetic.filter.graphing.AbsExpressionFilter;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
@@ -191,7 +193,21 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 				Operation.GAMMA_INCOMPLETE_REGULARIZED,
 				Operation.POLYGAMMA,
 				Operation.RANDOM,
-				Operation.NPR);
+				Operation.NPR,
+				Operation.PRODUCT,
+				Operation.VECTORPRODUCT,
+				Operation.ARG,
+				Operation.ALT,
+				Operation.BETA,
+				Operation.BETA_INCOMPLETE,
+				Operation.BETA_INCOMPLETE_REGULARIZED,
+				Operation.ERF,
+				Operation.PSI,
+				Operation.SI,
+				Operation.CI,
+				Operation.EI,
+				Operation.ZETA,
+				Operation.LAMBERTW);
 	}
 
 	private static Set<ContextMenuItemFilter> createContextMenuItemFilters() {
@@ -263,7 +279,8 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 
 	private static Set<ExpressionFilter> createInputExpressionFilters() {
 		return Set.of(new MatrixExpressionFilter(),
-				new OperationExpressionFilter(getFilteredOperations()));
+				ExpressionFilterFactory.createOperationsExpressionFilter(getFilteredOperations()),
+				new InspectingExpressionFilter(new AbsExpressionFilter()));
 	}
 
 	private static Set<ExpressionFilter> createOutputExpressionFilters() {
@@ -416,10 +433,10 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 		return
 				// it is an equation
 				equation != null
-				// with a single "y" variable on the left-hand side
-				&& "y".equals(unwrapVariable(equation.getLHS().unwrap()))
-				// and any variables on the right-hand side (if any) are all "x".
-				&& equation.getRHS().inspect(value -> "x".equals(unwrapVariable(value)));
+						// with a single "y" variable on the left-hand side
+						&& "y".equals(unwrapVariable(equation.getLHS().unwrap()))
+						// and any variables on the right-hand side (if any) are all "x".
+						&& equation.getRHS().inspect(value -> "x".equals(unwrapVariable(value)));
 	}
 
 	private static boolean isLinearEquation(GeoElement geoElement) {

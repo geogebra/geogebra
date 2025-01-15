@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.arithmetic.filter;
+package org.geogebra.common.kernel.arithmetic.filter.graphing;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -16,15 +16,15 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
-import org.hamcrest.Matcher;
 import org.junit.Test;
 
-public class GraphingOperationArgumentFilterTest extends BaseUnitTest {
+public class GraphingExpressionFilterFactoryTest extends BaseUnitTest {
 
-	private final ExpressionFilter filter = GraphingOperationArgumentFilter.INSTANCE;
+	private final ExpressionFilter filter = GraphingExpressionFilterFactory.createFilter();
 
 	@Test
 	public void testFiltersCrossProduct() {

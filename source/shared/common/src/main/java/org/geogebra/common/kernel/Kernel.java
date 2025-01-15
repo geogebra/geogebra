@@ -446,7 +446,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	public AlgebraProcessor getAlgebraProcessor() {
 		if (algProcessor == null) {
 			algProcessor = newAlgebraProcessor(this);
-			algProcessor.addInputExpressionFilter(app.getConfig().createOperationArgumentFilter());
+			algProcessor.addInputExpressionFilter(app.getConfig().createExpressionFilter());
 		}
 		return algProcessor;
 	}
@@ -5283,9 +5283,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			getAlgebraProcessor().getCommandDispatcher().addCommandFilter(commandFilter);
 		}
 		getAlgebraProcessor().setEnableStructures(config.isEnableStructures());
-		ExpressionFilter operationArgumentFilter = config.createOperationArgumentFilter();
+		ExpressionFilter expressionFilter = config.createExpressionFilter();
 
-		getAlgebraProcessor().addInputExpressionFilter(operationArgumentFilter);
+		getAlgebraProcessor().addInputExpressionFilter(expressionFilter);
 
 	}
 }
