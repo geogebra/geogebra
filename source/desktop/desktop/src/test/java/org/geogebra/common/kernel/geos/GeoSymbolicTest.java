@@ -2385,4 +2385,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(lookup("b"), hasValue("3"));
 		assertArrayEquals(new String[]{"a", "b"}, app.getGgbApi().getAllObjectNames());
 	}
+
+	@Test
+	public void shorthandFunctions() {
+		add("f:y=abs(x+1)-2");
+		assertThat(add("Integral(f,0,5)"), hasValue("15 / 2"));
+	}
 }

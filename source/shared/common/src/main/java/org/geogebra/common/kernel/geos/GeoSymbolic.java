@@ -168,6 +168,26 @@ public class GeoSymbolic extends GeoElement
 		}
 	}
 
+	/**
+	 * If this represents explicit equation, return the right hand side, otherwise return this.
+	 * @return right hand side or this
+	 */
+	public ExpressionValue getImplicitEquationRHSOrSelf() {
+		if (value.unwrap() instanceof Equation) {
+			Equation equation = (Equation) value.unwrap();
+			if ("y".equals(equation.getLHS().toString(StringTemplate.defaultTemplate))
+					&& containsOnlyX(equation.getRHS())) {
+				return equation.getRHS();
+			}
+		}
+		return this;
+	}
+
+	private boolean containsOnlyX(ExpressionNode rhs) {
+		return !rhs.inspect(v -> v instanceof FunctionVariable
+				&& !((FunctionVariable) v).getSetVarString().equals("x"));
+	}
+
 	private boolean hasNumericValue() {
 		return numericValue != null || getTwinGeo() != null;
 	}

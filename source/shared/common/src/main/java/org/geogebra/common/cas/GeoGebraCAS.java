@@ -3,6 +3,7 @@ package org.geogebra.common.cas;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -606,69 +607,13 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					// get number after %
 					i++;
 					int pos = translation.charAt(i) - '0';
-					ExpressionValue ev;
+
 					if ("Solve".equals(name)) {
-						// case we have assumptions in equation list
-						if (isAssumeInEqus && args.size() != 3) {
-							// append list of equations
-							if (pos == 0) {
-								sbCASCommand.append(toString(equsForArgs,
-										symbolic, tplToUse));
-							}
-							// append list of assumptions
-							else if (pos == 2) {
-								sbCASCommand.append(assumesForArgs.toString());
-							}
-							// append list of variables
-							else {
-								ev = args.get(pos);
-								sbCASCommand.append(
-										toString(ev, symbolic, tplToUse));
-							}
-						} else if (pos == 2 && args.size() == 3
-								&& args.get(2).getLeft() instanceof MyList) {
-							// case solve with list of assumptions
-							// append assume for each assumption
-							MyList list = (MyList) args.get(2).getLeft();
-							for (int k = 0; k < list.size(); k++) {
-								ev = list.getItem(k);
-								sbCASCommand.append(
-										toString(ev, symbolic, tplToUse));
-								sbCASCommand.append("),assume(");
-							}
-							sbCASCommand.setLength(sbCASCommand.length() - 9);
-						} else if (pos >= 0 && pos < args.size()) {
-							if (skipEqu && pos == 0) {
-								ev = equsForArgs;
-							} else {
-								ev = args.get(pos);
-							}
-							// we need completion of variable list
-							if (varComplNeeded && pos == 1) {
-								String listOfVars = toString(ev, symbolic,
-										tplToUse);
-								if (!listOfVars.startsWith("{")) {
-									// add { with the defined vars by user
-									sbCASCommand.append("{");
-									sbCASCommand.append(listOfVars);
-								} else {
-									// add defined vars by user
-									sbCASCommand.append(listOfVars);
-								}
-								// skip unneeded }
-								if (listOfVars.endsWith("}")) {
-									sbCASCommand.setLength(
-											sbCASCommand.length() - 1);
-								}
-								// add completion of list of vars
-								sbCASCommand.append(complOfVarsStr);
-								sbCASCommand.append("}");
-							} else {
-								sbCASCommand.append(
-										toString(ev, symbolic, tplToUse));
-							}
-						}
+						addSolveArg(sbCASCommand, args, pos, symbolic, tplToUse, skipEqu,
+								isAssumeInEqus, equsForArgs, complOfVarsStr,
+								assumesForArgs, varComplNeeded);
 					} else if (pos >= 0 && pos < args.size()) {
+						ExpressionValue ev;
 						// success: insert argument(pos)
 						ev = args.get(pos);
 						// needed for #5506
@@ -680,6 +625,15 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 									((MyList) (args.get(pos).getLeft()))
 											.get(0),
 									symbolic, tplToUse));
+						} else if ("Integral".equals(name)) {
+							if (ev.unwrap() instanceof GeoSymbolic) {
+								ExpressionValue rhsOrSelf = ((GeoSymbolic) ev.unwrap())
+										.getImplicitEquationRHSOrSelf();
+								sbCASCommand.append(toString(rhsOrSelf, symbolic, tplToUse));
+							} else {
+								sbCASCommand
+										.append(toString(ev, symbolic, tplToUse));
+							}
 						} else {
 
 							MyVec3DNode myVec3DNode = get3DVectFromDistance(name, ev);
@@ -731,6 +685,73 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		return sbCASCommand.toString();
+	}
+
+	private void addSolveArg(StringBuilder sbCASCommand, List<ExpressionNode> args,
+			int pos, boolean symbolic, StringTemplate tplToUse, boolean skipEqu,
+			boolean isAssumeInEqus, ExpressionValue equsForArgs, StringBuilder complOfVarsStr,
+			StringBuilder assumesForArgs, boolean varComplNeeded) {
+		ExpressionValue ev;
+		// case we have assumptions in equation list
+		if (isAssumeInEqus && args.size() != 3) {
+			// append list of equations
+			if (pos == 0) {
+				sbCASCommand.append(toString(equsForArgs,
+						symbolic, tplToUse));
+			}
+			// append list of assumptions
+			else if (pos == 2) {
+				sbCASCommand.append(assumesForArgs.toString());
+			}
+			// append list of variables
+			else {
+				ev = args.get(pos);
+				sbCASCommand.append(
+						toString(ev, symbolic, tplToUse));
+			}
+		} else if (pos == 2 && args.size() == 3
+				&& args.get(2).getLeft() instanceof MyList) {
+			// case solve with list of assumptions
+			// append assume for each assumption
+			MyList list = (MyList) args.get(2).getLeft();
+			for (int k = 0; k < list.size(); k++) {
+				ev = list.getItem(k);
+				sbCASCommand.append(
+						toString(ev, symbolic, tplToUse));
+				sbCASCommand.append("),assume(");
+			}
+			sbCASCommand.setLength(sbCASCommand.length() - 9);
+		} else if (pos >= 0 && pos < args.size()) {
+			if (skipEqu && pos == 0) {
+				ev = equsForArgs;
+			} else {
+				ev = args.get(pos);
+			}
+			// we need completion of variable list
+			if (varComplNeeded && pos == 1) {
+				String listOfVars = toString(ev, symbolic,
+						tplToUse);
+				if (!listOfVars.startsWith("{")) {
+					// add { with the defined vars by user
+					sbCASCommand.append("{");
+					sbCASCommand.append(listOfVars);
+				} else {
+					// add defined vars by user
+					sbCASCommand.append(listOfVars);
+				}
+				// skip unneeded }
+				if (listOfVars.endsWith("}")) {
+					sbCASCommand.setLength(
+							sbCASCommand.length() - 1);
+				}
+				// add completion of list of vars
+				sbCASCommand.append(complOfVarsStr);
+				sbCASCommand.append("}");
+			} else {
+				sbCASCommand.append(
+						toString(ev, symbolic, tplToUse));
+			}
+		}
 	}
 
 	private static MyVec3DNode get3DVectFromDistance(String name, ExpressionValue ev) {
